@@ -1,5 +1,7 @@
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
+import model.Path;
 import model.Point;
 import model.Sang;
 import org.junit.jupiter.api.DisplayName;
@@ -38,58 +40,37 @@ public class SangTest {
     @Nested
     @DisplayName("상 이동 경로 계산 테스트")
     class MaCalculatePathTest {
+
         @Test
-        @DisplayName("중간 경유지 포함 여부 테스트_1")
+        @DisplayName("경로 테스트_1")
         public void test1() {
             Sang sang = new Sang("red");
-            Point point = new Point(0, 1);    // 중간 경유지
+            Point point = new Point(0, 1);
+            Point point2 = new Point(1, 2);
+            Point point3 = new Point(2, 3);
 
-            assertThat(sang.calculatePath(0, 0, 2, 3).contains(point)).isTrue();
+
+            Path path = sang.calculatePath(0, 0, 2, 3);
+            assertAll(
+                    () -> assertThat(path.contains(point)).isTrue(),
+                    () -> assertThat(path.contains(point2)).isTrue(),
+                    () -> assertThat(path.contains(point3)).isTrue()
+            );
         }
 
         @Test
-        @DisplayName("중간 경유지 포함 여부 테스트_2")
+        @DisplayName("경로 테스트_2")
         public void test2() {
             Sang sang = new Sang("red");
-            Point point = new Point(1, 2);    // 중간 경유지
-
-            assertThat(sang.calculatePath(0, 0, 2, 3).contains(point)).isTrue();
-        }
-
-        @Test
-        @DisplayName("종점 포함 여부 테스트")
-        public void test3() {
-            Sang sang = new Sang("red");
-            Point point = new Point(2, 3);
-
-            assertThat(sang.calculatePath(0, 0, 2, 3).contains(point)).isTrue();
-        }
-
-        @Test
-        @DisplayName("중간 경유지 포함 여부 테스트_1")
-        public void test4() {
-            Sang sang = new Sang("red");
-            Point point = new Point(0, -1);    // 중간 경유지
-
-            assertThat(sang.calculatePath(0, 0, -2, -3).contains(point)).isTrue();
-        }
-
-        @Test
-        @DisplayName("중간 경유지 포함 여부 테스트_2")
-        public void test5() {
-            Sang sang = new Sang("red");
-            Point point = new Point(-1, -2);    // 중간 경유지
-
-            assertThat(sang.calculatePath(0, 0, -2, -3).contains(point)).isTrue();
-        }
-
-        @Test
-        @DisplayName("종점 포함 여부 테스트")
-        public void test6() {
-            Sang sang = new Sang("red");
-            Point point = new Point(-2, -3);
-
-            assertThat(sang.calculatePath(0, 0, -2, -3).contains(point)).isTrue();
+            Point point = new Point(0, -1);
+            Point point2 = new Point(-1, -2);
+            Point point3 = new Point(-2, -3);
+            Path path = sang.calculatePath(0, 0, -2, -3);
+            assertAll(
+                    () -> assertThat(path.contains(point)).isTrue(),
+                    () -> assertThat(path.contains(point2)).isTrue(),
+                    () -> assertThat(path.contains(point3)).isTrue()
+            );
         }
     }
 }

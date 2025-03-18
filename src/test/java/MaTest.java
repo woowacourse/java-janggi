@@ -1,7 +1,8 @@
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
-import model.Jang;
 import model.Ma;
+import model.Path;
 import model.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -43,19 +44,14 @@ public class MaTest {
         @DisplayName("중간 경유지 포함 여부 테스트")
         public void test1() {
             Ma ma = new Ma("red");
-            Point point =new Point(0,1);    // 중간 경유지
+            Point point1 = new Point(0, 1);
+            Point point2 = new Point(1, 2);
+            Path path = ma.calculatePath(0, 0, 1, 2);
 
-            assertThat(ma.calculatePath(0,0,1,2).contains(point)).isTrue();
-        }
-
-        @Test
-        @DisplayName("종점 포함 여부 테스트")
-        public void test2() {
-            Ma ma = new Ma("red");
-            Point point =new Point(1,2);
-
-            assertThat(ma.calculatePath(0,0,1,2).contains(point)).isTrue();
+            assertAll(
+                    () -> assertThat(path.contains(point1)).isTrue(),
+                    () -> assertThat(path.contains(point2)).isTrue()
+            );
         }
     }
-
 }
