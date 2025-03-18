@@ -1,7 +1,8 @@
-package janggi.domain;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

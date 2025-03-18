@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.piece;
 
 record Position(int x, int y) {
 
