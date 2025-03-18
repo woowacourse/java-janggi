@@ -3,7 +3,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class BoardTest {
-    @DisplayName("보드가 10*9의 Empty Ceil을 가진다")
+    @DisplayName("보드가 10*9의 Empty Cell을 가진다")
     @Test
     void boardCeil() {
         Board board = Board.createEmpty();
