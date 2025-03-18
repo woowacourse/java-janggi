@@ -2,6 +2,7 @@ package move;
 
 import static org.assertj.core.api.Assertions.*;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -124,5 +125,19 @@ class HorseMovementTest {
 
         //then
         assertThat(result).isEqualTo(to);
+    }
+
+    @Test
+    @DisplayName("직선 1칸, 대각선 1칸을 제외하고 움직일 수 없다.")
+    void test9() {
+        //given
+        Position from = new Position(2, 2);
+        Position to = new Position(6, 3);
+        HorseMovement horseMovement = new HorseMovement();
+
+        //when
+        //then
+        Assertions.assertThatThrownBy(() -> horseMovement.move(from, to))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
