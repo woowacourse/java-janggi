@@ -11,7 +11,9 @@ class SoldierTest {
     void 졸병이_앞으로_이동_가능() {
         Soldier soldier = new Soldier(PieceColor.RED);
 
-        boolean canMove = soldier.canMove(4, 1, 5, 1);
+        Position source = new Position(Row.FOUR, Column.ONE);
+        Position destination = new Position(Row.FIVE, Column.ONE);
+        boolean canMove = soldier.canMove(source, destination);
 
         assertThat(canMove).isTrue();
     }
@@ -19,8 +21,10 @@ class SoldierTest {
     @Test
     void 졸병이_옆으로_이동_가능() {
         Soldier soldier = new Soldier(PieceColor.RED);
+        Position source = new Position(Row.FOUR, Column.ONE);
+        Position destination = new Position(Row.FOUR, Column.TWO);
 
-        boolean canMove = soldier.canMove(4, 1, 4, 2);
+        boolean canMove = soldier.canMove(source, destination);
 
         assertThat(canMove).isTrue();
     }
@@ -28,8 +32,10 @@ class SoldierTest {
     @Test
     void 쫄병이_뒤로_이동_불가능() {
         Soldier soldier = new Soldier(PieceColor.RED);
+        Position source = new Position(Row.FOUR, Column.ONE);
+        Position destination = new Position(Row.THREE, Column.ONE);
 
-        boolean canMove = soldier.canMove(4, 1, 3, 1);
+        boolean canMove = soldier.canMove(source, destination);
 
         assertThat(canMove).isFalse();
     }

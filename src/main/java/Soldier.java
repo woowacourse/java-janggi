@@ -4,18 +4,21 @@ public class Soldier extends Piece {
         super(color);
     }
 
-    public boolean canMove(int i, int i1, int i2, int i3) {
-        int dx = i2 - i;
-        int dy = i3 - i1;
+    @Override
+    public boolean canMove(Position source, Position destination) {
+        int rowDifference = source.rowDifference(destination);
+        int columnDifference = source.columnDifference(destination);
 
-        if (color == PieceColor.RED && (dx == 0 && dy == 1 || dx == 0 && dy == -1 || dx == 1 && dy == 0)) {
-                return true;
-
-            }
-
-        if(color == PieceColor.BLUE && (dx==-1&&dy==0 || dx==0 && dy==1 || dx==1 && dy==-1)) {
-                return true;
-            }
+        if ((color == PieceColor.RED) && (rowDifference == 1 && columnDifference == 0)) {
+            return true;
+        }
+        if ((color == PieceColor.BLUE) && (rowDifference == -1 && columnDifference == 0)) {
+            return true;
+        }
+        if ((rowDifference == 0 && columnDifference == -1) || (rowDifference == 0 && columnDifference == 1)) {
+            return true;
+        }
         return false;
     }
+
 }

@@ -5,5 +5,5 @@ public abstract class Piece {
         this.color = color;
     }
 
-    public abstract boolean canMove(int row, int col, int newRow, int newCol);
+    public abstract boolean canMove(Position source, Position destination);
 }
