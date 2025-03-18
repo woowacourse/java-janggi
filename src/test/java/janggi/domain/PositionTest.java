@@ -1,8 +1,8 @@
 package janggi.domain;
 
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 @ReplaceUnderBar
 public class PositionTest {
@@ -12,5 +12,14 @@ public class PositionTest {
         Position position = new Position(1, 2);
         assertThat(position.getX()).isEqualTo(1);
         assertThat(position.getY()).isEqualTo(2);
+    }
+
+    @Test
+    void 좌표를_변경할_수_있다() {
+        Position position = new Position(1, 2);
+
+        Position moved = position.moveTo(2, 4);
+        assertThat(moved.getX()).isEqualTo(2);
+        assertThat(moved.getY()).isEqualTo(4);
     }
 }

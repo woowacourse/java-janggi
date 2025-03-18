@@ -10,6 +10,10 @@ public class Position {
         this.y = y;
     }
 
+    public Position moveTo(int x, int y) {
+        return new Position(x, y);
+    }
+
     public int getX() {
         return x;
     }
