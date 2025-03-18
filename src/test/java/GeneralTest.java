@@ -118,4 +118,18 @@ public class GeneralTest {
         assertThat(general.position())
                 .isEqualTo(expectedPosition);
     }
+
+    @Test
+    @DisplayName("장군은 오른쪽으로 두 칸 이상 이동할 수 없다.")
+    void test8() {
+        // given
+        int x = 1;
+        int y = 0;
+        General general = new General(x, y);
+
+        // when
+        // then
+        assertThatThrownBy(() -> general.move(x+2, y))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }
