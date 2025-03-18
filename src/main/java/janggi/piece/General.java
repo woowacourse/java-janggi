@@ -11,6 +11,12 @@ public class General extends Piece {
         super(position, team);
     }
 
+    public static General Default(Team team) {
+        int row = getRowByTeam(2, team);
+
+        return new General(new Position(row, 5), team);
+    }
+
     @Override
     public Piece move(final Board board, final Position destination) {
         if ((board.isExists(destination) && board.isAlly(destination, this.team)) || isInvalidMove(destination)) {

@@ -5,10 +5,22 @@ import janggi.Position;
 import janggi.Score;
 import janggi.Team;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 public class Elephant extends Piece {
 
     public Elephant(final Position position, final Team team) {
         super(position, team);
+    }
+
+    public static List<Elephant> Default(Team team) {
+        int row = getRowByTeam(1, team);
+
+        return Stream.of(2, 8)
+                .map(col -> new Position(row, col))
+                .map(position -> new Elephant(position, team))
+                .toList();
     }
 
     @Override

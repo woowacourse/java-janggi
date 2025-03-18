@@ -15,11 +15,22 @@ public abstract class Piece {
         this.team = team;
     }
 
+    protected static int getRowByTeam(final int row, final Team team) {
+        if (team == Team.GREEN) {
+            return 11 - row;
+        }
+        return row;
+    }
+
     public abstract Piece move(Board board, Position destination);
 
     public abstract Score die();
 
     public boolean isAlly(final Team team) {
         return this.team == team;
+    }
+
+    public Position getPosition() {
+        return position;
     }
 }

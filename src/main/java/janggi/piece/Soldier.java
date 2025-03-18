@@ -5,10 +5,22 @@ import janggi.Position;
 import janggi.Score;
 import janggi.Team;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 public class Soldier extends Piece {
 
     public Soldier(final Position position, final Team team) {
         super(position, team);
+    }
+
+    public static List<Soldier> Default(Team team) {
+        int row = getRowByTeam(4, team);
+
+        return Stream.of(1, 3, 5, 7, 9)
+                .map(col -> new Position(row, col))
+                .map(position -> new Soldier(position, team))
+                .toList();
     }
 
     @Override

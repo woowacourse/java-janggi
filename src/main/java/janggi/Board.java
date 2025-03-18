@@ -1,8 +1,10 @@
 package janggi;
 
-import janggi.piece.Piece;
+import janggi.piece.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -16,8 +18,22 @@ public class Board {
         this.positionToPiece = positionToPiece;
     }
 
-    public static Board createBoard() {
-        return new Board(new HashMap<>());
+    public static Board initialize() {
+        HashMap<Position, Piece> positionToPiece = new HashMap<>();
+        List<Piece> pieces = new ArrayList<>();
+        for (Team team : Team.values()) {
+            pieces.addAll(Cannon.Default(team));
+            pieces.addAll(Chariot.Default(team));
+            pieces.addAll(Elephant.Default(team));
+            pieces.add(General.Default(team));
+            pieces.addAll(Guard.Default(team));
+            pieces.addAll(Horse.Default(team));
+            pieces.addAll(Soldier.Default(team));
+        }
+        pieces.forEach(piece ->
+                positionToPiece.put(piece.getPosition(), piece));
+
+        return new Board(positionToPiece);
     }
 
     public boolean isExists(Position position) {

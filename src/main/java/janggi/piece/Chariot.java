@@ -5,10 +5,22 @@ import janggi.Position;
 import janggi.Score;
 import janggi.Team;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 public class Chariot extends Piece {
 
     public Chariot(final Position position, final Team team) {
         super(position, team);
+    }
+
+    public static List<Chariot> Default(Team team) {
+        int row = getRowByTeam(1, team);
+
+        return Stream.of(1, 9)
+                .map(col -> new Position(row, col))
+                .map(position -> new Chariot(position, team))
+                .toList();
     }
 
     @Override

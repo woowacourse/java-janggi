@@ -5,10 +5,22 @@ import janggi.Position;
 import janggi.Score;
 import janggi.Team;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 public class Horse extends Piece {
 
     public Horse(final Position position, final Team team) {
         super(position, team);
+    }
+
+    public static List<Horse> Default(Team team) {
+        int row = getRowByTeam(1, team);
+
+        return Stream.of(3, 7)
+                .map(col -> new Position(row, col))
+                .map(position -> new Horse(position, team))
+                .toList();
     }
 
     @Override
