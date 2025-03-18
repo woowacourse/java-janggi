@@ -8,7 +8,7 @@ import java.util.Map;
 
 public final class OutputView {
     public void displayBoard(final Map<Position, Piece> board) {
-        System.out.println("  012345678");
+        System.out.println("\n  012345678");
         for (Row row : Row.values()) {
             displayRow(board, row);
         }

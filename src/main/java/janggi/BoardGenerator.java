@@ -10,6 +10,7 @@ import janggi.piece.Piece;
 import janggi.piece.Soldier;
 import janggi.piece.Team;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -27,59 +28,39 @@ public final class BoardGenerator {
     }
 
     private static Board generateInnerSetup() {
-        Map<Position, Piece> board = generateGeneralMap();
-        board.put(new Position(Row.ZERO, Column.ONE), Horse.of(Team.HAN));
-        board.put(new Position(Row.ZERO, Column.TWO), Elephant.of(Team.HAN));
-        board.put(new Position(Row.ZERO, Column.SIX), Elephant.of(Team.HAN));
-        board.put(new Position(Row.ZERO, Column.SEVEN), Horse.of(Team.HAN));
-
-        board.put(new Position(Row.NINE, Column.ONE), Horse.of(Team.CHO));
-        board.put(new Position(Row.NINE, Column.TWO), Elephant.of(Team.CHO));
-        board.put(new Position(Row.NINE, Column.SIX), Elephant.of(Team.CHO));
-        board.put(new Position(Row.NINE, Column.SEVEN), Horse.of(Team.CHO));
-
-        return new Board(board);
+        return generateSetup(
+                List.of(Horse.of(Team.HAN), Elephant.of(Team.HAN), Elephant.of(Team.HAN), Horse.of(Team.HAN),
+                        Horse.of(Team.CHO), Elephant.of(Team.CHO), Elephant.of(Team.CHO), Horse.of(Team.CHO)));
     }
 
     private static Board generateOuterSetup() {
-        Map<Position, Piece> board = generateGeneralMap();
-        board.put(new Position(Row.ZERO, Column.ONE), Elephant.of(Team.HAN));
-        board.put(new Position(Row.ZERO, Column.TWO), Horse.of(Team.HAN));
-        board.put(new Position(Row.ZERO, Column.SIX), Horse.of(Team.HAN));
-        board.put(new Position(Row.ZERO, Column.SEVEN), Elephant.of(Team.HAN));
-
-        board.put(new Position(Row.NINE, Column.ONE), Elephant.of(Team.CHO));
-        board.put(new Position(Row.NINE, Column.TWO), Horse.of(Team.CHO));
-        board.put(new Position(Row.NINE, Column.SIX), Horse.of(Team.CHO));
-        board.put(new Position(Row.NINE, Column.SEVEN), Elephant.of(Team.CHO));
-        return new Board(board);
+        return generateSetup(
+                List.of(Elephant.of(Team.HAN), Horse.of(Team.HAN), Horse.of(Team.HAN), Elephant.of(Team.HAN),
+                        Elephant.of(Team.CHO), Horse.of(Team.CHO), Horse.of(Team.CHO), Elephant.of(Team.CHO)));
     }
 
     private static Board generateRightSetup() {
-        Map<Position, Piece> board = generateGeneralMap();
-        board.put(new Position(Row.ZERO, Column.ONE), Elephant.of(Team.HAN));
-        board.put(new Position(Row.ZERO, Column.TWO), Horse.of(Team.HAN));
-        board.put(new Position(Row.ZERO, Column.SIX), Elephant.of(Team.HAN));
-        board.put(new Position(Row.ZERO, Column.SEVEN), Horse.of(Team.HAN));
-
-        board.put(new Position(Row.NINE, Column.ONE), Elephant.of(Team.CHO));
-        board.put(new Position(Row.NINE, Column.TWO), Horse.of(Team.CHO));
-        board.put(new Position(Row.NINE, Column.SIX), Elephant.of(Team.CHO));
-        board.put(new Position(Row.NINE, Column.SEVEN), Horse.of(Team.CHO));
-        return new Board(board);
+        return generateSetup(
+                List.of(Elephant.of(Team.HAN), Horse.of(Team.HAN), Elephant.of(Team.HAN), Horse.of(Team.HAN),
+                        Elephant.of(Team.CHO), Horse.of(Team.CHO), Elephant.of(Team.CHO), Horse.of(Team.CHO)));
     }
 
     private static Board generateLeftSetup() {
-        Map<Position, Piece> board = generateGeneralMap();
-        board.put(new Position(Row.ZERO, Column.ONE), Horse.of(Team.HAN));
-        board.put(new Position(Row.ZERO, Column.TWO), Elephant.of(Team.HAN));
-        board.put(new Position(Row.ZERO, Column.SIX), Horse.of(Team.HAN));
-        board.put(new Position(Row.ZERO, Column.SEVEN), Elephant.of(Team.HAN));
+        return generateSetup(
+                List.of(Horse.of(Team.HAN), Elephant.of(Team.HAN), Horse.of(Team.HAN), Elephant.of(Team.HAN),
+                        Horse.of(Team.CHO), Elephant.of(Team.CHO), Horse.of(Team.CHO), Elephant.of(Team.CHO)));
+    }
 
-        board.put(new Position(Row.NINE, Column.ONE), Horse.of(Team.CHO));
-        board.put(new Position(Row.NINE, Column.TWO), Elephant.of(Team.CHO));
-        board.put(new Position(Row.NINE, Column.SIX), Horse.of(Team.CHO));
-        board.put(new Position(Row.NINE, Column.SEVEN), Elephant.of(Team.CHO));
+    private static Board generateSetup(final List<? extends Piece> pieces) {
+        Map<Position, Piece> board = generateGeneralMap();
+        board.put(new Position(Row.ZERO, Column.ONE), pieces.get(0));
+        board.put(new Position(Row.ZERO, Column.TWO), pieces.get(1));
+        board.put(new Position(Row.ZERO, Column.SIX), pieces.get(2));
+        board.put(new Position(Row.ZERO, Column.SEVEN), pieces.get(3));
+        board.put(new Position(Row.NINE, Column.ONE), pieces.get(4));
+        board.put(new Position(Row.NINE, Column.TWO), pieces.get(5));
+        board.put(new Position(Row.NINE, Column.SIX), pieces.get(6));
+        board.put(new Position(Row.NINE, Column.SEVEN), pieces.get(7));
         return new Board(board);
     }
 
