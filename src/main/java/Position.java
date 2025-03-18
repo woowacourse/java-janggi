@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Position {
     private final Row row;
     private final Column column;
@@ -21,5 +23,16 @@ public class Position {
 
     public int columnValue() {
         return column.getValue();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Position position)) return false;
+        return row == position.row && column == position.column;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
     }
 }
