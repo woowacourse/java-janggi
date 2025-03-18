@@ -10,6 +10,6 @@ public class Path {
     }
 
     public Position getDestination() {
-        return null;
+        return path.getLast();
     }
 }
