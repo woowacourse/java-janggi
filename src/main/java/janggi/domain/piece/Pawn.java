@@ -1,4 +1,4 @@
-package chess.domain;
+package janggi.domain.piece;
 
 import java.util.Map;
 

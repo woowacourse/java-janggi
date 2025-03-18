@@ -1,7 +1,9 @@
-package chess.domain;
+package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.piece.HanPawn;
+import janggi.domain.piece.Piece;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
