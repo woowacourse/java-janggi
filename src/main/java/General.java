@@ -9,10 +9,14 @@ public class General {
     }
 
     public void move(int x, int y) {
+        validateVerticalRange(y);
+        this.position = new Position(x, y);
+    }
+
+    private void validateVerticalRange(int y) {
         if (position.y() + MAXIMUM_MOVEMENT_LIMIT < y || position.y() - MAXIMUM_MOVEMENT_LIMIT > y) {
             throw new IllegalArgumentException();
         }
-        this.position = new Position(x, y);
     }
 
     public Position position() {
