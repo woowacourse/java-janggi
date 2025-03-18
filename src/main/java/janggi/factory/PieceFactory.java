@@ -7,8 +7,8 @@ import janggi.domain.piece.Elephant;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
 import janggi.domain.piece.Horse;
-import janggi.domain.piece.PieceBehavior;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceBehavior;
 import janggi.domain.piece.PiecePosition;
 import janggi.domain.piece.Side;
 import janggi.domain.piece.Soldier;
@@ -52,9 +52,9 @@ public enum PieceFactory {
     ;
 
     private final Side side;
-    private int row;
-    private int column;
-    private PieceBehavior pieceBehavior;
+    private final int row;
+    private final int column;
+    private final PieceBehavior pieceBehavior;
 
     PieceFactory(Side side, int row, int column, PieceBehavior pieceBehavior) {
         this.side = side;
@@ -74,5 +74,9 @@ public enum PieceFactory {
         }
 
         return map;
+    }
+
+    public PieceBehavior getPieceBehavior() {
+        return pieceBehavior;
     }
 }

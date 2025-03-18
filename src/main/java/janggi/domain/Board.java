@@ -1,6 +1,8 @@
 package janggi.domain;
 
+import janggi.common.ErrorMessage;
 import janggi.domain.piece.PiecePosition;
+import janggi.domain.piece.Side;
 import java.util.Map;
 
 public class Board {
@@ -24,5 +26,21 @@ public class Board {
 
     private boolean hasPosition(Position position) {
         return piecePositions.containsKey(position);
+    }
+
+    public PiecePosition getPiecePosition(Side side, Position position) {
+        validatePositionExists(position);
+        PiecePosition piecePosition = piecePositions.get(position);
+        if (!piecePosition.isSameSide(side)) {
+            throw new IllegalArgumentException(ErrorMessage.NOT_SAME_SIDE.getMessage());
+        }
+
+        return piecePosition;
+    }
+
+    private void validatePositionExists(Position position) {
+        if (!piecePositions.containsKey(position)) {
+            throw new IllegalArgumentException(ErrorMessage.POSITION_DOES_NOT_EXIST.getMessage());
+        }
     }
 }
