@@ -12,7 +12,7 @@ public class JanggiTest {
         int x  = 9;
 
         // when, then
-        assertThatCode(() -> new LocationX(x)).isInstanceOf(IllegalArgumentException.class)
+        assertThatCode(() -> LocationX.getInstance(x)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
@@ -27,7 +27,7 @@ public class JanggiTest {
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("나라는 한나라와 초나라 2가지 존재한다.")
+    @DisplayName("나라는 한나라와 초나라, 쉐도우 3가지 존재한다.")
     @Test
     void pieceHasCountry() {
         // given
@@ -37,7 +37,7 @@ public class JanggiTest {
         int actual = dynasties.length;
 
         // then
-        assertThat(actual).isEqualTo(2);
+        assertThat(actual).isEqualTo(3);
     }
 
     @DisplayName("Piece는 한나라 피스를 생성할 수 있다.")
@@ -79,7 +79,7 @@ public class JanggiTest {
     @Test
     void spaceHasLocationTest() {
         // given
-        LocationX locationX = new LocationX(5);
+        LocationX locationX = LocationX.getInstance(5);
         LocationY locationY = new LocationY(5);
 
         // when
@@ -94,10 +94,38 @@ public class JanggiTest {
     @Test
     void spaceHasShadowPieceTest() {
         // given
-        Space space = new Space(new LocationX(5), new LocationY(5));
+        Space space = new Space(LocationX.getInstance(5), new LocationY(5));
 
         // when
         boolean actual = space.isEmptySpace();
+
+        // then
+        assertThat(actual).isTrue();
+    }
+
+    @DisplayName("X 좌표는 0~8까지 캐싱되어있다")
+    @Test
+    void locationXCached() {
+        // given
+        LocationX locationX1 = LocationX.getInstance(0);
+        LocationX locationX2 = LocationX.getInstance(0);
+
+        // when
+        boolean actual = locationX1 == locationX2;
+
+        // then
+        assertThat(actual).isTrue();
+    }
+
+    @DisplayName("Y 좌표는 0~9까지 캐싱되어있다")
+    @Test
+    void locationYCached() {
+        // given
+        LocationY locationY1 = LocationY.getInstance(0);
+        LocationY locationY2 = LocationY.getInstance(0);
+
+        // when
+        boolean actual = locationY1 == locationY2;
 
         // then
         assertThat(actual).isTrue();
