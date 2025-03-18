@@ -23,22 +23,6 @@
 - [ ] 졸(상좌우 한칸) JOL
     - [ ] 뒤로는 움직일 수 없다.
 
-모든 말이 뭘 가지고있는데
-Jol {
-말.moveLeft();
-}
-
-moveWidth(int distance)
-moveHeight()
-moveDiagonal()
-
-moveLeft(int distance)
-moveRight()
-moveUp()
-moveDown()
-moveLeftUpDiagonal()
-moveRightDiagonal()
-
 ### 좌표
 
 - [x] 가로(x) 1 ~ 9
@@ -85,7 +69,9 @@ x x x x 궁 x x x x
     - [ ] 상: 2개
     - [ ] 사: 2개
     - [ ] 졸: 5개
-- [ ] 팀은 2개가 있다.
+- [x] 팀은 2개가 있다.
+    - [x] 한나라(HAN 팀)은 상대적으로 반대 방향이기 때문에 거리를 반대로 적용한다.
+    - [x] 초나라(CHO 팀)은 상대적으로 고정 방향이기 때문에 거리를 그대로 적용한다.
 - [ ] 다른 기물들이 한 턴 이내에 궁을 잡을 수 있는 경우의 수가 생기면 "장군"이라고 알려준다.
 - [ ] "장군"의 경우의 수를 회피하면 "멍군"이라고 알려준다.
 - [ ] "장군"을 했는데 "멍군"을 할 수 없는 경우 "외통수"라고 알려주고 게임이 끝난다.
