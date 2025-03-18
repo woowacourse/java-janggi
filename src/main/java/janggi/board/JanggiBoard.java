@@ -33,6 +33,7 @@ public class JanggiBoard {
         initializeHorse(board);
         initializeCannon(board);
         initializeChariot(board);
+        initializeGuard(board);
         return new JanggiBoard(board);
     }
 
@@ -78,6 +79,15 @@ public class JanggiBoard {
         }
         for (Position hanChariotPosition : HAN_CHARIOT_POSITIONS.getPositions()) {
             board.put(hanChariotPosition, new Chariot(Side.HAN));
+        }
+    }
+
+    private static void initializeGuard(final Map<Position, Piece> board) {
+        for (Position choGuardPosition : CHO_GUARD_POSITIONS.getPositions()) {
+            board.put(choGuardPosition, new Guard(Side.CHO));
+        }
+        for (Position hanGuardPosition : HAN_GUARD_POSITIONS.getPositions()) {
+            board.put(hanGuardPosition, new Guard(Side.HAN));
         }
     }
 

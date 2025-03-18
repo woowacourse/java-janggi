@@ -49,7 +49,16 @@ public enum InitialPositions {
     HAN_CHARIOT_POSITIONS(List.of(
             new Position(0, 0),
             new Position(8, 0)
+    )),
+    CHO_GUARD_POSITIONS(List.of(
+            new Position(3, 9),
+            new Position(5, 9)
+    )),
+    HAN_GUARD_POSITIONS(List.of(
+            new Position(3, 0),
+            new Position(5, 0)
     ));
+
 
     private final List<Position> positions;
 
