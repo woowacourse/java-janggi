@@ -5,10 +5,13 @@ import java.util.List;
 public abstract class Piece extends AbstractMove{
 
     protected Position position;
+    private final Team team;
 
-    public Piece(Position position) {
-        this.position = position;
+    public Piece(Team team) {
+        this.team = team;
     }
+
+    protected abstract void initializePosition(Team team);
 
     public Position getPosition() {
         return position;

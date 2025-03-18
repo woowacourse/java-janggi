@@ -4,8 +4,22 @@ import java.util.List;
 
 public class General extends Piece{
 
-    public General(Position position) {
-        super(position);
+    private General(Team team) {
+        super(team);
+        initializePosition(team);
+    }
+
+    public static General initializePositionFrom(Team team) {
+        return new General(team);
+    }
+
+    @Override
+    protected void initializePosition(Team team) {
+        if (team == Team.RED) {
+            this.position = new Position(1,4);
+            return;
+        }
+        this.position = new Position(8, 4);
     }
 
     @Override
