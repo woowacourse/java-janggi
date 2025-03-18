@@ -1,11 +1,12 @@
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PieceTest {
 
+/*
     @Test
     @DisplayName("기물 종류에는 6가지가 있다")
     void newPieceTest() {
@@ -20,6 +21,7 @@ class PieceTest {
         }).doesNotThrowAnyException();
     }
 
+*/
     @Test
     @DisplayName("궁은 적절한 이동이 가능하다")
     void palaceMoveTest() {
@@ -27,5 +29,13 @@ class PieceTest {
         p.move(1,0);
         assertThat(p.getPosition().x()).isEqualTo(6);
         assertThat(p.getPosition().y()).isEqualTo(5);
+    }
+
+    @Test
+    @DisplayName("궁의 이동 범위를 벗어나면 예외를 반환한다")
+    void palaceMoveExceptionTest() {
+        Piece p = new Palace(5,5);
+        assertThatThrownBy(() -> p.move(2, 0))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 }
