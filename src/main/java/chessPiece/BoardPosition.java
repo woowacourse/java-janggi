@@ -1,8 +1,10 @@
-public class Location {
+package chessPiece;
+
+public class BoardPosition {
     private final int row;
     private final int col;
 
-    public Location(final int row, final int col) {
+    public BoardPosition(final int row, final int col) {
         this.row = row;
         this.col = col;
     }

@@ -1,19 +1,21 @@
+package chessPiece;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class LocationTest {
+class BoardPositionTest {
 
     @DisplayName("위치는 행과 열의 위치 정보를 가진다.")
     @Test
     void locationCreate() {
         //given
-        Location location = new Location(4, 5);
+        BoardPosition boardPosition = new BoardPosition(4, 5);
 
         //when - then
-        assertThat(location.getRow()).isEqualTo(4);
-        assertThat(location.getCol()).isEqualTo(5);
+        assertThat(boardPosition.getRow()).isEqualTo(4);
+        assertThat(boardPosition.getCol()).isEqualTo(5);
     }
 
 }
