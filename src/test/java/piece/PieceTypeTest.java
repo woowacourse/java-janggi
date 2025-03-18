@@ -28,7 +28,8 @@ public class PieceTypeTest {
                     PieceType.SOLDIER
             );
 
-            // when & then
+            // when
+            // then
             assertThat(Arrays.asList(PieceType.values()))
                     .containsAll(expectedType)
                     .hasSize(7);
