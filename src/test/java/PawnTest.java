@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 public class PawnTest {
 
-
     @Test
     @DisplayName("폰이 이동 가능한 위치를 리스트로 반환한다")
     void test1() {
@@ -22,6 +21,5 @@ public class PawnTest {
 
         //then
         assertThat(availablePositions).containsAll(pos);
-
     }
 }
