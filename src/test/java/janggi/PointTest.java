@@ -29,7 +29,7 @@ class PointTest {
 
         // when & then
         assertThat(point.isHorizontal(otherPoint))
-            .isTrue();
+                .isTrue();
     }
 
     @DisplayName("같은 수직선상에 있는지 확인한다.")
