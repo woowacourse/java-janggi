@@ -38,4 +38,22 @@ public class Po implements Movable {
     public Point getPoint() {
         return point;
     }
+
+    public boolean isMovable(Point targetPoint, List<Movable> horizontalPieces, List<Movable> verticalPieces) {
+        if (point.isSameRow(targetPoint)) {
+            for (Movable movable : horizontalPieces) {
+                if (movable.getPoint().isColumnBetween(this.getPoint(), targetPoint)) {
+                    return true;
+                }
+            }
+        }
+        if (point.isSameColumn(targetPoint)) {
+            for (Movable movable : verticalPieces) {
+                if (movable.getPoint().isRowBetween(this.getPoint(), targetPoint)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

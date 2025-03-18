@@ -7,6 +7,7 @@ import janggi.piece.Ma;
 import janggi.piece.Po;
 import janggi.piece.Sa;
 import janggi.piece.Sang;
+import janggi.point.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,5 +35,19 @@ public class Board {
 
     public List<Movable> getPieces() {
         return Collections.unmodifiableList(pieces);
+    }
+
+    public List<Movable> findPieceOnVerticalRoute(Point point) {
+        return pieces.stream()
+                .filter(piece -> point.isSameColumn(piece.getPoint()))
+                .filter(piece -> !point.equals(piece.getPoint())) //TODO piece.hasSamePoint 로 리팩토링 가능
+                .toList();
+    }
+
+    public List<Movable> findPieceOnHorizontalRoute(Point point) {
+        return pieces.stream()
+                .filter(piece -> point.isSameRow(piece.getPoint()))
+                .filter(piece -> !point.equals(piece.getPoint())) //TODO piece.hasSamePoint 로 리팩토링 가능
+                .toList();
     }
 }
