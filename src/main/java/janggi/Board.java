@@ -1,9 +1,9 @@
 package janggi;
 
 import janggi.piece.Piece;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class Board {
 
@@ -25,20 +25,21 @@ public class Board {
     }
 
     public void move(Player player, Position departure, Position destination) {
-        Piece target = getPiece(departure)
-                .orElseThrow(() -> new IllegalArgumentException("장기말이 존재하지 않는 지점입니다."));
+        Piece target = getPiece(departure);
         Piece moved = target.move(this, destination);
+
         positionToPiece.remove(departure);
         positionToPiece.put(destination, moved);
     }
 
-    public boolean isAlly(Team team, Position position) {
-        Piece piece = getPiece(position)
-                .orElseThrow(() -> new IllegalArgumentException("장기말이 존재하지 않는 지점입니다."));
-        return piece.isAlly(team);
+    public boolean isAlly(Position position, Team team) {
+        return getPiece(position).isAlly(team);
     }
 
-    private Optional<Piece> getPiece(final Position departure) {
-        return Optional.ofNullable(positionToPiece.get(departure));
+    private Piece getPiece(final Position departure) {
+        if (isExists(departure)) {
+            return positionToPiece.get(departure);
+        }
+        throw new IllegalArgumentException("장기말이 존재하지 않는 지점입니다.");
     }
 }

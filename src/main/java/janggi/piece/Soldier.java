@@ -13,7 +13,7 @@ public class Soldier extends Piece {
 
     @Override
     public Piece move(final Board board, final Position destination) {
-        if ((board.isExists(destination) && board.isAlly(this.team, destination)) || isInvalidMove(destination)) {
+        if ((board.isExists(destination) && board.isAlly(destination, this.team)) || isInvalidMove(destination)) {
             throw new IllegalArgumentException("이동할 수 없는 지점입니다.");
         }
         return new Soldier(destination, team);
