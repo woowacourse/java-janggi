@@ -1,26 +1,14 @@
 package domain;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Pawn {
 
-    private final int cR;
-    private final int cC;
-
-    public Pawn(final int cR, final int cC) {
-        this.cR = cR;
-        this.cC = cC;
-    }
-
-    public List<int[]> getAvailablePositions() {
+    public List<Position> getAvailablePositions(final Position position) {
         final int[][] ds = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-        final List<int[]> pos = new ArrayList<>();
-        for (int[] d : ds) {
-            int nR = cR + d[0];
-            int nC = cC + d[1];
-            pos.add(new int[]{nR, nC});
-        }
-        return pos;
+        return Arrays.stream(ds)
+                .map(d -> new Position(position.row() + d[0], position.colum() + d[1]))
+                .toList();
     }
 }
