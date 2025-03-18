@@ -1,7 +1,6 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import janggi.domain.Position;
 import janggi.domain.Side;
