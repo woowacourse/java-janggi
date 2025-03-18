@@ -17,9 +17,11 @@ public class Ma implements Piece {
     );
 
     private final JanggiCoordinate currCoordinate;
+    private final Team team;
 
-    public Ma(JanggiCoordinate currCoordinate) {
+    public Ma(JanggiCoordinate currCoordinate, Team team) {
         this.currCoordinate = currCoordinate;
+        this.team = team;
     }
 
     @Override
@@ -34,4 +36,5 @@ public class Ma implements Piece {
     public JanggiCoordinate movePosition(JanggiCoordinate moveOffset) {
         return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
     }
+    @Override
 }

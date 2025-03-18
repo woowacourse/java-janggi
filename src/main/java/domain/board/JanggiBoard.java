@@ -11,6 +11,7 @@ public final class JanggiBoard {
     public JanggiBoard() {
         board = new HashMap<>();
     }
+    public boolean isMyTeam(JanggiCoordinate originCoordinate,JanggiCoordinate coordinate){
 
     public boolean isOutOfBoundary(int row, int col) {
         if (row < 1 || row > 9) {

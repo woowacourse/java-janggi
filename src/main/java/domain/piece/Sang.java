@@ -1,6 +1,8 @@
 package domain.piece;
 
 import domain.JanggiCoordinate;
+import domain.board.JanggiBoard;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,14 +19,16 @@ public class Sang implements Piece {
             new JanggiCoordinate(-2, -3)
     );
 
+    private final Team team;
     private final JanggiCoordinate currCoordinate;
 
-    public Sang(JanggiCoordinate currCoordinate) {
+    public Sang(JanggiCoordinate currCoordinate, Team team) {
+        this.team = team;
         this.currCoordinate = currCoordinate;
     }
 
     @Override
-    public List<JanggiCoordinate> availableMovePositions() {
+    public List<JanggiCoordinate> availableMovePositions(JanggiBoard board) {
         List<JanggiCoordinate> availablePositions = new ArrayList<>();
         for (JanggiCoordinate coordinate : OFFSET_MOVEMENT) {
             availablePositions.add(movePosition(coordinate));
@@ -34,5 +38,10 @@ public class Sang implements Piece {
     
     public JanggiCoordinate movePosition(JanggiCoordinate moveOffset) {
         return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
+    }
+
+    @Override
+    public Team getTeam() {
+        return team;
     }
 }
