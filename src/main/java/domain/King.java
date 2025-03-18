@@ -8,6 +8,6 @@ public class King extends Piece{
 
     @Override
     public boolean canMove(int startRow, int startColumn, int targetRow, int targetColumn) {
-        return false;
+        return true;
     }
 }
