@@ -14,7 +14,7 @@ class SoldierTest {
     void 말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, boolean expected) {
 
         // given
-        Soldier soldier = new Soldier(Team.RED);
+        Soldier soldier = PieceFactory.createRedTeam(Soldier::new);
 
         // when
         Distance distance = new Distance(x, y);
