@@ -18,6 +18,6 @@ public class Chariot extends Piece {
 
     @Override
     public List<Position> findAllRoute(Position source, Position destination) {
-        return List.of();
+        return source.getBetweenPositions(destination);
     }
 }
