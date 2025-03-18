@@ -1,5 +1,7 @@
 public class General {
 
+    private static final int MAXIMUM_MOVEMENT_LIMIT = 1;
+
     private Position position;
 
     public General(int x, int y) {
@@ -7,7 +9,7 @@ public class General {
     }
 
     public void move(int x, int y) {
-        if (position.y() + 2 <= y) {
+        if (position.y() + MAXIMUM_MOVEMENT_LIMIT < y) {
             throw new IllegalArgumentException();
         }
         this.position = new Position(x, y);
