@@ -1,6 +1,7 @@
 package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -65,5 +66,18 @@ public class BoardTest {
                 Arguments.of(1, 3, new 상(Side.한)),
                 Arguments.of(1, 7, new 상(Side.한))
         );
+    }
+
+    @Test
+    void 보드판_밖을_벗어나면_예외를_발생시킨다() {
+        // given
+        Board board = new Board();
+
+        // when
+        마 piece = new 마(Side.초);
+
+        // then
+        assertThatThrownBy(() -> board.move(9, 8, 0, 10))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
