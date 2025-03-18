@@ -41,7 +41,16 @@ public enum InitialPositions {
     HAN_CANNON_POSITIONS(List.of(
             new Position(1, 2),
             new Position(7, 2)
+    )),
+    CHO_CHARIOT_POSITIONS(List.of(
+            new Position(0, 9),
+            new Position(8, 9)
+    )),
+    HAN_CHARIOT_POSITIONS(List.of(
+            new Position(0, 0),
+            new Position(8, 0)
     ));
+
     private final List<Position> positions;
 
     InitialPositions(List<Position> positions) {
