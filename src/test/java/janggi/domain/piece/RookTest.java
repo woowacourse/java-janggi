@@ -1,11 +1,14 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import janggi.domain.Position;
 import janggi.domain.Side;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
 
 class RookTest {
 
@@ -23,5 +26,13 @@ class RookTest {
         Rook rook = new Rook(Side.CHO, new Position(x, y));
 
         assertThat(rook.isMoveablePosition(moveX, moveY)).isTrue();
+    }
+
+    @Test
+    void 이동하고자_하는_경로에_다른_기물이_존재하면_이동할_수_없다() {
+        Rook rook = new Rook(Side.CHO, new Position(1, 2));
+        List<Piece> existingPieces = List.of(new Rook(Side.HAN, new Position(5, 2)));
+
+        assertThat(rook.isMoveablePath(existingPieces, 7, 2)).isFalse();
     }
 }

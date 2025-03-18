@@ -21,6 +21,29 @@ public class Rook extends Piece {
 
     @Override
     protected boolean isMoveablePath(List<Piece> existingPieces, int x, int y) {
-        return false;
+        Position currentPosition = this.getPosition();
+        if (currentPosition.hasSameX(x)) {
+            for (Piece existingPiece : existingPieces) {
+                if (Math.abs(y - currentPosition.getY()) > Math.abs(currentPosition.getY() - existingPiece.getPosition().getY())) {
+                    return false;
+                }
+            }
+        }
+        if (currentPosition.hasSameY(y)) {
+            for (Piece existingPiece : existingPieces) {
+                if (Math.abs(x - currentPosition.getX()) > Math.abs(currentPosition.getX() - existingPiece.getPosition().getX())) {
+                    return false;
+                }
+            }
+        }
+        for (Piece existingPiece : existingPieces) {
+            if (existingPiece.getPosition().isSameCoordinate(x, y)) {
+                if (existingPiece.getSide().equals(getSide())) {
+                    return false;
+                }
+                return true;
+            }
+        }
+        return true;
     }
 }
