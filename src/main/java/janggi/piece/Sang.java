@@ -35,4 +35,19 @@ public class Sang implements Movable {
     public static List<Sang> values() {
         return new ArrayList<>(sangs);
     }
+
+    public boolean isMovable(Point targetPoint) {
+        List<Point> candidates = List.of(
+                point.move(-2, 3),
+                point.move(-3, 2),
+                point.move(3, 2),
+                point.move(2, 3),
+                point.move(2, -3),
+                point.move(3, -2),
+                point.move(-3, -2),
+                point.move(-2, -3)
+        );
+
+        return candidates.contains(targetPoint);
+    }
 }
