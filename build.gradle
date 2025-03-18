@@ -13,6 +13,7 @@ dependencies {
     testImplementation platform('org.assertj:assertj-bom:3.27.3')
     testImplementation('org.junit.jupiter:junit-jupiter')
     testImplementation('org.assertj:assertj-core')
+    implementation 'com.google.guava:guava:33.0.0-jre'
 }
 
 java {
