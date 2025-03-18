@@ -1,10 +1,9 @@
+package move;
+
 import static org.assertj.core.api.Assertions.*;
 
-import move.CastleMovement;
-import move.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.General;
 
 public class CastleMovementTest {
 
