@@ -10,7 +10,7 @@ public class 차Test {
     @CsvSource({"5, 1", "0, 9", "1, 1", "0, 2"})
     void 수직_수평으로_이동할_수_있다(int afterRow, int afterColumn) {
         // given
-        차 piece = new 차();
+        차 piece = new 차(Side.초);
         int beforeRow = 0;
         int beforeColumn = 1;
 
@@ -23,7 +23,7 @@ public class 차Test {
     @CsvSource({"9, 2", "5, 8"})
     void 수직_수평이_아닌_경우_이동할_수_없다(int afterRow, int afterColumn) {
         // given
-        차 piece = new 차();
+        차 piece = new 차(Side.초);
         int beforeRow = 0;
         int beforeColumn = 1;
 

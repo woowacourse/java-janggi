@@ -2,8 +2,8 @@ package domain;
 
 public class 궁 extends Piece {
 
-    public 궁() {
-        super();
+    public 궁(Side side) {
+        super(0, side);
     }
 
     @Override

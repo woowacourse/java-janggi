@@ -10,7 +10,7 @@ class 상Test {
     @CsvSource({"4, 8", "8, 8", "9, 7", "9, 3", "8,2", "4,2", "3,3", "3,7"})
     void 상_하_좌_우로_한_칸_이동하고_대각선으로_두_칸_이동할_수_있다(int afterRow, int afterColumn) {
         // given
-        상 piece = new 상();
+        상 piece = new 상(Side.초);
         int beforeRow = 6;
         int beforeColumn = 5;
 
@@ -22,7 +22,7 @@ class 상Test {
     @Test
     void 상_하_좌_우로_한_칸과_대각선으로_두_칸_이동할_수_없다() {
         // given
-        상 piece = new 상();
+        상 piece = new 상(Side.초);
         int beforeRow = 6;
         int beforeColumn = 5;
         int afterRow = 4;

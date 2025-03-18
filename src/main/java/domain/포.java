@@ -4,8 +4,8 @@ public class 포 extends Piece {
     private int hurdleRow;
     private int hurdleColumn;
 
-    public 포() {
-        super(7);
+    public 포(Side side) {
+        super(7, side);
     }
 
     public void setHurdle(int hurdleRow, int hurdleColumn) {

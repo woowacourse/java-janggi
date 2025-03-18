@@ -10,7 +10,7 @@ class 포Test {
     @CsvSource({"5, 5, 3, 5", "7, 7, 7, 9", "7, 3, 7, 1", "8, 5, 9, 5"})
     void 수직_수평으로_장애물을_넘어_이동할_수_있다(int hurdleRow, int hurdleColumn, int afterRow, int afterColumn) {
         // given
-        포 piece = new 포();
+        포 piece = new 포(Side.초);
         int beforeRow = 7;
         int beforeColumn = 5;
         piece.setHurdle(hurdleRow, hurdleColumn);
@@ -24,7 +24,7 @@ class 포Test {
     @CsvSource({"8, 5, 6, 5", "7, 6, 7, 2"})
     void 장애물을_넘어_이동하지_않는_경우_이동할_수_없다(int hurdleRow, int hurdleColumn, int afterRow, int afterColumn) {
         // given
-        포 piece = new 포();
+        포 piece = new 포(Side.초);
         int beforeRow = 7;
         int beforeColumn = 5;
         piece.setHurdle(hurdleRow, hurdleColumn);

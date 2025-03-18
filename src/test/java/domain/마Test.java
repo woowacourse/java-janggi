@@ -10,7 +10,7 @@ class 마Test {
     @CsvSource({"5, 2", "5, 6", "4, 5", "4, 3", "7,2", "8,3", "8,5", "7,6"})
     void 상_하_좌_우로_한_칸_이동하고_대각선으로_한_칸_이동할_수_있다(int afterRow, int afterColumn) {
         // given
-        마 piece = new 마();
+        마 piece = new 마(Side.초);
         int beforeRow = 6;
         int beforeColumn = 4;
 
@@ -22,7 +22,7 @@ class 마Test {
     @Test
     void 상_하_좌_우로_한_칸과_대각선으로_한_칸이_아니면_이동할_수_없다() {
         // given
-        마 piece = new 마();
+        마 piece = new 마(Side.초);
         int beforeRow = 6;
         int beforeColumn = 4;
         int afterRow = 4;

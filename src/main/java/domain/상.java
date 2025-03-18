@@ -1,8 +1,8 @@
 package domain;
 
 public class 상 extends Piece {
-    public 상() {
-        super(3);
+    public 상(Side side) {
+        super(3, side);
     }
 
     @Override

@@ -10,7 +10,7 @@ class 사Test {
     @CsvSource({"8, 5", "9, 4", "9, 6", "0, 5"})
     void 상_하_좌_우로_한_칸_이동할_수_있다(int afterRow, int afterColumn) {
         // given
-        사 piece = new 사();
+        사 piece = new 사(Side.초);
         int beforeRow = 9;
         int beforeColumn = 5;
 
@@ -22,7 +22,7 @@ class 사Test {
     @Test
     void 상_하_좌_우로_한_칸이_아닌_경우_이동할_수_없다() {
         // given
-        사 piece = new 사();
+        사 piece = new 사(Side.초);
         int beforeRow = 9;
         int beforeColumn = 5;
         int afterRow = 8;

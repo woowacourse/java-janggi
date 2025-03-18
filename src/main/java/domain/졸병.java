@@ -2,11 +2,8 @@ package domain;
 
 public class 졸병 extends Piece {
 
-    private final Side side;
-
     public 졸병(Side side) {
-        super(2);
-        this.side = side;
+        super(2, side);
     }
 
     @Override
