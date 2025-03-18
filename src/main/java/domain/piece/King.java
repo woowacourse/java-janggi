@@ -1,6 +1,8 @@
-package domain;
+package domain.piece;
 
-public class King extends Piece{
+import domain.Team;
+
+public class King extends Piece {
 
     public King(Team team) {
         super(team);
