@@ -2,8 +2,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LocationX {
-    private static final Integer LOCATION_X_MIN_VALUE = 0;
-    private static final Integer LOCATION_X_MAX_VALUE = 8;
+    public static final Integer LOCATION_X_MIN_VALUE = 0;
+    public static final Integer LOCATION_X_MAX_VALUE = 8; // TODO
 
     private static final Map<Integer, LocationX> CACHE = cacheLocationXs();
 

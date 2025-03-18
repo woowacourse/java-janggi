@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
@@ -129,6 +131,17 @@ public class JanggiTest {
 
         // then
         assertThat(actual).isTrue();
+    }
+
+    @DisplayName("장기판은 90개의 칸을 가진다.")
+    @Test
+    void Test() {
+        // given
+
+        // when, then
+        assertThatCode(() -> new Board()).doesNotThrowAnyException();
+
+        // TODO: 방법을 찾는다면 90개의 칸을 가지는지 확인할 것
     }
 
 }
