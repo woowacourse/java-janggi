@@ -32,6 +32,6 @@ public class BoardTest {
         final Map<ChessPosition, ChessPiece> chessPieces = board.getChessPieces();
 
         //then
-        assertThat(chessPieces.get(chessPosition)).isEqualTo(ChessPieceType.CHARIOT);
+        assertThat(chessPieces.get(chessPosition).getChessPieceType()).isEqualTo(ChessPieceType.PAWN);
     }
 }

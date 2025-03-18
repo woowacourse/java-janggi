@@ -1,10 +1,9 @@
-import static org.assertj.core.api.Assertions.assertThat;
-
+import domain.ChessPieceType;
+import domain.ChessPosition;
+import domain.ChessTeam;
 import domain.Path;
 import domain.Pawn;
-import domain.ChessPosition;
 import java.util.List;
-
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,7 @@ public class PawnTest {
         );
 
         //when
-        final Pawn pawn = new Pawn();
+        final Pawn pawn = new Pawn(ChessPieceType.PAWN, ChessTeam.RED);
         final List<Path> actualPaths = pawn.getAvailablePaths(chessPosition);
 
         //then

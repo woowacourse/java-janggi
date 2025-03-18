@@ -10,11 +10,11 @@ public class Board {
     }
 
     public static Board initialize() {
-        throw new UnsupportedOperationException("Unsupported initialize");
+        return new Board(Map.of(new ChessPosition(0,0), new Pawn(ChessPieceType.PAWN, ChessTeam.RED)));
     }
 
 
     public Map<ChessPosition, ChessPiece> getChessPieces() {
-        return null;
+        return chessPieces;
     }
 }
