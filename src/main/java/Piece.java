@@ -14,6 +14,14 @@ public class Piece {
         return new Piece(Dynasty.CHO, type);
     }
 
+    public static Piece createShadow() {
+        return new Piece(Dynasty.SHADOW, "shadow");
+    }
+
+    public boolean isShadow() {
+        return type.equals("shadow");
+    }
+
     public Dynasty getDynasty() {
         return dynasty;
     }

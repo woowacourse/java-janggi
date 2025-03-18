@@ -75,6 +75,32 @@ public class JanggiTest {
                 .doesNotThrowAnyException();
     }
 
+    @DisplayName("칸은 x좌표와 y좌표를 기준으로 구분된다.")
+    @Test
+    void spaceHasLocationTest() {
+        // given
+        LocationX locationX = new LocationX(5);
+        LocationY locationY = new LocationY(5);
 
+        // when
+        Space space1 = new Space(locationX, locationY);
+        Space space2 = new Space(locationX, locationY);
+
+        // then
+        assertThat(space1).isEqualTo(space2);
+    }
+
+    @DisplayName("칸은 칸에 위치한 피스가 없다면 쉐도우 피스를 가진다")
+    @Test
+    void spaceHasShadowPieceTest() {
+        // given
+        Space space = new Space(new LocationX(5), new LocationY(5));
+
+        // when
+        boolean actual = space.isEmptySpace();
+
+        // then
+        assertThat(actual).isTrue();
+    }
 
 }

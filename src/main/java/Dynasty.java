@@ -1,4 +1,5 @@
 public enum Dynasty {
     HAN,
-    CHO
+    CHO,
+    SHADOW
 }
