@@ -9,4 +9,6 @@ public class PieceTest {
         // then & when
         Assertions.assertDoesNotThrow(() -> new Piece());
     }
+
+    
 }
