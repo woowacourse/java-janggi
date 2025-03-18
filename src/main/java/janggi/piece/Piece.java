@@ -16,6 +16,12 @@ public abstract class Piece {
         return this.team.equals(team);
     }
 
-    public abstract boolean canMove(Map<Position, Piece> board, Position start, Position goal);
+    protected void validateSameTeamOnGoal(Map<Position, Piece> board, Position goal) {
+        Piece other = board.get(goal);
+        if (!other.isDifferentTeam(team)) {
+            throw new IllegalArgumentException("[ERROR] 목적지에 같은 진영의 기물이 있어 이동할 수 없습니다.");
+        }
+    }
 
+    public abstract void validateMovable(Map<Position, Piece> board, Position start, Position goal);
 }

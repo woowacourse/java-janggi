@@ -6,34 +6,29 @@ import java.util.Map;
 
 public class Soldier extends Piece {
 
+    private static final int[] dRow = {1, 0, 0};
+    private static final int[] dColumn = {0, -1, 1};
+
     public Soldier(String team) {
         super(team);
     }
 
     @Override
-    public boolean canMove(Map<Position, Piece> board, Position start, Position goal) {
-        Position position = checkGoal(start, goal);
-        return board.get(position).isDifferentTeam(this.team);
+    public void validateMovable(Map<Position, Piece> board, Position start, Position goal) {
+        validateGoal(start, goal);
+        validateSameTeamOnGoal(board, goal);
     }
 
-    private Position checkGoal(Position start, Position goal) {
-        Position leftPosition = start.minusColumn();
-        Position rightPosition = start.plusColumn();
-        Position upPosition = start.plusRow();
-
-        if (goal.equals(leftPosition)) {
-            return leftPosition;
+    private void validateGoal(Position start, Position goal) {
+        for (int i = 0; i < dRow.length; i++) {
+            Position position = start;
+            int column = dColumn[i];
+            int row = dRow[i];
+            position = position.plus(column, row);
+            if (position == goal) {
+                return;
+            }
         }
-
-        if (goal.equals(rightPosition)) {
-            return leftPosition;
-        }
-
-        if (goal.equals(upPosition)) {
-            return leftPosition;
-        }
-
-        throw new IllegalArgumentException("[ERROR] 졸/병은 해당 목적지로 이동할 수 없습니다.");
+        throw new IllegalArgumentException("[ERROR] 상은 해당 목적지로 이동할 수 없습니다.");
     }
-
 }

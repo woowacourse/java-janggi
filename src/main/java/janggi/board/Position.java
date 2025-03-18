@@ -10,6 +10,18 @@ public class Position {
         this.row = row;
     }
 
+    public Position plusRows(int difference) {
+        return new Position(column, row + difference);
+    }
+
+    public Position plusColumns(int difference) {
+        return new Position((char) (column + difference), row);
+    }
+
+    public Position plus(int columnDifference, int rowDifference) {
+        return new Position((char) (column + columnDifference), row + rowDifference);
+    }
+
     public Position minusColumn() {
         char newColumn = (char) (column - 1);
         return new Position(newColumn, row);
@@ -18,9 +30,13 @@ public class Position {
     public Position plusColumn() {
         char newColumn = (char) (column + 1);
         return new Position(newColumn, row);
-     }
+    }
 
     public Position plusRow() {
         return new Position(column, row + 1);
+    }
+
+    public Position minusRow() {
+        return new Position(column, row - 1);
     }
 }
