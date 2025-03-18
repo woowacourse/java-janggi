@@ -1,4 +1,3 @@
-import domain.ChessPieceType;
 import domain.ChessPosition;
 import domain.ChessTeam;
 import domain.Path;
@@ -23,7 +22,7 @@ public class PawnTest {
         );
 
         //when
-        final Pawn pawn = new Pawn(ChessPieceType.PAWN, ChessTeam.RED);
+        final Pawn pawn = new Pawn(ChessTeam.RED);
         final List<Path> actualPaths = pawn.getAvailablePaths(chessPosition);
 
         //then

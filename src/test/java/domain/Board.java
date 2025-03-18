@@ -10,7 +10,7 @@ public class Board {
     }
 
     public static Board initialize() {
-        return new Board(Map.of(new ChessPosition(0,0), new Pawn(ChessPieceType.PAWN, ChessTeam.RED)));
+        return new Board(Map.of(new ChessPosition(0,0), new Pawn(ChessTeam.RED)));
     }
 
 
