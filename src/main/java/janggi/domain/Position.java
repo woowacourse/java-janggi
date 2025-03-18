@@ -21,6 +21,7 @@ public class Position {
     }
 
     public void update(int row, int column) {
+        validate(row, column);
         this.row = row;
         this.column = column;
     }
