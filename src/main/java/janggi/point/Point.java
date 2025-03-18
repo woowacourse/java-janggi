@@ -1,4 +1,4 @@
-package janggi;
+package janggi.point;
 
 public class Point {
 

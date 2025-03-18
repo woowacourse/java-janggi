@@ -1,8 +1,8 @@
 package janggi.piece;
 
-import janggi.InitialPoint;
+import janggi.point.InitialPoint;
 import janggi.Movable;
-import janggi.Point;
+import janggi.point.Point;
 import janggi.TeamColor;
 import java.util.ArrayList;
 import java.util.List;
