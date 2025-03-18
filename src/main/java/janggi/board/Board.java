@@ -1,0 +1,39 @@
+package janggi.board;
+
+import janggi.Point;
+import janggi.piece.Piece;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Board {
+
+    private static final int COLUMN = 9;
+    private static final int ROW = 10;
+
+    private final Map<Point, Piece> board;
+
+    public Board() {
+        this.board = initializeBoard();
+    }
+
+    private Map<Point, Piece> initializeBoard() {
+        Map<Point, Piece> board = new HashMap<>();
+        for (int i = 1; i <= COLUMN; i++) {
+            for (int j = 1; j <= ROW; j++) {
+                board.put(new Point(i, j), null);
+            }
+        }
+        return board;
+    }
+
+    public void placePiece(Point point, Piece piece) {
+        validatePoint(point);
+        board.put(point, piece);
+    }
+
+    private void validatePoint(Point point) {
+        if (point.getX() < 1 || COLUMN < point.getX() || point.getY() < 1 || ROW < point.getY()) {
+            throw new IllegalArgumentException("기물의 위치는 9 x 10 영역을 벗어날 수 없습니다.");
+        }
+    }
+}

@@ -3,7 +3,7 @@ package janggi.piece;
 import janggi.Camp;
 import janggi.Point;
 
-public final class Elephant extends Piece{
+public final class Elephant extends Piece {
 
     public Elephant(Camp camp) {
         super(camp);
