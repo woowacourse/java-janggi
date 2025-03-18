@@ -4,7 +4,7 @@ import model.Sa;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class Sometest {
+public class SaTest {
     @Test
     @DisplayName("사 기물 생성 테스트")
     public void test1() {
