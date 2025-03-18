@@ -20,6 +20,14 @@ public final class Point {
         return this.y == otherPoint.y;
     }
 
+    public int calculateXDistance(Point otherPoint) {
+        return Math.abs(this.x - otherPoint.x);
+    }
+
+    public int calculateYDistance(Point otherPoint) {
+        return Math.abs(this.y - otherPoint.y);
+    }
+
     public int getX() {
         return x;
     }
