@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Path {
@@ -11,5 +12,9 @@ public class Path {
 
     public Position getDestination() {
         return path.getLast();
+    }
+
+    public List<Position> getPath() {
+        return Collections.unmodifiableList(path);
     }
 }
