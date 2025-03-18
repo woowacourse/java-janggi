@@ -23,7 +23,7 @@ public enum ChessPieceType {
     CANNON(
             List.of(new ChessPosition(2, 1), new ChessPosition(2, 7)),
             List.of(new ChessPosition(7, 1), new ChessPosition(7, 7)),
-            Chariot::new
+            Cannon::new
     ),
     GUARD(
             List.of(new ChessPosition(0, 3), new ChessPosition(0, 5)),
