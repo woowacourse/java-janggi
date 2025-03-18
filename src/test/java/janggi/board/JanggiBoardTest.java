@@ -78,4 +78,13 @@ class JanggiBoardTest {
         assertThat(janggiBoard.getBoard().get(new Position(row, col))).isInstanceOf(Guard.class);
     }
 
+    @ParameterizedTest
+    @CsvSource(value = {
+            "4,8", "4,1"
+    })
+    @DisplayName("궁 초기화 테스트")
+    void test9(int row, int col) {
+        JanggiBoard janggiBoard = JanggiBoard.initialize();
+        assertThat(janggiBoard.getBoard().get(new Position(row, col))).isInstanceOf(King.class);
+    }
 }

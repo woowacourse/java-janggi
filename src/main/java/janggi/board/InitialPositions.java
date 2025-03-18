@@ -57,8 +57,13 @@ public enum InitialPositions {
     HAN_GUARD_POSITIONS(List.of(
             new Position(3, 0),
             new Position(5, 0)
+    )),
+    CHO_KING_POSITIONS(List.of(
+            new Position(4, 8)
+    )),
+    HAN_KING_POSITIONS(List.of(
+            new Position(4, 1)
     ));
-
 
     private final List<Position> positions;
 

@@ -34,6 +34,7 @@ public class JanggiBoard {
         initializeCannon(board);
         initializeChariot(board);
         initializeGuard(board);
+        initializeKing(board);
         return new JanggiBoard(board);
     }
 
@@ -88,6 +89,15 @@ public class JanggiBoard {
         }
         for (Position hanGuardPosition : HAN_GUARD_POSITIONS.getPositions()) {
             board.put(hanGuardPosition, new Guard(Side.HAN));
+        }
+    }
+
+    private static void initializeKing(final Map<Position, Piece> board) {
+        for (Position choKingPosition : CHO_KING_POSITIONS.getPositions()) {
+            board.put(choKingPosition, new King(Side.CHO));
+        }
+        for (Position hanKingPosition : HAN_KING_POSITIONS.getPositions()) {
+            board.put(hanKingPosition, new King(Side.HAN));
         }
     }
 
