@@ -3,22 +3,22 @@ package model;
 public class AbstractMove implements Move{
 
     @Override
-    public void up() {
+    public void up(int moveAmount) {
         throw new UnsupportedOperationException("해당 기물이 이동할 수 없는 방향입니다.");
     }
 
     @Override
-    public void down() {
+    public void down(int moveAmount) {
         throw new UnsupportedOperationException("해당 기물이 이동할 수 없는 방향입니다.");
     }
 
     @Override
-    public void left() {
+    public void left(int moveAmount) {
 
     }
 
     @Override
-    public void right() {
+    public void right(int moveAmount) {
 
     }
 
