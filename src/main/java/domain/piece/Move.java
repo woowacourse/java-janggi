@@ -1,7 +1,5 @@
 package domain.piece;
 
-import java.io.PipedReader;
-
 public enum Move {
 
     FRONT(-1, 0),

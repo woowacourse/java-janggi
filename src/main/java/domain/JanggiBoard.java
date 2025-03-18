@@ -6,8 +6,10 @@ import domain.piece.Elephant;
 import domain.piece.Guard;
 import domain.piece.Horse;
 import domain.piece.King;
+import domain.piece.Move;
 import domain.piece.Pawn;
 import domain.piece.Piece;
+import java.util.List;
 
 public class JanggiBoard {
 
@@ -31,6 +33,16 @@ public class JanggiBoard {
 
     public Piece[][] getBoard() {
         return board;
+    }
+
+    public void move(int startRow, int startColumn, int targetRow, int targetColumn) {
+        Piece piece = findPiece(startRow, startColumn);
+        List<Move> moves = piece.calculatePath(startRow, startColumn, targetRow, targetColumn);
+        int row = startRow;
+        int column = startColumn;
+        for (Move move : moves) {
+            canMove(startRow, startColumn, row + move.getDy(), column + move.getDx());
+        }
     }
 
     public boolean canMove(int startRow, int startColumn, int targetRow, int targetColumn) {

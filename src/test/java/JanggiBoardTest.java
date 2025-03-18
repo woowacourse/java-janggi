@@ -15,9 +15,9 @@ public class JanggiBoardTest {
         Piece[][] board = janggiBoard.getBoard();
         int column = board[0].length;
         int row = board.length;
-        //when &then
-        Assertions.assertThat(column).isEqualTo(10);
-        Assertions.assertThat(row).isEqualTo(9);
+        //when & then
+        Assertions.assertThat(column).isEqualTo(9);
+        Assertions.assertThat(row).isEqualTo(10);
     }
 
     @DisplayName("장기말은 앞으로 이동할 수 있다.")
@@ -36,7 +36,7 @@ public class JanggiBoardTest {
     }
     @DisplayName("앞에 아군의 말이 있을 시 이동할 수 없다.")
     @Test
-    void test1() {
+    void test3() {
         JanggiBoard janggiBoard = new JanggiBoard();
 
         boolean moveResult1 = janggiBoard.canMove(0, 0, 0, 1);
