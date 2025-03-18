@@ -18,21 +18,25 @@ public final class OutputView {
         System.out.printf("%d ", row.getValue());
         for (Column column : Column.values()) {
             Position position = new Position(row, column);
-            if (board.containsKey(position)) {
-                final Piece piece = board.get(position);
-                if (piece.isHan()) {
-                    final String notation = ViewConstant.pieceNotations.get(piece.getClass());
-                    System.out.print(notation);
-                }
-                if (!piece.isHan()) {
-                    final String notation = ViewConstant.pieceNotations.get(piece.getClass());
-                    System.out.print(notation.toUpperCase());
-                }
-            }
-            if (!board.containsKey(position)) {
-                System.out.print(".");
-            }
+            displayPosition(board, position);
         }
         System.out.println();
+    }
+
+    private static void displayPosition(final Map<Position, Piece> board, final Position position) {
+        if (!board.containsKey(position)) {
+            System.out.print(".");
+            return;
+        }
+        displayPiece(board.get(position));
+    }
+
+    private static void displayPiece(final Piece piece) {
+        final String notation = ViewConstant.pieceNotations.get(piece.getClass());
+        if (piece.isHan()) {
+            System.out.print(notation);
+            return;
+        }
+        System.out.print(notation.toUpperCase());
     }
 }
