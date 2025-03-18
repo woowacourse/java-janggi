@@ -22,8 +22,15 @@ public abstract class Piece {
     }
 
     public void move(int x, int y) {
+        validateSamePosition(x, y);
         validateMovable(x, y);
         position = position.moveTo(x, y);
+    }
+
+    private void validateSamePosition(int x, int y) {
+        if (position.isSameCoordinate(x, y)) {
+            throw new IllegalArgumentException("현재 위치로 이동할 수 없습니다.");
+        }
     }
 
     protected abstract void validateMovable(int x, int y);

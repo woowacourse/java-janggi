@@ -1,13 +1,13 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import janggi.domain.Position;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.Side;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+
+import static org.assertj.core.api.Assertions.*;
 
 @ReplaceUnderBar
 class PieceTest {
@@ -29,6 +29,15 @@ class PieceTest {
         assertThat(piece.getPosition()).isEqualTo(new Position(1, 2));
     }
 
+    @Test
+    void 현재_위치로_움직일_수_없다() {
+        RawPiece piece = new RawPiece(DEFAULT_SIDE, DEFAULT_POSITION);
+
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> piece.move(DEFAULT_POSITION.getX(), DEFAULT_POSITION.getY()))
+            .withMessage("현재 위치로 이동할 수 없습니다.");
+    }
+
     private static class RawPiece extends Piece {
 
         private RawPiece(Side side, Position position) {
@@ -37,7 +46,7 @@ class PieceTest {
 
         @Override
         protected void validateMovable(int x, int y) {
-            throw new IllegalStateException("이 메서드는 테스트할 수 없습니다.");
+            return;
         }
     }
 }
