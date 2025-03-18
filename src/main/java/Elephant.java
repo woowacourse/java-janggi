@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Elephant extends Piece{
@@ -22,6 +23,13 @@ public class Elephant extends Piece{
 
     @Override
     public List<Position> findAllRoute(Position source, Position destination) {
-        return List.of();
+        List<Position> positions = new ArrayList<>();
+
+        Position firstPosition = source.divideBy(destination, 3);
+        Position secondPosition = firstPosition.divideBy(destination, 2);
+
+        positions.add(firstPosition);
+        positions.add(secondPosition);
+        return positions;
     }
 }
