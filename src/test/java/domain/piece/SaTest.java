@@ -15,7 +15,7 @@ public class SaTest {
     class ChoTeam {
 
         @Test
-        @DisplayName("CHO 팀의 사가 왼쪽으로 움직이면 졸의 x 좌표 1 감소한다.")
+        @DisplayName("CHO 팀의 사가 왼쪽으로 움직이면 사의 x 좌표 1 감소한다.")
         void test2() {
             // given
             Sa sa = new Sa(new Piece(new Coordinate(2, 1), Team.CHO));
@@ -28,7 +28,7 @@ public class SaTest {
         }
 
         @Test
-        @DisplayName("CHO 팀의 사가 오른쪽으로 움직이면 졸의 x 좌표가 1 증가한다.")
+        @DisplayName("CHO 팀의 사가 오른쪽으로 움직이면 사의 x 좌표가 1 증가한다.")
         void test4() {
             // given
             Sa sa = new Sa(new Piece(new Coordinate(2, 1), Team.CHO));
@@ -41,7 +41,7 @@ public class SaTest {
         }
 
         @Test
-        @DisplayName("CHO 팀의 사가 앞쪽으로 움직이면 졸의 y 좌표가 1 감소한다.")
+        @DisplayName("CHO 팀의 사가 앞쪽으로 움직이면 사의 y 좌표가 1 감소한다.")
         void test6() {
             // given
             Sa sa = new Sa(new Piece(new Coordinate(2, 2), Team.CHO));
@@ -54,7 +54,7 @@ public class SaTest {
         }
 
         @Test
-        @DisplayName("CHO 팀의 사가 뒤쪽으로 움직이면 졸의 y 좌표가 1 증가한다.")
+        @DisplayName("CHO 팀의 사가 뒤쪽으로 움직이면 사의 y 좌표가 1 증가한다.")
         void test8() {
             // given
             Sa sa = new Sa(new Piece(new Coordinate(2, 2), Team.CHO));
