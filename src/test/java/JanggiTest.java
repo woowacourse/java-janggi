@@ -27,4 +27,16 @@ class JanggiTest {
         assertThat(board.getPiece(new Position(1, 1))).isEqualTo(new Piece(PieceType.CHARIOT, TeamType.RED));
         assertThat(board.getPiece(new Position(1, 9))).isEqualTo(new Piece(PieceType.CHARIOT, TeamType.RED));
     }
+
+    @DisplayName("보드를 초기화하면 청포가 82, 88, 홍포가 32, 38에 배치된다.")
+    @Test
+    void initializeCannon() {
+        Board board = new Board(new HashMap<>());
+        Janggi janggi = new Janggi(board);
+        janggi.initializeBoard();
+        assertThat(board.getPiece(new Position(8, 2))).isEqualTo(new Piece(PieceType.CANNON, TeamType.BLUE));
+        assertThat(board.getPiece(new Position(8, 8))).isEqualTo(new Piece(PieceType.CANNON, TeamType.BLUE));
+        assertThat(board.getPiece(new Position(3, 2))).isEqualTo(new Piece(PieceType.CANNON, TeamType.RED));
+        assertThat(board.getPiece(new Position(3, 8))).isEqualTo(new Piece(PieceType.CANNON, TeamType.RED));
+    }
 }
