@@ -25,6 +25,10 @@ public class Position {
         this.column = column;
     }
 
+    public Position diff(Position comparePosition) {
+        return new Position(comparePosition.row - this.row, comparePosition.column - this.column);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(row, column);
