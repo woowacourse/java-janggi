@@ -18,6 +18,14 @@ public enum InitialPositions {
             new Position(4, 3),
             new Position(6, 3),
             new Position(8, 3)
+    )),
+    CHO_ELEPHANT_POSITIONS(List.of(
+            new Position(2, 9),
+            new Position(6, 9)
+    )),
+    HAN_ELEPHANT_POSITIONS(List.of(
+            new Position(2, 0),
+            new Position(6, 0)
     ));
 
     private final List<Position> positions;
