@@ -7,6 +7,7 @@ public class BoardPosition {
     private final int col;
 
     public BoardPosition(final int row, final int col) {
+        validateOutOfBound(row, col);
         this.row = row;
         this.col = col;
     }
@@ -17,6 +18,12 @@ public class BoardPosition {
 
     public int getCol() {
         return col;
+    }
+
+    private void validateOutOfBound(final int row, final int col) {
+        if (row > 9 || col > 10) {
+            throw new IllegalArgumentException("[ERROR] 장기판은 10 x 9 입니다. 범위를 초과하였습니다.");
+        }
     }
 
     @Override
