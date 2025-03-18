@@ -44,7 +44,7 @@ public class JanggiTest {
     @Test
     void createHanTest() {
         // given
-        Piece piece = Piece.createFromHan();
+        Piece piece = Piece.createFromHan("차");
 
         // when
         Dynasty actual = piece.getDynasty();
@@ -57,7 +57,7 @@ public class JanggiTest {
     @Test
     void createChoTest() {
         // given
-        Piece piece = Piece.createFromCho();
+        Piece piece = Piece.createFromCho("차");
 
         // when
         Dynasty actual = piece.getDynasty();
@@ -65,4 +65,16 @@ public class JanggiTest {
         // then
         assertThat(actual).isEqualTo(Dynasty.CHO);
     }
+
+    @DisplayName("다양한 타입의 Piece 생성할 수 있다.")
+    @Test
+    void createChariot() {
+
+        // when // then
+        assertThatCode(() -> Piece.createFromCho("차"))
+                .doesNotThrowAnyException();
+    }
+
+
+
 }
