@@ -50,4 +50,18 @@ class StraightLineMovementTest {
         Assertions.assertThatThrownBy(() -> straightLineMovement.move(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    @DisplayName("자신이 있는 위치로 이동할 수 없다.")
+    void test10() {
+        //given
+        Position from = new Position(2, 2);
+        Position to = new Position(2, 2);
+        StraightLineMovement straightLineMovement = new StraightLineMovement();
+
+        //when
+        //then
+        Assertions.assertThatThrownBy(() -> straightLineMovement.move(from, to))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }
