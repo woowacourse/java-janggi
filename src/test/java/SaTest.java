@@ -1,7 +1,9 @@
 import static org.assertj.core.api.Assertions.assertThat;
 
+import model.Jang;
 import model.Sa;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class SaTest {
@@ -15,10 +17,21 @@ public class SaTest {
         assertThat(sa.getTeam()).isEqualTo(team);
     }
 
-    @Test
+    @Nested
     @DisplayName("사 이동 가능 여부 판별 테스트")
-    public void test2() {
-        Sa sa = new Sa("red");
-        assertThat(sa.canMove(0, 0, 1, 0)).isTrue();
+    class SaMovableTest {
+        @Test
+        @DisplayName("사 이동 가능 테스트")
+        public void test2() {
+            Sa sa = new Sa("red");
+            assertThat(sa.canMove(0, 0, 1, 0)).isTrue();
+        }
+
+        @Test
+        @DisplayName("사 이동 불가능 테스트")
+        public void test3() {
+            Sa sa = new Sa("red");
+            assertThat(sa.canMove(0, 0, 2, 0)).isFalse();
+        }
     }
 }

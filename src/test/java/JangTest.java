@@ -2,10 +2,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import model.Jang;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class JangTest {
-
 
     @Test
     @DisplayName("장 기물 생성 테스트")
@@ -17,10 +17,21 @@ public class JangTest {
         assertThat(jang.getTeam()).isEqualTo(team);
     }
 
-    @Test
+    @Nested
     @DisplayName("장 이동 가능 여부 판별 테스트")
-    public void test2() {
-        Jang jang = new Jang("red");
-        assertThat(jang.canMove(0, 0, 1, 0)).isTrue();
+    class JangMovableTest {
+        @Test
+        @DisplayName("장 이동 가능 테스트")
+        public void test2() {
+            Jang jang = new Jang("red");
+            assertThat(jang.canMove(0, 0, 1, 0)).isTrue();
+        }
+
+        @Test
+        @DisplayName("장 이동 불가능 테스트")
+        public void test3() {
+            Jang jang = new Jang("red");
+            assertThat(jang.canMove(0, 0, 2, 0)).isFalse();
+        }
     }
 }
