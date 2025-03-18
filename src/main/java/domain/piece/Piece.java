@@ -10,8 +10,6 @@ public abstract class Piece {
         this.team = team;
     }
 
-    protected abstract boolean canMove(int startRow, int startColumn, int targetRow, int targetColumn);
-
     public Team getTeam() {
         return team;
     }

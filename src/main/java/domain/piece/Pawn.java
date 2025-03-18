@@ -7,9 +7,4 @@ public class Pawn extends Piece{
     public Pawn(Team team) {
         super(team);
     }
-
-    @Override
-    protected boolean canMove(int startRow, int startColumn, int targetRow, int targetColumn) {
-        return false;
-    }
 }
