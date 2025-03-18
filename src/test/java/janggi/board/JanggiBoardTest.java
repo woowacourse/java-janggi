@@ -1,6 +1,7 @@
 package janggi.board;
 
 import janggi.piece.Elephant;
+import janggi.piece.Horse;
 import janggi.piece.Soldier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,4 +42,13 @@ class JanggiBoardTest {
         assertThat(janggiBoard.getBoard().get(new Position(row, col))).isInstanceOf(Elephant.class);
     }
 
+    @ParameterizedTest
+    @CsvSource(value = {
+            "1,0", "7,0", "1,9", "7,9"
+    })
+    @DisplayName("마 초기화 테스트")
+    void test5(int row, int col) {
+        JanggiBoard janggiBoard = JanggiBoard.initialize();
+        assertThat(janggiBoard.getBoard().get(new Position(row, col))).isInstanceOf(Horse.class);
+    }
 }

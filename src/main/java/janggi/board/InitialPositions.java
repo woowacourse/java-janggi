@@ -11,7 +11,6 @@ public enum InitialPositions {
             new Position(6, 6),
             new Position(8, 6)
     )),
-
     HAN_SOLDIER_POSITIONS(List.of(
             new Position(0, 3),
             new Position(2, 3),
@@ -26,6 +25,14 @@ public enum InitialPositions {
     HAN_ELEPHANT_POSITIONS(List.of(
             new Position(2, 0),
             new Position(6, 0)
+    )),
+    CHO_HORSE_POSITIONS(List.of(
+            new Position(1, 9),
+            new Position(7, 9)
+    )),
+    HAN_HORSE_POSITIONS(List.of(
+            new Position(1, 0),
+            new Position(7, 0)
     ));
 
     private final List<Position> positions;

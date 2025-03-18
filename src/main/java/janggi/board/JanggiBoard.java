@@ -1,10 +1,7 @@
 package janggi.board;
 
 import janggi.Side;
-import janggi.piece.Elephant;
-import janggi.piece.Empty;
-import janggi.piece.Piece;
-import janggi.piece.Soldier;
+import janggi.piece.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +30,7 @@ public class JanggiBoard {
 
         initializeSoldier(board);
         initializeElephant(board);
+        initializeHorse(board);
         return new JanggiBoard(board);
     }
 
@@ -51,6 +49,15 @@ public class JanggiBoard {
         }
         for (Position hanElephantPosition : HAN_ELEPHANT_POSITIONS.getPositions()) {
             board.put(hanElephantPosition, new Elephant(Side.CHO));
+        }
+    }
+
+    private static void initializeHorse(final Map<Position, Piece> board) {
+        for (Position choHorsePosition : CHO_HORSE_POSITIONS.getPositions()) {
+            board.put(choHorsePosition, new Horse(Side.CHO));
+        }
+        for (Position hanHorsePosition : HAN_HORSE_POSITIONS.getPositions()) {
+            board.put(hanHorsePosition, new Horse(Side.HAN));
         }
     }
 
