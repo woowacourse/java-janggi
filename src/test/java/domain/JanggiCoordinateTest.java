@@ -16,9 +16,9 @@ class JanggiCoordinateTest {
         void coordinateMoveForward() {
             int row = 5;
             int col = 5;
-            Coordinate currPosition = new JanggiCoordinate(row, col);
+            JanggiCoordinate currPosition = new JanggiCoordinate(row, col);
 
-            Coordinate next = currPosition.move(1, 1);
+            JanggiCoordinate next = currPosition.move(1, 1);
 
             Assertions.assertThat(next).isEqualTo(new JanggiCoordinate(row + 1, col + 1));
         }

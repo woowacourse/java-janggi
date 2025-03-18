@@ -2,7 +2,7 @@ package domain;
 
 import java.util.Objects;
 
-public final class JanggiCoordinate implements Coordinate {
+public final class JanggiCoordinate {
     private int row;
     private int col;
 
@@ -11,12 +11,10 @@ public final class JanggiCoordinate implements Coordinate {
         this.col = col;
     }
 
-    @Override
-    public Coordinate move(int increaseRow, int increaseCol) {
+    public JanggiCoordinate move(int increaseRow, int increaseCol) {
         return new JanggiCoordinate(row + increaseRow, col + increaseCol);
     }
 
-    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -28,8 +26,15 @@ public final class JanggiCoordinate implements Coordinate {
         return row == that.row && col == that.col;
     }
 
-    @Override
     public int hashCode() {
         return Objects.hash(row, col);
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
     }
 }
