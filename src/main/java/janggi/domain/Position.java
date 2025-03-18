@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class Position {
@@ -32,5 +33,18 @@ public class Position {
 
     public int getY() {
         return y;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Position position)) {
+            return false;
+        }
+        return x == position.x && y == position.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }
