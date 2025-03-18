@@ -1,6 +1,9 @@
 package janggi.piece;
 
 import janggi.Side;
+import janggi.board.Position;
+
+import java.util.List;
 
 public class Horse implements Piece {
 
@@ -8,6 +11,20 @@ public class Horse implements Piece {
 
     public Horse(final Side side) {
         this.side = side;
+    }
+
+    @Override
+    public List<Position> computeCandidatePositions(final Position position) {
+        return List.of(
+                position.move(2, 1),
+                position.move(2, -1),
+                position.move(-2, 1),
+                position.move(-2, -1),
+                position.move(1, 2),
+                position.move(1, -2),
+                position.move(-1, 2),
+                position.move(-1, -2)
+        );
     }
 
     @Override
