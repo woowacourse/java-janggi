@@ -3,8 +3,6 @@ package janggi.position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-// TODO position 객체 임포트 바꾸기
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -29,6 +27,4 @@ public class PositionTest {
 
         assertThat(position).isNotSameAs(newPosition);
     }
-
-
 }

@@ -21,5 +21,4 @@ public class PositionXTest {
     void successPositionXTest(int value){
         assertThatCode(() -> new PositionX(value)).doesNotThrowAnyException();
     }
-
 }

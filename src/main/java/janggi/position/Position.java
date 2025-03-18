@@ -1,16 +1,20 @@
 package janggi.position;
 
 public class Position {
+    private final int x;
+    private final int y;
 
     public Position(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
-    public boolean getX() {
-        return false;
+    public int getX() {
+        return x;
     }
 
-    public boolean getY() {
-        return false;
+    public int getY() {
+        return y;
     }
 
     public Position updatePosition(int x, int y) {
