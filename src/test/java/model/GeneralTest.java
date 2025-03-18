@@ -8,28 +8,10 @@ import org.junit.jupiter.api.Test;
 
 public class GeneralTest {
 
-    @Test
-    void RED팀의_General을_생성하면_초기_위치에_생성이_된다() {
-        // Given
-        General general = General.initializePositionFrom(Team.RED);
-
-        // When & Then
-        assertThat(general.position).isEqualTo(new Position(1, 4));
-    }
-
-    @Test
-    void GREEN팀의_General을_생성하면_초기_위치에_생성이_된다() {
-        // Given
-        General general = General.initializePositionFrom(Team.GREEN);
-
-        // When & Then
-        assertThat(general.position).isEqualTo(new Position(8, 4));
-    }
-
     @DisplayName("General이 위로 한 칸 움직일 경우, 행이 -1 되어야 한다.")
     @Test
     void when_general_move_then_column_minus_one() {
-        General general = General.initializePositionFrom(Team.RED);
+        General general = new General(new Position(1, 4), Team.RED);
         general.up();
 
         Position expectedPosition = new Position(0, 4);
@@ -40,7 +22,7 @@ public class GeneralTest {
     @DisplayName("General이 아래로 한 칸 움직일 경우, 행이 +1 되어야 한다.")
     @Test
     void when_general_move_then_column_plus_one() {
-        General general = General.initializePositionFrom(Team.RED);
+        General general = new General(new Position(1, 4), Team.RED);
         general.down();
 
         Position expectedPosition = new Position(2, 4);
@@ -51,7 +33,7 @@ public class GeneralTest {
     @DisplayName("General이 좌측으로 한 칸 움직일 경우, 열이 -1 되어야 한다.")
     @Test
     void when_general_move_then_row_minus_one() {
-        General general = General.initializePositionFrom(Team.RED);
+        General general = new General(new Position(1, 4), Team.RED);
         general.left();
 
         Position expectedPosition = new Position(1, 3);
@@ -62,7 +44,7 @@ public class GeneralTest {
     @DisplayName("General이 우측으로 한 칸 움직일 경우, 열이 +1 되어야 한다.")
     @Test
     void when_general_move_then_row_plus_one() {
-        General general = General.initializePositionFrom(Team.RED);
+        General general = new General(new Position(1, 4), Team.RED);
         general.right();
 
         Position expectedPosition = new Position(1, 5);
@@ -73,7 +55,7 @@ public class GeneralTest {
     @Test
     @DisplayName("General이 우측으로 두 칸 움직일 경우, 열이 +2 되어야 한다.")
     void when_general_move_then_row_plus_two() {
-        General general = General.initializePositionFrom(Team.RED);
+        General general = new General(new Position(1, 4), Team.RED);
         general.right();
         general.right();
 
@@ -85,7 +67,7 @@ public class GeneralTest {
     @Test
     @DisplayName("General이 10행 9열을 벗어나면 예외가 발생한다.")
     void General이_10행_9열을_벗어나면_예외가_발생한다() {
-        General general = General.initializePositionFrom(Team.RED);
+        General general = new General(new Position(1, 4), Team.RED);
         general.up();
 
         assertThatThrownBy(() -> general.up())

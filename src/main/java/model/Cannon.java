@@ -3,13 +3,8 @@ package model;
 import java.util.List;
 
 public class Cannon extends Piece{
-    public Cannon(Team team) {
-        super(team);
-    }
-
-    @Override
-    protected void initializePosition(Team team) {
-
+    public Cannon(Position position, Team team) {
+        super(position, team);
     }
 
     @Override
