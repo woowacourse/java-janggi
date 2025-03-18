@@ -273,4 +273,20 @@ public class TeamTest {
         assertThatThrownBy(() -> result.put(new Position(PositionFile.가, TestConstant.RANK_10), PieceType.차))
                 .isInstanceOf(UnsupportedOperationException.class);
     }
+
+    @ParameterizedTest
+    @CsvSource({"한나라","초나라"})
+    void 장기판의_나라가_존재한다(Country country) {
+        // given
+        final StartingPosition startingPosition = StartingPosition.마상상마;
+        final Team team = new Team(startingPosition, country);
+
+        // when
+        final Country result = team.getCountry();
+
+        // then
+        assertThat(result).isEqualTo(country);
+
+    }
+
 }

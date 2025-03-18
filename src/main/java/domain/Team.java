@@ -10,10 +10,12 @@ import java.util.Map;
 
 public class Team {
 
+    private final Country country;
     private final Map<Position, PieceType> board;
 
     public Team(final StartingPosition startingPosition, final Country country) {
-        board = new HashMap<>();
+        this.country = country;
+        this.board = new HashMap<>();
         board.putAll(Map.ofEntries(
                 Map.entry(new Position(PositionFile.가, PositionRank.of(1, country)), PieceType.차),
                 Map.entry(new Position(PositionFile.라, PositionRank.of(1, country)), PieceType.사),
@@ -58,5 +60,9 @@ public class Team {
 
     public Map<Position, PieceType> getBoard() {
         return Collections.unmodifiableMap(board);
+    }
+
+    public Country getCountry() {
+        return country;
     }
 }
