@@ -4,7 +4,6 @@ import java.util.List;
 
 public class General extends Piece{
 
-
     public General(Position position, Team team) {
         super(position, team);
     }
