@@ -3,13 +3,9 @@ package model;
 import java.util.List;
 
 public class Chariot extends Piece{
-    public Chariot(Team team) {
-        super(team);
-    }
 
-    @Override
-    protected void initializePosition(Team team) {
-
+    public Chariot(Position position, Team team) {
+        super(position, team);
     }
 
     @Override

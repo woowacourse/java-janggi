@@ -3,13 +3,9 @@ package model;
 import java.util.List;
 
 public class Jol extends Piece{
-    public Jol(Team team) {
-        super(team);
-    }
 
-    @Override
-    protected void initializePosition(Team team) {
-
+    public Jol(Position position) {
+        super(position, Team.GREEN);
     }
 
     @Override

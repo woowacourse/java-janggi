@@ -7,11 +7,10 @@ public abstract class Piece extends AbstractMove{
     protected Position position;
     private final Team team;
 
-    public Piece(Team team) {
+    public Piece(Position position, Team team) {
+        this.position = position;
         this.team = team;
     }
-
-    protected abstract void initializePosition(Team team);
 
     public Position getPosition() {
         return position;

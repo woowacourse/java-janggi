@@ -3,13 +3,9 @@ package model;
 import java.util.List;
 
 public class Elephant extends Piece{
-    public Elephant(Team team) {
-        super(team);
-    }
 
-    @Override
-    protected void initializePosition(Team team) {
-
+    public Elephant(Position position, Team team) {
+        super(position, team);
     }
 
     @Override

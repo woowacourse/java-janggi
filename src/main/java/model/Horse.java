@@ -3,13 +3,9 @@ package model;
 import java.util.List;
 
 public class Horse extends  Piece{
-    public Horse(Team team) {
-        super(team);
-    }
 
-    @Override
-    protected void initializePosition(Team team) {
-
+    public Horse(Position position, Team team) {
+        super(position, team);
     }
 
     @Override

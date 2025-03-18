@@ -2,14 +2,10 @@ package model;
 
 import java.util.List;
 
-public class Guard extends  Piece {
-    public Guard(Team team) {
-        super(team);
-    }
+public class Guard extends Piece {
 
-    @Override
-    protected void initializePosition(Team team) {
-
+    public Guard(Position position, Team team) {
+        super(position, team);
     }
 
     @Override
