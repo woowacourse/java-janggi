@@ -1,8 +1,8 @@
 package board;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -25,10 +25,10 @@ public class PositionTest {
             final var p = new Position(x, y);
 
             // then
-            assertSoftly(s -> {
-                s.assertThat(p.x()).isEqualTo(x);
-                s.assertThat(p.y()).isEqualTo(x);
-            });
+            Assertions.assertAll(
+                    () -> assertThat(p.x()).isEqualTo(x),
+                    () -> assertThat(p.y()).isEqualTo(y)
+            );
         }
     }
 }
