@@ -22,9 +22,15 @@ public abstract class Piece {
     }
 
     public void move(int x, int y) {
-        validateSamePosition(x, y);
         validateMovable(x, y);
         position = position.moveTo(x, y);
+    }
+
+    private void validateMovable(int x, int y) {
+        validateSamePosition(x, y);
+        if (!isMoveable(x, y)) {
+            throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
+        }
     }
 
     private void validateSamePosition(int x, int y) {
@@ -33,5 +39,5 @@ public abstract class Piece {
         }
     }
 
-    protected abstract void validateMovable(int x, int y);
+    protected abstract boolean isMoveable(int x, int y);
 }
