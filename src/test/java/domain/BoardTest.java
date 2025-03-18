@@ -23,7 +23,28 @@ class BoardTest {
         board.putPiece(piece);
 
         assertThat(board.getBoard()[0][0]).isEqualTo(piece);
+    }
 
+    @Test
+    void 장기판_기물이_존재하는지_확인한다() {
+        Board board = new Board();
+        Position position = new Position(0, 0);
+        Piece piece = new Piece(position, Team.BLUE, board);
+        board.putPiece(piece);
+
+        assertThat(board.isExists(0, 0)).isTrue();
+    }
+
+    @Test
+    void 장기판_기물이_같은팀_기물인지_확인한다() {
+        Board board = new Board();
+        Position position = new Position(0, 0);
+        Piece piece = new Piece(position, Team.BLUE, board);
+        Piece piece1 = new Piece(new Position(1, 1), Team.BLUE, board);
+        board.putPiece(piece);
+        board.putPiece(piece1);
+
+        assertThat(board.isSameTeam(1, 1, Team.BLUE)).isTrue();
     }
 
 }

@@ -1,7 +1,10 @@
 package domain;
 
-import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class PieceTest {
 
@@ -11,7 +14,7 @@ class PieceTest {
         Board board = new Board();
         Piece piece = new Piece(position, Team.BLUE, board);
 
-        Assertions.assertThat(piece.getPosition()).isEqualTo(new Position(0, 0));
+        assertThat(piece.getPosition()).isEqualTo(new Position(0, 0));
     }
 
     @Test
@@ -20,7 +23,7 @@ class PieceTest {
         Board board = new Board();
         Piece piece = new Piece(position, Team.BLUE, board);
 
-        Assertions.assertThat(piece.getTeam()).isEqualTo(Team.BLUE);
+        assertThat(piece.getTeam()).isEqualTo(Team.BLUE);
     }
 
     @Test
@@ -29,6 +32,21 @@ class PieceTest {
         Board board = new Board();
         Piece piece = new Piece(position, Team.BLUE, board);
 
-        Assertions.assertThat(piece.getBoard()).isNotNull();
+        assertThat(piece.getBoard()).isNotNull();
     }
+
+    @CsvSource(value = {"1,1,false", "1,0,true"})
+    @ParameterizedTest
+    void 같은팀_기물_위로는_움직일_수_없다(int x, int y, boolean expected) {
+        Position position = new Position(0, 0);
+        Position position1 = new Position(x, y);
+        Board board = new Board();
+        Piece piece = new Piece(position, Team.BLUE, board);
+        Piece piece1 = new Piece(position1, Team.BLUE, board);
+        board.putPiece(piece);
+        board.putPiece(piece1);
+
+        assertThat(piece.canMove(1, 1)).isEqualTo(expected);
+    }
+
 }

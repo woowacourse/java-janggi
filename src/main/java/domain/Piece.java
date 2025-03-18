@@ -22,4 +22,12 @@ public class Piece {
     public Board getBoard() {
         return board;
     }
+
+    public boolean canMove(final int x1, final int y1) {
+        if (!this.board.isExists(x1, y1)) {
+            return true;
+        }
+        return !this.board.isSameTeam(x1, y1, Team.BLUE);
+    }
+
 }

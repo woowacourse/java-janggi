@@ -16,4 +16,13 @@ public class Board {
         Position position = piece.getPosition();
         board[position.getY()][position.getX()] = piece;
     }
+
+    public boolean isExists(final int x, final int y) {
+        return board[y][x] != null;
+    }
+
+    public boolean isSameTeam(final int x, final int y, final Team team) {
+        return board[y][x].getTeam() == team;
+    }
+
 }
