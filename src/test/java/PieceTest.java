@@ -1,3 +1,4 @@
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 import org.junit.jupiter.api.DisplayName;
@@ -9,5 +10,11 @@ class PieceTest {
     @Test
     void constructorTest() {
         assertThatCode(() -> new Piece(PieceType.GENERAL, TeamType.RED)).doesNotThrowAnyException();
+    }
+
+    @DisplayName("CreateEmpty가 빈 기물을 반환한다")
+    @Test
+    void createEmpty() {
+        assertThat(Piece.createEmpty()).isEqualTo(new Piece(PieceType.EMPTY, TeamType.NONE));
     }
 }
