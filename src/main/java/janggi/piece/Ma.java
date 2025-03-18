@@ -22,13 +22,11 @@ public class Ma implements Movable {
 
     static {
         List<Ma> createdPieces = new ArrayList<>();
-        for(int i=0; i<2; i++) {
-            for (Point point : InitialPoint.GUNG.getRedPoints()) {
-                createdPieces.add(new Ma(TeamColor.RED, point));
-            }
-            for (Point point : InitialPoint.GUNG.getBluePoints()) {
-                createdPieces.add(new Ma(TeamColor.BLUE, point));
-            }
+        for (Point point : InitialPoint.MA.getRedPoints()) {
+            createdPieces.add(new Ma(TeamColor.RED, point));
+        }
+        for (Point point : InitialPoint.MA.getBluePoints()) {
+            createdPieces.add(new Ma(TeamColor.BLUE, point));
         }
         mas = createdPieces;
     }
@@ -49,5 +47,10 @@ public class Ma implements Movable {
         );
 
         return candidates.contains(targetPoint);
+    }
+
+    @Override
+    public Point getPoint() {
+        return point;
     }
 }

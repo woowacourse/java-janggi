@@ -22,13 +22,11 @@ public class Sang implements Movable {
 
     static {
         List<Sang> createdPieces = new ArrayList<>();
-        for(int i=0; i<2; i++) {
-            for (Point point : InitialPoint.GUNG.getRedPoints()) {
-                createdPieces.add(new Sang(TeamColor.RED, point));
-            }
-            for (Point point : InitialPoint.GUNG.getBluePoints()) {
-                createdPieces.add(new Sang(TeamColor.BLUE, point));
-            }
+        for (Point point : InitialPoint.SANG.getRedPoints()) {
+            createdPieces.add(new Sang(TeamColor.RED, point));
+        }
+        for (Point point : InitialPoint.SANG.getBluePoints()) {
+            createdPieces.add(new Sang(TeamColor.BLUE, point));
         }
         sangs = createdPieces;
     }
@@ -49,5 +47,10 @@ public class Sang implements Movable {
         );
 
         return candidates.contains(targetPoint);
+    }
+
+    @Override
+    public Point getPoint() {
+        return point;
     }
 }

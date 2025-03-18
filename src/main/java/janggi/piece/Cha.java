@@ -22,13 +22,11 @@ public class Cha implements Movable {
 
     static {
         List<Cha> createdPieces = new ArrayList<>();
-        for(int i=0; i<2; i++) {
-            for (Point point : InitialPoint.GUNG.getRedPoints()) {
-                createdPieces.add(new Cha(TeamColor.RED, point));
-            }
-            for (Point point : InitialPoint.GUNG.getBluePoints()) {
-                createdPieces.add(new Cha(TeamColor.BLUE, point));
-            }
+        for (Point point : InitialPoint.CHA.getRedPoints()) {
+            createdPieces.add(new Cha(TeamColor.RED, point));
+        }
+        for (Point point : InitialPoint.CHA.getBluePoints()) {
+            createdPieces.add(new Cha(TeamColor.BLUE, point));
         }
         chas = createdPieces;
     }
@@ -38,5 +36,10 @@ public class Cha implements Movable {
 
     public boolean isMovable(Point targetPoint) {
         return point.isSameRow(targetPoint) || point.isSameColumn(targetPoint);
+    }
+
+    @Override
+    public Point getPoint() {
+        return point;
     }
 }

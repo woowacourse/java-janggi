@@ -22,13 +22,11 @@ public class Sa implements Movable {
 
     static {
         List<Sa> createdPieces = new ArrayList<>();
-        for(int i=0; i<2; i++) {
-            for (Point point : InitialPoint.GUNG.getRedPoints()) {
-                createdPieces.add(new Sa(TeamColor.RED, point));
-            }
-            for (Point point : InitialPoint.GUNG.getBluePoints()) {
-                createdPieces.add(new Sa(TeamColor.BLUE, point));
-            }
+        for (Point point : InitialPoint.SA.getRedPoints()) {
+            createdPieces.add(new Sa(TeamColor.RED, point));
+        }
+        for (Point point : InitialPoint.SA.getBluePoints()) {
+            createdPieces.add(new Sa(TeamColor.BLUE, point));
         }
         sas = createdPieces;
     }
@@ -44,5 +42,10 @@ public class Sa implements Movable {
                 point.move(-1, 0)
         );
         return candidates.contains(targetPoint);
+    }
+
+    @Override
+    public Point getPoint() {
+        return point;
     }
 }

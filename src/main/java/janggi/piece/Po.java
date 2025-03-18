@@ -22,17 +22,20 @@ public class Po implements Movable {
 
     static {
         List<Po> createdPieces = new ArrayList<>();
-        for(int i=0; i<2; i++) {
-            for (Point point : InitialPoint.GUNG.getRedPoints()) {
-                createdPieces.add(new Po(TeamColor.RED, point));
-            }
-            for (Point point : InitialPoint.GUNG.getBluePoints()) {
-                createdPieces.add(new Po(TeamColor.BLUE, point));
-            }
+        for (Point point : InitialPoint.PO.getRedPoints()) {
+            createdPieces.add(new Po(TeamColor.RED, point));
+        }
+        for (Point point : InitialPoint.PO.getBluePoints()) {
+            createdPieces.add(new Po(TeamColor.BLUE, point));
         }
         pos = createdPieces;
     }
     public static List<Po> values() {
         return new ArrayList<>(pos);
+    }
+
+    @Override
+    public Point getPoint() {
+        return point;
     }
 }

@@ -22,13 +22,11 @@ public class Byeong implements Movable {
 
     static {
         List<Byeong> createdPieces = new ArrayList<>();
-        for(int i=0; i<5; i++) {
-            for (Point point : InitialPoint.GUNG.getRedPoints()) {
-                createdPieces.add(new Byeong(TeamColor.RED, point));
-            }
-            for (Point point : InitialPoint.GUNG.getBluePoints()) {
-                createdPieces.add(new Byeong(TeamColor.BLUE, point));
-            }
+        for (Point point : InitialPoint.BYEONG.getRedPoints()) {
+            createdPieces.add(new Byeong(TeamColor.RED, point));
+        }
+        for (Point point : InitialPoint.BYEONG.getBluePoints()) {
+            createdPieces.add(new Byeong(TeamColor.BLUE, point));
         }
         byeongs = createdPieces;
     }
@@ -43,5 +41,10 @@ public class Byeong implements Movable {
                 point.move(-1, 0)
         );
         return candidates.contains(targetPoint);
+    }
+
+    @Override
+    public Point getPoint() {
+        return point;
     }
 }
