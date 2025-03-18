@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.Objects;
+
 public class Column {
     private static final int MAX_COLUMN = 8;
     private static final int MIN_COLUMN = 0;
@@ -17,5 +19,20 @@ public class Column {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Column column1 = (Column) o;
+        return column == column1.column;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(column);
+    }
 }
