@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.Team;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Horse extends Piece{
@@ -16,16 +15,21 @@ public class Horse extends Piece{
     @Override
     public List<Move> calculatePath(int startRow, int startColumn, int targetRow, int targetColumn) {
         for (List<Move> moveList : moves) {
-            int newRow = startRow;
-            int newColumn = startColumn;
-            for (Move move : moveList) {
-                newRow = newRow + move.getDy();
-                newColumn = newColumn + move.getDx();
-            }
-            if(newRow == targetRow && newColumn == targetColumn) {
+            boolean compareResult = comparePath(startRow, startColumn, targetRow, targetColumn, moveList);
+            if (compareResult) {
                 return moveList;
             }
         }
         throw new IllegalArgumentException("이 위치로 이동할 수 없습니다.");
+    }
+
+    private boolean comparePath(int startRow, int startColumn, int targetRow, int targetColumn, List<Move> moveList) {
+        int newRow = startRow;
+        int newColumn = startColumn;
+        for (Move move : moveList) {
+            newRow = newRow + move.getDy();
+            newColumn = newColumn + move.getDx();
+        }
+        return newRow == targetRow && newColumn == targetColumn;
     }
 }
