@@ -1,3 +1,6 @@
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import domain.Team;
 import domain.piece.Chariot;
 import domain.piece.Horse;
@@ -28,5 +31,15 @@ public class ChariotTest {
             softAssertions.assertThat(moves3).isEqualTo(expected3);
 
         });
+    }
+
+    @DisplayName("동일한 위치로 움직일 경우 예외를 발생시킨다")
+    @Test
+    void test2() {
+        Chariot chariot = new Chariot(Team.RED);
+
+        assertThatThrownBy(() -> chariot.calculatePath(0, 0, 0, 0))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("말을 움직여 주세요");
     }
 }
