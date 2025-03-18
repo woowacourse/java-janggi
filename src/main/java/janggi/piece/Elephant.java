@@ -1,6 +1,9 @@
 package janggi.piece;
 
 import janggi.Side;
+import janggi.board.Position;
+
+import java.util.List;
 
 public class Elephant implements Piece {
 
@@ -9,6 +12,20 @@ public class Elephant implements Piece {
 
     public Elephant(final Side side) {
         this.side = side;
+    }
+
+    @Override
+    public List<Position> computeCandidatePositions(final Position position) {
+        return List.of(
+                position.move(3, 2),
+                position.move(3, -2),
+                position.move(-3, 2),
+                position.move(-3, -2),
+                position.move(2, 3),
+                position.move(2, -3),
+                position.move(-2, 3),
+                position.move(-2, -3)
+        );
     }
 
     @Override
