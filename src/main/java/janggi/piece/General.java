@@ -5,9 +5,9 @@ import janggi.Position;
 import janggi.Score;
 import janggi.Team;
 
-public class Guard extends Piece {
+public class General extends Piece {
 
-    public Guard(final Position position, final Team team) {
+    public General(final Position position, final Team team) {
         super(position, team);
     }
 
@@ -16,7 +16,7 @@ public class Guard extends Piece {
         if ((board.isExists(destination) && board.isAlly(destination, this.team)) || isInvalidMove(destination)) {
             throw new IllegalArgumentException("이동할 수 없는 지점입니다.");
         }
-        return new Guard(destination, team);
+        return new General(destination, team);
     }
 
     private boolean isInvalidMove(Position destination) {
@@ -30,6 +30,6 @@ public class Guard extends Piece {
 
     @Override
     public Score die() {
-        return Score.Guard();
+        return Score.Soldier();
     }
 }
