@@ -1,11 +1,11 @@
 package piece;
 
-import move.CastleMovement;
+import move.MoveStrategy;
 import move.Position;
 
 public class General extends Piece {
 
-    public General(int x, int y) {
-        super(new CastleMovement(), new Position(x, y));
+    public General(MoveStrategy moveStrategy, int x, int y) {
+        super(moveStrategy, new Position(x, y));
     }
 }
