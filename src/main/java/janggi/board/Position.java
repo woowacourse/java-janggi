@@ -12,6 +12,10 @@ public class Position {
         this.y = y;
     }
 
+    public Position move(int deltaX, int deltaY) {
+        return new Position(x + deltaX, y + deltaY);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) return false;
