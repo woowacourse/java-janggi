@@ -2,6 +2,7 @@ package domain;
 
 public class 마 extends Piece {
     public 마() {
+        super(5);
     }
 
     @Override

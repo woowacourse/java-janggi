@@ -2,6 +2,7 @@ package domain;
 
 public class 상 extends Piece {
     public 상() {
+        super(3);
     }
 
     @Override

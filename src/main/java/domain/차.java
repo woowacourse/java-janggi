@@ -2,6 +2,7 @@ package domain;
 
 public class 차 extends Piece {
     public 차() {
+        super(13);
     }
 
     @Override
