@@ -1,8 +1,6 @@
-import domain.JanggiBoard;
+package domain.piece;
+
 import domain.Team;
-import domain.piece.King;
-import domain.piece.Move;
-import domain.piece.Piece;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -22,5 +20,19 @@ public class KingTest {
 
         // then
         Assertions.assertThat(move).isEqualTo(List.of(Move.RIGHT));
+    }
+
+    @DisplayName("킹이 이동할 수 없는 위치라면 예외가 발생한다.")
+    @Test
+    void test1() {
+
+        //given
+        King king = new King(Team.RED);
+
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> king.calculatePath(4, 1, 4, 3))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이 위치로 이동할 수 없습니다.");
     }
 }
