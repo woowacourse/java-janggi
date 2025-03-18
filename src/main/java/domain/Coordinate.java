@@ -14,14 +14,6 @@ public class Coordinate {
         this.y = y;
     }
 
-    public Coordinate changeWidth(int distance) {
-        return new Coordinate(x + distance, y);
-    }
-
-    public Coordinate changeHeight(int distance) {
-        return new Coordinate(x, y + distance);
-    }
-
     private void validateXCoordinate(int x) {
         if (x < 1 || x > 9) {
             throw new IllegalArgumentException("가로 좌표는 1에서 9사이여야 합니다.");

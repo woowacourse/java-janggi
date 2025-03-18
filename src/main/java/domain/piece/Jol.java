@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Coordinate;
 import java.util.Objects;
 
 public class Jol {
@@ -10,19 +11,8 @@ public class Jol {
         this.piece = piece;
     }
 
-    public Jol moveLeft() {
-        Piece piece = this.piece.moveLeft(1);
-        return new Jol(piece);
-    }
-
-    public Jol moveRight() {
-        Piece piece = this.piece.moveRight(1);
-        return new Jol(piece);
-    }
-
-    public Jol moveForward() {
-        Piece piece = this.piece.moveForward(1);
-        return new Jol(piece);
+    public Jol move(Coordinate coordinate) {
+        return new Jol(piece.move(coordinate));
     }
 
     @Override

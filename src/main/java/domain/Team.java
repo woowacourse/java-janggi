@@ -1,19 +1,7 @@
 package domain;
 
-import java.util.function.Function;
-
 public enum Team {
-    HAN(i -> i * -1),
-    CHO(i -> i),
+    HAN,
+    CHO,
     ;
-
-    private Function<Integer, Integer> direction;
-
-    Team(Function<Integer, Integer> direction) {
-        this.direction = direction;
-    }
-
-    public int applyDirection(int distance) {
-        return direction.apply(distance);
-    }
 }

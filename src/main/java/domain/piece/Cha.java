@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Coordinate;
 import java.util.Objects;
 
 public class Cha {
@@ -10,24 +11,8 @@ public class Cha {
         this.piece = piece;
     }
 
-    public Cha moveLeft(int distance) {
-        Piece piece = this.piece.moveLeft(distance);
-        return new Cha(piece);
-    }
-
-    public Cha moveRight(int distance) {
-        Piece piece = this.piece.moveRight(distance);
-        return new Cha(piece);
-    }
-
-    public Cha moveForward(int distance) {
-        Piece piece = this.piece.moveForward(distance);
-        return new Cha(piece);
-    }
-
-    public Cha moveBackward(int distance) {
-        Piece piece = this.piece.moveBackward(distance);
-        return new Cha(piece);
+    public Cha move(Coordinate coordinate) {
+        return new Cha(piece.move(coordinate));
     }
 
     @Override

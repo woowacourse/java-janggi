@@ -14,24 +14,8 @@ public class Piece {
         this.team = team;
     }
 
-    public Piece moveLeft(int distance) {
-        int appliedDistance = team.applyDirection(-1 * distance);
-        return new Piece(coordinate.changeWidth(appliedDistance), team);
-    }
-
-    public Piece moveRight(int distance) {
-        int appliedDistance = team.applyDirection(distance);
-        return new Piece(coordinate.changeWidth(appliedDistance), team);
-    }
-
-    public Piece moveForward(int distance) {
-        int appliedDistance = team.applyDirection(-1 * distance);
-        return new Piece(coordinate.changeHeight(appliedDistance), team);
-    }
-
-    public Piece moveBackward(int distance) {
-        int appliedDistance = team.applyDirection(distance);
-        return new Piece(coordinate.changeHeight(appliedDistance), team);
+    public Piece move(Coordinate coordinate) {
+        return new Piece(coordinate, team);
     }
 
     @Override

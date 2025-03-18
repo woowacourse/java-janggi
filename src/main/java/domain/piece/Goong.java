@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Coordinate;
 import java.util.Objects;
 
 public class Goong {
@@ -10,24 +11,8 @@ public class Goong {
         this.piece = piece;
     }
 
-    public Goong moveLeft() {
-        Piece piece = this.piece.moveLeft(1);
-        return new Goong(piece);
-    }
-
-    public Goong moveRight() {
-        Piece piece = this.piece.moveRight(1);
-        return new Goong(piece);
-    }
-
-    public Goong moveForward() {
-        Piece piece = this.piece.moveForward(1);
-        return new Goong(piece);
-    }
-
-    public Goong moveBackward() {
-        Piece piece = this.piece.moveBackward(1);
-        return new Goong(piece);
+    public Goong move(Coordinate coordinate) {
+        return new Goong(piece.move(coordinate));
     }
 
     @Override
