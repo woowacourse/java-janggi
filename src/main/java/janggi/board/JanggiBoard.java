@@ -2,6 +2,7 @@ package janggi.board;
 
 import janggi.Side;
 import janggi.piece.*;
+import janggi.view.OutputView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,8 +11,8 @@ import static janggi.board.InitialPositions.*;
 
 public class JanggiBoard {
 
-    private static final int ROW_SIZE = 9;
-    private static final int COL_SIZE = 10;
+    private static final int X_LIMIT = 9;
+    private static final int Y_LIMIT = 10;
 
     private final Map<Position, Piece> board;
 
@@ -22,9 +23,9 @@ public class JanggiBoard {
     public static JanggiBoard initialize() {
         Map<Position, Piece> board = new HashMap<>();
 
-        for (int row = 0; row < ROW_SIZE; row++) {
-            for (int col = 0; col < COL_SIZE; col++) {
-                board.put(new Position(row, col), new Empty());
+        for (int x = 0; x < X_LIMIT; x++) {
+            for (int y = 0; y < Y_LIMIT; y++) {
+                board.put(new Position(x, y), new Empty());
             }
         }
 
@@ -36,6 +37,11 @@ public class JanggiBoard {
         initializeGuard(board);
         initializeKing(board);
         return new JanggiBoard(board);
+    }
+
+    public void printBoard() {
+        OutputView outputView = new OutputView();
+        outputView.printBoard(board);
     }
 
     private static void initializeSoldier(Map<Position, Piece> board) {
@@ -52,7 +58,7 @@ public class JanggiBoard {
             board.put(choElephantPosition, new Elephant(Side.CHO));
         }
         for (Position hanElephantPosition : HAN_ELEPHANT_POSITIONS.getPositions()) {
-            board.put(hanElephantPosition, new Elephant(Side.CHO));
+            board.put(hanElephantPosition, new Elephant(Side.HAN));
         }
     }
 
