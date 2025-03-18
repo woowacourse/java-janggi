@@ -19,6 +19,17 @@ public class Column {
         }
     }
 
+    public boolean canMoveColumn(int deltaColumn){
+        if(column + deltaColumn> MAX_COLUMN || column + deltaColumn < MIN_COLUMN){
+            return false;
+        }
+        return true;
+    }
+
+    public Column moveColumn(int deltaColumn){
+        return new Column(column + deltaColumn);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

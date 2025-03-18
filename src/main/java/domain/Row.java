@@ -19,6 +19,17 @@ public class Row {
         }
     }
 
+    public boolean canMoveRow(int deltaRow){
+        if(row + deltaRow > MAX_ROW || row + deltaRow < MIN_ROW){
+            return false;
+        }
+        return true;
+    }
+
+    public Row moveRow(int deltaRow){
+        return new Row(row + deltaRow);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
