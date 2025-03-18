@@ -9,8 +9,18 @@ public class Byeong extends Piece{
     }
 
     @Override
-    public Position getPosition() {
-        return super.getPosition();
+    public void left() {
+        this.position = position.decreaseRow(1);
+    }
+
+    @Override
+    public void down() {
+        this.position = position.increaseColumn(1);
+    }
+
+    @Override
+    public void right() {
+        this.position = position.increaseRow(1);
     }
 
     @Override

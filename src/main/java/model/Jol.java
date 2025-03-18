@@ -9,8 +9,18 @@ public class Jol extends Piece{
     }
 
     @Override
-    public Position getPosition() {
-        return super.getPosition();
+    public void up() {
+        this.position = position.decreaseColumn(1);
+    }
+
+    @Override
+    public void left() {
+        this.position = position.decreaseRow(1);
+    }
+
+    @Override
+    public void right() {
+        this.position = position.increaseRow(1);
     }
 
     @Override
