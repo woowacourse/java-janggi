@@ -35,4 +35,19 @@ public class Ma implements Movable {
     public static List<Ma> values() {
         return new ArrayList<>(mas);
     }
+
+    public boolean isMovable(Point targetPoint) {
+        List<Point> candidates = List.of(
+                point.move(-2, 1),
+                point.move(-1, 2),
+                point.move(1, 2),
+                point.move(2, 1),
+                point.move(2, -1),
+                point.move(1, -2),
+                point.move(-1, -2),
+                point.move(-2, -1)
+        );
+
+        return candidates.contains(targetPoint);
+    }
 }
