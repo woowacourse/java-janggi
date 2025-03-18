@@ -67,4 +67,22 @@ public class GeneralTest {
         Assertions.assertThatThrownBy(() -> general.move(x, y-2))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    @DisplayName("장군은 왼쪽으로 한 칸 이동할 수 있다.")
+    void test5() {
+        // given
+        int x = 1;
+        int y = 0;
+        General general = new General(x, y);
+
+        Position expectedPosition = new Position(x-1, y);
+
+        // when
+        general.move(x-1, y);
+
+        // then
+        Assertions.assertThat(general.position())
+                .isEqualTo(expectedPosition);
+    }
 }
