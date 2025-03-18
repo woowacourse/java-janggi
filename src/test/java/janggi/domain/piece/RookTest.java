@@ -14,7 +14,7 @@ class RookTest {
     void 이동하고자_하는_x_y좌표가_현재_x_y좌표와_모두_다르면_움직일_수_없다(int x, int y, int moveX, int moveY) {
         Rook rook = new Rook(Side.CHO, new Position(x, y));
 
-        assertThat(rook.isMoveable(moveX, moveY)).isFalse();
+        assertThat(rook.isMoveablePosition(moveX, moveY)).isFalse();
     }
 
     @ParameterizedTest
@@ -22,6 +22,6 @@ class RookTest {
     void 이동하고자_하는_x_y좌표가_현재_x_y좌표와_하나만_다르면_움직일_수_있다(int x, int y, int moveX, int moveY) {
         Rook rook = new Rook(Side.CHO, new Position(x, y));
 
-        assertThat(rook.isMoveable(moveX, moveY)).isTrue();
+        assertThat(rook.isMoveablePosition(moveX, moveY)).isTrue();
     }
 }

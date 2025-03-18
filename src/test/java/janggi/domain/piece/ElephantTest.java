@@ -20,7 +20,7 @@ class ElephantTest {
 
         Elephant elephant = new Elephant(Side.CHO, new Position(x, y));
 
-        assertThat(elephant.isMoveable(moveX, moveY)).isFalse();
+        assertThat(elephant.isMoveablePosition(moveX, moveY)).isFalse();
     }
 
     @ParameterizedTest
@@ -34,7 +34,7 @@ class ElephantTest {
 
         Elephant elephant = new Elephant(Side.CHO, new Position(x, y));
 
-        assertThat(elephant.isMoveable(moveX, moveY)).isTrue();
+        assertThat(elephant.isMoveablePosition(moveX, moveY)).isTrue();
     }
 
     @ParameterizedTest
@@ -48,7 +48,7 @@ class ElephantTest {
 
         Elephant elephant = new Elephant(Side.CHO, new Position(x, y));
 
-        assertThat(elephant.isMoveable(moveX, moveY)).isFalse();
+        assertThat(elephant.isMoveablePosition(moveX, moveY)).isFalse();
     }
 
     @ParameterizedTest
@@ -62,6 +62,6 @@ class ElephantTest {
 
         Elephant elephant = new Elephant(Side.CHO, new Position(x, y));
 
-        assertThat(elephant.isMoveable(moveX, moveY)).isTrue();
+        assertThat(elephant.isMoveablePosition(moveX, moveY)).isTrue();
     }
 }

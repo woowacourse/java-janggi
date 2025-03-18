@@ -3,6 +3,8 @@ package janggi.domain.piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
 
+import java.util.List;
+
 public abstract class Piece {
 
     private final Side side;
@@ -21,15 +23,18 @@ public abstract class Piece {
         return position;
     }
 
-    public void move(int x, int y) {
-        validateMovable(x, y);
+    public void move(List<Piece> existingPieces, int x, int y) {
+        validateMovable(existingPieces, x, y);
         position = position.moveTo(x, y);
     }
 
-    private void validateMovable(int x, int y) {
+    private void validateMovable(List<Piece> existingPieces, int x, int y) {
         validateSamePosition(x, y);
-        if (!isMoveable(x, y)) {
+        if (!isMoveablePosition(x, y)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
+        }
+        if (!isMoveablePath(existingPieces, x, y)) {
+            throw new IllegalArgumentException("불가능한 경로입니다.");
         }
     }
 
@@ -39,5 +44,7 @@ public abstract class Piece {
         }
     }
 
-    protected abstract boolean isMoveable(int x, int y);
+    protected abstract boolean isMoveablePosition(int x, int y);
+
+    protected abstract boolean isMoveablePath(List<Piece> existingPieces, int x, int y);
 }
