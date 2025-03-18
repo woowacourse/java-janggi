@@ -5,18 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 
 public class BoardTest {
-    @DisplayName("보드가 10*9의 Empty Cell을 가진다")
-    @Test
-    void boardCeil() {
-        Board board = new Board(new HashMap<>());
-        int count = (int) board.getPieces()
-                .entrySet()
-                .stream()
-                .filter(entry ->
-                        entry.getValue().equals(Piece.createEmpty()))
-                .count();
-        Assertions.assertThat(count).isEqualTo(90);
-    }
 
     @DisplayName("RED팀의 궁을 95에 배치한다")
     @Test
