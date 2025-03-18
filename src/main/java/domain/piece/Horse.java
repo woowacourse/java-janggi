@@ -15,6 +15,17 @@ public class Horse extends Piece{
 
     @Override
     public List<Move> calculatePath(int startRow, int startColumn, int targetRow, int targetColumn) {
+        for (List<Move> moveList : moves) {
+            int newRow = startRow;
+            int newColumn = startColumn;
+            for (Move move : moveList) {
+                newRow = newRow + move.getDy();
+                newColumn = newColumn + move.getDx();
+            }
+            if(newRow == targetRow && newColumn == targetColumn) {
+                return moveList;
+            }
+        }
         return null;
     }
 }
