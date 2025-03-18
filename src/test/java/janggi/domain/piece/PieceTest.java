@@ -1,13 +1,14 @@
 package janggi.domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+
 import janggi.domain.Position;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.Side;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-
-import static org.assertj.core.api.Assertions.*;
 
 @ReplaceUnderBar
 class PieceTest {
@@ -34,8 +35,8 @@ class PieceTest {
         FakePiece piece = FakePiece.moveable(DEFAULT_SIDE, DEFAULT_POSITION);
 
         assertThatIllegalArgumentException()
-            .isThrownBy(() -> piece.move(DEFAULT_POSITION.getX(), DEFAULT_POSITION.getY()))
-            .withMessage("현재 위치로 이동할 수 없습니다.");
+                .isThrownBy(() -> piece.move(DEFAULT_POSITION.getX(), DEFAULT_POSITION.getY()))
+                .withMessage("현재 위치로 이동할 수 없습니다.");
     }
 
     @Test
@@ -43,8 +44,8 @@ class PieceTest {
         FakePiece piece = FakePiece.unMoveable(DEFAULT_SIDE, DEFAULT_POSITION);
 
         assertThatIllegalArgumentException()
-            .isThrownBy(() -> piece.move(DEFAULT_POSITION.getX() + 1, DEFAULT_POSITION.getY() + 1))
-            .withMessage("해당 위치로 이동할 수 없습니다.");
+                .isThrownBy(() -> piece.move(DEFAULT_POSITION.getX() + 1, DEFAULT_POSITION.getY() + 1))
+                .withMessage("해당 위치로 이동할 수 없습니다.");
     }
 
     private static class FakePiece extends Piece {
