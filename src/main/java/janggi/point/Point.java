@@ -16,6 +16,14 @@ public class Point {
         return new Point(this.row + rowMovingDistance, this.column + columnMovingDistance);
     }
 
+    public boolean isSameRow(Point targetPoint) {
+        return this.row == targetPoint.row;
+    }
+
+    public boolean isSameColumn(Point targetPoint) {
+        return this.column == targetPoint.column;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

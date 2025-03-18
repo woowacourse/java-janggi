@@ -35,4 +35,8 @@ public class Cha implements Movable {
     public static List<Cha> values() {
         return new ArrayList<>(chas);
     }
+
+    public boolean isMovable(Point targetPoint) {
+        return point.isSameRow(targetPoint) || point.isSameColumn(targetPoint);
+    }
 }
