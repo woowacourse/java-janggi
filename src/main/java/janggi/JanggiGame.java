@@ -1,23 +1,18 @@
 package janggi;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class JanggiGame {
-    private final List<Piece> choPieces = new ArrayList<>();
-    private final List<Piece> hanPieces = new ArrayList<>();
 
-    public JanggiGame(AssignType choAssignType, AssignType hanAssignType) {
-        choPieces.addAll(choAssignType.makeAssign(CampType.CHO));
-        hanPieces.addAll(hanAssignType.makeAssign(CampType.HAN));
+    private final InputView inputView;
+    private final OutputView outputView;
+
+    public JanggiGame(final InputView inputView, final OutputView outputView) {
+        this.inputView = inputView;
+        this.outputView = outputView;
     }
 
-    public List<Piece> getChoPieces() {
-        return Collections.unmodifiableList(choPieces);
+    public void start() {
+
     }
 
-    public List<Piece> getHanPieces() {
-        return Collections.unmodifiableList(hanPieces);
-    }
+
 }

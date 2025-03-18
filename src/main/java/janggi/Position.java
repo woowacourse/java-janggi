@@ -3,6 +3,7 @@ package janggi;
 import java.util.Objects;
 
 public final class Position {
+
     private final int x;
     private final int y;
 
@@ -10,6 +11,7 @@ public final class Position {
         this.x = x;
         this.y = y;
     }
+
 
     @Override
     public String toString() {

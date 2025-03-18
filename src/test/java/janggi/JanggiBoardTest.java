@@ -11,17 +11,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class JanggiGameTest {
+public class JanggiBoardTest {
 
     @DisplayName("초의 마 초기배치를 할 수 있다.")
     @ParameterizedTest
     @MethodSource()
     void test1(AssignType assignType, List<Position> maPositions) {
         //given
-        JanggiGame janggiGame = new JanggiGame(assignType, AssignType.LEFT_TOP);
+        JanggiBoard janggiBoard = new JanggiBoard(assignType, AssignType.LEFT_TOP);
 
         //when
-        List<Piece> choWorldPieces = janggiGame.getChoPieces();
+        List<Piece> choWorldPieces = janggiBoard.getChoPieces();
 
         List<Position> maPiecePositions = choWorldPieces.stream()
                 .filter(piece -> piece.getPieceType() == PieceType.MA)
@@ -46,10 +46,10 @@ public class JanggiGameTest {
     @MethodSource()
     void test2(AssignType assignType, List<Position> sangPositions) {
         //given
-        JanggiGame janggiGame = new JanggiGame(assignType, AssignType.LEFT_TOP);
+        JanggiBoard janggiBoard = new JanggiBoard(assignType, AssignType.LEFT_TOP);
 
         //when
-        List<Piece> choWorldPieces = janggiGame.getChoPieces();
+        List<Piece> choWorldPieces = janggiBoard.getChoPieces();
 
         List<Position> sangPiecePositions = choWorldPieces.stream()
                 .filter(piece -> piece.getPieceType() == PieceType.SANG)
@@ -74,10 +74,10 @@ public class JanggiGameTest {
     @MethodSource()
     void test3(AssignType assignType, List<Position> maPositions) {
         //given
-        JanggiGame janggiGame = new JanggiGame(AssignType.RIGHT_TOP, assignType);
+        JanggiBoard janggiBoard = new JanggiBoard(AssignType.RIGHT_TOP, assignType);
 
         //when
-        List<Piece> hanWorldPieces = janggiGame.getHanPieces();
+        List<Piece> hanWorldPieces = janggiBoard.getHanPieces();
 
         List<Position> maPiecePositions = hanWorldPieces.stream()
                 .filter(piece -> piece.getPieceType() == PieceType.MA)
@@ -102,10 +102,10 @@ public class JanggiGameTest {
     @MethodSource()
     void test4(AssignType assignType, List<Position> sangPositions) {
         //given
-        JanggiGame janggiGame = new JanggiGame(AssignType.RIGHT_TOP, assignType);
+        JanggiBoard janggiBoard = new JanggiBoard(AssignType.RIGHT_TOP, assignType);
 
         //when
-        List<Piece> hanWorldPieces = janggiGame.getHanPieces();
+        List<Piece> hanWorldPieces = janggiBoard.getHanPieces();
 
         List<Position> sangPiecePositions = hanWorldPieces.stream()
                 .filter(piece -> piece.getPieceType() == PieceType.SANG)
@@ -129,10 +129,10 @@ public class JanggiGameTest {
     @Test
     void test5() {
         //given
-        JanggiGame janggiGame = new JanggiGame(AssignType.RIGHT_TOP, AssignType.RIGHT_TOP);
+        JanggiBoard janggiBoard = new JanggiBoard(AssignType.RIGHT_TOP, AssignType.RIGHT_TOP);
 
         //when
-        List<Piece> hanWorldPieces = janggiGame.getHanPieces();
+        List<Piece> hanWorldPieces = janggiBoard.getHanPieces();
 
         getPositions(PieceType.CHA, PiecePositionFixture.CHA_POSITIONS, hanWorldPieces);
         getPositions(PieceType.GUNG, PiecePositionFixture.GUNG_POSITIONS, hanWorldPieces);
