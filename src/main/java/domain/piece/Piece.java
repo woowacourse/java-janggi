@@ -1,4 +1,6 @@
-package domain;
+package domain.piece;
+
+import domain.Team;
 
 public abstract class Piece {
 
@@ -9,4 +11,8 @@ public abstract class Piece {
     }
 
     protected abstract boolean canMove(int startRow, int startColumn, int targetRow, int targetColumn);
+
+    public Team getTeam() {
+        return team;
+    }
 }
