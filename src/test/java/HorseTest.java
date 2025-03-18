@@ -18,4 +18,14 @@ public class HorseTest {
 
         Assertions.assertThat(moves).isEqualTo(expected);
     }
+
+    @DisplayName("마로 갈 수 없는 위치일 경우 예외를 발생시킨다")
+    @Test
+    void test2() {
+        Horse horse = new Horse(Team.RED);
+
+        Assertions.assertThatThrownBy(() -> horse.calculatePath(4, 4, 4, 5))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이 위치로 이동할 수 없습니다.");
+    }
 }
