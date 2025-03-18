@@ -16,4 +16,20 @@ public record Position(int x, int y) {
             throw new IllegalArgumentException("장기판 밖으로는 이동할 수 없습니다.");
         }
     }
+
+    public Position up(int changeValue) {
+        return new Position(x, y + changeValue);
+    }
+
+    public Position down(int changeValue) {
+        return new Position(x, y - changeValue);
+    }
+
+    public Position left(int changeValue) {
+        return new Position(x - changeValue, y);
+    }
+
+    public Position right(int changeValue) {
+        return new Position(x + changeValue, y);
+    }
 }
