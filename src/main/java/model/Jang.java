@@ -17,4 +17,11 @@ public class Jang extends Piece {
         return IntStream.range(0, horizontal.size())
                 .anyMatch(i -> horizontal.get(i) + beforeX == afterX && vertical.get(i) + beforeY == afterY);
     }
+
+    @Override
+    public Path calculatePath(int beforeX, int beforeY, int afterX, int afterY) {
+        Path path = new Path();
+        path.addPoint(new Point(afterX, afterY));
+        return path;
+    }
 }
