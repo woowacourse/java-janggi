@@ -8,6 +8,7 @@ public class 졸병 extends Piece {
         this.side = side;
     }
 
+    @Override
     public boolean canMove(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
         if (side == Side.초) {
             return (Math.abs(beforeColumn - afterColumn) == 1 && beforeRow == afterRow) || (afterRow - beforeRow == -1

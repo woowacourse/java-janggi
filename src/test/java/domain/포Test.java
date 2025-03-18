@@ -13,9 +13,10 @@ class 포Test {
         포 piece = new 포();
         int beforeRow = 7;
         int beforeColumn = 5;
+        piece.setHurdle(hurdleRow, hurdleColumn);
 
         // when & then
-        Assertions.assertThat(piece.canMove(hurdleRow, hurdleColumn, beforeRow, beforeColumn, afterRow, afterColumn))
+        Assertions.assertThat(piece.canMove(beforeRow, beforeColumn, afterRow, afterColumn))
                 .isTrue();
     }
 
@@ -26,9 +27,10 @@ class 포Test {
         포 piece = new 포();
         int beforeRow = 7;
         int beforeColumn = 5;
+        piece.setHurdle(hurdleRow, hurdleColumn);
 
         // when & then
-        Assertions.assertThat(piece.canMove(hurdleRow, hurdleColumn, beforeRow, beforeColumn, afterRow, afterColumn))
+        Assertions.assertThat(piece.canMove(beforeRow, beforeColumn, afterRow, afterColumn))
                 .isFalse();
     }
 
