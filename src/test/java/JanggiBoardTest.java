@@ -1,4 +1,5 @@
 import domain.JanggiBoard;
+import domain.Piece;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,7 @@ public class JanggiBoardTest {
     void test() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard();
-        int[][] board = janggiBoard.getBoard();
+        Piece[][] board = janggiBoard.getBoard();
         int column = board[0].length;
         int row = board.length;
         //when &then

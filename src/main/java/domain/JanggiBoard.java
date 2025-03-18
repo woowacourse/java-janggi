@@ -2,9 +2,9 @@ package domain;
 
 public class JanggiBoard {
 
-    private final int[][] board = new int[9][10];
+    private final Piece[][] board = new Piece[9][10];
 
-    public int[][] getBoard() {
+    public Piece[][] getBoard() {
         return board;
     }
 }
