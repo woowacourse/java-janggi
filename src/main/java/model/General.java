@@ -13,25 +13,25 @@ public class General extends Piece{
     @Override
     public void up(int moveAmount) {
         validateMoveAmount(moveAmount);
-        this.position = position.decreaseColumn(CAN_MOVE_AMOUNT);
+        this.position = position.changeColumn(moveAmount);
     }
 
     @Override
     public void left(int moveAmount) {
         validateMoveAmount(moveAmount);
-        this.position = position.decreaseRow(CAN_MOVE_AMOUNT);
+        this.position = position.changeRow(moveAmount);
     }
 
     @Override
     public void down(int moveAmount) {
         validateMoveAmount(moveAmount);
-        this.position = position.increaseColumn(CAN_MOVE_AMOUNT);
+        this.position = position.changeColumn(moveAmount);
     }
 
     @Override
     public void right(int moveAmount) {
         validateMoveAmount(moveAmount);
-        this.position = position.increaseRow(CAN_MOVE_AMOUNT);
+        this.position = position.changeRow(moveAmount);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class General extends Piece{
     }
 
     private void validateMoveAmount(int amount) {
-        if (amount != CAN_MOVE_AMOUNT) {
+        if (Math.abs(amount) != CAN_MOVE_AMOUNT) {
             throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
         }
     }

@@ -33,6 +33,26 @@ public class AbstractMove implements Move{
     }
 
     @Override
+    public void diagonalLeftUp() {
+        throw new UnsupportedOperationException("해당 기물이 이동할 수 없는 방향입니다.");
+    }
+
+    @Override
+    public void diagonalLeftDown() {
+        throw new UnsupportedOperationException("해당 기물이 이동할 수 없는 방향입니다.");
+    }
+
+    @Override
+    public void diagonalRightUp() {
+        throw new UnsupportedOperationException("해당 기물이 이동할 수 없는 방향입니다.");
+    }
+
+    @Override
+    public void diagonalRightDown() {
+        throw new UnsupportedOperationException("해당 기물이 이동할 수 없는 방향입니다.");
+    }
+
+    @Override
     public void diagonalDownLeft() {
         throw new UnsupportedOperationException("해당 기물이 이동할 수 없는 방향입니다.");
     }

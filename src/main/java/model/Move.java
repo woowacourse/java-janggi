@@ -8,6 +8,10 @@ public interface Move {
     void right(int moveAmount);
     void diagonalUpLeft();
     void diagonalUpRight();
+    void diagonalLeftUp();
+    void diagonalLeftDown();
+    void diagonalRightUp();
+    void diagonalRightDown();
     void diagonalDownLeft();
     void diagonalDownRight();
 }

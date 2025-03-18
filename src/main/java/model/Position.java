@@ -21,20 +21,16 @@ public class Position {
         }
     }
 
-    public Position increaseColumn(int moveColumnAmount) {
+    public Position changeColumnAndRow(int moveColumnAmount, int moveRowAmount) {
+        return new Position(this.column + moveColumnAmount, this.row + moveRowAmount);
+    }
+
+    public Position changeColumn(int moveColumnAmount) {
         return new Position(this.column + moveColumnAmount, this.row);
     }
 
-    public Position decreaseColumn(int moveColumnAmount) {
-        return new Position(this.column - moveColumnAmount, this.row);
-    }
-
-    public Position increaseRow(int moveRowAmount) {
+    public Position changeRow(int moveRowAmount) {
         return new Position(this.column, this.row + moveRowAmount);
-    }
-
-    public Position decreaseRow(int moveColumnAmount) {
-        return new Position(this.column, this.row - moveColumnAmount);
     }
 
     @Override
