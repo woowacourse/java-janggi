@@ -20,6 +20,14 @@ public final class Point {
         return this.y == otherPoint.y;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     @Override
     public boolean equals(Object otherPoint) {
         if (otherPoint == null || getClass() != otherPoint.getClass()) {
