@@ -37,6 +37,7 @@ public class JanggiBoard {
 
     public void move(int startRow, int startColumn, int targetRow, int targetColumn) {
         Piece piece = findPiece(startRow, startColumn);
+
         List<Move> moves = piece.calculatePath(startRow, startColumn, targetRow, targetColumn);
         int row = startRow;
         int column = startColumn;

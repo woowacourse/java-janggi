@@ -53,4 +53,9 @@ public class Chariot extends Piece {
         }
         return moves;
     }
+
+    @Override
+    public boolean isCanon() {
+        return false;
+    }
 }

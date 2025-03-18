@@ -23,5 +23,10 @@ public class King extends Piece {
         throw new IllegalArgumentException("이 위치로 이동할 수 없습니다.");
     }
 
+    @Override
+    public boolean isCanon() {
+        return false;
+    }
+
 
 }

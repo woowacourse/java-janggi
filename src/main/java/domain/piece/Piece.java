@@ -13,6 +13,8 @@ public abstract class Piece {
 
     public abstract List<Move> calculatePath(int startRow, int startColumn, int targetRow, int targetColumn);
 
+    public abstract boolean isCanon();
+
     public Team getTeam() {
         return team;
     }

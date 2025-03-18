@@ -31,6 +31,11 @@ public class Elephant extends Piece{
         throw new IllegalArgumentException("이 위치로 이동할 수 없습니다.");
     }
 
+    @Override
+    public boolean isCanon() {
+        return false;
+    }
+
     private boolean comparePath(int startRow, int startColumn, int targetRow, int targetColumn, List<Move> moveList) {
         int newRow = startRow;
         int newColumn = startColumn;
