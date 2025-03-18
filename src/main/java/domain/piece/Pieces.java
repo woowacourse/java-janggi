@@ -1,5 +1,6 @@
 package domain.piece;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Pieces {
@@ -8,5 +9,9 @@ public class Pieces {
 
     public Pieces(final List<Piece> pieces) {
         this.pieces = pieces;
+    }
+
+    public List<Piece> getPieces() {
+        return Collections.unmodifiableList(pieces);
     }
 }
