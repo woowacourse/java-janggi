@@ -21,6 +21,10 @@ public class PiecePosition {
         return piece.isSameSide(side);
     }
 
+    public void move(Position movePosition){
+
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(position, piece);

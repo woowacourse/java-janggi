@@ -11,7 +11,7 @@ public interface PieceBehavior {
      * 현재 위치에서 움직일 수 있는 Position을 전달한다.
      **/
 
-    List<Position> generateMovePosition(Position position);
+    List<Position> generateMovePosition(Side side, Position position);
 
 
 }

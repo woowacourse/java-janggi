@@ -11,7 +11,7 @@ public class Guard implements PieceBehavior {
     }
 
     @Override
-    public List<Position> generateMovePosition(Position position) {
+    public List<Position> generateMovePosition(Side side, Position position) {
         return List.of();
     }
 }

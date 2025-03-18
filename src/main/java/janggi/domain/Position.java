@@ -1,7 +1,9 @@
 package janggi.domain;
 
 import janggi.common.ErrorMessage;
+import janggi.domain.piece.Vector;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Position {
 
@@ -15,9 +17,13 @@ public class Position {
     }
 
     private void validate(int row, int column) {
-        if (row <= 0 || row > 10 || column <= 0 || column > 9) {
+        if (!isValid(row, column)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_BOARD_POSITION.getMessage());
         }
+    }
+
+    private boolean isValid(int row, int column) {
+        return row > 0 && row <= 10 && column > 0 && column <= 9;
     }
 
     public void update(int row, int column) {
@@ -28,6 +34,16 @@ public class Position {
 
     public Position diff(Position comparePosition) {
         return new Position(comparePosition.row - this.row, comparePosition.column - this.column);
+    }
+
+    public Optional<Position> calculate(Vector vector) {
+        int newRow = this.row + vector.y();
+        int newColumn = this.column + vector.x();
+
+        if (isValid(newRow, newColumn)) {
+            return Optional.of(new Position(newRow, newColumn));
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -43,4 +59,13 @@ public class Position {
         Position position = (Position) o;
         return row == position.row && column == position.column;
     }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
 }
