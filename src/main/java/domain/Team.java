@@ -13,7 +13,7 @@ public enum Team {
         this.direction = direction;
     }
 
-    int applyDirection(int distance) {
+    public int applyDirection(int distance) {
         return direction.apply(distance);
     }
 }

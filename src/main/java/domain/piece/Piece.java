@@ -47,4 +47,12 @@ public class Piece {
     public int hashCode() {
         return Objects.hash(coordinate, team);
     }
+
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "coordinate=" + coordinate +
+                ", team=" + team +
+                '}';
+    }
 }
