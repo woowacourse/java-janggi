@@ -36,5 +36,9 @@ public class Ma implements Piece {
     public JanggiCoordinate movePosition(JanggiCoordinate moveOffset) {
         return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
     }
+
     @Override
+    public Team getTeam() {
+        return team;
+    }
 }

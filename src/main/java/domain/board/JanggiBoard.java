@@ -11,7 +11,17 @@ public final class JanggiBoard {
     public JanggiBoard() {
         board = new HashMap<>();
     }
+
+    public boolean hasPiece(JanggiCoordinate coordinate){
+        return board.containsKey(coordinate);
+    }
+
     public boolean isMyTeam(JanggiCoordinate originCoordinate,JanggiCoordinate coordinate){
+        if(hasPiece(coordinate) && board.get(originCoordinate).getTeam() == board.get(coordinate).getTeam()){
+            return true;
+        }
+        return false;
+    }
 
     public boolean isOutOfBoundary(int row, int col) {
         if (row < 1 || row > 9) {
