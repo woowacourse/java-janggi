@@ -8,7 +8,7 @@ public class 차Test {
 
     @ParameterizedTest
     @CsvSource({"5, 1", "0, 9", "1, 1", "0, 2"})
-    void 상_하_좌_우로_여러_칸_이동할_수_있다(int afterRow, int afterColumn) {
+    void 수직_수평으로_이동할_수_있다(int afterRow, int afterColumn) {
         // given
         차 piece = new 차();
         int beforeRow = 0;
@@ -21,7 +21,7 @@ public class 차Test {
 
     @ParameterizedTest
     @CsvSource({"9, 2", "5, 8"})
-    void 상_하_좌_우가_아닌_경우_이동할_수_없다(int afterRow, int afterColumn) {
+    void 수직_수평이_아닌_경우_이동할_수_없다(int afterRow, int afterColumn) {
         // given
         차 piece = new 차();
         int beforeRow = 0;
