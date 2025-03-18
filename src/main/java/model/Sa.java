@@ -3,9 +3,9 @@ package model;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class Jang extends Piece {
+public class Sa extends Piece{
 
-    public Jang(String team) {
+    public Sa(String team) {
         super(team);
     }
 
