@@ -1,30 +1,31 @@
-package janggi.domain;
+package janggi.domain.board;
 
+import janggi.domain.Dynasty;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Knight;
 import janggi.domain.piece.Piece;
 import java.util.Map;
 
 public enum ChuBoardSetUp implements BoardSetUp {
-    INNER_ELEPHAN(Map.of(
+    INNER_ELEPHANT(Map.of(
             new Point(10, 2), new Knight(Dynasty.CHU),
             new Point(10, 3), new Elephant(Dynasty.CHU),
             new Point(10, 7), new Elephant(Dynasty.CHU),
             new Point(10, 8), new Knight(Dynasty.CHU)
     )),
-    OUTER_ELEPHAN(Map.of(
+    OUTER_ELEPHANT(Map.of(
             new Point(10, 2), new Elephant(Dynasty.CHU),
             new Point(10, 3), new Knight(Dynasty.CHU),
             new Point(10, 7), new Knight(Dynasty.CHU),
             new Point(10, 8), new Elephant(Dynasty.CHU)
     )),
-    RIGHT_ELEPHAN(Map.of(
+    RIGHT_ELEPHANT(Map.of(
             new Point(10, 2), new Knight(Dynasty.CHU),
             new Point(10, 3), new Elephant(Dynasty.CHU),
             new Point(10, 7), new Knight(Dynasty.CHU),
             new Point(10, 8), new Elephant(Dynasty.CHU)
     )),
-    LEFT_ELEPHAN(Map.of(
+    LEFT_ELEPHANT(Map.of(
             new Point(10, 2), new Elephant(Dynasty.CHU),
             new Point(10, 3), new Knight(Dynasty.CHU),
             new Point(10, 7), new Elephant(Dynasty.CHU),

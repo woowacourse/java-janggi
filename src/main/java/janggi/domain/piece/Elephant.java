@@ -1,9 +1,11 @@
 package janggi.domain.piece;
 
 import janggi.domain.Dynasty;
+import janggi.domain.board.JanggiBoard;
+import janggi.domain.board.Point;
 import java.util.Objects;
 
-public class Elephant implements Piece{
+public class Elephant implements Piece {
 
     private final Dynasty dynasty;
 
@@ -13,6 +15,11 @@ public class Elephant implements Piece{
 
     @Override
     public boolean isSameDynasty(Dynasty dynasty) {
+        return this.dynasty == dynasty;
+    }
+
+    @Override
+    public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
         return false;
     }
 

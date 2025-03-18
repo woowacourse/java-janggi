@@ -1,6 +1,8 @@
 package janggi.domain.piece;
 
 import janggi.domain.Dynasty;
+import janggi.domain.board.JanggiBoard;
+import janggi.domain.board.Point;
 import java.util.Objects;
 
 public class King implements Piece {
@@ -9,6 +11,12 @@ public class King implements Piece {
 
     public King(Dynasty dynasty) {
         this.dynasty = dynasty;
+    }
+
+    @Override
+    public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
+
+        return false;
     }
 
     @Override

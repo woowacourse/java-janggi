@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.board;
 
 import janggi.domain.piece.Piece;
 import java.util.Map;

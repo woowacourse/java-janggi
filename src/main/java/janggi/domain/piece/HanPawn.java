@@ -1,6 +1,8 @@
 package janggi.domain.piece;
 
 import janggi.domain.Dynasty;
+import janggi.domain.board.JanggiBoard;
+import janggi.domain.board.Point;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -36,6 +38,11 @@ public class HanPawn extends Pawn {
     @Override
     public boolean isSameDynasty(Dynasty dynasty) {
         return DYNASTY == dynasty;
+    }
+
+    @Override
+    public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
+        return false;
     }
 
     @Override
