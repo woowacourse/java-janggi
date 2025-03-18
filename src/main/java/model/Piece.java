@@ -12,4 +12,6 @@ public abstract class Piece {
     }
 
     public abstract boolean canMove(int beforeX, int beforeY, int afterX, int afterY);
+
+    public abstract Path calculatePath(int beforeX, int beforeY, int afterX, int afterY);
 }
