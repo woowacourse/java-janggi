@@ -2,8 +2,10 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import board.Position;
 import java.util.Arrays;
 import java.util.List;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -35,6 +37,20 @@ public class PieceTypeTest {
                     .hasSize(7);
         }
 
+        @DisplayName("각 피스 타입이 초기 좌표를 가지고 있는 지 확인한다.")
+        @Test
+        void getInitPositions() {
+            // given
+            final int expectedSize = 2;
+            final PieceType pieceType = PieceType.CANNON;
+            final TeamType teamType = TeamType.RED;
+
+            // when
+            final List<Position> initPositions = pieceType.getInitPositions(teamType);
+
+            // then
+            Assertions.assertThat(initPositions).hasSize(expectedSize);
+        }
     }
 
 }
