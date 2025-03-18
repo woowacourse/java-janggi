@@ -10,7 +10,7 @@ public class General {
 
     public void move(int x, int y) {
         validateVerticalRange(y);
-        if(position.x() - 1 > x) {
+        if(position.x() - MAXIMUM_MOVEMENT_LIMIT > x) {
             throw new IllegalArgumentException();
         }
         this.position = new Position(x, y);
