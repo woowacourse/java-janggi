@@ -26,7 +26,7 @@ public class BoardTest {
     @DisplayName("기물들을 초기화 한다.")
     void test2() {
         //given
-        final ChessPosition chessPosition = new ChessPosition(0, 0);
+        final ChessPosition chessPosition = new ChessPosition(3, 0);
         //when
         final Board board = Board.initialize();
         final Map<ChessPosition, ChessPiece> chessPieces = board.getChessPieces();
