@@ -1,7 +1,9 @@
 import static org.assertj.core.api.Assertions.*;
 
+import move.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import piece.General;
 
 public class GeneralTest {
 
@@ -16,7 +18,7 @@ public class GeneralTest {
         Position expectedPosition = new Position(x, y+1);
 
         // when
-        general.move(x, y+1);
+        general.move(new Position(x, y+1));
 
         // then
         assertThat(general.position())
@@ -33,7 +35,7 @@ public class GeneralTest {
 
         // when
         // then
-        assertThatThrownBy(() -> general.move(x, y+2))
+        assertThatThrownBy(() -> general.move(new Position(x, y+2)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -48,7 +50,7 @@ public class GeneralTest {
         Position expectedPosition = new Position(x, y-1);
 
         // when
-        general.move(x, y-1);
+        general.move(new Position(x, y-1));
 
         // then
         assertThat(general.position())
@@ -65,7 +67,7 @@ public class GeneralTest {
 
         // when
         // then
-        assertThatThrownBy(() -> general.move(x, y-2))
+        assertThatThrownBy(() -> general.move(new Position(x, y-2)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -80,7 +82,7 @@ public class GeneralTest {
         Position expectedPosition = new Position(x-1, y);
 
         // when
-        general.move(x-1, y);
+        general.move(new Position(x-1, y));
 
         // then
         assertThat(general.position())
@@ -97,7 +99,7 @@ public class GeneralTest {
 
         // when
         // then
-        assertThatThrownBy(() -> general.move(x-2, y))
+        assertThatThrownBy(() -> general.move(new Position(x-2, y)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -112,7 +114,7 @@ public class GeneralTest {
         Position expectedPosition = new Position(x+1, y);
 
         // when
-        general.move(x+1, y);
+        general.move(new Position(x+1, y));
 
         // then
         assertThat(general.position())
@@ -129,7 +131,7 @@ public class GeneralTest {
 
         // when
         // then
-        assertThatThrownBy(() -> general.move(x+2, y))
+        assertThatThrownBy(() -> general.move(new Position(x+2, y)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }
