@@ -1,7 +1,5 @@
 package domain;
 
 public interface Coordinate {
-    Coordinate moveForward();
-
-    Coordinate moveDiagonal();
+    Coordinate move(int increaseRow, int increaseCol);
 }

@@ -7,30 +7,20 @@ import org.junit.jupiter.api.Test;
 
 
 class JanggiCoordinateTest {
+
     @Nested
-    class CoordinateMoveTest{
-        @DisplayName("좌표를 한칸 움직인다")
+    class CoordinateMoveTest {
+        
+        @DisplayName("좌표를 원하는 만큼 움직인다")
         @Test
-        void coordinateMoveForward(){
+        void coordinateMoveForward() {
             int row = 5;
             int col = 5;
-            Coordinate currPosition = new JanggiCoordinate(row,col);
+            Coordinate currPosition = new JanggiCoordinate(row, col);
 
-            Coordinate next = currPosition.moveForward();
+            Coordinate next = currPosition.move(1, 1);
 
-            Assertions.assertThat(next).isEqualTo(new JanggiCoordinate(row + 1, col));
-        }
-
-        @DisplayName("좌표를 대각선으로 한칸 움직인다")
-        @Test
-        void coordinateMoveDiagonal(){
-            int row = 5;
-            int col = 5;
-            Coordinate currPosition = new JanggiCoordinate(row,col);
-
-            Coordinate next = currPosition.moveDiagonal();
-
-            Assertions.assertThat(next).isEqualTo(new JanggiCoordinate(row + 1, col+1));
+            Assertions.assertThat(next).isEqualTo(new JanggiCoordinate(row + 1, col + 1));
         }
     }
 }
