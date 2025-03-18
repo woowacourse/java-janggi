@@ -55,4 +55,22 @@ class SoldierTest {
         // then
         assertThat(actual).isEqualTo(expected);
     }
+
+    @Test
+    @DisplayName("주위 칸에 아군이 있으면 이동할 수 없다.")
+    void canMoveSoldier2() {
+        // given
+        Position movePosition = Position.of(2,1);
+        Position position = Position.of(2,1);
+        Piece solider1 = new Soldier(position,TeamType.CHO);
+
+        Position currentPosition = Position.of(1, 1);
+        Piece solider2 = new Soldier(currentPosition, TeamType.CHO);
+
+        // when
+        boolean actual = solider2.canMove(movePosition, List.of(solider1));
+
+        // then
+        assertThat(actual).isFalse();
+    }
 }

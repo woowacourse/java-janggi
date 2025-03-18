@@ -4,7 +4,7 @@ import java.util.List;
 
 public abstract class Piece {
     protected Position position;
-    private final TeamType teamType;
+    protected final TeamType teamType;
 
     protected Piece(Position position, TeamType teamType) {
         this.position = position;
@@ -13,6 +13,14 @@ public abstract class Piece {
 
     public void moveTo(Position position){
         this.position = position;
+    }
+
+    public boolean hasSamePosition(Position position){
+        return this.position.equals(position);
+    }
+
+    public boolean isSameTeam(Piece piece){
+        return this.teamType.equals(piece.teamType);
     }
 
     public abstract boolean canMove(Position position, List<Piece> pieces);
