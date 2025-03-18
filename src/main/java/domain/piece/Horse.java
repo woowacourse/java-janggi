@@ -26,6 +26,6 @@ public class Horse extends Piece{
                 return moveList;
             }
         }
-        return null;
+        throw new IllegalArgumentException("이 위치로 이동할 수 없습니다.");
     }
 }
