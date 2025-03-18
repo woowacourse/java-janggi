@@ -43,4 +43,11 @@ public class Sa {
     public int hashCode() {
         return Objects.hashCode(piece);
     }
+
+    @Override
+    public String toString() {
+        return "Sa{" +
+                "piece=" + piece +
+                '}';
+    }
 }
