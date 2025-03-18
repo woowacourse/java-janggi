@@ -64,5 +64,32 @@ public class SangTest {
 
             assertThat(sang.calculatePath(0, 0, 2, 3).contains(point)).isTrue();
         }
+
+        @Test
+        @DisplayName("중간 경유지 포함 여부 테스트_1")
+        public void test4() {
+            Sang sang = new Sang("red");
+            Point point = new Point(0, -1);    // 중간 경유지
+
+            assertThat(sang.calculatePath(0, 0, -2, -3).contains(point)).isTrue();
+        }
+
+        @Test
+        @DisplayName("중간 경유지 포함 여부 테스트_2")
+        public void test5() {
+            Sang sang = new Sang("red");
+            Point point = new Point(-1, -2);    // 중간 경유지
+
+            assertThat(sang.calculatePath(0, 0, -2, -3).contains(point)).isTrue();
+        }
+
+        @Test
+        @DisplayName("종점 포함 여부 테스트")
+        public void test6() {
+            Sang sang = new Sang("red");
+            Point point = new Point(-2, -3);
+
+            assertThat(sang.calculatePath(0, 0, -2, -3).contains(point)).isTrue();
+        }
     }
 }
