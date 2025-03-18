@@ -1,12 +1,9 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
-
-public class Chariot implements Movable {
+public class Chariot implements PieceBehavior {
 
     @Override
-    public void move(Position diffPosition) {
-
+    public String toName() {
+        return "차";
     }
-
 }

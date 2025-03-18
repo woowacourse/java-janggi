@@ -1,12 +1,9 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
-
-public class Guard implements Movable {
+public class Guard implements PieceBehavior {
 
     @Override
-    public void move(Position diffPosition) {
-
+    public String toName() {
+        return "사";
     }
-
 }

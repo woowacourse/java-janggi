@@ -1,12 +1,9 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
-
-public class Horse implements Movable {
+public class Horse implements PieceBehavior {
 
     @Override
-    public void move(Position diffPosition) {
-
+    public String toName() {
+        return "마";
     }
-
 }

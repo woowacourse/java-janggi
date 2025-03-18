@@ -1,12 +1,9 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
-
-public class Elephant implements Movable {
+public class Elephant implements PieceBehavior {
 
     @Override
-    public void move(Position diffPosition) {
-
+    public String toName() {
+        return "상";
     }
-
 }

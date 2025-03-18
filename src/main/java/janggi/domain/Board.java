@@ -1,7 +1,6 @@
 package janggi.domain;
 
 import janggi.domain.piece.PiecePosition;
-import java.util.Collections;
 import java.util.Map;
 
 public class Board {
@@ -12,7 +11,18 @@ public class Board {
         this.piecePositions = piecePositions;
     }
 
-    public Map<Position, PiecePosition> getPiecePositions() {
-        return Collections.unmodifiableMap(piecePositions);
+    public String getPieceName(int row, int column) {
+        Position position = new Position(row, column);
+
+        if (!hasPosition(position)) {
+            return "#";
+        }
+
+        return piecePositions.get(position)
+                .toName();
+    }
+
+    private boolean hasPosition(Position position) {
+        return piecePositions.containsKey(position);
     }
 }

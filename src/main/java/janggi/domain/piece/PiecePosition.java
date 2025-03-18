@@ -11,4 +11,8 @@ public class PiecePosition {
         this.position = position;
         this.piece = piece;
     }
+
+    public String toName() {
+        return piece.toName();
+    }
 }

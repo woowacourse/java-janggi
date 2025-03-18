@@ -7,7 +7,7 @@ import janggi.domain.piece.Elephant;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
 import janggi.domain.piece.Horse;
-import janggi.domain.piece.Movable;
+import janggi.domain.piece.PieceBehavior;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PiecePosition;
 import janggi.domain.piece.Side;
@@ -54,13 +54,13 @@ public enum PieceFactory {
     private final Side side;
     private int row;
     private int column;
-    private Movable movable;
+    private PieceBehavior pieceBehavior;
 
-    PieceFactory(Side side, int row, int column, Movable movable) {
+    PieceFactory(Side side, int row, int column, PieceBehavior pieceBehavior) {
         this.side = side;
         this.row = row;
         this.column = column;
-        this.movable = movable;
+        this.pieceBehavior = pieceBehavior;
     }
 
     public static Map<Position, PiecePosition> initialize() {
@@ -68,7 +68,7 @@ public enum PieceFactory {
 
         for (PieceFactory value : PieceFactory.values()) {
             Position position = new Position(value.row, value.column);
-            Piece piece = new Piece(value.side, value.movable);
+            Piece piece = new Piece(value.side, value.pieceBehavior);
             PiecePosition piecePosition = new PiecePosition(position, piece);
             map.put(position, piecePosition);
         }

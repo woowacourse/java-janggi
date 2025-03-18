@@ -1,11 +1,9 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
-
-public class Cannon implements Movable {
+public class Cannon implements PieceBehavior {
 
     @Override
-    public void move(Position diffPosition) {
-
+    public String toName() {
+        return "포";
     }
 }
