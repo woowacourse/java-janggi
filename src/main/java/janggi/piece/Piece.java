@@ -1,10 +1,9 @@
 package janggi.piece;
 
+import janggi.Board;
 import janggi.Position;
 import janggi.Score;
 import janggi.Team;
-
-import java.util.List;
 
 public abstract class Piece {
 
@@ -16,9 +15,11 @@ public abstract class Piece {
         this.team = team;
     }
 
-    public abstract List<Position> getRoute(Position destination);
-
-    public abstract Piece move(Position destination);
+    public abstract Piece move(Board board, Position destination);
 
     public abstract Score die();
+
+    public boolean isAlly(final Team team) {
+        return this.team == team;
+    }
 }

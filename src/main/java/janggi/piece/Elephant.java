@@ -1,10 +1,9 @@
 package janggi.piece;
 
+import janggi.Board;
 import janggi.Position;
 import janggi.Score;
 import janggi.Team;
-
-import java.util.List;
 
 public class Elephant extends Piece {
 
@@ -13,12 +12,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public List<Position> getRoute(final Position destination) {
-        return List.of();
-    }
-
-    @Override
-    public Piece move(final Position destination) {
+    public Piece move(final Board board, final Position destination) {
         return new Elephant(destination, team);
     }
 
