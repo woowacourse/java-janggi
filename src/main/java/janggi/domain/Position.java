@@ -1,28 +1,22 @@
 package janggi.domain;
 
-import java.util.Objects;
+record Position(int x, int y) {
 
-public class Position {
+    private static final int MIN_POSITION = 0;
+    private static final int MAX_X_POSITION = 8;
+    private static final int MAX_Y_POSITION = 9;
 
-    private final int x;
-    private final int y;
-
-    public Position(final int x, final int y) {
-        this.x = x;
-        this.y = y;
+    public Position {
+        validatePosition(x, y);
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
+    private void validatePosition(final int x, final int y) {
+        if (isInvalidPosition(x, y)) {
+            throw new IllegalArgumentException("보드를 벗어났습니다.");
         }
-        final Position position = (Position) o;
-        return x == position.x && y == position.y;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
+    private boolean isInvalidPosition(final int x, final int y) {
+        return x < MIN_POSITION || x > MAX_X_POSITION || y < MIN_POSITION || y > MAX_Y_POSITION;
     }
 }

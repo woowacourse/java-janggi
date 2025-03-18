@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,6 +22,21 @@ class PositionTest {
 
         // when & then
         assertThat(firstPosition.equals(secondPosition)).isEqualTo(expected);
+    }
+
+    @DisplayName("포지션의 유효 범위를 확인한다.")
+    @ParameterizedTest
+    @CsvSource(value = {
+            "-1, 1", "9, 1", "1, -1", "2, 10"
+    })
+    void equalTest(final int x, final int y) {
+
+        // given
+
+        // when & then
+        assertThatThrownBy(() -> new Position(x, y))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("보드를 벗어났습니다.");
     }
 
 }
