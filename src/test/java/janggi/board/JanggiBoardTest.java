@@ -1,5 +1,6 @@
 package janggi.board;
 
+import janggi.piece.Cannon;
 import janggi.piece.Elephant;
 import janggi.piece.Horse;
 import janggi.piece.Soldier;
@@ -50,5 +51,15 @@ class JanggiBoardTest {
     void test5(int row, int col) {
         JanggiBoard janggiBoard = JanggiBoard.initialize();
         assertThat(janggiBoard.getBoard().get(new Position(row, col))).isInstanceOf(Horse.class);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "1,2", "7,2", "1,7", "7,7"
+    })
+    @DisplayName("마 초기화 테스트")
+    void test6(int row, int col) {
+        JanggiBoard janggiBoard = JanggiBoard.initialize();
+        assertThat(janggiBoard.getBoard().get(new Position(row, col))).isInstanceOf(Cannon.class);
     }
 }

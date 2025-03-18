@@ -33,8 +33,15 @@ public enum InitialPositions {
     HAN_HORSE_POSITIONS(List.of(
             new Position(1, 0),
             new Position(7, 0)
+    )),
+    CHO_CANNON_POSITIONS(List.of(
+            new Position(1, 7),
+            new Position(7, 7)
+    )),
+    HAN_CANNON_POSITIONS(List.of(
+            new Position(1, 2),
+            new Position(7, 2)
     ));
-
     private final List<Position> positions;
 
     InitialPositions(List<Position> positions) {

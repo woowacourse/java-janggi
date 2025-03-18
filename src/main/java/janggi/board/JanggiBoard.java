@@ -31,6 +31,7 @@ public class JanggiBoard {
         initializeSoldier(board);
         initializeElephant(board);
         initializeHorse(board);
+        initializeCannon(board);
         return new JanggiBoard(board);
     }
 
@@ -59,6 +60,18 @@ public class JanggiBoard {
         for (Position hanHorsePosition : HAN_HORSE_POSITIONS.getPositions()) {
             board.put(hanHorsePosition, new Horse(Side.HAN));
         }
+    }
+
+    private static void initializeCannon(final Map<Position, Piece> board) {
+
+        for (Position choCannonPosition : CHO_CANNON_POSITIONS.getPositions()) {
+            board.put(choCannonPosition, new Cannon(Side.CHO));
+        }
+        for (Position hanCannonPosition : HAN_CANNON_POSITIONS.getPositions()) {
+            board.put(hanCannonPosition, new Cannon(Side.HAN));
+        }
+
+
     }
 
     public Map<Position, Piece> getBoard() {
