@@ -4,17 +4,17 @@ import java.util.Collections;
 import java.util.List;
 
 public class Path {
-    private final List<Position> path;
+    private final List<ChessPosition> path;
 
-    public Path(List<Position> path) {
+    public Path(List<ChessPosition> path) {
         this.path = path;
     }
 
-    public Position getDestination() {
+    public ChessPosition getDestination() {
         return path.getLast();
     }
 
-    public List<Position> getPath() {
+    public List<ChessPosition> getPath() {
         return Collections.unmodifiableList(path);
     }
 }

@@ -1,5 +1,5 @@
 import domain.Path;
-import domain.Position;
+import domain.ChessPosition;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,17 +12,17 @@ public class PathTest {
     @Test
     void getDestination() {
         // given
-        Position destination = new Position(0, 1);
+        ChessPosition destination = new ChessPosition(0, 1);
         Path path = new Path(List.of(
-                new Position(0, 0),
-                new Position(1, 0),
+                new ChessPosition(0, 0),
+                new ChessPosition(1, 0),
                 destination
         ));
 
         // when
-        Position position = path.getDestination();
+        ChessPosition chessPosition = path.getDestination();
 
         // then
-        assertThat(position).isEqualTo(destination);
+        assertThat(chessPosition).isEqualTo(destination);
     }
 }

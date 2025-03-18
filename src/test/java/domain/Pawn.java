@@ -11,9 +11,9 @@ public class Pawn {
             {0, 1}
     };
 
-    public List<Path> getAvailablePaths(final Position position) {
+    public List<Path> getAvailablePaths(final ChessPosition chessPosition) {
         return Arrays.stream(ds)
-                .map(d -> List.of(new Position(position.row() + d[0], position.colum() + d[1])))
+                .map(d -> List.of(new ChessPosition(chessPosition.row() + d[0], chessPosition.column() + d[1])))
                 .map(Path::new)
                 .toList();
 
