@@ -3,6 +3,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class CarUnitTest {
+
     @Test
     @DisplayName("한 방향으로 이동할 수 있다.")
     void test1() {
