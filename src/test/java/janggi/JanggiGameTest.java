@@ -2,6 +2,7 @@ package janggi;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.fixture.PiecePositionFixture;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -133,13 +134,11 @@ public class JanggiGameTest {
         //when
         List<Piece> hanWorldPieces = janggiGame.getHanPieces();
 
-        getPositions(PieceType.CHA, List.of(new Position(0, 9), new Position(8, 9)), hanWorldPieces);
-        getPositions(PieceType.GUNG, List.of(new Position(4, 8)), hanWorldPieces);
-        getPositions(PieceType.SA, List.of(new Position(3, 9), new Position(5, 9)), hanWorldPieces);
-        getPositions(PieceType.JOL,
-                List.of(new Position(0, 6), new Position(2, 6), new Position(4, 6), new Position(6, 6),
-                        new Position(8, 6)), hanWorldPieces);
-        getPositions(PieceType.PO, List.of(new Position(1, 7), new Position(7, 7)), hanWorldPieces);
+        getPositions(PieceType.CHA, PiecePositionFixture.CHA_POSITIONS, hanWorldPieces);
+        getPositions(PieceType.GUNG, PiecePositionFixture.GUNG_POSITIONS, hanWorldPieces);
+        getPositions(PieceType.SA, PiecePositionFixture.SA_POSITIONS, hanWorldPieces);
+        getPositions(PieceType.JOL, PiecePositionFixture.JOL_POSITIONS, hanWorldPieces);
+        getPositions(PieceType.PO, PiecePositionFixture.PO_POSITIONS, hanWorldPieces);
     }
 
     private void getPositions(PieceType pieceType, List<Position> positions, List<Piece> pieces) {
