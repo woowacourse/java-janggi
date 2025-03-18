@@ -1,4 +1,7 @@
-package janggi;
+package janggi.piece;
+
+import janggi.Camp;
+import janggi.Point;
 
 public final class General extends Piece {
 
