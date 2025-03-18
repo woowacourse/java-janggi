@@ -23,47 +23,47 @@ public class Board {
     public static Board init() {
         Map<Position, Piece> board = new HashMap<>();
 
-        board.put(new Position(0,0), new Tank(Side.BLUE));
-        board.put(new Position(1,0), new Elephant(Side.BLUE));
-        board.put(new Position(2,0), new Horse(Side.BLUE));
-        board.put(new Position(3,0), new Guard(Side.BLUE));
+        board.put(new Position(1,1), new Tank(Side.BLUE));
+        board.put(new Position(2,1), new Elephant(Side.BLUE));
+        board.put(new Position(3,1), new Horse(Side.BLUE));
+        board.put(new Position(4,1), new Guard(Side.BLUE));
 
-        board.put(new Position(5,0), new Guard(Side.BLUE));
-        board.put(new Position(6,0), new Horse(Side.BLUE));
-        board.put(new Position(7,0), new Elephant(Side.BLUE));
-        board.put(new Position(8,0), new Tank(Side.BLUE));
+        board.put(new Position(6,1), new Guard(Side.BLUE));
+        board.put(new Position(7,1), new Horse(Side.BLUE));
+        board.put(new Position(8,1), new Elephant(Side.BLUE));
+        board.put(new Position(9,1), new Tank(Side.BLUE));
 
-        board.put(new Position(4,1), new King(Side.BLUE));
+        board.put(new Position(5,2), new King(Side.BLUE));
 
-        board.put(new Position(1,2), new Cannon(Side.BLUE));
-        board.put(new Position(7,2), new Cannon(Side.BLUE));
+        board.put(new Position(2,3), new Cannon(Side.BLUE));
+        board.put(new Position(8,3), new Cannon(Side.BLUE));
 
-        board.put(new Position(0,3), new Soldier(Side.BLUE));
-        board.put(new Position(2,3), new Soldier(Side.BLUE));
-        board.put(new Position(4,3), new Soldier(Side.BLUE));
-        board.put(new Position(6,3), new Soldier(Side.BLUE));
-        board.put(new Position(8,3), new Soldier(Side.BLUE));
+        board.put(new Position(1,4), new Soldier(Side.BLUE));
+        board.put(new Position(3,4), new Soldier(Side.BLUE));
+        board.put(new Position(5,4), new Soldier(Side.BLUE));
+        board.put(new Position(7,4), new Soldier(Side.BLUE));
+        board.put(new Position(9,4), new Soldier(Side.BLUE));
 
-        board.put(new Position(0,9), new Tank(Side.RED));
-        board.put(new Position(1,9), new Elephant(Side.RED));
-        board.put(new Position(2,9), new Horse(Side.RED));
-        board.put(new Position(3,9), new Guard(Side.RED));
+        board.put(new Position(1,10), new Tank(Side.RED));
+        board.put(new Position(2,10), new Elephant(Side.RED));
+        board.put(new Position(3,10), new Horse(Side.RED));
+        board.put(new Position(4,10), new Guard(Side.RED));
 
-        board.put(new Position(5,9), new Guard(Side.RED));
-        board.put(new Position(6,9), new Horse(Side.RED));
-        board.put(new Position(7,9), new Elephant(Side.RED));
-        board.put(new Position(8,9), new Tank(Side.RED));
+        board.put(new Position(6,10), new Guard(Side.RED));
+        board.put(new Position(7,10), new Horse(Side.RED));
+        board.put(new Position(8,10), new Elephant(Side.RED));
+        board.put(new Position(9,10), new Tank(Side.RED));
 
-        board.put(new Position(4,8), new King(Side.RED));
+        board.put(new Position(5,9), new King(Side.RED));
 
-        board.put(new Position(1,7), new Cannon(Side.RED));
-        board.put(new Position(7,7), new Cannon(Side.RED));
+        board.put(new Position(2,8), new Cannon(Side.RED));
+        board.put(new Position(8,8), new Cannon(Side.RED));
 
-        board.put(new Position(0,6), new Soldier(Side.RED));
-        board.put(new Position(2,6), new Soldier(Side.RED));
-        board.put(new Position(4,6), new Soldier(Side.RED));
-        board.put(new Position(6,6), new Soldier(Side.RED));
-        board.put(new Position(8,6), new Soldier(Side.RED));
+        board.put(new Position(1,7), new Soldier(Side.RED));
+        board.put(new Position(3,7), new Soldier(Side.RED));
+        board.put(new Position(5,7), new Soldier(Side.RED));
+        board.put(new Position(7,7), new Soldier(Side.RED));
+        board.put(new Position(9,7), new Soldier(Side.RED));
         return new Board(board);
     }
 
