@@ -35,4 +35,13 @@ public class Byeong implements Movable {
     public static List<Byeong> values() {
         return new ArrayList<>(byeongs);
     }
+
+    public boolean isMovable(Point targetPoint) {
+        List<Point> candidates = List.of(
+                point.move(0, 1),
+                point.move(0, -1),
+                point.move(-1, 0)
+        );
+        return candidates.contains(targetPoint);
+    }
 }
