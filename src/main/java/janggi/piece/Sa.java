@@ -35,4 +35,14 @@ public class Sa implements Movable {
     public static List<Sa> values() {
         return new ArrayList<>(sas);
     }
+
+    public boolean isMovable(Point targetPoint) {
+        List<Point> candidates = List.of(
+                point.move(0, 1),
+                point.move(0, -1),
+                point.move(1, 0),
+                point.move(-1, 0)
+        );
+        return candidates.contains(targetPoint);
+    }
 }

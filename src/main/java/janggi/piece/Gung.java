@@ -35,4 +35,14 @@ public class Gung implements Movable {
     public static List<Gung> values() {
         return new ArrayList<>(gungs);
     }
+
+    public boolean isMovable(Point targetPoint) {
+        List<Point> candidates = List.of(
+                point.move(0, 1),
+                point.move(0, -1),
+                point.move(1, 0),
+                point.move(-1, 0)
+        );
+        return candidates.contains(targetPoint);
+    }
 }
