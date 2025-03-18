@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn {
@@ -13,6 +14,13 @@ public class Pawn {
     }
 
     public List<int[]> getAvailablePositions() {
-        return null;
+        final int[][] ds = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        final List<int[]> pos = new ArrayList<>();
+        for (int[] d : ds) {
+            int nR = cR + d[0];
+            int nC = cC + d[1];
+            pos.add(new int[]{nR, nC});
+        }
+        return pos;
     }
 }
