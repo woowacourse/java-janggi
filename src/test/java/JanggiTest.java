@@ -39,4 +39,30 @@ public class JanggiTest {
         // then
         assertThat(actual).isEqualTo(2);
     }
+
+    @DisplayName("Piece는 한나라 피스를 생성할 수 있다.")
+    @Test
+    void createHanTest() {
+        // given
+        Piece piece = Piece.createFromHan();
+
+        // when
+        Dynasty actual = piece.getDynasty();
+
+        // then
+        assertThat(actual).isEqualTo(Dynasty.HAN);
+    }
+
+    @DisplayName("Piece는 초나라 피스를 생성할 수 있다.")
+    @Test
+    void createChoTest() {
+        // given
+        Piece piece = Piece.createFromCho();
+
+        // when
+        Dynasty actual = piece.getDynasty();
+
+        // then
+        assertThat(actual).isEqualTo(Dynasty.CHO);
+    }
 }
