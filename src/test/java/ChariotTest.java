@@ -42,4 +42,14 @@ public class ChariotTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("말을 움직여 주세요");
     }
+
+    @DisplayName("차로 이동할 수 없는 위치인 경우 예외를 발생시킨다")
+    @Test
+    void test3() {
+        Chariot chariot = new Chariot(Team.RED);
+
+        assertThatThrownBy(() -> chariot.calculatePath(0, 0, 1, 2))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이 위치로는 움직일 수 없습니다.");
+    }
 }
