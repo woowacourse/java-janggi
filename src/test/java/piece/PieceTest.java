@@ -19,16 +19,18 @@ public class PieceTest {
         @Test
         void construct1() {
             // given
-            final PieceType type = PieceType.CANNON;
+            final PieceType pieceType = PieceType.CANNON;
             final Position position = new Position(1, 1);
+            final TeamType teamType = TeamType.RED;
 
             // when
-            final Piece piece = new Piece(type, position);
+            final Piece piece = new Piece(pieceType, position, teamType);
 
             // then
             assertAll(
-                    () -> Assertions.assertThat(piece.getType()).isEqualTo(type),
-                    () -> Assertions.assertThat(piece.getPosition()).isEqualTo(position)
+                    () -> Assertions.assertThat(piece.getPieceType()).isEqualTo(pieceType),
+                    () -> Assertions.assertThat(piece.getPosition()).isEqualTo(position),
+                    () -> Assertions.assertThat(piece.getTeamType()).isEqualTo(teamType)
             );
         }
     }
