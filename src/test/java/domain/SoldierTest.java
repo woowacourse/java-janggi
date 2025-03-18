@@ -1,0 +1,25 @@
+package domain;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+class SoldierTest {
+
+    @ParameterizedTest
+    @CsvSource({
+            "0,1,true", "1,0,true", "-1,0,true", "0,-1,false", "4,5,false",
+    })
+    void 말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, boolean expected) {
+
+        // given
+        Soldier soldier = new Soldier(Team.RED);
+
+        // when
+        Distance distance = new Distance(x, y);
+
+        // then
+        assertThat(soldier.isMovable(distance)).isEqualTo(expected);
+    }
+}
