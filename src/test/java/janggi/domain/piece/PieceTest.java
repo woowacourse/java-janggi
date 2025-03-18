@@ -1,15 +1,16 @@
 package janggi.domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+
 import janggi.domain.Position;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.Side;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
 
 @ReplaceUnderBar
 class PieceTest {
@@ -66,6 +67,14 @@ class PieceTest {
         assertThat(piece.getPosition()).isEqualTo(new Position(3, 4));
     }
 
+    @ParameterizedTest
+    @CsvSource(value = {"1,2,1,2,true", "1,4,1,2,false"})
+    void 같은_위치인지_판별한다(int x, int y, int compareX, int compareY, boolean expected) {
+        Piece piece = new FakePiece(Side.HAN, new Position(x, y));
+
+        assertThat(piece.isSamePosition(compareX, compareY)).isEqualTo(expected);
+    }
+
     private static class FakePiece extends Piece {
 
         private boolean isMoveablePosition;
@@ -77,9 +86,9 @@ class PieceTest {
             this.isMoveablePath = true;
         }
 
-       public void setIsMoveablePosition(boolean isMoveablePosition) {
+        public void setIsMoveablePosition(boolean isMoveablePosition) {
             this.isMoveablePosition = isMoveablePosition;
-       }
+        }
 
         public void setIsMoveablePath(boolean isMoveablePath) {
             this.isMoveablePath = isMoveablePath;

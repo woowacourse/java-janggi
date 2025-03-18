@@ -2,7 +2,6 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.Side;
-
 import java.util.List;
 
 public abstract class Piece {
@@ -21,6 +20,10 @@ public abstract class Piece {
 
     public final Position getPosition() {
         return position;
+    }
+
+    public final boolean isSamePosition(int x, int y) {
+        return position.hasSameX(x) && position.hasSameY(y);
     }
 
     public void move(List<Piece> existingPieces, int x, int y) {
@@ -42,6 +45,14 @@ public abstract class Piece {
         if (position.isSameCoordinate(x, y)) {
             throw new IllegalArgumentException("현재 위치로 이동할 수 없습니다.");
         }
+    }
+
+    public int getXPosition() {
+        return position.getX();
+    }
+
+    public int getYPosition() {
+        return position.getY();
     }
 
     protected abstract boolean isMoveablePosition(int x, int y);
