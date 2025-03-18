@@ -2,12 +2,11 @@ package domain.board;
 
 import domain.JanggiCoordinate;
 import domain.piece.Piece;
-
 import java.util.HashMap;
 import java.util.Map;
 
-public final class JanggiBoard{
-    Map<JanggiCoordinate, Piece> board;
+public final class JanggiBoard {
+    private final Map<JanggiCoordinate, Piece> board;
 
     public JanggiBoard() {
         board = new HashMap<>();

@@ -3,8 +3,8 @@ package domain;
 import java.util.Objects;
 
 public final class JanggiCoordinate {
-    private int row;
-    private int col;
+    private final int row;
+    private final int col;
 
     public JanggiCoordinate(int row, int col) {
         this.row = row;
