@@ -63,4 +63,30 @@ public class CoordinateTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("세로 좌표는 1에서 10사이여야 합니다.");
     }
+
+    @Test
+    @DisplayName("가로를 변화시켜 좌표 객체를 생성한다.")
+    void test7() {
+        // given
+        Coordinate coordinate = new Coordinate(1, 1);
+
+        // when
+        Coordinate changedCoordinate = coordinate.changeWidth(1);
+
+        // then
+        assertThat(changedCoordinate).isEqualTo(new Coordinate(2, 1));
+    }
+
+    @Test
+    @DisplayName("세로를 변화시켜 좌표 객체를 생성한다.")
+    void test8() {
+        // given
+        Coordinate coordinate = new Coordinate(1, 1);
+
+        // when
+        Coordinate changedCoordinate = coordinate.changeHeight(1);
+
+        // then
+        assertThat(changedCoordinate).isEqualTo(new Coordinate(1, 2));
+    }
 }
