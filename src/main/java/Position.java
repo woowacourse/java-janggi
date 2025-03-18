@@ -35,4 +35,19 @@ public class Position {
     public int hashCode() {
         return Objects.hash(row, column);
     }
+
+    public Row getRow() {
+        return row;
+    }
+
+    public Column getColumn() {
+        return column;
+    }
+
+    public Position divideBy(Position other, int divisor) {
+        int newRow = row.getValue() + rowDifference(other)/divisor;
+        int newColumn = column.getValue() + columnDifference(other)/divisor;
+
+        return new Position(Row.from(newRow), Column.from(newColumn));
+    }
 }

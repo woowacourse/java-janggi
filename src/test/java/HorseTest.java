@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,6 +25,17 @@ class HorseTest {
         boolean canMove = horse.canMove(source, destination);
 
         assertThat(canMove).isFalse();
+    }
+
+    @Test
+    void 목적지까지의_이동경로에_포함되는_좌표를_반환() {
+        Horse horse = new Horse(PieceColor.RED);
+        Position source = new Position(Row.ONE, Column.ONE);
+        Position destination = new Position(Row.THREE, Column.TWO);
+        List<Position> positions = horse.findAllRoute(source, destination);
+
+        assertThat(positions).hasSize(1);
+        assertThat(positions.getFirst()).isEqualTo(new Position(Row.TWO, Column.ONE));
     }
 
 }

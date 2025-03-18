@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Chariot extends Piece {
     Chariot(PieceColor color) {
         super(color);
@@ -12,5 +14,10 @@ public class Chariot extends Piece {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Position> findAllRoute(Position source, Position destination) {
+        return List.of();
     }
 }

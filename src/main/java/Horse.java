@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Horse extends Piece{
 
     Horse(PieceColor color) {
@@ -16,5 +18,12 @@ public class Horse extends Piece{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Position> findAllRoute(Position source, Position destination) {
+        Position route = source.divideBy(destination, 2);
+
+        return List.of(route);
     }
 }

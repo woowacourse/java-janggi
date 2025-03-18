@@ -1,3 +1,5 @@
+import java.util.List;
+
 public abstract class Piece {
     final PieceColor color;
 
@@ -6,4 +8,6 @@ public abstract class Piece {
     }
 
     public abstract boolean canMove(Position source, Position destination);
+
+    public abstract List<Position> findAllRoute(Position source, Position destination);
 }

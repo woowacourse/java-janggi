@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class General extends Piece{
 
     General(PieceColor color) {
@@ -7,5 +9,10 @@ public class General extends Piece{
     @Override
     public boolean canMove(Position source, Position destination) {
         return false;
+    }
+
+    @Override
+    public List<Position> findAllRoute(Position source, Position destination) {
+        return List.of();
     }
 }

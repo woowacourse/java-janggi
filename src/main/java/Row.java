@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public enum Row {
     ONE(1),
     TWO(2),
@@ -13,6 +15,13 @@ public enum Row {
 
     Row(int value) {
         this.value = value;
+    }
+
+    public static Row from(int value) {
+        return Arrays.stream(Row.values())
+                .filter(row -> row.value == value)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당 숫자에 맞는 Row가 없습니다."));
     }
 
     private final int value;

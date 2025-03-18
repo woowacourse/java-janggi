@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class BoardTest {
+
     @Test
     void 해당_포지션에_있는_기물_확인() {
         BoardFactory boardFactory = new BoardFactory();
@@ -15,4 +16,6 @@ class BoardTest {
 
         assertThat(piece).isInstanceOf(Chariot.class);
     }
+
+
 }

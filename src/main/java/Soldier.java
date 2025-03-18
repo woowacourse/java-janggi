@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Soldier extends Piece {
 
     public Soldier(PieceColor color) {
@@ -19,6 +21,11 @@ public class Soldier extends Piece {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Position> findAllRoute(Position source, Position destination) {
+        return List.of();
     }
 
 }

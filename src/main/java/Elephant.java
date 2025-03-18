@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Elephant extends Piece{
 
     Elephant(PieceColor color) {
@@ -16,5 +18,10 @@ public class Elephant extends Piece{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Position> findAllRoute(Position source, Position destination) {
+        return List.of();
     }
 }
