@@ -20,40 +20,46 @@ public enum AssignType {
         this.maXPositions = maXPositions;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public List<Piece> makeAssign(CampType campType) {
         List<Piece> allPieces = new ArrayList<>();
-
-        List<Piece> sangPieces = this.sangXPositions.stream()
-                .map(x -> new Piece(PieceType.SANG,
-                        new Position(x, Math.abs(campType.getStartYPosition() - PieceType.SANG.getHeight()))))
-                .toList();
-        allPieces.addAll(sangPieces);
-
-        List<Piece> maList = this.maXPositions.stream()
-                .map(x -> new Piece(PieceType.MA,
-                        new Position(x, Math.abs(campType.getStartYPosition() - PieceType.MA.getHeight()))))
-                .toList();
-        allPieces.addAll(maList);
-
-        // 나머지 만들어서 삽입
-        List<PieceType> pieceTypes = List.of(PieceType.values());
-        for (PieceType pieceType : pieceTypes) {
-            if(pieceType == PieceType.MA || pieceType == PieceType.SANG){
-                continue;
-            }
-
-            // 피스타입마다 피스 생성
-            List<Piece> pieces = pieceType.getxPositions().stream()
-                    .map(x -> new Piece(pieceType,
-                            new Position(x, Math.abs(campType.getStartYPosition() - pieceType.getHeight()))))
-                    .toList();
-            allPieces.addAll(pieces);
-        }
-
+        allPieces.addAll(makeSangPieces(campType));
+        allPieces.addAll(makeMaPieces(campType));
+        allPieces.addAll(makeRemainAllPieces(campType));
         return allPieces;
+    }
+
+    private List<Piece> makeRemainAllPieces(CampType campType) {
+        List<Piece> allPieces = new ArrayList<>();
+        List<PieceType> pieceTypes = List.of(PieceType.values());
+        pieceTypes.stream()
+                .filter(pieceType -> pieceType != PieceType.MA && pieceType != PieceType.SANG)
+                .map(pieceType -> makeRemainPieces(campType, pieceType))
+                .forEach(allPieces::addAll);
+        return allPieces;
+    }
+
+    private List<Piece> makeRemainPieces(CampType campType, PieceType pieceType) {
+        int yPosition = Math.abs(campType.getStartYPosition() - pieceType.getHeight());
+        return pieceType.getxPositions().stream()
+                .map(xPosition -> new Piece(pieceType, new Position(xPosition,yPosition)))
+                .toList();
+    }
+
+    private List<Piece> makeMaPieces(CampType campType) {
+        int yPosition = Math.abs(campType.getStartYPosition() - PieceType.MA.getHeight());
+        return this.maXPositions.stream()
+                .map(xPosition -> new Piece(PieceType.MA, new Position(xPosition, yPosition)))
+                .toList();
+    }
+
+    private List<Piece> makeSangPieces(CampType campType) {
+        int yPosition = Math.abs(campType.getStartYPosition() - PieceType.SANG.getHeight());
+        return this.sangXPositions.stream()
+                .map(xPosition -> new Piece(PieceType.SANG, new Position(xPosition, yPosition)))
+                .toList();
+    }
+
+    public String getName() {
+        return name;
     }
 }
