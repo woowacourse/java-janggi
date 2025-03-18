@@ -1,8 +1,11 @@
 package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 @ReplaceUnderBar
 public class PositionTest {
@@ -21,5 +24,13 @@ public class PositionTest {
         Position moved = position.moveTo(2, 4);
         assertThat(moved.getX()).isEqualTo(2);
         assertThat(moved.getY()).isEqualTo(4);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"-1, 1", "1,-1", "9,1", "1,10"})
+    void 초기화_시_좌표를_검증한다(int x, int y) {
+
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new Position(x, y));
     }
 }
