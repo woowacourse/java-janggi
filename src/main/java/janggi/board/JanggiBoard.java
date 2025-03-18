@@ -1,10 +1,15 @@
 package janggi.board;
 
+import janggi.Side;
 import janggi.piece.Empty;
 import janggi.piece.Piece;
+import janggi.piece.Soldier;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static janggi.board.InitialPositions.CHO_SOLDIER_POSITION;
+import static janggi.board.InitialPositions.HAN_SOLDIER_POSITIONS;
 
 public class JanggiBoard {
 
@@ -26,10 +31,21 @@ public class JanggiBoard {
             }
         }
 
+        initializeSoldier(board);
         return new JanggiBoard(board);
+    }
+
+    private static void initializeSoldier(Map<Position, Piece> board) {
+        for (Position choSoldierPosition : CHO_SOLDIER_POSITION.getPositions()) {
+            board.put(choSoldierPosition, new Soldier(Side.CHO));
+        }
+        for (Position hanSoldierPosition : HAN_SOLDIER_POSITIONS.getPositions()) {
+            board.put(hanSoldierPosition, new Soldier(Side.HAN));
+        }
     }
 
     public Map<Position, Piece> getBoard() {
         return board;
     }
+
 }
