@@ -7,4 +7,8 @@ public class Advisor extends Piece {
     public Advisor(final int row, final int column) {
         super(row, column);
     }
+
+    public String getName() {
+        return NAME;
+    }
 }

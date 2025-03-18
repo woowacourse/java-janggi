@@ -22,5 +22,10 @@ class PieceTest {
         public TestPiece(int row, int column) {
             super(row, column);
         }
+
+        @Override
+        public String getName() {
+            return "";
+        }
     }
 }

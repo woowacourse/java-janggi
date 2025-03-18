@@ -7,4 +7,8 @@ public class Cannon extends Piece {
     public Cannon(final int row, final int column) {
         super(row, column);
     }
+
+    public String getName() {
+        return NAME;
+    }
 }

@@ -7,4 +7,8 @@ public class Horse extends Piece {
     public Horse(final int row, final int column) {
         super(row, column);
     }
+
+    public String getName() {
+        return NAME;
+    }
 }

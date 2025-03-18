@@ -11,4 +11,6 @@ public abstract class Piece {
     public Position getPosition() {
         return position;
     }
+
+    public abstract String getName();
 }
