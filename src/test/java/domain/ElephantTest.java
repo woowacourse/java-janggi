@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class ElephantsTest {
+class ElephantTest {
 
     @ParameterizedTest
     @CsvSource({
@@ -24,12 +24,12 @@ class ElephantsTest {
     void 말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, final boolean expected) {
 
         // given
-        Elephants elephants = PieceFactory.createRedTeam(Elephants::new);
+        Elephant elephant = PieceFactory.createRedTeam(Elephant::new);
 
         // when
         Distance distance = new Distance(x, y);
 
         // then
-        assertThat(elephants.isMovable(distance)).isEqualTo(expected);
+        assertThat(elephant.isMovable(distance)).isEqualTo(expected);
     }
 }
