@@ -6,7 +6,7 @@ public class GeneralTest {
 
     @Test
     @DisplayName("장군은 위로 한 칸 이동할 수 있다.")
-    void test() {
+    void test1() {
         // given
         int x = 0;
         int y = 0;
@@ -34,5 +34,23 @@ public class GeneralTest {
         // then
         Assertions.assertThatThrownBy(() -> general.move(x, y+2))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("장군은 아래로 한 칸 이동할 수 있다.")
+    void test3() {
+        // given
+        int x = 0;
+        int y = 1;
+        General general = new General(x, y);
+
+        Position expectedPosition = new Position(x, y-1);
+
+        // when
+        general.move(x, y-1);
+
+        // then
+        Assertions.assertThat(general.position())
+                .isEqualTo(expectedPosition);
     }
 }
