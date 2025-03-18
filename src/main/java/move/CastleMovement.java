@@ -22,7 +22,7 @@ public class CastleMovement implements MoveStrategy {
     }
 
     private void validateVerticalRange(int fromY, int toY) {
-        if (fromY + MAXIMUM_MOVEMENT_LIMIT < toY || fromY - MAXIMUM_MOVEMENT_LIMIT > toY) {
+        if (fromY - MAXIMUM_MOVEMENT_LIMIT > toY || fromY + MAXIMUM_MOVEMENT_LIMIT < toY) {
             throw new IllegalArgumentException();
         }
     }

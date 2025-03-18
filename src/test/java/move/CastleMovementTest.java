@@ -14,7 +14,7 @@ public class CastleMovementTest {
         int x = 0;
         int y = 0;
         Position from = new Position(x, y);
-        Position to = new Position(x, y+1);
+        Position to = new Position(x, y-1);
         CastleMovement castleMovement = new CastleMovement();
 
         // when
@@ -32,7 +32,7 @@ public class CastleMovementTest {
         int x = 0;
         int y = 0;
         Position from = new Position(x, y);
-        Position to = new Position(x, y+2);
+        Position to = new Position(x, y-2);
         CastleMovement castleMovement = new CastleMovement();
 
         // when
@@ -48,7 +48,7 @@ public class CastleMovementTest {
         int x = 0;
         int y = 1;
         Position from = new Position(x, y);
-        Position to = new Position(x, y-1);
+        Position to = new Position(x, y+1);
         CastleMovement castleMovement = new CastleMovement();
 
         // when
@@ -60,13 +60,13 @@ public class CastleMovementTest {
     }
 
     @Test
-    @DisplayName("장군은 아래로 두 칸 이상 이동할 수 없다.")
+    @DisplayName("궁성 내 기물은 아래로 두 칸 이상 이동할 수 없다.")
     void test4() {
         // given
         int x = 0;
         int y = 0;
         Position from = new Position(x, y);
-        Position to = new Position(x, y-2);
+        Position to = new Position(x, y+2);
         CastleMovement castleMovement = new CastleMovement();
 
         // when
@@ -76,7 +76,7 @@ public class CastleMovementTest {
     }
 
     @Test
-    @DisplayName("장군은 왼쪽으로 한 칸 이동할 수 있다.")
+    @DisplayName("궁성 내 기물은 왼쪽으로 한 칸 이동할 수 있다.")
     void test5() {
         // given
         int x = 1;
@@ -94,7 +94,7 @@ public class CastleMovementTest {
     }
 
     @Test
-    @DisplayName("장군은 왼쪽으로 두 칸 이상 이동할 수 없다.")
+    @DisplayName("궁성 내 기물은 왼쪽으로 두 칸 이상 이동할 수 없다.")
     void test6() {
         // given
         int x = 0;
@@ -110,7 +110,7 @@ public class CastleMovementTest {
     }
 
     @Test
-    @DisplayName("장군은 오른쪽으로 한 칸 이동할 수 있다.")
+    @DisplayName("궁성 내 기물은 오른쪽으로 한 칸 이동할 수 있다.")
     void test7() {
         // given
         int x = 0;
@@ -128,7 +128,7 @@ public class CastleMovementTest {
     }
 
     @Test
-    @DisplayName("장군은 오른쪽으로 두 칸 이상 이동할 수 없다.")
+    @DisplayName("궁성 내 기물은 오른쪽으로 두 칸 이상 이동할 수 없다.")
     void test8() {
         // given
         int x = 0;
