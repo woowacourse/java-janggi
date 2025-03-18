@@ -26,6 +26,10 @@ public class Position {
         return row > 0 && row <= 10 && column > 0 && column <= 9;
     }
 
+    public void update(Position newPosition) {
+        update(newPosition.row, newPosition.column);
+    }
+
     public void update(int row, int column) {
         validate(row, column);
         this.row = row;
@@ -60,12 +64,11 @@ public class Position {
         return row == position.row && column == position.column;
     }
 
-    public int getRow() {
-        return row;
+    @Override
+    public String toString() {
+        return "Position{" +
+                "row=" + row +
+                ", column=" + column +
+                '}';
     }
-
-    public int getColumn() {
-        return column;
-    }
-
 }

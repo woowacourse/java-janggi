@@ -1,7 +1,6 @@
 package janggi.domain;
 
 import janggi.common.ErrorMessage;
-import janggi.domain.piece.PiecePosition;
 import janggi.domain.piece.Side;
 import java.util.Map;
 
@@ -42,5 +41,21 @@ public class Board {
         if (!piecePositions.containsKey(position)) {
             throw new IllegalArgumentException(ErrorMessage.POSITION_DOES_NOT_EXIST.getMessage());
         }
+    }
+
+    public void move(PiecePosition piecePosition, Position newPosition) {
+        Position currentPosition = piecePosition.getPosition();
+
+        piecePosition.move(newPosition);
+
+        piecePositions.remove(currentPosition);
+        piecePositions.put(newPosition, piecePosition);
+    }
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "piecePositions=" + piecePositions +
+                '}';
     }
 }

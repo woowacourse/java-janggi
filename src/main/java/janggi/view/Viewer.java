@@ -2,6 +2,7 @@ package janggi.view;
 
 import janggi.common.ErrorMessage;
 import janggi.domain.Board;
+import janggi.domain.PiecePosition;
 import janggi.domain.piece.Side;
 import janggi.dto.PositionDto;
 import java.util.Scanner;
@@ -12,7 +13,6 @@ public class Viewer {
     private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final String BLANK = "";
     private static final Scanner scanner = new Scanner(System.in);
-
     private static final String ERROR_SIGN = "[ERROR] ";
 
     public void printErrorMessage(Exception e) {
@@ -71,5 +71,13 @@ public class Viewer {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_NUMBER_INPUT.getMessage());
         }
+    }
+
+    public PositionDto readMove(PiecePosition piecePosition) {
+        String pieceName = piecePosition.toName();
+        System.out.println(String.format("[안내] %s이 움직일 좌표를 '세로,가로' 순으로 입력해주세요. (예: 3,5)", pieceName));
+        String input = scanner.nextLine();
+        validatePosition(input);
+        return parsePosition(input);
     }
 }

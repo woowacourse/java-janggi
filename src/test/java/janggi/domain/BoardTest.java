@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.common.ErrorMessage;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceBehavior;
-import janggi.domain.piece.PiecePosition;
 import janggi.domain.piece.Side;
 import janggi.factory.PieceFactory;
 import java.util.Map;

@@ -1,5 +1,7 @@
 package janggi.domain.piece;
 
+import janggi.domain.Position;
+import java.util.List;
 import java.util.Objects;
 
 public class Piece {
@@ -10,6 +12,10 @@ public class Piece {
     public Piece(Side side, PieceBehavior pieceBehavior) {
         this.side = side;
         this.pieceBehavior = pieceBehavior;
+    }
+
+    public List<Position> availableMovePositions(Position currentPosition) {
+        return pieceBehavior.generateMovePosition(this.side, currentPosition);
     }
 
     public String toName() {

@@ -5,7 +5,8 @@ public enum ErrorMessage {
     INVALID_POSITION_INPUT("올바른 좌표 형식이 아닙니다."),
     INVALID_NUMBER_INPUT("숫자로 입력해주세요."),
     POSITION_DOES_NOT_EXIST("해당 좌표에 기물이 존재하지 않습니다."),
-    NOT_SAME_SIDE("상대의 기물입니다.")
+    NOT_SAME_SIDE("상대의 기물입니다."),
+    CANNOT_MOVE_PIECE("해당 좌표로 이동할 수 없습니다."),
     ;
 
     private final String message;

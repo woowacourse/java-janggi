@@ -1,6 +1,9 @@
-package janggi.domain.piece;
+package janggi.domain;
 
-import janggi.domain.Position;
+import janggi.common.ErrorMessage;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Side;
+import java.util.List;
 import java.util.Objects;
 
 public class PiecePosition {
@@ -21,8 +24,15 @@ public class PiecePosition {
         return piece.isSameSide(side);
     }
 
-    public void move(Position movePosition){
+    public void move(Position movePosition) {
+        List<Position> availableMovePositions = piece.availableMovePositions(position);
 
+        if (!availableMovePositions.contains(movePosition)) {
+            throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_PIECE.getMessage());
+        }
+
+        position.update(movePosition);
+        System.out.println(position);
     }
 
     @Override
@@ -45,5 +55,9 @@ public class PiecePosition {
                 "position=" + position +
                 ", piece=" + piece +
                 '}';
+    }
+
+    public Position getPosition() {
+        return position;
     }
 }
