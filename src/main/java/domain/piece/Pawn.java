@@ -13,6 +13,13 @@ public class Pawn extends Piece{
 
     @Override
     public List<Move> calculatePath(int startRow, int startColumn, int targetRow, int targetColumn) {
-        return List.of();
+        for (Move move : moves) {
+            int newRow = startRow + move.getDy();
+            int newColumn = startColumn + move.getDx();
+            if(newRow == targetRow && newColumn == targetColumn) {
+                return List.of(move);
+            }
+        }
+        throw new IllegalArgumentException("이 위치로 이동할 수 없습니다.");
     }
 }
