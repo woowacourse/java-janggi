@@ -1,14 +1,21 @@
 package janggi.piece;
 
-public class Piece {
+import janggi.board.Position;
 
-    private final String team;
+import java.util.Map;
+
+public abstract class Piece {
+
+    protected final String team;
 
     public Piece(String team) {
         this.team = team;
     }
 
-    public boolean checkConuntry(String team) {
+    public boolean isDifferentTeam(String team) {
         return this.team.equals(team);
     }
+
+    public abstract boolean canMove(Map<Position, Piece> board, Position start, Position goal);
+
 }
