@@ -1,6 +1,7 @@
 package domain;
 
 import java.awt.Point;
+import java.util.Objects;
 
 public class Position {
 
@@ -21,4 +22,19 @@ public class Position {
         return point.y;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Position position)) {
+            return false;
+        }
+        return Objects.equals(point, position.point);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(point);
+    }
 }
