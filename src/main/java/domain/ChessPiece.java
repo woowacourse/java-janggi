@@ -15,5 +15,7 @@ public abstract class ChessPiece {
 
     public abstract List<Path> getAvailablePaths();
 
-
+    public ChessPieceType getChessPieceType() {
+        return chessPieceType;
+    }
 }
