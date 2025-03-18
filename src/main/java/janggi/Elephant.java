@@ -1,13 +1,12 @@
 package janggi;
 
-public class Elephant {
-
-    private final Camp camp;
+public final class Elephant extends Piece{
 
     public Elephant(Camp camp) {
-        this.camp = camp;
+        super(camp);
     }
 
+    @Override
     public void validateMove(Point fromPoint, Point toPoint) {
         if (!((fromPoint.calculateXDistance(toPoint) == 2 && fromPoint.calculateYDistance(toPoint) == 3) ||
                 (fromPoint.calculateXDistance(toPoint) == 3 && fromPoint.calculateYDistance(toPoint) == 2))) {

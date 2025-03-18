@@ -1,13 +1,12 @@
 package janggi;
 
-public class Horse {
-
-    private final Camp camp;
+public final class Horse extends Piece {
 
     public Horse(Camp camp) {
-        this.camp = camp;
+        super(camp);
     }
 
+    @Override
     public void validateMove(Point fromPoint, Point toPoint) {
         if (!((fromPoint.calculateXDistance(toPoint) == 2 && fromPoint.calculateYDistance(toPoint) == 1) ||
                 (fromPoint.calculateXDistance(toPoint) == 1 && fromPoint.calculateYDistance(toPoint) == 2))) {

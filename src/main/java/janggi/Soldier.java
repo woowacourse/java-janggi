@@ -1,18 +1,17 @@
 package janggi;
 
-public class Soldier {
-
-    private final Camp camp;
+public final class Soldier extends Piece {
 
     public Soldier(Camp camp) {
-        this.camp = camp;
+        super(camp);
     }
 
+    @Override
     public void validateMove(Point fromPoint, Point toPoint) {
         if (fromPoint.equals(toPoint)) {
             throw new IllegalArgumentException("같은 위치로 이동할 수 없습니다.");
         }
-        if (camp.isBottom()) {
+        if (isBottom()) {
             if (toPoint.getY() < fromPoint.getY()) {
                 throw new IllegalArgumentException("졸은 뒤로 갈 수 없습니다.");
             }

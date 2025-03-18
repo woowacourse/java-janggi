@@ -16,6 +16,7 @@ class HorseTest {
             "HAN,3,5",
             "HAN,7,7",
             "HAN,5,5",
+            "HAN,6,8",
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int toX, int toY) {
         // given

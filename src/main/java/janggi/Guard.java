@@ -1,10 +1,12 @@
 package janggi;
 
-public class Guard {
-
-    private final Camp camp;
+public final class Guard extends Piece {
 
     public Guard(Camp camp) {
-        this.camp = camp;
+        super(camp);
+    }
+
+    @Override
+    public void validateMove(Point fromPoint, Point toPoint) {
     }
 }
