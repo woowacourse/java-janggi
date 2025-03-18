@@ -27,6 +27,18 @@ public class Position {
         }
     }
 
+    public boolean hasSameX(int x) {
+        return this.x == x;
+    }
+
+    public boolean hasSameY(int y) {
+        return this.y == y;
+    }
+
+    public boolean isSameCoordinate(int x, int y) {
+        return hasSameX(x) && hasSameY(y);
+    }
+
     public int getX() {
         return x;
     }
