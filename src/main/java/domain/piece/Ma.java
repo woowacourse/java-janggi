@@ -9,42 +9,45 @@ import domain.board.Node;
 import java.util.ArrayList;
 import java.util.List;
 
+import static domain.board.Direction.*;
+
 public class Ma implements Piece {
 
     private static final List<PieceMovement> PIECE_MOVEMENTS = List.of(
             new PieceMovement(
-                    List.of(new PiecePath(List.of(Direction.UP))),
-                    new PiecePath(List.of(Direction.UP, Direction.UP, Direction.LEFT))
+                    List.of(new PiecePath(List.of(UP))),
+                    new PiecePath(List.of(UP, UP, LEFT))
             ),
             new PieceMovement(
-                    List.of(new PiecePath(List.of(Direction.UP))),
-                    new PiecePath(List.of(Direction.UP, Direction.UP, Direction.RIGHT))
+                    List.of(new PiecePath(List.of(UP))),
+                    new PiecePath(List.of(UP, UP, RIGHT))
             ),
             new PieceMovement(
-                    List.of(new PiecePath(List.of(Direction.RIGHT))),
-                    new PiecePath(List.of(Direction.RIGHT, Direction.RIGHT, Direction.UP))
+                    List.of(new PiecePath(List.of(RIGHT))),
+                    new PiecePath(List.of(RIGHT, RIGHT, UP))
             ),
             new PieceMovement(
-                    List.of(new PiecePath(List.of(Direction.RIGHT))),
-                    new PiecePath(List.of(Direction.RIGHT, Direction.RIGHT, Direction.DOWN))
+                    List.of(new PiecePath(List.of(RIGHT))),
+                    new PiecePath(List.of(RIGHT, RIGHT, DOWN))
             ),
             new PieceMovement(
-                    List.of(new PiecePath(List.of(Direction.DOWN))),
-                    new PiecePath(List.of(Direction.DOWN, Direction.DOWN, Direction.RIGHT))
+                    List.of(new PiecePath(List.of(DOWN))),
+                    new PiecePath(List.of(DOWN, DOWN, RIGHT))
             ),
             new PieceMovement(
-                    List.of(new PiecePath(List.of(Direction.DOWN))),
-                    new PiecePath(List.of(Direction.DOWN, Direction.DOWN, Direction.LEFT))
+                    List.of(new PiecePath(List.of(DOWN))),
+                    new PiecePath(List.of(DOWN, DOWN, LEFT))
             ),
             new PieceMovement(
-                    List.of(new PiecePath(List.of(Direction.LEFT))),
-                    new PiecePath(List.of(Direction.LEFT, Direction.LEFT, Direction.DOWN))
+                    List.of(new PiecePath(List.of(LEFT))),
+                    new PiecePath(List.of(LEFT, LEFT, DOWN))
             ),
             new PieceMovement(
-                    List.of(new PiecePath(List.of(Direction.LEFT))),
-                    new PiecePath(List.of(Direction.LEFT, Direction.LEFT, Direction.UP))
+                    List.of(new PiecePath(List.of(LEFT))),
+                    new PiecePath(List.of(LEFT, LEFT, UP))
             )
     );
+
     private final Team team;
 
     public Ma(Team team) {
