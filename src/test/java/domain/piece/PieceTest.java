@@ -2,6 +2,9 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.direction.Direction;
+import domain.direction.Directions;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class PieceTest {
@@ -16,6 +19,26 @@ class PieceTest {
 
         // then
         assertThat(piece.getPosition()).isEqualTo(position);
+    }
+
+    @Test
+    void 기물이_타겟_위치까지_도달하는_이동_경로를_반환한다() {
+        // given
+        final Position targetPosition = Position.of(5, 5);
+
+        List<Position> expected = List.of(Position.of(4, 6));
+
+        List<Position> positions = List.of(Position.ofDirection(0, -1), Position.ofDirection(1, -1));
+        List<Direction> directionElements = List.of(new Direction(positions, false));
+        Directions directions = new Directions(directionElements);
+
+        Piece piece = new TestPiece(4, 7, directions);
+
+        // when
+        List<Position> result = piece.getPath(targetPosition);
+
+        // then
+        assertThat(result).containsAll(expected);
     }
 
     static class TestPiece extends Piece {
