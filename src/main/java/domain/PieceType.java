@@ -2,7 +2,8 @@ package domain;
 
 public enum PieceType {
     CHARIOT(new ChariotMoveStrategy()),
-    CANNON(new CannonMoveStrategy());
+    CANNON(new CannonMoveStrategy()),
+    HORSE(new HorseMoveStrategy());
     private final MoveStrategy moveStrategy;
 
     PieceType(MoveStrategy moveStrategy) {
