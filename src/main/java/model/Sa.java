@@ -3,7 +3,7 @@ package model;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class Sa extends Piece{
+public class Sa extends Piece {
 
     public Sa(Team team) {
         super(team);
@@ -15,7 +15,8 @@ public class Sa extends Piece{
         List<Integer> vertical = List.of(1, -1, 0, 0);
 
         return IntStream.range(0, horizontal.size())
-                .anyMatch(i -> horizontal.get(i) + beforePoint.x() == afterPoint.x() && vertical.get(i) + beforePoint.y() == afterPoint.y());
+                .anyMatch(i -> horizontal.get(i) + beforePoint.x() == afterPoint.x()
+                        && vertical.get(i) + beforePoint.y() == afterPoint.y());
     }
 
     @Override
@@ -26,7 +27,13 @@ public class Sa extends Piece{
     }
 
     @Override
-    public boolean canMove(int size) {
-        return false;
+    public boolean isProhibitedPath(List<Piece> piecesOnPath) {
+        if (piecesOnPath.size() == 1) {
+            Piece piece = piecesOnPath.getFirst();
+            if (piece.getTeam() == this.team) {
+                return false;
+            }
+        }
+        return true;
     }
 }
