@@ -36,6 +36,10 @@ public class Position {
         return Position.of(this.row + other.row, this.column + other.column);
     }
 
+    public boolean isValid() {
+        return !(row < MIN_ROW || column < MIN_COLUMN || row > MAX_ROW || column > MAX_COLUMN);
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) {
@@ -60,5 +64,4 @@ public class Position {
     public int getColumn() {
         return column;
     }
-
 }
