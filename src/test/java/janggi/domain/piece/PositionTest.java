@@ -29,7 +29,7 @@ class PositionTest {
     @CsvSource(value = {
             "-1, 1", "9, 1", "1, -1", "2, 10"
     })
-    void equalTest(final int x, final int y) {
+    void validateRangeTest(final int x, final int y) {
 
         // given
 
