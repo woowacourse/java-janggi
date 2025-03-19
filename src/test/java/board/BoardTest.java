@@ -2,7 +2,9 @@ package board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -53,6 +55,27 @@ public class BoardTest {
                     () -> Assertions.assertThat(actual1).isTrue(),
                     () -> Assertions.assertThat(actual2).isFalse()
             );
+        }
+
+        @DisplayName("보드의 특정 위치가 포라면 true를 반환한다.")
+        @Test
+        void calculatePieceCountByPositions() {
+            // given
+            final Map<Position, Piece> map = Map.of(
+                    new Position(1, 1), new Piece(PieceType.CANNON, TeamType.RED),
+                    new Position(1, 2), new Piece(PieceType.SOLDIER, TeamType.RED)
+            );
+            final Board board = new Board(map);
+            final Position cannonPosition = new Position(1, 1);
+            final Position soldierPosition = new Position(1, 2);
+
+            // when
+            final boolean actualCannon = board.isCannonByPosition(cannonPosition);
+            final boolean actualSoldier = board.isCannonByPosition(soldierPosition);
+
+            // then
+            assertThat(actualCannon).isTrue();
+            assertThat(actualSoldier).isFalse();
         }
     }
 }
