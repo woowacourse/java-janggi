@@ -26,6 +26,10 @@ public class Point {
         return (this.x == opposite.x || this.y == opposite.y);
     }
 
+    public Point calculateOpposite(Point point) {
+        return new Point(X_MAX - point.x, Y_MAX - point.y);
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object == null || getClass() != object.getClass()) {
