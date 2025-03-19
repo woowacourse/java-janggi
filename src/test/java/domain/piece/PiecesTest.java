@@ -1,10 +1,12 @@
 package domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.direction.Directions;
-import java.util.List;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class PiecesTest {
 
@@ -54,19 +56,19 @@ class PiecesTest {
     @Test
     void 기물의_좌표를_변경한다() {
         // given
-        King piece = new King(2, 5, new Directions(List.of()));
+        Piece piece = new King(2, 5, new Directions(List.of()));
         Position position = Position.of(3, 5);
 
-        Pieces pieces = new Pieces(List.of(
-                piece,
-                new Horse(1, 5, new Directions(List.of()))
-        ));
+        List<Piece> pieceElements = new ArrayList<>();
+        pieceElements.add(piece);
+        pieceElements.add(new Horse(1, 5, new Directions(List.of())));
+        Pieces pieces = new Pieces(pieceElements);
 
         // when
         pieces.updatePosition(piece, position);
 
         // then
-        assertThat(pieces.findByPosition(position))
-                .isEqualTo(piece);
+        assertThat(pieces.findByPosition(position).getPosition())
+                .isEqualTo(position);
     }
 }
