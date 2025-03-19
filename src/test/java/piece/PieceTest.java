@@ -31,4 +31,26 @@ public class PieceTest {
             );
         }
     }
+
+    @Nested
+    @DisplayName("검증 계산")
+    class calculate {
+
+        @DisplayName("만약 타입이 같다면 true를 반환한다.")
+        @Test
+        void equalsPieceType() {
+            // given
+            final Piece piece = new Piece(PieceType.CANNON, TeamType.RED);
+            final PieceType equals = PieceType.CANNON;
+            final PieceType notEquals = PieceType.CHARIOT;
+
+            // when
+            final boolean actualEquals = piece.equalsPieceType(equals);
+            final boolean actualNotEquals = piece.equalsPieceType(notEquals);
+
+            // then
+            Assertions.assertThat(actualEquals).isTrue();
+            Assertions.assertThat(actualNotEquals).isFalse();
+        }
+    }
 }

@@ -12,6 +12,10 @@ public class Piece {
         this.teamType = teamType;
     }
 
+    public boolean equalsPieceType(final PieceType pieceType){
+        return this.pieceType == pieceType;
+    }
+
     public PieceType getPieceType() {
         return pieceType;
     }
