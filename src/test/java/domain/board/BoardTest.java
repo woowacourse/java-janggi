@@ -1,7 +1,6 @@
 package domain.board;
 
-import domain.piece.Chariot;
-import domain.piece.Piece;
+import domain.piece.*;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -15,25 +14,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 class BoardTest {
 
     @Test
-    void 해당_포지션에_있는_기물_확인() {
+    void 출발지에_있는_피스가_목적지까지_이동() {
         BoardFactory boardFactory = new BoardFactory();
         Board board = boardFactory.createBoard();
-        Piece piece = board.getPieceBy(new Position(Row.ONE, Column.ONE));
 
-        assertThat(piece).isInstanceOf(Chariot.class);
-    }
+        Position source = new Position(Row.ONE, Column.TWO);
+        Position destination = new Position(Row.THREE, Column.THREE);
+        Piece horse = new Horse(PieceColor.RED);
 
-    @Test
-    void 포지션_목록에_몇개의_기물이_있는지_반환() {
-        BoardFactory boardFactory = new BoardFactory();
-        Board board = boardFactory.createBoard();
-        List<Position> positions = new ArrayList<>();
-        positions.add(new Position(Row.ONE, Column.FOUR));
-        positions.add(new Position(Row.ONE, Column.FIVE));
-        positions.add(new Position(Row.ONE, Column.SIX));
+        board.move(horse, source, destination);
 
-        int pieceCount = board.countPieceOnRoute(positions);
+        Piece movedPiece = board.getPieceBy(destination);
+        Piece afterPositionPiece = board.getPieceBy(source);
 
-        assertThat(pieceCount).isEqualTo(2);
+        assertThat(afterPositionPiece).isInstanceOf(EmptyPiece.class);
+        assertThat(movedPiece).isEqualTo(horse);
     }
 }
