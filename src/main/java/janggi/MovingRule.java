@@ -1,5 +1,6 @@
 package janggi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class MovingRule {
@@ -18,7 +19,9 @@ public final class MovingRule {
         return sumUnit;
     }
 
-    public List<MoveVector> getVectors() {
-        return movingRule;
+    public List<MoveVector> getVectorsWithoutLast() {
+        final ArrayList<MoveVector> vectors = new ArrayList<>(movingRule);
+        vectors.removeLast();
+        return vectors;
     }
 }

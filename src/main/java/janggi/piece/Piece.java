@@ -17,7 +17,6 @@ public abstract class Piece {
         this.movingRules = movingRules;
     }
 
-    //    public abstract boolean canMove(final Position start, final Position end, final Board board);
     public boolean canMove(final Position start, final Position end, final Board board) {
         if (cannotFindRule(start, end)) {
             return false;
@@ -51,7 +50,7 @@ public abstract class Piece {
     protected boolean cannotMoveThrough(final Position start, final Position end, final Board board) {
         final MovingRule matchRule = findMatchRule(start, end);
         Position route = start;
-        for (MoveVector vector : matchRule.getVectors()) {
+        for (MoveVector vector : matchRule.getVectorsWithoutLast()) {
             route = route.add(vector);
             if (board.isPresent(route)) {
                 return true;

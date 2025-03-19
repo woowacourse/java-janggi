@@ -31,4 +31,11 @@ public class TestBoardGenerator {
         );
         return new Board(board);
     }
+
+    public static Board generateElephantCannotMove() {
+        Map<Position, Piece> board = Map.of(
+                new Position(Row.FIVE, Column.SIX), Soldier.of(Team.CHO)
+        );
+        return new Board(board);
+    }
 }
