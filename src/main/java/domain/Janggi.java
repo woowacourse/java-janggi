@@ -8,8 +8,7 @@ import domain.unit.CarUnitRule;
 import domain.unit.ElephantUnitRule;
 import domain.unit.HorseUnitRule;
 import domain.unit.JolUnitRule;
-import domain.unit.KingUnitRule;
-import domain.unit.ScholarUnitRule;
+import domain.unit.NoneUnitRule;
 import domain.unit.Team;
 import domain.unit.Unit;
 
@@ -27,13 +26,13 @@ public class Janggi {
         units.add(Unit.of(new Point(1, 0), Team.HAN, new ElephantUnitRule()));
         units.add(Unit.of(new Point(6, 0), Team.HAN, new ElephantUnitRule()));
 
-        units.add(Unit.of(new Point(3, 0), Team.HAN, new ScholarUnitRule()));
-        units.add(Unit.of(new Point(5, 0), Team.HAN, new ScholarUnitRule()));
+        units.add(Unit.of(new Point(3, 0), Team.HAN, new NoneUnitRule())); // TODO: Scholar 로 교체
+        units.add(Unit.of(new Point(5, 0), Team.HAN, new NoneUnitRule())); // TODO: Scholar 로 교체
 
         units.add(Unit.of(new Point(1, 2), Team.HAN, new BombUnitRule()));
         units.add(Unit.of(new Point(7, 2), Team.HAN, new BombUnitRule()));
 
-        units.add(Unit.of(new Point(4, 1), Team.HAN, new KingUnitRule()));
+        units.add(Unit.of(new Point(4, 1), Team.HAN, new NoneUnitRule())); // TODO: King 로 교체
 
         units.add(Unit.of(new Point(0, 3), Team.HAN, new JolUnitRule()));
         units.add(Unit.of(new Point(2, 3), Team.HAN, new JolUnitRule()));
@@ -45,7 +44,24 @@ public class Janggi {
     public List<Route> searchAvailableRoutes(Point pick) {
         Unit pickedUnit = findUnitByPoint(pick);
         List<Route> totalRoutes = pickedUnit.calculateRoutes();
-        return removeUnavailableRoute(totalRoutes);
+        totalRoutes = removeUnavailableRoute(totalRoutes);
+
+        String type = pickedUnit.getType();
+        // todo: type으로 계산
+        if (type.equals("졸")) {
+            if (pickedUnit.getTeam() == Team.HAN) {
+                return totalRoutes.stream()
+                        .filter(route -> route.getPoints().getFirst().getY() >= pick.getY())
+                        .toList();
+            }
+            return totalRoutes.stream()
+                    .filter(route -> route.getPoints().getFirst().getY() <= pick.getY())
+                    .toList();
+        }
+        if (type.equals("포")) {
+            // TODO: 포 구현하기
+        }
+        return totalRoutes;
     }
 
     private Unit findUnitByPoint(Point pick) {
@@ -61,7 +77,7 @@ public class Janggi {
             for (int i = 0; i < points.size(); i++) {
                 if (i != (points.size() - 1) && !isEmptyPoint(points.get(i))) {
                     routes.remove(route);
-                    break ;
+                    break;
                 }
                 if (i == points.size() - 1) {
                     // TODO: 아군인지 적군인지 확인하기

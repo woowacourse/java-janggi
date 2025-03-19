@@ -3,7 +3,7 @@ package domain.unit;
 import domain.Route;
 import java.util.List;
 
-public class ScholarUnitRule implements UnitRule {
+public class NoneUnitRule implements UnitRule {
     @Override
     public List<Route> calculateAllRoute(Point start) {
         return List.of();
@@ -11,6 +11,6 @@ public class ScholarUnitRule implements UnitRule {
 
     @Override
     public String getType() {
-        return "사";
+        return "";
     }
 }
