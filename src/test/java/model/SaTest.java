@@ -2,8 +2,8 @@ package model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -66,20 +66,20 @@ public class SaTest {
         @DisplayName("아군")
         public void test3() {
             Sa sa = new Sa(Team.RED);
-            List<Piece> pieces = new ArrayList<>();
-            pieces.add(new Cha(Team.RED));
+            Map<Piece,Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.RED),true);;
 
-            assertThat(sa.isProhibitedPath(pieces)).isFalse();
+            assertThat(sa.canMove(pieces)).isFalse();
         }
 
         @Test
         @DisplayName("적군")
         public void test4() {
             Sa sa = new Sa(Team.RED);
-            List<Piece> pieces = new ArrayList<>();
-            pieces.add(new Cha(Team.BLUE));
+            Map<Piece,Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.BLUE),true);
 
-            assertThat(sa.isProhibitedPath(pieces)).isTrue();
+            assertThat(sa.canMove(pieces)).isTrue();
         }
     }
 }
