@@ -23,4 +23,40 @@ public class PositionTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 유효하지 않은 위치입니다.");
     }
+
+    @Test
+    @DisplayName("두 위치의 행 차이를 계산한다")
+    void subtractRow() {
+        //given
+        Position position1 = Position.of(2, 1);
+        Position position2 = Position.of(1, 2);
+
+        //when
+        int differenceOfRow1 = position1.subtractRow(position2);
+        int differenceOfRow2 = position2.subtractRow(position1);
+
+        //then
+        assertAll(() -> {
+            Assertions.assertThat(differenceOfRow1).isEqualTo(1);
+            Assertions.assertThat(differenceOfRow2).isEqualTo(-1);
+        });
+    }
+
+    @Test
+    @DisplayName("두 위치의 열 차이를 계산한다")
+    void subtractColumn() {
+        //given
+        Position position1 = Position.of(2, 1);
+        Position position2 = Position.of(1, 2);
+
+        //when
+        int differenceOfColumn1 = position1.subtractColumn(position2);
+        int differenceOfColumn2 = position2.subtractColumn(position1);
+
+        //then
+        assertAll(() -> {
+            Assertions.assertThat(differenceOfColumn1).isEqualTo(-1);
+            Assertions.assertThat(differenceOfColumn2).isEqualTo(1);
+        });
+    }
 }

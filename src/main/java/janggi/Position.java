@@ -40,6 +40,14 @@ public class Position {
         }
     }
 
+    public int subtractRow(Position other) {
+        return this.row - other.row;
+    }
+
+    public int subtractColumn(Position other) {
+        return this.column - other.column;
+    }
+
     public int getRow() {
         return row;
     }
