@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Board;
 import janggi.domain.Position;
+import janggi.domain.Vector;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -21,11 +22,6 @@ public class Chariot implements PieceBehavior {
     }
 
     @Override
-    public Set<Position> generateMovePosition(Side side, Position position) {
-        return Set.of();
-    }
-
-    @Override
     public Set<Position> generateMovePosition(Board board, Side side, Position position) {
         Set<Position> result = new HashSet<>();
         for (Vector vector : VECTORS) {
@@ -38,8 +34,8 @@ public class Chariot implements PieceBehavior {
     }
 
     public void dfs(Set<Position> result, Board board, Position currentPosition, Vector vector, Side side) {
-        if (board.hasPosition(currentPosition)) {
-            processBySide(result, board, currentPosition, side);
+        if (board.hasPiece(currentPosition)) {
+            addPositionIfNotSameSide(result, board, currentPosition, side);
             return;
         }
 
@@ -53,7 +49,7 @@ public class Chariot implements PieceBehavior {
         dfs(result, board, calculate.get(), vector, side);
     }
 
-    private void processBySide(Set<Position> result, Board board, Position currentPosition, Side side) {
+    private void addPositionIfNotSameSide(Set<Position> result, Board board, Position currentPosition, Side side) {
         if (board.isSameSide(side, currentPosition)) {
             return;
         }
