@@ -3,6 +3,7 @@ package domain.piece;
 import domain.Board;
 import domain.Coordinate;
 import domain.Team;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,7 +16,7 @@ public class Ma extends Piece {
 
     @Override
     protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
-        Set<Optional<Coordinate>> coordinates = Set.of(
+        List<Optional<Coordinate>> coordinates = List.of(
                 departure.pickChangedCoordinate(-2, -1),
                 departure.pickChangedCoordinate(-2, 1),
                 departure.pickChangedCoordinate(-1, -2),

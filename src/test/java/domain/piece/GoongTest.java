@@ -34,6 +34,23 @@ class GoongTest {
                     new Coordinate(5, 4)
             );
         }
+
+        @Test
+        @DisplayName("궁의 출발 좌표가 (5, 10)일 때 보드판을 벗어난 좌표는 후보에서 제외한다.")
+        void test2() {
+            // given
+            Goong goong = new Goong(Team.CHO);
+
+            // when
+            Set<Coordinate> movableCandidates = goong.findMovableCandidates(new Coordinate(5, 10));
+
+            // then
+            assertThat(movableCandidates).containsOnly(
+                    new Coordinate(4, 10),
+                    new Coordinate(6, 10),
+                    new Coordinate(5, 9)
+            );
+        }
     }
 
     @Nested

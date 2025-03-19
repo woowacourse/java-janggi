@@ -50,6 +50,38 @@ class JolTest {
                     new Coordinate(5, 4)
             );
         }
+
+        @Test
+        @DisplayName("HAN 팀의 졸의 출발 좌표가 (1,4)일 때 보드판을 벗어난 좌표는 후보에서 제외한다.")
+        void test3() {
+            // given
+            Jol jol = new Jol(Team.HAN);
+
+            // when
+            Set<Coordinate> movableCandidates = jol.findMovableCandidates(new Coordinate(1, 4));
+
+            // then
+            assertThat(movableCandidates).containsOnly(
+                    new Coordinate(2, 4),
+                    new Coordinate(1, 5)
+            );
+        }
+
+        @Test
+        @DisplayName("CHO 팀의 졸의 출발 좌표가 (1,7)일 때 보드판을 벗어난 좌표는 후보에서 제외한다.")
+        void test4() {
+            // given
+            Jol jol = new Jol(Team.CHO);
+
+            // when
+            Set<Coordinate> movableCandidates = jol.findMovableCandidates(new Coordinate(1, 7));
+
+            // then
+            assertThat(movableCandidates).containsOnly(
+                    new Coordinate(2, 7),
+                    new Coordinate(1, 6)
+            );
+        }
     }
 
     @Nested

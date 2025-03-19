@@ -38,6 +38,23 @@ class MaTest {
                     new Coordinate(7, 6)
             );
         }
+
+        @Test
+        @DisplayName("마의 출발 좌표가 (2,1)일 때 보드판을 벗어난 좌표는 후보에서 제외한다.")
+        void test2() {
+            // given
+            Ma ma = new Ma(Team.HAN);
+
+            // when
+            Set<Coordinate> movableCandidates = ma.findMovableCandidates(new Coordinate(2, 1));
+
+            // then
+            assertThat(movableCandidates).containsOnly(
+                    new Coordinate(1, 3),
+                    new Coordinate(3, 3),
+                    new Coordinate(4, 2)
+            );
+        }
     }
 
     @Nested

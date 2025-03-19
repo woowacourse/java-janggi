@@ -38,6 +38,23 @@ class SangTest {
                     new Coordinate(8, 7)
             );
         }
+
+        @Test
+        @DisplayName("상의 출발 좌표가 (3,1)일 때 보드판을 벗어난 좌표는 후보에서 제외한다.")
+        void test2() {
+            // given
+            Sang sang = new Sang(Team.HAN);
+
+            // when
+            Set<Coordinate> movableCandidates = sang.findMovableCandidates(new Coordinate(3, 1));
+
+            // then
+            assertThat(movableCandidates).containsOnly(
+                    new Coordinate(1, 4),
+                    new Coordinate(5, 4),
+                    new Coordinate(6, 3)
+            );
+        }
     }
 
     @Nested
