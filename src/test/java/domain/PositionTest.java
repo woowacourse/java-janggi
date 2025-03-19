@@ -7,19 +7,19 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class OffsetTest {
+class PositionTest {
 
     @Nested
     class InvalidCases {
 
-        @DisplayName("오프셋의 범위를 벗어나면 예외가 발생한다.")
+        @DisplayName("포지션의 범위를 벗어나면 예외가 발생한다.")
         @ParameterizedTest
         @CsvSource(
             value = {
-                "+9, 0",
-                "-9, 0",
-                "0, +10",
-                "0, -10"
+                "-1, 0",
+                "9, 0",
+                "0, -1",
+                "0, 10"
             }
         )
         void validateRange(
@@ -27,11 +27,9 @@ class OffsetTest {
             int y
         ) {
             // when & then
-            assertThatThrownBy(() -> new Offset(x, y))
+            assertThatThrownBy(() -> new Position(x, y))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("오프셋의 범위를 벗어났습니다.");
+                .hasMessage("장기판의 범위를 벗어났습니다.");
         }
-
     }
-
 }
