@@ -10,18 +10,13 @@ public class Board {
 
     public Board() {
         Map<Point, Piece> locations = new HashMap<>();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 10; j++) {
-                locations.put(new Point(i, j), new Empty());
+        for (int row = 0; row < 10; row++) {
+            for (int column = 0; column < 9; column++) {
+                locations.put(new Point(row, column), new Empty());
             }
         }
         this.locations = locations;
     }
-
-    public Board(Map<Point, Piece> locations) {
-        this.locations = locations;
-    }
-
 
     public Map<Point, Piece> getLocations() {
         return locations;
