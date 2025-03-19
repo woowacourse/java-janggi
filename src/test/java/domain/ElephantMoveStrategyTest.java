@@ -22,7 +22,7 @@ public class ElephantMoveStrategyTest {
         assertThat(isMovable).isTrue();
     }
 
-    @DisplayName("차(車)는 현재 위치에서 한 방향으로 목적지에 도착할 수 없다면 false를 반환한다")
+    @DisplayName("상은 현재 위치에서 한 방향으로 목적지에 도착할 수 없다면 false를 반환한다")
     @Test
     void test2() {
         // given

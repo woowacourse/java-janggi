@@ -46,11 +46,11 @@ public class BoardLocation {
         return Objects.hash(x, y);
     }
 
-    public int minusX(BoardLocation target) {
+    public int distanceX(BoardLocation target) {
         return Math.abs(x - target.x);
     }
 
-    public int minusY(BoardLocation target) {
+    public int distanceY(BoardLocation target) {
         return Math.abs(y - target.y);
     }
 }
