@@ -14,6 +14,6 @@ public class Pho implements Piece{
 
     @Override
     public Team getTeam() {
-        return null;
+        return team;
     }
 }

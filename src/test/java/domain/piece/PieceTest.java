@@ -2,12 +2,8 @@ package domain.piece;
 
 import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
-import domain.piece.movement.ByeongMovement;
-import domain.piece.movement.ChaMovement;
-import domain.piece.movement.GungMovement;
-import domain.piece.movement.MaMovement;
-import domain.piece.movement.SaMovement;
-import domain.piece.movement.SangMovement;
+import domain.piece.movement.*;
+
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -126,5 +122,19 @@ class PieceTest {
         }
     }
 
+    @Nested
+    class PhoTest {
+        @DisplayName("포의 이동 가능한 경로를 검사한다")
+        @Test
+        void PhoAvailableMovePosition() {
+            Pho pho = new Pho(Team.Han);
+            JanggiBoard board = new JanggiBoard();
+            board.getBoard().put(new JanggiCoordinate(5, 5), pho);
 
+            List<JanggiCoordinate> availableMovePositions = PhoMovement.availableMovePositions(
+                    new JanggiCoordinate(5, 5), board);
+
+            Assertions.assertThat(availableMovePositions.size()).isEqualTo(3);
+        }
+    }
 }
