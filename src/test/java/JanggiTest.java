@@ -21,6 +21,17 @@ public class JanggiTest {
         );
     }
 
+    public static Stream<Arguments> provideElephantOriginAndDestinationAndExpected() {
+        return Stream.of(
+                Arguments.of(Dot.of(5,6), Dot.of(7,9), List.of(Dot.of(5,7), Dot.of(6,8))),
+                Arguments.of(Dot.of(5,6), Dot.of(3,9), List.of(Dot.of(5,7), Dot.of(4,8))),
+                Arguments.of(Dot.of(5,6), Dot.of(8,8), List.of(Dot.of(6,6), Dot.of(7,7))),
+                Arguments.of(Dot.of(5,6), Dot.of(8,4), List.of(Dot.of(6,6), Dot.of(7,5))),
+                Arguments.of(Dot.of(5,6), Dot.of(3,3), List.of(Dot.of(5,5), Dot.of(4,4)))
+
+        );
+    }
+
     @DisplayName("x와 y 좌표를 가지고 있는 점을 생성한다.")
     @Test
     void createPosition() {
@@ -190,4 +201,66 @@ public class JanggiTest {
         assertThat(actual).isFalse();
     }
 
+    @DisplayName("상은 목적지로 가는 경로를 구할 수 있다.")
+    @ParameterizedTest
+    @MethodSource("provideElephantOriginAndDestinationAndExpected")
+    void elephantCanGetRoute(Dot origin, Dot destination, List<Dot> expected) {
+        // given
+        Elephant elephant = new Elephant(Dynasty.HAN);
+
+        // when
+        List<Dot> actual = elephant.getRoute(origin, destination);
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @DisplayName("상이 목적지로 갈 수 없다면 예외를 발생시킨다")
+    @Test
+    void elephantCannotGetRoute() {
+        // given
+        Dot origin = Dot.of(1, 1);
+        Dot destination = Dot.of(3, 3);
+        Elephant elephant= new Elephant(Dynasty.HAN);
+
+        // when // then
+        assertThatCode(() -> elephant.getRoute(origin, destination))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageStartingWith("[ERROR]");
+    }
+
+
+    @DisplayName("상은 이동 경로에 어떤 말도 없다면 이동 가능하다")
+    @Test
+    void elephantJudgeMovable() {
+        // given
+        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Elephant elephant = new Elephant(Dynasty.HAN);
+
+        routesWithPiece.put(Dot.of(5,7), null);
+        routesWithPiece.put(Dot.of(6,8), null);
+
+        // when
+        boolean actual = elephant.canMove(routesWithPiece, null);
+
+        // then
+        assertThat(actual).isTrue();
+    }
+
+    @DisplayName("상은 이동 경로에 기물이 존재한다면 이동할 수 없다")
+    @Test
+    void elephantJudgeMovable2() {
+        // given
+        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Elephant elephant = new Elephant(Dynasty.HAN);
+
+        routesWithPiece.put(Dot.of(5,7), null);
+        routesWithPiece.put(Dot.of(6,8), new Elephant(Dynasty.HAN));
+
+        // when
+        boolean actual = elephant.canMove(routesWithPiece, null);
+
+        // then
+        assertThat(actual).isFalse();
+    }
 }
