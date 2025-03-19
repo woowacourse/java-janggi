@@ -1,7 +1,9 @@
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -116,9 +118,64 @@ public class JanggiTest {
         // when
         List<Dot> actual = chariot.getRoute(origin, destination);
 
-        List<Dot> expected = List.of(Dot.of(1, 2), Dot.of(1, 3));
+        List<Dot> expected = List.of(Dot.of(1, 2));
 
         // then
         assertThat(actual).isEqualTo(expected);
     }
+
+    @DisplayName("차는 이동 경로에 어떤 말도 없다면 이동 가능하다")
+    @Test
+    void chariotJudgeMovable() {
+        // given
+        Map<Dot, Chariot> routesWithPiece = new LinkedHashMap<>();
+        Chariot chariot = new Chariot(Dynasty.HAN);
+
+        routesWithPiece.put(Dot.of(1,2), null);
+        routesWithPiece.put(Dot.of(1,3), null);
+
+        // when
+        boolean actual = chariot.canMove(routesWithPiece, null);
+
+        // then
+        assertThat(actual).isTrue();
+    }
+
+    @DisplayName("차는 이동 경로에 기물이 존재한다면 이동할 수 없다")
+    @Test
+    void chariotJudgeMovable2() {
+        // given
+        Map<Dot, Chariot> routesWithPiece = new LinkedHashMap<>();
+        Chariot chariot = new Chariot(Dynasty.HAN);
+
+        routesWithPiece.put(Dot.of(1,2), null);
+        routesWithPiece.put(Dot.of(1,3), new Chariot(Dynasty.HAN));
+
+        // when
+        boolean actual = chariot.canMove(routesWithPiece, null);
+
+        // then
+        assertThat(actual).isFalse();
+    }
+
+    @DisplayName("차는 목적지에 같은 나라의 기물이 존재한다면 이동할 수 없다")
+    @Test
+    void chariotJudgeMovable3() {
+        // given
+        Map<Dot, Chariot> routesWithPiece = new LinkedHashMap<>();
+        Chariot chariot = new Chariot(Dynasty.HAN);
+
+        routesWithPiece.put(Dot.of(1,2), null);
+        routesWithPiece.put(Dot.of(1,3), null);
+
+        // when
+        boolean actual = chariot.canMove(routesWithPiece, new Chariot(Dynasty.HAN));
+
+        // then
+        assertThat(actual).isFalse();
+    }
+
+
+
+
 }
