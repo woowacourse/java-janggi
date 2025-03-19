@@ -129,4 +129,28 @@ class BoardTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("같은 진영의 기물을 잡을 수 없습니다.");
     }
+
+    @DisplayName("다른 진영의 기물을 잡을 수 있다.")
+    @Test
+    void moveCatchTest() {
+        // given
+        Board board = new Board();
+        Point from = new Point(0, 3);
+        Point to = new Point(0, 4);
+        Piece fromPiece = new Soldier(Camp.CHU);
+        Piece toPiece = new Soldier(Camp.HAN);
+        board.placePiece(from, fromPiece);
+        board.placePiece(to, toPiece);
+
+        // when
+        board.move(from, to, Camp.CHU);
+
+        // then
+        assertThat(board.getPlacedPieces())
+                .containsEntry(from, null);
+        assertThat(board.getPlacedPieces())
+                .containsEntry(to, fromPiece);
+        assertThat(board.getPlacedPieces())
+                .doesNotContainEntry(to, toPiece);
+    }
 }

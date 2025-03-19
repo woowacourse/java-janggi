@@ -54,11 +54,7 @@ public class Board {
         }
         fromPiece.validateMove(from, to);
         Piece toPiece = placedPieces.get(to);
-        if (toPiece != null) {
-            if (toPiece.getCamp() != camp) {
-                // TODO
-                return;
-            }
+        if (toPiece != null && toPiece.getCamp() == camp) {
             throw new IllegalArgumentException("같은 진영의 기물을 잡을 수 없습니다.");
         }
         placedPieces.put(from, null);
