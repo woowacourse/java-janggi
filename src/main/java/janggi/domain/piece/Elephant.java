@@ -62,6 +62,5 @@ public class Elephant implements PieceBehavior {
 
     private boolean checkAvailableMiddleMove(Position midPosition, Board board) {
         return midPosition != null && !board.hasPiece(midPosition);
-
     }
 }

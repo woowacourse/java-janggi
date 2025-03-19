@@ -34,6 +34,17 @@ public class RecoveryUtil {
         }
     }
 
+    public static void executeWithRetry(Runnable runnable) {
+        while (true) {
+            try {
+                runnable.run();
+                return;
+            } catch (IllegalArgumentException e) {
+                VIEWER.printErrorMessage(e);
+            }
+        }
+    }
+
     public static <T> T executeWithRetry(Supplier<T> inputSupplier) {
         while (true) {
             try {

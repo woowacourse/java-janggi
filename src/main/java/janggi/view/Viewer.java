@@ -14,6 +14,7 @@ public class Viewer {
     private static final String BLANK = "   ";
     private static final Scanner scanner = new Scanner(System.in);
     private static final String ERROR_SIGN = "[ERROR] ";
+    private static final String INFO = "[안내] ";
 
     public void printErrorMessage(Exception e) {
         System.out.println(ERROR_SIGN + e.getMessage());
@@ -43,16 +44,12 @@ public class Viewer {
     }
 
     public void printTurnInfo(Side side) {
-        String sideName = "초나라";
-        if (side == Side.HAN) {
-            sideName = "한나라";
-        }
 
-        System.out.println("[안내] " + sideName + "의 차례입니다.");
+        System.out.println(INFO + Formatter.formatSide(side) + "의 차례입니다.");
     }
 
     public PositionDto readPieceSelection() {
-        System.out.println("[안내] 기물의 좌표를 '세로,가로' 순으로 입력해주세요. (예: 3,5)");
+        System.out.println(INFO + "기물의 좌표를 '세로,가로' 순으로 입력해주세요. (예: 3,5)");
         String input = scanner.nextLine();
         validatePosition(input);
         return parsePosition(input);
@@ -75,9 +72,13 @@ public class Viewer {
 
     public PositionDto readMove(Piece piece) {
         String pieceName = piece.toName();
-        System.out.println(String.format("[안내] %s이 움직일 좌표를 '세로,가로' 순으로 입력해주세요. (예: 3,5)", pieceName));
+        System.out.printf(INFO + "%s이 움직일 좌표를 '세로,가로' 순으로 입력해주세요. (예: 3,5)%n", pieceName);
         String input = scanner.nextLine();
         validatePosition(input);
         return parsePosition(input);
+    }
+
+    public void winner(Side side) {
+        System.out.println(INFO + Formatter.formatSide(side) + "가 이겼습니다!");
     }
 }

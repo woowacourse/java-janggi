@@ -30,11 +30,12 @@ public class Board {
     public void checkMoveablePiece(Side side, Position position) {
         validatePositionExists(position);
         Piece piece = pieceMap.get(position);
-        if (!piece.isSameSide(side) ) {
+        if (!piece.isSameSide(side)) {
             throw new IllegalArgumentException(ErrorMessage.NOT_SAME_SIDE.getMessage());
         }
 
-        if(piece.getAvailableMovePositions(this, position).isEmpty()){
+        if (piece.getAvailableMovePositions(this, position)
+                .isEmpty()) {
             throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_PIECE.getMessage());
         }
     }
@@ -53,13 +54,11 @@ public class Board {
             throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_TO_POSITION.getMessage());
         }
 
-
         pieceMap.remove(currentPosition);
         pieceMap.put(newPosition, piece);
     }
 
     public boolean isSameSide(Side side, Position position) {
-        // 해당 포지션에 적 팀이거나 빈 공간이라면 갈 수 있다.
         return getPiece(position).isSameSide(side);
     }
 
@@ -82,5 +81,12 @@ public class Board {
 
         return pieceMap.get(position)
                 .isCannon();
+    }
+
+    // 상대의 궁이 존재하지 않는다면 true를 반환한다.
+    public boolean hasGeneral(Side side) {
+        return pieceMap.values()
+                .stream()
+                .anyMatch(piece -> piece.isGeneral(side));
     }
 }

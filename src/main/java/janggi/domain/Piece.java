@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Cannon;
+import janggi.domain.piece.General;
 import janggi.domain.piece.PieceBehavior;
 import java.util.Objects;
 import java.util.Set;
@@ -36,6 +37,10 @@ public class Piece {
 
     public boolean isCannon() {
         return pieceBehavior instanceof Cannon;
+    }
+
+    public boolean isGeneral(Side side) {
+        return this.side == side && pieceBehavior instanceof General;
     }
 
     @Override

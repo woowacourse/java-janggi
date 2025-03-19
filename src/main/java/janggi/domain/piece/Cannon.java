@@ -6,7 +6,6 @@ import janggi.domain.Side;
 import janggi.domain.Vector;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 public class Cannon implements PieceBehavior {
@@ -31,43 +30,32 @@ public class Cannon implements PieceBehavior {
                             dfs(result, board, movePosition, vector, side, false));
         }
 
-        System.out.println(result);
         return result;
     }
 
     public void dfs(Set<Position> result, Board board, Position currentPosition, Vector vector, Side side,
                     boolean hasPassed) {
-        if (board.isCannon(currentPosition)) {
+        if (currentPosition.calculate(vector).isEmpty() || board.isCannon(currentPosition)) {
+            return;
+        }
+
+        Position nextPosition = currentPosition.calculate(vector)
+                .get();
+
+        if (hasPassed && board.hasPiece(nextPosition) && !board.isSameSide(side, nextPosition)) {
+            result.add(nextPosition);
+            return;
+        }
+
+        if (hasPassed && board.hasPiece(nextPosition)) {
             return;
         }
 
         if (hasPassed) {
-            Optional<Position> calculate = currentPosition.calculate(vector);
-
-            if (calculate.isEmpty()) {
-                return;
-            }
-            // 그런데 다음 지점이 기물이 존재하는데
-            if (board.hasPiece(calculate.get())) {
-                if (!board.isSameSide(side, calculate.get())) {
-                    result.add(calculate.get());
-                }
-                return;
-            }
-
-            result.add(calculate.get());
-            dfs(result, board, calculate.get(), vector, side, true);
+            result.add(nextPosition);
+            dfs(result, board, nextPosition, vector, side, true);
         }
 
-        Optional<Position> calculate = currentPosition.calculate(vector);
-        if (calculate.isEmpty()) {
-            return;
-        }
-
-        if (board.hasPiece(calculate.get())) {
-            dfs(result, board, calculate.get(), vector, side, true);
-        }
-
-        dfs(result, board, calculate.get(), vector, side, false);
+        dfs(result, board, nextPosition, vector, side, board.hasPiece(nextPosition));
     }
 }

@@ -28,7 +28,6 @@ public class Horse implements PieceBehavior {
         List<List<Vector>> rotateVectors = new ArrayList<>(VECTORS_LIST);
         for (int i = 0; i < 4; i++) {
             rotateVectors = Vector.rotate(rotateVectors);
-            System.out.println(rotateVectors);
 
             process(result, board, position, rotateVectors, side);
         }
