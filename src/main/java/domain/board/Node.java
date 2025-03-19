@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.PiecePath;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,17 +15,17 @@ public class Node {
         this.edges = new ArrayList<>();
     }
 
-    public Node followingNode(List<Direction> directions) {
+    public Node moveByPath(PiecePath piecePath) {
         Node currentNode = this;
-        for (Direction direction : directions) {
+        for (Direction direction : piecePath.directions()) {
             currentNode = currentNode.findNextNodeByDirection(direction);
         }
         return currentNode;
     }
 
-    public boolean existsFollowingNode(List<Direction> directions) {
+    public boolean canMoveByPath(PiecePath piecePath) {
         Node currentNode = this;
-        for (Direction direction : directions) {
+        for (Direction direction : piecePath.directions()) {
             if (!currentNode.hasEdgeByDirection(direction)) {
                 return false;
             }

@@ -1,50 +1,44 @@
 package domain.piece;
 
+import static domain.board.Direction.DOWN;
+import static domain.board.Direction.LEFT;
+import static domain.board.Direction.RIGHT;
+import static domain.board.Direction.UP;
+
 import domain.PieceMovement;
 import domain.PiecePath;
 import domain.PieceType;
 import domain.board.Board;
-import domain.board.Direction;
 import domain.board.Node;
 import java.util.ArrayList;
 import java.util.List;
-
-import static domain.board.Direction.*;
 
 public class Ma implements Piece {
 
     private static final List<PieceMovement> PIECE_MOVEMENTS = List.of(
             new PieceMovement(
-                    List.of(new PiecePath(List.of(UP))),
-                    new PiecePath(List.of(UP, UP, LEFT))
+                    List.of(new PiecePath(List.of(UP))), new PiecePath(List.of(UP, UP, LEFT))
             ),
             new PieceMovement(
-                    List.of(new PiecePath(List.of(UP))),
-                    new PiecePath(List.of(UP, UP, RIGHT))
+                    List.of(new PiecePath(List.of(UP))), new PiecePath(List.of(UP, UP, RIGHT))
             ),
             new PieceMovement(
-                    List.of(new PiecePath(List.of(RIGHT))),
-                    new PiecePath(List.of(RIGHT, RIGHT, UP))
+                    List.of(new PiecePath(List.of(RIGHT))), new PiecePath(List.of(RIGHT, RIGHT, UP))
             ),
             new PieceMovement(
-                    List.of(new PiecePath(List.of(RIGHT))),
-                    new PiecePath(List.of(RIGHT, RIGHT, DOWN))
+                    List.of(new PiecePath(List.of(RIGHT))), new PiecePath(List.of(RIGHT, RIGHT, DOWN))
             ),
             new PieceMovement(
-                    List.of(new PiecePath(List.of(DOWN))),
-                    new PiecePath(List.of(DOWN, DOWN, RIGHT))
+                    List.of(new PiecePath(List.of(DOWN))), new PiecePath(List.of(DOWN, DOWN, RIGHT))
             ),
             new PieceMovement(
-                    List.of(new PiecePath(List.of(DOWN))),
-                    new PiecePath(List.of(DOWN, DOWN, LEFT))
+                    List.of(new PiecePath(List.of(DOWN))), new PiecePath(List.of(DOWN, DOWN, LEFT))
             ),
             new PieceMovement(
-                    List.of(new PiecePath(List.of(LEFT))),
-                    new PiecePath(List.of(LEFT, LEFT, DOWN))
+                    List.of(new PiecePath(List.of(LEFT))), new PiecePath(List.of(LEFT, LEFT, DOWN))
             ),
             new PieceMovement(
-                    List.of(new PiecePath(List.of(LEFT))),
-                    new PiecePath(List.of(LEFT, LEFT, UP))
+                    List.of(new PiecePath(List.of(LEFT))), new PiecePath(List.of(LEFT, LEFT, UP))
             )
     );
 
@@ -59,40 +53,34 @@ public class Ma implements Piece {
         return findMovableNodes(team, source, board).contains(destination);
     }
 
-    private List<Node> findMovableNodes(Team team, Node startNode, Board board) {
+    private List<Node> findMovableNodes(Team team, Node sourceNode, Board board) {
         List<Node> candidates = new ArrayList<>();
-        for (PieceMovement pathToDestination : PIECE_MOVEMENTS) {
-            checkAndAddCandidate(team, startNode,
-                    pathToDestination.obstaclePaths(), pathToDestination.destinationPath(),
+        for (PieceMovement pieceMovement : PIECE_MOVEMENTS) {
+            checkObstaclesAndAddCandidate(team, sourceNode,
+                    pieceMovement.obstaclePaths(), pieceMovement.destinationPath(),
                     candidates, board);
         }
         return candidates;
     }
 
-    private void checkAndAddCandidate(Team team, Node startNode,
-                                      List<PiecePath> obstaclePaths, PiecePath destinationPath,
-                                      List<Node> candidates, final Board board) {
-        if (!startNode.existsFollowingNode(destinationPath.directions())) {
+    private void checkObstaclesAndAddCandidate(Team team, Node sourceNode,
+                                               List<PiecePath> obstaclePaths, PiecePath destinationPath,
+                                               List<Node> candidates, final Board board) {
+        if (!sourceNode.canMoveByPath(destinationPath)) {
             return;
         }
-        Node destinationNode = startNode.followingNode(destinationPath.directions());
 
-        List<Node> obstacleNodes = new ArrayList<>();
-        for (PiecePath obstaclePath : obstaclePaths) {
-            if (!startNode.existsFollowingNode(obstaclePath.directions())) {
-                continue;
-            }
-            Node obstacle = startNode.followingNode(obstaclePath.directions());
-
-            obstacleNodes.add(obstacle);
-        }
-
-        for (Node obstacleNode : obstacleNodes) {
-            if (board.existsPiece(obstacleNode)) {
-                return;
-            }
-        }
+        Node destinationNode = sourceNode.moveByPath(destinationPath);
         if (board.existsPieceByTeam(destinationNode, team)) {
+            return;
+        }
+
+        List<Node> obstacleNodes = obstaclePaths.stream()
+                .filter(sourceNode::canMoveByPath)
+                .map(sourceNode::moveByPath)
+                .toList();
+
+        if (obstacleNodes.stream().anyMatch(board::existsPiece)) {
             return;
         }
         candidates.add(destinationNode);

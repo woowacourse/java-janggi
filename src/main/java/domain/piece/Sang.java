@@ -1,16 +1,17 @@
 package domain.piece;
 
+import static domain.board.Direction.DOWN;
+import static domain.board.Direction.LEFT;
+import static domain.board.Direction.RIGHT;
+import static domain.board.Direction.UP;
+
 import domain.PieceMovement;
 import domain.PiecePath;
 import domain.PieceType;
 import domain.board.Board;
-import domain.board.Direction;
 import domain.board.Node;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static domain.board.Direction.*;
 
 public class Sang implements Piece {
 
@@ -60,40 +61,34 @@ public class Sang implements Piece {
         return findMovableNodes(team, source, board).contains(destination);
     }
 
-    private List<Node> findMovableNodes(Team team, Node startNode, Board board) {
+    private List<Node> findMovableNodes(Team team, Node sourceNode, Board board) {
         List<Node> candidates = new ArrayList<>();
-        for (PieceMovement pathToDestination : PIECE_MOVEMENTS) {
-            checkAndAddCandidate(team, startNode,
-                    pathToDestination.obstaclePaths(), pathToDestination.destinationPath(),
+        for (PieceMovement pieceMovement : PIECE_MOVEMENTS) {
+            checkObstaclesAndAddCandidate(team, sourceNode,
+                    pieceMovement.obstaclePaths(), pieceMovement.destinationPath(),
                     candidates, board);
         }
         return candidates;
     }
 
-    private void checkAndAddCandidate(Team team, Node startNode,
-                                      List<PiecePath> obstaclePaths, PiecePath destinationPath,
-                                      List<Node> candidates, final Board board) {
-        if (!startNode.existsFollowingNode(destinationPath.directions())) {
+    private void checkObstaclesAndAddCandidate(Team team, Node sourceNode,
+                                               List<PiecePath> obstaclePaths, PiecePath destinationPath,
+                                               List<Node> candidates, final Board board) {
+        if (!sourceNode.canMoveByPath(destinationPath)) {
             return;
         }
-        Node destinationNode = startNode.followingNode(destinationPath.directions());
 
-        List<Node> obstacleNodes = new ArrayList<>();
-        for (PiecePath obstaclePath : obstaclePaths) {
-            if (!startNode.existsFollowingNode(obstaclePath.directions())) {
-                continue;
-            }
-            Node obstacle = startNode.followingNode(obstaclePath.directions());
-
-            obstacleNodes.add(obstacle);
-        }
-
-        for (Node obstacleNode : obstacleNodes) {
-            if (board.existsPiece(obstacleNode)) {
-                return;
-            }
-        }
+        Node destinationNode = sourceNode.moveByPath(destinationPath);
         if (board.existsPieceByTeam(destinationNode, team)) {
+            return;
+        }
+
+        List<Node> obstacleNodes = obstaclePaths.stream()
+                .filter(sourceNode::canMoveByPath)
+                .map(sourceNode::moveByPath)
+                .toList();
+
+        if (obstacleNodes.stream().anyMatch(board::existsPiece)) {
             return;
         }
         candidates.add(destinationNode);

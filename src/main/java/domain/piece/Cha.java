@@ -20,13 +20,13 @@ public class Cha implements Piece {
         return findMovableNodes(team, source, board).contains(destination);
     }
 
-    private List<Node> findMovableNodes(Team team, Node startNode, Board board) {
-        List<Node> candidates = new ArrayList<>(List.of(startNode));
+    private List<Node> findMovableNodes(Team team, Node sourceNode, Board board) {
+        List<Node> candidates = new ArrayList<>(List.of(sourceNode));
         for (Direction direction : List.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)) {
-            if (!startNode.hasEdgeByDirection(direction)) {
+            if (!sourceNode.hasEdgeByDirection(direction)) {
                 continue;
             }
-            findCandidates(startNode.findNextNodeByDirection(direction), team, board, direction, candidates);
+            findCandidates(sourceNode.findNextNodeByDirection(direction), team, board, direction, candidates);
         }
         return candidates;
     }
