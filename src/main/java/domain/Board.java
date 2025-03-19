@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -12,45 +13,34 @@ public class Board {
     }
 
     public static Board initialize(
-            final PiecesSetupRule greenSetupRule,
-            final PiecesSetupRule redSetupRule
+
     ) {
         Map<Position, Piece> pieces = new HashMap<>();
-
-        pieces.put(new Position(0, 0), new Chariot(Team.GREEN));
-        pieces.put(greenSetupRule.getPiecePosition(Team.GREEN).get(PieceType.ELEPHANT).getFirst(), new Elephant(Team.GREEN));
-        pieces.put(greenSetupRule.getPiecePosition(Team.GREEN).get(PieceType.HORSE).getFirst(), new Horse(Team.GREEN));
-        pieces.put(new Position(3, 0), new Guard(Team.GREEN));
-        pieces.put(new Position(5, 0), new Guard(Team.GREEN));
-        pieces.put(greenSetupRule.getPiecePosition(Team.GREEN).get(PieceType.HORSE).getLast(), new Horse(Team.GREEN));
-        pieces.put(greenSetupRule.getPiecePosition(Team.GREEN).get(PieceType.ELEPHANT).getLast(), new Elephant(Team.GREEN));
-        pieces.put(new Position(8, 0), new Chariot(Team.GREEN));
-        pieces.put(new Position(1, 2), new Cannon(Team.GREEN));
-        pieces.put(new Position(7, 2), new Cannon(Team.GREEN));
-        pieces.put(new Position(0, 3), new 쭈(Team.GREEN));
-        pieces.put(new Position(2, 3), new 쭈(Team.GREEN));
-        pieces.put(new Position(4, 3), new 쭈(Team.GREEN));
-        pieces.put(new Position(6, 3), new 쭈(Team.GREEN));
-        pieces.put(new Position(8, 3), new 쭈(Team.GREEN));
-        pieces.put(new Position(4, 1), new General(Team.GREEN));
-
-        pieces.put(new Position(0, 9), new Chariot(Team.RED));
-        pieces.put(redSetupRule.getPiecePosition(Team.RED).get(PieceType.ELEPHANT).getFirst(), new Elephant(Team.RED));
-        pieces.put(redSetupRule.getPiecePosition(Team.RED).get(PieceType.HORSE).getFirst(), new Horse(Team.RED));
-        pieces.put(new Position(3, 9), new Guard(Team.RED));
-        pieces.put(new Position(5, 9), new Guard(Team.RED));
-        pieces.put(redSetupRule.getPiecePosition(Team.RED).get(PieceType.HORSE).getLast(), new Horse(Team.RED));
-        pieces.put(redSetupRule.getPiecePosition(Team.RED).get(PieceType.ELEPHANT).getLast(), new Elephant(Team.RED));
-        pieces.put(new Position(8, 9), new Chariot(Team.RED));
-        pieces.put(new Position(1, 7), new Cannon(Team.RED));
-        pieces.put(new Position(7, 7), new Cannon(Team.RED));
-        pieces.put(new Position(0, 6), new 쭈(Team.RED));
-        pieces.put(new Position(2, 6), new 쭈(Team.RED));
-        pieces.put(new Position(4, 6), new 쭈(Team.RED));
-        pieces.put(new Position(6, 6), new 쭈(Team.RED));
-        pieces.put(new Position(8, 6), new 쭈(Team.RED));
-        pieces.put(new Position(4, 8), new General(Team.RED));
-
+        initializeBoard(pieces);
         return new Board(pieces);
+    }
+
+    private static void initializeBoard(final Map<Position, Piece> pieces) {
+        Cannon.INITIAL_POSITION.forEach((team, positions) -> positions
+            .forEach(position -> pieces.put(position, new Cannon(team))));
+
+        Chariot.INITIAL_POSITION.forEach((team, positions) -> positions
+            .forEach(position -> pieces.put(position, new Chariot(team))));
+
+        Elephant.INITIAL_POSITION.forEach((team, positions) -> positions
+            .forEach(position -> pieces.put(position, new Elephant(team))));
+
+        General.INITIAL_POSITION.forEach((team, positions) -> positions
+            .forEach(position -> pieces.put(position, new General(team))));
+
+        Guard.INITIAL_POSITION.forEach((team, positions) -> positions
+            .forEach(position -> pieces.put(position, new Guard(team))));
+
+        Horse.INITIAL_POSITION.forEach((team, positions) -> positions
+            .forEach(position -> pieces.put(position, new Horse(team))));
+
+        쭈.INITIAL_POSITION.forEach((team, positions) -> positions
+            .forEach(position -> pieces.put(position, new 쭈(team))));
+
     }
 }
