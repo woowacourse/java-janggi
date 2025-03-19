@@ -40,10 +40,10 @@
 ### 객체 설계
 
 - 장기판
-  - ArrayList<ArrayList<Point>>
-  - 교차점 (Dot)
-    - 기물(을 위에 올려둘 수 있음. = 가질 수 있음)
-    - 행동 : yes or no (기물이 올려졌냐? 비었냐)
+  - ArrayList<ArrayList<Dot>>
+  - [x] 교차점 (Dot)
+    - [x] 기물(을 위에 올려둘 수 있음. = 가질 수 있음)
+    - [x] 행동 : yes or no (기물이 올려졌냐? 비었냐)
 
 - [x] 포인트 (좌표)
   - x, y
