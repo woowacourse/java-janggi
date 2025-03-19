@@ -2,8 +2,9 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.Side;
-import java.util.ArrayList;
+
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Cannon extends Piece {
 
@@ -22,70 +23,59 @@ public class Cannon extends Piece {
     @Override
     protected boolean isMoveablePath(List<Piece> existingPieces, Position destination) {
 
-        List<Piece> 이동하고자_하는_위치_내_기물들 = 이동하고자_하는_위치_내에_몇_가지_기물들(existingPieces, destination);
+        List<Piece> piecesOnPath = getPiecesOnPath(existingPieces, destination);
+        
+        if (hasOnePiece(piecesOnPath) && hasCannon(piecesOnPath)) {
 
-        if (이동하고자_하는_위치_내_기물들.size() == 1 && 이동하고자_하는_위치_내_기물들.stream()
-                .noneMatch(piece -> piece.getClass().equals(this.getClass()))) {
-
-            if (!배열_내에_특정_포지션을_갖는_말이_있는지(existingPieces, destination)) {
+            if (!hasPosition(existingPieces, destination)) {
                 return true;
             }
-            Piece piece = 배열_내에_특정_포지션을_갖는_말(existingPieces, destination);
+            Piece piece = findByPosition(existingPieces, destination);
 
             return piece.getSide() != getSide() && !piece.getClass().equals(this.getClass());
         }
         return false;
     }
 
-    private boolean 배열_내에_특정_포지션을_갖는_말이_있는지(List<Piece> existingPieces, Position position) {
+    private boolean hasOnePiece(List<Piece> pieces) {
+        return pieces.size() == 1;
+    }
+
+    private boolean hasCannon(List<Piece> pieces) {
+        return pieces.stream()
+            .noneMatch(piece -> piece.getClass().equals(this.getClass()));
+    }
+
+    private boolean hasPosition(List<Piece> existingPieces, Position position) {
         return existingPieces.stream()
                 .anyMatch(existingPiece -> existingPiece.isSamePosition(position));
     }
 
-
-    private Piece 배열_내에_특정_포지션을_갖는_말(List<Piece> existingPieces, Position position) {
+    private Piece findByPosition(List<Piece> existingPieces, Position position) {
         return existingPieces.stream()
                 .filter(existingPiece -> existingPiece.isSamePosition(position))
                 .findAny()
                 .get();
     }
 
-    private List<Piece> 이동하고자_하는_위치_내에_몇_가지_기물들(List<Piece> existingPieces, Position destination) {
-        List<Piece> result = new ArrayList<>();
-        int currentX = getXPosition();
-        int currentY = getYPosition();
-        int destinationX = destination.getX();
-        int destinationY = destination.getY();
-
+    private List<Piece> getPiecesOnPath(List<Piece> existingPieces, Position destination) {
         if (getPosition().hasSameX(destination)) {
-            if (currentY < destinationY) {
-                for (int y = currentY + 1; y < destinationY; y++) {
-                    if (배열_내에_특정_포지션을_갖는_말이_있는지(existingPieces, new Position(currentX, y))) {
-                        result.add(배열_내에_특정_포지션을_갖는_말(existingPieces, new Position(currentX, y)));
-                    }
-                }
-                return result;
-            }
-            for (int y = destinationY + 1; y < currentY; y++) {
-                if (배열_내에_특정_포지션을_갖는_말이_있는지(existingPieces, new Position(currentX, y))) {
-                    result.add(배열_내에_특정_포지션을_갖는_말(existingPieces, new Position(currentX, y)));
-                }
-            }
-            return result;
+            return getPiecesOnVerticalPath(existingPieces, destination.getY());
         }
-        if (currentX < destinationX) {
-            for (int x = currentX + 1; x < destinationX; x++) {
-                if (배열_내에_특정_포지션을_갖는_말이_있는지(existingPieces, new Position(x, currentY))) {
-                    result.add(배열_내에_특정_포지션을_갖는_말(existingPieces, new Position(x, currentY)));
-                }
-            }
-            return result;
-        }
-        for (int x = destinationX + 1; x < currentX; x++) {
-            if (배열_내에_특정_포지션을_갖는_말이_있는지(existingPieces, new Position(x, currentY))) {
-                result.add(배열_내에_특정_포지션을_갖는_말(existingPieces, new Position(x, currentY)));
-            }
-        }
-        return result;
+        return getPiecesOnHorizontalPath(existingPieces, destination.getX());
+    }
+
+    private List<Piece> getPiecesOnHorizontalPath(List<Piece> existingPieces, int destinationX) {
+        return IntStream.range(Math.min(getXPosition(), destinationX) + 1, Math.max(getXPosition(), destinationX))
+            .filter(x -> hasPosition(existingPieces, new Position(x, getYPosition())))
+            .mapToObj(x -> findByPosition(existingPieces, new Position(x, getYPosition())))
+            .toList();
+    }
+
+    private List<Piece> getPiecesOnVerticalPath(List<Piece> existingPieces, int destinationY) {
+        return IntStream.range(Math.min(getYPosition(), destinationY) + 1, Math.max(getYPosition(), destinationY))
+            .filter(y -> hasPosition(existingPieces, new Position(getXPosition(), y)))
+            .mapToObj(y -> findByPosition(existingPieces, new Position(getXPosition(), y)))
+            .toList();
     }
 }
