@@ -42,6 +42,6 @@ class CannonTest {
 
         assertThatThrownBy(() -> cannon.calculatePath(new Position(1, 1), new Position(2, 2)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("이 위치로는 움직일 수 없습니다.");
+                .hasMessage("이 위치로는 움직일 수 없습니다");
     }
 }
