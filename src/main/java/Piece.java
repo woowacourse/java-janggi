@@ -9,10 +9,7 @@ public abstract class Piece {
     }
 
     public boolean isSameDynasty(Piece piece) {
-        if (piece != null && piece.dynasty == this.dynasty) {
-            return true;
-        }
-        return false;
+        return piece != null && piece.dynasty == this.dynasty;
     }
 
     public abstract List<Dot> getRoute(Dot origin, Dot destination);

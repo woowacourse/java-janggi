@@ -1,17 +1,16 @@
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 
 public class JanggiTest {
     public static Stream<Arguments> provideXY() {
@@ -30,6 +29,13 @@ public class JanggiTest {
                 Arguments.of(Dot.of(5, 6), Dot.of(8, 4), List.of(Dot.of(6, 6), Dot.of(7, 5))),
                 Arguments.of(Dot.of(5, 6), Dot.of(3, 3), List.of(Dot.of(5, 5), Dot.of(4, 4)))
 
+        );
+    }
+
+    public static Stream<Arguments> providePawnAndOriginAndDestination() {
+        return Stream.of(
+                Arguments.of(new Pawn(Dynasty.HAN), Dot.of(0, 5), Dot.of(0, 6)),
+                Arguments.of(new Pawn(Dynasty.CHO), Dot.of(0, 3), Dot.of(0, 2))
         );
     }
 
@@ -340,7 +346,46 @@ public class JanggiTest {
         routesWithPiece.put(Dot.of(1, 3), new Chariot(Dynasty.HAN));
 
         // when // then
-        assertThatCode(() -> cannon.canMove(routesWithPiece, new Cannon(Dynasty.CHO))).isInstanceOf(UnsupportedOperationException.class)
+        assertThatCode(() -> cannon.canMove(routesWithPiece, new Cannon(Dynasty.CHO))).isInstanceOf(
+                        UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR]");
+    }
+
+    @DisplayName("병의 목적지로 가는 경로는 항상 비어있다.")
+    @Test
+    void pawnCanGetRoute() {
+        // given
+        Dot origin = Dot.of(1, 1);
+        Dot destination = Dot.of(1, 0);
+        Pawn pawn = new Pawn(Dynasty.HAN);
+
+        // when
+        List<Dot> actual = pawn.getRoute(origin, destination);
+
+        // then
+        assertThat(actual).isEmpty();
+    }
+
+    @DisplayName("병은 뒤로 이동할 수 없다.")
+    @ParameterizedTest
+    @MethodSource("providePawnAndOriginAndDestination")
+    void pawnCannotMoveBack(Pawn pawn, Dot origin, Dot destination) {
+        // when // then
+        assertThatCode(() -> pawn.getRoute(origin, destination))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageStartingWith("[ERROR]");
+    }
+
+    @DisplayName("차는 목적지에 같은 나라의 기물이 존재한다면 이동할 수 없다")
+    @Test
+    void pawnJudgeMovable3() {
+        // given
+        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Pawn pawn = new Pawn(Dynasty.HAN);
+
+        // when // then
+        assertThatCode(() -> pawn.canMove(routesWithPiece, new Chariot(Dynasty.HAN)))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageStartingWith("[ERROR] ");
     }
 }
