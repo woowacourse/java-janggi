@@ -81,10 +81,18 @@ public class Elephant extends Piece {
 
     private Set<Position> findAllAvailablePositions(int currentX, int currentY, int x, int y) {
         Set<Position> result = new HashSet<>();
-        result.add(new Position(currentX - x, currentY - y));
-        result.add(new Position(currentX + x, currentY + y));
-        result.add(new Position(currentX + x, currentY - y));
-        result.add(new Position(currentX - x, currentY + y));
+        addPositionIfPossible(result, currentX - x, currentY - y);
+        addPositionIfPossible(result, currentX + x, currentY + y);
+        addPositionIfPossible(result,currentX + x, currentY - y);
+        addPositionIfPossible(result,currentX - x, currentY + y);
         return result;
+    }
+
+    private void addPositionIfPossible(Set<Position> result, int x, int y) {
+        try {
+            result.add(new Position(x, y));
+        } catch (IllegalArgumentException ignored) {
+
+        }
     }
 }
