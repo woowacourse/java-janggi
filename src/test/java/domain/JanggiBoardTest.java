@@ -176,7 +176,21 @@ public class JanggiBoardTest {
         }
 
         @Test
-        void 포를_이동시킬_수_있다() {
+        void 차를_오른쪽으로_이동시킬_수_있다() {
+            // given
+
+            JanggiBoard janggiBoard = new JanggiBoard();
+            janggiBoard.move(0, 2, 8, 3);
+
+            // when
+            janggiBoard.move(0, 1, 0, 2);
+
+            // then
+            assertThat(janggiBoard.getPieceFrom(0, 2)).isInstanceOf(차.class);
+        }
+
+        @Test
+        void 포는_기물을_하나_뛰어넘어서_이동할_수_있다() {
             // given
             JanggiBoard janggiBoard = new JanggiBoard();
 
@@ -188,7 +202,17 @@ public class JanggiBoardTest {
             janggiBoard.move(8, 2, 4, 2);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(4, 2)).isInstanceOf(차.class);
+            assertThat(janggiBoard.getPieceFrom(4, 2)).isInstanceOf(포.class);
         }
+    }
+
+    @Test
+    void 포는_포를_뛰어넘을_수_없다() {
+
+    }
+
+    @Test
+    void 포는_기물을_두_개_이상_뛰어넘을_수_없다() {
+
     }
 }

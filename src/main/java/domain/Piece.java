@@ -14,4 +14,7 @@ public abstract class Piece {
 
     public abstract List<Pattern> findPath(int beforeRow, int beforeColumn, int afterRow, int afterColumn);
 
+    public boolean isEmpty() {
+        return false;
+    }
 }
