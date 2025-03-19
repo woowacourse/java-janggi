@@ -1,5 +1,6 @@
-package domain;
+package domain.board;
 
+import domain.PieceType;
 import domain.piece.Byeong;
 import domain.piece.Cha;
 import domain.piece.Ma;
@@ -7,6 +8,7 @@ import domain.piece.Piece;
 import domain.piece.Po;
 import domain.piece.Sa;
 import domain.piece.Sang;
+import domain.piece.Team;
 import domain.piece.Wang;
 import java.util.ArrayDeque;
 import java.util.ArrayList;

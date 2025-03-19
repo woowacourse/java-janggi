@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 import java.util.Collections;
 import java.util.List;

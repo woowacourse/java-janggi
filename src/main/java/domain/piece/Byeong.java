@@ -1,7 +1,5 @@
 package domain.piece;
 
-import domain.Team;
-
 public class Byeong implements Piece {
 
     private final Team team;
