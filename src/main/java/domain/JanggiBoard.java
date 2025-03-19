@@ -17,22 +17,24 @@ public class JanggiBoard {
         Piece startPiece = findPiece(startPosition);
         Piece targetPositionPiece = findPiece(targetPosition);
         List<Position> path = startPiece.calculatePath(startPosition, targetPosition);
+        if (startPiece.isCanon()) {
+            if (countPieceInPath(path) != 1) {
+                throw new IllegalArgumentException("포는 다른 말 하나를 뛰어넘어야 합니다.");
+            }
+        }
         if (!startPiece.isCanon()) {
             for (Position position : path) {
                 isPositionEmpty(position);
             }
-            if (findPiece(targetPosition) == null || !startPiece.compareTeam(targetPositionPiece)) {
-                board.remove(startPosition);
-                board.put(targetPosition, startPiece);
-                return;
-            }
-            if (startPiece.compareTeam(targetPositionPiece)) {
-                throw new IllegalArgumentException("해당 위치는 아군의 말이 있으므로 이동 불가능 합니다.");
-            }
         }
 
-        if (countPieceInPath(path) != 1) {
-            throw new IllegalArgumentException("포는 다른 말 하나를 뛰어넘어야 합니다.");
+        if (findPiece(targetPosition) == null || !startPiece.compareTeam(targetPositionPiece)) {
+            board.remove(startPosition);
+            board.put(targetPosition, startPiece);
+            return;
+        }
+        if (startPiece.compareTeam(targetPositionPiece)) {
+            throw new IllegalArgumentException("해당 위치는 아군의 말이 있으므로 이동 불가능 합니다.");
         }
     }
 
