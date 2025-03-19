@@ -20,22 +20,21 @@ public enum 차Path {
         차Path newPath = null;
         int additionalSize = 0;
         if (afterPosition.x() == beforePosition.x()) {
-            if (afterPosition.isBiggerXThan(beforePosition)) {
-                newPath = 차Path.LEFT;
-                additionalSize = beforePosition.y() - afterPosition.y();
-            }
-            if (beforePosition.isBiggerYThan(afterPosition)) {
+            if (afterPosition.isBiggerYThan(beforePosition)) {
                 newPath = 차Path.RIGHT;
-                additionalSize = afterPosition.y() - beforePosition.y();
+                additionalSize = afterPosition.getYGap(beforePosition);
+            } else {
+                newPath = 차Path.LEFT;
+                additionalSize = afterPosition.getYGap(beforePosition);
             }
         }
         if (afterPosition.y() == beforePosition.y()) {
-            if (afterPosition.x() > beforePosition.x()) {
+            if (afterPosition.isBiggerXThan(beforePosition)) {
                 newPath = 차Path.DOWN;
-                additionalSize = afterPosition.x() - beforePosition.x();
+                additionalSize = afterPosition.getXGap(beforePosition);
             } else {
                 newPath = 차Path.UP;
-                additionalSize = beforePosition.x() - afterPosition.x();
+                additionalSize = afterPosition.getXGap(beforePosition);
             }
         }
         if (newPath == null) {

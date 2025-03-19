@@ -15,7 +15,7 @@ public class 차PathTest {
     @MethodSource("provide차Path")
     void 차의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(Position afterPosition, List<Pattern> path) {
         // given
-        int beforeRow = 10;
+        int beforeRow = 0;
         int beforeColumn = 1;
         Position beforePosition = new Position(beforeRow, beforeColumn);
 
@@ -31,7 +31,7 @@ public class 차PathTest {
                 Arguments.of(new Position(5, 1),
                         List.of(차Path.UP.getPattern(), 차Path.UP.getPattern(), 차Path.UP.getPattern(),
                                 차Path.UP.getPattern(), 차Path.UP.getPattern())),
-                Arguments.of(new Position(10, 9),
+                Arguments.of(new Position(0, 9),
                         List.of(차Path.RIGHT.getPattern(), 차Path.RIGHT.getPattern(), 차Path.RIGHT.getPattern(),
                                 차Path.RIGHT.getPattern(), 차Path.RIGHT.getPattern(), 차Path.RIGHT.getPattern(),
                                 차Path.RIGHT.getPattern(), 차Path.RIGHT.getPattern()))
@@ -41,7 +41,7 @@ public class 차PathTest {
     @Test
     void 차의_이동_전_후_위치가_알맞지_않으면_예외를_발생시킨다() {
         // given
-        int beforeRow = 10;
+        int beforeRow = 0;
         int beforeColumn = 1;
         Position beforePosition = new Position(beforeRow, beforeColumn);
 

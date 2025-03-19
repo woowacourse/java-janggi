@@ -58,4 +58,20 @@ public record Position(int x, int y) {
     public boolean isBiggerYThan(Position beforePosition) {
         return this.y > beforePosition.y;
     }
+
+    public int getXGap(Position beforePosition) {
+        if (this.x == 0) {
+            return 10 - beforePosition.x();
+        }
+
+        if (beforePosition.x == 0) {
+            return 10 - this.x;
+        }
+
+        return Math.abs(this.x - beforePosition.x);
+    }
+
+    public int getYGap(Position beforePosition) {
+        return Math.abs(this.y - beforePosition.y);
+    }
 }

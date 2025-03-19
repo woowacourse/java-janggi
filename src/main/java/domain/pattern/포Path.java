@@ -20,21 +20,21 @@ public enum 포Path {
         포Path newPath = null;
         int additionalSize = 0;
         if (afterPosition.x() == beforePosition.x()) {
-            if (afterPosition.y() > beforePosition.y()) {
+            if (afterPosition.isBiggerYThan(beforePosition)) {
                 newPath = 포Path.RIGHT;
-                additionalSize = afterPosition.y() - beforePosition.y();
+                additionalSize = afterPosition.getYGap(beforePosition);
             } else {
                 newPath = 포Path.LEFT;
-                additionalSize = beforePosition.y() - afterPosition.y();
+                additionalSize = afterPosition.getYGap(beforePosition);
             }
         }
         if (afterPosition.y() == beforePosition.y()) {
-            if (beforePosition.y() > beforePosition.x()) {
+            if (afterPosition.isBiggerXThan(beforePosition)) {
                 newPath = 포Path.DOWN;
-                additionalSize = beforePosition.y() - beforePosition.x();
+                additionalSize = afterPosition.getXGap(beforePosition);
             } else {
                 newPath = 포Path.UP;
-                additionalSize = beforePosition.x() - beforePosition.y();
+                additionalSize = afterPosition.getXGap(beforePosition);
             }
         }
         if (newPath == null) {

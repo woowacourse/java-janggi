@@ -4,6 +4,8 @@ import domain.pattern.Pattern;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class PositionTest {
     @Test
@@ -77,5 +79,39 @@ public class PositionTest {
 
         // then
         Assertions.assertThat(isBiggerY).isTrue();
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0, 8, 2", "3, 7, 4", "8, 0, 2"})
+    void x좌표끼리의_차이를_구할_수_있다(int beforeX, int afterX, int expected) {
+        // given
+        int beforeY = 1;
+        int afterY = 1;
+
+        Position beforePosition = new Position(beforeX, beforeY);
+        Position afterPosition = new Position(afterX, afterY);
+
+        // when
+        int gap = afterPosition.getXGap(beforePosition);
+
+        // then
+        Assertions.assertThat(gap).isEqualTo(expected);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"9, 8, 1", "3, 7, 4", "1, 8, 7"})
+    void y좌표끼리의_차이를_구할_수_있다(int beforeY, int afterY, int expected) {
+        // given
+        int beforeX = 1;
+        int afterX = 1;
+
+        Position beforePosition = new Position(beforeX, beforeY);
+        Position afterPosition = new Position(afterX, afterY);
+
+        // when
+        int gap = afterPosition.getYGap(beforePosition);
+
+        // then
+        Assertions.assertThat(gap).isEqualTo(expected);
     }
 }
