@@ -8,7 +8,7 @@ public class Pawn extends Piece {
     private final List<Route> routes;
 
     public Pawn(int x, int y, Team team) {
-        super(x, y);
+        super(x, y, team);
         routes = new ArrayList<>();
         routes.add(new Route(List.of(new Position(-1, 0))));
         routes.add(new Route(List.of(new Position(1, 0))));

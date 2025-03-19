@@ -13,8 +13,8 @@ public class Pao extends Piece {
         );
     }
 
-    public Pao(int x, int y) {
-        super(x,y);
+    public Pao(int x, int y, Team team) {
+        super(x, y, team);
     }
 
     @Override

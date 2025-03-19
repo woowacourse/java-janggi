@@ -20,8 +20,8 @@ public class Horse extends Piece {
         );
     }
 
-    public Horse(int x, int y) {
-        super(x, y);
+    public Horse(int x, int y, Team team) {
+        super(x, y, team);
     }
 
     @Override

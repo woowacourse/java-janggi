@@ -5,10 +5,10 @@ public class Board {
     private static final int WIDTH_SIZE = 9;
     private static final int HEIGHT_SIZE = 10;
 
-    List<Piece> pieces;
+    private final List<Piece> pieces;
 
-    public Board(List<Piece> es) {
-        this.pieces = es;
+    public Board(List<Piece> pieces) {
+        this.pieces = pieces;
     }
 
     public boolean isInboard(Position position) {
@@ -16,8 +16,19 @@ public class Board {
             && position.y() < HEIGHT_SIZE && position.y() >= 0;
     }
 
-    public boolean hasPieceOn(Position nextPos) {
+    public boolean hasPieceOn(Position position) {
         return pieces.stream()
-            .anyMatch(piece -> piece.onPosition(nextPos));
+            .anyMatch(piece -> piece.onPosition(position));
+    }
+
+    public Piece get(Position position) {
+        return pieces.stream()
+            .filter(piece -> piece.onPosition(position))
+            .findAny()
+            .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public void take(Piece target) {
+        pieces.remove(target);
     }
 }

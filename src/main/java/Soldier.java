@@ -13,8 +13,8 @@ public class Soldier extends Piece {
         );
     }
 
-    public Soldier(int x, int y) {
-        super(x, y);
+    public Soldier(int x, int y, Team team) {
+        super(x, y, team);
     }
 
     @Override

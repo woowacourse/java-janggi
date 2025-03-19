@@ -13,8 +13,8 @@ public class Chariot extends Piece {
         );
     }
 
-    public Chariot(int x, int y) {
-        super(x, y);
+    public Chariot(int x, int y, Team team) {
+        super(x, y, team);
     }
 
     @Override

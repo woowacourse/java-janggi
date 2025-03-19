@@ -2,9 +2,11 @@ import java.util.List;
 
 public abstract class Piece {
 
+    private Team team;
     protected Position position;
 
-    public Piece(int x, int y) {
+    protected Piece(int x, int y, Team team) {
+        this.team = team;
         position = new Position(x, y);
     }
 
@@ -16,10 +18,23 @@ public abstract class Piece {
         if (!canMove(board, dx, dy)) {
             throw new IllegalArgumentException();
         }
+        arrival(board, target);
         position = target;
     }
 
     protected abstract boolean canMove(Board board, int dx, int dy);
+
+    public void arrival(Board board, Position target) {
+        if (!board.hasPieceOn(target)) {
+            return;
+        }
+        Piece targetPiece = board.get(target);
+        if (targetPiece.team == team) {
+            throw new IllegalArgumentException();
+        } else {
+            board.take(targetPiece);
+        }
+    }
 
     public Position getPosition() {
         return position;
