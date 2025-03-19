@@ -11,6 +11,13 @@ public class Pieces {
         this.pieces = pieces;
     }
 
+    public Piece findByPosition(final Position position) {
+        return pieces.stream()
+                .filter(element -> element.getPosition().equals(position))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
     public List<Piece> getPieces() {
         return Collections.unmodifiableList(pieces);
     }
