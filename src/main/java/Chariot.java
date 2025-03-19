@@ -18,8 +18,8 @@ public class Chariot extends Piece {
     }
 
     @Override
-    protected boolean canMove(Board board, int x, int y) {
-        Position target = position.move(x, y);
+    protected boolean canMove(Board board, int dx, int dy) {
+        Position target = position.move(dx, dy);
         for (var route : routes) {
             Position dir = route.positions().getFirst();
             Position nextPos = position.move(dir.x(), dir.y());

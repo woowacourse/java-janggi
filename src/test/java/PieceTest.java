@@ -82,4 +82,21 @@ class PieceTest {
             .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @Test
+    @DisplayName("마는 적절한 이동이 가능하다")
+    void horseMoveTest() {
+        Piece p = new Horse(5,5);
+        p.move(board, 2,1);
+        assertThat(p.getPosition().x()).isEqualTo(7);
+        assertThat(p.getPosition().y()).isEqualTo(6);
+    }
+
+    @Test
+    @DisplayName("마의 이동 범위를 벗어나면 예외를 반환한다")
+    void horseMoveExceptionTest() {
+        Piece p = new Horse(5,5);
+        assertThatThrownBy(() -> p.move(board, 3,0))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+
 }

@@ -18,11 +18,12 @@ public class Palace extends Piece {
     }
 
     @Override
-    protected boolean canMove(Board board, int x, int y) {
+    protected boolean canMove(Board board, int dx, int dy) {
+        Position target = position.move(dx, dy);
         for (var route : routes) {
             Position routeSum = route.sum();
-            Position difference = routeSum.differenceWith(position);
-            if (position.differenceWith(new Position(x, y)).equals(difference)) {
+            Position expected = position.move(routeSum);
+            if (target.equals(expected)) {
                 return true;
             }
         }

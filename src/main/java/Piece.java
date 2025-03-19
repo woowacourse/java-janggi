@@ -15,7 +15,7 @@ public abstract class Piece {
         position = position.move(dx, dy);
     }
 
-    protected abstract boolean canMove(Board board, int x, int y);
+    protected abstract boolean canMove(Board board, int dx, int dy);
 
     public Position getPosition() {
         return position;

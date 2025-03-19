@@ -6,7 +6,7 @@ public record Position(
         return new Position(this.x + x, this.y + y);
     }
 
-    public Position differenceWith(Position position) {
-        return new Position(x - position.x, y - position.y);
+    public Position move(Position other) {
+        return new Position(x + other.x, y + other.y);
     }
 }
