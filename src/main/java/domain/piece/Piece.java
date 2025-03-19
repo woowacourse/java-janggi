@@ -1,42 +1,39 @@
 package domain.piece;
 
+import domain.Board;
 import domain.Coordinate;
 import domain.Team;
-import java.util.Objects;
+import java.util.Set;
 
-public class Piece {
+public abstract class Piece {
 
-    private final Coordinate coordinate;
-    private final Team team;
+    protected final Team team;
 
-    public Piece(Coordinate coordinate, Team team) {
-        this.coordinate = coordinate;
+    public Piece(Team team) {
         this.team = team;
     }
 
-    public Piece move(Coordinate coordinate) {
-        return new Piece(coordinate, team);
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (object == null || getClass() != object.getClass()) {
+    public final boolean canMove(Board board, Coordinate departure, Coordinate arrival) {
+        if (!findMovableCandidates(departure).contains(arrival)) {
             return false;
         }
-        Piece piece = (Piece) object;
-        return Objects.equals(coordinate, piece.coordinate) && team == piece.team;
+        if (!canMoveConsideringObstacles(board, departure, arrival)) {
+            return false;
+        }
+        return true;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(coordinate, team);
+    protected abstract Set<Coordinate> findMovableCandidates(Coordinate departure);
+
+    protected abstract boolean canMoveConsideringObstacles(Board board, Coordinate departure, Coordinate arrival);
+
+    protected abstract Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival);
+
+    public final boolean isSameTeam(Piece piece) {
+        return piece.team.equals(this.team);
     }
 
-    @Override
-    public String toString() {
-        return "Piece{" +
-                "coordinate=" + coordinate +
-                ", team=" + team +
-                '}';
+    public boolean isPo() {
+        return this instanceof Po;
     }
 }
