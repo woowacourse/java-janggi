@@ -57,4 +57,9 @@ public class BoardLocation {
     public boolean isDown(BoardLocation current){
         return current.y - y < 0;
     }
+
+    public boolean isUp(BoardLocation current){
+        return current.y - y > 0;
+    }
+
 }

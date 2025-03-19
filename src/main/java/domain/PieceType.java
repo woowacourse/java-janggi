@@ -6,7 +6,8 @@ public enum PieceType {
     HORSE(new HorseMoveStrategy()),
     ELEPHANT(new ElephantMoveStrategy()),
     SCHOLAR(new ScholarMoveStrategy()),
-    KING(new KingMoveStrategy());
+    KING(new KingMoveStrategy()),
+    HAN_PAWN(new HanPawnMoveStrategy()),;
     private final MoveStrategy moveStrategy;
 
     PieceType(MoveStrategy moveStrategy) {
