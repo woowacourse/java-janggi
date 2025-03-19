@@ -1,5 +1,6 @@
 package piece;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Pieces {
@@ -12,5 +13,9 @@ public class Pieces {
 
     public int size() {
         return pieces.size();
+    }
+
+    public List<Piece> getPieces() {
+        return Collections.unmodifiableList(pieces);
     }
 }
