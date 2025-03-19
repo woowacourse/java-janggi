@@ -21,7 +21,7 @@ class MaTest {
         Set<Coordinate> movableCandidates = ma.findMovableCandidates(new Coordinate(5, 5));
 
         // then
-        assertThat(movableCandidates).contains(
+        assertThat(movableCandidates).containsOnly(
                 new Coordinate(3, 4),
                 new Coordinate(3, 6),
                 new Coordinate(4, 3),
@@ -39,7 +39,7 @@ class MaTest {
 
         @Test
         @DisplayName("마가 (5,5) -> (3,4) OR (3,6)으로 이동할 때 (4,5)를 반환한다.")
-        void test2() {
+        void test1() {
             // given
             Ma ma = new Ma(Team.HAN);
 
@@ -54,7 +54,7 @@ class MaTest {
 
         @Test
         @DisplayName("마가 (5,5) -> (4,3) OR (6,3)으로 이동할 때 (5,4)를 반환한다.")
-        void test3() {
+        void test2() {
             // given
             Ma ma = new Ma(Team.HAN);
 
@@ -69,7 +69,7 @@ class MaTest {
 
         @Test
         @DisplayName("마가 (5,5) -> (7,4) OR (7,6)으로 이동할 때 (6,5)를 반환한다.")
-        void test4() {
+        void test3() {
             // given
             Ma ma = new Ma(Team.HAN);
 
@@ -84,7 +84,7 @@ class MaTest {
 
         @Test
         @DisplayName("마가 (5,5) -> (4,7) OR (6,7)으로 이동할 때 (5,6)를 반환한다.")
-        void test5() {
+        void test4() {
             // given
             Ma ma = new Ma(Team.HAN);
 
