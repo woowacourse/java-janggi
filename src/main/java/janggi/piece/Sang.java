@@ -17,7 +17,7 @@ public class Sang implements Piece {
         this.position = position;
     }
 
-    public static List<Sang> generateInitialPos(final CampType campType, final List<Integer> xPositions) {
+    public static List<Sang> generateInitialSangs(final CampType campType, final List<Integer> xPositions) {
         int yPosition = Math.abs(campType.getStartYPosition() - height);
         return xPositions.stream()
                 .map(xPosition -> new Sang(new Position(xPosition, yPosition)))

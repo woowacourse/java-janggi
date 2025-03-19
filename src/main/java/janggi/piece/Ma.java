@@ -17,7 +17,11 @@ public class Ma implements Piece {
         this.position = position;
     }
 
-    public static List<Ma> generateInitialPos(final CampType campType, final List<Integer> xPositions) {
+    public static Ma from(final Position position) {
+        return new Ma(position);
+    }
+
+    public static List<Ma> generateInitialMas(final CampType campType, final List<Integer> xPositions) {
         int yPosition = Math.abs(campType.getStartYPosition() - height);
         return xPositions.stream()
                 .map(xPosition -> new Ma(new Position(xPosition, yPosition)))
@@ -26,13 +30,32 @@ public class Ma implements Piece {
 
     @Override
     public Ma move(Position destination, List<Piece> enemy, List<Piece> allies) {
+        boolean isAble = ableToMove(destination, enemy, allies);
+        if (!isAble) {
+            throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
+        }
         return new Ma(destination);
     }
 
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        return true;
+        MaDirection maDirection = MaDirection.of(position, destination);
+        if (maDirection == MaDirection.NONE) {
+            return false;
+        }
+        boolean isEnemyExist = enemy.stream()
+                .anyMatch(enemyPiece -> maDirection.isDirectRoute(position, enemyPiece.getPosition()));
+        if (isEnemyExist) {
+            return false;
+        }
+        boolean isAlliesExist = allies.stream()
+                .anyMatch(alliesPiece -> maDirection.isDirectRoute(position, alliesPiece.getPosition()));
+        if (isAlliesExist) {
+            return false;
+        }
+        return allies.stream().noneMatch(alliesPiece -> destination.equals(alliesPiece.getPosition()));
     }
+
 
     @Override
     public PieceType getPieceType() {

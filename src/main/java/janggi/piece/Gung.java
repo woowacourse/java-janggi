@@ -53,7 +53,7 @@ public class Gung implements Piece {
                 || destination.equals(new Position(position.getX(), position.getY() + 1));
     }
 
-    private static boolean isNotHurdle(Position destination, List<Piece> allies) {
+    private boolean isNotHurdle(Position destination, List<Piece> allies) {
         return allies.stream()
                 .noneMatch(piece -> piece.getPosition().equals(destination));
     }

@@ -30,8 +30,8 @@ public enum AssignType {
 
     public List<Piece> makeAssign(CampType campType) {
         List<Piece> allPieces = new ArrayList<>();
-        allPieces.addAll(Sang.generateInitialPos(campType, sangXPositions));
-        allPieces.addAll(Ma.generateInitialPos(campType, maXPositions));
+        allPieces.addAll(Sang.generateInitialSangs(campType, sangXPositions));
+        allPieces.addAll(Ma.generateInitialMas(campType, maXPositions));
         allPieces.addAll(Gung.generateInitialGung(campType));
         allPieces.addAll(Sa.generateInitialSas(campType));
         allPieces.addAll(Cha.generateInitialChas(campType));
