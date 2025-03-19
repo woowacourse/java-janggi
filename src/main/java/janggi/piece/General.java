@@ -4,14 +4,14 @@ import janggi.board.Position;
 
 import java.util.Map;
 
-public class Guard extends Piece {
+public class General extends Piece {
 
-    private static final String NAME = "사";
+    private static final String NAME = "궁";
 
     private static final int[][] dRows = {{1}, {0}, {0}, {-1}};
     private static final int[][] dColumns = {{0}, {-1}, {1}, {0}};
 
-    public Guard(String team) {
+    public General(String team) {
         super(team);
     }
 
@@ -47,6 +47,6 @@ public class Guard extends Piece {
 
     @Override
     protected boolean isSameType(Piece other) {
-        return other instanceof Guard;
+        return other instanceof General;
     }
 }
