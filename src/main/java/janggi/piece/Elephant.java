@@ -3,6 +3,7 @@ package janggi.piece;
 import janggi.movement.Movement;
 import janggi.position.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -37,15 +38,61 @@ public class Elephant implements Piece{
     }
 
     @Override
-    public Map<Position, Boolean> isAlreadyLocatedWithinOneSpaceOrAtThatSpace(List<Position> possiblePositions) {
+    public Map<Position, Boolean> isAlreadyLocatedWithinOneSpaceOrAtThatSpace(Piece selectedPiece) {
+        List<Position> temp = new ArrayList<>();
+        List<Position> possibleMoves = selectedPiece.checkPossibleMoves();
+        System.out.println(possibleMoves);
+        if(canMoveFirstStep(selectedPiece)) {
+            System.out.println("여기");
+            for (Position possibleMove : possibleMoves) {
+                System.out.println(possibleMove);
+                if (!(Math.abs(possibleMove.getX()) - Math.abs(this.position.getX()) == 2)) {
+                    temp.add(possibleMove);
+                }
+            }
+        };
+        System.out.println(temp);
         return Map.of();
     }
 
     @Override
+    public boolean canMoveFirstStep(Piece seletedPiece) {
+        if(position.getX() + 1 == seletedPiece.getPosition().getX() && seletedPiece.getPosition().getY() == position.getY()) {
+            return false;
+        }
+        if(position.getX() - 1 == seletedPiece.getPosition().getX() && seletedPiece.getPosition().getY() == position.getY()) {
+            return false;
+        }
+        if(seletedPiece.getPosition().getX() == position.getX() && position.getY() + 1 == seletedPiece.getPosition().getY()) {
+            return false;
+        }
+        return !(seletedPiece.getPosition().getX() == position.getX() && position.getY() - 1 == seletedPiece.getPosition().getY());
+    }
+
+    /*@Override
+    public boolean canMoveFirstStep(Piece seletedPiece) {
+        if(seletedPiece.getPosition().getX() + 1 == position.getX() && seletedPiece.getPosition().getY() == position.getY()) {
+            return false;
+        }
+        if(seletedPiece.getPosition().getX() - 1 == position.getX() && seletedPiece.getPosition().getY() == position.getY()) {
+            return false;
+        }
+        if(seletedPiece.getPosition().getX() == position.getX() && seletedPiece.getPosition().getY() + 1 == position.getY()) {
+            return false;
+        }
+        return !(seletedPiece.getPosition().getX() == position.getX() && seletedPiece.getPosition().getY() - 1 == position.getY());
+    }*/
+
+    @Override
     public boolean isOneSpaceAway(Position piecePosition, Position possiblePosition) { //piecePosition
-        if (piecePosition.getX() == possiblePosition)
+//        if (piecePosition.getX() == possiblePosition)
 //        this.position.getX() + 1
         return false;
+    }
+
+    @Override
+    public Position getPosition() {
+        return position;
     }
 
     @Override

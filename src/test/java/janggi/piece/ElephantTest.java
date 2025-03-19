@@ -53,4 +53,37 @@ public class ElephantTest {
         );
         assertThat(possibleMoves).containsAll(expectedPossibleMoves);
     }
+
+    @DisplayName("멱인지 확인 테스트")
+    @Test
+    void 멱테스트() {
+        Elephant selectedElephant = new Elephant(new Position(2,2));
+
+        Elephant elephant2 = new Elephant(new Position(3,2));
+        Elephant elephant3 = new Elephant(new Position(1,2));
+        Elephant elephant4 = new Elephant(new Position(2,3));
+        Elephant elephant5 = new Elephant(new Position(2,1));
+
+        Elephant elephant6 = new Elephant(new Position(2,0));
+        Elephant elephant7 = new Elephant(new Position(2,0));
+        Elephant elephant8 = new Elephant(new Position(2,0));
+
+        assertThat(selectedElephant.canMoveFirstStep(elephant2)).isFalse();
+        assertThat(selectedElephant.canMoveFirstStep(elephant3)).isFalse();
+        assertThat(selectedElephant.canMoveFirstStep(elephant4)).isFalse();
+        assertThat(selectedElephant.canMoveFirstStep(elephant5)).isFalse();
+        assertThat(selectedElephant.canMoveFirstStep(elephant6)).isTrue();
+        assertThat(selectedElephant.canMoveFirstStep(elephant7)).isTrue();
+        assertThat(selectedElephant.canMoveFirstStep(elephant8)).isTrue();
+    }
+
+    @DisplayName("실제 이동 리스트 반환 확인")
+    @Test
+    void 실제이동테스트() {
+        Elephant elephant = new Elephant(new Position(2,2));
+        Elephant elephant2 = new Elephant(new Position(3,2));
+
+        elephant2.isAlreadyLocatedWithinOneSpaceOrAtThatSpace(elephant);
+
+    }
 }

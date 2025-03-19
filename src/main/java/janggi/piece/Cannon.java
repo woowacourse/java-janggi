@@ -44,12 +44,22 @@ public class Cannon implements Piece{
     }
 
     @Override
-    public Map<Position, Boolean> isAlreadyLocatedWithinOneSpaceOrAtThatSpace(List<Position> possiblePositions) {
+    public Map<Position, Boolean> isAlreadyLocatedWithinOneSpaceOrAtThatSpace(Piece selectedPiece) {
         return Map.of();
     }
 
     @Override
     public boolean isOneSpaceAway(Position piecePosition, Position possiblePosition) {
+        return false;
+    }
+
+    @Override
+    public Position getPosition() {
+        return position;
+    }
+
+    @Override
+    public boolean canMoveFirstStep(Piece seletedPiece) {
         return false;
     }
 

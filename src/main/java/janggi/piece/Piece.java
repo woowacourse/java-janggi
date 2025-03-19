@@ -12,10 +12,14 @@ public interface Piece {
     List<Position> checkPossibleMoves();
 
     /// todo 1
-    public Map<Position, Boolean> isAlreadyLocatedWithinOneSpaceOrAtThatSpace(List<Position> possiblePositions);
+    public Map<Position, Boolean> isAlreadyLocatedWithinOneSpaceOrAtThatSpace(Piece selectedPiece);
     // todo 2
     boolean isOneSpaceAway(Position piecePosition, Position possiblePosition);
     //
+
+    Position getPosition();
+    boolean canMoveFirstStep(Piece seletedPiece);
+
     default boolean isAtThatSpace(Position piecePosition, Position possiblePosition) {
         return piecePosition.equals(possiblePosition);
     }

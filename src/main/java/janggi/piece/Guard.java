@@ -19,13 +19,14 @@ public class Guard implements Piece {
     }
 
     @Override
-    public Map<Position, Boolean> isAlreadyLocatedWithinOneSpaceOrAtThatSpace(List<Position> possiblePositions) {
-        return possiblePositions.stream()
+    public Map<Position, Boolean> isAlreadyLocatedWithinOneSpaceOrAtThatSpace(Piece selectedPiece) {
+        return null;
+/*        return possiblePositions.stream()
                 .collect(Collectors.toMap(
                         possiblePosition -> possiblePosition,  // 키: 해당 Position
                         possiblePosition -> isOneSpaceAway(this.position, possiblePosition)
                                 || isAtThatSpace(this.position, possiblePosition) // 값: 한 칸 차이 여부
-                ));
+                ));*/
     }
 
     @Override
@@ -33,6 +34,16 @@ public class Guard implements Piece {
         int dx = Math.abs(piecePosition.getX() - possiblePosition.getX());
         int dy = Math.abs(piecePosition.getY() - possiblePosition.getY());
         return (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
+    }
+
+    @Override
+    public Position getPosition() {
+        return position;
+    }
+
+    @Override
+    public boolean canMoveFirstStep(Piece seletedPiece) {
+        return false;
     }
 
     @Override

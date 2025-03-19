@@ -36,7 +36,7 @@ public class TeamCho {
                 continue;
             }
             // 참이라면, 해당 좌표는 이미 차지하고 있는 것. 기존 값이 false인데(비어있는데), true가 반환된다면 값 덮어쓰기 //참 == 자리가 차있다
-            Map<Position, Boolean> allowedPosition = piece.isAlreadyLocatedWithinOneSpaceOrAtThatSpace(possiblePositions);
+            Map<Position, Boolean> allowedPosition = piece.isAlreadyLocatedWithinOneSpaceOrAtThatSpace(selectedPiece);
             allowedPosition.forEach((position, isNotAllowed) ->
                     finalAllowedPositions.merge(position, isNotAllowed, (oldValue, newValue) -> oldValue ? true : newValue)
             );
@@ -47,7 +47,7 @@ public class TeamCho {
 
         //상대 팀 진영에 대해 확인
         for (Piece piece : teamHanPieces) {
-            Map<Position, Boolean> allowedPositionRelativeToOpponent = piece.isAlreadyLocatedWithinOneSpaceOrAtThatSpace(possiblePositions);
+            Map<Position, Boolean> allowedPositionRelativeToOpponent = piece.isAlreadyLocatedWithinOneSpaceOrAtThatSpace(selectedPiece);
             allowedPositionRelativeToOpponent.forEach((position, isNotAllowed) ->
                     finalAllowedPositions.merge(position, isNotAllowed, (oldValue, newValue) -> oldValue ? true : newValue)
             );
