@@ -14,4 +14,12 @@ public class PositionX {
             throw new IllegalArgumentException("X 위치가 장기판을 벗어났습니다");
         }
     }
+
+    public PositionX plus(int value) {
+        return new PositionX(this.value + value);
+    }
+
+    public int getValue() {
+        return value;
+    }
 }
