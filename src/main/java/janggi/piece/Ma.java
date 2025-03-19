@@ -53,4 +53,22 @@ public class Ma implements Movable {
     public Point getPoint() {
         return point;
     }
+
+    public List<Point> findRoute(Point targetPoint) {
+        int rowGap = point.row() - targetPoint.row();
+        int columnGap = point.column() - targetPoint.column();
+        if (rowGap == 2) {
+            return List.of(new Point(point.row() - 1, point.column()),targetPoint);
+        }
+        if (rowGap == -2) {
+            return List.of(new Point(point.row() + 1, point.column()),targetPoint);
+        }
+        if (columnGap == 2) {
+            return List.of(new Point(point.row(), point.column() - 1),targetPoint);
+        }
+        if (columnGap == -2) {
+            return List.of(new Point(point.row(), point.column() + 1),targetPoint);
+        }
+        return null;
+    }
 }

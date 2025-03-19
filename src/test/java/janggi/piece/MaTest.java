@@ -1,9 +1,11 @@
 package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.TeamColor;
 import janggi.point.Point;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -95,4 +97,128 @@ class MaTest {
         }
     }
 
+    @Nested
+    @DisplayName("경로 테스트")
+    class RouteTest {
+
+        @Test
+        @DisplayName("상-우측대각선로 이동 경로를 생성할 수 있다.")
+        void checkUpRightRouteMovable() {
+            Ma ma = new Ma(TeamColor.BLUE, new Point(5, 4));
+
+            Point targetPoint = new Point(3, 5);
+
+            List<Point> route = ma.findRoute(targetPoint);
+
+            assertAll(() -> {
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(4,4), new Point(3, 5));
+            });
+        }
+
+        @Test
+        @DisplayName("우-좌측대각선로 이동 경로를 생성할 수 있다.")
+        void checkRightLeftRouteMovable() {
+            Ma ma = new Ma(TeamColor.BLUE, new Point(5, 4));
+
+            Point targetPoint = new Point(4, 6);
+
+            List<Point> route = ma.findRoute(targetPoint);
+
+            assertAll(() -> {
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(5,5), new Point(4, 6));
+            });
+        }
+
+        @Test
+        @DisplayName("우-우측대각선로 이동 경로를 생성할 수 있다.")
+        void checkRightRightRouteMovable() {
+            Ma ma = new Ma(TeamColor.BLUE, new Point(5, 4));
+
+            Point targetPoint = new Point(6, 6);
+
+            List<Point> route = ma.findRoute(targetPoint);
+
+            assertAll(() -> {
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(5,5), new Point(6, 6));
+            });
+        }
+
+        @Test
+        @DisplayName("하-좌측대각선로 이동 경로를 생성할 수 있다.")
+        void checkDownLeftRouteMovable() {
+            Ma ma = new Ma(TeamColor.BLUE, new Point(5, 4));
+
+            Point targetPoint = new Point(7, 5);
+
+            List<Point> route = ma.findRoute(targetPoint);
+
+            assertAll(() -> {
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(6,4), new Point(7, 5));
+            });
+        }
+
+        @Test
+        @DisplayName("하-우측대각선로 이동 경로를 생성할 수 있다.")
+        void checkDownRightRouteMovable() {
+            Ma ma = new Ma(TeamColor.BLUE, new Point(5, 4));
+
+            Point targetPoint = new Point(7, 3);
+
+            List<Point> route = ma.findRoute(targetPoint);
+
+            assertAll(() -> {
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(6,4), new Point(7, 3));
+            });
+        }
+
+        @Test
+        @DisplayName("좌-좌측대각선로 이동 경로를 생성할 수 있다.")
+        void checkLeftLeftRouteMovable() {
+            Ma ma = new Ma(TeamColor.BLUE, new Point(5, 4));
+
+            Point targetPoint = new Point(6, 2);
+
+            List<Point> route = ma.findRoute(targetPoint);
+
+            assertAll(() -> {
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(5,3), new Point(6, 2));
+            });
+        }
+
+        @Test
+        @DisplayName("좌-우측대각선로 이동 경로를 생성할 수 있다.")
+        void checkLeftRightRouteMovable() {
+            Ma ma = new Ma(TeamColor.BLUE, new Point(5, 4));
+
+            Point targetPoint = new Point(4, 2);
+
+            List<Point> route = ma.findRoute(targetPoint);
+
+            assertAll(() -> {
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(5,3), new Point(4, 2));
+            });
+        }
+
+        @Test
+        @DisplayName("상-좌측대각선로 이동 경로를 생성할 수 있다.")
+        void checkUpLeftRouteMovable() {
+            Ma ma = new Ma(TeamColor.BLUE, new Point(5, 4));
+
+            Point targetPoint = new Point(3, 3);
+
+            List<Point> route = ma.findRoute(targetPoint);
+
+            assertAll(() -> {
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(4,4), new Point(3, 3));
+            });
+        }
+    }
 }
