@@ -11,11 +11,11 @@ public class Position {
     public static final int MAX_ROW = 10;
     public static final int MAX_COLUMN = 9;
 
-    public Position(final int x, final int y) {
+    public Position(final int column, final int row) {
 //        if (x < 1 || y < 1 || x > 9 || y > 10) {
 //            throw new IllegalArgumentException("위치는 장기판 내부여야 합니다.");
 //        }
-        this.point = new Point(x, y);
+        this.point = new Point(column, row);
     }
 
     public int getColumn() {
@@ -55,5 +55,12 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hashCode(point);
+    }
+
+    @Override
+    public String toString() {
+        return "\nPosition{" +
+                "point=" + point +
+                '}';
     }
 }

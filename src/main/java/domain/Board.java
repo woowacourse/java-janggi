@@ -7,8 +7,16 @@ public class Board {
 
     private final List<Piece> pieces;
 
+    public Board() {
+        this.pieces = new ArrayList<>();
+    }
+
     public Board(final List<Piece> pieces) {
         this.pieces = new ArrayList<>(pieces);
+    }
+
+    public void putPieces(List<Piece> pieces) {
+        pieces.forEach(this::putPiece);
     }
 
     public void putPiece(Piece piece) {
@@ -45,4 +53,10 @@ public class Board {
     public List<Piece> getPieces() {
         return pieces;
     }
+
+    /*
+    TODO
+    - 사용자에게 입력받은 position예외처리하고, 있으면 기물 반환?
+    - Board 뷰에 출력하기
+     */
 }

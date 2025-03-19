@@ -33,7 +33,6 @@ public abstract class Piece {
             board.remove(position);
         }
         this.position = position;
-
     }
 
     public Position getPosition() {
