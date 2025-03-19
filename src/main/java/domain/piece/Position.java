@@ -32,6 +32,10 @@ public class Position {
         }
     }
 
+    public Position merge(Position other) {
+        return Position.of(this.row + other.row, this.column + other.column);
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) {
@@ -56,4 +60,5 @@ public class Position {
     public int getColumn() {
         return column;
     }
+
 }
