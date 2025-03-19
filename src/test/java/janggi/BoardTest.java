@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
 import janggi.piece.Gung;
+import janggi.piece.Po;
 import janggi.point.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class BoardTest {
         void createBoard() {
             Board board = Board.init();
 
-            assertThat(board.getPieces()).hasSize(32);
+            assertThat(board.getRunningPieces()).hasSize(32);
         }
     }
 
@@ -106,6 +107,22 @@ public class BoardTest {
 
             assertThat(board.checkHurdles(startPoint, route)).isTrue();
         }
+
+        @Test
+        @DisplayName("포 기물을 움직일 때 기물 경로의 마지막 좌표에 포가 있으면 장애물이 있다고 확인할 수 있다.")
+        void checkIsHurdleRouteIsSamePo() {
+            List<Movable> pieces = List.of(
+                    new Po(TeamColor.BLUE, new Point(5, 4)),
+                    new Byeong(TeamColor.BLUE, new Point(3, 4)),
+                    new Po(TeamColor.BLUE, new Point(2, 4))
+            );
+            Board board = new Board(pieces);
+
+            Point startPoint = new Point(5, 4);
+            List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
+
+            assertThat(board.checkHurdles(startPoint, route)).isTrue();
+        }
     }
 
     @Nested
@@ -139,7 +156,7 @@ public class BoardTest {
 
         @Test
         @DisplayName("기물의 위치를 특정 위치로 바꿀 수 있다.")
-        void filterVerticalRoute() {
+        void updatePoint() {
             Point beforePoint = new Point(6, 4);
             Byeong byeong = new Byeong(TeamColor.BLUE, beforePoint);
             List<Movable> pieces = new ArrayList<>(List.of(byeong));
@@ -154,6 +171,23 @@ public class BoardTest {
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessageContaining("해당 좌표에 기물이 존재하지 않습니다.");
             });
+        }
+
+        @Test
+        @DisplayName("이동 하는 위치에 기물이 있으면 공격한다.")
+        void attackPiece() {
+            Point beforePoint = new Point(6, 4);
+            Byeong byeong1 = new Byeong(TeamColor.BLUE, beforePoint);
+
+            Point afterPoint = new Point(5, 4);
+            Byeong byeong2 = new Byeong(TeamColor.RED, afterPoint);
+
+            List<Movable> pieces = new ArrayList<>(List.of(byeong1, byeong2));
+            Board board = new Board(pieces);
+
+            board.move(beforePoint, afterPoint);
+
+            assertThat(board.getRunningPieces()).hasSize(1);
         }
     }
 }

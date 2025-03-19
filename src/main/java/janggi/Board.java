@@ -13,10 +13,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class Board {
-    private final List<Movable> pieces;
+    private final List<Movable> runningPieces;
+    private final List<Movable> attackedPieces;
 
-    public Board(List<Movable> pieces) {
-        this.pieces = pieces;
+    public Board(List<Movable> runningPieces) {
+        this.runningPieces = runningPieces;
+        this.attackedPieces = new ArrayList<>();
     }
 
     public static Board init() {
@@ -33,33 +35,38 @@ public class Board {
         return new Board(pieces);
     }
 
-    public List<Movable> getPieces() {
-        return Collections.unmodifiableList(pieces);
+    public List<Movable> getRunningPieces() {
+        return Collections.unmodifiableList(runningPieces);
     }
 
     public List<Movable> findPieceOnVerticalRoute(Point point) {
-        return pieces.stream()
+        return runningPieces.stream()
                 .filter(piece -> point.isSameColumn(piece.getPoint()))
                 .filter(piece -> !point.equals(piece.getPoint()))
                 .toList();
     }
 
     public List<Movable> findPieceOnHorizontalRoute(Point point) {
-        return pieces.stream()
+        return runningPieces.stream()
                 .filter(piece -> point.isSameRow(piece.getPoint()))
                 .filter(piece -> !point.equals(piece.getPoint()))
                 .toList();
     }
 
     public Movable findByPoint(Point point) {
-        return pieces.stream()
+        return runningPieces.stream()
                 .filter(piece ->piece.getPoint().equals(point))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다."));
     }
 
+    public boolean hasAttackedPiece(Point point) {
+        return runningPieces.stream()
+                .anyMatch(piece -> piece.getPoint().equals(point));
+    }
+
     public boolean checkHurdles(Point startPoint, List<Point> route) {
-        List<Point> piecePoints = pieces.stream()
+        List<Point> piecePoints = runningPieces.stream()
                 .map(Movable::getPoint).toList();
 
         List<Point> crashPoints = route.stream()
@@ -69,9 +76,13 @@ public class Board {
         if (crashPoints.size() == 1
                 && route.getLast().equals(crashPoints.getFirst())
         ) {
-            TeamColor crashPieceColor = findByPoint(crashPoints.getFirst()).getColor();
-            TeamColor movingPieceColor  = findByPoint(startPoint).getColor();
-            return crashPieceColor == movingPieceColor;
+            Movable crashPiece = findByPoint(crashPoints.getFirst());
+            Movable movingPiece = findByPoint(startPoint);
+            TeamColor crashPieceColor = crashPiece.getColor();
+            TeamColor movingPieceColor  = movingPiece.getColor();
+
+            return  crashPieceColor == movingPieceColor
+                    || (crashPiece instanceof Po && movingPiece instanceof Po);
         }
 
         return crashPoints.size() > 0;
@@ -79,10 +90,17 @@ public class Board {
 
     public void move(Point beforePoint, Point afterPoint) {
         Movable movingPiece = findByPoint(beforePoint);
-
         Movable updatedMoving = movingPiece.updatePoint(afterPoint);
 
-        pieces.remove(movingPiece);
-        pieces.add(updatedMoving);
+        if(hasAttackedPiece(afterPoint)) {
+            Movable target = findByPoint(afterPoint);
+            this.attackedPieces.add(target);
+            runningPieces.remove(target);
+        }
+
+        runningPieces.remove(movingPiece);
+        runningPieces.add(updatedMoving);
     }
+
+
 }
