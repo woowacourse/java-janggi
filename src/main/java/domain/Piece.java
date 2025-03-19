@@ -1,6 +1,6 @@
 package domain;
 
-public class Piece {
+public abstract class Piece {
 
     @Override
     public boolean equals(Object obj) {
@@ -11,4 +11,6 @@ public class Piece {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+    abstract boolean isMovable(BoardLocation current, BoardLocation target);
 }
