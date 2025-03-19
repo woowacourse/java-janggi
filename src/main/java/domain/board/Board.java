@@ -19,25 +19,23 @@ public class Board {
     }
 
     public void move(Piece piece, Position source, Position destination) {
-        if(!isValidMove(source, destination)) {
-            return;
-        }
+        validateMove(source, destination);
         board.remove(source);
         board.put(destination, piece);
     }
 
-    private boolean isValidMove(Position source, Position destination) {
+    private void validateMove(Position source, Position destination) {
         Piece sourcePiece = getPieceBy(source);
         Piece destinationPiece = getPieceBy(destination);
-
-        boolean validDestination = sourcePiece.isValidDestination(source, destination);
+        boolean isValidDestination = sourcePiece.isValidDestination(source, destination);
 
         List<Position> route = sourcePiece.findAllRoute(source, destination);
         List<Piece> piecesOnRoute = getPiecesOnRoute(route);
-
         boolean canMove = sourcePiece.canMove(destinationPiece, piecesOnRoute);
 
-        return canMove && validDestination;
+        if(!isValidDestination || !canMove) {
+            throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
+        }
     }
 
     private List<Piece> getPiecesOnRoute(List<Position> positions) {
