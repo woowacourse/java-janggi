@@ -21,6 +21,11 @@ public class JanggiBoard {
             if (countPieceInPath(path) != 1) {
                 throw new IllegalArgumentException("포는 다른 말 하나를 뛰어넘어야 합니다.");
             }
+            for (Position position : path) {
+                if (findPiece(position) != null && findPiece(position).isCanon()) {
+                    throw new IllegalArgumentException("포는 포끼리 건너뛸 수 없습니다.");
+                }
+            }
         }
         if (!startPiece.isCanon()) {
             for (Position position : path) {

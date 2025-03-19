@@ -173,7 +173,7 @@ public class JanggiBoardTest {
 
     @DisplayName("뛰어넘을 장기말이 포라면 예외를 발생한다.")
     @Test
-    void test78() {
+    void test8() {
         //given
         Cannon blueCannon1 = new Cannon(Team.BLUE);
         Cannon blueCannon2 = new Cannon(Team.BLUE);
