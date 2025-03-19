@@ -156,5 +156,4 @@ class PieceTest {
         assertThatThrownBy(() -> han.move(board, 0,-1))
             .isInstanceOf(IllegalArgumentException.class);
     }
-
 }
