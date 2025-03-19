@@ -1,5 +1,7 @@
 package domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
@@ -20,4 +22,20 @@ class PositionTest {
             softly.assertThat(position.isSame(falsePoint)).isFalse();
         });
     }
+
+    @Test
+    void 포지션이_가진_말이_그린팀인지_아닌지_확인() {
+
+        // given
+        final Position greenPosition = new Position(Point.of(0, 0), PieceFactory.createGreenTeam(Chariot::new));
+        final Position redPosition = new Position(Point.of(0, 9), PieceFactory.createRedTeam(Chariot::new));
+
+        // when
+        // then
+        SoftAssertions.assertSoftly(softly -> {
+            assertThat(greenPosition.isGreenTeam()).isTrue();
+            assertThat(redPosition.isGreenTeam()).isFalse();
+        });
+    }
 }
+
