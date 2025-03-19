@@ -34,4 +34,14 @@ class CannonTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("말을 움직여 주세요");
     }
+
+    @DisplayName("포로 이동할 수 없는 위치인 경우 예외를 발생시킨다")
+    @Test
+    void test3() {
+        Cannon cannon = new Cannon(Team.RED);
+
+        assertThatThrownBy(() -> cannon.calculatePath(new Position(1, 1), new Position(2, 2)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이 위치로는 움직일 수 없습니다.");
+    }
 }
