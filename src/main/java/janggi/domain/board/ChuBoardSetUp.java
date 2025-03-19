@@ -1,45 +1,46 @@
 package janggi.domain.board;
 
 import janggi.domain.Dynasty;
+import janggi.domain.board.point.ChuPoint;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Knight;
-import janggi.domain.piece.Piece;
-import java.util.Map;
+import janggi.domain.piece.PointPiece;
+import java.util.Set;
 
 public enum ChuBoardSetUp implements BoardSetUp {
-    INNER_ELEPHANT(Map.of(
-            new Point(10, 2), new Knight(Dynasty.CHU),
-            new Point(10, 3), new Elephant(Dynasty.CHU),
-            new Point(10, 7), new Elephant(Dynasty.CHU),
-            new Point(10, 8), new Knight(Dynasty.CHU)
+    INNER_ELEPHANT(Set.of(
+            new PointPiece(new ChuPoint(10, 2), Knight.newInstance(), Dynasty.CHU),
+            new PointPiece(new ChuPoint(10, 3), Elephant.newInstance(), Dynasty.CHU),
+            new PointPiece(new ChuPoint(10, 7), Elephant.newInstance(), Dynasty.CHU),
+            new PointPiece(new ChuPoint(10, 8), Knight.newInstance(), Dynasty.CHU)
     )),
-    OUTER_ELEPHANT(Map.of(
-            new Point(10, 2), new Elephant(Dynasty.CHU),
-            new Point(10, 3), new Knight(Dynasty.CHU),
-            new Point(10, 7), new Knight(Dynasty.CHU),
-            new Point(10, 8), new Elephant(Dynasty.CHU)
+    OUTER_ELEPHANT(Set.of(
+            new PointPiece(new ChuPoint(10, 2), Elephant.newInstance(), Dynasty.CHU),
+            new PointPiece(new ChuPoint(10, 3), Knight.newInstance(), Dynasty.CHU),
+            new PointPiece(new ChuPoint(10, 7), Knight.newInstance(), Dynasty.CHU),
+            new PointPiece(new ChuPoint(10, 8), Elephant.newInstance(), Dynasty.CHU)
     )),
-    RIGHT_ELEPHANT(Map.of(
-            new Point(10, 2), new Knight(Dynasty.CHU),
-            new Point(10, 3), new Elephant(Dynasty.CHU),
-            new Point(10, 7), new Knight(Dynasty.CHU),
-            new Point(10, 8), new Elephant(Dynasty.CHU)
+    RIGHT_ELEPHANT(Set.of(
+            new PointPiece(new ChuPoint(10, 2), Knight.newInstance(), Dynasty.CHU),
+            new PointPiece(new ChuPoint(10, 3), Elephant.newInstance(), Dynasty.CHU),
+            new PointPiece(new ChuPoint(10, 7), Knight.newInstance(), Dynasty.CHU),
+            new PointPiece(new ChuPoint(10, 8), Elephant.newInstance(), Dynasty.CHU)
     )),
-    LEFT_ELEPHANT(Map.of(
-            new Point(10, 2), new Elephant(Dynasty.CHU),
-            new Point(10, 3), new Knight(Dynasty.CHU),
-            new Point(10, 7), new Elephant(Dynasty.CHU),
-            new Point(10, 8), new Knight(Dynasty.CHU)
+    LEFT_ELEPHANT(Set.of(
+            new PointPiece(new ChuPoint(10, 2), Elephant.newInstance(), Dynasty.CHU),
+            new PointPiece(new ChuPoint(10, 3), Knight.newInstance(), Dynasty.CHU),
+            new PointPiece(new ChuPoint(10, 7), Elephant.newInstance(), Dynasty.CHU),
+            new PointPiece(new ChuPoint(10, 8), Knight.newInstance(), Dynasty.CHU)
     ));
 
-    private final Map<Point, Piece> piecePositions;
+    private final Set<PointPiece> piecePositions;
 
-    ChuBoardSetUp(Map<Point, Piece> piecePositions) {
+    ChuBoardSetUp(Set<PointPiece> piecePositions) {
         this.piecePositions = piecePositions;
     }
 
     @Override
-    public Map<Point, Piece> getPiecePositions() {
+    public Set<PointPiece> getPiecePositions() {
         return piecePositions;
     }
 }

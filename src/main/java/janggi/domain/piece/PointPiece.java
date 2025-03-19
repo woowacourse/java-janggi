@@ -2,7 +2,8 @@ package janggi.domain.piece;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.Point;
+import janggi.domain.board.point.HanPoint;
+import janggi.domain.board.point.Point;
 import java.util.Objects;
 
 public class PointPiece {
@@ -22,7 +23,7 @@ public class PointPiece {
         if (!piece.isMovable(janggiBoard, currentPoint, endPoint)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
-        currentPoint = endPoint;
+        currentPoint = currentPoint.copy(endPoint);
     }
 
     private void validateExistSameDynastyPiece(JanggiBoard janggiBoard, Point endPoint) {

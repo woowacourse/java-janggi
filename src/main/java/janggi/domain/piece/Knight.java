@@ -1,9 +1,18 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.Point;
+import janggi.domain.board.point.Point;
 
 public class Knight implements Piece {
+
+    private final static Knight KNIGHT = new Knight();
+
+    private Knight() {
+    }
+
+    public static Knight newInstance() {
+        return KNIGHT;
+    }
 
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {

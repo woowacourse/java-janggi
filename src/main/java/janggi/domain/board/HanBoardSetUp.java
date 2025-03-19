@@ -1,45 +1,46 @@
 package janggi.domain.board;
 
 import janggi.domain.Dynasty;
+import janggi.domain.board.point.HanPoint;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Knight;
-import janggi.domain.piece.Piece;
-import java.util.Map;
+import janggi.domain.piece.PointPiece;
+import java.util.Set;
 
 public enum HanBoardSetUp implements BoardSetUp {
-    INNER_ELEPHANT(Map.of(
-            new Point(1, 2), new Knight(Dynasty.HAN),
-            new Point(1, 3), new Elephant(Dynasty.HAN),
-            new Point(1, 7), new Elephant(Dynasty.HAN),
-            new Point(1, 8), new Knight(Dynasty.HAN)
+    INNER_ELEPHANT(Set.of(
+            new PointPiece(new HanPoint(1, 2), Knight.newInstance(), Dynasty.HAN),
+            new PointPiece(new HanPoint(1, 3), Elephant.newInstance(), Dynasty.HAN),
+            new PointPiece(new HanPoint(1, 7), Elephant.newInstance(), Dynasty.HAN),
+            new PointPiece(new HanPoint(1, 8), Knight.newInstance(), Dynasty.HAN)
     )),
-    OUTER_ELEPHANT(Map.of(
-            new Point(1, 2), new Elephant(Dynasty.HAN),
-            new Point(1, 3), new Knight(Dynasty.HAN),
-            new Point(1, 7), new Knight(Dynasty.HAN),
-            new Point(1, 8), new Elephant(Dynasty.HAN)
+    OUTER_ELEPHANT(Set.of(
+            new PointPiece(new HanPoint(1, 2), Elephant.newInstance(), Dynasty.HAN),
+            new PointPiece(new HanPoint(1, 3), Knight.newInstance(), Dynasty.HAN),
+            new PointPiece(new HanPoint(1, 7), Knight.newInstance(), Dynasty.HAN),
+            new PointPiece(new HanPoint(1, 8), Elephant.newInstance(), Dynasty.HAN)
     )),
-    RIGHT_ELEPHANT(Map.of(
-            new Point(1, 2), new Knight(Dynasty.HAN),
-            new Point(1, 3), new Elephant(Dynasty.HAN),
-            new Point(1, 7), new Knight(Dynasty.HAN),
-            new Point(1, 8), new Elephant(Dynasty.HAN)
+    RIGHT_ELEPHANT(Set.of(
+            new PointPiece(new HanPoint(1, 2), Knight.newInstance(), Dynasty.HAN),
+            new PointPiece(new HanPoint(1, 3), Elephant.newInstance(), Dynasty.HAN),
+            new PointPiece(new HanPoint(1, 7), Knight.newInstance(), Dynasty.HAN),
+            new PointPiece(new HanPoint(1, 8), Elephant.newInstance(), Dynasty.HAN)
     )),
-    LEFT_ELEPHANT(Map.of(
-            new Point(1, 2), new Elephant(Dynasty.HAN),
-            new Point(1, 3), new Knight(Dynasty.HAN),
-            new Point(1, 7), new Elephant(Dynasty.HAN),
-            new Point(1, 8), new Knight(Dynasty.HAN)
+    LEFT_ELEPHANT(Set.of(
+            new PointPiece(new HanPoint(1, 2), Elephant.newInstance(), Dynasty.HAN),
+            new PointPiece(new HanPoint(1, 3), Knight.newInstance(), Dynasty.HAN),
+            new PointPiece(new HanPoint(1, 7), Elephant.newInstance(), Dynasty.HAN),
+            new PointPiece(new HanPoint(1, 8), Knight.newInstance(), Dynasty.HAN)
     ));
 
-    private final Map<Point, Piece> piecePositions;
+    private final Set<PointPiece> piecePositions;
 
-    HanBoardSetUp(Map<Point, Piece> piecePositions) {
+    HanBoardSetUp(Set<PointPiece> piecePositions) {
         this.piecePositions = piecePositions;
     }
 
     @Override
-    public Map<Point, Piece> getPiecePositions() {
+    public Set<PointPiece> getPiecePositions() {
         return piecePositions;
     }
 }

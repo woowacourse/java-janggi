@@ -1,4 +1,6 @@
-package janggi.domain.board;
+package janggi.domain.board.point;
+
+import janggi.domain.board.Direction;
 
 public record HanPoint(
         int x,
@@ -32,5 +34,10 @@ public record HanPoint(
     @Override
     public int getY() {
         return y;
+    }
+
+    @Override
+    public Point copy(Point endPoint) {
+        return new HanPoint(endPoint.getX(), endPoint.getY());
     }
 }

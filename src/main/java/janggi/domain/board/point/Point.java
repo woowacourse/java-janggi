@@ -1,4 +1,6 @@
-package janggi.domain.board;
+package janggi.domain.board.point;
+
+import janggi.domain.board.Direction;
 
 public interface Point {
     Point move(Direction direction);
@@ -8,4 +10,6 @@ public interface Point {
     int getX();
 
     int getY();
+
+    Point copy(Point endPoint);
 }

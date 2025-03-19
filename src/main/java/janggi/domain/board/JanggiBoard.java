@@ -1,60 +1,73 @@
 package janggi.domain.board;
 
 import janggi.domain.Dynasty;
+import janggi.domain.board.point.ChuPoint;
+import janggi.domain.board.point.HanPoint;
+import janggi.domain.board.point.Point;
 import janggi.domain.piece.Cannon;
-import janggi.domain.piece.ChuPawn;
 import janggi.domain.piece.Guard;
-import janggi.domain.piece.HanPawn;
 import janggi.domain.piece.King;
-import janggi.domain.piece.Piece;
+import janggi.domain.piece.Pawn;
+import janggi.domain.piece.PointPiece;
 import janggi.domain.piece.Rook;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 public class JanggiBoard {
 
-    private static final HashMap<Point, Piece> PIECE_INITIAL_POSITIONS = new HashMap<>() {
+    private static final Set<PointPiece> PIECE_INITIAL_POSITIONS = new HashSet<>() {
         {
-            put(new Point(1, 1), new Rook(Dynasty.HAN));
-            put(new Point(1, 4), new Guard(Dynasty.HAN));
-            put(new Point(1, 6), new Guard(Dynasty.HAN));
-            put(new Point(1, 9), new Rook(Dynasty.HAN));
-            put(new Point(2, 5), new King(Dynasty.HAN));
-            put(new Point(3, 2), new Cannon(Dynasty.HAN));
-            put(new Point(3, 8), new Cannon(Dynasty.HAN));
-            put(new Point(4, 1), new HanPawn());
-            put(new Point(4, 3), new HanPawn());
-            put(new Point(4, 5), new HanPawn());
-            put(new Point(4, 7), new HanPawn());
-            put(new Point(4, 9), new HanPawn());
+            add(new PointPiece(new HanPoint(1, 4), Guard.newInstance(), Dynasty.HAN));
+            add(new PointPiece(new HanPoint(1, 6), Guard.newInstance(), Dynasty.HAN));
+            add(new PointPiece(new HanPoint(1, 9), Rook.newInstance(), Dynasty.HAN));
+            add(new PointPiece(new HanPoint(2, 5), King.newInstance(), Dynasty.HAN));
+            add(new PointPiece(new HanPoint(3, 2), Cannon.newInstance(), Dynasty.HAN));
+            add(new PointPiece(new HanPoint(3, 8), Cannon.newInstance(), Dynasty.HAN));
+            add(new PointPiece(new HanPoint(4, 1), Pawn.newInstance(), Dynasty.HAN));
+            add(new PointPiece(new HanPoint(4, 3), Pawn.newInstance(), Dynasty.HAN));
+            add(new PointPiece(new HanPoint(4, 5), Pawn.newInstance(), Dynasty.HAN));
+            add(new PointPiece(new HanPoint(4, 7), Pawn.newInstance(), Dynasty.HAN));
+            add(new PointPiece(new HanPoint(4, 9), Pawn.newInstance(), Dynasty.HAN));
 
-            put(new Point(10, 1), new Rook(Dynasty.CHU));
-            put(new Point(10, 4), new Guard(Dynasty.CHU));
-            put(new Point(10, 6), new Guard(Dynasty.CHU));
-            put(new Point(10, 9), new Rook(Dynasty.CHU));
-            put(new Point(9, 5), new King(Dynasty.CHU));
-            put(new Point(8, 2), new Cannon(Dynasty.CHU));
-            put(new Point(8, 8), new Cannon(Dynasty.CHU));
-            put(new Point(7, 1), new ChuPawn());
-            put(new Point(7, 3), new ChuPawn());
-            put(new Point(7, 5), new ChuPawn());
-            put(new Point(7, 7), new ChuPawn());
-            put(new Point(7, 9), new ChuPawn());
+            add(new PointPiece(new ChuPoint(10, 1), Rook.newInstance(), Dynasty.CHU));
+            add(new PointPiece(new ChuPoint(10, 4), Guard.newInstance(), Dynasty.CHU));
+            add(new PointPiece(new ChuPoint(10, 6), Guard.newInstance(), Dynasty.CHU));
+            add(new PointPiece(new ChuPoint(10, 9), Rook.newInstance(), Dynasty.CHU));
+            add(new PointPiece(new ChuPoint(9, 5), King.newInstance(), Dynasty.CHU));
+            add(new PointPiece(new ChuPoint(8, 2), Cannon.newInstance(), Dynasty.CHU));
+            add(new PointPiece(new ChuPoint(8, 8), Cannon.newInstance(), Dynasty.CHU));
+            add(new PointPiece(new ChuPoint(7, 1), Pawn.newInstance(), Dynasty.CHU));
+            add(new PointPiece(new ChuPoint(7, 3), Pawn.newInstance(), Dynasty.CHU));
+            add(new PointPiece(new ChuPoint(7, 5), Pawn.newInstance(), Dynasty.CHU));
+            add(new PointPiece(new ChuPoint(7, 7), Pawn.newInstance(), Dynasty.CHU));
+            add(new PointPiece(new ChuPoint(7, 9), Pawn.newInstance(), Dynasty.CHU));
         }
     };
 
-    private final Map<Point, Piece> pieces;
+    private final Set<PointPiece> pointPieces;
 
-    public JanggiBoard(Map<Point, Piece> pieces) {
-        this.pieces = pieces;
+    public JanggiBoard(Set<PointPiece> pointPieces) {
+        this.pointPieces = pointPieces;
     }
 
     public static JanggiBoard of(HanBoardSetUp hanBoardSetUp, ChuBoardSetUp chuBoardSetUp) {
-        Map<Point, Piece> pieces = new HashMap<>(PIECE_INITIAL_POSITIONS);
-        pieces.putAll(hanBoardSetUp.getPiecePositions());
-        pieces.putAll(chuBoardSetUp.getPiecePositions());
-        return new JanggiBoard(pieces);
+        Set<PointPiece> pointPieces = new HashSet<>(PIECE_INITIAL_POSITIONS);
+        pointPieces.addAll(hanBoardSetUp.getPiecePositions());
+        pointPieces.addAll(chuBoardSetUp.getPiecePositions());
+
+        return new JanggiBoard(pointPieces);
+    }
+
+    public boolean isExistPiece(Point point) {
+        return findPointPiece(point).isPresent();
+    }
+
+    public Optional<PointPiece> findPointPiece(Point point) {
+        return pointPieces.stream()
+                .filter(pointPiece -> pointPiece.isSamePosition(point))
+                .findFirst();
     }
 
     @Override
@@ -66,22 +79,11 @@ public class JanggiBoard {
             return false;
         }
         JanggiBoard that = (JanggiBoard) o;
-        return Objects.equals(pieces, that.pieces);
+        return Objects.equals(pointPieces, that.pointPieces);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(pieces);
-    }
-
-    public boolean isExistPiece(Point point) {
-        return pieces.containsKey(point);
-    }
-
-    public boolean isExistSameDynasty(Point point, Dynasty dynasty) {
-        if (!isExistPiece(point)) {
-            return false;
-        }
-        return pieces.get(point).isSameDynasty(dynasty);
+        return Objects.hashCode(pointPieces);
     }
 }

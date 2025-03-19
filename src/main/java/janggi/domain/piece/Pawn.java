@@ -2,11 +2,20 @@ package janggi.domain.piece;
 
 import janggi.domain.board.Direction;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.Point;
+import janggi.domain.board.point.Point;
 import java.util.List;
 import java.util.Set;
 
 public class Pawn implements Piece {
+
+    private final static Pawn PAWN = new Pawn();
+
+    private Pawn() {
+    }
+
+    public static Pawn newInstance() {
+        return PAWN;
+    }
 
     private static final Set<List<Direction>> DIRECTIONS = Set.of(
             List.of(Direction.UP),
