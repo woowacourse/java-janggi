@@ -7,7 +7,7 @@ public class Dot {
     private Optional<Piece> piece;
 
     public Dot() {
-        piece = null;
+        piece = Optional.empty();
     }
 
     public void place(Piece piece) {

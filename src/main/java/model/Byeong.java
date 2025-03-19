@@ -13,7 +13,7 @@ public class Byeong extends Piece {
     public boolean isValidPoint(int beforeX, int beforeY, int afterX, int afterY) {
         int moveForward = 1;
 
-        if (team == Team.BLUE){
+        if (team == Team.RED){
             moveForward = -1;
         }
 
