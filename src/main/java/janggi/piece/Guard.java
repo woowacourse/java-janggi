@@ -7,7 +7,6 @@ import java.util.Map;
 public class Guard extends Piece {
 
     private static final String NAME = "사";
-
     private static final int[][] dRows = {{1}, {0}, {0}, {-1}};
     private static final int[][] dColumns = {{0}, {-1}, {1}, {0}};
 

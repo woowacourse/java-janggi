@@ -6,8 +6,8 @@ import java.util.Map;
 public class Soldier extends Piece {
 
     private static final String NAME = "졸";
-
-    private static final int[][] dRows = {{1}, {0}, {0}};
+    private static final int[][] dRowsGreen = {{1}, {0}, {0}};
+    private static final int[][] dRowsRed = {{-1}, {0}, {0}};
     private static final int[][] dColumns = {{0}, {-1}, {1}};
 
     public Soldier(String team) {
@@ -21,7 +21,10 @@ public class Soldier extends Piece {
 
     @Override
     protected int[] getPathRows(int pathIndex) {
-        return dRows[pathIndex];
+        if (team.equals("한나라")) {
+            return dRowsRed[pathIndex];
+        }
+        return dRowsGreen[pathIndex];
     }
 
     @Override
@@ -31,7 +34,10 @@ public class Soldier extends Piece {
 
     @Override
     protected int[][] getAllPathRows() {
-        return dRows;
+        if (team.equals("한나라")) {
+            return dRowsRed;
+        }
+        return dRowsGreen;
     }
 
     @Override
