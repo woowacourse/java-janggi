@@ -1,11 +1,12 @@
 package domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.direction.Direction;
 import domain.direction.Directions;
-import java.util.List;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class PieceTest {
 
@@ -71,6 +72,15 @@ class PieceTest {
     static class TestPiece extends Piece {
         public TestPiece(int row, int column, Directions directions) {
             super(row, column, directions);
+        }
+
+        public TestPiece(final Position position, final Directions directions) {
+            super(position, directions);
+        }
+
+        @Override
+        public TestPiece updatePosition(final Position position) {
+            return new TestPiece(position, directions);
         }
 
         @Override
