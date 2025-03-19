@@ -34,37 +34,42 @@ class SangTest {
         );
     }
 
-    @Test
-    @DisplayName("상이 (5,5) -> (3,2) 으로 이동할 때 (5,4)를 거치기 때문에 false 반환한다.")
-    void test2() {
-        // given
-        Sang sang = new Sang(Team.HAN);
-        Board board = new BoardBuilder()
-                .addPiece(5, 5, sang)
-                .addPiece(5, 4, new Sang(Team.CHO))
-                .build();
+    @Nested
+    @DisplayName("장애물을 고려한 움직임 가능 여부 테스트")
+    class CanMoveConsideringObstaclesTest {
 
-        // when
-        boolean result = sang.canMoveConsideringObstacles(board, new Coordinate(5, 5), new Coordinate(3, 2));
+        @Test
+        @DisplayName("상이 (5,5) -> (3,2) 으로 이동할 때 (5,4)를 거치기 때문에 false 반환한다.")
+        void test1() {
+            // given
+            Sang sang = new Sang(Team.HAN);
+            Board board = new BoardBuilder()
+                    .addPiece(5, 5, sang)
+                    .addPiece(5, 4, new Sang(Team.CHO))
+                    .build();
 
-        // then
-        assertThat(result).isFalse();
-    }
+            // when
+            boolean result = sang.canMoveConsideringObstacles(board, new Coordinate(5, 5), new Coordinate(3, 2));
 
-    @Test
-    @DisplayName("상이 (5,5) -> (3,2) 으로 이동할 때 장애물이 하나도 없을 경우 true 반환한다.")
-    void test3() {
-        // given
-        Sang sang = new Sang(Team.HAN);
-        Board board = new BoardBuilder()
-                .addPiece(5, 5, sang)
-                .build();
+            // then
+            assertThat(result).isFalse();
+        }
 
-        // when
-        boolean result = sang.canMoveConsideringObstacles(board, new Coordinate(5, 5), new Coordinate(3, 2));
+        @Test
+        @DisplayName("상이 (5,5) -> (3,2) 으로 이동할 때 장애물이 하나도 없을 경우 true 반환한다.")
+        void test2() {
+            // given
+            Sang sang = new Sang(Team.HAN);
+            Board board = new BoardBuilder()
+                    .addPiece(5, 5, sang)
+                    .build();
 
-        // then
-        assertThat(result).isTrue();
+            // when
+            boolean result = sang.canMoveConsideringObstacles(board, new Coordinate(5, 5), new Coordinate(3, 2));
+
+            // then
+            assertThat(result).isTrue();
+        }
     }
 
     @DisplayName("경로를 찾는 경우의 수 테스트")
