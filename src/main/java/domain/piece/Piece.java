@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface Piece {
 
-    public boolean hasEqualTeam(Team team);
+    boolean hasEqualTeam(Team team);
 
-    public List<Point> getArrivalPoint(Point startPoint);
+    List<Point> getArrivalPoint(Point startPoint);
 
-    public List<Point> getRoutePoints(Point startPoint, Point arrivalPoint);
+    List<Point> getRoutePoints(Point startPoint, Point arrivalPoint);
 
-    public boolean isMovable(PieceOnRoute pieceOnRoute);
+    boolean isMovable(PieceOnRoute pieceOnRoute);
 }
