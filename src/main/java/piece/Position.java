@@ -3,6 +3,7 @@ package piece;
 import java.util.Objects;
 
 public class Position {
+
     private final int row;
     private final int column;
 
@@ -35,3 +36,4 @@ public class Position {
         return Objects.hash(row, column);
     }
 }
+

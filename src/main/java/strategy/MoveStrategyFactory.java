@@ -17,6 +17,7 @@ public class MoveStrategyFactory {
         moveStrategyCache.put(PieceType.SA, new SaMoveStrategy());
         moveStrategyCache.put(PieceType.GUNG, new GungMoveStrategy());
         moveStrategyCache.put(PieceType.JOL, new JolMoveStrategy());
+        moveStrategyCache.put(PieceType.FO, new FoMoveStrategy());
     }
 
     public static MoveStrategy create(PieceType pieceType) {

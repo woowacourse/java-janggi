@@ -1,17 +1,19 @@
 package strategy;
 
+import piece.Pieces;
 import piece.Position;
 import piece.Route;
+import piece.Team;
 
-public class ChaMoveStrategy implements MoveStrategy{
+public class ChaMoveStrategy implements MoveStrategy {
+
     @Override
     public Route getLegalRoute(Position startPosition, Position endPosition) {
         return null;
     }
 
     @Override
-    public boolean isAbleToMove() {
-        return false;
+    public Position move(Pieces onRoutePieces, Position destination, Team moveTeam) {
+        return null;
     }
-
 }

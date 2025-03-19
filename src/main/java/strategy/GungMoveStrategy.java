@@ -1,17 +1,18 @@
 package strategy;
 
-import piece.Position;
+import piece.Pieces;
 import piece.Route;
+import piece.Team;
 
-public class GungMoveStrategy implements MoveStrategy{
+public class GungMoveStrategy implements MoveStrategy {
+
     @Override
-    public Route getLegalRoute(Position startPosition, Position endPosition) {
+    public Route getLegalRoute(piece.Position startPosition, piece.Position endPosition) {
         return null;
     }
 
     @Override
-    public boolean isAbleToMove() {
-        return false;
+    public piece.Position move(Pieces onRoutePieces, piece.Position destination, Team moveTeam) {
+        return null;
     }
-
 }

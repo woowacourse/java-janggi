@@ -13,8 +13,8 @@ public class PiecesTest {
     @Test
     void 피스들을_관리한다() {
         // given
-        var piece = new Piece(new Position(0, 1), MoveStrategyFactory.create(PieceType.CHA), PieceType.CHA);
-        var piece2 = new Piece(new Position(0, 2), MoveStrategyFactory.create(PieceType.FO), PieceType.FO);
+        var piece = new Piece(new Position(0, 1), MoveStrategyFactory.create(PieceType.CHA), PieceType.CHA, Team.BLUE);
+        var piece2 = new Piece(new Position(0, 2), MoveStrategyFactory.create(PieceType.FO), PieceType.FO, Team.RED);
 
         // when
         Pieces pieces = new Pieces(List.of(piece, piece2));
@@ -22,5 +22,4 @@ public class PiecesTest {
         // then
         Assertions.assertThatIterable(currentPieces).containsExactlyInAnyOrderElementsOf(List.of(piece, piece2));
     }
-
 }

@@ -3,14 +3,19 @@ package piece;
 import java.util.Objects;
 import strategy.MoveStrategy;
 
-public class PieceRule {
+public class MoveRule {
 
     private final MoveStrategy moveStrategy;
     private final PieceType pieceType;
 
-    public PieceRule(MoveStrategy moveStrategy, PieceType pieceType) {
+    public MoveRule(MoveStrategy moveStrategy, PieceType pieceType) {
         this.moveStrategy = moveStrategy;
         this.pieceType = pieceType;
+    }
+
+    public Position move(Position position, MoveRule moveRule, Team team) {
+//        return moveStrategy.move();
+        return null;
     }
 
     @Override
@@ -21,8 +26,8 @@ public class PieceRule {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PieceRule pieceRule = (PieceRule) o;
-        return Objects.equals(moveStrategy, pieceRule.moveStrategy) && pieceType == pieceRule.pieceType;
+        MoveRule moveRule = (MoveRule) o;
+        return Objects.equals(moveStrategy, moveRule.moveStrategy) && pieceType == moveRule.pieceType;
     }
 
     @Override
