@@ -1,34 +1,38 @@
 package janggi.piece;
 
-import janggi.board.Position;
-
-import java.util.Map;
-
 public class Soldier extends Piece {
 
-    private static final int[] dRow = {1, 0, 0};
-    private static final int[] dColumn = {0, -1, 1};
+    private static final String NAME = "졸/병";
+
+    private static final int[][] dRows = {{1}, {0}, {0}};
+    private static final int[][] dColumns = {{0}, {-1}, {1}};
 
     public Soldier(String team) {
         super(team);
     }
 
     @Override
-    public void validateMovable(Map<Position, Piece> board, Position start, Position goal) {
-        validateGoal(start, goal);
-        validateSameTeamOnGoal(board, goal);
+    protected int[] getPathRows(int pathIndex) {
+        return dRows[pathIndex];
     }
 
-    private void validateGoal(Position start, Position goal) {
-        for (int i = 0; i < dRow.length; i++) {
-            Position position = start;
-            int column = dColumn[i];
-            int row = dRow[i];
-            position = position.plus(column, row);
-            if (position == goal) {
-                return;
-            }
-        }
-        throw new IllegalArgumentException("[ERROR] 상은 해당 목적지로 이동할 수 없습니다.");
+    @Override
+    protected int[] getPathColumns(int pathIndex) {
+        return dColumns[pathIndex];
+    }
+
+    @Override
+    protected int[][] getAllPathRows() {
+        return dRows;
+    }
+
+    @Override
+    protected int[][] getAllPathColumns() {
+        return dColumns;
+    }
+
+    @Override
+    protected String getName() {
+        return NAME;
     }
 }
