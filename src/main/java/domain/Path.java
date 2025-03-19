@@ -2,6 +2,7 @@ package domain;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Path {
     private final List<ChessPosition> path;
@@ -16,5 +17,18 @@ public class Path {
 
     public List<ChessPosition> getPath() {
         return Collections.unmodifiableList(path);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof final Path path1)) {
+            return false;
+        }
+        return Objects.equals(getPath(), path1.getPath());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getPath());
     }
 }
