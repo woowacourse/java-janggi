@@ -1,11 +1,9 @@
 package domain;
 
-public class Elephant implements Piece {
-
-    private final Team team;
+public class Elephant extends AbstractPiece {
 
     public Elephant(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override

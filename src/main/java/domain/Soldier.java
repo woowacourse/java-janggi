@@ -1,16 +1,14 @@
 package domain;
 
-public class Soldier implements Piece {
-
-    private final Team team;
+public class Soldier extends AbstractPiece implements Piece {
 
     public Soldier(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
     public boolean isMovable(final Distance distance) {
-        if (Team.GREEN == team && distance.x() == 0 && distance.y() == 1) {
+        if (Team.GREEN == super.team && distance.x() == 0 && distance.y() == 1) {
             return true;
         }
         if (Team.RED == team && distance.x() == 0 && distance.y() == -1) {

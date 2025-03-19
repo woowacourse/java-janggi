@@ -1,11 +1,9 @@
 package domain;
 
-public class Chariot implements Piece {
-
-    private final Team team;
+public class Chariot extends AbstractPiece {
 
     public Chariot(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override

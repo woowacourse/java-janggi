@@ -1,11 +1,9 @@
 package domain;
 
-public class Guard implements Piece {
-
-    private final Team team;
+public class Guard extends AbstractPiece {
 
     public Guard(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override

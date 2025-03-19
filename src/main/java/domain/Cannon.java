@@ -1,11 +1,9 @@
 package domain;
 
-public class Cannon implements Piece {
-
-    private final Team team;
+public class Cannon extends AbstractPiece {
 
     public Cannon(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override

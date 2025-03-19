@@ -1,11 +1,9 @@
 package domain;
 
-public class Horse implements Piece {
-
-    private final Team team;
+public class Horse extends AbstractPiece {
 
     public Horse(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override

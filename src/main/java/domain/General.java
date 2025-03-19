@@ -2,7 +2,7 @@ package domain;
 
 public class General implements Piece {
 
-    private final Team team;
+    protected final Team team;
 
     public General(final Team team) {
         this.team = team;

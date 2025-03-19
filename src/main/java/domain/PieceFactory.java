@@ -2,7 +2,11 @@ package domain;
 
 import java.util.function.Function;
 
-public class PieceFactory {
+public final class PieceFactory {
+
+    private PieceFactory() {
+    }
+
     public static <T extends Piece> T createGreenTeam(Function<Team, T> creator) {
         return creator.apply(Team.GREEN);
     }

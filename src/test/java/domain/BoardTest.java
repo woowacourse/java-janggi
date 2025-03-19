@@ -43,4 +43,6 @@ class BoardTest {
         // then
         assertThat(position).isEqualTo(expectedPosition);
     }
+
+
 }

@@ -75,4 +75,8 @@ public class Board {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치에 말이 없습니다."));
     }
+
+    public boolean isGreenTeam(final Position position) {
+        return false;
+    }
 }
