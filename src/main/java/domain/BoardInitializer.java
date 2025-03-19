@@ -8,13 +8,13 @@ import domain.piece.Po;
 import domain.piece.Sa;
 import domain.piece.Sang;
 import domain.piece.Wang;
-import view.SangMaOrderCommand;
-
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import view.SangMaOrderCommand;
 
 public class BoardInitializer {
 
@@ -25,16 +25,7 @@ public class BoardInitializer {
         for (int row = Board.START_ROW_INDEX; row <= Board.END_ROW_INDEX; row++) {
             for (int column = Board.START_COLUMN_INDEX; column <= Board.END_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
-                Node node = new Node(point, List.of());
-                nodeByPoint.put(point, node);
-            }
-        }
-
-        for (int row = Board.START_ROW_INDEX; row <= Board.END_ROW_INDEX; row++) {
-            for (int column = Board.START_COLUMN_INDEX; column <= Board.END_COLUMN_INDEX; column++) {
-                Point point = Point.of(row, column);
-                Node currentNode = nodeByPoint.get(point);
-
+                List<Edge> edges = new ArrayList<>();
                 for (Direction direction : List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT)) {
                     int nextRow = row + direction.deltaRow();
                     int nextColumn = column + direction.deltaColumn();
@@ -42,9 +33,10 @@ public class BoardInitializer {
                         continue;
                     }
                     Node nextNode = nodeByPoint.get(Point.of(nextRow, nextColumn));
-                    Edge edge = new Edge(nextNode, direction);
-                    currentNode.addEdge(edge);
+                    edges.add(new Edge(nextNode, direction));
                 }
+                Node currentNode = new Node(point, edges);
+                nodeByPoint.put(point, currentNode);
             }
         }
 
@@ -66,7 +58,8 @@ public class BoardInitializer {
         return board;
     }
 
-    private void initializePiecePositionByTeam(Team team, List<Point> sangMaPoints, SangMaOrderCommand sangMaOrderCommand,
+    private void initializePiecePositionByTeam(Team team, List<Point> sangMaPoints,
+                                               SangMaOrderCommand sangMaOrderCommand,
                                                Map<Point, Node> nodeByPoint, Map<Node, Piece> board) {
         board.put(nodeByPoint.get(Point.of(7, 1)), new Byeong(team));
         board.put(nodeByPoint.get(Point.of(7, 3)), new Byeong(team));
@@ -85,17 +78,16 @@ public class BoardInitializer {
         board.put(nodeByPoint.get(Point.of(10, 9)), new Cha(team));
 
         Deque<Piece> sangMaOrder = createSangMaOrder(sangMaOrderCommand, team);
-        for(Point point: sangMaPoints) {
+        for (Point point : sangMaPoints) {
             board.put(nodeByPoint.get(point), sangMaOrder.removeFirst());
         }
     }
-        
+
     private Deque<Piece> createSangMaOrder(SangMaOrderCommand sangMaOrderCommand, Team team) {
         List<PieceType> pieceTypes = sangMaOrderCommand.getPieceTypes();
         Deque<Piece> pieces = new ArrayDeque<>();
         for (PieceType pieceType : pieceTypes) {
-            Piece piece = createPiece(pieceType, team);
-            pieces.addLast(piece);
+            pieces.addLast(createPiece(pieceType, team));
         }
         return pieces;
     }
@@ -105,7 +97,7 @@ public class BoardInitializer {
         switch (pieceType) {
             case SANG -> piece = new Sang(team);
             case MA -> piece = new Ma(team);
-            default -> throw new IllegalArgumentException("존재하지 않는 기물 종류입니다.");
+            default -> throw new IllegalArgumentException("상 또는 마가 아닙니다.");
         }
         return piece;
     }
