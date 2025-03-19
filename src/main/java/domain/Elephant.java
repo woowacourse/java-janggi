@@ -3,9 +3,9 @@ package domain;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Horse extends Piece {
+public class Elephant extends Piece {
 
-    public Horse(Position position, Team team, Board board) {
+    public Elephant(final Position position, final Team team, final Board board) {
         super(position, team, board);
     }
 
@@ -22,7 +22,7 @@ public class Horse extends Piece {
         if (position.isInValidPosition()) {
             return;
         }
-        if (depth == 1) {
+        if (depth == 2) {
             if (!board.isSameTeam(this, position)) {
                 positions.add(position);
             }
@@ -35,6 +35,9 @@ public class Horse extends Piece {
             for (Direction crossDirection : direction.nextCrossDirection()) {
                 goOneSde(position.nextPosition(crossDirection), crossDirection, positions, depth + 1);
             }
+        }
+        if (depth == 1) {
+            goOneSde(position.nextPosition(direction), direction, positions, depth + 1);
         }
     }
 
