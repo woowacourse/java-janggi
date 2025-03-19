@@ -1,6 +1,8 @@
 package domain.piece;
 
 import domain.PieceType;
+import domain.board.Board;
+import domain.board.Node;
 
 public class Ma implements Piece {
 
@@ -8,6 +10,11 @@ public class Ma implements Piece {
 
     public Ma(Team team) {
         this.team = team;
+    }
+
+    @Override
+    public boolean canMove(Team team, Node source, Node destination, Board board) {
+        return false;
     }
 
     @Override

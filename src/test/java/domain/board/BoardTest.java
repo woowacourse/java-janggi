@@ -1,10 +1,9 @@
 package domain.board;
 
-import domain.piece.Piece;
-import domain.piece.Po;
+import domain.piece.Byeong;
 import domain.piece.Team;
+import fixture.BoardFixture;
 import java.util.List;
-import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,16 +14,11 @@ class BoardTest {
         // given
         Point point = Point.of(1, 1);
         Node node = new Node(point, List.of());
-        Map<Point, Node> nodeByPoint = Map.ofEntries(
-                Map.entry(point, node)
-        );
-        Map<Node, Piece> pieceByNode = Map.ofEntries(
-                Map.entry(node, new Po(Team.CHO))
-        );
-        Board board = new Board(pieceByNode, nodeByPoint);
+        Board board = BoardFixture.createEmptyBoard();
+        board.putPiece(node, new Byeong(Team.CHO));
 
         // when
-        final boolean actual = board.existsPiece(point);
+        final boolean actual = board.existsPiece(node);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -35,16 +29,12 @@ class BoardTest {
         // given
         Point point = Point.of(1, 1);
         Node node = new Node(point, List.of());
-        Map<Point, Node> nodeByPoint = Map.ofEntries(
-                Map.entry(point, node)
-        );
-        Map<Node, Piece> pieceByNode = Map.ofEntries(
-                Map.entry(node, new Po(Team.CHO))
-        );
-        Board board = new Board(pieceByNode, nodeByPoint);
+        Board board = BoardFixture.createEmptyBoard();
+        board.putPiece(node, new Byeong(Team.CHO));
+        Node otherNode = board.findNodeByPoint(point.of(5, 5));
 
         // when
-        final boolean actual = board.existsPiece(point.of(5, 5));
+        final boolean actual = board.existsPiece(otherNode);
 
         // then
         Assertions.assertThat(actual).isFalse();

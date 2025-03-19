@@ -9,4 +9,8 @@ public class Edge {
         this.nextNode = nextNode;
         this.direction = direction;
     }
+
+    public Node nextNode() {
+        return nextNode;
+    }
 }
