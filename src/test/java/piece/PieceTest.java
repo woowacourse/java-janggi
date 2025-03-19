@@ -52,5 +52,22 @@ public class PieceTest {
             Assertions.assertThat(actualEquals).isTrue();
             Assertions.assertThat(actualNotEquals).isFalse();
         }
+
+        @DisplayName("만약 팀이 같다면 true를 반환한다.")
+        @Test
+        void equalsTeamType() {
+            // given
+            final Piece piece = new Piece(PieceType.CANNON, TeamType.RED);
+            final TeamType equals = TeamType.RED;
+            final TeamType notEquals = TeamType.BLUE;
+
+            // when
+            final boolean actualEquals = piece.equalsTeamType(equals);
+            final boolean actualNotEquals = piece.equalsTeamType(notEquals);
+
+            // then
+            Assertions.assertThat(actualEquals).isTrue();
+            Assertions.assertThat(actualNotEquals).isFalse();
+        }
     }
 }
