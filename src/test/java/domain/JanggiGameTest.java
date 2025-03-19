@@ -18,7 +18,7 @@ class JanggiGameTest {
 
     @BeforeEach
     void beforeEach() {
-        List<Player> players = List.of(new Player("a", TeamType.CHO), new Player("b", TeamType.HAN));
+        Players players = new Players(new Player("a", TeamType.CHO), new Player("b", TeamType.HAN));
         List<Piece> pieces = List.of(
                 new Horse(Position.of(1, 1), TeamType.CHO),
                 new Soldier(Position.of(1, 2), TeamType.HAN),
@@ -44,7 +44,7 @@ class JanggiGameTest {
         Position startPosition = Position.of(1, 1);
         Position endPosition = Position.of(3, 2);
 
-        janggiGame.movePiece(startPosition, endPosition);
+        janggiGame.movePiece(startPosition, endPosition, TeamType.CHO);
 
         Player winner = janggiGame.findWinner();
 

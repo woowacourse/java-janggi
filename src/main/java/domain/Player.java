@@ -12,8 +12,12 @@ public class Player {
         this.teamType = teamType;
     }
 
-    public boolean isSameTeam(TeamType teamType){
+    public boolean isSameTeam(TeamType teamType) {
         return this.teamType.equals(teamType);
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

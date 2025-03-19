@@ -14,12 +14,17 @@ public class Board {
         this.deadPieces = new ArrayList<>();
     }
 
-    public void movePiece(Position startPosition, Position endPosition) {
+    public void movePiece(Position startPosition, Position endPosition, TeamType team) {
         Piece findPiece = alivePieces.stream()
                 .filter(piece -> piece.hasSamePosition(startPosition))
                 .findAny().orElseThrow(() -> new IllegalArgumentException("해당 좌표에는 말이 존재하지 않습니다."));
+
+        if (!findPiece.isSameTeam(team)) {
+            throw new IllegalArgumentException("본인 말만 움직일 수 있습니다.");
+        }
+
         boolean canMove = findPiece.canMove(endPosition, alivePieces);
-        if(!canMove){
+        if (!canMove) {
             throw new IllegalArgumentException("해당 좌표로 이동시킬 수 없습니다.");
         }
         Piece endPositionPiece = alivePieces.stream()

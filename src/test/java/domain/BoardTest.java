@@ -36,7 +36,7 @@ class BoardTest {
         Board board = new Board(List.of());
         Position startPosition = Position.of(1, 1);
         Position endPosition = Position.of(1, 2);
-        assertThatThrownBy(() -> board.movePiece(startPosition, endPosition))
+        assertThatThrownBy(() -> board.movePiece(startPosition, endPosition, TeamType.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표에는 말이 존재하지 않습니다.");
     }
@@ -49,7 +49,7 @@ class BoardTest {
         Position startPosition = Position.of(0, 1);
         Position endPosition = Position.of(1, 1);
 
-        assertThatThrownBy(() -> board.movePiece(startPosition, endPosition))
+        assertThatThrownBy(() -> board.movePiece(startPosition, endPosition, TeamType.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -62,7 +62,7 @@ class BoardTest {
         Position startPosition = Position.of(0, 1);
         Position endPosition = Position.of(0, 0);
 
-        board.movePiece(startPosition, endPosition);
+        board.movePiece(startPosition, endPosition, TeamType.CHO);
 
         List<Piece> alivePieces = board.getAlivePieces();
         Optional<Piece> optionalPiece = alivePieces.stream().filter(piece -> piece.hasSamePosition(endPosition))
@@ -80,7 +80,7 @@ class BoardTest {
         Position startPosition = Position.of(0, 1);
         Position endPosition = Position.of(0, 2);
 
-        board.movePiece(startPosition, endPosition);
+        board.movePiece(startPosition, endPosition, TeamType.CHO);
 
         List<Piece> alivePieces = board.getAlivePieces();
         assertThat(alivePieces).hasSize(5);
@@ -100,7 +100,7 @@ class BoardTest {
         Position startPosition = Position.of(1, 1);
         Position endPosition = Position.of(3, 2);
 
-        board.movePiece(startPosition, endPosition);
+        board.movePiece(startPosition, endPosition, TeamType.CHO);
 
         assertThat(board.isFinished()).isTrue();
     }
@@ -121,7 +121,7 @@ class BoardTest {
         Position startPosition = Position.of(1, 1);
         Position endPosition = Position.of(3, 2);
 
-        board.movePiece(startPosition, endPosition);
+        board.movePiece(startPosition, endPosition, TeamType.CHO);
 
         assertThat(board.findWinTeam()).isEqualTo(TeamType.CHO);
     }

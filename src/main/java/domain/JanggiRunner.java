@@ -2,21 +2,45 @@ package domain;
 
 import domain.piece.PieceFactory;
 import domain.piece.strategy.HorseElephantSetupStrategy;
-import domain.piece.strategy.InnerElephantStrategy;
-import domain.piece.strategy.OuterElephantStrategy;
-import java.util.List;
+import view.InputView;
+import view.OutputView;
 
 public class JanggiRunner {
+    private final InputView inputView;
+    private final OutputView outputView;
+
+    public JanggiRunner(InputView inputView, OutputView outputView) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+    }
 
     public JanggiGame initializeGame() {
-        Player player1 = new Player("코기", TeamType.HAN);
-        Player player2 = new Player("루키", TeamType.CHO);
+        String firstPlayerName = inputView.getFirstPlayerName();
+        String secondPlayerName = inputView.getSecondPlayerName();
+
+        String startPlayerName = inputView.getStartPlayerName();
+
+        Players players;
+        if (startPlayerName.equals(firstPlayerName)) {
+            players = new Players(new Player(firstPlayerName, TeamType.CHO),
+                    new Player(secondPlayerName, TeamType.HAN));
+        } else {
+            players = new Players(new Player(secondPlayerName, TeamType.CHO),
+                    new Player(firstPlayerName, TeamType.HAN));
+        }
+
+        String firstPlayerOption = inputView.getSetupNumber(players.getChoPlayerName());
+        String secondPlayerOption = inputView.getSetupNumber(players.getHanPlayerName());
+
+        HorseElephantSetupStrategy firstPlayerStrategy = SetupOption.findSetupStrategy(firstPlayerOption);
+        HorseElephantSetupStrategy secondPlayerStrategy = SetupOption.findSetupStrategy(secondPlayerOption);
+
         PieceFactory factory = new PieceFactory();
 
-        HorseElephantSetupStrategy choStrategy = new InnerElephantStrategy();
-        HorseElephantSetupStrategy hanStrategy = new OuterElephantStrategy();
+        return new JanggiGame(players, factory.createAllPieces(firstPlayerStrategy, secondPlayerStrategy));
+    }
 
-        List<Player> players = List.of(player1, player2);
-        return new JanggiGame(players, factory.createAllPieces(choStrategy, hanStrategy));
+    public void startGame() {
+
     }
 }
