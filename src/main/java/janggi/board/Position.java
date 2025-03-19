@@ -1,5 +1,7 @@
 package janggi.board;
 
+import java.util.Objects;
+
 public class Position {
 
     private final char column;
@@ -38,5 +40,17 @@ public class Position {
 
     public Position minusRow() {
         return new Position(column, row - 1);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null || getClass() != object.getClass()) return false;
+        Position position = (Position) object;
+        return column == position.column && row == position.row;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(column, row);
     }
 }
