@@ -14,6 +14,42 @@ public class Node {
         this.edges = new ArrayList<>();
     }
 
+    public Node followingNode(List<Direction> directions) {
+        Node currentNode = this;
+        for (Direction direction : directions) {
+            currentNode = currentNode.findNextNodeByDirection(direction);
+        }
+        return currentNode;
+    }
+
+    public boolean existsFollowingNode(List<Direction> directions) {
+        Node currentNode = this;
+        for (Direction direction : directions) {
+            if (!currentNode.hasEdgeByDirection(direction)) {
+                return false;
+            }
+            currentNode = currentNode.findNextNodeByDirection(direction);
+        }
+        return true;
+    }
+
+    public boolean hasEdgeByDirection(Direction direction) {
+        return edges.stream()
+                .anyMatch(edge -> edge.direction() == direction);
+    }
+
+    public Node findNextNodeByDirection(Direction direction) {
+        Edge edge = findEdgeByDirection(direction);
+        return edge.nextNode();
+    }
+
+    private Edge findEdgeByDirection(Direction direction) {
+        return edges.stream()
+                .filter(edge -> edge.direction() == direction)
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("해당 방향의 엣지가 존재하지 않습니다."));
+    }
+
     public void addAllEdges(List<Edge> edges) {
         this.edges.addAll(edges);
     }
@@ -36,22 +72,5 @@ public class Node {
     @Override
     public int hashCode() {
         return Objects.hash(point);
-    }
-
-    public boolean hasEdgeByDirection(Direction direction) {
-        return edges.stream()
-                .anyMatch(edge -> edge.direction() == direction);
-    }
-
-    public Node findNextNodeByDirection(Direction direction) {
-        Edge edge = findEdgeByDirection(direction);
-        return edge.nextNode();
-    }
-
-    private Edge findEdgeByDirection(Direction direction) {
-        return edges.stream()
-                .filter(edge -> edge.direction() == direction)
-                .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("해당 방향의 엣지가 존재하지 않습니다."));
     }
 }
