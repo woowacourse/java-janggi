@@ -41,4 +41,20 @@ class PositionTest {
         // then
         assertThat(result).isEqualTo(Position.of(6, 8));
     }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "1,10,true",
+            "10,9,false"
+    })
+    void 좌표가_유효한지_판단한다(int row, int column, boolean expectedResult) {
+        // given
+        Position position = Position.ofDirection(row, column);
+
+        // when
+        boolean result = position.isValid();
+
+        // then
+        assertThat(result).isEqualTo(expectedResult);
+    }
 }
