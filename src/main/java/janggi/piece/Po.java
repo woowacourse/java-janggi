@@ -86,4 +86,9 @@ public class Po implements Movable {
         }
         return route;
     }
+
+    @Override
+    public TeamColor getColor() {
+        return this.color;
+    }
 }

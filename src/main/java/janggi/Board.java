@@ -50,4 +50,30 @@ public class Board {
                 .filter(piece -> !point.equals(piece.getPoint())) //TODO piece.hasSamePoint 로 리팩토링 가능
                 .toList();
     }
+
+    public Movable findByPoint(Point point) {
+        return pieces.stream()
+                .filter(piece ->piece.getPoint().equals(point))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다."));
+    }
+
+    public boolean checkHurdles(Point startPoint, List<Point> route) {
+        List<Point> piecePoints = pieces.stream()
+                .map(Movable::getPoint).toList();
+
+        List<Point> crashPoints = route.stream()
+                .filter(piecePoints::contains)
+                .toList();
+
+        if (crashPoints.size() == 1
+                && route.getLast().equals(crashPoints.getFirst())
+        ) {
+            TeamColor crashPieceColor = findByPoint(crashPoints.getFirst()).getColor();
+            TeamColor movingPieceColor  = findByPoint(startPoint).getColor();
+            return crashPieceColor == movingPieceColor;
+        }
+
+        return crashPoints.size() > 0;
+    }
 }

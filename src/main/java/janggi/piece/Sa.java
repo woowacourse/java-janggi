@@ -52,4 +52,9 @@ public class Sa implements Movable {
     public Point getPoint() {
         return point;
     }
+
+    @Override
+    public TeamColor getColor() {
+        return this.color;
+    }
 }

@@ -72,4 +72,9 @@ public class Cha implements Movable {
         }
         return route;
     }
+
+    @Override
+    public TeamColor getColor() {
+        return this.color;
+    }
 }

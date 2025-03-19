@@ -68,4 +68,9 @@ public class Ma implements Movable {
         }
         return List.of(new Point(point.row(), point.column() + 1),targetPoint);
     }
+
+    @Override
+    public TeamColor getColor() {
+        return this.color;
+    }
 }

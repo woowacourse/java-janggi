@@ -48,6 +48,11 @@ public class Byeong implements Movable {
     }
 
     @Override
+    public TeamColor getColor() {
+        return this.color;
+    }
+
+    @Override
     public Point getPoint() {
         return point;
     }

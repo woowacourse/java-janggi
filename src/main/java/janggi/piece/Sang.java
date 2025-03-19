@@ -83,4 +83,9 @@ public class Sang implements Movable {
         }
         return List.of(new Point(point.row(), point.column() + 1), targetPoint.move(-1, -1), targetPoint);
     }
+
+    @Override
+    public TeamColor getColor() {
+        return this.color;
+    }
 }

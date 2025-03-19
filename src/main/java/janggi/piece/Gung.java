@@ -52,4 +52,9 @@ public class Gung implements Movable {
     public List<Point> findRoute(Point targetPoint) {
         return List.of(targetPoint);
     }
+
+    @Override
+    public TeamColor getColor() {
+        return this.color;
+    }
 }
