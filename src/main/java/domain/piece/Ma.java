@@ -1,8 +1,8 @@
 package domain.piece;
 
+import domain.Board;
 import domain.Coordinate;
 import domain.Team;
-import java.util.HashSet;
 import java.util.Set;
 
 public class Ma extends Piece {
@@ -26,28 +26,31 @@ public class Ma extends Piece {
     }
 
     @Override
-    public Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
-        int fromX = departure.getX();
-        int toX = arrival.getX();
-        int fromY = departure.getY();
-        int toY = arrival.getY();
-
-        Set<Coordinate> path = new HashSet<>();
-        if (Math.abs(toX - fromX) == 2) {
-            if (toX - fromX > 0) {
-                path.add(departure.change(1, 0));
-                return path;
+    protected boolean canMoveConsideringObstacles(Board board, Coordinate departure, Coordinate arrival) {
+        for (Coordinate coordinate : findPaths(departure, arrival)) {
+            if (board.isExistence(coordinate)) {
+                return false;
             }
-            path.add(departure.change(-1, 0));
-            return path;
         }
-        if (Math.abs(toY - fromY) == 2) {
-            if (toY - fromY > 0) {
-                path.add(departure.change(0, 1));
-                return path;
+        return true;
+    }
+
+    @Override
+    protected Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
+        int dx = arrival.getX() - departure.getX();
+        int dy = arrival.getY() - departure.getY();
+
+        if (Math.abs(dx) == 2) {
+            if (dx > 0) {
+                return Set.of(departure.change(1, 0));
             }
-            path.add(departure.change(0, -1));
-            return path;
+            return Set.of(departure.change(-1, 0));
+        }
+        if (Math.abs(dy) == 2) {
+            if (dy > 0) {
+                return Set.of(departure.change(0, 1));
+            }
+            return Set.of(departure.change(0, -1));
         }
         throw new IllegalArgumentException("여기까지 못옴");
     }

@@ -2,6 +2,7 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.Board;
 import domain.Coordinate;
 import domain.Team;
 import java.util.Set;
@@ -31,6 +32,23 @@ class MaTest {
                 new Coordinate(7, 4),
                 new Coordinate(7, 6)
         );
+    }
+
+    @Test
+    @DisplayName("마가 (5,5) -> (4,3) 으로 이동할 때 (5,4)를 거치기 때문에 false 반환한다.")
+    void test2() {
+        // given
+        Ma ma = new Ma(Team.CHO);
+        Board board = new BoardBuilder()
+                .addPiece(5, 5, ma)
+                .addPiece(5, 4, new Sang(Team.CHO))
+                .build();
+
+        // when
+        boolean result = ma.canMoveConsideringObstacles(board, new Coordinate(5, 5), new Coordinate(4, 3));
+
+        // then
+        assertThat(result).isFalse();
     }
 
     @DisplayName("경로를 찾는 경우의 수 테스트")
