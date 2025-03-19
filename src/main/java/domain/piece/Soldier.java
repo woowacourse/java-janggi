@@ -1,12 +1,32 @@
 package domain.piece;
 
+import domain.Direction;
+import domain.Movement;
+import domain.Movements;
 import domain.Position;
 import domain.TeamType;
 import java.util.List;
+import java.util.Map;
 
 public class Soldier extends Piece {
-    private static final List<Integer> deltaColumn = List.of(-1, 0, 1);
-    private static final List<Integer> deltaRow = List.of(0, 1, 0);
+    private static final Map<TeamType, Movements> movements;
+
+    static {
+        movements = Map.of(
+                TeamType.CHO,
+                new Movements(
+                        List.of(new Movement(List.of(Direction.UP)),
+                                new Movement(List.of(Direction.RIGHT)),
+                                new Movement(List.of(Direction.LEFT)))
+                ),
+                TeamType.HAN,
+                new Movements(
+                        List.of(new Movement(List.of(Direction.DOWN)),
+                                new Movement(List.of(Direction.RIGHT)),
+                                new Movement(List.of(Direction.LEFT)))
+                )
+        );
+    }
 
     public Soldier(Position position, TeamType teamType) {
         super(position, teamType);
@@ -14,18 +34,24 @@ public class Soldier extends Piece {
 
     @Override
     public boolean canMove(Position expectedPosition, List<Piece> pieces) {
-        boolean isThereMyTeam = pieces.stream()
+        Movements findMovement = movements.get(this.teamType);
+        if(!findMovement.canMoveFromTo(this.position,expectedPosition)){
+            return false;
+        }
+        List<Position> intermediatePositions = findMovement.findIntermediatePositions(this.position, expectedPosition);
+        for (Position intermediatePosition : intermediatePositions) {
+            for (Piece piece : pieces) {
+                if(piece.hasSamePosition(intermediatePosition)){
+                    return false;
+                }
+            }
+        }
+        boolean check = pieces.stream()
                 .anyMatch(piece -> piece.hasSamePosition(expectedPosition) && piece.isSameTeam(this));
-        if (isThereMyTeam) {
+        if(check){
             return false;
         }
 
-        for (int i = 0; i < deltaColumn.size(); i++) {
-            if (position.checkPositionAfterDeltaMove(deltaRow.get(i), deltaColumn.get(i), expectedPosition)) {
-                return true;
-            }
-        }
-
-        return false;
+        return true;
     }
 }

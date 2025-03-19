@@ -30,7 +30,22 @@ class SoldierTest {
         assertThat(position).isEqualTo(movePosition);
     }
 
-    static Stream<Arguments> canMoveSoldier() {
+    @ParameterizedTest
+    @MethodSource
+    @DisplayName("주위 칸이 비어있을 때 정상적으로 이동할 수 있다")
+    void canMoveSoldierWhenCho(Position movePosition, boolean expected) {
+        // given
+        Position currentPosition = Position.of(1, 1);
+        Piece solider = new Soldier(currentPosition, TeamType.CHO);
+
+        // when
+        boolean actual = solider.canMove(movePosition, List.of());
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    static Stream<Arguments> canMoveSoldierWhenCho() {
         return Stream.of(
                 Arguments.of(Position.of(1, 0), true),
                 Arguments.of(Position.of(2, 1), true),
@@ -44,12 +59,12 @@ class SoldierTest {
     }
 
     @ParameterizedTest
-    @MethodSource()
+    @MethodSource
     @DisplayName("주위 칸이 비어있을 때 정상적으로 이동할 수 있다")
-    void canMoveSoldier(Position movePosition, boolean expected) {
+    void canMoveSoldierWhenHan(Position movePosition, boolean expected) {
         // given
         Position currentPosition = Position.of(1, 1);
-        Piece solider = new Soldier(currentPosition, TeamType.CHO);
+        Piece solider = new Soldier(currentPosition, TeamType.HAN);
 
         // when
         boolean actual = solider.canMove(movePosition, List.of());
@@ -58,8 +73,21 @@ class SoldierTest {
         assertThat(actual).isEqualTo(expected);
     }
 
+    static Stream<Arguments> canMoveSoldierWhenHan() {
+        return Stream.of(
+                Arguments.of(Position.of(1, 0), true),
+                Arguments.of(Position.of(2, 1), false),
+                Arguments.of(Position.of(1, 2), true),
+                Arguments.of(Position.of(0, 1), true),
+                Arguments.of(Position.of(2, 2), false),
+                Arguments.of(Position.of(0, 2), false),
+                Arguments.of(Position.of(0, 0), false),
+                Arguments.of(Position.of(2, 0), false)
+        );
+    }
+
     @Test
-    @DisplayName("주위 칸에 아군이 있으면 이동할 수 없다.")
+    @DisplayName("도착 칸에 아군이 있으면 이동할 수 없다.")
     void canMoveSoldier2() {
         // given
         Position movePosition = Position.of(2,1);
@@ -74,5 +102,23 @@ class SoldierTest {
 
         // then
         assertThat(actual).isFalse();
+    }
+
+    @Test
+    @DisplayName("도착 칸에 적이 있으면 이동할 수 있다.")
+    void canMoveSoldier3() {
+        // given
+        Position movePosition = Position.of(3,1);
+        Position position = Position.of(2,1);
+        Piece solider1 = new Soldier(position,TeamType.CHO);
+
+        Position currentPosition = Position.of(3, 1);
+        Piece solider2 = new Soldier(currentPosition, TeamType.HAN);
+
+        // when
+        boolean actual = solider1.canMove(movePosition, List.of(solider2));
+
+        // then
+        assertThat(actual).isTrue();
     }
 }
