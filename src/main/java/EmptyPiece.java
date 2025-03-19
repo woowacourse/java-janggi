@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.List;
 
 public class EmptyPiece extends Piece {
-    public EmptyPiece(Color color) {
+    public EmptyPiece() {
         super(PieceColor.NONE);
     }
 
@@ -17,7 +17,7 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public boolean canMove(int pieceCount, Piece piece) {
+    public boolean canMove(Piece piece, List<Piece> piecesInRoute) {
         return false;
     }
 }

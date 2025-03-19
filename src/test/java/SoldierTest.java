@@ -2,6 +2,9 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -44,7 +47,9 @@ class SoldierTest {
         Piece piece = new Soldier(PieceColor.RED);
         Piece elephant = new Elephant(PieceColor.RED);
 
-        boolean canMove = piece.canMove(0, elephant);
+        List<Piece> piecesOnRoute = new ArrayList<>();
+
+        boolean canMove = piece.canMove(elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -53,8 +58,9 @@ class SoldierTest {
         Piece piece = new Soldier(PieceColor.RED);
         Piece elephant = new Elephant(PieceColor.BLUE);
 
-        int pieceCount = 1;
-        boolean canMove = piece.canMove(pieceCount, elephant);
+        List<Piece> piecesOnRoute = List.of(elephant);
+
+        boolean canMove = piece.canMove(elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -63,8 +69,9 @@ class SoldierTest {
         Piece piece = new Soldier(PieceColor.RED);
         Piece elephant = new Elephant(PieceColor.BLUE);
 
-        int pieceCount = 0;
-        boolean canMove = piece.canMove(pieceCount, elephant);
+        List<Piece> piecesOnRoute = new ArrayList<>();
+
+        boolean canMove = piece.canMove(elephant, piecesOnRoute);
         assertThat(canMove).isTrue();
     }
 

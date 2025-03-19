@@ -32,15 +32,22 @@ public class Board {
         return count;
     }
 
+    public List<Piece> getPiecesOnRoute(List<Position> positions) {
+        return positions.stream()
+                .map(board::get)
+                .toList();
+    }
+
     public boolean isValidRoute(Position source, Position destination) {
-        Piece piece = board.get(source);
+        Piece sourcePiece = board.get(source);
+        Piece destinationPiece = board.get(destination);
 
-        boolean validDestination = piece.isValidDestination(source, destination);
+        boolean validDestination = sourcePiece.isValidDestination(source, destination);
 
-        List<Position> route = piece.findAllRoute(source, destination);
-        int pieceCount = countPieceOnRoute(route);
+        List<Position> route = sourcePiece.findAllRoute(source, destination);
+        List<Piece> piecesOnRoute = getPiecesOnRoute(route);
 
-        boolean canMove = piece.canMove(pieceCount, piece);
+        boolean canMove = sourcePiece.canMove(destinationPiece, piecesOnRoute);
 
         return canMove && validDestination;
     }

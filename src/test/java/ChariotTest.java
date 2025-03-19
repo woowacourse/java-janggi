@@ -2,6 +2,7 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -72,8 +73,9 @@ class ChariotTest {
     void 차의_목적지에_같은팀이_있으면_이동불가() {
         Piece chariot = new Chariot(PieceColor.RED);
         Piece elephant = new Elephant(PieceColor.RED);
+        List<Piece> piecesOnRoute = new ArrayList<>();
 
-        boolean canMove = chariot.canMove(0, elephant);
+        boolean canMove = chariot.canMove(elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -81,9 +83,9 @@ class ChariotTest {
     void 차의_이동경로에_기물이_있으면_이동불가() {
         Piece chariot = new Chariot(PieceColor.RED);
         Piece elephant = new Elephant(PieceColor.BLUE);
+        List<Piece> piecesOnRoute = List.of(chariot);
 
-        int pieceCount = 1;
-        boolean canMove = chariot.canMove(pieceCount, elephant);
+        boolean canMove = chariot.canMove(elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -91,9 +93,9 @@ class ChariotTest {
     void 차의_이동경로에_기물이_없고_목적지가_같은팀이_아니면_이동가능() {
         Piece chariot = new Chariot(PieceColor.RED);
         Piece elephant = new Elephant(PieceColor.BLUE);
+        List<Piece> piecesOnRoute = new ArrayList<>();
 
-        int pieceCount = 0;
-        boolean canMove = chariot.canMove(pieceCount, elephant);
+        boolean canMove = chariot.canMove(elephant, piecesOnRoute);
         assertThat(canMove).isTrue();
     }
 }

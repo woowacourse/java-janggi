@@ -16,13 +16,19 @@ public class Guard extends Piece{
         return List.of();
     }
 
+
     @Override
     public boolean isOtherTeam(Piece other) {
         return super.isOtherTeam(other);
     }
 
     @Override
-    public boolean canMove(int pieceCount, Piece piece) {
+    public boolean canMove(Piece destinationPiece, List<Piece> piecesInRoute) {
+        int pieceCountInRoute = this.countPieceInRoute(piecesInRoute);
+
+        if(this.isOtherTeam(destinationPiece) && pieceCountInRoute == 0) {
+            return true;
+        }
         return false;
     }
 }

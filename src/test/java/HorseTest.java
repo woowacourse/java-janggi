@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,7 +43,9 @@ class HorseTest {
         Piece horse = new Horse(PieceColor.RED);
         Piece elephant = new Elephant(PieceColor.RED);
 
-        boolean canMove = horse.canMove(0, elephant);
+        List<Piece> piecesOnRoute = new ArrayList<>();
+
+        boolean canMove = horse.canMove(elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -51,8 +54,9 @@ class HorseTest {
         Piece horse = new Horse(PieceColor.RED);
         Piece elephant = new Elephant(PieceColor.BLUE);
 
-        int pieceCount = 1;
-        boolean canMove = horse.canMove(pieceCount, elephant);
+        List<Piece> piecesOnRoute = List.of(elephant);
+
+        boolean canMove = horse.canMove(elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -61,8 +65,9 @@ class HorseTest {
         Piece horse = new Horse(PieceColor.RED);
         Piece elephant = new Elephant(PieceColor.BLUE);
 
-        int pieceCount = 0;
-        boolean canMove = horse.canMove(pieceCount, elephant);
+        List<Piece> piecesOnRoute = new ArrayList<>();
+
+        boolean canMove = horse.canMove(elephant, piecesOnRoute);
         assertThat(canMove).isTrue();
     }
 }

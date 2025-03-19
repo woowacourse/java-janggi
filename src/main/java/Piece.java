@@ -15,5 +15,15 @@ public abstract class Piece {
 
     public abstract List<Position> findAllRoute(Position source, Position destination);
 
-    public abstract boolean canMove(int pieceCount, Piece piece);
+    public abstract boolean canMove(Piece piece, List<Piece> piecesInRoute);
+
+    int countPieceInRoute(List<Piece> piecesInRoute) {
+        return (int) piecesInRoute.stream()
+                .filter(piece -> piece.color != PieceColor.NONE)
+                .count();
+    }
+
+    boolean isSamePiece(Piece other) {
+        return this.getClass() == other.getClass();
+    }
 }

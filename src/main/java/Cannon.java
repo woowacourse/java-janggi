@@ -1,7 +1,6 @@
 import java.util.List;
 
-public class Cannon extends Piece
-{
+public class Cannon extends Piece {
 
     Cannon(PieceColor color) {
         super(color);
@@ -18,10 +17,17 @@ public class Cannon extends Piece
     }
 
     @Override
-    public boolean canMove(int pieceCount, Piece piece) {
-        if (pieceCount == 1 && this.isOtherTeam(piece)) {
+    public boolean canMove(Piece destination, List<Piece> piecesInRoute) {
+        int pieceCount = this.countPieceInRoute(piecesInRoute);
+        boolean noSamePiece = piecesInRoute.stream()
+                .noneMatch(this::isSamePiece);
+
+        boolean isDestinationOtherPiece = !this.isSamePiece(destination);
+
+        if (pieceCount == 1 && this.isOtherTeam(destination) && noSamePiece && isDestinationOtherPiece) {
             return true;
         }
         return false;
     }
+
 }
