@@ -27,7 +27,7 @@ public class Guard implements ChessPiece{
     }
 
     @Override
-    public List<Path> getAvailablePaths() {
+    public List<Path> getAvailablePaths(ChessPiecePositions positions) {
         return List.of();
     }
 

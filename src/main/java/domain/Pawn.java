@@ -35,7 +35,7 @@ public class Pawn implements ChessPiece {
     }
 
     @Override
-    public List<Path> getAvailablePaths() {
+    public List<Path> getAvailablePaths(ChessPiecePositions positions) {
         return Arrays.stream(ds)
                 .map(this::getCoordinateNextPositions)
                 .filter(coord -> !coord.isEmpty())

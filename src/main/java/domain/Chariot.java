@@ -21,9 +21,6 @@ public class Chariot implements ChessPiece {
         );
     }
 
-//    public Chariot move(ChessPosition destination) {
-//        new Chariot(team, destination);
-//    }
 
     @Override
     public ChessPosition getPosition() {
@@ -31,7 +28,7 @@ public class Chariot implements ChessPiece {
     }
 
     @Override
-    public List<Path> getAvailablePaths() {
+    public List<Path> getAvailablePaths(ChessPiecePositions positions) {
         return List.of();
     }
 

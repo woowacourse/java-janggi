@@ -1,3 +1,4 @@
+import domain.ChessPiecePositions;
 import domain.ChessPosition;
 import domain.ChessTeam;
 import domain.Path;
@@ -21,7 +22,7 @@ public class PawnTest {
 
         //when
         final Pawn pawn = new Pawn(chessPosition, ChessTeam.RED);
-        final List<Path> actualPaths = pawn.getAvailablePaths();
+        final List<Path> actualPaths = pawn.getAvailablePaths(ChessPiecePositions.empty());
 
         //then
         SoftAssertions.assertSoftly((softly) -> {
