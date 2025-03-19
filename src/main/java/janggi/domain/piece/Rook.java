@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class Rook implements Piece {
 
-    private final static Rook ROOK = new Rook();
+    private static final Rook ROOK = new Rook();
     private static final Set<Direction> DIRECTIONS = Set.of(
             Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT
     );

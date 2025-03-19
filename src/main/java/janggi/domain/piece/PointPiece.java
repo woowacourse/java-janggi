@@ -59,4 +59,8 @@ public class PointPiece {
     public int hashCode() {
         return Objects.hash(currentPoint, piece, dynasty);
     }
+
+    public boolean isEqualPiece(Piece piece) {
+        return this.piece.equals(piece);
+    }
 }
