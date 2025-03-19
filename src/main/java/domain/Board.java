@@ -5,10 +5,10 @@ import java.util.Set;
 
 public class Board {
 
-    public static final int MIN_ROW = 1;
-    public static final int MIN_COLUMN = 1;
-    public static final int MAX_ROW = 10;
-    public static final int MAX_COLUMN = 9;
+//    public static final int MIN_ROW = 1;
+//    public static final int MIN_COLUMN = 1;
+//    public static final int MAX_ROW = 10;
+//    public static final int MAX_COLUMN = 9;
 
     private final Set<Piece> pieces;
 
@@ -33,5 +33,13 @@ public class Board {
     public Set<Piece> getPieces() {
         return pieces;
     }
+
+//    public boolean isValidPosition(Position position) {
+//        int nextColumn = position.getX();
+//        int nextRow = position.getY();
+//        return (nextColumn < Board.MIN_COLUMN ||nextColumn > Board.MAX_COLUMN ||
+//                nextRow < Board.MIN_ROW || nextRow > Board.MAX_ROW
+//        );
+//    }
 
 }

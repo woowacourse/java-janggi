@@ -11,32 +11,30 @@ public class Chariot extends Piece {
 
     @Override
     public Set<Position> getMovablePositions() {
-        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         Set<Position> positions = new HashSet<>();
-        for (int i = 0; i < directions.length; i++) {
-            Position current = new Position(position.getX(), position.getY());
-            while (true) {
-                int nx = current.getX() + directions[i][0];
-                int ny = current.getY() + directions[i][1];
-
-                if (nx < Board.MIN_COLUMN || nx > Board.MAX_COLUMN || ny < Board.MIN_ROW || ny > Board.MAX_ROW) {
-                    break;
-                }
-                Position newPosition = new Position(nx, ny);
-                if (!board.isExists(newPosition)) {
-                    positions.add(newPosition);
-                    current = newPosition;
-                    continue;
-                }
-                // 우리팀 or 상대팀
-                if (board.isSameTeam(this, newPosition)) {
-                    break;
-                }
-                positions.add(newPosition);
-                break;
-            }
+        for (var direction : Direction.values()) {
+            Position current = new Position(position.getColumn(), position.getRow());
+            positions.addAll(goOneSide(direction, current));
         }
         return positions;
     }
 
+    private Set<Position> goOneSide(Direction direction, Position current) {
+        Set<Position> positions = new HashSet<>();
+        while (true) {
+            Position nextPosition = current.nextPosition(direction);
+            if (nextPosition.isInValidPosition()) {
+                break;
+            }
+            if (board.isExists(nextPosition)) {
+                if (!board.isSameTeam(this, nextPosition)) {
+                    positions.add(nextPosition);
+                }
+                break;
+            }
+            positions.add(nextPosition);
+            current = nextPosition;
+        }
+        return positions;
+    }
 }

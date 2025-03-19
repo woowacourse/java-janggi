@@ -6,20 +6,39 @@ import java.util.Objects;
 public class Position {
 
     private final Point point;
+    public static final int MIN_ROW = 1;
+    public static final int MIN_COLUMN = 1;
+    public static final int MAX_ROW = 10;
+    public static final int MAX_COLUMN = 9;
 
     public Position(final int x, final int y) {
-        if (x < 1 || y < 1 || x > 9 || y > 10) {
-            throw new IllegalArgumentException("위치는 장기판 내부여야 합니다.");
-        }
+//        if (x < 1 || y < 1 || x > 9 || y > 10) {
+//            throw new IllegalArgumentException("위치는 장기판 내부여야 합니다.");
+//        }
         this.point = new Point(x, y);
     }
 
-    public int getX() {
+    public int getColumn() {
         return point.x;
     }
 
-    public int getY() {
+    public int getRow() {
         return point.y;
+    }
+
+    public boolean isInValidPosition() {
+        int nextColumn = this.getColumn();
+        int nextRow = this.getRow();
+        return (nextColumn < MIN_COLUMN ||nextColumn > MAX_COLUMN ||
+                nextRow < MIN_ROW || nextRow > MAX_ROW
+        );
+    }
+
+    public Position nextPosition(Direction direction) {
+        return new Position(
+                getColumn() + direction.getDeltaColumn(),
+                getRow() + direction.getDeltaRow()
+        );
     }
 
     @Override
