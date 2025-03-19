@@ -1,8 +1,8 @@
 package janggi.setting;
 
 public enum CampType {
-    CHO(0, "초"),
-    HAN(9, "한"),
+    CHO(9, "초"),
+    HAN(0, "한"),
     ;
 
     private final int startYPosition;

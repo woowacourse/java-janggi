@@ -39,10 +39,10 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> test1() {
         return Stream.of(
-                Arguments.of(AssignType.IN_TOP, List.of(new Position(1, 0), new Position(7, 0))),
-                Arguments.of(AssignType.LEFT_TOP, List.of(new Position(2, 0), new Position(7, 0))),
-                Arguments.of(AssignType.OUT_TOP, List.of(new Position(2, 0), new Position(6, 0))),
-                Arguments.of(AssignType.RIGHT_TOP, List.of(new Position(1, 0), new Position(6, 0)))
+                Arguments.of(AssignType.IN_TOP, List.of(new Position(1, 9), new Position(7, 9))),
+                Arguments.of(AssignType.LEFT_TOP, List.of(new Position(2, 9), new Position(7, 9))),
+                Arguments.of(AssignType.OUT_TOP, List.of(new Position(2, 9), new Position(6, 9))),
+                Arguments.of(AssignType.RIGHT_TOP, List.of(new Position(1, 9), new Position(6, 9)))
         );
     }
 
@@ -67,10 +67,10 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> test2() {
         return Stream.of(
-                Arguments.of(AssignType.IN_TOP, List.of(new Position(2, 0), new Position(6, 0))),
-                Arguments.of(AssignType.LEFT_TOP, List.of(new Position(1, 0), new Position(6, 0))),
-                Arguments.of(AssignType.OUT_TOP, List.of(new Position(1, 0), new Position(7, 0))),
-                Arguments.of(AssignType.RIGHT_TOP, List.of(new Position(2, 0), new Position(7, 0)))
+                Arguments.of(AssignType.IN_TOP, List.of(new Position(2, 9), new Position(6, 9))),
+                Arguments.of(AssignType.LEFT_TOP, List.of(new Position(1, 9), new Position(6, 9))),
+                Arguments.of(AssignType.OUT_TOP, List.of(new Position(1, 9), new Position(7, 9))),
+                Arguments.of(AssignType.RIGHT_TOP, List.of(new Position(2, 9), new Position(7, 9)))
         );
     }
 
@@ -95,10 +95,10 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> test3() {
         return Stream.of(
-                Arguments.of(AssignType.IN_TOP, List.of(new Position(1, 9), new Position(7, 9))),
-                Arguments.of(AssignType.LEFT_TOP, List.of(new Position(2, 9), new Position(7, 9))),
-                Arguments.of(AssignType.OUT_TOP, List.of(new Position(2, 9), new Position(6, 9))),
-                Arguments.of(AssignType.RIGHT_TOP, List.of(new Position(1, 9), new Position(6, 9)))
+                Arguments.of(AssignType.IN_TOP, List.of(new Position(1, 0), new Position(7, 0))),
+                Arguments.of(AssignType.LEFT_TOP, List.of(new Position(2, 0), new Position(7, 0))),
+                Arguments.of(AssignType.OUT_TOP, List.of(new Position(2, 0), new Position(6, 0))),
+                Arguments.of(AssignType.RIGHT_TOP, List.of(new Position(1, 0), new Position(6, 0)))
         );
     }
 
@@ -123,10 +123,10 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> test4() {
         return Stream.of(
-                Arguments.of(AssignType.IN_TOP, List.of(new Position(2, 9), new Position(6, 9))),
-                Arguments.of(AssignType.LEFT_TOP, List.of(new Position(1, 9), new Position(6, 9))),
-                Arguments.of(AssignType.OUT_TOP, List.of(new Position(1, 9), new Position(7, 9))),
-                Arguments.of(AssignType.RIGHT_TOP, List.of(new Position(2, 9), new Position(7, 9)))
+                Arguments.of(AssignType.IN_TOP, List.of(new Position(2, 0), new Position(6, 0))),
+                Arguments.of(AssignType.LEFT_TOP, List.of(new Position(1, 0), new Position(6, 0))),
+                Arguments.of(AssignType.OUT_TOP, List.of(new Position(1, 0), new Position(7, 0))),
+                Arguments.of(AssignType.RIGHT_TOP, List.of(new Position(2, 0), new Position(7, 0)))
         );
     }
 
@@ -137,13 +137,13 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard(AssignType.RIGHT_TOP, AssignType.RIGHT_TOP);
 
         //when
-        List<Piece> hanWorldPieces = janggiBoard.getHanPieces();
+        List<Piece> choWorldPieces = janggiBoard.getChoPieces();
 
-        getPositions(PieceType.CHA, PiecePositionFixture.CHA_POSITIONS, hanWorldPieces);
-        getPositions(PieceType.GUNG, PiecePositionFixture.GUNG_POSITIONS, hanWorldPieces);
-        getPositions(PieceType.SA, PiecePositionFixture.SA_POSITIONS, hanWorldPieces);
-        getPositions(PieceType.JOL, PiecePositionFixture.JOL_POSITIONS, hanWorldPieces);
-        getPositions(PieceType.PO, PiecePositionFixture.PO_POSITIONS, hanWorldPieces);
+        getPositions(PieceType.CHA, PiecePositionFixture.CHA_POSITIONS, choWorldPieces);
+        getPositions(PieceType.GUNG, PiecePositionFixture.GUNG_POSITIONS, choWorldPieces);
+        getPositions(PieceType.SA, PiecePositionFixture.SA_POSITIONS, choWorldPieces);
+        getPositions(PieceType.JOL, PiecePositionFixture.JOL_POSITIONS, choWorldPieces);
+        getPositions(PieceType.PO, PiecePositionFixture.PO_POSITIONS, choWorldPieces);
     }
 
     private void getPositions(PieceType pieceType, List<Position> positions, List<Piece> pieces) {

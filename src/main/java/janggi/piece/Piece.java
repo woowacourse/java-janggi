@@ -7,7 +7,7 @@ public interface Piece {
 
     void move(final Position destination, List<Piece> enemy, List<Piece> allies);
 
-    void ableToMove(final Position destination, List<Piece> enemy, List<Piece> allies);
+    boolean ableToMove(final Position destination, List<Piece> enemy, List<Piece> allies);
 
     PieceType getPieceType();
 

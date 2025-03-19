@@ -18,6 +18,10 @@ public class Gung implements Piece {
         this.position = position;
     }
 
+    public static Gung from(final Position position) {
+        return new Gung(position);
+    }
+
     public static List<Gung> generateInitialGung(final CampType campType) {
         int yPosition = Math.abs(campType.getStartYPosition() - height);
         return xPositions.stream()
@@ -31,8 +35,23 @@ public class Gung implements Piece {
     }
 
     @Override
-    public void ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
+    public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
+        if (!isRuleOfMove(destination)) {
+            return false;
+        }
+        return isNotHurdle(destination, allies);
+    }
 
+    private boolean isRuleOfMove(Position destination) {
+        return destination.equals(new Position(position.getX() - 1, position.getY()))
+                || destination.equals(new Position(position.getX() + 1, position.getY()))
+                || destination.equals(new Position(position.getX(), position.getY() - 1))
+                || destination.equals(new Position(position.getX(), position.getY() + 1));
+    }
+
+    private boolean isNotHurdle(Position destination, List<Piece> allies) {
+        return allies.stream()
+                .noneMatch(piece -> piece.getPosition().equals(destination));
     }
 
     @Override

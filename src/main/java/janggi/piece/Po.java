@@ -31,8 +31,8 @@ public class Po implements Piece {
     }
 
     @Override
-    public void ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-
+    public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
+        return true;
     }
 
     @Override
