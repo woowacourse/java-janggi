@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Horse extends Piece {
     private static final List<Position> INITIAL_POSITIONS_BLUE_LEFT = List.of(new Position(10, 2), new Position(10, 3));
@@ -9,8 +10,35 @@ public class Horse extends Piece {
     private static final List<Position> INITIAL_POSITIONS_RED_LEFT = List.of(new Position(1, 2), new Position(1, 3));
     private static final List<Position> INITIAL_POSITIONS_RED_RIGHT = List.of(new Position(1, 7), new Position(1, 8));
 
-    private Horse(final Position position, final TeamType teamType) {
+    public Horse(final Position position, final TeamType teamType) {
         super("마", position, teamType);
+    }
+
+    public Horse move(final Map<Position, Piece> pieces, final Position positionToMove) {
+        validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
+        validateNothingBetweenPositionToMove(pieces, positionToMove);
+        return new Horse(positionToMove, teamType);
+    }
+
+    private void validateIsSameTeamNotInPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
+        if (pieces.get(positionToMove).getTeamType().equals(TeamType.BLUE)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void validateNothingBetweenPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
+        HorseDirection horseDirection = HorseDirection.getDirection(
+                positionToMove.x() - getPosition().x(),
+                positionToMove.y() - getPosition().y()
+        );
+        Position firstRoutePosition = getPosition().add(horseDirection.getRoutePosition());
+        if(hasPieceOnRoute(pieces, firstRoutePosition)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private static boolean hasPieceOnRoute(Map<Position, Piece> pieces, Position firstRelativePosition) {
+        return !(pieces.get(firstRelativePosition) instanceof None);
     }
 
     public static List<Piece> createWithInitialPositions(

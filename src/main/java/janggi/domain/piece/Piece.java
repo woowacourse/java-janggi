@@ -19,6 +19,10 @@ public abstract class Piece {
         return name;
     }
 
+    public TeamType getTeamType() {
+        return teamType;
+    }
+
     public static Piece createEmpty() {
         return new None();
     }
