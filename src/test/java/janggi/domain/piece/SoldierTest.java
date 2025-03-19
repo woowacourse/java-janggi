@@ -8,13 +8,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.HashMap;
+import java.util.Map;
+
 class SoldierTest {
     @DisplayName("이동 위치 값을 입력 받아 이동한다.")
     @Test
     void move() {
         Soldier soldier = new Soldier(new Position(5, 5), TeamType.BLUE);
         Position positionToMove = new Position(5, 6);
-        Soldier movedSoldier = soldier.move(positionToMove);
+        Map<Position, Piece> pieces = new HashMap<>();
+
+        Soldier movedSoldier = soldier.move(pieces, positionToMove);
 
         assertThat(movedSoldier.getPosition()).isEqualTo(positionToMove);
     }
@@ -25,8 +30,8 @@ class SoldierTest {
     void move2(int x, int y) {
         Soldier soldier = new Soldier(new Position(5, 5), TeamType.BLUE);
         Position positionToMove = new Position(x, y);
-
-        assertThatThrownBy(() -> soldier.move(positionToMove))
+        Map<Position, Piece> pieces = new HashMap<>();
+        assertThatThrownBy(() -> soldier.move(pieces, positionToMove))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -36,8 +41,21 @@ class SoldierTest {
     void move3(int x, int y) {
         Soldier soldier = new Soldier(new Position(5, 5), TeamType.RED);
         Position positionToMove = new Position(x, y);
+        Map<Position, Piece> pieces = new HashMap<>();
+        assertThatThrownBy(() ->
+                soldier.move(pieces, positionToMove))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 
-        assertThatThrownBy(() -> soldier.move(positionToMove))
+    @DisplayName("졸의 이동 위치에 같은 편 말이 있으면 예외를 던진다")
+    @Test
+    void move4() {
+        Soldier soldier = new Soldier(new Position(5, 5), TeamType.BLUE);
+        Map<Position, Piece> pieces = new HashMap<>();
+        Soldier otherSoldier = new Soldier(new Position(4, 5), TeamType.BLUE);
+        pieces.put(otherSoldier.getPosition(), otherSoldier);
+        assertThatThrownBy(() ->
+                soldier.move(pieces, otherSoldier.getPosition()))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

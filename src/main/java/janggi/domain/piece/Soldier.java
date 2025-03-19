@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Soldier extends Piece {
     private static final List<Position> INITIAL_POSITIONS_BLUE = List.of(
@@ -33,9 +34,16 @@ public class Soldier extends Piece {
         return soldiers;
     }
 
-    public Soldier move(final Position positionToMove) {
+    public Soldier move(final Map<Position, Piece> pieces, final Position positionToMove) {
+        validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
         validateIsPositionMovable(positionToMove);
         return new Soldier(positionToMove, teamType);
+    }
+
+    private void validateIsSameTeamNotInPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
+        if(pieces.containsKey(positionToMove)){
+            throw new IllegalArgumentException();
+        }
     }
 
     private void validateIsPositionMovable(final Position value) {
