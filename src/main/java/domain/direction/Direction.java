@@ -1,7 +1,6 @@
 package domain.direction;
 
 import domain.piece.Position;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +14,22 @@ public class Direction {
         this.repeatable = repeatable;
     }
 
-    public boolean canReach(Position start, Position target) {
+    public boolean canReach(final Position start, final Position target) {
+        if (repeatable) {
+            return canReachWithRepeat(start, target);
+        }
+        return canReachWithoutRepeat(start, target);
+    }
+
+    private boolean canReachWithRepeat(final Position start, final Position target) {
+        Position result = start;
+        while (result.isValid() && !result.equals(target)) {
+            result = result.merge(direction.getFirst());
+        }
+        return result.isValid() && result.equals(target);
+    }
+
+    private boolean canReachWithoutRepeat(final Position start, final Position target) {
         Position result = start;
         for (Position dir : direction) {
             result = result.merge(dir);
@@ -25,12 +39,12 @@ public class Direction {
 
     public List<Position> createPath(final Position start, final Position target) {
         if (repeatable) {
-            return createRepeatedPath(start, target);
+            return createPathWithRepeat(start, target);
         }
-        return createNotRepeatedPath(start);
+        return createPathWithoutRepeat(start);
     }
 
-    private List<Position> createRepeatedPath(final Position start, final Position target) {
+    private List<Position> createPathWithRepeat(final Position start, final Position target) {
         List<Position> paths = new ArrayList<>();
 
         Position path = start;
@@ -41,7 +55,7 @@ public class Direction {
         return paths;
     }
 
-    private List<Position> createNotRepeatedPath(final Position start) {
+    private List<Position> createPathWithoutRepeat(final Position start) {
         List<Position> paths = new ArrayList<>();
 
         Position path = start;
