@@ -14,8 +14,10 @@ import domain.unit.Unit;
 
 public class Janggi {
     private final List<Unit> units = new ArrayList<>();
+    private Team turn;
 
     public Janggi() {
+        turn = Team.CHO;
         // han
         units.add(Unit.of(new Point(0, 0), Team.HAN, new CarUnitRule()));
         units.add(Unit.of(new Point(8, 0), Team.HAN, new CarUnitRule()));
@@ -80,7 +82,12 @@ public class Janggi {
                     break;
                 }
                 if (i == points.size() - 1) {
-                    // TODO: 아군인지 적군인지 확인하기
+                    Point endPoint = points.get(i);
+                    Unit endUnit = findUnitByPoint(endPoint);
+                    if (endUnit.getTeam() == this.turn) {
+                        routes.remove(route);
+                        break;
+                    }
                 }
             }
         }
@@ -88,7 +95,7 @@ public class Janggi {
     }
 
     public boolean isEmptyPoint(Point point) {
-        return !units.stream()
-                .anyMatch(unit -> unit.isSamePoint(point));
+        return units.stream()
+                .noneMatch(unit -> unit.isSamePoint(point));
     }
 }
