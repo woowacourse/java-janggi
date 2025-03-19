@@ -13,24 +13,30 @@ public class Horse extends Piece {
     protected Set<Position> getMovablePositions() {
         Set<Position> positions = new HashSet<>();
         for (Direction straightDirection : Direction.getStraightDirection()) {
-            Position current = position.nextPosition(straightDirection);
-            if (current.isInValidPosition() || board.isExists(current)) {
-                continue;
-            }
-            for (Direction direction : straightDirection.nextCrossDirection()) {
-                Position nextPosition = current.nextPosition(direction);
-                if (nextPosition.isInValidPosition()) {
-                    continue;
-                }
-                if (board.isExists(nextPosition)) {
-                    if (!board.isSameTeam(this, nextPosition)) {
-                        positions.add(nextPosition);
-                    }
-                    continue;
-                }
-                positions.add(nextPosition);
-            }
+            goOneSde(position.nextPosition(straightDirection), straightDirection, positions, 0);
         }
+        positions.forEach(p -> System.out.println(p.getColumn() + ", " + p.getRow()));
         return positions;
     }
+
+    void goOneSde(Position position, Direction direction, Set<Position> positions, int depth) {
+        if (position.isInValidPosition()) {
+            return;
+        }
+        if (depth == 1) {
+            if (!board.isSameTeam(this, position)) {
+                positions.add(position);
+            }
+            return;
+        }
+        if (board.isExists(position)) {
+            return;
+        }
+        if (depth == 0) {
+            for (Direction crossDirection : direction.nextCrossDirection()) {
+                goOneSde(position.nextPosition(crossDirection), crossDirection, positions, depth + 1);
+            }
+        }
+    }
+
 }

@@ -4,14 +4,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum Direction {
-    LEFT(-1, 0),
-    LEFT_TOP(-1, 1),
+    LEFT(0, -1),
+    LEFT_TOP(1, -1),
     LEFT_BOTTOM(-1, -1),
-    RIGHT(1, 0),
+    RIGHT(0, 1),
     RIGHT_TOP(1, 1),
-    RIGHT_BOTTOM(1, -1),
-    TOP(0, 1),
-    BOTTOM(0, -1),
+    RIGHT_BOTTOM(-1, 1),
+    TOP(1, 0),
+    BOTTOM(-1, 0),
     ;
 
     private final int deltaRow;
@@ -44,11 +44,13 @@ public enum Direction {
 
     public List<Direction> nextCrossDirection() {
         if (deltaColumn != 0) {
-            return Arrays.stream(Direction.values())
+            return getCrossDirection()
+                    .stream()
                     .filter(crossDirection -> crossDirection.getDeltaColumn() == deltaColumn)
                     .toList();
         }
-        return Arrays.stream(Direction.values())
+        return getCrossDirection()
+                .stream()
                 .filter(crossDirection -> crossDirection.getDeltaRow() == deltaRow)
                 .toList();
     }

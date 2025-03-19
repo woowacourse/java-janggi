@@ -13,28 +13,22 @@ public class Chariot extends Piece {
     public Set<Position> getMovablePositions() {
         Set<Position> positions = new HashSet<>();
         for (var direction : Direction.getStraightDirection()) {
-            Position current = new Position(position.getColumn(), position.getRow());
-            positions.addAll(goOneSide(direction, current));
+            goOneSide(position.nextPosition(direction), direction, positions);
         }
         return positions;
     }
 
-    private Set<Position> goOneSide(Direction direction, Position current) {
-        Set<Position> positions = new HashSet<>();
-        while (true) {
-            Position nextPosition = current.nextPosition(direction);
-            if (nextPosition.isInValidPosition()) {
-                break;
-            }
-            if (board.isExists(nextPosition)) {
-                if (!board.isSameTeam(this, nextPosition)) {
-                    positions.add(nextPosition);
-                }
-                break;
-            }
-            positions.add(nextPosition);
-            current = nextPosition;
+    private void goOneSide(Position position, Direction direction, Set<Position> positions) {
+        if (position.isInValidPosition()) {
+            return;
         }
-        return positions;
+        if (board.isExists(position)) {
+            if (!board.isSameTeam(this, position)) {
+                positions.add(position);
+            }
+            return;
+        }
+        positions.add(position);
+        goOneSide(position.nextPosition(direction), direction, positions);
     }
 }
