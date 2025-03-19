@@ -14,7 +14,7 @@ public class Player {
     }
 
     private void validateNickname(String nickname) {
-        if(nickname.isEmpty() || nickname.length() > 6) {
+        if (nickname.isEmpty() || nickname.length() > 6) {
             throw new IllegalArgumentException("닉네임은 1자 ~ 6자여야합니다.");
         }
     }
@@ -42,5 +42,9 @@ public class Player {
 
     public Dynasty getDynasty() {
         return dynasty;
+    }
+
+    public boolean isSameDynasty(Dynasty dynasty) {
+        return this.dynasty == dynasty;
     }
 }

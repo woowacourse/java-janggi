@@ -20,6 +20,15 @@ public class Cannon implements Piece {
         return CANNON;
     }
 
+    private static boolean isExistCannon(JanggiBoard janggiBoard, Point point) {
+        Optional<BoardPiece> pointPiece = janggiBoard.findPointPiece(point);
+        if (pointPiece.isPresent()) {
+            BoardPiece piece = pointPiece.get();
+            return piece.isEqualPiece(CANNON);
+        }
+        return false;
+    }
+
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
         if (isExistCannon(janggiBoard, end)) {
@@ -31,10 +40,10 @@ public class Cannon implements Piece {
             while (!currPoint.isSamePosition(end) && !currPoint.isOutOfBoundary()) {
                 currPoint = currPoint.move(direction);
                 if (janggiBoard.isExistPiece(currPoint)) {
-                    if(isExistCannon(janggiBoard, currPoint)) {
+                    if (isExistCannon(janggiBoard, currPoint)) {
                         break;
                     }
-                    if(isJump) {
+                    if (isJump) {
                         break;
                     }
                     isJump = true;
@@ -43,15 +52,6 @@ public class Cannon implements Piece {
             if (isJump && currPoint.isSamePosition(end)) {
                 return true;
             }
-        }
-        return false;
-    }
-
-    private static boolean isExistCannon(JanggiBoard janggiBoard, Point point) {
-        Optional<BoardPiece> pointPiece = janggiBoard.findPointPiece(point);
-        if (pointPiece.isPresent()) {
-            BoardPiece piece = pointPiece.get();
-            return piece.isEqualPiece(CANNON);
         }
         return false;
     }

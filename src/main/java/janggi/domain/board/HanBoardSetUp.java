@@ -2,9 +2,9 @@ package janggi.domain.board;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.point.HanPoint;
+import janggi.domain.piece.BoardPiece;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Knight;
-import janggi.domain.piece.BoardPiece;
 import java.util.Set;
 
 public enum HanBoardSetUp implements BoardSetUp {

@@ -34,7 +34,7 @@ public class BoardPiece {
                 }));
     }
 
-    private boolean isSameDynasty(Dynasty dynasty) {
+    public boolean isSameDynasty(Dynasty dynasty) {
         return this.dynasty == dynasty;
     }
 
