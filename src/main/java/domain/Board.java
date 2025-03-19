@@ -45,7 +45,7 @@ public class Board {
         Piece deadKing = deadPieces.stream()
                 .filter(piece -> piece.getType().equals(PieceType.KING))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("아직 게임이 끝나지 않았습니다."));
+                .orElseThrow(() -> new IllegalStateException("아직 게임이 끝나지 않았습니다."));
 
         if (deadKing.isSameTeam(TeamType.CHO)) {
             return TeamType.HAN;
