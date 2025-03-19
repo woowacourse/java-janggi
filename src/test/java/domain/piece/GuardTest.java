@@ -12,23 +12,23 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class KingTest {
+class GuardTest {
     @ParameterizedTest
     @MethodSource
     @DisplayName("주위 칸이 비어있을 때 정상적으로 이동할 수 있다")
-    void canMoveKing1(Position movePosition, boolean expected) {
+    void canMoveGuard1(Position movePosition, boolean expected) {
         // given
         Position currentPosition = Position.of(1, 1);
-        Piece king = new King(currentPosition, TeamType.CHO);
+        Piece guard = new Guard(currentPosition, TeamType.CHO);
 
         // when
-        boolean actual = king.canMove(movePosition, List.of());
+        boolean actual = guard.canMove(movePosition, List.of());
 
         // then
         assertThat(actual).isEqualTo(expected);
     }
 
-    static Stream<Arguments> canMoveKing1() {
+    static Stream<Arguments> canMoveGuard1() {
         return Stream.of(
                 Arguments.of(Position.of(1, 0), true),
                 Arguments.of(Position.of(2, 1), true),
@@ -43,17 +43,17 @@ class KingTest {
 
     @Test
     @DisplayName("도착 칸에 아군이 있으면 이동할 수 없다.")
-    void canMoveKing2() {
+    void canMoveGuard2() {
         // given
         Position movePosition = Position.of(2,1);
         Position position = Position.of(2,1);
-        Piece king = new King(position,TeamType.CHO);
+        Piece guard = new Guard(position,TeamType.CHO);
 
         Position currentPosition = Position.of(1, 1);
         Piece solider = new Soldier(currentPosition, TeamType.CHO);
 
         // when
-        boolean actual = king.canMove(movePosition, List.of(king, solider));
+        boolean actual = guard.canMove(movePosition, List.of(guard, solider));
 
         // then
         assertThat(actual).isFalse();
@@ -61,19 +61,20 @@ class KingTest {
 
     @Test
     @DisplayName("도착 칸에 적이 있으면 이동할 수 있다.")
-    void canMoveKing3() {
+    void canMoveGuard3() {
         // given
         Position movePosition = Position.of(3,1);
         Position position = Position.of(2,1);
-        Piece king = new King(position,TeamType.CHO);
+        Piece guard = new Guard(position,TeamType.CHO);
 
         Position currentPosition = Position.of(3, 1);
         Piece solider = new Soldier(currentPosition, TeamType.HAN);
 
         // when
-        boolean actual = king.canMove(movePosition, List.of(king, solider));
+        boolean actual = guard.canMove(movePosition, List.of(guard, solider));
 
         // then
         assertThat(actual).isTrue();
     }
+
 }
