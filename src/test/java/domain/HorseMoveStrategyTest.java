@@ -13,10 +13,10 @@ public class HorseMoveStrategyTest {
         // given
         HorseMoveStrategy horse = new HorseMoveStrategy();
         BoardLocation current = new BoardLocation(1, 1);
-        BoardLocation target = new BoardLocation(2, 3);
+        BoardLocation destination = new BoardLocation(2, 3);
 
         // when
-        boolean isMovable = horse.isMovable(current, target);
+        boolean isMovable = horse.isMovable(current, destination);
 
         // then
         assertThat(isMovable).isTrue();
@@ -26,13 +26,13 @@ public class HorseMoveStrategyTest {
     @Test
     void test2() {
         // given
-        // given
+        // givenx
         HorseMoveStrategy horse = new HorseMoveStrategy();
         BoardLocation current = new BoardLocation(1, 1);
-        BoardLocation target = new BoardLocation(3, 3);
+        BoardLocation destination = new BoardLocation(3, 3);
 
         // when
-        boolean isMovable = horse.isMovable(current, target);
+        boolean isMovable = horse.isMovable(current, destination);
 
         // then
         assertThat(isMovable).isFalse();

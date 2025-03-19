@@ -13,10 +13,12 @@ public class CannonMoveStrategyTest {
         // given
         CannonMoveStrategy chariot = new CannonMoveStrategy();
         BoardLocation current = new BoardLocation(1, 1);
-        BoardLocation target = new BoardLocation(1, 2);
+        BoardLocation destination
+                = new BoardLocation(1, 2);
 
         // when
-        boolean isMovable = chariot.isMovable(current, target);
+        boolean isMovable = chariot.isMovable(current, destination
+        );
 
         // then
         assertThat(isMovable).isTrue();
@@ -28,10 +30,12 @@ public class CannonMoveStrategyTest {
         // given
         CannonMoveStrategy chariot = new CannonMoveStrategy();
         BoardLocation current = new BoardLocation(1, 1);
-        BoardLocation target = new BoardLocation(2, 2);
+        BoardLocation destination
+                = new BoardLocation(2, 2);
 
         // when
-        boolean isMovable = chariot.isMovable(current, target);
+        boolean isMovable = chariot.isMovable(current, destination
+        );
 
         // then
         assertThat(isMovable).isFalse();
