@@ -8,15 +8,16 @@ public abstract class Piece {
         this.dynasty = dynasty;
     }
 
-    public boolean canMove(Map<Dot,Piece> routesWithPiece, Piece destinationPiece) {
-        if (destinationPiece != null && destinationPiece.dynasty == this.dynasty) {
-            return false;
+    public boolean isSameDynasty(Piece piece) {
+        if (piece != null && piece.dynasty == this.dynasty) {
+            return true;
         }
-
-        return checkRoute(routesWithPiece);
+        return false;
     }
 
     public abstract List<Dot> getRoute(Dot origin, Dot destination);
 
-    public abstract boolean checkRoute(Map<Dot,Piece> routesWithPiece);
+    public abstract boolean canMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece);
+
+    public abstract String getName();
 }

@@ -1,10 +1,3 @@
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,22 +5,30 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+
 public class JanggiTest {
     public static Stream<Arguments> provideXY() {
         return Stream.of(
                 Arguments.of(-1, 7),
-                Arguments.of(2,10),
+                Arguments.of(2, 10),
                 Arguments.of(9, -1)
         );
     }
 
     public static Stream<Arguments> provideElephantOriginAndDestinationAndExpected() {
         return Stream.of(
-                Arguments.of(Dot.of(5,6), Dot.of(7,9), List.of(Dot.of(5,7), Dot.of(6,8))),
-                Arguments.of(Dot.of(5,6), Dot.of(3,9), List.of(Dot.of(5,7), Dot.of(4,8))),
-                Arguments.of(Dot.of(5,6), Dot.of(8,8), List.of(Dot.of(6,6), Dot.of(7,7))),
-                Arguments.of(Dot.of(5,6), Dot.of(8,4), List.of(Dot.of(6,6), Dot.of(7,5))),
-                Arguments.of(Dot.of(5,6), Dot.of(3,3), List.of(Dot.of(5,5), Dot.of(4,4)))
+                Arguments.of(Dot.of(5, 6), Dot.of(7, 9), List.of(Dot.of(5, 7), Dot.of(6, 8))),
+                Arguments.of(Dot.of(5, 6), Dot.of(3, 9), List.of(Dot.of(5, 7), Dot.of(4, 8))),
+                Arguments.of(Dot.of(5, 6), Dot.of(8, 8), List.of(Dot.of(6, 6), Dot.of(7, 7))),
+                Arguments.of(Dot.of(5, 6), Dot.of(8, 4), List.of(Dot.of(6, 6), Dot.of(7, 5))),
+                Arguments.of(Dot.of(5, 6), Dot.of(3, 3), List.of(Dot.of(5, 5), Dot.of(4, 4)))
 
         );
     }
@@ -157,8 +158,8 @@ public class JanggiTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(1,2), null);
-        routesWithPiece.put(Dot.of(1,3), null);
+        routesWithPiece.put(Dot.of(1, 2), null);
+        routesWithPiece.put(Dot.of(1, 3), null);
 
         // when
         boolean actual = chariot.canMove(routesWithPiece, null);
@@ -174,8 +175,8 @@ public class JanggiTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(1,2), null);
-        routesWithPiece.put(Dot.of(1,3), new Chariot(Dynasty.HAN));
+        routesWithPiece.put(Dot.of(1, 2), null);
+        routesWithPiece.put(Dot.of(1, 3), new Chariot(Dynasty.HAN));
 
         // when
         boolean actual = chariot.canMove(routesWithPiece, null);
@@ -191,14 +192,13 @@ public class JanggiTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(1,2), null);
-        routesWithPiece.put(Dot.of(1,3), null);
+        routesWithPiece.put(Dot.of(1, 2), null);
+        routesWithPiece.put(Dot.of(1, 3), null);
 
-        // when
-        boolean actual = chariot.canMove(routesWithPiece, new Chariot(Dynasty.HAN));
-
-        // then
-        assertThat(actual).isFalse();
+        // when // then
+        assertThatCode(() -> chariot.canMove(routesWithPiece, new Chariot(Dynasty.HAN)))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageStartingWith("[ERROR] ");
     }
 
     @DisplayName("상은 목적지로 가는 경로를 구할 수 있다.")
@@ -221,7 +221,7 @@ public class JanggiTest {
         // given
         Dot origin = Dot.of(1, 1);
         Dot destination = Dot.of(3, 3);
-        Elephant elephant= new Elephant(Dynasty.HAN);
+        Elephant elephant = new Elephant(Dynasty.HAN);
 
         // when // then
         assertThatCode(() -> elephant.getRoute(origin, destination))
@@ -237,8 +237,8 @@ public class JanggiTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Elephant elephant = new Elephant(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(5,7), null);
-        routesWithPiece.put(Dot.of(6,8), null);
+        routesWithPiece.put(Dot.of(5, 7), null);
+        routesWithPiece.put(Dot.of(6, 8), null);
 
         // when
         boolean actual = elephant.canMove(routesWithPiece, null);
@@ -254,13 +254,93 @@ public class JanggiTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Elephant elephant = new Elephant(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(5,7), null);
-        routesWithPiece.put(Dot.of(6,8), new Elephant(Dynasty.HAN));
+        routesWithPiece.put(Dot.of(5, 7), null);
+        routesWithPiece.put(Dot.of(6, 8), new Elephant(Dynasty.HAN));
 
         // when
         boolean actual = elephant.canMove(routesWithPiece, null);
 
         // then
         assertThat(actual).isFalse();
+    }
+
+
+    @DisplayName("포는 목적지로 가는 경로를 구할 수 있다.")
+    @Test
+    void cannonCanGetRoute() {
+        Dot origin = Dot.of(1, 1);
+        Dot destination = Dot.of(1, 3);
+        Cannon cannon = new Cannon(Dynasty.HAN);
+
+        // when
+        List<Dot> actual = cannon.getRoute(origin, destination);
+
+        List<Dot> expected = List.of(Dot.of(1, 2));
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @DisplayName("포가 목적지로 갈 수 없다면 예외를 발생시킨다")
+    @Test
+    void cannonCannotGetRoute() {
+        // given
+        Dot origin = Dot.of(1, 1);
+        Dot destination = Dot.of(2, 3);
+        Cannon cannon = new Cannon(Dynasty.HAN);
+
+        // when // then
+        assertThatCode(() -> cannon.getRoute(origin, destination))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageStartingWith("[ERROR]");
+    }
+
+    @DisplayName("포는 이동 경로에 단 하나의 말만 존재한다면 이동 가능하다")
+    @Test
+    void cannonJudgeMovable1() {
+        // given
+        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Cannon cannon = new Cannon(Dynasty.HAN);
+
+        routesWithPiece.put(Dot.of(1, 2), null);
+        routesWithPiece.put(Dot.of(1, 3), new Chariot(Dynasty.HAN));
+
+        // when
+        boolean actual = cannon.canMove(routesWithPiece, null);
+
+        // then
+        assertThat(actual).isTrue();
+    }
+
+    @DisplayName("포가 자신을 제외한 다른 포를 넘으려고 할 때 예외를 발생 시킨다.")
+    @Test
+    void cannonJudgeMovable2() {
+        // given
+        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Cannon cannon = new Cannon(Dynasty.HAN);
+
+        routesWithPiece.put(Dot.of(1, 2), null);
+        routesWithPiece.put(Dot.of(1, 3), new Cannon(Dynasty.HAN));
+
+        // when
+        boolean actual = cannon.canMove(routesWithPiece, null);
+
+        // then
+        assertThat(actual).isFalse();
+    }
+
+    @DisplayName("포는 포를 공격할 수 없다.")
+    @Test
+    void cannonJudgeMovable3() {
+        // given
+        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Cannon cannon = new Cannon(Dynasty.HAN);
+
+        routesWithPiece.put(Dot.of(1, 2), null);
+        routesWithPiece.put(Dot.of(1, 3), new Chariot(Dynasty.HAN));
+
+        // when // then
+        assertThatCode(() -> cannon.canMove(routesWithPiece, new Cannon(Dynasty.CHO))).isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageStartingWith("[ERROR]");
     }
 }

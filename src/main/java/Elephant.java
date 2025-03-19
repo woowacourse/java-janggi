@@ -3,7 +3,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class Elephant extends Piece{
+public class Elephant extends Piece {
+    private static final String NAME = "상";
+
     public Elephant(Dynasty dynasty) {
         super(dynasty);
     }
@@ -15,7 +17,7 @@ public class Elephant extends Piece{
         int dx = origin.getDx(destination);
         int dy = origin.getDy(destination);
 
-        if(!(isFirstMoveVertical(dx, dy) || isFirstMoveHorizontal(dx, dy))) {
+        if (!(isFirstMoveVertical(dx, dy) || isFirstMoveHorizontal(dx, dy))) {
             throw new UnsupportedOperationException("[ERROR] 상이 이동할 수 있는 목적지가 아닙니다.");
         }
 
@@ -23,50 +25,50 @@ public class Elephant extends Piece{
             throw new IllegalArgumentException("[ERROR] 같은 위치로 이동할 수 없습니다.");
         }
 
-        if(isFirstMoveVertical(dx, dy)) {
-            if(dy > 0) {
+        if (isFirstMoveVertical(dx, dy)) {
+            if (dy > 0) {
                 route.add(Dot.of(origin.getX(), origin.getY() + 1));
 
-                if(dx > 0) {
-                    route.add(Dot.of(origin.getX() + 1,origin.getY() + 2));
+                if (dx > 0) {
+                    route.add(Dot.of(origin.getX() + 1, origin.getY() + 2));
                     return route;
                 }
 
-                route.add(Dot.of(origin.getX() - 1,origin.getY() + 2));
+                route.add(Dot.of(origin.getX() - 1, origin.getY() + 2));
                 return route;
             }
 
             route.add(Dot.of(origin.getX(), origin.getY() - 1));
 
-            if(dx > 0) {
-                route.add(Dot.of(origin.getX() + 1,origin.getY() - 2));
+            if (dx > 0) {
+                route.add(Dot.of(origin.getX() + 1, origin.getY() - 2));
                 return route;
             }
 
-            route.add(Dot.of(origin.getX() - 1,origin.getY() - 2));
+            route.add(Dot.of(origin.getX() - 1, origin.getY() - 2));
             return route;
         }
 
-        if(dx > 0) {
+        if (dx > 0) {
             route.add(Dot.of(origin.getX() + 1, origin.getY()));
 
-            if(dy > 0) {
-                route.add(Dot.of(origin.getX() + 2,origin.getY() + 1));
+            if (dy > 0) {
+                route.add(Dot.of(origin.getX() + 2, origin.getY() + 1));
                 return route;
             }
 
-            route.add(Dot.of(origin.getX() + 2,origin.getY() - 1));
+            route.add(Dot.of(origin.getX() + 2, origin.getY() - 1));
             return route;
         }
 
         route.add(Dot.of(origin.getX() - 1, origin.getY()));
 
-        if(dy > 0) {
-            route.add(Dot.of(origin.getX() - 2,origin.getY() + 1));
+        if (dy > 0) {
+            route.add(Dot.of(origin.getX() - 2, origin.getY() + 1));
             return route;
         }
 
-        route.add(Dot.of(origin.getX() - 2,origin.getY() - 1));
+        route.add(Dot.of(origin.getX() - 2, origin.getY() - 1));
         return route;
     }
 
@@ -79,9 +81,18 @@ public class Elephant extends Piece{
     }
 
     @Override
-    public boolean checkRoute(Map<Dot, Piece> routesWithPiece) {
+    public boolean canMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
+        if (isSameDynasty(destinationPiece)) {
+            throw new UnsupportedOperationException("[ERROR] 같은 나라의 말은 공격할 수 없습니다.");
+        }
+
         return routesWithPiece.values()
                 .stream()
                 .noneMatch(Objects::nonNull);
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 }
