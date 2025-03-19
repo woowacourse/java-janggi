@@ -1,7 +1,6 @@
 package domain;
 
 import domain.boardgenerator.BoardGenerator;
-import domain.piece.Move;
 import domain.piece.Piece;
 import java.util.List;
 import java.util.Map;
@@ -15,21 +14,25 @@ public class JanggiBoard {
     }
 
     public void move(Position startPosition, Position targetPosition) {
-        Piece piece = findPiece(startPosition);
-        List<Position> path = piece.calculatePath(startPosition, targetPosition);
-        /*if (!piece.isCanon()) {
-            for (Move move : moves) {
-                canMove(startPosition, move);
+        Piece startPiece = findPiece(startPosition);
+        Piece targetPositionPiece = findPiece(targetPosition);
+        List<Position> path = startPiece.calculatePath(startPosition, targetPosition);
+        if (!startPiece.isCanon()) {
+            for (Position position : path) {
+                isPositionEmpty(position);
             }
-            board.remove(startPosition);
-            board.put(targetPosition, piece);
-        }*/
-
+            if (findPiece(targetPosition) == null || !startPiece.compareTeam(targetPositionPiece)) {
+                board.remove(startPosition);
+                board.put(targetPosition, startPiece);
+            }
+            if (startPiece.compareTeam(targetPositionPiece)) {
+                throw new IllegalArgumentException("해당 위치는 아군의 말이 있으므로 이동 불가능 합니다.");
+            }
+        }
     }
 
-    public boolean canMove(Position startPosition, Move move) {
-        Position movedPosition = startPosition.movePosition(move);
-        Piece piece = findPiece(movedPosition);
+    public boolean isPositionEmpty(Position position) {
+        Piece piece = findPiece(position);
         if (piece != null) {
             return false;
         }
