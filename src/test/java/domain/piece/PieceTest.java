@@ -3,6 +3,8 @@ package domain.piece;
 import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
 import java.util.List;
+
+import domain.piece.movement.Movement;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -15,23 +17,24 @@ class PieceTest {
         @DisplayName("말의 이동 가능한 경로를 검사한다")
         @Test
         void maAvailableMovePosition() {
-            Ma ma = new Ma(new JanggiCoordinate(0, 0), Team.Han);
             JanggiBoard board = new JanggiBoard();
+            board.getBoard().put(new JanggiCoordinate(5, 5),
+                    new Ma(Team.Han));
+            List<JanggiCoordinate> availableMovePositions =
+                    Movement.availableMovePositions(new JanggiCoordinate(5, 5),board);
 
-            List<JanggiCoordinate> availableMovePositions = ma.fromCurrPosition(board);
-
-            Assertions.assertThat(availableMovePositions.size()).isEqualTo(8);
+            Assertions.assertThat(availableMovePositions.size()).isEqualTo(4);
         }
 
         @DisplayName("말의 이동 가능한 경로를 검사한다")
         @Test
         void maAvailableMovePosition1() {
-            Ma ma = new Ma(new JanggiCoordinate(0, 0), Team.Han);
             JanggiBoard board = new JanggiBoard();
             board.getBoard().put(new JanggiCoordinate(0, 1),
-                    new Ma(new JanggiCoordinate(0, 1), Team.Han));
+                    new Ma(Team.Han));
 
-            List<JanggiCoordinate> availableMovePositions = ma.fromCurrPosition(board);
+            List<JanggiCoordinate> availableMovePositions =
+                    Movement.availableMovePositions(new JanggiCoordinate(0, 1),board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(6);
         }
