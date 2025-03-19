@@ -72,7 +72,7 @@ public class CoordinateTest {
         Coordinate coordinate = new Coordinate(5, 5);
 
         // when
-        Coordinate changedCoordinate = coordinate.pickChangedCoordinate(1, 1);
+        Coordinate changedCoordinate = coordinate.pickChangedCoordinate(1, 1).get();
 
         // then
         assertThat(changedCoordinate).isEqualTo(new Coordinate(6, 6));

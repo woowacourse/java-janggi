@@ -3,7 +3,9 @@ package domain.piece;
 import domain.Board;
 import domain.Coordinate;
 import domain.Team;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Ma extends Piece {
 
@@ -13,7 +15,7 @@ public class Ma extends Piece {
 
     @Override
     protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
-        return Set.of(
+        Set<Optional<Coordinate>> coordinates = Set.of(
                 departure.pickChangedCoordinate(-2, -1),
                 departure.pickChangedCoordinate(-2, 1),
                 departure.pickChangedCoordinate(-1, -2),
@@ -23,6 +25,11 @@ public class Ma extends Piece {
                 departure.pickChangedCoordinate(2, -1),
                 departure.pickChangedCoordinate(2, 1)
         );
+
+        return coordinates.stream()
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -42,15 +49,15 @@ public class Ma extends Piece {
 
         if (Math.abs(dx) == 2) {
             if (dx > 0) {
-                return Set.of(departure.pickChangedCoordinate(1, 0));
+                return Set.of(departure.pickChangedCoordinate(1, 0).get());
             }
-            return Set.of(departure.pickChangedCoordinate(-1, 0));
+            return Set.of(departure.pickChangedCoordinate(-1, 0).get());
         }
         if (Math.abs(dy) == 2) {
             if (dy > 0) {
-                return Set.of(departure.pickChangedCoordinate(0, 1));
+                return Set.of(departure.pickChangedCoordinate(0, 1).get());
             }
-            return Set.of(departure.pickChangedCoordinate(0, -1));
+            return Set.of(departure.pickChangedCoordinate(0, -1).get());
         }
         throw new IllegalArgumentException("여기까지 못옴");
     }

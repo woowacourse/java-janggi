@@ -2,6 +2,7 @@ package domain;
 
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 public class Coordinate {
@@ -16,8 +17,11 @@ public class Coordinate {
         this.y = y;
     }
 
-    public Coordinate pickChangedCoordinate(int x, int y) {
-        return new Coordinate(this.x + x, this.y + y);
+    public Optional<Coordinate> pickChangedCoordinate(int x, int y) {
+        if (isInvalidX(this.x + x) || isInvalidY(this.y + y)) {
+            return Optional.empty();
+        }
+        return Optional.of(new Coordinate(this.x + x, this.y + y));
     }
 
     public Set<Coordinate> pickCrossCoordinates() {
@@ -32,14 +36,22 @@ public class Coordinate {
         return coordinates;
     }
 
+    private boolean isInvalidX(int x) {
+        return x < 1 || x > 9;
+    }
+
     private void validateXCoordinate(int x) {
-        if (x < 1 || x > 9) {
+        if (isInvalidX(x)) {
             throw new IllegalArgumentException("가로 좌표는 1에서 9사이여야 합니다.");
         }
     }
 
+    private static boolean isInvalidY(int y) {
+        return y < 1 || y > 10;
+    }
+
     private void validateYCoordinate(int y) {
-        if (y < 1 || y > 10) {
+        if (isInvalidY(y)) {
             throw new IllegalArgumentException("세로 좌표는 1에서 10사이여야 합니다.");
         }
     }
