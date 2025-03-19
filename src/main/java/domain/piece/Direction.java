@@ -13,7 +13,7 @@ public enum Direction {
     private final int row;
     private final int column;
 
-    Direction(int row, int column) {
+    Direction(final int row, final int column) {
         this.row = row;
         this.column = column;
     }

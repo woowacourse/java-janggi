@@ -11,7 +11,7 @@ public final class PlayerTest {
 
     @Nested
     @DisplayName("플레이어를 생성할 때")
-    class testMakeTeam {
+    class TestMakeTeam {
 
         @Test
         @DisplayName("한나라와 초나라 중 하나의 팀을 갖는다")

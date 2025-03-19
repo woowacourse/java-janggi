@@ -6,7 +6,7 @@ public enum Team {
 
     private final boolean isFirst;
 
-    Team(boolean isFirst) {
+    Team(final boolean isFirst) {
         this.isFirst = isFirst;
     }
 

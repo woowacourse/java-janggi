@@ -1,9 +1,9 @@
 package domain;
 
-public class Player {
+public final class Player {
     private final Team team;
 
-    public Player(Team team) {
+    public Player(final Team team) {
         this.team = team;
     }
 

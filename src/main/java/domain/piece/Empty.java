@@ -1,4 +1,4 @@
 package domain.piece;
 
-public class Empty implements Piece {
+public final class Empty implements Piece {
 }

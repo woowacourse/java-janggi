@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class PointTest {
+public final class PointTest {
 
     @Nested
     @DisplayName("Point가 방향을 받았을 때")
