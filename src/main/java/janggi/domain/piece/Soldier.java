@@ -3,12 +3,11 @@ package janggi.domain.piece;
 import static janggi.domain.Team.BLUE;
 import static janggi.domain.Team.RED;
 
-import janggi.domain.Route;
 import janggi.domain.Team;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Soldier extends Piece {
 
@@ -19,21 +18,8 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public List<Route> calculateRoutes() {
-        final List<Position> destinations = new ArrayList<>();
-
-        final List<RawPosition> rawPositions = calculateDestinations();
-        for (RawPosition rawPosition : rawPositions) {
-            try {
-                destinations.add(new Position(rawPosition.x(), rawPosition.y()));
-            } catch (IllegalArgumentException e) {
-                continue;
-            }
-        }
-
-        return destinations.stream()
-                .map(destination -> new Route(new HashSet<>(), destination))
-                .toList();
+    protected Set<Position> calculateRoute() {
+        return new HashSet<>();
     }
 
     @Override

@@ -1,0 +1,33 @@
+package janggi.domain.piece;
+
+import static janggi.domain.Team.RED;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import janggi.domain.Route;
+import java.util.HashSet;
+import java.util.Set;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+class GuardTest {
+
+    @DisplayName("사 기물이 올바른 루트를 계산하는지 확인한다.")
+    @Test
+    void calculateRoutesTest() {
+
+        // given
+        final Piece guard = new Guard(new Position(1, 1), RED);
+        final Set<Route> soliderRoutes = guard.calculateRoutes();
+
+        final Route route1 = new Route(new HashSet<>(), new Position(0, 1));
+        final Route route2 = new Route(new HashSet<>(), new Position(2, 1));
+        final Route route3 = new Route(new HashSet<>(), new Position(1, 0));
+        final Route route4 = new Route(new HashSet<>(), new Position(1, 2));
+
+        // when
+        final Set<Route> expected = Set.of(route2, route1, route3, route4);
+
+        // then
+        assertThat(soliderRoutes).isEqualTo(expected);
+    }
+}
