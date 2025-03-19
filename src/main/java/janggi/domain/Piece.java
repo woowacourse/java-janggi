@@ -1,6 +1,7 @@
-package janggi.domain.piece;
+package janggi.domain;
 
-import janggi.domain.Position;
+import janggi.domain.piece.PieceBehavior;
+import janggi.domain.piece.Side;
 import java.util.List;
 import java.util.Objects;
 

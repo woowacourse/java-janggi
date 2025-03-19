@@ -14,13 +14,13 @@ class SoldierTest {
 
     private static Stream<Arguments> moveableArguments() {
         return Stream.of(
-                Arguments.of(new Position(7, 3), Side.HAN,
-                        List.of(new Position(7, 2), new Position(7, 4), new Position(8, 3))),
-                Arguments.of(new Position(7, 1), Side.HAN,
-                        List.of(new Position(8, 1), new Position(7, 2))),
-                Arguments.of(new Position(7, 1), Side.CHO,
-                        List.of(new Position(6, 1), new Position(7, 2))),
-                Arguments.of(new Position(1, 1), Side.CHO, List.of(new Position(1, 2)))
+                Arguments.of(Position.of(7,3), Side.HAN,
+                        List.of(Position.of(7, 2), Position.of(7, 4), Position.of(8, 3))),
+                Arguments.of(Position.of(7, 1), Side.HAN,
+                        List.of(Position.of(8, 1), Position.of(7, 2))),
+                Arguments.of(Position.of(7, 1), Side.CHO,
+                        List.of(Position.of(6, 1), Position.of(7, 2))),
+                Arguments.of(Position.of(1, 1), Side.CHO, List.of(Position.of(1, 2)))
         );
     }
 

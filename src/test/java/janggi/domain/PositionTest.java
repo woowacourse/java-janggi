@@ -15,7 +15,7 @@ class PositionTest {
     @DisplayName("검증 테스트")
     @Test
     void test1() {
-        assertThatCode(() -> new Position(1, 2))
+        assertThatCode(() -> Position.of(1, 2))
                 .doesNotThrowAnyException();
     }
 
@@ -23,7 +23,7 @@ class PositionTest {
     @ParameterizedTest
     @CsvSource(value = {"0,9", "11,0", "1,10", "1,0", "-1,1"}, delimiter = ',')
     void test2(int row, int column) {
-        assertThatThrownBy(() -> new Position(row, column))
+        assertThatThrownBy(() -> Position.of(row, column))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.INVALID_BOARD_POSITION.getMessage());
     }
@@ -32,13 +32,13 @@ class PositionTest {
     @Test
     void test3() {
         // given
-        Position position = new Position(1, 2);
-        Position expected = new Position(3, 5);
+        Position position = Position.of(1, 2);
+        Position expected = Position.of(3, 5);
 
         // when
-        position.update(3, 5);
+        Position result = position.update(3, 5);
 
         // then
-        assertThat(position).isEqualTo(expected);
+        assertThat(result).isEqualTo(expected);
     }
 }

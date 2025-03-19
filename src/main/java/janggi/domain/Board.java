@@ -6,14 +6,14 @@ import java.util.Map;
 
 public class Board {
 
-    private final Map<Position, PiecePosition> piecePositions;
+    private final Map<Position, PieceState> piecePositions;
 
-    public Board(Map<Position, PiecePosition> piecePositions) {
+    public Board(Map<Position, PieceState> piecePositions) {
         this.piecePositions = piecePositions;
     }
 
     public String getPieceName(int row, int column) {
-        Position position = new Position(row, column);
+        Position position = Position.of(row, column);
 
         if (!hasPosition(position)) {
             return "#";
@@ -27,14 +27,14 @@ public class Board {
         return piecePositions.containsKey(position);
     }
 
-    public PiecePosition getPiecePosition(Side side, Position position) {
+    public PieceState getPiecePosition(Side side, Position position) {
         validatePositionExists(position);
-        PiecePosition piecePosition = piecePositions.get(position);
-        if (!piecePosition.isSameSide(side)) {
+        PieceState pieceState = piecePositions.get(position);
+        if (!pieceState.isSameSide(side)) {
             throw new IllegalArgumentException(ErrorMessage.NOT_SAME_SIDE.getMessage());
         }
 
-        return piecePosition;
+        return pieceState;
     }
 
     private void validatePositionExists(Position position) {
@@ -43,13 +43,17 @@ public class Board {
         }
     }
 
-    public void move(PiecePosition piecePosition, Position newPosition) {
-        Position currentPosition = piecePosition.getPosition();
+    public void move(PieceState pieceState, Position newPosition) {
+        // 가능한 경우의 수 받아온다. List<Position>
+        // 해당 포지션에 PieceState가 있다면,, 지금 내 PieceSate와 Side가 같으면 false를 반환해서
+        // 움직일 수 있는 경우의 포지션을 다시 재정리하고 그게 newPosition이면 움직인다.
+        // 그런데 그런 포지션이 없다면 예외를 반환한다.
+        Position currentPosition = pieceState.getPosition();
 
-        piecePosition.move(newPosition);
+        pieceState.move(newPosition);
 
         piecePositions.remove(currentPosition);
-        piecePositions.put(newPosition, piecePosition);
+        piecePositions.put(newPosition, pieceState);
     }
 
     @Override

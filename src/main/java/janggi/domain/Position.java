@@ -7,8 +7,18 @@ import java.util.Optional;
 
 public class Position {
 
-    private int row;
-    private int column;
+    private static final Position[][] CACHED = new Position[11][10];
+
+    static {
+        for (int row = 1; row <= 10; row++) {
+            for (int column = 1; column <= 9; column++) {
+                CACHED[row][column] = new Position(row, column);
+            }
+        }
+    }
+
+    private final int row;
+    private final int column;
 
     public Position(int row, int column) {
         validate(row, column);
@@ -16,28 +26,32 @@ public class Position {
         this.column = column;
     }
 
-    private void validate(int row, int column) {
+    private static void validate(int row, int column) {
         if (!isValid(row, column)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_BOARD_POSITION.getMessage());
         }
     }
 
-    private boolean isValid(int row, int column) {
+    private static boolean isValid(int row, int column) {
         return row > 0 && row <= 10 && column > 0 && column <= 9;
     }
 
-    public void update(Position newPosition) {
-        update(newPosition.row, newPosition.column);
+    public static Position of(int row, int column) {
+        validate(row, column);
+        return CACHED[row][column];
     }
 
-    public void update(int row, int column) {
+    public Position update(Position newPosition) {
+        return update(newPosition.row, newPosition.column);
+    }
+
+    public Position update(int row, int column) {
         validate(row, column);
-        this.row = row;
-        this.column = column;
+        return Position.of(row, column);
     }
 
     public Position diff(Position comparePosition) {
-        return new Position(comparePosition.row - this.row, comparePosition.column - this.column);
+        return Position.of(comparePosition.row - this.row, comparePosition.column - this.column);
     }
 
     public Optional<Position> calculate(Vector vector) {
@@ -45,7 +59,7 @@ public class Position {
         int newColumn = this.column + vector.x();
 
         if (isValid(newRow, newColumn)) {
-            return Optional.of(new Position(newRow, newColumn));
+            return Optional.of(Position.of(newRow, newColumn));
         }
         return Optional.empty();
     }
@@ -66,9 +80,6 @@ public class Position {
 
     @Override
     public String toString() {
-        return "Position{" +
-                "row=" + row +
-                ", column=" + column +
-                '}';
+        return "Position{" + "row=" + row + ", column=" + column + '}';
     }
 }

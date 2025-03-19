@@ -1,17 +1,16 @@
 package janggi.domain;
 
 import janggi.common.ErrorMessage;
-import janggi.domain.piece.Piece;
 import janggi.domain.piece.Side;
 import java.util.List;
 import java.util.Objects;
 
-public class PiecePosition {
+public class PieceState {
 
-    private final Position position;
     private final Piece piece;
+    private Position position;
 
-    public PiecePosition(Position position, Piece piece) {
+    public PieceState(Position position, Piece piece) {
         this.position = position;
         this.piece = piece;
     }
@@ -31,8 +30,11 @@ public class PiecePosition {
             throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_PIECE.getMessage());
         }
 
-        position.update(movePosition);
-        System.out.println(position);
+        updatePosition(movePosition);
+    }
+
+    public void updatePosition(Position movePosition) {
+        this.position = position.update(movePosition);
     }
 
     @Override
@@ -45,7 +47,7 @@ public class PiecePosition {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PiecePosition that = (PiecePosition) o;
+        PieceState that = (PieceState) o;
         return Objects.equals(position, that.position) && Objects.equals(piece, that.piece);
     }
 

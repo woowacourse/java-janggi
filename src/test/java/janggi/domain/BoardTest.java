@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.common.ErrorMessage;
-import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceBehavior;
 import janggi.domain.piece.Side;
 import janggi.factory.PieceFactory;
@@ -18,14 +17,14 @@ class BoardTest {
     @Test
     void test1() {
         // given
-        Map<Position, PiecePosition> initialize = PieceFactory.initialize();
+        Map<Position, PieceState> initialize = PieceFactory.initialize();
         PieceBehavior pieceBehavior = PieceFactory.GENERAL1.getPieceBehavior();
         Board board = new Board(initialize);
-        Position position = new Position(9, 5);
+        Position position = Position.of(9, 5);
 
         // when
-        PiecePosition actual = board.getPiecePosition(Side.CHO, position);
-        PiecePosition expected = new PiecePosition(position, new Piece(Side.CHO, pieceBehavior));
+        PieceState actual = board.getPiecePosition(Side.CHO, position);
+        PieceState expected = new PieceState(position, new Piece(Side.CHO, pieceBehavior));
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -34,9 +33,9 @@ class BoardTest {
     @DisplayName("해당 포지션에 기물이 존재하지 않으면 예외를 반환한다.")
     @Test
     void test2() {
-        Map<Position, PiecePosition> initialize = PieceFactory.initialize();
+        Map<Position, PieceState> initialize = PieceFactory.initialize();
         Board board = new Board(initialize);
-        Position position = new Position(2, 1);
+        Position position = Position.of(2, 1);
 
         assertThatThrownBy(() -> board.getPiecePosition(Side.CHO, position))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -46,9 +45,9 @@ class BoardTest {
     @DisplayName("상대의 기물이라면 예외를 반환한다.")
     @Test
     void test3() {
-        Map<Position, PiecePosition> initialize = PieceFactory.initialize();
+        Map<Position, PieceState> initialize = PieceFactory.initialize();
         Board board = new Board(initialize);
-        Position position = new Position(1, 1);
+        Position position = Position.of(1, 1);
 
         assertThatThrownBy(() -> board.getPiecePosition(Side.CHO, position))
                 .isInstanceOf(IllegalArgumentException.class)
