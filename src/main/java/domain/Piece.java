@@ -1,10 +1,15 @@
 package domain;
 
-public abstract class Piece {
+public class Piece {
 
+    private final PieceType pieceType;
     private final Team team;
 
-    public Piece(final Team team) {
+    Piece(
+        final PieceType pieceType,
+        final Team team
+    ) {
+        this.pieceType = pieceType;
         this.team = team;
     }
 }

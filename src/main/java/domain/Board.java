@@ -1,7 +1,6 @@
 package domain;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -21,26 +20,25 @@ public class Board {
     }
 
     private static void initializeBoard(final Map<Position, Piece> pieces) {
-        Cannon.INITIAL_POSITION.forEach((team, positions) -> positions
-            .forEach(position -> pieces.put(position, new Cannon(team))));
+        PieceType.CANNON.getInitialPosition().forEach((team, positions) -> positions
+            .forEach(position -> pieces.put(position, new Piece(PieceType.CANNON, team))));
 
-        Chariot.INITIAL_POSITION.forEach((team, positions) -> positions
-            .forEach(position -> pieces.put(position, new Chariot(team))));
+        PieceType.CHARIOT.getInitialPosition().forEach((team, positions) -> positions
+            .forEach(position -> pieces.put(position, new Piece(PieceType.CHARIOT, team))));
 
-        Elephant.INITIAL_POSITION.forEach((team, positions) -> positions
-            .forEach(position -> pieces.put(position, new Elephant(team))));
+        PieceType.ELEPHANT.getInitialPosition().forEach((team, positions) -> positions
+            .forEach(position -> pieces.put(position, new Piece(PieceType.ELEPHANT, team))));
 
-        General.INITIAL_POSITION.forEach((team, positions) -> positions
-            .forEach(position -> pieces.put(position, new General(team))));
+        PieceType.GENERAL.getInitialPosition().forEach((team, positions) -> positions
+            .forEach(position -> pieces.put(position, new Piece(PieceType.GENERAL, team))));
 
-        Guard.INITIAL_POSITION.forEach((team, positions) -> positions
-            .forEach(position -> pieces.put(position, new Guard(team))));
+        PieceType.GUARD.getInitialPosition().forEach((team, positions) -> positions
+            .forEach(position -> pieces.put(position, new Piece(PieceType.GUARD, team))));
 
-        Horse.INITIAL_POSITION.forEach((team, positions) -> positions
-            .forEach(position -> pieces.put(position, new Horse(team))));
+        PieceType.HORSE.getInitialPosition().forEach((team, positions) -> positions
+            .forEach(position -> pieces.put(position, new Piece(PieceType.HORSE, team))));
 
-        쭈.INITIAL_POSITION.forEach((team, positions) -> positions
-            .forEach(position -> pieces.put(position, new 쭈(team))));
-
+        PieceType.쭈.getInitialPosition().forEach((team, positions) -> positions
+            .forEach(position -> pieces.put(position, new Piece(PieceType.쭈, team))));
     }
 }
