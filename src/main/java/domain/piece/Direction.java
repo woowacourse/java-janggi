@@ -1,4 +1,4 @@
-package domain;
+package domain.piece;
 
 public enum Direction {
     NORTH(1, 0),
@@ -16,5 +16,13 @@ public enum Direction {
     Direction(int row, int column) {
         this.row = row;
         this.column = column;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
     }
 }
