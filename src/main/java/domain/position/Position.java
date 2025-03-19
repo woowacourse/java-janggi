@@ -31,6 +31,14 @@ public class Position {
         }
     }
 
+    public Position add(final int fileAmount, final int rankAmount) {
+        return new Position(file.add(fileAmount), rank.add(rankAmount));
+    }
+
+    public boolean isValidToAdd(final int fileAmount, final int rankAmount) {
+        return file.validateAdd(fileAmount) && rank.validateAdd(rankAmount);
+    }
+
     public Position withAddingFile() {
         return new Position(file.add(1), rank);
     }
@@ -61,7 +69,6 @@ public class Position {
     public List<Path> getPathsFrom(final List<MoveDirection> moveDirections) {
         List<Path> paths = new ArrayList<>();
         paths.add(Path.start(this));
-
         for (MoveDirection moveDirection : moveDirections) {
             for (Path path : paths) {
                 List<Position> nextPositions = moveDirection.calculateNextPositionsFrom(path.getFinalPosition());
@@ -70,6 +77,10 @@ public class Position {
         }
 
         return paths;
+    }
+
+    public int distance(Position other) {
+        return Math.max(this.file.distance(other.file), this.rank.distance(other.rank));
     }
 
     @Override
@@ -89,5 +100,24 @@ public class Position {
                 "file=" + file +
                 ", rank=" + rank +
                 '}';
+    }
+
+
+    public List<Position> createPositionsUntil(final Position nextPosition) {
+        if (this.file == nextPosition.file) {
+            List<PositionRank> ranks = this.rank.getBetweenRanks(nextPosition.rank);
+            return ranks.stream()
+                    .map(newRank -> new Position(file, newRank))
+                    .toList();
+        }
+
+        if (this.rank == nextPosition.rank) {
+            List<PositionFile> files = this.file.getBetweenFiles(nextPosition.file);
+            return files.stream()
+                    .map(newFile -> new Position(newFile, rank))
+                    .toList();
+        }
+
+        throw new IllegalArgumentException("일자로 연결되지 않으면 위치를 생성할 수 없습니다.");
     }
 }

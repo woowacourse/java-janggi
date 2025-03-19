@@ -28,13 +28,21 @@ public class Path {
     }
 
     public List<Path> nextPath(final List<Position> nextPositions) {
-        return nextPositions.stream()
-                .map(nextPosition -> {
-                    final ArrayList<Position> paths = new ArrayList<>(pathPositions);
-                    paths.add(nextPosition);
-                    return new Path(nextPosition, paths);
-                })
-                .toList();
+        List<Path> paths = new ArrayList<>();
+
+        for (Position nextPosition : nextPositions) {
+            List<Position> newPathPositions = new ArrayList<>();
+
+            if (finalPosition.distance(nextPosition) >= 2) {
+                newPathPositions.addAll(finalPosition.createPositionsUntil(nextPosition));
+            }
+
+            newPathPositions.addAll(pathPositions);
+            newPathPositions.add(nextPosition);
+            paths.add(new Path(nextPosition, newPathPositions));
+        }
+
+        return paths;
     }
 
     @Override
@@ -54,5 +62,10 @@ public class Path {
                 "finalPosition=" + finalPosition +
                 ", pathPositions=" + pathPositions +
                 '}';
+    }
+
+    public boolean havePosition(final List<Position> otherPiecesPosition) {
+        return pathPositions.stream()
+                .anyMatch(otherPiecesPosition::contains);
     }
 }

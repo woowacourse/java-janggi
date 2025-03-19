@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.*;
+import static testUtil.TestConstant.*;
 
 class PositionRankTest {
 
@@ -87,5 +90,22 @@ class PositionRankTest {
         assertThatThrownBy(() -> rank.add(addingValue))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("랭크는 10 이하이어야 합니다.");
+    }
+
+    @Test
+    void 한_랭크에서_다른_랭크까지_사이의_모든_랭크를_구할_수_있다() {
+        // given
+        final PositionRank from = RANK_1;
+        final PositionRank to = RANK_5;
+
+        // when
+        final List<PositionRank> result = from.getBetweenRanks(to);
+
+        // then
+        assertThat(result).containsExactlyInAnyOrder(
+                RANK_2,
+                RANK_3,
+                RANK_4
+        );
     }
 }

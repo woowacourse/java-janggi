@@ -3,6 +3,7 @@ package domain.piece;
 import domain.position.Position;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public enum MoveDirection {
 
@@ -18,17 +19,51 @@ public enum MoveDirection {
     DOWN_RIGHT,
     ;
 
-    public List<Position> calculateNextPositionsFrom(Position position) {
+    public List<Position> calculateNextPositionsFrom(Position currentPosition) {
         return switch (this) {
-            case UP -> List.of(position.withAddingRank());
-            case DOWN -> List.of(position.withSubtractingRank());
-            case RIGHT -> List.of(position.withAddingFile());
-            case LEFT -> List.of(position.withSubtractingFile());
-            case UP_RIGHT -> List.of(position.withAddingRank().withAddingFile());
-            case UP_LEFT -> List.of(position.withAddingRank().withSubtractingFile());
-            case DOWN_RIGHT -> List.of(position.withSubtractingRank().withAddingFile());
-            case DOWN_LEFT -> List.of(position.withSubtractingRank().withSubtractingFile());
-            case CROSS_INF -> position.getAllCrossPositions();
+            case UP -> getPositionIf(
+                    () -> currentPosition.isValidToAdd(0, 1),
+                    () -> currentPosition.add(0, 1)
+            );
+            case DOWN -> getPositionIf(
+                    () -> currentPosition.isValidToAdd(0, -1),
+                    () -> currentPosition.add(0, -1)
+            );
+            case RIGHT -> getPositionIf(
+                    () -> currentPosition.isValidToAdd(1, 0),
+                    () -> currentPosition.add(1, 0)
+            );
+            case LEFT -> getPositionIf(
+                    () -> currentPosition.isValidToAdd(-1, 0),
+                    () -> currentPosition.add(-1,0 )
+            );
+            case UP_RIGHT -> getPositionIf(
+                    () -> currentPosition.isValidToAdd(1, 1),
+                    () -> currentPosition.add(1, 1)
+            );
+            case UP_LEFT -> getPositionIf(
+                    () -> currentPosition.isValidToAdd(-1, 1),
+                    () -> currentPosition.add(-1, 1)
+            );
+            case DOWN_RIGHT -> getPositionIf(
+                    () -> currentPosition.isValidToAdd(1, -1),
+                    () -> currentPosition.add(1, -1)
+            );
+            case DOWN_LEFT -> getPositionIf(
+                    () -> currentPosition.isValidToAdd(-1, -1),
+                    () -> currentPosition.add(-1, -1)
+            );
+            case CROSS_INF -> currentPosition.getAllCrossPositions();
         };
+    }
+
+    private List<Position> getPositionIf(
+            Supplier<Boolean> decision,
+            Supplier<Position> result
+    ) {
+        if (!decision.get()) {
+            return List.of();
+        }
+        return List.of(result.get());
     }
 }

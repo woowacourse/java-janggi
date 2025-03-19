@@ -47,4 +47,26 @@ class PathTest {
                 new Path(new Position(바, RANK_5), List.of(new Position(마, RANK_5), new Position(바, RANK_5)))
         );
     }
+
+    @Test
+    void 해당_경로가_어떠한_위치를_포함한지_반환한다() {
+        final Path path = new Path(new Position(마, RANK_4), List.of(new Position(마, RANK_5), new Position(마, RANK_4)));
+
+        // when
+        final boolean result = path.havePosition(List.of(new Position(마, RANK_5)));
+
+        // then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    void 해당_경로가_어떠한_위치를_포함하지_않는지_반환한다() {
+        final Path path = new Path(new Position(마, RANK_4), List.of(new Position(마, RANK_5), new Position(마, RANK_4)));
+
+        // when
+        final boolean result = path.havePosition(List.of(new Position(라, RANK_5)));
+
+        // then
+        assertThat(result).isFalse();
+    }
 }

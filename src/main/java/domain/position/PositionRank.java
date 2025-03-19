@@ -2,6 +2,7 @@ package domain.position;
 
 import domain.Country;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
@@ -67,5 +68,22 @@ public class PositionRank {
 
     public PositionRank add(final int i) {
         return new PositionRank(value + i);
+    }
+
+    public boolean validateAdd(final int rankAmount) {
+        final int newValue = value + rankAmount;
+        return newValue >= MIN_VALUE && newValue <= MAX_VALUE;
+    }
+
+    public List<PositionRank> getBetweenRanks(final PositionRank rank) {
+        List<PositionRank> ranks = new ArrayList<>();
+        for (int newValue = Math.min(value, rank.value) + 1; newValue < Math.max(value, rank.value); newValue++) {
+            ranks.add(new PositionRank(newValue));
+        }
+        return ranks;
+    }
+
+    public int distance(final PositionRank rank) {
+        return Math.abs(value - rank.value);
     }
 }

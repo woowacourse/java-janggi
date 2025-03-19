@@ -37,22 +37,6 @@ class PositionFileTest {
                 .hasMessage("해당 파일을 찾을 수 없습니다.");
     }
 
-    /*
-    public List<Path> getPathsFrom(final List<MoveDirection> moveDirections) {
-        List<Path> paths = new ArrayList<>();
-        paths.add(Path.start(this));
-
-        for (MoveDirection moveDirection : moveDirections) {
-            for (Path path : paths) {
-                List<Position> nextPositions = moveDirection.calculateNextPositionsFrom(path.getFinalPosition());
-                paths = path.nextPath(nextPositions);
-            }
-        }
-
-        return paths;
-    }
-     */
-
     @Test
     void 현재_위치에서_이동_방향을_통해_경로를_구할_수_있다() {
         // given
@@ -67,4 +51,21 @@ class PositionFileTest {
                 List.of(new Position(PositionFile.마, RANK_5), new Position(PositionFile.마, RANK_4), new Position(PositionFile.라, RANK_3))
         ));
     }
+
+    @Test
+    void 현재_파일과_새_파일_범위_내의_파일들을_구할_수_있다() {
+        // given
+        final PositionFile from = PositionFile.마;
+        final PositionFile to = PositionFile.아;
+
+        // when
+        final List<PositionFile> betweenFiles =  from.getBetweenFiles(to);
+
+        // then
+        assertThat(betweenFiles).containsExactlyInAnyOrder(
+                PositionFile.바,
+                PositionFile.사
+        );
+    }
+
 }
