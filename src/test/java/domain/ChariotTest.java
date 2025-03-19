@@ -2,6 +2,9 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -21,5 +24,21 @@ class ChariotTest {
 
         // then
         assertThat(chariot.isMovable(distance)).isEqualTo(expected);
+    }
+
+    @Test
+    void 차의_이동_가능_경로_모두_반환() {
+
+        // given
+        Chariot chariot = PieceFactory.createGreenTeam(Chariot::new);
+
+        // when
+        List<Point> possiblePoint = chariot.getPossiblePoint(Point.of(0, 0), Point.of(0, 9));
+
+        // then
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(possiblePoint.size()).isEqualTo(8);
+            softly.assertThat(possiblePoint).contains(Point.of(0, 1), Point.of(0, 5), Point.of(0, 8));
+        });
     }
 }
