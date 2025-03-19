@@ -1,7 +1,6 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Dynasty;
@@ -10,7 +9,6 @@ import janggi.domain.board.point.DefaultPoint;
 import janggi.domain.board.point.HanPoint;
 import janggi.domain.board.point.Point;
 import java.util.Set;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,7 +27,7 @@ class PointPieceTest {
         Point endPoint = new DefaultPoint(2, 1);
 
         // when
-        pointPiece.move(janggiBoard,endPoint);
+        pointPiece.move(janggiBoard, endPoint);
 
         // then
         assertThat(pointPiece)

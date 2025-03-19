@@ -2,8 +2,8 @@ package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.board.point.HanPoint;
 import janggi.domain.board.JanggiBoard;
+import janggi.domain.board.point.HanPoint;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

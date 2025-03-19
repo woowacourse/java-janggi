@@ -9,6 +9,11 @@ import java.util.Set;
 public class Pawn implements Piece {
 
     private final static Pawn PAWN = new Pawn();
+    private static final Set<List<Direction>> DIRECTIONS = Set.of(
+            List.of(Direction.UP),
+            List.of(Direction.LEFT),
+            List.of(Direction.RIGHT)
+    );
 
     private Pawn() {
     }
@@ -16,12 +21,6 @@ public class Pawn implements Piece {
     public static Pawn newInstance() {
         return PAWN;
     }
-
-    private static final Set<List<Direction>> DIRECTIONS = Set.of(
-            List.of(Direction.UP),
-            List.of(Direction.LEFT),
-            List.of(Direction.RIGHT)
-    );
 
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {

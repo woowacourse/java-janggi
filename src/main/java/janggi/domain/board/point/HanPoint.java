@@ -40,4 +40,9 @@ public record HanPoint(
     public Point copy(Point endPoint) {
         return new HanPoint(endPoint.getX(), endPoint.getY());
     }
+
+    @Override
+    public boolean isOutOfBoundary() {
+        return x > 10 || x < 1 || y > 9 || y < 1;
+    }
 }

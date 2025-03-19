@@ -5,7 +5,7 @@ import janggi.domain.board.Direction;
 public record DefaultPoint(
         int x,
         int y
-) implements Point{
+) implements Point {
 
     @Override
     public Point move(Direction direction) {
@@ -30,5 +30,10 @@ public record DefaultPoint(
     @Override
     public Point copy(Point endPoint) {
         return new DefaultPoint(endPoint.getX(), endPoint.getY());
+    }
+
+    @Override
+    public boolean isOutOfBoundary() {
+        return x > 10 || x < 1 || y > 9 || y < 1;
     }
 }

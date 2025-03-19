@@ -12,4 +12,6 @@ public interface Point {
     int getY();
 
     Point copy(Point endPoint);
+
+    boolean isOutOfBoundary();
 }
