@@ -1,7 +1,6 @@
 package domain.piece;
 
-public enum Team {
+public enum Country {
     CHO,
-    HAN
-    ;
+    HAN;
 }
