@@ -7,10 +7,10 @@ import java.util.List;
 
 public enum Movement {
 
-    UP(new JanggiCoordinate(1, 0), List.of(new JanggiCoordinate(-1, -2), new JanggiCoordinate(1, -2))),
+    UP(new JanggiCoordinate(0, -1), List.of(new JanggiCoordinate(-1, -2), new JanggiCoordinate(1, -2))),
     DOWN(new JanggiCoordinate(0, 1), List.of(new JanggiCoordinate(2, -1), new JanggiCoordinate(2, 1))),
-    RIGHT(new JanggiCoordinate(-1, 0), List.of(new JanggiCoordinate(1, 2), new JanggiCoordinate(1, -2))),
-    LEFT(new JanggiCoordinate(0, -1), List.of(new JanggiCoordinate(-2, 1), new JanggiCoordinate(-2, -1)));
+    RIGHT(new JanggiCoordinate(1, 0), List.of(new JanggiCoordinate(1, 2), new JanggiCoordinate(1, -2))),
+    LEFT(new JanggiCoordinate(-1, 0), List.of(new JanggiCoordinate(-2, 1), new JanggiCoordinate(-2, -1)));
 
     private final JanggiCoordinate direction;
     private final List<JanggiCoordinate> destination;
@@ -27,7 +27,7 @@ public enum Movement {
             if (!janggiBoard.hasPiece(movePosition(currCoordinate, movement.direction))) {
                 for (JanggiCoordinate destination : movement.destination) {
                     JanggiCoordinate next = movePosition(currCoordinate, destination);
-                    if (!janggiBoard.hasPiece(next) || !janggiBoard.isMyTeam(currCoordinate, next)) {
+                    if (!janggiBoard.hasPiece(next) && !janggiBoard.isMyTeam(currCoordinate, next)) {
                         availablePositions.add(next);
                     }
                 }
