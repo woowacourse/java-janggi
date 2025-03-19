@@ -14,8 +14,8 @@ class GuardTest {
     @DisplayName("사는 상하좌우로 이동할 수 있다.")
     @ParameterizedTest
     @CsvSource({
-            "5,4,FRONT",
-            "3,4,BACK",
+            "5,4,BACK",
+            "3,4,FRONT",
             "4,3,LEFT",
             "4,5,RIGHT"
     })
@@ -24,9 +24,10 @@ class GuardTest {
         //given
         Guard guard = new Guard(Team.BLUE);
         Position startPosition = new Position(4, 4);
-        Position expected = new Position(row, column);
+        Position targetPosition = new Position(row, column);
+
         //when
-        List<Move> resultMove = guard.calculatePath(startPosition, expected);
+        List<Move> resultMove = guard.calculatePath(startPosition, targetPosition);
 
         // then
         Assertions.assertThat(resultMove).isEqualTo(List.of(move));
