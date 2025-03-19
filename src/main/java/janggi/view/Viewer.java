@@ -11,7 +11,7 @@ import java.util.StringJoiner;
 public class Viewer {
 
     private static final String LINE_SEPARATOR = System.lineSeparator();
-    private static final String BLANK = "";
+    private static final String BLANK = "   ";
     private static final Scanner scanner = new Scanner(System.in);
     private static final String ERROR_SIGN = "[ERROR] ";
 
@@ -33,7 +33,7 @@ public class Viewer {
     }
 
     private String formatFirstRowOfBoard() {
-        StringJoiner joiner = new StringJoiner(BLANK).add(" ");
+        StringJoiner joiner = new StringJoiner(BLANK).add(BLANK);
 
         for (int i = 1; i <= 9; i++) {
             joiner.add(String.valueOf(i));

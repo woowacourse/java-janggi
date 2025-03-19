@@ -1,7 +1,6 @@
 package janggi.domain;
 
 import janggi.common.ErrorMessage;
-import janggi.domain.piece.Vector;
 import java.util.Objects;
 import java.util.Optional;
 
