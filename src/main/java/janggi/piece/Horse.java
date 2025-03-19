@@ -6,7 +6,7 @@ import java.util.List;
 
 public final class Horse extends Piece {
 
-    public Horse(final Team team, final List<MovingRule> movingRules) {
+    private Horse(final Team team, final List<MovingRule> movingRules) {
         super(team, movingRules);
     }
 
