@@ -14,14 +14,14 @@ public class Ma extends Piece {
     @Override
     protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
         return Set.of(
-                departure.change(-2, -1),
-                departure.change(-2, 1),
-                departure.change(-1, -2),
-                departure.change(-1, 2),
-                departure.change(1, -2),
-                departure.change(1, 2),
-                departure.change(2, -1),
-                departure.change(2, 1)
+                departure.pickChangedCoordinate(-2, -1),
+                departure.pickChangedCoordinate(-2, 1),
+                departure.pickChangedCoordinate(-1, -2),
+                departure.pickChangedCoordinate(-1, 2),
+                departure.pickChangedCoordinate(1, -2),
+                departure.pickChangedCoordinate(1, 2),
+                departure.pickChangedCoordinate(2, -1),
+                departure.pickChangedCoordinate(2, 1)
         );
     }
 
@@ -42,15 +42,15 @@ public class Ma extends Piece {
 
         if (Math.abs(dx) == 2) {
             if (dx > 0) {
-                return Set.of(departure.change(1, 0));
+                return Set.of(departure.pickChangedCoordinate(1, 0));
             }
-            return Set.of(departure.change(-1, 0));
+            return Set.of(departure.pickChangedCoordinate(-1, 0));
         }
         if (Math.abs(dy) == 2) {
             if (dy > 0) {
-                return Set.of(departure.change(0, 1));
+                return Set.of(departure.pickChangedCoordinate(0, 1));
             }
-            return Set.of(departure.change(0, -1));
+            return Set.of(departure.pickChangedCoordinate(0, -1));
         }
         throw new IllegalArgumentException("여기까지 못옴");
     }

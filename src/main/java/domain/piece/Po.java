@@ -15,11 +15,11 @@ public class Po extends Piece {
 
     @Override
     protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
-        Set<Coordinate> coordinates = departure.allCandidates();
-        coordinates.remove(departure.change(-1, 0));
-        coordinates.remove(departure.change(1, 0));
-        coordinates.remove(departure.change(0, -1));
-        coordinates.remove(departure.change(0, 1));
+        Set<Coordinate> coordinates = departure.pickCrossCoordinates();
+        coordinates.remove(departure.pickChangedCoordinate(-1, 0));
+        coordinates.remove(departure.pickChangedCoordinate(1, 0));
+        coordinates.remove(departure.pickChangedCoordinate(0, -1));
+        coordinates.remove(departure.pickChangedCoordinate(0, 1));
         return coordinates;
     }
 

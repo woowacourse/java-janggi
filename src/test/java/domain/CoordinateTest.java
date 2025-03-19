@@ -3,6 +3,7 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -62,5 +63,50 @@ public class CoordinateTest {
         assertThatThrownBy(() -> new Coordinate(1, 11))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("세로 좌표는 1에서 10사이여야 합니다.");
+    }
+
+    @Test
+    @DisplayName("현재 좌표 기준으로 변화된 좌표를 구할 수 있다.")
+    void test7() {
+        // given
+        Coordinate coordinate = new Coordinate(5, 5);
+
+        // when
+        Coordinate changedCoordinate = coordinate.pickChangedCoordinate(1, 1);
+
+        // then
+        assertThat(changedCoordinate).isEqualTo(new Coordinate(6, 6));
+    }
+
+    @Test
+    @DisplayName("현재 좌표 기준으로 자신을 제외한 같은 x축과 같은 y축의 좌표들을 구할 수 있다.")
+    void test8() {
+        // given
+        Coordinate coordinate = new Coordinate(5, 5);
+
+        // when
+        Set<Coordinate> crossCoordinates = coordinate.pickCrossCoordinates();
+
+        // then
+        assertThat(crossCoordinates).containsOnly(
+                new Coordinate(1, 5),
+                new Coordinate(2, 5),
+                new Coordinate(3, 5),
+                new Coordinate(4, 5),
+                new Coordinate(6, 5),
+                new Coordinate(7, 5),
+                new Coordinate(8, 5),
+                new Coordinate(9, 5),
+
+                new Coordinate(5, 1),
+                new Coordinate(5, 2),
+                new Coordinate(5, 3),
+                new Coordinate(5, 4),
+                new Coordinate(5, 6),
+                new Coordinate(5, 7),
+                new Coordinate(5, 8),
+                new Coordinate(5, 9),
+                new Coordinate(5, 10)
+        );
     }
 }

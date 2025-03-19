@@ -14,10 +14,10 @@ public class Goong extends Piece {
     @Override
     protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
         return Set.of(
-                departure.change(1, 0),
-                departure.change(-1, 0),
-                departure.change(0, 1),
-                departure.change(0, -1)
+                departure.pickChangedCoordinate(1, 0),
+                departure.pickChangedCoordinate(-1, 0),
+                departure.pickChangedCoordinate(0, 1),
+                departure.pickChangedCoordinate(0, -1)
         );
     }
 

@@ -14,7 +14,7 @@ public class Cha extends Piece {
 
     @Override
     protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
-        return departure.allCandidates();
+        return departure.pickCrossCoordinates();
     }
 
     @Override
