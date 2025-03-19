@@ -4,7 +4,6 @@ import janggi.Board;
 import janggi.Position;
 import janggi.Score;
 import janggi.Team;
-
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -18,7 +17,7 @@ public class Horse extends Piece {
         int row = getRowByTeam(1, team);
 
         return Stream.of(3, 7)
-                .map(col -> new Position(row, col))
+                .map(col -> Position.of(row, col))
                 .map(position -> new Horse(position, team))
                 .toList();
     }
@@ -32,8 +31,8 @@ public class Horse extends Piece {
     }
 
     private boolean isInvalidMove(Position destination) {
-        int diffRow = destination.row() - position.row();
-        int diffColumn = destination.column() - position.column();
+        int diffRow = destination.getRow() - position.getRow();
+        int diffColumn = destination.getColumn() - position.getColumn();
 
         if ((Math.abs(diffRow) != 2 || Math.abs(diffColumn) != 1)
                 && (Math.abs(diffRow) != 1 || Math.abs(diffColumn) != 2)) {

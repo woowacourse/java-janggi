@@ -14,7 +14,7 @@ public class General extends Piece {
     public static General Default(Team team) {
         int row = getRowByTeam(2, team);
 
-        return new General(new Position(row, 5), team);
+        return new General(Position.of(row, 5), team);
     }
 
     @Override
@@ -26,8 +26,8 @@ public class General extends Piece {
     }
 
     private boolean isInvalidMove(Position destination) {
-        int diffRow = destination.row() - position.row();
-        int diffColumn = destination.column() - position.column();
+        int diffRow = destination.getRow() - position.getColumn();
+        int diffColumn = destination.getColumn() - position.getColumn();
         if (Math.abs(diffRow) + Math.abs(diffColumn) != 1) {
             return true;
         }

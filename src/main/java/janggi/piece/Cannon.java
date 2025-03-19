@@ -4,7 +4,6 @@ import janggi.Board;
 import janggi.Position;
 import janggi.Score;
 import janggi.Team;
-
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -18,7 +17,7 @@ public class Cannon extends Piece {
         int row = getRowByTeam(3, team);
 
         return Stream.of(2, 8)
-                .map(col -> new Position(row, col))
+                .map(col -> Position.of(row, col))
                 .map(position -> new Cannon(position, team))
                 .toList();
     }
@@ -45,6 +44,6 @@ public class Cannon extends Piece {
     }
 
     private boolean isInvalidMove(final Board board, final Position destination) {
-        return destination.row() != position.row() && destination.column() != position.column();
+        return destination.getRow() != position.getRow() && destination.getColumn() != position.getColumn();
     }
 }

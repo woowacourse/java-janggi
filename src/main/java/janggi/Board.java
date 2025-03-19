@@ -1,7 +1,13 @@
 package janggi;
 
-import janggi.piece.*;
-
+import janggi.piece.Cannon;
+import janggi.piece.Chariot;
+import janggi.piece.Elephant;
+import janggi.piece.General;
+import janggi.piece.Guard;
+import janggi.piece.Horse;
+import janggi.piece.Piece;
+import janggi.piece.Soldier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
