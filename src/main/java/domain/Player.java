@@ -10,4 +10,8 @@ public class Player {
     public Team getTeam() {
         return team;
     }
+
+    public boolean isFirstAttack() {
+        return team.isFirst();
+    }
 }
