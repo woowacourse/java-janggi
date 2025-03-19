@@ -2,6 +2,7 @@ import domain.FakeBoardGenerator;
 import domain.JanggiBoard;
 import domain.Position;
 import domain.Team;
+import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.Horse;
 import domain.piece.Pawn;
@@ -126,5 +127,24 @@ public class JanggiBoardTest {
                 .hasMessage("해당 위치는 아군의 말이 있으므로 이동 불가능 합니다.");
     }
 
+    @DisplayName("포가 건너뛸 말이 없으면 예외를 발생시킨다.")
+    @Test
+    void test() {
+        //given
+        Cannon blueCannon = new Cannon(Team.BLUE);
 
+        Map<Position, Piece> beforeBoard = new HashMap<>();
+        beforeBoard.put(new Position(4, 1), blueCannon);
+
+        FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
+        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+
+        Position startPosition = new Position(4, 1);
+        Position targetPosition = new Position(8, 1);
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> janggiBoard.move(startPosition, targetPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 위치는 아군의 말이 있으므로 이동 불가능 합니다.");
+    }
 }
