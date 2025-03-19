@@ -12,7 +12,7 @@ public class Chariot extends Piece {
     @Override
     public Set<Position> getMovablePositions() {
         Set<Position> positions = new HashSet<>();
-        for (var direction : Direction.values()) {
+        for (var direction : Direction.getStraightDirection()) {
             Position current = new Position(position.getColumn(), position.getRow());
             positions.addAll(goOneSide(direction, current));
         }
