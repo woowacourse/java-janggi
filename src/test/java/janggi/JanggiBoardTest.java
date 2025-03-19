@@ -1,12 +1,14 @@
 package janggi;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.board.JanggiBoard;
 import janggi.fixture.PiecePositionFixture;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.setting.AssignType;
+import janggi.setting.CampType;
 import janggi.value.Position;
 import java.util.List;
 import java.util.stream.Stream;
@@ -155,4 +157,64 @@ public class JanggiBoardTest {
                 .containsExactlyInAnyOrderElementsOf(positions);
     }
 
+    @DisplayName("장기말을 이동시킬 수 있다.")
+    @Test
+    void test6() {
+        JanggiBoard board = new JanggiBoard(AssignType.IN_TOP, AssignType.IN_TOP);
+
+        Position destination = new Position(5, 8);
+        board.movePiece(CampType.CHO, new Position(4, 8), destination);
+
+        List<Piece> choPieces = board.getChoPieces();
+        Piece gung = choPieces.stream()
+                .filter(piece -> piece.checkPieceType(PieceType.GUNG))
+                .findFirst()
+                .get();
+
+        assertThat(gung.getPosition()).isEqualTo(destination);
+    }
+
+    @DisplayName("이동시킬 장기말을 찾는 좌표가 범위를 벗어난 경우 예외를 발생시킨다.")
+    @Test
+    void test7() {
+        JanggiBoard board = new JanggiBoard(AssignType.IN_TOP, AssignType.IN_TOP);
+        Position invalidPosition = new Position(10, 8);
+
+        assertThatThrownBy(() -> board.movePiece(CampType.CHO, invalidPosition, new Position(5, 8)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] x좌표는 0~8, y좌표는 0~9 사이로 입력해주세요.");
+    }
+
+    @DisplayName("목적지 좌표가 번위를 벗어난 경우 예외를 발생시킨다.")
+    @Test
+    void test8() {
+        JanggiBoard board = new JanggiBoard(AssignType.IN_TOP, AssignType.IN_TOP);
+        Position invalidPosition = new Position(10, 8);
+
+        assertThatThrownBy(() -> board.movePiece(CampType.CHO, new Position(4, 8), invalidPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] x좌표는 0~8, y좌표는 0~9 사이로 입력해주세요.");
+    }
+
+    @DisplayName("이동시킬 좌표에 장기말이 존재하지 않는 경우 예외를 발생시킨다.")
+    @Test
+    void test9() {
+        JanggiBoard board = new JanggiBoard(AssignType.IN_TOP, AssignType.IN_TOP);
+        Position invalidPosition = new Position(5, 8);
+
+        assertThatThrownBy(() -> board.movePiece(CampType.CHO, invalidPosition, new Position(6, 8)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 해당 위치에 이동할 말이 존재하지 않습니다.");
+    }
+
+    @DisplayName("장기말이 목적지로 이동할 수 없는 경우 예외를 발생시킨다.")
+    @Test
+    void test10() {
+        JanggiBoard board = new JanggiBoard(AssignType.IN_TOP, AssignType.IN_TOP);
+        Position destination = new Position(7, 8);
+
+        assertThatThrownBy(() -> board.movePiece(CampType.CHO, new Position(4, 8), destination))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 이동이 불가능합니다.");
+    }
 }
