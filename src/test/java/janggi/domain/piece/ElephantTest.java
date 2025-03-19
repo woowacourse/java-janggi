@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Board;
 import janggi.domain.Piece;
-import janggi.domain.PieceState;
 import janggi.domain.Position;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,9 +21,9 @@ public class ElephantTest {
         // given
         Position position = Position.of(4, 5);
         Elephant elephant = new Elephant();
-        PieceState pieceState = new PieceState(position, new Piece(Side.HAN, elephant));
+        Piece elephantPiece = new Piece(Side.HAN, elephant);
 
-        Map<Position, PieceState> map = Map.of(position, pieceState);
+        Map<Position, Piece> map = Map.of(position, elephantPiece);
 
         // when
         Board board = new Board(new HashMap<>(map));
@@ -43,10 +42,10 @@ public class ElephantTest {
         Elephant elephant = new Elephant();
         Position soldierPosition = Position.of(otherRow, otherColumn);
         Soldier soldier = new Soldier();
-        PieceState pieceState = new PieceState(position, new Piece(Side.HAN, elephant));
-        PieceState soldierPieceState = new PieceState(soldierPosition, new Piece(Side.HAN, soldier));
+        Piece elephantPiece = new Piece(Side.HAN, elephant);
+        Piece soldierPiece = new Piece(Side.HAN, soldier);
 
-        Map<Position, PieceState> map = Map.of(position, pieceState, soldierPosition, soldierPieceState);
+        Map<Position, Piece> map = Map.of(position, elephantPiece, soldierPosition, soldierPiece);
 
         // when
         Board board = new Board(new HashMap<>(map));
@@ -64,10 +63,10 @@ public class ElephantTest {
         Elephant elephant = new Elephant();
         Position soldierPosition = Position.of(7, 3);
         Soldier soldier = new Soldier();
-        PieceState pieceState = new PieceState(position, new Piece(Side.HAN, elephant));
-        PieceState soldierPieceState = new PieceState(soldierPosition, new Piece(Side.CHO, soldier));
+        Piece elephantPiece = new Piece(Side.HAN, elephant);
+        Piece soldierPiece = new Piece(Side.CHO, soldier);
 
-        Map<Position, PieceState> map = Map.of(position, pieceState, soldierPosition, soldierPieceState);
+        Map<Position, Piece> map = Map.of(position, elephantPiece, soldierPosition, soldierPiece);
 
         // when
         Board board = new Board(new HashMap<>(map));

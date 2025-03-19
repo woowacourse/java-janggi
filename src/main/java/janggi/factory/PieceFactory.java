@@ -1,5 +1,6 @@
 package janggi.factory;
 
+import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
@@ -7,9 +8,7 @@ import janggi.domain.piece.Elephant;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
 import janggi.domain.piece.Horse;
-import janggi.domain.Piece;
 import janggi.domain.piece.PieceBehavior;
-import janggi.domain.PieceState;
 import janggi.domain.piece.Side;
 import janggi.domain.piece.Soldier;
 import java.util.HashMap;
@@ -63,14 +62,13 @@ public enum PieceFactory {
         this.pieceBehavior = pieceBehavior;
     }
 
-    public static Map<Position, PieceState> initialize() {
-        Map<Position, PieceState> map = new HashMap<>();
+    public static Map<Position, Piece> initialize() {
+        Map<Position, Piece> map = new HashMap<>();
 
         for (PieceFactory value : PieceFactory.values()) {
             Position position = Position.of(value.row, value.column);
             Piece piece = new Piece(value.side, value.pieceBehavior);
-            PieceState pieceState = new PieceState(position, piece);
-            map.put(position, pieceState);
+            map.put(position, piece);
         }
 
         return map;

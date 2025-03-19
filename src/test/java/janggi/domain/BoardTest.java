@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.common.ErrorMessage;
-import janggi.domain.piece.PieceBehavior;
 import janggi.domain.piece.Side;
 import janggi.domain.piece.Soldier;
 import janggi.factory.PieceFactory;
@@ -16,34 +15,29 @@ import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
-    @DisplayName("포지션에 해당하는 기물을 반환한다.")
+    @DisplayName("움직일 수 있는 기물인지 확인한다.")
     @Test
     void test1() {
         // given
-        Map<Position, PieceState> initialize = PieceFactory.initialize();
-
-        PieceBehavior pieceBehavior = PieceFactory.GENERAL1.getPieceBehavior();
+        Map<Position, Piece> initialize = PieceFactory.initialize();
         Board board = new Board(initialize);
-        Position position = Position.of(9, 5);
+        Position position = Position.of(7, 1);
 
-        // when
-        PieceState actual = board.getPiecePositionBySameSide(Side.CHO, position);
-        PieceState expected = new PieceState(position, new Piece(Side.CHO, pieceBehavior));
-
-        // then
-        assertThat(actual).isEqualTo(expected);
+        // when & then
+        assertThatCode(() -> board.checkMoveablePiece(Side.CHO, position))
+                .doesNotThrowAnyException();
     }
 
     @DisplayName("해당 포지션에 기물이 존재하지 않으면 예외를 반환한다.")
     @Test
     void test2() {
         // given
-        Map<Position, PieceState> initialize = PieceFactory.initialize();
+        Map<Position, Piece> initialize = PieceFactory.initialize();
         Board board = new Board(initialize);
         Position position = Position.of(2, 1);
 
         // when & then
-        assertThatThrownBy(() -> board.getPiecePositionBySameSide(Side.CHO, position))
+        assertThatThrownBy(() -> board.checkMoveablePiece(Side.CHO, position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.POSITION_DOES_NOT_EXIST.getMessage());
     }
@@ -52,13 +46,13 @@ class BoardTest {
     @Test
     void test3() {
         // given
-        Map<Position, PieceState> initialize = PieceFactory.initialize();
+        Map<Position, Piece> initialize = PieceFactory.initialize();
 
         Board board = new Board(initialize);
         Position position = Position.of(1, 1);
 
         // when & then
-        assertThatThrownBy(() -> board.getPiecePositionBySameSide(Side.CHO, position))
+        assertThatThrownBy(() -> board.checkMoveablePiece(Side.CHO, position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.NOT_SAME_SIDE.getMessage());
     }
@@ -68,15 +62,15 @@ class BoardTest {
     void test4() {
         // given
         Position position = Position.of(5, 1);
-        PieceState soldier = new PieceState(position, new Piece(Side.CHO, new Soldier()));
-        Map<Position, PieceState> map = Map.of(position, soldier);
+        Piece soldier = new Piece(Side.CHO, new Soldier());
+        Map<Position, Piece> map = Map.of(position, soldier);
 
         Board board = new Board(new HashMap<>(map));
 
         Position newPosition = Position.of(4, 1);
 
         // when & then
-        assertThatCode(() -> board.move(soldier, newPosition))
+        assertThatCode(() -> board.move(position, newPosition))
                 .doesNotThrowAnyException();
     }
 
@@ -85,18 +79,18 @@ class BoardTest {
     void test5() {
         // given
         Position position = Position.of(5, 1);
-        PieceState soldier1 = new PieceState(position, new Piece(Side.CHO, new Soldier()));
+        Piece soldier1 = new Piece(Side.CHO, new Soldier());
 
         Position newPosition = Position.of(4, 1);
-        PieceState soldier2 = new PieceState(newPosition, new Piece(Side.CHO, new Soldier()));
-        Map<Position, PieceState> map = Map.of(position, soldier1, newPosition, soldier2);
+        Piece soldier2 = new Piece(Side.CHO, new Soldier());
+        Map<Position, Piece> map = Map.of(position, soldier1, newPosition, soldier2);
 
         Board board = new Board(new HashMap<>(map));
 
         // when & then
-        assertThatThrownBy(() -> board.move(soldier1, newPosition))
+        assertThatThrownBy(() -> board.move(position, newPosition))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ErrorMessage.CANNOT_MOVE_PIECE.getMessage());
+                .hasMessage(ErrorMessage.CANNOT_MOVE_TO_POSITION.getMessage());
     }
 
     @DisplayName("상대의 기물이 있는 곳으로 움직일 수 있다.")
@@ -104,16 +98,16 @@ class BoardTest {
     void test6() {
         // given
         Position position = Position.of(5, 1);
-        PieceState soldier1 = new PieceState(position, new Piece(Side.CHO, new Soldier()));
+        Piece soldier1 = new Piece(Side.CHO, new Soldier());
 
         Position newPosition = Position.of(4, 1);
-        PieceState soldier2 = new PieceState(newPosition, new Piece(Side.HAN, new Soldier()));
-        Map<Position, PieceState> map = Map.of(position, soldier1, newPosition, soldier2);
+        Piece soldier2 = new Piece(Side.HAN, new Soldier());
+        Map<Position, Piece> map = Map.of(position, soldier1, newPosition, soldier2);
 
         Board board = new Board(new HashMap<>(map));
 
         // when & then
-        assertThatCode(() -> board.move(soldier1, newPosition))
+        assertThatCode(() -> board.move(position, newPosition))
                 .doesNotThrowAnyException();
     }
 }

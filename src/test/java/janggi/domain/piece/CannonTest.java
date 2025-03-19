@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Board;
 import janggi.domain.Piece;
-import janggi.domain.PieceState;
 import janggi.domain.Position;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,10 +21,10 @@ class CannonTest {
         Cannon cannon = new Cannon();
         Position soldierPosition = Position.of(5, 5);
         Soldier soldier = new Soldier();
-        PieceState pieceState = new PieceState(position, new Piece(Side.HAN, cannon));
-        PieceState soldierPieceState = new PieceState(soldierPosition, new Piece(Side.HAN, soldier));
+        Piece cannonPiece = new Piece(Side.HAN, cannon);
+        Piece soldierPiece = new Piece(Side.HAN, soldier);
 
-        Map<Position, PieceState> map = Map.of(position, pieceState, soldierPosition, soldierPieceState);
+        Map<Position, Piece> map = Map.of(position, cannonPiece, soldierPosition, soldierPiece);
 
         // when
         Board board = new Board(new HashMap<>(map));
@@ -45,12 +44,13 @@ class CannonTest {
         Soldier soldier1 = new Soldier();
         Position soldierPosition2 = Position.of(1, 5);
         Soldier soldier2 = new Soldier();
-        PieceState pieceState = new PieceState(position, new Piece(Side.HAN, cannon));
-        PieceState soldierPieceState1 = new PieceState(soldierPosition1, new Piece(Side.HAN, soldier1));
-        PieceState soldierPieceState2 = new PieceState(soldierPosition2, new Piece(Side.HAN, soldier2));
+        Piece cannonPiece = new Piece(Side.HAN, cannon);
 
-        Map<Position, PieceState> map = Map.of(position, pieceState, soldierPosition1, soldierPieceState1,
-                soldierPosition2, soldierPieceState2);
+        Piece soldierPiece1 = new Piece(Side.HAN, soldier1);
+        Piece soldierPiece2 = new Piece(Side.HAN, soldier2);
+
+        Map<Position, Piece> map = Map.of(position, cannonPiece, soldierPosition1, soldierPiece1,
+                soldierPosition2, soldierPiece2);
 
         // when
         Board board = new Board(new HashMap<>(map));
@@ -70,12 +70,12 @@ class CannonTest {
         Soldier soldier1 = new Soldier();
         Position soldierPosition2 = Position.of(1, 5);
         Soldier soldier2 = new Soldier();
-        PieceState pieceState = new PieceState(position, new Piece(Side.HAN, cannon));
-        PieceState soldierPieceState1 = new PieceState(soldierPosition1, new Piece(Side.HAN, soldier1));
-        PieceState soldierPieceState2 = new PieceState(soldierPosition2, new Piece(Side.CHO, soldier2));
+        Piece piece = new Piece(Side.HAN, cannon);
+        Piece soldierPiece1 = new Piece(Side.HAN, soldier1);
+        Piece soldierPiece2 = new Piece(Side.CHO, soldier2);
 
-        Map<Position, PieceState> map = Map.of(position, pieceState, soldierPosition1, soldierPieceState1,
-                soldierPosition2, soldierPieceState2);
+        Map<Position, Piece> map = Map.of(position, piece, soldierPosition1, soldierPiece1,
+                soldierPosition2, soldierPiece2);
 
         // when
         Board board = new Board(new HashMap<>(map));
@@ -93,10 +93,10 @@ class CannonTest {
         Cannon cannon = new Cannon();
         Position cannon2Position = Position.of(5, 5);
         Cannon cannon2 = new Cannon();
-        PieceState pieceState = new PieceState(position, new Piece(Side.HAN, cannon));
-        PieceState cannon2PieceState = new PieceState(cannon2Position, new Piece(Side.HAN, cannon2));
+        Piece piece = new Piece(Side.HAN, cannon);
+        Piece cannon2Piece = new Piece(Side.HAN, cannon2);
 
-        Map<Position, PieceState> map = Map.of(position, pieceState, cannon2Position, cannon2PieceState);
+        Map<Position, Piece> map = Map.of(position, piece, cannon2Position, cannon2Piece);
 
         // when
         Board board = new Board(new HashMap<>(map));

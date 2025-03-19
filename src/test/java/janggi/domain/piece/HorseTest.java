@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Board;
 import janggi.domain.Piece;
-import janggi.domain.PieceState;
 import janggi.domain.Position;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,9 +19,9 @@ class HorseTest {
         // given
         Position position = Position.of(3, 5);
         Horse horse = new Horse();
-        PieceState pieceState = new PieceState(position, new Piece(Side.HAN, horse));
+        Piece piece = new Piece(Side.HAN, horse);
 
-        Map<Position, PieceState> map = Map.of(position, pieceState);
+        Map<Position, Piece> map = Map.of(position, piece);
 
         // when
         Board board = new Board(new HashMap<>(map));
@@ -40,10 +39,10 @@ class HorseTest {
         Horse horse = new Horse();
         Position soldierPosition = Position.of(4, 5);
         Soldier soldier = new Soldier();
-        PieceState pieceState = new PieceState(position, new Piece(Side.HAN, horse));
-        PieceState soldierPieceState = new PieceState(soldierPosition, new Piece(Side.HAN, soldier));
+        Piece horsePiece = new Piece(Side.HAN, horse);
+        Piece soldierPiece = new Piece(Side.HAN, soldier);
 
-        Map<Position, PieceState> map = Map.of(position, pieceState, soldierPosition, soldierPieceState);
+        Map<Position, Piece> map = Map.of(position, horsePiece, soldierPosition, soldierPiece);
 
         // when
         Board board = new Board(new HashMap<>(map));
@@ -61,10 +60,10 @@ class HorseTest {
         Horse horse = new Horse();
         Position soldierPosition = Position.of(5, 4);
         Soldier soldier = new Soldier();
-        PieceState pieceState = new PieceState(position, new Piece(Side.HAN, horse));
-        PieceState soldierPieceState = new PieceState(soldierPosition, new Piece(Side.CHO, soldier));
+        Piece horsePiece = new Piece(Side.HAN, horse);
+        Piece soldierPiece = new Piece(Side.CHO, soldier);
 
-        Map<Position, PieceState> map = Map.of(position, pieceState, soldierPosition, soldierPieceState);
+        Map<Position, Piece> map = Map.of(position, horsePiece, soldierPosition, soldierPiece);
 
         // when
         Board board = new Board(new HashMap<>(map));

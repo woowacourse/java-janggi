@@ -12,11 +12,6 @@ public class General implements PieceBehavior {
     }
 
     @Override
-    public Set<Position> generateMovePosition(Side side, Position position) {
-        return Set.of();
-    }
-
-    @Override
     public Set<Position> generateMovePosition(Board board, Side side, Position position) {
         return Set.of();
     }
