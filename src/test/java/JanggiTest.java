@@ -1,17 +1,16 @@
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 
 public class JanggiTest {
     public static Stream<Arguments> provideXY() {
@@ -458,5 +457,61 @@ public class JanggiTest {
 
         // then
         assertThat(actual).isFalse();
+    }
+
+    @DisplayName("장의 목적지로 가는 경로는 항상 비어있다.")
+    @Test
+    void kingCanGetRoute() {
+        // given
+        Dot origin = Dot.of(1, 1);
+        Dot destination = Dot.of(1, 0);
+        Advisor king = new Advisor(Dynasty.HAN);
+
+        // when
+        List<Dot> actual = king.getRoute(origin, destination);
+
+        // then
+        assertThat(actual).isEmpty();
+    }
+
+    @DisplayName("병은 목적지에 같은 나라의 기물이 존재한다면 이동할 수 없다")
+    @Test
+    void kingJudgeMovable3() {
+        // given
+        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Advisor king = new Advisor(Dynasty.HAN);
+
+        // when // then
+        assertThatCode(() -> king.canMove(routesWithPiece, new Chariot(Dynasty.HAN)))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageStartingWith("[ERROR] ");
+    }
+
+    @DisplayName("사의 목적지로 가는 경로는 항상 비어있다.")
+    @Test
+    void advisorCanGetRoute() {
+        // given
+        Dot origin = Dot.of(1, 1);
+        Dot destination = Dot.of(1, 0);
+        Advisor advisor = new Advisor(Dynasty.HAN);
+
+        // when
+        List<Dot> actual = advisor.getRoute(origin, destination);
+
+        // then
+        assertThat(actual).isEmpty();
+    }
+
+    @DisplayName("사는 목적지에 같은 나라의 기물이 존재한다면 이동할 수 없다")
+    @Test
+    void advisorJudgeMovable3() {
+        // given
+        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Advisor advisor = new Advisor(Dynasty.HAN);
+
+        // when // then
+        assertThatCode(() -> advisor.canMove(routesWithPiece, new Chariot(Dynasty.HAN)))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageStartingWith("[ERROR] ");
     }
 }
