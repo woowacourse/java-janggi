@@ -21,4 +21,11 @@ public class Pieces {
     public List<Piece> getPieces() {
         return Collections.unmodifiableList(pieces);
     }
+
+    public int countPiecesInPositions(final List<Position> positions) {
+        return (int) positions.stream()
+                .filter(position ->
+                        pieces.stream().anyMatch(piece -> piece.isSamePosition(position)))
+                .count();
+    }
 }
