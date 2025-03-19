@@ -24,7 +24,9 @@ public class JanggiBoard {
         }
         if (!startPiece.isCanon()) {
             for (Position position : path) {
-                isPositionEmpty(position);
+                if (!isPositionEmpty(position)) {
+                    throw new IllegalArgumentException("다른 말이 존재해서 해당 좌표로 갈 수가 없습니다.");
+                }
             }
         }
 
