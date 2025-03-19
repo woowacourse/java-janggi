@@ -133,4 +133,28 @@ class PieceTest {
             .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @Test
+    @DisplayName("병은 적절한 이동이 가능하다")
+    void pawnMoveTest() {
+        Piece cho = new Pawn(5,5, Team.CHO);
+        Piece han = new Pawn(5,5, Team.HAN);
+        cho.move(board, 0,-1);
+        han.move(board, 0,1);
+        assertThat(cho.getPosition().x()).isEqualTo(5);
+        assertThat(cho.getPosition().y()).isEqualTo(4);
+        assertThat(han.getPosition().x()).isEqualTo(5);
+        assertThat(han.getPosition().y()).isEqualTo(6);
+    }
+
+    @Test
+    @DisplayName("병의 이동 범위를 벗어나면 예외를 반환한다")
+    void pawnMoveExceptionTest() {
+        Piece cho = new Pawn(5,5, Team.CHO);
+        Piece han = new Pawn(5,5, Team.HAN);
+        assertThatThrownBy(() -> cho.move(board, 0,1))
+            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> han.move(board, 0,-1))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+
 }
