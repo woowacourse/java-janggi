@@ -23,7 +23,7 @@ public class OutputView {
                 }
                 Piece piece = board.findPieceByPoint(point);
                 rowString.add(
-                        paintColor(Painter.paintByTeam(piece.team()), piece.type().getTitle())
+                        paintColor(Painter.paintByTeam(piece), piece.type().getTitle())
                 );
             }
         }

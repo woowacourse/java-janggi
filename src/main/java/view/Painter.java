@@ -1,5 +1,6 @@
 package view;
 
+import domain.piece.Piece;
 import domain.piece.Team;
 
 public class Painter {
@@ -8,8 +9,8 @@ public class Painter {
     private static final String GREEN = "\u001B[32m";
     private static final String WHITE = "\u001B[37m";
 
-    public static String paintByTeam(Team team) {
-        if (team == Team.CHO) {
+    public static String paintByTeam(Piece piece) {
+        if (piece.hasTeam(Team.CHO)) {
             return GREEN;
         }
 

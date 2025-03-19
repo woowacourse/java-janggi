@@ -16,7 +16,7 @@ public class Cha implements Piece {
     }
 
     @Override
-    public Team team() {
-        return this.team;
+    public boolean hasTeam(Team team) {
+        return this.team == team;
     }
 }
