@@ -36,7 +36,7 @@ class SangTest {
         board.putPiece(obstacleNode, new Cha(sangTeam));
 
         // when
-        final boolean actual = sang.canMove(sangTeam, sourceNode, destinationNode, board);
+        final boolean actual = sang.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -60,7 +60,7 @@ class SangTest {
         board.putPiece(obstacleNode, new Cha(sangTeam));
 
         // when
-        final boolean actual = sang.canMove(sangTeam, sourceNode, destinationNode, board);
+        final boolean actual = sang.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -82,7 +82,7 @@ class SangTest {
         board.putPiece(destinationNode, new Cha(sangTeam));
 
         // when
-        final boolean actual = sang.canMove(sangTeam, sourceNode, destinationNode, board);
+        final boolean actual = sang.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -103,7 +103,7 @@ class SangTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = sang.canMove(sangTeam, sourceNode, destinationNode, board);
+        final boolean actual = sang.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -125,7 +125,7 @@ class SangTest {
         board.putPiece(destinationNode, new Cha(sangTeam.inverse()));
 
         // when
-        final boolean actual = sang.canMove(sangTeam, sourceNode, destinationNode, board);
+        final boolean actual = sang.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();

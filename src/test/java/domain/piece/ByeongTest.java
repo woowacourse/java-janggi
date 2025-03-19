@@ -33,7 +33,7 @@ class ByeongTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = byeong.canMove(byeongTeam, sourceNode, destinationNode, board);
+        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -54,7 +54,7 @@ class ByeongTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = byeong.canMove(byeongTeam, sourceNode, destinationNode, board);
+        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -75,7 +75,7 @@ class ByeongTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = byeong.canMove(byeongTeam, sourceNode, destinationNode, board);
+        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -96,7 +96,7 @@ class ByeongTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = byeong.canMove(byeongTeam, sourceNode, destinationNode, board);
+        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -117,7 +117,7 @@ class ByeongTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = byeong.canMove(byeongTeam, sourceNode, destinationNode, board);
+        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -138,7 +138,7 @@ class ByeongTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = byeong.canMove(byeongTeam, sourceNode, destinationNode, board);
+        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -159,7 +159,7 @@ class ByeongTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = byeong.canMove(byeongTeam, sourceNode, destinationNode, board);
+        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -180,7 +180,7 @@ class ByeongTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = byeong.canMove(byeongTeam, sourceNode, destinationNode, board);
+        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -203,7 +203,7 @@ class ByeongTest {
         board.putPiece(destinationNode, new Byeong(byeongTeam.inverse()));
 
         // when
-        final boolean actual = byeong.canMove(byeongTeam, sourceNode, destinationNode, board);
+        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -224,7 +224,7 @@ class ByeongTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = byeong.canMove(byeongTeam, sourceNode, destinationNode, board);
+        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -246,7 +246,7 @@ class ByeongTest {
 
         board.putPiece(destinationNode, new Byeong(byeongTeam));
         // when
-        final boolean actual = byeong.canMove(byeongTeam, sourceNode, destinationNode, board);
+        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isFalse();

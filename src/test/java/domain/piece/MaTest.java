@@ -37,7 +37,7 @@ class MaTest {
         board.putPiece(obstacleNode, new Cha(maTeam));
 
         // when
-        final boolean actual = ma.canMove(maTeam, sourceNode, destinationNode, board);
+        final boolean actual = ma.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -60,7 +60,7 @@ class MaTest {
         board.putPiece(destinationNode, new Cha(maTeam));
 
         // when
-        final boolean actual = ma.canMove(maTeam, sourceNode, destinationNode, board);
+        final boolean actual = ma.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -82,7 +82,7 @@ class MaTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = ma.canMove(maTeam, sourceNode, destinationNode, board);
+        final boolean actual = ma.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -105,7 +105,7 @@ class MaTest {
         board.putPiece(destinationNode, new Cha(maTeam.inverse()));
 
         // when
-        final boolean actual = ma.canMove(maTeam, sourceNode, destinationNode, board);
+        final boolean actual = ma.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();

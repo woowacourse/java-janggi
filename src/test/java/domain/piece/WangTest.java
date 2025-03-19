@@ -35,7 +35,7 @@ class WangTest {
         board.putPiece(destinationNode, new Byeong(wangTeam.inverse()));
 
         // when
-        final boolean actual = wang.canMove(wangTeam, sourceNode, destinationNode, board);
+        final boolean actual = wang.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -56,7 +56,7 @@ class WangTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = wang.canMove(wangTeam, sourceNode, destinationNode, board);
+        final boolean actual = wang.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -78,7 +78,7 @@ class WangTest {
 
         board.putPiece(destinationNode, new Byeong(wangTeam));
         // when
-        final boolean actual = wang.canMove(wangTeam, sourceNode, destinationNode, board);
+        final boolean actual = wang.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isFalse();

@@ -13,4 +13,6 @@ class PoTest {
         // when & then
         Assertions.assertThat(piece.type()).isEqualTo(PieceType.PO);
     }
+
+
 }

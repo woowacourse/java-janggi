@@ -35,7 +35,7 @@ class SaTest {
         board.putPiece(destinationNode, new Byeong(saTeam.inverse()));
 
         // when
-        final boolean actual = sa.canMove(saTeam, sourceNode, destinationNode, board);
+        final boolean actual = sa.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -56,7 +56,7 @@ class SaTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = sa.canMove(saTeam, sourceNode, destinationNode, board);
+        final boolean actual = sa.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -78,7 +78,7 @@ class SaTest {
 
         board.putPiece(destinationNode, new Byeong(saTeam));
         // when
-        final boolean actual = sa.canMove(saTeam, sourceNode, destinationNode, board);
+        final boolean actual = sa.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isFalse();

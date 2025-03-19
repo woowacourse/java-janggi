@@ -35,7 +35,7 @@ class ChaTest {
         board.putPiece(destinationNode, new Cha(chaTeam.inverse()));
 
         // when
-        final boolean actual = cha.canMove(chaTeam, sourceNode, destinationNode, board);
+        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -58,7 +58,7 @@ class ChaTest {
         board.putPiece(destinationNode, new Cha(chaTeam));
 
         // when
-        final boolean actual = cha.canMove(chaTeam, sourceNode, destinationNode, board);
+        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -79,7 +79,7 @@ class ChaTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = cha.canMove(chaTeam, sourceNode, destinationNode, board);
+        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -102,7 +102,7 @@ class ChaTest {
         board.putPiece(destinationNode, new Cha(chaTeam.inverse()));
 
         // when
-        final boolean actual = cha.canMove(chaTeam, sourceNode, destinationNode, board);
+        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -125,7 +125,7 @@ class ChaTest {
         board.putPiece(destinationNode, new Cha(chaTeam));
 
         // when
-        final boolean actual = cha.canMove(chaTeam, sourceNode, destinationNode, board);
+        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -146,7 +146,7 @@ class ChaTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = cha.canMove(chaTeam, sourceNode, destinationNode, board);
+        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -169,7 +169,7 @@ class ChaTest {
         board.putPiece(destinationNode, new Cha(chaTeam.inverse()));
 
         // when
-        final boolean actual = cha.canMove(chaTeam, sourceNode, destinationNode, board);
+        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -192,7 +192,7 @@ class ChaTest {
         board.putPiece(destinationNode, new Cha(chaTeam));
 
         // when
-        final boolean actual = cha.canMove(chaTeam, sourceNode, destinationNode, board);
+        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -213,7 +213,7 @@ class ChaTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = cha.canMove(chaTeam, sourceNode, destinationNode, board);
+        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -236,7 +236,7 @@ class ChaTest {
         board.putPiece(destinationNode, new Cha(chaTeam.inverse()));
 
         // when
-        final boolean actual = cha.canMove(chaTeam, sourceNode, destinationNode, board);
+        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -259,7 +259,7 @@ class ChaTest {
         board.putPiece(destinationNode, new Cha(chaTeam));
 
         // when
-        final boolean actual = cha.canMove(chaTeam, sourceNode, destinationNode, board);
+        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -280,7 +280,7 @@ class ChaTest {
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
         // when
-        final boolean actual = cha.canMove(chaTeam, sourceNode, destinationNode, board);
+        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
