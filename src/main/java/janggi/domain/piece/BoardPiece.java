@@ -5,13 +5,13 @@ import janggi.domain.board.JanggiBoard;
 import janggi.domain.board.point.Point;
 import java.util.Objects;
 
-public class PointPiece {
+public class BoardPiece {
 
     private final Piece piece;
     private final Dynasty dynasty;
     private Point currentPoint;
 
-    public PointPiece(Point currentPoint, Piece piece, Dynasty dynasty) {
+    public BoardPiece(Point currentPoint, Piece piece, Dynasty dynasty) {
         this.currentPoint = currentPoint;
         this.piece = piece;
         this.dynasty = dynasty;
@@ -42,6 +42,10 @@ public class PointPiece {
         return this.currentPoint.isSamePosition(point);
     }
 
+    public boolean isEqualPiece(Piece piece) {
+        return this.piece.equals(piece);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -50,7 +54,7 @@ public class PointPiece {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PointPiece that = (PointPiece) o;
+        BoardPiece that = (BoardPiece) o;
         return Objects.equals(currentPoint, that.currentPoint) && Objects.equals(piece, that.piece)
                 && dynasty == that.dynasty;
     }
@@ -60,7 +64,15 @@ public class PointPiece {
         return Objects.hash(currentPoint, piece, dynasty);
     }
 
-    public boolean isEqualPiece(Piece piece) {
-        return this.piece.equals(piece);
+    public Piece getPiece() {
+        return piece;
+    }
+
+    public Dynasty getDynasty() {
+        return dynasty;
+    }
+
+    public Point getCurrentPoint() {
+        return currentPoint;
     }
 }

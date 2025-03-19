@@ -1,6 +1,7 @@
 package janggi.domain.board.point;
 
 import janggi.domain.board.Direction;
+import java.util.Objects;
 
 public record DefaultPoint(
         int x,
@@ -35,5 +36,22 @@ public record DefaultPoint(
     @Override
     public boolean isOutOfBoundary() {
         return x > 10 || x < 1 || y > 9 || y < 1;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        DefaultPoint point = (DefaultPoint) o;
+        return x == point.x && y == point.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

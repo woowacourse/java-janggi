@@ -1,7 +1,6 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
@@ -9,7 +8,6 @@ import janggi.domain.board.point.ChuPoint;
 import janggi.domain.board.point.DefaultPoint;
 import janggi.domain.board.point.HanPoint;
 import java.util.Set;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +23,7 @@ class CannonTest {
     void moveCannonTest() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new PointPiece(new HanPoint(4, 4), Pawn.newInstance(), Dynasty.HAN)
+                new BoardPiece(new HanPoint(4, 4), Pawn.newInstance(), Dynasty.HAN)
         ));
         Cannon cannon = Cannon.newInstance();
 
@@ -41,8 +39,8 @@ class CannonTest {
     void moveCannonTest_WhenTwoPieceInPath() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new PointPiece(new HanPoint(4, 4), Pawn.newInstance(), Dynasty.HAN),
-                new PointPiece(new HanPoint(4, 6), Pawn.newInstance(), Dynasty.HAN)
+                new BoardPiece(new HanPoint(4, 4), Pawn.newInstance(), Dynasty.HAN),
+                new BoardPiece(new HanPoint(4, 6), Pawn.newInstance(), Dynasty.HAN)
         ));
         Cannon cannon = Cannon.newInstance();
 
@@ -58,7 +56,7 @@ class CannonTest {
     void notJumpCannon() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new PointPiece(new HanPoint(4, 4), Cannon.newInstance(), Dynasty.HAN)
+                new BoardPiece(new HanPoint(4, 4), Cannon.newInstance(), Dynasty.HAN)
         ));
         Cannon cannon = Cannon.newInstance();
 
@@ -74,7 +72,7 @@ class CannonTest {
     void notJumpCannon_WhenEndPositionExistCannon() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new PointPiece(new ChuPoint(4, 9), Cannon.newInstance(), Dynasty.CHU)
+                new BoardPiece(new ChuPoint(4, 9), Cannon.newInstance(), Dynasty.CHU)
         ));
         Cannon cannon = Cannon.newInstance();
 

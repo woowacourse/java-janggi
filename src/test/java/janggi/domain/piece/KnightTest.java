@@ -46,7 +46,7 @@ class KnightTest {
     void test3() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new PointPiece(new HanPoint(1, 2), Knight.newInstance(), Dynasty.HAN)
+                new BoardPiece(new HanPoint(1, 2), Knight.newInstance(), Dynasty.HAN)
         ));
         Piece knight = Knight.newInstance();
 

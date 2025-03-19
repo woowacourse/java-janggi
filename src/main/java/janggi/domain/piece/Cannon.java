@@ -48,9 +48,9 @@ public class Cannon implements Piece {
     }
 
     private static boolean isExistCannon(JanggiBoard janggiBoard, Point point) {
-        Optional<PointPiece> pointPiece = janggiBoard.findPointPiece(point);
+        Optional<BoardPiece> pointPiece = janggiBoard.findPointPiece(point);
         if (pointPiece.isPresent()) {
-            PointPiece piece = pointPiece.get();
+            BoardPiece piece = pointPiece.get();
             return piece.isEqualPiece(CANNON);
         }
         return false;

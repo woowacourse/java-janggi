@@ -14,41 +14,41 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class PointPieceTest {
+class BoardPieceTest {
 
     @DisplayName("원하는 위치로 이동한다.")
     @Test
     void moveTest() {
         // given
-        PointPiece pointPiece = new PointPiece(new HanPoint(1, 1), Pawn.newInstance(), Dynasty.HAN);
+        BoardPiece boardPiece = new BoardPiece(new HanPoint(1, 1), Pawn.newInstance(), Dynasty.HAN);
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                pointPiece
+                boardPiece
         ));
         Point endPoint = new DefaultPoint(2, 1);
 
         // when
-        pointPiece.move(janggiBoard, endPoint);
+        boardPiece.move(janggiBoard, endPoint);
 
         // then
-        assertThat(pointPiece)
-                .isEqualTo(new PointPiece(new HanPoint(2, 1), Pawn.newInstance(), Dynasty.HAN));
+        assertThat(boardPiece)
+                .isEqualTo(new BoardPiece(new HanPoint(2, 1), Pawn.newInstance(), Dynasty.HAN));
     }
 
     @DisplayName("원하는 위치에 같은 편의 말이 있으면 예외가 발생한다.")
     @Test
     void moveFailTest_WhenExistSameDynastyPiece() {
         // given
-        PointPiece samePiece = new PointPiece(new HanPoint(2, 1), Pawn.newInstance(), Dynasty.HAN);
-        PointPiece pointPiece = new PointPiece(new HanPoint(1, 1), Pawn.newInstance(), Dynasty.HAN);
+        BoardPiece samePiece = new BoardPiece(new HanPoint(2, 1), Pawn.newInstance(), Dynasty.HAN);
+        BoardPiece boardPiece = new BoardPiece(new HanPoint(1, 1), Pawn.newInstance(), Dynasty.HAN);
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                pointPiece, samePiece
+                boardPiece, samePiece
         ));
         Point endPoint = new DefaultPoint(2, 1);
 
         // when
 
         // then
-        assertThatThrownBy(() -> pointPiece.move(janggiBoard, endPoint))
+        assertThatThrownBy(() -> boardPiece.move(janggiBoard, endPoint))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이미 놓여져 있는 기물이 존재합니다.");
     }
@@ -57,16 +57,16 @@ class PointPieceTest {
     @Test
     void moveFailTest_WhenIsNotMovable() {
         // given
-        PointPiece pointPiece = new PointPiece(new HanPoint(1, 1), Pawn.newInstance(), Dynasty.HAN);
+        BoardPiece boardPiece = new BoardPiece(new HanPoint(1, 1), Pawn.newInstance(), Dynasty.HAN);
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                pointPiece
+                boardPiece
         ));
         Point endPoint = new DefaultPoint(2, 5);
 
         // when
 
         // then
-        assertThatThrownBy(() -> pointPiece.move(janggiBoard, endPoint))
+        assertThatThrownBy(() -> boardPiece.move(janggiBoard, endPoint))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
     }
@@ -80,10 +80,10 @@ class PointPieceTest {
     })
     void isSamePosition(int x1, int y1, int x2, int y2, boolean expected) {
         //given
-        PointPiece pointPiece = new PointPiece(new HanPoint(x1, y1), Pawn.newInstance(), Dynasty.HAN);
+        BoardPiece boardPiece = new BoardPiece(new HanPoint(x1, y1), Pawn.newInstance(), Dynasty.HAN);
 
         //when
-        boolean result = pointPiece.isSamePosition(new DefaultPoint(x2, y2));
+        boolean result = boardPiece.isSamePosition(new DefaultPoint(x2, y2));
 
         //then
         assertThat(result).isEqualTo(expected);
