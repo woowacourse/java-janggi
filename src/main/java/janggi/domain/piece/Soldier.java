@@ -32,4 +32,26 @@ public class Soldier extends Piece {
                 soldiers.add(new Soldier(position, teamType)));
         return soldiers;
     }
+
+    public Soldier move(final Position positionToMove) {
+        validateIsPositionMovable(positionToMove);
+        return new Soldier(positionToMove, teamType);
+    }
+
+    private void validateIsPositionMovable(final Position value) {
+        if (checkIsDirectionNotMovable(value) || checkIsPositionNotMovable(value)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private boolean checkIsDirectionNotMovable(final Position value) {
+        if (teamType == TeamType.BLUE) {
+            return value.x() - getPosition().x() > 0;
+        }
+        return value.x() - getPosition().x() < 0;
+    }
+
+    private boolean checkIsPositionNotMovable(final Position value) {
+        return Math.abs(value.x() - getPosition().x()) + Math.abs(value.y() - getPosition().y()) != 1;
+    }
 }
