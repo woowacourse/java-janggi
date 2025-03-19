@@ -45,4 +45,19 @@ class BoardTest {
             softly.assertThat(board.hasPieceOn(falsePoint)).isFalse();
         });
     }
+
+    @Test
+    void 좌표에_해당되는_포지션_반환() {
+
+        // given
+        final Board board = Board.initialize();
+        final Point point = Point.of(0, 0);
+        final Position expectedPosition = new Position(point, PieceFactory.createGreenTeam(Chariot::new));
+
+        // when
+        final Position position = board.findPositionBy(point);
+
+        // then
+        assertThat(position).isEqualTo(expectedPosition);
+    }
 }
