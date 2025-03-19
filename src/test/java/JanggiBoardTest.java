@@ -4,7 +4,6 @@ import domain.Position;
 import domain.Team;
 import domain.piece.Chariot;
 import domain.piece.Horse;
-import domain.piece.Move;
 import domain.piece.Pawn;
 import domain.piece.Piece;
 import java.util.HashMap;
@@ -16,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 public class JanggiBoardTest {
 
-    @DisplayName("장기말은 앞으로 이동할 수 있다.")
+    @DisplayName("해당 위치에 기물이 있는지 확인한다.")
     @Test
     void test1() {
         Map<Position, Piece> board = Map.of(
@@ -26,12 +25,12 @@ public class JanggiBoardTest {
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(board);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
 
-        boolean moveResult1 = janggiBoard.canMove(new Position(4, 1), Move.FRONT);
-        boolean moveResult2 = janggiBoard.canMove(new Position(4, 5), Move.FRONT);
+        boolean moveResult1 = janggiBoard.isPositionEmpty(new Position(4, 2));
+        boolean moveResult2 = janggiBoard.isPositionEmpty(new Position(4, 5));
 
         SoftAssertions.assertSoftly(softAssertions -> {
             softAssertions.assertThat(moveResult1).isEqualTo(true);
-            softAssertions.assertThat(moveResult2).isEqualTo(true);
+            softAssertions.assertThat(moveResult2).isEqualTo(false);
         });
     }
 
@@ -45,8 +44,8 @@ public class JanggiBoardTest {
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(board);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
 
-        boolean moveResult1 = janggiBoard.canMove(new Position(1, 1), Move.RIGHT);
-        boolean moveResult3 = janggiBoard.canMove(new Position(1, 2), Move.LEFT);
+        boolean moveResult1 = janggiBoard.isPositionEmpty(new Position(1, 1));
+        boolean moveResult3 = janggiBoard.isPositionEmpty(new Position(1, 2));
 
         SoftAssertions.assertSoftly(softAssertions -> {
             softAssertions.assertThat(moveResult1).isEqualTo(false);
@@ -75,6 +74,56 @@ public class JanggiBoardTest {
 
         // then
         Assertions.assertThat(beforeBoard).isEqualTo(afterBoard);
+    }
+
+    @DisplayName("최종 좌표에 상대 말이 있으면 상대말을 없애고 해당 위치로 이동한다.")
+    @Test
+    void test4() {
+        //given
+        Chariot blueChariot = new Chariot(Team.BLUE);
+        Chariot redChariot = new Chariot(Team.RED);
+
+        Map<Position, Piece> beforeBoard = new HashMap<>();
+        beforeBoard.put(new Position(4, 1), blueChariot);
+        beforeBoard.put(new Position(8, 1), redChariot);
+
+        Map<Position, Piece> afterBoard = new HashMap<>();
+        afterBoard.put(new Position(8, 1), blueChariot);
+
+        FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
+        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+
+        Position startPosition = new Position(4, 1);
+        Position targetPosition = new Position(8, 1);
+
+        // when
+        janggiBoard.move(startPosition, targetPosition);
+
+        // then
+        Assertions.assertThat(beforeBoard).isEqualTo(afterBoard);
+    }
+
+    @DisplayName("최종 좌표에 아군 말이 있으면  위치로 이동하지 못한다.")
+    @Test
+    void test5() {
+        //given
+        Chariot blueChariot1 = new Chariot(Team.BLUE);
+        Chariot blueChariot2 = new Chariot(Team.BLUE);
+
+        Map<Position, Piece> beforeBoard = new HashMap<>();
+        beforeBoard.put(new Position(4, 1), blueChariot1);
+        beforeBoard.put(new Position(8, 1), blueChariot2);
+
+        FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
+        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+
+        Position startPosition = new Position(4, 1);
+        Position targetPosition = new Position(8, 1);
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> janggiBoard.move(startPosition, targetPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 위치는 아군의 말이 있으므로 이동 불가능 합니다.");
     }
 
 
