@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class SaTest {
 
-    static final Position STANDARD = new Position(0, 0);
+    static final Position STANDARD = new Position(4, 4);
 
     @DisplayName("장기말을 이동시킬 수 있다.")
     @ParameterizedTest
