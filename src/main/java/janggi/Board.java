@@ -76,4 +76,13 @@ public class Board {
 
         return crashPoints.size() > 0;
     }
+
+    public void move(Point beforePoint, Point afterPoint) {
+        Movable movingPiece = findByPoint(beforePoint);
+
+        Movable updatedMoving = movingPiece.updatePoint(afterPoint);
+
+        pieces.remove(movingPiece);
+        pieces.add(updatedMoving);
+    }
 }

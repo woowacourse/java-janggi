@@ -92,4 +92,9 @@ public class Po implements Movable {
     public TeamColor getColor() {
         return this.color;
     }
+
+    @Override
+    public Movable updatePoint(Point afterPoint) {
+        return new Po(color, afterPoint);
+    }
 }

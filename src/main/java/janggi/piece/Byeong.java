@@ -56,4 +56,9 @@ public class Byeong implements Movable {
     public Point getPoint() {
         return point;
     }
+
+    @Override
+    public Movable updatePoint(Point afterPoint) {
+        return new Byeong(color, afterPoint);
+    }
 }

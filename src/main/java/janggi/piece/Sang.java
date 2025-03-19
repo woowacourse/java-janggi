@@ -88,4 +88,9 @@ public class Sang implements Movable {
     public TeamColor getColor() {
         return this.color;
     }
+
+    @Override
+    public Movable updatePoint(Point afterPoint) {
+        return new Sang(color, afterPoint);
+    }
 }

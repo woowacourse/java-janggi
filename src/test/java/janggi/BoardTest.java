@@ -1,11 +1,14 @@
 package janggi;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
 import janggi.piece.Gung;
 import janggi.point.Point;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -127,6 +130,30 @@ public class BoardTest {
             List<Movable> pieces = board.findPieceOnHorizontalRoute(new Point(5, 4));
 
             assertThat(pieces).hasSize(0);
+        }
+    }
+
+    @Nested
+    @DisplayName("기물 이동 테스트")
+    class MoveTest {
+
+        @Test
+        @DisplayName("기물의 위치를 특정 위치로 바꿀 수 있다.")
+        void filterVerticalRoute() {
+            Point beforePoint = new Point(6, 4);
+            Byeong byeong = new Byeong(TeamColor.BLUE, beforePoint);
+            List<Movable> pieces = new ArrayList<>(List.of(byeong));
+            Board board = new Board(pieces);
+
+            Point afterPoint = new Point(5, 4);
+            board.move(beforePoint, afterPoint);
+
+            assertAll(() -> {
+                assertThat(board.findByPoint(afterPoint).getPoint()).isEqualTo(afterPoint);
+                assertThatThrownBy(() -> board.findByPoint(beforePoint))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessageContaining("해당 좌표에 기물이 존재하지 않습니다.");
+            });
         }
     }
 }

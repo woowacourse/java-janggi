@@ -6,4 +6,6 @@ public interface Movable {
     Point getPoint();
 
     TeamColor getColor();
+
+    Movable updatePoint(Point afterPoint);
 }
