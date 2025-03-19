@@ -3,6 +3,7 @@ package domain.board;
 import domain.JanggiCoordinate;
 import domain.piece.Country;
 import domain.piece.Piece;
+import java.util.List;
 import java.util.Map;
 
 public final class JanggiBoard {
@@ -14,6 +15,32 @@ public final class JanggiBoard {
 
     public JanggiBoard() {
         board = JanggiBoardInitPosition.create();
+    }
+
+    public void movePiece(JanggiCoordinate oldCoordinate, JanggiCoordinate newCoordinate) {
+        validatePieceCoordinate(oldCoordinate);
+        List<JanggiCoordinate> janggiCoordinates = board.get(oldCoordinate).availableMovePositions(oldCoordinate, this);
+        validateMoveCoordinate(newCoordinate, janggiCoordinates);
+        board.put(newCoordinate, board.get(oldCoordinate));
+        board.remove(oldCoordinate);
+    }
+
+    public Piece getPieceScore(JanggiCoordinate janggiCoordinate) {
+        validatePieceCoordinate(janggiCoordinate);
+        return board.get(janggiCoordinate);
+    }
+
+    private void validateMoveCoordinate(JanggiCoordinate newCoordinate,
+                                        List<JanggiCoordinate> janggiCoordinates) {
+        if (!janggiCoordinates.contains(newCoordinate)) {
+            throw new IllegalArgumentException("[ERROR] 이동 불가능한 위치입니다.");
+        }
+    }
+
+    private void validatePieceCoordinate(JanggiCoordinate janggiCoordinate) {
+        if (!board.containsKey(janggiCoordinate)) {
+            throw new IllegalArgumentException("[ERROR] 기물이 존재하지 않는 위치입니다.");
+        }
     }
 
     public boolean hasPiece(JanggiCoordinate coordinate) {
@@ -41,7 +68,7 @@ public final class JanggiBoard {
         return board;
     }
 
-    public Country findTeamByCoordinate(JanggiCoordinate currCoordinate) {
+    public Country findCountryByCoordinate(JanggiCoordinate currCoordinate) {
         return board.get(currCoordinate).getTeam();
     }
 }

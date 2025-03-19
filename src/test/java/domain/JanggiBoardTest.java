@@ -1,8 +1,10 @@
 package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import domain.board.JanggiBoard;
+import domain.piece.Ma;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -24,7 +26,25 @@ class JanggiBoardTest {
             assertThat(isOutOfBoundary).isTrue();
         }
 
+    }
 
+    @Nested
+    class BoardMoveTest {
+
+        @DisplayName("말을 움직인다.")
+        @Test
+        void movePieceTest() {
+            JanggiCoordinate oldCoordinate = new JanggiCoordinate(2, 1);
+            JanggiCoordinate newCoordinate = new JanggiCoordinate(3, 3);
+
+            JanggiBoard janggiBoard = new JanggiBoard();
+
+            janggiBoard.movePiece(oldCoordinate, newCoordinate);
+
+            assertThatThrownBy(() -> janggiBoard.getPieceScore(oldCoordinate))
+                    .isInstanceOf(IllegalArgumentException.class);
+            assertThat(janggiBoard.getPieceScore(newCoordinate)).isInstanceOf(Ma.class);
+        }
     }
 
 }

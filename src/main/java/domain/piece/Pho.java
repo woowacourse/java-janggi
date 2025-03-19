@@ -13,6 +13,7 @@ public class Pho implements Piece {
         this.country = country;
     }
 
+    @Override
     public List<JanggiCoordinate> availableMovePositions(JanggiCoordinate currCoordinate, JanggiBoard janggiBoard) {
         List<JanggiCoordinate> availablePositions = new ArrayList<>();
         for (PhoMovement direction : PhoMovement.values()) {

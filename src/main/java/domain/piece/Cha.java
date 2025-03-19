@@ -14,6 +14,7 @@ public class Cha implements Piece {
         this.country = country;
     }
 
+    @Override
     public List<JanggiCoordinate> availableMovePositions(JanggiCoordinate currCoordinate,
                                                          JanggiBoard janggiBoard) {
         List<JanggiCoordinate> availablePositions = new ArrayList<>();
