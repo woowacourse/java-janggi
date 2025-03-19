@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import piece.Piece;
+import piece.PieceType;
 import piece.Pieces;
 import piece.Position;
 import piece.Route;
@@ -39,6 +41,22 @@ class MoveStrategyTest {
 
     @Test
     void 졸은_같은팀이_길을_막으면_이동할_수_없다() {
+        // given
+        MoveStrategy moveStrategy = new JolMoveStrategy();
+        Pieces onRoutePieces = new Pieces(List.of(
+                new Piece(
+                    new Position(0, 1),
+                    new JolMoveStrategy(),
+                    PieceType.JOL,
+                    Team.BLUE
+                )
+        ));
 
+        Position destination = new Position(0, 1);
+
+        // when
+
+        // then
+        Assertions.assertThatIllegalArgumentException().isThrownBy(() -> moveStrategy.move(onRoutePieces, destination, Team.BLUE));
     }
 }
