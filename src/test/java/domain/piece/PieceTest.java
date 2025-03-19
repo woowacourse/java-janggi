@@ -2,8 +2,6 @@ package domain.piece;
 
 import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
-import domain.piece.movement.*;
-
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -18,10 +16,10 @@ class PieceTest {
         @Test
         void maAvailableMovePosition() {
             JanggiBoard board = new JanggiBoard();
-            board.getBoard().put(new JanggiCoordinate(5, 5),
-                    new Ma(Team.HAN));
+            Ma ma = new Ma(Country.HAN);
+            board.getBoard().put(new JanggiCoordinate(5, 5), ma);
             List<JanggiCoordinate> availableMovePositions =
-                    MaMovement.availableMovePositions(new JanggiCoordinate(5, 5), board);
+                    ma.availableMovePositions(new JanggiCoordinate(5, 5), board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(4);
         }
@@ -30,9 +28,9 @@ class PieceTest {
         @Test
         void maAvailableMovePosition1() {
             JanggiBoard board = new JanggiBoard();
-
+            Ma ma = new Ma(Country.HAN);
             List<JanggiCoordinate> availableMovePositions =
-                    MaMovement.availableMovePositions(new JanggiCoordinate(2, 1), board);
+                    ma.availableMovePositions(new JanggiCoordinate(2, 1), board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(2);
         }
@@ -44,11 +42,11 @@ class PieceTest {
         @Test
         void sangAvailableMovePosition() {
             JanggiBoard board = new JanggiBoard();
-            board.getBoard().put(new JanggiCoordinate(5, 5),
-                    new Sang(Team.HAN));
+            Sang sang = new Sang(Country.HAN);
+            board.getBoard().put(new JanggiCoordinate(5, 5), sang);
 
             List<JanggiCoordinate> availableMovePositions =
-                    SangMovement.availableMovePositions(new JanggiCoordinate(5, 5), board);
+                    sang.availableMovePositions(new JanggiCoordinate(5, 5), board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(4);
         }
@@ -59,12 +57,12 @@ class PieceTest {
         @DisplayName("차의 이동 가능한 경로를 검사한다")
         @Test
         void chaAvailableMovePosition() {
-            Cha cha = new Cha(Team.HAN);
+            Cha cha = new Cha(Country.HAN);
             JanggiBoard board = new JanggiBoard();
             board.getBoard().put(new JanggiCoordinate(5, 5),
                     cha);
 
-            List<JanggiCoordinate> availableMovePositions = ChaMovement.availableMovePositions(
+            List<JanggiCoordinate> availableMovePositions = cha.availableMovePositions(
                     new JanggiCoordinate(5, 5), board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(10);
@@ -76,14 +74,14 @@ class PieceTest {
         @DisplayName("병의 이동 가능한 경로를 검사한다")
         @Test
         void byeongAvailableMovePosition() {
-            Byeong byeong = new Byeong(Team.HAN);
+            Byeong byeong = new Byeong(Country.HAN);
             JanggiBoard board = new JanggiBoard();
             board.getBoard().put(new JanggiCoordinate(5, 5),
                     byeong);
             board.getBoard().put(new JanggiCoordinate(6, 5),
                     byeong);
 
-            List<JanggiCoordinate> availableMovePositions = ByeongMovement.availableMovePositions(
+            List<JanggiCoordinate> availableMovePositions = byeong.availableMovePositions(
                     new JanggiCoordinate(5, 5), board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(2);
@@ -95,11 +93,11 @@ class PieceTest {
         @DisplayName("사의 이동 가능한 경로를 검사한다")
         @Test
         void saAvailableMovePosition() {
-            Sa sa = new Sa(Team.HAN);
+            Sa sa = new Sa(Country.HAN);
             JanggiBoard board = new JanggiBoard();
             board.getBoard().put(new JanggiCoordinate(5, 5), sa);
 
-            List<JanggiCoordinate> availableMovePositions = SaMovement.availableMovePositions(
+            List<JanggiCoordinate> availableMovePositions = sa.availableMovePositions(
                     new JanggiCoordinate(5, 5), board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(7);
@@ -111,11 +109,11 @@ class PieceTest {
         @DisplayName("궁의 이동 가능한 경로를 검사한다")
         @Test
         void gungAvailableMovePosition() {
-            Gung gung = new Gung(Team.HAN);
+            Gung gung = new Gung(Country.HAN);
             JanggiBoard board = new JanggiBoard();
             board.getBoard().put(new JanggiCoordinate(5, 5), gung);
 
-            List<JanggiCoordinate> availableMovePositions = GungMovement.availableMovePositions(
+            List<JanggiCoordinate> availableMovePositions = gung.availableMovePositions(
                     new JanggiCoordinate(5, 5), board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(7);
@@ -127,11 +125,11 @@ class PieceTest {
         @DisplayName("포의 이동 가능한 경로를 검사한다")
         @Test
         void PhoAvailableMovePosition() {
-            Pho pho = new Pho(Team.HAN);
+            Pho pho = new Pho(Country.HAN);
             JanggiBoard board = new JanggiBoard();
             board.getBoard().put(new JanggiCoordinate(5, 5), pho);
 
-            List<JanggiCoordinate> availableMovePositions = PhoMovement.availableMovePositions(
+            List<JanggiCoordinate> availableMovePositions = pho.availableMovePositions(
                     new JanggiCoordinate(5, 5), board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(3);
@@ -140,11 +138,11 @@ class PieceTest {
         @DisplayName("포는 포를 넘어갈 수 없다")
         @Test
         void PhoAvailableMovePosition2() {
-            Pho pho = new Pho(Team.HAN);
+            Pho pho = new Pho(Country.HAN);
             JanggiBoard board = new JanggiBoard();
-            board.getBoard().put(new JanggiCoordinate(2,4), pho);
+            board.getBoard().put(new JanggiCoordinate(2, 4), pho);
 
-            List<JanggiCoordinate> availableMovePositions = PhoMovement.availableMovePositions(
+            List<JanggiCoordinate> availableMovePositions = pho.availableMovePositions(
                     new JanggiCoordinate(2, 4), board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(1);
@@ -153,13 +151,13 @@ class PieceTest {
         @DisplayName("포는 포를 잡을 수 없다")
         @Test
         void PhoAvailableMovePosition3() {
-            Pho pho = new Pho(Team.HAN);
-            Cha cha = new Cha(Team.HAN);
+            Pho pho = new Pho(Country.HAN);
+            Cha cha = new Cha(Country.HAN);
             JanggiBoard board = new JanggiBoard();
             board.getBoard().put(new JanggiCoordinate(2, 4), pho);
-            board.getBoard().put(new JanggiCoordinate(2,5), cha);
+            board.getBoard().put(new JanggiCoordinate(2, 5), cha);
 
-            List<JanggiCoordinate> availableMovePositions = PhoMovement.availableMovePositions(
+            List<JanggiCoordinate> availableMovePositions = pho.availableMovePositions(
                     new JanggiCoordinate(2, 4), board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(3);

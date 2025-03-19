@@ -1,6 +1,9 @@
 package domain.piece;
 
 import domain.JanggiCoordinate;
+import domain.board.JanggiBoard;
+import domain.piece.movement.SangMovement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sang implements Piece {
@@ -16,10 +19,37 @@ public class Sang implements Piece {
             new JanggiCoordinate(-2, -3)
     );
 
-    private final Team team;
+    private final Country country;
 
-    public Sang(Team team) {
-        this.team = team;
+    public Sang(Country country) {
+        this.country = country;
+    }
+
+    public List<JanggiCoordinate> availableMovePositions(JanggiCoordinate currCoordinate,
+                                                         JanggiBoard janggiBoard) {
+        List<JanggiCoordinate> availablePositions = new ArrayList<>();
+        for (SangMovement sangMovement : SangMovement.values()) {
+            if (!janggiBoard.hasPiece(movePosition(currCoordinate, sangMovement.getDirection()))) {
+                for (JanggiCoordinate subDirection : sangMovement.getSubDirection()) {
+                    if (!janggiBoard.hasPiece(movePosition(currCoordinate, subDirection))) {
+                        for (JanggiCoordinate destination : sangMovement.getDestination()) {
+                            JanggiCoordinate next = movePosition(currCoordinate, destination);
+                            if (janggiBoard.isOutOfBoundary(next)) {
+                                continue;
+                            }
+                            if (!janggiBoard.hasPiece(next) && !janggiBoard.isMyTeam(currCoordinate, next)) {
+                                availablePositions.add(next);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return availablePositions;
+    }
+
+    public static JanggiCoordinate movePosition(JanggiCoordinate currCoordinate, JanggiCoordinate moveOffset) {
+        return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
     }
 
     @Override
@@ -28,7 +58,7 @@ public class Sang implements Piece {
     }
 
     @Override
-    public Team getTeam() {
-        return team;
+    public Country getTeam() {
+        return country;
     }
 }

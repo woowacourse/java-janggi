@@ -2,16 +2,46 @@ package domain.piece;
 
 import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
+import domain.piece.movement.ChaMovement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Cha implements Piece {
 
-    private final Team team;
+    private final Country country;
+
+    public Cha(Country country) {
+        this.country = country;
+    }
+
+    public List<JanggiCoordinate> availableMovePositions(JanggiCoordinate currCoordinate,
+                                                         JanggiBoard janggiBoard) {
+        List<JanggiCoordinate> availablePositions = new ArrayList<>();
+        for (ChaMovement direction : ChaMovement.values()) {
+            JanggiCoordinate next = movePosition(currCoordinate, direction.getDirection());
+            while (true) {
+                if (janggiBoard.isOutOfBoundary(next)) {
+                    break;
+                }
+                if (janggiBoard.hasPiece(next) && !janggiBoard.isMyTeam(currCoordinate, next)) {
+                    availablePositions.add(next);
+                    break;
+                }
+                if (janggiBoard.hasPiece(next) && janggiBoard.isMyTeam(currCoordinate, next)) {
+                    break;
+                }
+
+                availablePositions.add(next);
+                next = movePosition(next, direction.getDirection());
+            }
+        }
+
+        return availablePositions;
+    }
 
 
-    public Cha(Team team) {
-        this.team = team;
+    public static JanggiCoordinate movePosition(JanggiCoordinate currCoordinate, JanggiCoordinate moveOffset) {
+        return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
     }
 
     @Override
@@ -20,7 +50,7 @@ public class Cha implements Piece {
     }
 
     @Override
-    public Team getTeam() {
-        return team;
+    public Country getTeam() {
+        return country;
     }
 }

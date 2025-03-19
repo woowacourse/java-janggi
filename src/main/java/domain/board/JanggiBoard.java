@@ -1,8 +1,8 @@
 package domain.board;
 
 import domain.JanggiCoordinate;
+import domain.piece.Country;
 import domain.piece.Piece;
-import domain.piece.Team;
 import java.util.Map;
 
 public final class JanggiBoard {
@@ -33,7 +33,7 @@ public final class JanggiBoard {
         return col < BOARD_MIN_SIZE || col > COL_SIZE;
     }
 
-    public boolean isPho(JanggiCoordinate phoCoordinate){
+    public boolean isPho(JanggiCoordinate phoCoordinate) {
         return board.get(phoCoordinate).isPho();
     }
 
@@ -41,7 +41,7 @@ public final class JanggiBoard {
         return board;
     }
 
-    public Team findTeamByCoordinate(JanggiCoordinate currCoordinate) {
+    public Country findTeamByCoordinate(JanggiCoordinate currCoordinate) {
         return board.get(currCoordinate).getTeam();
     }
 }

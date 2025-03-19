@@ -1,8 +1,6 @@
 package domain.piece.movement;
 
 import domain.JanggiCoordinate;
-import domain.board.JanggiBoard;
-import java.util.ArrayList;
 import java.util.List;
 
 public enum SangMovement {
@@ -34,30 +32,15 @@ public enum SangMovement {
         this.destination = destination;
     }
 
-    public static List<JanggiCoordinate> availableMovePositions(JanggiCoordinate currCoordinate,
-                                                                JanggiBoard janggiBoard) {
-        List<JanggiCoordinate> availablePositions = new ArrayList<>();
-        for (SangMovement sangMovement : values()) {
-            if (!janggiBoard.hasPiece(movePosition(currCoordinate, sangMovement.direction))) {
-                for (JanggiCoordinate subDirection : sangMovement.subDirection) {
-                    if (!janggiBoard.hasPiece(movePosition(currCoordinate, subDirection))) {
-                        for (JanggiCoordinate destination : sangMovement.destination) {
-                            JanggiCoordinate next = movePosition(currCoordinate, destination);
-                            if (janggiBoard.isOutOfBoundary(next)) {
-                                continue;
-                            }
-                            if (!janggiBoard.hasPiece(next) && !janggiBoard.isMyTeam(currCoordinate, next)) {
-                                availablePositions.add(next);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return availablePositions;
+    public JanggiCoordinate getDirection() {
+        return direction;
     }
 
-    public static JanggiCoordinate movePosition(JanggiCoordinate currCoordinate, JanggiCoordinate moveOffset) {
-        return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
+    public List<JanggiCoordinate> getSubDirection() {
+        return subDirection;
+    }
+
+    public List<JanggiCoordinate> getDestination() {
+        return destination;
     }
 }

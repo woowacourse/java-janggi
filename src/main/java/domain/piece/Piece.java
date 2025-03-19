@@ -1,6 +1,7 @@
 package domain.piece;
 
 public interface Piece {
-    Team getTeam();
+    Country getTeam();
+
     boolean isPho();
 }

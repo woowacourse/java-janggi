@@ -1,14 +1,20 @@
 package domain.board;
 
-import domain.JanggiCoordinate;
-import domain.piece.*;
+import static domain.piece.Country.CHO;
+import static domain.piece.Country.HAN;
 
+import domain.JanggiCoordinate;
+import domain.piece.Byeong;
+import domain.piece.Cha;
+import domain.piece.Gung;
+import domain.piece.Ma;
+import domain.piece.Pho;
+import domain.piece.Piece;
+import domain.piece.Sa;
+import domain.piece.Sang;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static domain.piece.Team.CHO;
-import static domain.piece.Team.HAN;
 
 public enum JanggiBoardInitPosition {
     CHO_LEFT_MA(new JanggiCoordinate(3, 10), new Ma(CHO)),
@@ -48,12 +54,12 @@ public enum JanggiBoardInitPosition {
     private JanggiCoordinate coordinate;
     private Piece piece;
 
-    JanggiBoardInitPosition(JanggiCoordinate coordinate,Piece piece) {
+    JanggiBoardInitPosition(JanggiCoordinate coordinate, Piece piece) {
         this.coordinate = coordinate;
         this.piece = piece;
     }
 
-    public static Map<JanggiCoordinate, Piece> create(){
+    public static Map<JanggiCoordinate, Piece> create() {
         return Arrays.stream(values())
                 .collect(Collectors.toMap(JanggiBoardInitPosition::getCoordinate,
                         JanggiBoardInitPosition::getPiece)
