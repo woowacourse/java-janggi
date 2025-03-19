@@ -36,6 +36,12 @@ public class Board {
         pieces.remove(target);
     }
 
+    public boolean isCannon(Position position) {
+        return pieces.stream()
+                .filter(piece -> position.equals(piece.getPosition()))
+                .anyMatch(Cannon.class::isInstance);
+    }
+
     public List<Piece> getPieces() {
         return pieces;
     }
