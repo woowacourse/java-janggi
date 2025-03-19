@@ -9,9 +9,12 @@ import java.util.Map;
 public class Application {
 
     public static void main(String[] args) {
-        Board board = BoardGenerator.generate();
-        Map<Point, Piece> placedPieces = board.getPlacedPieces();
         View view = new View();
-        view.displayBoard(placedPieces);
+        boolean startGame = view.readStartGame();
+        if (startGame) {
+            Board board = BoardGenerator.generate();
+            Map<Point, Piece> placedPieces = board.getPlacedPieces();
+            view.displayBoard(placedPieces);
+        }
     }
 }
