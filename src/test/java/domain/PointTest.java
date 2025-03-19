@@ -12,7 +12,7 @@ class PointTest {
         // given
         final int column = 1;
         // when & then
-        Assertions.assertThatThrownBy(() -> new Point(row, column))
+        Assertions.assertThatThrownBy(() -> Point.of(row, column))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -22,7 +22,7 @@ class PointTest {
         // given
         final int row = 1;
         // when & then
-        Assertions.assertThatThrownBy(() -> new Point(row, column))
+        Assertions.assertThatThrownBy(() -> Point.of(row, column))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }
