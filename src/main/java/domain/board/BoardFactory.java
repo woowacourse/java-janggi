@@ -1,4 +1,7 @@
-import java.awt.*;
+package domain.board;
+
+import domain.piece.*;
+
 import java.util.HashMap;
 import java.util.Map;
 

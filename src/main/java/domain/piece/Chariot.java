@@ -1,7 +1,11 @@
+package domain.piece;
+
+import domain.board.Position;
+
 import java.util.List;
 
 public class Chariot extends Piece {
-    Chariot(PieceColor color) {
+    public Chariot(PieceColor color) {
         super(color);
     }
 

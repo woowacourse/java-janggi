@@ -1,3 +1,8 @@
+package domain.piece;
+
+import domain.board.Column;
+import domain.board.Position;
+import domain.board.Row;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;

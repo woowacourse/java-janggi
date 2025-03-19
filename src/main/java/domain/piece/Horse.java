@@ -1,8 +1,12 @@
+package domain.piece;
+
+import domain.board.Position;
+
 import java.util.List;
 
-public class Horse extends Piece{
+public class Horse extends Piece {
 
-    Horse(PieceColor color) {
+    public Horse(PieceColor color) {
         super(color);
     }
 

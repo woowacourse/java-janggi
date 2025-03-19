@@ -1,8 +1,12 @@
+package domain.piece;
+
+import domain.board.Position;
+
 import java.util.List;
 
-public class General extends Piece{
+public class General extends Piece {
 
-    General(PieceColor color) {
+    public General(PieceColor color) {
         super(color);
     }
 

@@ -1,3 +1,7 @@
+package domain.board;
+
+import domain.piece.Piece;
+
 import java.util.List;
 import java.util.Map;
 

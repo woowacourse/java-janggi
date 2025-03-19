@@ -1,3 +1,5 @@
+package domain.board;
+
 import java.util.Arrays;
 
 public enum Column {
@@ -22,7 +24,7 @@ public enum Column {
         return Arrays.stream(Column.values())
                 .filter(col -> col.value == value)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당 숫자에 맞는 Column 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 숫자에 맞는 domain.board.Column 없습니다."));
     }
 
 

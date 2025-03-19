@@ -1,4 +1,5 @@
-import org.assertj.core.api.PeriodAssert;
+package domain.piece;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

@@ -1,9 +1,13 @@
+package domain.piece;
+
+import domain.board.Position;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Elephant extends Piece {
 
-    Elephant(PieceColor color) {
+    public Elephant(PieceColor color) {
         super(color);
     }
 

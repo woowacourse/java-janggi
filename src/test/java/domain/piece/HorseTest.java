@@ -1,3 +1,8 @@
+package domain.piece;
+
+import domain.board.Column;
+import domain.board.Position;
+import domain.board.Row;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

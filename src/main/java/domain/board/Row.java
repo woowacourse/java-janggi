@@ -1,3 +1,5 @@
+package domain.board;
+
 import java.util.Arrays;
 
 public enum Row {

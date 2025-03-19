@@ -1,8 +1,12 @@
+package domain.piece;
+
+import domain.board.Position;
+
 import java.util.List;
 
 public class Cannon extends Piece {
 
-    Cannon(PieceColor color) {
+    public Cannon(PieceColor color) {
         super(color);
     }
 
