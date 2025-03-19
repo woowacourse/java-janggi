@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import java.util.List;
+import java.util.Map;
 
 public class General extends Piece {
     private static final Position INITIAL_POSITIONS_BLUE = new Position(9, 5);
@@ -15,5 +16,27 @@ public class General extends Piece {
             return List.of(new General(INITIAL_POSITIONS_BLUE, teamType));
         }
         return List.of(new General(INITIAL_POSITIONS_RED, teamType));
+    }
+
+    public General move(final Map<Position, Piece> pieces, final Position positionToMove) {
+        validateIsPositionMovable(positionToMove);
+        validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
+        return new General(positionToMove, teamType);
+    }
+
+    private void validateIsPositionMovable(final Position value) {
+        if (checkIsPositionNotMovable(value)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private boolean checkIsPositionNotMovable(final Position value) {
+        return Math.abs(value.x() - getPosition().x()) + Math.abs(value.y() - getPosition().y()) != 1;
+    }
+
+    private void validateIsSameTeamNotInPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
+        if(pieces.containsKey(positionToMove)){
+            throw new IllegalArgumentException();
+        }
     }
 }
