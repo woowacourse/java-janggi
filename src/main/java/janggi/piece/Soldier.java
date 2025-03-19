@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.Camp;
+import janggi.PieceSymbol;
 import janggi.Point;
 
 public final class Soldier extends Piece {
@@ -29,5 +30,10 @@ public final class Soldier extends Piece {
         if (Math.abs(toPoint.getY() - fromPoint.getY() + fromPoint.getX() - toPoint.getX()) != 1) {
             throw new IllegalArgumentException("병은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
         }
+    }
+
+    @Override
+    public PieceSymbol getPieceSymbol() {
+        return PieceSymbol.SOLDIER;
     }
 }

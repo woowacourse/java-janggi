@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.Camp;
+import janggi.PieceSymbol;
 import janggi.Point;
 
 public final class Horse extends Piece {
@@ -15,5 +16,10 @@ public final class Horse extends Piece {
                 (fromPoint.calculateXDistance(toPoint) == 1 && fromPoint.calculateYDistance(toPoint) == 2))) {
             throw new IllegalArgumentException("마는 직선으로 한 칸, 대각선으로 한 칸 움직여야 합니다.");
         }
+    }
+
+    @Override
+    public PieceSymbol getPieceSymbol() {
+        return PieceSymbol.HORSE;
     }
 }

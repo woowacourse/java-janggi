@@ -10,10 +10,10 @@ public class Board {
     private static final int COLUMN = 9;
     private static final int ROW = 10;
 
-    private final Map<Point, Piece> board;
+    private final Map<Point, Piece> placedPieces;
 
     public Board() {
-        this.board = initializeBoard();
+        this.placedPieces = initializeBoard();
     }
 
     private Map<Point, Piece> initializeBoard() {
@@ -28,12 +28,16 @@ public class Board {
 
     public void placePiece(Point point, Piece piece) {
         validatePoint(point);
-        board.put(point, piece);
+        placedPieces.put(point, piece);
     }
 
     private void validatePoint(Point point) {
         if (point.getX() < 1 || COLUMN < point.getX() || point.getY() < 1 || ROW < point.getY()) {
             throw new IllegalArgumentException("기물의 위치는 9 x 10 영역을 벗어날 수 없습니다.");
         }
+    }
+
+    public Map<Point, Piece> getPlacedPieces() {
+        return placedPieces;
     }
 }
