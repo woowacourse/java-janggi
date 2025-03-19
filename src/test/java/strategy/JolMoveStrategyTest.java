@@ -11,7 +11,7 @@ import piece.Position;
 import piece.Route;
 import piece.Team;
 
-class MoveStrategyTest {
+class JolMoveStrategyTest {
     @Test
     void 졸은_가능한_경로를_반환한다() {
         // given
@@ -33,7 +33,7 @@ class MoveStrategyTest {
         // given
         MoveStrategy moveStrategy = new JolMoveStrategy();
         // when
-        Position move = moveStrategy.move(new Pieces(new ArrayList<>()), new Position(0, 1), Team.BLUE);
+        Position move = moveStrategy.move(new Position(0, 1), new Pieces(new ArrayList<>()), Team.BLUE);
         // then
         Assertions.assertThat(move).isEqualTo(new Position(0, 1));
 
@@ -57,6 +57,7 @@ class MoveStrategyTest {
         // when
 
         // then
-        Assertions.assertThatIllegalArgumentException().isThrownBy(() -> moveStrategy.move(onRoutePieces, destination, Team.BLUE));
+        Assertions.assertThatIllegalArgumentException().isThrownBy(() -> moveStrategy.move(destination, onRoutePieces,
+                Team.BLUE));
     }
 }

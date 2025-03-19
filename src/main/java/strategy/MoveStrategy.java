@@ -2,6 +2,7 @@ package strategy;
 
 import java.util.ArrayList;
 import java.util.List;
+import piece.Piece;
 import piece.Pieces;
 import piece.Position;
 import piece.Route;
@@ -13,8 +14,6 @@ public interface MoveStrategy {
 
     Route getLegalRoute(Position startPosition, Position endPosition);
 
-    Position move(Pieces onRoutePieces, Position destination, Team moveTeam);
-
     default Route getLegalRoute(Position startPosition, Position endPosition, List<Route> canMoveDirections) {
         for (Route canMoveDirection : canMoveDirections) {
             List<Position> moveRoute = new ArrayList<>();
@@ -25,6 +24,15 @@ public interface MoveStrategy {
             }
         }
         throw new IllegalArgumentException(INVALID_POSITION);
+    }
+
+    default Position move(Position destination, Pieces onRoutePieces, Team moveTeam) {
+        for (Piece piece : onRoutePieces.getPieces()) {
+            if (piece.isSamePosition(destination) && piece.team() == moveTeam) {
+                throw new IllegalArgumentException(INVALID_POSITION);
+            }
+        }
+        return destination;
     }
 
     private Position movePosition(Route canMoveDirection, Position currentPosition, List<Position> moveRoute) {

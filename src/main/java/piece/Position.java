@@ -19,6 +19,32 @@ public class Position {
         return new Position(newRow, newColumn);
     }
 
+    public boolean isSameRow(Position position) {
+        return this.row == position.row;
+    }
+
+    public boolean isSameColumn(Position position) {
+        return this.column == position.column;
+    }
+
+    private boolean isAbsoluteBigger(Position position) {
+        return (this.row + this.column) - (position.row + position.column) > 0;
+    }
+
+    public static Position getMinPosition(Position position, Position otherPosition) {
+        if (position.isAbsoluteBigger(otherPosition)) {
+            return otherPosition;
+        }
+        return position;
+    }
+
+    public static Position getMaxPosition(Position position, Position otherPosition) {
+        if (position.isAbsoluteBigger(otherPosition)) {
+            return position;
+        }
+        return otherPosition;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

@@ -12,7 +12,7 @@ public class SangMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public Position move(Pieces onRoutePieces, Position destination, Team moveTeam) {
+    public Position move(Position destination, Pieces onRoutePieces, Team moveTeam) {
         return null;
     }
 }

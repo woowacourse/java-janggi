@@ -1,6 +1,7 @@
 package strategy;
 
 import piece.Pieces;
+import piece.Position;
 import piece.Route;
 import piece.Team;
 
@@ -12,7 +13,7 @@ public class FoMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public piece.Position move(Pieces onRoutePieces, piece.Position destination, Team moveTeam) {
+    public piece.Position move(Position destination, Pieces onRoutePieces, Team moveTeam) {
         return null;
     }
 }
