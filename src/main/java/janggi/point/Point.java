@@ -1,15 +1,25 @@
 package janggi.point;
 
-import java.util.Objects;
+public record Point(int row, int column) {
 
-public class Point {
-
-    private final int row;
-    private final int column;
+    private static final int BOARD_LOWER_BOUND = 0;
+    private static final int BOARD_ROW_UPPER_BOUND = 9;
+    private static final int BOARD_COLUMN_UPPER_BOUND = 8;
 
     public Point(int row, int column) {
+        validateRange(row, column);
         this.row = row;
         this.column = column;
+    }
+
+    private void validateRange(int row, int column) {
+        if (row < BOARD_LOWER_BOUND
+                || column < BOARD_LOWER_BOUND
+                || row > BOARD_ROW_UPPER_BOUND
+                || column > BOARD_COLUMN_UPPER_BOUND
+        ) {
+            throw new IllegalArgumentException("보드판의 범위를 벗어난 좌표입니다.");
+        }
     }
 
     public Point move(int rowMovingDistance, int columnMovingDistance) {
@@ -22,23 +32,6 @@ public class Point {
 
     public boolean isSameColumn(Point targetPoint) {
         return this.column == targetPoint.column;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Point point = (Point) o;
-        return row == point.row && column == point.column;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(row, column);
     }
 
     public boolean isColumnBetween(Point currentPoint, Point targetPoint) {
