@@ -30,6 +30,9 @@ public enum PhoMovement {
                 if(!janggiBoard.hasPiece(next) && hasObstacle){
                     availablePositions.add(next);
                 }
+                if(janggiBoard.hasPiece(next) && janggiBoard.isPho(next)){
+                    break;
+                }
                 if(janggiBoard.hasPiece(next) && hasObstacle && janggiBoard.isMyTeam(currCoordinate,next)){
                     break;
                 }
@@ -37,7 +40,7 @@ public enum PhoMovement {
                     availablePositions.add(next);
                     break;
                 }
-                if(janggiBoard.hasPiece(next) && !hasObstacle){
+                if(janggiBoard.hasPiece(next) && !hasObstacle && !janggiBoard.isPho(next)){
                     hasObstacle = true;
                 }
                 next = movePosition(next,direction.getDirection());

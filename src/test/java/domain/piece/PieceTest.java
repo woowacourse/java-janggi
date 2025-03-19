@@ -136,5 +136,33 @@ class PieceTest {
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(3);
         }
+
+        @DisplayName("포는 포를 넘어갈 수 없다")
+        @Test
+        void PhoAvailableMovePosition2() {
+            Pho pho = new Pho(Team.HAN);
+            JanggiBoard board = new JanggiBoard();
+            board.getBoard().put(new JanggiCoordinate(2,4), pho);
+
+            List<JanggiCoordinate> availableMovePositions = PhoMovement.availableMovePositions(
+                    new JanggiCoordinate(2, 4), board);
+
+            Assertions.assertThat(availableMovePositions.size()).isEqualTo(1);
+        }
+
+        @DisplayName("포는 포를 잡을 수 없다")
+        @Test
+        void PhoAvailableMovePosition3() {
+            Pho pho = new Pho(Team.HAN);
+            Cha cha = new Cha(Team.HAN);
+            JanggiBoard board = new JanggiBoard();
+            board.getBoard().put(new JanggiCoordinate(2, 4), pho);
+            board.getBoard().put(new JanggiCoordinate(2,5), cha);
+
+            List<JanggiCoordinate> availableMovePositions = PhoMovement.availableMovePositions(
+                    new JanggiCoordinate(2, 4), board);
+
+            Assertions.assertThat(availableMovePositions.size()).isEqualTo(3);
+        }
     }
 }

@@ -33,6 +33,10 @@ public final class JanggiBoard {
         return col < BOARD_MIN_SIZE || col > COL_SIZE;
     }
 
+    public boolean isPho(JanggiCoordinate phoCoordinate){
+        return board.get(phoCoordinate).isPho();
+    }
+
     public Map<JanggiCoordinate, Piece> getBoard() {
         return board;
     }
