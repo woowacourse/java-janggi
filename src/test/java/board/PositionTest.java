@@ -69,5 +69,43 @@ public class PositionTest {
                                 () -> org.assertj.core.api.Assertions.assertThat(unableResult).isFalse()
             );
         }
+
+        @DisplayName("x가 더 큰지 검사할 수 있다.")
+        @Test
+        void isXGreaterThan() {
+            // given
+            final Position srcPosition = new Position(3, 1);
+            final Position ablePosition = new Position(2, 1);
+            final Position unablePosition = new Position(4, 1);
+
+            // when
+            final boolean ableResult = srcPosition.isXGreaterThan(ablePosition);
+            final boolean unableResult = srcPosition.isXGreaterThan(unablePosition);
+
+            // then
+            Assertions.assertAll(
+                    () -> org.assertj.core.api.Assertions.assertThat(ableResult).isTrue(),
+                    () -> org.assertj.core.api.Assertions.assertThat(unableResult).isFalse()
+            );
+        }
+
+        @DisplayName("x가 더 작거나 같은지 검사할 수 있다.")
+        @Test
+        void isXLessThan() {
+            // given
+            final Position srcPosition = new Position(1, 1);
+            final Position ablePosition = new Position(2, 1);
+            final Position unablePosition = new Position(0, 1);
+
+            // when
+            final boolean ableResult = srcPosition.isXLessThan(ablePosition);
+            final boolean unableResult = srcPosition.isXLessThan(unablePosition);
+
+            // then
+            Assertions.assertAll(
+                    () -> org.assertj.core.api.Assertions.assertThat(ableResult).isTrue(),
+                    () -> org.assertj.core.api.Assertions.assertThat(unableResult).isFalse()
+            );
+        }
     }
 }

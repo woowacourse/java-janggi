@@ -11,4 +11,12 @@ public record Position(int x, int y) {
     public boolean isSameLine(final Position descPosition) {
         return x == descPosition.x || y == descPosition.y;
     }
+
+    public boolean isXGreaterThan(final Position descPosition) {
+        return x >= descPosition.x;
+    }
+
+    public boolean isXLessThan(final Position descPosition){
+        return x <= descPosition.x;
+    }
 }
