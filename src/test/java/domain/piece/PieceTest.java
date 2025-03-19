@@ -9,7 +9,7 @@ class PieceTest {
     @Test
     void 기물_객체를_생성할_수_있다() {
         // given
-        final Position position = new Position(1, 2);
+        final Position position = Position.of(1, 2);
 
         // when
         final TestPiece piece = new TestPiece(1, 2);

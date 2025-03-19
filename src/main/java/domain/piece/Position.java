@@ -12,13 +12,21 @@ public class Position {
     private final int row;
     private final int column;
 
-    public Position(final int row, final int column) {
-        validateRange(row, column);
+    private Position(final int row, final int column) {
         this.row = row;
         this.column = column;
     }
 
-    private void validateRange(final int row, final int column) {
+    public static Position of(final int row, final int column) {
+        validateRange(row, column);
+        return new Position(row, column);
+    }
+
+    public static Position ofDirection(final int row, final int column) {
+        return new Position(row, column);
+    }
+
+    private static void validateRange(final int row, final int column) {
         if (row < MIN_ROW || column < MIN_COLUMN || row > MAX_ROW || column > MAX_COLUMN) {
             throw new IllegalArgumentException("[ERROR] 좌표 입력은 9X10 보드 이내만 가능합니다.");
         }

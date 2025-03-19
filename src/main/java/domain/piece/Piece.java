@@ -5,7 +5,7 @@ public abstract class Piece {
     private final Position position;
 
     public Piece(final int row, final int column) {
-        this.position = new Position(row, column);
+        this.position = Position.of(row, column);
     }
 
     public Position getPosition() {
