@@ -19,7 +19,7 @@ public class Board {
     private Map<Point, Piece> initializeBoard() {
         Map<Point, Piece> board = new HashMap<>();
         for (int i = 1; i <= COLUMN; i++) {
-            for (int j = 1; j <= ROW; j++) {
+            for (int j = 0; j < ROW; j++) {
                 board.put(new Point(i, j), null);
             }
         }
@@ -32,7 +32,7 @@ public class Board {
     }
 
     private void validatePoint(Point point) {
-        if (point.getX() < 1 || COLUMN < point.getX() || point.getY() < 1 || ROW < point.getY()) {
+        if (point.getX() < 0 || COLUMN <= point.getX() || point.getY() < 0 || ROW <= point.getY()) {
             throw new IllegalArgumentException("기물의 위치는 9 x 10 영역을 벗어날 수 없습니다.");
         }
     }

@@ -30,9 +30,9 @@ public class View {
     }
 
     public void displayBoard(Map<Point, Piece> placedPieces) {
-        for (int i = ROW; i >= 1; i--) {
-            System.out.printf("%2d", i);
-            for (int j = COLUMN; j >= 1; j--) {
+        for (int i = ROW - 1; i >= 0; i--) {
+            System.out.print(i);
+            for (int j = COLUMN - 1; j >= 0; j--) {
                 if (placedPieces.get(new Point(j, i)) == null) {
                     System.out.print(" | " + EMPTY_SPACE);
                     continue;
@@ -41,9 +41,8 @@ public class View {
             }
             System.out.println(" | ");
         }
-
-        System.out.print("   ");
-        for (int i = 1; i <= COLUMN; i++) {
+        System.out.print("  ");
+        for (int i = 0; i < COLUMN; i++) {
             System.out.printf("ㅤ %d ", i);
         }
     }
