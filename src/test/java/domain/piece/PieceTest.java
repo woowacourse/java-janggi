@@ -1,9 +1,8 @@
 package domain.piece;
 
 import domain.JanggiCoordinate;
-import java.util.List;
-
 import domain.board.JanggiBoard;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -19,7 +18,7 @@ class PieceTest {
             Ma ma = new Ma(new JanggiCoordinate(0, 0), Team.Han);
             JanggiBoard board = new JanggiBoard();
 
-            List<JanggiCoordinate> availableMovePositions = ma.availableMovePositions(board);
+            List<JanggiCoordinate> availableMovePositions = ma.fromCurrPosition(board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(8);
         }
@@ -29,10 +28,10 @@ class PieceTest {
         void maAvailableMovePosition1() {
             Ma ma = new Ma(new JanggiCoordinate(0, 0), Team.Han);
             JanggiBoard board = new JanggiBoard();
-            board.getBoard().put(new JanggiCoordinate(0,1),
-                    new Ma(new JanggiCoordinate(0,1),Team.Han));
+            board.getBoard().put(new JanggiCoordinate(0, 1),
+                    new Ma(new JanggiCoordinate(0, 1), Team.Han));
 
-            List<JanggiCoordinate> availableMovePositions = ma.availableMovePositions(board);
+            List<JanggiCoordinate> availableMovePositions = ma.fromCurrPosition(board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(6);
         }
@@ -46,7 +45,7 @@ class PieceTest {
             Sang sang = new Sang(new JanggiCoordinate(0, 0), Team.Han);
             JanggiBoard board = new JanggiBoard();
 
-            List<JanggiCoordinate> availableMovePositions = sang.availableMovePositions(board);
+            List<JanggiCoordinate> availableMovePositions = sang.fromCurrPosition(board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(8);
         }
@@ -60,10 +59,10 @@ class PieceTest {
             Cha cha = new Cha(new JanggiCoordinate(1, 1), Team.Cho);
             JanggiBoard board = new JanggiBoard();
 
-            List<JanggiCoordinate> availableMovePositions = cha.availableMovePositions(board);
+            List<JanggiCoordinate> availableMovePositions = cha.fromCurrPosition(board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(17);
         }
     }
-    
+
 }

@@ -12,15 +12,12 @@ public final class JanggiBoard {
         board = new HashMap<>();
     }
 
-    public boolean hasPiece(JanggiCoordinate coordinate){
+    public boolean hasPiece(JanggiCoordinate coordinate) {
         return board.containsKey(coordinate);
     }
 
-    public boolean isMyTeam(JanggiCoordinate originCoordinate,JanggiCoordinate coordinate){
-        if(hasPiece(coordinate) && board.get(originCoordinate).getTeam() == board.get(coordinate).getTeam()){
-            return true;
-        }
-        return false;
+    public boolean isMyTeam(JanggiCoordinate originCoordinate, JanggiCoordinate coordinate) {
+        return hasPiece(coordinate) && board.get(originCoordinate).getTeam() == board.get(coordinate).getTeam();
     }
 
     public boolean isOutOfBoundary(int row, int col) {
@@ -28,5 +25,9 @@ public final class JanggiBoard {
             return true;
         }
         return col < 1 || col > 10;
+    }
+
+    public Map<JanggiCoordinate, Piece> getBoard() {
+        return board;
     }
 }

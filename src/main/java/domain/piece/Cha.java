@@ -2,7 +2,6 @@ package domain.piece;
 
 import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class Cha implements Piece {
     }
 
     @Override
-    public List<JanggiCoordinate> availableMovePositions(JanggiBoard board) {
+    public List<JanggiCoordinate> fromCurrPosition(JanggiBoard board) {
         List<JanggiCoordinate> availablePositions = new ArrayList<>();
         int row = currCoordinate.getRow();
         int col = currCoordinate.getCol();

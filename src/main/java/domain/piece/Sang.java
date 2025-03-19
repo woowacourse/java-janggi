@@ -2,11 +2,11 @@ package domain.piece;
 
 import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Sang implements Piece {
+
 
     private static final List<JanggiCoordinate> OFFSET_MOVEMENT = List.of(
             new JanggiCoordinate(3, 2),
@@ -28,14 +28,14 @@ public class Sang implements Piece {
     }
 
     @Override
-    public List<JanggiCoordinate> availableMovePositions(JanggiBoard board) {
+    public List<JanggiCoordinate> fromCurrPosition(JanggiBoard board) {
         List<JanggiCoordinate> availablePositions = new ArrayList<>();
         for (JanggiCoordinate coordinate : OFFSET_MOVEMENT) {
             availablePositions.add(movePosition(coordinate));
         }
         return availablePositions;
     }
-    
+
     public JanggiCoordinate movePosition(JanggiCoordinate moveOffset) {
         return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
     }
