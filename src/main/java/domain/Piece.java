@@ -4,7 +4,8 @@ import java.util.Objects;
 import java.util.Set;
 
 public abstract class Piece {
-    protected final Position position;
+
+    protected Position position;
     protected final Team team;
     protected final Board board;
 
@@ -22,6 +23,17 @@ public abstract class Piece {
 
     public boolean isSameTeam(final Piece otherPiece) {
         return this.team == otherPiece.team;
+    }
+
+    public void move(Position position) {
+        if (!getMovablePositions().contains(position)) {
+            throw new IllegalArgumentException();
+        }
+        if (!board.isSameTeam(this, position)) {
+            board.remove(position);
+        }
+        this.position = position;
+
     }
 
     public Position getPosition() {

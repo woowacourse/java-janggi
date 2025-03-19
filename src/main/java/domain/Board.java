@@ -1,19 +1,14 @@
 package domain;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
 
-//    public static final int MIN_ROW = 1;
-//    public static final int MIN_COLUMN = 1;
-//    public static final int MAX_ROW = 10;
-//    public static final int MAX_COLUMN = 9;
+    private final List<Piece> pieces;
 
-    private final Set<Piece> pieces;
-
-    public Board(final Set<Piece> pieces) {
-        this.pieces = new HashSet<>(pieces);
+    public Board(final List<Piece> pieces) {
+        this.pieces = new ArrayList<>(pieces);
     }
 
     public void putPiece(Piece piece) {
@@ -30,16 +25,18 @@ public class Board {
                 .anyMatch(p -> p.isSamePosition(newPosition) && p.isSameTeam(piece));
     }
 
-    public Set<Piece> getPieces() {
-        return pieces;
+    public void remove(final Position position) {
+        int target = 0;
+        for (int i = 0; i < pieces.size(); i++) {
+            if (pieces.get(i).isSamePosition(position)) {
+                target = i;
+                break;
+            }
+        }
+        pieces.remove(target);
     }
 
-//    public boolean isValidPosition(Position position) {
-//        int nextColumn = position.getX();
-//        int nextRow = position.getY();
-//        return (nextColumn < Board.MIN_COLUMN ||nextColumn > Board.MAX_COLUMN ||
-//                nextRow < Board.MIN_ROW || nextRow > Board.MAX_ROW
-//        );
-//    }
-
+    public List<Piece> getPieces() {
+        return pieces;
+    }
 }
