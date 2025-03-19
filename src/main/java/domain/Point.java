@@ -39,6 +39,22 @@ public class Point {
         }
     }
 
+    public int distanceToMaxX() {
+        return MAX_X - x;
+    }
+
+    public int distanceToMinX() {
+        return x;
+    }
+
+    public int distanceToMaxY() {
+        return MAX_Y - y;
+    }
+
+    public int distanceToMinY() {
+        return y;
+    }
+
     public int calculateSubtractionX(Point other) {
         return other.x - this.x;
     }
