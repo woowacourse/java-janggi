@@ -1,6 +1,6 @@
 package domain;
 
-import domain.piece.Empty;
+import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ public final class Board {
         final Map<Point, Piece> locations = new HashMap<>();
         for (int row = 0; row < 10; row++) {
             for (int column = 0; column < 9; column++) {
-                locations.put(new Point(row, column), new Empty());
+                locations.put(new Point(row, column), new EmptyPiece());
             }
         }
         this.locations = locations;
