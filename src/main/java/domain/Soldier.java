@@ -8,7 +8,7 @@ public class Soldier extends AbstractPiece {
 
     @Override
     public boolean isMovable(final Distance distance) {
-        if (Team.GREEN == super.team && distance.x() == 0 && distance.y() == 1) {
+        if (Team.GREEN == team && distance.x() == 0 && distance.y() == 1) {
             return true;
         }
         if (Team.RED == team && distance.x() == 0 && distance.y() == -1) {
