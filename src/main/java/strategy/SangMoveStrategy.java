@@ -1,15 +1,17 @@
 package strategy;
 
-import strategy.MoveStrategy;
+import piece.Position;
+import piece.Route;
 
 public class SangMoveStrategy implements MoveStrategy {
     @Override
-    public boolean isMovable() {
-        return false;
+    public Route getLegalRoute(Position startPosition, Position endPosition) {
+        return null;
     }
 
     @Override
-    public void move() {
-
+    public boolean isAbleToMove() {
+        return false;
     }
+
 }

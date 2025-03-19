@@ -12,7 +12,12 @@ public class PieceTest {
 
     @Test
     void 피스는_좌표와_움직임_전략을_가진다(){
+        // given
+
+        // when
         Position position = new Position(1, 1);
+
+        // then
         Assertions.assertThatNoException().isThrownBy(() -> new Piece(position,new SangMoveStrategy(), PieceType.CHA));
     }
 }

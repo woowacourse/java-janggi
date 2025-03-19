@@ -1,7 +1,9 @@
 package strategy;
 
-public interface MoveStrategy {
+import piece.Position;
+import piece.Route;
 
-    public boolean isMovable();
-    public void move();
+public interface MoveStrategy {
+    Route getLegalRoute(Position startPosition, Position endPosition);
+    boolean isAbleToMove();
 }

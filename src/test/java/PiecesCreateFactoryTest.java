@@ -12,6 +12,7 @@ import piece.Team;
 public class PiecesCreateFactoryTest {
     @Test
     void 피스_생성_테스트() {
+        // given
         List<String> testPieces = List.of(
                 "0,3 차 청",
                 "0,1 상 청",
@@ -23,7 +24,10 @@ public class PiecesCreateFactoryTest {
                 "6,0 차 홍"
         );
 
+        // when
         Map<Team, Pieces> piecesMap = PiecesCreateFactory.generate(testPieces);
+
+        // then
         Assertions.assertThat(piecesMap.get(Team.BLUE).size()).isEqualTo(7);
         Assertions.assertThat(piecesMap.get(Team.RED).size()).isEqualTo(1);
     }

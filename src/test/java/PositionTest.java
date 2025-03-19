@@ -7,12 +7,25 @@ import piece.Position;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class PositionTest {
     @Test
-    void 포지션은_음수를_가질_수_없다”() {
-        Assertions.assertThatIllegalArgumentException().isThrownBy(() -> new Position(-1, -1));
+    void 포지션은_숫자를_가진다() {
+        // given
+
+        // when
+
+        // then
+        Assertions.assertThatNoException().isThrownBy(() -> new Position(0, 0));
     }
 
     @Test
-    void 포지션은_양수를_가질_수_있다() {
-        Assertions.assertThatNoException().isThrownBy(() -> new Position(0, 0));
+    void 포지션은_더할_수_있다() {
+        // given
+        Position position = new Position(0, 0);
+        Position addPosition = new Position(0, 1);
+
+        // when
+        Position newPosition = position.add(addPosition);
+
+        // then
+        Assertions.assertThat(newPosition).isEqualTo(new Position(0, 1));
     }
 }

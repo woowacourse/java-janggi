@@ -1,13 +1,17 @@
 package strategy;
 
+import piece.Position;
+import piece.Route;
+
 public class MaMoveStrategy implements MoveStrategy{
     @Override
-    public boolean isMovable() {
+    public Route getLegalRoute(Position startPosition, Position endPosition) {
+        return null;
+    }
+
+    @Override
+    public boolean isAbleToMove() {
         return false;
     }
 
-    @Override
-    public void move() {
-
-    }
 }
