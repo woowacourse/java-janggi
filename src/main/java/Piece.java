@@ -8,17 +8,21 @@ public abstract class Piece {
         position = new Position(x, y);
     }
 
-    public void move(Board board, int x, int y) {
-        if (!canMove(board, x, y)) {
+    public void move(Board board, int dx, int dy) {
+        if (!canMove(board, dx, dy)) {
             throw new IllegalArgumentException();
         }
-        position = position.move(x, y);
+        position = position.move(dx, dy);
     }
 
     protected abstract boolean canMove(Board board, int x, int y);
 
     public Position getPosition() {
         return position;
+    }
+
+    public boolean onPosition(Position nextPos) {
+        return position.equals(nextPos);
     }
 
     protected record Route(

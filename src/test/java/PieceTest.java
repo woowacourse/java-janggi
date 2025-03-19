@@ -1,12 +1,14 @@
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PieceTest {
 
-    private Board board = new Board();
+    private Board board = new Board(List.of());
 
 /*
     @Test
@@ -58,5 +60,26 @@ class PieceTest {
             .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @Test
+    @DisplayName("포는 적절한 이동이 가능하다")
+    void paoMoveTest() {
+        Piece p = new Pao(5,5);
+        board = new Board(List.of(new Chariot(7, 5), p));
+        p.move(board, 3,0);
+        assertThat(p.getPosition().x()).isEqualTo(8);
+        assertThat(p.getPosition().y()).isEqualTo(5);
+    }
+
+    @Test
+    @DisplayName("포의 이동 범위를 벗어나면 예외를 반환한다")
+    void paoMoveExceptionTest() {
+        Piece p = new Pao(5,5);
+        board = new Board(List.of(p));
+        assertThatThrownBy(() -> p.move(board, 3,0))
+            .isInstanceOf(IllegalArgumentException.class);
+
+        assertThatThrownBy(() -> p.move(board, 1,1))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
 
 }
