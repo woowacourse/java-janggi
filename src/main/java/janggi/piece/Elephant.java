@@ -13,33 +13,33 @@ public class Elephant extends Piece {
         super(position, teamType);
     }
 
-    public static List<Elephant> createWithInitialPositions(
+    public static List<Piece> createWithInitialPositions(
             TeamType teamType,
-            PositionSide horseLeftPosition,
-            PositionSide horseRightPosition) {
+            PositionSide elephantLeftPosition,
+            PositionSide elephantRightPosition) {
         if (teamType.equals(TeamType.BLUE)) {
-            return createBlueInitialPositions(horseLeftPosition, horseRightPosition);
+            return createBlueInitialPositions(elephantLeftPosition, elephantRightPosition);
         }
-        return createRedInitialPositions(horseLeftPosition, horseRightPosition);
+        return createRedInitialPositions(elephantLeftPosition, elephantRightPosition);
     }
 
-    private static List<Elephant> createBlueInitialPositions(
-            PositionSide horseLeftPosition,
-            PositionSide horseRightPosition
+    private static List<Piece> createBlueInitialPositions(
+            PositionSide elephantLeftPosition,
+            PositionSide elephantRightPosition
     ) {
-        List<Elephant> elephants = new ArrayList<>();
-        elephants.add(new Elephant(INITIAL_POSITIONS_BLUE_LEFT.get(horseLeftPosition.value()), TeamType.BLUE));
-        elephants.add(new Elephant(INITIAL_POSITIONS_BLUE_RIGHT.get(horseRightPosition.value()), TeamType.BLUE));
+        List<Piece> elephants = new ArrayList<>();
+        elephants.add(new Elephant(INITIAL_POSITIONS_BLUE_LEFT.get(elephantLeftPosition.value()), TeamType.BLUE));
+        elephants.add(new Elephant(INITIAL_POSITIONS_BLUE_RIGHT.get(elephantRightPosition.value()), TeamType.BLUE));
         return elephants;
     }
 
-    private static List<Elephant> createRedInitialPositions(
-            PositionSide horseLeftPosition,
-            PositionSide horseRightPosition
+    private static List<Piece> createRedInitialPositions(
+            PositionSide elephantLeftPosition,
+            PositionSide elephantRightPosition
     ) {
-        List<Elephant> elephants = new ArrayList<>();
-        elephants.add(new Elephant(INITIAL_POSITIONS_RED_LEFT.get(horseLeftPosition.value()), TeamType.RED));
-        elephants.add(new Elephant(INITIAL_POSITIONS_RED_RIGHT.get(horseRightPosition.value()), TeamType.RED));
+        List<Piece> elephants = new ArrayList<>();
+        elephants.add(new Elephant(INITIAL_POSITIONS_RED_LEFT.get(elephantLeftPosition.value()), TeamType.RED));
+        elephants.add(new Elephant(INITIAL_POSITIONS_RED_RIGHT.get(elephantRightPosition.value()), TeamType.RED));
         return elephants;
     }
 }

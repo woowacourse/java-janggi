@@ -15,8 +15,8 @@ public class Cannon extends Piece {
         super(position, teamType);
     }
 
-    public static List<Cannon> createWithInitialPositions(TeamType teamType) {
-        List<Cannon> cannons = new ArrayList<>();
+    public static List<Piece> createWithInitialPositions(TeamType teamType) {
+        List<Piece> cannons = new ArrayList<>();
         if (teamType.equals(TeamType.BLUE)) {
             INITIAL_POSITIONS_BLUE.forEach(position -> {
                 cannons.add(new Cannon(position, teamType));

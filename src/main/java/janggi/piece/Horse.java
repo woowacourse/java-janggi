@@ -13,7 +13,7 @@ public class Horse extends Piece {
         super(position, teamType);
     }
 
-    public static List<Horse> createWithInitialPositions(
+    public static List<Piece> createWithInitialPositions(
             TeamType teamType,
             PositionSide leftHorsePosition,
             PositionSide rightHorsePosition) {
@@ -23,21 +23,21 @@ public class Horse extends Piece {
         return createRedInitialPositions(leftHorsePosition, rightHorsePosition);
     }
 
-    private static List<Horse> createBlueInitialPositions(
+    private static List<Piece> createBlueInitialPositions(
             PositionSide leftHorsePosition,
             PositionSide rightHorsePosition
     ) {
-        List<Horse> horses = new ArrayList<>();
+        List<Piece> horses = new ArrayList<>();
         horses.add(new Horse(INITIAL_POSITIONS_BLUE_LEFT.get(leftHorsePosition.value()), TeamType.BLUE));
         horses.add(new Horse(INITIAL_POSITIONS_BLUE_RIGHT.get(rightHorsePosition.value()), TeamType.BLUE));
         return horses;
     }
 
-    private static List<Horse> createRedInitialPositions(
+    private static List<Piece> createRedInitialPositions(
             PositionSide leftHorsePosition,
             PositionSide rightHorsePosition
     ) {
-        List<Horse> horses = new ArrayList<>();
+        List<Piece> horses = new ArrayList<>();
         horses.add(new Horse(INITIAL_POSITIONS_RED_LEFT.get(leftHorsePosition.value()), TeamType.RED));
         horses.add(new Horse(INITIAL_POSITIONS_RED_RIGHT.get(rightHorsePosition.value()), TeamType.RED));
         return horses;

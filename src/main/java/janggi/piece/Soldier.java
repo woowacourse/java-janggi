@@ -21,8 +21,8 @@ public class Soldier extends Piece {
         super(position, teamType);
     }
 
-    public static List<Soldier> createWithInitialPositions(TeamType teamType) {
-        List<Soldier> soldiers = new ArrayList<>();
+    public static List<Piece> createWithInitialPositions(TeamType teamType) {
+        List<Piece> soldiers = new ArrayList<>();
         if(teamType.equals(TeamType.BLUE)) {
             INITIAL_POSITIONS_BLUE.forEach(position -> {
                 soldiers.add(new Soldier(position, teamType));

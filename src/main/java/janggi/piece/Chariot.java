@@ -15,8 +15,8 @@ public class Chariot extends Piece {
         super(position, teamType);
     }
 
-    public static List<Chariot> createWithInitialPositions(TeamType teamType) {
-        List<Chariot> chariots = new ArrayList<>();
+    public static List<Piece> createWithInitialPositions(TeamType teamType) {
+        List<Piece> chariots = new ArrayList<>();
         if(teamType.equals(TeamType.BLUE)) {
             INITIAL_POSITIONS_BLUE.forEach(position -> {
                 chariots.add(new Chariot(position, teamType));
