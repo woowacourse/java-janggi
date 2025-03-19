@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class JanggiBoard {
+    private static final int ROW_SIZE = 9;
+    private static final int COL_SIZE =10;
+    private static final int BOARD_MIN_SIZE = 1;
+
     private final Map<JanggiCoordinate, Piece> board;
 
     public JanggiBoard() {
@@ -21,10 +25,10 @@ public final class JanggiBoard {
     }
 
     public boolean isOutOfBoundary(int row, int col) {
-        if (row < 1 || row > 9) {
+        if (row < BOARD_MIN_SIZE || row > ROW_SIZE) {
             return true;
         }
-        return col < 1 || col > 10;
+        return col < BOARD_MIN_SIZE || col > COL_SIZE;
     }
 
     public Map<JanggiCoordinate, Piece> getBoard() {
