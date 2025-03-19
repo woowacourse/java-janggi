@@ -1,6 +1,7 @@
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -102,5 +103,22 @@ public class JanggiTest {
 
         // then
         assertThat(actual).isEqualTo(2);
+    }
+
+    @DisplayName("차는 목적지로 가는 경로를 구할 수 있다.")
+    @Test
+    void chariotCanGetRoute() {
+        // given
+        Dot origin = Dot.of(1, 1);
+        Dot destination = Dot.of(1, 3);
+        Chariot chariot = new Chariot(Dynasty.HAN);
+
+        // when
+        List<Dot> actual = chariot.getRoute(origin, destination);
+
+        List<Dot> expected = List.of(Dot.of(1, 2), Dot.of(1, 3));
+
+        // then
+        assertThat(actual).isEqualTo(expected);
     }
 }

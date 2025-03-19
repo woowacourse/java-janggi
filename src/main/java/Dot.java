@@ -33,10 +33,34 @@ public class Dot {
         return this.x == x && this.y == y;
     }
 
+    public boolean hasSameX(Dot other) {
+        return this.x.equals(other.x);
+    }
+
+    public boolean hasSameY(Dot other) {
+        return this.y.equals(other.y);
+    }
+
+    public Integer getX() {
+        return x;
+    }
+
+    public Integer getY() {
+        return y;
+    }
+
     public Dot(Integer x, Integer y) {
         validateDotRange(x, y);
         this.x = x;
         this.y = y;
+    }
+
+    public int getDx(Dot other) {
+        return other.x - this.x;
+    }
+
+    public int getDy(Dot other) {
+        return other.y - this.y;
     }
 
     private void validateDotRange(Integer x, Integer y) {
