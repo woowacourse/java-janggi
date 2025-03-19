@@ -2,6 +2,7 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
@@ -74,5 +75,33 @@ class BoardTest {
             softly.assertThat(board.hasPieceAt(Point.of(0, 0))).isTrue();
             softly.assertThat(board.hasPieceAt(Point.of(0, 1))).isFalse();
         });
+    }
+
+    @Test
+    void 이동할_위치에_같은_팀_말이_있으면_예외_발생() {
+
+        // given
+        Board board = Board.initialize();
+
+        // when
+        Position position = board.findPositionBy(Point.of(2, 0));
+        Point point = Point.of(1, 2);
+
+        // then
+        assertThatThrownBy(() -> board.moveForEnd(position, point)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 이동할_위치에_같은_팀_말이_없으면_정상_동작() {
+
+        // given
+        Board board = Board.initialize();
+
+        // when
+        Position position = board.findPositionBy(Point.of(2, 0));
+        Point point = Point.of(3, 2);
+
+        // then
+        assertThatCode(() -> board.moveForEnd(position, point)).doesNotThrowAnyException();
     }
 }
