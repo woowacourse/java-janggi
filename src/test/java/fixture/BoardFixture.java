@@ -1,7 +1,7 @@
 package fixture;
 
 import domain.BoardLocation;
-import domain.Piece;
+import domain.piece.Piece;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

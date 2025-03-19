@@ -1,4 +1,7 @@
-package domain;
+package domain.piece.strategy;
+
+import domain.BoardLocation;
+import domain.piece.MoveStrategy;
 
 public class CannonMoveStrategy implements MoveStrategy {
 

@@ -2,6 +2,7 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.piece.Piece;
 import fixture.BoardFixture;
 import java.util.List;
 import java.util.Map;

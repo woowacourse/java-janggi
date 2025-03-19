@@ -1,4 +1,13 @@
-package domain;
+package domain.piece;
+
+import domain.BoardLocation;
+import domain.piece.strategy.CannonMoveStrategy;
+import domain.piece.strategy.ChariotMoveStrategy;
+import domain.piece.strategy.ElephantMoveStrategy;
+import domain.piece.strategy.HanPawnMoveStrategy;
+import domain.piece.strategy.HorseMoveStrategy;
+import domain.piece.strategy.KingMoveStrategy;
+import domain.piece.strategy.ScholarMoveStrategy;
 
 public enum PieceType {
     CHARIOT(new ChariotMoveStrategy()),

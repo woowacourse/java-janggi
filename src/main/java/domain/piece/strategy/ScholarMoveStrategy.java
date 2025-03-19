@@ -1,6 +1,9 @@
-package domain;
+package domain.piece.strategy;
 
-public class ScholarMoveStrategy implements MoveStrategy{
+import domain.BoardLocation;
+import domain.piece.MoveStrategy;
+
+public class ScholarMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean isMovable(BoardLocation current, BoardLocation destination) {

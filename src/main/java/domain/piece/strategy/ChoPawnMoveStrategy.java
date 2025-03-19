@@ -1,6 +1,9 @@
-package domain;
+package domain.piece.strategy;
 
-public class ChoPawnMoveStrategy implements MoveStrategy{
+import domain.BoardLocation;
+import domain.piece.MoveStrategy;
+
+public class ChoPawnMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean isMovable(BoardLocation current, BoardLocation destination) {

@@ -1,11 +1,14 @@
-package domain;
+package domain.piece.strategy;
 
-public class ElephantMoveStrategy implements MoveStrategy{
+import domain.BoardLocation;
+import domain.piece.MoveStrategy;
+
+public class ChariotMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean isMovable(BoardLocation current, BoardLocation destination) {
         int differenceX = current.distanceX(destination);
         int differenceY = current.distanceY(destination);
-        return (differenceX == 2 && differenceY == 3) || (differenceX == 3 && differenceY == 2);
+        return differenceX == 0 || differenceY == 0;
     }
 }
