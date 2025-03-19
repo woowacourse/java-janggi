@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.*;
 @ReplaceUnderBar
 class PieceTest {
 
-    private static final Side DEFAULT_SIDE = Side.HAN;
+    private static final Side ALLY_SIDE = Side.HAN;
     private static final Position DEFAULT_POSITION = new Position(1, 2);
 
     @ParameterizedTest
@@ -27,13 +27,13 @@ class PieceTest {
 
     @Test
     void 위치를_가진다() {
-        Piece piece = new FakePiece(DEFAULT_SIDE, new Position(1, 2));
+        Piece piece = new FakePiece(ALLY_SIDE, new Position(1, 2));
         assertThat(piece.getPosition()).isEqualTo(new Position(1, 2));
     }
 
     @Test
     void 현재_위치로_움직일_수_없다() {
-        FakePiece piece = new FakePiece(DEFAULT_SIDE, DEFAULT_POSITION);
+        FakePiece piece = new FakePiece(ALLY_SIDE, DEFAULT_POSITION);
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.move(List.of(), DEFAULT_POSITION.getX(), DEFAULT_POSITION.getY()))
@@ -42,7 +42,7 @@ class PieceTest {
 
     @Test
     void 움직일_수_없는_위치로_움직일_수_없다() {
-        FakePiece piece = new FakePiece(DEFAULT_SIDE, DEFAULT_POSITION);
+        FakePiece piece = new FakePiece(ALLY_SIDE, DEFAULT_POSITION);
         piece.setIsMoveablePosition(false);
 
         assertThatIllegalArgumentException()
@@ -52,7 +52,7 @@ class PieceTest {
 
     @Test
     void 움직일_수_없는_경로로_움직일_수_없다() {
-        FakePiece piece = new FakePiece(DEFAULT_SIDE, DEFAULT_POSITION);
+        FakePiece piece = new FakePiece(ALLY_SIDE, DEFAULT_POSITION);
         piece.setIsMoveablePath(false);
 
         assertThat(piece.isMoveablePath).isFalse();
@@ -60,7 +60,7 @@ class PieceTest {
 
     @Test
     void 움직일_수_있는_위치_경로일_경우_움직일_수_있다() {
-        FakePiece piece = new FakePiece(DEFAULT_SIDE, DEFAULT_POSITION);
+        FakePiece piece = new FakePiece(ALLY_SIDE, DEFAULT_POSITION);
 
         piece.move(List.of(), 3, 4);
 
