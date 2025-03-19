@@ -1,7 +1,9 @@
 package janggi.piece;
 
+import janggi.Board;
 import janggi.MovingRule;
 import janggi.MovingRulesGenerator;
+import janggi.Position;
 import java.util.List;
 
 public final class General extends Piece {
@@ -13,5 +15,10 @@ public final class General extends Piece {
     public static General of(final Team team) {
         final List<MovingRule> movingRules = MovingRulesGenerator.generalOrGuard();
         return new General(team, movingRules);
+    }
+
+    @Override
+    public boolean canMove(final Position start, final Position end, final Board board) {
+        return false;
     }
 }
