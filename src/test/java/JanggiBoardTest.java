@@ -5,6 +5,7 @@ import domain.Team;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.Horse;
+import domain.piece.King;
 import domain.piece.Pawn;
 import domain.piece.Piece;
 import java.util.HashMap;
@@ -193,4 +194,31 @@ public class JanggiBoardTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 포끼리 건너뛸 수 없습니다.");
     }
+
+    @DisplayName("목표 좌표의 장기말이 포라면 예외를 발생한다.")
+    @Test
+    void test9() {
+        //given
+        Cannon blueCannon1 = new Cannon(Team.BLUE);
+        Cannon blueCannon2 = new Cannon(Team.RED);
+        King blueKing = new King(Team.RED);
+
+        Map<Position, Piece> beforeBoard = new HashMap<>();
+        beforeBoard.put(new Position(8, 2), blueCannon1);
+        beforeBoard.put(new Position(8, 5), blueKing);
+        beforeBoard.put(new Position(8, 8), blueCannon2);
+
+        FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
+        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+
+        Position startPosition = new Position(8, 2);
+        Position targetPosition = new Position(8, 8);
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> janggiBoard.move(startPosition, targetPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("포는 포끼리 잡을 수 없습니다");
+    }
+
+
 }
