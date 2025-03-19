@@ -15,13 +15,22 @@ public class Position {
         return new Position(new Row(row), new Column(column));
     }
 
+    public Position movePosition(int deltaRow, int deltaColumn) {
+        return new Position(row.moveRow(deltaRow), column.moveColumn(deltaColumn));
+    }
+
+    public boolean canMovePosition(int deltaRow, int deltaColumn) {
+        return row.canMoveRow(deltaRow) && column.canMoveColumn(deltaColumn);
+    }
+
 
     public boolean checkPositionAfterDeltaMove(int deltaRow, int deltaColumn, Position expectedPosition) {
-        if (row.canMoveRow(deltaRow) && column.canMoveColumn(deltaColumn)) {
+        if (canMovePosition(deltaRow, deltaColumn)) {
             return expectedPosition.equals(new Position(row.moveRow(deltaRow), column.moveColumn(deltaColumn)));
         }
         return false;
     }
+
 
     @Override
     public boolean equals(Object o) {
