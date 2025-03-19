@@ -5,6 +5,8 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class DirectionTest {
 
@@ -13,11 +15,11 @@ class DirectionTest {
     void 이동_경로를_반환한다() {
         // given
         // 마의 이동
-        Position start = new Position(5, 5);
-        Position target = new Position(6, 3);
-
-        List<Position> positions = List.of(new Position(0, -1), new Position(1, -1));
-//        Direction direction = new Direction(positions);
+//        Position start = Position.ofDirection(5, 5);
+//        Position target = Position.ofDirection((6, 3);
+//
+//        List<Position> positions = List.of(Position.ofDirection((0, -1), Position.ofDirection((1, -1));
+////        Direction direction = new Direction(positions);
 
         // when
 //        direction.
@@ -26,19 +28,23 @@ class DirectionTest {
 
     }
 
-    @Test
-    void 해당_위치로_도달할_수_있는지_판단한다() {
+    @ParameterizedTest
+    @CsvSource(value = {
+            "6,3,true",
+            "6,2,false"
+    })
+    void 해당_위치로_도달할_수_있는지_판단한다(int row, int column, boolean expectedResult) {
         // given
-        Position start = new Position(5, 5);
-        Position target = new Position(6, 3);
+        Position start = Position.ofDirection(5, 5);
+        Position target = Position.ofDirection(row, column);
 
-        List<Position> positions = List.of(new Position(0, -1), new Position(1, -1));
+        List<Position> positions = List.of(Position.ofDirection(0, -1), Position.ofDirection(1, -1));
         Direction direction = new Direction(positions);
 
         // when
         boolean result = direction.canReach(start, target);
 
         // then
-        Assertions.assertThat(result).isTrue();
+        Assertions.assertThat(result).isEqualTo(expectedResult);
     }
 }
