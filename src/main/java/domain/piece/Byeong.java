@@ -15,6 +15,6 @@ public class Byeong implements Piece{
 
     @Override
     public Team getTeam() {
-        return null;
+        return team;
     }
 }
