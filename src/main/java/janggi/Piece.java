@@ -1,20 +1,14 @@
 package janggi;
 
+import java.util.List;
 
-public class Piece {
-    private final PieceType pieceType;
-    private final Position position;
+public interface Piece {
 
-    public Piece(PieceType pieceType, Position position) {
-        this.pieceType = pieceType;
-        this.position = position;
-    }
+    void move(final Position destination, List<Piece> enemy, List<Piece> allies);
 
-    public PieceType getPieceType() {
-        return pieceType;
-    }
+    void ableToMove(final Position destination, List<Piece> enemy, List<Piece> allies);
 
-    public Position getPosition() {
-        return position;
-    }
+    PieceType getPieceType();
+
+    Position getPosition();
 }
