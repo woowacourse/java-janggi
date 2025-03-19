@@ -33,6 +33,18 @@ public class Position {
         return new Position(this.column, this.row + moveRowAmount);
     }
 
+    public boolean canChangeOfColumn(int amount) {
+        return !(0 > this.column + amount || this.column + amount > MAXIMUM_COLUMN_VALUE);
+    }
+
+    public boolean canChangeOfRow(int amount) {
+        return !(0 > this.row + amount || this.row + amount > MAXIMUM_ROW_VALUE);
+    }
+
+    public boolean canChangeOfColumnAndRow(int columnAmount, int rowAmount) {
+        return canChangeOfColumn(columnAmount) && canChangeOfRow(rowAmount);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -54,4 +66,5 @@ public class Position {
             ", row=" + row +
             '}';
     }
+
 }

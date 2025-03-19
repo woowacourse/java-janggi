@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Byeong extends Piece{
@@ -17,14 +18,23 @@ public class Byeong extends Piece{
     }
 
     private List<Position> findDownDirection() {
-        return List.of(position.changeColumn(1));
+        if (position.canChangeOfColumn(1)) {
+            return List.of(position.changeColumn(1));
+        }
+        return Collections.emptyList();
     }
 
     private List<Position> findLeftDirection() {
-        return List.of(position.changeRow(-1));
+        if (position.canChangeOfRow(-1)) {
+            return List.of(position.changeRow(-1));
+        }
+        return Collections.emptyList();
     }
 
     private List<Position> findRightDirection() {
-        return List.of(position.changeRow(1));
+        if (position.canChangeOfRow(1)) {
+            return List.of(position.changeRow(1));
+        }
+        return Collections.emptyList();
     }
 }

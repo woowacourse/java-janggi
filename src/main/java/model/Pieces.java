@@ -44,7 +44,6 @@ public class Pieces {
             .orElseThrow(() -> new IllegalArgumentException("해당 위치로는 이동할 수 없습니다."));
     }
 
-
     private void validateDestination(Piece myPiece, Position destination) {
         Optional<Piece> hasExistPiece = this.pieces.stream()
             .filter(piece -> piece.getPosition().equals(destination))
