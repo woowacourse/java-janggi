@@ -25,6 +25,10 @@ public class Position {
         return piece.getPossiblePoint(this.point, toPoint);
     }
 
+    public Position getNextPosition(Point toPoint) {
+        return new Position(toPoint, piece);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) {

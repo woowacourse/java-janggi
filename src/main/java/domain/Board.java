@@ -98,7 +98,26 @@ public class Board {
                 .anyMatch(position -> position.isSame(point));
     }
 
-    // 2. 있다면 어느팀 기물인지 확인
-
-
+    public void moveForEnd(final Position prevPosition, final Point newPoint) {
+        if (hasPieceAt(newPoint)) {
+            if (prevPosition.isGreenTeam()) {
+                if (!findPositionBy(newPoint).isGreenTeam()) {
+                    positions.remove(prevPosition);
+                    positions.add(prevPosition.getNextPosition(newPoint));
+                } else {
+                    throw new IllegalArgumentException("해당 위치에 같은 팀 말이 있습니다.");
+                }
+            } else {
+                if (findPositionBy(newPoint).isGreenTeam()) {
+                    positions.remove(prevPosition);
+                    positions.add(prevPosition.getNextPosition(newPoint));
+                } else {
+                    throw new IllegalArgumentException("해당 위치에 같은 팀 말이 있습니다.");
+                }
+            }
+        } else {
+            positions.remove(prevPosition);
+            positions.add(prevPosition.getNextPosition(newPoint));
+        }
+    }
 }
