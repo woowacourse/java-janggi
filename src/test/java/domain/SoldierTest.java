@@ -9,12 +9,28 @@ class SoldierTest {
 
     @ParameterizedTest
     @CsvSource({
-            "0,1,true", "1,0,true", "-1,0,true", "0,-1,false", "4,5,false",
+            "0,-1,true", "1,0,true", "-1,0,true", "0,1,false", "4,5,false",
     })
-    void 말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, boolean expected) {
+    void 레드팀일_때_말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, final boolean expected) {
 
         // given
         Soldier soldier = PieceFactory.createRedTeam(Soldier::new);
+
+        // when
+        Distance distance = new Distance(x, y);
+
+        // then
+        assertThat(soldier.isMovable(distance)).isEqualTo(expected);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "0,1,true", "1,0,true", "-1,0,true", "0,-1,false", "4,5,false",
+    })
+    void 그린팀일_때_말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, final boolean expected) {
+
+        // given
+        Soldier soldier = PieceFactory.createGreenTeam(Soldier::new);
 
         // when
         Distance distance = new Distance(x, y);
