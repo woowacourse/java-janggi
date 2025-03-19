@@ -15,13 +15,14 @@ class DirectionTest {
     void 반복_이동이_없는_방향성에_대해_경로를_반환한다() {
         // given
         Position start = Position.of(5, 5);
+        Position target = Position.of(6, 3);
         List<Position> expected = List.of(Position.of(5, 4));
 
         List<Position> positions = List.of(Position.ofDirection(0, -1), Position.ofDirection(1, -1));
-        Direction direction = new Direction(positions);
+        Direction direction = new Direction(positions, false);
 
         // when
-        List<Position> result = direction.createPath(start);
+        List<Position> result = direction.createPath(start, target);
 
         // then
         assertThat(result).containsAll(expected);
@@ -35,8 +36,7 @@ class DirectionTest {
         List<Position> expected = List.of(Position.of(5, 6), Position.of(5, 7), Position.of(5, 8));
 
         List<Position> positions = List.of(Position.ofDirection(0, 1));
-        boolean repeat = true;
-        Direction direction = new Direction(positions, repeat);
+        Direction direction = new Direction(positions, true);
 
         // when
         List<Position> result = direction.createPath(start, target);
@@ -56,7 +56,7 @@ class DirectionTest {
         Position target = Position.of(row, column);
 
         List<Position> positions = List.of(Position.ofDirection(0, -1), Position.ofDirection(1, -1));
-        Direction direction = new Direction(positions);
+        Direction direction = new Direction(positions, false);
 
         // when
         boolean result = direction.canReach(start, target);
