@@ -170,4 +170,27 @@ public class JanggiBoardTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("다른 말이 존재해서 해당 좌표로 갈 수가 없습니다.");
     }
+
+    @DisplayName("뛰어넘을 장기말이 포라면 예외를 발생한다.")
+    @Test
+    void test78() {
+        //given
+        Cannon blueCannon1 = new Cannon(Team.BLUE);
+        Cannon blueCannon2 = new Cannon(Team.BLUE);
+
+        Map<Position, Piece> beforeBoard = new HashMap<>();
+        beforeBoard.put(new Position(8, 2), blueCannon1);
+        beforeBoard.put(new Position(8, 8), blueCannon2);
+
+        FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
+        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+
+        Position startPosition = new Position(8, 2);
+        Position targetPosition = new Position(8, 9);
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> janggiBoard.move(startPosition, targetPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("포는 포끼리 건너뛸 수 없습니다.");
+    }
 }
