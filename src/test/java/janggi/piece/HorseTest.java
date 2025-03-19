@@ -2,6 +2,7 @@ package janggi.piece;
 
 import janggi.Side;
 import janggi.board.Position;
+import janggi.board.Route;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,11 +18,11 @@ class HorseTest {
     void test1() {
         Horse horse = new Horse(Side.CHO);
 
-        List<Position> candidatePositions = horse.computeCandidatePositions(new Position(1, 9));
+        List<Route> candidatePositions = horse.computeCandidatePositions(new Position(1, 9));
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(8),
-                () -> assertThat(candidatePositions).contains(new Position(3, 8))
+                () -> assertThat(candidatePositions.getFirst().getDestination()).isEqualTo(new Position(3, 10))
         );
     }
 
