@@ -105,7 +105,7 @@ class JanggiBoardTest {
         Position position = new Position(2, 6);
         Piece piece = janggiBoard.getBoard().get(position);
         List<Route> routes = piece.computeCandidatePositions(position);
-        List<Position> positions = janggiBoard.filterReachablePosition(routes, piece);
+        List<Position> positions = janggiBoard.filterReachableDestination(routes, piece);
 
 
         assertAll(
@@ -124,7 +124,7 @@ class JanggiBoardTest {
         Position position = new Position(8, 3);
         Piece piece = janggiBoard.getBoard().get(position);
         List<Route> routes = piece.computeCandidatePositions(position);
-        List<Position> positions = janggiBoard.filterReachablePosition(routes, piece);
+        List<Position> positions = janggiBoard.filterReachableDestination(routes, piece);
 
 
         assertAll(
@@ -142,7 +142,7 @@ class JanggiBoardTest {
         Position position = new Position(2, 9);
         Piece piece = janggiBoard.getBoard().get(position);
         List<Route> routes = piece.computeCandidatePositions(position);
-        List<Position> positions = janggiBoard.filterReachablePosition(routes, piece);
+        List<Position> positions = janggiBoard.filterReachableDestination(routes, piece);
 
         assertThat(positions.size()).isEqualTo(0);
     }
@@ -155,7 +155,11 @@ class JanggiBoardTest {
         Position position = new Position(1, 9);
         Piece piece = janggiBoard.getBoard().get(position);
         List<Route> routes = piece.computeCandidatePositions(position);
-        List<Position> positions = janggiBoard.filterReachablePosition(routes, piece);
+        List<Position> positions = janggiBoard.filterReachableDestination(routes, piece);
+
+        for (Position position1 : positions) {
+            System.out.println(position1);
+        }
 
         assertAll(
                 () -> assertThat(positions.size()).isEqualTo(2),
@@ -172,7 +176,7 @@ class JanggiBoardTest {
         Position position = new Position(0, 9);
         Piece piece = janggiBoard.getBoard().get(position);
         List<Route> routes = piece.computeCandidatePositions(position);
-        List<Position> positions = janggiBoard.filterReachablePositionChariot(routes, piece);
+        List<Position> positions = janggiBoard.filterReachableDestinationChariot(routes, piece);
 
         assertAll(
                 () -> assertThat(positions.size()).isEqualTo(2),
@@ -189,7 +193,7 @@ class JanggiBoardTest {
         Position position = new Position(1, 7);
         Piece piece = janggiBoard.getBoard().get(position);
         List<Route> routes = piece.computeCandidatePositions(position);
-        List<Position> positions = janggiBoard.filterReachablePositionCannon(routes, piece);
+        List<Position> positions = janggiBoard.filterReachableDestinationCannon(routes, piece);
 
         assertThat(positions.size()).isEqualTo(0);
     }

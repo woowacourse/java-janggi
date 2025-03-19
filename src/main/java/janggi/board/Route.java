@@ -25,6 +25,10 @@ public class Route {
         return positions.getLast();
     }
 
+    public List<Position> getIntermediatePositions() {
+        return positions.subList(0, positions.size() - 1);
+    }
+
     public List<Position> getPositions() {
         return Collections.unmodifiableList(positions);
     }
