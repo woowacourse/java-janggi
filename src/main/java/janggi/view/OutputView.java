@@ -1,7 +1,7 @@
 package janggi.view;
 
-import janggi.Position;
 import janggi.piece.Piece;
+import janggi.position.Position;
 import java.util.Map;
 
 public class OutputView {

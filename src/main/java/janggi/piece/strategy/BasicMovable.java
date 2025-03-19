@@ -1,7 +1,7 @@
 package janggi.piece.strategy;
 
-import janggi.Path;
-import janggi.Position;
+import janggi.position.Path;
+import janggi.position.Position;
 
 public interface BasicMovable {
 

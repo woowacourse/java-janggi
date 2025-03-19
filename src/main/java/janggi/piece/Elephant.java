@@ -1,9 +1,8 @@
 package janggi.piece;
 
-import janggi.Path;
-import janggi.Position;
-import janggi.Team;
 import janggi.piece.strategy.BasicMovable;
+import janggi.position.Path;
+import janggi.position.Position;
 import janggi.view.PieceType;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,7 @@
 package janggi.piece;
 
-import janggi.Path;
-import janggi.Position;
-import janggi.Team;
+import janggi.position.Path;
+import janggi.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;

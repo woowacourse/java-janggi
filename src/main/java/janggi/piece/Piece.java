@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.Team;
 import janggi.view.PieceType;
 
 public abstract class Piece {

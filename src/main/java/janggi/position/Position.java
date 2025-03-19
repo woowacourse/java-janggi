@@ -1,4 +1,4 @@
-package janggi;
+package janggi.position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class Position {
     public int calculateDifferenceForY(Position position) {
         return this.y - position.y;
     }
-    
+
     private void validate(int y, int x) {
         if (y < Y_MIN_THRESHOLD || y > Y_MAX_THRESHOLD || x < X_MIN_THRESHOLD || x > X_MAX_THRESHOLD) {
             throw new IllegalArgumentException("[ERROR] y좌표는 1 이상 10이하, x좌표는 1이상 9이하여야 합니다.");

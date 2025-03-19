@@ -1,5 +1,7 @@
 package janggi;
 
+import janggi.board.Board;
+import janggi.board.BoardFactory;
 import janggi.view.OutputView;
 
 public class JanggiConsole {

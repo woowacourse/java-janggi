@@ -1,6 +1,7 @@
-package janggi;
+package janggi.board;
 
 import janggi.piece.Piece;
+import janggi.position.Position;
 import java.util.Map;
 
 public class Board {
