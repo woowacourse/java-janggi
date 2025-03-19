@@ -2,14 +2,24 @@ package janggi.piece;
 
 import janggi.position.Position;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface Piece {
     void move();
 
     List<Position> checkPossibleMoves();
+
+    /// todo 1
+    public Map<Position, Boolean> isAlreadyLocatedWithinOneSpaceOrAtThatSpace(List<Position> possiblePositions);
+    // todo 2
+    boolean isOneSpaceAway(Position piecePosition, Position possiblePosition);
+    //
+    default boolean isAtThatSpace(Position piecePosition, Position possiblePosition) {
+        return piecePosition.equals(possiblePosition);
+    }
+    ///
 
     default void validatePositionRange(Position position) {
         validateRange(position);

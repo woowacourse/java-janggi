@@ -4,7 +4,9 @@ import janggi.movement.Movement;
 import janggi.position.Position;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class King implements Piece {
 
@@ -14,6 +16,27 @@ public class King implements Piece {
     public King(Position position) {
         validatePositionRange(position);
         this.position = position;
+    }
+
+    // todo 2
+    @Override
+    public Map<Position, Boolean> isAlreadyLocatedWithinOneSpaceOrAtThatSpace(List<Position> possiblePositions) {
+        return possiblePositions.stream()
+                    .collect(Collectors.toMap(
+                            possiblePosition -> possiblePosition,  // 키: 해당 Position
+                            possiblePosition -> isOneSpaceAway(this.position, possiblePosition)
+                                    || isAtThatSpace(this.position, possiblePosition) // 값: 한 칸 차이 여부
+                    ));
+    }
+
+    @Override
+    public boolean isOneSpaceAway(Position piecePosition, Position possiblePosition) {
+        // 상, 마인 경우 상=-2, 마=-1을 뺀 위치를 고려해야 한다!! 처음 직선 1칸에서의 위치를 고려해야 하므로.
+        // 차...
+        // 병졸...
+        int dx = Math.abs(piecePosition.getX() - possiblePosition.getX());
+        int dy = Math.abs(piecePosition.getY() - possiblePosition.getY());
+        return (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
     }
 
     @Override

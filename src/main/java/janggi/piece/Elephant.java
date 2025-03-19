@@ -4,6 +4,7 @@ import janggi.movement.Movement;
 import janggi.position.Position;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class Elephant implements Piece{
@@ -34,4 +35,34 @@ public class Elephant implements Piece{
                 .flatMap(Optional::stream)
                 .toList();
     }
+
+    @Override
+    public Map<Position, Boolean> isAlreadyLocatedWithinOneSpaceOrAtThatSpace(List<Position> possiblePositions) {
+        return Map.of();
+    }
+
+    @Override
+    public boolean isOneSpaceAway(Position piecePosition, Position possiblePosition) { //piecePosition
+//        this.position.getX() + 1
+        return false;
+    }
+
+    @Override
+    public boolean isAtThatSpace(Position piecePosition, Position possiblePosition) {
+        return Piece.super.isAtThatSpace(piecePosition, possiblePosition);
+    }
+
+//    public List<Position> removeUnMoveableFirstStep(Elephant selectPiece) {
+//        List<Position> possibleMoves = selectPiece.checkPossibleMoves();
+//        if (selectPiece.position.getX() + 1 == this.position.getX()) {
+//            possibleMoves.stream()
+//                    .filter(
+//                            position -> {
+//                                return !(position.getX() - selectPiece.position.getX() == 2);
+//                            }
+//
+//                    )
+//        }
+//        return null;
+//    }
 }

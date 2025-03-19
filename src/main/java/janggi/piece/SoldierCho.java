@@ -4,6 +4,7 @@ import janggi.movement.Movement;
 import janggi.position.Position;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class SoldierCho implements Piece{
@@ -33,5 +34,20 @@ public class SoldierCho implements Piece{
                 )
                 .flatMap(Optional::stream)
                 .toList();
+    }
+
+    @Override
+    public Map<Position, Boolean> isAlreadyLocatedWithinOneSpaceOrAtThatSpace(List<Position> possiblePositions) {
+        return Map.of();
+    }
+
+    @Override
+    public boolean isOneSpaceAway(Position piecePosition, Position possiblePosition) {
+        return false;
+    }
+
+    @Override
+    public boolean isAtThatSpace(Position piecePosition, Position possiblePosition) {
+        return Piece.super.isAtThatSpace(piecePosition, possiblePosition);
     }
 }
