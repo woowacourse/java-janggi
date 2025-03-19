@@ -41,6 +41,19 @@ class PieceTest {
         assertThat(result).containsAll(expected);
     }
 
+    @Test
+    void 위치가_같은지_판단한다() {
+        // given
+        final Position position = Position.of(1, 2);
+        final Piece piece = new TestPiece(1, 2, new Directions(List.of()));
+
+        // when
+        boolean result = piece.isSamePosition(position);
+
+        // then
+        assertThat(result).isTrue();
+    }
+
     static class TestPiece extends Piece {
         public TestPiece(int row, int column, Directions directions) {
             super(row, column, directions);
