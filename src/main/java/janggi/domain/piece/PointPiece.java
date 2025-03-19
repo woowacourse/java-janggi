@@ -2,7 +2,6 @@ package janggi.domain.piece;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.point.HanPoint;
 import janggi.domain.board.point.Point;
 import java.util.Objects;
 
