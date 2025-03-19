@@ -24,7 +24,7 @@ public class General extends Piece {
     public boolean canMove(Piece destinationPiece, List<Piece> piecesInRoute) {
         int pieceCountInRoute = this.countPieceInRoute(piecesInRoute);
 
-        if(this.isOtherTeam(destinationPiece) && pieceCountInRoute == 0) {
+        if (this.isOtherTeam(destinationPiece) && pieceCountInRoute == 0) {
             return true;
         }
         return false;

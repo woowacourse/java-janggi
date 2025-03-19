@@ -5,9 +5,6 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -28,7 +25,7 @@ class BoardTest {
         Piece movedPiece = board.getPieceBy(destination);
         Piece afterPositionPiece = board.getPieceBy(source);
 
-        assertThat(afterPositionPiece).isInstanceOf(EmptyPiece.class);
+        assertThat(afterPositionPiece).isInstanceOf(Empty.class);
         assertThat(movedPiece).isEqualTo(horse);
     }
 

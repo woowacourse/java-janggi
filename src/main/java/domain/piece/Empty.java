@@ -4,8 +4,8 @@ import domain.board.Position;
 
 import java.util.List;
 
-public class EmptyPiece extends Piece {
-    public EmptyPiece() {
+public class Empty extends Piece {
+    public Empty() {
         super(PieceColor.NONE);
     }
 

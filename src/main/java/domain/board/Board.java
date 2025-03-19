@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.piece.EmptyPiece;
+import domain.piece.Empty;
 import domain.piece.Piece;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class Board {
     }
 
     public Piece getPieceBy(Position position) {
-        return board.getOrDefault(position, new EmptyPiece());
+        return board.getOrDefault(position, new Empty());
     }
 
     public void move(Piece piece, Position source, Position destination) {
