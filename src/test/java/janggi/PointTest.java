@@ -25,7 +25,7 @@ class PointTest {
     void horizontalTest() {
         // given
         Point point = new Point(0, 0);
-        Point otherPoint = new Point(0, 2);
+        Point otherPoint = new Point(2, 0);
 
         // when & then
         assertThat(point.isHorizontal(otherPoint))
@@ -37,7 +37,7 @@ class PointTest {
     void verticalTest() {
         // given
         Point point = new Point(0, 0);
-        Point otherPoint = new Point(2, 0);
+        Point otherPoint = new Point(0, 2);
 
         // when & then
         assertThat(point.isVertical(otherPoint))

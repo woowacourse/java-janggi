@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.Camp;
 import janggi.Point;
+import janggi.board.Board;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -18,7 +19,8 @@ class SoldierTest {
     })
     void shouldThrowException_WhenMoveBackward(Camp camp, int toY) {
         // given
-        Soldier soldier = new Soldier(camp);
+        Board board = new Board();
+        Soldier soldier = new Soldier(camp, board);
         Point fromPoint = new Point(0, 1);
         Point toPoint = new Point(0, toY);
 
@@ -40,7 +42,8 @@ class SoldierTest {
     })
     void validMoveTest(Camp camp, int toX, int toY) {
         // given
-        Soldier soldier = new Soldier(camp);
+        Board board = new Board();
+        Soldier soldier = new Soldier(camp, board);
         Point fromPoint = new Point(1, 1);
         Point toPoint = new Point(toX, toY);
 
@@ -57,7 +60,8 @@ class SoldierTest {
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int toX, int toY) {
         // given
-        Soldier soldier = new Soldier(camp);
+        Board board = new Board();
+        Soldier soldier = new Soldier(camp, board);
         Point fromPoint = new Point(1, 1);
         Point toPoint = new Point(toX, toY);
 
@@ -75,7 +79,8 @@ class SoldierTest {
     })
     void shouldThrowException_WhenStop(Camp camp, int toX, int toY) {
         // given
-        Soldier soldier = new Soldier(camp);
+        Board board = new Board();
+        Soldier soldier = new Soldier(camp, board);
         Point fromPoint = new Point(1, 1);
         Point toPoint = new Point(toX, toY);
 

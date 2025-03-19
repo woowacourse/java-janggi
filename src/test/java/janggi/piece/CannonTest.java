@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.Camp;
 import janggi.Point;
+import janggi.board.Board;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -20,8 +21,12 @@ class CannonTest {
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int toX, int toY) {
         // given
-        Cannon cannon = new Cannon(camp);
+        Board board = new Board();
+        Piece piece = new Soldier(camp, board);
+        board.placePiece(new Point(3, 5), piece);
         Point fromPoint = new Point(3, 3);
+        Cannon cannon = new Cannon(camp, board);
+        board.placePiece(fromPoint, cannon);
         Point toPoint = new Point(toX, toY);
 
         // when & then
@@ -40,8 +45,14 @@ class CannonTest {
     })
     void validateMoveTest(Camp camp, int toX, int toY) {
         // given
-        Cannon cannon = new Cannon(camp);
+        Board board = new Board();
+        board.placePiece(new Point(3, 4), new Soldier(camp, board));
+        board.placePiece(new Point(2, 3), new Soldier(camp, board));
+        board.placePiece(new Point(4, 3), new Soldier(camp, board));
+        board.placePiece(new Point(3, 2), new Soldier(camp, board));
         Point fromPoint = new Point(3, 3);
+        Cannon cannon = new Cannon(camp, board);
+        board.placePiece(fromPoint, cannon);
         Point toPoint = new Point(toX, toY);
 
         // when & then

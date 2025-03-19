@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.Camp;
 import janggi.Point;
+import janggi.board.Board;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -20,7 +21,8 @@ class ChariotTest {
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int toX, int toY) {
         // given
-        Chariot chariot = new Chariot(camp);
+        Board board = new Board();
+        Chariot chariot = new Chariot(camp, board);
         Point fromPoint = new Point(3, 3);
         Point toPoint = new Point(toX, toY);
 
@@ -40,7 +42,8 @@ class ChariotTest {
     })
     void validateMoveTest(Camp camp, int toX, int toY) {
         // given
-        Chariot chariot = new Chariot(camp);
+        Board board = new Board();
+        Chariot chariot = new Chariot(camp, board);
         Point fromPoint = new Point(3, 3);
         Point toPoint = new Point(toX, toY);
 

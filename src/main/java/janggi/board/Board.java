@@ -4,7 +4,9 @@ import janggi.Camp;
 import janggi.Point;
 import janggi.piece.Piece;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Board {
 
@@ -59,5 +61,16 @@ public class Board {
         }
         placedPieces.put(from, null);
         placedPieces.put(to, fromPiece);
+    }
+
+    public Set<Piece> getPiecesByPoint(Set<Point> route) {
+        Set<Piece> pieces = new HashSet<>();
+        for (Point point : route) {
+            Piece piece = placedPieces.get(point);
+            if (piece != null) {
+                pieces.add(piece);
+            }
+        }
+        return pieces;
     }
 }

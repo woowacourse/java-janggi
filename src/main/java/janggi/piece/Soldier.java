@@ -3,11 +3,12 @@ package janggi.piece;
 import janggi.Camp;
 import janggi.PieceSymbol;
 import janggi.Point;
+import janggi.board.Board;
 
 public final class Soldier extends Piece {
 
-    public Soldier(Camp camp) {
-        super(camp);
+    public Soldier(Camp camp, Board board) {
+        super(camp, board);
     }
 
     @Override

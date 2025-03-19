@@ -3,11 +3,12 @@ package janggi.piece;
 import janggi.Camp;
 import janggi.PieceSymbol;
 import janggi.Point;
+import janggi.board.Board;
 
 public final class Horse extends Piece {
 
-    public Horse(Camp camp) {
-        super(camp);
+    public Horse(Camp camp, Board board) {
+        super(camp, board);
     }
 
     @Override

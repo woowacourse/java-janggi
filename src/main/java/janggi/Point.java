@@ -26,11 +26,11 @@ public final class Point {
     }
 
     public boolean isHorizontal(Point otherPoint) {
-        return this.x == otherPoint.x;
+        return this.y == otherPoint.y;
     }
 
     public boolean isVertical(Point otherPoint) {
-        return this.y == otherPoint.y;
+        return this.x == otherPoint.x;
     }
 
     public int calculateXDistance(Point otherPoint) {
