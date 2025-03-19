@@ -3,7 +3,9 @@ package janggi.domain.piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Elephant extends Piece {
 
@@ -32,6 +34,54 @@ public class Elephant extends Piece {
 
     @Override
     protected boolean isMoveablePath(List<Piece> existingPieces, int x, int y) {
-        return false;
+        Set<Position> moveablePositions = findAllMoveablePositions();
+        for (Piece existingPiece : existingPieces) {
+            if (moveablePositions.contains(existingPiece.getPosition())) {
+                if (existingPiece.getPosition().isSameCoordinate(x, y)) {
+                    if (existingPiece.getSide() == getSide()) {
+                        return false;
+                    }
+                    return true;
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private Set<Position> findAllMoveablePositions() {
+        Set<Position> moveablePositions = new HashSet<>();
+        Position position = getPosition();
+        int x = position.getX();
+        int y = position.getY();
+        moveablePositions.add(new Position(x, y + 1));
+        moveablePositions.add(new Position(x - 1, y + 2));
+        moveablePositions.add(new Position(x - 2, y + 3));
+
+        moveablePositions.add(new Position(x + 1, y + 2));
+        moveablePositions.add(new Position(x + 2, y + 3));
+
+        moveablePositions.add(new Position(x + 1, y));
+        moveablePositions.add(new Position(x + 2, y + 1));
+        moveablePositions.add(new Position(x + 3, y + 2));
+
+        moveablePositions.add(new Position(x + 2, y - 1));
+        moveablePositions.add(new Position(x + 3, y - 2));
+
+        moveablePositions.add(new Position(x, y - 1));
+        moveablePositions.add(new Position(x + 1, y - 2));
+        moveablePositions.add(new Position(x + 2, y - 3));
+
+        moveablePositions.add(new Position(x - 1, y - 2));
+        moveablePositions.add(new Position(x - 2, y - 3));
+
+        moveablePositions.add(new Position(x - 1, y));
+        moveablePositions.add(new Position(x - 2, y -1));
+        moveablePositions.add(new Position(x - 3, y - 2));
+
+        moveablePositions.add(new Position(x - 2, y + 1));
+        moveablePositions.add(new Position(x - 3, y + 2));
+
+        return moveablePositions;
     }
 }
