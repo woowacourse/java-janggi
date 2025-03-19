@@ -32,6 +32,10 @@ public class Soldier extends Piece {
         super(position, teamType);
     }
 
+    private Soldier(Soldier soldier){
+        super(soldier);
+    }
+
     @Override
     public boolean canMove(Position expectedPosition, List<Piece> pieces) {
         Movements findMovement = MOVEMENTS.get(this.teamType);
@@ -56,7 +60,12 @@ public class Soldier extends Piece {
     }
 
     @Override
-    protected PieceType getType() {
+    public PieceType getType() {
         return PieceType.SOLDIER;
+    }
+
+    @Override
+    public Piece newInstance() {
+        return new Soldier(this);
     }
 }

@@ -25,6 +25,10 @@ public class Guard extends Piece {
         super(position, teamType);
     }
 
+    private Guard(Guard guard){
+        super(guard);
+    }
+
     @Override
     public boolean canMove(Position expectedPosition, List<Piece> pieces) {
         if(!MOVEMENTS.canMoveFromTo(this.position,expectedPosition)){
@@ -48,7 +52,12 @@ public class Guard extends Piece {
     }
 
     @Override
-    protected PieceType getType() {
+    public PieceType getType() {
         return PieceType.GUARD;
+    }
+
+    @Override
+    public Piece newInstance() {
+        return new Guard(this);
     }
 }

@@ -25,6 +25,10 @@ public class King extends Piece {
         super(position, teamType);
     }
 
+    private King(King king){
+        super(king);
+    }
+
     @Override
     public boolean canMove(Position expectedPosition, List<Piece> pieces) {
         if(!MOVEMENTS.canMoveFromTo(this.position,expectedPosition)){
@@ -48,7 +52,12 @@ public class King extends Piece {
     }
 
     @Override
-    protected PieceType getType() {
+    public PieceType getType() {
         return PieceType.KING;
+    }
+
+    @Override
+    public Piece newInstance() {
+        return new King(this);
     }
 }

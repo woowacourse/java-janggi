@@ -18,6 +18,10 @@ public class Cannon extends Piece {
         super(position, teamType);
     }
 
+    private Cannon(Cannon cannon){
+        super(cannon);
+    }
+
     @Override
     public boolean canMove(Position expectedPosition, List<Piece> pieces) {
         Direction direction =null;
@@ -73,8 +77,13 @@ public class Cannon extends Piece {
     }
 
     @Override
-    protected PieceType getType() {
+    public PieceType getType() {
         return PieceType.CANNON;
+    }
+
+    @Override
+    public Piece newInstance() {
+        return new Cannon(this);
     }
 
 }

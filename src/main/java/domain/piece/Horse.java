@@ -29,6 +29,10 @@ public class Horse extends Piece {
         super(position, teamType);
     }
 
+    private Horse(Horse horse){
+        super(horse);
+    }
+
     @Override
     public boolean canMove(Position expectedPosition, List<Piece> pieces) {
         if(!MOVEMENTS.canMoveFromTo(this.position,expectedPosition)){
@@ -52,7 +56,12 @@ public class Horse extends Piece {
     }
 
     @Override
-    protected PieceType getType() {
+    public PieceType getType() {
         return PieceType.HORSE;
+    }
+
+    @Override
+    public Piece newInstance() {
+        return new Horse(this);
     }
 }

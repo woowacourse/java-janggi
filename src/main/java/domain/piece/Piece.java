@@ -13,6 +13,11 @@ public abstract class Piece {
         this.teamType = teamType;
     }
 
+    protected Piece(Piece piece){
+        this.position = piece.position;
+        this.teamType = piece.teamType;
+    }
+
     public void moveTo(Position position){
         this.position = position;
     }
@@ -31,5 +36,7 @@ public abstract class Piece {
         return position;
     }
 
-    protected abstract PieceType getType();
+    public abstract PieceType getType();
+
+    public abstract Piece newInstance();
 }

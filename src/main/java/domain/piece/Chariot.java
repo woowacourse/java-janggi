@@ -18,6 +18,10 @@ public class Chariot extends Piece {
         super(position, teamType);
     }
 
+    private Chariot(Chariot chariot){
+        super(chariot);
+    }
+
     @Override
     public boolean canMove(Position expectedPosition, List<Piece> pieces) {
         Direction direction =null;
@@ -63,8 +67,13 @@ public class Chariot extends Piece {
     }
 
     @Override
-    protected PieceType getType() {
+    public PieceType getType() {
         return PieceType.CHARIOT;
+    }
+
+    @Override
+    public Piece newInstance() {
+        return new Chariot(this);
     }
 
 }

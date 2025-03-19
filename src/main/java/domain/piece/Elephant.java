@@ -29,6 +29,10 @@ public class Elephant extends Piece {
         super(position, teamType);
     }
 
+    private Elephant(Elephant elephant){
+        super(elephant);
+    }
+
     @Override
     public boolean canMove(Position expectedPosition, List<Piece> pieces) {
         if(!MOVEMENTS.canMoveFromTo(this.position,expectedPosition)){
@@ -51,7 +55,12 @@ public class Elephant extends Piece {
     }
 
     @Override
-    protected PieceType getType() {
+    public PieceType getType() {
         return PieceType.ELEPHANT;
+    }
+
+    @Override
+    public Piece newInstance() {
+        return new Elephant(this);
     }
 }
