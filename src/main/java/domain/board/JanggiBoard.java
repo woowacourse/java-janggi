@@ -2,6 +2,7 @@ package domain.board;
 
 import domain.JanggiCoordinate;
 import domain.piece.Piece;
+import domain.piece.Team;
 import java.util.Map;
 
 public final class JanggiBoard {
@@ -34,5 +35,9 @@ public final class JanggiBoard {
 
     public Map<JanggiCoordinate, Piece> getBoard() {
         return board;
+    }
+
+    public Team findTeamByCoordinate(JanggiCoordinate currCoordinate) {
+        return board.get(currCoordinate).getTeam();
     }
 }
