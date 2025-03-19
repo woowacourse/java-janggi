@@ -2,6 +2,8 @@ package board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Collections;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -106,6 +108,20 @@ public class PositionTest {
                     () -> org.assertj.core.api.Assertions.assertThat(ableResult).isTrue(),
                     () -> org.assertj.core.api.Assertions.assertThat(unableResult).isFalse()
             );
+        }
+
+        @DisplayName("같은 라인의 position간의 모든 position을 반환한다.")
+        @Test
+        void calculateBetweenPositions() {
+            // given
+            final Position srcPosition = new Position(1, 1);
+            final Position destPosition = new Position(5, 1);
+
+            // when
+            final List<Position> betweenPositions = srcPosition.calculateBetweenPositions(destPosition);
+
+            // then
+            assertThat(betweenPositions).hasSize(4);
         }
     }
 }
