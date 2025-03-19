@@ -54,6 +54,20 @@ class PieceTest {
         assertThat(result).isTrue();
     }
 
+    @Test
+    void 위치를_변경한다() {
+        // given
+        final Position position = Position.of(2, 2);
+        final Piece piece = new TestPiece(1, 2, new Directions(List.of()));
+
+        // when
+        Piece result = piece.updatePosition(position);
+
+        // then
+        assertThat(result.getPosition())
+                .isEqualTo(position);
+    }
+
     static class TestPiece extends Piece {
         public TestPiece(int row, int column, Directions directions) {
             super(row, column, directions);
