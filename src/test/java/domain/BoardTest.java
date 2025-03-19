@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Horse;
+import domain.piece.King;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Soldier;
@@ -23,7 +24,9 @@ class BoardTest {
                 new Horse(Position.of(1, 1), TeamType.CHO),
                 new Soldier(Position.of(1, 2), TeamType.HAN),
                 new Soldier(Position.of(0, 1), TeamType.CHO),
-                new Horse(Position.of(0, 2), TeamType.HAN)
+                new Horse(Position.of(0, 2), TeamType.HAN),
+                new King(Position.of(4, 3), TeamType.CHO),
+                new King(Position.of(3, 2), TeamType.HAN)
         );
     }
 
@@ -80,7 +83,7 @@ class BoardTest {
         board.movePiece(startPosition, endPosition);
 
         List<Piece> alivePieces = board.getAlivePieces();
-        assertThat(alivePieces).hasSize(3);
+        assertThat(alivePieces).hasSize(5);
         Optional<Piece> optionalPiece = alivePieces.stream().filter(piece -> piece.hasSamePosition(endPosition))
                 .findAny();
         assertThat(optionalPiece).isPresent();
@@ -89,4 +92,37 @@ class BoardTest {
         assertThat(type).isEqualTo(PieceType.SOLDIER);
     }
 
+    @Test
+    @DisplayName("게임이 끝났으면 true를 반환한다")
+    void isFinishedTest() {
+        Board board = new Board(pieces);
+
+        Position startPosition = Position.of(1, 1);
+        Position endPosition = Position.of(3, 2);
+
+        board.movePiece(startPosition, endPosition);
+
+        assertThat(board.isFinished()).isTrue();
+    }
+
+    @Test
+    @DisplayName("게임이 끝나지 않았으면 false를 반환한다")
+    void isFinishedTest2() {
+        Board board = new Board(pieces);
+
+        assertThat(board.isFinished()).isFalse();
+    }
+
+    @Test
+    @DisplayName("이긴 팀을 반환한다")
+    void findWinTeamTest() {
+        Board board = new Board(pieces);
+
+        Position startPosition = Position.of(1, 1);
+        Position endPosition = Position.of(3, 2);
+
+        board.movePiece(startPosition, endPosition);
+
+        assertThat(board.findWinTeam()).isEqualTo(TeamType.CHO);
+    }
 }

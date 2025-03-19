@@ -22,12 +22,16 @@ public abstract class Piece {
         this.position = position;
     }
 
-    public boolean hasSamePosition(Position position){
+    public boolean hasSamePosition(Position position) {
         return this.position.equals(position);
     }
 
-    public boolean isSameTeam(Piece piece){
+    public boolean isSameTeam(Piece piece) {
         return this.teamType.equals(piece.teamType);
+    }
+
+    public boolean isSameTeam(TeamType teamType) {
+        return this.teamType.equals(teamType);
     }
 
     public abstract boolean canMove(Position expectedPosition, List<Piece> pieces);

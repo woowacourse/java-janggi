@@ -1,6 +1,7 @@
 package domain;
 
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Board {
         Piece endPositionPiece = alivePieces.stream()
                 .filter(piece -> piece.hasSamePosition(endPosition))
                 .findFirst().orElse(null);
-        if(endPositionPiece!=null){
+        if (endPositionPiece != null) {
             alivePieces.remove(endPositionPiece);
             deadPieces.add(endPositionPiece);
         }
@@ -33,5 +34,22 @@ public class Board {
 
     public List<Piece> getAlivePieces() {
         return alivePieces.stream().map(Piece::newInstance).toList();
+    }
+
+    public boolean isFinished() {
+        return deadPieces.stream()
+                .anyMatch(piece -> piece.getType().equals(PieceType.KING));
+    }
+
+    public TeamType findWinTeam() {
+        Piece deadKing = deadPieces.stream()
+                .filter(piece -> piece.getType().equals(PieceType.KING))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("아직 게임이 끝나지 않았습니다."));
+
+        if (deadKing.isSameTeam(TeamType.CHO)) {
+            return TeamType.HAN;
+        }
+        return TeamType.CHO;
     }
 }
