@@ -1,5 +1,7 @@
-package domain;
+package domain.piece;
 
+import domain.Position;
+import domain.TeamType;
 import java.util.List;
 
 public abstract class Piece {
@@ -23,7 +25,7 @@ public abstract class Piece {
         return this.teamType.equals(piece.teamType);
     }
 
-    public abstract boolean canMove(Position position, List<Piece> pieces);
+    public abstract boolean canMove(Position expectedPosition, List<Piece> pieces);
 
     public Position getPosition() {
         return position;
