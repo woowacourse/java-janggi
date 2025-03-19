@@ -15,7 +15,7 @@ class PieceTest {
         final Position position = Position.of(1, 2);
 
         // when
-        final TestPiece piece = new TestPiece(1, 2);
+        final TestPiece piece = new TestPiece(1, 2, new Directions(List.of()));
 
         // then
         assertThat(piece.getPosition()).isEqualTo(position);
@@ -42,8 +42,8 @@ class PieceTest {
     }
 
     static class TestPiece extends Piece {
-        public TestPiece(int row, int column) {
-            super(row, column);
+        public TestPiece(int row, int column, Directions directions) {
+            super(row, column, directions);
         }
 
         @Override
