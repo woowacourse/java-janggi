@@ -26,13 +26,12 @@ public class Directions {
     public Path getPathFrom(ChessPosition currentPosition) {
         List<ChessPosition> positions = new ArrayList<>();
         for (Direction direction : directions) {
-            positions.add(currentPosition);
             final int nextRow = currentPosition.row() + direction.dr;
             final int nextCol = currentPosition.column() + direction.dc;
             validatePosition(nextRow, nextCol);
             currentPosition = new ChessPosition(nextRow, nextCol);
+            positions.add(currentPosition);
         }
-        positions.add(currentPosition);
         return new Path(positions);
     }
 
