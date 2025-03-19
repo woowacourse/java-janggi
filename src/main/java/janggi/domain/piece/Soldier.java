@@ -3,8 +3,8 @@ package janggi.domain.piece;
 import static janggi.domain.Team.BLUE;
 import static janggi.domain.Team.RED;
 
+import janggi.domain.RawRoute;
 import janggi.domain.Team;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,15 +18,11 @@ public class Soldier extends Piece {
     }
 
     @Override
-    protected Set<Position> calculateRoute() {
-        return new HashSet<>();
-    }
-
-    @Override
-    protected List<RawPosition> calculateDestinations() {
-        return List.of(
-                new RawPosition(position.x() + 1, position.y()),
-                new RawPosition(position.x() - 1, position.y()),
-                new RawPosition(position.x(), position.y() + direction.get(team)));
+    protected Set<RawRoute> calculateRawRoutes() {
+        return Set.of(
+                new RawRoute(List.of(new RawPosition(position.x() + 1, position.y()))),
+                new RawRoute(List.of(new RawPosition(position.x() - 1, position.y()))),
+                new RawRoute(List.of(new RawPosition(position.x(), position.y() + direction.get(team))))
+        );
     }
 }

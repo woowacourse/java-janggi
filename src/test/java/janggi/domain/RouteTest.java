@@ -3,7 +3,7 @@ package janggi.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.piece.Position;
-import java.util.Set;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,8 +20,8 @@ class RouteTest {
                             int targetX, int targetY, boolean expected) {
 
         // given
-        final Route route = new Route(Set.of(new Position(firstX, firstY), new Position(secondX, secondY)),
-                new Position(destinationX, destinationY));
+        final Route route = new Route(List.of(new Position(firstX, firstY), new Position(secondX, secondY),
+                new Position(destinationX, destinationY)));
 
         // when & then
         assertThat(route.hasNotPosition(new Position(targetX, targetY))).isEqualTo(expected);
@@ -32,11 +32,9 @@ class RouteTest {
     void routeEqualTest() {
 
         // given
-        final Route route = new Route(Set.of(new Position(1, 1), new Position(2, 2)),
-                new Position(3, 3));
+        final Route route = new Route(List.of(new Position(1, 1), new Position(2, 2), new Position(3, 3)));
 
-        final Route otherRoute = new Route(Set.of(new Position(1, 1), new Position(2, 2)),
-                new Position(3, 3));
+        final Route otherRoute = new Route(List.of(new Position(1, 1), new Position(2, 2), new Position(3, 3)));
 
         // when & then
         assertThat(route.equals(otherRoute)).isTrue();
@@ -47,11 +45,9 @@ class RouteTest {
     void routeNotEqualTest() {
 
         // given
-        final Route route = new Route(Set.of(new Position(1, 1), new Position(2, 2)),
-                new Position(3, 3));
+        final Route route = new Route(List.of(new Position(1, 1), new Position(2, 2), new Position(3, 3)));
 
-        final Route otherRoute = new Route(Set.of(new Position(1, 1), new Position(2, 2)),
-                new Position(3, 2));
+        final Route otherRoute = new Route(List.of(new Position(1, 1), new Position(2, 2), new Position(3, 2)));
 
         // when & then
         assertThat(route.equals(otherRoute)).isFalse();

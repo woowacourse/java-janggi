@@ -1,17 +1,15 @@
 package janggi.domain;
 
 import janggi.domain.piece.Position;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class Route {
 
-    private final Set<Position> route;
-    private final Position destination;
+    private final List<Position> route;
 
-    public Route(final Set<Position> route, final Position destination) {
+    public Route(final List<Position> route) {
         this.route = route;
-        this.destination = destination;
     }
 
     public boolean hasNotPosition(final Position position) {
@@ -24,11 +22,11 @@ public class Route {
             return false;
         }
         final Route route1 = (Route) o;
-        return Objects.equals(route, route1.route) && Objects.equals(destination, route1.destination);
+        return Objects.equals(route, route1.route);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(route, destination);
+        return Objects.hash(route);
     }
 }

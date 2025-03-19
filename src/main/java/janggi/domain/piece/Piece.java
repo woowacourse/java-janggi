@@ -1,11 +1,12 @@
 package janggi.domain.piece;
 
+import janggi.domain.RawRoute;
 import janggi.domain.Route;
 import janggi.domain.Team;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public abstract class Piece {
 
@@ -13,9 +14,7 @@ public abstract class Piece {
 
     protected final Team team;
 
-    protected abstract Set<Position> calculateRoute();
-
-    protected abstract List<RawPosition> calculateDestinations();
+    protected abstract Set<RawRoute> calculateRawRoutes();
 
     public Piece(final Position position, final Team team) {
         this.position = position;
@@ -27,19 +26,19 @@ public abstract class Piece {
     }
 
     public Set<Route> calculateRoutes() {
-        final List<Position> destinations = new ArrayList<>();
-
-        final List<RawPosition> rawPositions = calculateDestinations();
-        for (RawPosition rawPosition : rawPositions) {
+        Set<Route> returnRoute = new HashSet<>();
+        for (RawRoute rawRoute : calculateRawRoutes()) {
             try {
-                destinations.add(new Position(rawPosition.x(), rawPosition.y()));
+                List<Position> positions = new ArrayList<>();
+                for (RawPosition rawPosition : rawRoute.rawPositions()) {
+                    positions.add(new Position(rawPosition.x(), rawPosition.y()));
+                }
+                returnRoute.add(new Route(positions));
             } catch (IllegalArgumentException e) {
                 continue;
             }
         }
-        return destinations.stream()
-                .map(destination -> new Route(calculateRoute(), destination))
-                .collect(Collectors.toSet());
+        return returnRoute;
     }
 
     public boolean isSamePosition(final Position otherPosition) {

@@ -4,7 +4,8 @@ import static janggi.domain.Team.RED;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Route;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,9 +35,9 @@ class SoldierTest {
         final Piece solider = new Soldier(new Position(1, 1), RED);
         final Set<Route> soliderRoutes = solider.calculateRoutes();
 
-        final Route route1 = new Route(new HashSet<>(), new Position(0, 1));
-        final Route route2 = new Route(new HashSet<>(), new Position(2, 1));
-        final Route route3 = new Route(new HashSet<>(), new Position(1, 0));
+        final Route route1 = new Route(new ArrayList<>(List.of(new Position(0, 1))));
+        final Route route2 = new Route(new ArrayList<>(List.of(new Position(2, 1))));
+        final Route route3 = new Route(new ArrayList<>(List.of(new Position(1, 0))));
 
         // when
         final Set<Route> expected = Set.of(route2, route1, route3);
