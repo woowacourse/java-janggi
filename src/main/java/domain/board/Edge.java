@@ -13,4 +13,8 @@ public class Edge {
     public Node nextNode() {
         return nextNode;
     }
+
+    public Direction direction() {
+        return direction;
+    }
 }

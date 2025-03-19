@@ -13,7 +13,7 @@ class BoardTest {
     void 해당_좌표에_기물이_존재하면_true를_반환한다() {
         // given
         Point point = Point.of(1, 1);
-        Node node = new Node(point, List.of());
+        Node node = new Node(point);
         Board board = BoardFixture.createEmptyBoard();
         board.putPiece(node, new Byeong(Team.CHO));
 
@@ -28,7 +28,7 @@ class BoardTest {
     void 해당_좌표에_기물이_존재하지_않으면_false를_반환한다() {
         // given
         Point point = Point.of(1, 1);
-        Node node = new Node(point, List.of());
+        Node node = new Node(point);
         Board board = BoardFixture.createEmptyBoard();
         board.putPiece(node, new Byeong(Team.CHO));
         Node otherNode = board.findNodeByPoint(point.of(5, 5));

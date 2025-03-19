@@ -27,6 +27,14 @@ public class BoardInitializer {
         for (int row = Board.START_ROW_INDEX; row <= Board.END_ROW_INDEX; row++) {
             for (int column = Board.START_COLUMN_INDEX; column <= Board.END_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
+                Node currentNode = new Node(point);
+                nodeByPoint.put(point, currentNode);
+            }
+        }
+
+        for (int row = Board.START_ROW_INDEX; row <= Board.END_ROW_INDEX; row++) {
+            for (int column = Board.START_COLUMN_INDEX; column <= Board.END_COLUMN_INDEX; column++) {
+                Point point = Point.of(row, column);
                 List<Edge> edges = new ArrayList<>();
                 for (Direction direction : List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT)) {
                     int nextRow = row + direction.deltaRow();
@@ -37,8 +45,8 @@ public class BoardInitializer {
                     Node nextNode = nodeByPoint.get(Point.of(nextRow, nextColumn));
                     edges.add(new Edge(nextNode, direction));
                 }
-                Node currentNode = new Node(point, edges);
-                nodeByPoint.put(point, currentNode);
+                Node currentNode = nodeByPoint.get(point);
+                currentNode.addAllEdges(edges);
             }
         }
 

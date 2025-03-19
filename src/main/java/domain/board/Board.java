@@ -21,8 +21,8 @@ public class Board {
     }
 
     public static boolean isInRange(int row, int column) {
-        return !((row < START_ROW_INDEX || row > END_ROW_INDEX)
-                || (column < START_COLUMN_INDEX || column > END_COLUMN_INDEX));
+        return START_ROW_INDEX <= row && row <= END_ROW_INDEX
+                && START_COLUMN_INDEX <= column && column <= END_COLUMN_INDEX;
     }
 
     public void putPiece(Node node, Piece piece) {

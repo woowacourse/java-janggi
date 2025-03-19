@@ -1,6 +1,6 @@
 package domain.board;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,11 +9,15 @@ public class Node {
     private final Point point;
     private final List<Edge> edges;
 
-    public Node(Point point, List<Edge> edges) {
+    public Node(Point point) {
         this.point = point;
-        this.edges = Collections.unmodifiableList(edges);
+        this.edges = new ArrayList<>();
     }
-    
+
+    public void addAllEdges(List<Edge> edges) {
+        this.edges.addAll(edges);
+    }
+
     public List<Edge> edges() {
         return edges;
     }
