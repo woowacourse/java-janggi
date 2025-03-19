@@ -30,4 +30,8 @@ public abstract class Piece {
     public Team getTeam() {
         return team;
     }
+
+    public boolean compareTeam(Piece piece2) {
+        return this.team == piece2.team;
+    }
 }
