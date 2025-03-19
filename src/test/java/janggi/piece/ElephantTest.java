@@ -2,6 +2,7 @@ package janggi.piece;
 
 import janggi.Side;
 import janggi.board.Position;
+import janggi.board.Route;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

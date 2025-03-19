@@ -2,9 +2,8 @@ package janggi.piece;
 
 import janggi.Side;
 import janggi.board.Position;
+import janggi.board.Route;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.List;
 
 public class Horse implements Piece {
@@ -26,28 +25,27 @@ public class Horse implements Piece {
                 computeRouteFixDeltaY(position, 1, 1),
                 computeRouteFixDeltaY(position, 1, -1),
                 computeRouteFixDeltaY(position, -1, 1),
-                computeRouteFixDeltaY(position, -1, -1)
-        );
+                computeRouteFixDeltaY(position, -1, -1));
     }
 
-    private static Route computeRouteFixDeltaX(final Position position, int deltaX, int upDown) {
-        Deque<Position> candidate = new ArrayDeque<>();
-        Position position1 = position.move(deltaX, 0);
-        Position position2 = position1.move(deltaX, upDown);
+    private static Route computeRouteFixDeltaX(final Position originalPosition, int deltaX, int upDown) {
+        Route candidateRoute = new Route();
+        Position horizontalMovedPosition = originalPosition.move(deltaX, 0);
+        Position diagonalMovedPosition = horizontalMovedPosition.move(deltaX, upDown);
 
-        candidate.add(position1);
-        candidate.add(position2);
-        return new Route(candidate);
+        candidateRoute.addRoute(horizontalMovedPosition);
+        candidateRoute.addRoute(diagonalMovedPosition);
+        return candidateRoute;
     }
 
-    private static Route computeRouteFixDeltaY(final Position position, int deltaY, int leftRight) {
-        Deque<Position> candidate = new ArrayDeque<>();
-        Position position1 = position.move(0, deltaY);
-        Position position2 = position1.move(leftRight, deltaY);
+    private static Route computeRouteFixDeltaY(final Position originalPosition, int deltaY, int leftRight) {
+        Route candidateRoute = new Route();
+        Position horizontalMovedPosition = originalPosition.move(0, deltaY);
+        Position diagonalMovedPosition = horizontalMovedPosition.move(leftRight, deltaY);
 
-        candidate.add(position1);
-        candidate.add(position2);
-        return new Route(candidate);
+        candidateRoute.addRoute(horizontalMovedPosition);
+        candidateRoute.addRoute(diagonalMovedPosition);
+        return candidateRoute;
     }
 
     @Override
