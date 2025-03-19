@@ -140,7 +140,7 @@ class PoTest {
     class FindPathsTest {
 
         @Test
-        @DisplayName("포가 (5,5) -> (5,1) 으로 이동할 때 (5,3), (5,2)를 반환한다.")
+        @DisplayName("포가 (5,5) -> (5,1) 으로 이동할 때 (5,4), (5,3), (5,2)를 반환한다.")
         void test1() {
             Po po = new Po(Team.HAN);
 
@@ -149,13 +149,14 @@ class PoTest {
 
             // then
             assertThat(paths).containsOnly(
+                    new Coordinate(5, 4),
                     new Coordinate(5, 3),
                     new Coordinate(5, 2)
             );
         }
 
         @Test
-        @DisplayName("포가 (5,5) -> (5,10) 으로 이동할 때 (5,7), (5,8), (5,9)를 반환한다.")
+        @DisplayName("포가 (5,5) -> (5,10) 으로 이동할 때 (5,6), (5,7), (5,8), (5,9)를 반환한다.")
         void test2() {
             Po po = new Po(Team.HAN);
 
@@ -164,6 +165,7 @@ class PoTest {
 
             // then
             assertThat(paths).containsOnly(
+                    new Coordinate(5, 6),
                     new Coordinate(5, 7),
                     new Coordinate(5, 8),
                     new Coordinate(5, 9)
@@ -171,7 +173,7 @@ class PoTest {
         }
 
         @Test
-        @DisplayName("포가 (5,5) -> (1,5) 으로 이동할 때 (2,5), (3,5)를 반환한다.")
+        @DisplayName("포가 (5,5) -> (1,5) 으로 이동할 때 (2,5), (3,5), (4,5)를 반환한다.")
         void test3() {
             Po po = new Po(Team.HAN);
 
@@ -181,12 +183,13 @@ class PoTest {
             // then
             assertThat(paths).containsOnly(
                     new Coordinate(2, 5),
-                    new Coordinate(3, 5)
+                    new Coordinate(3, 5),
+                    new Coordinate(4, 5)
             );
         }
 
         @Test
-        @DisplayName("포가 (5,5) -> (9,5) 으로 이동할 때 (7,5), (8,5)를 반환한다.")
+        @DisplayName("포가 (5,5) -> (9,5) 으로 이동할 때 (6,5), (7,5), (8,5)를 반환한다.")
         void test4() {
             Po po = new Po(Team.HAN);
 
@@ -195,6 +198,7 @@ class PoTest {
 
             // then
             assertThat(paths).containsOnly(
+                    new Coordinate(6, 5),
                     new Coordinate(7, 5),
                     new Coordinate(8, 5)
             );

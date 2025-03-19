@@ -48,25 +48,25 @@ public class Po extends Piece {
 
         Set<Coordinate> coordinates = new HashSet<>();
         if (dx == 0 && dy > 0) { // 아래
-            for (int y = departure.getY() + 2; y < arrival.getY(); y++) {
+            for (int y = departure.getY() + 1; y < arrival.getY(); y++) {
                 coordinates.add(new Coordinate(departure.getX(), y));
             }
             return coordinates;
         }
         if (dx == 0 && dy < 0) { // 위
-            for (int y = departure.getY() - 2; y > arrival.getY(); y--) {
+            for (int y = departure.getY() - 1; y > arrival.getY(); y--) {
                 coordinates.add(new Coordinate(departure.getX(), y));
             }
             return coordinates;
         }
         if (dx > 0 && dy == 0) { // 오른쪽
-            for (int x = departure.getX() + 2; x < arrival.getX(); x++) {
+            for (int x = departure.getX() + 1; x < arrival.getX(); x++) {
                 coordinates.add(new Coordinate(x, departure.getY()));
             }
             return coordinates;
         }
         if (dx < 0 && dy == 0) { // 왼쪽
-            for (int x = departure.getX() - 2; x > arrival.getX(); x--) {
+            for (int x = departure.getX() - 1; x > arrival.getX(); x--) {
                 coordinates.add(new Coordinate(x, departure.getY()));
             }
             return coordinates;
