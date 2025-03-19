@@ -16,6 +16,10 @@ public class Position {
         return new Position(x + deltaX, y + deltaY);
     }
 
+    public boolean isOutOfRange(final int xLimit, final int yLimit) {
+        return x < 0 || y < 0 || x > xLimit - 1 || y > yLimit - 1;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) return false;

@@ -6,7 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class JanggiBoardTest {
 
@@ -93,4 +96,102 @@ class JanggiBoardTest {
         JanggiBoard janggiBoard = JanggiBoard.initialize();
         janggiBoard.printBoard();
     }
+
+    @Test
+    @DisplayName("기본 이동 테스트 - 졸")
+    void test11() {
+        JanggiBoard janggiBoard = JanggiBoard.initialize();
+
+        Position position = new Position(2, 6);
+        Piece piece = janggiBoard.getBoard().get(position);
+        List<Route> routes = piece.computeCandidatePositions(position);
+        List<Position> positions = janggiBoard.filterReachablePosition(routes, piece);
+
+
+        assertAll(
+                () -> assertThat(positions.size()).isEqualTo(3),
+                () -> assertThat(positions).contains(new Position(1, 6)),
+                () -> assertThat(positions).contains(new Position(2, 5)),
+                () -> assertThat(positions).contains(new Position(3, 6))
+        );
+    }
+
+    @Test
+    @DisplayName("기본 이동 테스트 - 경계의 졸")
+    void test12() {
+        JanggiBoard janggiBoard = JanggiBoard.initialize();
+
+        Position position = new Position(8, 3);
+        Piece piece = janggiBoard.getBoard().get(position);
+        List<Route> routes = piece.computeCandidatePositions(position);
+        List<Position> positions = janggiBoard.filterReachablePosition(routes, piece);
+
+
+        assertAll(
+                () -> assertThat(positions.size()).isEqualTo(2),
+                () -> assertThat(positions).contains(new Position(7, 3)),
+                () -> assertThat(positions).contains(new Position(8, 4))
+        );
+    }
+
+    @Test
+    @DisplayName("기본 이동 테스트 - 상")
+    void test13() {
+        JanggiBoard janggiBoard = JanggiBoard.initialize();
+
+        Position position = new Position(2, 9);
+        Piece piece = janggiBoard.getBoard().get(position);
+        List<Route> routes = piece.computeCandidatePositions(position);
+        List<Position> positions = janggiBoard.filterReachablePosition(routes, piece);
+
+        assertThat(positions.size()).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("기본 이동 테스트 - 마")
+    void test14() {
+        JanggiBoard janggiBoard = JanggiBoard.initialize();
+
+        Position position = new Position(1, 9);
+        Piece piece = janggiBoard.getBoard().get(position);
+        List<Route> routes = piece.computeCandidatePositions(position);
+        List<Position> positions = janggiBoard.filterReachablePosition(routes, piece);
+
+        assertAll(
+                () -> assertThat(positions.size()).isEqualTo(2),
+                () -> assertThat(positions).contains(new Position(0, 7)),
+                () -> assertThat(positions).contains(new Position(2, 7))
+        );
+    }
+
+    @Test
+    @DisplayName("기본 이동 테스트 - 차")
+    void test15() {
+        JanggiBoard janggiBoard = JanggiBoard.initialize();
+
+        Position position = new Position(0, 9);
+        Piece piece = janggiBoard.getBoard().get(position);
+        List<Route> routes = piece.computeCandidatePositions(position);
+        List<Position> positions = janggiBoard.filterReachablePositionChariot(routes, piece);
+
+        assertAll(
+                () -> assertThat(positions.size()).isEqualTo(2),
+                () -> assertThat(positions).contains(new Position(0, 8)),
+                () -> assertThat(positions).contains(new Position(0, 7))
+        );
+    }
+
+    @Test
+    @DisplayName("기본 이동 테스트 - 포")
+    void test16() {
+        JanggiBoard janggiBoard = JanggiBoard.initialize();
+
+        Position position = new Position(1, 7);
+        Piece piece = janggiBoard.getBoard().get(position);
+        List<Route> routes = piece.computeCandidatePositions(position);
+        List<Position> positions = janggiBoard.filterReachablePositionCannon(routes, piece);
+
+        assertThat(positions.size()).isEqualTo(0);
+    }
+
 }

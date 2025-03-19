@@ -1,18 +1,19 @@
 package janggi.board;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Route {
 
-    private final Deque<Position> positions;
+    private final List<Position> positions;
 
     public Route() {
-        this.positions = new ArrayDeque<>();
+        this.positions = new ArrayList<>();
     }
 
     public Route(final Position position) {
-        this.positions = new ArrayDeque<>();
+        this.positions = new ArrayList<>();
         addRoute(position);
     }
 
@@ -24,8 +25,8 @@ public class Route {
         return positions.getLast();
     }
 
-    public Deque<Position> getPositions() {
-        return positions;
+    public List<Position> getPositions() {
+        return Collections.unmodifiableList(positions);
     }
 
 }

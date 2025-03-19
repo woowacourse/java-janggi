@@ -7,18 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static janggi.board.InitialPositions.*;
-import static janggi.board.InitialPositions.HAN_KING_POSITIONS;
 
 public class BoardInitializer {
 
-    private static final int X_LIMIT = 9;
-    private static final int Y_LIMIT = 10;
-
-    public static Map<Position, Piece> initialPieces() {
+    public static Map<Position, Piece> initialPieces(final int xLimit, final int yLimit) {
         Map<Position, Piece> board = new HashMap<>();
 
-        for (int x = 0; x < X_LIMIT; x++) {
-            for (int y = 0; y < Y_LIMIT; y++) {
+        for (int x = 0; x < xLimit; x++) {
+            for (int y = 0; y < yLimit; y++) {
                 board.put(new Position(x, y), new Empty());
             }
         }
