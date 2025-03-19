@@ -37,4 +37,21 @@ public class Node {
     public int hashCode() {
         return Objects.hash(point);
     }
+
+    public boolean hasEdgeByDirection(Direction direction) {
+        return edges.stream()
+                .anyMatch(edge -> edge.direction() == direction);
+    }
+
+    public Node findNextNodeByDirection(Direction direction) {
+        Edge edge = findEdgeByDirection(direction);
+        return edge.nextNode();
+    }
+
+    private Edge findEdgeByDirection(Direction direction) {
+        return edges.stream()
+                .filter(edge -> edge.direction() == direction)
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("해당 방향의 엣지가 존재하지 않습니다."));
+    }
 }
