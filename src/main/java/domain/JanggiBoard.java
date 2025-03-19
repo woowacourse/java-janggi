@@ -24,11 +24,20 @@ public class JanggiBoard {
             if (findPiece(targetPosition) == null || !startPiece.compareTeam(targetPositionPiece)) {
                 board.remove(startPosition);
                 board.put(targetPosition, startPiece);
+                return;
             }
             if (startPiece.compareTeam(targetPositionPiece)) {
                 throw new IllegalArgumentException("해당 위치는 아군의 말이 있으므로 이동 불가능 합니다.");
             }
         }
+
+        if (countPieceInPath(path) != 1) {
+            throw new IllegalArgumentException("포는 다른 말 하나를 뛰어넘어야 합니다.");
+        }
+    }
+
+    private int countPieceInPath(List<Position> path) {
+        return (int) path.stream().filter(pos -> !isPositionEmpty(pos)).count();
     }
 
     public boolean isPositionEmpty(Position position) {
