@@ -28,6 +28,10 @@ public class Piece {
         return position.equals(destination);
     }
 
+    public boolean isSameType(PieceType pieceType) {
+        return moveRule.isSameType(pieceType);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -43,5 +47,9 @@ public class Piece {
     @Override
     public int hashCode() {
         return Objects.hash(position, moveRule);
+    }
+
+    public boolean isSameTeam(Team moveTeam) {
+        return team.equals(moveTeam);
     }
 }

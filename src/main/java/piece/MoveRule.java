@@ -18,6 +18,10 @@ public class MoveRule {
         return null;
     }
 
+    public boolean isSameType(PieceType comparePieceType) {
+        return pieceType.equals(comparePieceType);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

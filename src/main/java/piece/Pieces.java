@@ -18,4 +18,12 @@ public class Pieces {
     public List<Piece> getPieces() {
         return Collections.unmodifiableList(pieces);
     }
+
+    public Piece getFirstPiece() {
+        return pieces.getFirst();
+    }
+
+    public Piece getLastPiece() {
+        return pieces.getLast();
+    }
 }

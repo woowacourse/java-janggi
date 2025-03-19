@@ -28,7 +28,7 @@ public interface MoveStrategy {
 
     default Position move(Position destination, Pieces onRoutePieces, Team moveTeam) {
         for (Piece piece : onRoutePieces.getPieces()) {
-            if (piece.isSamePosition(destination) && piece.team() == moveTeam) {
+            if (piece.isSamePosition(destination) && piece.isSameTeam(moveTeam)) {
                 throw new IllegalArgumentException(INVALID_POSITION);
             }
         }
