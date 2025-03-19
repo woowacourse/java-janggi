@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Horse extends AbstractPiece {
@@ -9,8 +10,45 @@ public class Horse extends AbstractPiece {
     }
 
     @Override
-    public List<Point> getPossiblePoint(final Point prev, final Point newPoint) {
-        return List.of();
+    public List<Point> getPossiblePoint(Point prev, Point newPoint) {
+        List<Point> possiblePoint = new ArrayList<>();
+
+        int x = prev.calculateSubtractionX(newPoint);
+        int y = prev.calculateSubtractionY(newPoint);
+        if (x > 0 && y > 0) {
+            final Point point = prev.up().rightUp();
+
+            if (point.equals(newPoint)) {
+                possiblePoint.add(prev.up());
+            } else {
+                possiblePoint.add(prev.right());
+            }
+        }
+        if (x < 0 && y > 0) {
+            final Point point = prev.up().leftUp();
+            if (point.equals(newPoint)) {
+                possiblePoint.add(prev.up());
+            } else {
+                possiblePoint.add(prev.left());
+            }
+        }
+        if (x < 0 && y < 0) {
+            final Point point = prev.left().leftDown();
+            if (point.equals(newPoint)) {
+                possiblePoint.add(prev.left());
+            } else {
+                possiblePoint.add(prev.down());
+            }
+        }
+        if (x > 0 && y < 0) {
+            final Point point = prev.down().rightDown();
+            if (point.equals(newPoint)) {
+                possiblePoint.add(prev.down());
+            } else {
+                possiblePoint.add(prev.right());
+            }
+        }
+        return possiblePoint;
     }
 
     @Override
