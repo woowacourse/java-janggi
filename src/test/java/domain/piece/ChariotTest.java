@@ -1,9 +1,10 @@
 package domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import domain.Point;
 import domain.Team;
 import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -56,5 +57,54 @@ class ChariotTest {
                 new Point(0, 2),
                 new Point(0, 3)
         );
+    }
+
+    @Test
+    @DisplayName("경로 상 기물이 있으면 이동할 수 없다.")
+    void test_isMovableWhenPieceOnRoute() {
+        //given
+        Chariot chariot = new Chariot(Team.CHO);
+        Piece empty = new EmptyPiece();
+        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(chariot, empty, empty));
+
+        //when&then
+        assertThat(chariot.isMovable(pieceOnRoute)).isFalse();
+    }
+
+    @Test
+    @DisplayName("경로 상 기물이 없으면 이동할 수 있다.")
+    void test_isMovable() {
+        //given
+        Chariot chariot = new Chariot(Team.CHO);
+        Piece empty = new EmptyPiece();
+        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, empty));
+
+        //when&then
+        assertThat(chariot.isMovable(pieceOnRoute)).isTrue();
+    }
+
+    @Test
+    @DisplayName("도착점에 아군 기물이 있으면 이동할 수 없다.")
+    void test_isMovableWhenPieceIsInMyTeam() {
+        //given
+        Chariot chariot = new Chariot(Team.CHO);
+        Piece empty = new EmptyPiece();
+        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, chariot));
+
+        //when&then
+        assertThat(chariot.isMovable(pieceOnRoute)).isFalse();
+    }
+
+    @Test
+    @DisplayName("도착점에 아군 기물이 없으면 이동할 수 있다.")
+    void test_isMovableWhenPieceIsInOtherTeam() {
+        //given
+        Chariot chariotHan = new Chariot(Team.HAN);
+        Chariot chariotCho = new Chariot(Team.CHO);
+        Piece empty = new EmptyPiece();
+        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, chariotCho));
+
+        //when&then
+        assertThat(chariotHan.isMovable(pieceOnRoute)).isTrue();
     }
 }

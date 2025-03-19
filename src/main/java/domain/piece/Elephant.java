@@ -46,6 +46,6 @@ public class Elephant implements Piece {
         if (pieceOnRoute.hasArrivalPointInMyTeam(team)) {
             return false;
         }
-        return pieceOnRoute.hasPieceOnRoute();
+        return pieceOnRoute.hasNotPieceOnRoute();
     }
 }

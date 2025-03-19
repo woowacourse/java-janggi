@@ -25,4 +25,15 @@ public final class EmptyPiece implements Piece {
     public boolean isMovable(PieceOnRoute pieceOnRoute) {
         throw new JanggiArgumentException("기물이 없습니다.");
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof EmptyPiece;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

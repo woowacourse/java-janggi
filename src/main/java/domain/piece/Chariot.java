@@ -49,6 +49,9 @@ public class Chariot implements Piece {
 
     @Override
     public boolean isMovable(PieceOnRoute pieceOnRoute) {
-        return false;
+        if (pieceOnRoute.hasArrivalPointInMyTeam(team)) {
+            return false;
+        }
+        return pieceOnRoute.hasNotPieceOnRoute();
     }
 }
