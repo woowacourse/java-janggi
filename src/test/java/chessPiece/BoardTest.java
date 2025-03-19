@@ -1,6 +1,7 @@
 package chessPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -21,5 +22,72 @@ class BoardTest {
 
         //then
         assertThat(board.getJanggiPan()).hasSize(32);
+    }
+
+    @DisplayName("앞에 기물에 있다면 true를 반환한다.")
+    @Test
+    void isPieceInFront() {
+        //given
+        List<ChessPiece> chessPieces = List.of(
+                new Po("포", new BoardPosition(3, 2)),
+                new Po("포", new BoardPosition(4, 2))
+        );
+
+        List<ChessPiece> chessPieces2 = List.of();
+
+        Board board = new Board(chessPieces, chessPieces2);
+
+        BoardPosition presentPosition = new BoardPosition(3, 2);
+        BoardPosition futurePosition = new BoardPosition(5, 2);
+
+        //when
+        boolean actual = board.isPieceInFront(presentPosition, futurePosition);
+
+        //then
+        assertThat(actual).isFalse();
+    }
+
+    @DisplayName("앞에 기물이 po라면 false를 반환한다.")
+    @Test
+    void isPoInFront() {
+        List<ChessPiece> chessPieces = List.of(
+                new Po("포", new BoardPosition(3, 2)),
+                new Po("포", new BoardPosition(4, 2))
+        );
+
+        List<ChessPiece> chessPieces2 = List.of();
+
+        Board board = new Board(chessPieces, chessPieces2);
+
+        BoardPosition presentPosition = new BoardPosition(3, 2);
+        BoardPosition futurePosition = new BoardPosition(5, 2);
+
+        //when
+        boolean actual = board.isPieceInFront(presentPosition, futurePosition);
+
+        //then
+        assertThat(actual).isFalse();
+    }
+
+    @DisplayName("현재 위치의 말에게 이동가능 여부를 확인할 수 있다.")
+    @Test
+    void canMove() {
+        //given
+        List<ChessPiece> chessPieces = List.of(
+                new Po("포", new BoardPosition(3, 2)),
+                new Po("포", new BoardPosition(4, 2))
+        );
+
+        List<ChessPiece> chessPieces2 = List.of();
+
+        Board board = new Board(chessPieces, chessPieces2);
+
+        BoardPosition presentPosition = new BoardPosition(3, 2);
+        BoardPosition futurePosition = new BoardPosition(7, 3);
+
+        //when //then
+        assertThatThrownBy(() -> board.canMoveBy(presentPosition, futurePosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageStartingWith("[ERROR]");
     }
 }

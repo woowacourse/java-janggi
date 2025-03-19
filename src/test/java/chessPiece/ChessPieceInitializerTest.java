@@ -10,12 +10,12 @@ class ChessPieceInitializerTest {
 
     @DisplayName("초나라 기물의 위치를 초기화 할 수 있다.")
     @Test
-    void chaInit() {
+    void choInit() {
         //given
         ChessPieceInitializer chessPieceInitializer = new ChessPieceInitializer();
 
         //when
-        List<ChessPiece> actual = chessPieceInitializer.chaInit();
+        List<ChessPiece> actual = chessPieceInitializer.choInit();
 
         //then
         assertThat(actual).hasSize(16);

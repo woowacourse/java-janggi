@@ -3,6 +3,7 @@ package chessPiece;
 import java.util.Objects;
 
 public class BoardPosition {
+
     private final int row;
     private final int col;
 

@@ -1,9 +1,14 @@
 package chessPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class MaTest {
 
@@ -18,6 +23,68 @@ class MaTest {
 
         //then
         assertThat(ma.getBoardPosition()).isEqualTo(new BoardPosition(4, 5));
+    }
+
+    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
+    @ParameterizedTest
+    @MethodSource("maNonMovePositionProvider")
+    void nonMove(BoardPosition boardPosition) {
+        //given
+        Ma ma = new Ma("마", new BoardPosition(5, 5));
+
+        //when then
+        assertThatThrownBy(() -> ma.move(boardPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageStartingWith("[ERROR]");
+    }
+
+    @DisplayName("자신의 위치를 기준으로 직선으로 한칸 + 대각선으로 한칸 이동할 수 있다.")
+    @ParameterizedTest
+    @MethodSource("maMovePositionProvider")
+    void nonMove(BoardPosition boardPosition, Ma expected) {
+        //given
+        Ma ma = new Ma("마", new BoardPosition(5, 5));
+
+        //when
+        Ma actual = ma.move(boardPosition);
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    private static Stream<Arguments> maNonMovePositionProvider() {
+        return Stream.of(
+                Arguments.of(new BoardPosition(3, 5)),
+                Arguments.of(new BoardPosition(3, 3)),
+                Arguments.of(new BoardPosition(3, 7)),
+                Arguments.of(new BoardPosition(5, 7)),
+                Arguments.of(new BoardPosition(3, 7)),
+                Arguments.of(new BoardPosition(7, 7)),
+                Arguments.of(new BoardPosition(7, 5)),
+                Arguments.of(new BoardPosition(7, 3)),
+                Arguments.of(new BoardPosition(5, 3))
+        );
+    }
+
+    private static Stream<Arguments> maMovePositionProvider() {
+        return Stream.of(
+                Arguments.of(new BoardPosition(3, 4),
+                        new Ma("마", new BoardPosition(3, 4))),
+                Arguments.of(new BoardPosition(3, 6),
+                        new Ma("마", new BoardPosition(3, 6))),
+                Arguments.of(new BoardPosition(4, 7),
+                        new Ma("마", new BoardPosition(4, 7))),
+                Arguments.of(new BoardPosition(6, 7),
+                        new Ma("마", new BoardPosition(6, 7))),
+                Arguments.of(new BoardPosition(7, 6),
+                        new Ma("마", new BoardPosition(7, 6))),
+                Arguments.of(new BoardPosition(7, 4),
+                        new Ma("마", new BoardPosition(7, 4))),
+                Arguments.of(new BoardPosition(6, 3),
+                        new Ma("마", new BoardPosition(6, 3))),
+                Arguments.of(new BoardPosition(4, 3),
+                        new Ma("마", new BoardPosition(4, 3)))
+        );
     }
 
 }

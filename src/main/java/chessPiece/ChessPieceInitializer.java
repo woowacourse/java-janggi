@@ -25,16 +25,16 @@ public class ChessPieceInitializer {
         chessPieces.add(new Po("포(한)", new BoardPosition(2, 1)));
         chessPieces.add(new Po("포(한)", new BoardPosition(2, 7)));
 
-        chessPieces.add(new JolByeong("병(한)", new BoardPosition(3, 0)));
-        chessPieces.add(new JolByeong("병(한)", new BoardPosition(3, 2)));
-        chessPieces.add(new JolByeong("병(한)", new BoardPosition(3, 4)));
-        chessPieces.add(new JolByeong("병(한)", new BoardPosition(3, 6)));
-        chessPieces.add(new JolByeong("병(한)", new BoardPosition(3, 8)));
+        chessPieces.add(new Byeong("병(한)", new BoardPosition(3, 0)));
+        chessPieces.add(new Byeong("병(한)", new BoardPosition(3, 2)));
+        chessPieces.add(new Byeong("병(한)", new BoardPosition(3, 4)));
+        chessPieces.add(new Byeong("병(한)", new BoardPosition(3, 6)));
+        chessPieces.add(new Byeong("병(한)", new BoardPosition(3, 8)));
 
         return chessPieces;
     }
 
-    public List<ChessPiece> chaInit() {
+    public List<ChessPiece> choInit() {
         List<ChessPiece> chessPieces = new ArrayList<>();
 
         chessPieces.add(new Cha("차(초)", new BoardPosition(9, 0)));
@@ -54,11 +54,11 @@ public class ChessPieceInitializer {
         chessPieces.add(new Po("포(초)", new BoardPosition(7, 1)));
         chessPieces.add(new Po("포(초)", new BoardPosition(7, 7)));
 
-        chessPieces.add(new JolByeong("졸(초)", new BoardPosition(6, 0)));
-        chessPieces.add(new JolByeong("졸(초)", new BoardPosition(6, 2)));
-        chessPieces.add(new JolByeong("졸(초)", new BoardPosition(6, 4)));
-        chessPieces.add(new JolByeong("졸(초)", new BoardPosition(6, 6)));
-        chessPieces.add(new JolByeong("졸(초)", new BoardPosition(6, 8)));
+        chessPieces.add(new Jol("졸(초)", new BoardPosition(6, 0)));
+        chessPieces.add(new Jol("졸(초)", new BoardPosition(6, 2)));
+        chessPieces.add(new Jol("졸(초)", new BoardPosition(6, 4)));
+        chessPieces.add(new Jol("졸(초)", new BoardPosition(6, 6)));
+        chessPieces.add(new Jol("졸(초)", new BoardPosition(6, 8)));
 
         return chessPieces;
     }
