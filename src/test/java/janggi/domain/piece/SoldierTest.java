@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Position;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,7 +15,7 @@ class SoldierTest {
 
     private static Stream<Arguments> moveableArguments() {
         return Stream.of(
-                Arguments.of(Position.of(7,3), Side.HAN,
+                Arguments.of(Position.of(7, 3), Side.HAN,
                         List.of(Position.of(7, 2), Position.of(7, 4), Position.of(8, 3))),
                 Arguments.of(Position.of(7, 1), Side.HAN,
                         List.of(Position.of(8, 1), Position.of(7, 2))),
@@ -32,7 +33,7 @@ class SoldierTest {
         Soldier soldier = new Soldier();
 
         // when
-        List<Position> actual = soldier.generateMovePosition(side, startingPosition);
+        Set<Position> actual = soldier.generateMovePosition(side, startingPosition);
 
         // then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);

@@ -2,8 +2,8 @@ package janggi.domain;
 
 import janggi.common.ErrorMessage;
 import janggi.domain.piece.Side;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class PieceState {
 
@@ -28,7 +28,7 @@ public class PieceState {
     }
 
     public void move(Position movePosition) {
-        List<Position> availableMovePositions = getAvailableMovePositions();
+        Set<Position> availableMovePositions = getAvailableMovePositions();
 
         if (!availableMovePositions.contains(movePosition)) {
             throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_PIECE.getMessage());
@@ -37,7 +37,7 @@ public class PieceState {
         updatePosition(movePosition);
     }
 
-    public List<Position> getAvailableMovePositions() {
+    public Set<Position> getAvailableMovePositions() {
         return piece.availableMovePositions(position);
     }
 

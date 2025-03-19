@@ -27,7 +27,7 @@ class BoardTest {
         Position position = Position.of(9, 5);
 
         // when
-        PieceState actual = board.getPiecePosition(Side.CHO, position);
+        PieceState actual = board.getPiecePositionBySameSide(Side.CHO, position);
         PieceState expected = new PieceState(position, new Piece(Side.CHO, pieceBehavior));
 
         // then
@@ -43,7 +43,7 @@ class BoardTest {
         Position position = Position.of(2, 1);
 
         // when & then
-        assertThatThrownBy(() -> board.getPiecePosition(Side.CHO, position))
+        assertThatThrownBy(() -> board.getPiecePositionBySameSide(Side.CHO, position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.POSITION_DOES_NOT_EXIST.getMessage());
     }
@@ -58,7 +58,7 @@ class BoardTest {
         Position position = Position.of(1, 1);
 
         // when & then
-        assertThatThrownBy(() -> board.getPiecePosition(Side.CHO, position))
+        assertThatThrownBy(() -> board.getPiecePositionBySameSide(Side.CHO, position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.NOT_SAME_SIDE.getMessage());
     }

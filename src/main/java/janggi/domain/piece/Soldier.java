@@ -1,8 +1,11 @@
 package janggi.domain.piece;
 
+import janggi.domain.Board;
 import janggi.domain.Position;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Soldier implements PieceBehavior {
 
@@ -14,12 +17,17 @@ public class Soldier implements PieceBehavior {
     }
 
     @Override
-    public List<Position> generateMovePosition(Side side, Position position) {
+    public Set<Position> generateMovePosition(Side side, Position position) {
         return VECTORS.stream()
                 .map(vector -> vector.side(side))
                 .map(position::calculate)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .toList();
+                .collect(Collectors.toUnmodifiableSet());
+    }
+
+    @Override
+    public Set<Position> generateMovePosition(Board board, Side side, Position position) {
+        return Set.of();
     }
 }

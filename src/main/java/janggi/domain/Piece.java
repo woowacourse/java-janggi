@@ -4,6 +4,7 @@ import janggi.domain.piece.PieceBehavior;
 import janggi.domain.piece.Side;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Piece {
 
@@ -15,7 +16,7 @@ public class Piece {
         this.pieceBehavior = pieceBehavior;
     }
 
-    public List<Position> availableMovePositions(Position currentPosition) {
+    public Set<Position> availableMovePositions(Position currentPosition) {
         return pieceBehavior.generateMovePosition(this.side, currentPosition);
     }
 

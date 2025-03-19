@@ -7,10 +7,10 @@ import java.util.Map;
 
 public class Board {
 
-    private final Map<Position, PieceState> piecePositions;
+    private final Map<Position, PieceState> pieceStates;
 
-    public Board(Map<Position, PieceState> piecePositions) {
-        this.piecePositions = piecePositions;
+    public Board(Map<Position, PieceState> pieceStates) {
+        this.pieceStates = pieceStates;
     }
 
     public String getPieceName(int row, int column) {
@@ -20,17 +20,17 @@ public class Board {
             return "#";
         }
 
-        return piecePositions.get(position)
+        return pieceStates.get(position)
                 .toName();
     }
 
-    private boolean hasPosition(Position position) {
-        return piecePositions.containsKey(position);
+    public boolean hasPosition(Position position) {
+        return pieceStates.containsKey(position);
     }
 
-    public PieceState getPiecePosition(Side side, Position position) {
+    public PieceState getPiecePositionBySameSide(Side side, Position position) {
         validatePositionExists(position);
-        PieceState pieceState = piecePositions.get(position);
+        PieceState pieceState = pieceStates.get(position);
         if (!pieceState.isSameSide(side)) {
             throw new IllegalArgumentException(ErrorMessage.NOT_SAME_SIDE.getMessage());
         }
@@ -39,7 +39,7 @@ public class Board {
     }
 
     private void validatePositionExists(Position position) {
-        if (!piecePositions.containsKey(position)) {
+        if (!pieceStates.containsKey(position)) {
             throw new IllegalArgumentException(ErrorMessage.POSITION_DOES_NOT_EXIST.getMessage());
         }
     }
@@ -50,7 +50,7 @@ public class Board {
         List<Position> availablePositions = pieceState.getAvailableMovePositions()
                 .stream()
                 .filter(position -> {
-                    PieceState pieceAtPosition = piecePositions.get(position);
+                    PieceState pieceAtPosition = pieceStates.get(position);
                     return pieceAtPosition == null || !pieceState.isSameSide(pieceAtPosition);
                 })
                 .toList();
@@ -61,14 +61,27 @@ public class Board {
 
         pieceState.move(newPosition);
 
-        piecePositions.remove(currentPosition);
-        piecePositions.put(newPosition, pieceState);
+        pieceStates.remove(currentPosition);
+        pieceStates.put(newPosition, pieceState);
+    }
+
+    public boolean isSameSide(Side side, Position position) {
+        // 해당 포지션에 적 팀이거나 빈 공간이라면 갈 수 있다.
+        return getPieceState(position).isSameSide(side);
+    }
+
+    private PieceState getPieceState(Position position) {
+        if (!pieceStates.containsKey(position)) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_BOARD_POSITION.getMessage());
+        }
+
+        return pieceStates.get(position);
     }
 
     @Override
     public String toString() {
         return "Board{" +
-                "piecePositions=" + piecePositions +
+                "piecePositions=" + pieceStates +
                 '}';
     }
 }
