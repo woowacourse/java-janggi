@@ -61,4 +61,18 @@ class BoardTest {
             assertThat(board.hasPieceOnPath(falsePosition, Point.of(8, 3))).isFalse();
         });
     }
+
+    @Test
+    void 특정_위치에_말이_있다면_true_없다면_false_반환() {
+
+        // given
+        final Board board = Board.initialize();
+
+        // when
+        // then
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(board.hasPieceAt(Point.of(0, 0))).isTrue();
+            softly.assertThat(board.hasPieceAt(Point.of(0, 1))).isFalse();
+        });
+    }
 }
