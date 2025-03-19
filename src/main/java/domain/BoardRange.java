@@ -1,3 +1,5 @@
+package domain;
+
 public enum BoardRange {
     START_LOCATION(new Location(1,1)),
     END_LOCATION(new Location(9,10));
