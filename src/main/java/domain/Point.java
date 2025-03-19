@@ -19,6 +19,10 @@ public class Point {
         return new Point(parsedX, parsedY);
     }
 
+    public static Point of(final int x, final int y) {
+        return new Point(x, y);
+    }
+
     private static void validateRange(final int point, final int maxPoint) {
         if (point < 0 || point > maxPoint) {
             throw new IllegalArgumentException("X축은 0부터 8까지, Y축은 0부터 9까지 입력 가능합니다.");
