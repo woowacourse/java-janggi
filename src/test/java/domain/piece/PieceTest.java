@@ -4,6 +4,7 @@ import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
 import domain.piece.movement.ByeongMovement;
 import domain.piece.movement.ChaMovement;
+import domain.piece.movement.GungMovement;
 import domain.piece.movement.MaMovement;
 import domain.piece.movement.SaMovement;
 import domain.piece.movement.SangMovement;
@@ -103,6 +104,22 @@ class PieceTest {
             board.getBoard().put(new JanggiCoordinate(5, 5), sa);
 
             List<JanggiCoordinate> availableMovePositions = SaMovement.availableMovePositions(
+                    new JanggiCoordinate(5, 5), board);
+
+            Assertions.assertThat(availableMovePositions.size()).isEqualTo(7);
+        }
+    }
+
+    @Nested
+    class GungTest {
+        @DisplayName("궁의 이동 가능한 경로를 검사한다")
+        @Test
+        void gungAvailableMovePosition() {
+            Gung gung = new Gung(Team.Han);
+            JanggiBoard board = new JanggiBoard();
+            board.getBoard().put(new JanggiCoordinate(5, 5), gung);
+
+            List<JanggiCoordinate> availableMovePositions = GungMovement.availableMovePositions(
                     new JanggiCoordinate(5, 5), board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(7);
