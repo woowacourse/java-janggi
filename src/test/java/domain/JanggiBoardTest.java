@@ -210,11 +210,26 @@ public class JanggiBoardTest {
 
     @Test
     void 포는_포를_뛰어넘을_수_없다() {
+        // given
+        JanggiBoard janggiBoard = new JanggiBoard();
 
+        // when & then
+        assertThatThrownBy(() -> janggiBoard.move(new Position(8, 8), new Position(2, 8)))
+                .isInstanceOf(IllegalStateException.class);
     }
 
     @Test
     void 포는_기물을_두_개_이상_뛰어넘을_수_없다() {
+        // given
+        JanggiBoard janggiBoard = new JanggiBoard();
+
+        // when
+        janggiBoard.move(new Position(9, 5), new Position(8, 5));
+        janggiBoard.move(new Position(8, 8), new Position(8, 3));
+
+        // then
+        assertThatThrownBy(() -> janggiBoard.move(new Position(8, 3), new Position(3, 3)))
+                .isInstanceOf(IllegalStateException.class);
 
     }
 }

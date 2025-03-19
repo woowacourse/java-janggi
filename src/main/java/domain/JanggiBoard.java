@@ -47,12 +47,14 @@ public class JanggiBoard {
     }
 
     private void move포(Piece piece, Position beforePosition, Position afterPosition) {
-        canMove포(beforePosition, afterPosition);
+        validateMove포(beforePosition, afterPosition);
         boolean isHurdle = isExistHurdle(piece, beforePosition, afterPosition);
         if (!isHurdle) {
             throw new IllegalArgumentException();
         }
-
+        if (getHurdleCount(piece, beforePosition, afterPosition) > 1) {
+            throw new IllegalStateException();
+        }
         janggiBoard.put(beforePosition, new Empty());
         janggiBoard.put(afterPosition, piece);
     }
@@ -70,8 +72,7 @@ public class JanggiBoard {
         return false;
     }
 
-    private void canMove포(Position beforePosition, Position afterPosition) {
-//        장애물 가져오기
+    private void validateMove포(Position beforePosition, Position afterPosition) {
         Piece hurdlePiece = getHurdlePiece(beforePosition, afterPosition);
         if (hurdlePiece.isEmpty()) {
             throw new IllegalArgumentException();
@@ -90,5 +91,18 @@ public class JanggiBoard {
             }
         }
         return hurdlePiece;
+    }
+
+    private int getHurdleCount(Piece piece, Position beforePosition, Position afterPosition) {
+        List<Pattern> patterns = piece.findPath(beforePosition, afterPosition);
+        int count = 0;
+        Position newPosition = beforePosition;
+        for (Pattern pattern : patterns) {
+            newPosition = newPosition.moveOnePosition(pattern);
+            if (!getPieceFrom(newPosition).isEmpty()) {
+                count++;
+            }
+        }
+        return count;
     }
 }
