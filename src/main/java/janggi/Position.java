@@ -21,6 +21,10 @@ public class Position {
         this.x = x;
     }
 
+    public static Position valueOf(final int y, final int x) {
+        return POSITIONS.get((y - 1) * 9 + x - 1);
+    }
+
     private static List<Position> initialize() {
         List<Position> positions = new ArrayList<>();
         for (int i = Y_MIN_THRESHOLD; i <= Y_MAX_THRESHOLD; i++) {
@@ -31,30 +35,18 @@ public class Position {
         return positions;
     }
 
-    public Position moveForward() {
-        return valueOf(y - MOVE_UNIT, x);
+    public int calculateDifferenceForX(Position position) {
+        return this.x - position.x;
     }
 
-    public Position moveLeft() {
-        return valueOf(y, x - MOVE_UNIT);
+    public int calculateDifferenceForY(Position position) {
+        return this.y - position.y;
     }
-
-    public Position moveRight() {
-        return valueOf(y, x + MOVE_UNIT);
-    }
-
-    public Position moveBackward() {
-        return valueOf(y + MOVE_UNIT, x);
-    }
-
+    
     private void validate(int y, int x) {
         if (y < Y_MIN_THRESHOLD || y > Y_MAX_THRESHOLD || x < X_MIN_THRESHOLD || x > X_MAX_THRESHOLD) {
             throw new IllegalArgumentException("[ERROR] y좌표는 1 이상 10이하, x좌표는 1이상 9이하여야 합니다.");
         }
-    }
-
-    private Position valueOf(final int y, final int x) {
-        return POSITIONS.get((y - 1) * 9 + x - 1);
     }
 
     @Override
@@ -71,11 +63,11 @@ public class Position {
         return Objects.hash(y, x);
     }
 
-    @Override
-    public String toString() {
-        return "Position{" +
-                "y=" + y +
-                ", x=" + x +
-                '}';
+    public int getY() {
+        return y;
+    }
+
+    public int getX() {
+        return x;
     }
 }

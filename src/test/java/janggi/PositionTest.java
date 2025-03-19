@@ -37,38 +37,22 @@ class PositionTest {
     }
 
     @Test
-    void 앞으로_움직인다() {
+    void Y좌표끼리의_위치_차이를_구한다() {
         // Given
-        Position position = new Position(3, 1);
+        Position position1 = new Position(3, 3);
+        Position position2 = new Position(6, 3);
 
         // When & Then
-        assertThat(position.moveForward()).isEqualTo(new Position(2, 1));
+        assertThat(position1.calculateDifferenceForY(position2)).isEqualTo(-3);
     }
 
     @Test
-    void 뒤로_움직인다() {
+    void x좌표끼리의_위치_차이를_구한다() {
         // Given
-        Position position = new Position(3, 1);
+        Position position1 = new Position(1, 6);
+        Position position2 = new Position(1, 3);
 
         // When & Then
-        assertThat(position.moveBackward()).isEqualTo(new Position(4, 1));
-    }
-
-    @Test
-    void 오른쪽으로_움직인다() {
-        // Given
-        Position position = new Position(3, 1);
-
-        // When & Then
-        assertThat(position.moveRight()).isEqualTo(new Position(3, 2));
-    }
-
-    @Test
-    void 왼쪽으로_움직인다() {
-        // Given
-        Position position = new Position(3, 2);
-
-        // When & Then
-        assertThat(position.moveLeft()).isEqualTo(new Position(3, 1));
+        assertThat(position1.calculateDifferenceForX(position2)).isEqualTo(3);
     }
 }
