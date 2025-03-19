@@ -6,12 +6,12 @@ import janggi.position.Position;
 import java.util.List;
 import java.util.Optional;
 
-public class Soldier implements Piece{
+public class SoldierCho implements Piece{
 
-    private final Movement movement = Movement.SOLDIER;
+    private final Movement movement = Movement.SOLDIER_CHO;
     private final Position position;
 
-    public Soldier(Position position) {
+    public SoldierCho(Position position) {
         this.position = position;
     }
 

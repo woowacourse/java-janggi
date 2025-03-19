@@ -4,7 +4,6 @@ import janggi.movement.Movement;
 import janggi.position.Position;
 
 import java.util.List;
-import java.util.Optional;
 
 public class Cannon implements Piece{
 
