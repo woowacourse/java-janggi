@@ -9,7 +9,7 @@ public class CarUnitTest {
     void test1() {
         // given
         Point point = new Point(0, 0);
-        CarUnit carUnit = new CarUnit(point);
+        CarUnit carUnit = new CarUnit(point, "한나라");
 
         Point movedPoint = new Point(0, 5);
 
@@ -17,7 +17,7 @@ public class CarUnitTest {
         CarUnit movedCarUnit = carUnit.move(movedPoint);
 
         // then
-        Assertions.assertThat(movedCarUnit).isEqualTo(new CarUnit(new Point(0, 5)));
+        Assertions.assertThat(movedCarUnit).isEqualTo(new CarUnit(new Point(0, 5), "한나라"));
     }
 
     @Test
@@ -25,7 +25,7 @@ public class CarUnitTest {
     void test2() {
         // given
         Point point = new Point(0, 0);
-        CarUnit carUnit = new CarUnit(point);
+        CarUnit carUnit = new CarUnit(point, "한나라");
 
         Point movedPoint = new Point(1, 5);
 

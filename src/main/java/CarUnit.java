@@ -2,9 +2,15 @@ import java.util.Objects;
 
 public class CarUnit implements Unit {
     private final Point point;
+    private final String team;
 
-    public CarUnit(Point point) {
+    public CarUnit(Point point, String team) {
         this.point = point;
+        this.team = team;
+    }
+
+    public static Unit of(Point point, String team) {
+        return new CarUnit(point, team);
     }
 
     @Override
@@ -13,7 +19,7 @@ public class CarUnit implements Unit {
             throw new IllegalArgumentException("");
         }
         // TODO: 이동 경로에 기물이 존재할 시 이동할 수 없다.
-        return new CarUnit(movedPoint);
+        return new CarUnit(movedPoint, this.team);
     }
 
     @Override
