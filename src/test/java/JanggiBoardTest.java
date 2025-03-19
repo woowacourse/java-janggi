@@ -220,5 +220,30 @@ public class JanggiBoardTest {
                 .hasMessage("포는 포끼리 잡을 수 없습니다");
     }
 
+    @DisplayName("포는 장기말을 뛰어넘어 이동한다.")
+    @Test
+    void test10() {
+        //given
+        Cannon blueCannon = new Cannon(Team.BLUE);
+        King blueKing = new King(Team.BLUE);
+
+        Map<Position, Piece> beforeBoard = new HashMap<>();
+        Map<Position, Piece> afterBoard = new HashMap<>();
+
+        beforeBoard.put(new Position(8, 2), blueCannon);
+        beforeBoard.put(new Position(8, 5), blueKing);
+        afterBoard.put(new Position(8, 8), blueCannon);
+        afterBoard.put(new Position(8, 5), blueKing);
+
+        FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
+        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+
+        Position startPosition = new Position(8, 2);
+        Position targetPosition = new Position(8, 8);
+
+        // when & then
+        janggiBoard.move(startPosition, targetPosition);
+        Assertions.assertThat(beforeBoard).isEqualTo(afterBoard);
+    }
 
 }

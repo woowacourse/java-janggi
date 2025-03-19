@@ -26,7 +26,7 @@ public class JanggiBoard {
                     throw new IllegalArgumentException("포는 포끼리 건너뛸 수 없습니다.");
                 }
             }
-            if (targetPositionPiece.isCanon()) {
+            if (targetPositionPiece != null && targetPositionPiece.isCanon()) {
                 throw new IllegalArgumentException("포는 포끼리 잡을 수 없습니다");
             }
         }
