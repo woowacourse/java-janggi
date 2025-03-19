@@ -9,10 +9,14 @@ public abstract class Piece {
     }
 
     public void move(Board board, int dx, int dy) {
+        Position target = position.move(dx, dy);
+        if (!board.isInboard(target)) {
+            throw new IllegalArgumentException();
+        }
         if (!canMove(board, dx, dy)) {
             throw new IllegalArgumentException();
         }
-        position = position.move(dx, dy);
+        position = target;
     }
 
     protected abstract boolean canMove(Board board, int dx, int dy);
