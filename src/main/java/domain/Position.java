@@ -9,4 +9,8 @@ public class Position {
         this.point = point;
         this.piece = piece;
     }
+
+    public boolean isSame(final Point other) {
+        return this.point.equals(other);
+    }
 }

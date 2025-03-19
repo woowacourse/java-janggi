@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.Objects;
+
 public class Point {
     private static final int MAX_X = 8;
     private static final int MAX_Y = 9;
@@ -35,5 +37,19 @@ public class Point {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("숫자만 입력 가능합니다.");
         }
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final Point point = (Point) o;
+        return x == point.x && y == point.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }
