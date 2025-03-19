@@ -2,6 +2,7 @@ package view;
 
 import domain.PieceType;
 
+import java.util.Arrays;
 import java.util.List;
 
 public enum SangMaOrderCommand {
@@ -18,6 +19,13 @@ public enum SangMaOrderCommand {
     SangMaOrderCommand(String input, List<PieceType> pieceTypes) {
         this.input = input;
         this.pieceTypes = pieceTypes;
+    }
+
+    public static SangMaOrderCommand from(String input) {
+        return Arrays.stream(values())
+                .filter(command -> command.input.equals(input))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 올바른 상마 순서를 입력해주세요."));
     }
 
     public List<PieceType> getPieceTypes() {

@@ -9,6 +9,10 @@ import java.util.List;
 
 public class OutputView {
 
+    public static void printStart() {
+        System.out.println("장기 게임에 오신 것을 환영합니다.");
+    }
+
     public static void printBoard(Board board) {
         List<List<String>> boardString = new ArrayList<>();
         for (int row = Board.START_ROW_INDEX; row <= Board.END_ROW_INDEX; row++) {

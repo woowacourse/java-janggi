@@ -18,7 +18,15 @@ import java.util.List;
 import java.util.Map;
 import view.SangMaOrderCommand;
 
-public class BoardInitializer {
+public class BoardGenerator {
+
+    public Board generateBoard(SangMaOrderCommand hanSangMaOrderCommand, SangMaOrderCommand choSangMaOrderCommand) {
+        Map<Point, Node> nodeByPoint = initializeNodesAndEdges();
+        Map<Node, Piece> pieceByNode = initializePiecePosition(nodeByPoint,
+                hanSangMaOrderCommand,
+                choSangMaOrderCommand);
+        return new Board(pieceByNode, nodeByPoint);
+    }
 
     // 노드와 엣지 정보 초기화
     public Map<Point, Node> initializeNodesAndEdges() {
