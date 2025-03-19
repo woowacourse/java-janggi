@@ -1,8 +1,10 @@
+package domain.unit;
+
 import java.util.Objects;
 
 public class Point {
-    private static final int X_MAX = 8;
-    private static final int Y_MAX = 9;
+    public static final int X_MAX = 8;
+    public static final int Y_MAX = 9;
 
     private final int x;
     private final int y;
@@ -28,6 +30,14 @@ public class Point {
 
     public Point calculateOpposite(Point point) {
         return new Point(X_MAX - point.x, Y_MAX - point.y);
+    }
+
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
     }
 
     @Override
