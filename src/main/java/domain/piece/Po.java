@@ -27,10 +27,10 @@ public class Po extends Piece {
         if (paths.size() != 1) {
             return false;
         }
-        if (board.findPiece(paths.getFirst()).isPo()) {
+        if (board.findPiece(paths.getFirst()).get().isPo()) {
             return false;
         }
-        if (board.isExistence(arrival) && board.findPiece(arrival).isPo()) {
+        if (board.isExistence(arrival) && board.findPiece(arrival).get().isPo()) {
             return false;
         }
         return true;
