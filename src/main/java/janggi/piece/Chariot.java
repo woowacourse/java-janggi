@@ -26,15 +26,6 @@ public class Chariot implements Piece {
 
     @Override
     public List<Position> checkPossibleMoves() {
-//        List<Position> possibleMoves = new ArrayList<>();
-//        for (Direction direction : movement.getDirections()) {
-//          List<Position> possiblePositions = direction.plusOffsetToAllDirections(position);
-//          for (Position piecePosition : possiblePositions) {
-//              Optional<Position> okayPosition = checkOutOfBoundsPosition(piecePosition);
-//              possibleMoves.add(okayPosition.get());
-//          }
-//        }
-//        return possibleMoves;
         return movement.getDirections()
                 .stream()
                 .map(direction ->

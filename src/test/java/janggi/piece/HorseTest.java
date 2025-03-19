@@ -13,19 +13,19 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class SolderHanTest {
-    @DisplayName("정상: 병이 생성 가능한 위치에 있는지 확인")
+public class HorseTest {
+    @DisplayName("정상: 마가 생성 가능한 위치에 있는지 확인")
     @ParameterizedTest
     @MethodSource("getWithinBoundPositions")
-    void createSoldierHanTest(Position position) {
-        assertThatCode(() -> new SoldierHan(position)).doesNotThrowAnyException(); ;
+    void createHorseTest(Position position) {
+        assertThatCode(() -> new Horse(position)).doesNotThrowAnyException(); ;
     }
 
-    @DisplayName("예외: 병이 생성 가능한 위치에 있는지 확인")
+    @DisplayName("예외: 마가 생성 가능한 위치에 있는지 확인")
     @ParameterizedTest
     @MethodSource("getOutOfBoundPositions")
-    void createSoldierHanExceptionTest(Position position) {
-        assertThatThrownBy(() -> new SoldierHan(position)).isInstanceOf(IllegalArgumentException.class) ;
+    void createHorseExceptionTest(Position position) {
+        assertThatThrownBy(() -> new Horse(position)).isInstanceOf(IllegalArgumentException.class) ;
     }
 
     private static Stream<Arguments> getOutOfBoundPositions() {
@@ -36,15 +36,20 @@ public class SolderHanTest {
         return TestPositionGenerator.makeWithinBoundPositions();
     }
 
-    @DisplayName("병이 이동 가능한 position 목록 반환 확인")
+    @DisplayName("마가 이동 가능한 position 목록 반환 확인")
     @Test
-    void solderHanPositionTest() {
-        Piece soldierHan = new SoldierHan(new Position(4, 3));
-        List<Position> possibleMoves = soldierHan.checkPossibleMoves();
+    void elephantPositionTest() {
+        Piece horse = new Horse(new Position(5,5));
+        List<Position> possibleMoves = horse.checkPossibleMoves();
         List<Position> expectedPossibleMoves = List.of(
-                new Position(5, 3),
-                new Position(4, 2),
-                new Position(3, 3)
+                new Position(7, 4),
+                new Position(7, 6),
+                new Position(3, 4),
+                new Position(3, 6),
+                new Position(4, 3),
+                new Position(6, 3),
+                new Position(6, 7),
+                new Position(4, 7)
         );
         assertThat(possibleMoves).containsAll(expectedPossibleMoves);
     }

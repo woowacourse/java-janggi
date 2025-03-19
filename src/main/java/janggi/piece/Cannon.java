@@ -3,6 +3,7 @@ package janggi.piece;
 import janggi.movement.Movement;
 import janggi.position.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,10 +28,16 @@ public class Cannon implements Piece{
                 .stream()
                 .map(direction ->
                         {
-                            Position position = direction.plusOffsetToPosition(this.position);
-                            return makePositionWithOptional(position);
+                            List<Position> positions = direction.testPlusOffset(position);
+                            List<Optional<Position>> optionalPositions = new ArrayList<>();
+                            for (Position position : positions) {
+                                Optional<Position> optionalPosition = makePositionWithOptional(position);
+                                optionalPositions.add(optionalPosition);
+                            }
+                            return optionalPositions;
                         }
                 )
+                .flatMap(List::stream)
                 .flatMap(Optional::stream)
                 .toList();
     }
