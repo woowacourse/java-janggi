@@ -1,4 +1,4 @@
-package janggi.piece;
+package janggi.domain.piece;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,20 +12,18 @@ public class Cannon extends Piece {
             new Position(3, 8));
 
     private Cannon(final Position position, final TeamType teamType) {
-        super(position, teamType);
+        super("포", position, teamType);
     }
 
     public static List<Piece> createWithInitialPositions(TeamType teamType) {
         List<Piece> cannons = new ArrayList<>();
         if (teamType.equals(TeamType.BLUE)) {
-            INITIAL_POSITIONS_BLUE.forEach(position -> {
-                cannons.add(new Cannon(position, teamType));
-            });
+            INITIAL_POSITIONS_BLUE.forEach(position ->
+                    cannons.add(new Cannon(position, teamType)));
             return cannons;
         }
-        INITIAL_POSITIONS_RED.forEach(position -> {
-            cannons.add(new Cannon(position, teamType));
-        });
+        INITIAL_POSITIONS_RED.forEach(position ->
+                cannons.add(new Cannon(position, teamType)));
         return cannons;
     }
 }

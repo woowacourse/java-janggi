@@ -1,4 +1,4 @@
-package janggi.piece;
+package janggi.domain.piece;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +10,13 @@ public class Horse extends Piece {
     private static final List<Position> INITIAL_POSITIONS_RED_RIGHT = List.of(new Position(1, 7), new Position(1, 8));
 
     private Horse(final Position position, final TeamType teamType) {
-        super(position, teamType);
+        super("마", position, teamType);
     }
 
     public static List<Piece> createWithInitialPositions(
-            TeamType teamType,
-            PositionSide leftHorsePosition,
-            PositionSide rightHorsePosition) {
+            final TeamType teamType,
+            final PositionSide leftHorsePosition,
+            final PositionSide rightHorsePosition) {
         if (teamType.equals(TeamType.BLUE)) {
             return createBlueInitialPositions(leftHorsePosition, rightHorsePosition);
         }
@@ -24,8 +24,8 @@ public class Horse extends Piece {
     }
 
     private static List<Piece> createBlueInitialPositions(
-            PositionSide leftHorsePosition,
-            PositionSide rightHorsePosition
+            final PositionSide leftHorsePosition,
+            final PositionSide rightHorsePosition
     ) {
         List<Piece> horses = new ArrayList<>();
         horses.add(new Horse(INITIAL_POSITIONS_BLUE_LEFT.get(leftHorsePosition.value()), TeamType.BLUE));
@@ -34,8 +34,8 @@ public class Horse extends Piece {
     }
 
     private static List<Piece> createRedInitialPositions(
-            PositionSide leftHorsePosition,
-            PositionSide rightHorsePosition
+            final PositionSide leftHorsePosition,
+            final PositionSide rightHorsePosition
     ) {
         List<Piece> horses = new ArrayList<>();
         horses.add(new Horse(INITIAL_POSITIONS_RED_LEFT.get(leftHorsePosition.value()), TeamType.RED));

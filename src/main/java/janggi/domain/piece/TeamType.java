@@ -1,4 +1,4 @@
-package janggi.piece;
+package janggi.domain.piece;
 
 public enum TeamType {
     RED,

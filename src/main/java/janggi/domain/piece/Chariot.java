@@ -1,4 +1,4 @@
-package janggi.piece;
+package janggi.domain.piece;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,20 +12,18 @@ public class Chariot extends Piece {
             new Position(1, 9));
 
     private Chariot(final Position position, final TeamType teamType) {
-        super(position, teamType);
+        super("차", position, teamType);
     }
 
-    public static List<Piece> createWithInitialPositions(TeamType teamType) {
+    public static List<Piece> createWithInitialPositions(final TeamType teamType) {
         List<Piece> chariots = new ArrayList<>();
-        if(teamType.equals(TeamType.BLUE)) {
-            INITIAL_POSITIONS_BLUE.forEach(position -> {
-                chariots.add(new Chariot(position, teamType));
-            });
+        if (teamType.equals(TeamType.BLUE)) {
+            INITIAL_POSITIONS_BLUE.forEach(position ->
+                    chariots.add(new Chariot(position, teamType)));
             return chariots;
         }
-        INITIAL_POSITIONS_RED.forEach(position -> {
-            chariots.add(new Chariot(position, teamType));
-        });
+        INITIAL_POSITIONS_RED.forEach(position ->
+                chariots.add(new Chariot(position, teamType)));
         return chariots;
     }
 }

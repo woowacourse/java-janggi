@@ -1,4 +1,4 @@
-package janggi.piece;
+package janggi.domain.piece;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,20 +18,18 @@ public class Soldier extends Piece {
             new Position(4, 9));
 
     public Soldier(final Position position, final TeamType teamType) {
-        super(position, teamType);
+        super("졸", position, teamType);
     }
 
-    public static List<Piece> createWithInitialPositions(TeamType teamType) {
+    public static List<Piece> createWithInitialPositions(final TeamType teamType) {
         List<Piece> soldiers = new ArrayList<>();
-        if(teamType.equals(TeamType.BLUE)) {
-            INITIAL_POSITIONS_BLUE.forEach(position -> {
-                soldiers.add(new Soldier(position, teamType));
-            });
+        if (teamType.equals(TeamType.BLUE)) {
+            INITIAL_POSITIONS_BLUE.forEach(position ->
+                    soldiers.add(new Soldier(position, teamType)));
             return soldiers;
         }
-        INITIAL_POSITIONS_RED.forEach(position -> {
-            soldiers.add(new Soldier(position, teamType));
-        });
+        INITIAL_POSITIONS_RED.forEach(position ->
+                soldiers.add(new Soldier(position, teamType)));
         return soldiers;
     }
 }

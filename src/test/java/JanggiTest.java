@@ -1,18 +1,12 @@
-import static org.assertj.core.api.Assertions.assertThat;
-
-import janggi.Board;
-import janggi.Janggi;
-import janggi.piece.Cannon;
-import janggi.piece.Chariot;
-import janggi.piece.General;
-import janggi.piece.Guard;
-import janggi.piece.Horse;
-import janggi.piece.Position;
-import janggi.piece.PositionSide;
-import janggi.piece.Soldier;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Stream;
+import janggi.domain.Board;
+import janggi.domain.piece.Cannon;
+import janggi.domain.piece.Chariot;
+import janggi.domain.piece.General;
+import janggi.domain.piece.Guard;
+import janggi.domain.piece.Horse;
+import janggi.domain.piece.Position;
+import janggi.domain.piece.PositionSide;
+import janggi.domain.piece.Soldier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,8 +15,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.List;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 class JanggiTest {
-    private Janggi janggi;
     private Board board;
 
     static Stream<Arguments> getHorseElephant() {
@@ -44,11 +42,7 @@ class JanggiTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board(new HashMap<>());
-        janggi = new Janggi(board);
-        janggi.initializeBoard(
-                PositionSide.LEFT, PositionSide.LEFT, PositionSide.RIGHT, PositionSide.RIGHT
-        );
+        board = Board.getInitializedBoard(PositionSide.LEFT, PositionSide.LEFT, PositionSide.RIGHT, PositionSide.RIGHT);
     }
 
     @DisplayName("보드를 초기화하면 청궁이 95, 홍궁이 25에 배치된다.")
@@ -121,15 +115,12 @@ class JanggiTest {
             PositionSide redRightHorsePosition,
             List<Position> expectedPosition
     ) {
-        board = new Board(new HashMap<>());
-        janggi = new Janggi(board);
-        janggi.initializeBoard(
+        board = Board.getInitializedBoard(
                 blueLeftHorsePosition,
                 blueRightHorsePosition,
                 redLeftHorsePosition,
                 redRightHorsePosition
         );
-
         expectedPosition.forEach(position -> assertThat(board.getPiece(position)).isInstanceOf(Horse.class));
     }
 }

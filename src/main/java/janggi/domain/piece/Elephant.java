@@ -1,4 +1,4 @@
-package janggi.piece;
+package janggi.domain.piece;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ public class Elephant extends Piece {
     private static final List<Position> INITIAL_POSITIONS_RED_RIGHT = List.of(new Position(1, 8), new Position(1, 7));
 
     private Elephant(final Position position, final TeamType teamType) {
-        super(position, teamType);
+        super("상", position, teamType);
     }
 
     public static List<Piece> createWithInitialPositions(
