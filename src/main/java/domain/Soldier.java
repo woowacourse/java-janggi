@@ -1,5 +1,6 @@
 package domain;
 
+import domain.piece.Piece;
 import java.util.List;
 
 public class Soldier extends Piece {
