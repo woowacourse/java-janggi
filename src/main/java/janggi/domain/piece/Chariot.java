@@ -14,6 +14,11 @@ public class Chariot extends Piece {
     }
 
     @Override
+    public boolean isCannon() {
+        return false;
+    }
+
+    @Override
     protected Set<RawRoute> calculateRawRoutes() {
         Set<RawRoute> rawRoutes = new HashSet<>();
 

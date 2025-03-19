@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.Position;
 import java.util.List;
 import java.util.Objects;
@@ -12,8 +13,17 @@ public class Route {
         this.route = route;
     }
 
-    public boolean hasNotPosition(final Position position) {
-        return !route.contains(position);
+    public boolean hasPosition(final Piece piece) {
+        for (Position position : route) {
+            if (piece.isSamePosition(position)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isDestination(Piece piece) {
+        return piece.isSamePosition(route.getLast());
     }
 
     @Override

@@ -44,4 +44,10 @@ public abstract class Piece {
     public boolean isSamePosition(final Position otherPosition) {
         return position.equals(otherPosition);
     }
+
+    public boolean isEnemy(final Piece otherPiece) {
+        return team != otherPiece.team;
+    }
+
+    public abstract boolean isCannon();
 }

@@ -25,6 +25,11 @@ public class Elephant extends Piece {
         super(position, team);
     }
 
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
+
     public List<RawPosition> makeRawPositions1() {
         return List.of(
                 new RawPosition(position.x(), position.y() + 1),

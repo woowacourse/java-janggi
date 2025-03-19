@@ -14,6 +14,11 @@ public class Cannon extends Piece {
     }
 
     @Override
+    public boolean isCannon() {
+        return true;
+    }
+
+    @Override
     protected Set<RawRoute> calculateRawRoutes() {
         Set<RawRoute> rawRoutes = new HashSet<>();
 
