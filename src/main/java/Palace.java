@@ -18,14 +18,8 @@ public class Palace extends Piece {
     }
 
     @Override
-    protected boolean canMove(int x, int y) {
+    protected boolean canMove(Board board, int x, int y) {
         for (var route : routes) {
-            // int sumX = route.positions().stream()
-            //     .mapToInt(Position::x)
-            //     .sum();
-            // int sumY = route.positions().stream()
-            //     .mapToInt(Position::y)
-            //     .sum();
             Position routeSum = route.sum();
             Position difference = routeSum.differenceWith(position);
             if (position.differenceWith(new Position(x, y)).equals(difference)) {

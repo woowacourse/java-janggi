@@ -8,14 +8,14 @@ public abstract class Piece {
         position = new Position(x, y);
     }
 
-    public void move(int x, int y) {
-        if (!canMove(x, y)) {
+    public void move(Board board, int x, int y) {
+        if (!canMove(board, x, y)) {
             throw new IllegalArgumentException();
         }
         position = position.move(x, y);
     }
 
-    protected abstract boolean canMove(int x, int y);
+    protected abstract boolean canMove(Board board, int x, int y);
 
     public Position getPosition() {
         return position;
