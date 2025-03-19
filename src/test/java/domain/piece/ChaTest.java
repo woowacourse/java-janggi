@@ -3,6 +3,7 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.Board;
+import domain.BoardFixture;
 import domain.Coordinate;
 import domain.Team;
 import java.util.Set;
@@ -60,7 +61,7 @@ public class ChaTest {
         void test1() {
             // given
             Cha cha = new Cha(Team.HAN);
-            Board board = new BoardBuilder()
+            Board board = new BoardFixture()
                     .addPiece(5, 5, cha)
                     .addPiece(6, 5, new Ma(Team.CHO))
                     .build();
@@ -77,7 +78,7 @@ public class ChaTest {
         void test2() {
             // given
             Cha cha = new Cha(Team.HAN);
-            Board board = new BoardBuilder()
+            Board board = new BoardFixture()
                     .addPiece(5, 5, cha)
                     .build();
 

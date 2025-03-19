@@ -1,19 +1,18 @@
-package domain.piece;
+package domain;
 
-import domain.Board;
-import domain.Coordinate;
+import domain.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BoardBuilder {
+public class BoardFixture {
 
     private final Map<Coordinate, Piece> pieces;
 
-    public BoardBuilder() {
+    public BoardFixture() {
         pieces = new HashMap<>();
     }
 
-    public BoardBuilder addPiece(int x, int y, Piece piece) {
+    public BoardFixture addPiece(int x, int y, Piece piece) {
         pieces.put(new Coordinate(x, y), piece);
         return this;
     }

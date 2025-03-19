@@ -3,6 +3,7 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.Board;
+import domain.BoardFixture;
 import domain.Coordinate;
 import domain.Team;
 import java.util.Set;
@@ -56,7 +57,7 @@ class PoTest {
         void test1() {
             // given
             Po po = new Po(Team.HAN);
-            Board board = new BoardBuilder()
+            Board board = new BoardFixture()
                     .addPiece(5, 5, po)
                     .addPiece(6, 5, new Ma(Team.CHO))
                     .addPiece(7, 5, new Sang(Team.CHO))
@@ -74,7 +75,7 @@ class PoTest {
         void test2() {
             // given
             Po po = new Po(Team.HAN);
-            Board board = new BoardBuilder()
+            Board board = new BoardFixture()
                     .addPiece(5, 5, po)
                     .addPiece(7, 5, new Po(Team.CHO))
                     .build();
@@ -91,7 +92,7 @@ class PoTest {
         void test3() {
             // given
             Po po = new Po(Team.HAN);
-            Board board = new BoardBuilder()
+            Board board = new BoardFixture()
                     .addPiece(5, 5, po)
                     .addPiece(6, 5, new Ma(Team.CHO))
                     .addPiece(8, 5, new Po(Team.CHO))
@@ -109,7 +110,7 @@ class PoTest {
         void test4() {
             // given
             Po po = new Po(Team.HAN);
-            Board board = new BoardBuilder()
+            Board board = new BoardFixture()
                     .addPiece(5, 5, po)
                     .addPiece(6, 5, new Ma(Team.CHO))
                     .addPiece(8, 5, new Sang(Team.CHO))
@@ -127,7 +128,7 @@ class PoTest {
         void test5() {
             // given
             Po po = new Po(Team.HAN);
-            Board board = new BoardBuilder()
+            Board board = new BoardFixture()
                     .addPiece(5, 5, po)
                     .addPiece(7, 5, new Sang(Team.CHO))
                     .build();
