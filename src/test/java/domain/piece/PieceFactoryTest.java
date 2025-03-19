@@ -1,7 +1,5 @@
 package domain.piece;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import domain.piece.strategy.HorseElephantSetupStrategy;
 import domain.piece.strategy.LeftElephantStrategy;
 import domain.piece.strategy.RightElephantStrategy;
