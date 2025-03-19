@@ -12,14 +12,11 @@ public enum PieceType {
     JOL("졸");
 
     private static final String INVALID_TYPE = "존재하지 않는 타입입니다.";
+
     private final String type;
 
     PieceType(String type) {
         this.type = type;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public static PieceType from(String s) {

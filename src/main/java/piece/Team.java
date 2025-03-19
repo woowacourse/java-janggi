@@ -1,3 +1,5 @@
+package piece;
+
 import java.util.Arrays;
 
 public enum Team {

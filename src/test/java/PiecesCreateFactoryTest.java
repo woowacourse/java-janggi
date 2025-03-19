@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import piece.Pieces;
 import piece.PiecesCreateFactory;
+import piece.Team;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class PiecesCreateFactoryTest {
