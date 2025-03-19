@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Position;
 import domain.Team;
 import java.util.List;
 
@@ -21,9 +22,9 @@ public class Elephant extends Piece{
     }
 
     @Override
-    public List<Move> calculatePath(int startRow, int startColumn, int targetRow, int targetColumn) {
+    public List<Move> calculatePath(Position startPosition, Position targetPosition) {
         for (List<Move> moveList : moves) {
-            boolean compareResult = comparePath(startRow, startColumn, targetRow, targetColumn, moveList);
+            boolean compareResult = comparePath(startPosition, targetPosition, moveList);
             if (compareResult) {
                 return moveList;
             }
@@ -36,13 +37,11 @@ public class Elephant extends Piece{
         return false;
     }
 
-    private boolean comparePath(int startRow, int startColumn, int targetRow, int targetColumn, List<Move> moveList) {
-        int newRow = startRow;
-        int newColumn = startColumn;
+    private boolean comparePath(Position startPosition, Position targetPosition, List<Move> moveList) {
+        Position movedPosition = startPosition;
         for (Move move : moveList) {
-            newRow = newRow + move.getDy();
-            newColumn = newColumn + move.getDx();
+            movedPosition = movedPosition.movePosition(move);
         }
-        return newRow == targetRow && newColumn == targetColumn;
+        return movedPosition.equals(targetPosition);
     }
 }

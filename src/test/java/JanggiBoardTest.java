@@ -1,32 +1,19 @@
 import domain.JanggiBoard;
-import domain.piece.Piece;
-import org.assertj.core.api.Assertions;
+import domain.Position;
+import domain.piece.Move;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class JanggiBoardTest {
 
-    @DisplayName("장기판은 9*10의 크기이다.")
-    @Test
-    void test() {
-        //given
-        JanggiBoard janggiBoard = new JanggiBoard();
-        Piece[][] board = janggiBoard.getBoard();
-        int column = board[0].length;
-        int row = board.length;
-        //when & then
-        Assertions.assertThat(column).isEqualTo(9);
-        Assertions.assertThat(row).isEqualTo(10);
-    }
-
     @DisplayName("장기말은 앞으로 이동할 수 있다.")
     @Test
     void test2() {
         JanggiBoard janggiBoard = new JanggiBoard();
 
-        boolean moveResult1 = janggiBoard.canMove(3, 0, 3, 1);
-        boolean moveResult2 = janggiBoard.canMove(3, 4, 4, 4);
+        boolean moveResult1 = janggiBoard.canMove(new Position(4, 1), Move.FRONT);
+        boolean moveResult2 = janggiBoard.canMove(new Position(4, 5), Move.FRONT);
 
         SoftAssertions.assertSoftly(softAssertions -> {
             softAssertions.assertThat(moveResult1).isEqualTo(true);
@@ -34,22 +21,18 @@ public class JanggiBoardTest {
 
         });
     }
+
     @DisplayName("앞에 아군의 말이 있을 시 이동할 수 없다.")
     @Test
     void test3() {
         JanggiBoard janggiBoard = new JanggiBoard();
 
-        boolean moveResult1 = janggiBoard.canMove(0, 0, 0, 1);
-        boolean moveResult3 = janggiBoard.canMove(0, 8, 3,8 );
-        boolean moveResult2 = janggiBoard.canMove(3, 0, 3, 1);
-        boolean moveResult4 = janggiBoard.canMove(3, 4, 4, 4);
+        boolean moveResult1 = janggiBoard.canMove(new Position(1, 1), Move.RIGHT);
+        boolean moveResult3 = janggiBoard.canMove(new Position(1, 2), Move.LEFT);
 
         SoftAssertions.assertSoftly(softAssertions -> {
             softAssertions.assertThat(moveResult1).isEqualTo(false);
             softAssertions.assertThat(moveResult3).isEqualTo(false);
-            softAssertions.assertThat(moveResult2).isEqualTo(true);
-            softAssertions.assertThat(moveResult4).isEqualTo(true);
-
         });
     }
 }

@@ -2,6 +2,7 @@ package domain.piece;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import domain.Position;
 import domain.Team;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -18,7 +19,7 @@ class PawnTest {
         Pawn pawn = new Pawn(Team.RED);
 
         //when
-        List<Move> move = pawn.calculatePath(4,1,4,2);
+        List<Move> move = pawn.calculatePath(new Position(4,1),new Position(4,2));
 
         // then
         Assertions.assertThat(move).isEqualTo(List.of(Move.RIGHT));
@@ -32,7 +33,7 @@ class PawnTest {
         Pawn pawn = new Pawn(Team.RED);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> pawn.calculatePath(4, 1, 4, 3))
+        Assertions.assertThatThrownBy(() -> pawn.calculatePath(new Position(4,1),new Position(4,3)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이 위치로 이동할 수 없습니다.");
     }

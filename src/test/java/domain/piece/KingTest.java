@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Position;
 import domain.Team;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -16,7 +17,7 @@ public class KingTest {
         King king = new King(Team.RED);
 
         //when
-        List<Move> move = king.calculatePath(4,1,4,2);
+        List<Move> move = king.calculatePath(new Position(4,1),new Position(4,2));
 
         // then
         Assertions.assertThat(move).isEqualTo(List.of(Move.RIGHT));
@@ -31,7 +32,7 @@ public class KingTest {
 
 
         // when & then
-        Assertions.assertThatThrownBy(() -> king.calculatePath(4, 1, 4, 3))
+        Assertions.assertThatThrownBy(() -> king.calculatePath(new Position(4,1),new Position(4,3)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이 위치로 이동할 수 없습니다.");
     }

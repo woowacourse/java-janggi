@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Position;
 import domain.Team;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class Guard extends Piece{
     }
 
     @Override
-    public List<Move> calculatePath(int startRow, int startColumn, int targetRow, int targetColumn) {
+    public List<Move> calculatePath(Position startPosition, Position targetPosition) {
         return List.of();
     }
 

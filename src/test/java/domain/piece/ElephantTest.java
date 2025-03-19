@@ -2,6 +2,7 @@ package domain.piece;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import domain.Position;
 import domain.Team;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -15,7 +16,7 @@ class ElephantTest {
     void test1() {
         Elephant elephant = new Elephant(Team.RED);
 
-        List<Move> moves = elephant.calculatePath(4, 4, 2, 7);
+        List<Move> moves = elephant.calculatePath(new Position(4,4),new Position(2,7));
         List<Move> expected = List.of(Move.RIGHT, Move.FRONT_RIGHT, Move.FRONT_RIGHT);
 
         Assertions.assertThat(moves).isEqualTo(expected);
@@ -26,7 +27,7 @@ class ElephantTest {
     void test2() {
         Elephant elephant = new Elephant(Team.RED);
 
-        Assertions.assertThatThrownBy(() -> elephant.calculatePath(4, 4, 4, 5))
+        Assertions.assertThatThrownBy(() -> elephant.calculatePath(new Position(4,4),new Position(4,5)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이 위치로 이동할 수 없습니다.");
     }

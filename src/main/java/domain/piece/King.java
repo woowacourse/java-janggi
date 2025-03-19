@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Position;
 import domain.Team;
 import java.util.List;
 
@@ -12,11 +13,11 @@ public class King extends Piece {
     }
 
     @Override
-    public List<Move> calculatePath(int startRow, int startColumn, int targetRow, int targetColumn) {
+    public List<Move> calculatePath(Position startPosition, Position targetPosition) {
+        Position newPosition = startPosition;
         for (Move move : moves) {
-            int newRow = startRow + move.getDy();
-            int newColumn = startColumn + move.getDx();
-            if(newRow == targetRow && newColumn == targetColumn) {
+            newPosition = newPosition.movePosition(move);
+            if(newPosition.equals(targetPosition)) {
                 return List.of(move);
             }
         }
@@ -27,6 +28,4 @@ public class King extends Piece {
     public boolean isCanon() {
         return false;
     }
-
-
 }

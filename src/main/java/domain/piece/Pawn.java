@@ -1,9 +1,10 @@
 package domain.piece;
 
+import domain.Position;
 import domain.Team;
 import java.util.List;
 
-public class Pawn extends Piece{
+public class Pawn extends Piece {
 
     private final List<Move> moves = List.of(Move.FRONT, Move.BACK, Move.RIGHT, Move.LEFT);
 
@@ -12,11 +13,13 @@ public class Pawn extends Piece{
     }
 
     @Override
-    public List<Move> calculatePath(int startRow, int startColumn, int targetRow, int targetColumn) {
+    public List<Move> calculatePath(Position startPosition, Position targetPosition) {
         for (Move move : moves) {
-            int newRow = startRow + move.getDy();
-            int newColumn = startColumn + move.getDx();
-            if(newRow == targetRow && newColumn == targetColumn) {
+            if (!startPosition.canMovePosition(move)) {
+                continue;
+            }
+            Position position = startPosition.movePosition(move);
+            if (position.equals(targetPosition)) {
                 return List.of(move);
             }
         }
