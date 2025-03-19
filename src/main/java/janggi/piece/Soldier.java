@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Soldier extends Piece {
 
-    private static final String NAME = "졸/병";
+    private static final String NAME = "졸";
 
     private static final int[][] dRows = {{1}, {0}, {0}};
     private static final int[][] dColumns = {{0}, {-1}, {1}};
