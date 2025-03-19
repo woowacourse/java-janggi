@@ -72,4 +72,11 @@ public class Board {
     public boolean hasPieceOn(final Point point) {
         return positions.stream().anyMatch(p -> p.isSame(point));
     }
+
+    public Position findPositionBy(final Point point) {
+        return positions.stream()
+                .filter(p -> p.isSame(point))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 말이 없습니다."));
+    }
 }
