@@ -66,9 +66,6 @@ public class Ma implements Movable {
         if (columnGap == 2) {
             return List.of(new Point(point.row(), point.column() - 1),targetPoint);
         }
-        if (columnGap == -2) {
-            return List.of(new Point(point.row(), point.column() + 1),targetPoint);
-        }
-        return null;
+        return List.of(new Point(point.row(), point.column() + 1),targetPoint);
     }
 }

@@ -53,4 +53,34 @@ public class Sang implements Movable {
     public Point getPoint() {
         return point;
     }
+
+    public List<Point> findRoute(Point targetPoint) {
+        int rowGap = point.row() - targetPoint.row();
+        int columnGap = point.column() - targetPoint.column();
+        if (rowGap == 3) {
+            if (columnGap > 0) {
+                return List.of(new Point(point.row() - 1, point.column()), targetPoint.move(1, 1), targetPoint);
+            }
+            return List.of(new Point(point.row() - 1, point.column()), targetPoint.move(1, -1), targetPoint);
+        }
+
+        if (rowGap == -3) {
+            if (columnGap > 0) {
+                return List.of(new Point(point.row() + 1, point.column()), targetPoint.move(-1, 1), targetPoint);
+            }
+            return List.of(new Point(point.row() + 1, point.column()), targetPoint.move(-1, -1), targetPoint);
+        }
+
+        if (columnGap == 3) {
+            if (rowGap > 0) {
+                return List.of(new Point(point.row(), point.column() - 1), targetPoint.move(1, 1), targetPoint);
+            }
+            return List.of(new Point(point.row(), point.column() - 1), targetPoint.move(-1, 1), targetPoint);
+        }
+
+        if (rowGap > 0) {
+            return List.of(new Point(point.row(), point.column() + 1), targetPoint.move(1, -1), targetPoint);
+        }
+        return List.of(new Point(point.row(), point.column() + 1), targetPoint.move(-1, -1), targetPoint);
+    }
 }
