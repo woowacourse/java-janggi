@@ -1,16 +1,16 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-
 import janggi.domain.Position;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.Side;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
 
 @ReplaceUnderBar
 class PieceTest {
@@ -72,7 +72,17 @@ class PieceTest {
     void 같은_위치인지_판별한다(int x, int y, int compareX, int compareY, boolean expected) {
         Piece piece = new FakePiece(Side.HAN, new Position(x, y));
 
-        assertThat(piece.isSamePosition(compareX, compareY)).isEqualTo(expected);
+        assertThat(piece.isSamePosition(new Position(compareX, compareY))).isEqualTo(expected);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"0,10", "9,0", "-1,0", "0,-1"})
+    void 포지션을_벗어난_위치로_이동할_수_없다(int x, int y) {
+        FakePiece piece = new FakePiece(Side.CHO, DEFAULT_POSITION);
+
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> piece.move(List.of(), x, y))
+            .withMessage("이동할 수 없는 좌표입니다.");
     }
 
     private static class FakePiece extends Piece {
@@ -95,12 +105,12 @@ class PieceTest {
         }
 
         @Override
-        protected boolean isMoveablePosition(int x, int y) {
+        protected boolean isMoveablePosition(Position destination) {
             return this.isMoveablePosition;
         }
 
         @Override
-        protected boolean isMoveablePath(List<Piece> existingPieces, int x, int y) {
+        protected boolean isMoveablePath(List<Piece> existingPieces, Position destination) {
             return this.isMoveablePath;
         }
     }

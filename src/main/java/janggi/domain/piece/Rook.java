@@ -11,34 +11,32 @@ public class Rook extends Piece {
     }
 
     @Override
-    protected boolean isMoveablePosition(int x, int y) {
-        if (getPosition().hasSameX(x)) {
-            return !getPosition().hasSameY(y);
+    protected boolean isMoveablePosition(Position destination) {
+        if (getPosition().hasSameX(destination)) {
+            return !getPosition().hasSameY(destination);
         }
-        return getPosition().hasSameY(y);
+        return getPosition().hasSameY(destination);
     }
 
     @Override
-    protected boolean isMoveablePath(List<Piece> existingPieces, int x, int y) {
-        Position positionToMove = new Position(x, y);
-
+    protected boolean isMoveablePath(List<Piece> existingPieces, Position destination) {
         for (Piece existingPiece : existingPieces) {
-            if (hasPositionBetween(existingPiece, positionToMove)) {
+            if (hasPieceBetween(existingPiece, destination)) {
                 return false;
             }
-            if (existingPiece.isSamePosition(x, y)) {
+            if (existingPiece.isSamePosition(destination)) {
                 return !existingPiece.getSide().equals(getSide());
             }
         }
         return true;
     }
 
-    private boolean hasPositionBetween(Piece other, Position position) {
+    private boolean hasPieceBetween(Piece other, Position destination) {
         if (this.hasSameX(other)) {
-            return getYDistance(position) > getYDistance(other.getPosition());
+            return getPosition().getYDistance(destination) > getPosition().getYDistance(other.getPosition());
         }
         if (this.hasSameY(other)) {
-            return getXDistance(position) > getXDistance(other.getPosition());
+            return getPosition().getXDistance(destination) > getPosition().getXDistance(other.getPosition());
         }
         return false;
     }
@@ -49,13 +47,5 @@ public class Rook extends Piece {
 
     private boolean hasSameY(Piece piece) {
         return getYPosition() == piece.getYPosition();
-    }
-
-    private int getXDistance(Position destination) {
-        return Math.abs(destination.getX() - getXPosition());
-    }
-
-    private int getYDistance(Position destination) {
-        return Math.abs(destination.getY() - getYPosition());
     }
 }

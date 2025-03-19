@@ -3,7 +3,7 @@ package janggi.domain;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-public class Position {
+public final class Position implements Cloneable {
 
     private static final Predicate<Integer> X_MOVEABLE = x -> x >= 0 && x < 9;
     private static final Predicate<Integer> Y_MOVEABLE = y -> y >= 0 && y < 10;
@@ -17,26 +17,26 @@ public class Position {
         this.y = y;
     }
 
-    public Position moveTo(int x, int y) {
-        return new Position(x, y);
-    }
-
     private void validate(int x, int y) {
         if (!X_MOVEABLE.test(x) || !Y_MOVEABLE.test(y)) {
             throw new IllegalArgumentException("이동할 수 없는 좌표입니다.");
         }
     }
 
-    public boolean hasSameX(int x) {
-        return this.x == x;
+    public boolean hasSameX(Position other) {
+        return this.x == other.x;
     }
 
-    public boolean hasSameY(int y) {
-        return this.y == y;
+    public boolean hasSameY(Position other) {
+        return this.y == other.y;
     }
 
-    public boolean isSameCoordinate(int x, int y) {
-        return hasSameX(x) && hasSameY(y);
+    public int getXDistance(Position destination) {
+        return Math.abs(destination.x - x);
+    }
+
+    public int getYDistance(Position destination) {
+        return Math.abs(destination.y - y);
     }
 
     public int getX() {
@@ -58,5 +58,10 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    @Override
+    protected Position clone() throws CloneNotSupportedException {
+        return (Position) super.clone();
     }
 }

@@ -22,27 +22,28 @@ public abstract class Piece {
         return position;
     }
 
-    public final boolean isSamePosition(int x, int y) {
-        return position.hasSameX(x) && position.hasSameY(y);
+    public final boolean isSamePosition(Position position) {
+        return this.position.equals(position);
     }
 
     public void move(List<Piece> existingPieces, int x, int y) {
-        validateMovable(existingPieces, x, y);
-        position = position.moveTo(x, y);
+        Position destination = new Position(x, y);
+        validateMovable(existingPieces, destination);
+        position = destination;
     }
 
-    private void validateMovable(List<Piece> existingPieces, int x, int y) {
-        validateSamePosition(x, y);
-        if (!isMoveablePosition(x, y)) {
+    private void validateMovable(List<Piece> existingPieces, Position destination) {
+        validateSamePosition(destination);
+        if (!isMoveablePosition(destination)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
-        if (!isMoveablePath(existingPieces, x, y)) {
+        if (!isMoveablePath(existingPieces, destination)) {
             throw new IllegalArgumentException("불가능한 경로입니다.");
         }
     }
 
-    private void validateSamePosition(int x, int y) {
-        if (position.isSameCoordinate(x, y)) {
+    private void validateSamePosition(Position destination) {
+        if (position.equals(destination)) {
             throw new IllegalArgumentException("현재 위치로 이동할 수 없습니다.");
         }
     }
@@ -55,7 +56,7 @@ public abstract class Piece {
         return position.getY();
     }
 
-    protected abstract boolean isMoveablePosition(int x, int y);
+    protected abstract boolean isMoveablePosition(Position destination);
 
-    protected abstract boolean isMoveablePath(List<Piece> existingPieces, int x, int y);
+    protected abstract boolean isMoveablePath(List<Piece> existingPieces, Position destination);
 }

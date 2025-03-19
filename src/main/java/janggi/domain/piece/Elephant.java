@@ -20,25 +20,25 @@ public class Elephant extends Piece {
     }
 
     @Override
-    protected boolean isMoveablePosition(int x, int y) {
+    protected boolean isMoveablePosition(Position destination) {
         Position position = getPosition();
 
-        if (Math.abs(position.getX() - x) == VERTICAL_BASE_X_MOVEABLE_DISTANCE) {
-            return Math.abs(position.getY() - y) == VERTICAL_BASE_Y_MOVEABLE_DISTANCE;
+        if (getPosition().getXDistance(destination) == VERTICAL_BASE_X_MOVEABLE_DISTANCE) {
+            return getPosition().getYDistance(destination) == VERTICAL_BASE_Y_MOVEABLE_DISTANCE;
         }
-        if (Math.abs(position.getX() - x) == HORIZONTAL_BASE_X_MOVEABLE_DISTANCE) {
-            return Math.abs(position.getY() - y) == HORIZONTAL_BASE_Y_MOVEABLE_DISTANCE;
+        if (getPosition().getXDistance(destination) == HORIZONTAL_BASE_X_MOVEABLE_DISTANCE) {
+            return getPosition().getYDistance(destination) == HORIZONTAL_BASE_Y_MOVEABLE_DISTANCE;
         }
         return false;
     }
 
     @Override
-    protected boolean isMoveablePath(List<Piece> existingPieces, int x, int y) {
+    protected boolean isMoveablePath(List<Piece> existingPieces, Position destination) {
         List<Piece> onPathPieces = findAllPiecesOnPath(existingPieces);
 
         if (!onPathPieces.isEmpty()) {
             return onPathPieces.stream()
-                    .filter(onPathPiece -> onPathPiece.getPosition().isSameCoordinate(x, y))
+                    .filter(onPathPiece -> onPathPiece.isSamePosition(destination))
                     .anyMatch(onPathPiece -> onPathPiece.getSide() != getSide());
         }
         return true;
