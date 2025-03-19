@@ -26,4 +26,28 @@ class PiecesTest {
         // then
         assertThat(result).isEqualTo(expected);
     }
+
+    @Test
+    void 좌표_목록에_일치하는_기물_개수를_계산한다() {
+        // given
+        Pieces pieces = new Pieces(List.of(
+                new King(2, 5, new Directions(List.of())),
+                new Horse(1, 5, new Directions(List.of())),
+                new Pawn(5, 7, new Directions(List.of())),
+                new Pawn(8, 1, new Directions(List.of())),
+                new Pawn(2, 4, new Directions(List.of()))
+        ));
+
+        List<Position> positions = List.of(
+                Position.of(1, 5),
+                Position.of(2, 5),
+                Position.of(5, 7)
+        );
+
+        // when
+        int count = pieces.countPiecesInPositions(positions);
+
+        // then
+        assertThat(count).isEqualTo(3);
+    }
 }
