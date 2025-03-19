@@ -6,6 +6,7 @@ import janggi.Camp;
 import janggi.Point;
 import janggi.board.Board;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -58,5 +59,19 @@ class CannonTest {
         // when & then
         assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
                 .doesNotThrowAnyException();
+    }
+
+    @DisplayName("포는 다른 포를 잡을 경우 예외가 발생한다.")
+    @Test
+    void shouldThrowException_WhenCatchOtherCannon() {
+        // given
+        Board board = new Board();
+        Cannon chuCannon = new Cannon(Camp.CHU, board);
+        Cannon hanCannon = new Cannon(Camp.HAN, board);
+
+        // when & then
+        assertThatCode(() -> chuCannon.validateCatch(hanCannon))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("포는 포를 잡을 수 없습니다.");
     }
 }

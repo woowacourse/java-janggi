@@ -68,6 +68,14 @@ public final class Cannon extends Piece {
     }
 
     @Override
+    public void validateCatch(Piece otherPiece) {
+        super.validateCatch(otherPiece);
+        if (getPieceSymbol() == otherPiece.getPieceSymbol()) {
+            throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
+        }
+    }
+
+    @Override
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.CANNON;
     }

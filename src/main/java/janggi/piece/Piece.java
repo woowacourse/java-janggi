@@ -23,6 +23,12 @@ public abstract class Piece {
         return camp.isBottom();
     }
 
+    public void validateCatch(Piece otherPiece) {
+        if (camp == otherPiece.getCamp()) {
+            throw new IllegalArgumentException("같은 진영의 기물을 잡을 수 없습니다.");
+        }
+    }
+
     public Camp getCamp() {
         return camp;
     }

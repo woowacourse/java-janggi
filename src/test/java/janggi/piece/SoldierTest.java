@@ -6,6 +6,7 @@ import janggi.Camp;
 import janggi.Point;
 import janggi.board.Board;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -88,5 +89,18 @@ class SoldierTest {
         assertThatCode(() -> soldier.validateMove(fromPoint, toPoint))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("같은 위치로 이동할 수 없습니다.");
+    }
+
+    @DisplayName("같은 진영의 기물을 잡을 경우 예외가 발생한다.")
+    @Test
+    void shouldThrowException_WhenCatchSameCamp() {
+        // given
+        Board board = new Board();
+        Soldier soldier = new Soldier(Camp.HAN, board);
+
+        // when & then
+        assertThatCode(() -> soldier.validateCatch(new Soldier(Camp.HAN, board)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("같은 진영의 기물을 잡을 수 없습니다.");
     }
 }
