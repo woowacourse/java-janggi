@@ -11,6 +11,11 @@ public class Route {
         this.positions = new ArrayDeque<>();
     }
 
+    public Route(final Position position) {
+        this.positions = new ArrayDeque<>();
+        addRoute(position);
+    }
+
     public void addRoute(final Position position) {
         positions.add(position);
     }
