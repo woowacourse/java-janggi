@@ -5,7 +5,8 @@ import janggi.Side;
 import java.util.List;
 
 public abstract class Piece {
-    Side side;
+
+    protected final Side side;
 
     public Piece(Side side) {
         this.side = side;
