@@ -5,4 +5,6 @@ import domain.PieceType;
 public interface Piece {
 
     PieceType type();
+
+    Team team();
 }

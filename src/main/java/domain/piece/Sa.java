@@ -14,4 +14,9 @@ public class Sa implements Piece {
     public PieceType type() {
         return PieceType.SA;
     }
+
+    @Override
+    public Team team() {
+        return this.team;
+    }
 }

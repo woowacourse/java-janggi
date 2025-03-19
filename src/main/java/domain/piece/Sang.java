@@ -14,4 +14,9 @@ public class Sang implements Piece {
     public PieceType type() {
         return PieceType.SANG;
     }
+
+    @Override
+    public Team team() {
+        return this.team;
+    }
 }

@@ -14,4 +14,9 @@ public class Wang implements Piece {
     public PieceType type() {
         return PieceType.WANG;
     }
+
+    @Override
+    public Team team() {
+        return this.team;
+    }
 }

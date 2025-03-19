@@ -14,4 +14,9 @@ public class Byeong implements Piece {
     public PieceType type() {
         return PieceType.BYEONG;
     }
+
+    @Override
+    public Team team() {
+        return this.team;
+    }
 }
