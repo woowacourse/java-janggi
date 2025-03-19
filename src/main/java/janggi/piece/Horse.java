@@ -11,37 +11,31 @@ public class Horse extends Piece {
     }
 
     @Override
-    public boolean movable(final Position current, final Position destination, final List<Position> piecePositions) {
-        int differenceX = destination.x() - current.x();
-        int differenceY = destination.y() - current.y();
-        Position blockingPosition = calculateBlockingPath(current, differenceX, differenceY);
-        if (isPathBlocking(blockingPosition, piecePositions)) {
-            return false;
-        }
-        return followingMovingRule(differenceX, differenceY);
+    public List<Position> calculatePath(Position start, Position end) {
+        int differenceX = end.x() - start.x();
+        int differenceY = end.y() - start.y();
+        validateMovingRule(differenceX, differenceY);
+        return List.of(calculateDirection(start, differenceX, differenceY));
     }
 
-    private boolean isPathBlocking(final Position blockingPosition, final List<Position> piecePositions) {
-        return piecePositions.stream()
-                .anyMatch(position -> position.equals(blockingPosition));
-    }
-
-    private Position calculateBlockingPath(final Position current, final int differenceX,
-                                           final int differenceY) {
+    private Position calculateDirection(Position start, int differenceX, int differenceY) {
         if (differenceX == 2) {
-            return current.right(1);
+            return start.right(1);
         }
         if (differenceX == -2) {
-            return current.left(1);
+            return start.left(1);
         }
         if (differenceY == 2) {
-            return current.up(1);
+            return start.up(1);
         }
-        return current.down(1);
+        return start.down(1);
     }
 
-    private boolean followingMovingRule(final int differenceX, final int differenceY) {
-        return (Math.abs(differenceX) == 2 && Math.abs(differenceY) == 1)
-                || (Math.abs(differenceX) == 1 && Math.abs(differenceY) == 2);
+    private void validateMovingRule(final int differenceX, final int differenceY) {
+        if ((Math.abs(differenceX) == 2 && Math.abs(differenceY) == 1)
+                || (Math.abs(differenceX) == 1 && Math.abs(differenceY) == 2)) {
+            return;
+        }
+        throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
     }
 }

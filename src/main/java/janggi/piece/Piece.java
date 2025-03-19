@@ -15,5 +15,5 @@ public abstract class Piece {
         return side;
     }
 
-    public abstract boolean movable(Position current, Position destination, List<Position> piecePositions);
+    public abstract List<Position> calculatePath(Position start, Position end);
 }
