@@ -18,6 +18,10 @@ public class Sa implements Piece {
         this.position = position;
     }
 
+    public static Sa from(final Position position) {
+        return new Sa(position);
+    }
+
     public static List<Sa> generateInitialSas(final CampType campType) {
         int yPosition = Math.abs(campType.getStartYPosition() - height);
         return xPositions.stream()
@@ -26,13 +30,32 @@ public class Sa implements Piece {
     }
 
     @Override
-    public Sa move(Position destination, List<Piece> enemy, List<Piece> allies) {
+    public Sa move(final Position destination, final List<Piece> enemy, final List<Piece> allies) {
+        boolean isAble = ableToMove(destination, enemy, allies);
+        if (!isAble) {
+            throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
+        }
         return new Sa(destination);
     }
 
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        return true;
+        if (!isRuleOfMove(destination)) {
+            return false;
+        }
+        return isNotHurdle(destination, allies);
+    }
+
+    private boolean isRuleOfMove(Position destination) {
+        return destination.equals(new Position(position.getX() - 1, position.getY()))
+                || destination.equals(new Position(position.getX() + 1, position.getY()))
+                || destination.equals(new Position(position.getX(), position.getY() - 1))
+                || destination.equals(new Position(position.getX(), position.getY() + 1));
+    }
+
+    private static boolean isNotHurdle(Position destination, List<Piece> allies) {
+        return allies.stream()
+                .noneMatch(piece -> piece.getPosition().equals(destination));
     }
 
     @Override
