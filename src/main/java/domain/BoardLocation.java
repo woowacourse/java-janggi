@@ -46,11 +46,15 @@ public class BoardLocation {
         return Objects.hash(x, y);
     }
 
-    public int distanceX(BoardLocation target) {
-        return Math.abs(x - target.x);
+    public int distanceX(BoardLocation destination) {
+        return Math.abs(x - destination.x);
     }
 
-    public int distanceY(BoardLocation target) {
-        return Math.abs(y - target.y);
+    public int distanceY(BoardLocation destination) {
+        return Math.abs(y - destination.y);
+    }
+
+    public boolean isDown(BoardLocation current){
+        return current.y - y < 0;
     }
 }
