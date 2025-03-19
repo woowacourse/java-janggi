@@ -17,7 +17,7 @@ class EmptyPieceTest {
             //given
             final Piece empty = new EmptyPiece();
             //when&then
-            Assertions.assertThatThrownBy(() -> empty.isTeam(Team.HAN))
+            Assertions.assertThatThrownBy(() -> empty.hasEqualTeam(Team.HAN))
                     .isInstanceOf(JanggiArgumentException.class)
                     .hasMessageContaining("기물이 없습니다.");
         }

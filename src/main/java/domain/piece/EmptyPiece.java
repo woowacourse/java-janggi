@@ -7,7 +7,7 @@ import java.util.List;
 
 public final class EmptyPiece implements Piece {
     @Override
-    public boolean isTeam(Team team) {
+    public boolean hasEqualTeam(Team team) {
         throw new JanggiArgumentException("기물이 없습니다.");
     }
 

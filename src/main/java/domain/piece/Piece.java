@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface Piece {
 
-    public boolean isTeam(Team team);
+    public boolean hasEqualTeam(Team team);
 
     public List<Point> getArrivalPoint(Point startPoint);
 
