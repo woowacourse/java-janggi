@@ -18,8 +18,8 @@ public class Pawn extends Piece {
             if (!startPosition.canMovePosition(move)) {
                 continue;
             }
-            Position position = startPosition.movePosition(move);
-            if (position.equals(targetPosition)) {
+            Position newPosition = startPosition.movePosition(move);
+            if (newPosition.equals(targetPosition)) {
                 return List.of(move);
             }
         }
