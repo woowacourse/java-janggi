@@ -45,6 +45,18 @@ class JanggiBoardTest {
                     .isInstanceOf(IllegalArgumentException.class);
             assertThat(janggiBoard.getPieceScore(newCoordinate)).isInstanceOf(Ma.class);
         }
+
+        @DisplayName("말이 이동 불가능한 위치로 이동할 수 없다.")
+        @Test
+        void validateMoveCoordinateTest() {
+            JanggiCoordinate oldCoordinate = new JanggiCoordinate(2, 1);
+            JanggiCoordinate newCoordinate = new JanggiCoordinate(2, 3);
+
+            JanggiBoard janggiBoard = new JanggiBoard();
+
+            assertThatThrownBy(() -> janggiBoard.movePiece(oldCoordinate, newCoordinate))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
     }
 
 }
