@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-record Position(int x, int y) {
+public record Position(int x, int y) {
 
     private static final int MIN_POSITION = 0;
     private static final int MAX_X_POSITION = 8;
