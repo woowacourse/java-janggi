@@ -29,7 +29,7 @@ class CannonTest {
 
     @DisplayName("포의 이동 경로에 포가 있으면 false를 반환한다.")
     @Test
-    void test() {
+    void testCannotJumpCannon() {
         // given
         final Board board = TestBoardGenerator.generateCannon();
         final Position start = new Position(Row.EIGHT, Column.ZERO);
@@ -43,7 +43,7 @@ class CannonTest {
 
     @DisplayName("포의 이동 경로에 기물이 없으면 false를 반환한다.")
     @Test
-    void test2() {
+    void testCannotMoveWithoutJump() {
         // given
         final Board board = TestBoardGenerator.generateEmpty();
         final Position start = new Position(Row.EIGHT, Column.ZERO);
@@ -57,7 +57,7 @@ class CannonTest {
 
     @DisplayName("포의 이동 경로에 포를 제외한 기물이 하나만 있어야 한다.")
     @Test
-    void test3() {
+    void testJumpOnlyOne() {
         // given
         final Board board = TestBoardGenerator.generateNotCannon();
         final Position start = new Position(Row.EIGHT, Column.ZERO);

@@ -38,11 +38,11 @@ public abstract class JumpablePiece extends Piece {
         int count = 0;
         for (MoveVector vector : matchRule.getVectorsWithoutLast()) {
             route = route.add(vector);
+            if (board.isUnjumpablePiece(route)) {
+                return true;
+            }
             if (board.isPresent(route)) {
                 count++;
-                if (board.isUnjumpablePiece(route)) {
-                    return true;
-                }
             }
         }
         return count != 1;
