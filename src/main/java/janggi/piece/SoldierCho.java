@@ -12,6 +12,7 @@ public class SoldierCho implements Piece{
     private final Position position;
 
     public SoldierCho(Position position) {
+        validatePositionRange(position);
         this.position = position;
     }
 
@@ -24,7 +25,12 @@ public class SoldierCho implements Piece{
     public List<Position> checkPossibleMoves() {
         return movement.getDirections()
                 .stream()
-                .map(direction -> checkOutOfBoundsPosition(direction.plusOffsetToPosition(position)))
+                .map(direction ->
+                        {
+                            Position position = direction.plusOffsetToPosition(this.position);
+                            return makePositionWithOptional(position);
+                        }
+                )
                 .flatMap(Optional::stream)
                 .toList();
     }

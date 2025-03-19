@@ -7,14 +7,7 @@ public class PositionX {
     private final int value;
 
     public PositionX(int value) {
-        validateRange(value);
         this.value = value;
-    }
-
-    private void validateRange(int value) {
-        if (value < 1 || value > 9) {
-            throw new IllegalArgumentException("X 위치가 장기판을 벗어났습니다");
-        }
     }
 
     public PositionX plus(int value) {
@@ -35,5 +28,11 @@ public class PositionX {
     @Override
     public int hashCode() {
         return Objects.hashCode(value);
+    }
+
+    @Override
+    public String toString() {
+        return value+"";
+
     }
 }

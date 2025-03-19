@@ -4,6 +4,7 @@ import janggi.movement.Movement;
 import janggi.position.Position;
 
 import java.util.List;
+import java.util.Optional;
 
 public class Cannon implements Piece{
 
@@ -11,6 +12,7 @@ public class Cannon implements Piece{
     private final Position position;
 
     public Cannon(Position position) {
+        validatePositionRange(position);
         this.position = position;
     }
 
@@ -21,6 +23,15 @@ public class Cannon implements Piece{
 
     @Override
     public List<Position> checkPossibleMoves() {
-        return null;
+        return movement.getDirections()
+                .stream()
+                .map(direction ->
+                        {
+                            Position position = direction.plusOffsetToPosition(this.position);
+                            return makePositionWithOptional(position);
+                        }
+                )
+                .flatMap(Optional::stream)
+                .toList();
     }
 }

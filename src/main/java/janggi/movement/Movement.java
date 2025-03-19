@@ -10,7 +10,7 @@ public enum Movement {
     GUARD("G", List.of(new Direction(1,0),new Direction(-1,0),new Direction(0,-1),new Direction(0,1))),
     HORSE("H", List.of(new Direction(2,-1),new Direction(2,1),new Direction(-2,-1),new Direction(-2,1),new Direction(-1,-2),new Direction(1,-2),new Direction(1,2),new Direction(-1,2))),
     ELEPHANT("E", List.of(new Direction(3,2),new Direction(3,-2),new Direction(-3,2),new Direction(-3,-2),new Direction(-2,-3),new Direction(2,-3),new Direction(2,3),new Direction(-2,3))),
-    CHARIOT("C", List.of(new Direction(8,0),new Direction(-8,0),new Direction(0,-9),new Direction(0,9))),
+    CHARIOT("C", List.of(new Direction(8,0),new Direction(0,9))),
     CANNON("P", List.of(new Direction(8,0),new Direction(-8,0),new Direction(0,-9),new Direction(0,9))),
     SOLDIER_CHO("J", List.of(new Direction(1,0),new Direction(-1,0),new Direction(0,1))),
     SOLDIER_HAN("B", List.of(new Direction(1,0),new Direction(-1,0),new Direction(0,-1)));

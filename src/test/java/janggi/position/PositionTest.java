@@ -13,8 +13,8 @@ public class PositionTest {
         Position position = new Position(1, 2);
 
         assertAll(
-                () -> assertThat(position.getX()).isNotNull(),
-                () -> assertThat(position.getY()).isNotNull()
+                () -> assertThat(position.getX()).isEqualTo(1),
+                () -> assertThat(position.getY()).isEqualTo(2)
         );
     }
 

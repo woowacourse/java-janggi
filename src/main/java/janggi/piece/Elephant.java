@@ -12,6 +12,7 @@ public class Elephant implements Piece{
     private final Position position;
 
     public Elephant(Position position) {
+        validatePositionRange(position);
         this.position = position;
     }
 
@@ -24,7 +25,12 @@ public class Elephant implements Piece{
     public List<Position> checkPossibleMoves() {
         return movement.getDirections()
                 .stream()
-                .map(direction -> checkOutOfBoundsPosition(direction.plusOffsetToPosition(position)))
+                .map(direction ->
+                        {
+                            Position position = direction.plusOffsetToPosition(this.position);
+                            return makePositionWithOptional(position);
+                        }
+                )
                 .flatMap(Optional::stream)
                 .toList();
     }
