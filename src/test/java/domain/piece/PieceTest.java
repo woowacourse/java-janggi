@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
+import domain.piece.movement.ChaMovement;
 import domain.piece.movement.MaMovement;
 import domain.piece.movement.SangMovement;
 import java.util.List;
@@ -30,13 +31,11 @@ class PieceTest {
         @Test
         void maAvailableMovePosition1() {
             JanggiBoard board = new JanggiBoard();
-            board.getBoard().put(new JanggiCoordinate(0, 1),
-                    new Ma(Team.Han));
 
             List<JanggiCoordinate> availableMovePositions =
-                    MaMovement.availableMovePositions(new JanggiCoordinate(0, 1), board);
+                    MaMovement.availableMovePositions(new JanggiCoordinate(2, 1), board);
 
-            Assertions.assertThat(availableMovePositions.size()).isEqualTo(6);
+            Assertions.assertThat(availableMovePositions.size()).isEqualTo(2);
         }
     }
 
@@ -52,22 +51,26 @@ class PieceTest {
             List<JanggiCoordinate> availableMovePositions =
                     SangMovement.availableMovePositions(new JanggiCoordinate(5, 5), board);
 
-            Assertions.assertThat(availableMovePositions.size()).isEqualTo(8);
+            Assertions.assertThat(availableMovePositions.size()).isEqualTo(4);
         }
     }
 
-//    @Nested
-//    class ChaTest {
-//        @DisplayName("차의 이동 가능한 경로를 검사한다")
-//        @Test
-//        void sangAvailableMovePosition() {
-//            Cha cha = new Cha(new JanggiCoordinate(1, 1), Team.Cho);
-//            JanggiBoard board = new JanggiBoard();
-//
-//            List<JanggiCoordinate> availableMovePositions = cha.fromCurrPosition(board);
-//
-//            Assertions.assertThat(availableMovePositions.size()).isEqualTo(17);
-//        }
-//    }
+    @Nested
+    class ChaTest {
+        @DisplayName("차의 이동 가능한 경로를 검사한다")
+        @Test
+        void sangAvailableMovePosition() {
+            Cha cha = new Cha(Team.Han);
+            JanggiBoard board = new JanggiBoard();
+            board.getBoard().put(new JanggiCoordinate(5, 5),
+                    cha);
+
+
+            List<JanggiCoordinate> availableMovePositions = ChaMovement.availableMovePositions(
+                    new JanggiCoordinate(5,5),board);
+
+            Assertions.assertThat(availableMovePositions.size()).isEqualTo(10);
+        }
+    }
 
 }

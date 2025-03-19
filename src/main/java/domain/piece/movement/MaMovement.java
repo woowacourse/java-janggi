@@ -5,11 +5,13 @@ import domain.board.JanggiBoard;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum MaMovement {
+import static domain.piece.movement.SangMovement.movePosition;
+
+public enum MaMovement{
 
     UP(new JanggiCoordinate(0, -1), List.of(new JanggiCoordinate(-1, -2), new JanggiCoordinate(1, -2))),
-    DOWN(new JanggiCoordinate(0, 1), List.of(new JanggiCoordinate(2, -1), new JanggiCoordinate(2, 1))),
-    RIGHT(new JanggiCoordinate(1, 0), List.of(new JanggiCoordinate(1, 2), new JanggiCoordinate(1, -2))),
+    DOWN(new JanggiCoordinate(0, 1), List.of(new JanggiCoordinate(1, 2), new JanggiCoordinate(-1, 2))),
+    RIGHT(new JanggiCoordinate(1, 0), List.of(new JanggiCoordinate(2, -1), new JanggiCoordinate(2, 1))),
     LEFT(new JanggiCoordinate(-1, 0), List.of(new JanggiCoordinate(-2, 1), new JanggiCoordinate(-2, -1)));
 
     private final JanggiCoordinate direction;
@@ -23,9 +25,9 @@ public enum MaMovement {
     public static List<JanggiCoordinate> availableMovePositions(JanggiCoordinate currCoordinate,
                                                                 JanggiBoard janggiBoard) {
         List<JanggiCoordinate> availablePositions = new ArrayList<>();
-        for (MaMovement MAMovement : values()) {
-            if (!janggiBoard.hasPiece(movePosition(currCoordinate, MAMovement.direction))) {
-                for (JanggiCoordinate destination : MAMovement.destination) {
+        for (MaMovement maMovement : values()) {
+            if (!janggiBoard.hasPiece(movePosition(currCoordinate, maMovement.getDirection()))) {
+                for (JanggiCoordinate destination : maMovement.getDestination()) {
                     JanggiCoordinate next = movePosition(currCoordinate, destination);
                     if (janggiBoard.isOutOfBoundary(next)) {
                         continue;
@@ -39,7 +41,11 @@ public enum MaMovement {
         return availablePositions;
     }
 
-    public static JanggiCoordinate movePosition(JanggiCoordinate currCoordinate, JanggiCoordinate moveOffset) {
-        return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
+    public JanggiCoordinate getDirection() {
+        return direction;
+    }
+
+    public List<JanggiCoordinate> getDestination() {
+        return destination;
     }
 }
