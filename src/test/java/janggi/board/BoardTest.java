@@ -1,11 +1,13 @@
 package janggi.board;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.Camp;
 import janggi.Point;
 import janggi.piece.Elephant;
 import janggi.piece.Piece;
+import janggi.piece.Soldier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -44,5 +46,87 @@ class BoardTest {
         assertThatCode(() -> board.placePiece(point, piece))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("기물의 위치는 9 x 10 영역을 벗어날 수 없습니다.");
+    }
+
+    @DisplayName("기물을 정상적인 좌표로 움직인다.")
+    @Test
+    void moveTest() {
+        // given
+        Board board = new Board();
+        Point from = new Point(0, 3);
+        Piece piece = new Soldier(Camp.CHU);
+        board.placePiece(from, piece);
+        Point to = new Point(0, 4);
+
+        // when
+        board.move(from, to, Camp.CHU);
+
+        // then
+        assertThat(board.getPlacedPieces())
+                .containsEntry(to, piece);
+    }
+
+    @DisplayName("기물을 보드판의 영역을 넘어서 움직일 경우 예외가 발생한다.")
+    @Test
+    void shouldThrowException_WhenInvalidMove() {
+        // given
+        Board board = new Board();
+        Point from = new Point(0, 3);
+        Piece piece = new Soldier(Camp.CHU);
+        board.placePiece(from, piece);
+        Point to = new Point(0, 15);
+
+        // when & then
+        assertThatCode(() -> board.move(from, to, Camp.CHU))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("기물의 위치는 9 x 10 영역을 벗어날 수 없습니다.");
+    }
+
+    @DisplayName("이동시킬 기물을 찾을 수 없는 경우 예외가 발생한다.")
+    @Test
+    void shouldThrowException_WhenNotFoundPiece() {
+        // given
+        Board board = new Board();
+        Point from = new Point(0, 3);
+        Point to = new Point(0, 4);
+
+        // when & then
+        assertThatCode(() -> board.move(from, to, Camp.CHU))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이동시킬 기물을 찾을 수 없습니다.");
+    }
+
+    @DisplayName("다른 진영의 기물을 움직일 경우 예외가 발생한다.")
+    @Test
+    void shouldThrowException_WhenMoveOtherCampPiece() {
+        // given
+        Board board = new Board();
+        Point from = new Point(0, 3);
+        Piece piece = new Soldier(Camp.CHU);
+        board.placePiece(from, piece);
+        Point to = new Point(0, 4);
+
+        // when & then
+        assertThatCode(() -> board.move(from, to, Camp.HAN))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("다른 진영의 기물을 움직일 수 없습니다.");
+    }
+
+    @DisplayName("같은 진영의 기물을 잡는 경우 예외가 발생한다.")
+    @Test
+    void shouldThrowException_WhenCatchSameCampPiece() {
+        // given
+        Board board = new Board();
+        Point from = new Point(0, 3);
+        Point to = new Point(0, 4);
+        Piece fromPiece = new Soldier(Camp.CHU);
+        Piece toPiece = new Soldier(Camp.CHU);
+        board.placePiece(from, fromPiece);
+        board.placePiece(to, toPiece);
+
+        // when & then
+        assertThatCode(() -> board.move(from, to, Camp.CHU))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("같은 진영의 기물을 잡을 수 없습니다.");
     }
 }

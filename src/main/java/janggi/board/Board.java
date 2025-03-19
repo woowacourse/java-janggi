@@ -1,5 +1,6 @@
 package janggi.board;
 
+import janggi.Camp;
 import janggi.Point;
 import janggi.piece.Piece;
 import java.util.HashMap;
@@ -39,5 +40,28 @@ public class Board {
 
     public Map<Point, Piece> getPlacedPieces() {
         return placedPieces;
+    }
+
+    public void move(Point from, Point to, Camp camp) {
+        validatePoint(from);
+        validatePoint(to);
+        Piece fromPiece = placedPieces.get(from);
+        if (fromPiece == null) {
+            throw new IllegalArgumentException("이동시킬 기물을 찾을 수 없습니다.");
+        }
+        if (fromPiece.getCamp() != camp) {
+            throw new IllegalArgumentException("다른 진영의 기물을 움직일 수 없습니다.");
+        }
+        fromPiece.validateMove(from, to);
+        Piece toPiece = placedPieces.get(to);
+        if (toPiece != null) {
+            if (toPiece.getCamp() != camp) {
+                // TODO
+                return;
+            }
+            throw new IllegalArgumentException("같은 진영의 기물을 잡을 수 없습니다.");
+        }
+        placedPieces.put(from, null);
+        placedPieces.put(to, fromPiece);
     }
 }

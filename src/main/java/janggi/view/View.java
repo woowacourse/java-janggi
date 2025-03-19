@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.Camp;
 import janggi.PieceSymbol;
 import janggi.Point;
 import janggi.piece.Piece;
@@ -29,10 +30,16 @@ public class View {
         throw new IllegalArgumentException("y 또는 n을 입력해야 합니다.");
     }
 
+    public String[] readMove(Camp camp) {
+        System.out.printf("%n%n%s의 차례입니다.%n", camp.getName());
+        return scanner.nextLine()
+                .split(",", -1);
+    }
+
     public void displayBoard(Map<Point, Piece> placedPieces) {
         for (int i = ROW - 1; i >= 0; i--) {
             System.out.print(i);
-            for (int j = COLUMN - 1; j >= 0; j--) {
+            for (int j = 0; j < COLUMN; j++) {
                 if (placedPieces.get(new Point(j, i)) == null) {
                     System.out.print(" | " + EMPTY_SPACE);
                     continue;
