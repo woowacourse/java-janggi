@@ -51,6 +51,22 @@ class SangTest {
         assertThat(result).isFalse();
     }
 
+    @Test
+    @DisplayName("상이 (5,5) -> (3,2) 으로 이동할 때 장애물이 하나도 없을 경우 true 반환한다.")
+    void test3() {
+        // given
+        Sang sang = new Sang(Team.HAN);
+        Board board = new BoardBuilder()
+                .addPiece(5, 5, sang)
+                .build();
+
+        // when
+        boolean result = sang.canMoveConsideringObstacles(board, new Coordinate(5, 5), new Coordinate(3, 2));
+
+        // then
+        assertThat(result).isTrue();
+    }
+
     @DisplayName("경로를 찾는 경우의 수 테스트")
     @Nested
     class FindPathsTest {
