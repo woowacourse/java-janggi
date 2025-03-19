@@ -1,6 +1,7 @@
 package janggi;
 
 import janggi.point.Point;
+import java.util.List;
 
 public interface Movable {
     Point getPoint();
@@ -10,4 +11,6 @@ public interface Movable {
     Movable updatePoint(Point afterPoint);
 
     boolean isMovable(Point targetPoint);
+
+    List<Point> findRoute(Point targetPoint);
 }

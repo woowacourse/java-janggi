@@ -44,6 +44,7 @@ public class Byeong implements Movable {
         return candidates.contains(targetPoint);
     }
 
+    @Override
     public List<Point> findRoute(Point targetPoint) {
         return List.of(targetPoint);
     }

@@ -50,6 +50,7 @@ public class Gung implements Movable {
         return point;
     }
 
+    @Override
     public List<Point> findRoute(Point targetPoint) {
         return List.of(targetPoint);
     }

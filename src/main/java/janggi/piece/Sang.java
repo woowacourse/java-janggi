@@ -55,6 +55,7 @@ public class Sang implements Movable {
         return point;
     }
 
+    @Override
     public List<Point> findRoute(Point targetPoint) {
         int rowGap = point.row() - targetPoint.row();
         int columnGap = point.column() - targetPoint.column();

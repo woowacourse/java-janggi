@@ -81,8 +81,7 @@ public class Board {
             TeamColor crashPieceColor = crashPiece.getColor();
             TeamColor movingPieceColor  = movingPiece.getColor();
 
-            return  crashPieceColor == movingPieceColor
-                    || (crashPiece instanceof Po && movingPiece instanceof Po);
+            return  crashPieceColor == movingPieceColor;
         }
 
         return crashPoints.size() > 0;
@@ -91,9 +90,12 @@ public class Board {
     public void move(Point beforePoint, Point afterPoint) {
         Movable movingPiece = findByPoint(beforePoint);
 
-        if((movingPiece instanceof Po && !isPoMovable((Po) movingPiece, afterPoint)
-                    || !movingPiece.isMovable(afterPoint)))
-        {
+        if (movingPiece instanceof Po) {
+            if (!isPoMovable((Po) movingPiece, afterPoint) || checkPoHurdles(beforePoint, movingPiece.findRoute(afterPoint))) {
+                throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
+            }
+        } else if (!movingPiece.isMovable(afterPoint) || checkHurdles(beforePoint, movingPiece.findRoute(afterPoint))
+        ) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
 
@@ -109,7 +111,6 @@ public class Board {
         runningPieces.add(updatedMoving);
     }
 
-    // TODO: 포 예외 상황 자세하게 테스트 코드 작성
     public boolean isPoMovable(Po po, Point targetPoint) {
         Point point = po.getPoint();
         if (point.isSameRow(targetPoint)) {
@@ -127,5 +128,27 @@ public class Board {
             }
         }
         return false;
+    }
+
+    public boolean checkPoHurdles(Point startPoint, List<Point> route) {
+        //포인데 널뛰기를 하고 나서도 장애물이 있느냐?
+        List<Point> piecePoints = runningPieces.stream()
+                .map(Movable::getPoint).toList();
+
+        List<Point> crashPoints = new ArrayList<>(route.stream()
+                .filter(piecePoints::contains)
+                .toList());
+        crashPoints.removeFirst();
+
+        if (crashPoints.size() == 1
+                && route.getLast().equals(crashPoints.getFirst())
+        ) {
+            Movable crashPiece = findByPoint(crashPoints.getFirst());
+            Movable movingPiece = findByPoint(startPoint);
+
+            return crashPiece instanceof Po && movingPiece instanceof Po;
+        }
+
+        return crashPoints.size() > 0;
     }
 }

@@ -44,6 +44,7 @@ public class Po implements Movable {
         return point.isSameRow(targetPoint) || point.isSameColumn(targetPoint);
     }
 
+    @Override
     public List<Point> findRoute(Point targetPoint) {
         List<Point> route = new ArrayList<>();
         if (point.isSameRow(targetPoint)) {

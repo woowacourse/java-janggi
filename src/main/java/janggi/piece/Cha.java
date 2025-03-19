@@ -44,6 +44,7 @@ public class Cha implements Movable {
         return point;
     }
 
+    @Override
     public List<Point> findRoute(Point targetPoint) {
         List<Point> route = new ArrayList<>();
         if (point.isSameRow(targetPoint)) {
