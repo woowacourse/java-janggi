@@ -19,15 +19,29 @@ public class Board {
     }
 
     public static boolean isInRange(int row, int column) {
-        return !(row < START_ROW_INDEX || row > END_ROW_INDEX)
-                || (column < START_COLUMN_INDEX || column > END_COLUMN_INDEX);
-    }
-
-    public Map<Node, Piece> getBoard() {
-        return board;
+        return !((row < START_ROW_INDEX || row > END_ROW_INDEX)
+                || (column < START_COLUMN_INDEX || column > END_COLUMN_INDEX));
     }
 
     public boolean existsPiece(Point point) {
-        return nodeByPoint.containsKey(point);
+        if (!nodeByPoint.containsKey(point)) {
+            return false;
+        }
+        return board.containsKey(nodeByPoint.get(point));
+    }
+
+    public Piece findPieceByPoint(Point point) {
+        Node node = findNodeByPoint(point);
+        if (!board.containsKey(node)) {
+            throw new IllegalArgumentException("해당 노드에 기물이 존재하지 않습니다.");
+        }
+        return board.get(node);
+    }
+
+    private Node findNodeByPoint(Point point) {
+        if (!nodeByPoint.containsKey(point)) {
+            throw new IllegalArgumentException("해당 위치에 노드가 존재하지 않습니다.");
+        }
+        return nodeByPoint.get(point);
     }
 }
