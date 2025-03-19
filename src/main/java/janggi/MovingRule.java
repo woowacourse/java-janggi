@@ -17,4 +17,8 @@ public final class MovingRule {
         }
         return sumUnit;
     }
+
+    public List<MoveVector> getVectors() {
+        return movingRule;
+    }
 }

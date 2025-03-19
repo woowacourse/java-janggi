@@ -1,5 +1,7 @@
 package janggi;
 
+import java.util.Arrays;
+
 public enum Column {
 
     ZERO(0),
@@ -20,5 +22,12 @@ public enum Column {
 
     public int getValue() {
         return value;
+    }
+
+    public Column add(final int dx) {
+        return Arrays.stream(values())
+                .filter(newValue -> newValue.getValue() == value + dx)
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("[ERROR] 보드를 벗어난 값입니다."));
     }
 }

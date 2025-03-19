@@ -39,4 +39,8 @@ public final class Board {
         }
         return false;
     }
+
+    public boolean isPresent(final Position position) {
+        return board.containsKey(position);
+    }
 }

@@ -15,4 +15,8 @@ public record Position(Row row, Column column) {
         final int columnDiff = column.getValue() - another.getColumnValue();
         return new MoveVector(rowDiff, columnDiff);
     }
+
+    public Position add(final MoveVector vector) {
+        return new Position(row.add(vector.dy()), column.add(vector.dx()));
+    }
 }

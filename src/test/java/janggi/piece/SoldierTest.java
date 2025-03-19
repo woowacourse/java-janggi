@@ -31,7 +31,7 @@ class SoldierTest {
     @Test
     void testPresentSameTeam() {
         // given
-        final Board board = TestBoardGenerator.generateSoldierCanNotMove();
+        final Board board = TestBoardGenerator.generateSoldierCannotMove();
         final Position start = new Position(Row.SEVEN, Column.SEVEN);
         final Position end = new Position(Row.SIX, Column.SEVEN);
         final Soldier soldier = Soldier.of(Team.CHO);

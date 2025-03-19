@@ -10,7 +10,7 @@ import janggi.piece.Team;
 import java.util.Map;
 
 public class TestBoardGenerator {
-    public static Board generateSoldierCanNotMove() {
+    public static Board generateSoldierCannotMove() {
         Map<Position, Piece> board = Map.of(
                 new Position(Row.SIX, Column.SEVEN), Soldier.of(Team.CHO)
         );
@@ -21,6 +21,13 @@ public class TestBoardGenerator {
         Map<Position, Piece> board = Map.of(
                 new Position(Row.SIX, Column.SEVEN), Soldier.of(Team.CHO),
                 new Position(Row.FIVE, Column.SEVEN), Soldier.of(Team.HAN)
+        );
+        return new Board(board);
+    }
+
+    public static Board generateHorseCannotMove() {
+        Map<Position, Piece> board = Map.of(
+                new Position(Row.SIX, Column.SEVEN), Soldier.of(Team.CHO)
         );
         return new Board(board);
     }

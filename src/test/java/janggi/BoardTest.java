@@ -41,7 +41,7 @@ class BoardTest {
                 .hasMessage("[ERROR] 70 위치로 이동할 수 없습니다.");
     }
 
-    @DisplayName("솔져를 한 칸 전진시킨다.")
+    @DisplayName("병 한 칸 전진시킨다.")
     @Test
     void testMoveSoldier() {
         // given
@@ -55,7 +55,7 @@ class BoardTest {
         assertThat(actual.get(end)).isInstanceOf(Soldier.class);
     }
 
-    @DisplayName("이동된 위치에 상대 기물이 있으면 잡으면서 이동한다.")
+    @DisplayName("병 이동된 위치에 상대 기물이 있으면 잡으면서 이동한다.")
     @Test
     void testMoveSoldierCatch() {
         // given
