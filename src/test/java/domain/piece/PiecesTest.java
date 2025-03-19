@@ -50,4 +50,23 @@ class PiecesTest {
         // then
         assertThat(count).isEqualTo(3);
     }
+
+    @Test
+    void 기물의_좌표를_변경한다() {
+        // given
+        King piece = new King(2, 5, new Directions(List.of()));
+        Position position = Position.of(3, 5);
+
+        Pieces pieces = new Pieces(List.of(
+                piece,
+                new Horse(1, 5, new Directions(List.of()))
+        ));
+
+        // when
+        pieces.updatePosition(piece, position);
+
+        // then
+        assertThat(pieces.findByPosition(position))
+                .isEqualTo(piece);
+    }
 }
