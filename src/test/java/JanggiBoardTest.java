@@ -145,6 +145,6 @@ public class JanggiBoardTest {
         // when & then
         Assertions.assertThatThrownBy(() -> janggiBoard.move(startPosition, targetPosition))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 위치는 아군의 말이 있으므로 이동 불가능 합니다.");
+                .hasMessage("포는 다른 말 하나를 뛰어넘어야 합니다.");
     }
 }
