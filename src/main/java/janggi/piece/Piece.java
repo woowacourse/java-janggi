@@ -18,6 +18,7 @@ public abstract class Piece {
 
     public void validateMovable(Map<Position, Piece> board, Position start, Position goal) {
         int pathIndex = calculatePathIndex(start, goal);
+        validatePath(board, start, pathIndex);
         validateNonPieceOnPath(board, start, pathIndex);
         validateSameTeamOnGoal(board, goal);
     }
@@ -39,7 +40,7 @@ public abstract class Piece {
         throw new IllegalArgumentException("[ERROR] %s은/는 해당 목적지로 이동할 수 없습니다.".formatted(getName()));
     }
 
-    private void validateNonPieceOnPath(Map<Position, Piece> board, Position start, int pathIndex) {
+    protected void validateNonPieceOnPath(Map<Position, Piece> board, Position start, int pathIndex) {
         int[] rows = getPathRows(pathIndex);
         int[] columns = getPathColumns(pathIndex);
         Position position = start;
@@ -59,9 +60,11 @@ public abstract class Piece {
         }
     }
 
+    protected abstract void validatePath(Map<Position, Piece> board, Position start, int pathIndex);
     protected abstract int[] getPathRows(int pathIndex);
     protected abstract int[] getPathColumns(int pathIndex);
     protected abstract int[][] getAllPathRows();
     protected abstract int[][] getAllPathColumns();
     protected abstract String getName();
+    protected abstract boolean isSameType(Piece other);
 }

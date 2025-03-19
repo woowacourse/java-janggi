@@ -1,5 +1,8 @@
 package janggi.piece;
 
+import janggi.board.Position;
+import java.util.Map;
+
 public class Horse extends Piece {
 
     private static final String NAME = "마";
@@ -8,6 +11,11 @@ public class Horse extends Piece {
 
     public Horse(String team) {
         super(team);
+    }
+
+    @Override
+    protected void validatePath(Map<Position, Piece> board, Position start, int pathIndex) {
+        validateNonPieceOnPath(board, start, pathIndex);
     }
 
     @Override
@@ -33,5 +41,10 @@ public class Horse extends Piece {
     @Override
     protected String getName() {
         return NAME;
+    }
+
+    @Override
+    protected boolean isSameType(Piece other) {
+        return other instanceof Horse;
     }
 }

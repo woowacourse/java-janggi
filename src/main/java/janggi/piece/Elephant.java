@@ -15,6 +15,11 @@ public class Elephant extends Piece {
     }
 
     @Override
+    protected void validatePath(Map<Position, Piece> board, Position start, int pathIndex) {
+        validateNonPieceOnPath(board, start, pathIndex);
+    }
+
+    @Override
     protected int[] getPathRows(int pathIndex) {
         return dRows[pathIndex];
     }
@@ -37,5 +42,10 @@ public class Elephant extends Piece {
     @Override
     protected String getName() {
         return NAME;
+    }
+
+    @Override
+    protected boolean isSameType(Piece other) {
+        return other instanceof Elephant;
     }
 }
