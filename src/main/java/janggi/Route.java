@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Route {
 
-    public static List<Position> decideRoute(Position departure, Position destination) {
+    public static List<Position> of(Position departure, Position destination) {
         int diffRow = destination.subtractRow(departure);
         int diffColumn = destination.subtractColumn(departure);
         List<Position> route = new ArrayList<>();

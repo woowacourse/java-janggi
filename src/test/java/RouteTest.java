@@ -15,7 +15,7 @@ public class RouteTest {
         Position destination = Position.of(4, 3);
 
         //when
-        List<Position> expected = Route.decideRoute(departure, destination);
+        List<Position> expected = Route.of(departure, destination);
 
         //then
         List<Position> actual = List.of(Position.of(2, 3), Position.of(3, 3), Position.of(4, 3));
@@ -30,7 +30,7 @@ public class RouteTest {
         Position destination = Position.of(1, 3);
 
         //when
-        List<Position> expected = Route.decideRoute(departure, destination);
+        List<Position> expected = Route.of(departure, destination);
 
         //then
         List<Position> actual = List.of(Position.of(3, 3), Position.of(2, 3), Position.of(1, 3));
@@ -45,7 +45,7 @@ public class RouteTest {
         Position destination = Position.of(3, 4);
 
         //when
-        List<Position> expected = Route.decideRoute(departure, destination);
+        List<Position> expected = Route.of(departure, destination);
 
         //then
         List<Position> actual = List.of(Position.of(3, 2), Position.of(3, 3), Position.of(3, 4));
@@ -60,7 +60,7 @@ public class RouteTest {
         Position destination = Position.of(3, 1);
 
         //when
-        List<Position> expected = Route.decideRoute(departure, destination);
+        List<Position> expected = Route.of(departure, destination);
 
         //then
         List<Position> actual = List.of(Position.of(3, 3), Position.of(3, 2), Position.of(3, 1));
@@ -75,7 +75,7 @@ public class RouteTest {
         Position destination = Position.of(4, 3);
 
         //when
-        List<Position> expected = Route.decideRoute(departure, destination);
+        List<Position> expected = Route.of(departure, destination);
 
         //then
         List<Position> actual = List.of(Position.of(2, 1), Position.of(3, 2), Position.of(4, 3));
@@ -90,7 +90,7 @@ public class RouteTest {
         Position destination = Position.of(1, 1);
 
         //when
-        List<Position> expected = Route.decideRoute(departure, destination);
+        List<Position> expected = Route.of(departure, destination);
 
         //then
         List<Position> actual = List.of(Position.of(3, 3), Position.of(2, 2), Position.of(1, 1));
@@ -105,7 +105,7 @@ public class RouteTest {
         Position destination = Position.of(7, 1);
 
         //when
-        List<Position> expected = Route.decideRoute(departure, destination);
+        List<Position> expected = Route.of(departure, destination);
 
         //then
         List<Position> actual = List.of(Position.of(5, 3), Position.of(6, 2), Position.of(7, 1));
@@ -120,7 +120,7 @@ public class RouteTest {
         Position destination = Position.of(7, 5);
 
         //when
-        List<Position> expected = Route.decideRoute(departure, destination);
+        List<Position> expected = Route.of(departure, destination);
 
         //then
         List<Position> actual = List.of(Position.of(5, 3), Position.of(6, 4), Position.of(7, 5));

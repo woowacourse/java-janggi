@@ -28,22 +28,21 @@ public class Chariot extends Piece {
         return new Chariot(destination, team);
     }
 
-    private void validateMove(final Board board, final Position destination) {
-        if (isAllyInDestination(board, destination) || isInvalidMove(board, destination)) {
+    @Override
+    protected void validateCorrectRule(Position destination) {
+        int diffRow = destination.subtractRow(this.position);
+        int diffColumn = destination.subtractColumn(this.position);
+
+        int maxDiff = Math.max(Math.abs(diffRow), Math.abs(diffColumn));
+        int minDiff = Math.min(Math.abs(diffRow), Math.abs(diffColumn));
+
+        if (maxDiff != 0 && minDiff != 0) {
             throw new IllegalArgumentException("이동할 수 없는 지점입니다.");
         }
-    }
-
-    private boolean isAllyInDestination(final Board board, final Position destination) {
-        return board.isExists(destination) && board.isAlly(destination, this.team);
     }
 
     @Override
     public Score die() {
         return Score.Chariot();
-    }
-
-    private boolean isInvalidMove(final Board board, final Position destination) {
-        return destination.getRow() != position.getRow() && destination.getColumn() != position.getColumn();
     }
 }

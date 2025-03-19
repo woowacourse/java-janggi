@@ -8,10 +8,8 @@ import janggi.piece.Guard;
 import janggi.piece.Horse;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 public class Board {
 
@@ -24,18 +22,20 @@ public class Board {
         this.positionToPiece = positionToPiece;
     }
 
-    public static Board initialize() {
+    public static Board initialize(List<Piece> pieces) {
         HashMap<Position, Piece> positionToPiece = new HashMap<>();
-        List<Piece> pieces = new ArrayList<>();
-        for (Team team : Team.values()) {
-            pieces.addAll(Cannon.Default(team));
-            pieces.addAll(Chariot.Default(team));
-            pieces.addAll(Elephant.Default(team));
-            pieces.add(General.Default(team));
-            pieces.addAll(Guard.Default(team));
-            pieces.addAll(Horse.Default(team));
-            pieces.addAll(Soldier.Default(team));
-        }
+
+        // TODO 외부 주입 예정
+//        for (Team team : Team.values()) {
+//            pieces.add(General.Default(team));
+//            pieces.addAll(Cannon.Default(team));
+//            pieces.addAll(Chariot.Default(team));
+//            pieces.addAll(Elephant.Default(team));
+//            pieces.addAll(Guard.Default(team));
+//            pieces.addAll(Horse.Default(team));
+//            pieces.addAll(Soldier.Default(team));
+//        }
+
         pieces.forEach(piece ->
                 positionToPiece.put(piece.getPosition(), piece));
 
@@ -58,10 +58,14 @@ public class Board {
         return getPiece(position).isAlly(team);
     }
 
-    private Piece getPiece(final Position departure) {
+    public Piece getPiece(final Position departure) {
         if (isExists(departure)) {
             return positionToPiece.get(departure);
         }
         throw new IllegalArgumentException("장기말이 존재하지 않는 지점입니다.");
+    }
+
+    public Map<Position, Piece> getPositionToPiece() {
+        return Collections.unmodifiableMap(positionToPiece);
     }
 }

@@ -1,13 +1,13 @@
 package janggi.piece;
 
-import janggi.Board;
-import janggi.Position;
-import janggi.Score;
-import janggi.Team;
+import janggi.*;
+
 import java.util.List;
 import java.util.stream.Stream;
 
 public class Elephant extends Piece {
+
+    public static final Movement MOVEMENT = new Movement(List.of(2, 3));
 
     public Elephant(final Position position, final Team team) {
         super(position, team);
@@ -24,21 +24,21 @@ public class Elephant extends Piece {
 
     @Override
     public Piece move(final Board board, final Position destination) {
-        if ((board.isExists(destination) && board.isAlly(destination, this.team)) || isInvalidMove(destination)) {
-            throw new IllegalArgumentException("이동할 수 없는 지점입니다.");
-        }
+        validateMove(board, destination);
         return new Elephant(destination, team);
     }
 
-    private boolean isInvalidMove(Position destination) {
-        int diffRow = destination.getRow() - position.getRow();
-        int diffColumn = destination.getColumn() - position.getColumn();
+    @Override
+    protected void validateCorrectRule(Position destination) {
+        int diffRow = destination.subtractRow(this.position);
+        int diffColumn = destination.subtractColumn(this.position);
 
-        if ((Math.abs(diffRow) != 2 || Math.abs(diffColumn) != 3)
-                && (Math.abs(diffRow) != 3 || Math.abs(diffColumn) != 2)) {
-            return true;
+        int maxDiff = Math.max(Math.abs(diffRow), Math.abs(diffColumn));
+        int minDiff = Math.min(Math.abs(diffRow), Math.abs(diffColumn));
+
+        if (maxDiff != MOVEMENT.getMaxDistance() || minDiff != MOVEMENT.getMinDistance()) {
+            throw new IllegalArgumentException("이동할 수 없는 지점입니다.");
         }
-        return false;
     }
 
     @Override

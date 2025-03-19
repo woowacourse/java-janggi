@@ -1,9 +1,7 @@
 package janggi.piece;
 
-import janggi.Board;
-import janggi.Position;
-import janggi.Score;
-import janggi.Team;
+import janggi.*;
+
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -25,17 +23,38 @@ public class Cannon extends Piece {
     @Override
     public Piece move(final Board board, final Position destination) {
         validateMove(board, destination);
+        validateCannonRestrict(board, destination);
         return new Cannon(destination, team);
     }
 
-    private void validateMove(final Board board, final Position destination) {
-        if (isAllyInDestination(board, destination) || isInvalidMove(board, destination)) {
+    @Override
+    protected void validateCorrectRule(Position destination) {
+        int diffRow = destination.subtractRow(this.position);
+        int diffColumn = destination.subtractColumn(this.position);
+
+        int maxDiff = Math.max(Math.abs(diffRow), Math.abs(diffColumn));
+        int minDiff = Math.min(Math.abs(diffRow), Math.abs(diffColumn));
+
+        if (maxDiff != 0 && minDiff != 0) {
             throw new IllegalArgumentException("이동할 수 없는 지점입니다.");
         }
     }
 
-    private boolean isAllyInDestination(final Board board, final Position destination) {
-        return board.isExists(destination) && board.isAlly(destination, this.team);
+    @Override
+    protected void validateIsBlock(final Board board, final Position destination) {
+        if (countPieceInRoute(board, destination) != 1) {
+            throw new IllegalArgumentException("이동 경로에 기물 갯수가 조건에 맞지 않습니다.");
+        }
+    }
+
+    private void validateCannonRestrict(final Board board, final Position destination) {
+        boolean containsCannon = Route.of(this.position, destination).stream()
+                .filter(board::isExists)
+                .anyMatch(position -> board.getPiece(position).isCannon());
+
+        if (containsCannon) {
+            throw new IllegalArgumentException("이동 경로에 포가 존재합니다.");
+        }
     }
 
     @Override
@@ -43,7 +62,8 @@ public class Cannon extends Piece {
         return Score.Cannon();
     }
 
-    private boolean isInvalidMove(final Board board, final Position destination) {
-        return destination.getRow() != position.getRow() && destination.getColumn() != position.getColumn();
+    @Override
+    protected boolean isCannon() {
+        return true;
     }
 }

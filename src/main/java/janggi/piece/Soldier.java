@@ -4,6 +4,7 @@ import janggi.Board;
 import janggi.Position;
 import janggi.Score;
 import janggi.Team;
+
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -24,28 +25,26 @@ public class Soldier extends Piece {
 
     @Override
     public Piece move(final Board board, final Position destination) {
-        if ((board.isExists(destination) && board.isAlly(destination, this.team)) || isInvalidMove(destination)) {
-            throw new IllegalArgumentException("이동할 수 없는 지점입니다.");
-        }
+        validateMove(board, destination);
         return new Soldier(destination, team);
     }
 
-    private boolean isInvalidMove(Position destination) {
-        int diffRow = destination.getRow() - position.getRow();
-        int diffColumn = destination.getColumn() - position.getColumn();
+    @Override
+    protected void validateCorrectRule(Position destination) {
+        int diffRow = destination.subtractRow(this.position);
+        int diffColumn = destination.subtractColumn(this.position);
+
         if (Math.abs(diffRow) + Math.abs(diffColumn) != 1) {
-            return true;
+            throw new IllegalArgumentException("이동할 수 없는 지점입니다.");
         }
-        if (diffRow == 0) {
-            return false;
+
+        if (this.team.isRed() && diffRow == -1) {
+            throw new IllegalArgumentException("병은 본진을 향할 수 없습니다.");
         }
-        if (this.team == Team.RED && diffRow == 1) {
-            return false;
+
+        if (this.team.isGreen() && diffRow == 1) {
+            throw new IllegalArgumentException("졸은 본진을 향할 수 없습니다.");
         }
-        if (this.team == Team.GREEN && diffRow == -1) {
-            return false;
-        }
-        return true;
     }
 
     @Override

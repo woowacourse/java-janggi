@@ -24,19 +24,18 @@ public class Guard extends Piece {
 
     @Override
     public Piece move(final Board board, final Position destination) {
-        if ((board.isExists(destination) && board.isAlly(destination, this.team)) || isInvalidMove(destination)) {
-            throw new IllegalArgumentException("이동할 수 없는 지점입니다.");
-        }
+        validateMove(board, destination);
         return new Guard(destination, team);
     }
 
-    private boolean isInvalidMove(Position destination) {
-        int diffRow = destination.getRow() - position.getRow();
-        int diffColumn = destination.getColumn() - position.getColumn();
+    @Override
+    protected void validateCorrectRule(Position destination) {
+        int diffRow = destination.subtractRow(this.position);
+        int diffColumn = destination.subtractColumn(this.position);
+
         if (Math.abs(diffRow) + Math.abs(diffColumn) != 1) {
-            return true;
+            throw new IllegalArgumentException("이동할 수 없는 지점입니다.");
         }
-        return false;
     }
 
     @Override
