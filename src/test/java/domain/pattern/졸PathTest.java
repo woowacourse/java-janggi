@@ -1,5 +1,6 @@
 package domain.pattern;
 
+import domain.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -12,13 +13,14 @@ public class 졸PathTest {
 
     @ParameterizedTest
     @MethodSource("provide졸Path")
-    void 졸의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(int afterRow, int afterColumn, List<Pattern> path) {
+    void 졸의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(Position afterPosition, List<Pattern> path) {
         // given
         int beforeRow = 7;
         int beforeColumn = 5;
+        Position beforePosition = new Position(beforeRow, beforeColumn);
 
         // when
-        List<Pattern> 졸path = 졸Path.getPath(beforeRow, beforeColumn, afterRow, afterColumn);
+        List<Pattern> 졸path = 졸Path.getPath(beforePosition, afterPosition);
 
         // when & then
         Assertions.assertThat(졸path)
@@ -27,9 +29,9 @@ public class 졸PathTest {
 
     static Stream<Arguments> provide졸Path() {
         return Stream.of(
-                Arguments.of(6, 5, 졸Path.UP.getPatterns()),
-                Arguments.of(7, 4, 졸Path.LEFT.getPatterns()),
-                Arguments.of(7, 6, 졸Path.RIGHT.getPatterns())
+                Arguments.of(new Position(6, 5), 졸Path.UP.getPatterns()),
+                Arguments.of(new Position(7, 4), 졸Path.LEFT.getPatterns()),
+                Arguments.of(new Position(7, 6), 졸Path.RIGHT.getPatterns())
         );
     }
 
@@ -38,11 +40,14 @@ public class 졸PathTest {
         // given
         int beforeRow = 7;
         int beforeColumn = 5;
+        Position beforePosition = new Position(beforeRow, beforeColumn);
+
         int afterRow = 8;
         int afterColumn = 5;
+        Position afterPosition = new Position(afterRow, afterColumn);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> 졸Path.getPath(beforeRow, beforeColumn, afterRow, afterColumn))
+        Assertions.assertThatThrownBy(() -> 졸Path.getPath(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

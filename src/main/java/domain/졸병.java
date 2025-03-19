@@ -12,10 +12,10 @@ public class 졸병 extends Piece {
     }
 
     @Override
-    public List<Pattern> findPath(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
+    public List<Pattern> findPath(Position beforePosition, Position afterPosition) {
         if (side == Side.초) {
-            return 졸Path.getPath(beforeRow, beforeColumn, afterRow, afterColumn);
+            return 졸Path.getPath(beforePosition, afterPosition);
         }
-        return 병Path.getPath(beforeRow, beforeColumn, afterRow, afterColumn);
+        return 병Path.getPath(beforePosition, afterPosition);
     }
 }

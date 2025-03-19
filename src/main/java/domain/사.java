@@ -10,7 +10,7 @@ public class 사 extends Piece {
     }
 
     @Override
-    public List<Pattern> findPath(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
-        return 사Path.getPath(beforeRow, beforeColumn, afterRow, afterColumn);
+    public List<Pattern> findPath(Position beforePosition, Position afterPosition) {
+        return 사Path.getPath(beforePosition, afterPosition);
     }
 }

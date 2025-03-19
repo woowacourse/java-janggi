@@ -9,7 +9,7 @@ public class Empty extends Piece {
     }
 
     @Override
-    public List<Pattern> findPath(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
+    public List<Pattern> findPath(Position beforePosition, Position afterPosition) {
         throw new IllegalStateException("움직일 말이 존재하지 않습니다.");
     }
 

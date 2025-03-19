@@ -1,5 +1,6 @@
 package domain.pattern;
 
+import domain.Position;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,15 +16,13 @@ public enum 사Path {
         this.patterns = patterns;
     }
 
-    public static List<Pattern> getPath(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
+    public static List<Pattern> getPath(Position beforePosition, Position afterPosition) {
         return Arrays.stream(사Path.values())
                 .filter(path -> {
                     List<Pattern> patterns = path.patterns;
+                    Position newPosition = beforePosition.move(patterns);
 
-                    int newRow = beforeRow + patterns.stream().mapToInt(Pattern::getX).sum();
-                    int newColumn = beforeColumn + patterns.stream().mapToInt(Pattern::getY).sum();
-
-                    return newRow == afterRow && newColumn == afterColumn;
+                    return newPosition.equals(afterPosition);
                 })
                 .findFirst()
                 .map(사Path::getPatterns)

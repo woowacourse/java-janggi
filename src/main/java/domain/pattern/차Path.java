@@ -1,5 +1,6 @@
 package domain.pattern;
 
+import domain.Position;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,25 +16,26 @@ public enum 차Path {
         this.patterns = patterns;
     }
 
-    public static List<Pattern> getPath(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
+    public static List<Pattern> getPath(Position beforePosition, Position afterPosition) {
         차Path newPath = null;
         int additionalSize = 0;
-        if (afterRow == beforeRow) {
-            if (afterColumn > beforeColumn) {
-                newPath = 차Path.RIGHT;
-                additionalSize = afterColumn - beforeColumn;
-            } else {
+        if (afterPosition.x() == beforePosition.x()) {
+            if (afterPosition.isBiggerXThan(beforePosition)) {
                 newPath = 차Path.LEFT;
-                additionalSize = beforeColumn - afterColumn;
+                additionalSize = beforePosition.y() - afterPosition.y();
+            }
+            if (beforePosition.isBiggerYThan(afterPosition)) {
+                newPath = 차Path.RIGHT;
+                additionalSize = afterPosition.y() - beforePosition.y();
             }
         }
-        if (afterColumn == beforeColumn) {
-            if (afterRow > beforeRow) {
+        if (afterPosition.y() == beforePosition.y()) {
+            if (afterPosition.x() > beforePosition.x()) {
                 newPath = 차Path.DOWN;
-                additionalSize = afterRow - beforeRow;
+                additionalSize = afterPosition.x() - beforePosition.x();
             } else {
                 newPath = 차Path.UP;
-                additionalSize = beforeRow - afterRow;
+                additionalSize = beforePosition.x() - afterPosition.x();
             }
         }
         if (newPath == null) {

@@ -1,5 +1,6 @@
 package domain.pattern;
 
+import domain.Position;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,25 +16,25 @@ public enum 포Path {
         this.patterns = patterns;
     }
 
-    public static List<Pattern> getPath(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
+    public static List<Pattern> getPath(Position beforePosition, Position afterPosition) {
         포Path newPath = null;
         int additionalSize = 0;
-        if (afterRow == beforeRow) {
-            if (afterColumn > beforeColumn) {
+        if (afterPosition.x() == beforePosition.x()) {
+            if (afterPosition.y() > beforePosition.y()) {
                 newPath = 포Path.RIGHT;
-                additionalSize = afterColumn - beforeColumn;
+                additionalSize = afterPosition.y() - beforePosition.y();
             } else {
                 newPath = 포Path.LEFT;
-                additionalSize = beforeColumn - afterColumn;
+                additionalSize = beforePosition.y() - afterPosition.y();
             }
         }
-        if (afterColumn == beforeColumn) {
-            if (afterRow > beforeRow) {
+        if (afterPosition.y() == beforePosition.y()) {
+            if (beforePosition.y() > beforePosition.x()) {
                 newPath = 포Path.DOWN;
-                additionalSize = afterRow - beforeRow;
+                additionalSize = beforePosition.y() - beforePosition.x();
             } else {
                 newPath = 포Path.UP;
-                additionalSize = beforeRow - afterRow;
+                additionalSize = beforePosition.x() - beforePosition.y();
             }
         }
         if (newPath == null) {

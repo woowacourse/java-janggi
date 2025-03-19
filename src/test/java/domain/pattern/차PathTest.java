@@ -1,5 +1,6 @@
 package domain.pattern;
 
+import domain.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -12,13 +13,14 @@ public class 차PathTest {
 
     @ParameterizedTest
     @MethodSource("provide차Path")
-    void 차의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(int afterRow, int afterColumn, List<Pattern> path) {
+    void 차의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(Position afterPosition, List<Pattern> path) {
         // given
         int beforeRow = 10;
         int beforeColumn = 1;
+        Position beforePosition = new Position(beforeRow, beforeColumn);
 
         // when
-        List<Pattern> 차path = 차Path.getPath(beforeRow, beforeColumn, afterRow, afterColumn);
+        List<Pattern> 차path = 차Path.getPath(beforePosition, afterPosition);
 
         // when & then
         Assertions.assertThat(차path).containsAll(path);
@@ -26,9 +28,10 @@ public class 차PathTest {
 
     static Stream<Arguments> provide차Path() {
         return Stream.of(
-                Arguments.of(5, 1, List.of(차Path.UP.getPattern(), 차Path.UP.getPattern(), 차Path.UP.getPattern(),
-                        차Path.UP.getPattern(), 차Path.UP.getPattern())),
-                Arguments.of(10, 9,
+                Arguments.of(new Position(5, 1),
+                        List.of(차Path.UP.getPattern(), 차Path.UP.getPattern(), 차Path.UP.getPattern(),
+                                차Path.UP.getPattern(), 차Path.UP.getPattern())),
+                Arguments.of(new Position(10, 9),
                         List.of(차Path.RIGHT.getPattern(), 차Path.RIGHT.getPattern(), 차Path.RIGHT.getPattern(),
                                 차Path.RIGHT.getPattern(), 차Path.RIGHT.getPattern(), 차Path.RIGHT.getPattern(),
                                 차Path.RIGHT.getPattern(), 차Path.RIGHT.getPattern()))
@@ -40,11 +43,14 @@ public class 차PathTest {
         // given
         int beforeRow = 10;
         int beforeColumn = 1;
+        Position beforePosition = new Position(beforeRow, beforeColumn);
+
         int afterRow = 9;
         int afterColumn = 2;
+        Position afterPosition = new Position(afterRow, afterColumn);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> 차Path.getPath(beforeRow, beforeColumn, afterRow, afterColumn))
+        Assertions.assertThatThrownBy(() -> 차Path.getPath(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

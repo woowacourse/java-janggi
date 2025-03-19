@@ -1,5 +1,6 @@
 package domain.pattern;
 
+import domain.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -17,7 +18,7 @@ public class 궁PathTest {
         int beforeColumn = 5;
 
         // when
-        List<Pattern> 궁path = 궁Path.getPath(beforeRow, beforeColumn, afterRow, afterColumn);
+        List<Pattern> 궁path = 궁Path.getPath(new Position(beforeRow, beforeColumn), new Position(afterRow, afterColumn));
 
         // when & then
         Assertions.assertThat(궁path)
@@ -29,7 +30,7 @@ public class 궁PathTest {
                 Arguments.of(8, 5, 궁Path.UP.getPatterns()),
                 Arguments.of(9, 4, 궁Path.LEFT.getPatterns()),
                 Arguments.of(9, 6, 궁Path.RIGHT.getPatterns()),
-                Arguments.of(10, 5, 궁Path.DOWN.getPatterns()));
+                Arguments.of(0, 5, 궁Path.DOWN.getPatterns()));
     }
 
     @Test
@@ -41,7 +42,8 @@ public class 궁PathTest {
         int afterColumn = 4;
 
         // when & then
-        Assertions.assertThatThrownBy(() -> 궁Path.getPath(beforeRow, beforeColumn, afterRow, afterColumn))
+        Assertions.assertThatThrownBy(
+                        () -> 궁Path.getPath(new Position(beforeRow, beforeColumn), new Position(afterRow, afterColumn)))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

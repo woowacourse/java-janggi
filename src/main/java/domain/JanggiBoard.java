@@ -1,107 +1,92 @@
 package domain;
 
-import com.google.common.collect.Table;
 import domain.pattern.Pattern;
 import java.util.List;
+import java.util.Map;
 
 public class JanggiBoard {
 
-    private final Table<Integer, Integer, Piece> janggiBoard;
+    //    private final Table<Integer, Integer, Piece> janggiBoard;
+    private final Map<Position, Piece> janggiBoard;
 
     public JanggiBoard() {
         this.janggiBoard = JanggiBoardFactory.createJanggiBoard();
     }
 
-    public Table<Integer, Integer, Piece> getJanggiBoard() {
+    public Map<Position, Piece> getJanggiBoard() {
         return janggiBoard;
     }
 
-    public Piece getPieceFrom(int row, int column) {
-        return janggiBoard.get(row, column);
+    public Piece getPieceFrom(Position position) {
+        return janggiBoard.get(position);
     }
 
-    public void move(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
-        if (afterRow < 0 || afterRow > 9 || afterColumn < 1 || afterColumn > 9) {
+    public void move(Position beforePosition, Position afterPosition) {
+        if (afterPosition.x() < 0 || afterPosition.x() > 9 || afterPosition.y() < 1 || afterPosition.y() > 9) {
             throw new IllegalArgumentException();
         }
 
-        Piece piece = getPieceFrom(beforeRow, beforeColumn);
+        Piece piece = getPieceFrom(beforePosition);
 
         if (piece.getClass().equals(포.class)) {
-            move포(piece, beforeRow, beforeColumn, afterRow, afterColumn);
+            move포(piece, beforePosition, afterPosition);
         }
         if (!piece.getClass().equals(포.class)) {
-            moveOtherPiece(piece, beforeRow, beforeColumn, afterRow, afterColumn);
+            moveOtherPiece(piece, beforePosition, afterPosition);
         }
     }
 
-    private void moveOtherPiece(Piece piece, int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
-        boolean isHurdle = isExistHurdle(piece, beforeRow, beforeColumn, afterRow, afterColumn);
+    private void moveOtherPiece(Piece piece, Position beforePosition, Position afterPosition) {
+        boolean isHurdle = isExistHurdle(piece, beforePosition, afterPosition);
         if (isHurdle) {
             throw new IllegalArgumentException();
         }
 
-        janggiBoard.put(beforeRow, beforeColumn, new Empty());
-        janggiBoard.put(afterRow, afterColumn, piece);
+        janggiBoard.put(beforePosition, new Empty());
+        janggiBoard.put(afterPosition, piece);
     }
 
-    private void move포(Piece piece, int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
-        canMove포(beforeRow, beforeColumn, afterRow, afterColumn);
-        boolean isHurdle = isExistHurdle(piece, beforeRow, beforeColumn, afterRow, afterColumn);
+    private void move포(Piece piece, Position beforePosition, Position afterPosition) {
+        canMove포(beforePosition, afterPosition);
+        boolean isHurdle = isExistHurdle(piece, beforePosition, afterPosition);
         if (!isHurdle) {
             throw new IllegalArgumentException();
         }
 
-        janggiBoard.put(beforeRow, beforeColumn, new Empty());
-        janggiBoard.put(afterRow, afterColumn, piece);
+        janggiBoard.put(beforePosition, new Empty());
+        janggiBoard.put(afterPosition, piece);
     }
 
-    private boolean isExistHurdle(Piece piece, int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
-        int transformedBeforeRow = beforeRow;
-        int transformedAfterRow = afterRow;
+    private boolean isExistHurdle(Piece piece, Position beforePosition, Position afterPosition) {
+        List<Pattern> patterns = piece.findPath(beforePosition, afterPosition);
 
-        if (beforeRow == 0) {
-            transformedBeforeRow = 10;
-        }
-        if (afterRow == 0) {
-            transformedAfterRow = 10;
-        }
-        List<Pattern> patterns = piece.findPath(transformedBeforeRow, beforeColumn, transformedAfterRow, afterColumn);
+        Position newPosition = beforePosition;
         for (Pattern pattern : patterns) {
-            if (beforeRow + pattern.getX() < 0) {
-                transformedBeforeRow = 9;
-            } else {
-            }
-            transformedBeforeRow += pattern.getX();
-            beforeColumn += pattern.getY();
-            if (!getPieceFrom(transformedBeforeRow, beforeColumn).isEmpty()) {
+            newPosition = newPosition.moveOnePosition(pattern);
+            if (!getPieceFrom(newPosition).isEmpty()) {
                 return true;
             }
         }
         return false;
     }
 
-    private void canMove포(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
+    private void canMove포(Position beforePosition, Position afterPosition) {
 //        장애물 가져오기
-        Piece hurdlePiece = getHurdlePiece(beforeRow, beforeColumn, afterRow, afterColumn);
+        Piece hurdlePiece = getHurdlePiece(beforePosition, afterPosition);
         if (hurdlePiece.isEmpty()) {
             throw new IllegalArgumentException();
         }
     }
 
-    private Piece getHurdlePiece(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
-        Piece piece = getPieceFrom(beforeRow, beforeColumn);
+    private Piece getHurdlePiece(Position beforePosition, Position afterPosition) {
+        Piece piece = getPieceFrom(beforePosition);
         Piece hurdlePiece = new Empty();
-        List<Pattern> patterns = piece.findPath(beforeRow, beforeColumn, afterRow, afterColumn);
+        List<Pattern> patterns = piece.findPath(beforePosition, afterPosition);
+        Position newPosition = beforePosition;
         for (Pattern pattern : patterns) {
-            if (beforeRow + pattern.getX() < 0) {
-                beforeRow = 9;
-            } else {
-                beforeRow += pattern.getX();
-            }
-            beforeColumn += pattern.getY();
-            if (!getPieceFrom(beforeRow, beforeColumn).isEmpty()) {
-                hurdlePiece = getPieceFrom(beforeRow, beforeColumn);
+            newPosition = newPosition.moveOnePosition(pattern);
+            if (!getPieceFrom(newPosition).isEmpty()) {
+                hurdlePiece = getPieceFrom(newPosition);
             }
         }
         return hurdlePiece;

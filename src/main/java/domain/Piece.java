@@ -12,7 +12,7 @@ public abstract class Piece {
         this.side = side;
     }
 
-    public abstract List<Pattern> findPath(int beforeRow, int beforeColumn, int afterRow, int afterColumn);
+    public abstract List<Pattern> findPath(Position beforePosition, Position afterPosition);
 
     public boolean isEmpty() {
         return false;
