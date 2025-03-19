@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.board.Position;
+import janggi.board.Route;
 
 import java.util.List;
 
