@@ -32,7 +32,7 @@ class WangTest {
         Point destinationPoint = Point.of(9, 4);
         Node destinationNode = board.findNodeByPoint(destinationPoint);
 
-        board.putPiece(destinationNode, new Byeong(Team.HAN));
+        board.putPiece(destinationNode, new Byeong(wangTeam.inverse()));
 
         // when
         final boolean actual = wang.canMove(wangTeam, sourceNode, destinationNode, board);
