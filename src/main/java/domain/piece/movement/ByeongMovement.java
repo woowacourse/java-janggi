@@ -23,7 +23,7 @@ public enum ByeongMovement {
         List<JanggiCoordinate> availablePositions = new ArrayList<>();
         Team team = janggiBoard.findTeamByCoordinate(currCoordinate);
 
-        if (team == Team.Cho) {
+        if (team == Team.CHO) {
             for (ByeongMovement byeongMovement : values()) {
                 if (byeongMovement == DOWN) {
                     continue;

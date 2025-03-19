@@ -19,7 +19,7 @@ class PieceTest {
         void maAvailableMovePosition() {
             JanggiBoard board = new JanggiBoard();
             board.getBoard().put(new JanggiCoordinate(5, 5),
-                    new Ma(Team.Han));
+                    new Ma(Team.HAN));
             List<JanggiCoordinate> availableMovePositions =
                     MaMovement.availableMovePositions(new JanggiCoordinate(5, 5), board);
 
@@ -45,7 +45,7 @@ class PieceTest {
         void sangAvailableMovePosition() {
             JanggiBoard board = new JanggiBoard();
             board.getBoard().put(new JanggiCoordinate(5, 5),
-                    new Sang(Team.Han));
+                    new Sang(Team.HAN));
 
             List<JanggiCoordinate> availableMovePositions =
                     SangMovement.availableMovePositions(new JanggiCoordinate(5, 5), board);
@@ -59,7 +59,7 @@ class PieceTest {
         @DisplayName("차의 이동 가능한 경로를 검사한다")
         @Test
         void chaAvailableMovePosition() {
-            Cha cha = new Cha(Team.Han);
+            Cha cha = new Cha(Team.HAN);
             JanggiBoard board = new JanggiBoard();
             board.getBoard().put(new JanggiCoordinate(5, 5),
                     cha);
@@ -76,7 +76,7 @@ class PieceTest {
         @DisplayName("병의 이동 가능한 경로를 검사한다")
         @Test
         void byeongAvailableMovePosition() {
-            Byeong byeong = new Byeong(Team.Han);
+            Byeong byeong = new Byeong(Team.HAN);
             JanggiBoard board = new JanggiBoard();
             board.getBoard().put(new JanggiCoordinate(5, 5),
                     byeong);
@@ -95,7 +95,7 @@ class PieceTest {
         @DisplayName("사의 이동 가능한 경로를 검사한다")
         @Test
         void saAvailableMovePosition() {
-            Sa sa = new Sa(Team.Han);
+            Sa sa = new Sa(Team.HAN);
             JanggiBoard board = new JanggiBoard();
             board.getBoard().put(new JanggiCoordinate(5, 5), sa);
 
@@ -111,7 +111,7 @@ class PieceTest {
         @DisplayName("궁의 이동 가능한 경로를 검사한다")
         @Test
         void gungAvailableMovePosition() {
-            Gung gung = new Gung(Team.Han);
+            Gung gung = new Gung(Team.HAN);
             JanggiBoard board = new JanggiBoard();
             board.getBoard().put(new JanggiCoordinate(5, 5), gung);
 
@@ -127,7 +127,7 @@ class PieceTest {
         @DisplayName("포의 이동 가능한 경로를 검사한다")
         @Test
         void PhoAvailableMovePosition() {
-            Pho pho = new Pho(Team.Han);
+            Pho pho = new Pho(Team.HAN);
             JanggiBoard board = new JanggiBoard();
             board.getBoard().put(new JanggiCoordinate(5, 5), pho);
 
