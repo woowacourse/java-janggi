@@ -30,8 +30,12 @@ public class Gung implements Piece {
     }
 
     @Override
-    public void move(Position destination, List<Piece> enemy, List<Piece> allies) {
-
+    public Gung move(final Position destination, final List<Piece> enemy, final List<Piece> allies) {
+        boolean isAble = ableToMove(destination, enemy, allies);
+        if (!isAble) {
+            throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
+        }
+        return new Gung(destination);
     }
 
     @Override
@@ -49,7 +53,7 @@ public class Gung implements Piece {
                 || destination.equals(new Position(position.getX(), position.getY() + 1));
     }
 
-    private boolean isNotHurdle(Position destination, List<Piece> allies) {
+    private static boolean isNotHurdle(Position destination, List<Piece> allies) {
         return allies.stream()
                 .noneMatch(piece -> piece.getPosition().equals(destination));
     }

@@ -26,8 +26,8 @@ public class Jol implements Piece {
     }
 
     @Override
-    public void move(Position destination, List<Piece> enemy, List<Piece> allies) {
-
+    public Jol move(Position destination, List<Piece> enemy, List<Piece> allies) {
+        return new Jol(destination);
     }
 
     @Override

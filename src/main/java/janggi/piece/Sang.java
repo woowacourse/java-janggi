@@ -25,8 +25,8 @@ public class Sang implements Piece {
     }
 
     @Override
-    public void move(Position destination, List<Piece> enemy, List<Piece> allies) {
-
+    public Sang move(Position destination, List<Piece> enemy, List<Piece> allies) {
+        return new Sang(destination);
     }
 
     @Override

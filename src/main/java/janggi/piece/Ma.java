@@ -25,8 +25,8 @@ public class Ma implements Piece {
     }
 
     @Override
-    public void move(Position destination, List<Piece> enemy, List<Piece> allies) {
-
+    public Ma move(Position destination, List<Piece> enemy, List<Piece> allies) {
+        return new Ma(destination);
     }
 
     @Override

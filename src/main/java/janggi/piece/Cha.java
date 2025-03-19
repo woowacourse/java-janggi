@@ -26,8 +26,8 @@ public class Cha implements Piece {
     }
 
     @Override
-    public void move(Position destination, List<Piece> enemy, List<Piece> allies) {
-
+    public Cha move(Position destination, List<Piece> enemy, List<Piece> allies) {
+        return new Cha(destination);
     }
 
     @Override
