@@ -7,6 +7,7 @@ import domain.piece.Horse;
 import domain.piece.Move;
 import domain.piece.Pawn;
 import domain.piece.Piece;
+import java.util.HashMap;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
@@ -56,14 +57,12 @@ public class JanggiBoardTest {
     @DisplayName("장기말은 이동시 목표 좌표로 위치가 바뀐다.")
     @Test
     void test3() {
-
+        Pawn pawn = new Pawn(Team.RED);
         // given
-        Map<Position, Piece> beforeBoard = Map.of(
-                new Position(4, 1), new Pawn(Team.RED)
-        );
-        Map<Position, Piece> afterBoard = Map.of(
-                new Position(4, 2), new Pawn(Team.RED)
-        );
+        Map<Position, Piece> beforeBoard = new HashMap<>();
+        beforeBoard.put(new Position(4, 1), pawn);
+        Map<Position, Piece> afterBoard = new HashMap<>();
+        afterBoard.put(new Position(5, 1), pawn);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -77,4 +76,6 @@ public class JanggiBoardTest {
         // then
         Assertions.assertThat(beforeBoard).isEqualTo(afterBoard);
     }
+
+
 }

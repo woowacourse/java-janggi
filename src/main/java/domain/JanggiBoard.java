@@ -21,7 +21,8 @@ public class JanggiBoard {
             for (Move move : moves) {
                 canMove(startPosition, move);
             }
-
+            board.remove(startPosition);
+            board.put(targetPosition, piece);
         }
 
     }
@@ -38,4 +39,6 @@ public class JanggiBoard {
     public Piece findPiece(Position startPosition) {
         return board.get(startPosition);
     }
+
+
 }
