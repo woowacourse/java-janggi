@@ -1,18 +1,24 @@
 package strategy;
 
-import piece.Pieces;
+import java.util.List;
 import piece.Position;
 import piece.Route;
-import piece.Team;
 
 public class SangMoveStrategy implements MoveStrategy {
-    @Override
-    public Route getLegalRoute(Position startPosition, Position endPosition) {
-        return null;
-    }
+
+    private final List<Route> canMoveDirections = List.of(
+            new Route(List.of(new Position(1, 0), new Position(1, -1), new Position(1, -1))),
+            new Route(List.of(new Position(1, 0), new Position(1, 1), new Position(1, 1))),
+            new Route(List.of(new Position(-1, 0), new Position(-1, -1), new Position(-1, -1))),
+            new Route(List.of(new Position(-1, 0), new Position(-1, 1), new Position(-1, 1))),
+            new Route(List.of(new Position(0, 1), new Position(1, 1), new Position(1, 1))),
+            new Route(List.of(new Position(0, 1), new Position(-1, 1), new Position(-1, 1))),
+            new Route(List.of(new Position(0, -1), new Position(1, -1), new Position(1, -1))),
+            new Route(List.of(new Position(0, -1), new Position(-1, -1), new Position(-1, -1)))
+    );
 
     @Override
-    public Position move(Position destination, Pieces onRoutePieces, Team moveTeam) {
-        return null;
+    public Route getLegalRoute(Position startPosition, Position endPosition) {
+        return getLegalRoute(startPosition, endPosition, canMoveDirections);
     }
 }
