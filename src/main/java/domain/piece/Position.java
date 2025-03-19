@@ -33,7 +33,7 @@ public class Position {
     }
 
     public Position merge(Position other) {
-        return Position.of(this.row + other.row, this.column + other.column);
+        return new Position(this.row + other.row, this.column + other.column);
     }
 
     public boolean isValid() {
