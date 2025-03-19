@@ -1,5 +1,11 @@
+package model.piece;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import model.Board;
+import model.Position;
+import model.Team;
 
 public abstract class Piece {
 

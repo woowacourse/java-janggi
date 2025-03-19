@@ -1,8 +1,13 @@
+package model.piece;
+
 import java.util.List;
 
-public class Soldier extends Piece {
+import model.Position;
+import model.Team;
 
-    public Soldier(int x, int y, Team team) {
+public class Palace extends Piece {
+
+    public Palace(int x, int y, Team team) {
         super(x, y, team);
         routes.addAll(List.of(
             new Route(List.of(new Position(-1, 0))),

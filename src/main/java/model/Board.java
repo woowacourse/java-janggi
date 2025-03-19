@@ -1,5 +1,10 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import model.piece.Palace;
+import model.piece.Piece;
 
 public class Board {
 
