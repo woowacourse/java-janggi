@@ -2,7 +2,9 @@ package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.Board;
 import janggi.domain.Position;
+import janggi.factory.PieceFactory;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -30,10 +32,11 @@ class SoldierTest {
     @MethodSource("moveableArguments")
     void test1(Position startingPosition, Side side, List<Position> expected) {
         // given
+        Board board = new Board(PieceFactory.initialize());
         Soldier soldier = new Soldier();
 
         // when
-        Set<Position> actual = soldier.generateMovePosition(side, startingPosition);
+        Set<Position> actual = soldier.generateMovePosition(board, side, startingPosition);
 
         // then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
