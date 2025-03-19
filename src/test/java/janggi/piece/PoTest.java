@@ -3,10 +3,8 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.Movable;
 import janggi.TeamColor;
 import janggi.point.Point;
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -18,9 +16,45 @@ public class PoTest {
     @DisplayName("이동 가능 확인 테스트")
     class CheckMovableTest {
 
+        @Test
+        @DisplayName("좌로 이동할 수 있다면 true를 반환한다.")
+        void checkLeftMovable() {
+            Po po = new Po(TeamColor.BLUE, new Point(6, 6));
 
+            Point targetPoint = new Point(6, 4);
 
+            assertThat(po.isMovable(targetPoint)).isTrue();
+        }
 
+        @Test
+        @DisplayName("우로 이동할 수 있다면 true를 반환한다.")
+        void checkRightMovable() {
+            Po po = new Po(TeamColor.BLUE, new Point(6, 6));
+
+            Point targetPoint = new Point(6, 8);
+
+            assertThat(po.isMovable(targetPoint)).isTrue();
+        }
+
+        @Test
+        @DisplayName("상으로 이동할 수 있다면 true를 반환한다.")
+        void checkUpMovable() {
+            Po po = new Po(TeamColor.BLUE, new Point(6, 6));
+
+            Point targetPoint = new Point(4, 6);
+
+            assertThat(po.isMovable(targetPoint)).isTrue();
+        }
+
+        @Test
+        @DisplayName("하으로 이동할 수 있다면 true를 반환한다.")
+        void checkDownMovable() {
+            Po po = new Po(TeamColor.BLUE, new Point(6, 6));
+
+            Point targetPoint = new Point(8, 6);
+
+            assertThat(po.isMovable(targetPoint)).isTrue();
+        }
     }
 
     @Nested
