@@ -80,4 +80,27 @@ public class JanggiTest {
         assertThat(actual).isTrue();
     }
 
+    @DisplayName("각각의 기물은 나라를 가진다.")
+    @Test
+    void pieceHasDynasty() {
+        // given
+        final var dynasty = Dynasty.HAN;
+
+        // when // then
+        assertThatCode(() -> new Chariot(dynasty))
+                .doesNotThrowAnyException();
+    }
+
+    @DisplayName("나라는 한나라(Han)와 초나라(Cho)로 나뉜다.")
+    @Test
+    void dynastyDivideHanCho() {
+        // given
+        Dynasty[] dynasties = Dynasty.values();
+
+        // when
+        int actual = dynasties.length;
+
+        // then
+        assertThat(actual).isEqualTo(2);
+    }
 }
