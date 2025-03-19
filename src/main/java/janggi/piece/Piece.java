@@ -1,5 +1,6 @@
-package janggi;
+package janggi.piece;
 
+import janggi.value.Position;
 import java.util.List;
 
 public interface Piece {

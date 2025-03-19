@@ -1,5 +1,6 @@
-package janggi;
+package janggi.view;
 
+import janggi.setting.CampType;
 import java.util.Scanner;
 
 public class InputView {

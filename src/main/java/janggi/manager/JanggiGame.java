@@ -1,4 +1,7 @@
-package janggi;
+package janggi.manager;
+
+import janggi.view.InputView;
+import janggi.view.OutputView;
 
 public class JanggiGame {
 

@@ -1,4 +1,4 @@
-package janggi;
+package janggi.value;
 
 import java.util.Objects;
 
@@ -11,7 +11,6 @@ public final class Position {
         this.x = x;
         this.y = y;
     }
-
 
     @Override
     public String toString() {

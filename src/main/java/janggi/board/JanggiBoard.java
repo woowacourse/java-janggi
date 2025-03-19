@@ -1,5 +1,8 @@
-package janggi;
+package janggi.board;
 
+import janggi.piece.Piece;
+import janggi.setting.AssignType;
+import janggi.setting.CampType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

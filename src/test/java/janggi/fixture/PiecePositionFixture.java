@@ -1,6 +1,6 @@
 package janggi.fixture;
 
-import janggi.Position;
+import janggi.value.Position;
 import java.util.List;
 
 public class PiecePositionFixture {

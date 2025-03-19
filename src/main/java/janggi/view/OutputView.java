@@ -1,5 +1,6 @@
-package janggi;
+package janggi.view;
 
+import janggi.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 

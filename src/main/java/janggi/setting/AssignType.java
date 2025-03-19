@@ -1,5 +1,13 @@
-package janggi;
+package janggi.setting;
 
+import janggi.piece.Cha;
+import janggi.piece.Gung;
+import janggi.piece.Jol;
+import janggi.piece.Ma;
+import janggi.piece.Piece;
+import janggi.piece.Po;
+import janggi.piece.Sa;
+import janggi.piece.Sang;
 import java.util.ArrayList;
 import java.util.List;
 

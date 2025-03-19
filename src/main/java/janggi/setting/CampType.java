@@ -1,4 +1,4 @@
-package janggi;
+package janggi.setting;
 
 public enum CampType {
     CHO(0, "초"),

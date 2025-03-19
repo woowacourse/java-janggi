@@ -2,7 +2,12 @@ package janggi;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.board.JanggiBoard;
 import janggi.fixture.PiecePositionFixture;
+import janggi.piece.Piece;
+import janggi.piece.PieceType;
+import janggi.setting.AssignType;
+import janggi.value.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;

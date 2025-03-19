@@ -1,25 +1,26 @@
-package janggi;
+package janggi.piece;
 
+import janggi.setting.CampType;
+import janggi.value.Position;
 import java.util.List;
 
-public class Po implements Piece {
+public class Ma implements Piece {
 
-    private static final int score = 7;
-    private static final int height = 2;
-    private static final List<Integer> xPositions = List.of(1, 7);
+    private static final int score = 5;
+    private static final int height = 0;
 
     private final PieceType pieceType;
     private final Position position;
 
-    private Po(final Position position) {
-        this.pieceType = PieceType.PO;
+    private Ma(final Position position) {
+        this.pieceType = PieceType.MA;
         this.position = position;
     }
 
-    public static List<Po> generateInitialPos(final CampType campType) {
+    public static List<Ma> generateInitialPos(final CampType campType, final List<Integer> xPositions) {
         int yPosition = Math.abs(campType.getStartYPosition() - height);
         return xPositions.stream()
-                .map(xPosition -> new Po(new Position(xPosition, yPosition)))
+                .map(xPosition -> new Ma(new Position(xPosition, yPosition)))
                 .toList();
     }
 

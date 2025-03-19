@@ -1,5 +1,7 @@
-package janggi;
+package janggi.piece;
 
+import janggi.setting.CampType;
+import janggi.value.Position;
 import java.util.List;
 
 public class Gung implements Piece {
