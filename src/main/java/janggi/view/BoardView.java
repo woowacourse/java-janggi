@@ -18,23 +18,32 @@ public class BoardView {
 
     public BoardView() {
         matrix = new String[ROW_SIZE][COLUMN_SIZE];
-        Arrays.stream(matrix).forEach(
-                row -> Arrays.fill(row, " ")
-        );
+        clearBoard();
     }
 
     public void displayBoard(Board board) {
+        clearBoard();
         List<Movable> pieces = board.getRunningPieces();
         placePieces(pieces);
         for (int row = 0; row < ROW_SIZE; row++) {
-            System.out.printf("%2d | %s |%n", row, String.join(" | ", matrix[row]));
+            String line = String.format(" %2d |", row);
+            for (String token : matrix[row]) {
+                line += String.format(" %2s |", token);
+            }
+            System.out.println(line);
         }
 
-        String line = String.format("%2s |", " ");
+        String line = String.format(" %2s |", " ");
         for (int column = 0; column < COLUMN_SIZE; column++) {
-            line += String.format("%2d |", column);
+            line += String.format(" %2s |", "\u001B[37m" + column + "\u001B[0m");
         }
         System.out.println(line);
+    }
+
+    private void clearBoard() {
+        Arrays.stream(matrix).forEach(
+                row -> Arrays.fill(row, "\u001B[30m" + "ㅁ" + "\u001B[0m")
+        );
     }
 
     private void placePieces(List<Movable> pieces) {

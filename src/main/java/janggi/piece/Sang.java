@@ -36,18 +36,23 @@ public class Sang implements Movable {
 
     @Override
     public boolean isMovable(Point targetPoint) {
-        List<Point> candidates = List.of(
-                point.move(-2, 3),
-                point.move(-3, 2),
-                point.move(3, 2),
-                point.move(2, 3),
-                point.move(2, -3),
-                point.move(3, -2),
-                point.move(-3, -2),
-                point.move(-2, -3)
-        );
-
+        List<Point> candidates = new ArrayList<>();
+        addPointsInRange(candidates, -2, 3);
+        addPointsInRange(candidates, -3, 2);
+        addPointsInRange(candidates, 3, 2);
+        addPointsInRange(candidates, 2, 3);
+        addPointsInRange(candidates, 2, -3);
+        addPointsInRange(candidates, 3, -2);
+        addPointsInRange(candidates, -3, -2);
+        addPointsInRange(candidates, -2, -3);
         return candidates.contains(targetPoint);
+    }
+
+    private void addPointsInRange(List<Point> candidates, int rowMovingDistance, int columnMovingDistance) {
+        try {
+            candidates.add(point.move(rowMovingDistance, columnMovingDistance));
+        } catch (IllegalArgumentException ignored) {
+        }
     }
 
     @Override

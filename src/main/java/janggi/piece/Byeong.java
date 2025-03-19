@@ -6,7 +6,6 @@ import janggi.point.Point;
 import janggi.Team;
 import java.util.ArrayList;
 import java.util.List;
-import javax.print.attribute.standard.MediaSize.NA;
 
 public class Byeong implements Movable {
 
@@ -37,12 +36,18 @@ public class Byeong implements Movable {
 
     @Override
     public boolean isMovable(Point targetPoint) {
-        List<Point> candidates = List.of(
-                point.move(0, 1),
-                point.move(0, -1),
-                point.move(-1, 0)
-        );
+        List<Point> candidates = new ArrayList<>();
+        addPointsInRange(candidates, 0, 1);
+        addPointsInRange(candidates, 0, -1);
+        addPointsInRange(candidates, -1, 0);
         return candidates.contains(targetPoint);
+    }
+
+    private void addPointsInRange(List<Point> candidates, int rowMovingDistance, int columnMovingDistance) {
+        try {
+            candidates.add(point.move(rowMovingDistance, columnMovingDistance));
+        } catch (IllegalArgumentException ignored) {
+        }
     }
 
     @Override

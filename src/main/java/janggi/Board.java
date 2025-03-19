@@ -90,6 +90,7 @@ public class Board {
     public void move(Point beforePoint, Point afterPoint) {
         Movable movingPiece = findByPoint(beforePoint);
 
+
         if (movingPiece instanceof Po) {
             if (!isPoMovable((Po) movingPiece, afterPoint) || checkPoHurdles(beforePoint, movingPiece.findRoute(afterPoint))) {
                 throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");

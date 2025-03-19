@@ -36,18 +36,23 @@ public class Ma implements Movable {
 
     @Override
     public boolean isMovable(Point targetPoint) {
-        List<Point> candidates = List.of(
-                point.move(-2, 1),
-                point.move(-1, 2),
-                point.move(1, 2),
-                point.move(2, 1),
-                point.move(2, -1),
-                point.move(1, -2),
-                point.move(-1, -2),
-                point.move(-2, -1)
-        );
-
+        List<Point> candidates = new ArrayList<>();
+        addPointsInRange(candidates, -2, 1);
+        addPointsInRange(candidates, -1, 2);
+        addPointsInRange(candidates, 1, 2);
+        addPointsInRange(candidates, 2, 1);
+        addPointsInRange(candidates, 2, -1);
+        addPointsInRange(candidates, 1, -2);
+        addPointsInRange(candidates, -1, -2);
+        addPointsInRange(candidates, -2, -1);
         return candidates.contains(targetPoint);
+    }
+
+    private void addPointsInRange(List<Point> candidates, int rowMovingDistance, int columnMovingDistance) {
+        try {
+            candidates.add(point.move(rowMovingDistance, columnMovingDistance));
+        } catch (IllegalArgumentException ignored) {
+        }
     }
 
     @Override

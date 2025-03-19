@@ -1,5 +1,6 @@
 package janggi;
 
+import janggi.point.Point;
 import janggi.view.BoardView;
 import janggi.view.InputView;
 
@@ -20,22 +21,33 @@ public class Application {
 
     private void run() {
         if (inputView.readGameStart()) {
-            //현재 장기판 출력
             Board board = Board.init();
 
-
             Team team = Team.CHO;
-            while (true) {
-                //TODO 우승자가 나오면 멈춘다.
+            while (true) { //TODO 우승자가 나오면 멈춘다.
                 boardView.displayBoard(board);
 
                 boardView.printTeam(team);
+                handleMoveException(() -> {
+                    Point startPoint = inputView.readStartPoint();
+                    Point targetPoint = inputView.readTargetPoint();
+                    board.move(startPoint, targetPoint);
+                });
 
                 team = team.reverse();
-
-                break;
             }
         }
 
+    }
+
+    private void handleMoveException(Runnable action) {
+        while (true) {
+            try {
+                action.run();
+                return;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }
