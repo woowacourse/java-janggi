@@ -34,37 +34,42 @@ class MaTest {
         );
     }
 
-    @Test
-    @DisplayName("마가 (5,5) -> (4,3) 으로 이동할 때 (5,4)를 거치기 때문에 false 반환한다.")
-    void test2() {
-        // given
-        Ma ma = new Ma(Team.CHO);
-        Board board = new BoardBuilder()
-                .addPiece(5, 5, ma)
-                .addPiece(5, 4, new Sang(Team.CHO))
-                .build();
+    @Nested
+    @DisplayName("장애물을 고려한 움직임 가능 여부 테스트")
+    class CanMoveConsideringObstaclesTest {
 
-        // when
-        boolean result = ma.canMoveConsideringObstacles(board, new Coordinate(5, 5), new Coordinate(4, 3));
+        @Test
+        @DisplayName("마가 (5,5) -> (4,3) 으로 이동할 때 (5,4)를 거치기 때문에 false 반환한다.")
+        void test1() {
+            // given
+            Ma ma = new Ma(Team.CHO);
+            Board board = new BoardBuilder()
+                    .addPiece(5, 5, ma)
+                    .addPiece(5, 4, new Sang(Team.CHO))
+                    .build();
 
-        // then
-        assertThat(result).isFalse();
-    }
+            // when
+            boolean result = ma.canMoveConsideringObstacles(board, new Coordinate(5, 5), new Coordinate(4, 3));
 
-    @Test
-    @DisplayName("마가 (5,5) -> (4,3) 으로 이동할 때 장애물이 하나도 없을 경우 true를 반환한다.")
-    void test3() {
-        // given
-        Ma ma = new Ma(Team.CHO);
-        Board board = new BoardBuilder()
-                .addPiece(5, 5, ma)
-                .build();
+            // then
+            assertThat(result).isFalse();
+        }
 
-        // when
-        boolean result = ma.canMoveConsideringObstacles(board, new Coordinate(5, 5), new Coordinate(4, 3));
+        @Test
+        @DisplayName("마가 (5,5) -> (4,3) 으로 이동할 때 장애물이 하나도 없을 경우 true를 반환한다.")
+        void test2() {
+            // given
+            Ma ma = new Ma(Team.CHO);
+            Board board = new BoardBuilder()
+                    .addPiece(5, 5, ma)
+                    .build();
 
-        // then
-        assertThat(result).isTrue();
+            // when
+            boolean result = ma.canMoveConsideringObstacles(board, new Coordinate(5, 5), new Coordinate(4, 3));
+
+            // then
+            assertThat(result).isTrue();
+        }
     }
 
     @DisplayName("경로를 찾는 경우의 수 테스트")
