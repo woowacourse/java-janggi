@@ -7,4 +7,8 @@ public record Position(int x, int y) {
         return Math.sqrt(
                 Math.pow(Math.abs(this.x - descPosition.x), 2) + Math.pow(Math.abs(this.y - descPosition.y), 2));
     }
+
+    public boolean isSameLine(final Position descPosition) {
+        return x == descPosition.x || y == descPosition.y;
+    }
 }

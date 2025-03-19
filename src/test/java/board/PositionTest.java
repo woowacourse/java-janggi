@@ -33,7 +33,7 @@ public class PositionTest {
     }
 
     @Nested
-    @DisplayName("포지션 거리 계산")
+    @DisplayName("포지션 계산")
     class Calculate {
 
         @DisplayName("두 개의 포지선 거리를 계산한다.")
@@ -41,14 +41,33 @@ public class PositionTest {
         void calculateDistance() {
             // given
             final double expected = Math.sqrt(2);
-            final Position descPosition = new Position(1, 1);
             final Position srcPosition = new Position(2, 2);
+            final Position descPosition = new Position(1, 1);
 
             // when
             final double distance = srcPosition.calculateDistance(descPosition);
 
             // then
             org.assertj.core.api.Assertions.assertThat(distance).isEqualTo(expected);
+        }
+
+        @DisplayName("두 개의 포지션이 같은 라인 내에 있는 지 계산한다.")
+        @Test
+        void isSameLine() {
+            // given
+            final Position srcPosition = new Position(1, 1);
+            final Position ablePosition = new Position(1, 5);
+            final Position unablePosition = new Position(2, 2);
+
+            // when
+            final boolean ableResult = srcPosition.isSameLine(ablePosition);
+            final boolean unableResult = srcPosition.isSameLine(unablePosition);
+
+            // then
+            Assertions.assertAll(
+                    () -> org.assertj.core.api.Assertions.assertThat(ableResult).isTrue(),
+                                () -> org.assertj.core.api.Assertions.assertThat(unableResult).isFalse()
+            );
         }
     }
 }
