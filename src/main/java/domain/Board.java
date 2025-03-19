@@ -92,4 +92,13 @@ public class Board {
         // 1이상 && 포 && 두 번째 기물이 적팀 기물 && 첫 번째 기물이 포가 아니고 && 두 번째 기물도 포가 아니다
         return false;
     }
+
+    public boolean hasPieceAt(final Point point) {
+        return positions.stream()
+                .anyMatch(position -> position.isSame(point));
+    }
+
+    // 2. 있다면 어느팀 기물인지 확인
+
+
 }
