@@ -16,14 +16,14 @@ public class JanggiBoard {
 
     public void move(Position startPosition, Position targetPosition) {
         Piece piece = findPiece(startPosition);
-        List<Move> moves = piece.calculatePath(startPosition, targetPosition);
-        if (!piece.isCanon()) {
+        List<Position> path = piece.calculatePath(startPosition, targetPosition);
+        /*if (!piece.isCanon()) {
             for (Move move : moves) {
                 canMove(startPosition, move);
             }
             board.remove(startPosition);
             board.put(targetPosition, piece);
-        }
+        }*/
 
     }
 

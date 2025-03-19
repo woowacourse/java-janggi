@@ -19,9 +19,9 @@ class CannonTest {
         Position startPosition = new Position(3, 2);
         Position targetPosition = new Position(6, 2);
         // when
-        List<Move> moves = cannon.calculatePath(startPosition, targetPosition);
+        List<Position> moves = cannon.calculatePath(startPosition, targetPosition);
         // then
-        List<Move> expected = List.of(Move.BACK, Move.BACK, Move.BACK);
+        List<Position> expected = List.of(new Position(4, 2), new Position(5, 2));
         Assertions.assertThat(moves).isEqualTo(expected);
     }
 

@@ -27,10 +27,10 @@ public class KingTest {
         Position targetPosition = new Position(row, column);
 
         //when
-        List<Move> resultMove = king.calculatePath(startPosition, targetPosition);
+        List<Position> resultMove = king.calculatePath(startPosition, targetPosition);
 
         // then
-        Assertions.assertThat(resultMove).isEqualTo(List.of(move));
+        Assertions.assertThat(resultMove).isEqualTo(List.of());
     }
 
     @DisplayName("킹이 이동할 수 없는 위치라면 예외가 발생한다.")

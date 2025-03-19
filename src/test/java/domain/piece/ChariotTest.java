@@ -16,17 +16,17 @@ public class ChariotTest {
     void test1() {
         Chariot chariot = new Chariot(Team.RED);
 
-        List<Move> moves1 = chariot.calculatePath(new Position(1, 1), new Position(1, 6));
-        List<Move> moves2 = chariot.calculatePath(new Position(1, 1), new Position(7, 1));
-        List<Move> moves3 = chariot.calculatePath(new Position(6, 1), new Position(1, 1));
-        List<Move> expected1 = List.of(Move.RIGHT, Move.RIGHT, Move.RIGHT, Move.RIGHT, Move.RIGHT);
-        List<Move> expected2 = List.of(Move.BACK, Move.BACK, Move.BACK, Move.BACK, Move.BACK, Move.BACK);
-        List<Move> expected3 = List.of(Move.FRONT, Move.FRONT, Move.FRONT, Move.FRONT, Move.FRONT);
+        List<Position> path1 = chariot.calculatePath(new Position(1, 1), new Position(1, 4));
+        List<Position> path2 = chariot.calculatePath(new Position(1, 1), new Position(4, 1));
+        List<Position> path3 = chariot.calculatePath(new Position(6, 1), new Position(3, 1));
+        List<Position> expected1 = List.of(new Position(1, 2), new Position(1, 3));
+        List<Position> expected2 = List.of(new Position(2, 1), new Position(3, 1));
+        List<Position> expected3 = List.of(new Position(5, 1), new Position(4, 1));
 
         SoftAssertions.assertSoftly(softAssertions -> {
-            softAssertions.assertThat(moves1).isEqualTo(expected1);
-            softAssertions.assertThat(moves2).isEqualTo(expected2);
-            softAssertions.assertThat(moves3).isEqualTo(expected3);
+            softAssertions.assertThat(path1).isEqualTo(expected1);
+            softAssertions.assertThat(path2).isEqualTo(expected2);
+            softAssertions.assertThat(path3).isEqualTo(expected3);
 
         });
     }

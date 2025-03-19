@@ -14,8 +14,8 @@ public class HorseTest {
     void test1() {
         Horse horse = new Horse(Team.RED);
 
-        List<Move> moves = horse.calculatePath(new Position(4,4),new Position(3,6));
-        List<Move> expected = List.of(Move.RIGHT, Move.FRONT_RIGHT);
+        List<Position> moves = horse.calculatePath(new Position(4, 4), new Position(3, 6));
+        List<Position> expected = List.of(new Position(4, 5));
 
         Assertions.assertThat(moves).isEqualTo(expected);
     }
@@ -25,7 +25,7 @@ public class HorseTest {
     void test2() {
         Horse horse = new Horse(Team.RED);
 
-        Assertions.assertThatThrownBy(() -> horse.calculatePath(new Position(4,4),new Position(4,5)))
+        Assertions.assertThatThrownBy(() -> horse.calculatePath(new Position(4, 4), new Position(4, 5)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이 위치로 이동할 수 없습니다.");
     }

@@ -27,9 +27,9 @@ class GuardTest {
         Position targetPosition = new Position(row, column);
 
         //when
-        List<Move> resultMove = guard.calculatePath(startPosition, targetPosition);
+        List<Position> resultMove = guard.calculatePath(startPosition, targetPosition);
 
         // then
-        Assertions.assertThat(resultMove).isEqualTo(List.of(move));
+        Assertions.assertThat(resultMove).isEqualTo(List.of());
     }
 }
