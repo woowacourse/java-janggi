@@ -15,10 +15,12 @@ import java.util.List;
 public class Board {
     private final List<Movable> runningPieces;
     private final List<Movable> attackedPieces;
+    private Team turn;
 
     public Board(List<Movable> runningPieces) {
         this.runningPieces = runningPieces;
         this.attackedPieces = new ArrayList<>();
+        this.turn = Team.CHO;
     }
 
     public static Board init() {
@@ -37,6 +39,14 @@ public class Board {
 
     public List<Movable> getRunningPieces() {
         return Collections.unmodifiableList(runningPieces);
+    }
+
+    public Team getTurn() {
+        return turn;
+    }
+
+    public void reverseTurn() {
+        this.turn = turn.reverse();
     }
 
     public List<Movable> findPieceOnVerticalRoute(Point point) {
@@ -90,6 +100,9 @@ public class Board {
     public void move(Point beforePoint, Point afterPoint) {
         Movable movingPiece = findByPoint(beforePoint);
 
+        if(turn != movingPiece.getTeam()) {
+            throw new IllegalArgumentException(turn.getText() + "의 기물만 이동할 수 있습니다.");
+        }
 
         if (movingPiece instanceof Po) {
             if (!isPoMovable((Po) movingPiece, afterPoint) || checkPoHurdles(beforePoint, movingPiece.findRoute(afterPoint))) {

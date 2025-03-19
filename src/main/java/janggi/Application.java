@@ -23,18 +23,17 @@ public class Application {
         if (inputView.readGameStart()) {
             Board board = Board.init();
 
-            Team team = Team.CHO;
             while (true) { //TODO 우승자가 나오면 멈춘다.
                 boardView.displayBoard(board);
 
-                boardView.printTeam(team);
+                boardView.printTeam(board.getTurn());
                 handleMoveException(() -> {
                     Point startPoint = inputView.readStartPoint();
                     Point targetPoint = inputView.readTargetPoint();
                     board.move(startPoint, targetPoint);
                 });
 
-                team = team.reverse();
+                board.reverseTurn();
             }
         }
 
