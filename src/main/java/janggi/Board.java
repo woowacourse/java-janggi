@@ -78,8 +78,8 @@ public class Board {
         ) {
             Movable crashPiece = findByPoint(crashPoints.getFirst());
             Movable movingPiece = findByPoint(startPoint);
-            TeamColor crashPieceColor = crashPiece.getColor();
-            TeamColor movingPieceColor  = movingPiece.getColor();
+            Team crashPieceColor = crashPiece.getTeam();
+            Team movingPieceColor  = movingPiece.getTeam();
 
             return  crashPieceColor == movingPieceColor;
         }

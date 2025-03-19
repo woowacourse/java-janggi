@@ -3,7 +3,7 @@ package janggi.piece;
 import janggi.point.InitialPoint;
 import janggi.Movable;
 import janggi.point.Point;
-import janggi.TeamColor;
+import janggi.Team;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,21 +12,21 @@ public class Gung implements Movable {
     private static final String NAME = "궁";
     private static final List<Gung> gungs;
 
-    private final TeamColor color;
+    private final Team team;
     private final Point point;
 
-    public Gung(TeamColor color, Point point) {
-        this.color = color;
+    public Gung(Team team, Point point) {
+        this.team = team;
         this.point = point;
     }
 
     static {
         List<Gung> createdPieces = new ArrayList<>();
         for (Point point : InitialPoint.GUNG.getRedPoints()) {
-            createdPieces.add(new Gung(TeamColor.RED, point));
+            createdPieces.add(new Gung(Team.HAN, point));
         }
         for (Point point : InitialPoint.GUNG.getBluePoints()) {
-            createdPieces.add(new Gung(TeamColor.BLUE, point));
+            createdPieces.add(new Gung(Team.CHO, point));
         }
         gungs = createdPieces;
     }
@@ -46,6 +46,11 @@ public class Gung implements Movable {
     }
 
     @Override
+    public String getName() {
+        return NAME;
+    }
+
+    @Override
     public Point getPoint() {
         return point;
     }
@@ -56,12 +61,12 @@ public class Gung implements Movable {
     }
 
     @Override
-    public TeamColor getColor() {
-        return this.color;
+    public Team getTeam() {
+        return this.team;
     }
 
     @Override
     public Movable updatePoint(Point afterPoint) {
-        return new Gung(color, afterPoint);
+        return new Gung(team, afterPoint);
     }
 }

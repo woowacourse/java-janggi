@@ -4,9 +4,11 @@ import janggi.point.Point;
 import java.util.List;
 
 public interface Movable {
+    String getName();
+
     Point getPoint();
 
-    TeamColor getColor();
+    Team getTeam();
 
     Movable updatePoint(Point afterPoint);
 

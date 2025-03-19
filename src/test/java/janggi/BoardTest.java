@@ -39,7 +39,7 @@ public class BoardTest {
         @DisplayName("입력 좌표에 기물이 위치하는지 확인할 수 있다.")
         void searchByPoint() {
             Point point = new Point(8, 4);
-            List<Movable> pieces = List.of(new Gung(TeamColor.BLUE, point));
+            List<Movable> pieces = List.of(new Gung(Team.CHO, point));
             Board board = new Board(pieces);
 
             assertThat(board.findByPoint(point)).isEqualTo(pieces.getFirst());
@@ -54,8 +54,8 @@ public class BoardTest {
         @DisplayName("기물 경로의 좌표들에 장애물이 있는지 확인할 수 있다.")
         void checkHurdlesOnRoute() {
             List<Movable> pieces = List.of(
-                    new Cha(TeamColor.BLUE, new Point(5, 4)),
-                    new Byeong(TeamColor.RED, new Point(3, 4))
+                    new Cha(Team.CHO, new Point(5, 4)),
+                    new Byeong(Team.HAN, new Point(3, 4))
             );
             Board board = new Board(pieces);
 
@@ -69,7 +69,7 @@ public class BoardTest {
         @DisplayName("기물 경로의 좌표들에 장애물이 있는지 확인할 수 있다.")
         void checkHurdlesNotOnRoute() {
             List<Movable> pieces = List.of(
-                    new Cha(TeamColor.BLUE, new Point(5, 4))
+                    new Cha(Team.CHO, new Point(5, 4))
             );
             Board board = new Board(pieces);
 
@@ -83,8 +83,8 @@ public class BoardTest {
         @DisplayName("기물 경로의 마지막 좌표에 다른 팀의 말이 있다면 장애물이 없다고 확인할 수 있다.")
         void checkNotHurdleRouteIsOtherTeam() {
             List<Movable> pieces = List.of(
-                    new Cha(TeamColor.BLUE, new Point(5, 4)),
-                    new Byeong(TeamColor.RED, new Point(2, 4))
+                    new Cha(Team.CHO, new Point(5, 4)),
+                    new Byeong(Team.HAN, new Point(2, 4))
             );
             Board board = new Board(pieces);
 
@@ -98,8 +98,8 @@ public class BoardTest {
         @DisplayName("기물 경로의 마지막 좌표에 같은 팀의 말이 있다면 장애물이 있다고 확인할 수 있다.")
         void checkIsHurdleRouteIsSameTeam() {
             List<Movable> pieces = List.of(
-                    new Cha(TeamColor.BLUE, new Point(5, 4)),
-                    new Byeong(TeamColor.BLUE, new Point(2, 4))
+                    new Cha(Team.CHO, new Point(5, 4)),
+                    new Byeong(Team.CHO, new Point(2, 4))
             );
             Board board = new Board(pieces);
 
@@ -113,9 +113,9 @@ public class BoardTest {
         @DisplayName("포 기물을 움직일 때 기물 경로의 마지막 좌표에 포가 있으면 장애물이 있다고 확인할 수 있다.")
         void checkIsHurdleRouteIsSamePo() {
             List<Movable> pieces = List.of(
-                    new Po(TeamColor.BLUE, new Point(5, 4)),
-                    new Byeong(TeamColor.BLUE, new Point(3, 4)),
-                    new Po(TeamColor.BLUE, new Point(2, 4))
+                    new Po(Team.CHO, new Point(5, 4)),
+                    new Byeong(Team.CHO, new Point(3, 4)),
+                    new Po(Team.CHO, new Point(2, 4))
             );
             Board board = new Board(pieces);
 
@@ -159,7 +159,7 @@ public class BoardTest {
         @DisplayName("기물의 위치를 특정 위치로 바꿀 수 있다.")
         void updatePoint() {
             Point beforePoint = new Point(6, 4);
-            Byeong byeong = new Byeong(TeamColor.BLUE, beforePoint);
+            Byeong byeong = new Byeong(Team.CHO, beforePoint);
             List<Movable> pieces = new ArrayList<>(List.of(byeong));
             Board board = new Board(pieces);
 
@@ -178,10 +178,10 @@ public class BoardTest {
         @DisplayName("이동 하는 위치에 기물이 있으면 공격한다.")
         void attackPiece() {
             Point beforePoint = new Point(6, 4);
-            Byeong byeong1 = new Byeong(TeamColor.BLUE, beforePoint);
+            Byeong byeong1 = new Byeong(Team.CHO, beforePoint);
 
             Point afterPoint = new Point(5, 4);
-            Byeong byeong2 = new Byeong(TeamColor.RED, afterPoint);
+            Byeong byeong2 = new Byeong(Team.HAN, afterPoint);
 
             List<Movable> pieces = new ArrayList<>(List.of(byeong1, byeong2));
             Board board = new Board(pieces);
@@ -201,9 +201,9 @@ public class BoardTest {
         void checkLeftMovable() {
             Point beforePoint = new Point(6, 6);
             List<Movable> pieces = List.of(
-                    new Byeong(TeamColor.BLUE, new Point(6, 4)),
-                    new Byeong(TeamColor.BLUE, new Point(6, 2)),
-                    new Po(TeamColor.BLUE, beforePoint)
+                    new Byeong(Team.CHO, new Point(6, 4)),
+                    new Byeong(Team.CHO, new Point(6, 2)),
+                    new Po(Team.CHO, beforePoint)
             );
             Board board = new Board(new ArrayList<>(pieces));
             Point targetPoint = new Point(6, 3);
@@ -216,9 +216,9 @@ public class BoardTest {
         void checkRightMovable() {
             Point beforePoint = new Point(6, 2);
             List<Movable> pieces = List.of(
-                    new Byeong(TeamColor.BLUE, new Point(6, 4)),
-                    new Byeong(TeamColor.BLUE, new Point(6, 6)),
-                    new Po(TeamColor.BLUE, beforePoint)
+                    new Byeong(Team.CHO, new Point(6, 4)),
+                    new Byeong(Team.CHO, new Point(6, 6)),
+                    new Po(Team.CHO, beforePoint)
             );
             Board board = new Board(new ArrayList<>(pieces));
             Point targetPoint = new Point(6, 5);
@@ -231,8 +231,8 @@ public class BoardTest {
         void checkUpMovable() {
             Point beforePoint = new Point(6, 4);
             List<Movable> pieces = List.of(
-                    new Byeong(TeamColor.RED, new Point(3, 4)),
-                    new Po(TeamColor.BLUE, beforePoint)
+                    new Byeong(Team.HAN, new Point(3, 4)),
+                    new Po(Team.CHO, beforePoint)
             );
             Board board = new Board(new ArrayList<>(pieces));
             Point targetPoint = new Point(2, 4);
@@ -245,9 +245,9 @@ public class BoardTest {
         void checkDownMovable() {
             Point beforePoint = new Point(0, 7);
             List<Movable> pieces = List.of(
-                    new Byeong(TeamColor.RED, new Point(2, 7)),
-                    new Byeong(TeamColor.RED, new Point(7, 7)),
-                    new Po(TeamColor.BLUE, beforePoint)
+                    new Byeong(Team.HAN, new Point(2, 7)),
+                    new Byeong(Team.HAN, new Point(7, 7)),
+                    new Po(Team.CHO, beforePoint)
             );
             Board board = new Board(new ArrayList<>(pieces));
             Point targetPoint = new Point(5, 7);

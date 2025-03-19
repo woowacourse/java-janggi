@@ -3,7 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.TeamColor;
+import janggi.Team;
 import janggi.point.Point;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +19,7 @@ public class PoTest {
         @Test
         @DisplayName("좌로 이동할 수 있다면 true를 반환한다.")
         void checkLeftMovable() {
-            Po po = new Po(TeamColor.BLUE, new Point(6, 6));
+            Po po = new Po(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(6, 4);
 
@@ -29,7 +29,7 @@ public class PoTest {
         @Test
         @DisplayName("우로 이동할 수 있다면 true를 반환한다.")
         void checkRightMovable() {
-            Po po = new Po(TeamColor.BLUE, new Point(6, 6));
+            Po po = new Po(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(6, 8);
 
@@ -39,7 +39,7 @@ public class PoTest {
         @Test
         @DisplayName("상으로 이동할 수 있다면 true를 반환한다.")
         void checkUpMovable() {
-            Po po = new Po(TeamColor.BLUE, new Point(6, 6));
+            Po po = new Po(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(4, 6);
 
@@ -49,7 +49,7 @@ public class PoTest {
         @Test
         @DisplayName("하으로 이동할 수 있다면 true를 반환한다.")
         void checkDownMovable() {
-            Po po = new Po(TeamColor.BLUE, new Point(6, 6));
+            Po po = new Po(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(8, 6);
 
@@ -64,7 +64,7 @@ public class PoTest {
         @Test
         @DisplayName("좌로 이동 경로를 생성할 수 있다.")
         void checkLeftRouteMovable() {
-            Po po = new Po(TeamColor.BLUE, new Point(6, 6));
+            Po po = new Po(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(6, 3);
 
@@ -79,7 +79,7 @@ public class PoTest {
         @Test
         @DisplayName("우로 이동 경로를 생성할 수 있다.")
         void checkRightRouteMovable() {
-            Po po = new Po(TeamColor.BLUE, new Point(6, 6));
+            Po po = new Po(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(6, 8);
 
@@ -94,7 +94,7 @@ public class PoTest {
         @Test
         @DisplayName("상로 이동 경로를 생성할 수 있다.")
         void checkUpRouteMovable() {
-            Po po = new Po(TeamColor.BLUE, new Point(6, 6));
+            Po po = new Po(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(2, 6);
 
@@ -110,7 +110,7 @@ public class PoTest {
         @Test
         @DisplayName("하로 이동 경로를 생성할 수 있다.")
         void checkDownRouteMovable() {
-            Po po = new Po(TeamColor.BLUE, new Point(6, 6));
+            Po po = new Po(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(8, 6);
 

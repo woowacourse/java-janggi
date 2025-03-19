@@ -3,7 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.TeamColor;
+import janggi.Team;
 import janggi.point.Point;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +19,7 @@ public class SangTest {
         @Test
         @DisplayName("상-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkUpRightMovable() {
-            Sang sang = new Sang(TeamColor.BLUE, new Point(5,4));
+            Sang sang = new Sang(Team.CHO, new Point(5,4));
 
             Point targetPoint = new Point(2, 6);
 
@@ -29,7 +29,7 @@ public class SangTest {
         @Test
         @DisplayName("우-좌측대각선로 이동할 수 있다면 true를 반환한다.")
         void checkRightLeftMovable() {
-            Sang sang = new Sang(TeamColor.BLUE, new Point(5,4));
+            Sang sang = new Sang(Team.CHO, new Point(5,4));
 
             Point targetPoint = new Point(3, 7);
 
@@ -39,7 +39,7 @@ public class SangTest {
         @Test
         @DisplayName("우-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkRightRightMovable() {
-            Sang sang = new Sang(TeamColor.BLUE, new Point(5,4));
+            Sang sang = new Sang(Team.CHO, new Point(5,4));
 
             Point targetPoint = new Point(7, 7);
 
@@ -49,7 +49,7 @@ public class SangTest {
         @Test
         @DisplayName("하-좌측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkDownLeftMovable() {
-            Sang sang = new Sang(TeamColor.BLUE, new Point(5,4));
+            Sang sang = new Sang(Team.CHO, new Point(5,4));
 
             Point targetPoint = new Point(8, 6);
 
@@ -59,7 +59,7 @@ public class SangTest {
         @Test
         @DisplayName("하-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkDownRightMovable() {
-            Sang sang = new Sang(TeamColor.BLUE, new Point(5,4));
+            Sang sang = new Sang(Team.CHO, new Point(5,4));
 
             Point targetPoint = new Point(8, 2);
 
@@ -69,7 +69,7 @@ public class SangTest {
         @Test
         @DisplayName("좌-좌측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkLeftLeftMovable() {
-            Sang sang = new Sang(TeamColor.BLUE, new Point(5,4));
+            Sang sang = new Sang(Team.CHO, new Point(5,4));
 
             Point targetPoint = new Point(7, 1);
 
@@ -79,7 +79,7 @@ public class SangTest {
         @Test
         @DisplayName("좌-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkLeftRightMovable() {
-            Sang sang = new Sang(TeamColor.BLUE, new Point(5,4));
+            Sang sang = new Sang(Team.CHO, new Point(5,4));
 
             Point targetPoint = new Point(3, 1);
 
@@ -89,7 +89,7 @@ public class SangTest {
         @Test
         @DisplayName("상-좌측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkUpLeftMovable() {
-            Sang sang = new Sang(TeamColor.BLUE, new Point(5,4));
+            Sang sang = new Sang(Team.CHO, new Point(5,4));
 
             Point targetPoint = new Point(2, 2);
 
@@ -104,7 +104,7 @@ public class SangTest {
         @Test
         @DisplayName("상-우측대각선로 이동 경로를 생성할 수 있다.")
         void checkUpRightRouteMovable() {
-            Sang sang = new Sang(TeamColor.BLUE, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(2, 6);
 
@@ -119,7 +119,7 @@ public class SangTest {
         @Test
         @DisplayName("우-좌측대각선로 이동 경로를 생성할 수 있다.")
         void checkRightLeftRouteMovable() {
-            Sang sang = new Sang(TeamColor.BLUE, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(3, 7);
 
@@ -134,7 +134,7 @@ public class SangTest {
         @Test
         @DisplayName("우-우측대각선로 이동 경로를 생성할 수 있다.")
         void checkRightRightRouteMovable() {
-            Sang sang = new Sang(TeamColor.BLUE, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(7, 7);
 
@@ -149,7 +149,7 @@ public class SangTest {
         @Test
         @DisplayName("하-좌측대각선로 이동 경로를 생성할 수 있다.")
         void checkDownLeftRouteMovable() {
-            Sang sang = new Sang(TeamColor.BLUE, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(8, 6);
 
@@ -164,7 +164,7 @@ public class SangTest {
         @Test
         @DisplayName("하-우측대각선로 이동 경로를 생성할 수 있다.")
         void checkDownRightRouteMovable() {
-            Sang sang = new Sang(TeamColor.BLUE, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(8, 2);
 
@@ -179,7 +179,7 @@ public class SangTest {
         @Test
         @DisplayName("좌-좌측대각선로 이동 경로를 생성할 수 있다.")
         void checkLeftLeftRouteMovable() {
-            Sang sang = new Sang(TeamColor.BLUE, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(7, 1);
 
@@ -194,7 +194,7 @@ public class SangTest {
         @Test
         @DisplayName("좌-우측대각선로 이동 경로를 생성할 수 있다.")
         void checkLeftRightRouteMovable() {
-            Sang sang = new Sang(TeamColor.BLUE, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(3, 1);
 
@@ -209,7 +209,7 @@ public class SangTest {
         @Test
         @DisplayName("상-좌측대각선로 이동 경로를 생성할 수 있다.")
         void checkUpLeftRouteMovable() {
-            Sang sang = new Sang(TeamColor.BLUE, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(2, 2);
 

@@ -3,7 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.TeamColor;
+import janggi.Team;
 import janggi.point.Point;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +19,7 @@ class MaTest {
         @Test
         @DisplayName("상-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkUpRightMovable() {
-            Ma ma = new Ma(TeamColor.BLUE, new Point(5,4));
+            Ma ma = new Ma(Team.CHO, new Point(5,4));
 
             Point targetPoint = new Point(3, 5);
 
@@ -29,7 +29,7 @@ class MaTest {
         @Test
         @DisplayName("우-좌측대각선로 이동할 수 있다면 true를 반환한다.")
         void checkRightLeftMovable() {
-            Ma ma = new Ma(TeamColor.BLUE, new Point(5,4));
+            Ma ma = new Ma(Team.CHO, new Point(5,4));
 
             Point targetPoint = new Point(4, 6);
 
@@ -39,7 +39,7 @@ class MaTest {
         @Test
         @DisplayName("우-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkRightRightMovable() {
-            Ma ma = new Ma(TeamColor.BLUE, new Point(5,4));
+            Ma ma = new Ma(Team.CHO, new Point(5,4));
 
             Point targetPoint = new Point(6, 6);
 
@@ -49,7 +49,7 @@ class MaTest {
         @Test
         @DisplayName("하-좌측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkDownLeftMovable() {
-            Ma ma = new Ma(TeamColor.BLUE, new Point(5,4));
+            Ma ma = new Ma(Team.CHO, new Point(5,4));
 
             Point targetPoint = new Point(7, 5);
 
@@ -59,7 +59,7 @@ class MaTest {
         @Test
         @DisplayName("하-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkDownRightMovable() {
-            Ma ma = new Ma(TeamColor.BLUE, new Point(5,4));
+            Ma ma = new Ma(Team.CHO, new Point(5,4));
 
             Point targetPoint = new Point(7, 3);
 
@@ -69,7 +69,7 @@ class MaTest {
         @Test
         @DisplayName("좌-좌측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkLeftLeftMovable() {
-            Ma ma = new Ma(TeamColor.BLUE, new Point(5,4));
+            Ma ma = new Ma(Team.CHO, new Point(5,4));
 
             Point targetPoint = new Point(6, 2);
 
@@ -79,7 +79,7 @@ class MaTest {
         @Test
         @DisplayName("좌-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkLeftRightMovable() {
-            Ma ma = new Ma(TeamColor.BLUE, new Point(5,4));
+            Ma ma = new Ma(Team.CHO, new Point(5,4));
 
             Point targetPoint = new Point(4, 2);
 
@@ -89,7 +89,7 @@ class MaTest {
         @Test
         @DisplayName("상-좌측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkUpLeftMovable() {
-            Ma ma = new Ma(TeamColor.BLUE, new Point(5,4));
+            Ma ma = new Ma(Team.CHO, new Point(5,4));
 
             Point targetPoint = new Point(3, 3);
 
@@ -104,7 +104,7 @@ class MaTest {
         @Test
         @DisplayName("상-우측대각선로 이동 경로를 생성할 수 있다.")
         void checkUpRightRouteMovable() {
-            Ma ma = new Ma(TeamColor.BLUE, new Point(5, 4));
+            Ma ma = new Ma(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(3, 5);
 
@@ -119,7 +119,7 @@ class MaTest {
         @Test
         @DisplayName("우-좌측대각선로 이동 경로를 생성할 수 있다.")
         void checkRightLeftRouteMovable() {
-            Ma ma = new Ma(TeamColor.BLUE, new Point(5, 4));
+            Ma ma = new Ma(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(4, 6);
 
@@ -134,7 +134,7 @@ class MaTest {
         @Test
         @DisplayName("우-우측대각선로 이동 경로를 생성할 수 있다.")
         void checkRightRightRouteMovable() {
-            Ma ma = new Ma(TeamColor.BLUE, new Point(5, 4));
+            Ma ma = new Ma(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(6, 6);
 
@@ -149,7 +149,7 @@ class MaTest {
         @Test
         @DisplayName("하-좌측대각선로 이동 경로를 생성할 수 있다.")
         void checkDownLeftRouteMovable() {
-            Ma ma = new Ma(TeamColor.BLUE, new Point(5, 4));
+            Ma ma = new Ma(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(7, 5);
 
@@ -164,7 +164,7 @@ class MaTest {
         @Test
         @DisplayName("하-우측대각선로 이동 경로를 생성할 수 있다.")
         void checkDownRightRouteMovable() {
-            Ma ma = new Ma(TeamColor.BLUE, new Point(5, 4));
+            Ma ma = new Ma(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(7, 3);
 
@@ -179,7 +179,7 @@ class MaTest {
         @Test
         @DisplayName("좌-좌측대각선로 이동 경로를 생성할 수 있다.")
         void checkLeftLeftRouteMovable() {
-            Ma ma = new Ma(TeamColor.BLUE, new Point(5, 4));
+            Ma ma = new Ma(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(6, 2);
 
@@ -194,7 +194,7 @@ class MaTest {
         @Test
         @DisplayName("좌-우측대각선로 이동 경로를 생성할 수 있다.")
         void checkLeftRightRouteMovable() {
-            Ma ma = new Ma(TeamColor.BLUE, new Point(5, 4));
+            Ma ma = new Ma(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(4, 2);
 
@@ -209,7 +209,7 @@ class MaTest {
         @Test
         @DisplayName("상-좌측대각선로 이동 경로를 생성할 수 있다.")
         void checkUpLeftRouteMovable() {
-            Ma ma = new Ma(TeamColor.BLUE, new Point(5, 4));
+            Ma ma = new Ma(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(3, 3);
 

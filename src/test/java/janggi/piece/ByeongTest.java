@@ -3,7 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.TeamColor;
+import janggi.Team;
 import janggi.point.Point;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +19,7 @@ class ByeongTest {
         @Test
         @DisplayName("좌로 이동할 수 있다면 true를 반환한다.")
         void checkLeftMovable() {
-            Byeong byeong = new Byeong(TeamColor.BLUE, new Point(6, 6));
+            Byeong byeong = new Byeong(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(6, 5);
 
@@ -29,7 +29,7 @@ class ByeongTest {
         @Test
         @DisplayName("우로 이동할 수 있다면 true를 반환한다.")
         void checkRightMovable() {
-            Byeong byeong = new Byeong(TeamColor.BLUE, new Point(6, 6));
+            Byeong byeong = new Byeong(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(6, 7);
 
@@ -39,7 +39,7 @@ class ByeongTest {
         @Test
         @DisplayName("상으로 이동할 수 있다면 true를 반환한다.")
         void checkUpMovable() {
-            Byeong byeong = new Byeong(TeamColor.BLUE, new Point(6, 6));
+            Byeong byeong = new Byeong(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(5, 6);
 
@@ -49,7 +49,7 @@ class ByeongTest {
         @Test
         @DisplayName("하으로 이동할 수 있다면 false를 반환한다.")
         void checkDownMovable() {
-            Byeong byeong = new Byeong(TeamColor.BLUE, new Point(6, 6));
+            Byeong byeong = new Byeong(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(7, 6);
 
@@ -64,7 +64,7 @@ class ByeongTest {
         @Test
         @DisplayName("좌로 이동 경로를 생성할 수 있다.")
         void checkLeftRouteMovable() {
-            Byeong byeong = new Byeong(TeamColor.BLUE, new Point(6, 6));
+            Byeong byeong = new Byeong(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(6, 5);
 
@@ -79,7 +79,7 @@ class ByeongTest {
         @Test
         @DisplayName("우로 이동 경로를 생성할 수 있다.")
         void checkRightRouteMovable() {
-            Byeong byeong = new Byeong(TeamColor.BLUE, new Point(6, 6));
+            Byeong byeong = new Byeong(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(6, 7);
 
@@ -94,7 +94,7 @@ class ByeongTest {
         @Test
         @DisplayName("상로 이동 경로를 생성할 수 있다.")
         void checkUpRouteMovable() {
-            Byeong byeong = new Byeong(TeamColor.BLUE, new Point(6, 6));
+            Byeong byeong = new Byeong(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(5, 6);
 

@@ -3,7 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.TeamColor;
+import janggi.Team;
 import janggi.point.Point;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -32,7 +32,7 @@ public class GungTest {
         @Test
         @DisplayName("좌로 이동할 수 있다면 true를 반환한다.")
         void checkLeftMovable() {
-            Gung gung = new Gung(TeamColor.BLUE, new Point(6, 6));
+            Gung gung = new Gung(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(6, 5);
 
@@ -42,7 +42,7 @@ public class GungTest {
         @Test
         @DisplayName("우로 이동할 수 있다면 true를 반환한다.")
         void checkRightMovable() {
-            Gung gung = new Gung(TeamColor.BLUE, new Point(6, 6));
+            Gung gung = new Gung(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(6, 7);
 
@@ -52,7 +52,7 @@ public class GungTest {
         @Test
         @DisplayName("상으로 이동할 수 있다면 true를 반환한다.")
         void checkUpMovable() {
-            Gung gung = new Gung(TeamColor.BLUE, new Point(6, 6));
+            Gung gung = new Gung(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(5, 6);
 
@@ -62,7 +62,7 @@ public class GungTest {
         @Test
         @DisplayName("하으로 이동할 수 있다면 true를 반환한다.")
         void checkDownMovable() {
-            Gung gung = new Gung(TeamColor.BLUE, new Point(6, 6));
+            Gung gung = new Gung(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(7, 6);
 
@@ -77,7 +77,7 @@ public class GungTest {
         @Test
         @DisplayName("좌로 이동 경로를 생성할 수 있다.")
         void checkLeftRouteMovable() {
-            Gung gung = new Gung(TeamColor.BLUE, new Point(6, 6));
+            Gung gung = new Gung(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(6, 5);
 
@@ -92,7 +92,7 @@ public class GungTest {
         @Test
         @DisplayName("우로 이동 경로를 생성할 수 있다.")
         void checkRightRouteMovable() {
-            Gung gung = new Gung(TeamColor.BLUE, new Point(6, 6));
+            Gung gung = new Gung(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(6, 7);
 
@@ -107,7 +107,7 @@ public class GungTest {
         @Test
         @DisplayName("상로 이동 경로를 생성할 수 있다.")
         void checkUpRouteMovable() {
-            Gung gung = new Gung(TeamColor.BLUE, new Point(6, 6));
+            Gung gung = new Gung(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(5, 6);
 
@@ -122,7 +122,7 @@ public class GungTest {
         @Test
         @DisplayName("하로 이동 경로를 생성할 수 있다.")
         void checkDownRouteMovable() {
-            Gung gung = new Gung(TeamColor.BLUE, new Point(6, 6));
+            Gung gung = new Gung(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(7, 6);
 

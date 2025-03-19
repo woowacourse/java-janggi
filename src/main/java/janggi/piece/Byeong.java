@@ -3,30 +3,31 @@ package janggi.piece;
 import janggi.point.InitialPoint;
 import janggi.Movable;
 import janggi.point.Point;
-import janggi.TeamColor;
+import janggi.Team;
 import java.util.ArrayList;
 import java.util.List;
+import javax.print.attribute.standard.MediaSize.NA;
 
 public class Byeong implements Movable {
 
     private static final String NAME = "병";
     private static final List<Byeong> byeongs;
 
-    private final TeamColor color;
+    private final Team team;
     private final Point point;
 
-    public Byeong(TeamColor color, Point point) {
-        this.color = color;
+    public Byeong(Team team, Point point) {
+        this.team = team;
         this.point = point;
     }
 
     static {
         List<Byeong> createdPieces = new ArrayList<>();
         for (Point point : InitialPoint.BYEONG.getRedPoints()) {
-            createdPieces.add(new Byeong(TeamColor.RED, point));
+            createdPieces.add(new Byeong(Team.HAN, point));
         }
         for (Point point : InitialPoint.BYEONG.getBluePoints()) {
-            createdPieces.add(new Byeong(TeamColor.BLUE, point));
+            createdPieces.add(new Byeong(Team.CHO, point));
         }
         byeongs = createdPieces;
     }
@@ -50,8 +51,13 @@ public class Byeong implements Movable {
     }
 
     @Override
-    public TeamColor getColor() {
-        return this.color;
+    public String getName() {
+        return NAME;
+    }
+
+    @Override
+    public Team getTeam() {
+        return this.team;
     }
 
     @Override
@@ -61,6 +67,6 @@ public class Byeong implements Movable {
 
     @Override
     public Movable updatePoint(Point afterPoint) {
-        return new Byeong(color, afterPoint);
+        return new Byeong(team, afterPoint);
     }
 }
