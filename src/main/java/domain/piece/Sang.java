@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Board;
 import domain.Coordinate;
 import domain.Team;
 import java.util.Set;
@@ -25,7 +26,17 @@ public class Sang extends Piece {
     }
 
     @Override
-    public Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
+    protected boolean canMoveConsideringObstacles(Board board, Coordinate departure, Coordinate arrival) {
+        for (Coordinate coordinate : findPaths(departure, arrival)) {
+            if (board.isExistence(coordinate)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    protected Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
         int dx = arrival.getX() - departure.getX();
         int dy = arrival.getY() - departure.getY();
 
