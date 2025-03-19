@@ -13,7 +13,7 @@ public class Po implements Piece {
     }
 
     @Override
-    public boolean canMove(Team team, Node source, Node destination, Board board) {
+    public boolean canMove(Node source, Node destination, Board board) {
         return false;
     }
 

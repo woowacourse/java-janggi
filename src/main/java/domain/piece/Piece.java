@@ -6,7 +6,7 @@ import domain.board.Node;
 
 public interface Piece {
 
-    boolean canMove(Team team, Node source, Node destination, Board board);
+    boolean canMove(Node source, Node destination, Board board);
 
     PieceType type();
 

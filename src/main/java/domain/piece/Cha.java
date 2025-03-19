@@ -16,23 +16,24 @@ public class Cha implements Piece {
     }
 
     @Override
-    public boolean canMove(Team team, Node source, Node destination, Board board) {
-        return findMovableNodes(team, source, board).contains(destination);
+    public boolean canMove(Node source, Node destination, Board board) {
+        return findMovableNodes(source, board).contains(destination);
     }
 
-    private List<Node> findMovableNodes(Team team, Node sourceNode, Board board) {
+    private List<Node> findMovableNodes(Node sourceNode, Board board) {
         List<Node> candidates = new ArrayList<>(List.of(sourceNode));
-        for (Direction direction : List.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)) {
-            if (!sourceNode.hasEdgeByDirection(direction)) {
-                continue;
-            }
-            findCandidates(sourceNode.findNextNodeByDirection(direction), team, board, direction, candidates);
-        }
+
+        List<Direction> directions = List.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT);
+        directions.stream()
+                .filter(sourceNode::hasEdgeByDirection)
+                .forEach(direction ->
+                        findCandidates(sourceNode.findNextNodeByDirection(direction), board, direction, candidates));
+        
         return candidates;
     }
 
     private void findCandidates(Node currentNode,
-                                final Team team, final Board board, final Direction direction,
+                                final Board board, final Direction direction,
                                 final List<Node> candidates) {
         candidates.add(currentNode);
         if (!currentNode.hasEdgeByDirection(direction)) {
@@ -40,10 +41,10 @@ public class Cha implements Piece {
         }
 
         Node nextNode = currentNode.findNextNodeByDirection(direction);
-        if (board.existsPieceByTeam(nextNode, team)) {
+        if (board.existsPieceByTeam(nextNode, this.team)) {
             return;
         }
-        findCandidates(nextNode, team, board, direction, candidates);
+        findCandidates(nextNode, board, direction, candidates);
     }
 
     @Override

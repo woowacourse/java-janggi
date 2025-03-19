@@ -57,21 +57,21 @@ public class Sang implements Piece {
     }
 
     @Override
-    public boolean canMove(Team team, Node source, Node destination, Board board) {
-        return findMovableNodes(team, source, board).contains(destination);
+    public boolean canMove(Node source, Node destination, Board board) {
+        return findMovableNodes(source, board).contains(destination);
     }
 
-    private List<Node> findMovableNodes(Team team, Node sourceNode, Board board) {
+    private List<Node> findMovableNodes(Node sourceNode, Board board) {
         List<Node> candidates = new ArrayList<>();
         for (PieceMovement pieceMovement : PIECE_MOVEMENTS) {
-            checkObstaclesAndAddCandidate(team, sourceNode,
+            checkObstaclesAndAddCandidate(sourceNode,
                     pieceMovement.obstaclePaths(), pieceMovement.destinationPath(),
                     candidates, board);
         }
         return candidates;
     }
 
-    private void checkObstaclesAndAddCandidate(Team team, Node sourceNode,
+    private void checkObstaclesAndAddCandidate(Node sourceNode,
                                                List<PiecePath> obstaclePaths, PiecePath destinationPath,
                                                List<Node> candidates, final Board board) {
         if (!sourceNode.canMoveByPath(destinationPath)) {
@@ -79,7 +79,7 @@ public class Sang implements Piece {
         }
 
         Node destinationNode = sourceNode.moveByPath(destinationPath);
-        if (board.existsPieceByTeam(destinationNode, team)) {
+        if (board.existsPieceByTeam(destinationNode, this.team)) {
             return;
         }
 
