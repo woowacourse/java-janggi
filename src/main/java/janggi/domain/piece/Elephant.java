@@ -2,10 +2,10 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.Side;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 public class Elephant extends Piece {
 
@@ -34,54 +34,57 @@ public class Elephant extends Piece {
 
     @Override
     protected boolean isMoveablePath(List<Piece> existingPieces, int x, int y) {
-        Set<Position> moveablePositions = findAllMoveablePositions();
-        for (Piece existingPiece : existingPieces) {
-            if (moveablePositions.contains(existingPiece.getPosition())) {
-                if (existingPiece.getPosition().isSameCoordinate(x, y)) {
-                    if (existingPiece.getSide() == getSide()) {
-                        return false;
-                    }
-                    return true;
-                }
-                return false;
-            }
+        List<Piece> onPathPieces = findAllPiecesOnPath(existingPieces);
+
+        if (!onPathPieces.isEmpty()) {
+            return onPathPieces.stream()
+                    .filter(onPathPiece -> onPathPiece.getPosition().isSameCoordinate(x, y))
+                    .anyMatch(onPathPiece -> onPathPiece.getSide() != getSide());
         }
         return true;
     }
 
+    private List<Piece> findAllPiecesOnPath(List<Piece> existingPieces) {
+        Set<Position> moveablePositions = findAllMoveablePositions();
+        return existingPieces.stream()
+                .filter(existingPiece -> moveablePositions.contains(existingPiece.getPosition()))
+                .toList();
+    }
+
     private Set<Position> findAllMoveablePositions() {
         Set<Position> moveablePositions = new HashSet<>();
-        Position position = getPosition();
-        int x = position.getX();
-        int y = position.getY();
-        moveablePositions.add(new Position(x, y + 1));
-        moveablePositions.add(new Position(x - 1, y + 2));
-        moveablePositions.add(new Position(x - 2, y + 3));
-
-        moveablePositions.add(new Position(x + 1, y + 2));
-        moveablePositions.add(new Position(x + 2, y + 3));
-
-        moveablePositions.add(new Position(x + 1, y));
-        moveablePositions.add(new Position(x + 2, y + 1));
-        moveablePositions.add(new Position(x + 3, y + 2));
-
-        moveablePositions.add(new Position(x + 2, y - 1));
-        moveablePositions.add(new Position(x + 3, y - 2));
-
-        moveablePositions.add(new Position(x, y - 1));
-        moveablePositions.add(new Position(x + 1, y - 2));
-        moveablePositions.add(new Position(x + 2, y - 3));
-
-        moveablePositions.add(new Position(x - 1, y - 2));
-        moveablePositions.add(new Position(x - 2, y - 3));
-
-        moveablePositions.add(new Position(x - 1, y));
-        moveablePositions.add(new Position(x - 2, y -1));
-        moveablePositions.add(new Position(x - 3, y - 2));
-
-        moveablePositions.add(new Position(x - 2, y + 1));
-        moveablePositions.add(new Position(x - 3, y + 2));
+        addAllHorizontalMoveablePositions(moveablePositions, getXPosition(), getYPosition());
+        addAllVerticalMoveablePositions(moveablePositions, getXPosition(), getYPosition());
 
         return moveablePositions;
+    }
+
+    private void addAllHorizontalMoveablePositions(Set<Position> moveablePositions, int currentX, int currentY) {
+        IntStream.rangeClosed(1, HORIZONTAL_BASE_X_MOVEABLE_DISTANCE)
+                .forEach(
+                        x -> IntStream.rangeClosed(0, HORIZONTAL_BASE_Y_MOVEABLE_DISTANCE)
+                                .forEach(y -> moveablePositions.addAll(
+                                        findAllAvailablePositions(currentX, currentY, x, y))
+                                )
+                );
+    }
+
+    private void addAllVerticalMoveablePositions(Set<Position> moveablePositions, int currentX, int currentY) {
+        IntStream.rangeClosed(1, VERTICAL_BASE_Y_MOVEABLE_DISTANCE)
+                .forEach(
+                        y -> IntStream.rangeClosed(0, VERTICAL_BASE_X_MOVEABLE_DISTANCE)
+                                .forEach(x -> moveablePositions.addAll(
+                                        findAllAvailablePositions(currentX, currentY, x, y))
+                                )
+                );
+    }
+
+    private Set<Position> findAllAvailablePositions(int currentX, int currentY, int x, int y) {
+        Set<Position> result = new HashSet<>();
+        result.add(new Position(currentX - x, currentY - y));
+        result.add(new Position(currentX + x, currentY + y));
+        result.add(new Position(currentX + x, currentY - y));
+        result.add(new Position(currentX - x, currentY + y));
+        return result;
     }
 }
