@@ -1,13 +1,16 @@
 package domain;
 
+import domain.pattern.Pattern;
+import domain.pattern.상Path;
+import java.util.List;
+
 public class 상 extends Piece {
     public 상(Side side) {
         super(3, side);
     }
 
     @Override
-    public boolean canMove(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
-        return (Math.abs(afterRow - beforeRow) == 2 && Math.abs(afterColumn - beforeColumn) == 3) || (
-                Math.abs(afterRow - beforeRow) == 3 && Math.abs(afterColumn - beforeColumn) == 2);
+    public List<Pattern> findPath(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
+        return 상Path.getPath(beforeRow, beforeColumn, afterRow, afterColumn);
     }
 }

@@ -1,5 +1,8 @@
 package domain;
 
+import domain.pattern.Pattern;
+import java.util.List;
+
 public abstract class Piece {
     protected int score;
     protected Side side;
@@ -9,5 +12,6 @@ public abstract class Piece {
         this.side = side;
     }
 
-    public abstract boolean canMove(int beforeRow, int beforeColumn, int afterRow, int afterColumn);
+    public abstract List<Pattern> findPath(int beforeRow, int beforeColumn, int afterRow, int afterColumn);
+
 }

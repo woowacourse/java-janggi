@@ -23,10 +23,10 @@ public class JanggiBoard {
             throw new IllegalArgumentException();
         }
         Piece piece = getPieceFrom(beforeRow, beforeColumn);
-        boolean isHurdle = isExistHurdle(piece, beforeRow, beforeColumn, afterRow, afterColumn);
+//        boolean isHurdle = isExistHurdle(piece, beforeRow, beforeColumn, afterRow, afterColumn);
 
         if (piece.getClass().equals(포.class)) {
-            move포(beforeRow, beforeColumn, afterRow, afterColumn);
+//            move포(beforeRow, beforeColumn, afterRow, afterColumn);
             return;
         }
 
@@ -40,20 +40,20 @@ public class JanggiBoard {
             transformedAfterRow = 10;
         }
 
-        if (!piece.canMove(transformedBeforeRow, beforeColumn, transformedAfterRow, afterColumn)) {
-            throw new IllegalArgumentException();
-        }
+//        if (!piece.canMove(transformedBeforeRow, beforeColumn, transformedAfterRow, afterColumn)) {
+//            throw new IllegalArgumentException();
+//        }
         janggiBoard.put(beforeRow, beforeColumn, new Empty());
         janggiBoard.put(afterRow, afterColumn, piece);
     }
 
-    private boolean isExistHurdle(Piece piece, int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
-
-    }
-
-    private void move포(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
-
-    }
+//    private boolean isExistHurdle(Piece piece, int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
+//
+//    }
+//
+//    private void move포(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
+//
+//    }
 
 
 }

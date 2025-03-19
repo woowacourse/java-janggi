@@ -16,7 +16,7 @@ public class EmptyTest {
     @Test
     void 기물이_존재하지_않을_때_움직이려_하는_경우_예외를_발생시킨다() {
         // when & then
-        assertThatThrownBy(() -> new Empty().canMove(0, 0, 1, 1))
+        assertThatThrownBy(() -> new Empty().findPath(0, 0, 1, 1))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

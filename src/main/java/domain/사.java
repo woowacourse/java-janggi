@@ -1,16 +1,16 @@
 package domain;
 
+import domain.pattern.Pattern;
+import domain.pattern.사Path;
+import java.util.List;
+
 public class 사 extends Piece {
     public 사(Side side) {
         super(3, side);
     }
 
     @Override
-    public boolean canMove(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
-        if (beforeRow == afterRow && Math.abs(beforeColumn - afterColumn) == 1) {
-            return true;
-        }
-        return beforeColumn == afterColumn && (Math.abs(beforeRow - afterRow) == 1
-                || Math.abs(beforeRow - afterRow) == 9);
+    public List<Pattern> findPath(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
+        return 사Path.getPath(beforeRow, beforeColumn, afterRow, afterColumn);
     }
 }

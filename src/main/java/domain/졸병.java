@@ -1,5 +1,10 @@
 package domain;
 
+import domain.pattern.Pattern;
+import domain.pattern.병Path;
+import domain.pattern.졸Path;
+import java.util.List;
+
 public class 졸병 extends Piece {
 
     public 졸병(Side side) {
@@ -7,12 +12,10 @@ public class 졸병 extends Piece {
     }
 
     @Override
-    public boolean canMove(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
+    public List<Pattern> findPath(int beforeRow, int beforeColumn, int afterRow, int afterColumn) {
         if (side == Side.초) {
-            return (Math.abs(beforeColumn - afterColumn) == 1 && beforeRow == afterRow) || (afterRow - beforeRow == -1
-                    && afterColumn == beforeColumn);
+            return 졸Path.getPath(beforeRow, beforeColumn, afterRow, afterColumn);
         }
-        return (Math.abs(beforeColumn - afterColumn) == 1 && beforeRow == afterRow) || (afterRow - beforeRow == 1
-                && afterColumn == beforeColumn);
+        return 병Path.getPath(beforeRow, beforeColumn, afterRow, afterColumn);
     }
 }
