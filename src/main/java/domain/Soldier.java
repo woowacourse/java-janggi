@@ -1,6 +1,6 @@
 package domain;
 
-public class Soldier extends AbstractPiece implements Piece {
+public class Soldier extends AbstractPiece {
 
     public Soldier(final Team team) {
         super(team);

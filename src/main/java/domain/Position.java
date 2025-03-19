@@ -16,6 +16,10 @@ public class Position {
         return this.point.equals(other);
     }
 
+    public boolean isGreenTeam() {
+        return piece.isGreenTeam();
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) {
