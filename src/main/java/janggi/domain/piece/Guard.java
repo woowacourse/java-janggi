@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Guard extends Piece {
     private static final List<Position> INITIAL_POSITIONS_BLUE = List.of(new Position(10, 4), new Position(10, 6));
@@ -21,5 +22,27 @@ public class Guard extends Piece {
         INITIAL_POSITIONS_RED.forEach(position ->
                 guards.add(new Guard(position, teamType)));
         return guards;
+    }
+
+    public Guard move(final Map<Position, Piece> pieces, final Position positionToMove) {
+        validateIsPositionMovable(positionToMove);
+        validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
+        return new Guard(positionToMove, teamType);
+    }
+
+    private void validateIsPositionMovable(final Position value) {
+        if (checkIsPositionNotMovable(value)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private boolean checkIsPositionNotMovable(final Position value) {
+        return Math.abs(value.x() - getPosition().x()) + Math.abs(value.y() - getPosition().y()) != 1;
+    }
+
+    private void validateIsSameTeamNotInPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
+        if(pieces.containsKey(positionToMove)){
+            throw new IllegalArgumentException();
+        }
     }
 }
