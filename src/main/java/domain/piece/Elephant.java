@@ -48,4 +48,9 @@ public class Elephant implements Piece {
         }
         return pieceOnRoute.hasNotPieceOnRoute();
     }
+
+    @Override
+    public boolean canJumpOver() {
+        return true;
+    }
 }

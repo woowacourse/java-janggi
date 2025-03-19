@@ -26,6 +26,10 @@ public final class EmptyPiece implements Piece {
         throw new JanggiArgumentException("기물이 없습니다.");
     }
 
+    @Override
+    public boolean canJumpOver() {
+        return true;
+    }
 
     @Override
     public boolean equals(Object obj) {

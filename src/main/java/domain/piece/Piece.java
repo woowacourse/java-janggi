@@ -13,4 +13,6 @@ public interface Piece {
     List<Point> getRoutePoints(Point startPoint, Point arrivalPoint);
 
     boolean isMovable(PieceOnRoute pieceOnRoute);
+
+    boolean canJumpOver();
 }

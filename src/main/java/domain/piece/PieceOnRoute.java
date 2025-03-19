@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.Team;
+import execptions.JanggiArgumentException;
 import java.util.List;
 
 public record PieceOnRoute(List<Piece> pieces) {
@@ -21,5 +22,22 @@ public record PieceOnRoute(List<Piece> pieces) {
             return last.hasEqualTeam(team);
         }
         return false;
+    }
+
+    public int countPieceOnRoute() {
+        int count = 0;
+        for (int i = 0; i < pieces.size() - 1; i++) {
+            if (!pieces.get(i).equals(emptyPiece)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public boolean CanJumpOverFirstPiece() {
+        return pieces.stream().filter(piece -> !piece.equals(emptyPiece))
+                .findFirst()
+                .orElseThrow(() -> new JanggiArgumentException("기물이 없습니다."))
+                .canJumpOver();
     }
 }

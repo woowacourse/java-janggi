@@ -5,12 +5,12 @@ import domain.Team;
 import java.util.Collections;
 import java.util.List;
 
-public class Chariot implements Piece {
+public class Cannon implements Piece {
 
     private final Team team;
     private final List<Route> movements;
 
-    public Chariot(Team team) {
+    public Cannon(Team team) {
         movements = List.of(
                 new Route(Collections.nCopies(10, Direction.NORTH)),
                 new Route(Collections.nCopies(10, Direction.EAST)),
@@ -48,15 +48,19 @@ public class Chariot implements Piece {
     }
 
     @Override
-    public boolean isMovable(PieceOnRoute pieceOnRoute) {
-        if (pieceOnRoute.hasArrivalPointInMyTeam(team)) {
-            return false;
-        }
-        return pieceOnRoute.hasNotPieceOnRoute();
+    public boolean canJumpOver() {
+        return false;
     }
 
     @Override
-    public boolean canJumpOver() {
-        return true;
+    public boolean isMovable(PieceOnRoute pieceOnRoute) {
+        if (pieceOnRoute.countPieceOnRoute() != 1) {
+            return false;
+        }
+        if (!pieceOnRoute.CanJumpOverFirstPiece()) {
+            return false;
+        }
+        return !pieceOnRoute.hasArrivalPointInMyTeam(team);
     }
+
 }
