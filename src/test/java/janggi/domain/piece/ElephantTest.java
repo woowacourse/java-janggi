@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.Board;
 import janggi.domain.Piece;
 import janggi.domain.Position;
+import janggi.domain.Side;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;

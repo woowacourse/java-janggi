@@ -2,7 +2,6 @@ package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.piece.Side;
 import janggi.domain.piece.Soldier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

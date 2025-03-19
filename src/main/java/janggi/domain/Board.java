@@ -1,7 +1,6 @@
 package janggi.domain;
 
 import janggi.common.ErrorMessage;
-import janggi.domain.piece.Side;
 import java.util.Map;
 import java.util.Set;
 

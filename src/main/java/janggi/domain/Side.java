@@ -1,4 +1,4 @@
-package janggi.domain.piece;
+package janggi.domain;
 
 public enum Side {
     HAN,

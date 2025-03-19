@@ -2,7 +2,6 @@ package janggi.domain;
 
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.PieceBehavior;
-import janggi.domain.piece.Side;
 import java.util.Objects;
 import java.util.Set;
 

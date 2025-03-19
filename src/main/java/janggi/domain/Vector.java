@@ -1,6 +1,5 @@
 package janggi.domain;
 
-import janggi.domain.piece.Side;
 import java.util.List;
 
 public record Vector(int y, int x) {

@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Board;
 import janggi.domain.Position;
+import janggi.domain.Side;
 import janggi.domain.Vector;
 import java.util.List;
 import java.util.Optional;
