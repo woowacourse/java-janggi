@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 public class Soldier extends Piece {
-    private static final Map<TeamType, Movements> movements;
+    private static final Map<TeamType, Movements> MOVEMENTS;
 
     static {
-        movements = Map.of(
+        MOVEMENTS = Map.of(
                 TeamType.CHO,
                 new Movements(
                         List.of(new Movement(List.of(Direction.UP)),
@@ -34,7 +34,7 @@ public class Soldier extends Piece {
 
     @Override
     public boolean canMove(Position expectedPosition, List<Piece> pieces) {
-        Movements findMovement = movements.get(this.teamType);
+        Movements findMovement = MOVEMENTS.get(this.teamType);
         if(!findMovement.canMoveFromTo(this.position,expectedPosition)){
             return false;
         }

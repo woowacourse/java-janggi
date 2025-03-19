@@ -67,7 +67,7 @@ class SoldierTest {
         Piece solider = new Soldier(currentPosition, TeamType.HAN);
 
         // when
-        boolean actual = solider.canMove(movePosition, List.of());
+        boolean actual = solider.canMove(movePosition, List.of(solider));
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -98,7 +98,7 @@ class SoldierTest {
         Piece solider2 = new Soldier(currentPosition, TeamType.CHO);
 
         // when
-        boolean actual = solider2.canMove(movePosition, List.of(solider1));
+        boolean actual = solider2.canMove(movePosition, List.of(solider1, solider2));
 
         // then
         assertThat(actual).isFalse();
@@ -116,7 +116,7 @@ class SoldierTest {
         Piece solider2 = new Soldier(currentPosition, TeamType.HAN);
 
         // when
-        boolean actual = solider1.canMove(movePosition, List.of(solider2));
+        boolean actual = solider1.canMove(movePosition, List.of(solider1, solider2));
 
         // then
         assertThat(actual).isTrue();
