@@ -7,7 +7,7 @@ public class Horse extends Piece{
     }
 
     @Override
-    public boolean canMove(Position source, Position destination) {
+    public boolean isValidDestination(Position source, Position destination) {
         int rowDifference = source.rowDifference(destination);
         int columnDifference = source.columnDifference(destination);
 
@@ -25,5 +25,13 @@ public class Horse extends Piece{
         Position route = source.divideBy(destination, 2);
 
         return List.of(route);
+    }
+
+    @Override
+    public boolean canMove(int pieceCount, Piece piece) {
+        if (pieceCount == 0 && this.isOtherTeam(piece)) {
+            return true;
+        }
+        return false;
     }
 }

@@ -1,9 +1,9 @@
+import java.awt.*;
 import java.util.List;
 
-public class General extends Piece{
-
-    General(PieceColor color) {
-        super(color);
+public class EmptyPiece extends Piece {
+    public EmptyPiece(Color color) {
+        super(PieceColor.NONE);
     }
 
     @Override

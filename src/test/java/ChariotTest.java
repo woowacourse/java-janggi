@@ -14,7 +14,7 @@ class ChariotTest {
         Chariot chariot = new Chariot(PieceColor.RED);
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.TEN, Column.ONE);
-        boolean canMove = chariot.canMove(source, destination);
+        boolean canMove = chariot.isValidDestination(source, destination);
 
         assertThat(canMove).isTrue();
     }
@@ -24,7 +24,7 @@ class ChariotTest {
         Chariot chariot = new Chariot(PieceColor.RED);
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.FOUR, Column.THREE);
-        boolean canMove = chariot.canMove(source, destination);
+        boolean canMove = chariot.isValidDestination(source, destination);
 
         assertThat(canMove).isTrue();
     }
@@ -34,7 +34,7 @@ class ChariotTest {
         Chariot chariot = new Chariot(PieceColor.RED);
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.TEN, Column.TWO);
-        boolean canMove = chariot.canMove(source, destination);
+        boolean canMove = chariot.isValidDestination(source, destination);
 
         assertThat(canMove).isFalse();
     }
@@ -68,4 +68,32 @@ class ChariotTest {
         );
     }
 
+    @Test
+    void 차의_목적지에_같은팀이_있으면_이동불가() {
+        Piece chariot = new Chariot(PieceColor.RED);
+        Piece elephant = new Elephant(PieceColor.RED);
+
+        boolean canMove = chariot.canMove(0, elephant);
+        assertThat(canMove).isFalse();
+    }
+
+    @Test
+    void 차의_이동경로에_기물이_있으면_이동불가() {
+        Piece chariot = new Chariot(PieceColor.RED);
+        Piece elephant = new Elephant(PieceColor.BLUE);
+
+        int pieceCount = 1;
+        boolean canMove = chariot.canMove(pieceCount, elephant);
+        assertThat(canMove).isFalse();
+    }
+
+    @Test
+    void 차의_이동경로에_기물이_없고_목적지가_같은팀이_아니면_이동가능() {
+        Piece chariot = new Chariot(PieceColor.RED);
+        Piece elephant = new Elephant(PieceColor.BLUE);
+
+        int pieceCount = 0;
+        boolean canMove = chariot.canMove(pieceCount, elephant);
+        assertThat(canMove).isTrue();
+    }
 }

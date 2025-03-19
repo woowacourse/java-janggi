@@ -1,21 +1,21 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Elephant extends Piece{
+public class Elephant extends Piece {
 
     Elephant(PieceColor color) {
         super(color);
     }
 
     @Override
-    public boolean canMove(Position source, Position destination) {
+    public boolean isValidDestination(Position source, Position destination) {
         int rowDifference = source.rowDifference(destination);
         int columnDifference = source.columnDifference(destination);
 
-        if(Math.abs(rowDifference) == 3 && Math.abs(columnDifference) == 2) {
+        if (Math.abs(rowDifference) == 3 && Math.abs(columnDifference) == 2) {
             return true;
         }
-        if(Math.abs(rowDifference) == 2 && Math.abs(columnDifference) == 3) {
+        if (Math.abs(rowDifference) == 2 && Math.abs(columnDifference) == 3) {
             return true;
         }
         return false;
@@ -31,5 +31,13 @@ public class Elephant extends Piece{
         positions.add(firstPosition);
         positions.add(secondPosition);
         return positions;
+    }
+
+    @Override
+    public boolean canMove(int pieceCount, Piece piece) {
+        if (pieceCount == 0 && this.isOtherTeam(piece)) {
+            return true;
+        }
+        return false;
     }
 }

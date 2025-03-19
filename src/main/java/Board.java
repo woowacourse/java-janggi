@@ -1,4 +1,4 @@
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -9,11 +9,46 @@ public class Board {
         this.board = board;
     }
 
+    public boolean isPieceInPosition(Position position) {
+        return board.containsKey(position);
+    }
+
     public Piece getPieceBy(Position position) {
         Piece piece = board.get(position);
         if (piece == null) {
             throw new IllegalArgumentException("해당 위치에 기물이 없습니다");
         }
         return piece;
+    }
+
+
+    public int countPieceOnRoute(List<Position> positions) {
+        int count = 0;
+        for(Position position : positions) {
+            if(board.get(position) != null) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public boolean isValidRoute(Position source, Position destination) {
+        Piece piece = board.get(source);
+
+        boolean validDestination = piece.isValidDestination(source, destination);
+
+        List<Position> route = piece.findAllRoute(source, destination);
+        int pieceCount = countPieceOnRoute(route);
+
+        boolean canMove = piece.canMove(pieceCount, piece);
+
+        return canMove && validDestination;
+    }
+
+    public void move(Piece piece, Position source, Position destination) {
+        if(!isValidRoute(source, destination)) {
+            return;
+        }
+        //블라블라
     }
 }

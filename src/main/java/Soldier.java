@@ -7,7 +7,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public boolean canMove(Position source, Position destination) {
+    public boolean isValidDestination(Position source, Position destination) {
         int rowDifference = source.rowDifference(destination);
         int columnDifference = source.columnDifference(destination);
 
@@ -28,4 +28,11 @@ public class Soldier extends Piece {
         return List.of();
     }
 
+    @Override
+    public boolean canMove(int pieceCount, Piece piece) {
+        if (pieceCount == 0 && this.isOtherTeam(piece)) {
+            return true;
+        }
+        return false;
+    }
 }
