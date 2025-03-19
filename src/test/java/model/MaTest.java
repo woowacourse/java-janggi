@@ -3,6 +3,8 @@ package model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -51,6 +53,52 @@ public class MaTest {
                     () -> assertThat(path.contains(point1)).isTrue(),
                     () -> assertThat(path.contains(point2)).isTrue()
             );
+        }
+    }
+
+    @Nested
+    @DisplayName("마 경로 방해 테스트")
+    class JangIsProhibitedPathTest {
+
+        @Test
+        @DisplayName("중간 아군")
+        public void test1() {
+            Ma ma = new Ma(Team.RED);
+            Map<Piece,Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.RED),false);
+
+            assertThat(ma.canMove(pieces)).isFalse();
+        }
+
+        @Test
+        @DisplayName("종점 아군")
+        public void test2() {
+            Ma ma = new Ma(Team.RED);
+            Map<Piece,Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.RED),true);
+
+            assertThat(ma.canMove(pieces)).isFalse();
+        }
+
+
+        @Test
+        @DisplayName("중간 적군")
+        public void test3() {
+            Ma ma = new Ma(Team.RED);
+            Map<Piece,Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.BLUE),false);
+
+            assertThat(ma.canMove(pieces)).isFalse();
+        }
+
+        @Test
+        @DisplayName("종점 적군")
+        public void test4() {
+            Ma ma = new Ma(Team.RED);
+            Map<Piece,Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.BLUE),true);
+
+            assertThat(ma.canMove(pieces)).isTrue();
         }
     }
 }
