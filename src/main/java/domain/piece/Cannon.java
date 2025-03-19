@@ -46,6 +46,9 @@ public class Cannon extends Piece {
         if (startPosition.equals(targetPosition)) {
             throw new IllegalArgumentException("말을 움직여 주세요");
         }
+        if (startPosition.compareRow(targetPosition) != 0 && startPosition.compareColumn(targetPosition) != 0) {
+            throw new IllegalArgumentException("이 위치로는 움직일 수 없습니다.");
+        }
 
         return moves;
     }
