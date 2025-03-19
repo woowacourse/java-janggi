@@ -1,8 +1,11 @@
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
+import janggi.PieceType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import janggi.piece.Piece;
+import janggi.piece.TeamType;
 
 class PieceTest {
 

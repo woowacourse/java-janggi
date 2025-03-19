@@ -1,5 +1,9 @@
+package janggi;
+
 import java.util.HashMap;
 import java.util.Map;
+import janggi.piece.Piece;
+import janggi.piece.Position;
 
 public class Board {
     private final Map<Position, Piece> pieces;

@@ -1,5 +1,9 @@
+package janggi;
+
 import java.util.Collections;
 import java.util.List;
+import janggi.piece.Position;
+import janggi.piece.TeamType;
 
 public enum PieceType {
     GENERAL(

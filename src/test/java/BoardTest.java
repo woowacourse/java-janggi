@@ -1,8 +1,13 @@
+import janggi.Board;
+import janggi.PieceType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import janggi.piece.Piece;
+import janggi.piece.Position;
+import janggi.piece.TeamType;
 
 public class BoardTest {
 

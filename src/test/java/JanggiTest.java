@@ -1,10 +1,16 @@
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.Board;
+import janggi.Janggi;
+import janggi.PieceType;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import janggi.piece.Piece;
+import janggi.piece.Position;
+import janggi.piece.TeamType;
 
 class JanggiTest {
 
@@ -65,6 +71,27 @@ class JanggiTest {
     @DisplayName("보드를 초기화하면 청졸이 71, 73, 75, 77, 79, 홍졸이 41, 43, 45, 47, 49에 배치된다.")
     @Test
     void initializeSoldier() {
+        Board board = new Board(new HashMap<>());
+        Janggi janggi = new Janggi(board);
+        janggi.initializeBoard();
+        Assertions.assertAll(
+                () -> assertThat(board.getPiece(new Position(7, 1))).isEqualTo(new Piece(PieceType.SOLDIER, TeamType.BLUE)),
+                () -> assertThat(board.getPiece(new Position(7, 3))).isEqualTo(new Piece(PieceType.SOLDIER, TeamType.BLUE)),
+                () -> assertThat(board.getPiece(new Position(7, 5))).isEqualTo(new Piece(PieceType.SOLDIER, TeamType.BLUE)),
+                () -> assertThat(board.getPiece(new Position(7, 7))).isEqualTo(new Piece(PieceType.SOLDIER, TeamType.BLUE)),
+                () -> assertThat(board.getPiece(new Position(7, 9))).isEqualTo(new Piece(PieceType.SOLDIER, TeamType.BLUE)),
+
+                () -> assertThat(board.getPiece(new Position(4, 1))).isEqualTo(new Piece(PieceType.SOLDIER, TeamType.RED)),
+                () -> assertThat(board.getPiece(new Position(4, 3))).isEqualTo(new Piece(PieceType.SOLDIER, TeamType.RED)),
+                () -> assertThat(board.getPiece(new Position(4, 5))).isEqualTo(new Piece(PieceType.SOLDIER, TeamType.RED)),
+                () -> assertThat(board.getPiece(new Position(4, 7))).isEqualTo(new Piece(PieceType.SOLDIER, TeamType.RED)),
+                () -> assertThat(board.getPiece(new Position(4, 9))).isEqualTo(new Piece(PieceType.SOLDIER, TeamType.RED))
+        );
+    }
+
+    @DisplayName("보드를 초기화하면 청졸이 71, 73, 75, 77, 79, 홍졸이 41, 43, 45, 47, 49에 배치된다.")
+    @Test
+    void initializeHorse() {
         Board board = new Board(new HashMap<>());
         Janggi janggi = new Janggi(board);
         janggi.initializeBoard();
