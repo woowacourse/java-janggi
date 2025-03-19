@@ -93,8 +93,6 @@ public class PieceInitializer {
             cannonLeftOfRed, cannonRightOfRed, cannonLeftOfGreen, cannonRightOfGreen,
             firstJol, secondJol, thirdJol, fourthJol, fifthJol,
             firstByeong, secondByeong, thirdByeong, fourthByeong, fifthByeong);
-
     }
-
 }
 

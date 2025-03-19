@@ -2,59 +2,66 @@ package model;
 
 import java.util.List;
 
-public class Horse extends  Piece{
+public class Horse extends Piece {
 
     public Horse(Position position, Team team) {
         super(position, team);
     }
 
     @Override
-    public void diagonalUpLeft() {
-        this.position = position.changeColumnAndRow(-2, -1);
+    public List<List<Position>> calculateAllDirection() {
+        return List.of(
+            findUpLeft(), findUpRight(),
+            findLeftUp(), findLeftDown(),
+            findRightUp(), findRightDown(),
+            findDownLeft(), findDownRight());
     }
 
-    @Override
-    public void diagonalUpRight() {
-        this.position = position.changeColumnAndRow(-2, 1);
+    private List<Position> findUpLeft() {
+        return List.of(
+            position.changeColumn(-1),
+            position.changeColumnAndRow(-2, -1));
     }
 
-    @Override
-    public void diagonalLeftUp() {
-        this.position = position.changeColumnAndRow(-1, -2);
+    private List<Position> findUpRight() {
+        return List.of(
+            position.changeColumn(-1),
+            position.changeColumnAndRow(-2, 1));
     }
 
-    @Override
-    public void diagonalLeftDown() {
-        this.position = position.changeColumnAndRow(1, -2);
+    private List<Position> findLeftUp() {
+        return List.of(
+            position.changeRow(-1),
+            position.changeColumnAndRow(-1, -2));
     }
 
-    @Override
-    public void diagonalRightUp() {
-        this.position = position.changeColumnAndRow(-1, 2);
+    private List<Position> findLeftDown() {
+        return List.of(
+            position.changeRow(-1),
+            position.changeColumnAndRow(1, -2));
     }
 
-    @Override
-    public void diagonalRightDown() {
-        this.position = position.changeColumnAndRow(1, 2);
+    private List<Position> findRightUp() {
+        return List.of(
+            position.changeRow(1),
+            position.changeColumnAndRow(-1, 2));
     }
 
-    @Override
-    public void diagonalDownLeft() {
-        this.position = position.changeColumnAndRow(2, -1);
+    private List<Position> findRightDown() {
+        return List.of(
+            position.changeRow(1),
+            position.changeColumnAndRow(1, 2));
     }
 
-    @Override
-    public void diagonalDownRight() {
-        this.position = position.changeColumnAndRow(2, 1);
+    private List<Position> findDownLeft() {
+        return List.of(
+            position.changeColumn(1),
+            position.changeColumnAndRow(2, -1));
     }
 
-    @Override
-    public Position getPosition() {
-        return super.getPosition();
-    }
-
-    @Override
-    public List<Position> calculateMovablePositions() {
-        return null;
+    private List<Position> findDownRight() {
+        return List.of(
+            position.changeRow(1),
+            position.changeColumnAndRow(2, 1));
     }
 }

@@ -2,7 +2,7 @@ package model;
 
 import java.util.List;
 
-public abstract class Piece extends AbstractMove{
+public abstract class Piece{
 
     protected Position position;
     private final Team team;
@@ -12,10 +12,17 @@ public abstract class Piece extends AbstractMove{
         this.team = team;
     }
 
+    public abstract List<List<Position>> calculateAllDirection();
+
     public Position getPosition() {
         return position;
     }
 
-    public abstract List<Position> calculateMovablePositions();
+    public Team getTeam() {
+        return team;
+    }
 
+    public void changePosition(Position position) {
+        this.position = position;
+    }
 }

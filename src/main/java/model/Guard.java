@@ -4,46 +4,32 @@ import java.util.List;
 
 public class Guard extends Piece {
 
-    private static final int CAN_MOVE_AMOUNT = 1;
-
     public Guard(Position position, Team team) {
         super(position, team);
     }
 
     @Override
-    public void up(int moveAmount) {
-        int reverseMoveAmount = -moveAmount;
-        validateMoveAmount(reverseMoveAmount);
-        this.position = position.changeColumn(reverseMoveAmount);
+    public List<List<Position>> calculateAllDirection() {
+        return List.of(
+            findUpDirection(),
+            findDownDirection(),
+            findLeftDirection(),
+            findRightDirection());
     }
 
-    @Override
-    public void left(int moveAmount) {
-        int reverseMoveAmount = -moveAmount;
-        validateMoveAmount(reverseMoveAmount);
-        this.position = position.changeRow(reverseMoveAmount);
+    private List<Position> findUpDirection() {
+        return List.of(position.changeColumn(-1));
     }
 
-    @Override
-    public void down(int moveAmount) {
-        validateMoveAmount(moveAmount);
-        this.position = position.changeColumn(moveAmount);
+    private List<Position> findDownDirection() {
+        return List.of(position.changeColumn(1));
     }
 
-    @Override
-    public void right(int moveAmount) {
-        validateMoveAmount(moveAmount);
-        this.position = position.changeRow(moveAmount);
+    private List<Position> findLeftDirection() {
+        return List.of(position.changeRow(-1));
     }
 
-    @Override
-    public List<Position> calculateMovablePositions() {
-        return null;
-    }
-
-    private void validateMoveAmount(int amount) {
-        if (Math.abs(amount) != CAN_MOVE_AMOUNT) {
-            throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
-        }
+    private List<Position> findRightDirection() {
+        return List.of(position.changeRow(1));
     }
 }

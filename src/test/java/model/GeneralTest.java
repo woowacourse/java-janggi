@@ -3,6 +3,7 @@ package model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import model.piece.Pieces;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -68,7 +69,7 @@ public class GeneralTest {
         general.up(1);
 
         assertThatThrownBy(() -> general.up(1))
-                .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Nested
@@ -77,31 +78,43 @@ public class GeneralTest {
 
         @Test
         @DisplayName("왼쪽으로 두 칸 이동하는 경우, 예외를 발생시켜야 한다.")
-        void when_general_move_left_amount_over_one_then_throw_exception(){
+        void when_general_move_left_amount_over_one_then_throw_exception() {
             assertThatThrownBy(() -> general.left(2))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
         @DisplayName("오른쪽으로 두 칸 이동하는 경우, 예외를 발생시켜야 한다.")
-        void when_general_move_right_amount_over_one_then_throw_exception(){
+        void when_general_move_right_amount_over_one_then_throw_exception() {
             assertThatThrownBy(() -> general.right(2))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
         @DisplayName("아래로 두 칸 이동하는 경우, 예외를 발생시켜야 한다.")
-        void when_general_move_down_amount_over_one_then_throw_exception(){
+        void when_general_move_down_amount_over_one_then_throw_exception() {
             assertThatThrownBy(() -> general.down(2))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
         @DisplayName("아래로 두 칸 이동하는 경우, 예외를 발생시켜야 한다.")
-        void when_general_move_up_amount_over_one_then_throw_exception(){
+        void when_general_move_up_amount_over_one_then_throw_exception() {
             assertThatThrownBy(() -> general.up(2))
                 .isInstanceOf(IllegalArgumentException.class);
         }
-    }
+        @DisplayName("General up, down, left, right 움직임 테스트")
+        @Nested
+        class GeneralMoving {
 
+            Pieces pieces = Pieces.createAndInit();
+
+            @Test
+            @DisplayName("up_테스트")
+            void up_case() {
+                Piece piece = pieces.findPiece(new Position(1, 4));
+                piece.up(1);
+            }
+        }
+    }
 }
