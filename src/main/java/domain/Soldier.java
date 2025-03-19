@@ -1,9 +1,16 @@
 package domain;
 
+import java.util.List;
+
 public class Soldier extends AbstractPiece {
 
     public Soldier(final Team team) {
         super(team);
+    }
+
+    @Override
+    public List<Point> getPossiblePoint(final Point prev, final Point newPoint) {
+        return List.of();
     }
 
     @Override

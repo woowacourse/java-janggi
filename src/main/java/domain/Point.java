@@ -39,6 +39,46 @@ public class Point {
         }
     }
 
+    public int calculateSubtractionX(Point other) {
+        return other.x - this.x;
+    }
+
+    public int calculateSubtractionY(Point other) {
+        return other.y - this.y;
+    }
+
+    public Point up() {
+        return new Point(x, y + 1);
+    }
+
+    public Point down() {
+        return new Point(x, y - 1);
+    }
+
+    public Point left() {
+        return new Point(x, y - 1);
+    }
+
+    public Point right() {
+        return new Point(x, y + 1);
+    }
+
+    public Point rightUp() {
+        return new Point(x + 1, y + 1);
+    }
+
+    public Point rightDown() {
+        return new Point(x + 1, y - 1);
+    }
+
+    public Point leftUp() {
+        return new Point(x - 1, y + 1);
+    }
+
+    public Point leftDown() {
+        return new Point(x - 1, y - 1);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) {

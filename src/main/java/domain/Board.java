@@ -75,4 +75,21 @@ public class Board {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치에 말이 없습니다."));
     }
+
+    public boolean hasPieceOnPath(final Position fromPosition, final Point toPoint) {
+
+        // 1. 목적지까지 갈 수 있는 경로 전부 확인
+        //  1- 1 List<Point> 갈 수 있는 경로 (가고자 하는 사분면에 있는 point만)
+        List<Point> pointOnPath = fromPosition.test(toPoint);
+
+        final long matchCount = positions.stream()
+                .filter(position -> pointOnPath.stream().anyMatch(position::isSame))
+                .count();
+
+        if (matchCount == 0) {
+            return true;
+        }
+        // 1이상 && 포 && 두 번째 기물이 적팀 기물 && 첫 번째 기물이 포가 아니고 && 두 번째 기물도 포가 아니다
+        return false;
+    }
 }

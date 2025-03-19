@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.List;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +10,11 @@ class AbstractPieceTest {
 
         public FakePiece(final Team team) {
             super(team);
+        }
+
+        @Override
+        public List<Point> getPossiblePoint(final Point prev, final Point newPoint) {
+            return List.of();
         }
 
         @Override

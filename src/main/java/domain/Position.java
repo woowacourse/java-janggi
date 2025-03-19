@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Position {
@@ -18,6 +19,10 @@ public class Position {
 
     public boolean isGreenTeam() {
         return piece.isGreenTeam();
+    }
+
+    public List<Point> test(final Point toPoint) {
+        return piece.getPossiblePoint(this.point, toPoint);
     }
 
     @Override
