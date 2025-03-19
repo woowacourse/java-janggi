@@ -1,7 +1,6 @@
 package janggi;
 
 public record Position(Row row, Column column) {
-
     public int getRowValue() {
         return row.getValue();
     }

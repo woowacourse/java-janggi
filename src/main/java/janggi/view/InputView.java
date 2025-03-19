@@ -1,5 +1,7 @@
 package janggi.view;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
@@ -22,5 +24,19 @@ public class InputView {
                 + "3. 오른상\n"
                 + "4. 왼상");
         return scanner.nextLine();
+    }
+
+    public List<Integer> readMoveCommand() {
+        final String input = scanner.nextLine();
+        final String pattern = "move [0-9][0-8] [0-9][0-8]";
+        if (!input.matches(pattern)) {
+            throw new IllegalArgumentException("[ERROR] 올바른 형식으로 입력해주세요.");
+        }
+        List<Integer> moveInfo = new ArrayList<>();
+        moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(5))));
+        moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(6))));
+        moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(8))));
+        moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(9))));
+        return moveInfo;
     }
 }

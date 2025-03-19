@@ -31,4 +31,11 @@ public enum Row {
                 .findAny()
                 .orElseThrow(() -> new IllegalStateException("[ERROR] 보드를 벗어난 값입니다."));
     }
+
+    public static Row of(final int value) {
+        return Arrays.stream(values())
+                .filter(row -> row.getValue() == value)
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("[ERROR] 보드를 벗어난 값입니다."));
+    }
 }
