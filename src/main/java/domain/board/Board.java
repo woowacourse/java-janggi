@@ -22,4 +22,12 @@ public class Board {
         return !(row < START_ROW_INDEX || row > END_ROW_INDEX)
                 || (column < START_COLUMN_INDEX || column > END_COLUMN_INDEX);
     }
+
+    public Map<Node, Piece> getBoard() {
+        return board;
+    }
+
+    public boolean existsPiece(Point point) {
+        return nodeByPoint.containsKey(point);
+    }
 }
