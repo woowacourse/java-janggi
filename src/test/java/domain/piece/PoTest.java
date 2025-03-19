@@ -12,34 +12,39 @@ import org.junit.jupiter.api.Test;
 
 class PoTest {
 
-    @Test
-    @DisplayName("포의 출발 좌표가 (5,5)일 때 이동 가능한 좌표 후보 13개를 반환한다.")
-    void test1() {
-        // given
-        Po po = new Po(Team.HAN);
+    @Nested
+    @DisplayName("이동 가능한 후보를 반환하는 테스트")
+    class MovableCandidatesTest {
 
-        // when
-        Set<Coordinate> movableCandidates = po.findMovableCandidates(new Coordinate(5, 5));
+        @Test
+        @DisplayName("포의 출발 좌표가 (5,5)일 때 이동 가능한 좌표 후보 13개를 반환한다.")
+        void test1() {
+            // given
+            Po po = new Po(Team.HAN);
 
-        // then
-        assertThat(movableCandidates).containsOnly(
-                new Coordinate(1, 5),
-                new Coordinate(2, 5),
-                new Coordinate(3, 5), // 왼쪽
+            // when
+            Set<Coordinate> movableCandidates = po.findMovableCandidates(new Coordinate(5, 5));
 
-                new Coordinate(7, 5),
-                new Coordinate(8, 5),
-                new Coordinate(9, 5), // 오른쪽
+            // then
+            assertThat(movableCandidates).containsOnly(
+                    new Coordinate(1, 5),
+                    new Coordinate(2, 5),
+                    new Coordinate(3, 5), // 왼쪽
 
-                new Coordinate(5, 1),
-                new Coordinate(5, 2),
-                new Coordinate(5, 3), // 위쪽
+                    new Coordinate(7, 5),
+                    new Coordinate(8, 5),
+                    new Coordinate(9, 5), // 오른쪽
 
-                new Coordinate(5, 7),
-                new Coordinate(5, 8),
-                new Coordinate(5, 9),
-                new Coordinate(5, 10) // 아래쪽
-        );
+                    new Coordinate(5, 1),
+                    new Coordinate(5, 2),
+                    new Coordinate(5, 3), // 위쪽
+
+                    new Coordinate(5, 7),
+                    new Coordinate(5, 8),
+                    new Coordinate(5, 9),
+                    new Coordinate(5, 10) // 아래쪽
+            );
+        }
     }
 
     @Nested

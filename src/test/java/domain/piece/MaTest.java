@@ -12,26 +12,31 @@ import org.junit.jupiter.api.Test;
 
 class MaTest {
 
-    @Test
-    @DisplayName("마의 출발 좌표가 (5,5)일 때 이동 가능한 좌표 후보 8개를 반환한다.")
-    void test1() {
-        // given
-        Ma ma = new Ma(Team.HAN);
+    @Nested
+    @DisplayName("이동 가능한 후보를 반환하는 테스트")
+    class MovableCandidatesTest {
 
-        // when
-        Set<Coordinate> movableCandidates = ma.findMovableCandidates(new Coordinate(5, 5));
+        @Test
+        @DisplayName("마의 출발 좌표가 (5,5)일 때 이동 가능한 좌표 후보 8개를 반환한다.")
+        void test1() {
+            // given
+            Ma ma = new Ma(Team.HAN);
 
-        // then
-        assertThat(movableCandidates).containsOnly(
-                new Coordinate(3, 4),
-                new Coordinate(3, 6),
-                new Coordinate(4, 3),
-                new Coordinate(4, 7),
-                new Coordinate(6, 3),
-                new Coordinate(6, 7),
-                new Coordinate(7, 4),
-                new Coordinate(7, 6)
-        );
+            // when
+            Set<Coordinate> movableCandidates = ma.findMovableCandidates(new Coordinate(5, 5));
+
+            // then
+            assertThat(movableCandidates).containsOnly(
+                    new Coordinate(3, 4),
+                    new Coordinate(3, 6),
+                    new Coordinate(4, 3),
+                    new Coordinate(4, 7),
+                    new Coordinate(6, 3),
+                    new Coordinate(6, 7),
+                    new Coordinate(7, 4),
+                    new Coordinate(7, 6)
+            );
+        }
     }
 
     @Nested
