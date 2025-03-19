@@ -1,5 +1,10 @@
 package domain.position;
 
+import domain.piece.MoveDirection;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class Position {
@@ -24,6 +29,47 @@ public class Position {
         if (rank == null) {
             throw new IllegalArgumentException("랭크는 필수값입니다.");
         }
+    }
+
+    public Position withAddingFile() {
+        return new Position(file.add(1), rank);
+    }
+
+    public Position withAddingRank() {
+        return new Position(file, rank.add(1));
+    }
+
+    public Position withSubtractingFile() {
+        return new Position(file.add(-1), rank);
+    }
+
+    public Position withSubtractingRank() {
+        return new Position(file, rank.add(-1));
+    }
+
+    public List<Position> getAllCrossPositions() {
+        List<Position> positions = new ArrayList<>();
+        Arrays.stream(PositionFile.values())
+                .filter(f -> !f.equals(file))
+                .forEach(f -> positions.add(new Position(f, rank)));
+        PositionRank.getAllRanks().stream()
+                .filter(r -> !r.equals(rank))
+                .forEach(r -> positions.add(new Position(file, r)));
+        return positions;
+    }
+
+    public List<Path> getPathsFrom(final List<MoveDirection> moveDirections) {
+        List<Path> paths = new ArrayList<>();
+        paths.add(Path.start(this));
+
+        for (MoveDirection moveDirection : moveDirections) {
+            for (Path path : paths) {
+                List<Position> nextPositions = moveDirection.calculateNextPositionsFrom(path.getFinalPosition());
+                paths = path.nextPath(nextPositions);
+            }
+        }
+
+        return paths;
     }
 
     @Override

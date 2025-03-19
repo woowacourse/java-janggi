@@ -2,7 +2,9 @@ package domain.position;
 
 import domain.Country;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 public class PositionRank {
 
@@ -39,6 +41,12 @@ public class PositionRank {
         }
     }
 
+    public static List<PositionRank> getAllRanks() {
+        return IntStream.rangeClosed(MIN_VALUE, MAX_VALUE)
+                .mapToObj(PositionRank::new)
+                .toList();
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (!(o instanceof final PositionRank that)) return false;
@@ -55,5 +63,9 @@ public class PositionRank {
         return "PositionRank{" +
                 "value=" + value +
                 '}';
+    }
+
+    public PositionRank add(final int i) {
+        return new PositionRank(value + i);
     }
 }

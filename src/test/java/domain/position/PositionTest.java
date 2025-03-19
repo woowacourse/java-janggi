@@ -3,7 +3,10 @@ package domain.position;
 import domain.Country;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.*;
+import static testUtil.TestConstant.*;
 
 class PositionTest {
 
@@ -44,6 +47,81 @@ class PositionTest {
         assertThat(new Position(file1, rank1)).isEqualTo(new Position(file2, rank2));
     }
 
+    @Test
+    void 파일_하나가_증가한_위치를_반환할_수_있다() {
+        // given
+        final Position curPosition = new Position(PositionFile.마, RANK_5);
 
+        // when
+        final Position result = curPosition.withAddingFile();
 
+        // then
+        assertThat(result).isEqualTo(new Position(PositionFile.바, RANK_5));
+    }
+
+    @Test
+    void 파일_하나가_감소한_위치를_반환할_수_있다() {
+        // given
+        final Position curPosition = new Position(PositionFile.마, RANK_5);
+
+        // when
+        final Position result = curPosition.withSubtractingFile();
+
+        // then
+        assertThat(result).isEqualTo(new Position(PositionFile.라, RANK_5));
+    }
+
+    @Test
+    void 랭크_하나가_증가한_위치를_반환할_수_있다() {
+        // given
+        final Position curPosition = new Position(PositionFile.마, RANK_5);
+
+        // when
+        final Position result = curPosition.withAddingRank();
+
+        // then
+        assertThat(result).isEqualTo(new Position(PositionFile.마, RANK_6));
+    }
+
+    @Test
+    void 랭크_하나가_감소한_위치를_반환할_수_있다() {
+        // given
+        final Position curPosition = new Position(PositionFile.마, RANK_5);
+
+        // when
+        final Position result = curPosition.withSubtractingRank();
+
+        // then
+        assertThat(result).isEqualTo(new Position(PositionFile.마, RANK_4));
+    }
+
+    @Test
+    void 현재_위치에서_십자_모양의_위치들을_반환할_수_있다() {
+        // given
+        final Position curPosition = new Position(PositionFile.마, RANK_5);
+
+        // when
+        final List<Position> result = curPosition.getAllCrossPositions();
+
+        // then
+        assertThat(result).containsExactlyInAnyOrder(
+                new Position(PositionFile.마, RANK_1),
+                new Position(PositionFile.마, RANK_2),
+                new Position(PositionFile.마, RANK_3),
+                new Position(PositionFile.마, RANK_4),
+                new Position(PositionFile.마, RANK_6),
+                new Position(PositionFile.마, RANK_7),
+                new Position(PositionFile.마, RANK_8),
+                new Position(PositionFile.마, RANK_9),
+                new Position(PositionFile.마, RANK_10),
+                new Position(PositionFile.가, RANK_5),
+                new Position(PositionFile.나, RANK_5),
+                new Position(PositionFile.다, RANK_5),
+                new Position(PositionFile.라, RANK_5),
+                new Position(PositionFile.바, RANK_5),
+                new Position(PositionFile.사, RANK_5),
+                new Position(PositionFile.아, RANK_5),
+                new Position(PositionFile.자, RANK_5)
+        );
+    }
 }

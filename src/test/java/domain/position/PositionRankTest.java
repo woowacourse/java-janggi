@@ -2,6 +2,8 @@ package domain.position;
 
 import domain.Country;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -46,7 +48,44 @@ class PositionRankTest {
         final PositionRank rank1 = PositionRank.of(10, Country.한나라);
         final PositionRank rank2 = PositionRank.of(10, Country.한나라);
 
-        // when
+        // expected
         assertThat(rank1).isEqualTo(rank2);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3, 4})
+    void 랭크에_값을_더하여_다음_랭크를_구할_수_있다(int addingValue) {
+        // given
+        final PositionRank rank = PositionRank.of(5, Country.초나라);
+
+        // when
+        PositionRank newRank = rank.add(addingValue);
+
+        // then
+        assertThat(newRank).isEqualTo(PositionRank.of(5 + addingValue, Country.초나라));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {-6, -5})
+    void 랭크에_값을_더했을_때_1_미만이면_예외가_발생한다(int addingValue) {
+        // given
+        final PositionRank rank = PositionRank.of(5, Country.초나라);
+
+        // expected
+        assertThatThrownBy(() -> rank.add(addingValue))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("랭크는 1 이상이어야 합니다.");
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {6, 7})
+    void 랭크에_값을_더했을_때_10_초과이면_예외가_발생한다(int addingValue) {
+        // given
+        final PositionRank rank = PositionRank.of(5, Country.초나라);
+
+        // expected
+        assertThatThrownBy(() -> rank.add(addingValue))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("랭크는 10 이하이어야 합니다.");
     }
 }
