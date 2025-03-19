@@ -1,13 +1,12 @@
 package domain.direction;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import domain.piece.Position;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class DirectionTest {
 
@@ -50,13 +49,33 @@ class DirectionTest {
             "6,3,true",
             "6,2,false"
     })
-    void 해당_위치로_도달할_수_있는지_판단한다(int row, int column, boolean expectedResult) {
+    void 반복이_아닌_경우_타겟_위치_도달_여부를_판단한다(int row, int column, boolean expectedResult) {
         // given
         Position start = Position.of(5, 5);
         Position target = Position.of(row, column);
 
         List<Position> positions = List.of(Position.ofDirection(0, -1), Position.ofDirection(1, -1));
         Direction direction = new Direction(positions, false);
+
+        // when
+        boolean result = direction.canReach(start, target);
+
+        // then
+        assertThat(result).isEqualTo(expectedResult);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "5,9,true",
+            "5,1,false"
+    })
+    void 반복인_경우_타겟_위치_도달_여부를_판단한다(int row, int column, boolean expectedResult) {
+        // given
+        Position start = Position.of(5, 5);
+        Position target = Position.of(row, column);
+
+        List<Position> positions = List.of(Position.ofDirection(0, 1));
+        Direction direction = new Direction(positions, true);
 
         // when
         boolean result = direction.canReach(start, target);
