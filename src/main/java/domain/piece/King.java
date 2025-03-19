@@ -10,6 +10,15 @@ public class King extends Piece {
         super(row, column, directions);
     }
 
+    public King(final Position position, final Directions directions) {
+        super(position, directions);
+    }
+
+    @Override
+    public King updatePosition(final Position position) {
+        return new King(position, directions);
+    }
+
     public String getName() {
         return NAME;
     }

@@ -10,6 +10,15 @@ public class Elephant extends Piece {
         super(row, column, directions);
     }
 
+    public Elephant(final Position position, final Directions directions) {
+        super(position, directions);
+    }
+
+    @Override
+    public Elephant updatePosition(final Position position) {
+        return new Elephant(position, directions);
+    }
+
     public String getName() {
         return NAME;
     }

@@ -10,6 +10,15 @@ public class Cannon extends Piece {
         super(row, column, directions);
     }
 
+    public Cannon(final Position position, final Directions directions) {
+        super(position, directions);
+    }
+
+    @Override
+    public Cannon updatePosition(final Position position) {
+        return new Cannon(position, directions);
+    }
+
     public String getName() {
         return NAME;
     }

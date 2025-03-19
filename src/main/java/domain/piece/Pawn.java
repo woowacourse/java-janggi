@@ -10,6 +10,15 @@ public class Pawn extends Piece {
         super(row, column, directions);
     }
 
+    public Pawn(final Position position, final Directions directions) {
+        super(position, directions);
+    }
+
+    @Override
+    public Pawn updatePosition(final Position position) {
+        return new Pawn(position, directions);
+    }
+
     public String getName() {
         return NAME;
     }

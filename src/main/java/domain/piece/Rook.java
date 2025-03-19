@@ -10,6 +10,15 @@ public class Rook extends Piece {
         super(row, column, directions);
     }
 
+    public Rook(final Position position, final Directions directions) {
+        super(position, directions);
+    }
+
+    @Override
+    public Rook updatePosition(final Position position) {
+        return new Rook(position, directions);
+    }
+
     public String getName() {
         return NAME;
     }

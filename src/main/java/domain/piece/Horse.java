@@ -10,6 +10,15 @@ public class Horse extends Piece {
         super(row, column, directions);
     }
 
+    public Horse(final Position position, final Directions directions) {
+        super(position, directions);
+    }
+
+    @Override
+    public Horse updatePosition(final Position position) {
+        return new Horse(position, directions);
+    }
+
     public String getName() {
         return NAME;
     }

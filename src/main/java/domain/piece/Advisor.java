@@ -10,6 +10,15 @@ public class Advisor extends Piece {
         super(row, column, directions);
     }
 
+    public Advisor(final Position position, final Directions directions) {
+        super(position, directions);
+    }
+
+    @Override
+    public Advisor updatePosition(final Position position) {
+        return new Advisor(position, directions);
+    }
+
     public String getName() {
         return NAME;
     }
