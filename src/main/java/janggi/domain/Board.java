@@ -2,6 +2,7 @@ package janggi.domain;
 
 import janggi.common.ErrorMessage;
 import janggi.domain.piece.Side;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -44,11 +45,19 @@ public class Board {
     }
 
     public void move(PieceState pieceState, Position newPosition) {
-        // 가능한 경우의 수 받아온다. List<Position>
-        // 해당 포지션에 PieceState가 있다면,, 지금 내 PieceSate와 Side가 같으면 false를 반환해서
-        // 움직일 수 있는 경우의 포지션을 다시 재정리하고 그게 newPosition이면 움직인다.
-        // 그런데 그런 포지션이 없다면 예외를 반환한다.
         Position currentPosition = pieceState.getPosition();
+
+        List<Position> availablePositions = pieceState.getAvailableMovePositions()
+                .stream()
+                .filter(position -> {
+                    PieceState pieceAtPosition = piecePositions.get(position);
+                    return pieceAtPosition == null || !pieceState.isSameSide(pieceAtPosition);
+                })
+                .toList();
+
+        if (!availablePositions.contains(newPosition)) {
+            throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_PIECE.getMessage());
+        }
 
         pieceState.move(newPosition);
 

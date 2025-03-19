@@ -20,7 +20,7 @@ public class Position {
     private final int row;
     private final int column;
 
-    public Position(int row, int column) {
+    private Position(int row, int column) {
         validate(row, column);
         this.row = row;
         this.column = column;

@@ -1,7 +1,9 @@
 package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.common.ErrorMessage;
 import janggi.domain.piece.Side;
 import janggi.domain.piece.Soldier;
 import org.junit.jupiter.api.DisplayName;
@@ -26,10 +28,18 @@ class PieceStateTest {
         assertThat(pieceState.getPosition()).isEqualTo(movePosition);
     }
 
-    // TODO
     @DisplayName("기물이 움직일 수 없는 포지션이라면 예외를 반환한다.")
     @Test
     void test2() {
+        // given
+        Position position = Position.of(7, 1);
+        Piece piece = new Piece(Side.CHO, new Soldier());
+        PieceState pieceState = new PieceState(position, piece);
+        Position movePosition = Position.of(5, 1);
 
+        // when & then
+        assertThatThrownBy(() -> pieceState.move(movePosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorMessage.CANNOT_MOVE_PIECE.getMessage());
     }
 }

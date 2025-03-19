@@ -23,14 +23,22 @@ public class PieceState {
         return piece.isSameSide(side);
     }
 
+    public boolean isSameSide(PieceState other) {
+        return piece.isSameSide(other.piece);
+    }
+
     public void move(Position movePosition) {
-        List<Position> availableMovePositions = piece.availableMovePositions(position);
+        List<Position> availableMovePositions = getAvailableMovePositions();
 
         if (!availableMovePositions.contains(movePosition)) {
             throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_PIECE.getMessage());
         }
 
         updatePosition(movePosition);
+    }
+
+    public List<Position> getAvailableMovePositions() {
+        return piece.availableMovePositions(position);
     }
 
     public void updatePosition(Position movePosition) {

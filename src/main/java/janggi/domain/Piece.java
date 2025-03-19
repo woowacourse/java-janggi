@@ -26,6 +26,10 @@ public class Piece {
         return "\u001B[31m" + pieceBehavior.toName() + "\u001B[0m";
     }
 
+    public boolean isSameSide(Piece other){
+        return isSameSide(other.side);
+    }
+
     public boolean isSameSide(Side side) {
         return this.side == side;
     }
