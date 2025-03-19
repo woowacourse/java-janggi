@@ -15,6 +15,10 @@ public class Chariot extends Piece {
         int dx = origin.getDx(destination);
         int dy = origin.getDy(destination);
 
+        if(dx != 0 && dy != 0) {
+            throw new UnsupportedOperationException("[ERROR] 차가 이동할 수 있는 목적지가 아닙니다.");
+        }
+
         if (dx == 0 && dy == 0) {
             throw new IllegalArgumentException("[ERROR] 같은 위치로 이동할 수 없습니다.");
         }
@@ -42,6 +46,7 @@ public class Chariot extends Piece {
                 route.add(Dot.of(origin.getX() + i, origin.getY()));
             }
         }
+
         return route;
     }
 

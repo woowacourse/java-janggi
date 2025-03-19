@@ -124,6 +124,21 @@ public class JanggiTest {
         assertThat(actual).isEqualTo(expected);
     }
 
+    @DisplayName("차가 목적지로 갈 수 없다면 예외를 발생시킨다")
+    @Test
+    void chariotCannotGetRoute() {
+        // given
+        Dot origin = Dot.of(1, 1);
+        Dot destination = Dot.of(2, 3);
+        Chariot chariot = new Chariot(Dynasty.HAN);
+
+        // when // then
+        assertThatCode(() -> chariot.getRoute(origin, destination))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageStartingWith("[ERROR]");
+    }
+
+
     @DisplayName("차는 이동 경로에 어떤 말도 없다면 이동 가능하다")
     @Test
     void chariotJudgeMovable() {
@@ -174,8 +189,5 @@ public class JanggiTest {
         // then
         assertThat(actual).isFalse();
     }
-
-
-
 
 }
