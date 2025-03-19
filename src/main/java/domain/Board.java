@@ -69,10 +69,6 @@ public class Board {
         return positions.size();
     }
 
-    public boolean hasPieceOn(final Point point) {
-        return positions.stream().anyMatch(p -> p.isSame(point));
-    }
-
     public Position findPositionBy(final Point point) {
         return positions.stream()
                 .filter(p -> p.isSame(point))
