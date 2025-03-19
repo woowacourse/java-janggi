@@ -11,6 +11,10 @@ public class Board {
         this.map = map;
     }
 
+    public boolean existPieceByPosition(final Position existPosition) {
+        return map.containsKey(existPosition);
+    }
+
     public Map<Position, Piece> getMap() {
         return map;
     }
