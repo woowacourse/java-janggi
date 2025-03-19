@@ -53,13 +53,8 @@ public class MaMoveStrategyTest {
         // given
         MoveStrategy moveStrategy = new MaMoveStrategy();
         Position destination = new Position(1, 2);
-        Pieces onRoutePieces = new Pieces(List.of(
-                new Piece(
-                        new Position(1, 3),
-                        new JolMoveStrategy(),
-                        PieceType.JOL,
-                        Team.BLUE
-                )
-        ));
+        Pieces onRoutePieces = new Pieces(List.of());
+
+        Assertions.assertThat(moveStrategy.move(destination, onRoutePieces, Team.BLUE)).isEqualTo(destination);
     }
 }
