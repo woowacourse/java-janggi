@@ -1,11 +1,13 @@
 package domain.piece;
 
+import domain.direction.Directions;
+
 public class Rook extends Piece {
 
     private static final String NAME = "r";
 
-    public Rook(final int row, final int column) {
-        super(row, column);
+    public Rook(final int row, final int column, final Directions directions) {
+        super(row, column, directions);
     }
 
     public String getName() {

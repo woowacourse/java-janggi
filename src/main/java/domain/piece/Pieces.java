@@ -11,7 +11,21 @@ public class Pieces {
         this.pieces = pieces;
     }
 
+    public Piece findByPosition(final Position position) {
+        return pieces.stream()
+                .filter(element -> element.getPosition().equals(position))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
     public List<Piece> getPieces() {
         return Collections.unmodifiableList(pieces);
+    }
+
+    public int countPiecesInPositions(final List<Position> positions) {
+        return (int) positions.stream()
+                .filter(position ->
+                        pieces.stream().anyMatch(piece -> piece.isSamePosition(position)))
+                .count();
     }
 }
