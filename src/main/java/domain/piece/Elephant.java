@@ -32,8 +32,8 @@ public class Elephant implements Piece {
     }
 
     @Override
-    public List<Point> getArrivalPoint(Point startPoint) {
-        return pieceMovement.calculateTotalArrivalPoints(startPoint);
+    public boolean isAbleToArrive(Point startPoint, Point arrivalPoint) {
+        return pieceMovement.calculateTotalArrivalPoints(startPoint).contains(arrivalPoint);
     }
 
     @Override

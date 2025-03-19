@@ -8,7 +8,7 @@ public interface Piece {
 
     boolean hasEqualTeam(Team team);
 
-    List<Point> getArrivalPoint(Point startPoint);
+    boolean isAbleToArrive(Point startPoint, Point arrivalPoint);
 
     List<Point> getRoutePoints(Point startPoint, Point arrivalPoint);
 

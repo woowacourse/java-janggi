@@ -11,25 +11,17 @@ import org.junit.jupiter.api.Test;
 class ElephantTest {
     @Test
     @DisplayName("피스가 이동할 수 있는 지점들을 전부 반환한다")
-    void test_getArrivalPoint() {
+    void test_isAbleToArrive() {
         // given
         Elephant elephant = new Elephant(Team.CHO);
         Point startPoint = new Point(0, 0);
+        Point arrivalPoint = new Point(3, 2);
 
         // when
-        List<Point> actual = elephant.getArrivalPoint(startPoint);
+        boolean actual = elephant.isAbleToArrive(startPoint, arrivalPoint);
 
         // then
-        assertThat(actual).containsExactlyInAnyOrder(
-                new Point(3, 2),
-                new Point(3, -2),
-                new Point(2, 3),
-                new Point(-2, 3),
-                new Point(-3, 2),
-                new Point(-3, -2),
-                new Point(2, -3),
-                new Point(-2, -3)
-        );
+        assertThat(actual).isTrue();
     }
 
     @Test

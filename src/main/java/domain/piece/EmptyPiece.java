@@ -12,7 +12,7 @@ public final class EmptyPiece implements Piece {
     }
 
     @Override
-    public List<Point> getArrivalPoint(Point startPoint) {
+    public boolean isAbleToArrive(Point startPoint, Point arrivalPoint) {
         throw new JanggiArgumentException("기물이 없습니다.");
     }
 
