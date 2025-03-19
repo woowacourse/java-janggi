@@ -1,14 +1,27 @@
 package domain;
 
-public class Piece {
-    private final Position position;
-    private final Team team;
-    private final Board board;
+import java.util.Objects;
+import java.util.Set;
 
-    public Piece(Position position, Team team, Board board) {
+public abstract class Piece {
+    protected final Position position;
+    protected final Team team;
+    protected final Board board;
+
+    protected Piece(Position position, Team team, Board board) {
         this.position = position;
         this.team = team;
         this.board = board;
+    }
+
+    protected abstract Set<Position> getMovablePositions();
+
+    public boolean isSamePosition(final Position position) {
+        return this.position.equals(position);
+    }
+
+    public boolean isSameTeam(final Piece otherPiece) {
+        return this.team == otherPiece.team;
     }
 
     public Position getPosition() {
@@ -23,18 +36,20 @@ public class Piece {
         return board;
     }
 
-    public boolean canMove(Position position) {
-        if (!this.board.isExists(position)) {
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        return !this.board.isSameTeam(position, team);
+        if (!(o instanceof Piece piece)) {
+            return false;
+        }
+        return Objects.equals(getPosition(), piece.getPosition());
     }
 
-    // move(Position position) 갈 수 있으면 -> 간다 -> 갔는데 상대 기물이 있으면 먹는다
-    // 갈 수 없으면 갈 수 없다고 예외 반환.
-
-    // Set<Position> movableCells();
-    // 만약 상대팀 말이면 그것까지 우리팀 말이면 그 전까지
-    //
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getPosition());
+    }
 
 }

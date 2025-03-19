@@ -1,38 +1,37 @@
 package domain;
 
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Board {
-    private final Map<Team, List<Piece>> pieces;
 
-    // set을 사용한 일급 컬렉션으로 변경하기
-    // set or map?
-    // Map<Position, Piece>형태는?
-    //
-    public Board(Map<Team, List<Piece>> pieces) {
-        this.pieces = pieces;
+    public static final int MIN_ROW = 1;
+    public static final int MIN_COLUMN = 1;
+    public static final int MAX_ROW = 10;
+    public static final int MAX_COLUMN = 9;
+
+    private final Set<Piece> pieces;
+
+    public Board(final Set<Piece> pieces) {
+        this.pieces = new HashSet<>(pieces);
     }
 
     public void putPiece(Piece piece) {
-        pieces.get(piece.getTeam()).add(piece);
+        pieces.add(piece);
     }
 
     public boolean isExists(Position position) {
-        return pieces.entrySet().stream()
-                .anyMatch(entry -> entry.getValue().stream()
-                            .anyMatch(piece -> piece.getPosition().equals(position))
-                );
+        return pieces.stream()
+                .anyMatch(piece -> piece.isSamePosition(position));
     }
 
-    public boolean isSameTeam(Position position, Team team) {
-        return pieces.get(team).stream().anyMatch(piece -> piece.getPosition().equals(position));
+    public boolean isSameTeam(Piece piece, final Position newPosition) {
+        return pieces.stream()
+                .anyMatch(p -> p.isSamePosition(newPosition) && p.isSameTeam(piece));
     }
 
-    public boolean isExistOtherTeamPiece(Position position, Team team) {
-        if (!isExists(position)) {
-            return false;
-        }
-        return !isSameTeam(position, team);
+    public Set<Piece> getPieces() {
+        return pieces;
     }
+
 }

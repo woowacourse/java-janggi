@@ -12,19 +12,19 @@ class PositionTest {
 
     @Test
     void 위치는_행과_열의_정보가_있어야한다() {
-        Position position = new Position(0, 0);
+        Position position = new Position(1, 1);
 
-        assertThat(position.getX()).isEqualTo(0);
-        assertThat(position.getY()).isEqualTo(0);
+        assertThat(position.getX()).isEqualTo(1);
+        assertThat(position.getY()).isEqualTo(1);
     }
 
-    @CsvSource(value = {"0,0", "0,8", "9,0", "9,8"})
+    @CsvSource(value = {"1,1", "1,10", "9,1", "9,10"})
     @ParameterizedTest
     void 위치는_장기판_내부에_존재해야_한다(int x, int y) {
         assertDoesNotThrow(() -> new Position(x, y));
     }
 
-    @CsvSource(value = {"-1, 0", "0, -1", "10, 0", "0, 9"})
+    @CsvSource(value = {"0,1", "1,0", "10,1", "1,11"})
     @ParameterizedTest
     void 장기판_내부에_존재하지_않으면_위치를_생성할_수_없다(int x, int y) {
         assertThatThrownBy(() -> new Position(x, y))
