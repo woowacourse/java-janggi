@@ -49,4 +49,9 @@ public class Elephant extends Piece {
         }
         return true;
     }
+
+    @Override
+    protected PieceType getType() {
+        return PieceType.ELEPHANT;
+    }
 }

@@ -62,4 +62,9 @@ public class Chariot extends Piece {
         return positions;
     }
 
+    @Override
+    protected PieceType getType() {
+        return PieceType.CHARIOT;
+    }
+
 }

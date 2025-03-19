@@ -54,4 +54,9 @@ public class Soldier extends Piece {
 
         return true;
     }
+
+    @Override
+    protected PieceType getType() {
+        return PieceType.SOLDIER;
+    }
 }

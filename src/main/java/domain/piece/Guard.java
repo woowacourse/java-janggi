@@ -46,4 +46,9 @@ public class Guard extends Piece {
 
         return true;
     }
+
+    @Override
+    protected PieceType getType() {
+        return PieceType.GUARD;
+    }
 }
