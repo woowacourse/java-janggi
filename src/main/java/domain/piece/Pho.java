@@ -13,6 +13,11 @@ public class Pho implements Piece{
     }
 
     @Override
+    public boolean isPho() {
+        return true;
+    }
+
+    @Override
     public Team getTeam() {
         return team;
     }

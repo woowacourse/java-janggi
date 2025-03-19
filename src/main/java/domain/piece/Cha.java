@@ -14,25 +14,10 @@ public class Cha implements Piece {
         this.team = team;
     }
 
-//    @Override
-//    public List<JanggiCoordinate> fromCurrPosition(JanggiBoard board) {
-//        List<JanggiCoordinate> availablePositions = new ArrayList<>();
-//        int row = currCoordinate.getRow();
-//        int col = currCoordinate.getCol();
-//        for (int i = 1; i <= 9; i++) {
-//            if (i == row) {
-//                continue;
-//            }
-//            availablePositions.add(currCoordinate.move(i, col));
-//        }
-//        for (int i = 1; i <= 10; i++) {
-//            if (i == col) {
-//                continue;
-//            }
-//            availablePositions.add(currCoordinate.move(row, i));
-//        }
-//        return availablePositions;
-//    }
+    @Override
+    public boolean isPho() {
+        return false;
+    }
 
     @Override
     public Team getTeam() {

@@ -23,6 +23,11 @@ public class Sang implements Piece {
     }
 
     @Override
+    public boolean isPho() {
+        return false;
+    }
+
+    @Override
     public Team getTeam() {
         return team;
     }

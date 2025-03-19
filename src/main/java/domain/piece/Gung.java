@@ -7,6 +7,10 @@ public class Gung implements Piece {
         this.team = team;
     }
 
+    @Override
+    public boolean isPho() {
+        return false;
+    }
 
     @Override
     public Team getTeam() {
