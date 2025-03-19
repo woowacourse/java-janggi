@@ -30,8 +30,10 @@ public class Turn {
     }
 
     public Team getCurrentTurn() {
-        Team currentTeam = teams.getFirst();
+        return teams.getFirst();
+    }
+
+    public void changeTurn() {
         Collections.rotate(teams, 1);
-        return currentTeam;
     }
 }

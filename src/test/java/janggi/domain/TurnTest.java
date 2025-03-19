@@ -22,7 +22,7 @@ class TurnTest {
                 .doesNotThrowAnyException();
     }
 
-    @DisplayName("턴이 교체 된다.")
+    @DisplayName("현재 턴을 받는다.")
     @Test
     void getCurrentTurnTest() {
 
@@ -30,8 +30,20 @@ class TurnTest {
         Turn turn = Turn.initialize();
 
         // when & then
+        assertThat(turn.getCurrentTurn()).isEqualTo(BLUE);
+    }
+
+    @DisplayName("턴을 교체한다.")
+    @Test
+    void changeTurnTest() {
+
+        // given
+        Turn turn = Turn.initialize();
+
+        // when & then
         assertAll(() -> {
             assertThat(turn.getCurrentTurn()).isEqualTo(BLUE);
+            turn.changeTurn();
             assertThat(turn.getCurrentTurn()).isEqualTo(RED);
         });
     }
