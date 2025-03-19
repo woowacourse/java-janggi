@@ -6,7 +6,7 @@ public class Dot {
     private static final Integer MAX_X_RANGE = 8;
     private static final Integer MIN_Y_RANGE = 0;
     private static final Integer MAX_Y_RANGE = 9;
-    private static final List<Dot> CACHE = createDotCache();
+    public static final List<Dot> CACHE = createDotCache();
     private final Integer x;
     private final Integer y;
 
@@ -18,9 +18,9 @@ public class Dot {
 
     private static List<Dot> createDotCache() {
         List<Dot> dots = new ArrayList<>();
-        for (int i = MIN_X_RANGE; i <= MAX_X_RANGE; i++) {
-            for (int j = MIN_Y_RANGE; j <= MAX_Y_RANGE; j++) {
-                dots.add(new Dot(i, j));
+        for (int i = MAX_Y_RANGE; i >= MIN_Y_RANGE; i--) {
+            for (int j = MIN_X_RANGE; j <= MAX_X_RANGE; j++) {
+                dots.add(new Dot(j, i));
             }
         }
         return dots;
@@ -81,4 +81,5 @@ public class Dot {
     public Dot reverse() {
         return Dot.of(MAX_X_RANGE - this.x, MAX_Y_RANGE - this.y);
     }
+
 }

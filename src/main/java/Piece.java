@@ -12,6 +12,10 @@ public abstract class Piece {
         return piece != null && piece.dynasty == this.dynasty;
     }
 
+    public Dynasty getDynasty() {
+        return dynasty;
+    }
+
     public abstract List<Dot> getRoute(Dot origin, Dot destination);
 
     public abstract boolean canMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece);
