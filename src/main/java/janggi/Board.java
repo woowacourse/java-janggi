@@ -43,4 +43,12 @@ public final class Board {
     public boolean isPresent(final Position position) {
         return board.containsKey(position);
     }
+
+    public boolean isUnjumpablePiece(final Position position) {
+        if (board.containsKey(position)) {
+            final Piece piece = board.get(position);
+            return piece.canJump();
+        }
+        return false;
+    }
 }

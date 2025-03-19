@@ -4,7 +4,7 @@ import janggi.MovingRule;
 import janggi.MovingRulesGenerator;
 import java.util.List;
 
-public final class Soldier extends Piece {
+public final class Soldier extends UnjumpablePiece {
 
     public Soldier(final Team team, final List<MovingRule> movingRules) {
         super(team, movingRules);

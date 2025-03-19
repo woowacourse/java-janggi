@@ -6,7 +6,7 @@ import janggi.MovingRulesGenerator;
 import janggi.Position;
 import java.util.List;
 
-public final class General extends Piece {
+public final class General extends UnjumpablePiece {
 
     public General(final Team team, final List<MovingRule> movingRules) {
         super(team, movingRules);

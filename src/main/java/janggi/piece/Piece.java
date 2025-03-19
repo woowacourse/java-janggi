@@ -17,15 +17,9 @@ public abstract class Piece {
         this.movingRules = movingRules;
     }
 
-    public boolean canMove(final Position start, final Position end, final Board board) {
-        if (cannotFindRule(start, end)) {
-            return false;
-        }
-        if (cannotMoveThrough(start, end, board)) {
-            return false;
-        }
-        return !isPresentSameTeam(end, board);
-    }
+    public abstract boolean canJump();
+
+    public abstract boolean canMove(final Position start, final Position end, final Board board);
 
     public boolean isHan() {
         return team == Team.HAN;
@@ -41,32 +35,5 @@ public abstract class Piece {
             positionDiffs.add(movingRule.sumUnit());
         }
         return !positionDiffs.contains(end.getDiff(start));
-    }
-
-    protected boolean isPresentSameTeam(final Position end, final Board board) {
-        return board.isPresentSameTeam(team, end);
-    }
-
-    protected boolean cannotMoveThrough(final Position start, final Position end, final Board board) {
-        final MovingRule matchRule = findMatchRule(start, end);
-        Position route = start;
-        for (MoveVector vector : matchRule.getVectorsWithoutLast()) {
-            route = route.add(vector);
-            if (board.isPresent(route)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private MovingRule findMatchRule(final Position start, final Position end) {
-        final MoveVector startEndDiff = end.getDiff(start);
-        for (MovingRule movingRule : movingRules) {
-            final MoveVector vectorSum = movingRule.sumUnit();
-            if (vectorSum.equals(startEndDiff)) {
-                return movingRule;
-            }
-        }
-        throw new IllegalStateException();
     }
 }

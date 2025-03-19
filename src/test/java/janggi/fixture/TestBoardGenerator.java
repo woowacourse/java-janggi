@@ -4,6 +4,7 @@ import janggi.Board;
 import janggi.Column;
 import janggi.Position;
 import janggi.Row;
+import janggi.piece.Cannon;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
 import janggi.piece.Team;
@@ -35,6 +36,24 @@ public class TestBoardGenerator {
     public static Board generateElephantCannotMove() {
         Map<Position, Piece> board = Map.of(
                 new Position(Row.FIVE, Column.SIX), Soldier.of(Team.CHO)
+        );
+        return new Board(board);
+    }
+
+    public static Board generateCannon() {
+        Map<Position, Piece> board = Map.of(
+                new Position(Row.SEVEN, Column.ZERO), Cannon.of(Team.CHO)
+        );
+        return new Board(board);
+    }
+
+    public static Board generateEmpty() {
+        return new Board(Map.of());
+    }
+
+    public static Board generateNotCannon() {
+        Map<Position, Piece> board = Map.of(
+                new Position(Row.SEVEN, Column.ZERO), Soldier.of(Team.CHO)
         );
         return new Board(board);
     }

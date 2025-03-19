@@ -5,7 +5,7 @@ import janggi.MovingRulesGenerator;
 import java.util.List;
 
 
-public final class Chariot extends Piece {
+public final class Chariot extends UnjumpablePiece {
 
     public Chariot(final Team team, final List<MovingRule> movingRules) {
         super(team, movingRules);
