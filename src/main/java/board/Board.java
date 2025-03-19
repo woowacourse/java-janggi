@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import piece.Piece;
 import piece.PieceType;
+import piece.TeamType;
 
 public class Board {
 
@@ -21,6 +22,14 @@ public class Board {
         if(map.containsKey(position)){
             final Piece piece = map.get(position);
             return piece.equalsPieceType(PieceType.CANNON);
+        }
+        return false;
+    }
+
+    public boolean equalsTeamTypeByPosition(final Position position, final TeamType teamType){
+        if(map.containsKey(position)){
+            final Piece piece = map.get(position);
+            return piece.equalsTeamType(teamType);
         }
         return false;
     }

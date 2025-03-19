@@ -77,5 +77,27 @@ public class BoardTest {
             assertThat(actualCannon).isTrue();
             assertThat(actualSoldier).isFalse();
         }
+
+        @Test
+        @DisplayName("보드의 특정 위치의 기물이 주어진 팀과 같다면 true를 반환한다.")
+        void equalsTeamTypeByPosition() {
+            // given
+            final Map<Position, Piece> map = Map.of(
+                    new Position(1, 1), new Piece(PieceType.CANNON, TeamType.RED)
+            );
+            final Board board = new Board(map);
+
+            final Position position = new Position(1, 1);
+            final TeamType equalsTeamType = TeamType.RED;
+            final TeamType notEqualsTeamType = TeamType.BLUE;
+
+            // when
+            final boolean actualEquals = board.equalsTeamTypeByPosition(position, equalsTeamType);
+            final boolean actualNotEquals = board.equalsTeamTypeByPosition(position, notEqualsTeamType);
+
+            // then
+            assertThat(actualEquals).isTrue();
+            assertThat(actualNotEquals).isFalse();
+        }
     }
 }
