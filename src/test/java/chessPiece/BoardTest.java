@@ -29,8 +29,8 @@ class BoardTest {
     void isPieceInFront() {
         //given
         List<ChessPiece> chessPieces = List.of(
-                new Po("포", new BoardPosition(3, 2)),
-                new Po("포", new BoardPosition(4, 2))
+                new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(3, 2)),
+                new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(4, 2))
         );
 
         List<ChessPiece> chessPieces2 = List.of();
@@ -51,8 +51,8 @@ class BoardTest {
     @Test
     void isPoInFront() {
         List<ChessPiece> chessPieces = List.of(
-                new Po("포", new BoardPosition(3, 2)),
-                new Po("포", new BoardPosition(4, 2))
+                new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(3, 2)),
+                new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(4, 2))
         );
 
         List<ChessPiece> chessPieces2 = List.of();
@@ -74,8 +74,8 @@ class BoardTest {
     void canMove() {
         //given
         List<ChessPiece> chessPieces = List.of(
-                new Po("포", new BoardPosition(3, 2)),
-                new Po("포", new BoardPosition(4, 2))
+                new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(3, 2)),
+                new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(4, 2))
         );
 
         List<ChessPiece> chessPieces2 = List.of();

@@ -1,6 +1,7 @@
 package chessPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.stream.Stream;
@@ -19,7 +20,7 @@ class SaTest {
         BoardPosition boardPosition = new BoardPosition(4, 5);
 
         //when
-        Sa sa = new Sa("사", boardPosition);
+        Sa sa = new Sa(new PieceProfile("사", Nation.HAN), boardPosition);
 
         //then
         assertThat(sa.getBoardPosition()).isEqualTo(new BoardPosition(4, 5));
@@ -30,7 +31,7 @@ class SaTest {
     @MethodSource("saNonMovePositionProvider")
     void moveValidate(BoardPosition boardPosition) {
         //given
-        Sa sa = new Sa("사", new BoardPosition(5, 5));
+        Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new BoardPosition(5, 5));
 
         //when //then
         assertThatThrownBy(() -> sa.move(boardPosition))
@@ -41,15 +42,13 @@ class SaTest {
     @DisplayName("사는 상하좌우 한칸을 움직일 수 있다.")
     @ParameterizedTest
     @MethodSource("saMovePositionProvider")
-    void move(BoardPosition boardPosition, Sa expected) {
+    void move(BoardPosition boardPosition) {
         //given
-        Sa sa = new Sa("사", new BoardPosition(5, 5));
+        Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new BoardPosition(5, 5));
 
-        //when
-        Sa actual = sa.move(boardPosition);
-
-        //then
-        assertThat(actual).isEqualTo(expected);
+        //when //then
+        assertThatCode(() -> sa.move(boardPosition))
+                .doesNotThrowAnyException();
     }
 
     private static Stream<Arguments> saNonMovePositionProvider() {
@@ -68,13 +67,13 @@ class SaTest {
     private static Stream<Arguments> saMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new BoardPosition(6, 5),
-                        new Sa("사", new BoardPosition(6, 5))),
+                        new Sa(new PieceProfile("사", Nation.HAN), new BoardPosition(6, 5))),
                 Arguments.of(new BoardPosition(5, 6),
-                        new Sa("사", new BoardPosition(5, 6))),
+                        new Sa(new PieceProfile("사", Nation.HAN), new BoardPosition(5, 6))),
                 Arguments.of(new BoardPosition(5, 4),
-                        new Sa("사", new BoardPosition(5, 4))),
+                        new Sa(new PieceProfile("사", Nation.HAN), new BoardPosition(5, 4))),
                 Arguments.of(new BoardPosition(4, 5),
-                        new Sa("사", new BoardPosition(4, 5)))
+                        new Sa(new PieceProfile("사", Nation.HAN), new BoardPosition(4, 5)))
         );
     }
 

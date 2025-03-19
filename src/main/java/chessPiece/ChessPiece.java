@@ -4,11 +4,11 @@ import java.util.Objects;
 
 public abstract class ChessPiece {
 
-    private final String name;
-    private final BoardPosition boardPosition;
+    private final PieceProfile pieceProfile;
+    protected BoardPosition boardPosition;
 
-    ChessPiece(final String name, final BoardPosition boardPosition) {
-        this.name = name;
+    public ChessPiece(final PieceProfile pieceProfile, final BoardPosition boardPosition) {
+        this.pieceProfile = pieceProfile;
         this.boardPosition = boardPosition;
     }
 
@@ -16,7 +16,7 @@ public abstract class ChessPiece {
         return boardPosition;
     }
 
-    public abstract ChessPiece move(BoardPosition boardPosition);
+    public abstract void move(BoardPosition boardPosition);
 
     @Override
     public boolean equals(final Object o) {
@@ -34,6 +34,7 @@ public abstract class ChessPiece {
     }
 
     public String getName() {
-        return name;
+        return pieceProfile.getName();
     }
+
 }

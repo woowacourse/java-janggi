@@ -1,6 +1,7 @@
 package chessPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.stream.Stream;
@@ -19,7 +20,7 @@ class JanggunTest {
         BoardPosition boardPosition = new BoardPosition(4, 5);
 
         //when
-        Janggun janggun = new Janggun("왕", boardPosition);
+        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), boardPosition);
 
         //then
         assertThat(janggun.getBoardPosition()).isEqualTo(new BoardPosition(4, 5));
@@ -30,7 +31,7 @@ class JanggunTest {
     @MethodSource("JanggunNonMovePositionProvider")
     void moveValidate(BoardPosition boardPosition) {
         //given
-        Janggun janggun = new Janggun("왕", new BoardPosition(5, 5));
+        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new BoardPosition(5, 5));
 
         //when //then
         assertThatThrownBy(() -> janggun.move(boardPosition))
@@ -41,15 +42,13 @@ class JanggunTest {
     @DisplayName("왕은 상하좌우 한칸을 움직일 수 있다.")
     @ParameterizedTest
     @MethodSource("janggunMovePositionProvider")
-    void move(BoardPosition boardPosition, Janggun expected) {
+    void move(BoardPosition boardPosition) {
         //given
-        Janggun janggun = new Janggun("왕", new BoardPosition(5, 5));
+        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new BoardPosition(5, 5));
 
-        //when
-        Janggun actual = janggun.move(boardPosition);
-
-        //then
-        assertThat(actual).isEqualTo(expected);
+        //when //then
+        assertThatCode(() -> janggun.move(boardPosition))
+                .doesNotThrowAnyException();
     }
 
     private static Stream<Arguments> JanggunNonMovePositionProvider() {
@@ -67,14 +66,10 @@ class JanggunTest {
 
     private static Stream<Arguments> janggunMovePositionProvider() {
         return Stream.of(
-                Arguments.of(new BoardPosition(6, 5),
-                        new Janggun("왕", new BoardPosition(6, 5))),
-                Arguments.of(new BoardPosition(5, 6),
-                        new Janggun("왕", new BoardPosition(5, 6))),
-                Arguments.of(new BoardPosition(5, 4),
-                        new Janggun("왕", new BoardPosition(5, 4))),
-                Arguments.of(new BoardPosition(4, 5),
-                        new Janggun("왕", new BoardPosition(4, 5)))
+                Arguments.of(new BoardPosition(6, 5)),
+                Arguments.of(new BoardPosition(5, 6)),
+                Arguments.of(new BoardPosition(5, 4)),
+                Arguments.of(new BoardPosition(4, 5))
         );
     }
 

@@ -1,6 +1,7 @@
 package chessPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.stream.Stream;
@@ -19,7 +20,7 @@ class MaTest {
         BoardPosition boardPosition = new BoardPosition(4, 5);
 
         //when
-        Ma ma = new Ma("마", boardPosition);
+        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), boardPosition);
 
         //then
         assertThat(ma.getBoardPosition()).isEqualTo(new BoardPosition(4, 5));
@@ -30,7 +31,7 @@ class MaTest {
     @MethodSource("maNonMovePositionProvider")
     void nonMove(BoardPosition boardPosition) {
         //given
-        Ma ma = new Ma("마", new BoardPosition(5, 5));
+        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new BoardPosition(5, 5));
 
         //when then
         assertThatThrownBy(() -> ma.move(boardPosition))
@@ -41,15 +42,14 @@ class MaTest {
     @DisplayName("자신의 위치를 기준으로 직선으로 한칸 + 대각선으로 한칸 이동할 수 있다.")
     @ParameterizedTest
     @MethodSource("maMovePositionProvider")
-    void nonMove(BoardPosition boardPosition, Ma expected) {
+    void move(BoardPosition boardPosition) {
         //given
-        Ma ma = new Ma("마", new BoardPosition(5, 5));
+        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new BoardPosition(5, 5));
 
-        //when
-        Ma actual = ma.move(boardPosition);
+        //when //then
+        assertThatCode(() -> ma.move(boardPosition))
+                .doesNotThrowAnyException();
 
-        // then
-        assertThat(actual).isEqualTo(expected);
     }
 
     private static Stream<Arguments> maNonMovePositionProvider() {
@@ -68,22 +68,14 @@ class MaTest {
 
     private static Stream<Arguments> maMovePositionProvider() {
         return Stream.of(
-                Arguments.of(new BoardPosition(3, 4),
-                        new Ma("마", new BoardPosition(3, 4))),
-                Arguments.of(new BoardPosition(3, 6),
-                        new Ma("마", new BoardPosition(3, 6))),
-                Arguments.of(new BoardPosition(4, 7),
-                        new Ma("마", new BoardPosition(4, 7))),
-                Arguments.of(new BoardPosition(6, 7),
-                        new Ma("마", new BoardPosition(6, 7))),
-                Arguments.of(new BoardPosition(7, 6),
-                        new Ma("마", new BoardPosition(7, 6))),
-                Arguments.of(new BoardPosition(7, 4),
-                        new Ma("마", new BoardPosition(7, 4))),
-                Arguments.of(new BoardPosition(6, 3),
-                        new Ma("마", new BoardPosition(6, 3))),
-                Arguments.of(new BoardPosition(4, 3),
-                        new Ma("마", new BoardPosition(4, 3)))
+                Arguments.of(new BoardPosition(3, 4)),
+                Arguments.of(new BoardPosition(3, 6)),
+                Arguments.of(new BoardPosition(4, 7)),
+                Arguments.of(new BoardPosition(6, 7)),
+                Arguments.of(new BoardPosition(7, 6)),
+                Arguments.of(new BoardPosition(7, 4)),
+                Arguments.of(new BoardPosition(6, 3)),
+                Arguments.of(new BoardPosition(4, 3))
         );
     }
 

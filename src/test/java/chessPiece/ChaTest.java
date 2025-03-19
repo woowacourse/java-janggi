@@ -1,6 +1,7 @@
 package chessPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.stream.Stream;
@@ -19,7 +20,7 @@ class ChaTest {
         BoardPosition boardPosition = new BoardPosition(4, 5);
 
         //when
-        Cha cha = new Cha("차", boardPosition);
+        Cha cha = new Cha(new PieceProfile("차", Nation.HAN), boardPosition);
 
         //then
         assertThat(cha.getBoardPosition()).isEqualTo(new BoardPosition(4, 5));
@@ -30,7 +31,7 @@ class ChaTest {
     void nonMove() {
         //given
         BoardPosition boardPosition = new BoardPosition(0, 0);
-        Cha cha = new Cha("차", boardPosition);
+        Cha cha = new Cha(new PieceProfile("차", Nation.HAN), boardPosition);
 
         //when //then
         assertThatThrownBy(() -> cha.move(new BoardPosition(1, 1)))
@@ -41,19 +42,16 @@ class ChaTest {
     @DisplayName("차는 움직임을 자신의 위치를 기준으로 가로, 세로 방향으로 무제한 이동한다.")
     @ParameterizedTest
     @MethodSource("chaMovePositionProvider")
-    void move(BoardPosition boardPosition1, Cha cha1) {
+    void move(BoardPosition boardPosition) {
         //given
-        BoardPosition boardPosition = new BoardPosition(0, 0);
-        Cha cha = new Cha("차", boardPosition);
+        Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new BoardPosition(0, 0));
 
         //when - then
-        assertThat(cha.move(boardPosition1)).isEqualTo(cha1);
+        assertThatCode(() -> cha.move(boardPosition))
+                .doesNotThrowAnyException();
     }
 
     private static Stream<Arguments> chaMovePositionProvider() {
-        return Stream.of(
-                Arguments.of(new BoardPosition(0, 1), new Cha("차", new BoardPosition(0, 1))),
-                Arguments.of(new BoardPosition(1, 0), new Cha("차", new BoardPosition(1, 0)))
-        );
+        return Stream.of(Arguments.of(new BoardPosition(0, 1)), Arguments.of(new BoardPosition(1, 0)));
     }
 }

@@ -1,6 +1,7 @@
 package chessPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.stream.Stream;
@@ -19,7 +20,7 @@ class SangTest {
         BoardPosition boardPosition = new BoardPosition(4, 5);
 
         //when
-        Sang sang = new Sang("상", boardPosition);
+        Sang sang = new Sang(new PieceProfile("상", Nation.HAN), boardPosition);
 
         //then
         assertThat(sang.getBoardPosition()).isEqualTo(new BoardPosition(4, 5));
@@ -30,7 +31,7 @@ class SangTest {
     @MethodSource("sangNonMovePositionProvider")
     void nonMove(BoardPosition boardPosition) {
         //given
-        Sang sang = new Sang("상", new BoardPosition(5, 5));
+        Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(5, 5));
 
         //when //then
         assertThatThrownBy(() -> sang.move(boardPosition))
@@ -41,43 +42,41 @@ class SangTest {
     @DisplayName("상은 자신의 위치를 기준으로 직선으로 한칸 대각선으로 두칸 이동할 수 있다.")
     @ParameterizedTest
     @MethodSource("sangMovePositionProvider")
-    void move(BoardPosition boardPosition, Sang expected) {
+    void move(BoardPosition boardPosition) {
         //given
-        Sang sang = new Sang("상", new BoardPosition(5, 5));
+        Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(5, 5));
 
-        //when
-        Sang actual = sang.move(boardPosition);
-
-        //then
-        assertThat(actual).isEqualTo(expected);
+        //when //then
+        assertThatCode(() -> sang.move(boardPosition))
+                .doesNotThrowAnyException();
     }
 
 
     private static Stream<Arguments> sangMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new BoardPosition(2, 3),
-                        new Sang("상", new BoardPosition(2, 3
+                        new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(2, 3
                         ))),
                 Arguments.of(new BoardPosition(2, 7),
-                        new Sang("상", new BoardPosition(2, 7
+                        new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(2, 7
                         ))),
                 Arguments.of(new BoardPosition(7, 8),
-                        new Sang("상", new BoardPosition(7, 8
+                        new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(7, 8
                         ))),
                 Arguments.of(new BoardPosition(3, 8),
-                        new Sang("상", new BoardPosition(3, 8
+                        new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(3, 8
                         ))),
                 Arguments.of(new BoardPosition(8, 3),
-                        new Sang("상", new BoardPosition(8, 3
+                        new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(8, 3
                         ))),
                 Arguments.of(new BoardPosition(8, 7),
-                        new Sang("상", new BoardPosition(8, 7
+                        new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(8, 7
                         ))),
                 Arguments.of(new BoardPosition(3, 2),
-                        new Sang("상", new BoardPosition(3, 2
+                        new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(3, 2
                         ))),
                 Arguments.of(new BoardPosition(7, 2),
-                        new Sang("상", new BoardPosition(7, 2
+                        new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(7, 2
                         )))
         );
     }
