@@ -197,7 +197,7 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard();
 
             // when
-            janggiBoard.move(new Position(4, 3), new Position(4, 2));
+            janggiBoard.move(new Position(4, 3), new Position(4, 4));
             janggiBoard.move(new Position(1, 2), new Position(3, 3));
             janggiBoard.move(new Position(3, 3), new Position(5, 2));
 

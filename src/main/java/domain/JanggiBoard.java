@@ -6,7 +6,6 @@ import java.util.Map;
 
 public class JanggiBoard {
 
-    //    private final Table<Integer, Integer, Piece> janggiBoard;
     private final Map<Position, Piece> janggiBoard;
 
     public JanggiBoard() {
@@ -47,12 +46,14 @@ public class JanggiBoard {
     }
 
     private void move포(Piece piece, Position beforePosition, Position afterPosition) {
-        validateMove포(beforePosition, afterPosition);
         boolean isHurdle = isExistHurdle(piece, beforePosition, afterPosition);
         if (!isHurdle) {
             throw new IllegalArgumentException();
         }
         if (getHurdleCount(piece, beforePosition, afterPosition) > 1) {
+            throw new IllegalStateException();
+        }
+        if (getFirstHurdlePiece(beforePosition, afterPosition).getClass().equals(포.class)) {
             throw new IllegalStateException();
         }
         janggiBoard.put(beforePosition, new Empty());
@@ -72,14 +73,7 @@ public class JanggiBoard {
         return false;
     }
 
-    private void validateMove포(Position beforePosition, Position afterPosition) {
-        Piece hurdlePiece = getHurdlePiece(beforePosition, afterPosition);
-        if (hurdlePiece.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private Piece getHurdlePiece(Position beforePosition, Position afterPosition) {
+    private Piece getFirstHurdlePiece(Position beforePosition, Position afterPosition) {
         Piece piece = getPieceFrom(beforePosition);
         Piece hurdlePiece = new Empty();
         List<Pattern> patterns = piece.findPath(beforePosition, afterPosition);
