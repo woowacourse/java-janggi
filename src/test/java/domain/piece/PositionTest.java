@@ -1,5 +1,6 @@
 package domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
@@ -26,5 +27,18 @@ class PositionTest {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> Position.of(row, column))
                 .withMessage("[ERROR] 좌표 입력은 9X10 보드 이내만 가능합니다.");
+    }
+
+    @Test
+    void 좌표를_병합해_반환한다() {
+        // given
+        Position position = Position.of(5, 6);
+        Position otherPosition = Position.of(1, 2);
+
+        // when
+        Position result = position.merge(otherPosition);
+
+        // then
+        assertThat(result).isEqualTo(Position.of(6, 8));
     }
 }
