@@ -15,9 +15,7 @@ public class PawnTest {
         //given
         final ChessPosition chessPosition = new ChessPosition(0, 0);
         final List<Path> expectPaths = List.of(
-                new Path(List.of(new ChessPosition(-1,0))),
                 new Path(List.of(new ChessPosition(1,0))),
-                new Path(List.of(new ChessPosition(0,-1))),
                 new Path(List.of(new ChessPosition(0,1)))
         );
 
@@ -27,11 +25,9 @@ public class PawnTest {
 
         //then
         SoftAssertions.assertSoftly((softly) -> {
-            softly.assertThat(actualPaths).hasSize(4);
+            softly.assertThat(actualPaths).hasSize(2);
             softly.assertThat(actualPaths.get(0).getPath()).containsAll(expectPaths.get(0).getPath());
             softly.assertThat(actualPaths.get(1).getPath()).containsAll(expectPaths.get(1).getPath());
-            softly.assertThat(actualPaths.get(2).getPath()).containsAll(expectPaths.get(2).getPath());
-            softly.assertThat(actualPaths.get(3).getPath()).containsAll(expectPaths.get(3).getPath());
         });
     }
 }

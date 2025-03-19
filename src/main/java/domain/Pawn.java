@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,9 +21,20 @@ public class Pawn implements ChessPiece{
     @Override
     public List<Path> getAvailablePaths(final ChessPosition chessPosition) {
         return Arrays.stream(ds)
-                .map(d -> List.of(new ChessPosition(chessPosition.row() + d[0], chessPosition.column() + d[1])))
+                .map(d -> temp(d, chessPosition))
+                .filter(coord -> !coord.isEmpty())
                 .map(Path::new)
                 .toList();
+    }
+
+    private List<ChessPosition> temp(int[] d, ChessPosition chessPosition) {
+        List<ChessPosition> result = new ArrayList<>();
+        final int nextRow = chessPosition.row() + d[0];
+        final int nextCol = chessPosition.column() + d[1];
+        if (ChessPosition.isValid(nextRow, nextCol)) {
+            result.add(new ChessPosition(nextRow, nextCol));
+        }
+        return result;
     }
 
     @Override

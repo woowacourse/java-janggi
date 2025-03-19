@@ -15,7 +15,7 @@ public record ChessPosition(
         }
     }
 
-    private static boolean isValid(final int row, final int col) {
+    public static boolean isValid(final int row, final int col) {
         return row >= MIN_ROW && row <= MAX_ROW && col >= MIN_COL && col <= MAX_COL;
     }
 }
