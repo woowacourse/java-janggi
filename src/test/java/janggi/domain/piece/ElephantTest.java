@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
@@ -10,48 +11,48 @@ import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class KnightTest {
+class ElephantTest {
 
-    @DisplayName("마가 가는 방향에 기물이 없다면 이동할 수 있다.")
+    @DisplayName("상이 가는 방향에 기물이 없다면 이동할 수 있다.")
     @Test
     void test() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Piece knight = Knight.newInstance();
+        Piece elephant = Elephant.newInstance();
 
         // when
-        boolean isMovable = knight.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 3));
+        boolean isMovable = elephant.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(4, 3));
 
         // then
         assertThat(isMovable).isTrue();
     }
 
-    @DisplayName("마가 규칙 상 갈 수 없는 목적지는 갈 수 없다.")
+    @DisplayName("상이 규칙 상 갈 수 없는 목적지는 갈 수 없다.")
     @Test
     void test2() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Piece knight = Knight.newInstance();
+        Piece elephant = Elephant.newInstance();
 
         // when
-        boolean isMovable = knight.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 2));
+        boolean isMovable = elephant.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(4, 2));
 
         // then
         assertThat(isMovable)
                 .isFalse();
     }
 
-    @DisplayName("마가 가는 방향에 기물이 있다면 이동할 수 없다.")
+    @DisplayName("상이 가는 방향에 기물이 있다면 이동할 수 없다.")
     @Test
     void test3() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new PointPiece(new HanPoint(1, 2), Knight.newInstance(), Dynasty.HAN)
+                new PointPiece(new HanPoint(2, 1), Knight.newInstance(), Dynasty.HAN)
         ));
-        Piece knight = Knight.newInstance();
+        Piece elephant = Elephant.newInstance();
 
         // when
-        boolean isMovable = knight.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 3));
+        boolean isMovable = elephant.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(4, 3));
 
         // then
         assertThat(isMovable)
