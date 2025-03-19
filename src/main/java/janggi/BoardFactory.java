@@ -1,8 +1,14 @@
-package janggi.piece;
+package janggi;
 
-import janggi.Position;
-import janggi.Team;
-import janggi.piece.strategy.BasicMovable;
+import janggi.piece.Byeong;
+import janggi.piece.Cannon;
+import janggi.piece.Chariot;
+import janggi.piece.Elephant;
+import janggi.piece.Guard;
+import janggi.piece.Horse;
+import janggi.piece.Jol;
+import janggi.piece.King;
+import janggi.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,18 +16,18 @@ import java.util.Map.Entry;
 public class BoardFactory {
 
     public Board makeBoard() {
-        Map<BasicMovable, Position> positions = new HashMap<>();
+        Map<Piece, Position> positions = new HashMap<>();
         makeHanPieces(positions);
         makeChoPieces(positions);
 
-        Map<Position, BasicMovable> pieces = new HashMap<>();
-        for (Entry<BasicMovable, Position> entry : positions.entrySet()) {
+        Map<Position, Piece> pieces = new HashMap<>();
+        for (Entry<Piece, Position> entry : positions.entrySet()) {
             pieces.put(entry.getValue(), entry.getKey());
         }
         return new Board(positions, pieces);
     }
 
-    private static void makeChoPieces(Map<BasicMovable, Position> positions) {
+    private static void makeChoPieces(Map<Piece, Position> positions) {
         positions.put(new Chariot(Team.CHO), new Position(10, 1));
         positions.put(new Horse(Team.CHO), new Position(10, 2));
         positions.put(new Elephant(Team.CHO), new Position(10, 3));
@@ -42,7 +48,7 @@ public class BoardFactory {
         positions.put(new Jol(), new Position(7, 9));
     }
 
-    private static void makeHanPieces(Map<BasicMovable, Position> positions) {
+    private static void makeHanPieces(Map<Piece, Position> positions) {
         positions.put(new Chariot(Team.HAN), new Position(1, 1));
         positions.put(new Horse(Team.HAN), new Position(1, 2));
         positions.put(new Elephant(Team.HAN), new Position(1, 3));

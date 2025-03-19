@@ -4,20 +4,19 @@ import janggi.Path;
 import janggi.Position;
 import janggi.Team;
 import janggi.piece.strategy.BasicMovable;
+import janggi.view.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class Horse implements BasicMovable {
+public class Horse extends Piece implements BasicMovable {
 
     private static final Set<List<Integer>> AVAILABLE_DIFFERENCE = Set.of(
             List.of(2, 1), List.of(2, -1), List.of(-2, 1), List.of(-2, -1),
             List.of(1, 2), List.of(1, -2), List.of(-1, 2), List.of(-1, -2));
 
-    private final Team team;
-
     public Horse(Team team) {
-        this.team = team;
+        super(PieceType.HORSE, team);
     }
 
     @Override

@@ -4,21 +4,20 @@ import janggi.Path;
 import janggi.Position;
 import janggi.Team;
 import janggi.piece.strategy.BasicMovable;
+import janggi.view.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class Elephant implements BasicMovable {
-
-    private final Team team;
-
-    public Elephant(Team team) {
-        this.team = team;
-    }
+public class Elephant extends Piece implements BasicMovable {
 
     private static final Set<List<Integer>> AVAILABLE_DIFFERENCE = Set.of(
             List.of(3, 2), List.of(3, -2), List.of(-3, 2), List.of(-3, -2),
             List.of(2, 3), List.of(2, -3), List.of(-2, 3), List.of(-2, -3));
+
+    public Elephant(Team team) {
+        super(PieceType.ELEPHANT, team);
+    }
 
     @Override
     public Path move(final Position currentPosition, final Position arrivalPosition) {

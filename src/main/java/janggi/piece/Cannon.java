@@ -8,14 +8,14 @@ import janggi.view.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Jol extends Piece implements BasicMovable {
+public class Cannon extends Piece implements BasicMovable {
 
-    public Jol() {
-        super(PieceType.JOL, Team.CHO);
+    public Cannon(Team team) {
+        super(PieceType.CANNON, team);
     }
 
     @Override
-    public Path move(Position currentPosition, Position arrivalPosition) {
+    public Path move(final Position currentPosition, final Position arrivalPosition) {
         int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
         int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
 
@@ -49,6 +49,12 @@ public class Jol extends Piece implements BasicMovable {
         return currentX;
     }
 
+    private void validateMove(int differenceForY, int differenceForX) {
+        if (canNotMove(differenceForY, differenceForX)) {
+            throw new IllegalArgumentException("[ERROR] 한 방향으로만 이동할 수 있습니다.");
+        }
+    }
+
     private int calculateUnit(int difference) {
         if (difference == 0) {
             return difference;
@@ -56,13 +62,8 @@ public class Jol extends Piece implements BasicMovable {
         return difference / Math.abs(difference);
     }
 
-    private void validateMove(int differenceForY, int differenceForX) {
-        if (canNotMoveBackward(differenceForY) || Math.abs(differenceForY) + Math.abs(differenceForX) > 1) {
-            throw new IllegalArgumentException("[ERROR] 졸은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
-        }
-    }
-
-    private boolean canNotMoveBackward(int differenceForY) {
-        return differenceForY > 0;
+    private boolean canNotMove(int differenceForY, int differenceForX) {
+        return !((Math.abs(differenceForY) > 0 && Math.abs(differenceForX) == 0) ||
+                (Math.abs(differenceForY) == 0 && Math.abs(differenceForX) > 0));
     }
 }

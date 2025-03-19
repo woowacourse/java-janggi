@@ -4,15 +4,14 @@ import janggi.Path;
 import janggi.Position;
 import janggi.Team;
 import janggi.piece.strategy.BasicMovable;
+import janggi.view.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Guard implements BasicMovable {
-
-    private final Team team;
+public class Guard extends Piece implements BasicMovable {
 
     public Guard(Team team) {
-        this.team = team;
+        super(PieceType.GUARD, team);
     }
 
     @Override

@@ -4,12 +4,15 @@ import janggi.Path;
 import janggi.Position;
 import janggi.Team;
 import janggi.piece.strategy.BasicMovable;
+import janggi.view.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Byeong implements BasicMovable {
+public class Byeong extends Piece implements BasicMovable {
 
-    private final Team team = Team.HAN;
+    public Byeong() {
+        super(PieceType.BYEONG, Team.HAN);
+    }
 
     @Override
     public Path move(Position currentPosition, Position arrivalPosition) {
