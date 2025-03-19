@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 public final class Route {
@@ -15,5 +16,19 @@ public final class Route {
             point = point.move(direction);
         }
         return point;
+    }
+
+    public boolean canArrive(Point startPoint, Point arrivalPoint) {
+        Point point = navigateArrivalPoint(startPoint);
+        return point.equals(arrivalPoint);
+    }
+
+    public List<Point> getAllPointsOnRoute(Point point) {
+        List<Point> result = new ArrayList<>();
+        for (Direction direction : directions) {
+            point = point.move(direction);
+            result.add(point);
+        }
+        return result;
     }
 }

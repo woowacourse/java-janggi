@@ -1,9 +1,10 @@
 package domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import domain.piece.Direction;
 import domain.piece.Route;
 import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,23 @@ class PieceMovementTest {
 
             // then
             assertThat(arrivalPoints).contains(new Point(3, -2), new Point(-3, -2));
+        }
+
+        @Test
+        @DisplayName("이동 경로 지점들을 반환한다.")
+        void test_calculateRoutePoints() {
+            // given
+            List<Direction> directions1 = List.of(Direction.NORTH, Direction.NORTHWEST, Direction.NORTHWEST);
+            List<Route> routes = List.of(new Route(directions1));
+            PieceMovement pieceMovement = new PieceMovement(routes);
+            Point startPoint = new Point(0, 0);
+            Point arrivalPoint = new Point(3, -2);
+
+            // when
+            List<Point> arrivalPoints = pieceMovement.calculateRoutePoints(startPoint, arrivalPoint);
+
+            // then
+            assertThat(arrivalPoints).contains(new Point(1, 0), new Point(2, -1), new Point(3, -2));
         }
     }
 }
