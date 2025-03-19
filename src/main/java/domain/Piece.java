@@ -23,11 +23,18 @@ public class Piece {
         return board;
     }
 
-    public boolean canMove(final int x1, final int y1) {
-        if (!this.board.isExists(x1, y1)) {
+    public boolean canMove(Position position) {
+        if (!this.board.isExists(position)) {
             return true;
         }
-        return !this.board.isSameTeam(x1, y1, Team.BLUE);
+        return !this.board.isSameTeam(position, team);
     }
+
+    // move(Position position) 갈 수 있으면 -> 간다 -> 갔는데 상대 기물이 있으면 먹는다
+    // 갈 수 없으면 갈 수 없다고 예외 반환.
+
+    // Set<Position> movableCells();
+    // 만약 상대팀 말이면 그것까지 우리팀 말이면 그 전까지
+    //
 
 }

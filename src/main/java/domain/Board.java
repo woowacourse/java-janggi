@@ -1,28 +1,38 @@
 package domain;
 
+import java.util.List;
+import java.util.Map;
+
 public class Board {
+    private final Map<Team, List<Piece>> pieces;
 
-    private final Piece[][] board;
-
-    public Board() {
-        this.board = new Piece[10][9];
-    }
-
-    public Piece[][] getBoard() {
-        return board;
+    // set을 사용한 일급 컬렉션으로 변경하기
+    // set or map?
+    // Map<Position, Piece>형태는?
+    //
+    public Board(Map<Team, List<Piece>> pieces) {
+        this.pieces = pieces;
     }
 
     public void putPiece(Piece piece) {
-        Position position = piece.getPosition();
-        board[position.getY()][position.getX()] = piece;
+        pieces.get(piece.getTeam()).add(piece);
     }
 
-    public boolean isExists(final int x, final int y) {
-        return board[y][x] != null;
+    public boolean isExists(Position position) {
+        return pieces.entrySet().stream()
+                .anyMatch(entry -> entry.getValue().stream()
+                            .anyMatch(piece -> piece.getPosition().equals(position))
+                );
     }
 
-    public boolean isSameTeam(final int x, final int y, final Team team) {
-        return board[y][x].getTeam() == team;
+    public boolean isSameTeam(Position position, Team team) {
+        return pieces.get(team).stream().anyMatch(piece -> piece.getPosition().equals(position));
     }
 
+    public boolean isExistOtherTeamPiece(Position position, Team team) {
+        if (!isExists(position)) {
+            return false;
+        }
+        return !isSameTeam(position, team);
+    }
 }

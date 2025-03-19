@@ -49,4 +49,6 @@ class PieceTest {
         assertThat(piece.canMove(1, 1)).isEqualTo(expected);
     }
 
+
+
 }

@@ -3,6 +3,8 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class BoardTest {
 
@@ -45,6 +47,19 @@ class BoardTest {
         board.putPiece(piece1);
 
         assertThat(board.isSameTeam(1, 1, Team.BLUE)).isTrue();
+    }
+
+    @CsvSource(value = {"1,1,false", "1,0,true"})
+    @ParameterizedTest
+    void 이동_위치에_상대_기물이_존재하는지_확인한다(int x, int y, boolean expected) {
+        Board board = new Board();
+        Piece piece = new Piece(new Position(0, 0), Team.BLUE, board);
+        Piece piece1 = new Piece(new Position(1, 1), Team.BLUE, board);
+
+        board.putPiece(piece);
+        board.putPiece(piece1);
+
+        assertThat(board.isExistOtherTeamPiece(1, 1, Team.RED)).isTrue();
     }
 
 }
