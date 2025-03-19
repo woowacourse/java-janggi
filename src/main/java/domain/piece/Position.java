@@ -40,14 +40,17 @@ public class Position {
         return !(row < MIN_ROW || column < MIN_COLUMN || row > MAX_ROW || column > MAX_COLUMN);
     }
 
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
     @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
+    public boolean equals(final Object object) {
+        if (object == null || getClass() != object.getClass()) return false;
         Position position = (Position) object;
         return row == position.row && column == position.column;
     }
@@ -55,13 +58,5 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(row, column);
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getColumn() {
-        return column;
     }
 }

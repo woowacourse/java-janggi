@@ -3,6 +3,7 @@ package domain.direction;
 import domain.piece.Position;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Directions {
 
@@ -19,5 +20,17 @@ public class Directions {
                 .orElseThrow(IllegalArgumentException::new);
 
         return direction.createPath(start, target);
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (object == null || getClass() != object.getClass()) return false;
+        Directions that = (Directions) object;
+        return Objects.equals(directions, that.directions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(directions);
     }
 }

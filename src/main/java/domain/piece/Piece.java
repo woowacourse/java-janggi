@@ -3,6 +3,7 @@ package domain.piece;
 import domain.direction.Directions;
 
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Piece {
 
@@ -37,5 +38,17 @@ public abstract class Piece {
 
     public Position getPosition() {
         return position;
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (object == null || getClass() != object.getClass()) return false;
+        Piece piece = (Piece) object;
+        return Objects.equals(directions, piece.directions) && Objects.equals(position, piece.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(directions, position);
     }
 }
