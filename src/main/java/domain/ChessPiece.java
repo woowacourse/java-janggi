@@ -3,7 +3,7 @@ package domain;
 import java.util.List;
 
 interface ChessPiece {
-
-    List<Path> getAvailablePaths(final ChessPosition chessPosition);
+    ChessPosition getPosition();
+    List<Path> getAvailablePaths();
     ChessPieceType getChessPieceType();
 }

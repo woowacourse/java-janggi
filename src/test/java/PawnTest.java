@@ -20,8 +20,8 @@ public class PawnTest {
         );
 
         //when
-        final Pawn pawn = new Pawn(ChessTeam.RED);
-        final List<Path> actualPaths = pawn.getAvailablePaths(chessPosition);
+        final Pawn pawn = new Pawn(chessPosition, ChessTeam.RED);
+        final List<Path> actualPaths = pawn.getAvailablePaths();
 
         //then
         SoftAssertions.assertSoftly((softly) -> {

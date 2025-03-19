@@ -1,15 +1,13 @@
 package domain;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ChessPiecePositions {
 
-    private final Map<ChessPosition, ChessPiece> chessPieces;
+    private final Map<ChessPosition, ChessPiece> chessPieces = new HashMap<>();
 
     private ChessPiecePositions(final Map<ChessPosition, ChessPiece> chessPieces) {
-        this.chessPieces = chessPieces;
+        this.chessPieces.putAll(chessPieces);
     }
 
     public static ChessPiecePositions empty() {
@@ -17,14 +15,16 @@ public class ChessPiecePositions {
     }
 
     public void initialize() {
-        for (ChessPieceType chessPieceType : ChessPieceType.values()) {
-            for (ChessPosition chessPosition : chessPieceType.getBluePosition()) {
-                chessPieces.put(chessPosition, chessPieceType.generateChessPiece(ChessTeam.BLUE));
-            }
-
-            for (ChessPosition chessPosition : chessPieceType.getRedPosition()) {
-                chessPieces.put(chessPosition, chessPieceType.generateChessPiece(ChessTeam.RED));
-            }
+        List<ChessPiece> pieces = new ArrayList<>();
+        pieces.addAll(Cannon.initPieces());
+        pieces.addAll(Chariot.initPieces());
+        pieces.addAll(Elephant.initPieces());
+        pieces.addAll(Guard.initPieces());
+        pieces.addAll(Horse.initPieces());
+        pieces.addAll(King.initPieces());
+        pieces.addAll(Pawn.initPieces());
+        for (ChessPiece piece : pieces) {
+            chessPieces.put(piece.getPosition(), piece);
         }
     }
 
