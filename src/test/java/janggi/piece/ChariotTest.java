@@ -6,6 +6,7 @@ import janggi.Camp;
 import janggi.Point;
 import janggi.board.Board;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -50,5 +51,22 @@ class ChariotTest {
         // when & then
         assertThatCode(() -> chariot.validateMove(fromPoint, toPoint))
                 .doesNotThrowAnyException();
+    }
+
+    @DisplayName("차는 상하좌우로 움직일 때 기물에 막힌 경우 예외가 발생한다.")
+    @Test
+    void shouldThrowException_WhenBlocked() {
+        // given
+        Board board = new Board();
+        board.placePiece(new Point(3, 5), new Soldier(Camp.CHU, board));
+        Chariot chariot = new Chariot(Camp.CHU, board);
+        Point fromPoint = new Point(3, 3);
+        board.placePiece(fromPoint, chariot);
+        Point toPoint = new Point(3, 7);
+
+        // when & then
+        assertThatCode(() -> chariot.validateMove(fromPoint, toPoint))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("차는 기물을 넘어 이동할 수 없습니다.");
     }
 }
