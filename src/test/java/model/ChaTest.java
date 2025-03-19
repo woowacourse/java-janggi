@@ -1,9 +1,8 @@
+package model;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import model.Cha;
-import model.Path;
-import model.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,14 +25,14 @@ public class ChaTest {
         @DisplayName("차 이동 가능 여부 판별 테스트")
         public void test2() {
             Cha cha = new Cha("red");
-            assertThat(cha.canMove(0, 0, 100, 0)).isTrue();
+            assertThat(cha.isValidPoint(0, 0, 100, 0)).isTrue();
         }
 
         @Test
         @DisplayName("차 이동 불가능 여부 판별 테스트")
         public void test3() {
             Cha cha = new Cha("red");
-            assertThat(cha.canMove(0, 0, 10, 10)).isFalse();
+            assertThat(cha.isValidPoint(0, 0, 10, 10)).isFalse();
         }
     }
 

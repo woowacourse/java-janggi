@@ -1,9 +1,8 @@
+package model;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import model.Path;
-import model.Point;
-import model.Sang;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,14 +25,14 @@ public class SangTest {
         @DisplayName("가능")
         public void test1() {
             Sang sang = new Sang("red");
-            assertThat(sang.canMove(0, 0, -2, -3)).isTrue();
+            assertThat(sang.isValidPoint(0, 0, -2, -3)).isTrue();
         }
 
         @Test
         @DisplayName("불가능")
         public void test2() {
             Sang sang = new Sang("red");
-            assertThat(sang.canMove(0, 0, -2, -2)).isFalse();
+            assertThat(sang.isValidPoint(0, 0, -2, -2)).isFalse();
         }
     }
 

@@ -1,7 +1,7 @@
+package model;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-import model.Jang;
-import model.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -25,14 +25,14 @@ public class JangTest {
         @DisplayName("장 이동 가능 테스트")
         public void test2() {
             Jang jang = new Jang("red");
-            assertThat(jang.canMove(0, 0, 1, 0)).isTrue();
+            assertThat(jang.isValidPoint(0, 0, 1, 0)).isTrue();
         }
 
         @Test
         @DisplayName("장 이동 불가능 테스트")
         public void test3() {
             Jang jang = new Jang("red");
-            assertThat(jang.canMove(0, 0, 2, 0)).isFalse();
+            assertThat(jang.isValidPoint(0, 0, 2, 0)).isFalse();
         }
     }
     @Nested

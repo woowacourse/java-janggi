@@ -10,7 +10,7 @@ public class Ma extends Piece {
     }
 
     @Override
-    public boolean canMove(int beforeX, int beforeY, int afterX, int afterY) {
+    public boolean isValidPoint(int beforeX, int beforeY, int afterX, int afterY) {
         List<Integer> horizontal = List.of(-1, 1, 2, 2, 1, -1, -2, -2);
         List<Integer> vertical = List.of(2, 2, 1, -1, -2, -2, -1, 1);
 
@@ -38,5 +38,10 @@ public class Ma extends Piece {
         path.addPoint(middlePoint);
         path.addPoint(endPoint);
         return path;
+    }
+
+    @Override
+    public boolean canMove(int size) {
+        return false;
     }
 }

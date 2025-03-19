@@ -7,7 +7,7 @@ public class Cha extends Piece {
     }
 
     @Override
-    public boolean canMove(int beforeX, int beforeY, int afterX, int afterY) {
+    public boolean isValidPoint(int beforeX, int beforeY, int afterX, int afterY) {
         return !((beforeX == afterX && beforeY == afterY) || (beforeX != afterX && beforeY != afterY));
     }
 
@@ -32,5 +32,10 @@ public class Cha extends Piece {
             }
         }
         return path;
+    }
+
+    @Override
+    public boolean canMove(int size) {
+        return false;
     }
 }
