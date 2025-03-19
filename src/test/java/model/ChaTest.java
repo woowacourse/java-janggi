@@ -21,18 +21,19 @@ public class ChaTest {
     @Nested
     @DisplayName("차 이동 가능 여부 판별 테스트")
     class ChaMovableTest {
+
         @Test
         @DisplayName("차 이동 가능 여부 판별 테스트")
         public void test2() {
             Cha cha = new Cha(Team.RED);
-            assertThat(cha.isValidPoint(0, 0, 100, 0)).isTrue();
+            assertThat(cha.isValidPoint(Point.of(0,0),Point.of(100,0))).isTrue();
         }
 
         @Test
         @DisplayName("차 이동 불가능 여부 판별 테스트")
         public void test3() {
             Cha cha = new Cha(Team.RED);
-            assertThat(cha.isValidPoint(0, 0, 10, 10)).isFalse();
+            assertThat(cha.isValidPoint(Point.of(0,0), Point.of(10,10))).isFalse();
         }
     }
 
@@ -49,7 +50,7 @@ public class ChaTest {
             Point point4 = new Point(0, 4);
             Point point5 = new Point(0, 7);
 
-            Path path = cha.calculatePath(0, 0, 0, 7);
+            Path path = cha.calculatePath(Point.of(0,0), Point.of(0,7));
 
             assertAll(
                     () -> assertThat(path.contains(point1)).isTrue(),
@@ -70,7 +71,7 @@ public class ChaTest {
             Point point4 = new Point(6, 0);
             Point point5 = new Point(7, 0);
 
-            Path path = cha.calculatePath(0, 0, 7, 0);
+            Path path = cha.calculatePath(Point.of(0,0), Point.of(7,0));
 
             assertAll(
                     () -> assertThat(path.contains(point1)).isTrue(),

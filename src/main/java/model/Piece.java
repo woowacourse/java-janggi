@@ -11,9 +11,9 @@ public abstract class Piece {
         return team;
     }
 
-    public abstract boolean isValidPoint(int beforeX, int beforeY, int afterX, int afterY);
+    public abstract boolean isValidPoint(Point beforePoint, Point afterPoint);
 
-    public abstract Path calculatePath(int beforeX, int beforeY, int afterX, int afterY);
+    public abstract Path calculatePath(Point beforePoint, Point afterPoint);
 
     public abstract boolean canMove(int size);
 }

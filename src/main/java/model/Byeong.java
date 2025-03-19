@@ -10,7 +10,7 @@ public class Byeong extends Piece {
     }
 
     @Override
-    public boolean isValidPoint(int beforeX, int beforeY, int afterX, int afterY) {
+    public boolean isValidPoint(Point beforePoint, Point afterPoint) {
         int moveForward = 1;
 
         if (team == Team.RED){
@@ -21,13 +21,13 @@ public class Byeong extends Piece {
         List<Integer> vertical = List.of(moveForward, 0, 0);
 
         return IntStream.range(0, horizontal.size())
-                .anyMatch(i -> horizontal.get(i) + beforeX == afterX && vertical.get(i) + beforeY == afterY);
+                .anyMatch(i -> horizontal.get(i) + beforePoint.x() == afterPoint.x() && vertical.get(i) + beforePoint.y() == afterPoint.y());
     }
 
     @Override
-    public Path calculatePath(int beforeX, int beforeY, int afterX, int afterY) {
+    public Path calculatePath(Point beforePoint, Point afterPoint) {
         Path path = new Path();
-        path.addPoint(new Point(afterX, afterY));
+        path.addPoint(new Point(afterPoint.x(), afterPoint.y()));
         return path;
     }
 
@@ -35,4 +35,5 @@ public class Byeong extends Piece {
     public boolean canMove(int size) {
         return false;
     }
+
 }

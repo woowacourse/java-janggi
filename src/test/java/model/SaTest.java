@@ -24,14 +24,14 @@ public class SaTest {
         @DisplayName("사 이동 가능 테스트")
         public void test2() {
             Sa sa = new Sa(Team.RED);
-            assertThat(sa.isValidPoint(0, 0, 1, 0)).isTrue();
+            assertThat(sa.isValidPoint(Point.of(0,0), Point.of(1,0))).isTrue();
         }
 
         @Test
         @DisplayName("사 이동 불가능 테스트")
         public void test3() {
             Sa sa = new Sa(Team.RED);
-            assertThat(sa.isValidPoint(0, 0, 2, 0)).isFalse();
+            assertThat(sa.isValidPoint(Point.of(0,0), Point.of(2,0))).isFalse();
         }
     }
     @Nested
@@ -43,7 +43,7 @@ public class SaTest {
             Sa sa = new Sa(Team.RED);
             Point point =new Point(0,1);
 
-            assertThat(sa.calculatePath(0,0,0,1).contains(point)).isTrue();
+            assertThat(sa.calculatePath(Point.of(0,0),Point.of(0,1)).contains(point)).isTrue();
         }
 
         @Test
@@ -52,7 +52,7 @@ public class SaTest {
             Sa sa = new Sa(Team.RED);
             Point point =new Point(1,0);
 
-            assertThat(sa.calculatePath(0,0,1,0).contains(point)).isTrue();
+            assertThat(sa.calculatePath(Point.of(0,0),Point.of(1,0)).contains(point)).isTrue();
         }
     }
 }

@@ -7,28 +7,28 @@ public class Pho extends Piece {
     }
 
     @Override
-    public boolean isValidPoint(int beforeX, int beforeY, int afterX, int afterY) {
-        return !((beforeX == afterX && beforeY == afterY) || (beforeX != afterX && beforeY != afterY));
+    public boolean isValidPoint(Point beforePoint, Point afterPoint) {
+        return !((beforePoint.x() == afterPoint.x() && beforePoint.y() == afterPoint.y()) || (beforePoint.x() != afterPoint.x() && beforePoint.y() != afterPoint.y()));
     }
 
     @Override
-    public Path calculatePath(int beforeX, int beforeY, int afterX, int afterY) {
-        int vectorX = afterX - beforeX;
-        int vectorY = afterY - beforeY;
+    public Path calculatePath(Point beforePoint, Point afterPoint) {
+        int vectorX = afterPoint.x() - beforePoint.x();
+        int vectorY = afterPoint.y() - beforePoint.y();
 
         Path path = new Path();
 
         if (vectorX == 0) {
             int unitVectorY = vectorY / Math.abs(vectorY);
             for (int i = 0; i < Math.abs(vectorY); i++) {
-                path.addPoint(new Point(afterX, afterY - unitVectorY * i));
+                path.addPoint(new Point(afterPoint.x(), afterPoint.y() - unitVectorY * i));
             }
         }
 
         if (vectorY == 0) {
             int unitVectorX = vectorX / Math.abs(vectorX);
             for (int i = 0; i < Math.abs(vectorX); i++) {
-                path.addPoint(new Point(afterX - unitVectorX * i, afterY));
+                path.addPoint(new Point(afterPoint.x() - unitVectorX * i, afterPoint.y()));
             }
         }
         return path;

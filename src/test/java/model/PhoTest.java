@@ -25,14 +25,14 @@ public class PhoTest {
         @DisplayName("포 이동 가능 여부 판별 테스트")
         public void test2() {
             Pho Pho = new Pho(Team.RED);
-            assertThat(Pho.isValidPoint(0, 0, 100, 0)).isTrue();
+            assertThat(Pho.isValidPoint(Point.of(0,0), Point.of(100,0))).isTrue();
         }
 
         @Test
         @DisplayName("포 이동 불가능 여부 판별 테스트")
         public void test3() {
             Pho Pho = new Pho(Team.RED);
-            assertThat(Pho.isValidPoint(0, 0, 10, 10)).isFalse();
+            assertThat(Pho.isValidPoint(Point.of(0,0), Point.of(10,10))).isFalse();
         }
     }
 
@@ -49,7 +49,7 @@ public class PhoTest {
             Point point4 = new Point(0, 4);
             Point point5 = new Point(0, 7);
 
-            Path path = Pho.calculatePath(0, 0, 0, 7);
+            Path path = Pho.calculatePath(Point.of(0,0), Point.of(0,7));
 
             assertAll(
                     () -> assertThat(path.contains(point1)).isTrue(),
@@ -70,7 +70,7 @@ public class PhoTest {
             Point point4 = new Point(6, 0);
             Point point5 = new Point(7, 0);
 
-            Path path = Pho.calculatePath(0, 0, 7, 0);
+            Path path = Pho.calculatePath(Point.of(0,0), Point.of(7,0));
 
             assertAll(
                     () -> assertThat(path.contains(point1)).isTrue(),

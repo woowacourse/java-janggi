@@ -25,14 +25,14 @@ public class MaTest {
         @DisplayName("가능")
         public void test1() {
             Ma ma = new Ma(Team.RED);
-            assertThat(ma.isValidPoint(0, 0, 2, 1)).isTrue();
+            assertThat(ma.isValidPoint(Point.of(0,0), Point.of(2,1))).isTrue();
         }
 
         @Test
         @DisplayName("불가능")
         public void test2() {
             Ma ma = new Ma(Team.RED);
-            assertThat(ma.isValidPoint(0, 0, 2, 2)).isFalse();
+            assertThat(ma.isValidPoint(Point.of(0,0), Point.of(2,2))).isFalse();
         }
     }
 
@@ -45,7 +45,7 @@ public class MaTest {
             Ma ma = new Ma(Team.RED);
             Point point1 = new Point(0, 1);
             Point point2 = new Point(1, 2);
-            Path path = ma.calculatePath(0, 0, 1, 2);
+            Path path = ma.calculatePath(Point.of(0,0), Point.of(1,2));
 
             assertAll(
                     () -> assertThat(path.contains(point1)).isTrue(),

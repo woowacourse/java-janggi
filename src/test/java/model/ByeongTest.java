@@ -22,22 +22,22 @@ public class ByeongTest {
     @DisplayName("병 이동 가능 여부 판별 테스트")
     class ByeongMovableTest {
         @Test
-        @DisplayName("한나라 병 이동 가능 테스트")
+        @DisplayName("초나라 병 이동 가능 테스트")
         public void test1() {
-            Byeong byeong = new Byeong(Team.RED);
+            Byeong byeong = new Byeong(Team.BLUE);
             assertAll(
-                    () -> assertThat(byeong.isValidPoint(0, 0, 0, 1)).isTrue(),
-                    () -> assertThat(byeong.isValidPoint(0, 0, 0, -1)).isFalse()
+                    () -> assertThat(byeong.isValidPoint(Point.of(0,0), Point.of(0,1))).isTrue(),
+                    () -> assertThat(byeong.isValidPoint(Point.of(0,0), Point.of(0,-1))).isFalse()
             );
         }
 
         @Test
-        @DisplayName("초나라 병 이동 가능 테스트")
+        @DisplayName("한나라 병 이동 가능 테스트")
         public void test2() {
-            Byeong byeong = new Byeong(Team.BLUE);
+            Byeong byeong = new Byeong(Team.RED);
             assertAll(
-                    () -> assertThat(byeong.isValidPoint(0, 0, 0, 1)).isFalse(),
-                    () -> assertThat(byeong.isValidPoint(0, 0, 0, -1)).isTrue()
+                    () -> assertThat(byeong.isValidPoint(Point.of(0,0), Point.of(0,1))).isFalse(),
+                    () -> assertThat(byeong.isValidPoint(Point.of(0,0), Point.of(0,-1))).isTrue()
             );
         }
 
@@ -45,7 +45,7 @@ public class ByeongTest {
         @DisplayName("병 이동 불가능 테스트")
         public void test3() {
             Byeong byeong = new Byeong(Team.RED);
-            assertThat(byeong.isValidPoint(0, 0, 2, 0)).isFalse();
+            assertThat(byeong.isValidPoint(Point.of(0,0), Point.of(2,0))).isFalse();
         }
     }
 
@@ -58,7 +58,7 @@ public class ByeongTest {
             Byeong byeong = new Byeong(Team.RED);
             Point point = new Point(0, 1);
 
-            assertThat(byeong.calculatePath(0, 0, 0, 1).contains(point)).isTrue();
+            assertThat(byeong.calculatePath(Point.of(0,0), Point.of(0,1)).contains(point)).isTrue();
         }
 
         @Test
@@ -67,7 +67,7 @@ public class ByeongTest {
             Byeong byeong = new Byeong(Team.RED);
             Point point = new Point(1, 0);
 
-            assertThat(byeong.calculatePath(0, 0, 1, 0).contains(point)).isTrue();
+            assertThat(byeong.calculatePath(Point.of(0,0), Point.of(1,0)).contains(point)).isTrue();
         }
     }
 }

@@ -25,14 +25,14 @@ public class SangTest {
         @DisplayName("가능")
         public void test1() {
             Sang sang = new Sang(Team.RED);
-            assertThat(sang.isValidPoint(0, 0, -2, -3)).isTrue();
+            assertThat(sang.isValidPoint(Point.of(0,0), Point.of(-2,-3))).isTrue();
         }
 
         @Test
         @DisplayName("불가능")
         public void test2() {
             Sang sang = new Sang(Team.RED);
-            assertThat(sang.isValidPoint(0, 0, -2, -2)).isFalse();
+            assertThat(sang.isValidPoint(Point.of(0,0), Point.of(-2,-2))).isFalse();
         }
     }
 
@@ -49,7 +49,7 @@ public class SangTest {
             Point point3 = new Point(2, 3);
 
 
-            Path path = sang.calculatePath(0, 0, 2, 3);
+            Path path = sang.calculatePath(Point.of(0,0), Point.of(2,3));
             assertAll(
                     () -> assertThat(path.contains(point)).isTrue(),
                     () -> assertThat(path.contains(point2)).isTrue(),
@@ -64,7 +64,7 @@ public class SangTest {
             Point point = new Point(0, -1);
             Point point2 = new Point(-1, -2);
             Point point3 = new Point(-2, -3);
-            Path path = sang.calculatePath(0, 0, -2, -3);
+            Path path = sang.calculatePath(Point.of(0,0), Point.of(-2,-3));
             assertAll(
                     () -> assertThat(path.contains(point)).isTrue(),
                     () -> assertThat(path.contains(point2)).isTrue(),

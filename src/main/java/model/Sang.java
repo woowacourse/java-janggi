@@ -9,25 +9,25 @@ public class Sang extends Piece {
     }
 
     @Override
-    public boolean isValidPoint(int beforeX, int beforeY, int afterX, int afterY) {
+    public boolean isValidPoint(Point beforePoint, Point afterPoint) {
         List<Integer> horizontal = List.of(-2, 2, 3, 3, 2, -2, -3, -3);
         List<Integer> vertical = List.of(3, 3, 2, -2, -3, -3, -2, 2);
 
         return IntStream.range(0, horizontal.size())
-                .anyMatch(i -> horizontal.get(i) + beforeX == afterX && vertical.get(i) + beforeY == afterY);
+                .anyMatch(i -> horizontal.get(i) + beforePoint.x() == afterPoint.x() && vertical.get(i) + beforePoint.y() == afterPoint.y());
     }
 
     @Override
-    public Path calculatePath(int beforeX, int beforeY, int afterX, int afterY) {
-        int vectorX = afterX - beforeX;
-        int vectorY = afterY - beforeY;
+    public Path calculatePath(Point beforePoint, Point afterPoint) {
+        int vectorX = afterPoint.x() - beforePoint.x();
+        int vectorY = afterPoint.y() - beforePoint.y();
 
         int unitVectorX = vectorX / Math.abs(vectorX);
         int unitVectorY = vectorY / Math.abs(vectorY);
 
-        Point middlePoint1 = new Point(afterX - unitVectorX, afterY - unitVectorY);
-        Point middlePoint2 = new Point(afterX - unitVectorX * 2, afterY - unitVectorY * 2);
-        Point endPoint = new Point(afterX, afterY);
+        Point middlePoint1 = new Point(afterPoint.x() - unitVectorX, afterPoint.y() - unitVectorY);
+        Point middlePoint2 = new Point(afterPoint.x() - unitVectorX * 2, afterPoint.y() - unitVectorY * 2);
+        Point endPoint = new Point(afterPoint.x(), afterPoint.y());
 
         Path path = new Path();
         path.addPoint(middlePoint1);
@@ -40,4 +40,5 @@ public class Sang extends Piece {
     public boolean canMove(int size) {
         return false;
     }
+
 }
