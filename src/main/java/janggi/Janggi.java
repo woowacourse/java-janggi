@@ -23,10 +23,10 @@ public class Janggi {
     }
 
     public void initializeBoard(
-            PositionSide leftHorsePosition,
-            PositionSide rightHorsePosition,
-            PositionSide leftElephantPosition,
-            PositionSide rightElephantPosition
+            PositionSide blueLeftHorsePosition,
+            PositionSide blueRightHorsePosition,
+            PositionSide redLeftHorsePosition,
+            PositionSide redRightHorsePosition
 
     ) {
         initializeGeneral();
@@ -34,8 +34,8 @@ public class Janggi {
         initializeChariot();
         initializeCannon();
         initializeSoldier();
-        initializeHorse(leftHorsePosition, rightHorsePosition);
-        initializeElephant(leftElephantPosition, rightElephantPosition);
+        initializeHorse(blueLeftHorsePosition, blueRightHorsePosition);
+        initializeElephant(redLeftHorsePosition, redRightHorsePosition);
     }
 
     private void initializeGeneral() {

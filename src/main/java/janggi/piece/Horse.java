@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Horse extends Piece {
-    private static final List<Position> INITIAL_POSITIONS_BLUE_LEFT = List.of(new Position(0, 2), new Position(0, 3));
-    private static final List<Position> INITIAL_POSITIONS_BLUE_RIGHT = List.of(new Position(0, 7), new Position(0, 8));
+    private static final List<Position> INITIAL_POSITIONS_BLUE_LEFT = List.of(new Position(10, 2), new Position(10, 3));
+    private static final List<Position> INITIAL_POSITIONS_BLUE_RIGHT = List.of(new Position(10, 7), new Position(10, 8));
     private static final List<Position> INITIAL_POSITIONS_RED_LEFT = List.of(new Position(1, 2), new Position(1, 3));
     private static final List<Position> INITIAL_POSITIONS_RED_RIGHT = List.of(new Position(1, 7), new Position(1, 8));
 
