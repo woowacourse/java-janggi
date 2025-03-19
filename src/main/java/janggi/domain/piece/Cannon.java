@@ -2,7 +2,6 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.Side;
-
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -22,9 +21,8 @@ public class Cannon extends Piece {
 
     @Override
     protected boolean isMoveablePath(List<Piece> existingPieces, Position destination) {
-
         List<Piece> piecesOnPath = getPiecesOnPath(existingPieces, destination);
-        
+
         if (hasOnePiece(piecesOnPath) && hasCannon(piecesOnPath)) {
 
             if (!hasPosition(existingPieces, destination)) {
@@ -43,7 +41,7 @@ public class Cannon extends Piece {
 
     private boolean hasCannon(List<Piece> pieces) {
         return pieces.stream()
-            .noneMatch(piece -> piece.getClass().equals(this.getClass()));
+                .noneMatch(piece -> piece.getClass().equals(this.getClass()));
     }
 
     private boolean hasPosition(List<Piece> existingPieces, Position position) {
@@ -67,15 +65,15 @@ public class Cannon extends Piece {
 
     private List<Piece> getPiecesOnHorizontalPath(List<Piece> existingPieces, int destinationX) {
         return IntStream.range(Math.min(getXPosition(), destinationX) + 1, Math.max(getXPosition(), destinationX))
-            .filter(x -> hasPosition(existingPieces, new Position(x, getYPosition())))
-            .mapToObj(x -> findByPosition(existingPieces, new Position(x, getYPosition())))
-            .toList();
+                .filter(x -> hasPosition(existingPieces, new Position(x, getYPosition())))
+                .mapToObj(x -> findByPosition(existingPieces, new Position(x, getYPosition())))
+                .toList();
     }
 
     private List<Piece> getPiecesOnVerticalPath(List<Piece> existingPieces, int destinationY) {
         return IntStream.range(Math.min(getYPosition(), destinationY) + 1, Math.max(getYPosition(), destinationY))
-            .filter(y -> hasPosition(existingPieces, new Position(getXPosition(), y)))
-            .mapToObj(y -> findByPosition(existingPieces, new Position(getXPosition(), y)))
-            .toList();
+                .filter(y -> hasPosition(existingPieces, new Position(getXPosition(), y)))
+                .mapToObj(y -> findByPosition(existingPieces, new Position(getXPosition(), y)))
+                .toList();
     }
 }
