@@ -1,13 +1,33 @@
 package domain;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class PositionTest {
+
+    @Nested
+    class ValidCases {
+
+        @DisplayName("위치 사이의 거리를 계산한다.")
+        @Test
+        void calculateOffset() {
+            // given
+            Position before = new Position(0, 0);
+            Position after = new Position(1, 2);
+
+            // when
+            Offset offset = after.calculateOffset(before);
+
+            // then
+            assertThat(offset).isEqualTo(new Offset(1, 2));
+        }
+    }
 
     @Nested
     class InvalidCases {

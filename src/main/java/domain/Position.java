@@ -17,4 +17,8 @@ public record Position(
             throw new IllegalArgumentException("장기판의 범위를 벗어났습니다.");
         }
     }
+
+    public Offset calculateOffset(final Position before) {
+        return new Offset(this.x - before.x, this.y - before.y);
+    }
 }
