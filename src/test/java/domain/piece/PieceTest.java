@@ -5,6 +5,7 @@ import domain.board.JanggiBoard;
 import domain.piece.movement.ByeongMovement;
 import domain.piece.movement.ChaMovement;
 import domain.piece.movement.MaMovement;
+import domain.piece.movement.SaMovement;
 import domain.piece.movement.SangMovement;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -60,7 +61,7 @@ class PieceTest {
     class ChaTest {
         @DisplayName("차의 이동 가능한 경로를 검사한다")
         @Test
-        void sangAvailableMovePosition() {
+        void chaAvailableMovePosition() {
             Cha cha = new Cha(Team.Han);
             JanggiBoard board = new JanggiBoard();
             board.getBoard().put(new JanggiCoordinate(5, 5),
@@ -77,7 +78,7 @@ class PieceTest {
     class ByeongTest {
         @DisplayName("병의 이동 가능한 경로를 검사한다")
         @Test
-        void sangAvailableMovePosition() {
+        void byeongAvailableMovePosition() {
             Byeong byeong = new Byeong(Team.Han);
             JanggiBoard board = new JanggiBoard();
             board.getBoard().put(new JanggiCoordinate(5, 5),
@@ -91,5 +92,22 @@ class PieceTest {
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(2);
         }
     }
+
+    @Nested
+    class SaTest {
+        @DisplayName("사의 이동 가능한 경로를 검사한다")
+        @Test
+        void saAvailableMovePosition() {
+            Sa sa = new Sa(Team.Han);
+            JanggiBoard board = new JanggiBoard();
+            board.getBoard().put(new JanggiCoordinate(5, 5), sa);
+
+            List<JanggiCoordinate> availableMovePositions = SaMovement.availableMovePositions(
+                    new JanggiCoordinate(5, 5), board);
+
+            Assertions.assertThat(availableMovePositions.size()).isEqualTo(7);
+        }
+    }
+
 
 }
