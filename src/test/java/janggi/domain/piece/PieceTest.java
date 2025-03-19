@@ -1,16 +1,16 @@
 package janggi.domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+
 import janggi.domain.Position;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.Side;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
 
 @ReplaceUnderBar
 class PieceTest {
@@ -81,8 +81,8 @@ class PieceTest {
         FakePiece piece = new FakePiece(Side.CHO, DEFAULT_POSITION);
 
         assertThatIllegalArgumentException()
-            .isThrownBy(() -> piece.move(List.of(), x, y))
-            .withMessage("이동할 수 없는 좌표입니다.");
+                .isThrownBy(() -> piece.move(List.of(), x, y))
+                .withMessage("이동할 수 없는 좌표입니다.");
     }
 
     private static class FakePiece extends Piece {
@@ -91,7 +91,7 @@ class PieceTest {
         private boolean isMoveablePath;
 
         private FakePiece(Side side, Position position) {
-            super(side, position);
+            super(side, position.getX(), position.getY());
             this.isMoveablePosition = true;
             this.isMoveablePath = true;
         }

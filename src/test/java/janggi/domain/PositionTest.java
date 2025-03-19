@@ -1,40 +1,14 @@
 package janggi.domain;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.stream.Stream;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
 @ReplaceUnderBar
 public class PositionTest {
-
-    private static Stream<Arguments> 좌표가_같은지_확인한다_테스트_케이스() {
-        return Stream.of(
-                Arguments.of(
-                        new Position(1, 2),
-                        1,
-                        2,
-                        true
-                ),
-                Arguments.of(
-                        new Position(1, 2),
-                        2,
-                        2,
-                        false
-                ),
-                Arguments.of(
-                        new Position(1, 3),
-                        1,
-                        2,
-                        false
-                )
-        );
-    }
 
     @Test
     void 가로_세로_2차원_좌표를_가진다() {

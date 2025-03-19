@@ -20,14 +20,14 @@ class KnightTest {
     private static final Side ENEMY_SIDE = Side.HAN;
     private static final Position DEFAULT_POSITION = new Position(5, 5);
 
-    private static Knight DEFAULT_ALLY_KNIGHT = new Knight(ALLY_SIDE, DEFAULT_POSITION);
+    private static Knight DEFAULT_ALLY_KNIGHT = new Knight(ALLY_SIDE, DEFAULT_POSITION.getX(), DEFAULT_POSITION.getY());
 
     private static Knight createAllyKnight(int x, int y) {
-        return new Knight(ALLY_SIDE, new Position(x, y));
+        return new Knight(ALLY_SIDE, x, y);
     }
 
     private static Knight createEnemyKnight(int x, int y) {
-        return new Knight(ENEMY_SIDE, new Position(x, y));
+        return new Knight(ENEMY_SIDE, x, y);
     }
 
     private static Stream<Arguments> 이동하고자_하는_경로에_다른_기물이_존재하면_이동할_수_없다_테스트_케이스() {
@@ -269,7 +269,7 @@ class KnightTest {
 
     @BeforeEach
     void setUpDefaultAllyKnight() {
-        DEFAULT_ALLY_KNIGHT = new Knight(ALLY_SIDE, DEFAULT_POSITION);
+        DEFAULT_ALLY_KNIGHT = new Knight(ALLY_SIDE, DEFAULT_POSITION.getX(), DEFAULT_POSITION.getY());
     }
 
     @ParameterizedTest

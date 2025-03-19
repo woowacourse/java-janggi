@@ -8,8 +8,8 @@ import java.util.Set;
 
 public class Pawn extends Piece {
 
-    protected Pawn(Side side, Position position) {
-        super(side, position);
+    protected Pawn(Side side, int x, int y) {
+        super(side, x, y);
     }
 
     @Override

@@ -384,16 +384,16 @@ class ElephantTest {
     }
 
     private static Elephant createAllyElephant(int x, int y) {
-        return new Elephant(ALLY_SIDE, new Position(x, y));
+        return new Elephant(ALLY_SIDE, x, y);
     }
 
     private static Elephant createEnemyElephant(int x, int y) {
-        return new Elephant(ENEMY_SIDE, new Position(x, y));
+        return new Elephant(ENEMY_SIDE, x, y);
     }
 
     @BeforeEach
     void setUpDefaultAllyElephant() {
-        DEFAULT_ALLY_ELEPHANT = new Elephant(ALLY_SIDE, DEFAULT_POSITION);
+        DEFAULT_ALLY_ELEPHANT = new Elephant(ALLY_SIDE, DEFAULT_POSITION.getX(), DEFAULT_POSITION.getY());
     }
 
     @ParameterizedTest

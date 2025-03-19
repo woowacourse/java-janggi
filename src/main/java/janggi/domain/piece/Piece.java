@@ -9,9 +9,9 @@ public abstract class Piece {
     private final Side side;
     private Position position;
 
-    protected Piece(Side side, Position position) {
+    protected Piece(Side side, int x, int y) {
         this.side = side;
-        this.position = position;
+        this.position = new Position(x, y);
     }
 
     public final Side getSide() {

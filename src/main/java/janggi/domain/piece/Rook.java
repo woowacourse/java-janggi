@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Rook extends Piece {
 
-    public Rook(Side side, Position position) {
-        super(side, position);
+    public Rook(Side side, int x, int y) {
+        super(side, x, y);
     }
 
     @Override

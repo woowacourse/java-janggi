@@ -15,8 +15,8 @@ public class Elephant extends Piece {
     private static final int HORIZONTAL_BASE_X_MOVEABLE_DISTANCE = 3;
     private static final int HORIZONTAL_BASE_Y_MOVEABLE_DISTANCE = 2;
 
-    public Elephant(Side side, Position position) {
-        super(side, position);
+    public Elephant(Side side, int x, int y) {
+        super(side, x, y);
     }
 
     @Override
@@ -83,8 +83,8 @@ public class Elephant extends Piece {
         Set<Position> result = new HashSet<>();
         addPositionIfPossible(result, currentX - x, currentY - y);
         addPositionIfPossible(result, currentX + x, currentY + y);
-        addPositionIfPossible(result,currentX + x, currentY - y);
-        addPositionIfPossible(result,currentX - x, currentY + y);
+        addPositionIfPossible(result, currentX + x, currentY - y);
+        addPositionIfPossible(result, currentX - x, currentY + y);
         return result;
     }
 
