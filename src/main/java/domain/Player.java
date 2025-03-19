@@ -9,4 +9,8 @@ public class Player {
         this.name = name;
         this.color = color;
     }
+
+    public PieceColor getColor() {
+        return color;
+    }
 }

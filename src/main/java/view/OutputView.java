@@ -1,6 +1,7 @@
 package view;
 
 import domain.Board;
+import domain.PieceColor;
 import domain.Player;
 import domain.piece.Piece;
 import domain.piece.Pieces;
@@ -8,41 +9,57 @@ import domain.piece.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class OutputView {
 
+    private static final String COLOR_RESET = "\033[0m";
+
     public void printBoard(final Board board) {
-        Map<Player, Pieces> boardElement = board.getBoard();
-        List<List<String>> result = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            List<String> e = new ArrayList<>();
-            for (int j = 0; j < 9; j++) {
-                e.add("-");
-            }
-            result.add(e);
+        List<ArrayList<String>> defaultBoard = createDefaultBoard();
+        updateDefaultBoard(board.getBoard(), defaultBoard);
+        printBoardDetails(defaultBoard);
+    }
+
+    private List<ArrayList<String>> createDefaultBoard() {
+        List<ArrayList<String>> result = Stream.generate(() -> new ArrayList<String>())
+                .limit(10)
+                .collect(Collectors.toList());
+
+        result.forEach(list -> IntStream.range(0, 9)
+                .forEach(i -> list.add("-")));
+        return result;
+    }
+
+    private void updateDefaultBoard(final Map<Player, Pieces> board, final List<ArrayList<String>> defaultBoard) {
+        for (Player player : board.keySet()) {
+            PieceColor color = player.getColor();
+
+            List<Piece> pieces = board.get(player).getPieces();
+            updatePiecesToDefaultBoard(defaultBoard, pieces, color);
         }
+    }
 
-        for (Player player : boardElement.keySet()) {
-            Pieces pieces = boardElement.get(player);
+    private void updatePiecesToDefaultBoard(final List<ArrayList<String>> defaultBoard, final List<Piece> pieces,
+                                            final PieceColor color) {
+        for (Piece piece : pieces) {
+            Position position = piece.getPosition();
 
-            List<Piece> pieceElements = pieces.getPieces();
-            for (Piece pieceElement : pieceElements) {
-                Position position = pieceElement.getPosition();
+            int row = position.getRow() - 1;
+            int column = position.getColumn() - 1;
 
-                int row = position.getRow() - 1;
-                int column = position.getColumn() - 1;
-
-                List<String> rows = result.get(column);
-                rows.set(row, pieceElement.getName());
-                result.set(column, rows);
-            }
+            ArrayList<String> rows = defaultBoard.get(column);
+            rows.set(row, color.getColor() + piece.getName() + COLOR_RESET);
+            defaultBoard.set(column, rows);
         }
+    }
 
-        for (List<String> strings : result) {
-            for (String string : strings) {
-                System.out.print(string);
-            }
+    private void printBoardDetails(final List<ArrayList<String>> board) {
+        board.forEach(pieces -> {
+            pieces.forEach(System.out::print);
             System.out.println();
-        }
+        });
     }
 }
