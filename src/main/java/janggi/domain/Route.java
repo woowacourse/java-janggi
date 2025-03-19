@@ -1,20 +1,20 @@
 package janggi.domain;
 
 import janggi.domain.piece.Position;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Route {
 
-    private final List<Position> route;
+    private final Set<Position> route;
     private final Position destination;
 
-    public Route(final List<Position> route, final Position destination) {
+    public Route(final Set<Position> route, final Position destination) {
         this.route = route;
         this.destination = destination;
     }
 
-    public boolean hasNotPosition(Position position) {
+    public boolean hasNotPosition(final Position position) {
         return !route.contains(position);
     }
 

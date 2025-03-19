@@ -3,7 +3,7 @@ package janggi.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.piece.Position;
-import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +20,7 @@ class RouteTest {
                             int targetX, int targetY, boolean expected) {
 
         // given
-        Route route = new Route(List.of(new Position(firstX, firstY), new Position(secondX, secondY)),
+        final Route route = new Route(Set.of(new Position(firstX, firstY), new Position(secondX, secondY)),
                 new Position(destinationX, destinationY));
 
         // when & then
@@ -32,10 +32,10 @@ class RouteTest {
     void routeEqualTest() {
 
         // given
-        Route route = new Route(List.of(new Position(1, 1), new Position(2, 2)),
+        final Route route = new Route(Set.of(new Position(1, 1), new Position(2, 2)),
                 new Position(3, 3));
 
-        Route otherRoute = new Route(List.of(new Position(1, 1), new Position(2, 2)),
+        final Route otherRoute = new Route(Set.of(new Position(1, 1), new Position(2, 2)),
                 new Position(3, 3));
 
         // when & then
@@ -47,10 +47,10 @@ class RouteTest {
     void routeNotEqualTest() {
 
         // given
-        Route route = new Route(List.of(new Position(1, 1), new Position(2, 2)),
+        final Route route = new Route(Set.of(new Position(1, 1), new Position(2, 2)),
                 new Position(3, 3));
 
-        Route otherRoute = new Route(List.of(new Position(1, 1), new Position(2, 2)),
+        final Route otherRoute = new Route(Set.of(new Position(1, 1), new Position(2, 2)),
                 new Position(3, 2));
 
         // when & then
