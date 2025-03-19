@@ -34,5 +34,6 @@ public class Horse extends Piece {
                 return true;
             }
         }
-        return false;}
+        return false;
+    }
 }
