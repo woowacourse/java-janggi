@@ -18,4 +18,8 @@ public record ChessPosition(
     public static boolean isValid(final int row, final int col) {
         return row >= MIN_ROW && row <= MAX_ROW && col >= MIN_COL && col <= MAX_COL;
     }
+
+    public ChessPosition move(final int dR, final int dC) {
+        return new ChessPosition(row + dR, column + dC);
+    }
 }
