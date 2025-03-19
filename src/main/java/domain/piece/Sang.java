@@ -1,12 +1,12 @@
 package domain.piece;
 
-import domain.TeamColor;
+import domain.Team;
 
 public class Sang implements Piece {
 
-    private final TeamColor teamColor;
+    private final Team team;
 
-    public Sang(TeamColor teamColor) {
-        this.teamColor = teamColor;
+    public Sang(Team team) {
+        this.team = team;
     }
 }

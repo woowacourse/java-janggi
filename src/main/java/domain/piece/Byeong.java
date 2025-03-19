@@ -1,12 +1,12 @@
 package domain.piece;
 
-import domain.TeamColor;
+import domain.Team;
 
 public class Byeong implements Piece {
 
-    private final TeamColor teamColor;
+    private final Team team;
 
-    public Byeong(TeamColor teamColor) {
-        this.teamColor = teamColor;
+    public Byeong(Team team) {
+        this.team = team;
     }
 }

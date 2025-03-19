@@ -1,6 +1,6 @@
 package domain;
 
-public enum TeamColor {
+public enum Team {
 
     CHO,
     HAN,

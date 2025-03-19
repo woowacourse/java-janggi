@@ -52,48 +52,59 @@ public class BoardInitializer {
     }
 
     // 상마 순서에 따라 기물 배치
-    public Map<Node, Piece> initializePiecePosition(Map<Point, Node> nodeByPoint, SangMaOrderCommand sangMaOrderCommand) {
+    public Map<Node, Piece> initializePiecePosition(Map<Point, Node> nodeByPoint,
+                                                    SangMaOrderCommand choSangMaOrderCommand,
+                                                    SangMaOrderCommand hanSangMaOrderCommand) {
         Map<Node, Piece> board = new HashMap<>();
 
-        board.put(nodeByPoint.get(Point.of(7, 1)), new Byeong(TeamColor.CHO));
-        board.put(nodeByPoint.get(Point.of(7, 3)), new Byeong(TeamColor.CHO));
-        board.put(nodeByPoint.get(Point.of(7, 5)), new Byeong(TeamColor.CHO));
-        board.put(nodeByPoint.get(Point.of(7, 7)), new Byeong(TeamColor.CHO));
-        board.put(nodeByPoint.get(Point.of(7, 9)), new Byeong(TeamColor.CHO));
+        List<Point> choSangMaPoints = List.of(Point.of(10, 2), Point.of(10, 3), Point.of(10, 7), Point.of(10, 8));
+        initializePiecePositionByTeam(Team.CHO, choSangMaPoints, choSangMaOrderCommand, nodeByPoint, board);
 
-        board.put(nodeByPoint.get(Point.of(8, 2)), new Po(TeamColor.CHO));
-        board.put(nodeByPoint.get(Point.of(8, 8)), new Po(TeamColor.CHO));
-
-        board.put(nodeByPoint.get(Point.of(9, 5)), new Wang(TeamColor.CHO));
-
-        board.put(nodeByPoint.get(Point.of(10, 1)), new Cha(TeamColor.CHO));
-        board.put(nodeByPoint.get(Point.of(10, 4)), new Sa(TeamColor.CHO));
-        board.put(nodeByPoint.get(Point.of(10, 6)), new Sa(TeamColor.CHO));
-        board.put(nodeByPoint.get(Point.of(10, 9)), new Cha(TeamColor.CHO));
-
-        Deque<Piece> sangMaOrder = createSangMaOrder(sangMaOrderCommand, TeamColor.CHO);
-        for(Point point: List.of(Point.of(10, 2), Point.of(10, 3), Point.of(10, 7), Point.of(10, 8))) {
-            board.put(nodeByPoint.get(point), sangMaOrder.removeFirst());
-        }
+        List<Point> hanSangMaPoints = List.of(Point.of(1, 2), Point.of(1, 3), Point.of(1, 7), Point.of(1, 8));
+        initializePiecePositionByTeam(Team.HAN, hanSangMaPoints, hanSangMaOrderCommand, nodeByPoint, board);
 
         return board;
     }
 
-    private Deque<Piece> createSangMaOrder(SangMaOrderCommand sangMaOrderCommand, TeamColor teamColor) {
+    private void initializePiecePositionByTeam(Team team, List<Point> sangMaPoints, SangMaOrderCommand sangMaOrderCommand,
+                                               Map<Point, Node> nodeByPoint, Map<Node, Piece> board) {
+        board.put(nodeByPoint.get(Point.of(7, 1)), new Byeong(team));
+        board.put(nodeByPoint.get(Point.of(7, 3)), new Byeong(team));
+        board.put(nodeByPoint.get(Point.of(7, 5)), new Byeong(team));
+        board.put(nodeByPoint.get(Point.of(7, 7)), new Byeong(team));
+        board.put(nodeByPoint.get(Point.of(7, 9)), new Byeong(team));
+
+        board.put(nodeByPoint.get(Point.of(8, 2)), new Po(team));
+        board.put(nodeByPoint.get(Point.of(8, 8)), new Po(team));
+
+        board.put(nodeByPoint.get(Point.of(9, 5)), new Wang(team));
+
+        board.put(nodeByPoint.get(Point.of(10, 1)), new Cha(team));
+        board.put(nodeByPoint.get(Point.of(10, 4)), new Sa(team));
+        board.put(nodeByPoint.get(Point.of(10, 6)), new Sa(team));
+        board.put(nodeByPoint.get(Point.of(10, 9)), new Cha(team));
+
+        Deque<Piece> sangMaOrder = createSangMaOrder(sangMaOrderCommand, team);
+        for(Point point: sangMaPoints) {
+            board.put(nodeByPoint.get(point), sangMaOrder.removeFirst());
+        }
+    }
+        
+    private Deque<Piece> createSangMaOrder(SangMaOrderCommand sangMaOrderCommand, Team team) {
         List<PieceType> pieceTypes = sangMaOrderCommand.getPieceTypes();
         Deque<Piece> pieces = new ArrayDeque<>();
         for (PieceType pieceType : pieceTypes) {
-            Piece piece = createPiece(pieceType, teamColor);
+            Piece piece = createPiece(pieceType, team);
             pieces.addLast(piece);
         }
         return pieces;
     }
 
-    private Piece createPiece(PieceType pieceType, TeamColor teamColor) {
+    private Piece createPiece(PieceType pieceType, Team team) {
         Piece piece;
         switch (pieceType) {
-            case SANG -> piece = new Sang(teamColor);
-            case MA -> piece = new Ma(teamColor);
+            case SANG -> piece = new Sang(team);
+            case MA -> piece = new Ma(team);
             default -> throw new IllegalArgumentException("존재하지 않는 기물 종류입니다.");
         }
         return piece;
