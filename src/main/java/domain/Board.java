@@ -68,4 +68,8 @@ public class Board {
     public int countPieces() {
         return positions.size();
     }
+
+    public boolean hasPieceOn(final Point point) {
+        return positions.stream().anyMatch(p -> p.isSame(point));
+    }
 }
