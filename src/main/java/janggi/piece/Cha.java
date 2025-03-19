@@ -42,4 +42,34 @@ public class Cha implements Movable {
     public Point getPoint() {
         return point;
     }
+
+    public List<Point> findRoute(Point targetPoint) {
+        List<Point> route = new ArrayList<>();
+        if (point.isSameRow(targetPoint)) {
+            if (point.isColumnBiggerThan(targetPoint)) {
+                for (int column = point.column() - 1; column >= targetPoint.column(); column--) {
+                    route.add(new Point(point.row(), column));
+                }
+            }
+            if (point.isColumnLessThan(targetPoint)) {
+                for (int column = point.column() + 1; column <= targetPoint.column(); column++) {
+                    route.add(new Point(point.row(), column));
+                }
+            }
+
+        }
+        if (point.isSameColumn(targetPoint)) {
+            if (point.isRowBiggerThan(targetPoint)) {
+                for (int row = point.row() - 1; row >= targetPoint.row(); row--) {
+                    route.add(new Point(row, point.column()));
+                }
+            }
+            if (point.isRowLessThan(targetPoint)) {
+                for (int row = point.row() + 1; row <= targetPoint.row(); row++) {
+                    route.add(new Point(row, point.column()));
+                }
+            }
+        }
+        return route;
+    }
 }

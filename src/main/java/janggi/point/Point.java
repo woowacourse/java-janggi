@@ -47,4 +47,20 @@ public record Point(int row, int column) {
 
         return minRow < row && row < maxRow;
     }
+
+    public boolean isColumnBiggerThan(Point targetPoint) {
+        return this.column > targetPoint.column;
+    }
+
+    public boolean isColumnLessThan(Point targetPoint) {
+        return this.column < targetPoint.column;
+    }
+
+    public boolean isRowBiggerThan(Point targetPoint) {
+        return this.row > targetPoint.row;
+    }
+
+    public boolean isRowLessThan(Point targetPoint) {
+        return this.row < targetPoint.row;
+    }
 }
