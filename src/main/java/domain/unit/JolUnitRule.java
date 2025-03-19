@@ -15,9 +15,13 @@ public class JolUnitRule implements UnitRule {
         int x = start.getX();
         int y = start.getY();
         for (int i = 0; i < dx.size(); i++) {
-            routes.add(Route.of(
-                    List.of(new Point(x + dx.get(i), y + dy.get(i))))
-            );
+            try {
+                routes.add(Route.of(
+                        List.of(new Point(x + dx.get(i), y + dy.get(i))))
+                );
+            } catch (IllegalArgumentException exception) {
+                continue;
+            }
         }
         return routes;
     }

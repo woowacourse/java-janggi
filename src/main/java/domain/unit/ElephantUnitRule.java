@@ -15,30 +15,34 @@ public class ElephantUnitRule implements UnitRule {
         int x = start.getX();
         int y = start.getY();
         for (int i = 0; i < dx.size(); i++) {
-            Point pivot = new Point(x + dx.get(i), y + dy.get(i));
-            if (i == 0) {
-                routes.add(Route.of(List.of(pivot, new Point(pivot.getX() + 1, pivot.getY() + 1),
-                        new Point(pivot.getX() + 2, pivot.getY() + 2))));
-                routes.add(Route.of(List.of(pivot, new Point(pivot.getX() - 1, pivot.getY() + 1),
-                        new Point(pivot.getX() - 2, pivot.getY() + 2))));
-            }
-            if (i == 1) {
-                routes.add(Route.of(List.of(pivot, new Point(pivot.getX() + 1, pivot.getY() + 1),
-                        new Point(pivot.getX() + 2, pivot.getY() + 2))));
-                routes.add(Route.of(List.of(pivot, new Point(pivot.getX() + 1, pivot.getY() - 1),
-                        new Point(pivot.getX() + 2, pivot.getY() - 2))));
-            }
-            if (i == 2) {
-                routes.add(Route.of(List.of(pivot, new Point(pivot.getX() + 1, pivot.getY() - 1),
-                        new Point(pivot.getX() + 2, pivot.getY() - 2))));
-                routes.add(Route.of(List.of(pivot, new Point(pivot.getX() - 1, pivot.getY() - 1),
-                        new Point(pivot.getX() - 2, pivot.getY() - 2))));
-            }
-            if (i == 3) {
-                routes.add(Route.of(List.of(pivot, new Point(pivot.getX() - 1, pivot.getY() + 1),
-                        new Point(pivot.getX() - 2, pivot.getY() + 2))));
-                routes.add(Route.of(List.of(pivot, new Point(pivot.getX() - 1, pivot.getY() - 1),
-                        new Point(pivot.getX() - 2, pivot.getY() - 2))));
+            try {
+                Point pivot = new Point(x + dx.get(i), y + dy.get(i));
+                if (i == 0) {
+                    routes.add(Route.of(List.of(pivot, new Point(pivot.getX() + 1, pivot.getY() + 1),
+                            new Point(pivot.getX() + 2, pivot.getY() + 2))));
+                    routes.add(Route.of(List.of(pivot, new Point(pivot.getX() - 1, pivot.getY() + 1),
+                            new Point(pivot.getX() - 2, pivot.getY() + 2))));
+                }
+                if (i == 1) {
+                    routes.add(Route.of(List.of(pivot, new Point(pivot.getX() + 1, pivot.getY() + 1),
+                            new Point(pivot.getX() + 2, pivot.getY() + 2))));
+                    routes.add(Route.of(List.of(pivot, new Point(pivot.getX() + 1, pivot.getY() - 1),
+                            new Point(pivot.getX() + 2, pivot.getY() - 2))));
+                }
+                if (i == 2) {
+                    routes.add(Route.of(List.of(pivot, new Point(pivot.getX() + 1, pivot.getY() - 1),
+                            new Point(pivot.getX() + 2, pivot.getY() - 2))));
+                    routes.add(Route.of(List.of(pivot, new Point(pivot.getX() - 1, pivot.getY() - 1),
+                            new Point(pivot.getX() - 2, pivot.getY() - 2))));
+                }
+                if (i == 3) {
+                    routes.add(Route.of(List.of(pivot, new Point(pivot.getX() - 1, pivot.getY() + 1),
+                            new Point(pivot.getX() - 2, pivot.getY() + 2))));
+                    routes.add(Route.of(List.of(pivot, new Point(pivot.getX() - 1, pivot.getY() - 1),
+                            new Point(pivot.getX() - 2, pivot.getY() - 2))));
+                }
+            } catch (IllegalArgumentException exception) {
+                continue;
             }
         }
         return routes;

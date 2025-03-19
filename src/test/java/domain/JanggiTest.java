@@ -15,9 +15,10 @@ class JanggiTest {
         Janggi janggi = new Janggi();
 
         // when
+
         List<Route> routes = janggi.searchAvailableRoutes(new Point(0, 3));
 
         // then
-        Assertions.assertThat(routes).hasSize(3);
+        Assertions.assertThat(routes).hasSize(2);
     }
 }
