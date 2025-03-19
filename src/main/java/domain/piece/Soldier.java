@@ -1,6 +1,7 @@
-package domain;
+package domain.piece;
 
-import domain.piece.Piece;
+import domain.Position;
+import domain.TeamType;
 import java.util.List;
 
 public class Soldier extends Piece {
