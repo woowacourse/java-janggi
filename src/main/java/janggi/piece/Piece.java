@@ -36,7 +36,7 @@ public abstract class Piece {
                 return i;
             }
         }
-        throw new IllegalArgumentException("[ERROR] %s은 해당 목적지로 이동할 수 없습니다.".formatted(getName()));
+        throw new IllegalArgumentException("[ERROR] %s은/는 해당 목적지로 이동할 수 없습니다.".formatted(getName()));
     }
 
     private void validateNonPieceOnPath(Map<Position, Piece> board, Position start, int pathIndex) {
