@@ -14,4 +14,11 @@ class BoardTest {
         assertThat(board.isInboard(new Position(9, 0))).isFalse();
         assertThat(board.isInboard(new Position(0, 10))).isFalse();
     }
+
+    @Test
+    @DisplayName("왕이 잡히면 게임이 종료된다.")
+    void gameOverTest() {
+        Board board = new Board(List.of(new Palace(6, 5, Team.CHO)));
+        assertThat(board.getWinnerIfGameOver()).isEqualTo(Team.CHO);
+    }
 }

@@ -32,4 +32,14 @@ public class Board {
     public void take(Piece target) {
         pieces.remove(target);
     }
+
+    public Team getWinnerIfGameOver() {
+        List<Piece> palaces = pieces.stream()
+            .filter(piece -> piece instanceof Palace)
+            .toList();
+        if (palaces.size() == 1) {
+            return palaces.getFirst().getTeam();
+        }
+        return null;
+    }
 }

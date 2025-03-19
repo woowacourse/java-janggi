@@ -81,4 +81,8 @@ public abstract class Piece {
             return new Position(sumX, sumY);
         }
     }
+
+    public Team getTeam() {
+        return team;
+    }
 }
