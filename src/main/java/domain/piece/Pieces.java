@@ -28,4 +28,9 @@ public class Pieces {
                         pieces.stream().anyMatch(piece -> piece.isSamePosition(position)))
                 .count();
     }
+
+    public void updatePosition(final Piece piece, final Position position) {
+        pieces.remove(piece);
+        pieces.add(piece.updatePosition(position));
+    }
 }
