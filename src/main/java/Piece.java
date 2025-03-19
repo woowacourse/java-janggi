@@ -1,7 +1,9 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Piece {
 
+    protected final List<Route> routes = new ArrayList<>();
     private Team team;
     protected Position position;
 
@@ -15,16 +17,38 @@ public abstract class Piece {
         if (!board.isInboard(target)) {
             throw new IllegalArgumentException();
         }
-        if (!canMove(board, dx, dy)) {
+        Route movableRoute = findMovableRoute(board, dx, dy);
+        if (movableRoute == null) {
             throw new IllegalArgumentException();
         }
+        validateRoute(board, movableRoute);
         arrival(board, target);
         position = target;
     }
 
-    protected abstract boolean canMove(Board board, int dx, int dy);
+    protected Route findMovableRoute(Board board, int dx, int dy) {
+        Position target = position.move(dx, dy);
+        for (var route : routes) {
+            Position routeSum = route.sum();
+            Position expected = position.move(routeSum);
+            if (target.equals(expected)) {
+                return route;
+            }
+        }
+        return null;
+    }
 
-    public void arrival(Board board, Position target) {
+    protected void validateRoute(Board board, Route route) {
+        Position onRoute = position;
+        for (int i = 0; i < route.positions.size() - 1; i++) {
+            onRoute = onRoute.move(route.positions.get(i));
+            if (board.hasPieceOn(onRoute)) {
+                throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private void arrival(Board board, Position target) {
         if (!board.hasPieceOn(target)) {
             return;
         }

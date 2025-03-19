@@ -2,34 +2,39 @@ import java.util.List;
 
 public class Chariot extends Piece {
 
-    private final List<Route> routes;
-
-    {
-        routes = List.of(
+    public Chariot(int x, int y, Team team) {
+        super(x, y, team);
+        routes.addAll(List.of(
             new Route(List.of(new Position(-1, 0))),
             new Route(List.of(new Position(0, 1))),
             new Route(List.of(new Position(1, 0))),
             new Route(List.of(new Position(0, -1)))
-        );
-    }
-
-    public Chariot(int x, int y, Team team) {
-        super(x, y, team);
+        ));
     }
 
     @Override
-    protected boolean canMove(Board board, int dx, int dy) {
+    protected Route findMovableRoute(Board board, int dx, int dy) {
         Position target = position.move(dx, dy);
         for (var route : routes) {
             Position dir = route.positions().getFirst();
             Position nextPos = position.move(dir.x(), dir.y());
             while (board.isInboard(nextPos)) {
                 if (nextPos.equals(target)) {
-                    return true;
+                    return route;
                 }
                 nextPos = nextPos.move(dir.x(), dir.y());
             }
         }
-        return false;
+        return null;
+    }
+
+    @Override
+    protected void validateRoute(Board board, Route route) {
+        Position onRoute = position.move(route.positions().getFirst());
+        for (; board.isInboard(onRoute); onRoute = onRoute.move(route.positions().getFirst())) {
+            if (board.hasPieceOn(onRoute)) {
+                throw new IllegalArgumentException();
+            }
+        }
     }
 }

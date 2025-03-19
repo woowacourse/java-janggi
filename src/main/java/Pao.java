@@ -2,23 +2,18 @@ import java.util.List;
 
 public class Pao extends Piece {
 
-    private final List<Route> routes;
-
-    {
-        routes = List.of(
+    public Pao(int x, int y, Team team) {
+        super(x, y, team);
+        routes.addAll(List.of(
             new Route(List.of(new Position(-1, 0))),
             new Route(List.of(new Position(0, 1))),
             new Route(List.of(new Position(1, 0))),
             new Route(List.of(new Position(0, -1)))
-        );
-    }
-
-    public Pao(int x, int y, Team team) {
-        super(x, y, team);
+        ));
     }
 
     @Override
-    protected boolean canMove(Board board, int dx, int dy) {
+    protected Route findMovableRoute(Board board, int dx, int dy) {
         boolean flag = false;
         Position target = position.move(dx, dy);
         for (var route : routes) {
@@ -29,11 +24,28 @@ public class Pao extends Piece {
                     flag = true;
                 }
                 if (nextPos.equals(target) && flag)  {
-                    return true;
+                    return route;
                 }
                 nextPos = nextPos.move(dir.x(), dir.y());
             }
         }
-        return false;
+        return null;
+    }
+
+    @Override
+    protected void validateRoute(Board board, Route route) {
+        boolean flag = false;
+        Position onRoute = position.move(route.positions().getFirst());
+        for (; board.isInboard(onRoute); onRoute = onRoute.move(route.positions().getFirst())) {
+            if (board.hasPieceOn(onRoute)) {
+                if (board.get(onRoute) instanceof Pao) {
+                    throw new IllegalArgumentException();
+                }
+                if (flag) {
+                    throw new IllegalArgumentException();
+                }
+                flag = true;
+            }
+        }
     }
 }

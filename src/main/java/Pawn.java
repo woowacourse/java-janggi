@@ -1,15 +1,9 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn extends Piece {
 
-    // TODO: direction 적용
-    // private final Position direction;
-    private final List<Route> routes;
-
     public Pawn(int x, int y, Team team) {
         super(x, y, team);
-        routes = new ArrayList<>();
         routes.add(new Route(List.of(new Position(-1, 0))));
         routes.add(new Route(List.of(new Position(1, 0))));
         int initY = 1;
@@ -22,18 +16,9 @@ public class Pawn extends Piece {
         // 한나라 -> 위로 (아랫진영)
     }
 
-    @Override
-    protected boolean canMove(Board board, int dx, int dy) {
-        Position target = position.move(dx, dy);
-        for (var route : routes) {
-            Position routeSum = route.sum();
-            Position expected = position.move(routeSum);
-            if (target.equals(expected)) {
-                return true;
-            }
-        }
-        return false;
-    }
+
+    // TODO: direction 적용
+    // private final Position direction;
 
     // TODO: 적용하기
 /*
