@@ -10,7 +10,7 @@ public class View {
 
     private static final int ROW = 10;
     private static final int COLUMN = 9;
-    private static final String EMPTY_SPACE = "ㅁ";
+    private static final String EMPTY_SPACE = "ㅤ";
     private final Scanner scanner = new Scanner(System.in);
 
     public boolean readStartGame() {
@@ -31,14 +31,20 @@ public class View {
 
     public void displayBoard(Map<Point, Piece> placedPieces) {
         for (int i = ROW; i >= 1; i--) {
+            System.out.printf("%2d", i);
             for (int j = COLUMN; j >= 1; j--) {
                 if (placedPieces.get(new Point(j, i)) == null) {
-                    System.out.print(EMPTY_SPACE);
+                    System.out.print(" | " + EMPTY_SPACE);
                     continue;
                 }
-                System.out.print(formatPiece(placedPieces.get(new Point(j, i))));
+                System.out.print(" | " + formatPiece(placedPieces.get(new Point(j, i))));
             }
-            System.out.println();
+            System.out.println(" | ");
+        }
+
+        System.out.print("   ");
+        for (int i = 1; i <= COLUMN; i++) {
+            System.out.printf("ㅤ %d ", i);
         }
     }
 
