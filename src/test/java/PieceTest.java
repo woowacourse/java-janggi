@@ -116,4 +116,21 @@ class PieceTest {
             .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @Test
+    @DisplayName("사는 적절한 이동이 가능하다")
+    void soldierMoveTest() {
+        Piece p = new Soldier(5,5);
+        p.move(board, 1,0);
+        assertThat(p.getPosition().x()).isEqualTo(6);
+        assertThat(p.getPosition().y()).isEqualTo(5);
+    }
+
+    @Test
+    @DisplayName("사의 이동 범위를 벗어나면 예외를 반환한다")
+    void soldierMoveExceptionTest() {
+        Piece p = new Soldier(5,5);
+        assertThatThrownBy(() -> p.move(board, 3,0))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+
 }
