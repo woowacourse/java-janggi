@@ -1,16 +1,11 @@
 package janggi.domain.board;
 
-public record Point(
-        int x,
-        int y
-) {
-    //TODO 좌표범위 검증
+public interface Point {
+    Point move(Direction direction);
 
-    public Point absMinus(Point point) {
-        return new Point(Math.abs(x - point.x()), Math.abs(y - point.y()));
-    }
+    boolean isSamePosition(Point point);
 
-    public Point minus(Point point) {
-        return new Point(x - point.x(), y - point.y());
-    }
+    int getX();
+
+    int getY();
 }
