@@ -43,6 +43,7 @@ public class Elephant implements Piece{
 
     @Override
     public boolean isOneSpaceAway(Position piecePosition, Position possiblePosition) { //piecePosition
+        if (piecePosition.getX() == possiblePosition)
 //        this.position.getX() + 1
         return false;
     }

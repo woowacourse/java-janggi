@@ -30,10 +30,15 @@ public class King implements Piece {
     }
 
     @Override
-    public boolean isOneSpaceAway(Position piecePosition, Position possiblePosition) {
+    public boolean isOneSpaceAway(Position piecePosition, Position possiblePosition, Piece selectedPiece) {
         // 상, 마인 경우 상=-2, 마=-1을 뺀 위치를 고려해야 한다!! 처음 직선 1칸에서의 위치를 고려해야 하므로.
         // 차...
         // 병졸...
+        if (selectedPiece.equals(Movement.ELEPHANT)) {
+            int basePossiblePositionX = Math.abs(possiblePosition.getX()) - 2;
+            int basePossiblePositionY = Math.abs(possiblePosition.getY()) - 2;
+            return (basePossiblePositionX == piecePosition.getX() && basePossiblePositionY == piecePosition.getY());
+        }
         int dx = Math.abs(piecePosition.getX() - possiblePosition.getX());
         int dy = Math.abs(piecePosition.getY() - possiblePosition.getY());
         return (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
