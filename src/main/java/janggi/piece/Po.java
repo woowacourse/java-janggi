@@ -39,23 +39,9 @@ public class Po implements Movable {
         return point;
     }
 
-    // TODO: 포 예외 상황 자세하게 테스트 코드 작성
-    public boolean isMovable(Point targetPoint, List<Movable> horizontalPieces, List<Movable> verticalPieces) {
-        if (point.isSameRow(targetPoint)) {
-            for (Movable movable : horizontalPieces) {
-                if (movable.getPoint().isColumnBetween(this.getPoint(), targetPoint) && !(movable instanceof Po)) {
-                    return true;
-                }
-            }
-        }
-        if (point.isSameColumn(targetPoint)) {
-            for (Movable movable : verticalPieces) {
-                if (movable.getPoint().isRowBetween(this.getPoint(), targetPoint) && !(movable instanceof Po)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    @Override
+    public boolean isMovable(Point targetPoint) {
+        return point.isSameRow(targetPoint) || point.isSameColumn(targetPoint);
     }
 
     public List<Point> findRoute(Point targetPoint) {

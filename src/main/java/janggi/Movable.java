@@ -8,4 +8,6 @@ public interface Movable {
     TeamColor getColor();
 
     Movable updatePoint(Point afterPoint);
+
+    boolean isMovable(Point targetPoint);
 }

@@ -34,6 +34,7 @@ public class Sang implements Movable {
         return new ArrayList<>(sangs);
     }
 
+    @Override
     public boolean isMovable(Point targetPoint) {
         List<Point> candidates = List.of(
                 point.move(-2, 3),

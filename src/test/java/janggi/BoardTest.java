@@ -3,6 +3,7 @@ package janggi;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
@@ -188,6 +189,70 @@ public class BoardTest {
             board.move(beforePoint, afterPoint);
 
             assertThat(board.getRunningPieces()).hasSize(1);
+        }
+    }
+
+    @Nested
+    @DisplayName("포 이동 테스트")
+    class PoMoveTest {
+
+        @Test
+        @DisplayName("좌로 이동할 수 있다면 true를 반환한다.")
+        void checkLeftMovable() {
+            Point beforePoint = new Point(6, 6);
+            List<Movable> pieces = List.of(
+                    new Byeong(TeamColor.BLUE, new Point(6, 4)),
+                    new Byeong(TeamColor.BLUE, new Point(6, 2)),
+                    new Po(TeamColor.BLUE, beforePoint)
+            );
+            Board board = new Board(new ArrayList<>(pieces));
+            Point targetPoint = new Point(6, 3);
+
+            assertDoesNotThrow(() -> board.move(beforePoint, targetPoint));
+        }
+
+        @Test
+        @DisplayName("우로 이동할 수 있다면 true를 반환한다.")
+        void checkRightMovable() {
+            Point beforePoint = new Point(6, 2);
+            List<Movable> pieces = List.of(
+                    new Byeong(TeamColor.BLUE, new Point(6, 4)),
+                    new Byeong(TeamColor.BLUE, new Point(6, 6)),
+                    new Po(TeamColor.BLUE, beforePoint)
+            );
+            Board board = new Board(new ArrayList<>(pieces));
+            Point targetPoint = new Point(6, 5);
+
+            assertDoesNotThrow(() -> board.move(beforePoint, targetPoint));
+        }
+
+        @Test
+        @DisplayName("상으로 이동할 수 있다면 true를 반환한다.")
+        void checkUpMovable() {
+            Point beforePoint = new Point(6, 4);
+            List<Movable> pieces = List.of(
+                    new Byeong(TeamColor.RED, new Point(3, 4)),
+                    new Po(TeamColor.BLUE, beforePoint)
+            );
+            Board board = new Board(new ArrayList<>(pieces));
+            Point targetPoint = new Point(2, 4);
+
+            assertDoesNotThrow(() -> board.move(beforePoint, targetPoint));
+        }
+
+        @Test
+        @DisplayName("하으로 이동할 수 있다면 true를 반환한다.")
+        void checkDownMovable() {
+            Point beforePoint = new Point(0, 7);
+            List<Movable> pieces = List.of(
+                    new Byeong(TeamColor.RED, new Point(2, 7)),
+                    new Byeong(TeamColor.RED, new Point(7, 7)),
+                    new Po(TeamColor.BLUE, beforePoint)
+            );
+            Board board = new Board(new ArrayList<>(pieces));
+            Point targetPoint = new Point(5, 7);
+
+            assertDoesNotThrow(() -> board.move(beforePoint, targetPoint));
         }
     }
 }

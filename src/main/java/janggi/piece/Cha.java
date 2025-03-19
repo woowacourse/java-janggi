@@ -34,6 +34,7 @@ public class Cha implements Movable {
         return new ArrayList<>(chas);
     }
 
+    @Override
     public boolean isMovable(Point targetPoint) {
         return point.isSameRow(targetPoint) || point.isSameColumn(targetPoint);
     }

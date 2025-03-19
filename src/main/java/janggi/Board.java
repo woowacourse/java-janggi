@@ -90,6 +90,13 @@ public class Board {
 
     public void move(Point beforePoint, Point afterPoint) {
         Movable movingPiece = findByPoint(beforePoint);
+
+        if((movingPiece instanceof Po && !isPoMovable((Po) movingPiece, afterPoint)
+                    || !movingPiece.isMovable(afterPoint)))
+        {
+            throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
+        }
+
         Movable updatedMoving = movingPiece.updatePoint(afterPoint);
 
         if(hasAttackedPiece(afterPoint)) {
@@ -102,5 +109,23 @@ public class Board {
         runningPieces.add(updatedMoving);
     }
 
-
+    // TODO: 포 예외 상황 자세하게 테스트 코드 작성
+    public boolean isPoMovable(Po po, Point targetPoint) {
+        Point point = po.getPoint();
+        if (point.isSameRow(targetPoint)) {
+            for (Movable movable : findPieceOnHorizontalRoute(point)) {
+                if (movable.getPoint().isColumnBetween(point, targetPoint) && !(movable instanceof Po)) {
+                    return true;
+                }
+            }
+        }
+        if (point.isSameColumn(targetPoint)) {
+            for (Movable movable : findPieceOnVerticalRoute(point)) {
+                if (movable.getPoint().isRowBetween(point, targetPoint) && !(movable instanceof Po)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

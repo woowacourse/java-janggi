@@ -34,6 +34,7 @@ public class Byeong implements Movable {
         return new ArrayList<>(byeongs);
     }
 
+    @Override
     public boolean isMovable(Point targetPoint) {
         List<Point> candidates = List.of(
                 point.move(0, 1),

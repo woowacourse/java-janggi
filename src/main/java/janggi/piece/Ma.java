@@ -34,6 +34,7 @@ public class Ma implements Movable {
         return new ArrayList<>(mas);
     }
 
+    @Override
     public boolean isMovable(Point targetPoint) {
         List<Point> candidates = List.of(
                 point.move(-2, 1),
