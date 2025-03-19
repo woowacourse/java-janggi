@@ -12,4 +12,6 @@ public interface Piece {
     PieceType getPieceType();
 
     Position getPosition();
+
+    boolean checkPieceType(PieceType pieceType);
 }

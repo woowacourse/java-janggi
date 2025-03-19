@@ -98,6 +98,12 @@ public class Cha implements Piece {
     }
 
     @Override
+    public boolean checkPieceType(PieceType pieceType) {
+        return this.pieceType == pieceType;
+    }
+
+
+    @Override
     public PieceType getPieceType() {
         return pieceType;
     }

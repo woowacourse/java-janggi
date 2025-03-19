@@ -56,6 +56,10 @@ public class Ma implements Piece {
         return allies.stream().noneMatch(alliesPiece -> destination.equals(alliesPiece.getPosition()));
     }
 
+    @Override
+    public boolean checkPieceType(PieceType pieceType) {
+        return this.pieceType == pieceType;
+    }
 
     @Override
     public PieceType getPieceType() {
