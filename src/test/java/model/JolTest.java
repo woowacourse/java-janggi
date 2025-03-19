@@ -15,7 +15,7 @@ public class JolTest {
     @Test
     void when_jol_move_then_column_minus_one() {
         jol.up(1);
-
+        System.out.println(jol.toString());
         Position expectedPosition = new Position(0, 4);
         Position currentPosition = jol.getPosition();
         assertThat(expectedPosition).isEqualTo(currentPosition);

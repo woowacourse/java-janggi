@@ -10,23 +10,23 @@ public class Chariot extends Piece{
 
     @Override
     public void up(int moveAmount) {
-        this.position = position.decreaseColumn(moveAmount);
+        this.position = position.changeColumn(moveAmount);
     }
 
     @Override
     public void down(int moveAmount) {
-        this.position = position.increaseColumn(moveAmount);
+        this.position = position.changeColumn(moveAmount);
 
     }
 
     @Override
     public void left(int moveAmount) {
-        this.position = position.decreaseRow(moveAmount);
+        this.position = position.changeRow(moveAmount);
     }
 
     @Override
     public void right(int moveAmount) {
-        this.position = position.increaseRow(moveAmount);
+        this.position = position.changeRow(moveAmount);
     }
 
     @Override

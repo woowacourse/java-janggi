@@ -12,8 +12,9 @@ public class Byeong extends Piece{
 
     @Override
     public void left(int moveAmount) {
-        validateMoveAmount(moveAmount);
-        this.position = position.changeRow(moveAmount);
+        int reverseMoveAmount = -moveAmount;
+        validateMoveAmount(reverseMoveAmount);
+        this.position = position.changeRow(reverseMoveAmount);
     }
 
     @Override

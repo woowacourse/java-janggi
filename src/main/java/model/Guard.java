@@ -12,14 +12,16 @@ public class Guard extends Piece {
 
     @Override
     public void up(int moveAmount) {
-        validateMoveAmount(moveAmount);
-        this.position = position.changeColumn(moveAmount);
+        int reverseMoveAmount = -moveAmount;
+        validateMoveAmount(reverseMoveAmount);
+        this.position = position.changeColumn(reverseMoveAmount);
     }
 
     @Override
     public void left(int moveAmount) {
-        validateMoveAmount(moveAmount);
-        this.position = position.changeRow(moveAmount);
+        int reverseMoveAmount = -moveAmount;
+        validateMoveAmount(reverseMoveAmount);
+        this.position = position.changeRow(reverseMoveAmount);
     }
 
     @Override
