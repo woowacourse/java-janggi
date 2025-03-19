@@ -136,7 +136,7 @@ class PoTest {
     }
 
     @Nested
-    @DisplayName("")
+    @DisplayName("경로를 찾는 경우의 수 테스트")
     class FindPathsTest {
 
         @Test
