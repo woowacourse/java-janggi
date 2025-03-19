@@ -13,7 +13,7 @@ public final class JanggiBoard {
     private final Map<JanggiCoordinate, Piece> board;
 
     public JanggiBoard() {
-        board = new HashMap<>();
+        board = JanggiBoardInitPosition.create();
     }
 
     public boolean hasPiece(JanggiCoordinate coordinate) {
