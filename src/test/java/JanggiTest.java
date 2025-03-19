@@ -128,7 +128,7 @@ public class JanggiTest {
     @Test
     void chariotJudgeMovable() {
         // given
-        Map<Dot, Chariot> routesWithPiece = new LinkedHashMap<>();
+        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
         routesWithPiece.put(Dot.of(1,2), null);
@@ -145,7 +145,7 @@ public class JanggiTest {
     @Test
     void chariotJudgeMovable2() {
         // given
-        Map<Dot, Chariot> routesWithPiece = new LinkedHashMap<>();
+        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
         routesWithPiece.put(Dot.of(1,2), null);
@@ -162,7 +162,7 @@ public class JanggiTest {
     @Test
     void chariotJudgeMovable3() {
         // given
-        Map<Dot, Chariot> routesWithPiece = new LinkedHashMap<>();
+        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
         routesWithPiece.put(Dot.of(1,2), null);

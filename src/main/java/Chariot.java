@@ -3,13 +3,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class Chariot {
-    private final Dynasty dynasty;
-
+public class Chariot extends Piece {
     public Chariot(Dynasty dynasty) {
-        this.dynasty = dynasty;
+        super(dynasty);
     }
 
+    @Override
     public List<Dot> getRoute(Dot origin, Dot destination) {
         List<Dot> route = new ArrayList<>();
 
@@ -46,12 +45,8 @@ public class Chariot {
         return route;
     }
 
-
-    public boolean canMove(Map<Dot,Chariot> routesWithPiece, Chariot destinationPiece) {
-        if(destinationPiece.dynasty == this.dynasty) {
-            return false;
-        }
-
+    @Override
+    public boolean checkRoute(Map<Dot, Piece> routesWithPiece) {
         return routesWithPiece.values()
                 .stream()
                 .noneMatch(Objects::nonNull);
