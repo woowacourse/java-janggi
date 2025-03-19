@@ -7,6 +7,8 @@ import view.SangMaOrderCommand;
 
 public class FlowManager {
 
+    private static final Team startTeam = Team.CHO;
+
     public void startGame() {
         OutputView.printStart();
 
@@ -16,5 +18,8 @@ public class FlowManager {
         BoardGenerator boardGenerator = new BoardGenerator();
         Board board = boardGenerator.generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
         OutputView.printBoard(board);
+
+        Team turn = startTeam;
+        InputView.inputMoveCommand(turn.title());
     }
 }

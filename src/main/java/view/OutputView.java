@@ -36,5 +36,11 @@ public class OutputView {
         for (List<String> rowString : boardString) {
             System.out.println(String.join(" ", rowString));
         }
+
+        clearColor();
+    }
+
+    private static void clearColor() {
+        System.out.println(Painter.paintWhite(""));
     }
 }
