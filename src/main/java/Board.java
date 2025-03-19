@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
@@ -8,7 +9,7 @@ public class Board {
     private final List<Piece> pieces;
 
     public Board(List<Piece> pieces) {
-        this.pieces = pieces;
+        this.pieces = new ArrayList<>(pieces);
     }
 
     public boolean isInboard(Position position) {

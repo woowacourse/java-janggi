@@ -55,9 +55,8 @@ public abstract class Piece {
         Piece targetPiece = board.get(target);
         if (targetPiece.team == team) {
             throw new IllegalArgumentException();
-        } else {
-            board.take(targetPiece);
         }
+        board.take(targetPiece);
     }
 
     public Position getPosition() {
