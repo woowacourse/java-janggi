@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Dot {
     private static final Integer MIN_X_RANGE = 0;
     private static final Integer MAX_X_RANGE = 8;
@@ -6,6 +9,29 @@ public class Dot {
 
     private final Integer x;
     private final Integer y;
+
+    private static final List<Dot> CACHE = createDotCache();
+
+    private static List<Dot> createDotCache() {
+        List<Dot> dots = new ArrayList<>();
+        for(int i = MIN_X_RANGE; i <= MAX_X_RANGE; i++) {
+            for (int j = MIN_Y_RANGE; j <= MAX_Y_RANGE; j++) {
+                dots.add(new Dot(i, j));
+            }
+        }
+        return dots;
+    }
+
+    public static Dot of(int x, int y) {
+        return CACHE.stream()
+                .filter(d -> d.x == x && d.y == y)
+                .findFirst()
+                .orElse(new Dot(x, y));
+    }
+
+    private boolean has(int x, int y) {
+        return this.x == x && this.y == y;
+    }
 
     public Dot(Integer x, Integer y) {
         validateDotRange(x, y);
@@ -29,6 +55,7 @@ public class Dot {
             throw new IllegalArgumentException("[ERROR] y 좌표의 범위가 벗어났습니다.");
         }
     }
+
 
 
 

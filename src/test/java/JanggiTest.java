@@ -1,3 +1,4 @@
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import java.util.stream.Stream;
@@ -65,6 +66,18 @@ public class JanggiTest {
                 .hasMessageStartingWith("[ERROR]");
     }
 
+    @DisplayName("x와 y의 정해진 범위에 맞게 점을 생성 해둔다.")
+    @Test
+    void createDotsCache() {
+        // given
+        Dot dotA = Dot.of(1, 1);
+        Dot dotB = Dot.of(1, 1);
 
+        // when
+        boolean actual = dotA == dotB;
+
+        // then
+        assertThat(actual).isTrue();
+    }
 
 }
