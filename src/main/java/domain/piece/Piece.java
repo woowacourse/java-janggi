@@ -22,4 +22,8 @@ public abstract class Piece {
     }
 
     public abstract String getName();
+
+    public boolean isSamePosition(Position position) {
+        return this.position.equals(position);
+    }
 }
