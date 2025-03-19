@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class PlayerTest {
+public final class PlayerTest {
 
     @Nested
     @DisplayName("플레이어를 생성할 때")
@@ -17,10 +17,10 @@ public class PlayerTest {
         @DisplayName("한나라와 초나라 중 하나의 팀을 갖는다")
         void test_NewTeam() {
             // given
-            Player player = new Player(Team.CHO);
+            final Player player = new Player(Team.CHO);
 
             // when
-            Team team = player.getTeam();
+            final Team team = player.getTeam();
 
             // then
             assertThat(team).isEqualTo(Team.CHO);
@@ -30,8 +30,8 @@ public class PlayerTest {
         @DisplayName("한나라는 성공권을 갖는다")
         void test_teamHanIsFirst() {
             // given
-            Player han = new Player(Team.HAN);
-            Player cho = new Player(Team.CHO);
+            final Player han = new Player(Team.HAN);
+            final Player cho = new Player(Team.CHO);
 
             // when&then
             assertAll(
