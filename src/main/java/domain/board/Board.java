@@ -49,6 +49,14 @@ public class Board {
         return piece.hasTeam(team);
     }
 
+    public boolean existsPoByNode(Node node) {
+        if (!existsPiece(node)) {
+            return false;
+        }
+        Piece piece = board.get(node);
+        return piece.type() == PieceType.PO;
+    }
+
     public Node findNodeByPoint(Point point) {
         if (!nodeByPoint.containsKey(point)) {
             throw new IllegalArgumentException("해당 위치에 노드가 존재하지 않습니다.");
