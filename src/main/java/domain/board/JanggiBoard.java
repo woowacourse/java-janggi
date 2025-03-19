@@ -2,13 +2,12 @@ package domain.board;
 
 import domain.JanggiCoordinate;
 import domain.piece.Piece;
-import java.util.HashMap;
 import java.util.Map;
 
 public final class JanggiBoard {
-    private static final int ROW_SIZE = 9;
-    private static final int COL_SIZE =10;
-    private static final int BOARD_MIN_SIZE = 1;
+    public static final int ROW_SIZE = 9;
+    public static final int COL_SIZE = 10;
+    public static final int BOARD_MIN_SIZE = 1;
 
     private final Map<JanggiCoordinate, Piece> board;
 
@@ -24,7 +23,9 @@ public final class JanggiBoard {
         return hasPiece(coordinate) && board.get(originCoordinate).getTeam() == board.get(coordinate).getTeam();
     }
 
-    public boolean isOutOfBoundary(int row, int col) {
+    public boolean isOutOfBoundary(JanggiCoordinate janggiCoordinate) {
+        int row = janggiCoordinate.getRow();
+        int col = janggiCoordinate.getCol();
         if (row < BOARD_MIN_SIZE || row > ROW_SIZE) {
             return true;
         }

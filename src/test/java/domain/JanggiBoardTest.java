@@ -19,7 +19,7 @@ class JanggiBoardTest {
             int col = 10;
 
             JanggiBoard janggiBoard = new JanggiBoard();
-            boolean isOutOfBoundary = janggiBoard.isOutOfBoundary(row, col);
+            boolean isOutOfBoundary = janggiBoard.isOutOfBoundary(new JanggiCoordinate(row, col));
 
             assertThat(isOutOfBoundary).isTrue();
         }
