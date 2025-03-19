@@ -5,7 +5,7 @@ import java.util.stream.IntStream;
 
 public class Sa extends Piece{
 
-    public Sa(String team) {
+    public Sa(Team team) {
         super(team);
     }
 

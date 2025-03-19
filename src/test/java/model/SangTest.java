@@ -11,7 +11,7 @@ public class SangTest {
     @Test
     @DisplayName("상 기물 생성 테스트")
     public void test1() {
-        String team = "red";
+        Team team = Team.RED;
 
         Sang sang = new Sang(team);
 
@@ -24,14 +24,14 @@ public class SangTest {
         @Test
         @DisplayName("가능")
         public void test1() {
-            Sang sang = new Sang("red");
+            Sang sang = new Sang(Team.RED);
             assertThat(sang.isValidPoint(0, 0, -2, -3)).isTrue();
         }
 
         @Test
         @DisplayName("불가능")
         public void test2() {
-            Sang sang = new Sang("red");
+            Sang sang = new Sang(Team.RED);
             assertThat(sang.isValidPoint(0, 0, -2, -2)).isFalse();
         }
     }
@@ -43,7 +43,7 @@ public class SangTest {
         @Test
         @DisplayName("경로 테스트_1")
         public void test1() {
-            Sang sang = new Sang("red");
+            Sang sang = new Sang(Team.RED);
             Point point = new Point(0, 1);
             Point point2 = new Point(1, 2);
             Point point3 = new Point(2, 3);
@@ -60,7 +60,7 @@ public class SangTest {
         @Test
         @DisplayName("경로 테스트_2")
         public void test2() {
-            Sang sang = new Sang("red");
+            Sang sang = new Sang(Team.RED);
             Point point = new Point(0, -1);
             Point point2 = new Point(-1, -2);
             Point point3 = new Point(-2, -3);

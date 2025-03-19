@@ -2,7 +2,7 @@ package model;
 
 public class Pho extends Piece {
 
-    public Pho(String team) {
+    public Pho(Team team) {
         super(team);
     }
 

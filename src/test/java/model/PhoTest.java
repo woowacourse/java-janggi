@@ -11,7 +11,7 @@ public class PhoTest {
     @Test
     @DisplayName("포 기물 생성 테스트")
     public void test1() {
-        String team = "red";
+        Team team = Team.RED;
 
         Pho Pho = new Pho(team);
 
@@ -24,14 +24,14 @@ public class PhoTest {
         @Test
         @DisplayName("포 이동 가능 여부 판별 테스트")
         public void test2() {
-            Pho Pho = new Pho("red");
+            Pho Pho = new Pho(Team.RED);
             assertThat(Pho.isValidPoint(0, 0, 100, 0)).isTrue();
         }
 
         @Test
         @DisplayName("포 이동 불가능 여부 판별 테스트")
         public void test3() {
-            Pho Pho = new Pho("red");
+            Pho Pho = new Pho(Team.RED);
             assertThat(Pho.isValidPoint(0, 0, 10, 10)).isFalse();
         }
     }
@@ -42,7 +42,7 @@ public class PhoTest {
         @Test
         @DisplayName("수직 테스트")
         public void test1() {
-            Pho Pho = new Pho("red");
+            Pho Pho = new Pho(Team.RED);
             Point point1 = new Point(0, 1);
             Point point2 = new Point(0, 2);
             Point point3 = new Point(0, 3);
@@ -63,7 +63,7 @@ public class PhoTest {
         @Test
         @DisplayName("수평 테스트")
         public void test2() {
-            Pho Pho = new Pho("red");
+            Pho Pho = new Pho(Team.RED);
             Point point1 = new Point(1, 0);
             Point point2 = new Point(2, 0);
             Point point3 = new Point(3, 0);

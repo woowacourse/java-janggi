@@ -10,7 +10,7 @@ public class SaTest {
     @Test
     @DisplayName("사 기물 생성 테스트")
     public void test1() {
-        String team = "red";
+        Team team = Team.RED;
 
         Sa sa = new Sa(team);
 
@@ -23,14 +23,14 @@ public class SaTest {
         @Test
         @DisplayName("사 이동 가능 테스트")
         public void test2() {
-            Sa sa = new Sa("red");
+            Sa sa = new Sa(Team.RED);
             assertThat(sa.isValidPoint(0, 0, 1, 0)).isTrue();
         }
 
         @Test
         @DisplayName("사 이동 불가능 테스트")
         public void test3() {
-            Sa sa = new Sa("red");
+            Sa sa = new Sa(Team.RED);
             assertThat(sa.isValidPoint(0, 0, 2, 0)).isFalse();
         }
     }
@@ -40,7 +40,7 @@ public class SaTest {
         @Test
         @DisplayName("수직")
         public void test1() {
-            Sa sa = new Sa("red");
+            Sa sa = new Sa(Team.RED);
             Point point =new Point(0,1);
 
             assertThat(sa.calculatePath(0,0,0,1).contains(point)).isTrue();
@@ -49,7 +49,7 @@ public class SaTest {
         @Test
         @DisplayName("수평")
         public void test2() {
-            Sa sa = new Sa("red");
+            Sa sa = new Sa(Team.RED);
             Point point =new Point(1,0);
 
             assertThat(sa.calculatePath(0,0,1,0).contains(point)).isTrue();

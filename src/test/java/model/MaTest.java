@@ -11,7 +11,7 @@ public class MaTest {
     @Test
     @DisplayName("마 기물 생성 테스트")
     public void test1() {
-        String team = "red";
+        Team team = Team.RED;
 
         Ma ma = new Ma(team);
 
@@ -24,14 +24,14 @@ public class MaTest {
         @Test
         @DisplayName("가능")
         public void test1() {
-            Ma ma = new Ma("red");
+            Ma ma = new Ma(Team.RED);
             assertThat(ma.isValidPoint(0, 0, 2, 1)).isTrue();
         }
 
         @Test
         @DisplayName("불가능")
         public void test2() {
-            Ma ma = new Ma("red");
+            Ma ma = new Ma(Team.RED);
             assertThat(ma.isValidPoint(0, 0, 2, 2)).isFalse();
         }
     }
@@ -42,7 +42,7 @@ public class MaTest {
         @Test
         @DisplayName("중간 경유지 포함 여부 테스트")
         public void test1() {
-            Ma ma = new Ma("red");
+            Ma ma = new Ma(Team.RED);
             Point point1 = new Point(0, 1);
             Point point2 = new Point(1, 2);
             Path path = ma.calculatePath(0, 0, 1, 2);

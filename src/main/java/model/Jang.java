@@ -5,7 +5,7 @@ import java.util.stream.IntStream;
 
 public class Jang extends Piece {
 
-    public Jang(String team) {
+    public Jang(Team team) {
         super(team);
     }
 

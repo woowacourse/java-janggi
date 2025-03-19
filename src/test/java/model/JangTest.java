@@ -11,7 +11,7 @@ public class JangTest {
     @Test
     @DisplayName("장 기물 생성 테스트")
     public void test1() {
-        String team = "red";
+        Team team = Team.RED;
 
         Jang jang = new Jang(team);
 
@@ -24,14 +24,14 @@ public class JangTest {
         @Test
         @DisplayName("장 이동 가능 테스트")
         public void test2() {
-            Jang jang = new Jang("red");
+            Jang jang = new Jang(Team.RED);
             assertThat(jang.isValidPoint(0, 0, 1, 0)).isTrue();
         }
 
         @Test
         @DisplayName("장 이동 불가능 테스트")
         public void test3() {
-            Jang jang = new Jang("red");
+            Jang jang = new Jang(Team.RED);
             assertThat(jang.isValidPoint(0, 0, 2, 0)).isFalse();
         }
     }
@@ -41,7 +41,7 @@ public class JangTest {
         @Test
         @DisplayName("수직")
         public void test1() {
-            Jang jang = new Jang("red");
+            Jang jang = new Jang(Team.RED);
             Point point =new Point(0,1);
 
             assertThat(jang.calculatePath(0,0,0,1).contains(point)).isTrue();
@@ -50,7 +50,7 @@ public class JangTest {
         @Test
         @DisplayName("수평")
         public void test2() {
-            Jang jang = new Jang("red");
+            Jang jang = new Jang(Team.RED);
             Point point =new Point(1,0);
 
             assertThat(jang.calculatePath(0,0,1,0).contains(point)).isTrue();

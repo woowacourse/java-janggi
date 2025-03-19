@@ -11,7 +11,7 @@ public class ChaTest {
     @Test
     @DisplayName("차 기물 생성 테스트")
     public void test1() {
-        String team = "red";
+        Team team = Team.RED;
 
         Cha cha = new Cha(team);
 
@@ -24,14 +24,14 @@ public class ChaTest {
         @Test
         @DisplayName("차 이동 가능 여부 판별 테스트")
         public void test2() {
-            Cha cha = new Cha("red");
+            Cha cha = new Cha(Team.RED);
             assertThat(cha.isValidPoint(0, 0, 100, 0)).isTrue();
         }
 
         @Test
         @DisplayName("차 이동 불가능 여부 판별 테스트")
         public void test3() {
-            Cha cha = new Cha("red");
+            Cha cha = new Cha(Team.RED);
             assertThat(cha.isValidPoint(0, 0, 10, 10)).isFalse();
         }
     }
@@ -42,7 +42,7 @@ public class ChaTest {
         @Test
         @DisplayName("수직 테스트")
         public void test1() {
-            Cha cha = new Cha("red");
+            Cha cha = new Cha(Team.RED);
             Point point1 = new Point(0, 1);
             Point point2 = new Point(0, 2);
             Point point3 = new Point(0, 3);
@@ -63,7 +63,7 @@ public class ChaTest {
         @Test
         @DisplayName("수평 테스트")
         public void test2() {
-            Cha cha = new Cha("red");
+            Cha cha = new Cha(Team.RED);
             Point point1 = new Point(1, 0);
             Point point2 = new Point(2, 0);
             Point point3 = new Point(3, 0);

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class Sang extends Piece {
-    public Sang(String team) {
+    public Sang(Team team) {
         super(team);
     }
 

@@ -1,13 +1,13 @@
 package model;
 
 public abstract class Piece {
-    String team;
+    Team team;
 
-    public Piece(String team) {
+    public Piece(Team team) {
         this.team = team;
     }
 
-    public String getTeam() {
+    public Team getTeam() {
         return team;
     }
 
