@@ -44,6 +44,10 @@ public class Sa implements Movable {
         return candidates.contains(targetPoint);
     }
 
+    public List<Point> findRoute(Point targetPoint) {
+        return List.of(targetPoint);
+    }
+
     @Override
     public Point getPoint() {
         return point;

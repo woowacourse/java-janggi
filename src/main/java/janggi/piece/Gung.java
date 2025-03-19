@@ -48,4 +48,8 @@ public class Gung implements Movable {
     public Point getPoint() {
         return point;
     }
+
+    public List<Point> findRoute(Point targetPoint) {
+        return List.of(targetPoint);
+    }
 }

@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.TeamColor;
 import janggi.point.Point;
@@ -66,6 +67,71 @@ public class GungTest {
             Point targetPoint = new Point(7, 6);
 
             assertThat(gung.isMovable(targetPoint)).isTrue();
+        }
+    }
+
+    @Nested
+    @DisplayName("경로 테스트")
+    class RouteTest {
+
+        @Test
+        @DisplayName("좌로 이동 경로를 생성할 수 있다.")
+        void checkLeftRouteMovable() {
+            Gung gung = new Gung(TeamColor.BLUE, new Point(6, 6));
+
+            Point targetPoint = new Point(6, 5);
+
+            List<Point> route = gung.findRoute(targetPoint);
+
+            assertAll(() -> {
+                assertThat(route).hasSize(1);
+                assertThat(route).containsExactly(new Point(6,5));
+            });
+        }
+
+        @Test
+        @DisplayName("우로 이동 경로를 생성할 수 있다.")
+        void checkRightRouteMovable() {
+            Gung gung = new Gung(TeamColor.BLUE, new Point(6, 6));
+
+            Point targetPoint = new Point(6, 7);
+
+            List<Point> route = gung.findRoute(targetPoint);
+
+            assertAll(() -> {
+                assertThat(route).hasSize(1);
+                assertThat(route).containsExactly(new Point(6,7));
+            });
+        }
+
+        @Test
+        @DisplayName("상로 이동 경로를 생성할 수 있다.")
+        void checkUpRouteMovable() {
+            Gung gung = new Gung(TeamColor.BLUE, new Point(6, 6));
+
+            Point targetPoint = new Point(5, 6);
+
+            List<Point> route = gung.findRoute(targetPoint);
+
+            assertAll(() -> {
+                assertThat(route).hasSize(1);
+                assertThat(route).containsExactly(new Point(5,6));
+            });
+        }
+
+        @Test
+        @DisplayName("하로 이동 경로를 생성할 수 있다.")
+        void checkDownRouteMovable() {
+            Gung gung = new Gung(TeamColor.BLUE, new Point(6, 6));
+
+            Point targetPoint = new Point(7, 6);
+
+            List<Point> route = gung.findRoute(targetPoint);
+
+            assertAll(() -> {
+                assertThat(route).hasSize(1);
+                assertThat(route).containsExactly(new Point(7,6));
+            });
         }
     }
 }
