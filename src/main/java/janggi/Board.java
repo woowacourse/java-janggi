@@ -40,14 +40,14 @@ public class Board {
     public List<Movable> findPieceOnVerticalRoute(Point point) {
         return pieces.stream()
                 .filter(piece -> point.isSameColumn(piece.getPoint()))
-                .filter(piece -> !point.equals(piece.getPoint())) //TODO piece.hasSamePoint 로 리팩토링 가능
+                .filter(piece -> !point.equals(piece.getPoint()))
                 .toList();
     }
 
     public List<Movable> findPieceOnHorizontalRoute(Point point) {
         return pieces.stream()
                 .filter(piece -> point.isSameRow(piece.getPoint()))
-                .filter(piece -> !point.equals(piece.getPoint())) //TODO piece.hasSamePoint 로 리팩토링 가능
+                .filter(piece -> !point.equals(piece.getPoint()))
                 .toList();
     }
 
