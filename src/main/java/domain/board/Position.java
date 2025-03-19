@@ -86,4 +86,9 @@ public class Position {
         }
         return positions;
     }
+
+    @Override
+    public String toString() {
+        return row.getValue() + ", " + column.getValue();
+    }
 }

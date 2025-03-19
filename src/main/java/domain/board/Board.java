@@ -18,8 +18,10 @@ public class Board {
         return board.getOrDefault(position, new Empty());
     }
 
-    public void move(Piece piece, Position source, Position destination) {
+    public void move(Piece selectedPiece,  Position source, Position destination) {
         validateMove(source, destination);
+        Piece piece = getPieceBy(source);
+
         board.remove(source);
         board.put(destination, piece);
     }

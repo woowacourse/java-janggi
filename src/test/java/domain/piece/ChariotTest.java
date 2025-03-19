@@ -19,7 +19,7 @@ class ChariotTest {
     void 차는_가로로_움직일_수_있다() {
         Chariot chariot = new Chariot(PieceColor.RED);
         Position source = new Position(Row.FOUR, Column.ONE);
-        Position destination = new Position(Row.TEN, Column.ONE);
+        Position destination = new Position(Row.ZERO, Column.ONE);
         boolean canMove = chariot.isValidDestination(source, destination);
 
         assertThat(canMove).isTrue();
@@ -39,7 +39,7 @@ class ChariotTest {
     void 차는_가로_세로가_아닌_위치로_움직일_수_없다() {
         Chariot chariot = new Chariot(PieceColor.RED);
         Position source = new Position(Row.FOUR, Column.ONE);
-        Position destination = new Position(Row.TEN, Column.TWO);
+        Position destination = new Position(Row.ZERO, Column.TWO);
         boolean canMove = chariot.isValidDestination(source, destination);
 
         assertThat(canMove).isFalse();

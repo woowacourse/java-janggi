@@ -33,14 +33,14 @@ public class BoardFactory {
         board.put(new Position(Row.EIGHT, Column.TWO), new Cannon(PieceColor.BLUE));
         board.put(new Position(Row.EIGHT, Column.EIGHT), new Cannon(PieceColor.BLUE));
         board.put(new Position(Row.NINE, Column.FIVE), new General(PieceColor.BLUE));
-        board.put(new Position(Row.TEN, Column.ONE), new Chariot(PieceColor.BLUE));
-        board.put(new Position(Row.TEN, Column.TWO), new Horse(PieceColor.BLUE));
-        board.put(new Position(Row.TEN, Column.THREE), new Elephant(PieceColor.BLUE));
-        board.put(new Position(Row.TEN, Column.FOUR), new Guard(PieceColor.BLUE));
-        board.put(new Position(Row.TEN, Column.SIX), new Guard(PieceColor.BLUE));
-        board.put(new Position(Row.TEN, Column.SEVEN), new Elephant(PieceColor.BLUE));
-        board.put(new Position(Row.TEN, Column.EIGHT), new Horse(PieceColor.BLUE));
-        board.put(new Position(Row.TEN, Column.NINE), new Chariot(PieceColor.BLUE));
+        board.put(new Position(Row.ZERO, Column.ONE), new Chariot(PieceColor.BLUE));
+        board.put(new Position(Row.ZERO, Column.TWO), new Horse(PieceColor.BLUE));
+        board.put(new Position(Row.ZERO, Column.THREE), new Elephant(PieceColor.BLUE));
+        board.put(new Position(Row.ZERO, Column.FOUR), new Guard(PieceColor.BLUE));
+        board.put(new Position(Row.ZERO, Column.SIX), new Guard(PieceColor.BLUE));
+        board.put(new Position(Row.ZERO, Column.SEVEN), new Elephant(PieceColor.BLUE));
+        board.put(new Position(Row.ZERO, Column.EIGHT), new Horse(PieceColor.BLUE));
+        board.put(new Position(Row.ZERO, Column.NINE), new Chariot(PieceColor.BLUE));
 
         return new Board(board);
     }

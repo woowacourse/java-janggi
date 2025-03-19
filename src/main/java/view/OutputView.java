@@ -5,6 +5,7 @@ import domain.board.Column;
 import domain.board.Position;
 import domain.board.Row;
 import domain.piece.Piece;
+import domain.piece.PieceColor;
 
 import java.util.Scanner;
 
@@ -22,5 +23,16 @@ public class OutputView {
             }
             System.out.println();
         }
+    }
+
+    public void printTurnNotice(PieceColor turnColor) {
+        String color = "";
+        if(turnColor == PieceColor.BLUE){
+            color = "초나라";
+        }
+        if(turnColor == PieceColor.RED){
+            color = "한나라";
+        }
+        System.out.println(color + "차례입니다.");
     }
 }

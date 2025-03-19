@@ -12,7 +12,7 @@ public enum Row {
     SEVEN(7),
     EIGHT(8),
     NINE(9),
-    TEN(10),
+    ZERO(10),
     ;
 
     Row(int value) {

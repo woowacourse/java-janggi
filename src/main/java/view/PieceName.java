@@ -34,6 +34,15 @@ public enum PieceName {
         return "";
     }
 
+    public static Class<? extends Piece> pieceTypeFromName(String name) {
+        for(PieceName pieceName : PieceName.values()) {
+            if(pieceName.name.equals(name)) {
+                return pieceName.pieceType;
+            }
+        }
+        return Empty.class;
+    }
+
     private String getColorString(Piece piece) {
         PieceColor color = piece.getColor();
         if(color == PieceColor.RED) {
