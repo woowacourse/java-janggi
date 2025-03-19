@@ -28,6 +28,14 @@ public class Unit {
         return this.point.equals(point);
     }
 
+    public String getType() {
+        return this.unitRule.getType();
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object == null || getClass() != object.getClass()) {
