@@ -3,14 +3,9 @@ package domain;
 import domain.unit.Point;
 import java.util.ArrayList;
 import java.util.List;
-import domain.unit.BombUnitRule;
-import domain.unit.CarUnitRule;
-import domain.unit.ElephantUnitRule;
-import domain.unit.HorseUnitRule;
-import domain.unit.JolUnitRule;
-import domain.unit.NoneUnitRule;
 import domain.unit.Team;
 import domain.unit.Unit;
+import java.util.stream.Stream;
 
 public class Janggi {
     private final List<Unit> units = new ArrayList<>();
@@ -19,28 +14,17 @@ public class Janggi {
     public Janggi() {
         turn = Team.CHO;
         // han
-        units.add(Unit.of(new Point(0, 0), Team.HAN, new CarUnitRule()));
-        units.add(Unit.of(new Point(8, 0), Team.HAN, new CarUnitRule()));
+        List<Unit> hanUnits = settingUnits(Team.HAN);
+        List<Unit> choUnits = settingUnits(Team.CHO);
+        this.units.addAll(Stream.concat(hanUnits.stream(), choUnits.stream()).toList());
+    }
 
-        units.add(Unit.of(new Point(2, 0), Team.HAN, new HorseUnitRule()));
-        units.add(Unit.of(new Point(7, 0), Team.HAN, new HorseUnitRule()));
-
-        units.add(Unit.of(new Point(1, 0), Team.HAN, new ElephantUnitRule()));
-        units.add(Unit.of(new Point(6, 0), Team.HAN, new ElephantUnitRule()));
-
-        units.add(Unit.of(new Point(3, 0), Team.HAN, new NoneUnitRule())); // TODO: Scholar 로 교체
-        units.add(Unit.of(new Point(5, 0), Team.HAN, new NoneUnitRule())); // TODO: Scholar 로 교체
-
-        units.add(Unit.of(new Point(1, 2), Team.HAN, new BombUnitRule()));
-        units.add(Unit.of(new Point(7, 2), Team.HAN, new BombUnitRule()));
-
-        units.add(Unit.of(new Point(4, 1), Team.HAN, new NoneUnitRule())); // TODO: King 로 교체
-
-        units.add(Unit.of(new Point(0, 3), Team.HAN, new JolUnitRule()));
-        units.add(Unit.of(new Point(2, 3), Team.HAN, new JolUnitRule()));
-        units.add(Unit.of(new Point(4, 3), Team.HAN, new JolUnitRule()));
-        units.add(Unit.of(new Point(6, 3), Team.HAN, new JolUnitRule()));
-        units.add(Unit.of(new Point(8, 3), Team.HAN, new JolUnitRule()));
+    private List<Unit> settingUnits(Team team) {
+        List<Unit> units = new ArrayList<>();
+        for (DefaultUnitPosition value : DefaultUnitPosition.values()) {
+            units.addAll(DefaultUnitPosition.createDefaultUnits(value, team));
+        }
+        return units;
     }
 
     public List<Route> searchAvailableRoutes(Point pick) {
