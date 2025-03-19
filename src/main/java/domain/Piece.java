@@ -24,6 +24,10 @@ public abstract class Piece {
         this.status = PieceStatus.CAPTURED;
     }
 
+    public Side getSide() {
+        return side;
+    }
+
     public PieceStatus getStatus() {
         return status;
     }

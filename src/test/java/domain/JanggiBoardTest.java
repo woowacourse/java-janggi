@@ -230,6 +230,34 @@ public class JanggiBoardTest {
         // then
         assertThatThrownBy(() -> janggiBoard.move(new Position(8, 3), new Position(3, 3)))
                 .isInstanceOf(IllegalStateException.class);
+    }
 
+    @Test
+    void 기물은_다른_기물을_잡아서_잡힌_기물의_상태를_바꿀_수_있다() {
+        // given
+        JanggiBoard janggiBoard = new JanggiBoard();
+
+        // when
+        janggiBoard.move(new Position(7, 7), new Position(6, 7));
+        janggiBoard.move(new Position(6, 7), new Position(5, 7));
+
+        Piece pieceInDanger = janggiBoard.getPieceFrom(new Position(4, 7));
+        janggiBoard.move(new Position(5, 7), new Position(4, 7));
+
+        // then
+        assertThat(pieceInDanger.getStatus()).isEqualTo(PieceStatus.CAPTURED);
+    }
+
+    @Test
+    void 포는_포를_잡을_수_없다() {
+        // given
+        JanggiBoard janggiBoard = new JanggiBoard();
+
+        // when
+        janggiBoard.move(new Position(7, 3), new Position(7, 2));
+
+        // then
+        assertThatThrownBy(() -> janggiBoard.move(new Position(8, 2), new Position(3, 2)))
+                .isInstanceOf(IllegalStateException.class);
     }
 }

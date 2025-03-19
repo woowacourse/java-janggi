@@ -42,6 +42,12 @@ public class JanggiBoard {
         }
 
         janggiBoard.put(beforePosition, new Empty());
+        Piece pieceInDanger = janggiBoard.get(afterPosition);
+        if (!pieceInDanger.isEmpty()) {
+            if (piece.getSide() != pieceInDanger.getSide()) {
+                pieceInDanger.capture();
+            }
+        }
         janggiBoard.put(afterPosition, piece);
     }
 
@@ -57,14 +63,24 @@ public class JanggiBoard {
             throw new IllegalStateException();
         }
         janggiBoard.put(beforePosition, new Empty());
+        Piece pieceInDanger = janggiBoard.get(afterPosition);
+        if (!pieceInDanger.isEmpty()) {
+            if (!pieceInDanger.getClass().equals(포.class)) {
+                throw new IllegalStateException();
+            }
+            if (piece.getSide() != pieceInDanger.getSide()) {
+                pieceInDanger.capture();
+            }
+        }
         janggiBoard.put(afterPosition, piece);
     }
 
     private boolean isExistHurdle(Piece piece, Position beforePosition, Position afterPosition) {
         List<Pattern> patterns = piece.findPath(beforePosition, afterPosition);
+        List<Pattern> patternsWithoutDestination = patterns.subList(0, patterns.size() - 1);
 
         Position newPosition = beforePosition;
-        for (Pattern pattern : patterns) {
+        for (Pattern pattern : patternsWithoutDestination) {
             newPosition = newPosition.moveOnePosition(pattern);
             if (!getPieceFrom(newPosition).isEmpty()) {
                 return true;
