@@ -10,9 +10,9 @@ public final class 졸Route extends LimitedJanggiPieceRoute {
 
     public 졸Route() {
         super(Map.of(
-                RIGHT, List.of(Pattern.RIGHT),
-                LEFT, List.of(Pattern.LEFT),
-                UP, List.of(Pattern.UP)
+                RIGHT, List.of(Pattern.MOVE_RIGHT),
+                LEFT, List.of(Pattern.MOVE_LEFT),
+                UP, List.of(Pattern.MOVE_UP)
         ));
     }
 }

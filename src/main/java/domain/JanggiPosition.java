@@ -27,14 +27,14 @@ public record JanggiPosition(int file, int rank) {
 
     private int transformedNewX(final Pattern pattern, int x) {
         int newX = x + pattern.getX();
-        if ((pattern.equals(Pattern.UP) && x == MIN_ROW_BOUND) || (pattern.equals(Pattern.DIAGONAL_UP_RIGHT)
+        if ((pattern.equals(Pattern.MOVE_UP) && x == MIN_ROW_BOUND) || (pattern.equals(Pattern.MOVE_DIAGONAL_UP_RIGHT)
                 && x == MIN_ROW_BOUND) || (
-                pattern.equals(Pattern.DIAGONAL_UP_LEFT) && x == MIN_ROW_BOUND)) {
+                pattern.equals(Pattern.MOVE_DIAGONAL_UP_LEFT) && x == MIN_ROW_BOUND)) {
             newX = 9;
         }
-        if ((pattern.equals(Pattern.DOWN) && x == MAX_ROW_BOUND) || (pattern.equals(Pattern.DIAGONAL_DOWN_LEFT)
+        if ((pattern.equals(Pattern.MOVE_DOWN) && x == MAX_ROW_BOUND) || (pattern.equals(Pattern.MOVE_DIAGONAL_DOWN_LEFT)
                 && x == MAX_ROW_BOUND) || (
-                pattern.equals(Pattern.DIAGONAL_DOWN_RIGHT) && x == MAX_ROW_BOUND)) {
+                pattern.equals(Pattern.MOVE_DIAGONAL_DOWN_RIGHT) && x == MAX_ROW_BOUND)) {
             newX = 0;
         }
         return newX;

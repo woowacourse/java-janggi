@@ -10,9 +10,9 @@ public final class 병Route extends LimitedJanggiPieceRoute {
 
     public 병Route() {
         super(Map.of(
-                RIGHT, List.of(Pattern.RIGHT),
-                DOWN, List.of(Pattern.DOWN),
-                LEFT, List.of(Pattern.LEFT)
+                RIGHT, List.of(Pattern.MOVE_RIGHT),
+                DOWN, List.of(Pattern.MOVE_DOWN),
+                LEFT, List.of(Pattern.MOVE_LEFT)
         ));
     }
 }

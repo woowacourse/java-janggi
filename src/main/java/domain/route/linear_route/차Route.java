@@ -9,10 +9,10 @@ public final class 차Route extends LinearJanggiPieceRoute {
 
     public 차Route() {
         super(Map.of(
-                RIGHT, Pattern.RIGHT,
-                DOWN, Pattern.DOWN,
-                LEFT, Pattern.LEFT,
-                UP, Pattern.UP
+                RIGHT, Pattern.MOVE_RIGHT,
+                DOWN, Pattern.MOVE_DOWN,
+                LEFT, Pattern.MOVE_LEFT,
+                UP, Pattern.MOVE_UP
         ));
     }
 }

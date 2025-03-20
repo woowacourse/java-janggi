@@ -10,10 +10,10 @@ public final class 궁Route extends LimitedJanggiPieceRoute {
 
     public 궁Route() {
         super(Map.of(
-                RIGHT, List.of(Pattern.RIGHT),
-                DOWN, List.of(Pattern.DOWN),
-                LEFT, List.of(Pattern.LEFT),
-                UP, List.of(Pattern.UP)
+                RIGHT, List.of(Pattern.MOVE_RIGHT),
+                DOWN, List.of(Pattern.MOVE_DOWN),
+                LEFT, List.of(Pattern.MOVE_LEFT),
+                UP, List.of(Pattern.MOVE_UP)
         ));
     }
 }
