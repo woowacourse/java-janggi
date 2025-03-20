@@ -3,6 +3,7 @@ package domain.piece;
 import domain.BoardLocation;
 import domain.piece.strategy.CannonMoveStrategy;
 import domain.piece.strategy.ChariotMoveStrategy;
+import domain.piece.strategy.ChoPawnMoveStrategy;
 import domain.piece.strategy.ElephantMoveStrategy;
 import domain.piece.strategy.HanPawnMoveStrategy;
 import domain.piece.strategy.HorseMoveStrategy;
@@ -16,7 +17,8 @@ public enum PieceType {
     ELEPHANT(new ElephantMoveStrategy()),
     SCHOLAR(new ScholarMoveStrategy()),
     KING(new KingMoveStrategy()),
-    HAN_PAWN(new HanPawnMoveStrategy()),;
+    HAN_PAWN(new HanPawnMoveStrategy()),
+    CHO_PAWN(new ChoPawnMoveStrategy()),;
     private final MoveStrategy moveStrategy;
 
     PieceType(MoveStrategy moveStrategy) {
