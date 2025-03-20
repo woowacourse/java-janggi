@@ -5,11 +5,12 @@ import domain.piece.Piece;
 import domain.piece.PieceInit;
 import domain.piece.Pieces;
 import domain.piece.Position;
+import view.InputView;
+import view.OutputView;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import view.InputView;
-import view.OutputView;
 
 public class KoreaChess {
 
@@ -28,7 +29,7 @@ public class KoreaChess {
         Board board = createBoard(han, cho);
         outputView.printBoard(board);
 
-        while (true) {
+        while (!board.isFinish()) {
             processTurn(han, board);
             processTurn(cho, board);
         }
