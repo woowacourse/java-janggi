@@ -5,10 +5,10 @@ import janggi.domain.piece.PieceColor;
 import janggi.domain.piece.PieceType;
 
 public class Finished implements State{
-    private final PieceColor pieceColor;
+    private final PieceColor turnColor;
 
-    public Finished(PieceColor pieceColor) {
-        this.pieceColor = pieceColor;
+    public Finished(PieceColor turnColor) {
+        this.turnColor = turnColor;
     }
 
     @Override
@@ -18,7 +18,7 @@ public class Finished implements State{
 
     @Override
     public PieceColor getColor() {
-        return pieceColor;
+        return turnColor;
     }
 
     @Override
