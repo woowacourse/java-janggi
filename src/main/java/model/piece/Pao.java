@@ -2,9 +2,9 @@ package model.piece;
 
 import java.util.List;
 
-import model.Board;
 import model.Position;
 import model.Team;
+import model.board.Board;
 
 public class Pao extends Piece {
 

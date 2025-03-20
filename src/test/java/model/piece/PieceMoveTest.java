@@ -8,9 +8,9 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import model.Board;
 import model.Position;
 import model.Team;
+import model.board.Board;
 
 class PieceMoveTest {
 

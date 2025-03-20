@@ -1,20 +1,26 @@
-package model;
+package model.board;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Position;
+import model.Team;
 import model.piece.Palace;
 import model.piece.Piece;
 
 public class Board {
 
-    private static final int WIDTH_SIZE = 9;
-    private static final int HEIGHT_SIZE = 10;
+    public static final int WIDTH_SIZE = 9;
+    public static final int HEIGHT_SIZE = 10;
 
     private final List<Piece> pieces;
 
     public Board(List<Piece> pieces) {
         this.pieces = new ArrayList<>(pieces);
+    }
+
+    public static Board generate() {
+        return new Initializer().generate();
     }
 
     public boolean isInboard(Position position) {
@@ -46,5 +52,9 @@ public class Board {
             return palaces.getFirst().getTeam();
         }
         return null;
+    }
+
+    public List<Piece> getPieces() {
+        return new ArrayList<>(pieces);
     }
 }

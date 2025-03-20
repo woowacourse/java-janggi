@@ -20,6 +20,14 @@ public class Pawn extends Piece {
         // 초나라 -> 아래로 (윗진영)
         // 한나라 -> 위로 (아랫진영)
     }
+/*
+
+    TODO 기물 종류 판단 로직 수정
+    @Override
+    public PieceType type() {
+        return PieceType.PAWN;
+    }
+*/
 
 
     // TODO: direction 적용

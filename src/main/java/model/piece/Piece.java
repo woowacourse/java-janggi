@@ -3,9 +3,9 @@ package model.piece;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Board;
 import model.Position;
 import model.Team;
+import model.board.Board;
 
 public abstract class Piece {
 
