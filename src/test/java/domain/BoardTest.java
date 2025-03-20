@@ -121,4 +121,28 @@ class BoardTest {
         // then
         assertThat(result).isTrue();
     }
+
+    @Test
+    void 우승자를_반환한다() {
+        // given
+        Player han = new Player("한", PieceColor.RED);
+        Player cho = new Player("초", PieceColor.BLUE);
+
+        Position kingPosition = Position.of(5, 9);
+
+        Pieces choPieces = new Pieces(PieceInit.initChoPieces());
+        choPieces.deleteByPosition(kingPosition);
+
+        Map<Player, Pieces> boardElements = new HashMap<>();
+        boardElements.put(han, new Pieces(PieceInit.initHanPieces()));
+        boardElements.put(cho, choPieces);
+
+        Board board = new Board(boardElements);
+
+        // when
+        Player winner = board.getWinner();
+
+        // then
+        assertThat(winner).isEqualTo(han);
+    }
 }
