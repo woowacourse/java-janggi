@@ -3,6 +3,7 @@ package domain.pieces;
 import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
+import domain.movements.DefaultMovement;
 import domain.movements.Direction;
 import domain.movements.PieceMovement;
 import domain.movements.Route;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class Horse implements Piece {
 
-    private final PieceMovement pieceMovement;
+    private final PieceMovement defaultMovement;
     private final Team team;
 
     public Horse(Team team) {
@@ -25,7 +26,7 @@ public class Horse implements Piece {
                 new Route(List.of(Direction.WEST, Direction.NORTHWEST))
         );
 
-        this.pieceMovement = new PieceMovement(routes);
+        this.defaultMovement = new DefaultMovement(routes);
         this.team = team;
     }
 
@@ -36,12 +37,12 @@ public class Horse implements Piece {
 
     @Override
     public boolean isAbleToArrive(Point startPoint, Point arrivalPoint) {
-        return pieceMovement.calculateTotalArrivalPoints(startPoint).contains(arrivalPoint);
+        return defaultMovement.calculateTotalArrivalPoints(startPoint).contains(arrivalPoint);
     }
 
     @Override
     public List<Point> getRoutePoints(Point startPoint, Point arrivalPoint) {
-        return pieceMovement.calculateRoutePoints(startPoint, arrivalPoint);
+        return defaultMovement.calculateRoutePoints(startPoint, arrivalPoint);
     }
 
     @Override

@@ -3,23 +3,22 @@ package domain.pieces;
 import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
-import domain.movements.Direction;
-import domain.movements.Route;
-import java.util.Collections;
+import domain.movements.EndlessMovement;
+import domain.movements.PieceMovement;
 import java.util.List;
 
 public class Chariot implements Piece {
 
     private final Team team;
-    private final List<Route> movements;
+    private final PieceMovement movements;
 
     public Chariot(Team team) {
-        movements = List.of(
-                new Route(Collections.nCopies(10, Direction.NORTH)),
-                new Route(Collections.nCopies(10, Direction.EAST)),
-                new Route(Collections.nCopies(10, Direction.SOUTH)),
-                new Route(Collections.nCopies(10, Direction.WEST))
-        );
+        this.movements = new EndlessMovement();
+        this.team = team;
+    }
+
+    public Chariot(Team team, PieceMovement pieceMovement) {
+        this.movements = pieceMovement;
         this.team = team;
     }
 
@@ -30,24 +29,13 @@ public class Chariot implements Piece {
 
     @Override
     public boolean isAbleToArrive(Point startPoint, Point arrivalPoint) {
-        for (Route route : movements) {
-            List<Point> pointsOnRoute = route.getAllPointsOnRoute(startPoint);
-            if (pointsOnRoute.contains(arrivalPoint)) {
-                return true;
-            }
-        }
-        return false;
+        List<Point> arrivalPoints = movements.calculateTotalArrivalPoints(startPoint);
+        return arrivalPoints.contains(arrivalPoint);
     }
 
     @Override
     public List<Point> getRoutePoints(Point startPoint, Point arrivalPoint) {
-        for (Route route : movements) {
-            List<Point> pointsOnRoute = route.getAllPointsOnRoute(startPoint);
-            if (pointsOnRoute.contains(arrivalPoint)) {
-                return pointsOnRoute.subList(0, pointsOnRoute.indexOf(arrivalPoint) + 1);
-            }
-        }
-        throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
+        return movements.calculateRoutePoints(startPoint, arrivalPoint);
     }
 
     @Override

@@ -3,6 +3,7 @@ package domain.pieces;
 import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
+import domain.movements.DefaultMovement;
 import domain.movements.Direction;
 import domain.movements.PieceMovement;
 import domain.movements.Route;
@@ -11,19 +12,19 @@ import java.util.List;
 public class Soldier implements Piece {
 
     private final Team team;
-    private final PieceMovement pieceMovement;
+    private final PieceMovement defaultMovement;
 
     public Soldier(Team team) {
         this.team = team;
         if (team.equals(Team.HAN)) {
-            pieceMovement = new PieceMovement(List.of(
+            defaultMovement = new DefaultMovement(List.of(
                     new Route(List.of(Direction.SOUTH)),
                     new Route(List.of(Direction.EAST)),
                     new Route(List.of(Direction.WEST))
             ));
             return;
         }
-        pieceMovement = new PieceMovement(List.of(
+        defaultMovement = new DefaultMovement(List.of(
                 new Route(List.of(Direction.NORTH)),
                 new Route(List.of(Direction.EAST)),
                 new Route(List.of(Direction.WEST))
@@ -37,12 +38,12 @@ public class Soldier implements Piece {
 
     @Override
     public boolean isAbleToArrive(Point startPoint, Point arrivalPoint) {
-        return pieceMovement.calculateTotalArrivalPoints(startPoint).contains(arrivalPoint);
+        return defaultMovement.calculateTotalArrivalPoints(startPoint).contains(arrivalPoint);
     }
 
     @Override
     public List<Point> getRoutePoints(Point startPoint, Point arrivalPoint) {
-        return pieceMovement.calculateRoutePoints(startPoint, arrivalPoint);
+        return defaultMovement.calculateRoutePoints(startPoint, arrivalPoint);
     }
 
     @Override

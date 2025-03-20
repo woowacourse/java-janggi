@@ -2,15 +2,15 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.movements.DefaultMovement;
 import domain.movements.Direction;
-import domain.movements.PieceMovement;
 import domain.movements.Route;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class PieceMovementTest {
+class DefaultMovementTest {
     @Nested
     @DisplayName("전체 경로를 계산할 때")
     class TestCalculateRoute {
@@ -21,11 +21,11 @@ class PieceMovementTest {
             List<Direction> directions1 = List.of(Direction.NORTH, Direction.NORTHWEST, Direction.NORTHWEST);
             List<Direction> directions2 = List.of(Direction.SOUTH, Direction.SOUTHWEST, Direction.SOUTHWEST);
             List<Route> routes = List.of(new Route(directions1), new Route(directions2));
-            PieceMovement pieceMovement = new PieceMovement(routes);
+            DefaultMovement defaultMovement = new DefaultMovement(routes);
             Point startPoint = new Point(0, 0);
 
             // when
-            List<Point> arrivalPoints = pieceMovement.calculateTotalArrivalPoints(startPoint);
+            List<Point> arrivalPoints = defaultMovement.calculateTotalArrivalPoints(startPoint);
 
             // then
             assertThat(arrivalPoints).contains(new Point(3, -2), new Point(-3, -2));
@@ -37,12 +37,12 @@ class PieceMovementTest {
             // given
             List<Direction> directions1 = List.of(Direction.NORTH, Direction.NORTHWEST, Direction.NORTHWEST);
             List<Route> routes = List.of(new Route(directions1));
-            PieceMovement pieceMovement = new PieceMovement(routes);
+            DefaultMovement defaultMovement = new DefaultMovement(routes);
             Point startPoint = new Point(0, 0);
             Point arrivalPoint = new Point(3, -2);
 
             // when
-            List<Point> arrivalPoints = pieceMovement.calculateRoutePoints(startPoint, arrivalPoint);
+            List<Point> arrivalPoints = defaultMovement.calculateRoutePoints(startPoint, arrivalPoint);
 
             // then
             assertThat(arrivalPoints).contains(new Point(1, 0), new Point(2, -1), new Point(3, -2));
