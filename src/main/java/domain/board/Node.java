@@ -24,7 +24,7 @@ public class Node {
         return edges.stream()
                 .filter(edge -> edge.direction() == direction)
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("해당 방향의 엣지가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 방향의 엣지가 존재하지 않습니다."));
     }
 
     public Node findNextNodeByDirection(Direction direction) {

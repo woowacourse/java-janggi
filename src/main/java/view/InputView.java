@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class InputView {
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static String MOVE_COMMAND_INPUT = "move";
+    private static final String MOVE_COMMAND_INPUT = "move";
 
     public static SangMaOrderCommand inputSangMaOrder(Team team) {
         System.out.printf("""
