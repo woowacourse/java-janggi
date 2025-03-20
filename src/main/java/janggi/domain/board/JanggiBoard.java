@@ -7,10 +7,10 @@ import janggi.domain.board.point.HanPoint;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.BoardPiece;
 import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Guard;
-import janggi.domain.piece.General;
-import janggi.domain.piece.Soldier;
 import janggi.domain.piece.Chariot;
+import janggi.domain.piece.General;
+import janggi.domain.piece.Guard;
+import janggi.domain.piece.Soldier;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
@@ -71,6 +71,18 @@ public class JanggiBoard {
                 .findFirst();
     }
 
+    public void move(Dynasty dynasty, DefaultPoint startPoint, DefaultPoint endPoint) {
+        Optional<BoardPiece> startBoardPiece = findPointPiece(startPoint);
+        if (startBoardPiece.isEmpty()) {
+            throw new IllegalArgumentException("시작 위치에 기물이 존재하지 않습니다.");
+        }
+        BoardPiece boardPiece = startBoardPiece.get();
+        if (!boardPiece.isSameDynasty(dynasty)) {
+            throw new IllegalArgumentException("자신의 나라 기물이 아닙니다.");
+        }
+        boardPiece.move(this, endPoint);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -90,17 +102,5 @@ public class JanggiBoard {
 
     public Set<BoardPiece> getPointPieces() {
         return boardPieces;
-    }
-
-    public void move(Dynasty dynasty, DefaultPoint startPoint, DefaultPoint endPoint) {
-        Optional<BoardPiece> startBoardPiece = findPointPiece(startPoint);
-        if (startBoardPiece.isEmpty()) {
-            throw new IllegalArgumentException("시작 위치에 기물이 존재하지 않습니다.");
-        }
-        BoardPiece boardPiece = startBoardPiece.get();
-        if (!boardPiece.isSameDynasty(dynasty)) {
-            throw new IllegalArgumentException("자신의 나라 기물이 아닙니다.");
-        }
-        boardPiece.move(this, endPoint);
     }
 }

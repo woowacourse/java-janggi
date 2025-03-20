@@ -15,7 +15,7 @@ class ElephantTest {
 
     @DisplayName("상이 가는 방향에 기물이 없다면 이동할 수 있다.")
     @Test
-    void test() {
+    void isMovable() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
         Piece elephant = new Elephant();
@@ -29,7 +29,7 @@ class ElephantTest {
 
     @DisplayName("상이 규칙 상 갈 수 없는 목적지는 갈 수 없다.")
     @Test
-    void test2() {
+    void isNotMovable_WhenImpossibleEndPoint() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
         Piece elephant = new Elephant();
@@ -44,7 +44,7 @@ class ElephantTest {
 
     @DisplayName("상이 가는 방향에 기물이 있다면 이동할 수 없다.")
     @Test
-    void test3() {
+    void isNotMovable_WhenPieceInPath() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
                 new BoardPiece(new HanPoint(2, 1), new Horse(), Dynasty.HAN)
@@ -61,7 +61,7 @@ class ElephantTest {
 
     @DisplayName("목적지에 상대편의 기물이 있는 경우에는 갈 수 있다.")
     @Test
-    void test4() {
+    void isNotMovable_WhenOtherPieceInEndPoint() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
                 new BoardPiece(new ChuPoint(4, 3), new Horse(), Dynasty.CHU)

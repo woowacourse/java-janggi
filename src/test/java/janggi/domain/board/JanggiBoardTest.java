@@ -1,12 +1,15 @@
 package janggi.domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.point.ChuPoint;
+import janggi.domain.board.point.DefaultPoint;
 import janggi.domain.board.point.HanPoint;
 import janggi.domain.piece.BoardPiece;
 import janggi.domain.piece.General;
+import janggi.domain.piece.Soldier;
 import java.util.Optional;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
@@ -69,5 +72,50 @@ public class JanggiBoardTest {
 
         //then
         assertThat(result).isFalse();
+    }
+
+    @DisplayName("기물을 움직일 수 있다")
+    @Test
+    void move() {
+        //given
+        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
+                new BoardPiece(new ChuPoint(9, 5), new Soldier(), Dynasty.CHU)
+        ));
+
+        //when
+        janggiBoard.move(Dynasty.CHU, new DefaultPoint(9, 5), new DefaultPoint(8, 5));
+
+        //then
+        assertThat(janggiBoard).isEqualTo(new JanggiBoard(Set.of(
+                new BoardPiece(new ChuPoint(8, 5), new Soldier(), Dynasty.CHU)
+        )));
+    }
+
+    @DisplayName("시작 위치에 기물이 없다면 예외가 발생한다.")
+    @Test
+    void move_whenNotExistPiece() {
+        //given
+        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
+                new BoardPiece(new ChuPoint(7, 5), new Soldier(), Dynasty.CHU)
+        ));
+
+        //when
+        assertThatThrownBy(() -> janggiBoard.move(Dynasty.CHU, new DefaultPoint(9, 5), new DefaultPoint(8, 5)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("시작 위치에 기물이 존재하지 않습니다.");
+    }
+
+    @DisplayName("다른 나라의 기물을 움직이면 예외가 발생한다.")
+    @Test
+    void move_whenOtherDynastyPiece() {
+        //given
+        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
+                new BoardPiece(new ChuPoint(9, 5), new Soldier(), Dynasty.CHU)
+        ));
+
+        //when
+        assertThatThrownBy(() -> janggiBoard.move(Dynasty.HAN, new DefaultPoint(9, 5), new DefaultPoint(8, 5)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("자신의 나라 기물이 아닙니다.");
     }
 }

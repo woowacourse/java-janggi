@@ -22,7 +22,7 @@ public class SoldierTest {
             "1, 2, 1, 1",
             "1, 2, 1, 3",
     })
-    void move(int x1, int y1, int x2, int y2) {
+    void isMovable(int x1, int y1, int x2, int y2) {
         //givenR
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
         Soldier soldier = new Soldier();
@@ -34,17 +34,32 @@ public class SoldierTest {
         assertThat(result).isTrue();
     }
 
+    @DisplayName("졸이 규칙 상 갈 수 없는 목적지는 갈 수 없다.")
+    @Test
+    void isNotMovable_WhenImpossibleEndPoint() {
+        // given
+        JanggiBoard janggiBoard = new JanggiBoard(Set.of());
+        Piece soldier = new Soldier();
+
+        // when
+        boolean isMovable = soldier.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 2));
+
+        // then
+        assertThat(isMovable)
+                .isFalse();
+    }
+
     @DisplayName("목적지에 상대편의 기물이 있는 경우에는 갈 수 있다.")
     @Test
-    void test4() {
+    void isNotMovable_WhenOtherPieceInEndPoint() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
                 new BoardPiece(new ChuPoint(1, 2), new Soldier(), Dynasty.CHU)
         ));
-        Piece pawn = new Soldier();
+        Piece soldier = new Soldier();
 
         // when
-        boolean isMovable = pawn.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(1, 2));
+        boolean isMovable = soldier.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(1, 2));
 
         // then
         assertThat(isMovable)

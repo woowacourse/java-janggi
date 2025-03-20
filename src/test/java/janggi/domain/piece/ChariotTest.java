@@ -23,7 +23,7 @@ class ChariotTest {
             "4, 4, 8, 4",
             "4, 4, 4, 8"
     })
-    void move(int x1, int y1, int x2, int y2) {
+    void isMovable(int x1, int y1, int x2, int y2) {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
         Piece rook = new Chariot();
@@ -37,7 +37,7 @@ class ChariotTest {
 
     @DisplayName("차가 규칙 상 갈 수 없는 목적지는 갈 수 없다.")
     @Test
-    void test2() {
+    void isNotMovable_WhenImpossibleEndPoint() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
         Piece rook = new Chariot();
@@ -52,7 +52,7 @@ class ChariotTest {
 
     @DisplayName("차가 가는 방향에 기물이 있다면 이동할 수 없다.")
     @Test
-    void test3() {
+    void isNotMovable_WhenPieceInPath() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
                 new BoardPiece(new HanPoint(1, 2), new Horse(), Dynasty.HAN)
@@ -69,7 +69,7 @@ class ChariotTest {
 
     @DisplayName("목적지에 상대편의 기물이 있는 경우에는 갈 수 있다.")
     @Test
-    void test4() {
+    void isNotMovable_WhenOtherPieceInEndPoint() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
                 new BoardPiece(new ChuPoint(1, 4), new Horse(), Dynasty.CHU)

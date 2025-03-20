@@ -19,21 +19,24 @@ public class Player {
         }
     }
 
+    public boolean isSameDynasty(Dynasty dynasty) {
+        return this.dynasty == dynasty;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Player player)) {
             return false;
         }
-        Player player = (Player) o;
-        return Objects.equals(nickname, player.nickname);
+        return Objects.equals(nickname, player.nickname) && dynasty == player.dynasty;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(nickname);
+        return Objects.hash(nickname, dynasty);
     }
 
     public String getNickname() {
@@ -42,9 +45,5 @@ public class Player {
 
     public Dynasty getDynasty() {
         return dynasty;
-    }
-
-    public boolean isSameDynasty(Dynasty dynasty) {
-        return this.dynasty == dynasty;
     }
 }
