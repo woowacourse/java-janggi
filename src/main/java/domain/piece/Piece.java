@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.BoardLocation;
+import java.util.List;
 import java.util.Objects;
 
 public class Piece {
@@ -13,6 +14,10 @@ public class Piece {
 
     public boolean isMovable(BoardLocation current, BoardLocation target) {
         return pieceType.isMovable(current, target);
+    }
+
+    public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation target) {
+        return pieceType.createAllPath(current, target);
     }
 
     @Override

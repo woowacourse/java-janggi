@@ -3,9 +3,11 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import fixture.BoardFixture;
 import java.util.List;
 import java.util.Map;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -50,12 +52,12 @@ public class ChoBoardTest {
         Piece elephantPiece1 = choPieces.get(elephantBoardLocation1);
         Piece elephantPiece2 = choPieces.get(elephantBoardLocation2);
 
-//        SoftAssertions.assertSoftly(softly -> {
-//            softly.assertThat((Horse)horsePiece1).isInstanceOf(Horse.class);
-//            softly.assertThat((Horse)horsePiece2).isInstanceOf(Horse.class);
-//            softly.assertThat((Elephant)elephantPiece1).isInstanceOf(Elephant.class);
-//            softly.assertThat((Elephant)elephantPiece2).isInstanceOf(Elephant.class);
-//        });
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(horsePiece1).isEqualTo(new Piece(PieceType.HORSE));
+            softly.assertThat(horsePiece2).isEqualTo(new Piece(PieceType.HORSE));
+            softly.assertThat(elephantPiece1).isEqualTo(new Piece(PieceType.ELEPHANT));
+            softly.assertThat(elephantPiece2).isEqualTo(new Piece(PieceType.ELEPHANT));
+        });
     }
 
 }

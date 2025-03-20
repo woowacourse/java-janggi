@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ChoBoard {
-    private Map<BoardLocation, Piece> pieces;
+    private final Map<BoardLocation, Piece> pieces;
 
     private ChoBoard(Map<BoardLocation, Piece> pieces) {
         this.pieces = pieces;
@@ -43,4 +43,10 @@ public class ChoBoard {
         return pieces;
     }
 
+    public Piece findByLocation(BoardLocation current) {
+        if (pieces.containsKey(current)) {
+            return pieces.get(current);
+        }
+        throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 없습니다.");
+    }
 }

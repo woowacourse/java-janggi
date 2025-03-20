@@ -12,8 +12,8 @@ public class ChoPawnMoveStrategy implements MoveStrategy {
         int differenceY = current.distanceY(destination);
         boolean a = differenceX == 0 || differenceY == 0;
         boolean b = differenceX == 1 || differenceY == 1;
-        boolean c = destination.isUp(current);
-        return a && b && c;
+        boolean c = destination.isDown(current);
+        return a && b && !c;
     }
 
     @Override

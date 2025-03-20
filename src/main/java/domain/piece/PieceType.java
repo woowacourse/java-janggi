@@ -9,6 +9,7 @@ import domain.piece.strategy.HanPawnMoveStrategy;
 import domain.piece.strategy.HorseMoveStrategy;
 import domain.piece.strategy.KingMoveStrategy;
 import domain.piece.strategy.ScholarMoveStrategy;
+import java.util.List;
 
 public enum PieceType {
     CHARIOT(new ChariotMoveStrategy()),
@@ -27,5 +28,9 @@ public enum PieceType {
 
     public boolean isMovable(BoardLocation current, BoardLocation target) {
         return this.moveStrategy.isMovable(current, target);
+    }
+
+    public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation target) {
+        return this.moveStrategy.createAllPath(current, target);
     }
 }

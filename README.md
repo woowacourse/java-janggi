@@ -22,6 +22,16 @@ DOWN_LEFT(List.of(DOWN, RIGHT),1, -1);
 
 private final List<Direction> possibleDirections;
 ```
+
+- 왜 코드에 NULL을 사용하지 말아야 할까?
+```angular2html
+public Piece findByLocation(BoardLocation current) {
+        if (pieces.containsKey(current)) {
+            return pieces.get(current);
+        }
+        throw new IllegalArgumentException();
+    }
+```
   
 # 객체지향 프로그래밍이란 ?
 - 요구사항(현실 세계)을 토대로 생성된 객체의 상호작용이다. (웨이드 의견)
