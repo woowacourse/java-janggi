@@ -8,6 +8,7 @@ public class Jang extends Piece {
 
     public Jang(Team team) {
         super(team);
+        this.pieceName = PieceName.JANG;
     }
 
     @Override

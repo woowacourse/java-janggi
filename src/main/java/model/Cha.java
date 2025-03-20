@@ -6,6 +6,7 @@ public class Cha extends Piece {
 
     public Cha(Team team) {
         super(team);
+        pieceName = PieceName.CHA;
     }
 
     @Override

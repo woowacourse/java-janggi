@@ -8,13 +8,14 @@ public class Byeong extends Piece {
 
     public Byeong(Team team) {
         super(team);
+        pieceName = PieceName.BYEONG;
     }
 
     @Override
     public boolean isValidPoint(Point beforePoint, Point targetPoint) {
         int moveForward = 1;
 
-        if (team == Team.RED){
+        if (team == Team.RED) {
             moveForward = -1;
         }
 
@@ -22,7 +23,8 @@ public class Byeong extends Piece {
         List<Integer> vertical = List.of(moveForward, 0, 0);
 
         return IntStream.range(0, horizontal.size())
-                .anyMatch(i -> horizontal.get(i) + beforePoint.x() == targetPoint.x() && vertical.get(i) + beforePoint.y() == targetPoint.y());
+                .anyMatch(i -> horizontal.get(i) + beforePoint.x() == targetPoint.x()
+                        && vertical.get(i) + beforePoint.y() == targetPoint.y());
     }
 
     @Override
@@ -33,7 +35,7 @@ public class Byeong extends Piece {
     }
 
     @Override
-    public boolean canMove(Map<Piece,Boolean> piecesOnPathWithTargetOrNot) {
+    public boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
         if (piecesOnPathWithTargetOrNot.size() == 1) {
             return piecesOnPathWithTargetOrNot.keySet().stream().findFirst().get().getTeam() != this.team;
         }

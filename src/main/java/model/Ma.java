@@ -8,6 +8,7 @@ public class Ma extends Piece {
 
     public Ma(Team team) {
         super(team);
+        pieceName = PieceName.MA;
     }
 
     @Override

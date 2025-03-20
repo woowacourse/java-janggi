@@ -7,6 +7,7 @@ public class Pho extends Piece {
 
     public Pho(Team team) {
         super(team);
+        pieceName = PieceName.PHO;
     }
 
     @Override

@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 public class Sang extends Piece {
     public Sang(Team team) {
         super(team);
+        pieceName = PieceName.SANG;
     }
 
     @Override
