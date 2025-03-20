@@ -26,7 +26,10 @@ public abstract class Piece {
         return false;
     }
 
-    public void capture() {
+    public void captureIfNotMySide(Side otherSide) {
+        if (otherSide == this.side) {
+            return;
+        }
         this.status = PieceStatus.CAPTURED;
     }
 

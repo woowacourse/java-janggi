@@ -209,6 +209,19 @@ public class JanggiBoardTest {
     }
 
     @Test
+    void 목적지에_같은_팀의_기물이_있는_경우_이동할_수_없다() {
+        // given
+        JanggiBoard janggiBoard = new JanggiBoard();
+
+        // when
+        JanggiPosition beforePosition = new JanggiPosition(0, 9);
+        JanggiPosition afterPosition = new JanggiPosition(0, 9);
+        // then
+        assertThatThrownBy(() -> janggiBoard.move(beforePosition, afterPosition))
+                .isInstanceOf(IllegalStateException.class);
+    }
+
+    @Test
     void 포는_포를_뛰어넘을_수_없다() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard();

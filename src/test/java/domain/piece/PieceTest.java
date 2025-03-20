@@ -11,7 +11,7 @@ public class PieceTest {
         Piece piece = new 마(Side.CHO);
 
         // when
-        piece.capture();
+        piece.captureIfNotMySide(Side.HAN);
 
         // then
         Assertions.assertThat(piece.getStatus())
