@@ -5,6 +5,15 @@ public record Offset(
         int y
 ) {
 
+    public static final Offset UP = new Offset(0, 1);
+    public static final Offset DOWN = new Offset(0, -1);
+    public static final Offset LEFT = new Offset(-1, 0);
+    public static final Offset RIGHT = new Offset(1, 0);
+    public static final Offset RIGHT_UP = new Offset(1, 1);
+    public static final Offset RIGHT_DOWN = new Offset(1, -1);
+    public static final Offset LEFT_UP = new Offset(-1, 1);
+    public static final Offset LEFT_DOWN = new Offset(-1, -1);
+
     public Offset {
         validateRange(x, y);
     }
