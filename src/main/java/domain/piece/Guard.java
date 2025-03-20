@@ -7,7 +7,7 @@ import java.util.List;
 public class Guard extends Piece {
 
     public Guard(PieceColor color) {
-        super(color);
+        super(color, PieceType.GUARD);
     }
 
     @Override

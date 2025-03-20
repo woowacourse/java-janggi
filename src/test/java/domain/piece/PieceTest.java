@@ -13,7 +13,7 @@ class PieceTest {
         Piece soldier = new Soldier(PieceColor.BLUE);
         Piece otherSoldier = new Soldier(PieceColor.RED);
 
-        boolean samePiece = soldier.isSamePiece(otherSoldier);
+        boolean samePiece = soldier.isSamePieceType(otherSoldier);
 
         assertThat(samePiece).isTrue();
     }
@@ -23,7 +23,7 @@ class PieceTest {
         Piece soldier = new Soldier(PieceColor.BLUE);
         Piece otherSoldier = new Elephant(PieceColor.BLUE);
 
-        boolean samePiece = soldier.isSamePiece(otherSoldier);
+        boolean samePiece = soldier.isSamePieceType(otherSoldier);
 
         assertThat(samePiece).isFalse();
     }

@@ -7,7 +7,7 @@ import java.util.List;
 public class Soldier extends Piece {
 
     public Soldier(PieceColor color) {
-        super(color);
+        super(color, PieceType.SOLDIER);
     }
 
     @Override

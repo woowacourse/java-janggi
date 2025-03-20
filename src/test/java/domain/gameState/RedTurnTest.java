@@ -2,6 +2,7 @@ package domain.gameState;
 
 import domain.board.*;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -18,7 +19,7 @@ class RedTurnTest {
         Position target = new Position(Row.THREE, Column.ONE);
         Piece piece = board.getPieceBy(source);
 
-        assertThatCode(() -> RedTurn.movePiece(piece, source, target))
+        assertThatCode(() -> RedTurn.movePiece(PieceType.CHARIOT, source, target))
                 .doesNotThrowAnyException();
 
     }
@@ -33,7 +34,7 @@ class RedTurnTest {
         Position target = new Position(Row.EIGHT, Column.ONE);
         Piece piece = board.getPieceBy(source);
 
-        assertThatThrownBy(() -> RedTurn.movePiece(piece, source, target))
+        assertThatThrownBy(() -> RedTurn.movePiece(PieceType.CHARIOT, source, target))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -47,7 +48,7 @@ class RedTurnTest {
         Position target = new Position(Row.THREE, Column.ONE);
         Piece piece = board.getPieceBy(source);
 
-        assertThatThrownBy(() -> RedTurn.movePiece(piece, source, target))
+        assertThatThrownBy(() -> RedTurn.movePiece(PieceType.HORSE, source, target))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

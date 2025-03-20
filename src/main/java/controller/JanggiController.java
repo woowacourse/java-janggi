@@ -8,6 +8,7 @@ import view.InputView;
 import view.OutputView;
 
 import java.util.List;
+import view.PieceTypeName;
 
 public class JanggiController {
     private final InputView inputView;
@@ -42,9 +43,9 @@ public class JanggiController {
         Position source = createPosition(commands.get(0));
         Position destination = createPosition(commands.get(2));
 
-        String pieceInput = commands.get(1);
-        Piece piece = createPieceFromTypeAndColor(pieceInput, janggiGame.getTurnColor());
-        janggiGame.move(piece, source, destination);
+        String pieceNameInput = commands.get(1);
+        PieceType pieceType = PieceTypeName.getTypeFrom(pieceNameInput);
+        janggiGame.move(pieceType, source, destination);
         outputView.printBorad(board);
     }
 

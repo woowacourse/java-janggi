@@ -16,7 +16,7 @@ public class OutputView {
             for(Column column : Column.values()) {
                 Position position = new Position(row, column);
                 Piece piece = board.getPieceBy(position);
-                String pieceName = PieceName.getNameFromPiece(piece);
+                String pieceName = PieceTypeName.getNameFrom(piece);
 
                 System.out.print(pieceName + " ");
             }
@@ -48,6 +48,7 @@ public class OutputView {
 
     public void printError(String message) {
         System.out.println(message);
+        System.out.println(System.lineSeparator());
     }
 
     private String getStringColor() {

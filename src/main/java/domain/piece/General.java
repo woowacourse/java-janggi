@@ -7,7 +7,7 @@ import java.util.List;
 public class General extends Piece {
 
     public General(PieceColor color) {
-        super(color);
+        super(color, PieceType.GENERAL);
     }
 
     @Override

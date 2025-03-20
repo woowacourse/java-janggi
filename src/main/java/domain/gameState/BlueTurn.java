@@ -5,6 +5,7 @@ import domain.board.Position;
 import domain.piece.General;
 import domain.piece.Piece;
 import domain.piece.PieceColor;
+import domain.piece.PieceType;
 
 public class BlueTurn implements State {
 
@@ -17,12 +18,13 @@ public class BlueTurn implements State {
     }
 
     @Override
-    public State movePiece(Piece piece, Position source, Position destination) {
-        validateIsMyPiece(piece);
+    public State movePiece(PieceType pieceType, Position source, Position destination) {
+        Piece sourcePiece = board.getPieceBy(source);
+        validateIsMyPiece(sourcePiece);
 
         Piece destinationPiece = board.getPieceBy(destination);
-        board.move(piece, source, destination);
-        boolean isGeneral = destinationPiece.isSamePiece(new General(pieceColor));
+        board.move(pieceType, source, destination);
+        boolean isGeneral = destinationPiece.isPieceType(PieceType.GENERAL);
 
         if(isGeneral) {
             return new Finished(pieceColor);

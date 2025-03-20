@@ -1,8 +1,8 @@
 package domain.gameState;
 
 import domain.board.Position;
-import domain.piece.Piece;
 import domain.piece.PieceColor;
+import domain.piece.PieceType;
 
 public class Finished implements State{
     private final PieceColor pieceColor;
@@ -12,7 +12,7 @@ public class Finished implements State{
     }
 
     @Override
-    public State movePiece(Piece piece, Position source, Position destination) {
+    public State movePiece(PieceType pieceType, Position source, Position destination) {
         throw new IllegalArgumentException("게임이 끝난 후에는 움직일 수 없습니다.");
     }
 

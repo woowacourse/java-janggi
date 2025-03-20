@@ -8,7 +8,7 @@ import java.util.List;
 public class Elephant extends Piece {
 
     public Elephant(PieceColor color) {
-        super(color);
+        super(color, PieceType.ELEPHANT);
     }
 
     @Override

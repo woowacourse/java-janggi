@@ -6,9 +6,11 @@ import java.util.List;
 
 public abstract class Piece {
     final PieceColor color;
+    final PieceType type;
 
-    Piece(PieceColor color) {
+    Piece(PieceColor color, PieceType type) {
         this.color = color;
+        this.type = type;
     }
 
     int countPieceInRoute(List<Piece> piecesInRoute) {
@@ -17,8 +19,12 @@ public abstract class Piece {
                 .count();
     }
 
-    public boolean isSamePiece(Piece other) {
-        return this.getClass() == other.getClass();
+    public boolean isSamePieceType(Piece other) {
+        return this.type == other.type;
+    }
+
+    public boolean isPieceType(PieceType pieceType) {
+        return this.type == pieceType;
     }
 
     public boolean isOtherTeam(Piece other) {
@@ -35,4 +41,7 @@ public abstract class Piece {
 
     public abstract boolean canMove(Piece piece, List<Piece> piecesInRoute);
 
+    public PieceType getType() {
+        return type;
+    }
 }

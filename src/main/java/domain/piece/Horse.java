@@ -7,7 +7,7 @@ import java.util.List;
 public class Horse extends Piece {
 
     public Horse(PieceColor color) {
-        super(color);
+        super(color, PieceType.HORSE);
     }
 
     @Override

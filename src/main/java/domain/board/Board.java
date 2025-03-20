@@ -3,6 +3,7 @@ package domain.board;
 import domain.piece.Empty;
 import domain.piece.Piece;
 
+import domain.piece.PieceType;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +15,8 @@ public class Board {
         this.board = board;
     }
 
-    public void move(Piece selectedPiece, Position source, Position destination) {
-        validateCorrectPiece(source, selectedPiece);
+    public void move(PieceType pieceType, Position source, Position destination) {
+        validateCorrectPiece(source, pieceType);
         validateMove(source, destination);
         Piece piece = getPieceBy(source);
 
@@ -27,8 +28,8 @@ public class Board {
         return board.getOrDefault(position, new Empty());
     }
 
-    private void validateCorrectPiece(Position source, Piece selectedPiece) {
-        if (!getPieceBy(source).isSamePiece(selectedPiece)) {
+    private void validateCorrectPiece(Position source, PieceType pieceType) {
+        if (!getPieceBy(source).isPieceType(pieceType)) {
             throw new IllegalArgumentException("움직이려는 기물이 일치하지 않습니다.");
         }
     }

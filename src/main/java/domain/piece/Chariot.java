@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Chariot extends Piece {
     public Chariot(PieceColor color) {
-        super(color);
+        super(color, PieceType.CHARIOT);
     }
 
     @Override
