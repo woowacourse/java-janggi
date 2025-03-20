@@ -1,5 +1,6 @@
 package view;
 
+import domain.Player;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -14,21 +15,18 @@ public class InputView {
         return Arrays.asList(input.split(","));
     }
 
-    public List<Integer> readMovePiecePosition() {
-        System.out.println("움직일 말의 좌표를 입력하세요");
-        String input = scanner.nextLine();
-        //11, 11
-        String[] positions = input.split(",");
-        int row = Integer.parseInt(positions[0]);
-        int column = Integer.parseInt(positions[1]);
-        return List.of(row, column);
-
+    public List<Integer> readMovePiecePosition(Player player) {
+        System.out.printf("(%s)%s님이 움직일 말의 좌표를 입력하세요%n", player.getTeam(), player.getName());
+        return readPosition();
     }
 
-    public List<Integer> readTargetPosition() {
-        System.out.println("이동할 좌표를 입력하세요.");
+    public List<Integer> readTargetPosition(Player player) {
+        System.out.printf("(%s)%s님이 이동할 좌표를 입력하세요%n", player.getTeam(), player.getName());
+        return readPosition();
+    }
+
+    private List<Integer> readPosition() {
         String input = scanner.nextLine();
-        //11, 11
         String[] positions = input.split(",");
         int row = Integer.parseInt(positions[0]);
         int column = Integer.parseInt(positions[1]);
