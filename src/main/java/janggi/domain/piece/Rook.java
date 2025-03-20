@@ -33,10 +33,10 @@ public class Rook extends Piece {
 
     private boolean hasPieceBetween(Piece other, Position destination) {
         if (this.hasSameX(other)) {
-            return getPosition().getYDistance(destination) > getPosition().getYDistance(other.getPosition());
+            return other.getYPosition() > getYPosition() &&  destination.getY() > other.getYPosition();
         }
         if (this.hasSameY(other)) {
-            return getPosition().getXDistance(destination) > getPosition().getXDistance(other.getPosition());
+            return other.getXPosition() > getXPosition() && destination.getX() > other.getXPosition();
         }
         return false;
     }
