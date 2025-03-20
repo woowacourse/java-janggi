@@ -4,14 +4,18 @@ import java.util.*;
 
 public class ChessPiecePositions {
 
-    private final Map<ChessPosition, ChessPiece> chessPieces = new HashMap<>();
+    private final Map<ChessPosition, ChessPiece> chessPieces;
 
     private ChessPiecePositions(final Map<ChessPosition, ChessPiece> chessPieces) {
-        this.chessPieces.putAll(chessPieces);
+        this.chessPieces = chessPieces;
     }
 
     public static ChessPiecePositions empty() {
         return new ChessPiecePositions(new HashMap<>());
+    }
+
+    public static ChessPiecePositions from(final Map<ChessPosition, ChessPiece> chessPieces) {
+        return new ChessPiecePositions(chessPieces);
     }
 
     public void initialize() {
@@ -42,4 +46,14 @@ public class ChessPiecePositions {
         }
         return chessPieces.get(position);
     }
+
+    public void moveChessPiece(final ChessPosition position, final ChessPiece piece) {
+        chessPieces.put(position, piece);
+    }
+
+    public void removeChessPiece(final ChessPosition position) {
+        chessPieces.remove(position);
+
+    }
+
 }
