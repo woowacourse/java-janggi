@@ -35,4 +35,15 @@ public class OutputView {
         }
         System.out.println(color + "차례입니다.");
     }
+
+    public void printWinner(PieceColor turnColor) {
+        String color = "";
+        if(turnColor == PieceColor.BLUE){
+            color = "초나라";
+        }
+        if(turnColor == PieceColor.RED){
+            color = "한나라";
+        }
+        System.out.println(color + " 승리");
+    }
 }

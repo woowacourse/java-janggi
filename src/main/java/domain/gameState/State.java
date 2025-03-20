@@ -8,4 +8,6 @@ public interface State {
     State movePiece(Piece piece, Position source, Position destination);
 
     PieceColor getColor();
+
+    boolean isFinished();
 }

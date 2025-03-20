@@ -21,6 +21,6 @@ public class JanggiGame {
     }
 
     public boolean isFinished() {
-        return false;
+        return state.isFinished();
     }
 }

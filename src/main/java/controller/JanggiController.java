@@ -38,6 +38,8 @@ public class JanggiController {
             janggiGame.move(piece, source, destination);
             outputView.printBorad(board);
         }
+
+        outputView.printWinner(janggiGame.getTurnColor());
     }
 
     private Piece createPieceFromTypeAndColor(String pieceType, PieceColor color) {
