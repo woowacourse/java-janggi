@@ -2,7 +2,6 @@ package piece;
 
 import direction.Point;
 import java.util.List;
-import java.util.Optional;
 
 public class Pieces {
 
@@ -12,10 +11,16 @@ public class Pieces {
         this.pieces = pieces;
     }
 
-    public Optional<Piece> findByPoint(Point point) {
+    public Piece findByPoint(Point point) {
         return pieces.stream()
                 .filter(piece -> piece.getPosition().equals(point))
-                .findAny();
+                .findAny()
+                .get();
+    }
+
+    public boolean isExistPieceIn(Point point) {
+        return pieces.stream()
+                .anyMatch(piece -> piece.getPosition().equals(point));
     }
 
     public List<Piece> getPieces() {

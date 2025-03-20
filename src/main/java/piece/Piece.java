@@ -1,7 +1,6 @@
 package piece;
 
 import direction.Point;
-import java.util.Objects;
 import move.MovementRule;
 
 public class Piece {
@@ -28,17 +27,7 @@ public class Piece {
         point = movementRule.move(allPieces, point, to);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Piece piece = (Piece) o;
-        return Objects.equals(movementRule, piece.movementRule);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(movementRule);
+    public boolean isSameType(String nickname) {
+        return this.nickname.equalsIgnoreCase(nickname);
     }
 }
