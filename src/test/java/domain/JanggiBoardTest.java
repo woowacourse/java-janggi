@@ -1,13 +1,14 @@
 package domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+
 import domain.board.JanggiBoard;
 import domain.board.JanggiBoardInitPosition;
+import domain.piece.Country;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class JanggiBoardTest {
 
@@ -26,6 +27,16 @@ class JanggiBoardTest {
             assertThat(isOutOfBoundary).isTrue();
         }
 
+        @DisplayName("자신의 기물이 아니면 움직일 수 없다.")
+        @Test
+        void validateOriginCoordinateTest() {
+            JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardInitPosition.create());
+
+            JanggiCoordinate originCoordinate = new JanggiCoordinate(1, 1);
+            
+            assertThatThrownBy(() -> janggiBoard.validateOriginCoordinate(originCoordinate, Country.CHO))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
     }
 
     @Nested
