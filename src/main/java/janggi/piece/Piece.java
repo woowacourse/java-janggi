@@ -12,7 +12,7 @@ public abstract class Piece {
         this.team = team;
     }
 
-    public boolean isDifferentTeam(String team) {
+    public boolean isSameTeam(String team) {
         return this.team.equals(team);
     }
 
@@ -34,7 +34,7 @@ public abstract class Piece {
             for (int j = 0; j < dRow.length; j++) {
                 position = position.plus(dColumn[j], dRow[j]);
             }
-            if (position == goal) {
+            if (position.equals(goal)) {
                 return i;
             }
         }
@@ -56,7 +56,11 @@ public abstract class Piece {
 
     protected void validateSameTeamOnGoal(Map<Position, Piece> board, Position goal) {
         Piece other = board.get(goal);
-        if (!other.isDifferentTeam(team)) {
+        if (other == null) {
+            return;
+        }
+
+        if (other.isSameTeam(team)) {
             throw new IllegalArgumentException("[ERROR] 목적지에 같은 진영의 기물이 있어 이동할 수 없습니다.");
         }
     }

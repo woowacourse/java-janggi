@@ -31,4 +31,27 @@ class BoardTest {
         assertThatCode(() -> board.movePiece(start, goal))
                 .doesNotThrowAnyException();
     }
+
+    @Test
+    void 목적지에_같은_진영의_기물이_있는_경우_예외가_발생한다() {
+        Board board = BoardFixture.createBasicBoard();
+        Position start = new Position(2, 0);
+        Position goal = new Position(1, 2);
+
+        // when && then
+        assertThatThrownBy(() -> board.movePiece(start, goal))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 목적지에 같은 진영의 기물이 있어 이동할 수 없습니다.");
+    }
+
+    @Test
+    void 목적지에_같은_진영의_기물이_없는_경우_정상_작동한다() {
+        Board board = BoardFixture.createBasicBoard();
+        Position start = new Position(2, 0);
+        Position goal = new Position(3, 2);
+
+        // when && then
+        assertThatCode(() -> board.movePiece(start, goal))
+                .doesNotThrowAnyException();
+    }
 }
