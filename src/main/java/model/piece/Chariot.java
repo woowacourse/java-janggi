@@ -39,7 +39,7 @@ public class Chariot extends Piece {
         Position onRoute = position.move(route.positions().getFirst());
         for (; !onRoute.equals(target); onRoute = onRoute.move(route.positions().getFirst())) {
             if (board.hasPieceOn(onRoute)) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("[ERROR] 이동 경로에 다른 기물이 존재합니다.");
             }
         }
     }

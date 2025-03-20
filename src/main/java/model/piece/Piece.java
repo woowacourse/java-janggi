@@ -21,14 +21,14 @@ public abstract class Piece {
     public void move(Board board, Team currentTurn, int dx, int dy) {
         Position target = position.move(dx, dy);
         if (!board.isInboard(target)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("[ERROR] 장기판 내에서만 이동할 수 있습니다.");
         }
         if (!currentTurn.equals(team)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("[ERROR] 다른 팀의 기물은 움직일 수 없습니다.");
         }
         Route movableRoute = findMovableRoute(board, dx, dy);
         if (movableRoute == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("[ERROR] 도달할 수 없는 위치입니다.");
         }
         validateRoute(board, movableRoute, target);
         arrival(board, target);
@@ -53,7 +53,7 @@ public abstract class Piece {
         for (int i = 0; i < route.positions.size() - 1; i++) {
             onRoute = onRoute.move(route.positions.get(i));
             if (board.hasPieceOn(onRoute)) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("[ERROR] 이동 경로에 다른 기물이 존재합니다.");
             }
         }
     }
@@ -64,7 +64,7 @@ public abstract class Piece {
         }
         Piece targetPiece = board.get(target);
         if (targetPiece.team == team) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("[ERROR] 도착 지점에 같은 팀의 기물이 존재합니다.");
         }
         board.take(targetPiece);
     }

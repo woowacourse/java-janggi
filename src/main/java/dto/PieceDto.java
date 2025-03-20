@@ -33,7 +33,7 @@ public enum PieceDto {
         return Arrays.stream(values())
             .filter(pieceDto -> pieceDto.pieceClassType.isInstance(piece))
             .findAny()
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new IllegalStateException("[ERROR] 잘못된 기물 종류입니다."));
     }
 
     public String getName() {

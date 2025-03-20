@@ -37,7 +37,7 @@ public class Board {
         return pieces.stream()
             .filter(piece -> piece.onPosition(position))
             .findAny()
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
     }
 
     public void take(Piece target) {

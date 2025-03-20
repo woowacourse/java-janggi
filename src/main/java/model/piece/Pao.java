@@ -48,10 +48,10 @@ public class Pao extends Piece {
         for (; !onRoute.equals(target); onRoute = onRoute.move(route.positions().getFirst())) {
             if (board.hasPieceOn(onRoute)) {
                 if (board.get(onRoute) instanceof Pao) {
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("[ERROR] 포는 포를 넘을 수 없습니다.");
                 }
                 if (flag) {
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("[ERROR] 포는 기물을 1개만 넘을 수 있습니다.");
                 }
                 flag = true;
             }

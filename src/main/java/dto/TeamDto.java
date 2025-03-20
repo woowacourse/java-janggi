@@ -18,7 +18,7 @@ public enum TeamDto {
         return Arrays.stream(values())
             .filter(teamDto -> teamDto.name().equals(currentTurn.name()))
             .findAny()
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new IllegalStateException("[ERROR] 잘못된 팀 정보입니다."));
     }
 
     public String getDisplayName() {
