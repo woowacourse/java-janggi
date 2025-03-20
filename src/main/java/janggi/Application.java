@@ -9,6 +9,10 @@ import janggi.piece.Guard;
 import janggi.piece.Horse;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
+import janggi.view.InputParser;
+import janggi.view.InputView;
+import janggi.view.OutputView;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +21,15 @@ public class Application {
         Map<Position, Piece> board = new HashMap<>();
         initializeRedTeam(board);
         initializeGreenTeam(board);
+
+        InputView inputView = new InputView();
+        OutputView outputView = new OutputView();
+        InputParser parser = new InputParser();
+
+        outputView.printGameStartMessage();
+        String startAndGoal = inputView.readStartAndGoalPosition(Team.GREEN);
+        Position startPosition = parser.splitStartPosition(startAndGoal);
+        Position goalPosition = parser.splitGoalPosition(startAndGoal);
     }
 
     private static void initializeRedTeam(Map<Position, Piece> board) {

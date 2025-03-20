@@ -12,6 +12,10 @@ public class Position {
         this.row = row;
     }
 
+    public Position(String column, String row) {
+        this(Integer.parseInt(column), Integer.parseInt(row));
+    }
+
     public Position plus(int columnDifference, int rowDifference) {
         return new Position(column + columnDifference, row + rowDifference);
     }
@@ -26,5 +30,10 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(column, row);
+    }
+
+    @Override
+    public String toString() {
+        return "" + column + row;
     }
 }
