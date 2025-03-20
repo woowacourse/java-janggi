@@ -11,7 +11,7 @@ import static domain.Direction.UP;
 
 import java.util.List;
 
-public class Horse extends LimitedChessPiece {
+public class Horse extends LimitedMoveChessPiece {
     private static final List<Directions> directions = List.of(
             new Directions(List.of(UP, RIGHT_UP)),
             new Directions(List.of(UP, LEFT_UP)),

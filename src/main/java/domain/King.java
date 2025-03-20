@@ -4,7 +4,7 @@ import java.util.List;
 
 import static domain.Direction.*;
 
-public class King extends LimitedChessPiece {
+public class King extends LimitedMoveChessPiece {
 
     private static final List<Directions> directions = List.of(
             new Directions(List.of(UP, RIGHT_UP)),

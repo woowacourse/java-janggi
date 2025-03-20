@@ -8,7 +8,7 @@ import static domain.Direction.UP;
 import java.util.List;
 import java.util.Map;
 
-public class Pawn extends LimitedChessPiece {
+public class Pawn extends LimitedMoveChessPiece {
 
     private static final Map<ChessTeam, List<Directions>> DIRECTIONS = Map.of(
             ChessTeam.RED, List.of(new Directions(List.of(LEFT)), new Directions(List.of(RIGHT)), new Directions(List.of(DOWN))),

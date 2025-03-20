@@ -3,10 +3,10 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class LimitedChessPiece extends JanggiChessPiece {
+public abstract class LimitedMoveChessPiece extends JanggiChessPiece {
     private final List<Directions> directions;
 
-    protected LimitedChessPiece(ChessPosition position, ChessTeam team, List<Directions> directions) {
+    protected LimitedMoveChessPiece(ChessPosition position, ChessTeam team, List<Directions> directions) {
         super(position, team);
         this.directions = directions;
     }
@@ -51,7 +51,5 @@ public abstract class LimitedChessPiece extends JanggiChessPiece {
     }
 
     @Override
-    public ChessPieceType getChessPieceType() {
-        return null;
-    }
+    abstract public ChessPieceType getChessPieceType();
 }
