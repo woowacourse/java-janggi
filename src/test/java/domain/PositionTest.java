@@ -2,6 +2,11 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.PieceFactory;
+import domain.position.Point;
+import domain.position.Position;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 

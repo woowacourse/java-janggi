@@ -1,5 +1,7 @@
 package domain;
 
+import domain.position.Point;
+import domain.position.Position;
 import java.util.List;
 import view.InputView;
 import view.OutputView;

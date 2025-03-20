@@ -1,20 +1,27 @@
-package domain;
+package domain.piece;
 
+import domain.Score;
+import domain.Team;
+import domain.position.Distance;
+import domain.position.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chariot extends AbstractPiece {
+public class Cannon extends AbstractPiece {
 
-    public Chariot(final Team team, final Score score) {
+    public Cannon(final Team team, final Score score) {
         super(team, score);
     }
 
+    /*
+        포는 말 1개를 건너 뛰어야만 이동 가능하므로 target은 prev에서 한 칸 옮긴 위치에서 시작한다.
+         */
     @Override
     public List<Point> getPossiblePoint(Point prev, Point newPoint) {
         List<Point> possiblePoint = new ArrayList<>();
 
-        int x = prev.calculateSubtractionX(newPoint);
-        int y = prev.calculateSubtractionY(newPoint);
+        final int x = prev.calculateSubtractionX(newPoint);
+        final int y = prev.calculateSubtractionY(newPoint);
         if (x > 0) {
             Point target = prev;
             for (int i = 0; i < prev.distanceToMaxX(); i++) {
@@ -60,9 +67,11 @@ public class Chariot extends AbstractPiece {
 
     @Override
     public boolean isMovable(final Distance distance) {
-        if (distance.x() == 0 && distance.y() != 0) {
+        final int absoluteX = Math.abs(distance.x());
+        final int absoluteY = Math.abs(distance.y());
+        if (absoluteX >= 2 && absoluteY == 0) {
             return true;
         }
-        return distance.x() != 0 && distance.y() == 0;
+        return absoluteX == 0 && absoluteY >= 2;
     }
 }

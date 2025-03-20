@@ -1,10 +1,10 @@
 package view;
 
 import domain.Board;
-import domain.Piece;
-import domain.Point;
-import domain.Position;
 import domain.Score;
+import domain.piece.Piece;
+import domain.position.Point;
+import domain.position.Position;
 import java.util.ResourceBundle;
 
 public final class OutputView {

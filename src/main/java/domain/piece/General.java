@@ -1,5 +1,9 @@
-package domain;
+package domain.piece;
 
+import domain.Score;
+import domain.Team;
+import domain.position.Distance;
+import domain.position.Point;
 import java.util.List;
 
 public class General extends AbstractPiece {

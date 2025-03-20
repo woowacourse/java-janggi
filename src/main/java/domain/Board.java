@@ -1,5 +1,16 @@
 package domain;
 
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
+import domain.piece.General;
+import domain.piece.Guard;
+import domain.piece.Horse;
+import domain.piece.Piece;
+import domain.piece.PieceFactory;
+import domain.piece.Soldier;
+import domain.position.Point;
+import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;

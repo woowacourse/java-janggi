@@ -1,5 +1,7 @@
-package domain;
+package domain.piece;
 
+import domain.Score;
+import domain.Team;
 import java.util.function.BiFunction;
 
 public final class PieceFactory {
