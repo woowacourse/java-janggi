@@ -10,7 +10,7 @@ public record JanggiPosition(int file, int rank) {
     private static final int MAX_COLUMN_BOUND = 9;
     private static final int MIN_COLUMN_BOUND = 1;
 
-    public JanggiPosition move(List<Pattern> patterns) {
+    public JanggiPosition move(final List<Pattern> patterns) {
         JanggiPosition newPosition = this;
         for (Pattern pattern : patterns) {
             newPosition = newPosition.moveOnePosition(pattern);
@@ -18,14 +18,14 @@ public record JanggiPosition(int file, int rank) {
         return newPosition;
     }
 
-    public JanggiPosition moveOnePosition(Pattern pattern) {
+    public JanggiPosition moveOnePosition(final Pattern pattern) {
         int newX = transformedNewX(pattern, file);
         int newY = rank + pattern.getY();
 
         return new JanggiPosition(newX, newY);
     }
 
-    private int transformedNewX(Pattern pattern, int x) {
+    private int transformedNewX(final Pattern pattern, int x) {
         int newX = x + pattern.getX();
         if ((pattern.equals(Pattern.UP) && x == MIN_ROW_BOUND) || (pattern.equals(Pattern.DIAGONAL_UP_RIGHT)
                 && x == MIN_ROW_BOUND) || (
@@ -40,7 +40,7 @@ public record JanggiPosition(int file, int rank) {
         return newX;
     }
 
-    public boolean isBiggerXThan(JanggiPosition beforePosition) {
+    public boolean isBiggerXThan(final JanggiPosition beforePosition) {
         if (this.file == 0) {
             return true;
         }
@@ -50,11 +50,11 @@ public record JanggiPosition(int file, int rank) {
         return this.file > beforePosition.file;
     }
 
-    public boolean isBiggerYThan(JanggiPosition beforePosition) {
+    public boolean isBiggerYThan(final JanggiPosition beforePosition) {
         return this.rank > beforePosition.rank;
     }
 
-    public int getXGap(JanggiPosition beforePosition) {
+    public int getXGap(final JanggiPosition beforePosition) {
         if (this.file == 0) {
             return 10 - beforePosition.file();
         }
@@ -66,7 +66,7 @@ public record JanggiPosition(int file, int rank) {
         return Math.abs(this.file - beforePosition.file);
     }
 
-    public int getYGap(JanggiPosition beforePosition) {
+    public int getYGap(final JanggiPosition beforePosition) {
         return Math.abs(this.rank - beforePosition.rank);
     }
 

@@ -10,19 +10,18 @@ import java.util.Map.Entry;
 
 public class LimitedJanggiPieceRoute implements JanggiPieceRoute {
 
-    protected Map<Direction, List<Pattern>> routes;
+    private final Map<Direction, List<Pattern>> routes;
 
-    protected LimitedJanggiPieceRoute(Map<Direction, List<Pattern>> routes) {
+    LimitedJanggiPieceRoute(final Map<Direction, List<Pattern>> routes) {
         this.routes = routes;
     }
 
     @Override
-    public List<Pattern> getRoute(JanggiPosition beforePosition, JanggiPosition afterPosition) {
+    public List<Pattern> getRoute(final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
         return routes.entrySet().stream()
                 .filter(entry -> {
                     List<Pattern> patterns = entry.getValue();
                     JanggiPosition newPosition = beforePosition.move(patterns);
-
                     return newPosition.equals(afterPosition);
                 })
                 .findFirst()
@@ -31,7 +30,7 @@ public class LimitedJanggiPieceRoute implements JanggiPieceRoute {
     }
 
     @Override
-    public List<Pattern> getPatterns(Direction direction) {
+    public List<Pattern> getPatterns(final Direction direction) {
         return routes.get(direction);
     }
 }

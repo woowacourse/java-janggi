@@ -5,7 +5,7 @@ import static domain.route.Direction.*;
 import domain.pattern.Pattern;
 import java.util.Map;
 
-public class 차Route extends LinearJanggiPiceRoute {
+public final class 차Route extends LinearJanggiPieceRoute {
 
     public 차Route() {
         super(Map.of(

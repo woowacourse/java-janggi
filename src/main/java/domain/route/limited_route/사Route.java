@@ -6,7 +6,7 @@ import domain.pattern.Pattern;
 import java.util.List;
 import java.util.Map;
 
-public class 사Route extends LimitedJanggiPieceRoute {
+public final class 사Route extends LimitedJanggiPieceRoute {
 
     public 사Route() {
         super(Map.of(

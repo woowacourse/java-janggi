@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface JanggiPieceRoute {
 
-    List<Pattern> getRoute(JanggiPosition beforePosition, JanggiPosition afterPosition);
-    List<Pattern> getPatterns(Direction direction);
+    List<Pattern> getRoute(final JanggiPosition beforePosition, final JanggiPosition afterPosition);
+    List<Pattern> getPatterns(final Direction direction);
 }

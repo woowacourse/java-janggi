@@ -15,14 +15,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JanggiBoardBasicInitializer implements JanggiBoardInitializer {
+public final class JanggiBoardBasicInitializer implements JanggiBoardInitializer {
 
     private static final List<Integer> rows = List.of(0, 9, 8, 7, 6, 5, 4, 3, 2, 1);
     private static final List<Integer> columns = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     @Override
     public Map<JanggiPosition, JanggiPiece> initializeJanggiBoard() {
-        Map<JanggiPosition, JanggiPiece> janggiBoard = new HashMap<>();
+        final Map<JanggiPosition, JanggiPiece> janggiBoard = new HashMap<>();
         for (Integer column : columns) {
             for (Integer row : rows) {
                 janggiBoard.put(new JanggiPosition(row, column), new Empty());
@@ -33,7 +33,7 @@ public class JanggiBoardBasicInitializer implements JanggiBoardInitializer {
         return janggiBoard;
     }
 
-    private static void initChoJanggiBoard(Map<JanggiPosition, JanggiPiece> janggiBoard) {
+    private static void initChoJanggiBoard(final Map<JanggiPosition, JanggiPiece> janggiBoard) {
         janggiBoard.put(new JanggiPosition(9, 5), new 궁(JanggiSide.CHO));
         janggiBoard.put(new JanggiPosition(0, 1), new 차(JanggiSide.CHO));
         janggiBoard.put(new JanggiPosition(0, 9), new 차(JanggiSide.CHO));
@@ -52,7 +52,7 @@ public class JanggiBoardBasicInitializer implements JanggiBoardInitializer {
         janggiBoard.put(new JanggiPosition(0, 7), new 상(JanggiSide.CHO));
     }
 
-    private static void initHanJanggiBoard(Map<JanggiPosition, JanggiPiece> janggiBoard) {
+    private static void initHanJanggiBoard(final Map<JanggiPosition, JanggiPiece> janggiBoard) {
         janggiBoard.put(new JanggiPosition(2, 5), new 궁(JanggiSide.HAN));
         janggiBoard.put(new JanggiPosition(1, 1), new 차(JanggiSide.HAN));
         janggiBoard.put(new JanggiPosition(1, 9), new 차(JanggiSide.HAN));

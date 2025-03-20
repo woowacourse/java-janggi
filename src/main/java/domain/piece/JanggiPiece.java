@@ -6,19 +6,19 @@ import domain.route.JanggiPieceRoute;
 import java.util.List;
 
 public abstract class JanggiPiece {
-    protected int score;
-    protected JanggiSide side;
+    protected final int score;
+    protected final JanggiSide side;
     protected JanggiPieceStatus status;
     protected JanggiPieceRoute route;
 
-    public JanggiPiece(int score, JanggiSide side, JanggiPieceRoute route) {
+    public JanggiPiece(int score, final JanggiSide side, final JanggiPieceRoute route) {
         this.score = score;
         this.side = side;
         this.status = JanggiPieceStatus.ACTIVE;
         this.route = route;
     }
 
-    public List<Pattern> findPath(JanggiPosition beforePosition, JanggiPosition afterPosition) {
+    public List<Pattern> findPath(final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
         return route.getRoute(beforePosition, afterPosition);
     }
 
@@ -26,7 +26,7 @@ public abstract class JanggiPiece {
         return false;
     }
 
-    public void captureIfNotMySide(JanggiSide otherSide) {
+    public void captureIfNotMySide(final JanggiSide otherSide) {
         if (otherSide == this.side) {
             return;
         }

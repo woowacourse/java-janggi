@@ -13,16 +13,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class LinearJanggiPiceRoute implements JanggiPieceRoute {
+public class LinearJanggiPieceRoute implements JanggiPieceRoute {
 
-    protected Map<Direction, Pattern> directions;
+    protected final Map<Direction, Pattern> directions;
 
-    protected LinearJanggiPiceRoute(Map<Direction, Pattern> directions) {
+    protected LinearJanggiPieceRoute(final Map<Direction, Pattern> directions) {
         this.directions = directions;
     }
 
     @Override
-    public List<Pattern> getRoute(JanggiPosition beforePosition, JanggiPosition afterPosition) {
+    public List<Pattern> getRoute(final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
         if (afterPosition.file() == beforePosition.file()) {
             return setNewPathAndGetAdditionalSizeAboutLeftOrRight(beforePosition, afterPosition);
         }
@@ -33,8 +33,8 @@ public class LinearJanggiPiceRoute implements JanggiPieceRoute {
     }
 
     private List<Pattern> setNewPathAndGetAdditionalSizeAboutLeftOrRight(
-            JanggiPosition beforePosition,
-            JanggiPosition afterPosition
+            final JanggiPosition beforePosition,
+            final JanggiPosition afterPosition
     ) {
         Direction newPath;
         int additionalSize;
@@ -49,8 +49,8 @@ public class LinearJanggiPiceRoute implements JanggiPieceRoute {
     }
 
     private List<Pattern> setNewPathAndGetAdditionalSizeAboutUpOrDown(
-            JanggiPosition beforePosition,
-            JanggiPosition afterPosition
+            final JanggiPosition beforePosition,
+            final JanggiPosition afterPosition
     ) {
         Direction newPath;
         int additionalSize;
@@ -64,16 +64,16 @@ public class LinearJanggiPiceRoute implements JanggiPieceRoute {
         return createPattern(newPath, additionalSize);
     }
 
-    private List<Pattern> createPattern(Direction newPath, int additionalSize) {
+    private List<Pattern> createPattern(final Direction newPath, int additionalSize) {
         return Collections.nCopies(additionalSize, directions.get(newPath));
     }
 
-    public Pattern getPattern(Direction direction) {
+    public Pattern getPattern(final Direction direction) {
         return directions.get(direction);
     }
 
     @Override
-    public List<Pattern> getPatterns(Direction direction) {
+    public List<Pattern> getPatterns(final Direction direction) {
         return List.of(directions.get(direction));
     }
 }
