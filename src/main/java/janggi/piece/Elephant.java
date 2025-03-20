@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.Team;
 import janggi.board.Position;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ public class Elephant extends Piece {
     private static final int[][] dRows = {{1, 1, 1}, {1, 1, 1}, {0, 1, 1}, {0, -1, -1}, {-1, -1, -1}, {-1, -1, -1}, {0, -1, -1}, {0, 1, 1}};
     private static final int[][] dColumns = {{0, -1, -1}, {0, 1, 1}, {1, 1, 1}, {1, 1, 1}, {0, 1, 1}, {0, -1, -1}, {-1, -1, -1}, {-1, -1, -1}};
 
-    public Elephant(String team) {
+    public Elephant(Team team) {
         super(team);
     }
 

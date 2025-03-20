@@ -20,7 +20,7 @@ public class Application {
     }
 
     private static void initializeRedTeam(Map<Position, Piece> board) {
-        String team = "한";
+        Team team = Team.RED;
         board.put(new Position(0, 6), new Soldier(team));
         board.put(new Position(2, 6), new Soldier(team));
         board.put(new Position(4, 6), new Soldier(team));
@@ -46,7 +46,7 @@ public class Application {
     }
 
     private static void initializeGreenTeam(Map<Position, Piece> board) {
-        String team = "초";
+        Team team = Team.GREEN;
         board.put(new Position(0, 3), new Soldier(team));
         board.put(new Position(2, 3), new Soldier(team));
         board.put(new Position(4, 3), new Soldier(team));

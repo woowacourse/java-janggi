@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.Team;
 import janggi.board.Position;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class Canon extends Piece {
             {1}, {1, 1}, {1, 1, 1}, {1, 1, 1, 1}, {1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1},
             {1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1}};
 
-    public Canon(String team) {
+    public Canon(Team team) {
         super(team);
     }
 

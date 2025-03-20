@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.Team;
 import janggi.board.Position;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ public class Horse extends Piece {
     private static final int[][] dRows = {{1, 1}, {1, 1}, {0, 1}, {0, -1}, {-1, -1}, {-1, -1}, {0, -1}, {0, 1}};
     private static final int[][] dColumns = {{0, -1}, {0, 1}, {1, 1}, {1, 1}, {0, 1}, {0, 1}, {-1, -1}, {-1, -1}};
 
-    public Horse(String team) {
+    public Horse(Team team) {
         super(team);
     }
 

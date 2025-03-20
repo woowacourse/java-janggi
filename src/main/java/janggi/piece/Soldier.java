@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.Team;
 import janggi.board.Position;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ public class Soldier extends Piece {
     private static final int[][] dRowsRed = {{-1}, {0}, {0}};
     private static final int[][] dColumns = {{0}, {-1}, {1}};
 
-    public Soldier(String team) {
+    public Soldier(Team team) {
         super(team);
     }
 

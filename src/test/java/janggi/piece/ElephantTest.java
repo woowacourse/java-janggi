@@ -1,14 +1,16 @@
 package janggi.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
-
+import janggi.Team;
 import janggi.board.Board;
 import janggi.board.Position;
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
 
 class ElephantTest {
 
@@ -19,7 +21,7 @@ class ElephantTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = new Position(4, 4);
         Position goal = createPosition(column, row);
-        Elephant piece = new Elephant("초");
+        Elephant piece = new Elephant(Team.GREEN);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);

@@ -1,7 +1,6 @@
 package janggi.fixture;
 
-import static janggi.fixture.PositionFixture.createPosition;
-
+import janggi.Team;
 import janggi.board.Board;
 import janggi.board.Position;
 import janggi.piece.Canon;
@@ -16,6 +15,8 @@ import janggi.piece.Soldier;
 import java.util.HashMap;
 import java.util.Map;
 
+import static janggi.fixture.PositionFixture.createPosition;
+
 public class BoardFixture {
 
     public static Board createBasicBoard() {
@@ -26,7 +27,7 @@ public class BoardFixture {
     }
 
     private static void initializeRedTeam(Map<Position, Piece> board) {
-        String team = "한";
+        Team team = Team.RED;
         board.put(createPosition(0, 6), new Soldier(team));
         board.put(createPosition(2, 6), new Soldier(team));
         board.put(createPosition(4, 6), new Soldier(team));
@@ -52,7 +53,7 @@ public class BoardFixture {
     }
 
     private static void initializeGreenTeam(Map<Position, Piece> board) {
-        String team = "초";
+        Team team = Team.GREEN;
         board.put(createPosition(0, 3), new Soldier(team));
         board.put(createPosition(2, 3), new Soldier(team));
         board.put(createPosition(4, 3), new Soldier(team));

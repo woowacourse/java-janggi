@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.Team;
 import janggi.board.Position;
 
 import java.util.Map;
@@ -35,7 +36,7 @@ public class Chariot extends Piece {
             {1}, {1, 1}, {1, 1, 1}, {1, 1, 1, 1}, {1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1},
             {1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1}};
 
-    public Chariot(String team) {
+    public Chariot(Team team) {
         super(team);
     }
 

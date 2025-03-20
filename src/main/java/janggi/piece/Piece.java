@@ -1,19 +1,20 @@
 package janggi.piece;
 
+import janggi.Team;
 import janggi.board.Position;
 
 import java.util.Map;
 
 public abstract class Piece {
 
-    protected final String team;
+    protected final Team team;
 
-    public Piece(String team) {
+    public Piece(Team team) {
         this.team = team;
     }
 
-    public boolean isSameTeam(String team) {
-        return this.team.equals(team);
+    public boolean isSameTeam(Team team) {
+        return this.team == team;
     }
 
     public void validateMovable(Map<Position, Piece> board, Position start, Position goal) {
