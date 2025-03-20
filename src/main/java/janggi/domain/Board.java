@@ -54,8 +54,8 @@ public class Board {
         initializeChariot(pieces);
         initializeCannon(pieces);
         initializeSoldier(pieces);
-        initializeHorse(pieces, blueLeftHorsePosition, blueRightHorsePosition);
-        initializeElephant(pieces, redLeftHorsePosition, redRightHorsePosition);
+        initializeHorse(pieces, blueLeftHorsePosition, blueRightHorsePosition, redLeftHorsePosition, redRightHorsePosition);
+        initializeElephant(pieces, blueLeftHorsePosition, blueRightHorsePosition, redLeftHorsePosition, redRightHorsePosition);
         return new Board(pieces);
     }
 
@@ -84,14 +84,25 @@ public class Board {
         putInBoard(pieces, Soldier.createWithInitialPositions(TeamType.RED));
     }
 
-    private static void initializeHorse(final Map<Position, Piece> pieces, PositionSide leftHorsePosition, PositionSide rightHorsePosition) {
-        putInBoard(pieces, Horse.createWithInitialPositions(TeamType.BLUE, leftHorsePosition, rightHorsePosition));
-        putInBoard(pieces, Horse.createWithInitialPositions(TeamType.RED, leftHorsePosition, rightHorsePosition));
+    private static void initializeHorse(
+            final Map<Position, Piece> pieces,
+            PositionSide blueLeftHorsePosition,
+            PositionSide blueRightHorsePosition,
+            PositionSide redLeftHorsePosition,
+            PositionSide redRightHorsePosition
+    ) {
+        putInBoard(pieces, Horse.createWithInitialPositions(TeamType.BLUE, blueLeftHorsePosition, blueRightHorsePosition));
+        putInBoard(pieces, Horse.createWithInitialPositions(TeamType.RED, redLeftHorsePosition, redRightHorsePosition));
     }
 
-    private static void initializeElephant(final Map<Position, Piece> pieces, PositionSide leftElephantPosition, PositionSide rightElephantPosition) {
-        putInBoard(pieces, Elephant.createWithInitialPositions(TeamType.BLUE, leftElephantPosition, rightElephantPosition));
-        putInBoard(pieces, Elephant.createWithInitialPositions(TeamType.RED, leftElephantPosition, rightElephantPosition));
+    private static void initializeElephant(
+            final Map<Position, Piece> pieces,
+            PositionSide blueLeftHorsePosition,
+            PositionSide blueRightHorsePosition,
+            PositionSide redLeftHorsePosition,
+            PositionSide redRightHorsePosition) {
+        putInBoard(pieces, Elephant.createWithInitialPositions(TeamType.BLUE, blueLeftHorsePosition, blueRightHorsePosition));
+        putInBoard(pieces, Elephant.createWithInitialPositions(TeamType.RED, redLeftHorsePosition, redRightHorsePosition));
     }
 
     private static void putInBoard(final Map<Position, Piece> board, List<Piece> pieces) {
