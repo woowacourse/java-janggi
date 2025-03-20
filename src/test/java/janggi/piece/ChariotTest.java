@@ -3,10 +3,11 @@ package janggi.piece;
 import janggi.Board;
 import janggi.Position;
 import janggi.Team;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -19,7 +20,7 @@ class ChariotTest {
     void move(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
-        Piece chariot = new Chariot(position, Team.RED);
+        Piece chariot = Chariot.of(position, Team.RED);
         Board board = Board.initialize(List.of(chariot));
 
         Position movedPosition = position.adjust(rowDirection, columnDirection);
@@ -37,7 +38,7 @@ class ChariotTest {
     void cannotMoveToInvalidDirection(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
-        Piece chariot = new Chariot(position, Team.RED);
+        Piece chariot = Chariot.of(position, Team.RED);
         Board board = Board.initialize(List.of(chariot));
 
         Position movedPosition = position.adjust(rowDirection, columnDirection);

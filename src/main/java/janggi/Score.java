@@ -26,6 +26,10 @@ public record Score(int value) {
         return new Score(13);
     }
 
+    public static Score General() {
+        return new Score(19980608);
+    }
+
     public Score add(int value) {
         return new Score(this.value + value);
     }

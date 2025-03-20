@@ -3,11 +3,12 @@ package janggi.piece;
 import janggi.Board;
 import janggi.Position;
 import janggi.Team;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -19,7 +20,7 @@ class GeneralTest {
     void move() {
         // given
         Position position = Position.of(5, 5);
-        Piece general = new General(position, Team.RED);
+        Piece general = General.of(position, Team.RED);
         Board board = Board.initialize(List.of(general));
 
         Position movedPosition = position.adjust(-1, 0);
@@ -37,7 +38,7 @@ class GeneralTest {
     void move(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
-        Piece general = new General(position, Team.RED);
+        Piece general = General.of(position, Team.RED);
         Board board = Board.initialize(List.of(general));
 
         Position movedPosition = position.adjust(rowDirection, columnDirection);

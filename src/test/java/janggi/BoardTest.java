@@ -20,7 +20,7 @@ class BoardTest {
     void isAlly(Team team, boolean expected) {
         // given
         Position position = Position.of(1, 1);
-        Board board = Board.initialize(List.of(new Soldier(position, Team.RED)));
+        Board board = Board.initialize(List.of(Soldier.of(position, Team.RED)));
 
         // when
         boolean actual = board.isAlly(position, team);
@@ -34,7 +34,7 @@ class BoardTest {
     void getPiece() {
         // given
         Position position = Position.of(1, 1);
-        Soldier soldier = new Soldier(position, Team.RED);
+        Soldier soldier = Soldier.of(position, Team.RED);
         Board board = Board.initialize(List.of(soldier));
 
         // when
@@ -49,7 +49,7 @@ class BoardTest {
     void throwExceptionWhenNotExists() {
         // given
         Position position = Position.of(1, 1);
-        Soldier soldier = new Soldier(position, Team.RED);
+        Soldier soldier = Soldier.of(position, Team.RED);
         Board board = Board.initialize(List.of(soldier));
 
         // when
