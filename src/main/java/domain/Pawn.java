@@ -1,23 +1,23 @@
 package domain;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class Pawn implements ChessPiece {
-    private static final int[][] ds = {
-            {-1, 0},
-            {1, 0},
-            {0, -1},
-            {0, 1}
-    };
+import static domain.Direction.*;
 
-    private final ChessPosition position;
-    private final ChessTeam chessTeam;
+public class Pawn extends LimitedChessPiece {
+    private static final List<Directions> directions = List.of(
+            new Directions(List.of(UP, RIGHT_UP)),
+            new Directions(List.of(UP, LEFT_UP)),
+            new Directions(List.of(LEFT, LEFT_UP)),
+            new Directions(List.of(LEFT, LEFT_DOWN)),
+            new Directions(List.of(RIGHT, RIGHT_UP)),
+            new Directions(List.of(RIGHT, RIGHT_DOWN)),
+            new Directions(List.of(DOWN, LEFT_DOWN)),
+            new Directions(List.of(DOWN, RIGHT_DOWN))
+    );
 
     public Pawn(ChessPosition position, final ChessTeam chessTeam) {
-        this.position = position;
-        this.chessTeam = chessTeam;
+        super(position, chessTeam, directions);
     }
 
     public static List<Pawn> initPieces() {
@@ -30,27 +30,8 @@ public class Pawn implements ChessPiece {
     }
 
     @Override
-    public ChessPosition getPosition() {
-        return position;
-    }
-
-    @Override
-    public List<Path> getAvailablePaths(ChessPiecePositions positions) {
-        return Arrays.stream(ds)
-                .map(this::getCoordinateNextPositions)
-                .filter(coord -> !coord.isEmpty())
-                .map(Path::new)
-                .toList();
-    }
-
-    private List<ChessPosition> getCoordinateNextPositions(int[] d) {
-        List<ChessPosition> result = new ArrayList<>();
-        final int nextRow = position.row() + d[0];
-        final int nextCol = position.column() + d[1];
-        if (ChessPosition.isValid(nextRow, nextCol)) {
-            result.add(new ChessPosition(nextRow, nextCol));
-        }
-        return result;
+    protected List<ChessPosition> getCoordinateDestinations(List<Path> coordinates) {
+        return null;
     }
 
     @Override

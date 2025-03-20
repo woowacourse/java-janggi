@@ -2,7 +2,7 @@ package domain;
 
 import java.util.List;
 
-public class Cannon implements ChessPiece{
+public class Cannon implements ChessPiece {
 
     private final ChessPosition position;
     private final ChessTeam team;
@@ -27,7 +27,7 @@ public class Cannon implements ChessPiece{
     }
 
     @Override
-    public List<Path> getAvailablePaths(ChessPiecePositions positions) {
+    public List<ChessPosition> getDestinations() {
         return List.of();
     }
 

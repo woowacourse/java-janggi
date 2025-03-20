@@ -2,14 +2,22 @@ package domain;
 
 import java.util.List;
 
-public class Guard implements ChessPiece{
+import static domain.Direction.*;
 
-    private final ChessPosition position;
-    private final ChessTeam team;
+public class Guard extends LimitedChessPiece {
+    private static final List<Directions> directions = List.of(
+            new Directions(List.of(UP, RIGHT_UP)),
+            new Directions(List.of(UP, LEFT_UP)),
+            new Directions(List.of(LEFT, LEFT_UP)),
+            new Directions(List.of(LEFT, LEFT_DOWN)),
+            new Directions(List.of(RIGHT, RIGHT_UP)),
+            new Directions(List.of(RIGHT, RIGHT_DOWN)),
+            new Directions(List.of(DOWN, LEFT_DOWN)),
+            new Directions(List.of(DOWN, RIGHT_DOWN))
+    );
 
     public Guard(ChessPosition position, final ChessTeam team) {
-        this.position = position;
-        this.team = team;
+        super(position, team, directions);
     }
 
     public static List<Guard> initPieces() {
@@ -22,13 +30,8 @@ public class Guard implements ChessPiece{
     }
 
     @Override
-    public ChessPosition getPosition() {
-        return position;
-    }
-
-    @Override
-    public List<Path> getAvailablePaths(ChessPiecePositions positions) {
-        return List.of();
+    protected List<ChessPosition> getCoordinateDestinations(List<Path> coordinates) {
+        return null;
     }
 
     @Override

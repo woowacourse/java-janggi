@@ -9,11 +9,10 @@ import static domain.Direction.RIGHT_DOWN;
 import static domain.Direction.RIGHT_UP;
 import static domain.Direction.UP;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Horse implements ChessPiece {
-    private final List<Directions> directions = List.of(
+public class Horse extends LimitedChessPiece {
+    private static final List<Directions> directions = List.of(
             new Directions(List.of(UP, RIGHT_UP)),
             new Directions(List.of(UP, LEFT_UP)),
             new Directions(List.of(LEFT, LEFT_UP)),
@@ -24,12 +23,8 @@ public class Horse implements ChessPiece {
             new Directions(List.of(DOWN, RIGHT_DOWN))
     );
 
-    private final ChessPosition chessPosition;
-    private final ChessTeam team;
-
     public Horse(ChessPosition chessPosition, final ChessTeam team) {
-        this.chessPosition = chessPosition;
-        this.team = team;
+        super(chessPosition, team, directions);
     }
 
     public static List<Horse> initPieces() {
@@ -42,19 +37,8 @@ public class Horse implements ChessPiece {
     }
 
     @Override
-    public List<Path> getAvailablePaths(ChessPiecePositions positions) {
-        List<Path> result = new ArrayList<>();
-        for (Directions direction : directions) {
-            if (direction.canApplyFrom(chessPosition)) {
-                result.add(direction.getPathFrom(chessPosition));
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public ChessPosition getPosition() {
-        return chessPosition;
+    protected List<ChessPosition> getCoordinateDestinations(List<Path> coordinates) {
+        return null;
     }
 
     @Override
