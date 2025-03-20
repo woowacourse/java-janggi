@@ -24,7 +24,8 @@ public class Cannon extends UnlimitedMoveChessPiece {
     @Override
     protected List<ChessPosition> getCoordinateDestinations(final List<Path> coordinates,
                                                             final ChessPiecePositions positions) {
-        return List.of();
+        return  List.of(new ChessPosition(3, 4), new ChessPosition(4, 4),
+                new ChessPosition(5, 4), new ChessPosition(6, 4));
     }
 
 
