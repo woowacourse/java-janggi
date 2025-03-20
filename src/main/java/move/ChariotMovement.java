@@ -1,7 +1,8 @@
 package move;
 
 import direction.Point;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 import piece.Piece;
 import piece.Pieces;
 
@@ -9,12 +10,21 @@ public class ChariotMovement implements MovementRule {
 
     @Override
     public Point move(Pieces pieces, Point from, Point to) {
-        if(from.x() != to.x() && from.y() != to.y()) {
-            throw new IllegalArgumentException();
+        validateStraightDestination(from, to);
+        validateStartSameDestination(from, to);
+
+        List<Point> paths = findPaths(from, to);
+
+        for (Point path : paths) {
+            Piece piece = pieces.findByPoint(path);
+            validateNonExistPieceInPath(piece);
         }
-        if(from.equals(to)) {
-            throw new IllegalArgumentException();
-        }
+
+        return new Point(to.x(), to.y());
+    }
+
+    private List<Point> findPaths(Point from, Point to) {
+        List<Point> paths = new ArrayList<>();
         int minX = Math.min(from.x(), to.x());
         int maxX = Math.max(from.x(), to.x());
         int minY = Math.min(from.y(), to.y());
@@ -22,17 +32,31 @@ public class ChariotMovement implements MovementRule {
 
         for (int y = minY; y <= maxY; y++) {
             for (int x = minX; x <= maxX; x++) {
-                if(x == minX && y == minY) {
+                if (x == minX && y == minY) {
                     continue;
                 }
-                Optional<Piece> piece = pieces.findByPoint(new Point(x, y));
 
-                if (piece.isPresent()) {
-                    throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
-                }
+                paths.add(new Point(x, y));
             }
         }
+        return paths;
+    }
 
-        return new Point(to.x(), to.y());
+    private void validateStraightDestination(Point from, Point to) {
+        if(from.x() != to.x() && from.y() != to.y()) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void validateStartSameDestination(Point from, Point to) {
+        if(from.equals(to)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void validateNonExistPieceInPath(final Piece piece) {
+        if (piece != null) {
+            throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
+        }
     }
 }

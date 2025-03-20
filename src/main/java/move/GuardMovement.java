@@ -5,12 +5,6 @@ import piece.Pieces;
 
 public class GuardMovement implements MovementRule {
 
-    private final int dir;
-
-    public GuardMovement(int dir) {
-        this.dir = dir;
-    }
-
     @Override
     public Point move(Pieces pieces, Point from, Point to) {
         if (from.x() + 1 < to.x() || from.x() - 1 > to.x()) {

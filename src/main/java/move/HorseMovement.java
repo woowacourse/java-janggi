@@ -10,7 +10,6 @@ import direction.Direction;
 import direction.Point;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import piece.Pieces;
 
 public class HorseMovement implements MovementRule {
@@ -39,11 +38,18 @@ public class HorseMovement implements MovementRule {
             throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
         }
         Point checkPoint = new Point(from.x(), from.y());
-        directions.stream()
-                .map(direction -> pieces.findByPoint(checkPoint.plus(direction.multiply(dir))))
-                .filter(Optional::isEmpty)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다."));
+        validateExistPieceInPath(pieces, directions, checkPoint);
         return to;
+    }
+
+    private void validateExistPieceInPath(Pieces pieces, List<Direction> directions, Point checkPoint) {
+        if (checkExistPieceInPoint(pieces, directions, checkPoint)) {
+            throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
+        }
+    }
+
+    private boolean checkExistPieceInPoint(Pieces pieces, List<Direction> directions, Point checkPoint) {
+        return directions.stream()
+                .anyMatch(direction -> pieces.isExistPieceIn(checkPoint.plus(direction.multiply(dir))));
     }
 }
