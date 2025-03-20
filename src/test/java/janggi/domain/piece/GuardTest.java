@@ -28,7 +28,7 @@ class GuardTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = guard.generateMovePosition(board, Side.HAN, position);
+        Set<Position> actual = guard.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
         assertThat(actual.size()).isEqualTo(expected);

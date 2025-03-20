@@ -26,7 +26,7 @@ class ChariotTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = chariot.generateMovePosition(board, Side.HAN, position);
+        Set<Position> actual = chariot.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
         assertThat(actual.size()).isEqualTo(17);
@@ -47,7 +47,7 @@ class ChariotTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = chariot.generateMovePosition(board, Side.HAN, position);
+        Set<Position> actual = chariot.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
         assertThat(actual.size()).isEqualTo(8);
@@ -68,7 +68,7 @@ class ChariotTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = chariot.generateMovePosition(board, Side.HAN, position);
+        Set<Position> actual = chariot.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
         assertThat(actual.size()).isEqualTo(9);

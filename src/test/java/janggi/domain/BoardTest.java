@@ -53,7 +53,7 @@ class BoardTest {
         // when & then
         assertThatThrownBy(() -> board.checkMoveablePiece(Side.CHO, position))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ErrorMessage.NOT_SAME_SIDE.getMessage());
+                .hasMessage(ErrorMessage.IS_NOT_SAME_SIDE.getMessage());
     }
 
     @DisplayName("기물을 움직인다.")

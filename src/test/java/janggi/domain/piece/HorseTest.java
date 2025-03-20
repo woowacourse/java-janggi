@@ -26,10 +26,10 @@ class HorseTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = horse.generateMovePosition(board, Side.HAN, position);
+        Set<Position> actual = horse.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual.size()).isEqualTo(8);
+        assertThat(actual).hasSize(8);
     }
 
     @DisplayName("말 앞에 팀의 기물이 있다면 갈 수 없다.")
@@ -47,10 +47,10 @@ class HorseTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = horse.generateMovePosition(board, Side.HAN, position);
+        Set<Position> actual = horse.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual.size()).isEqualTo(6);
+        assertThat(actual).hasSize(6);
     }
 
     @DisplayName("말의 최종 목적지에 상대의 기물이 있다면 해당 위치까지 갈 수 있다.")
@@ -68,9 +68,9 @@ class HorseTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = horse.generateMovePosition(board, Side.HAN, position);
+        Set<Position> actual = horse.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual.size()).isEqualTo(8);
+        assertThat(actual).hasSize(8);
     }
 }

@@ -17,7 +17,7 @@ public class Piece {
     }
 
     public Set<Position> getAvailableMovePositions(Board board, Position currentPosition) {
-        return pieceBehavior.generateMovePosition(board, this.side, currentPosition);
+        return pieceBehavior.generateAvailableMovePositions(board, this.side, currentPosition);
     }
 
     public String toName() {
@@ -25,10 +25,6 @@ public class Piece {
             return "\u001B[32m" + pieceBehavior.toName() + "\u001B[0m";
         }
         return "\u001B[31m" + pieceBehavior.toName() + "\u001B[0m";
-    }
-
-    public boolean isSameSide(Piece other) {
-        return isSameSide(other.side);
     }
 
     public boolean isSameSide(Side side) {

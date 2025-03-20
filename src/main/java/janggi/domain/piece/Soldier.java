@@ -18,15 +18,11 @@ public class Soldier implements PieceBehavior {
         return "병";
     }
 
-    public Set<Position> generateMovePosition(Board board, Side side, Position position) {
+    public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
         return VECTORS.stream()
-                .map(vector -> vector.side(side))
-                .map(position::calculate)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .map(vector -> position.calculateNextPosition(vector.side(side)))
+                .flatMap(Optional::stream)
                 .filter(availablePosition -> board.canMoveToPosition(side, availablePosition))
                 .collect(Collectors.toUnmodifiableSet());
-
     }
-
 }

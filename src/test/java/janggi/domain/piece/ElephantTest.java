@@ -28,7 +28,7 @@ public class ElephantTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = elephant.generateMovePosition(board, Side.HAN, position);
+        Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
         assertThat(actual.size()).isEqualTo(8);
@@ -50,7 +50,7 @@ public class ElephantTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = elephant.generateMovePosition(board, Side.HAN, position);
+        Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
         assertThat(actual.size()).isEqualTo(expected);
@@ -71,7 +71,7 @@ public class ElephantTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = elephant.generateMovePosition(board, Side.HAN, position);
+        Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
         assertThat(actual.size()).isEqualTo(8);

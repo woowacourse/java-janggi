@@ -6,7 +6,6 @@ import janggi.domain.Side;
 import janggi.domain.Vector;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 public class Chariot implements PieceBehavior {
@@ -23,10 +22,10 @@ public class Chariot implements PieceBehavior {
     }
 
     @Override
-    public Set<Position> generateMovePosition(Board board, Side side, Position position) {
+    public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
         Set<Position> result = new HashSet<>();
         for (Vector vector : VECTORS) {
-            position.calculate(vector)
+            position.calculateNextPosition(vector)
                     .ifPresent(movePosition ->
                             dfs(result, board, movePosition, vector, side));
         }
@@ -39,15 +38,14 @@ public class Chariot implements PieceBehavior {
             addPositionIfNotSameSide(result, board, currentPosition, side);
             return;
         }
-
         result.add(currentPosition);
 
-        Optional<Position> calculate = currentPosition.calculate(vector);
-        if (calculate.isEmpty()) {
+        if (!currentPosition.canMove(vector)) {
             return;
         }
+        Position nextPosition = currentPosition.moveToNextPosition(vector);
 
-        dfs(result, board, calculate.get(), vector, side);
+        dfs(result, board, nextPosition, vector, side);
     }
 
     private void addPositionIfNotSameSide(Set<Position> result, Board board, Position currentPosition, Side side) {

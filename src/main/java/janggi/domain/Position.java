@@ -32,7 +32,7 @@ public class Position {
     }
 
     private static boolean isValid(int row, int column) {
-        return row > 0 && row <= 10 && column > 0 && column <= 9;
+        return row >= 1 && row <= 10 && column >= 1 && column <= 9;
     }
 
     public static Position of(int row, int column) {
@@ -40,20 +40,7 @@ public class Position {
         return CACHED[row][column];
     }
 
-    public Position update(Position newPosition) {
-        return update(newPosition.row, newPosition.column);
-    }
-
-    public Position update(int row, int column) {
-        validate(row, column);
-        return Position.of(row, column);
-    }
-
-    public Position diff(Position comparePosition) {
-        return Position.of(comparePosition.row - this.row, comparePosition.column - this.column);
-    }
-
-    public Optional<Position> calculate(Vector vector) {
+    public Optional<Position> calculateNextPosition(Vector vector) {
         int newRow = this.row + vector.y();
         int newColumn = this.column + vector.x();
 
@@ -62,6 +49,21 @@ public class Position {
         }
         return Optional.empty();
     }
+
+    public boolean canMove(Vector vector) {
+        int newRow = this.row + vector.y();
+        int newColumn = this.column + vector.x();
+
+        return isValid(newRow, newColumn);
+    }
+
+    public Position moveToNextPosition(Vector vector){
+        int newRow = this.row + vector.y();
+        int newColumn = this.column + vector.x();
+
+        return new Position(newRow, newColumn);
+    }
+
 
     @Override
     public int hashCode() {

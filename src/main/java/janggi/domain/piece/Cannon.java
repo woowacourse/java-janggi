@@ -22,10 +22,10 @@ public class Cannon implements PieceBehavior {
     }
 
     @Override
-    public Set<Position> generateMovePosition(Board board, Side side, Position position) {
+    public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
         Set<Position> result = new HashSet<>();
         for (Vector vector : VECTORS) {
-            position.calculate(vector)
+            position.calculateNextPosition(vector)
                     .ifPresent(movePosition ->
                             dfs(result, board, movePosition, vector, side, false));
         }
@@ -35,12 +35,11 @@ public class Cannon implements PieceBehavior {
 
     public void dfs(Set<Position> result, Board board, Position currentPosition, Vector vector, Side side,
                     boolean hasPassed) {
-        if (currentPosition.calculate(vector).isEmpty() || board.isCannon(currentPosition)) {
+        if (!currentPosition.canMove(vector) || board.isCannon(currentPosition)) {
             return;
         }
 
-        Position nextPosition = currentPosition.calculate(vector)
-                .get();
+        Position nextPosition = currentPosition.moveToNextPosition(vector);
 
         if (hasPassed && board.hasPiece(nextPosition) && !board.isSameSide(side, nextPosition)) {
             result.add(nextPosition);

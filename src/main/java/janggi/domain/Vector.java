@@ -15,7 +15,7 @@ public record Vector(int y, int x) {
     public static List<List<Vector>> rotate(List<List<Vector>> vectorsList) {
         return vectorsList.stream()
                 .map(list -> list.stream()
-                        .map(vector -> new Vector(vector.x(), -vector.y())) // (x, y) → (y, -x) 변환
+                        .map(vector -> new Vector(vector.x(), -vector.y()))
                         .toList()
                 )
                 .toList();

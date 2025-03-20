@@ -16,7 +16,7 @@ public class Board {
         Position position = Position.of(row, column);
 
         if (!hasPiece(position)) {
-            return "#";
+            return "＿";
         }
 
         return pieceMap.get(position)
@@ -31,7 +31,7 @@ public class Board {
         validatePositionExists(position);
         Piece piece = pieceMap.get(position);
         if (!piece.isSameSide(side)) {
-            throw new IllegalArgumentException(ErrorMessage.NOT_SAME_SIDE.getMessage());
+            throw new IllegalArgumentException(ErrorMessage.IS_NOT_SAME_SIDE.getMessage());
         }
 
         if (piece.getAvailableMovePositions(this, position)
@@ -83,7 +83,6 @@ public class Board {
                 .isCannon();
     }
 
-    // 상대의 궁이 존재하지 않는다면 true를 반환한다.
     public boolean hasGeneral(Side side) {
         return pieceMap.values()
                 .stream()

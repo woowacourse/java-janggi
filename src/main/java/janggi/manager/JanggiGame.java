@@ -18,6 +18,12 @@ public class JanggiGame {
     public void start(Board board) {
         Side turn = Side.CHO;
 
+        turn = repeatGameTurns(board, turn);
+
+        viewer.winner(turn);
+    }
+
+    private Side repeatGameTurns(Board board, Side turn) {
         while (board.hasGeneral(turn.reverse())) {
             viewer.printBoard(board);
             viewer.printTurnInfo(turn);
@@ -28,8 +34,7 @@ public class JanggiGame {
 
             turn = turn.reverse();
         }
-
-        viewer.winner(turn);
+        return turn;
     }
 
     private Position choosePiece(Board board, Side turn) {
@@ -42,7 +47,9 @@ public class JanggiGame {
 
     private void movePiece(Board board, Position currentPosition) {
         PositionDto positionDto = viewer.readMove(board.getPiece(currentPosition));
+
         Position targetPosition = Position.of(positionDto.row(), positionDto.column());
+
         board.move(currentPosition, targetPosition);
     }
 }

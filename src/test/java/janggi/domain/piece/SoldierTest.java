@@ -37,7 +37,7 @@ class SoldierTest {
         Soldier soldier = new Soldier();
 
         // when
-        Set<Position> actual = soldier.generateMovePosition(board, side, startingPosition);
+        Set<Position> actual = soldier.generateAvailableMovePositions(board, side, startingPosition);
 
         // then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);

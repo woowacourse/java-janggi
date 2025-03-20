@@ -7,7 +7,6 @@ import janggi.domain.Vector;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 public class Horse implements PieceBehavior {
@@ -23,30 +22,36 @@ public class Horse implements PieceBehavior {
     }
 
     @Override
-    public Set<Position> generateMovePosition(Board board, Side side, Position position) {
+    public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
+        // TODO 함수형 인터페이스 활용
+
         Set<Position> result = new HashSet<>();
         List<List<Vector>> rotateVectors = new ArrayList<>(VECTORS_LIST);
         for (int i = 0; i < 4; i++) {
             rotateVectors = Vector.rotate(rotateVectors);
 
-            process(result, board, position, rotateVectors, side);
+            addAvailableMove(result, board, position, rotateVectors, side);
         }
 
         return result;
     }
 
-    private void process(Set<Position> result, Board board, Position position, List<List<Vector>> vectorsList,
+    private void addAvailableMove(Set<Position> result, Board board, Position position, List<List<Vector>> vectorsList,
                          Side side) {
         for (List<Vector> vectors : vectorsList) {
-            Optional<Position> midPosition = position.calculate(vectors.get(0));
-            Optional<Position> finalPosition = position.calculate(vectors.get(1));
+            if (!position.canMove(vectors.get(0)) || !position.canMove(vectors.get(1))) {
+                return;
+            }
 
-            if (midPosition.isEmpty() || finalPosition.isEmpty() || board.hasPiece(midPosition.get())) {
+            Position midPosition = position.moveToNextPosition(vectors.get(0));
+            Position finalPosition = position.moveToNextPosition(vectors.get(1));
+
+            if (board.hasPiece(midPosition)) {
                 continue;
             }
 
-            if (board.canMoveToPosition(side, finalPosition.get())) {
-                result.add(finalPosition.get());
+            if (board.canMoveToPosition(side, finalPosition)) {
+                result.add(finalPosition);
             }
         }
     }

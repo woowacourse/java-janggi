@@ -29,7 +29,7 @@ class CannonTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = cannon.generateMovePosition(board, Side.HAN, position);
+        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
         assertThat(actual.size()).isEqualTo(4);
@@ -55,7 +55,7 @@ class CannonTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = cannon.generateMovePosition(board, Side.HAN, position);
+        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
         assertThat(actual.size()).isEqualTo(3);
@@ -80,7 +80,7 @@ class CannonTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = cannon.generateMovePosition(board, Side.HAN, position);
+        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
         assertThat(actual.size()).isEqualTo(4);
@@ -101,7 +101,7 @@ class CannonTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = cannon.generateMovePosition(board, Side.HAN, position);
+        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
         assertThat(actual.size()).isEqualTo(0);

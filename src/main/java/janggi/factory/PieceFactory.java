@@ -73,8 +73,4 @@ public enum PieceFactory {
 
         return map;
     }
-
-    public PieceBehavior getPieceBehavior() {
-        return pieceBehavior;
-    }
 }

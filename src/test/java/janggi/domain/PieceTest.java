@@ -2,21 +2,21 @@ package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Soldier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PieceTest {
 
-    @DisplayName("같은 팀의 기물이면 true를 반환한다.")
+    @DisplayName("전달 받은 팀이 자신과 같은 팀이면 true를 반환한다.")
     @Test
     void test1() {
         // given
-        Piece piece1 = new Piece(Side.HAN, new Soldier());
-        Piece piece2 = new Piece(Side.HAN, new Soldier());
+        Piece piece = new Piece(Side.HAN, new Soldier());
 
         // when
-        boolean actual = piece1.isSameSide(piece2);
+        boolean actual = piece.isSameSide(Side.HAN);
 
         // then
         assertThat(actual).isTrue();
@@ -26,11 +26,36 @@ class PieceTest {
     @Test
     void test2() {
         // given
-        Piece piece1 = new Piece(Side.CHO, new Soldier());
-        Piece piece2 = new Piece(Side.HAN, new Soldier());
+        Piece piece = new Piece(Side.CHO, new Soldier());
 
         // when
-        boolean actual = piece1.isSameSide(piece2);
+        boolean actual = piece.isSameSide(Side.HAN);
+
+        // then
+        assertThat(actual).isFalse();
+    }
+
+    @DisplayName("자신의 기물이 Cannon이면 true를 반환한다.")
+    @Test
+    void test3() {
+        // given
+        Piece piece = new Piece(Side.CHO, new Cannon());
+
+        // when
+        boolean actual = piece.isCannon();
+
+        // then
+        assertThat(actual).isTrue();
+    }
+
+    @DisplayName("자신의 기물이 Cannon이 아니면 false를 반환한다.")
+    @Test
+    void test4() {
+        // given
+        Piece piece = new Piece(Side.CHO, new Soldier());
+
+        // when
+        boolean actual = piece.isCannon();
 
         // then
         assertThat(actual).isFalse();

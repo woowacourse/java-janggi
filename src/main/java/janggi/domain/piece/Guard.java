@@ -21,14 +21,13 @@ public class Guard implements PieceBehavior {
         return "사";
     }
 
-    public Set<Position> generateMovePosition(Board board, Side side, Position position) {
+    public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
         return VECTORS.stream()
                 .map(vector -> vector.side(side))
-                .map(position::calculate)
+                .map(position::calculateNextPosition)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .filter(availablePosition -> board.canMoveToPosition(side, availablePosition))
                 .collect(Collectors.toUnmodifiableSet());
-
     }
 }

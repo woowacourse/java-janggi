@@ -7,7 +7,6 @@ import janggi.domain.Vector;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 public class Elephant implements PieceBehavior {
@@ -23,44 +22,54 @@ public class Elephant implements PieceBehavior {
     }
 
     @Override
-    public Set<Position> generateMovePosition(Board board, Side side, Position position) {
+    public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
         Set<Position> result = new HashSet<>();
         List<List<Vector>> rotateVectors = new ArrayList<>(VECTORS_LIST);
         for (int i = 0; i < 4; i++) {
             rotateVectors = Vector.rotate(rotateVectors);
 
-            process(result, board, position, rotateVectors, side);
+            searchAvailableMoves(result, board, position, rotateVectors, side);
         }
 
         return result;
     }
 
-    private void process(Set<Position> result, Board board, Position position, List<List<Vector>> vectorsList,
-                         Side side) {
+    private void searchAvailableMoves(Set<Position> result, Board board, Position position, List<List<Vector>> vectorsList,
+                                      Side side) {
         for (List<Vector> vectors : vectorsList) {
-            if (!checkAvailableMiddleMove(position.calculate(vectors.get(0))
-                    .orElse(null), board)) {
-                continue;
-            }
+            addAvailableMove(result, board, position, side, vectors);
+        }
+    }
 
-            if (!checkAvailableMiddleMove(position.calculate(vectors.get(1))
-                    .orElse(null), board)) {
-                continue;
-            }
+    private void addAvailableMove(Set<Position> result, Board board, Position position, Side side, List<Vector> vectors) {
+        if (canNotMove(vectors, position)) {
+            return;
+        }
 
-            Optional<Position> finalPosition = position.calculate(vectors.get(2));
+        if (hasNotAvailableMiddleMove(vectors, position, board)) {
+            return;
+        }
 
-            if (finalPosition.isEmpty()) {
-                continue;
-            }
+        Position finalPosition = position.moveToNextPosition(vectors.get(2));
 
-            if (board.canMoveToPosition(side, finalPosition.get())) {
-                result.add(finalPosition.get());
-            }
+        if (board.canMoveToPosition(side, finalPosition)) {
+            result.add(finalPosition);
         }
     }
 
     private boolean checkAvailableMiddleMove(Position midPosition, Board board) {
         return midPosition != null && !board.hasPiece(midPosition);
+    }
+
+    private boolean canNotMove(List<Vector> vectors, Position currentPosition) {
+        return !vectors.stream()
+                .allMatch(currentPosition::canMove);
+    }
+
+    private boolean hasNotAvailableMiddleMove(List<Vector> vectors, Position currentPosition, Board board) {
+        Position midPosition1 = currentPosition.moveToNextPosition(vectors.get(0));
+        Position midPosition2 = currentPosition.moveToNextPosition(vectors.get(1));
+
+        return !(checkAvailableMiddleMove(midPosition1, board) && checkAvailableMiddleMove(midPosition2, board));
     }
 }

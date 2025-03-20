@@ -27,18 +27,4 @@ class PositionTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.INVALID_BOARD_POSITION.getMessage());
     }
-
-    @DisplayName("좌표를 변경한다.")
-    @Test
-    void test3() {
-        // given
-        Position position = Position.of(1, 2);
-        Position expected = Position.of(3, 5);
-
-        // when
-        Position result = position.update(3, 5);
-
-        // then
-        assertThat(result).isEqualTo(expected);
-    }
 }

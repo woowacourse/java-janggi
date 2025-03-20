@@ -28,7 +28,7 @@ class GeneralTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = general.generateMovePosition(board, Side.HAN, position);
+        Set<Position> actual = general.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
         assertThat(actual.size()).isEqualTo(expected);
