@@ -99,7 +99,7 @@ class PiecesTest {
         Pieces pieces = new Pieces(List.of(soldier));
 
         // when
-        pieces.move(soldier, 1, 2);
+        pieces.move(new Position(1, 2), soldier);
 
         // then
         assertThat(pieces.findPieceByPositionAndTeam(new Position(1, 2), RED)).isEqualTo(soldier);
@@ -112,7 +112,7 @@ class PiecesTest {
         Piece soldier2 = new Soldier(new Position(1, 2), BLUE);
         Pieces pieces = new Pieces(List.of(soldier1, soldier2));
 
-        pieces.move(soldier1, 1, 2);
+        pieces.move(new Position(1, 2), soldier1);
 
         assertThatThrownBy(() -> pieces.findPieceByPositionAndTeam(new Position(1, 2), BLUE))
                 .isInstanceOf(IllegalArgumentException.class)
