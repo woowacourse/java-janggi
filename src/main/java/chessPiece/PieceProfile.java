@@ -13,4 +13,8 @@ public class PieceProfile {
     public String getName() {
         return name;
     }
+
+    public Nation getNation() {
+        return nation;
+    }
 }
