@@ -31,8 +31,8 @@ class ChariotTest {
                 new ChessPosition(7,8));
 
         //when
-        final Cannon cannon = new Cannon(chessPosition, ChessTeam.BLUE);
-        final List<ChessPosition> destinations = cannon.getDestinations(piecePositions);
+        final Chariot chariot = new Chariot(chessPosition, ChessTeam.RED);
+        final List<ChessPosition> destinations = chariot.getDestinations(piecePositions);
 
         //then
         assertThat(destinations).containsAll(expected);

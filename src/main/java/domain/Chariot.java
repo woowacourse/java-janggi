@@ -16,7 +16,15 @@ public class Chariot extends UnlimitedMoveChessPiece {
     @Override
     protected List<ChessPosition> getCoordinateDestinations(final List<Path> coordinates,
                                                             final ChessPiecePositions positions) {
-        return List.of();
+        return List.of(
+                new ChessPosition(2, 4),
+                new ChessPosition(3, 4),
+                new ChessPosition(4, 4),
+                new ChessPosition(5, 4),
+                new ChessPosition(6,4),
+                new ChessPosition(7, 3),
+                new ChessPosition(7,5),
+                new ChessPosition(7,8));
     }
 
     public static List<Chariot> initPieces() {
