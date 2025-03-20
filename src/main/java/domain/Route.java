@@ -15,7 +15,15 @@ public class Route {
         return new Route(points);
     }
 
+    public Point searchEndPoint() {
+        return points.getLast();
+    }
+
     public List<Point> getPoints() {
         return Collections.unmodifiableList(points);
+    }
+
+    public List<Point> getPointsExceptEndPoint() {
+        return points.subList(0, points.size() - 1);
     }
 }
