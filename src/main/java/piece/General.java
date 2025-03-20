@@ -10,7 +10,7 @@ public class General extends Piece{
     }
 
     @Override
-    public boolean canMove(final Position now, final Position destination, final Board board, final TeamType teamType) {
+    public boolean canMove(final Position now, final Position destination, final Board board) {
         return now.calculateDistance(destination) == 1;
     }
 

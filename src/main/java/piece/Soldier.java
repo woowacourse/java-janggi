@@ -10,7 +10,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public boolean canMove(final Position now, final Position destination, final Board board, final TeamType teamType) {
+    public boolean canMove(final Position now, final Position destination, final Board board) {
         if (teamType == TeamType.RED) {
             return now.calculateDistance(destination) == 1 && now.isXLessThan(destination);
         }

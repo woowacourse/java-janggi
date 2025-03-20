@@ -24,8 +24,8 @@ class CannonTest {
         final Board board = new Board(map);
 
         // when
-        final boolean actual1 = cannonPiece.isAbleToMove(now, ableDest, board, teamType);
-        final boolean actual2 = cannonPiece.isAbleToMove(now, notAbleDest, board, teamType);
+        final boolean actual1 = cannonPiece.isAbleToMove(now, ableDest, board);
+        final boolean actual2 = cannonPiece.isAbleToMove(now, notAbleDest, board);
 
         // then
         org.junit.jupiter.api.Assertions.assertAll(
@@ -48,8 +48,8 @@ class CannonTest {
         final Board board = new Board(map);
 
         // when
-        final boolean actual1 = cannonPiece.isAbleToMove(now, ableDest, board, teamType);
-        final boolean actual2 = cannonPiece.isAbleToMove(now, notAbleDest, board, teamType);
+        final boolean actual1 = cannonPiece.isAbleToMove(now, ableDest, board);
+        final boolean actual2 = cannonPiece.isAbleToMove(now, notAbleDest, board);
 
         // then
         org.junit.jupiter.api.Assertions.assertAll(
@@ -71,7 +71,7 @@ class CannonTest {
         final Board board = new Board(map);
 
         // when
-        final boolean actual2 = cannonPiece.isAbleToMove(now, destPosition, board, teamType);
+        final boolean actual2 = cannonPiece.isAbleToMove(now, destPosition, board);
 
         // then
         assertThat(actual2).isFalse();
@@ -91,7 +91,7 @@ class CannonTest {
         final Board board = new Board(map);
 
         // when
-        final boolean actual2 = cannonPiece.isAbleToMove(now, notAbleDest, board, teamType);
+        final boolean actual2 = cannonPiece.isAbleToMove(now, notAbleDest, board);
 
         // then
         assertThat(actual2).isFalse();
@@ -111,7 +111,7 @@ class CannonTest {
         final Board board = new Board(map);
 
         // when
-        final boolean actual2 = cannonPiece.isAbleToMove(now, notAbleDest, board, teamType);
+        final boolean actual2 = cannonPiece.isAbleToMove(now, notAbleDest, board);
 
         // then
         assertThat(actual2).isFalse();

@@ -5,22 +5,20 @@ import board.Position;
 
 public abstract class Piece {
 
-    private final TeamType teamType;
+    protected final TeamType teamType;
 
     public Piece(final TeamType teamType) {
         this.teamType = teamType;
     }
 
-    public boolean isAbleToMove(final Position now, final Position destination, final Board board,
-                                         final TeamType teamType){
+    public boolean isAbleToMove(final Position now, final Position destination, final Board board){
         if (board.existPieceByPosition(destination) && board.equalsTeamTypeByPosition(destination, teamType)) {
             return false;
         }
-        return canMove(now, destination, board, teamType);
+        return canMove(now, destination, board);
     };
 
-    public abstract boolean canMove(final Position now, final Position destination, final Board board,
-                                       final TeamType teamType);
+    public abstract boolean canMove(final Position now, final Position destination, final Board board);
 
     public abstract boolean equalsType(final Piece piece);
 

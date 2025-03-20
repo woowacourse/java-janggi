@@ -23,8 +23,8 @@ class ElephantTest {
         final TeamType teamType = TeamType.RED;
 
         // when
-        final boolean actual1 = elephantPiece.isAbleToMove(now, ableDest, board, teamType);
-        final boolean actual2 = elephantPiece.isAbleToMove(now, notAbleDest, board, teamType);
+        final boolean actual1 = elephantPiece.isAbleToMove(now, ableDest, board);
+        final boolean actual2 = elephantPiece.isAbleToMove(now, notAbleDest, board);
 
         // then
         org.junit.jupiter.api.Assertions.assertAll(
@@ -50,8 +50,8 @@ class ElephantTest {
         final TeamType teamType = TeamType.RED;
 
         // when
-        final boolean actual1 = elephantPiece.isAbleToMove(now, dest1, board, teamType);
-        final boolean actual2 = elephantPiece.isAbleToMove(now, dest2, board, teamType);
+        final boolean actual1 = elephantPiece.isAbleToMove(now, dest1, board);
+        final boolean actual2 = elephantPiece.isAbleToMove(now, dest2, board);
 
         // then
         assertThat(actual1).isFalse();

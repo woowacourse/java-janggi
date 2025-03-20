@@ -11,7 +11,7 @@ public class Elephant extends Piece{
     }
 
     @Override
-    public boolean canMove(final Position now, final Position destination, final Board board, final TeamType teamType) {
+    public boolean canMove(final Position now, final Position destination, final Board board) {
         if (now.calculateDistance(destination) != Math.sqrt(13)) {
             return false;
         }

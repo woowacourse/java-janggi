@@ -49,7 +49,7 @@ public class Board {
     private void validatePieceCanMove(final Position source, final Position destination, final TeamType teamType) {
         final Piece piece = map.get(source);
 
-        if (!piece.isAbleToMove(source, destination, this, teamType)) {
+        if (!piece.isAbleToMove(source, destination, this)) {
             throw new IllegalArgumentException("해당 기물은 해당 위치로 이동할 수 없습니다.");
         }
     }

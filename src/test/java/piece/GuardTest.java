@@ -22,8 +22,8 @@ class GuardTest {
         final TeamType teamType = TeamType.RED;
 
         // when
-        final boolean actual1 = generalPiece.isAbleToMove(now, ableDest, board, teamType);
-        final boolean actual2 = generalPiece.isAbleToMove(now, notAbleDest, board, teamType);
+        final boolean actual1 = generalPiece.isAbleToMove(now, ableDest, board);
+        final boolean actual2 = generalPiece.isAbleToMove(now, notAbleDest, board);
 
         // then
         org.junit.jupiter.api.Assertions.assertAll(
@@ -44,8 +44,8 @@ class GuardTest {
         final TeamType teamType = TeamType.RED;
 
         // when
-        final boolean actual1 = guardPiece.isAbleToMove(now, ableDest, board, teamType);
-        final boolean actual2 = guardPiece.isAbleToMove(now, notAbleDest, board, teamType);
+        final boolean actual1 = guardPiece.isAbleToMove(now, ableDest, board);
+        final boolean actual2 = guardPiece.isAbleToMove(now, notAbleDest, board);
 
         // then
         org.junit.jupiter.api.Assertions.assertAll(

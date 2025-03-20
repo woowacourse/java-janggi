@@ -19,11 +19,10 @@ class SoldierTest {
         final Position ableDest = new Position(1, 2);
         final Position notAbleDest = new Position(1, 3);
         final Board board = new Board(new HashMap<>());
-        final TeamType teamType = TeamType.RED;
 
         // when
-        final boolean actual1 = generalPiece.isAbleToMove(now, ableDest, board, teamType);
-        final boolean actual2 = generalPiece.isAbleToMove(now, notAbleDest, board, teamType);
+        final boolean actual1 = generalPiece.isAbleToMove(now, ableDest, board);
+        final boolean actual2 = generalPiece.isAbleToMove(now, notAbleDest, board);
 
         // then
         org.junit.jupiter.api.Assertions.assertAll(
@@ -37,16 +36,15 @@ class SoldierTest {
     void soldiers() {
 
         // given
-        final Piece soldierPiece = new Soldier(TeamType.BLUE);
+        final Piece soldierPiece = new Soldier(TeamType.RED);
         final Position now = new Position(2, 2);
         final Position ableDest = new Position(3, 2);
         final Position notAbleDest = new Position(1, 2);
         final Board board = new Board(new HashMap<>());
-        final TeamType teamType = TeamType.RED;
 
         // when
-        final boolean actual1 = soldierPiece.isAbleToMove(now, ableDest, board, teamType);
-        final boolean actual2 = soldierPiece.isAbleToMove(now, notAbleDest, board, teamType);
+        final boolean actual1 = soldierPiece.isAbleToMove(now, ableDest, board);
+        final boolean actual2 = soldierPiece.isAbleToMove(now, notAbleDest, board);
 
         // then
         org.junit.jupiter.api.Assertions.assertAll(
