@@ -44,10 +44,12 @@ public class BoardHan {
 
         targetPiece.move(endPosition);
     }
-//
-//    public boolean isLegalMove(Position start, Position end) {
-//
-//    }
+
+    public boolean isLegalMove(List<Position> positionsOnPath) {
+        return pieces.stream().anyMatch(
+                piece -> positionsOnPath.contains(piece.getPosition())
+        );
+    }
 
     public boolean isOccupiedByOurTeamPiece(Team teamName, Position movedPosition) {
         // 움직이고자 하는 도착 위치가 자신의 팀의 말이 차지하고 있는지 확인하다

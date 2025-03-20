@@ -37,7 +37,7 @@ public class GameManager {
         String pieceName = pieceCurrentInfos.getFirst();
         Position pieceCurrentPosition = parsePosition(pieceCurrentInfos.getLast());
 
-        System.out.println("해당 말의 이름과 시작 좌표가 해당 팀에 존재하는가?" + board.isAvailablePiece(teamName, pieceName, pieceCurrentPosition));
+        System.out.println("해당 말의 이름과 시작 좌표가 해당 팀에 존재하는가? " + board.isAvailablePiece(teamName, pieceName, pieceCurrentPosition));
 
         String pieceMovedInfo  = input.readPieceDestination();
         Position pieceMovedPosition = parsePosition(pieceMovedInfo);
@@ -47,6 +47,7 @@ public class GameManager {
         // 이동 위치 사이에 있는 좌표들 (실제로 이동가능한지 검증 필요)
         BoardNavigator boardNavigator = new BoardNavigator();
         List<Position> positionsOnPath = boardNavigator.findPositionsOnPath(pieceCurrentPosition, pieceMovedPosition);
+        System.out.println("해당 말이 이동하고자 하는 경로에 어떤 말이 이미 차지하고 있는가? (포 제외) " + board.checkLegalMove(positionsOnPath));
 
         // 말 이동 업데이트
         if (teamName.equals(Team.CHO)) {
@@ -81,6 +82,6 @@ public class GameManager {
         if (teamName.equals(Team.HAN)) {
            isOccupied = boardHan.isOccupiedByOurTeamPiece(teamName, pieceMovedPosition);
         }
-        System.out.println("해당 위치는 같은 팀의 말에 의해 막혀있는가?" + isOccupied);
+        System.out.println("해당 위치는 같은 팀의 말에 의해 막혀있는가? " + isOccupied);
     }
 }
