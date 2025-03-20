@@ -25,9 +25,9 @@ public final class JanggiBoard {
         board.remove(oldCoordinate);
     }
 
-    public Piece getPieceType(JanggiCoordinate janggiCoordinate) {
+    public String getPieceType(JanggiCoordinate janggiCoordinate) {
         validatePieceCoordinate(janggiCoordinate);
-        return board.get(janggiCoordinate);
+        return board.get(janggiCoordinate).getPieceType();
     }
 
     private void validateMoveCoordinate(JanggiCoordinate newCoordinate,

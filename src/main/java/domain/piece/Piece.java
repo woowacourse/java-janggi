@@ -22,4 +22,8 @@ abstract public class Piece {
     public boolean isPho(){
         return false;
     }
+
+    public String getPieceType(){
+        return type.getDescription();
+    }
 }

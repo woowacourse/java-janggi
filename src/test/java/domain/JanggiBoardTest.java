@@ -43,7 +43,7 @@ class JanggiBoardTest {
 
             assertThatThrownBy(() -> janggiBoard.getPieceType(oldCoordinate))
                     .isInstanceOf(IllegalArgumentException.class);
-            assertThat(janggiBoard.getPieceType(newCoordinate)).isInstanceOf(Ma.class);
+            assertThat(janggiBoard.getPieceType(newCoordinate)).isEqualTo("마");
         }
 
         @DisplayName("말이 이동 불가능한 위치로 이동할 수 없다.")
