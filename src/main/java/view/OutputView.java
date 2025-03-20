@@ -12,8 +12,8 @@ public class OutputView {
     private static final String GREEN = "\u001B[32m";
 
     public void printBoard(
-            final Map<BoardPosition, Piece> pieces,
-            final Team team
+        final Map<BoardPosition, Piece> pieces,
+        final Team team
     ) {
         System.out.println("현재 턴: " + team.getTitle());
         for (int i = 9; i >= 0; i--) {
@@ -24,7 +24,8 @@ public class OutputView {
                 if (piece == null) {
                     System.out.print(" . ");
                 } else {
-                    final String pieceSymbol = piece.getPieceType().getTitle();
+                    final String pieceSymbol = piece.getPieceType()
+                        .getTitle();
                     final String color = createColorCode(piece.getTeam());
                     System.out.print(" " + color + pieceSymbol + RESET + " ");
                 }

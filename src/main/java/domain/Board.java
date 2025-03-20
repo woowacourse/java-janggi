@@ -21,6 +21,7 @@ public class Board {
 
     public static Board initialize() {
         final Map<BoardPosition, Piece> pieces = createInitializePieces();
+
         return new Board(pieces);
     }
 
@@ -28,34 +29,34 @@ public class Board {
         final Map<BoardPosition, Piece> pieces = new HashMap<>();
 
         PieceType.CANNON.getInitialPosition()
-                .forEach((team, positions) -> positions
-                        .forEach(position -> pieces.put(position, new Piece(PieceType.CANNON, team))));
+            .forEach((team, positions) -> positions
+                .forEach(position -> pieces.put(position, new Piece(PieceType.CANNON, team))));
         PieceType.CHARIOT.getInitialPosition()
-                .forEach((team, positions) -> positions
-                        .forEach(position -> pieces.put(position, new Piece(PieceType.CHARIOT, team))));
+            .forEach((team, positions) -> positions
+                .forEach(position -> pieces.put(position, new Piece(PieceType.CHARIOT, team))));
         PieceType.ELEPHANT.getInitialPosition()
-                .forEach((team, positions) -> positions
-                        .forEach(position -> pieces.put(position, new Piece(PieceType.ELEPHANT, team))));
+            .forEach((team, positions) -> positions
+                .forEach(position -> pieces.put(position, new Piece(PieceType.ELEPHANT, team))));
         PieceType.GENERAL.getInitialPosition()
-                .forEach((team, positions) -> positions
-                        .forEach(position -> pieces.put(position, new Piece(PieceType.GENERAL, team))));
+            .forEach((team, positions) -> positions
+                .forEach(position -> pieces.put(position, new Piece(PieceType.GENERAL, team))));
         PieceType.GUARD.getInitialPosition()
-                .forEach((team, positions) -> positions
-                        .forEach(position -> pieces.put(position, new Piece(PieceType.GUARD, team))));
+            .forEach((team, positions) -> positions
+                .forEach(position -> pieces.put(position, new Piece(PieceType.GUARD, team))));
         PieceType.HORSE.getInitialPosition()
-                .forEach((team, positions) -> positions
-                        .forEach(position -> pieces.put(position, new Piece(PieceType.HORSE, team))));
+            .forEach((team, positions) -> positions
+                .forEach(position -> pieces.put(position, new Piece(PieceType.HORSE, team))));
         PieceType.쭈.getInitialPosition()
-                .forEach((team, positions) -> positions
-                        .forEach(position -> pieces.put(position, new Piece(PieceType.쭈, team))));
+            .forEach((team, positions) -> positions
+                .forEach(position -> pieces.put(position, new Piece(PieceType.쭈, team))));
 
         return pieces;
     }
 
     public void movePiece(
-            final BoardPosition selectBoardPosition,
-            final BoardPosition destinationBoardPosition,
-            final Team currentTeam
+        final BoardPosition selectBoardPosition,
+        final BoardPosition destinationBoardPosition,
+        final Team currentTeam
     ) {
         validateSelectBoardPosition(selectBoardPosition);
 
@@ -65,11 +66,14 @@ public class Board {
         final Piece destinationPiece = pieces.get(destinationBoardPosition);
         validateDestinationPieceTeam(currentTeam, destinationPiece);
 
-        final List<Offset> movementRule = selectedPiece.findMovementRule(selectBoardPosition, destinationBoardPosition);
-        validateMovementRule(movementRule, selectBoardPosition, destinationBoardPosition, selectedPiece);
+        final List<Offset> movementRule = selectedPiece.findMovementRule(selectBoardPosition,
+            destinationBoardPosition);
+        validateMovementRule(movementRule, selectBoardPosition, destinationBoardPosition,
+            selectedPiece);
 
         removeDestinationEnemyPiece(destinationBoardPosition, currentTeam, destinationPiece);
-        changeSelectPieceBoardPosition(selectBoardPosition, destinationBoardPosition, selectedPiece);
+        changeSelectPieceBoardPosition(selectBoardPosition, destinationBoardPosition,
+            selectedPiece);
     }
 
     private void validateSelectBoardPosition(final BoardPosition selectBoardPosition) {
@@ -78,25 +82,32 @@ public class Board {
         }
     }
 
-    private void validateSelectPieceTeam(final Team currentTeam, final Piece selectedPiece) {
+    private void validateSelectPieceTeam(
+        final Team currentTeam,
+        final Piece selectedPiece
+    ) {
         if (selectedPiece.getTeam() != currentTeam) {
             throw new IllegalArgumentException("다른 팀의 기물을 움직일 수 없습니다.");
         }
     }
 
-    private void validateDestinationPieceTeam(final Team currentTeam, final Piece destinationPiece) {
+    private void validateDestinationPieceTeam(
+        final Team currentTeam,
+        final Piece destinationPiece
+    ) {
         if (destinationPiece != null && currentTeam == destinationPiece.getTeam()) {
             throw new IllegalArgumentException("이동하려는 위치에 아군 기물이 존재합니다.");
         }
     }
 
     private void validateMovementRule(
-            final List<Offset> movementRule,
-            final BoardPosition selectBoardPosition,
-            final BoardPosition destinationBoardPosition,
-            final Piece movePiece
+        final List<Offset> movementRule,
+        final BoardPosition selectBoardPosition,
+        final BoardPosition destinationBoardPosition,
+        final Piece movePiece
     ) {
-        int obstacleCount = calculateObstacleCount(movementRule, destinationBoardPosition, selectBoardPosition);
+        int obstacleCount = calculateObstacleCount(movementRule, destinationBoardPosition,
+            selectBoardPosition);
         if (!movePiece.isObstacleCountAllowed(obstacleCount)) {
             throw new IllegalArgumentException("이동경로에 적합하지 않은 장애물이 있습니다.");
         }
@@ -107,9 +118,9 @@ public class Board {
     }
 
     private int calculateObstacleCount(
-            final List<Offset> movementRule,
-            final BoardPosition destinationBoardPosition,
-            BoardPosition currentBoardPosition
+        final List<Offset> movementRule,
+        final BoardPosition destinationBoardPosition,
+        BoardPosition currentBoardPosition
     ) {
         int obstacleCount = 0;
         for (final Offset offset : movementRule) {
@@ -122,28 +133,30 @@ public class Board {
                 obstacleCount++;
             }
         }
+
         return obstacleCount;
     }
 
     private void validateCannonMovementRule(
-            final List<Offset> movementRule,
-            final BoardPosition targetBoardPosition
+        final List<Offset> movementRule,
+        final BoardPosition targetBoardPosition
     ) {
         BoardPosition currentBoardPosition = targetBoardPosition;
         for (final Offset offset : movementRule) {
             currentBoardPosition = currentBoardPosition.calculatePosition(offset);
 
             if (pieces.containsKey(currentBoardPosition)
-                    && pieces.get(currentBoardPosition).getPieceType() == PieceType.CANNON) {
+                && pieces.get(currentBoardPosition)
+                .getPieceType() == PieceType.CANNON) {
                 throw new IllegalArgumentException("포는 포를 넘거나 잡을 수 없습니다.");
             }
         }
     }
 
     private void removeDestinationEnemyPiece(
-            final BoardPosition destinationBoardPosition,
-            final Team currentTeam,
-            final Piece destinationPiece
+        final BoardPosition destinationBoardPosition,
+        final Team currentTeam,
+        final Piece destinationPiece
     ) {
         if (destinationPiece != null && currentTeam != destinationPiece.getTeam()) {
             pieces.remove(destinationBoardPosition);
@@ -151,9 +164,9 @@ public class Board {
     }
 
     private void changeSelectPieceBoardPosition(
-            final BoardPosition selectBoardPosition,
-            final BoardPosition destinationBoardPosition,
-            final Piece selectedPiece
+        final BoardPosition selectBoardPosition,
+        final BoardPosition destinationBoardPosition,
+        final Piece selectedPiece
     ) {
         pieces.remove(selectBoardPosition);
         pieces.put(destinationBoardPosition, selectedPiece);

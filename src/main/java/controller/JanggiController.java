@@ -13,8 +13,8 @@ public class JanggiController {
     private final OutputView outputView;
 
     public JanggiController(
-            final InputView inputView,
-            final OutputView outputView
+        final InputView inputView,
+        final OutputView outputView
     ) {
         this.inputView = inputView;
         this.outputView = outputView;
@@ -40,15 +40,16 @@ public class JanggiController {
         validateSize(positions);
         final int x = positions.getFirst();
         final int y = positions.getLast();
+
         return new BoardPosition(x, y);
     }
 
     private List<Integer> parseBoardPosition(final String inputPosition) {
         try {
             return Arrays.stream(inputPosition.split(",", -1))
-                    .map(String::trim)
-                    .map(Integer::parseInt)
-                    .toList();
+                .map(String::trim)
+                .map(Integer::parseInt)
+                .toList();
         } catch (Exception e) {
             throw new IllegalArgumentException("좌표 입력 형식이 잘못되었습니다.");
         }
