@@ -16,10 +16,6 @@ public enum Team {
         return initRow;
     }
 
-    public int getInitColumn() {
-        return initColumn;
-    }
-
     public int convertRowOffsetByTeam(int offset) {
         if (this == Team.BLUE) {
             return -offset;

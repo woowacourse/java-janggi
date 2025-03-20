@@ -1,6 +1,8 @@
 package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Chariot;
 import domain.piece.Piece;
@@ -58,4 +60,38 @@ class BoardTest {
         assertThat(board.isSameTeam(piece, new Position(2, 1))).isEqualTo(expected);
     }
 
+    @Test
+    void 장기판에서_특정_위치의_기물을_찾는다() {
+        Board board = new Board(List.of());
+        Piece piece = new Chariot(new Position(2, 1), Team.BLUE, board);
+        board.putPiece(piece);
+        assertThat(board.findPiece(new Position(2, 1))).isEqualTo(piece);
+    }
+
+    @Test
+    void 장기판에서_내_팀의_특정_위치에_있는_기물을_찾는다() {
+        Board board = new Board(List.of());
+        Piece piece = new Chariot(new Position(2, 1), Team.BLUE, board);
+        board.putPiece(piece);
+        assertThat(board.findPiece(new Position(2, 1), Team.BLUE)).isEqualTo(piece);
+    }
+
+    @Test
+    void 장기판에서_특정_위치의_기물을_찾지_못한다() {
+        Board board = new Board(List.of());
+        Piece piece = new Chariot(new Position(2, 1), Team.BLUE, board);
+        board.putPiece(piece);
+        assertThatThrownBy(() -> board.findPiece(new Position(2, 2)))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 장기판에서_내_팀의_특정_위치에_있는_기물을_찾지_못한다() {
+        Board board = new Board(List.of());
+        Piece piece = new Chariot(new Position(2, 1), Team.BLUE, board);
+        board.putPiece(piece);
+        assertThatThrownBy(() -> board.findPiece(new Position(2, 1), Team.RED))
+                .isInstanceOf(IllegalArgumentException.class);
+
+    }
 }

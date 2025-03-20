@@ -63,8 +63,18 @@ public class Board {
         return pieces.stream()
                 .filter(piece -> piece.isSamePosition(position))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(""));
+                .orElseThrow(() -> new IllegalArgumentException("올바른 기물의 위치를 입력해주세요."));
     }
+
+    public Piece findPiece(Position position, Team team) {
+        return pieces.stream()
+                .filter(piece -> piece.isSamePosition(position))
+                .filter(piece -> piece.getTeam() == team)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(String.format("올바른 기물의 위치를 입력해주세요(현재 턴: %s).", team.name())));
+    }
+
+    // findPiece에서 팀 받기
 
     /*
     TODO

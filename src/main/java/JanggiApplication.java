@@ -1,3 +1,4 @@
+import domain.Turn;
 import java.util.function.Supplier;
 
 import domain.Board;
@@ -14,17 +15,25 @@ public class JanggiApplication {
         Board board = boardInitializer.init();
         OutputView outputView = new OutputView();
         InputView inputView = new InputView();
-
+        Turn turn = new Turn();
         outputView.printBoard(board);
-
-        Piece piece = retry(() -> inputMovePosition(inputView, board));
-        retry(() -> movePosition(inputView, piece));
-        outputView.printBoard(board);
+        playGame(inputView, board, outputView, turn);
+    }
+    
+    private static void playGame(InputView inputView, Board board, OutputView outputView, Turn turn) {
+            Piece piece = retry(() -> inputMovePosition(inputView, board, turn));
+            retry(() -> movePosition(inputView, piece));
+            outputView.printBoard(board);
+            turn.increaseRound();
+            if(inputView.inputExitGame()) {
+                return;
+            }
+            playGame(inputView, board, outputView, turn);
     }
 
-    private static Piece inputMovePosition(final InputView inputView, final Board board) {
+    private static Piece inputMovePosition(final InputView inputView, final Board board, final Turn turn) {
         Position movePosition = inputView.inputMovePiecePosition();
-        return board.findPiece(movePosition);
+        return board.findPiece(movePosition, turn.getCurrnetTeam());
     }
 
     private static void movePosition(final InputView inputView, final Piece piece) {
