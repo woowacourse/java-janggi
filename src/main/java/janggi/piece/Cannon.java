@@ -9,6 +9,8 @@ import janggi.rule.MovingRulesGenerator;
 
 public final class Cannon extends Piece {
 
+    private static final int CANNON_CROSS_COUNT = 1;
+
     public Cannon(final Team team, final MovingRules movingRules) {
         super(team, movingRules);
     }
@@ -26,7 +28,7 @@ public final class Cannon extends Piece {
         if (cannotMoveThrough(start, end, board)) {
             return false;
         }
-        return isNotSameTeamAndNotJumpable(end, board);
+        return isNotSameTeamAndNotCannon(end, board);
     }
 
     @Override
@@ -47,10 +49,10 @@ public final class Cannon extends Piece {
                 count++;
             }
         }
-        return count != 1;
+        return count != CANNON_CROSS_COUNT;
     }
 
-    private boolean isNotSameTeamAndNotJumpable(final Position end, final Board board) {
+    private boolean isNotSameTeamAndNotCannon(final Position end, final Board board) {
         return !board.isPresentSameTeam(team, end) && !board.isExistCannon(end);
     }
 }
