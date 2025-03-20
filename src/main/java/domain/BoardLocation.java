@@ -3,10 +3,11 @@ package domain;
 import java.util.Objects;
 
 public class BoardLocation {
-    private static  final int START_X = 1;
-    private static  final int START_Y = 1;
-    private static  final int END_X = 9;
-    private static  final int END_Y = 10;
+
+    private static final int START_X = 1;
+    private static final int START_Y = 1;
+    private static final int END_X = 9;
+    private static final int END_Y = 10;
 
     private final int x;
     private final int y;
@@ -46,20 +47,27 @@ public class BoardLocation {
         return Objects.hash(x, y);
     }
 
-    public int distanceX(BoardLocation destination) {
-        return Math.abs(x - destination.x);
-    }
-
-    public int distanceY(BoardLocation destination) {
-        return Math.abs(y - destination.y);
-    }
-
-    public boolean isDown(BoardLocation current){
+    public boolean isDown(BoardLocation current) {
         return current.y - y < 0;
     }
 
-    public boolean isUp(BoardLocation current){
+    public boolean isUp(BoardLocation current) {
         return current.y - y > 0;
     }
 
+    public BoardLocation move(int x, int y) {
+        return new BoardLocation(this.x + x, this.y + y);
+    }
+
+    public int distanceX(BoardLocation target) {
+        return Math.abs(x - target.x);
+    }
+
+    public int distanceY(BoardLocation target) {
+        return Math.abs(y - target.y);
+    }
+
+    public Vector minus(BoardLocation current) {
+        return new Vector(x - current.x, y - current.y);
+    }
 }

@@ -2,6 +2,7 @@ package domain.piece.strategy;
 
 import domain.BoardLocation;
 import domain.piece.MoveStrategy;
+import java.util.List;
 
 public class CannonMoveStrategy implements MoveStrategy {
 
@@ -10,5 +11,10 @@ public class CannonMoveStrategy implements MoveStrategy {
         int differenceX = current.distanceX(destination);
         int differenceY = current.distanceY(destination);
         return differenceX == 0 || differenceY == 0;
+    }
+
+    @Override
+    public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
+        return List.of();
     }
 }

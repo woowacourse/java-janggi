@@ -2,6 +2,7 @@ package domain.piece.strategy;
 
 import domain.BoardLocation;
 import domain.piece.MoveStrategy;
+import java.util.List;
 
 public class HanPawnMoveStrategy implements MoveStrategy {
 
@@ -13,5 +14,10 @@ public class HanPawnMoveStrategy implements MoveStrategy {
         boolean b = differenceX == 1 || differenceY == 1;
         boolean c = destination.isDown(current);
         return a && b && c;
+    }
+
+    @Override
+    public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
+        return List.of();
     }
 }
