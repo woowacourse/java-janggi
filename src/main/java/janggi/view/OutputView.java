@@ -9,6 +9,11 @@ import java.util.Map;
 
 public class OutputView {
 
+    private static final String GREEN_COLOR_PREFIX = "\u001B[32m";
+    private static final String GREEN_COLOR_SUFFIX = "\u001B[0m";
+    private static final String RED_COLOR_PREFIX = "\u001B[31m";
+    private static final String RED_COLOR_SUFFIX = "\u001B[0m";
+
     public void printGameStartMessage() {
         System.out.println("장기 게임을 시작합니다. 선공은 초나라입니다.");
         System.out.println("ex) 1,1 2,2 (1,1 에 위치한 기물을 2,2로 이동)\n");
@@ -41,6 +46,10 @@ public class OutputView {
             System.out.print("＿ ");
             return;
         }
-        System.out.print(piece + " ");
+        if (piece.isSameTeam(Team.GREEN)) {
+            System.out.print(GREEN_COLOR_PREFIX + piece + " " + GREEN_COLOR_SUFFIX);
+            return;
+        }
+        System.out.print(RED_COLOR_PREFIX + piece + " " + RED_COLOR_SUFFIX);
     }
 }
