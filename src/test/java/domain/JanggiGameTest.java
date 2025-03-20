@@ -6,6 +6,7 @@ import domain.piece.Cannon;
 import domain.piece.King;
 import domain.piece.Piece;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ public class JanggiGameTest {
         beforeBoard.put(new Position(8, 5), blueKing);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiGame game = new JanggiGame(boardGenerator);
+        JanggiGame game = new JanggiGame(boardGenerator, List.of("플레이어1", "플레이어2"));
 
         // when
         Map<Position, Piece> boardState = game.getBoardState();
@@ -41,7 +42,7 @@ public class JanggiGameTest {
         Map<Position, Piece> beforeBoard = new HashMap<>();
         King blueKing = new King(Team.BLUE);
         beforeBoard.put(new Position(1, 1), blueKing);
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard));
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), List.of("플레이어1", "플레이어2"));
 
         Map<Position, Piece> afterBoard = new HashMap<>();
         afterBoard.put(new Position(2, 1), blueKing);
