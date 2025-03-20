@@ -19,7 +19,8 @@ public class Application {
     private final BoardView boardView = new BoardView();
 
     public static void main(String[] args) {
-        new Application().run();
+        final Application janggi = new Application();
+        janggi.run();
     }
 
     private void run() {
