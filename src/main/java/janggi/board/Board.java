@@ -1,6 +1,5 @@
 package janggi.board;
 
-import janggi.piece.Piece;
 import janggi.position.Position;
 import janggi.team.Team;
 

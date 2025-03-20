@@ -27,7 +27,6 @@ public class GameManager {
 
         output.printBoard(boardHan, boardCho);
 
-        ///
         String pieceTeamInfo = input.readPieceTeamName();
         Team teamName = Team.from(pieceTeamInfo);
 
@@ -47,7 +46,19 @@ public class GameManager {
         // 이동 위치 사이에 있는 좌표들 (실제로 이동가능한지 검증 필요)
         BoardNavigator boardNavigator = new BoardNavigator();
         List<Position> positionsOnPath = boardNavigator.findPositionsOnPath(pieceCurrentPosition, pieceMovedPosition);
-        System.out.println("해당 말이 이동하고자 하는 경로에 어떤 말이 이미 차지하고 있는가? (포 제외) " + board.checkLegalMove(positionsOnPath));
+        if (!pieceName.equals("P")) {
+            System.out.println("해당 말이 이동하고자 하는 경로에 어떤 말이 이미 차지하고 있는가? (포 제외) " + board.checkLegalMove(positionsOnPath));
+        }
+        if (pieceName.equals("P")) {
+            boolean isLegal = false;
+            if (teamName.equals(Team.CHO)) {
+                isLegal = boardCho.isLegalMoveForCannon(positionsOnPath);
+            }
+            if (teamName.equals(Team.HAN)) {
+                isLegal = boardHan.isLegalMoveForCannon(positionsOnPath);
+            }
+            System.out.println("해당 말이 이동하고자 하는 경로에 하나의 장애물이 존재하고 그 장애물이 포가 아닌가? (포) " + isLegal);
+        }
 
         // 말 이동 업데이트
         if (teamName.equals(Team.CHO)) {
@@ -84,4 +95,7 @@ public class GameManager {
         }
         System.out.println("해당 위치는 같은 팀의 말에 의해 막혀있는가? " + isOccupied);
     }
+
+    // todo 각 말의 오프셋 계산해 검증하기
+    // 상인 경우, x축, y축 이동 방향에 따른 변화량 차이 (2, 3) (3, 2)
 }

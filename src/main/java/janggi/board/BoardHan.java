@@ -51,6 +51,19 @@ public class BoardHan {
         );
     }
 
+    public boolean isLegalMoveForCannon(List<Position> positionsOnPath) {
+        int obstacleCount = 0;
+        for (Piece piece : pieces) {
+            if (positionsOnPath.contains(piece.getPosition())){
+                obstacleCount += 1;
+            }
+        }
+        boolean isSameCannonKind = pieces.stream()
+                .anyMatch(piece -> positionsOnPath.contains(piece.getPosition()) && "P".equals(piece.getName()));
+
+        return obstacleCount == 1 && !isSameCannonKind;
+    }
+
     public boolean isOccupiedByOurTeamPiece(Team teamName, Position movedPosition) {
         // 움직이고자 하는 도착 위치가 자신의 팀의 말이 차지하고 있는지 확인하다
         for (Piece piece : pieces) {
