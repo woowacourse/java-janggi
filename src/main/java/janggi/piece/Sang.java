@@ -4,6 +4,7 @@ import janggi.point.InitialPoint;
 import janggi.Movable;
 import janggi.point.Point;
 import janggi.Team;
+import janggi.point.PointDistance;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,23 +37,9 @@ public class Sang implements Movable {
 
     @Override
     public boolean isMovable(Point targetPoint) {
-        List<Point> candidates = new ArrayList<>();
-        addPointsInRange(candidates, -2, 3);
-        addPointsInRange(candidates, -3, 2);
-        addPointsInRange(candidates, 3, 2);
-        addPointsInRange(candidates, 2, 3);
-        addPointsInRange(candidates, 2, -3);
-        addPointsInRange(candidates, 3, -2);
-        addPointsInRange(candidates, -3, -2);
-        addPointsInRange(candidates, -2, -3);
-        return candidates.contains(targetPoint);
-    }
+        PointDistance distance = PointDistance.calculate(point, targetPoint);
 
-    private void addPointsInRange(List<Point> candidates, int rowMovingDistance, int columnMovingDistance) {
-        try {
-            candidates.add(point.move(rowMovingDistance, columnMovingDistance));
-        } catch (IllegalArgumentException ignored) {
-        }
+        return distance.isSameWith(Math.sqrt(13));
     }
 
     @Override
