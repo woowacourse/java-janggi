@@ -102,19 +102,23 @@ public class Board {
                 .anyMatch(position -> position.isSame(point));
     }
 
-    public void moveForEnd(final Position prevPosition, final Point newPoint) {
+    public void moveForEnd(final Position prevPosition, final Point newPoint, final Runnable runner) {
         if (hasPieceAt(newPoint)) {
             if (prevPosition.isGreenTeam()) {
                 if (!findPositionBy(newPoint).isGreenTeam()) {
+                    positions.remove(findPositionBy(newPoint));
                     positions.remove(prevPosition);
                     positions.add(prevPosition.getNextPosition(newPoint));
+                    runner.run();
                 } else {
                     throw new IllegalArgumentException("해당 위치에 같은 팀 말이 있습니다.");
                 }
             } else {
                 if (findPositionBy(newPoint).isGreenTeam()) {
+                    positions.remove(findPositionBy(newPoint));
                     positions.remove(prevPosition);
                     positions.add(prevPosition.getNextPosition(newPoint));
+                    runner.run();
                 } else {
                     throw new IllegalArgumentException("해당 위치에 같은 팀 말이 있습니다.");
                 }
