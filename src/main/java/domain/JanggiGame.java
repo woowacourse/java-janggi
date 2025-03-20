@@ -36,7 +36,7 @@ public class JanggiGame {
 
             if (prevPosition.isMovable(nextPoint)) {
                 if (board.canMoveOnPath(prevPosition, nextPoint)) {
-                    board.moveForEnd(prevPosition, nextPoint, OutputView::printCaptureMessage);
+                    board.move(prevPosition, nextPoint, OutputView::printCaptureMessage);
                     if (board.hasOnlyOneGeneral()) {
                         final Team team = board.determineWinTeam();
                         OutputView.printWinnerTeam(team);

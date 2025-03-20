@@ -128,7 +128,7 @@ public class Board {
                 .anyMatch(position -> position.isSame(point));
     }
 
-    public void moveForEnd(final Position prevPosition, final Point newPoint, final Runnable runner) {
+    public void move(final Position prevPosition, final Point newPoint, final Runnable runner) {
         if (!hasPieceAt(newPoint)) {
             positions.remove(prevPosition);
             positions.add(prevPosition.getNextPosition(newPoint));

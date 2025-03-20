@@ -95,7 +95,7 @@ class BoardTest {
         final Point point = Point.of(1, 2);
 
         // then
-        assertThatThrownBy(() -> board.moveForEnd(position, point, OutputView::printCaptureMessage)).isInstanceOf(
+        assertThatThrownBy(() -> board.move(position, point, OutputView::printCaptureMessage)).isInstanceOf(
                 IllegalArgumentException.class);
     }
 
@@ -111,7 +111,7 @@ class BoardTest {
 
         // then
         assertThatCode(
-                () -> board.moveForEnd(position, point, OutputView::printCaptureMessage)).doesNotThrowAnyException();
+                () -> board.move(position, point, OutputView::printCaptureMessage)).doesNotThrowAnyException();
     }
 
     @Test
@@ -122,7 +122,7 @@ class BoardTest {
         // when
         final Position position = board.findPositionBy(Point.of(2, 0));
         final Point point = Point.of(3, 2);
-        board.moveForEnd(position, point, OutputView::printCaptureMessage);
+        board.move(position, point, OutputView::printCaptureMessage);
 
         // then
         assertThat(board.hasPieceAt(point)).isTrue();
@@ -138,15 +138,15 @@ class BoardTest {
         // when
         final Position position1 = board.findPositionBy(Point.of(2, 3));
         final Point toPoint1 = Point.of(1, 3);
-        board.moveForEnd(position1, toPoint1, OutputView::printCaptureMessage);
+        board.move(position1, toPoint1, OutputView::printCaptureMessage);
 
         final Position position2 = board.findPositionBy(Point.of(2, 6));
         final Point toPoint2 = Point.of(1, 6);
-        board.moveForEnd(position2, toPoint2, OutputView::printCaptureMessage);
+        board.move(position2, toPoint2, OutputView::printCaptureMessage);
 
         final Position position3 = board.findPositionBy(Point.of(1, 2));
         final Point toPoint3 = Point.of(1, 6);
-        board.moveForEnd(position3, toPoint3, OutputView::printCaptureMessage);
+        board.move(position3, toPoint3, OutputView::printCaptureMessage);
 
         final Position position = board.findPositionBy(expectedPoint);
 
@@ -167,12 +167,12 @@ class BoardTest {
         // when
         final Position position2 = board.findPositionBy(Point.of(0, 3));
         final Point toPoint2 = Point.of(1, 3);
-        board.moveForEnd(position2, toPoint2, OutputView::printCaptureMessage);
+        board.move(position2, toPoint2, OutputView::printCaptureMessage);
 
         final Position position3 = board.findPositionBy(Point.of(1, 7));
         final Point toPoint3 = Point.of(1, 2);
         if (board.canMoveOnPath(position3, toPoint3)) {
-            board.moveForEnd(position3, toPoint3, OutputView::printCaptureMessage);
+            board.move(position3, toPoint3, OutputView::printCaptureMessage);
         }
 
         final Position position = board.findPositionBy(expectedPoint);
