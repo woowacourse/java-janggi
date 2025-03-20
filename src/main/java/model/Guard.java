@@ -45,4 +45,12 @@ public class Guard extends Piece {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public String toString() {
+        if (getTeam() == Team.RED) {
+            return "士";
+        }
+        return "사";
+    }
 }

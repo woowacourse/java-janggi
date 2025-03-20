@@ -67,10 +67,10 @@ public class PieceInitializer {
         Piece chariotLeftOfGreen = new Chariot(GREEN_LEFT_POSITION_OF_CHARIOT, Team.GREEN);
         Piece chariotRightOfGreen = new Chariot(GREEN_RIGHT_POSITION_OF_CHARIOT, Team.GREEN);
 
-        Piece cannonLeftOfRed = new Chariot(RED_LEFT_POSITION_OF_CANNON, Team.RED);
-        Piece cannonRightOfRed = new Chariot(RED_RIGHT_POSITION_OF_CANNON, Team.RED);
-        Piece cannonLeftOfGreen = new Chariot(GREEN_LEFT_POSITION_OF_CANNON, Team.GREEN);
-        Piece cannonRightOfGreen = new Chariot(GREEN_RIGHT_POSITION_OF_CANNON, Team.GREEN);
+        Piece cannonLeftOfRed = new Cannon(RED_LEFT_POSITION_OF_CANNON, Team.RED);
+        Piece cannonRightOfRed = new Cannon(RED_RIGHT_POSITION_OF_CANNON, Team.RED);
+        Piece cannonLeftOfGreen = new Cannon(GREEN_LEFT_POSITION_OF_CANNON, Team.GREEN);
+        Piece cannonRightOfGreen = new Cannon(GREEN_RIGHT_POSITION_OF_CANNON, Team.GREEN);
 
         Piece firstJol = new Jol(JOL_FIRST);
         Piece secondJol = new Jol(JOL_SECOND);

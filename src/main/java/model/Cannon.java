@@ -74,6 +74,14 @@ public class Cannon extends Piece{
         }
         return tmpPosition;
     }
+
+    @Override
+    public String toString() {
+        if (getTeam() == Team.RED) {
+            return "包";
+        }
+        return "포";
+    }
 }
 
 

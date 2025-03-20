@@ -89,4 +89,12 @@ public class Horse extends Piece {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public String toString() {
+        if (getTeam() == Team.RED) {
+            return "馬";
+        }
+        return "마";
+    }
 }

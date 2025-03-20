@@ -37,4 +37,9 @@ public class Byeong extends Piece{
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public String toString() {
+        return "兵";
+    }
 }

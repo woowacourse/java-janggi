@@ -75,5 +75,13 @@ public class Chariot extends Piece{
         }
         return tmpPosition;
     }
+
+    @Override
+    public String toString() {
+        if (getTeam() == Team.RED) {
+            return "車";
+        }
+        return "차";
+    }
 }
 

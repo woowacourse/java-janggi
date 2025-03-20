@@ -22,6 +22,12 @@ public class Pieces {
             .anyMatch(piece -> piece.getPosition().equals(position));
     }
 
+    public Optional<Piece> findPieceOfView(Position position) {
+        return pieces.stream()
+            .filter(piece -> piece.getPosition().equals(position))
+            .findFirst();
+    }
+
     public Piece findPiece(Position position) {
         return pieces.stream()
             .filter(piece -> piece.getPosition().equals(position))
@@ -79,11 +85,13 @@ public class Pieces {
     }
 
     private void validateMiddleDirection(Position destination, List<Position> positions) {
-        positions.stream()
+        boolean isAlreadyExist = positions.stream()
             .filter(this::isAlreadyExist)
-            .filter(position -> !position.equals(destination))
-            .findAny()
-            .orElseThrow(() -> new IllegalArgumentException("해당 위치로는 이동할 수 없습니다."));
+            .anyMatch(position -> !position.equals(destination));
+
+        if (isAlreadyExist) {
+            throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다");
+        }
     }
 
     private void validateDestination(Piece myPiece, Position destination) {

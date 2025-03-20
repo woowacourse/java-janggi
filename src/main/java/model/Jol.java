@@ -37,5 +37,10 @@ public class Jol extends Piece{
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public String toString() {
+        return "졸";
+    }
 }
 

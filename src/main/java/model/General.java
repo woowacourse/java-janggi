@@ -45,4 +45,12 @@ public class General extends Piece {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public String toString() {
+        if (getTeam() == Team.RED) {
+            return "漢";
+        }
+        return "초";
+    }
 }
