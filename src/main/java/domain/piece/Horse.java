@@ -26,7 +26,7 @@ public class Horse extends Piece {
 
     @Override
     public List<Position> findAllRoute(Position source, Position destination) {
-        Position route = source.divideBy(destination, 2);
+        Position route = source.getPositionByFraction(destination, 2);
 
         return List.of(route);
     }

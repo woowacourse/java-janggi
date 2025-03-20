@@ -21,12 +21,51 @@ public class Position {
         return other.columnValue() - column.getValue();
     }
 
+    public Position getPositionByFraction(Position other, int divisor) {
+        int newRow = row.getValue() + rowDifference(other) / divisor;
+        int newColumn = column.getValue() + columnDifference(other) / divisor;
+
+        return new Position(Row.from(newRow), Column.from(newColumn));
+    }
+
+    public List<Position> getBetweenPositions(Position other) {
+        int rowDir = getDirection(rowDifference(other));
+        int columnDir = getDirection(columnDifference(other));
+
+        Position currentPosition = updatePosition(new Position(row, column), rowDir, columnDir);
+        List<Position> positions = new ArrayList<>();
+        while(!currentPosition.equals(other)) {
+            positions.add(currentPosition);
+            currentPosition = updatePosition(currentPosition, rowDir, columnDir);
+        }
+        return positions;
+    }
+
+    private int getDirection(int difference) {
+        if(difference != 0) {
+            return difference / Math.abs(difference);
+        }
+        return 0;
+    }
+
+    private Position updatePosition(Position currentPosition, int rowDir, int columnDir) {
+        int newRow = currentPosition.rowValue() + rowDir;
+        int newCol = currentPosition.columnValue() + columnDir;
+        currentPosition = new Position(Row.from(newRow), Column.from(newCol));
+        return currentPosition;
+    }
+
     public int rowValue() {
         return row.getValue();
     }
 
     public int columnValue() {
         return column.getValue();
+    }
+
+    @Override
+    public String toString() {
+        return row.getValue() + ", " + column.getValue();
     }
 
     @Override
@@ -38,57 +77,5 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(row, column);
-    }
-
-    public Row getRow() {
-        return row;
-    }
-
-    public Column getColumn() {
-        return column;
-    }
-
-    public Position divideBy(Position other, int divisor) {
-        int newRow = row.getValue() + rowDifference(other) / divisor;
-        int newColumn = column.getValue() + columnDifference(other) / divisor;
-
-        return new Position(Row.from(newRow), Column.from(newColumn));
-    }
-
-    public List<Position> getBetweenPositions(Position other) {
-
-        //TODO - 리팩토링
-
-        int rowDifference = rowDifference(other);
-        int columnDifference = columnDifference(other);
-
-        int rowDir = 0;
-        int columnDir =0;
-
-        if(rowDifference != 0) {
-            rowDir = rowDifference / Math.abs(rowDifference);
-        }
-        if(columnDifference != 0) {
-            columnDir = columnDifference / Math.abs(columnDifference);
-        }
-
-        Position currentPosition = new Position(row, column);
-        List<Position> positions = new ArrayList<>();
-
-        while(true) {
-            int newRow = currentPosition.rowValue() + rowDir;
-            int newCol = currentPosition.columnValue() + columnDir;
-            currentPosition = new Position(Row.from(newRow), Column.from(newCol));
-            if(currentPosition.equals(other)) {
-                break;
-            }
-            positions.add(currentPosition);
-        }
-        return positions;
-    }
-
-    @Override
-    public String toString() {
-        return row.getValue() + ", " + column.getValue();
     }
 }

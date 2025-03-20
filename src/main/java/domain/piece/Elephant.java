@@ -29,8 +29,8 @@ public class Elephant extends Piece {
     public List<Position> findAllRoute(Position source, Position destination) {
         List<Position> positions = new ArrayList<>();
 
-        Position firstPosition = source.divideBy(destination, 3);
-        Position secondPosition = firstPosition.divideBy(destination, 2);
+        Position firstPosition = source.getPositionByFraction(destination, 3);
+        Position secondPosition = firstPosition.getPositionByFraction(destination, 2);
 
         positions.add(firstPosition);
         positions.add(secondPosition);
