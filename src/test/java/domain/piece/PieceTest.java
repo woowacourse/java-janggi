@@ -69,6 +69,17 @@ class PieceTest {
                 .isEqualTo(position);
     }
 
+    @Test
+    void 왕인지_판단한다() {
+        // given
+        final Piece piece = new TestPiece(1, 2, new Directions(List.of()));
+        final Piece kingPiece = new TestKingPiece(1, 2, new Directions(List.of()));
+
+        // when & then
+        assertThat(piece.isKing()).isFalse();
+        assertThat(kingPiece.isKing()).isTrue();
+    }
+
     static class TestPiece extends Piece {
         public TestPiece(int row, int column, Directions directions) {
             super(row, column, directions);
@@ -81,6 +92,36 @@ class PieceTest {
         @Override
         public TestPiece updatePosition(final Position position) {
             return new TestPiece(position, directions);
+        }
+
+        @Override
+        public boolean isKing() {
+            return false;
+        }
+
+        @Override
+        public String getName() {
+            return "";
+        }
+    }
+
+    static class TestKingPiece extends Piece {
+        public TestKingPiece(int row, int column, Directions directions) {
+            super(row, column, directions);
+        }
+
+        public TestKingPiece(final Position position, final Directions directions) {
+            super(position, directions);
+        }
+
+        @Override
+        public TestPiece updatePosition(final Position position) {
+            return new TestPiece(position, directions);
+        }
+
+        @Override
+        public boolean isKing() {
+            return true;
         }
 
         @Override
