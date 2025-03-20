@@ -22,33 +22,44 @@ public class 차Path extends Path {
 
     @Override
     public List<Pattern> getPath(JanggiPosition beforePosition, JanggiPosition afterPosition) {
-        Direction newPath = null;
-        int additionalSize = 0;
         if (afterPosition.x() == beforePosition.x()) {
-            if (afterPosition.isBiggerYThan(beforePosition)) {
-                newPath = RIGHT;
-                additionalSize = afterPosition.getYGap(beforePosition);
-            } else {
-                newPath = LEFT;
-                additionalSize = afterPosition.getYGap(beforePosition);
-            }
+            return setNewPathAndGetAdditionalSizeAboutLeftOrRight(beforePosition, afterPosition);
         }
         if (afterPosition.y() == beforePosition.y()) {
-            if (afterPosition.isBiggerXThan(beforePosition)) {
-                newPath = DOWN;
-                additionalSize = afterPosition.getXGap(beforePosition);
-            } else {
-                newPath = UP;
-                additionalSize = afterPosition.getXGap(beforePosition);
-            }
+            return setNewPathAndGetAdditionalSizeAboutUpOrDown(beforePosition, afterPosition);
         }
-        if (newPath == null) {
-            throw new IllegalStateException("차는 해당 경로로 이동할 수 없습니다.");
+        throw new IllegalStateException("차는 해당 경로로 이동할 수 없습니다.");
+    }
+
+    private List<Pattern> setNewPathAndGetAdditionalSizeAboutLeftOrRight(JanggiPosition beforePosition,
+                                                                         JanggiPosition afterPosition) {
+        Direction newPath;
+        int additionalSize;
+        if (afterPosition.isBiggerYThan(beforePosition)) {
+            newPath = RIGHT;
+            additionalSize = afterPosition.getYGap(beforePosition);
+        } else {
+            newPath = LEFT;
+            additionalSize = afterPosition.getYGap(beforePosition);
+        }
+        return create차Pattern(newPath, additionalSize);
+    }
+
+    private List<Pattern> setNewPathAndGetAdditionalSizeAboutUpOrDown(JanggiPosition beforePosition,
+                                                                      JanggiPosition afterPosition) {
+        Direction newPath;
+        int additionalSize;
+        if (afterPosition.isBiggerXThan(beforePosition)) {
+            newPath = DOWN;
+            additionalSize = afterPosition.getXGap(beforePosition);
+        } else {
+            newPath = UP;
+            additionalSize = afterPosition.getXGap(beforePosition);
         }
         return create차Pattern(newPath, additionalSize);
     }
 
     private List<Pattern> create차Pattern(Direction newPath, int additionalSize) {
-        return Collections.nCopies(additionalSize, paths.get(newPath).get(0));
+        return Collections.nCopies(additionalSize, paths.get(newPath).getFirst());
     }
 }
