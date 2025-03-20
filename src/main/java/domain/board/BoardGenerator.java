@@ -144,7 +144,7 @@ public class BoardGenerator {
         switch (pieceType) {
             case SANG -> piece = new Sang(team);
             case MA -> piece = new Ma(team);
-            default -> throw new IllegalArgumentException("상 또는 마가 아닙니다.");
+            default -> throw new IllegalArgumentException("[ERROR] 상 또는 마가 아닙니다.");
         }
         return piece;
     }
