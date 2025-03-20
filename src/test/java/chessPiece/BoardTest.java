@@ -24,9 +24,9 @@ class BoardTest {
         assertThat(board.getJanggiPan()).hasSize(32);
     }
 
-    @DisplayName("앞에 기물에 있다면 true를 반환한다.")
+    @DisplayName("장기판의 기물이 포일때 앞의 기물이 포라면 예외를 던진다.")
     @Test
-    void isPieceInFront() {
+    void notUpdateBoard() {
         //given
         List<ChessPiece> chessPieces = List.of(
                 new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(3, 2)),
@@ -39,54 +39,80 @@ class BoardTest {
 
         BoardPosition presentPosition = new BoardPosition(3, 2);
         BoardPosition futurePosition = new BoardPosition(5, 2);
-
-        //when
-        boolean actual = board.isPieceInFront(presentPosition, futurePosition);
-
-        //then
-        assertThat(actual).isFalse();
-    }
-
-    @DisplayName("앞에 기물이 po라면 false를 반환한다.")
-    @Test
-    void isPoInFront() {
-        List<ChessPiece> chessPieces = List.of(
-                new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(3, 2)),
-                new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(4, 2))
-        );
-
-        List<ChessPiece> chessPieces2 = List.of();
-
-        Board board = new Board(chessPieces, chessPieces2);
-
-        BoardPosition presentPosition = new BoardPosition(3, 2);
-        BoardPosition futurePosition = new BoardPosition(5, 2);
-
-        //when
-        boolean actual = board.isPieceInFront(presentPosition, futurePosition);
-
-        //then
-        assertThat(actual).isFalse();
-    }
-
-    @DisplayName("현재 위치의 말에게 이동가능 여부를 확인할 수 있다.")
-    @Test
-    void canMove() {
-        //given
-        List<ChessPiece> chessPieces = List.of(
-                new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(3, 2)),
-                new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(4, 2))
-        );
-
-        List<ChessPiece> chessPieces2 = List.of();
-
-        Board board = new Board(chessPieces, chessPieces2);
-
-        BoardPosition presentPosition = new BoardPosition(3, 2);
-        BoardPosition futurePosition = new BoardPosition(7, 3);
 
         //when //then
-        assertThatThrownBy(() -> board.canMoveBy(presentPosition, futurePosition))
+        assertThatThrownBy(() -> board.updateBoard(presentPosition, futurePosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageStartingWith("[ERROR]");
+    }
+
+    @DisplayName("장기판의 기물을 옮길 수 있다.")
+    @Test
+    void updateBoard() {
+        //given
+        List<ChessPiece> chessPieces = List.of(
+                new Byeong(new PieceProfile("병", Nation.HAN), new BoardPosition(3, 2))
+        );
+
+        List<ChessPiece> chessPieces2 = List.of();
+
+        Board board = new Board(chessPieces, chessPieces2);
+
+        BoardPosition presentPosition = new BoardPosition(3, 2);
+        BoardPosition futurePosition = new BoardPosition(4, 2);
+
+        //when
+        board.updateBoard(presentPosition, futurePosition);
+
+        //then
+        ChessPiece actual = board.getJanggiPan().get(futurePosition);
+        assertThat(actual).isEqualTo(new Byeong(new PieceProfile("병", Nation.HAN),
+                new BoardPosition(4, 2)));
+    }
+
+    @DisplayName("장기판의 기물이 포 인경우 옮길 수 있다.")
+    @Test
+    void poUpdate() {
+        //given
+        List<ChessPiece> chessPieces = List.of(
+                new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(3, 2)),
+                new Byeong(new PieceProfile("병", Nation.HAN), new BoardPosition(4, 2))
+        );
+
+        List<ChessPiece> chessPieces2 = List.of();
+
+        Board board = new Board(chessPieces, chessPieces2);
+
+        BoardPosition presentPosition = new BoardPosition(3, 2);
+        BoardPosition futurePosition = new BoardPosition(5, 2);
+
+        //when
+        board.updateBoard(presentPosition, futurePosition);
+
+        //then
+        ChessPiece actual = board.getJanggiPan().get(futurePosition);
+        assertThat(actual).isEqualTo(new Po(new PieceProfile("포", Nation.HAN),
+                new BoardPosition(5, 2)));
+    }
+
+    @DisplayName("장기판의 포앞에 기물이 2개 이상 존재한다면 예외를 던진다.")
+    @Test
+    void notUpdateFoInFrontTwoChessPiece() {
+        List<ChessPiece> chessPieces = List.of(
+                new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(3, 2)),
+                new Jol(new PieceProfile("졸", Nation.HAN), new BoardPosition(4, 2)),
+                new Byeong(new PieceProfile("병", Nation.HAN), new BoardPosition(5, 2))
+        );
+
+        List<ChessPiece> chessPieces2 = List.of();
+
+        Board board = new Board(chessPieces, chessPieces2);
+
+        BoardPosition presentPosition = new BoardPosition(3, 2);
+        BoardPosition futurePosition = new BoardPosition(6, 2);
+
+        //when //then
+        assertThatThrownBy(() -> board.updateBoard(presentPosition, futurePosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }

@@ -21,79 +21,93 @@ public class Board {
         return janggiPan;
     }
 
-    public boolean isPieceInFront(final BoardPosition presentPosition, final BoardPosition futurePosition) {
-        int dx = presentPosition.getCol() - futurePosition.getCol();
-        int dy = presentPosition.getRow() - futurePosition.getRow();
+    public void updateBoard(final BoardPosition presentPosition, final BoardPosition futurePosition) {
 
-        canMoveBy(presentPosition, futurePosition);
+        ChessPiece chessPiece = janggiPan.get(presentPosition);
+        chessPiece.isMove(futurePosition);
 
-        //Po가 있는지 확인한다.
+        if (isPo(presentPosition)) {
+            if (!isPieceInFront(presentPosition, futurePosition)) {
+                throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 위치입니다.");
+            }
+
+            janggiPan.remove(presentPosition);
+            janggiPan.put(futurePosition, chessPiece);
+            chessPiece.updateChessPiecePositionBy(futurePosition);
+            return;
+        }
+
+        janggiPan.remove(presentPosition);
+        janggiPan.put(futurePosition, chessPiece);
+        chessPiece.updateChessPiecePositionBy(futurePosition);
+    }
+
+    private boolean isPo(BoardPosition boardPosition) {
+        return janggiPan.containsKey(boardPosition) && janggiPan.get(boardPosition).getName().equals("포");
+    }
+
+    private boolean isPieceInFront(final BoardPosition presentPosition, final BoardPosition futurePosition) {
+        int dx = presentPosition.getRow() - futurePosition.getRow();
+        int dy = presentPosition.getCol() - futurePosition.getCol();
+
         int cnt = 0;
 
         if (dx == 0 && dy > 0) {
-            for (int i = 0; i < dy; i++) {
+            for (int i = 1; i <= dy; i++) {
                 BoardPosition boardPosition =
                         new BoardPosition(presentPosition.getRow(), futurePosition.getCol() + i);
-                if (janggiPan.containsKey(boardPosition)) {
-                    cnt++;
-                }
+
                 if (isPo(boardPosition)) {
                     return false;
+                }
+
+                if (janggiPan.containsKey(boardPosition)) {
+                    cnt++;
                 }
             }
             return cnt <= 1;
         }
 
         if (dx == 0 && dy < 0) {
-            for (int i = 0; i < Math.abs(dy); i++) {
+            for (int i = 1; i <= Math.abs(dy); i++) {
                 BoardPosition boardPosition =
                         new BoardPosition(presentPosition.getRow(), presentPosition.getCol() + i);
-                if (janggiPan.containsKey(boardPosition)) {
-                    cnt++;
-                }
                 if (isPo(boardPosition)) {
                     return false;
+                }
+                if (janggiPan.containsKey(boardPosition)) {
+                    cnt++;
                 }
             }
             return cnt <= 1;
         }
 
         if (dx > 0 && dy == 0) {
-            for (int i = 0; i < dx; i++) {
+            for (int i = 1; i <= dx; i++) {
                 BoardPosition boardPosition =
                         new BoardPosition(futurePosition.getRow() + i, futurePosition.getCol());
-                if (janggiPan.containsKey(boardPosition)) {
-                    cnt++;
-                }
                 if (isPo(boardPosition)) {
                     return false;
+                }
+                if (janggiPan.containsKey(boardPosition)) {
+                    cnt++;
                 }
             }
             return cnt <= 1;
         }
         if (dx < 0 && dy == 0) {
-            for (int i = 0; i < Math.abs(dx); i++) {
+            for (int i = 1; i <= Math.abs(dx); i++) {
                 BoardPosition boardPosition =
                         new BoardPosition(presentPosition.getRow() + i, futurePosition.getCol());
-                if (janggiPan.containsKey(boardPosition)) {
-                    cnt++;
-                }
                 if (isPo(boardPosition)) {
                     return false;
+                }
+                if (janggiPan.containsKey(boardPosition)) {
+                    cnt++;
                 }
             }
             return cnt <= 1;
         }
-
         return false;
-    }
-
-    public void canMoveBy(final BoardPosition presentPosition, final BoardPosition futurePosition) {
-        ChessPiece chessPiece = janggiPan.get(presentPosition);
-        chessPiece.move(futurePosition);
-    }
-
-    private boolean isPo(BoardPosition boardPosition) {
-        return janggiPan.containsKey(boardPosition) && janggiPan.get(boardPosition).getName().equals("포");
     }
 }
