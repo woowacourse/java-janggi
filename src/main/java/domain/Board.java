@@ -9,37 +9,49 @@ public class Board {
     private final Map<BoardPosition, Piece> pieces;
 
     public Board(final Map<BoardPosition, Piece> pieces) {
+        validateNotNull(pieces);
         this.pieces = new HashMap<>(pieces);
     }
 
+    private void validateNotNull(final Map<BoardPosition, Piece> pieces) {
+        if (pieces == null) {
+            throw new IllegalArgumentException("보드는 기물들을 가져야합니다.");
+        }
+    }
+
     public void movePiece(
-        final BoardPosition targetBoardPosition,
-        final BoardPosition moveBoardPosition
+        final BoardPosition selectBoardPosition,
+        final BoardPosition destinationBoardPosition,
+        final Team currentTeam
     ) {
-        if (!pieces.containsKey(targetBoardPosition)) {
+        if (!pieces.containsKey(selectBoardPosition)) {
             throw new IllegalArgumentException("이동하려는 위치에 기물이 없습니다.");
         }
 
-        final Piece movePiece = pieces.get(targetBoardPosition);
-        final Piece targetPiece = pieces.get(moveBoardPosition);
-        if (targetPiece != null
-            && movePiece.getTeam() == targetPiece.getTeam()) {
+        final Piece selectedPiece = pieces.get(selectBoardPosition);
+        if (selectedPiece.getTeam() != currentTeam) {
+            throw new IllegalArgumentException("다른 팀의 기물을 움직일 수 없습니다.");
+        }
+
+        final Piece destinationPiece = pieces.get(destinationBoardPosition);
+        if (destinationPiece != null
+            && currentTeam == destinationPiece.getTeam()) {
             throw new IllegalArgumentException("이동하려는 위치에 아군 기물이 존재합니다.");
         }
 
-        final List<Offset> movementRule = movePiece.findMovementRule(
-            targetBoardPosition, moveBoardPosition);
-        validateMovementRule(movementRule, targetBoardPosition,
-            moveBoardPosition, movePiece);
+        final List<Offset> movementRule = selectedPiece.findMovementRule(
+            selectBoardPosition, destinationBoardPosition);
+        validateMovementRule(movementRule, selectBoardPosition,
+            destinationBoardPosition, selectedPiece);
 
-        if (targetPiece != null
-            && movePiece.getTeam() != targetPiece.getTeam()) {
+        if (destinationPiece != null
+            && currentTeam != destinationPiece.getTeam()) {
 
-            pieces.remove(moveBoardPosition);
+            pieces.remove(destinationBoardPosition);
         }
 
-        pieces.remove(targetBoardPosition);
-        pieces.put(moveBoardPosition, movePiece);
+        pieces.remove(selectBoardPosition);
+        pieces.put(destinationBoardPosition, selectedPiece);
     }
 
     private void validateMovementRule(
