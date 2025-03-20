@@ -43,6 +43,10 @@ public class JanggiGame {
         return board.getLocations();
     }
 
+    public void move(Point originPoint, Point arrivalPoint) {
+        board.movePiece(originPoint, arrivalPoint);
+    }
+
     private Board generateBoard() {
         final Map<Point, Piece> locations = generateEmptyBoard();
         locations.putAll(generateLocationsForHan());
