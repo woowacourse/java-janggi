@@ -26,7 +26,7 @@ public class Application {
         welcomeView.display();
         final SetupOption setupOption = readSetupOption();
         final Board board = BoardGenerator.generate(setupOption);
-        boardView.display(board.getBoard());
+        boardView.display(board);
         String input;
         while (Command.END != readCommand(input = inputView.read())) {
             move(board, input);
@@ -67,7 +67,7 @@ public class Application {
             Position start = new Position(Row.of(moveCommand.get(0)), Column.of(moveCommand.get(1)));
             Position end = new Position(Row.of(moveCommand.get(2)), Column.of(moveCommand.get(3)));
             board.move(start, end);
-            boardView.display(board.getBoard());
+            boardView.display(board);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }

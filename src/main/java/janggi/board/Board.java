@@ -15,10 +15,6 @@ public final class Board {
         this.board = new HashMap<>(board);
     }
 
-    public Map<Position, Piece> getBoard() {
-        return board;
-    }
-
     public void move(final Position start, final Position end) {
         validateStartPosition(start);
         final Piece piece = board.get(start);
@@ -46,6 +42,14 @@ public final class Board {
             return piece.type() == Type.CANNON;
         }
         return false;
+    }
+
+    public boolean isExistPiece(final Position position) {
+        return board.containsKey(position);
+    }
+
+    public Piece getPiece(final Position position) {
+        return board.get(position);
     }
 
     private void validateStartPosition(final Position start) {

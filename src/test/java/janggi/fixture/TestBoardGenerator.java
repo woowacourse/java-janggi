@@ -1,13 +1,14 @@
 package janggi.fixture;
 
 import janggi.board.Board;
-import janggi.position.Column;
-import janggi.position.Position;
-import janggi.position.Row;
 import janggi.piece.Cannon;
+import janggi.piece.Horse;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
 import janggi.piece.Team;
+import janggi.position.Column;
+import janggi.position.Position;
+import janggi.position.Row;
 import java.util.Map;
 
 public class TestBoardGenerator {
@@ -21,7 +22,7 @@ public class TestBoardGenerator {
     public static Board generateSoldierCatch() {
         Map<Position, Piece> board = Map.of(
                 new Position(Row.SIX, Column.SEVEN), Soldier.of(Team.CHO),
-                new Position(Row.FIVE, Column.SEVEN), Soldier.of(Team.HAN)
+                new Position(Row.FIVE, Column.SEVEN), Horse.of(Team.HAN)
         );
         return new Board(board);
     }

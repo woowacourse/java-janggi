@@ -2,16 +2,14 @@ package janggi.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.fixture.TestBoardGenerator;
 import janggi.piece.Piece;
-import janggi.piece.Soldier;
+import janggi.piece.Type;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
 import janggi.view.SetupOption;
-import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -54,9 +52,9 @@ class BoardTest {
         final Position end = new Position(Row.FIVE, Column.ZERO);
         // when
         board.move(start, end);
-        final Map<Position, Piece> actual = board.getBoard();
+        final Piece actual = board.getPiece(end);
         // then
-        assertThat(actual.get(end)).isInstanceOf(Soldier.class);
+        assertThat(actual.type()).isEqualTo(Type.SOLDIER);
     }
 
     @DisplayName("병 이동된 위치에 상대 기물이 있으면 잡으면서 이동한다.")
@@ -68,11 +66,8 @@ class BoardTest {
         final Position end = new Position(Row.FIVE, Column.SEVEN);
         // when
         board.move(start, end);
-        final Map<Position, Piece> actual = board.getBoard();
+        final Piece actual = board.getPiece(end);
         // then
-        assertAll(
-                () -> assertThat(actual.get(end)).isInstanceOf(Soldier.class),
-                () -> assertThat(actual.size()).isEqualTo(1)
-        );
+        assertThat(actual.type()).isEqualTo(Type.SOLDIER);
     }
 }

@@ -1,20 +1,20 @@
 package janggi.view;
 
+import janggi.board.Board;
 import janggi.piece.Piece;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
-import java.util.Map;
 
 public final class BoardView {
-    public void display(final Map<Position, Piece> board) {
+    public void display(final Board board) {
         System.out.println("\n  012345678");
         for (Row row : Row.values()) {
             displayRow(board, row);
         }
     }
 
-    private void displayRow(final Map<Position, Piece> board, final Row row) {
+    private void displayRow(final Board board, final Row row) {
         System.out.printf("%d ", row.getValue());
         for (Column column : Column.values()) {
             Position position = new Position(row, column);
@@ -23,12 +23,12 @@ public final class BoardView {
         System.out.println();
     }
 
-    private static void displayPosition(final Map<Position, Piece> board, final Position position) {
-        if (!board.containsKey(position)) {
+    private static void displayPosition(final Board board, final Position position) {
+        if (!board.isExistPiece(position)) {
             System.out.print(".");
             return;
         }
-        displayPiece(board.get(position));
+        displayPiece(board.getPiece(position));
     }
 
     private static void displayPiece(final Piece piece) {
