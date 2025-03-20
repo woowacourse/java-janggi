@@ -21,7 +21,7 @@ public class PieceTest {
 
         @ParameterizedTest
         @MethodSource("providePieceTypeAndNewPositions")
-        void 포를_제외한_피스는_움직일_수_있다(PieceType pieceType, Position newPosition) {
+        void 포를_제외한_기물은_움직일_수_있다(PieceType pieceType, Position newPosition) {
             // given
             final Piece piece = new Piece(new Position(마, RANK_5), pieceType);
 
@@ -70,7 +70,7 @@ public class PieceTest {
         }
 
         @Test
-        void 피스는_움직일_수_없는_위치면_예외를_터트린다() {
+        void 기물은_움직일_수_없는_위치면_예외를_터트린다() {
             // given
             final Piece piece = new Piece(new Position(마, RANK_7), PieceType.차);
             final Position position = new Position(라, RANK_1);
@@ -82,7 +82,7 @@ public class PieceTest {
         }
 
         @Test
-        void 피스는_움직이면_새로운_위치의_피스를_반환한다() {
+        void 기물은_움직이면_새로운_위치의_기물을_반환한다() {
             // given
             final Piece piece = new Piece(new Position(가, RANK_1), PieceType.장);
             final Position newPosition = new Position(나, RANK_1);
@@ -203,7 +203,7 @@ public class PieceTest {
 
         @ParameterizedTest
         @MethodSource("provideEatablePiece")
-        void 포를_제외한_피스는_상대_기물을_먹을_수_있다(Piece attacker) {
+        void 포를_제외한_기물은_상대_기물을_먹을_수_있다(Piece attacker) {
             // given
 
             // expected

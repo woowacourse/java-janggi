@@ -62,7 +62,7 @@ public final class Team {
 
     private void validateIsPieceExistInPosition(final Position fromPosition) {
         if (pieces.get(fromPosition) == null) {
-            throw new IllegalArgumentException("해당 위치의 피스가 존재하지 않습니다.");
+            throw new IllegalArgumentException("해당 위치의 기물이 존재하지 않습니다.");
         }
     }
 }

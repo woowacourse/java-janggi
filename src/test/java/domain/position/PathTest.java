@@ -68,7 +68,7 @@ class PathTest {
     }
 
     @Test
-    void 중간에_마주치는_피스들을_반환할_수_있다() {
+    void 중간에_마주치는_기물들을_반환할_수_있다() {
         // given
         final Path path = new Path(new Position(마, RANK_5), List.of(
                 new Position(마, RANK_1),
@@ -94,7 +94,7 @@ class PathTest {
     }
 
     @Test
-    void 마지막에_피스를_마주치는지_반환할_수_있다() {
+    void 마지막에_기물을_마주치는지_반환할_수_있다() {
         // given
         final Path path = new Path(new Position(마, RANK_5), List.of(
                 new Position(마, RANK_1),
@@ -116,7 +116,7 @@ class PathTest {
     }
 
     @Test
-    void 마지막에_피스를_마주치지_않으면_false를_반환한다() {
+    void 마지막에_기물을_마주치지_않으면_false를_반환한다() {
         // given
         final Path path = new Path(new Position(마, RANK_5), List.of(
                 new Position(마, RANK_1),
