@@ -30,7 +30,7 @@ public class Elephant extends Piece {
         return false;
     }
 
-    public List<RawPosition> makeRawPositions1() {
+    private List<RawPosition> makeRawPositions1() {
         return List.of(
                 new RawPosition(position.x(), position.y() + 1),
                 new RawPosition(position.x() - 1, position.y() + 2),
@@ -38,7 +38,7 @@ public class Elephant extends Piece {
         );
     }
 
-    public List<RawPosition> makeRawPositions2() {
+    private List<RawPosition> makeRawPositions2() {
         return List.of(
                 new RawPosition(position.x(), position.y() + 1),
                 new RawPosition(position.x() + 1, position.y() + 2),
@@ -46,7 +46,7 @@ public class Elephant extends Piece {
         );
     }
 
-    public List<RawPosition> makeRawPositions3() {
+    private List<RawPosition> makeRawPositions3() {
         return List.of(
                 new RawPosition(position.x() + 1, position.y()),
                 new RawPosition(position.x() + 2, position.y() + 1),
@@ -54,7 +54,7 @@ public class Elephant extends Piece {
         );
     }
 
-    public List<RawPosition> makeRawPositions4() {
+    private List<RawPosition> makeRawPositions4() {
         return List.of(
                 new RawPosition(position.x() + 1, position.y()),
                 new RawPosition(position.x() + 2, position.y() - 1),
@@ -62,7 +62,7 @@ public class Elephant extends Piece {
         );
     }
 
-    public List<RawPosition> makeRawPositions5() {
+    private List<RawPosition> makeRawPositions5() {
         return List.of(
                 new RawPosition(position.x(), position.y() - 1),
                 new RawPosition(position.x() + 1, position.y() - 2),
@@ -70,7 +70,7 @@ public class Elephant extends Piece {
         );
     }
 
-    public List<RawPosition> makeRawPositions6() {
+    private List<RawPosition> makeRawPositions6() {
         return List.of(
                 new RawPosition(position.x(), position.y() - 1),
                 new RawPosition(position.x() - 1, position.y() - 2),
@@ -78,7 +78,7 @@ public class Elephant extends Piece {
         );
     }
 
-    public List<RawPosition> makeRawPositions7() {
+    private List<RawPosition> makeRawPositions7() {
         return List.of(
                 new RawPosition(position.x() - 1, position.y()),
                 new RawPosition(position.x() - 2, position.y() - 1),
@@ -86,7 +86,7 @@ public class Elephant extends Piece {
         );
     }
 
-    public List<RawPosition> makeRawPositions8() {
+    private List<RawPosition> makeRawPositions8() {
         return List.of(
                 new RawPosition(position.x() - 1, position.y()),
                 new RawPosition(position.x() - 2, position.y() + 1),
