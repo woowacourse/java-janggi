@@ -89,4 +89,14 @@ public class Canon extends Piece {
     protected boolean isSameType(Piece other) {
         return other instanceof Canon;
     }
+
+    @Override
+    protected void validatePieceOnGoal(Map<Position, Piece> board, Position goal) {
+        validateSameTeamOnGoal(board, goal);
+
+        Piece other = board.get(goal);
+        if (other.isSameType(this)) {
+            throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
+        }
+    }
 }

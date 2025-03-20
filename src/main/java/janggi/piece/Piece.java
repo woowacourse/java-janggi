@@ -20,7 +20,8 @@ public abstract class Piece {
         int pathIndex = calculatePathIndex(start, goal);
         validatePath(board, start, pathIndex);
         validateNonPieceOnPath(board, start, pathIndex);
-        validateSameTeamOnGoal(board, goal);
+        validatePieceOnGoal(board, goal);
+
     }
 
     private int calculatePathIndex(Position start, Position goal) {
@@ -53,7 +54,7 @@ public abstract class Piece {
         }
     }
 
-    private void validateSameTeamOnGoal(Map<Position, Piece> board, Position goal) {
+    protected void validateSameTeamOnGoal(Map<Position, Piece> board, Position goal) {
         Piece other = board.get(goal);
         if (!other.isDifferentTeam(team)) {
             throw new IllegalArgumentException("[ERROR] 목적지에 같은 진영의 기물이 있어 이동할 수 없습니다.");
@@ -67,4 +68,5 @@ public abstract class Piece {
     protected abstract int[][] getAllPathColumns();
     protected abstract String getName();
     protected abstract boolean isSameType(Piece other);
+    protected abstract void validatePieceOnGoal(Map<Position, Piece> board, Position goal);
 }

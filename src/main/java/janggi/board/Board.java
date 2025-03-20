@@ -17,5 +17,7 @@ public class Board {
         if (board.get(start) == null) {
             throw new IllegalArgumentException("[ERROR] 출발 지점에 기물이 존재하지 않습니다.");
         }
+
+
     }
 }

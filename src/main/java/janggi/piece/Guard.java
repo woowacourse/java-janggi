@@ -48,4 +48,9 @@ public class Guard extends Piece {
     protected boolean isSameType(Piece other) {
         return other instanceof Guard;
     }
+
+    @Override
+    protected void validatePieceOnGoal(Map<Position, Piece> board, Position goal) {
+        validateSameTeamOnGoal(board, goal);
+    }
 }
