@@ -2,36 +2,30 @@ package dto;
 
 import java.util.Arrays;
 
-import model.piece.Chariot;
-import model.piece.Elephant;
-import model.piece.Horse;
-import model.piece.Palace;
-import model.piece.Pao;
-import model.piece.Pawn;
 import model.piece.Piece;
-import model.piece.Soldier;
+import model.piece.PieceType;
 
 public enum PieceDto {
-    PALACE("궁", Palace.class),
-    SOLDIER("사", Soldier.class),
-    ELEPHANT("상", Elephant.class),
-    HORSE("마", Horse.class),
-    CHARIOT("차", Chariot.class),
-    PAO("포", Pao.class),
-    PAWN("병", Pawn.class),
+    PALACE("궁", PieceType.PALACE),
+    SOLDIER("사", PieceType.SOLDIER),
+    ELEPHANT("상", PieceType.ELEPHANT),
+    HORSE("마", PieceType.HORSE),
+    CHARIOT("차", PieceType.CHARIOT),
+    PAO("포", PieceType.PAO),
+    PAWN("병", PieceType.PAWN),
     ;
 
     private final String name;
-    private final Class<? extends Piece> pieceClassType;
+    private final PieceType type;
 
-    PieceDto(String name, Class<? extends Piece> pieceClassType) {
+    PieceDto(String name, PieceType type) {
         this.name = name;
-        this.pieceClassType = pieceClassType;
+        this.type = type;
     }
 
     public static PieceDto from(Piece piece) {
         return Arrays.stream(values())
-            .filter(pieceDto -> pieceDto.pieceClassType.isInstance(piece))
+            .filter(pieceDto -> pieceDto.type == piece.type())
             .findAny()
             .orElseThrow(() -> new IllegalStateException("[ERROR] 잘못된 기물 종류입니다."));
     }

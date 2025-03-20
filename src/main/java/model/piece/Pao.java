@@ -22,7 +22,7 @@ public class Pao extends Piece {
     protected Route findMovableRoute(Board board, int dx, int dy) {
         boolean flag = false;
         Position target = position.move(dx, dy);
-        if (board.hasPieceOn(target) && board.get(target) instanceof Pao) {
+        if (board.hasPieceOn(target) && board.get(target).type() == PieceType.PAO) {
             return null;
         }
         for (var route : routes) {
@@ -47,7 +47,7 @@ public class Pao extends Piece {
         Position onRoute = position.move(route.positions().getFirst());
         for (; !onRoute.equals(target); onRoute = onRoute.move(route.positions().getFirst())) {
             if (board.hasPieceOn(onRoute)) {
-                if (board.get(onRoute) instanceof Pao) {
+                if (board.get(onRoute).type() == PieceType.PAO) {
                     throw new IllegalArgumentException("[ERROR] 포는 포를 넘을 수 없습니다.");
                 }
                 if (flag) {
@@ -56,5 +56,10 @@ public class Pao extends Piece {
                 flag = true;
             }
         }
+    }
+
+    @Override
+    public PieceType type() {
+        return PieceType.PAO;
     }
 }

@@ -16,4 +16,9 @@ public class Palace extends Piece {
             new Route(List.of(new Position(0, -1)))
         ));
     }
+
+    @Override
+    public PieceType type() {
+        return PieceType.PALACE;
+    }
 }

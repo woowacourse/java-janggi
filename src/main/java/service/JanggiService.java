@@ -8,8 +8,8 @@ import model.board.Board;
 import model.piece.Piece;
 
 public class JanggiService {
-    private Team currentTurn;
 
+    private Team currentTurn;
     private Board board;
 
     public void startGame() {
@@ -41,11 +41,8 @@ public class JanggiService {
     public TeamDto getWinner() {
         return TeamDto.from(board.getWinnerIfGameOver());
     }
-}
 
-/**
- * TODO
- * 2. MVC 조립(턴마다 현재 팀 바꿔서 출력, 자기 팀 기물만 움직일 수 있게. 게임종료처리
- * 3. 프로덕션 코드 리팩토링
- * 4. 테스트 코드 리팩토링
- */
+    public void abstain() {
+        board.abstain(currentTurn);
+    }
+}

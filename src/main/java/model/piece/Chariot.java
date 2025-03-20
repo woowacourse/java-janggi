@@ -43,4 +43,9 @@ public class Chariot extends Piece {
             }
         }
     }
+
+    @Override
+    public PieceType type() {
+        return PieceType.CHARIOT;
+    }
 }

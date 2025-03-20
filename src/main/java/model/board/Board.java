@@ -5,8 +5,8 @@ import java.util.List;
 
 import model.Position;
 import model.Team;
-import model.piece.Palace;
 import model.piece.Piece;
+import model.piece.PieceType;
 
 public class Board {
 
@@ -45,9 +45,7 @@ public class Board {
     }
 
     public Team getWinnerIfGameOver() {
-        List<Piece> palaces = pieces.stream()
-            .filter(piece -> piece instanceof Palace)
-            .toList();
+        List<Piece> palaces = getPalaces();
         if (palaces.size() == 1) {
             return palaces.getFirst().getTeam();
         }
@@ -56,5 +54,20 @@ public class Board {
 
     public List<Piece> getPieces() {
         return new ArrayList<>(pieces);
+    }
+
+    public void abstain(Team team) {
+        Piece palace = getPalaces().stream()
+            .filter(piece -> piece.getTeam() == team)
+            .findAny()
+            .orElseThrow(() -> new IllegalStateException("[ERROR] 존재하지 않는 팀이 기권했습니다."));
+
+        pieces.remove(palace);
+    }
+
+    private List<Piece> getPalaces() {
+        return pieces.stream()
+            .filter(piece -> piece.type() == PieceType.PALACE)
+            .toList();
     }
 }

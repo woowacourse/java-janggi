@@ -15,7 +15,6 @@ public class OutputView {
         System.out.printf("장기 게임을 시작합니다.%n%n");
     }
 
-    // TODO: 밥먹고와서 수정
     public void board(BoardDto dto) {
         Map<PositionDto, String> pieces = dto.pieces();
 

@@ -16,13 +16,10 @@ public class Pawn extends Piece {
             initY *= -1;
         }
         routes.add(new Route(List.of(new Position(0, initY))));
-        // TODO: 지우기
-        // 초나라 -> 아래로 (윗진영)
-        // 한나라 -> 위로 (아랫진영)
     }
 /*
 
-    TODO 기물 종류 판단 로직 수정
+    >>>> TODO 1 기물 종류 판단 로직 수정
     @Override
     public PieceType type() {
         return PieceType.PAWN;
@@ -33,7 +30,6 @@ public class Pawn extends Piece {
     // TODO: direction 적용
     // private final Position direction;
 
-    // TODO: 적용하기
 /*
     private enum PositionSide {
         LEFT(new Position(-1, 0)),
@@ -49,4 +45,9 @@ public class Pawn extends Piece {
         }
     }
 */
+
+    @Override
+    public PieceType type() {
+        return PieceType.PAWN;
+    }
 }

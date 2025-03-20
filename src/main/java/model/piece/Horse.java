@@ -23,4 +23,9 @@ public class Horse extends Piece {
             new Route(List.of(new Position(1, 0), new Position(1, -1)))
         ));
     }
+
+    @Override
+    public PieceType type() {
+        return PieceType.HORSE;
+    }
 }

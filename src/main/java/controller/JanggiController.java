@@ -26,6 +26,7 @@ public class JanggiController {
 
             var response = inputView.command();
             if (response.abstain()) {
+                service.abstain();
                 return false;
             }
 
