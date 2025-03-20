@@ -37,7 +37,7 @@ public class Cannon implements PieceBehavior {
     public void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, Vector vector,
                                      Side side,
                                      boolean hasPassed) {
-        if (!currentPosition.canMove(vector) || board.isCannon(currentPosition)) {
+        if (currentPosition.canNotMove(vector) || board.isCannon(currentPosition)) {
             return;
         }
 

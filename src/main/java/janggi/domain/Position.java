@@ -25,6 +25,11 @@ public class Position {
         this.column = column;
     }
 
+    public static Position of(int row, int column) {
+        validate(row, column);
+        return CACHED[row][column];
+    }
+
     private static void validate(int row, int column) {
         if (!isValid(row, column)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_BOARD_POSITION.getMessage());
@@ -33,11 +38,6 @@ public class Position {
 
     private static boolean isValid(int row, int column) {
         return row >= 1 && row <= 10 && column >= 1 && column <= 9;
-    }
-
-    public static Position of(int row, int column) {
-        validate(row, column);
-        return CACHED[row][column];
     }
 
     public Optional<Position> calculateNextPosition(Vector vector) {
@@ -50,11 +50,11 @@ public class Position {
         return Optional.empty();
     }
 
-    public boolean canMove(Vector vector) {
+    public boolean canNotMove(Vector vector) {
         int newRow = this.row + vector.y();
         int newColumn = this.column + vector.x();
 
-        return isValid(newRow, newColumn);
+        return !isValid(newRow, newColumn);
     }
 
     public Position moveToNextPosition(Vector vector) {

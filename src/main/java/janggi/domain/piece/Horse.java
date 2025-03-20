@@ -20,11 +20,11 @@ public class Horse implements PieceBehavior {
     @Override
     public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
         Set<Position> result = new HashSet<>();
-        List<Vectors> rotateVectors = new ArrayList<>(VECTOR_ROUTE_LIST);
+        List<Vectors> rotatedVectors = new ArrayList<>(VECTOR_ROUTE_LIST);
         for (int i = 0; i < 4; i++) {
-            rotateVectors = Vectors.rotate(rotateVectors);
+            rotatedVectors = Vectors.rotate(rotatedVectors);
 
-            searchAvailableMoves(result, board, position, rotateVectors, side);
+            searchAvailableMoves(result, board, position, rotatedVectors, side);
         }
 
         return result;
@@ -38,7 +38,7 @@ public class Horse implements PieceBehavior {
     private void searchAvailableMoves(Set<Position> result, Board board, Position position, List<Vectors> vectorsList,
                                       Side side) {
         for (Vectors vectors : vectorsList) {
-            searchAvailableMove(result, board, position, side, vectors.getVectors());
+            searchAvailableMove(result, board, position, side, vectors.vectors());
         }
     }
 
@@ -61,7 +61,7 @@ public class Horse implements PieceBehavior {
     }
 
     private boolean canNotMove(List<Vector> vectors, Position currentPosition) {
-        return !vectors.stream()
-                .allMatch(currentPosition::canMove);
+        return vectors.stream()
+                .allMatch(currentPosition::canNotMove);
     }
 }

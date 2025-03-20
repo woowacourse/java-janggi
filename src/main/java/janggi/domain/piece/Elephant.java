@@ -20,11 +20,11 @@ public class Elephant implements PieceBehavior {
     @Override
     public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
         Set<Position> result = new HashSet<>();
-        List<Vectors> rotateVectors = new ArrayList<>(VECTORS_LIST);
+        List<Vectors> rotatedVectors = new ArrayList<>(VECTORS_LIST);
         for (int i = 0; i < 4; i++) {
-            rotateVectors = Vectors.rotate(rotateVectors);
+            rotatedVectors = Vectors.rotate(rotatedVectors);
 
-            searchAvailableMoves(result, board, position, rotateVectors, side);
+            searchAvailableMoves(result, board, position, rotatedVectors, side);
         }
 
         return result;
@@ -39,13 +39,13 @@ public class Elephant implements PieceBehavior {
                                       List<Vectors> vectorsList,
                                       Side side) {
         for (Vectors vectors : vectorsList) {
-            List<Vector> vectorRoute = vectors.getVectors();
-            addAvailableMove(result, board, position, side, vectorRoute);
+            List<Vector> vectorRoute = vectors.vectors();
+            searchAvailableMove(result, board, position, side, vectorRoute);
         }
     }
 
-    private void addAvailableMove(Set<Position> result, Board board, Position position, Side side,
-                                  List<Vector> vectors) {
+    private void searchAvailableMove(Set<Position> result, Board board, Position position, Side side,
+                                     List<Vector> vectors) {
         if (canNotMove(vectors, position)) {
             return;
         }
@@ -66,8 +66,8 @@ public class Elephant implements PieceBehavior {
     }
 
     private boolean canNotMove(List<Vector> vectors, Position currentPosition) {
-        return !vectors.stream()
-                .allMatch(currentPosition::canMove);
+        return vectors.stream()
+                .allMatch(currentPosition::canNotMove);
     }
 
     private boolean hasNotAvailableMiddleMove(List<Vector> vectors, Position currentPosition, Board board) {

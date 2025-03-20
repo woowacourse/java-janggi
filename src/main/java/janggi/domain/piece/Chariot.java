@@ -41,7 +41,7 @@ public class Chariot implements PieceBehavior {
         }
         result.add(currentPosition);
 
-        if (!currentPosition.canMove(vector)) {
+        if (currentPosition.canNotMove(vector)) {
             return;
         }
         Position nextPosition = currentPosition.moveToNextPosition(vector);

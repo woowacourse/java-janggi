@@ -12,19 +12,12 @@ public class Board {
         this.pieceMap = pieceMap;
     }
 
-    public String getPieceName(int row, int column) {
-        Position position = Position.of(row, column);
-
-        if (!hasPiece(position)) {
-            return "＿";
-        }
-
-        return pieceMap.get(position)
-                .toName();
-    }
-
     public boolean hasPiece(Position position) {
         return pieceMap.containsKey(position);
+    }
+
+    public boolean isSameSide(Side side, Position position) {
+        return getPiece(position).isSameSide(side);
     }
 
     public void checkMoveablePiece(Side side, Position position) {
@@ -58,10 +51,6 @@ public class Board {
         pieceMap.put(newPosition, piece);
     }
 
-    public boolean isSameSide(Side side, Position position) {
-        return getPiece(position).isSameSide(side);
-    }
-
     public Piece getPiece(Position position) {
         if (!pieceMap.containsKey(position)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_BOARD_POSITION.getMessage());
@@ -87,5 +76,16 @@ public class Board {
         return pieceMap.values()
                 .stream()
                 .anyMatch(piece -> piece.isGeneral(side));
+    }
+
+    public String getPieceName(int row, int column) {
+        Position position = Position.of(row, column);
+
+        if (!hasPiece(position)) {
+            return "＿";
+        }
+
+        return pieceMap.get(position)
+                .toName();
     }
 }

@@ -16,17 +16,6 @@ public class Piece {
         this.pieceBehavior = pieceBehavior;
     }
 
-    public Set<Position> getAvailableMovePositions(Board board, Position currentPosition) {
-        return pieceBehavior.generateAvailableMovePositions(board, this.side, currentPosition);
-    }
-
-    public String toName() {
-        if (side == Side.CHO) {
-            return "\u001B[32m" + pieceBehavior.toName() + "\u001B[0m";
-        }
-        return "\u001B[31m" + pieceBehavior.toName() + "\u001B[0m";
-    }
-
     public boolean isSameSide(Side side) {
         return this.side == side;
     }
@@ -37,6 +26,17 @@ public class Piece {
 
     public boolean isGeneral(Side side) {
         return this.side == side && pieceBehavior instanceof General;
+    }
+
+    public Set<Position> getAvailableMovePositions(Board board, Position currentPosition) {
+        return pieceBehavior.generateAvailableMovePositions(board, this.side, currentPosition);
+    }
+
+    public String toName() {
+        if (side == Side.CHO) {
+            return "\u001B[32m" + pieceBehavior.toName() + "\u001B[0m";
+        }
+        return "\u001B[31m" + pieceBehavior.toName() + "\u001B[0m";
     }
 
     @Override

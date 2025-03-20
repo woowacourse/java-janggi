@@ -4,13 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class Vectors {
-
-    private List<Vector> vectors;
-
-    public Vectors(List<Vector> vectors) {
-        this.vectors = vectors;
-    }
+public record Vectors(List<Vector> vectors) {
 
     public static Vectors of(Vector... vectors) {
         return new Vectors(Arrays.asList(vectors));
@@ -18,22 +12,13 @@ public class Vectors {
 
     public static List<Vectors> rotate(List<Vectors> vectorsList) {
         return vectorsList.stream()
-                .map(Vectors::getVectors)
+                .map(Vectors::vectors)
                 .map(vectorRoute -> vectorRoute.stream()
                         .map(Vector::rotate)
                         .toList()
                 )
                 .map(Vectors::new)
                 .toList();
-    }
-
-    public List<Vector> getVectors() {
-        return vectors;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(vectors);
     }
 
     @Override
