@@ -5,18 +5,10 @@ import janggi.value.Position;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class Cha implements Piece {
-
-    private static final int score = 13;
-    private static final int height = 0;
-    private static final List<Integer> xPositions = List.of(0, 8);
-
-    private final PieceType pieceType;
-    private final Position position;
+public class Cha extends Piece {
 
     private Cha(final Position position) {
-        this.pieceType = PieceType.CHA;
-        this.position = position;
+        super(PieceType.CHA, position);
     }
 
     public static Cha from(final Position position) {
@@ -24,8 +16,9 @@ public class Cha implements Piece {
     }
 
     public static List<Cha> generateInitialChas(final CampType campType) {
-        int yPosition = Math.abs(campType.getStartYPosition() - height);
-        return xPositions.stream()
+        int yPosition = Math.abs(campType.getStartYPosition() - PieceType.CHA.getHeight());
+        return PieceType.CHA.getDefaultXPositions()
+                .stream()
                 .map(xPosition -> new Cha(new Position(xPosition, yPosition)))
                 .toList();
     }
@@ -48,11 +41,10 @@ public class Cha implements Piece {
     }
 
     private boolean isRuleOfMove(Position destination) {
-        return position.getX() == destination.getX() || position.getY() == destination.getY();
+        return getPosition().getX() == destination.getX() || getPosition().getY() == destination.getY();
     }
 
     private boolean isNotHurdle(Position destination, List<Piece> enemy, List<Piece> allies) {
-        // 경로상에 있는 좌표 리스트 구하기
         List<Position> positions = calculatePositions(destination);
         for (Position position : positions) {
             if (position.equals(destination)) {
@@ -75,39 +67,23 @@ public class Cha implements Piece {
     }
 
     private List<Position> calculatePositions(Position destination) {
-        if (position.getX() == destination.getX()) {
-            if (position.getY() > destination.getY()) {
-                return IntStream.rangeClosed(destination.getY(), position.getY())
-                        .mapToObj(y -> new Position(position.getX(), y))
+        if (getPosition().getX() == destination.getX()) {
+            if (getPosition().getY() > destination.getY()) {
+                return IntStream.rangeClosed(destination.getY(), getPosition().getY())
+                        .mapToObj(y -> new Position(getPosition().getX(), y))
                         .toList();
             }
-            return IntStream.rangeClosed(position.getY(), destination.getY())
-                    .mapToObj(y -> new Position(position.getX(), y))
+            return IntStream.rangeClosed(getPosition().getY(), destination.getY())
+                    .mapToObj(y -> new Position(getPosition().getX(), y))
                     .toList();
         }
-        if (position.getX() > destination.getX()) {
-            return IntStream.rangeClosed(destination.getX(), position.getX())
-                    .mapToObj(x -> new Position(x, position.getY()))
+        if (getPosition().getX() > destination.getX()) {
+            return IntStream.rangeClosed(destination.getX(), getPosition().getX())
+                    .mapToObj(x -> new Position(x, getPosition().getY()))
                     .toList();
         }
-        return IntStream.rangeClosed(position.getX(), destination.getX())
-                .mapToObj(x -> new Position(x, position.getY()))
+        return IntStream.rangeClosed(getPosition().getX(), destination.getX())
+                .mapToObj(x -> new Position(x, getPosition().getY()))
                 .toList();
-    }
-
-    @Override
-    public boolean checkPieceType(PieceType pieceType) {
-        return this.pieceType == pieceType;
-    }
-
-
-    @Override
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
-    @Override
-    public Position getPosition() {
-        return position;
     }
 }

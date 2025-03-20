@@ -4,17 +4,10 @@ import janggi.setting.CampType;
 import janggi.value.Position;
 import java.util.List;
 
-public class Sang implements Piece {
-
-    private static final int score = 3;
-    private static final int height = 0;
-
-    private final PieceType pieceType;
-    private final Position position;
+public class Sang extends Piece {
 
     private Sang(final Position position) {
-        this.pieceType = PieceType.SANG;
-        this.position = position;
+        super(PieceType.SANG, position);
     }
 
     public static Sang from(final Position position) {
@@ -22,7 +15,7 @@ public class Sang implements Piece {
     }
 
     public static List<Sang> generateInitialSangs(final CampType campType, final List<Integer> xPositions) {
-        int yPosition = Math.abs(campType.getStartYPosition() - height);
+        int yPosition = Math.abs(campType.getStartYPosition() - PieceType.SANG.getHeight());
         return xPositions.stream()
                 .map(xPosition -> new Sang(new Position(xPosition, yPosition)))
                 .toList();
@@ -39,37 +32,25 @@ public class Sang implements Piece {
 
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        SangDirection sangDirection = SangDirection.of(position, destination);
+        SangDirection sangDirection = SangDirection.of(getPosition(), destination);
         if (sangDirection == SangDirection.NONE) {
             return false;
         }
-        boolean isEnemyExist = enemy.stream()
-                .anyMatch(enemyPiece -> sangDirection.isRoute(position, enemyPiece.getPosition()));
-        if (isEnemyExist) {
-            return false;
-        }
-        boolean isAlliesExist = allies.stream()
-                .anyMatch(alliesPiece -> sangDirection.isRoute(position, alliesPiece.getPosition()));
-        if (isAlliesExist) {
+        boolean isEnemyExist = isEnemyExistInRoute(enemy, sangDirection);
+        boolean isAlliesExist = isAlliesExistInRoute(allies, sangDirection);
+        if (isEnemyExist || isAlliesExist) {
             return false;
         }
         return allies.stream().noneMatch(alliesPiece -> destination.equals(alliesPiece.getPosition()));
     }
 
-    @Override
-    public boolean checkPieceType(PieceType pieceType) {
-        return this.pieceType == pieceType;
+    private boolean isEnemyExistInRoute(List<Piece> enemy, SangDirection direction) {
+        return enemy.stream()
+                .anyMatch(enemyPiece -> direction.isRoute(getPosition(), enemyPiece.getPosition()));
     }
 
-
-    @Override
-    public PieceType getPieceType() {
-        return pieceType;
+    private boolean isAlliesExistInRoute(List<Piece> allies, SangDirection direction) {
+        return allies.stream()
+                .anyMatch(alliesPiece -> direction.isRoute(getPosition(), alliesPiece.getPosition()));
     }
-
-    @Override
-    public Position getPosition() {
-        return position;
-    }
-
 }

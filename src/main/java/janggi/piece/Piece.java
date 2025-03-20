@@ -3,15 +3,29 @@ package janggi.piece;
 import janggi.value.Position;
 import java.util.List;
 
-public interface Piece {
+public abstract class Piece {
 
-    Piece move(final Position destination, List<Piece> enemy, List<Piece> allies);
+    private final PieceType pieceType;
+    private final Position position;
 
-    boolean ableToMove(final Position destination, List<Piece> enemy, List<Piece> allies);
+    protected Piece(final PieceType pieceType, final Position position) {
+        this.pieceType = pieceType;
+        this.position = position;
+    }
 
-    PieceType getPieceType();
+    abstract public Piece move(final Position destination, List<Piece> enemy, List<Piece> allies);
 
-    Position getPosition();
+    abstract public boolean ableToMove(final Position destination, List<Piece> enemy, List<Piece> allies);
 
-    boolean checkPieceType(PieceType pieceType);
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
+    public boolean checkPieceType(PieceType pieceType) {
+        return this.pieceType == pieceType;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
 }

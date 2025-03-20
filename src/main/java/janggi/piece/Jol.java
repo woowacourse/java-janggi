@@ -4,19 +4,12 @@ import janggi.setting.CampType;
 import janggi.value.Position;
 import java.util.List;
 
-public class Jol implements Piece {
+public class Jol extends Piece {
 
-    private static final int score = 2;
-    private static final int height = 3;
-    private static final List<Integer> xPositions = List.of(0, 2, 4, 6, 8);
-
-    private final PieceType pieceType;
-    private final Position position;
     private final CampType campType;
 
     private Jol(final Position position, final CampType campType) {
-        this.pieceType = PieceType.JOL;
-        this.position = position;
+        super(PieceType.JOL, position);
         this.campType = campType;
     }
 
@@ -25,8 +18,9 @@ public class Jol implements Piece {
     }
 
     public static List<Jol> generateInitialJols(final CampType campType) {
-        int yPosition = Math.abs(campType.getStartYPosition() - height);
-        return xPositions.stream()
+        int yPosition = Math.abs(campType.getStartYPosition() - PieceType.JOL.getHeight());
+        return PieceType.JOL.getDefaultXPositions()
+                .stream()
                 .map(xPosition -> new Jol(new Position(xPosition, yPosition), campType))
                 .toList();
     }
@@ -50,33 +44,17 @@ public class Jol implements Piece {
 
     private boolean isRuleOfMove(Position destination) {
         if (campType == CampType.CHO) {
-            return destination.equals(new Position(position.getX() - 1, position.getY()))
-                    || destination.equals(new Position(position.getX() + 1, position.getY()))
-                    || destination.equals(new Position(position.getX(), position.getY() - 1));
+            return destination.equals(new Position(getPosition().getX() - 1, getPosition().getY()))
+                    || destination.equals(new Position(getPosition().getX() + 1, getPosition().getY()))
+                    || destination.equals(new Position(getPosition().getX(), getPosition().getY() - 1));
         }
-        return destination.equals(new Position(position.getX() - 1, position.getY()))
-                || destination.equals(new Position(position.getX() + 1, position.getY()))
-                || destination.equals(new Position(position.getX(), position.getY() + 1));
+        return destination.equals(new Position(getPosition().getX() - 1, getPosition().getY()))
+                || destination.equals(new Position(getPosition().getX() + 1, getPosition().getY()))
+                || destination.equals(new Position(getPosition().getX(), getPosition().getY() + 1));
     }
 
     private static boolean isNotHurdle(Position destination, List<Piece> allies) {
         return allies.stream()
                 .noneMatch(piece -> piece.getPosition().equals(destination));
-    }
-
-    @Override
-    public boolean checkPieceType(PieceType pieceType) {
-        return this.pieceType == pieceType;
-    }
-
-
-    @Override
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
-    @Override
-    public Position getPosition() {
-        return position;
     }
 }
