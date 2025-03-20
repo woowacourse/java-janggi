@@ -37,7 +37,7 @@ public class Pawn extends Piece {
         if (getXPosition() > 0) {
             moveablePositions.add(new Position(getXPosition() - 1, getYPosition()));
         }
-        if (getXPosition() < 8) {
+        if (getXPosition() < 9) {
             moveablePositions.add(new Position(getXPosition() + 1, getYPosition()));
         }
 

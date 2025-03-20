@@ -105,9 +105,9 @@ public class PawnTest {
                 ),
                 Arguments.of(
                         createEnemyPawn(5, 5),
-                        List.of(createEnemyPawn(5, 6)),
+                        List.of(createEnemyPawn(5, 4)),
                         5,
-                        6
+                        4
                 )
         );
     }
