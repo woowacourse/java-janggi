@@ -71,7 +71,7 @@ public record JanggiPosition(int rank, int file) {
         return Math.abs(this.file - beforePosition.file);
     }
 
-    public void validateBound() {
+    public void validatePositionInBoardBound() {
         if (rank < MIN_RANK_BOUND || rank > MAX_RANK_BOUND || file < MIN_FILE_BOUND || file > MAX_FILE_BOUND) {
             throw new IllegalArgumentException("보드판을 넘어서 이동할 수 없습니다.");
         }

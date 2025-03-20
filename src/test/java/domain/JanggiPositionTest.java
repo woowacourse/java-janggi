@@ -17,7 +17,7 @@ public class JanggiPositionTest {
         JanggiPosition janggiPosition = new JanggiPosition(10, 0);
 
         // when & then
-        assertThatThrownBy(() -> janggiPosition.validateBound())
+        assertThatThrownBy(() -> janggiPosition.validatePositionInBoardBound())
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

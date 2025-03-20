@@ -16,68 +16,74 @@ public final class JanggiBoard {
         this.janggiBoard = initializer.initializeJanggiBoard();
     }
 
+    public void movePiece(final JanggiPosition origin, final JanggiPosition destination) {
+        destination.validatePositionInBoardBound();
+        JanggiPiece piece = getPieceFrom(origin);
+
+        if (!piece.is포()) {
+            moveOtherPiece(piece, origin, destination);
+        }
+        if (piece.is포()) {
+            move포(piece, origin, destination);
+        }
+
+        checkTargetPieceTeam(piece, destination);
+        janggiBoard.put(destination, piece);
+    }
+
     public JanggiPiece getPieceFrom(final JanggiPosition position) {
         return janggiBoard.get(position);
     }
 
-    public void move(final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
-        afterPosition.validateBound();
-        JanggiPiece piece = getPieceFrom(beforePosition);
-
-        if (piece.getClass().equals(포.class)) {
-            move포(piece, beforePosition, afterPosition);
-        }
-        if (!piece.getClass().equals(포.class)) {
-            moveOtherPiece(piece, beforePosition, afterPosition);
-        }
-        validateDestinationPiece(piece, afterPosition);
-        janggiBoard.put(afterPosition, piece);
+    private void moveOtherPiece(final JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
+        checkHurdleExistInRoute(piece, origin, destination);
+        janggiBoard.put(origin, new Empty());
+        JanggiPiece targetPiece = janggiBoard.get(destination);
+        targetPiece.captureIfNotMyTeam(piece);
     }
 
-    private void validateDestinationPiece(final JanggiPiece piece, final JanggiPosition afterPosition) {
-        if (piece.isMyTeam(getPieceFrom(afterPosition))) {
-            throw new IllegalStateException("목적지에 같은 팀의 기물이 존재하여 이동할 수 없습니다.");
-        }
-    }
+    private void move포(final JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
+        checkOnlyOneHurdleInRoute(piece, origin, destination);
+        checkHurdlePieceNot포(origin, destination);
+        checkTargetPieceNot포(destination);
 
-    private void moveOtherPiece(final JanggiPiece piece, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
-        validateMoveOtherPiece(piece, beforePosition, afterPosition);
-
-        janggiBoard.put(beforePosition, new Empty());
-        JanggiPiece pieceInDanger = janggiBoard.get(afterPosition);
-        if (!pieceInDanger.isEmpty()) {
-            pieceInDanger.captureIfNotMySide(piece);
-        }
-    }
-
-    private void validateMoveOtherPiece(final JanggiPiece piece, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
-        boolean isHurdle = isExistHurdle(piece, beforePosition, afterPosition);
-        if (isHurdle) {
-            throw new IllegalArgumentException("경로에 장애물이 있어서 기물을 움직일 수 없습니다.");
-        }
-    }
-
-    private void move포(final JanggiPiece piece, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
-        boolean isHurdle = isExistHurdle(piece, beforePosition, afterPosition);
-        validateMove포(piece, beforePosition, afterPosition, isHurdle);
-
-        janggiBoard.put(beforePosition, new Empty());
-        JanggiPiece pieceInDanger = janggiBoard.get(afterPosition);
+        janggiBoard.put(origin, new Empty());
+        JanggiPiece pieceInDanger = janggiBoard.get(destination);
         if (!pieceInDanger.isEmpty()) {
             capturePieceIfNot포AndNotMySide(piece, pieceInDanger);
         }
     }
 
-    private void validateMove포(final JanggiPiece piece, final JanggiPosition beforePosition, final JanggiPosition afterPosition,
-                               boolean isHurdle) {
-        if (!isHurdle) {
-            throw new IllegalArgumentException("경로에 장애물이 없어서 움직일 수 없습니다.");
+    private void checkTargetPieceTeam(final JanggiPiece movePiece, final JanggiPosition destination) {
+        JanggiPiece targetPiece = getPieceFrom(destination);
+        if (movePiece.isMyTeam(targetPiece)) {
+            throw new IllegalStateException("목적지에 같은 팀의 기물이 존재하여 이동할 수 없습니다.");
         }
-        if (getHurdleCount(piece, beforePosition, afterPosition) > 1) {
-            throw new IllegalStateException("경로에 장애물이 2개 이상 있어서 움직일 수 없습니다.");
+    }
+
+    private void checkHurdleExistInRoute(final JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
+        if (getHurdleCount(piece, origin, destination) > 0) {
+            throw new IllegalArgumentException("경로에 장애물이 있어서 기물을 움직일 수 없습니다.");
         }
-        if (getFirstHurdlePiece(beforePosition, afterPosition).getClass().equals(포.class)) {
+    }
+
+    private void checkOnlyOneHurdleInRoute(JanggiPiece piece, JanggiPosition origin, JanggiPosition destination) {
+        int hurdleCount = getHurdleCount(piece, origin, destination);
+        if (hurdleCount != 1) {
+            throw new IllegalStateException("경로에 장애물이 1개 있어야 움직일 수 있습니다.");
+        }
+    }
+
+    private void checkHurdlePieceNot포(JanggiPosition origin, JanggiPosition destination) {
+        JanggiPiece hurdlePiece = getFirstHurdlePiece(origin, destination);
+        if (hurdlePiece.is포()) {
             throw new IllegalStateException("포는 포를 넘을 수 없습니다.");
+        }
+    }
+
+    private void checkTargetPieceNot포(JanggiPosition destination) {
+        if (getPieceFrom(destination).is포()) {
+            throw new IllegalStateException("포는 포를 잡을 수 없습니다.");
         }
     }
 
@@ -85,51 +91,38 @@ public final class JanggiBoard {
         if (!pieceInDanger.getClass().equals(포.class)) {
             throw new IllegalStateException("포는 포를 잡을 수 없습니다.");
         }
-        pieceInDanger.captureIfNotMySide(piece);
+        pieceInDanger.captureIfNotMyTeam(piece);
     }
 
-    private boolean isExistHurdle(final JanggiPiece piece, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
-        List<Pattern> patterns = piece.findPath(beforePosition, afterPosition);
-        List<Pattern> patternsWithoutDestination = patterns.subList(0, patterns.size() - 1);
-
-        JanggiPosition newPosition = beforePosition;
-        for (Pattern pattern : patternsWithoutDestination) {
-            newPosition = newPosition.moveOnePosition(pattern);
-            if (isExistPiece(newPosition)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private JanggiPiece getFirstHurdlePiece(final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
-        JanggiPiece piece = getPieceFrom(beforePosition);
+    private JanggiPiece getFirstHurdlePiece(final JanggiPosition origin, final JanggiPosition destination) {
+        JanggiPiece piece = getPieceFrom(origin);
         JanggiPiece hurdlePiece = new Empty();
-        List<Pattern> patterns = piece.findPath(beforePosition, afterPosition);
-        JanggiPosition newPosition = beforePosition;
+        List<Pattern> patterns = piece.findPath(origin, destination);
+        JanggiPosition newPosition = origin;
         for (Pattern pattern : patterns) {
             newPosition = newPosition.moveOnePosition(pattern);
-            if (isExistPiece(newPosition)) {
+            if (existPiece(newPosition)) {
                 hurdlePiece = getPieceFrom(newPosition);
             }
         }
         return hurdlePiece;
     }
 
-    private int getHurdleCount(final JanggiPiece piece, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
-        List<Pattern> patterns = piece.findPath(beforePosition, afterPosition);
+    private int getHurdleCount(final JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
+        List<Pattern> path = piece.findPath(origin, destination);
+        List<Pattern> patterns = path.subList(0, path.size() - 1);
         int count = 0;
-        JanggiPosition newPosition = beforePosition;
+        JanggiPosition newPosition = origin;
         for (Pattern pattern : patterns) {
             newPosition = newPosition.moveOnePosition(pattern);
-            if (isExistPiece(newPosition)) {
+            if (existPiece(newPosition)) {
                 count++;
             }
         }
         return count;
     }
 
-    private boolean isExistPiece(final JanggiPosition newPosition) {
+    private boolean existPiece(final JanggiPosition newPosition) {
         return !getPieceFrom(newPosition).isEmpty();
     }
 }

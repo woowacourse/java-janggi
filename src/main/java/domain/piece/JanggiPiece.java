@@ -26,11 +26,19 @@ public abstract class JanggiPiece {
         return false;
     }
 
-    public void captureIfNotMySide(final JanggiPiece other) {
-        if (isMyTeam(other)) {
+    public void captureIfNotMyTeam(JanggiPiece hunterPiece) {
+        if (isMyTeam(hunterPiece)) {
+            throw new IllegalStateException("같은 팀의 기물은 잡을 수 없습니다.");
+        }
+        if (isEmpty()) {
             return;
         }
+
         this.status = JanggiPieceStatus.CAPTURED;
+    }
+
+    public boolean is포() {
+        return false;
     }
 
     public boolean isMyTeam(JanggiPiece other) {
