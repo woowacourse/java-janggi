@@ -2,6 +2,8 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.piece.Chariot;
+import domain.piece.Piece;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;

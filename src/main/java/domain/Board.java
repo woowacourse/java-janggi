@@ -1,5 +1,7 @@
 package domain;
 
+import domain.piece.Cannon;
+import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 

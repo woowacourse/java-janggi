@@ -1,11 +1,15 @@
-package domain;
+package domain.piece;
 
+import domain.Board;
+import domain.Direction;
+import domain.Position;
+import domain.Team;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Guard extends Piece {
+public class King extends Piece {
 
-    public Guard(final Position position, final Team team, final Board board) {
+    public King(final Position position, final Team team, final Board board) {
         super(position, team, board);
     }
 

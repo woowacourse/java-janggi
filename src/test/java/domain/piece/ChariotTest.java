@@ -1,7 +1,10 @@
-package domain;
+package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.Board;
+import domain.Position;
+import domain.Team;
 import java.util.List;
 import java.util.Set;
 

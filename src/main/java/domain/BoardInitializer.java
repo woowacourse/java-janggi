@@ -1,5 +1,12 @@
 package domain;
 
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
+import domain.piece.Guard;
+import domain.piece.Horse;
+import domain.piece.King;
+import domain.piece.Solider;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
