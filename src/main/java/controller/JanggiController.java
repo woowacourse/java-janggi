@@ -28,7 +28,7 @@ public class JanggiController {
             try {
                 playTurn(janggiGame, board);
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                outputView.printError("[ERROR] " + e.getMessage());
             }
         }
 

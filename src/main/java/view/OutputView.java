@@ -46,4 +46,8 @@ public class OutputView {
         }
         System.out.println(color + " 승리");
     }
+
+    public void printError(String message) {
+        System.out.println(message);
+    }
 }

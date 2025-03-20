@@ -15,7 +15,6 @@ public class Board {
     }
 
     public void move(Piece selectedPiece, Position source, Position destination) {
-
         validateCorrectPiece(source, selectedPiece);
         validateMove(source, destination);
         Piece piece = getPieceBy(source);
