@@ -3,6 +3,7 @@ package view;
 import domain.board.Board;
 import domain.board.Node;
 import domain.board.Point;
+import domain.piece.Piece;
 import domain.piece.Team;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +26,13 @@ public class OutputView {
                     rowString.add(Painter.paintWhite("ㅁ"));
                     continue;
                 }
+
+                Piece piece = board.findPieceByNode(node);
                 if (board.hasTeamPieceByNode(node, Team.CHO)) {
-                    rowString.add(Painter.paintGreen(board.findPieceTypeByNode(node).getTitle()));
+                    rowString.add(Painter.paintGreen(piece.type().title()));
                     continue;
                 }
-                rowString.add(Painter.paintRed(board.findPieceTypeByNode(node).getTitle()));
+                rowString.add(Painter.paintRed(piece.type().title()));
             }
         }
 

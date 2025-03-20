@@ -17,7 +17,7 @@ public enum PieceType {
         this.title = title;
     }
 
-    public String getTitle() {
+    public String title() {
         return title;
     }
 }
