@@ -22,6 +22,9 @@ public class Pao extends Piece {
     protected Route findMovableRoute(Board board, int dx, int dy) {
         boolean flag = false;
         Position target = position.move(dx, dy);
+        if (board.hasPieceOn(target) && board.get(target) instanceof Pao) {
+            return null;
+        }
         for (var route : routes) {
             Position dir = route.positions().getFirst();
             Position nextPos = position.move(dir.x(), dir.y());
@@ -42,7 +45,7 @@ public class Pao extends Piece {
     protected void validateRoute(Board board, Route route, Position target) {
         boolean flag = false;
         Position onRoute = position.move(route.positions().getFirst());
-        for (; onRoute.equals(target); onRoute = onRoute.move(route.positions().getFirst())) {
+        for (; !onRoute.equals(target); onRoute = onRoute.move(route.positions().getFirst())) {
             if (board.hasPieceOn(onRoute)) {
                 if (board.get(onRoute) instanceof Pao) {
                     throw new IllegalArgumentException();

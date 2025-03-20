@@ -37,7 +37,7 @@ public class Chariot extends Piece {
     @Override
     protected void validateRoute(Board board, Route route, Position target) {
         Position onRoute = position.move(route.positions().getFirst());
-        for (; onRoute.equals(target); onRoute = onRoute.move(route.positions().getFirst())) {
+        for (; !onRoute.equals(target); onRoute = onRoute.move(route.positions().getFirst())) {
             if (board.hasPieceOn(onRoute)) {
                 throw new IllegalArgumentException();
             }
