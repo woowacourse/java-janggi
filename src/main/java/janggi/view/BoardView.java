@@ -6,15 +6,15 @@ import janggi.position.Position;
 import janggi.position.Row;
 import java.util.Map;
 
-public final class OutputView {
-    public void displayBoard(final Map<Position, Piece> board) {
+public final class BoardView {
+    public void display(final Map<Position, Piece> board) {
         System.out.println("\n  012345678");
         for (Row row : Row.values()) {
             displayRow(board, row);
         }
     }
 
-    public void displayRow(final Map<Position, Piece> board, final Row row) {
+    private void displayRow(final Map<Position, Piece> board, final Row row) {
         System.out.printf("%d ", row.getValue());
         for (Column column : Column.values()) {
             Position position = new Position(row, column);
@@ -38,9 +38,5 @@ public final class OutputView {
             return;
         }
         System.out.print(notation.toUpperCase());
-    }
-
-    public void printErrorMessage(final IllegalArgumentException e) {
-        System.out.println(e.getMessage());
     }
 }
