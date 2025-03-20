@@ -3,7 +3,6 @@ package domain.board;
 import domain.JanggiCoordinate;
 import domain.piece.Country;
 import domain.piece.Piece;
-
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +13,8 @@ public final class JanggiBoard {
 
     private final Map<JanggiCoordinate, Piece> board;
 
-    public JanggiBoard() {
-        board = JanggiBoardInitPosition.create();
+    public JanggiBoard(Map<JanggiCoordinate, Piece> initBoard) {
+        board = initBoard;
     }
 
     public void movePiece(JanggiCoordinate oldCoordinate, JanggiCoordinate newCoordinate) {

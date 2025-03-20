@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
+import domain.board.JanggiBoardInitPosition;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +16,7 @@ class PieceTest {
         @DisplayName("말의 이동 가능한 경로를 검사한다")
         @Test
         void maAvailableMovePosition() {
-            JanggiBoard board = new JanggiBoard();
+            JanggiBoard board = new JanggiBoard(JanggiBoardInitPosition.create());
             Ma ma = new Ma(Country.HAN);
             board.getBoard().put(new JanggiCoordinate(5, 5), ma);
             List<JanggiCoordinate> availableMovePositions =
@@ -27,7 +28,7 @@ class PieceTest {
         @DisplayName("말의 이동 가능한 경로를 검사한다")
         @Test
         void maAvailableMovePosition1() {
-            JanggiBoard board = new JanggiBoard();
+            JanggiBoard board = new JanggiBoard(JanggiBoardInitPosition.create());
             Ma ma = new Ma(Country.HAN);
             List<JanggiCoordinate> availableMovePositions =
                     ma.availableMovePositions(new JanggiCoordinate(2, 1), board);
@@ -41,7 +42,7 @@ class PieceTest {
         @DisplayName("상의 이동 가능한 경로를 검사한다")
         @Test
         void sangAvailableMovePosition() {
-            JanggiBoard board = new JanggiBoard();
+            JanggiBoard board = new JanggiBoard(JanggiBoardInitPosition.create());
             Sang sang = new Sang(Country.HAN);
             board.getBoard().put(new JanggiCoordinate(5, 5), sang);
 
@@ -58,7 +59,7 @@ class PieceTest {
         @Test
         void chaAvailableMovePosition() {
             Cha cha = new Cha(Country.HAN);
-            JanggiBoard board = new JanggiBoard();
+            JanggiBoard board = new JanggiBoard(JanggiBoardInitPosition.create());
             board.getBoard().put(new JanggiCoordinate(5, 5),
                     cha);
 
@@ -75,7 +76,7 @@ class PieceTest {
         @Test
         void byeongAvailableMovePosition() {
             Byeong byeong = new Byeong(Country.HAN);
-            JanggiBoard board = new JanggiBoard();
+            JanggiBoard board = new JanggiBoard(JanggiBoardInitPosition.create());
             board.getBoard().put(new JanggiCoordinate(5, 5),
                     byeong);
             board.getBoard().put(new JanggiCoordinate(6, 5),
@@ -94,7 +95,7 @@ class PieceTest {
         @Test
         void saAvailableMovePosition() {
             Sa sa = new Sa(Country.HAN);
-            JanggiBoard board = new JanggiBoard();
+            JanggiBoard board = new JanggiBoard(JanggiBoardInitPosition.create());
             board.getBoard().put(new JanggiCoordinate(5, 5), sa);
 
             List<JanggiCoordinate> availableMovePositions = sa.availableMovePositions(
@@ -110,7 +111,7 @@ class PieceTest {
         @Test
         void gungAvailableMovePosition() {
             Gung gung = new Gung(Country.HAN);
-            JanggiBoard board = new JanggiBoard();
+            JanggiBoard board = new JanggiBoard(JanggiBoardInitPosition.create());
             board.getBoard().put(new JanggiCoordinate(5, 5), gung);
 
             List<JanggiCoordinate> availableMovePositions = gung.availableMovePositions(
@@ -126,7 +127,7 @@ class PieceTest {
         @Test
         void PhoAvailableMovePosition() {
             Pho pho = new Pho(Country.HAN);
-            JanggiBoard board = new JanggiBoard();
+            JanggiBoard board = new JanggiBoard(JanggiBoardInitPosition.create());
             board.getBoard().put(new JanggiCoordinate(5, 5), pho);
 
             List<JanggiCoordinate> availableMovePositions = pho.availableMovePositions(
@@ -139,7 +140,7 @@ class PieceTest {
         @Test
         void PhoAvailableMovePosition2() {
             Pho pho = new Pho(Country.HAN);
-            JanggiBoard board = new JanggiBoard();
+            JanggiBoard board = new JanggiBoard(JanggiBoardInitPosition.create());
             board.getBoard().put(new JanggiCoordinate(2, 4), pho);
 
             List<JanggiCoordinate> availableMovePositions = pho.availableMovePositions(
@@ -153,7 +154,7 @@ class PieceTest {
         void PhoAvailableMovePosition3() {
             Pho pho = new Pho(Country.HAN);
             Cha cha = new Cha(Country.HAN);
-            JanggiBoard board = new JanggiBoard();
+            JanggiBoard board = new JanggiBoard(JanggiBoardInitPosition.create());
             board.getBoard().put(new JanggiCoordinate(2, 4), pho);
             board.getBoard().put(new JanggiCoordinate(2, 5), cha);
 
