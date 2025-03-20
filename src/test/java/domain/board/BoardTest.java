@@ -17,7 +17,7 @@ class BoardTest {
     class Success {
 
         @Test
-        void 특정_노드에_기물이_존재하면_true를_반환한다() {
+        void 특정_위치에_기물이_존재하면_true를_반환한다() {
             // given
             Point point = Point.of(1, 1);
             Node node = new Node(point);
@@ -32,7 +32,7 @@ class BoardTest {
         }
 
         @Test
-        void 특정_노드에_기물이_존재하지_않으면_false를_반환한다() {
+        void 특정_위치에_기물이_존재하지_않으면_false를_반환한다() {
             // given
             Point point = Point.of(1, 1);
             Node node = new Node(point);
@@ -48,7 +48,7 @@ class BoardTest {
         }
 
         @Test
-        void 특정_노드에_존재하는_기물을_제거한다() {
+        void 특정_위치에_존재하는_기물을_제거한다() {
             // given
             Point point = Point.of(1, 1);
             Node node = new Node(point);
@@ -64,7 +64,7 @@ class BoardTest {
         }
 
         @Test
-        void 특정_노드에_특정_팀인_기물이_존재하면_true를_반환한다() {
+        void 특정_위치에_특정_팀인_기물이_존재하면_true를_반환한다() {
             // given
             Team team = Team.CHO;
             Point point = Point.of(1, 1);
@@ -80,7 +80,7 @@ class BoardTest {
         }
 
         @Test
-        void 특정_노드에_특정_팀인_기물이_존재하지_않으면_false를_반환한다() {
+        void 특정_위치에_특정_팀인_기물이_존재하지_않으면_false를_반환한다() {
             // given
             Team team = Team.CHO;
             Point point = Point.of(1, 1);
@@ -97,7 +97,7 @@ class BoardTest {
         }
 
         @Test
-        void 특정_노드에_특정_종류의_기물이_존재하면_true를_반환한다() {
+        void 특정_위치에_특정_종류의_기물이_존재하면_true를_반환한다() {
             // given
             Team team = Team.CHO;
             PieceType pieceType = PieceType.PO;
@@ -115,7 +115,7 @@ class BoardTest {
         }
 
         @Test
-        void 특정_노드에_특정_종류의_기물이_존재하지_않으면_false를_반환한다() {
+        void 특정_위치에_특정_종류의_기물이_존재하지_않으면_false를_반환한다() {
             // given
             Team team = Team.CHO;
             PieceType pieceType = PieceType.PO;
@@ -138,7 +138,7 @@ class BoardTest {
     class Fail {
 
         @Test
-        void 특정_노드에_기물이_없으면_예외가_발생한다() {
+        void 특정_위치에_기물이_없으면_예외가_발생한다() {
             // given
             Point point = Point.of(1, 1);
             Node node = new Node(point);
