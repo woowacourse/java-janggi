@@ -3,6 +3,8 @@ package janggi.domain.piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.IntStream;
 
 public class Rook extends Piece {
 
@@ -20,8 +22,9 @@ public class Rook extends Piece {
 
     @Override
     protected boolean isMoveablePath(List<Piece> existingPieces, Position destination) {
+        Set<Position> positionsTo = Set.copyOf(getPositionsTo(destination));
         for (Piece existingPiece : existingPieces) {
-            if (hasPieceBetween(existingPiece, destination)) {
+            if (positionsTo.contains(existingPiece.getPosition())) {
                 return false;
             }
             if (existingPiece.isSamePosition(destination)) {
@@ -31,21 +34,28 @@ public class Rook extends Piece {
         return true;
     }
 
-    private boolean hasPieceBetween(Piece other, Position destination) {
-        if (this.hasSameX(other)) {
-            return getPosition().getYDistance(destination) > getPosition().getYDistance(other.getPosition());
+    private List<Position> getPositionsTo(Position destination) {
+        if (hasSameX(destination)) {
+            if (getYPosition() < destination.getY()) {
+                return IntStream.range(getYPosition() + 1, destination.getY())
+                        .mapToObj(y -> new Position(getXPosition(), y))
+                        .toList();
+            }
+            return IntStream.range(destination.getY() + 1, getYPosition())
+                    .mapToObj(y -> new Position(getXPosition(), y))
+                    .toList();
         }
-        if (this.hasSameY(other)) {
-            return getPosition().getXDistance(destination) > getPosition().getXDistance(other.getPosition());
+        if (getXPosition() < destination.getX()) {
+            return IntStream.range(getXPosition() + 1, destination.getX())
+                    .mapToObj(x -> new Position(x, getYPosition()))
+                    .toList();
         }
-        return false;
+        return IntStream.range(destination.getX() + 1, getXPosition())
+                .mapToObj(x -> new Position(x, getYPosition()))
+                .toList();
     }
 
-    private boolean hasSameX(Piece piece) {
-        return getXPosition() == piece.getXPosition();
-    }
-
-    private boolean hasSameY(Piece piece) {
-        return getYPosition() == piece.getYPosition();
+    private boolean hasSameX(Position position) {
+        return getXPosition() == position.getX();
     }
 }
