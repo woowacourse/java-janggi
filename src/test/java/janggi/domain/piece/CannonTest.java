@@ -30,8 +30,10 @@ class CannonTest {
     void move() {
         Cannon cannon = new Cannon(new Position(5, 5), TeamType.BLUE);
         Position positionToMove = new Position(2, 5);
-        Soldier otherSoldier = new Soldier(new Position(3, 5), TeamType.BLUE);
-        pieces.put(otherSoldier.getPosition(), otherSoldier);
+        Soldier otherSoldier1 = new Soldier(new Position(3, 5), TeamType.BLUE);
+        Soldier otherSoldier2 = new Soldier(new Position(1, 1), TeamType.BLUE);
+        pieces.put(otherSoldier1.getPosition(), otherSoldier1);
+        pieces.put(otherSoldier2.getPosition(), otherSoldier2);
         Cannon movedHorse = cannon.move(pieces, positionToMove);
         assertThat(movedHorse.getPosition()).isEqualTo(positionToMove);
     }

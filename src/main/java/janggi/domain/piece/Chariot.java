@@ -52,10 +52,19 @@ public class Chariot extends Piece {
     }
 
     private void validateNothingBetweenPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
-        if (pieces.entrySet().stream()
-                .filter(entry -> !entry.getKey().equals(this.getPosition()) && !entry.getKey().equals(positionToMove))
-                .anyMatch(entry -> !(entry.getValue() instanceof None))) {
-            throw new IllegalArgumentException();
+        Position direction = CannonDirection.getDirection(
+                new Position(
+                        positionToMove.x() - getPosition().x(),
+                        positionToMove.y() - getPosition().y()
+                )
+        );
+
+        for(Position position = getPosition().plus(direction); !position.equals(positionToMove); position = position.plus(direction)) {
+            if(pieces.get(position) instanceof Cannon ||
+                    !(pieces.get(position) instanceof None)) {
+                throw new IllegalArgumentException();
+            }
         }
+
     }
 }
