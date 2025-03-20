@@ -4,7 +4,6 @@ import janggi.Board;
 import janggi.Position;
 import janggi.Score;
 import janggi.Team;
-
 import java.util.List;
 
 public class Chariot extends Piece {
@@ -33,10 +32,7 @@ public class Chariot extends Piece {
         int diffRow = destination.subtractRow(this.position);
         int diffColumn = destination.subtractColumn(this.position);
 
-        int maxDiff = Math.max(Math.abs(diffRow), Math.abs(diffColumn));
-        int minDiff = Math.min(Math.abs(diffRow), Math.abs(diffColumn));
-
-        if (maxDiff != 0 && minDiff != 0) {
+        if (Math.min(Math.abs(diffRow), Math.abs(diffColumn)) != 0) {
             throw new IllegalArgumentException("이동할 수 없는 지점입니다.");
         }
     }
