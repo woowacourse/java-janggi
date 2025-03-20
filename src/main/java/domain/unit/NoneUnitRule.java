@@ -1,6 +1,7 @@
 package domain.unit;
 
 import domain.Route;
+import domain.UnitType;
 import java.util.List;
 
 public class NoneUnitRule implements UnitRule {
@@ -10,7 +11,7 @@ public class NoneUnitRule implements UnitRule {
     }
 
     @Override
-    public String getType() {
-        return "";
+    public UnitType getType() {
+        return UnitType.NONE;
     }
 }

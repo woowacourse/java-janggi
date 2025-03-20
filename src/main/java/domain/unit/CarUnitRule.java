@@ -1,6 +1,7 @@
 package domain.unit;
 
 import domain.Route;
+import domain.UnitType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -8,8 +9,8 @@ import java.util.stream.Stream;
 
 public class CarUnitRule implements UnitRule {
 
-    public String getType() {
-        return "차";
+    public UnitType getType() {
+        return UnitType.CAR;
     }
 
     public List<Route> calculateAllRoute(Point start) {

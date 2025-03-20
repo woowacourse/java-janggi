@@ -35,12 +35,12 @@ public class Janggi {
     }
 
     private List<Route> applyUnitProperty(Unit pickedUnit, Point pick, List<Route> totalRoutes) {
-        String type = pickedUnit.getType();
-        if (type.equals("포")) {
+        UnitType type = pickedUnit.getType();
+        if (type == UnitType.BOMB) {
             totalRoutes = totalRoutes.stream().filter(this::canBombJump).toList();
             return totalRoutes.stream().filter(this::isAvailableEndPoint).toList();
         }
-        if (type.equals("졸")) {
+        if (type == UnitType.JOL) {
             return searchJolRoutes(pick, pickedUnit, totalRoutes);
         }
         return findAvailableRoute(totalRoutes);
@@ -61,7 +61,7 @@ public class Janggi {
         int count = 0;
         for (Point point : route.getPointsExceptEndPoint()) {
             Optional<Unit> unit = findUnitByPoint(point);
-            if (unit.isPresent() && unit.get().getType().equals("포")) {
+            if (unit.isPresent() && unit.get().getType() == UnitType.BOMB) {
                 return false;
             }
             if (unit.isPresent()) {
