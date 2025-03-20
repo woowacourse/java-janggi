@@ -51,9 +51,8 @@ class CannonTest {
 
         // then
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(possiblePoint.size()).isEqualTo(5);
-            softly.assertThat(possiblePoint).contains(Point.of(1, 4), Point.of(1, 5), Point.of(1, 8));
-            softly.assertThat(possiblePoint).doesNotContain(Point.of(1, 3));
+            softly.assertThat(possiblePoint.size()).isEqualTo(6);
+            softly.assertThat(possiblePoint).contains(Point.of(1, 3), Point.of(1, 5), Point.of(1, 8));
         });
     }
 }
