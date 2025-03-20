@@ -1,11 +1,14 @@
 package domain.piece;
 
 import domain.board.Board;
-import domain.board.Edge;
+import domain.board.Direction;
 import domain.board.Node;
+import java.util.Arrays;
 import java.util.List;
 
 public class Sa implements Piece {
+
+    private static final List<Direction> WANG_MOVABLE_DIRECTIONS = Arrays.stream(Direction.values()).toList();
 
     private final Team team;
 
@@ -19,10 +22,11 @@ public class Sa implements Piece {
     }
 
     private List<Node> findMovableNodes(Node currentNode, Board board) {
-        return currentNode.edges().stream()
-                .filter(edge -> !board.hasPieceTeamByNode(edge.nextNode(), this.team)
-                        || !board.existsPieceByNode(edge.nextNode()))
-                .map(Edge::nextNode)
+        return WANG_MOVABLE_DIRECTIONS.stream()
+                .filter(currentNode::hasEdgeByDirection)
+                .map(currentNode::findNextNodeByDirection)
+                .filter(nextNode -> !(board.existsPieceByNode(nextNode)
+                        && board.hasPieceTeamByNode(nextNode, this.team)))
                 .toList();
     }
 

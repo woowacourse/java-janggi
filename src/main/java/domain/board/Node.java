@@ -55,10 +55,6 @@ public class Node {
         this.edges.addAll(edges);
     }
 
-    public List<Edge> edges() {
-        return edges;
-    }
-
     @Override
     public boolean equals(Object object) {
         if (this == object) {
