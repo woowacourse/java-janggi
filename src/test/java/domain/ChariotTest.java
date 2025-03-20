@@ -36,6 +36,6 @@ class ChariotTest {
         final List<ChessPosition> destinations = chariot.getDestinations(piecePositions);
 
         //then
-        assertThat(destinations).containsAll(expected);
+        assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);
     }
 }

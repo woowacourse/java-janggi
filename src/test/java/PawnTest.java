@@ -26,6 +26,6 @@ public class PawnTest {
         final List<ChessPosition> destinations = pawn.getDestinations(ChessPiecePositions.empty());
 
         //then
-        assertThat(destinations).containsAll(expectDestinations);
+        assertThat(destinations).containsExactlyInAnyOrderElementsOf(expectDestinations);
     }
 }

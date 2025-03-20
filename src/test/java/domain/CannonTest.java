@@ -14,19 +14,26 @@ class CannonTest {
     void test1() {
         //given
         final ChessPosition chessPosition = new ChessPosition(7, 4);
-        final Map<ChessPosition, ChessPiece> chessPositionPawnMap = Map.of(new ChessPosition(6, 4),
-                new Pawn(new ChessPosition(6, 4), ChessTeam.RED),
-                new ChessPosition(2, 4), new Pawn(new ChessPosition(2, 4), ChessTeam.RED));
+        final Cannon cannon = new Cannon(chessPosition, ChessTeam.BLUE);
+
+        final Map<ChessPosition, ChessPiece> chessPositionPawnMap = Map.of(
+                chessPosition, cannon,
+                new ChessPosition(6, 4), new Pawn(new ChessPosition(6, 4), ChessTeam.RED),
+                new ChessPosition(2, 4), new Pawn(new ChessPosition(2, 4), ChessTeam.RED)
+        );
         final ChessPiecePositions piecePositions = ChessPiecePositions.from(chessPositionPawnMap);
-        final List<ChessPosition> expected = List.of(new ChessPosition(3, 4), new ChessPosition(4, 4),
-                new ChessPosition(5, 4));
+        final List<ChessPosition> expected = List.of(
+                new ChessPosition(2, 4),
+                new ChessPosition(3, 4),
+                new ChessPosition(4, 4),
+                new ChessPosition(5, 4)
+        );
 
         //when
-        final Cannon cannon = new Cannon(chessPosition, ChessTeam.BLUE);
         final List<ChessPosition> destinations = cannon.getDestinations(piecePositions);
 
         //then
-        assertThat(destinations).containsAll(expected);
+        assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test

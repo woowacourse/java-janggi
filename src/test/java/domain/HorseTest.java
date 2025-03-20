@@ -28,7 +28,7 @@ class HorseTest {
         final List<ChessPosition> destinations = horse.getDestinations(ChessPiecePositions.empty());
 
         //then
-        assertThat(destinations).containsAll(expected);
+        assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test
