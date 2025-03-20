@@ -30,7 +30,7 @@ class ChariotTest {
         // when & then
         assertThatCode(() -> chariot.validateMove(fromPoint, toPoint))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("차는 상하좌우로 움직여야 합니다.");
+                .hasMessage("차는 수평 혹은 수직으로만 움직여야 합니다.");
     }
 
     @DisplayName("차는 상하좌우 무제한으로 움직일 수 있다.")

@@ -15,9 +15,17 @@ public final class Chariot extends Piece {
 
     @Override
     public void validateMove(Point fromPoint, Point toPoint) {
-        if (!(fromPoint.isHorizontal(toPoint) || fromPoint.isVertical(toPoint))) {
-            throw new IllegalArgumentException("차는 상하좌우로 움직여야 합니다.");
+        validateLinearMove(fromPoint, toPoint);
+        validateObstacleOnRoute(fromPoint, toPoint);
+    }
+
+    private void validateLinearMove(Point fromPoint, Point toPoint) {
+        if (!fromPoint.isHorizontal(toPoint) && !fromPoint.isVertical(toPoint)) {
+            throw new IllegalArgumentException("차는 수평 혹은 수직으로만 움직여야 합니다.");
         }
+    }
+
+    private void validateObstacleOnRoute(Point fromPoint, Point toPoint) {
         Set<Piece> pieces = getBoard().getPiecesByPoint(findRoute(fromPoint, toPoint));
         if (!pieces.isEmpty()) {
             throw new IllegalArgumentException("차는 기물을 넘어 이동할 수 없습니다.");
@@ -25,38 +33,31 @@ public final class Chariot extends Piece {
     }
 
     private Set<Point> findRoute(Point fromPoint, Point toPoint) {
-        if (fromPoint.isHorizontal(toPoint)) {
+        boolean isHorizontal = fromPoint.isHorizontal(toPoint);
+        if (isHorizontal) {
             return findHorizontalRoute(fromPoint.getY(), fromPoint.getX(), toPoint.getX());
         }
         return findVerticalRoute(fromPoint.getX(), fromPoint.getY(), toPoint.getY());
     }
 
-    private Set<Point> findHorizontalRoute(int y, int fromX, int toX) {
-        Set<Point> horizontalRoute = new HashSet<>();
-        if (fromX < toX) {
-            for (int x = fromX + 1; x < toX; x++) {
-                horizontalRoute.add(new Point(x, y));
-            }
-            return horizontalRoute;
+    private Set<Point> findHorizontalRoute(int fixedY, int fromX, int toX) {
+        Set<Point> route = new HashSet<>();
+        int start = Math.min(fromX, toX) + 1;
+        int end = Math.max(fromX, toX);
+        for (int i = start; i < end; i++) {
+            route.add(new Point(i, fixedY));
         }
-        for (int x = toX + 1; x < fromX; x++) {
-            horizontalRoute.add(new Point(x, y));
-        }
-        return horizontalRoute;
+        return route;
     }
 
-    private Set<Point> findVerticalRoute(int x, int fromY, int toY) {
-        Set<Point> verticalRoute = new HashSet<>();
-        if (fromY < toY) {
-            for (int y = fromY + 1; y < toY; y++) {
-                verticalRoute.add(new Point(x, y));
-            }
-            return verticalRoute;
+    private Set<Point> findVerticalRoute(int fixedX, int fromY, int toY) {
+        Set<Point> route = new HashSet<>();
+        int start = Math.min(fromY, toY) + 1;
+        int end = Math.max(fromY, toY);
+        for (int i = start; i < end; i++) {
+            route.add(new Point(fixedX, i));
         }
-        for (int y = toY + 1; y < fromY; y++) {
-            verticalRoute.add(new Point(x, y));
-        }
-        return verticalRoute;
+        return route;
     }
 
     @Override
