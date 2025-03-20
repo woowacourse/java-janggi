@@ -7,7 +7,7 @@ import domain.board.createStrategy.SangMaMaSang;
 import domain.board.createStrategy.SangMaSangMa;
 import java.util.Map;
 import view.InputView;
-import view.InputView.CoordinatesDTO;
+import view.InputView.CoordinatesPair;
 import view.OutputView;
 
 public class Application {
@@ -30,8 +30,8 @@ public class Application {
 
         while (true) {
             for (Team team : Team.values()) {
-                CoordinatesDTO hanCoordinates = inputView.readMoveCoordinate(team);
-                board.move(hanCoordinates.departure(), hanCoordinates.arrival());
+                CoordinatesPair coordinatesPair = inputView.readMoveCoordinate(team);
+                board.move(coordinatesPair.departure(), coordinatesPair.arrival());
                 outputView.printBoard(board.getPieces());
             }
         }

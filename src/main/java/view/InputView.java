@@ -39,14 +39,14 @@ public class InputView {
         return tableSetting;
     }
 
-    public CoordinatesDTO readMoveCoordinate(Team team) {
+    public CoordinatesPair readMoveCoordinate(Team team) {
         System.out.printf("%s 나라의 차례입니다.", applyColor(TEAM_NAMES.get(team), team));
         System.out.println();
         System.out.println("출발 좌표를 입력해 주세요. 예) 1,5");
         Coordinate departure = parseCoordinate(scanner.nextLine());
         System.out.println("도착 좌표를 입력해 주세요. 예) 1,5");
         Coordinate arrival = parseCoordinate(scanner.nextLine());
-        return new CoordinatesDTO(departure, arrival);
+        return new CoordinatesPair(departure, arrival);
     }
 
     private String applyColor(String text, Team team) {
@@ -79,6 +79,6 @@ public class InputView {
         return new Coordinate(Integer.parseInt(parts[0].trim()), Integer.parseInt(parts[1].trim()));
     }
 
-    public record CoordinatesDTO(Coordinate departure, Coordinate arrival) {
+    public record CoordinatesPair(Coordinate departure, Coordinate arrival) {
     }
 }
