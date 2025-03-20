@@ -2,8 +2,9 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.piece.Direction;
-import domain.piece.Route;
+import domain.movements.Direction;
+import domain.movements.PieceMovement;
+import domain.movements.Route;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

@@ -1,6 +1,8 @@
 package domain.piece;
 
 import domain.Team;
+import domain.pieces.EmptyPiece;
+import domain.pieces.Piece;
 import execptions.JanggiArgumentException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

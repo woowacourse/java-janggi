@@ -1,6 +1,6 @@
 package domain;
 
-import static domain.piece.Direction.NORTH;
+import static domain.movements.Direction.NORTH;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

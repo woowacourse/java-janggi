@@ -2,8 +2,12 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
+import domain.pieces.Elephant;
+import domain.pieces.EmptyPiece;
+import domain.pieces.Piece;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

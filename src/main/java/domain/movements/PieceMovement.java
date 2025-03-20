@@ -1,6 +1,6 @@
-package domain;
+package domain.movements;
 
-import domain.piece.Route;
+import domain.Point;
 import java.util.List;
 
 public class PieceMovement {

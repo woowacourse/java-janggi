@@ -1,8 +1,11 @@
-package domain.piece;
+package domain.pieces;
 
-import domain.PieceMovement;
+import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
+import domain.movements.Direction;
+import domain.movements.PieceMovement;
+import domain.movements.Route;
 import java.util.List;
 
 public class Soldier implements Piece {

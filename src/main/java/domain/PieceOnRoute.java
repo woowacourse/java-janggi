@@ -1,6 +1,7 @@
-package domain.piece;
+package domain;
 
-import domain.Team;
+import domain.pieces.EmptyPiece;
+import domain.pieces.Piece;
 import execptions.JanggiArgumentException;
 import java.util.List;
 

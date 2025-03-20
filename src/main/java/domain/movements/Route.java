@@ -1,4 +1,4 @@
-package domain.piece;
+package domain.movements;
 
 import domain.Point;
 import java.util.ArrayList;

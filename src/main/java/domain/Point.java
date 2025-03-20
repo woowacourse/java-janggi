@@ -1,6 +1,6 @@
 package domain;
 
-import domain.piece.Direction;
+import domain.movements.Direction;
 
 public record Point(int row, int column) {
 

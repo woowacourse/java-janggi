@@ -1,7 +1,7 @@
 package domain;
 
-import domain.piece.EmptyPiece;
-import domain.piece.Piece;
+import domain.pieces.EmptyPiece;
+import domain.pieces.Piece;
 import java.util.HashMap;
 import java.util.Map;
 

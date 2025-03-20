@@ -1,25 +1,28 @@
-package domain.piece;
+package domain.pieces;
 
-import domain.PieceMovement;
+import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
+import domain.movements.Direction;
+import domain.movements.PieceMovement;
+import domain.movements.Route;
 import java.util.List;
 
-public class Horse implements Piece {
+public class Elephant implements Piece {
 
     private final PieceMovement pieceMovement;
     private final Team team;
 
-    public Horse(Team team) {
+    public Elephant(Team team) {
         List<Route> routes = List.of(
-                new Route(List.of(Direction.NORTH, Direction.NORTHWEST)),
-                new Route(List.of(Direction.NORTH, Direction.NORTHEAST)),
-                new Route(List.of(Direction.EAST, Direction.NORTHEAST)),
-                new Route(List.of(Direction.EAST, Direction.SOUTHEAST)),
-                new Route(List.of(Direction.SOUTH, Direction.SOUTHEAST)),
-                new Route(List.of(Direction.SOUTH, Direction.SOUTHWEST)),
-                new Route(List.of(Direction.WEST, Direction.SOUTHWEST)),
-                new Route(List.of(Direction.WEST, Direction.NORTHWEST))
+                new Route(List.of(Direction.NORTH, Direction.NORTHWEST, Direction.NORTHWEST)),
+                new Route(List.of(Direction.NORTH, Direction.NORTHEAST, Direction.NORTHEAST)),
+                new Route(List.of(Direction.EAST, Direction.NORTHEAST, Direction.NORTHEAST)),
+                new Route(List.of(Direction.EAST, Direction.SOUTHEAST, Direction.SOUTHEAST)),
+                new Route(List.of(Direction.SOUTH, Direction.SOUTHEAST, Direction.SOUTHEAST)),
+                new Route(List.of(Direction.SOUTH, Direction.SOUTHWEST, Direction.SOUTHWEST)),
+                new Route(List.of(Direction.WEST, Direction.SOUTHWEST, Direction.SOUTHWEST)),
+                new Route(List.of(Direction.WEST, Direction.NORTHWEST, Direction.NORTHWEST))
         );
 
         this.pieceMovement = new PieceMovement(routes);

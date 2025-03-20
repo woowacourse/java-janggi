@@ -1,7 +1,10 @@
-package domain.piece;
+package domain.pieces;
 
+import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
+import domain.movements.Direction;
+import domain.movements.Route;
 import java.util.Collections;
 import java.util.List;
 
