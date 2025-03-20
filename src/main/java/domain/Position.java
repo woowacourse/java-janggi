@@ -26,8 +26,11 @@ public class Position {
     public boolean isInValidPosition() {
         int nextColumn = this.getColumn();
         int nextRow = this.getRow();
-        return (nextColumn < MIN_COLUMN ||nextColumn > MAX_COLUMN ||
-                nextRow < MIN_ROW || nextRow > MAX_ROW
+        return (
+                nextColumn < MIN_COLUMN ||
+                nextColumn > MAX_COLUMN ||
+                nextRow < MIN_ROW ||
+                nextRow > MAX_ROW
         );
     }
 

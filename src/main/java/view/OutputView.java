@@ -28,12 +28,10 @@ public class OutputView {
     }
 
     private void appendBoardByRow(final Board board, final CustomStringBuilder stringBuilder, final int rowIndex) {
-        IntStream.range(1, 10).forEach(columnIndex -> {
-            stringBuilder.append(getCellContent(board, new Position(
-                    columnIndex,
-                    rowIndex))
-            );
-        });
+        IntStream.range(1, 10).forEach(columnIndex -> stringBuilder.append(getCellContent(
+                board,
+                new Position(columnIndex, rowIndex))
+        ));
     }
 
     private String getCellContent(final Board board, final Position position) {
@@ -46,8 +44,9 @@ public class OutputView {
 
     private void appendHeader(final CustomStringBuilder stringBuilder) {
         stringBuilder.appendBlankCell();
-        IntStream.range(1, 10)
-                .forEach(columnIndex -> stringBuilder.appendHeader(toFullWidthCharacter(String.valueOf(columnIndex))));
+        IntStream.range(1, 10).forEach(columnIndex -> stringBuilder.appendHeader(
+                toFullWidthCharacter(String.valueOf(columnIndex))
+        ));
         stringBuilder.lineSplit();
     }
 

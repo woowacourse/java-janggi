@@ -17,8 +17,12 @@ public class Horse extends Piece {
     @Override
     protected Set<Position> getMovablePositions() {
         Set<Position> positions = new HashSet<>();
-        Direction.getStraightDirection().forEach(direction ->
-                goOneSide(position.nextPosition(direction), direction, positions, 0));
+        Direction.getStraightDirection().forEach(direction -> goOneSide(
+                position.nextPosition(direction),
+                direction,
+                positions,
+                0
+        ));
         return positions;
     }
 
@@ -27,7 +31,7 @@ public class Horse extends Piece {
         return "마";
     }
 
-    void goOneSide(Position position, Direction direction, Set<Position> positions, int moveCount) {
+    private void goOneSide(Position position, Direction direction, Set<Position> positions, int moveCount) {
         if (exitCondition(position, direction, moveCount)) {
             return;
         }
@@ -41,9 +45,11 @@ public class Horse extends Piece {
     }
 
     private boolean exitCondition(Position position, Direction direction, int moveCount) {
-        return position.isInValidPosition() ||
+        return (
+                position.isInValidPosition() ||
                 (direction.isStraightDirection() && board.isExists(position)) ||
-                moveCount > 1;
+                moveCount > 1
+        );
     }
 
 }

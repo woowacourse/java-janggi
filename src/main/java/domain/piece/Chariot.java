@@ -17,8 +17,11 @@ public class Chariot extends Piece {
     @Override
     public Set<Position> getMovablePositions() {
         Set<Position> positions = new HashSet<>();
-        Direction.getStraightDirection().forEach(direction ->
-                goOneSide(position.nextPosition(direction), direction, positions));
+        Direction.getStraightDirection().forEach(direction -> goOneSide(
+                position.nextPosition(direction),
+                direction,
+                positions
+        ));
         return positions;
     }
 
@@ -38,7 +41,10 @@ public class Chariot extends Piece {
     }
 
     private boolean exitCondition(Position position) {
-        return position.isInValidPosition() || (board.isExists(position) && board.isSameTeam(this, position));
+        return (
+                position.isInValidPosition() ||
+                (board.isExists(position) && board.isSameTeam(this, position))
+        );
     }
 
 }

@@ -17,8 +17,12 @@ public class Elephant extends Piece {
     @Override
     protected Set<Position> getMovablePositions() {
         Set<Position> positions = new HashSet<>();
-        Direction.getStraightDirection().forEach(direction ->
-                goOneSide(position.nextPosition(direction), direction, positions, 0));
+        Direction.getStraightDirection().forEach(direction -> goOneSide(
+                position.nextPosition(direction),
+                direction,
+                positions,
+                0
+        ));
         return positions;
     }
 
@@ -44,7 +48,11 @@ public class Elephant extends Piece {
     }
 
     private boolean exitCondition(Position position, int moveCount) {
-        return position.isInValidPosition() || (moveCount != 2 && board.isExists(position)) || moveCount > 2;
+        return (
+                position.isInValidPosition() ||
+                (moveCount != 2 && board.isExists(position)) ||
+                moveCount > 2
+        );
     }
 
 }

@@ -6,7 +6,7 @@ import domain.Team;
 import java.util.Objects;
 import java.util.Set;
 
-public abstract class   Piece {
+public abstract class Piece {
 
     protected Position position;
     protected final Team team;

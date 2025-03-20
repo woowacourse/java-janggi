@@ -43,16 +43,17 @@ public enum Direction {
     }
 
     public List<Direction> nextCrossDirection() {
-        if (deltaColumn != 0) {
-            return getCrossDirection()
-                    .stream()
-                    .filter(crossDirection -> crossDirection.getDeltaColumn() == deltaColumn)
-                    .toList();
-        }
         return getCrossDirection()
                 .stream()
-                .filter(crossDirection -> crossDirection.getDeltaRow() == deltaRow)
+                .filter(this::isSameStraightDirection)
                 .toList();
+    }
+
+    private boolean isSameStraightDirection(Direction direction) {
+        if (deltaColumn != 0) {
+            return direction.getDeltaColumn() == deltaColumn;
+        }
+        return direction.getDeltaRow() == deltaRow;
     }
 
     public boolean isCrossDirection() {

@@ -17,8 +17,12 @@ public class Cannon extends Piece {
     @Override
     protected Set<Position> getMovablePositions() {
         Set<Position> positions = new HashSet<>();
-        Direction.getStraightDirection().forEach(direction ->
-                goOneSide(position.nextPosition(direction), direction, false, positions));
+        Direction.getStraightDirection().forEach(direction -> goOneSide(
+                position.nextPosition(direction),
+                direction,
+                false,
+                positions)
+        );
         return positions;
     }
 
@@ -42,8 +46,11 @@ public class Cannon extends Piece {
     }
 
     private boolean exitCondition(Position position, boolean hasHuddle) {
-        return position.isInValidPosition() || board.isCannon(position) ||
-                (board.isSameTeam(this, position) && hasHuddle);
+        return (
+                position.isInValidPosition() ||
+                board.isCannonAt(position) ||
+                (board.isSameTeam(this, position) && hasHuddle)
+        );
     }
 
 }

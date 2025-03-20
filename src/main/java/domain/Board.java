@@ -27,31 +27,20 @@ public class Board {
     }
 
     public boolean isExists(final Position position) {
-        return pieces.stream()
-                .anyMatch(piece -> piece.isSamePosition(position));
+        return pieces.stream().anyMatch(piece -> piece.isSamePosition(position));
     }
 
     public boolean isSameTeam(final Piece piece, final Position newPosition) {
-        return pieces.stream()
-                .anyMatch(p -> p.isSamePosition(newPosition) && p.isSameTeam(piece));
+        return pieces.stream().anyMatch(p -> p.isSamePosition(newPosition) && p.isSameTeam(piece));
     }
 
     public void remove(final Position position) {
-        int target = -1;
-        for (int i = 0; i < pieces.size(); i++) {
-            if (pieces.get(i).isSamePosition(position)) {
-                target = i;
-                break;
-            }
-        }
-        if (target != -1) {
-            pieces.remove(target);
-        }
+        pieces.removeIf(piece -> piece.isSamePosition(position));
     }
 
-    public boolean isCannon(final Position position) {
+    public boolean isCannonAt(final Position position) {
         return pieces.stream()
-                .filter(piece -> position.equals(piece.getPosition()))
+                .filter(piece -> piece.isSamePosition(position))
                 .anyMatch(Cannon.class::isInstance);
     }
 
