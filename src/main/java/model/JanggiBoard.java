@@ -50,18 +50,16 @@ public class JanggiBoard {
     }
 
     public void move(Point beforePoint, Point targetPoint) {
-        // b에 있는 piece를 뽑아서
         Piece piece = getDot(beforePoint).getPiece();
         validateAfterPoint(beforePoint, targetPoint, piece);
         Path path = piece.calculatePath(beforePoint, targetPoint);
-        Map<Piece,Boolean> piecesOnPathWithTargetOrNot = getPiecesOnPath(path, targetPoint);
+        Map<Piece, Boolean> piecesOnPathWithTargetOrNot = getPiecesOnPath(path, targetPoint);
         if (piece.canMove(piecesOnPathWithTargetOrNot)) {
             getDot(targetPoint).place(piece);
             getDot(beforePoint).clear();
+            return;
         }
-        // piece 그걸 받아서 자기 규칙으로 넘어갈 수 있는지 여부를 반환
-        //      -> 경로에 존재하는 기물의 수 + 1개존재할 경우 종점만 존재하고 적군인 지여부까지 통과
-        // a에 있는 dot에 옮긴다.
+        throw new IllegalArgumentException("이동할 수 없습니다.");
     }
 
     private void validateAfterPoint(Point beforePoint, Point targetPoint, Piece piece) {
@@ -71,6 +69,9 @@ public class JanggiBoard {
     }
 
     private Dot getDot(Point point) {
+        if (point.x() < 0 || point.y() < 0 || point.x() > 8 || point.y() > 9) {
+            throw new IllegalArgumentException("장기판을 벗어난 좌표입니다.");
+        }
         return janggiBoard.get(point.y()).get(point.x());
     }
 
@@ -91,5 +92,9 @@ public class JanggiBoard {
             }
             piecesOnPathWithTargetOrNot.put(getDot(point).getPiece(), false);
         }
+    }
+
+    public ArrayList<ArrayList<Dot>> getJanggiBoard() {
+        return janggiBoard;
     }
 }
