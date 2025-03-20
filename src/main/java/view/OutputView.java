@@ -58,4 +58,8 @@ public final class OutputView {
     public static void printCaptureMessage() {
         System.out.println("상대팀 말을 잡았습니다.\n");
     }
+
+    public static void printEndTurn() {
+        System.out.println("우리팀 말이 아닙니다. 턴이 종료되었습니다.\n");
+    }
 }

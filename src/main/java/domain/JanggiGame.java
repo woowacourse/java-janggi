@@ -9,42 +9,79 @@ import view.OutputView;
 public class JanggiGame {
 
     private final Board board;
+    private Team turn = Team.GREEN;
 
     public JanggiGame(final Board board) {
         this.board = board;
     }
 
     public void start() {
-        boolean flag = true;
         while (true) {
             OutputView.printBoard(board);
-            if (flag) {
-                OutputView.printGreenTurn();
-            } else {
-                OutputView.printRedTurn();
-            }
-            final List<String> fromNumber = InputView.readFromPoint();
-            final Point prevPoint = Point.of(fromNumber.getFirst(), fromNumber.getLast());
-            final Position prevPosition = board.findPositionBy(prevPoint);
-            if (flag && !prevPosition.isGreenTeam() || !flag && prevPosition.isGreenTeam()) {
-                System.out.println("우리팀 말이 아닙니다. 턴이 종료되었습니다.\n");
-                flag = !flag;
+            printTurn();
+
+            final Position prevPosition = readStartPosition();
+            if (isValidPiece(prevPosition)) {
+                OutputView.printEndTurn();
+                changeTurn();
                 continue;
             }
-            final List<String> toNumber = InputView.readToPoint();
-            final Point nextPoint = Point.of(toNumber.getFirst(), toNumber.getLast());
 
-            if (prevPosition.isMovable(nextPoint)) {
-                if (board.canMoveOnPath(prevPosition, nextPoint)) {
-                    board.move(prevPosition, nextPoint, OutputView::printCaptureMessage);
-                    if (board.hasOnlyOneGeneral()) {
-                        final Team team = board.determineWinTeam();
-                        OutputView.printWinnerTeam(team);
-                        break;
-                    }
-                }
+            final Point nextPoint = readEndPoint();
+            if (isInvalidEndPoint(prevPosition, nextPoint)) {
+                changeTurn();
+                continue;
             }
-            flag = !flag;
+
+            board.move(prevPosition, nextPoint, OutputView::printCaptureMessage);
+            if (board.hasOnlyOneGeneral()) {
+                final Team team = board.determineWinTeam();
+                OutputView.printWinnerTeam(team);
+                break;
+            }
         }
+    }
+
+    private void printTurn() {
+        if (isGreenTurn()) {
+            OutputView.printGreenTurn();
+            return;
+        }
+        OutputView.printRedTurn();
+    }
+
+    private Position readStartPosition() {
+        final List<String> fromNumber = InputView.readFromPoint();
+        final Point prevPoint = Point.of(fromNumber.getFirst(), fromNumber.getLast());
+        return board.findPositionBy(prevPoint);
+    }
+
+    private boolean isValidPiece(final Position prevPosition) {
+        return isGreenTurn() && !prevPosition.isGreenTeam() || isRedTurn() && prevPosition.isGreenTeam();
+    }
+
+    private void changeTurn() {
+        if (turn == Team.GREEN) {
+            turn = Team.RED;
+            return;
+        }
+        turn = Team.GREEN;
+    }
+
+    private Point readEndPoint() {
+        final List<String> toNumber = InputView.readToPoint();
+        return Point.of(toNumber.getFirst(), toNumber.getLast());
+    }
+
+    private boolean isInvalidEndPoint(final Position prevPosition, final Point nextPoint) {
+        return !prevPosition.isMovable(nextPoint) || !board.canMoveOnPath(prevPosition, nextPoint);
+    }
+
+    private boolean isGreenTurn() {
+        return turn == Team.GREEN;
+    }
+
+    private boolean isRedTurn() {
+        return turn == Team.RED;
     }
 }
