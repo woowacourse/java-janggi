@@ -3,7 +3,6 @@ package domain;
 import domain.piece.Piece;
 import domain.piece.Pieces;
 import domain.piece.Position;
-
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +19,9 @@ public class Board {
 
         List<Position> path = piece.getPath(targetPosition);
 
+        if (board.get(player).existByPosition(targetPosition)) {
+            throw new IllegalArgumentException("[ERROR] 도착 위치에 아군의 기물이 존재해 이동할 수 없습니다.");
+        }
         /* 검사 했을 때 포가 이동할 수 없는 조건일 경우
         1. 중간 기물 개수가 1개가 아닐 경우 (0개 또는 1개 초과)
         2. 도착지에 포인 경우
@@ -31,14 +33,23 @@ public class Board {
             if (count != 1) {
                 throw new IllegalArgumentException("[ERROR] 포는 중간에 기물이 1개여야 합니다.");
             }
+
+            // pieces 안에 메서드
+            // 좌표 줬을 때, 이게 포인지 확인
+            // board 안에 메서드
+            // values. stream 돌면서 (좌표 줬을 때, 이게 포인지 확인) 이걸로 확인
+            // 있으면 에러
+            if (getOppositePieces(player).isCannonByPosition(targetPosition)) {
+                throw new IllegalArgumentException("[ERROR] 포는 상대 포를 잡을 수 없습니다.");
+            }
+
+            // 경로 전체를 돌기
+            // values. stream 돌면서 (좌표 줬을 때, 이게 포인지 확인) 이걸로 확인
+            // 있으면 에러
         }
 
         if (!piece.isCannon() && !canMove(path)) {
             throw new IllegalArgumentException();
-        }
-
-        if (board.get(player).existByPosition(targetPosition)) {
-            throw new IllegalArgumentException("[ERROR] 도착 위치에 아군의 기물이 존재해 이동할 수 없습니다.");
         }
 
         board.get(player).updatePosition(piece, targetPosition);
