@@ -68,11 +68,11 @@ public class Cannon extends Piece {
                 .toList();
 
         if (pieces.size() != 1) {
-            return false;
+            throw new UnsupportedOperationException("[ERROR] 포는 경로에 단 한개의 기물만 존재해야 합니다.");
         }
 
         if (pieces.getFirst().getName().equals(NAME)) {
-            return false;
+            throw new UnsupportedOperationException("[ERROR] 포끼리 뛰어 넘을 수 없습니다.");
         }
         return true;
     }
