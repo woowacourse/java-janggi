@@ -41,7 +41,7 @@ public class Cha implements Piece {
         }
 
         Node nextNode = currentNode.findNextNodeByDirection(direction);
-        if (board.existsPieceByTeam(nextNode, this.team)) {
+        if (board.hasTeamPiece(nextNode, this.team)) {
             return;
         }
         findCandidates(nextNode, board, direction, candidates);

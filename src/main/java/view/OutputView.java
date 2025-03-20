@@ -21,11 +21,11 @@ public class OutputView {
             boardString.add(rowString);
             for (int column = Board.START_COLUMN_INDEX; column <= Board.END_COLUMN_INDEX; column++) {
                 Node node = board.findNodeByPoint(Point.of(row, column));
-                if (!board.existsPiece(node)) {
+                if (!board.existsPieceByNode(node)) {
                     rowString.add(Painter.paintWhite("ㅁ"));
                     continue;
                 }
-                if (board.hasTeamByNode(node, Team.CHO)) {
+                if (board.hasTeamPiece(node, Team.CHO)) {
                     rowString.add(Painter.paintGreen(board.findPieceTypeByNode(node).getTitle()));
                     continue;
                 }

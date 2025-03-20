@@ -71,7 +71,7 @@ public class Ma implements Piece {
         }
 
         Node destinationNode = sourceNode.moveByPath(destinationPath);
-        if (board.existsPieceByTeam(destinationNode, this.team)) {
+        if (board.hasTeamPiece(destinationNode, this.team)) {
             return;
         }
 
@@ -80,7 +80,7 @@ public class Ma implements Piece {
                 .map(sourceNode::moveByPath)
                 .toList();
 
-        if (obstacleNodes.stream().anyMatch(board::existsPiece)) {
+        if (obstacleNodes.stream().anyMatch(board::existsPieceByNode)) {
             return;
         }
         candidates.add(destinationNode);

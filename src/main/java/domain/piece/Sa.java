@@ -21,8 +21,8 @@ public class Sa implements Piece {
 
     private List<Node> findMovableNodes(Node currentNode, Board board) {
         return currentNode.edges().stream()
-                .filter(edge -> !board.existsPieceByTeam(edge.nextNode(), this.team)
-                        || !board.existsPiece(edge.nextNode()))
+                .filter(edge -> !board.hasTeamPiece(edge.nextNode(), this.team)
+                        || !board.existsPieceByNode(edge.nextNode()))
                 .map(Edge::nextNode)
                 .toList();
     }

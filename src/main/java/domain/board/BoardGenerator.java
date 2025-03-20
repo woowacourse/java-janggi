@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import view.SangMaOrderCommand;
 
+import static domain.board.Board.*;
+
 public class BoardGenerator {
 
     public Board generateBoard(SangMaOrderCommand hanSangMaOrderCommand, SangMaOrderCommand choSangMaOrderCommand) {
@@ -32,22 +34,22 @@ public class BoardGenerator {
     public Map<Point, Node> initializeNodesAndEdges() {
         Map<Point, Node> nodeByPoint = new HashMap<>();
 
-        for (int row = Board.START_ROW_INDEX; row <= Board.END_ROW_INDEX; row++) {
-            for (int column = Board.START_COLUMN_INDEX; column <= Board.END_COLUMN_INDEX; column++) {
+        for (int row = START_ROW_INDEX; row <= END_ROW_INDEX; row++) {
+            for (int column = START_COLUMN_INDEX; column <= END_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
                 Node currentNode = new Node(point);
                 nodeByPoint.put(point, currentNode);
             }
         }
 
-        for (int row = Board.START_ROW_INDEX; row <= Board.END_ROW_INDEX; row++) {
-            for (int column = Board.START_COLUMN_INDEX; column <= Board.END_COLUMN_INDEX; column++) {
+        for (int row = START_ROW_INDEX; row <= END_ROW_INDEX; row++) {
+            for (int column = START_COLUMN_INDEX; column <= END_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
                 List<Edge> edges = new ArrayList<>();
                 for (Direction direction : List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT)) {
                     int nextRow = row + direction.deltaRow();
                     int nextColumn = column + direction.deltaColumn();
-                    if (!Board.isInRange(nextRow, nextColumn)) {
+                    if (!isInRange(nextRow, nextColumn)) {
                         continue;
                     }
                     Node nextNode = nodeByPoint.get(Point.of(nextRow, nextColumn));
@@ -59,6 +61,12 @@ public class BoardGenerator {
         }
 
         return nodeByPoint;
+    }
+
+
+    private boolean isInRange(int row, int column) {
+        return START_ROW_INDEX <= row && row <= END_ROW_INDEX
+                && START_COLUMN_INDEX <= column && column <= END_COLUMN_INDEX;
     }
 
     // 상마 순서에 따라 기물 배치

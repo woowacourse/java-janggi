@@ -1,6 +1,7 @@
 package view;
 
 import domain.board.Point;
+import domain.piece.Team;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,23 +11,23 @@ public class InputView {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static SangMaOrderCommand inputSangMaOrder(String teamName) {
+    public static SangMaOrderCommand inputSangMaOrder(Team team) {
         System.out.printf("""
                 %n%s나라 상마 순서를 입력해주세요.
                 1. 상마상마
                 2. 상마마상
                 3. 마상상마
                 4. 마상마상
-                """, teamName);
+                """, team.title());
         String input = scanner.nextLine();
         return SangMaOrderCommand.from(input);
     }
 
-    public static MoveCommand inputMoveCommand(String teamName) {
+    public static MoveCommand inputMoveCommand(Team team) {
         System.out.printf("""
                 %n현재 턴 : %s나라
                 이동할 기물의 현재 위치와 이동할 위치를 입력해주세요. (예: move 1,1 2,1)
-                """, teamName);
+                """, team.title());
         String input = scanner.nextLine();
 
         List<String> parsed = Arrays.stream(input.split(" ", -1)).toList();
