@@ -45,8 +45,8 @@ class BoardTest {
     @Test
     void 타겟_위치에_플레이어의_기물이_있는_경우_예외가_발생한다() {
         // given
-        Position startPosition = Position.of(1, 4);
-        Position targetPosition = Position.of(2, 4);
+        Position startPosition = Position.of(1, 1);
+        Position targetPosition = Position.of(1, 4);
 
         Player han = new Player("한", PieceColor.RED);
         Player cho = new Player("초", PieceColor.BLUE);
