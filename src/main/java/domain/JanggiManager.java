@@ -21,8 +21,7 @@ public class JanggiManager {
         if (!board.existsPieceByNode(destinationNode)) {
             return false;
         }
-        Piece destinationPiece = board.findPieceByNode(destinationNode);
-        return destinationPiece.type() == PieceType.WANG;
+        return board.hasTypeByNode(destinationNode, PieceType.WANG);
     }
 
     public void movePiece(Point source, Point destination) {

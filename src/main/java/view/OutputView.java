@@ -25,7 +25,7 @@ public class OutputView {
                     rowString.add(Painter.paintWhite("ㅁ"));
                     continue;
                 }
-                if (board.hasTeamPiece(node, Team.CHO)) {
+                if (board.hasTeamPieceByNode(node, Team.CHO)) {
                     rowString.add(Painter.paintGreen(board.findPieceTypeByNode(node).getTitle()));
                     continue;
                 }

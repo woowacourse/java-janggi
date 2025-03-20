@@ -28,7 +28,7 @@ public class Cha implements Piece {
                 .filter(sourceNode::hasEdgeByDirection)
                 .forEach(direction ->
                         findCandidates(sourceNode.findNextNodeByDirection(direction), board, direction, candidates));
-        
+
         return candidates;
     }
 
@@ -41,7 +41,7 @@ public class Cha implements Piece {
         }
 
         Node nextNode = currentNode.findNextNodeByDirection(direction);
-        if (board.hasTeamPiece(nextNode, this.team)) {
+        if (board.hasTeamPieceByNode(nextNode, this.team)) {
             return;
         }
         findCandidates(nextNode, board, direction, candidates);

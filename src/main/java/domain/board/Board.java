@@ -51,12 +51,20 @@ public class Board {
         return piece.type() == PieceType.PO;
     }
 
-    public boolean hasTeamPiece(Node node, Team team) {
+    public boolean hasTeamPieceByNode(Node node, Team team) {
         if (!existsPieceByNode(node)) {
             return false;
         }
         Piece piece = board.get(node);
         return piece.hasTeam(team);
+    }
+
+    public boolean hasTypeByNode(Node node, PieceType pieceType) {
+        if (!existsPoByNode(node)) {
+            return false;
+        }
+        Piece piece = board.get(node);
+        return piece.type() == pieceType;
     }
 
     public Node findNodeByPoint(Point point) {
