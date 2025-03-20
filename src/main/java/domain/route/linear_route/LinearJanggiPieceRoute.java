@@ -23,10 +23,10 @@ public class LinearJanggiPieceRoute implements JanggiPieceRoute {
 
     @Override
     public List<Pattern> getRoute(final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
-        if (afterPosition.file() == beforePosition.file()) {
+        if (afterPosition.rank() == beforePosition.rank()) {
             return setNewPathAndGetAdditionalSizeAboutLeftOrRight(beforePosition, afterPosition);
         }
-        if (afterPosition.rank() == beforePosition.rank()) {
+        if (afterPosition.file() == beforePosition.file()) {
             return setNewPathAndGetAdditionalSizeAboutUpOrDown(beforePosition, afterPosition);
         }
         throw new IllegalStateException("해당 말은 해당 경로로 이동할 수 없습니다.");
@@ -38,12 +38,12 @@ public class LinearJanggiPieceRoute implements JanggiPieceRoute {
     ) {
         Direction newPath;
         int additionalSize;
-        if (afterPosition.isBiggerYThan(beforePosition)) {
+        if (afterPosition.isBiggerFileThan(beforePosition)) {
             newPath = RIGHT;
-            additionalSize = afterPosition.getYGap(beforePosition);
+            additionalSize = afterPosition.getFileGap(beforePosition);
         } else {
             newPath = LEFT;
-            additionalSize = afterPosition.getYGap(beforePosition);
+            additionalSize = afterPosition.getFileGap(beforePosition);
         }
         return createPattern(newPath, additionalSize);
     }
@@ -54,12 +54,12 @@ public class LinearJanggiPieceRoute implements JanggiPieceRoute {
     ) {
         Direction newPath;
         int additionalSize;
-        if (afterPosition.isBiggerXThan(beforePosition)) {
+        if (afterPosition.isBiggerRankThan(beforePosition)) {
             newPath = DOWN;
-            additionalSize = afterPosition.getXGap(beforePosition);
+            additionalSize = afterPosition.getRankGap(beforePosition);
         } else {
             newPath = UP;
-            additionalSize = afterPosition.getXGap(beforePosition);
+            additionalSize = afterPosition.getRankGap(beforePosition);
         }
         return createPattern(newPath, additionalSize);
     }

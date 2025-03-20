@@ -70,7 +70,7 @@ public class JanggiPositionTest {
         JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
 
         // when
-        boolean isBiggerX = afterPosition.isBiggerXThan(beforePosition);
+        boolean isBiggerX = afterPosition.isBiggerRankThan(beforePosition);
 
         // then
         Assertions.assertThat(isBiggerX).isFalse();
@@ -88,7 +88,7 @@ public class JanggiPositionTest {
         JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
 
         // when
-        boolean isBiggerY = afterPosition.isBiggerYThan(beforePosition);
+        boolean isBiggerY = afterPosition.isBiggerFileThan(beforePosition);
 
         // then
         Assertions.assertThat(isBiggerY).isTrue();
@@ -105,7 +105,7 @@ public class JanggiPositionTest {
         JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
 
         // when
-        int gap = afterPosition.getXGap(beforePosition);
+        int gap = afterPosition.getRankGap(beforePosition);
 
         // then
         Assertions.assertThat(gap).isEqualTo(expected);
@@ -122,7 +122,7 @@ public class JanggiPositionTest {
         JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
 
         // when
-        int gap = afterPosition.getYGap(beforePosition);
+        int gap = afterPosition.getFileGap(beforePosition);
 
         // then
         Assertions.assertThat(gap).isEqualTo(expected);
