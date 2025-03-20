@@ -112,11 +112,10 @@ class PiecesTest {
     void 왕이_존재하는지_판단하다() {
         // given
         Pieces pieces = new Pieces(new ArrayList<>());
+        Pieces piecesInKing = new Pieces(List.of(new King(5, 2, PieceDirection.KING.get())));
 
-        // when
-        boolean result = pieces.existKing();
-
-        // then
-        assertThat(result).isTrue();
+        // when & then
+        assertThat(pieces.existKing()).isFalse();
+        assertThat(piecesInKing.existKing()).isTrue();
     }
 }
