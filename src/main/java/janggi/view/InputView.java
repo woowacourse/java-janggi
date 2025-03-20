@@ -18,4 +18,10 @@ public class InputView {
         System.out.println("홍팀의 상, 마 순서를 입력해주세요(ex: 상마상마)");
         return scanner.nextLine();
     }
+
+    public String getPieceMovement() {
+        System.out.println("이동 할 기물의 위치와 이동 시킬 위치를 입력해주세요");
+        return scanner.nextLine();
+
+    }
 }
