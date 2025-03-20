@@ -57,56 +57,72 @@ public class Board {
             final BoardPosition destinationBoardPosition,
             final Team currentTeam
     ) {
-        if (!pieces.containsKey(selectBoardPosition)) {
-            throw new IllegalArgumentException("이동하려는 위치에 기물이 없습니다.");
-        }
+        validateSelectBoardPosition(selectBoardPosition);
 
         final Piece selectedPiece = pieces.get(selectBoardPosition);
-        if (selectedPiece.getTeam() != currentTeam) {
-            throw new IllegalArgumentException("다른 팀의 기물을 움직일 수 없습니다.");
-        }
+        validateSelectPieceTeam(currentTeam, selectedPiece);
 
         final Piece destinationPiece = pieces.get(destinationBoardPosition);
-        if (destinationPiece != null && currentTeam == destinationPiece.getTeam()) {
-            throw new IllegalArgumentException("이동하려는 위치에 아군 기물이 존재합니다.");
-        }
+        validateDestinationPieceTeam(currentTeam, destinationPiece);
 
         final List<Offset> movementRule = selectedPiece.findMovementRule(selectBoardPosition, destinationBoardPosition);
         validateMovementRule(movementRule, selectBoardPosition, destinationBoardPosition, selectedPiece);
 
-        if (destinationPiece != null && currentTeam != destinationPiece.getTeam()) {
-            pieces.remove(destinationBoardPosition);
-        }
+        removeDestinationEnemyPiece(destinationBoardPosition, currentTeam, destinationPiece);
+        changeSelectPieceBoardPosition(selectBoardPosition, destinationBoardPosition, selectedPiece);
+    }
 
-        pieces.remove(selectBoardPosition);
-        pieces.put(destinationBoardPosition, selectedPiece);
+    private void validateSelectBoardPosition(final BoardPosition selectBoardPosition) {
+        if (!pieces.containsKey(selectBoardPosition)) {
+            throw new IllegalArgumentException("이동하려는 기물이 없습니다.");
+        }
+    }
+
+    private void validateSelectPieceTeam(final Team currentTeam, final Piece selectedPiece) {
+        if (selectedPiece.getTeam() != currentTeam) {
+            throw new IllegalArgumentException("다른 팀의 기물을 움직일 수 없습니다.");
+        }
+    }
+
+    private void validateDestinationPieceTeam(final Team currentTeam, final Piece destinationPiece) {
+        if (destinationPiece != null && currentTeam == destinationPiece.getTeam()) {
+            throw new IllegalArgumentException("이동하려는 위치에 아군 기물이 존재합니다.");
+        }
     }
 
     private void validateMovementRule(
             final List<Offset> movementRule,
-            final BoardPosition targetBoardPosition,
-            final BoardPosition moveBoardPosition,
+            final BoardPosition selectBoardPosition,
+            final BoardPosition destinationBoardPosition,
             final Piece movePiece
     ) {
-        BoardPosition currentBoardPosition = targetBoardPosition;
-        int obstacleCount = 0;
-        for (final Offset offset : movementRule) {
-            currentBoardPosition = currentBoardPosition.calculatePosition(offset);
-            if (currentBoardPosition.equals(moveBoardPosition)) {
-                continue;
-            }
-            if (pieces.containsKey(currentBoardPosition)) {
-                obstacleCount++;
-            }
-        }
-
+        int obstacleCount = calculateObstacleCount(movementRule, destinationBoardPosition, selectBoardPosition);
         if (!movePiece.isObstacleCountAllowed(obstacleCount)) {
             throw new IllegalArgumentException("이동경로에 적합하지 않은 장애물이 있습니다.");
         }
 
         if (movePiece.getPieceType() == PieceType.CANNON) {
-            validateCannonMovementRule(movementRule, targetBoardPosition);
+            validateCannonMovementRule(movementRule, selectBoardPosition);
         }
+    }
+
+    private int calculateObstacleCount(
+            final List<Offset> movementRule,
+            final BoardPosition destinationBoardPosition,
+            BoardPosition currentBoardPosition
+    ) {
+        int obstacleCount = 0;
+        for (final Offset offset : movementRule) {
+            currentBoardPosition = currentBoardPosition.calculatePosition(offset);
+            if (currentBoardPosition.equals(destinationBoardPosition)) {
+                break;
+            }
+
+            if (pieces.containsKey(currentBoardPosition)) {
+                obstacleCount++;
+            }
+        }
+        return obstacleCount;
     }
 
     private void validateCannonMovementRule(
@@ -122,6 +138,25 @@ public class Board {
                 throw new IllegalArgumentException("포는 포를 넘거나 잡을 수 없습니다.");
             }
         }
+    }
+
+    private void removeDestinationEnemyPiece(
+            final BoardPosition destinationBoardPosition,
+            final Team currentTeam,
+            final Piece destinationPiece
+    ) {
+        if (destinationPiece != null && currentTeam != destinationPiece.getTeam()) {
+            pieces.remove(destinationBoardPosition);
+        }
+    }
+
+    private void changeSelectPieceBoardPosition(
+            final BoardPosition selectBoardPosition,
+            final BoardPosition destinationBoardPosition,
+            final Piece selectedPiece
+    ) {
+        pieces.remove(selectBoardPosition);
+        pieces.put(destinationBoardPosition, selectedPiece);
     }
 
     public Map<BoardPosition, Piece> getPieces() {
