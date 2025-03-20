@@ -40,4 +40,8 @@ public final class OutputView {
             System.out.println();
         }
     }
+
+    public static void printCaptureMessage() {
+        System.out.println("상대팀 말을 잡았습니다.\n");
+    }
 }
