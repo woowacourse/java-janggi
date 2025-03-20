@@ -1,13 +1,12 @@
 package janggi.piece;
 
-import janggi.piece.strategy.BasicMovable;
 import janggi.position.Path;
 import janggi.position.Position;
 import janggi.view.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Jol extends Piece implements BasicMovable {
+public class Jol extends Piece {
 
     public Jol() {
         super(PieceType.JOL, Team.CHO);

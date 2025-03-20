@@ -1,5 +1,7 @@
 package janggi.piece;
 
+import janggi.position.Path;
+import janggi.position.Position;
 import janggi.view.PieceType;
 
 public abstract class Piece {
@@ -11,6 +13,8 @@ public abstract class Piece {
         this.pieceType = pieceType;
         this.team = team;
     }
+
+    abstract public Path move(Position currentPosition, Position arrivalPosition);
 
     public PieceType getPieceType() {
         return pieceType;

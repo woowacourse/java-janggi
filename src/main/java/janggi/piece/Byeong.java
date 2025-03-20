@@ -1,13 +1,12 @@
 package janggi.piece;
 
-import janggi.piece.strategy.BasicMovable;
 import janggi.position.Path;
 import janggi.position.Position;
 import janggi.view.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Byeong extends Piece implements BasicMovable {
+public class Byeong extends Piece {
 
     public Byeong() {
         super(PieceType.BYEONG, Team.HAN);

@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.piece.strategy.BasicMovable;
 import janggi.position.Path;
 import janggi.position.Position;
 import janggi.view.PieceType;
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class Horse extends Piece implements BasicMovable {
+public class Horse extends Piece {
 
     private static final Set<List<Integer>> AVAILABLE_DIFFERENCE = Set.of(
             List.of(2, 1), List.of(2, -1), List.of(-2, 1), List.of(-2, -1),

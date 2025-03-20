@@ -1,13 +1,12 @@
 package janggi.piece;
 
-import janggi.piece.strategy.BasicMovable;
 import janggi.position.Path;
 import janggi.position.Position;
 import janggi.view.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chariot extends Piece implements BasicMovable {
+public class Chariot extends Piece {
 
     public Chariot(Team team) {
         super(PieceType.CHARIOT, team);
