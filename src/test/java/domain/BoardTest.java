@@ -1,20 +1,19 @@
 package domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 import domain.piece.Pawn;
 import domain.piece.Piece;
 import domain.piece.PieceDirection;
 import domain.piece.PieceInit;
 import domain.piece.Pieces;
 import domain.piece.Position;
-import org.junit.jupiter.api.Test;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.jupiter.api.Assertions.assertAll;
+import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
@@ -99,6 +98,31 @@ class BoardTest {
                         .isThrownBy(() -> board.move(han, startPosition, targetPosition2))
                         .withMessage("[ERROR] 포는 중간에 기물이 1개여야 합니다.")
         );
+    }
+
+    @Test
+    void 포의_목적지에_상대_포가_존재할_경우_예외가_발생한다() {
+        // given
+        Position startPosition = Position.of(2, 3);
+        Position targetPosition = Position.of(2, 8);
+
+        Player han = new Player("한", PieceColor.RED);
+        Player cho = new Player("초", PieceColor.BLUE);
+
+        List<Piece> hanPieces = PieceInit.initHanPieces();
+        List<Piece> choPieces = PieceInit.initChoPieces();
+        hanPieces.add(new Pawn(2, 5, PieceDirection.HAN_PAWN.get()));
+
+        Map<Player, Pieces> boardElements = new HashMap<>();
+        boardElements.put(han, new Pieces(hanPieces));
+        boardElements.put(cho, new Pieces(choPieces));
+
+        Board board = new Board(boardElements);
+
+        // when & then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> board.move(han, startPosition, targetPosition))
+                .withMessage("[ERROR] 포는 상대 포를 잡을 수 없습니다.");
     }
 
     @Test
