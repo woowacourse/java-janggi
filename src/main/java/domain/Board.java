@@ -115,9 +115,11 @@ public class Board {
                 obstacleCount++;
             }
         }
+
         if (!movePiece.isObstacleCountAllowed(obstacleCount)) {
             throw new IllegalArgumentException("이동경로에 적합하지 않은 장애물이 있습니다.");
         }
+
         if (movePiece.getPieceType() == PieceType.CANNON) {
             validateCannonMovementRule(movementRule, targetBoardPosition);
         }
