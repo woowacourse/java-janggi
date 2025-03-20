@@ -27,12 +27,12 @@ public class FlowManager {
         return ErrorHandler.retryUntilSuccess(() -> {
             MoveCommand moveCommand = InputView.inputMoveCommand(turn.team());
 
-            if (!janggiManager.hasTeamPieceByNode(moveCommand.source(), turn.team())) {
+            if (!janggiManager.hasPieceTeamByPoint(moveCommand.source(), turn.team())) {
                 OutputView.printTurn(turn.team());
                 return true;
             }
 
-            if (janggiManager.isThereWang(moveCommand.destination())) {
+            if (janggiManager.existsWangByPoint(moveCommand.destination())) {
                 OutputView.printMatchResult(turn.team());
                 return false;
             }

@@ -18,12 +18,12 @@ public class JanggiManager {
         this.board = boardGenerator.generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
     }
 
-    public boolean hasTeamPieceByNode(Point source, Team team) {
+    public boolean hasPieceTeamByPoint(Point source, Team team) {
         Node sourceNode = board.findNodeByPoint(source);
         return board.hasPieceTeamByNode(sourceNode, team);
     }
 
-    public boolean isThereWang(Point destination) {
+    public boolean existsWangByPoint(Point destination) {
         Node destinationNode = board.findNodeByPoint(destination);
         if (!board.existsPieceByNode(destinationNode)) {
             return false;
