@@ -22,15 +22,11 @@ public class JanggiController {
     public void run() {
         BoardFactory boardFactory = new BoardFactory();
         Board board = boardFactory.createBoard();
-        outputView.printBorad(board);
+        outputView.printBoard(board);
 
         JanggiGame janggiGame = new JanggiGame(new BlueTurn(board));
         while(!janggiGame.isFinished()) {
-            try {
-                playTurn(janggiGame, board);
-            } catch (Exception e) {
-                outputView.printError("[ERROR] " + e.getMessage());
-            }
+            processWithRetry(() -> playTurn(janggiGame, board));
         }
 
         outputView.printWinner(janggiGame.getTurnColor());
@@ -46,32 +42,7 @@ public class JanggiController {
         String pieceNameInput = commands.get(1);
         PieceType pieceType = PieceTypeName.getTypeFrom(pieceNameInput);
         janggiGame.move(pieceType, source, destination);
-        outputView.printBorad(board);
-    }
-
-    private Piece createPieceFromTypeAndColor(String pieceType, PieceColor color) {
-        if(pieceType.equals("마")) {
-            return new Horse(color);
-        }
-        if(pieceType.equals("상")) {
-            return new Elephant(color);
-        }
-        if(pieceType.equals("포")) {
-            return new Cannon(color);
-        }
-        if(pieceType.equals("궁")) {
-            return new General(color);
-        }
-        if(pieceType.equals("차")) {
-            return new Chariot(color);
-        }
-        if(pieceType.equals("사")) {
-            return new Guard(color);
-        }
-        if(pieceType.equals("졸")) {
-            return new Soldier(color);
-        }
-        throw new IllegalArgumentException("해당하는 기물이 없습니다.");
+        outputView.printBoard(board);
     }
 
     private static Position createPosition(String input) {
@@ -87,5 +58,15 @@ public class JanggiController {
         Column column = Column.from(colInt);
 
         return new Position(row, column);
+    }
+
+    private void processWithRetry(Runnable runnable) {
+        while(true) {
+            try {
+                runnable.run();
+            } catch (Exception e) {
+                System.out.println("[Error] " + e.getMessage() + "\n");
+            }
+        }
     }
 }

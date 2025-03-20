@@ -7,11 +7,9 @@ import domain.board.Row;
 import domain.piece.Piece;
 import domain.piece.PieceColor;
 
-import java.util.Scanner;
-
 public class OutputView {
 
-    public void printBorad(Board board) {
+    public void printBoard(Board board) {
         for(Row row : Row.values()) {
             for(Column column : Column.values()) {
                 Position position = new Position(row, column);
@@ -44,11 +42,6 @@ public class OutputView {
             color = "한나라";
         }
         System.out.println(color + " 승리");
-    }
-
-    public void printError(String message) {
-        System.out.println(message);
-        System.out.println(System.lineSeparator());
     }
 
     private String getStringColor() {
