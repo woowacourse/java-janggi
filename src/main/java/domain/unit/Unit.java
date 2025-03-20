@@ -1,6 +1,7 @@
 package domain.unit;
 
 import domain.Route;
+import domain.UnitType;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,7 +29,7 @@ public class Unit {
         return this.point.equals(point);
     }
 
-    public String getType() {
+    public UnitType getType() {
         return this.unitRule.getType();
     }
 

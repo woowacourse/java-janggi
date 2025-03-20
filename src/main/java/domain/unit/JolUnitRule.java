@@ -1,6 +1,7 @@
 package domain.unit;
 
 import domain.Route;
+import domain.UnitType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class JolUnitRule implements UnitRule {
     }
 
     @Override
-    public String getType() {
-        return "졸";
+    public UnitType getType() {
+        return UnitType.JOL;
     }
 }

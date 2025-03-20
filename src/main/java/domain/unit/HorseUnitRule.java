@@ -1,6 +1,7 @@
 package domain.unit;
 
 import domain.Route;
+import domain.UnitType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class HorseUnitRule implements UnitRule {
     }
 
     @Override
-    public String getType() {
-        return "마";
+    public UnitType getType() {
+        return UnitType.HORSE;
     }
 }
