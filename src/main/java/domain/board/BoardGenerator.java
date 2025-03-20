@@ -1,5 +1,10 @@
 package domain.board;
 
+import static domain.board.Board.END_COLUMN_INDEX;
+import static domain.board.Board.END_ROW_INDEX;
+import static domain.board.Board.START_COLUMN_INDEX;
+import static domain.board.Board.START_ROW_INDEX;
+
 import domain.PieceType;
 import domain.piece.Byeong;
 import domain.piece.Cha;
@@ -18,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 import view.SangMaOrderCommand;
 
-import static domain.board.Board.*;
-
 public class BoardGenerator {
 
     public Board generateBoard(SangMaOrderCommand hanSangMaOrderCommand, SangMaOrderCommand choSangMaOrderCommand) {
@@ -30,7 +33,6 @@ public class BoardGenerator {
         return new Board(pieceByNode, nodeByPoint);
     }
 
-    // 노드와 엣지 정보 초기화
     public Map<Point, Node> initializeNodesAndEdges() {
         Map<Point, Node> nodeByPoint = new HashMap<>();
 
@@ -45,31 +47,28 @@ public class BoardGenerator {
         for (int row = START_ROW_INDEX; row <= END_ROW_INDEX; row++) {
             for (int column = START_COLUMN_INDEX; column <= END_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
-                List<Edge> edges = new ArrayList<>();
-                for (Direction direction : List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT)) {
-                    int nextRow = row + direction.deltaRow();
-                    int nextColumn = column + direction.deltaColumn();
-                    if (!isInRange(nextRow, nextColumn)) {
-                        continue;
-                    }
-                    Node nextNode = nodeByPoint.get(Point.of(nextRow, nextColumn));
-                    edges.add(new Edge(nextNode, direction));
-                }
                 Node currentNode = nodeByPoint.get(point);
-                currentNode.addAllEdges(edges);
+                currentNode.addAllEdges(createEdges(row, column, nodeByPoint));
             }
         }
 
         return nodeByPoint;
     }
 
-
-    private boolean isInRange(int row, int column) {
-        return START_ROW_INDEX <= row && row <= END_ROW_INDEX
-                && START_COLUMN_INDEX <= column && column <= END_COLUMN_INDEX;
+    private List<Edge> createEdges(int row, int column, Map<Point, Node> nodeByPoint) {
+        List<Edge> edges = new ArrayList<>();
+        for (Direction direction : List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT)) {
+            int nextRow = row + direction.deltaRow();
+            int nextColumn = column + direction.deltaColumn();
+            if (!isInRange(nextRow, nextColumn)) {
+                continue;
+            }
+            Node nextNode = nodeByPoint.get(Point.of(nextRow, nextColumn));
+            edges.add(new Edge(nextNode, direction));
+        }
+        return edges;
     }
 
-    // 상마 순서에 따라 기물 배치
     public Map<Node, Piece> initializePiecePosition(Map<Point, Node> nodeByPoint,
                                                     SangMaOrderCommand hanSangMaOrderCommand,
                                                     SangMaOrderCommand choSangMaOrderCommand) {
@@ -148,5 +147,10 @@ public class BoardGenerator {
             default -> throw new IllegalArgumentException("상 또는 마가 아닙니다.");
         }
         return piece;
+    }
+
+    private boolean isInRange(int row, int column) {
+        return START_ROW_INDEX <= row && row <= END_ROW_INDEX
+                && START_COLUMN_INDEX <= column && column <= END_COLUMN_INDEX;
     }
 }

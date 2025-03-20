@@ -21,7 +21,7 @@ public class Wang implements Piece {
 
     private List<Node> findMovableNodes(Node currentNode, Board board) {
         return currentNode.edges().stream()
-                .filter(edge -> !board.hasTeamPieceByNode(edge.nextNode(), this.team)
+                .filter(edge -> !board.hasPieceTeamByNode(edge.nextNode(), this.team)
                         || !board.existsPieceByNode(edge.nextNode()))
                 .map(Edge::nextNode)
                 .toList();

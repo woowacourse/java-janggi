@@ -19,7 +19,7 @@ public class JanggiManager {
 
     public boolean hasTeamPieceByNode(Point source, Team team) {
         Node sourceNode = board.findNodeByPoint(source);
-        return board.hasTeamPieceByNode(sourceNode, team);
+        return board.hasPieceTeamByNode(sourceNode, team);
     }
 
     public boolean isThereWang(Point destination) {
@@ -27,7 +27,7 @@ public class JanggiManager {
         if (!board.existsPieceByNode(destinationNode)) {
             return false;
         }
-        return board.hasTypeByNode(destinationNode, PieceType.WANG);
+        return board.hasPieceTypeByNode(destinationNode, PieceType.WANG);
     }
 
     public void movePiece(Point source, Point destination) {

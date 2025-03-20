@@ -79,7 +79,7 @@ public class Sang implements Piece {
         }
 
         Node destinationNode = sourceNode.moveByPath(destinationPath);
-        if (board.hasTeamPieceByNode(destinationNode, this.team)) {
+        if (board.hasPieceTeamByNode(destinationNode, this.team)) {
             return;
         }
 

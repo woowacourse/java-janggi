@@ -73,7 +73,7 @@ class BoardTest {
             board.putPiece(node, new Byeong(team));
 
             // when
-            final boolean actual = board.hasTeamPieceByNode(node, team);
+            final boolean actual = board.hasPieceTeamByNode(node, team);
 
             // then
             Assertions.assertThat(actual).isTrue();
@@ -90,7 +90,7 @@ class BoardTest {
 
             // when
 
-            final boolean actual = board.hasTeamPieceByNode(node, team);
+            final boolean actual = board.hasPieceTeamByNode(node, team);
 
             // then
             Assertions.assertThat(actual).isFalse();
@@ -108,7 +108,7 @@ class BoardTest {
             board.putPiece(node, new Po(team.inverse()));
 
             // when
-            final boolean actual = board.hasTypeByNode(node, pieceType);
+            final boolean actual = board.hasPieceTypeByNode(node, pieceType);
 
             // then
             Assertions.assertThat(actual).isTrue();
@@ -126,7 +126,7 @@ class BoardTest {
             board.putPiece(node, new Byeong(team.inverse()));
 
             // when
-            final boolean actual = board.hasTypeByNode(node, pieceType);
+            final boolean actual = board.hasPieceTypeByNode(node, pieceType);
 
             // then
             Assertions.assertThat(actual).isFalse();

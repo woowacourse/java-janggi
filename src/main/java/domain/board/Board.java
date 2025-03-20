@@ -24,6 +24,13 @@ public class Board {
         board.put(node, piece);
     }
 
+    public Node findNodeByPoint(Point point) {
+        if (!nodeByPoint.containsKey(point)) {
+            throw new IllegalArgumentException("[ERROR] 해당 위치에 노드가 존재하지 않습니다.");
+        }
+        return nodeByPoint.get(point);
+    }
+
     public Piece findPieceByNode(Node node) {
         if (!board.containsKey(node)) {
             throw new IllegalArgumentException("[ERROR] 해당 노드에 기물이 존재하지 않습니다.");
@@ -51,7 +58,7 @@ public class Board {
         board.remove(node, piece);
     }
 
-    public boolean hasTeamPieceByNode(Node node, Team team) {
+    public boolean hasPieceTeamByNode(Node node, Team team) {
         if (!existsPieceByNode(node)) {
             return false;
         }
@@ -59,18 +66,11 @@ public class Board {
         return piece.hasTeam(team);
     }
 
-    public boolean hasTypeByNode(Node node, PieceType pieceType) {
+    public boolean hasPieceTypeByNode(Node node, PieceType pieceType) {
         if (!existsPieceByNode(node)) {
             return false;
         }
         Piece piece = board.get(node);
         return piece.type() == pieceType;
-    }
-
-    public Node findNodeByPoint(Point point) {
-        if (!nodeByPoint.containsKey(point)) {
-            throw new IllegalArgumentException("[ERROR] 해당 위치에 노드가 존재하지 않습니다.");
-        }
-        return nodeByPoint.get(point);
     }
 }

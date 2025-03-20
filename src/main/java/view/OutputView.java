@@ -28,7 +28,7 @@ public class OutputView {
                 }
 
                 Piece piece = board.findPieceByNode(node);
-                if (board.hasTeamPieceByNode(node, Team.CHO)) {
+                if (board.hasPieceTeamByNode(node, Team.CHO)) {
                     rowString.add(Painter.paintGreen(piece.type().title()));
                     continue;
                 }
