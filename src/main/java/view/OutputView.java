@@ -44,6 +44,10 @@ public class OutputView {
     }
 
     public static void printMatchResult(Team winTeam) {
-        System.out.printf("%s나라의 승리입니다.", winTeam.title());
+        System.out.printf("%s나라의 승리입니다.%n", winTeam.title());
+    }
+
+    public static void printTurn(Team team) {
+        System.out.printf("이번 턴은 %s나라입니다.%n", team.title());
     }
 }

@@ -5,6 +5,7 @@ import domain.board.BoardGenerator;
 import domain.board.Node;
 import domain.board.Point;
 import domain.piece.Piece;
+import domain.piece.Team;
 import view.SangMaOrderCommand;
 
 public class JanggiManager {
@@ -14,6 +15,11 @@ public class JanggiManager {
     public JanggiManager(SangMaOrderCommand hanSangMaOrderCommand, SangMaOrderCommand choSangMaOrderCommand) {
         BoardGenerator boardGenerator = new BoardGenerator();
         this.board = boardGenerator.generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
+    }
+
+    public boolean hasTeamPieceByNode(Point source, Team team) {
+        Node sourceNode = board.findNodeByPoint(source);
+        return board.hasTeamPieceByNode(sourceNode, team);
     }
 
     public boolean isThereWang(Point destination) {
