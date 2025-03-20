@@ -47,7 +47,7 @@ class CannonTest {
         Cannon cannon = PieceFactory.createGreenTeam(Cannon::new, Score.CANNON);
 
         // when
-        List<Point> possiblePoint = cannon.getPossiblePoint(Point.of(1, 2), Point.of(1, 9));
+        List<Point> possiblePoint = cannon.calculatePossiblePoint(Point.of(1, 2), Point.of(1, 9));
 
         // then
         SoftAssertions.assertSoftly(softly -> {

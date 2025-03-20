@@ -17,7 +17,7 @@ class AbstractPieceTest {
         }
 
         @Override
-        public List<Point> getPossiblePoint(final Point prev, final Point newPoint) {
+        public List<Point> calculatePossiblePoint(final Point prev, final Point newPoint) {
             return List.of();
         }
 

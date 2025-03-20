@@ -26,12 +26,12 @@ public class Position {
         return piece.isGreenTeam();
     }
 
-    public boolean isMovable(final Point other) {
+    public boolean isMovableTo(final Point other) {
         return piece.isMovable(point.calculateDistance(other));
     }
 
-    public List<Point> test(final Point toPoint) {
-        return piece.getPossiblePoint(this.point, toPoint);
+    public List<Point> calculatePossiblePoint(final Point toPoint) {
+        return piece.calculatePossiblePoint(this.point, toPoint);
     }
 
     public Position getNextPosition(final Point toPoint) {

@@ -28,7 +28,7 @@ public class Board {
 
     public boolean canMoveOnPath(final Position fromPosition, final Point toPoint) {
 
-        final List<Point> pointOnPath = fromPosition.test(toPoint);
+        final List<Point> pointOnPath = fromPosition.calculatePossiblePoint(toPoint);
 
         final long matchCount = positions.stream()
                 .filter(position -> pointOnPath.stream().anyMatch(position::isSame))

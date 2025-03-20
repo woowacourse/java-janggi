@@ -14,7 +14,7 @@ public class Horse extends AbstractPiece {
     }
 
     @Override
-    public List<Point> getPossiblePoint(final Point prev, final Point newPoint) {
+    public List<Point> calculatePossiblePoint(final Point prev, final Point newPoint) {
         final List<Point> possiblePoint = new ArrayList<>();
 
         final int x = prev.calculateSubtractionX(newPoint);

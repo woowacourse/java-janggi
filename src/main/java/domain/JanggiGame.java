@@ -74,7 +74,7 @@ public class JanggiGame {
     }
 
     private boolean isInvalidEndPoint(final Position prevPosition, final Point nextPoint) {
-        return !prevPosition.isMovable(nextPoint) || !board.canMoveOnPath(prevPosition, nextPoint);
+        return !prevPosition.isMovableTo(nextPoint) || !board.canMoveOnPath(prevPosition, nextPoint);
     }
 
     private boolean isGreenTurn() {

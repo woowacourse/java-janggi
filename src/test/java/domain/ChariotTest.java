@@ -37,7 +37,7 @@ class ChariotTest {
         Chariot chariot = PieceFactory.createGreenTeam(Chariot::new, Score.CHARIOT);
 
         // when
-        List<Point> possiblePoint = chariot.getPossiblePoint(Point.of(0, 0), Point.of(0, 9));
+        List<Point> possiblePoint = chariot.calculatePossiblePoint(Point.of(0, 0), Point.of(0, 9));
 
         // then
         SoftAssertions.assertSoftly(softly -> {
