@@ -54,4 +54,21 @@ class JolTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 졸은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
     }
+
+    @Test
+    void 졸은_한_칸_초과하여_움직일_수_없다() {
+        // Given
+        final int currentY = 3;
+        final int currentX = 3;
+        final int arrivalY = 5;
+        final int arrivalX = 5;
+
+        Position currentPosition = new Position(currentY, currentX);
+        Position arrivalPosition = new Position(arrivalY, arrivalX);
+
+        // When & Then
+        assertThatThrownBy(() -> jol.makePath(currentPosition, arrivalPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR] 졸은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
+    }
 }

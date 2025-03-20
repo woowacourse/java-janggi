@@ -5,11 +5,13 @@ import janggi.position.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ElephantTest {
 
@@ -64,4 +66,20 @@ class ElephantTest {
         );
     }
 
+    @Test
+    void 상은_정해진_방식_이외의_방법으로_움직일_수_없다() {
+        // Given
+        final int currentY = 3;
+        final int currentX = 3;
+        final int arrivalY = 4;
+        final int arrivalX = 5;
+
+        Position currentPosition = new Position(currentY, currentX);
+        Position arrivalPosition = new Position(arrivalY, arrivalX);
+
+        // When & Then
+        assertThatThrownBy(() -> elephant.makePath(currentPosition, arrivalPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR] 상은 직선 1칸 이동 후 대각선 2칸으로만 이동할 수 있습니다.");
+    }
 }

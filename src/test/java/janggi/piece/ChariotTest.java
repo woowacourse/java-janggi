@@ -5,11 +5,13 @@ import janggi.position.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ChariotTest {
 
@@ -53,5 +55,22 @@ class ChariotTest {
 
                 Arguments.of(2, 1, 1, 1, List.of(new Position(1, 1)))
         );
+    }
+
+    @Test
+    void 차는_한_번에_여러_방향으로_움직일_수_없다() {
+        // Given
+        final int currentY = 3;
+        final int currentX = 3;
+        final int arrivalY = 5;
+        final int arrivalX = 4;
+
+        Position currentPosition = new Position(currentY, currentX);
+        Position arrivalPosition = new Position(arrivalY, arrivalX);
+
+        // When & Then
+        assertThatThrownBy(() -> chariot.makePath(currentPosition, arrivalPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR] 차는 한 방향으로만 이동할 수 있습니다.");
     }
 }
