@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.PiecePath;
+import domain.Directions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,9 +32,9 @@ public class Node {
         return edge.nextNode();
     }
 
-    public boolean canMoveByPath(PiecePath piecePath) {
+    public boolean canMoveByPath(Directions directions) {
         Node currentNode = this;
-        for (Direction direction : piecePath.directions()) {
+        for (Direction direction : directions.directions()) {
             if (!currentNode.hasEdgeByDirection(direction)) {
                 return false;
             }
@@ -43,9 +43,9 @@ public class Node {
         return true;
     }
 
-    public Node moveByPath(PiecePath piecePath) {
+    public Node moveByPath(Directions directions) {
         Node currentNode = this;
-        for (Direction direction : piecePath.directions()) {
+        for (Direction direction : directions.directions()) {
             currentNode = currentNode.findNextNodeByDirection(direction);
         }
         return currentNode;

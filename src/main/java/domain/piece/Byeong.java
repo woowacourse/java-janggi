@@ -9,13 +9,14 @@ import java.util.Map;
 
 public class Byeong implements Piece {
 
-    private static final List<Direction> choByeongDirections = List.of(Direction.LEFT, Direction.UP_LEFT, Direction.UP,
+    private static final List<Direction> CHO_BYEONG_DIRECTIONS = List.of(Direction.LEFT, Direction.UP_LEFT,
+            Direction.UP,
             Direction.UP_RIGHT, Direction.RIGHT);
-    private static final List<Direction> hanByeongDirections = List.of(Direction.LEFT, Direction.DOWN_LEFT,
+    private static final List<Direction> HAN_BYEONG_DIRECTIONS = List.of(Direction.LEFT, Direction.DOWN_LEFT,
             Direction.DOWN, Direction.DOWN_RIGHT, Direction.RIGHT);
-    private static final Map<Team, List<Direction>> directionsByTeam = Map.ofEntries(
-            Map.entry(Team.CHO, choByeongDirections),
-            Map.entry(Team.HAN, hanByeongDirections)
+    private static final Map<Team, List<Direction>> DIRECTIONS_BY_TEAM = Map.ofEntries(
+            Map.entry(Team.CHO, CHO_BYEONG_DIRECTIONS),
+            Map.entry(Team.HAN, HAN_BYEONG_DIRECTIONS)
     );
 
     private final Team team;
@@ -31,7 +32,7 @@ public class Byeong implements Piece {
 
     private List<Node> findMovableNodes(Node currentNode, Board board) {
         return currentNode.edges().stream()
-                .filter(edge -> directionsByTeam.get(this.team).contains(edge.direction()))
+                .filter(edge -> DIRECTIONS_BY_TEAM.get(this.team).contains(edge.direction()))
                 .filter(edge -> !board.hasPieceTeamByNode(edge.nextNode(), this.team)
                         || !board.existsPieceByNode(edge.nextNode()))
                 .map(Edge::nextNode)

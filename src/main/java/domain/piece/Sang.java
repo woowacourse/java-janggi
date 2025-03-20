@@ -5,7 +5,7 @@ import static domain.board.Direction.LEFT;
 import static domain.board.Direction.RIGHT;
 import static domain.board.Direction.UP;
 
-import domain.PieceMovement;
+import domain.Directions;
 import domain.PiecePath;
 import domain.board.Board;
 import domain.board.Node;
@@ -14,38 +14,38 @@ import java.util.List;
 
 public class Sang implements Piece {
 
-    private static final List<PieceMovement> PIECE_MOVEMENTS = List.of(
-            new PieceMovement(
-                    List.of(new PiecePath(List.of(UP)), new PiecePath(List.of(UP, UP, LEFT))),
-                    new PiecePath(List.of(UP, UP, UP, LEFT, LEFT))
+    private static final List<PiecePath> PIECE_PATHS = List.of(
+            new PiecePath(
+                    List.of(new Directions(List.of(UP)), new Directions(List.of(UP, UP, LEFT))),
+                    new Directions(List.of(UP, UP, UP, LEFT, LEFT))
             ),
-            new PieceMovement(
-                    List.of(new PiecePath(List.of(UP)), new PiecePath(List.of(UP, UP, RIGHT))),
-                    new PiecePath(List.of(UP, UP, UP, RIGHT, RIGHT))
+            new PiecePath(
+                    List.of(new Directions(List.of(UP)), new Directions(List.of(UP, UP, RIGHT))),
+                    new Directions(List.of(UP, UP, UP, RIGHT, RIGHT))
             ),
-            new PieceMovement(
-                    List.of(new PiecePath(List.of(RIGHT)), new PiecePath(List.of(RIGHT, RIGHT, UP))),
-                    new PiecePath(List.of(RIGHT, RIGHT, RIGHT, UP, UP))
+            new PiecePath(
+                    List.of(new Directions(List.of(RIGHT)), new Directions(List.of(RIGHT, RIGHT, UP))),
+                    new Directions(List.of(RIGHT, RIGHT, RIGHT, UP, UP))
             ),
-            new PieceMovement(
-                    List.of(new PiecePath(List.of(RIGHT)), new PiecePath(List.of(RIGHT, RIGHT, DOWN))),
-                    new PiecePath(List.of(RIGHT, RIGHT, RIGHT, DOWN, DOWN))
+            new PiecePath(
+                    List.of(new Directions(List.of(RIGHT)), new Directions(List.of(RIGHT, RIGHT, DOWN))),
+                    new Directions(List.of(RIGHT, RIGHT, RIGHT, DOWN, DOWN))
             ),
-            new PieceMovement(
-                    List.of(new PiecePath(List.of(DOWN)), new PiecePath(List.of(DOWN, DOWN, RIGHT))),
-                    new PiecePath(List.of(DOWN, DOWN, DOWN, RIGHT, RIGHT))
+            new PiecePath(
+                    List.of(new Directions(List.of(DOWN)), new Directions(List.of(DOWN, DOWN, RIGHT))),
+                    new Directions(List.of(DOWN, DOWN, DOWN, RIGHT, RIGHT))
             ),
-            new PieceMovement(
-                    List.of(new PiecePath(List.of(DOWN)), new PiecePath(List.of(DOWN, DOWN, LEFT))),
-                    new PiecePath(List.of(DOWN, DOWN, DOWN, LEFT, LEFT))
+            new PiecePath(
+                    List.of(new Directions(List.of(DOWN)), new Directions(List.of(DOWN, DOWN, LEFT))),
+                    new Directions(List.of(DOWN, DOWN, DOWN, LEFT, LEFT))
             ),
-            new PieceMovement(
-                    List.of(new PiecePath(List.of(LEFT)), new PiecePath(List.of(LEFT, LEFT, DOWN))),
-                    new PiecePath(List.of(LEFT, LEFT, LEFT, DOWN, DOWN))
+            new PiecePath(
+                    List.of(new Directions(List.of(LEFT)), new Directions(List.of(LEFT, LEFT, DOWN))),
+                    new Directions(List.of(LEFT, LEFT, LEFT, DOWN, DOWN))
             ),
-            new PieceMovement(
-                    List.of(new PiecePath(List.of(LEFT)), new PiecePath(List.of(LEFT, LEFT, UP))),
-                    new PiecePath(List.of(LEFT, LEFT, LEFT, UP, UP))
+            new PiecePath(
+                    List.of(new Directions(List.of(LEFT)), new Directions(List.of(LEFT, LEFT, UP))),
+                    new Directions(List.of(LEFT, LEFT, LEFT, UP, UP))
             )
     );
 
@@ -62,16 +62,16 @@ public class Sang implements Piece {
 
     private List<Node> findMovableNodes(Node sourceNode, Board board) {
         List<Node> candidates = new ArrayList<>();
-        for (PieceMovement pieceMovement : PIECE_MOVEMENTS) {
+        for (PiecePath piecePath : PIECE_PATHS) {
             checkObstaclesAndAddCandidate(sourceNode,
-                    pieceMovement.obstaclePaths(), pieceMovement.destinationPath(),
+                    piecePath.obstaclePaths(), piecePath.destinationPath(),
                     candidates, board);
         }
         return candidates;
     }
 
     private void checkObstaclesAndAddCandidate(Node sourceNode,
-                                               List<PiecePath> obstaclePaths, PiecePath destinationPath,
+                                               List<Directions> obstaclePaths, Directions destinationPath,
                                                List<Node> candidates, final Board board) {
         if (!sourceNode.canMoveByPath(destinationPath)) {
             return;

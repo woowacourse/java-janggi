@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.PiecePath;
+import domain.Directions;
 import fixture.BoardFixture;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -48,10 +48,10 @@ class NodeTest {
             Board board = BoardFixture.createEmptyBoard();
             Point point = Point.of(4, 5);
             Node node = board.findNodeByPoint(point);
-            PiecePath piecePath = new PiecePath(List.of(Direction.DOWN, Direction.DOWN));
+            Directions directions = new Directions(List.of(Direction.DOWN, Direction.DOWN));
 
             // when
-            final boolean actual = node.canMoveByPath(piecePath);
+            final boolean actual = node.canMoveByPath(directions);
 
             // then
             Assertions.assertThat(actual).isTrue();
@@ -63,10 +63,10 @@ class NodeTest {
             Board board = BoardFixture.createEmptyBoard();
             Point point = Point.of(1, 5);
             Node node = board.findNodeByPoint(point);
-            PiecePath piecePath = new PiecePath(List.of(Direction.LEFT, Direction.UP));
+            Directions directions = new Directions(List.of(Direction.LEFT, Direction.UP));
 
             // when
-            final boolean actual = node.canMoveByPath(piecePath);
+            final boolean actual = node.canMoveByPath(directions);
 
             // then
             Assertions.assertThat(actual).isFalse();
