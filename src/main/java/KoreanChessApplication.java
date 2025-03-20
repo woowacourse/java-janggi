@@ -6,6 +6,7 @@ import piece.Team;
 public class KoreanChessApplication {
 
     private static final Map<Integer, Team> turnTable;
+    private static final String INITIATE_JANGGI_FILE = "/initialPieces.txt";
     private static final int PLAYER_SIZE = 2;
 
     static {
@@ -14,7 +15,7 @@ public class KoreanChessApplication {
 
     public static void main(String[] args) {
         GameView gameView = new GameView();
-        Board board = new Board("/initialPieces.txt");
+        Board board = new Board(INITIATE_JANGGI_FILE);
         gameView.printChangePieceNotImplement();
 
         playKoreanChess(board, gameView);
@@ -25,7 +26,7 @@ public class KoreanChessApplication {
         while (!board.isKingDead()) {
             try {
                 playTurn(board, gameView, turn);
-//                turn = (turn + 1) % PLAYER_SIZE;
+                turn = (turn + 1) % PLAYER_SIZE;
             } catch (IllegalArgumentException e) {
                 gameView.printError(e.getMessage());
             }
