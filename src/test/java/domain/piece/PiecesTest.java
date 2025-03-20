@@ -1,11 +1,12 @@
 package domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.direction.Directions;
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class PiecesTest {
 
@@ -105,5 +106,17 @@ class PiecesTest {
 
         // then
         assertThat(pieceElements).doesNotContain(piece);
+    }
+
+    @Test
+    void 왕이_존재하는지_판단하다() {
+        // given
+        Pieces pieces = new Pieces(new ArrayList<>());
+
+        // when
+        boolean result = pieces.existKing();
+
+        // then
+        assertThat(result).isTrue();
     }
 }
