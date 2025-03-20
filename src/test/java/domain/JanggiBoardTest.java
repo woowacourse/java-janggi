@@ -2,7 +2,10 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import domain.JanggiBoard.JanggiBoard;
+import domain.JanggiBoard.JanggiBoardBasicInitializer;
 import domain.piece.JanggiPiece;
 import domain.piece.JanggiPieceStatus;
 import domain.piece.JanggiSide;
@@ -13,112 +16,96 @@ import domain.piece.상;
 import domain.piece.졸병;
 import domain.piece.차;
 import domain.piece.포;
-import java.util.stream.Stream;
+import java.util.Map;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.CsvSource;
+import util.JanggiBoardInitializerStub;
 
 public class JanggiBoardTest {
 
     @Test
-    void _9_10_보드판을_생성할_수_있다() {
-        // given
-        JanggiBoard janggiBoard = new JanggiBoard();
-
-        // then
-        assertThat(janggiBoard.getJanggiBoard().size())
-                .isEqualTo(90);
+    void 마상상마_장기판을_생성할_수_있다() {
+        // when & then
+        assertDoesNotThrow(() -> new JanggiBoard(new JanggiBoardBasicInitializer()));
     }
 
-    @ParameterizedTest
-    @MethodSource("providePlaceAndPiece")
-    void 장기_기물의_초기_위치를_저장한다(JanggiPosition position, JanggiPiece piece) {
+    @Test
+    void 장기_기물의_초기_위치를_저장한다() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard();
+        JanggiPosition position = new JanggiPosition(9, 5);
+        JanggiPiece piece = new 궁(JanggiSide.CHO);
+
+        JanggiBoardInitializerStub initializer = new JanggiBoardInitializerStub(Map.of(position, piece));
+        JanggiBoard janggiBoard = new JanggiBoard(initializer);
 
         // when & then
         assertThat(janggiBoard.getPieceFrom(position)).isInstanceOf(piece.getClass());
     }
 
-    private static Stream<Arguments> providePlaceAndPiece() {
-        return Stream.of(
-                Arguments.of(new JanggiPosition(9, 5), new 궁(JanggiSide.CHO)),
-                Arguments.of(new JanggiPosition(0, 1), new 차(JanggiSide.CHO)),
-                Arguments.of(new JanggiPosition(0, 9), new 차(JanggiSide.CHO)),
-                Arguments.of(new JanggiPosition(8, 2), new 포(JanggiSide.CHO)),
-                Arguments.of(new JanggiPosition(8, 8), new 포(JanggiSide.CHO)),
-                Arguments.of(new JanggiPosition(7, 1), new 졸병(JanggiSide.CHO)),
-                Arguments.of(new JanggiPosition(7, 3), new 졸병(JanggiSide.CHO)),
-                Arguments.of(new JanggiPosition(7, 5), new 졸병(JanggiSide.CHO)),
-                Arguments.of(new JanggiPosition(7, 7), new 졸병(JanggiSide.CHO)),
-                Arguments.of(new JanggiPosition(7, 9), new 졸병(JanggiSide.CHO)),
-                Arguments.of(new JanggiPosition(0, 4), new 사(JanggiSide.CHO)),
-                Arguments.of(new JanggiPosition(0, 6), new 사(JanggiSide.CHO)),
-                Arguments.of(new JanggiPosition(0, 2), new 마(JanggiSide.CHO)),
-                Arguments.of(new JanggiPosition(0, 8), new 마(JanggiSide.CHO)),
-                Arguments.of(new JanggiPosition(0, 3), new 상(JanggiSide.CHO)),
-                Arguments.of(new JanggiPosition(0, 7), new 상(JanggiSide.CHO)),
-                Arguments.of(new JanggiPosition(2, 5), new 궁(JanggiSide.HAN)),
-                Arguments.of(new JanggiPosition(1, 1), new 차(JanggiSide.HAN)),
-                Arguments.of(new JanggiPosition(1, 9), new 차(JanggiSide.HAN)),
-                Arguments.of(new JanggiPosition(3, 2), new 포(JanggiSide.HAN)),
-                Arguments.of(new JanggiPosition(3, 8), new 포(JanggiSide.HAN)),
-                Arguments.of(new JanggiPosition(4, 1), new 졸병(JanggiSide.HAN)),
-                Arguments.of(new JanggiPosition(4, 3), new 졸병(JanggiSide.HAN)),
-                Arguments.of(new JanggiPosition(4, 5), new 졸병(JanggiSide.HAN)),
-                Arguments.of(new JanggiPosition(4, 7), new 졸병(JanggiSide.HAN)),
-                Arguments.of(new JanggiPosition(4, 9), new 졸병(JanggiSide.HAN)),
-                Arguments.of(new JanggiPosition(1, 4), new 사(JanggiSide.HAN)),
-                Arguments.of(new JanggiPosition(1, 6), new 사(JanggiSide.HAN)),
-                Arguments.of(new JanggiPosition(1, 2), new 마(JanggiSide.HAN)),
-                Arguments.of(new JanggiPosition(1, 8), new 마(JanggiSide.HAN)),
-                Arguments.of(new JanggiPosition(1, 3), new 상(JanggiSide.HAN)),
-                Arguments.of(new JanggiPosition(1, 7), new 상(JanggiSide.HAN))
-        );
-    }
-
     @Test
     void 기물을_이동하며_마주치는_장애물을_확인할_수_있다() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard();
+        JanggiPosition 졸병Position = new JanggiPosition(5, 1);
+        JanggiPosition 차Position = new JanggiPosition(6, 1);
+
+        JanggiBoardInitializerStub initializer = new JanggiBoardInitializerStub(Map.of(
+                졸병Position, new 졸병(JanggiSide.CHO),
+                차Position, new 차(JanggiSide.CHO)
+        ));
+        JanggiBoard janggiBoard = new JanggiBoard(initializer);
 
         // when & then
-        assertThatThrownBy(() -> janggiBoard.move(new JanggiPosition(0, 1), new JanggiPosition(6, 1)))
+        assertThatThrownBy(() -> janggiBoard.move(차Position, new JanggiPosition(4, 1)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Nested
     class 기물을_이동시킬_수_있다 {
-        @Test
-        void 궁을_이동시킬_수_있다() {
+
+        @ParameterizedTest
+        @CsvSource({"8, 5", "9, 4", "0, 5", "9, 6"})
+        void 궁을_이동시킬_수_있다(int afterRow, int afterColumn) {
             // given
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiPosition beforePosition = new JanggiPosition(9, 5);
+            JanggiPiece piece = new 궁(JanggiSide.CHO);
+            JanggiBoardInitializerStub initializer = new JanggiBoardInitializerStub(Map.of(
+                    beforePosition, piece
+            ));
+            JanggiBoard janggiBoard = new JanggiBoard(initializer);
+            JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
 
             // when
-            janggiBoard.move(new JanggiPosition(9, 5), new JanggiPosition(8, 5));
+            janggiBoard.move(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(new JanggiPosition(8, 5))).isInstanceOf(궁.class);
+            assertThat(janggiBoard.getPieceFrom(afterPosition)).isInstanceOf(궁.class);
         }
 
-        @Test
-        void 마를_이동시킬_수_있다() {
+        @ParameterizedTest
+        @CsvSource({"4, 5", "5, 6", "7, 6", "8, 5", "8, 3", "7, 2", "5, 2", "4, 3"})
+        void 마를_이동시킬_수_있다(int afterRow, int afterColumn) {
             // given
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiPosition beforePosition = new JanggiPosition(6, 4);
+            JanggiPiece piece = new 마(JanggiSide.CHO);
+            JanggiBoardInitializerStub initializer = new JanggiBoardInitializerStub(Map.of(
+                    beforePosition, piece
+            ));
+            JanggiBoard janggiBoard = new JanggiBoard(initializer);
+            JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
 
             // when
-            janggiBoard.move(new JanggiPosition(0, 2), new JanggiPosition(8, 3));
+            janggiBoard.move(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(new JanggiPosition(8, 3))).isInstanceOf(마.class);
+            assertThat(janggiBoard.getPieceFrom(afterPosition)).isInstanceOf(마.class);
         }
 
         @Test
         void 사를_이동시킬_수_있다() {
             // given
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiBoard janggiBoard = new JanggiBoard(new JanggiBoardBasicInitializer());
 
             // when
             janggiBoard.move(new JanggiPosition(0, 4), new JanggiPosition(9, 4));
@@ -130,7 +117,7 @@ public class JanggiBoardTest {
         @Test
         void 상을_이동시킬_수_있다() {
             // given
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiBoard janggiBoard = new JanggiBoard(new JanggiBoardBasicInitializer());
 
             // when
             janggiBoard.move(new JanggiPosition(7, 5), new JanggiPosition(6, 5));
@@ -143,7 +130,7 @@ public class JanggiBoardTest {
         @Test
         void 졸을_이동시킬_수_있다() {
             // given
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiBoard janggiBoard = new JanggiBoard(new JanggiBoardBasicInitializer());
 
             // when
             janggiBoard.move(new JanggiPosition(7, 1), new JanggiPosition(6, 1));
@@ -155,7 +142,7 @@ public class JanggiBoardTest {
         @Test
         void 병을_이동시킬_수_있다() {
             // given
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiBoard janggiBoard = new JanggiBoard(new JanggiBoardBasicInitializer());
 
             // when
             janggiBoard.move(new JanggiPosition(4, 1), new JanggiPosition(5, 1));
@@ -167,7 +154,7 @@ public class JanggiBoardTest {
         @Test
         void 차를_이동시킬_수_있다() {
             // given
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiBoard janggiBoard = new JanggiBoard(new JanggiBoardBasicInitializer());
 
             // when
             janggiBoard.move(new JanggiPosition(7, 9), new JanggiPosition(7, 8));
@@ -181,7 +168,7 @@ public class JanggiBoardTest {
         void 차를_오른쪽으로_이동시킬_수_있다() {
             // given
 
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiBoard janggiBoard = new JanggiBoard(new JanggiBoardBasicInitializer());
             janggiBoard.move(new JanggiPosition(0, 2), new JanggiPosition(8, 3));
 
             // when
@@ -194,7 +181,7 @@ public class JanggiBoardTest {
         @Test
         void 포는_기물을_하나_뛰어넘어서_이동할_수_있다() {
             // given
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiBoard janggiBoard = new JanggiBoard(new JanggiBoardBasicInitializer());
 
             // when
             janggiBoard.move(new JanggiPosition(4, 3), new JanggiPosition(4, 4));
@@ -211,7 +198,7 @@ public class JanggiBoardTest {
     @Test
     void 목적지에_같은_팀의_기물이_있는_경우_이동할_수_없다() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard();
+        JanggiBoard janggiBoard = new JanggiBoard(new JanggiBoardBasicInitializer());
 
         // when
         JanggiPosition beforePosition = new JanggiPosition(0, 9);
@@ -225,7 +212,7 @@ public class JanggiBoardTest {
     @Test
     void 포는_포를_뛰어넘을_수_없다() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard();
+        JanggiBoard janggiBoard = new JanggiBoard(new JanggiBoardBasicInitializer());
 
         // when & then
         assertThatThrownBy(() -> janggiBoard.move(new JanggiPosition(8, 8), new JanggiPosition(2, 8)))
@@ -235,7 +222,7 @@ public class JanggiBoardTest {
     @Test
     void 포는_기물을_두_개_이상_뛰어넘을_수_없다() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard();
+        JanggiBoard janggiBoard = new JanggiBoard(new JanggiBoardBasicInitializer());
 
         // when
         janggiBoard.move(new JanggiPosition(9, 5), new JanggiPosition(8, 5));
@@ -249,7 +236,7 @@ public class JanggiBoardTest {
     @Test
     void 기물은_다른_기물을_잡아서_잡힌_기물의_상태를_바꿀_수_있다() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard();
+        JanggiBoard janggiBoard = new JanggiBoard(new JanggiBoardBasicInitializer());
 
         // when
         janggiBoard.move(new JanggiPosition(7, 7), new JanggiPosition(6, 7));
@@ -265,7 +252,7 @@ public class JanggiBoardTest {
     @Test
     void 포는_포를_잡을_수_없다() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard();
+        JanggiBoard janggiBoard = new JanggiBoard(new JanggiBoardBasicInitializer());
 
         // when
         janggiBoard.move(new JanggiPosition(7, 3), new JanggiPosition(7, 2));
