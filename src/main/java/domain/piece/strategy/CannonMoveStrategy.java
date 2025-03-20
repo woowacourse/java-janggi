@@ -1,7 +1,9 @@
 package domain.piece.strategy;
 
 import domain.BoardLocation;
+import domain.BoardVector;
 import domain.piece.MoveStrategy;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CannonMoveStrategy implements MoveStrategy {
@@ -15,6 +17,22 @@ public class CannonMoveStrategy implements MoveStrategy {
 
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
-        return List.of();
+        List<BoardLocation> path = new ArrayList<>();
+        path.add(destination);
+        BoardVector boardVector = destination.minus(current);
+
+        if (boardVector.isDxZero()) {
+            int dy = boardVector.dy();
+            for (int i = 1; i < dy; i++) {
+                path.add(current.moveY(i));
+            }
+            return path;
+        }
+
+        int dx = boardVector.dx();
+        for (int i = 1; i < dx; i++) {
+            path.add(current.moveX(i));
+        }
+        return path;
     }
 }
