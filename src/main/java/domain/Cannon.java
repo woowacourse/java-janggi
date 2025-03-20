@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static domain.Direction.*;
@@ -24,8 +25,34 @@ public class Cannon extends UnlimitedMoveChessPiece {
     @Override
     protected List<ChessPosition> getCoordinateDestinations(final List<Path> coordinates,
                                                             final ChessPiecePositions positions) {
-        return  List.of(new ChessPosition(3, 4), new ChessPosition(4, 4),
-                new ChessPosition(5, 4), new ChessPosition(6, 4));
+        final List<ChessPosition> chessPositions = new ArrayList<>();
+        for (Path path : coordinates) {
+            chessPositions.addAll(getAvailablePositions(positions, path));
+        }
+        return  chessPositions;
+    }
+
+    private List<ChessPosition> getAvailablePositions(final ChessPiecePositions positions, final Path path) {
+        boolean isOverHurdles = false;
+        final List<ChessPosition> availablePositions = new ArrayList<>();
+        for (ChessPosition chessPosition : path.getPath()) {
+            if (isOverHurdles) {
+                if (!positions.existChessPieceByPosition(chessPosition)){
+                    availablePositions.add(chessPosition);
+                }
+                if (positions.existChessPieceByPosition(chessPosition)){
+                    availablePositions.add(chessPosition);
+                    break;
+                }
+            }
+            if (positions.existChessPieceByPosition(chessPosition)) {
+                if (positions.getChessPieceTypeByPosition(chessPosition) == ChessPieceType.CANNON) {
+                    break;
+                }
+                isOverHurdles = true;
+            }
+        }
+        return availablePositions;
     }
 
 

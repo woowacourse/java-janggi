@@ -47,6 +47,10 @@ public class ChessPiecePositions {
         return chessPieces.get(position);
     }
 
+    public ChessPieceType getChessPieceTypeByPosition(final ChessPosition position) {
+        return getChessPieceByPosition(position).getChessPieceType();
+    }
+
     public void moveChessPiece(final ChessPosition position, final ChessPiece piece) {
         chessPieces.put(position, piece);
     }
