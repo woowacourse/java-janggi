@@ -126,4 +126,8 @@ public class Board {
                 .forEach(position -> pieces.put(position,
                     new Piece(PieceType.쭈, team))));
     }
+
+    public Map<BoardPosition, Piece> getPieces() {
+        return Map.copyOf(pieces);
+    }
 }

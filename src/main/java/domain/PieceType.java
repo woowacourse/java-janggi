@@ -290,10 +290,6 @@ public enum PieceType {
         this.allowObstacleCount = allowObstacleCount;
     }
 
-    public Map<Team, List<BoardPosition>> getInitialPosition() {
-        return initialPosition;
-    }
-
     public Optional<List<Offset>> findMovementRule(
         final Offset offset,
         final Team team
@@ -324,6 +320,14 @@ public enum PieceType {
         }
 
         return Optional.of(movementRule);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Map<Team, List<BoardPosition>> getInitialPosition() {
+        return initialPosition;
     }
 
     public int getAllowObstacleCount() {
