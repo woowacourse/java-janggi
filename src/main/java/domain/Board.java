@@ -3,6 +3,7 @@ package domain;
 import domain.piece.Piece;
 import domain.piece.Pieces;
 import domain.piece.Position;
+
 import java.util.List;
 import java.util.Map;
 
@@ -31,9 +32,9 @@ public class Board {
         }
 
         // 우리팀 도착지 검증
-//        if (board.get(player).findByPosition(targetPosition) != null) {
-//
-//        }
+        if (board.get(player).existByPosition(targetPosition)) {
+            throw new IllegalArgumentException("[ERROR] 도착 위치에 아군의 기물이 존재해 이동할 수 없습니다.");
+        }
 //
         //타겟 위치로 기물 이동시키기
         board.get(player).updatePosition(piece, targetPosition);
