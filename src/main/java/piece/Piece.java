@@ -19,10 +19,9 @@ public class Piece {
         return team;
     }
 
-    public void move(Pieces onRoutePieces) {
-        this.position = moveRule.move(position, moveRule, team);
+    public void move(Pieces onRoutePieces, Position movePosition) {
+        this.position = moveRule.move(movePosition, onRoutePieces, team);
     }
-
 
     public boolean isSamePosition(Position destination) {
         return position.equals(destination);
@@ -34,6 +33,26 @@ public class Piece {
 
     public boolean isSameType(PieceType pieceType) {
         return moveRule.isSameType(pieceType);
+    }
+
+    public boolean isSameTeam(Team moveTeam) {
+        return team.equals(moveTeam);
+    }
+
+    public boolean isSameTeam(Piece comparePiece) {
+        return isSameTeam(comparePiece.team);
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public String getType() {
+        return moveRule.getType();
+    }
+
+    public Route getRoute(Position selectPiecePosition, Position movePosition) {
+        return moveRule.getRoute(selectPiecePosition, movePosition);
     }
 
     @Override
@@ -51,13 +70,5 @@ public class Piece {
     @Override
     public int hashCode() {
         return Objects.hash(position, moveRule);
-    }
-
-    public boolean isSameTeam(Team moveTeam) {
-        return team.equals(moveTeam);
-    }
-
-    public boolean isSameTeam(Piece comparePiece) {
-        return isSameTeam(comparePiece.team);
     }
 }

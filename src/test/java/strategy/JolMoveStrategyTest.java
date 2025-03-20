@@ -20,13 +20,30 @@ class JolMoveStrategyTest {
         MoveStrategy moveStrategy = new JolMoveStrategy();
 
         // when
-        Route route = moveStrategy.getLegalRoute(startPosition, endPosition);
+        Route route = moveStrategy.getLegalRoute(startPosition, endPosition, Team.BLUE);
 
         // then
-        List<Position> positions = route.getPositions();
+        List<Position> positions = route.positions();
         Assertions.assertThat(positions.size()).isEqualTo(1);
         Assertions.assertThat(positions.getFirst()).isEqualTo(endPosition);
     }
+
+    @Test
+    void 홍팀_졸은_장기판기준_아래이동_경로를_반환한다() {
+        // given
+        Position startPosition = new Position(8, 0);
+        Position endPosition = new Position(7, 0);
+        MoveStrategy moveStrategy = new JolMoveStrategy();
+
+        // when
+        Route route = moveStrategy.getLegalRoute(startPosition, endPosition, Team.RED);
+
+        // then
+        List<Position> positions = route.positions();
+        Assertions.assertThat(positions.size()).isEqualTo(1);
+        Assertions.assertThat(positions.getFirst()).isEqualTo(endPosition);
+    }
+
 
     @Test
     void 졸은_가는길에_기물이_없어야_이동할_수_있다() {
@@ -45,10 +62,10 @@ class JolMoveStrategyTest {
         MoveStrategy moveStrategy = new JolMoveStrategy();
         Pieces onRoutePieces = new Pieces(List.of(
                 new Piece(
-                    new Position(0, 1),
-                    new JolMoveStrategy(),
-                    PieceType.JOL,
-                    Team.BLUE
+                        new Position(0, 1),
+                        new JolMoveStrategy(),
+                        PieceType.JOL,
+                        Team.BLUE
                 )
         ));
 

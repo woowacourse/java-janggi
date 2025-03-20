@@ -13,13 +13,20 @@ public class MoveRule {
         this.pieceType = pieceType;
     }
 
-    public Position move(Position position, MoveRule moveRule, Team team) {
-//        return moveStrategy.move();
-        return null;
+    public Position move(Position destination, Pieces pieces, Team team) {
+        return moveStrategy.move(destination, pieces, team);
     }
 
     public boolean isSameType(PieceType comparePieceType) {
         return pieceType.equals(comparePieceType);
+    }
+
+    public Route getRoute(Position selectPiecePosition, Position movePosition) {
+        return moveStrategy.getLegalRoute(selectPiecePosition, movePosition, Team.BLUE);
+    }
+
+    public String getType() {
+        return pieceType.getType();
     }
 
     @Override

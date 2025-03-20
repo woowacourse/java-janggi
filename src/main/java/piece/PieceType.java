@@ -25,4 +25,8 @@ public enum PieceType {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_TYPE));
     }
+
+    public String getType() {
+        return type;
+    }
 }

@@ -14,7 +14,7 @@ public class GungMoveStrategyTest {
         Position startPosition = new Position(0, 0);
         Position endPosition = new Position(1, 0);
         MoveStrategy moveStrategy = new GungMoveStrategy();
-        Assertions.assertThatThrownBy(() -> moveStrategy.getLegalRoute(startPosition, endPosition))
+        Assertions.assertThatThrownBy(() -> moveStrategy.getLegalRoute(startPosition, endPosition, Team.BLUE))
                 .isInstanceOf(IllegalStateException.class);
         Assertions.assertThatThrownBy(
                         () -> moveStrategy.move(new Position(0, 5), new Pieces(new ArrayList<>()), Team.BLUE))

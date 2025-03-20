@@ -14,7 +14,7 @@ public class FoMoveStrategy implements MoveStrategy {
     private static final String INVALID_MOVE_LOCATION = "이동불가능한 위치입니다.";
 
     @Override
-    public Route getLegalRoute(Position startPosition, Position endPosition) {
+    public Route getLegalRoute(Position startPosition, Position endPosition, Team team) {
         Position minPosition = Position.getMinPosition(startPosition, endPosition);
         Position maxPosition = Position.getMaxPosition(startPosition, endPosition);
 

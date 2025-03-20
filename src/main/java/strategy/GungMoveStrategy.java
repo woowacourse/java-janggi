@@ -10,7 +10,7 @@ public class GungMoveStrategy implements MoveStrategy {
     private static final String NOT_IMPLEMENTED_FEATURE = "아직 구현되지 않은 기능입니다.";
 
     @Override
-    public Route getLegalRoute(Position startPosition, Position endPosition) {
+    public Route getLegalRoute(Position startPosition, Position endPosition, Team team) {
         throw new IllegalStateException(NOT_IMPLEMENTED_FEATURE);
     }
 

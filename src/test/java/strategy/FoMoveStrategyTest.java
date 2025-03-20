@@ -20,10 +20,10 @@ public class FoMoveStrategyTest {
         MoveStrategy moveStrategy = new FoMoveStrategy();
 
         // when
-        Route route = moveStrategy.getLegalRoute(startPosition, endPosition);
+        Route route = moveStrategy.getLegalRoute(startPosition, endPosition, Team.BLUE);
 
         // then
-        List<Position> positions = route.getPositions();
+        List<Position> positions = route.positions();
         Assertions.assertThat(positions.size()).isEqualTo(5);
         Assertions.assertThat(positions.getLast()).isEqualTo(endPosition);
     }

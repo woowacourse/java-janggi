@@ -12,7 +12,7 @@ public interface MoveStrategy {
 
     String INVALID_POSITION = "도달할 수 없는 위치입니다.";
 
-    Route getLegalRoute(Position startPosition, Position endPosition);
+    Route getLegalRoute(Position startPosition, Position endPosition, Team team);
 
     default Route getLegalRoute(Position startPosition, Position endPosition, List<Route> canMoveDirections) {
         for (Route canMoveDirection : canMoveDirections) {
@@ -40,7 +40,7 @@ public interface MoveStrategy {
     }
 
     private Position movePosition(Route canMoveDirection, Position currentPosition, List<Position> moveRoute) {
-        for (Position position : canMoveDirection.getPositions()) {
+        for (Position position : canMoveDirection.positions()) {
             currentPosition = currentPosition.add(position);
             moveRoute.add(currentPosition);
         }

@@ -20,12 +20,12 @@ public class SangMoveStrategyTest {
         MoveStrategy moveStrategy = new SangMoveStrategy();
 
         // when
-        Route route = moveStrategy.getLegalRoute(startPosition, endPosition);
+        Route route = moveStrategy.getLegalRoute(startPosition, endPosition, Team.BLUE);
 
         // then
         List<Position> expectPositions = List.of(new Position(0, 1), new Position(1, 2), new Position(2, 3));
-        Assertions.assertThat(route.getPositions().size()).isEqualTo(3);
-        Assertions.assertThatIterable(route.getPositions()).containsExactlyElementsOf(expectPositions);
+        Assertions.assertThat(route.positions().size()).isEqualTo(3);
+        Assertions.assertThatIterable(route.positions()).containsExactlyElementsOf(expectPositions);
     }
 
     @Test

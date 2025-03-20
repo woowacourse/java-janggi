@@ -17,6 +17,6 @@ class RouteTest {
         Route route = new Route(positions);
 
         // then
-        Assertions.assertThatIterable(route.getPositions()).containsExactlyElementsOf(positions);
+        Assertions.assertThatIterable(route.positions()).containsExactlyElementsOf(positions);
     }
 }

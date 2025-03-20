@@ -3,6 +3,7 @@ package strategy;
 import java.util.List;
 import piece.Position;
 import piece.Route;
+import piece.Team;
 
 public class MaMoveStrategy implements MoveStrategy {
 
@@ -18,7 +19,7 @@ public class MaMoveStrategy implements MoveStrategy {
     );
 
     @Override
-    public Route getLegalRoute(Position startPosition, Position endPosition) {
+    public Route getLegalRoute(Position startPosition, Position endPosition, Team team) {
         return getLegalRoute(startPosition, endPosition, canMoveDirections);
     }
 }

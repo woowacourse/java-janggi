@@ -1,10 +1,13 @@
 package piece;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 import strategy.MoveStrategy;
 import strategy.MoveStrategyFactory;
@@ -27,6 +30,25 @@ public class PiecesCreateFactory {
                 .collect(Collectors.toMap(Entry::getKey, entry -> new Pieces(entry.getValue())));
     }
 
+    public static Map<Team, Pieces> generate(String fileSrc) {
+        File file = new File(fileSrc);
+        final Scanner scanner = defaultFileScanner(file);
+        List<String> piecesLines = new ArrayList<>();
+        while (scanner.hasNext()) {
+            piecesLines.add(scanner.nextLine());
+        }
+        return generate(piecesLines);
+    }
+
+    private static Scanner defaultFileScanner(File file) {
+        Scanner scanner;
+        try {
+            scanner = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return scanner;
+    }
 
     private static Piece createPiece(String inputPiece) {
         String[] perPiece = inputPiece.split(" ");

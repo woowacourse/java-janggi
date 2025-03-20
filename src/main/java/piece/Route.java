@@ -11,7 +11,7 @@ public class Route {
         this.positions = positions;
     }
 
-    public List<Position> getPositions() {
+    public List<Position> positions() {
         return Collections.unmodifiableList(positions);
     }
 }
