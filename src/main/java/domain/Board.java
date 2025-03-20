@@ -3,6 +3,7 @@ package domain;
 import domain.piece.Piece;
 import domain.piece.Pieces;
 import domain.piece.Position;
+
 import java.util.List;
 import java.util.Map;
 
@@ -19,12 +20,20 @@ public class Board {
 
         List<Position> path = piece.getPath(targetPosition);
 
-        /* 검사 했을 때 이동할 수 없는 조건일 경우
-        포 : 중간 기물 개수가 1개가 아닐 경우 (0개 또는 1개 초과)
-        나머지 : 중간 기물이 1개 이상일 경우
+        /* 검사 했을 때 포가 이동할 수 없는 조건일 경우
+        1. 중간 기물 개수가 1개가 아닐 경우 (0개 또는 1개 초과)
+        2. 도착지에 포인 경우
+        3. 중간 기물이 포인 경우
          */
 
-        if (!canMove(path)) {
+        if (piece.isCannon()) {
+            int count = getContainedPiecesCount(path);
+            if (count != 1) {
+                throw new IllegalArgumentException("[ERROR] 포는 중간에 기물이 1개여야 합니다.");
+            }
+        }
+
+        if (!piece.isCannon() && !canMove(path)) {
             throw new IllegalArgumentException();
         }
 
@@ -41,10 +50,14 @@ public class Board {
     }
 
     private boolean canMove(final List<Position> path) {
-        int containedPiecesCount = board.values().stream()
+        int containedPiecesCount = getContainedPiecesCount(path);
+        return containedPiecesCount == 0;
+    }
+
+    private int getContainedPiecesCount(final List<Position> path) {
+        return board.values().stream()
                 .mapToInt(pieces -> pieces.countPiecesInPositions(path))
                 .sum();
-        return containedPiecesCount == 0;
     }
 
     private Pieces getOppositePieces(final Player player) {
