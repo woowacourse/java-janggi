@@ -8,4 +8,6 @@ public interface Piece {
     boolean isGreenTeam();
 
     List<Point> getPossiblePoint(final Point prev, final Point newPoint);
+
+    Score getScore();
 }

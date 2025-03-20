@@ -13,4 +13,9 @@ public abstract class AbstractPiece implements Piece {
     public boolean isGreenTeam() {
         return Team.GREEN == team;
     }
+
+    @Override
+    public final Score getScore() {
+        return score;
+    }
 }

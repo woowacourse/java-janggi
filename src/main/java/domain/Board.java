@@ -16,7 +16,7 @@ public class Board {
 
     public static Board initialize() {
 
-        List<Position> positions = new ArrayList<>();
+        final List<Position> positions = new ArrayList<>();
 
         positions.addAll(generatePositions(General::new, Score.GENERAL, 4, 1, 4, 8));
         positions.addAll(generatePositions(Guard::new, Score.GUARD, 3, 0, 5, 0, 3, 9, 5, 9));
@@ -34,7 +34,7 @@ public class Board {
     private static <T extends Piece> List<Position> generatePositions(
             final BiFunction<Team, Score, T> creator,
             final Score score,
-            int... args
+            final int... args
     ) {
         final List<Position> positions1 = new ArrayList<>();
 
@@ -60,7 +60,7 @@ public class Board {
     ) {
         final List<Position> positions = new ArrayList<>();
 
-        int length = startPoints.size();
+        final int length = startPoints.size();
 
         for (int i = 0; i < length; i += 2) {
 
@@ -87,17 +87,14 @@ public class Board {
 
         // 1. 목적지까지 갈 수 있는 경로 전부 확인
         //  1- 1 List<Point> 갈 수 있는 경로 (가고자 하는 사분면에 있는 point만)
-        List<Point> pointOnPath = fromPosition.test(toPoint);
+        final List<Point> pointOnPath = fromPosition.test(toPoint);
 
         final long matchCount = positions.stream()
                 .filter(position -> pointOnPath.stream().anyMatch(position::isSame))
                 .count();
 
-        if (matchCount == 0) {
-            return true;
-        }
+        return matchCount == 0;
         // 1이상 && 포 && 두 번째 기물이 적팀 기물 && 첫 번째 기물이 포가 아니고 && 두 번째 기물도 포가 아니다
-        return false;
     }
 
     public boolean hasPieceAt(final Point point) {

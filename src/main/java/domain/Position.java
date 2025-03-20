@@ -33,6 +33,10 @@ public class Position {
         return new Position(toPoint, piece);
     }
 
+    public Piece getPiece() {
+        return piece;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) {
