@@ -59,7 +59,7 @@ class BoardTest {
         Point to = new Point(0, 4);
 
         // when
-        board.move(from, to, Camp.CHU);
+        board.move(from, to);
 
         // then
         assertThat(board.getPlacedPieces())
@@ -77,7 +77,7 @@ class BoardTest {
         Point to = new Point(0, 15);
 
         // when & then
-        assertThatCode(() -> board.move(from, to, Camp.CHU))
+        assertThatCode(() -> board.move(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("기물의 위치는 9 x 10 영역을 벗어날 수 없습니다.");
     }
@@ -91,25 +91,9 @@ class BoardTest {
         Point to = new Point(0, 4);
 
         // when & then
-        assertThatCode(() -> board.move(from, to, Camp.CHU))
+        assertThatCode(() -> board.move(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("이동시킬 기물을 찾을 수 없습니다.");
-    }
-
-    @DisplayName("다른 진영의 기물을 움직일 경우 예외가 발생한다.")
-    @Test
-    void shouldThrowException_WhenMoveOtherCampPiece() {
-        // given
-        Board board = new Board();
-        Point from = new Point(0, 3);
-        Piece piece = new Soldier(Camp.CHU, board);
-        board.placePiece(from, piece);
-        Point to = new Point(0, 4);
-
-        // when & then
-        assertThatCode(() -> board.move(from, to, Camp.HAN))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("다른 진영의 기물을 움직일 수 없습니다.");
+                .hasMessage("해당 위치에서 기물을 찾을 수 없습니다.");
     }
 
     @DisplayName("같은 진영의 기물을 잡는 경우 예외가 발생한다.")
@@ -125,7 +109,7 @@ class BoardTest {
         board.placePiece(to, toPiece);
 
         // when & then
-        assertThatCode(() -> board.move(from, to, Camp.CHU))
+        assertThatCode(() -> board.move(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("같은 진영의 기물을 잡을 수 없습니다.");
     }
@@ -143,7 +127,7 @@ class BoardTest {
         board.placePiece(to, toPiece);
 
         // when
-        board.move(from, to, Camp.CHU);
+        board.move(from, to);
 
         // then
         assertThat(board.getPlacedPieces())

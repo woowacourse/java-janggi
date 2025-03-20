@@ -16,15 +16,21 @@ public class Application {
             Map<Point, Piece> placedPieces = board.getPlacedPieces();
             view.displayBoard(placedPieces);
 
-            Camp camp = Camp.CHU;
+            Camp baseCamp = Camp.CHU;
             while (true) {
-                String[] input = view.readMove(camp);
+                String[] input = view.readMove(baseCamp);
                 Point from = new Point(input[0]);
                 Point to = new Point(input[1]);
-                board.move(from, to, camp);
+                validateSelectedPiece(board, from, baseCamp);
+                board.move(from, to);
                 view.displayBoard(board.getPlacedPieces());
-                camp = camp.reverse();
+                baseCamp = baseCamp.reverse();
             }
         }
+    }
+
+    private static void validateSelectedPiece(Board board, Point from, Camp baseCamp) {
+        Piece piece = board.peek(from);
+        piece.validateSelect(baseCamp);
     }
 }

@@ -69,4 +69,21 @@ class ChariotTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("차는 기물을 넘어 이동할 수 없습니다.");
     }
+
+    @DisplayName("특정 진영이 선택할 수 없는 경우 예외가 발생한다.")
+    @ParameterizedTest
+    @CsvSource({
+            "CHU, HAN",
+            "HAN, CHU",
+    })
+    void shouldThrowException_WhenSelectOtherCampPiece(Camp camp, Camp otherCamp) {
+        // given
+        Board board = new Board();
+        Chariot chariot = new Chariot(otherCamp, board);
+
+        // when & then
+        assertThatCode(() -> chariot.validateSelect(camp))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("다른 진영의 기물을 선택할 수 없습니다.");
+    }
 }

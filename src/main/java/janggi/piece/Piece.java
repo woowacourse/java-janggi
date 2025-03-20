@@ -29,6 +29,12 @@ public abstract class Piece {
         }
     }
 
+    public void validateSelect(Camp baseCamp) {
+        if (camp != baseCamp) {
+            throw new IllegalArgumentException("다른 진영의 기물을 선택할 수 없습니다.");
+        }
+    }
+
     public Camp getCamp() {
         return camp;
     }
