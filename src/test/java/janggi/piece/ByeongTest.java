@@ -37,8 +37,8 @@ class ByeongTest {
         }
 
         @Test
-        @DisplayName("상으로 이동할 수 있다면 true를 반환한다.")
-        void checkUpMovable() {
+        @DisplayName("초나라의 경우 북쪽으로 이동할 수 있다면 true를 반환한다.")
+        void checkUpMovableWithCho() {
             Byeong byeong = new Byeong(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(5, 6);
@@ -47,13 +47,33 @@ class ByeongTest {
         }
 
         @Test
-        @DisplayName("하으로 이동할 수 있다면 false를 반환한다.")
-        void checkDownMovable() {
+        @DisplayName("초나라의 경우 남쪽으로 이동할 수 있다면 false를 반환한다.")
+        void checkDownMovableWithCho() {
             Byeong byeong = new Byeong(Team.CHO, new Point(6, 6));
 
             Point targetPoint = new Point(7, 6);
 
             assertThat(byeong.isMovable(targetPoint)).isFalse();
+        }
+
+        @Test
+        @DisplayName("한나라의 경우 북쪽으로 이동할 수 있다면 false를 반환한다.")
+        void checkUpMovableWithHan() {
+            Byeong byeong = new Byeong(Team.HAN, new Point(6, 6));
+
+            Point targetPoint = new Point(5, 6);
+
+            assertThat(byeong.isMovable(targetPoint)).isFalse();
+        }
+
+        @Test
+        @DisplayName("한나라의 경우 남쪽으로 이동할 수 있다면 true를 반환한다.")
+        void checkDownMovableWithHan() {
+            Byeong byeong = new Byeong(Team.HAN, new Point(6, 6));
+
+            Point targetPoint = new Point(7, 6);
+
+            assertThat(byeong.isMovable(targetPoint)).isTrue();
         }
     }
 
