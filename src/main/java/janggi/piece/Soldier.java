@@ -4,9 +4,7 @@ import janggi.Board;
 import janggi.Position;
 import janggi.Score;
 import janggi.Team;
-
 import java.util.List;
-import java.util.stream.Stream;
 
 public class Soldier extends Piece {
 
@@ -15,11 +13,11 @@ public class Soldier extends Piece {
     }
 
     public static List<Soldier> Default(Team team) {
-        int row = getRowByTeam(4, team);
+        int defaultRow = Team.decideRow(4, team);
+        List<Integer> defaultColumns = List.of(1, 3, 5, 7, 9);
 
-        return Stream.of(1, 3, 5, 7, 9)
-                .map(col -> Position.of(row, col))
-                .map(position -> new Soldier(position, team))
+        return defaultColumns.stream()
+                .map(defaultColumn -> new Soldier(Position.of(defaultRow, defaultColumn), team))
                 .toList();
     }
 

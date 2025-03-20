@@ -1,6 +1,10 @@
 package janggi.piece;
 
-import janggi.*;
+import janggi.Board;
+import janggi.Position;
+import janggi.Route;
+import janggi.Score;
+import janggi.Team;
 
 public abstract class Piece {
 
@@ -10,13 +14,6 @@ public abstract class Piece {
     public Piece(final Position position, final Team team) {
         this.position = position;
         this.team = team;
-    }
-
-    protected static int getRowByTeam(final int row, final Team team) {
-        if (team.isGreen()) {
-            return 11 - row;
-        }
-        return row;
     }
 
     public abstract Piece move(Board board, Position destination);

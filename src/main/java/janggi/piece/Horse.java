@@ -1,9 +1,11 @@
 package janggi.piece;
 
-import janggi.*;
-
+import janggi.Board;
+import janggi.Movement;
+import janggi.Position;
+import janggi.Score;
+import janggi.Team;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class Horse extends Piece {
 
@@ -14,11 +16,11 @@ public class Horse extends Piece {
     }
 
     public static List<Horse> Default(Team team) {
-        int row = getRowByTeam(1, team);
+        int defaultRow = Team.decideRow(1, team);
+        List<Integer> defaultColumns = List.of(3, 8);
 
-        return Stream.of(3, 7)
-                .map(col -> Position.of(row, col))
-                .map(position -> new Horse(position, team))
+        return defaultColumns.stream()
+                .map(defaultColumn -> new Horse(Position.of(defaultRow, defaultColumn), team))
                 .toList();
     }
 

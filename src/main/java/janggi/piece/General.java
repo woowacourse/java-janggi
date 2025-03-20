@@ -12,9 +12,10 @@ public class General extends Piece {
     }
 
     public static General Default(Team team) {
-        int row = getRowByTeam(2, team);
+        int defaultRow = Team.decideRow(2, team);
+        int defaultColumn = 5;
 
-        return new General(Position.of(row, 5), team);
+        return new General(Position.of(defaultRow, defaultColumn), team);
     }
 
     @Override

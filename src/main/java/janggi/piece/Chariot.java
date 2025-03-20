@@ -5,7 +5,6 @@ import janggi.Position;
 import janggi.Score;
 import janggi.Team;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class Chariot extends Piece {
 
@@ -14,11 +13,11 @@ public class Chariot extends Piece {
     }
 
     public static List<Chariot> Default(Team team) {
-        int row = getRowByTeam(1, team);
+        int defaultRow = Team.decideRow(1, team);
+        List<Integer> defaultColumns = List.of(1, 9);
 
-        return Stream.of(1, 9)
-                .map(col -> Position.of(row, col))
-                .map(position -> new Chariot(position, team))
+        return defaultColumns.stream()
+                .map(defaultColumn -> new Chariot(Position.of(defaultRow, defaultColumn), team))
                 .toList();
     }
 

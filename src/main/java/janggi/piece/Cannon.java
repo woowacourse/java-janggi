@@ -1,9 +1,11 @@
 package janggi.piece;
 
-import janggi.*;
-
+import janggi.Board;
+import janggi.Position;
+import janggi.Route;
+import janggi.Score;
+import janggi.Team;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class Cannon extends Piece {
 
@@ -12,11 +14,11 @@ public class Cannon extends Piece {
     }
 
     public static List<Cannon> Default(Team team) {
-        int row = getRowByTeam(3, team);
+        int defaultRow = Team.decideRow(3, team);
+        List<Integer> defaultColumns = List.of(2, 8);
 
-        return Stream.of(2, 8)
-                .map(col -> Position.of(row, col))
-                .map(position -> new Cannon(position, team))
+        return defaultColumns.stream()
+                .map(defaultColumn -> new Cannon(Position.of(defaultRow, defaultColumn), team))
                 .toList();
     }
 

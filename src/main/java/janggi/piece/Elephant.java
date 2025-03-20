@@ -1,9 +1,11 @@
 package janggi.piece;
 
-import janggi.*;
-
+import janggi.Board;
+import janggi.Movement;
+import janggi.Position;
+import janggi.Score;
+import janggi.Team;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class Elephant extends Piece {
 
@@ -14,11 +16,11 @@ public class Elephant extends Piece {
     }
 
     public static List<Elephant> Default(Team team) {
-        int row = getRowByTeam(1, team);
+        int defaultRow = Team.decideRow(1, team);
+        List<Integer> defaultColumns = List.of(2, 7);
 
-        return Stream.of(2, 8)
-                .map(col -> Position.of(row, col))
-                .map(position -> new Elephant(position, team))
+        return defaultColumns.stream()
+                .map(defaultColumn -> new Elephant(Position.of(defaultRow, defaultColumn), team))
                 .toList();
     }
 
