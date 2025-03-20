@@ -24,6 +24,6 @@ public final class DefaultMovement implements PieceMovement {
                 return route.getAllPointsOnRoute(startPoint);
             }
         }
-        throw new IllegalArgumentException("해당 도착지점으로 도착할 수 없는 기물입니다.");
+        throw new IllegalArgumentException("해당 도착점으로 도착할 수 없는 기물입니다.");
     }
 }

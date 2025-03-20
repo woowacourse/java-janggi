@@ -6,14 +6,16 @@ import java.util.Collections;
 import java.util.List;
 
 public final class EndlessMovement implements PieceMovement {
+    private static final int MAX_DIRECTION_COUNT = 10;
+
     private final List<Route> routes;
 
     public EndlessMovement() {
         this.routes = List.of(
-                new Route(Collections.nCopies(10, Direction.NORTH)),
-                new Route(Collections.nCopies(10, Direction.EAST)),
-                new Route(Collections.nCopies(10, Direction.SOUTH)),
-                new Route(Collections.nCopies(10, Direction.WEST))
+                new Route(Collections.nCopies(MAX_DIRECTION_COUNT, Direction.NORTH)),
+                new Route(Collections.nCopies(MAX_DIRECTION_COUNT, Direction.EAST)),
+                new Route(Collections.nCopies(MAX_DIRECTION_COUNT, Direction.SOUTH)),
+                new Route(Collections.nCopies(MAX_DIRECTION_COUNT, Direction.WEST))
         );
     }
 

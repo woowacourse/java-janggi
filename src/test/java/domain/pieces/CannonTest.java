@@ -1,12 +1,11 @@
 package domain.pieces;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.Team;
 import domain.board.PieceOnRoute;
 import domain.board.Point;
 import domain.movements.EndlessMovement;
 import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -43,7 +42,7 @@ class CannonTest {
 
 
     @Test
-    @DisplayName("도착 위치까지의 경로를 모두 반환한다.")
+    @DisplayName("도착점까지의 경로를 모두 반환한다.")
     void test_getRoutePoints() {
         // given
         Cannon cannon = new Cannon(Team.CHO, new EndlessMovement());

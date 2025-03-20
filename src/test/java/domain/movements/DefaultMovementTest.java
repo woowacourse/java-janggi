@@ -13,7 +13,7 @@ class DefaultMovementTest {
     @DisplayName("전체 경로를 계산할 때")
     class TestCalculateRoute {
         @Test
-        @DisplayName("이동 가능한 도착지점들을 반환한다")
+        @DisplayName("이동 가능한 도착점들을 반환한다")
         void test_calculateTotalArrivalPoints() {
             // given
             List<Direction> directions1 = List.of(Direction.NORTH, Direction.NORTHWEST, Direction.NORTHWEST);

@@ -36,12 +36,12 @@ public class JanggiGame {
         return board.getLocations();
     }
 
-    public void move(Point originPoint, Point arrivalPoint, boolean isFirstPlayerTurn) {
+    public void move(Point startPoint, Point arrivalPoint, boolean isFirstPlayerTurn) {
         Player currentPlayer = players.stream()
                 .filter(player -> player.isFirstAttack() == isFirstPlayerTurn)
                 .findFirst()
                 .orElseThrow();
-        board.movePiece(originPoint, arrivalPoint, currentPlayer.getTeam());
+        board.movePiece(startPoint, arrivalPoint, currentPlayer.getTeam());
     }
 
     private Board generateBoard() {

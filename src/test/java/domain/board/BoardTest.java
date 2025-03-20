@@ -1,9 +1,5 @@
 package domain.board;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
 import domain.Team;
 import domain.movements.DefaultMovement;
 import domain.movements.Direction;
@@ -16,6 +12,9 @@ import execptions.JanggiArgumentException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -67,11 +66,11 @@ public final class BoardTest {
         void test_throwExceptionWhenPieceIsNotMovable() {
             // given
             Board board = BoardStub.generateBoard();
-            Point originPoint = new Point(0, 0);
+            Point startPoint = new Point(0, 0);
             Point arrivalpoint = new Point(5, 0);
 
             // when
-            assertThatThrownBy(() -> board.movePiece(originPoint, arrivalpoint))
+            assertThatThrownBy(() -> board.movePiece(startPoint, arrivalpoint, Team.CHO))
                     .isInstanceOf(JanggiArgumentException.class)
                     .hasMessageContaining("해당 경로로 이동할 수 없습니다.");
         }
@@ -81,13 +80,13 @@ public final class BoardTest {
         void test_throwExceptionWhenPieceIsNotAbleToArrive() {
             // given
             Board board = BoardStub.generateBoard();
-            Point originPoint = new Point(0, 0);
+            Point startPoint = new Point(0, 0);
             Point arrivalpoint = new Point(1, 1);
 
             // when
-            assertThatThrownBy(() -> board.movePiece(originPoint, arrivalpoint))
+            assertThatThrownBy(() -> board.movePiece(startPoint, arrivalpoint, Team.HAN))
                     .isInstanceOf(JanggiArgumentException.class)
-                    .hasMessageContaining("해당 기물이 도착할 수 없는 위치입니다.");
+                    .hasMessageContaining("아군 기물만 움직일 수 있습니다.");
         }
 
         @Test
@@ -95,11 +94,11 @@ public final class BoardTest {
         void test_NoPieceOnStartPoint() {
             // given
             Board board = BoardStub.generateBoard();
-            Point originPoint = new Point(1, 0);
+            Point startPoint = new Point(1, 0);
             Point arrivalpoint = new Point(1, 1);
 
             // when & then
-            assertThatThrownBy(() -> board.movePiece(originPoint, arrivalpoint))
+            assertThatThrownBy(() -> board.movePiece(startPoint, arrivalpoint, Team.HAN))
                     .isInstanceOf(JanggiArgumentException.class)
                     .hasMessageContaining("출발점에 이동할 기물이 없습니다.");
         }
