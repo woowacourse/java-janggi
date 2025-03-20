@@ -15,6 +15,10 @@ public class Position {
         this.y = y;
     }
 
+    public static Position from(Point point) {
+        return new Position(point.getX(), point.getY());
+    }
+
     private void validate(int x, int y) {
         if (x < 0 || x > X_MAX) {
             throw new IllegalArgumentException("");
@@ -24,12 +28,15 @@ public class Position {
         }
     }
 
-    public boolean isHorizontal(Position opposite) {
-        return (this.x == opposite.x || this.y == opposite.y);
+    public static boolean isCanBePosition(Point point) {
+        if (point.getX() < 0 || point.getX() > X_MAX) {
+            return false;
+        }
+        return !(point.getY() < 0 || point.getY() > Y_MAX);
     }
 
-    public Position calculateOpposite(Position position) {
-        return new Position(X_MAX - position.x, Y_MAX - position.y);
+    public boolean isHorizontal(Position opposite) {
+        return (this.x == opposite.x || this.y == opposite.y);
     }
 
     public int getX() {
