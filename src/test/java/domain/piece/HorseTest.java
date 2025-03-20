@@ -39,7 +39,7 @@ class HorseTest {
 
     @Test
     @DisplayName("이동 경로에 다른 기물이 있으면 false를 반환한다")
-    void canMoveHorse2(){
+    void canMoveHorse2() {
         Position startPosition = Position.of(2, 2);
         Position expectedPosition = Position.of(3, 4);
         Piece horse = new Horse(startPosition, TeamType.HAN);
@@ -54,7 +54,7 @@ class HorseTest {
 
     @Test
     @DisplayName("도착 지점에 아군이 있으면 false를 반환한다")
-    void canMoveHorse3(){
+    void canMoveHorse3() {
         Position startPosition = Position.of(2, 2);
         Position expectedPosition = Position.of(3, 4);
         Piece horse = new Horse(startPosition, TeamType.HAN);
@@ -69,7 +69,7 @@ class HorseTest {
 
     @Test
     @DisplayName("도착 지점에 적이 있으면 true를 반환한다")
-    void canMoveHorse4(){
+    void canMoveHorse4() {
         Position startPosition = Position.of(2, 2);
         Position expectedPosition = Position.of(3, 4);
         Piece horse = new Horse(startPosition, TeamType.HAN);

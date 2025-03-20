@@ -18,7 +18,7 @@ class JanggiGameTest {
 
     @BeforeEach
     void beforeEach() {
-        Usernames usernames = new Usernames("a","b");
+        Usernames usernames = new Usernames("a", "b");
         String startUsername = "a";
         Players players = Players.createFrom(usernames, startUsername);
         List<Piece> pieces = List.of(

@@ -39,7 +39,7 @@ class ChariotTest {
     @ParameterizedTest
     @MethodSource
     @DisplayName("이동하려는 경로가 비었을 때 정상적으로 이동할 수 있다")
-    void canMoveChariot(Position movePosition, boolean expected){
+    void canMoveChariot(Position movePosition, boolean expected) {
         Position startPosition = Position.of(3, 3);
         Piece chariot = new Chariot(startPosition, TeamType.CHO);
 
@@ -48,7 +48,7 @@ class ChariotTest {
 
     @Test
     @DisplayName("이동 경로에 다른 기물이 있으면 false를 반환한다")
-    void canMoveChariot2(){
+    void canMoveChariot2() {
         Position startPosition = Position.of(2, 2);
         Position expectedPosition = Position.of(4, 2);
         Piece chariot = new Chariot(startPosition, TeamType.HAN);
@@ -63,7 +63,7 @@ class ChariotTest {
 
     @Test
     @DisplayName("도착 지점에 아군이 있으면 false를 반환한다")
-    void canMoveChariot3(){
+    void canMoveChariot3() {
         Position startPosition = Position.of(2, 2);
         Position expectedPosition = Position.of(4, 2);
         Piece chariot = new Chariot(startPosition, TeamType.HAN);
@@ -78,7 +78,7 @@ class ChariotTest {
 
     @Test
     @DisplayName("도착 지점에 적이 있으면 true를 반환한다")
-    void canMoveChariot4(){
+    void canMoveChariot4() {
         Position startPosition = Position.of(2, 2);
         Position expectedPosition = Position.of(4, 2);
         Piece chariot = new Chariot(startPosition, TeamType.HAN);

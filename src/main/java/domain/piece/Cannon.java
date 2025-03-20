@@ -40,28 +40,34 @@ public class Cannon extends Piece {
     private boolean hasCannonPieceAtIntermediatePositions(Position expectedPosition, List<Piece> pieces,
                                                           Direction direction) {
         List<Position> intermediatePositions = findIntermediatePositions(direction, this.position, expectedPosition);
-        for (Position intermediatePosition : intermediatePositions) {
-            for (Piece piece : pieces) {
-                if (piece.hasSamePosition(intermediatePosition) && piece.isSameType(PieceType.CANNON)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return hasCannon(intermediatePositions, pieces);
+    }
+
+    private boolean hasCannon(List<Position> intermediatePositions, List<Piece> alivePieces) {
+        return intermediatePositions.stream()
+                .anyMatch(position -> hasCannonPieceTo(position, alivePieces));
+    }
+
+    private boolean hasCannonPieceTo(Position position, List<Piece> alivePieces) {
+        return alivePieces.stream()
+                .anyMatch(piece -> piece.hasSamePosition(position) && piece.isSameType(PieceType.CANNON));
+    }
+
+    private int countBlockedPiece(List<Position> intermediatePositions, List<Piece> alivePieces) {
+        return (int) intermediatePositions.stream()
+                .filter(position -> hasPieceTo(position, alivePieces))
+                .count();
+    }
+
+    private boolean hasPieceTo(Position position, List<Piece> alivePieces) {
+        return alivePieces.stream()
+                .anyMatch(piece -> piece.hasSamePosition(position));
     }
 
     private boolean hasOnlyOnePieceAtIntermediatePositions(Position expectedPosition, List<Piece> pieces,
                                                            Direction direction) {
         List<Position> intermediatePositions = findIntermediatePositions(direction, this.position, expectedPosition);
-        int count = 0;
-        for (Position intermediatePosition : intermediatePositions) {
-            for (Piece piece : pieces) {
-                if (piece.hasSamePosition(intermediatePosition)) {
-                    count++;
-                }
-            }
-        }
-        return count != 1;
+        return countBlockedPiece(intermediatePositions, pieces) != 1;
     }
 
     private Direction findDirectionToReachAt(Position expectedPosition) {

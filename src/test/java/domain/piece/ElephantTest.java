@@ -39,7 +39,7 @@ class ElephantTest {
 
     @Test
     @DisplayName("이동 경로에 다른 기물이 있으면 false를 반환한다")
-    void canMoveElephant2(){
+    void canMoveElephant2() {
         Position startPosition = Position.of(2, 2);
         Position expectedPosition = Position.of(5, 4);
         Piece elephant = new Elephant(startPosition, TeamType.HAN);
@@ -54,7 +54,7 @@ class ElephantTest {
 
     @Test
     @DisplayName("도착 지점에 아군이 있으면 false를 반환한다")
-    void canMoveElephant3(){
+    void canMoveElephant3() {
         Position startPosition = Position.of(2, 2);
         Position expectedPosition = Position.of(5, 4);
         Piece elephant = new Elephant(startPosition, TeamType.HAN);
@@ -69,7 +69,7 @@ class ElephantTest {
 
     @Test
     @DisplayName("도착 지점에 적이 있으면 true를 반환한다")
-    void canMoveElephant4(){
+    void canMoveElephant4() {
         Position startPosition = Position.of(2, 2);
         Position expectedPosition = Position.of(5, 4);
         Piece elephant = new Elephant(startPosition, TeamType.HAN);
