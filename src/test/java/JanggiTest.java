@@ -6,7 +6,7 @@ import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Position;
-import janggi.domain.piece.PositionSide;
+import janggi.domain.piece.HorseSide;
 import janggi.domain.piece.Soldier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,10 +27,10 @@ class JanggiTest {
     static Stream<Arguments> getHorseElephant() {
         return Stream.of(
                 Arguments.arguments(
-                        PositionSide.LEFT,
-                        PositionSide.LEFT,
-                        PositionSide.LEFT,
-                        PositionSide.LEFT,
+                        HorseSide.LEFT,
+                        HorseSide.LEFT,
+                        HorseSide.LEFT,
+                        HorseSide.LEFT,
                         List.of(
                                 new Position(10, 2),
                                 new Position(10, 7),
@@ -43,7 +43,7 @@ class JanggiTest {
 
     @BeforeEach
     void setUp() {
-        board = BoardFactory.getInitializedBoard(PositionSide.LEFT, PositionSide.LEFT, PositionSide.RIGHT, PositionSide.RIGHT);
+        board = BoardFactory.getInitializedBoard(HorseSide.LEFT, HorseSide.LEFT, HorseSide.RIGHT, HorseSide.RIGHT);
     }
 
     @DisplayName("보드를 초기화하면 청궁이 95, 홍궁이 25에 배치된다.")
@@ -110,10 +110,10 @@ class JanggiTest {
     @MethodSource("getHorseElephant")
     @ParameterizedTest
     void initializeHorse(
-            PositionSide blueLeftHorsePosition,
-            PositionSide blueRightHorsePosition,
-            PositionSide redLeftHorsePosition,
-            PositionSide redRightHorsePosition,
+            HorseSide blueLeftHorsePosition,
+            HorseSide blueRightHorsePosition,
+            HorseSide redLeftHorsePosition,
+            HorseSide redRightHorsePosition,
             List<Position> expectedPosition
     ) {
         board = BoardFactory.getInitializedBoard(

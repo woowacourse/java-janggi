@@ -28,10 +28,10 @@ class CannonTest {
     @DisplayName("이동 위치 값을 입력 받아 이동한다.")
     @Test
     void move() {
-        Cannon cannon = new Cannon(new Position(5, 5), TeamType.BLUE);
+        Cannon cannon = new Cannon(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(2, 5);
-        Soldier otherSoldier1 = new Soldier(new Position(3, 5), TeamType.BLUE);
-        Soldier otherSoldier2 = new Soldier(new Position(1, 1), TeamType.BLUE);
+        Soldier otherSoldier1 = new Soldier(new Position(3, 5), Team.BLUE);
+        Soldier otherSoldier2 = new Soldier(new Position(1, 1), Team.BLUE);
         pieces.put(otherSoldier1.getPosition(), otherSoldier1);
         pieces.put(otherSoldier2.getPosition(), otherSoldier2);
         Cannon movedHorse = cannon.move(pieces, positionToMove);
@@ -42,7 +42,7 @@ class CannonTest {
     @CsvSource(value = {"7,7", "4,4", "6,5"})
     @ParameterizedTest
     void move2(int x, int y) {
-        Cannon cannon = new Cannon(new Position(5, 5), TeamType.BLUE);
+        Cannon cannon = new Cannon(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
         assertThatThrownBy(() -> cannon.move(pieces, positionToMove))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -51,8 +51,8 @@ class CannonTest {
     @DisplayName("포의 초기 위치와 이동 위치 사이에 포가 존재하는 경우 예외를 던진다.")
     @Test
     void move3() {
-        Cannon cannon = new Cannon(new Position(5, 5), TeamType.BLUE);
-        Cannon otherCannon = new Cannon(new Position(3, 5), TeamType.BLUE);
+        Cannon cannon = new Cannon(new Position(5, 5), Team.BLUE);
+        Cannon otherCannon = new Cannon(new Position(3, 5), Team.BLUE);
         pieces.put(otherCannon.getPosition(), otherCannon);
         assertThatThrownBy(() ->
                 cannon.move(pieces, new Position(2, 5)))
@@ -62,8 +62,8 @@ class CannonTest {
     @DisplayName("포의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
     @Test
     void move4() {
-        Cannon cannon = new Cannon(new Position(5, 5), TeamType.BLUE);
-        Soldier otherSoldier = new Soldier(new Position(3, 5), TeamType.BLUE);
+        Cannon cannon = new Cannon(new Position(5, 5), Team.BLUE);
+        Soldier otherSoldier = new Soldier(new Position(3, 5), Team.BLUE);
         pieces.put(otherSoldier.getPosition(), otherSoldier);
         assertThatThrownBy(() ->
                 cannon.move(pieces, otherSoldier.getPosition()))
@@ -73,8 +73,8 @@ class CannonTest {
     @DisplayName("포의 이동 위치에 상대편 포가 있으면 예외를 던진다")
     @Test
     void move5() {
-        Cannon cannon = new Cannon(new Position(5, 5), TeamType.BLUE);
-        Cannon otherCannon = new Cannon(new Position(3, 5), TeamType.RED);
+        Cannon cannon = new Cannon(new Position(5, 5), Team.BLUE);
+        Cannon otherCannon = new Cannon(new Position(3, 5), Team.RED);
         pieces.put(otherCannon.getPosition(), otherCannon);
         assertThatThrownBy(() ->
                 cannon.move(pieces, otherCannon.getPosition()))
@@ -90,13 +90,13 @@ class CannonTest {
     })
     @ParameterizedTest
     void move6(int x, int y) {
-        Cannon cannon = new Cannon(new Position(5, 5), TeamType.BLUE);
+        Cannon cannon = new Cannon(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
 
-        Soldier soldier1 = new Soldier(new Position(3, 5), TeamType.BLUE);
-        Soldier soldier2 = new Soldier(new Position(5, 3), TeamType.BLUE);
-        Soldier soldier3 = new Soldier(new Position(6, 5), TeamType.BLUE);
-        Soldier soldier4 = new Soldier(new Position(5, 6), TeamType.BLUE);
+        Soldier soldier1 = new Soldier(new Position(3, 5), Team.BLUE);
+        Soldier soldier2 = new Soldier(new Position(5, 3), Team.BLUE);
+        Soldier soldier3 = new Soldier(new Position(6, 5), Team.BLUE);
+        Soldier soldier4 = new Soldier(new Position(5, 6), Team.BLUE);
         pieces.put(soldier1.getPosition(), soldier1);
         pieces.put(soldier2.getPosition(), soldier2);
         pieces.put(soldier3.getPosition(), soldier3);

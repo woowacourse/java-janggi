@@ -7,36 +7,30 @@ public class General extends Piece {
     private static final Position INITIAL_POSITIONS_BLUE = new Position(9, 5);
     private static final Position INITIAL_POSITIONS_RED = new Position(2, 5);
 
-    public General(final Position position, final TeamType teamType) {
-        super("궁", position, teamType);
+    public General(final Position position, final Team team) {
+        super("궁", position, team);
     }
 
-    public static List<Piece> createWithInitialPositions(final TeamType teamType) {
-        if (teamType.equals(TeamType.BLUE)) {
-            return List.of(new General(INITIAL_POSITIONS_BLUE, teamType));
+    public static List<Piece> createWithInitialPositions(final Team team) {
+        if (team.equals(Team.BLUE)) {
+            return List.of(new General(INITIAL_POSITIONS_BLUE, team));
         }
-        return List.of(new General(INITIAL_POSITIONS_RED, teamType));
+        return List.of(new General(INITIAL_POSITIONS_RED, team));
     }
 
     public General move(final Map<Position, Piece> pieces, final Position positionToMove) {
         validateIsPositionMovable(positionToMove);
         validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
-        return new General(positionToMove, teamType);
+        return new General(positionToMove, team);
     }
 
     private void validateIsPositionMovable(final Position value) {
         if (checkIsPositionNotMovable(value)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("불가능한 이동입니다.");
         }
     }
 
     private boolean checkIsPositionNotMovable(final Position value) {
         return Math.abs(value.x() - getPosition().x()) + Math.abs(value.y() - getPosition().y()) != 1;
-    }
-
-    private void validateIsSameTeamNotInPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
-        if (pieces.get(positionToMove).getTeamType().equals(teamType)) {
-            throw new IllegalArgumentException();
-        }
     }
 }

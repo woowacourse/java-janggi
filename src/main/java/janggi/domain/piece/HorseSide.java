@@ -1,11 +1,12 @@
 package janggi.domain.piece;
 
-public enum PositionSide {
+public enum HorseSide {
     LEFT(0),
     RIGHT(1);
+
     private final int value;
 
-    PositionSide(final int value) {
+    HorseSide(final int value) {
         this.value = value;
     }
 

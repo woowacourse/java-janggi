@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-public enum TeamType {
+public enum Team {
     RED,
     BLUE,
     NONE

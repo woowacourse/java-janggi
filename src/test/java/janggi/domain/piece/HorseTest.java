@@ -27,7 +27,7 @@ class HorseTest {
     @DisplayName("이동 위치 값을 입력 받아 이동한다.")
     @Test
     void move() {
-        Horse horse = new Horse(new Position(5, 5), TeamType.BLUE);
+        Horse horse = new Horse(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(3, 4);
         Horse movedHorse = horse.move(pieces, positionToMove);
         assertThat(movedHorse.getPosition()).isEqualTo(positionToMove);
@@ -37,7 +37,7 @@ class HorseTest {
     @CsvSource(value = {"7,7", "4,4", "6,5"})
     @ParameterizedTest
     void move2(int x, int y) {
-        Horse horse = new Horse(new Position(5, 5), TeamType.BLUE);
+        Horse horse = new Horse(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
         assertThatThrownBy(() -> horse.move(pieces, positionToMove))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -46,8 +46,8 @@ class HorseTest {
     @DisplayName("마의 초기 위치와 이동 위치 사이에 기물이 존재하는 경우 예외를 던진다.")
     @Test
     void move3() {
-        Horse horse = new Horse(new Position(5, 5), TeamType.BLUE);
-        Soldier otherSoldier = new Soldier(new Position(4, 5), TeamType.BLUE);
+        Horse horse = new Horse(new Position(5, 5), Team.BLUE);
+        Soldier otherSoldier = new Soldier(new Position(4, 5), Team.BLUE);
         pieces.put(otherSoldier.getPosition(), otherSoldier);
         assertThatThrownBy(() ->
                 horse.move(pieces, new Position(3, 4)))
@@ -57,8 +57,8 @@ class HorseTest {
     @DisplayName("마의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
     @Test
     void move4() {
-        Horse horse = new Horse(new Position(5, 5), TeamType.BLUE);
-        Soldier otherSoldier = new Soldier(new Position(3, 5), TeamType.BLUE);
+        Horse horse = new Horse(new Position(5, 5), Team.BLUE);
+        Soldier otherSoldier = new Soldier(new Position(3, 5), Team.BLUE);
         pieces.put(otherSoldier.getPosition(), otherSoldier);
         assertThatThrownBy(() ->
                 horse.move(pieces, otherSoldier.getPosition()))
@@ -78,7 +78,7 @@ class HorseTest {
     })
     @ParameterizedTest
     void move6(int x, int y) {
-        Horse horse = new Horse(new Position(5, 5), TeamType.BLUE);
+        Horse horse = new Horse(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
         Horse movedHorse = horse.move(pieces, positionToMove);
         assertThat(movedHorse.getPosition()).isEqualTo(positionToMove);

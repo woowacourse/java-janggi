@@ -3,7 +3,6 @@ package janggi;
 import janggi.controller.JanggiController;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-
 import java.util.Scanner;
 
 public class JanggiApplication {

@@ -20,8 +20,7 @@ public class InputView {
     }
 
     public String getPieceMovement() {
-        System.out.println("이동 할 기물의 위치와 이동 시킬 위치를 입력해주세요");
+        System.out.println("이동 할 기물의 위치와 이동 시킬 위치를 입력해주세요(기물좌표 이동할좌표 ex: 108 88");
         return scanner.nextLine();
-
     }
 }

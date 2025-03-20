@@ -4,19 +4,19 @@ import java.util.Map;
 
 public class None extends Piece {
     public None() {
-        super("ㅇ", null, TeamType.NONE);
+        super("ㅁ", null, Team.NONE);
     }
 
-    @Override
-    public Piece move(final Map<Position, Piece> pieces, final Position positionToMove) {
-        throw new IllegalArgumentException();
-    }
-
-    public static boolean isNone(Piece piece) {
+    public static boolean checkIsNone(Piece piece) {
         return piece instanceof None;
     }
 
     public static boolean isNotNone(Piece piece) {
-        return !isNone(piece);
+        return !checkIsNone(piece);
+    }
+
+    @Override
+    public Piece move(final Map<Position, Piece> pieces, final Position positionToMove) {
+        throw new IllegalArgumentException("빈칸은 움직일 수 없습니다.");
     }
 }

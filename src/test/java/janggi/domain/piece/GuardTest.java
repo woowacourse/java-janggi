@@ -27,7 +27,7 @@ class GuardTest {
     @DisplayName("이동 위치 값을 입력 받아 이동한다.")
     @Test
     void move() {
-        Guard guard = new Guard(new Position(5, 5), TeamType.BLUE);
+        Guard guard = new Guard(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(5, 6);
         Guard movedGuard = guard.move(pieces, positionToMove);
         assertThat(movedGuard.getPosition()).isEqualTo(positionToMove);
@@ -37,7 +37,7 @@ class GuardTest {
     @CsvSource(value = {"7,5", "5,7"})
     @ParameterizedTest
     void move2(int x, int y) {
-        Guard guard = new Guard(new Position(5, 5), TeamType.BLUE);
+        Guard guard = new Guard(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
         assertThatThrownBy(() -> guard.move(pieces, positionToMove))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -46,8 +46,8 @@ class GuardTest {
     @DisplayName("사의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
     @Test
     void move4() {
-        Guard guard = new Guard(new Position(5, 5), TeamType.BLUE);
-        Soldier otherSoldier = new Soldier(new Position(4, 5), TeamType.BLUE);
+        Guard guard = new Guard(new Position(5, 5), Team.BLUE);
+        Soldier otherSoldier = new Soldier(new Position(4, 5), Team.BLUE);
         pieces.put(otherSoldier.getPosition(), otherSoldier);
         assertThatThrownBy(() ->
                 guard.move(pieces, otherSoldier.getPosition()))

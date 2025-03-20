@@ -26,7 +26,7 @@ class GeneralTest {
     @DisplayName("이동 위치 값을 입력 받아 이동한다.")
     @Test
     void move() {
-        General general = new General(new Position(5, 5), TeamType.BLUE);
+        General general = new General(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(5, 6);
 
         General movedGeneral = general.move(pieces, positionToMove);
@@ -38,7 +38,7 @@ class GeneralTest {
     @CsvSource(value = {"7,5", "5,7"})
     @ParameterizedTest
     void move2(int x, int y) {
-        General general = new General(new Position(5, 5), TeamType.BLUE);
+        General general = new General(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
         assertThatThrownBy(() -> general.move(pieces, positionToMove))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -47,8 +47,8 @@ class GeneralTest {
     @DisplayName("궁의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
     @Test
     void move4() {
-        General general = new General(new Position(5, 5), TeamType.BLUE);
-        Soldier otherSoldier = new Soldier(new Position(4, 5), TeamType.BLUE);
+        General general = new General(new Position(5, 5), Team.BLUE);
+        Soldier otherSoldier = new Soldier(new Position(4, 5), Team.BLUE);
         pieces.put(otherSoldier.getPosition(), otherSoldier);
         assertThatThrownBy(() ->
                 general.move(pieces, otherSoldier.getPosition()))

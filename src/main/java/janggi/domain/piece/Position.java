@@ -1,7 +1,6 @@
 package janggi.domain.piece;
 
 public record Position(int x, int y) {
-
     public Position {
         validatePosition(x, y);
     }
@@ -16,7 +15,7 @@ public record Position(int x, int y) {
 
     private void validatePosition(int x, int y) {
         if(x <= 0 || x > 10 || y <= 0 || y > 9) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다");
         }
     }
 }

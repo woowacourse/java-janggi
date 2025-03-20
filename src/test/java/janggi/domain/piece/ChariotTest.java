@@ -28,9 +28,9 @@ class ChariotTest {
     @DisplayName("이동 위치 값을 입력 받아 이동한다.")
     @Test
     void move() {
-        Chariot chariot = new Chariot(new Position(5, 5), TeamType.BLUE);
+        Chariot chariot = new Chariot(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(5, 9);
-        Soldier soldier = new Soldier(new Position(1, 1), TeamType.BLUE);
+        Soldier soldier = new Soldier(new Position(1, 1), Team.BLUE);
         pieces.put(soldier.getPosition(), soldier);
         Chariot movedChariot = chariot.move(pieces, positionToMove);
         assertThat(movedChariot.getPosition()).isEqualTo(positionToMove);
@@ -40,7 +40,7 @@ class ChariotTest {
     @CsvSource(value = {"7,7", "4,4"})
     @ParameterizedTest
     void move2(int x, int y) {
-        Chariot chariot = new Chariot(new Position(5, 5), TeamType.BLUE);
+        Chariot chariot = new Chariot(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
         assertThatThrownBy(() -> chariot.move(pieces, positionToMove))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -49,8 +49,8 @@ class ChariotTest {
     @DisplayName("차의 초기 위치와 이동 위치 사이에 말이 존재하는 경우 예외를 던진다.")
     @Test
     void move3() {
-        Chariot chariot = new Chariot(new Position(5, 5), TeamType.BLUE);
-        Soldier otherSoldier = new Soldier(new Position(3, 5), TeamType.BLUE);
+        Chariot chariot = new Chariot(new Position(5, 5), Team.BLUE);
+        Soldier otherSoldier = new Soldier(new Position(3, 5), Team.BLUE);
         pieces.put(otherSoldier.getPosition(), otherSoldier);
         assertThatThrownBy(() ->
                 chariot.move(pieces, new Position(1, 5)))
@@ -60,8 +60,8 @@ class ChariotTest {
     @DisplayName("차의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
     @Test
     void move4() {
-        Chariot chariot = new Chariot(new Position(5, 5), TeamType.BLUE);
-        Soldier otherSoldier = new Soldier(new Position(4, 5), TeamType.BLUE);
+        Chariot chariot = new Chariot(new Position(5, 5), Team.BLUE);
+        Soldier otherSoldier = new Soldier(new Position(4, 5), Team.BLUE);
         pieces.put(otherSoldier.getPosition(), otherSoldier);
         assertThatThrownBy(() ->
                 chariot.move(pieces, otherSoldier.getPosition()))
