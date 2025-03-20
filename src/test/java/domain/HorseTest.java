@@ -1,7 +1,6 @@
 package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import java.util.Map;
@@ -40,8 +39,7 @@ class HorseTest {
         final Map<ChessPosition, ChessPiece> chessPositionPawnMap = Map.of(new ChessPosition(3, 4),
                 new Pawn(new ChessPosition(3, 4), ChessTeam.RED),
                 new ChessPosition(5, 2), new Pawn(new ChessPosition(5, 2), ChessTeam.BLUE));
-        final List<ChessPosition> expected = List.of(new ChessPosition(3, 2), new ChessPosition(3, 6),
-                new ChessPosition(5, 2), new ChessPosition(6, 3), new ChessPosition(6, 5), new ChessPosition(5, 6));
+        final List<ChessPosition> expected = List.of(new ChessPosition(3, 2), new ChessPosition(3, 6), new ChessPosition(6, 3), new ChessPosition(6, 5), new ChessPosition(5, 6));
         final ChessPiecePositions piecePositions = ChessPiecePositions.from(chessPositionPawnMap);
         //when
         final Horse horse = new Horse(chessPosition, ChessTeam.BLUE);

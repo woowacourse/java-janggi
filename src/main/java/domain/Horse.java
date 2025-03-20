@@ -9,6 +9,7 @@ import static domain.Direction.RIGHT_DOWN;
 import static domain.Direction.RIGHT_UP;
 import static domain.Direction.UP;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Horse extends LimitedChessPiece {
@@ -39,14 +40,23 @@ public class Horse extends LimitedChessPiece {
     @Override
     protected List<ChessPosition> getCoordinateDestinations(final List<Path> coordinates,
                                                             final ChessPiecePositions positions) {
-        return List.of(new ChessPosition(6, 5),
-                new ChessPosition(6, 3),
-                new ChessPosition(2, 3),
-                new ChessPosition(2, 5),
-                new ChessPosition(5, 6),
-                new ChessPosition(3, 6),
-                new ChessPosition(3, 2),
-                new ChessPosition(5, 2));
+        final List<ChessPosition> chessPositions = new ArrayList<>();
+        for (Path path : coordinates) {
+            if (existChessPiece(positions, path)) {
+                continue;
+            }
+            chessPositions.add(path.getDestination());
+        }
+        return chessPositions;
+    }
+
+    private static boolean existChessPiece(final ChessPiecePositions positions, final Path path) {
+        for (ChessPosition chessPosition : path.getPath()) {
+            if (positions.existChessPieceByPosition(chessPosition)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
