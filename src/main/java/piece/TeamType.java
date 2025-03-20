@@ -3,10 +3,14 @@ package piece;
 public enum TeamType {
     RED, BLUE;
 
-    public static TeamType changeTeamType(final TeamType teamType) {
-        if (teamType == BLUE) {
-            return RED;
+    public TeamType toggleTeam() {
+        if (this == RED) {
+            return BLUE;
         }
-        return BLUE;
+        return RED;
+    }
+
+    public static TeamType getDefaultTeam(){
+        return RED;
     }
 }
