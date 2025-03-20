@@ -1,6 +1,6 @@
 package domain.pattern;
 
-import domain.Position;
+import domain.JanggiPosition;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -14,11 +14,11 @@ public abstract class Path {
         this.paths = paths;
     }
 
-    public List<Pattern> getPath(Position beforePosition, Position afterPosition) {
+    public List<Pattern> getPath(JanggiPosition beforePosition, JanggiPosition afterPosition) {
         return paths.entrySet().stream()
                 .filter(entry -> {
                     List<Pattern> patterns = entry.getValue();
-                    Position newPosition = beforePosition.move(patterns);
+                    JanggiPosition newPosition = beforePosition.move(patterns);
 
                     return newPosition.equals(afterPosition);
                 })

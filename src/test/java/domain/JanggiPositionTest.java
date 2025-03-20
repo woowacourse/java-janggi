@@ -1,5 +1,7 @@
 package domain;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import domain.pattern.Pattern;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -7,7 +9,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class PositionTest {
+public class JanggiPositionTest {
+
+    @Test
+    void 보드판_밖을_벗어나면_예외를_발생시킨다() {
+        // given
+        JanggiPosition janggiPosition = new JanggiPosition(10, 0);
+
+        // when & then
+        assertThatThrownBy(() -> janggiPosition.validateBound())
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
     @Test
     void 좌표를_위로_한_칸_이동시킬_수_있다() {
         // given
@@ -16,11 +29,11 @@ public class PositionTest {
         int afterX = 9;
         int afterY = 1;
 
-        Position beforePosition = new Position(beforeX, beforeY);
-        Position afterPosition = new Position(afterX, afterY);
+        JanggiPosition beforePosition = new JanggiPosition(beforeX, beforeY);
+        JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
 
         // when
-        Position newPosition = beforePosition.moveOnePosition(Pattern.UP);
+        JanggiPosition newPosition = beforePosition.moveOnePosition(Pattern.UP);
 
         // then
         Assertions.assertThat(newPosition).isEqualTo(afterPosition);
@@ -34,11 +47,11 @@ public class PositionTest {
         int afterX = 7;
         int afterY = 3;
 
-        Position beforePosition = new Position(beforeX, beforeY);
-        Position afterPosition = new Position(afterX, afterY);
+        JanggiPosition beforePosition = new JanggiPosition(beforeX, beforeY);
+        JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
 
         // when
-        Position newPosition = beforePosition.move(
+        JanggiPosition newPosition = beforePosition.move(
                 List.of(Pattern.UP, Pattern.DIAGONAL_UP_RIGHT, Pattern.DIAGONAL_UP_RIGHT));
 
         // then
@@ -53,8 +66,8 @@ public class PositionTest {
         int afterX = 2;
         int afterY = 1;
 
-        Position beforePosition = new Position(beforeX, beforeY);
-        Position afterPosition = new Position(afterX, afterY);
+        JanggiPosition beforePosition = new JanggiPosition(beforeX, beforeY);
+        JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
 
         // when
         boolean isBiggerX = afterPosition.isBiggerXThan(beforePosition);
@@ -71,8 +84,8 @@ public class PositionTest {
         int afterX = 1;
         int afterY = 3;
 
-        Position beforePosition = new Position(beforeX, beforeY);
-        Position afterPosition = new Position(afterX, afterY);
+        JanggiPosition beforePosition = new JanggiPosition(beforeX, beforeY);
+        JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
 
         // when
         boolean isBiggerY = afterPosition.isBiggerYThan(beforePosition);
@@ -88,8 +101,8 @@ public class PositionTest {
         int beforeY = 1;
         int afterY = 1;
 
-        Position beforePosition = new Position(beforeX, beforeY);
-        Position afterPosition = new Position(afterX, afterY);
+        JanggiPosition beforePosition = new JanggiPosition(beforeX, beforeY);
+        JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
 
         // when
         int gap = afterPosition.getXGap(beforePosition);
@@ -105,8 +118,8 @@ public class PositionTest {
         int beforeX = 1;
         int afterX = 1;
 
-        Position beforePosition = new Position(beforeX, beforeY);
-        Position afterPosition = new Position(afterX, afterY);
+        JanggiPosition beforePosition = new JanggiPosition(beforeX, beforeY);
+        JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
 
         // when
         int gap = afterPosition.getYGap(beforePosition);

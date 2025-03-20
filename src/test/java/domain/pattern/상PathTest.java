@@ -1,6 +1,6 @@
 package domain.pattern;
 
-import domain.Position;
+import domain.JanggiPosition;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -13,11 +13,11 @@ public class 상PathTest {
 
     @ParameterizedTest
     @MethodSource("provide상Path")
-    void 상의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(Position afterPosition, List<Pattern> path) {
+    void 상의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // given
         int beforeRow = 6;
         int beforeColumn = 5;
-        Position beforePosition = new Position(beforeRow, beforeColumn);
+        JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
         Path pathOf상 = new 상Path();
 
         // when
@@ -31,14 +31,14 @@ public class 상PathTest {
     static Stream<Arguments> provide상Path() {
         Path pathOf상 = new 상Path();
         return Stream.of(
-                Arguments.of(new Position(4, 8), pathOf상.getPatterns(Direction.RIGHT_UP)),
-                Arguments.of(new Position(8, 8), pathOf상.getPatterns(Direction.RIGHT_DOWN)),
-                Arguments.of(new Position(9, 7), pathOf상.getPatterns(Direction.DOWN_RIGHT)),
-                Arguments.of(new Position(9, 3), pathOf상.getPatterns(Direction.DOWN_LEFT)),
-                Arguments.of(new Position(8, 2), pathOf상.getPatterns(Direction.LEFT_DOWN)),
-                Arguments.of(new Position(4, 2), pathOf상.getPatterns(Direction.LEFT_UP)),
-                Arguments.of(new Position(3, 3), pathOf상.getPatterns(Direction.UP_LEFT)),
-                Arguments.of(new Position(3, 7), pathOf상.getPatterns(Direction.UP_RIGHT))
+                Arguments.of(new JanggiPosition(4, 8), pathOf상.getPatterns(Direction.RIGHT_UP)),
+                Arguments.of(new JanggiPosition(8, 8), pathOf상.getPatterns(Direction.RIGHT_DOWN)),
+                Arguments.of(new JanggiPosition(9, 7), pathOf상.getPatterns(Direction.DOWN_RIGHT)),
+                Arguments.of(new JanggiPosition(9, 3), pathOf상.getPatterns(Direction.DOWN_LEFT)),
+                Arguments.of(new JanggiPosition(8, 2), pathOf상.getPatterns(Direction.LEFT_DOWN)),
+                Arguments.of(new JanggiPosition(4, 2), pathOf상.getPatterns(Direction.LEFT_UP)),
+                Arguments.of(new JanggiPosition(3, 3), pathOf상.getPatterns(Direction.UP_LEFT)),
+                Arguments.of(new JanggiPosition(3, 7), pathOf상.getPatterns(Direction.UP_RIGHT))
         );
     }
 
@@ -47,11 +47,11 @@ public class 상PathTest {
         // given
         int beforeRow = 6;
         int beforeColumn = 5;
-        Position beforePosition = new Position(beforeRow, beforeColumn);
+        JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
 
         int afterRow = 4;
         int afterColumn = 6;
-        Position afterPosition = new Position(afterRow, afterColumn);
+        JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
 
         // when & then
         Assertions.assertThatThrownBy(() -> new 상Path().getPath(beforePosition, afterPosition))

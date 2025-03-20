@@ -5,7 +5,7 @@ import static domain.pattern.Direction.LEFT;
 import static domain.pattern.Direction.RIGHT;
 import static domain.pattern.Direction.UP;
 
-import domain.Position;
+import domain.JanggiPosition;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class 포Path extends Path {
     }
 
     @Override
-    public List<Pattern> getPath(Position beforePosition, Position afterPosition) {
+    public List<Pattern> getPath(JanggiPosition beforePosition, JanggiPosition afterPosition) {
         Direction newPath = null;
         int additionalSize = 0;
         if (afterPosition.x() == beforePosition.x()) {

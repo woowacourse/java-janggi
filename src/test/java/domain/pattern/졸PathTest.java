@@ -1,6 +1,6 @@
 package domain.pattern;
 
-import domain.Position;
+import domain.JanggiPosition;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -13,11 +13,11 @@ public class 졸PathTest {
 
     @ParameterizedTest
     @MethodSource("provide졸Path")
-    void 졸의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(Position afterPosition, List<Pattern> path) {
+    void 졸의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // given
         int beforeRow = 7;
         int beforeColumn = 5;
-        Position beforePosition = new Position(beforeRow, beforeColumn);
+        JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
         Path pathOf졸 = new 졸Path();
 
         // when
@@ -31,9 +31,9 @@ public class 졸PathTest {
     static Stream<Arguments> provide졸Path() {
         Path pathOf졸 = new 졸Path();
         return Stream.of(
-                Arguments.of(new Position(6, 5), pathOf졸.getPatterns(Direction.UP)),
-                Arguments.of(new Position(7, 4), pathOf졸.getPatterns(Direction.LEFT)),
-                Arguments.of(new Position(7, 6), pathOf졸.getPatterns(Direction.RIGHT))
+                Arguments.of(new JanggiPosition(6, 5), pathOf졸.getPatterns(Direction.UP)),
+                Arguments.of(new JanggiPosition(7, 4), pathOf졸.getPatterns(Direction.LEFT)),
+                Arguments.of(new JanggiPosition(7, 6), pathOf졸.getPatterns(Direction.RIGHT))
         );
     }
 
@@ -42,11 +42,11 @@ public class 졸PathTest {
         // given
         int beforeRow = 7;
         int beforeColumn = 5;
-        Position beforePosition = new Position(beforeRow, beforeColumn);
+        JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
 
         int afterRow = 8;
         int afterColumn = 5;
-        Position afterPosition = new Position(afterRow, afterColumn);
+        JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
 
         // when & then
         Assertions.assertThatThrownBy(() -> new 졸Path().getPath(beforePosition, afterPosition))

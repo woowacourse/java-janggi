@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Position;
+import domain.JanggiPosition;
 import domain.pattern.Path;
 import domain.pattern.Pattern;
 import java.util.List;
@@ -18,7 +18,7 @@ public abstract class Piece {
         this.path = path;
     }
 
-    public List<Pattern> findPath(Position beforePosition, Position afterPosition) {
+    public List<Pattern> findPath(JanggiPosition beforePosition, JanggiPosition afterPosition) {
         return getPath().getPath(beforePosition, afterPosition);
     }
 

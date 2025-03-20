@@ -1,6 +1,6 @@
 package domain.pattern;
 
-import domain.Position;
+import domain.JanggiPosition;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -12,9 +12,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class 병PathTest {
     @ParameterizedTest
     @MethodSource("provide병Path")
-    void 병의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(Position afterPosition, List<Pattern> path) {
+    void 병의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // given
-        Position beforePosition = new Position(7, 5);
+        JanggiPosition beforePosition = new JanggiPosition(7, 5);
         Path pathOf병 = new 병Path();
 
         // when
@@ -28,17 +28,17 @@ public class 병PathTest {
     static Stream<Arguments> provide병Path() {
         Path pathOf병 = new 병Path();
         return Stream.of(
-                Arguments.of(new Position(8, 5), pathOf병.getPatterns(Direction.DOWN)),
-                Arguments.of(new Position(7, 4), pathOf병.getPatterns(Direction.LEFT)),
-                Arguments.of(new Position(7, 6), pathOf병.getPatterns(Direction.RIGHT))
+                Arguments.of(new JanggiPosition(8, 5), pathOf병.getPatterns(Direction.DOWN)),
+                Arguments.of(new JanggiPosition(7, 4), pathOf병.getPatterns(Direction.LEFT)),
+                Arguments.of(new JanggiPosition(7, 6), pathOf병.getPatterns(Direction.RIGHT))
         );
     }
 
     @Test
     void 병의_이동_전_후_위치가_알맞지_않으면_예외를_발생시킨다() {
         // given
-        Position beforePosition = new Position(7, 5);
-        Position afterPosition = new Position(6, 5);
+        JanggiPosition beforePosition = new JanggiPosition(7, 5);
+        JanggiPosition afterPosition = new JanggiPosition(6, 5);
 
         // when & then
         Assertions.assertThatThrownBy(() -> new 병Path().getPath(beforePosition, afterPosition))
