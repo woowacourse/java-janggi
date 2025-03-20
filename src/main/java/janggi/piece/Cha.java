@@ -54,7 +54,6 @@ public class Cha implements Piece {
     private boolean isNotHurdle(Position destination, List<Piece> enemy, List<Piece> allies) {
         // 경로상에 있는 좌표 리스트 구하기
         List<Position> positions = calculatePositions(destination);
-
         for (Position position : positions) {
             if (position.equals(destination)) {
                 continue;
@@ -65,7 +64,6 @@ public class Cha implements Piece {
                 return false;
             }
         }
-
         for (Position position : positions) {
             boolean isAlliesExistence = allies.stream()
                     .anyMatch(alliesPiece -> alliesPiece.getPosition().equals(position));

@@ -31,8 +31,8 @@ public class JanggiBoard {
             Piece target = choPieces.stream().filter(piece -> piece.getPosition().equals(targetPiecePosition))
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 이동할 말이 존재하지 않습니다."));
-            Piece movedTarget = target.move(destination, hanPieces, choPieces);
             choPieces.remove(target);
+            Piece movedTarget = target.move(destination, hanPieces, choPieces);
             choPieces.add(movedTarget);
             return;
         }
@@ -40,8 +40,8 @@ public class JanggiBoard {
         Piece target = hanPieces.stream().filter(piece -> piece.getPosition().equals(targetPiecePosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 이동할 말이 존재하지 않습니다."));
-        Piece movedTarget = target.move(destination, choPieces, hanPieces);
         hanPieces.remove(target);
+        Piece movedTarget = target.move(destination, choPieces, hanPieces);
         hanPieces.add(movedTarget);
     }
 
