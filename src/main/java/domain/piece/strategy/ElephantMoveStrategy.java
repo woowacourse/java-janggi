@@ -27,9 +27,11 @@ public class ElephantMoveStrategy implements MoveStrategy {
                 if (diagonal.notContains(direction)) {
                     continue;
                 }
-                if (boardVector.equals(new BoardVector(direction.getX() + diagonal.getX(), direction.getY() + diagonal.getY()))) {
+                if (boardVector.equals(new BoardVector(direction.getX() + diagonal.getX() + diagonal.getX(), direction.getY() + diagonal.getY() + diagonal.getY()))) {
                     BoardLocation next = current.move(direction.getX(), direction.getY());
+                    BoardLocation nextDiagonal = current.move(direction.getX() + diagonal.getX(), direction.getY() + diagonal.getY());
                     path.add(next);
+                    path.add(nextDiagonal);
                 }
             }
         }
