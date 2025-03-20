@@ -56,7 +56,7 @@ public class Cannon extends Piece {
         }
 
         boolean check = pieces.stream()
-                .anyMatch(piece -> (piece.hasSamePosition(expectedPosition) && piece.isSameTeam(this)) || piece.getType() == PieceType.CANNON && piece != this);
+                .anyMatch(piece -> piece.hasSamePosition(expectedPosition) && (piece.isSameTeam(this) || piece.getType() == PieceType.CANNON));
 
         if(check){
             return false;

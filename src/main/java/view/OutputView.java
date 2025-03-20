@@ -19,8 +19,8 @@ public class OutputView {
                 .collect(Collectors.joining(" "));
 
         System.out.println("    " + alphabet);
-        for (int row = Row.MIN_ROW; row <= Row.MAX_ROW; row++) {
-            System.out.printf("%2d  ", Row.MAX_ROW - row);
+        for (int row = Row.MAX_ROW; row >= Row.MIN_ROW; row--) {
+            System.out.printf("%2d  ", row);
             for (int col = Column.MIN_COLUMN; col <= Column.MAX_COLUMN; col++) {
                 Position position = Position.of(row,col);
                 Piece findPiece = pieces.stream().filter(piece -> piece.hasSamePosition(position))
