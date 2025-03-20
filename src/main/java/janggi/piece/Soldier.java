@@ -1,12 +1,14 @@
 package janggi.piece;
 
+import janggi.Board;
 import janggi.MovingRule;
 import janggi.MovingRulesGenerator;
+import janggi.Position;
 import java.util.List;
 
-public final class Soldier extends UnjumpablePiece {
+public final class Soldier extends Piece {
 
-    public Soldier(final Team team, final List<MovingRule> movingRules) {
+    private Soldier(final Team team, final List<MovingRule> movingRules) {
         super(team, movingRules);
     }
 
@@ -15,5 +17,22 @@ public final class Soldier extends UnjumpablePiece {
             return new Soldier(Team.HAN, MovingRulesGenerator.hanSoldier());
         }
         return new Soldier(Team.CHO, MovingRulesGenerator.choSoldier());
+    }
+
+    @Override
+    public boolean canJump() {
+        return false;
+    }
+
+    @Override
+    public boolean canMove(final Position start, final Position end, final Board board) {
+        if (cannotFindRule(start, end)) {
+            return false;
+        }
+        return !isPresentSameTeam(end, board);
+    }
+
+    private boolean isPresentSameTeam(final Position end, final Board board) {
+        return board.isPresentSameTeam(team, end);
     }
 }

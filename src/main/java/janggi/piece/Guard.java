@@ -6,9 +6,9 @@ import janggi.MovingRulesGenerator;
 import janggi.Position;
 import java.util.List;
 
-public final class Guard extends UnjumpablePiece {
+public final class Guard extends Piece {
 
-    public Guard(final Team team, final List<MovingRule> movingRules) {
+    private Guard(final Team team, final List<MovingRule> movingRules) {
         super(team, movingRules);
     }
 
@@ -18,7 +18,19 @@ public final class Guard extends UnjumpablePiece {
     }
 
     @Override
-    public boolean canMove(final Position start, final Position end, final Board board) {
+    public boolean canJump() {
         return false;
+    }
+
+    @Override
+    public boolean canMove(final Position start, final Position end, final Board board) {
+        if (cannotFindRule(start, end)) {
+            return false;
+        }
+        return !isPresentSameTeam(end, board);
+    }
+
+    private boolean isPresentSameTeam(final Position end, final Board board) {
+        return board.isPresentSameTeam(team, end);
     }
 }
