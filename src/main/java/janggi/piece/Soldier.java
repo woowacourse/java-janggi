@@ -20,8 +20,10 @@ public class Soldier extends Piece {
     }
 
     private void validateMovingRule(final int differenceX, final int differenceY) {
-        if ((Math.abs(differenceX) == 1 && Math.abs(differenceY) == 0)
-                || (Math.abs(differenceX) == 0 && Math.abs(differenceY) == 1)) {
+        int absDifferenceX = Math.abs(differenceX);
+        int absDifferenceY = Math.abs(differenceY);
+        if ((absDifferenceX == 1 && absDifferenceY == 0)
+                || (absDifferenceX == 0 && absDifferenceY == 1)) {
             return;
         }
         throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");

@@ -38,35 +38,34 @@ public class Elephant extends Piece {
             // 양수인 경우 위로 가는거임
             if (differenceY == 2) {
                 return start.right(2).up(1);
-            } else if (differenceY == -2) {
-                // 음수인 경우 아래로 가는 거임
-                return start.right(2).down(1);
             }
+            // 음수인 경우 아래로 가는 거임
+            return start.right(2).down(1);
+
         }
         if (differenceX == -3) {
             // 양수인 경우 위로 가는거임
             if (differenceY == 2) {
                 return start.left(2).up(1);
-            } else if (differenceY == -2) {
-                // 음수인 경우 아래로 가는 거임
-                return start.left(2).down(1);
             }
+            // 음수인 경우 아래로 가는 거임
+            return start.left(2).down(1);
+
         }
         if (differenceY == 3) {
             if (differenceX == 2) {
                 // 오른쪽임
                 return start.up(2).right(1);
-            } else if (differenceX == -2) {
-                // 왼쪽임
-                return start.up(2).left(1);
             }
+            // 왼쪽임
+            return start.up(2).left(1);
+
         }
 
         if (differenceX == 2) {
             // 오른쪽임
             return start.down(2).right(1);
         }
-        // else if(differenceX== -2) {
         // 왼쪽임
         return start.down(2).left(1);
     }

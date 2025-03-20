@@ -32,8 +32,10 @@ public class Horse extends Piece {
     }
 
     private void validateMovingRule(final int differenceX, final int differenceY) {
-        if ((Math.abs(differenceX) == 2 && Math.abs(differenceY) == 1)
-                || (Math.abs(differenceX) == 1 && Math.abs(differenceY) == 2)) {
+        int absDifferenceX = Math.abs(differenceX);
+        int absDifferenceY = Math.abs(differenceY);
+        if ((absDifferenceX == 2 && absDifferenceY == 1)
+                || (absDifferenceX == 1 && absDifferenceY == 2)) {
             return;
         }
         throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");

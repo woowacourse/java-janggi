@@ -87,13 +87,14 @@ public class Board {
         if (pickedPiece instanceof Cannon) {
             validateNotExistsCannonOnPath(path);
             validateOnePieceOnCannonPath(path);
-        } else {
-            boolean containsPieceOnPath = path.stream()
-                    .anyMatch(board::containsKey);
-            if (containsPieceOnPath) {
-                throw new IllegalArgumentException("경로 상에 말이 존재합니다.");
-            }
+            return;
         }
+        boolean containsPieceOnPath = path.stream()
+                .anyMatch(board::containsKey);
+        if (containsPieceOnPath) {
+            throw new IllegalArgumentException("경로 상에 말이 존재합니다.");
+        }
+
     }
 
     private void validateOnePieceOnCannonPath(final List<Position> path) {
