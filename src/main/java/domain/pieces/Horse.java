@@ -10,9 +10,9 @@ import domain.movements.Route;
 import java.util.List;
 
 public final class Horse implements Piece {
-
-    private final PieceMovement defaultMovement;
     private final Team team;
+    private final PieceMovement defaultMovement;
+
 
     public Horse(final Team team) {
         List<Route> routes = List.of(
@@ -28,6 +28,11 @@ public final class Horse implements Piece {
 
         this.defaultMovement = new DefaultMovement(routes);
         this.team = team;
+    }
+
+    public Horse(Team team, PieceMovement defaultMovement) {
+        this.team = team;
+        this.defaultMovement = defaultMovement;
     }
 
     @Override

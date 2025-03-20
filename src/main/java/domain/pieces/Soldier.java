@@ -11,6 +11,7 @@ import java.util.List;
 
 public final class Soldier implements Piece {
 
+
     private final Team team;
     private final PieceMovement defaultMovement;
 
@@ -29,6 +30,11 @@ public final class Soldier implements Piece {
                 new Route(List.of(Direction.EAST)),
                 new Route(List.of(Direction.WEST))
         ));
+    }
+
+    public Soldier(Team team, PieceMovement defaultMovement) {
+        this.team = team;
+        this.defaultMovement = defaultMovement;
     }
 
     @Override

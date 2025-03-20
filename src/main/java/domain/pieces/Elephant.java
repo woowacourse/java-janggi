@@ -11,8 +11,9 @@ import java.util.List;
 
 public final class Elephant implements Piece {
 
-    private final PieceMovement defaultMovement;
     private final Team team;
+    private final PieceMovement defaultMovement;
+
 
     public Elephant(final Team team) {
         List<Route> routes = List.of(
@@ -29,6 +30,12 @@ public final class Elephant implements Piece {
         this.defaultMovement = new DefaultMovement(routes);
         this.team = team;
     }
+
+    public Elephant(Team team, PieceMovement defaultMovement) {
+        this.defaultMovement = defaultMovement;
+        this.team = team;
+    }
+
 
     @Override
     public boolean hasEqualTeam(final Team team) {
