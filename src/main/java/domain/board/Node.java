@@ -15,12 +15,21 @@ public class Node {
         this.edges = new ArrayList<>();
     }
 
-    public Node moveByPath(PiecePath piecePath) {
-        Node currentNode = this;
-        for (Direction direction : piecePath.directions()) {
-            currentNode = currentNode.findNextNodeByDirection(direction);
-        }
-        return currentNode;
+    public boolean hasEdgeByDirection(Direction direction) {
+        return edges.stream()
+                .anyMatch(edge -> edge.direction() == direction);
+    }
+
+    private Edge findEdgeByDirection(Direction direction) {
+        return edges.stream()
+                .filter(edge -> edge.direction() == direction)
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("해당 방향의 엣지가 존재하지 않습니다."));
+    }
+
+    public Node findNextNodeByDirection(Direction direction) {
+        Edge edge = findEdgeByDirection(direction);
+        return edge.nextNode();
     }
 
     public boolean canMoveByPath(PiecePath piecePath) {
@@ -34,21 +43,12 @@ public class Node {
         return true;
     }
 
-    public boolean hasEdgeByDirection(Direction direction) {
-        return edges.stream()
-                .anyMatch(edge -> edge.direction() == direction);
-    }
-
-    public Node findNextNodeByDirection(Direction direction) {
-        Edge edge = findEdgeByDirection(direction);
-        return edge.nextNode();
-    }
-
-    private Edge findEdgeByDirection(Direction direction) {
-        return edges.stream()
-                .filter(edge -> edge.direction() == direction)
-                .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("해당 방향의 엣지가 존재하지 않습니다."));
+    public Node moveByPath(PiecePath piecePath) {
+        Node currentNode = this;
+        for (Direction direction : piecePath.directions()) {
+            currentNode = currentNode.findNextNodeByDirection(direction);
+        }
+        return currentNode;
     }
 
     public void addAllEdges(List<Edge> edges) {
