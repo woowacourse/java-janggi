@@ -23,6 +23,11 @@ public class OutputView {
         printBoardDetails(defaultBoard);
     }
 
+    public void printWinner(final Player winner) {
+        System.out.println(winner.getName() + "의 승리로 게임이 종료되었습니다.");
+        System.out.println("우승자 : " + winner.getName());
+    }
+
     private List<ArrayList<String>> createDefaultBoard() {
         List<ArrayList<String>> result = Stream.generate(() -> new ArrayList<String>())
                 .limit(10)
