@@ -18,5 +18,7 @@ public class Path {
         return path.contains(p);
     }
 
-
+    public List<Point> getPath() {
+        return path;
+    }
 }

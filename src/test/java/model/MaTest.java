@@ -58,7 +58,7 @@ public class MaTest {
 
     @Nested
     @DisplayName("마 경로 방해 테스트")
-    class JangIsProhibitedPathTest {
+    class MaIsProhibitedPathTest {
 
         @Test
         @DisplayName("중간 아군")

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Map;
+
 public abstract class Piece {
     Team team;
 
@@ -11,9 +13,9 @@ public abstract class Piece {
         return team;
     }
 
-    public abstract boolean isValidPoint(Point beforePoint, Point afterPoint);
+    public abstract boolean isValidPoint(Point beforePoint, Point targetPoint);
 
-    public abstract Path calculatePath(Point beforePoint, Point afterPoint);
+    public abstract Path calculatePath(Point beforePoint, Point targetPoint);
 
-    public abstract boolean canMove(int size);
+    public abstract boolean canMove(Map<Piece,Boolean> piecesOnPathWithTargetOrNot);
 }
