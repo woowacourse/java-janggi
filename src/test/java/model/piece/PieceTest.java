@@ -15,22 +15,6 @@ class PieceTest {
 
     private Board board = new Board(List.of());
 
-/*
-    @Test
-    @DisplayName("기물 종류에는 6가지가 있다")
-    void newPieceTest() {
-        assertThatCode(() -> {
-            Piece p1 = new Palace(0, 0);
-            Piece p2 = new Chariot(0, 0);
-            Piece p3 = new Pao(0, 0);
-            Piece p4 = new Horse(0, 0);
-            Piece p5 = new Elephant(0, 0);
-            Piece p6 = new Soldier(0, 0);
-            Piece p7 = new Pawn(0, 0);
-        }).doesNotThrowAnyException();
-    }
-
-*/
     @Test
     @DisplayName("궁은 적절한 이동이 가능하다")
     void palaceMoveTest() {
@@ -45,7 +29,8 @@ class PieceTest {
     void palaceMoveExceptionTest() {
         Piece p = new Palace(5,5, Team.CHO);
         assertThatThrownBy(() -> p.move(board, Team.CHO, 2, 0))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR] 도달할 수 없는 위치입니다.");
     }
 
     @Test
@@ -61,8 +46,9 @@ class PieceTest {
     @DisplayName("차의 이동 범위를 벗어나면 예외를 반환한다")
     void chariotMoveExceptionTest() {
         Piece p = new Palace(5,5, Team.CHO);
-        assertThatThrownBy(() -> p.move(board, Team.CHO, 2,2))
-            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> p.move(board, Team.CHO, 2, 2))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR] 도달할 수 없는 위치입니다.");
     }
 
     @Test
@@ -80,11 +66,13 @@ class PieceTest {
     void paoMoveExceptionTest() {
         Piece p = new Pao(5,5, Team.CHO);
         board = new Board(List.of(p));
-        assertThatThrownBy(() -> p.move(board, Team.CHO, 3,0))
-            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> p.move(board, Team.CHO, 3, 0))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR] 도달할 수 없는 위치입니다.");
 
-        assertThatThrownBy(() -> p.move(board, Team.CHO, 1,1))
-            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> p.move(board, Team.CHO, 1, 1))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR] 도달할 수 없는 위치입니다.");
     }
 
     @Test
@@ -100,8 +88,9 @@ class PieceTest {
     @DisplayName("마의 이동 범위를 벗어나면 예외를 반환한다")
     void horseMoveExceptionTest() {
         Piece p = new Horse(5,5, Team.CHO);
-        assertThatThrownBy(() -> p.move(board, Team.CHO, 3,0))
-            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> p.move(board, Team.CHO, 3, 0))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR] 도달할 수 없는 위치입니다.");
     }
 
     @Test
@@ -117,8 +106,9 @@ class PieceTest {
     @DisplayName("상의 이동 범위를 벗어나면 예외를 반환한다")
     void elephantMoveExceptionTest() {
         Piece p = new Elephant(5,5, Team.CHO);
-        assertThatThrownBy(() -> p.move(board, Team.CHO, 3,0))
-            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> p.move(board, Team.CHO, 3, 0))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR] 도달할 수 없는 위치입니다.");
     }
 
     @Test
@@ -134,8 +124,9 @@ class PieceTest {
     @DisplayName("사의 이동 범위를 벗어나면 예외를 반환한다")
     void soldierMoveExceptionTest() {
         Piece p = new Soldier(5,5, Team.CHO);
-        assertThatThrownBy(() -> p.move(board, Team.CHO, 3,0))
-            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> p.move(board, Team.CHO, 3, 0))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR] 도달할 수 없는 위치입니다.");
     }
 
     @Test
@@ -156,9 +147,11 @@ class PieceTest {
     void pawnMoveExceptionTest() {
         Piece cho = new Pawn(5,5, Team.CHO);
         Piece han = new Pawn(5,5, Team.HAN);
-        assertThatThrownBy(() -> cho.move(board, Team.CHO, 0,1))
-            .isInstanceOf(IllegalArgumentException.class);
-        assertThatThrownBy(() -> han.move(board, Team.HAN, 0,-1))
-            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> cho.move(board, Team.CHO, 0, 1))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR] 도달할 수 없는 위치입니다.");
+        assertThatThrownBy(() -> han.move(board, Team.HAN, 0, -1))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("[ERROR] 도달할 수 없는 위치입니다.");
     }
 }
