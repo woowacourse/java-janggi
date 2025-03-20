@@ -10,7 +10,7 @@ public record CommandDto(
     public static CommandDto from(String input) {
         String[] split = input.split(" ");
 
-        if(split.length==1 ) {
+        if (split.length == 1) {
             if (split[0].equalsIgnoreCase("q")) {
                 return new CommandDto(null, null, true);
             }

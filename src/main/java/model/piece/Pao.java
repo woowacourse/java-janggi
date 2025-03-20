@@ -28,10 +28,10 @@ public class Pao extends Piece {
         for (var route : routes) {
             Position nextPos = nextPositionOnRoute(position, route);
             while (board.isInboard(nextPos)) {
-                if(overPiece(board, nextPos)){
+                if (overPiece(board, nextPos)) {
                     isOvered = true;
                 }
-                if (nextPos.equals(target) && isOvered)  {
+                if (nextPos.equals(target) && isOvered) {
                     return route;
                 }
                 nextPos = nextPositionOnRoute(nextPos, route);

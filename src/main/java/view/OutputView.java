@@ -22,7 +22,7 @@ public class OutputView {
             StringBuilder line = new StringBuilder();
             line.append(y).append("  ");
             for (int x = 0; x < Board.WIDTH_SIZE; x++) {
-                line.append(pieces.getOrDefault(PositionDto.from(new Position(x,y)), "＿"));
+                line.append(pieces.getOrDefault(PositionDto.from(new Position(x, y)), "＿"));
                 line.append(" ");
             }
             System.out.println(line);

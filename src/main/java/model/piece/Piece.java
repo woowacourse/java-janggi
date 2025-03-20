@@ -9,9 +9,9 @@ import model.board.Board;
 
 public abstract class Piece {
 
-    protected final List<Route> routes = new ArrayList<>();
     private Team team;
     protected Position position;
+    protected final List<Route> routes = new ArrayList<>();
 
     protected Piece(int x, int y, Team team) {
         this.team = team;
