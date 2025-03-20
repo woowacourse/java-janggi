@@ -30,14 +30,15 @@ public class JanggiController {
 
         JanggiGame janggiGame = new JanggiGame(new BlueTurn(board));
         while(!janggiGame.isFinished()) {
-            processWithRetry(() -> playTurn(janggiGame, board));
+            outputView.printTurnNotice(janggiGame.getTurnColor());
+            processWithRetry(() -> playTurn(janggiGame));
+            outputView.printBoard(board);
         }
 
         outputView.printWinner(janggiGame.getTurnColor());
     }
 
-    private void playTurn(JanggiGame janggiGame, Board board) {
-        outputView.printTurnNotice(janggiGame.getTurnColor());
+    private void playTurn(JanggiGame janggiGame) {
         List<String> commands = inputView.readMoveCommand();
 
         Position source = createPosition(commands.get(0));
@@ -46,7 +47,6 @@ public class JanggiController {
         String pieceNameInput = commands.get(1);
         PieceType pieceType = PieceTypeName.getTypeFrom(pieceNameInput);
         janggiGame.move(pieceType, source, destination);
-        outputView.printBoard(board);
     }
 
     private static Position createPosition(String input) {
