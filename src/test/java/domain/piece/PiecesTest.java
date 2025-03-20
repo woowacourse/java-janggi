@@ -118,4 +118,22 @@ class PiecesTest {
         assertThat(pieces.existKing()).isFalse();
         assertThat(piecesInKing.existKing()).isTrue();
     }
+
+    @Test
+    void 좌표의_기물이_포인지_판단한다() {
+        // given
+        Position position1 = Position.of(2, 3);
+        Position position2 = Position.of(3, 3);
+
+        Pieces pieces = new Pieces(List.of(new Cannon(2, 3, PieceDirection.CANNON.get())));
+
+        // when & then
+        pieces.isCannonByPosition(position1);
+
+        // then
+        assertAll(
+                () -> assertThat(pieces.isCannonByPosition(position1)).isTrue(),
+                () -> assertThat(pieces.isCannonByPosition(position2)).isFalse()
+        );
+    }
 }
