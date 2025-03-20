@@ -1,9 +1,9 @@
 package janggi.view;
 
+import janggi.piece.Piece;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
-import janggi.piece.Piece;
 import java.util.Map;
 
 public final class OutputView {
@@ -38,5 +38,9 @@ public final class OutputView {
             return;
         }
         System.out.print(notation.toUpperCase());
+    }
+
+    public void printErrorMessage(final IllegalArgumentException e) {
+        System.out.println(e.getMessage());
     }
 }
