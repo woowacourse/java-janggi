@@ -30,12 +30,14 @@ public class Application {
 
         Team team = Team.GREEN;
         while (true) {
+            outputView.printBoard(board);
             String startAndGoal = inputView.readStartAndGoalPosition(team);
             Position startPosition = parser.splitStartPosition(startAndGoal);
             Position goalPosition = parser.splitGoalPosition(startAndGoal);
             try {
                 board.movePiece(startPosition, goalPosition, team);
             } catch (GameOverException e) {
+                outputView.printBoard(board);
                 outputView.printGameOver(team);
                 break;
             }

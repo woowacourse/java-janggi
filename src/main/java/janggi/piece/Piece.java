@@ -20,7 +20,6 @@ public abstract class Piece {
     public void validateMovable(Map<Position, Piece> board, Position start, Position goal) {
         int pathIndex = calculatePathIndex(start, goal);
         validatePath(board, start, pathIndex);
-        validateNonPieceOnPath(board, start, pathIndex);
         validatePieceOnGoal(board, goal);
 
     }
@@ -64,6 +63,11 @@ public abstract class Piece {
         if (other.isSameTeam(team)) {
             throw new IllegalArgumentException("[ERROR] 목적지에 같은 진영의 기물이 있어 이동할 수 없습니다.");
         }
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 
     protected abstract void validatePath(Map<Position, Piece> board, Position start, int pathIndex);

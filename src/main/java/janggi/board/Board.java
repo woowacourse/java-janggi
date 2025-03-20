@@ -3,10 +3,14 @@ package janggi.board;
 import janggi.Team;
 import janggi.piece.Piece;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
+
+    public static final int ROW_SIZE = 10;
+    public static final int COLUMN_SIZE = 9;
 
     private final Map<Position, Piece> board;
 
@@ -32,5 +36,9 @@ public class Board {
     private Piece move(Position start, Position goal) {
         Piece piece = board.remove(start);
         return board.put(goal, piece);
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return Collections.unmodifiableMap(board);
     }
 }
