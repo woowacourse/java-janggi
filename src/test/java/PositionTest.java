@@ -21,7 +21,7 @@ public class PositionTest {
         //then
         assertThatThrownBy(() -> Position.of(row, column))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 유효하지 않은 위치입니다.");
+                .hasMessage("유효하지 않은 위치입니다.");
     }
 
     @Test

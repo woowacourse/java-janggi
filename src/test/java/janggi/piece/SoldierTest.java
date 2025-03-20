@@ -20,7 +20,7 @@ class SoldierTest {
         Board board = Board.initialize(List.of(soldier));
 
         // when
-        board.move(Position.of(2, 2), Position.of(2, 3));
+        board.movePiece(Position.of(2, 2), Position.of(2, 3));
 
         // then
         assertThat(board.getPiece(Position.of(2, 3))).isInstanceOf(Soldier.class);
