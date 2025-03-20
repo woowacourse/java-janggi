@@ -20,7 +20,8 @@ class ElephantTest {
 
     private static final Position DEFAULT_POSITION = new Position(5, 5);
 
-    private static Elephant DEFAULT_ALLY_ELEPHANT;
+    private static Elephant DEFAULT_ALLY_ELEPHANT = new Elephant(ALLY_SIDE, DEFAULT_POSITION.getX(),
+            DEFAULT_POSITION.getY());
 
     public static Stream<Arguments> 이동하고자_하는_경로에_다른_기물이_존재하면_이동할_수_없다_테스트_케이스() {
         return Stream.of(
