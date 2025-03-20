@@ -16,8 +16,8 @@ public class Piece {
     }
 
     public List<Offset> findMovementRule(
-        final Position before,
-        final Position after
+        final BoardPosition before,
+        final BoardPosition after
     ) {
         final Offset offset = after.calculateOffset(before);
 

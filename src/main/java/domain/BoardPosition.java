@@ -1,11 +1,11 @@
 package domain;
 
-public record Position(
+public record BoardPosition(
     int x,
     int y
 ) {
 
-    public Position {
+    public BoardPosition {
         validateRange(x, y);
     }
 
@@ -18,11 +18,11 @@ public record Position(
         }
     }
 
-    public Position calculatePosition(final Offset offset) {
-        return new Position(this.x + offset.x(), this.y + offset.y());
+    public BoardPosition calculatePosition(final Offset offset) {
+        return new BoardPosition(this.x + offset.x(), this.y + offset.y());
     }
 
-    public Offset calculateOffset(final Position before) {
+    public Offset calculateOffset(final BoardPosition before) {
         return new Offset(this.x - before.x, this.y - before.y);
     }
 }

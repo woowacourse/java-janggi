@@ -21,8 +21,8 @@ class PieceTest {
 
             // when
             List<Offset> movementRule = piece.findMovementRule(
-                new Position(0, 0),
-                new Position(1, 0)
+                new BoardPosition(0, 0),
+                new BoardPosition(1, 0)
             );
 
             // then
@@ -41,8 +41,8 @@ class PieceTest {
 
             // when & then
             assertThatThrownBy(() -> piece.findMovementRule(
-                new Position(0, 0),
-                new Position(0, 1)
+                new BoardPosition(0, 0),
+                new BoardPosition(0, 1)
             )).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 말은 이동할 수 없습니다.");
         }

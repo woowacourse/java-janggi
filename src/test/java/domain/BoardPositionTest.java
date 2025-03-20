@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class PositionTest {
+class BoardPositionTest {
 
     @Nested
     class ValidCases {
@@ -18,8 +18,8 @@ class PositionTest {
         @Test
         void calculateOffset() {
             // given
-            Position before = new Position(0, 0);
-            Position after = new Position(1, 2);
+            BoardPosition before = new BoardPosition(0, 0);
+            BoardPosition after = new BoardPosition(1, 2);
 
             // when
             Offset offset = after.calculateOffset(before);
@@ -47,7 +47,7 @@ class PositionTest {
             int y
         ) {
             // when & then
-            assertThatThrownBy(() -> new Position(x, y))
+            assertThatThrownBy(() -> new BoardPosition(x, y))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("장기판의 범위를 벗어났습니다.");
         }
