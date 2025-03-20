@@ -12,7 +12,7 @@ class PieceFactoryTest {
 
     @Test
     @DisplayName("전략마다 다른 말들의 위치를 반환한다.")
-    void createAllPiecesTest(){
+    void createAllPiecesTest() {
         PieceFactory pieceFactory = new PieceFactory();
         HorseElephantSetupStrategy first = new RightElephantStrategy();
         HorseElephantSetupStrategy second = new LeftElephantStrategy();

@@ -43,7 +43,8 @@ public class PieceFactory {
         );
     }
 
-    public List<Piece> createAllPieces(HorseElephantSetupStrategy hanStrategy, HorseElephantSetupStrategy choStrategy) {
+    public List<Piece> createAllPieces(HorseElephantSetupStrategy choStrategy,
+                                       HorseElephantSetupStrategy hanStrategy) {
         List<Piece> choElephantHorse = choStrategy.createElephantHorse(TeamType.CHO);
         List<Piece> hanElephantHorse = hanStrategy.createElephantHorse(TeamType.HAN);
         List<Piece> allPieces = new ArrayList<>();
