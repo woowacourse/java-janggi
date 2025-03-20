@@ -316,6 +316,6 @@ public class JanggiBoardTest {
         janggiBoard.movePiece(마beforePosition, 졸Position);
 
         // then
-        assertThat(졸piece.getStatus()).isEqualTo(JanggiPieceStatus.CAPTURED);
+        assertThat(졸piece.isCaptured()).isTrue();
     }
 }

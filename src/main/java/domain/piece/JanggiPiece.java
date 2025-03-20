@@ -26,14 +26,19 @@ public abstract class JanggiPiece {
         return false;
     }
 
-    public void captureIfNotMyTeam(JanggiPiece hunterPiece) {
-        if (isMyTeam(hunterPiece)) {
+    public void checkPieceCanMove(JanggiPiece hurdlePiece, int hurdleCount, JanggiPiece targetPiece) {
+        if (isMyTeam(targetPiece)) {
             throw new IllegalStateException("같은 팀의 기물은 잡을 수 없습니다.");
         }
+        if (hurdleCount != 0) {
+            throw new IllegalArgumentException("해당 기물은 장애물을 뛰어넘을 수 없습니다.");
+        }
+    }
+
+    public void captureIfNotEmpty() {
         if (isEmpty()) {
             return;
         }
-
         this.status = JanggiPieceStatus.CAPTURED;
     }
 
@@ -45,7 +50,7 @@ public abstract class JanggiPiece {
         return this.side == other.side;
     }
 
-    public JanggiPieceStatus getStatus() {
-        return status;
+    public boolean isCaptured() {
+        return status == JanggiPieceStatus.CAPTURED;
     }
 }

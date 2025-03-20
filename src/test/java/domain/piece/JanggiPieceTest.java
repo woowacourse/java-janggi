@@ -11,10 +11,9 @@ public class JanggiPieceTest {
         JanggiPiece piece = new 마(JanggiSide.CHO);
 
         // when
-        piece.captureIfNotMyTeam(new 졸병(JanggiSide.HAN));
+        piece.captureIfNotEmpty();
 
         // then
-        Assertions.assertThat(piece.getStatus())
-                .isEqualTo(JanggiPieceStatus.CAPTURED);
+        Assertions.assertThat(piece.isCaptured()).isTrue();
     }
 }
