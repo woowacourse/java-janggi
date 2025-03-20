@@ -99,4 +99,20 @@ public class Janggi {
         return units.stream()
                 .noneMatch(unit -> unit.isSamePoint(position));
     }
+
+    public void changeTurn() {
+        if (turn == Team.HAN) {
+            turn = Team.CHO;
+            return;
+        }
+        turn = Team.HAN;
+    }
+
+    public Team getTurn() {
+        return turn;
+    }
+
+    public List<Unit> getUnits() {
+        return units;
+    }
 }
