@@ -1,12 +1,11 @@
 package domain.piece;
 
-import domain.direction.Directions;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.direction.Directions;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 class PiecesTest {
 
@@ -88,5 +87,23 @@ class PiecesTest {
         // then
         assertThat(result)
                 .isTrue();
+    }
+
+    @Test
+    void 좌표의_기물을_삭제한다() {
+        // given
+        Piece piece = new King(2, 5, new Directions(List.of()));
+        Position position = Position.of(2, 5);
+
+        List<Piece> pieceElements = new ArrayList<>();
+        pieceElements.add(piece);
+        pieceElements.add(new Horse(1, 5, new Directions(List.of())));
+        Pieces pieces = new Pieces(pieceElements);
+
+        // when
+        pieces.deleteByPosition(position);
+
+        // then
+        assertThat(pieceElements).doesNotContain(piece);
     }
 }
