@@ -4,6 +4,7 @@ import java.util.Map;
 
 public abstract class Piece {
     Team team;
+    PieceName pieceName;
 
     public Piece(Team team) {
         this.team = team;
@@ -17,5 +18,9 @@ public abstract class Piece {
 
     public abstract Path calculatePath(Point beforePoint, Point targetPoint);
 
-    public abstract boolean canMove(Map<Piece,Boolean> piecesOnPathWithTargetOrNot);
+    public abstract boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot);
+
+    public PieceName getPieceName() {
+        return pieceName;
+    }
 }
