@@ -3,6 +3,7 @@ package domain.piece;
 import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
 import domain.piece.movement.PhoMovement;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,33 +20,55 @@ public class Pho extends Piece {
             JanggiCoordinate next = movePosition(currCoordinate, direction.getDirection());
             boolean hasObstacle = false;
             while (true) {
-                if (janggiBoard.isOutOfBoundary(next)) {
+                if (invalidPhoCoordinate(currCoordinate, janggiBoard, next, hasObstacle)) {
                     break;
                 }
-                if (!janggiBoard.hasPiece(next) && hasObstacle) {
+                if (isBlankCoordinateAndReachable(janggiBoard, next, hasObstacle)) {
                     availablePositions.add(next);
                 }
-                if (janggiBoard.hasPiece(next) && janggiBoard.isPho(next)) {
-                    break;
-                }
-                if (janggiBoard.hasPiece(next) && hasObstacle && janggiBoard.isMyTeam(currCoordinate, next)) {
-                    break;
-                }
-                if (janggiBoard.hasPiece(next) && hasObstacle && !janggiBoard.isMyTeam(currCoordinate, next)) {
+                if (isEnemyAndReachable(currCoordinate, janggiBoard, next, hasObstacle)) {
                     availablePositions.add(next);
                     break;
                 }
-                if (janggiBoard.hasPiece(next) && !hasObstacle && !janggiBoard.isPho(next)) {
+                if (isObstacle(janggiBoard, next, hasObstacle)) {
                     hasObstacle = true;
                 }
                 next = movePosition(next, direction.getDirection());
             }
         }
-
         return availablePositions;
     }
 
-    public static JanggiCoordinate movePosition(JanggiCoordinate currCoordinate, JanggiCoordinate moveOffset) {
+    private boolean isObstacle(JanggiBoard janggiBoard,
+                               JanggiCoordinate next,
+                               boolean hasObstacle) {
+        return janggiBoard.hasPiece(next) && !hasObstacle && !janggiBoard.isPho(next);
+    }
+
+    private boolean isEnemyAndReachable(JanggiCoordinate currCoordinate,
+                                        JanggiBoard janggiBoard,
+                                        JanggiCoordinate next,
+                                        boolean hasObstacle) {
+        return janggiBoard.hasPiece(next) && hasObstacle && !janggiBoard.isMyTeam(currCoordinate, next);
+    }
+
+    private boolean isBlankCoordinateAndReachable(JanggiBoard janggiBoard,
+                                                  JanggiCoordinate next,
+                                                  boolean hasObstacle) {
+        return !janggiBoard.hasPiece(next) && hasObstacle;
+    }
+
+    private boolean invalidPhoCoordinate(JanggiCoordinate currCoordinate,
+                                         JanggiBoard janggiBoard,
+                                         JanggiCoordinate next,
+                                         boolean hasObstacle) {
+        return janggiBoard.isOutOfBoundary(next) ||
+                (janggiBoard.hasPiece(next) && janggiBoard.isPho(next)) ||
+                janggiBoard.hasPiece(next) && hasObstacle && janggiBoard.isMyTeam(currCoordinate, next);
+    }
+
+    public JanggiCoordinate movePosition(JanggiCoordinate currCoordinate,
+                                         JanggiCoordinate moveOffset) {
         return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
     }
 
