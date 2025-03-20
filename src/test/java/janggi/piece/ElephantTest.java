@@ -27,7 +27,7 @@ class ElephantTest {
         Board board = new Board(initialBoard);
 
         // when
-        board.movePiece(start, goal);
+        board.movePiece(start, goal, Team.GREEN);
 
         // then
         assertThat(board).extracting("board")

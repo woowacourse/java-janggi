@@ -32,7 +32,7 @@ public class Application {
             String startAndGoal = inputView.readStartAndGoalPosition(team);
             Position startPosition = parser.splitStartPosition(startAndGoal);
             Position goalPosition = parser.splitGoalPosition(startAndGoal);
-            board.movePiece(startPosition, goalPosition);
+            board.movePiece(startPosition, goalPosition, team);
 
             team = team.convertTeam();
         }
