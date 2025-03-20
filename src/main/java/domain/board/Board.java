@@ -60,7 +60,7 @@ public class Board {
     }
 
     public boolean hasTypeByNode(Node node, PieceType pieceType) {
-        if (!existsPoByNode(node)) {
+        if (!existsPieceByNode(node)) {
             return false;
         }
         Piece piece = board.get(node);
