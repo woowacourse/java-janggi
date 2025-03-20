@@ -26,4 +26,8 @@ public record Offset(
             throw new IllegalArgumentException("오프셋의 범위를 벗어났습니다.");
         }
     }
+
+    public boolean hasNoMovement() {
+        return x == 0 && y == 0;
+    }
 }

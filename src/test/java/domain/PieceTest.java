@@ -60,5 +60,19 @@ class PieceTest {
             )).isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("해당 말은 해당 위치로 이동할 수 없습니다.");
         }
+
+        @DisplayName("기물이 이동하려는 위치가 현재 위치라면 예외가 발생한다.")
+        @Test
+        void validateNotMove() {
+            // given
+            Piece piece = new Piece(PieceType.ZZU, Team.RED);
+
+            // when & then
+            assertThatThrownBy(() -> piece.findMovementRule(
+                    new BoardPosition(5, 5),
+                    new BoardPosition(5, 5)
+            )).isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("기물을 현재 위치로 이동시킬 수 없습니다.");
+        }
     }
 }

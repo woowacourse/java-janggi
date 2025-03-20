@@ -5,10 +5,10 @@ import java.util.Objects;
 
 public class Piece {
 
-    private final PieceType pieceType;
-    private final Team team;
+    protected final PieceType pieceType;
+    protected final Team team;
 
-    Piece(
+    protected Piece(
             final PieceType pieceType,
             final Team team
     ) {
@@ -21,9 +21,15 @@ public class Piece {
             final BoardPosition after
     ) {
         final Offset offset = after.calculateOffset(before);
-
+        validateNotMove(offset);
         return pieceType.findMovementRule(offset, team)
                 .orElseThrow(() -> new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다."));
+    }
+
+    protected void validateNotMove(final Offset offset) {
+        if (offset.hasNoMovement()) {
+            throw new IllegalArgumentException("기물을 현재 위치로 이동시킬 수 없습니다.");
+        }
     }
 
     public boolean isObstacleCountAllowed(final int obstacleCount) {
