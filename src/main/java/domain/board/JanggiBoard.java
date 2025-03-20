@@ -43,7 +43,7 @@ public final class JanggiBoard {
         }
     }
 
-    public boolean isBlankCoordinate(JanggiCoordinate coordinate){
+    public boolean isBlankCoordinate(JanggiCoordinate coordinate) {
         return !board.containsKey(coordinate);
     }
 
@@ -75,4 +75,5 @@ public final class JanggiBoard {
     public Country findCountryByCoordinate(JanggiCoordinate currCoordinate) {
         return board.get(currCoordinate).getCountry();
     }
+    
 }
