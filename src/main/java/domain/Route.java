@@ -1,29 +1,28 @@
 package domain;
 
-import domain.unit.Point;
 import java.util.Collections;
 import java.util.List;
 
 public class Route {
-    private final List<Point> points;
+    private final List<Position> positions;
 
-    private Route(List<Point> points) {
-        this.points = points;
+    private Route(List<Position> positions) {
+        this.positions = positions;
     }
 
-    public static Route of(List<Point> points) {
-        return new Route(points);
+    public static Route of(List<Position> positions) {
+        return new Route(positions);
     }
 
-    public Point searchEndPoint() {
-        return points.getLast();
+    public Position searchEndPoint() {
+        return positions.getLast();
     }
 
-    public List<Point> getPoints() {
-        return Collections.unmodifiableList(points);
+    public List<Position> getPoints() {
+        return Collections.unmodifiableList(positions);
     }
 
-    public List<Point> getPointsExceptEndPoint() {
-        return points.subList(0, points.size() - 1);
+    public List<Position> getPointsExceptEndPoint() {
+        return positions.subList(0, positions.size() - 1);
     }
 }

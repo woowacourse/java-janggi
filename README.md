@@ -42,7 +42,7 @@
 
 - [ ] 어느 방향이 앞인지 결정한다.
 
-### 좌표, domain.unit.Point
+### 좌표, domain.Position
 
 - [x] 좌표가 보드를 넘는지 안 넘는지 판단한다.
 

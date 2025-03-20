@@ -1,9 +1,7 @@
 package domain;
 
-import domain.unit.Point;
 import java.util.ArrayList;
 import java.util.List;
-import domain.unit.Team;
 import domain.unit.Unit;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -27,14 +25,14 @@ public class Janggi {
         return units;
     }
 
-    public List<Route> searchAvailableRoutes(Point pick) {
+    public List<Route> searchAvailableRoutes(Position pick) {
         Unit pickedUnit = findUnitByPoint(pick)
                 .orElseThrow(() -> new IllegalArgumentException(""));
         List<Route> totalRoutes = pickedUnit.calculateRoutes();
         return applyUnitProperty(pickedUnit, pick, totalRoutes);
     }
 
-    private List<Route> applyUnitProperty(Unit pickedUnit, Point pick, List<Route> totalRoutes) {
+    private List<Route> applyUnitProperty(Unit pickedUnit, Position pick, List<Route> totalRoutes) {
         UnitType type = pickedUnit.getType();
         if (type == UnitType.BOMB) {
             totalRoutes = totalRoutes.stream().filter(this::canBombJump).toList();
@@ -46,7 +44,7 @@ public class Janggi {
         return findAvailableRoute(totalRoutes);
     }
 
-    private static List<Route> searchJolRoutes(Point pick, Unit pickedUnit, List<Route> totalRoutes) {
+    private static List<Route> searchJolRoutes(Position pick, Unit pickedUnit, List<Route> totalRoutes) {
         if (pickedUnit.getTeam() == Team.HAN) {
             return totalRoutes.stream()
                     .filter(route -> route.getPoints().getFirst().getY() >= pick.getY())
@@ -59,8 +57,8 @@ public class Janggi {
 
     private boolean canBombJump(Route route) {
         int count = 0;
-        for (Point point : route.getPointsExceptEndPoint()) {
-            Optional<Unit> unit = findUnitByPoint(point);
+        for (Position position : route.getPointsExceptEndPoint()) {
+            Optional<Unit> unit = findUnitByPoint(position);
             if (unit.isPresent() && unit.get().getType() == UnitType.BOMB) {
                 return false;
             }
@@ -71,7 +69,7 @@ public class Janggi {
         return (count == 1);
     }
 
-    private Optional<Unit> findUnitByPoint(Point pick) {
+    private Optional<Unit> findUnitByPoint(Position pick) {
         return units.stream()
                 .filter(unit -> unit.isSamePoint(pick))
                 .findFirst();
@@ -90,13 +88,13 @@ public class Janggi {
     }
 
     public boolean isAvailableEndPoint(Route route) {
-        Point endPoint = route.searchEndPoint();
-        Optional<Unit> endPointUnit = findUnitByPoint(endPoint);
+        Position endPosition = route.searchEndPoint();
+        Optional<Unit> endPointUnit = findUnitByPoint(endPosition);
         return endPointUnit.isEmpty() || endPointUnit.get().getTeam() != this.turn;
     }
 
-    public boolean isEmptyPoint(Point point) {
+    public boolean isEmptyPoint(Position position) {
         return units.stream()
-                .noneMatch(unit -> unit.isSamePoint(point));
+                .noneMatch(unit -> unit.isSamePoint(position));
     }
 }

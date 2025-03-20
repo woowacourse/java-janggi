@@ -1,5 +1,6 @@
 package domain.unit;
 
+import domain.Position;
 import domain.Route;
 import domain.UnitType;
 import java.util.ArrayList;
@@ -13,31 +14,31 @@ public class CarUnitRule implements UnitRule {
         return UnitType.CAR;
     }
 
-    public List<Route> calculateAllRoute(Point start) {
+    public List<Route> calculateAllRoute(Position start) {
         List<Route> routes = new ArrayList<>();
-        List<Point> points = calculateEndPoints(start);
-        for (Point end : points) {
+        List<Position> positions = calculateEndPoints(start);
+        for (Position end : positions) {
             routes.add(calculateRoute(start, end));
         }
         return routes;
     }
 
-    public List<Point> calculateEndPoints(Point start) {
+    public List<Position> calculateEndPoints(Position start) {
         int x = start.getX();
         int y = start.getY();
-        List<Point> xPoints = IntStream.range(0, Point.X_MAX + 1)
+        List<Position> xPositions = IntStream.range(0, Position.X_MAX + 1)
                 .filter(element -> element != x)
-                .mapToObj(element -> new Point(element, y))
+                .mapToObj(element -> new Position(element, y))
                 .toList();
-        List<Point> yPoints = IntStream.range(0, Point.Y_MAX + 1)
+        List<Position> yPositions = IntStream.range(0, Position.Y_MAX + 1)
                 .filter(element -> element != y)
-                .mapToObj(element -> new Point(x, element))
+                .mapToObj(element -> new Position(x, element))
                 .toList();
-        return Stream.concat(xPoints.stream(), yPoints.stream())
+        return Stream.concat(xPositions.stream(), yPositions.stream())
                 .toList();
     }
 
-    public Route calculateRoute(Point start, Point end) {
+    public Route calculateRoute(Position start, Position end) {
         int startX = start.getX();
         int startY = start.getY();
 
@@ -49,14 +50,14 @@ public class CarUnitRule implements UnitRule {
             int minY = Integer.min(startY, endY);
             return Route.of(IntStream.range(minY, maxY + 1)
                     .filter(y -> startY != y)
-                    .mapToObj(y -> new Point(startX, y))
+                    .mapToObj(y -> new Position(startX, y))
                     .toList());
         }
         int maxX = Integer.max(startX, endX);
         int minX = Integer.min(startX, endX);
         return Route.of(IntStream.range(minX, maxX + 1)
                 .filter(x -> startX != x)
-                .mapToObj(x -> new Point(x, startY))
+                .mapToObj(x -> new Position(x, startY))
                 .toList());
     }
 }

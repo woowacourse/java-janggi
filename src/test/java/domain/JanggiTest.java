@@ -1,6 +1,5 @@
 package domain;
 
-import domain.unit.Point;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +15,7 @@ class JanggiTest {
 
         // when
 
-        List<Route> routes = janggi.searchAvailableRoutes(new Point(0, 3));
+        List<Route> routes = janggi.searchAvailableRoutes(new Position(0, 3));
 
         // then
         Assertions.assertThat(routes).hasSize(2);
@@ -29,7 +28,7 @@ class JanggiTest {
         Janggi janggi = new Janggi();
 
         // when
-        List<Route> routes = janggi.searchAvailableRoutes(new Point(1, 7));
+        List<Route> routes = janggi.searchAvailableRoutes(new Position(1, 7));
 
         // then
         Assertions.assertThat(routes).hasSize(0);
@@ -43,7 +42,7 @@ class JanggiTest {
 
         // when
         boolean isFalse = janggi.isAvailableRoute(Route.of(List.of
-                (new Point(0, 1), new Point(0, 2), new Point(0, 3), new Point(0, 4))));
+                (new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4))));
 
         // then
         Assertions.assertThat(isFalse).isFalse();
@@ -57,7 +56,7 @@ class JanggiTest {
 
         // when
         boolean isTrue = janggi.isAvailableRoute(Route.of(List.of
-                (new Point(0, 1), new Point(0, 2), new Point(0, 4))));
+                (new Position(0, 1), new Position(0, 2), new Position(0, 4))));
 
         // then
         Assertions.assertThat(isTrue).isTrue();

@@ -1,15 +1,15 @@
-package domain.unit;
+package domain;
 
 import java.util.Objects;
 
-public class Point {
+public class Position {
     public static final int X_MAX = 8;
     public static final int Y_MAX = 9;
 
     private final int x;
     private final int y;
 
-    public Point(int x, int y) {
+    public Position(int x, int y) {
         validate(x, y);
         this.x = x;
         this.y = y;
@@ -24,12 +24,12 @@ public class Point {
         }
     }
 
-    public boolean isHorizontal(Point opposite) {
+    public boolean isHorizontal(Position opposite) {
         return (this.x == opposite.x || this.y == opposite.y);
     }
 
-    public Point calculateOpposite(Point point) {
-        return new Point(X_MAX - point.x, Y_MAX - point.y);
+    public Position calculateOpposite(Position position) {
+        return new Position(X_MAX - position.x, Y_MAX - position.y);
     }
 
     public int getX() {
@@ -45,8 +45,8 @@ public class Point {
         if (object == null || getClass() != object.getClass()) {
             return false;
         }
-        Point point = (Point) object;
-        return x == point.x && y == point.y;
+        Position position = (Position) object;
+        return x == position.x && y == position.y;
     }
 
     @Override
