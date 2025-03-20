@@ -4,6 +4,7 @@ import domain.piece.Cannon;
 import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Board {
 
@@ -54,6 +55,12 @@ public class Board {
 
     public List<Piece> getPieces() {
         return pieces;
+    }
+
+    public Optional<Piece> findPiece(Position position) {
+        return pieces.stream()
+                .filter(piece -> piece.isSamePosition(position))
+                .findFirst();
     }
 
     /*
