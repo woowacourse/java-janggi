@@ -64,13 +64,13 @@ public enum PieceDirection {
     ))),
     HAN_PAWN(new Directions(List.of(
             new Direction(List.of(Position.ofDirection(0, 1)), false),
-            new Direction(List.of(Position.ofDirection(0, -1)), false),
-            new Direction(List.of(Position.ofDirection(1, 0)), false)
+            new Direction(List.of(Position.ofDirection(1, 0)), false),
+            new Direction(List.of(Position.ofDirection(-1, 0)), false)
     ))),
     CHO_PAWN(new Directions(List.of(
-            new Direction(List.of(Position.ofDirection(0, 1)), false),
-            new Direction(List.of(Position.ofDirection(0, -1)), false),
-            new Direction(List.of(Position.ofDirection(-1, 0)), false)
+            new Direction(List.of(Position.ofDirection(1, 0)), false),
+            new Direction(List.of(Position.ofDirection(-1, 0)), false),
+            new Direction(List.of(Position.ofDirection(0, -1)), false)
     ))),
     ;
 
