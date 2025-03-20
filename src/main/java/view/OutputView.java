@@ -37,10 +37,10 @@ public class OutputView {
             System.out.println(String.join(" ", rowString));
         }
 
-        clearColor();
+        Painter.clean();
     }
 
-    private static void clearColor() {
-        System.out.println(Painter.paintWhite(""));
+    public static void printMatchResult(Team winTeam) {
+        System.out.printf("%s나라의 승리입니다.", winTeam.title());
     }
 }
