@@ -52,6 +52,11 @@ public class Controller {
             moveHan(janggiBoard);
 
             outputView.printJanggiBoard(janggiBoard);
+
+            if (janggiBoard.isEnd()) {
+                break;
+            }
+
             moveCho(janggiBoard);
 
             outputView.printJanggiBoard(janggiBoard);
