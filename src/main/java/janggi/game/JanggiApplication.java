@@ -1,22 +1,22 @@
-package janggi;
+package janggi.game;
 
 import janggi.point.Point;
 import janggi.view.BoardView;
 import janggi.view.InputView;
 
-public class Application {
+public class JanggiApplication {
 
     private final InputView inputView;
     private final BoardView boardView;
 
-    private Application() {
+    private JanggiApplication() {
         inputView = new InputView();
         boardView = new BoardView();
     }
 
     public static void main(String[] args) {
-        Application application = new Application();
-        application.run();
+        JanggiApplication janggiApplication = new JanggiApplication();
+        janggiApplication.run();
     }
 
     private void run() {

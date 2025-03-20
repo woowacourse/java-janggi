@@ -1,5 +1,6 @@
-package janggi;
+package janggi.piece;
 
+import janggi.game.Team;
 import janggi.point.Point;
 import java.util.List;
 

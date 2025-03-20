@@ -1,9 +1,8 @@
 package janggi.piece;
 
 import janggi.point.InitialPoint;
-import janggi.Movable;
 import janggi.point.Point;
-import janggi.Team;
+import janggi.game.Team;
 import janggi.point.PointDistance;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +30,7 @@ public class Sa implements Movable {
         }
         sas = createdPieces;
     }
+
     public static List<Sa> values() {
         return new ArrayList<>(sas);
     }
@@ -48,6 +48,11 @@ public class Sa implements Movable {
     }
 
     @Override
+    public Movable updatePoint(Point afterPoint) {
+        return new Sang(team, afterPoint);
+    }
+
+    @Override
     public String getName() {
         return NAME;
     }
@@ -60,10 +65,5 @@ public class Sa implements Movable {
     @Override
     public Team getTeam() {
         return this.team;
-    }
-
-    @Override
-    public Movable updatePoint(Point afterPoint) {
-        return new Sang(team, afterPoint);
     }
 }

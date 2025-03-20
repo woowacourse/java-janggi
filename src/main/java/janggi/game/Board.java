@@ -1,9 +1,10 @@
-package janggi;
+package janggi.game;
 
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
 import janggi.piece.Gung;
 import janggi.piece.Ma;
+import janggi.piece.Movable;
 import janggi.piece.Po;
 import janggi.piece.Sa;
 import janggi.piece.Sang;
@@ -35,14 +36,6 @@ public class Board {
         pieces.addAll(Byeong.values());
 
         return new Board(pieces);
-    }
-
-    public List<Movable> getRunningPieces() {
-        return Collections.unmodifiableList(runningPieces);
-    }
-
-    public Team getTurn() {
-        return turn;
     }
 
     public void reverseTurn() {
@@ -94,7 +87,8 @@ public class Board {
             if (!((Po) movingPiece).isMovable(afterPoint, this)) {
                 throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
             }
-        } else if (!movingPiece.isInMovingRange(afterPoint) || checkHurdles(beforePoint, movingPiece.findRoute(afterPoint))
+        } else if (!movingPiece.isInMovingRange(afterPoint) || checkHurdles(beforePoint,
+                movingPiece.findRoute(afterPoint))
         ) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
@@ -109,5 +103,13 @@ public class Board {
 
         runningPieces.remove(movingPiece);
         runningPieces.add(updatedMoving);
+    }
+
+    public List<Movable> getRunningPieces() {
+        return Collections.unmodifiableList(runningPieces);
+    }
+
+    public Team getTurn() {
+        return turn;
     }
 }

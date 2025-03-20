@@ -1,10 +1,9 @@
 package janggi.piece;
 
-import janggi.Direction;
+import janggi.point.Direction;
 import janggi.point.InitialPoint;
-import janggi.Movable;
 import janggi.point.Point;
-import janggi.Team;
+import janggi.game.Team;
 import janggi.point.PointDistance;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +31,7 @@ public class Ma implements Movable {
         }
         mas = createdPieces;
     }
+
     public static List<Ma> values() {
         return new ArrayList<>(mas);
     }
@@ -41,16 +41,6 @@ public class Ma implements Movable {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
 
         return distance.isSameWith(Math.sqrt(5));
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
-    }
-
-    @Override
-    public Point getPoint() {
-        return point;
     }
 
     @Override
@@ -67,12 +57,22 @@ public class Ma implements Movable {
     }
 
     @Override
-    public Team getTeam() {
-        return this.team;
+    public Movable updatePoint(Point afterPoint) {
+        return new Ma(team, afterPoint);
     }
 
     @Override
-    public Movable updatePoint(Point afterPoint) {
-        return new Ma(team, afterPoint);
+    public String getName() {
+        return NAME;
+    }
+
+    @Override
+    public Point getPoint() {
+        return point;
+    }
+
+    @Override
+    public Team getTeam() {
+        return this.team;
     }
 }

@@ -1,9 +1,8 @@
 package janggi.piece;
 
 import janggi.point.InitialPoint;
-import janggi.Movable;
 import janggi.point.Point;
-import janggi.Team;
+import janggi.game.Team;
 import janggi.point.PointDistance;
 import java.util.ArrayList;
 import java.util.List;

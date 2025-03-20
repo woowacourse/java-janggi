@@ -3,7 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.Team;
+import janggi.game.Team;
 import janggi.point.Point;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -85,7 +85,7 @@ public class GungTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(1);
-                assertThat(route).containsExactly(new Point(6,5));
+                assertThat(route).containsExactly(new Point(6, 5));
             });
         }
 
@@ -100,7 +100,7 @@ public class GungTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(1);
-                assertThat(route).containsExactly(new Point(6,7));
+                assertThat(route).containsExactly(new Point(6, 7));
             });
         }
 
@@ -115,7 +115,7 @@ public class GungTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(1);
-                assertThat(route).containsExactly(new Point(5,6));
+                assertThat(route).containsExactly(new Point(5, 6));
             });
         }
 
@@ -130,7 +130,7 @@ public class GungTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(1);
-                assertThat(route).containsExactly(new Point(7,6));
+                assertThat(route).containsExactly(new Point(7, 6));
             });
         }
     }

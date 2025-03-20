@@ -1,4 +1,4 @@
-package janggi;
+package janggi.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
 import janggi.piece.Gung;
+import janggi.piece.Movable;
 import janggi.piece.Po;
 import janggi.point.Point;
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class BoardTest {
             Point startPoint = new Point(5, 4);
             List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
 
-           assertThat(board.checkHurdles(startPoint, route)).isTrue();
+            assertThat(board.checkHurdles(startPoint, route)).isTrue();
         }
 
         @Test

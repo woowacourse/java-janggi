@@ -1,15 +1,15 @@
 package janggi.view;
 
-import janggi.Board;
-import janggi.Movable;
-import janggi.Team;
+import janggi.game.Board;
+import janggi.piece.Movable;
+import janggi.game.Team;
 import janggi.point.Point;
 import java.util.Arrays;
 import java.util.List;
 
 public class BoardView {
 
-    public static final String EXIT_COLOR_CODE = "\u001B[0m" ;
+    public static final String EXIT_COLOR_CODE = "\u001B[0m";
 
     private static final int ROW_SIZE = 10;
     private static final int COLUMN_SIZE = 9;
@@ -26,7 +26,7 @@ public class BoardView {
         List<Movable> pieces = board.getRunningPieces();
         placePieces(pieces);
         for (int row = 0; row < ROW_SIZE; row++) {
-            String line = String.format(" %2s |",  "\u001B[37m" + toFullWidthNumber(row) + "\u001B[0m");
+            String line = String.format(" %2s |", "\u001B[37m" + toFullWidthNumber(row) + "\u001B[0m");
             for (String token : matrix[row]) {
                 line += String.format(" %2s |", token);
             }
@@ -64,7 +64,7 @@ public class BoardView {
     }
 
     private void placePieces(List<Movable> pieces) {
-        for(Movable piece : pieces) {
+        for (Movable piece : pieces) {
             Point point = piece.getPoint();
             Team team = piece.getTeam();
             matrix[point.row()][point.column()] = team.getColorCode() + piece.getName() + EXIT_COLOR_CODE;

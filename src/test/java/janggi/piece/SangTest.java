@@ -3,7 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.Team;
+import janggi.game.Team;
 import janggi.point.Point;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +19,7 @@ public class SangTest {
         @Test
         @DisplayName("상-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkUpRightMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5,4));
+            Sang sang = new Sang(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(2, 6);
 
@@ -29,7 +29,7 @@ public class SangTest {
         @Test
         @DisplayName("우-좌측대각선로 이동할 수 있다면 true를 반환한다.")
         void checkRightLeftMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5,4));
+            Sang sang = new Sang(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(3, 7);
 
@@ -39,7 +39,7 @@ public class SangTest {
         @Test
         @DisplayName("우-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkRightRightMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5,4));
+            Sang sang = new Sang(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(7, 7);
 
@@ -49,7 +49,7 @@ public class SangTest {
         @Test
         @DisplayName("하-좌측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkDownLeftMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5,4));
+            Sang sang = new Sang(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(8, 6);
 
@@ -59,7 +59,7 @@ public class SangTest {
         @Test
         @DisplayName("하-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkDownRightMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5,4));
+            Sang sang = new Sang(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(8, 2);
 
@@ -69,7 +69,7 @@ public class SangTest {
         @Test
         @DisplayName("좌-좌측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkLeftLeftMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5,4));
+            Sang sang = new Sang(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(7, 1);
 
@@ -79,7 +79,7 @@ public class SangTest {
         @Test
         @DisplayName("좌-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkLeftRightMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5,4));
+            Sang sang = new Sang(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(3, 1);
 
@@ -89,7 +89,7 @@ public class SangTest {
         @Test
         @DisplayName("상-좌측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkUpLeftMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5,4));
+            Sang sang = new Sang(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(2, 2);
 
@@ -112,7 +112,7 @@ public class SangTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(4,4), new Point(3, 5), new Point(2, 6));
+                assertThat(route).containsExactly(new Point(4, 4), new Point(3, 5), new Point(2, 6));
             });
         }
 
@@ -127,7 +127,7 @@ public class SangTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(5,5), new Point(4, 6), new Point(3, 7));
+                assertThat(route).containsExactly(new Point(5, 5), new Point(4, 6), new Point(3, 7));
             });
         }
 
@@ -142,7 +142,7 @@ public class SangTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(5,5), new Point(6, 6), new Point(7, 7));
+                assertThat(route).containsExactly(new Point(5, 5), new Point(6, 6), new Point(7, 7));
             });
         }
 
@@ -157,7 +157,7 @@ public class SangTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(6,4), new Point(7, 5), new Point(8, 6));
+                assertThat(route).containsExactly(new Point(6, 4), new Point(7, 5), new Point(8, 6));
             });
         }
 
@@ -172,7 +172,7 @@ public class SangTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(6,4), new Point(7, 3), new Point(8, 2));
+                assertThat(route).containsExactly(new Point(6, 4), new Point(7, 3), new Point(8, 2));
             });
         }
 
@@ -187,7 +187,7 @@ public class SangTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(5,3), new Point(6, 2), new Point(7, 1));
+                assertThat(route).containsExactly(new Point(5, 3), new Point(6, 2), new Point(7, 1));
             });
         }
 
@@ -202,7 +202,7 @@ public class SangTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(5,3), new Point(4, 2), new Point(3, 1));
+                assertThat(route).containsExactly(new Point(5, 3), new Point(4, 2), new Point(3, 1));
             });
         }
 
@@ -217,7 +217,7 @@ public class SangTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(4,4), new Point(3, 3), new Point(2, 2));
+                assertThat(route).containsExactly(new Point(4, 4), new Point(3, 3), new Point(2, 2));
             });
         }
     }

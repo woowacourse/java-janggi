@@ -3,7 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.Team;
+import janggi.game.Team;
 import janggi.point.Point;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +19,7 @@ class MaTest {
         @Test
         @DisplayName("상-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkUpRightMovable() {
-            Ma ma = new Ma(Team.CHO, new Point(5,4));
+            Ma ma = new Ma(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(3, 5);
 
@@ -29,7 +29,7 @@ class MaTest {
         @Test
         @DisplayName("우-좌측대각선로 이동할 수 있다면 true를 반환한다.")
         void checkRightLeftMovable() {
-            Ma ma = new Ma(Team.CHO, new Point(5,4));
+            Ma ma = new Ma(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(4, 6);
 
@@ -39,7 +39,7 @@ class MaTest {
         @Test
         @DisplayName("우-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkRightRightMovable() {
-            Ma ma = new Ma(Team.CHO, new Point(5,4));
+            Ma ma = new Ma(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(6, 6);
 
@@ -49,7 +49,7 @@ class MaTest {
         @Test
         @DisplayName("하-좌측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkDownLeftMovable() {
-            Ma ma = new Ma(Team.CHO, new Point(5,4));
+            Ma ma = new Ma(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(7, 5);
 
@@ -59,7 +59,7 @@ class MaTest {
         @Test
         @DisplayName("하-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkDownRightMovable() {
-            Ma ma = new Ma(Team.CHO, new Point(5,4));
+            Ma ma = new Ma(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(7, 3);
 
@@ -69,7 +69,7 @@ class MaTest {
         @Test
         @DisplayName("좌-좌측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkLeftLeftMovable() {
-            Ma ma = new Ma(Team.CHO, new Point(5,4));
+            Ma ma = new Ma(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(6, 2);
 
@@ -79,7 +79,7 @@ class MaTest {
         @Test
         @DisplayName("좌-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkLeftRightMovable() {
-            Ma ma = new Ma(Team.CHO, new Point(5,4));
+            Ma ma = new Ma(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(4, 2);
 
@@ -89,7 +89,7 @@ class MaTest {
         @Test
         @DisplayName("상-좌측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkUpLeftMovable() {
-            Ma ma = new Ma(Team.CHO, new Point(5,4));
+            Ma ma = new Ma(Team.CHO, new Point(5, 4));
 
             Point targetPoint = new Point(3, 3);
 
@@ -112,7 +112,7 @@ class MaTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(4,4), new Point(3, 5));
+                assertThat(route).containsExactly(new Point(4, 4), new Point(3, 5));
             });
         }
 
@@ -127,7 +127,7 @@ class MaTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(5,5), new Point(4, 6));
+                assertThat(route).containsExactly(new Point(5, 5), new Point(4, 6));
             });
         }
 
@@ -142,7 +142,7 @@ class MaTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(5,5), new Point(6, 6));
+                assertThat(route).containsExactly(new Point(5, 5), new Point(6, 6));
             });
         }
 
@@ -157,7 +157,7 @@ class MaTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(6,4), new Point(7, 5));
+                assertThat(route).containsExactly(new Point(6, 4), new Point(7, 5));
             });
         }
 
@@ -172,7 +172,7 @@ class MaTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(6,4), new Point(7, 3));
+                assertThat(route).containsExactly(new Point(6, 4), new Point(7, 3));
             });
         }
 
@@ -187,7 +187,7 @@ class MaTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(5,3), new Point(6, 2));
+                assertThat(route).containsExactly(new Point(5, 3), new Point(6, 2));
             });
         }
 
@@ -202,7 +202,7 @@ class MaTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(5,3), new Point(4, 2));
+                assertThat(route).containsExactly(new Point(5, 3), new Point(4, 2));
             });
         }
 
@@ -217,7 +217,7 @@ class MaTest {
 
             assertAll(() -> {
                 assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(4,4), new Point(3, 3));
+                assertThat(route).containsExactly(new Point(4, 4), new Point(3, 3));
             });
         }
     }

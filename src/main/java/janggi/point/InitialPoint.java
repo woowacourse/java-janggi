@@ -16,9 +16,10 @@ public enum InitialPoint {
             List.of(new Point(9, 0), new Point(9, 8))),
     PO(List.of(new Point(2, 1), new Point(2, 7)),
             List.of(new Point(7, 1), new Point(7, 7))),
-    BYEONG(List.of(new Point(3, 0), new Point(3, 2), new Point(3, 4), new Point(3, 6), new Point(3, 8)),
-            List.of(new Point(6, 0), new Point(6, 2), new Point(6, 4), new Point(6, 6), new Point(6, 8)))
-    ;
+    BYEONG(List.of(new Point(3, 0), new Point(3, 2), new Point(3, 4),
+            new Point(3, 6), new Point(3, 8)),
+            List.of(new Point(6, 0), new Point(6, 2), new Point(6, 4),
+                    new Point(6, 6), new Point(6, 8)));
 
     private final List<Point> redPoints;
     private final List<Point> bluePoints;

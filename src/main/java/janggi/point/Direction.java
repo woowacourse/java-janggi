@@ -1,6 +1,5 @@
-package janggi;
+package janggi.point;
 
-import janggi.point.Point;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,10 +1,9 @@
 package janggi.piece;
 
-import janggi.Direction;
+import janggi.point.Direction;
 import janggi.point.InitialPoint;
-import janggi.Movable;
 import janggi.point.Point;
-import janggi.Team;
+import janggi.game.Team;
 import janggi.point.PointDistance;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,16 +42,6 @@ public class Cha implements Movable {
     }
 
     @Override
-    public String getName() {
-        return NAME;
-    }
-
-    @Override
-    public Point getPoint() {
-        return point;
-    }
-
-    @Override
     public List<Point> findRoute(Point targetPoint) {
         List<Point> route = new ArrayList<>();
         Direction direction = Direction.cardinalFrom(point, targetPoint);
@@ -67,12 +56,22 @@ public class Cha implements Movable {
     }
 
     @Override
-    public Team getTeam() {
-        return this.team;
+    public Movable updatePoint(Point afterPoint) {
+        return new Cha(team, afterPoint);
     }
 
     @Override
-    public Movable updatePoint(Point afterPoint) {
-        return new Cha(team, afterPoint);
+    public String getName() {
+        return NAME;
+    }
+
+    @Override
+    public Point getPoint() {
+        return point;
+    }
+
+    @Override
+    public Team getTeam() {
+        return this.team;
     }
 }
