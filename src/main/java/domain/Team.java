@@ -17,4 +17,8 @@ public enum Team {
 
         return GREEN;
     }
+
+    public String getTitle() {
+        return title;
+    }
 }

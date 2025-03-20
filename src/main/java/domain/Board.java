@@ -19,6 +19,49 @@ public class Board {
         }
     }
 
+    public static Board initialize() {
+        final Map<BoardPosition, Piece> pieces = new HashMap<>();
+        initializeBoard(pieces);
+        return new Board(pieces);
+    }
+
+    private static void initializeBoard(final Map<BoardPosition, Piece> pieces) {
+        PieceType.CANNON.getInitialPosition()
+            .forEach((team, positions) -> positions
+                .forEach(position -> pieces.put(position,
+                    new Piece(PieceType.CANNON, team))));
+
+        PieceType.CHARIOT.getInitialPosition()
+            .forEach((team, positions) -> positions
+                .forEach(position -> pieces.put(position,
+                    new Piece(PieceType.CHARIOT, team))));
+
+        PieceType.ELEPHANT.getInitialPosition()
+            .forEach((team, positions) -> positions
+                .forEach(position -> pieces.put(position,
+                    new Piece(PieceType.ELEPHANT, team))));
+
+        PieceType.GENERAL.getInitialPosition()
+            .forEach((team, positions) -> positions
+                .forEach(position -> pieces.put(position,
+                    new Piece(PieceType.GENERAL, team))));
+
+        PieceType.GUARD.getInitialPosition()
+            .forEach((team, positions) -> positions
+                .forEach(position -> pieces.put(position,
+                    new Piece(PieceType.GUARD, team))));
+
+        PieceType.HORSE.getInitialPosition()
+            .forEach((team, positions) -> positions
+                .forEach(position -> pieces.put(position,
+                    new Piece(PieceType.HORSE, team))));
+
+        PieceType.쭈.getInitialPosition()
+            .forEach((team, positions) -> positions
+                .forEach(position -> pieces.put(position,
+                    new Piece(PieceType.쭈, team))));
+    }
+
     public void movePiece(
         final BoardPosition selectBoardPosition,
         final BoardPosition destinationBoardPosition,
@@ -94,49 +137,6 @@ public class Board {
                 throw new IllegalArgumentException("포는 포를 넘거나 잡을 수 없습니다.");
             }
         }
-    }
-
-    public static Board initialize() {
-        final Map<BoardPosition, Piece> pieces = new HashMap<>();
-        initializeBoard(pieces);
-        return new Board(pieces);
-    }
-
-    private static void initializeBoard(final Map<BoardPosition, Piece> pieces) {
-        PieceType.CANNON.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position,
-                    new Piece(PieceType.CANNON, team))));
-
-        PieceType.CHARIOT.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position,
-                    new Piece(PieceType.CHARIOT, team))));
-
-        PieceType.ELEPHANT.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position,
-                    new Piece(PieceType.ELEPHANT, team))));
-
-        PieceType.GENERAL.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position,
-                    new Piece(PieceType.GENERAL, team))));
-
-        PieceType.GUARD.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position,
-                    new Piece(PieceType.GUARD, team))));
-
-        PieceType.HORSE.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position,
-                    new Piece(PieceType.HORSE, team))));
-
-        PieceType.쭈.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position,
-                    new Piece(PieceType.쭈, team))));
     }
 
     public Map<BoardPosition, Piece> getPieces() {

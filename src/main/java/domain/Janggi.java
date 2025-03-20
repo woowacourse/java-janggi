@@ -1,9 +1,10 @@
 package domain;
 
+import java.util.Map;
+
 public class Janggi {
 
     private final Board board;
-
     private Team currentTeam;
 
     public Janggi(
@@ -24,12 +25,23 @@ public class Janggi {
         }
     }
 
+    public static Janggi initialize() {
+        final Board board = Board.initialize();
+        final Team currentTeam = Team.GREEN;
+        return new Janggi(board, currentTeam);
+    }
+
     public void processTurn(
         final BoardPosition selectBoardPosition,
         final BoardPosition destinationBoardPosition
     ) {
-        board.movePiece(selectBoardPosition, destinationBoardPosition, currentTeam);
+        board.movePiece(selectBoardPosition, destinationBoardPosition,
+            currentTeam);
         currentTeam = currentTeam.nextTeam();
+    }
+
+    public Map<BoardPosition, Piece> getPieces() {
+        return board.getPieces();
     }
 
     public Team getCurrentTeam() {
