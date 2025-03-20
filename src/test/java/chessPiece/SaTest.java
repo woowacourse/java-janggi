@@ -3,6 +3,7 @@ package chessPiece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,6 +53,20 @@ class SaTest {
         assertThat(actual).isTrue();
     }
 
+    @DisplayName("사는 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
+    @Test
+    void makeRoute() {
+        //given
+        Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new BoardPosition(5, 5));
+        BoardPosition futurePosition = new BoardPosition(4, 5);
+
+        //when
+        List<BoardPosition> actual = sa.makeRoute(futurePosition);
+
+        //then
+        assertThat(actual.contains(futurePosition)).isTrue();
+    }
+
     private static Stream<Arguments> saNonIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new BoardPosition(7, 5)),
@@ -73,5 +88,4 @@ class SaTest {
                 Arguments.of(new BoardPosition(4, 5))
         );
     }
-
 }

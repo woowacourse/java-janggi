@@ -1,5 +1,7 @@
 package chessPiece;
 
+import java.util.List;
+
 public class Jol extends ChessPiece {
 
     public Jol(final PieceProfile pieceProfile, final BoardPosition boardPosition) {
@@ -15,6 +17,11 @@ public class Jol extends ChessPiece {
             return true;
         }
         throw new IllegalArgumentException("[ERROR] 병이 움직일 수 없는 위치입니다.");
+    }
+
+    @Override
+    public List<BoardPosition> makeRoute(final BoardPosition boardPosition) {
+        return List.of(boardPosition);
     }
 
     public void updateChessPiecePositionBy(BoardPosition boardPosition) {

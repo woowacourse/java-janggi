@@ -1,5 +1,6 @@
 package chessPiece;
 
+import java.util.List;
 import java.util.Objects;
 
 public abstract class ChessPiece {
@@ -17,6 +18,8 @@ public abstract class ChessPiece {
     }
 
     public abstract boolean isMove(BoardPosition boardPosition);
+
+    public abstract List<BoardPosition> makeRoute(BoardPosition boardPosition);
 
     public abstract void updateChessPiecePositionBy(BoardPosition boardPosition);
 
