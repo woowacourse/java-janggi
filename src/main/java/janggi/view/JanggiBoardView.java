@@ -8,11 +8,11 @@ import janggi.domain.piece.BoardPiece;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Guard;
-import janggi.domain.piece.King;
-import janggi.domain.piece.Knight;
-import janggi.domain.piece.Pawn;
+import janggi.domain.piece.General;
+import janggi.domain.piece.Horse;
+import janggi.domain.piece.Soldier;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Rook;
+import janggi.domain.piece.Chariot;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -25,13 +25,13 @@ public class JanggiBoardView {
     private static final String RED = "\u001B[31m";
     private static final String BLUE = "\u001B[34m";
     private static final Map<Piece, String> PIECE_LABELS = Map.of(
-            new King(), "궁",
+            new General(), "궁",
             new Guard(), "사",
-            new Rook(), "차",
+            new Chariot(), "차",
             new Cannon(), "포",
-            new Knight(), "마",
+            new Horse(), "마",
             new Elephant(), "상",
-            new Pawn(), "졸"
+            new Soldier(), "졸"
     );
     private static final Map<String, Integer> VERTICAL_INPUT_MAP = Map.of(
             "ㄱ", 1,

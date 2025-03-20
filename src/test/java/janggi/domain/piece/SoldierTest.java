@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class PawnTest {
+public class SoldierTest {
 
     @DisplayName("폰은 상좌우 한칸 움직일 수 있다")
     @ParameterizedTest
@@ -25,10 +25,10 @@ public class PawnTest {
     void move(int x1, int y1, int x2, int y2) {
         //givenR
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Pawn pawn = new Pawn();
+        Soldier soldier = new Soldier();
 
         //when
-        boolean result = pawn.isMovable(janggiBoard, new HanPoint(x1, y1), new HanPoint(x2, y2));
+        boolean result = soldier.isMovable(janggiBoard, new HanPoint(x1, y1), new HanPoint(x2, y2));
 
         //then
         assertThat(result).isTrue();
@@ -39,9 +39,9 @@ public class PawnTest {
     void test4() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(1, 2), new Pawn(), Dynasty.CHU)
+                new BoardPiece(new ChuPoint(1, 2), new Soldier(), Dynasty.CHU)
         ));
-        Piece pawn = new Pawn();
+        Piece pawn = new Soldier();
 
         // when
         boolean isMovable = pawn.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(1, 2));

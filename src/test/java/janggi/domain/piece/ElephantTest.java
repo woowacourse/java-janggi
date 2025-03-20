@@ -47,7 +47,7 @@ class ElephantTest {
     void test3() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(2, 1), new Knight(), Dynasty.HAN)
+                new BoardPiece(new HanPoint(2, 1), new Horse(), Dynasty.HAN)
         ));
         Piece elephant = new Elephant();
 
@@ -64,7 +64,7 @@ class ElephantTest {
     void test4() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(4, 3), new Knight(), Dynasty.CHU)
+                new BoardPiece(new ChuPoint(4, 3), new Horse(), Dynasty.CHU)
         ));
         Elephant elephant = new Elephant();
 

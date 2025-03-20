@@ -6,7 +6,7 @@ import janggi.domain.board.point.Point;
 import java.util.List;
 import java.util.Set;
 
-public class Knight implements Piece {
+public class Horse implements Piece {
 
     private static final Set<List<Direction>> PATHS = Set.of(
             List.of(Direction.UP, Direction.UP_LEFT_DIAGONAL),

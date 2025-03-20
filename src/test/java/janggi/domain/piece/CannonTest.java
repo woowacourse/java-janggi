@@ -23,7 +23,7 @@ class CannonTest {
     void moveCannonTest() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(4, 4), new Pawn(), Dynasty.HAN)
+                new BoardPiece(new HanPoint(4, 4), new Soldier(), Dynasty.HAN)
         ));
         Cannon cannon = new Cannon();
 
@@ -39,8 +39,8 @@ class CannonTest {
     void moveCannonTest_WhenTwoPieceInPath() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(4, 4), new Pawn(), Dynasty.HAN),
-                new BoardPiece(new HanPoint(4, 6), new Pawn(), Dynasty.HAN)
+                new BoardPiece(new HanPoint(4, 4), new Soldier(), Dynasty.HAN),
+                new BoardPiece(new HanPoint(4, 6), new Soldier(), Dynasty.HAN)
         ));
         Cannon cannon = new Cannon();
 
@@ -103,8 +103,8 @@ class CannonTest {
     void test4() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(1, 8), new Knight(), Dynasty.CHU),
-                new BoardPiece(new ChuPoint(1, 4), new Knight(), Dynasty.CHU)
+                new BoardPiece(new ChuPoint(1, 8), new Horse(), Dynasty.CHU),
+                new BoardPiece(new ChuPoint(1, 4), new Horse(), Dynasty.CHU)
         ));
         Cannon cannon = new Cannon();
 

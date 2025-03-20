@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class RookTest {
+class ChariotTest {
 
     @DisplayName("차가 가는 방향에 기물이 없다면 이동할 수 있다.")
     @ParameterizedTest
@@ -26,7 +26,7 @@ class RookTest {
     void move(int x1, int y1, int x2, int y2) {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Piece rook = new Rook();
+        Piece rook = new Chariot();
 
         // when
         boolean isMovable = rook.isMovable(janggiBoard, new HanPoint(x1, y1), new DefaultPoint(x2, y2));
@@ -40,7 +40,7 @@ class RookTest {
     void test2() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Piece rook = new Rook();
+        Piece rook = new Chariot();
 
         // when
         boolean isMovable = rook.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 2));
@@ -55,9 +55,9 @@ class RookTest {
     void test3() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(1, 2), new Knight(), Dynasty.HAN)
+                new BoardPiece(new HanPoint(1, 2), new Horse(), Dynasty.HAN)
         ));
-        Piece rook = new Rook();
+        Piece rook = new Chariot();
 
         // when
         boolean isMovable = rook.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(1, 4));
@@ -72,9 +72,9 @@ class RookTest {
     void test4() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(1, 4), new Knight(), Dynasty.CHU)
+                new BoardPiece(new ChuPoint(1, 4), new Horse(), Dynasty.CHU)
         ));
-        Piece rook = new Rook();
+        Piece rook = new Chariot();
 
         // when
         boolean isMovable = rook.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(1, 4));

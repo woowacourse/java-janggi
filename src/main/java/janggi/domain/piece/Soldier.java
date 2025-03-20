@@ -6,7 +6,7 @@ import janggi.domain.board.point.Point;
 import java.util.List;
 import java.util.Set;
 
-public class Pawn implements Piece {
+public class Soldier implements Piece {
 
     private static final Set<List<Direction>> PATHS = Set.of(
             List.of(Direction.UP),

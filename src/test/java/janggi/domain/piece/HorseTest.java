@@ -11,14 +11,14 @@ import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class KnightTest {
+class HorseTest {
 
     @DisplayName("마가 가는 방향에 기물이 없다면 이동할 수 있다.")
     @Test
     void test() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Piece knight = new Knight();
+        Piece knight = new Horse();
 
         // when
         boolean isMovable = knight.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 3));
@@ -32,7 +32,7 @@ class KnightTest {
     void test2() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Piece knight = new Knight();
+        Piece knight = new Horse();
 
         // when
         boolean isMovable = knight.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 2));
@@ -47,9 +47,9 @@ class KnightTest {
     void test3() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(1, 2), new Knight(), Dynasty.HAN)
+                new BoardPiece(new HanPoint(1, 2), new Horse(), Dynasty.HAN)
         ));
-        Piece knight = new Knight();
+        Piece knight = new Horse();
 
         // when
         boolean isMovable = knight.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 3));
@@ -64,9 +64,9 @@ class KnightTest {
     void test4() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(2, 3), new Knight(), Dynasty.CHU)
+                new BoardPiece(new ChuPoint(2, 3), new Horse(), Dynasty.CHU)
         ));
-        Piece knight = new Knight();
+        Piece knight = new Horse();
 
         // when
         boolean isMovable = knight.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 3));

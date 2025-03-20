@@ -6,7 +6,7 @@ import janggi.domain.Dynasty;
 import janggi.domain.board.point.ChuPoint;
 import janggi.domain.board.point.HanPoint;
 import janggi.domain.piece.BoardPiece;
-import janggi.domain.piece.King;
+import janggi.domain.piece.General;
 import java.util.Optional;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
@@ -20,14 +20,14 @@ public class JanggiBoardTest {
     void findPointPieceTest() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(9, 5), new King(), Dynasty.CHU)
+                new BoardPiece(new ChuPoint(9, 5), new General(), Dynasty.CHU)
         ));
 
         //when
         Optional<BoardPiece> result = janggiBoard.findPointPiece(new HanPoint(9, 5));
 
         //then
-        assertThat(result).isEqualTo(Optional.of(new BoardPiece(new ChuPoint(9, 5), new King(), Dynasty.CHU)));
+        assertThat(result).isEqualTo(Optional.of(new BoardPiece(new ChuPoint(9, 5), new General(), Dynasty.CHU)));
     }
 
     @DisplayName("해당 위치에 기물이 없을 수 있다.")
@@ -48,7 +48,7 @@ public class JanggiBoardTest {
     void isExistPieceTest() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(9, 5), new King(), Dynasty.CHU)
+                new BoardPiece(new ChuPoint(9, 5), new General(), Dynasty.CHU)
         ));
 
         //when

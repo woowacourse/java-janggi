@@ -5,7 +5,7 @@ import janggi.domain.board.JanggiBoard;
 import janggi.domain.board.point.Point;
 import java.util.Set;
 
-public class Rook implements Piece {
+public class Chariot implements Piece {
 
     private static final Set<Direction> DIRECTIONS = Set.of(
             Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT
