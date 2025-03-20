@@ -39,7 +39,19 @@ public class Elephant extends LimitedChessPiece {
     @Override
     protected List<ChessPosition> getCoordinateDestinations(final List<Path> coordinates,
                                                             final ChessPiecePositions positions) {
-        return List.of();
+         return coordinates.stream()
+                .filter(path -> !existChessPiece(positions, path))
+                .map(Path::getDestination)
+                .toList();
+    }
+
+    private boolean existChessPiece(final ChessPiecePositions positions, final Path path) {
+        for (ChessPosition chessPosition : path.getPath()) {
+            if (positions.existChessPieceByPosition(chessPosition)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
