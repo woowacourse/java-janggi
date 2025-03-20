@@ -16,7 +16,6 @@ public class Player {
         this.team = team;
     }
 
-    // 본인 기물 구분
     public boolean isContainPiece(Point position) {
         return pieces.stream()
                 .anyMatch(piece -> piece.getPosition().equals(position));
@@ -37,10 +36,15 @@ public class Player {
     }
 
     public void move(Pieces allPieces, Point start, Point end) {
-        if (findPieceBy(end).isPresent()) {
-            throw new IllegalArgumentException("님 기물있음");
-        }
+        validateExistMyPieceOnDestination(end);
+
         Piece piece = findPieceBy(start).get();
         piece.move(allPieces, end);
+    }
+
+    private void validateExistMyPieceOnDestination(Point end) {
+        if (findPieceBy(end).isPresent()) {
+            throw new IllegalArgumentException("[ERROR] 목적지에 본인의 기물이 존재합니다.");
+        }
     }
 }

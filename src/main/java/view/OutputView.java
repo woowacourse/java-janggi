@@ -1,6 +1,6 @@
 package view;
 
-import board.Board;
+import board.GameBoard;
 import direction.Point;
 import java.util.Optional;
 import piece.Piece;
@@ -8,8 +8,8 @@ import piece.Pieces;
 
 public class OutputView {
 
-    public static void displayBoard(Board board) {
-        Pieces pieces = board.findAll();
+    public static void displayBoard(GameBoard gameBoard) {
+        Pieces pieces = gameBoard.findAllPieces();
 
         System.out.println();
         for (int i = 1; i <= 10; i++) {

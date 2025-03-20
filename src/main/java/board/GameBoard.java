@@ -4,8 +4,8 @@ import piece.Pieces;
 import team.Player;
 import team.Team;
 
-public interface Board {
+public interface GameBoard {
 
     Player findPlayer(Team team);
-    Pieces findAll();
+    Pieces findAllPieces();
 }
