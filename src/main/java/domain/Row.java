@@ -20,10 +20,8 @@ public class Row {
     }
 
     public boolean canMoveRow(int deltaRow){
-        if(row + deltaRow > MAX_ROW || row + deltaRow < MIN_ROW){
-            return false;
-        }
-        return true;
+        int moveRow = row + deltaRow;
+        return moveRow <= MAX_ROW && moveRow >= MIN_ROW;
     }
 
     public Row moveRow(int deltaRow){

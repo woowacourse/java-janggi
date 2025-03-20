@@ -23,15 +23,6 @@ public class Position {
         return row.canMoveRow(deltaRow) && column.canMoveColumn(deltaColumn);
     }
 
-
-    public boolean checkPositionAfterDeltaMove(int deltaRow, int deltaColumn, Position expectedPosition) {
-        if (canMovePosition(deltaRow, deltaColumn)) {
-            return expectedPosition.equals(new Position(row.moveRow(deltaRow), column.moveColumn(deltaColumn)));
-        }
-        return false;
-    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {

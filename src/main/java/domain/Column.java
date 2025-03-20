@@ -20,10 +20,8 @@ public class Column {
     }
 
     public boolean canMoveColumn(int deltaColumn){
-        if(column + deltaColumn> MAX_COLUMN || column + deltaColumn < MIN_COLUMN){
-            return false;
-        }
-        return true;
+        int moveColumn = column + deltaColumn;
+        return moveColumn <= MAX_COLUMN && moveColumn >= MIN_COLUMN;
     }
 
     public Column moveColumn(int deltaColumn){

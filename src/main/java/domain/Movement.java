@@ -10,6 +10,13 @@ public class Movement {
         this.movement = movement;
     }
 
+    public List<Position> findIntermediatePositions(Position startPosition, Position endPosition) {
+        if (isValidMove(startPosition, endPosition)) {
+            return getPathPositionsFrom(startPosition);
+        }
+        throw new IllegalArgumentException("지정한 포지션으로 이동할 수 없습니다.");
+    }
+
     public boolean isValidMove(Position startPosition, Position endPosition) {
         Position curPosition = startPosition;
         for (Direction direction : movement) {
@@ -21,18 +28,16 @@ public class Movement {
         return curPosition.equals(endPosition);
     }
 
-    public List<Position> findIntermediatePositions(Position startPosition, Position endPosition) {
-        if (isValidMove(startPosition, endPosition)) {
-            List<Position> positions = new ArrayList<>();
-            Position curPosition = startPosition;
-            for (Direction direction : movement) {
-                curPosition = curPosition.movePosition(direction.getDeltaRow(), direction.getDeltaColumn());
-                positions.add(curPosition);
-            }
-            positions.removeLast();
-            return positions;
+    private List<Position> getPathPositionsFrom(Position startPosition) {
+        List<Position> pathPositions = new ArrayList<>();
+
+        for (Direction direction : movement) {
+            startPosition = startPosition.movePosition(direction.getDeltaRow(), direction.getDeltaColumn());
+            pathPositions.add(startPosition);
         }
-        throw new IllegalArgumentException("지정한 포지션으로 이동할 수 없습니다.");
+
+        pathPositions.removeLast();
+        return pathPositions;
     }
 
     private boolean isInvalidMove(Position curPosition, Direction direction) {
