@@ -1,5 +1,7 @@
 package janggi.domain.piece.gererator;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.Side;
 import janggi.domain.piece.Cannon;
@@ -10,20 +12,17 @@ import janggi.domain.piece.Knight;
 import janggi.domain.piece.Pawn;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Rook;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 @ReplaceUnderBar
-public class ChoPieceGeneratorTest {
+public class DefaultChoPieceGeneratorTest {
 
     private static final Side SIDE = Side.CHO;
     private static List<Piece> PIECES;
-    private final ChoPieceGenerator choPieceGenerator = new ChoPieceGenerator();
+    private final ChoPieceGenerator choPieceGenerator = new DefaultChoPieceGenerator();
 
     @BeforeEach
     void setUpDefaultPieces() {
@@ -47,10 +46,10 @@ public class ChoPieceGeneratorTest {
         List<Piece> generatedPieces = choPieceGenerator.generate(KnightElephantSetting.KNIGHT_ELEPHANT_KNIGHT_ELEPHANT);
 
         PIECES.addAll(List.of(
-            new Knight(SIDE, 1, 9),
-            new Elephant(SIDE, 2, 9),
-            new Knight(SIDE, 6, 9),
-            new Elephant(SIDE, 7, 9)
+                new Knight(SIDE, 1, 9),
+                new Elephant(SIDE, 2, 9),
+                new Knight(SIDE, 6, 9),
+                new Elephant(SIDE, 7, 9)
         ));
 
         assertThat(generatedPieces).containsExactlyInAnyOrderElementsOf(PIECES);
@@ -61,10 +60,10 @@ public class ChoPieceGeneratorTest {
         List<Piece> generatedPieces = choPieceGenerator.generate(KnightElephantSetting.KNIGHT_ELEPHANT_ELEPHANT_KNIGHT);
 
         PIECES.addAll(List.of(
-            new Knight(SIDE, 1, 9),
-            new Elephant(SIDE, 2, 9),
-            new Elephant(SIDE, 6, 9),
-            new Knight(SIDE, 7, 9)
+                new Knight(SIDE, 1, 9),
+                new Elephant(SIDE, 2, 9),
+                new Elephant(SIDE, 6, 9),
+                new Knight(SIDE, 7, 9)
         ));
 
         assertThat(generatedPieces).containsExactlyInAnyOrderElementsOf(PIECES);
@@ -75,10 +74,10 @@ public class ChoPieceGeneratorTest {
         List<Piece> generatedPieces = choPieceGenerator.generate(KnightElephantSetting.ELEPHANT_KNIGHT_KNIGHT_ELEPHANT);
 
         PIECES.addAll(List.of(
-            new Elephant(SIDE, 1, 9),
-            new Knight(SIDE, 2, 9),
-            new Knight(SIDE, 6, 9),
-            new Elephant(SIDE, 7, 9)
+                new Elephant(SIDE, 1, 9),
+                new Knight(SIDE, 2, 9),
+                new Knight(SIDE, 6, 9),
+                new Elephant(SIDE, 7, 9)
         ));
 
         assertThat(generatedPieces).containsExactlyInAnyOrderElementsOf(PIECES);
@@ -89,10 +88,10 @@ public class ChoPieceGeneratorTest {
         List<Piece> generatedPieces = choPieceGenerator.generate(KnightElephantSetting.ELEPHANT_KNIGHT_ELEPHANT_KNIGHT);
 
         PIECES.addAll(List.of(
-            new Elephant(SIDE, 1, 9),
-            new Knight(SIDE, 2, 9),
-            new Elephant(SIDE, 6, 9),
-            new Knight(SIDE, 7, 9)
+                new Elephant(SIDE, 1, 9),
+                new Knight(SIDE, 2, 9),
+                new Elephant(SIDE, 6, 9),
+                new Knight(SIDE, 7, 9)
         ));
 
         assertThat(generatedPieces).containsExactlyInAnyOrderElementsOf(PIECES);

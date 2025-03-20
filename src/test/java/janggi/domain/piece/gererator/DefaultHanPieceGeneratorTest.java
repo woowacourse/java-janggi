@@ -18,11 +18,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @ReplaceUnderBar
-class HanPieceGeneratorTest {
+class DefaultHanPieceGeneratorTest {
 
     private static final Side SIDE = Side.HAN;
     private static List<Piece> PIECES;
-    private final HanPieceGenerator hanPieceGenerator = new HanPieceGenerator();
+    private final HanPieceGenerator hanPieceGenerator = new DefaultHanPieceGenerator();
 
     @BeforeEach
     void setUpDefaultPieces() {
