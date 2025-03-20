@@ -1,7 +1,9 @@
 package domain;
 
+import domain.piece.Piece;
 import domain.piece.PieceFactory;
 import domain.piece.strategy.HorseElephantSetupStrategy;
+import java.util.List;
 import view.InputView;
 import view.OutputView;
 
@@ -12,6 +14,12 @@ public class JanggiRunner {
     public JanggiRunner(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
+    }
+
+    public void run(){
+        JanggiGame janggiGame = initializeGame();
+        List<Piece> alivePieces = janggiGame.getAlivePieces();
+        outputView.printBoard(alivePieces);
     }
 
     public JanggiGame initializeGame() {

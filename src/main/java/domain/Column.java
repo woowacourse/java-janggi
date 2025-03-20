@@ -3,8 +3,8 @@ package domain;
 import java.util.Objects;
 
 public class Column {
-    private static final int MAX_COLUMN = 8;
-    private static final int MIN_COLUMN = 0;
+    public static final int MAX_COLUMN = 8;
+    public static final int MIN_COLUMN = 0;
 
     private final int column;
 

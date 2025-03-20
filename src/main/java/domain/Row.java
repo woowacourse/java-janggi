@@ -3,8 +3,8 @@ package domain;
 import java.util.Objects;
 
 public class Row {
-    private static final int MAX_ROW = 9;
-    private static final int MIN_ROW = 0;
+    public static final int MAX_ROW = 9;
+    public static final int MIN_ROW = 0;
 
     private final int row;
 

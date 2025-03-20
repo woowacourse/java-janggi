@@ -21,4 +21,8 @@ public class JanggiGame {
         TeamType winTeam = board.findWinTeam();
         return players.getTeamPlayer(winTeam);
     }
+
+    public List<Piece> getAlivePieces() {
+        return board.getAlivePieces();
+    }
 }
