@@ -14,7 +14,7 @@ public class Route {
     }
 
     public boolean hasPosition(final Piece piece) {
-        for (Position position : route) {
+        for (final Position position : route) {
             if (piece.isSamePosition(position)) {
                 return true;
             }
@@ -22,7 +22,7 @@ public class Route {
         return false;
     }
 
-    public boolean isDestination(Piece piece) {
+    public boolean isDestination(final Piece piece) {
         return piece.isSamePosition(route.getLast());
     }
 

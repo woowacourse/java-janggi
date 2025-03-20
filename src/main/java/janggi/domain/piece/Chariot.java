@@ -20,10 +20,10 @@ public class Chariot extends Piece {
 
     @Override
     protected Set<RawRoute> calculateRawRoutes() {
-        Set<RawRoute> rawRoutes = new HashSet<>();
+        final Set<RawRoute> rawRoutes = new HashSet<>();
 
         for (int i = position.x() + 1; i <= 8; i++) {
-            List<RawPosition> rawPositions = new ArrayList<>();
+            final List<RawPosition> rawPositions = new ArrayList<>();
             for (int j = position.x() + 1; j <= i; j++) {
                 rawPositions.add(new RawPosition(j, position.y()));
             }
@@ -31,7 +31,7 @@ public class Chariot extends Piece {
         }
 
         for (int i = position.x() - 1; i >= 0; i--) {
-            List<RawPosition> rawPositions = new ArrayList<>();
+            final List<RawPosition> rawPositions = new ArrayList<>();
             for (int j = position.x() - 1; j >= i; j--) {
                 rawPositions.add(new RawPosition(j, position.y()));
             }
@@ -39,7 +39,7 @@ public class Chariot extends Piece {
         }
 
         for (int i = position.y() + 1; i <= 9; i++) {
-            List<RawPosition> rawPositions = new ArrayList<>();
+            final List<RawPosition> rawPositions = new ArrayList<>();
             for (int j = position.y() + 1; j <= i; j++) {
                 rawPositions.add(new RawPosition(position.x(), j));
             }
@@ -47,7 +47,7 @@ public class Chariot extends Piece {
         }
 
         for (int i = position.y() - 1; i >= 0; i--) {
-            List<RawPosition> rawPositions = new ArrayList<>();
+            final List<RawPosition> rawPositions = new ArrayList<>();
             for (int j = position.y() - 1; j >= i; j--) {
                 rawPositions.add(new RawPosition(position.x(), j));
             }

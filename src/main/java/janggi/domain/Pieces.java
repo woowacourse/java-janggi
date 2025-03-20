@@ -17,30 +17,30 @@ public class Pieces {
         this.pieces = new ArrayList<>(pieces);
     }
 
-    public Set<Route> getPossibleRoutes(Piece piece) {
+    public Set<Route> getPossibleRoutes(final Piece piece) {
         return piece.calculateRoutes().stream()
                 .filter(route -> isValidNormalRoute(route, piece))
                 .collect(Collectors.toSet());
     }
 
-    private boolean isValidNormalRoute(Route route, Piece piece) {
+    private boolean isValidNormalRoute(final Route route, final Piece piece) {
         return pieces.stream()
                 .filter(route::hasPosition)
                 .allMatch(currentPiece -> route.isDestination(currentPiece) && piece.isEnemy(currentPiece));
     }
 
-    public Set<Route> getPossibleRoutesForCannon(Piece piece) {
+    public Set<Route> getPossibleRoutesForCannon(final Piece piece) {
         return piece.calculateRoutes().stream()
                 .filter(this::isValidCannonRoute)
                 .collect(Collectors.toSet());
     }
 
-    private boolean isValidCannonRoute(Route route) {
+    private boolean isValidCannonRoute(final Route route) {
         return countPiecesInRoute(route) == REQUIRED_JUMP_PIECES_FOR_CANNON;
     }
 
-    private int countPiecesInRoute(Route route) {
-        long cannonOrDestinationCount = pieces.stream()
+    private int countPiecesInRoute(final Route route) {
+        final long cannonOrDestinationCount = pieces.stream()
                 .filter(route::hasPosition)
                 .filter(currentPiece -> currentPiece.isCannon() || route.isDestination(currentPiece))
                 .count();
@@ -54,19 +54,19 @@ public class Pieces {
                 .count();
     }
 
-    public Set<Route> getPossibleRoutesForChariot(Piece piece) {
+    public Set<Route> getPossibleRoutesForChariot(final Piece piece) {
         return piece.calculateRoutes().stream()
                 .filter(route -> isValidChariotRoute(route, piece))
                 .collect(Collectors.toSet());
     }
 
-    private boolean isValidChariotRoute(Route route, Piece piece) {
+    private boolean isValidChariotRoute(final Route route, final Piece piece) {
         return pieces.stream()
                 .filter(route::hasPosition)
                 .allMatch(currentPiece -> route.isDestination(currentPiece) && piece.isEnemy(currentPiece));
     }
 
-    public Piece findPieceByPositionAndTeam(Position position, Team team) {
+    public Piece findPieceByPositionAndTeam(final Position position, final Team team) {
         return pieces.stream()
                 .filter(piece -> piece.isSamePosition(position))
                 .filter(piece -> piece.isSameTeam(team))
@@ -81,18 +81,18 @@ public class Pieces {
         piece.move(position);
     }
 
-    private void kill(int x, int y) {
+    private void kill(final int x, final int y) {
         pieces.remove(findPieceByPosition(x, y));
     }
 
-    private boolean hasPieceByPosition(int x, int y) {
-        Position position = new Position(x, y);
+    private boolean hasPieceByPosition(final int x, final int y) {
+        final Position position = new Position(x, y);
         return pieces.stream()
                 .anyMatch(piece -> piece.isSamePosition(position));
     }
 
-    private Piece findPieceByPosition(int x, int y) {
-        Position position = new Position(x, y);
+    private Piece findPieceByPosition(final int x, final int y) {
+        final Position position = new Position(x, y);
         return pieces.stream()
                 .filter(piece -> piece.isSamePosition(position))
                 .findAny()

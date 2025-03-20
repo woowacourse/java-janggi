@@ -19,41 +19,41 @@ public class PiecesInitializer {
 
     //TODO: 추후에 사용자 입력에 따라 상차림을 달리 할 수 있게 해야함.
     public static List<Piece> initializePieces() {
-        List<Piece> defaultPieces = new ArrayList<>();
+        final List<Piece> defaultPieces = new ArrayList<>();
 
-        Piece redSoldier1 = new Soldier(new Position(0, 6), RED);
-        Piece redSoldier2 = new Soldier(new Position(2, 6), RED);
-        Piece redSoldier3 = new Soldier(new Position(4, 6), RED);
-        Piece redSoldier4 = new Soldier(new Position(6, 6), RED);
-        Piece redSoldier5 = new Soldier(new Position(8, 6), RED);
+        final Piece redSoldier1 = new Soldier(new Position(0, 6), RED);
+        final Piece redSoldier2 = new Soldier(new Position(2, 6), RED);
+        final Piece redSoldier3 = new Soldier(new Position(4, 6), RED);
+        final Piece redSoldier4 = new Soldier(new Position(6, 6), RED);
+        final Piece redSoldier5 = new Soldier(new Position(8, 6), RED);
 
-        Piece redCannon1 = new Cannon(new Position(1, 7), RED);
-        Piece redCannon2 = new Cannon(new Position(7, 7), RED);
+        final Piece redCannon1 = new Cannon(new Position(1, 7), RED);
+        final Piece redCannon2 = new Cannon(new Position(7, 7), RED);
 
-        Piece redGeneral = new General(new Position(4, 8), RED);
+        final Piece redGeneral = new General(new Position(4, 8), RED);
 
-        Piece redChariot1 = new Chariot(new Position(0, 9), RED);
-        Piece redChariot2 = new Chariot(new Position(8, 9), RED);
+        final Piece redChariot1 = new Chariot(new Position(0, 9), RED);
+        final Piece redChariot2 = new Chariot(new Position(8, 9), RED);
 
-        Piece redGuard1 = new Guard(new Position(3, 9), RED);
-        Piece redGuard2 = new Guard(new Position(5, 9), RED);
+        final Piece redGuard1 = new Guard(new Position(3, 9), RED);
+        final Piece redGuard2 = new Guard(new Position(5, 9), RED);
 
-        Piece blueSoldier1 = new Soldier(new Position(0, 3), BLUE);
-        Piece blueSoldier2 = new Soldier(new Position(2, 3), BLUE);
-        Piece blueSoldier3 = new Soldier(new Position(4, 3), BLUE);
-        Piece blueSoldier4 = new Soldier(new Position(6, 3), BLUE);
-        Piece blueSoldier5 = new Soldier(new Position(8, 3), BLUE);
+        final Piece blueSoldier1 = new Soldier(new Position(0, 3), BLUE);
+        final Piece blueSoldier2 = new Soldier(new Position(2, 3), BLUE);
+        final Piece blueSoldier3 = new Soldier(new Position(4, 3), BLUE);
+        final Piece blueSoldier4 = new Soldier(new Position(6, 3), BLUE);
+        final Piece blueSoldier5 = new Soldier(new Position(8, 3), BLUE);
 
-        Piece blueCannon1 = new Cannon(new Position(1, 2), BLUE);
-        Piece blueCannon2 = new Cannon(new Position(7, 2), BLUE);
+        final Piece blueCannon1 = new Cannon(new Position(1, 2), BLUE);
+        final Piece blueCannon2 = new Cannon(new Position(7, 2), BLUE);
 
-        Piece blueGeneral = new General(new Position(4, 1), BLUE);
+        final Piece blueGeneral = new General(new Position(4, 1), BLUE);
 
-        Piece blueChariot1 = new Chariot(new Position(0, 0), BLUE);
-        Piece blueChariot2 = new Chariot(new Position(8, 0), BLUE);
+        final Piece blueChariot1 = new Chariot(new Position(0, 0), BLUE);
+        final Piece blueChariot2 = new Chariot(new Position(8, 0), BLUE);
 
-        Piece blueGuard1 = new Guard(new Position(3, 0), BLUE);
-        Piece blueGuard2 = new Guard(new Position(5, 0), BLUE);
+        final Piece blueGuard1 = new Guard(new Position(3, 0), BLUE);
+        final Piece blueGuard2 = new Guard(new Position(5, 0), BLUE);
 
         defaultPieces.add(redSoldier1);
         defaultPieces.add(redSoldier2);
@@ -88,73 +88,73 @@ public class PiecesInitializer {
     }
 
     private static List<Piece> innerElephantFormationForRed() {
-        Piece redElephant1 = new Elephant(new Position(2, 9), RED);
-        Piece redElephant2 = new Elephant(new Position(6, 9), RED);
-        Piece redHorse1 = new Horse(new Position(1, 9), RED);
-        Piece redHorse2 = new Horse(new Position(7, 9), RED);
+        final Piece redElephant1 = new Elephant(new Position(2, 9), RED);
+        final Piece redElephant2 = new Elephant(new Position(6, 9), RED);
+        final Piece redHorse1 = new Horse(new Position(1, 9), RED);
+        final Piece redHorse2 = new Horse(new Position(7, 9), RED);
 
         return new ArrayList<>(List.of(redElephant1, redElephant2, redHorse1, redHorse2));
     }
 
     private static List<Piece> innerElephantFormationForBlue() {
-        Piece blueElephant1 = new Elephant(new Position(2, 0), BLUE);
-        Piece blueElephant2 = new Elephant(new Position(6, 0), BLUE);
-        Piece blueHorse1 = new Horse(new Position(1, 0), BLUE);
-        Piece blueHorse2 = new Horse(new Position(7, 0), BLUE);
+        final Piece blueElephant1 = new Elephant(new Position(2, 0), BLUE);
+        final Piece blueElephant2 = new Elephant(new Position(6, 0), BLUE);
+        final Piece blueHorse1 = new Horse(new Position(1, 0), BLUE);
+        final Piece blueHorse2 = new Horse(new Position(7, 0), BLUE);
 
         return new ArrayList<>(List.of(blueElephant1, blueElephant2, blueHorse1, blueHorse2));
     }
 
     private static List<Piece> outerElephantFormationForRed() {
-        Piece redElephant1 = new Elephant(new Position(1, 9), RED);
-        Piece redElephant2 = new Elephant(new Position(7, 9), RED);
-        Piece redHorse1 = new Horse(new Position(2, 9), RED);
-        Piece redHorse2 = new Horse(new Position(6, 9), RED);
+        final Piece redElephant1 = new Elephant(new Position(1, 9), RED);
+        final Piece redElephant2 = new Elephant(new Position(7, 9), RED);
+        final Piece redHorse1 = new Horse(new Position(2, 9), RED);
+        final Piece redHorse2 = new Horse(new Position(6, 9), RED);
 
         return new ArrayList<>(List.of(redElephant1, redElephant2, redHorse1, redHorse2));
     }
 
     private static List<Piece> outerElephantFormationForBlue() {
-        Piece blueElephant1 = new Elephant(new Position(1, 0), BLUE);
-        Piece blueElephant2 = new Elephant(new Position(7, 0), BLUE);
-        Piece blueHorse1 = new Horse(new Position(2, 0), BLUE);
-        Piece blueHorse2 = new Horse(new Position(6, 0), BLUE);
+        final Piece blueElephant1 = new Elephant(new Position(1, 0), BLUE);
+        final Piece blueElephant2 = new Elephant(new Position(7, 0), BLUE);
+        final Piece blueHorse1 = new Horse(new Position(2, 0), BLUE);
+        final Piece blueHorse2 = new Horse(new Position(6, 0), BLUE);
 
         return new ArrayList<>(List.of(blueElephant1, blueElephant2, blueHorse1, blueHorse2));
     }
 
     private static List<Piece> leftElephantFormationForRed() {
-        Piece redElephant1 = new Elephant(new Position(1, 9), RED);
-        Piece redElephant2 = new Elephant(new Position(6, 9), RED);
-        Piece redHorse1 = new Horse(new Position(2, 9), RED);
-        Piece redHorse2 = new Horse(new Position(7, 9), RED);
+        final Piece redElephant1 = new Elephant(new Position(1, 9), RED);
+        final Piece redElephant2 = new Elephant(new Position(6, 9), RED);
+        final Piece redHorse1 = new Horse(new Position(2, 9), RED);
+        final Piece redHorse2 = new Horse(new Position(7, 9), RED);
 
         return new ArrayList<>(List.of(redElephant1, redElephant2, redHorse1, redHorse2));
     }
 
     private static List<Piece> leftElephantFormationForBlue() {
-        Piece blueElephant1 = new Elephant(new Position(1, 0), BLUE);
-        Piece blueElephant2 = new Elephant(new Position(6, 0), BLUE);
-        Piece blueHorse1 = new Horse(new Position(2, 0), BLUE);
-        Piece blueHorse2 = new Horse(new Position(7, 0), BLUE);
+        final Piece blueElephant1 = new Elephant(new Position(1, 0), BLUE);
+        final Piece blueElephant2 = new Elephant(new Position(6, 0), BLUE);
+        final Piece blueHorse1 = new Horse(new Position(2, 0), BLUE);
+        final Piece blueHorse2 = new Horse(new Position(7, 0), BLUE);
 
         return new ArrayList<>(List.of(blueElephant1, blueElephant2, blueHorse1, blueHorse2));
     }
 
-    private static List<Piece> rightElephantFormationForRed(Team team) {
-        Piece redElephant1 = new Elephant(new Position(2, 9), RED);
-        Piece redElephant2 = new Elephant(new Position(7, 9), RED);
-        Piece redHorse1 = new Horse(new Position(1, 9), RED);
-        Piece redHorse2 = new Horse(new Position(6, 9), RED);
+    private static List<Piece> rightElephantFormationForRed(final Team team) {
+        final Piece redElephant1 = new Elephant(new Position(2, 9), RED);
+        final Piece redElephant2 = new Elephant(new Position(7, 9), RED);
+        final Piece redHorse1 = new Horse(new Position(1, 9), RED);
+        final Piece redHorse2 = new Horse(new Position(6, 9), RED);
 
         return new ArrayList<>(List.of(redElephant1, redElephant2, redHorse1, redHorse2));
     }
 
     private static List<Piece> rightElephantFormationForBlue() {
-        Piece blueElephant1 = new Elephant(new Position(2, 0), BLUE);
-        Piece blueElephant2 = new Elephant(new Position(7, 0), BLUE);
-        Piece blueHorse1 = new Horse(new Position(1, 0), BLUE);
-        Piece blueHorse2 = new Horse(new Position(6, 0), BLUE);
+        final Piece blueElephant1 = new Elephant(new Position(2, 0), BLUE);
+        final Piece blueElephant2 = new Elephant(new Position(7, 0), BLUE);
+        final Piece blueHorse1 = new Horse(new Position(1, 0), BLUE);
+        final Piece blueHorse2 = new Horse(new Position(6, 0), BLUE);
 
         return new ArrayList<>(List.of(blueElephant1, blueElephant2, blueHorse1, blueHorse2));
     }

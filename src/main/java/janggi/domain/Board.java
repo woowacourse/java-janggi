@@ -18,11 +18,11 @@ public class Board {
     }
 
     public Piece selectPiece(final Position position) {
-        Team team = turn.getCurrentTurn();
+        final Team team = turn.getCurrentTurn();
         return pieces.findPieceByPositionAndTeam(position, team);
     }
 
-    public Set<Route> findPossibleRoutes(Piece piece) {
+    public Set<Route> findPossibleRoutes(final Piece piece) {
         if (piece.getClass() == Cannon.class) {
             return pieces.getPossibleRoutesForCannon(piece);
         }
@@ -32,7 +32,7 @@ public class Board {
         return pieces.getPossibleRoutes(piece);
     }
 
-    public void movePiece(final Position position, Piece piece) {
+    public void movePiece(final Position position, final Piece piece) {
         pieces.move(position, piece);
     }
 
