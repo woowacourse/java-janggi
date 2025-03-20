@@ -71,4 +71,22 @@ class PiecesTest {
         assertThat(pieces.findByPosition(position).getPosition())
                 .isEqualTo(position);
     }
+
+    @Test
+    void 좌표에_기물이_존재하는지_판단한다() {
+        // given
+        Position position = Position.of(3, 5);
+
+        Pieces pieces = new Pieces(List.of(
+                new King(2, 5, new Directions(List.of())),
+                new Horse(3, 5, new Directions(List.of()))
+        ));
+
+        // when
+        boolean result = pieces.existByPosition(position);
+
+        // then
+        assertThat(result)
+                .isTrue();
+    }
 }
