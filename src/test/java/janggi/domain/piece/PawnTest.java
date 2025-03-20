@@ -21,7 +21,7 @@ public class PawnTest {
     void move(int x1, int y1, int x2, int y2) {
         //givenR
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Pawn pawn = Pawn.newInstance();
+        Pawn pawn = new Pawn();
 
         //when
         boolean result = pawn.isMovable(janggiBoard, new HanPoint(x1, y1), new HanPoint(x2, y2));

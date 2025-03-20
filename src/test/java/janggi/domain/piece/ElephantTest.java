@@ -17,7 +17,7 @@ class ElephantTest {
     void test() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Piece elephant = Elephant.newInstance();
+        Piece elephant = new Elephant();
 
         // when
         boolean isMovable = elephant.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(4, 3));
@@ -31,7 +31,7 @@ class ElephantTest {
     void test2() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Piece elephant = Elephant.newInstance();
+        Piece elephant = new Elephant();
 
         // when
         boolean isMovable = elephant.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(4, 2));
@@ -46,9 +46,9 @@ class ElephantTest {
     void test3() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(2, 1), Knight.newInstance(), Dynasty.HAN)
+                new BoardPiece(new HanPoint(2, 1), new Knight(), Dynasty.HAN)
         ));
-        Piece elephant = Elephant.newInstance();
+        Piece elephant = new Elephant();
 
         // when
         boolean isMovable = elephant.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(4, 3));

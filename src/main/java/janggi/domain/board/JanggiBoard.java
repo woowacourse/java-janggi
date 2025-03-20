@@ -20,31 +20,31 @@ public class JanggiBoard {
 
     private static final Set<BoardPiece> PIECE_INITIAL_POSITIONS = new HashSet<>() {
         {
-            add(new BoardPiece(new HanPoint(1, 1), Rook.newInstance(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(1, 4), Guard.newInstance(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(1, 6), Guard.newInstance(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(1, 9), Rook.newInstance(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(2, 5), King.newInstance(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(3, 2), Cannon.newInstance(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(3, 8), Cannon.newInstance(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(4, 1), Pawn.newInstance(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(4, 3), Pawn.newInstance(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(4, 5), Pawn.newInstance(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(4, 7), Pawn.newInstance(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(4, 9), Pawn.newInstance(), Dynasty.HAN));
+            add(new BoardPiece(new HanPoint(1, 1), new Rook(), Dynasty.HAN));
+            add(new BoardPiece(new HanPoint(1, 4), new Guard(), Dynasty.HAN));
+            add(new BoardPiece(new HanPoint(1, 6), new Guard(), Dynasty.HAN));
+            add(new BoardPiece(new HanPoint(1, 9), new Rook(), Dynasty.HAN));
+            add(new BoardPiece(new HanPoint(2, 5), new King(), Dynasty.HAN));
+            add(new BoardPiece(new HanPoint(3, 2), new Cannon(), Dynasty.HAN));
+            add(new BoardPiece(new HanPoint(3, 8), new Cannon(), Dynasty.HAN));
+            add(new BoardPiece(new HanPoint(4, 1), new Pawn(), Dynasty.HAN));
+            add(new BoardPiece(new HanPoint(4, 3), new Pawn(), Dynasty.HAN));
+            add(new BoardPiece(new HanPoint(4, 5), new Pawn(), Dynasty.HAN));
+            add(new BoardPiece(new HanPoint(4, 7), new Pawn(), Dynasty.HAN));
+            add(new BoardPiece(new HanPoint(4, 9), new Pawn(), Dynasty.HAN));
 
-            add(new BoardPiece(new ChuPoint(10, 1), Rook.newInstance(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(10, 4), Guard.newInstance(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(10, 6), Guard.newInstance(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(10, 9), Rook.newInstance(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(9, 5), King.newInstance(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(8, 2), Cannon.newInstance(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(8, 8), Cannon.newInstance(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(7, 1), Pawn.newInstance(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(7, 3), Pawn.newInstance(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(7, 5), Pawn.newInstance(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(7, 7), Pawn.newInstance(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(7, 9), Pawn.newInstance(), Dynasty.CHU));
+            add(new BoardPiece(new ChuPoint(10, 1), new Rook(), Dynasty.CHU));
+            add(new BoardPiece(new ChuPoint(10, 4), new Guard(), Dynasty.CHU));
+            add(new BoardPiece(new ChuPoint(10, 6), new Guard(), Dynasty.CHU));
+            add(new BoardPiece(new ChuPoint(10, 9), new Rook(), Dynasty.CHU));
+            add(new BoardPiece(new ChuPoint(9, 5), new King(), Dynasty.CHU));
+            add(new BoardPiece(new ChuPoint(8, 2), new Cannon(), Dynasty.CHU));
+            add(new BoardPiece(new ChuPoint(8, 8), new Cannon(), Dynasty.CHU));
+            add(new BoardPiece(new ChuPoint(7, 1), new Pawn(), Dynasty.CHU));
+            add(new BoardPiece(new ChuPoint(7, 3), new Pawn(), Dynasty.CHU));
+            add(new BoardPiece(new ChuPoint(7, 5), new Pawn(), Dynasty.CHU));
+            add(new BoardPiece(new ChuPoint(7, 7), new Pawn(), Dynasty.CHU));
+            add(new BoardPiece(new ChuPoint(7, 9), new Pawn(), Dynasty.CHU));
         }
     };
 

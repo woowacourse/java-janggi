@@ -5,17 +5,20 @@ import janggi.domain.board.point.Point;
 
 public class Guard implements Piece {
 
-    private final static Guard GUARD = new Guard();
-
-    private Guard() {
-    }
-
-    public static Guard newInstance() {
-        return GUARD;
-    }
-
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
         return false;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        return this.getClass() == obj.getClass();
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

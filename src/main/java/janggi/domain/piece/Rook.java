@@ -7,17 +7,9 @@ import java.util.Set;
 
 public class Rook implements Piece {
 
-    private static final Rook ROOK = new Rook();
     private static final Set<Direction> DIRECTIONS = Set.of(
             Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT
     );
-
-    private Rook() {
-    }
-
-    public static Rook newInstance() {
-        return ROOK;
-    }
 
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
@@ -34,5 +26,17 @@ public class Rook implements Piece {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        return this.getClass() == obj.getClass();
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

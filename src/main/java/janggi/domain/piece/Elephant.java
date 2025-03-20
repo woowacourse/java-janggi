@@ -8,7 +8,6 @@ import java.util.Set;
 
 public class Elephant implements Piece {
 
-    private static final Elephant ELEPHANT = new Elephant();
     private static final Set<List<Direction>> DIRECTIONS = Set.of(
             List.of(Direction.UP, Direction.UP_LEFT_DIAGONAL, Direction.UP_LEFT_DIAGONAL),
             List.of(Direction.UP, Direction.UP_RIGHT_DIAGONAL, Direction.UP_RIGHT_DIAGONAL),
@@ -22,13 +21,6 @@ public class Elephant implements Piece {
             List.of(Direction.LEFT, Direction.UP_LEFT_DIAGONAL, Direction.UP_LEFT_DIAGONAL),
             List.of(Direction.LEFT, Direction.DOWN_LEFT_DIAGONAL, Direction.DOWN_LEFT_DIAGONAL)
     );
-
-    private Elephant() {
-    }
-
-    public static Elephant newInstance() {
-        return ELEPHANT;
-    }
 
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
@@ -45,5 +37,17 @@ public class Elephant implements Piece {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        return this.getClass() == obj.getClass();
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

@@ -17,7 +17,7 @@ class KnightTest {
     void test() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Piece knight = Knight.newInstance();
+        Piece knight = new Knight();
 
         // when
         boolean isMovable = knight.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 3));
@@ -31,7 +31,7 @@ class KnightTest {
     void test2() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Piece knight = Knight.newInstance();
+        Piece knight = new Knight();
 
         // when
         boolean isMovable = knight.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 2));
@@ -46,9 +46,9 @@ class KnightTest {
     void test3() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(1, 2), Knight.newInstance(), Dynasty.HAN)
+                new BoardPiece(new HanPoint(1, 2), new Knight(), Dynasty.HAN)
         ));
-        Piece knight = Knight.newInstance();
+        Piece knight = new Knight();
 
         // when
         boolean isMovable = knight.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 3));

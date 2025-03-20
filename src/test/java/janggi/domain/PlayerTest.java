@@ -14,7 +14,7 @@ class PlayerTest {
     @ValueSource(strings = {"a", "abcd", "abcdef"})
     void createPlayerTest(String nickName) {
         // when, then
-        assertThatCode(() -> new Player(nickName))
+        assertThatCode(() -> new Player(nickName, Dynasty.HAN))
                 .doesNotThrowAnyException();
     }
 
@@ -23,7 +23,7 @@ class PlayerTest {
     @ValueSource(strings = {"", "abcdefg"})
     void createPlayerTest_WhenNickNameLengthNotValid(String nickName) {
         // when, then
-        assertThatThrownBy(() -> new Player(nickName))
+        assertThatThrownBy(() -> new Player(nickName, Dynasty.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("닉네임은 1자 ~ 6자여야합니다.");
     }

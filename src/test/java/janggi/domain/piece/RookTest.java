@@ -25,7 +25,7 @@ class RookTest {
     void move(int x1, int y1, int x2, int y2) {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Piece rook = Rook.newInstance();
+        Piece rook = new Rook();
 
         // when
         boolean isMovable = rook.isMovable(janggiBoard, new HanPoint(x1, y1), new DefaultPoint(x2, y2));
@@ -39,7 +39,7 @@ class RookTest {
     void test2() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Piece rook = Rook.newInstance();
+        Piece rook = new Rook();
 
         // when
         boolean isMovable = rook.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 2));
@@ -54,9 +54,9 @@ class RookTest {
     void test3() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(1, 2), Knight.newInstance(), Dynasty.HAN)
+                new BoardPiece(new HanPoint(1, 2), new Knight(), Dynasty.HAN)
         ));
-        Piece rook = Rook.newInstance();
+        Piece rook = new Rook();
 
         // when
         boolean isMovable = rook.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(1, 4));

@@ -20,7 +20,7 @@ class BoardPieceTest {
     @Test
     void moveTest() {
         // given
-        BoardPiece boardPiece = new BoardPiece(new HanPoint(1, 1), Pawn.newInstance(), Dynasty.HAN);
+        BoardPiece boardPiece = new BoardPiece(new HanPoint(1, 1), new Pawn(), Dynasty.HAN);
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
                 boardPiece
         ));
@@ -31,15 +31,15 @@ class BoardPieceTest {
 
         // then
         assertThat(boardPiece)
-                .isEqualTo(new BoardPiece(new HanPoint(2, 1), Pawn.newInstance(), Dynasty.HAN));
+                .isEqualTo(new BoardPiece(new HanPoint(2, 1), new Pawn(), Dynasty.HAN));
     }
 
     @DisplayName("원하는 위치에 같은 편의 말이 있으면 예외가 발생한다.")
     @Test
     void moveFailTest_WhenExistSameDynastyPiece() {
         // given
-        BoardPiece samePiece = new BoardPiece(new HanPoint(2, 1), Pawn.newInstance(), Dynasty.HAN);
-        BoardPiece boardPiece = new BoardPiece(new HanPoint(1, 1), Pawn.newInstance(), Dynasty.HAN);
+        BoardPiece samePiece = new BoardPiece(new HanPoint(2, 1), new Pawn(), Dynasty.HAN);
+        BoardPiece boardPiece = new BoardPiece(new HanPoint(1, 1), new Pawn(), Dynasty.HAN);
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
                 boardPiece, samePiece
         ));
@@ -57,7 +57,7 @@ class BoardPieceTest {
     @Test
     void moveFailTest_WhenIsNotMovable() {
         // given
-        BoardPiece boardPiece = new BoardPiece(new HanPoint(1, 1), Pawn.newInstance(), Dynasty.HAN);
+        BoardPiece boardPiece = new BoardPiece(new HanPoint(1, 1), new Pawn(), Dynasty.HAN);
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
                 boardPiece
         ));
@@ -80,7 +80,7 @@ class BoardPieceTest {
     })
     void isSamePosition(int x1, int y1, int x2, int y2, boolean expected) {
         //given
-        BoardPiece boardPiece = new BoardPiece(new HanPoint(x1, y1), Pawn.newInstance(), Dynasty.HAN);
+        BoardPiece boardPiece = new BoardPiece(new HanPoint(x1, y1), new Pawn(), Dynasty.HAN);
 
         //when
         boolean result = boardPiece.isSamePosition(new DefaultPoint(x2, y2));

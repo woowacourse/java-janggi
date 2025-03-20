@@ -8,7 +8,6 @@ import java.util.Set;
 
 public class Knight implements Piece {
 
-    private static final Knight KNIGHT = new Knight();
     private static final Set<List<Direction>> DIRECTIONS = Set.of(
             List.of(Direction.UP, Direction.UP_LEFT_DIAGONAL),
             List.of(Direction.UP, Direction.UP_RIGHT_DIAGONAL),
@@ -22,13 +21,6 @@ public class Knight implements Piece {
             List.of(Direction.LEFT, Direction.UP_LEFT_DIAGONAL),
             List.of(Direction.LEFT, Direction.DOWN_LEFT_DIAGONAL)
     );
-
-    private Knight() {
-    }
-
-    public static Knight newInstance() {
-        return KNIGHT;
-    }
 
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
@@ -45,5 +37,17 @@ public class Knight implements Piece {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        return this.getClass() == obj.getClass();
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

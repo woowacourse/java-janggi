@@ -8,26 +8,9 @@ import java.util.Set;
 
 public class Cannon implements Piece {
 
-    private static final Cannon CANNON = new Cannon();
     private static final Set<Direction> DIRECTIONS = Set.of(
             Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT
     );
-
-    private Cannon() {
-    }
-
-    public static Cannon newInstance() {
-        return CANNON;
-    }
-
-    private static boolean isExistCannon(JanggiBoard janggiBoard, Point point) {
-        Optional<BoardPiece> pointPiece = janggiBoard.findPointPiece(point);
-        if (pointPiece.isPresent()) {
-            BoardPiece piece = pointPiece.get();
-            return piece.isEqualPiece(CANNON);
-        }
-        return false;
-    }
 
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
@@ -54,5 +37,26 @@ public class Cannon implements Piece {
             }
         }
         return false;
+    }
+
+    private boolean isExistCannon(JanggiBoard janggiBoard, Point point) {
+        Optional<BoardPiece> pointPiece = janggiBoard.findPointPiece(point);
+        if (pointPiece.isPresent()) {
+            BoardPiece piece = pointPiece.get();
+            return piece.isEqualPiece(this);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        return this.getClass() == obj.getClass();
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

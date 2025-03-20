@@ -55,8 +55,9 @@ public class JanggiGame {
                 currentTurnDynasty = Dynasty.HAN;
             }
         }
-        // 5. end 입력 시 게임 종료
 
         // 예외 발생 시 message 출력 -> 해당 부분부터 재입력
+        //리팩토링
+        //테스트 코드 더 작성
     }
 }

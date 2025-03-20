@@ -20,14 +20,14 @@ public class JanggiBoardTest {
     void findPointPieceTest() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(9, 5), King.newInstance(), Dynasty.CHU)
+                new BoardPiece(new ChuPoint(9, 5), new King(), Dynasty.CHU)
         ));
 
         //when
         Optional<BoardPiece> result = janggiBoard.findPointPiece(new HanPoint(9, 5));
 
         //then
-        assertThat(result).isEqualTo(Optional.of(new BoardPiece(new ChuPoint(9, 5), King.newInstance(), Dynasty.CHU)));
+        assertThat(result).isEqualTo(Optional.of(new BoardPiece(new ChuPoint(9, 5), new King(), Dynasty.CHU)));
     }
 
     @DisplayName("해당 위치에 기물이 없을 수 있다.")
@@ -48,7 +48,7 @@ public class JanggiBoardTest {
     void isExistPieceTest() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(9, 5), King.newInstance(), Dynasty.CHU)
+                new BoardPiece(new ChuPoint(9, 5), new King(), Dynasty.CHU)
         ));
 
         //when

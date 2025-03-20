@@ -8,19 +8,11 @@ import java.util.Set;
 
 public class Pawn implements Piece {
 
-    private final static Pawn PAWN = new Pawn();
     private static final Set<List<Direction>> DIRECTIONS = Set.of(
             List.of(Direction.UP),
             List.of(Direction.LEFT),
             List.of(Direction.RIGHT)
     );
-
-    private Pawn() {
-    }
-
-    public static Pawn newInstance() {
-        return PAWN;
-    }
 
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
@@ -37,5 +29,17 @@ public class Pawn implements Piece {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        return this.getClass() == obj.getClass();
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

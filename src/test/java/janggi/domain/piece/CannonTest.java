@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
@@ -23,9 +23,9 @@ class CannonTest {
     void moveCannonTest() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(4, 4), Pawn.newInstance(), Dynasty.HAN)
+                new BoardPiece(new HanPoint(4, 4), new Pawn(), Dynasty.HAN)
         ));
-        Cannon cannon = Cannon.newInstance();
+        Cannon cannon = new Cannon();
 
         //when
         boolean movable = cannon.isMovable(janggiBoard, new HanPoint(4, 1), new DefaultPoint(4, 9));
@@ -39,10 +39,10 @@ class CannonTest {
     void moveCannonTest_WhenTwoPieceInPath() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(4, 4), Pawn.newInstance(), Dynasty.HAN),
-                new BoardPiece(new HanPoint(4, 6), Pawn.newInstance(), Dynasty.HAN)
+                new BoardPiece(new HanPoint(4, 4), new Pawn(), Dynasty.HAN),
+                new BoardPiece(new HanPoint(4, 6), new Pawn(), Dynasty.HAN)
         ));
-        Cannon cannon = Cannon.newInstance();
+        Cannon cannon = new Cannon();
 
         //when
         boolean movable = cannon.isMovable(janggiBoard, new HanPoint(4, 1), new DefaultPoint(4, 9));
@@ -56,9 +56,9 @@ class CannonTest {
     void notJumpCannon() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(4, 4), Cannon.newInstance(), Dynasty.HAN)
+                new BoardPiece(new HanPoint(4, 4), new Cannon(), Dynasty.HAN)
         ));
-        Cannon cannon = Cannon.newInstance();
+        Cannon cannon = new Cannon();
 
         //when
         boolean movable = cannon.isMovable(janggiBoard, new HanPoint(4, 1), new DefaultPoint(4, 9));
@@ -72,9 +72,9 @@ class CannonTest {
     void notJumpCannon_WhenEndPositionExistCannon() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(4, 9), Cannon.newInstance(), Dynasty.CHU)
+                new BoardPiece(new ChuPoint(4, 9), new Cannon(), Dynasty.CHU)
         ));
-        Cannon cannon = Cannon.newInstance();
+        Cannon cannon = new Cannon();
 
         //when
         boolean movable = cannon.isMovable(janggiBoard, new HanPoint(4, 1), new DefaultPoint(4, 9));
@@ -88,7 +88,7 @@ class CannonTest {
     void notMove_WhenImpossibleDirection() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Cannon cannon = Cannon.newInstance();
+        Cannon cannon = new Cannon();
 
         // when
         boolean isMovable = cannon.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 2));

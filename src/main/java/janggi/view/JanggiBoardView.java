@@ -25,13 +25,13 @@ public class JanggiBoardView {
     private static final String RED = "\u001B[31m";
     private static final String BLUE = "\u001B[34m";
     private static final Map<Piece, String> PIECE_LABELS = Map.of(
-            King.newInstance(), "궁",
-            Guard.newInstance(), "사",
-            Rook.newInstance(), "차",
-            Cannon.newInstance(), "포",
-            Knight.newInstance(), "마",
-            Elephant.newInstance(), "상",
-            Pawn.newInstance(), "졸"
+            new King(), "궁",
+            new Guard(), "사",
+            new Rook(), "차",
+            new Cannon(), "포",
+            new Knight(), "마",
+            new Elephant(), "상",
+            new Pawn(), "졸"
     );
     private static final Map<String, Integer> VERTICAL_INPUT_MAP = Map.of(
             "ㄱ", 1,
