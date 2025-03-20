@@ -1,3 +1,4 @@
+import domain.ChessPiecePositions;
 import domain.ChessPosition;
 import domain.ChessTeam;
 import domain.Pawn;
@@ -22,7 +23,7 @@ public class PawnTest {
 
         //when
         final Pawn pawn = new Pawn(chessPosition, ChessTeam.RED);
-        final List<ChessPosition> destinations = pawn.getDestinations();
+        final List<ChessPosition> destinations = pawn.getDestinations(ChessPiecePositions.empty());
 
         //then
         assertThat(destinations).containsAll(expectDestinations);

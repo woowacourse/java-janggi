@@ -1,25 +1,22 @@
 package domain;
 
-import java.util.List;
+import static domain.Direction.DOWN;
+import static domain.Direction.LEFT;
+import static domain.Direction.RIGHT;
+import static domain.Direction.UP;
 
-import static domain.Direction.*;
+import java.util.List;
+import java.util.Map;
 
 public class Pawn extends LimitedChessPiece {
-    private static final List<Directions> directions = List.of(
-            new Directions(List.of(UP, RIGHT_UP)),
-            new Directions(List.of(UP, LEFT_UP)),
-            new Directions(List.of(LEFT, LEFT_UP)),
-            new Directions(List.of(LEFT, LEFT_DOWN)),
-            new Directions(List.of(RIGHT, RIGHT_UP)),
-            new Directions(List.of(RIGHT, RIGHT_DOWN)),
-            new Directions(List.of(DOWN, LEFT_DOWN)),
-            new Directions(List.of(DOWN, RIGHT_DOWN))
-    );
+
+    private static final Map<ChessTeam, List<Directions>> DIRECTIONS = Map.of(
+            ChessTeam.RED, List.of(new Directions(List.of(LEFT)), new Directions(List.of(RIGHT)), new Directions(List.of(DOWN))),
+            ChessTeam.BLUE, List.of(new Directions(List.of(LEFT)), new Directions(List.of(RIGHT)), new Directions(List.of(UP))));
 
     public Pawn(ChessPosition position, final ChessTeam chessTeam) {
-        super(position, chessTeam, directions);
+        super(position, chessTeam, DIRECTIONS.get(chessTeam));
     }
-
 
     public static List<Pawn> initPieces() {
         return List.of(
@@ -34,7 +31,7 @@ public class Pawn extends LimitedChessPiece {
     @Override
     protected List<ChessPosition> getCoordinateDestinations(final List<Path> coordinates,
                                                             final ChessPiecePositions positions) {
-        return List.of();
+        return List.of(new ChessPosition(0,1), new ChessPosition(1, 0));
     }
 
     @Override
