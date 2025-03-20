@@ -1,5 +1,8 @@
 package domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +17,46 @@ public class JanggiPieceTest {
         piece.captureIfNotEmpty();
 
         // then
-        Assertions.assertThat(piece.isCaptured()).isTrue();
+        assertThat(piece.isCaptured()).isTrue();
+    }
+
+    @Test
+    void 포가_아닌_기물은_장애물을_넘을_수_없다() {
+        // given
+        JanggiPiece 마 = new 마(JanggiSide.CHO);
+        JanggiPiece hurdlePiece = new Empty();
+        int hurdleCount = 1;
+        JanggiPiece targetPiece = new 졸병(JanggiSide.HAN);
+
+
+        // when & then
+        assertThatThrownBy(() -> 마.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("해당 기물은 장애물을 뛰어넘을 수 없습니다.");
+    }
+
+    @Test
+    void 같은_팀인_기물은_잡을_수_없다() {
+        // given
+        JanggiPiece 마 = new 마(JanggiSide.CHO);
+        JanggiPiece hurdlePiece = new 졸병(JanggiSide.CHO);
+        int hurdleCount = 1;
+        JanggiPiece targetPiece = new 졸병(JanggiSide.CHO);
+
+
+        // when & then
+        assertThatThrownBy(() -> 마.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("같은 팀의 기물은 잡을 수 없습니다.");
+    }
+
+    @Test
+    void 특정_기물이_같은_팀인지_확인할_수_있다() {
+        // given
+        JanggiPiece 마 = new 마(JanggiSide.CHO);
+        JanggiPiece 궁 = new 궁(JanggiSide.CHO);
+
+        // when & then
+        assertThat(마.isMyTeam(궁)).isTrue();
     }
 }

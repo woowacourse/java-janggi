@@ -31,7 +31,7 @@ public abstract class JanggiPiece {
             throw new IllegalStateException("같은 팀의 기물은 잡을 수 없습니다.");
         }
         if (hurdleCount != 0) {
-            throw new IllegalArgumentException("해당 기물은 장애물을 뛰어넘을 수 없습니다.");
+            throw new IllegalStateException("해당 기물은 장애물을 뛰어넘을 수 없습니다.");
         }
     }
 

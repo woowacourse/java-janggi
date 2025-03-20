@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import domain.JanggiBoard.JanggiBoard;
 import domain.JanggiBoard.JanggiBoardBasicInitializer;
 import domain.piece.JanggiPiece;
-import domain.piece.JanggiPieceStatus;
 import domain.piece.JanggiSide;
 import domain.piece.궁;
 import domain.piece.마;
@@ -58,7 +57,7 @@ public class JanggiBoardTest {
 
         // when & then
         assertThatThrownBy(() -> janggiBoard.movePiece(차Position, new JanggiPosition(4, 1)))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalStateException.class);
     }
 
     @Nested
