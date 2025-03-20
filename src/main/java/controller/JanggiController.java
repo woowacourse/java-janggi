@@ -33,4 +33,8 @@ public class JanggiController {
     public void nextTurn() {
         service.nextTurn();
     }
+
+    public void endGame() {
+        outputView.result(service.getWinner());
+    }
 }

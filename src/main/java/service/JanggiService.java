@@ -37,6 +37,10 @@ public class JanggiService {
     public void nextTurn() {
         currentTurn = currentTurn.nextTurn();
     }
+
+    public TeamDto getWinner() {
+        return TeamDto.from(board.getWinnerIfGameOver());
+    }
 }
 
 /**

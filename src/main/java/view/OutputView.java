@@ -34,4 +34,9 @@ public class OutputView {
     public void turn(TeamDto teamDto) {
         System.out.printf("%n%s의 차례입니다.%n%n", Color.apply(teamDto, teamDto.getDisplayName()));
     }
+
+    public void result(TeamDto winnerTeamDto) {
+        String winner = Color.apply(winnerTeamDto, winnerTeamDto.getDisplayName());
+        System.out.printf("%n%s가 승리했습니다. 게임을 종료합니다.%n", winner);
+    }
 }
