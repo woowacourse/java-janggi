@@ -1,6 +1,7 @@
 package domain.direction;
 
 import domain.piece.Position;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class Direction {
             path = path.merge(direction.getFirst());
             paths.add(path);
         }
-        return paths;
+        return paths.subList(0, paths.size() - 1);
     }
 
     private List<Position> createPathWithoutRepeat(final Position start) {
@@ -63,6 +64,6 @@ public class Direction {
             paths.add(path);
             path = path.merge(dir);
         }
-        return paths.subList(1, direction.size());
+        return paths.subList(1, paths.size());
     }
 }
