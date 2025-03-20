@@ -36,6 +36,48 @@ public class Pieces {
         movePosition(piece, destination);
     }
 
+    public boolean hasCannon(Position position) {
+        return pieces.stream()
+            .filter(piece -> piece.getPosition().equals(position))
+            .anyMatch(piece -> piece.getClass() == Cannon.class);
+    }
+
+    public void validateCannonMove(Piece piece, Position destination) {
+        List<Position> positions = findDirectionOfPiece(piece, destination); // 목적지 찾기
+        validateMiddleDirectionOfCannon(destination, positions);
+        validateDestinationOfCannon(piece, destination); // 같은 팀이라면 에러, 다른 팀이라면 제거
+        movePosition(piece, destination);
+    }
+
+    private void validateMiddleDirectionOfCannon(Position destination, List<Position> positions) {
+        long pieceCount = positions.stream()
+            .filter(this::isAlreadyExist)
+            .filter(position -> !position.equals(destination))
+            .count();
+
+        boolean hasCannon = positions.stream()
+            .anyMatch(this::hasCannon);
+
+        if (pieceCount == 1 && !hasCannon) {
+            return;
+        }
+        throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
+    }
+
+    private void validateDestinationOfCannon(Piece myPiece, Position destination) {
+        Optional<Piece> hasExistPiece = this.pieces.stream()
+            .filter(piece -> piece.getPosition().equals(destination))
+            .findFirst();
+        if (hasExistPiece.isEmpty()) {
+            return;
+        }
+        Piece existPiece = hasExistPiece.get();
+        if (myPiece.getTeam() == existPiece.getTeam() || existPiece.getClass() == Cannon.class) {
+            throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
+        }
+        pieces.remove(existPiece);
+    }
+
     private void validateMiddleDirection(Position destination, List<Position> positions) {
         positions.stream()
             .filter(this::isAlreadyExist)
