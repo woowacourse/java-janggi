@@ -2,7 +2,7 @@ package janggi.value;
 
 import java.util.Objects;
 
-public final class Position {
+public final class Position implements Comparable<Position> {
 
     private final int x;
     private final int y;
@@ -18,6 +18,14 @@ public final class Position {
                 "x=" + x +
                 ", y=" + y +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Position otherPosition) {
+        if (y == otherPosition.getY()) {
+            return Integer.compare(otherPosition.getX(), x);
+        }
+        return Integer.compare(otherPosition.getY(), y);
     }
 
     public int getX() {
