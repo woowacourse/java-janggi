@@ -1,10 +1,13 @@
 package janggi.domain.board;
 
 import janggi.domain.Position;
+import janggi.domain.Side;
+import janggi.domain.piece.King;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.gererator.ChoPieceGenerator;
 import janggi.domain.piece.gererator.HanPieceGenerator;
 import janggi.domain.piece.gererator.KnightElephantSetting;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -32,11 +35,12 @@ public class JanggiBoard {
     public void move(int x, int y, int destinationX, int destinationY) {
         Position source = new Position(x, y);
         Position destination = new Position(destinationX, destinationY);
-        List<Piece> existingPieces = pieceMap.values().stream().toList();
+        List<Piece> existingPieces = new ArrayList<>(pieceMap.values().stream().toList());
+        Piece sourcePiece = pieceMap.get(source);
+        existingPieces.remove(sourcePiece);
 
         validatePieceExistence(source);
 
-        Piece sourcePiece = pieceMap.get(source);
         sourcePiece.move(existingPieces, destinationX, destinationY);
         pieceMap.remove(source);
         pieceMap.put(destination, sourcePiece);
@@ -50,5 +54,19 @@ public class JanggiBoard {
 
     public Map<Position, Piece> getPieceMap() {
         return pieceMap;
+    }
+
+    public boolean isEnd() {
+        return pieceMap.values().stream()
+                .filter(value -> value.getClass() == King.class)
+                .count() != 2;
+    }
+
+    public Side getWinner() {
+        return pieceMap.values().stream()
+                .filter(value -> value.getClass() == King.class)
+                .map(Piece::getSide)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("게임이 종료되지 않았습니다."));
     }
 }
