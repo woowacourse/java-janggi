@@ -34,6 +34,11 @@ public final class Cannon extends Piece {
         return isNotSameTeamAndNotJumpable(end, board);
     }
 
+    @Override
+    public Type type() {
+        return Type.CANNON;
+    }
+
     private boolean cannotMoveThrough(final Position start, final Position end, final Board board) {
         final MovingRule matchRule = findMatchRule(start, end);
         Position route = start;

@@ -30,6 +30,11 @@ public final class Guard extends Piece {
         return !isPresentSameTeam(end, board);
     }
 
+    @Override
+    public Type type() {
+        return Type.GUARD;
+    }
+
     private boolean isPresentSameTeam(final Position end, final Board board) {
         return board.isPresentSameTeam(team, end);
     }

@@ -32,7 +32,7 @@ public final class OutputView {
     }
 
     private static void displayPiece(final Piece piece) {
-        final String notation = ViewConstant.pieceNotations.get(piece.getClass());
+        final String notation = ViewConstant.pieceNotations.get(piece.type());
         if (piece.isHan()) {
             System.out.print(notation);
             return;

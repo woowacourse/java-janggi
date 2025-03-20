@@ -21,6 +21,8 @@ public abstract class Piece {
 
     public abstract boolean canMove(final Position start, final Position end, final Board board);
 
+    public abstract Type type();
+
     public boolean isHan() {
         return team == Team.HAN;
     }

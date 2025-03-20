@@ -32,6 +32,11 @@ public final class Soldier extends Piece {
         return !isPresentSameTeam(end, board);
     }
 
+    @Override
+    public Type type() {
+        return Type.SOLDIER;
+    }
+
     private boolean isPresentSameTeam(final Position end, final Board board) {
         return board.isPresentSameTeam(team, end);
     }

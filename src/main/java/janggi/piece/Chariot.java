@@ -34,6 +34,11 @@ public final class Chariot extends Piece {
         return !isPresentSameTeam(end, board);
     }
 
+    @Override
+    public Type type() {
+        return Type.CHARIOT;
+    }
+
     private boolean isPresentSameTeam(final Position end, final Board board) {
         return board.isPresentSameTeam(team, end);
     }

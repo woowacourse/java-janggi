@@ -34,6 +34,11 @@ public final class Elephant extends Piece {
         return !isPresentSameTeam(end, board);
     }
 
+    @Override
+    public Type type() {
+        return Type.ELEPHANT;
+    }
+
     private boolean isPresentSameTeam(final Position end, final Board board) {
         return board.isPresentSameTeam(team, end);
     }
