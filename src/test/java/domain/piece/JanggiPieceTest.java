@@ -11,7 +11,7 @@ public class JanggiPieceTest {
         JanggiPiece piece = new 마(JanggiSide.CHO);
 
         // when
-        piece.captureIfNotMySide(JanggiSide.HAN);
+        piece.captureIfNotMySide(new 졸병(JanggiSide.HAN));
 
         // then
         Assertions.assertThat(piece.getStatus())

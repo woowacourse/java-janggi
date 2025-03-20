@@ -35,7 +35,7 @@ public final class JanggiBoard {
     }
 
     private void validateDestinationPiece(final JanggiPiece piece, final JanggiPosition afterPosition) {
-        if (piece.getSide() == getPieceFrom(afterPosition).getSide()) {
+        if (piece.isMyTeam(getPieceFrom(afterPosition))) {
             throw new IllegalStateException("목적지에 같은 팀의 기물이 존재하여 이동할 수 없습니다.");
         }
     }
@@ -46,7 +46,7 @@ public final class JanggiBoard {
         janggiBoard.put(beforePosition, new Empty());
         JanggiPiece pieceInDanger = janggiBoard.get(afterPosition);
         if (!pieceInDanger.isEmpty()) {
-            pieceInDanger.captureIfNotMySide(piece.getSide());
+            pieceInDanger.captureIfNotMySide(piece);
         }
     }
 
@@ -85,7 +85,7 @@ public final class JanggiBoard {
         if (!pieceInDanger.getClass().equals(포.class)) {
             throw new IllegalStateException("포는 포를 잡을 수 없습니다.");
         }
-        pieceInDanger.captureIfNotMySide(piece.getSide());
+        pieceInDanger.captureIfNotMySide(piece);
     }
 
     private boolean isExistHurdle(final JanggiPiece piece, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {

@@ -26,15 +26,15 @@ public abstract class JanggiPiece {
         return false;
     }
 
-    public void captureIfNotMySide(final JanggiSide otherSide) {
-        if (otherSide == this.side) {
+    public void captureIfNotMySide(final JanggiPiece other) {
+        if (isMyTeam(other)) {
             return;
         }
         this.status = JanggiPieceStatus.CAPTURED;
     }
 
-    public JanggiSide getSide() {
-        return side;
+    public boolean isMyTeam(JanggiPiece other) {
+        return this.side == other.side;
     }
 
     public JanggiPieceStatus getStatus() {
