@@ -32,7 +32,7 @@ class ChariotTest {
                 new ChessPosition(9,4));
 
         //when
-        final Chariot chariot = new Chariot(chessPosition, ChessTeam.RED);
+        final Chariot chariot = new Chariot(chessPosition, ChessTeam.BLUE);
         final List<ChessPosition> destinations = chariot.getDestinations(piecePositions);
 
         //then

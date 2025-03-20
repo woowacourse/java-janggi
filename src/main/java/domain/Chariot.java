@@ -27,7 +27,9 @@ public class Chariot extends UnlimitedMoveChessPiece {
         final List<ChessPosition> chessPositions = new ArrayList<>();
         for (ChessPosition chessPosition : path.getPath()) {
             if (positions.existChessPieceByPosition(chessPosition)) {
-                chessPositions.add(chessPosition);
+                if (positions.getChessPieceByPosition(chessPosition).getTeam() != getTeam()) {
+                    chessPositions.add(chessPosition);
+                }
                 break;
             }
             chessPositions.add(chessPosition);
