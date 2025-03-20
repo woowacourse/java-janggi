@@ -8,48 +8,38 @@ import java.util.Map;
 
 public class Board {
 
-    private static final int MAX_ROW = 10;
-    private static final int MAX_COLUMN = 9;
-
     private final Map<Position, Piece> positionToPiece;
 
     private Board(final Map<Position, Piece> positionToPiece) {
         this.positionToPiece = positionToPiece;
     }
 
-    public static Board initialize(List<Piece> pieces) {
+    public static Board initialize(final List<Piece> pieces) {
         HashMap<Position, Piece> positionToPiece = new HashMap<>();
 
-        // TODO 외부 주입 예정
-//        for (Team team : Team.values()) {
-//            pieces.add(General.Default(team));
-//            pieces.addAll(Cannon.Default(team));
-//            pieces.addAll(Chariot.Default(team));
-//            pieces.addAll(Elephant.Default(team));
-//            pieces.addAll(Guard.Default(team));
-//            pieces.addAll(Horse.Default(team));
-//            pieces.addAll(Soldier.Default(team));
-//        }
-
-        pieces.forEach(piece ->
-                positionToPiece.put(piece.getPosition(), piece));
+        pieces.forEach(piece -> positionToPiece.put(piece.getPosition(), piece));
 
         return new Board(positionToPiece);
     }
 
-    public boolean isExists(Position position) {
+    public boolean isExists(final Position position) {
         return positionToPiece.containsKey(position);
     }
 
-    public void move(Position departure, Position destination) {
-        Piece target = getPiece(departure);
-        Piece moved = target.move(this, destination);
+    public void movePiece(final Position departure, final Position destination) {
+        Piece allyPiece = getPiece(departure);
+        Piece movedPiece = allyPiece.move(this, destination);
 
-        positionToPiece.remove(departure);
-        positionToPiece.put(destination, moved);
+        Score score = positionToPiece.remove(departure).die();
+        // TODO 2.1 단계(점수 계산) 요구사항 추가 예정
+        updateBoard(destination, movedPiece);
     }
 
-    public boolean isAlly(Position position, Team team) {
+    private void updateBoard(final Position destination, final Piece movedPiece) {
+        positionToPiece.put(destination, movedPiece);
+    }
+
+    public boolean isAlly(final Position position, final Team team) {
         return getPiece(position).isAlly(team);
     }
 
