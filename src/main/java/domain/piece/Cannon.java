@@ -13,19 +13,18 @@ public class Cannon extends Piece {
 
     @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
-        //1. 세로가 다르고 가로가 같다.
+
         List<Position> path = new ArrayList<>();
         Position newPosition = startPosition;
+
         if (startPosition.compareRow(targetPosition) != 0 && startPosition.compareColumn(targetPosition) == 0) {
             newPosition = calculateNewPostion(startPosition.compareRow(targetPosition), newPosition, path, Move.BACK,
                     Move.FRONT);
         }
-        //2. 세로가 같고 가로가 다르다
         if (startPosition.compareRow(targetPosition) == 0 && startPosition.compareColumn(targetPosition) != 0) {
             calculateNewPostion(startPosition.compareColumn(targetPosition), newPosition, path, Move.RIGHT,
                     Move.LEFT);
         }
-        //3. 세로가 같고, 가로가 같다
         if (startPosition.compareRow(targetPosition) != 0 && startPosition.compareColumn(targetPosition) != 0) {
             throw new IllegalArgumentException("이 위치로는 움직일 수 없습니다.");
         }
