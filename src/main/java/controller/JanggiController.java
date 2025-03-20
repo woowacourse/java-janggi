@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.function.BooleanSupplier;
+
 import service.JanggiService;
 import view.InputView;
 import view.OutputView;
@@ -11,30 +13,52 @@ public class JanggiController {
     private final JanggiService service = new JanggiService();
 
     public void startGame() {
-        service.startGame();
-        outputView.startGame();
-        outputView.board(service.getBoard());
+        process(() -> {
+            service.startGame();
+            outputView.startGame();
+            outputView.board(service.getBoard());
+        });
     }
 
     public boolean playTurn() {
-        outputView.turn(service.currentTurn());
+        return process(() -> {
+            outputView.turn(service.currentTurn());
 
-        var response = inputView.command();
-        if(response.abstain()){
-            return false;
-        }
+            var response = inputView.command();
+            if (response.abstain()) {
+                return false;
+            }
 
-        service.move(response.source(), response.destination());
-        outputView.board(service.getBoard());
+            service.move(response.source(), response.destination());
+            outputView.board(service.getBoard());
 
-        return service.isPlaying();
+            return service.isPlaying();
+        });
     }
 
     public void nextTurn() {
-        service.nextTurn();
+        process(service::nextTurn);
     }
 
     public void endGame() {
-        outputView.result(service.getWinner());
+        process(() -> outputView.result(service.getWinner()));
+    }
+
+    private void process(Runnable action) {
+        try {
+            action.run();
+        } catch (IllegalArgumentException e) {
+            outputView.retry(e);
+            action.run();
+        }
+    }
+
+    private boolean process(BooleanSupplier action) {
+        try {
+            return action.getAsBoolean();
+        } catch (IllegalArgumentException e) {
+            outputView.retry(e);
+            return process(action);
+        }
     }
 }
