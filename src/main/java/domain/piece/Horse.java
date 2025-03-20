@@ -29,30 +29,13 @@ public class Horse extends Piece {
         super(position, teamType);
     }
 
-    private Horse(Horse horse){
+    private Horse(Horse horse) {
         super(horse);
     }
 
     @Override
     public boolean canMove(Position expectedPosition, List<Piece> pieces) {
-        if(!MOVEMENTS.canMoveFromTo(this.position,expectedPosition)){
-            return false;
-        }
-        List<Position> intermediatePositions = MOVEMENTS.findIntermediatePositions(this.position, expectedPosition);
-        for (Position intermediatePosition : intermediatePositions) {
-            for (Piece piece : pieces) {
-                if(piece.hasSamePosition(intermediatePosition)){
-                    return false;
-                }
-            }
-        }
-        boolean check = pieces.stream()
-                .anyMatch(piece -> piece.hasSamePosition(expectedPosition) && piece.isSameTeam(this));
-        if(check){
-            return false;
-        }
-
-        return true;
+        return MOVEMENTS.canMovePieceToPosition(this, expectedPosition, pieces);
     }
 
     @Override

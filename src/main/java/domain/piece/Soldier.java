@@ -32,31 +32,14 @@ public class Soldier extends Piece {
         super(position, teamType);
     }
 
-    private Soldier(Soldier soldier){
+    private Soldier(Soldier soldier) {
         super(soldier);
     }
 
     @Override
     public boolean canMove(Position expectedPosition, List<Piece> pieces) {
         Movements findMovement = MOVEMENTS.get(this.teamType);
-        if(!findMovement.canMoveFromTo(this.position,expectedPosition)){
-            return false;
-        }
-        List<Position> intermediatePositions = findMovement.findIntermediatePositions(this.position, expectedPosition);
-        for (Position intermediatePosition : intermediatePositions) {
-            for (Piece piece : pieces) {
-                if(piece.hasSamePosition(intermediatePosition)){
-                    return false;
-                }
-            }
-        }
-        boolean check = pieces.stream()
-                .anyMatch(piece -> piece.hasSamePosition(expectedPosition) && piece.isSameTeam(this));
-        if(check){
-            return false;
-        }
-
-        return true;
+        return findMovement.canMovePieceToPosition(this, expectedPosition, pieces);
     }
 
     @Override

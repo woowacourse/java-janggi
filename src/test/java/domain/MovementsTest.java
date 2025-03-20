@@ -11,7 +11,7 @@ class MovementsTest {
 
     @Test
     @DisplayName("도착 위치로 이동할 수 있으면 true를 반환한다")
-    void canMoveFromToTrue() {
+    void canMovePieceToPositionFromToTrue() {
         List<Movement> movementList = List.of(
                 new Movement(List.of(Direction.UP, Direction.RIGHT_UP, Direction.RIGHT)),
                 new Movement(List.of(Direction.LEFT, Direction.LEFT_DOWN, Direction.DOWN))
@@ -27,7 +27,7 @@ class MovementsTest {
 
     @Test
     @DisplayName("도착 위치로 이동할 수 없으면 false를 반환한다")
-    void canMoveFromToFalse() {
+    void canMovePieceToPositionFromToFalse() {
         List<Movement> movementList = List.of(
                 new Movement(List.of(Direction.UP, Direction.RIGHT_UP, Direction.RIGHT)),
                 new Movement(List.of(Direction.LEFT, Direction.LEFT_DOWN, Direction.DOWN))
