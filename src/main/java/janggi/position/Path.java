@@ -1,5 +1,6 @@
 package janggi.position;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,6 +26,6 @@ public class Path {
     }
 
     public List<Position> getPositions() {
-        return positions;
+        return Collections.unmodifiableList(positions);
     }
 }
