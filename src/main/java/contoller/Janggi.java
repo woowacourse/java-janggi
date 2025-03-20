@@ -1,25 +1,17 @@
 package contoller;
 
 import static view.InputView.choMoveInput;
+import static view.InputView.choiceSetUp;
 import static view.OutputVIew.displayJanggiBoard;
 
-import java.util.Scanner;
+import model.Team;
 import model.janggi_board.JanggiBoard;
 import model.janggi_board.JanggiBoardSetUp;
-import model.Team;
 import view.OutputVIew;
 
 public class Janggi {
     public void play() {
-        System.out.println("""
-                상차림을 선택하세요,
-                1. 안상차림 (마상상마)
-                2. 바깥상차림 (상마마상)
-                3. 왼상차림 (상마상마)
-                4. 오른상차림 (마상마상)
-                """);
-        Scanner sc = new Scanner(System.in);
-        int setUpChoice = Integer.parseInt(sc.nextLine());
+        int setUpChoice = choiceSetUp();
         JanggiBoard janggiBoard;
         switch (setUpChoice) {
             case 1:
@@ -45,7 +37,7 @@ public class Janggi {
                 team = Team.BLUE;
             }
             try {
-                choMoveInput(sc, janggiBoard, team);
+                choMoveInput(janggiBoard, team);
             } catch (Exception e) {
                 OutputVIew.displayErrorMessage(e.getMessage());
                 i--;
