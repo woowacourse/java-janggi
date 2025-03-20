@@ -13,7 +13,6 @@ import static janggi.fixture.PositionFixture.createPosition;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
 import static org.junit.jupiter.api.Assertions.*;
-
 class SoldierTest {
 
     @CsvSource(value = {"GREEN:4:5", "GREEN:5:4", "GREEN:3:4", "RED:4:3"}, delimiterString = ":")

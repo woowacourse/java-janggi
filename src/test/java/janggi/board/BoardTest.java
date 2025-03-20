@@ -3,7 +3,6 @@ package janggi.board;
 import janggi.Team;
 import janggi.fixture.BoardFixture;
 import janggi.piece.Chariot;
-import janggi.piece.Elephant;
 import janggi.piece.General;
 import janggi.piece.Piece;
 import java.util.HashMap;
