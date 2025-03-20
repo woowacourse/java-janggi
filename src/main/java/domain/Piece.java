@@ -22,7 +22,7 @@ public class Piece {
         final Offset offset = after.calculateOffset(before);
 
         return pieceType.findMovementRule(offset, team)
-                .orElseThrow(() -> new IllegalArgumentException("해당 말은 이동할 수 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다."));
     }
 
     public boolean isObstacleCountAllowed(final int obstacleCount) {
