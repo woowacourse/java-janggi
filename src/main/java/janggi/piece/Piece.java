@@ -32,7 +32,11 @@ public abstract class Piece {
             int[] dColumn = dColumns[i];
             Position position = start;
             for (int j = 0; j < dRow.length; j++) {
-                position = position.plus(dColumn[j], dRow[j]);
+                try {
+                    position = position.plus(dColumn[j], dRow[j]);
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    continue;
+                }
             }
             if (position.equals(goal)) {
                 return i;
@@ -71,12 +75,20 @@ public abstract class Piece {
     }
 
     protected abstract void validatePath(Map<Position, Piece> board, Position start, int pathIndex);
+
     protected abstract int[] getPathRows(int pathIndex);
+
     protected abstract int[] getPathColumns(int pathIndex);
+
     protected abstract int[][] getAllPathRows();
+
     protected abstract int[][] getAllPathColumns();
+
     protected abstract String getName();
+
     protected abstract boolean isSameType(Piece other);
+
     protected abstract void validatePieceOnGoal(Map<Position, Piece> board, Position goal);
+
     public abstract boolean isGeneral();
 }
