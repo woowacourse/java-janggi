@@ -10,16 +10,16 @@ import java.util.Map;
 
 public class JanggiBoardInitializerStub implements JanggiBoardInitializer {
 
-    private static final List<Integer> rows = List.of(0, 9, 8, 7, 6, 5, 4, 3, 2, 1);
-    private static final List<Integer> columns = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+    private static final List<Integer> ranks = List.of(0, 9, 8, 7, 6, 5, 4, 3, 2, 1);
+    private static final List<Integer> files = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     private final Map<JanggiPosition, JanggiPiece> janggiBoard;
 
     public JanggiBoardInitializerStub(Map<JanggiPosition, JanggiPiece> janggiBoard) {
         this.janggiBoard = new HashMap<>();
-        for (Integer column : columns) {
-            for (Integer row : rows) {
-                this.janggiBoard.put(new JanggiPosition(row, column), new Empty());
+        for (Integer file : files) {
+            for (Integer rank : ranks) {
+                this.janggiBoard.put(new JanggiPosition(rank, file), new Empty());
             }
         }
 

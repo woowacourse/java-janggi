@@ -17,15 +17,15 @@ import java.util.Map;
 
 public final class JanggiBoardBasicInitializer implements JanggiBoardInitializer {
 
-    private static final List<Integer> rows = List.of(0, 9, 8, 7, 6, 5, 4, 3, 2, 1);
-    private static final List<Integer> columns = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+    private static final List<Integer> janggiBoardRanks = List.of(0, 9, 8, 7, 6, 5, 4, 3, 2, 1);
+    private static final List<Integer> janggiBoardFiles = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     @Override
     public Map<JanggiPosition, JanggiPiece> initializeJanggiBoard() {
         final Map<JanggiPosition, JanggiPiece> janggiBoard = new HashMap<>();
-        for (Integer column : columns) {
-            for (Integer row : rows) {
-                janggiBoard.put(new JanggiPosition(row, column), new Empty());
+        for (Integer file : janggiBoardFiles) {
+            for (Integer rank : janggiBoardRanks) {
+                janggiBoard.put(new JanggiPosition(rank, file), new Empty());
             }
         }
         initChoJanggiBoard(janggiBoard);
