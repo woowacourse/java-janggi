@@ -1,5 +1,7 @@
 package domain.pieces;
 
+import static domain.pieces.PieceNames.EMPTY_PIECE;
+
 import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
@@ -40,5 +42,10 @@ public final class EmptyPiece implements Piece {
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    @Override
+    public String getName() {
+        return EMPTY_PIECE.getNameForTeam(Team.NONE);
     }
 }

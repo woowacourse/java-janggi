@@ -21,7 +21,7 @@ public class OutputView {
         StringBuilder result = new StringBuilder();
 
         result.append("  ");
-        for (int x = width - 1; x >= 0; x--) {
+        for (int x = 1; x <= width; x++) {
             result.append(x).append(" ");
         }
         result.append("\n");
@@ -29,19 +29,16 @@ public class OutputView {
         for (int y = height - 1; y >= 0; y--) {
             result.append((char) ('A' + (height - 1 - y))).append(" ");
 
-            for (int x = width - 1; x >= 0; x--) {
-                Point p = new Point(x, y);
+            for (int x = 0; x < width; x++) {
+                Point p = new Point(y, x);
                 Piece piece = locations.get(p);
-
                 if (piece != null) {
-                    result.append(piece.toString());
+                    result.append(piece.getName());
                 } else {
                     result.append("-");
                 }
-
                 result.append(" ");
             }
-
             result.append("\n");
         }
 

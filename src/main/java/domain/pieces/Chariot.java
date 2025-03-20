@@ -1,5 +1,7 @@
 package domain.pieces;
 
+import static domain.pieces.PieceNames.CHARIOT;
+
 import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
@@ -43,5 +45,11 @@ public final class Chariot implements Piece {
     @Override
     public boolean canNotJumpOver() {
         return false;
+    }
+
+
+    @Override
+    public String getName() {
+        return CHARIOT.getNameForTeam(team);
     }
 }

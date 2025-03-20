@@ -2,7 +2,8 @@ package domain;
 
 public enum Team {
     HAN(false),
-    CHO(true);
+    CHO(true),
+    NONE(false);
 
     private final boolean isFirst;
 

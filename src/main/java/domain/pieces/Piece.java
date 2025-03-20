@@ -16,4 +16,6 @@ public interface Piece {
     boolean isMovable(PieceOnRoute pieceOnRoute);
 
     boolean canNotJumpOver();
+
+    String getName();
 }

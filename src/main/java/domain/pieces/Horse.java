@@ -1,5 +1,7 @@
 package domain.pieces;
 
+import static domain.pieces.PieceNames.HORSE;
+
 import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
@@ -41,5 +43,10 @@ public final class Horse implements Piece {
     @Override
     public boolean canNotJumpOver() {
         return false;
+    }
+
+    @Override
+    public String getName() {
+        return HORSE.getNameForTeam(team);
     }
 }

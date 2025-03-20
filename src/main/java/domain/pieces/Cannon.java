@@ -1,5 +1,7 @@
 package domain.pieces;
 
+import static domain.pieces.PieceNames.CANNON;
+
 import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
@@ -47,6 +49,11 @@ public final class Cannon implements Piece {
     @Override
     public boolean canNotJumpOver() {
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return CANNON.getNameForTeam(team);
     }
 
 }

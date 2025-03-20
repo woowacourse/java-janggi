@@ -1,5 +1,7 @@
 package domain.pieces;
 
+import static domain.pieces.PieceNames.GUARD;
+
 import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
@@ -37,5 +39,10 @@ public final class Guard implements Piece {
     @Override
     public boolean canNotJumpOver() {
         return false;
+    }
+
+    @Override
+    public String getName() {
+        return GUARD.getNameForTeam(team);
     }
 }

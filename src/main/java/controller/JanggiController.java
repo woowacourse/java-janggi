@@ -1,5 +1,8 @@
 package controller;
 
+import domain.JanggiGame;
+import domain.Player;
+import domain.Team;
 import view.InputView;
 import view.OutputView;
 
@@ -13,6 +16,7 @@ public class JanggiController {
     }
 
     public void run() {
-
+        JanggiGame game = new JanggiGame(new Player(Team.HAN), new Player(Team.CHO));
+        outputView.print(game.getBoard());
     }
 }
