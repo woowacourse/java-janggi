@@ -9,17 +9,17 @@ public abstract class JanggiPiece {
     protected final int score;
     protected final JanggiSide side;
     protected JanggiPieceStatus status;
-    protected JanggiPieceRoute route;
+    protected JanggiPieceRoute routes;
 
-    public JanggiPiece(int score, final JanggiSide side, final JanggiPieceRoute route) {
+    public JanggiPiece(int score, final JanggiSide side, final JanggiPieceRoute routes) {
         this.score = score;
         this.side = side;
         this.status = JanggiPieceStatus.ACTIVE;
-        this.route = route;
+        this.routes = routes;
     }
 
     public List<Pattern> findPath(final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
-        return route.getRoute(beforePosition, afterPosition);
+        return routes.getRoute(beforePosition, afterPosition);
     }
 
     public boolean isEmpty() {

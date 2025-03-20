@@ -8,7 +8,7 @@ public final class 졸병 extends JanggiPiece {
     public 졸병(final JanggiSide side) {
         super(2, side, new 졸Route());
         if (side == JanggiSide.HAN) {
-            route = new 병Route();
+            routes = new 병Route();
         }
     }
 }
