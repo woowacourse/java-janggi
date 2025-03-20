@@ -24,7 +24,7 @@ public class Byeong extends Piece {
                     return byeongMovement != ByeongMovement.UP;
                 })
                 .map(byeongMovement -> movePosition(currCoordinate, byeongMovement.getDirection()))
-                .filter(next -> !janggiBoard.isOutOfBoundary(next) || !janggiBoard.isMyTeam(currCoordinate, next))
+                .filter(next -> !janggiBoard.isOutOfBoundary(next) && !janggiBoard.isMyTeam(currCoordinate, next))
                 .toList();
     }
 
