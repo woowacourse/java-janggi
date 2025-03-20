@@ -10,7 +10,7 @@ import java.util.Map;
 
 public final class BoardView {
 
-    public static final Map<Type, String> PIECE_NOTATION = Map.of(
+    private static final Map<Type, String> PIECE_NOTATION = Map.of(
             Type.GENERAL, "k",
             Type.CHARIOT, "c",
             Type.CANNON, "p",
