@@ -14,7 +14,7 @@ public class JanggiGame {
 
 
     public void move(Position startPosition, Position targetPosition) {
-
+        janggiBoard.move(startPosition, targetPosition);
     }
 
     public Map<Position, Piece> getBoardState() {
