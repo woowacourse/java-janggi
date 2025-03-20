@@ -14,5 +14,5 @@ public interface Piece {
 
     boolean isMovable(PieceOnRoute pieceOnRoute);
 
-    boolean canJumpOver();
+    boolean canNotJumpOver();
 }

@@ -50,7 +50,7 @@ public class Horse implements Piece {
     }
 
     @Override
-    public boolean canJumpOver() {
-        return true;
+    public boolean canNotJumpOver() {
+        return false;
     }
 }

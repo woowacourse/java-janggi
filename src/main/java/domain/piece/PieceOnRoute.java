@@ -34,10 +34,10 @@ public record PieceOnRoute(List<Piece> pieces) {
         return count;
     }
 
-    public boolean CanJumpOverFirstPiece() {
+    public boolean canNotJumpOverFirstPiece() {
         return pieces.stream().filter(piece -> !piece.equals(emptyPiece))
                 .findFirst()
                 .orElseThrow(() -> new JanggiArgumentException("기물이 없습니다."))
-                .canJumpOver();
+                .canNotJumpOver();
     }
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Cannon implements Piece {
 
+    private static final int VALID_BETWEEN_PIECE_COUNT = 1;
     private final Team team;
     private final List<Route> movements;
 
@@ -48,19 +49,19 @@ public class Cannon implements Piece {
     }
 
     @Override
-    public boolean canJumpOver() {
-        return false;
-    }
-
-    @Override
     public boolean isMovable(PieceOnRoute pieceOnRoute) {
-        if (pieceOnRoute.countPieceOnRoute() != 1) {
+        if (pieceOnRoute.countPieceOnRoute() != VALID_BETWEEN_PIECE_COUNT) {
             return false;
         }
-        if (!pieceOnRoute.CanJumpOverFirstPiece()) {
+        if (pieceOnRoute.canNotJumpOverFirstPiece()) {
             return false;
         }
         return !pieceOnRoute.hasArrivalPointInMyTeam(team);
+    }
+
+    @Override
+    public boolean canNotJumpOver() {
+        return true;
     }
 
 }
