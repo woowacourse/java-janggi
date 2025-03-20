@@ -4,7 +4,6 @@ import janggi.piece.Cannon;
 import janggi.piece.Chariot;
 import janggi.piece.Empty;
 import janggi.piece.Piece;
-import janggi.view.OutputView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,24 +20,32 @@ public class JanggiBoard {
         this.board = board;
     }
 
-    public void printBoard() {
-        OutputView outputView = new OutputView();
-        outputView.printBoard(board);
-    }
-
     public static JanggiBoard initialize() {
         Map<Position, Piece> board = BoardInitializer.initialPieces(X_LIMIT, Y_LIMIT);
         return new JanggiBoard(board);
     }
 
-    public List<Position> filterReachableDestination(List<Route> routes, Piece piece) {
+    public List<Position> computeReachableDestination(Position position) {
+        Piece piece = board.get(position);
+        List<Route> candidatesRoutes = piece.computeCandidatePositions(position);
+
         if (piece instanceof Chariot) {
-            return filterReachableDestinationChariot(routes, piece);
+            return filterReachableDestinationChariot(candidatesRoutes, piece);
         }
         if (piece instanceof Cannon) {
-            return filterReachableDestinationCannon(routes, piece);
+            return filterReachableDestinationCannon(candidatesRoutes, piece);
         }
-        return filterReachableDestinationNormal(routes, piece);
+        return filterReachableDestinationNormal(candidatesRoutes, piece);
+    }
+
+    public Piece moveOrCatchPiece(final Position selectedPiecePosition, final Position destination) {
+        Piece seletedPiece = board.get(selectedPiecePosition);
+        board.put(selectedPiecePosition, new Empty());
+
+        Piece destinationPiece = board.get(destination);
+        board.put(destination, seletedPiece);
+
+        return destinationPiece;
     }
 
     private List<Position> filterReachableDestinationChariot(List<Route> routes, Piece piece) {
@@ -171,5 +178,4 @@ public class JanggiBoard {
     public Map<Position, Piece> getBoard() {
         return board;
     }
-
 }
