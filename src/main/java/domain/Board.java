@@ -45,9 +45,9 @@ public class Board {
         PieceType.HORSE.getInitialPosition()
                 .forEach((team, positions) -> positions
                         .forEach(position -> pieces.put(position, new Piece(PieceType.HORSE, team))));
-        PieceType.쭈.getInitialPosition()
+        PieceType.ZZU.getInitialPosition()
                 .forEach((team, positions) -> positions
-                        .forEach(position -> pieces.put(position, new Piece(PieceType.쭈, team))));
+                        .forEach(position -> pieces.put(position, new Piece(PieceType.ZZU, team))));
 
         return pieces;
     }

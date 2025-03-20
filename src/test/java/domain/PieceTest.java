@@ -18,7 +18,7 @@ class PieceTest {
         @Test
         void findMovementRule() {
             // given
-            Piece piece = new Piece(PieceType.쭈, Team.RED);
+            Piece piece = new Piece(PieceType.ZZU, Team.RED);
 
             // when
             List<Offset> movementRule = piece.findMovementRule(
@@ -51,7 +51,7 @@ class PieceTest {
         @Test
         void findMovementRule() {
             // given
-            Piece piece = new Piece(PieceType.쭈, Team.RED);
+            Piece piece = new Piece(PieceType.ZZU, Team.RED);
 
             // when & then
             assertThatThrownBy(() -> piece.findMovementRule(

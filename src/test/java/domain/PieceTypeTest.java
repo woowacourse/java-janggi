@@ -17,7 +17,7 @@ class PieceTypeTest {
         @Test
         void findMovementRule() {
             // given
-            PieceType pieceType = PieceType.쭈;
+            PieceType pieceType = PieceType.ZZU;
 
             // when
             Optional<List<Offset>> optionalMovementRule = pieceType.findMovementRule(

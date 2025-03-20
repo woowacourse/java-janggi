@@ -36,7 +36,7 @@ class BoardTest {
             // given
             Board board = new Board(Map.of(
                     new BoardPosition(0, 0), new Piece(PieceType.CANNON, Team.RED),
-                    new BoardPosition(0, 4), new Piece(PieceType.쭈, Team.RED))
+                    new BoardPosition(0, 4), new Piece(PieceType.ZZU, Team.RED))
             );
 
             // when & then
@@ -54,7 +54,7 @@ class BoardTest {
         void validateSelectBoardPosition() {
             // given
             Board board = new Board(Map.of(
-                    new BoardPosition(1, 0), new Piece(PieceType.쭈, Team.GREEN)
+                    new BoardPosition(1, 0), new Piece(PieceType.ZZU, Team.GREEN)
             ));
 
             // when & then
@@ -70,7 +70,7 @@ class BoardTest {
         void validateSelectPieceTeam() {
             // given
             Board board = new Board(Map.of(
-                    new BoardPosition(0, 0), new Piece(PieceType.쭈, Team.GREEN)
+                    new BoardPosition(0, 0), new Piece(PieceType.ZZU, Team.GREEN)
             ));
 
             // when & then
@@ -86,8 +86,8 @@ class BoardTest {
         void validateDestinationPieceTeam() {
             // given
             Board board = new Board(Map.of(
-                    new BoardPosition(0, 0), new Piece(PieceType.쭈, Team.GREEN),
-                    new BoardPosition(1, 0), new Piece(PieceType.쭈, Team.GREEN)
+                    new BoardPosition(0, 0), new Piece(PieceType.ZZU, Team.GREEN),
+                    new BoardPosition(1, 0), new Piece(PieceType.ZZU, Team.GREEN)
             ));
 
             // when & then
@@ -104,7 +104,7 @@ class BoardTest {
             // given
             Board board = new Board(Map.of(
                     new BoardPosition(0, 0), new Piece(PieceType.HORSE, Team.GREEN),
-                    new BoardPosition(0, 1), new Piece(PieceType.쭈, Team.GREEN)
+                    new BoardPosition(0, 1), new Piece(PieceType.ZZU, Team.GREEN)
             ));
 
             // when & then
@@ -125,8 +125,8 @@ class BoardTest {
                 Board board = new Board(Map.of(
                         new BoardPosition(0, 0),
                         new Piece(PieceType.CANNON, Team.RED),
-                        new BoardPosition(0, 4), new Piece(PieceType.쭈, Team.RED),
-                        new BoardPosition(0, 5), new Piece(PieceType.쭈, Team.GREEN))
+                        new BoardPosition(0, 4), new Piece(PieceType.ZZU, Team.RED),
+                        new BoardPosition(0, 5), new Piece(PieceType.ZZU, Team.GREEN))
                 );
 
                 // when & then
@@ -161,7 +161,7 @@ class BoardTest {
                 Board board = new Board(Map.of(
                         new BoardPosition(0, 0),
                         new Piece(PieceType.CANNON, Team.RED),
-                        new BoardPosition(0, 4), new Piece(PieceType.쭈, Team.RED),
+                        new BoardPosition(0, 4), new Piece(PieceType.ZZU, Team.RED),
                         new BoardPosition(0, 6),
                         new Piece(PieceType.CANNON, Team.GREEN))
                 );
