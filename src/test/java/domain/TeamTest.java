@@ -18,8 +18,8 @@ class TeamTest {
         @ParameterizedTest
         @MethodSource("provideTeamCases")
         void nextTeam(
-            Team currentTeam,
-            Team expectedTeam
+                Team currentTeam,
+                Team expectedTeam
         ) {
             // when & then
             assertThat(currentTeam.nextTeam()).isEqualTo(expectedTeam);
@@ -28,8 +28,8 @@ class TeamTest {
         static Stream<Arguments> provideTeamCases() {
             // given
             return Stream.of(
-                Arguments.of(Team.RED, Team.GREEN),
-                Arguments.of(Team.GREEN, Team.RED)
+                    Arguments.of(Team.RED, Team.GREEN),
+                    Arguments.of(Team.GREEN, Team.RED)
             );
         }
     }

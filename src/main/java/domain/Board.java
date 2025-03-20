@@ -20,52 +20,42 @@ public class Board {
     }
 
     public static Board initialize() {
-        final Map<BoardPosition, Piece> pieces = new HashMap<>();
-        initializeBoard(pieces);
+        final Map<BoardPosition, Piece> pieces = createInitializePieces();
         return new Board(pieces);
     }
 
-    private static void initializeBoard(final Map<BoardPosition, Piece> pieces) {
+    private static Map<BoardPosition, Piece> createInitializePieces() {
+        final Map<BoardPosition, Piece> pieces = new HashMap<>();
+
         PieceType.CANNON.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position,
-                    new Piece(PieceType.CANNON, team))));
-
+                .forEach((team, positions) -> positions
+                        .forEach(position -> pieces.put(position, new Piece(PieceType.CANNON, team))));
         PieceType.CHARIOT.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position,
-                    new Piece(PieceType.CHARIOT, team))));
-
+                .forEach((team, positions) -> positions
+                        .forEach(position -> pieces.put(position, new Piece(PieceType.CHARIOT, team))));
         PieceType.ELEPHANT.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position,
-                    new Piece(PieceType.ELEPHANT, team))));
-
+                .forEach((team, positions) -> positions
+                        .forEach(position -> pieces.put(position, new Piece(PieceType.ELEPHANT, team))));
         PieceType.GENERAL.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position,
-                    new Piece(PieceType.GENERAL, team))));
-
+                .forEach((team, positions) -> positions
+                        .forEach(position -> pieces.put(position, new Piece(PieceType.GENERAL, team))));
         PieceType.GUARD.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position,
-                    new Piece(PieceType.GUARD, team))));
-
+                .forEach((team, positions) -> positions
+                        .forEach(position -> pieces.put(position, new Piece(PieceType.GUARD, team))));
         PieceType.HORSE.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position,
-                    new Piece(PieceType.HORSE, team))));
-
+                .forEach((team, positions) -> positions
+                        .forEach(position -> pieces.put(position, new Piece(PieceType.HORSE, team))));
         PieceType.쭈.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position,
-                    new Piece(PieceType.쭈, team))));
+                .forEach((team, positions) -> positions
+                        .forEach(position -> pieces.put(position, new Piece(PieceType.쭈, team))));
+
+        return pieces;
     }
 
     public void movePiece(
-        final BoardPosition selectBoardPosition,
-        final BoardPosition destinationBoardPosition,
-        final Team currentTeam
+            final BoardPosition selectBoardPosition,
+            final BoardPosition destinationBoardPosition,
+            final Team currentTeam
     ) {
         if (!pieces.containsKey(selectBoardPosition)) {
             throw new IllegalArgumentException("이동하려는 위치에 기물이 없습니다.");
@@ -77,19 +67,14 @@ public class Board {
         }
 
         final Piece destinationPiece = pieces.get(destinationBoardPosition);
-        if (destinationPiece != null
-            && currentTeam == destinationPiece.getTeam()) {
+        if (destinationPiece != null && currentTeam == destinationPiece.getTeam()) {
             throw new IllegalArgumentException("이동하려는 위치에 아군 기물이 존재합니다.");
         }
 
-        final List<Offset> movementRule = selectedPiece.findMovementRule(
-            selectBoardPosition, destinationBoardPosition);
-        validateMovementRule(movementRule, selectBoardPosition,
-            destinationBoardPosition, selectedPiece);
+        final List<Offset> movementRule = selectedPiece.findMovementRule(selectBoardPosition, destinationBoardPosition);
+        validateMovementRule(movementRule, selectBoardPosition, destinationBoardPosition, selectedPiece);
 
-        if (destinationPiece != null
-            && currentTeam != destinationPiece.getTeam()) {
-
+        if (destinationPiece != null && currentTeam != destinationPiece.getTeam()) {
             pieces.remove(destinationBoardPosition);
         }
 
@@ -98,16 +83,15 @@ public class Board {
     }
 
     private void validateMovementRule(
-        final List<Offset> movementRule,
-        final BoardPosition targetBoardPosition,
-        final BoardPosition moveBoardPosition,
-        final Piece movePiece
+            final List<Offset> movementRule,
+            final BoardPosition targetBoardPosition,
+            final BoardPosition moveBoardPosition,
+            final Piece movePiece
     ) {
         BoardPosition currentBoardPosition = targetBoardPosition;
         int obstacleCount = 0;
         for (final Offset offset : movementRule) {
-            currentBoardPosition = currentBoardPosition.calculatePosition(
-                offset);
+            currentBoardPosition = currentBoardPosition.calculatePosition(offset);
             if (currentBoardPosition.equals(moveBoardPosition)) {
                 continue;
             }
@@ -126,16 +110,15 @@ public class Board {
     }
 
     private void validateCannonMovementRule(
-        final List<Offset> movementRule,
-        final BoardPosition targetBoardPosition
+            final List<Offset> movementRule,
+            final BoardPosition targetBoardPosition
     ) {
         BoardPosition currentBoardPosition = targetBoardPosition;
         for (final Offset offset : movementRule) {
-            currentBoardPosition = currentBoardPosition.calculatePosition(
-                offset);
-            if (pieces.containsKey(currentBoardPosition) && pieces.get(
-                    currentBoardPosition)
-                .getPieceType() == PieceType.CANNON) {
+            currentBoardPosition = currentBoardPosition.calculatePosition(offset);
+
+            if (pieces.containsKey(currentBoardPosition)
+                    && pieces.get(currentBoardPosition).getPieceType() == PieceType.CANNON) {
                 throw new IllegalArgumentException("포는 포를 넘거나 잡을 수 없습니다.");
             }
         }

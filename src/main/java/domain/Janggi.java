@@ -8,8 +8,8 @@ public class Janggi {
     private Team currentTeam;
 
     public Janggi(
-        final Board board,
-        final Team currentTeam
+            final Board board,
+            final Team currentTeam
     ) {
         validateNotNull(board, currentTeam);
         this.board = board;
@@ -17,8 +17,8 @@ public class Janggi {
     }
 
     private void validateNotNull(
-        final Board board,
-        final Team currentTeam
+            final Board board,
+            final Team currentTeam
     ) {
         if (board == null || currentTeam == null) {
             throw new IllegalArgumentException("보드는 보드와 현재 팀을 가져야합니다.");
@@ -32,11 +32,10 @@ public class Janggi {
     }
 
     public void processTurn(
-        final BoardPosition selectBoardPosition,
-        final BoardPosition destinationBoardPosition
+            final BoardPosition selectBoardPosition,
+            final BoardPosition destinationBoardPosition
     ) {
-        board.movePiece(selectBoardPosition, destinationBoardPosition,
-            currentTeam);
+        board.movePiece(selectBoardPosition, destinationBoardPosition, currentTeam);
         currentTeam = currentTeam.nextTeam();
     }
 

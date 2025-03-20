@@ -18,15 +18,14 @@ class BoardTest {
         void moveCannonPiece() {
             // given
             Board board = new Board(Map.of(
-                new BoardPosition(0, 0), new Piece(PieceType.CANNON, Team.RED),
-                new BoardPosition(0, 4), new Piece(PieceType.쭈, Team.RED))
+                    new BoardPosition(0, 0), new Piece(PieceType.CANNON, Team.RED),
+                    new BoardPosition(0, 4), new Piece(PieceType.쭈, Team.RED))
             );
 
             // when & then
             assertThatCode(
-                () -> board.movePiece(new BoardPosition(0, 0),
-                    new BoardPosition(0, 6), Team.RED))
-                .doesNotThrowAnyException();
+                    () -> board.movePiece(new BoardPosition(0, 0), new BoardPosition(0, 6), Team.RED))
+                    .doesNotThrowAnyException();
         }
     }
 
@@ -38,15 +37,15 @@ class BoardTest {
         void movePiece() {
             // given
             Board board = new Board(Map.of(
-                new BoardPosition(0, 0), new Piece(PieceType.쭈, Team.GREEN)
+                    new BoardPosition(0, 0), new Piece(PieceType.쭈, Team.GREEN)
             ));
 
             // when & then
             assertThatThrownBy(() -> board.movePiece(
-                new BoardPosition(0, 0),
-                new BoardPosition(0, 1), Team.RED))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("다른 팀의 기물을 움직일 수 없습니다.");
+                    new BoardPosition(0, 0),
+                    new BoardPosition(0, 1), Team.RED))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("다른 팀의 기물을 움직일 수 없습니다.");
         }
 
         @Nested
@@ -57,18 +56,17 @@ class BoardTest {
             void movePieceCannonCase1() {
                 // given
                 Board board = new Board(Map.of(
-                    new BoardPosition(0, 0),
-                    new Piece(PieceType.CANNON, Team.RED),
-                    new BoardPosition(0, 4), new Piece(PieceType.쭈, Team.RED),
-                    new BoardPosition(0, 5), new Piece(PieceType.쭈, Team.GREEN))
+                        new BoardPosition(0, 0),
+                        new Piece(PieceType.CANNON, Team.RED),
+                        new BoardPosition(0, 4), new Piece(PieceType.쭈, Team.RED),
+                        new BoardPosition(0, 5), new Piece(PieceType.쭈, Team.GREEN))
                 );
 
                 // when & then
                 assertThatThrownBy(
-                    () -> board.movePiece(new BoardPosition(0, 0),
-                        new BoardPosition(0, 6), Team.RED))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("이동경로에 적합하지 않은 장애물이 있습니다.");
+                        () -> board.movePiece(new BoardPosition(0, 0), new BoardPosition(0, 6), Team.RED))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("이동경로에 적합하지 않은 장애물이 있습니다.");
             }
 
             @DisplayName("포가 포를 넘으면 예외가 발생한다.")
@@ -76,18 +74,17 @@ class BoardTest {
             void movePieceCannonCase2() {
                 // given
                 Board board = new Board(Map.of(
-                    new BoardPosition(0, 0),
-                    new Piece(PieceType.CANNON, Team.RED),
-                    new BoardPosition(0, 4),
-                    new Piece(PieceType.CANNON, Team.RED))
+                        new BoardPosition(0, 0),
+                        new Piece(PieceType.CANNON, Team.RED),
+                        new BoardPosition(0, 4),
+                        new Piece(PieceType.CANNON, Team.RED))
                 );
 
                 // when & then
                 assertThatThrownBy(
-                    () -> board.movePiece(new BoardPosition(0, 0),
-                        new BoardPosition(0, 6), Team.RED))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("포는 포를 넘거나 잡을 수 없습니다.");
+                        () -> board.movePiece(new BoardPosition(0, 0), new BoardPosition(0, 6), Team.RED))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("포는 포를 넘거나 잡을 수 없습니다.");
             }
 
             @DisplayName("포가 잡으려는 기물이 포라면 예외가 발생한다.")
@@ -95,19 +92,18 @@ class BoardTest {
             void movePieceCannonCase3() {
                 // given
                 Board board = new Board(Map.of(
-                    new BoardPosition(0, 0),
-                    new Piece(PieceType.CANNON, Team.RED),
-                    new BoardPosition(0, 4), new Piece(PieceType.쭈, Team.RED),
-                    new BoardPosition(0, 6),
-                    new Piece(PieceType.CANNON, Team.GREEN))
+                        new BoardPosition(0, 0),
+                        new Piece(PieceType.CANNON, Team.RED),
+                        new BoardPosition(0, 4), new Piece(PieceType.쭈, Team.RED),
+                        new BoardPosition(0, 6),
+                        new Piece(PieceType.CANNON, Team.GREEN))
                 );
 
                 // when & then
                 assertThatThrownBy(
-                    () -> board.movePiece(new BoardPosition(0, 0),
-                        new BoardPosition(0, 6), Team.RED))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("포는 포를 넘거나 잡을 수 없습니다.");
+                        () -> board.movePiece(new BoardPosition(0, 0), new BoardPosition(0, 6), Team.RED))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("포는 포를 넘거나 잡을 수 없습니다.");
             }
         }
     }

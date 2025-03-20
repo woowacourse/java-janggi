@@ -15,23 +15,21 @@ class OffsetTest {
         @DisplayName("오프셋의 범위를 벗어나면 예외가 발생한다.")
         @ParameterizedTest
         @CsvSource(
-            value = {
-                "+9, 0",
-                "-9, 0",
-                "0, +10",
-                "0, -10"
-            }
+                value = {
+                        "+9, 0",
+                        "-9, 0",
+                        "0, +10",
+                        "0, -10"
+                }
         )
         void validateRange(
-            int x,
-            int y
+                int x,
+                int y
         ) {
             // when & then
             assertThatThrownBy(() -> new Offset(x, y))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("오프셋의 범위를 벗어났습니다.");
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("오프셋의 범위를 벗어났습니다.");
         }
-
     }
-
 }

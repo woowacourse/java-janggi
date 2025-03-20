@@ -21,7 +21,7 @@ class PieceTypeTest {
 
             // when
             Optional<List<Offset>> optionalMovementRule = pieceType.findMovementRule(
-                new Offset(1, 0), Team.GREEN);
+                    new Offset(1, 0), Team.GREEN);
 
             // then
             assertThat(optionalMovementRule).isPresent();
