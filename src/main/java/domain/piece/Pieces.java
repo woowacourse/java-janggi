@@ -1,25 +1,14 @@
 package domain.piece;
 
-import java.util.Collections;
 import java.util.List;
 
-public class Pieces {
-
-    private final List<Piece> pieces;
-
-    public Pieces(final List<Piece> pieces) {
-        this.pieces = pieces;
-    }
+public record Pieces(List<Piece> pieces) {
 
     public Piece findByPosition(final Position position) {
         return pieces.stream()
                 .filter(element -> element.getPosition().equals(position))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
-    }
-
-    public List<Piece> getPieces() {
-        return Collections.unmodifiableList(pieces);
     }
 
     public int countPiecesInPositions(final List<Position> positions) {
@@ -48,7 +37,7 @@ public class Pieces {
                 .anyMatch(Piece::isKing);
     }
 
-    public boolean isCannonByPosition(Position position) {
+    public boolean isCannonByPosition(final Position position) {
         return pieces.stream()
                 .filter(piece -> piece.isSamePosition(position))
                 .anyMatch(Piece::isCannon);

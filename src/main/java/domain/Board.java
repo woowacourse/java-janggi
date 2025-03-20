@@ -6,13 +6,7 @@ import domain.piece.Position;
 import java.util.List;
 import java.util.Map;
 
-public class Board {
-
-    private final Map<Player, Pieces> board;
-
-    public Board(final Map<Player, Pieces> board) {
-        this.board = board;
-    }
+public record Board(Map<Player, Pieces> board) {
 
     public void move(final Player player, final Position startPosition, final Position targetPosition) {
         Piece piece = board.get(player).findByPosition(startPosition);
@@ -74,10 +68,6 @@ public class Board {
     private boolean has(final Position position) {
         return board.values().stream()
                 .anyMatch(pieces -> pieces.isCannonByPosition(position));
-    }
-
-    public Map<Player, Pieces> getBoard() {
-        return board;
     }
 
     public boolean isFinish() {

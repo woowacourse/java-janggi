@@ -16,7 +16,7 @@ public class KoreaChess {
     private final OutputView outputView;
     private final InputView inputView;
 
-    public KoreaChess(OutputView outputView, InputView inputView) {
+    public KoreaChess(final OutputView outputView, final InputView inputView) {
         this.outputView = outputView;
         this.inputView = inputView;
     }
@@ -41,7 +41,7 @@ public class KoreaChess {
         outputView.printWinner(winner);
     }
 
-    private void processTurn(Player player, Board board) {
+    private void processTurn(final Player player, final Board board) {
         Position movingHanPosition = parseToPosition(inputView.readMovingPiecePosition(player));
         Position targetHanPosition = parseToPosition(inputView.readTargetPiecePosition());
         board.move(player, movingHanPosition, targetHanPosition);

@@ -32,12 +32,26 @@ public class Position {
         }
     }
 
-    public Position merge(Position other) {
+    public Position merge(final Position other) {
         return new Position(this.row + other.row, this.column + other.column);
     }
 
     public boolean isValid() {
         return !(row < MIN_ROW || column < MIN_COLUMN || row > MAX_ROW || column > MAX_COLUMN);
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        Position position = (Position) object;
+        return row == position.row && column == position.column;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
     }
 
     public int getRow() {
@@ -46,17 +60,5 @@ public class Position {
 
     public int getColumn() {
         return column;
-    }
-
-    @Override
-    public boolean equals(final Object object) {
-        if (object == null || getClass() != object.getClass()) return false;
-        Position position = (Position) object;
-        return row == position.row && column == position.column;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(row, column);
     }
 }

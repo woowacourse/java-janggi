@@ -36,15 +36,15 @@ public class OutputView {
         System.out.println("===== 장기판 상태 =====");
         System.out.println("   1 2 3 4 5 6 7 8 9");
         List<ArrayList<String>> defaultBoard = createDefaultBoard();
-        updateDefaultBoard(board.getBoard(), defaultBoard);
+        updateDefaultBoard(board.board(), defaultBoard);
         printBoardDetails(defaultBoard);
         System.out.println("=====================");
         System.out.println();
     }
 
     public void printWinner(final Player winner) {
-        System.out.println(winner.getName() + "의 승리로 게임이 종료되었습니다.");
-        System.out.println("우승자 : " + winner.getName());
+        System.out.println(winner.name() + "의 승리로 게임이 종료되었습니다.");
+        System.out.println("우승자 : " + winner.name());
     }
 
     private List<ArrayList<String>> createDefaultBoard() {
@@ -59,9 +59,9 @@ public class OutputView {
 
     private void updateDefaultBoard(final Map<Player, Pieces> board, final List<ArrayList<String>> defaultBoard) {
         for (Player player : board.keySet()) {
-            PieceColor color = player.getColor();
+            PieceColor color = player.color();
 
-            List<Piece> pieces = board.get(player).getPieces();
+            List<Piece> pieces = board.get(player).pieces();
             updatePiecesToDefaultBoard(defaultBoard, pieces, color);
         }
     }

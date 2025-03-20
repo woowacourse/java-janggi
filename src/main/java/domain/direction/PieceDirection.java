@@ -75,7 +75,7 @@ public enum PieceDirection {
 
     private final Directions directions;
 
-    PieceDirection(Directions directions) {
+    PieceDirection(final Directions directions) {
         this.directions = directions;
     }
 

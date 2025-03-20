@@ -12,7 +12,7 @@ public class InputView {
     }
 
     public String readMovingPiecePosition(final Player player) {
-        System.out.println(player.getName() + " 플레이어의 이동할 기물의 위치를 선택해주세요. (ex. 1,1)");
+        System.out.println(player.name() + " 플레이어의 이동할 기물의 위치를 선택해주세요. (ex. 1,1)");
         return console.nextLine();
     }
 

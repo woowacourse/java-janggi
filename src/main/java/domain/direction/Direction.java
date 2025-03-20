@@ -1,7 +1,6 @@
 package domain.direction;
 
 import domain.piece.Position;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +21,13 @@ public class Direction {
         return canReachWithoutRepeat(start, target);
     }
 
+    public List<Position> createPath(final Position start, final Position target) {
+        if (repeatable) {
+            return createPathWithRepeat(start, target);
+        }
+        return createPathWithoutRepeat(start);
+    }
+
     private boolean canReachWithRepeat(final Position start, final Position target) {
         Position result = start;
         while (result.isValid() && !result.equals(target)) {
@@ -36,13 +42,6 @@ public class Direction {
             result = result.merge(dir);
         }
         return result.equals(target);
-    }
-
-    public List<Position> createPath(final Position start, final Position target) {
-        if (repeatable) {
-            return createPathWithRepeat(start, target);
-        }
-        return createPathWithoutRepeat(start);
     }
 
     private List<Position> createPathWithRepeat(final Position start, final Position target) {

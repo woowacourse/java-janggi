@@ -7,7 +7,7 @@ public enum PieceColor {
 
     private final String color;
 
-    PieceColor(String color) {
+    PieceColor(final String color) {
         this.color = color;
     }
 
