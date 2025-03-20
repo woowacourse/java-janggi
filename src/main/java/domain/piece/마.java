@@ -7,5 +7,4 @@ public class 마 extends JanggiPiece {
     public 마(JanggiSide side) {
         super(5, side, new 마Route());
     }
-
 }
