@@ -32,6 +32,13 @@ public Piece findByLocation(BoardLocation current) {
         throw new IllegalArgumentException();
     }
 ```
+
+- 한 클래스에서 정적팩토리 메소드를 통해 타입이 다른 두 팀을 생성할 수 있다. 하지만, 이것을 변수로 구분해야했기 때문에,
+  상속을 사용해 클래스를 분리하였다
+```angular2html
+    private final TeamBoard choBoard;
+    private final TeamBoard hanBoard;
+```
   
 # 객체지향 프로그래밍이란 ?
 - 요구사항(현실 세계)을 토대로 생성된 객체의 상호작용이다. (웨이드 의견)

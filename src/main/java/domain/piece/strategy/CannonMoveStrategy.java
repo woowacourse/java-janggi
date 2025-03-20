@@ -18,7 +18,6 @@ public class CannonMoveStrategy implements MoveStrategy {
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
         List<BoardLocation> path = new ArrayList<>();
-        path.add(destination);
         BoardVector boardVector = destination.minus(current);
 
         if (boardVector.isDxZero()) {

@@ -16,6 +16,23 @@ import java.util.List;
 import java.util.Map;
 
 public class BoardFixture {
+    public static Map<BoardLocation, Piece> createTeamBoard( ) {
+        Map<BoardLocation, Piece> pieces = new HashMap<>();
+        pieces.put(new BoardLocation(1, 1), new Piece(CHARIOT));
+        pieces.put(new BoardLocation(4, 1), new Piece(SCHOLAR));
+        pieces.put(new BoardLocation(6, 1), new Piece(SCHOLAR));
+        pieces.put(new BoardLocation(9, 1), new Piece(CHARIOT));
+        pieces.put(new BoardLocation(5, 2), new Piece(KING));
+        pieces.put(new BoardLocation(2, 3), new Piece(CANNON));
+        pieces.put(new BoardLocation(8, 3), new Piece(CANNON));
+        pieces.put(new BoardLocation(1, 4), new Piece(HAN_PAWN));
+        pieces.put(new BoardLocation(3, 4), new Piece(HAN_PAWN));
+        pieces.put(new BoardLocation(5, 4), new Piece(HAN_PAWN));
+        pieces.put(new BoardLocation(7, 4), new Piece(HAN_PAWN));
+        pieces.put(new BoardLocation(9, 4), new Piece(HAN_PAWN));
+        return pieces;
+    }
+
 
     public static Map<BoardLocation, Piece> createHanPieces(List<BoardLocation> horseBoardLocations, List<BoardLocation> elephantBoardLocations) {
         Map<BoardLocation, Piece> pieces = new HashMap<>();

@@ -13,12 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HanBoard {
+public class HanBoard extends TeamBoard{
 
-    private Map<BoardLocation, Piece> pieces;
-
-    private HanBoard(Map<BoardLocation, Piece> pieces) {
-        this.pieces = pieces;
+    protected HanBoard(Map<BoardLocation, Piece> pieces) {
+        super(pieces);
     }
 
     public static HanBoard createWithPieces(List<BoardLocation> horseBoardLocations, List<BoardLocation> elephantBoardLocations) {
@@ -38,9 +36,5 @@ public class HanBoard {
         pieces.put(new BoardLocation(7, 4), new Piece(HAN_PAWN));
         pieces.put(new BoardLocation(9, 4), new Piece(HAN_PAWN));
         return new HanBoard(pieces);
-    }
-
-    public Map<BoardLocation, Piece> getPieces() {
-        return pieces;
     }
 }

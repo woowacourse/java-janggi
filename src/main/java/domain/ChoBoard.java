@@ -13,11 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ChoBoard {
-    private final Map<BoardLocation, Piece> pieces;
+public class ChoBoard extends TeamBoard {
 
-    private ChoBoard(Map<BoardLocation, Piece> pieces) {
-        this.pieces = pieces;
+    protected ChoBoard(Map<BoardLocation, Piece> pieces) {
+        super(pieces);
     }
 
     public static ChoBoard createWithPieces(List<BoardLocation> horseBoardLocations, List<BoardLocation> elephantBoardLocations) {
@@ -37,16 +36,5 @@ public class ChoBoard {
         pieces.put(new BoardLocation(7, 7), new Piece(CHO_PAWN));
         pieces.put(new BoardLocation(9, 7), new Piece(CHO_PAWN));
         return new ChoBoard(pieces);
-    }
-
-    public Map<BoardLocation, Piece> getPieces() {
-        return pieces;
-    }
-
-    public Piece findByLocation(BoardLocation current) {
-        if (pieces.containsKey(current)) {
-            return pieces.get(current);
-        }
-        throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 없습니다.");
     }
 }

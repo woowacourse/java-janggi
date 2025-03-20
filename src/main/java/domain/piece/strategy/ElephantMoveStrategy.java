@@ -21,7 +21,6 @@ public class ElephantMoveStrategy implements MoveStrategy {
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = destination.minus(current);
         List<BoardLocation> path = new ArrayList<>();
-        path.add(destination);
         for(Direction direction : Direction.values()) {
             for (Diagonal diagonal : Diagonal.values()) {
                 if (diagonal.notContains(direction)) {

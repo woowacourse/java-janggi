@@ -18,6 +18,6 @@ public class ChoPawnMoveStrategy implements MoveStrategy {
 
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
-        return List.of(destination);
+        return List.of();
     }
 }

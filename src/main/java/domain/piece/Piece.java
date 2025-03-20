@@ -35,4 +35,8 @@ public class Piece {
     public int hashCode() {
         return Objects.hashCode(pieceType);
     }
+
+    public boolean isCannon() {
+        return pieceType == PieceType.CANNON;
+    }
 }
