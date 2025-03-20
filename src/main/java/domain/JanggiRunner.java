@@ -16,53 +16,76 @@ public class JanggiRunner {
         this.outputView = outputView;
     }
 
-    public void run(){
+    public void run() {
         JanggiGame janggiGame = initializeGame();
-        List<Piece> alivePieces = janggiGame.getAlivePieces();
-        outputView.printBoard(alivePieces);
-
+        showInitializedBoardResult(janggiGame);
         startGame(janggiGame);
     }
 
-    public JanggiGame initializeGame() {
-        String firstPlayerName = inputView.getFirstPlayerName();
-        String secondPlayerName = inputView.getSecondPlayerName();
-        Usernames usernames = new Usernames(firstPlayerName,secondPlayerName);
-
-        String startPlayerName = inputView.getStartPlayerName();
-
-        Players players = Players.createFrom(usernames,startPlayerName);
-
-        String firstPlayerOption = inputView.getSetupNumber(players.getChoPlayerName());
-        HorseElephantSetupStrategy firstPlayerStrategy = SetupOption.findSetupStrategy(firstPlayerOption);
-        String secondPlayerOption = inputView.getSetupNumber(players.getHanPlayerName());
-        HorseElephantSetupStrategy secondPlayerStrategy = SetupOption.findSetupStrategy(secondPlayerOption);
-
-        PieceFactory factory = new PieceFactory();
-
-        return new JanggiGame(players, factory.createAllPieces(firstPlayerStrategy, secondPlayerStrategy));
+    private void showInitializedBoardResult(JanggiGame janggiGame) {
+        List<Piece> alivePieces = janggiGame.getAlivePieces();
+        outputView.printBoard(alivePieces);
     }
 
-    public void startGame(JanggiGame janggiGame) {
-        TeamType nowTurn = TeamType.CHO;
+    private void startGame(JanggiGame janggiGame) {
+        executeGame(janggiGame);
+        showWinner(janggiGame);
+    }
 
-        while(!janggiGame.isFinished()){
+    private void executeGame(JanggiGame janggiGame) {
+        TeamType nowTurn = TeamType.CHO;
+        while (isGameInProgress(janggiGame)) {
             Player nowPlayer = janggiGame.findPlayerByTeam(nowTurn);
             Position startPosition = inputView.getStartPosition(nowPlayer);
             Position endPosition = inputView.getEndPosition(nowPlayer);
-
             janggiGame.movePiece(startPosition, endPosition, nowTurn);
-
             outputView.printBoard(janggiGame.getAlivePieces());
             nowTurn = findNextTurn(nowTurn);
         }
-        Player winner = janggiGame.findWinner();
+    }
 
+    private void showWinner(JanggiGame janggiGame) {
+        Player winner = janggiGame.findWinner();
         outputView.printWinner(winner);
     }
 
-    private TeamType findNextTurn(TeamType nowTurn){
-        if(nowTurn == TeamType.CHO){
+    private JanggiGame initializeGame() {
+        Players players = createPlayers();
+        HorseElephantSetupStrategy firstPlayerStrategy = chooseStrategy(players.getChoPlayerName());
+        HorseElephantSetupStrategy secondPlayerStrategy = chooseStrategy(players.getHanPlayerName());
+        List<Piece> allPieces = createAllPieces(firstPlayerStrategy, secondPlayerStrategy);
+        return new JanggiGame(players, allPieces);
+    }
+
+    private List<Piece> createAllPieces(HorseElephantSetupStrategy firstPlayerStrategy,
+                                        HorseElephantSetupStrategy secondPlayerStrategy) {
+        PieceFactory factory = new PieceFactory();
+        return factory.createAllPieces(firstPlayerStrategy, secondPlayerStrategy);
+    }
+
+    private HorseElephantSetupStrategy chooseStrategy(String players) {
+        String firstPlayerOption = inputView.getSetupNumber(players);
+        return SetupOption.findSetupStrategy(firstPlayerOption);
+    }
+
+    private Players createPlayers() {
+        Usernames usernames = createUsernames();
+        String startPlayerName = inputView.getStartPlayerName();
+        return Players.createFrom(usernames, startPlayerName);
+    }
+
+    private Usernames createUsernames() {
+        String firstPlayerName = inputView.getFirstPlayerName();
+        String secondPlayerName = inputView.getSecondPlayerName();
+        return new Usernames(firstPlayerName, secondPlayerName);
+    }
+
+    private boolean isGameInProgress(JanggiGame janggiGame) {
+        return !janggiGame.isFinished();
+    }
+
+    private TeamType findNextTurn(TeamType nowTurn) {
+        if (nowTurn == TeamType.CHO) {
             return TeamType.HAN;
         }
         return TeamType.CHO;
