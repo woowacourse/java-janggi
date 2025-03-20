@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.List;
+
 public record Offset(
         int x,
         int y
@@ -29,5 +31,9 @@ public record Offset(
 
     public boolean hasNoMovement() {
         return x == 0 && y == 0;
+    }
+
+    public Offset getUnitDirectionOffset() {
+        return new Offset(Integer.compare(this.x, 0), Integer.compare(this.y, 0));
     }
 }
