@@ -21,7 +21,7 @@ public class JanggiGame {
     }
 
     public void play() {
-        while(true) {
+        while (true) {
             try {
                 outputView.printBoard(board);
 
@@ -31,8 +31,12 @@ public class JanggiGame {
                 outputView.printReachableDestinations(reachablePositions);
 
                 Position destination = inputView.askMovableDestination();
-                Piece piece = board.moveOrCatchPiece(selectedPiecePosition, destination, reachablePositions);
-                outputView.printMoveResult(piece);
+                Piece catchedPiece = board.moveOrCatchPiece(selectedPiecePosition, destination, reachablePositions);
+                outputView.printMoveResult(catchedPiece);
+
+                if (board.checkGameIsOver(catchedPiece)) {
+                    break;
+                }
             } catch (IllegalArgumentException | IllegalStateException e) {
                 outputView.printExceptionMessage(e);
             }

@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -272,6 +273,24 @@ class JanggiBoardTest {
         assertThatThrownBy(() -> janggiBoard.moveOrCatchPiece(position, destination, reachableDestination))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 선택한 목적지로 이동할 수 없습니다.");
+    }
+
+    @Test
+    @DisplayName("왕을 잡으면 게임 종료")
+    void test21() {
+        JanggiBoard janggiBoard = JanggiBoard.initialize();
+
+        Position position = new Position(5, 1);
+        Piece piece = new Chariot(Side.CHO);
+        Map<Position, Piece> board = janggiBoard.getBoard();
+        board.put(position, piece);
+
+        Position destination = new Position(4, 1);
+        List<Position> reachableDestinations = janggiBoard.computeReachableDestination(position);
+
+        Piece catchedPiece = janggiBoard.moveOrCatchPiece(position, destination, reachableDestinations);
+
+        assertThat(janggiBoard.checkGameIsOver(catchedPiece)).isTrue();
     }
 
 }

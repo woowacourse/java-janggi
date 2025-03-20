@@ -1,12 +1,8 @@
 package janggi.board;
 
-import janggi.piece.Cannon;
-import janggi.piece.Chariot;
-import janggi.piece.Empty;
-import janggi.piece.Piece;
+import janggi.piece.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,8 +13,8 @@ public class JanggiBoard {
 
     private final Map<Position, Piece> board;
 
-    private JanggiBoard(final Map<Position, Piece> board) {
-        this.board = new HashMap<>(board);
+    private JanggiBoard(Map<Position, Piece> board) {
+        this.board = board;
     }
 
     public static JanggiBoard initialize() {
@@ -46,6 +42,10 @@ public class JanggiBoard {
         board.put(destination, seletedPiece);
 
         return destinationPiece;
+    }
+
+    public boolean checkGameIsOver(final Piece catchedPiece) {
+        return catchedPiece instanceof King;
     }
 
     private List<Position> filterReachableDestinations(final Piece piece, final List<Route> candidatesRoutes) {
@@ -204,7 +204,7 @@ public class JanggiBoard {
     }
 
     public Map<Position, Piece> getBoard() {
-        return new HashMap<>(board);
+        return board;
     }
 
 }
