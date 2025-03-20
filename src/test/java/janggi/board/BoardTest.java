@@ -137,4 +137,19 @@ class BoardTest {
         assertThat(board.getPlacedPieces())
                 .doesNotContainEntry(to, toPiece);
     }
+
+    @DisplayName("같은 위치로 이동할 경우 예외가 발생한다.")
+    @Test
+    void shouldThrowException_WhenMoveSamePoint() {
+        // given
+        Board board = new Board();
+        Point fromPoint = new Point(1, 1);
+        Point toPoint = new Point(1, 1);
+        board.placePiece(fromPoint, new Soldier(Camp.CHU, board));
+
+        // when & then
+        assertThatCode(() -> board.move(fromPoint, toPoint))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("같은 위치로 이동할 수 없습니다.");
+    }
 }

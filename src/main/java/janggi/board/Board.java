@@ -52,8 +52,7 @@ public class Board {
     }
 
     public void move(Point from, Point to) {
-        validatePoint(from);
-        validatePoint(to);
+        validateMoveRequest(from, to);
         Piece fromPiece = peek(from);
         fromPiece.validateMove(from, to);
         Piece toPiece = placedPieces.get(to);
@@ -62,6 +61,14 @@ public class Board {
         }
         placedPieces.put(from, null);
         placedPieces.put(to, fromPiece);
+    }
+
+    private void validateMoveRequest(Point from, Point to) {
+        if (from.equals(to)) {
+            throw new IllegalArgumentException("같은 위치로 이동할 수 없습니다.");
+        }
+        validatePoint(from);
+        validatePoint(to);
     }
 
     public Set<Piece> getPiecesByPoint(Set<Point> route) {

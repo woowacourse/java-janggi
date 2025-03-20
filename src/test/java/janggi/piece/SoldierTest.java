@@ -72,25 +72,6 @@ class SoldierTest {
                 .hasMessageContaining("앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
     }
 
-    @DisplayName("같은 위치로 이동할 경우 예외가 발생한다.")
-    @ParameterizedTest
-    @CsvSource({
-            "HAN, 1, 1",
-            "CHU, 1, 1"
-    })
-    void shouldThrowException_WhenStop(Camp camp, int toX, int toY) {
-        // given
-        Board board = new Board();
-        Soldier soldier = new Soldier(camp, board);
-        Point fromPoint = new Point(1, 1);
-        Point toPoint = new Point(toX, toY);
-
-        // when & then
-        assertThatCode(() -> soldier.validateMove(fromPoint, toPoint))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("같은 위치로 이동할 수 없습니다.");
-    }
-
     @DisplayName("같은 진영의 기물을 잡을 경우 예외가 발생한다.")
     @Test
     void shouldThrowException_WhenCatchSameCamp() {
