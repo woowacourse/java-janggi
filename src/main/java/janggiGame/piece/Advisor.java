@@ -1,14 +1,13 @@
-package piece;
+package janggiGame.piece;
 
-import game.Dot;
-
+import janggiGame.board.Dot;
 import java.util.List;
 import java.util.Map;
 
-public class King extends Piece {
-    public static final String NAME = "장";
+public class Advisor extends Piece {
+    public static final String NAME = "사";
 
-    public King(Dynasty dynasty) {
+    public Advisor(Dynasty dynasty) {
         super(dynasty);
     }
 
@@ -21,7 +20,7 @@ public class King extends Piece {
             throw new UnsupportedOperationException("[ERROR] 병이 이동할 수 있는 목적지가 아닙니다.");
         }
 
-        return List.of(); //ToDO 빈값 확인해주기!!
+        return List.of();
     }
 
     @Override

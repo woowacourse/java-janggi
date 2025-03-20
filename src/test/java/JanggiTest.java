@@ -1,20 +1,26 @@
-import game.Board;
-import game.Dot;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+
+import janggiGame.board.Board;
+import janggiGame.board.Dot;
+import janggiGame.piece.Advisor;
+import janggiGame.piece.Cannon;
+import janggiGame.piece.Chariot;
+import janggiGame.piece.Dynasty;
+import janggiGame.piece.Elephant;
+import janggiGame.piece.Horse;
+import janggiGame.piece.Pawn;
+import janggiGame.piece.Piece;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import piece.*;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 
 public class JanggiTest {
     public static Stream<Arguments> provideXY() {

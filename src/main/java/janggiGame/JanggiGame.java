@@ -1,9 +1,10 @@
-package game;
+package janggiGame;
 
-import game.arrangement.ArrangementStrategy;
-import piece.Dynasty;
-import piece.Piece;
-
+import janggiGame.arrangement.ArrangementStrategy;
+import janggiGame.board.Board;
+import janggiGame.board.Dot;
+import janggiGame.piece.Dynasty;
+import janggiGame.piece.Piece;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

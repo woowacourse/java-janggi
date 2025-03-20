@@ -1,4 +1,4 @@
-package piece;
+package janggiGame.piece;
 
 public enum Dynasty {
     HAN("한나라"),

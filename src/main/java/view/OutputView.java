@@ -1,10 +1,9 @@
 package view;
 
-import game.Board;
-import game.Dot;
-import piece.Dynasty;
-import piece.Piece;
-
+import janggiGame.board.Board;
+import janggiGame.board.Dot;
+import janggiGame.piece.Dynasty;
+import janggiGame.piece.Piece;
 import java.util.Map;
 
 public class OutputView {

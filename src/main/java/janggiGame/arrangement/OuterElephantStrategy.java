@@ -1,9 +1,16 @@
-package game.arrangement;
+package janggiGame.arrangement;
 
-import game.Board;
-import game.Dot;
-import piece.*;
-
+import janggiGame.board.Board;
+import janggiGame.board.Dot;
+import janggiGame.piece.Advisor;
+import janggiGame.piece.Cannon;
+import janggiGame.piece.Chariot;
+import janggiGame.piece.Dynasty;
+import janggiGame.piece.Elephant;
+import janggiGame.piece.Horse;
+import janggiGame.piece.King;
+import janggiGame.piece.Pawn;
+import janggiGame.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
 

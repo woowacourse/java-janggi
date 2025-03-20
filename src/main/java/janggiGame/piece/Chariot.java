@@ -1,22 +1,16 @@
-package piece;
+package janggiGame.piece;
 
-import game.Board;
-import game.Dot;
-
+import janggiGame.board.Dot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class Horse extends Piece {
-    private static final String NAME = "마";
+public class Chariot extends Piece {
+    private static final String NAME = "차";
 
-    public Horse(Dynasty dynasty) {
+    public Chariot(Dynasty dynasty) {
         super(dynasty);
-    }
-
-    private static boolean isFirstMoveHorizontal(int dx, int dy) {
-        return Math.abs(dx) == 2 && Math.abs(dy) == 1;
     }
 
     @Override
@@ -26,35 +20,43 @@ public class Horse extends Piece {
         int dx = origin.getDx(destination);
         int dy = origin.getDy(destination);
 
-        if (!(isFirstMoveVertical(dx, dy) || isFirstMoveHorizontal(dx, dy))) {
-            throw new UnsupportedOperationException("[ERROR] 마가 이동할 수 있는 목적지가 아닙니다.");
+        if (dx != 0 && dy != 0) {
+            throw new UnsupportedOperationException("[ERROR] 차가 이동할 수 있는 목적지가 아닙니다.");
         }
 
         if (dx == 0 && dy == 0) {
             throw new IllegalArgumentException("[ERROR] 같은 위치로 이동할 수 없습니다.");
         }
 
-        if (isFirstMoveVertical(dx, dy)) {
+        if (dx == 0) {
             if (dy > 0) {
-                route.add(Board.findBy(origin.getX(), origin.getY() + 1));
-                return route;
+                for (int i = 1; i < dy; i++) {
+                    origin = origin.up();
+                    route.add(origin);
+                }
             }
 
-            route.add(Board.findBy(origin.getX(), origin.getY() - 1));
-            return route;
+            for (int i = -1; i > dy; i--) {
+                origin = origin.down();
+                route.add(origin);
+            }
         }
 
-        if (dx > 0) {
-            route.add(Board.findBy(origin.getX() + 1, origin.getY()));
-            return route;
+        if (dy == 0) {
+            if (dx > 0) {
+                for (int i = 1; i < dx; i++) {
+                    origin = origin.right();
+                    route.add(origin);
+                }
+            }
+
+            for (int i = -1; i > dx; i--) {
+                origin = origin.left();
+                route.add(origin);
+            }
         }
 
-        route.add(Board.findBy(origin.getX() - 1, origin.getY()));
         return route;
-    }
-
-    private boolean isFirstMoveVertical(int dx, int dy) {
-        return Math.abs(dx) == 1 && Math.abs(dy) == 2;
     }
 
     @Override

@@ -1,9 +1,8 @@
 package view;
 
-import game.Board;
-import game.Dot;
-import piece.Dynasty;
-
+import janggiGame.board.Board;
+import janggiGame.board.Dot;
+import janggiGame.piece.Dynasty;
 import java.util.List;
 import java.util.Scanner;
 
