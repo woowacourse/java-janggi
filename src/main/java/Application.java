@@ -1,5 +1,5 @@
 import janggiGame.JanggiGame;
-import janggiGame.arrangement.OuterElephantStrategy;
+import janggiGame.arrangement.ArrangementOption;
 import janggiGame.board.Dot;
 import janggiGame.piece.Dynasty;
 import java.util.List;
@@ -16,8 +16,11 @@ public class Application {
         Dynasty[] dynasties = Dynasty.values();
         int turn = 0;
 
-        janggiGame.arrangeHanPieces(new OuterElephantStrategy());
-        janggiGame.arrangeChoPieces(new OuterElephantStrategy());
+        int option = inputView.readHanArrangement();
+        janggiGame.arrangeHanPieces(ArrangementOption.findBy(option).getArrangementStrategy());
+
+        option = inputView.readChoArrangement();
+        janggiGame.arrangeChoPieces(ArrangementOption.findBy(option).getArrangementStrategy());
 
         while (true) {
             outputView.printBoard(janggiGame.getPieces());

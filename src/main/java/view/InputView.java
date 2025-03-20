@@ -8,6 +8,11 @@ import java.util.Scanner;
 
 public class InputView {
 
+    public static final String ARRANGE_PROMPT = """            
+            1. 내상 배치
+            2. 외상 배치
+            3. 좌상 배치
+            4. 우상 배치""";
     private final Scanner scanner = new Scanner(System.in);
 
     public List<Dot> readPieceMovement(Dynasty dynasty) {
@@ -34,5 +39,18 @@ public class InputView {
         Dot destination = Board.findBy(destinationX, destinationY);
 
         return List.of(origin, destination);
+    }
+
+    public int readHanArrangement() {
+        System.out.println("한나라는 배치 전략을 선택하세요.");
+        System.out.println(ARRANGE_PROMPT);
+        System.out.println();
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    public int readChoArrangement() {
+        System.out.println("초나라는 배치 전략을 선택하세요");
+        System.out.println(ARRANGE_PROMPT);
+        return Integer.parseInt(scanner.nextLine());
     }
 }
