@@ -15,12 +15,12 @@ public final class Board {
 
     private final Map<Point, Piece> locations;
 
-    public Board(Map<Point, Piece> locations) {
+    public Board(final Map<Point, Piece> locations) {
         validate(locations);
         this.locations = locations;
     }
 
-    private void validate(Map<Point, Piece> locations) {
+    private void validate(final Map<Point, Piece> locations) {
         if (locations.size() != VALID_SIZE) {
             throw new JanggiArgumentException("보드의 크기는 9x10 이어야 합니다.");
         }
@@ -30,7 +30,7 @@ public final class Board {
         return new HashMap<>(locations);
     }
 
-    public void movePiece(Point startPoint, Point arrivalPoint, Team team) {
+    public void movePiece(final Point startPoint, final Point arrivalPoint, final Team team) {
         if (locations.containsKey(startPoint) && locations.containsKey(arrivalPoint)) {
             processMovement(startPoint, arrivalPoint, team);
             return;
@@ -38,44 +38,43 @@ public final class Board {
         throw new JanggiArgumentException("보드의 범위 바깥입니다.");
     }
 
-    private void processMovement(Point startPoint, Point arrivalPoint, Team team) {
-        Piece pieceAtstartPoint = locations.get(startPoint);
-        checkstartPoint(pieceAtstartPoint, team);
+    private void processMovement(final Point startPoint, final Point arrivalPoint, final Team team) {
+        final Piece pieceAtStartPoint = locations.get(startPoint);
+        checkStartPoint(pieceAtStartPoint, team);
 
-        checkOutOfRoute(startPoint, arrivalPoint, pieceAtstartPoint);
+        checkOutOfRoute(startPoint, arrivalPoint, pieceAtStartPoint);
 
-        List<Point> routePoints = pieceAtstartPoint.getRoutePoints(startPoint, arrivalPoint);
-        PieceOnRoute pieceOnRoute = getAllPieceOnRoute(routePoints);
+        final List<Point> routePoints = pieceAtStartPoint.getRoutePoints(startPoint, arrivalPoint);
+        final PieceOnRoute pieceOnRoute = getAllPieceOnRoute(routePoints);
 
-        checkPieceOnRoute(pieceAtstartPoint, pieceOnRoute);
+        checkPieceOnRoute(pieceAtStartPoint, pieceOnRoute);
 
-        locations.put(arrivalPoint, pieceAtstartPoint);
+        locations.put(arrivalPoint, pieceAtStartPoint);
         locations.put(startPoint, EMPTY_PIECE);
     }
 
-    private void checkstartPoint(Piece pieceAtstartPoint, Team team) {
-        if (pieceAtstartPoint.equals(EMPTY_PIECE)) {
+    private void checkStartPoint(final Piece pieceAtStartPoint, final Team team) {
+        if (pieceAtStartPoint.equals(EMPTY_PIECE)) {
             throw new JanggiArgumentException("출발점에 이동할 기물이 없습니다.");
         }
-        if (!pieceAtstartPoint.hasEqualTeam(team)) {
+        if (!pieceAtStartPoint.hasEqualTeam(team)) {
             throw new JanggiArgumentException("아군 기물만 움직일 수 있습니다.");
         }
     }
 
-    private void checkPieceOnRoute(Piece pieceAtstartPoint, PieceOnRoute pieceOnRoute) {
-        if (!pieceAtstartPoint.isMovable(pieceOnRoute)) {
+    private void checkPieceOnRoute(final Piece pieceAtStartPoint, final PieceOnRoute pieceOnRoute) {
+        if (!pieceAtStartPoint.isMovable(pieceOnRoute)) {
             throw new JanggiArgumentException("해당 경로로 이동할 수 없습니다.");
         }
     }
 
-    private void checkOutOfRoute(Point startPoint, Point arrivalPoint, Piece pieceAtstartPoint) {
-        if (!pieceAtstartPoint.isAbleToArrive(startPoint, arrivalPoint)) {
+    private void checkOutOfRoute(final Point startPoint, final Point arrivalPoint, final Piece pieceAtStartPoint) {
+        if (!pieceAtStartPoint.isAbleToArrive(startPoint, arrivalPoint)) {
             throw new JanggiArgumentException("해당 기물이 도착할 수 없는 위치입니다.");
         }
     }
 
-
-    private PieceOnRoute getAllPieceOnRoute(List<Point> routePoints) {
+    private PieceOnRoute getAllPieceOnRoute(final List<Point> routePoints) {
         return new PieceOnRoute(routePoints.stream()
                 .map(locations::get)
                 .toList());

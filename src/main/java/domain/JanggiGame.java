@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JanggiGame {
+public final class JanggiGame {
     private static final int BOARD_ROW_MAX = 10;
     private static final int BOARD_COLUMN_MAX = 9;
 
@@ -36,7 +36,7 @@ public class JanggiGame {
         return board.getLocations();
     }
 
-    public void move(Point startPoint, Point arrivalPoint, boolean isFirstPlayerTurn) {
+    public void move(final Point startPoint, final Point arrivalPoint, final boolean isFirstPlayerTurn) {
         Player currentPlayer = players.stream()
                 .filter(player -> player.isFirstAttack() == isFirstPlayerTurn)
                 .findFirst()
@@ -63,7 +63,7 @@ public class JanggiGame {
 
     private Map<Point, Piece> generateLocationsForHan() {
         final Map<Point, Piece> locations = new HashMap<>();
-        PieceMovement soldierMovement = new DefaultMovement(List.of(
+        final PieceMovement soldierMovement = new DefaultMovement(List.of(
                 new Route(List.of(Direction.SOUTH)),
                 new Route(List.of(Direction.EAST)),
                 new Route(List.of(Direction.WEST))
@@ -74,7 +74,7 @@ public class JanggiGame {
         locations.put(new Point(6, 6), new Soldier(Team.HAN, soldierMovement));
         locations.put(new Point(6, 8), new Soldier(Team.HAN, soldierMovement));
 
-        PieceMovement endlessMovement = new EndlessMovement();
+        final PieceMovement endlessMovement = new EndlessMovement();
 
         locations.put(new Point(9, 0), new Chariot(Team.HAN, endlessMovement));
         locations.put(new Point(9, 8), new Chariot(Team.HAN, endlessMovement));
@@ -82,12 +82,12 @@ public class JanggiGame {
         locations.put(new Point(7, 1), new Cannon(Team.HAN, endlessMovement));
         locations.put(new Point(7, 7), new Cannon(Team.HAN, endlessMovement));
 
-        PieceMovement elephantMovement = generateElephantMovement();
+        final PieceMovement elephantMovement = generateElephantMovement();
 
         locations.put(new Point(9, 1), new Elephant(Team.HAN, elephantMovement));
         locations.put(new Point(9, 7), new Elephant(Team.HAN, elephantMovement));
 
-        PieceMovement horseMovement = generateHorseMovement();
+        final PieceMovement horseMovement = generateHorseMovement();
 
         locations.put(new Point(9, 2), new Horse(Team.HAN, horseMovement));
         locations.put(new Point(9, 6), new Horse(Team.HAN, horseMovement));
@@ -101,7 +101,7 @@ public class JanggiGame {
 
     private Map<Point, Piece> generateLocationsForCho() {
         final Map<Point, Piece> locations = new HashMap<>();
-        PieceMovement soldierMovement = new DefaultMovement(List.of(
+        final PieceMovement soldierMovement = new DefaultMovement(List.of(
                 new Route(List.of(Direction.NORTH)),
                 new Route(List.of(Direction.EAST)),
                 new Route(List.of(Direction.WEST))
@@ -112,7 +112,7 @@ public class JanggiGame {
         locations.put(new Point(3, 6), new Soldier(Team.CHO, soldierMovement));
         locations.put(new Point(3, 8), new Soldier(Team.CHO, soldierMovement));
 
-        PieceMovement endlessMovement = new EndlessMovement();
+        final PieceMovement endlessMovement = new EndlessMovement();
 
         locations.put(new Point(0, 0), new Chariot(Team.CHO, endlessMovement));
         locations.put(new Point(0, 8), new Chariot(Team.CHO, endlessMovement));
@@ -120,12 +120,12 @@ public class JanggiGame {
         locations.put(new Point(2, 1), new Cannon(Team.CHO, endlessMovement));
         locations.put(new Point(2, 7), new Cannon(Team.CHO, endlessMovement));
 
-        PieceMovement elephantMovement = generateElephantMovement();
+        final PieceMovement elephantMovement = generateElephantMovement();
 
         locations.put(new Point(0, 1), new Elephant(Team.CHO, elephantMovement));
         locations.put(new Point(0, 7), new Elephant(Team.CHO, elephantMovement));
 
-        PieceMovement horseMovement = generateHorseMovement();
+        final PieceMovement horseMovement = generateHorseMovement();
 
         locations.put(new Point(0, 2), new Horse(Team.CHO, horseMovement));
         locations.put(new Point(0, 6), new Horse(Team.CHO, horseMovement));
