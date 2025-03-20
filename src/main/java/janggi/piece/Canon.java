@@ -56,7 +56,7 @@ public class Canon extends Piece {
             }
             pieceCount++;
         }
-        if (pieceCount == 0) {
+        if (pieceCount != 1) {
             throw new IllegalArgumentException("[ERROR] 포는 다른 기물 1개를 넘어가야 합니다.");
         }
     }
@@ -96,7 +96,7 @@ public class Canon extends Piece {
         validateSameTeamOnGoal(board, goal);
 
         Piece other = board.get(goal);
-        if (other.isSameType(this)) {
+        if (other != null && other.isSameType(this)) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
         }
     }

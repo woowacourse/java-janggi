@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.util.HashMap;
 import java.util.Map;
 
+import static janggi.fixture.PositionFixture.createPosition;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
 
@@ -33,9 +34,5 @@ class ElephantTest {
         assertThat(board).extracting("board")
                 .asInstanceOf(MAP)
                 .containsEntry(goal, piece);
-    }
-
-    private Position createPosition(int column, int row) {
-        return new Position(column, row);
     }
 }
