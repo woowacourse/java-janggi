@@ -17,24 +17,24 @@ public final class MovingRulesGenerator {
     private static final int VERTICAL_RANGE = 10;
 
     public static MovingRules generalOrGuard() {
-        MovingRule rule1 = new MovingRule(List.of(RIGHT));
-        MovingRule rule2 = new MovingRule(List.of(LEFT));
-        MovingRule rule3 = new MovingRule(List.of(UP));
-        MovingRule rule4 = new MovingRule(List.of(DOWN));
+        final MovingRule rule1 = new MovingRule(List.of(RIGHT));
+        final MovingRule rule2 = new MovingRule(List.of(LEFT));
+        final MovingRule rule3 = new MovingRule(List.of(UP));
+        final MovingRule rule4 = new MovingRule(List.of(DOWN));
         return new MovingRules(List.of(rule1, rule2, rule3, rule4));
     }
 
     public static MovingRules hanSoldier() {
-        MovingRule rule1 = new MovingRule(List.of(RIGHT));
-        MovingRule rule2 = new MovingRule(List.of(LEFT));
-        MovingRule rule3 = new MovingRule(List.of(DOWN));
+        final MovingRule rule1 = new MovingRule(List.of(RIGHT));
+        final MovingRule rule2 = new MovingRule(List.of(LEFT));
+        final MovingRule rule3 = new MovingRule(List.of(DOWN));
         return new MovingRules(List.of(rule1, rule2, rule3, rule3));
     }
 
     public static MovingRules choSoldier() {
-        MovingRule rule1 = new MovingRule(List.of(RIGHT));
-        MovingRule rule2 = new MovingRule(List.of(LEFT));
-        MovingRule rule3 = new MovingRule(List.of(UP));
+        final MovingRule rule1 = new MovingRule(List.of(RIGHT));
+        final MovingRule rule2 = new MovingRule(List.of(LEFT));
+        final MovingRule rule3 = new MovingRule(List.of(UP));
         return new MovingRules(List.of(rule1, rule2, rule3, rule3));
     }
 
