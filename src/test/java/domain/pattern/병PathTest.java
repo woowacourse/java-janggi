@@ -15,9 +15,10 @@ public class 병PathTest {
     void 병의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(Position afterPosition, List<Pattern> path) {
         // given
         Position beforePosition = new Position(7, 5);
+        Path pathOf병 = new 병Path();
 
         // when
-        List<Pattern> 병path = 병Path.getPath(beforePosition, afterPosition);
+        List<Pattern> 병path = pathOf병.getPath(beforePosition, afterPosition);
 
         // when & then
         Assertions.assertThat(병path)
@@ -25,10 +26,11 @@ public class 병PathTest {
     }
 
     static Stream<Arguments> provide병Path() {
+        Path pathOf병 = new 병Path();
         return Stream.of(
-                Arguments.of(new Position(8, 5), 병Path.DOWN.getPatterns()),
-                Arguments.of(new Position(7, 4), 병Path.LEFT.getPatterns()),
-                Arguments.of(new Position(7, 6), 병Path.RIGHT.getPatterns())
+                Arguments.of(new Position(8, 5), pathOf병.getPatterns(Direction.DOWN)),
+                Arguments.of(new Position(7, 4), pathOf병.getPatterns(Direction.LEFT)),
+                Arguments.of(new Position(7, 6), pathOf병.getPatterns(Direction.RIGHT))
         );
     }
 
@@ -39,7 +41,7 @@ public class 병PathTest {
         Position afterPosition = new Position(6, 5);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> 병Path.getPath(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> new 병Path().getPath(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 

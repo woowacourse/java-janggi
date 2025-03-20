@@ -18,9 +18,10 @@ public class 상PathTest {
         int beforeRow = 6;
         int beforeColumn = 5;
         Position beforePosition = new Position(beforeRow, beforeColumn);
+        Path pathOf상 = new 상Path();
 
         // when
-        List<Pattern> 상path = 상Path.getPath(beforePosition, afterPosition);
+        List<Pattern> 상path = pathOf상.getPath(beforePosition, afterPosition);
 
         // when & then
         Assertions.assertThat(상path)
@@ -28,15 +29,16 @@ public class 상PathTest {
     }
 
     static Stream<Arguments> provide상Path() {
+        Path pathOf상 = new 상Path();
         return Stream.of(
-                Arguments.of(new Position(4, 8), 상Path.RIGHT_UP.getPatterns()),
-                Arguments.of(new Position(8, 8), 상Path.RIGHT_DOWN.getPatterns()),
-                Arguments.of(new Position(9, 7), 상Path.DOWN_RIGHT.getPatterns()),
-                Arguments.of(new Position(9, 3), 상Path.DOWN_LEFT.getPatterns()),
-                Arguments.of(new Position(8, 2), 상Path.LEFT_DOWN.getPatterns()),
-                Arguments.of(new Position(4, 2), 상Path.LEFT_UP.getPatterns()),
-                Arguments.of(new Position(3, 3), 상Path.UP_LEFT.getPatterns()),
-                Arguments.of(new Position(3, 7), 상Path.UP_RIGHT.getPatterns())
+                Arguments.of(new Position(4, 8), pathOf상.getPatterns(Direction.RIGHT_UP)),
+                Arguments.of(new Position(8, 8), pathOf상.getPatterns(Direction.RIGHT_DOWN)),
+                Arguments.of(new Position(9, 7), pathOf상.getPatterns(Direction.DOWN_RIGHT)),
+                Arguments.of(new Position(9, 3), pathOf상.getPatterns(Direction.DOWN_LEFT)),
+                Arguments.of(new Position(8, 2), pathOf상.getPatterns(Direction.LEFT_DOWN)),
+                Arguments.of(new Position(4, 2), pathOf상.getPatterns(Direction.LEFT_UP)),
+                Arguments.of(new Position(3, 3), pathOf상.getPatterns(Direction.UP_LEFT)),
+                Arguments.of(new Position(3, 7), pathOf상.getPatterns(Direction.UP_RIGHT))
         );
     }
 
@@ -52,7 +54,7 @@ public class 상PathTest {
         Position afterPosition = new Position(afterRow, afterColumn);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> 상Path.getPath(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> new 상Path().getPath(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

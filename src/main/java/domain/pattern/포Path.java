@@ -1,39 +1,44 @@
 package domain.pattern;
 
+import static domain.pattern.Direction.DOWN;
+import static domain.pattern.Direction.LEFT;
+import static domain.pattern.Direction.RIGHT;
+import static domain.pattern.Direction.UP;
+
 import domain.Position;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
-public enum 포Path {
-    RIGHT(List.of(Pattern.RIGHT)),
-    DOWN(List.of(Pattern.DOWN)),
-    LEFT(List.of(Pattern.LEFT)),
-    UP(List.of(Pattern.UP));
-
-    private List<Pattern> patterns;
-
-    포Path(List<Pattern> patterns) {
-        this.patterns = patterns;
+public class 포Path extends Path {
+    public 포Path() {
+        super(List.of(RIGHT, DOWN, LEFT, UP), Map.of(
+                RIGHT, List.of(Pattern.RIGHT),
+                DOWN, List.of(Pattern.DOWN),
+                LEFT, List.of(Pattern.LEFT),
+                UP, List.of(Pattern.UP)
+        ));
     }
 
-    public static List<Pattern> getPath(Position beforePosition, Position afterPosition) {
-        포Path newPath = null;
+    @Override
+    public List<Pattern> getPath(Position beforePosition, Position afterPosition) {
+        Direction newPath = null;
         int additionalSize = 0;
         if (afterPosition.x() == beforePosition.x()) {
             if (afterPosition.isBiggerYThan(beforePosition)) {
-                newPath = 포Path.RIGHT;
+                newPath = RIGHT;
                 additionalSize = afterPosition.getYGap(beforePosition);
             } else {
-                newPath = 포Path.LEFT;
+                newPath = LEFT;
                 additionalSize = afterPosition.getYGap(beforePosition);
             }
         }
         if (afterPosition.y() == beforePosition.y()) {
             if (afterPosition.isBiggerXThan(beforePosition)) {
-                newPath = 포Path.DOWN;
+                newPath = DOWN;
                 additionalSize = afterPosition.getXGap(beforePosition);
             } else {
-                newPath = 포Path.UP;
+                newPath = UP;
                 additionalSize = afterPosition.getXGap(beforePosition);
             }
         }
@@ -43,11 +48,8 @@ public enum 포Path {
         return create포Pattern(newPath, additionalSize);
     }
 
-    private static List<Pattern> create포Pattern(포Path newPath, int additionalSize) {
-        return Collections.nCopies(additionalSize, newPath.getPattern());
+    private List<Pattern> create포Pattern(Direction newPath, int additionalSize) {
+        return Collections.nCopies(additionalSize, paths.get(newPath).get(0));
     }
 
-    public Pattern getPattern() {
-        return this.patterns.get(0);
-    }
 }

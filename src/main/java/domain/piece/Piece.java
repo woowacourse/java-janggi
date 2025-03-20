@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.Position;
+import domain.pattern.Path;
 import domain.pattern.Pattern;
 import java.util.List;
 
@@ -8,14 +9,18 @@ public abstract class Piece {
     protected int score;
     protected Side side;
     protected PieceStatus status;
+    protected Path path;
 
-    public Piece(int score, Side side) {
+    public Piece(int score, Side side, Path path) {
         this.score = score;
         this.side = side;
         this.status = PieceStatus.ACTIVE;
+        this.path = path;
     }
 
-    public abstract List<Pattern> findPath(Position beforePosition, Position afterPosition);
+    public List<Pattern> findPath(Position beforePosition, Position afterPosition) {
+        return getPath().getPath(beforePosition, afterPosition);
+    }
 
     public boolean isEmpty() {
         return false;
@@ -31,5 +36,9 @@ public abstract class Piece {
 
     public PieceStatus getStatus() {
         return status;
+    }
+
+    public Path getPath() {
+        return path;
     }
 }

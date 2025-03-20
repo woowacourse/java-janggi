@@ -1,35 +1,19 @@
 package domain.pattern;
 
-import domain.Position;
-import java.util.Arrays;
+import static domain.pattern.Direction.DOWN;
+import static domain.pattern.Direction.LEFT;
+import static domain.pattern.Direction.RIGHT;
+
 import java.util.List;
+import java.util.Map;
 
-public enum 병Path {
-    RIGHT(List.of(Pattern.RIGHT)),
-    LEFT(List.of(Pattern.LEFT)),
-    DOWN(List.of(Pattern.DOWN));
+public class 병Path extends Path {
 
-    private final List<Pattern> patterns;
-
-    병Path(List<Pattern> patterns) {
-        this.patterns = patterns;
+    public 병Path() {
+        super(List.of(RIGHT, DOWN, LEFT), Map.of(
+                RIGHT, List.of(Pattern.RIGHT),
+                DOWN, List.of(Pattern.DOWN),
+                LEFT, List.of(Pattern.LEFT)
+        ));
     }
-
-    public static List<Pattern> getPath(Position beforePosition, Position afterPosition) {
-        return Arrays.stream(병Path.values())
-                .filter(path -> {
-                    List<Pattern> patterns = path.patterns;
-                    Position newPosition = beforePosition.move(patterns);
-
-                    return newPosition.equals(afterPosition);
-                })
-                .findFirst()
-                .map(병Path::getPatterns)
-                .orElseThrow(() -> new IllegalStateException("병은 해당 경로로 이동할 수 없습니다."));
-    }
-
-    public List<Pattern> getPatterns() {
-        return this.patterns;
-    }
-
 }

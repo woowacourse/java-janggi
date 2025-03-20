@@ -18,23 +18,33 @@ public class 차PathTest {
         int beforeRow = 0;
         int beforeColumn = 1;
         Position beforePosition = new Position(beforeRow, beforeColumn);
+        Path pathOf차 = new 차Path();
 
         // when
-        List<Pattern> 차path = 차Path.getPath(beforePosition, afterPosition);
+        List<Pattern> 차path = pathOf차.getPath(beforePosition, afterPosition);
 
         // when & then
         Assertions.assertThat(차path).containsAll(path);
     }
 
     static Stream<Arguments> provide차Path() {
+        Path pathOf차 = new 차Path();
         return Stream.of(
                 Arguments.of(new Position(5, 1),
-                        List.of(차Path.UP.getPattern(), 차Path.UP.getPattern(), 차Path.UP.getPattern(),
-                                차Path.UP.getPattern(), 차Path.UP.getPattern())),
+                        List.of(pathOf차.getPatterns(Direction.UP).get(0),
+                                pathOf차.getPatterns(Direction.UP).get(0),
+                                pathOf차.getPatterns(Direction.UP).get(0),
+                                pathOf차.getPatterns(Direction.UP).get(0),
+                                pathOf차.getPatterns(Direction.UP).get(0))),
                 Arguments.of(new Position(0, 9),
-                        List.of(차Path.RIGHT.getPattern(), 차Path.RIGHT.getPattern(), 차Path.RIGHT.getPattern(),
-                                차Path.RIGHT.getPattern(), 차Path.RIGHT.getPattern(), 차Path.RIGHT.getPattern(),
-                                차Path.RIGHT.getPattern(), 차Path.RIGHT.getPattern()))
+                        List.of(pathOf차.getPatterns(Direction.RIGHT).get(0),
+                                pathOf차.getPatterns(Direction.RIGHT).get(0),
+                                pathOf차.getPatterns(Direction.RIGHT).get(0),
+                                pathOf차.getPatterns(Direction.RIGHT).get(0),
+                                pathOf차.getPatterns(Direction.RIGHT).get(0),
+                                pathOf차.getPatterns(Direction.RIGHT).get(0),
+                                pathOf차.getPatterns(Direction.RIGHT).get(0),
+                                pathOf차.getPatterns(Direction.RIGHT).get(0)))
         );
     }
 
@@ -50,7 +60,7 @@ public class 차PathTest {
         Position afterPosition = new Position(afterRow, afterColumn);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> 차Path.getPath(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> new 차Path().getPath(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

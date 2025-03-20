@@ -1,35 +1,21 @@
 package domain.pattern;
 
-import domain.Position;
-import java.util.Arrays;
+import static domain.pattern.Direction.DOWN;
+import static domain.pattern.Direction.LEFT;
+import static domain.pattern.Direction.RIGHT;
+import static domain.pattern.Direction.UP;
+
 import java.util.List;
+import java.util.Map;
 
-public enum 사Path {
-    RIGHT(List.of(Pattern.RIGHT)),
-    DOWN(List.of(Pattern.DOWN)),
-    LEFT(List.of(Pattern.LEFT)),
-    UP(List.of(Pattern.UP));
+public class 사Path extends Path {
 
-    private final List<Pattern> patterns;
-
-    사Path(List<Pattern> patterns) {
-        this.patterns = patterns;
-    }
-
-    public static List<Pattern> getPath(Position beforePosition, Position afterPosition) {
-        return Arrays.stream(사Path.values())
-                .filter(path -> {
-                    List<Pattern> patterns = path.patterns;
-                    Position newPosition = beforePosition.move(patterns);
-
-                    return newPosition.equals(afterPosition);
-                })
-                .findFirst()
-                .map(사Path::getPatterns)
-                .orElseThrow(() -> new IllegalStateException("사는 해당 경로로 이동할 수 없습니다."));
-    }
-
-    public List<Pattern> getPatterns() {
-        return this.patterns;
+    public 사Path() {
+        super(List.of(RIGHT, DOWN, LEFT, UP), Map.of(
+                RIGHT, List.of(Pattern.RIGHT),
+                DOWN, List.of(Pattern.DOWN),
+                LEFT, List.of(Pattern.LEFT),
+                UP, List.of(Pattern.UP)
+        ));
     }
 }

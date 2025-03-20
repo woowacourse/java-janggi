@@ -18,9 +18,10 @@ public class 사PathTest {
         int beforeRow = 9;
         int beforeColumn = 5;
         Position beforePosition = new Position(beforeRow, beforeColumn);
+        Path pathOf사 = new 사Path();
 
         // when
-        List<Pattern> 사path = 사Path.getPath(beforePosition, afterPosition);
+        List<Pattern> 사path = pathOf사.getPath(beforePosition, afterPosition);
 
         // when & then
         Assertions.assertThat(사path)
@@ -28,11 +29,12 @@ public class 사PathTest {
     }
 
     static Stream<Arguments> provide사Path() {
+        Path pathOf사 = new 사Path();
         return Stream.of(
-                Arguments.of(new Position(8, 5), 사Path.UP.getPatterns()),
-                Arguments.of(new Position(9, 4), 사Path.LEFT.getPatterns()),
-                Arguments.of(new Position(9, 6), 사Path.RIGHT.getPatterns()),
-                Arguments.of(new Position(0, 5), 사Path.DOWN.getPatterns()));
+                Arguments.of(new Position(8, 5), pathOf사.getPatterns(Direction.UP)),
+                Arguments.of(new Position(9, 4), pathOf사.getPatterns(Direction.LEFT)),
+                Arguments.of(new Position(9, 6), pathOf사.getPatterns(Direction.RIGHT)),
+                Arguments.of(new Position(0, 5), pathOf사.getPatterns(Direction.DOWN)));
     }
 
     @Test
@@ -47,7 +49,7 @@ public class 사PathTest {
         Position afterPosition = new Position(afterRow, afterColumn);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> 사Path.getPath(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> new 사Path().getPath(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

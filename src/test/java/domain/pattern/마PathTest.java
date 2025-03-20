@@ -16,9 +16,10 @@ public class 마PathTest {
     void 마의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(Position afterPosition, List<Pattern> path) {
         // given
         Position beforePosition = new Position(6, 4);
+        마Path pathOf마 = new 마Path();
 
         // when
-        List<Pattern> 마path = 마Path.getPath(beforePosition, afterPosition);
+        List<Pattern> 마path = pathOf마.getPath(beforePosition, afterPosition);
 
         // when & then
         Assertions.assertThat(마path)
@@ -26,15 +27,16 @@ public class 마PathTest {
     }
 
     static Stream<Arguments> provide마Path() {
+        마Path pathOf마 = new 마Path();
         return Stream.of(
-                Arguments.of(new Position(5, 2), 마Path.LEFT_UP.getPatterns()),
-                Arguments.of(new Position(5, 6), 마Path.RIGHT_UP.getPatterns()),
-                Arguments.of(new Position(4, 5), 마Path.UP_RIGHT.getPatterns()),
-                Arguments.of(new Position(4, 3), 마Path.UP_LEFT.getPatterns()),
-                Arguments.of(new Position(7, 2), 마Path.LEFT_DOWN.getPatterns()),
-                Arguments.of(new Position(8, 3), 마Path.DOWN_LEFT.getPatterns()),
-                Arguments.of(new Position(8, 5), 마Path.DOWN_RIGHT.getPatterns()),
-                Arguments.of(new Position(7, 6), 마Path.RIGHT_DOWN.getPatterns())
+                Arguments.of(new Position(5, 2), pathOf마.getPatterns(Direction.LEFT_UP)),
+                Arguments.of(new Position(5, 6), pathOf마.getPatterns(Direction.RIGHT_UP)),
+                Arguments.of(new Position(4, 5), pathOf마.getPatterns(Direction.UP_RIGHT)),
+                Arguments.of(new Position(4, 3), pathOf마.getPatterns(Direction.UP_LEFT)),
+                Arguments.of(new Position(7, 2), pathOf마.getPatterns(Direction.LEFT_DOWN)),
+                Arguments.of(new Position(8, 3), pathOf마.getPatterns(Direction.DOWN_LEFT)),
+                Arguments.of(new Position(8, 5), pathOf마.getPatterns(Direction.DOWN_RIGHT)),
+                Arguments.of(new Position(7, 6), pathOf마.getPatterns(Direction.RIGHT_DOWN))
         );
     }
 
@@ -45,7 +47,7 @@ public class 마PathTest {
         Position afterPosition = new Position(4, 4);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> 마Path.getPath(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> new 마Path().getPath(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

@@ -18,9 +18,10 @@ public class 졸PathTest {
         int beforeRow = 7;
         int beforeColumn = 5;
         Position beforePosition = new Position(beforeRow, beforeColumn);
+        Path pathOf졸 = new 졸Path();
 
         // when
-        List<Pattern> 졸path = 졸Path.getPath(beforePosition, afterPosition);
+        List<Pattern> 졸path = pathOf졸.getPath(beforePosition, afterPosition);
 
         // when & then
         Assertions.assertThat(졸path)
@@ -28,10 +29,11 @@ public class 졸PathTest {
     }
 
     static Stream<Arguments> provide졸Path() {
+        Path pathOf졸 = new 졸Path();
         return Stream.of(
-                Arguments.of(new Position(6, 5), 졸Path.UP.getPatterns()),
-                Arguments.of(new Position(7, 4), 졸Path.LEFT.getPatterns()),
-                Arguments.of(new Position(7, 6), 졸Path.RIGHT.getPatterns())
+                Arguments.of(new Position(6, 5), pathOf졸.getPatterns(Direction.UP)),
+                Arguments.of(new Position(7, 4), pathOf졸.getPatterns(Direction.LEFT)),
+                Arguments.of(new Position(7, 6), pathOf졸.getPatterns(Direction.RIGHT))
         );
     }
 
@@ -47,7 +49,7 @@ public class 졸PathTest {
         Position afterPosition = new Position(afterRow, afterColumn);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> 졸Path.getPath(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> new 졸Path().getPath(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

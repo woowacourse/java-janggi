@@ -18,24 +18,37 @@ public class 포PathTest {
         int beforeRow = 0;
         int beforeColumn = 1;
         Position beforePosition = new Position(beforeRow, beforeColumn);
+        Path pathOf포 = new 포Path();
 
         // when
-        List<Pattern> 포path = 포Path.getPath(beforePosition, afterPosition);
+        List<Pattern> 포path = pathOf포.getPath(beforePosition, afterPosition);
 
         // when & then
         Assertions.assertThat(포path).containsAll(path);
     }
 
     static Stream<Arguments> provide포Path() {
+        Path pathOf포 = new 포Path();
         return Stream.of(
                 Arguments.of(new Position(5, 1),
-                        List.of(포Path.UP.getPattern(), 포Path.UP.getPattern(), 포Path.UP.getPattern(),
-                                포Path.UP.getPattern(), 포Path.UP.getPattern())),
-                Arguments.of(new Position(0, 9),
-                        List.of(포Path.RIGHT.getPattern(), 포Path.RIGHT.getPattern(), 포Path.RIGHT.getPattern(),
-                                포Path.RIGHT.getPattern(), 포Path.RIGHT.getPattern(), 포Path.RIGHT.getPattern(),
-                                포Path.RIGHT.getPattern(), 포Path.RIGHT.getPattern()))
-        );
+                        List.of(pathOf포.getPatterns(Direction.UP).get(0),
+                                pathOf포.getPatterns(Direction.UP).get(0),
+                                pathOf포.getPatterns(Direction.UP).get(0),
+                                pathOf포.getPatterns(Direction.UP).get(0),
+                                pathOf포.getPatterns(Direction.UP).get(0)
+                        ),
+                        Arguments.of(new Position(0, 9),
+                                List.of(pathOf포.getPatterns(Direction.RIGHT).get(0),
+                                        pathOf포.getPatterns(Direction.RIGHT).get(0),
+                                        pathOf포.getPatterns(Direction.RIGHT).get(0),
+                                        pathOf포.getPatterns(Direction.RIGHT).get(0),
+                                        pathOf포.getPatterns(Direction.RIGHT).get(0),
+                                        pathOf포.getPatterns(Direction.RIGHT).get(0),
+                                        pathOf포.getPatterns(Direction.RIGHT).get(0),
+                                        pathOf포.getPatterns(Direction.RIGHT).get(0)
+                                )
+                        )
+                ));
     }
 
     @Test
@@ -50,7 +63,7 @@ public class 포PathTest {
         Position afterPosition = new Position(afterRow, afterColumn);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> 포Path.getPath(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> new 포Path().getPath(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

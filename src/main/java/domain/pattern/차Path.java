@@ -1,39 +1,44 @@
 package domain.pattern;
 
+import static domain.pattern.Direction.DOWN;
+import static domain.pattern.Direction.LEFT;
+import static domain.pattern.Direction.RIGHT;
+import static domain.pattern.Direction.UP;
+
 import domain.Position;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
-public enum 차Path {
-    RIGHT(List.of(Pattern.RIGHT)),
-    DOWN(List.of(Pattern.DOWN)),
-    LEFT(List.of(Pattern.LEFT)),
-    UP(List.of(Pattern.UP));
-
-    private List<Pattern> patterns;
-
-    차Path(List<Pattern> patterns) {
-        this.patterns = patterns;
+public class 차Path extends Path {
+    public 차Path() {
+        super(List.of(RIGHT, DOWN, LEFT, UP), Map.of(
+                RIGHT, List.of(Pattern.RIGHT),
+                DOWN, List.of(Pattern.DOWN),
+                LEFT, List.of(Pattern.LEFT),
+                UP, List.of(Pattern.UP)
+        ));
     }
 
-    public static List<Pattern> getPath(Position beforePosition, Position afterPosition) {
-        차Path newPath = null;
+    @Override
+    public List<Pattern> getPath(Position beforePosition, Position afterPosition) {
+        Direction newPath = null;
         int additionalSize = 0;
         if (afterPosition.x() == beforePosition.x()) {
             if (afterPosition.isBiggerYThan(beforePosition)) {
-                newPath = 차Path.RIGHT;
+                newPath = RIGHT;
                 additionalSize = afterPosition.getYGap(beforePosition);
             } else {
-                newPath = 차Path.LEFT;
+                newPath = LEFT;
                 additionalSize = afterPosition.getYGap(beforePosition);
             }
         }
         if (afterPosition.y() == beforePosition.y()) {
             if (afterPosition.isBiggerXThan(beforePosition)) {
-                newPath = 차Path.DOWN;
+                newPath = DOWN;
                 additionalSize = afterPosition.getXGap(beforePosition);
             } else {
-                newPath = 차Path.UP;
+                newPath = UP;
                 additionalSize = afterPosition.getXGap(beforePosition);
             }
         }
@@ -43,11 +48,7 @@ public enum 차Path {
         return create차Pattern(newPath, additionalSize);
     }
 
-    private static List<Pattern> create차Pattern(차Path newPath, int additionalSize) {
-        return Collections.nCopies(additionalSize, newPath.getPattern());
-    }
-
-    public Pattern getPattern() {
-        return this.patterns.get(0);
+    private List<Pattern> create차Pattern(Direction newPath, int additionalSize) {
+        return Collections.nCopies(additionalSize, paths.get(newPath).get(0));
     }
 }

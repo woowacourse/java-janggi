@@ -1,22 +1,14 @@
 package domain.piece;
 
-import domain.Position;
-import domain.pattern.Pattern;
 import domain.pattern.병Path;
 import domain.pattern.졸Path;
-import java.util.List;
 
 public class 졸병 extends Piece {
 
     public 졸병(Side side) {
-        super(2, side);
-    }
-
-    @Override
-    public List<Pattern> findPath(Position beforePosition, Position afterPosition) {
-        if (side == Side.초) {
-            return 졸Path.getPath(beforePosition, afterPosition);
+        super(2, side, new 졸Path());
+        if (side == Side.한) {
+            path = new 병Path();
         }
-        return 병Path.getPath(beforePosition, afterPosition);
     }
 }
