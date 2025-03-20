@@ -47,7 +47,6 @@ public abstract class Piece {
         return null;
     }
 
-    // TODO: 시그니처가 포, 차에 의존적으로 구성됨
     protected void validateRoute(Board board, Route route, Position target) {
         Position onRoute = position;
         for (int i = 0; i < route.positions.size() - 1; i++) {

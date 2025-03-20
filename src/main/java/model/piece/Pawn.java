@@ -1,5 +1,6 @@
 package model.piece;
 
+import java.util.Arrays;
 import java.util.List;
 
 import model.Position;
@@ -11,43 +12,33 @@ public class Pawn extends Piece {
         super(x, y, team);
         routes.add(new Route(List.of(new Position(-1, 0))));
         routes.add(new Route(List.of(new Position(1, 0))));
-        int initY = 1;
-        if (team == Team.CHO) {
-            initY *= -1;
-        }
-        routes.add(new Route(List.of(new Position(0, initY))));
+        routes.add(PositionSide.getRouteFor(team, new Position(0, 1)));
     }
-/*
 
-    >>>> TODO 1 기물 종류 판단 로직 수정
     @Override
     public PieceType type() {
         return PieceType.PAWN;
     }
-*/
 
-
-    // TODO: direction 적용
-    // private final Position direction;
-
-/*
     private enum PositionSide {
-        LEFT(new Position(-1, 0)),
-        RIGHT(new Position(0, 1)),
-        UP(new Position(0, 1)),
-        DOWN(new Position(0, -1)),
+        UP(Team.CHO, new Position(0, -1)),
+        DOWN(Team.HAN, new Position(0, 1)),
         ;
 
+        private final Team team;
         private final Position side;
 
-        PositionSide(Position side) {
+        PositionSide(Team team, Position side) {
+            this.team = team;
             this.side = side;
         }
-    }
-*/
 
-    @Override
-    public PieceType type() {
-        return PieceType.PAWN;
+        public static Route getRouteFor(Team team, Position position) {
+            PositionSide matched = Arrays.stream(values())
+                .filter(positionSide -> positionSide.team == team)
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("[ERROR] 잘못된 팀 정보입니다."));
+            return new Route(List.of(position.multiply(matched.side)));
+        }
     }
 }

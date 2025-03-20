@@ -12,4 +12,8 @@ public record Position(
     public Position move(Position other) {
         return new Position(x + other.x, y + other.y);
     }
+
+    public Position multiply(Position other) {
+        return new Position(x * other.x, y * other.y);
+    }
 }
