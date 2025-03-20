@@ -7,7 +7,8 @@ public enum Team {
 
     public static int decideRow(final int row, final Team team) {
         if (team.isGreen()) {
-            return 11 - row;
+            int rowFlipBase = 11;
+            return rowFlipBase - row;
         }
         return row;
     }
