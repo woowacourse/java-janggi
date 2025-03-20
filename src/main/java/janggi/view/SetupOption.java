@@ -1,4 +1,4 @@
-package janggi;
+package janggi.view;
 
 import java.util.Arrays;
 

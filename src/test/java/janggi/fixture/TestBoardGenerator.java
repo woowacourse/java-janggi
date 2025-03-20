@@ -1,9 +1,9 @@
 package janggi.fixture;
 
-import janggi.Board;
-import janggi.Column;
-import janggi.Position;
-import janggi.Row;
+import janggi.board.Board;
+import janggi.position.Column;
+import janggi.position.Position;
+import janggi.position.Row;
 import janggi.piece.Cannon;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;

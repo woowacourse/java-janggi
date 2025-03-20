@@ -1,4 +1,4 @@
-package janggi;
+package janggi.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -7,6 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import janggi.fixture.TestBoardGenerator;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
+import janggi.position.Column;
+import janggi.position.Position;
+import janggi.position.Row;
+import janggi.view.SetupOption;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

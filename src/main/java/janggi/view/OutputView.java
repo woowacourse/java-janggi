@@ -1,8 +1,8 @@
 package janggi.view;
 
-import janggi.Column;
-import janggi.Position;
-import janggi.Row;
+import janggi.position.Column;
+import janggi.position.Position;
+import janggi.position.Row;
 import janggi.piece.Piece;
 import java.util.Map;
 

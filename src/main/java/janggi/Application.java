@@ -1,7 +1,13 @@
 package janggi;
 
+import janggi.board.Board;
+import janggi.board.BoardGenerator;
+import janggi.position.Column;
+import janggi.position.Position;
+import janggi.position.Row;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import janggi.view.SetupOption;
 import java.util.List;
 
 public class Application {

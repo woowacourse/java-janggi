@@ -1,4 +1,6 @@
-package janggi;
+package janggi.position;
+
+import janggi.rule.MoveVector;
 
 public record Position(Row row, Column column) {
     public int getRowValue() {

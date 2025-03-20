@@ -1,4 +1,4 @@
-package janggi;
+package janggi.rule;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,10 +1,10 @@
 package janggi.piece;
 
-import janggi.Board;
-import janggi.MoveVector;
-import janggi.MovingRule;
-import janggi.MovingRulesGenerator;
-import janggi.Position;
+import janggi.board.Board;
+import janggi.rule.MoveVector;
+import janggi.rule.MovingRule;
+import janggi.rule.MovingRulesGenerator;
+import janggi.position.Position;
 import java.util.List;
 
 public final class Horse extends Piece {

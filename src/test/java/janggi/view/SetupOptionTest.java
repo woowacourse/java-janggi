@@ -1,9 +1,9 @@
-package janggi;
+package janggi.view;
 
-import static janggi.SetupOption.INNER_SETUP;
-import static janggi.SetupOption.LEFT_SETUP;
-import static janggi.SetupOption.OUTER_SETUP;
-import static janggi.SetupOption.RIGHT_SETUP;
+import static janggi.view.SetupOption.INNER_SETUP;
+import static janggi.view.SetupOption.LEFT_SETUP;
+import static janggi.view.SetupOption.OUTER_SETUP;
+import static janggi.view.SetupOption.RIGHT_SETUP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

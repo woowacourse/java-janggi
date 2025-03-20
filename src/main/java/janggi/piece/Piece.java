@@ -1,9 +1,9 @@
 package janggi.piece;
 
-import janggi.Board;
-import janggi.MoveVector;
-import janggi.MovingRule;
-import janggi.Position;
+import janggi.board.Board;
+import janggi.rule.MoveVector;
+import janggi.rule.MovingRule;
+import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -2,12 +2,12 @@ package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.Board;
-import janggi.BoardGenerator;
-import janggi.Column;
-import janggi.Position;
-import janggi.Row;
-import janggi.SetupOption;
+import janggi.board.Board;
+import janggi.board.BoardGenerator;
+import janggi.position.Column;
+import janggi.position.Position;
+import janggi.position.Row;
+import janggi.view.SetupOption;
 import janggi.fixture.TestBoardGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

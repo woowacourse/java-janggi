@@ -1,9 +1,9 @@
 package janggi.piece;
 
-import janggi.Board;
-import janggi.MovingRule;
-import janggi.MovingRulesGenerator;
-import janggi.Position;
+import janggi.board.Board;
+import janggi.rule.MovingRule;
+import janggi.rule.MovingRulesGenerator;
+import janggi.position.Position;
 import java.util.List;
 
 public final class Guard extends Piece {

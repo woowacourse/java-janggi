@@ -1,4 +1,4 @@
-package janggi;
+package janggi.rule;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

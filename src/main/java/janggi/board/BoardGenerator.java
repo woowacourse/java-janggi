@@ -1,5 +1,9 @@
-package janggi;
+package janggi.board;
 
+import janggi.position.Column;
+import janggi.position.Position;
+import janggi.position.Row;
+import janggi.view.SetupOption;
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
 import janggi.piece.Elephant;
