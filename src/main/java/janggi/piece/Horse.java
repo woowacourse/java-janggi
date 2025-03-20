@@ -61,7 +61,7 @@ public class Horse extends Piece {
 
     private void validateMove(int differenceForY, int differenceForX) {
         if (canNotMove(differenceForY, differenceForX)) {
-            throw new IllegalArgumentException("[ERROR] 말은 직선 + 대각선으로만 이동할 수 있습니다.");
+            throw new IllegalArgumentException("[ERROR] 말은 직선 1칸 이동 후 대각선 1칸으로만 이동할 수 있습니다.");
         }
     }
 

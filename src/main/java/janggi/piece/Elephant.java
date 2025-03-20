@@ -33,8 +33,8 @@ public class Elephant extends Piece {
         return new Path(positions);
     }
 
-    private int moveY(Position arrivalPosition, int differenceForY, int differenceForX,
-                      int currentY, List<Position> positions, int currentX) {
+    private int moveY(final Position arrivalPosition, final int differenceForY, final int differenceForX,
+                      int currentY, final List<Position> positions, int currentX) {
         if (isNotStartDirection(differenceForY)) {
             return currentY;
         }
@@ -51,8 +51,8 @@ public class Elephant extends Piece {
         return currentY;
     }
 
-    private int moveX(Position arrivalPosition, int differenceForY, int differenceForX,
-                      int currentY, List<Position> positions, int currentX) {
+    private int moveX(final Position arrivalPosition, final int differenceForY, final int differenceForX,
+                      int currentY, final List<Position> positions, int currentX) {
         if (isNotStartDirection(differenceForX)) {
             return currentX;
         }
@@ -69,13 +69,13 @@ public class Elephant extends Piece {
         return currentX;
     }
 
-    private void validateMove(int differenceForY, int differenceForX) {
+    private void validateMove(final int differenceForY, final int differenceForX) {
         if (canNotMove(differenceForY, differenceForX)) {
-            throw new IllegalArgumentException("[ERROR] 말은 직선 + 대각선으로만 이동할 수 있습니다.");
+            throw new IllegalArgumentException("[ERROR] 상은 직선 1칸 이동 후 대각선 2칸으로만 이동할 수 있습니다.");
         }
     }
 
-    private int calculateUnit(int difference) {
+    private int calculateUnit(final int difference) {
         if (difference == 0) {
             return difference;
         }

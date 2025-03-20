@@ -49,7 +49,7 @@ public class Chariot extends Piece {
 
     private void validateMove(int differenceForY, int differenceForX) {
         if (canNotMove(differenceForY, differenceForX)) {
-            throw new IllegalArgumentException("[ERROR] 한 방향으로만 이동할 수 있습니다.");
+            throw new IllegalArgumentException("[ERROR] 차는 한 방향으로만 이동할 수 있습니다.");
         }
     }
 

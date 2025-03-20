@@ -49,7 +49,7 @@ public class Guard extends Piece {
 
     private void validateMove(int differenceForY, int differenceForX) {
         if (Math.abs(differenceForY) + Math.abs(differenceForX) != 1) {
-            throw new IllegalArgumentException("[ERROR] 한 방향으로 한 칸만 이동할 수 있습니다.");
+            throw new IllegalArgumentException("[ERROR] 사는 한 방향으로 한 칸만 이동할 수 있습니다.");
         }
     }
 
