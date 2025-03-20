@@ -49,4 +49,3 @@ class GeneralTest {
                 .hasMessageContaining("이동할 수 없는 지점입니다.");
     }
 }
-
