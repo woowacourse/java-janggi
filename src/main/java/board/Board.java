@@ -34,15 +34,27 @@ public class Board {
     }
 
     public void updatePosition(final Position source, final Position destination, final TeamType teamType) {
+        validatePositionAndTeam(source, teamType);
+        validatePieceCanMove(source, destination, teamType);
+
+        movePieceToDestination(source, destination);
+    }
+
+    private void validatePositionAndTeam(final Position source, final TeamType teamType) {
         if (!map.containsKey(source) || !map.get(source).equalsTeamType(teamType)) {
             throw new IllegalArgumentException("scr 좌표에 기물이 존재하지 않거나, 해당 팀의 기물이 아닙니다.");
         }
+    }
+
+    private void validatePieceCanMove(final Position source, final Position destination, final TeamType teamType) {
         final Piece piece = map.get(source);
 
         if (!piece.isAbleToMove(source, destination, this, teamType)) {
             throw new IllegalArgumentException("해당 기물은 해당 위치로 이동할 수 없습니다.");
         }
+    }
 
+    private void movePieceToDestination(final Position source, final Position destination) {
         map.put(destination, map.get(source));
         map.remove(source);
     }
