@@ -25,7 +25,7 @@ public class OutputView {
 
     public void printBoard(Board currentBoard) {
         Map<Position, Piece> board = currentBoard.getBoard();
-
+        System.out.println();
         for (int row = Board.ROW_SIZE - 1; row > -1 ; row--) {
             System.out.print(row + " ");
             for (int column = 0; column < Board.COLUMN_SIZE; column++) {
@@ -33,6 +33,7 @@ public class OutputView {
             }
             System.out.println();
         }
+        System.out.println("  0");
     }
 
     private void printRowPieces(int column, int row, Map<Position, Piece> board) {
@@ -51,5 +52,9 @@ public class OutputView {
             return;
         }
         System.out.print(RED_COLOR_PREFIX + piece + " " + RED_COLOR_SUFFIX);
+    }
+
+    public void printErrorMessage(IllegalArgumentException e) {
+        System.out.println(e.getMessage());
     }
 }
