@@ -1,6 +1,8 @@
 package domain;
 
 import domain.board.JanggiBoard;
+
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import domain.piece.Country;
@@ -19,17 +21,33 @@ public class JanggiGame {
         currentTurn = Country.HAN;
 
         while(true){
-            outputView.printJanggiBoard(board);
-            JanggiCoordinate originCoordinate = retryUntilValid(() -> inputView.readMovePiece(currentTurn.name()));
-            JanggiCoordinate destinationCoordinate = retryUntilValid(inputView::readMoveDestination);
-
-            board.movePiece(originCoordinate, destinationCoordinate);
+            retry(board, this::moveCommand);
             convertCountry();
         }
     }
 
-    void convertCountry(){
+    private void moveCommand(JanggiBoard board){
+        outputView.printJanggiBoard(board);
+        JanggiCoordinate originCoordinate = retryUntilValid(() -> inputView.readMovePiece(currentTurn.getCountryName()));
+        board.validateOriginCoordinate(originCoordinate, currentTurn);
+        JanggiCoordinate destinationCoordinate = retryUntilValid(inputView::readMoveDestination);
+        board.movePiece(originCoordinate, destinationCoordinate);
+    }
+
+    private void convertCountry(){
         currentTurn = Country.convertTurn(currentTurn);
+    }
+
+    private <T> void retry(T value ,Consumer<T> consumer ) {
+
+        while (true) {
+            try {
+                consumer.accept(value);
+                return;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     private <T> T retryUntilValid(Supplier<T> supplier) {

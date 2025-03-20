@@ -75,5 +75,13 @@ public final class JanggiBoard {
     public Country findCountryByCoordinate(JanggiCoordinate currCoordinate) {
         return board.get(currCoordinate).getCountry();
     }
-    
+
+    public void validateOriginCoordinate(JanggiCoordinate originCoordinate, Country currentTurn) {
+        if(!hasPiece(originCoordinate)){
+            throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다.");
+        }
+        if(findCountryByCoordinate(originCoordinate) != currentTurn){
+            throw new IllegalArgumentException("[ERROR] 자신의 기물만 움직일 수 있습니다.");
+        }
+    }
 }
