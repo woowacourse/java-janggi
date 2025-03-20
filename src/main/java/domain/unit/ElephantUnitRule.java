@@ -1,5 +1,7 @@
 package domain.unit;
 
+import domain.Direction;
+import domain.Point;
 import domain.Position;
 import domain.Route;
 import domain.UnitType;
@@ -10,44 +12,23 @@ public class ElephantUnitRule implements UnitRule {
     @Override
     public List<Route> calculateAllRoute(Position start) {
         List<Route> routes = new ArrayList<>();
-
-        List<Integer> dx = List.of(0, 1, 0, -1);
-        List<Integer> dy = List.of(1, 0, -1, 0);
-
-        int x = start.getX();
-        int y = start.getY();
-        for (int i = 0; i < dx.size(); i++) {
-            try {
-                Position pivot = new Position(x + dx.get(i), y + dy.get(i));
-                if (i == 0) {
-                    routes.add(Route.of(List.of(pivot, new Position(pivot.getX() + 1, pivot.getY() + 1),
-                            new Position(pivot.getX() + 2, pivot.getY() + 2))));
-                    routes.add(Route.of(List.of(pivot, new Position(pivot.getX() - 1, pivot.getY() + 1),
-                            new Position(pivot.getX() - 2, pivot.getY() + 2))));
-                }
-                if (i == 1) {
-                    routes.add(Route.of(List.of(pivot, new Position(pivot.getX() + 1, pivot.getY() + 1),
-                            new Position(pivot.getX() + 2, pivot.getY() + 2))));
-                    routes.add(Route.of(List.of(pivot, new Position(pivot.getX() + 1, pivot.getY() - 1),
-                            new Position(pivot.getX() + 2, pivot.getY() - 2))));
-                }
-                if (i == 2) {
-                    routes.add(Route.of(List.of(pivot, new Position(pivot.getX() + 1, pivot.getY() - 1),
-                            new Position(pivot.getX() + 2, pivot.getY() - 2))));
-                    routes.add(Route.of(List.of(pivot, new Position(pivot.getX() - 1, pivot.getY() - 1),
-                            new Position(pivot.getX() - 2, pivot.getY() - 2))));
-                }
-                if (i == 3) {
-                    routes.add(Route.of(List.of(pivot, new Position(pivot.getX() - 1, pivot.getY() + 1),
-                            new Position(pivot.getX() - 2, pivot.getY() + 2))));
-                    routes.add(Route.of(List.of(pivot, new Position(pivot.getX() - 1, pivot.getY() - 1),
-                            new Position(pivot.getX() - 2, pivot.getY() - 2))));
-                }
-            } catch (IllegalArgumentException exception) {
-                continue;
-            }
-        }
+        dfs(0, Direction.NONE, new ArrayList<>(), Point.of(start.getX(), start.getY()), routes);
         return routes;
+    }
+
+    public void dfs(int depth, Direction before, List<Point> route, Point prevPoint, List<Route> routes) {
+        if (depth == 3) {
+            if (route.stream().allMatch(Position::isCanBePosition)) {
+                routes.add(Route.of(route.stream().map(Position::from).toList()));
+            }
+            return;
+        }
+        for (Direction direction : before.getNext()) {
+            Point next = Point.of(prevPoint.getX() + direction.getX(), prevPoint.getY() + direction.getY());
+            route.add(next);
+            dfs(depth + 1, direction, route, next, routes);
+            route.remove(next);
+        }
     }
 
     @Override
