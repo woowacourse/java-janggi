@@ -20,6 +20,14 @@ public class Position {
         return x < 0 || y < 0 || x > xLimit - 1 || y > yLimit - 1;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) return false;
