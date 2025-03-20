@@ -34,9 +34,8 @@ public class JanggiRunner {
         Players players = Players.createFrom(usernames,startPlayerName);
 
         String firstPlayerOption = inputView.getSetupNumber(players.getChoPlayerName());
-        String secondPlayerOption = inputView.getSetupNumber(players.getHanPlayerName());
-
         HorseElephantSetupStrategy firstPlayerStrategy = SetupOption.findSetupStrategy(firstPlayerOption);
+        String secondPlayerOption = inputView.getSetupNumber(players.getHanPlayerName());
         HorseElephantSetupStrategy secondPlayerStrategy = SetupOption.findSetupStrategy(secondPlayerOption);
 
         PieceFactory factory = new PieceFactory();

@@ -10,17 +10,17 @@ public class InputView {
 
     public String getFirstPlayerName() {
         System.out.println("첫번째 플레이어의 이름을 입력해주세요.");
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
     public String getSecondPlayerName() {
         System.out.println("두번째 플레이어의 이름을 입력해주세요.");
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
     public String getStartPlayerName() {
         System.out.println("먼저 시작할 플레이어의 이름을 입력해주세요.");
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
     public String getSetupNumber(String playerName) {
@@ -35,12 +35,12 @@ public class InputView {
 
     public Position getStartPosition(Player player){
         System.out.printf("%s가 옮기고 싶은 장기의 좌표를 입력해주세요. 예시 -> a4\n", player.getName());
-        return PositionConvertor.changeInputToPosition(scanner.nextLine());
+        return PositionConvertor.changeInputToPosition(scanner.nextLine().trim());
     }
 
     public Position getEndPosition(Player player){
         System.out.printf("%s가 옮길 위치의 좌표를 입력해주세요. 예시 -> a5\n", player.getName());
-        return PositionConvertor.changeInputToPosition(scanner.nextLine());
+        return PositionConvertor.changeInputToPosition(scanner.nextLine().trim());
     }
 
 }
