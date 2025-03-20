@@ -26,4 +26,9 @@ public abstract class JanggiChessPiece implements ChessPiece {
     public ChessPosition getPosition() {
         return position;
     }
+
+    @Override
+    public ChessTeam getTeam() {
+        return team;
+    }
 }
