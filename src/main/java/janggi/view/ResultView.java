@@ -12,7 +12,7 @@ public class ResultView {
     private static final String HEADER = "   1    2    3    4    5    6    7    8   9%n";
     private static final String BOARD_LINE = "   |    |    |    |    |    |    |    |   |%n";
 
-    public void printBoard(Map<Position, Piece> pieces) {
+    public void printBoard(final Map<Position, Piece> pieces) {
         System.out.printf(HEADER);
         for (int y = 1; y <= 10; y++) {
             // TODO: 리스트로 스트링 넣고 팀에 따라 색깔 조합 + 한자 받아오기
@@ -36,7 +36,11 @@ public class ResultView {
         }
     }
 
-    public void printJanggiResult(Team team) {
+    public void printOrder(final Team team) {
+        System.out.printf(LINE + "%s나라의 순서입니다." + LINE, team.getTitle());
+    }
+
+    public void printJanggiResult(final Team team) {
         System.out.printf(LINE + """
                 왕이 잡혔습니다.
                 %s나라의 승리입니다!""", team.getTitle());
