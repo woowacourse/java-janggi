@@ -7,13 +7,17 @@ public class Cha extends ChessPiece {
     }
 
     @Override
-    public void move(BoardPosition boardPosition) {
-        if (super.getBoardPosition().getRow() == boardPosition.getRow()
-                || super.getBoardPosition().getCol() == boardPosition.getCol()) {
-            this.boardPosition = boardPosition;
-            return;
+    public boolean isMove(BoardPosition boardPosition) {
+        if ((super.getBoardPosition().getRow() == boardPosition.getRow())
+                || (super.getBoardPosition().getCol() == boardPosition.getCol())) {
+            return true;
         }
-        throw new IllegalArgumentException("[ERROR] 차가 움직일 수 없는 위치입니다.");
+
+        throw new IllegalArgumentException("[ERROR] 차가 움직일 수 없는 위치 입니다.");
+    }
+
+    public void updateChessPiecePositionBy(BoardPosition boardPosition) {
+        this.boardPosition = boardPosition;
     }
 
 }

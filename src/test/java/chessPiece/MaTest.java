@@ -1,7 +1,6 @@
 package chessPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.stream.Stream;
@@ -26,33 +25,35 @@ class MaTest {
         assertThat(ma.getBoardPosition()).isEqualTo(new BoardPosition(4, 5));
     }
 
-    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
+    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
-    @MethodSource("maNonMovePositionProvider")
-    void nonMove(BoardPosition boardPosition) {
-        //given
-        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new BoardPosition(5, 5));
-
-        //when then
-        assertThatThrownBy(() -> ma.move(boardPosition))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageStartingWith("[ERROR]");
-    }
-
-    @DisplayName("자신의 위치를 기준으로 직선으로 한칸 + 대각선으로 한칸 이동할 수 있다.")
-    @ParameterizedTest
-    @MethodSource("maMovePositionProvider")
-    void move(BoardPosition boardPosition) {
+    @MethodSource("maNonIsMovePositionProvider")
+    void nonIsMove(BoardPosition boardPosition) {
         //given
         Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new BoardPosition(5, 5));
 
         //when //then
-        assertThatCode(() -> ma.move(boardPosition))
-                .doesNotThrowAnyException();
+        assertThatThrownBy(() -> ma.isMove(boardPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageStartingWith("[ERROR]");
+    }
+
+    @DisplayName("자신의 위치를 기준으로 직선으로 한칸 + 대각선으로 한칸 이동할 수 있다면 true를 반환한다.")
+    @ParameterizedTest
+    @MethodSource("maIsMovePositionProvider")
+    void isMove(BoardPosition boardPosition) {
+        //given
+        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new BoardPosition(5, 5));
+
+        //when
+        boolean actual = ma.isMove(boardPosition);
+
+        //then
+        assertThat(actual).isTrue();
 
     }
 
-    private static Stream<Arguments> maNonMovePositionProvider() {
+    private static Stream<Arguments> maNonIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new BoardPosition(3, 5)),
                 Arguments.of(new BoardPosition(3, 3)),
@@ -66,7 +67,7 @@ class MaTest {
         );
     }
 
-    private static Stream<Arguments> maMovePositionProvider() {
+    private static Stream<Arguments> maIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new BoardPosition(3, 4)),
                 Arguments.of(new BoardPosition(3, 6)),

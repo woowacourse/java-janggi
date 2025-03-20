@@ -1,7 +1,6 @@
 package chessPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.stream.Stream;
@@ -28,60 +27,46 @@ class SangTest {
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
     @ParameterizedTest
-    @MethodSource("sangNonMovePositionProvider")
-    void nonMove(BoardPosition boardPosition) {
+    @MethodSource("sangNonIsMovePositionProvider")
+    void nonIsMove(BoardPosition boardPosition) {
         //given
         Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> sang.move(boardPosition))
+        assertThatThrownBy(() -> sang.isMove(boardPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("상은 자신의 위치를 기준으로 직선으로 한칸 대각선으로 두칸 이동할 수 있다.")
     @ParameterizedTest
-    @MethodSource("sangMovePositionProvider")
-    void move(BoardPosition boardPosition) {
+    @MethodSource("sangIsMovePositionProvider")
+    void isMove(BoardPosition boardPosition) {
         //given
         Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(5, 5));
 
-        //when //then
-        assertThatCode(() -> sang.move(boardPosition))
-                .doesNotThrowAnyException();
+        //when
+        boolean actual = sang.isMove(boardPosition);
+
+        //then
+        assertThat(actual).isTrue();
     }
 
 
-    private static Stream<Arguments> sangMovePositionProvider() {
+    private static Stream<Arguments> sangIsMovePositionProvider() {
         return Stream.of(
-                Arguments.of(new BoardPosition(2, 3),
-                        new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(2, 3
-                        ))),
-                Arguments.of(new BoardPosition(2, 7),
-                        new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(2, 7
-                        ))),
-                Arguments.of(new BoardPosition(7, 8),
-                        new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(7, 8
-                        ))),
-                Arguments.of(new BoardPosition(3, 8),
-                        new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(3, 8
-                        ))),
-                Arguments.of(new BoardPosition(8, 3),
-                        new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(8, 3
-                        ))),
-                Arguments.of(new BoardPosition(8, 7),
-                        new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(8, 7
-                        ))),
-                Arguments.of(new BoardPosition(3, 2),
-                        new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(3, 2
-                        ))),
-                Arguments.of(new BoardPosition(7, 2),
-                        new Sang(new PieceProfile("상", Nation.HAN), new BoardPosition(7, 2
-                        )))
+                Arguments.of(new BoardPosition(2, 3)),
+                Arguments.of(new BoardPosition(2, 7)),
+                Arguments.of(new BoardPosition(7, 8)),
+                Arguments.of(new BoardPosition(3, 8)),
+                Arguments.of(new BoardPosition(8, 3)),
+                Arguments.of(new BoardPosition(8, 7)),
+                Arguments.of(new BoardPosition(3, 2)),
+                Arguments.of(new BoardPosition(7, 2))
         );
     }
 
-    private static Stream<Arguments> sangNonMovePositionProvider() {
+    private static Stream<Arguments> sangNonIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new BoardPosition(2, 5)),
                 Arguments.of(new BoardPosition(2, 4)),

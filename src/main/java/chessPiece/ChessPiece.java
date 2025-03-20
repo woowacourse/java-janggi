@@ -16,7 +16,9 @@ public abstract class ChessPiece {
         return boardPosition;
     }
 
-    public abstract void move(BoardPosition boardPosition);
+    public abstract boolean isMove(BoardPosition boardPosition);
+
+    public abstract void updateChessPiecePositionBy(BoardPosition boardPosition);
 
     @Override
     public boolean equals(final Object o) {
@@ -37,4 +39,7 @@ public abstract class ChessPiece {
         return pieceProfile.getName();
     }
 
+    public PieceProfile getPieceProfile() {
+        return pieceProfile;
+    }
 }

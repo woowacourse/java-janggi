@@ -1,7 +1,6 @@
 package chessPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.stream.Stream;
@@ -28,29 +27,32 @@ class ByeongTest {
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
     @ParameterizedTest
-    @MethodSource("byeongNonMovePositionProvider")
-    void nonMove(BoardPosition boardPosition) {
+    @MethodSource("byeongNonIsMovePositionProvider")
+    void nonIsMove(BoardPosition boardPosition) {
         //given
         Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new BoardPosition(5, 5));
-        //when then
-        assertThatThrownBy(() -> byeong.move(boardPosition))
+
+        //when
+        assertThatThrownBy(() -> byeong.isMove(boardPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("자신의 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동이 가능하다.")
+    @DisplayName("자신의 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동을 할 수 있다면 true를 반환한다.")
     @ParameterizedTest
-    @MethodSource("byeongMovePositionProvider")
-    void move(BoardPosition boardPosition) {
+    @MethodSource("byeongIsMovePositionProvider")
+    void isMove(BoardPosition boardPosition) {
         //given
         Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new BoardPosition(5, 5));
 
-        //when //then
-        assertThatCode(() -> byeong.move(boardPosition))
-                .doesNotThrowAnyException();
+        //when
+        boolean actual = byeong.isMove(boardPosition);
+
+        //then
+        assertThat(actual).isTrue();
     }
 
-    private static Stream<Arguments> byeongNonMovePositionProvider() {
+    private static Stream<Arguments> byeongNonIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new BoardPosition(4, 5)),
                 Arguments.of(new BoardPosition(6, 3)),
@@ -58,7 +60,7 @@ class ByeongTest {
         );
     }
 
-    private static Stream<Arguments> byeongMovePositionProvider() {
+    private static Stream<Arguments> byeongIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new BoardPosition(6, 5)),
                 Arguments.of(new BoardPosition(5, 6)),

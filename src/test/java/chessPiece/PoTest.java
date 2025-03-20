@@ -1,7 +1,6 @@
 package chessPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.stream.Stream;
@@ -26,37 +25,36 @@ class PoTest {
         assertThat(po.getBoardPosition()).isEqualTo(new BoardPosition(4, 5));
     }
 
-    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
+    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @Test
-    void nonMove() {
+    void nonIsMove() {
         //given
-        BoardPosition boardPosition = new BoardPosition(0, 0);
-        Po po = new Po(new PieceProfile("포", Nation.HAN), boardPosition);
+        Po po = new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(0, 0));
 
-        //when //than
-        assertThatThrownBy(() -> po.move(new BoardPosition(1, 1)))
+        //when //then
+        assertThatThrownBy(() -> po.isMove(new BoardPosition(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("포는 움직임을 자신의 위치를 기준으로 가로, 세로 방향으로 무제한 이동한다.")
+    @DisplayName("포는 움직임을 자신의 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 true를 반환한다.")
     @ParameterizedTest
-    @MethodSource("poMovePositionProvider")
-    void move(BoardPosition boardPosition) {
+    @MethodSource("poIsMovePositionProvider")
+    void isMove(BoardPosition boardPosition) {
         //given
         Po po = new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(0, 0));
 
-        //when - then
-        assertThatCode(() -> po.move(boardPosition))
-                .doesNotThrowAnyException();
+        //when
+        boolean actual = po.isMove(boardPosition);
+
+        //then
+        assertThat(actual).isTrue();
     }
 
-    private static Stream<Arguments> poMovePositionProvider() {
+    private static Stream<Arguments> poIsMovePositionProvider() {
         return Stream.of(
-                Arguments.of(new BoardPosition(0, 1),
-                        new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(0, 1))),
-                Arguments.of(new BoardPosition(1, 0),
-                        new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(1, 0)))
+                Arguments.of(new BoardPosition(0, 1)),
+                Arguments.of(new BoardPosition(1, 0))
         );
     }
 

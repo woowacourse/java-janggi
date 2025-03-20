@@ -1,7 +1,6 @@
 package chessPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.stream.Stream;
@@ -26,32 +25,34 @@ class JanggunTest {
         assertThat(janggun.getBoardPosition()).isEqualTo(new BoardPosition(4, 5));
     }
 
-    @DisplayName("왕이 움직일 수 없는 위치이면 예외를 던진다.")
+    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
-    @MethodSource("JanggunNonMovePositionProvider")
-    void moveValidate(BoardPosition boardPosition) {
+    @MethodSource("JanggunNonIsMovePositionProvider")
+    void isMoveValidate(BoardPosition boardPosition) {
         //given
         Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new BoardPosition(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> janggun.move(boardPosition))
+        assertThatThrownBy(() -> janggun.isMove(boardPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("왕은 상하좌우 한칸을 움직일 수 있다.")
+    @DisplayName("왕은 상하좌우 한칸을 움직일 수 있다면 true를 반환한다.")
     @ParameterizedTest
-    @MethodSource("janggunMovePositionProvider")
-    void move(BoardPosition boardPosition) {
+    @MethodSource("janggunIsMovePositionProvider")
+    void isMove(BoardPosition boardPosition) {
         //given
         Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new BoardPosition(5, 5));
 
-        //when //then
-        assertThatCode(() -> janggun.move(boardPosition))
-                .doesNotThrowAnyException();
+        //when
+        boolean actual = janggun.isMove(boardPosition);
+
+        //then
+        assertThat(actual).isTrue();
     }
 
-    private static Stream<Arguments> JanggunNonMovePositionProvider() {
+    private static Stream<Arguments> JanggunNonIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new BoardPosition(7, 5)),
                 Arguments.of(new BoardPosition(3, 5)),
@@ -64,7 +65,7 @@ class JanggunTest {
         );
     }
 
-    private static Stream<Arguments> janggunMovePositionProvider() {
+    private static Stream<Arguments> janggunIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new BoardPosition(6, 5)),
                 Arguments.of(new BoardPosition(5, 6)),
