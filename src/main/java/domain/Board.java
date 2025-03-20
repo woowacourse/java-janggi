@@ -3,7 +3,6 @@ package domain;
 import domain.piece.Piece;
 import domain.piece.Pieces;
 import domain.piece.Position;
-
 import java.util.List;
 import java.util.Map;
 
@@ -68,5 +67,12 @@ public class Board {
                 .count();
 
         return kingCount != 2;
+    }
+
+    public Player getWinner() {
+        return board.keySet().stream()
+                .filter(player -> board.get(player).existKing())
+                .findAny()
+                .orElseThrow(RuntimeException::new);
     }
 }
