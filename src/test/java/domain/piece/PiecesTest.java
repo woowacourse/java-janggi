@@ -1,12 +1,17 @@
 package domain.piece;
 
-import domain.direction.Directions;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
+import domain.direction.Directions;
+import domain.direction.PieceDirection;
+import domain.piece.category.Cannon;
+import domain.piece.category.Horse;
+import domain.piece.category.King;
+import domain.piece.category.Pawn;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 class PiecesTest {
 

@@ -3,6 +3,13 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import domain.piece.category.Advisor;
+import domain.piece.category.Cannon;
+import domain.piece.category.Elephant;
+import domain.piece.category.Horse;
+import domain.piece.category.King;
+import domain.piece.category.Pawn;
+import domain.piece.category.Rook;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 

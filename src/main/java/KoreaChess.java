@@ -1,7 +1,7 @@
 import domain.Board;
-import domain.PieceColor;
 import domain.Player;
 import domain.piece.Piece;
+import domain.piece.PieceColor;
 import domain.piece.PieceInit;
 import domain.piece.Pieces;
 import domain.piece.Position;

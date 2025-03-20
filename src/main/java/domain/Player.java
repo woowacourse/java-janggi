@@ -1,5 +1,7 @@
 package domain;
 
+import domain.piece.PieceColor;
+
 public class Player {
 
     private final String name;

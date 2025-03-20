@@ -1,6 +1,8 @@
-package domain.piece;
+package domain.piece.category;
 
 import domain.direction.Directions;
+import domain.piece.Piece;
+import domain.piece.Position;
 
 public class Rook extends Piece {
 

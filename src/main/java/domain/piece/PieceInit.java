@@ -1,13 +1,21 @@
 package domain.piece;
 
-import static domain.piece.PieceDirection.ADVISOR;
-import static domain.piece.PieceDirection.CANNON;
-import static domain.piece.PieceDirection.CHO_PAWN;
-import static domain.piece.PieceDirection.ELEPHANT;
-import static domain.piece.PieceDirection.HAN_PAWN;
-import static domain.piece.PieceDirection.HORSE;
-import static domain.piece.PieceDirection.ROOK;
+import static domain.direction.PieceDirection.ADVISOR;
+import static domain.direction.PieceDirection.CANNON;
+import static domain.direction.PieceDirection.CHO_PAWN;
+import static domain.direction.PieceDirection.ELEPHANT;
+import static domain.direction.PieceDirection.HAN_PAWN;
+import static domain.direction.PieceDirection.HORSE;
+import static domain.direction.PieceDirection.ROOK;
 
+import domain.direction.PieceDirection;
+import domain.piece.category.Advisor;
+import domain.piece.category.Cannon;
+import domain.piece.category.Elephant;
+import domain.piece.category.Horse;
+import domain.piece.category.King;
+import domain.piece.category.Pawn;
+import domain.piece.category.Rook;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

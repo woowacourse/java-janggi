@@ -4,12 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import domain.piece.Pawn;
+import domain.direction.PieceDirection;
 import domain.piece.Piece;
-import domain.piece.PieceDirection;
+import domain.piece.PieceColor;
 import domain.piece.PieceInit;
 import domain.piece.Pieces;
 import domain.piece.Position;
+import domain.piece.category.Pawn;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
