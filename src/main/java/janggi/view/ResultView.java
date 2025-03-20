@@ -1,13 +1,16 @@
 package janggi.view;
 
 import janggi.piece.Piece;
+import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.Map;
 
 public class ResultView {
-    private static final String HEADER = "   1    2    3    4    5    6    7    8   9%n";
+
+    private static final String LINE = System.lineSeparator();
     private static final String BLANK = "ㅤ";
-    private static final String LINE = "   |    |    |    |    |    |    |    |   |%n";
+    private static final String HEADER = "   1    2    3    4    5    6    7    8   9%n";
+    private static final String BOARD_LINE = "   |    |    |    |    |    |    |    |   |%n";
 
     public void printBoard(Map<Position, Piece> pieces) {
         System.out.printf(HEADER);
@@ -28,8 +31,14 @@ public class ResultView {
             }
             System.out.println(sb);
             if (y != 10) {
-                System.out.printf(LINE);
+                System.out.printf(BOARD_LINE);
             }
         }
+    }
+
+    public void printJanggiResult(Team team) {
+        System.out.printf(LINE + """
+                왕이 잡혔습니다.
+                %s나라의 승리입니다!""", team.getTitle());
     }
 }
