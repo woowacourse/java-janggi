@@ -3,11 +3,13 @@ package janggi.domain;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Position;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Pieces {
+
+    private static final int REQUIRED_JUMP_PIECES_FOR_CANNON = 1;
 
     private final List<Piece> pieces;
 
@@ -16,71 +18,52 @@ public class Pieces {
     }
 
     public Set<Route> getPossibleRoutes(Piece piece) {
-        Set<Route> routes = piece.calculateRoutes();
-        Set<Route> realRoutes = new HashSet<>();
+        return piece.calculateRoutes().stream()
+                .filter(route -> isValidNormalRoute(route, piece))
+                .collect(Collectors.toSet());
+    }
 
-        for (Route route : routes) {
-            boolean check = true;
-            for (Piece currentPiece : pieces) {
-                if (route.hasPosition(currentPiece)) {
-                    if (route.isDestination(currentPiece) && piece.isEnemy(currentPiece)) {
-                        continue;
-                    }
-                    check = false;
-                }
-            }
-            if (check) {
-                realRoutes.add(route);
-            }
-        }
-        return realRoutes;
+    private boolean isValidNormalRoute(Route route, Piece piece) {
+        return pieces.stream()
+                .filter(route::hasPosition)
+                .allMatch(currentPiece -> route.isDestination(currentPiece) && piece.isEnemy(currentPiece));
     }
 
     public Set<Route> getPossibleRoutesForCannon(Piece piece) {
-        Set<Route> routes = piece.calculateRoutes();
-        Set<Route> realRoutes = new HashSet<>();
+        return piece.calculateRoutes().stream()
+                .filter(this::isValidCannonRoute)
+                .collect(Collectors.toSet());
+    }
 
-        for (Route route : routes) {
-            int count = 0;
-            for (Piece currentPiece : pieces) {
-                if (route.hasPosition(currentPiece)) {
-                    if (currentPiece.isCannon()) {
-                        count = 0;
-                        break;
-                    }
-                    if (route.isDestination(currentPiece)) {
-                        count = 0;
-                        break;
-                    }
-                    count++;
-                }
-            }
-            if (count == 1) {
-                realRoutes.add(route);
-            }
+    private boolean isValidCannonRoute(Route route) {
+        return countPiecesInRoute(route) == REQUIRED_JUMP_PIECES_FOR_CANNON;
+    }
+
+    private int countPiecesInRoute(Route route) {
+        long cannonOrDestinationCount = pieces.stream()
+                .filter(route::hasPosition)
+                .filter(currentPiece -> currentPiece.isCannon() || route.isDestination(currentPiece))
+                .count();
+
+        if (cannonOrDestinationCount > 0) {
+            return 0;
         }
-        return realRoutes;
+
+        return (int) pieces.stream()
+                .filter(route::hasPosition)
+                .count();
     }
 
     public Set<Route> getPossibleRoutesForChariot(Piece piece) {
-        Set<Route> routes = piece.calculateRoutes();
-        Set<Route> realRoutes = new HashSet<>();
+        return piece.calculateRoutes().stream()
+                .filter(route -> isValidChariotRoute(route, piece))
+                .collect(Collectors.toSet());
+    }
 
-        for (Route route : routes) {
-            int count = 0;
-            for (Piece currentPiece : pieces) {
-                if (route.hasPosition(currentPiece)) {
-                    if (route.isDestination(currentPiece) && piece.isEnemy(currentPiece)) {
-                        continue;
-                    }
-                    count++;
-                }
-            }
-            if (count == 0) {
-                realRoutes.add(route);
-            }
-        }
-        return realRoutes;
+    private boolean isValidChariotRoute(Route route, Piece piece) {
+        return pieces.stream()
+                .filter(route::hasPosition)
+                .allMatch(currentPiece -> route.isDestination(currentPiece) && piece.isEnemy(currentPiece));
     }
 
     public Piece findPieceByPositionAndTeam(Position position, Team team) {
@@ -103,13 +86,15 @@ public class Pieces {
     }
 
     private boolean hasPieceByPosition(int x, int y) {
+        Position position = new Position(x, y);
         return pieces.stream()
-                .anyMatch(piece -> piece.isSamePosition(new Position(x, y)));
+                .anyMatch(piece -> piece.isSamePosition(position));
     }
 
     private Piece findPieceByPosition(int x, int y) {
+        Position position = new Position(x, y);
         return pieces.stream()
-                .filter(piece -> piece.isSamePosition(new Position(x, y)))
+                .filter(piece -> piece.isSamePosition(position))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 없습니다."));
     }
