@@ -35,9 +35,9 @@ public class Board {
         positions.addAll(generatePositions(Elephant::new, Score.ELEPHANT, 1, 0, 6, 0, 1, 9, 6, 9));
         positions.addAll(generatePositions(Chariot::new, Score.CHARIOT, 0, 0, 8, 0, 0, 9, 8, 9));
         positions.addAll(generatePositions(Cannon::new, Score.CANNON, 1, 2, 7, 2, 1, 7, 7, 7));
-        positions.addAll(
-                generatePositions(Soldier::new, Score.SOLDIER, 0, 3, 2, 3, 4, 3, 6, 3, 8, 3, 0, 6, 2, 6, 4, 6, 6, 6, 8,
-                        6));
+        positions.addAll(generatePositions(
+                Soldier::new, Score.SOLDIER, 0, 3, 2, 3, 4, 3, 6, 3, 8, 3, 0, 6, 2, 6, 4, 6, 6, 6, 8, 6
+        ));
 
         return new Board(positions);
     }
@@ -96,8 +96,6 @@ public class Board {
 
     public boolean canMoveOnPath(final Position fromPosition, final Point toPoint) {
 
-        // 1. 목적지까지 갈 수 있는 경로 전부 확인
-        //  1- 1 List<Point> 갈 수 있는 경로 (가고자 하는 사분면에 있는 point만)
         final List<Point> pointOnPath = fromPosition.test(toPoint);
 
         final long matchCount = positions.stream()
@@ -108,26 +106,20 @@ public class Board {
             return true;
         }
         final Cannon cannon = PieceFactory.createCannon();
-        System.out.println(matchCount);
         if (matchCount == 1 && fromPosition.isSamePiece(cannon)) {
-            System.out.println("중간 말이 존재하고, 움직이고자 하는 기물이 포");
             final Position middlePosition = positions.stream()
                     .filter(position -> pointOnPath.stream().anyMatch(position::isSame))
                     .findFirst()
                     .orElseThrow();
             if (middlePosition.isSamePiece(cannon)) {
-                System.out.println("중간 말이 포");
                 return false;
             }
-            System.out.println("중간 말이 포가 아님");
 
             if (hasPieceAt(toPoint) && findPositionBy(toPoint).isSamePiece(cannon)) {
-                System.out.println("종점이 포");
                 return false;
             }
             return true;
         }
-        System.out.println("종점이 포가 아니다.");
         return false;
     }
 
@@ -163,7 +155,6 @@ public class Board {
         }
     }
 
-    // 1. 왕이 1개냐?
     public boolean hasOnlyOneGeneral() {
         final General general = PieceFactory.createGeneral();
         final long count = positions.stream()
