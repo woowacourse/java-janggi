@@ -24,6 +24,13 @@ public class Board {
         board.put(node, piece);
     }
 
+    public Piece findPieceByNode(Node node) {
+        if (!board.containsKey(node)) {
+            throw new IllegalArgumentException("[ERROR] 해당 노드에 기물이 존재하지 않습니다.");
+        }
+        return board.get(node);
+    }
+
     public void removePieceByNode(Node node) {
         if (!existsPieceByNode(node)) {
             return;
@@ -54,14 +61,14 @@ public class Board {
 
     public Node findNodeByPoint(Point point) {
         if (!nodeByPoint.containsKey(point)) {
-            throw new IllegalArgumentException("해당 위치에 노드가 존재하지 않습니다.");
+            throw new IllegalArgumentException("[ERROR] 해당 위치에 노드가 존재하지 않습니다.");
         }
         return nodeByPoint.get(point);
     }
 
     public PieceType findPieceTypeByNode(Node node) {
         if (!board.containsKey(node)) {
-            throw new IllegalArgumentException("해당 노드에 기물이 존재하지 않습니다.");
+            throw new IllegalArgumentException("[ERROR] 해당 노드에 기물이 존재하지 않습니다.");
         }
         return board.get(node).type();
     }
