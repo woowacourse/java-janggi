@@ -3,8 +3,9 @@ package object.strategy;
 import java.util.List;
 import object.Coordinate;
 import object.Route;
+import object.piece.Team;
 
-public class SangMoveStrategy implements MoveStrategy {
+public class ElephantStrategy implements MoveStrategy {
 
     private final List<Route> canMoveDirections = List.of(
             new Route(List.of(new Coordinate(1, 0), new Coordinate(1, -1), new Coordinate(1, -1))),
@@ -18,7 +19,7 @@ public class SangMoveStrategy implements MoveStrategy {
     );
 
     @Override
-    public Route getLegalRoute(Coordinate startCoordinate, Coordinate endCoordinate) {
+    public Route getLegalRoute(Coordinate startCoordinate, Coordinate endCoordinate, Team team) {
         return getLegalRoute(startCoordinate, endCoordinate, canMoveDirections);
     }
 }

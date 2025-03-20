@@ -10,17 +10,17 @@ import object.Coordinate;
 import object.Route;
 import object.piece.Team;
 
-public class SangMoveStrategyTest {
+public class ElephantStrategyTest {
 
     @Test
     void 자신의_경로를_반환한다() {
         // given
         Coordinate startCoordinate = new Coordinate(0, 0);
         Coordinate endCoordinate = new Coordinate(2, 3);
-        MoveStrategy moveStrategy = new SangMoveStrategy();
+        MoveStrategy moveStrategy = new ElephantStrategy();
 
         // when
-        Route route = moveStrategy.getLegalRoute(startCoordinate, endCoordinate);
+        Route route = moveStrategy.getLegalRoute(startCoordinate, endCoordinate, Team.BLUE);
 
         // then
         List<Coordinate> expectCoordinates = List.of(new Coordinate(0, 1), new Coordinate(1, 2), new Coordinate(2, 3));
@@ -31,14 +31,11 @@ public class SangMoveStrategyTest {
     @Test
     void 상은_가는길에_장애물이_있으면_갈수없다() {
         // given
-        MoveStrategy moveStrategy = new SangMoveStrategy();
+        MoveStrategy moveStrategy = new ElephantStrategy();
         Coordinate destination = new Coordinate(2, 2);
         Pieces onRoutePieces = new Pieces(List.of(
                 new Piece(
-                        new Coordinate(1, 1),
-                        new JolMoveStrategy(),
-                        PieceType.SOLIDER,
-                        Team.BLUE
+                        Team.BLUE, new SoldierStrategy(), PieceType.SOLIDER, new Coordinate(1, 1)
                 )
         ));
 
@@ -50,7 +47,7 @@ public class SangMoveStrategyTest {
     @Test
     void 상은_가는길에_장애물이_없으면_갈수있다() {
         // given
-        MoveStrategy moveStrategy = new SangMoveStrategy();
+        MoveStrategy moveStrategy = new ElephantStrategy();
         Coordinate destination = new Coordinate(2, 3);
         Pieces onRoutePieces = new Pieces(List.of());
 

@@ -10,12 +10,6 @@ public class GameView {
         this.scanner = new Scanner(System.in);
     }
 
-    /*
-    1. 청 차례인지 홍 차례인지
-    2. 상차림 구현안됨 알림
-    3.
-     */
-
     public void printTurn(Team team) {
         System.out.printf("%s 차례입니다.%n", team.getType());
     }

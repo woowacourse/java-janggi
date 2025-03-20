@@ -38,7 +38,7 @@ public class PiecesCreateFactory {
         PieceType pieceType = parsePieceType(perPiece[1]);
         Team team = Team.from(perPiece[2]);
         MoveStrategy moveStrategy = MoveStrategyFactory.create(pieceType);
-        return new Piece(coordinate, moveStrategy, pieceType, team);
+        return new Piece(team, moveStrategy, pieceType, coordinate);
     }
 
     private static PieceType parsePieceType(String s) {

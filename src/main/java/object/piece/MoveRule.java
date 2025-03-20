@@ -1,7 +1,9 @@
-package piece;
+package object.piece;
 
 import java.util.Objects;
-import strategy.MoveStrategy;
+import object.Coordinate;
+import object.Route;
+import object.strategy.MoveStrategy;
 
 public class MoveRule {
 
@@ -13,9 +15,12 @@ public class MoveRule {
         this.pieceType = pieceType;
     }
 
-    public Position move(Position position, MoveRule moveRule, Team team) {
-//        return moveStrategy.move();
-        return null;
+    public Coordinate move(Coordinate destination, Pieces onRoutePieces, Team team) {
+        return moveStrategy.move(destination, onRoutePieces, team);
+    }
+
+    public Route getLegalRoute(Coordinate startPosition, Coordinate destination, Team team) {
+        return moveStrategy.getLegalRoute(startPosition, destination, team);
     }
 
     public boolean isSameType(PieceType comparePieceType) {

@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import object.Coordinate;
 import object.Route;
+import object.piece.Team;
 
-public class ChaMoveStrategy implements MoveStrategy {
-
-    private static final String INVALID_MOVE_LOCATION = "이동불가능한 위치입니다.";
+public class ChariotStrategy implements MoveStrategy {
 
     @Override
-    public Route getLegalRoute(Coordinate startCoordinate, Coordinate endCoordinate) {
+    public Route getLegalRoute(Coordinate startCoordinate, Coordinate endCoordinate, Team team) {
         Coordinate minCoordinate = Coordinate.getMinPosition(startCoordinate, endCoordinate);
         Coordinate maxCoordinate = Coordinate.getMaxPosition(startCoordinate, endCoordinate);
 
@@ -21,7 +20,7 @@ public class ChaMoveStrategy implements MoveStrategy {
         if (startCoordinate.isSameRow(endCoordinate)) {
             return calculateLegalRoute(minCoordinate, maxCoordinate, coordinates, new Coordinate(0, 1));
         }
-        throw new IllegalArgumentException(INVALID_MOVE_LOCATION);
+        throw new IllegalArgumentException(MoveStrategy.INVALID_POSITION);
     }
 
     private static Route calculateLegalRoute(Coordinate minCoordinate, Coordinate maxCoordinate, List<Coordinate> coordinates,
