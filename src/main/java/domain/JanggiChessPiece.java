@@ -13,14 +13,14 @@ public abstract class JanggiChessPiece implements ChessPiece {
     }
 
     @Override
-    public List<ChessPosition> getDestinations() {
+    public List<ChessPosition> getDestinations(ChessPiecePositions positions) {
         List<Path> coordinates = getCoordinatePaths();
-        return getCoordinateDestinations(coordinates);
+        return getCoordinateDestinations(coordinates, positions);
     }
 
-    abstract protected List<Path> getCoordinatePaths();
+    protected abstract List<Path> getCoordinatePaths();
 
-    abstract protected List<ChessPosition> getCoordinateDestinations(List<Path> coordinates);
+    protected abstract List<ChessPosition> getCoordinateDestinations(List<Path> coordinates, ChessPiecePositions positions);
 
     @Override
     public ChessPosition getPosition() {

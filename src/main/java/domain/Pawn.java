@@ -20,6 +20,7 @@ public class Pawn extends LimitedChessPiece {
         super(position, chessTeam, directions);
     }
 
+
     public static List<Pawn> initPieces() {
         return List.of(
                 new Pawn(new ChessPosition(3, 0), ChessTeam.RED),
@@ -29,9 +30,11 @@ public class Pawn extends LimitedChessPiece {
         );
     }
 
+
     @Override
-    protected List<ChessPosition> getCoordinateDestinations(List<Path> coordinates) {
-        return null;
+    protected List<ChessPosition> getCoordinateDestinations(final List<Path> coordinates,
+                                                            final ChessPiecePositions positions) {
+        return List.of();
     }
 
     @Override

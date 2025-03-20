@@ -13,6 +13,12 @@ public class Chariot extends UnlimitedMoveChessPiece {
         super(chessPosition, team, directions);
     }
 
+    @Override
+    protected List<ChessPosition> getCoordinateDestinations(final List<Path> coordinates,
+                                                            final ChessPiecePositions positions) {
+        return List.of();
+    }
+
     public static List<Chariot> initPieces() {
         return List.of(
                 new Chariot(new ChessPosition(0, 0), ChessTeam.RED),
@@ -27,8 +33,4 @@ public class Chariot extends UnlimitedMoveChessPiece {
         return ChessPieceType.CHARIOT;
     }
 
-    @Override
-    protected List<ChessPosition> getCoordinateDestinations(List<Path> coordinates) {
-        return null;
-    }
 }

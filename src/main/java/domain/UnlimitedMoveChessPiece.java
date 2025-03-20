@@ -35,5 +35,5 @@ public abstract class UnlimitedMoveChessPiece extends JanggiChessPiece {
     }
 
     @Override
-    abstract protected List<ChessPosition> getCoordinateDestinations(List<Path> coordinates);
+    protected abstract List<ChessPosition> getCoordinateDestinations(List<Path> coordinates, ChessPiecePositions chessPiecePositions);
 }

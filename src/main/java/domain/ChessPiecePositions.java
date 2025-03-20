@@ -31,4 +31,15 @@ public class ChessPiecePositions {
     public Map<ChessPosition, ChessPiece> getChessPieces() {
         return Collections.unmodifiableMap(chessPieces);
     }
+
+    public boolean existChessPieceByPosition(final ChessPosition position) {
+        return chessPieces.containsKey(position);
+    }
+
+    public ChessPiece getChessPieceByPosition(final ChessPosition position) {
+        if (!existChessPieceByPosition(position)) {
+            throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다");
+        }
+        return chessPieces.get(position);
+    }
 }
