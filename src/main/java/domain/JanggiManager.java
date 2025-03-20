@@ -5,6 +5,7 @@ import domain.board.BoardGenerator;
 import domain.board.Node;
 import domain.board.Point;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import view.SangMaOrderCommand;
 

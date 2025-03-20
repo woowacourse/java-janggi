@@ -5,7 +5,7 @@ import static domain.board.Board.END_ROW_INDEX;
 import static domain.board.Board.START_COLUMN_INDEX;
 import static domain.board.Board.START_ROW_INDEX;
 
-import domain.PieceType;
+import domain.piece.PieceType;
 import domain.piece.Byeong;
 import domain.piece.Cha;
 import domain.piece.Ma;

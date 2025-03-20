@@ -1,7 +1,7 @@
 package domain.board;
 
-import domain.PieceType;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import java.util.Map;
 

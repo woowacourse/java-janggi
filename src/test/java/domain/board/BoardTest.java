@@ -1,7 +1,7 @@
 package domain.board;
 
-import domain.PieceType;
 import domain.piece.Byeong;
+import domain.piece.PieceType;
 import domain.piece.Po;
 import domain.piece.Team;
 import fixture.BoardFixture;

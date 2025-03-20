@@ -1,6 +1,5 @@
 package domain.piece;
 
-import domain.PieceType;
 import domain.board.Board;
 import domain.board.Direction;
 import domain.board.Edge;

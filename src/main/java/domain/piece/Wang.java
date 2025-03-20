@@ -1,6 +1,5 @@
 package domain.piece;
 
-import domain.PieceType;
 import domain.board.Board;
 import domain.board.Edge;
 import domain.board.Node;

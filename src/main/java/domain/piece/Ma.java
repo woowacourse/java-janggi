@@ -7,7 +7,6 @@ import static domain.board.Direction.UP;
 
 import domain.PieceMovement;
 import domain.PiecePath;
-import domain.PieceType;
 import domain.board.Board;
 import domain.board.Node;
 import java.util.ArrayList;
