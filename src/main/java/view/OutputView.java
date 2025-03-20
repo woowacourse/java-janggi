@@ -1,11 +1,11 @@
 package view;
 
+import java.util.stream.IntStream;
+
 import domain.Board;
 import domain.Position;
 import domain.Team;
 import domain.piece.Piece;
-import java.util.Optional;
-import java.util.stream.IntStream;
 
 public class OutputView {
 
@@ -18,6 +18,7 @@ public class OutputView {
         CustomStringBuilder stringBuilder = new CustomStringBuilder();
         appendHeader(stringBuilder);
         IntStream.range(1, 11).forEach(rowIndex -> appendRow(board, stringBuilder, rowIndex));
+        stringBuilder.print();
     }
 
     private void appendRow(Board board, CustomStringBuilder stringBuilder, int rowIndex) {
@@ -27,23 +28,27 @@ public class OutputView {
     }
 
     private void appendBoardByRow(Board board, CustomStringBuilder stringBuilder, int rowIndex) {
-        IntStream.range(1, 10).forEach(columnIndex -> stringBuilder.append(getCellContent(board.findPiece(new Position(
-                columnIndex,
-                rowIndex)))
-        ));
+        IntStream.range(1, 10).forEach(columnIndex -> {
+            stringBuilder.append(getCellContent(board, new Position(
+                    columnIndex,
+                    rowIndex))
+            );
+        });
     }
 
-    private String getCellContent(Optional<Piece> piece) {
-        String cell = BLANK_CELL;
-        if (piece.isPresent()) {
-            cell = convertContentColor(piece.get().getTeam(), piece.toString());
+    private String getCellContent(Board board, Position position) {
+        if (board.isExists(position)) {
+            Piece piece = board.findPiece(position);
+            return convertContentColor(piece.getTeam(), piece.getDisplayName());
         }
-        return cell;
+        return BLANK_CELL;
     }
 
-    private static void appendHeader(CustomStringBuilder stringBuilder) {
+    private void appendHeader(CustomStringBuilder stringBuilder) {
         stringBuilder.appendBlankCell();
-        IntStream.range(1, 10).forEach(columnIndex -> stringBuilder.append(String.valueOf(columnIndex)));
+        IntStream.range(1, 10)
+                .forEach(columnIndex -> stringBuilder.appendHeader(toFullWidthCharacter(String.valueOf(columnIndex))));
+        stringBuilder.lineSplit();
     }
 
     public void printError(String content) {
@@ -56,4 +61,10 @@ public class OutputView {
         }
         return String.format("%s%s%s", red, content, exit);
     }
+
+    public char toFullWidthCharacter(String number) {
+        char c = number.charAt(0);
+        return (char) (c + 0xfee0);
+    }
+
 }

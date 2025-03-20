@@ -1,10 +1,10 @@
 package domain;
 
-import domain.piece.Cannon;
-import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
+import domain.piece.Cannon;
+import domain.piece.Piece;
 
 public class Board {
 
@@ -37,14 +37,16 @@ public class Board {
     }
 
     public void remove(final Position position) {
-        int target = 0;
+        int target = -1;
         for (int i = 0; i < pieces.size(); i++) {
             if (pieces.get(i).isSamePosition(position)) {
                 target = i;
                 break;
             }
         }
-        pieces.remove(target);
+        if (target != -1) {
+            pieces.remove(target);
+        }
     }
 
     public boolean isCannon(Position position) {
@@ -57,10 +59,11 @@ public class Board {
         return pieces;
     }
 
-    public Optional<Piece> findPiece(Position position) {
+    public Piece findPiece(Position position) {
         return pieces.stream()
                 .filter(piece -> piece.isSamePosition(position))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(""));
     }
 
     /*

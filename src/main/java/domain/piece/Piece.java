@@ -20,6 +20,8 @@ public abstract class Piece {
 
     protected abstract Set<Position> getMovablePositions();
 
+    public abstract String getDisplayName();
+
     public boolean isSamePosition(final Position position) {
         return this.position.equals(position);
     }

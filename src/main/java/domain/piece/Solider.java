@@ -22,6 +22,11 @@ public class Solider extends Piece {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public String getDisplayName() {
+        return "졸";
+    }
+
     private Direction getUnmovableDirection() {
         if (team == Team.BLUE) {
             return Direction.BOTTOM;

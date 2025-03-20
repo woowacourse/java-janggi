@@ -21,6 +21,11 @@ public class Elephant extends Piece {
         return positions;
     }
 
+    @Override
+    public String getDisplayName() {
+        return "상";
+    }
+
     void goOneSide(Position position, Direction direction, Set<Position> positions, int moveCount) {
         if (exitCondition(position, moveCount)) {
             return;

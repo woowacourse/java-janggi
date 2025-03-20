@@ -22,6 +22,11 @@ public class Chariot extends Piece {
         return positions;
     }
 
+    @Override
+    public String getDisplayName() {
+        return "차";
+    }
+
     private void goOneSide(Position position, Direction direction, Set<Position> positions) {
         if (exitCondition(position)) {
             return;

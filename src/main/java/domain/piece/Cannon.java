@@ -21,6 +21,11 @@ public class Cannon extends Piece {
         return positions;
     }
 
+    @Override
+    public String getDisplayName() {
+        return "포";
+    }
+
     private void goOneSide(Position position, Direction direction, boolean hasHuddle, Set<Position> positions) {
         if (exitCondition(position, hasHuddle)) {
             return;

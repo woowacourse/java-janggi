@@ -21,6 +21,11 @@ public class Guard extends Piece {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public String getDisplayName() {
+        return "사";
+    }
+
     private boolean isMovable(final Position position) {
         return !board.isExists(position) || !board.isSameTeam(this, position);
     }
