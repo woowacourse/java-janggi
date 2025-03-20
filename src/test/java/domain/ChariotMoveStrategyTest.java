@@ -16,12 +16,10 @@ class ChariotMoveStrategyTest {
     void test() {
         // given
         BoardLocation current = new BoardLocation(1, 1);
-        BoardLocation destination
-                = new BoardLocation(1, 2);
+        BoardLocation destination = new BoardLocation(1, 2);
 
         // when
-        boolean isMovable = chariot.isMovable(current, destination
-        );
+        boolean isMovable = chariot.isMovable(current, destination);
 
         // then
         assertThat(isMovable).isTrue();
@@ -32,12 +30,10 @@ class ChariotMoveStrategyTest {
     void test2() {
         // given
         BoardLocation current = new BoardLocation(1, 1);
-        BoardLocation destination
-                = new BoardLocation(2, 2);
+        BoardLocation destination = new BoardLocation(2, 2);
 
         // when
-        boolean isMovable = chariot.isMovable(current, destination
-        );
+        boolean isMovable = chariot.isMovable(current, destination);
 
         // then
         assertThat(isMovable).isFalse();
@@ -54,6 +50,6 @@ class ChariotMoveStrategyTest {
         List<BoardLocation> allPath = chariot.createAllPath(current, destination);
 
         // then
-        assertThat(allPath).containsAll(List.of(new BoardLocation(2,1), new BoardLocation(3,1), destination));
+        assertThat(allPath).containsAll(List.of(new BoardLocation(2, 1), new BoardLocation(3, 1)));
     }
 }

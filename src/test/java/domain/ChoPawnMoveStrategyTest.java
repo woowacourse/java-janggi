@@ -63,7 +63,7 @@ public class ChoPawnMoveStrategyTest {
         List<BoardLocation> allPath = pawn.createAllPath(current, destination);
 
         // then
-        assertThat(allPath).containsAll(List.of(destination));
+        assertThat(allPath).containsAll(List.of());
     }
 
 

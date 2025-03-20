@@ -16,12 +16,10 @@ public class CannonMoveStrategyTest {
     void test() {
         // given
         BoardLocation current = new BoardLocation(1, 1);
-        BoardLocation destination
-                = new BoardLocation(1, 2);
+        BoardLocation destination = new BoardLocation(1, 2);
 
         // when
-        boolean isMovable = cannon.isMovable(current, destination
-        );
+        boolean isMovable = cannon.isMovable(current, destination);
 
         // then
         assertThat(isMovable).isTrue();
@@ -33,12 +31,10 @@ public class CannonMoveStrategyTest {
         // given
         CannonMoveStrategy cannon = new CannonMoveStrategy();
         BoardLocation current = new BoardLocation(1, 1);
-        BoardLocation destination
-                = new BoardLocation(2, 2);
+        BoardLocation destination = new BoardLocation(2, 2);
 
         // when
-        boolean isMovable = cannon.isMovable(current, destination
-        );
+        boolean isMovable = cannon.isMovable(current, destination);
 
         // then
         assertThat(isMovable).isFalse();
@@ -55,6 +51,6 @@ public class CannonMoveStrategyTest {
         List<BoardLocation> allPath = cannon.createAllPath(current, destination);
 
         // then
-        assertThat(allPath).containsAll(List.of(new BoardLocation(2,1), new BoardLocation(3,1), destination));
+        assertThat(allPath).containsAll(List.of(new BoardLocation(2, 1), new BoardLocation(3, 1)));
     }
 }

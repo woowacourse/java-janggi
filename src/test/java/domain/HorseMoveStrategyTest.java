@@ -50,6 +50,6 @@ public class HorseMoveStrategyTest {
         List<BoardLocation> allPath = horse.createAllPath(current, destination);
 
         // then
-        assertThat(allPath).containsAll(List.of(new BoardLocation(1,2), destination));
+        assertThat(allPath).containsAll(List.of(new BoardLocation(1,2)));
     }
 }

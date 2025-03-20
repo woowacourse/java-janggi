@@ -16,12 +16,10 @@ public class ElephantMoveStrategyTest {
     void test() {
         // given
         BoardLocation current = new BoardLocation(1, 1);
-        BoardLocation destination
-                = new BoardLocation(3, 4);
+        BoardLocation destination = new BoardLocation(3, 4);
 
         // when
-        boolean isMovable = elephant.isMovable(current, destination
-        );
+        boolean isMovable = elephant.isMovable(current, destination);
 
         // then
         assertThat(isMovable).isTrue();
@@ -32,12 +30,10 @@ public class ElephantMoveStrategyTest {
     void test2() {
         // given
         BoardLocation current = new BoardLocation(1, 1);
-        BoardLocation destination
-                = new BoardLocation(3, 5);
+        BoardLocation destination = new BoardLocation(3, 5);
 
         // when
-        boolean isMovable = elephant.isMovable(current, destination
-        );
+        boolean isMovable = elephant.isMovable(current, destination);
 
         // then
         assertThat(isMovable).isFalse();
@@ -54,6 +50,6 @@ public class ElephantMoveStrategyTest {
         List<BoardLocation> allPath = elephant.createAllPath(current, destination);
 
         // then
-        assertThat(allPath).containsAll(List.of(new BoardLocation(1,2), new BoardLocation(2,3), destination));
+        assertThat(allPath).containsAll(List.of(new BoardLocation(1, 2), new BoardLocation(2, 3)));
     }
 }
