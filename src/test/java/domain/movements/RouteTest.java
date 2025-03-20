@@ -1,8 +1,6 @@
-package domain.piece;
+package domain.movements;
 
 import domain.Point;
-import domain.movements.Direction;
-import domain.movements.Route;
 import java.util.ArrayList;
 import java.util.List;
 import org.assertj.core.api.Assertions;

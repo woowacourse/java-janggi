@@ -1,10 +1,8 @@
-package domain;
+package domain.movements;
 
+import domain.Point;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.movements.DefaultMovement;
-import domain.movements.Direction;
-import domain.movements.Route;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

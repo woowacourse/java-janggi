@@ -1,28 +1,25 @@
-package domain.piece;
+package domain.pieces;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
-import domain.pieces.Elephant;
-import domain.pieces.EmptyPiece;
-import domain.pieces.Piece;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class ElephantTest {
+class HorseTest {
     @Test
     @DisplayName("피스가 이동할 수 있는 지점들을 전부 반환한다")
     void test_isAbleToArrive() {
         // given
-        Elephant elephant = new Elephant(Team.CHO);
+        Horse horse = new Horse(Team.CHO);
         Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(3, 2);
+        Point arrivalPoint = new Point(2, 1);
 
         // when
-        boolean actual = elephant.isAbleToArrive(startPoint, arrivalPoint);
+        boolean actual = horse.isAbleToArrive(startPoint, arrivalPoint);
 
         // then
         assertThat(actual).isTrue();
@@ -32,18 +29,17 @@ class ElephantTest {
     @DisplayName("경로에 있는 모든 지점들을 반환한다")
     void test_getRoutePoints() {
         // given
-        Elephant elephant = new Elephant(Team.CHO);
+        Horse horse = new Horse(Team.CHO);
         Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(3, 2);
+        Point arrivalPoint = new Point(2, 1);
 
         // when
-        List<Point> routePoints = elephant.getRoutePoints(startPoint, arrivalPoint);
+        List<Point> routePoints = horse.getRoutePoints(startPoint, arrivalPoint);
 
         // then
         assertThat(routePoints).containsExactlyInAnyOrder(
                 new Point(1, 0),
-                new Point(2, 1),
-                new Point(3, 2)
+                new Point(2, 1)
         );
     }
 
@@ -51,48 +47,48 @@ class ElephantTest {
     @DisplayName("경로 상 기물이 있으면 이동할 수 없다.")
     void test_isMovableWhenPieceOnRoute() {
         //given
-        Elephant elephant = new Elephant(Team.CHO);
+        Horse horse = new Horse(Team.CHO);
         Piece empty = new EmptyPiece();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(elephant, empty, empty));
+        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(horse, empty));
 
         //when&then
-        assertThat(elephant.isMovable(pieceOnRoute)).isFalse();
+        assertThat(horse.isMovable(pieceOnRoute)).isFalse();
     }
 
     @Test
     @DisplayName("경로 상 기물이 없으면 이동할 수 없다.")
     void test_isMovable() {
         //given
-        Elephant elephant = new Elephant(Team.CHO);
+        Horse horse = new Horse(Team.CHO);
         Piece empty = new EmptyPiece();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, empty));
+        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty));
 
         //when&then
-        assertThat(elephant.isMovable(pieceOnRoute)).isTrue();
+        assertThat(horse.isMovable(pieceOnRoute)).isTrue();
     }
 
     @Test
     @DisplayName("도착점에 아군 기물이 있으면 이동할 수 없다.")
     void test_isMovableWhenPieceIsInMyTeam() {
         //given
-        Elephant elephant = new Elephant(Team.CHO);
+        Horse horse = new Horse(Team.CHO);
         Piece empty = new EmptyPiece();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, elephant));
+        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, horse));
 
         //when&then
-        assertThat(elephant.isMovable(pieceOnRoute)).isFalse();
+        assertThat(horse.isMovable(pieceOnRoute)).isFalse();
     }
 
     @Test
     @DisplayName("도착점에 아군 기물이 없으면 이동할 수 있다.")
     void test_isMovableWhenPieceIsInOtherTeam() {
         //given
-        Elephant elephantHan = new Elephant(Team.HAN);
-        Elephant elephantCho = new Elephant(Team.CHO);
+        Horse horseHan = new Horse(Team.HAN);
+        Horse horseCho = new Horse(Team.CHO);
         Piece empty = new EmptyPiece();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, elephantCho));
+        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, horseCho));
 
         //when&then
-        assertThat(elephantHan.isMovable(pieceOnRoute)).isTrue();
+        assertThat(horseHan.isMovable(pieceOnRoute)).isTrue();
     }
 }

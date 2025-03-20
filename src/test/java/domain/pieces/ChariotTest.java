@@ -1,13 +1,10 @@
-package domain.piece;
+package domain.pieces;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
-import domain.pieces.Chariot;
-import domain.pieces.EmptyPiece;
-import domain.pieces.Piece;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
