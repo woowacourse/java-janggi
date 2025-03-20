@@ -3,12 +3,13 @@ package domain.board;
 import domain.JanggiCoordinate;
 import domain.piece.Country;
 import domain.piece.Piece;
+
 import java.util.List;
 import java.util.Map;
 
 public final class JanggiBoard {
-    public static final int ROW_SIZE = 9;
-    public static final int COL_SIZE = 10;
+    public static final int ROW_SIZE = 10;
+    public static final int COL_SIZE = 9;
     public static final int BOARD_MIN_SIZE = 1;
 
     private final Map<JanggiCoordinate, Piece> board;

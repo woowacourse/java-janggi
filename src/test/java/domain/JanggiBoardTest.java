@@ -1,13 +1,13 @@
 package domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-
 import domain.board.JanggiBoard;
 import domain.board.JanggiBoardInitPosition;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class JanggiBoardTest {
 
@@ -34,7 +34,7 @@ class JanggiBoardTest {
         @DisplayName("말을 움직인다.")
         @Test
         void movePieceTest() {
-            JanggiCoordinate oldCoordinate = new JanggiCoordinate(2, 1);
+            JanggiCoordinate oldCoordinate = new JanggiCoordinate(1, 2);
             JanggiCoordinate newCoordinate = new JanggiCoordinate(3, 3);
 
             JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardInitPosition.create());
@@ -49,8 +49,8 @@ class JanggiBoardTest {
         @DisplayName("말이 이동 불가능한 위치로 이동할 수 없다.")
         @Test
         void validateMoveCoordinateTest() {
-            JanggiCoordinate oldCoordinate = new JanggiCoordinate(2, 1);
-            JanggiCoordinate newCoordinate = new JanggiCoordinate(2, 3);
+            JanggiCoordinate oldCoordinate = new JanggiCoordinate(1, 2);
+            JanggiCoordinate newCoordinate = new JanggiCoordinate(3, 2);
 
             JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardInitPosition.create());
 

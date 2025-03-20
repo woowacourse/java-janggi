@@ -3,11 +3,12 @@ package domain.piece;
 import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
 import domain.board.JanggiBoardInitPosition;
-import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 
 class PieceTest {
@@ -31,7 +32,7 @@ class PieceTest {
             JanggiBoard board = new JanggiBoard(JanggiBoardInitPosition.create());
             Ma ma = new Ma(Country.HAN);
             List<JanggiCoordinate> availableMovePositions =
-                    ma.availableMovePositions(new JanggiCoordinate(2, 1), board);
+                    ma.availableMovePositions(new JanggiCoordinate(1, 2), board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(2);
         }
@@ -141,10 +142,10 @@ class PieceTest {
         void PhoAvailableMovePosition2() {
             Pho pho = new Pho(Country.HAN);
             JanggiBoard board = new JanggiBoard(JanggiBoardInitPosition.create());
-            board.getBoard().put(new JanggiCoordinate(2, 4), pho);
+            board.getBoard().put(new JanggiCoordinate(4, 2), pho);
 
             List<JanggiCoordinate> availableMovePositions = pho.availableMovePositions(
-                    new JanggiCoordinate(2, 4), board);
+                    new JanggiCoordinate(4, 2), board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(1);
         }
@@ -155,11 +156,11 @@ class PieceTest {
             Pho pho = new Pho(Country.HAN);
             Cha cha = new Cha(Country.HAN);
             JanggiBoard board = new JanggiBoard(JanggiBoardInitPosition.create());
-            board.getBoard().put(new JanggiCoordinate(2, 4), pho);
-            board.getBoard().put(new JanggiCoordinate(2, 5), cha);
+            board.getBoard().put(new JanggiCoordinate(4, 2), pho);
+            board.getBoard().put(new JanggiCoordinate(5, 2), cha);
 
             List<JanggiCoordinate> availableMovePositions = pho.availableMovePositions(
-                    new JanggiCoordinate(2, 4), board);
+                    new JanggiCoordinate(4, 2), board);
 
             Assertions.assertThat(availableMovePositions.size()).isEqualTo(3);
         }

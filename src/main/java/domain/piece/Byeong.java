@@ -3,6 +3,7 @@ package domain.piece;
 import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
 import domain.piece.movement.ByeongMovement;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Byeong extends Piece {
                     return byeongMovement != ByeongMovement.UP;
                 })
                 .map(byeongMovement -> movePosition(currCoordinate, byeongMovement.getDirection()))
-                .filter(next -> !janggiBoard.isOutOfBoundary(next) && !janggiBoard.isMyTeam(currCoordinate, next))
+                .filter(next -> !janggiBoard.isOutOfBoundary(next) || !janggiBoard.isMyTeam(currCoordinate, next))
                 .toList();
     }
 
