@@ -45,6 +45,12 @@ public class FoMoveStrategy implements MoveStrategy {
         var onRoutePiecesSize = onRoutePieces.size();
 
         validateIsFo(firstPiece, lastPiece);
+        validateFoMove(destination, moveTeam, onRoutePiecesSize, firstPiece, lastPiece);
+        return destination;
+    }
+
+    private static void validateFoMove(Position destination, Team moveTeam, int onRoutePiecesSize, Piece firstPiece,
+                                       Piece lastPiece) {
         if (!(onRoutePiecesSize == 1 || onRoutePiecesSize == 2)) {
             throw new IllegalArgumentException(INVALID_MOVE_LOCATION);
         }
@@ -57,7 +63,6 @@ public class FoMoveStrategy implements MoveStrategy {
         if (lastPiece.isSamePosition(destination) && lastPiece.isSameTeam(moveTeam)) {
             throw new IllegalArgumentException(INVALID_MOVE_LOCATION);
         }
-        return destination;
     }
 
     private void validatePiecesEmpty(Pieces pieces) {

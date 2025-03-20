@@ -31,11 +31,12 @@ public class Pieces {
         return pieces.getLast();
     }
 
-    public void killPieceFrom(Piece killerPiece) {
-        for (int i = 0; i < pieces.size(); i++) {
-            Piece piece = pieces.get(i);
-            if (killerPiece.isSamePosition(piece) && !killerPiece.isSameTeam(piece)) {
-                pieces.remove(i);
+    public void killPieceFrom(Piece killerPiece, Pieces otherPieces) {
+        List<Piece> otherTeamPieces = otherPieces.pieces;
+        for (int i = 0; i < otherPieces.size(); i++) {
+            Piece otherPiece = otherTeamPieces.get(i);
+            if (killerPiece.isSamePosition(otherPiece) && !killerPiece.isSameTeam(otherPiece)) {
+                otherTeamPieces.remove(otherPiece);
                 return;
             }
         }
@@ -47,24 +48,29 @@ public class Pieces {
         return Collections.unmodifiableList(resultPieces);
     }
 
-    public void move(Position selectPiecePosition, Position movePosition) {
+    public Piece move(Position selectPiecePosition, Position movePosition, List<Piece> boardAllPieces) {
         Piece piece = findPiece(selectPiecePosition);
         Route route = piece.getRoute(selectPiecePosition, movePosition);
-        Pieces piecesOnRoute = findPiecesOnRoute(route);
+        Pieces piecesOnRoute = findPiecesOnRouteIncludeOtherTeam(route, piece, boardAllPieces);
         piece.move(piecesOnRoute, movePosition);
+        return piece;
     }
 
-    private Pieces findPiecesOnRoute(Route route) {
+    private Pieces findPiecesOnRouteIncludeOtherTeam(Route route, Piece movePiece, List<Piece> boardAllPieces) {
         Map<Position, Piece> positionPieces = new HashMap<>();
-        for (Piece piece : pieces) {
+        for (Piece piece : boardAllPieces) {
+            if (piece.equals(movePiece)) {
+                continue;
+            }
             Position position = piece.getPosition();
             positionPieces.put(position, piece);
         }
 
-        return findPiecesOnRoute(positionPieces, route.positions());
+        return findPiecesOnRouteIncludeOtherTeam(positionPieces, route.positions());
     }
 
-    private Pieces findPiecesOnRoute(Map<Position, Piece> positionPieces, List<Position> onRoutePositions) {
+    private Pieces findPiecesOnRouteIncludeOtherTeam(Map<Position, Piece> positionPieces,
+                                                     List<Position> onRoutePositions) {
         List<Piece> onRoutePieces = new ArrayList<>();
         for (Position onRoutePosition : onRoutePositions) {
             if (!positionPieces.containsKey(onRoutePosition)) {
@@ -75,6 +81,12 @@ public class Pieces {
         return new Pieces(onRoutePieces);
     }
 
+    //3,0
+//3,1
+//2,1
+//6,1
+//6,1
+//6,4
     private Piece findPiece(Position selectPiecePosition) {
         for (Piece piece : pieces) {
             if (piece.isSamePosition(selectPiecePosition)) {

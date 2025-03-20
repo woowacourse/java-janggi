@@ -29,14 +29,15 @@ public class PiecesTest {
         // given
         var piece1 = new Piece(new Position(0, 1), MoveStrategyFactory.create(PieceType.JOL), PieceType.JOL, Team.BLUE);
         var piece2 = new Piece(new Position(0, 1), MoveStrategyFactory.create(PieceType.JOL), PieceType.JOL, Team.RED);
-        Pieces pieces = new Pieces(new ArrayList<>(List.of(piece1, piece2)));
+        Pieces pieces = new Pieces(new ArrayList<>(List.of(piece1)));
+        Pieces otherPieces = new Pieces(new ArrayList<>(List.of(piece2)));
 
         // when
-        pieces.killPieceFrom(piece1);
+        pieces.killPieceFrom(piece1, otherPieces);
 
         // then
-        Assertions.assertThat(pieces.getPieces().size()).isEqualTo(1);
-        Assertions.assertThat(pieces.getFirstPiece()).isEqualTo(piece2);
+        Assertions.assertThat(otherPieces.getPieces().size()).isEqualTo(0);
+        Assertions.assertThat(pieces.getFirstPiece()).isEqualTo(piece1);
     }
 
     @Test
@@ -47,7 +48,7 @@ public class PiecesTest {
         Pieces pieces = new Pieces(new ArrayList<>(List.of(piece1, piece2)));
 
         // when
-        pieces.killPieceFrom(piece1);
+        pieces.killPieceFrom(piece1, new Pieces(new ArrayList<>(pieces.getPieces())));
 
         // then
         Assertions.assertThat(pieces.getPieces().size()).isEqualTo(2);
@@ -61,7 +62,7 @@ public class PiecesTest {
         Pieces pieces = new Pieces(new ArrayList<>(List.of(piece1, piece2)));
 
         // when
-        pieces.killPieceFrom(piece1);
+        pieces.killPieceFrom(piece1, new Pieces(new ArrayList<>(pieces.getPieces())));
 
         // then
         Assertions.assertThat(pieces.getPieces().size()).isEqualTo(2);

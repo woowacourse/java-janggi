@@ -64,11 +64,12 @@ public class Piece {
             return false;
         }
         Piece piece = (Piece) o;
-        return Objects.equals(position, piece.position) && Objects.equals(moveRule, piece.moveRule);
+        return Objects.equals(moveRule, piece.moveRule) && team == piece.team && Objects.equals(
+                position, piece.position);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(position, moveRule);
+        return Objects.hash(moveRule, team, position);
     }
 }

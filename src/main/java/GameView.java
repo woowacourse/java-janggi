@@ -10,6 +10,7 @@ public class GameView {
     private static final String NOT_NUMBER = "입력된 값이 숫자가 아닙니다.";
     private static final String RED_COLOR_FORMAT = "\u001B[31m%s\u001B[0m";
     private static final String BLUE_COLOR_FORMAT = "\u001B[34m%s\u001B[0m";
+    private static final String GRID_HELPER = "  영일이삼사오육칠팔\n\n";
     private final Scanner scanner;
 
 
@@ -33,8 +34,9 @@ public class GameView {
     }
 
     public void playerBoard(Map<Position, Piece> positionPieceMap) {
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder(GRID_HELPER);
         for (int i = 9; i >= 0; i--) {
+            stringBuilder.append(i).append(" ");
             for (int j = 0; j < 9; j++) {
                 String type = pieceType(positionPieceMap, i, j);
                 stringBuilder.append(type);
