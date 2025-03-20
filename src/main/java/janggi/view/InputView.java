@@ -34,12 +34,16 @@ public class InputView {
             List<Integer> parsedTokens = tokens.stream()
                     .map(Integer::parseInt)
                     .toList();
-            if (parsedTokens.size() != 2) {
-                throw new IllegalArgumentException("[ERROR] 두개의 좌표를 입력해야 합니다.");
-            }
+            validateEnterPositionCount(parsedTokens);
             return parsedTokens;
         } catch (NumberFormatException exception) {
             throw new IllegalArgumentException("[ERROR] 좌표는 숫자여야 합니다.");
+        }
+    }
+
+    private void validateEnterPositionCount(List<Integer> parsedTokens) {
+        if (parsedTokens.size() != 2) {
+            throw new IllegalArgumentException("[ERROR] 두개의 좌표를 입력해야 합니다.");
         }
     }
 
