@@ -15,25 +15,28 @@ public abstract class UnlimitedMoveChessPiece extends JanggiChessPiece {
     protected List<Path> getCoordinatePaths() {
         final List<Path> paths = new ArrayList<>();
         for (Direction direction : directions) {
-            final List<ChessPosition> chessPositions = new ArrayList<>();
-            for (int distance = 1; distance <= 9; distance++) {
-                final int nextRowDistance = direction.dr * distance;
-                final int nextColumnDistance = direction.dc * distance;
-                final int nextRow = getPosition().row() + nextRowDistance;
-                final int nextColumn = getPosition().column() + nextColumnDistance;
-                if (!ChessPosition.isValid(nextRow, nextColumn)) {
-                    continue;
-                }
-                chessPositions.add(getPosition().move(nextRowDistance, nextColumnDistance));
+            List<ChessPosition> boundaryPositions = getBoundaryPositions(direction);
+            if (!boundaryPositions.isEmpty()) {
+                paths.add(new Path(boundaryPositions));
             }
-            if (!chessPositions.isEmpty()) {
-                paths.add(new Path(chessPositions));
-            }
-
         }
         return paths;
     }
 
+    private List<ChessPosition> getBoundaryPositions(Direction direction) {
+        final List<ChessPosition> chessPositions = new ArrayList<>();
+        for (int distance = 1; distance <= 9; distance++) {
+            final int nextRow = getPosition().row() + direction.dr * distance;
+            final int nextColumn = getPosition().column() + direction.dc * distance;
+            if (ChessPosition.isValid(nextRow, nextColumn)) {
+                chessPositions.add(new ChessPosition(nextRow, nextColumn));
+            }
+        }
+        return chessPositions;
+    }
+
     @Override
-    protected abstract List<ChessPosition> getCoordinateDestinations(List<Path> coordinates, ChessPiecePositions chessPiecePositions);
+    protected abstract List<ChessPosition> getCoordinateDestinations(
+            List<Path> coordinates, ChessPiecePositions chessPiecePositions
+    );
 }
