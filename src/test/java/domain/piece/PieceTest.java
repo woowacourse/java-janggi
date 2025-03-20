@@ -1,12 +1,19 @@
 package domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 import domain.direction.Direction;
 import domain.direction.Directions;
-import org.junit.jupiter.api.Test;
-
+import domain.piece.category.Advisor;
+import domain.piece.category.Cannon;
+import domain.piece.category.Elephant;
+import domain.piece.category.Horse;
+import domain.piece.category.King;
+import domain.piece.category.Pawn;
+import domain.piece.category.Rook;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 class PieceTest {
 
@@ -72,23 +79,51 @@ class PieceTest {
     @Test
     void 왕인지_판단한다() {
         // given
+        final Piece king = new King(1, 2, new Directions(List.of()));
+        final Piece advisor = new Advisor(1, 2, new Directions(List.of()));
+        final Piece cannon = new Cannon(1, 2, new Directions(List.of()));
+        final Piece elephant = new Elephant(1, 2, new Directions(List.of()));
+        final Piece horse = new Horse(1, 2, new Directions(List.of()));
+        final Piece pawn = new Pawn(1, 2, new Directions(List.of()));
+        final Piece rook = new Rook(1, 2, new Directions(List.of()));
         final Piece piece = new TestPiece(1, 2, new Directions(List.of()));
-        final Piece kingPiece = new TestKingPiece(1, 2, new Directions(List.of()));
 
         // when & then
-        assertThat(piece.isKing()).isFalse();
-        assertThat(kingPiece.isKing()).isTrue();
+        assertAll(
+                () -> assertThat(king.isKing()).isTrue(),
+                () -> assertThat(advisor.isKing()).isFalse(),
+                () -> assertThat(cannon.isKing()).isFalse(),
+                () -> assertThat(elephant.isKing()).isFalse(),
+                () -> assertThat(horse.isKing()).isFalse(),
+                () -> assertThat(pawn.isKing()).isFalse(),
+                () -> assertThat(rook.isKing()).isFalse(),
+                () -> assertThat(piece.isKing()).isFalse()
+        );
     }
 
     @Test
     void 포인지_판단한다() {
         // given
+        final Piece cannon = new Cannon(1, 2, new Directions(List.of()));
+        final Piece king = new King(1, 2, new Directions(List.of()));
+        final Piece advisor = new Advisor(1, 2, new Directions(List.of()));
+        final Piece elephant = new Elephant(1, 2, new Directions(List.of()));
+        final Piece horse = new Horse(1, 2, new Directions(List.of()));
+        final Piece pawn = new Pawn(1, 2, new Directions(List.of()));
+        final Piece rook = new Rook(1, 2, new Directions(List.of()));
         final Piece piece = new TestPiece(1, 2, new Directions(List.of()));
-        final Piece cannonPiece = new TestCannonPiece(1, 2, new Directions(List.of()));
 
         // when & then
-        assertThat(piece.isCannon()).isFalse();
-        assertThat(cannonPiece.isCannon()).isTrue();
+        assertAll(
+                () -> assertThat(cannon.isCannon()).isTrue(),
+                () -> assertThat(king.isCannon()).isFalse(),
+                () -> assertThat(advisor.isCannon()).isFalse(),
+                () -> assertThat(elephant.isCannon()).isFalse(),
+                () -> assertThat(horse.isCannon()).isFalse(),
+                () -> assertThat(pawn.isCannon()).isFalse(),
+                () -> assertThat(rook.isCannon()).isFalse(),
+                () -> assertThat(piece.isCannon()).isFalse()
+        );
     }
 
     static class TestPiece extends Piece {
@@ -113,66 +148,6 @@ class PieceTest {
         @Override
         public boolean isCannon() {
             return false;
-        }
-
-        @Override
-        public String getName() {
-            return "";
-        }
-    }
-
-    static class TestKingPiece extends Piece {
-        public TestKingPiece(int row, int column, Directions directions) {
-            super(row, column, directions);
-        }
-
-        public TestKingPiece(final Position position, final Directions directions) {
-            super(position, directions);
-        }
-
-        @Override
-        public TestKingPiece updatePosition(final Position position) {
-            return new TestKingPiece(position, directions);
-        }
-
-        @Override
-        public boolean isKing() {
-            return true;
-        }
-
-        @Override
-        public boolean isCannon() {
-            return false;
-        }
-
-        @Override
-        public String getName() {
-            return "";
-        }
-    }
-
-    static class TestCannonPiece extends Piece {
-        public TestCannonPiece(int row, int column, Directions directions) {
-            super(row, column, directions);
-        }
-
-        public TestCannonPiece(final Position position, final Directions directions) {
-            super(position, directions);
-        }
-
-        @Override
-        public TestCannonPiece updatePosition(final Position position) {
-            return new TestCannonPiece(position, directions);
-        }
-
-        @Override
-        public boolean isKing() {
-            return true;
-        }
-
-        @Override
-        public boolean isCannon() {
-            return true;
         }
 
         @Override
