@@ -1,6 +1,7 @@
 package janggi;
 
 import janggi.board.Board;
+import janggi.board.GameOverException;
 import janggi.board.Position;
 import janggi.piece.Canon;
 import janggi.piece.Chariot;
@@ -32,8 +33,12 @@ public class Application {
             String startAndGoal = inputView.readStartAndGoalPosition(team);
             Position startPosition = parser.splitStartPosition(startAndGoal);
             Position goalPosition = parser.splitGoalPosition(startAndGoal);
-            board.movePiece(startPosition, goalPosition, team);
-
+            try {
+                board.movePiece(startPosition, goalPosition, team);
+            } catch (GameOverException e) {
+                outputView.printGameOver(team);
+                break;
+            }
             team = team.convertTeam();
         }
     }

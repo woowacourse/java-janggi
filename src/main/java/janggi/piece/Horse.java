@@ -53,4 +53,9 @@ public class Horse extends Piece {
     protected void validatePieceOnGoal(Map<Position, Piece> board, Position goal) {
         validateSameTeamOnGoal(board, goal);
     }
+
+    @Override
+    public boolean isGeneral() {
+        return false;
+    }
 }

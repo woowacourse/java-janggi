@@ -2,8 +2,15 @@ package janggi.board;
 
 import janggi.Team;
 import janggi.fixture.BoardFixture;
+import janggi.piece.Chariot;
+import janggi.piece.Elephant;
+import janggi.piece.General;
+import janggi.piece.Piece;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 
+import static janggi.fixture.PositionFixture.createPosition;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -67,5 +74,21 @@ class BoardTest {
         assertThatThrownBy(() -> board.movePiece(start, goal, Team.RED))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 같은 진영의 기물만 움직일 수 있습니다.");
+    }
+
+    @Test
+    void 왕이_죽으면_게임_종료_예외를_발생한다() {
+        // given
+        Map<Position, Piece> initialBoard = new HashMap<>();
+        Position redGeneralPosition = createPosition(4, 8);
+        Position greenChariotPosition = createPosition(4, 2);
+
+        initialBoard.put(redGeneralPosition, new General(Team.RED));
+        initialBoard.put(greenChariotPosition, new Chariot(Team.GREEN));
+        Board board = new Board(initialBoard);
+
+        // when && then
+        assertThatThrownBy(() -> board.movePiece(greenChariotPosition, redGeneralPosition, Team.GREEN))
+                .isInstanceOf(GameOverException.class);
     }
 }

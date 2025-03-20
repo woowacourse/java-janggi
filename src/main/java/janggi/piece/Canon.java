@@ -100,4 +100,9 @@ public class Canon extends Piece {
             throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
         }
     }
+
+    @Override
+    public boolean isGeneral() {
+        return false;
+    }
 }

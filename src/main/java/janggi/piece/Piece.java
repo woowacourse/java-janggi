@@ -74,4 +74,5 @@ public abstract class Piece {
     protected abstract String getName();
     protected abstract boolean isSameType(Piece other);
     protected abstract void validatePieceOnGoal(Map<Position, Piece> board, Position goal);
+    public abstract boolean isGeneral();
 }

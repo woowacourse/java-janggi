@@ -22,13 +22,15 @@ public class Board {
         if (!piece.isSameTeam(team)) {
             throw new IllegalArgumentException("[ERROR] 같은 진영의 기물만 움직일 수 있습니다.");
         }
-
         piece.validateMovable(board, start, goal);
-        move(start, goal, piece);
+        Piece attacked = move(start, goal);
+        if (attacked != null && attacked.isGeneral()) {
+            throw new GameOverException();
+        }
     }
 
-    private void move(Position start, Position goal, Piece piece) {
-        board.put(goal, piece);
-        board.remove(start);
+    private Piece move(Position start, Position goal) {
+        Piece piece = board.remove(start);
+        return board.put(goal, piece);
     }
 }
