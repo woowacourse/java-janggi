@@ -1,12 +1,12 @@
-import domain.ChessPiecePositions;
 import domain.ChessPosition;
 import domain.ChessTeam;
-import domain.Path;
 import domain.Pawn;
-import java.util.List;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class PawnTest {
 
@@ -15,20 +15,16 @@ public class PawnTest {
     void test1() {
         //given
         final ChessPosition chessPosition = new ChessPosition(0, 0);
-        final List<Path> expectPaths = List.of(
-                new Path(List.of(new ChessPosition(1,0))),
-                new Path(List.of(new ChessPosition(0,1)))
+        final List<ChessPosition> expectDestinations = List.of(
+                new ChessPosition(1,0),
+                new ChessPosition(0,1)
         );
 
         //when
         final Pawn pawn = new Pawn(chessPosition, ChessTeam.RED);
-        final List<Path> actualPaths = pawn.getAvailablePaths(ChessPiecePositions.empty());
+        final List<ChessPosition> destinations = pawn.getDestinations();
 
         //then
-        SoftAssertions.assertSoftly((softly) -> {
-            softly.assertThat(actualPaths).hasSize(2);
-            softly.assertThat(actualPaths.get(0).getPath()).containsAll(expectPaths.get(0).getPath());
-            softly.assertThat(actualPaths.get(1).getPath()).containsAll(expectPaths.get(1).getPath());
-        });
+        assertThat(destinations).containsAll(expectDestinations);
     }
 }
