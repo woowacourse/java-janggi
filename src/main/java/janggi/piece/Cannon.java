@@ -35,7 +35,7 @@ public final class Cannon extends Piece {
     }
 
     private boolean cannotMoveThrough(final Position start, final Position end, final Board board) {
-        final MovingRule matchRule = findMatchRule(start, end);
+        final MovingRule matchRule = movingRules.findMatchRule(start, end);
         Position route = start;
         int count = 0;
         for (MoveVector vector : matchRule.getVectorsWithoutLast()) {
@@ -52,10 +52,5 @@ public final class Cannon extends Piece {
 
     private boolean isNotSameTeamAndNotJumpable(final Position end, final Board board) {
         return !board.isPresentSameTeam(team, end) && !board.isExistCannon(end);
-    }
-
-    private MovingRule findMatchRule(final Position start, final Position end) {
-        final MoveVector startEndDiff = end.calculateMoveVector(start);
-        return movingRules.findMatchRule(startEndDiff);
     }
 }

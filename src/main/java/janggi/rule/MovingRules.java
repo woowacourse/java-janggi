@@ -12,7 +12,8 @@ public final class MovingRules {
         this.movingRules = movingRules;
     }
 
-    public MovingRule findMatchRule(final MoveVector startEndDiff) {
+    public MovingRule findMatchRule(final Position start, final Position end) {
+        final MoveVector startEndDiff = end.calculateMoveVector(start);
         for (MovingRule movingRule : movingRules) {
             final MoveVector vectorSum = movingRule.sumUnit();
             if (vectorSum.equals(startEndDiff)) {

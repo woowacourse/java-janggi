@@ -39,7 +39,7 @@ public final class Horse extends Piece {
     }
 
     private boolean cannotMoveThrough(final Position start, final Position end, final Board board) {
-        final MovingRule matchRule = findMatchRule(start, end);
+        final MovingRule matchRule = movingRules.findMatchRule(start, end);
         Position route = start;
         for (MoveVector vector : matchRule.getVectorsWithoutLast()) {
             route = route.add(vector);
@@ -48,10 +48,5 @@ public final class Horse extends Piece {
             }
         }
         return false;
-    }
-
-    private MovingRule findMatchRule(final Position start, final Position end) {
-        final MoveVector startEndDiff = end.calculateMoveVector(start);
-        return movingRules.findMatchRule(startEndDiff);
     }
 }
