@@ -22,22 +22,18 @@ public class JanggiGame {
     }
 
     public void play() {
-        // 1. 이름입력
-        Player hanPlayer = new Player(initializeView.readPlayerNickname(Dynasty.HAN), Dynasty.HAN);
         Player chuPlayer = new Player(initializeView.readPlayerNickname(Dynasty.CHU), Dynasty.CHU);
+        Player hanPlayer = new Player(initializeView.readPlayerNickname(Dynasty.HAN), Dynasty.HAN);
         Players players = new Players(List.of(hanPlayer, chuPlayer));
 
-        // 2. 상차림선택
-        BoardSetUp hanPlayerBoardSetUp = initializeView.readBoardSetUp(hanPlayer);
         BoardSetUp chuPlayerBoardSetUp = initializeView.readBoardSetUp(chuPlayer);
+        BoardSetUp hanPlayerBoardSetUp = initializeView.readBoardSetUp(hanPlayer);
 
-        // 3. 게임 시작 -> 초기 보드판 출력
         janggiBoardView.printGameStartMessage();
         JanggiBoard janggiBoard = JanggiBoard.of(hanPlayerBoardSetUp, chuPlayerBoardSetUp);
         janggiBoardView.printBoard(janggiBoard.getPointPieces());
 
-        // 4. 번갈아가면서움직임 입력 -> 움직임에 따른 보드판 출력
-        Dynasty currentTurnDynasty = Dynasty.HAN;
+        Dynasty currentTurnDynasty = Dynasty.CHU;
         while (true) {
             Player currentTurnPlayer = players.findDynastyPlayer(currentTurnDynasty);
             Movement movement = janggiBoardView.readPlayerMove(currentTurnPlayer);
@@ -55,9 +51,5 @@ public class JanggiGame {
                 currentTurnDynasty = Dynasty.HAN;
             }
         }
-
-        // 예외 발생 시 message 출력 -> 해당 부분부터 재입력
-        //리팩토링
-        //테스트 코드 더 작성
     }
 }

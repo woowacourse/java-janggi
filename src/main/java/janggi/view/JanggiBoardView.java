@@ -63,7 +63,8 @@ public class JanggiBoardView {
     }
 
     public Movement readPlayerMove(Player player) {
-        System.out.println(player.getNickname() + "의 차례입니다. 이동할 위치를 입력해주세요. 예) move ㄱ2 ㄴ3");
+        System.out.println();
+        printPlayerMoveGuide(player);
 
         String command = readLine().trim();
         if (command.equals("end")) {
@@ -81,6 +82,14 @@ public class JanggiBoardView {
         throw new IllegalArgumentException("입력 형식이 틀렸습니다.");
     }
 
+    private void printPlayerMoveGuide(Player player) {
+        if(player.getDynasty() == Dynasty.HAN) {
+            System.out.println(convertHanColor(player.getNickname()) + "의 차례입니다. 이동할 위치를 입력해주세요. 예) move ㄱ2 ㄴ3");
+            return;
+        }
+        System.out.println(convertChuColor(player.getNickname()) + "의 차례입니다. 이동할 위치를 입력해주세요. 예) move ㄱ2 ㄴ3");
+    }
+
     public void printBoard(Set<BoardPiece> boardPieces) {
         Map<Point, BoardPiece> boardPieceMap = createBoardPiecesMap(boardPieces);
 
@@ -92,21 +101,29 @@ public class JanggiBoardView {
                     printPointPiece(boardPiece);
                     continue;
                 }
-                System.out.print("ㅁ");
+                System.out.print("ㅁ ");
             }
             System.out.print("  " + x);
             System.out.println();
         }
-        System.out.println("ㄱㄴㄷㄹㅁㅂㅅㅇㅈ");
+        System.out.println("ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅅ ㅇ ㅈ");
     }
 
     private void printPointPiece(BoardPiece boardPiece) {
         String pieceLabel = PIECE_LABELS.get(boardPiece.getPiece());
         if (boardPiece.getDynasty() == Dynasty.HAN) {
-            System.out.print(RED + pieceLabel + RESET);
+            System.out.print(convertHanColor(pieceLabel) + " ");
             return;
         }
-        System.out.print(BLUE + pieceLabel + RESET);
+        System.out.print(convertChuColor(pieceLabel + " "));
+    }
+
+    private String convertChuColor(String pieceLabel) {
+        return BLUE + pieceLabel + RESET;
+    }
+
+    private String convertHanColor(String pieceLabel) {
+        return RED + pieceLabel + RESET;
     }
 
     private String readLine() {
