@@ -4,6 +4,7 @@ import janggi.Board;
 import janggi.Position;
 import janggi.Score;
 import janggi.Team;
+
 import java.util.List;
 
 public class Guard extends Piece {

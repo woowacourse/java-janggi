@@ -5,6 +5,7 @@ import janggi.Movement;
 import janggi.Position;
 import janggi.Score;
 import janggi.Team;
+
 import java.util.List;
 
 public class Horse extends Piece {
@@ -47,6 +48,4 @@ public class Horse extends Piece {
     public Score die() {
         return Score.Horse();
     }
-
-
 }
