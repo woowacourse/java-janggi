@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.position.Path;
 import janggi.position.Position;
-import janggi.view.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 

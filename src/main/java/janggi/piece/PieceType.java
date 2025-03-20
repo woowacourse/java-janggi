@@ -1,6 +1,5 @@
-package janggi.view;
+package janggi.piece;
 
-import janggi.piece.Team;
 import java.util.List;
 
 public enum PieceType {
