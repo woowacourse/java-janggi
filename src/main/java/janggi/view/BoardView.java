@@ -10,18 +10,18 @@ import java.util.Map;
 
 public final class BoardView {
 
-    private static final Map<Type, String> PIECE_NOTATION = Map.of(
-            Type.GENERAL, "k",
-            Type.CHARIOT, "c",
-            Type.CANNON, "p",
-            Type.HORSE, "h",
-            Type.ELEPHANT, "e",
-            Type.GUARD, "g",
-            Type.SOLDIER, "s"
+    private static final Map<Type, String> PIECE_NOTATION_KOREAN = Map.of(
+            Type.GENERAL, "장",
+            Type.CHARIOT, "차",
+            Type.CANNON, "포",
+            Type.HORSE, "마",
+            Type.ELEPHANT, "상",
+            Type.GUARD, "사",
+            Type.SOLDIER, "병"
     );
 
     public void display(final Board board) {
-        System.out.println("\n  012345678");
+        System.out.println("\n  0＿1＿2＿3＿4＿5＿6＿7＿8");
         for (Row row : Row.values()) {
             displayRow(board, row);
         }
@@ -38,18 +38,18 @@ public final class BoardView {
 
     private static void displayPosition(final Board board, final Position position) {
         if (!board.isExistPiece(position)) {
-            System.out.print(".");
+            System.out.print("＿ ");
             return;
         }
         displayPiece(board.getPiece(position));
     }
 
     private static void displayPiece(final Piece piece) {
-        final String notation = PIECE_NOTATION.get(piece.type());
+        final String notation = PIECE_NOTATION_KOREAN.get(piece.type());
         if (piece.isHan()) {
-            System.out.print(notation);
+            System.out.print("\u001B[31m" + notation + " \u001B[0m");
             return;
         }
-        System.out.print(notation.toUpperCase());
+        System.out.print("\u001B[34m" + notation + " \u001B[0m");
     }
 }
