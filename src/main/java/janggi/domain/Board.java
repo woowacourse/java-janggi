@@ -1,10 +1,12 @@
 package janggi.domain;
 
+import janggi.domain.piece.Cannon;
+import janggi.domain.piece.Chariot;
 import janggi.domain.piece.Piece;
 import java.util.Set;
 
 public class Board {
-    
+
     private final Pieces pieces;
     private final Turn turn;
 
@@ -20,7 +22,13 @@ public class Board {
     }
 
     public Set<Route> findPossibleRoutes(Piece piece) {
-        return piece.calculateRoutes();
+        if (piece.getClass() == Cannon.class) {
+            return pieces.getPossibleRoutesForCannon(piece);
+        }
+        if (piece.getClass() == Chariot.class) {
+            return pieces.getPossibleRoutesForChariot(piece);
+        }
+        return pieces.getPossibleRoutes(piece);
     }
 
     public void movePiece(final int x, final int y, Piece piece) {

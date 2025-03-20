@@ -24,7 +24,7 @@ public class Cannon extends Piece {
 
         for (int i = position.x() + 2; i <= 8; i++) {
             List<RawPosition> rawPositions = new ArrayList<>();
-            for (int j = position.x() + 2; j <= i; j++) {
+            for (int j = position.x() + 1; j <= i; j++) {
                 rawPositions.add(new RawPosition(j, position.y()));
             }
             rawRoutes.add(new RawRoute(rawPositions));
@@ -32,7 +32,7 @@ public class Cannon extends Piece {
 
         for (int i = position.x() - 2; i >= 0; i--) {
             List<RawPosition> rawPositions = new ArrayList<>();
-            for (int j = position.x() - 2; j >= i; j--) {
+            for (int j = position.x() - 1; j >= i; j--) {
                 rawPositions.add(new RawPosition(j, position.y()));
             }
             rawRoutes.add(new RawRoute(rawPositions));
@@ -40,7 +40,7 @@ public class Cannon extends Piece {
 
         for (int i = position.y() + 2; i <= 9; i++) {
             List<RawPosition> rawPositions = new ArrayList<>();
-            for (int j = position.y() + 2; j <= i; j++) {
+            for (int j = position.y() + 1; j <= i; j++) {
                 rawPositions.add(new RawPosition(position.x(), j));
             }
             rawRoutes.add(new RawRoute(rawPositions));
@@ -48,7 +48,7 @@ public class Cannon extends Piece {
 
         for (int i = position.y() - 2; i >= 0; i--) {
             List<RawPosition> rawPositions = new ArrayList<>();
-            for (int j = position.y() - 2; j >= i; j--) {
+            for (int j = position.y() - 1; j >= i; j--) {
                 rawPositions.add(new RawPosition(position.x(), j));
             }
             rawRoutes.add(new RawRoute(rawPositions));

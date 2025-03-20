@@ -41,20 +41,19 @@ public class Pieces {
         Set<Route> realRoutes = new HashSet<>();
 
         for (Route route : routes) {
+
             int count = 0;
             for (Piece currentPiece : pieces) {
-
-                if (currentPiece.isCannon()) {
-                    continue;
+                if (route.hasPosition(currentPiece)) {
+                    if (currentPiece.isCannon()) {
+                        break;
+                    }
+                    if (!route.isDestination(currentPiece)) {
+                        count += 1;
+                    }
                 }
-
-                if (route.hasPosition(currentPiece) && !route.isDestination(currentPiece)) {
-                    count++;
-                }
-
             }
             if (count == 1) {
-
                 realRoutes.add(route);
             }
         }

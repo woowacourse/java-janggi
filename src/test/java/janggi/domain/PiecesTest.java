@@ -51,7 +51,7 @@ class PiecesTest {
         Pieces pieces = new Pieces(List.of(chariot, soldier1, soldier2, soldier3, soldier4));
 
         // when
-        Set<Route> possibleRoutes = pieces.getPossibleRoutes(chariot);
+        Set<Route> possibleRoutes = pieces.getPossibleRoutesForChariot(chariot);
 
         // then
         assertThat(possibleRoutes.size()).isEqualTo(7);
@@ -64,18 +64,18 @@ class PiecesTest {
         // given
         Piece cannon = new Cannon(new Position(4, 4), RED);
         Piece soldier1 = new Soldier(new Position(5, 4), RED);
-        Piece soldier2 = new Soldier(new Position(1, 4), BLUE);
+        Piece cannon1 = new Cannon(new Position(1, 4), BLUE);
         Piece soldier3 = new Soldier(new Position(2, 4), RED);
         Piece cannon2 = new Cannon(new Position(4, 2), RED);
         Piece cannon3 = new Cannon(new Position(4, 6), BLUE);
 
-        Pieces pieces = new Pieces(List.of(cannon, soldier1, soldier2, soldier3, cannon2, cannon3));
+        Pieces pieces = new Pieces(List.of(cannon, soldier1, cannon1, soldier3, cannon2, cannon3));
 
         // when
-        Set<Route> possibleRoutes = pieces.getPossibleRoutes(cannon);
+        Set<Route> possibleRoutes = pieces.getPossibleRoutesForCannon(cannon);
 
         // then
-        assertThat(possibleRoutes.size()).isEqualTo(4);
+        assertThat(possibleRoutes.size()).isEqualTo(3);
     }
 
     @DisplayName("위치와 팀으로 기물을 찾는다.")
