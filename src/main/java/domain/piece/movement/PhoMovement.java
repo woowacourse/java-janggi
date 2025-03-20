@@ -14,7 +14,6 @@ public enum PhoMovement {
         this.direction = direction;
     }
 
-
     public JanggiCoordinate getDirection() {
         return direction;
     }

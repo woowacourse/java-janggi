@@ -10,7 +10,6 @@ public enum ChaMovement {
 
     private final JanggiCoordinate direction;
 
-
     ChaMovement(JanggiCoordinate direction) {
         this.direction = direction;
     }

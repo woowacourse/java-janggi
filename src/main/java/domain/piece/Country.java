@@ -1,6 +1,7 @@
 package domain.piece;
 
 public enum Country {
+
     CHO("초"),
     HAN("한");
 

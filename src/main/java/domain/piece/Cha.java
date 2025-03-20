@@ -1,12 +1,13 @@
 package domain.piece;
 
-import static domain.piece.PieceType.CHA;
-
 import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
 import domain.piece.movement.ChaMovement;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static domain.piece.PieceType.CHA;
 
 public class Cha extends Piece {
     public Cha(Country country) {
@@ -33,7 +34,6 @@ public class Cha extends Piece {
                 next = movePosition(next, direction.getDirection());
             }
         }
-
         return availablePositions;
     }
 
