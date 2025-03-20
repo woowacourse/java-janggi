@@ -30,7 +30,7 @@ public class Dot {
         return CACHE.stream()
                 .filter(d -> d.x == x && d.y == y)
                 .findFirst()
-                .orElse(new Dot(x, y));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지 않는 좌표입니다."));
     }
 
     private boolean has(int x, int y) {
