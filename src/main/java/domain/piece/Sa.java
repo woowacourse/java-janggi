@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Sa implements Piece {
 
-    private static final List<Direction> WANG_MOVABLE_DIRECTIONS = Arrays.stream(Direction.values()).toList();
+    private static final List<Direction> SA_MOVABLE_DIRECTIONS = Arrays.stream(Direction.values()).toList();
 
     private final Team team;
 
@@ -22,7 +22,7 @@ public class Sa implements Piece {
     }
 
     private List<Node> findMovableNodes(Node currentNode, Board board) {
-        return WANG_MOVABLE_DIRECTIONS.stream()
+        return SA_MOVABLE_DIRECTIONS.stream()
                 .filter(currentNode::hasEdgeByDirection)
                 .map(currentNode::findNextNodeByDirection)
                 .filter(nextNode -> !(board.existsPieceByNode(nextNode)
