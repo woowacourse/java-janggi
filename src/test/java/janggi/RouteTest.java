@@ -1,5 +1,5 @@
-import janggi.Position;
-import janggi.Route;
+package janggi;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
