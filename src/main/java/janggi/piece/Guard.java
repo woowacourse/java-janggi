@@ -18,7 +18,7 @@ public final class Guard extends Piece {
 
     @Override
     public boolean canMove(final Position start, final Position end, final Board board) {
-        if (cannotFindRule(start, end)) {
+        if (movingRules.cannotFindRule(start, end)) {
             return false;
         }
         return !isPresentSameTeam(end, board);
