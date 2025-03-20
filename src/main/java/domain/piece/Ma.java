@@ -54,6 +54,6 @@ public class Ma extends Piece {
             }
             return Set.of(departure.pickChangedCoordinate(0, -1).get());
         }
-        throw new IllegalArgumentException("여기까지 못옴");
+        throw new IllegalStateException("유효하지 않은 좌표입니다.");
     }
 }

@@ -66,6 +66,6 @@ public class Po extends Piece {
             }
             return coordinates;
         }
-        throw new IllegalArgumentException("여기까지 못옴");
+        throw new IllegalStateException("유효하지 않은 좌표입니다.");
     }
 }

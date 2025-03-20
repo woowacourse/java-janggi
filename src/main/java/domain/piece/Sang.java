@@ -82,6 +82,6 @@ public class Sang extends Piece {
                         departure.pickChangedCoordinate(1, 2).get());
             }
         }
-        throw new IllegalArgumentException("여기까지 못옴");
+        throw new IllegalStateException("유효하지 않은 좌표입니다.");
     }
 }
