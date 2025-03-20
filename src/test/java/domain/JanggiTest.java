@@ -1,5 +1,7 @@
 package domain;
 
+import domain.position.Position;
+import domain.position.Route;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

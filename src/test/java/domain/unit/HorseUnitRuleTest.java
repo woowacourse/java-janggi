@@ -2,8 +2,8 @@ package domain.unit;
 
 
 import domain.Direction;
-import domain.Point;
-import domain.Route;
+import domain.position.Point;
+import domain.position.Route;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

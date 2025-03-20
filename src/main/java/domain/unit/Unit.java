@@ -1,7 +1,7 @@
 package domain.unit;
 
-import domain.Position;
-import domain.Route;
+import domain.position.Position;
+import domain.position.Route;
 import domain.Team;
 import domain.UnitType;
 import java.util.List;

@@ -1,5 +1,6 @@
 package domain;
 
+import domain.position.Position;
 import domain.unit.BombUnitRule;
 import domain.unit.CarUnitRule;
 import domain.unit.ElephantUnitRule;
