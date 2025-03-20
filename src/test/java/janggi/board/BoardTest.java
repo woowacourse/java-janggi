@@ -1,5 +1,6 @@
 package janggi.board;
 
+import janggi.fixture.BoardFixture;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
