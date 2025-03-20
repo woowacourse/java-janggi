@@ -4,12 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.PieceFactory;
 import domain.position.Point;
 import domain.position.Position;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+import view.OutputView;
 
 class BoardTest {
 
@@ -86,28 +88,100 @@ class BoardTest {
     void 이동할_위치에_같은_팀_말이_있으면_예외_발생() {
 
         // given
-        Board board = Board.initialize();
+        final Board board = Board.initialize();
 
         // when
-        Position position = board.findPositionBy(Point.of(2, 0));
-        Point point = Point.of(1, 2);
+        final Position position = board.findPositionBy(Point.of(2, 0));
+        final Point point = Point.of(1, 2);
 
         // then
-        assertThatThrownBy(() -> board.moveForEnd(position, point)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> board.moveForEnd(position, point, OutputView::printCaptureMessage)).isInstanceOf(
+                IllegalArgumentException.class);
     }
 
     @Test
     void 이동할_위치에_같은_팀_말이_없으면_정상_동작() {
 
         // given
-        Board board = Board.initialize();
+        final Board board = Board.initialize();
 
         // when
-        Position position = board.findPositionBy(Point.of(2, 0));
-        Point point = Point.of(3, 2);
+        final Position position = board.findPositionBy(Point.of(2, 0));
+        final Point point = Point.of(3, 2);
 
         // then
-        assertThatCode(() -> board.moveForEnd(position, point)).doesNotThrowAnyException();
+        assertThatCode(
+                () -> board.moveForEnd(position, point, OutputView::printCaptureMessage)).doesNotThrowAnyException();
     }
 
+    @Test
+    void 말이_올바른_이동을_한다() {
+        // given
+        final Board board = Board.initialize();
+
+        // when
+        final Position position = board.findPositionBy(Point.of(2, 0));
+        final Point point = Point.of(3, 2);
+        board.moveForEnd(position, point, OutputView::printCaptureMessage);
+
+        // then
+        assertThat(board.hasPieceAt(point)).isTrue();
+    }
+
+    @Test
+    void 말이_상대_말을_잡을_수_있다() {
+        // given
+        final Board board = Board.initialize();
+        final Point expectedPoint = Point.of(1, 6);
+        final Cannon cannon = PieceFactory.createCannon();
+
+        // when
+        final Position position1 = board.findPositionBy(Point.of(2, 3));
+        final Point toPoint1 = Point.of(1, 3);
+        board.moveForEnd(position1, toPoint1, OutputView::printCaptureMessage);
+
+        final Position position2 = board.findPositionBy(Point.of(2, 6));
+        final Point toPoint2 = Point.of(1, 6);
+        board.moveForEnd(position2, toPoint2, OutputView::printCaptureMessage);
+
+        final Position position3 = board.findPositionBy(Point.of(1, 2));
+        final Point toPoint3 = Point.of(1, 6);
+        board.moveForEnd(position3, toPoint3, OutputView::printCaptureMessage);
+
+        final Position position = board.findPositionBy(expectedPoint);
+
+        // then
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(board.hasPieceAt(expectedPoint)).isTrue();
+            softly.assertThat(position.isSamePiece(cannon)).isTrue();
+        });
+    }
+
+    @Test
+    void 포가_포를_잡지_못한다() {
+        // given
+        final Board board = Board.initialize();
+        final Point expectedPoint = Point.of(1, 7);
+        final Cannon cannon = PieceFactory.createCannon();
+
+        // when
+        final Position position2 = board.findPositionBy(Point.of(0, 3));
+        final Point toPoint2 = Point.of(1, 3);
+        board.moveForEnd(position2, toPoint2, OutputView::printCaptureMessage);
+
+        final Position position3 = board.findPositionBy(Point.of(1, 7));
+        final Point toPoint3 = Point.of(1, 2);
+        if (board.canMoveOnPath(position3, toPoint3)) {
+            board.moveForEnd(position3, toPoint3, OutputView::printCaptureMessage);
+        }
+
+        final Position position = board.findPositionBy(expectedPoint);
+
+        // then
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(board.hasPieceAt(expectedPoint)).isTrue();
+            softly.assertThat(position.isSamePiece(cannon)).isTrue();
+        });
+
+    }
 }
