@@ -1,13 +1,11 @@
 package janggi.piece;
 
 import janggi.Board;
-import janggi.Player;
 import janggi.Position;
 import janggi.Team;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,7 +20,7 @@ class SoldierTest {
         Board board = Board.initialize(List.of(soldier));
 
         // when
-        board.move(new Player(), Position.of(2, 2), Position.of(2, 3));
+        board.move(Position.of(2, 2), Position.of(2, 3));
 
         // then
         assertThat(board.getPiece(Position.of(2, 3))).isInstanceOf(Soldier.class);

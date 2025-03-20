@@ -1,15 +1,10 @@
 package janggi;
 
-import janggi.piece.Cannon;
-import janggi.piece.Chariot;
-import janggi.piece.Elephant;
-import janggi.piece.General;
-import janggi.piece.Guard;
-import janggi.piece.Horse;
 import janggi.piece.Piece;
-import janggi.piece.Soldier;
-
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Board {
 
@@ -46,7 +41,7 @@ public class Board {
         return positionToPiece.containsKey(position);
     }
 
-    public void move(Player player, Position departure, Position destination) {
+    public void move(Position departure, Position destination) {
         Piece target = getPiece(departure);
         Piece moved = target.move(this, destination);
 
