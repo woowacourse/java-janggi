@@ -33,4 +33,9 @@ public class Pieces {
         pieces.remove(piece);
         pieces.add(piece.updatePosition(position));
     }
+
+    public boolean existByPosition(final Position position) {
+        return pieces.stream()
+                .anyMatch(piece -> piece.isSamePosition(position));
+    }
 }
