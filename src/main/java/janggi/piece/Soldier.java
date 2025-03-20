@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Soldier extends Piece {
 
-    public Soldier(Side side) {
+    public Soldier(final Side side) {
         super(side);
     }
 
@@ -27,7 +27,7 @@ public class Soldier extends Piece {
         throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
     }
 
-    private void validateDirection(int differenceY, Side side) {
+    private void validateDirection(final int differenceY, final Side side) {
         if (side == Side.RED && differenceY > 0) {
             throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
         }

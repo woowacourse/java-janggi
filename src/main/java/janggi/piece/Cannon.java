@@ -7,19 +7,19 @@ import java.util.stream.IntStream;
 
 public class Cannon extends Piece {
 
-    public Cannon(Side side) {
+    public Cannon(final Side side) {
         super(side);
     }
 
     @Override
-    public List<Position> calculatePath(Position start, Position end) {
+    public List<Position> calculatePath(final Position start, final Position end) {
         int differenceX = end.x() - start.x();
         int differenceY = end.y() - start.y();
         validateMovingRule(differenceX, differenceY);
         return findPath(start, differenceX, differenceY);
     }
 
-    private List<Position> findPath(Position start, int differenceX, int differenceY) {
+    private List<Position> findPath(final Position start, final int differenceX, final int differenceY) {
         int differenceXAmount = Math.abs(differenceX);
         if (differenceX > 0) {
             return IntStream.range(1, differenceXAmount)
@@ -43,7 +43,7 @@ public class Cannon extends Piece {
                 .toList();
     }
 
-    private void validateMovingRule(int differenceX, int differenceY) {
+    private void validateMovingRule(final int differenceX, final int differenceY) {
         if ((differenceX == 0 && differenceY != 0)
                 || (differenceX != 0 && differenceY == 0)) {
             return;

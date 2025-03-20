@@ -8,11 +8,11 @@ public abstract class Piece {
 
     protected final Side side;
 
-    public Piece(Side side) {
+    public Piece(final Side side) {
         this.side = side;
     }
 
-    public boolean isSameSide(Piece other) {
+    public boolean isSameSide(final Piece other) {
         return this.side == other.side;
     }
 
@@ -20,5 +20,5 @@ public abstract class Piece {
         return side;
     }
 
-    public abstract List<Position> calculatePath(Position start, Position end);
+    public abstract List<Position> calculatePath(final Position start, final Position end);
 }

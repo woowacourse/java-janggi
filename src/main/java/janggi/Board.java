@@ -68,7 +68,7 @@ public class Board {
         return new Board(board);
     }
 
-    public void move(Position start, Position end) {
+    public void move(final Position start, final Position end) {
         validatePieceExistsByPosition(start);
         Piece pickedPiece = board.get(start);
         if (board.containsKey(end)) {
@@ -82,7 +82,7 @@ public class Board {
         board.put(end, pickedPiece);
     }
 
-    private void validatePieceOnPath(Position start, Position end, Piece pickedPiece) {
+    private void validatePieceOnPath(final Position start, final Position end, final Piece pickedPiece) {
         List<Position> path = pickedPiece.calculatePath(start, end);
         if (pickedPiece instanceof Cannon) {
             validateNotExistsCannonOnPath(path);
@@ -96,7 +96,7 @@ public class Board {
         }
     }
 
-    private void validateOnePieceOnCannonPath(List<Position> path) {
+    private void validateOnePieceOnCannonPath(final List<Position> path) {
         long countPieceOnPath = path.stream()
                 .filter(board::containsKey)
                 .count();
@@ -105,7 +105,7 @@ public class Board {
         }
     }
 
-    private void validateNotExistsCannonOnPath(List<Position> path) {
+    private void validateNotExistsCannonOnPath(final List<Position> path) {
         boolean containsCannonOnPath = path.stream()
                 .anyMatch(position -> board.containsKey(position) && board.get(position) instanceof Cannon);
         if (containsCannonOnPath) {
@@ -113,7 +113,7 @@ public class Board {
         }
     }
 
-    private static void validateTargetPiece(Piece pickedPiece, Piece targetPiece) {
+    private static void validateTargetPiece(final Piece pickedPiece, final Piece targetPiece) {
         if (pickedPiece.isSameSide(targetPiece)) {
             throw new IllegalArgumentException("같은 팀이 있는 위치로는 이동할 수 없습니다.");
         }
@@ -122,7 +122,7 @@ public class Board {
         }
     }
 
-    private void validatePieceExistsByPosition(Position position) {
+    private void validatePieceExistsByPosition(final Position position) {
         if (board.containsKey(position)) {
             return;
         }

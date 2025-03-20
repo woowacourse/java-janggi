@@ -6,12 +6,12 @@ import java.util.List;
 
 public class Elephant extends Piece {
 
-    public Elephant(Side side) {
+    public Elephant(final Side side) {
         super(side);
     }
 
     @Override
-    public List<Position> calculatePath(Position start, Position end) {
+    public List<Position> calculatePath(final Position start, final Position end) {
         int differenceX = end.x() - start.x();
         int differenceY = end.y() - start.y();
         validateMovingRule(differenceX, differenceY);
@@ -20,7 +20,7 @@ public class Elephant extends Piece {
         return List.of(firstStep, secondStep);
     }
 
-    private Position calculateFirstDirection(Position start, int differenceX, int differenceY) {
+    private Position calculateFirstDirection(final Position start, final int differenceX, final int differenceY) {
         if (differenceX == 3) {
             return start.right(1);
         }
@@ -33,7 +33,7 @@ public class Elephant extends Piece {
         return start.down(1);
     }
 
-    private Position calculateSecondDirection(Position start, int differenceX, int differenceY) {
+    private Position calculateSecondDirection(final Position start, final int differenceX, final int differenceY) {
         if (differenceX == 3) {
             // 양수인 경우 위로 가는거임
             if (differenceY == 2) {

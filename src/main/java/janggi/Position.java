@@ -17,19 +17,19 @@ public record Position(int x, int y) {
         }
     }
 
-    public Position up(int changeValue) {
+    public Position up(final int changeValue) {
         return new Position(x, y + changeValue);
     }
 
-    public Position down(int changeValue) {
+    public Position down(final int changeValue) {
         return new Position(x, y - changeValue);
     }
 
-    public Position left(int changeValue) {
+    public Position left(final int changeValue) {
         return new Position(x - changeValue, y);
     }
 
-    public Position right(int changeValue) {
+    public Position right(final int changeValue) {
         return new Position(x + changeValue, y);
     }
 }

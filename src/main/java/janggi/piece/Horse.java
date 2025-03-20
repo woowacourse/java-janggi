@@ -11,14 +11,14 @@ public class Horse extends Piece {
     }
 
     @Override
-    public List<Position> calculatePath(Position start, Position end) {
+    public List<Position> calculatePath(final Position start, final Position end) {
         int differenceX = end.x() - start.x();
         int differenceY = end.y() - start.y();
         validateMovingRule(differenceX, differenceY);
         return List.of(calculateDirection(start, differenceX, differenceY));
     }
 
-    private Position calculateDirection(Position start, int differenceX, int differenceY) {
+    private Position calculateDirection(final Position start, final int differenceX, final int differenceY) {
         if (differenceX == 2) {
             return start.right(1);
         }
