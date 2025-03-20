@@ -4,10 +4,10 @@ import janggi.piece.Piece;
 import janggi.position.Position;
 import java.util.Map;
 
-public class OutputView {
+public class ResultView {
     private static final String HEADER = "   1    2    3    4    5    6    7    8   9%n";
     private static final String BLANK = "ㅤ";
-    private static final String LINE = "   |    |    |    |    |    |    |   |   |%n";
+    private static final String LINE = "   |    |    |    |    |    |    |    |   |%n";
 
     public void printBoard(Map<Position, Piece> pieces) {
         System.out.printf(HEADER);
