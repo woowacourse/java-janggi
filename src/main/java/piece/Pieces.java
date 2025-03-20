@@ -26,4 +26,14 @@ public class Pieces {
     public Piece getLastPiece() {
         return pieces.getLast();
     }
+
+    public void killPieceFrom(Piece killerPiece) {
+        for (int i = 0; i < pieces.size(); i++) {
+            Piece piece = pieces.get(i);
+            if (killerPiece.isSamePosition(piece) && !killerPiece.isSameTeam(piece)) {
+                pieces.remove(i);
+                return;
+            }
+        }
+    }
 }

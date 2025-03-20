@@ -28,6 +28,10 @@ public class Piece {
         return position.equals(destination);
     }
 
+    public boolean isSamePosition(Piece comparePiece) {
+        return isSamePosition(comparePiece.position);
+    }
+
     public boolean isSameType(PieceType pieceType) {
         return moveRule.isSameType(pieceType);
     }
@@ -51,5 +55,9 @@ public class Piece {
 
     public boolean isSameTeam(Team moveTeam) {
         return team.equals(moveTeam);
+    }
+
+    public boolean isSameTeam(Piece comparePiece) {
+        return isSameTeam(comparePiece.team);
     }
 }
