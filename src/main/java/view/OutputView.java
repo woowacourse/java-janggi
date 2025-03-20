@@ -5,7 +5,8 @@ import domain.board.JanggiBoard;
 import domain.piece.Country;
 
 public class OutputView {
-    public static void printJanggiBoard(JanggiBoard board) {
+    
+    public void printJanggiBoard(JanggiBoard board) {
         StringBuilder builder = new StringBuilder();
 
         for (int col = JanggiBoard.BOARD_MIN_SIZE; col <= JanggiBoard.COL_SIZE; col++) {
