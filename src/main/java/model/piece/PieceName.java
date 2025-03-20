@@ -1,4 +1,4 @@
-package model;
+package model.piece;
 
 public enum PieceName {
     JANG("漢"),

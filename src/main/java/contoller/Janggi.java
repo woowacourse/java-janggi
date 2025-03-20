@@ -4,8 +4,8 @@ import static view.InputView.choMoveInput;
 import static view.OutputVIew.displayJanggiBoard;
 
 import java.util.Scanner;
-import model.JanggiBoard;
-import model.JanggiBoardSetUp;
+import model.janggi_board.JanggiBoard;
+import model.janggi_board.JanggiBoardSetUp;
 import model.Team;
 import view.OutputVIew;
 

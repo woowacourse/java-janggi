@@ -1,12 +1,17 @@
-package model;
+package model.janggi_board;
 
-import static model.JanggiBoardSetUp.DEFAULT_SETUP;
+import static model.janggi_board.JanggiBoardSetUp.DEFAULT_SETUP;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import model.Path;
+import model.Point;
+import model.piece.Piece;
 
 public class JanggiBoard {
+    public static final int VERTICAL_SIZE = 10;
+    public static final int HORIZONTAL_SIZE = 9;
     private ArrayList<ArrayList<Dot>> janggiBoard;
 
     public JanggiBoard(JanggiBoardSetUp elephantSetup) {
@@ -17,7 +22,7 @@ public class JanggiBoard {
 
     private ArrayList<ArrayList<Dot>> initializeJanggiBoard() {
         ArrayList<ArrayList<Dot>> dots = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < VERTICAL_SIZE; i++) {
             ArrayList<Dot> dotLine = getHorizontalDotsLine();
             dots.add(dotLine);
         }
@@ -26,7 +31,7 @@ public class JanggiBoard {
 
     private static ArrayList<Dot> getHorizontalDotsLine() {
         ArrayList<Dot> dotLine = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < HORIZONTAL_SIZE; i++) {
             dotLine.add(new Dot());
         }
         return dotLine;
@@ -69,7 +74,7 @@ public class JanggiBoard {
     }
 
     private Dot getDot(Point point) {
-        if (point.x() < 0 || point.y() < 0 || point.x() > 8 || point.y() > 9) {
+        if (point.x() < 0 || point.y() < 0 || point.x() > HORIZONTAL_SIZE - 1 || point.y() > VERTICAL_SIZE - 1) {
             throw new IllegalArgumentException("장기판을 벗어난 좌표입니다.");
         }
         return janggiBoard.get(point.y()).get(point.x());

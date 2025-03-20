@@ -1,7 +1,10 @@
-package model;
+package model.piece;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import model.Path;
+import model.Point;
+import model.Team;
 
 public class Pho extends Piece {
 

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import model.Dot;
-import model.JanggiBoard;
 import model.Team;
+import model.janggi_board.Dot;
+import model.janggi_board.JanggiBoard;
 
 public class OutputVIew {
 

@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.HashMap;
 import java.util.Map;
+import model.piece.Cha;
+import model.piece.Ma;
+import model.piece.Piece;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

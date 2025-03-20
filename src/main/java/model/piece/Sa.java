@@ -1,26 +1,23 @@
-package model;
+package model.piece;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
+import model.Path;
+import model.Point;
+import model.Team;
 
-public class Byeong extends Piece {
+public class Sa extends Piece {
 
-    public Byeong(Team team) {
+    public Sa(Team team) {
         super(team);
-        pieceName = PieceName.BYEONG;
+        pieceName = PieceName.SA;
     }
 
     @Override
     public boolean isValidPoint(Point beforePoint, Point targetPoint) {
-        int moveForward = 1;
-
-        if (team == Team.RED) {
-            moveForward = -1;
-        }
-
-        List<Integer> horizontal = List.of(0, -1, 1);
-        List<Integer> vertical = List.of(moveForward, 0, 0);
+        List<Integer> horizontal = List.of(0, 0, -1, 1);
+        List<Integer> vertical = List.of(1, -1, 0, 0);
 
         return IntStream.range(0, horizontal.size())
                 .anyMatch(i -> horizontal.get(i) + beforePoint.x() == targetPoint.x()
@@ -41,5 +38,4 @@ public class Byeong extends Piece {
         }
         return true;
     }
-
 }

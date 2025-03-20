@@ -1,6 +1,9 @@
-package model;
+package model.piece;
 
 import java.util.Map;
+import model.Path;
+import model.Point;
+import model.Team;
 
 public abstract class Piece {
     Team team;

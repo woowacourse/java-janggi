@@ -1,6 +1,7 @@
-package model;
+package model.janggi_board;
 
 import java.util.Optional;
+import model.piece.Piece;
 
 public class Dot {
 
