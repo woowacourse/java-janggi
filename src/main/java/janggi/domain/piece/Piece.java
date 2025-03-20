@@ -11,7 +11,6 @@ import java.util.Set;
 public abstract class Piece {
 
     protected Position position;
-
     protected final Team team;
 
     protected abstract Set<RawRoute> calculateRawRoutes();
@@ -26,19 +25,27 @@ public abstract class Piece {
     }
 
     public Set<Route> calculateRoutes() {
-        Set<Route> returnRoute = new HashSet<>();
+        final Set<Route> rawRoutes = new HashSet<>();
         for (RawRoute rawRoute : calculateRawRoutes()) {
-            try {
-                List<Position> positions = new ArrayList<>();
-                for (RawPosition rawPosition : rawRoute.rawPositions()) {
-                    positions.add(new Position(rawPosition.x(), rawPosition.y()));
-                }
-                returnRoute.add(new Route(positions));
-            } catch (IllegalArgumentException e) {
-                continue;
-            }
+            putValidRoutes(rawRoute, rawRoutes);
         }
-        return returnRoute;
+        return rawRoutes;
+    }
+
+    private void putValidRoutes(final RawRoute rawRoute, final Set<Route> returnRoute) {
+        try {
+            final List<Position> positions = new ArrayList<>();
+            putValidPositions(rawRoute, positions);
+            returnRoute.add(new Route(positions));
+        } catch (IllegalArgumentException e) {
+            return;
+        }
+    }
+
+    private void putValidPositions(final RawRoute rawRoute, final List<Position> positions) {
+        for (RawPosition rawPosition : rawRoute.rawPositions()) {
+            positions.add(new Position(rawPosition.x(), rawPosition.y()));
+        }
     }
 
     public boolean isSamePosition(final Position otherPosition) {
