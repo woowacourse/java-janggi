@@ -1,6 +1,10 @@
-package domain.pattern;
+package domain.route;
 
 import domain.JanggiPosition;
+import domain.pattern.Direction;
+import domain.pattern.Pattern;
+import domain.route.Route;
+import domain.route.궁Route;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -9,31 +13,31 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class 궁PathTest {
+public class 궁RouteTest {
     @ParameterizedTest
-    @MethodSource("provide궁Path")
-    void 궁의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPostion, List<Pattern> path) {
+    @MethodSource("provide궁Route")
+    void 궁의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPostion, List<Pattern> route) {
         // given
         int beforeRow = 9;
         int beforeColumn = 5;
         JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-        Path pathOf궁 = new 궁Path();
+        Route routeOf궁 = new 궁Route();
 
         // when
-        List<Pattern> 궁path = pathOf궁.getPath(beforePosition, afterPostion);
+        List<Pattern> 궁route = routeOf궁.getRoute(beforePosition, afterPostion);
 
         // when & then
-        Assertions.assertThat(궁path)
-                .isEqualTo(path);
+        Assertions.assertThat(궁route)
+                .isEqualTo(route);
     }
 
-    static Stream<Arguments> provide궁Path() {
-        Path pathOf궁 = new 궁Path();
+    static Stream<Arguments> provide궁Route() {
+        Route routeOf궁 = new 궁Route();
         return Stream.of(
-                Arguments.of(new JanggiPosition(8, 5), pathOf궁.getPatterns(Direction.UP)),
-                Arguments.of(new JanggiPosition(9, 4), pathOf궁.getPatterns(Direction.LEFT)),
-                Arguments.of(new JanggiPosition(9, 6), pathOf궁.getPatterns(Direction.RIGHT)),
-                Arguments.of(new JanggiPosition(0, 5), pathOf궁.getPatterns(Direction.DOWN)));
+                Arguments.of(new JanggiPosition(8, 5), routeOf궁.getPatterns(Direction.UP)),
+                Arguments.of(new JanggiPosition(9, 4), routeOf궁.getPatterns(Direction.LEFT)),
+                Arguments.of(new JanggiPosition(9, 6), routeOf궁.getPatterns(Direction.RIGHT)),
+                Arguments.of(new JanggiPosition(0, 5), routeOf궁.getPatterns(Direction.DOWN)));
     }
 
     @Test
@@ -49,7 +53,7 @@ public class 궁PathTest {
 
         // when & then
         Assertions.assertThatThrownBy(
-                        () -> new 궁Path().getPath(beforePosition, afterPosition))
+                        () -> new 궁Route().getRoute(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

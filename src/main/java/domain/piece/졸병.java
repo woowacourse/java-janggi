@@ -1,14 +1,14 @@
 package domain.piece;
 
-import domain.pattern.병Path;
-import domain.pattern.졸Path;
+import domain.route.병Route;
+import domain.route.졸Route;
 
 public class 졸병 extends Piece {
 
     public 졸병(Side side) {
-        super(2, side, new 졸Path());
+        super(2, side, new 졸Route());
         if (side == Side.HAN) {
-            path = new 병Path();
+            route = new 병Route();
         }
     }
 }

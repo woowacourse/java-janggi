@@ -1,6 +1,10 @@
-package domain.pattern;
+package domain.route;
 
 import domain.JanggiPosition;
+import domain.pattern.Direction;
+import domain.pattern.Pattern;
+import domain.route.Route;
+import domain.route.졸Route;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -9,31 +13,31 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class 졸PathTest {
+public class 졸RouteTest {
 
     @ParameterizedTest
-    @MethodSource("provide졸Path")
-    void 졸의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
+    @MethodSource("provide졸Route")
+    void 졸의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> route) {
         // given
         int beforeRow = 7;
         int beforeColumn = 5;
         JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-        Path pathOf졸 = new 졸Path();
+        Route routeOf졸 = new 졸Route();
 
         // when
-        List<Pattern> 졸path = pathOf졸.getPath(beforePosition, afterPosition);
+        List<Pattern> 졸route = routeOf졸.getRoute(beforePosition, afterPosition);
 
         // when & then
-        Assertions.assertThat(졸path)
-                .isEqualTo(path);
+        Assertions.assertThat(졸route)
+                .isEqualTo(route);
     }
 
-    static Stream<Arguments> provide졸Path() {
-        Path pathOf졸 = new 졸Path();
+    static Stream<Arguments> provide졸Route() {
+        Route routeOf졸 = new 졸Route();
         return Stream.of(
-                Arguments.of(new JanggiPosition(6, 5), pathOf졸.getPatterns(Direction.UP)),
-                Arguments.of(new JanggiPosition(7, 4), pathOf졸.getPatterns(Direction.LEFT)),
-                Arguments.of(new JanggiPosition(7, 6), pathOf졸.getPatterns(Direction.RIGHT))
+                Arguments.of(new JanggiPosition(6, 5), routeOf졸.getPatterns(Direction.UP)),
+                Arguments.of(new JanggiPosition(7, 4), routeOf졸.getPatterns(Direction.LEFT)),
+                Arguments.of(new JanggiPosition(7, 6), routeOf졸.getPatterns(Direction.RIGHT))
         );
     }
 
@@ -49,7 +53,7 @@ public class 졸PathTest {
         JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> new 졸Path().getPath(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> new 졸Route().getRoute(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

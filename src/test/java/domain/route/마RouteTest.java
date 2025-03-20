@@ -1,6 +1,9 @@
-package domain.pattern;
+package domain.route;
 
 import domain.JanggiPosition;
+import domain.pattern.Direction;
+import domain.pattern.Pattern;
+import domain.route.마Route;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -9,17 +12,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class 마PathTest {
+public class 마RouteTest {
 
     @ParameterizedTest
     @MethodSource("provide마Path")
     void 마의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // given
         JanggiPosition beforePosition = new JanggiPosition(6, 4);
-        마Path pathOf마 = new 마Path();
+        마Route pathOf마 = new 마Route();
 
         // when
-        List<Pattern> 마path = pathOf마.getPath(beforePosition, afterPosition);
+        List<Pattern> 마path = pathOf마.getRoute(beforePosition, afterPosition);
 
         // when & then
         Assertions.assertThat(마path)
@@ -27,7 +30,7 @@ public class 마PathTest {
     }
 
     static Stream<Arguments> provide마Path() {
-        마Path pathOf마 = new 마Path();
+        마Route pathOf마 = new 마Route();
         return Stream.of(
                 Arguments.of(new JanggiPosition(5, 2), pathOf마.getPatterns(Direction.LEFT_UP)),
                 Arguments.of(new JanggiPosition(5, 6), pathOf마.getPatterns(Direction.RIGHT_UP)),
@@ -47,7 +50,7 @@ public class 마PathTest {
         JanggiPosition afterPosition = new JanggiPosition(4, 4);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> new 마Path().getPath(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> new 마Route().getRoute(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

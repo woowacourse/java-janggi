@@ -1,25 +1,25 @@
 package domain.piece;
 
 import domain.JanggiPosition;
-import domain.pattern.Path;
 import domain.pattern.Pattern;
+import domain.route.Route;
 import java.util.List;
 
 public abstract class Piece {
     protected int score;
     protected Side side;
     protected PieceStatus status;
-    protected Path path;
+    protected Route route;
 
-    public Piece(int score, Side side, Path path) {
+    public Piece(int score, Side side, Route route) {
         this.score = score;
         this.side = side;
         this.status = PieceStatus.ACTIVE;
-        this.path = path;
+        this.route = route;
     }
 
     public List<Pattern> findPath(JanggiPosition beforePosition, JanggiPosition afterPosition) {
-        return getPath().getPath(beforePosition, afterPosition);
+        return route.getRoute(beforePosition, afterPosition);
     }
 
     public boolean isEmpty() {
@@ -39,9 +39,5 @@ public abstract class Piece {
 
     public PieceStatus getStatus() {
         return status;
-    }
-
-    public Path getPath() {
-        return path;
     }
 }

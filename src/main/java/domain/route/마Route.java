@@ -1,23 +1,15 @@
-package domain.pattern;
+package domain.route;
 
-import static domain.pattern.Direction.DOWN_LEFT;
-import static domain.pattern.Direction.DOWN_RIGHT;
-import static domain.pattern.Direction.LEFT_DOWN;
-import static domain.pattern.Direction.LEFT_UP;
-import static domain.pattern.Direction.RIGHT_DOWN;
-import static domain.pattern.Direction.RIGHT_UP;
-import static domain.pattern.Direction.UP_LEFT;
-import static domain.pattern.Direction.UP_RIGHT;
+import static domain.pattern.Direction.*;
 
+import domain.pattern.Pattern;
 import java.util.List;
 import java.util.Map;
 
-public class 마Path extends Path {
+public class 마Route extends LimitedRoute {
 
-    public 마Path() {
-        super(List.of(UP_RIGHT, RIGHT_UP, RIGHT_DOWN, DOWN_RIGHT, DOWN_LEFT, LEFT_DOWN, LEFT_UP,
-                        UP_LEFT),
-                Map.of(
+    public 마Route() {
+        super(Map.of(
                         UP_RIGHT, List.of(Pattern.UP, Pattern.DIAGONAL_UP_RIGHT),
                         RIGHT_UP, List.of(Pattern.RIGHT, Pattern.DIAGONAL_UP_RIGHT),
                         RIGHT_DOWN, List.of(Pattern.RIGHT, Pattern.DIAGONAL_DOWN_RIGHT),

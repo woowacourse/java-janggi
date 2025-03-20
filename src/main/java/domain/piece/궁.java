@@ -1,10 +1,10 @@
 package domain.piece;
 
-import domain.pattern.궁Path;
+import domain.route.궁Route;
 
 public class 궁 extends Piece {
 
     public 궁(Side side) {
-        super(0, side, new 궁Path());
+        super(0, side, new 궁Route());
     }
 }
