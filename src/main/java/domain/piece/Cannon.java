@@ -55,16 +55,18 @@ public class Cannon extends Piece {
             return false;
         }
 
-        boolean check = pieces.stream()
-                .anyMatch(
-                        piece -> piece.hasSamePosition(expectedPosition) && (piece.isSameTeam(this) || piece.isSameType(
-                                PieceType.CANNON)));
+        return hasNotTeamAtPosition(expectedPosition,pieces,(piece ->piece.isSameType(PieceType.CANNON)));
 
-        if (check) {
-            return false;
-        }
-
-        return true;
+//        boolean check = pieces.stream()
+//                .anyMatch(
+//                        piece -> piece.hasSamePosition(expectedPosition) && (piece.isSameTeam(this) || piece.isSameType(
+//                                PieceType.CANNON)));
+//
+//        if (check) {
+//            return false;
+//        }
+//
+//        return true;
     }
 
     private List<Position> findIntermediatePositions(Direction direction, Position start, Position end) {

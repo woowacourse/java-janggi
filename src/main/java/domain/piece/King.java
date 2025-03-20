@@ -31,7 +31,10 @@ public class King extends Piece {
 
     @Override
     public boolean canMove(Position expectedPosition, List<Piece> pieces) {
-        return MOVEMENTS.canMovePieceToPosition(this, expectedPosition, pieces);
+        if(!MOVEMENTS.canMovePieceToPosition(this, expectedPosition, pieces)){
+            return false;
+        };
+        return hasNotTeamAtPosition(expectedPosition,pieces,(piece -> false));
     }
 
     @Override

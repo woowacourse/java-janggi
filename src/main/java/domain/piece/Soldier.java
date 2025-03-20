@@ -39,7 +39,10 @@ public class Soldier extends Piece {
     @Override
     public boolean canMove(Position expectedPosition, List<Piece> pieces) {
         Movements findMovement = MOVEMENTS.get(this.teamType);
-        return findMovement.canMovePieceToPosition(this, expectedPosition, pieces);
+        if(!findMovement.canMovePieceToPosition(this, expectedPosition, pieces)){
+            return false;
+        };
+        return hasNotTeamAtPosition(expectedPosition,pieces,(piece -> false));
     }
 
     @Override

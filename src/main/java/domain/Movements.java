@@ -30,7 +30,7 @@ public class Movements {
         if (hasPieceAtIntermediatePositions(target, expectedPosition, alivePieces)) {
             return false;
         }
-        return hasNotTeamAtPosition(target, expectedPosition, alivePieces);
+        return true;
     }
 
     private boolean canNotMoveTargetTo(Piece target, Position expectedPosition) {
@@ -50,11 +50,5 @@ public class Movements {
     private boolean hasPieceTo(Position position, List<Piece> alivePieces) {
         return alivePieces.stream()
                 .anyMatch(piece -> piece.hasSamePosition(position));
-    }
-
-    private boolean hasNotTeamAtPosition(Piece target, Position expectedPosition, List<Piece> alivePieces) {
-        boolean hasTeamAtPosition = alivePieces.stream()
-                .anyMatch(piece -> piece.hasSamePosition(expectedPosition) && piece.isSameTeam(target));
-        return !hasTeamAtPosition;
     }
 }
