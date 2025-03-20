@@ -1,6 +1,7 @@
 package janggi.board;
 
 import janggi.piece.Cannon;
+import janggi.piece.Chariot;
 import janggi.piece.Empty;
 import janggi.piece.Piece;
 import janggi.view.OutputView;
@@ -20,22 +21,27 @@ public class JanggiBoard {
         this.board = board;
     }
 
+    public void printBoard() {
+        OutputView outputView = new OutputView();
+        outputView.printBoard(board);
+    }
+
     public static JanggiBoard initialize() {
         Map<Position, Piece> board = BoardInitializer.initialPieces(X_LIMIT, Y_LIMIT);
         return new JanggiBoard(board);
     }
 
     public List<Position> filterReachableDestination(List<Route> routes, Piece piece) {
-        List<Position> reachablePositions = new ArrayList<>();
-        for (Route route : routes) {
-            Position destination = route.getDestination();
-            if (isInvalidRoute(piece, route, destination)) continue;
-            reachablePositions.add(destination);
+        if (piece instanceof Chariot) {
+            return filterReachableDestinationChariot(routes, piece);
         }
-        return reachablePositions;
+        if (piece instanceof Cannon) {
+            return filterReachableDestinationCannon(routes, piece);
+        }
+        return filterReachableDestinationNormal(routes, piece);
     }
 
-    public List<Position> filterReachableDestinationChariot(List<Route> routes, Piece piece) {
+    private List<Position> filterReachableDestinationChariot(List<Route> routes, Piece piece) {
         List<Position> reachablePositions = new ArrayList<>();
         for (Route route : routes) {
             List<Position> positions = route.getPositions();
@@ -44,7 +50,7 @@ public class JanggiBoard {
         return reachablePositions;
     }
 
-    public List<Position> filterReachableDestinationCannon(List<Route> routes, Piece piece) {
+    private List<Position> filterReachableDestinationCannon(List<Route> routes, Piece piece) {
         List<Position> reachablePositions = new ArrayList<>();
         for (Route route : routes) {
             List<Position> positions = route.getPositions();
@@ -53,36 +59,14 @@ public class JanggiBoard {
         return reachablePositions;
     }
 
-    private void addValidDestinationForCannon(final Piece piece, final List<Position> positions, final List<Position> reachablePositions) {
-        boolean isNotJump = true;
-        for (Position position : positions) {
-            if (position.isOutOfRange(X_LIMIT, Y_LIMIT) || isPositionCannon(position)) {
-                break;
-            }
-            if (isNotJump && isPositionHasPiece(position)) {
-                isNotJump = false;
-                continue;
-            }
-            if (isNotJump) {
-                continue;
-            }
-            if (isPositionHasPiece(position)) {
-                catchEnemyPiece(piece, reachablePositions, position);
-                break;
-            }
-            reachablePositions.add(position);
+    private List<Position> filterReachableDestinationNormal(final List<Route> routes, final Piece piece) {
+        List<Position> reachablePositions = new ArrayList<>();
+        for (Route route : routes) {
+            Position destination = route.getDestination();
+            if (isInvalidRoute(piece, route, destination)) continue;
+            reachablePositions.add(destination);
         }
-    }
-
-    private void catchEnemyPiece(final Piece piece, final List<Position> reachablePositions, final Position position) {
-        if (isEnemy(position, piece)) {
-            reachablePositions.add(position);
-        }
-    }
-
-    public void printBoard() {
-        OutputView outputView = new OutputView();
-        outputView.printBoard(board);
+        return reachablePositions;
     }
 
     private boolean isInvalidRoute(final Piece piece, final Route route, final Position destination) {
@@ -95,16 +79,16 @@ public class JanggiBoard {
         return isAlly(destination, piece);
     }
 
+    private boolean checkInvalidIntermediatePositions(final Route route) {
+        return route.getIntermediatePositions().stream()
+                .anyMatch(this::isPositionHasPiece);
+    }
+
     private void addValidDestination(final Piece piece, final List<Position> positions, final List<Position> reachablePositions) {
         for (Position position : positions) {
             if (isBoundPosition(piece, position, reachablePositions)) break;
             reachablePositions.add(position);
         }
-    }
-
-    private boolean checkInvalidIntermediatePositions(final Route route) {
-        return route.getIntermediatePositions().stream()
-                .anyMatch(this::isPositionHasPiece);
     }
 
     private boolean isBoundPosition(final Piece piece, final Position position, final List<Position> reachablePositions) {
@@ -118,12 +102,44 @@ public class JanggiBoard {
         return false;
     }
 
-    private boolean isPositionCannon(Position position) {
-        return board.get(position) instanceof Cannon;
+    private void addValidDestinationForCannon(final Piece piece, final List<Position> positions, final List<Position> reachablePositions) {
+        boolean hasJumped = false;
+        for (Position position : positions) {
+            if (position.isOutOfRange(X_LIMIT, Y_LIMIT) || isPositionCannon(position)) break;
+            if (!hasJumped && updateJumpState(position)) {
+                hasJumped = true;
+                continue;
+            }
+
+            if (hasJumped && processJumpedPosition(piece, reachablePositions, position)) break;
+        }
+    }
+
+    private boolean updateJumpState(Position position) {
+        return isPositionHasPiece(position);
+    }
+
+    private boolean processJumpedPosition(Piece piece, List<Position> reachablePositions, Position position) {
+        if (isPositionHasPiece(position)) {
+            addValidDestinationIfEnemy(piece, reachablePositions, position);
+            return true;
+        }
+        reachablePositions.add(position);
+        return false;
+    }
+
+    private void addValidDestinationIfEnemy(final Piece piece, final List<Position> reachablePositions, final Position position) {
+        if (isEnemy(position, piece)) {
+            reachablePositions.add(position);
+        }
     }
 
     private boolean isPositionHasPiece(Position position) {
         return !isPositionEmpty(position);
+    }
+
+    private boolean isPositionCannon(Position position) {
+        return board.get(position) instanceof Cannon;
     }
 
     private boolean isPositionEmpty(Position position) {
@@ -131,7 +147,7 @@ public class JanggiBoard {
     }
 
     private boolean isAlly(Position position, Piece piece) {
-        Piece anotherPiece = board.get(position); 
+        Piece anotherPiece = board.get(position);
         if (piece.isCho()) {
             return anotherPiece.isCho();
         }
@@ -155,4 +171,5 @@ public class JanggiBoard {
     public Map<Position, Piece> getBoard() {
         return board;
     }
+
 }

@@ -1,5 +1,6 @@
 package janggi.board;
 
+import janggi.Side;
 import janggi.piece.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -117,7 +118,7 @@ class JanggiBoardTest {
     }
 
     @Test
-    @DisplayName("기본 이동 테스트 - 경계의 졸")
+    @DisplayName("이동 테스트 - 경계의 졸")
     void test12() {
         JanggiBoard janggiBoard = JanggiBoard.initialize();
 
@@ -135,7 +136,7 @@ class JanggiBoardTest {
     }
 
     @Test
-    @DisplayName("기본 이동 테스트 - 상")
+    @DisplayName("상 초기 배치 이동 테스트")
     void test13() {
         JanggiBoard janggiBoard = JanggiBoard.initialize();
 
@@ -148,7 +149,7 @@ class JanggiBoardTest {
     }
 
     @Test
-    @DisplayName("기본 이동 테스트 - 마")
+    @DisplayName("마 초기 배치 이동 테스트")
     void test14() {
         JanggiBoard janggiBoard = JanggiBoard.initialize();
 
@@ -169,14 +170,14 @@ class JanggiBoardTest {
     }
 
     @Test
-    @DisplayName("기본 이동 테스트 - 차")
+    @DisplayName("차 초기 배치 이동 테스트")
     void test15() {
         JanggiBoard janggiBoard = JanggiBoard.initialize();
 
         Position position = new Position(0, 9);
         Piece piece = janggiBoard.getBoard().get(position);
         List<Route> routes = piece.computeCandidatePositions(position);
-        List<Position> positions = janggiBoard.filterReachableDestinationChariot(routes, piece);
+        List<Position> positions = janggiBoard.filterReachableDestination(routes, piece);
 
         assertAll(
                 () -> assertThat(positions.size()).isEqualTo(2),
@@ -186,16 +187,65 @@ class JanggiBoardTest {
     }
 
     @Test
-    @DisplayName("기본 이동 테스트 - 포")
+    @DisplayName("차 이동 테스트 - 초기 배치에서 5,7에 차 배치")
     void test16() {
+        JanggiBoard janggiBoard = JanggiBoard.initialize();
+
+        Position position = new Position(5, 7);
+        Piece piece = new Chariot(Side.CHO);
+        janggiBoard.getBoard().put(position, piece);
+
+        List<Route> routes = piece.computeCandidatePositions(position);
+        List<Position> positions = janggiBoard.filterReachableDestination(routes, piece);
+
+        assertAll(
+                () -> assertThat(positions.size()).isEqualTo(12),
+                () -> assertThat(positions).contains(new Position(5, 8)),
+                () -> assertThat(positions).contains(new Position(5, 6)),
+                () -> assertThat(positions).contains(new Position(5, 5)),
+                () -> assertThat(positions).contains(new Position(5, 4)),
+                () -> assertThat(positions).contains(new Position(5, 3)),
+                () -> assertThat(positions).contains(new Position(5, 2)),
+                () -> assertThat(positions).contains(new Position(5, 1)),
+                () -> assertThat(positions).contains(new Position(5, 0)),
+                () -> assertThat(positions).contains(new Position(6, 7)),
+                () -> assertThat(positions).contains(new Position(4, 7)),
+                () -> assertThat(positions).contains(new Position(3, 7)),
+                () -> assertThat(positions).contains(new Position(2, 7))
+        );
+    }
+
+    @Test
+    @DisplayName("포 초기 이동 테스트 - 이동 불가")
+    void test17() {
         JanggiBoard janggiBoard = JanggiBoard.initialize();
 
         Position position = new Position(1, 7);
         Piece piece = janggiBoard.getBoard().get(position);
         List<Route> routes = piece.computeCandidatePositions(position);
-        List<Position> positions = janggiBoard.filterReachableDestinationCannon(routes, piece);
+        List<Position> positions = janggiBoard.filterReachableDestination(routes, piece);
 
         assertThat(positions.size()).isEqualTo(0);
     }
 
+    @Test
+    @DisplayName("포 이동 테스트 - 초기 배치에서 4,7에 포 배치")
+    void test18() {
+        JanggiBoard janggiBoard = JanggiBoard.initialize();
+
+        Position position = new Position(4, 7);
+        Piece piece = new Cannon(Side.CHO);
+        janggiBoard.getBoard().put(position, piece);
+
+        List<Route> routes = piece.computeCandidatePositions(position);
+        List<Position> positions = janggiBoard.filterReachableDestination(routes, piece);
+
+        assertAll(
+                () -> assertThat(positions.size()).isEqualTo(4),
+                () -> assertThat(positions).contains(new Position(4, 9)),
+                () -> assertThat(positions).contains(new Position(4, 5)),
+                () -> assertThat(positions).contains(new Position(4, 4)),
+                () -> assertThat(positions).contains(new Position(4, 3))
+        );
+    }
 }
