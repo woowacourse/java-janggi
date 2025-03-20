@@ -22,9 +22,10 @@ public class Board {
     }
 
     public void updateBoard(final BoardPosition presentPosition, final BoardPosition futurePosition) {
-
         ChessPiece chessPiece = janggiPan.get(presentPosition);
         chessPiece.isMove(futurePosition);
+
+        checkObstacle(presentPosition, futurePosition);
 
         if (isPo(presentPosition)) {
             if (!isPieceInFront(presentPosition, futurePosition)) {
@@ -109,5 +110,28 @@ public class Board {
             return cnt <= 1;
         }
         return false;
+    }
+
+    public void checkObstacle(final BoardPosition presentPosition, final BoardPosition futurePosition) {
+        List<BoardPosition> route = janggiPan.get(presentPosition).makeRoute(futurePosition);
+
+        int cnt = 0;
+        if (isPo(presentPosition)) {
+            for (BoardPosition boardPosition : route) {
+                if (janggiPan.containsKey(boardPosition)) {
+                    cnt++;
+                }
+            }
+            if (cnt >= 2) {
+                throw new IllegalArgumentException("[ERROR] 이동하려는 경로에 장애물이 존재합니다.");
+            }
+            return;
+        }
+
+        for (BoardPosition boardPosition : route) {
+            if (janggiPan.containsKey(boardPosition)) {
+                throw new IllegalArgumentException("[ERROR] 이동하려는 경로에 장애물이 존재합니다.");
+            }
+        }
     }
 }

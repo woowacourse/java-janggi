@@ -116,4 +116,26 @@ class BoardTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
+
+    @DisplayName("기물이 이동하는 경로를 검사한다.")
+    @Test
+    void checkObstacle() {
+        //given
+        List<ChessPiece> chessPieces = List.of(
+                new Cha(new PieceProfile("차", Nation.HAN), new BoardPosition(4, 2)),
+                new Byeong(new PieceProfile("병", Nation.HAN), new BoardPosition(7, 2))
+        );
+
+        List<ChessPiece> chessPieces2 = List.of();
+
+        BoardPosition presentPosition = new BoardPosition(4, 2);
+        BoardPosition futurePosition = new BoardPosition(8, 2);
+
+        Board board = new Board(chessPieces, chessPieces2);
+
+        //when //then
+        assertThatThrownBy(() -> board.checkObstacle(presentPosition, futurePosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageStartingWith("[ERROR]");
+    }
 }
