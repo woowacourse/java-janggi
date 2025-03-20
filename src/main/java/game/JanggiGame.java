@@ -1,3 +1,9 @@
+package game;
+
+import game.arrangement.ArrangementStrategy;
+import piece.Dynasty;
+import piece.Piece;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

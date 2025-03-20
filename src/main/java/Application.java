@@ -1,3 +1,10 @@
+import game.Dot;
+import game.JanggiGame;
+import game.arrangement.OuterElephantStrategy;
+import piece.Dynasty;
+import view.InputView;
+import view.OutputView;
+
 import java.util.List;
 
 public class Application {

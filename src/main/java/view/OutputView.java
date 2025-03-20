@@ -1,3 +1,9 @@
+package view;
+
+import game.Dot;
+import piece.Dynasty;
+import piece.Piece;
+
 import java.util.Map;
 
 public class OutputView {

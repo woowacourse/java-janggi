@@ -1,3 +1,7 @@
+package piece;
+
+import game.Dot;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +12,10 @@ public class Horse extends Piece {
 
     public Horse(Dynasty dynasty) {
         super(dynasty);
+    }
+
+    private static boolean isFirstMoveHorizontal(int dx, int dy) {
+        return Math.abs(dx) == 2 && Math.abs(dy) == 1;
     }
 
     @Override
@@ -42,10 +50,6 @@ public class Horse extends Piece {
 
         route.add(Dot.of(origin.getX() - 1, origin.getY()));
         return route;
-    }
-
-    private static boolean isFirstMoveHorizontal(int dx, int dy) {
-        return Math.abs(dx) == 2 && Math.abs(dy) == 1;
     }
 
     private boolean isFirstMoveVertical(int dx, int dy) {

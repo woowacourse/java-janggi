@@ -1,3 +1,5 @@
+package piece;
+
 public enum Dynasty {
     HAN("한나라"),
     CHO("초나라");

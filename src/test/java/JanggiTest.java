@@ -1,9 +1,11 @@
+import game.Dot;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import piece.*;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -339,11 +341,10 @@ public class JanggiTest {
         routesWithPiece.put(Dot.of(1, 2), null);
         routesWithPiece.put(Dot.of(1, 3), new Cannon(Dynasty.HAN));
 
-        // when
-        boolean actual = cannon.canMove(routesWithPiece, null);
-
-        // then
-        assertThat(actual).isFalse();
+        // when // then
+        assertThatCode(() -> cannon.canMove(routesWithPiece, null))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("포는 포를 공격할 수 없다.")

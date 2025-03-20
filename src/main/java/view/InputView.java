@@ -1,3 +1,8 @@
+package view;
+
+import game.Dot;
+import piece.Dynasty;
+
 import java.util.List;
 import java.util.Scanner;
 

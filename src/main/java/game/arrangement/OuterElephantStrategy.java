@@ -1,3 +1,8 @@
+package game.arrangement;
+
+import game.Dot;
+import piece.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
