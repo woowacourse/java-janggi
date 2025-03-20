@@ -215,7 +215,8 @@ public class JanggiBoardTest {
 
         // when
         JanggiPosition beforePosition = new JanggiPosition(0, 9);
-        JanggiPosition afterPosition = new JanggiPosition(0, 9);
+        JanggiPosition afterPosition = new JanggiPosition(7, 9);
+
         // then
         assertThatThrownBy(() -> janggiBoard.move(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
