@@ -22,4 +22,8 @@ public record BoardVector(
     public int hashCode() {
         return Objects.hash(dx, dy);
     }
+
+    public boolean isDxZero() {
+        return dx == 0;
+    }
 }

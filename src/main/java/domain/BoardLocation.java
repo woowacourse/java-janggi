@@ -70,4 +70,12 @@ public class BoardLocation {
     public BoardVector minus(BoardLocation current) {
         return new BoardVector(x - current.x, y - current.y);
     }
+
+    public BoardLocation moveY(int dy) {
+        return new BoardLocation(x, y + dy);
+    }
+
+    public BoardLocation moveX(int dx) {
+        return new BoardLocation(x + dx, y);
+    }
 }
