@@ -63,9 +63,9 @@ public class Application {
 
     private void move(final Board board, final String input) {
         try {
-            List<Integer> moveCommand = parseMoveCommand(input);
-            Position start = new Position(Row.of(moveCommand.get(0)), Column.of(moveCommand.get(1)));
-            Position end = new Position(Row.of(moveCommand.get(2)), Column.of(moveCommand.get(3)));
+            final List<Integer> moveCommand = parseMoveCommand(input);
+            final Position start = new Position(Row.of(moveCommand.get(0)), Column.of(moveCommand.get(1)));
+            final Position end = new Position(Row.of(moveCommand.get(2)), Column.of(moveCommand.get(3)));
             board.move(start, end);
             boardView.display(board);
         } catch (IllegalArgumentException e) {

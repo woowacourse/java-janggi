@@ -8,5 +8,5 @@ public enum Type {
     GENERAL,
     GUARD,
     HORSE,
-    SOLDIER;
+    SOLDIER
 }
