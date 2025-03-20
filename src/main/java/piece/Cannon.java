@@ -1,5 +1,6 @@
 package piece;
 
+import game.Board;
 import game.Dot;
 
 import java.util.ArrayList;
@@ -32,24 +33,24 @@ public class Cannon extends Piece {
         if (dx == 0) {
             if (dy > 0) {
                 for (int i = 1; i < dy; i++) {
-                    route.add(Dot.of(origin.getX(), origin.getY() + i));
+                    route.add(Board.findBy(origin.getX(), origin.getY() + i));
                 }
             }
 
             for (int i = -1; i > dy; i--) {
-                route.add(Dot.of(origin.getX(), origin.getY() + i));
+                route.add(Board.findBy(origin.getX(), origin.getY() + i));
             }
         }
 
         if (dy == 0) {
             if (dx > 0) {
                 for (int i = 1; i < dx; i++) {
-                    route.add(Dot.of(origin.getX() + i, origin.getY()));
+                    route.add(Board.findBy(origin.getX() + i, origin.getY()));
                 }
             }
 
             for (int i = -1; i > dx; i--) {
-                route.add(Dot.of(origin.getX() + i, origin.getY()));
+                route.add(Board.findBy(origin.getX() + i, origin.getY()));
             }
         }
 

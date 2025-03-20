@@ -1,5 +1,6 @@
 package view;
 
+import game.Board;
 import game.Dot;
 import piece.Dynasty;
 
@@ -30,8 +31,8 @@ public class InputView {
         int destinationX = Integer.parseInt(destinationXY[0].trim());
         int destinationY = Integer.parseInt(destinationXY[1].trim());
 
-        Dot origin = Dot.of(originX, originY);
-        Dot destination = Dot.of(destinationX, destinationY);
+        Dot origin = Board.findBy(originX, originY);
+        Dot destination = Board.findBy(destinationX, destinationY);
 
         return List.of(origin, destination);
     }

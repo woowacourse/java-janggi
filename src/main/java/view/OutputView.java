@@ -1,5 +1,6 @@
 package view;
 
+import game.Board;
 import game.Dot;
 import piece.Dynasty;
 import piece.Piece;
@@ -10,9 +11,10 @@ public class OutputView {
     private static final String BLANK = "＿";
 
     public void printBoard(Map<Dot, Piece> pieces) {
-        for (Dot dot : Dot.CACHE) {
+        for (Dot dot : Board.getDots()) {
             if (dot.getX() == 0) {
                 System.out.println();
+                System.out.printf("%d", dot.getY());
             }
 
             if (!pieces.containsKey(dot)) {
@@ -30,12 +32,7 @@ public class OutputView {
             System.out.print("\u001B[31m" + " " + piece.getName() + "\u001B[0m");
         }
         System.out.println();
-    }
 
-    private String getPieceOrBlank(Dot dot, Map<Dot, Piece> pieces) {
-        if (pieces.containsKey(dot)) {
-            return pieces.get(dot).getName();
-        }
-        return BLANK;
+        System.out.println("  ０ １ ２ ３ ４ ５ ６ ７ 8");
     }
 }

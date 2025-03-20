@@ -1,5 +1,6 @@
 package piece;
 
+import game.Board;
 import game.Dot;
 
 import java.util.ArrayList;
@@ -35,20 +36,20 @@ public class Horse extends Piece {
 
         if (isFirstMoveVertical(dx, dy)) {
             if (dy > 0) {
-                route.add(Dot.of(origin.getX(), origin.getY() + 1));
+                route.add(Board.findBy(origin.getX(), origin.getY() + 1));
                 return route;
             }
 
-            route.add(Dot.of(origin.getX(), origin.getY() - 1));
+            route.add(Board.findBy(origin.getX(), origin.getY() - 1));
             return route;
         }
 
         if (dx > 0) {
-            route.add(Dot.of(origin.getX() + 1, origin.getY()));
+            route.add(Board.findBy(origin.getX() + 1, origin.getY()));
             return route;
         }
 
-        route.add(Dot.of(origin.getX() - 1, origin.getY()));
+        route.add(Board.findBy(origin.getX() - 1, origin.getY()));
         return route;
     }
 

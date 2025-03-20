@@ -15,7 +15,7 @@ public class JanggiGame {
         Map<Dot, Piece> pieces = strategy.arrange(Dynasty.HAN);
         Map<Dot, Piece> reversePieces = new HashMap<>();
         pieces.keySet()
-                .forEach(dot -> reversePieces.put(dot.reverse(), pieces.get(dot))
+                .forEach(dot -> reversePieces.put(Board.getReverse(dot), pieces.get(dot))
                 );
 
         this.pieces.putAll(reversePieces);

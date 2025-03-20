@@ -1,3 +1,4 @@
+import game.Board;
 import game.Dot;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,29 +27,29 @@ public class JanggiTest {
 
     public static Stream<Arguments> provideElephantOriginAndDestinationAndExpected() {
         return Stream.of(
-                Arguments.of(Dot.of(5, 6), Dot.of(7, 9), List.of(Dot.of(5, 7), Dot.of(6, 8))),
-                Arguments.of(Dot.of(5, 6), Dot.of(3, 9), List.of(Dot.of(5, 7), Dot.of(4, 8))),
-                Arguments.of(Dot.of(5, 6), Dot.of(8, 8), List.of(Dot.of(6, 6), Dot.of(7, 7))),
-                Arguments.of(Dot.of(5, 6), Dot.of(8, 4), List.of(Dot.of(6, 6), Dot.of(7, 5))),
-                Arguments.of(Dot.of(5, 6), Dot.of(3, 3), List.of(Dot.of(5, 5), Dot.of(4, 4)))
+                Arguments.of(Board.findBy(5, 6), Board.findBy(7, 9), List.of(Board.findBy(5, 7), Board.findBy(6, 8))),
+                Arguments.of(Board.findBy(5, 6), Board.findBy(3, 9), List.of(Board.findBy(5, 7), Board.findBy(4, 8))),
+                Arguments.of(Board.findBy(5, 6), Board.findBy(8, 8), List.of(Board.findBy(6, 6), Board.findBy(7, 7))),
+                Arguments.of(Board.findBy(5, 6), Board.findBy(8, 4), List.of(Board.findBy(6, 6), Board.findBy(7, 5))),
+                Arguments.of(Board.findBy(5, 6), Board.findBy(3, 3), List.of(Board.findBy(5, 5), Board.findBy(4, 4)))
 
         );
     }
 
     public static Stream<Arguments> providePawnAndOriginAndDestination() {
         return Stream.of(
-                Arguments.of(new Pawn(Dynasty.HAN), Dot.of(0, 5), Dot.of(0, 6)),
-                Arguments.of(new Pawn(Dynasty.CHO), Dot.of(0, 3), Dot.of(0, 2))
+                Arguments.of(new Pawn(Dynasty.HAN), Board.findBy(0, 5), Board.findBy(0, 6)),
+                Arguments.of(new Pawn(Dynasty.CHO), Board.findBy(0, 3), Board.findBy(0, 2))
         );
     }
 
     public static Stream<Arguments> provideHorseOriginAndDestinationAndExpected() {
         return Stream.of(
-                Arguments.of(Dot.of(5, 6), Dot.of(6, 8), List.of(Dot.of(5, 7))),
-                Arguments.of(Dot.of(5, 6), Dot.of(4, 8), List.of(Dot.of(5, 7))),
-                Arguments.of(Dot.of(5, 6), Dot.of(7, 7), List.of(Dot.of(6, 6))),
-                Arguments.of(Dot.of(5, 6), Dot.of(7, 5), List.of(Dot.of(6, 6))),
-                Arguments.of(Dot.of(5, 6), Dot.of(4, 4), List.of(Dot.of(5, 5)))
+                Arguments.of(Board.findBy(5, 6), Board.findBy(6, 8), List.of(Board.findBy(5, 7))),
+                Arguments.of(Board.findBy(5, 6), Board.findBy(4, 8), List.of(Board.findBy(5, 7))),
+                Arguments.of(Board.findBy(5, 6), Board.findBy(7, 7), List.of(Board.findBy(6, 6))),
+                Arguments.of(Board.findBy(5, 6), Board.findBy(7, 5), List.of(Board.findBy(6, 6))),
+                Arguments.of(Board.findBy(5, 6), Board.findBy(4, 4), List.of(Board.findBy(5, 5)))
         );
     }
 
@@ -89,13 +90,13 @@ public class JanggiTest {
                 .doesNotThrowAnyException();
     }
 
-    @DisplayName("범위를 벗어난 점을 생성할 경우 예외 처리한다.")
+    @DisplayName("범위를 벗어난 점을 조회할 경우 예외 처리한다.")
     @ParameterizedTest
     @MethodSource("provideXY")
     void validateDotRange(int x, int y) {
 
         // when // then
-        assertThatCode(() -> new Dot(x, y))
+        assertThatCode(() -> Board.findBy(x, y))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -104,8 +105,8 @@ public class JanggiTest {
     @Test
     void createDotsCache() {
         // given
-        Dot dotA = Dot.of(1, 1);
-        Dot dotB = Dot.of(1, 1);
+        Dot dotA = Board.findBy(1, 1);
+        Dot dotB = Board.findBy(1, 1);
 
         // when
         boolean actual = dotA == dotB;
@@ -142,14 +143,14 @@ public class JanggiTest {
     @Test
     void chariotCanGetRoute() {
         // given
-        Dot origin = Dot.of(1, 1);
-        Dot destination = Dot.of(1, 3);
+        Dot origin = Board.findBy(1, 1);
+        Dot destination = Board.findBy(1, 3);
         Chariot chariot = new Chariot(Dynasty.HAN);
 
         // when
         List<Dot> actual = chariot.getRoute(origin, destination);
 
-        List<Dot> expected = List.of(Dot.of(1, 2));
+        List<Dot> expected = List.of(Board.findBy(1, 2));
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -159,8 +160,8 @@ public class JanggiTest {
     @Test
     void chariotCannotGetRoute() {
         // given
-        Dot origin = Dot.of(1, 1);
-        Dot destination = Dot.of(2, 3);
+        Dot origin = Board.findBy(1, 1);
+        Dot destination = Board.findBy(2, 3);
         Chariot chariot = new Chariot(Dynasty.HAN);
 
         // when // then
@@ -177,8 +178,8 @@ public class JanggiTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(1, 2), null);
-        routesWithPiece.put(Dot.of(1, 3), null);
+        routesWithPiece.put(Board.findBy(1, 2), null);
+        routesWithPiece.put(Board.findBy(1, 3), null);
 
         // when
         boolean actual = chariot.canMove(routesWithPiece, null);
@@ -194,8 +195,8 @@ public class JanggiTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(1, 2), null);
-        routesWithPiece.put(Dot.of(1, 3), new Chariot(Dynasty.HAN));
+        routesWithPiece.put(Board.findBy(1, 2), null);
+        routesWithPiece.put(Board.findBy(1, 3), new Chariot(Dynasty.HAN));
 
         // when
         boolean actual = chariot.canMove(routesWithPiece, null);
@@ -211,8 +212,8 @@ public class JanggiTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(1, 2), null);
-        routesWithPiece.put(Dot.of(1, 3), null);
+        routesWithPiece.put(Board.findBy(1, 2), null);
+        routesWithPiece.put(Board.findBy(1, 3), null);
 
         // when // then
         assertThatCode(() -> chariot.canMove(routesWithPiece, new Chariot(Dynasty.HAN)))
@@ -238,8 +239,8 @@ public class JanggiTest {
     @Test
     void elephantCannotGetRoute() {
         // given
-        Dot origin = Dot.of(1, 1);
-        Dot destination = Dot.of(3, 3);
+        Dot origin = Board.findBy(1, 1);
+        Dot destination = Board.findBy(3, 3);
         Elephant elephant = new Elephant(Dynasty.HAN);
 
         // when // then
@@ -256,8 +257,8 @@ public class JanggiTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Elephant elephant = new Elephant(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(5, 7), null);
-        routesWithPiece.put(Dot.of(6, 8), null);
+        routesWithPiece.put(Board.findBy(5, 7), null);
+        routesWithPiece.put(Board.findBy(6, 8), null);
 
         // when
         boolean actual = elephant.canMove(routesWithPiece, null);
@@ -273,8 +274,8 @@ public class JanggiTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Elephant elephant = new Elephant(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(5, 7), null);
-        routesWithPiece.put(Dot.of(6, 8), new Elephant(Dynasty.HAN));
+        routesWithPiece.put(Board.findBy(5, 7), null);
+        routesWithPiece.put(Board.findBy(6, 8), new Elephant(Dynasty.HAN));
 
         // when
         boolean actual = elephant.canMove(routesWithPiece, null);
@@ -287,14 +288,14 @@ public class JanggiTest {
     @DisplayName("포는 목적지로 가는 경로를 구할 수 있다.")
     @Test
     void cannonCanGetRoute() {
-        Dot origin = Dot.of(1, 1);
-        Dot destination = Dot.of(1, 3);
+        Dot origin = Board.findBy(1, 1);
+        Dot destination = Board.findBy(1, 3);
         Cannon cannon = new Cannon(Dynasty.HAN);
 
         // when
         List<Dot> actual = cannon.getRoute(origin, destination);
 
-        List<Dot> expected = List.of(Dot.of(1, 2));
+        List<Dot> expected = List.of(Board.findBy(1, 2));
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -304,8 +305,8 @@ public class JanggiTest {
     @Test
     void cannonCannotGetRoute() {
         // given
-        Dot origin = Dot.of(1, 1);
-        Dot destination = Dot.of(2, 3);
+        Dot origin = Board.findBy(1, 1);
+        Dot destination = Board.findBy(2, 3);
         Cannon cannon = new Cannon(Dynasty.HAN);
 
         // when // then
@@ -321,8 +322,8 @@ public class JanggiTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Cannon cannon = new Cannon(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(1, 2), null);
-        routesWithPiece.put(Dot.of(1, 3), new Chariot(Dynasty.HAN));
+        routesWithPiece.put(Board.findBy(1, 2), null);
+        routesWithPiece.put(Board.findBy(1, 3), new Chariot(Dynasty.HAN));
 
         // when
         boolean actual = cannon.canMove(routesWithPiece, null);
@@ -338,8 +339,8 @@ public class JanggiTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Cannon cannon = new Cannon(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(1, 2), null);
-        routesWithPiece.put(Dot.of(1, 3), new Cannon(Dynasty.HAN));
+        routesWithPiece.put(Board.findBy(1, 2), null);
+        routesWithPiece.put(Board.findBy(1, 3), new Cannon(Dynasty.HAN));
 
         // when // then
         assertThatCode(() -> cannon.canMove(routesWithPiece, null))
@@ -354,8 +355,8 @@ public class JanggiTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Cannon cannon = new Cannon(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(1, 2), null);
-        routesWithPiece.put(Dot.of(1, 3), new Chariot(Dynasty.HAN));
+        routesWithPiece.put(Board.findBy(1, 2), null);
+        routesWithPiece.put(Board.findBy(1, 3), new Chariot(Dynasty.HAN));
 
         // when // then
         assertThatCode(() -> cannon.canMove(routesWithPiece, new Cannon(Dynasty.CHO))).isInstanceOf(
@@ -367,8 +368,8 @@ public class JanggiTest {
     @Test
     void pawnCanGetRoute() {
         // given
-        Dot origin = Dot.of(1, 1);
-        Dot destination = Dot.of(1, 0);
+        Dot origin = Board.findBy(1, 1);
+        Dot destination = Board.findBy(1, 0);
         Pawn pawn = new Pawn(Dynasty.HAN);
 
         // when
@@ -419,8 +420,8 @@ public class JanggiTest {
     @Test
     void horseCannotGetRoute() {
         // given
-        Dot origin = Dot.of(1, 1);
-        Dot destination = Dot.of(3, 3);
+        Dot origin = Board.findBy(1, 1);
+        Dot destination = Board.findBy(3, 3);
         Horse horse = new Horse(Dynasty.HAN);
 
         // when // then
@@ -436,7 +437,7 @@ public class JanggiTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Horse horse = new Horse(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(5, 7), null);
+        routesWithPiece.put(Board.findBy(5, 7), null);
 
         // when
         boolean actual = horse.canMove(routesWithPiece, null);
@@ -452,7 +453,7 @@ public class JanggiTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Horse horse = new Horse(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(6, 8), new Horse(Dynasty.HAN));
+        routesWithPiece.put(Board.findBy(6, 8), new Horse(Dynasty.HAN));
 
         // when
         boolean actual = horse.canMove(routesWithPiece, null);
@@ -465,8 +466,8 @@ public class JanggiTest {
     @Test
     void kingCanGetRoute() {
         // given
-        Dot origin = Dot.of(1, 1);
-        Dot destination = Dot.of(1, 0);
+        Dot origin = Board.findBy(1, 1);
+        Dot destination = Board.findBy(1, 0);
         Advisor king = new Advisor(Dynasty.HAN);
 
         // when
@@ -493,8 +494,8 @@ public class JanggiTest {
     @Test
     void advisorCanGetRoute() {
         // given
-        Dot origin = Dot.of(1, 1);
-        Dot destination = Dot.of(1, 0);
+        Dot origin = Board.findBy(1, 1);
+        Dot destination = Board.findBy(1, 0);
         Advisor advisor = new Advisor(Dynasty.HAN);
 
         // when

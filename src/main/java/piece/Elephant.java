@@ -1,5 +1,6 @@
 package piece;
 
+import game.Board;
 import game.Dot;
 
 import java.util.ArrayList;
@@ -35,48 +36,48 @@ public class Elephant extends Piece {
 
         if (isFirstMoveVertical(dx, dy)) {
             if (dy > 0) {
-                route.add(Dot.of(origin.getX(), origin.getY() + 1));
+                route.add(Board.findBy(origin.getX(), origin.getY() + 1));
 
                 if (dx > 0) {
-                    route.add(Dot.of(origin.getX() + 1, origin.getY() + 2));
+                    route.add(Board.findBy(origin.getX() + 1, origin.getY() + 2));
                     return route;
                 }
 
-                route.add(Dot.of(origin.getX() - 1, origin.getY() + 2));
+                route.add(Board.findBy(origin.getX() - 1, origin.getY() + 2));
                 return route;
             }
 
-            route.add(Dot.of(origin.getX(), origin.getY() - 1));
+            route.add(Board.findBy(origin.getX(), origin.getY() - 1));
 
             if (dx > 0) {
-                route.add(Dot.of(origin.getX() + 1, origin.getY() - 2));
+                route.add(Board.findBy(origin.getX() + 1, origin.getY() - 2));
                 return route;
             }
 
-            route.add(Dot.of(origin.getX() - 1, origin.getY() - 2));
+            route.add(Board.findBy(origin.getX() - 1, origin.getY() - 2));
             return route;
         }
 
         if (dx > 0) {
-            route.add(Dot.of(origin.getX() + 1, origin.getY()));
+            route.add(Board.findBy(origin.getX() + 1, origin.getY()));
 
             if (dy > 0) {
-                route.add(Dot.of(origin.getX() + 2, origin.getY() + 1));
+                route.add(Board.findBy(origin.getX() + 2, origin.getY() + 1));
                 return route;
             }
 
-            route.add(Dot.of(origin.getX() + 2, origin.getY() - 1));
+            route.add(Board.findBy(origin.getX() + 2, origin.getY() - 1));
             return route;
         }
 
-        route.add(Dot.of(origin.getX() - 1, origin.getY()));
+        route.add(Board.findBy(origin.getX() - 1, origin.getY()));
 
         if (dy > 0) {
-            route.add(Dot.of(origin.getX() - 2, origin.getY() + 1));
+            route.add(Board.findBy(origin.getX() - 2, origin.getY() + 1));
             return route;
         }
 
-        route.add(Dot.of(origin.getX() - 2, origin.getY() - 1));
+        route.add(Board.findBy(origin.getX() - 2, origin.getY() - 1));
         return route;
     }
 
