@@ -13,16 +13,7 @@ public class JanggiManager {
 
     public JanggiManager(SangMaOrderCommand hanSangMaOrderCommand, SangMaOrderCommand choSangMaOrderCommand) {
         BoardGenerator boardGenerator = new BoardGenerator();
-        this.board = boardGenerator.generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);;
-    }
-
-    public boolean canMove(Point source, Point destination) {
-        Node sourceNode = board.findNodeByPoint(source);
-        Node destinationNode = board.findNodeByPoint(destination);
-
-        Piece sourcePiece = board.findPieceByNode(sourceNode);
-
-        return sourcePiece.canMove(sourceNode, destinationNode, board);
+        this.board = boardGenerator.generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
     }
 
     public boolean isThereWang(Point destination) {
@@ -40,7 +31,7 @@ public class JanggiManager {
 
         Piece sourcePiece = board.findPieceByNode(sourceNode);
         if (!sourcePiece.canMove(sourceNode, destinationNode, board)) {
-            return;
+            throw new IllegalArgumentException(source + " -> " + destination + " [ERROR] 이동할 수 없는 경로입니다.");
         }
 
         board.putPiece(destinationNode, sourcePiece);

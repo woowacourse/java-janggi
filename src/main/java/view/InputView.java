@@ -2,7 +2,6 @@ package view;
 
 import domain.board.Point;
 import domain.piece.Team;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -10,6 +9,7 @@ import java.util.Scanner;
 public class InputView {
 
     private static final Scanner scanner = new Scanner(System.in);
+    private static String MOVE_COMMAND_INPUT = "move";
 
     public static SangMaOrderCommand inputSangMaOrder(Team team) {
         System.out.printf("""
@@ -46,7 +46,7 @@ public class InputView {
     }
 
     private static void validateCommand(String command) {
-        if (!"move".equals(command)) {
+        if (!MOVE_COMMAND_INPUT.equals(command)) {
             throw new IllegalArgumentException("[ERROR] 올바른 커맨드를 입력해주세요.");
         }
     }
