@@ -40,14 +40,10 @@ public class Horse extends LimitedChessPiece {
     @Override
     protected List<ChessPosition> getCoordinateDestinations(final List<Path> coordinates,
                                                             final ChessPiecePositions positions) {
-        final List<ChessPosition> chessPositions = new ArrayList<>();
-        for (Path path : coordinates) {
-            if (existChessPiece(positions, path)) {
-                continue;
-            }
-            chessPositions.add(path.getDestination());
-        }
-        return chessPositions;
+        return coordinates.stream()
+                .filter(path -> !existChessPiece(positions, path))
+                .map(Path::getDestination)
+                .toList();
     }
 
     private static boolean existChessPiece(final ChessPiecePositions positions, final Path path) {
