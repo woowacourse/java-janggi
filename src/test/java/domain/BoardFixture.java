@@ -1,5 +1,6 @@
 package domain;
 
+import domain.board.Board;
 import domain.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import domain.board.Board;
 import domain.piece.Cha;
 import domain.piece.Jol;
 import domain.piece.Piece;

@@ -1,8 +1,8 @@
 package domain.piece;
 
-import domain.Board;
 import domain.Coordinate;
 import domain.Team;
+import domain.board.Board;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

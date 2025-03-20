@@ -2,10 +2,10 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Board;
 import domain.BoardFixture;
 import domain.Coordinate;
 import domain.Team;
+import domain.board.Board;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
