@@ -100,4 +100,83 @@ public class BoardTest {
             assertThat(actualNotEquals).isFalse();
         }
     }
+
+    @Nested
+    @DisplayName("기물 위치 이동")
+    class UpdatePosition {
+        @Test
+        @DisplayName("src 위치에 있는 기물이 dest로 옮겨질 수 있다면 이동시킨다.")
+        void updatePosition3() {
+            // given
+            final Map<Position, Piece> map = Map.of(
+                    new Position(1, 1), new Piece(PieceType.CHARIOT, TeamType.RED)
+            );
+            final Board board = new Board(map);
+
+            final Position src = new Position(1, 1);
+            final Position dest = new Position(1, 5);
+            final TeamType teamType = TeamType.RED;
+
+            // when
+            board.updatePosition(src, dest, teamType);
+
+            // then
+            Assertions.assertThat(board.getMap())
+                    .containsKey(dest)
+                    .doesNotContainKey(src);
+
+        }
+
+
+        @Test
+        @DisplayName("src 위치에 기물이 존재하지 않으면 예외가 발생한다")
+        void updatePosition() {
+            // given
+            final Board board = new Board(new HashMap<>());
+
+            final Position src = new Position(1, 1);
+            final Position dest = new Position(1, 2);
+            final TeamType teamType = TeamType.RED;
+
+            // when & then
+            Assertions.assertThatThrownBy(() -> board.updatePosition(src, dest, teamType))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
+        @DisplayName("src 위치에 기물이 현재 턴의 팀이 아니라면 예외가 발생한다")
+        void updatePosition1() {
+            // given
+            final Map<Position, Piece> map = Map.of(
+                    new Position(1, 1), new Piece(PieceType.CANNON, TeamType.BLUE)
+            );
+            final Board board = new Board(map);
+
+            final Position src = new Position(1, 1);
+            final Position dest = new Position(1, 2);
+            final TeamType teamType = TeamType.RED;
+
+            // when & then
+            Assertions.assertThatThrownBy(() -> board.updatePosition(src, dest, teamType))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
+        @DisplayName("src 위치에 기물이 dest로 갈 수 없다면 예외가 발생한다")
+        void updatePosition2() {
+            // given
+            final Map<Position, Piece> map = Map.of(
+                    new Position(1, 1), new Piece(PieceType.CANNON, TeamType.RED)
+            );
+            final Board board = new Board(map);
+
+            final Position src = new Position(1, 1);
+            final Position dest = new Position(1, 2);
+            final TeamType teamType = TeamType.RED;
+
+            // when & then
+            Assertions.assertThatThrownBy(() -> board.updatePosition(src, dest, teamType))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+    }
 }
