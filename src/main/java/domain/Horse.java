@@ -37,35 +37,6 @@ public class Horse extends LimitedChessPiece {
     }
 
     @Override
-    protected List<ChessPosition> getCoordinateDestinations(final List<Path> coordinates,
-                                                            final ChessPiecePositions positions) {
-        return coordinates.stream()
-                .filter(path -> !existChessPiece(positions, path))
-                .map(Path::getDestination)
-                .filter(destination -> isAbleToCatch(destination, positions))
-                .toList();
-    }
-
-    private boolean existChessPiece(final ChessPiecePositions positions, final Path path) {
-        List<ChessPosition> pathPositions = path.getPath();
-        for (int i = 0; i < pathPositions.size() - 1; i++) {
-            ChessPosition currentPosition = pathPositions.get(i);
-            if (positions.existChessPieceByPosition(currentPosition)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isAbleToCatch(ChessPosition targetPosition, ChessPiecePositions positions) {
-        if (!positions.existChessPieceByPosition(targetPosition)) {
-            return true;
-        }
-        ChessPiece targetPiece = positions.getChessPieceByPosition(targetPosition);
-        return targetPiece.getTeam() != getTeam();
-    }
-
-    @Override
     public ChessPieceType getChessPieceType() {
         return ChessPieceType.HORSE;
     }
