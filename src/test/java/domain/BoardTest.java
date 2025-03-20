@@ -1,10 +1,19 @@
 package domain;
 
+import domain.movements.DefaultMovement;
+import domain.movements.Direction;
+import domain.movements.PieceMovement;
+import domain.movements.Route;
+import domain.pieces.BoardStub;
+import domain.pieces.Piece;
+import domain.pieces.Soldier;
+import execptions.JanggiArgumentException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-
-import domain.pieces.Piece;
-import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -17,20 +26,24 @@ public final class BoardTest {
         @DisplayName("보드는 9x10 크기로 구성되어야 한다")
         void test_generateBoard() {
             //given
-            final Board board = new Board();
+            Map<Point, Piece> locations = new HashMap<>();
+            PieceMovement soldierMovement = new DefaultMovement(List.of(
+                    new Route(List.of(Direction.SOUTH)),
+                    new Route(List.of(Direction.EAST)),
+                    new Route(List.of(Direction.WEST))
+            ));
+            locations.put(new Point(3, 1), new Soldier(Team.CHO, soldierMovement));
 
-            //when
-            final Map<Point, Piece> locations = board.getLocations();
-
-            //then
-            assertThat(locations.size()).isEqualTo(90);
+            // when & then
+            assertThatThrownBy(() -> new Board(locations))
+                    .isInstanceOf(JanggiArgumentException.class);
         }
 
         @Test
         @DisplayName("보드는 0,0부터 9,8까지 포함된다")
         void test_locationRange() {
             //given
-            final Board board = new Board();
+            final Board board = BoardStub.generateBoard();
 
             //when
             final Map<Point, Piece> locations = board.getLocations();
