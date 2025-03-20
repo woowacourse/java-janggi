@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class HanBoard extends TeamBoard{
 
-    protected HanBoard(Map<BoardLocation, Piece> pieces) {
+    public HanBoard(Map<BoardLocation, Piece> pieces) {
         super(pieces);
     }
 

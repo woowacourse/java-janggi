@@ -39,4 +39,8 @@ public class Piece {
     public boolean isCannon() {
         return pieceType == PieceType.CANNON;
     }
+
+    public String toString() {
+        return pieceType.toString();
+    }
 }

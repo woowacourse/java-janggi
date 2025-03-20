@@ -3,7 +3,7 @@ package domain;
 public class Turn {
 
     private final Board board;
-    private int turn = 0;
+    private int turn = 1;
 
     public Turn(Board board) {
         this.board = board;
@@ -17,5 +17,16 @@ public class Turn {
         }
         board.moveChoPiece(current, destination);
         turn++;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public String getTurn() {
+        if (turn % 2 == 0) {
+            return "한나라";
+        }
+        return "초나라";
     }
 }

@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class ChoBoard extends TeamBoard {
 
-    protected ChoBoard(Map<BoardLocation, Piece> pieces) {
+    public ChoBoard(Map<BoardLocation, Piece> pieces) {
         super(pieces);
     }
 

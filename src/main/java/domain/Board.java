@@ -29,7 +29,7 @@ public class Board {
     }
 
     public void moveHanPiece(BoardLocation current, BoardLocation destination) {
-        Piece piece = choBoard.findByLocation(current);
+        Piece piece = hanBoard.findByLocation(current);
         if (piece.isMovable(current, destination)) {
             List<BoardLocation> allPath = piece.createAllPath(current, destination);
             if (piece.isCannon()){
@@ -41,5 +41,13 @@ public class Board {
             choBoard.removeIfHas(destination);
             hanBoard.move(current, destination);
         }
+    }
+
+    public ChoBoard getChoBoard() {
+        return choBoard;
+    }
+
+    public HanBoard getHanBoard() {
+        return hanBoard;
     }
 }

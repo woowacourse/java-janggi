@@ -78,4 +78,8 @@ public class BoardLocation {
     public BoardLocation moveX(int dx) {
         return new BoardLocation(x + dx, y);
     }
+
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
 }

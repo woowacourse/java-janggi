@@ -13,18 +13,18 @@ public abstract class TeamBoard {
         this.pieces = pieces;
     }
 
-    protected Map<BoardLocation, Piece> getPieces() {
+    public Map<BoardLocation, Piece> getPieces() {
         return pieces;
     }
 
-    protected Piece findByLocation(BoardLocation current) {
+    public Piece findByLocation(BoardLocation current) {
         if (pieces.containsKey(current)) {
             return pieces.get(current);
         }
         throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 없습니다.");
     }
 
-    protected void validateAllyMove(List<BoardLocation> allPath, BoardLocation destination) {
+    public void validateAllyMove(List<BoardLocation> allPath, BoardLocation destination) {
         Set<BoardLocation> located = pieces.keySet();
         if (located.contains(destination)) {
             throw new IllegalArgumentException("[ERROR] 현재 목적지에 아군이 위치해있습니다");
@@ -37,7 +37,7 @@ public abstract class TeamBoard {
         }
     }
 
-    protected void validateEnemyMove(List<BoardLocation> allPath) {
+    public void validateEnemyMove(List<BoardLocation> allPath) {
         Set<BoardLocation> located = pieces.keySet();
         for (BoardLocation boardLocation : allPath) {
             if (located.contains(boardLocation)) {
@@ -46,16 +46,16 @@ public abstract class TeamBoard {
         }
     }
 
-    protected void removeIfHas(BoardLocation destination) {
+    public void removeIfHas(BoardLocation destination) {
         pieces.remove(destination);
     }
 
-    protected void move(BoardLocation current, BoardLocation destination) {
+    public void move(BoardLocation current, BoardLocation destination) {
         Piece piece = pieces.remove(current);
         pieces.put(destination, piece);
     }
 
-    protected void validateCannon(List<BoardLocation> allPath, BoardLocation destination) {
+    public void validateCannon(List<BoardLocation> allPath, BoardLocation destination) {
         int count = 0;
         for (BoardLocation boardLocation : allPath){
             for (BoardLocation pieceLocation : pieces.keySet()){
