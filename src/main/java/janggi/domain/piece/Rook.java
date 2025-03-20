@@ -11,17 +11,26 @@ public class Rook implements Piece {
             Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT
     );
 
+    private static boolean canMoveEndPointByDirection(JanggiBoard janggiBoard, Point start, Point end,
+                                                      Direction direction) {
+        Point currPoint = start;
+        while (canMoveUntilEndPoint(end, currPoint)) {
+            currPoint = currPoint.move(direction);
+            if (janggiBoard.isExistPiece(currPoint)) {
+                break;
+            }
+        }
+        return currPoint.isSamePosition(end);
+    }
+
+    private static boolean canMoveUntilEndPoint(Point end, Point currPoint) {
+        return !currPoint.isSamePosition(end) && currPoint.isNotOutOfBoundary();
+    }
+
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
         for (Direction direction : DIRECTIONS) {
-            Point currPoint = start;
-            while (!currPoint.isSamePosition(end) && currPoint.isNotOutOfBoundary()) {
-                currPoint = currPoint.move(direction);
-                if (janggiBoard.isExistPiece(currPoint)) {
-                    break;
-                }
-            }
-            if (currPoint.isSamePosition(end)) {
+            if (canMoveEndPointByDirection(janggiBoard, start, end, direction)) {
                 return true;
             }
         }
@@ -30,8 +39,12 @@ public class Rook implements Piece {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
         return this.getClass() == obj.getClass();
     }
 

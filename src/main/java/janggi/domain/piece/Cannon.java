@@ -18,25 +18,33 @@ public class Cannon implements Piece {
             return false;
         }
         for (Direction direction : DIRECTIONS) {
-            boolean isJump = false;
-            Point currPoint = start;
-            while (!currPoint.isSamePosition(end) && currPoint.isNotOutOfBoundary()) {
-                currPoint = currPoint.move(direction);
-                if (janggiBoard.isExistPiece(currPoint)) {
-                    if (isExistCannon(janggiBoard, currPoint)) {
-                        break;
-                    }
-                    if (isJump) {
-                        break;
-                    }
-                    isJump = true;
-                }
-            }
-            if (isJump && currPoint.isSamePosition(end)) {
+            if (canMoveEndPoint(janggiBoard, start, end, direction)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean canMoveUntilEndPoint(Point end, Point currPoint) {
+        return !currPoint.isSamePosition(end) && currPoint.isNotOutOfBoundary();
+    }
+
+    private boolean canMoveEndPoint(JanggiBoard janggiBoard, Point start, Point end, Direction direction) {
+        boolean isJump = false;
+        Point current = start;
+        while (canMoveUntilEndPoint(end, current)) {
+            current = current.move(direction);
+            if (isExistCannon(janggiBoard, current)) {
+                return false;
+            }
+            if (isAlreadyJumpedAndExistPiece(janggiBoard, isJump, current)) {
+                break;
+            }
+            if (janggiBoard.isExistPiece(current)) {
+                isJump = true;
+            }
+        }
+        return isJump && current.isSamePosition(end);
     }
 
     private boolean isExistCannon(JanggiBoard janggiBoard, Point point) {
@@ -48,10 +56,18 @@ public class Cannon implements Piece {
         return false;
     }
 
+    private boolean isAlreadyJumpedAndExistPiece(JanggiBoard janggiBoard, boolean isJump, Point current) {
+        return isJump && janggiBoard.isExistPiece(current);
+    }
+
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
         return this.getClass() == obj.getClass();
     }
 

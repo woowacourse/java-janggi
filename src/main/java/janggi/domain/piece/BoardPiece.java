@@ -25,15 +25,6 @@ public class BoardPiece {
         currentPoint = currentPoint.copy(endPoint);
     }
 
-    private void validateExistSameDynastyPiece(JanggiBoard janggiBoard, Point endPoint) {
-        janggiBoard.findPointPiece(endPoint)
-                .ifPresent((pointPiece -> {
-                    if (pointPiece.isSameDynasty(dynasty)) {
-                        throw new IllegalArgumentException("이미 놓여져 있는 기물이 존재합니다.");
-                    }
-                }));
-    }
-
     public boolean isSameDynasty(Dynasty dynasty) {
         return this.dynasty == dynasty;
     }
@@ -44,6 +35,15 @@ public class BoardPiece {
 
     public boolean isEqualPiece(Piece piece) {
         return this.piece.equals(piece);
+    }
+
+    private void validateExistSameDynastyPiece(JanggiBoard janggiBoard, Point endPoint) {
+        janggiBoard.findPointPiece(endPoint)
+                .ifPresent((pointPiece -> {
+                    if (pointPiece.isSameDynasty(dynasty)) {
+                        throw new IllegalArgumentException("이미 놓여져 있는 기물이 존재합니다.");
+                    }
+                }));
     }
 
     @Override

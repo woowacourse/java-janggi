@@ -58,7 +58,6 @@ public class JanggiBoard {
         Set<BoardPiece> boardPieces = new HashSet<>(PIECE_INITIAL_POSITIONS);
         boardPieces.addAll(hanBoardSetUp.getPiecePositions());
         boardPieces.addAll(chuBoardSetUp.getPiecePositions());
-
         return new JanggiBoard(boardPieces);
     }
 

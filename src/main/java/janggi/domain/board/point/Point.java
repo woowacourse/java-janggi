@@ -4,6 +4,11 @@ import janggi.domain.board.Direction;
 import java.util.Objects;
 
 public abstract class Point {
+    private static final int MAXIMUM_ROW = 10;
+    private static final int MINIMUM_ROW = 1;
+    private static final int MAXIMUM_COLUMN = 9;
+    private static final int MINIMUM_COLUMN = 1;
+
     protected final int x;
     protected final int y;
 
@@ -23,7 +28,7 @@ public abstract class Point {
     }
 
     public boolean isNotOutOfBoundary() {
-        return x <= 10 && x >= 1 && y <= 9 && y >= 1;
+        return x <= MAXIMUM_ROW && x >= MINIMUM_ROW && y <= MAXIMUM_COLUMN && y >= MINIMUM_COLUMN;
     }
 
     public int getX() {

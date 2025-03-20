@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class Knight implements Piece {
 
-    private static final Set<List<Direction>> DIRECTIONS = Set.of(
+    private static final Set<List<Direction>> PATHS = Set.of(
             List.of(Direction.UP, Direction.UP_LEFT_DIAGONAL),
             List.of(Direction.UP, Direction.UP_RIGHT_DIAGONAL),
 
@@ -24,25 +24,33 @@ public class Knight implements Piece {
 
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
-        for (List<Direction> directions : DIRECTIONS) {
-            Point currPoint = start;
-            for (Direction direction : directions) {
-                currPoint = currPoint.move(direction);
-                if (janggiBoard.isExistPiece(currPoint)) {
-                    break;
-                }
-            }
-            if (currPoint.isSamePosition(end)) {
+        for (List<Direction> path : PATHS) {
+            if (canMoveEndPointByPath(janggiBoard, start, end, path)) {
                 return true;
             }
         }
         return false;
     }
 
+    private boolean canMoveEndPointByPath(JanggiBoard janggiBoard, Point start, Point end, List<Direction> path) {
+        Point currPoint = start;
+        for (Direction direction : path) {
+            currPoint = currPoint.move(direction);
+            if (janggiBoard.isExistPiece(currPoint)) {
+                break;
+            }
+        }
+        return currPoint.isSamePosition(end);
+    }
+
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
         return this.getClass() == obj.getClass();
     }
 

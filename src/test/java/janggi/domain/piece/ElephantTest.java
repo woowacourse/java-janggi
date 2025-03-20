@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
+import janggi.domain.board.point.ChuPoint;
 import janggi.domain.board.point.DefaultPoint;
 import janggi.domain.board.point.HanPoint;
 import java.util.Set;
@@ -56,5 +57,22 @@ class ElephantTest {
         // then
         assertThat(isMovable)
                 .isFalse();
+    }
+
+    @DisplayName("목적지에 상대편의 기물이 있는 경우에는 갈 수 있다.")
+    @Test
+    void test4() {
+        // given
+        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
+                new BoardPiece(new ChuPoint(4, 3), new Knight(), Dynasty.CHU)
+        ));
+        Elephant elephant = new Elephant();
+
+        // when
+        boolean isMovable = elephant.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(4, 3));
+
+        // then
+        assertThat(isMovable)
+                .isTrue();
     }
 }

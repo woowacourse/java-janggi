@@ -97,4 +97,22 @@ class CannonTest {
         assertThat(isMovable)
                 .isFalse();
     }
+
+    @DisplayName("목적지에 상대편의 기물이 있는 경우에는 갈 수 있다.")
+    @Test
+    void test4() {
+        // given
+        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
+                new BoardPiece(new ChuPoint(1, 8), new Knight(), Dynasty.CHU),
+                new BoardPiece(new ChuPoint(1, 4), new Knight(), Dynasty.CHU)
+        ));
+        Cannon cannon = new Cannon();
+
+        // when
+        boolean isMovable = cannon.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(1, 8));
+
+        // then
+        assertThat(isMovable)
+                .isTrue();
+    }
 }

@@ -9,6 +9,4 @@ public enum Direction {
     UP_LEFT_DIAGONAL,
     DOWN_RIGHT_DIAGONAL,
     DOWN_LEFT_DIAGONAL;
-
-
 }

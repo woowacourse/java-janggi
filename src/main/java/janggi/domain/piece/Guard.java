@@ -12,8 +12,12 @@ public class Guard implements Piece {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
         return this.getClass() == obj.getClass();
     }
 
