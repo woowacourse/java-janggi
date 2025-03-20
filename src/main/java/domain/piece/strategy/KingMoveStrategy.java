@@ -13,6 +13,6 @@ public class KingMoveStrategy implements MoveStrategy {
 
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
-        return List.of();
+        return List.of(); //TODO 2단계 궁성 단계에서 처리하도록 하기
     }
 }
