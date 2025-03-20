@@ -47,11 +47,11 @@ public class OutputView {
 
     public void printMoveResult(final Piece piece) {
         if (piece.isCho()) {
-            System.out.print(ANSI_GREEN + piece.getSymbol() + ANSI_RESET + "  ");
+            System.out.println(ANSI_GREEN + piece.getSymbol() + ANSI_RESET + "를 잡았습니다.");
             return;
         }
         if (piece.isHan()) {
-            System.out.print(ANSI_RED + piece.getSymbol() + ANSI_RESET + "  ");
+            System.out.println(ANSI_RED + piece.getSymbol() + ANSI_RESET + "를 잡았습니다. ");
         }
     }
 
