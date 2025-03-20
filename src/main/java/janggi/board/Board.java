@@ -12,11 +12,9 @@ import java.util.Map;
 
 public class Board {
 
-    private final Map<Piece, Position> positions;
     private final Map<Position, Piece> pieces;
 
-    public Board(Map<Piece, Position> positions, Map<Position, Piece> pieces) {
-        this.positions = new HashMap<>(positions);
+    public Board(Map<Position, Piece> pieces) {
         this.pieces = new HashMap<>(pieces);
     }
 
@@ -39,7 +37,7 @@ public class Board {
             throw new IllegalStateException("[ERROR] 왕이 하나가 아니라면 접근할 수 없습니다.");
         }
 
-        return positions.keySet().stream()
+        return pieces.values().stream()
                 .filter(piece -> piece.matchPieceType(PieceType.KING))
                 .map(Piece::getTeam)
                 .findFirst()
@@ -129,11 +127,9 @@ public class Board {
             throw new IllegalArgumentException("[ERROR] 자신의 팀 기물은 잡을 수 없습니다.");
         }
         updatePosition(currentPosition, arrivalPosition, piece);
-        this.positions.remove(existPiece);
     }
 
     private void updatePosition(Position currentPosition, Position arrivalPosition, Piece piece) {
-        this.positions.put(piece, arrivalPosition);
         this.pieces.remove(currentPosition);
         this.pieces.put(arrivalPosition, piece);
     }
@@ -144,13 +140,9 @@ public class Board {
     }
 
     private int calculateExistKing() {
-        return (int) positions.keySet().stream()
+        return (int) pieces.values().stream()
                 .filter(piece -> piece.matchPieceType(PieceType.KING))
                 .count();
-    }
-
-    public Map<Piece, Position> getPositions() {
-        return positions;
     }
 
     public Map<Position, Piece> getPieces() {

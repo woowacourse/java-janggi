@@ -13,61 +13,55 @@ import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class BoardFactory {
 
     public Board makeBoard() {
-        Map<Piece, Position> positions = new HashMap<>();
-        makeHanPieces(positions);
-        makeChoPieces(positions);
-
         Map<Position, Piece> pieces = new HashMap<>();
-        for (Entry<Piece, Position> entry : positions.entrySet()) {
-            pieces.put(entry.getValue(), entry.getKey());
-        }
-        return new Board(positions, pieces);
+        makeHanPieces(pieces);
+        makeChoPieces(pieces);
+        return new Board(pieces);
     }
 
-    private static void makeChoPieces(Map<Piece, Position> positions) {
-        positions.put(new Chariot(Team.CHO), new Position(10, 1));
-        positions.put(new Horse(Team.CHO), new Position(10, 2));
-        positions.put(new Elephant(Team.CHO), new Position(10, 3));
-        positions.put(new Guard(Team.CHO), new Position(10, 4));
-        positions.put(new Guard(Team.CHO), new Position(10, 6));
-        positions.put(new Elephant(Team.CHO), new Position(10, 7));
-        positions.put(new Horse(Team.CHO), new Position(10, 8));
-        positions.put(new Chariot(Team.CHO), new Position(10, 9));
+    private static void makeChoPieces(Map<Position, Piece> pieces) {
+        pieces.put(new Position(10, 1), new Chariot(Team.CHO));
+        pieces.put(new Position(10, 2), new Horse(Team.CHO));
+        pieces.put(new Position(10, 3), new Elephant(Team.CHO));
+        pieces.put(new Position(10, 4), new Guard(Team.CHO));
+        pieces.put(new Position(10, 6), new Guard(Team.CHO));
+        pieces.put(new Position(10, 7), new Elephant(Team.CHO));
+        pieces.put(new Position(10, 8), new Horse(Team.CHO));
+        pieces.put(new Position(10, 9), new Chariot(Team.CHO));
 
-        positions.put(new King(Team.CHO), new Position(9, 5));
-        positions.put(new Cannon(Team.CHO), new Position(8, 2));
-        positions.put(new Cannon(Team.CHO), new Position(8, 8));
+        pieces.put(new Position(9, 5), new King(Team.CHO));
+        pieces.put(new Position(8, 2), new Cannon(Team.CHO));
+        pieces.put(new Position(8, 8), new Cannon(Team.CHO));
 
-        positions.put(new Jol(), new Position(7, 1));
-        positions.put(new Jol(), new Position(7, 3));
-        positions.put(new Jol(), new Position(7, 5));
-        positions.put(new Jol(), new Position(7, 7));
-        positions.put(new Jol(), new Position(7, 9));
+        pieces.put(new Position(7, 1), new Jol());
+        pieces.put(new Position(7, 3), new Jol());
+        pieces.put(new Position(7, 5), new Jol());
+        pieces.put(new Position(7, 7), new Jol());
+        pieces.put(new Position(7, 9), new Jol());
     }
 
-    private static void makeHanPieces(Map<Piece, Position> positions) {
-        positions.put(new Chariot(Team.HAN), new Position(1, 1));
-        positions.put(new Horse(Team.HAN), new Position(1, 2));
-        positions.put(new Elephant(Team.HAN), new Position(1, 3));
-        positions.put(new Guard(Team.HAN), new Position(1, 4));
-        positions.put(new Guard(Team.HAN), new Position(1, 6));
-        positions.put(new Elephant(Team.HAN), new Position(1, 7));
-        positions.put(new Horse(Team.HAN), new Position(1, 8));
-        positions.put(new Chariot(Team.HAN), new Position(1, 9));
+    private static void makeHanPieces(Map<Position, Piece> pieces) {
+        pieces.put(new Position(1, 1), new Chariot(Team.HAN));
+        pieces.put(new Position(1, 2), new Horse(Team.HAN));
+        pieces.put(new Position(1, 3), new Elephant(Team.HAN));
+        pieces.put(new Position(1, 4), new Guard(Team.HAN));
+        pieces.put(new Position(1, 6), new Guard(Team.HAN));
+        pieces.put(new Position(1, 7), new Elephant(Team.HAN));
+        pieces.put(new Position(1, 8), new Horse(Team.HAN));
+        pieces.put(new Position(1, 9), new Chariot(Team.HAN));
 
-        positions.put(new King(Team.HAN), new Position(2, 5));
-        positions.put(new Cannon(Team.HAN), new Position(3, 2));
-        positions.put(new Cannon(Team.HAN), new Position(3, 8));
+        pieces.put(new Position(2, 5), new King(Team.HAN));
+        pieces.put(new Position(3, 2), new Cannon(Team.HAN));
+        pieces.put(new Position(3, 8), new Cannon(Team.HAN));
 
-        positions.put(new Byeong(), new Position(4, 1));
-        positions.put(new Byeong(), new Position(4, 3));
-        positions.put(new Byeong(), new Position(4, 5));
-        positions.put(new Byeong(), new Position(4, 7));
-        positions.put(new Byeong(), new Position(4, 9));
+        pieces.put(new Position(4, 1), new Byeong());
+        pieces.put(new Position(4, 3), new Byeong());
+        pieces.put(new Position(4, 5), new Byeong());
+        pieces.put(new Position(4, 7), new Byeong());
+        pieces.put(new Position(4, 9), new Byeong());
     }
 }

@@ -23,11 +23,9 @@ class BoardTest {
 
     @ParameterizedTest
     @MethodSource
-    void 게임을_계속_진행하기_위해_두_나라의_왕이_모두_존재하면_true를_반환한다(final Map<Piece, Position> positions,
-                                                    final Map<Position, Piece> pieces,
-                                                    final boolean expected) {
+    void 게임을_계속_진행하기_위해_두_나라의_왕이_모두_존재하면_true를_반환한다(final Map<Position, Piece> pieces, final boolean expected) {
         // Given
-        Board board = new Board(positions, pieces);
+        Board board = new Board(pieces);
 
         // When & Then
         assertThat(board.canContinue()).isEqualTo(expected);
@@ -41,16 +39,11 @@ class BoardTest {
         return Stream.of(
                 Arguments.of(
                         Map.of(
-                                king1, position1,
-                                king2, position2
-                        ), Map.of(
                                 position1, king1,
                                 position2, king2
                         ), true),
                 Arguments.of(
                         Map.of(
-                                king1, position1
-                        ), Map.of(
                                 position1, king1
                         ), false)
         );
@@ -62,7 +55,7 @@ class BoardTest {
         Team team = Team.HAN;
         King king = new King(team);
         Position position = new Position(1, 1);
-        Board board = new Board(Map.of(king, position), Map.of(position, king));
+        Board board = new Board(Map.of(position, king));
 
         // When & Then
         assertThat(board.findWinningTeam()).isEqualTo(team);
@@ -76,7 +69,10 @@ class BoardTest {
         King king2 = new King(team);
         Position position1 = new Position(1, 1);
         Position position2 = new Position(1, 2);
-        Board board = new Board(Map.of(king1, position1, king2, position2), Map.of(position1, king1, position2, king2));
+        Board board = new Board(Map.of(
+                position1, king1,
+                position2, king2
+        ));
 
         // When & Then
         assertThatThrownBy(board::findWinningTeam)
@@ -94,7 +90,10 @@ class BoardTest {
         int currentPositionValue = 101;
         int arrivalPositionValue = 91;
 
-        Board board = new Board(Map.of(jol, position1, byeong, position2), Map.of(position1, jol, position2, byeong));
+        Board board = new Board(Map.of(
+                position1, jol,
+                position2, byeong
+        ));
 
         // When
         board.move(List.of(currentPositionValue, arrivalPositionValue), jol.getTeam());
@@ -114,7 +113,10 @@ class BoardTest {
         int currentPositionValue = 101;
         int arrivalPositionValue = 91;
 
-        Board board = new Board(Map.of(jol, position1, byeong, position2), Map.of(position1, jol, position2, byeong));
+        Board board = new Board(Map.of(
+                position1, jol,
+                position2, byeong
+        ));
 
         // When & Then
         assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), byeong.getTeam()))
@@ -132,7 +134,10 @@ class BoardTest {
         int currentPositionValue = 102;
         int arrivalPositionValue = 91;
 
-        Board board = new Board(Map.of(jol, position1, byeong, position2), Map.of(position1, jol, position2, byeong));
+        Board board = new Board(Map.of(
+                position1, jol,
+                position2, byeong
+        ));
 
         // When & Then
         assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), jol.getTeam()))
@@ -150,7 +155,7 @@ class BoardTest {
         int currentPositionValue = 101;
         int arrivalPositionValue = 101;
 
-        Board board = new Board(Map.of(jol, position1, byeong, position2), Map.of(position1, jol, position2, byeong));
+        Board board = new Board(Map.of(position1, jol, position2, byeong));
 
         // When & Then
         assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), jol.getTeam()))
@@ -168,7 +173,10 @@ class BoardTest {
         int currentPositionValue = 101;
         int arrivalPositionValue = 91;
 
-        Board board = new Board(Map.of(jol, position1, byeong, position2), Map.of(position1, jol, position2, byeong));
+        Board board = new Board(Map.of(
+                position1, jol,
+                position2, byeong
+        ));
 
         // When
         board.move(List.of(currentPositionValue, arrivalPositionValue), jol.getTeam());
@@ -191,10 +199,6 @@ class BoardTest {
         int arrivalPositionValue = 61;
 
         Board board = new Board(Map.of(
-                jol, position1,
-                byeong, position2,
-                cannon, position3
-        ), Map.of(
                 position1, jol,
                 position2, byeong,
                 position3, cannon
@@ -221,10 +225,6 @@ class BoardTest {
         int arrivalPositionValue = 51;
 
         Board board = new Board(Map.of(
-                jol, position1,
-                byeong, position2,
-                cannon, position3
-        ), Map.of(
                 position1, jol,
                 position2, byeong,
                 position3, cannon
@@ -253,10 +253,6 @@ class BoardTest {
         int arrivalPositionValue = 51;
 
         Board board = new Board(Map.of(
-                jol, position1,
-                targetCannon, position2,
-                cannon, position3
-        ), Map.of(
                 position1, jol,
                 position2, targetCannon,
                 position3, cannon
@@ -279,9 +275,6 @@ class BoardTest {
         int arrivalPositionValue = 81;
 
         Board board = new Board(Map.of(
-                jol, position1,
-                cannon, position3
-        ), Map.of(
                 position1, jol,
                 position3, cannon
         ));
@@ -303,9 +296,6 @@ class BoardTest {
         int arrivalPositionValue = 61;
 
         Board board = new Board(Map.of(
-                jol, position1,
-                cannon, position3
-        ), Map.of(
                 position1, jol,
                 position3, cannon
         ));
@@ -326,7 +316,10 @@ class BoardTest {
         int currentPositionValue = 101;
         int arrivalPositionValue = 91;
 
-        Board board = new Board(Map.of(jol, position1, chariot, position2), Map.of(position1, jol, position2, chariot));
+        Board board = new Board(Map.of(
+                position1, jol,
+                position2, chariot
+        ));
 
         // When & Then
         assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), jol.getTeam()))
