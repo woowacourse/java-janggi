@@ -6,12 +6,11 @@ import domain.piece.movement.ChaMovement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cha implements Piece {
+import static domain.piece.PieceType.*;
 
-    private final Country country;
-
+public class Cha extends Piece {
     public Cha(Country country) {
-        this.country = country;
+        super(country, CHA);
     }
 
     @Override
@@ -40,18 +39,7 @@ public class Cha implements Piece {
         return availablePositions;
     }
 
-
     public static JanggiCoordinate movePosition(JanggiCoordinate currCoordinate, JanggiCoordinate moveOffset) {
         return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
-    }
-
-    @Override
-    public boolean isPho() {
-        return false;
-    }
-
-    @Override
-    public Country getTeam() {
-        return country;
     }
 }

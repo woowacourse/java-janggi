@@ -25,7 +25,7 @@ public final class JanggiBoard {
         board.remove(oldCoordinate);
     }
 
-    public Piece getPieceScore(JanggiCoordinate janggiCoordinate) {
+    public Piece getPieceType(JanggiCoordinate janggiCoordinate) {
         validatePieceCoordinate(janggiCoordinate);
         return board.get(janggiCoordinate);
     }
@@ -43,12 +43,16 @@ public final class JanggiBoard {
         }
     }
 
+    public boolean isBlankCoordinate(JanggiCoordinate coordinate){
+        return !board.containsKey(coordinate);
+    }
+
     public boolean hasPiece(JanggiCoordinate coordinate) {
         return board.containsKey(coordinate);
     }
 
     public boolean isMyTeam(JanggiCoordinate originCoordinate, JanggiCoordinate coordinate) {
-        return hasPiece(coordinate) && board.get(originCoordinate).getTeam() == board.get(coordinate).getTeam();
+        return hasPiece(coordinate) && board.get(originCoordinate).getCountry() == board.get(coordinate).getCountry();
     }
 
     public boolean isOutOfBoundary(JanggiCoordinate janggiCoordinate) {
@@ -69,6 +73,6 @@ public final class JanggiBoard {
     }
 
     public Country findCountryByCoordinate(JanggiCoordinate currCoordinate) {
-        return board.get(currCoordinate).getTeam();
+        return board.get(currCoordinate).getCountry();
     }
 }

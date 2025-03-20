@@ -6,11 +6,9 @@ import domain.piece.movement.MaMovement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ma implements Piece {
-    private final Country country;
-
+public class Ma extends Piece {
     public Ma(Country country) {
-        this.country = country;
+        super(country,PieceType.MA);
     }
 
     @Override
@@ -35,15 +33,5 @@ public class Ma implements Piece {
 
     public static JanggiCoordinate movePosition(JanggiCoordinate currCoordinate, JanggiCoordinate moveOffset) {
         return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
-    }
-
-    @Override
-    public boolean isPho() {
-        return false;
-    }
-
-    @Override
-    public Country getTeam() {
-        return country;
     }
 }

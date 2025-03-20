@@ -4,10 +4,22 @@ import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
 import java.util.List;
 
-public interface Piece {
-    List<JanggiCoordinate> availableMovePositions(JanggiCoordinate currCoordinate, JanggiBoard janggiBoard);
+abstract public class Piece {
+    Country country;
+    PieceType type;
 
-    Country getTeam();
+    public Piece(Country country, PieceType type) {
+        this.country = country;
+        this.type = type;
+    }
 
-    boolean isPho();
+    abstract public List<JanggiCoordinate> availableMovePositions(JanggiCoordinate currCoordinate, JanggiBoard janggiBoard);
+
+    public Country getCountry(){
+        return this.country;
+    }
+
+    public boolean isPho(){
+        return false;
+    }
 }

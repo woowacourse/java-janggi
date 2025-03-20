@@ -41,9 +41,9 @@ class JanggiBoardTest {
 
             janggiBoard.movePiece(oldCoordinate, newCoordinate);
 
-            assertThatThrownBy(() -> janggiBoard.getPieceScore(oldCoordinate))
+            assertThatThrownBy(() -> janggiBoard.getPieceType(oldCoordinate))
                     .isInstanceOf(IllegalArgumentException.class);
-            assertThat(janggiBoard.getPieceScore(newCoordinate)).isInstanceOf(Ma.class);
+            assertThat(janggiBoard.getPieceType(newCoordinate)).isInstanceOf(Ma.class);
         }
 
         @DisplayName("말이 이동 불가능한 위치로 이동할 수 없다.")

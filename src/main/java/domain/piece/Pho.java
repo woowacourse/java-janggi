@@ -6,11 +6,9 @@ import domain.piece.movement.PhoMovement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pho implements Piece {
-    private final Country country;
-
+public class Pho extends Piece {
     public Pho(Country country) {
-        this.country = country;
+        super(country,PieceType.PHO);
     }
 
     @Override
@@ -53,10 +51,5 @@ public class Pho implements Piece {
     @Override
     public boolean isPho() {
         return true;
-    }
-
-    @Override
-    public Country getTeam() {
-        return country;
     }
 }

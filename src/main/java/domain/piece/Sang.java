@@ -6,23 +6,9 @@ import domain.piece.movement.SangMovement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sang implements Piece {
-
-    private static final List<JanggiCoordinate> OFFSET_MOVEMENT = List.of(
-            new JanggiCoordinate(3, 2),
-            new JanggiCoordinate(3, -2),
-            new JanggiCoordinate(-3, 2),
-            new JanggiCoordinate(-3, -2),
-            new JanggiCoordinate(2, 3),
-            new JanggiCoordinate(2, -3),
-            new JanggiCoordinate(-2, 3),
-            new JanggiCoordinate(-2, -3)
-    );
-
-    private final Country country;
-
+public class Sang extends Piece {
     public Sang(Country country) {
-        this.country = country;
+        super(country,PieceType.SANG);
     }
 
     @Override
@@ -51,15 +37,5 @@ public class Sang implements Piece {
 
     public static JanggiCoordinate movePosition(JanggiCoordinate currCoordinate, JanggiCoordinate moveOffset) {
         return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
-    }
-
-    @Override
-    public boolean isPho() {
-        return false;
-    }
-
-    @Override
-    public Country getTeam() {
-        return country;
     }
 }

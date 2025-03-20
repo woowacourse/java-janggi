@@ -6,11 +6,9 @@ import domain.piece.movement.GungMovement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Gung implements Piece {
-    private final Country country;
-
+public class Gung extends Piece{
     public Gung(Country country) {
-        this.country = country;
+        super(country,PieceType.GUNG);
     }
 
     @Override
@@ -29,15 +27,5 @@ public class Gung implements Piece {
 
     public static JanggiCoordinate movePosition(JanggiCoordinate currCoordinate, JanggiCoordinate moveOffset) {
         return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
-    }
-
-    @Override
-    public boolean isPho() {
-        return false;
-    }
-
-    @Override
-    public Country getTeam() {
-        return country;
     }
 }
