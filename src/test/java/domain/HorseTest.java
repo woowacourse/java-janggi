@@ -47,7 +47,5 @@ class HorseTest {
 
         //then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);
-
     }
-
 }
