@@ -31,7 +31,19 @@ public class Pawn extends LimitedChessPiece {
     @Override
     protected List<ChessPosition> getCoordinateDestinations(final List<Path> coordinates,
                                                             final ChessPiecePositions positions) {
-        return List.of(new ChessPosition(0,1), new ChessPosition(1, 0));
+        return coordinates.stream()
+                .filter(path -> !existChessPiece(positions, path))
+                .map(Path::getDestination)
+                .toList();
+    }
+
+    private static boolean existChessPiece(final ChessPiecePositions positions, final Path path) {
+        for (ChessPosition chessPosition : path.getPath()) {
+            if (positions.existChessPieceByPosition(chessPosition)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
