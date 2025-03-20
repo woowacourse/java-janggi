@@ -1,6 +1,11 @@
-package domain;
+package domain.board;
 
+import domain.Coordinate;
+import domain.Team;
+import domain.board.createStrategy.BoardCreateStrategy;
 import domain.piece.Piece;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -10,6 +15,13 @@ public class Board {
 
     public Board(Map<Coordinate, Piece> pieces) {
         this.pieces = pieces;
+    }
+
+    public static Board create(BoardCreateStrategy hanStrategy, BoardCreateStrategy choStrategy) {
+        Map<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.putAll(hanStrategy.create(Team.HAN));
+        pieces.putAll(choStrategy.create(Team.CHO));
+        return new Board(pieces);
     }
 
     public void move(Coordinate departure, Coordinate arrival) {
@@ -49,5 +61,9 @@ public class Board {
     private void put(Coordinate departure, Coordinate arrival, Piece piece) {
         pieces.remove(departure);
         pieces.put(arrival, piece);
+    }
+
+    public Map<Coordinate, Piece> getPieces() {
+        return Collections.unmodifiableMap(pieces);
     }
 }
