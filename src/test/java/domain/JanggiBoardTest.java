@@ -3,7 +3,7 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.piece.Piece;
+import domain.piece.JanggiPiece;
 import domain.piece.PieceStatus;
 import domain.piece.JanggiSide;
 import domain.piece.궁;
@@ -34,7 +34,7 @@ public class JanggiBoardTest {
 
     @ParameterizedTest
     @MethodSource("providePlaceAndPiece")
-    void 장기_기물의_초기_위치를_저장한다(JanggiPosition position, Piece piece) {
+    void 장기_기물의_초기_위치를_저장한다(JanggiPosition position, JanggiPiece piece) {
         // given
         JanggiBoard janggiBoard = new JanggiBoard();
 
@@ -255,7 +255,7 @@ public class JanggiBoardTest {
         janggiBoard.move(new JanggiPosition(7, 7), new JanggiPosition(6, 7));
         janggiBoard.move(new JanggiPosition(6, 7), new JanggiPosition(5, 7));
 
-        Piece pieceInDanger = janggiBoard.getPieceFrom(new JanggiPosition(4, 7));
+        JanggiPiece pieceInDanger = janggiBoard.getPieceFrom(new JanggiPosition(4, 7));
         janggiBoard.move(new JanggiPosition(5, 7), new JanggiPosition(4, 7));
 
         // then

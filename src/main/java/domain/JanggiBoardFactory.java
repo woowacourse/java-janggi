@@ -1,7 +1,7 @@
 package domain;
 
 import domain.piece.Empty;
-import domain.piece.Piece;
+import domain.piece.JanggiPiece;
 import domain.piece.JanggiSide;
 import domain.piece.궁;
 import domain.piece.마;
@@ -19,8 +19,8 @@ public class JanggiBoardFactory {
     private static final List<Integer> rows = List.of(0, 9, 8, 7, 6, 5, 4, 3, 2, 1);
     private static final List<Integer> columns = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
-    public static Map<JanggiPosition, Piece> createJanggiBoard() {
-        Map<JanggiPosition, Piece> janggiBoard = new HashMap<>();
+    public static Map<JanggiPosition, JanggiPiece> createJanggiBoard() {
+        Map<JanggiPosition, JanggiPiece> janggiBoard = new HashMap<>();
         for (Integer column : columns) {
             for (Integer row : rows) {
                 janggiBoard.put(new JanggiPosition(row, column), new Empty());
@@ -31,7 +31,7 @@ public class JanggiBoardFactory {
         return janggiBoard;
     }
 
-    private static void initChoJanggiBoard(Map<JanggiPosition, Piece> janggiBoard) {
+    private static void initChoJanggiBoard(Map<JanggiPosition, JanggiPiece> janggiBoard) {
         janggiBoard.put(new JanggiPosition(9, 5), new 궁(JanggiSide.CHO));
         janggiBoard.put(new JanggiPosition(0, 1), new 차(JanggiSide.CHO));
         janggiBoard.put(new JanggiPosition(0, 9), new 차(JanggiSide.CHO));
@@ -50,7 +50,7 @@ public class JanggiBoardFactory {
         janggiBoard.put(new JanggiPosition(0, 7), new 상(JanggiSide.CHO));
     }
 
-    private static void initHanJanggiBoard(Map<JanggiPosition, Piece> janggiBoard) {
+    private static void initHanJanggiBoard(Map<JanggiPosition, JanggiPiece> janggiBoard) {
         janggiBoard.put(new JanggiPosition(2, 5), new 궁(JanggiSide.HAN));
         janggiBoard.put(new JanggiPosition(1, 1), new 차(JanggiSide.HAN));
         janggiBoard.put(new JanggiPosition(1, 9), new 차(JanggiSide.HAN));

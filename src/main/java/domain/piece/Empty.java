@@ -4,7 +4,7 @@ import domain.JanggiPosition;
 import domain.pattern.Pattern;
 import java.util.List;
 
-public class Empty extends Piece {
+public class Empty extends JanggiPiece {
     public Empty() {
         super(0, null, null);
     }
