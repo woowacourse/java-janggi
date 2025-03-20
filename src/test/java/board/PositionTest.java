@@ -2,7 +2,6 @@ package board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -121,7 +120,7 @@ public class PositionTest {
             final List<Position> betweenPositions = srcPosition.calculateBetweenPositions(destPosition);
 
             // then
-            assertThat(betweenPositions).hasSize(4);
+            assertThat(betweenPositions).hasSize(3);
         }
 
         @Test

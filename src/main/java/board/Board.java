@@ -3,7 +3,6 @@ package board;
 import java.util.HashMap;
 import java.util.Map;
 import piece.Piece;
-import piece.PieceType;
 import piece.TeamType;
 
 public class Board {
@@ -18,10 +17,10 @@ public class Board {
         return map.containsKey(existPosition);
     }
 
-    public boolean isCannonByPosition(final Position position) {
+    public boolean equalsTypeByPositionAndPiece(final Position position, final Piece piece) {
         if (map.containsKey(position)) {
-            final Piece piece = map.get(position);
-            return piece.equalsPieceType(PieceType.CANNON);
+            final Piece target = map.get(position);
+            return target.equalsType(piece);
         }
         return false;
     }

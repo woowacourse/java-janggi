@@ -3,31 +3,29 @@ package piece;
 import board.Board;
 import board.Position;
 
-public class Piece {
+public abstract class Piece {
 
-    private final PieceType pieceType;
     private final TeamType teamType;
 
-    public Piece(final PieceType pieceType, final TeamType teamType) {
-        this.pieceType = pieceType;
+    public Piece(final TeamType teamType) {
         this.teamType = teamType;
     }
 
     public boolean isAbleToMove(final Position now, final Position destination, final Board board,
-                                final TeamType teamType) {
-        return pieceType.isAbleMove(now, destination, board, teamType);
-    }
+                                         final TeamType teamType){
+        if (board.existPieceByPosition(destination) && board.equalsTeamTypeByPosition(destination, teamType)) {
+            return false;
+        }
+        return canMove(now, destination, board, teamType);
+    };
 
-    public boolean equalsPieceType(final PieceType pieceType) {
-        return this.pieceType == pieceType;
-    }
+    public abstract boolean canMove(final Position now, final Position destination, final Board board,
+                                       final TeamType teamType);
+
+    public abstract boolean equalsType(final Piece piece);
 
     public boolean equalsTeamType(final TeamType teamType) {
         return this.teamType == teamType;
-    }
-
-    public PieceType getPieceType() {
-        return pieceType;
     }
 
     public TeamType getTeamType() {

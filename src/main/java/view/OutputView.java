@@ -3,8 +3,14 @@ package view;
 import board.Board;
 import board.Position;
 import java.util.Map;
+import piece.Cannon;
+import piece.Chariot;
+import piece.Elephant;
+import piece.General;
+import piece.Guard;
+import piece.Horse;
 import piece.Piece;
-import piece.PieceType;
+import piece.Soldier;
 import piece.TeamType;
 
 public class OutputView {
@@ -14,14 +20,14 @@ public class OutputView {
             TeamType.RED, "\u001B[31m",
             TeamType.BLUE, "\u001B[34m"
     );
-    private static final Map<PieceType, String> PIECE_FORMAT = Map.of(
-            PieceType.GENERAL, "漢",
-            PieceType.GUARD, "士",
-            PieceType.HORSE, "馬",
-            PieceType.ELEPHANT, "象",
-            PieceType.CHARIOT, "車",
-            PieceType.CANNON, "包",
-            PieceType.SOLDIER, "兵"
+    private static final Map<Class<? extends Piece>, String> PIECE_FORMAT = Map.of(
+            General.class, "漢",
+            Guard.class, "士",
+            Horse.class, "馬",
+            Elephant.class, "象",
+            Chariot.class, "車",
+            Cannon.class, "包",
+            Soldier.class, "兵"
     );
 
 
@@ -44,7 +50,7 @@ public class OutputView {
                 if (map.containsKey(now)) {
                     final Piece piece = map.get(now);
                     sb.append(TEAM_FORMAT.get(piece.getTeamType()));
-                    sb.append(PIECE_FORMAT.get(piece.getPieceType()));
+                    sb.append(PIECE_FORMAT.get(piece.getClass()));
                     sb.append(COLOR_RESET + " ");
                     continue;
                 }

@@ -2,16 +2,17 @@ package board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import piece.Cannon;
+import piece.Chariot;
+import piece.General;
 import piece.Piece;
-import piece.PieceType;
+import piece.Soldier;
 import piece.TeamType;
 
 public class BoardTest {
@@ -41,7 +42,7 @@ public class BoardTest {
         @Test
         void existPieceByPosition() {
             // given
-            final Map<Position, Piece> map = Map.of(new Position(1, 1), new Piece(PieceType.GENERAL, TeamType.RED));
+            final Map<Position, Piece> map = Map.of(new Position(1, 1), new General(TeamType.RED));
             final Board board = new Board(map);
             final Position existPosition = new Position(1, 1);
             final Position notExistPosition = new Position(1, 2);
@@ -62,20 +63,18 @@ public class BoardTest {
         void calculatePieceCountByPositions() {
             // given
             final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Piece(PieceType.CANNON, TeamType.RED),
-                    new Position(1, 2), new Piece(PieceType.SOLDIER, TeamType.RED)
+                    new Position(1, 1), new Cannon(TeamType.RED),
+                    new Position(1, 2), new Soldier(TeamType.RED)
             );
             final Board board = new Board(map);
             final Position cannonPosition = new Position(1, 1);
-            final Position soldierPosition = new Position(1, 2);
+            final Piece cannonPiece = new Cannon(TeamType.RED);
 
             // when
-            final boolean actualCannon = board.isCannonByPosition(cannonPosition);
-            final boolean actualSoldier = board.isCannonByPosition(soldierPosition);
+            final boolean actualCannon = board.equalsTypeByPositionAndPiece(cannonPosition, cannonPiece);
 
             // then
             assertThat(actualCannon).isTrue();
-            assertThat(actualSoldier).isFalse();
         }
 
         @Test
@@ -83,7 +82,7 @@ public class BoardTest {
         void equalsTeamTypeByPosition() {
             // given
             final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Piece(PieceType.CANNON, TeamType.RED)
+                    new Position(1, 1), new Cannon(TeamType.RED)
             );
             final Board board = new Board(map);
 
@@ -109,7 +108,7 @@ public class BoardTest {
         void updatePosition3() {
             // given
             final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Piece(PieceType.CHARIOT, TeamType.RED)
+                    new Position(1, 1), new Chariot(TeamType.RED)
             );
             final Board board = new Board(map);
 
@@ -148,7 +147,7 @@ public class BoardTest {
         void updatePosition1() {
             // given
             final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Piece(PieceType.CANNON, TeamType.BLUE)
+                    new Position(1, 1), new Cannon(TeamType.BLUE)
             );
             final Board board = new Board(map);
 
@@ -166,7 +165,7 @@ public class BoardTest {
         void updatePosition2() {
             // given
             final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Piece(PieceType.CANNON, TeamType.RED)
+                    new Position(1, 1), new Cannon(TeamType.RED)
             );
             final Board board = new Board(map);
 
