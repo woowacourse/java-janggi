@@ -20,7 +20,7 @@ public final class Horse extends Piece {
 
     @Override
     public boolean canMove(final Position start, final Position end, final Board board) {
-        if (cannotFindRule(start, end)) {
+        if (movingRules.cannotFindRule(start, end)) {
             return false;
         }
         if (cannotMoveThrough(start, end, board)) {

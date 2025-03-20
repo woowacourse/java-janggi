@@ -2,9 +2,7 @@ package janggi.piece;
 
 import janggi.board.Board;
 import janggi.position.Position;
-import janggi.rule.MoveVector;
 import janggi.rule.MovingRules;
-import java.util.List;
 
 public abstract class Piece {
 
@@ -26,10 +24,5 @@ public abstract class Piece {
 
     public boolean isSameTeam(final Team team) {
         return this.team == team;
-    }
-
-    protected boolean cannotFindRule(final Position start, final Position end) {
-        final List<MoveVector> positionDiffs = movingRules.getRuleVectors();
-        return !positionDiffs.contains(end.calculateMoveVector(start));
     }
 }

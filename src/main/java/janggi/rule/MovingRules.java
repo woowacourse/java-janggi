@@ -1,5 +1,6 @@
 package janggi.rule;
 
+import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,12 +12,12 @@ public final class MovingRules {
         this.movingRules = movingRules;
     }
 
-    public List<MoveVector> getRuleVectors() {
+    public boolean cannotFindRule(final Position start, final Position end) {
         final List<MoveVector> positionDiffs = new ArrayList<>();
         for (MovingRule movingRule : movingRules) {
             positionDiffs.add(movingRule.sumUnit());
         }
-        return positionDiffs;
+        return !positionDiffs.contains(end.calculateMoveVector(start));
     }
 
     public MovingRule findMatchRule(final MoveVector startEndDiff) {
