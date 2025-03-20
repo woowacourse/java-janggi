@@ -50,6 +50,11 @@ public enum PieceType {
             List.of(MoveDirection.LEFT),
             List.of(MoveDirection.RIGHT)
     ),
+    병(
+            List.of(MoveDirection.DOWN),
+            List.of(MoveDirection.LEFT),
+            List.of(MoveDirection.RIGHT)
+    ),
     ;
 
     private final List<MoveDirection>[] moveOptions;

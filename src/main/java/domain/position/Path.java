@@ -1,5 +1,7 @@
 package domain.position;
 
+import domain.piece.Piece;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -64,8 +66,14 @@ public class Path {
                 '}';
     }
 
-    public boolean havePosition(final List<Position> otherPiecesPosition) {
-        return pathPositions.stream()
-                .anyMatch(otherPiecesPosition::contains);
+    public List<Piece> getEncounteredMiddlePieces(final List<Piece> pieces) {
+        return pieces.stream()
+                .filter(piece -> pathPositions.subList(0, pathPositions.size() - 1).contains(piece.getPosition()))
+                .toList();
+    }
+
+    public boolean isEncounteredLast(final List<Piece> pieces) {
+        return pieces.stream()
+                .anyMatch(piece -> piece.getPosition().equals(finalPosition));
     }
 }
