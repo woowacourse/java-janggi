@@ -1,7 +1,5 @@
 package janggi.domain.piece.gererator;
 
-import static janggi.domain.piece.gererator.KnightElephantSetting.KNIGHT_ELEPHANT_KNIGHT_ELEPHANT;
-
 import janggi.domain.Side;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Elephant;
@@ -11,8 +9,11 @@ import janggi.domain.piece.Knight;
 import janggi.domain.piece.Pawn;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Rook;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static janggi.domain.piece.gererator.KnightElephantSetting.KNIGHT_ELEPHANT_KNIGHT_ELEPHANT;
 
 public class DefaultChoPieceGenerator implements ChoPieceGenerator {
 
@@ -90,8 +91,8 @@ public class DefaultChoPieceGenerator implements ChoPieceGenerator {
     private List<Piece> generateElephantKnightElephantKnight() {
         return List.of(
                 new Elephant(SIDE, 1, 9),
-                new Knight(SIDE, 6, 9),
-                new Elephant(SIDE, 2, 9),
+                new Knight(SIDE, 2, 9),
+                new Elephant(SIDE, 6, 9),
                 new Knight(SIDE, 7, 9)
         );
     }
