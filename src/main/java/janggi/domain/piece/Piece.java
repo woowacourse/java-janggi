@@ -20,6 +20,8 @@ public abstract class Piece {
         this.team = team;
     }
 
+    public abstract boolean isCannon();
+
     public void move(final Position position) {
         this.position = new Position(position.x(), position.y());
     }
@@ -58,6 +60,4 @@ public abstract class Piece {
     public boolean isEnemy(final Piece otherPiece) {
         return team != otherPiece.team;
     }
-
-    public abstract boolean isCannon();
 }
