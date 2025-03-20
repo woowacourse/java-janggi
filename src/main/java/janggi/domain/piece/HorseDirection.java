@@ -1,5 +1,7 @@
 package janggi.domain.piece;
 
+import java.util.Arrays;
+
 public enum HorseDirection {
     UP_LEFT(
             new Position(-2, -1),
@@ -41,17 +43,16 @@ public enum HorseDirection {
         this.routePosition = routePosition;
     }
 
-    public Position getRoutePosition() {
-        return routePosition;
-    }
-
     public static HorseDirection getDirection(int x, int y) {
         Position relativePositionToMove = new Position(x, y);
-        for(HorseDirection horseDirection : values()) {
-            if(horseDirection.relativePositionToMove.equals(relativePositionToMove)) {
-                return horseDirection;
-            }
-        }
-        throw new IllegalArgumentException();
+
+        return Arrays.stream(HorseDirection.values())
+                .filter(horseDirection -> horseDirection.relativePositionToMove.equals(relativePositionToMove))
+                .findAny()
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public Position getRoutePosition() {
+        return routePosition;
     }
 }

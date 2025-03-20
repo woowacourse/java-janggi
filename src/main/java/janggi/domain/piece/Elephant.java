@@ -2,14 +2,16 @@ package janggi.domain.piece;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Elephant extends Piece {
     private static final List<Position> INITIAL_POSITIONS_BLUE_LEFT = List.of(new Position(10, 3), new Position(10, 2));
-    private static final List<Position> INITIAL_POSITIONS_BLUE_RIGHT = List.of(new Position(10, 8), new Position(10, 7));
+    private static final List<Position> INITIAL_POSITIONS_BLUE_RIGHT = List.of(new Position(10, 8),
+            new Position(10, 7));
     private static final List<Position> INITIAL_POSITIONS_RED_LEFT = List.of(new Position(1, 3), new Position(1, 2));
     private static final List<Position> INITIAL_POSITIONS_RED_RIGHT = List.of(new Position(1, 8), new Position(1, 7));
 
-    private Elephant(final Position position, final TeamType teamType) {
+    public Elephant(final Position position, final TeamType teamType) {
         super("상", position, teamType);
     }
 
@@ -41,5 +43,36 @@ public class Elephant extends Piece {
         elephants.add(new Elephant(INITIAL_POSITIONS_RED_LEFT.get(leftHorsePosition.value()), TeamType.RED));
         elephants.add(new Elephant(INITIAL_POSITIONS_RED_RIGHT.get(rightHorsePosition.value()), TeamType.RED));
         return elephants;
+    }
+
+    public Elephant move(final Map<Position, Piece> pieces, final Position positionToMove) {
+        validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
+        validateNothingBetweenPositionToMove(pieces, positionToMove);
+        return new Elephant(positionToMove, teamType);
+    }
+
+    private void validateIsSameTeamNotInPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
+        if (pieces.get(positionToMove).getTeamType().equals(TeamType.BLUE)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void validateNothingBetweenPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
+        ElephantDirection elephantDirection = ElephantDirection.getDirection(
+                positionToMove.x() - getPosition().x(),
+                positionToMove.y() - getPosition().y()
+        );
+
+        boolean hasPieceOnRoutes = elephantDirection.getRoutePositions().stream()
+                .map(routePosition -> getPosition().plus(routePosition))
+                .anyMatch(position -> hasPieceOnRoute(pieces, position));
+
+        if (hasPieceOnRoutes) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private boolean hasPieceOnRoute(Map<Position, Piece> pieces, Position routePosition) {
+        return !(pieces.get(routePosition) instanceof None);
     }
 }

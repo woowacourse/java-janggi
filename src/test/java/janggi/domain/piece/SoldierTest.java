@@ -47,7 +47,7 @@ class SoldierTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("졸의 이동 위치에 같은 편 말이 있으면 예외를 던진다")
+    @DisplayName("졸의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
     @Test
     void move4() {
         Soldier soldier = new Soldier(new Position(5, 5), TeamType.BLUE);

@@ -33,8 +33,8 @@ class HorseTest {
         assertThat(movedHorse.getPosition()).isEqualTo(positionToMove);
     }
 
-    @DisplayName("말의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
-    @CsvSource(value = {"7,7", "4,4"})
+    @DisplayName("마의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
+    @CsvSource(value = {"7,7", "4,4", "6,5"})
     @ParameterizedTest
     void move2(int x, int y) {
         Horse horse = new Horse(new Position(5, 5), TeamType.BLUE);
@@ -43,7 +43,7 @@ class HorseTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("말의 초기 위치와 이동 위치 사이에 기물이 존재하는 경우 예외를 던진다.")
+    @DisplayName("마의 초기 위치와 이동 위치 사이에 기물이 존재하는 경우 예외를 던진다.")
     @Test
     void move3() {
         Horse horse = new Horse(new Position(5, 5), TeamType.BLUE);
@@ -54,7 +54,7 @@ class HorseTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("차의 이동 위치에 같은 편 말이 있으면 예외를 던진다")
+    @DisplayName("마의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
     @Test
     void move4() {
         Horse horse = new Horse(new Position(5, 5), TeamType.BLUE);
@@ -65,7 +65,7 @@ class HorseTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("차의 모든 이동 경로가 가능하다")
+    @DisplayName("마의 모든 이동 경로가 가능하다")
     @CsvSource(value = {
             "3,4",
             "3,6",
