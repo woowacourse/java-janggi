@@ -20,4 +20,8 @@ public final class PieceFactory {
     public static Cannon createCannon() {
         return new Cannon(Team.RED, Score.CANNON);
     }
+
+    public static General createGeneral() {
+        return new General(Team.RED, Score.GENERAL);
+    }
 }

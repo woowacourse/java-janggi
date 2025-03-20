@@ -2,6 +2,7 @@ package view;
 
 import domain.Board;
 import domain.Score;
+import domain.Team;
 import domain.piece.Piece;
 import domain.position.Point;
 import domain.position.Position;
@@ -9,7 +10,8 @@ import java.util.ResourceBundle;
 
 public final class OutputView {
 
-    private static final ResourceBundle rb = ResourceBundle.getBundle("score");
+    private static final ResourceBundle SCORE_RB = ResourceBundle.getBundle("score");
+    private static final ResourceBundle TEAM_RB = ResourceBundle.getBundle("team");
     private static final String RED = "\033[0;31m";
     private static final String GREEN = "\033[0;32m";
     private static final String RESET = "\033[0m";
@@ -35,9 +37,10 @@ public final class OutputView {
                     final Score score = piece.getScore();
                     if (piece.isGreenTeam()) {
                         System.out.printf("%-1s\t",
-                                GREEN + rb.getString(score.name()) + "(" + j + "," + i + ")" + RESET);
+                                GREEN + SCORE_RB.getString(score.name()) + "(" + j + "," + i + ")" + RESET);
                     } else {
-                        System.out.printf("%-1s\t", RED + rb.getString(score.name()) + "(" + j + "," + i + ")" + RESET);
+                        System.out.printf("%-1s\t",
+                                RED + SCORE_RB.getString(score.name()) + "(" + j + "," + i + ")" + RESET);
                     }
 
                 } catch (final IllegalArgumentException e) {
@@ -46,6 +49,10 @@ public final class OutputView {
             }
             System.out.println();
         }
+    }
+
+    public static void printWinnerTeam(final Team team) {
+        System.out.println(TEAM_RB.getString(team.name()) + "가 승리했습니다.");
     }
 
     public static void printCaptureMessage() {

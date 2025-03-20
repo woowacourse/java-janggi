@@ -162,4 +162,31 @@ public class Board {
             positions.add(prevPosition.getNextPosition(newPoint));
         }
     }
+
+    // 1. 왕이 1개냐?
+    public boolean hasOnlyOneGeneral() {
+        final General general = PieceFactory.createGeneral();
+        final long count = positions.stream()
+                .filter(position -> position.isSamePiece(general))
+                .count();
+
+        return count == 1;
+    }
+
+    public Team determineWinTeam() {
+        if (!hasOnlyOneGeneral()) {
+            throw new IllegalStateException("궁이 1개일 때만 호출이 가능합니다.");
+        }
+
+        final General general = PieceFactory.createGeneral();
+        final Position position = positions.stream()
+                .filter(p -> p.isSamePiece(general))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("궁이 존재하지 않습니다."));
+
+        if (position.isGreenTeam()) {
+            return Team.GREEN;
+        }
+        return Team.RED;
+    }
 }
