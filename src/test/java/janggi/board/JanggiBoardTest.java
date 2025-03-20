@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class JanggiBoardTest {
@@ -126,14 +127,15 @@ class JanggiBoardTest {
     }
 
     @Test
-    @DisplayName("상 초기 배치 이동 테스트")
+    @DisplayName("상 초기 배치에서 이동 가능 경우가 0개이므로 예외를 던진다.")
     void test12() {
         JanggiBoard janggiBoard = JanggiBoard.initialize();
 
         Position position = new Position(2, 9);
-        List<Position> positions = janggiBoard.computeReachableDestination(position);
 
-        assertThat(positions.size()).isEqualTo(0);
+        assertThatThrownBy(() -> janggiBoard.computeReachableDestination(position))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 이동 가능한 목적지가 존재하지 않습니다.");
     }
 
     @Test
@@ -195,14 +197,14 @@ class JanggiBoardTest {
     }
 
     @Test
-    @DisplayName("포 초기 이동 테스트 - 이동 불가")
+    @DisplayName("포 초기 배치에서 이동 가능 경우가 0개이므로 예외를 던진다.")
     void test16() {
         JanggiBoard janggiBoard = JanggiBoard.initialize();
         Position position = new Position(1, 7);
 
-        List<Position> positions = janggiBoard.computeReachableDestination(position);
-
-        assertThat(positions.size()).isEqualTo(0);
+        assertThatThrownBy(() -> janggiBoard.computeReachableDestination(position))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 이동 가능한 목적지가 존재하지 않습니다.");
     }
 
     @Test
@@ -234,8 +236,9 @@ class JanggiBoardTest {
         Position destination = new Position(5, 0);
         Piece piece = new Chariot(Side.CHO);
         janggiBoard.getBoard().put(position, piece);
+        List<Position> reachableDestinations = janggiBoard.computeReachableDestination(position);
 
-        Piece catchedPiece = janggiBoard.moveOrCatchPiece(position, destination);
+        Piece catchedPiece = janggiBoard.moveOrCatchPiece(position, destination, reachableDestinations);
 
         assertThat(catchedPiece).isInstanceOf(Guard.class);
     }
@@ -250,9 +253,25 @@ class JanggiBoardTest {
 
         Piece piece = new Chariot(Side.CHO);
         janggiBoard.getBoard().put(position, piece);
+        List<Position> reachableDestinations = janggiBoard.computeReachableDestination(position);
 
-        Piece catchedPiece = janggiBoard.moveOrCatchPiece(position, destination);
+        Piece catchedPiece = janggiBoard.moveOrCatchPiece(position, destination, reachableDestinations);
         assertThat(catchedPiece).isInstanceOf(Empty.class);
+    }
+
+    @Test
+    @DisplayName("이동 불가능한 목적지로 이동하려한 경우 예외를 던진다.")
+    void test20() {
+        JanggiBoard janggiBoard = JanggiBoard.initialize();
+
+        Position position = new Position(0, 9);
+        Position destination = new Position(1, 9);
+        List<Position> reachableDestination = janggiBoard.computeReachableDestination(position);
+
+
+        assertThatThrownBy(() -> janggiBoard.moveOrCatchPiece(position, destination, reachableDestination))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 선택한 목적지로 이동할 수 없습니다.");
     }
 
 }

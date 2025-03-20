@@ -26,11 +26,12 @@ public class JanggiGame {
                 outputView.printBoard(board);
 
                 Position selectedPiecePosition = inputView.selectPiece();
-                List<Position> positions = board.computeReachableDestination(selectedPiecePosition);
 
-                outputView.printReachableDestinations(positions);
+                List<Position> reachablePositions = board.computeReachableDestination(selectedPiecePosition);
+                outputView.printReachableDestinations(reachablePositions);
+
                 Position destination = inputView.askMovableDestination();
-                Piece piece = board.moveOrCatchPiece(selectedPiecePosition, destination);
+                Piece piece = board.moveOrCatchPiece(selectedPiecePosition, destination, reachablePositions);
                 outputView.printMoveResult(piece);
             } catch (IllegalArgumentException | IllegalStateException e) {
                 outputView.printExceptionMessage(e);
