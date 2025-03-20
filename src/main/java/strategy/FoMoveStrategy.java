@@ -19,6 +19,11 @@ public class FoMoveStrategy implements MoveStrategy {
         Position maxPosition = Position.getMaxPosition(startPosition, endPosition);
 
         List<Position> positions = new ArrayList<>();
+        return calculateLegalRoute(startPosition, endPosition, minPosition, maxPosition, positions);
+    }
+
+    private static Route calculateLegalRoute(Position startPosition, Position endPosition, Position minPosition,
+                                             Position maxPosition, List<Position> positions) {
         if (startPosition.isSameColumn(endPosition)) {
             return calculateLegalRoute(minPosition, maxPosition, positions, new Position(1, 0));
         }

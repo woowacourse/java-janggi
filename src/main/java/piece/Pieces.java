@@ -9,26 +9,11 @@ import java.util.Map;
 public class Pieces {
 
     private static final String INVALID_PIECE_POSITION = "규칙에 맞지않은 입력입니다";
+    
     private final List<Piece> pieces;
 
     public Pieces(List<Piece> pieces) {
         this.pieces = pieces;
-    }
-
-    public int size() {
-        return pieces.size();
-    }
-
-    public List<Piece> getPieces() {
-        return Collections.unmodifiableList(pieces);
-    }
-
-    public Piece getFirstPiece() {
-        return pieces.getFirst();
-    }
-
-    public Piece getLastPiece() {
-        return pieces.getLast();
     }
 
     public void killPieceFrom(Piece killerPiece, Pieces otherPieces) {
@@ -81,12 +66,6 @@ public class Pieces {
         return new Pieces(onRoutePieces);
     }
 
-    //3,0
-//3,1
-//2,1
-//6,1
-//6,1
-//6,4
     private Piece findPiece(Position selectPiecePosition) {
         for (Piece piece : pieces) {
             if (piece.isSamePosition(selectPiecePosition)) {
@@ -94,5 +73,21 @@ public class Pieces {
             }
         }
         throw new IllegalArgumentException(INVALID_PIECE_POSITION);
+    }
+
+    public int size() {
+        return pieces.size();
+    }
+
+    public List<Piece> getPieces() {
+        return Collections.unmodifiableList(pieces);
+    }
+
+    public Piece getFirstPiece() {
+        return pieces.getFirst();
+    }
+
+    public Piece getLastPiece() {
+        return pieces.getLast();
     }
 }

@@ -3,6 +3,7 @@ package piece;
 import java.util.Arrays;
 
 public enum Team {
+
     RED("홍"),
     BLUE("청"),
     ;
