@@ -1,5 +1,6 @@
-package domain;
+package domain.piece;
 
+import domain.Position;
 import domain.pattern.Pattern;
 import domain.pattern.궁Path;
 import java.util.List;

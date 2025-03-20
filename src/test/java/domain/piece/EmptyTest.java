@@ -1,7 +1,8 @@
-package domain;
+package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

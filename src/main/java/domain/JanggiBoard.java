@@ -1,6 +1,9 @@
 package domain;
 
 import domain.pattern.Pattern;
+import domain.piece.Empty;
+import domain.piece.Piece;
+import domain.piece.포;
 import java.util.List;
 import java.util.Map;
 

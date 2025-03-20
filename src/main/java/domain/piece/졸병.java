@@ -1,5 +1,6 @@
-package domain;
+package domain.piece;
 
+import domain.Position;
 import domain.pattern.Pattern;
 import domain.pattern.병Path;
 import domain.pattern.졸Path;

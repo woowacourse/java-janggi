@@ -3,6 +3,16 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.piece.Piece;
+import domain.piece.PieceStatus;
+import domain.piece.Side;
+import domain.piece.궁;
+import domain.piece.마;
+import domain.piece.사;
+import domain.piece.상;
+import domain.piece.졸병;
+import domain.piece.차;
+import domain.piece.포;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
