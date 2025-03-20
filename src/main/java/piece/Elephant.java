@@ -17,7 +17,7 @@ public class Elephant extends Piece{
         }
 
         final List<Position> positions = now.calculateElephantMiddlePositions(destination);
-        for (Position position : positions) {
+        for (final Position position : positions) {
             if (board.existPieceByPosition(position)) {
                 return false;
             }
