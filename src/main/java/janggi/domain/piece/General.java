@@ -17,18 +17,16 @@ public class General implements PieceBehavior {
     );
 
     @Override
-    public String toName() {
-        return "궁";
-    }
-
     public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
         return VECTORS.stream()
-                .map(vector -> vector.side(side))
-                .map(position::calculateNextPosition)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .map(vector -> position.calculateNextPosition(vector.side(side)))
+                .flatMap(Optional::stream)
                 .filter(availablePosition -> board.canMoveToPosition(side, availablePosition))
                 .collect(Collectors.toUnmodifiableSet());
+    }
 
+    @Override
+    public String toName() {
+        return "궁";
     }
 }

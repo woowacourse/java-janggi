@@ -12,11 +12,11 @@ class VectorTest {
     @Test
     void test1() {
         // given
-        List<List<Vector>> vectors = List.of(List.of(new Vector(1, 2), new Vector(3, 4)));
+        List<Vectors> vectors = List.of(Vectors.of(new Vector(1, 2), new Vector(3, 4)));
 
         // when
-        List<List<Vector>> actual = Vector.rotate(vectors);
-        List<List<Vector>> expected = List.of(List.of(new Vector(2, -1), new Vector(4, -3)));
+        List<Vectors> actual = Vectors.rotate(vectors);
+        List<Vectors> expected = List.of(Vectors.of(new Vector(2, -1), new Vector(4, -3)));
 
         // then
         assertThat(actual).isEqualTo(expected);

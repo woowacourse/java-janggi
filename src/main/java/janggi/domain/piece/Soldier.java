@@ -14,15 +14,16 @@ public class Soldier implements PieceBehavior {
     private static final List<Vector> VECTORS = List.of(new Vector(1, 0), new Vector(0, -1), new Vector(0, 1));
 
     @Override
-    public String toName() {
-        return "병";
-    }
-
     public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
         return VECTORS.stream()
                 .map(vector -> position.calculateNextPosition(vector.side(side)))
                 .flatMap(Optional::stream)
                 .filter(availablePosition -> board.canMoveToPosition(side, availablePosition))
                 .collect(Collectors.toUnmodifiableSet());
+    }
+
+    @Override
+    public String toName() {
+        return "병";
     }
 }

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class ElephantTest {
+class ElephantTest {
 
     @DisplayName("상이 움직일 수 있는 포지션들을 반환한다.")
     @Test
@@ -31,7 +31,7 @@ public class ElephantTest {
         Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual.size()).isEqualTo(8);
+        assertThat(actual).hasSize(8);
     }
 
     @DisplayName("상 앞에 팀의 기물이 있다면 갈 수 없다.")
@@ -53,7 +53,7 @@ public class ElephantTest {
         Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual.size()).isEqualTo(expected);
+        assertThat(actual).hasSize(expected);
     }
 
     @DisplayName("상의 최종 목적지에 상대의 기물이 있다면 해당 위치까지 갈 수 있다.")
@@ -74,6 +74,6 @@ public class ElephantTest {
         Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual.size()).isEqualTo(8);
+        assertThat(actual).hasSize(8);
     }
 }

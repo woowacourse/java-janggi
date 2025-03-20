@@ -42,5 +42,4 @@ class SoldierTest {
         // then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
-
 }

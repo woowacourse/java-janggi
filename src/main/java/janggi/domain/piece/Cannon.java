@@ -17,29 +17,34 @@ public class Cannon implements PieceBehavior {
             new Vector(-1, 0));
 
     @Override
-    public String toName() {
-        return "포";
-    }
-
-    @Override
     public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
         Set<Position> result = new HashSet<>();
         for (Vector vector : VECTORS) {
             position.calculateNextPosition(vector)
                     .ifPresent(movePosition ->
-                            dfs(result, board, movePosition, vector, side, false));
+                            searchAvailableMoves(result, board, movePosition, vector, side,
+                                    board.hasPiece(movePosition)));
         }
 
         return result;
     }
 
-    public void dfs(Set<Position> result, Board board, Position currentPosition, Vector vector, Side side,
-                    boolean hasPassed) {
+    @Override
+    public String toName() {
+        return "포";
+    }
+
+    public void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, Vector vector,
+                                     Side side,
+                                     boolean hasPassed) {
         if (!currentPosition.canMove(vector) || board.isCannon(currentPosition)) {
             return;
         }
 
         Position nextPosition = currentPosition.moveToNextPosition(vector);
+        if (board.isCannon(nextPosition)) {
+            return;
+        }
 
         if (hasPassed && board.hasPiece(nextPosition) && !board.isSameSide(side, nextPosition)) {
             result.add(nextPosition);
@@ -52,9 +57,9 @@ public class Cannon implements PieceBehavior {
 
         if (hasPassed) {
             result.add(nextPosition);
-            dfs(result, board, nextPosition, vector, side, true);
+            searchAvailableMoves(result, board, nextPosition, vector, side, true);
         }
 
-        dfs(result, board, nextPosition, vector, side, board.hasPiece(nextPosition));
+        searchAvailableMoves(result, board, nextPosition, vector, side, board.hasPiece(nextPosition));
     }
 }

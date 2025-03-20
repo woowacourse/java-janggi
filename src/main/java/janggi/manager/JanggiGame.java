@@ -50,6 +50,6 @@ public class JanggiGame {
 
         Position targetPosition = Position.of(positionDto.row(), positionDto.column());
 
-        board.move(currentPosition, targetPosition);
+        board.movePiece(currentPosition, targetPosition);
     }
 }

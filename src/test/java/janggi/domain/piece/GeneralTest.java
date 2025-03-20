@@ -31,6 +31,6 @@ class GeneralTest {
         Set<Position> actual = general.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual.size()).isEqualTo(expected);
+        assertThat(actual).hasSize(expected);
     }
 }

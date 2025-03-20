@@ -4,7 +4,6 @@ import janggi.domain.Side;
 
 public final class Formatter {
 
-
     private Formatter() {
     }
 
@@ -13,7 +12,6 @@ public final class Formatter {
         if (side == Side.HAN) {
             sideName = "한나라";
         }
-
         return sideName;
     }
 
@@ -31,5 +29,4 @@ public final class Formatter {
 
         return builder.toString();
     }
-
 }

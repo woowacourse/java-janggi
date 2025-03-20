@@ -57,13 +57,12 @@ public class Position {
         return isValid(newRow, newColumn);
     }
 
-    public Position moveToNextPosition(Vector vector){
+    public Position moveToNextPosition(Vector vector) {
         int newRow = this.row + vector.y();
         int newColumn = this.column + vector.x();
 
         return new Position(newRow, newColumn);
     }
-
 
     @Override
     public int hashCode() {

@@ -46,7 +46,7 @@ public class Board {
         }
     }
 
-    public void move(Position currentPosition, Position newPosition) {
+    public void movePiece(Position currentPosition, Position newPosition) {
         Piece piece = getPiece(currentPosition);
         Set<Position> availablePositions = piece.getAvailableMovePositions(this, currentPosition);
 

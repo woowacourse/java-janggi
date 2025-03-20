@@ -32,7 +32,7 @@ class CannonTest {
         Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual.size()).isEqualTo(4);
+        assertThat(actual).hasSize(4);
     }
 
     @DisplayName("기물을 넘어가고 같은 팀의 기물의 전까지 이동할 수 있다.")
@@ -58,7 +58,7 @@ class CannonTest {
         Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual.size()).isEqualTo(3);
+        assertThat(actual).hasSize(3);
     }
 
     @DisplayName("기물을 넘어가고 상대 기물이 있는 위치까지 이동할 수 있다.")
@@ -67,7 +67,7 @@ class CannonTest {
         // given
         Position position = Position.of(7, 5);
         Cannon cannon = new Cannon();
-        Position soldierPosition1 = Position.of(5, 5);
+        Position soldierPosition1 = Position.of(6, 5);
         Soldier soldier1 = new Soldier();
         Position soldierPosition2 = Position.of(1, 5);
         Soldier soldier2 = new Soldier();
@@ -83,7 +83,7 @@ class CannonTest {
         Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual.size()).isEqualTo(4);
+        assertThat(actual).hasSize(5);
     }
 
     @DisplayName("이동 경로에 포가 있으면 넘어갈 수 없다.")
@@ -104,6 +104,33 @@ class CannonTest {
         Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual.size()).isEqualTo(0);
+        assertThat(actual).isEmpty();
+    }
+
+    @DisplayName("기물을 넘어가고 상대 기물이 포라면 지나갈 수 없다.")
+    @Test
+    void test5() {
+        // given
+        Position position = Position.of(10, 5);
+        Cannon cannon = new Cannon();
+        Piece piece = new Piece(Side.CHO, cannon);
+
+        Position cannonPosition2 = Position.of(4, 5);
+        Cannon cannon2 = new Cannon();
+        Piece cannonPiece2 = new Piece(Side.HAN, cannon2);
+
+        Position soldierPosition = Position.of(9, 5);
+        Soldier soldier = new Soldier();
+        Piece soldierPiece = new Piece(Side.HAN, soldier);
+
+        Map<Position, Piece> map = Map.of(position, piece, cannonPosition2, cannonPiece2,
+                soldierPosition, soldierPiece);
+
+        // when
+        Board board = new Board(new HashMap<>(map));
+        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.CHO, position);
+
+        // then
+        assertThat(actual).hasSize(4);
     }
 }

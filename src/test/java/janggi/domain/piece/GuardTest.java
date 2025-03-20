@@ -31,6 +31,6 @@ class GuardTest {
         Set<Position> actual = guard.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual.size()).isEqualTo(expected);
+        assertThat(actual).hasSize(expected);
     }
 }

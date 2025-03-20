@@ -29,7 +29,7 @@ class ChariotTest {
         Set<Position> actual = chariot.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual.size()).isEqualTo(17);
+        assertThat(actual).hasSize(17);
     }
 
     @DisplayName("차 앞에 팀의 기물이 있다면 갈 수 없다.")
@@ -50,7 +50,7 @@ class ChariotTest {
         Set<Position> actual = chariot.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual.size()).isEqualTo(8);
+        assertThat(actual).hasSize(8);
     }
 
     @DisplayName("차 앞에 상대의 기물이 있다면 해당 위치까지 갈 수 있다.")
@@ -71,6 +71,6 @@ class ChariotTest {
         Set<Position> actual = chariot.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual.size()).isEqualTo(9);
+        assertThat(actual).hasSize(9);
     }
 }

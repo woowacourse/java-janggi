@@ -4,6 +4,7 @@ import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.Vector;
+import janggi.domain.Vectors;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,22 +12,17 @@ import java.util.Set;
 
 public class Elephant implements PieceBehavior {
 
-    private static final List<List<Vector>> VECTORS_LIST = List.of(
-            List.of(new Vector(1, 0), new Vector(2, -1), new Vector(3, -2)),
-            List.of(new Vector(1, 0), new Vector(2, 1), new Vector(3, 2))
+    private static final List<Vectors> VECTORS_LIST = List.of(
+            Vectors.of(new Vector(1, 0), new Vector(2, -1), new Vector(3, -2)),
+            Vectors.of(new Vector(1, 0), new Vector(2, 1), new Vector(3, 2))
     );
-
-    @Override
-    public String toName() {
-        return "상";
-    }
 
     @Override
     public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
         Set<Position> result = new HashSet<>();
-        List<List<Vector>> rotateVectors = new ArrayList<>(VECTORS_LIST);
+        List<Vectors> rotateVectors = new ArrayList<>(VECTORS_LIST);
         for (int i = 0; i < 4; i++) {
-            rotateVectors = Vector.rotate(rotateVectors);
+            rotateVectors = Vectors.rotate(rotateVectors);
 
             searchAvailableMoves(result, board, position, rotateVectors, side);
         }
@@ -34,14 +30,22 @@ public class Elephant implements PieceBehavior {
         return result;
     }
 
-    private void searchAvailableMoves(Set<Position> result, Board board, Position position, List<List<Vector>> vectorsList,
+    @Override
+    public String toName() {
+        return "상";
+    }
+
+    private void searchAvailableMoves(Set<Position> result, Board board, Position position,
+                                      List<Vectors> vectorsList,
                                       Side side) {
-        for (List<Vector> vectors : vectorsList) {
-            addAvailableMove(result, board, position, side, vectors);
+        for (Vectors vectors : vectorsList) {
+            List<Vector> vectorRoute = vectors.getVectors();
+            addAvailableMove(result, board, position, side, vectorRoute);
         }
     }
 
-    private void addAvailableMove(Set<Position> result, Board board, Position position, Side side, List<Vector> vectors) {
+    private void addAvailableMove(Set<Position> result, Board board, Position position, Side side,
+                                  List<Vector> vectors) {
         if (canNotMove(vectors, position)) {
             return;
         }

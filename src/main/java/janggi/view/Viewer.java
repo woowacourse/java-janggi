@@ -49,7 +49,6 @@ public class Viewer {
     }
 
     public void printTurnInfo(Side side) {
-
         System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, Formatter.formatSide(side) + "의 차례입니다."));
     }
 

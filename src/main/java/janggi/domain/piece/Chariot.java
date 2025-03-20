@@ -17,23 +17,24 @@ public class Chariot implements PieceBehavior {
             new Vector(-1, 0));
 
     @Override
-    public String toName() {
-        return "차";
-    }
-
-    @Override
     public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
         Set<Position> result = new HashSet<>();
         for (Vector vector : VECTORS) {
             position.calculateNextPosition(vector)
                     .ifPresent(movePosition ->
-                            dfs(result, board, movePosition, vector, side));
+                            searchAvailableMoves(result, board, movePosition, vector, side));
         }
 
         return result;
     }
 
-    public void dfs(Set<Position> result, Board board, Position currentPosition, Vector vector, Side side) {
+    @Override
+    public String toName() {
+        return "차";
+    }
+
+    public void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, Vector vector,
+                                     Side side) {
         if (board.hasPiece(currentPosition)) {
             addPositionIfNotSameSide(result, board, currentPosition, side);
             return;
@@ -45,7 +46,7 @@ public class Chariot implements PieceBehavior {
         }
         Position nextPosition = currentPosition.moveToNextPosition(vector);
 
-        dfs(result, board, nextPosition, vector, side);
+        searchAvailableMoves(result, board, nextPosition, vector, side);
     }
 
     private void addPositionIfNotSameSide(Set<Position> result, Board board, Position currentPosition, Side side) {
