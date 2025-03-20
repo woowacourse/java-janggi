@@ -13,18 +13,6 @@ public class OutputView {
             TeamType.RED, "\u001B[31m",
             TeamType.BLUE, "\u001B[34m"
     );
-    private static final Map<Integer, String> NUMBER_FORMAT = Map.of(
-            1, "일",
-            2, "이",
-            3, "삼",
-            4, "사",
-            5, "오",
-            6, "육",
-            7, "칠",
-            8, "팔",
-            9, "구",
-            10, "십"
-    );
     private static final Map<PieceType, String> PIECE_FORMAT = Map.of(
             PieceType.GENERAL, "漢",
             PieceType.GUARD, "士",
@@ -48,7 +36,7 @@ public class OutputView {
         final Map<Position, Piece> map = board.getMap();
         for (int i = 1; i <= 10; i++) {
 
-            sb.append(NUMBER_FORMAT.get(i) + " ");
+            sb.append(NumberFormat.findNumberName(i) + " ");
             for (int j = 1; j <= 9; j++) {
                 final Position now = new Position(i, j);
 
