@@ -36,7 +36,7 @@ public class Board {
 
     public void updatePosition(final Position source, final Position destination, final TeamType teamType) {
         if (!map.containsKey(source) || !map.get(source).equalsTeamType(teamType)) {
-            throw new IllegalArgumentException("잘못된 입력입니다.");
+            throw new IllegalArgumentException("scr 좌표에 기물이 존재하지 않거나, 해당 팀의 기물이 아닙니다.");
         }
         final Piece piece = map.get(source);
 
