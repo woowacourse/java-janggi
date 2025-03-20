@@ -3,7 +3,6 @@ package domain;
 import domain.piece.Piece;
 import domain.piece.Pieces;
 import domain.piece.Position;
-
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +14,7 @@ public class Board {
         this.board = board;
     }
 
-    private void move(Player player, Position startPosition, Position targetPosition) {
+    public void move(final Player player, final Position startPosition, final Position targetPosition) {
         // 해당 위치의 타겟 가져오기
         Piece piece = board.get(player).findByPosition(startPosition);
 
@@ -37,7 +36,7 @@ public class Board {
 //        }
 //
         //타겟 위치로 기물 이동시키기
-//        movePiece(piece, targetPosition);
+        board.get(player).updatePosition(piece, targetPosition);
 //
 //        // 해당 타겟 위치에 상대편 기물이 존재하면
 //        if (existsOppositePiece(piece)) {
@@ -50,7 +49,7 @@ public class Board {
         int containedPiecesCount = board.values().stream()
                 .mapToInt(pieces -> pieces.countPiecesInPositions(path))
                 .sum();
-        return containedPiecesCount > 0;
+        return containedPiecesCount == 0;
     }
 
     public Map<Player, Pieces> getBoard() {

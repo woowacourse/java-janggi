@@ -10,6 +10,7 @@ import static domain.piece.PieceDirection.ROOK;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public enum PieceInit {
 
@@ -42,12 +43,12 @@ public enum PieceInit {
     public static List<Piece> initHanPieces() {
         return Arrays.stream(values())
                 .map(piece -> piece.hanPiece)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public static List<Piece> initChoPieces() {
         return Arrays.stream(values())
                 .map(piece -> piece.choPiece)
-                .toList();
+                .collect(Collectors.toList());
     }
 }
