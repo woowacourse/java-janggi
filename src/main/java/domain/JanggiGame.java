@@ -19,10 +19,18 @@ public class JanggiGame {
 
     public Player findWinner() {
         TeamType winTeam = board.findWinTeam();
-        return players.getTeamPlayer(winTeam);
+        return findPlayerByTeam(winTeam);
     }
 
     public List<Piece> getAlivePieces() {
         return board.getAlivePieces();
+    }
+
+    public boolean isFinished(){
+        return board.isFinished();
+    }
+
+    public Player findPlayerByTeam(TeamType playerTeam){
+        return players.getTeamPlayer(playerTeam);
     }
 }

@@ -1,6 +1,9 @@
 package view;
 
+import domain.Player;
+import domain.Position;
 import java.util.Scanner;
+import util.PositionConvertor;
 
 public class InputView {
     private final Scanner scanner = new Scanner(System.in);
@@ -30,5 +33,14 @@ public class InputView {
         return scanner.nextLine().trim();
     }
 
+    public Position getStartPosition(Player player){
+        System.out.printf("%s가 옮기고 싶은 장기의 좌표를 입력해주세요. 예시 -> a4\n", player.getName());
+        return PositionConvertor.changeInputToPosition(scanner.nextLine());
+    }
+
+    public Position getEndPosition(Player player){
+        System.out.printf("%s가 옮길 위치의 좌표를 입력해주세요. 예시 -> a5\n", player.getName());
+        return PositionConvertor.changeInputToPosition(scanner.nextLine());
+    }
 
 }

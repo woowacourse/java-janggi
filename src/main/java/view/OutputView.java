@@ -1,6 +1,7 @@
 package view;
 
 import domain.Column;
+import domain.Player;
 import domain.Position;
 import domain.Row;
 import domain.piece.Piece;
@@ -37,5 +38,7 @@ public class OutputView {
         System.out.println();
     }
 
-
+    public void printWinner(Player player){
+        System.out.printf("%s가 승리했습니다!\n", player.getName());
+    }
 }

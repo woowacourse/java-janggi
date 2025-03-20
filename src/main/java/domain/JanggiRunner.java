@@ -20,6 +20,8 @@ public class JanggiRunner {
         JanggiGame janggiGame = initializeGame();
         List<Piece> alivePieces = janggiGame.getAlivePieces();
         outputView.printBoard(alivePieces);
+
+        startGame(janggiGame);
     }
 
     public JanggiGame initializeGame() {
@@ -48,7 +50,28 @@ public class JanggiRunner {
         return new JanggiGame(players, factory.createAllPieces(firstPlayerStrategy, secondPlayerStrategy));
     }
 
-    public void startGame() {
+    public void startGame(JanggiGame janggiGame) {
+        TeamType nowTurn = TeamType.CHO;
 
+        while(!janggiGame.isFinished()){
+            Player nowPlayer = janggiGame.findPlayerByTeam(nowTurn);
+            Position startPosition = inputView.getStartPosition(nowPlayer);
+            Position endPosition = inputView.getEndPosition(nowPlayer);
+
+            janggiGame.movePiece(startPosition, endPosition, nowTurn);
+
+            outputView.printBoard(janggiGame.getAlivePieces());
+            nowTurn = findNextTurn(nowTurn);
+        }
+        Player winner = janggiGame.findWinner();
+
+        outputView.printWinner(winner);
+    }
+
+    private TeamType findNextTurn(TeamType nowTurn){
+        if(nowTurn == TeamType.CHO){
+            return TeamType.HAN;
+        }
+        return TeamType.CHO;
     }
 }
