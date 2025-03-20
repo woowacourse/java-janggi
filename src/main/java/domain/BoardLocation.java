@@ -67,7 +67,7 @@ public class BoardLocation {
         return Math.abs(y - target.y);
     }
 
-    public Vector minus(BoardLocation current) {
-        return new Vector(x - current.x, y - current.y);
+    public BoardVector minus(BoardLocation current) {
+        return new BoardVector(x - current.x, y - current.y);
     }
 }

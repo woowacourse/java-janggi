@@ -1,7 +1,7 @@
 package domain.piece.strategy;
 
 import domain.BoardLocation;
-import domain.Vector;
+import domain.BoardVector;
 import domain.piece.Diagonal;
 import domain.piece.Direction;
 import domain.piece.MoveStrategy;
@@ -19,7 +19,7 @@ public class HorseMoveStrategy implements MoveStrategy {
 
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
-        Vector vector = destination.minus(current);
+        BoardVector boardVector = destination.minus(current);
         List<BoardLocation> path = new ArrayList<>();
         path.add(destination);
         for(Direction direction : Direction.values()) {
@@ -27,7 +27,7 @@ public class HorseMoveStrategy implements MoveStrategy {
                 if (diagonal.notContains(direction)) {
                     continue;
                 }
-                if (vector.equals(new Vector(direction.getX() + diagonal.getX(), direction.getY() + diagonal.getY()))) {
+                if (boardVector.equals(new BoardVector(direction.getX() + diagonal.getX(), direction.getY() + diagonal.getY()))) {
                     BoardLocation next = current.move(direction.getX(), direction.getY());
                     path.add(next);
                 }

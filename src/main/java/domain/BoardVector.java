@@ -2,7 +2,7 @@ package domain;
 
 import java.util.Objects;
 
-public record Vector(
+public record BoardVector(
         int dx,
         int dy
 ) {
@@ -12,10 +12,10 @@ public record Vector(
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Vector vector)) {
+        if (!(o instanceof BoardVector boardVector)) {
             return false;
         }
-        return dx == vector.dx && dy == vector.dy;
+        return dx == boardVector.dx && dy == boardVector.dy;
     }
 
     @Override

@@ -1,7 +1,11 @@
 package domain.piece.strategy;
 
 import domain.BoardLocation;
+import domain.BoardVector;
+import domain.piece.Diagonal;
+import domain.piece.Direction;
 import domain.piece.MoveStrategy;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ElephantMoveStrategy implements MoveStrategy {
@@ -15,6 +19,20 @@ public class ElephantMoveStrategy implements MoveStrategy {
 
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
-        return List.of();
+        BoardVector boardVector = destination.minus(current);
+        List<BoardLocation> path = new ArrayList<>();
+        path.add(destination);
+        for(Direction direction : Direction.values()) {
+            for (Diagonal diagonal : Diagonal.values()) {
+                if (diagonal.notContains(direction)) {
+                    continue;
+                }
+                if (boardVector.equals(new BoardVector(direction.getX() + diagonal.getX(), direction.getY() + diagonal.getY()))) {
+                    BoardLocation next = current.move(direction.getX(), direction.getY());
+                    path.add(next);
+                }
+            }
+        }
+        return path;
     }
 }
