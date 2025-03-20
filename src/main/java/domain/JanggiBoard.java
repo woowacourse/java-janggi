@@ -56,7 +56,7 @@ public class JanggiBoard {
     private void validateMoveOtherPiece(Piece piece, JanggiPosition beforePosition, JanggiPosition afterPosition) {
         boolean isHurdle = isExistHurdle(piece, beforePosition, afterPosition);
         if (isHurdle) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("경로에 장애물이 있어서 기물을 움직일 수 없습니다.");
         }
     }
 
@@ -74,19 +74,19 @@ public class JanggiBoard {
     private void validateMove포(Piece piece, JanggiPosition beforePosition, JanggiPosition afterPosition,
                                boolean isHurdle) {
         if (!isHurdle) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("경로에 장애물이 없어서 움직일 수 없습니다.");
         }
         if (getHurdleCount(piece, beforePosition, afterPosition) > 1) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("경로에 장애물이 2개 이상 있어서 움직일 수 없습니다.");
         }
         if (getFirstHurdlePiece(beforePosition, afterPosition).getClass().equals(포.class)) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("포는 포를 넘을 수 없습니다.");
         }
     }
 
     private static void capturePieceIfNot포AndNotMySide(Piece piece, Piece pieceInDanger) {
         if (!pieceInDanger.getClass().equals(포.class)) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("포는 포를 잡을 수 없습니다.");
         }
         pieceInDanger.captureIfNotMySide(piece.getSide());
     }

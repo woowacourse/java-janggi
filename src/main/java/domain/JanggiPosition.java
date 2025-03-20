@@ -72,7 +72,7 @@ public record JanggiPosition(int file, int rank) {
 
     public void validateBound() {
         if (file < MIN_ROW_BOUND || file > MAX_ROW_BOUND || rank < MIN_COLUMN_BOUND || rank > MAX_COLUMN_BOUND) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("보드판을 넘어서 이동할 수 없습니다.");
         }
     }
 }
