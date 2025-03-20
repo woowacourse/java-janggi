@@ -23,10 +23,6 @@ public class Piece {
         this.team = team;
     }
 
-    public Team team() {
-        return team;
-    }
-
     public Piece move(Coordinate destination, Pieces onRoutePieces) {
         Coordinate movedPosition = moveRule.move(destination, onRoutePieces, team);
         return new Piece(this.team, this.moveRule, movedPosition);
@@ -36,6 +32,13 @@ public class Piece {
         return moveRule.getLegalRoute(this.currentPosition, destination, team);
     }
 
+    public boolean isSameTeam(Team moveTeam) {
+        return team.equals(moveTeam);
+    }
+
+    public boolean isSameTeam(Piece comparePiece) {
+        return isSameTeam(comparePiece.team);
+    }
 
     public boolean isSamePosition(Coordinate destination) {
         return currentPosition.equals(destination);
@@ -47,6 +50,10 @@ public class Piece {
 
     public boolean isSameType(PieceType pieceType) {
         return moveRule.isSameType(pieceType);
+    }
+
+    public Team getTeam() {
+        return team;
     }
 
     @Override
@@ -64,13 +71,5 @@ public class Piece {
     @Override
     public int hashCode() {
         return Objects.hash(currentPosition, moveRule);
-    }
-
-    public boolean isSameTeam(Team moveTeam) {
-        return team.equals(moveTeam);
-    }
-
-    public boolean isSameTeam(Piece comparePiece) {
-        return isSameTeam(comparePiece.team);
     }
 }

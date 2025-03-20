@@ -2,11 +2,11 @@ package object.strategy;
 
 import java.util.ArrayList;
 import java.util.List;
+import object.Coordinate;
+import object.Route;
 import object.piece.Piece;
 import object.piece.PieceType;
 import object.piece.Pieces;
-import object.Coordinate;
-import object.Route;
 import object.piece.Team;
 
 public class CannonStrategy implements MoveStrategy {
@@ -26,14 +26,6 @@ public class CannonStrategy implements MoveStrategy {
         throw new IllegalArgumentException(MoveStrategy.INVALID_POSITION);
     }
 
-    private static Route calculateLegalRoute(Coordinate minCoordinate, Coordinate maxCoordinate, List<Coordinate> coordinates,
-                                             Coordinate direction) {
-        while (!minCoordinate.equals(maxCoordinate)) {
-            minCoordinate = minCoordinate.add(direction);
-            coordinates.add(minCoordinate);
-        }
-        return new Route(coordinates);
-    }
 
     @Override
     public Coordinate move(Coordinate destination, Pieces onRoutePieces, Team moveTeam) {
@@ -56,6 +48,15 @@ public class CannonStrategy implements MoveStrategy {
             throw new IllegalArgumentException(MoveStrategy.INVALID_POSITION);
         }
         return destination;
+    }
+
+    private static Route calculateLegalRoute(Coordinate minCoordinate, Coordinate maxCoordinate, List<Coordinate> coordinates,
+                                             Coordinate direction) {
+        while (!minCoordinate.equals(maxCoordinate)) {
+            minCoordinate = minCoordinate.add(direction);
+            coordinates.add(minCoordinate);
+        }
+        return new Route(coordinates);
     }
 
     private void validatePiecesEmpty(Pieces pieces) {

@@ -9,7 +9,8 @@ public enum PieceType {
     GUARD("사"),
     GENERAL("궁"),
     CANNON("포"),
-    SOLIDER("졸");
+    SOLIDER("졸"),
+    ;
 
     public static final String INVALID_TYPE = "존재하지 않는 타입입니다.";
 

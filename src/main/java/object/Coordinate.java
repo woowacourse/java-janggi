@@ -12,6 +12,20 @@ public class Coordinate {
         this.column = column;
     }
 
+    public static Coordinate getMinPosition(Coordinate coordinate, Coordinate otherCoordinate) {
+        if (coordinate.isAbsoluteBigger(otherCoordinate)) {
+            return otherCoordinate;
+        }
+        return coordinate;
+    }
+
+    public static Coordinate getMaxPosition(Coordinate coordinate, Coordinate otherCoordinate) {
+        if (coordinate.isAbsoluteBigger(otherCoordinate)) {
+            return coordinate;
+        }
+        return otherCoordinate;
+    }
+
     public Coordinate add(Coordinate coordinate) {
         int newRow = this.row + coordinate.row;
         int newColumn = this.column + coordinate.column;
@@ -31,20 +45,6 @@ public class Coordinate {
         return (this.row + this.column) - (coordinate.row + coordinate.column) > 0;
     }
 
-    public static Coordinate getMinPosition(Coordinate coordinate, Coordinate otherCoordinate) {
-        if (coordinate.isAbsoluteBigger(otherCoordinate)) {
-            return otherCoordinate;
-        }
-        return coordinate;
-    }
-
-    public static Coordinate getMaxPosition(Coordinate coordinate, Coordinate otherCoordinate) {
-        if (coordinate.isAbsoluteBigger(otherCoordinate)) {
-            return coordinate;
-        }
-        return otherCoordinate;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -62,4 +62,3 @@ public class Coordinate {
         return Objects.hash(row, column);
     }
 }
-

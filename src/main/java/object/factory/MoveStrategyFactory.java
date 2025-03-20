@@ -3,14 +3,14 @@ package object.factory;
 import java.util.HashMap;
 import java.util.Map;
 import object.piece.PieceType;
-import object.strategy.ChariotStrategy;
 import object.strategy.CannonStrategy;
+import object.strategy.ChariotStrategy;
+import object.strategy.ElephantStrategy;
 import object.strategy.GeneralStrategy;
-import object.strategy.SoldierStrategy;
+import object.strategy.GuardStrategy;
 import object.strategy.HorseStrategy;
 import object.strategy.MoveStrategy;
-import object.strategy.GuardStrategy;
-import object.strategy.ElephantStrategy;
+import object.strategy.SoldierStrategy;
 
 public class MoveStrategyFactory {
 

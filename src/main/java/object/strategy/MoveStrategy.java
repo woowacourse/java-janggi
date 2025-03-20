@@ -2,10 +2,10 @@ package object.strategy;
 
 import java.util.ArrayList;
 import java.util.List;
-import object.piece.Piece;
-import object.piece.Pieces;
 import object.Coordinate;
 import object.Route;
+import object.piece.Piece;
+import object.piece.Pieces;
 import object.piece.Team;
 
 public interface MoveStrategy {

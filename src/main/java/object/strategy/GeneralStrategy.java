@@ -1,8 +1,8 @@
 package object.strategy;
 
-import object.piece.Pieces;
 import object.Coordinate;
 import object.Route;
+import object.piece.Pieces;
 import object.piece.Team;
 
 public class GeneralStrategy implements MoveStrategy {

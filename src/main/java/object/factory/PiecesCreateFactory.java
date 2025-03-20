@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import object.Coordinate;
 import object.piece.Piece;
 import object.piece.PieceType;
 import object.piece.Pieces;
-import object.Coordinate;
 import object.piece.Team;
 import object.strategy.MoveStrategy;
 
@@ -20,7 +20,7 @@ public class PiecesCreateFactory {
 
         for (String inputPiece : pieces) {
             var createdPiece = createPiece(inputPiece);
-            Team team = createdPiece.team();
+            Team team = createdPiece.getTeam();
             List<Piece> previousPieces = teamPieces.computeIfAbsent(team, k -> new ArrayList<>());
             previousPieces.add(createdPiece);
             teamPieces.put(team, previousPieces);
