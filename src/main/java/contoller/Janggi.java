@@ -1,9 +1,11 @@
 package contoller;
 
-import static view.InputView.choMoveInput;
 import static view.InputView.choiceSetUp;
+import static view.InputView.movePointInput;
 import static view.OutputVIew.displayJanggiBoard;
 
+import java.util.List;
+import model.Point;
 import model.Team;
 import model.janggi_board.JanggiBoard;
 import model.janggi_board.JanggiBoardSetUp;
@@ -37,7 +39,11 @@ public class Janggi {
                 team = Team.BLUE;
             }
             try {
-                choMoveInput(janggiBoard, team);
+                List<Point> movePoints = movePointInput(janggiBoard, team);
+                if(janggiBoard.isNotMyTeamPoint(movePoints.getFirst(), team)){
+                    throw new IllegalArgumentException("아군 장기말만 움직일 수 있습니다.");
+                }
+                janggiBoard.move(movePoints.getFirst(), movePoints.getLast());
             } catch (Exception e) {
                 OutputVIew.displayErrorMessage(e.getMessage());
                 i--;

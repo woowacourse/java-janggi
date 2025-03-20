@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import model.Path;
 import model.Point;
+import model.Team;
 import model.piece.Piece;
 
 public class JanggiBoard {
@@ -101,5 +102,9 @@ public class JanggiBoard {
 
     public ArrayList<ArrayList<Dot>> getJanggiBoard() {
         return janggiBoard;
+    }
+
+    public boolean isNotMyTeamPoint(Point beforePoint, Team team) {
+        return getDot(beforePoint).getPiece().getTeam() != team;
     }
 }
