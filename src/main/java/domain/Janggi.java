@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import domain.unit.Team;
 import domain.unit.Unit;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class Janggi {
@@ -27,13 +28,21 @@ public class Janggi {
         return units;
     }
 
+    // 가능한 모든 경로 반환
     public List<Route> searchAvailableRoutes(Point pick) {
-        Unit pickedUnit = findUnitByPoint(pick);
+        Unit pickedUnit = findUnitByPoint(pick)
+                .orElseThrow(() -> new IllegalArgumentException(""));
+        // 기물 상관없는 모든 경로
         List<Route> totalRoutes = pickedUnit.calculateRoutes();
-        totalRoutes = removeUnavailableRoute(totalRoutes);
 
         String type = pickedUnit.getType();
-        // todo: type으로 계산
+        if (type.equals("포")) {
+            // 경로 중에 포가 있는지 확인 & 다른 기물이 1개인지 확인
+            totalRoutes = totalRoutes.stream().filter(this::canBombJump).toList();
+            return totalRoutes.stream().filter(this::isAvailableEndPoint).toList();
+        }
+        //
+        totalRoutes = findAvailableRoute(totalRoutes);
         if (type.equals("졸")) {
             if (pickedUnit.getTeam() == Team.HAN) {
                 return totalRoutes.stream()
@@ -44,38 +53,49 @@ public class Janggi {
                     .filter(route -> route.getPoints().getFirst().getY() <= pick.getY())
                     .toList();
         }
-        if (type.equals("포")) {
-            // TODO: 포 구현하기
-        }
         return totalRoutes;
     }
 
-    private Unit findUnitByPoint(Point pick) {
-        return units.stream()
-                .filter(unit -> unit.isSamePoint(pick))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(""));
+    private boolean canBombJump(Route route) {
+        int count = 0;
+        for (Point point : route.getPointsExceptEndPoint()) {
+            Optional<Unit> unit = findUnitByPoint(point);
+            if (unit.isEmpty()) {
+                continue;
+            }
+            if (unit.get().getType().equals("포")) {
+                return false;
+            }
+            count++;
+        }
+        return (count == 1);
     }
 
-    private List<Route> removeUnavailableRoute(List<Route> routes) {
-        for (Route route : routes) {
-            List<Point> points = route.getPoints();
-            for (int i = 0; i < points.size(); i++) {
-                if (i != (points.size() - 1) && !isEmptyPoint(points.get(i))) {
-                    routes.remove(route);
-                    break;
-                }
-                if (i == points.size() - 1) {
-                    Point endPoint = points.get(i);
-                    Unit endUnit = findUnitByPoint(endPoint);
-                    if (endUnit.getTeam() == this.turn) {
-                        routes.remove(route);
-                        break;
-                    }
-                }
-            }
-        }
-        return new ArrayList<>(routes);
+    private Optional<Unit> findUnitByPoint(Point pick) {
+        return units.stream()
+                .filter(unit -> unit.isSamePoint(pick))
+                .findFirst();
+    }
+
+    // 유효한 경로를 반환
+    private List<Route> findAvailableRoute(List<Route> routes) {
+        return routes.stream()
+                .filter(this::isAvailableRoute)
+                .filter(this::isAvailableEndPoint)
+                .toList();
+    }
+
+    // 경로에 기물이 없어야 함
+    public boolean isAvailableRoute(Route route) {
+        return route.getPointsExceptEndPoint().stream()
+                .allMatch(this::isEmptyPoint);
+    }
+
+    // 엔드포인트에 기물이 없거나, 기물이 있다면 상대편 기물이어야 함
+    public boolean isAvailableEndPoint(Route route) {
+        Point endPoint = route.searchEndPoint();
+        Optional<Unit> endPointUnit = findUnitByPoint(endPoint);
+        return endPointUnit.isEmpty() || endPointUnit.get().getTeam() != this.turn;
     }
 
     public boolean isEmptyPoint(Point point) {
