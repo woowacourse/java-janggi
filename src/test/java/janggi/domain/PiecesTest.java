@@ -67,15 +67,15 @@ class PiecesTest {
         Piece cannon1 = new Cannon(new Position(1, 4), BLUE);
         Piece soldier3 = new Soldier(new Position(2, 4), RED);
         Piece cannon2 = new Cannon(new Position(4, 2), RED);
-        Piece cannon3 = new Cannon(new Position(4, 6), BLUE);
+        Piece soldier2 = new Soldier(new Position(4, 6), BLUE);
 
-        Pieces pieces = new Pieces(List.of(cannon, soldier1, cannon1, soldier3, cannon2, cannon3));
+        Pieces pieces = new Pieces(List.of(cannon, soldier1, cannon1, soldier3, cannon2, soldier2));
 
         // when
         Set<Route> possibleRoutes = pieces.getPossibleRoutesForCannon(cannon);
 
         // then
-        assertThat(possibleRoutes.size()).isEqualTo(3);
+        assertThat(possibleRoutes.size()).isEqualTo(6);
     }
 
     @DisplayName("위치와 팀으로 기물을 찾는다.")
@@ -87,7 +87,7 @@ class PiecesTest {
         Pieces pieces = new Pieces(List.of(soldier));
 
         // when
-        assertThat(pieces.findPieceByPositionAndTeam(1, 1, RED)).isEqualTo(soldier);
+        assertThat(pieces.findPieceByPositionAndTeam(new Position(1, 1), RED)).isEqualTo(soldier);
     }
 
     @DisplayName("기물을 움직인다.")
@@ -102,7 +102,7 @@ class PiecesTest {
         pieces.move(soldier, 1, 2);
 
         // then
-        assertThat(pieces.findPieceByPositionAndTeam(1, 2, RED)).isEqualTo(soldier);
+        assertThat(pieces.findPieceByPositionAndTeam(new Position(1, 2), RED)).isEqualTo(soldier);
     }
 
     @DisplayName("기물을 움직이며 해당 자리에 기물이 있을 경우 삭제한다.")
@@ -114,7 +114,7 @@ class PiecesTest {
 
         pieces.move(soldier1, 1, 2);
 
-        assertThatThrownBy(() -> pieces.findPieceByPositionAndTeam(1, 2, BLUE))
+        assertThatThrownBy(() -> pieces.findPieceByPositionAndTeam(new Position(1, 2), BLUE))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치에 우리팀 기물이 없습니다.");
     }

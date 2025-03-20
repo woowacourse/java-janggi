@@ -41,16 +41,18 @@ public class Pieces {
         Set<Route> realRoutes = new HashSet<>();
 
         for (Route route : routes) {
-
             int count = 0;
             for (Piece currentPiece : pieces) {
                 if (route.hasPosition(currentPiece)) {
                     if (currentPiece.isCannon()) {
+                        count = 0;
                         break;
                     }
-                    if (!route.isDestination(currentPiece)) {
-                        count += 1;
+                    if (route.isDestination(currentPiece)) {
+                        count = 0;
+                        break;
                     }
+                    count++;
                 }
             }
             if (count == 1) {
@@ -81,9 +83,9 @@ public class Pieces {
         return realRoutes;
     }
 
-    public Piece findPieceByPositionAndTeam(int x, int y, Team team) {
+    public Piece findPieceByPositionAndTeam(Position position, Team team) {
         return pieces.stream()
-                .filter(piece -> piece.isSamePosition(new Position(x, y)))
+                .filter(piece -> piece.isSamePosition(position))
                 .filter(piece -> piece.isSameTeam(team))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치에 우리팀 기물이 없습니다."));
@@ -110,5 +112,9 @@ public class Pieces {
                 .filter(piece -> piece.isSamePosition(new Position(x, y)))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 없습니다."));
+    }
+
+    public List<Piece> getPieces() {
+        return pieces;
     }
 }

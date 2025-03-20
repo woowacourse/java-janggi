@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 class CannonTest {
 
-    @DisplayName("포 기물이 올바른 루트를 계산하는지 확인한다.")
+    @DisplayName("차 기물이 올바른 루트를 계산하는지 확인한다.")
     @Test
     void calculateRoutesTest() {
 
@@ -21,36 +21,36 @@ class CannonTest {
         final Set<Route> cannonRoutes = cannon.calculateRoutes();
 
         final List<Route> downRoutes = new ArrayList<>();
-        for (int i = 6; i <= 9; i++) {
+        for (int i = 5; i <= 9; i++) {
             List<Position> positions = new ArrayList<>();
-            for (int j = 6; j <= i; j++) {
+            for (int j = 5; j <= i; j++) {
                 positions.add(new Position(4, j));
             }
             downRoutes.add(new Route(positions));
         }
 
         final List<Route> upRoutes = new ArrayList<>();
-        for (int i = 2; i >= 0; i--) {
+        for (int i = 3; i >= 0; i--) {
             List<Position> positions = new ArrayList<>();
-            for (int j = 2; j >= i; j--) {
+            for (int j = 3; j >= i; j--) {
                 positions.add(new Position(4, j));
             }
             upRoutes.add(new Route(positions));
         }
 
         final List<Route> rightRoutes = new ArrayList<>();
-        for (int i = 6; i <= 8; i++) {
+        for (int i = 5; i <= 8; i++) {
             List<Position> positions = new ArrayList<>();
-            for (int j = 6; j <= i; j++) {
+            for (int j = 5; j <= i; j++) {
                 positions.add(new Position(j, 4));
             }
             rightRoutes.add(new Route(positions));
         }
 
         final List<Route> leftRoutes = new ArrayList<>();
-        for (int i = 2; i >= 0; i--) {
+        for (int i = 3; i >= 0; i--) {
             List<Position> positions = new ArrayList<>();
-            for (int j = 2; j >= i; j--) {
+            for (int j = 3; j >= i; j--) {
                 positions.add(new Position(j, 4));
             }
             leftRoutes.add(new Route(positions));
