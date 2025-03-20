@@ -41,6 +41,7 @@ public record Position(int x, int y) {
                 betweenPositions.add(new Position(i, j));
             }
         }
+        betweenPositions.removeFirst();
         betweenPositions.removeLast();
 
         return betweenPositions;
