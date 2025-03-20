@@ -3,10 +3,10 @@ package domain.piece;
 import domain.Coordinate;
 import domain.Team;
 import domain.board.Board;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Sang extends Piece {
 
@@ -16,18 +16,16 @@ public class Sang extends Piece {
 
     @Override
     protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
-        List<Optional<Coordinate>> coordinates = List.of(
-                departure.pickChangedCoordinate(2, -3), // 상우
-                departure.pickChangedCoordinate(2, 3), // 하우
-                departure.pickChangedCoordinate(-2, -3), //상좌
-                departure.pickChangedCoordinate(-2, 3), //하좌
-                departure.pickChangedCoordinate(3, -2), // 우상
-                departure.pickChangedCoordinate(3, 2), //우하
-                departure.pickChangedCoordinate(-3, -2), //좌상
-                departure.pickChangedCoordinate(-3, 2) //좌하
-        );
-
-        return coordinates.stream()
+        return Stream.of(
+                        departure.pickChangedCoordinate(2, -3), // 상우
+                        departure.pickChangedCoordinate(2, 3), // 하우
+                        departure.pickChangedCoordinate(-2, -3), //상좌
+                        departure.pickChangedCoordinate(-2, 3), //하좌
+                        departure.pickChangedCoordinate(3, -2), // 우상
+                        departure.pickChangedCoordinate(3, 2), //우하
+                        departure.pickChangedCoordinate(-3, -2), //좌상
+                        departure.pickChangedCoordinate(-3, 2) //좌하
+                )
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toSet());
@@ -35,12 +33,9 @@ public class Sang extends Piece {
 
     @Override
     protected boolean canMoveConsideringObstacles(Board board, Coordinate departure, Coordinate arrival) {
-        for (Coordinate coordinate : findPaths(departure, arrival)) {
-            if (board.isExistence(coordinate)) {
-                return false;
-            }
-        }
-        return true;
+        return findPaths(departure, arrival)
+                .stream()
+                .noneMatch(board::isExistence);
     }
 
     @Override

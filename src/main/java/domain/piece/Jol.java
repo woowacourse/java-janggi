@@ -3,10 +3,10 @@ package domain.piece;
 import domain.Coordinate;
 import domain.Team;
 import domain.board.Board;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Jol extends Piece {
 
@@ -16,13 +16,11 @@ public class Jol extends Piece {
 
     @Override
     protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
-        List<Optional<Coordinate>> coordinates = List.of(
-                departure.pickChangedCoordinate(1, 0),
-                departure.pickChangedCoordinate(-1, 0),
-                departure.pickChangedCoordinate(0, team.getDirection())
-        );
-
-        return coordinates.stream()
+        return Stream.of(
+                        departure.pickChangedCoordinate(1, 0),
+                        departure.pickChangedCoordinate(-1, 0),
+                        departure.pickChangedCoordinate(0, team.getDirection())
+                )
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toSet());

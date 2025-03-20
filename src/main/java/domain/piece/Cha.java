@@ -19,12 +19,9 @@ public class Cha extends Piece {
 
     @Override
     protected boolean canMoveConsideringObstacles(Board board, Coordinate departure, Coordinate arrival) {
-        for (Coordinate coordinate : findPaths(departure, arrival)) {
-            if (board.isExistence(coordinate)) {
-                return false;
-            }
-        }
-        return true;
+        return findPaths(departure, arrival)
+                .stream()
+                .noneMatch(board::isExistence);
     }
 
     @Override
