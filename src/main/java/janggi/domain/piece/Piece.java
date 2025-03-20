@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Piece {
 
@@ -59,4 +60,25 @@ public abstract class Piece {
     protected abstract boolean isMoveablePosition(Position destination);
 
     protected abstract boolean isMoveablePath(List<Piece> existingPieces, Position destination);
+
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "side=" + side +
+                ", position=" + position +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Piece piece)) {
+            return false;
+        }
+        return side == piece.side && Objects.equals(position, piece.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(side, position);
+    }
 }

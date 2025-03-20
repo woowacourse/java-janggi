@@ -6,7 +6,7 @@ import java.util.List;
 
 public class King extends Piece {
 
-    protected King(Side side, int x, int y) {
+    public King(Side side, int x, int y) {
         super(side, x, y);
     }
 

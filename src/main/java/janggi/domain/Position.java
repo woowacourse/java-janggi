@@ -3,7 +3,7 @@ package janggi.domain;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-public final class Position implements Cloneable {
+public final class Position {
 
     private static final Predicate<Integer> X_MOVEABLE = x -> x >= 0 && x < 9;
     private static final Predicate<Integer> Y_MOVEABLE = y -> y >= 0 && y < 10;
@@ -48,6 +48,14 @@ public final class Position implements Cloneable {
     }
 
     @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof Position position)) {
             return false;
@@ -58,10 +66,5 @@ public final class Position implements Cloneable {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
-    }
-
-    @Override
-    protected Position clone() throws CloneNotSupportedException {
-        return (Position) super.clone();
     }
 }

@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 
 public class Cannon extends Piece {
 
-    protected Cannon(Side side, int x, int y) {
+    public Cannon(Side side, int x, int y) {
         super(side, x, y);
     }
 

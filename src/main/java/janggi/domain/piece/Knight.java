@@ -15,7 +15,7 @@ public class Knight extends Piece {
     private static final int HORIZONTAL_BASE_X_MOVEABLE_DISTANCE = 2;
     private static final int HORIZONTAL_BASE_Y_MOVEABLE_DISTANCE = 1;
 
-    protected Knight(Side side, int x, int y) {
+    public Knight(Side side, int x, int y) {
         super(side, x, y);
     }
 
