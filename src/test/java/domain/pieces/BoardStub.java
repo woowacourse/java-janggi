@@ -36,11 +36,7 @@ public class BoardStub {
 
     private static Map<Point, Piece> generateLocationsForHan() {
         final Map<Point, Piece> locations = new HashMap<>();
-        PieceMovement soldierMovement = new DefaultMovement(List.of(
-                new Route(List.of(Direction.SOUTH)),
-                new Route(List.of(Direction.EAST)),
-                new Route(List.of(Direction.WEST))
-        ));
+        PieceMovement soldierMovement = generateSoldierMovementForHan();
         locations.put(new Point(6, 0), new Soldier(Team.HAN, soldierMovement));
         locations.put(new Point(6, 2), new Soldier(Team.HAN, soldierMovement));
         locations.put(new Point(6, 4), new Soldier(Team.HAN, soldierMovement));
@@ -72,13 +68,17 @@ public class BoardStub {
         return locations;
     }
 
-    private static Map<Point, Piece> generateLocationsForCho() {
-        final Map<Point, Piece> locations = new HashMap<>();
-        PieceMovement soldierMovement = new DefaultMovement(List.of(
-                new Route(List.of(Direction.NORTH)),
+    public static PieceMovement generateSoldierMovementForHan() {
+        return new DefaultMovement(List.of(
+                new Route(List.of(Direction.SOUTH)),
                 new Route(List.of(Direction.EAST)),
                 new Route(List.of(Direction.WEST))
         ));
+    }
+
+    private static Map<Point, Piece> generateLocationsForCho() {
+        final Map<Point, Piece> locations = new HashMap<>();
+        PieceMovement soldierMovement = generateSoldierMovementForCho();
         locations.put(new Point(3, 0), new Soldier(Team.CHO, soldierMovement));
         locations.put(new Point(3, 2), new Soldier(Team.CHO, soldierMovement));
         locations.put(new Point(3, 4), new Soldier(Team.CHO, soldierMovement));
@@ -108,6 +108,14 @@ public class BoardStub {
         locations.put(new Point(0, 5), new Guard(Team.CHO));
 
         return locations;
+    }
+
+    public static PieceMovement generateSoldierMovementForCho() {
+        return new DefaultMovement(List.of(
+                new Route(List.of(Direction.NORTH)),
+                new Route(List.of(Direction.EAST)),
+                new Route(List.of(Direction.WEST))
+        ));
     }
 
     public static PieceMovement generateHorseMovement() {

@@ -3,10 +3,7 @@ package domain.pieces;
 import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
-import domain.movements.DefaultMovement;
-import domain.movements.Direction;
 import domain.movements.PieceMovement;
-import domain.movements.Route;
 import java.util.List;
 
 public final class Soldier implements Piece {
@@ -14,23 +11,6 @@ public final class Soldier implements Piece {
 
     private final Team team;
     private final PieceMovement defaultMovement;
-
-    public Soldier(final Team team) {
-        this.team = team;
-        if (team.equals(Team.HAN)) {
-            defaultMovement = new DefaultMovement(List.of(
-                    new Route(List.of(Direction.SOUTH)),
-                    new Route(List.of(Direction.EAST)),
-                    new Route(List.of(Direction.WEST))
-            ));
-            return;
-        }
-        defaultMovement = new DefaultMovement(List.of(
-                new Route(List.of(Direction.NORTH)),
-                new Route(List.of(Direction.EAST)),
-                new Route(List.of(Direction.WEST))
-        ));
-    }
 
     public Soldier(Team team, PieceMovement defaultMovement) {
         this.team = team;

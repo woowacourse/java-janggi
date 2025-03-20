@@ -1,11 +1,10 @@
 package domain.pieces;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
 import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,7 @@ class SoldierTest {
         @DisplayName("한나라인 경우 북쪽으로 이동한 지점이 반환되지 않는다.")
         void test_isAbleToArriveByHan() {
             // given
-            Soldier soldier = new Soldier(Team.HAN);
+            Soldier soldier = new Soldier(Team.HAN, BoardStub.generateSoldierMovementForHan());
             Point startPoint = new Point(0, 0);
             Point arrivalPoint = new Point(1, 0);
 
@@ -33,7 +32,7 @@ class SoldierTest {
         @DisplayName("초나라인 경우 남쪽으로 이동한 지점이 반환되지 않는다.")
         void test_isAbleToArriveByCho() {
             // given
-            Soldier soldier = new Soldier(Team.CHO);
+            Soldier soldier = new Soldier(Team.CHO, BoardStub.generateSoldierMovementForCho());
             Point startPoint = new Point(0, 0);
             Point arrivalPoint = new Point(-1, 0);
 
@@ -49,7 +48,7 @@ class SoldierTest {
     @DisplayName("경로에 있는 모든 지점들을 반환한다")
     void test_getRoutePoints() {
         // given
-        Soldier soldier = new Soldier(Team.CHO);
+        Soldier soldier = new Soldier(Team.CHO, BoardStub.generateSoldierMovementForCho());
         Point startPoint = new Point(0, 0);
         Point arrivalPoint = new Point(1, 0);
 
@@ -66,7 +65,7 @@ class SoldierTest {
     @DisplayName("도착점에 아군 기물이 있으면 이동할 수 없다.")
     void test_isMovableWhenPieceIsInMyTeam() {
         //given
-        Soldier soldier = new Soldier(Team.CHO);
+        Soldier soldier = new Soldier(Team.CHO, BoardStub.generateSoldierMovementForHan());
         Piece empty = new EmptyPiece();
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, soldier));
 
@@ -78,8 +77,8 @@ class SoldierTest {
     @DisplayName("도착점에 아군 기물이 없으면 이동할 수 있다.")
     void test_isMovableWhenPieceIsInOtherTeam() {
         //given
-        Soldier soldierHan = new Soldier(Team.HAN);
-        Soldier soldierCho = new Soldier(Team.CHO);
+        Soldier soldierHan = new Soldier(Team.HAN, BoardStub.generateSoldierMovementForCho());
+        Soldier soldierCho = new Soldier(Team.CHO, BoardStub.generateSoldierMovementForHan());
         Piece empty = new EmptyPiece();
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, soldierCho));
 

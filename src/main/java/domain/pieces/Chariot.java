@@ -3,7 +3,6 @@ package domain.pieces;
 import domain.PieceOnRoute;
 import domain.Point;
 import domain.Team;
-import domain.movements.EndlessMovement;
 import domain.movements.PieceMovement;
 import java.util.List;
 
@@ -11,11 +10,6 @@ public final class Chariot implements Piece {
 
     private final Team team;
     private final PieceMovement movements;
-
-    public Chariot(final Team team) {
-        this.movements = new EndlessMovement();
-        this.team = team;
-    }
 
     public Chariot(final Team team, final PieceMovement pieceMovement) {
         this.movements = pieceMovement;
