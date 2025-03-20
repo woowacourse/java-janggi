@@ -19,6 +19,11 @@ public class Rook extends Piece {
         return new Rook(position, directions);
     }
 
+    @Override
+    public boolean isKing() {
+        return false;
+    }
+
     public String getName() {
         return NAME;
     }

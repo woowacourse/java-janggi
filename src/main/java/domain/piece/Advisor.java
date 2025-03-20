@@ -19,6 +19,11 @@ public class Advisor extends Piece {
         return new Advisor(position, directions);
     }
 
+    @Override
+    public boolean isKing() {
+        return false;
+    }
+
     public String getName() {
         return NAME;
     }

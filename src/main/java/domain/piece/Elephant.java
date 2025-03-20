@@ -19,6 +19,11 @@ public class Elephant extends Piece {
         return new Elephant(position, directions);
     }
 
+    @Override
+    public boolean isKing() {
+        return false;
+    }
+
     public String getName() {
         return NAME;
     }

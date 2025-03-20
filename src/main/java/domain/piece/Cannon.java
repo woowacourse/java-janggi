@@ -19,6 +19,11 @@ public class Cannon extends Piece {
         return new Cannon(position, directions);
     }
 
+    @Override
+    public boolean isKing() {
+        return false;
+    }
+
     public String getName() {
         return NAME;
     }

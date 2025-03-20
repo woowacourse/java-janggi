@@ -19,6 +19,11 @@ public class Horse extends Piece {
         return new Horse(position, directions);
     }
 
+    @Override
+    public boolean isKing() {
+        return false;
+    }
+
     public String getName() {
         return NAME;
     }

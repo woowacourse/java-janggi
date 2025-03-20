@@ -19,6 +19,11 @@ public class Pawn extends Piece {
         return new Pawn(position, directions);
     }
 
+    @Override
+    public boolean isKing() {
+        return false;
+    }
+
     public String getName() {
         return NAME;
     }

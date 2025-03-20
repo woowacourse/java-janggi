@@ -30,6 +30,8 @@ public abstract class Piece {
 
     public abstract Piece updatePosition(final Position position);
 
+    public abstract boolean isKing();
+
     public abstract String getName();
 
     public Directions getDirections() {

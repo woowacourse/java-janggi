@@ -19,6 +19,11 @@ public class King extends Piece {
         return new King(position, directions);
     }
 
+    @Override
+    public boolean isKing() {
+        return true;
+    }
+
     public String getName() {
         return NAME;
     }
