@@ -17,11 +17,11 @@ public final class JanggiBoard {
 
     public void movePiece(final JanggiPosition origin, final JanggiPosition destination) {
         destination.validatePositionInBoardBound();
-        JanggiPiece piece = getPieceFrom(origin);
+        JanggiPiece piece = getPieceOfPosition(origin);
 
         JanggiPiece targetPiece = janggiBoard.get(destination);
-        JanggiPiece hurdlePiece = getFirstHurdlePiece(piece, origin, destination);
-        int hurdleCount = getHurdleCount(piece, origin, destination);
+        JanggiPiece hurdlePiece = getFirstHurdlePieceOnRoute(piece, origin, destination);
+        int hurdleCount = getHurdleCountOnRoute(piece, origin, destination);
         piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece);
 
         janggiBoard.put(origin, new Empty());
@@ -29,24 +29,24 @@ public final class JanggiBoard {
         janggiBoard.put(destination, piece);
     }
 
-    public JanggiPiece getPieceFrom(final JanggiPosition position) {
+    public JanggiPiece getPieceOfPosition(final JanggiPosition position) {
         return janggiBoard.get(position);
     }
 
-    private JanggiPiece getFirstHurdlePiece(JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
+    private JanggiPiece getFirstHurdlePieceOnRoute(JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
         JanggiPiece hurdlePiece = new Empty();
         List<Pattern> patterns = piece.findPath(origin, destination);
         JanggiPosition newPosition = origin;
         for (Pattern pattern : patterns) {
             newPosition = newPosition.moveOnePosition(pattern);
             if (existPiece(newPosition)) {
-                hurdlePiece = getPieceFrom(newPosition);
+                hurdlePiece = getPieceOfPosition(newPosition);
             }
         }
         return hurdlePiece;
     }
 
-    private int getHurdleCount(final JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
+    private int getHurdleCountOnRoute(final JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
         List<Pattern> path = piece.findPath(origin, destination);
         List<Pattern> patterns = path.subList(0, path.size() - 1);
         int count = 0;
@@ -61,6 +61,6 @@ public final class JanggiBoard {
     }
 
     private boolean existPiece(final JanggiPosition newPosition) {
-        return !getPieceFrom(newPosition).isEmpty();
+        return !getPieceOfPosition(newPosition).isEmpty();
     }
 }

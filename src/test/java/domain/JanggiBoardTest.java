@@ -40,7 +40,7 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard(initializer);
 
         // when & then
-        assertThat(janggiBoard.getPieceFrom(position)).isInstanceOf(piece.getClass());
+        assertThat(janggiBoard.getPieceOfPosition(position)).isInstanceOf(piece.getClass());
     }
 
     @Test
@@ -79,7 +79,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(afterPosition)).isInstanceOf(궁.class);
+            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(궁.class);
         }
 
         @ParameterizedTest
@@ -98,7 +98,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(afterPosition)).isInstanceOf(마.class);
+            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(마.class);
         }
 
         @ParameterizedTest
@@ -117,7 +117,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(afterPosition)).isInstanceOf(사.class);
+            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(사.class);
         }
 
         @ParameterizedTest
@@ -136,7 +136,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(afterPosition)).isInstanceOf(상.class);
+            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(상.class);
         }
 
         @ParameterizedTest
@@ -155,7 +155,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(afterPosition)).isInstanceOf(졸병.class);
+            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(졸병.class);
         }
 
         @ParameterizedTest
@@ -174,7 +174,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(afterPosition)).isInstanceOf(졸병.class);
+            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(졸병.class);
         }
 
         @ParameterizedTest
@@ -194,7 +194,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(afterPosition)).isInstanceOf(차.class);
+            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(차.class);
         }
 
         @Test
@@ -215,7 +215,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(포beforePosition, 포afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(포afterPosition)).isInstanceOf(포.class);
+            assertThat(janggiBoard.getPieceOfPosition(포afterPosition)).isInstanceOf(포.class);
         }
     }
 
