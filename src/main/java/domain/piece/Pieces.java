@@ -47,4 +47,10 @@ public class Pieces {
         return pieces.stream()
                 .anyMatch(Piece::isKing);
     }
+
+    public boolean isCannonByPosition(Position position) {
+        return pieces.stream()
+                .filter(piece -> piece.isSamePosition(position))
+                .anyMatch(Piece::isCannon);
+    }
 }
