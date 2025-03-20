@@ -1,17 +1,18 @@
 package domain;
 
 public final class Player {
-    private final Team team;
 
-    public Player(final Team team) {
-        this.team = team;
-    }
+  private final Team team;
 
-    public Team getTeam() {
-        return team;
-    }
+  public Player(final Team team) {
+    this.team = team;
+  }
 
-    public boolean isFirstAttack() {
-        return team.isFirst();
-    }
+  public Team getTeam() {
+    return team;
+  }
+
+  public boolean isFirstAttack() {
+    return team.isFirst();
+  }
 }
