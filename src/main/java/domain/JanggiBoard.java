@@ -17,36 +17,64 @@ public class JanggiBoard {
         Piece startPiece = findPiece(startPosition);
         Piece targetPositionPiece = findPiece(targetPosition);
         List<Position> path = startPiece.calculatePath(startPosition, targetPosition);
+        validateMovePiece(startPiece, path, targetPositionPiece);
+
+        board.remove(startPosition);
+        board.put(targetPosition, startPiece);
+    }
+
+    private void validateMovePiece(Piece startPiece, List<Position> path, Piece targetPositionPiece) {
         if (startPiece.isCanon()) {
-            if (countPieceInPath(path) != 1) {
-                throw new IllegalArgumentException("포는 다른 말 하나를 뛰어넘어야 합니다.");
-            }
-            for (Position position : path) {
-                if (findPiece(position) != null && findPiece(position).isCanon()) {
-                    throw new IllegalArgumentException("포는 포끼리 건너뛸 수 없습니다.");
-                }
-            }
-            if (targetPositionPiece != null && targetPositionPiece.isCanon()) {
-                throw new IllegalArgumentException("포는 포끼리 잡을 수 없습니다");
-            }
+            validateCanonMove(path, targetPositionPiece);
         }
         if (!startPiece.isCanon()) {
-            for (Position position : path) {
-                if (!isPositionEmpty(position)) {
-                    throw new IllegalArgumentException("다른 말이 존재해서 해당 좌표로 갈 수가 없습니다.");
-                }
-            }
+            validateNonCanonMove(path);
         }
+        validateSameTeamAttack(startPiece, targetPositionPiece);
+    }
 
-        if (findPiece(targetPosition) == null || !startPiece.compareTeam(targetPositionPiece)) {
-            board.remove(startPosition);
-            board.put(targetPosition, startPiece);
-            return;
-        }
-        if (startPiece.compareTeam(targetPositionPiece)) {
+    private void validateSameTeamAttack(Piece startPiece, Piece targetPositionPiece) {
+        if (targetPositionPiece != null && startPiece.compareTeam(targetPositionPiece)) {
             throw new IllegalArgumentException("해당 위치는 아군의 말이 있으므로 이동 불가능 합니다.");
         }
-        return;
+    }
+
+    private void validateCanonMove(List<Position> path, Piece targetPositionPiece) {
+        validateJumpOtherPiece(path);
+        for (Position position : path) {
+            validateJumpCanon(position);
+        }
+        validateAttackCanon(targetPositionPiece);
+    }
+
+    private void validateAttackCanon(Piece targetPositionPiece) {
+        if (targetPositionPiece != null && targetPositionPiece.isCanon()) {
+            throw new IllegalArgumentException("포는 포끼리 잡을 수 없습니다");
+        }
+    }
+
+    private void validateJumpCanon(Position position) {
+        if (findPiece(position) != null && findPiece(position).isCanon()) {
+            throw new IllegalArgumentException("포는 포끼리 건너뛸 수 없습니다.");
+        }
+    }
+
+    private void validateJumpOtherPiece(List<Position> path) {
+        if (countPieceInPath(path) != 1) {
+            throw new IllegalArgumentException("포는 다른 말 하나를 뛰어넘어야 합니다.");
+        }
+    }
+
+    private void validateNonCanonMove(List<Position> path) {
+        for (Position position : path) {
+            validateIsEmptyPath(position);
+        }
+    }
+
+    private void validateIsEmptyPath(Position position) {
+        if (!isPositionEmpty(position)) {
+            throw new IllegalArgumentException("다른 말이 존재해서 해당 좌표로 갈 수가 없습니다.");
+        }
     }
 
     private int countPieceInPath(List<Position> path) {
@@ -54,11 +82,7 @@ public class JanggiBoard {
     }
 
     public boolean isPositionEmpty(Position position) {
-        Piece piece = findPiece(position);
-        if (piece != null) {
-            return false;
-        }
-        return true;
+        return findPiece(position) == null;
     }
 
     public Piece findPiece(Position startPosition) {
