@@ -3,8 +3,7 @@ package domain.route;
 import domain.JanggiPosition;
 import domain.pattern.Direction;
 import domain.pattern.Pattern;
-import domain.route.Route;
-import domain.route.병Route;
+import domain.route.limited_route.병Route;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -19,7 +18,7 @@ public class 병RouteTest {
     void 병의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // given
         JanggiPosition beforePosition = new JanggiPosition(7, 5);
-        Route pathOf병 = new 병Route();
+        JanggiPieceRoute pathOf병 = new 병Route();
 
         // when
         List<Pattern> 병path = pathOf병.getRoute(beforePosition, afterPosition);
@@ -30,7 +29,7 @@ public class 병RouteTest {
     }
 
     static Stream<Arguments> provide병Route() {
-        Route pathOf병 = new 병Route();
+        JanggiPieceRoute pathOf병 = new 병Route();
         return Stream.of(
                 Arguments.of(new JanggiPosition(8, 5), pathOf병.getPatterns(Direction.DOWN)),
                 Arguments.of(new JanggiPosition(7, 4), pathOf병.getPatterns(Direction.LEFT)),

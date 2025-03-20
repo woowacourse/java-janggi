@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.route.차Route;
+import domain.route.linear_route.차Route;
 
 public class 차 extends Piece {
     public 차(Side side) {

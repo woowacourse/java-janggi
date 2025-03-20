@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.route.마Route;
+import domain.route.limited_route.마Route;
 
 public class 마 extends Piece {
 

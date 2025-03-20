@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.route.사Route;
+import domain.route.limited_route.사Route;
 
 public class 사 extends Piece {
     public 사(Side side) {

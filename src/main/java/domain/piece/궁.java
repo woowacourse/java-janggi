@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.route.궁Route;
+import domain.route.limited_route.궁Route;
 
 public class 궁 extends Piece {
 

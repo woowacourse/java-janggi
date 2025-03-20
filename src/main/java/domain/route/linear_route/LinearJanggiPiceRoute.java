@@ -1,4 +1,4 @@
-package domain.route;
+package domain.route.linear_route;
 
 import static domain.pattern.Direction.DOWN;
 import static domain.pattern.Direction.LEFT;
@@ -8,15 +8,16 @@ import static domain.pattern.Direction.UP;
 import domain.JanggiPosition;
 import domain.pattern.Direction;
 import domain.pattern.Pattern;
+import domain.route.JanggiPieceRoute;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class LinearRoute implements Route {
+public class LinearJanggiPiceRoute implements JanggiPieceRoute {
 
     protected Map<Direction, Pattern> directions;
 
-    protected LinearRoute(Map<Direction, Pattern> directions) {
+    protected LinearJanggiPiceRoute(Map<Direction, Pattern> directions) {
         this.directions = directions;
     }
 

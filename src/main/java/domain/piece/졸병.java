@@ -1,7 +1,7 @@
 package domain.piece;
 
-import domain.route.병Route;
-import domain.route.졸Route;
+import domain.route.limited_route.병Route;
+import domain.route.limited_route.졸Route;
 
 public class 졸병 extends Piece {
 

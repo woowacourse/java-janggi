@@ -3,8 +3,7 @@ package domain.route;
 import domain.JanggiPosition;
 import domain.pattern.Direction;
 import domain.pattern.Pattern;
-import domain.route.Route;
-import domain.route.차Route;
+import domain.route.linear_route.차Route;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -22,7 +21,7 @@ public class 차RouteTest {
         int beforeRow = 0;
         int beforeColumn = 1;
         JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-        Route routeOf차 = new 차Route();
+        JanggiPieceRoute routeOf차 = new 차Route();
 
         // when
         List<Pattern> 포route = routeOf차.getRoute(beforePosition, afterPosition);

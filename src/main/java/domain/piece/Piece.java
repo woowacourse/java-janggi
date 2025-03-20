@@ -2,16 +2,16 @@ package domain.piece;
 
 import domain.JanggiPosition;
 import domain.pattern.Pattern;
-import domain.route.Route;
+import domain.route.JanggiPieceRoute;
 import java.util.List;
 
 public abstract class Piece {
     protected int score;
     protected Side side;
     protected PieceStatus status;
-    protected Route route;
+    protected JanggiPieceRoute route;
 
-    public Piece(int score, Side side, Route route) {
+    public Piece(int score, Side side, JanggiPieceRoute route) {
         this.score = score;
         this.side = side;
         this.status = PieceStatus.ACTIVE;

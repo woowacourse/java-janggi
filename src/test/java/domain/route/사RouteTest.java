@@ -3,9 +3,8 @@ package domain.route;
 import domain.JanggiPosition;
 import domain.pattern.Direction;
 import domain.pattern.Pattern;
-import domain.route.LimitedRoute;
-import domain.route.Route;
-import domain.route.사Route;
+import domain.route.limited_route.LimitedJanggiPieceRoute;
+import domain.route.limited_route.사Route;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -23,7 +22,7 @@ public class 사RouteTest {
         int beforeRow = 9;
         int beforeColumn = 5;
         JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-        Route routeOf사 = new 사Route();
+        JanggiPieceRoute routeOf사 = new 사Route();
 
         // when
         List<Pattern> 사route = routeOf사.getRoute(beforePosition, afterPosition);
@@ -34,7 +33,7 @@ public class 사RouteTest {
     }
 
     static Stream<Arguments> provide사Route() {
-        LimitedRoute routeOf사 = new 사Route();
+        LimitedJanggiPieceRoute routeOf사 = new 사Route();
         return Stream.of(
                 Arguments.of(new JanggiPosition(8, 5), routeOf사.getPatterns(Direction.UP)),
                 Arguments.of(new JanggiPosition(9, 4), routeOf사.getPatterns(Direction.LEFT)),

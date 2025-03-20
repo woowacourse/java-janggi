@@ -3,8 +3,7 @@ package domain.route;
 import domain.JanggiPosition;
 import domain.pattern.Direction;
 import domain.pattern.Pattern;
-import domain.route.Route;
-import domain.route.궁Route;
+import domain.route.limited_route.궁Route;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -21,7 +20,7 @@ public class 궁RouteTest {
         int beforeRow = 9;
         int beforeColumn = 5;
         JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-        Route routeOf궁 = new 궁Route();
+        JanggiPieceRoute routeOf궁 = new 궁Route();
 
         // when
         List<Pattern> 궁route = routeOf궁.getRoute(beforePosition, afterPostion);
@@ -32,7 +31,7 @@ public class 궁RouteTest {
     }
 
     static Stream<Arguments> provide궁Route() {
-        Route routeOf궁 = new 궁Route();
+        JanggiPieceRoute routeOf궁 = new 궁Route();
         return Stream.of(
                 Arguments.of(new JanggiPosition(8, 5), routeOf궁.getPatterns(Direction.UP)),
                 Arguments.of(new JanggiPosition(9, 4), routeOf궁.getPatterns(Direction.LEFT)),

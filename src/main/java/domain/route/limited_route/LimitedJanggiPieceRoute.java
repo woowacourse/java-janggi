@@ -1,17 +1,18 @@
-package domain.route;
+package domain.route.limited_route;
 
 import domain.JanggiPosition;
 import domain.pattern.Direction;
 import domain.pattern.Pattern;
+import domain.route.JanggiPieceRoute;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class LimitedRoute implements Route {
+public class LimitedJanggiPieceRoute implements JanggiPieceRoute {
 
     protected Map<Direction, List<Pattern>> routes;
 
-    protected LimitedRoute(Map<Direction, List<Pattern>> routes) {
+    protected LimitedJanggiPieceRoute(Map<Direction, List<Pattern>> routes) {
         this.routes = routes;
     }
 
