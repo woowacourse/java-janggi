@@ -10,7 +10,7 @@ import java.util.Map;
 
 public final class BoardView {
 
-    public static final Map<Type, String> pieceNotations = Map.of(
+    public static final Map<Type, String> PIECE_NOTATION = Map.of(
             Type.GENERAL, "k",
             Type.CHARIOT, "c",
             Type.CANNON, "p",
@@ -45,7 +45,7 @@ public final class BoardView {
     }
 
     private static void displayPiece(final Piece piece) {
-        final String notation = pieceNotations.get(piece.type());
+        final String notation = PIECE_NOTATION.get(piece.type());
         if (piece.isHan()) {
             System.out.print(notation);
             return;
