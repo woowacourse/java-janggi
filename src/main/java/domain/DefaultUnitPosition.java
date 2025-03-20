@@ -6,8 +6,6 @@ import domain.unit.ElephantUnitRule;
 import domain.unit.HorseUnitRule;
 import domain.unit.JolUnitRule;
 import domain.unit.NoneUnitRule;
-import domain.unit.Point;
-import domain.unit.Team;
 import domain.unit.Unit;
 import domain.unit.UnitRule;
 import java.util.List;
@@ -39,9 +37,9 @@ public enum DefaultUnitPosition {
     public static List<Unit> createDefaultUnits(DefaultUnitPosition position, Team team) {
         if (team == Team.CHO) {
             return position.xPositions.stream()
-                    .map(x -> Unit.of(new Point(x, position.choY), team, position.rule.get())).toList();
+                    .map(x -> Unit.of(new Position(x, position.choY), team, position.rule.get())).toList();
         }
         return position.xPositions.stream()
-                .map(x -> Unit.of(new Point(x, position.hanY), team, position.rule.get())).toList();
+                .map(x -> Unit.of(new Position(x, position.hanY), team, position.rule.get())).toList();
     }
 }

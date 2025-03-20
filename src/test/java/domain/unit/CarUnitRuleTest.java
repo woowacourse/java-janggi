@@ -1,5 +1,6 @@
 package domain.unit;
 
+import domain.Position;
 import domain.Route;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -11,14 +12,14 @@ class CarUnitRuleTest {
     @DisplayName("차가 갈 수 있는 엔드포인트를 모두 반환한다")
     void test1() {
         // given
-        Point p = new Point(0, 0);
+        Position p = new Position(0, 0);
         CarUnitRule rule = new CarUnitRule();
 
         // when
-        List<Point> endPoints = rule.calculateEndPoints(p);
+        List<Position> endPositions = rule.calculateEndPoints(p);
 
         // then
-        Assertions.assertThat(endPoints)
+        Assertions.assertThat(endPositions)
                 .hasSize(17);
     }
 
@@ -26,8 +27,8 @@ class CarUnitRuleTest {
     @DisplayName("시작점과 끝점의 경로를 반환한다")
     void test2() {
         // given
-        Point start = new Point(0, 0);
-        Point end = new Point(0, 5);
+        Position start = new Position(0, 0);
+        Position end = new Position(0, 5);
         CarUnitRule rule = new CarUnitRule();
 
         // when

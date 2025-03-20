@@ -1,11 +1,12 @@
 package domain.unit;
 
+import domain.Position;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class PointTest {
+class PositionTest {
 
     @ValueSource(strings = {"0,-1", "-1,0", "9,0", "0,10"})
     @ParameterizedTest
@@ -17,7 +18,7 @@ class PointTest {
         int y = Integer.parseInt(split[1]);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> new Point(x, y))
+        Assertions.assertThatThrownBy(() -> new Position(x, y))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("");
     }
@@ -30,12 +31,12 @@ class PointTest {
         String[] split = str.split(",");
         int x = Integer.parseInt(split[0]);
         int y = Integer.parseInt(split[1]);
-        Point point = new Point(x, y);
+        Position position = new Position(x, y);
 
-        Point opposite = new Point(2, 2);
+        Position opposite = new Position(2, 2);
 
         // when
-        boolean b = point.isHorizontal(opposite);
+        boolean b = position.isHorizontal(opposite);
 
         // then
         Assertions.assertThat(b).isTrue();
@@ -49,12 +50,12 @@ class PointTest {
         String[] split = str.split(",");
         int x = Integer.parseInt(split[0]);
         int y = Integer.parseInt(split[1]);
-        Point point = new Point(x, y);
+        Position position = new Position(x, y);
 
-        Point opposite = new Point(2, 2);
+        Position opposite = new Position(2, 2);
 
         // when
-        boolean b = point.isHorizontal(opposite);
+        boolean b = position.isHorizontal(opposite);
 
         // then
         Assertions.assertThat(b).isFalse();

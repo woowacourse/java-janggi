@@ -1,5 +1,6 @@
 package domain.unit;
 
+import domain.Position;
 import domain.Route;
 import domain.UnitType;
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.List;
 
 public class JolUnitRule implements UnitRule {
     @Override
-    public List<Route> calculateAllRoute(Point start) {
+    public List<Route> calculateAllRoute(Position start) {
         List<Route> routes = new ArrayList<>();
 
         List<Integer> dx = List.of(0, 1, 0, -1);
@@ -18,7 +19,7 @@ public class JolUnitRule implements UnitRule {
         for (int i = 0; i < dx.size(); i++) {
             try {
                 routes.add(Route.of(
-                        List.of(new Point(x + dx.get(i), y + dy.get(i))))
+                        List.of(new Position(x + dx.get(i), y + dy.get(i))))
                 );
             } catch (IllegalArgumentException exception) {
                 continue;
