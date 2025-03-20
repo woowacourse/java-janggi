@@ -21,39 +21,35 @@ public class Cannon extends Piece {
 
     @Override
     protected boolean isMoveablePath(List<Piece> existingPieces, Position destination) {
-        List<Piece> piecesOnPath = getPiecesOnPath(existingPieces, destination);
-
-        if (hasOnePiece(piecesOnPath) && hasCannon(piecesOnPath)) {
-
-            if (!hasPosition(existingPieces, destination)) {
-                return true;
-            }
-            Piece piece = findByPosition(existingPieces, destination);
-
-            return piece.getSide() != getSide() && !piece.getClass().equals(this.getClass());
+        if (hasNoObstacle(existingPieces, destination)) {
+            return existingPieces.stream()
+                    .filter(piece -> piece.isSamePosition(destination))
+                    .map(piece -> piece.getSide() != getSide() && !piece.getClass().equals(this.getClass()))
+                    .findAny()
+                    .orElse(true);
         }
         return false;
-    }
-
-    private boolean hasOnePiece(List<Piece> pieces) {
-        return pieces.size() == 1;
-    }
-
-    private boolean hasCannon(List<Piece> pieces) {
-        return pieces.stream()
-                .noneMatch(piece -> piece.getClass().equals(this.getClass()));
-    }
-
-    private boolean hasPosition(List<Piece> existingPieces, Position position) {
-        return existingPieces.stream()
-                .anyMatch(existingPiece -> existingPiece.isSamePosition(position));
     }
 
     private Piece findByPosition(List<Piece> existingPieces, Position position) {
         return existingPieces.stream()
                 .filter(existingPiece -> existingPiece.isSamePosition(position))
                 .findAny()
-                .get();
+                .orElse(null);
+    }
+
+    private boolean hasNoObstacle(List<Piece> existingPieces, Position destination) {
+        List<Piece> piecesOnPath = getPiecesOnPath(existingPieces, destination);
+        if (piecesOnPath.size() != 1) {
+            return false;
+        }
+        return piecesOnPath.stream()
+                .noneMatch(piece -> piece.getClass().equals(this.getClass()));
+    }
+
+    private boolean hasPosition(List<Piece> existingPieces, Position position) {
+        return existingPieces.stream()
+                .anyMatch(existingPiece -> existingPiece.isSamePosition(position));
     }
 
     private List<Piece> getPiecesOnPath(List<Piece> existingPieces, Position destination) {
