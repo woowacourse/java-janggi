@@ -34,7 +34,7 @@ public class Point {
     private static int parseInt(final String x) {
         try {
             return Integer.parseInt(x);
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             throw new IllegalArgumentException("좌표는 (숫자,숫자) 형식으로 입력해주세요.");
         }
     }
@@ -61,11 +61,11 @@ public class Point {
         return new Distance(pointX, pointY);
     }
 
-    public int calculateSubtractionX(Point other) {
+    public int calculateSubtractionX(final Point other) {
         return other.x - this.x;
     }
 
-    public int calculateSubtractionY(Point other) {
+    public int calculateSubtractionY(final Point other) {
         return other.y - this.y;
     }
 

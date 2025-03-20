@@ -9,11 +9,11 @@ public final class PieceFactory {
     private PieceFactory() {
     }
 
-    public static <T extends Piece> T createGreenTeam(BiFunction<Team, Score, T> creator, Score score) {
+    public static <T extends Piece> T createGreenTeam(final BiFunction<Team, Score, T> creator, final Score score) {
         return creator.apply(Team.GREEN, score);
     }
 
-    public static <T extends Piece> T createRedTeam(BiFunction<Team, Score, T> creator, Score score) {
+    public static <T extends Piece> T createRedTeam(final BiFunction<Team, Score, T> creator, final Score score) {
         return creator.apply(Team.RED, score);
     }
 

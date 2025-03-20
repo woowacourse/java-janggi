@@ -115,10 +115,7 @@ public class Board {
                 return false;
             }
 
-            if (hasPieceAt(toPoint) && findPositionBy(toPoint).isSamePiece(cannon)) {
-                return false;
-            }
-            return true;
+            return !hasPieceAt(toPoint) || !findPositionBy(toPoint).isSamePiece(cannon);
         }
         return false;
     }

@@ -12,12 +12,12 @@ public abstract class AbstractPiece implements Piece {
     protected final Team team;
     protected final Score score;
 
-    public AbstractPiece(final Team team, final Score score) {
+    protected AbstractPiece(final Team team, final Score score) {
         this.team = team;
         this.score = score;
     }
 
-    public boolean isGreenTeam() {
+    public final boolean isGreenTeam() {
         return Team.GREEN == team;
     }
 
@@ -27,7 +27,7 @@ public abstract class AbstractPiece implements Piece {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public final boolean equals(final Object o) {
         if (!(o instanceof final AbstractPiece that)) {
             return false;
         }
@@ -35,7 +35,7 @@ public abstract class AbstractPiece implements Piece {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return Objects.hashCode(getScore());
     }
 }

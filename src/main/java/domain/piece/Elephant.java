@@ -14,11 +14,11 @@ public class Elephant extends AbstractPiece {
     }
 
     @Override
-    public List<Point> getPossiblePoint(Point prev, Point newPoint) {
-        List<Point> possiblePoint = new ArrayList<>();
+    public List<Point> getPossiblePoint(final Point prev, final Point newPoint) {
+        final List<Point> possiblePoint = new ArrayList<>();
 
-        int x = prev.calculateSubtractionX(newPoint);
-        int y = prev.calculateSubtractionY(newPoint);
+        final int x = prev.calculateSubtractionX(newPoint);
+        final int y = prev.calculateSubtractionY(newPoint);
         if (x > 0 && y > 0) {
             final Point point = prev.up().rightUp().rightUp();
 
@@ -67,8 +67,8 @@ public class Elephant extends AbstractPiece {
 
     @Override
     public boolean isMovable(final Distance distance) {
-        int absoluteX = Math.abs(distance.x());
-        int absoluteY = Math.abs(distance.y());
+        final int absoluteX = Math.abs(distance.x());
+        final int absoluteY = Math.abs(distance.y());
         if (absoluteX == 2 && absoluteY == 3) {
             return true;
         }

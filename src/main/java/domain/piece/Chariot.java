@@ -14,11 +14,11 @@ public class Chariot extends AbstractPiece {
     }
 
     @Override
-    public List<Point> getPossiblePoint(Point prev, Point newPoint) {
-        List<Point> possiblePoint = new ArrayList<>();
+    public List<Point> getPossiblePoint(final Point prev, final Point newPoint) {
+        final List<Point> possiblePoint = new ArrayList<>();
 
-        int x = prev.calculateSubtractionX(newPoint);
-        int y = prev.calculateSubtractionY(newPoint);
+        final int x = prev.calculateSubtractionX(newPoint);
+        final int y = prev.calculateSubtractionY(newPoint);
         if (x > 0) {
             Point target = prev;
             for (int i = 0; i < prev.distanceToMaxX(); i++) {
