@@ -4,27 +4,69 @@ import janggi.Board;
 import janggi.Position;
 import janggi.Team;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class SoldierTest {
 
-    @Test
-    @DisplayName("규칙에 맞게 움직일 수 있다")
-    void move() {
+    @ParameterizedTest
+    @CsvSource(value = {"1, 0, RED", "0, 1, RED", "0,-1, RED", "0, -1, GREEN", "0, 1, GREEN", "-1, 0, GREEN"})
+    @DisplayName("졸/병은 적진을 향한 수직 혹은 수평으로 1칸 이동할 수 있다")
+    void move(int rowDirection, int columnDirection, Team team) {
         // given
-        Piece soldier = new Soldier(Position.of(2, 2), Team.RED);
-
+        Position position = Position.of(5, 5);
+        Piece soldier = new Soldier(position, team);
         Board board = Board.initialize(List.of(soldier));
 
+        Position movedPosition = position.adjust(rowDirection, columnDirection);
+
         // when
-        board.movePiece(Position.of(2, 2), Position.of(2, 3));
+        Piece move = soldier.move(board, movedPosition);
 
         // then
-        assertThat(board.getPiece(Position.of(2, 3))).isInstanceOf(Soldier.class);
+        assertThat(move.getPosition()).isEqualTo(movedPosition);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"RED, -1", "GREEN, 1"})
+    @DisplayName("졸/병은 본진 방향으로 이동할 수 없다")
+    void cannotMoveToAllyBase(Team team, int rowDirection) {
+        // given
+        Position position = Position.of(5, 5);
+        Piece soldier = new Soldier(position, team);
+        Board board = Board.initialize(List.of(soldier));
+
+        Position movedPosition = position.adjust(rowDirection, 0);
+
+        // when
+        // then
+        assertThatThrownBy(() -> soldier.move(board, movedPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("본진을 향할 수 없습니다");
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"1, 1", "2, 0"})
+    @DisplayName("졸/병은 2칸 이상 움직일 수 없다")
+    void move(int rowDirection, int columnDirection) {
+        // given
+        Position position = Position.of(5, 5);
+        Piece soldier = new Soldier(position, Team.RED);
+        Board board = Board.initialize(List.of(soldier));
+
+
+        Position movedPosition = position.adjust(rowDirection, columnDirection);
+
+        // when
+        // then
+        assertThatThrownBy(() -> soldier.move(board, movedPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("이동할 수 없는 지점입니다.");
     }
 
 }
