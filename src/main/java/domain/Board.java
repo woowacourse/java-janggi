@@ -12,11 +12,13 @@ public class Board {
     private final Team team1;
     private final Team team2;
 
+    private boolean isTeam1Turn = true;
+
     public Board(final Team team1, final Team team2) {
         validateTeamIsNotNull(team1, team2);
         validateCountryIsNotSame(team1,team2);
-        this.team1 = team1;
-        this.team2 = team2;
+        this.team1 = Team.getFirstTeam(team1, team2);
+        this.team2 = Team.getSecondTeam(team1, team2);
     }
 
     private void validateTeamIsNotNull(final Team team1, final Team team2) {
@@ -36,5 +38,20 @@ public class Board {
         status.putAll(team1.getPieces());
         status.putAll(team2.getPieces());
         return Collections.unmodifiableMap(status);
+    }
+
+    public void move(Position fromPosition, Position tagetPosition) {
+        if (isTeam1Turn) {
+            team1.move(fromPosition, tagetPosition, team2.getPieces());
+            nextTurn();
+        }
+        if (!isTeam1Turn) {
+            team2.move(fromPosition, tagetPosition, team1.getPieces());
+            nextTurn();
+        }
+    }
+
+    private void nextTurn() {
+        isTeam1Turn = !isTeam1Turn;
     }
 }
