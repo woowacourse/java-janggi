@@ -9,7 +9,6 @@ public class Movements {
         this.movements = movements;
     }
 
-
     public boolean canMoveFromTo(Position startPosition, Position endPosition) {
         return movements.stream()
                 .anyMatch(movement -> movement.isValidMove(startPosition, endPosition));
