@@ -6,20 +6,22 @@ import janggi.domain.board.point.DefaultPoint;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.BoardPiece;
 import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Elephant;
-import janggi.domain.piece.Guard;
-import janggi.domain.piece.General;
-import janggi.domain.piece.Horse;
-import janggi.domain.piece.Soldier;
-import janggi.domain.piece.Piece;
 import janggi.domain.piece.Chariot;
+import janggi.domain.piece.Elephant;
+import janggi.domain.piece.General;
+import janggi.domain.piece.Guard;
+import janggi.domain.piece.Horse;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Soldier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class JanggiBoardView {
 
+    private static final Pattern MOVE_PATTERN = Pattern.compile("move [ㄱㄴㄷㄹㅁㅂㅅㅇㅈ](10|[1-9]) [ㄱㄴㄷㄹㅁㅂㅅㅇㅈ](10|[1-9])");
     private static final Scanner scanner = new Scanner(System.in);
     private static final String RESET = "\u001B[0m";
     private static final String RED = "\u001B[31m";
@@ -71,7 +73,7 @@ public class JanggiBoardView {
             return new Movement(command);
         }
         String[] splitCommands = command.split(" ");
-        if (splitCommands[0].equals("move")) {
+        if (MOVE_PATTERN.matcher(command).matches()) {
             int startY = VERTICAL_INPUT_MAP.get(Character.toString(splitCommands[1].charAt(0)));
             int startX = Integer.parseInt(splitCommands[1].substring(1));
 
@@ -83,7 +85,7 @@ public class JanggiBoardView {
     }
 
     private void printPlayerMoveGuide(Player player) {
-        if(player.getDynasty() == Dynasty.HAN) {
+        if (player.getDynasty() == Dynasty.HAN) {
             System.out.println(convertHanColor(player.getNickname()) + "의 차례입니다. 이동할 위치를 입력해주세요. 예) move ㄱ2 ㄴ3");
             return;
         }
@@ -135,6 +137,14 @@ public class JanggiBoardView {
     ) {
         public Movement(String command) {
             this(command, -1, -1, -1, -1);
+        }
+
+        public boolean isEnd() {
+            return this.command.equals("end");
+        }
+
+        public boolean isMove() {
+            return this.command.equals("move");
         }
     }
 }

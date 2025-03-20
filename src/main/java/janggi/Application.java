@@ -9,6 +9,6 @@ public class Application {
         JanggiBoardView janggiBoardView = new JanggiBoardView();
         JanggiGame janggiGame = new JanggiGame(initializeView, janggiBoardView);
 
-        janggiGame.play();
+        janggiGame.start();
     }
 }
