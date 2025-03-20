@@ -1,28 +1,32 @@
 package move;
 
-public class SoldierMovement implements MoveStrategy{
-    private static final int MAXIMUM_MOVEMENT_LIMIT = 1;
+import static direction.Direction.LEFT;
+import static direction.Direction.RIGHT;
+import static direction.Direction.UP;
+
+import direction.Direction;
+import direction.Point;
+import java.util.List;
+import piece.Pieces;
+
+public class SoldierMovement implements MovementRule {
+
+    private static final List<Direction> paths = List.of(LEFT, RIGHT, UP);
+
+    private final int dir;
+
+    public SoldierMovement(int dir) {
+        this.dir = dir;
+    }
 
     @Override
-    public Position move(Position from, Position to) {
-        validateMoveRange(from, to);
-        return to;
-    }
-
-    private void validateMoveRange(Position from, Position to) {
-        validateHorizontalRange(from.x(), to.x());
-        validateVerticalRange(from.y(), to.y());
-    }
-
-    private void validateHorizontalRange(int fromX, int toX) {
-        if(fromX - MAXIMUM_MOVEMENT_LIMIT > toX || fromX + MAXIMUM_MOVEMENT_LIMIT < toX) {
-            throw new IllegalArgumentException();
+    public Point move(Pieces pieces, Point from, Point to) {
+        for (Direction direction : paths) {
+            if (from.plus(direction.multiply(dir)).equals(to)) {
+                return to;
+            }
         }
-    }
 
-    private void validateVerticalRange(int fromY, int toY) {
-        if (fromY - MAXIMUM_MOVEMENT_LIMIT > toY || fromY < toY) {
-            throw new IllegalArgumentException();
-        }
+        throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
     }
 }
