@@ -11,7 +11,7 @@ import domain.position.PositionRank;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StaticPieceInitializer implements PieceInitializer {
+public final class StaticPieceInitializer implements PieceInitializer {
 
     @Override
     public Map<Position, Piece> init(final StartingPosition startingPosition, final Country country) {

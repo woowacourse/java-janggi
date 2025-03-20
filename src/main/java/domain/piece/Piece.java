@@ -6,7 +6,7 @@ import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Piece {
+public final class Piece {
 
     private final Position position;
     private final PieceType type;

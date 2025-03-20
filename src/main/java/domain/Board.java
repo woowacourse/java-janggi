@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Board {
+public final class Board {
 
     private final Team team1;
     private final Team team2;

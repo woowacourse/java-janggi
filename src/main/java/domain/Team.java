@@ -7,7 +7,7 @@ import domain.position.Position;
 import java.util.Collections;
 import java.util.Map;
 
-public class Team {
+public final class Team {
 
     private final Country country;
     private final Map<Position, Piece> pieces;
