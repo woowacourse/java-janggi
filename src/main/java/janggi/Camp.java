@@ -2,13 +2,13 @@ package janggi;
 
 public enum Camp {
 
-    HAN(false, "한") {
+    HAN("한") {
         @Override
         public Camp reverse() {
             return CHU;
         }
     },
-    CHU(true, "초") {
+    CHU("초") {
         @Override
         public Camp reverse() {
             return HAN;
@@ -16,18 +16,16 @@ public enum Camp {
     },
     ;
 
-    private final boolean isBottom;
     private final String name;
 
-    Camp(boolean isBottom, String name) {
-        this.isBottom = isBottom;
+    Camp(String name) {
         this.name = name;
     }
 
     public abstract Camp reverse();
 
     public boolean isBottom() {
-        return isBottom;
+        return this == CHU;
     }
 
     public String getName() {
