@@ -1,26 +1,20 @@
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-
 import janggiGame.board.Board;
 import janggiGame.board.Dot;
-import janggiGame.piece.Advisor;
-import janggiGame.piece.Cannon;
-import janggiGame.piece.Chariot;
-import janggiGame.piece.Dynasty;
-import janggiGame.piece.Elephant;
-import janggiGame.piece.Horse;
-import janggiGame.piece.Pawn;
-import janggiGame.piece.Piece;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
+import janggiGame.piece.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 public class JanggiTest {
     public static Stream<Arguments> provideXY() {
@@ -187,11 +181,9 @@ public class JanggiTest {
         routesWithPiece.put(Board.findBy(1, 2), null);
         routesWithPiece.put(Board.findBy(1, 3), null);
 
-        // when
-        boolean actual = chariot.canMove(routesWithPiece, null);
-
-        // then
-        assertThat(actual).isTrue();
+        // when // then
+        assertThatCode(() -> chariot.validateMove(routesWithPiece, null))
+                .doesNotThrowAnyException();
     }
 
     @DisplayName("차는 이동 경로에 기물이 존재한다면 이동할 수 없다")
@@ -204,11 +196,10 @@ public class JanggiTest {
         routesWithPiece.put(Board.findBy(1, 2), null);
         routesWithPiece.put(Board.findBy(1, 3), new Chariot(Dynasty.HAN));
 
-        // when
-        boolean actual = chariot.canMove(routesWithPiece, null);
-
-        // then
-        assertThat(actual).isFalse();
+        // when // then
+        assertThatCode(() -> chariot.validateMove(routesWithPiece, null))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("차는 목적지에 같은 나라의 기물이 존재한다면 이동할 수 없다")
@@ -222,7 +213,7 @@ public class JanggiTest {
         routesWithPiece.put(Board.findBy(1, 3), null);
 
         // when // then
-        assertThatCode(() -> chariot.canMove(routesWithPiece, new Chariot(Dynasty.HAN)))
+        assertThatCode(() -> chariot.validateMove(routesWithPiece, new Chariot(Dynasty.HAN)))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR] ");
     }
@@ -266,11 +257,9 @@ public class JanggiTest {
         routesWithPiece.put(Board.findBy(5, 7), null);
         routesWithPiece.put(Board.findBy(6, 8), null);
 
-        // when
-        boolean actual = elephant.canMove(routesWithPiece, null);
-
-        // then
-        assertThat(actual).isTrue();
+        // when // then
+        assertThatCode(() -> elephant.validateMove(routesWithPiece, null))
+                .doesNotThrowAnyException();
     }
 
     @DisplayName("상은 이동 경로에 기물이 존재한다면 이동할 수 없다")
@@ -283,11 +272,10 @@ public class JanggiTest {
         routesWithPiece.put(Board.findBy(5, 7), null);
         routesWithPiece.put(Board.findBy(6, 8), new Elephant(Dynasty.HAN));
 
-        // when
-        boolean actual = elephant.canMove(routesWithPiece, null);
-
-        // then
-        assertThat(actual).isFalse();
+        // when // then
+        assertThatCode(() -> elephant.validateMove(routesWithPiece, null))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageStartingWith("[ERROR]");
     }
 
 
@@ -331,11 +319,9 @@ public class JanggiTest {
         routesWithPiece.put(Board.findBy(1, 2), null);
         routesWithPiece.put(Board.findBy(1, 3), new Chariot(Dynasty.HAN));
 
-        // when
-        boolean actual = cannon.canMove(routesWithPiece, null);
-
-        // then
-        assertThat(actual).isTrue();
+        // when // then
+        assertThatCode(() -> cannon.validateMove(routesWithPiece, null))
+                .doesNotThrowAnyException();
     }
 
     @DisplayName("포가 자신을 제외한 다른 포를 넘으려고 할 때 예외를 발생 시킨다.")
@@ -349,7 +335,7 @@ public class JanggiTest {
         routesWithPiece.put(Board.findBy(1, 3), new Cannon(Dynasty.HAN));
 
         // when // then
-        assertThatCode(() -> cannon.canMove(routesWithPiece, null))
+        assertThatCode(() -> cannon.validateMove(routesWithPiece, null))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -365,7 +351,7 @@ public class JanggiTest {
         routesWithPiece.put(Board.findBy(1, 3), new Chariot(Dynasty.HAN));
 
         // when // then
-        assertThatCode(() -> cannon.canMove(routesWithPiece, new Cannon(Dynasty.CHO))).isInstanceOf(
+        assertThatCode(() -> cannon.validateMove(routesWithPiece, new Cannon(Dynasty.CHO))).isInstanceOf(
                         UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -403,7 +389,7 @@ public class JanggiTest {
         Pawn pawn = new Pawn(Dynasty.HAN);
 
         // when // then
-        assertThatCode(() -> pawn.canMove(routesWithPiece, new Chariot(Dynasty.HAN)))
+        assertThatCode(() -> pawn.validateMove(routesWithPiece, new Chariot(Dynasty.HAN)))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR] ");
     }
@@ -445,11 +431,9 @@ public class JanggiTest {
 
         routesWithPiece.put(Board.findBy(5, 7), null);
 
-        // when
-        boolean actual = horse.canMove(routesWithPiece, null);
-
-        // then
-        assertThat(actual).isTrue();
+        // when // then
+        assertThatCode(() -> horse.validateMove(routesWithPiece, null))
+                .doesNotThrowAnyException();
     }
 
     @DisplayName("마는 이동 경로에 기물이 존재한다면 이동할 수 없다")
@@ -461,11 +445,10 @@ public class JanggiTest {
 
         routesWithPiece.put(Board.findBy(6, 8), new Horse(Dynasty.HAN));
 
-        // when
-        boolean actual = horse.canMove(routesWithPiece, null);
-
-        // then
-        assertThat(actual).isFalse();
+        // when // then
+        assertThatCode(() -> horse.validateMove(routesWithPiece, null))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("장의 목적지로 가는 경로는 항상 비어있다.")
@@ -491,7 +474,7 @@ public class JanggiTest {
         Advisor king = new Advisor(Dynasty.HAN);
 
         // when // then
-        assertThatCode(() -> king.canMove(routesWithPiece, new Chariot(Dynasty.HAN)))
+        assertThatCode(() -> king.validateMove(routesWithPiece, new Chariot(Dynasty.HAN)))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR] ");
     }
@@ -519,7 +502,7 @@ public class JanggiTest {
         Advisor advisor = new Advisor(Dynasty.HAN);
 
         // when // then
-        assertThatCode(() -> advisor.canMove(routesWithPiece, new Chariot(Dynasty.HAN)))
+        assertThatCode(() -> advisor.validateMove(routesWithPiece, new Chariot(Dynasty.HAN)))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR] ");
     }

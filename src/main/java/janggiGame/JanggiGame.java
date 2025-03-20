@@ -5,6 +5,7 @@ import janggiGame.board.Board;
 import janggiGame.board.Dot;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,11 +50,10 @@ public class JanggiGame {
             routeWithPiece.put(dot, pieces.getOrDefault(dot, null));
         }
 
-        boolean canMove = originPiece.canMove(routeWithPiece, pieces.getOrDefault(destination, null));
+        originPiece.validateMove(routeWithPiece, pieces.getOrDefault(destination, null));
 
-        if (canMove) {
-            pieces.remove(origin);
-            pieces.put(destination, originPiece);
-        }
+        pieces.remove(origin);
+        pieces.put(destination, originPiece);
+
     }
 }

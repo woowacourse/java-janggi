@@ -1,6 +1,7 @@
 package janggiGame.piece;
 
 import janggiGame.board.Dot;
+
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,13 @@ public class Pawn extends Piece {
         int dx = origin.getDx(destination);
         int dy = origin.getDy(destination);
 
+        validateRoute(dx, dy);
+
+        return List.of();
+    }
+
+    @Override
+    public void validateRoute(int dx, int dy) {
         if (Math.abs(dx) + Math.abs(dy) != 1) {
             throw new UnsupportedOperationException("[ERROR] 병이 이동할 수 있는 목적지가 아닙니다.");
         }
@@ -28,17 +36,11 @@ public class Pawn extends Piece {
         if (dynasty == Dynasty.CHO && dy < 0) {
             throw new UnsupportedOperationException("[ERROR] 병은 뒤로 이동할 수 없습니다.");
         }
-
-        return List.of(); //ToDO 빈값 확인해주기!!
     }
 
     @Override
-    public boolean canMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
-        if (isSameDynasty(destinationPiece)) {
-            throw new UnsupportedOperationException("[ERROR] 같은 나라의 말은 공격할 수 없습니다.");
-        }
-
-        return true;
+    public void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
+        validateSameDynasty(destinationPiece);
     }
 
     @Override

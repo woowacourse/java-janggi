@@ -1,6 +1,7 @@
 package janggiGame.piece;
 
 import janggiGame.board.Dot;
+
 import java.util.List;
 import java.util.Map;
 
@@ -16,20 +17,21 @@ public class Advisor extends Piece {
         int dx = origin.getDx(destination);
         int dy = origin.getDy(destination);
 
-        if (Math.abs(dx) + Math.abs(dy) != 1) {
-            throw new UnsupportedOperationException("[ERROR] 병이 이동할 수 있는 목적지가 아닙니다.");
-        }
+        validateRoute(dx, dy);
 
         return List.of();
     }
 
     @Override
-    public boolean canMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
-        if (isSameDynasty(destinationPiece)) {
-            throw new UnsupportedOperationException("[ERROR] 같은 나라의 말은 공격할 수 없습니다.");
+    public void validateRoute(int dx, int dy) {
+        if (Math.abs(dx) + Math.abs(dy) != 1) {
+            throw new UnsupportedOperationException("[ERROR] 사가 이동할 수 있는 목적지가 아닙니다.");
         }
+    }
 
-        return true;
+    @Override
+    public void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
+        validateSameDynasty(destinationPiece);
     }
 
     @Override

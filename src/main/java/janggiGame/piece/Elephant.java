@@ -1,10 +1,12 @@
 package janggiGame.piece;
 
 import janggiGame.board.Dot;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 
 public class Elephant extends Piece {
     private static final String NAME = "상";
@@ -24,63 +26,52 @@ public class Elephant extends Piece {
         int dx = origin.getDx(destination);
         int dy = origin.getDy(destination);
 
-        if (!(isFirstMoveVertical(dx, dy) || isFirstMoveHorizontal(dx, dy))) {
-            throw new UnsupportedOperationException("[ERROR] 상이 이동할 수 있는 목적지가 아닙니다.");
-        }
+        validateRoute(dx, dy);
 
-        if (dx == 0 && dy == 0) {
-            throw new IllegalArgumentException("[ERROR] 같은 위치로 이동할 수 없습니다.");
-        }
+        Function<Dot, Dot> firstMove = getFirstMove(dx, dy);
+        origin = firstMove.apply(origin);
+        route.add(origin);
 
+        Function<Dot, Dot> diagonalMove = getDiagonalMove(dx, dy);
+        route.add(diagonalMove.apply(origin));
+
+        return route;
+    }
+
+    private Function<Dot, Dot> getFirstMove(int dx, int dy) {
         if (isFirstMoveVertical(dx, dy)) {
             if (dy > 0) {
-                origin = origin.up();
-                route.add(origin);
-
-                if (dx > 0) {
-                    route.add(origin.upRight());
-                    return route;
-                }
-
-                route.add(origin.upLeft());
-                return route;
+                return Dot::up;
             }
+            return Dot::down;
+        }
+        if (dx > 0) {
+            return Dot::right;
+        }
+        return Dot::left;
+    }
 
-            origin = origin.down();
-            route.add(origin);
-
-            if (dx > 0) {
-                route.add(origin.downRight());
-                return route;
-            }
-
-            route.add(origin.downLeft());
-            return route;
+    private Function<Dot, Dot> getDiagonalMove(int dx, int dy) {
+        if (dx > 0 && dy > 0) {
+            return Dot::upRight;
         }
 
         if (dx > 0) {
-            origin = origin.right();
-            route.add(origin);
-
-            if (dy > 0) {
-                route.add(origin.upRight());
-                return route;
-            }
-
-            route.add(origin.downRight());
-            return route;
+            return Dot::downRight;
         }
-
-        origin = origin.left();
-        route.add(origin);
 
         if (dy > 0) {
-            route.add(origin.upLeft());
-            return route;
+            return Dot::upLeft;
         }
 
-        route.add(origin.downLeft());
-        return route;
+        return Dot::downLeft;
+    }
+
+    @Override
+    public void validateRoute(int dx, int dy) {
+        if (!(isFirstMoveVertical(dx, dy) || isFirstMoveHorizontal(dx, dy))) {
+            throw new UnsupportedOperationException("[ERROR] 상이 이동할 수 있는 목적지가 아닙니다.");
+        }
     }
 
     private boolean isFirstMoveVertical(int dx, int dy) {
@@ -88,14 +79,17 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public boolean canMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
-        if (isSameDynasty(destinationPiece)) {
-            throw new UnsupportedOperationException("[ERROR] 같은 나라의 말은 공격할 수 없습니다.");
-        }
+    public void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
+        validateSameDynasty(destinationPiece);
 
-        return routesWithPiece.values()
+        routesWithPiece.values()
                 .stream()
-                .noneMatch(Objects::nonNull);
+                .filter(Objects::nonNull)
+                .findAny()
+                .ifPresent(piece -> {
+                    throw new UnsupportedOperationException("[ERROR] 상은 경로에 말이 존재하면 이동할 수 없습니다.");
+                });
+
     }
 
     @Override
