@@ -15,7 +15,7 @@ public class Rook implements Piece {
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
         for (Direction direction : DIRECTIONS) {
             Point currPoint = start;
-            while (!currPoint.isSamePosition(end) && !currPoint.isOutOfBoundary()) {
+            while (!currPoint.isSamePosition(end) && currPoint.isNotOutOfBoundary()) {
                 currPoint = currPoint.move(direction);
                 if (janggiBoard.isExistPiece(currPoint)) {
                     break;

@@ -1,17 +1,52 @@
 package janggi.domain.board.point;
 
 import janggi.domain.board.Direction;
+import java.util.Objects;
 
-public interface Point {
-    Point move(Direction direction);
+public abstract class Point {
+    protected final int x;
+    protected final int y;
 
-    boolean isSamePosition(Point point);
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 
-    int getX();
+    public abstract Point move(Direction direction);
 
-    int getY();
+    public boolean isSamePosition(Point point) {
+        return this.x == point.getX() && y == point.getY();
+    }
 
-    Point copy(Point endPoint);
+    public Point copy(Point endPoint) {
+        return new HanPoint(endPoint.getX(), endPoint.getY());
+    }
 
-    boolean isOutOfBoundary();
+    public boolean isNotOutOfBoundary() {
+        return x <= 10 && x >= 1 && y <= 9 && y >= 1;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Point point)) {
+            return false;
+        }
+        return x == point.x && y == point.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
 }

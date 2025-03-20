@@ -20,7 +20,7 @@ public class Cannon implements Piece {
         for (Direction direction : DIRECTIONS) {
             boolean isJump = false;
             Point currPoint = start;
-            while (!currPoint.isSamePosition(end) && !currPoint.isOutOfBoundary()) {
+            while (!currPoint.isSamePosition(end) && currPoint.isNotOutOfBoundary()) {
                 currPoint = currPoint.move(direction);
                 if (janggiBoard.isExistPiece(currPoint)) {
                     if (isExistCannon(janggiBoard, currPoint)) {

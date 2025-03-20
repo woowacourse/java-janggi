@@ -2,10 +2,11 @@ package janggi.domain.board.point;
 
 import janggi.domain.board.Direction;
 
-public record HanPoint(
-        int x,
-        int y
-) implements Point {
+public class HanPoint extends Point {
+
+    public HanPoint(int x, int y) {
+        super(x, y);
+    }
 
     @Override
     public Point move(Direction direction) {
@@ -19,30 +20,5 @@ public record HanPoint(
             case DOWN_LEFT_DIAGONAL -> new HanPoint(x - 1, y + 1);
             case DOWN_RIGHT_DIAGONAL -> new HanPoint(x - 1, y - 1);
         };
-    }
-
-    @Override
-    public boolean isSamePosition(Point point) {
-        return this.x == point.getX() && y == point.getY();
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public Point copy(Point endPoint) {
-        return new HanPoint(endPoint.getX(), endPoint.getY());
-    }
-
-    @Override
-    public boolean isOutOfBoundary() {
-        return x > 10 || x < 1 || y > 9 || y < 1;
     }
 }
