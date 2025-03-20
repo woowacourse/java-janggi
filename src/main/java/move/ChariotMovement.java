@@ -16,8 +16,7 @@ public class ChariotMovement implements MovementRule {
         List<Point> paths = findPaths(from, to);
 
         for (Point path : paths) {
-            Piece piece = pieces.findByPoint(path);
-            validateNonExistPieceInPath(piece);
+            validateNonExistPieceInPath(pieces, path);
         }
 
         return new Point(to.x(), to.y());
@@ -54,8 +53,8 @@ public class ChariotMovement implements MovementRule {
         }
     }
 
-    private void validateNonExistPieceInPath(final Piece piece) {
-        if (piece != null) {
+    private static void validateNonExistPieceInPath(Pieces pieces, Point path) {
+        if (pieces.isExistPieceIn(path)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
         }
     }
