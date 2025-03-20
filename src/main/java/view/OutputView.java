@@ -32,7 +32,7 @@ public class OutputView {
         if(turnColor == PieceColor.RED){
             color = "한나라";
         }
-        System.out.println(color + "차례입니다.");
+        System.out.println(getStringColor() + color + "차례입니다.");
     }
 
     public void printWinner(PieceColor turnColor) {
@@ -48,5 +48,9 @@ public class OutputView {
 
     public void printError(String message) {
         System.out.println(message);
+    }
+
+    private String getStringColor() {
+        return "\u001B[0m";
     }
 }
