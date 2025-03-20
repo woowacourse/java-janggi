@@ -7,9 +7,9 @@ import java.util.List;
 
 public enum Diagonal {
     UP_RIGHT(List.of(UP, RIGHT), -1, 1),
-    UP_LEFT(List.of(UP, LEFT),-1, -1),
-    DOWN_RIGHT(List.of(DOWN, RIGHT),1, 1),
-    DOWN_LEFT(List.of(DOWN, RIGHT),1, -1);
+    UP_LEFT(List.of(UP, LEFT), -1, -1),
+    DOWN_RIGHT(List.of(DOWN, RIGHT), 1, 1),
+    DOWN_LEFT(List.of(DOWN, RIGHT), 1, -1);
 
     private final List<Direction> possibleDirections;
     private final int x;

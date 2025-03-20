@@ -19,7 +19,8 @@ public enum PieceType {
     SCHOLAR(new ScholarMoveStrategy()),
     KING(new KingMoveStrategy()),
     HAN_PAWN(new HanPawnMoveStrategy()),
-    CHO_PAWN(new ChoPawnMoveStrategy()),;
+    CHO_PAWN(new ChoPawnMoveStrategy());
+
     private final MoveStrategy moveStrategy;
 
     PieceType(MoveStrategy moveStrategy) {

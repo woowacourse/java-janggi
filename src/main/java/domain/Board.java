@@ -17,7 +17,7 @@ public class Board {
         Piece piece = choBoard.findByLocation(current);
         if (piece.isMovable(current, destination)) {
             List<BoardLocation> allPath = piece.createAllPath(current, destination);
-            if (piece.isCannon()){
+            if (piece.isCannon()) {
                 choBoard.validateCannon(allPath, destination);
                 hanBoard.validateCannon(allPath, destination);
             }
@@ -32,7 +32,7 @@ public class Board {
         Piece piece = hanBoard.findByLocation(current);
         if (piece.isMovable(current, destination)) {
             List<BoardLocation> allPath = piece.createAllPath(current, destination);
-            if (piece.isCannon()){
+            if (piece.isCannon()) {
                 choBoard.validateCannon(allPath, destination);
                 hanBoard.validateCannon(allPath, destination);
             }

@@ -57,14 +57,14 @@ public abstract class TeamBoard {
 
     public void validateCannon(List<BoardLocation> allPath, BoardLocation destination) {
         int count = 0;
-        for (BoardLocation boardLocation : allPath){
-            for (BoardLocation pieceLocation : pieces.keySet()){
-                if (boardLocation.equals(pieceLocation) && !pieces.get(pieceLocation).isCannon()){
+        for (BoardLocation boardLocation : allPath) {
+            for (BoardLocation pieceLocation : pieces.keySet()) {
+                if (boardLocation.equals(pieceLocation) && !pieces.get(pieceLocation).isCannon()) {
                     count++;
                 }
             }
         }
-        if (count != 1 || pieces.get(destination).isCannon()){
+        if (count != 1 || pieces.get(destination).isCannon()) {
             throw new IllegalArgumentException("[ERROR] 움직일 수 없는 좌표입니다");
         }
     }
