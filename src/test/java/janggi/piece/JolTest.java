@@ -18,7 +18,7 @@ class JolTest {
 
     static final Position STANDARD = new Position(4, 4);
 
-    @DisplayName("장기말을 이동시킬 수 있다.")
+    @DisplayName("초의 장기말을 이동시킬 수 있다.")
     @ParameterizedTest
     @MethodSource()
     void test1(Position destination) {
@@ -40,11 +40,33 @@ class JolTest {
         );
     }
 
+    @DisplayName("한의 장기말을 이동시킬 수 있다.")
+    @ParameterizedTest
+    @MethodSource()
+    void test2(Position destination) {
+        //given
+        Jol jol = Jol.from(STANDARD, CampType.HAN);
+
+        //when
+        Jol movedJol = jol.move(destination, List.of(), List.of());
+
+        //then
+        assertThat(movedJol.getPosition()).isEqualTo(destination);
+    }
+
+    static Stream<Arguments> test2() {
+        return Stream.of(
+                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY())),
+                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY())),
+                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() + 1))
+        );
+    }
+
 
     @DisplayName("장기말의 이동 규칙에 어긋난 경우 이동이 불가능합니다.")
     @ParameterizedTest
     @MethodSource()
-    void test2(Position destination) {
+    void test3(Position destination) {
         //given
         Jol jol = Jol.from(STANDARD, CampType.CHO);
 
@@ -54,7 +76,7 @@ class JolTest {
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
 
-    static Stream<Arguments> test2() {
+    static Stream<Arguments> test3() {
         return Stream.of(
                 Arguments.of(new Position(STANDARD.getX() + 2, STANDARD.getY())),
                 Arguments.of(new Position(STANDARD.getX() - 2, STANDARD.getY())),
@@ -64,7 +86,7 @@ class JolTest {
 
     @DisplayName("아군 장기말이 장애물일 경우 해당 위치로 이동이 불가능하다.")
     @Test
-    void test3() {
+    void test4() {
         //given
         Jol jol = Jol.from(STANDARD, CampType.CHO);
         Position destination = new Position(4, 3);
@@ -78,7 +100,7 @@ class JolTest {
 
     @DisplayName("상대 장기말이 장애물일 경우 해당 위치로 이동이 가능하다.")
     @Test
-    void test4() {
+    void test5() {
         //given
         Jol jol = Jol.from(STANDARD, CampType.CHO);
         Position destination = new Position(4, 3);

@@ -175,4 +175,17 @@ class PoTest {
         //then
         assertThat(movedPo.getPosition()).isEqualTo(destination);
     }
+
+    @DisplayName("목적지가 일직선 상에 없는 경우 예외를 발생시킨다.")
+    @Test
+    void test8() {
+        //given
+        Po po = Po.from(STANDARD);
+        Position destination = new Position(5, 7);
+
+        //when & then
+        assertThatThrownBy(() -> po.move(destination, List.of(), List.of()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 이동이 불가능합니다.");
+    }
 }

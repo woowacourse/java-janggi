@@ -101,9 +101,24 @@ class ChaTest {
         );
     }
 
-    @DisplayName("상대 장기말이 장애물일 경우 장애물 위치까지 이동이 가능하다.")
+    @DisplayName("상대 장기말이 장애물일 경우 장애물 위치를 포함해 너머로 이동이 불가능하다.")
     @Test
     void test6() {
+        //given
+        Cha cha = Cha.from(STANDARD);
+        Position destination = new Position(6, 4);
+        Position hurdlePosition = new Position(5, 4);
+        Cha otherPiece = Cha.from(hurdlePosition);
+
+        //when & then
+        assertThatThrownBy(() -> cha.move(destination, List.of(otherPiece), List.of()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 이동이 불가능합니다.");
+    }
+
+    @DisplayName("상대 장기말이 장애물일 경우 장애물 위치까지 이동이 가능하다.")
+    @Test
+    void test7() {
         //given
         Cha cha = Cha.from(STANDARD);
         Position positionBeforeHurdle = new Position(5, 4);
@@ -117,7 +132,7 @@ class ChaTest {
 
     @DisplayName("아군 장기말이 장애물일 경우 장애물 위치를 포함해 너머로 이동이 불가능하다.")
     @Test
-    void test7() {
+    void test8() {
         //given
         Cha cha = Cha.from(STANDARD);
         Position destination = new Position(6, 4);
