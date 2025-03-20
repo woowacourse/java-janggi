@@ -21,4 +21,8 @@ public enum Team {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_TEAM));
     }
+
+    public String getType() {
+        return type;
+    }
 }
