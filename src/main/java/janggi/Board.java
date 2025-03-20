@@ -23,28 +23,13 @@ public class Board {
 
     public static Board init() {
         Map<Position, Piece> board = new HashMap<>();
+        board.putAll(createRedSidePieces());
+        board.putAll(createBlueSidePieces());
+        return new Board(board);
+    }
 
-        board.put(new Position(1, 1), new Tank(Side.BLUE));
-        board.put(new Position(2, 1), new Elephant(Side.BLUE));
-        board.put(new Position(3, 1), new Horse(Side.BLUE));
-        board.put(new Position(4, 1), new Guard(Side.BLUE));
-
-        board.put(new Position(6, 1), new Guard(Side.BLUE));
-        board.put(new Position(7, 1), new Horse(Side.BLUE));
-        board.put(new Position(8, 1), new Elephant(Side.BLUE));
-        board.put(new Position(9, 1), new Tank(Side.BLUE));
-
-        board.put(new Position(5, 2), new King(Side.BLUE));
-
-        board.put(new Position(2, 3), new Cannon(Side.BLUE));
-        board.put(new Position(8, 3), new Cannon(Side.BLUE));
-
-        board.put(new Position(1, 4), new Soldier(Side.BLUE));
-        board.put(new Position(3, 4), new Soldier(Side.BLUE));
-        board.put(new Position(5, 4), new Soldier(Side.BLUE));
-        board.put(new Position(7, 4), new Soldier(Side.BLUE));
-        board.put(new Position(9, 4), new Soldier(Side.BLUE));
-
+    private static Map<Position, Piece> createRedSidePieces() {
+        Map<Position, Piece> board = new HashMap<>();
         board.put(new Position(1, 10), new Tank(Side.RED));
         board.put(new Position(2, 10), new Elephant(Side.RED));
         board.put(new Position(3, 10), new Horse(Side.RED));
@@ -65,7 +50,32 @@ public class Board {
         board.put(new Position(5, 7), new Soldier(Side.RED));
         board.put(new Position(7, 7), new Soldier(Side.RED));
         board.put(new Position(9, 7), new Soldier(Side.RED));
-        return new Board(board);
+        return board;
+    }
+
+    private static Map<Position, Piece> createBlueSidePieces() {
+        Map<Position, Piece> board = new HashMap<>();
+        board.put(new Position(1, 1), new Tank(Side.BLUE));
+        board.put(new Position(2, 1), new Elephant(Side.BLUE));
+        board.put(new Position(3, 1), new Horse(Side.BLUE));
+        board.put(new Position(4, 1), new Guard(Side.BLUE));
+
+        board.put(new Position(6, 1), new Guard(Side.BLUE));
+        board.put(new Position(7, 1), new Horse(Side.BLUE));
+        board.put(new Position(8, 1), new Elephant(Side.BLUE));
+        board.put(new Position(9, 1), new Tank(Side.BLUE));
+
+        board.put(new Position(5, 2), new King(Side.BLUE));
+
+        board.put(new Position(2, 3), new Cannon(Side.BLUE));
+        board.put(new Position(8, 3), new Cannon(Side.BLUE));
+
+        board.put(new Position(1, 4), new Soldier(Side.BLUE));
+        board.put(new Position(3, 4), new Soldier(Side.BLUE));
+        board.put(new Position(5, 4), new Soldier(Side.BLUE));
+        board.put(new Position(7, 4), new Soldier(Side.BLUE));
+        board.put(new Position(9, 4), new Soldier(Side.BLUE));
+        return board;
     }
 
     public void move(final Position start, final Position end) {
@@ -82,6 +92,13 @@ public class Board {
         board.put(end, pickedPiece);
     }
 
+    private void validatePieceExistsByPosition(final Position position) {
+        if (board.containsKey(position)) {
+            return;
+        }
+        throw new IllegalArgumentException("선택된 좌표에 말이 없습니다.");
+    }
+
     private void validatePieceOnPath(final Position start, final Position end, final Piece pickedPiece) {
         List<Position> path = pickedPiece.calculatePath(start, end);
         if (pickedPiece instanceof Cannon) {
@@ -94,7 +111,6 @@ public class Board {
         if (containsPieceOnPath) {
             throw new IllegalArgumentException("경로 상에 말이 존재합니다.");
         }
-
     }
 
     private void validateOnePieceOnCannonPath(final List<Position> path) {
@@ -121,13 +137,6 @@ public class Board {
         if (targetPiece instanceof Cannon && pickedPiece instanceof Cannon) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
-    }
-
-    private void validatePieceExistsByPosition(final Position position) {
-        if (board.containsKey(position)) {
-            return;
-        }
-        throw new IllegalArgumentException("선택된 좌표에 말이 없습니다.");
     }
 
     public Map<Position, Piece> getBoard() {
