@@ -6,7 +6,6 @@ import java.util.List;
 
 public class Elephant extends Piece {
 
-
     public Elephant(Side side) {
         super(side);
     }
