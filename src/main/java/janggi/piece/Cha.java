@@ -35,7 +35,7 @@ public class Cha implements Movable {
     }
 
     @Override
-    public boolean isMovable(Point targetPoint) {
+    public boolean isInMovingRange(Point targetPoint) {
         return point.isSameRow(targetPoint) || point.isSameColumn(targetPoint);
     }
 

@@ -23,7 +23,7 @@ public class SangTest {
 
             Point targetPoint = new Point(2, 6);
 
-            assertThat(sang.isMovable(targetPoint)).isTrue();
+            assertThat(sang.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -33,7 +33,7 @@ public class SangTest {
 
             Point targetPoint = new Point(3, 7);
 
-            assertThat(sang.isMovable(targetPoint)).isTrue();
+            assertThat(sang.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -43,7 +43,7 @@ public class SangTest {
 
             Point targetPoint = new Point(7, 7);
 
-            assertThat(sang.isMovable(targetPoint)).isTrue();
+            assertThat(sang.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -53,7 +53,7 @@ public class SangTest {
 
             Point targetPoint = new Point(8, 6);
 
-            assertThat(sang.isMovable(targetPoint)).isTrue();
+            assertThat(sang.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -63,7 +63,7 @@ public class SangTest {
 
             Point targetPoint = new Point(8, 2);
 
-            assertThat(sang.isMovable(targetPoint)).isTrue();
+            assertThat(sang.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -73,7 +73,7 @@ public class SangTest {
 
             Point targetPoint = new Point(7, 1);
 
-            assertThat(sang.isMovable(targetPoint)).isTrue();
+            assertThat(sang.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -83,7 +83,7 @@ public class SangTest {
 
             Point targetPoint = new Point(3, 1);
 
-            assertThat(sang.isMovable(targetPoint)).isTrue();
+            assertThat(sang.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -93,7 +93,7 @@ public class SangTest {
 
             Point targetPoint = new Point(2, 2);
 
-            assertThat(sang.isMovable(targetPoint)).isTrue();
+            assertThat(sang.isInMovingRange(targetPoint)).isTrue();
         }
     }
 

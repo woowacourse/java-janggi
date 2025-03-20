@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.Board;
 import janggi.point.InitialPoint;
 import janggi.Movable;
 import janggi.point.Point;
@@ -34,6 +35,36 @@ public class Po implements Movable {
         return new ArrayList<>(pos);
     }
 
+    public boolean isMovable(Point targetPoint, Board board) {
+        if (board.hasPieceOnPoint(targetPoint) && board.findByPoint(targetPoint) instanceof Po) {
+            return false;
+        }
+        List<Point> route = findRoute(targetPoint);
+        List<Point> hurdles = new ArrayList<>();
+        for (Point point : route) {
+            if (findHurdle(point, hurdles, board)) {
+                continue;
+            }
+            return false;
+        }
+        return hurdles.size() == 1;
+    }
+
+    private boolean findHurdle(Point current, List<Point> hurdles, Board board) {
+        if (board.hasPieceOnPoint(current)) {
+            Movable piece = board.findByPoint(current);
+            if (piece instanceof Po && hurdles.isEmpty()) {
+                return false;
+            }
+            if (!hurdles.isEmpty()) {
+                return false;
+            }
+            hurdles.add(current);
+            return true;
+        }
+        return true;
+    }
+
     @Override
     public String getName() {
         return NAME;
@@ -45,7 +76,7 @@ public class Po implements Movable {
     }
 
     @Override
-    public boolean isMovable(Point targetPoint) {
+    public boolean isInMovingRange(Point targetPoint) {
         return point.isSameRow(targetPoint) || point.isSameColumn(targetPoint);
     }
 

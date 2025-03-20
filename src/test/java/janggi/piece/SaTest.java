@@ -23,7 +23,7 @@ public class SaTest {
 
             Point targetPoint = new Point(6, 5);
 
-            assertThat(sa.isMovable(targetPoint)).isTrue();
+            assertThat(sa.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -33,7 +33,7 @@ public class SaTest {
 
             Point targetPoint = new Point(6, 7);
 
-            assertThat(sa.isMovable(targetPoint)).isTrue();
+            assertThat(sa.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -43,7 +43,7 @@ public class SaTest {
 
             Point targetPoint = new Point(5, 6);
 
-            assertThat(sa.isMovable(targetPoint)).isTrue();
+            assertThat(sa.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -53,7 +53,7 @@ public class SaTest {
 
             Point targetPoint = new Point(7, 6);
 
-            assertThat(sa.isMovable(targetPoint)).isTrue();
+            assertThat(sa.isInMovingRange(targetPoint)).isTrue();
         }
     }
 

@@ -12,7 +12,7 @@ public interface Movable {
 
     Movable updatePoint(Point afterPoint);
 
-    boolean isMovable(Point targetPoint);
+    boolean isInMovingRange(Point targetPoint);
 
     List<Point> findRoute(Point targetPoint);
 }

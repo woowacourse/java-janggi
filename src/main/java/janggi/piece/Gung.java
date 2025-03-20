@@ -36,7 +36,7 @@ public class Gung implements Movable {
     }
 
     @Override
-    public boolean isMovable(Point targetPoint) {
+    public boolean isInMovingRange(Point targetPoint) {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
 
         return distance.isSameWith(1);

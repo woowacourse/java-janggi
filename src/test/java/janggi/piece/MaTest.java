@@ -23,7 +23,7 @@ class MaTest {
 
             Point targetPoint = new Point(3, 5);
 
-            assertThat(ma.isMovable(targetPoint)).isTrue();
+            assertThat(ma.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -33,7 +33,7 @@ class MaTest {
 
             Point targetPoint = new Point(4, 6);
 
-            assertThat(ma.isMovable(targetPoint)).isTrue();
+            assertThat(ma.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -43,7 +43,7 @@ class MaTest {
 
             Point targetPoint = new Point(6, 6);
 
-            assertThat(ma.isMovable(targetPoint)).isTrue();
+            assertThat(ma.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -53,7 +53,7 @@ class MaTest {
 
             Point targetPoint = new Point(7, 5);
 
-            assertThat(ma.isMovable(targetPoint)).isTrue();
+            assertThat(ma.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -63,7 +63,7 @@ class MaTest {
 
             Point targetPoint = new Point(7, 3);
 
-            assertThat(ma.isMovable(targetPoint)).isTrue();
+            assertThat(ma.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -73,7 +73,7 @@ class MaTest {
 
             Point targetPoint = new Point(6, 2);
 
-            assertThat(ma.isMovable(targetPoint)).isTrue();
+            assertThat(ma.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -83,7 +83,7 @@ class MaTest {
 
             Point targetPoint = new Point(4, 2);
 
-            assertThat(ma.isMovable(targetPoint)).isTrue();
+            assertThat(ma.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -93,7 +93,7 @@ class MaTest {
 
             Point targetPoint = new Point(3, 3);
 
-            assertThat(ma.isMovable(targetPoint)).isTrue();
+            assertThat(ma.isInMovingRange(targetPoint)).isTrue();
         }
     }
 

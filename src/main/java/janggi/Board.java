@@ -91,10 +91,10 @@ public class Board {
         }
 
         if (movingPiece instanceof Po) {
-            if (!isPoMovable((Po) movingPiece, afterPoint)) {
+            if (!((Po) movingPiece).isMovable(afterPoint, this)) {
                 throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
             }
-        } else if (!movingPiece.isMovable(afterPoint) || checkHurdles(beforePoint, movingPiece.findRoute(afterPoint))
+        } else if (!movingPiece.isInMovingRange(afterPoint) || checkHurdles(beforePoint, movingPiece.findRoute(afterPoint))
         ) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
@@ -109,35 +109,5 @@ public class Board {
 
         runningPieces.remove(movingPiece);
         runningPieces.add(updatedMoving);
-    }
-
-    public boolean isPoMovable(Po po, Point targetPoint) {
-        if (hasPieceOnPoint(targetPoint) && findByPoint(targetPoint) instanceof Po) {
-            return false;
-        }
-        List<Point> route = po.findRoute(targetPoint);
-        List<Point> hurdles = new ArrayList<>();
-        for (Point point : route) {
-            if (findHurdle(point, hurdles)) {
-                continue;
-            }
-            return false;
-        }
-        return hurdles.size() == 1;
-    }
-
-    private boolean findHurdle(Point current, List<Point> hurdles) {
-        if (hasPieceOnPoint(current)) {
-            Movable piece = findByPoint(current);
-            if (piece instanceof Po && hurdles.isEmpty()) {
-                return false;
-            }
-            if (!hurdles.isEmpty()) {
-                return false;
-            }
-            hurdles.add(current);
-            return true;
-        }
-        return true;
     }
 }

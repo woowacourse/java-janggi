@@ -36,7 +36,7 @@ public class GungTest {
 
             Point targetPoint = new Point(6, 5);
 
-            assertThat(gung.isMovable(targetPoint)).isTrue();
+            assertThat(gung.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -46,7 +46,7 @@ public class GungTest {
 
             Point targetPoint = new Point(6, 7);
 
-            assertThat(gung.isMovable(targetPoint)).isTrue();
+            assertThat(gung.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -56,7 +56,7 @@ public class GungTest {
 
             Point targetPoint = new Point(5, 6);
 
-            assertThat(gung.isMovable(targetPoint)).isTrue();
+            assertThat(gung.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -66,7 +66,7 @@ public class GungTest {
 
             Point targetPoint = new Point(7, 6);
 
-            assertThat(gung.isMovable(targetPoint)).isTrue();
+            assertThat(gung.isInMovingRange(targetPoint)).isTrue();
         }
     }
 

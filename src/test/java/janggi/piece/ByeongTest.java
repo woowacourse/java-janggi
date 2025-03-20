@@ -23,7 +23,7 @@ class ByeongTest {
 
             Point targetPoint = new Point(6, 5);
 
-            assertThat(byeong.isMovable(targetPoint)).isTrue();
+            assertThat(byeong.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -33,7 +33,7 @@ class ByeongTest {
 
             Point targetPoint = new Point(6, 7);
 
-            assertThat(byeong.isMovable(targetPoint)).isTrue();
+            assertThat(byeong.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -43,7 +43,7 @@ class ByeongTest {
 
             Point targetPoint = new Point(5, 6);
 
-            assertThat(byeong.isMovable(targetPoint)).isTrue();
+            assertThat(byeong.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -53,7 +53,7 @@ class ByeongTest {
 
             Point targetPoint = new Point(7, 6);
 
-            assertThat(byeong.isMovable(targetPoint)).isFalse();
+            assertThat(byeong.isInMovingRange(targetPoint)).isFalse();
         }
 
         @Test
@@ -63,7 +63,7 @@ class ByeongTest {
 
             Point targetPoint = new Point(5, 6);
 
-            assertThat(byeong.isMovable(targetPoint)).isFalse();
+            assertThat(byeong.isInMovingRange(targetPoint)).isFalse();
         }
 
         @Test
@@ -73,7 +73,7 @@ class ByeongTest {
 
             Point targetPoint = new Point(7, 6);
 
-            assertThat(byeong.isMovable(targetPoint)).isTrue();
+            assertThat(byeong.isInMovingRange(targetPoint)).isTrue();
         }
     }
 

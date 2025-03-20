@@ -23,7 +23,7 @@ public class ChaTest {
 
             Point targetPoint = new Point(6, 4);
 
-            assertThat(cha.isMovable(targetPoint)).isTrue();
+            assertThat(cha.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -33,7 +33,7 @@ public class ChaTest {
 
             Point targetPoint = new Point(6, 8);
 
-            assertThat(cha.isMovable(targetPoint)).isTrue();
+            assertThat(cha.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -43,7 +43,7 @@ public class ChaTest {
 
             Point targetPoint = new Point(4, 6);
 
-            assertThat(cha.isMovable(targetPoint)).isTrue();
+            assertThat(cha.isInMovingRange(targetPoint)).isTrue();
         }
 
         @Test
@@ -53,7 +53,7 @@ public class ChaTest {
 
             Point targetPoint = new Point(8, 6);
 
-            assertThat(cha.isMovable(targetPoint)).isTrue();
+            assertThat(cha.isInMovingRange(targetPoint)).isTrue();
         }
     }
 
