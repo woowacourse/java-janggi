@@ -42,7 +42,7 @@ public class Pieces {
         return findResults.stream()
                 .filter(positions -> positions.contains(destination))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물 없음"));
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치로는 이동할 수 없습니다."));
     }
 
     private void validateMiddleDirection(Position destination, List<Position> positions) {
@@ -51,7 +51,7 @@ public class Pieces {
                 .anyMatch(position -> !position.equals(destination));
 
         if (isAlreadyExist) {
-            throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다");
+            throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
         }
     }
 
