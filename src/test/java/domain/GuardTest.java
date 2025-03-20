@@ -13,10 +13,10 @@ class GuardTest {
     @Test
     void 사의_이동할_수_있는_위치를_계산한다() {
         Board board = new Board(List.of());
-        Piece piece = new Guard(initPosition, Team.RED);
-        board.putPiece(new Solider(new Position(4,4), Team.BLUE)); // 1
-        board.putPiece(new Solider(new Position(3,3), Team.RED));
+        Piece piece = new Guard(initPosition, Team.RED, board);
+        board.putPiece(new Solider(new Position(4,4), Team.BLUE, board)); // 1
+        board.putPiece(new Solider(new Position(3,3), Team.RED, board));
 
-        assertThat(piece.getMovablePositions(board)).hasSize(3);
+        assertThat(piece.getMovablePositions()).hasSize(3);
     }
 }

@@ -5,20 +5,20 @@ import java.util.Set;
 
 public class Elephant extends Piece {
 
-    public Elephant(final Position position, final Team team) {
-        super(position, team);
+    public Elephant(final Position position, final Team team, final Board board) {
+        super(position, team, board);
     }
 
     @Override
-    protected Set<Position> getMovablePositions(Board board) {
+    protected Set<Position> getMovablePositions() {
         Set<Position> positions = new HashSet<>();
         Direction.getStraightDirection().forEach(direction ->
-                goOneSide(position.nextPosition(direction), direction, positions, 0, board));
+                goOneSide(position.nextPosition(direction), direction, positions, 0));
         return positions;
     }
 
-    void goOneSide(Position position, Direction direction, Set<Position> positions, int moveCount, Board board) {
-        if (exitCondition(position, moveCount, board)) {
+    void goOneSide(Position position, Direction direction, Set<Position> positions, int moveCount) {
+        if (exitCondition(position, moveCount)) {
             return;
         }
         if (moveCount == 2 && !board.isSameTeam(this, position)) {
@@ -26,14 +26,14 @@ public class Elephant extends Piece {
         }
         if (direction.isStraightDirection()) {
             direction.nextCrossDirection().forEach(crossDirection ->
-                    goOneSide(position.nextPosition(crossDirection), crossDirection, positions, moveCount + 1, board)
+                    goOneSide(position.nextPosition(crossDirection), crossDirection, positions, moveCount + 1)
             );
             return;
         }
-        goOneSide(position.nextPosition(direction), direction, positions, moveCount + 1, board);
+        goOneSide(position.nextPosition(direction), direction, positions, moveCount + 1);
     }
 
-    private boolean exitCondition(Position position, int moveCount, Board board) {
+    private boolean exitCondition(Position position, int moveCount) {
         return position.isInValidPosition() || (moveCount != 2 && board.isExists(position)) || moveCount > 2;
     }
 

@@ -5,19 +5,19 @@ import java.util.stream.Collectors;
 
 public class Guard extends Piece {
 
-    public Guard(final Position position, final Team team) {
-        super(position, team);
+    public Guard(final Position position, final Team team, final Board board) {
+        super(position, team, board);
     }
 
     @Override
-    protected Set<Position> getMovablePositions(Board board) {
+    protected Set<Position> getMovablePositions() {
         return Direction.getStraightDirection().stream()
                 .map(direction -> position.nextPosition(direction))
-                .filter(p -> isMovable(p, board))
+                .filter(this::isMovable)
                 .collect(Collectors.toSet());
     }
 
-    private boolean isMovable(final Position position, Board board) {
+    private boolean isMovable(final Position position) {
         return !board.isExists(position) || !board.isSameTeam(this, position);
     }
 

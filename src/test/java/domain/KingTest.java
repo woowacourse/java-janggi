@@ -13,10 +13,10 @@ class KingTest {
     @Test
     void 궁의_이동할_수_있는_위치를_계산한다() {
         Board board = new Board(List.of());
-        Piece piece = new King(initPosition, Team.RED);
-        board.putPiece(new Solider(new Position(5,3), Team.BLUE));
-        board.putPiece(new Solider(new Position(4,2), Team.RED));
+        Piece piece = new King(initPosition, Team.RED, board);
+        board.putPiece(new Solider(new Position(5,3), Team.BLUE, board));
+        board.putPiece(new Solider(new Position(4,2), Team.RED, board));
 
-        assertThat(piece.getMovablePositions(board)).hasSize(3);
+        assertThat(piece.getMovablePositions()).hasSize(3);
     }
 }

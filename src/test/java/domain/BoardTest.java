@@ -14,7 +14,7 @@ class BoardTest {
     void 장기판에_기물을_놓을_수_있다() {
         Board board = new Board(List.of());
         Position position = new Position(1, 1);
-        Piece piece = new Chariot(position, Team.BLUE);
+        Piece piece = new Chariot(position, Team.BLUE, board);
 
         board.putPiece(piece);
 
@@ -25,7 +25,7 @@ class BoardTest {
     void 위치를_알려주면_해당_위치의_기물을_장기판에서_제거한다() {
         Board board = new Board(List.of());
         Position position = new Position(1, 1);
-        Piece piece = new Chariot(position, Team.BLUE);
+        Piece piece = new Chariot(position, Team.BLUE, board);
         board.putPiece(piece);
 
         board.remove(position);
@@ -37,7 +37,7 @@ class BoardTest {
     void 장기판_기물이_존재하는지_확인한다() {
         Board board = new Board(List.of());
         Position position = new Position(1, 1);
-        Piece piece = new Chariot(position, Team.BLUE);
+        Piece piece = new Chariot(position, Team.BLUE, board);
         board.putPiece(piece);
 
         assertThat(board.isExists(position)).isTrue();
@@ -49,9 +49,9 @@ class BoardTest {
     @ParameterizedTest
     void 장기판_기물이_같은팀_기물인지_확인한다(Team team, boolean expected) {
         Board board = new Board(List.of());
-        Chariot piece = new Chariot(new Position(1, 1), Team.BLUE);
+        Chariot piece = new Chariot(new Position(1, 1), Team.BLUE, board);
         board.putPiece(piece);
-        board.putPiece(new Chariot(new Position(2, 1), team));
+        board.putPiece(new Chariot(new Position(2, 1), team, board));
 
         assertThat(board.isSameTeam(piece, new Position(2, 1))).isEqualTo(expected);
     }
