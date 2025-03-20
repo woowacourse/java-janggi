@@ -35,7 +35,7 @@ public class Point {
         try {
             return Integer.parseInt(x);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("숫자만 입력 가능합니다.");
+            throw new IllegalArgumentException("좌표는 (숫자,숫자) 형식으로 입력해주세요.");
         }
     }
 
@@ -53,6 +53,12 @@ public class Point {
 
     public int distanceToMinY() {
         return y;
+    }
+
+    public Distance calculateDistance(final Point other) {
+        final int pointX = calculateSubtractionX(other);
+        final int pointY = calculateSubtractionY(other);
+        return new Distance(pointX, pointY);
     }
 
     public int calculateSubtractionX(Point other) {
