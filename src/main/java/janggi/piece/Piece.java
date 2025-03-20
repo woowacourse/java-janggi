@@ -16,8 +16,6 @@ public abstract class Piece {
         this.movingRules = movingRules;
     }
 
-    public abstract boolean canJump();
-
     public abstract boolean canMove(final Position start, final Position end, final Board board);
 
     public abstract Type type();

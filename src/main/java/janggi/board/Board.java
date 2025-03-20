@@ -1,8 +1,9 @@
 package janggi.board;
 
-import janggi.position.Position;
 import janggi.piece.Piece;
 import janggi.piece.Team;
+import janggi.piece.Type;
+import janggi.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,15 +20,9 @@ public final class Board {
     }
 
     public void move(final Position start, final Position end) {
-        if (!board.containsKey(start)) {
-            throw new IllegalArgumentException(
-                    String.format("[ERROR] %d%d 위치에 기물이 없습니다.", start.getRowValue(), start.getColumnValue()));
-        }
+        validateStartPosition(start);
         final Piece piece = board.get(start);
-        if (!piece.canMove(start, end, this)) {
-            throw new IllegalArgumentException(
-                    String.format("[ERROR] %d%d 위치로 이동할 수 없습니다.", end.getRowValue(), end.getColumnValue()));
-        }
+        validateRoute(start, end, piece);
         board.remove(end);
         board.remove(start);
         board.put(end, piece);
@@ -45,11 +40,25 @@ public final class Board {
         return board.containsKey(position);
     }
 
-    public boolean isUnjumpablePiece(final Position position) {
+    public boolean isExistCannon(final Position position) {
         if (board.containsKey(position)) {
             final Piece piece = board.get(position);
-            return piece.canJump();
+            return piece.type() == Type.CANNON;
         }
         return false;
+    }
+
+    private void validateStartPosition(final Position start) {
+        if (!board.containsKey(start)) {
+            throw new IllegalArgumentException(
+                    String.format("[ERROR] %d%d 위치에 기물이 없습니다.", start.getRowValue(), start.getColumnValue()));
+        }
+    }
+
+    private void validateRoute(final Position start, final Position end, final Piece piece) {
+        if (!piece.canMove(start, end, this)) {
+            throw new IllegalArgumentException(
+                    String.format("[ERROR] %d%d 위치로 이동할 수 없습니다.", end.getRowValue(), end.getColumnValue()));
+        }
     }
 }

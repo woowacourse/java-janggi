@@ -19,11 +19,6 @@ public final class Cannon extends Piece {
     }
 
     @Override
-    public boolean canJump() {
-        return true;
-    }
-
-    @Override
     public boolean canMove(final Position start, final Position end, final Board board) {
         if (cannotFindRule(start, end)) {
             return false;
@@ -45,7 +40,7 @@ public final class Cannon extends Piece {
         int count = 0;
         for (MoveVector vector : matchRule.getVectorsWithoutLast()) {
             route = route.add(vector);
-            if (board.isUnjumpablePiece(route)) {
+            if (board.isExistCannon(route)) {
                 return true;
             }
             if (board.isPresent(route)) {
@@ -56,7 +51,7 @@ public final class Cannon extends Piece {
     }
 
     private boolean isNotSameTeamAndNotJumpable(final Position end, final Board board) {
-        return !board.isPresentSameTeam(team, end) && !board.isUnjumpablePiece(end);
+        return !board.isPresentSameTeam(team, end) && !board.isExistCannon(end);
     }
 
     private MovingRule findMatchRule(final Position start, final Position end) {
