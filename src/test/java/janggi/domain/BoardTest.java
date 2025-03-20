@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.common.ErrorMessage;
+import janggi.domain.piece.General;
 import janggi.domain.piece.Soldier;
 import janggi.factory.PieceFactory;
 import java.util.HashMap;
@@ -69,7 +70,7 @@ class BoardTest {
         Position newPosition = Position.of(4, 1);
 
         // when & then
-        assertThatCode(() -> board.move(position, newPosition))
+        assertThatCode(() -> board.movePiece(position, newPosition))
                 .doesNotThrowAnyException();
     }
 
@@ -87,7 +88,7 @@ class BoardTest {
         Board board = new Board(new HashMap<>(map));
 
         // when & then
-        assertThatThrownBy(() -> board.move(position, newPosition))
+        assertThatThrownBy(() -> board.movePiece(position, newPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.CANNOT_MOVE_TO_POSITION.getMessage());
     }
@@ -106,7 +107,31 @@ class BoardTest {
         Board board = new Board(new HashMap<>(map));
 
         // when & then
-        assertThatCode(() -> board.move(position, newPosition))
+        assertThatCode(() -> board.movePiece(position, newPosition))
                 .doesNotThrowAnyException();
+    }
+
+    @DisplayName("보드의 General이 있다면 true를 반환한다.")
+    @Test
+    void test7() {
+        Board board = new Board(PieceFactory.initialize());
+
+        assertThat(board.hasGeneral(Side.HAN)).isTrue();
+    }
+
+    @DisplayName("보드의 General이 없다면 false를 반환한다.")
+    @Test
+    void test8() {
+        // given
+        Position position = Position.of(5, 1);
+        Piece general = new Piece(Side.CHO, new General());
+
+        Position newPosition = Position.of(4, 1);
+        Piece soldier2 = new Piece(Side.HAN, new Soldier());
+        Map<Position, Piece> map = Map.of(position, general, newPosition, soldier2);
+
+        Board board = new Board(new HashMap<>(map));
+
+        assertThat(board.hasGeneral(Side.HAN)).isFalse();
     }
 }
