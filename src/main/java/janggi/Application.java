@@ -12,6 +12,5 @@ public class Application {
         OutputView outputView = new OutputView();
         JanggiController janggiController = new JanggiController(inputView, outputView);
         janggiController.run();
-
     }
 }
