@@ -8,13 +8,13 @@ import java.util.List;
 public abstract class JanggiPiece {
     protected int score;
     protected JanggiSide side;
-    protected PieceStatus status;
+    protected JanggiPieceStatus status;
     protected JanggiPieceRoute route;
 
     public JanggiPiece(int score, JanggiSide side, JanggiPieceRoute route) {
         this.score = score;
         this.side = side;
-        this.status = PieceStatus.ACTIVE;
+        this.status = JanggiPieceStatus.ACTIVE;
         this.route = route;
     }
 
@@ -30,14 +30,14 @@ public abstract class JanggiPiece {
         if (otherSide == this.side) {
             return;
         }
-        this.status = PieceStatus.CAPTURED;
+        this.status = JanggiPieceStatus.CAPTURED;
     }
 
     public JanggiSide getSide() {
         return side;
     }
 
-    public PieceStatus getStatus() {
+    public JanggiPieceStatus getStatus() {
         return status;
     }
 }

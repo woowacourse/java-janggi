@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.JanggiPiece;
-import domain.piece.PieceStatus;
+import domain.piece.JanggiPieceStatus;
 import domain.piece.JanggiSide;
 import domain.piece.궁;
 import domain.piece.마;
@@ -259,7 +259,7 @@ public class JanggiBoardTest {
         janggiBoard.move(new JanggiPosition(5, 7), new JanggiPosition(4, 7));
 
         // then
-        assertThat(pieceInDanger.getStatus()).isEqualTo(PieceStatus.CAPTURED);
+        assertThat(pieceInDanger.getStatus()).isEqualTo(JanggiPieceStatus.CAPTURED);
     }
 
     @Test

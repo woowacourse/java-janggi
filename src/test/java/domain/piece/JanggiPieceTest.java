@@ -15,6 +15,6 @@ public class JanggiPieceTest {
 
         // then
         Assertions.assertThat(piece.getStatus())
-                .isEqualTo(PieceStatus.CAPTURED);
+                .isEqualTo(JanggiPieceStatus.CAPTURED);
     }
 }

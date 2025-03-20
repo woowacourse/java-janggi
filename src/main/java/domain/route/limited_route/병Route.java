@@ -1,6 +1,6 @@
 package domain.route.limited_route;
 
-import static domain.pattern.Direction.*;
+import static domain.route.Direction.*;
 
 import domain.pattern.Pattern;
 import java.util.List;

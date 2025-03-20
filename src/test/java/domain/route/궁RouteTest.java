@@ -1,7 +1,6 @@
 package domain.route;
 
 import domain.JanggiPosition;
-import domain.pattern.Direction;
 import domain.pattern.Pattern;
 import domain.route.limited_route.궁Route;
 import java.util.List;

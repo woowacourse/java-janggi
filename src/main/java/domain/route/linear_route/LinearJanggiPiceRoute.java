@@ -1,12 +1,12 @@
 package domain.route.linear_route;
 
-import static domain.pattern.Direction.DOWN;
-import static domain.pattern.Direction.LEFT;
-import static domain.pattern.Direction.RIGHT;
-import static domain.pattern.Direction.UP;
+import static domain.route.Direction.DOWN;
+import static domain.route.Direction.LEFT;
+import static domain.route.Direction.RIGHT;
+import static domain.route.Direction.UP;
 
 import domain.JanggiPosition;
-import domain.pattern.Direction;
+import domain.route.Direction;
 import domain.pattern.Pattern;
 import domain.route.JanggiPieceRoute;
 import java.util.Collections;
