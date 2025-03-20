@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.BoardLocation;
+import java.util.Objects;
 
 public class Piece {
 
@@ -15,12 +16,18 @@ public class Piece {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return obj != null && this.getClass() == obj.getClass();
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Piece piece)) {
+            return false;
+        }
+        return pieceType == piece.pieceType;
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hashCode(pieceType);
     }
 }
