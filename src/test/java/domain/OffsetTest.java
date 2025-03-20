@@ -48,6 +48,19 @@ class OffsetTest {
                     Arguments.of(new Offset(-4, -5), LEFT_DOWN)
             );
         }
+
+        @DisplayName("오프셋을 더한다.")
+        @Test
+        void plus() {
+            // given
+            Offset offset = new Offset(2, -3);
+
+            // when
+            Offset calculatedOffset = offset.plus(new Offset(-5, 6));
+
+            // then
+            assertThat(calculatedOffset).isEqualTo(new Offset(-3, 3));
+        }
     }
 
     @Nested

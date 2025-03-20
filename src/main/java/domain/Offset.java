@@ -36,4 +36,12 @@ public record Offset(
     public Offset getUnitDirectionOffset() {
         return new Offset(Integer.compare(this.x, 0), Integer.compare(this.y, 0));
     }
+
+    public Offset plus(final Offset offset) {
+        return new Offset(this.x + offset.x, this.y + offset.y);
+    }
+
+    public static Offset origin() {
+        return new Offset(0, 0);
+    }
 }
