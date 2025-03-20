@@ -36,9 +36,6 @@ public class Soldier extends Piece {
     public boolean canMove(Piece destinationPiece, List<Piece> piecesInRoute) {
         int pieceCountInRoute = this.countPieceInRoute(piecesInRoute);
 
-        if(this.isOtherTeam(destinationPiece) && pieceCountInRoute == 0) {
-            return true;
-        }
-        return false;
+        return this.isOtherTeam(destinationPiece) && pieceCountInRoute == 0;
     }
 }

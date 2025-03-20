@@ -11,16 +11,6 @@ public abstract class Piece {
         this.color = color;
     }
 
-    public boolean isOtherTeam(Piece other) {
-        return this.color != other.color;
-    }
-
-    public abstract boolean isValidDestination(Position source, Position destination);
-
-    public abstract List<Position> findAllRoute(Position source, Position destination);
-
-    public abstract boolean canMove(Piece piece, List<Piece> piecesInRoute);
-
     int countPieceInRoute(List<Piece> piecesInRoute) {
         return (int) piecesInRoute.stream()
                 .filter(piece -> piece.color != PieceColor.NONE)
@@ -31,7 +21,18 @@ public abstract class Piece {
         return this.getClass() == other.getClass();
     }
 
+    public boolean isOtherTeam(Piece other) {
+        return this.color != other.color;
+    }
+
     public PieceColor getColor() {
         return color;
     }
+
+    public abstract boolean isValidDestination(Position source, Position destination);
+
+    public abstract List<Position> findAllRoute(Position source, Position destination);
+
+    public abstract boolean canMove(Piece piece, List<Piece> piecesInRoute);
+
 }

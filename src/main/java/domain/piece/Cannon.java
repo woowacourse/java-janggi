@@ -12,9 +12,11 @@ public class Cannon extends Piece {
 
     @Override
     public boolean isValidDestination(Position source, Position destination) {
-        return false;
-    }
+        int rowDifference = source.rowDifference(destination);
+        int columnDifference = source.columnDifference(destination);
 
+        return rowDifference == 0 || columnDifference == 0;
+    }
     @Override
     public List<Position> findAllRoute(Position source, Position destination) {
         return source.getBetweenPositions(destination);
@@ -28,10 +30,7 @@ public class Cannon extends Piece {
 
         boolean isDestinationOtherPiece = !this.isSamePiece(destination);
 
-        if (pieceCount == 1 && this.isOtherTeam(destination) && noSamePiece && isDestinationOtherPiece) {
-            return true;
-        }
-        return false;
+        return pieceCount == 1 && this.isOtherTeam(destination) && noSamePiece && isDestinationOtherPiece;
     }
 
 }
