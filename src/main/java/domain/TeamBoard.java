@@ -13,10 +13,6 @@ public abstract class TeamBoard {
         this.pieces = pieces;
     }
 
-    public Map<BoardLocation, Piece> getPieces() {
-        return pieces;
-    }
-
     public Piece findByLocation(BoardLocation current) {
         if (pieces.containsKey(current)) {
             return pieces.get(current);
@@ -67,5 +63,9 @@ public abstract class TeamBoard {
         if (count != 1 || pieces.get(destination).isCannon()) {
             throw new IllegalArgumentException("[ERROR] 움직일 수 없는 좌표입니다");
         }
+    }
+
+    public Map<BoardLocation, Piece> getPieces() {
+        return pieces;
     }
 }

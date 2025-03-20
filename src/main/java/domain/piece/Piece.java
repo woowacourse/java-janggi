@@ -20,6 +20,14 @@ public class Piece {
         return pieceType.createAllPath(current, target);
     }
 
+    public boolean isCannon() {
+        return pieceType == PieceType.CANNON;
+    }
+
+    public String toString() {
+        return pieceType.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -34,13 +42,5 @@ public class Piece {
     @Override
     public int hashCode() {
         return Objects.hashCode(pieceType);
-    }
-
-    public boolean isCannon() {
-        return pieceType == PieceType.CANNON;
-    }
-
-    public String toString() {
-        return pieceType.toString();
     }
 }

@@ -31,22 +31,6 @@ public class BoardLocation {
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof BoardLocation boardLocation)) {
-            return false;
-        }
-        return x == boardLocation.x && y == boardLocation.y;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
-    }
-
     public boolean isDown(BoardLocation current) {
         return current.y - y < 0;
     }
@@ -77,6 +61,22 @@ public class BoardLocation {
 
     public BoardLocation moveX(int dx) {
         return new BoardLocation(x + dx, y);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof BoardLocation boardLocation)) {
+            return false;
+        }
+        return x == boardLocation.x && y == boardLocation.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 
     public String toString() {

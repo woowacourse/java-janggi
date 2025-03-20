@@ -7,6 +7,10 @@ public record BoardVector(
         int dy
 ) {
 
+    public boolean isDxZero() {
+        return dx == 0;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -21,9 +25,5 @@ public record BoardVector(
     @Override
     public int hashCode() {
         return Objects.hash(dx, dy);
-    }
-
-    public boolean isDxZero() {
-        return dx == 0;
     }
 }

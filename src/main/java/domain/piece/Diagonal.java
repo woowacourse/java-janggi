@@ -21,8 +21,8 @@ public enum Diagonal {
         this.y = y;
     }
 
-    public List<Direction> getPossibleDirections() {
-        return possibleDirections;
+    public boolean notContains(Direction direction) {
+        return !possibleDirections.contains(direction);
     }
 
     public int getX() {
@@ -31,9 +31,5 @@ public enum Diagonal {
 
     public int getY() {
         return y;
-    }
-
-    public boolean notContains(Direction direction) {
-        return !possibleDirections.contains(direction);
     }
 }
