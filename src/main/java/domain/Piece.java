@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Piece {
 
@@ -35,5 +36,19 @@ public class Piece {
 
     public Team getTeam() {
         return team;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final Piece piece = (Piece) o;
+        return pieceType == piece.pieceType && team == piece.team;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pieceType, team);
     }
 }
