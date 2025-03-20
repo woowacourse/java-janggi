@@ -26,6 +26,10 @@ public class Route {
         return piece.isSamePosition(route.getLast());
     }
 
+    public Position getDestination() {
+        return route.getLast();
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) {

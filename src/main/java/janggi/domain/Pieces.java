@@ -91,11 +91,11 @@ public class Pieces {
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치에 우리팀 기물이 없습니다."));
     }
 
-    public void move(final Piece piece, final int x, final int y) {
-        if (hasPieceByPosition(x, y)) {
-            kill(x, y);
+    public void move(final Position position, final Piece piece) {
+        if (hasPieceByPosition(position.x(), position.y())) {
+            kill(position.x(), position.y());
         }
-        piece.move(new Position(x, y));
+        piece.move(position);
     }
 
     private void kill(int x, int y) {

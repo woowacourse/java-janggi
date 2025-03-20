@@ -3,6 +3,8 @@ package janggi.domain;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.Position;
+import java.util.List;
 import java.util.Set;
 
 public class Board {
@@ -15,10 +17,9 @@ public class Board {
         this.turn = Turn.initialize();
     }
 
-    public Piece selectPiece(final int x, final int y) {
+    public Piece selectPiece(final Position position) {
         Team team = turn.getCurrentTurn();
-
-        return pieces.findPieceByPositionAndTeam(x, y, team);
+        return pieces.findPieceByPositionAndTeam(position, team);
     }
 
     public Set<Route> findPossibleRoutes(Piece piece) {
@@ -31,7 +32,19 @@ public class Board {
         return pieces.getPossibleRoutes(piece);
     }
 
-    public void movePiece(final int x, final int y, Piece piece) {
-        pieces.move(piece, x, y);
+    public void movePiece(final Position position, Piece piece) {
+        pieces.move(position, piece);
+    }
+
+    public List<Piece> getPieces() {
+        return pieces.getPieces();
+    }
+
+    public Team getTurn() {
+        return turn.getCurrentTurn();
+    }
+
+    public void changeTurn() {
+        turn.changeTurn();
     }
 }
