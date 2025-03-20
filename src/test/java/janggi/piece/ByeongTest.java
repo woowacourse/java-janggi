@@ -32,7 +32,7 @@ class ByeongTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = byeong.move(currentPosition, arrivalPosition);
+        Path path = byeong.makePath(currentPosition, arrivalPosition);
 
         // Then
         assertThat(path).isEqualTo(new Path(List.of(arrivalPosition)));
@@ -50,7 +50,7 @@ class ByeongTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
-        assertThatThrownBy(() -> byeong.move(currentPosition, arrivalPosition))
+        assertThatThrownBy(() -> byeong.makePath(currentPosition, arrivalPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 병은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
     }

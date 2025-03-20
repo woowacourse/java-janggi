@@ -13,7 +13,7 @@ public class King extends Piece {
     }
 
     @Override
-    public Path move(final Position currentPosition, final Position arrivalPosition) {
+    public Path makePath(final Position currentPosition, final Position arrivalPosition) {
         int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
         int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
 

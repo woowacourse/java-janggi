@@ -32,7 +32,7 @@ class GuardTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = guard.move(currentPosition, arrivalPosition);
+        Path path = guard.makePath(currentPosition, arrivalPosition);
 
         // Then
         assertThat(path).isEqualTo(new Path(List.of(arrivalPosition)));

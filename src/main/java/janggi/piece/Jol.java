@@ -13,7 +13,7 @@ public class Jol extends Piece {
     }
 
     @Override
-    public Path move(Position currentPosition, Position arrivalPosition) {
+    public Path makePath(Position currentPosition, Position arrivalPosition) {
         int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
         int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
 

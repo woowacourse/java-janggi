@@ -31,7 +31,7 @@ class KingTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = king.move(currentPosition, arrivalPosition);
+        Path path = king.makePath(currentPosition, arrivalPosition);
 
         // Then
         assertThat(path).isEqualTo(new Path(List.of(arrivalPosition)));

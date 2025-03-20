@@ -29,7 +29,7 @@ class ChariotTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = chariot.move(currentPosition, arrivalPosition);
+        Path path = chariot.makePath(currentPosition, arrivalPosition);
 
         // Then
         assertThat(path).isEqualTo(new Path(expected));

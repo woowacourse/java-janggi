@@ -29,7 +29,7 @@ class ElephantTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = elephant.move(currentPosition, arrivalPosition);
+        Path path = elephant.makePath(currentPosition, arrivalPosition);
 
         // Then
         assertThat(path).isEqualTo(new Path(expected));

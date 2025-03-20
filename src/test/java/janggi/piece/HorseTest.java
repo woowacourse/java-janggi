@@ -29,7 +29,7 @@ class HorseTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = horse.move(currentPosition, arrivalPosition);
+        Path path = horse.makePath(currentPosition, arrivalPosition);
 
         // Then
         assertThat(path).isEqualTo(new Path(expected));

@@ -32,7 +32,7 @@ class JolTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = jol.move(currentPosition, arrivalPosition);
+        Path path = jol.makePath(currentPosition, arrivalPosition);
 
         // Then
         assertThat(path).isEqualTo(new Path(List.of(arrivalPosition)));
@@ -50,7 +50,7 @@ class JolTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
-        assertThatThrownBy(() -> jol.move(currentPosition, arrivalPosition))
+        assertThatThrownBy(() -> jol.makePath(currentPosition, arrivalPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 졸은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
     }

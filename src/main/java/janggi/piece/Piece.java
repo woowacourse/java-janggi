@@ -14,7 +14,11 @@ public abstract class Piece {
         this.team = team;
     }
 
-    abstract public Path move(Position currentPosition, Position arrivalPosition);
+    abstract public Path makePath(Position currentPosition, Position arrivalPosition);
+
+    public boolean matchPieceType(final PieceType pieceType) {
+        return this.pieceType == pieceType;
+    }
 
     public PieceType getPieceType() {
         return pieceType;
