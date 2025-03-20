@@ -17,6 +17,6 @@ public class JanggiController {
 
     public void run() {
         JanggiGame game = new JanggiGame(new Player(Team.HAN), new Player(Team.CHO));
-        outputView.print(game.getBoard());
+        outputView.printBoard(game.getBoard());
     }
 }
