@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.Direction;
 import janggi.point.InitialPoint;
 import janggi.Movable;
 import janggi.point.Point;
@@ -54,33 +55,43 @@ public class Sang implements Movable {
 
     @Override
     public List<Point> findRoute(Point targetPoint) {
-        int rowGap = point.row() - targetPoint.row();
-        int columnGap = point.column() - targetPoint.column();
-        if (rowGap == 3) {
-            if (columnGap > 0) {
-                return List.of(new Point(point.row() - 1, point.column()), targetPoint.move(1, 1), targetPoint);
-            }
-            return List.of(new Point(point.row() - 1, point.column()), targetPoint.move(1, -1), targetPoint);
-        }
+        List<Point> route = new ArrayList<>();
+        List<Direction> directions = Direction.complexFrom(point, targetPoint, 3, 2);
 
-        if (rowGap == -3) {
-            if (columnGap > 0) {
-                return List.of(new Point(point.row() + 1, point.column()), targetPoint.move(-1, 1), targetPoint);
-            }
-            return List.of(new Point(point.row() + 1, point.column()), targetPoint.move(-1, -1), targetPoint);
+        Point pointer = point;
+        for (Direction direction : directions) {
+            pointer = direction.move(pointer);
+            route.add(pointer);
         }
+        return route;
 
-        if (columnGap == 3) {
-            if (rowGap > 0) {
-                return List.of(new Point(point.row(), point.column() - 1), targetPoint.move(1, 1), targetPoint);
-            }
-            return List.of(new Point(point.row(), point.column() - 1), targetPoint.move(-1, 1), targetPoint);
-        }
-
-        if (rowGap > 0) {
-            return List.of(new Point(point.row(), point.column() + 1), targetPoint.move(1, -1), targetPoint);
-        }
-        return List.of(new Point(point.row(), point.column() + 1), targetPoint.move(-1, -1), targetPoint);
+//        int rowGap = point.row() - targetPoint.row();
+//        int columnGap = point.column() - targetPoint.column();
+//        if (rowGap == 3) {
+//            if (columnGap > 0) {
+//                return List.of(new Point(point.row() - 1, point.column()), targetPoint.move(1, 1), targetPoint);
+//            }
+//            return List.of(new Point(point.row() - 1, point.column()), targetPoint.move(1, -1), targetPoint);
+//        }
+//
+//        if (rowGap == -3) {
+//            if (columnGap > 0) {
+//                return List.of(new Point(point.row() + 1, point.column()), targetPoint.move(-1, 1), targetPoint);
+//            }
+//            return List.of(new Point(point.row() + 1, point.column()), targetPoint.move(-1, -1), targetPoint);
+//        }
+//
+//        if (columnGap == 3) {
+//            if (rowGap > 0) {
+//                return List.of(new Point(point.row(), point.column() - 1), targetPoint.move(1, 1), targetPoint);
+//            }
+//            return List.of(new Point(point.row(), point.column() - 1), targetPoint.move(-1, 1), targetPoint);
+//        }
+//
+//        if (rowGap > 0) {
+//            return List.of(new Point(point.row(), point.column() + 1), targetPoint.move(1, -1), targetPoint);
+//        }
+//        return List.of(new Point(point.row(), point.column() + 1), targetPoint.move(-1, -1), targetPoint);
     }
 
     @Override

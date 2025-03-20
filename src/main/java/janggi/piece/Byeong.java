@@ -31,6 +31,7 @@ public class Byeong implements Movable {
         }
         byeongs = createdPieces;
     }
+
     public static List<Byeong> values() {
         return new ArrayList<>(byeongs);
     }
@@ -51,6 +52,11 @@ public class Byeong implements Movable {
     }
 
     @Override
+    public Movable updatePoint(Point afterPoint) {
+        return new Byeong(team, afterPoint);
+    }
+
+    @Override
     public String getName() {
         return NAME;
     }
@@ -63,10 +69,5 @@ public class Byeong implements Movable {
     @Override
     public Point getPoint() {
         return point;
-    }
-
-    @Override
-    public Movable updatePoint(Point afterPoint) {
-        return new Byeong(team, afterPoint);
     }
 }

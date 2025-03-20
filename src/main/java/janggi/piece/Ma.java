@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.Direction;
 import janggi.point.InitialPoint;
 import janggi.Movable;
 import janggi.point.Point;
@@ -54,18 +55,15 @@ public class Ma implements Movable {
 
     @Override
     public List<Point> findRoute(Point targetPoint) {
-        int rowGap = point.row() - targetPoint.row();
-        int columnGap = point.column() - targetPoint.column();
-        if (rowGap == 2) {
-            return List.of(new Point(point.row() - 1, point.column()),targetPoint);
+        List<Point> route = new ArrayList<>();
+        List<Direction> directions = Direction.complexFrom(point, targetPoint, 2, 1);
+
+        Point pointer = point;
+        for (Direction direction : directions) {
+            pointer = direction.move(pointer);
+            route.add(pointer);
         }
-        if (rowGap == -2) {
-            return List.of(new Point(point.row() + 1, point.column()),targetPoint);
-        }
-        if (columnGap == 2) {
-            return List.of(new Point(point.row(), point.column() - 1),targetPoint);
-        }
-        return List.of(new Point(point.row(), point.column() + 1),targetPoint);
+        return route;
     }
 
     @Override

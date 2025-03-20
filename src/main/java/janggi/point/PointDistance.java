@@ -1,6 +1,5 @@
 package janggi.point;
 
-import janggi.piece.Po;
 
 public class PointDistance {
     private final double distance;
@@ -17,5 +16,9 @@ public class PointDistance {
 
     public boolean isSameWith(double distance) {
         return this.distance == distance;
+    }
+
+    public double getDistance() {
+        return distance;
     }
 }
