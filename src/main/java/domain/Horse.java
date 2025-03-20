@@ -9,7 +9,6 @@ import static domain.Direction.RIGHT_DOWN;
 import static domain.Direction.RIGHT_UP;
 import static domain.Direction.UP;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Horse extends LimitedChessPiece {
@@ -46,7 +45,7 @@ public class Horse extends LimitedChessPiece {
                 .toList();
     }
 
-    private static boolean existChessPiece(final ChessPiecePositions positions, final Path path) {
+    private boolean existChessPiece(final ChessPiecePositions positions, final Path path) {
         for (ChessPosition chessPosition : path.getPath()) {
             if (positions.existChessPieceByPosition(chessPosition)) {
                 return true;

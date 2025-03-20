@@ -1,6 +1,8 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static domain.Direction.*;
 import static domain.Direction.RIGHT;
@@ -16,15 +18,21 @@ public class Chariot extends UnlimitedMoveChessPiece {
     @Override
     protected List<ChessPosition> getCoordinateDestinations(final List<Path> coordinates,
                                                             final ChessPiecePositions positions) {
-        return List.of(
-                new ChessPosition(2, 4),
-                new ChessPosition(3, 4),
-                new ChessPosition(4, 4),
-                new ChessPosition(5, 4),
-                new ChessPosition(6,4),
-                new ChessPosition(7, 3),
-                new ChessPosition(7,5),
-                new ChessPosition(7,8));
+        return coordinates.stream()
+                .flatMap(path -> getAvailablePosition(positions, path))
+                .toList();
+    }
+
+    private Stream<ChessPosition> getAvailablePosition(final ChessPiecePositions positions, final Path path) {
+        final List<ChessPosition> chessPositions = new ArrayList<>();
+        for (ChessPosition chessPosition : path.getPath()) {
+            if (positions.existChessPieceByPosition(chessPosition)) {
+                chessPositions.add(chessPosition);
+                break;
+            }
+            chessPositions.add(chessPosition);
+        }
+        return chessPositions.stream();
     }
 
     public static List<Chariot> initPieces() {

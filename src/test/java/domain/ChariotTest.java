@@ -28,7 +28,8 @@ class ChariotTest {
                 new ChessPosition(6,4),
                 new ChessPosition(7, 3),
                 new ChessPosition(7,5),
-                new ChessPosition(7,8));
+                new ChessPosition(8,4),
+                new ChessPosition(9,4));
 
         //when
         final Chariot chariot = new Chariot(chessPosition, ChessTeam.RED);
@@ -36,7 +37,5 @@ class ChariotTest {
 
         //then
         assertThat(destinations).containsAll(expected);
-
     }
-  
 }
