@@ -20,7 +20,7 @@ public class OutputView {
     public void printGameStart() {
         System.out.print("""
                  장기 게임을 시작합니다.
-                               
+
                  - K : 왕
                  - h : 마
                  - r : 차
