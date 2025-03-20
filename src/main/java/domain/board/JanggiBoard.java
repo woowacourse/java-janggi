@@ -3,6 +3,7 @@ package domain.board;
 import domain.JanggiCoordinate;
 import domain.piece.Country;
 import domain.piece.Piece;
+
 import java.util.List;
 import java.util.Map;
 
@@ -77,10 +78,10 @@ public final class JanggiBoard {
     }
 
     public void validateOriginCoordinate(JanggiCoordinate originCoordinate, Country currentTurn) {
-        if(!hasPiece(originCoordinate)){
+        if (!hasPiece(originCoordinate)) {
             throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다.");
         }
-        if(findCountryByCoordinate(originCoordinate) != currentTurn){
+        if (findCountryByCoordinate(originCoordinate) != currentTurn) {
             throw new IllegalArgumentException("[ERROR] 자신의 기물만 움직일 수 있습니다.");
         }
     }

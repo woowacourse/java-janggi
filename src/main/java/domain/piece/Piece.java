@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
+
 import java.util.List;
 
 abstract public class Piece {
@@ -15,15 +16,15 @@ abstract public class Piece {
 
     abstract public List<JanggiCoordinate> availableMovePositions(JanggiCoordinate currCoordinate, JanggiBoard janggiBoard);
 
-    public Country getCountry(){
+    public Country getCountry() {
         return this.country;
     }
 
-    public boolean isPho(){
+    public boolean isPho() {
         return false;
     }
 
-    public String getPieceType(){
+    public String getPieceType() {
         return type.getDescription();
     }
 }

@@ -1,6 +1,7 @@
 package domain.piece.movement;
 
 import domain.JanggiCoordinate;
+
 import java.util.List;
 
 public enum SangMovement {

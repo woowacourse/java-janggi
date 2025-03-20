@@ -1,13 +1,12 @@
 package domain;
 
 import domain.board.JanggiBoard;
-
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import domain.piece.Country;
 import view.InputView;
 import view.OutputView;
+
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class JanggiGame {
 
@@ -20,13 +19,13 @@ public class JanggiGame {
         JanggiBoard board = new JanggiBoard();
         currentTurn = Country.HAN;
 
-        while(true){
+        while (true) {
             retry(board, this::moveCommand);
             convertCountry();
         }
     }
 
-    private void moveCommand(JanggiBoard board){
+    private void moveCommand(JanggiBoard board) {
         outputView.printJanggiBoard(board);
         JanggiCoordinate originCoordinate = retryUntilValid(() -> inputView.readMovePiece(currentTurn.getCountryName()));
         board.validateOriginCoordinate(originCoordinate, currentTurn);
@@ -34,11 +33,11 @@ public class JanggiGame {
         board.movePiece(originCoordinate, destinationCoordinate);
     }
 
-    private void convertCountry(){
+    private void convertCountry() {
         currentTurn = Country.convertTurn(currentTurn);
     }
 
-    private <T> void retry(T value ,Consumer<T> consumer ) {
+    private <T> void retry(T value, Consumer<T> consumer) {
 
         while (true) {
             try {

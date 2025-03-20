@@ -1,20 +1,14 @@
 package domain.board;
 
-import static domain.piece.Country.CHO;
-import static domain.piece.Country.HAN;
-
 import domain.JanggiCoordinate;
-import domain.piece.Byeong;
-import domain.piece.Cha;
-import domain.piece.Gung;
-import domain.piece.Ma;
-import domain.piece.Pho;
-import domain.piece.Piece;
-import domain.piece.Sa;
-import domain.piece.Sang;
+import domain.piece.*;
+
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static domain.piece.Country.CHO;
+import static domain.piece.Country.HAN;
 
 public enum JanggiBoardInitPosition {
     CHO_LEFT_MA(new JanggiCoordinate(3, 10), new Ma(CHO)),

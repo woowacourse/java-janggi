@@ -3,12 +3,13 @@ package domain.piece;
 import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
 import domain.piece.movement.SangMovement;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Sang extends Piece {
     public Sang(Country country) {
-        super(country,PieceType.SANG);
+        super(country, PieceType.SANG);
     }
 
     @Override
