@@ -1,6 +1,5 @@
 package domain.position;
 
-import domain.piece.MoveDirection;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -8,7 +7,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static testUtil.TestConstant.*;
 
 class PositionFileTest {
 
@@ -35,21 +33,6 @@ class PositionFileTest {
         assertThatThrownBy(() -> positionFile.add(addingValue))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 파일을 찾을 수 없습니다.");
-    }
-
-    @Test
-    void 현재_위치에서_이동_방향을_통해_경로를_구할_수_있다() {
-        // given
-        final Position position = new Position(PositionFile.마, RANK_5);
-
-        // when
-        final List<Path> result = position.getPathsFrom(List.of(MoveDirection.DOWN, MoveDirection.DOWN_LEFT));
-
-        // then
-        assertThat(result).containsExactlyInAnyOrder(new Path(
-                new Position(PositionFile.라, RANK_3),
-                List.of(new Position(PositionFile.마, RANK_5), new Position(PositionFile.마, RANK_4), new Position(PositionFile.라, RANK_3))
-        ));
     }
 
     @Test

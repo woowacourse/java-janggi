@@ -1,7 +1,5 @@
 package domain.position;
 
-import domain.piece.MoveDirection;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,19 +42,6 @@ public record Position(
                 .filter(r -> !r.equals(rank))
                 .forEach(r -> positions.add(new Position(file, r)));
         return positions;
-    }
-
-    public List<Path> getPathsFrom(final List<MoveDirection> moveDirections) {
-        List<Path> paths = new ArrayList<>();
-        paths.add(Path.start(this));
-        for (MoveDirection moveDirection : moveDirections) {
-            for (Path path : paths) {
-                List<Position> nextPositions = moveDirection.calculateNextPositionsFrom(path.getFinalPosition());
-                paths = path.nextPath(nextPositions);
-            }
-        }
-
-        return paths;
     }
 
     public int distance(Position other) {

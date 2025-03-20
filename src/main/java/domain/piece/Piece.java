@@ -76,7 +76,7 @@ public final class Piece {
 
     private static boolean isNewPositionExistInMoveablePath(final Position newPosition, final List<Path> paths) {
         return paths.stream()
-                .map(Path::getFinalPosition)
+                .map(Path::finalPosition)
                 .toList()
                 .contains(newPosition);
     }

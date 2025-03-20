@@ -1,5 +1,6 @@
 package domain.position;
 
+import domain.piece.MoveDirection;
 import domain.piece.Piece;
 
 import java.util.ArrayList;
@@ -18,8 +19,17 @@ public record Path(
         );
     }
 
-    public Position getFinalPosition() {
-        return finalPosition;
+    public static List<Path> getMoveablePaths(final Position startPosition, final List<MoveDirection> moveDirections) {
+        List<Path> paths = new ArrayList<>();
+        paths.add(Path.start(startPosition));
+        for (MoveDirection moveDirection : moveDirections) {
+            for (Path path : paths) {
+                List<Position> nextPositions = moveDirection.calculateNextPositionsFrom(path.finalPosition());
+                paths = path.nextPath(nextPositions);
+            }
+        }
+
+        return paths;
     }
 
     public List<Path> nextPath(final List<Position> nextPositions) {

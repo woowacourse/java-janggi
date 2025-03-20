@@ -1,5 +1,6 @@
 package domain.position;
 
+import domain.piece.MoveDirection;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import org.junit.jupiter.api.Test;
@@ -49,6 +50,21 @@ class PathTest {
                 new Path(new Position(라, RANK_5), List.of(new Position(마, RANK_5), new Position(라, RANK_5))),
                 new Path(new Position(바, RANK_5), List.of(new Position(마, RANK_5), new Position(바, RANK_5)))
         );
+    }
+
+    @Test
+    void 현재_위치에서_이동_방향을_통해_경로를_구할_수_있다() {
+        // given
+        final Position startPosition = new Position(PositionFile.마, RANK_5);
+
+        // when
+        final List<Path> result = Path.getMoveablePaths(startPosition, List.of(MoveDirection.DOWN, MoveDirection.DOWN_LEFT));
+
+        // then
+        assertThat(result).containsExactlyInAnyOrder(new Path(
+                new Position(PositionFile.라, RANK_3),
+                List.of(new Position(PositionFile.마, RANK_5), new Position(PositionFile.마, RANK_4), new Position(PositionFile.라, RANK_3))
+        ));
     }
 
     @Test
