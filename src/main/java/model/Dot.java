@@ -24,4 +24,8 @@ public class Dot {
         }
         return piece.get();
     }
+
+    public void clear() {
+        this.piece = Optional.empty();
+    }
 }
