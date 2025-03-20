@@ -1,5 +1,6 @@
 package janggi;
 
+import janggi.board.Board;
 import janggi.board.Position;
 import janggi.piece.Canon;
 import janggi.piece.Chariot;
@@ -18,18 +19,30 @@ import java.util.Map;
 
 public class Application {
     public static void main(String[] args) {
-        Map<Position, Piece> board = new HashMap<>();
-        initializeRedTeam(board);
-        initializeGreenTeam(board);
+        Board board = makeBoard();
 
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
         InputParser parser = new InputParser();
 
         outputView.printGameStartMessage();
-        String startAndGoal = inputView.readStartAndGoalPosition(Team.GREEN);
-        Position startPosition = parser.splitStartPosition(startAndGoal);
-        Position goalPosition = parser.splitGoalPosition(startAndGoal);
+
+        Team team = Team.GREEN;
+        while (true) {
+            String startAndGoal = inputView.readStartAndGoalPosition(team);
+            Position startPosition = parser.splitStartPosition(startAndGoal);
+            Position goalPosition = parser.splitGoalPosition(startAndGoal);
+            board.movePiece(startPosition, goalPosition);
+
+            team = team.convertTeam();
+        }
+    }
+
+    private static Board makeBoard() {
+        Map<Position, Piece> board = new HashMap<>();
+        initializeRedTeam(board);
+        initializeGreenTeam(board);
+        return new Board(board);
     }
 
     private static void initializeRedTeam(Map<Position, Piece> board) {

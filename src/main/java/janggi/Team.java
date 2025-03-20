@@ -13,4 +13,11 @@ public enum Team {
     public String getName() {
         return displayName;
     }
+
+    public Team convertTeam() {
+        if (this == GREEN) {
+            return RED;
+        }
+        return GREEN;
+    }
 }
