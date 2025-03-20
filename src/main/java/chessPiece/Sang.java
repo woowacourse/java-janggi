@@ -93,6 +93,7 @@ public class Sang extends ChessPiece {
         return route;
     }
 
+    @Override
     public void updateChessPiecePositionBy(BoardPosition boardPosition) {
         this.boardPosition = boardPosition;
     }

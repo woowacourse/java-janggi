@@ -25,6 +25,7 @@ public class Byeong extends ChessPiece {
         return List.of(boardPosition);
     }
 
+    @Override
     public void updateChessPiecePositionBy(BoardPosition boardPosition) {
         this.boardPosition = boardPosition;
     }
