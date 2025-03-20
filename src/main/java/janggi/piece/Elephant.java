@@ -1,20 +1,20 @@
 package janggi.piece;
 
 import janggi.board.Board;
+import janggi.position.Position;
 import janggi.rule.MoveVector;
 import janggi.rule.MovingRule;
+import janggi.rule.MovingRules;
 import janggi.rule.MovingRulesGenerator;
-import janggi.position.Position;
-import java.util.List;
 
 public final class Elephant extends Piece {
 
-    private Elephant(final Team team, final List<MovingRule> movingRules) {
+    private Elephant(final Team team, final MovingRules movingRules) {
         super(team, movingRules);
     }
 
     public static Elephant of(final Team team) {
-        final List<MovingRule> movingRules = MovingRulesGenerator.elephant();
+        final MovingRules movingRules = MovingRulesGenerator.elephant();
         return new Elephant(team, movingRules);
     }
 
@@ -57,12 +57,6 @@ public final class Elephant extends Piece {
 
     private MovingRule findMatchRule(final Position start, final Position end) {
         final MoveVector startEndDiff = end.getDiff(start);
-        for (MovingRule movingRule : movingRules) {
-            final MoveVector vectorSum = movingRule.sumUnit();
-            if (vectorSum.equals(startEndDiff)) {
-                return movingRule;
-            }
-        }
-        throw new IllegalStateException();
+        return movingRules.findMatchRule(startEndDiff);
     }
 }

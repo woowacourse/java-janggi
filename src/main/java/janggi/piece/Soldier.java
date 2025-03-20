@@ -1,14 +1,13 @@
 package janggi.piece;
 
 import janggi.board.Board;
-import janggi.rule.MovingRule;
-import janggi.rule.MovingRulesGenerator;
 import janggi.position.Position;
-import java.util.List;
+import janggi.rule.MovingRules;
+import janggi.rule.MovingRulesGenerator;
 
 public final class Soldier extends Piece {
 
-    private Soldier(final Team team, final List<MovingRule> movingRules) {
+    private Soldier(final Team team, final MovingRules movingRules) {
         super(team, movingRules);
     }
 

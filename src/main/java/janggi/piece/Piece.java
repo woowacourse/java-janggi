@@ -1,18 +1,17 @@
 package janggi.piece;
 
 import janggi.board.Board;
-import janggi.rule.MoveVector;
-import janggi.rule.MovingRule;
 import janggi.position.Position;
-import java.util.ArrayList;
+import janggi.rule.MoveVector;
+import janggi.rule.MovingRules;
 import java.util.List;
 
 public abstract class Piece {
 
     protected final Team team;
-    protected final List<MovingRule> movingRules;
+    protected final MovingRules movingRules;
 
-    public Piece(final Team team, final List<MovingRule> movingRules) {
+    public Piece(final Team team, final MovingRules movingRules) {
         this.team = team;
         this.movingRules = movingRules;
     }
@@ -32,10 +31,7 @@ public abstract class Piece {
     }
 
     protected boolean cannotFindRule(final Position start, final Position end) {
-        final List<MoveVector> positionDiffs = new ArrayList<>();
-        for (MovingRule movingRule : movingRules) {
-            positionDiffs.add(movingRule.sumUnit());
-        }
+        final List<MoveVector> positionDiffs = movingRules.getRuleVectors();
         return !positionDiffs.contains(end.getDiff(start));
     }
 }

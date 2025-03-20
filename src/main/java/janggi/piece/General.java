@@ -1,19 +1,18 @@
 package janggi.piece;
 
 import janggi.board.Board;
-import janggi.rule.MovingRule;
-import janggi.rule.MovingRulesGenerator;
 import janggi.position.Position;
-import java.util.List;
+import janggi.rule.MovingRules;
+import janggi.rule.MovingRulesGenerator;
 
 public final class General extends Piece {
 
-    private General(final Team team, final List<MovingRule> movingRules) {
+    private General(final Team team, final MovingRules movingRules) {
         super(team, movingRules);
     }
 
     public static General of(final Team team) {
-        final List<MovingRule> movingRules = MovingRulesGenerator.generalOrGuard();
+        final MovingRules movingRules = MovingRulesGenerator.generalOrGuard();
         return new General(team, movingRules);
     }
 

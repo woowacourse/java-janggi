@@ -1,20 +1,20 @@
 package janggi.piece;
 
 import janggi.board.Board;
+import janggi.position.Position;
 import janggi.rule.MoveVector;
 import janggi.rule.MovingRule;
+import janggi.rule.MovingRules;
 import janggi.rule.MovingRulesGenerator;
-import janggi.position.Position;
-import java.util.List;
 
 public final class Chariot extends Piece {
 
-    private Chariot(final Team team, final List<MovingRule> movingRules) {
+    private Chariot(final Team team, final MovingRules movingRules) {
         super(team, movingRules);
     }
 
     public static Chariot of(final Team team) {
-        final List<MovingRule> movingRules = MovingRulesGenerator.cannonOrChariot();
+        final MovingRules movingRules = MovingRulesGenerator.cannonOrChariot();
         return new Chariot(team, movingRules);
     }
 
@@ -57,12 +57,6 @@ public final class Chariot extends Piece {
 
     private MovingRule findMatchRule(final Position start, final Position end) {
         final MoveVector startEndDiff = end.getDiff(start);
-        for (MovingRule movingRule : movingRules) {
-            final MoveVector vectorSum = movingRule.sumUnit();
-            if (vectorSum.equals(startEndDiff)) {
-                return movingRule;
-            }
-        }
-        throw new IllegalStateException();
+        return movingRules.findMatchRule(startEndDiff);
     }
 }

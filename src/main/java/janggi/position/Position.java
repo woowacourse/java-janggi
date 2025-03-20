@@ -3,13 +3,6 @@ package janggi.position;
 import janggi.rule.MoveVector;
 
 public record Position(Row row, Column column) {
-    public int getRowValue() {
-        return row.getValue();
-    }
-
-    public int getColumnValue() {
-        return column.getValue();
-    }
 
     public MoveVector getDiff(final Position another) {
         final int rowDiff = row.getValue() - another.getRowValue();
@@ -19,5 +12,13 @@ public record Position(Row row, Column column) {
 
     public Position add(final MoveVector vector) {
         return new Position(row.add(vector.dy()), column.add(vector.dx()));
+    }
+
+    public int getRowValue() {
+        return row.getValue();
+    }
+
+    public int getColumnValue() {
+        return column.getValue();
     }
 }
