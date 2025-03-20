@@ -36,5 +36,3 @@ public class InputView {
         return List.of(origin, destination);
     }
 }
-
-//(0, 3), (0, 4)

@@ -21,14 +21,17 @@ public class Application {
 
         while (true) {
             outputView.printBoard(janggiGame.getPieces());
+            try {
+                Dynasty currentDynasty = dynasties[turn % 2];
 
-            Dynasty currentDynasty = dynasties[turn % 2];
+                List<Dot> movement = inputView.readPieceMovement(currentDynasty);
 
-            List<Dot> movement = inputView.readPieceMovement(currentDynasty);
+                janggiGame.processTurn(currentDynasty, movement.getFirst(), movement.getLast());
 
-            janggiGame.movePiece(currentDynasty, movement.getFirst(), movement.getLast());
-
-            turn++;
+                turn++;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
