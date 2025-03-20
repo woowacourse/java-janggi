@@ -15,4 +15,22 @@ public class JanggiController {
         outputView.startGame();
         outputView.board(service.getBoard());
     }
+
+    public boolean playTurn() {
+        outputView.turn(service.currentTurn());
+
+        var response = inputView.command();
+        if(response.abstain()){
+            return false;
+        }
+
+        service.move(response.source(), response.destination());
+        outputView.board(service.getBoard());
+
+        return service.isPlaying();
+    }
+
+    public void nextTurn() {
+        service.nextTurn();
+    }
 }

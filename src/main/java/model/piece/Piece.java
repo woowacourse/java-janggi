@@ -18,16 +18,19 @@ public abstract class Piece {
         position = new Position(x, y);
     }
 
-    public void move(Board board, int dx, int dy) {
+    public void move(Board board, Team currentTurn, int dx, int dy) {
         Position target = position.move(dx, dy);
         if (!board.isInboard(target)) {
+            throw new IllegalArgumentException();
+        }
+        if (!currentTurn.equals(team)) {
             throw new IllegalArgumentException();
         }
         Route movableRoute = findMovableRoute(board, dx, dy);
         if (movableRoute == null) {
             throw new IllegalArgumentException();
         }
-        validateRoute(board, movableRoute);
+        validateRoute(board, movableRoute, target);
         arrival(board, target);
         position = target;
     }
@@ -44,7 +47,8 @@ public abstract class Piece {
         return null;
     }
 
-    protected void validateRoute(Board board, Route route) {
+    // TODO: 시그니처가 포, 차에 의존적으로 구성됨
+    protected void validateRoute(Board board, Route route, Position target) {
         Position onRoute = position;
         for (int i = 0; i < route.positions.size() - 1; i++) {
             onRoute = onRoute.move(route.positions.get(i));

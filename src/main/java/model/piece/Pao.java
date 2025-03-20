@@ -39,10 +39,10 @@ public class Pao extends Piece {
     }
 
     @Override
-    protected void validateRoute(Board board, Route route) {
+    protected void validateRoute(Board board, Route route, Position target) {
         boolean flag = false;
         Position onRoute = position.move(route.positions().getFirst());
-        for (; board.isInboard(onRoute); onRoute = onRoute.move(route.positions().getFirst())) {
+        for (; onRoute.equals(target); onRoute = onRoute.move(route.positions().getFirst())) {
             if (board.hasPieceOn(onRoute)) {
                 if (board.get(onRoute) instanceof Pao) {
                     throw new IllegalArgumentException();
