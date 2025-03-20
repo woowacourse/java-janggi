@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Horse extends AbstractPiece {
 
-    public Horse(final Team team) {
-        super(team);
+    public Horse(final Team team, final Score score) {
+        super(team, score);
     }
 
     @Override

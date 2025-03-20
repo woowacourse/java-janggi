@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Chariot extends AbstractPiece {
 
-    public Chariot(final Team team) {
-        super(team);
+    public Chariot(final Team team, final Score score) {
+        super(team, score);
     }
 
     @Override

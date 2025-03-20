@@ -17,7 +17,7 @@ class ChariotTest {
     void 말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, boolean expected) {
 
         // given
-        Chariot chariot = PieceFactory.createRedTeam(Chariot::new);
+        Chariot chariot = PieceFactory.createRedTeam(Chariot::new, Score.CHARIOT);
 
         // when
         Distance distance = new Distance(x, y);
@@ -30,7 +30,7 @@ class ChariotTest {
     void 차의_이동_가능_경로_모두_반환() {
 
         // given
-        Chariot chariot = PieceFactory.createGreenTeam(Chariot::new);
+        Chariot chariot = PieceFactory.createGreenTeam(Chariot::new, Score.CHARIOT);
 
         // when
         List<Point> possiblePoint = chariot.getPossiblePoint(Point.of(0, 0), Point.of(0, 9));

@@ -5,13 +5,13 @@ import java.util.List;
 
 public class Cannon extends AbstractPiece {
 
-    public Cannon(final Team team) {
-        super(team);
+    public Cannon(final Team team, final Score score) {
+        super(team, score);
     }
 
     /*
-    포는 말 1개를 건너 뛰어야만 이동 가능하므로 target은 prev에서 한 칸 옮긴 위치에서 시작한다.
-     */
+        포는 말 1개를 건너 뛰어야만 이동 가능하므로 target은 prev에서 한 칸 옮긴 위치에서 시작한다.
+         */
     @Override
     public List<Point> getPossiblePoint(Point prev, Point newPoint) {
         List<Point> possiblePoint = new ArrayList<>();

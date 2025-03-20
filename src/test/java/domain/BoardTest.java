@@ -37,7 +37,8 @@ class BoardTest {
         // given
         final Board board = Board.initialize();
         final Point point = Point.of(0, 0);
-        final Position expectedPosition = new Position(point, PieceFactory.createGreenTeam(Chariot::new));
+        final Position expectedPosition = new Position(point,
+                PieceFactory.createGreenTeam(Chariot::new, Score.CHARIOT));
 
         // when
         final Position position = board.findPositionBy(point);
@@ -58,8 +59,8 @@ class BoardTest {
 
         // then
         SoftAssertions.assertSoftly(softly -> {
-            assertThat(board.hasPieceOnPath(treuPosition, Point.of(3, 3))).isTrue();
-            assertThat(board.hasPieceOnPath(falsePosition, Point.of(8, 3))).isFalse();
+            assertThat(board.canMoveOnPath(treuPosition, Point.of(3, 3))).isTrue();
+            assertThat(board.canMoveOnPath(falsePosition, Point.of(8, 3))).isFalse();
         });
     }
 
@@ -104,4 +105,5 @@ class BoardTest {
         // then
         assertThatCode(() -> board.moveForEnd(position, point)).doesNotThrowAnyException();
     }
+
 }

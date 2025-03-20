@@ -20,7 +20,7 @@ class GeneralTest {
     void 말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, final boolean expected) {
 
         // given
-        General general = PieceFactory.createRedTeam(General::new);
+        General general = PieceFactory.createRedTeam(General::new, Score.GENERAL);
 
         // when
         Distance distance = new Distance(x, y);

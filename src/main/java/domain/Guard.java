@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Guard extends AbstractPiece {
 
-    public Guard(final Team team) {
-        super(team);
+    public Guard(final Team team, final Score score) {
+        super(team, score);
     }
 
     @Override

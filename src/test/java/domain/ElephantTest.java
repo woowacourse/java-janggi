@@ -24,7 +24,7 @@ class ElephantTest {
     void 말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, final boolean expected) {
 
         // given
-        Elephant elephant = PieceFactory.createRedTeam(Elephant::new);
+        Elephant elephant = PieceFactory.createRedTeam(Elephant::new, Score.ELEPHANT);
 
         // when
         Distance distance = new Distance(x, y);

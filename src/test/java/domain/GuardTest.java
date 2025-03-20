@@ -20,7 +20,7 @@ class GuardTest {
     void 말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, final boolean expected) {
 
         // given
-        Guard guard = PieceFactory.createRedTeam(Guard::new);
+        Guard guard = PieceFactory.createRedTeam(Guard::new, Score.GUARD);
 
         // when
         Distance distance = new Distance(x, y);

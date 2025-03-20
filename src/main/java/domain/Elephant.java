@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Elephant extends AbstractPiece {
 
-    public Elephant(final Team team) {
-        super(team);
+    public Elephant(final Team team, final Score score) {
+        super(team, score);
     }
 
     @Override
