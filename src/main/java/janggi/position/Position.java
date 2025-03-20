@@ -1,10 +1,19 @@
 package janggi.position;
 
 import janggi.rule.MoveVector;
+import java.util.Objects;
 
-public record Position(Row row, Column column) {
+public final class Position {
 
-    public MoveVector getDiff(final Position another) {
+    private final Row row;
+    private final Column column;
+
+    public Position(final Row row, final Column column) {
+        this.row = row;
+        this.column = column;
+    }
+
+    public MoveVector calculateMoveVector(final Position another) {
         final int rowDiff = row.getValue() - another.getRowValue();
         final int columnDiff = column.getValue() - another.getColumnValue();
         return new MoveVector(rowDiff, columnDiff);
@@ -20,5 +29,19 @@ public record Position(Row row, Column column) {
 
     public int getColumnValue() {
         return column.getValue();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final Position position = (Position) o;
+        return row == position.row && column == position.column;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
     }
 }

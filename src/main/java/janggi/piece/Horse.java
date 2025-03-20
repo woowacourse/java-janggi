@@ -56,7 +56,7 @@ public final class Horse extends Piece {
     }
 
     private MovingRule findMatchRule(final Position start, final Position end) {
-        final MoveVector startEndDiff = end.getDiff(start);
+        final MoveVector startEndDiff = end.calculateMoveVector(start);
         return movingRules.findMatchRule(startEndDiff);
     }
 }

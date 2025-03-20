@@ -32,6 +32,6 @@ public abstract class Piece {
 
     protected boolean cannotFindRule(final Position start, final Position end) {
         final List<MoveVector> positionDiffs = movingRules.getRuleVectors();
-        return !positionDiffs.contains(end.getDiff(start));
+        return !positionDiffs.contains(end.calculateMoveVector(start));
     }
 }
