@@ -39,7 +39,14 @@ public class Horse extends LimitedChessPiece {
     @Override
     protected List<ChessPosition> getCoordinateDestinations(final List<Path> coordinates,
                                                             final ChessPiecePositions positions) {
-        return List.of();
+        return List.of(new ChessPosition(6, 5),
+                new ChessPosition(6, 3),
+                new ChessPosition(2, 3),
+                new ChessPosition(2, 5),
+                new ChessPosition(5, 6),
+                new ChessPosition(3, 6),
+                new ChessPosition(3, 2),
+                new ChessPosition(5, 2));
     }
 
     @Override
