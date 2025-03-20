@@ -17,35 +17,13 @@ public class Cannon extends Piece {
         List<Position> path = new ArrayList<>();
         Position newPosition = startPosition;
         if (startPosition.compareRow(targetPosition) != 0 && startPosition.compareColumn(targetPosition) == 0) {
-            int count = startPosition.compareRow(targetPosition);
-            if (count < 0) {
-                for (int i = 0; i < Math.abs(count) - 1; i++) {
-                    newPosition = newPosition.movePosition(Move.BACK);
-                    path.add(newPosition);
-                }
-            }
-            if (count > 0) {
-                for (int i = 0; i < count - 1; i++) {
-                    newPosition = newPosition.movePosition(Move.FRONT);
-                    path.add(newPosition);
-                }
-            }
+            newPosition = calculateNewPostion(startPosition.compareRow(targetPosition), newPosition, path, Move.BACK,
+                    Move.FRONT);
         }
         //2. 세로가 같고 가로가 다르다
         if (startPosition.compareRow(targetPosition) == 0 && startPosition.compareColumn(targetPosition) != 0) {
-            int count = startPosition.compareColumn(targetPosition);
-            if (count < 0) {
-                for (int i = 0; i < Math.abs(count) - 1; i++) {
-                    newPosition = newPosition.movePosition(Move.RIGHT);
-                    path.add(newPosition);
-                }
-            }
-            if (count > 0) {
-                for (int i = 0; i < count - 1; i++) {
-                    newPosition = newPosition.movePosition(Move.LEFT);
-                    path.add(newPosition);
-                }
-            }
+            calculateNewPostion(startPosition.compareColumn(targetPosition), newPosition, path, Move.RIGHT,
+                    Move.LEFT);
         }
         //3. 세로가 같고, 가로가 같다
         if (startPosition.compareRow(targetPosition) != 0 && startPosition.compareColumn(targetPosition) != 0) {
@@ -53,6 +31,25 @@ public class Cannon extends Piece {
         }
 
         return path;
+    }
+
+    private Position calculateNewPostion(int startPosition, Position newPosition,
+                                         List<Position> path, Move backOrLeft,
+                                         Move frontOrRight) {
+        int count = startPosition;
+        if (count < 0) {
+            for (int i = 0; i < Math.abs(count) - 1; i++) {
+                newPosition = newPosition.movePosition(backOrLeft);
+                path.add(newPosition);
+            }
+        }
+        if (count > 0) {
+            for (int i = 0; i < count - 1; i++) {
+                newPosition = newPosition.movePosition(frontOrRight);
+                path.add(newPosition);
+            }
+        }
+        return newPosition;
     }
 
     @Override
