@@ -27,17 +27,11 @@ public class JanggiRunner {
     public JanggiGame initializeGame() {
         String firstPlayerName = inputView.getFirstPlayerName();
         String secondPlayerName = inputView.getSecondPlayerName();
+        Usernames usernames = new Usernames(firstPlayerName,secondPlayerName);
 
         String startPlayerName = inputView.getStartPlayerName();
 
-        Players players;
-        if (startPlayerName.equals(firstPlayerName)) {
-            players = new Players(new Player(firstPlayerName, TeamType.CHO),
-                    new Player(secondPlayerName, TeamType.HAN));
-        } else {
-            players = new Players(new Player(secondPlayerName, TeamType.CHO),
-                    new Player(firstPlayerName, TeamType.HAN));
-        }
+        Players players = Players.createFrom(usernames,startPlayerName);
 
         String firstPlayerOption = inputView.getSetupNumber(players.getChoPlayerName());
         String secondPlayerOption = inputView.getSetupNumber(players.getHanPlayerName());

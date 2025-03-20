@@ -18,7 +18,9 @@ class JanggiGameTest {
 
     @BeforeEach
     void beforeEach() {
-        Players players = new Players(new Player("a", TeamType.CHO), new Player("b", TeamType.HAN));
+        Usernames usernames = new Usernames("a","b");
+        String startUsername = "a";
+        Players players = Players.createFrom(usernames, startUsername);
         List<Piece> pieces = List.of(
                 new Horse(Position.of(1, 1), TeamType.CHO),
                 new Soldier(Position.of(1, 2), TeamType.HAN),
