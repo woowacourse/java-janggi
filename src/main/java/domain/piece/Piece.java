@@ -7,11 +7,11 @@ import java.util.List;
 
 public abstract class Piece {
     protected int score;
-    protected Side side;
+    protected JanggiSide side;
     protected PieceStatus status;
     protected JanggiPieceRoute route;
 
-    public Piece(int score, Side side, JanggiPieceRoute route) {
+    public Piece(int score, JanggiSide side, JanggiPieceRoute route) {
         this.score = score;
         this.side = side;
         this.status = PieceStatus.ACTIVE;
@@ -26,14 +26,14 @@ public abstract class Piece {
         return false;
     }
 
-    public void captureIfNotMySide(Side otherSide) {
+    public void captureIfNotMySide(JanggiSide otherSide) {
         if (otherSide == this.side) {
             return;
         }
         this.status = PieceStatus.CAPTURED;
     }
 
-    public Side getSide() {
+    public JanggiSide getSide() {
         return side;
     }
 
