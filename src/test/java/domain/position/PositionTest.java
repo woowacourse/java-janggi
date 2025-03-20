@@ -48,54 +48,6 @@ class PositionTest {
     }
 
     @Test
-    void 파일_하나가_증가한_위치를_반환할_수_있다() {
-        // given
-        final Position curPosition = new Position(PositionFile.마, RANK_5);
-
-        // when
-        final Position result = curPosition.withAddingFile();
-
-        // then
-        assertThat(result).isEqualTo(new Position(PositionFile.바, RANK_5));
-    }
-
-    @Test
-    void 파일_하나가_감소한_위치를_반환할_수_있다() {
-        // given
-        final Position curPosition = new Position(PositionFile.마, RANK_5);
-
-        // when
-        final Position result = curPosition.withSubtractingFile();
-
-        // then
-        assertThat(result).isEqualTo(new Position(PositionFile.라, RANK_5));
-    }
-
-    @Test
-    void 랭크_하나가_증가한_위치를_반환할_수_있다() {
-        // given
-        final Position curPosition = new Position(PositionFile.마, RANK_5);
-
-        // when
-        final Position result = curPosition.withAddingRank();
-
-        // then
-        assertThat(result).isEqualTo(new Position(PositionFile.마, RANK_6));
-    }
-
-    @Test
-    void 랭크_하나가_감소한_위치를_반환할_수_있다() {
-        // given
-        final Position curPosition = new Position(PositionFile.마, RANK_5);
-
-        // when
-        final Position result = curPosition.withSubtractingRank();
-
-        // then
-        assertThat(result).isEqualTo(new Position(PositionFile.마, RANK_4));
-    }
-
-    @Test
     void 현재_위치에서_십자_모양의_위치들을_반환할_수_있다() {
         // given
         final Position curPosition = new Position(PositionFile.마, RANK_5);

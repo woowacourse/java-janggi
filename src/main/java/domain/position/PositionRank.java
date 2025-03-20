@@ -4,19 +4,17 @@ import domain.Country;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.IntStream;
 
-public class PositionRank {
+public record PositionRank(
+        int value
+) {
 
     public static final int MIN_VALUE = 1;
     public static final int MAX_VALUE = 10;
 
-    private final int value;
-
-    private PositionRank(final int value) {
+    public PositionRank {
         validateValue(value);
-        this.value = value;
     }
 
     private void validateValue(final int value) {
@@ -67,23 +65,5 @@ public class PositionRank {
 
     public int distance(final PositionRank rank) {
         return Math.abs(value - rank.value);
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (!(o instanceof final PositionRank that)) return false;
-        return value == that.value;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(value);
-    }
-
-    @Override
-    public String toString() {
-        return "PositionRank{" +
-                "value=" + value +
-                '}';
     }
 }

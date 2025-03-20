@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum PositionFile {
-
     가(1),
     나(2),
     다(3),
@@ -16,6 +15,7 @@ public enum PositionFile {
     아(8),
     자(9),
     ;
+
     private final int amount;
 
     PositionFile(final int amount) {

@@ -5,18 +5,14 @@ import domain.piece.MoveDirection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
-public class Position {
-
-    private final PositionFile file;
-    private final PositionRank rank;
-
-    public Position(final PositionFile file, final PositionRank rank) {
+public record Position(
+        PositionFile file,
+        PositionRank rank
+) {
+    public Position {
         validateFile(file);
         validateRank(rank);
-        this.file = file;
-        this.rank = rank;
     }
 
     private void validateFile(final PositionFile file) {
@@ -37,22 +33,6 @@ public class Position {
 
     public boolean isValidToAdd(final int fileAmount, final int rankAmount) {
         return file.validateAdd(fileAmount) && rank.validateAdd(rankAmount);
-    }
-
-    public Position withAddingFile() {
-        return new Position(file.add(1), rank);
-    }
-
-    public Position withAddingRank() {
-        return new Position(file, rank.add(1));
-    }
-
-    public Position withSubtractingFile() {
-        return new Position(file.add(-1), rank);
-    }
-
-    public Position withSubtractingRank() {
-        return new Position(file, rank.add(-1));
     }
 
     public List<Position> getAllCrossPositions() {
@@ -82,26 +62,6 @@ public class Position {
     public int distance(Position other) {
         return Math.max(this.file.distance(other.file), this.rank.distance(other.rank));
     }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (!(o instanceof final Position position)) return false;
-        return file == position.file && Objects.equals(rank, position.rank);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(file, rank);
-    }
-
-    @Override
-    public String toString() {
-        return "Position{" +
-                "file=" + file +
-                ", rank=" + rank +
-                '}';
-    }
-
 
     public List<Position> createPositionsUntil(final Position nextPosition) {
         if (this.file == nextPosition.file) {
