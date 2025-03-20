@@ -10,38 +10,36 @@ import janggi.domain.piece.PieceColor;
 public class OutputView {
 
     public void printBoard(Board board) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(getBoardHeader());
         for(Row row : Row.values()) {
-            for(Column column : Column.values()) {
+            sb.append(String.format(getStringColor() + "%d | ", row.getValue()));
+            for (Column column : Column.values()) {
                 Position position = new Position(row, column);
                 Piece piece = board.getPieceBy(position);
                 String pieceName = PieceTypeName.getNameFrom(piece);
 
-                System.out.print(pieceName + " ");
+                sb.append(pieceName + " ");
             }
-            System.out.println();
+            sb.append(System.lineSeparator());
         }
+        System.out.println(sb);
+    }
+
+    private String getBoardHeader() {
+        return "  | 1  2 3  4 5  6 7  8 9\n"
+                + "--|----------------------\n";
     }
 
     public void printTurnNotice(PieceColor turnColor) {
-        String color = "";
-        if(turnColor == PieceColor.BLUE){
-            color = "초나라";
-        }
-        if(turnColor == PieceColor.RED){
-            color = "한나라";
-        }
-        System.out.println(getStringColor() + color + "차례입니다.");
+        String teamName = TeamColorName.geNameFrom(turnColor);
+        System.out.printf(getStringColor() + "%s 차례입니다\n", teamName);
     }
 
     public void printWinner(PieceColor turnColor) {
-        String color = "";
-        if(turnColor == PieceColor.BLUE){
-            color = "초나라";
-        }
-        if(turnColor == PieceColor.RED){
-            color = "한나라";
-        }
-        System.out.println(color + " 승리");
+        String teamName = TeamColorName.geNameFrom(turnColor);
+        System.out.printf(getStringColor() + "%s 승리!\n", teamName);
     }
 
     private String getStringColor() {

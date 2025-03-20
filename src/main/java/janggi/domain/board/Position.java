@@ -14,7 +14,7 @@ public class Position {
     }
 
     public int rowDifference(Position other) {
-        return other.rowValue() - row.getValue();
+        return other.rowValue() - row.intValue();
     }
 
     public int columnDifference(Position other) {
@@ -22,7 +22,7 @@ public class Position {
     }
 
     public Position getPositionByFraction(Position other, int divisor) {
-        int newRow = row.getValue() + rowDifference(other) / divisor;
+        int newRow = row.intValue() + rowDifference(other) / divisor;
         int newColumn = column.getValue() + columnDifference(other) / divisor;
 
         return new Position(Row.from(newRow), Column.from(newColumn));
@@ -56,7 +56,7 @@ public class Position {
     }
 
     public int rowValue() {
-        return row.getValue();
+        return row.intValue();
     }
 
     public int columnValue() {
@@ -65,7 +65,7 @@ public class Position {
 
     @Override
     public String toString() {
-        return row.getValue() + ", " + column.getValue();
+        return row.intValue() + ", " + column.getValue();
     }
 
     @Override

@@ -12,7 +12,7 @@ public enum Row {
     SEVEN(7),
     EIGHT(8),
     NINE(9),
-    ZERO(10),
+    ZERO(0),
     ;
 
     Row(int value) {
@@ -20,10 +20,6 @@ public enum Row {
     }
 
     public static Row from(int value) {
-        if(value == 0) {
-            return ZERO;
-        }
-
         return Arrays.stream(Row.values())
                 .filter(row -> row.value == value)
                 .findFirst()
@@ -31,6 +27,13 @@ public enum Row {
     }
 
     private final int value;
+
+    public int intValue() {
+        if(this == Row.ZERO) {
+            return 10;
+        }
+        return value;
+    }
 
     public int getValue() {
         return value;
