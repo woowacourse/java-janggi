@@ -1,5 +1,6 @@
-package domain;
+package domain.board;
 
+import domain.Team;
 import domain.pieces.EmptyPiece;
 import domain.pieces.Piece;
 import execptions.JanggiArgumentException;

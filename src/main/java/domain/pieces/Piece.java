@@ -1,8 +1,8 @@
 package domain.pieces;
 
-import domain.PieceOnRoute;
-import domain.Point;
 import domain.Team;
+import domain.board.PieceOnRoute;
+import domain.board.Point;
 import java.util.List;
 
 public interface Piece {

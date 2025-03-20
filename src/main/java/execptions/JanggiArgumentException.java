@@ -1,7 +1,9 @@
 package execptions;
 
-public class JanggiArgumentException extends RuntimeException {
+public class JanggiArgumentException extends IllegalArgumentException {
+    private static final String PREFIX = "[ERROR] ";
+
     public JanggiArgumentException(String message) {
-        super(message);
+        super(PREFIX + message);
     }
 }

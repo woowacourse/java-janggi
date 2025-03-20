@@ -1,8 +1,8 @@
 package domain.movements;
 
-import domain.Point;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.Point;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

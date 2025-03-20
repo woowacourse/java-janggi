@@ -1,6 +1,6 @@
 package view;
 
-import domain.Point;
+import domain.board.Point;
 import domain.pieces.Piece;
 import java.util.Map;
 

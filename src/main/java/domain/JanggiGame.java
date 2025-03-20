@@ -1,5 +1,7 @@
 package domain;
 
+import domain.board.Board;
+import domain.board.Point;
 import domain.movements.DefaultMovement;
 import domain.movements.Direction;
 import domain.movements.EndlessMovement;

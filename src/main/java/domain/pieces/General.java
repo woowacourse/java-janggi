@@ -2,9 +2,9 @@ package domain.pieces;
 
 import static domain.pieces.PieceNames.GENERAL;
 
-import domain.PieceOnRoute;
-import domain.Point;
 import domain.Team;
+import domain.board.PieceOnRoute;
+import domain.board.Point;
 import execptions.JanggiArgumentException;
 import java.util.List;
 

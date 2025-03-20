@@ -1,6 +1,6 @@
 package domain.movements;
 
-import domain.Point;
+import domain.board.Point;
 import java.util.List;
 
 public final class DefaultMovement implements PieceMovement {

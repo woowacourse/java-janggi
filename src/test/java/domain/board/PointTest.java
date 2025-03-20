@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 import static domain.movements.Direction.NORTH;
 

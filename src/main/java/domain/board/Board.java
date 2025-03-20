@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 import domain.pieces.EmptyPiece;
 import domain.pieces.Piece;

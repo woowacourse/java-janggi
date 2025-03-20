@@ -2,8 +2,8 @@ package controller;
 
 import domain.JanggiGame;
 import domain.Player;
-import domain.Point;
 import domain.Team;
+import domain.board.Point;
 import java.util.List;
 import view.InputView;
 import view.OutputView;

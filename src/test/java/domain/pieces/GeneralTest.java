@@ -1,9 +1,10 @@
 package domain.pieces;
 
-import domain.Point;
-import domain.Team;
-import execptions.JanggiArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import domain.Team;
+import domain.board.Point;
+import execptions.JanggiArgumentException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

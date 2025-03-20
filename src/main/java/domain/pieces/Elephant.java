@@ -2,9 +2,9 @@ package domain.pieces;
 
 import static domain.pieces.PieceNames.ELEPHANT;
 
-import domain.PieceOnRoute;
-import domain.Point;
 import domain.Team;
+import domain.board.PieceOnRoute;
+import domain.board.Point;
 import domain.movements.PieceMovement;
 import java.util.List;
 
