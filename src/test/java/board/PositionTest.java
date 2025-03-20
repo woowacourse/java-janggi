@@ -110,8 +110,8 @@ public class PositionTest {
             );
         }
 
-        @DisplayName("같은 라인의 position간의 모든 position을 반환한다.")
         @Test
+        @DisplayName("같은 라인의 position간의 모든 position을 반환한다.")
         void calculateBetweenPositions() {
             // given
             final Position srcPosition = new Position(1, 1);
@@ -122,6 +122,26 @@ public class PositionTest {
 
             // then
             assertThat(betweenPositions).hasSize(4);
+        }
+
+        @Test
+        @DisplayName("코끼리의 중간 Position들을 계산하여 반환할 수 있다.")
+        void calculateElephantMiddlePositions() {
+            // given
+            final Position srcPosition = new Position(2, 2);
+            final Position destPosition = new Position(4, 5);
+
+            final Position actualPosition1 = new Position(2, 3);
+            final Position actualPosition2 = new Position(3, 4);
+            final List<Position> actual = List.of(
+                    actualPosition1, actualPosition2
+            );
+
+            // when
+            final List<Position> middlePositions = srcPosition.calculateElephantMiddlePositions(destPosition);
+
+            // then
+            assertThat(middlePositions).containsAll(actual);
         }
     }
 }
