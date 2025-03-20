@@ -10,4 +10,8 @@ public interface Piece {
     List<Point> getPossiblePoint(final Point prev, final Point newPoint);
 
     Score getScore();
+
+    boolean equals(final Object other);
+
+    int hashCode();
 }

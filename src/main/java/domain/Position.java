@@ -17,11 +17,15 @@ public class Position {
         return this.point.equals(other);
     }
 
+    public boolean isSamePiece(final Piece other) {
+        return this.piece.equals(other);
+    }
+
     public boolean isGreenTeam() {
         return piece.isGreenTeam();
     }
 
-    public boolean isMovable(Point other) {
+    public boolean isMovable(final Point other) {
         return piece.isMovable(point.calculateDistance(other));
     }
 
@@ -29,7 +33,7 @@ public class Position {
         return piece.getPossiblePoint(this.point, toPoint);
     }
 
-    public Position getNextPosition(Point toPoint) {
+    public Position getNextPosition(final Point toPoint) {
         return new Position(toPoint, piece);
     }
 

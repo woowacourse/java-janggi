@@ -16,10 +16,10 @@ public class Cannon extends AbstractPiece {
     public List<Point> getPossiblePoint(Point prev, Point newPoint) {
         List<Point> possiblePoint = new ArrayList<>();
 
-        int x = prev.calculateSubtractionX(newPoint);
-        int y = prev.calculateSubtractionY(newPoint);
+        final int x = prev.calculateSubtractionX(newPoint);
+        final int y = prev.calculateSubtractionY(newPoint);
         if (x > 0) {
-            Point target = prev.right();
+            Point target = prev;
             for (int i = 0; i < prev.distanceToMaxX(); i++) {
                 target = target.right();
                 if (target.equals(newPoint)) {
@@ -29,7 +29,7 @@ public class Cannon extends AbstractPiece {
             }
         }
         if (x < 0) {
-            Point target = prev.left();
+            Point target = prev;
             for (int i = 0; i < prev.distanceToMinX(); i++) {
                 target = target.left();
                 if (target.equals(newPoint)) {
@@ -39,7 +39,7 @@ public class Cannon extends AbstractPiece {
             }
         }
         if (y > 0) {
-            Point target = prev.up();
+            Point target = prev;
             for (int i = 0; i < prev.distanceToMaxY(); i++) {
                 target = target.up();
                 if (target.equals(newPoint)) {
@@ -49,7 +49,7 @@ public class Cannon extends AbstractPiece {
             }
         }
         if (y < 0) {
-            Point target = prev.down();
+            Point target = prev;
             for (int i = 0; i < prev.distanceToMinY(); i++) {
                 target = target.down();
                 if (target.equals(newPoint)) {

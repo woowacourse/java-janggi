@@ -93,8 +93,31 @@ public class Board {
                 .filter(position -> pointOnPath.stream().anyMatch(position::isSame))
                 .count();
 
-        return matchCount == 0;
-        // 1이상 && 포 && 두 번째 기물이 적팀 기물 && 첫 번째 기물이 포가 아니고 && 두 번째 기물도 포가 아니다
+        if (matchCount == 0) {
+            return true;
+        }
+        final Cannon cannon = PieceFactory.createCannon();
+        System.out.println(matchCount);
+        if (matchCount == 1 && fromPosition.isSamePiece(cannon)) {
+            System.out.println("중간 말이 존재하고, 움직이고자 하는 기물이 포");
+            final Position middlePosition = positions.stream()
+                    .filter(position -> pointOnPath.stream().anyMatch(position::isSame))
+                    .findFirst()
+                    .orElseThrow();
+            if (middlePosition.isSamePiece(cannon)) {
+                System.out.println("중간 말이 포");
+                return false;
+            }
+            System.out.println("중간 말이 포가 아님");
+
+            if (hasPieceAt(toPoint) && findPositionBy(toPoint).isSamePiece(cannon)) {
+                System.out.println("종점이 포");
+                return false;
+            }
+            return true;
+        }
+        System.out.println("종점이 포가 아니다.");
+        return false;
     }
 
     public boolean hasPieceAt(final Point point) {
