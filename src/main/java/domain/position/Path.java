@@ -34,17 +34,19 @@ public class Path {
 
         for (Position nextPosition : nextPositions) {
             List<Position> newPathPositions = new ArrayList<>();
-
-            if (finalPosition.distance(nextPosition) >= 2) {
-                newPathPositions.addAll(finalPosition.createPositionsUntil(nextPosition));
-            }
-
+            insertPositionsInMiddle(newPathPositions, nextPosition);
             newPathPositions.addAll(pathPositions);
             newPathPositions.add(nextPosition);
             paths.add(new Path(nextPosition, newPathPositions));
         }
 
         return paths;
+    }
+
+    private void insertPositionsInMiddle(final List<Position> newPathPositions, final Position nextPosition) {
+        if (finalPosition.distance(nextPosition) >= 2) {
+            newPathPositions.addAll(finalPosition.createPositionsUntil(nextPosition));
+        }
     }
 
     @Override

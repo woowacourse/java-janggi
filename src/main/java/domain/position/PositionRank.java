@@ -48,24 +48,6 @@ public class PositionRank {
                 .toList();
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (!(o instanceof final PositionRank that)) return false;
-        return value == that.value;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(value);
-    }
-
-    @Override
-    public String toString() {
-        return "PositionRank{" +
-                "value=" + value +
-                '}';
-    }
-
     public PositionRank add(final int i) {
         return new PositionRank(value + i);
     }
@@ -85,5 +67,23 @@ public class PositionRank {
 
     public int distance(final PositionRank rank) {
         return Math.abs(value - rank.value);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof final PositionRank that)) return false;
+        return value == that.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
+    }
+
+    @Override
+    public String toString() {
+        return "PositionRank{" +
+                "value=" + value +
+                '}';
     }
 }
