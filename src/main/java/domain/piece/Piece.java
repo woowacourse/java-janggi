@@ -13,12 +13,12 @@ public abstract class Piece {
         this.teamType = teamType;
     }
 
-    protected Piece(Piece piece){
+    protected Piece(Piece piece) {
         this.position = piece.position;
         this.teamType = piece.teamType;
     }
 
-    public void moveTo(Position position){
+    public void moveTo(Position position) {
         this.position = position;
     }
 
@@ -32,6 +32,10 @@ public abstract class Piece {
 
     public boolean isSameTeam(TeamType teamType) {
         return this.teamType.equals(teamType);
+    }
+
+    public boolean isSameType(PieceType pieceType) {
+        return this.getType().equals(pieceType);
     }
 
     public abstract boolean canMove(Position expectedPosition, List<Piece> pieces);
