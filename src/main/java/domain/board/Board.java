@@ -14,16 +14,24 @@ public class Board {
         this.board = board;
     }
 
-    public Piece getPieceBy(Position position) {
-        return board.getOrDefault(position, new Empty());
-    }
+    public void move(Piece selectedPiece, Position source, Position destination) {
 
-    public void move(Piece selectedPiece,  Position source, Position destination) {
+        validateCorrectPiece(source, selectedPiece);
         validateMove(source, destination);
         Piece piece = getPieceBy(source);
 
         board.remove(source);
         board.put(destination, piece);
+    }
+
+    public Piece getPieceBy(Position position) {
+        return board.getOrDefault(position, new Empty());
+    }
+
+    private void validateCorrectPiece(Position source, Piece selectedPiece) {
+        if (!getPieceBy(source).isSamePiece(selectedPiece)) {
+            throw new IllegalArgumentException("움직이려는 기물이 일치하지 않습니다.");
+        }
     }
 
     private void validateMove(Position source, Position destination) {
@@ -35,7 +43,7 @@ public class Board {
         List<Piece> piecesOnRoute = getPiecesOnRoute(route);
         boolean canMove = sourcePiece.canMove(destinationPiece, piecesOnRoute);
 
-        if(!isValidDestination || !canMove) {
+        if (!isValidDestination || !canMove) {
             throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
         }
     }

@@ -27,7 +27,7 @@ public abstract class Piece {
                 .count();
     }
 
-    boolean isSamePiece(Piece other) {
+    public boolean isSamePiece(Piece other) {
         return this.getClass() == other.getClass();
     }
 

@@ -5,8 +5,7 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class BoardTest {
@@ -26,7 +25,7 @@ class BoardTest {
         Piece afterPositionPiece = board.getPieceBy(source);
 
         assertThat(afterPositionPiece).isInstanceOf(Empty.class);
-        assertThat(movedPiece).isEqualTo(horse);
+        assertThat(movedPiece.isSamePiece(horse)).isTrue();
     }
 
     @Test
@@ -55,5 +54,29 @@ class BoardTest {
 
         assertThatThrownBy(() -> board.move(horse, source, destination))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 움직이려는_기물과_해당_위치의_기물이_일치하지_않으면_예외발생() {
+        BoardFactory boardFactory = new BoardFactory();
+        Board board = boardFactory.createBoard();
+        Position source = new Position(Row.ONE, Column.ONE);
+        Position destination = new Position(Row.TWO, Column.ONE);
+        Piece soldier = new Soldier(PieceColor.RED);
+
+        assertThatThrownBy(() -> board.move(soldier, source, destination))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 움직이려는_기물과_해당_위치의_기물이_일치하면_정상_이동() {
+        BoardFactory boardFactory = new BoardFactory();
+        Board board = boardFactory.createBoard();
+        Position source = new Position(Row.ONE, Column.ONE);
+        Position destination = new Position(Row.TWO, Column.ONE);
+        Piece Chariot = new Chariot(PieceColor.RED);
+
+        assertThatCode(() -> board.move(Chariot, source, destination))
+                .doesNotThrowAnyException();
     }
 }

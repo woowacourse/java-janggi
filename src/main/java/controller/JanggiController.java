@@ -68,8 +68,8 @@ public class JanggiController {
     private static Position createPosition(String input) {
         char rowInput = input.charAt(0);
         int rowInt = Integer.parseInt(String.valueOf(rowInput));
-        if(rowInt == 10) {
-            rowInt = 0;
+        if(rowInt == 0) {
+            rowInt = 10;
         }
         Row row = Row.from(rowInt);
 
