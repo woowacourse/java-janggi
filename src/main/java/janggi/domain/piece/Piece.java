@@ -1,5 +1,7 @@
 package janggi.domain.piece;
 
+import java.util.Map;
+
 public abstract class Piece {
     protected final TeamType teamType;
     private final Position position;
@@ -9,6 +11,10 @@ public abstract class Piece {
         this.name = name;
         this.position = position;
         this.teamType = teamType;
+    }
+
+    public static Piece createEmpty() {
+        return new None();
     }
 
     public Position getPosition() {
@@ -23,7 +29,5 @@ public abstract class Piece {
         return teamType;
     }
 
-    public static Piece createEmpty() {
-        return new None();
-    }
+    public abstract Piece move(final Map<Position, Piece> pieces, final Position positionToMove);
 }

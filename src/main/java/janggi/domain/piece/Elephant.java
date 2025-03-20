@@ -52,7 +52,7 @@ public class Elephant extends Piece {
     }
 
     private void validateIsSameTeamNotInPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
-        if (pieces.get(positionToMove).getTeamType().equals(TeamType.BLUE)) {
+        if (pieces.get(positionToMove).getTeamType().equals(teamType)) {
             throw new IllegalArgumentException();
         }
     }

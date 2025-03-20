@@ -50,8 +50,8 @@ class JanggiTest {
     @Test
     void initializeGeneral() {
         Assertions.assertAll(
-                () -> assertThat(board.getPiece(new Position(9, 5))).isInstanceOf(General.class),
-                () -> assertThat(board.getPiece(new Position(2, 5))).isInstanceOf(General.class)
+                () -> assertThat(board.getPieceByPosition(new Position(9, 5))).isInstanceOf(General.class),
+                () -> assertThat(board.getPieceByPosition(new Position(2, 5))).isInstanceOf(General.class)
         );
     }
 
@@ -59,10 +59,10 @@ class JanggiTest {
     @Test
     void initializeChariot() {
         Assertions.assertAll(
-                () -> assertThat(board.getPiece(new Position(10, 1))).isInstanceOf(Chariot.class),
-                () -> assertThat(board.getPiece(new Position(10, 9))).isInstanceOf(Chariot.class),
-                () -> assertThat(board.getPiece(new Position(1, 1))).isInstanceOf(Chariot.class),
-                () -> assertThat(board.getPiece(new Position(1, 9))).isInstanceOf(Chariot.class)
+                () -> assertThat(board.getPieceByPosition(new Position(10, 1))).isInstanceOf(Chariot.class),
+                () -> assertThat(board.getPieceByPosition(new Position(10, 9))).isInstanceOf(Chariot.class),
+                () -> assertThat(board.getPieceByPosition(new Position(1, 1))).isInstanceOf(Chariot.class),
+                () -> assertThat(board.getPieceByPosition(new Position(1, 9))).isInstanceOf(Chariot.class)
         );
     }
 
@@ -70,10 +70,10 @@ class JanggiTest {
     @Test
     void initializeCannon() {
         Assertions.assertAll(
-                () -> assertThat(board.getPiece(new Position(8, 2))).isInstanceOf(Cannon.class),
-                () -> assertThat(board.getPiece(new Position(8, 8))).isInstanceOf(Cannon.class),
-                () -> assertThat(board.getPiece(new Position(3, 2))).isInstanceOf(Cannon.class),
-                () -> assertThat(board.getPiece(new Position(3, 8))).isInstanceOf(Cannon.class)
+                () -> assertThat(board.getPieceByPosition(new Position(8, 2))).isInstanceOf(Cannon.class),
+                () -> assertThat(board.getPieceByPosition(new Position(8, 8))).isInstanceOf(Cannon.class),
+                () -> assertThat(board.getPieceByPosition(new Position(3, 2))).isInstanceOf(Cannon.class),
+                () -> assertThat(board.getPieceByPosition(new Position(3, 8))).isInstanceOf(Cannon.class)
         );
     }
 
@@ -81,10 +81,10 @@ class JanggiTest {
     @Test
     void initializeGuard() {
         Assertions.assertAll(
-                () -> assertThat(board.getPiece(new Position(10, 4))).isInstanceOf(Guard.class),
-                () -> assertThat(board.getPiece(new Position(10, 6))).isInstanceOf(Guard.class),
-                () -> assertThat(board.getPiece(new Position(1, 4))).isInstanceOf(Guard.class),
-                () -> assertThat(board.getPiece(new Position(1, 6))).isInstanceOf(Guard.class)
+                () -> assertThat(board.getPieceByPosition(new Position(10, 4))).isInstanceOf(Guard.class),
+                () -> assertThat(board.getPieceByPosition(new Position(10, 6))).isInstanceOf(Guard.class),
+                () -> assertThat(board.getPieceByPosition(new Position(1, 4))).isInstanceOf(Guard.class),
+                () -> assertThat(board.getPieceByPosition(new Position(1, 6))).isInstanceOf(Guard.class)
         );
     }
 
@@ -92,17 +92,17 @@ class JanggiTest {
     @Test
     void initializeSoldier() {
         Assertions.assertAll(
-                () -> assertThat(board.getPiece(new Position(7, 1))).isInstanceOf(Soldier.class),
-                () -> assertThat(board.getPiece(new Position(7, 3))).isInstanceOf(Soldier.class),
-                () -> assertThat(board.getPiece(new Position(7, 5))).isInstanceOf(Soldier.class),
-                () -> assertThat(board.getPiece(new Position(7, 7))).isInstanceOf(Soldier.class),
-                () -> assertThat(board.getPiece(new Position(7, 9))).isInstanceOf(Soldier.class),
+                () -> assertThat(board.getPieceByPosition(new Position(7, 1))).isInstanceOf(Soldier.class),
+                () -> assertThat(board.getPieceByPosition(new Position(7, 3))).isInstanceOf(Soldier.class),
+                () -> assertThat(board.getPieceByPosition(new Position(7, 5))).isInstanceOf(Soldier.class),
+                () -> assertThat(board.getPieceByPosition(new Position(7, 7))).isInstanceOf(Soldier.class),
+                () -> assertThat(board.getPieceByPosition(new Position(7, 9))).isInstanceOf(Soldier.class),
 
-                () -> assertThat(board.getPiece(new Position(4, 1))).isInstanceOf(Soldier.class),
-                () -> assertThat(board.getPiece(new Position(4, 3))).isInstanceOf(Soldier.class),
-                () -> assertThat(board.getPiece(new Position(4, 5))).isInstanceOf(Soldier.class),
-                () -> assertThat(board.getPiece(new Position(4, 7))).isInstanceOf(Soldier.class),
-                () -> assertThat(board.getPiece(new Position(4, 9))).isInstanceOf(Soldier.class)
+                () -> assertThat(board.getPieceByPosition(new Position(4, 1))).isInstanceOf(Soldier.class),
+                () -> assertThat(board.getPieceByPosition(new Position(4, 3))).isInstanceOf(Soldier.class),
+                () -> assertThat(board.getPieceByPosition(new Position(4, 5))).isInstanceOf(Soldier.class),
+                () -> assertThat(board.getPieceByPosition(new Position(4, 7))).isInstanceOf(Soldier.class),
+                () -> assertThat(board.getPieceByPosition(new Position(4, 9))).isInstanceOf(Soldier.class)
         );
     }
 
@@ -122,6 +122,6 @@ class JanggiTest {
                 redLeftHorsePosition,
                 redRightHorsePosition
         );
-        expectedPosition.forEach(position -> assertThat(board.getPiece(position)).isInstanceOf(Horse.class));
+        expectedPosition.forEach(position -> assertThat(board.getPieceByPosition(position)).isInstanceOf(Horse.class));
     }
 }

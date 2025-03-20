@@ -6,7 +6,8 @@ import java.util.Map;
 
 public class Horse extends Piece {
     private static final List<Position> INITIAL_POSITIONS_BLUE_LEFT = List.of(new Position(10, 2), new Position(10, 3));
-    private static final List<Position> INITIAL_POSITIONS_BLUE_RIGHT = List.of(new Position(10, 7), new Position(10, 8));
+    private static final List<Position> INITIAL_POSITIONS_BLUE_RIGHT = List.of(new Position(10, 7),
+            new Position(10, 8));
     private static final List<Position> INITIAL_POSITIONS_RED_LEFT = List.of(new Position(1, 2), new Position(1, 3));
     private static final List<Position> INITIAL_POSITIONS_RED_RIGHT = List.of(new Position(1, 7), new Position(1, 8));
 
@@ -51,7 +52,7 @@ public class Horse extends Piece {
     }
 
     private void validateIsSameTeamNotInPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
-        if (pieces.get(positionToMove).getTeamType().equals(TeamType.BLUE)) {
+        if (pieces.get(positionToMove).getTeamType().equals(teamType)) {
             throw new IllegalArgumentException();
         }
     }
@@ -61,7 +62,8 @@ public class Horse extends Piece {
                 positionToMove.x() - getPosition().x(),
                 positionToMove.y() - getPosition().y()
         );
-        Position routePosition = getPosition().plus(horseDirection.getRouteDistance().x(), horseDirection.getRouteDistance().y());
+        Position routePosition = getPosition().plus(horseDirection.getRouteDistance().x(),
+                horseDirection.getRouteDistance().y());
         if (None.isNotNone(pieces.get(routePosition))) {
             throw new IllegalArgumentException();
         }

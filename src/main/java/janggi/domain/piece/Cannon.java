@@ -16,6 +16,18 @@ public class Cannon extends Piece {
         super("포", position, teamType);
     }
 
+    public static List<Piece> createWithInitialPositions(TeamType teamType) {
+        List<Piece> cannons = new ArrayList<>();
+        if (teamType.equals(TeamType.BLUE)) {
+            INITIAL_POSITIONS_BLUE.forEach(position ->
+                    cannons.add(new Cannon(position, teamType)));
+            return cannons;
+        }
+        INITIAL_POSITIONS_RED.forEach(position ->
+                cannons.add(new Cannon(position, teamType)));
+        return cannons;
+    }
+
     public Cannon move(final Map<Position, Piece> pieces, final Position positionToMove) {
         validateIsPositionMovable(positionToMove);
         validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
@@ -41,10 +53,9 @@ public class Cannon extends Piece {
     }
 
     private void validateIsSameTeamNotInPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
-        if (pieces.get(positionToMove) instanceof None) {
-            return;
+        if (pieces.get(positionToMove).getTeamType().equals(teamType)) {
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
     }
 
     private void validateOneNotCannonBetweenPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
@@ -68,17 +79,5 @@ public class Cannon extends Piece {
         if (count != 1) {
             throw new IllegalArgumentException();
         }
-    }
-
-    public static List<Piece> createWithInitialPositions(TeamType teamType) {
-        List<Piece> cannons = new ArrayList<>();
-        if (teamType.equals(TeamType.BLUE)) {
-            INITIAL_POSITIONS_BLUE.forEach(position ->
-                    cannons.add(new Cannon(position, teamType)));
-            return cannons;
-        }
-        INITIAL_POSITIONS_RED.forEach(position ->
-                cannons.add(new Cannon(position, teamType)));
-        return cannons;
     }
 }

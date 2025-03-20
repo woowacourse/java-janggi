@@ -35,7 +35,7 @@ public class General extends Piece {
     }
 
     private void validateIsSameTeamNotInPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
-        if(pieces.containsKey(positionToMove)){
+        if (pieces.get(positionToMove).getTeamType().equals(teamType)) {
             throw new IllegalArgumentException();
         }
     }

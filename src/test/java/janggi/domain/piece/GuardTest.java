@@ -19,7 +19,6 @@ class GuardTest {
         Map<Position, Piece> pieces = new HashMap<>();
 
         Guard movedGuard = guard.move(pieces, positionToMove);
-
         assertThat(movedGuard.getPosition()).isEqualTo(positionToMove);
     }
 

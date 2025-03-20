@@ -6,6 +6,7 @@ import janggi.domain.piece.Elephant;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
 import janggi.domain.piece.Horse;
+import janggi.domain.piece.None;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Position;
 import janggi.domain.piece.PositionSide;
@@ -25,6 +26,8 @@ public class BoardFactory {
 
     ) {
         Map<Position, Piece> pieces = new HashMap<>();
+
+        initializeWithNones(pieces);
         initializeGeneral(pieces);
         initializeGuard(pieces);
         initializeChariot(pieces);
@@ -35,6 +38,14 @@ public class BoardFactory {
         initializeElephant(pieces, blueLeftHorsePosition, blueRightHorsePosition, redLeftHorsePosition,
                 redRightHorsePosition);
         return new Board(pieces);
+    }
+
+    private static void initializeWithNones(final Map<Position, Piece> pieces) {
+        for (int i = 1; i <= 10; i++) {
+            for (int j = 1; j <= 9; j++) {
+                pieces.put(new Position(i, j), None.createEmpty());
+            }
+        }
     }
 
     private static void initializeGeneral(final Map<Position, Piece> pieces) {
