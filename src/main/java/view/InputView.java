@@ -10,17 +10,17 @@ public class InputView {
 
     public String getFirstPlayerName() {
         System.out.println("첫번째 플레이어의 이름을 입력해주세요.");
-        return scanner.nextLine().trim();
+        return nextLine();
     }
 
     public String getSecondPlayerName() {
         System.out.println("두번째 플레이어의 이름을 입력해주세요.");
-        return scanner.nextLine().trim();
+        return nextLine();
     }
 
     public String getStartPlayerName() {
         System.out.println("먼저 시작할 플레이어의 이름을 입력해주세요.");
-        return scanner.nextLine().trim();
+        return nextLine();
     }
 
     public String getSetupNumber(String playerName) {
@@ -30,17 +30,20 @@ public class InputView {
         System.out.println("3. Right Elephant Setup");
         System.out.println("4. Left Elephant Setup");
 
+        return nextLine();
+    }
+
+    public Position getStartPosition(Player player) {
+        System.out.printf("%s가 옮기고 싶은 장기의 좌표를 입력해주세요. 예시 -> a4\n", player.getName());
+        return PositionConvertor.changeInputToPosition(nextLine());
+    }
+
+    public Position getEndPosition(Player player) {
+        System.out.printf("%s가 옮길 위치의 좌표를 입력해주세요. 예시 -> a5\n", player.getName());
+        return PositionConvertor.changeInputToPosition(nextLine());
+    }
+
+    private String nextLine() {
         return scanner.nextLine().trim();
     }
-
-    public Position getStartPosition(Player player){
-        System.out.printf("%s가 옮기고 싶은 장기의 좌표를 입력해주세요. 예시 -> a4\n", player.getName());
-        return PositionConvertor.changeInputToPosition(scanner.nextLine().trim());
-    }
-
-    public Position getEndPosition(Player player){
-        System.out.printf("%s가 옮길 위치의 좌표를 입력해주세요. 예시 -> a5\n", player.getName());
-        return PositionConvertor.changeInputToPosition(scanner.nextLine().trim());
-    }
-
 }
