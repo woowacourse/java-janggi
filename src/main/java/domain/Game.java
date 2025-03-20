@@ -19,6 +19,7 @@ public class Game {
     }
 
     public void helloWorld() {
+        outputView.printUnits(janggi.getUnits());
         String rawPosition = inputView.readPosition(janggi.getTurn());
         List<Integer> positionValue = Arrays.stream(rawPosition.split(","))
                 .map(String::trim)
@@ -30,8 +31,6 @@ public class Game {
         outputView.printAvailableRoute(routes);
 
         // TODO: 장기 움직임 호출
-
-        // TODO: 움직인 후 장기판의 현황 출력
 
         janggi.changeTurn();
     }
