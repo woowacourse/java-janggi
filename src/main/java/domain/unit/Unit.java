@@ -39,6 +39,10 @@ public class Unit {
         return team;
     }
 
+    public Position getPosition() {
+        return this.position;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object == null || getClass() != object.getClass()) {
