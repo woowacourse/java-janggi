@@ -17,23 +17,16 @@ public class Cannon extends Piece {
 
     @Override
     public List<Dot> getRoute(Dot origin, Dot destination) {
-        List<Dot> route = new ArrayList<>();
-
         int dx = origin.getDx(destination);
         int dy = origin.getDy(destination);
 
         validateRoute(dx, dy);
 
         if (dx == 0) {
-            route.addAll(getDirectionalRoute(origin, dy, Dot::up, Dot::down));
-            return route;
+            return getDirectionalRoute(origin, dy, Dot::up, Dot::down);
         }
 
-        if (dy == 0) {
-            route.addAll(getDirectionalRoute(origin, dx, Dot::right, Dot::left));
-        }
-
-        return route;
+        return getDirectionalRoute(origin, dx, Dot::right, Dot::left);
     }
 
     private List<Dot> getDirectionalRoute(Dot origin, int delta,
