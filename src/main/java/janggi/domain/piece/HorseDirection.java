@@ -4,55 +4,55 @@ import java.util.Arrays;
 
 public enum HorseDirection {
     UP_LEFT(
-            new Position(-2, -1),
-            new Position(-1, 0)
+            new Distance(-2, -1),
+            new Distance(-1, 0)
     ),
     UP_RIGHT(
-            new Position(-2, 1),
-            new Position(-1, 0)
+            new Distance(-2, 1),
+            new Distance(-1, 0)
     ),
     DOWN_LEFT(
-            new Position(2, -1),
-            new Position(1, 0)
+            new Distance(2, -1),
+            new Distance(1, 0)
     ),
     DOWN_RIGHT(
-            new Position(2, 1),
-            new Position(1, 0)
+            new Distance(2, 1),
+            new Distance(1, 0)
     ),
     LEFT_DOWN(
-            new Position(1, -2),
-            new Position(0, -1)
+            new Distance(1, -2),
+            new Distance(0, -1)
     ),
     LEFT_UP(
-            new Position(-1, -2),
-            new Position(0, -1)
+            new Distance(-1, -2),
+            new Distance(0, -1)
     ),
     RIGHT_DOWN(
-            new Position(1, 2),
-            new Position(0, 1)
+            new Distance(1, 2),
+            new Distance(0, 1)
     ),
     RIGHT_UP(
-            new Position(-1, 2),
-            new Position(0, 1)
+            new Distance(-1, 2),
+            new Distance(0, 1)
     );
-    private final Position relativePositionToMove;
-    private final Position routePosition;
+    private final Distance relativeDistanceToMove;
+    private final Distance routeDistance;
 
-    HorseDirection(Position relativePositionToMove, Position routePosition) {
-        this.relativePositionToMove = relativePositionToMove;
-        this.routePosition = routePosition;
+    HorseDirection(Distance relativeDistanceToMove, Distance routeDistance) {
+        this.relativeDistanceToMove = relativeDistanceToMove;
+        this.routeDistance = routeDistance;
     }
 
     public static HorseDirection getDirection(int x, int y) {
-        Position relativePositionToMove = new Position(x, y);
+        Distance relativeDistanceToMove = new Distance(x, y);
 
         return Arrays.stream(HorseDirection.values())
-                .filter(horseDirection -> horseDirection.relativePositionToMove.equals(relativePositionToMove))
+                .filter(horseDirection -> horseDirection.relativeDistanceToMove.equals(relativeDistanceToMove))
                 .findAny()
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-    public Position getRoutePosition() {
-        return routePosition;
+    public Distance getRouteDistance() {
+        return routeDistance;
     }
 }

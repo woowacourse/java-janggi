@@ -48,23 +48,24 @@ public class Cannon extends Piece {
     }
 
     private void validateOneNotCannonBetweenPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
-        Position direction = CannonDirection.getDirection(
-                new Position(
-                        positionToMove.x() - getPosition().x(),
-                        positionToMove.y() - getPosition().y()
-                )
+        Distance distance = Distance.getDistance(
+                positionToMove.x() - getPosition().x(),
+                positionToMove.y() - getPosition().y()
         );
         int count = 0;
-        for(Position position = getPosition().plus(direction); !position.equals(positionToMove); position = position.plus(direction)) {
-            if(pieces.get(position) instanceof Cannon) {
+        for (Position position = getPosition().plus(distance.x(), distance.y());
+             !position.equals(positionToMove);
+             position = position.plus(distance.x(), distance.y())
+        ) {
+            if (pieces.get(position) instanceof Cannon) {
                 throw new IllegalArgumentException();
             }
-            if(!(pieces.get(position) instanceof None)) {
-                count ++;
+            if (None.isNotNone(pieces.get(position))) {
+                count++;
             }
         }
 
-        if(count != 1) {
+        if (count != 1) {
             throw new IllegalArgumentException();
         }
     }

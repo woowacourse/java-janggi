@@ -46,25 +46,21 @@ public class Chariot extends Piece {
     }
 
     private void validateIsSameTeamNotInPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
-        if (pieces.containsKey(positionToMove)) {
+        if (pieces.get(positionToMove).getTeamType().equals(teamType)) {
             throw new IllegalArgumentException();
         }
     }
 
     private void validateNothingBetweenPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
-        Position direction = CannonDirection.getDirection(
-                new Position(
-                        positionToMove.x() - getPosition().x(),
-                        positionToMove.y() - getPosition().y()
-                )
+        Distance distance = Distance.getDistance(
+                positionToMove.x() - getPosition().x(),
+                positionToMove.y() - getPosition().y()
         );
 
-        for(Position position = getPosition().plus(direction); !position.equals(positionToMove); position = position.plus(direction)) {
-            if(pieces.get(position) instanceof Cannon ||
-                    !(pieces.get(position) instanceof None)) {
+        for (Position position = getPosition().plus(distance.x(), distance.y()); !position.equals(positionToMove); position = position.plus(distance.x(), distance.y())) {
+            if (None.isNotNone(pieces.get(position))) {
                 throw new IllegalArgumentException();
             }
         }
-
     }
 }

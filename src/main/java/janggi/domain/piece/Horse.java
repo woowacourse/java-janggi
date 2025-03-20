@@ -61,13 +61,9 @@ public class Horse extends Piece {
                 positionToMove.x() - getPosition().x(),
                 positionToMove.y() - getPosition().y()
         );
-        Position routePosition = getPosition().plus(horseDirection.getRoutePosition());
-        if (hasPieceOnRoute(pieces, routePosition)) {
+        Position routePosition = getPosition().plus(horseDirection.getRouteDistance().x(), horseDirection.getRouteDistance().y());
+        if (None.isNotNone(pieces.get(routePosition))) {
             throw new IllegalArgumentException();
         }
-    }
-
-    private boolean hasPieceOnRoute(Map<Position, Piece> pieces, Position routePosition) {
-        return !(pieces.get(routePosition) instanceof None);
     }
 }

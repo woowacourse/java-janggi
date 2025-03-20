@@ -63,16 +63,12 @@ public class Elephant extends Piece {
                 positionToMove.y() - getPosition().y()
         );
 
-        boolean hasPieceOnRoutes = elephantDirection.getRoutePositions().stream()
-                .map(routePosition -> getPosition().plus(routePosition))
-                .anyMatch(position -> hasPieceOnRoute(pieces, position));
+        boolean hasPieceOnRoutes = elephantDirection.getRouteDistances().stream()
+                .map(routeDistance -> getPosition().plus(routeDistance.x(), routeDistance.y()))
+                .anyMatch(position -> None.isNotNone(pieces.get(position)));
 
         if (hasPieceOnRoutes) {
             throw new IllegalArgumentException();
         }
-    }
-
-    private boolean hasPieceOnRoute(Map<Position, Piece> pieces, Position routePosition) {
-        return !(pieces.get(routePosition) instanceof None);
     }
 }

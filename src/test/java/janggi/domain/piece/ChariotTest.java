@@ -29,7 +29,7 @@ class ChariotTest {
     @Test
     void move() {
         Chariot chariot = new Chariot(new Position(5, 5), TeamType.BLUE);
-        Position positionToMove = new Position(5, 10);
+        Position positionToMove = new Position(5, 9);
         Soldier soldier = new Soldier(new Position(1, 1), TeamType.BLUE);
         pieces.put(soldier.getPosition(), soldier);
         Chariot movedChariot = chariot.move(pieces, positionToMove);
