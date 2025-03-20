@@ -1,4 +1,5 @@
 import janggi.domain.Board;
+import janggi.domain.BoardFactory;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.General;
@@ -42,7 +43,7 @@ class JanggiTest {
 
     @BeforeEach
     void setUp() {
-        board = Board.getInitializedBoard(PositionSide.LEFT, PositionSide.LEFT, PositionSide.RIGHT, PositionSide.RIGHT);
+        board = BoardFactory.getInitializedBoard(PositionSide.LEFT, PositionSide.LEFT, PositionSide.RIGHT, PositionSide.RIGHT);
     }
 
     @DisplayName("보드를 초기화하면 청궁이 95, 홍궁이 25에 배치된다.")
@@ -115,7 +116,7 @@ class JanggiTest {
             PositionSide redRightHorsePosition,
             List<Position> expectedPosition
     ) {
-        board = Board.getInitializedBoard(
+        board = BoardFactory.getInitializedBoard(
                 blueLeftHorsePosition,
                 blueRightHorsePosition,
                 redLeftHorsePosition,

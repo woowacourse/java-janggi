@@ -1,6 +1,7 @@
 package janggi.controller;
 
 import janggi.domain.Board;
+import janggi.domain.BoardFactory;
 import janggi.domain.piece.PositionSide;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -22,7 +23,7 @@ public class JanggiController {
         PositionSide redLeftHorsePosition = getPositionSide(redHorsePosition.substring(0, 2));
         PositionSide redRightHorsePosition = getPositionSide(redHorsePosition.substring(2, 4));
 
-        Board board = Board.getInitializedBoard(
+        Board board = BoardFactory.getInitializedBoard(
                 blueLeftHorsePosition, blueRightHorsePosition, redLeftHorsePosition, redRightHorsePosition
         );
         outputView.printBoard(board);
