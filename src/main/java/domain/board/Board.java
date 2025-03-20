@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.Team;
 import domain.pieces.EmptyPiece;
 import domain.pieces.Piece;
 import execptions.JanggiArgumentException;
@@ -29,17 +30,17 @@ public final class Board {
         return new HashMap<>(locations);
     }
 
-    public void movePiece(Point originPoint, Point arrivalPoint) {
+    public void movePiece(Point originPoint, Point arrivalPoint, Team team) {
         if (locations.containsKey(originPoint) && locations.containsKey(arrivalPoint)) {
-            processMovement(originPoint, arrivalPoint);
+            processMovement(originPoint, arrivalPoint, team);
             return;
         }
         throw new JanggiArgumentException("보드의 범위 바깥입니다.");
     }
 
-    private void processMovement(Point originPoint, Point arrivalPoint) {
+    private void processMovement(Point originPoint, Point arrivalPoint, Team team) {
         Piece pieceAtOriginPoint = locations.get(originPoint);
-        checkOriginPoint(pieceAtOriginPoint);
+        checkOriginPoint(pieceAtOriginPoint, team);
 
         checkOutOfRoute(originPoint, arrivalPoint, pieceAtOriginPoint);
 
@@ -52,23 +53,27 @@ public final class Board {
         locations.put(originPoint, EMPTY_PIECE);
     }
 
-    private static void checkPieceOnRoute(Piece pieceAtOriginPoint, PieceOnRoute pieceOnRoute) {
+    private void checkOriginPoint(Piece pieceAtOriginPoint, Team team) {
+        if (pieceAtOriginPoint.equals(EMPTY_PIECE)) {
+            throw new JanggiArgumentException("출발점에 이동할 기물이 없습니다.");
+        }
+        if (!pieceAtOriginPoint.hasEqualTeam(team)) {
+            throw new JanggiArgumentException("아군 기물만 움직일 수 있습니다.");
+        }
+    }
+
+    private void checkPieceOnRoute(Piece pieceAtOriginPoint, PieceOnRoute pieceOnRoute) {
         if (!pieceAtOriginPoint.isMovable(pieceOnRoute)) {
             throw new JanggiArgumentException("해당 경로로 이동할 수 없습니다.");
         }
     }
 
-    private static void checkOutOfRoute(Point originPoint, Point arrivalPoint, Piece pieceAtOriginPoint) {
+    private void checkOutOfRoute(Point originPoint, Point arrivalPoint, Piece pieceAtOriginPoint) {
         if (!pieceAtOriginPoint.isAbleToArrive(originPoint, arrivalPoint)) {
             throw new JanggiArgumentException("해당 기물이 도착할 수 없는 위치입니다.");
         }
     }
 
-    private static void checkOriginPoint(Piece pieceAtOriginPoint) {
-        if (pieceAtOriginPoint.equals(EMPTY_PIECE)) {
-            throw new JanggiArgumentException("출발점에 이동할 기물이 없습니다.");
-        }
-    }
 
     private PieceOnRoute getAllPieceOnRoute(List<Point> routePoints) {
         return new PieceOnRoute(routePoints.stream()

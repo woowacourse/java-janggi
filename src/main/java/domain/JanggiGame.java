@@ -25,28 +25,23 @@ public class JanggiGame {
     private static final int BOARD_COLUMN_MAX = 9;
 
     private final Board board;
-    private final Player han;
-    private final Player cho;
+    private final List<Player> players;
 
-    public JanggiGame(Board board, Player han, Player cho) {
-        this.board = board;
-        this.han = han;
-        this.cho = cho;
-    }
-
-    public JanggiGame(Player han, Player cho) {
-        this.han = han;
-        this.cho = cho;
-
+    public JanggiGame() {
         board = generateBoard();
+        players = List.of(new Player(Team.HAN), new Player(Team.CHO));
     }
 
     public Map<Point, Piece> getBoard() {
         return board.getLocations();
     }
 
-    public void move(Point originPoint, Point arrivalPoint) {
-        board.movePiece(originPoint, arrivalPoint);
+    public void move(Point originPoint, Point arrivalPoint, boolean isFirstPlayerTurn) {
+        Player currentPlayer = players.stream()
+                .filter(player -> player.isFirstAttack() == isFirstPlayerTurn)
+                .findFirst()
+                .orElseThrow();
+        board.movePiece(originPoint, arrivalPoint, currentPlayer.getTeam());
     }
 
     private Board generateBoard() {
