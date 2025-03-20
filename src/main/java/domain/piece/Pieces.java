@@ -38,4 +38,8 @@ public class Pieces {
         return pieces.stream()
                 .anyMatch(piece -> piece.isSamePosition(position));
     }
+
+    public void deleteByPosition(final Position position) {
+        pieces.remove(findByPosition(position));
+    }
 }
