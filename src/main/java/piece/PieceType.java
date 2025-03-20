@@ -25,7 +25,7 @@ public enum PieceType {
             List.of(new Position(1, 2), new Position(1, 8)),
             List.of(new Position(10, 3), new Position(10, 7)),
             (now, destination, board, teamType) -> {
-                if(now.calculateDistance(destination) != Math.sqrt(5)){
+                if (now.calculateDistance(destination) != Math.sqrt(5)) {
                     return false;
                 }
                 final Position position = now.calculateHorseMiddlePosition(destination);
@@ -109,7 +109,8 @@ public enum PieceType {
     private final QuadruplePredicate<Position, Position, Board, TeamType> isAbleMove;
 
     PieceType(final List<Position> redTeam, final List<Position> blueTeam,
-              final QuadruplePredicate<Position, Position, Board, TeamType> isAbleMove) {
+              final QuadruplePredicate<Position, Position, Board, TeamType> isAbleMove
+    ) {
         initPositions = Map.of(
                 TeamType.RED, redTeam,
                 TeamType.BLUE, blueTeam
@@ -121,8 +122,12 @@ public enum PieceType {
         return initPositions.get(teamType);
     }
 
-    public boolean isAbleMove(final Position now, final Position destination, final Board board,
-                              final TeamType teamType) {
+    public boolean isAbleMove(
+            final Position now,
+            final Position destination,
+            final Board board,
+            final TeamType teamType
+    ) {
         if (board.existPieceByPosition(destination) && board.equalsTeamTypeByPosition(destination, teamType)) {
             return false;
         }
