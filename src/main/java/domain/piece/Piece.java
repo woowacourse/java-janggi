@@ -26,6 +26,10 @@ public abstract class Piece {
         return false;
     }
 
+    public boolean isSameSide(Side otherSide) {
+        return this.side == otherSide;
+    }
+
     public void captureIfNotMySide(Side otherSide) {
         if (otherSide == this.side) {
             return;

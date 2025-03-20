@@ -38,7 +38,7 @@ public class JanggiBoard {
     }
 
     private void validateDestinationPiece(Piece piece, JanggiPosition afterPosition) {
-        if (piece.getSide() == getPieceFrom(afterPosition).getSide()) {
+        if (piece.isSameSide(getPieceFrom(afterPosition).getSide())) {
             throw new IllegalStateException("목적지에 같은 팀의 기물이 존재하여 이동할 수 없습니다.");
         }
     }
