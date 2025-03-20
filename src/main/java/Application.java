@@ -1,46 +1,44 @@
 import java.util.Optional;
-import java.util.Scanner;
 import model.Cannon;
 import model.Piece;
 import model.Pieces;
 import model.Position;
+import view.InputView;
+import view.OutputView;
 
 public class Application {
 
+    private static final InputView inputView = new InputView();
+    private static final OutputView outputView = new OutputView();
+
     public static void main(String[] args) {
         Pieces pieces = Pieces.createAndInit();
-        Scanner sc = new Scanner(System.in);
-        System.out.println("장기 시작");
+        outputView.printJanggiStart();
         while (true) {
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 9; j++) {
-                    Optional<Piece> pieceOfView = pieces.findPieceOfView(new Position(i, j));
-                    if (pieceOfView.isPresent()) {
-                        System.out.print(pieceOfView.get());
-                    } else {
-                        System.out.print("－");
-                    }
-                }
-                System.out.println();
-            }
-
-            System.out.println("이동할 말을 선택해주세요. ex) 1,4");
-            String choiceDirection = sc.nextLine();
-
-            String[] split = choiceDirection.split(",");
+            showCurrentPositionOfPieces(pieces);
+            String choiceDirection = inputView.printMovePiece();
+            String[] choices = choiceDirection.split(",");
             Piece piece = pieces.findPiece(
-                new Position(Integer.parseInt(split[0]), Integer.parseInt(split[1])));
-            System.out.println(piece + "를 선택했습니다. 이동할 위치를 선택해주세요.");
-            String moveDirection = sc.nextLine();
+                new Position(Integer.parseInt(choices[0]), Integer.parseInt(choices[1])));
 
-            String[] split1 = moveDirection.split(",");
-            Position destinationDirection = new Position(Integer.parseInt(split1[0]),
-                Integer.parseInt(split1[1]));
+            String moveDirection = inputView.printMovePosition(piece);
+            Position destinationDirection = Position.initFrom(moveDirection);
+
             if (piece instanceof Cannon) {
                 pieces.validateCannonMove(piece, destinationDirection);
             } else {
                 pieces.validateCanMove(piece, destinationDirection);
             }
+        }
+    }
+
+    private static void showCurrentPositionOfPieces(Pieces pieces) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 9; j++) {
+                Optional<Piece> piece = pieces.findPieceOfView(new Position(i, j));
+                outputView.printPieceOrHyphen(piece);
+            }
+            outputView.printBlankLine();
         }
     }
 

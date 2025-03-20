@@ -15,6 +15,16 @@ public class Position {
         this.row = row;
     }
 
+    private Position(String columnAndRow) {
+        String[] splittedColumnAndRow = columnAndRow.split(",");
+        this.column = Integer.parseInt(splittedColumnAndRow[0]);
+        this.row = Integer.parseInt(splittedColumnAndRow[1]);
+    }
+
+    public static Position initFrom(String columnAndRow) {
+        return new Position(columnAndRow);
+    }
+
     private void validate(int column, int row) {
         if ((0 > column || column > MAXIMUM_COLUMN_VALUE) || (0 > row || row > MAXIMUM_ROW_VALUE)) {
             throw new IllegalArgumentException("잘못된 이동입니다.");
