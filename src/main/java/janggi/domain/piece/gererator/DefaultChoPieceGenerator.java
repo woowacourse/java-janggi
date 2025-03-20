@@ -72,8 +72,8 @@ public class DefaultChoPieceGenerator implements ChoPieceGenerator {
     private List<Piece> generateKnightElephantElephantKnight() {
         return List.of(
                 new Knight(SIDE, 1, 9),
-                new Elephant(SIDE, 6, 9),
                 new Elephant(SIDE, 2, 9),
+                new Elephant(SIDE, 6, 9),
                 new Knight(SIDE, 7, 9)
         );
     }
@@ -81,8 +81,8 @@ public class DefaultChoPieceGenerator implements ChoPieceGenerator {
     private List<Piece> generateElephantKnightKnightElephant() {
         return List.of(
                 new Elephant(SIDE, 1, 9),
-                new Knight(SIDE, 6, 9),
                 new Knight(SIDE, 2, 9),
+                new Knight(SIDE, 6, 9),
                 new Elephant(SIDE, 7, 9)
         );
     }
@@ -90,8 +90,8 @@ public class DefaultChoPieceGenerator implements ChoPieceGenerator {
     private List<Piece> generateElephantKnightElephantKnight() {
         return List.of(
                 new Elephant(SIDE, 1, 9),
-                new Knight(SIDE, 6, 9),
-                new Elephant(SIDE, 2, 9),
+                new Knight(SIDE, 2, 9),
+                new Elephant(SIDE, 6, 9),
                 new Knight(SIDE, 7, 9)
         );
     }
