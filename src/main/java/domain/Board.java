@@ -1,5 +1,6 @@
 package domain;
 
+import domain.piece.Piece;
 import domain.position.Position;
 
 import java.util.Collections;
@@ -30,10 +31,10 @@ public class Board {
         }
     }
 
-    public Map<Position, PieceType> getBoard() {
-        final Map<Position, PieceType> board = new HashMap<>();
-        board.putAll(team1.getBoard());
-        board.putAll(team2.getBoard());
-        return Collections.unmodifiableMap(board);
+    public Map<Position, Piece> getBoard() {
+        final Map<Position, Piece> status = new HashMap<>();
+        status.putAll(team1.getPieces());
+        status.putAll(team2.getPieces());
+        return Collections.unmodifiableMap(status);
     }
 }
