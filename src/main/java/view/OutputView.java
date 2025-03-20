@@ -10,7 +10,6 @@ import domain.piece.PieceColor;
 import java.util.Scanner;
 
 public class OutputView {
-    private final Scanner scanner = new Scanner(System.in);
 
     public void printBorad(Board board) {
         for(Row row : Row.values()) {
