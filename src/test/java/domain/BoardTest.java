@@ -126,6 +126,30 @@ class BoardTest {
     }
 
     @Test
+    void 포의_경로에_다른_포가_존재할_경우_예외가_발생한다() {
+        // given
+        Position startPosition = Position.of(2, 3);
+        Position targetPosition = Position.of(2, 9);
+
+        Player han = new Player("한", PieceColor.RED);
+        Player cho = new Player("초", PieceColor.BLUE);
+
+        List<Piece> hanPieces = PieceInit.initHanPieces();
+        List<Piece> choPieces = PieceInit.initChoPieces();
+
+        Map<Player, Pieces> boardElements = new HashMap<>();
+        boardElements.put(han, new Pieces(hanPieces));
+        boardElements.put(cho, new Pieces(choPieces));
+
+        Board board = new Board(boardElements);
+
+        // when & then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> board.move(han, startPosition, targetPosition))
+                .withMessage("[ERROR] 포는 다른 포를 지나칠 수 없습니다.");
+    }
+
+    @Test
     void 이동한_위치에_존재하는_상대_기물을_삭제한다() {
         // given
         Position startPosition = Position.of(1, 1);
