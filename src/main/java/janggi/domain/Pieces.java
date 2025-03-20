@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.Position;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -79,5 +80,36 @@ public class Pieces {
             }
         }
         return realRoutes;
+    }
+
+    public Piece findPieceByPositionAndTeam(int x, int y, Team team) {
+        return pieces.stream()
+                .filter(piece -> piece.isSamePosition(new Position(x, y)))
+                .filter(piece -> piece.isSameTeam(team))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 우리팀 기물이 없습니다."));
+    }
+
+    public void move(final Piece piece, final int x, final int y) {
+        if (hasPieceByPosition(x, y)) {
+            kill(x, y);
+        }
+        piece.move(new Position(x, y));
+    }
+
+    private void kill(int x, int y) {
+        pieces.remove(findPieceByPosition(x, y));
+    }
+
+    private boolean hasPieceByPosition(int x, int y) {
+        return pieces.stream()
+                .anyMatch(piece -> piece.isSamePosition(new Position(x, y)));
+    }
+
+    private Piece findPieceByPosition(int x, int y) {
+        return pieces.stream()
+                .filter(piece -> piece.isSamePosition(new Position(x, y)))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 없습니다."));
     }
 }
