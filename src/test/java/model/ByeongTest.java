@@ -3,6 +3,8 @@ package model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -68,6 +70,30 @@ public class ByeongTest {
             Point point = new Point(1, 0);
 
             assertThat(byeong.calculatePath(Point.of(0,0), Point.of(1,0)).contains(point)).isTrue();
+        }
+    }
+
+    @Nested
+    @DisplayName("병 경로 방해 테스트")
+    class ByeongIsProhibitedPathTest {
+
+        @Test
+        @DisplayName("아군")
+        public void test1() {
+            Byeong byeong = new Byeong(Team.RED);
+            Map<Piece, Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.RED), true);
+
+            assertThat(byeong.canMove(pieces)).isFalse();
+        }
+
+        @Test
+        @DisplayName("적군")
+        public void test2() {
+            Byeong byeong = new Byeong(Team.RED);
+            Map<Piece, Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.BLUE), true);
+            assertThat(byeong.canMove(pieces)).isTrue();
         }
     }
 }
