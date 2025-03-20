@@ -1,7 +1,5 @@
-import domain.FakeBoardGenerator;
-import domain.JanggiBoard;
-import domain.Position;
-import domain.Team;
+package domain;
+
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.Horse;
