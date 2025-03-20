@@ -2,14 +2,14 @@ package domain;
 
 import java.util.List;
 
-public class Cannon implements ChessPiece {
+import static domain.Direction.*;
+import static domain.Direction.RIGHT;
 
-    private final ChessPosition position;
-    private final ChessTeam team;
+public class Cannon extends UnlimitedMoveChessPiece {
+    private static final List<Direction> directions = List.of(UP, DOWN, LEFT, RIGHT);
 
     public Cannon(ChessPosition position, final ChessTeam team) {
-        this.position = position;
-        this.team = team;
+        super(position, team, directions);
     }
 
     public static List<Cannon> initPieces() {
@@ -22,13 +22,8 @@ public class Cannon implements ChessPiece {
     }
 
     @Override
-    public ChessPosition getPosition() {
-        return position;
-    }
-
-    @Override
-    public List<ChessPosition> getDestinations() {
-        return List.of();
+    protected List<ChessPosition> getCoordinateDestinations(List<Path> coordinates) {
+        return null;
     }
 
     @Override

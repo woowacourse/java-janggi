@@ -2,14 +2,15 @@ package domain;
 
 import java.util.List;
 
-public class Chariot implements ChessPiece {
+import static domain.Direction.*;
+import static domain.Direction.RIGHT;
 
-    private final ChessPosition chessPosition;
-    private final ChessTeam team;
+public class Chariot extends UnlimitedMoveChessPiece {
+
+    private static final List<Direction> directions = List.of(UP, DOWN, LEFT, RIGHT);
 
     public Chariot(ChessPosition chessPosition, final ChessTeam team) {
-        this.chessPosition = chessPosition;
-        this.team = team;
+        super(chessPosition, team, directions);
     }
 
     public static List<Chariot> initPieces() {
@@ -21,19 +22,13 @@ public class Chariot implements ChessPiece {
         );
     }
 
-
-    @Override
-    public ChessPosition getPosition() {
-        return chessPosition;
-    }
-
-    @Override
-    public List<Path> getAvailablePaths(ChessPiecePositions positions) {
-        return List.of();
-    }
-
     @Override
     public ChessPieceType getChessPieceType() {
         return ChessPieceType.CHARIOT;
+    }
+
+    @Override
+    protected List<ChessPosition> getCoordinateDestinations(List<Path> coordinates) {
+        return null;
     }
 }
