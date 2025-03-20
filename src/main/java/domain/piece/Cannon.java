@@ -48,9 +48,6 @@ public class Cannon extends Piece {
             }
         }
         //3. 세로가 같고, 가로가 같다
-        if (startPosition.equals(targetPosition)) {
-            throw new IllegalArgumentException("말을 움직여 주세요");
-        }
         if (startPosition.compareRow(targetPosition) != 0 && startPosition.compareColumn(targetPosition) != 0) {
             throw new IllegalArgumentException("이 위치로는 움직일 수 없습니다.");
         }

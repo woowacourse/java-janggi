@@ -25,16 +25,6 @@ class CannonTest {
         Assertions.assertThat(moves).isEqualTo(expected);
     }
 
-    @DisplayName("동일한 위치로 움직일 경우 예외를 발생시킨다")
-    @Test
-    void test2() {
-        Cannon cannon = new Cannon(Team.RED);
-
-        assertThatThrownBy(() -> cannon.calculatePath(new Position(1, 1), new Position(1, 1)))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("말을 움직여 주세요");
-    }
-
     @DisplayName("포로 이동할 수 없는 위치인 경우 예외를 발생시킨다")
     @Test
     void test3() {

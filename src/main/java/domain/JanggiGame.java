@@ -22,15 +22,22 @@ public class JanggiGame {
     }
 
     public void move(Position startPosition, Position targetPosition) {
-        if (!players.get(sequence).isTeam(janggiBoard.findPiece(startPosition))) {
-            throw new IllegalArgumentException("자신의 말만 움직일 수 있습니다.");
-        }
+        validateMovePiece(startPosition, targetPosition);
         janggiBoard.move(startPosition, targetPosition);
         if (sequence == SEQUENCE_ZERO) {
             sequence = SEQUENCE_ONE;
             return;
         }
         sequence = SEQUENCE_ZERO;
+    }
+
+    private void validateMovePiece(Position startPosition, Position targetPosition) {
+        if (!players.get(sequence).isTeam(janggiBoard.findPiece(startPosition))) {
+            throw new IllegalArgumentException("자신의 말만 움직일 수 있습니다.");
+        }
+        if (startPosition.equals(targetPosition)) {
+            throw new IllegalArgumentException("말을 움직여 주세요");
+        }
     }
 
     public Player getThisTurnPlayer() {

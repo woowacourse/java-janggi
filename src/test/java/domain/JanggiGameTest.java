@@ -1,8 +1,10 @@
 package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Cannon;
+import domain.piece.Chariot;
 import domain.piece.King;
 import domain.piece.Piece;
 import java.util.HashMap;
@@ -53,5 +55,19 @@ public class JanggiGameTest {
         game.move(startPosition, targetPosition);
         // then
         assertThat(beforeBoard).isEqualTo(afterBoard);
+    }
+
+
+    @DisplayName("동일한 위치로 움직일 경우 예외를 발생시킨다")
+    @Test
+    void test3() {
+        Map<Position, Piece> beforeBoard = new HashMap<>();
+        Chariot blueChariot = new Chariot(Team.BLUE);
+        beforeBoard.put(new Position(1, 1), blueChariot);
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), List.of("플레이어1", "플레이어2"));
+
+        assertThatThrownBy(() -> game.move(new Position(1, 1), new Position(1, 1)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("말을 움직여 주세요");
     }
 }
