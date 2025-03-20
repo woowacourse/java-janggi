@@ -46,6 +46,7 @@ public class JanggiBoard {
         if (startPiece.compareTeam(targetPositionPiece)) {
             throw new IllegalArgumentException("해당 위치는 아군의 말이 있으므로 이동 불가능 합니다.");
         }
+        return;
     }
 
     private int countPieceInPath(List<Position> path) {
@@ -64,5 +65,7 @@ public class JanggiBoard {
         return board.get(startPosition);
     }
 
-
+    public Map<Position, Piece> getBoard() {
+        return board;
+    }
 }
