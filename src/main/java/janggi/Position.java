@@ -6,6 +6,8 @@ import java.util.Objects;
 
 public class Position {
 
+    private static final int MIN_ROW = 1;
+    private static final int MIN_COLUMN = 1;
     private static final int MAX_ROW = 10;
     private static final int MAX_COLUMN = 9;
 
@@ -13,9 +15,9 @@ public class Position {
 
     static {
         CACHE = new HashMap<>();
-        for (int row = 1; row <= MAX_ROW; row++) {
+        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
             CACHE.put(row, new HashMap<>());
-            for (int column = 1; column <= MAX_COLUMN; column++) {
+            for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
                 CACHE.get(row).put(column, new Position(row, column));
             }
         }
@@ -29,14 +31,14 @@ public class Position {
         this.column = column;
     }
 
-    public static Position of(int row, int column) {
+    public static Position of(final int row, final int column) {
         validateRange(row, column);
         return CACHE.get(row).get(column);
     }
 
-    private static void validateRange(int row, int column) {
-        if (1 > row || row > MAX_ROW || 1 > column || column > MAX_COLUMN) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 위치입니다.");
+    private static void validateRange(final int row, final int column) {
+        if (MIN_ROW > row || row > MAX_ROW || MIN_COLUMN > column || column > MAX_COLUMN) {
+            throw new IllegalArgumentException("유효하지 않은 위치입니다.");
         }
     }
 
@@ -44,11 +46,11 @@ public class Position {
         return Position.of(this.row + rowDirection, this.column + columnDirection);
     }
 
-    public int subtractRow(Position other) {
+    public int subtractRow(final Position other) {
         return this.row - other.row;
     }
 
-    public int subtractColumn(Position other) {
+    public int subtractColumn(final Position other) {
         return this.column - other.column;
     }
 
