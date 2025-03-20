@@ -40,6 +40,10 @@ public class Position {
         }
     }
 
+    public Position adjust(final int rowDirection, final int columnDirection) {
+        return Position.of(this.row + rowDirection, this.column + columnDirection);
+    }
+
     public int subtractRow(Position other) {
         return this.row - other.row;
     }
