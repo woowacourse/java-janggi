@@ -1,7 +1,7 @@
 package piece;
 
 import java.util.Objects;
-import strategy.MoveStrategy;
+import move.MoveBehavior;
 
 public class Piece {
 
@@ -9,9 +9,9 @@ public class Piece {
     private final Team team;
     private Position position;
 
-    public Piece(Position position, MoveStrategy moveStrategy, PieceType pieceType, Team team) {
+    public Piece(Position position, MoveBehavior moveBehavior, PieceType pieceType, Team team) {
         this.position = position;
-        this.moveRule = new MoveRule(moveStrategy, pieceType);
+        this.moveRule = new MoveRule(moveBehavior, pieceType);
         this.team = team;
     }
 

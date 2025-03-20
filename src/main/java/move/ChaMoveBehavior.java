@@ -1,4 +1,4 @@
-package strategy;
+package move;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import piece.Position;
 import piece.Route;
 import piece.Team;
 
-public class ChaMoveStrategy implements MoveStrategy {
+public class ChaMoveBehavior implements MoveBehavior {
 
     private static final String INVALID_MOVE_LOCATION = "이동불가능한 위치입니다.";
 

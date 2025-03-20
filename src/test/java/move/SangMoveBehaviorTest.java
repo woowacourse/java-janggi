@@ -1,4 +1,4 @@
-package strategy;
+package move;
 
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -10,17 +10,17 @@ import piece.Position;
 import piece.Route;
 import piece.Team;
 
-public class SangMoveStrategyTest {
+public class SangMoveBehaviorTest {
 
     @Test
     void 자신의_경로를_반환한다() {
         // given
         Position startPosition = new Position(0, 0);
         Position endPosition = new Position(2, 3);
-        MoveStrategy moveStrategy = new SangMoveStrategy();
+        MoveBehavior moveBehavior = new SangMoveBehavior();
 
         // when
-        Route route = moveStrategy.getLegalRoute(startPosition, endPosition, Team.BLUE);
+        Route route = moveBehavior.getLegalRoute(startPosition, endPosition, Team.BLUE);
 
         // then
         List<Position> expectPositions = List.of(new Position(0, 1), new Position(1, 2), new Position(2, 3));
@@ -31,12 +31,12 @@ public class SangMoveStrategyTest {
     @Test
     void 상은_가는길에_장애물이_있으면_갈수없다() {
         // given
-        MoveStrategy moveStrategy = new SangMoveStrategy();
+        MoveBehavior moveBehavior = new SangMoveBehavior();
         Position destination = new Position(2, 2);
         Pieces onRoutePieces = new Pieces(List.of(
                 new Piece(
                         new Position(1, 1),
-                        new JolMoveStrategy(),
+                        new JolMoveBehavior(),
                         PieceType.JOL,
                         Team.BLUE
                 )
@@ -44,17 +44,17 @@ public class SangMoveStrategyTest {
 
         // when, then
         Assertions.assertThatIllegalArgumentException()
-                .isThrownBy(() -> moveStrategy.move(destination, onRoutePieces, Team.BLUE));
+                .isThrownBy(() -> moveBehavior.move(destination, onRoutePieces, Team.BLUE));
     }
 
     @Test
     void 상은_가는길에_장애물이_없으면_갈수있다() {
         // given
-        MoveStrategy moveStrategy = new SangMoveStrategy();
+        MoveBehavior moveBehavior = new SangMoveBehavior();
         Position destination = new Position(2, 3);
         Pieces onRoutePieces = new Pieces(List.of());
 
         // when, then
-        Assertions.assertThat(moveStrategy.move(destination, onRoutePieces, Team.BLUE)).isEqualTo(destination);
+        Assertions.assertThat(moveBehavior.move(destination, onRoutePieces, Team.BLUE)).isEqualTo(destination);
     }
 }

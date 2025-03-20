@@ -1,4 +1,4 @@
-package strategy;
+package move;
 
 import java.util.List;
 import java.util.Map;
@@ -6,7 +6,7 @@ import piece.Position;
 import piece.Route;
 import piece.Team;
 
-public class JolMoveStrategy implements MoveStrategy {
+public class JolMoveBehavior implements MoveBehavior {
 
     private static final Map<Team, List<Route>> teamCanMoveDirection;
 

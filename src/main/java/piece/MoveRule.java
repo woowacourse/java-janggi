@@ -1,20 +1,20 @@
 package piece;
 
 import java.util.Objects;
-import strategy.MoveStrategy;
+import move.MoveBehavior;
 
 public class MoveRule {
 
-    private final MoveStrategy moveStrategy;
+    private final MoveBehavior moveBehavior;
     private final PieceType pieceType;
 
-    public MoveRule(MoveStrategy moveStrategy, PieceType pieceType) {
-        this.moveStrategy = moveStrategy;
+    public MoveRule(MoveBehavior moveBehavior, PieceType pieceType) {
+        this.moveBehavior = moveBehavior;
         this.pieceType = pieceType;
     }
 
     public Position move(Position destination, Pieces pieces, Team team) {
-        return moveStrategy.move(destination, pieces, team);
+        return moveBehavior.move(destination, pieces, team);
     }
 
     public boolean isSameType(PieceType comparePieceType) {
@@ -22,7 +22,7 @@ public class MoveRule {
     }
 
     public Route getRoute(Position selectPiecePosition, Position movePosition) {
-        return moveStrategy.getLegalRoute(selectPiecePosition, movePosition, Team.BLUE);
+        return moveBehavior.getLegalRoute(selectPiecePosition, movePosition, Team.BLUE);
     }
 
     public String getType() {
@@ -38,11 +38,11 @@ public class MoveRule {
             return false;
         }
         MoveRule moveRule = (MoveRule) o;
-        return Objects.equals(moveStrategy, moveRule.moveStrategy) && pieceType == moveRule.pieceType;
+        return Objects.equals(moveBehavior, moveRule.moveBehavior) && pieceType == moveRule.pieceType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(moveStrategy, pieceType);
+        return Objects.hash(moveBehavior, pieceType);
     }
 }

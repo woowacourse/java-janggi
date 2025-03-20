@@ -1,4 +1,4 @@
-package strategy;
+package move;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,16 +11,16 @@ import piece.Position;
 import piece.Route;
 import piece.Team;
 
-class JolMoveStrategyTest {
+class JolMoveBehaviorTest {
     @Test
     void 졸은_가능한_경로를_반환한다() {
         // given
         Position startPosition = new Position(0, 0);
         Position endPosition = new Position(1, 0);
-        MoveStrategy moveStrategy = new JolMoveStrategy();
+        MoveBehavior moveBehavior = new JolMoveBehavior();
 
         // when
-        Route route = moveStrategy.getLegalRoute(startPosition, endPosition, Team.BLUE);
+        Route route = moveBehavior.getLegalRoute(startPosition, endPosition, Team.BLUE);
 
         // then
         List<Position> positions = route.positions();
@@ -33,10 +33,10 @@ class JolMoveStrategyTest {
         // given
         Position startPosition = new Position(8, 0);
         Position endPosition = new Position(7, 0);
-        MoveStrategy moveStrategy = new JolMoveStrategy();
+        MoveBehavior moveBehavior = new JolMoveBehavior();
 
         // when
-        Route route = moveStrategy.getLegalRoute(startPosition, endPosition, Team.RED);
+        Route route = moveBehavior.getLegalRoute(startPosition, endPosition, Team.RED);
 
         // then
         List<Position> positions = route.positions();
@@ -48,9 +48,9 @@ class JolMoveStrategyTest {
     @Test
     void 졸은_가는길에_기물이_없어야_이동할_수_있다() {
         // given
-        MoveStrategy moveStrategy = new JolMoveStrategy();
+        MoveBehavior moveBehavior = new JolMoveBehavior();
         // when
-        Position move = moveStrategy.move(new Position(0, 1), new Pieces(new ArrayList<>()), Team.BLUE);
+        Position move = moveBehavior.move(new Position(0, 1), new Pieces(new ArrayList<>()), Team.BLUE);
         // then
         Assertions.assertThat(move).isEqualTo(new Position(0, 1));
 
@@ -59,11 +59,11 @@ class JolMoveStrategyTest {
     @Test
     void 졸은_같은팀이_길을_막으면_이동할_수_없다() {
         // given
-        MoveStrategy moveStrategy = new JolMoveStrategy();
+        MoveBehavior moveBehavior = new JolMoveBehavior();
         Pieces onRoutePieces = new Pieces(List.of(
                 new Piece(
                         new Position(0, 1),
-                        new JolMoveStrategy(),
+                        new JolMoveBehavior(),
                         PieceType.JOL,
                         Team.BLUE
                 )
@@ -74,7 +74,7 @@ class JolMoveStrategyTest {
         // when
 
         // then
-        Assertions.assertThatIllegalArgumentException().isThrownBy(() -> moveStrategy.move(destination, onRoutePieces,
+        Assertions.assertThatIllegalArgumentException().isThrownBy(() -> moveBehavior.move(destination, onRoutePieces,
                 Team.BLUE));
     }
 }

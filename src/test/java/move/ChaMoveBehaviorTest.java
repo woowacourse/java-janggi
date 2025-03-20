@@ -1,4 +1,4 @@
-package strategy;
+package move;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,16 +11,16 @@ import piece.Position;
 import piece.Route;
 import piece.Team;
 
-public class ChaMoveStrategyTest {
+public class ChaMoveBehaviorTest {
     @Test
     void 차는_가능한_경로를_반환한다() {
         // given
         Position startPosition = new Position(0, 0);
         Position endPosition = new Position(5, 0);
-        MoveStrategy moveStrategy = new ChaMoveStrategy();
+        MoveBehavior moveBehavior = new ChaMoveBehavior();
 
         // when
-        Route route = moveStrategy.getLegalRoute(startPosition, endPosition, Team.BLUE);
+        Route route = moveBehavior.getLegalRoute(startPosition, endPosition, Team.BLUE);
 
         // then
         List<Position> positions = route.positions();
@@ -31,9 +31,9 @@ public class ChaMoveStrategyTest {
     @Test
     void 차는_가는길에_기물이_없어야_이동할_수_있다() {
         // given
-        MoveStrategy moveStrategy = new ChaMoveStrategy();
+        MoveBehavior moveBehavior = new ChaMoveBehavior();
         // when
-        Position move = moveStrategy.move(new Position(0, 5), new Pieces(new ArrayList<>()), Team.BLUE);
+        Position move = moveBehavior.move(new Position(0, 5), new Pieces(new ArrayList<>()), Team.BLUE);
         // then
         Assertions.assertThat(move).isEqualTo(new Position(0, 5));
     }
@@ -41,11 +41,11 @@ public class ChaMoveStrategyTest {
     @Test
     void 차는_같은팀이_목적지에_있으면_이동할_수_없다() {
         // given
-        MoveStrategy moveStrategy = new ChaMoveStrategy();
+        MoveBehavior moveBehavior = new ChaMoveBehavior();
         Pieces onRoutePieces = new Pieces(List.of(
                 new Piece(
                         new Position(0, 1),
-                        new ChaMoveStrategy(),
+                        new ChaMoveBehavior(),
                         PieceType.CHA,
                         Team.BLUE
                 )
@@ -56,7 +56,7 @@ public class ChaMoveStrategyTest {
         // when
 
         // then
-        Assertions.assertThatIllegalArgumentException().isThrownBy(() -> moveStrategy.move(destination, onRoutePieces,
+        Assertions.assertThatIllegalArgumentException().isThrownBy(() -> moveBehavior.move(destination, onRoutePieces,
                 Team.BLUE));
     }
 }

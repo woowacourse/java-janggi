@@ -1,4 +1,4 @@
-package strategy;
+package move;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import piece.Position;
 import piece.Route;
 import piece.Team;
 
-public interface MoveStrategy {
+public interface MoveBehavior {
 
     String INVALID_POSITION = "도달할 수 없는 위치입니다.";
 

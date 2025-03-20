@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.stream.Collectors;
-import strategy.MoveStrategy;
-import strategy.MoveStrategyFactory;
+import move.MoveBehavior;
+import move.MoveBehaviorFactory;
 
 public class PiecesCreateFactory {
 
@@ -55,8 +55,8 @@ public class PiecesCreateFactory {
         Position position = parsePosition(perPiece[0]);
         PieceType pieceType = parsePieceType(perPiece[1]);
         Team team = Team.from(perPiece[2]);
-        MoveStrategy moveStrategy = MoveStrategyFactory.create(pieceType);
-        return new Piece(position, moveStrategy, pieceType, team);
+        MoveBehavior moveBehavior = MoveBehaviorFactory.create(pieceType);
+        return new Piece(position, moveBehavior, pieceType, team);
     }
 
     private static PieceType parsePieceType(String s) {

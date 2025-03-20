@@ -2,11 +2,11 @@ package piece;
 
 import java.util.ArrayList;
 import java.util.List;
+import move.MoveBehaviorFactory;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-import strategy.MoveStrategyFactory;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class PiecesTest {
@@ -14,8 +14,8 @@ public class PiecesTest {
     @Test
     void 피스들을_관리한다() {
         // given
-        var piece = new Piece(new Position(0, 1), MoveStrategyFactory.create(PieceType.CHA), PieceType.CHA, Team.BLUE);
-        var piece2 = new Piece(new Position(0, 2), MoveStrategyFactory.create(PieceType.FO), PieceType.FO, Team.RED);
+        var piece = new Piece(new Position(0, 1), MoveBehaviorFactory.create(PieceType.CHA), PieceType.CHA, Team.BLUE);
+        var piece2 = new Piece(new Position(0, 2), MoveBehaviorFactory.create(PieceType.FO), PieceType.FO, Team.RED);
 
         // when
         Pieces pieces = new Pieces(List.of(piece, piece2));
@@ -27,8 +27,8 @@ public class PiecesTest {
     @Test
     void 같은_위치에_있는_적팀_기물을_잡을_수_있다() {
         // given
-        var piece1 = new Piece(new Position(0, 1), MoveStrategyFactory.create(PieceType.JOL), PieceType.JOL, Team.BLUE);
-        var piece2 = new Piece(new Position(0, 1), MoveStrategyFactory.create(PieceType.JOL), PieceType.JOL, Team.RED);
+        var piece1 = new Piece(new Position(0, 1), MoveBehaviorFactory.create(PieceType.JOL), PieceType.JOL, Team.BLUE);
+        var piece2 = new Piece(new Position(0, 1), MoveBehaviorFactory.create(PieceType.JOL), PieceType.JOL, Team.RED);
         Pieces pieces = new Pieces(new ArrayList<>(List.of(piece1)));
         Pieces otherPieces = new Pieces(new ArrayList<>(List.of(piece2)));
 
@@ -43,8 +43,8 @@ public class PiecesTest {
     @Test
     void 같은_위치에_있는_아군은_잡지_않는다() {
         // given
-        var piece1 = new Piece(new Position(0, 1), MoveStrategyFactory.create(PieceType.JOL), PieceType.JOL, Team.BLUE);
-        var piece2 = new Piece(new Position(0, 1), MoveStrategyFactory.create(PieceType.JOL), PieceType.JOL, Team.BLUE);
+        var piece1 = new Piece(new Position(0, 1), MoveBehaviorFactory.create(PieceType.JOL), PieceType.JOL, Team.BLUE);
+        var piece2 = new Piece(new Position(0, 1), MoveBehaviorFactory.create(PieceType.JOL), PieceType.JOL, Team.BLUE);
         Pieces pieces = new Pieces(new ArrayList<>(List.of(piece1, piece2)));
 
         // when
@@ -57,8 +57,8 @@ public class PiecesTest {
     @Test
     void 다른_위치의__적군은_잡을_수_없다() {
         // given
-        var piece1 = new Piece(new Position(0, 1), MoveStrategyFactory.create(PieceType.JOL), PieceType.JOL, Team.BLUE);
-        var piece2 = new Piece(new Position(0, 2), MoveStrategyFactory.create(PieceType.JOL), PieceType.JOL, Team.RED);
+        var piece1 = new Piece(new Position(0, 1), MoveBehaviorFactory.create(PieceType.JOL), PieceType.JOL, Team.BLUE);
+        var piece2 = new Piece(new Position(0, 2), MoveBehaviorFactory.create(PieceType.JOL), PieceType.JOL, Team.RED);
         Pieces pieces = new Pieces(new ArrayList<>(List.of(piece1, piece2)));
 
         // when

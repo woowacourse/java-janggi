@@ -1,4 +1,4 @@
-package strategy;
+package move;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import piece.Position;
 import piece.Route;
 import piece.Team;
 
-public class FoMoveStrategy implements MoveStrategy {
+public class FoMoveBehavior implements MoveBehavior {
 
     private static final String INVALID_MOVE_LOCATION = "이동불가능한 위치입니다.";
 

@@ -1,11 +1,11 @@
-package strategy;
+package move;
 
 import java.util.List;
 import piece.Position;
 import piece.Route;
 import piece.Team;
 
-public class SangMoveStrategy implements MoveStrategy {
+public class SangMoveBehavior implements MoveBehavior {
 
     private final List<Route> canMoveDirections = List.of(
             new Route(List.of(new Position(1, 0), new Position(1, -1), new Position(1, -1))),

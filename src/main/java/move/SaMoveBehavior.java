@@ -1,11 +1,11 @@
-package strategy;
+package move;
 
 import piece.Pieces;
 import piece.Position;
 import piece.Route;
 import piece.Team;
 
-public class GungMoveStrategy implements MoveStrategy {
+public class SaMoveBehavior implements MoveBehavior {
 
     private static final String NOT_IMPLEMENTED_FEATURE = "아직 구현되지 않은 기능입니다.";
 
