@@ -52,4 +52,21 @@ public class FlowManager {
             return new JanggiManager(hanSangMaOrderCommand, choSangMaOrderCommand);
         });
     }
+
+    private static class Turn {
+
+        private Team team;
+
+        public Turn(Team team) {
+            this.team = team;
+        }
+
+        public void changeTurn() {
+            this.team = team.inverse();
+        }
+
+        public Team team() {
+            return team;
+        }
+    }
 }
