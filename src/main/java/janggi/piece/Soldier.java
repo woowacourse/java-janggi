@@ -15,6 +15,11 @@ public class Soldier implements Piece {
     }
 
     @Override
+    public boolean isOccupiedByMe(Position position) {
+        return position.equals(this.position);
+    }
+
+    @Override
     public Position getPosition() {
         return position;
     }

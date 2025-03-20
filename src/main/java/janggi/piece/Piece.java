@@ -9,4 +9,6 @@ public interface Piece {
     String getName();
 
     Team getTeam();
+
+    boolean isOccupiedByMe(Position position);
 }
