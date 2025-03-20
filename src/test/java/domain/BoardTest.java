@@ -97,4 +97,28 @@ class BoardTest {
             assertThat(choPieces).doesNotContain(new Pawn(1, 7, PieceDirection.CHO_PAWN.get()));
         });
     }
+
+    @Test
+    void 게임_종료_여부를_판단한다() {
+        // given
+        Player han = new Player("한", PieceColor.RED);
+        Player cho = new Player("초", PieceColor.BLUE);
+
+        Position kingPosition = Position.of(5, 9);
+
+        Pieces choPieces = new Pieces(PieceInit.initChoPieces());
+        choPieces.deleteByPosition(kingPosition);
+
+        Map<Player, Pieces> boardElements = new HashMap<>();
+        boardElements.put(han, new Pieces(PieceInit.initHanPieces()));
+        boardElements.put(cho, choPieces);
+
+        Board board = new Board(boardElements);
+
+        // when
+        boolean result = board.isFinish();
+
+        // then
+        assertThat(result).isTrue();
+    }
 }
