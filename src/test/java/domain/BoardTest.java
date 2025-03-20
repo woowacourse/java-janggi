@@ -41,4 +41,28 @@ class BoardTest {
         // then
         assertThat(hanPieces).contains(expected);
     }
+
+    @Test
+    void 타겟_위치에_플레이어의_기물이_있는_경우_예외가_발생한다() {
+        // given
+        Position startPosition = Position.of(1, 4);
+        Position targetPosition = Position.of(2, 4);
+
+        Player han = new Player("한", PieceColor.RED);
+        Player cho = new Player("초", PieceColor.BLUE);
+
+        List<Piece> hanPieces = PieceInit.initHanPieces();
+        List<Piece> choPieces = PieceInit.initChoPieces();
+
+        Map<Player, Pieces> boardElements = new HashMap<>();
+        boardElements.put(han, new Pieces(hanPieces));
+        boardElements.put(cho, new Pieces(choPieces));
+
+        Board board = new Board(boardElements);
+
+        // when & then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> board.move(han, startPosition, targetPosition))
+                .withMessage("[ERROR] 도착 위치에 아군의 기물이 존재해 이동할 수 없습니다.");
+    }
 }
