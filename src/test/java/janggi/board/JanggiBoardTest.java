@@ -1,6 +1,6 @@
 package janggi.board;
 
-import janggi.Side;
+import janggi.piece.Side;
 import janggi.piece.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
