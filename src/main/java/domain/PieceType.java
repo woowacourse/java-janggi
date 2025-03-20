@@ -293,32 +293,28 @@ public enum PieceType {
         final Offset offset,
         final Team team
     ) {
-        List<Offset> movementRule = movementRules.get(offset);
+        final List<Offset> movementRule = movementRules.get(offset);
 
-        if (movementRule == null) {
+        if (movementRule == null || checkRestrictedMove(team, movementRule)) {
             return Optional.empty();
-        }
-
-        if (this == PieceType.쭈) {
-            return getRestrictedMove(team, movementRule);
         }
 
         return Optional.of(Collections.unmodifiableList(movementRule));
     }
 
-    private Optional<List<Offset>> getRestrictedMove(
+    private boolean checkRestrictedMove(
         final Team team,
         final List<Offset> movementRule
     ) {
-        if (team == Team.RED && movementRule.contains(new Offset(0, 1))) {
-            return Optional.empty();
+        if (this == PieceType.쭈 && team == Team.RED && movementRule.contains(new Offset(0, 1))) {
+            return true;
         }
 
-        if (team == Team.GREEN && movementRule.contains(new Offset(0, -1))) {
-            return Optional.empty();
+        if (this == PieceType.쭈 && team == Team.GREEN && movementRule.contains(new Offset(0, -1))) {
+            return true;
         }
 
-        return Optional.of(movementRule);
+        return false;
     }
 
     public String getTitle() {
