@@ -8,7 +8,7 @@ public class PieceTest {
     @Test
     void 기물을_잡으면_잡힌_기물의_상태가_바뀐다() {
         // given
-        Piece piece = new 마(Side.초);
+        Piece piece = new 마(Side.CHO);
 
         // when
         piece.capture();

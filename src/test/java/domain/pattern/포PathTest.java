@@ -31,21 +31,21 @@ public class 포PathTest {
         Path pathOf포 = new 포Path();
         return Stream.of(
                 Arguments.of(new JanggiPosition(5, 1),
-                        List.of(pathOf포.getPatterns(Direction.UP).get(0),
-                                pathOf포.getPatterns(Direction.UP).get(0),
-                                pathOf포.getPatterns(Direction.UP).get(0),
-                                pathOf포.getPatterns(Direction.UP).get(0),
-                                pathOf포.getPatterns(Direction.UP).get(0)
+                        List.of(pathOf포.getPatterns(Direction.UP).getFirst(),
+                                pathOf포.getPatterns(Direction.UP).getFirst(),
+                                pathOf포.getPatterns(Direction.UP).getFirst(),
+                                pathOf포.getPatterns(Direction.UP).getFirst(),
+                                pathOf포.getPatterns(Direction.UP).getFirst()
                         ),
                         Arguments.of(new JanggiPosition(0, 9),
-                                List.of(pathOf포.getPatterns(Direction.RIGHT).get(0),
-                                        pathOf포.getPatterns(Direction.RIGHT).get(0),
-                                        pathOf포.getPatterns(Direction.RIGHT).get(0),
-                                        pathOf포.getPatterns(Direction.RIGHT).get(0),
-                                        pathOf포.getPatterns(Direction.RIGHT).get(0),
-                                        pathOf포.getPatterns(Direction.RIGHT).get(0),
-                                        pathOf포.getPatterns(Direction.RIGHT).get(0),
-                                        pathOf포.getPatterns(Direction.RIGHT).get(0)
+                                List.of(pathOf포.getPatterns(Direction.RIGHT).getFirst(),
+                                        pathOf포.getPatterns(Direction.RIGHT).getFirst(),
+                                        pathOf포.getPatterns(Direction.RIGHT).getFirst(),
+                                        pathOf포.getPatterns(Direction.RIGHT).getFirst(),
+                                        pathOf포.getPatterns(Direction.RIGHT).getFirst(),
+                                        pathOf포.getPatterns(Direction.RIGHT).getFirst(),
+                                        pathOf포.getPatterns(Direction.RIGHT).getFirst(),
+                                        pathOf포.getPatterns(Direction.RIGHT).getFirst()
                                 )
                         )
                 ));

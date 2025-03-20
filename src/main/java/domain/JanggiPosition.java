@@ -3,7 +3,7 @@ package domain;
 import domain.pattern.Pattern;
 import java.util.List;
 
-public record JanggiPosition(int x, int y) {
+public record JanggiPosition(int file, int rank) {
 
     private static final int MAX_ROW_BOUND = 9;
     private static final int MIN_ROW_BOUND = 0;
@@ -19,57 +19,59 @@ public record JanggiPosition(int x, int y) {
     }
 
     public JanggiPosition moveOnePosition(Pattern pattern) {
-        int newX = tranformedNewX(pattern, x);
-        int newY = y + pattern.getY();
+        int newX = transformedNewX(pattern, file);
+        int newY = rank + pattern.getY();
 
         return new JanggiPosition(newX, newY);
     }
 
-    private int tranformedNewX(Pattern pattern, int x) {
+    private int transformedNewX(Pattern pattern, int x) {
         int newX = x + pattern.getX();
-        if ((pattern.equals(Pattern.UP) && x == 0) || (pattern.equals(Pattern.DIAGONAL_UP_RIGHT) && x == 0) || (
-                pattern.equals(Pattern.DIAGONAL_UP_LEFT) && x == 0)) {
+        if ((pattern.equals(Pattern.UP) && x == MIN_ROW_BOUND) || (pattern.equals(Pattern.DIAGONAL_UP_RIGHT)
+                && x == MIN_ROW_BOUND) || (
+                pattern.equals(Pattern.DIAGONAL_UP_LEFT) && x == MIN_ROW_BOUND)) {
             newX = 9;
         }
-        if ((pattern.equals(Pattern.DOWN) && x == 9) || (pattern.equals(Pattern.DIAGONAL_DOWN_LEFT) && x == 9) || (
-                pattern.equals(Pattern.DIAGONAL_DOWN_RIGHT) && x == 9)) {
+        if ((pattern.equals(Pattern.DOWN) && x == MAX_ROW_BOUND) || (pattern.equals(Pattern.DIAGONAL_DOWN_LEFT)
+                && x == MAX_ROW_BOUND) || (
+                pattern.equals(Pattern.DIAGONAL_DOWN_RIGHT) && x == MAX_ROW_BOUND)) {
             newX = 0;
         }
         return newX;
     }
 
     public boolean isBiggerXThan(JanggiPosition beforePosition) {
-        if (this.x == 0) {
+        if (this.file == 0) {
             return true;
         }
-        if (beforePosition.x == 0) {
+        if (beforePosition.file == 0) {
             return false;
         }
-        return this.x > beforePosition.x;
+        return this.file > beforePosition.file;
     }
 
     public boolean isBiggerYThan(JanggiPosition beforePosition) {
-        return this.y > beforePosition.y;
+        return this.rank > beforePosition.rank;
     }
 
     public int getXGap(JanggiPosition beforePosition) {
-        if (this.x == 0) {
-            return 10 - beforePosition.x();
+        if (this.file == 0) {
+            return 10 - beforePosition.file();
         }
 
-        if (beforePosition.x == 0) {
-            return 10 - this.x;
+        if (beforePosition.file == 0) {
+            return 10 - this.file;
         }
 
-        return Math.abs(this.x - beforePosition.x);
+        return Math.abs(this.file - beforePosition.file);
     }
 
     public int getYGap(JanggiPosition beforePosition) {
-        return Math.abs(this.y - beforePosition.y);
+        return Math.abs(this.rank - beforePosition.rank);
     }
 
     public void validateBound() {
-        if (x < MIN_ROW_BOUND || x > MAX_ROW_BOUND || y < MIN_COLUMN_BOUND || y > MAX_COLUMN_BOUND) {
+        if (file < MIN_ROW_BOUND || file > MAX_ROW_BOUND || rank < MIN_COLUMN_BOUND || rank > MAX_COLUMN_BOUND) {
             throw new IllegalArgumentException();
         }
     }

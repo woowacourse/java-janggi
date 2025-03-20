@@ -31,20 +31,20 @@ public class 차PathTest {
         Path pathOf차 = new 차Path();
         return Stream.of(
                 Arguments.of(new JanggiPosition(5, 1),
-                        List.of(pathOf차.getPatterns(Direction.UP).get(0),
-                                pathOf차.getPatterns(Direction.UP).get(0),
-                                pathOf차.getPatterns(Direction.UP).get(0),
-                                pathOf차.getPatterns(Direction.UP).get(0),
-                                pathOf차.getPatterns(Direction.UP).get(0))),
+                        List.of(pathOf차.getPatterns(Direction.UP).getFirst(),
+                                pathOf차.getPatterns(Direction.UP).getFirst(),
+                                pathOf차.getPatterns(Direction.UP).getFirst(),
+                                pathOf차.getPatterns(Direction.UP).getFirst(),
+                                pathOf차.getPatterns(Direction.UP).getFirst())),
                 Arguments.of(new JanggiPosition(0, 9),
-                        List.of(pathOf차.getPatterns(Direction.RIGHT).get(0),
-                                pathOf차.getPatterns(Direction.RIGHT).get(0),
-                                pathOf차.getPatterns(Direction.RIGHT).get(0),
-                                pathOf차.getPatterns(Direction.RIGHT).get(0),
-                                pathOf차.getPatterns(Direction.RIGHT).get(0),
-                                pathOf차.getPatterns(Direction.RIGHT).get(0),
-                                pathOf차.getPatterns(Direction.RIGHT).get(0),
-                                pathOf차.getPatterns(Direction.RIGHT).get(0)))
+                        List.of(pathOf차.getPatterns(Direction.RIGHT).getFirst(),
+                                pathOf차.getPatterns(Direction.RIGHT).getFirst(),
+                                pathOf차.getPatterns(Direction.RIGHT).getFirst(),
+                                pathOf차.getPatterns(Direction.RIGHT).getFirst(),
+                                pathOf차.getPatterns(Direction.RIGHT).getFirst(),
+                                pathOf차.getPatterns(Direction.RIGHT).getFirst(),
+                                pathOf차.getPatterns(Direction.RIGHT).getFirst(),
+                                pathOf차.getPatterns(Direction.RIGHT).getFirst()))
         );
     }
 

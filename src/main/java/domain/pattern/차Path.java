@@ -22,10 +22,10 @@ public class 차Path extends Path {
 
     @Override
     public List<Pattern> getPath(JanggiPosition beforePosition, JanggiPosition afterPosition) {
-        if (afterPosition.x() == beforePosition.x()) {
+        if (afterPosition.file() == beforePosition.file()) {
             return setNewPathAndGetAdditionalSizeAboutLeftOrRight(beforePosition, afterPosition);
         }
-        if (afterPosition.y() == beforePosition.y()) {
+        if (afterPosition.rank() == beforePosition.rank()) {
             return setNewPathAndGetAdditionalSizeAboutUpOrDown(beforePosition, afterPosition);
         }
         throw new IllegalStateException("차는 해당 경로로 이동할 수 없습니다.");
