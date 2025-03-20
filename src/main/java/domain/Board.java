@@ -58,5 +58,6 @@ public class Board {
     TODO
     - 사용자에게 입력받은 position예외처리하고, 있으면 기물 반환?
     - Board 뷰에 출력하기
+    - Board <-> Piece 의존성 끊어줄 수 있는지 고민해보기
      */
 }

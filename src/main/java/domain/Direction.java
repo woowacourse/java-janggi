@@ -54,4 +54,12 @@ public enum Direction {
                 .filter(crossDirection -> crossDirection.getDeltaRow() == deltaRow)
                 .toList();
     }
+
+    public boolean isCrossDirection() {
+        return Math.abs(deltaColumn) + Math.abs(deltaRow) == 2;
+    }
+
+    public boolean isStraightDirection() {
+        return Math.abs(deltaColumn) + Math.abs(deltaRow) == 1;
+    }
 }

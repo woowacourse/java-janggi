@@ -12,30 +12,28 @@ public class Horse extends Piece {
     @Override
     protected Set<Position> getMovablePositions() {
         Set<Position> positions = new HashSet<>();
-        for (Direction straightDirection : Direction.getStraightDirection()) {
-            goOneSde(position.nextPosition(straightDirection), straightDirection, positions, 0);
-        }
+        Direction.getStraightDirection().forEach(direction ->
+                goOneSide(position.nextPosition(direction), direction, positions, 0));
         return positions;
     }
 
-    void goOneSde(Position position, Direction direction, Set<Position> positions, int depth) {
-        if (position.isInValidPosition()) {
+    void goOneSide(Position position, Direction direction, Set<Position> positions, int moveCount) {
+        if (exitCondition(position, direction, moveCount)) {
             return;
         }
-        if (depth == 1) {
-            if (!board.isSameTeam(this, position)) {
-                positions.add(position);
-            }
+        if (direction.isCrossDirection() && !board.isSameTeam(this, position)) {
+            positions.add(position);
             return;
         }
-        if (board.isExists(position)) {
-            return;
+        for (Direction crossDirection : direction.nextCrossDirection()) {
+            goOneSide(position.nextPosition(crossDirection), crossDirection, positions, moveCount + 1);
         }
-        if (depth == 0) {
-            for (Direction crossDirection : direction.nextCrossDirection()) {
-                goOneSde(position.nextPosition(crossDirection), crossDirection, positions, depth + 1);
-            }
-        }
+    }
+
+    private boolean exitCondition(Position position, Direction direction, int moveCount) {
+        return position.isInValidPosition() ||
+                (direction.isStraightDirection() && board.isExists(position)) ||
+                moveCount > 1;
     }
 
 }

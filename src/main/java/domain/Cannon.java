@@ -12,26 +12,27 @@ public class Cannon extends Piece {
     @Override
     protected Set<Position> getMovablePositions() {
         Set<Position> positions = new HashSet<>();
-        for (Direction straightDirection : Direction.getStraightDirection()) {
-            goOneSde(straightDirection, getPosition().nextPosition(straightDirection), false, positions);
-        }
+        Direction.getStraightDirection().forEach(direction ->
+                goOneSide(position.nextPosition(direction), direction, false, positions));
         return positions;
     }
 
-    void goOneSde(Direction direction, Position position, boolean hasHuddle, Set<Position> positions) {
-        if (position.isInValidPosition() ||
-                board.isCannon(position) ||
-                (board.isSameTeam(this, position) && hasHuddle)
-        ) {
+    private void goOneSide(Position position, Direction direction, boolean hasHuddle, Set<Position> positions) {
+        if (exitCondition(position, hasHuddle)) {
             return;
         }
         if (!hasHuddle) {
-            goOneSde(direction, position.nextPosition(direction), board.isExists(position), positions);
+            goOneSide(position.nextPosition(direction), direction, board.isExists(position), positions);
             return;
         }
         if (!board.isExists(position)) {
-            goOneSde(direction, position.nextPosition(direction), true, positions);
+            goOneSide(position.nextPosition(direction), direction, true, positions);
         }
         positions.add(position);
+    }
+
+    private boolean exitCondition(Position position, boolean hasHuddle) {
+        return position.isInValidPosition() || board.isCannon(position) ||
+                (board.isSameTeam(this, position) && hasHuddle);
     }
 }

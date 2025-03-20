@@ -19,16 +19,16 @@ public class Chariot extends Piece {
     }
 
     private void goOneSide(Position position, Direction direction, Set<Position> positions) {
-        if (position.isInValidPosition()) {
+        if (exitCondition(position)) {
             return;
         }
-        if (board.isExists(position)) {
-            if (!board.isSameTeam(this, position)) {
-                positions.add(position);
-            }
-            return;
+        if (!board.isExists(position)) {
+            goOneSide(position.nextPosition(direction), direction, positions);
         }
         positions.add(position);
-        goOneSide(position.nextPosition(direction), direction, positions);
+    }
+
+    private boolean exitCondition(Position position) {
+        return position.isInValidPosition() || (board.isExists(position) && board.isSameTeam(this, position));
     }
 }
