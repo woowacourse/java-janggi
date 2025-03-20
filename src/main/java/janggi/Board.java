@@ -49,28 +49,14 @@ public class Board {
         this.turn = turn.reverse();
     }
 
-    public List<Movable> findPieceOnVerticalRoute(Point point) {
-        return runningPieces.stream()
-                .filter(piece -> point.isSameColumn(piece.getPoint()))
-                .filter(piece -> !point.equals(piece.getPoint()))
-                .toList();
-    }
-
-    public List<Movable> findPieceOnHorizontalRoute(Point point) {
-        return runningPieces.stream()
-                .filter(piece -> point.isSameRow(piece.getPoint()))
-                .filter(piece -> !point.equals(piece.getPoint()))
-                .toList();
-    }
-
     public Movable findByPoint(Point point) {
         return runningPieces.stream()
-                .filter(piece ->piece.getPoint().equals(point))
+                .filter(piece -> piece.getPoint().equals(point))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다."));
     }
 
-    public boolean hasAttackedPiece(Point point) {
+    public boolean hasPieceOnPoint(Point point) {
         return runningPieces.stream()
                 .anyMatch(piece -> piece.getPoint().equals(point));
     }
@@ -89,9 +75,9 @@ public class Board {
             Movable crashPiece = findByPoint(crashPoints.getFirst());
             Movable movingPiece = findByPoint(startPoint);
             Team crashPieceColor = crashPiece.getTeam();
-            Team movingPieceColor  = movingPiece.getTeam();
+            Team movingPieceColor = movingPiece.getTeam();
 
-            return  crashPieceColor == movingPieceColor;
+            return crashPieceColor == movingPieceColor;
         }
 
         return crashPoints.size() > 0;
@@ -100,12 +86,12 @@ public class Board {
     public void move(Point beforePoint, Point afterPoint) {
         Movable movingPiece = findByPoint(beforePoint);
 
-        if(turn != movingPiece.getTeam()) {
+        if (turn != movingPiece.getTeam()) {
             throw new IllegalArgumentException(turn.getText() + "의 기물만 이동할 수 있습니다.");
         }
 
         if (movingPiece instanceof Po) {
-            if (!isPoMovable((Po) movingPiece, afterPoint) || checkPoHurdles(beforePoint, movingPiece.findRoute(afterPoint))) {
+            if (!isPoMovable((Po) movingPiece, afterPoint)) {
                 throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
             }
         } else if (!movingPiece.isMovable(afterPoint) || checkHurdles(beforePoint, movingPiece.findRoute(afterPoint))
@@ -115,7 +101,7 @@ public class Board {
 
         Movable updatedMoving = movingPiece.updatePoint(afterPoint);
 
-        if(hasAttackedPiece(afterPoint)) {
+        if (hasPieceOnPoint(afterPoint)) {
             Movable target = findByPoint(afterPoint);
             this.attackedPieces.add(target);
             runningPieces.remove(target);
@@ -126,43 +112,32 @@ public class Board {
     }
 
     public boolean isPoMovable(Po po, Point targetPoint) {
-        Point point = po.getPoint();
-        if (point.isSameRow(targetPoint)) {
-            for (Movable movable : findPieceOnHorizontalRoute(point)) {
-                if (movable.getPoint().isColumnBetween(point, targetPoint) && !(movable instanceof Po)) {
-                    return true;
-                }
-            }
+        if (hasPieceOnPoint(targetPoint) && findByPoint(targetPoint) instanceof Po) {
+            return false;
         }
-        if (point.isSameColumn(targetPoint)) {
-            for (Movable movable : findPieceOnVerticalRoute(point)) {
-                if (movable.getPoint().isRowBetween(point, targetPoint) && !(movable instanceof Po)) {
-                    return true;
-                }
+        List<Point> route = po.findRoute(targetPoint);
+        List<Point> hurdles = new ArrayList<>();
+        for (Point point : route) {
+            if (findHurdle(point, hurdles)) {
+                continue;
             }
+            return false;
         }
-        return false;
+        return hurdles.size() == 1;
     }
 
-    public boolean checkPoHurdles(Point startPoint, List<Point> route) {
-        //포인데 널뛰기를 하고 나서도 장애물이 있느냐?
-        List<Point> piecePoints = runningPieces.stream()
-                .map(Movable::getPoint).toList();
-
-        List<Point> crashPoints = new ArrayList<>(route.stream()
-                .filter(piecePoints::contains)
-                .toList());
-        crashPoints.removeFirst();
-
-        if (crashPoints.size() == 1
-                && route.getLast().equals(crashPoints.getFirst())
-        ) {
-            Movable crashPiece = findByPoint(crashPoints.getFirst());
-            Movable movingPiece = findByPoint(startPoint);
-
-            return crashPiece instanceof Po && movingPiece instanceof Po;
+    private boolean findHurdle(Point current, List<Point> hurdles) {
+        if (hasPieceOnPoint(current)) {
+            Movable piece = findByPoint(current);
+            if (piece instanceof Po && hurdles.isEmpty()) {
+                return false;
+            }
+            if (!hurdles.isEmpty()) {
+                return false;
+            }
+            hurdles.add(current);
+            return true;
         }
-
-        return crashPoints.size() > 0;
+        return true;
     }
 }

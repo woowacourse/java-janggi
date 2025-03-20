@@ -34,20 +34,6 @@ public record Point(int row, int column) {
         return this.column == targetPoint.column;
     }
 
-    public boolean isColumnBetween(Point currentPoint, Point targetPoint) {
-        int maxColumn = Math.max(currentPoint.column, targetPoint.column);
-        int minColumn = Math.min(currentPoint.column, targetPoint.column);
-
-        return minColumn < column && column < maxColumn;
-    }
-
-    public boolean isRowBetween(Point currentPoint, Point targetPoint) {
-        int maxRow = Math.max(currentPoint.row, targetPoint.row);
-        int minRow = Math.min(currentPoint.row, targetPoint.row);
-
-        return minRow < row && row < maxRow;
-    }
-
     public boolean isColumnBiggerThan(Point targetPoint) {
         return this.column > targetPoint.column;
     }

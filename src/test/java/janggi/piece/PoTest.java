@@ -71,8 +71,8 @@ public class PoTest {
             List<Point> route = po.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(6,5), new Point(6,4), new Point(6,3));
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(6,5), new Point(6,4));
             });
         }
 
@@ -86,8 +86,8 @@ public class PoTest {
             List<Point> route = po.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(6,7), new Point(6, 8));
+                assertThat(route).hasSize(1);
+                assertThat(route).containsExactly(new Point(6,7));
             });
         }
 
@@ -101,9 +101,9 @@ public class PoTest {
             List<Point> route = po.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(4);
+                assertThat(route).hasSize(3);
                 assertThat(route).containsExactly(new Point(5,6), new Point(4, 6),
-                        new Point(3, 6), new Point(2, 6));
+                        new Point(3, 6));
             });
         }
 
@@ -117,8 +117,8 @@ public class PoTest {
             List<Point> route = po.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(7,6), new Point(8, 6));
+                assertThat(route).hasSize(1);
+                assertThat(route).containsExactly(new Point(7,6));
             });
         }
     }
