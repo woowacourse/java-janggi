@@ -39,10 +39,6 @@ public class Board {
         }
     }
 
-    public Map<Point, Piece> getPlacedPieces() {
-        return placedPieces;
-    }
-
     public Piece peek(Point point) {
         Piece piece = placedPieces.get(point);
         if (piece == null) {
@@ -80,5 +76,9 @@ public class Board {
             }
         }
         return pieces;
+    }
+
+    public Map<Point, Piece> getPlacedPieces() {
+        return placedPieces;
     }
 }
