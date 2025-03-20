@@ -42,4 +42,9 @@ public class Pieces {
     public void deleteByPosition(final Position position) {
         pieces.remove(findByPosition(position));
     }
+
+    public boolean existKing() {
+        return pieces.stream()
+                .anyMatch(Piece::isKing);
+    }
 }
