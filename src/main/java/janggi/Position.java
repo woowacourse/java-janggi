@@ -32,4 +32,8 @@ public record Position(int x, int y) {
     public Position right(final int changeValue) {
         return new Position(x + changeValue, y);
     }
+
+    public Position offset(int offsetX, int offsetY) {
+        return new Position(x + offsetX, y + offsetY);
+    }
 }

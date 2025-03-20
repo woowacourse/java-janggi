@@ -19,16 +19,16 @@ public class Horse extends Piece {
     }
 
     private Position calculateDirection(final Position start, final int differenceX, final int differenceY) {
-        if (differenceX == 2) {
-            return start.right(1);
+        return start.offset(reduceOne(differenceX), reduceOne(differenceY));
+    }
+
+    private int reduceOne(final int value) {
+        boolean isNegative = value < 0;
+        int absValue = Math.abs(value) - 1;
+        if (isNegative) {
+            return absValue * -1;
         }
-        if (differenceX == -2) {
-            return start.left(1);
-        }
-        if (differenceY == 2) {
-            return start.up(1);
-        }
-        return start.down(1);
+        return absValue;
     }
 
     private void validateMovingRule(final int differenceX, final int differenceY) {

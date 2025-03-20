@@ -21,53 +21,20 @@ public class Elephant extends Piece {
     }
 
     private Position calculateFirstDirection(final Position start, final int differenceX, final int differenceY) {
-        if (differenceX == 3) {
-            return start.right(1);
-        }
-        if (differenceX == -3) {
-            return start.left(1);
-        }
-        if (differenceY == 3) {
-            return start.up(1);
-        }
-        return start.down(1);
+        return start.offset(reduceByAmount(differenceX, 2), reduceByAmount(differenceY, 2));
     }
 
     private Position calculateSecondDirection(final Position start, final int differenceX, final int differenceY) {
-        if (differenceX == 3) {
-            // 양수인 경우 위로 가는거임
-            if (differenceY == 2) {
-                return start.right(2).up(1);
-            }
-            // 음수인 경우 아래로 가는 거임
-            return start.right(2).down(1);
+        return start.offset(reduceByAmount(differenceX, 1), reduceByAmount(differenceY, 1));
+    }
 
+    private int reduceByAmount(final int value, final int amount) {
+        boolean isNegative = value < 0;
+        int absValue = Math.abs(value) - amount;
+        if (isNegative) {
+            return absValue * -1;
         }
-        if (differenceX == -3) {
-            // 양수인 경우 위로 가는거임
-            if (differenceY == 2) {
-                return start.left(2).up(1);
-            }
-            // 음수인 경우 아래로 가는 거임
-            return start.left(2).down(1);
-
-        }
-        if (differenceY == 3) {
-            if (differenceX == 2) {
-                // 오른쪽임
-                return start.up(2).right(1);
-            }
-            // 왼쪽임
-            return start.up(2).left(1);
-
-        }
-
-        if (differenceX == 2) {
-            // 오른쪽임
-            return start.down(2).right(1);
-        }
-        // 왼쪽임
-        return start.down(2).left(1);
+        return absValue;
     }
 
     private void validateMovingRule(final int differenceX, final int differenceY) {
