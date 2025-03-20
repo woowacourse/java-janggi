@@ -23,12 +23,4 @@ class PositionTest {
     void 위치는_장기판_내부에_존재해야_한다(int x, int y) {
         assertDoesNotThrow(() -> new Position(x, y));
     }
-
-//    @CsvSource(value = {"0,1", "1,0", "10,1", "1,11"})
-//    @ParameterizedTest
-//    void 장기판_내부에_존재하지_않으면_위치를_생성할_수_없다(int x, int y) {
-//        assertThatThrownBy(() -> new Position(x, y))
-//                .isInstanceOf(IllegalArgumentException.class);
-//    }
-
 }
