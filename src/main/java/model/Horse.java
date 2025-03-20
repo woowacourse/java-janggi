@@ -10,6 +10,11 @@ public class Horse extends Piece {
     }
 
     @Override
+    public boolean isCannon() {
+        return false;
+    }
+
+    @Override
     public List<List<Position>> calculateAllDirection() {
         return List.of(
             findUpLeft(), findUpRight(),

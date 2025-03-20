@@ -25,4 +25,6 @@ public abstract class Piece{
     public void changePosition(Position position) {
         this.position = position;
     }
+
+    public abstract boolean isCannon();
 }

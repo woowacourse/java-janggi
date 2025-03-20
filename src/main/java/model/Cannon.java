@@ -10,6 +10,11 @@ public class Cannon extends Piece{
     }
 
     @Override
+    public boolean isCannon() {
+        return true;
+    }
+
+    @Override
     public List<List<Position>> calculateAllDirection() {
         List<List<Position>> positions = new ArrayList<>();
         positions.addAll(findUpDirection());

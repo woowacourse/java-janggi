@@ -1,5 +1,4 @@
 import java.util.Optional;
-import model.Cannon;
 import model.Piece;
 import model.Pieces;
 import model.Position;
@@ -17,19 +16,19 @@ public class Application {
         while (true) {
             showCurrentPositionOfPieces(pieces);
             String choiceDirection = inputView.printMovePiece();
-            String[] choices = choiceDirection.split(",");
-            Piece piece = pieces.findPiece(
-                new Position(Integer.parseInt(choices[0]), Integer.parseInt(choices[1])));
-
+            Piece piece = pieces.findPiece(Position.initFrom(choiceDirection));
             String moveDirection = inputView.printMovePosition(piece);
             Position destinationDirection = Position.initFrom(moveDirection);
-
-            if (piece instanceof Cannon) {
-                pieces.validateCannonMove(piece, destinationDirection);
-            } else {
-                pieces.validateCanMove(piece, destinationDirection);
-            }
+            moveOfPiece(piece, pieces, destinationDirection);
         }
+    }
+
+    private static void moveOfPiece(Piece piece, Pieces pieces, Position destinationDirection) {
+        if (piece.isCannon()) {
+            pieces.validateCannonMove(piece, destinationDirection);
+            return;
+        }
+        pieces.validateCanMove(piece, destinationDirection);
     }
 
     private static void showCurrentPositionOfPieces(Pieces pieces) {

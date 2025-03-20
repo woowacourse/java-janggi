@@ -11,6 +11,11 @@ public class Chariot extends Piece{
     }
 
     @Override
+    public boolean isCannon() {
+        return false;
+    }
+
+    @Override
     public List<List<Position>> calculateAllDirection() {
         List<List<Position>> positions = new ArrayList<>();
         positions.addAll(findUpDirection());
