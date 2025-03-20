@@ -7,7 +7,7 @@ public class Guard implements Piece {
 
     private final String name = "G"; //sa
     private final Team team;
-    private final Position position;
+    private Position position;
 
     public Guard(Team team, Position position) {
         this.team = team;
@@ -17,6 +17,11 @@ public class Guard implements Piece {
     @Override
     public boolean isOccupiedByMe(Position position) {
         return position.equals(this.position);
+    }
+
+    @Override
+    public void move(Position position) {
+        this.position = this.position.update(position);
     }
 
     @Override

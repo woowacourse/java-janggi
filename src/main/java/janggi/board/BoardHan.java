@@ -33,6 +33,17 @@ public class BoardHan {
         return pieces.stream()
                 .anyMatch(piece -> piece.getName().equals(pieceName) && piece.getPosition().equals(position));
     }
+
+    public void move(String nickname, Position startPosition ,Position endPosition) {
+        Piece targetPiece = pieces.stream()
+                .filter(piece ->
+                        piece.getName().equals(nickname) && piece.getPosition().equals(startPosition)
+                ).
+                findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("이동할 말을 찾을 수 없습니다."));
+
+        targetPiece.move(endPosition);
+    }
 //
 //    public boolean isLegalMove(Position start, Position end) {
 //

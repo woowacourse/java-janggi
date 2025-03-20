@@ -11,6 +11,10 @@ public class Position {
         this.y = new PositionY(y);
     }
 
+    public Position update(Position position) {
+        return new Position(position.getX(), position.getY());
+    }
+
     public int getX() {
         return x.getValue();
     }

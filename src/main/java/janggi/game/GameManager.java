@@ -44,9 +44,19 @@ public class GameManager {
         // 이동할 위치에 우리 팀의 말이 있는지 확인
         validateMovedPosition(teamName, pieceMovedPosition, boardHan, boardCho);
 
-        // 이동 위치 사이에 있는 좌표들
+        // 이동 위치 사이에 있는 좌표들 (실제로 이동가능한지 검증 필요)
         BoardNavigator boardNavigator = new BoardNavigator();
         List<Position> positionsOnPath = boardNavigator.findPositionsOnPath(pieceCurrentPosition, pieceMovedPosition);
+
+        // 말 이동 업데이트
+        if (teamName.equals(Team.CHO)) {
+            boardCho.move(pieceName, pieceCurrentPosition,pieceMovedPosition);
+        }
+        if (teamName.equals(Team.HAN)) {
+            boardHan.move(pieceName, pieceCurrentPosition,pieceMovedPosition);
+        }
+
+        output.printBoard(boardHan, boardCho);
     }
 
     public BoardOption receiveOption(Team team) {

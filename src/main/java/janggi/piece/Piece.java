@@ -4,6 +4,7 @@ import janggi.position.Position;
 import janggi.team.Team;
 
 public interface Piece {
+
     Position getPosition();
 
     String getName();
@@ -11,4 +12,6 @@ public interface Piece {
     Team getTeam();
 
     boolean isOccupiedByMe(Position position);
+
+    void move(Position position);
 }

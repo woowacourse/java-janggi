@@ -35,6 +35,17 @@ public class BoardCho {
                 .anyMatch(piece -> piece.getName().equals(pieceName) && piece.getPosition().equals(position));
     }
 
+    public void move(String nickname, Position startPosition ,Position endPosition) {
+        Piece targetPiece = pieces.stream()
+                .filter(piece ->
+                        piece.getName().equals(nickname) && piece.getPosition().equals(startPosition)
+                ).
+                findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("이동할 말을 찾을 수 없습니다."));
+
+        targetPiece.move(endPosition);
+    }
+
 //    public boolean isLegalMove(String pieceName, List<Position> positionsOnPath) {
 //        //각 지나치는 좌표에 대해 초진영 지닌 말을 돌면서 차지하고 있는지 확인한다
 //        //만약 사용자가 입력한 말이 상이라면,
