@@ -32,13 +32,23 @@ public class JanggiBoard {
     public void move(int x, int y, int destinationX, int destinationY) {
         Position source = new Position(x, y);
         Position destination = new Position(destinationX, destinationY);
+        List<Piece> existingPieces = pieceMap.values().stream().toList();
 
         validatePieceExistence(source);
+
+        Piece sourcePiece = pieceMap.get(source);
+        sourcePiece.move(existingPieces, destinationX, destinationY);
+        pieceMap.remove(source);
+        pieceMap.put(destination, sourcePiece);
     }
 
     private void validatePieceExistence(Position source) {
         if (!pieceMap.containsKey(source)) {
             throw new IllegalArgumentException("해당 위치엔 기물이 존재하지 않습니다.");
         }
+    }
+
+    public Map<Position, Piece> getPieceMap() {
+        return pieceMap;
     }
 }
