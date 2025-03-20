@@ -22,7 +22,7 @@ public class Soldier extends Piece {
 
     @Override
     protected int[] getPathRows(int pathIndex) {
-        if (team.equals("한나라")) {
+        if (team == Team.RED) {
             return dRowsRed[pathIndex];
         }
         return dRowsGreen[pathIndex];
@@ -35,7 +35,7 @@ public class Soldier extends Piece {
 
     @Override
     protected int[][] getAllPathRows() {
-        if (team.equals("한나라")) {
+        if (team == Team.RED) {
             return dRowsRed;
         }
         return dRowsGreen;
