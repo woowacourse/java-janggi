@@ -3,8 +3,7 @@ package domain.piece;
 import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
 import domain.piece.movement.GungMovement;
-
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Gung extends Piece {
@@ -15,15 +14,10 @@ public class Gung extends Piece {
     @Override
     public List<JanggiCoordinate> availableMovePositions(JanggiCoordinate currCoordinate,
                                                          JanggiBoard janggiBoard) {
-        List<JanggiCoordinate> availablePositions = new ArrayList<>();
-
-        for (GungMovement gungMovement : GungMovement.values()) {
-            JanggiCoordinate next = movePosition(currCoordinate, gungMovement.getDirection());
-            if (!janggiBoard.isOutOfBoundary(next) && !janggiBoard.isMyTeam(currCoordinate, next)) {
-                availablePositions.add(next);
-            }
-        }
-        return availablePositions;
+        return Arrays.stream(GungMovement.values())
+                .map(gungMovement -> movePosition(currCoordinate, gungMovement.getDirection()))
+                .filter(next -> !janggiBoard.isOutOfBoundary(next) && !janggiBoard.isMyTeam(currCoordinate, next))
+                .toList();
     }
 
     public static JanggiCoordinate movePosition(JanggiCoordinate currCoordinate, JanggiCoordinate moveOffset) {

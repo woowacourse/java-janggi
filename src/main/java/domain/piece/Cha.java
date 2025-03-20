@@ -1,13 +1,12 @@
 package domain.piece;
 
+import static domain.piece.PieceType.CHA;
+
 import domain.JanggiCoordinate;
 import domain.board.JanggiBoard;
 import domain.piece.movement.ChaMovement;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static domain.piece.PieceType.CHA;
 
 public class Cha extends Piece {
     public Cha(Country country) {
@@ -21,14 +20,12 @@ public class Cha extends Piece {
         for (ChaMovement direction : ChaMovement.values()) {
             JanggiCoordinate next = movePosition(currCoordinate, direction.getDirection());
             while (true) {
-                if (janggiBoard.isOutOfBoundary(next)) {
+                if (janggiBoard.isOutOfBoundary(next) || (janggiBoard.hasPiece(next) && janggiBoard.isMyTeam(
+                        currCoordinate, next))) {
                     break;
                 }
                 if (janggiBoard.hasPiece(next) && !janggiBoard.isMyTeam(currCoordinate, next)) {
                     availablePositions.add(next);
-                    break;
-                }
-                if (janggiBoard.hasPiece(next) && janggiBoard.isMyTeam(currCoordinate, next)) {
                     break;
                 }
 
