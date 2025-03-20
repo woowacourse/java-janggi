@@ -22,21 +22,21 @@ public class JanggiController {
 
     public void run() {
 
-        Board board = new Board();
-        List<Piece> pieces = board.getPieces();
+        final Board board = new Board();
+        final List<Piece> pieces = board.getPieces();
         outputView.printBoard(pieces);
 
         while (true) {
-            Team currentTurn = board.getTurn();
+            final Team currentTurn = board.getTurn();
             outputView.printTurn(currentTurn);
 
-            Position position = inputView.inputPiecePosition();
-            Piece selectPiece = board.selectPiece(position);
+            final Position position = inputView.inputPiecePosition();
+            final Piece selectPiece = board.selectPiece(position);
 
-            Set<Route> possibleRoutes = board.findPossibleRoutes(selectPiece);
+            final Set<Route> possibleRoutes = board.findPossibleRoutes(selectPiece);
             outputView.printPossibleRoutes(possibleRoutes);
 
-            Position destination = inputView.inputDestination();
+            final Position destination = inputView.inputDestination();
 
             board.movePiece(destination, selectPiece);
             outputView.printBoard(pieces);
