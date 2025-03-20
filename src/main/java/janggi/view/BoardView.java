@@ -2,11 +2,24 @@ package janggi.view;
 
 import janggi.board.Board;
 import janggi.piece.Piece;
+import janggi.piece.Type;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
+import java.util.Map;
 
 public final class BoardView {
+
+    public static final Map<Type, String> pieceNotations = Map.of(
+            Type.GENERAL, "k",
+            Type.CHARIOT, "c",
+            Type.CANNON, "p",
+            Type.HORSE, "h",
+            Type.ELEPHANT, "e",
+            Type.GUARD, "g",
+            Type.SOLDIER, "s"
+    );
+
     public void display(final Board board) {
         System.out.println("\n  012345678");
         for (Row row : Row.values()) {
@@ -32,7 +45,7 @@ public final class BoardView {
     }
 
     private static void displayPiece(final Piece piece) {
-        final String notation = ViewConstant.pieceNotations.get(piece.type());
+        final String notation = pieceNotations.get(piece.type());
         if (piece.isHan()) {
             System.out.print(notation);
             return;
