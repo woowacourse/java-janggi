@@ -2,8 +2,8 @@ import board.Board;
 import board.BoardFactory;
 import board.Position;
 import java.util.List;
-import piece.TeamType;
 import view.InputView;
+import piece.TeamType;
 import view.OutputView;
 
 public class Application {

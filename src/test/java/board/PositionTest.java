@@ -1,6 +1,7 @@
 package board;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
@@ -30,6 +31,19 @@ public class PositionTest {
                     () -> assertThat(p.x()).isEqualTo(x),
                     () -> assertThat(p.y()).isEqualTo(y)
             );
+        }
+
+        @DisplayName("포지션의 범위가 벗어나면 예외가 발생한다.")
+        @Test
+        void construct2() {
+            // given
+            final int x = 0;
+            final int y = 1;
+
+            // when & then
+            assertThatThrownBy(() -> {
+               new Position(x, y);
+            }).isInstanceOf(IllegalArgumentException.class);
         }
     }
 
@@ -94,9 +108,9 @@ public class PositionTest {
         @Test
         void isXLessThan() {
             // given
-            final Position srcPosition = new Position(1, 1);
-            final Position ablePosition = new Position(2, 1);
-            final Position unablePosition = new Position(0, 1);
+            final Position srcPosition = new Position(2, 1);
+            final Position ablePosition = new Position(3, 1);
+            final Position unablePosition = new Position(1, 1);
 
             // when
             final boolean ableResult = srcPosition.isXLessThan(ablePosition);

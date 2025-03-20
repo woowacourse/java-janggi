@@ -7,6 +7,21 @@ import java.util.List;
 
 public record Position(int x, int y) {
 
+    public Position(final int x, final int y) {
+        validatePositionRange(x, y);
+        this.x = x;
+        this.y = y;
+    }
+
+    private void validatePositionRange(final int x, final int y) {
+        if (x < 1 || 10 < x) {
+            throw new IllegalArgumentException("좌표 범위가 벗어났습니다.");
+        }
+        if (y < 1 || 9 < y) {
+            throw new IllegalArgumentException("좌표 범위가 벗어났습니다.");
+        }
+    }
+
     public double calculateDistance(final Position descPosition) {
         return Math.sqrt(
                 Math.pow(Math.abs(this.x - descPosition.x), 2) + Math.pow(Math.abs(this.y - descPosition.y), 2));
