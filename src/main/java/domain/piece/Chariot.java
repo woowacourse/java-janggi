@@ -7,8 +7,6 @@ import java.util.List;
 
 public class Chariot extends Piece {
 
-    private final List<Move> moves = List.of(Move.FRONT, Move.BACK, Move.RIGHT, Move.LEFT);
-
     public Chariot(Team team) {
         super(team);
     }
@@ -16,7 +14,6 @@ public class Chariot extends Piece {
     @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
 
-        //1. 세로가 다르고 가로가 같다.
         List<Position> path = new ArrayList<>();
         Position newPosition = startPosition;
         if (startPosition.compareRow(targetPosition) != 0 && startPosition.compareColumn(targetPosition) == 0) {
@@ -34,7 +31,6 @@ public class Chariot extends Piece {
                 }
             }
         }
-        //2. 세로가 같고 가로가 다르다
         if (startPosition.compareRow(targetPosition) == 0 && startPosition.compareColumn(targetPosition) != 0) {
             int count = startPosition.compareColumn(targetPosition);
             if (count < 0) {
@@ -50,7 +46,6 @@ public class Chariot extends Piece {
                 }
             }
         }
-        //3. 세로가 같고, 가로가 같다
         if (startPosition.equals(targetPosition)) {
             throw new IllegalArgumentException("말을 움직여 주세요");
         }
