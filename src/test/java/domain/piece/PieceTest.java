@@ -80,6 +80,17 @@ class PieceTest {
         assertThat(kingPiece.isKing()).isTrue();
     }
 
+    @Test
+    void 포인지_판단한다() {
+        // given
+        final Piece piece = new TestPiece(1, 2, new Directions(List.of()));
+        final Piece cannonPiece = new TestCannonPiece(1, 2, new Directions(List.of()));
+
+        // when & then
+        assertThat(piece.isCannon()).isFalse();
+        assertThat(cannonPiece.isCannon()).isTrue();
+    }
+
     static class TestPiece extends Piece {
         public TestPiece(int row, int column, Directions directions) {
             super(row, column, directions);
@@ -100,6 +111,11 @@ class PieceTest {
         }
 
         @Override
+        public boolean isCannon() {
+            return false;
+        }
+
+        @Override
         public String getName() {
             return "";
         }
@@ -115,12 +131,47 @@ class PieceTest {
         }
 
         @Override
-        public TestPiece updatePosition(final Position position) {
-            return new TestPiece(position, directions);
+        public TestKingPiece updatePosition(final Position position) {
+            return new TestKingPiece(position, directions);
         }
 
         @Override
         public boolean isKing() {
+            return true;
+        }
+
+        @Override
+        public boolean isCannon() {
+            return false;
+        }
+
+        @Override
+        public String getName() {
+            return "";
+        }
+    }
+
+    static class TestCannonPiece extends Piece {
+        public TestCannonPiece(int row, int column, Directions directions) {
+            super(row, column, directions);
+        }
+
+        public TestCannonPiece(final Position position, final Directions directions) {
+            super(position, directions);
+        }
+
+        @Override
+        public TestCannonPiece updatePosition(final Position position) {
+            return new TestCannonPiece(position, directions);
+        }
+
+        @Override
+        public boolean isKing() {
+            return true;
+        }
+
+        @Override
+        public boolean isCannon() {
             return true;
         }
 
