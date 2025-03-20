@@ -5,16 +5,16 @@ import java.util.stream.Collectors;
 
 public class Solider extends Piece {
 
-    public Solider(final Position position, final Team team, final Board board) {
-        super(position, team, board);
+    public Solider(final Position position, final Team team) {
+        super(position, team);
     }
 
     @Override
-    protected Set<Position> getMovablePositions() {
+    protected Set<Position> getMovablePositions(Board board) {
         return Direction.getStraightDirection().stream()
                 .filter(direction -> getUnmovableDirection() != direction)
                 .map(direction -> position.nextPosition(direction))
-                .filter(this::isMovable)
+                .filter(p -> isMovable(p, board))
                 .collect(Collectors.toSet());
     }
 
@@ -25,7 +25,7 @@ public class Solider extends Piece {
         return Direction.TOP;
     }
 
-    private boolean isMovable(final Position position) {
+    private boolean isMovable(final Position position, Board board) {
         return !board.isExists(position) || !board.isSameTeam(this, position);
     }
 

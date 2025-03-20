@@ -1,6 +1,5 @@
 package domain;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -16,7 +15,7 @@ class PieceTest {
     void 기물은_위치를_가지고_있어야_한다() {
         Position position = new Position(1, 1);
         Board board = new Board(List.of());
-        Piece piece = new Chariot(position, Team.BLUE, board);
+        Piece piece = new Chariot(position, Team.BLUE);
 
         assertThat(piece.getPosition()).isEqualTo(new Position(1, 1));
     }
@@ -25,29 +24,20 @@ class PieceTest {
     void 기물은_팀_정보를_가지고_있어야_한다() {
         Position position = new Position(1, 1);
         Board board = new Board(List.of());
-        Piece piece = new Chariot(position, Team.BLUE, board);
+        Piece piece = new Chariot(position, Team.BLUE);
 
         assertThat(piece.getTeam()).isEqualTo(Team.BLUE);
-    }
-
-    @Test
-    void 기물은_맵_정보를_가지고_있다() {
-        Position position = new Position(1, 1);
-        Board board = new Board(List.of());
-        Piece piece = new Chariot(position, Team.BLUE, board);
-
-        assertThat(piece.getBoard()).isNotNull();
     }
 
     @Test
     void 기물을_움직일_수_있다() {
         Position position = new Position(1, 1);
         Board board = new Board(List.of());
-        Piece piece = new Chariot(position, Team.BLUE, board);
+        Piece piece = new Chariot(position, Team.BLUE);
         board.putPiece(piece);
 
         Position nextPosition = new Position(2, 1);
-        piece.move(nextPosition);
+        piece.move(nextPosition, board);
 
         assertThat(piece.getPosition()).isEqualTo(nextPosition);
     }
@@ -59,12 +49,12 @@ class PieceTest {
     void 기물의_이동_경로에_적팀의_기물이_존재하면_취한_후_이동한다(int row, int column, int targetRow, int targetColumn) {
         Position position = new Position(1, 1);
         Board board = new Board(List.of());
-        Piece piece = new Chariot(position, Team.BLUE, board);
+        Piece piece = new Chariot(position, Team.BLUE);
         board.putPiece(piece);
-        board.putPiece(new Chariot(new Position(row, column), Team.RED, board));
+        board.putPiece(new Chariot(new Position(row, column), Team.RED));
 
         Position nextPosition = new Position(targetRow, targetColumn);
-        piece.move(nextPosition);
+        piece.move(nextPosition, board);
 
         assertThat(piece.getPosition()).isEqualTo(nextPosition);
         assertThat(board.getPieces()).hasSize(1);
@@ -77,11 +67,11 @@ class PieceTest {
     void 기물의_이동_경로에_아군_기물이_존재하면_움직일_수_없다(int row, int column, int targetRow, int targetColumn) {
         Position position = new Position(1, 1);
         Board board = new Board(List.of());
-        Piece piece = new Chariot(position, Team.BLUE, board);
+        Piece piece = new Chariot(position, Team.BLUE);
         Position nextPosition = new Position(row, column);
-        board.putPiece(new Chariot(nextPosition, Team.BLUE, board));
+        board.putPiece(new Chariot(nextPosition, Team.BLUE));
 
-        assertThatThrownBy(() -> piece.move(new Position(targetRow, targetColumn)))
+        assertThatThrownBy(() -> piece.move(new Position(targetRow, targetColumn), board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -92,10 +82,10 @@ class PieceTest {
     void 기물은_장기판_밖으로_움직일_수_없다(int row, int column) {
         Position position = new Position(1, 1);
         Board board = new Board(List.of());
-        Piece piece = new Chariot(position, Team.BLUE, board);
+        Piece piece = new Chariot(position, Team.BLUE);
         Position nextPosition = new Position(row, column);
 
-        assertThatThrownBy(() -> piece.move(nextPosition))
+        assertThatThrownBy(() -> piece.move(nextPosition, board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
