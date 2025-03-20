@@ -36,12 +36,21 @@ public class Chariot extends Piece {
 
     @Override
     protected void validateRoute(Board board, Route route, Position target) {
-        Position onRoute = position.move(route.positions().getFirst());
-        for (; !onRoute.equals(target); onRoute = onRoute.move(route.positions().getFirst())) {
-            if (board.hasPieceOn(onRoute)) {
-                throw new IllegalArgumentException("[ERROR] 이동 경로에 다른 기물이 존재합니다.");
-            }
+        Position validatePosition = nextPositionOnRoute(position, route);
+        while (!validatePosition.equals(target)) {
+            validateOtherPieceOnRoute(board, validatePosition);
+            validatePosition = validatePosition.move(route.positions().getFirst());
         }
+    }
+
+    private static void validateOtherPieceOnRoute(Board board, Position validatePosition) {
+        if (board.hasPieceOn(validatePosition)) {
+            throw new IllegalArgumentException("[ERROR] 이동 경로에 다른 기물이 존재합니다.");
+        }
+    }
+
+    private Position nextPositionOnRoute(Position position, Route route) {
+        return position.move(route.positions().getFirst());
     }
 
     @Override

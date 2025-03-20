@@ -20,42 +20,62 @@ public class Pao extends Piece {
 
     @Override
     protected Route findMovableRoute(Board board, int dx, int dy) {
-        boolean flag = false;
         Position target = position.move(dx, dy);
-        if (board.hasPieceOn(target) && board.get(target).type() == PieceType.PAO) {
+        if (isTargetPao(board, target)) {
             return null;
         }
+        boolean isOvered = false;
         for (var route : routes) {
-            Position dir = route.positions().getFirst();
-            Position nextPos = position.move(dir.x(), dir.y());
+            Position nextPos = nextPositionOnRoute(position, route);
             while (board.isInboard(nextPos)) {
-                if(board.hasPieceOn(nextPos)){
-                    flag = true;
+                if(overPiece(board, nextPos)){
+                    isOvered = true;
                 }
-                if (nextPos.equals(target) && flag)  {
+                if (nextPos.equals(target) && isOvered)  {
                     return route;
                 }
-                nextPos = nextPos.move(dir.x(), dir.y());
+                nextPos = nextPositionOnRoute(nextPos, route);
             }
         }
         return null;
     }
 
+    private boolean overPiece(Board board, Position nextPos) {
+        return board.hasPieceOn(nextPos);
+    }
+
+    private boolean isTargetPao(Board board, Position target) {
+        return board.hasPieceOn(target) && board.get(target).type() == PieceType.PAO;
+    }
+
     @Override
     protected void validateRoute(Board board, Route route, Position target) {
-        boolean flag = false;
-        Position onRoute = position.move(route.positions().getFirst());
-        for (; !onRoute.equals(target); onRoute = onRoute.move(route.positions().getFirst())) {
-            if (board.hasPieceOn(onRoute)) {
-                if (board.get(onRoute).type() == PieceType.PAO) {
-                    throw new IllegalArgumentException("[ERROR] 포는 포를 넘을 수 없습니다.");
-                }
-                if (flag) {
-                    throw new IllegalArgumentException("[ERROR] 포는 기물을 1개만 넘을 수 있습니다.");
-                }
-                flag = true;
+        boolean isOvered = false;
+        Position validatePosition = nextPositionOnRoute(position, route);
+        while (!validatePosition.equals(target)) {
+            if (board.hasPieceOn(validatePosition)) {
+                validateOverPao(board, validatePosition);
+                validateIsOvered(isOvered);
+                isOvered = true;
             }
+            validatePosition = nextPositionOnRoute(validatePosition, route);
         }
+    }
+
+    private static void validateOverPao(Board board, Position validatePosition) {
+        if (board.get(validatePosition).type() == PieceType.PAO) {
+            throw new IllegalArgumentException("[ERROR] 포는 포를 넘을 수 없습니다.");
+        }
+    }
+
+    private static void validateIsOvered(boolean isOvered) {
+        if (isOvered) {
+            throw new IllegalArgumentException("[ERROR] 포는 기물을 1개만 넘을 수 있습니다.");
+        }
+    }
+
+    private Position nextPositionOnRoute(Position position, Route route) {
+        return position.move(route.positions().getFirst());
     }
 
     @Override
