@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public enum PieceType {
+
     GENERAL(
             List.of(new Position(2, 5)),
             List.of(new Position(9, 5)),

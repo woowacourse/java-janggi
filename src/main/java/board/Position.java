@@ -1,7 +1,6 @@
 package board;
 
 
-import com.sun.source.tree.YieldTree;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -48,8 +47,7 @@ public record Position(int x, int y) {
     }
 
     public Position calculateHorseMiddlePosition(final Position destPosition) {
-        int xDistance = Math.abs(x - destPosition.x);
-        int yDistance = Math.abs(y - destPosition.y);
+        final int xDistance = Math.abs(x - destPosition.x);
 
         int newX;
         int newY;
@@ -64,11 +62,8 @@ public record Position(int x, int y) {
     }
 
     public List<Position> calculateElephantMiddlePositions(final Position destPosition) {
-        int xDistance = Math.abs(x - destPosition.x);
-        int yDistance = Math.abs(y - destPosition.y);
+        final int xDistance = Math.abs(x - destPosition.x);
 
-        int newX;
-        int newY;
         if (xDistance == 3) { // x 3 y 2
             int[] newXs = new int[2];
             for (int xx = Math.min(x, destPosition.x) + 1, i = 0; xx < Math.max(x, destPosition.x); xx++, i++) {
@@ -89,7 +84,7 @@ public record Position(int x, int y) {
                     new Position(newXs[1], newYs[1])
             );
         }
-        // x 2 y 3
+
         int[] newYs = new int[2];
         for (int yy = Math.min(y, destPosition.y) + 1, i = 0; yy < Math.max(y, destPosition.y); yy++, i++) {
             newYs[i] = yy;

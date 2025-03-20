@@ -1,10 +1,10 @@
 package view;
 
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Objects;
 
 public enum NumberFormat {
+
     일(1),
     이(2),
     삼(3),

@@ -8,6 +8,7 @@ import piece.PieceType;
 import piece.TeamType;
 
 public class OutputView {
+
     public static final String COLOR_RESET = "\u001B[0m";
     private static final Map<TeamType, String> TEAM_FORMAT = Map.of(
             TeamType.RED, "\u001B[31m",
