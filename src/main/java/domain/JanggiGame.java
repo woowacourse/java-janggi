@@ -47,8 +47,4 @@ public class JanggiGame {
             flag = !flag;
         }
     }
-
-    public boolean test(final int x, final int y) {
-        return board.hasPieceAt(Point.of(x, y));
-    }
 }
