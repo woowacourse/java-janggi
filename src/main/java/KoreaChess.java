@@ -24,8 +24,9 @@ public class KoreaChess {
     public void run() {
         Player han = new Player("한", PieceColor.RED);
         Player cho = new Player("초", PieceColor.BLUE);
-
         Board board = createBoard(han, cho);
+
+        outputView.printGameStart();
         outputView.printBoard(board);
 
         while (!board.isFinish()) {

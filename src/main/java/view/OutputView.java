@@ -17,10 +17,29 @@ public class OutputView {
 
     private static final String COLOR_RESET = "\033[0m";
 
+    public void printGameStart() {
+        System.out.print("""
+                 장기 게임을 시작합니다.
+                               
+                 - K : 왕
+                 - h : 마
+                 - r : 차
+                 - e : 상
+                 - a : 사
+                 - c : 포
+                 - p : 졸
+                """);
+    }
+
     public void printBoard(final Board board) {
+        System.out.println();
+        System.out.println("===== 장기판 상태 =====");
+        System.out.println("   1 2 3 4 5 6 7 8 9");
         List<ArrayList<String>> defaultBoard = createDefaultBoard();
         updateDefaultBoard(board.getBoard(), defaultBoard);
         printBoardDetails(defaultBoard);
+        System.out.println("=====================");
+        System.out.println();
     }
 
     public void printWinner(final Player winner) {
@@ -62,9 +81,11 @@ public class OutputView {
     }
 
     private void printBoardDetails(final List<ArrayList<String>> board) {
-        board.forEach(pieces -> {
-            pieces.forEach(System.out::print);
-            System.out.println();
-        });
+        IntStream.range(1, 11)
+                .forEach(i -> {
+                    System.out.printf("%2d|", i);
+                    System.out.print(String.join(" ", board.get(i - 1)));
+                    System.out.println("|");
+                });
     }
 }
