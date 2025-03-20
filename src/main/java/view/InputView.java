@@ -27,7 +27,7 @@ public class InputView {
         return scanner.nextLine().equals("y");
     }
 
-    private int parse(String number) {
+    private int parse(final String number) {
         try {
             if (number.equals("0")) {
                 return 10;

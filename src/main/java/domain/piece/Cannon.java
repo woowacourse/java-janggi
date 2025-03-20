@@ -1,15 +1,16 @@
 package domain.piece;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import domain.Board;
 import domain.Direction;
 import domain.Position;
 import domain.Team;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Cannon extends Piece {
 
-    public Cannon(Position position, Team team, Board board) {
+    public Cannon(final Position position, final Team team, final Board board) {
         super(position, team, board);
     }
 
@@ -44,4 +45,5 @@ public class Cannon extends Piece {
         return position.isInValidPosition() || board.isCannon(position) ||
                 (board.isSameTeam(this, position) && hasHuddle);
     }
+
 }

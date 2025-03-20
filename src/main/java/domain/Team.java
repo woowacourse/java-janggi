@@ -1,15 +1,13 @@
 package domain;
 
 public enum Team {
-    RED(1, 1),
-    BLUE(10, 1);
+    RED(1),
+    BLUE(10);
 
     private final int initRow;
-    private final int initColumn;
 
-    Team(int initRow, int initColumn) {
+    Team(final int initRow) {
         this.initRow = initRow;
-        this.initColumn = initColumn;
     }
 
     public int getInitRow() {

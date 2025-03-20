@@ -1,11 +1,12 @@
 package domain.piece;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import domain.Board;
 import domain.Direction;
 import domain.Position;
 import domain.Team;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Guard extends Piece {
 

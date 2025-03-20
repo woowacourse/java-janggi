@@ -1,11 +1,12 @@
 package domain.piece;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import domain.Board;
 import domain.Direction;
 import domain.Position;
 import domain.Team;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Chariot extends Piece {
 
@@ -40,4 +41,5 @@ public class Chariot extends Piece {
     private boolean exitCondition(Position position) {
         return position.isInValidPosition() || (board.isExists(position) && board.isSameTeam(this, position));
     }
+
 }

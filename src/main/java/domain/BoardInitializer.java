@@ -29,49 +29,49 @@ public class BoardInitializer {
         return board;
     }
 
-    private void putHorse(Team team, Board board) {
+    private void putHorse(final Team team, final Board board) {
         board.putPieces(List.of(
                 new Horse(new Position(3, calculateRow(team, 0)), team, board),
                 new Horse(new Position(8, calculateRow(team, 0)), team, board)
         ));
     }
 
-    private void putElephant(Team team, Board board) {
+    private void putElephant(final Team team, final Board board) {
         board.putPieces(List.of(
                 new Elephant(new Position(2, calculateRow(team, 0)), team, board),
                 new Elephant(new Position(7, calculateRow(team, 0)), team, board)
         ));
     }
 
-    private void putGuard(Team team, Board board) {
+    private void putGuard(final Team team, final Board board) {
         board.putPieces(List.of(
                 new Guard(new Position(4, calculateRow(team, 0)), team, board),
                 new Guard(new Position(6, calculateRow(team, 0)), team, board)
         ));
     }
 
-    private void putChariot(Team team, Board board) {
+    private void putChariot(final Team team, final Board board) {
         board.putPieces(List.of(
                 new Chariot(new Position(1, calculateRow(team, 0)), team, board),
                 new Chariot(new Position(9, calculateRow(team, 0)), team, board)
         ));
     }
 
-    private void putKing(Team team, Board board) {
+    private void putKing(final Team team, final Board board) {
         board.putPieces(List.of(
                 new King(new Position(5, calculateRow(team, 1)), team, board),
                 new King(new Position(5, calculateRow(team, 1)), team, board)
         ));
     }
 
-    private void putCannon(Team team, Board board) {
+    private void putCannon(final Team team, final Board board) {
         board.putPieces(List.of(
                 new Cannon(new Position(2, calculateRow(team, 2)), team, board),
                 new Cannon(new Position(8, calculateRow(team, 2)), team, board)
         ));
     }
 
-    private void putSoldiers(Team team, Board board) {
+    private void putSoldiers(final Team team, final Board board) {
         board.putPieces(IntStream.range(1, 10)
                 .filter(BoardInitializer::isSoldierColumn)
                 .mapToObj(column -> new Solider(
@@ -85,7 +85,7 @@ public class BoardInitializer {
         return team.getInitRow() + team.convertRowOffsetByTeam(rankLine);
     }
 
-    private static boolean isSoldierColumn(int column) {
+    private static boolean isSoldierColumn(final int column) {
         return column % 2 != 0;
     }
 

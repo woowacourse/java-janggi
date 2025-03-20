@@ -12,7 +12,7 @@ public abstract class Piece {
     protected final Team team;
     protected final Board board;
 
-    protected Piece(Position position, Team team, Board board) {
+    protected Piece(final Position position, final Team team, final Board board) {
         this.position = position;
         this.team = team;
         this.board = board;
@@ -30,7 +30,7 @@ public abstract class Piece {
         return this.team == otherPiece.team;
     }
 
-    public void move(Position position) {
+    public void move(final Position position) {
         if (!getMovablePositions().contains(position)) {
             throw new IllegalArgumentException();
         }

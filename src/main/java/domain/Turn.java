@@ -1,6 +1,7 @@
 package domain;
 
 public class Turn {
+
     private int value = 1;
 
     public Team getCurrnetTeam() {
@@ -13,4 +14,5 @@ public class Turn {
     public void increaseRound() {
         ++value;
     }
+
 }

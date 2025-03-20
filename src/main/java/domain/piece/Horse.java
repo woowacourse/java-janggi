@@ -1,15 +1,16 @@
 package domain.piece;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import domain.Board;
 import domain.Direction;
 import domain.Position;
 import domain.Team;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Horse extends Piece {
 
-    public Horse(Position position, Team team, Board board) {
+    public Horse(final Position position, final Team team, final Board board) {
         super(position, team, board);
     }
 

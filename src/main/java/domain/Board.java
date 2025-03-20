@@ -18,20 +18,20 @@ public class Board {
         this.pieces = new ArrayList<>(pieces);
     }
 
-    public void putPieces(List<Piece> pieces) {
+    public void putPieces(final List<Piece> pieces) {
         pieces.forEach(this::putPiece);
     }
 
-    public void putPiece(Piece piece) {
+    public void putPiece(final Piece piece) {
         pieces.add(piece);
     }
 
-    public boolean isExists(Position position) {
+    public boolean isExists(final Position position) {
         return pieces.stream()
                 .anyMatch(piece -> piece.isSamePosition(position));
     }
 
-    public boolean isSameTeam(Piece piece, final Position newPosition) {
+    public boolean isSameTeam(final Piece piece, final Position newPosition) {
         return pieces.stream()
                 .anyMatch(p -> p.isSamePosition(newPosition) && p.isSameTeam(piece));
     }
@@ -49,24 +49,20 @@ public class Board {
         }
     }
 
-    public boolean isCannon(Position position) {
+    public boolean isCannon(final Position position) {
         return pieces.stream()
                 .filter(piece -> position.equals(piece.getPosition()))
                 .anyMatch(Cannon.class::isInstance);
     }
 
-    public List<Piece> getPieces() {
-        return pieces;
-    }
-
-    public Piece findPiece(Position position) {
+    public Piece findPiece(final Position position) {
         return pieces.stream()
                 .filter(piece -> piece.isSamePosition(position))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("올바른 기물의 위치를 입력해주세요."));
     }
 
-    public Piece findPiece(Position position, Team team) {
+    public Piece findPiece(final Position position, final Team team) {
         return pieces.stream()
                 .filter(piece -> piece.isSamePosition(position))
                 .filter(piece -> piece.getTeam() == team)
@@ -74,12 +70,8 @@ public class Board {
                 .orElseThrow(() -> new IllegalArgumentException(String.format("올바른 기물의 위치를 입력해주세요(현재 턴: %s).", team.name())));
     }
 
-    // findPiece에서 팀 받기
+    public List<Piece> getPieces() {
+        return pieces;
+    }
 
-    /*
-    TODO
-    - 사용자에게 입력받은 position예외처리하고, 있으면 기물 반환?
-    - Board 뷰에 출력하기
-    - Board <-> Piece 의존성 끊어줄 수 있는지 고민해보기
-     */
 }

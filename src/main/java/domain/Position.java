@@ -12,9 +12,6 @@ public class Position {
     public static final int MAX_COLUMN = 9;
 
     public Position(final int column, final int row) {
-//        if (x < 1 || y < 1 || x > 9 || y > 10) {
-//            throw new IllegalArgumentException("위치는 장기판 내부여야 합니다.");
-//        }
         this.point = new Point(column, row);
     }
 
@@ -34,7 +31,7 @@ public class Position {
         );
     }
 
-    public Position nextPosition(Direction direction) {
+    public Position nextPosition(final Direction direction) {
         return new Position(
                 getColumn() + direction.getDeltaColumn(),
                 getRow() + direction.getDeltaRow()
@@ -42,7 +39,7 @@ public class Position {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
