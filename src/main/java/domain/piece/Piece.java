@@ -32,6 +32,8 @@ public abstract class Piece {
 
     public abstract boolean isKing();
 
+    public abstract boolean isCannon();
+
     public abstract String getName();
 
     public Directions getDirections() {

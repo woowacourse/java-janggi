@@ -24,6 +24,11 @@ public class King extends Piece {
         return true;
     }
 
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
+
     public String getName() {
         return NAME;
     }

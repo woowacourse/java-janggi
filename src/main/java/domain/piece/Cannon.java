@@ -24,6 +24,11 @@ public class Cannon extends Piece {
         return false;
     }
 
+    @Override
+    public boolean isCannon() {
+        return true;
+    }
+
     public String getName() {
         return NAME;
     }

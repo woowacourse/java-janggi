@@ -24,6 +24,11 @@ public class Advisor extends Piece {
         return false;
     }
 
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
+
     public String getName() {
         return NAME;
     }
