@@ -7,25 +7,25 @@ import java.util.List;
 public final class Route {
     private final List<Direction> directions;
 
-    public Route(List<Direction> directions) {
+    public Route(final List<Direction> directions) {
         this.directions = directions;
     }
 
     public Point navigateArrivalPoint(Point point) {
-        for (Direction direction : directions) {
+        for (final Direction direction : directions) {
             point = point.move(direction);
         }
         return point;
     }
 
-    public boolean canArrive(Point startPoint, Point arrivalPoint) {
-        Point point = navigateArrivalPoint(startPoint);
+    public boolean canArrive(final Point startPoint, final Point arrivalPoint) {
+        final Point point = navigateArrivalPoint(startPoint);
         return point.equals(arrivalPoint);
     }
 
     public List<Point> getAllPointsOnRoute(Point point) {
-        List<Point> result = new ArrayList<>();
-        for (Direction direction : directions) {
+        final List<Point> result = new ArrayList<>();
+        for (final Direction direction : directions) {
             point = point.move(direction);
             result.add(point);
         }

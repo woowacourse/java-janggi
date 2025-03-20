@@ -3,23 +3,23 @@ package domain.movements;
 import domain.Point;
 import java.util.List;
 
-public class DefaultMovement implements PieceMovement {
+public final class DefaultMovement implements PieceMovement {
     private final List<Route> routes;
 
-    public DefaultMovement(List<Route> routes) {
+    public DefaultMovement(final List<Route> routes) {
         this.routes = routes;
     }
 
     @Override
-    public List<Point> calculateTotalArrivalPoints(Point startPoint) {
+    public List<Point> calculateTotalArrivalPoints(final Point startPoint) {
         return routes.stream()
                 .map(route -> route.navigateArrivalPoint(startPoint))
                 .toList();
     }
 
     @Override
-    public List<Point> calculateRoutePoints(Point startPoint, Point arrivalPoint) {
-        for (Route route : routes) {
+    public List<Point> calculateRoutePoints(final Point startPoint, final Point arrivalPoint) {
+        for (final Route route : routes) {
             if (route.canArrive(startPoint, arrivalPoint)) {
                 return route.getAllPointsOnRoute(startPoint);
             }

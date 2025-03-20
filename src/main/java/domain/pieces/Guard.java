@@ -6,31 +6,31 @@ import domain.Team;
 import execptions.JanggiArgumentException;
 import java.util.List;
 
-public class Guard implements Piece {
+public final class Guard implements Piece {
 
     private final Team team;
 
-    public Guard(Team team) {
+    public Guard(final Team team) {
         this.team = team;
     }
 
     @Override
-    public boolean hasEqualTeam(Team team) {
+    public boolean hasEqualTeam(final Team team) {
         return this.team.equals(team);
     }
 
     @Override
-    public boolean isAbleToArrive(Point startPoint, Point arrivalPoint) {
+    public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
         throw new JanggiArgumentException("신하는 이동할 수 없습니다.");
     }
 
     @Override
-    public List<Point> getRoutePoints(Point startPoint, Point arrivalPoint) {
+    public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
         throw new JanggiArgumentException("신하는 이동할 수 없습니다.");
     }
 
     @Override
-    public boolean isMovable(PieceOnRoute pieceOnRoute) {
+    public boolean isMovable(final PieceOnRoute pieceOnRoute) {
         throw new JanggiArgumentException("장군은 이동할 수 없습니다.");
     }
 

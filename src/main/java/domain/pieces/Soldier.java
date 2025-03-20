@@ -9,12 +9,12 @@ import domain.movements.PieceMovement;
 import domain.movements.Route;
 import java.util.List;
 
-public class Soldier implements Piece {
+public final class Soldier implements Piece {
 
     private final Team team;
     private final PieceMovement defaultMovement;
 
-    public Soldier(Team team) {
+    public Soldier(final Team team) {
         this.team = team;
         if (team.equals(Team.HAN)) {
             defaultMovement = new DefaultMovement(List.of(
@@ -32,22 +32,22 @@ public class Soldier implements Piece {
     }
 
     @Override
-    public boolean hasEqualTeam(Team team) {
+    public boolean hasEqualTeam(final Team team) {
         return this.team.equals(team);
     }
 
     @Override
-    public boolean isAbleToArrive(Point startPoint, Point arrivalPoint) {
+    public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
         return defaultMovement.calculateTotalArrivalPoints(startPoint).contains(arrivalPoint);
     }
 
     @Override
-    public List<Point> getRoutePoints(Point startPoint, Point arrivalPoint) {
+    public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
         return defaultMovement.calculateRoutePoints(startPoint, arrivalPoint);
     }
 
     @Override
-    public boolean isMovable(PieceOnRoute pieceOnRoute) {
+    public boolean isMovable(final PieceOnRoute pieceOnRoute) {
         return !pieceOnRoute.hasArrivalPointInMyTeam(team);
     }
 

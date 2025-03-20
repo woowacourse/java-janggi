@@ -9,12 +9,12 @@ import domain.movements.PieceMovement;
 import domain.movements.Route;
 import java.util.List;
 
-public class Elephant implements Piece {
+public final class Elephant implements Piece {
 
     private final PieceMovement defaultMovement;
     private final Team team;
 
-    public Elephant(Team team) {
+    public Elephant(final Team team) {
         List<Route> routes = List.of(
                 new Route(List.of(Direction.NORTH, Direction.NORTHWEST, Direction.NORTHWEST)),
                 new Route(List.of(Direction.NORTH, Direction.NORTHEAST, Direction.NORTHEAST)),
@@ -31,22 +31,22 @@ public class Elephant implements Piece {
     }
 
     @Override
-    public boolean hasEqualTeam(Team team) {
+    public boolean hasEqualTeam(final Team team) {
         return this.team.equals(team);
     }
 
     @Override
-    public boolean isAbleToArrive(Point startPoint, Point arrivalPoint) {
+    public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
         return defaultMovement.calculateTotalArrivalPoints(startPoint).contains(arrivalPoint);
     }
 
     @Override
-    public List<Point> getRoutePoints(Point startPoint, Point arrivalPoint) {
+    public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
         return defaultMovement.calculateRoutePoints(startPoint, arrivalPoint);
     }
 
     @Override
-    public boolean isMovable(PieceOnRoute pieceOnRoute) {
+    public boolean isMovable(final PieceOnRoute pieceOnRoute) {
         if (pieceOnRoute.hasArrivalPointInMyTeam(team)) {
             return false;
         }

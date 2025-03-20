@@ -17,7 +17,7 @@ public record PieceOnRoute(List<Piece> pieces) {
         return true;
     }
 
-    public boolean hasArrivalPointInMyTeam(Team team) {
+    public boolean hasArrivalPointInMyTeam(final Team team) {
         Piece last = pieces.getLast();
         if (!last.equals(emptyPiece)) {
             return last.hasEqualTeam(team);
