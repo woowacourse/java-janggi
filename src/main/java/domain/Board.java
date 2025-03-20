@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -8,11 +9,78 @@ public class Board {
     private final Map<Position, Piece> pieces;
 
     public Board(final Map<Position, Piece> pieces) {
-        this.pieces = pieces;
+        this.pieces = new HashMap<>(pieces);
+    }
+
+    public void movePiece(
+        final Position targetPosition,
+        final Position movePosition
+    ) {
+        if (!pieces.containsKey(targetPosition)) {
+            throw new IllegalArgumentException("이동하려는 위치에 기물이 없습니다.");
+        }
+
+        final Piece movePiece = pieces.get(targetPosition);
+        final Piece targetPiece = pieces.get(movePosition);
+        if (targetPiece != null
+            && movePiece.getTeam() == targetPiece.getTeam()) {
+            throw new IllegalArgumentException("이동하려는 위치에 아군 기물이 존재합니다.");
+        }
+
+        final List<Offset> movementRule = movePiece.findMovementRule(
+            targetPosition, movePosition);
+        validateMovementRule(movementRule, targetPosition, movePosition, movePiece);
+
+        if (targetPiece != null
+            && movePiece.getTeam() != targetPiece.getTeam()) {
+
+            pieces.remove(movePosition);
+        }
+
+        pieces.remove(targetPosition);
+        pieces.put(movePosition, movePiece);
+    }
+
+    private void validateMovementRule(
+        final List<Offset> movementRule,
+        final Position targetPosition,
+        final Position movePosition,
+        final Piece movePiece
+    ) {
+        Position currentPosition = targetPosition;
+        int obstacleCount = 0;
+        for (final Offset offset : movementRule) {
+            currentPosition = currentPosition.calculatePosition(offset);
+            if (currentPosition.equals(movePosition)) {
+                continue;
+            }
+            if (pieces.containsKey(currentPosition)) {
+                obstacleCount ++;
+            }
+        }
+        if (!movePiece.isObstacleCountAllowed(obstacleCount)) {
+            throw new IllegalArgumentException("이동경로에 적합하지 않은 장애물이 있습니다.");
+        }
+        if (movePiece.getPieceType() == PieceType.CANNON) {
+            validateCannonMovementRule(movementRule, targetPosition);
+        }
+    }
+
+    private void validateCannonMovementRule(
+        final List<Offset> movementRule,
+        final Position targetPosition
+    ) {
+        Position currentPosition = targetPosition;
+        for (final Offset offset : movementRule) {
+            currentPosition = currentPosition.calculatePosition(offset);
+            if (pieces.containsKey(currentPosition) && pieces.get(currentPosition).getPieceType() == PieceType.CANNON) {
+                throw new IllegalArgumentException("포는 포를 넘거나 잡을 수 없습니다.");
+            }
+        }
     }
 
     public static Board initialize() {
-        Map<Position, Piece> pieces = new HashMap<>();
+        final Map<Position, Piece> pieces = new HashMap<>();
         initializeBoard(pieces);
         return new Board(pieces);
     }

@@ -102,7 +102,7 @@ public enum PieceType {
             List.of(new Offset(0, -1), new Offset(0, -1), new Offset(0, -1),
                 new Offset(0, -1), new Offset(0, -1), new Offset(0, -1),
                 new Offset(0, -1), new Offset(0, -1), new Offset(0, -1)))
-    )),
+    ), 1),
     CHARIOT("차", Map.of(
         Team.GREEN, List.of(new Position(0, 0), new Position(8, 0)),
         Team.RED, List.of(new Position(0, 9), new Position(8, 9))
@@ -203,7 +203,7 @@ public enum PieceType {
             List.of(new Offset(0, -1), new Offset(0, -1), new Offset(0, -1),
                 new Offset(0, -1), new Offset(0, -1), new Offset(0, -1),
                 new Offset(0, -1), new Offset(0, -1), new Offset(0, -1)))
-    )),
+    ), 0),
     ELEPHANT("상", Map.of(
         Team.GREEN, List.of(new Position(1, 0), new Position(7, 0)),
         Team.RED, List.of(new Position(1, 9), new Position(7, 9))
@@ -224,7 +224,7 @@ public enum PieceType {
         List.of(new Offset(0, 1), new Offset(-1, 1), new Offset(-1, 1)),
         new Offset(-2, -3),
         List.of(new Offset(0, -1), new Offset(-1, -1), new Offset(-1, -1))
-    )),
+    ), 0),
     GENERAL("왕", Map.of(
         Team.GREEN, List.of(new Position(4, 1)),
         Team.RED, List.of(new Position(4, 8))
@@ -233,7 +233,7 @@ public enum PieceType {
         new Offset(-1, 0), List.of(new Offset(-1, 0)),
         new Offset(0, 1), List.of(new Offset(0, 1)),
         new Offset(0, -1), List.of(new Offset(0, -1))
-    )),
+    ), 0),
     GUARD("사", Map.of(
         Team.GREEN, List.of(new Position(3, 0), new Position(5, 0)),
         Team.RED, List.of(new Position(3, 9), new Position(5, 9))
@@ -242,8 +242,7 @@ public enum PieceType {
         new Offset(-1, 0), List.of(new Offset(-1, 0)),
         new Offset(0, 1), List.of(new Offset(0, 1)),
         new Offset(0, -1), List.of(new Offset(0, -1))
-    )
-    ),
+    ), 0),
     HORSE("마", Map.of(
         Team.GREEN, List.of(new Position(2, 0), new Position(6, 0)),
         Team.RED, List.of(new Position(2, 9), new Position(6, 9))
@@ -256,7 +255,7 @@ public enum PieceType {
         new Offset(1, -2), List.of(new Offset(0, -1), new Offset(1, -1)),
         new Offset(-1, 2), List.of(new Offset(0, 1), new Offset(-1, 1)),
         new Offset(-1, -2), List.of(new Offset(0, -1), new Offset(-1, -1))
-    )),
+    ), 0),
     쭈("쭈", Map.of(
         Team.GREEN,
         List.of(new Position(0, 3), new Position(2, 3), new Position(4, 3),
@@ -269,20 +268,24 @@ public enum PieceType {
         new Offset(-1, 0), List.of(new Offset(-1, 0)),
         new Offset(0, 1), List.of(new Offset(0, 1)),
         new Offset(0, -1), List.of(new Offset(0, -1))
-    ));
+    ), 0);
 
     private final String title;
     private final Map<Team, List<Position>> initialPosition;
     private final Map<Offset, List<Offset>> movementRules;
+    private final int allowObstacleCount;
+
 
     PieceType(
         final String title,
         final Map<Team, List<Position>> initialPosition,
-        final Map<Offset, List<Offset>> movementRules
+        final Map<Offset, List<Offset>> movementRules,
+        final int allowObstacleCount
     ) {
         this.title = title;
         this.initialPosition = initialPosition;
         this.movementRules = movementRules;
+        this.allowObstacleCount = allowObstacleCount;
     }
 
     public Map<Team, List<Position>> getInitialPosition() {
@@ -319,5 +322,9 @@ public enum PieceType {
         }
 
         return Optional.of(movementRule);
+    }
+
+    public int getAllowObstacleCount() {
+        return allowObstacleCount;
     }
 }

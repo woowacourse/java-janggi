@@ -18,6 +18,10 @@ public record Position(
         }
     }
 
+    public Position calculatePosition(final Offset offset) {
+        return new Position(this.x + offset.x(), this.y + offset.y());
+    }
+
     public Offset calculateOffset(final Position before) {
         return new Offset(this.x - before.x, this.y - before.y);
     }
