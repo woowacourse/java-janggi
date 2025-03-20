@@ -52,17 +52,17 @@ public final class Piece {
             final List<Piece> allyPieces,
             final List<Piece> enemyPieces
     ) {
-        final List<Piece> hello = new ArrayList<>();
-        hello.addAll(allyPieces);
-        hello.addAll(enemyPieces);
+        final List<Piece> allPieces = new ArrayList<>();
+        allPieces.addAll(allyPieces);
+        allPieces.addAll(enemyPieces);
 
         return paths.stream()
                 .filter(path -> {
                     if (type == PieceType.포) {
-                        List<Piece> piece = path.getEncounteredMiddlePieces(hello);
+                        List<Piece> piece = path.getEncounteredMiddlePieces(allPieces);
                         return piece.size() == 1 && piece.getFirst().type != PieceType.포;
                     } else {
-                        return path.getEncounteredMiddlePieces(hello).isEmpty();
+                        return path.getEncounteredMiddlePieces(allPieces).isEmpty();
                     }
                 })
                 .toList();
