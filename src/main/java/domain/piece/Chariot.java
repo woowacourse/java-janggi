@@ -7,6 +7,7 @@ import domain.PieceType;
 import domain.Team;
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Chariot extends Piece {
 
@@ -26,13 +27,18 @@ public class Chariot extends Piece {
         return createMovementRule(offset);
     }
 
+    private void validateChariotOffset(final Offset offset) {
+        if (offset.x() != 0 && offset.y() != 0) {
+            throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");
+        }
+    }
+
     private List<Offset> createMovementRule(final Offset offset) {
         final Offset unitDirection = offset.getUnitDirectionOffset();
-
         int distance = getDistance(offset, unitDirection);
 
-        return IntStream.rangeClosed(0, distance)
-                .mapToObj(value -> unitDirection)
+        return Stream.generate(() -> unitDirection)
+                .limit(distance)
                 .toList();
     }
 
@@ -44,11 +50,5 @@ public class Chariot extends Piece {
             distance++;
         }
         return distance;
-    }
-
-    private void validateChariotOffset(final Offset offset) {
-        if (offset.x() != 0 && offset.y() != 0) {
-            throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");
-        }
     }
 }
