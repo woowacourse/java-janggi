@@ -24,8 +24,8 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public boolean isObstacleCountAllowed(final int obstacleCount) {
-        return obstacleCount == 0;
+    public boolean isAllowedObstacles(final List<Piece> obstacles) {
+        return obstacles.isEmpty();
     }
 
     private void validateOffset(final Offset offset) {

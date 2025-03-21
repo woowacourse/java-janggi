@@ -38,7 +38,7 @@ class ElephantTest {
             assertThat(route).containsExactly(UP, RIGHT_UP, RIGHT_UP);
         }
 
-        @DisplayName("상이 허용가능한 경로상 장애물 갯수인지 확인한다.")
+        @DisplayName("경로에 장애물이 있는지 확인한다.")
         @Test
         void isObstacleCountAllowed() {
             // given
@@ -46,8 +46,8 @@ class ElephantTest {
 
             // when & then
             assertAll(
-                    () -> assertThat(elephant.isObstacleCountAllowed(3)).isFalse(),
-                    () -> assertThat(elephant.isObstacleCountAllowed(0)).isTrue()
+                    () -> assertThat(elephant.isAllowedObstacles(List.of(new Zzu(Team.RED)))).isFalse(),
+                    () -> assertThat(elephant.isAllowedObstacles(List.of())).isTrue()
             );
         }
     }

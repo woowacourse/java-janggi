@@ -42,7 +42,7 @@ class CannonTest {
             );
         }
 
-        @DisplayName("포가 허용가능한 경로상 장애물 갯수인지 확인한다.")
+        @DisplayName("포가 넘을 수 있는 기물인지 확인한다.")
         @Test
         void isObstacleCountAllowed() {
             // given
@@ -50,9 +50,10 @@ class CannonTest {
 
             // when & then
             assertAll(
-                    () -> assertThat(cannon.isObstacleCountAllowed(0)).isFalse(),
-                    () -> assertThat(cannon.isObstacleCountAllowed(3)).isFalse(),
-                    () -> assertThat(cannon.isObstacleCountAllowed(1)).isTrue()
+                    () -> assertThat(cannon.isAllowedObstacles(List.of(new Zzu(Team.RED), new Horse(Team.GREEN)))).isFalse(),
+                    () -> assertThat(cannon.isAllowedObstacles(List.of())).isFalse(),
+                    () -> assertThat(cannon.isAllowedObstacles(List.of(new Cannon(Team.RED)))).isFalse(),
+                    () -> assertThat(cannon.isAllowedObstacles(List.of(new Zzu(Team.RED)))).isTrue()
             );
         }
     }

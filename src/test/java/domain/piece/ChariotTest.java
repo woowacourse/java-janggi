@@ -42,7 +42,7 @@ public class ChariotTest {
             );
         }
 
-        @DisplayName("차가 허용가능한 경로상 장애물 갯수인지 확인한다.")
+        @DisplayName("경로에 장애물이 있는지 확인한다.")
         @Test
         void isObstacleCountAllowed() {
             // given
@@ -50,8 +50,8 @@ public class ChariotTest {
 
             // when & then
             assertAll(
-                    () -> assertThat(chariot.isObstacleCountAllowed(3)).isFalse(),
-                    () -> assertThat(chariot.isObstacleCountAllowed(0)).isTrue()
+                    () -> assertThat(chariot.isAllowedObstacles(List.of(new Zzu(Team.RED)))).isFalse(),
+                    () -> assertThat(chariot.isAllowedObstacles(List.of())).isTrue()
             );
         }
     }

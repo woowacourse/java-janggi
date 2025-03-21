@@ -38,7 +38,7 @@ class GeneralTest {
             );
         }
 
-        @DisplayName("왕의 허용가능한 경로상 장애물 갯수인지 확인한다.")
+        @DisplayName("경로에 장애물이 있는지 확인한다.")
         @Test
         void isObstacleCountAllowed() {
             // given
@@ -46,8 +46,8 @@ class GeneralTest {
 
             // when & then
             assertAll(
-                    () -> assertThat(general.isObstacleCountAllowed(3)).isFalse(),
-                    () -> assertThat(general.isObstacleCountAllowed(0)).isTrue()
+                    () -> assertThat(general.isAllowedObstacles(List.of(new Zzu(Team.RED)))).isFalse(),
+                    () -> assertThat(general.isAllowedObstacles(List.of())).isTrue()
             );
         }
     }

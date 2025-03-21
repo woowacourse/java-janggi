@@ -23,8 +23,8 @@ public class Guard extends Piece {
     }
 
     @Override
-    public boolean isObstacleCountAllowed(final int obstacleCount) {
-        return obstacleCount == 0;
+    public boolean isAllowedObstacles(final List<Piece> obstacles) {
+        return obstacles.isEmpty();
     }
 
     // TODO : 추후) 사는 궁성 밖으로 나갈 수 없다.

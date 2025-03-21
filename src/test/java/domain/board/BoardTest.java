@@ -118,7 +118,7 @@ class BoardTest {
                     new BoardPosition(0, 0),
                     new BoardPosition(1, 2), Team.GREEN))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("이동경로에 적합하지 않은 장애물이 있습니다.");
+                    .hasMessage("이동경로에 넘을 수 없는 기물이 있습니다.");
         }
 
         @Nested
@@ -139,7 +139,7 @@ class BoardTest {
                 assertThatThrownBy(
                         () -> board.movePiece(new BoardPosition(0, 0), new BoardPosition(0, 6), Team.RED))
                         .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("이동경로에 적합하지 않은 장애물이 있습니다.");
+                        .hasMessage("이동경로에 넘을 수 없는 기물이 있습니다.");
             }
 
             @DisplayName("포가 포를 넘으면 예외가 발생한다.")
@@ -157,9 +157,10 @@ class BoardTest {
                 assertThatThrownBy(
                         () -> board.movePiece(new BoardPosition(0, 0), new BoardPosition(0, 6), Team.RED))
                         .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("포는 포를 넘거나 잡을 수 없습니다.");
+                        .hasMessage("이동경로에 넘을 수 없는 기물이 있습니다.");
             }
 
+            // TODO : fix
             @DisplayName("포가 잡으려는 기물이 포라면 예외가 발생한다.")
             @Test
             void movePieceCannonCase3() {
@@ -174,7 +175,7 @@ class BoardTest {
                 assertThatThrownBy(
                         () -> board.movePiece(new BoardPosition(0, 0), new BoardPosition(0, 6), Team.RED))
                         .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("포는 포를 넘거나 잡을 수 없습니다.");
+                        .hasMessage("이동경로에 넘을 수 없는 기물이 있습니다.");
             }
         }
     }

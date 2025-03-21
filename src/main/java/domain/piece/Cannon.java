@@ -8,6 +8,8 @@ import java.util.stream.Stream;
 
 public class Cannon extends Piece {
 
+    private static final int ALLOWED_OBSTACLES_COUNT = 1;
+
     public Cannon(final Team team) {
         super(team);
     }
@@ -24,8 +26,9 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public boolean isObstacleCountAllowed(final int obstacleCount) {
-        return obstacleCount == 1;
+    public boolean isAllowedObstacles(final List<Piece> obstacles) {
+        return obstacles.size() == ALLOWED_OBSTACLES_COUNT
+                && obstacles.getLast().getClass() != this.getClass();
     }
 
     private void validateOffset(final Offset offset) {
