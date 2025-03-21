@@ -39,4 +39,9 @@ public abstract class CrossMoveBehavior implements PieceBehavior {
         return vectors.stream()
                 .allMatch(currentPosition::canNotMove);
     }
+
+    @Override
+    public final boolean isCannon(){
+        return false;
+    }
 }

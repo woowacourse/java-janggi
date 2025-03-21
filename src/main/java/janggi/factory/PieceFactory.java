@@ -1,16 +1,16 @@
 package janggi.factory;
 
-import janggi.domain.piece.Piece;
-import janggi.domain.move.Position;
 import janggi.domain.Side;
-import janggi.domain.piece.behavior.straightmove.Cannon;
-import janggi.domain.piece.behavior.straightmove.Chariot;
-import janggi.domain.piece.behavior.crossmove.Elephant;
+import janggi.domain.move.Position;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceBehavior;
 import janggi.domain.piece.behavior.General;
 import janggi.domain.piece.behavior.Guard;
-import janggi.domain.piece.behavior.crossmove.Horse;
-import janggi.domain.piece.PieceBehavior;
 import janggi.domain.piece.behavior.Soldier;
+import janggi.domain.piece.behavior.crossmove.Elephant;
+import janggi.domain.piece.behavior.crossmove.Horse;
+import janggi.domain.piece.behavior.straightmove.Cannon;
+import janggi.domain.piece.behavior.straightmove.Chariot;
 import java.util.HashMap;
 import java.util.Map;
 

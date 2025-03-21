@@ -17,6 +17,11 @@ public class Cannon extends StraightMoveBehavior {
     }
 
     @Override
+    public boolean isCannon() {
+        return true;
+    }
+
+    @Override
     protected List<Vector> getVectors() {
         return List.of(
                 new Vector(1, 0),

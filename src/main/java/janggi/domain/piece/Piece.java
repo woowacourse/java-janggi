@@ -1,9 +1,8 @@
 package janggi.domain.piece;
 
 import janggi.domain.Board;
-import janggi.domain.move.Position;
 import janggi.domain.Side;
-import janggi.domain.piece.behavior.straightmove.Cannon;
+import janggi.domain.move.Position;
 import janggi.domain.piece.behavior.General;
 import java.util.Objects;
 import java.util.Set;
@@ -23,7 +22,7 @@ public class Piece {
     }
 
     public boolean isCannon() {
-        return pieceBehavior instanceof Cannon;
+        return pieceBehavior.isCannon();
     }
 
     public boolean isGeneral(Side side) {

@@ -30,4 +30,9 @@ public class General implements PieceBehavior {
     public String toName() {
         return "궁";
     }
+
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
 }

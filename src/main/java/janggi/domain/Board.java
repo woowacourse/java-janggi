@@ -15,8 +15,8 @@ public class Board {
         this.pieceMap = pieceMap;
     }
 
-    public void validate(Map<Position, Piece> pieceMap){
-        if(pieceMap == null){
+    public void validate(Map<Position, Piece> pieceMap) {
+        if (pieceMap == null) {
             throw new IllegalArgumentException();
         }
     }
