@@ -3,6 +3,7 @@ package janggi.piece;
 import janggi.position.Path;
 import janggi.position.Position;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,7 +34,7 @@ class KingTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = king.makePath(currentPosition, arrivalPosition);
+        Path path = king.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new King(Team.CHO)));
 
         // Then
         assertThat(path).isEqualTo(new Path(List.of(arrivalPosition)));
@@ -51,7 +52,7 @@ class KingTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
-        assertThatThrownBy(() -> king.makePath(currentPosition, arrivalPosition))
+        assertThatThrownBy(() -> king.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new King(Team.CHO))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 왕은 한 방향으로 한 칸만 이동할 수 있습니다.");
     }

@@ -2,6 +2,7 @@ package janggi.piece;
 
 import janggi.position.Path;
 import janggi.position.Position;
+import java.util.Map;
 
 public abstract class Piece {
 
@@ -13,7 +14,8 @@ public abstract class Piece {
         this.team = team;
     }
 
-    abstract public Path makePath(Position currentPosition, Position arrivalPosition);
+    abstract public Path makePath(Position currentPosition, Position arrivalPosition,
+                                  final Map<Position, Piece> pieces);
 
     public boolean matchPieceType(final PieceType pieceType) {
         return this.pieceType == pieceType;

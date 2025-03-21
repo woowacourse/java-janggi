@@ -1,15 +1,16 @@
 package janggi.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import janggi.position.Path;
 import janggi.position.Position;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ByeongTest {
 
@@ -32,7 +33,7 @@ class ByeongTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = byeong.makePath(currentPosition, arrivalPosition);
+        Path path = byeong.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Byeong()));
 
         // Then
         assertThat(path).isEqualTo(new Path(List.of(arrivalPosition)));
@@ -50,7 +51,7 @@ class ByeongTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
-        assertThatThrownBy(() -> byeong.makePath(currentPosition, arrivalPosition))
+        assertThatThrownBy(() -> byeong.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Byeong())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 병은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
     }
@@ -67,7 +68,7 @@ class ByeongTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
-        assertThatThrownBy(() -> byeong.makePath(currentPosition, arrivalPosition))
+        assertThatThrownBy(() -> byeong.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Byeong())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 병은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
     }

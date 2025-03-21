@@ -4,6 +4,7 @@ import janggi.position.Path;
 import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Guard extends Piece {
 
@@ -12,7 +13,8 @@ public class Guard extends Piece {
     }
 
     @Override
-    public Path makePath(final Position currentPosition, final Position arrivalPosition) {
+    public Path makePath(final Position currentPosition, final Position arrivalPosition,
+                         final Map<Position, Piece> pieces) {
         int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
         int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
 
@@ -23,7 +25,18 @@ public class Guard extends Piece {
         int currentX = currentPosition.getX();
         currentY = moveY(arrivalPosition, differenceForY, currentY, positions, currentX);
         moveX(arrivalPosition, differenceForX, currentX, positions, currentY);
-        return new Path(positions);
+        Path path = new Path(positions);
+        if (hasPieceInMiddle(path, pieces)) {
+            throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
+        }
+        return path;
+    }
+
+    private boolean hasPieceInMiddle(final Path path, final Map<Position, Piece> pieces) {
+        List<Position> positions = new ArrayList<>(path.getPositions());
+        positions.removeLast();
+        return positions.stream()
+                .anyMatch(pieces::containsKey);
     }
 
     private int moveY(Position arrivalPosition, int differenceForY, int currentY, List<Position> positions,

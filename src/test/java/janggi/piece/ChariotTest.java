@@ -3,6 +3,7 @@ package janggi.piece;
 import janggi.position.Path;
 import janggi.position.Position;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ class ChariotTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = chariot.makePath(currentPosition, arrivalPosition);
+        Path path = chariot.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, chariot));
 
         // Then
         assertThat(path).isEqualTo(new Path(expected));
@@ -69,7 +70,7 @@ class ChariotTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
-        assertThatThrownBy(() -> chariot.makePath(currentPosition, arrivalPosition))
+        assertThatThrownBy(() -> chariot.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, chariot)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 차는 한 방향으로만 이동할 수 있습니다.");
     }

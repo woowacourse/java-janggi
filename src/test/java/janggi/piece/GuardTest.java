@@ -1,15 +1,16 @@
 package janggi.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import janggi.position.Path;
 import janggi.position.Position;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class GuardTest {
 
@@ -34,7 +35,7 @@ class GuardTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = guard.makePath(currentPosition, arrivalPosition);
+        Path path = guard.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Guard(Team.CHO)));
 
         // Then
         assertThat(path).isEqualTo(new Path(List.of(arrivalPosition)));
@@ -52,7 +53,7 @@ class GuardTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
-        assertThatThrownBy(() -> guard.makePath(currentPosition, arrivalPosition))
+        assertThatThrownBy(() -> guard.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Guard(Team.CHO))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 사는 한 방향으로 한 칸만 이동할 수 있습니다.");
     }

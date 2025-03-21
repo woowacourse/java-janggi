@@ -3,6 +3,7 @@ package janggi.piece;
 import janggi.position.Path;
 import janggi.position.Position;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ class HorseTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = horse.makePath(currentPosition, arrivalPosition);
+        Path path = horse.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Horse(Team.CHO)));
 
         // Then
         assertThat(path).isEqualTo(new Path(expected));
@@ -78,7 +79,7 @@ class HorseTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
-        assertThatThrownBy(() -> horse.makePath(currentPosition, arrivalPosition))
+        assertThatThrownBy(() -> horse.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Horse(Team.CHO))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 말은 직선 1칸 이동 후 대각선 1칸으로만 이동할 수 있습니다.");
     }

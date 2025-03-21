@@ -4,6 +4,7 @@ import janggi.position.Path;
 import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Cannon extends Piece {
 
@@ -12,7 +13,9 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public Path makePath(final Position currentPosition, final Position arrivalPosition) {
+    public Path makePath(final Position currentPosition, final Position arrivalPosition,
+                         final Map<Position, Piece> pieces) {
+
         int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
         int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
 
@@ -23,7 +26,31 @@ public class Cannon extends Piece {
         int currentX = currentPosition.getX();
         currentY = moveY(arrivalPosition, differenceForY, currentY, positions, currentX);
         moveX(arrivalPosition, differenceForX, currentX, positions, currentY);
-        return new Path(positions);
+
+        Path path = new Path(positions);
+        if (computeCountExistPieceExceptLast(path, pieces) != 1) {
+            throw new IllegalArgumentException("[ERROR] 오직 하나의 기물만 뛰어넘을 수 있습니다.");
+        }
+        if (hasCannon(path, pieces)) {
+            throw new IllegalArgumentException("[ERROR] 포는 포끼리 뛰어넘거나 잡을 수 없습니다.");
+        }
+        return path;
+    }
+
+    private int computeCountExistPieceExceptLast(final Path path, final Map<Position, Piece> pieces) {
+        List<Position> positions = new ArrayList<>(path.getPositions());
+        positions.removeLast();
+
+        return (int) positions.stream()
+                .filter(pieces::containsKey)
+                .count();
+    }
+
+    private boolean hasCannon(final Path path, final Map<Position, Piece> pieces) {
+        return path.getPositions().stream()
+                .filter(pieces::containsKey)
+                .map(pieces::get)
+                .anyMatch(piece -> piece.matchPieceType(PieceType.CANNON));
     }
 
     private int moveY(Position arrivalPosition, int differenceForY, int currentY, List<Position> positions,
