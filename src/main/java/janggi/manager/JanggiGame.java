@@ -18,20 +18,22 @@ public class JanggiGame {
     }
 
     public void start() {
-        outputView.writeStartMessage();
-
-        AssignType choAnswer = inputView.readAnswer(CampType.CHO);
-        AssignType hanAnswer = inputView.readAnswer(CampType.HAN);
-
-        final JanggiBoard janggiBoard = new JanggiBoard(choAnswer, hanAnswer);
-        outputView.writeJanggiBoard(janggiBoard.getChoPieces(), janggiBoard.getHanPieces());
-        outputView.writeChoStart();
-
         // TODO: 현재 단계에서는 종료조건 없음, 2단계에서 승패 구현할때 구현 예정
+        JanggiBoard janggiBoard = prepareGame();
+        outputView.writeChoStart();
         for (int i = 0; i < 3; i++) {
             playTurn(janggiBoard, CampType.CHO);
             playTurn(janggiBoard, CampType.HAN);
         }
+    }
+
+    private JanggiBoard prepareGame() {
+        outputView.writeStartMessage();
+        AssignType choAnswer = inputView.readPieceAssignType(CampType.CHO);
+        AssignType hanAnswer = inputView.readPieceAssignType(CampType.HAN);
+        JanggiBoard janggiBoard = new JanggiBoard(choAnswer, hanAnswer);
+        outputView.writeJanggiBoard(janggiBoard.getChoPieces(), janggiBoard.getHanPieces());
+        return janggiBoard;
     }
 
     private void playTurn(JanggiBoard janggiBoard, CampType campType) {

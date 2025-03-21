@@ -10,7 +10,7 @@ public class InputView {
 
     private final static Scanner scanner = new Scanner(System.in);
 
-    public AssignType readAnswer(final CampType campType) {
+    public AssignType readPieceAssignType(final CampType campType) {
         System.out.printf("%s의 초기 배치를 선택해주세요.", campType.getName());
         System.out.println();
         System.out.println("1. 왼상(상마상마)");
@@ -29,7 +29,7 @@ public class InputView {
         List<String> positionInput = List.of(line.split(","));
         int x = Integer.parseInt(positionInput.getFirst());
         int y = Integer.parseInt(positionInput.getLast());
-        
+
         System.out.println();
         return new Position(x, y);
     }
