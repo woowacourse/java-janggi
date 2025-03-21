@@ -1,10 +1,11 @@
 package janggi.controller;
 
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.piece.gererator.ChoPieceGenerator;
-import janggi.domain.piece.gererator.HanPieceGenerator;
+import janggi.domain.piece.gererator.DefaultChoPieceGenerator;
+import janggi.domain.piece.gererator.DefaultHanPieceGenerator;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+
 import java.util.Map.Entry;
 
 public class Controller {
@@ -12,24 +13,15 @@ public class Controller {
     private final InputView inputView;
     private final OutputView outputView;
 
-    private final HanPieceGenerator hanPieceGenerator;
-    private final ChoPieceGenerator choPieceGenerator;
-
     public Controller(
             InputView inputView,
-            OutputView outputView,
-            HanPieceGenerator hanPieceGenerator,
-            ChoPieceGenerator choPieceGenerator
+            OutputView outputView
     ) {
-
         this.inputView = inputView;
         this.outputView = outputView;
-        this.hanPieceGenerator = hanPieceGenerator;
-        this.choPieceGenerator = choPieceGenerator;
     }
 
     public void run() {
-
         JanggiBoard janggiBoard = makeJanggiBoard();
         outputView.printJanggiBoard(janggiBoard);
         playGame(janggiBoard);
@@ -40,8 +32,8 @@ public class Controller {
         KnightElephantSettingCommand choKnightElephantSettingCommand = inputView.inputChoKnightElephantSetting();
 
         return new JanggiBoard(
-                hanPieceGenerator,
-                choPieceGenerator,
+                new DefaultHanPieceGenerator(),
+                new DefaultChoPieceGenerator(),
                 hanKnightElephantSettingCommand.getKnightElephantSetting(),
                 choKnightElephantSettingCommand.getKnightElephantSetting()
         );
@@ -50,7 +42,6 @@ public class Controller {
     private void playGame(JanggiBoard janggiBoard) {
         while (!janggiBoard.isEnd()) {
             moveHan(janggiBoard);
-
             outputView.printJanggiBoard(janggiBoard);
 
             if (janggiBoard.isEnd()) {
@@ -58,7 +49,6 @@ public class Controller {
             }
 
             moveCho(janggiBoard);
-
             outputView.printJanggiBoard(janggiBoard);
         }
         outputView.printWinner(janggiBoard.getWinner());
