@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.direction.BeelineDirection;
 import janggi.setting.CampType;
 import janggi.value.Position;
 import java.util.List;
@@ -35,8 +36,8 @@ public class Cha extends Piece {
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
         boolean followRuleOfMove = checkRuleOfMove(destination);
         boolean existHurdleInPath = existHurdleInPath(destination, enemy, allies);
-        boolean existAlliesInPath = existPieceInPosition(destination, allies);
-        return followRuleOfMove && !existHurdleInPath && !existAlliesInPath;
+        boolean existAlliesInDestination = existPieceInPosition(destination, allies);
+        return followRuleOfMove && !existHurdleInPath && !existAlliesInDestination;
     }
 
     private boolean checkRuleOfMove(Position destination) {

@@ -1,4 +1,4 @@
-package janggi.piece;
+package janggi.direction;
 
 import janggi.value.Position;
 import java.util.List;

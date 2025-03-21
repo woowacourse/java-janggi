@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.direction.MaDirection;
 import janggi.setting.CampType;
 import janggi.value.Position;
 import java.util.List;
