@@ -1,16 +1,12 @@
 package janggi.piece;
 
+import janggi.board.BoardPositionRange;
 import janggi.value.Position;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Pieces {
-
-    private static final int X_MAX = 8;
-    private static final int X_MIN = 0;
-    private static final int Y_MAX = 9;
-    private static final int Y_MIN = 0;
 
     private final List<Piece> pieces;
 
@@ -34,7 +30,11 @@ public class Pieces {
     }
 
     private void validatePositionInRange(Position position) {
-        if (position.x() < X_MIN || position.x() > X_MAX || position.y() < Y_MIN || position.y() > Y_MAX) {
+        boolean isXOutOfRange = position.x() < BoardPositionRange.X_MIN.getValue()
+                || position.x() > BoardPositionRange.X_MAX.getValue();
+        boolean isYOutOfRange = position.y() < BoardPositionRange.Y_MIN.getValue()
+                || position.y() > BoardPositionRange.Y_MAX.getValue();
+        if (isXOutOfRange || isYOutOfRange) {
             throw new IllegalArgumentException("[ERROR] x좌표는 0~8, y좌표는 0~9 사이로 입력해주세요.");
         }
     }
