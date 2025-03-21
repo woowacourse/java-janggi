@@ -1,4 +1,4 @@
-package janggi;
+package janggi.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.piece.Cannon;
 import janggi.piece.Piece;
+import janggi.piece.Side;
 import janggi.piece.Soldier;
 import janggi.piece.Tank;
 import java.util.List;

@@ -1,5 +1,7 @@
 package janggi;
 
+import janggi.board.Board;
+import janggi.board.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 

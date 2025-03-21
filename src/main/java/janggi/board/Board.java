@@ -1,5 +1,6 @@
-package janggi;
+package janggi.board;
 
+import janggi.piece.Side;
 import janggi.piece.Cannon;
 import janggi.piece.Elephant;
 import janggi.piece.Guard;

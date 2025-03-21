@@ -1,7 +1,6 @@
 package janggi.piece;
 
-import janggi.Position;
-import janggi.Side;
+import janggi.board.Position;
 import java.util.List;
 
 public class Elephant extends Piece {

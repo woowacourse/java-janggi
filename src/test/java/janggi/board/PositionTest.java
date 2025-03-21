@@ -1,4 +1,4 @@
-package janggi;
+package janggi.board;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
