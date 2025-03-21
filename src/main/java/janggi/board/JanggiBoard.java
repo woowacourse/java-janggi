@@ -163,26 +163,19 @@ public class JanggiBoard {
         return board.get(position) instanceof Empty;
     }
 
-    private boolean isAlly(final Position position, final Piece piece) {
+    private boolean isAlly(final Position position, final Piece selectedPiece) {
         Piece anotherPiece = board.get(position);
-        if (piece.isCho()) {
+        if (selectedPiece.isCho()) {
             return anotherPiece.isCho();
         }
-        if (piece.isHan()) {
+        if (selectedPiece.isHan()) {
             return anotherPiece.isHan();
         }
         throw new IllegalStateException("[ERROR] 프로그램에 오류가 발생했습니다.");
     }
 
     private boolean isEnemy(final Position position, final Piece piece) {
-        Piece anotherPiece = board.get(position);
-        if (piece.isCho()) {
-            return anotherPiece.isHan();
-        }
-        if (piece.isHan()) {
-            return anotherPiece.isCho();
-        }
-        throw new IllegalStateException("[ERROR] 프로그램에 오류가 발생했습니다.");
+        return !isAlly(position, piece);
     }
 
     private void validatePositionHasPiece(final Piece piece) {
