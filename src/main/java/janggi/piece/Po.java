@@ -3,6 +3,7 @@ package janggi.piece;
 import janggi.direction.BeelineDirection;
 import janggi.setting.CampType;
 import janggi.value.Position;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Po extends Piece {
@@ -31,18 +32,20 @@ public class Po extends Piece {
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
         BeelineDirection direction = BeelineDirection.parse(getPosition(), destination);
         List<Position> positionsInPath = direction.calculatePositionsInPath(getPosition(), destination);
-        List<Piece> enemyInPath = searchPieceInPath(enemy, positionsInPath);
-        List<Piece> alliesInPath = searchPieceInPath(allies, positionsInPath);
+        List<Piece> piecesInPath = searchPieceInPath(enemy, allies, positionsInPath);
 
         boolean followRuleOfMove = checkRuleOfMove(direction);
-        boolean existOnlyOnePieceInPath = existOnlyOnePieceInPath(enemyInPath, alliesInPath);
-        boolean existPoInPath = existPoInPath(enemyInPath, alliesInPath);
+        boolean existOnlyOnePieceInPath = existOnlyOnePieceInPath(piecesInPath);
+        boolean existPoInPath = existPoInPath(piecesInPath);
         boolean existAlliesInDestination = existPieceInPosition(destination, allies);
         return followRuleOfMove && existOnlyOnePieceInPath && !existPoInPath && !existAlliesInDestination;
     }
 
-    private List<Piece> searchPieceInPath(List<Piece> pieces, List<Position> positionsInPath) {
-        return pieces.stream()
+    private List<Piece> searchPieceInPath(List<Piece> enemy, List<Piece> allies, List<Position> positionsInPath) {
+        ArrayList<Piece> allPieces = new ArrayList<>();
+        allPieces.addAll(enemy);
+        allPieces.addAll(allies);
+        return allPieces.stream()
                 .filter(piece -> positionsInPath.contains(piece.getPosition()))
                 .toList();
     }
@@ -51,18 +54,15 @@ public class Po extends Piece {
         return direction != BeelineDirection.NONE;
     }
 
-    private boolean existOnlyOnePieceInPath(List<Piece> enemyInPath, List<Piece> alliesInPath) {
-        return enemyInPath.size() + alliesInPath.size() == 1;
+    private boolean existOnlyOnePieceInPath(List<Piece> piecesInPath) {
+        return piecesInPath.size() == 1;
     }
 
-    private boolean existPoInPath(List<Piece> enemyInPath, List<Piece> alliesInPath) {
-        long enemyPoCount = enemyInPath.stream()
+    private boolean existPoInPath(List<Piece> piecesInPath) {
+        long poCount = piecesInPath.stream()
                 .filter(alliesPiece -> alliesPiece.checkPieceType(PieceType.PO))
                 .count();
-        long alliesPoCount = alliesInPath.stream()
-                .filter(alliesPiece -> alliesPiece.checkPieceType(PieceType.PO))
-                .count();
-        return enemyPoCount + alliesPoCount > 0;
+        return poCount > 0;
     }
 
     private boolean existPieceInPosition(Position position, List<Piece> pieces) {

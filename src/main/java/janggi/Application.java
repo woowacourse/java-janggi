@@ -10,5 +10,4 @@ public class Application {
         JanggiGame janggiGame = new JanggiGame(new InputView(), new OutputView());
         janggiGame.start();
     }
-
 }

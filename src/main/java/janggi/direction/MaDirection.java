@@ -8,8 +8,7 @@ public enum MaDirection {
     RIGHT(new Position(1, 0), List.of(new Position(2, -1), new Position(2, 1))),
     UP(new Position(0, -1), List.of(new Position(-1, -2), new Position(1, -2))),
     DOWN(new Position(0, 1), List.of(new Position(-1, 2), new Position(1, 2))),
-    NONE(new Position(0, 0), List.of()),
-    ;
+    NONE(new Position(0, 0), List.of());
 
     private final Position positionsInPath;
     private final List<Position> destinationPositions;
@@ -33,5 +32,4 @@ public enum MaDirection {
                 current.y() + positionsInPath.y());
         return newPosition.equals(target);
     }
-
 }

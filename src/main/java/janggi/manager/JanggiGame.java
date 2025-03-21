@@ -42,5 +42,4 @@ public class JanggiGame {
         janggiBoard.movePiece(campType, movedPiecePosition, destination);
         outputView.writeJanggiBoard(janggiBoard.getChoPieces(), janggiBoard.getHanPieces());
     }
-
 }
