@@ -40,8 +40,8 @@ public abstract class JanggiPiece {
         this.status = JanggiPieceStatus.CAPTURED;
     }
 
-    public boolean is포() {
-        return false;
+    public boolean isTypeOf(JanggiPieceType type) {
+        return this.type == type;
     }
 
     public boolean isMyTeam(JanggiPiece other) {
