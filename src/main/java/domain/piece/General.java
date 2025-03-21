@@ -34,4 +34,9 @@ public class General extends Piece {
             throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");
         }
     }
+
+    @Override
+    public String toString() {
+        return "왕";
+    }
 }

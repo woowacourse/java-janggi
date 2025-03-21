@@ -44,4 +44,9 @@ public class Zzu extends Piece {
 
         return offset.equals(DOWN);
     }
+
+    @Override
+    public String toString() {
+        return "쭈";
+    }
 }
