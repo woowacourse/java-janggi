@@ -66,7 +66,6 @@ public enum JanggiBoardSetUp {
     )),
 
     DEFAULT_SETUP(Map.ofEntries(
-            // 초나라 기본 셋업
             Map.entry(Point.of(0, 3), new Byeong(BLUE)),
             Map.entry(Point.of(2, 3), new Byeong(BLUE)),
             Map.entry(Point.of(4, 3), new Byeong(BLUE)),
@@ -83,7 +82,6 @@ public enum JanggiBoardSetUp {
             Map.entry(Point.of(5, 0), new Sa(BLUE)),
             Map.entry(Point.of(8, 0), new Cha(BLUE)),
 
-            // 한나라 기본 셋업
             Map.entry(Point.of(2, 6), new Byeong(RED)),
             Map.entry(Point.of(0, 6), new Byeong(RED)),
             Map.entry(Point.of(4, 6), new Byeong(RED)),
@@ -104,7 +102,6 @@ public enum JanggiBoardSetUp {
     private Map<Point, Piece> map;
 
     JanggiBoardSetUp(Map<Point, Piece> map) {
-        // 인자로 들어온 map에 불변하는 세팅 박고
         this.map = map;
     }
 
