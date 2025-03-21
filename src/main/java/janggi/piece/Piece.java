@@ -14,11 +14,23 @@ public abstract class Piece {
         this.movingRules = movingRules;
     }
 
-    public abstract boolean canMove(final Position start, final Position end, final Board board);
+    public boolean canMove(final Position start, final Position end, final Board board) {
+        if (movingRules.cannotFindRule(start, end)) {
+            return false;
+        }
+        if (cannotMoveThrough(start, end, board)) {
+            return false;
+        }
+        return isValidDestination(end, board);
+    }
 
-    public abstract Type type();
-    
     public boolean isSameTeam(final Team team) {
         return this.team == team;
     }
+
+    protected abstract boolean cannotMoveThrough(final Position start, final Position end, final Board board);
+
+    protected abstract boolean isValidDestination(final Position end, final Board board);
+
+    public abstract Type type();
 }

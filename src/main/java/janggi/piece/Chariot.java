@@ -19,26 +19,7 @@ public final class Chariot extends Piece {
     }
 
     @Override
-    public boolean canMove(final Position start, final Position end, final Board board) {
-        if (movingRules.cannotFindRule(start, end)) {
-            return false;
-        }
-        if (cannotMoveThrough(start, end, board)) {
-            return false;
-        }
-        return !isValidDestination(end, board);
-    }
-
-    @Override
-    public Type type() {
-        return Type.CHARIOT;
-    }
-
-    private boolean isValidDestination(final Position end, final Board board) {
-        return board.isPresentSameTeam(team, end);
-    }
-
-    private boolean cannotMoveThrough(final Position start, final Position end, final Board board) {
+    protected boolean cannotMoveThrough(final Position start, final Position end, final Board board) {
         final MovingRule matchRule = movingRules.findMatchRule(start, end);
         Position route = start;
         for (MoveVector vector : matchRule.getVectorsWithoutLast()) {
@@ -48,5 +29,15 @@ public final class Chariot extends Piece {
             }
         }
         return false;
+    }
+
+    @Override
+    protected boolean isValidDestination(final Position end, final Board board) {
+        return !board.isPresentSameTeam(team, end);
+    }
+
+    @Override
+    public Type type() {
+        return Type.CHARIOT;
     }
 }

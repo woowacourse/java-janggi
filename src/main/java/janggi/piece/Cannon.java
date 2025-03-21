@@ -21,22 +21,7 @@ public final class Cannon extends Piece {
     }
 
     @Override
-    public boolean canMove(final Position start, final Position end, final Board board) {
-        if (movingRules.cannotFindRule(start, end)) {
-            return false;
-        }
-        if (cannotMoveThrough(start, end, board)) {
-            return false;
-        }
-        return isValidDestination(end, board);
-    }
-
-    @Override
-    public Type type() {
-        return Type.CANNON;
-    }
-
-    private boolean cannotMoveThrough(final Position start, final Position end, final Board board) {
+    protected boolean cannotMoveThrough(final Position start, final Position end, final Board board) {
         final MovingRule matchRule = movingRules.findMatchRule(start, end);
         Position route = start;
         int count = 0;
@@ -52,7 +37,13 @@ public final class Cannon extends Piece {
         return count != CANNON_CROSS_COUNT;
     }
 
-    private boolean isValidDestination(final Position end, final Board board) {
+    @Override
+    protected boolean isValidDestination(final Position end, final Board board) {
         return !board.isPresentSameTeam(team, end) && !board.isExistCannon(end);
+    }
+
+    @Override
+    public Type type() {
+        return Type.CANNON;
     }
 }

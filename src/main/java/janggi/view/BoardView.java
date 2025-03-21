@@ -23,7 +23,8 @@ public final class BoardView {
     private static final String PLAY_TURN_FORMAT = "%s의 차례입니다.";
 
     public void displayGame(final Board board) {
-        System.out.println("\n  0＿1＿2＿3＿4＿5＿6＿7＿8");
+        System.out.println();
+        System.out.println("  0＿1＿2＿3＿4＿5＿6＿7＿8");
         for (Row row : Row.values()) {
             displayRow(board, row);
         }
