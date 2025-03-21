@@ -11,10 +11,23 @@ public final class JanggiCoordinate {
         this.col = col;
     }
 
-    public JanggiCoordinate move(int increaseRow, int increaseCol) {
-        return new JanggiCoordinate(row + increaseRow, col + increaseCol);
+    public JanggiCoordinate moveUp() {
+        return new JanggiCoordinate(this.row, this.col - 1);
     }
 
+    public JanggiCoordinate moveDown() {
+        return new JanggiCoordinate(this.row, this.col + 1);
+    }
+
+    public JanggiCoordinate moveRight() {
+        return new JanggiCoordinate(this.row + 1, this.col);
+    }
+
+    public JanggiCoordinate moveLeft() {
+        return new JanggiCoordinate(this.row - 1, this.col);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -26,6 +39,7 @@ public final class JanggiCoordinate {
         return row == that.row && col == that.col;
     }
 
+    @Override
     public int hashCode() {
         return Objects.hash(row, col);
     }
