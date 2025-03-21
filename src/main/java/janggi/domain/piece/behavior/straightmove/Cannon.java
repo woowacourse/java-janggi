@@ -17,11 +17,6 @@ public class Cannon extends StraightMoveBehavior {
     }
 
     @Override
-    public boolean isCannon() {
-        return true;
-    }
-
-    @Override
     protected List<Vector> getVectors() {
         return List.of(
                 new Vector(1, 0),
@@ -39,12 +34,12 @@ public class Cannon extends StraightMoveBehavior {
     public void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, Vector vector,
                                      Side side,
                                      boolean hasPassed) {
-        if (currentPosition.canNotMove(vector) || board.isCannon(currentPosition)) {
+        if (currentPosition.canNotMove(vector) || isCannon(board, currentPosition)) {
             return;
         }
 
         Position nextPosition = currentPosition.moveToNextPosition(vector);
-        if (board.isCannon(nextPosition)) {
+        if (isCannon(board, nextPosition)) {
             return;
         }
 
@@ -63,5 +58,9 @@ public class Cannon extends StraightMoveBehavior {
         }
 
         searchAvailableMoves(result, board, nextPosition, vector, side, board.hasPiece(nextPosition));
+    }
+
+    private boolean isCannon(Board board, Position position) {
+        return board.hasPiece(position) && board.getPiece(position).getPieceBehavior() instanceof Cannon;
     }
 }

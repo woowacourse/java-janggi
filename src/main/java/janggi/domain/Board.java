@@ -73,14 +73,6 @@ public class Board {
         return !hasPiece(position) || !isSameSide(side, position);
     }
 
-    public boolean isCannon(Position position) {
-        if (!pieceMap.containsKey(position)) {
-            return false;
-        }
-
-        return pieceMap.get(position).isCannon();
-    }
-
     public boolean hasGeneral(Side side) {
         return pieceMap.values().stream().anyMatch(piece -> piece.isGeneral(side));
     }

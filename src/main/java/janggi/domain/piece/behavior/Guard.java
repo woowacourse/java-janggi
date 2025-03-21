@@ -30,9 +30,4 @@ public class Guard implements PieceBehavior {
     public String toName() {
         return "사";
     }
-
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
 }

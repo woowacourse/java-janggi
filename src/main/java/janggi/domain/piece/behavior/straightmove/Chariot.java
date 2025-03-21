@@ -40,11 +40,6 @@ public class Chariot extends StraightMoveBehavior {
         return "차";
     }
 
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
-
     private void addPositionIfNotSameSide(Set<Position> result, Board board, Position currentPosition, Side side) {
         if (board.isSameSide(side, currentPosition)) {
             return;

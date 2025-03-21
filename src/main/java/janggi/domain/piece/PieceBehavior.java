@@ -11,5 +11,4 @@ public interface PieceBehavior {
 
     String toName();
 
-    boolean isCannon();
 }

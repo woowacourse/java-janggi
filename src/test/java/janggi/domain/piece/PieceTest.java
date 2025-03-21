@@ -35,30 +35,4 @@ class PieceTest {
         // then
         assertThat(actual).isFalse();
     }
-
-    @DisplayName("자신의 기물이 Cannon이면 true를 반환한다.")
-    @Test
-    void test3() {
-        // given
-        Piece piece = new Piece(Side.CHO, new Cannon());
-
-        // when
-        boolean actual = piece.isCannon();
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @DisplayName("자신의 기물이 Cannon이 아니면 false를 반환한다.")
-    @Test
-    void test4() {
-        // given
-        Piece piece = new Piece(Side.CHO, new Soldier());
-
-        // when
-        boolean actual = piece.isCannon();
-
-        // then
-        assertThat(actual).isFalse();
-    }
 }

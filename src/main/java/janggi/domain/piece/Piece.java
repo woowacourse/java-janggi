@@ -21,10 +21,6 @@ public class Piece {
         return this.side == side;
     }
 
-    public boolean isCannon() {
-        return pieceBehavior.isCannon();
-    }
-
     public boolean isGeneral(Side side) {
         return this.side == side && pieceBehavior instanceof General;
     }
@@ -38,6 +34,10 @@ public class Piece {
             return "\u001B[32m" + pieceBehavior.toName() + "\u001B[0m";
         }
         return "\u001B[31m" + pieceBehavior.toName() + "\u001B[0m";
+    }
+
+    public PieceBehavior getPieceBehavior() {
+        return pieceBehavior;
     }
 
     @Override
