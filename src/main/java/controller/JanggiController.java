@@ -29,14 +29,21 @@ public class JanggiController {
 
     private void processOneTurn(JanggiBoard board) {
         for (JanggiSide side : JanggiSide.getValidSides()) {
+            movePiece(board, side);
+            outputView.printBoard(board.getBoard());
+        }
+    }
+
+    private void movePiece(JanggiBoard board, JanggiSide side) {
+        InputProcessor.repeatUntilNormalInput(() -> {
             outputView.printTurnMessage(side);
             JanggiPosition origin = inputView.getMovePieceInput();
             if (!board.isSameTeam(origin, side)) {
                 throw new IllegalArgumentException("차례에 맞는 말을 선택하세요.");
             }
+
             JanggiPosition destination = inputView.getDestinationInput();
             board.movePiece(origin, destination);
-            outputView.printBoard(board.getBoard());
-        }
+        } , OutputView::printErrorMessage);
     }
 }
