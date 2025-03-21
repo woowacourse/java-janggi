@@ -1,12 +1,16 @@
+import board.Board;
+import board.Position;
+import board.Turn;
+import dto.BoardDto;
+import dto.TeamDto;
 import java.util.function.BooleanSupplier;
-import service.JanggiService;
+import piece.Piece;
 import view.Console;
 import view.Input;
 import view.Output;
 
 public class Application {
     private final Console console = new Console(new Input(), new Output());
-    private final JanggiService service = new JanggiService();
 
     public static void main(String[] args) {
         final Application janggi = new Application();
@@ -14,38 +18,36 @@ public class Application {
     }
 
     private void start() {
-        startGame();
-        while (playTurn()) {
-            nextTurn();
-        }
-        endGame();
-    }
-
-    private void startGame() {
-        service.startGame();
+        Board board = Board.generate();
+        Turn turn = Turn.start();
         console.startGame();
-        console.board(service.getBoard());
+        console.board(BoardDto.from(board));
+
+        while (playTurn(board, turn)) {
+            nextTurn(turn);
+        }
+        endGame(board);
     }
 
-    public boolean playTurn() {
+    public boolean playTurn(Board board, Turn turn) {
         return process(() -> {
-            console.turn(service.currentTurn());
+            console.turn(TeamDto.from(turn.getCurrentTeam()));
 
             var response = console.command();
             if (response.abstain()) {
-                service.abstain();
+                abstain(board, turn);
                 return false;
             }
 
-            service.move(response.source(), response.destination());
-            console.board(service.getBoard());
+            move(response.source(), response.destination(), board, turn);
+            console.board(BoardDto.from(board));
 
-            return service.isPlaying();
+            return isPlaying(board);
         });
     }
 
-    public void nextTurn() {
-        service.nextTurn();
+    public void nextTurn(Turn turn) {
+        turn.next();
     }
 
     public boolean process(BooleanSupplier action) {
@@ -58,7 +60,25 @@ public class Application {
         }
     }
 
-    public void endGame() {
-        console.result(service.getWinner());
+    public void endGame(Board board) {
+        console.result(getWinner(board));
     }
+
+    public void move(Position source, Position destination, Board board, Turn turn) {
+        Piece piece = board.get(source);
+        piece.move(board, turn.getCurrentTeam(), destination.x() - source.x(), destination.y() - source.y());
+    }
+
+    public boolean isPlaying(Board board) {
+        return board.getWinnerIfGameOver() == null;
+    }
+
+    public TeamDto getWinner(Board board) {
+        return TeamDto.from(board.getWinnerIfGameOver());
+    }
+
+    public void abstain(Board board, Turn turn) {
+        board.abstain(turn.getCurrentTeam());
+    }
+
 }
