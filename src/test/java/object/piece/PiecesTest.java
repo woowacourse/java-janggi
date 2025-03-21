@@ -74,7 +74,7 @@ public class PiecesTest {
 
         // then
         assertThat(pieces.getPieces().size()).isEqualTo(1);
-        assertThat(pieces.getFirstPiece()).isEqualTo(piece2);
+        assertThat(pieces.getFirstPiece()).isEqualTo(piece1);
     }
 
     @Test

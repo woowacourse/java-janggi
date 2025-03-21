@@ -1,5 +1,6 @@
 package object.piece;
 
+import java.util.Objects;
 import object.Coordinate;
 import object.Route;
 import object.strategy.MoveStrategy;
@@ -51,5 +52,23 @@ public class Piece {
 
     public PieceType getPieceType() {
         return moveStrategy.getPieceType();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) o;
+        return getTeam() == piece.getTeam() && Objects.equals(moveStrategy, piece.moveStrategy)
+                && Objects.equals(currentPosition, piece.currentPosition);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTeam(), moveStrategy, currentPosition);
     }
 }
