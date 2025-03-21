@@ -41,7 +41,7 @@ public class Board {
 
         List<Position> route = sourcePiece.findAllRoute(source, destination);
         List<Piece> piecesOnRoute = getPiecesOnRoute(route);
-        boolean canMove = sourcePiece.canMove(destinationPiece, piecesOnRoute);
+        boolean canMove = sourcePiece.canMove(sourcePiece, destinationPiece, piecesOnRoute);
 
         if (!isValidDestination || !canMove) {
             throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");

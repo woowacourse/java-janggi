@@ -2,18 +2,29 @@ package janggi.domain.piece;
 
 import janggi.domain.board.Position;
 
+import janggi.domain.moveRule.MoveRule;
 import java.util.List;
 
 public abstract class Piece {
     final PieceColor color;
     final PieceType type;
+    final MoveRule moveRule;
 
-    Piece(PieceColor color, PieceType type) {
+    Piece(PieceColor color, PieceType type, MoveRule moveRule) {
         this.color = color;
         this.type = type;
+        this.moveRule = moveRule;
     }
 
-    int countPieceInRoute(List<Piece> piecesInRoute) {
+    public abstract boolean isValidDestination(Position source, Position destination);
+
+    public abstract List<Position> findAllRoute(Position source, Position destination);
+
+    public boolean canMove(Piece sourcePiece, Piece destinationPiece, List<Piece> piecesInRoute) {
+        return moveRule.canMove(sourcePiece, destinationPiece, piecesInRoute);
+    }
+
+    public int countPieceInRoute(List<Piece> piecesInRoute) {
         return (int) piecesInRoute.stream()
                 .filter(piece -> piece.color != PieceColor.NONE)
                 .count();
@@ -34,12 +45,6 @@ public abstract class Piece {
     public PieceColor getColor() {
         return color;
     }
-
-    public abstract boolean isValidDestination(Position source, Position destination);
-
-    public abstract List<Position> findAllRoute(Position source, Position destination);
-
-    public abstract boolean canMove(Piece piece, List<Piece> piecesInRoute);
 
     public PieceType getType() {
         return type;

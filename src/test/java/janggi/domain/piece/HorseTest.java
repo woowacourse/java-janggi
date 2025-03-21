@@ -54,7 +54,7 @@ class HorseTest {
 
         List<Piece> piecesOnRoute = new ArrayList<>();
 
-        boolean canMove = horse.canMove(elephant, piecesOnRoute);
+        boolean canMove = horse.canMove(horse, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -65,7 +65,7 @@ class HorseTest {
 
         List<Piece> piecesOnRoute = List.of(elephant);
 
-        boolean canMove = horse.canMove(elephant, piecesOnRoute);
+        boolean canMove = horse.canMove(horse, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -76,7 +76,7 @@ class HorseTest {
 
         List<Piece> piecesOnRoute = new ArrayList<>();
 
-        boolean canMove = horse.canMove(elephant, piecesOnRoute);
+        boolean canMove = horse.canMove(horse, elephant, piecesOnRoute);
         assertThat(canMove).isTrue();
     }
 }

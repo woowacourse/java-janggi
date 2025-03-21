@@ -2,13 +2,14 @@ package janggi.domain.piece;
 
 import janggi.domain.board.Position;
 
+import janggi.domain.moveRule.DefaultMoveRule;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Elephant extends Piece {
 
     public Elephant(PieceColor color) {
-        super(color, PieceType.ELEPHANT);
+        super(color, PieceType.ELEPHANT, DefaultMoveRule.getRule());
     }
 
     @Override
@@ -35,12 +36,5 @@ public class Elephant extends Piece {
         positions.add(firstPosition);
         positions.add(secondPosition);
         return positions;
-    }
-
-    @Override
-    public boolean canMove(Piece destinationPiece, List<Piece> piecesInRoute) {
-        int pieceCountInRoute = this.countPieceInRoute(piecesInRoute);
-
-        return this.isOtherTeam(destinationPiece) && pieceCountInRoute == 0;
     }
 }

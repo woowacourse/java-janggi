@@ -2,12 +2,13 @@ package janggi.domain.piece;
 
 import janggi.domain.board.Position;
 
+import janggi.domain.moveRule.DefaultMoveRule;
 import java.util.List;
 
 public class Horse extends Piece {
 
     public Horse(PieceColor color) {
-        super(color, PieceType.HORSE);
+        super(color, PieceType.HORSE, DefaultMoveRule.getRule());
     }
 
     @Override
@@ -29,12 +30,5 @@ public class Horse extends Piece {
         Position route = source.getPositionByFraction(destination, 2);
 
         return List.of(route);
-    }
-
-    @Override
-    public boolean canMove(Piece destinationPiece, List<Piece> piecesInRoute) {
-        int pieceCountInRoute = this.countPieceInRoute(piecesInRoute);
-
-        return this.isOtherTeam(destinationPiece) && pieceCountInRoute == 0;
     }
 }

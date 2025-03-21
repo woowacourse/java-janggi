@@ -56,7 +56,7 @@ class ElephantTest {
 
         List<Piece> piecesOnRoute = new ArrayList<>();
 
-        boolean canMove = piece.canMove(elephant, piecesOnRoute);
+        boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -67,7 +67,7 @@ class ElephantTest {
 
         List<Piece> piecesOnRoute = List.of(elephant);
 
-        boolean canMove = piece.canMove(elephant, piecesOnRoute);
+        boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -77,7 +77,7 @@ class ElephantTest {
         Piece elephant = new Elephant(PieceColor.BLUE);
         List<Piece> piecesOnRoute = new ArrayList<>();
 
-        boolean canMove = piece.canMove(elephant, piecesOnRoute);
+        boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
         assertThat(canMove).isTrue();
     }
 }

@@ -58,7 +58,7 @@ class SoldierTest {
 
         List<Piece> piecesOnRoute = new ArrayList<>();
 
-        boolean canMove = piece.canMove(elephant, piecesOnRoute);
+        boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -69,7 +69,7 @@ class SoldierTest {
 
         List<Piece> piecesOnRoute = List.of(elephant);
 
-        boolean canMove = piece.canMove(elephant, piecesOnRoute);
+        boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -80,7 +80,7 @@ class SoldierTest {
 
         List<Piece> piecesOnRoute = new ArrayList<>();
 
-        boolean canMove = piece.canMove(elephant, piecesOnRoute);
+        boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
         assertThat(canMove).isTrue();
     }
 

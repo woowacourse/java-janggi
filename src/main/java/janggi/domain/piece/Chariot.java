@@ -2,11 +2,12 @@ package janggi.domain.piece;
 
 import janggi.domain.board.Position;
 
+import janggi.domain.moveRule.DefaultMoveRule;
 import java.util.List;
 
 public class Chariot extends Piece {
     public Chariot(PieceColor color) {
-        super(color, PieceType.CHARIOT);
+        super(color, PieceType.CHARIOT, DefaultMoveRule.getRule());
     }
 
     @Override
@@ -20,12 +21,5 @@ public class Chariot extends Piece {
     @Override
     public List<Position> findAllRoute(Position source, Position destination) {
         return source.getBetweenPositions(destination);
-    }
-
-    @Override
-    public boolean canMove(Piece destinationPiece, List<Piece> piecesInRoute) {
-        int pieceCountInRoute = this.countPieceInRoute(piecesInRoute);
-
-        return this.isOtherTeam(destinationPiece) && pieceCountInRoute == 0;
     }
 }

@@ -32,7 +32,6 @@ class CannonTest {
         );
     }
 
-
     @Test
     void 포의_목적지에_같은팀이_있으면_이동불가() {
         Piece piece = new Cannon(PieceColor.RED);
@@ -40,7 +39,7 @@ class CannonTest {
 
         List<Piece> piecesOnRoute = new ArrayList<>();
 
-        boolean canMove = piece.canMove(elephant, piecesOnRoute);
+        boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -51,7 +50,7 @@ class CannonTest {
 
         List<Piece> piecesOnRoute = List.of();
 
-        boolean canMove = piece.canMove(elephant, piecesOnRoute);
+        boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -62,7 +61,7 @@ class CannonTest {
 
         List<Piece> piecesOnRoute = List.of(new Elephant(PieceColor.BLUE), new Elephant(PieceColor.RED));
 
-        boolean canMove = piece.canMove(elephant, piecesOnRoute);
+        boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -72,7 +71,7 @@ class CannonTest {
         Piece elephant = new Elephant(PieceColor.BLUE);
         List<Piece> piecesOnRoute = List.of(new Elephant(PieceColor.BLUE));
 
-        boolean canMove = piece.canMove(elephant, piecesOnRoute);
+        boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
         assertThat(canMove).isTrue();
     }
 
@@ -82,7 +81,7 @@ class CannonTest {
         Piece elephant = new Elephant(PieceColor.BLUE);
         List<Piece> piecesOnRoute = List.of(new Cannon(PieceColor.BLUE));
 
-        boolean canMove = piece.canMove(elephant, piecesOnRoute);
+        boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -92,7 +91,7 @@ class CannonTest {
         Piece cannon = new Cannon(PieceColor.BLUE);
         List<Piece> piecesOnRoute = List.of(new Elephant(PieceColor.BLUE));
 
-        boolean canMove = piece.canMove(cannon, piecesOnRoute);
+        boolean canMove = piece.canMove(piece, cannon, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 }

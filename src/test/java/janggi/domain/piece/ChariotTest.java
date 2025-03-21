@@ -84,7 +84,7 @@ class ChariotTest {
         Piece elephant = new Elephant(PieceColor.RED);
         List<Piece> piecesOnRoute = new ArrayList<>();
 
-        boolean canMove = chariot.canMove(elephant, piecesOnRoute);
+        boolean canMove = chariot.canMove(chariot, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -94,7 +94,7 @@ class ChariotTest {
         Piece elephant = new Elephant(PieceColor.BLUE);
         List<Piece> piecesOnRoute = List.of(chariot);
 
-        boolean canMove = chariot.canMove(elephant, piecesOnRoute);
+        boolean canMove = chariot.canMove(chariot, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
@@ -104,7 +104,7 @@ class ChariotTest {
         Piece elephant = new Elephant(PieceColor.BLUE);
         List<Piece> piecesOnRoute = new ArrayList<>();
 
-        boolean canMove = chariot.canMove(elephant, piecesOnRoute);
+        boolean canMove = chariot.canMove(chariot, elephant, piecesOnRoute);
         assertThat(canMove).isTrue();
     }
 }
