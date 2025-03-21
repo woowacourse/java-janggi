@@ -16,6 +16,10 @@ public abstract class Piece {
         return this.team == team;
     }
 
+    public boolean isDifferentTeam(Team team) {
+        return this.team != team;
+    }
+
     public void validateMovable(Map<Position, Piece> board, Position start, Position goal) {
         int pathIndex = calculatePathIndex(start, goal);
         validatePath(board, start, pathIndex);

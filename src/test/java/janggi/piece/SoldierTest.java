@@ -14,6 +14,32 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
 
 class SoldierTest {
+    @CsvSource(value = {"GREEN:false", "RED:true"}, delimiterString = ":")
+    @ParameterizedTest
+    void 같은_팀인지_여부를_반환한다(Team team, boolean expected) {
+        // given
+        Soldier soldier = new Soldier(Team.RED);
+
+        // when
+        boolean result = soldier.isSameTeam(team);
+
+        // then
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @CsvSource(value = {"GREEN:true", "RED:false"}, delimiterString = ":")
+    @ParameterizedTest
+    void 다른_팀인지_여부를_반환한다(Team team, boolean expected) {
+        // given
+        Soldier soldier = new Soldier(Team.RED);
+
+        // when
+        boolean result = soldier.isDifferentTeam(team);
+
+        // then
+        assertThat(result).isEqualTo(expected);
+    }
+
     @CsvSource(value = {"GREEN:4:5", "GREEN:5:4", "GREEN:3:4", "RED:4:3"}, delimiterString = ":")
     @ParameterizedTest
     void 졸병의_정상적인_움직임을_테스트한다(Team team, int column, int row) {

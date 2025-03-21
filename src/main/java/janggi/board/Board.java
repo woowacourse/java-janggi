@@ -22,7 +22,7 @@ public class Board {
         if (piece == null) {
             throw new IllegalArgumentException("[ERROR] 출발 지점에 기물이 존재하지 않습니다.");
         }
-        if (!piece.isSameTeam(team)) {
+        if (piece.isDifferentTeam(team)) {
             throw new IllegalArgumentException("[ERROR] 같은 진영의 기물만 움직일 수 있습니다.");
         }
         piece.validateMovable(board, start, goal);
