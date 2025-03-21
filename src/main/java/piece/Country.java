@@ -3,14 +3,14 @@ package piece;
 public enum Country {
     HAN, CHO;
 
-    public Country toggleTeam() {
+    public Country toggleCountry() {
         if (this == HAN) {
             return CHO;
         }
         return HAN;
     }
 
-    public static Country getDefaultTeam(){
-        return HAN;
+    public static Country getFirstTurnCountry(){
+        return CHO;
     }
 }
