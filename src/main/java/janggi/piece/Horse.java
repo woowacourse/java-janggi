@@ -9,9 +9,12 @@ import java.util.Set;
 
 public class Horse extends Piece {
 
+    private static final int HORSE_UNIT_DISTANCE = 2;
     private static final Set<List<Integer>> AVAILABLE_DIFFERENCE = Set.of(
-            List.of(2, 1), List.of(2, -1), List.of(-2, 1), List.of(-2, -1),
-            List.of(1, 2), List.of(1, -2), List.of(-1, 2), List.of(-1, -2));
+            List.of(HORSE_UNIT_DISTANCE, 1), List.of(
+                    HORSE_UNIT_DISTANCE, -1), List.of(-HORSE_UNIT_DISTANCE, 1), List.of(-HORSE_UNIT_DISTANCE, -1),
+            List.of(1, HORSE_UNIT_DISTANCE), List.of(1, -HORSE_UNIT_DISTANCE), List.of(-1,
+                    HORSE_UNIT_DISTANCE), List.of(-1, -HORSE_UNIT_DISTANCE));
 
     public Horse(Team team) {
         super(PieceType.HORSE, team);
@@ -89,6 +92,6 @@ public class Horse extends Piece {
     }
 
     private boolean isNotStartDirection(final int difference) {
-        return Math.abs(difference) != 2;
+        return Math.abs(difference) != HORSE_UNIT_DISTANCE;
     }
 }

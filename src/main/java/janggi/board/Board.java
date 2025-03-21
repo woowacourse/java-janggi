@@ -11,6 +11,8 @@ import java.util.Map;
 
 public class Board {
 
+    private static final int TOTAL_KING_COUNT = 2;
+
     private final Map<Piece, Position> positions;
     private final Map<Position, Piece> pieces;
 
@@ -30,7 +32,7 @@ public class Board {
     }
 
     public boolean canContinue() {
-        return calculateExistKing() == 2;
+        return calculateExistKing() == TOTAL_KING_COUNT;
     }
 
     public Team findWinningTeam() {

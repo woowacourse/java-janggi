@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class Guard extends Piece {
 
+    private static final int GUARD_MOVE_DISTANCE = 1;
+
     public Guard(Team team) {
         super(PieceType.GUARD, team);
     }
@@ -60,7 +62,7 @@ public class Guard extends Piece {
     }
 
     private void validateMove(int differenceForY, int differenceForX) {
-        if (Math.abs(differenceForY) + Math.abs(differenceForX) != 1) {
+        if (Math.abs(differenceForY) + Math.abs(differenceForX) != GUARD_MOVE_DISTANCE) {
             throw new IllegalArgumentException("[ERROR] 사는 한 방향으로 한 칸만 이동할 수 있습니다.");
         }
     }

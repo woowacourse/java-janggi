@@ -22,18 +22,19 @@ public class Position {
     }
 
     public static Position valueOf(final int y, final int x) {
-        return POSITIONS.get((y - 1) * 9 + x - 1);
+        return POSITIONS.get((y - Y_MIN_THRESHOLD) * X_MAX_THRESHOLD + x - X_MIN_THRESHOLD);
     }
 
     public static Position from(final int value) {
         validate(value);
-        int y = value / 10;
-        int x = value % 10;
-        return POSITIONS.get((y - 1) * 9 + x - 1);
+        int y = value / Y_MAX_THRESHOLD;
+        int x = value % Y_MAX_THRESHOLD;
+        return valueOf(y, x);
     }
 
     private static void validate(int value) {
-        if ((value < 11 || value > 109) || value % 10 == 0) {
+        if ((value <= Y_MAX_THRESHOLD || value >= (Y_MIN_THRESHOLD + Y_MAX_THRESHOLD) * Y_MAX_THRESHOLD)
+                || value % Y_MAX_THRESHOLD == 0) {
             throw new IllegalArgumentException("[ERROR] 좌표는 장기판에 지정된 값만 입력할 수 있습니다.");
         }
     }

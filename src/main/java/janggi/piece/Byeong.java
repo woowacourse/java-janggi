@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class Byeong extends Piece {
 
+    private static final int BYEONG_MOVE_DISTANCE = 1;
+
     public Byeong() {
         super(PieceType.BYEONG, Team.HAN);
     }
@@ -66,7 +68,7 @@ public class Byeong extends Piece {
     }
 
     private void validateMove(int differenceForY, int differenceForX) {
-        if (canNotMoveBackward(differenceForY) || Math.abs(differenceForY) + Math.abs(differenceForX) > 1) {
+        if (canNotMoveBackward(differenceForY) || Math.abs(differenceForY) + Math.abs(differenceForX) > BYEONG_MOVE_DISTANCE) {
             throw new IllegalArgumentException("[ERROR] 병은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
         }
     }
