@@ -28,7 +28,7 @@ public final class Cannon extends Piece {
         if (cannotMoveThrough(start, end, board)) {
             return false;
         }
-        return isNotSameTeamAndNotCannon(end, board);
+        return isValidDestination(end, board);
     }
 
     @Override
@@ -52,7 +52,7 @@ public final class Cannon extends Piece {
         return count != CANNON_CROSS_COUNT;
     }
 
-    private boolean isNotSameTeamAndNotCannon(final Position end, final Board board) {
+    private boolean isValidDestination(final Position end, final Board board) {
         return !board.isPresentSameTeam(team, end) && !board.isExistCannon(end);
     }
 }

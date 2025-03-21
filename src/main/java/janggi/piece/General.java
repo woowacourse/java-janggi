@@ -21,7 +21,7 @@ public final class General extends Piece {
         if (movingRules.cannotFindRule(start, end)) {
             return false;
         }
-        return !isPresentSameTeam(end, board);
+        return !isValidDestination(end, board);
     }
 
     @Override
@@ -29,7 +29,7 @@ public final class General extends Piece {
         return Type.GENERAL;
     }
 
-    private boolean isPresentSameTeam(final Position end, final Board board) {
+    private boolean isValidDestination(final Position end, final Board board) {
         return board.isPresentSameTeam(team, end);
     }
 }

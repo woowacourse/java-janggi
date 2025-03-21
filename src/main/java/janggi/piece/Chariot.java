@@ -26,7 +26,7 @@ public final class Chariot extends Piece {
         if (cannotMoveThrough(start, end, board)) {
             return false;
         }
-        return !isPresentSameTeam(end, board);
+        return !isValidDestination(end, board);
     }
 
     @Override
@@ -34,7 +34,7 @@ public final class Chariot extends Piece {
         return Type.CHARIOT;
     }
 
-    private boolean isPresentSameTeam(final Position end, final Board board) {
+    private boolean isValidDestination(final Position end, final Board board) {
         return board.isPresentSameTeam(team, end);
     }
 
