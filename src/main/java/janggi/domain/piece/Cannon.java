@@ -10,7 +10,7 @@ import java.util.List;
 public class Cannon extends Piece {
 
     public Cannon(final Position position, final Team team) {
-        super(position, team);
+        super(position, team, PieceType.Cannon);
     }
 
     public static List<Cannon> Default(Team team) {
@@ -47,9 +47,10 @@ public class Cannon extends Piece {
     }
 
     private void validateCannonRestrict(final Board board, final Position destination) {
+        checkExistCannonInDestination(board, destination);
         boolean containsCannon = Route.of(this.position, destination).stream()
                 .filter(board::isExists)
-                .anyMatch(position -> board.getPiece(position).isCannon());
+                .anyMatch(position -> board.getPiece(position).isSameType(this));
 
         if (containsCannon) {
             throw new IllegalArgumentException("이동 경로에 포가 존재합니다.");
@@ -65,10 +66,5 @@ public class Cannon extends Piece {
     @Override
     public Score die() {
         return Score.Cannon();
-    }
-
-    @Override
-    protected boolean isCannon() {
-        return true;
     }
 }

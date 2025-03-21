@@ -12,7 +12,7 @@ public class Horse extends Piece {
     public static final Movement MOVEMENT = new Movement(List.of(1, 2));
 
     public Horse(final Position position, final Team team) {
-        super(position, team);
+        super(position, team, PieceType.Horse);
     }
 
     public static List<Horse> Default(Team team) {

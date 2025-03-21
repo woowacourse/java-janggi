@@ -1,9 +1,15 @@
 package janggi.domain;
 
 public enum Team {
-    RED,
-    GREEN,
+    RED("초"),
+    GREEN("한"),
     ;
+
+    private final String country;
+
+    Team(final String country) {
+        this.country = country;
+    }
 
     public static int decideRow(final int row, final Team team) {
         if (team.isGreen()) {
@@ -19,5 +25,9 @@ public enum Team {
 
     public boolean isGreen() {
         return this == GREEN;
+    }
+
+    public String getCountry() {
+        return country;
     }
 }

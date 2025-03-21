@@ -9,7 +9,7 @@ import java.util.List;
 public class Soldier extends Piece {
 
     public Soldier(final Position position, final Team team) {
-        super(position, team);
+        super(position, team, PieceType.Soldier);
     }
 
     public static List<Soldier> Default(Team team) {

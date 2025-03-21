@@ -12,7 +12,7 @@ public class Elephant extends Piece {
     public static final Movement MOVEMENT = new Movement(List.of(2, 3));
 
     public Elephant(final Position position, final Team team) {
-        super(position, team);
+        super(position, team, PieceType.Elephant);
     }
 
     public static List<Elephant> Default(Team team) {

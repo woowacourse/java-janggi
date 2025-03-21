@@ -9,7 +9,7 @@ import java.util.List;
 public class Chariot extends Piece {
 
     public Chariot(final Position position, final Team team) {
-        super(position, team);
+        super(position, team, PieceType.Chariot);
     }
 
     public static List<Chariot> Default(Team team) {

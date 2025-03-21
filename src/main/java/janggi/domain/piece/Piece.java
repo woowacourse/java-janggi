@@ -10,10 +10,12 @@ public abstract class Piece {
 
     protected final Position position;
     protected final Team team;
+    protected final PieceType pieceType;
 
-    public Piece(final Position position, final Team team) {
+    public Piece(final Position position, final Team team, final PieceType pieceType) {
         this.position = position;
         this.team = team;
+        this.pieceType = pieceType;
     }
 
     public abstract Piece move(Board board, Position destination);
@@ -54,7 +56,15 @@ public abstract class Piece {
         return position;
     }
 
-    protected boolean isCannon() {
-        return false;
+    public String getName() {
+        return pieceType.getName(this);
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    protected boolean isSameType(Piece piece) {
+        return this.pieceType == piece.pieceType;
     }
 }
