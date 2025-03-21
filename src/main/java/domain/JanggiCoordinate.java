@@ -27,6 +27,22 @@ public final class JanggiCoordinate {
         return new JanggiCoordinate(this.row - 1, this.col);
     }
 
+    public JanggiCoordinate moveUpRight() {
+        return moveUp().moveRight();
+    }
+
+    public JanggiCoordinate moveUpLeft() {
+        return moveUp().moveLeft();
+    }
+
+    public JanggiCoordinate moveDownRight() {
+        return moveDown().moveRight();
+    }
+
+    public JanggiCoordinate moveDownLeft() {
+        return moveDown().moveLeft();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

@@ -10,14 +10,15 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 class JanggiCoordinateTest {
 
+    JanggiCoordinate coordinate;
+
+    @BeforeEach
+    void initCoordinate() {
+        coordinate = new JanggiCoordinate(5, 5);
+    }
+
     @Nested
     class CoordinateMoveLinearTest {
-        JanggiCoordinate coordinate;
-
-        @BeforeEach
-        void initCoordinate() {
-            coordinate = new JanggiCoordinate(5, 5);
-        }
 
         @DisplayName("좌표를 오른쪽으로 한칸 이동한다")
         @Test
@@ -71,6 +72,66 @@ class JanggiCoordinateTest {
 
             assertAll(
                     () -> assertThat(row).isEqualTo(5),
+                    () -> assertThat(col).isEqualTo(6)
+            );
+        }
+    }
+
+    @Nested
+    class CoordinateMoveNoneLinearTest {
+
+        @DisplayName("좌표를 오른쪽 위 대각선으로 이동시킨다.")
+        @Test
+        void moveCoordinateUpRight() {
+            coordinate = coordinate.moveUpRight();
+
+            int row = coordinate.getRow();
+            int col = coordinate.getCol();
+
+            assertAll(
+                    () -> assertThat(row).isEqualTo(6),
+                    () -> assertThat(col).isEqualTo(4)
+            );
+        }
+
+        @DisplayName("좌표를 왼쪽 위 대각선으로 이동시킨다.")
+        @Test
+        void moveCoordinateUpLeft() {
+            coordinate = coordinate.moveUpLeft();
+
+            int row = coordinate.getRow();
+            int col = coordinate.getCol();
+
+            assertAll(
+                    () -> assertThat(row).isEqualTo(4),
+                    () -> assertThat(col).isEqualTo(4)
+            );
+        }
+
+        @DisplayName("좌표를 오른쪽 아래 대각선으로 이동시킨다.")
+        @Test
+        void moveCoordinateDownRight() {
+            coordinate = coordinate.moveDownRight();
+
+            int row = coordinate.getRow();
+            int col = coordinate.getCol();
+
+            assertAll(
+                    () -> assertThat(row).isEqualTo(6),
+                    () -> assertThat(col).isEqualTo(6)
+            );
+        }
+
+        @DisplayName("좌표를 왼쪽 아래 대각선으로 이동시킨다.")
+        @Test
+        void moveCoordinateUpDiagonal() {
+            coordinate = coordinate.moveDownLeft();
+
+            int row = coordinate.getRow();
+            int col = coordinate.getCol();
+
+            assertAll(
+                    () -> assertThat(row).isEqualTo(4),
                     () -> assertThat(col).isEqualTo(6)
             );
         }
