@@ -1,6 +1,7 @@
 package piece;
 
 import board.Board;
+import coordinate.Coordinate;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -14,7 +15,7 @@ public class Jol extends Piece {
     }
 
     @Override
-    protected Set<coordinate.Coordinate> findMovableCandidates(coordinate.Coordinate departure) {
+    protected Set<Coordinate> findMovableCandidates(coordinate.Coordinate departure) {
         return Stream.of(
                         departure.pickChangedCoordinate(1, 0),
                         departure.pickChangedCoordinate(-1, 0),
@@ -32,7 +33,7 @@ public class Jol extends Piece {
     }
 
     @Override
-    protected Set<coordinate.Coordinate> findPaths(coordinate.Coordinate departure, coordinate.Coordinate arrival) {
+    protected Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
         return Set.of();
     }
 }

@@ -14,7 +14,7 @@ public class Po extends Piece {
     }
 
     @Override
-    protected Set<coordinate.Coordinate> findMovableCandidates(Coordinate departure) {
+    protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
         return departure.pickCrossCoordinates();
     }
 
@@ -37,14 +37,14 @@ public class Po extends Piece {
     }
 
     @Override
-    protected Set<coordinate.Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
+    protected Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
         int dx = arrival.getX() - departure.getX();
         int dy = arrival.getY() - departure.getY();
 
-        Set<coordinate.Coordinate> coordinates = new HashSet<>();
+        Set<Coordinate> coordinates = new HashSet<>();
         if (dx == 0 && dy > 0) { // 아래
             for (int y = departure.getY() + 1; y < arrival.getY(); y++) {
-                coordinates.add(new coordinate.Coordinate(departure.getX(), y));
+                coordinates.add(new Coordinate(departure.getX(), y));
             }
             return coordinates;
         }
@@ -56,13 +56,13 @@ public class Po extends Piece {
         }
         if (dx > 0 && dy == 0) { // 오른쪽
             for (int x = departure.getX() + 1; x < arrival.getX(); x++) {
-                coordinates.add(new coordinate.Coordinate(x, departure.getY()));
+                coordinates.add(new Coordinate(x, departure.getY()));
             }
             return coordinates;
         }
         if (dx < 0 && dy == 0) { // 왼쪽
             for (int x = departure.getX() - 1; x > arrival.getX(); x--) {
-                coordinates.add(new coordinate.Coordinate(x, departure.getY()));
+                coordinates.add(new Coordinate(x, departure.getY()));
             }
             return coordinates;
         }

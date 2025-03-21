@@ -15,7 +15,7 @@ public class Sang extends Piece {
     }
 
     @Override
-    protected Set<coordinate.Coordinate> findMovableCandidates(Coordinate departure) {
+    protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
         return Stream.of(
                         departure.pickChangedCoordinate(2, -3), // 상우
                         departure.pickChangedCoordinate(2, 3), // 하우
@@ -39,7 +39,7 @@ public class Sang extends Piece {
     }
 
     @Override
-    protected Set<coordinate.Coordinate> findPaths(coordinate.Coordinate departure, Coordinate arrival) {
+    protected Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
         int dx = arrival.getX() - departure.getX();
         int dy = arrival.getY() - departure.getY();
 

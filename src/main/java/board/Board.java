@@ -11,20 +11,20 @@ import team.Team;
 
 public class Board {
 
-    private final Map<coordinate.Coordinate, Piece> pieces;
+    private final Map<Coordinate, Piece> pieces;
 
     public Board(Map<Coordinate, Piece> pieces) {
         this.pieces = pieces;
     }
 
     public static Board create(BoardCreateStrategy hanStrategy, BoardCreateStrategy choStrategy) {
-        Map<coordinate.Coordinate, Piece> pieces = new HashMap<>();
+        Map<Coordinate, Piece> pieces = new HashMap<>();
         pieces.putAll(hanStrategy.create(Team.HAN));
         pieces.putAll(choStrategy.create(Team.CHO));
         return new Board(pieces);
     }
 
-    public void move(Coordinate departure, coordinate.Coordinate arrival) {
+    public void move(Coordinate departure, Coordinate arrival) {
         Piece piece = pieces.get(departure);
         if (piece == null) {
             throw new IllegalArgumentException("해당 좌표에는 기물이 없습니다.");
@@ -49,21 +49,21 @@ public class Board {
         return pieces.containsKey(coordinate);
     }
 
-    public Optional<Piece> findPiece(coordinate.Coordinate coordinate) {
+    public Optional<Piece> findPiece(Coordinate coordinate) {
         return Optional.ofNullable(pieces.get(coordinate));
     }
 
-    private void replace(coordinate.Coordinate departure, coordinate.Coordinate arrival, Piece piece) {
+    private void replace(Coordinate departure, Coordinate arrival, Piece piece) {
         pieces.remove(departure);
         pieces.replace(arrival, piece);
     }
 
-    private void put(coordinate.Coordinate departure, coordinate.Coordinate arrival, Piece piece) {
+    private void put(Coordinate departure, Coordinate arrival, Piece piece) {
         pieces.remove(departure);
         pieces.put(arrival, piece);
     }
 
-    public Map<coordinate.Coordinate, Piece> getPieces() {
+    public Map<Coordinate, Piece> getPieces() {
         return Collections.unmodifiableMap(pieces);
     }
 }

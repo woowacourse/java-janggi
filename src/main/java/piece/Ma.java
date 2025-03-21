@@ -15,7 +15,7 @@ public class Ma extends Piece {
     }
 
     @Override
-    protected Set<Coordinate> findMovableCandidates(coordinate.Coordinate departure) {
+    protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
         return Stream.of(
                         departure.pickChangedCoordinate(-2, -1),
                         departure.pickChangedCoordinate(-2, 1),
@@ -32,15 +32,15 @@ public class Ma extends Piece {
     }
 
     @Override
-    protected boolean canMoveConsideringObstacles(Board board, coordinate.Coordinate departure,
-                                                  coordinate.Coordinate arrival) {
+    protected boolean canMoveConsideringObstacles(Board board, Coordinate departure,
+                                                  Coordinate arrival) {
         return findPaths(departure, arrival)
                 .stream()
                 .noneMatch(board::isExistence);
     }
 
     @Override
-    protected Set<coordinate.Coordinate> findPaths(coordinate.Coordinate departure, coordinate.Coordinate arrival) {
+    protected Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
         int dx = arrival.getX() - departure.getX();
         int dy = arrival.getY() - departure.getY();
 

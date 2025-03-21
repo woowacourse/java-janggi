@@ -13,7 +13,7 @@ public abstract class Piece {
         this.team = team;
     }
 
-    public final boolean canMove(Board board, Coordinate departure, coordinate.Coordinate arrival) {
+    public final boolean canMove(Board board, Coordinate departure, Coordinate arrival) {
         if (!findMovableCandidates(departure).contains(arrival)) {
             return false;
         }
@@ -23,11 +23,11 @@ public abstract class Piece {
         return true;
     }
 
-    protected abstract Set<coordinate.Coordinate> findMovableCandidates(coordinate.Coordinate departure);
+    protected abstract Set<Coordinate> findMovableCandidates(Coordinate departure);
 
     protected abstract boolean canMoveConsideringObstacles(Board board, Coordinate departure, Coordinate arrival);
 
-    protected abstract Set<coordinate.Coordinate> findPaths(coordinate.Coordinate departure, Coordinate arrival);
+    protected abstract Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival);
 
     public final boolean isSameTeam(Piece piece) {
         return piece.team.equals(this.team);
