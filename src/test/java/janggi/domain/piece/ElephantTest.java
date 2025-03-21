@@ -3,9 +3,6 @@ package janggi.domain.piece;
 import janggi.domain.board.Column;
 import janggi.domain.board.Position;
 import janggi.domain.board.Row;
-import janggi.domain.piece.Elephant;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceColor;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,7 +17,7 @@ class ElephantTest {
         Elephant elephant = new Elephant(PieceColor.RED);
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.THREE, Column.FOUR);
-        boolean canMove = elephant.isValidDestination(source, destination);
+        boolean canMove = elephant.isValidMovement(source, destination);
 
         assertThat(canMove).isTrue();
     }
@@ -30,7 +27,7 @@ class ElephantTest {
         Elephant elephant = new Elephant(PieceColor.RED);
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.TWO, Column.TWO);
-        boolean canMove = elephant.isValidDestination(source, destination);
+        boolean canMove = elephant.isValidMovement(source, destination);
 
         assertThat(canMove).isFalse();
     }

@@ -11,7 +11,11 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public boolean isValidDestination(Position source, Position destination) {
+    public boolean isValidMovement(Position source, Position destination) {
+        return isStraightMovement(source, destination);
+    }
+
+    private boolean isStraightMovement(Position source, Position destination) {
         int rowDifference = source.rowDifference(destination);
         int columnDifference = source.columnDifference(destination);
 

@@ -15,6 +15,10 @@ public class Board {
         this.board = board;
     }
 
+    public Piece getPieceBy(Position position) {
+        return board.getOrDefault(position, new Empty());
+    }
+
     public void move(PieceType pieceType, Position source, Position destination) {
         validateCorrectPiece(source, pieceType);
         validateMove(source, destination);
@@ -22,10 +26,6 @@ public class Board {
 
         board.remove(source);
         board.put(destination, piece);
-    }
-
-    public Piece getPieceBy(Position position) {
-        return board.getOrDefault(position, new Empty());
     }
 
     private void validateCorrectPiece(Position source, PieceType pieceType) {
@@ -37,13 +37,14 @@ public class Board {
     private void validateMove(Position source, Position destination) {
         Piece sourcePiece = getPieceBy(source);
         Piece destinationPiece = getPieceBy(destination);
-        boolean isValidDestination = sourcePiece.isValidDestination(source, destination);
 
-        List<Position> route = sourcePiece.findAllRoute(source, destination);
-        List<Piece> piecesOnRoute = getPiecesOnRoute(route);
+        Route route = new Route(sourcePiece, source, destination);
+        List<Position> allRoute = route.getAllRouteToDestination();
+        List<Piece> piecesOnRoute = getPiecesOnRoute(allRoute);
+
         boolean canMove = sourcePiece.canMove(sourcePiece, destinationPiece, piecesOnRoute);
 
-        if (!isValidDestination || !canMove) {
+        if (!canMove) {
             throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
         }
     }

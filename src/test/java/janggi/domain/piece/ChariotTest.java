@@ -3,10 +3,6 @@ package janggi.domain.piece;
 import janggi.domain.board.Column;
 import janggi.domain.board.Position;
 import janggi.domain.board.Row;
-import janggi.domain.piece.Chariot;
-import janggi.domain.piece.Elephant;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceColor;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -24,7 +20,7 @@ class ChariotTest {
         Chariot chariot = new Chariot(PieceColor.RED);
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.ZERO, Column.ONE);
-        boolean canMove = chariot.isValidDestination(source, destination);
+        boolean canMove = chariot.isValidMovement(source, destination);
 
         assertThat(canMove).isTrue();
     }
@@ -34,7 +30,7 @@ class ChariotTest {
         Chariot chariot = new Chariot(PieceColor.RED);
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.FOUR, Column.THREE);
-        boolean canMove = chariot.isValidDestination(source, destination);
+        boolean canMove = chariot.isValidMovement(source, destination);
 
         assertThat(canMove).isTrue();
     }
@@ -44,7 +40,7 @@ class ChariotTest {
         Chariot chariot = new Chariot(PieceColor.RED);
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.ZERO, Column.TWO);
-        boolean canMove = chariot.isValidDestination(source, destination);
+        boolean canMove = chariot.isValidMovement(source, destination);
 
         assertThat(canMove).isFalse();
     }

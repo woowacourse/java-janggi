@@ -13,7 +13,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public boolean isValidDestination(Position source, Position destination) {
+    public boolean isValidMovement(Position source, Position destination) {
         int rowDifference = source.rowDifference(destination);
         int columnDifference = source.columnDifference(destination);
 

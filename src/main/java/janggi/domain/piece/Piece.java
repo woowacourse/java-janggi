@@ -16,7 +16,7 @@ public abstract class Piece {
         this.moveRule = moveRule;
     }
 
-    public abstract boolean isValidDestination(Position source, Position destination);
+    public abstract boolean isValidMovement(Position source, Position destination);
 
     public abstract List<Position> findAllRoute(Position source, Position destination);
 

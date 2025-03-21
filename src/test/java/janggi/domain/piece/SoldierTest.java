@@ -3,10 +3,6 @@ package janggi.domain.piece;
 import janggi.domain.board.Column;
 import janggi.domain.board.Position;
 import janggi.domain.board.Row;
-import janggi.domain.piece.Elephant;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceColor;
-import janggi.domain.piece.Soldier;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -24,7 +20,7 @@ class SoldierTest {
 
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.FIVE, Column.ONE);
-        boolean canMove = soldier.isValidDestination(source, destination);
+        boolean canMove = soldier.isValidMovement(source, destination);
 
         assertThat(canMove).isTrue();
     }
@@ -35,7 +31,7 @@ class SoldierTest {
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.FOUR, Column.TWO);
 
-        boolean canMove = soldier.isValidDestination(source, destination);
+        boolean canMove = soldier.isValidMovement(source, destination);
 
         assertThat(canMove).isTrue();
     }
@@ -46,7 +42,7 @@ class SoldierTest {
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.THREE, Column.ONE);
 
-        boolean canMove = soldier.isValidDestination(source, destination);
+        boolean canMove = soldier.isValidMovement(source, destination);
 
         assertThat(canMove).isFalse();
     }

@@ -3,10 +3,6 @@ package janggi.domain.piece;
 import janggi.domain.board.Column;
 import janggi.domain.board.Position;
 import janggi.domain.board.Row;
-import janggi.domain.piece.Elephant;
-import janggi.domain.piece.Horse;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceColor;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -21,7 +17,7 @@ class HorseTest {
         Horse horse = new Horse(PieceColor.RED);
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.THREE, Column.TWO);
-        boolean canMove = horse.isValidDestination(source, destination);
+        boolean canMove = horse.isValidMovement(source, destination);
 
         assertThat(canMove).isTrue();
     }
@@ -31,7 +27,7 @@ class HorseTest {
         Horse horse = new Horse(PieceColor.RED);
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.TWO, Column.TWO);
-        boolean canMove = horse.isValidDestination(source, destination);
+        boolean canMove = horse.isValidMovement(source, destination);
 
         assertThat(canMove).isFalse();
     }
