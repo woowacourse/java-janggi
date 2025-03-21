@@ -53,15 +53,6 @@ public class Application {
         }
     }
 
-    private List<Integer> parseMoveCommand(final String input) {
-        List<Integer> moveInfo = new ArrayList<>();
-        moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(5))));
-        moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(6))));
-        moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(8))));
-        moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(9))));
-        return moveInfo;
-    }
-
     private void move(final Board board, final String input) {
         try {
             final List<Integer> moveCommand = parseMoveCommand(input);
@@ -72,5 +63,14 @@ public class Application {
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private List<Integer> parseMoveCommand(final String input) {
+        List<Integer> moveInfo = new ArrayList<>();
+        moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(5))));
+        moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(6))));
+        moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(8))));
+        moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(9))));
+        return moveInfo;
     }
 }
