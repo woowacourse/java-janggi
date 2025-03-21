@@ -16,7 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
 
 class CanonTest {
-
     @Test
     void 포가_포를_넘어갈_경우_예외를_발생한다() {
         // given
@@ -29,7 +28,8 @@ class CanonTest {
         initialBoard.put(createPosition(4,4), new Canon(Team.GREEN));
         Board board = new Board(initialBoard);
 
-        // when && then
+        // when
+        // then
         Assertions.assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
@@ -48,7 +48,8 @@ class CanonTest {
         initialBoard.put(createPosition(4,5), new Soldier(Team.GREEN));
         Board board = new Board(initialBoard);
 
-        // when && then
+        // when
+        // then
         Assertions.assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 다른 기물 1개를 넘어가야 합니다.");
@@ -65,7 +66,8 @@ class CanonTest {
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);
 
-        // when && then
+        // when
+        // then
         Assertions.assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 다른 기물 1개를 넘어가야 합니다.");
@@ -84,7 +86,8 @@ class CanonTest {
         initialBoard.put(createPosition(4,6), new Canon(Team.RED));
         Board board = new Board(initialBoard);
 
-        // when && then
+        // when
+        // then
         Assertions.assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
@@ -114,5 +117,4 @@ class CanonTest {
                 .asInstanceOf(MAP)
                 .containsEntry(goal, piece);
     }
-
 }

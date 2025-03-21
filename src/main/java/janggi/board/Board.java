@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
-
     public static final int ROW_SIZE = 10;
     public static final int COLUMN_SIZE = 9;
 

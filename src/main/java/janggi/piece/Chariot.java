@@ -6,7 +6,6 @@ import janggi.board.Position;
 import java.util.Map;
 
 public class Chariot extends Piece {
-
     protected static final String NAME = "차";
     private static final int[][] dRows = {
             //상
@@ -21,7 +20,6 @@ public class Chariot extends Piece {
             //우
             {0}, {0, 0}, {0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0}};
-
     private static final int[][] dColumns = {
             //상
             {0}, {0, 0}, {0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0},
@@ -43,6 +41,21 @@ public class Chariot extends Piece {
     @Override
     protected void validatePath(Map<Position, Piece> board, Position start, int pathIndex) {
         validateNonPieceOnPath(board, start, pathIndex);
+    }
+
+    @Override
+    protected boolean isSameType(Piece other) {
+        return other instanceof Chariot;
+    }
+
+    @Override
+    protected void validatePieceOnGoal(Map<Position, Piece> board, Position goal) {
+        validateSameTeamOnGoal(board, goal);
+    }
+
+    @Override
+    public boolean isGeneral() {
+        return false;
     }
 
     @Override
@@ -68,20 +81,5 @@ public class Chariot extends Piece {
     @Override
     protected String getName() {
         return NAME;
-    }
-
-    @Override
-    protected boolean isSameType(Piece other) {
-        return other instanceof Chariot;
-    }
-
-    @Override
-    protected void validatePieceOnGoal(Map<Position, Piece> board, Position goal) {
-        validateSameTeamOnGoal(board, goal);
-    }
-
-    @Override
-    public boolean isGeneral() {
-        return false;
     }
 }

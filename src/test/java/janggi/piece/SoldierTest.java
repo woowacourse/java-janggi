@@ -12,9 +12,8 @@ import java.util.Map;
 import static janggi.fixture.PositionFixture.createPosition;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
-import static org.junit.jupiter.api.Assertions.*;
-class SoldierTest {
 
+class SoldierTest {
     @CsvSource(value = {"GREEN:4:5", "GREEN:5:4", "GREEN:3:4", "RED:4:3"}, delimiterString = ":")
     @ParameterizedTest
     void 졸병의_정상적인_움직임을_테스트한다(Team team, int column, int row) {
@@ -35,5 +34,4 @@ class SoldierTest {
                 .asInstanceOf(MAP)
                 .containsEntry(goal, piece);
     }
-
 }

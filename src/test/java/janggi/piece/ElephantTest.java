@@ -16,7 +16,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
 
 class ElephantTest {
-
     @CsvSource(value = {"2:7", "6:7", "6:1", "7:6", "7:2", "2:1", "1:2", "1:6"}, delimiterString = ":")
     @ParameterizedTest
     void 상의_정상적인_움직임을_테스트한다(int column, int row) {
@@ -50,10 +49,10 @@ class ElephantTest {
         initialBoard.put(createPosition(4,5), new Soldier(Team.GREEN));
         Board board = new Board(initialBoard);
 
+        // when
         // then
         assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 경로에 다른 기물이 있어 이동할 수 없습니다.");
     }
-
 }

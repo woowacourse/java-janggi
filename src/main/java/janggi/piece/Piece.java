@@ -6,7 +6,6 @@ import janggi.board.Position;
 import java.util.Map;
 
 public abstract class Piece {
-
     protected final Team team;
 
     public Piece(Team team) {
@@ -32,11 +31,7 @@ public abstract class Piece {
             int[] dColumn = dColumns[i];
             Position position = start;
             for (int j = 0; j < dRow.length; j++) {
-                try {
-                    position = position.plus(dColumn[j], dRow[j]);
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    continue;
-                }
+                position = position.plus(dColumn[j], dRow[j]);
             }
             if (position.equals(goal)) {
                 return i;
@@ -69,26 +64,18 @@ public abstract class Piece {
         }
     }
 
+    protected abstract void validatePath(Map<Position, Piece> board, Position start, int pathIndex);
+    protected abstract boolean isSameType(Piece other);
+    protected abstract void validatePieceOnGoal(Map<Position, Piece> board, Position goal);
+    public abstract boolean isGeneral();
+    protected abstract int[] getPathRows(int pathIndex);
+    protected abstract int[] getPathColumns(int pathIndex);
+    protected abstract int[][] getAllPathRows();
+    protected abstract int[][] getAllPathColumns();
+    protected abstract String getName();
+
     @Override
     public String toString() {
         return getName();
     }
-
-    protected abstract void validatePath(Map<Position, Piece> board, Position start, int pathIndex);
-
-    protected abstract int[] getPathRows(int pathIndex);
-
-    protected abstract int[] getPathColumns(int pathIndex);
-
-    protected abstract int[][] getAllPathRows();
-
-    protected abstract int[][] getAllPathColumns();
-
-    protected abstract String getName();
-
-    protected abstract boolean isSameType(Piece other);
-
-    protected abstract void validatePieceOnGoal(Map<Position, Piece> board, Position goal);
-
-    public abstract boolean isGeneral();
 }

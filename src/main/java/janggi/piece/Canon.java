@@ -5,7 +5,6 @@ import janggi.board.Position;
 import java.util.Map;
 
 public class Canon extends Piece {
-
     protected static final String NAME = "포";
     private static final int[][] dRows = {
             //상
@@ -62,6 +61,26 @@ public class Canon extends Piece {
     }
 
     @Override
+    protected boolean isSameType(Piece other) {
+        return other instanceof Canon;
+    }
+
+    @Override
+    protected void validatePieceOnGoal(Map<Position, Piece> board, Position goal) {
+        validateSameTeamOnGoal(board, goal);
+
+        Piece other = board.get(goal);
+        if (other != null && other.isSameType(this)) {
+            throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
+        }
+    }
+
+    @Override
+    public boolean isGeneral() {
+        return false;
+    }
+
+    @Override
     protected int[] getPathRows(int pathIndex) {
         return dRows[pathIndex];
     }
@@ -84,25 +103,5 @@ public class Canon extends Piece {
     @Override
     protected String getName() {
         return NAME;
-    }
-
-    @Override
-    protected boolean isSameType(Piece other) {
-        return other instanceof Canon;
-    }
-
-    @Override
-    protected void validatePieceOnGoal(Map<Position, Piece> board, Position goal) {
-        validateSameTeamOnGoal(board, goal);
-
-        Piece other = board.get(goal);
-        if (other != null && other.isSameType(this)) {
-            throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
-        }
-    }
-
-    @Override
-    public boolean isGeneral() {
-        return false;
     }
 }

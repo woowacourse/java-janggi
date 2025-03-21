@@ -8,7 +8,6 @@ import janggi.piece.Piece;
 import java.util.Map;
 
 public class OutputView {
-
     private static final String GREEN_COLOR_PREFIX = "\u001B[32m";
     private static final String GREEN_COLOR_SUFFIX = "\u001B[0m";
     private static final String RED_COLOR_PREFIX = "\u001B[31m";
