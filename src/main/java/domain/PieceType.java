@@ -1,12 +1,6 @@
 package domain;
 
 import static domain.Offset.DOWN;
-import static domain.Offset.LEFT;
-import static domain.Offset.LEFT_DOWN;
-import static domain.Offset.LEFT_UP;
-import static domain.Offset.RIGHT;
-import static domain.Offset.RIGHT_DOWN;
-import static domain.Offset.RIGHT_UP;
 import static domain.Offset.UP;
 
 import java.util.Collections;
@@ -18,100 +12,7 @@ public enum PieceType {
     CANNON("포", Map.of(
             Team.GREEN, List.of(new BoardPosition(1, 2), new BoardPosition(7, 2)),
             Team.RED, List.of(new BoardPosition(1, 7), new BoardPosition(7, 7))
-    ), Map.ofEntries(
-            Map.entry(new Offset(2, 0),
-                    List.of(RIGHT, RIGHT)),
-            Map.entry(new Offset(3, 0),
-                    List.of(RIGHT, RIGHT, RIGHT)),
-            Map.entry(new Offset(4, 0),
-                    List.of(RIGHT, RIGHT, RIGHT,
-                            RIGHT)),
-            Map.entry(new Offset(5, 0),
-                    List.of(RIGHT, RIGHT, RIGHT,
-                            RIGHT, RIGHT)),
-            Map.entry(new Offset(6, 0),
-                    List.of(RIGHT, RIGHT, RIGHT,
-                            RIGHT, RIGHT, RIGHT)),
-            Map.entry(new Offset(7, 0),
-                    List.of(RIGHT, RIGHT, RIGHT,
-                            RIGHT, RIGHT, RIGHT,
-                            RIGHT)),
-            Map.entry(new Offset(8, 0),
-                    List.of(RIGHT, RIGHT, RIGHT,
-                            RIGHT, RIGHT, RIGHT,
-                            RIGHT, RIGHT)),
-            Map.entry(new Offset(-2, 0),
-                    List.of(LEFT, LEFT)),
-            Map.entry(new Offset(-3, 0),
-                    List.of(LEFT, LEFT, LEFT)),
-            Map.entry(new Offset(-4, 0),
-                    List.of(LEFT, LEFT, LEFT,
-                            LEFT)),
-            Map.entry(new Offset(-5, 0),
-                    List.of(LEFT, LEFT, LEFT,
-                            LEFT, LEFT)),
-            Map.entry(new Offset(-6, 0),
-                    List.of(LEFT, LEFT, LEFT,
-                            LEFT, LEFT, LEFT)),
-            Map.entry(new Offset(-7, 0),
-                    List.of(LEFT, LEFT, LEFT,
-                            LEFT, LEFT, LEFT,
-                            LEFT)),
-            Map.entry(new Offset(-8, 0),
-                    List.of(LEFT, LEFT, LEFT,
-                            LEFT, LEFT, LEFT,
-                            LEFT, LEFT)),
-            Map.entry(new Offset(0, 2),
-                    List.of(UP, UP)),
-            Map.entry(new Offset(0, 3),
-                    List.of(UP, UP, UP)),
-            Map.entry(new Offset(0, 4),
-                    List.of(UP, UP, UP,
-                            UP)),
-            Map.entry(new Offset(0, 5),
-                    List.of(UP, UP, UP,
-                            UP, UP)),
-            Map.entry(new Offset(0, 6),
-                    List.of(UP, UP, UP,
-                            UP, UP, UP)),
-            Map.entry(new Offset(0, 7),
-                    List.of(UP, UP, UP,
-                            UP, UP, UP,
-                            UP)),
-            Map.entry(new Offset(0, 8),
-                    List.of(UP, UP, UP,
-                            UP, UP, UP,
-                            UP, UP)),
-            Map.entry(new Offset(0, 9),
-                    List.of(UP, UP, UP,
-                            UP, UP, UP,
-                            UP, UP, UP)),
-            Map.entry(new Offset(0, -2),
-                    List.of(DOWN, DOWN)),
-            Map.entry(new Offset(0, -3),
-                    List.of(DOWN, DOWN, DOWN)),
-            Map.entry(new Offset(0, -4),
-                    List.of(DOWN, DOWN, DOWN,
-                            DOWN)),
-            Map.entry(new Offset(0, -5),
-                    List.of(DOWN, DOWN, DOWN,
-                            DOWN, DOWN)),
-            Map.entry(new Offset(0, -6),
-                    List.of(DOWN, DOWN, DOWN,
-                            DOWN, DOWN, DOWN)),
-            Map.entry(new Offset(0, -7),
-                    List.of(DOWN, DOWN, DOWN,
-                            DOWN, DOWN, DOWN,
-                            DOWN)),
-            Map.entry(new Offset(0, -8),
-                    List.of(DOWN, DOWN, DOWN,
-                            DOWN, DOWN, DOWN,
-                            DOWN, DOWN)),
-            Map.entry(new Offset(0, -9),
-                    List.of(DOWN, DOWN, DOWN,
-                            DOWN, DOWN, DOWN,
-                            DOWN, DOWN, DOWN))
-    ), 1),
+    ), null, 1),
 
 
     CHARIOT("차", Map.of(
@@ -135,12 +36,7 @@ public enum PieceType {
     GUARD("사", Map.of(
             Team.GREEN, List.of(new BoardPosition(3, 0), new BoardPosition(5, 0)),
             Team.RED, List.of(new BoardPosition(3, 9), new BoardPosition(5, 9))
-    ), Map.of(
-            RIGHT, List.of(RIGHT),
-            LEFT, List.of(LEFT),
-            UP, List.of(UP),
-            DOWN, List.of(DOWN)
-    ), 0),
+    ), null, 0),
 
 
     HORSE("마", Map.of(
