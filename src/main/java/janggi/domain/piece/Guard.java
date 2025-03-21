@@ -1,7 +1,9 @@
 package janggi.domain.piece;
 
-import janggi.domain.RawRoute;
+import janggi.domain.piece.direction.RawRoute;
 import janggi.domain.Team;
+import janggi.domain.piece.direction.Position;
+import janggi.domain.piece.direction.RawPosition;
 import java.util.List;
 import java.util.Set;
 

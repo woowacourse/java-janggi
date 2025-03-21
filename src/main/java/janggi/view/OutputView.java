@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.domain.Route;
+import janggi.domain.piece.direction.Route;
 import janggi.domain.Team;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
@@ -9,7 +9,7 @@ import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Position;
+import janggi.domain.piece.direction.Position;
 import java.util.List;
 import java.util.Set;
 

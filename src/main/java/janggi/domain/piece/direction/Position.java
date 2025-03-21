@@ -1,4 +1,4 @@
-package janggi.domain.piece;
+package janggi.domain.piece.direction;
 
 public record Position(int x, int y) {
 

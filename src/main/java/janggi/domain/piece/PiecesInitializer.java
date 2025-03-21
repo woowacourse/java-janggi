@@ -1,17 +1,10 @@
-package janggi.domain;
+package janggi.domain.piece;
 
 import static janggi.domain.Team.BLUE;
 import static janggi.domain.Team.RED;
 
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Chariot;
-import janggi.domain.piece.Elephant;
-import janggi.domain.piece.General;
-import janggi.domain.piece.Guard;
-import janggi.domain.piece.Horse;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.Position;
-import janggi.domain.piece.Soldier;
+import janggi.domain.Team;
+import janggi.domain.piece.direction.Position;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -3,7 +3,9 @@ package janggi.domain;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Position;
+import janggi.domain.piece.PiecesInitializer;
+import janggi.domain.piece.direction.Position;
+import janggi.domain.piece.direction.Route;
 import java.util.List;
 import java.util.Set;
 

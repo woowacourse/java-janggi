@@ -3,8 +3,9 @@ package janggi.domain.piece;
 import static janggi.domain.Team.RED;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.Route;
+import janggi.domain.piece.direction.Route;
 import janggi.domain.Team;
+import janggi.domain.piece.direction.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

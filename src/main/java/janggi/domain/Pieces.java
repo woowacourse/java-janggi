@@ -1,7 +1,8 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Position;
+import janggi.domain.piece.direction.Position;
+import janggi.domain.piece.direction.Route;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

@@ -1,9 +1,8 @@
-package janggi.domain;
+package janggi.domain.piece.direction;
 
 import static janggi.domain.Team.RED;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.piece.Position;
 import janggi.domain.piece.Soldier;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
