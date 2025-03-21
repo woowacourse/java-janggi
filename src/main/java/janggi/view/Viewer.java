@@ -2,7 +2,7 @@ package janggi.view;
 
 import janggi.common.ErrorMessage;
 import janggi.domain.Board;
-import janggi.domain.Piece;
+import janggi.domain.piece.Piece;
 import janggi.domain.Side;
 import janggi.dto.PositionDto;
 import java.util.Scanner;

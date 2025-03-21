@@ -1,9 +1,10 @@
-package janggi.domain;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Soldier;
+import janggi.domain.Side;
+import janggi.domain.piece.behavior.Cannon;
+import janggi.domain.piece.behavior.Soldier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.move;
 
 import janggi.common.ErrorMessage;
 import java.util.Objects;

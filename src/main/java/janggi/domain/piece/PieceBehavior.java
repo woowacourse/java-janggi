@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Board;
-import janggi.domain.Position;
+import janggi.domain.move.Position;
 import janggi.domain.Side;
 import java.util.Set;
 

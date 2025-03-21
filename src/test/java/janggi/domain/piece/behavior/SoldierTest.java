@@ -1,9 +1,9 @@
-package janggi.domain.piece;
+package janggi.domain.piece.behavior;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Board;
-import janggi.domain.Position;
+import janggi.domain.move.Position;
 import janggi.domain.Side;
 import janggi.factory.PieceFactory;
 import java.util.List;

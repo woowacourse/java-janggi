@@ -5,8 +5,10 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.common.ErrorMessage;
-import janggi.domain.piece.General;
-import janggi.domain.piece.Soldier;
+import janggi.domain.move.Position;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.behavior.General;
+import janggi.domain.piece.behavior.Soldier;
 import janggi.factory.PieceFactory;
 import java.util.HashMap;
 import java.util.Map;

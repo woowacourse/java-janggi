@@ -1,10 +1,11 @@
-package janggi.domain.piece;
+package janggi.domain.piece.behavior;
 
 import janggi.domain.Board;
-import janggi.domain.Position;
+import janggi.domain.move.Position;
 import janggi.domain.Side;
-import janggi.domain.Vector;
-import janggi.domain.Vectors;
+import janggi.domain.move.Vector;
+import janggi.domain.move.Vectors;
+import janggi.domain.piece.PieceBehavior;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

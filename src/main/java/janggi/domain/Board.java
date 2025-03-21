@@ -1,6 +1,8 @@
 package janggi.domain;
 
 import janggi.common.ErrorMessage;
+import janggi.domain.move.Position;
+import janggi.domain.piece.Piece;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,8 +29,7 @@ public class Board {
             throw new IllegalArgumentException(ErrorMessage.IS_NOT_SAME_SIDE.getMessage());
         }
 
-        if (piece.getAvailableMovePositions(this, position)
-                .isEmpty()) {
+        if (piece.getAvailableMovePositions(this, position).isEmpty()) {
             throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_PIECE.getMessage());
         }
     }
@@ -37,6 +38,10 @@ public class Board {
         if (!pieceMap.containsKey(position)) {
             throw new IllegalArgumentException(ErrorMessage.POSITION_DOES_NOT_EXIST.getMessage());
         }
+    }
+
+    public void CaptureIfPresent(Position position){
+
     }
 
     public void movePiece(Position currentPosition, Position newPosition) {
@@ -48,6 +53,8 @@ public class Board {
         }
 
         pieceMap.remove(currentPosition);
+        // TODO PUT을 할 때 기존의 POSITION의 키가 덮어씌워진다는 것을 표현할 수 없다.
+        // 사라진 다는 것을 표현하면 좋을 거 같다.
         pieceMap.put(newPosition, piece);
     }
 
@@ -68,14 +75,11 @@ public class Board {
             return false;
         }
 
-        return pieceMap.get(position)
-                .isCannon();
+        return pieceMap.get(position).isCannon();
     }
 
     public boolean hasGeneral(Side side) {
-        return pieceMap.values()
-                .stream()
-                .anyMatch(piece -> piece.isGeneral(side));
+        return pieceMap.values().stream().anyMatch(piece -> piece.isGeneral(side));
     }
 
     public String getPieceName(int row, int column) {
@@ -85,7 +89,6 @@ public class Board {
             return "＿";
         }
 
-        return pieceMap.get(position)
-                .toName();
+        return pieceMap.get(position).toName();
     }
 }

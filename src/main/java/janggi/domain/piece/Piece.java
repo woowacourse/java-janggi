@@ -1,8 +1,10 @@
-package janggi.domain;
+package janggi.domain.piece;
 
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.General;
-import janggi.domain.piece.PieceBehavior;
+import janggi.domain.Board;
+import janggi.domain.move.Position;
+import janggi.domain.Side;
+import janggi.domain.piece.behavior.Cannon;
+import janggi.domain.piece.behavior.General;
 import java.util.Objects;
 import java.util.Set;
 

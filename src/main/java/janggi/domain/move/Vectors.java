@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.move;
 
 import java.util.Arrays;
 import java.util.List;

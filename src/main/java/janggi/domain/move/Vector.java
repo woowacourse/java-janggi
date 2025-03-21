@@ -1,4 +1,6 @@
-package janggi.domain;
+package janggi.domain.move;
+
+import janggi.domain.Side;
 
 public record Vector(int y, int x) {
 
