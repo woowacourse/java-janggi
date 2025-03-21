@@ -112,31 +112,20 @@ public enum PieceType {
                             DOWN, DOWN, DOWN,
                             DOWN, DOWN, DOWN))
     ), 1),
+
+
     CHARIOT("차", Map.of(
             Team.GREEN, List.of(new BoardPosition(0, 0), new BoardPosition(8, 0)),
             Team.RED, List.of(new BoardPosition(0, 9), new BoardPosition(8, 9))
     ), null, 0),
+
+
     ELEPHANT("상", Map.of(
             Team.GREEN, List.of(new BoardPosition(1, 0), new BoardPosition(7, 0)),
             Team.RED, List.of(new BoardPosition(1, 9), new BoardPosition(7, 9))
-    ), Map.of(
-            new Offset(3, 2),
-            List.of(RIGHT, RIGHT_UP, RIGHT_UP),
-            new Offset(3, -2),
-            List.of(RIGHT, RIGHT_DOWN, RIGHT_DOWN),
-            new Offset(-3, 2),
-            List.of(LEFT, LEFT_UP, LEFT_UP),
-            new Offset(-3, -2),
-            List.of(LEFT, LEFT_DOWN, LEFT_DOWN),
-            new Offset(2, 3),
-            List.of(UP, RIGHT_UP, RIGHT_UP),
-            new Offset(2, -3),
-            List.of(DOWN, RIGHT_DOWN, RIGHT_DOWN),
-            new Offset(-2, 3),
-            List.of(UP, LEFT_UP, LEFT_UP),
-            new Offset(-2, -3),
-            List.of(DOWN, LEFT_DOWN, LEFT_DOWN)
-    ), 0),
+    ), null, 0),
+
+
     GENERAL("왕", Map.of(
             Team.GREEN, List.of(new BoardPosition(4, 1)),
             Team.RED, List.of(new BoardPosition(4, 8))
@@ -146,6 +135,8 @@ public enum PieceType {
             UP, List.of(UP),
             DOWN, List.of(DOWN)
     ), 0),
+
+
     GUARD("사", Map.of(
             Team.GREEN, List.of(new BoardPosition(3, 0), new BoardPosition(5, 0)),
             Team.RED, List.of(new BoardPosition(3, 9), new BoardPosition(5, 9))
@@ -155,10 +146,14 @@ public enum PieceType {
             UP, List.of(UP),
             DOWN, List.of(DOWN)
     ), 0),
+
+
     HORSE("마", Map.of(
             Team.GREEN, List.of(new BoardPosition(2, 0), new BoardPosition(6, 0)),
             Team.RED, List.of(new BoardPosition(2, 9), new BoardPosition(6, 9))
     ), null, 0),
+
+
     ZZU("쭈", Map.of(
             Team.GREEN,
             List.of(new BoardPosition(0, 3), new BoardPosition(2, 3),
