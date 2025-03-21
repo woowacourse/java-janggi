@@ -1,10 +1,16 @@
-package domain;
+package domain.chessPiece;
+
+import domain.type.ChessPieceType;
+import domain.position.ChessPosition;
+import domain.type.ChessTeam;
+import domain.direction.Directions;
 
 import java.util.List;
 
-import static domain.Direction.*;
+import static domain.direction.Direction.*;
 
-public class Guard extends LimitedMoveChessPiece {
+public class King extends LimitedMoveChessPiece {
+
     private static final List<Directions> directions = List.of(
             new Directions(List.of(UP, RIGHT_UP)),
             new Directions(List.of(UP, LEFT_UP)),
@@ -16,21 +22,19 @@ public class Guard extends LimitedMoveChessPiece {
             new Directions(List.of(DOWN, RIGHT_DOWN))
     );
 
-    public Guard(ChessPosition position, final ChessTeam team) {
+    public King(ChessPosition position, final ChessTeam team) {
         super(position, team, directions);
     }
 
-    public static List<Guard> initPieces() {
+    public static List<King> initPieces() {
         return List.of(
-                new Guard(new ChessPosition(0, 3), ChessTeam.RED),
-                new Guard(new ChessPosition(0, 5), ChessTeam.RED),
-                new Guard(new ChessPosition(9, 3), ChessTeam.BLUE),
-                new Guard(new ChessPosition(9, 5), ChessTeam.BLUE)
+                new King(new ChessPosition(1, 4), ChessTeam.RED),
+                new King(new ChessPosition(8, 4), ChessTeam.BLUE)
         );
     }
 
     @Override
     public ChessPieceType getChessPieceType() {
-        return ChessPieceType.GUARD;
+        return ChessPieceType.KING;
     }
 }

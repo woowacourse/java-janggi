@@ -1,7 +1,7 @@
-import domain.ChessPiecePositions;
-import domain.ChessPosition;
-import domain.ChessTeam;
-import domain.Pawn;
+import domain.position.ChessPiecePositions;
+import domain.position.ChessPosition;
+import domain.type.ChessTeam;
+import domain.chessPiece.Pawn;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

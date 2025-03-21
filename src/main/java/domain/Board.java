@@ -1,5 +1,7 @@
 package domain;
 
+import domain.position.ChessPiecePositions;
+
 public class Board {
 
     private final ChessPiecePositions chessPiecePositions;

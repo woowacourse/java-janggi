@@ -1,5 +1,11 @@
 package domain;
 
+import domain.chessPiece.ChessPiece;
+import domain.chessPiece.Elephant;
+import domain.chessPiece.Pawn;
+import domain.position.ChessPiecePositions;
+import domain.position.ChessPosition;
+import domain.type.ChessTeam;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,10 @@
-package domain;
+package domain.chessPiece;
+
+import domain.direction.Direction;
+import domain.path.Path;
+import domain.position.ChessPiecePositions;
+import domain.position.ChessPosition;
+import domain.type.ChessTeam;
 
 import java.util.ArrayList;
 import java.util.List;

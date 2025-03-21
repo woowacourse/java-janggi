@@ -1,11 +1,18 @@
-package domain;
+package domain.chessPiece;
+
+import domain.direction.Direction;
+import domain.path.Path;
+import domain.position.ChessPiecePositions;
+import domain.position.ChessPosition;
+import domain.type.ChessPieceType;
+import domain.type.ChessTeam;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static domain.Direction.*;
-import static domain.Direction.RIGHT;
+import static domain.direction.Direction.*;
+import static domain.direction.Direction.RIGHT;
 
 public class Chariot extends UnlimitedMoveChessPiece {
 

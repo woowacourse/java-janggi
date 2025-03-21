@@ -4,6 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
 import java.util.stream.Stream;
+
+import domain.chessPiece.ChessPiece;
+import domain.position.ChessPiecePositions;
+import domain.position.ChessPosition;
+import domain.type.ChessPieceType;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

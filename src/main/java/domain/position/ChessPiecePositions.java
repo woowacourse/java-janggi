@@ -1,4 +1,7 @@
-package domain;
+package domain.position;
+
+import domain.type.ChessPieceType;
+import domain.chessPiece.*;
 
 import java.util.*;
 

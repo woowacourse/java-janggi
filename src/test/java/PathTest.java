@@ -1,5 +1,5 @@
-import domain.Path;
-import domain.ChessPosition;
+import domain.path.Path;
+import domain.position.ChessPosition;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

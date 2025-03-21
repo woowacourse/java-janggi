@@ -1,4 +1,4 @@
-package domain;
+package domain.direction;
 
 public enum Direction {
     UP(-1, 0),

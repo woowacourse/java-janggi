@@ -1,4 +1,7 @@
-package domain;
+package domain.direction;
+
+import domain.path.Path;
+import domain.position.ChessPosition;
 
 import java.util.ArrayList;
 import java.util.List;

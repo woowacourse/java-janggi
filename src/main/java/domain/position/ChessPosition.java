@@ -1,4 +1,4 @@
-package domain;
+package domain.position;
 
 public record ChessPosition(
         int row,

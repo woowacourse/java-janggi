@@ -1,13 +1,18 @@
-package domain;
+package domain.chessPiece;
 
-import static domain.Direction.DOWN;
-import static domain.Direction.LEFT;
-import static domain.Direction.LEFT_DOWN;
-import static domain.Direction.LEFT_UP;
-import static domain.Direction.RIGHT;
-import static domain.Direction.RIGHT_DOWN;
-import static domain.Direction.RIGHT_UP;
-import static domain.Direction.UP;
+import domain.type.ChessPieceType;
+import domain.position.ChessPosition;
+import domain.type.ChessTeam;
+import domain.direction.Directions;
+
+import static domain.direction.Direction.DOWN;
+import static domain.direction.Direction.LEFT;
+import static domain.direction.Direction.LEFT_DOWN;
+import static domain.direction.Direction.LEFT_UP;
+import static domain.direction.Direction.RIGHT;
+import static domain.direction.Direction.RIGHT_DOWN;
+import static domain.direction.Direction.RIGHT_UP;
+import static domain.direction.Direction.UP;
 
 import java.util.List;
 
