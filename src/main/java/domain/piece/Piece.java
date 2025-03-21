@@ -21,6 +21,8 @@ public abstract class Piece {
 
     public abstract boolean isAllowedObstacles(final List<Piece> obstacles);
 
+    public abstract boolean isCatchable(final Piece piece);
+
     public boolean isMyTeam(final Team team) {
         return this.team == team;
     }

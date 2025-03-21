@@ -39,6 +39,7 @@ public class Board {
         final List<Offset> movementRule = selectedPiece.findMovementRule(selectBoardPosition, destinationBoardPosition);
         validateMovementRule(movementRule, selectBoardPosition, destinationBoardPosition, selectedPiece);
 
+        validateCatchable(selectedPiece, destinationPiece, currentTeam);
         removeDestinationEnemyPiece(destinationBoardPosition, currentTeam, destinationPiece);
         changeSelectPieceBoardPosition(selectBoardPosition, destinationBoardPosition, selectedPiece);
     }
@@ -95,6 +96,19 @@ public class Board {
             routePositions.add(currentBoardPosition);
         }
         return routePositions;
+    }
+
+    private void validateCatchable(
+            final Piece selectPiece,
+            final Piece destinationPiece,
+            final Team currentTeam
+    ) {
+        if (destinationPiece == null || destinationPiece.isMyTeam(currentTeam)) {
+            return;
+        }
+        if (!selectPiece.isCatchable(destinationPiece)) {
+            throw new IllegalArgumentException("도착 위치에 있는 기물은 잡을 수 없는 기물입니다.");
+        }
     }
 
     private void removeDestinationEnemyPiece(

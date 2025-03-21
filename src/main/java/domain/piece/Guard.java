@@ -27,6 +27,11 @@ public class Guard extends Piece {
         return obstacles.isEmpty();
     }
 
+    @Override
+    public boolean isCatchable(final Piece piece) {
+        return true;
+    }
+
     // TODO : 추후) 사는 궁성 밖으로 나갈 수 없다.
     private void validateOffset(final Offset offset) {
         if (!offset.hasOneMovement()) {

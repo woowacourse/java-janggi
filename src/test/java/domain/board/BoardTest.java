@@ -160,7 +160,6 @@ class BoardTest {
                         .hasMessage("이동경로에 넘을 수 없는 기물이 있습니다.");
             }
 
-            // TODO : fix
             @DisplayName("포가 잡으려는 기물이 포라면 예외가 발생한다.")
             @Test
             void movePieceCannonCase3() {
@@ -175,7 +174,7 @@ class BoardTest {
                 assertThatThrownBy(
                         () -> board.movePiece(new BoardPosition(0, 0), new BoardPosition(0, 6), Team.RED))
                         .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("이동경로에 넘을 수 없는 기물이 있습니다.");
+                        .hasMessage("도착 위치에 있는 기물은 잡을 수 없는 기물입니다.");
             }
         }
     }

@@ -56,6 +56,20 @@ class CannonTest {
                     () -> assertThat(cannon.isAllowedObstacles(List.of(new Zzu(Team.RED)))).isTrue()
             );
         }
+
+        @DisplayName("포가 잡을 수 있는 기물인지 확인한다.")
+        @Test
+        void isCatchable() {
+            // given
+            Cannon cannon = new Cannon(Team.RED);
+
+            // when & then
+            assertAll(
+                    () -> assertThat(cannon.isCatchable(new Horse(Team.GREEN))).isTrue(),
+                    () -> assertThat(cannon.isCatchable(new Zzu(Team.GREEN))).isTrue(),
+                    () -> assertThat(cannon.isCatchable(new Cannon(Team.GREEN))).isFalse()
+            );
+        }
     }
 
     @Nested
