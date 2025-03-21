@@ -6,7 +6,7 @@ import janggi.board.JanggiBoard;
 import janggi.fixture.PiecePositionFixture;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
-import janggi.setting.AssignType;
+import janggi.setting.PieceAssignType;
 import janggi.value.Position;
 import java.util.List;
 import java.util.stream.Stream;
@@ -21,9 +21,9 @@ public class JanggiBoardTest {
     @DisplayName("초의 마 초기배치를 할 수 있다.")
     @ParameterizedTest
     @MethodSource()
-    void test1(AssignType assignType, List<Position> maPositions) {
+    void test1(PieceAssignType pieceAssignType, List<Position> maPositions) {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(assignType, AssignType.LEFT_TOP);
+        JanggiBoard janggiBoard = new JanggiBoard(pieceAssignType, PieceAssignType.LEFT_TOP);
 
         //when
         List<Piece> choWorldPieces = janggiBoard.getChoPieces();
@@ -39,19 +39,19 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> test1() {
         return Stream.of(
-                Arguments.of(AssignType.IN_TOP, List.of(new Position(1, 9), new Position(7, 9))),
-                Arguments.of(AssignType.LEFT_TOP, List.of(new Position(2, 9), new Position(7, 9))),
-                Arguments.of(AssignType.OUT_TOP, List.of(new Position(2, 9), new Position(6, 9))),
-                Arguments.of(AssignType.RIGHT_TOP, List.of(new Position(1, 9), new Position(6, 9)))
+                Arguments.of(PieceAssignType.IN_TOP, List.of(new Position(1, 9), new Position(7, 9))),
+                Arguments.of(PieceAssignType.LEFT_TOP, List.of(new Position(2, 9), new Position(7, 9))),
+                Arguments.of(PieceAssignType.OUT_TOP, List.of(new Position(2, 9), new Position(6, 9))),
+                Arguments.of(PieceAssignType.RIGHT_TOP, List.of(new Position(1, 9), new Position(6, 9)))
         );
     }
 
     @DisplayName("초의 상 초기배치를 할 수 있다.")
     @ParameterizedTest
     @MethodSource()
-    void test2(AssignType assignType, List<Position> sangPositions) {
+    void test2(PieceAssignType pieceAssignType, List<Position> sangPositions) {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(assignType, AssignType.LEFT_TOP);
+        JanggiBoard janggiBoard = new JanggiBoard(pieceAssignType, PieceAssignType.LEFT_TOP);
 
         //when
         List<Piece> choWorldPieces = janggiBoard.getChoPieces();
@@ -67,19 +67,19 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> test2() {
         return Stream.of(
-                Arguments.of(AssignType.IN_TOP, List.of(new Position(2, 9), new Position(6, 9))),
-                Arguments.of(AssignType.LEFT_TOP, List.of(new Position(1, 9), new Position(6, 9))),
-                Arguments.of(AssignType.OUT_TOP, List.of(new Position(1, 9), new Position(7, 9))),
-                Arguments.of(AssignType.RIGHT_TOP, List.of(new Position(2, 9), new Position(7, 9)))
+                Arguments.of(PieceAssignType.IN_TOP, List.of(new Position(2, 9), new Position(6, 9))),
+                Arguments.of(PieceAssignType.LEFT_TOP, List.of(new Position(1, 9), new Position(6, 9))),
+                Arguments.of(PieceAssignType.OUT_TOP, List.of(new Position(1, 9), new Position(7, 9))),
+                Arguments.of(PieceAssignType.RIGHT_TOP, List.of(new Position(2, 9), new Position(7, 9)))
         );
     }
 
     @DisplayName("한의 마 초기배치를 할 수 있다.")
     @ParameterizedTest
     @MethodSource()
-    void test3(AssignType assignType, List<Position> maPositions) {
+    void test3(PieceAssignType pieceAssignType, List<Position> maPositions) {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(AssignType.RIGHT_TOP, assignType);
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.RIGHT_TOP, pieceAssignType);
 
         //when
         List<Piece> hanWorldPieces = janggiBoard.getHanPieces();
@@ -95,19 +95,19 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> test3() {
         return Stream.of(
-                Arguments.of(AssignType.IN_TOP, List.of(new Position(1, 0), new Position(7, 0))),
-                Arguments.of(AssignType.LEFT_TOP, List.of(new Position(2, 0), new Position(7, 0))),
-                Arguments.of(AssignType.OUT_TOP, List.of(new Position(2, 0), new Position(6, 0))),
-                Arguments.of(AssignType.RIGHT_TOP, List.of(new Position(1, 0), new Position(6, 0)))
+                Arguments.of(PieceAssignType.IN_TOP, List.of(new Position(1, 0), new Position(7, 0))),
+                Arguments.of(PieceAssignType.LEFT_TOP, List.of(new Position(2, 0), new Position(7, 0))),
+                Arguments.of(PieceAssignType.OUT_TOP, List.of(new Position(2, 0), new Position(6, 0))),
+                Arguments.of(PieceAssignType.RIGHT_TOP, List.of(new Position(1, 0), new Position(6, 0)))
         );
     }
 
     @DisplayName("한의 상 초기배치를 할 수 있다.")
     @ParameterizedTest
     @MethodSource()
-    void test4(AssignType assignType, List<Position> sangPositions) {
+    void test4(PieceAssignType pieceAssignType, List<Position> sangPositions) {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(AssignType.RIGHT_TOP, assignType);
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.RIGHT_TOP, pieceAssignType);
 
         //when
         List<Piece> hanWorldPieces = janggiBoard.getHanPieces();
@@ -123,10 +123,10 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> test4() {
         return Stream.of(
-                Arguments.of(AssignType.IN_TOP, List.of(new Position(2, 0), new Position(6, 0))),
-                Arguments.of(AssignType.LEFT_TOP, List.of(new Position(1, 0), new Position(6, 0))),
-                Arguments.of(AssignType.OUT_TOP, List.of(new Position(1, 0), new Position(7, 0))),
-                Arguments.of(AssignType.RIGHT_TOP, List.of(new Position(2, 0), new Position(7, 0)))
+                Arguments.of(PieceAssignType.IN_TOP, List.of(new Position(2, 0), new Position(6, 0))),
+                Arguments.of(PieceAssignType.LEFT_TOP, List.of(new Position(1, 0), new Position(6, 0))),
+                Arguments.of(PieceAssignType.OUT_TOP, List.of(new Position(1, 0), new Position(7, 0))),
+                Arguments.of(PieceAssignType.RIGHT_TOP, List.of(new Position(2, 0), new Position(7, 0)))
         );
     }
 
@@ -134,7 +134,7 @@ public class JanggiBoardTest {
     @Test
     void test5() {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(AssignType.RIGHT_TOP, AssignType.RIGHT_TOP);
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.RIGHT_TOP, PieceAssignType.RIGHT_TOP);
 
         //when
         List<Piece> choWorldPieces = janggiBoard.getChoPieces();

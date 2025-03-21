@@ -1,7 +1,7 @@
 package janggi.view;
 
-import janggi.setting.AssignType;
 import janggi.setting.CampType;
+import janggi.setting.PieceAssignType;
 import janggi.value.Position;
 import java.util.List;
 import java.util.Scanner;
@@ -10,7 +10,7 @@ public class InputView {
 
     private final static Scanner scanner = new Scanner(System.in);
 
-    public AssignType readPieceAssignType(final CampType campType) {
+    public PieceAssignType readPieceAssignType(final CampType campType) {
         System.out.printf("%s의 초기 배치를 선택해주세요.", campType.getName());
         System.out.println();
         System.out.println("1. 왼상(상마상마)");
@@ -18,9 +18,9 @@ public class InputView {
         System.out.println("3. 안상(마상상마)");
         System.out.println("4. 바깥상(상마마상)");
 
-        AssignType assignType = Answer.from(scanner.nextLine());
+        PieceAssignType pieceAssignType = PieceAssignTypeAnswer.from(scanner.nextLine());
         System.out.println();
-        return assignType;
+        return pieceAssignType;
     }
 
     public Position readMovedPiecePosition() {

@@ -2,8 +2,8 @@ package janggi.board;
 
 import janggi.piece.Piece;
 import janggi.piece.Pieces;
-import janggi.setting.AssignType;
 import janggi.setting.CampType;
+import janggi.setting.PieceAssignType;
 import janggi.value.Position;
 import java.util.List;
 
@@ -12,9 +12,9 @@ public class JanggiBoard {
     private final Pieces choPieces;
     private final Pieces hanPieces;
 
-    public JanggiBoard(AssignType choAssignType, AssignType hanAssignType) {
-        this.choPieces = new Pieces(choAssignType.makeAssign(CampType.CHO));
-        this.hanPieces = new Pieces(hanAssignType.makeAssign(CampType.HAN));
+    public JanggiBoard(PieceAssignType choPieceAssignType, PieceAssignType hanPieceAssignType) {
+        this.choPieces = new Pieces(choPieceAssignType.makeAssign(CampType.CHO));
+        this.hanPieces = new Pieces(hanPieceAssignType.makeAssign(CampType.HAN));
     }
 
     public void movePiece(CampType campType, Position targetPiecePosition, Position destination) {

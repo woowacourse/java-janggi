@@ -1,8 +1,8 @@
 package janggi.manager;
 
 import janggi.board.JanggiBoard;
-import janggi.setting.AssignType;
 import janggi.setting.CampType;
+import janggi.setting.PieceAssignType;
 import janggi.value.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -29,8 +29,8 @@ public class JanggiGame {
 
     private JanggiBoard prepareGame() {
         outputView.writeStartMessage();
-        AssignType choAnswer = inputView.readPieceAssignType(CampType.CHO);
-        AssignType hanAnswer = inputView.readPieceAssignType(CampType.HAN);
+        PieceAssignType choAnswer = inputView.readPieceAssignType(CampType.CHO);
+        PieceAssignType hanAnswer = inputView.readPieceAssignType(CampType.HAN);
         JanggiBoard janggiBoard = new JanggiBoard(choAnswer, hanAnswer);
         outputView.writeJanggiBoard(janggiBoard.getChoPieces(), janggiBoard.getHanPieces());
         return janggiBoard;
