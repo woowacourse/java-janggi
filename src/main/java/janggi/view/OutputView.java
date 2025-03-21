@@ -37,6 +37,10 @@ public class OutputView {
         System.out.println("1\t2\t3\t4\t5\t6\t7\t8\t9");
     }
 
+    public void printErrorMessage(Exception e) {
+        System.out.println(e.getMessage());
+    }
+
     enum PieceOutput {
         CANNON("C"),
         ELEPHANT("E"),

@@ -1,12 +1,15 @@
 package janggi;
 
+import janggi.view.InputView;
 import janggi.view.OutputView;
 
 public class Application {
 
     public static void main(String[] args) {
-        Board board = Board.init();
-        OutputView outputView = new OutputView();
-        outputView.printBoard(board.getBoard());
+        JanggiManager janggiManager = new JanggiManager(
+                new InputView(),
+                new OutputView()
+        );
+        janggiManager.play();
     }
 }
