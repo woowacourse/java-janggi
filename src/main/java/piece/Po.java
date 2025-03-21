@@ -69,6 +69,11 @@ public class Po extends Piece {
         throw new IllegalStateException("유효하지 않은 좌표입니다.");
     }
 
+    @Override
+    public String getName() {
+        return "포";
+    }
+
     private boolean isPo(Piece piece) {
         return piece instanceof Po;
     }

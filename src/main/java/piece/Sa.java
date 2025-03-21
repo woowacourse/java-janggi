@@ -36,4 +36,9 @@ public class Sa extends Piece {
     protected Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
         return Set.of();
     }
+
+    @Override
+    public String getName() {
+        return "사";
+    }
 }

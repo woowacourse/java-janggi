@@ -36,4 +36,9 @@ public class Goong extends Piece {
     protected Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
         return Set.of();
     }
+
+    @Override
+    public String getName() {
+        return "궁";
+    }
 }

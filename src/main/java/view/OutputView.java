@@ -4,20 +4,9 @@ import coordinate.Coordinate;
 import java.util.Map;
 import java.util.Optional;
 import piece.Piece;
-import piece.Piece.Type;
 import team.Team;
 
 public class OutputView {
-
-    private static final Map<Type, String> PIECE_NAMES = Map.of(
-            Type.CHA, "차",
-            Type.MA, "마",
-            Type.SANG, "상",
-            Type.SA, "사",
-            Type.GOONG, "궁",
-            Type.PO, "포",
-            Type.JOL, "졸"
-    );
 
     private static final String RED = "\u001B[31m";
     private static final String BLUE = "\u001B[34m";
@@ -55,8 +44,7 @@ public class OutputView {
     }
 
     private String applyColor(Piece piece) {
-        Type type = Type.getType(piece);
         Team team = piece.getTeam();
-        return TEAM_COLORS.get(team) + PIECE_NAMES.get(type) + RESET;
+        return TEAM_COLORS.get(team) + piece.getName() + RESET;
     }
 }
