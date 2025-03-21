@@ -33,8 +33,7 @@ public class OutputView {
             }
             System.out.println();
         }
-        System.out.println("  0");
-    }
+        System.out.println("  ０ １ ２ ３ ４ ５ ６ ７ 8");    }
 
     private void printRowPieces(int column, int row, Map<Position, Piece> board) {
         Position position = new Position(column, row);
