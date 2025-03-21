@@ -1,7 +1,5 @@
 package domain;
 
-import java.util.List;
-
 public record Offset(
         int x,
         int y

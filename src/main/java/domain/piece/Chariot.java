@@ -6,7 +6,6 @@ import domain.Piece;
 import domain.PieceType;
 import domain.Team;
 import java.util.List;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Chariot extends Piece {
@@ -27,6 +26,11 @@ public class Chariot extends Piece {
         return createMovementRule(offset);
     }
 
+    @Override
+    public boolean isObstacleCountAllowed(final int obstacleCount) {
+        return obstacleCount == 0;
+    }
+
     private void validateChariotOffset(final Offset offset) {
         if (offset.x() != 0 && offset.y() != 0) {
             throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");
@@ -45,7 +49,7 @@ public class Chariot extends Piece {
     private int getDistance(final Offset offset, final Offset unitDirection) {
         Offset tempOffset = Offset.origin();
         int distance = 0;
-        while (tempOffset != offset) {
+        while (!tempOffset.equals(offset)) {
             tempOffset = tempOffset.plus(unitDirection);
             distance++;
         }

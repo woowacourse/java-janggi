@@ -72,7 +72,7 @@ class PieceTest {
                     new BoardPosition(5, 5),
                     new BoardPosition(5, 5)
             )).isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("기물을 현재 위치로 이동시킬 수 없습니다.");
+                    .hasMessage("기물을 같은 위치로 이동시킬 수 없습니다.");
         }
     }
 }
