@@ -1,6 +1,7 @@
 package janggi;
 
 import janggi.board.Board;
+import janggi.board.BoardFactory;
 import janggi.board.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -16,7 +17,7 @@ public class JanggiManager {
     }
 
     public void play() {
-        Board board = Board.init();
+        Board board = BoardFactory.initBoard();
         outputView.printBoard(board.getBoard());
         while (true) {
             String inputStartPosition = inputView.readStartPosition();
