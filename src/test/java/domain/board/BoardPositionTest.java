@@ -27,6 +27,17 @@ class BoardPositionTest {
             // then
             assertThat(offset).isEqualTo(new Offset(1, 2));
         }
+
+        @DisplayName("위치에서 오프셋을 더한다.")
+        @Test
+        public void plus() {
+            // given
+            BoardPosition position = new BoardPosition(0, 0);
+            Offset offset = new Offset(2, 3);
+
+            // when & then
+            assertThat(position.plus(offset)).isEqualTo(new BoardPosition(2, 3));
+        }
     }
 
     @Nested

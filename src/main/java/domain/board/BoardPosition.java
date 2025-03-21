@@ -18,7 +18,7 @@ public record BoardPosition(
         }
     }
 
-    public BoardPosition calculatePosition(final Offset offset) {
+    public BoardPosition plus(final Offset offset) {
         return new BoardPosition(this.x + offset.x(), this.y + offset.y());
     }
 
