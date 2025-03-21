@@ -1,8 +1,10 @@
 package domain.board;
 
+import domain.InitialPiecesPositions;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.Team;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,38 +24,6 @@ public class Board {
         }
     }
 
-    public static Board initialize() {
-        final Map<BoardPosition, Piece> pieces = createInitializePieces();
-        return new Board(pieces);
-    }
-
-    private static Map<BoardPosition, Piece> createInitializePieces() {
-        final Map<BoardPosition, Piece> pieces = new HashMap<>();
-
-        PieceType.CANNON.getInitialPosition()
-                .forEach((team, positions) -> positions
-                        .forEach(position -> pieces.put(position, new Piece(PieceType.CANNON, team))));
-        PieceType.CHARIOT.getInitialPosition()
-                .forEach((team, positions) -> positions
-                        .forEach(position -> pieces.put(position, new Piece(PieceType.CHARIOT, team))));
-        PieceType.ELEPHANT.getInitialPosition()
-                .forEach((team, positions) -> positions
-                        .forEach(position -> pieces.put(position, new Piece(PieceType.ELEPHANT, team))));
-        PieceType.GENERAL.getInitialPosition()
-                .forEach((team, positions) -> positions
-                        .forEach(position -> pieces.put(position, new Piece(PieceType.GENERAL, team))));
-        PieceType.GUARD.getInitialPosition()
-                .forEach((team, positions) -> positions
-                        .forEach(position -> pieces.put(position, new Piece(PieceType.GUARD, team))));
-        PieceType.HORSE.getInitialPosition()
-                .forEach((team, positions) -> positions
-                        .forEach(position -> pieces.put(position, new Piece(PieceType.HORSE, team))));
-        PieceType.ZZU.getInitialPosition()
-                .forEach((team, positions) -> positions
-                        .forEach(position -> pieces.put(position, new Piece(PieceType.ZZU, team))));
-
-        return pieces;
-    }
 
     public void movePiece(
             final BoardPosition selectBoardPosition,
@@ -160,6 +130,28 @@ public class Board {
     ) {
         pieces.remove(selectBoardPosition);
         pieces.put(destinationBoardPosition, selectedPiece);
+    }
+
+    public static Board initialize() {
+        final Map<BoardPosition, Piece> pieces = createInitializePieces();
+        return new Board(pieces);
+    }
+
+    private static Map<BoardPosition, Piece> createInitializePieces() {
+        final Map<BoardPosition, Piece> pieces = new HashMap<>();
+        initializeByTeam(pieces, Team.GREEN);
+        initializeByTeam(pieces, Team.RED);
+        return pieces;
+    }
+
+    private static void initializeByTeam(
+            final Map<BoardPosition, Piece> pieces,
+            final Team team
+    ) {
+        for (final InitialPiecesPositions value : InitialPiecesPositions.values()) {
+            value.getBoardPosition(team)
+                    .forEach(position -> pieces.put(position, value.generatePiece(team)));
+        }
     }
 
     public Map<BoardPosition, Piece> getPieces() {
