@@ -4,6 +4,7 @@ import domain.board.BoardPosition;
 import domain.Janggi;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.PatternSyntaxException;
 import view.InputView;
 import view.OutputView;
 
@@ -49,7 +50,7 @@ public class JanggiController {
                     .map(String::trim)
                     .map(Integer::parseInt)
                     .toList();
-        } catch (Exception e) {
+        } catch (PatternSyntaxException | NumberFormatException e) {
             throw new IllegalArgumentException("좌표 입력 형식이 잘못되었습니다.");
         }
     }
