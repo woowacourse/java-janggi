@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public enum Command {
 
-    END("end"),
+    STOP("end"),
     MOVE("move [0-9][0-8] [0-9][0-8]");
 
     private final String pattern;
