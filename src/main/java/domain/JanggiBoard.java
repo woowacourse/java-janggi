@@ -92,4 +92,11 @@ public class JanggiBoard {
     public Map<Position, Piece> getBoard() {
         return board;
     }
+
+    public boolean checkKingIsDead() {
+        long kingCount = board.values().stream()
+                .filter(Piece::isKing).count();
+        System.out.println(kingCount);
+        return kingCount == 1;
+    }
 }

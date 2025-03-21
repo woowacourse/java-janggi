@@ -50,4 +50,8 @@ public class JanggiGame {
     public Map<Position, Piece> getBoardState() {
         return janggiBoard.getBoard();
     }
+
+    public boolean checkKingIsDead() {
+        return janggiBoard.checkKingIsDead();
+    }
 }

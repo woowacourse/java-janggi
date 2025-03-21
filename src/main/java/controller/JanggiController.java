@@ -27,6 +27,11 @@ public class JanggiController {
             Player thisTurnPlayer = janggiGame.getThisTurnPlayer();
             GameProcess(thisTurnPlayer, janggiGame);
             outputView.displayJanggiBoard(janggiGame.getBoardState());
+            if (janggiGame.checkKingIsDead()) {
+                outputView.displayJanggiBoard(janggiGame.getBoardState());
+                outputView.displayGameResult(thisTurnPlayer);
+                return;
+            }
         }
     }
 
