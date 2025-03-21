@@ -60,6 +60,14 @@ public final class JanggiCoordinate {
         return Objects.hash(row, col);
     }
 
+    @Override
+    public String toString() {
+        return "JanggiCoordinate{" +
+                "row=" + row +
+                ", col=" + col +
+                '}';
+    }
+
     public int getRow() {
         return row;
     }
