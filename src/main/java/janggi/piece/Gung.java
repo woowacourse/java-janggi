@@ -34,17 +34,18 @@ public class Gung extends Piece {
 
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        boolean followRuleOfMove = checkRuleOfMove(destination);
-        boolean existHurdleInDestination = existHurdleInPosition(destination, allies);
-        return followRuleOfMove && !existHurdleInDestination;
+        OneStepDirection direction = OneStepDirection.parse(getPosition(), destination);
+
+        boolean followRuleOfMove = checkRuleOfMove(direction);
+        boolean existAlliesInDestination = existPieceInDestination(destination, allies);
+        return followRuleOfMove && !existAlliesInDestination;
     }
 
-    private boolean checkRuleOfMove(Position destination) {
-        OneStepDirection direction = OneStepDirection.parse(getPosition(), destination);
+    private boolean checkRuleOfMove(OneStepDirection direction) {
         return direction != OneStepDirection.NONE;
     }
 
-    private boolean existHurdleInPosition(Position destination, List<Piece> allies) {
+    private boolean existPieceInDestination(Position destination, List<Piece> allies) {
         return allies.stream()
                 .anyMatch(piece -> piece.getPosition().equals(destination));
     }

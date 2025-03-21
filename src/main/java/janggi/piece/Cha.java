@@ -34,26 +34,23 @@ public class Cha extends Piece {
 
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        boolean followRuleOfMove = checkRuleOfMove(destination);
-        boolean existHurdleInPath = existHurdleInPath(destination, enemy, allies);
+        BeelineDirection direction = BeelineDirection.parse(getPosition(), destination);
+        List<Position> positionsInPath = direction.calculatePositionsInPath(getPosition(), destination);
+
+        boolean followRuleOfMove = checkRuleOfMove(direction);
+        boolean existHurdleInPath = existHurdleInPath(positionsInPath, enemy, allies);
         boolean existAlliesInDestination = existPieceInPosition(destination, allies);
         return followRuleOfMove && !existHurdleInPath && !existAlliesInDestination;
     }
 
-    private boolean checkRuleOfMove(Position destination) {
-        return getPosition().getX() == destination.getX() || getPosition().getY() == destination.getY();
+    private boolean checkRuleOfMove(BeelineDirection direction) {
+        return direction != BeelineDirection.NONE;
     }
 
-    private boolean existHurdleInPath(Position destination, List<Piece> enemy, List<Piece> allies) {
-        List<Position> positions = calculatePositionsInPath(destination);
-        boolean isEnemyExistence = existPieceInPath(positions, enemy);
-        boolean isAlliesExistence = existPieceInPath(positions, allies);
+    private boolean existHurdleInPath(List<Position> positionsInPath, List<Piece> enemy, List<Piece> allies) {
+        boolean isEnemyExistence = existPieceInPath(positionsInPath, enemy);
+        boolean isAlliesExistence = existPieceInPath(positionsInPath, allies);
         return isEnemyExistence || isAlliesExistence;
-    }
-
-    private List<Position> calculatePositionsInPath(Position destination) {
-        BeelineDirection direction = BeelineDirection.parse(getPosition(), destination);
-        return direction.calculatePositionsInPath(getPosition(), destination);
     }
 
     private boolean existPieceInPath(List<Position> positions, List<Piece> pieces) {
@@ -62,6 +59,7 @@ public class Cha extends Piece {
     }
 
     private boolean existPieceInPosition(Position position, List<Piece> pieces) {
-        return pieces.stream().anyMatch(piece -> piece.getPosition().equals(position));
+        return pieces.stream()
+                .anyMatch(piece -> piece.getPosition().equals(position));
     }
 }

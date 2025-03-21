@@ -35,14 +35,19 @@ public class Ma extends Piece {
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
         MaDirection maDirection = MaDirection.of(getPosition(), destination);
         boolean followRuleOfMove = checkRuleOfMove(maDirection);
-        boolean existEnemyInPath = existPieceInPath(maDirection, enemy);
-        boolean existAlliesInPath = existPieceInPath(maDirection, allies);
-        boolean existAlliesInDestination = existPieceInDestination(destination, allies);
-        return followRuleOfMove && !existEnemyInPath && !existAlliesInPath && !existAlliesInDestination;
+        boolean existHurdleInPath = existHurdleInPath(maDirection, enemy, allies);
+        boolean existAllieInDestination = existPieceInDestination(destination, allies);
+        return followRuleOfMove && !existHurdleInPath && !existAllieInDestination;
     }
 
     private boolean checkRuleOfMove(MaDirection maDirection) {
         return maDirection != MaDirection.NONE;
+    }
+
+    private boolean existHurdleInPath(MaDirection direction, List<Piece> enemy, List<Piece> allies) {
+        boolean existEnemyInPath = existPieceInPath(direction, enemy);
+        boolean existAlliesInPath = existPieceInPath(direction, allies);
+        return existEnemyInPath || existAlliesInPath;
     }
 
     private boolean existPieceInPath(MaDirection direction, List<Piece> pieces) {

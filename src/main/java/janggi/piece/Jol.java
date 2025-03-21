@@ -37,25 +37,24 @@ public class Jol extends Piece {
 
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        boolean followRuleOfMove = checkRuleOfMove(destination);
-        boolean existHurdleInDestination = existHurdleInPosition(destination, allies);
-        return followRuleOfMove && !existHurdleInDestination;
+        OneStepDirection direction = OneStepDirection.parse(getPosition(), destination);
+
+        boolean followRuleOfMove = checkRuleOfMove(direction);
+        boolean existAlliesInDestination = existPieceInDestination(destination, allies);
+        return followRuleOfMove && !existAlliesInDestination;
     }
 
-    private boolean checkRuleOfMove(Position destination) {
-        OneStepDirection direction = OneStepDirection.parse(getPosition(), destination);
+    private boolean checkRuleOfMove(OneStepDirection direction) {
         if (direction == OneStepDirection.NONE) {
             return false;
         }
         if (campType == CampType.CHO) {
-            System.out.println(direction);
-            System.out.println(direction != OneStepDirection.DOWN);
             return direction != OneStepDirection.DOWN;
         }
         return direction != OneStepDirection.UP;
     }
 
-    private boolean existHurdleInPosition(Position destination, List<Piece> pieces) {
+    private boolean existPieceInDestination(Position destination, List<Piece> pieces) {
         return pieces.stream()
                 .anyMatch(piece -> piece.getPosition().equals(destination));
     }
