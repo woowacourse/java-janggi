@@ -1,4 +1,4 @@
-package domain.board.createStrategy;
+package domain.board.strategy;
 
 import domain.Coordinate;
 import domain.Team;

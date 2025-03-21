@@ -2,7 +2,7 @@ package domain.board;
 
 import domain.Coordinate;
 import domain.Team;
-import domain.board.createStrategy.BoardCreateStrategy;
+import domain.board.strategy.BoardCreateStrategy;
 import domain.piece.Piece;
 import java.util.Collections;
 import java.util.HashMap;

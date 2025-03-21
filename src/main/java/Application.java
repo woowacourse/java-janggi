@@ -1,10 +1,10 @@
 import domain.Team;
 import domain.board.Board;
-import domain.board.createStrategy.BoardCreateStrategy;
-import domain.board.createStrategy.MaSangMaSang;
-import domain.board.createStrategy.MaSangSangMa;
-import domain.board.createStrategy.SangMaMaSang;
-import domain.board.createStrategy.SangMaSangMa;
+import domain.board.strategy.BoardCreateStrategy;
+import domain.board.strategy.MaSangMaSang;
+import domain.board.strategy.MaSangSangMa;
+import domain.board.strategy.SangMaMaSang;
+import domain.board.strategy.SangMaSangMa;
 import java.util.Map;
 import view.InputView;
 import view.InputView.CoordinatesPair;
