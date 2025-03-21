@@ -7,16 +7,18 @@ import java.util.List;
 
 public class Soldier extends Piece {
 
+    private static final int ALLOWED_MOVE = 1;
+
     public Soldier(final Side side) {
         super(side);
     }
 
     @Override
-    public List<Route> computeCandidatePositions(Position position) {
+    public List<Route> computeCandidatePositions(final Position position) {
         if (isCho()) {
-            return moveCho(position);
+            return computeAndExcludeInvalidRoute(position, Direction.DOWN);
         }
-        return moveHan(position);
+        return computeAndExcludeInvalidRoute(position, Direction.UP);
     }
 
     @Override
@@ -24,20 +26,12 @@ public class Soldier extends Piece {
         return "J";
     }
 
-    private List<Route> moveCho(final Position position) {
-        return List.of(
-                new Route(position.move(Direction.LEFT)),
-                new Route(position.move(Direction.RIGHT)),
-                new Route(position.move(Direction.UP))
-        );
-    }
-
-    private List<Route> moveHan(final Position position) {
-        return List.of(
-                new Route(position.move(Direction.LEFT)),
-                new Route(position.move(Direction.RIGHT)),
-                new Route(position.move(Direction.DOWN))
-        );
+    private List<Route> computeAndExcludeInvalidRoute(final Position position, final Direction direction) {
+        List<Route> routes = computeStraightRoutes(position, ALLOWED_MOVE);
+        Position invalidPosition = position.move(direction);
+        return routes.stream()
+                .filter(route -> !route.getDestination().equals(invalidPosition))
+                .toList();
     }
 
 }

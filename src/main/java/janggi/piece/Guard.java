@@ -1,11 +1,12 @@
 package janggi.piece;
 
-import janggi.board.Direction;
 import janggi.board.Position;
 import janggi.board.Route;
 import java.util.List;
 
 public class Guard extends Piece {
+
+    private static final int ALLOWED_MOVE = 1;
 
     public Guard(final Side side) {
         super(side);
@@ -13,12 +14,7 @@ public class Guard extends Piece {
 
     @Override
     public List<Route> computeCandidatePositions(final Position position) {
-        return List.of(
-                new Route(position.move(Direction.LEFT)),
-                new Route(position.move(Direction.RIGHT)),
-                new Route(position.move(Direction.UP)),
-                new Route(position.move(Direction.DOWN))
-        );
+        return computeStraightRoutes(position, ALLOWED_MOVE);
     }
 
     @Override

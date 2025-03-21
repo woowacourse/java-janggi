@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.board.Direction;
 import janggi.board.Position;
 import janggi.board.Route;
 import java.util.List;
@@ -17,6 +18,48 @@ public abstract class Piece {
     public abstract List<Route> computeCandidatePositions(final Position position);
 
     public abstract String getSymbol();
+
+    protected List<Route> computeStraightRoutes(final Position position, int distance) {
+        return List.of(
+                computeStraightLimitRoute(position, Direction.RIGHT, distance),
+                computeStraightLimitRoute(position, Direction.LEFT, distance),
+                computeStraightLimitRoute(position, Direction.UP, distance),
+                computeStraightLimitRoute(position, Direction.DOWN, distance)
+        );
+    }
+
+    protected List<Route> computeDiagonalRoutes(final Position position, int diagonalCount) {
+        return List.of(
+                computeStraightAndDiagonal(position, Direction.RIGHT, Direction.RIGHT_DOWN, diagonalCount),
+                computeStraightAndDiagonal(position, Direction.RIGHT, Direction.RIGHT_UP, diagonalCount),
+                computeStraightAndDiagonal(position, Direction.LEFT, Direction.LEFT_DOWN, diagonalCount),
+                computeStraightAndDiagonal(position, Direction.LEFT, Direction.LEFT_UP, diagonalCount),
+                computeStraightAndDiagonal(position, Direction.DOWN, Direction.LEFT_DOWN, diagonalCount),
+                computeStraightAndDiagonal(position, Direction.DOWN, Direction.RIGHT_DOWN, diagonalCount),
+                computeStraightAndDiagonal(position, Direction.UP, Direction.LEFT_UP, diagonalCount),
+                computeStraightAndDiagonal(position, Direction.UP, Direction.RIGHT_UP, diagonalCount)
+        );
+    }
+
+    private Route computeStraightLimitRoute(final Position position, final Direction direction,
+                                            final int distanceLimit) {
+        Route route = new Route(position.move(direction));
+        for (int delta = 1; delta < distanceLimit; delta++) {
+            Position destination = route.getDestination();
+            route.addRoute(destination.move(direction));
+        }
+        return route;
+    }
+
+    private Route computeStraightAndDiagonal(final Position position, final Direction straight,
+                                             final Direction diagonal, int diagonalCount) {
+        Route route = new Route(position.move(straight));
+        for (int count = 0; count < diagonalCount; count++) {
+            Position destination = route.getDestination();
+            route.addRoute(destination.move(diagonal));
+        }
+        return route;
+    }
 
     public boolean isAllyWith(final Piece anotherPiece) {
         if (isCho()) {
