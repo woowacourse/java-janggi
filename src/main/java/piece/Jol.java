@@ -15,7 +15,7 @@ public class Jol extends Piece {
     }
 
     @Override
-    protected Set<Coordinate> findMovableCandidates(coordinate.Coordinate departure) {
+    protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
         return Stream.of(
                         departure.pickChangedCoordinate(1, 0),
                         departure.pickChangedCoordinate(-1, 0),
@@ -27,8 +27,7 @@ public class Jol extends Piece {
     }
 
     @Override
-    protected boolean canMoveConsideringObstacles(Board board, coordinate.Coordinate departure,
-                                                  coordinate.Coordinate arrival) {
+    protected boolean canMoveConsideringObstacles(Board board, Coordinate departure, Coordinate arrival) {
         return true;
     }
 
