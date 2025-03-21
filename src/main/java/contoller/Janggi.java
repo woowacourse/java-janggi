@@ -41,8 +41,8 @@ public class Janggi {
                 team = Team.BLUE;
             }
             try {
-                List<Point> movePoints = movePointInput(janggiBoard, team);
-                if(janggiBoard.isNotMyTeamPoint(movePoints.getFirst(), team)){
+                List<Point> movePoints = movePointInput(team);
+                if (janggiBoard.isNotMyTeamPoint(movePoints.getFirst(), team)) {
                     throw new IllegalArgumentException("아군 장기말만 움직일 수 있습니다.");
                 }
                 janggiBoard.move(movePoints.getFirst(), movePoints.getLast());
