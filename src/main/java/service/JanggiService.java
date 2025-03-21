@@ -1,20 +1,20 @@
 package service;
 
+import board.Board;
+import board.Position;
+import board.Turn;
 import dto.BoardDto;
 import dto.TeamDto;
-import board.Position;
-import piece.Team;
-import board.Board;
 import piece.Piece;
 
 public class JanggiService {
 
-    private Team currentTurn;
     private Board board;
+    private Turn turn;
 
     public void startGame() {
         board = Board.generate();
-        currentTurn = Team.CHO;
+        turn = Turn.start();
     }
 
     public BoardDto getBoard() {
@@ -22,12 +22,12 @@ public class JanggiService {
     }
 
     public TeamDto currentTurn() {
-        return TeamDto.from(currentTurn);
+        return TeamDto.from(turn.getCurrentTeam());
     }
 
     public void move(Position source, Position destination) {
         Piece piece = board.get(source);
-        piece.move(board, currentTurn, destination.x() - source.x(), destination.y() - source.y());
+        piece.move(board, turn.getCurrentTeam(), destination.x() - source.x(), destination.y() - source.y());
     }
 
     public boolean isPlaying() {
@@ -35,7 +35,7 @@ public class JanggiService {
     }
 
     public void nextTurn() {
-        currentTurn = currentTurn.nextTurn();
+        turn.next();
     }
 
     public TeamDto getWinner() {
@@ -43,6 +43,6 @@ public class JanggiService {
     }
 
     public void abstain() {
-        board.abstain(currentTurn);
+        board.abstain(turn.getCurrentTeam());
     }
 }
