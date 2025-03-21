@@ -40,6 +40,10 @@ public abstract class Piece {
         return this.team == team;
     }
 
+    public boolean isEnemy(final Team team) {
+        return !isAlly(team);
+    }
+
     public Position getPosition() {
         return position;
     }
@@ -54,5 +58,9 @@ public abstract class Piece {
 
     protected boolean isSameType(Piece piece) {
         return this.pieceType == piece.pieceType;
+    }
+
+    public boolean isSameType(PieceType pieceType) {
+        return this.pieceType == pieceType;
     }
 }
