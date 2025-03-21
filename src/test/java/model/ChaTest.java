@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class ChaTest {
+class ChaTest {
     @Test
     @DisplayName("차 기물 생성 테스트")
     public void test1() {

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class PhoTest {
+class PhoTest {
     @Test
     @DisplayName("포 기물 생성 테스트")
     public void test1() {

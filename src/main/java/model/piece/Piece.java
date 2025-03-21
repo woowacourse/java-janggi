@@ -9,7 +9,7 @@ public abstract class Piece {
     Team team;
     PieceName pieceName;
 
-    public Piece(Team team) {
+    protected Piece(Team team) {
         this.team = team;
     }
 

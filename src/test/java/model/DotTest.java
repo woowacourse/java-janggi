@@ -8,7 +8,7 @@ import model.piece.Piece;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class DotTest {
+class DotTest {
     @Test
     @DisplayName("교차점 위에 기물이 존재하는지 여부 반환")
     void test1() {

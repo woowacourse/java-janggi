@@ -12,7 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class SangTest {
+class SangTest {
     @Test
     @DisplayName("상 기물 생성 테스트")
     public void test1() {
