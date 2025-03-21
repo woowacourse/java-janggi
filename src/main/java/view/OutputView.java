@@ -8,9 +8,7 @@ import java.util.Map;
 
 public class OutputView {
 
-    public static final String black = "\u001B[30m";
     public static final String red = "\u001B[31m";
-    public static final String green = "\u001B[32m";
     public static final String blue = "\u001B[34m";
     public static final String white = "\u001B[37m";
 

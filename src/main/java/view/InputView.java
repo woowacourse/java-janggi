@@ -12,7 +12,7 @@ public class InputView {
     public List<String> readPlayerNames() {
         System.out.println("플레이어 두 명의 이름을 입력하시오. (플레이어1, 플레이어2)");
         String input = scanner.nextLine();
-        return Arrays.asList(input.split(","));
+        return Arrays.asList(input.trim().split(","));
     }
 
     public List<Integer> readMovePiecePosition(Player player) {
@@ -28,8 +28,8 @@ public class InputView {
     private List<Integer> readPosition() {
         String input = scanner.nextLine();
         String[] positions = input.split(",");
-        int row = Integer.parseInt(positions[0]);
-        int column = Integer.parseInt(positions[1]);
+        int row = Integer.parseInt(positions[0].trim());
+        int column = Integer.parseInt(positions[1].trim());
         return List.of(row, column);
     }
 }
