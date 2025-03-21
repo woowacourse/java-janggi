@@ -1,13 +1,13 @@
-package domain.position;
+package janggi.domain.position;
 
-import domain.BaseTest;
-import domain.Country;
+import janggi.BaseTest;
+import janggi.domain.Country;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static domain.position.PositionFile.*;
-import static domain.position.PositionRank.*;
+import static janggi.domain.position.PositionFile.*;
+import static janggi.domain.position.PositionRank.*;
 import static org.assertj.core.api.Assertions.*;
 
 class PositionTest extends BaseTest {

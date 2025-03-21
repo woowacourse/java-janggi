@@ -1,7 +1,7 @@
-package domain.piece;
+package janggi.domain.piece;
 
-import domain.BaseTest;
-import domain.position.Position;
+import janggi.BaseTest;
+import janggi.domain.position.Position;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,8 +11,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static domain.position.PositionFile.*;
-import static domain.position.PositionRank.*;
+import static janggi.domain.position.PositionFile.*;
+import static janggi.domain.position.PositionRank.*;
 import static org.assertj.core.api.Assertions.*;
 
 public class PieceTest extends BaseTest {

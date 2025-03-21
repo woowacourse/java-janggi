@@ -1,6 +1,6 @@
-package domain.position;
+package janggi.domain.position;
 
-import domain.Country;
+import janggi.domain.Country;
 
 import java.util.ArrayList;
 import java.util.Arrays;

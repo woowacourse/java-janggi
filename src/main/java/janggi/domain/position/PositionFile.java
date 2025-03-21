@@ -1,4 +1,4 @@
-package domain.position;
+package janggi.domain.position;
 
 import java.util.ArrayList;
 import java.util.Arrays;

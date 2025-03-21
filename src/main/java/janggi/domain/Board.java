@@ -1,7 +1,7 @@
-package domain;
+package janggi.domain;
 
-import domain.piece.Piece;
-import domain.position.Position;
+import janggi.domain.piece.Piece;
+import janggi.domain.position.Position;
 
 import java.util.Collections;
 import java.util.HashMap;

@@ -1,15 +1,15 @@
-package domain.position;
+package janggi.domain.position;
 
-import domain.BaseTest;
-import domain.piece.MoveDirection;
-import domain.piece.Piece;
-import domain.piece.PieceType;
+import janggi.BaseTest;
+import janggi.domain.piece.MoveDirection;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static domain.position.PositionFile.*;
-import static domain.position.PositionRank.*;
+import static janggi.domain.position.PositionFile.*;
+import static janggi.domain.position.PositionRank.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 

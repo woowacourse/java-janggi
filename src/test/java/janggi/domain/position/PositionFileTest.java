@@ -1,6 +1,6 @@
-package domain.position;
+package janggi.domain.position;
 
-import domain.BaseTest;
+import janggi.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

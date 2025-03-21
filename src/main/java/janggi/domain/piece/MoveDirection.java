@@ -1,6 +1,6 @@
-package domain.piece;
+package janggi.domain.piece;
 
-import domain.position.Position;
+import janggi.domain.position.Position;
 
 import java.util.List;
 import java.util.function.Supplier;

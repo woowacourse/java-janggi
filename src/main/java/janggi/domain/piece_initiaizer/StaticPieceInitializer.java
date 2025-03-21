@@ -1,12 +1,12 @@
-package domain.piece_initiaizer;
+package janggi.domain.piece_initiaizer;
 
-import domain.Country;
-import domain.StartingPosition;
-import domain.piece.Piece;
-import domain.piece.PieceType;
-import domain.position.Position;
-import domain.position.PositionFile;
-import domain.position.PositionRank;
+import janggi.domain.Country;
+import janggi.domain.StartingPosition;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
+import janggi.domain.position.Position;
+import janggi.domain.position.PositionFile;
+import janggi.domain.position.PositionRank;
 
 import java.util.HashMap;
 import java.util.Map;

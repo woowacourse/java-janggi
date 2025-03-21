@@ -1,4 +1,4 @@
-package domain;
+package janggi.domain;
 
 public enum StartingPosition {
     마상마상,

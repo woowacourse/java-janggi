@@ -1,7 +1,7 @@
-package domain.position;
+package janggi.domain.position;
 
-import domain.piece.MoveDirection;
-import domain.piece.Piece;
+import janggi.domain.piece.MoveDirection;
+import janggi.domain.piece.Piece;
 
 import java.util.ArrayList;
 import java.util.List;

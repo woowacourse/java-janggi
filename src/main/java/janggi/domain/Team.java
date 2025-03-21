@@ -1,8 +1,8 @@
-package domain;
+package janggi.domain;
 
-import domain.piece.Piece;
-import domain.piece_initiaizer.PieceInitializer;
-import domain.position.Position;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece_initiaizer.PieceInitializer;
+import janggi.domain.position.Position;
 
 import java.util.Collections;
 import java.util.Map;

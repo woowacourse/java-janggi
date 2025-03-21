@@ -1,9 +1,10 @@
-package domain;
+package janggi.domain;
 
-import domain.piece.Piece;
-import domain.piece.PieceType;
-import domain.piece_initiaizer.StaticPieceInitializer;
-import domain.position.Position;
+import janggi.BaseTest;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
+import janggi.domain.piece_initiaizer.StaticPieceInitializer;
+import janggi.domain.position.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -12,8 +13,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static domain.position.PositionFile.*;
-import static domain.position.PositionRank.*;
+import static janggi.domain.position.PositionFile.*;
+import static janggi.domain.position.PositionRank.*;
 import static org.assertj.core.api.Assertions.*;
 
 public class BoardTest extends BaseTest {
