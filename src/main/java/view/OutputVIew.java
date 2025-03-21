@@ -20,14 +20,14 @@ public class OutputVIew {
 
     public static void displayJanggiBoard(JanggiBoard janggiBoard) {
 
-        ArrayList<ArrayList<Dot>> janggiBoardList = janggiBoard.getJanggiBoard();
+        List<List<Dot>> janggiBoardList = janggiBoard.getJanggiBoard();
         List<String> chineseNumberCharacterToVerticalIndex = Arrays.asList("一", "二", "三", "四", "五", "六", "七",
                 "八", "九", "十");
         List<String> chineseNumberCharacterToHorizontalIndex = Arrays.asList("一", "二", "三", "四", "五", "六", "七",
                 "八", "九");
 
         for (int i = janggiBoardList.size() - 1; i >= 0; i--) {
-            ArrayList<Dot> horizontalDotList = janggiBoardList.get(i);
+            List<Dot> horizontalDotList = janggiBoardList.get(i);
             List<String> horizontalNameLine = new ArrayList<>();
             System.out.print(BACKGROUND_YELLOW + FONT_BLACK + chineseNumberCharacterToVerticalIndex.get(i) + RESET
                     + BACKGROUND_YELLOW

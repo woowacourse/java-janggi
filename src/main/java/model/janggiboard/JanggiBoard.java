@@ -4,6 +4,7 @@ import static model.janggiboard.JanggiBoardSetUp.DEFAULT_SETUP;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import model.Path;
 import model.Point;
@@ -13,7 +14,7 @@ import model.piece.Piece;
 public class JanggiBoard {
     public static final int VERTICAL_SIZE = 10;
     public static final int HORIZONTAL_SIZE = 9;
-    private ArrayList<ArrayList<Dot>> janggiBoard;
+    private List<List<Dot>> janggiBoard;
 
     public JanggiBoard(JanggiBoardSetUp elephantSetup) {
         janggiBoard = initializeJanggiBoard();
@@ -21,17 +22,17 @@ public class JanggiBoard {
         placePiece(DEFAULT_SETUP);
     }
 
-    private ArrayList<ArrayList<Dot>> initializeJanggiBoard() {
-        ArrayList<ArrayList<Dot>> dots = new ArrayList<>();
+    private List<List<Dot>> initializeJanggiBoard() {
+        List<List<Dot>> dots = new ArrayList<>();
         for (int i = 0; i < VERTICAL_SIZE; i++) {
-            ArrayList<Dot> dotLine = getHorizontalDotsLine();
+            List<Dot> dotLine = getHorizontalDotsLine();
             dots.add(dotLine);
         }
         return dots;
     }
 
-    private static ArrayList<Dot> getHorizontalDotsLine() {
-        ArrayList<Dot> dotLine = new ArrayList<>();
+    private static List<Dot> getHorizontalDotsLine() {
+        List<Dot> dotLine = new ArrayList<>();
         for (int i = 0; i < HORIZONTAL_SIZE; i++) {
             dotLine.add(new Dot());
         }
@@ -45,7 +46,7 @@ public class JanggiBoard {
 
     public int countPiece() {
         int count = 0;
-        for (ArrayList<Dot> row : janggiBoard) {
+        for (List<Dot> row : janggiBoard) {
             for (Dot dot : row) {
                 if (dot.isPlaced()) {
                     count++;
@@ -100,7 +101,7 @@ public class JanggiBoard {
         }
     }
 
-    public ArrayList<ArrayList<Dot>> getJanggiBoard() {
+    public List<List<Dot>> getJanggiBoard() {
         return janggiBoard;
     }
 
