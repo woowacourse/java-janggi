@@ -1,10 +1,9 @@
 package janggi.piece;
 
+import janggi.direction.BeelineDirection;
 import janggi.setting.CampType;
 import janggi.value.Position;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class Po extends Piece {
 
@@ -34,89 +33,44 @@ public class Po extends Piece {
 
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        //목적지 일직선 상에 있는지 있다면 리턴 false
-        if (!isRuleOfMove(destination)) {
-            return false;
-        }
-        //목적지 위치에 아군이 있다면 리턴 false
-        boolean isInDestination = isAlliesInDestination(destination, allies);
-        if (isInDestination) {
-            return false;
-        }
+        BeelineDirection direction = BeelineDirection.parse(getPosition(), destination);
+        List<Position> positionsInPath = direction.calculatePositionsInPath(getPosition(), destination);
+        List<Piece> enemyInPath = searchPieceInPath(enemy, positionsInPath);
+        List<Piece> alliesInPath = searchPieceInPath(allies, positionsInPath);
 
-        //현재 위치와 목적지(미포함) 사이에 좌표리스트 계산
-        List<Position> pathPositions = calculatePositions(destination);
-
-        //좌표리스트 아군 검색
-        List<Piece> alliesInPath = searchPieceInPath(allies, pathPositions);
-
-        //좌표리스트 적군 검색
-        List<Piece> enemyInPath = searchPieceInPath(enemy, pathPositions);
-        
-        //아군이나 적군이 없다면 리턴 false
-        if (alliesInPath.isEmpty() && enemyInPath.isEmpty()) {
-            return false;
-        }
-
-        //아군이나 적군사이에 포가 있다면 리턴 false
-        long alliesPoCountInPath = countPoInPath(alliesInPath);
-        long enemyPoCountInPath = countPoInPath(enemyInPath);
-        if (alliesPoCountInPath + enemyPoCountInPath != 0) {
-            return false;
-        }
-
-        //아군과 적군의 합이 두개이상일 경우 리턴 false
-        if (alliesInPath.size() + enemyInPath.size() >= 2) {
-            return false;
-        }
-
-        return true;
+        boolean followRuleOfMove = checkRuleOfMove(direction);
+        boolean existOnlyOnePieceInPath = existOnlyOnePieceInPath(enemyInPath, alliesInPath);
+        boolean existPoInPath = existPoInPath(enemyInPath, alliesInPath);
+        boolean existAlliesInDestination = existPieceInPosition(destination, allies);
+        return followRuleOfMove && existOnlyOnePieceInPath && !existPoInPath && !existAlliesInDestination;
     }
 
-    private static long countPoInPath(List<Piece> alliesInPath) {
-        return alliesInPath.stream()
+    private List<Piece> searchPieceInPath(List<Piece> pieces, List<Position> positionsInPath) {
+        return pieces.stream()
+                .filter(piece -> positionsInPath.contains(piece.getPosition()))
+                .toList();
+    }
+
+    private boolean checkRuleOfMove(BeelineDirection direction) {
+        return direction != BeelineDirection.NONE;
+    }
+
+    private boolean existOnlyOnePieceInPath(List<Piece> enemyInPath, List<Piece> alliesInPath) {
+        return enemyInPath.size() + alliesInPath.size() == 1;
+    }
+
+    private boolean existPoInPath(List<Piece> enemyInPath, List<Piece> alliesInPath) {
+        long enemyPoCount = enemyInPath.stream()
                 .filter(alliesPiece -> alliesPiece.checkPieceType(PieceType.PO))
                 .count();
+        long alliesPoCount = alliesInPath.stream()
+                .filter(alliesPiece -> alliesPiece.checkPieceType(PieceType.PO))
+                .count();
+        return enemyPoCount + alliesPoCount > 0;
     }
 
-    private static List<Piece> searchPieceInPath(List<Piece> allies, List<Position> pathPositions) {
-        List<Piece> alliesInPath = new ArrayList<>();
-        for (Position pathPosition : pathPositions) {
-            allies.stream()
-                    .filter(alliesPiece -> alliesPiece.getPosition().equals(pathPosition))
-                    .forEach(alliesInPath::add);
-        }
-        return alliesInPath;
-    }
-
-    private boolean isAlliesInDestination(Position destination, List<Piece> allies) {
-        return allies.stream()
-                .anyMatch(alliesPiece -> alliesPiece.getPosition().equals(destination));
-    }
-
-    private boolean isRuleOfMove(Position destination) {
-        return getPosition().getX() == destination.getX() || getPosition().getY() == destination.getY();
-    }
-
-
-    private List<Position> calculatePositions(Position destination) {
-        if (getPosition().getX() == destination.getX()) {
-            if (getPosition().getY() > destination.getY()) {
-                return IntStream.rangeClosed(destination.getY() - 1, getPosition().getY())
-                        .mapToObj(y -> new Position(getPosition().getX(), y))
-                        .toList();
-            }
-            return IntStream.rangeClosed(getPosition().getY(), destination.getY() - 1)
-                    .mapToObj(y -> new Position(getPosition().getX(), y))
-                    .toList();
-        }
-        if (getPosition().getX() > destination.getX()) {
-            return IntStream.rangeClosed(destination.getX() - 1, getPosition().getX())
-                    .mapToObj(x -> new Position(x, getPosition().getY()))
-                    .toList();
-        }
-        return IntStream.rangeClosed(getPosition().getX(), destination.getX() - 1)
-                .mapToObj(x -> new Position(x, getPosition().getY()))
-                .toList();
+    private boolean existPieceInPosition(Position position, List<Piece> pieces) {
+        return pieces.stream()
+                .anyMatch(alliesPiece -> alliesPiece.getPosition().equals(position));
     }
 }
