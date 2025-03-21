@@ -28,7 +28,7 @@ public final class Board {
     }
 
     private void validateCountryIsNotSame(final Team team1, final Team team2) {
-        if(team1.getCountry().equals(team2.getCountry())) {
+        if(team1.isSameCountry(team2)) {
             throw new IllegalArgumentException("두 개의 장기판의 나라는 서로 달라야 합니다.");
         }
     }

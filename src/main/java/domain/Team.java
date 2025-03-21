@@ -23,7 +23,7 @@ public final class Team {
 
     public static Team getFirstTeam(final Team team1, final Team team2) {
         validateIsDifferentTeam(team1, team2);
-        if (team1.getCountry() == Country.초나라) {
+        if (team1.country == Country.초나라) {
             return team1;
         }
         return team2;
@@ -31,24 +31,20 @@ public final class Team {
 
     public static Team getSecondTeam(final Team team1, final Team team2) {
         validateIsDifferentTeam(team1, team2);
-        if (team1.getCountry() == Country.한나라) {
+        if (team1.country == Country.한나라) {
             return team1;
         }
         return team2;
     }
 
     private static void validateIsDifferentTeam(final Team team1, final Team team2) {
-        if (team1.getCountry() == team2.getCountry()) {
+        if (team1.country == team2.country) {
             throw new IllegalArgumentException("서로 다른 팀이어야 합니다.");
         }
     }
 
     public Map<Position, Piece> getPieces() {
         return Collections.unmodifiableMap(pieces);
-    }
-
-    public Country getCountry() {
-        return country;
     }
 
     public void move(final Position fromPosition, final Position tagetPosition, final Map<Position, Piece> enemyPieces) {
@@ -64,5 +60,9 @@ public final class Team {
         if (pieces.get(fromPosition) == null) {
             throw new IllegalArgumentException("해당 위치의 기물이 존재하지 않습니다.");
         }
+    }
+
+    public boolean isSameCountry(final Team team2) {
+        return country == team2.country;
     }
 }

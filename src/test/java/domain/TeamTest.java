@@ -49,12 +49,8 @@ public class TeamTest {
         final StartingPosition startingPosition = StartingPosition.마상상마;
         final Team team = new Team(startingPosition, new StaticPieceInitializer(), country);
 
-        // when
-        final Country result = team.getCountry();
-
-        // then
-        assertThat(result).isEqualTo(country);
-
+        // expected
+        assertThat(team).extracting("country").isEqualTo(country);
     }
 
     @ParameterizedTest
