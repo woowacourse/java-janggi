@@ -34,24 +34,23 @@ public class Ma extends Piece {
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
         MaDirection maDirection = MaDirection.of(getPosition(), destination);
-        if (maDirection == MaDirection.NONE) {
-            return false;
-        }
-        boolean isEnemyExist = isEnemyExistInRoute(enemy, maDirection);
-        boolean isAlliesExist = isAlliesExistInRoute(allies, maDirection);
-        if (isEnemyExist || isAlliesExist) {
-            return false;
-        }
-        return allies.stream().noneMatch(alliesPiece -> destination.equals(alliesPiece.getPosition()));
+        boolean followRuleOfMove = checkRuleOfMove(maDirection);
+        boolean existEnemyInPath = existPieceInPath(maDirection, enemy);
+        boolean existAlliesInPath = existPieceInPath(maDirection, allies);
+        boolean existAlliesInDestination = existPieceInDestination(destination, allies);
+        return followRuleOfMove && !existEnemyInPath && !existAlliesInPath && !existAlliesInDestination;
     }
 
-    private boolean isEnemyExistInRoute(List<Piece> enemy, MaDirection direction) {
-        return enemy.stream()
-                .anyMatch(enemyPiece -> direction.isDirectRoute(getPosition(), enemyPiece.getPosition()));
+    private boolean checkRuleOfMove(MaDirection maDirection) {
+        return maDirection != MaDirection.NONE;
     }
 
-    private boolean isAlliesExistInRoute(List<Piece> allies, MaDirection direction) {
-        return allies.stream()
-                .anyMatch(alliesPiece -> direction.isDirectRoute(getPosition(), alliesPiece.getPosition()));
+    private boolean existPieceInPath(MaDirection direction, List<Piece> pieces) {
+        return pieces.stream()
+                .anyMatch(piece -> direction.checkPositionInPath(getPosition(), piece.getPosition()));
+    }
+
+    private boolean existPieceInDestination(Position destination, List<Piece> pieces) {
+        return pieces.stream().anyMatch(piece -> destination.equals(piece.getPosition()));
     }
 }

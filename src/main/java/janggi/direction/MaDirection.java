@@ -11,11 +11,11 @@ public enum MaDirection {
     NONE(new Position(0, 0), List.of()),
     ;
 
-    private final Position route;
+    private final Position positionsInPath;
     private final List<Position> destinationPositions;
 
-    MaDirection(final Position route, final List<Position> destinationPositions) {
-        this.route = route;
+    MaDirection(final Position positionsInPath, final List<Position> destinationPositions) {
+        this.positionsInPath = positionsInPath;
         this.destinationPositions = destinationPositions;
     }
 
@@ -35,9 +35,10 @@ public enum MaDirection {
         return NONE;
     }
 
-    public boolean isDirectRoute(Position current, Position position) {
-        Position newPosition = new Position(current.getX() + route.getX(), current.getY() + route.getY());
-        return newPosition.equals(position);
+    public boolean checkPositionInPath(Position current, Position target) {
+        Position newPosition = new Position(current.getX() + positionsInPath.getX(),
+                current.getY() + positionsInPath.getY());
+        return newPosition.equals(target);
     }
 
 }
