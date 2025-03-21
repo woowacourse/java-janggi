@@ -23,7 +23,7 @@ public final class Team {
 
     public static Team getFirstTeam(final Team team1, final Team team2) {
         validateIsDifferentTeam(team1, team2);
-        if (team1.country == Country.초나라) {
+        if (team1.country == Country.CHO) {
             return team1;
         }
         return team2;
@@ -31,7 +31,7 @@ public final class Team {
 
     public static Team getSecondTeam(final Team team1, final Team team2) {
         validateIsDifferentTeam(team1, team2);
-        if (team1.country == Country.한나라) {
+        if (team1.country == Country.HAN) {
             return team1;
         }
         return team2;

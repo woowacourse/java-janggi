@@ -26,7 +26,7 @@ class PositionTest {
     void 위치_생성시_파일이_null이면_예외가_발생한다() {
         // given
         final PositionFile file = null;
-        final PositionRank rank = PositionRank.of(10, Country.초나라);
+        final PositionRank rank = PositionRank.of(10, Country.CHO);
 
         // expected
         assertThatThrownBy(() -> new Position(file, rank))
@@ -38,9 +38,9 @@ class PositionTest {
     void 파일과_랭크가_같으면_동일하다고_판단한다() {
         // given
         final PositionFile file1 = PositionFile.가;
-        final PositionRank rank1 = PositionRank.of(10, Country.초나라);
+        final PositionRank rank1 = PositionRank.of(10, Country.CHO);
         final PositionFile file2 = PositionFile.가;
-        final PositionRank rank2 = PositionRank.of(10, Country.초나라);
+        final PositionRank rank2 = PositionRank.of(10, Country.CHO);
 
 
         // expected

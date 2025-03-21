@@ -17,7 +17,7 @@ public final class StaticPieceInitializer implements PieceInitializer {
     public Map<Position, Piece> init(final StartingPosition startingPosition, final Country country) {
         final Map<Position, Piece> board = new HashMap<>();
 
-        PieceType 졸병 = country == Country.초나라 ? PieceType.졸 : PieceType.병;
+        PieceType 졸병 = country == Country.CHO ? PieceType.졸 : PieceType.병;
 
         insertIntoMap(
                 board,
