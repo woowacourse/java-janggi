@@ -4,6 +4,7 @@ import janggi.Movement;
 import janggi.Team;
 import janggi.board.Position;
 
+import janggi.board.PositionOutOfBoardBoundsException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,11 @@ public abstract class Piece {
             Position position = start;
             path.add(start);
             for (Movement movement : movements) {
-                position = movement.movePosition(position);
+                try {
+                    position = movement.movePosition(position);
+                } catch (PositionOutOfBoardBoundsException e) {
+                    continue;
+                }
                 path.add(position);
             }
             if (path.getLast().equals(goal)) {

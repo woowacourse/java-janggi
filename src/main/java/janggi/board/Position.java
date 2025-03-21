@@ -1,5 +1,8 @@
 package janggi.board;
 
+import static janggi.board.Board.COLUMN_SIZE;
+import static janggi.board.Board.ROW_SIZE;
+
 import java.util.Objects;
 
 public class Position {
@@ -7,8 +10,15 @@ public class Position {
     private final int row;
 
     public Position(int column, int row) {
+        validateRange(column, row);
         this.column = column;
         this.row = row;
+    }
+
+    private void validateRange(int column, int row) {
+        if (column < 0 || column >= COLUMN_SIZE || row < 0 || row >= ROW_SIZE) {
+            throw new PositionOutOfBoardBoundsException("[ERROR] 올바르지 않은 좌표입니다.");
+        }
     }
 
     public Position(String column, String row) {
@@ -46,9 +56,12 @@ public class Position {
     public Position rightDown() {
         return new Position(column + 1, row - 1);
     }
+
     @Override
     public boolean equals(Object object) {
-        if (object == null || getClass() != object.getClass()) return false;
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
         Position position = (Position) object;
         return column == position.column && row == position.row;
     }
