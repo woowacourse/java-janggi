@@ -59,8 +59,8 @@ public final class Piece {
         return paths.stream()
                 .filter(path -> {
                     if (type == PieceType.포) {
-                        List<Piece> piece = path.getEncounteredMiddlePieces(allPieces);
-                        return piece.size() == 1 && piece.getFirst().type != PieceType.포;
+                        List<Piece> encounteredPieces = path.getEncounteredMiddlePieces(allPieces);
+                        return encounteredPieces.size() == 1 && encounteredPieces.getFirst().type != PieceType.포;
                     } else {
                         return path.getEncounteredMiddlePieces(allPieces).isEmpty();
                     }
