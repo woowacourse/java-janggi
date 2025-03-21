@@ -27,11 +27,12 @@ public class Application {
         welcomeView.display();
         final SetupOption setupOption = readSetupOption();
         final Board board = BoardGenerator.generate(setupOption);
-        boardView.display(board);
-        String input;
-        while (Command.END != readCommand(input = inputView.read())) {
-            move(board, input);
-        }
+        boardView.displayGame(board);
+        boardView.displayTurn(board);
+        Command command = Command.STOP;
+        do {
+            command = executeCommand(command, board);
+        } while (!command.equals(Command.STOP));
     }
 
     private SetupOption readSetupOption() {
@@ -43,13 +44,20 @@ public class Application {
         }
     }
 
-    private Command readCommand(String input) {
+    private Command executeCommand(Command command, final Board board) {
+        final String input = inputView.read();
         try {
-            return Command.of(input);
+            command = Command.of(input);
+            moveUntilStop(command, board, input);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            input = inputView.read();
-            return readCommand(input);
+        }
+        return command;
+    }
+
+    private void moveUntilStop(final Command command, final Board board, final String input) {
+        if (!command.equals(Command.STOP)) {
+            move(board, input);
         }
     }
 
@@ -59,7 +67,8 @@ public class Application {
             final Position start = new Position(Row.of(moveCommand.get(0)), Column.of(moveCommand.get(1)));
             final Position end = new Position(Row.of(moveCommand.get(2)), Column.of(moveCommand.get(3)));
             board.move(start, end);
-            boardView.display(board);
+            boardView.displayGame(board);
+            boardView.displayTurn(board);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
@@ -67,6 +76,7 @@ public class Application {
 
     private List<Integer> parseMoveCommand(final String input) {
         List<Integer> moveInfo = new ArrayList<>();
+        System.out.println("내가 입력한 값 : " + input);
         moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(5))));
         moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(6))));
         moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(8))));
