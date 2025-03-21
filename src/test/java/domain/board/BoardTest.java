@@ -1,11 +1,10 @@
-package domain;
+package domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import domain.board.Board;
-import domain.board.BoardPosition;
+import domain.Team;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.Map;

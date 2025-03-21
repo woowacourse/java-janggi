@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 import static domain.board.Offset.DOWN;
 import static domain.board.Offset.LEFT;
@@ -12,7 +12,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import domain.board.Offset;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
