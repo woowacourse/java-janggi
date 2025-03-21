@@ -42,6 +42,36 @@ public class Cannon extends UnlimitedMoveChessPiece {
         return destinations;
     }
 
+    private List<ChessPosition> getOverHurdlePaths(Path path, ChessPiecePositions positions) {
+        List<ChessPosition> pathPositions = path.getPath();
+        for (int i = 0; i < pathPositions.size(); i++) {
+            ChessPosition currentPosition = pathPositions.get(i);
+            if (isHurdle(currentPosition, positions)) {
+                return pathPositions.subList(i+1, pathPositions.size());
+            }
+            if (isWall(currentPosition, positions)) {
+                return List.of();
+            }
+        }
+        return List.of();
+    }
+
+    private boolean isHurdle(ChessPosition targetPosition, ChessPiecePositions positions) {
+        if (!positions.existChessPieceByPosition(targetPosition)) {
+            return false;
+        }
+        ChessPiece other = positions.getChessPieceByPosition(targetPosition);
+        return !isWall(targetPosition, positions) && getTeam() != other.getTeam();
+    }
+
+    private boolean isWall(ChessPosition targetPosition, ChessPiecePositions positions) {
+        if (!positions.existChessPieceByPosition(targetPosition)) {
+            return false;
+        }
+        ChessPiece other = positions.getChessPieceByPosition(targetPosition);
+        return other.getChessPieceType() == ChessPieceType.CANNON;
+    }
+
     private List<ChessPosition> getOverHurdleDestinations(
             List<ChessPosition> overHurdlePaths,
             ChessPiecePositions positions
@@ -62,28 +92,8 @@ public class Cannon extends UnlimitedMoveChessPiece {
         return !positions.existChessPieceByPosition(targetPosition) || isHurdle(targetPosition, positions);
     }
 
-    private List<ChessPosition> getOverHurdlePaths(Path path, ChessPiecePositions positions) {
-        List<ChessPosition> pathPositions = path.getPath();
-        for (int i = 0; i < pathPositions.size(); i++) {
-            ChessPosition currentPosition = pathPositions.get(i);
-            if (isHurdle(currentPosition, positions)) {
-                return pathPositions.subList(i+1, pathPositions.size());
-            }
-        }
-        return List.of();
-    }
-
-    private boolean isHurdle(ChessPosition targetPosition, ChessPiecePositions positions) {
-        if (!positions.existChessPieceByPosition(targetPosition)) {
-            return false;
-        }
-        ChessPiece other = positions.getChessPieceByPosition(targetPosition);
-        return getChessPieceType() != other.getChessPieceType() && getTeam() != other.getTeam();
-    }
-
     @Override
     public ChessPieceType getChessPieceType() {
         return ChessPieceType.CANNON;
     }
-
 }
