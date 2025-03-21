@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.board.Direction;
 import janggi.board.Position;
 import janggi.board.Route;
 import java.util.List;
@@ -12,17 +13,11 @@ public class Cannon extends Piece {
 
     @Override
     public List<Route> computeCandidatePositions(final Position position) {
-        Route rightRoute = new Route();
-        Route leftRoute = new Route();
-        Route upRoute = new Route();
-        Route downRoute = new Route();
 
-        for (int delta = 1; delta <= MOVE_LIMIT; delta++) {
-            rightRoute.addRoute(position.move(delta, 0));
-            leftRoute.addRoute(position.move(-delta, 0));
-            upRoute.addRoute(position.move(0, delta));
-            downRoute.addRoute(position.move(0, -delta));
-        }
+        Route rightRoute = computeStraightLimitRoute(position, Direction.RIGHT);
+        Route leftRoute = computeStraightLimitRoute(position, Direction.LEFT);
+        Route upRoute = computeStraightLimitRoute(position, Direction.UP);
+        Route downRoute = computeStraightLimitRoute(position, Direction.DOWN);
 
         return List.of(rightRoute, leftRoute, upRoute, downRoute);
     }
@@ -30,6 +25,15 @@ public class Cannon extends Piece {
     @Override
     public String getSymbol() {
         return "P";
+    }
+
+    private Route computeStraightLimitRoute(final Position position, final Direction direction) {
+        Route route = new Route(position.move(direction));
+        for (int delta = 1; delta < MOVE_LIMIT; delta++) {
+            Position destination = route.getDestination();
+            route.addRoute(destination.move(direction));
+        }
+        return route;
     }
 
 }

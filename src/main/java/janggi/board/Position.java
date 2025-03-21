@@ -12,8 +12,8 @@ public class Position {
         this.y = y;
     }
 
-    public Position move(int deltaX, int deltaY) {
-        return new Position(x + deltaX, y + deltaY);
+    public Position move(Direction direction) {
+        return new Position(x + direction.getDx(), y + direction.getDy());
     }
 
     public boolean isOutOfRange(final int xLimit, final int yLimit) {
@@ -30,7 +30,9 @@ public class Position {
 
     @Override
     public boolean equals(final Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Position position = (Position) o;
         return x == position.x && y == position.y;
     }

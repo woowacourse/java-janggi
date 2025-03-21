@@ -13,7 +13,7 @@ class PositionTest {
     void test1() {
         Position position = new Position(1, 1);
 
-        Position movedPosition = position.move(1, 1);
+        Position movedPosition = position.move(Direction.RIGHT_DOWN);
 
         assertThat(movedPosition).isEqualTo(new Position(2, 2));
     }
@@ -26,8 +26,8 @@ class PositionTest {
         int yLimit = 3;
 
         Position position = new Position(0, 0);
-        Position movedPosition1 = position.move(0, -1);
-        Position movedPosition2 = position.move(3, 0);
+        Position movedPosition1 = position.move(Direction.UP);
+        Position movedPosition2 = position.move(Direction.LEFT);
 
         assertAll(
                 () -> assertThat(position.isOutOfRange(xLimit, yLimit)).isFalse(),

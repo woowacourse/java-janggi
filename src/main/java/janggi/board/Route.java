@@ -17,8 +17,8 @@ public class Route {
         addRoute(position);
     }
 
-    public void addRoute(final Position position) {
-        positions.add(position);
+    public void addRoute(final Position... position) {
+        positions.addAll(List.of(position));
     }
 
     public Position getDestination() {

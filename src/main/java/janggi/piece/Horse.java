@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.board.Direction;
 import janggi.board.Position;
 import janggi.board.Route;
 import java.util.List;
@@ -13,15 +14,15 @@ public class Horse extends Piece {
     @Override
     public List<Route> computeCandidatePositions(final Position position) {
         return List.of(
-                computeRouteFixDeltaX(position, 1, 1),
-                computeRouteFixDeltaX(position, 1, -1),
-                computeRouteFixDeltaX(position, -1, 1),
-                computeRouteFixDeltaX(position, -1, -1),
-
-                computeRouteFixDeltaY(position, 1, 1),
-                computeRouteFixDeltaY(position, 1, -1),
-                computeRouteFixDeltaY(position, -1, 1),
-                computeRouteFixDeltaY(position, -1, -1));
+                computeStraightAndDiagonal(position, Direction.RIGHT, Direction.RIGHT_DOWN),
+                computeStraightAndDiagonal(position, Direction.RIGHT, Direction.RIGHT_UP),
+                computeStraightAndDiagonal(position, Direction.LEFT, Direction.LEFT_DOWN),
+                computeStraightAndDiagonal(position, Direction.LEFT, Direction.LEFT_UP),
+                computeStraightAndDiagonal(position, Direction.DOWN, Direction.LEFT_DOWN),
+                computeStraightAndDiagonal(position, Direction.DOWN, Direction.RIGHT_DOWN),
+                computeStraightAndDiagonal(position, Direction.UP, Direction.LEFT_UP),
+                computeStraightAndDiagonal(position, Direction.UP, Direction.RIGHT_UP)
+        );
     }
 
     @Override
@@ -29,23 +30,12 @@ public class Horse extends Piece {
         return "M";
     }
 
-    private Route computeRouteFixDeltaX(final Position originalPosition, int deltaX, int upDown) {
+    private Route computeStraightAndDiagonal(final Position position, final Direction straight,
+                                             final Direction diagonal) {
         Route candidateRoute = new Route();
-        Position horizontalMovedPosition = originalPosition.move(deltaX, 0);
-        Position diagonalMovedPosition = horizontalMovedPosition.move(deltaX, upDown);
-
-        candidateRoute.addRoute(horizontalMovedPosition);
-        candidateRoute.addRoute(diagonalMovedPosition);
-        return candidateRoute;
-    }
-
-    private Route computeRouteFixDeltaY(final Position originalPosition, int deltaY, int leftRight) {
-        Route candidateRoute = new Route();
-        Position horizontalMovedPosition = originalPosition.move(0, deltaY);
-        Position diagonalMovedPosition = horizontalMovedPosition.move(leftRight, deltaY);
-
-        candidateRoute.addRoute(horizontalMovedPosition);
-        candidateRoute.addRoute(diagonalMovedPosition);
+        Position straightMovePosition = position.move(straight);
+        Position diagonalMovePosition = straightMovePosition.move(diagonal);
+        candidateRoute.addRoute(straightMovePosition, diagonalMovePosition);
         return candidateRoute;
     }
 
