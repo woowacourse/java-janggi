@@ -1,6 +1,13 @@
 package domain.piece;
 
-import static domain.Offset.*;
+import static domain.Offset.DOWN;
+import static domain.Offset.LEFT;
+import static domain.Offset.LEFT_DOWN;
+import static domain.Offset.LEFT_UP;
+import static domain.Offset.RIGHT;
+import static domain.Offset.RIGHT_DOWN;
+import static domain.Offset.RIGHT_UP;
+import static domain.Offset.UP;
 
 import domain.BoardPosition;
 import domain.Offset;
