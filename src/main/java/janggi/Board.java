@@ -15,7 +15,7 @@ public class Board {
         this.positionToPiece = positionToPiece;
     }
 
-    public static Board initialize(final List<Piece> pieces) {
+    public static Board from(final List<Piece> pieces) {
         HashMap<Position, Piece> positionToPiece = new HashMap<>();
 
         pieces.forEach(piece -> positionToPiece.put(piece.getPosition(), piece));
