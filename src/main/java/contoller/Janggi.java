@@ -2,14 +2,14 @@ package contoller;
 
 import static view.InputView.choiceSetUp;
 import static view.InputView.movePointInput;
+import static view.OutputVIew.displayErrorMessage;
 import static view.OutputVIew.displayJanggiBoard;
 
 import java.util.List;
 import model.Point;
 import model.Team;
-import model.janggi_board.JanggiBoard;
-import model.janggi_board.JanggiBoardSetUp;
-import view.OutputVIew;
+import model.janggiboard.JanggiBoard;
+import model.janggiboard.JanggiBoardSetUp;
 
 public class Janggi {
     public void play() {
@@ -33,7 +33,9 @@ public class Janggi {
         }
         displayJanggiBoard(janggiBoard);
 
-        for (int i = 0; true; i++) {
+        boolean continueGame = true;
+
+        for (int i = 0; continueGame; i++) {
             Team team = Team.RED;
             if (i % 2 == 0) {
                 team = Team.BLUE;
@@ -45,7 +47,7 @@ public class Janggi {
                 }
                 janggiBoard.move(movePoints.getFirst(), movePoints.getLast());
             } catch (Exception e) {
-                OutputVIew.displayErrorMessage(e.getMessage());
+                displayErrorMessage(e.getMessage());
                 i--;
                 continue;
             }
