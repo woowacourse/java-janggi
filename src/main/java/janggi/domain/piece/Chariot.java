@@ -4,14 +4,19 @@ import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.Score;
 import janggi.domain.Team;
+import janggi.domain.rule.MoveRule;
+import janggi.domain.rule.Movement;
+import janggi.domain.rule.block.BasicBlockStrategy;
+import janggi.domain.rule.move.StraightMoveStrategy;
 import java.util.List;
 
 public class Chariot extends Piece {
 
     private static final int SCORE = 13;
+    private static final Movement MOVEMENT = new Movement(List.of(0, 1));
 
     public Chariot(final Position position, final Team team) {
-        super(position, team, PieceType.Chariot);
+        super(position, team, PieceType.Chariot, new MoveRule(new StraightMoveStrategy(), new BasicBlockStrategy()));
     }
 
     public static List<Chariot> Default(Team team) {
@@ -25,18 +30,8 @@ public class Chariot extends Piece {
 
     @Override
     public Piece move(final Board board, final Position destination) {
-        validateMove(board, destination);
+        validateMove(board, destination, MOVEMENT);
         return new Chariot(destination, team);
-    }
-
-    @Override
-    protected void validateCorrectRule(Position destination) {
-        int diffRow = destination.subtractRow(this.position);
-        int diffColumn = destination.subtractColumn(this.position);
-
-        if (Math.min(Math.abs(diffRow), Math.abs(diffColumn)) != 0) {
-            throw new IllegalArgumentException("이동할 수 없는 지점입니다.");
-        }
     }
 
     @Override

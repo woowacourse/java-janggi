@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.rule;
 
 import java.util.List;
 

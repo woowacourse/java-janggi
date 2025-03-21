@@ -5,14 +5,19 @@ import janggi.domain.Position;
 import janggi.domain.Route;
 import janggi.domain.Score;
 import janggi.domain.Team;
+import janggi.domain.rule.MoveRule;
+import janggi.domain.rule.Movement;
+import janggi.domain.rule.block.CannonBlockStrategy;
+import janggi.domain.rule.move.StraightMoveStrategy;
 import java.util.List;
 
 public class Cannon extends Piece {
 
     private static final int SCORE = 7;
+    private static final Movement MOVEMENT = new Movement(List.of(0, 1));
 
     public Cannon(final Position position, final Team team) {
-        super(position, team, PieceType.Cannon);
+        super(position, team, PieceType.Cannon, new MoveRule(new StraightMoveStrategy(), new CannonBlockStrategy()));
     }
 
     public static List<Cannon> Default(Team team) {
@@ -26,26 +31,9 @@ public class Cannon extends Piece {
 
     @Override
     public Piece move(final Board board, final Position destination) {
-        validateMove(board, destination);
+        validateMove(board, destination, MOVEMENT);
         validateCannonRestrict(board, destination);
         return new Cannon(destination, team);
-    }
-
-    @Override
-    protected void validateCorrectRule(Position destination) {
-        int diffRow = destination.subtractRow(this.position);
-        int diffColumn = destination.subtractColumn(this.position);
-
-        if (Math.min(Math.abs(diffRow), Math.abs(diffColumn)) != 0) {
-            throw new IllegalArgumentException("이동할 수 없는 지점입니다.");
-        }
-    }
-
-    @Override
-    protected void validateIsBlock(final Board board, final Position destination) {
-        if (countPieceInRoute(board, destination) != 1) {
-            throw new IllegalArgumentException("이동 경로에 기물 갯수가 조건에 맞지 않습니다.");
-        }
     }
 
     private void validateCannonRestrict(final Board board, final Position destination) {

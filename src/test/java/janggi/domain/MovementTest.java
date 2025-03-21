@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import janggi.domain.rule.Movement;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
