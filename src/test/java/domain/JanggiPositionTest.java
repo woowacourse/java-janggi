@@ -13,11 +13,8 @@ public class JanggiPositionTest {
 
     @Test
     void 보드판_밖을_벗어나면_예외를_발생시킨다() {
-        // given
-        JanggiPosition janggiPosition = new JanggiPosition(10, 0);
-
         // when & then
-        assertThatThrownBy(() -> janggiPosition.validatePositionInBoardBound())
+        assertThatThrownBy(() -> new JanggiPosition(10, 0))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

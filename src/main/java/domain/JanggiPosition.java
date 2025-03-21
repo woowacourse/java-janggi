@@ -11,6 +11,10 @@ public record JanggiPosition(int rank, int file) {
     private static final int MIN_FILE_BOUND = 1;
     public static final int RANK_THRESHOLD = 10;
 
+    public JanggiPosition {
+        validatePositionInBoardBound(rank, file);
+    }
+
     public JanggiPosition move(final List<Pattern> patterns) {
         JanggiPosition newPosition = this;
         for (Pattern pattern : patterns) {
@@ -71,7 +75,7 @@ public record JanggiPosition(int rank, int file) {
         return Math.abs(this.file - beforePosition.file);
     }
 
-    public void validatePositionInBoardBound() {
+    private void validatePositionInBoardBound(int rank, int file) {
         if (rank < MIN_RANK_BOUND || rank > MAX_RANK_BOUND || file < MIN_FILE_BOUND || file > MAX_FILE_BOUND) {
             throw new IllegalArgumentException("보드판을 넘어서 이동할 수 없습니다.");
         }

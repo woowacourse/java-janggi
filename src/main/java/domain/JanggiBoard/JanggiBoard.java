@@ -4,6 +4,7 @@ import domain.JanggiPosition;
 import domain.pattern.Pattern;
 import domain.piece.Empty;
 import domain.piece.JanggiPiece;
+import domain.piece.JanggiSide;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +17,6 @@ public final class JanggiBoard {
     }
 
     public void movePiece(final JanggiPosition origin, final JanggiPosition destination) {
-        destination.validatePositionInBoardBound();
         JanggiPiece piece = getPieceOfPosition(origin);
 
         JanggiPiece targetPiece = janggiBoard.get(destination);
@@ -66,5 +66,9 @@ public final class JanggiBoard {
 
     public Map<JanggiPosition, JanggiPiece> getBoard() {
         return janggiBoard;
+    }
+
+    public boolean isSameTeam(JanggiPosition position, JanggiSide janggiSide) {
+        return getPieceOfPosition(position).isTeam(janggiSide);
     }
 }

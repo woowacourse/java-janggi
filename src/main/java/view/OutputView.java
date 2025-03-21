@@ -33,17 +33,25 @@ public class OutputView {
             for (int file : JANGGI_BOARD_FILES) {
                 JanggiPosition position = new JanggiPosition(rank, file);
                 JanggiPiece piece = board.get(position);
-                if (piece.getSide() == JanggiSide.CHO) {
-                    System.out.print(CHO_COLOR_PREFIX + getJanggiTypeDisplay(piece.getType()) + COLOR_SUFFIX + " ");
-                }
-                if (piece.getSide() == JanggiSide.HAN) {
-                    System.out.print(HAN_COLOR_PREFIX + getJanggiTypeDisplay(piece.getType()) + COLOR_SUFFIX + " ");
-                }
-                if (piece.getSide() == JanggiSide.NONE) {
-                    System.out.print(getJanggiTypeDisplay(piece.getType()) + " ");
-                }
+                System.out.print(getPieceDisplayWithColorOfSide(piece));
             }
             System.out.print(LINE_SEPARATOR);
         }
+    }
+
+    public String getPieceDisplayWithColorOfSide(JanggiPiece piece) {
+        if (piece.getSide() == JanggiSide.CHO) {
+            return CHO_COLOR_PREFIX + getJanggiTypeDisplay(piece.getType()) + COLOR_SUFFIX + " ";
+        }
+        if (piece.getSide() == JanggiSide.HAN) {
+            return HAN_COLOR_PREFIX + getJanggiTypeDisplay(piece.getType()) + COLOR_SUFFIX + " ";
+        }
+        return getJanggiTypeDisplay(piece.getType()) + " ";
+    }
+
+    public void printTurnMessage(JanggiSide janggiSide) {
+        System.out.println(LINE_SEPARATOR +
+                CHO_COLOR_PREFIX + JanggiSideDisplay.getJanggiSideDisplay(janggiSide) + COLOR_SUFFIX +
+                "의 차례입니다.");
     }
 }

@@ -59,4 +59,8 @@ public abstract class JanggiPiece {
     public JanggiSide getSide() {
         return side;
     }
+
+    public boolean isTeam(JanggiSide other) {
+        return this.side == other;
+    }
 }

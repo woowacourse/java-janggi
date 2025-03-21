@@ -2,6 +2,8 @@ package controller;
 
 import domain.JanggiBoard.JanggiBoard;
 import domain.JanggiBoard.JanggiBoardBasicInitializer;
+import domain.JanggiPosition;
+import domain.piece.JanggiSide;
 import view.InputView;
 import view.OutputView;
 
@@ -16,13 +18,25 @@ public class JanggiController {
     }
 
     public void run() {
-        // 보드판 초기화
         outputView.printInitBoardMessage();
         JanggiBoard board = new JanggiBoard(new JanggiBoardBasicInitializer());
-        // 보드판 보여주기
         outputView.printBoard(board.getBoard());
-        // (반복) 초, 한 각각 이동, 이동후 보드판 보여주기
 
-        // 왕 잡히면 종료
+        while (true) {
+            processOneTurn(board);
+        }
+    }
+
+    private void processOneTurn(JanggiBoard board) {
+        for (JanggiSide side : JanggiSide.getValidSides()) {
+            outputView.printTurnMessage(side);
+            JanggiPosition origin = inputView.getMovePieceInput();
+            if (!board.isSameTeam(origin, side)) {
+                throw new IllegalArgumentException("차례에 맞는 말을 선택하세요.");
+            }
+            JanggiPosition destination = inputView.getDestinationInput();
+            board.movePiece(origin, destination);
+            outputView.printBoard(board.getBoard());
+        }
     }
 }
