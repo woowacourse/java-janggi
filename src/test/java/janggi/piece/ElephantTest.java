@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.board.Board;
 import janggi.board.BoardGenerator;
+import janggi.fixture.TestBoardGenerator;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
 import janggi.view.SetupOption;
-import janggi.fixture.TestBoardGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +31,9 @@ class ElephantTest {
     @Test
     void testPresentSameTeam() {
         // given
-        final Board board = TestBoardGenerator.generateElephantCannotMove();
+        final Board board = TestBoardGenerator.generateBoardWithOnePiece(
+                new Position(Row.FIVE, Column.SIX), Soldier.of(Team.CHO)
+        );
         final Position start = new Position(Row.EIGHT, Column.EIGHT);
         final Position end = new Position(Row.FIVE, Column.SIX);
         final Elephant elephant = Elephant.of(Team.CHO);
@@ -58,7 +60,9 @@ class ElephantTest {
     @Test
     void testCannotMoveThrough() {
         // given
-        final Board board = TestBoardGenerator.generateElephantCannotMove();
+        final Board board = TestBoardGenerator.generateBoardWithOnePiece(
+                new Position(Row.FIVE, Column.SIX), Soldier.of(Team.CHO)
+        );
         final Position start = new Position(Row.SEVEN, Column.FIVE); // 5,6을 지나감
         final Position end = new Position(Row.FOUR, Column.SEVEN);
         final Elephant elephant = Elephant.of(Team.CHO);

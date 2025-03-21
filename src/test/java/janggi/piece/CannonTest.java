@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.board.Board;
 import janggi.board.BoardGenerator;
+import janggi.fixture.TestBoardGenerator;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
 import janggi.view.SetupOption;
-import janggi.fixture.TestBoardGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +31,9 @@ class CannonTest {
     @Test
     void testCannotJumpCannon() {
         // given
-        final Board board = TestBoardGenerator.generateCannon();
+        final Board board = TestBoardGenerator.generateBoardWithOnePiece(
+                new Position(Row.SEVEN, Column.ZERO), Cannon.of(Team.CHO)
+        );
         final Position start = new Position(Row.EIGHT, Column.ZERO);
         final Position end = new Position(Row.SIX, Column.ZERO);
         final Cannon cannon = Cannon.of(Team.CHO);
@@ -59,7 +61,9 @@ class CannonTest {
     @Test
     void testJumpOnlyOne() {
         // given
-        final Board board = TestBoardGenerator.generateNotCannon();
+        final Board board = TestBoardGenerator.generateBoardWithOnePiece(
+                new Position(Row.SEVEN, Column.ZERO), Soldier.of(Team.CHO)
+        );
         final Position start = new Position(Row.EIGHT, Column.ZERO);
         final Position end = new Position(Row.SIX, Column.ZERO);
         final Cannon cannon = Cannon.of(Team.CHO);

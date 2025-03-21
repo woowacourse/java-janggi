@@ -4,7 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.fixture.TestBoardGenerator;
+import janggi.piece.Horse;
 import janggi.piece.Piece;
+import janggi.piece.Soldier;
+import janggi.piece.Team;
 import janggi.piece.Type;
 import janggi.position.Column;
 import janggi.position.Position;
@@ -61,7 +64,10 @@ class BoardTest {
     @Test
     void testMoveSoldierCatch() {
         // given
-        final Board board = TestBoardGenerator.generateSoldierCatch();
+        final Board board = TestBoardGenerator.generateBoardWithTwoPiece(
+                new Position(Row.SIX, Column.SEVEN), Soldier.of(Team.CHO),
+                new Position(Row.FIVE, Column.SEVEN), Horse.of(Team.HAN)
+        );
         final Position start = new Position(Row.SIX, Column.SEVEN);
         final Position end = new Position(Row.FIVE, Column.SEVEN);
         // when

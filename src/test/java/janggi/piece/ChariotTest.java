@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.board.Board;
 import janggi.board.BoardGenerator;
+import janggi.fixture.TestBoardGenerator;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
 import janggi.view.SetupOption;
-import janggi.fixture.TestBoardGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +31,9 @@ class ChariotTest {
     @Test
     void testPresentSameTeam() {
         // given
-        final Board board = TestBoardGenerator.generateSoldierCannotMove();
+        final Board board = TestBoardGenerator.generateBoardWithOnePiece(
+                new Position(Row.SIX, Column.SEVEN), Soldier.of(Team.CHO)
+        );
         final Position start = new Position(Row.SEVEN, Column.SEVEN);
         final Position end = new Position(Row.SIX, Column.SEVEN);
         final Chariot chariot = Chariot.of(Team.CHO);
@@ -58,7 +60,9 @@ class ChariotTest {
     @Test
     void testCannotMoveThrough() {
         // given
-        final Board board = TestBoardGenerator.generateHorseCannotMove();
+        final Board board = TestBoardGenerator.generateBoardWithOnePiece(
+                new Position(Row.SIX, Column.SEVEN), Soldier.of(Team.CHO)
+        );
         final Position start = new Position(Row.SEVEN, Column.SEVEN);
         final Position end = new Position(Row.FIVE, Column.SEVEN);
         final Chariot chariot = Chariot.of(Team.CHO);
