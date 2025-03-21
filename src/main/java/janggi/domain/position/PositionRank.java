@@ -60,7 +60,7 @@ public enum PositionRank {
 
     public boolean validateAdd(final int rankAmount) {
         return Arrays.stream(PositionRank.values())
-                .anyMatch(r -> r.amount == rankAmount);
+                .anyMatch(r -> r.amount == this.amount + rankAmount);
     }
 
     public List<PositionRank> getBetweenRanks(final PositionRank rank) {

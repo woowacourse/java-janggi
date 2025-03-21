@@ -21,7 +21,7 @@ class PositionRankTest extends BaseTest {
         // expected
         assertThatThrownBy(() -> of(value, Country.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("랭크는 1 이상이어야 합니다.");
+                .hasMessage("해당 랭크를 찾을 수 없습니다.");
     }
 
     @Test
@@ -32,7 +32,7 @@ class PositionRankTest extends BaseTest {
         // expected
         assertThatThrownBy(() -> of(value, Country.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("랭크는 10 이하이어야 합니다.");
+                .hasMessage("해당 랭크를 찾을 수 없습니다.");
     }
 
     @Test
@@ -78,7 +78,7 @@ class PositionRankTest extends BaseTest {
         // expected
         assertThatThrownBy(() -> rank.add(addingValue))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("랭크는 1 이상이어야 합니다.");
+                .hasMessage("해당 랭크를 찾을 수 없습니다.");
     }
 
     @ParameterizedTest
@@ -90,7 +90,7 @@ class PositionRankTest extends BaseTest {
         // expected
         assertThatThrownBy(() -> rank.add(addingValue))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("랭크는 10 이하이어야 합니다.");
+                .hasMessage("해당 랭크를 찾을 수 없습니다.");
     }
 
     @Test
