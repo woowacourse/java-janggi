@@ -41,6 +41,7 @@ public class Pho extends Piece {
                 path.addPoint(new Point(targetPoint.x() - unitVectorX * i, targetPoint.y()));
             }
         }
+
         return path;
     }
 
@@ -49,7 +50,6 @@ public class Pho extends Piece {
         if (piecesOnPathWithTargetOrNot.size() >= 3) {
             return false;
         }
-
         if (piecesOnPathWithTargetOrNot.size() == 2) {
             if (piecesOnPathWithTargetOrNot
                     .keySet()
@@ -57,32 +57,29 @@ public class Pho extends Piece {
                     .anyMatch(piece -> piece instanceof Pho)) {
                 return false;
             }
-
             if (piecesOnPathWithTargetOrNot.values()
                     .stream()
                     .noneMatch(isTargetPoint -> isTargetPoint)) {
                 return false;
             }
-
             if (piecesOnPathWithTargetOrNot.entrySet()
                     .stream()
                     .filter(Entry::getValue)
                     .findFirst()
-                    .get()
+                    .orElseThrow(() -> new RuntimeException("[ERROR] 종점에 위치한 장애물이 존재하지 않습니다.\n"))
                     .getKey()
                     .getTeam() == this.team) {
                 return false;
             }
             return true;
         }
-
         if (piecesOnPathWithTargetOrNot.size() == 1) {
             if (piecesOnPathWithTargetOrNot.values()
                     .stream()
                     .findFirst()
                     .get() ||
                     piecesOnPathWithTargetOrNot.keySet()
-                    .stream()
+                            .stream()
                             .findFirst()
                             .get() instanceof Pho) {
                 return false;
