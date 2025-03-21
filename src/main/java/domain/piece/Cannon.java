@@ -12,17 +12,22 @@ public class Cannon extends Piece {
     }
 
     @Override
+    public boolean isCanon() {
+        return true;
+    }
+
+    @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
 
         List<Position> path = new ArrayList<>();
         Position newPosition = startPosition;
 
         if (startPosition.compareRow(targetPosition) != 0 && startPosition.compareColumn(targetPosition) == 0) {
-            newPosition = calculateNewPostion(startPosition.compareRow(targetPosition), newPosition, path, Move.BACK,
+            newPosition = calculateNewPosition(startPosition.compareRow(targetPosition), newPosition, path, Move.BACK,
                     Move.FRONT);
         }
         if (startPosition.compareRow(targetPosition) == 0 && startPosition.compareColumn(targetPosition) != 0) {
-            calculateNewPostion(startPosition.compareColumn(targetPosition), newPosition, path, Move.RIGHT,
+            calculateNewPosition(startPosition.compareColumn(targetPosition), newPosition, path, Move.RIGHT,
                     Move.LEFT);
         }
         if (startPosition.compareRow(targetPosition) != 0 && startPosition.compareColumn(targetPosition) != 0) {
@@ -32,28 +37,25 @@ public class Cannon extends Piece {
         return path;
     }
 
-    private Position calculateNewPostion(int startPosition, Position newPosition,
-                                         List<Position> path, Move backOrLeft,
-                                         Move frontOrRight) {
+    private Position calculateNewPosition(int startPosition, Position newPosition,
+                                          List<Position> path, Move backOrLeft,
+                                          Move frontOrRight) {
         int count = startPosition;
         if (count < 0) {
-            for (int i = 0; i < Math.abs(count) - 1; i++) {
-                newPosition = newPosition.movePosition(backOrLeft);
-                path.add(newPosition);
-            }
+            newPosition = addNewPositionOnPath(Math.abs(count), newPosition, backOrLeft, path);
         }
         if (count > 0) {
-            for (int i = 0; i < count - 1; i++) {
-                newPosition = newPosition.movePosition(frontOrRight);
-                path.add(newPosition);
-            }
+            newPosition = addNewPositionOnPath(count, newPosition, frontOrRight, path);
         }
         return newPosition;
     }
 
-    @Override
-    public boolean isCanon() {
-        return true;
+    private Position addNewPositionOnPath(int count, Position newPosition, Move backOrLeft, List<Position> path) {
+        for (int i = 0; i < count - 1; i++) {
+            newPosition = newPosition.movePosition(backOrLeft);
+            path.add(newPosition);
+        }
+        return newPosition;
     }
 
 }
