@@ -22,7 +22,7 @@ public class Pieces {
             throw new IllegalArgumentException("해당 위치에 기물 없음");
         });
     }
-
+/*
     public void validateCanMove(Piece piece, Position destination) {
         List<Position> positions = findDirectionOfPiece(piece, destination); // 목적지 찾기
         validateMiddleDirection(destination, positions); // 중간 목적지
@@ -30,6 +30,9 @@ public class Pieces {
         movePosition(piece, destination);
     }
 
+
+ */
+    /*
     private List<Position> findDirectionOfPiece(Piece piece, Position destination) {
         List<List<Position>> findResults = piece.calculateAllDirection();
         return findResults.stream()
@@ -37,6 +40,8 @@ public class Pieces {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치로는 이동할 수 없습니다."));
     }
+
+     */
 
     private void validateMiddleDirection(Position destination, List<Position> positions) {
         boolean isAlreadyExist = positions.stream()
@@ -62,7 +67,7 @@ public class Pieces {
         }
         pieces.remove(existPiece);
     }
-
+/*
     public void validateCannonMove(Piece piece, Position destination) {
         List<Position> positions = findDirectionOfPiece(piece, destination); // 목적지 찾기
         validateMiddleDirectionOfCannon(destination, positions);
@@ -70,6 +75,8 @@ public class Pieces {
         movePosition(piece, destination);
     }
 
+
+ */
     private void validateMiddleDirectionOfCannon(Position destination, List<Position> positions) {
         long pieceCount = positions.stream()
             .filter(this::isAlreadyExist)
@@ -105,8 +112,10 @@ public class Pieces {
     private Optional<Piece> findPieceOptional(Position destination) {
         return Optional.ofNullable(pieces.get(destination));
     }
-
+/*
     private void movePosition(Piece myPiece, Position destination) {
         myPiece.changePosition(destination);
     }
+
+ */
 }

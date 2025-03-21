@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Cannon extends Piece{
 
-    public Cannon(Position position, Team team) {
-        super(position, team);
+    public Cannon(Team team) {
+        super(team);
     }
 
     @Override
@@ -15,22 +15,22 @@ public class Cannon extends Piece{
     }
 
     @Override
-    public List<List<Position>> calculateAllDirection() {
+    public List<List<Position>> calculateAllDirection(Position position) {
         List<List<Position>> positions = new ArrayList<>();
-        positions.addAll(findUpDirection());
-        positions.addAll(findDownDirection());
-        positions.addAll(findLeftDirection());
-        positions.addAll(findRightDirection());
+        positions.addAll(findUpDirection(position));
+        positions.addAll(findDownDirection(position));
+        positions.addAll(findLeftDirection(position));
+        positions.addAll(findRightDirection(position));
         return positions;
     }
 
-    private List<List<Position>> findUpDirection() {
+    private List<List<Position>> findUpDirection(Position position) {
         int count = -2;
         List<List<Position>> tmpPosition = new ArrayList<>();
         while (position.canChangeOfColumn(count)) {
             List<Position> positions = new ArrayList<>();
             for (int i=-1; i>=count; i--) {
-                positions.add(this.position.changeColumn(i));
+                positions.add(position.changeColumn(i));
             }
             count--;
             tmpPosition.add(positions);
@@ -38,13 +38,13 @@ public class Cannon extends Piece{
         return tmpPosition;
     }
 
-    private List<List<Position>> findDownDirection() {
+    private List<List<Position>> findDownDirection(Position position) {
         int count = 2;
         List<List<Position>> tmpPosition = new ArrayList<>();
         while (position.canChangeOfColumn(count)) {
             List<Position> positions = new ArrayList<>();
             for (int i=1; i<=count; i++) {
-                positions.add(this.position.changeColumn(i));
+                positions.add(position.changeColumn(i));
             }
             count++;
             tmpPosition.add(positions);
@@ -52,13 +52,13 @@ public class Cannon extends Piece{
         return tmpPosition;
     }
 
-    private List<List<Position>> findLeftDirection() {
+    private List<List<Position>> findLeftDirection(Position position) {
         int count = -2;
         List<List<Position>> tmpPosition = new ArrayList<>();
         while (position.canChangeOfRow(count)) {
             List<Position> positions = new ArrayList<>();
             for (int i=-1; i>=count; i--) {
-                positions.add(this.position.changeRow(i));
+                positions.add(position.changeRow(i));
             }
             count--;
             tmpPosition.add(positions);
@@ -66,13 +66,13 @@ public class Cannon extends Piece{
         return tmpPosition;
     }
 
-    private List<List<Position>> findRightDirection() {
+    private List<List<Position>> findRightDirection(Position position) {
         int count = 2;
         List<List<Position>> tmpPosition = new ArrayList<>();
         while (position.canChangeOfRow(count)) {
             List<Position> positions = new ArrayList<>();
             for (int i=1; i<=count; i++) {
-                positions.add(this.position.changeRow(i));
+                positions.add(position.changeRow(i));
             }
             count++;
             tmpPosition.add(positions);

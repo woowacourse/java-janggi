@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Guard extends Piece {
 
-    public Guard(Position position, Team team) {
-        super(position, team);
+    public Guard(Team team) {
+        super(team);
     }
 
     @Override
@@ -15,36 +15,36 @@ public class Guard extends Piece {
     }
 
     @Override
-    public List<List<Position>> calculateAllDirection() {
+    public List<List<Position>> calculateAllDirection(Position position) {
         return List.of(
-            findUpDirection(),
-            findDownDirection(),
-            findLeftDirection(),
-            findRightDirection());
+            findUpDirection(position),
+            findDownDirection(position),
+            findLeftDirection(position),
+            findRightDirection(position));
     }
 
-    private List<Position> findUpDirection() {
+    private List<Position> findUpDirection(Position position) {
         if (position.canChangeOfColumn(-1)) {
             return List.of(position.changeColumn(-1));
         }
         return Collections.emptyList();
     }
 
-    private List<Position> findDownDirection() {
+    private List<Position> findDownDirection(Position position) {
         if (position.canChangeOfColumn(1)) {
             return List.of(position.changeColumn(1));
         }
         return Collections.emptyList();
     }
 
-    private List<Position> findLeftDirection() {
+    private List<Position> findLeftDirection(Position position) {
         if (position.canChangeOfRow(-1)) {
             return List.of(position.changeRow(-1));
         }
         return Collections.emptyList();
     }
 
-    private List<Position> findRightDirection() {
+    private List<Position> findRightDirection(Position position) {
         if (position.canChangeOfRow(1)) {
             return List.of(position.changeRow(1));
         }

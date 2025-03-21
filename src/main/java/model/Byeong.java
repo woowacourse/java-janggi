@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Byeong extends Piece{
 
-    public Byeong(Position position) {
-        super(position, Team.RED);
+    public Byeong() {
+        super(Team.RED);
     }
 
     @Override
@@ -15,28 +15,28 @@ public class Byeong extends Piece{
     }
 
     @Override
-    public List<List<Position>> calculateAllDirection() {
+    public List<List<Position>> calculateAllDirection(Position position) {
         return List.of(
-            findDownDirection(),
-            findLeftDirection(),
-            findRightDirection());
+            findDownDirection(position),
+            findLeftDirection(position),
+            findRightDirection(position));
     }
 
-    private List<Position> findDownDirection() {
+    private List<Position> findDownDirection(Position position) {
         if (position.canChangeOfColumn(1)) {
             return List.of(position.changeColumn(1));
         }
         return Collections.emptyList();
     }
 
-    private List<Position> findLeftDirection() {
+    private List<Position> findLeftDirection(Position position) {
         if (position.canChangeOfRow(-1)) {
             return List.of(position.changeRow(-1));
         }
         return Collections.emptyList();
     }
 
-    private List<Position> findRightDirection() {
+    private List<Position> findRightDirection(Position position) {
         if (position.canChangeOfRow(1)) {
             return List.of(position.changeRow(1));
         }
