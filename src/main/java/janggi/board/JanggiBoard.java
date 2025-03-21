@@ -2,9 +2,7 @@ package janggi.board;
 
 import janggi.piece.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JanggiBoard {
 
@@ -13,11 +11,9 @@ public class JanggiBoard {
 
     private final Map<Position, Piece> board;
 
-    private JanggiBoard(Map<Position, Piece> board) {
-        this.board = board;
-    }
+    public JanggiBoard(Map<Position, Piece> board) { this.board = new HashMap<>(board); }
 
-    public static JanggiBoard initialize() {
+    public static JanggiBoard initializeWithPieces() {
         Map<Position, Piece> board = BoardInitializer.initialPieces(X_LIMIT, Y_LIMIT);
         return new JanggiBoard(board);
     }

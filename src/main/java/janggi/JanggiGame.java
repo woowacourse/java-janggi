@@ -15,7 +15,7 @@ public class JanggiGame {
     private final OutputView outputView;
 
     public JanggiGame(final InputView inputView, final OutputView outputView) {
-        this.board = JanggiBoard.initialize();
+        this.board = JanggiBoard.initializeWithPieces();
         this.inputView = inputView;
         this.outputView = outputView;
     }
