@@ -24,8 +24,8 @@ public final class JanggiBoardBasicInitializer implements JanggiBoardInitializer
     @Override
     public Map<JanggiPosition, JanggiPiece> initializeJanggiBoard() {
         final Map<JanggiPosition, JanggiPiece> janggiBoard = new HashMap<>();
-        for (Integer file : janggiBoardFiles) {
-            for (Integer rank : janggiBoardRanks) {
+        for (Integer rank : janggiBoardRanks) {
+            for (Integer file : janggiBoardFiles) {
                 janggiBoard.put(new JanggiPosition(rank, file), new Empty());
             }
         }

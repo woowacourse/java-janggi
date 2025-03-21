@@ -51,4 +51,12 @@ public abstract class JanggiPiece {
     public boolean isCaptured() {
         return isCaptured;
     }
+
+    public JanggiPieceType getType() {
+        return type;
+    }
+
+    public JanggiSide getSide() {
+        return side;
+    }
 }

@@ -63,4 +63,8 @@ public final class JanggiBoard {
     private boolean existPiece(final JanggiPosition newPosition) {
         return !getPieceOfPosition(newPosition).isEmpty();
     }
+
+    public Map<JanggiPosition, JanggiPiece> getBoard() {
+        return janggiBoard;
+    }
 }
