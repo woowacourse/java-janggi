@@ -76,4 +76,19 @@ class BoardTest {
         // then
         assertThat(actual.type()).isEqualTo(Type.SOLDIER);
     }
+
+    @DisplayName("본인의 턴일 때 상대 말을 움직이려고 하면 예외를 발생시킨다.")
+    @Test
+    void testMoveOtherPiece() {
+        // given
+        final Board board = BoardGenerator.generate(SetupOption.RIGHT_SETUP);
+        final Position start = new Position(Row.ZERO, Column.ZERO);
+        final Position end = new Position(Row.ONE, Column.ZERO);
+        // when
+
+        // then
+        assertThatThrownBy(() -> board.move(start, end))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 다른 팀의 기물을 움직이고 있습니다.");
+    }
 }
