@@ -129,12 +129,7 @@ public enum PieceType {
     GENERAL("왕", Map.of(
             Team.GREEN, List.of(new BoardPosition(4, 1)),
             Team.RED, List.of(new BoardPosition(4, 8))
-    ), Map.of(
-            RIGHT, List.of(RIGHT),
-            LEFT, List.of(LEFT),
-            UP, List.of(UP),
-            DOWN, List.of(DOWN)
-    ), 0),
+    ), null, 0),
 
 
     GUARD("사", Map.of(
