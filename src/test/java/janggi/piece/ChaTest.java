@@ -101,6 +101,25 @@ class ChaTest {
         );
     }
 
+    @DisplayName("아군 장기말이 장애물일 경우 장애물 위치를 포함해 너머로 이동이 불가능하다.")
+    @Test
+    void test8() {
+        //given
+        Cha cha = Cha.from(STANDARD);
+        Position destination = new Position(6, 4);
+        Cha otherPiece = Cha.from(destination);
+
+        //when & then
+        assertAll(
+                () -> assertThatThrownBy(() -> cha.move(new Position(7, 4), List.of(), List.of(otherPiece)))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("[ERROR] 이동이 불가능합니다."),
+                () -> assertThatThrownBy(() -> cha.move(new Position(8, 4), List.of(), List.of(otherPiece)))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("[ERROR] 이동이 불가능합니다.")
+        );
+    }
+
     @DisplayName("상대 장기말이 장애물일 경우 장애물 위치를 포함해 너머로 이동이 불가능하다.")
     @Test
     void test6() {
@@ -128,24 +147,5 @@ class ChaTest {
         //when & then
         Cha movedCha = cha.move(destination, List.of(otherPiece), List.of());
         Assertions.assertThat(movedCha.getPosition()).isEqualTo(destination);
-    }
-
-    @DisplayName("아군 장기말이 장애물일 경우 장애물 위치를 포함해 너머로 이동이 불가능하다.")
-    @Test
-    void test8() {
-        //given
-        Cha cha = Cha.from(STANDARD);
-        Position destination = new Position(6, 4);
-        Cha otherPiece = Cha.from(destination);
-
-        //when & then
-        assertAll(
-                () -> assertThatThrownBy(() -> cha.move(new Position(7, 4), List.of(), List.of(otherPiece)))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("[ERROR] 이동이 불가능합니다."),
-                () -> assertThatThrownBy(() -> cha.move(new Position(8, 4), List.of(), List.of(otherPiece)))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("[ERROR] 이동이 불가능합니다.")
-        );
     }
 }

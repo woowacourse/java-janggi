@@ -1,6 +1,8 @@
 package janggi.value;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 public final class Position implements Comparable<Position> {
 
@@ -12,12 +14,24 @@ public final class Position implements Comparable<Position> {
         this.y = y;
     }
 
-    @Override
-    public String toString() {
-        return "Position{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+    public static List<Position> makePositionInXLine(int startX, int endX, int y) {
+        return IntStream.rangeClosed(startX, endX)
+                .mapToObj(x -> new Position(x, y))
+                .toList();
+    }
+
+    public static List<Position> makePositionInYLine(int startY, int endY, int x) {
+        return IntStream.rangeClosed(startY, endY)
+                .mapToObj(y -> new Position(x, y))
+                .toList();
+    }
+
+    public boolean isEqualsXPosition(int otherX) {
+        return x == otherX;
+    }
+
+    public boolean isEqualsYPosition(int otherY) {
+        return y == otherY;
     }
 
     @Override
@@ -28,12 +42,12 @@ public final class Position implements Comparable<Position> {
         return Integer.compare(otherPosition.getY(), y);
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 
     @Override
@@ -51,5 +65,13 @@ public final class Position implements Comparable<Position> {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

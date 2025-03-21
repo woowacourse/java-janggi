@@ -3,7 +3,6 @@ package janggi.piece;
 import janggi.setting.CampType;
 import janggi.value.Position;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class Cha extends Piece {
 
@@ -34,56 +33,34 @@ public class Cha extends Piece {
 
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        if (!isRuleOfMove(destination)) {
-            return false;
-        }
-        return isNotHurdle(destination, enemy, allies);
+        boolean followRuleOfMove = checkRuleOfMove(destination);
+        boolean existHurdleInPath = existHurdleInPath(destination, enemy, allies);
+        boolean existAlliesInPath = existPieceInPosition(destination, allies);
+        return followRuleOfMove && !existHurdleInPath && !existAlliesInPath;
     }
 
-    private boolean isRuleOfMove(Position destination) {
+    private boolean checkRuleOfMove(Position destination) {
         return getPosition().getX() == destination.getX() || getPosition().getY() == destination.getY();
     }
 
-    private boolean isNotHurdle(Position destination, List<Piece> enemy, List<Piece> allies) {
-        List<Position> positions = calculatePositions(destination);
-        for (Position position : positions) {
-            if (position.equals(destination)) {
-                continue;
-            }
-            boolean isEnemyExistence = enemy.stream()
-                    .anyMatch(enemyPiece -> enemyPiece.getPosition().equals(position));
-            if (isEnemyExistence) {
-                return false;
-            }
-        }
-        for (Position position : positions) {
-            boolean isAlliesExistence = allies.stream()
-                    .anyMatch(alliesPiece -> alliesPiece.getPosition().equals(position));
-            if (isAlliesExistence) {
-                return false;
-            }
-        }
-        return true;
+    private boolean existHurdleInPath(Position destination, List<Piece> enemy, List<Piece> allies) {
+        List<Position> positions = calculatePositionsInPath(destination);
+        boolean isEnemyExistence = existPieceInPath(positions, enemy);
+        boolean isAlliesExistence = existPieceInPath(positions, allies);
+        return isEnemyExistence || isAlliesExistence;
     }
 
-    private List<Position> calculatePositions(Position destination) {
-        if (getPosition().getX() == destination.getX()) {
-            if (getPosition().getY() > destination.getY()) {
-                return IntStream.rangeClosed(destination.getY(), getPosition().getY())
-                        .mapToObj(y -> new Position(getPosition().getX(), y))
-                        .toList();
-            }
-            return IntStream.rangeClosed(getPosition().getY(), destination.getY())
-                    .mapToObj(y -> new Position(getPosition().getX(), y))
-                    .toList();
-        }
-        if (getPosition().getX() > destination.getX()) {
-            return IntStream.rangeClosed(destination.getX(), getPosition().getX())
-                    .mapToObj(x -> new Position(x, getPosition().getY()))
-                    .toList();
-        }
-        return IntStream.rangeClosed(getPosition().getX(), destination.getX())
-                .mapToObj(x -> new Position(x, getPosition().getY()))
-                .toList();
+    private List<Position> calculatePositionsInPath(Position destination) {
+        BeelineDirection direction = BeelineDirection.parse(getPosition(), destination);
+        return direction.calculatePositionsInPath(getPosition(), destination);
+    }
+
+    private boolean existPieceInPath(List<Position> positions, List<Piece> pieces) {
+        return positions.stream()
+                .anyMatch(position -> existPieceInPosition(position, pieces));
+    }
+
+    private boolean existPieceInPosition(Position position, List<Piece> pieces) {
+        return pieces.stream().anyMatch(piece -> piece.getPosition().equals(position));
     }
 }
