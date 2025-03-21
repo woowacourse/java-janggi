@@ -1,12 +1,11 @@
-package model.board;
+package board;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Position;
-import model.Team;
-import model.piece.Piece;
-import model.piece.PieceType;
+import piece.Team;
+import piece.Piece;
+import piece.PieceType;
 
 public class Board {
 

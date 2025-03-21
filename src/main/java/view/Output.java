@@ -5,8 +5,8 @@ import java.util.Map;
 import dto.BoardDto;
 import dto.PositionDto;
 import dto.TeamDto;
-import model.Position;
-import model.board.Board;
+import board.Position;
+import board.Board;
 import view.util.Color;
 
 public class Output {

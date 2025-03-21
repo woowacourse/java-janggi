@@ -1,6 +1,6 @@
 package dto;
 
-import model.Position;
+import board.Position;
 
 public record PositionDto(
     int x,

@@ -1,10 +1,9 @@
-package model.piece;
+package piece;
 
 import java.util.Arrays;
 import java.util.List;
 
-import model.Position;
-import model.Team;
+import board.Position;
 
 public class Pawn extends Piece {
 

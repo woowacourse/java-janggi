@@ -1,4 +1,4 @@
-package model;
+package board;
 
 public record Position(
     int x,

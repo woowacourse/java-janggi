@@ -1,9 +1,8 @@
-package model.piece;
+package piece;
 
 import java.util.List;
 
-import model.Position;
-import model.Team;
+import board.Position;
 
 public class Horse extends Piece {
 

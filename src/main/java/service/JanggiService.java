@@ -2,10 +2,10 @@ package service;
 
 import dto.BoardDto;
 import dto.TeamDto;
-import model.Position;
-import model.Team;
-import model.board.Board;
-import model.piece.Piece;
+import board.Position;
+import piece.Team;
+import board.Board;
+import piece.Piece;
 
 public class JanggiService {
 

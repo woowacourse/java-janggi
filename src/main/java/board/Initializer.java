@@ -1,17 +1,17 @@
-package model.board;
+package board;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Team;
-import model.piece.Chariot;
-import model.piece.Elephant;
-import model.piece.Horse;
-import model.piece.Palace;
-import model.piece.Pao;
-import model.piece.Pawn;
-import model.piece.Piece;
-import model.piece.Soldier;
+import piece.Team;
+import piece.Chariot;
+import piece.Elephant;
+import piece.Horse;
+import piece.Palace;
+import piece.Pao;
+import piece.Pawn;
+import piece.Piece;
+import piece.Soldier;
 
 class Initializer {
 

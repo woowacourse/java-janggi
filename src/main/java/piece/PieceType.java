@@ -1,4 +1,4 @@
-package model.piece;
+package piece;
 
 public enum PieceType {
     PALACE,

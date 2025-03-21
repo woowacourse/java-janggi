@@ -8,8 +8,16 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import model.Team;
-import model.board.Board;
+import piece.Team;
+import board.Board;
+import piece.Chariot;
+import piece.Elephant;
+import piece.Horse;
+import piece.Palace;
+import piece.Pao;
+import piece.Pawn;
+import piece.Piece;
+import piece.Soldier;
 
 class PieceTest {
 

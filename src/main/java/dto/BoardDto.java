@@ -3,8 +3,8 @@ package dto;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import model.board.Board;
-import model.piece.Piece;
+import board.Board;
+import piece.Piece;
 import view.util.Color;
 
 public record BoardDto(

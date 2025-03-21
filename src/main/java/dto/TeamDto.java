@@ -2,7 +2,7 @@ package dto;
 
 import java.util.Arrays;
 
-import model.Team;
+import piece.Team;
 
 public enum TeamDto {
     CHO("초나라"),

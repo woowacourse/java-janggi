@@ -1,13 +1,12 @@
-package model.piece;
+package piece;
 
 import java.util.List;
 
-import model.Position;
-import model.Team;
+import board.Position;
 
-public class Palace extends Piece {
+public class Soldier extends Piece {
 
-    public Palace(int x, int y, Team team) {
+    public Soldier(int x, int y, Team team) {
         super(x, y, team);
         routes.addAll(List.of(
             new Route(List.of(new Position(-1, 0))),
@@ -19,6 +18,6 @@ public class Palace extends Piece {
 
     @Override
     public PieceType type() {
-        return PieceType.PALACE;
+        return PieceType.SOLDIER;
     }
 }

@@ -2,8 +2,8 @@ package dto;
 
 import java.util.Arrays;
 
-import model.piece.Piece;
-import model.piece.PieceType;
+import piece.Piece;
+import piece.PieceType;
 
 public enum PieceDto {
     PALACE("궁", PieceType.PALACE),
