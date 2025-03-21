@@ -73,5 +73,4 @@
 
 ## 메시지 명 정의 (메서드 네이밍)
 
-![메시지 명 정의 (메서드 네이밍).png](src%2Fmain%2Fresources%2F%EB%A9%94%EC%8B%9C%EC%A7%80%20%EB%AA%85%20%EC%A0%95%EC%9D%98%20%28%EB%A9%94%EC%84%9C%EB%93%9C%20%EB%84%A4%EC%9D%B4%EB%B0%8D%29.png)
-
+![메시지 명 정의 (메서드 네이밍).png](docs/images/메시지_명_정의.png)
