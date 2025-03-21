@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.direction.OneStepDirection;
 import janggi.setting.CampType;
 import janggi.value.Position;
 import java.util.List;
@@ -39,10 +40,8 @@ public class Gung extends Piece {
     }
 
     private boolean checkRuleOfMove(Position destination) {
-        return destination.equals(new Position(getPosition().getX() - 1, getPosition().getY()))
-                || destination.equals(new Position(getPosition().getX() + 1, getPosition().getY()))
-                || destination.equals(new Position(getPosition().getX(), getPosition().getY() - 1))
-                || destination.equals(new Position(getPosition().getX(), getPosition().getY() + 1));
+        OneStepDirection direction = OneStepDirection.parse(getPosition(), destination);
+        return direction != OneStepDirection.NONE;
     }
 
     private boolean existHurdleInPosition(Position destination, List<Piece> allies) {

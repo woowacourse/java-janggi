@@ -34,6 +34,12 @@ public final class Position implements Comparable<Position> {
         return y == otherY;
     }
 
+    public Position calculateDifference(Position other) {
+        int xDifference = x - other.getX();
+        int yDifference = y - other.getY();
+        return new Position(xDifference, yDifference);
+    }
+
     @Override
     public int compareTo(Position otherPosition) {
         if (y == otherPosition.getY()) {
