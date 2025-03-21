@@ -1,9 +1,9 @@
 package view;
 
-import domain.Coordinate;
-import domain.Team;
+import coordinate.Coordinate;
 import java.util.Map;
 import java.util.Scanner;
+import team.Team;
 
 public class InputView {
 

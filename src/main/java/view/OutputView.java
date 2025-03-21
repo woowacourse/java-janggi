@@ -1,11 +1,10 @@
 package view;
 
-import domain.Coordinate;
-import domain.Team;
-import domain.piece.Piece;
-import domain.piece.Piece.Type;
 import java.util.Map;
 import java.util.Optional;
+import piece.Piece;
+import piece.Piece.Type;
+import team.Team;
 
 public class OutputView {
 
@@ -31,14 +30,14 @@ public class OutputView {
     private static final String FULL_WIDTH_BAR = "＿";
     private static final String FULL_WIDTH_SPACE = "　";
 
-    public void printBoard(Map<Coordinate, Piece> board) {
+    public void printBoard(Map<coordinate.Coordinate, Piece> board) {
         System.out.println("   １　２　３　４　５　６　７　８　９");
 
         for (int height = 1; height <= 10; height++) {
             System.out.printf("%2d ", height);
 
             for (int width = 1; width <= 9; width++) {
-                Coordinate coordinate = new Coordinate(width, height);
+                coordinate.Coordinate coordinate = new coordinate.Coordinate(width, height);
                 Piece piece = board.get(coordinate);
                 printPiece(piece);
             }
