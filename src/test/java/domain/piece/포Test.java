@@ -1,5 +1,6 @@
 package domain.piece;
 
+import static domain.constant.JanggiPieceConstant.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
@@ -9,11 +10,10 @@ public class 포Test {
     @Test
     void 포는_포를_넘을_수_없다() {
         // given
-        JanggiPiece 포 = new 포(JanggiSide.CHO);
-        JanggiPiece hurdlePiece = new 포(JanggiSide.CHO);
+        JanggiPiece 포 = CHO_포;
+        JanggiPiece hurdlePiece = CHO_포;
         int hurdleCount = 1;
-        JanggiPiece targetPiece = new 졸(JanggiSide.CHO);
-
+        JanggiPiece targetPiece = CHO_졸;
 
         // when & then
         assertThatThrownBy(() -> 포.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
@@ -24,11 +24,10 @@ public class 포Test {
     @Test
     void 포는_포를_잡을_수_없다() {
         // given
-        JanggiPiece 포 = new 포(JanggiSide.CHO);
-        JanggiPiece hurdlePiece = new 졸(JanggiSide.CHO);
+        JanggiPiece 포 = CHO_포;
+        JanggiPiece hurdlePiece = CHO_졸;
         int hurdleCount = 1;
-        JanggiPiece targetPiece = new 포(JanggiSide.HAN);
-
+        JanggiPiece targetPiece = HAN_포;
 
         // when & then
         assertThatThrownBy(() -> 포.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
@@ -39,11 +38,10 @@ public class 포Test {
     @Test
     void 포는_장애물을_1개만_뛰어넘을_수_있다() {
         // given
-        JanggiPiece 포 = new 포(JanggiSide.CHO);
-        JanggiPiece hurdlePiece = new 졸(JanggiSide.CHO);
+        JanggiPiece 포 = CHO_포;
+        JanggiPiece hurdlePiece = CHO_졸;
         int hurdleCount = 2;
-        JanggiPiece targetPiece = new 졸(JanggiSide.HAN);
-
+        JanggiPiece targetPiece = HAN_병;
 
         // when & then
         assertThatThrownBy(() -> 포.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
@@ -54,11 +52,10 @@ public class 포Test {
     @Test
     void 포는_장애물을_1개가_있어야_움직일_수_있다() {
         // given
-        JanggiPiece 포 = new 포(JanggiSide.CHO);
+        JanggiPiece 포 = CHO_포;
         JanggiPiece hurdlePiece = new Empty();
         int hurdleCount = 0;
-        JanggiPiece targetPiece = new 졸(JanggiSide.HAN);
-
+        JanggiPiece targetPiece = HAN_병;
 
         // when & then
         assertThatThrownBy(() -> 포.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
@@ -69,11 +66,10 @@ public class 포Test {
     @Test
     void 같은_팀인_기물은_잡을_수_없다() {
         // given
-        JanggiPiece 포 = new 포(JanggiSide.CHO);
-        JanggiPiece hurdlePiece = new 졸(JanggiSide.CHO);
+        JanggiPiece 포 = CHO_포;
+        JanggiPiece hurdlePiece = CHO_졸;
         int hurdleCount = 1;
-        JanggiPiece targetPiece = new 졸(JanggiSide.CHO);
-
+        JanggiPiece targetPiece = CHO_졸;
 
         // when & then
         assertThatThrownBy(() -> 포.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
