@@ -2,10 +2,10 @@ package view;
 
 import java.util.stream.IntStream;
 
-import domain.Board;
-import domain.Position;
-import domain.Team;
-import domain.piece.Piece;
+import board.Board;
+import board.Position;
+import piece.Team;
+import piece.Piece;
 
 public class OutputView {
 

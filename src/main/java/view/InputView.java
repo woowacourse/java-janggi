@@ -2,7 +2,7 @@ package view;
 
 import java.util.Scanner;
 
-import domain.Position;
+import board.Position;
 
 public class InputView {
 

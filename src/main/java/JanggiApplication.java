@@ -1,10 +1,10 @@
 import java.util.function.Supplier;
 
-import domain.Board;
-import domain.BoardInitializer;
-import domain.Position;
-import domain.Turn;
-import domain.piece.Piece;
+import board.Board;
+import board.BoardInitializer;
+import board.Position;
+import game.Turn;
+import piece.Piece;
 import view.InputView;
 import view.OutputView;
 
