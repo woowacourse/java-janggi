@@ -5,13 +5,13 @@ import board.Position;
 
 public class Soldier extends Piece {
 
-    public Soldier(final TeamType teamType) {
-        super(teamType);
+    public Soldier(final Country country) {
+        super(country);
     }
 
     @Override
     public boolean canMove(final Position now, final Position destination, final Board board) {
-        if (teamType == TeamType.RED) {
+        if (country == Country.HAN) {
             return now.calculateDistance(destination) == 1 && now.isXLessThan(destination);
         }
         return now.calculateDistance(destination) == 1 && now.isXGreaterThan(destination);

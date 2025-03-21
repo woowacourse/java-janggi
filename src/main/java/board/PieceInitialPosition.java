@@ -11,7 +11,7 @@ import piece.Guard;
 import piece.Horse;
 import piece.Piece;
 import piece.Soldier;
-import piece.TeamType;
+import piece.Country;
 
 public enum PieceInitialPosition {
 
@@ -51,24 +51,24 @@ public enum PieceInitialPosition {
             Soldier::new
     );
 
-    private final Map<TeamType, List<Position>> initPositions;
-    private final Function<TeamType, ? extends Piece> construct;
+    private final Map<Country, List<Position>> initPositions;
+    private final Function<Country, ? extends Piece> construct;
 
     PieceInitialPosition(final List<Position> redTeam, final List<Position> blueTeam,
-                         final Function<TeamType, ? extends Piece> construct) {
+                         final Function<Country, ? extends Piece> construct) {
         initPositions = Map.of(
-                TeamType.RED, redTeam,
-                TeamType.BLUE, blueTeam
+                Country.HAN, redTeam,
+                Country.CHO, blueTeam
         );
         this.construct = construct;
     }
 
-    public List<Position> getInitPositions(final TeamType teamType) {
-        return initPositions.get(teamType);
+    public List<Position> getInitPositions(final Country country) {
+        return initPositions.get(country);
     }
 
-    public Piece createPiece(final TeamType teamType) {
-        return this.construct.apply(teamType);
+    public Piece createPiece(final Country country) {
+        return this.construct.apply(country);
     }
 
 }

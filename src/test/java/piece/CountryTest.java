@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class TeamTypeTest {
+public class CountryTest {
 
     @Nested
     @DisplayName("팀 타입 생성")
@@ -18,14 +18,14 @@ public class TeamTypeTest {
         void teamType() {
             // given
             final int expectedSize = 2;
-            final List<TeamType> expectedTypes = List.of(
-                    TeamType.RED,
-                    TeamType.BLUE
+            final List<Country> expectedTypes = List.of(
+                    Country.HAN,
+                    Country.CHO
             );
 
             // when
             // then
-            Assertions.assertThat(Arrays.asList(TeamType.values()))
+            Assertions.assertThat(Arrays.asList(Country.values()))
                     .containsAll(expectedTypes)
                     .hasSize(expectedSize);
         }

@@ -3,7 +3,7 @@ import board.BoardFactory;
 import board.Position;
 import java.util.List;
 import view.InputView;
-import piece.TeamType;
+import piece.Country;
 import view.OutputView;
 
 public class Application {
@@ -12,7 +12,7 @@ public class Application {
         OutputView.printIntroduce();
         final BoardFactory boardFactory = new BoardFactory();
         final Board board = boardFactory.generateBoard();
-        TeamType type = TeamType.getDefaultTeam();
+        Country type = Country.getDefaultTeam();
 
         while (true) {
             type = type.toggleTeam();

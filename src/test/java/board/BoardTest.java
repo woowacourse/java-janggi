@@ -13,7 +13,7 @@ import piece.Chariot;
 import piece.General;
 import piece.Piece;
 import piece.Soldier;
-import piece.TeamType;
+import piece.Country;
 
 public class BoardTest {
 
@@ -42,7 +42,7 @@ public class BoardTest {
         @Test
         void existPieceByPosition() {
             // given
-            final Map<Position, Piece> map = Map.of(new Position(1, 1), new General(TeamType.RED));
+            final Map<Position, Piece> map = Map.of(new Position(1, 1), new General(Country.HAN));
             final Board board = new Board(map);
             final Position existPosition = new Position(1, 1);
             final Position notExistPosition = new Position(1, 2);
@@ -63,12 +63,12 @@ public class BoardTest {
         void calculatePieceCountByPositions() {
             // given
             final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Cannon(TeamType.RED),
-                    new Position(1, 2), new Soldier(TeamType.RED)
+                    new Position(1, 1), new Cannon(Country.HAN),
+                    new Position(1, 2), new Soldier(Country.HAN)
             );
             final Board board = new Board(map);
             final Position cannonPosition = new Position(1, 1);
-            final Piece cannonPiece = new Cannon(TeamType.RED);
+            final Piece cannonPiece = new Cannon(Country.HAN);
 
             // when
             final boolean actualCannon = board.equalsTypeByPositionAndPiece(cannonPosition, cannonPiece);
@@ -82,17 +82,17 @@ public class BoardTest {
         void equalsTeamTypeByPosition() {
             // given
             final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Cannon(TeamType.RED)
+                    new Position(1, 1), new Cannon(Country.HAN)
             );
             final Board board = new Board(map);
 
             final Position position = new Position(1, 1);
-            final TeamType equalsTeamType = TeamType.RED;
-            final TeamType notEqualsTeamType = TeamType.BLUE;
+            final Country equalsCountry = Country.HAN;
+            final Country notEqualsCountry = Country.CHO;
 
             // when
-            final boolean actualEquals = board.equalsTeamTypeByPosition(position, equalsTeamType);
-            final boolean actualNotEquals = board.equalsTeamTypeByPosition(position, notEqualsTeamType);
+            final boolean actualEquals = board.equalsTeamTypeByPosition(position, equalsCountry);
+            final boolean actualNotEquals = board.equalsTeamTypeByPosition(position, notEqualsCountry);
 
             // then
             assertThat(actualEquals).isTrue();
@@ -108,16 +108,16 @@ public class BoardTest {
         void updatePosition3() {
             // given
             final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Chariot(TeamType.RED)
+                    new Position(1, 1), new Chariot(Country.HAN)
             );
             final Board board = new Board(map);
 
             final Position src = new Position(1, 1);
             final Position dest = new Position(1, 5);
-            final TeamType teamType = TeamType.RED;
+            final Country country = Country.HAN;
 
             // when
-            board.updatePosition(src, dest, teamType);
+            board.updatePosition(src, dest, country);
 
             // then
             Assertions.assertThat(board.getMap())
@@ -135,10 +135,10 @@ public class BoardTest {
 
             final Position src = new Position(1, 1);
             final Position dest = new Position(1, 2);
-            final TeamType teamType = TeamType.RED;
+            final Country country = Country.HAN;
 
             // when & then
-            Assertions.assertThatThrownBy(() -> board.updatePosition(src, dest, teamType))
+            Assertions.assertThatThrownBy(() -> board.updatePosition(src, dest, country))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -147,16 +147,16 @@ public class BoardTest {
         void updatePosition1() {
             // given
             final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Cannon(TeamType.BLUE)
+                    new Position(1, 1), new Cannon(Country.CHO)
             );
             final Board board = new Board(map);
 
             final Position src = new Position(1, 1);
             final Position dest = new Position(1, 2);
-            final TeamType teamType = TeamType.RED;
+            final Country country = Country.HAN;
 
             // when & then
-            Assertions.assertThatThrownBy(() -> board.updatePosition(src, dest, teamType))
+            Assertions.assertThatThrownBy(() -> board.updatePosition(src, dest, country))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -165,16 +165,16 @@ public class BoardTest {
         void updatePosition2() {
             // given
             final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Cannon(TeamType.RED)
+                    new Position(1, 1), new Cannon(Country.HAN)
             );
             final Board board = new Board(map);
 
             final Position src = new Position(1, 1);
             final Position dest = new Position(1, 2);
-            final TeamType teamType = TeamType.RED;
+            final Country country = Country.HAN;
 
             // when & then
-            Assertions.assertThatThrownBy(() -> board.updatePosition(src, dest, teamType))
+            Assertions.assertThatThrownBy(() -> board.updatePosition(src, dest, country))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

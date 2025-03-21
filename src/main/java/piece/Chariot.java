@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Chariot extends Piece{
 
-    public Chariot(final TeamType teamType) {
-        super(teamType);
+    public Chariot(final Country country) {
+        super(country);
     }
 
     @Override

@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Cannon extends Piece {
 
-    public Cannon(final TeamType teamType) {
-        super(teamType);
+    public Cannon(final Country country) {
+        super(country);
     }
 
     @Override

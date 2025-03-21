@@ -3,7 +3,7 @@ package board;
 import java.util.HashMap;
 import java.util.Map;
 import piece.Piece;
-import piece.TeamType;
+import piece.Country;
 
 public class Board {
 
@@ -25,28 +25,28 @@ public class Board {
         return false;
     }
 
-    public boolean equalsTeamTypeByPosition(final Position position, final TeamType teamType) {
+    public boolean equalsTeamTypeByPosition(final Position position, final Country country) {
         if (map.containsKey(position)) {
             final Piece piece = map.get(position);
-            return piece.equalsTeamType(teamType);
+            return piece.equalsTeamType(country);
         }
         return false;
     }
 
-    public void updatePosition(final Position source, final Position destination, final TeamType teamType) {
-        validatePositionAndTeam(source, teamType);
-        validatePieceCanMove(source, destination, teamType);
+    public void updatePosition(final Position source, final Position destination, final Country country) {
+        validatePositionAndTeam(source, country);
+        validatePieceCanMove(source, destination, country);
 
         movePieceToDestination(source, destination);
     }
 
-    private void validatePositionAndTeam(final Position source, final TeamType teamType) {
-        if (!map.containsKey(source) || !map.get(source).equalsTeamType(teamType)) {
+    private void validatePositionAndTeam(final Position source, final Country country) {
+        if (!map.containsKey(source) || !map.get(source).equalsTeamType(country)) {
             throw new IllegalArgumentException("scr 좌표에 기물이 존재하지 않거나, 해당 팀의 기물이 아닙니다.");
         }
     }
 
-    private void validatePieceCanMove(final Position source, final Position destination, final TeamType teamType) {
+    private void validatePieceCanMove(final Position source, final Position destination, final Country country) {
         final Piece piece = map.get(source);
 
         if (!piece.isAbleToMove(source, destination, this)) {

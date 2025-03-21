@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Elephant extends Piece{
 
-    public Elephant(final TeamType teamType) {
-        super(teamType);
+    public Elephant(final Country country) {
+        super(country);
     }
 
     @Override

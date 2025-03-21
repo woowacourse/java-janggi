@@ -14,13 +14,13 @@ class CannonTest {
     @Test
     void cannon1() {
         // given
-        final Piece cannonPiece = new Cannon(TeamType.BLUE);
+        final Piece cannonPiece = new Cannon(Country.CHO);
         final Position now = new Position(1, 1);
         final Position ableDest = new Position(1, 3);
         final Position notAbleDest = new Position(2, 2);
-        final TeamType teamType = TeamType.RED;
+        final Country country = Country.HAN;
         final Map<Position, Piece> map = Map.of(new Position(1, 2),
-                new General(teamType));
+                new General(country));
         final Board board = new Board(map);
 
         // when
@@ -38,13 +38,13 @@ class CannonTest {
     @Test
     void cannon2() {
         // given
-        final Piece cannonPiece = new Cannon(TeamType.BLUE);
+        final Piece cannonPiece = new Cannon(Country.CHO);
         final Position now = new Position(1, 1);
         final Position ableDest = new Position(1, 3);
         final Position notAbleDest = new Position(2, 1);
-        final TeamType teamType = TeamType.RED;
+        final Country country = Country.HAN;
         final Map<Position, Piece> map = Map.of(new Position(1, 2),
-                new Chariot(teamType));
+                new Chariot(country));
         final Board board = new Board(map);
 
         // when
@@ -62,12 +62,12 @@ class CannonTest {
     @Test
     void cannon3() {
         // given
-        final Piece cannonPiece = new Cannon(TeamType.BLUE);
+        final Piece cannonPiece = new Cannon(Country.CHO);
         final Position now = new Position(1, 1);
         final Position destPosition = new Position(1, 3);
-        final TeamType teamType = TeamType.RED;
+        final Country country = Country.HAN;
         final Map<Position, Piece> map = Map.of(new Position(1, 2),
-                new Cannon(teamType));
+                new Cannon(country));
         final Board board = new Board(map);
 
         // when
@@ -81,13 +81,13 @@ class CannonTest {
     @Test
     void cannon4() {
         // given
-        final Piece cannonPiece = new Cannon(TeamType.BLUE);
+        final Piece cannonPiece = new Cannon(Country.CHO);
         final Position now = new Position(1, 1);
         final Position notAbleDest = new Position(1, 4);
-        final TeamType teamType = TeamType.RED;
+        final Country country = Country.HAN;
         final Map<Position, Piece> map = Map.of(new Position(1, 2),
-                new Chariot(teamType), new Position(1, 3),
-                new Chariot(teamType));
+                new Chariot(country), new Position(1, 3),
+                new Chariot(country));
         final Board board = new Board(map);
 
         // when
@@ -101,13 +101,13 @@ class CannonTest {
     @Test
     void cannon5() {
         // given
-        final Piece cannonPiece = new Cannon(TeamType.BLUE);
+        final Piece cannonPiece = new Cannon(Country.CHO);
         final Position now = new Position(1, 1);
         final Position notAbleDest = new Position(1, 4);
-        final TeamType teamType = TeamType.RED;
+        final Country country = Country.HAN;
         final Map<Position, Piece> map = Map.of(new Position(1, 4),
-                new Cannon(TeamType.BLUE), new Position(1, 3),
-                new Chariot(teamType));
+                new Cannon(Country.CHO), new Position(1, 3),
+                new Chariot(country));
         final Board board = new Board(map);
 
         // when

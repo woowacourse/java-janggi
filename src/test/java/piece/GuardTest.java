@@ -14,12 +14,12 @@ class GuardTest {
     @Test
     void general() {
         // given
-        final Piece generalPiece = new General(TeamType.BLUE);
+        final Piece generalPiece = new General(Country.CHO);
         final Position now = new Position(1, 1);
         final Position ableDest = new Position(1, 2);
         final Position notAbleDest = new Position(1, 3);
         final Board board = new Board(new HashMap<>());
-        final TeamType teamType = TeamType.RED;
+        final Country country = Country.HAN;
 
         // when
         final boolean actual1 = generalPiece.isAbleToMove(now, ableDest, board);
@@ -36,12 +36,12 @@ class GuardTest {
     @Test
     void guard() {
         // given
-        final Piece guardPiece = new Guard(TeamType.BLUE);
+        final Piece guardPiece = new Guard(Country.CHO);
         final Position now = new Position(1, 1);
         final Position ableDest = new Position(1, 2);
         final Position notAbleDest = new Position(1, 3);
         final Board board = new Board(new HashMap<>());
-        final TeamType teamType = TeamType.RED;
+        final Country country = Country.HAN;
 
         // when
         final boolean actual1 = guardPiece.isAbleToMove(now, ableDest, board);

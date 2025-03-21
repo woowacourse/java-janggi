@@ -5,8 +5,8 @@ import board.Position;
 
 public class Guard extends Piece{
 
-    public Guard(final TeamType teamType) {
-        super(teamType);
+    public Guard(final Country country) {
+        super(country);
     }
 
     @Override

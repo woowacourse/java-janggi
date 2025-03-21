@@ -4,18 +4,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import piece.Piece;
-import piece.TeamType;
+import piece.Country;
 
 public class BoardFactory {
 
     public Board generateBoard() {
         final Map<Position, Piece> initMap = new HashMap<>();
 
-        for (final TeamType teamType : TeamType.values()) {
+        for (final Country country : Country.values()) {
             for (final PieceInitialPosition pieceType : PieceInitialPosition.values()) {
-                final List<Position> initPositions = pieceType.getInitPositions(teamType);
+                final List<Position> initPositions = pieceType.getInitPositions(country);
                 for (final Position position : initPositions) {
-                    initMap.put(position, pieceType.createPiece(teamType));
+                    initMap.put(position, pieceType.createPiece(country));
                 }
             }
         }
