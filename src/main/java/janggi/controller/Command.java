@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.controller;
 
 import java.util.Arrays;
 

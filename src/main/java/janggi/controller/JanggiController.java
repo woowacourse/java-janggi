@@ -1,7 +1,6 @@
 package janggi.controller;
 
 import janggi.domain.Board;
-import janggi.domain.Command;
 import janggi.domain.Position;
 import janggi.domain.Team;
 import janggi.domain.piece.Cannon;
