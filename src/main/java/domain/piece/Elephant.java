@@ -28,6 +28,11 @@ public class Elephant extends Piece {
     }
 
     @Override
+    public boolean isKing() {
+        return false;
+    }
+
+    @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
         for (List<Move> moveList : moves) {
             boolean compareResult = comparePath(startPosition, targetPosition, moveList);
@@ -37,6 +42,7 @@ public class Elephant extends Piece {
         }
         throw new IllegalArgumentException("이 위치로 이동할 수 없습니다.");
     }
+
 
     private List<Position> convertToPath(List<Move> moves, Position startPosition) {
         List<Position> path = new ArrayList<>();

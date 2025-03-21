@@ -16,6 +16,8 @@ public abstract class Piece {
 
     public abstract boolean isCanon();
 
+    public abstract boolean isKing();
+
     public Team getTeam() {
         return team;
     }

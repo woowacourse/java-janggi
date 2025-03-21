@@ -17,6 +17,11 @@ public class Cannon extends Piece {
     }
 
     @Override
+    public boolean isKing() {
+        return false;
+    }
+
+    @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
 
         List<Position> path = new ArrayList<>();
@@ -57,5 +62,4 @@ public class Cannon extends Piece {
         }
         return newPosition;
     }
-
 }

@@ -30,4 +30,9 @@ public class Pawn extends Piece {
     public boolean isCanon() {
         return false;
     }
+
+    @Override
+    public boolean isKing() {
+        return false;
+    }
 }
