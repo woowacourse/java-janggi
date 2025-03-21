@@ -29,7 +29,7 @@ public class Horse extends Piece {
     );
 
     public Horse(final Team team) {
-        super(PieceType.HORSE, team);
+        super(team);
     }
 
     @Override

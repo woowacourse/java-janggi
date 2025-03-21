@@ -8,7 +8,7 @@ import java.util.List;
 public class General extends Piece {
 
     public General(final Team team) {
-        super(PieceType.GENERAL, team);
+        super(team);
     }
 
     @Override

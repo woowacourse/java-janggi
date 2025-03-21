@@ -8,7 +8,7 @@ import java.util.List;
 public class Guard extends Piece {
 
     public Guard(final Team team) {
-        super(PieceType.GUARD, team);
+        super(team);
     }
 
     @Override
