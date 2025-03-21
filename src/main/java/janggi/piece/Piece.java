@@ -32,11 +32,7 @@ public abstract class Piece {
             int[] dColumn = dColumns[i];
             Position position = start;
             for (int j = 0; j < dRow.length; j++) {
-                try {
-                    position = position.plus(dColumn[j], dRow[j]);
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    continue;
-                }
+                position = position.plus(dColumn[j], dRow[j]);
             }
             if (position.equals(goal)) {
                 return i;
