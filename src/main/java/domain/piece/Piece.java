@@ -19,10 +19,10 @@ public abstract class Piece {
             final BoardPosition after
     );
 
-    public abstract boolean isObstacleCountAllowed(final int obstacleCount);
+    public abstract boolean isAllowedObstacles(final List<Piece> obstacles);
 
-    public Team getTeam() {
-        return team;
+    public boolean isMyTeam(final Team team) {
+        return this.team == team;
     }
 
     @Override
@@ -37,5 +37,9 @@ public abstract class Piece {
     @Override
     public int hashCode() {
         return Objects.hashCode(team);
+    }
+
+    public Team getTeam() {
+        return team;
     }
 }

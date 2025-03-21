@@ -2,7 +2,6 @@ package domain.board;
 
 import domain.InitialPiecesPositions;
 import domain.Team;
-import domain.piece.Cannon;
 import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,13 +50,13 @@ public class Board {
     }
 
     private void validateSelectPieceTeam(final Team currentTeam, final Piece selectedPiece) {
-        if (selectedPiece.getTeam() != currentTeam) {
+        if (!selectedPiece.isMyTeam(currentTeam)) {
             throw new IllegalArgumentException("다른 팀의 기물을 움직일 수 없습니다.");
         }
     }
 
     private void validateDestinationPieceTeam(final Team currentTeam, final Piece destinationPiece) {
-        if (destinationPiece != null && currentTeam == destinationPiece.getTeam()) {
+        if (destinationPiece != null && destinationPiece.isMyTeam(currentTeam)) {
             throw new IllegalArgumentException("이동하려는 위치에 아군 기물이 존재합니다.");
         }
     }
@@ -69,24 +68,21 @@ public class Board {
             final Piece movePiece
     ) {
         List<BoardPosition> routePositions = calculateRoutePositions(movementRule, selectBoardPosition);
-        int obstacleCount = calculateObstacleCount(routePositions, destinationBoardPosition);
-        if (!movePiece.isObstacleCountAllowed(obstacleCount)) {
-            throw new IllegalArgumentException("이동경로에 적합하지 않은 장애물이 있습니다.");
-        }
-
-        if (movePiece.getClass() == Cannon.class) {
-            validateCannonMovementRule(movementRule, selectBoardPosition);
+        List<Piece> obstacles = findObstacles(routePositions, destinationBoardPosition);
+        if (!movePiece.isAllowedObstacles(obstacles)) {
+            throw new IllegalArgumentException("이동경로에 넘을 수 없는 기물이 있습니다.");
         }
     }
 
-    private int calculateObstacleCount(
+    private List<Piece> findObstacles(
             final List<BoardPosition> routePositions,
             final BoardPosition destinationBoardPosition
     ) {
-        return (int) routePositions.stream()
+        return routePositions.stream()
                 .filter(pieces::containsKey)
                 .filter(position -> !position.equals(destinationBoardPosition))
-                .count();
+                .map(pieces::get)
+                .toList();
     }
 
     private List<BoardPosition> calculateRoutePositions(
@@ -106,23 +102,8 @@ public class Board {
             final Team currentTeam,
             final Piece destinationPiece
     ) {
-        if (destinationPiece != null && currentTeam != destinationPiece.getTeam()) {
+        if (destinationPiece != null && !destinationPiece.isMyTeam(currentTeam)) {
             pieces.remove(destinationBoardPosition);
-        }
-    }
-
-    private void validateCannonMovementRule(
-            final List<Offset> movementRule,
-            final BoardPosition targetBoardPosition
-    ) {
-        BoardPosition currentBoardPosition = targetBoardPosition;
-        for (final Offset offset : movementRule) {
-            currentBoardPosition = currentBoardPosition.plus(offset);
-
-            if (pieces.containsKey(currentBoardPosition)
-                    && pieces.get(currentBoardPosition).getClass() == Cannon.class) {
-                throw new IllegalArgumentException("포는 포를 넘거나 잡을 수 없습니다.");
-            }
         }
     }
 
