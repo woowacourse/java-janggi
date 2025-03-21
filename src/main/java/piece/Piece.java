@@ -29,13 +29,13 @@ public abstract class Piece {
 
     protected abstract Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival);
 
-    public abstract String getName();
-
     public final boolean isSameTeam(Piece piece) {
         return piece.team.equals(this.team);
     }
 
-    public final Team getTeam() {
-        return team;
+    public final String colorName() {
+        return team.applyColor(getName());
     }
+
+    protected abstract String getName();
 }
