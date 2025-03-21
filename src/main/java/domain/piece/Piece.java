@@ -16,6 +16,7 @@ public abstract class Piece {
 
     public abstract void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to);
 
+
     public boolean isSameType(Piece piece) {
         return this.pieceType == piece.getPieceType();
     }
