@@ -18,6 +18,20 @@ public abstract class Piece {
 
     public abstract String getSymbol();
 
+    public boolean isAllyWith(final Piece anotherPiece) {
+        if (isCho()) {
+            return anotherPiece.isCho();
+        }
+        if (isHan()) {
+            return anotherPiece.isHan();
+        }
+        throw new IllegalStateException("[ERROR] 프로그램에 오류가 발생했습니다.");
+    }
+
+    public boolean isEnemyWith(final Piece anotherPiece) {
+        return !isAllyWith(anotherPiece);
+    }
+
     public boolean isCho() {
         return side == Side.CHO;
     }

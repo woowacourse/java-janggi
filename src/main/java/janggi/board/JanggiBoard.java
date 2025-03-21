@@ -93,7 +93,7 @@ public class JanggiBoard {
         if (checkInvalidIntermediatePositions(route)) {
             return true;
         }
-        return isAlly(destination, piece);
+        return piece.isAllyWith(board.get(destination));
     }
 
     private boolean checkInvalidIntermediatePositions(final Route route) {
@@ -109,10 +109,10 @@ public class JanggiBoard {
     }
 
     private boolean isBoundPosition(final Piece piece, final Position position, final List<Position> reachablePositions) {
-        if (position.isOutOfRange(X_LIMIT, Y_LIMIT) || isAlly(position, piece)) {
+        if (position.isOutOfRange(X_LIMIT, Y_LIMIT) || piece.isAllyWith(board.get(position))) {
             return true;
         }
-        if (isPositionHasPiece(position) && isEnemy(position, piece)) {
+        if (isPositionHasPiece(position) && piece.isEnemyWith(board.get(position))) {
             reachablePositions.add(position);
             return true;
         }
@@ -146,7 +146,7 @@ public class JanggiBoard {
     }
 
     private void addValidDestinationIfEnemy(final Piece piece, final List<Position> reachablePositions, final Position position) {
-        if (isEnemy(position, piece)) {
+        if (piece.isEnemyWith(board.get(position))) {
             reachablePositions.add(position);
         }
     }
@@ -161,21 +161,6 @@ public class JanggiBoard {
 
     private boolean isPositionEmpty(final Position position) {
         return board.get(position) instanceof Empty;
-    }
-
-    private boolean isAlly(final Position position, final Piece selectedPiece) {
-        Piece anotherPiece = board.get(position);
-        if (selectedPiece.isCho()) {
-            return anotherPiece.isCho();
-        }
-        if (selectedPiece.isHan()) {
-            return anotherPiece.isHan();
-        }
-        throw new IllegalStateException("[ERROR] 프로그램에 오류가 발생했습니다.");
-    }
-
-    private boolean isEnemy(final Position position, final Piece piece) {
-        return !isAlly(position, piece);
     }
 
     private void validatePositionHasPiece(final Piece piece) {
