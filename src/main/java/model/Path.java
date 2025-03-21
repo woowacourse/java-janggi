@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Path {
@@ -19,6 +20,6 @@ public class Path {
     }
 
     public List<Point> getPath() {
-        return path;
+        return Collections.unmodifiableList(path);
     }
 }
