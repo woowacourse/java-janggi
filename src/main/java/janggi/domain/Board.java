@@ -56,8 +56,7 @@ public class Board {
         }
 
         pieceMap.remove(currentPosition);
-        // TODO PUT을 할 때 기존의 POSITION의 키가 덮어씌워진다는 것을 표현할 수 없다.
-        // 사라진 다는 것을 표현하면 좋을 거 같다.
+        // TODO PUT을 할 때 기존의 POSITION의 키가 덮어씌워진다는 것을 표현할 수 없다. 이러한 방식을 리팩토링할 필요가 있다.
         pieceMap.put(newPosition, piece);
     }
 

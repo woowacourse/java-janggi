@@ -9,8 +9,6 @@ import java.util.Set;
 
 public class Cannon extends StraightMoveBehavior {
 
-    // 포지션에서 isCannon을 봐서 처리할 수 있을 거 같음 외부로 나가지말고 포는 포 자체에서 처리하면 되기에 내부에서 처리하면 좋을 거 같다
-
     @Override
     public String toName() {
         return "포";

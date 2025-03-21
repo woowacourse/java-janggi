@@ -40,3 +40,4 @@ public abstract class CrossMoveBehavior implements PieceBehavior {
                 .allMatch(currentPosition::canNotMove);
     }
 }
+
