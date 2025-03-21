@@ -5,7 +5,7 @@ import janggi.board.BoardGenerator;
 import janggi.piece.Piece;
 import janggi.view.View;
 
-public class Application {
+public final class Application {
 
     private static final Camp FIRST_TURN_CAMP = Camp.CHU;
     private static final int FROM_POINT_INDEX = 0;

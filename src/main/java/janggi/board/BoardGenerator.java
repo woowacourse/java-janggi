@@ -10,7 +10,7 @@ import janggi.piece.Guard;
 import janggi.piece.Horse;
 import janggi.piece.Soldier;
 
-public class BoardGenerator {
+public final class BoardGenerator {
 
     public static Board generate() {
         Board board = new Board();

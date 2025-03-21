@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Board {
+public final class Board {
 
     private static final int COLUMN = 9;
     private static final int ROW = 10;

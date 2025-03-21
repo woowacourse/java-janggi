@@ -7,7 +7,7 @@ import janggi.piece.Piece;
 import java.util.Map;
 import java.util.Scanner;
 
-public class View {
+public final class View {
 
     private static final int ROW = 10;
     private static final int COLUMN = 9;
