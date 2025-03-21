@@ -24,7 +24,7 @@ public class OutputView {
                 if (piece == null) {
                     System.out.print(" . ");
                 } else {
-                    final String pieceSymbol = piece.getPieceType().getTitle();
+                    final String pieceSymbol = "@";
                     final String color = createColorCode(piece.getTeam());
                     System.out.print(" " + color + pieceSymbol + RESET + " ");
                 }

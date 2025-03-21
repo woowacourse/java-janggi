@@ -13,12 +13,12 @@ public abstract class Piece {
         this.team = team;
     }
 
-    abstract List<Offset> findMovementRule(
+    public abstract List<Offset> findMovementRule(
             final BoardPosition before,
             final BoardPosition after
     );
 
-    abstract boolean isObstacleCountAllowed(final int obstacleCount);
+    public abstract boolean isObstacleCountAllowed(final int obstacleCount);
 
     protected void validateNotMove(final Offset offset) {
         if (offset.hasNoMovement()) {

@@ -1,10 +1,9 @@
 package domain.board;
 
 import domain.InitialPiecesPositions;
-import domain.piece.Piece;
-import domain.piece.PieceType;
 import domain.Team;
-import java.util.Arrays;
+import domain.piece.Cannon;
+import domain.piece.Piece;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +22,6 @@ public class Board {
             throw new IllegalArgumentException("보드는 기물들을 가져야합니다.");
         }
     }
-
 
     public void movePiece(
             final BoardPosition selectBoardPosition,
@@ -74,7 +72,7 @@ public class Board {
             throw new IllegalArgumentException("이동경로에 적합하지 않은 장애물이 있습니다.");
         }
 
-        if (movePiece.getPieceType() == PieceType.CANNON) {
+        if (movePiece.getClass() == Cannon.class) {
             validateCannonMovementRule(movementRule, selectBoardPosition);
         }
     }
@@ -107,7 +105,7 @@ public class Board {
             currentBoardPosition = currentBoardPosition.calculatePosition(offset);
 
             if (pieces.containsKey(currentBoardPosition)
-                    && pieces.get(currentBoardPosition).getPieceType() == PieceType.CANNON) {
+                    && pieces.get(currentBoardPosition).getClass() == Cannon.class) {
                 throw new IllegalArgumentException("포는 포를 넘거나 잡을 수 없습니다.");
             }
         }

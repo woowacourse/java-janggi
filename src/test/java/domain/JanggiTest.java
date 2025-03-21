@@ -4,8 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
 import domain.board.BoardPosition;
-import domain.piece.Piece;
-import domain.piece.PieceType;
+import domain.piece.Zzu;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -21,7 +20,7 @@ class JanggiTest {
         void processTurn() {
             // given
             Board board = new Board(Map.of(
-                    new BoardPosition(0, 0), new Piece(PieceType.ZZU, Team.GREEN)
+                    new BoardPosition(0, 0), new Zzu(Team.GREEN)
             ));
             Janggi janggi = new Janggi(board, Team.GREEN);
 

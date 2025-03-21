@@ -5,8 +5,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import domain.Team;
+import domain.piece.Cannon;
+import domain.piece.Horse;
 import domain.piece.Piece;
-import domain.piece.PieceType;
+import domain.piece.Zzu;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -21,8 +23,9 @@ class BoardTest {
         @Test
         void movePiece() {
             // given
+            Piece piece = new Horse(Team.GREEN);
             Board board = new Board(Map.of(
-                    new BoardPosition(0, 0), new Piece(PieceType.HORSE, Team.GREEN))
+                    new BoardPosition(0, 0), piece)
             );
 
             // when
@@ -30,7 +33,7 @@ class BoardTest {
             Map<BoardPosition, Piece> pieces = board.getPieces();
 
             // then
-            assertThat(pieces).containsEntry(new BoardPosition(1, 2), new Piece(PieceType.HORSE, Team.GREEN));
+            assertThat(pieces).containsEntry(new BoardPosition(1, 2), piece);
         }
 
         @DisplayName("포는 이동하려는 경로 사이에 장애물이 1개 있어야만 이동할 수 있다.")
@@ -38,9 +41,9 @@ class BoardTest {
         void moveCannonPiece() {
             // given
             Board board = new Board(Map.of(
-                    new BoardPosition(0, 0), new Piece(PieceType.CANNON, Team.RED),
-                    new BoardPosition(0, 4), new Piece(PieceType.ZZU, Team.RED))
-            );
+                    new BoardPosition(0, 0), new Cannon(Team.RED),
+                    new BoardPosition(0, 4), new Zzu(Team.RED)
+            ));
 
             // when & then
             assertThatCode(
@@ -57,7 +60,7 @@ class BoardTest {
         void validateSelectBoardPosition() {
             // given
             Board board = new Board(Map.of(
-                    new BoardPosition(1, 0), new Piece(PieceType.ZZU, Team.GREEN)
+                    new BoardPosition(1, 0), new Zzu(Team.GREEN)
             ));
 
             // when & then
@@ -73,7 +76,7 @@ class BoardTest {
         void validateSelectPieceTeam() {
             // given
             Board board = new Board(Map.of(
-                    new BoardPosition(0, 0), new Piece(PieceType.ZZU, Team.GREEN)
+                    new BoardPosition(0, 0), new Zzu(Team.GREEN)
             ));
 
             // when & then
@@ -89,8 +92,8 @@ class BoardTest {
         void validateDestinationPieceTeam() {
             // given
             Board board = new Board(Map.of(
-                    new BoardPosition(0, 0), new Piece(PieceType.ZZU, Team.GREEN),
-                    new BoardPosition(1, 0), new Piece(PieceType.ZZU, Team.GREEN)
+                    new BoardPosition(0, 0), new Zzu(Team.GREEN),
+                    new BoardPosition(1, 0), new Zzu(Team.GREEN)
             ));
 
             // when & then
@@ -106,8 +109,8 @@ class BoardTest {
         void validateMovementRule() {
             // given
             Board board = new Board(Map.of(
-                    new BoardPosition(0, 0), new Piece(PieceType.HORSE, Team.GREEN),
-                    new BoardPosition(0, 1), new Piece(PieceType.ZZU, Team.GREEN)
+                    new BoardPosition(0, 0), new Horse(Team.GREEN),
+                    new BoardPosition(0, 1), new Zzu(Team.GREEN)
             ));
 
             // when & then
@@ -127,9 +130,9 @@ class BoardTest {
                 // given
                 Board board = new Board(Map.of(
                         new BoardPosition(0, 0),
-                        new Piece(PieceType.CANNON, Team.RED),
-                        new BoardPosition(0, 4), new Piece(PieceType.ZZU, Team.RED),
-                        new BoardPosition(0, 5), new Piece(PieceType.ZZU, Team.GREEN))
+                        new Cannon(Team.RED),
+                        new BoardPosition(0, 4), new Zzu(Team.RED),
+                        new BoardPosition(0, 5), new Zzu(Team.GREEN))
                 );
 
                 // when & then
@@ -145,9 +148,9 @@ class BoardTest {
                 // given
                 Board board = new Board(Map.of(
                         new BoardPosition(0, 0),
-                        new Piece(PieceType.CANNON, Team.RED),
+                        new Cannon(Team.RED),
                         new BoardPosition(0, 4),
-                        new Piece(PieceType.CANNON, Team.RED))
+                        new Cannon(Team.RED))
                 );
 
                 // when & then
@@ -163,10 +166,10 @@ class BoardTest {
                 // given
                 Board board = new Board(Map.of(
                         new BoardPosition(0, 0),
-                        new Piece(PieceType.CANNON, Team.RED),
-                        new BoardPosition(0, 4), new Piece(PieceType.ZZU, Team.RED),
+                        new Cannon(Team.RED),
+                        new BoardPosition(0, 4), new Zzu(Team.RED),
                         new BoardPosition(0, 6),
-                        new Piece(PieceType.CANNON, Team.GREEN))
+                        new Cannon(Team.GREEN))
                 );
 
                 // when & then
