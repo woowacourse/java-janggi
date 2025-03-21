@@ -11,6 +11,10 @@ import java.util.Set;
 
 public class Cannon implements PieceBehavior {
 
+    // 포지션에서 isCannon을 봐서 처리할 수 있을 거 같음 외부로 나가지말고 내부에서만 보면 되기 때문에 처리하면 좋을 거 같음
+
+    // 그쪽 포지션에서
+
     private static final List<Vector> VECTORS = List.of(
             new Vector(1, 0),
             new Vector(0, -1),
