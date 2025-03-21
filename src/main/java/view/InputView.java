@@ -54,9 +54,7 @@ public class InputView {
     }
 
     private void validateInteger(String input) {
-        try {
-            Integer.parseInt(input);
-        } catch (NumberFormatException e) {
+        if (!input.matches("\\d+")) {
             throw new IllegalArgumentException("숫자만 입력해 주세요.");
         }
     }
