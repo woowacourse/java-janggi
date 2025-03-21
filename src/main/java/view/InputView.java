@@ -23,7 +23,7 @@ public class InputView {
         return Integer.parseInt(sc.nextLine());
     }
 
-    public static List<Point> movePointInput(JanggiBoard janggiBoard, Team team) {
+    public static List<Point> movePointInput(Team team) {
         sc = new Scanner(System.in);
         System.out.printf("%s 나라의 차례\n", team.getTeam());
         System.out.println("이동할 기물의 위치를 선택하세요. 입력 형식 : 가로(공백)세로 ex)1 2");
