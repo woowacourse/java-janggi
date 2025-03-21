@@ -36,6 +36,7 @@ public class Soldier extends Piece {
         return soldiers;
     }
 
+    @Override
     public Soldier move(final Map<Position, Piece> pieces, final Position positionToMove) {
         validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
         validateIsPositionMovable(positionToMove);

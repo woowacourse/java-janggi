@@ -57,6 +57,7 @@ public class Horse extends Piece {
         return horses;
     }
 
+    @Override
     public Horse move(final Map<Position, Piece> pieces, final Position positionToMove) {
         validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
         validateNothingBetweenPositionToMove(pieces, positionToMove);

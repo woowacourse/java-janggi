@@ -24,6 +24,7 @@ public class Guard extends Piece {
         return guards;
     }
 
+    @Override
     public Guard move(final Map<Position, Piece> pieces, final Position positionToMove) {
         validateIsPositionMovable(positionToMove);
         validateIsSameTeamNotInPositionToMove(pieces, positionToMove);

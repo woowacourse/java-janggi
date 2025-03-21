@@ -57,6 +57,7 @@ public class Elephant extends Piece {
         return elephants;
     }
 
+    @Override
     public Elephant move(final Map<Position, Piece> pieces, final Position positionToMove) {
         validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
         validateNothingBetweenPositionToMove(pieces, positionToMove);

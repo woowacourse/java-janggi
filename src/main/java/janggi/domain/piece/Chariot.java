@@ -29,6 +29,7 @@ public class Chariot extends Piece {
         return chariots;
     }
 
+    @Override
     public Chariot move(final Map<Position, Piece> pieces, final Position positionToMove) {
         validateIsPositionMovable(positionToMove);
         validateIsSameTeamNotInPositionToMove(pieces, positionToMove);

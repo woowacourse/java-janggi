@@ -18,6 +18,7 @@ public class General extends Piece {
         return List.of(new General(INITIAL_POSITIONS_RED, team));
     }
 
+    @Override
     public General move(final Map<Position, Piece> pieces, final Position positionToMove) {
         validateIsPositionMovable(positionToMove);
         validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
