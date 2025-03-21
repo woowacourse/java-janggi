@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.direction.OneStepDirection;
 import janggi.setting.CampType;
 import janggi.value.Position;
 import java.util.List;
@@ -33,21 +34,19 @@ public class Sa extends Piece {
 
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        if (!isRuleOfMove(destination)) {
-            return false;
-        }
-        return isNotHurdle(destination, allies);
+        OneStepDirection direction = OneStepDirection.parse(getPosition(), destination);
+
+        boolean followRuleOfMove = checkRuleOfMove(direction);
+        boolean existAlliesInDestination = existPieceInDestination(destination, allies);
+        return followRuleOfMove && !existAlliesInDestination;
     }
 
-    private boolean isRuleOfMove(Position destination) {
-        return destination.equals(new Position(getPosition().getX() - 1, getPosition().getY()))
-                || destination.equals(new Position(getPosition().getX() + 1, getPosition().getY()))
-                || destination.equals(new Position(getPosition().getX(), getPosition().getY() - 1))
-                || destination.equals(new Position(getPosition().getX(), getPosition().getY() + 1));
+    private boolean checkRuleOfMove(OneStepDirection direction) {
+        return direction != OneStepDirection.NONE;
     }
 
-    private static boolean isNotHurdle(Position destination, List<Piece> allies) {
+    private boolean existPieceInDestination(Position destination, List<Piece> allies) {
         return allies.stream()
-                .noneMatch(piece -> piece.getPosition().equals(destination));
+                .anyMatch(piece -> piece.getPosition().equals(destination));
     }
 }
