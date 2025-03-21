@@ -19,9 +19,8 @@ public class CannonMovement implements MovementRule {
 
         int count = 0;
         for (Point path : paths) {
-            Piece piece = pieces.findByPoint(path);
-
-            if (piece != null) {
+            if (pieces.isExistPieceIn(path)) {
+                Piece piece = pieces.findByPoint(path);
                 validateIsNotCannon(piece);
                 count++;
             }
