@@ -23,7 +23,8 @@ public class Ma extends Piece {
                         departure.pickChangedCoordinate(-1, 2),
                         departure.pickChangedCoordinate(1, -2),
                         departure.pickChangedCoordinate(1, 2),
-                        departure.pickChangedCoordinate(2, -1)
+                        departure.pickChangedCoordinate(2, -1),
+                        departure.pickChangedCoordinate(2, 1)
                 )
                 .filter(Optional::isPresent)
                 .map(Optional::get)
