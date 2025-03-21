@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import dto.CommandDto;
 
-public class InputView {
+public class Input {
     private final Scanner scanner = new Scanner(System.in);
 
     public CommandDto command() {

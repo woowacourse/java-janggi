@@ -9,7 +9,7 @@ import model.Position;
 import model.board.Board;
 import view.util.Color;
 
-public class OutputView {
+public class Output {
 
     public void startGame() {
         System.out.printf("장기 게임을 시작합니다.%n%n");
