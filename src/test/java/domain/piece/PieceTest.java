@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.BaseTest;
 import domain.position.Position;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import static domain.position.PositionFile.*;
 import static domain.position.PositionRank.*;
 import static org.assertj.core.api.Assertions.*;
 
-public class PieceTest {
+public class PieceTest extends BaseTest {
 
     @Nested
     class 이동_테스트 {

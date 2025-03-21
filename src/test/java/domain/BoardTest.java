@@ -16,7 +16,7 @@ import static domain.position.PositionFile.*;
 import static domain.position.PositionRank.*;
 import static org.assertj.core.api.Assertions.*;
 
-public class BoardTest {
+public class BoardTest extends BaseTest {
 
     public static Stream<Arguments> providePositionAndPieceTypeOfAllPieces() {
         return Stream.of(

@@ -1,5 +1,6 @@
 package domain.position;
 
+import domain.BaseTest;
 import domain.piece.MoveDirection;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -12,7 +13,7 @@ import static domain.position.PositionRank.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-class PathTest {
+class PathTest extends BaseTest {
 
     @Test
     void 시작_위치를_통해_패스를_생성한다() {

@@ -1,5 +1,6 @@
 package domain.position;
 
+import domain.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -8,7 +9,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-class PositionFileTest {
+class PositionFileTest extends BaseTest {
 
     @Test
     void 파일에_값을_더하여_다음_파일을_구할_수_있다() {

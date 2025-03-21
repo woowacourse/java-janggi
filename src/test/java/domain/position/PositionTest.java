@@ -1,5 +1,6 @@
 package domain.position;
 
+import domain.BaseTest;
 import domain.Country;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +10,7 @@ import static domain.position.PositionFile.*;
 import static domain.position.PositionRank.*;
 import static org.assertj.core.api.Assertions.*;
 
-class PositionTest {
+class PositionTest extends BaseTest {
 
     @Test
     void 위치_생성시_랭크가_null이면_예외가_발생한다() {

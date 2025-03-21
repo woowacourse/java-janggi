@@ -18,7 +18,7 @@ import static domain.position.PositionFile.*;
 import static domain.position.PositionRank.*;
 import static org.assertj.core.api.Assertions.*;
 
-public class TeamTest {
+public class TeamTest extends BaseTest {
 
     @ParameterizedTest
     @CsvSource({"마상마상", "상마상마", "상마마상", "마상상마"})

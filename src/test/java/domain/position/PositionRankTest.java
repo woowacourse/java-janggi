@@ -1,5 +1,6 @@
 package domain.position;
 
+import domain.BaseTest;
 import domain.Country;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,7 +11,7 @@ import java.util.List;
 import static domain.position.PositionRank.*;
 import static org.assertj.core.api.Assertions.*;
 
-class PositionRankTest {
+class PositionRankTest extends BaseTest {
 
     @Test
     void 랭크는_1미만의_값으로_생성하려고하면_예외가_발생한다() {
