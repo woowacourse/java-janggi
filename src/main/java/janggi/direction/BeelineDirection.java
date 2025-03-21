@@ -11,27 +11,27 @@ public enum BeelineDirection {
     NONE;
 
     public static BeelineDirection parse(Position current, Position destination) {
-        if (current.isEqualsXPosition(destination.getX())) {
-            return parseWithYAxis(current.getY(), destination.getY());
+        if (current.isEqualsXPosition(destination.x())) {
+            return parseWithYAxis(current.y(), destination.y());
         }
-        if (current.isEqualsYPosition(destination.getY())) {
-            return parseWithXAxis(current.getX(), destination.getX());
+        if (current.isEqualsYPosition(destination.y())) {
+            return parseWithXAxis(current.x(), destination.x());
         }
         return NONE;
     }
 
     public List<Position> calculatePositionsInPath(Position current, Position destination) {
         if (this == LEFT) {
-            return Position.makePositionInXLine(destination.getX() + 1, current.getX() - 1, current.getY());
+            return Position.makePositionInXLine(destination.x() + 1, current.x() - 1, current.y());
         }
         if (this == RIGHT) {
-            return Position.makePositionInXLine(current.getX() + 1, destination.getX() - 1, current.getY());
+            return Position.makePositionInXLine(current.x() + 1, destination.x() - 1, current.y());
         }
         if (this == UP) {
-            return Position.makePositionInYLine(destination.getY() + 1, current.getY() - 1, current.getX());
+            return Position.makePositionInYLine(destination.y() + 1, current.y() - 1, current.x());
         }
         if (this == DOWN) {
-            return Position.makePositionInYLine(current.getY() + 1, destination.getY() - 1, current.getX());
+            return Position.makePositionInYLine(current.y() + 1, destination.y() - 1, current.x());
         }
         return List.of();
     }

@@ -18,7 +18,7 @@ public enum OneStepDirection {
 
     public static OneStepDirection parse(Position current, Position destination) {
         Position difference = current.calculateDifference(destination);
-        Position differenceWithMinusY = new Position(difference.getX(), -difference.getY());
+        Position differenceWithMinusY = new Position(difference.x(), -difference.y());
         List<OneStepDirection> allDirection = List.of(OneStepDirection.values());
         return allDirection.stream()
                 .filter(direction -> direction.getRelativePosition().equals(differenceWithMinusY))

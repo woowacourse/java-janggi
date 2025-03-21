@@ -34,10 +34,10 @@ class PoTest {
 
     static Stream<Arguments> test1() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY()), new Position(8, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY()), new Position(0, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() + 1), new Position(STANDARD.getX(), 9)),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() - 1), new Position(STANDARD.getX(), 0))
+                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y()), new Position(8, STANDARD.y())),
+                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y()), new Position(0, STANDARD.y())),
+                Arguments.of(new Position(STANDARD.x(), STANDARD.y() + 1), new Position(STANDARD.x(), 9)),
+                Arguments.of(new Position(STANDARD.x(), STANDARD.y() - 1), new Position(STANDARD.x(), 0))
         );
     }
 
@@ -56,10 +56,10 @@ class PoTest {
 
     static Stream<Arguments> test2() {
         return Stream.of(
-                Arguments.of(new Position(8, STANDARD.getY())),
-                Arguments.of(new Position(0, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX(), 0)),
-                Arguments.of(new Position(STANDARD.getX(), 9))
+                Arguments.of(new Position(8, STANDARD.y())),
+                Arguments.of(new Position(0, STANDARD.y())),
+                Arguments.of(new Position(STANDARD.x(), 0)),
+                Arguments.of(new Position(STANDARD.x(), 9))
         );
     }
 
@@ -79,10 +79,10 @@ class PoTest {
 
     static Stream<Arguments> test3() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY()), new Position(8, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY()), new Position(0, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() + 1), new Position(STANDARD.getX(), 0)),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() - 1), new Position(STANDARD.getX(), 9))
+                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y()), new Position(8, STANDARD.y())),
+                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y()), new Position(0, STANDARD.y())),
+                Arguments.of(new Position(STANDARD.x(), STANDARD.y() + 1), new Position(STANDARD.x(), 0)),
+                Arguments.of(new Position(STANDARD.x(), STANDARD.y() - 1), new Position(STANDARD.x(), 9))
         );
     }
 
@@ -102,10 +102,10 @@ class PoTest {
 
     static Stream<Arguments> test4() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY()), new Position(8, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY()), new Position(0, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() + 1), new Position(STANDARD.getX(), 0)),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() - 1), new Position(STANDARD.getX(), 9))
+                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y()), new Position(8, STANDARD.y())),
+                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y()), new Position(0, STANDARD.y())),
+                Arguments.of(new Position(STANDARD.x(), STANDARD.y() + 1), new Position(STANDARD.x(), 0)),
+                Arguments.of(new Position(STANDARD.x(), STANDARD.y() - 1), new Position(STANDARD.x(), 9))
         );
     }
 
@@ -129,21 +129,21 @@ class PoTest {
     static Stream<Arguments> test5() {
         return Stream.of(
                 Arguments.of(
-                        List.of(new Position(STANDARD.getX() + 1, STANDARD.getY()),
-                                new Position(STANDARD.getX() + 2, STANDARD.getY())),
-                        new Position(8, STANDARD.getY())),
+                        List.of(new Position(STANDARD.x() + 1, STANDARD.y()),
+                                new Position(STANDARD.x() + 2, STANDARD.y())),
+                        new Position(8, STANDARD.y())),
                 Arguments.of(
-                        List.of(new Position(STANDARD.getX() - 1, STANDARD.getY()),
-                                new Position(STANDARD.getX() - 2, STANDARD.getY())),
-                        new Position(0, STANDARD.getY())),
+                        List.of(new Position(STANDARD.x() - 1, STANDARD.y()),
+                                new Position(STANDARD.x() - 2, STANDARD.y())),
+                        new Position(0, STANDARD.y())),
                 Arguments.of(
-                        List.of(new Position(STANDARD.getX(), STANDARD.getY() + 1),
-                                new Position(STANDARD.getX(), STANDARD.getY() + 2)),
-                        new Position(STANDARD.getX(), 0)),
+                        List.of(new Position(STANDARD.x(), STANDARD.y() + 1),
+                                new Position(STANDARD.x(), STANDARD.y() + 2)),
+                        new Position(STANDARD.x(), 0)),
                 Arguments.of(
-                        List.of(new Position(STANDARD.getX(), STANDARD.getY() - 1),
-                                new Position(STANDARD.getX(), STANDARD.getY() - 2)),
-                        new Position(STANDARD.getX(), 9))
+                        List.of(new Position(STANDARD.x(), STANDARD.y() - 1),
+                                new Position(STANDARD.x(), STANDARD.y() - 2)),
+                        new Position(STANDARD.x(), 9))
         );
     }
 
@@ -152,7 +152,7 @@ class PoTest {
     void test6() {
         //given
         Po po = Po.from(STANDARD);
-        Position destination = new Position(8, STANDARD.getY());
+        Position destination = new Position(8, STANDARD.y());
         Jol jumpPad = Jol.from(destination, CampType.CHO);
 
         //when & then
@@ -166,8 +166,8 @@ class PoTest {
     void test7() {
         //given
         Po po = Po.from(STANDARD);
-        Jol jumpPad = Jol.from(new Position(STANDARD.getX() + 1, STANDARD.getY()), CampType.CHO);
-        Position destination = new Position(8, STANDARD.getY());
+        Jol jumpPad = Jol.from(new Position(STANDARD.x() + 1, STANDARD.y()), CampType.CHO);
+        Position destination = new Position(8, STANDARD.y());
 
         //when
         Po movedPo = po.move(destination, List.of(jumpPad), List.of());

@@ -32,7 +32,7 @@ public class Pieces {
     }
 
     private void validatePositionInRange(Position position) {
-        if (position.getX() < X_MIN || position.getX() > X_MAX || position.getY() < Y_MIN || position.getY() > Y_MAX) {
+        if (position.x() < X_MIN || position.x() > X_MAX || position.y() < Y_MIN || position.y() > Y_MAX) {
             throw new IllegalArgumentException("[ERROR] x좌표는 0~8, y좌표는 0~9 사이로 입력해주세요.");
         }
     }

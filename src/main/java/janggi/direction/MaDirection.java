@@ -20,8 +20,8 @@ public enum MaDirection {
     }
 
     public static MaDirection of(final Position current, final Position destination) {
-        int xDistance = destination.getX() - current.getX();
-        int yDistance = destination.getY() - current.getY();
+        int xDistance = destination.x() - current.x();
+        int yDistance = destination.y() - current.y();
 
         for (MaDirection maDirection : MaDirection.values()) {
             List<Position> destinationPositions = maDirection.destinationPositions;
@@ -36,8 +36,8 @@ public enum MaDirection {
     }
 
     public boolean checkPositionInPath(Position current, Position target) {
-        Position newPosition = new Position(current.getX() + positionsInPath.getX(),
-                current.getY() + positionsInPath.getY());
+        Position newPosition = new Position(current.x() + positionsInPath.x(),
+                current.y() + positionsInPath.y());
         return newPosition.equals(target);
     }
 

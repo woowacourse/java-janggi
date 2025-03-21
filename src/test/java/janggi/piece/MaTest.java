@@ -34,14 +34,14 @@ public class MaTest {
 
     static Stream<Arguments> test1() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.getX() + 2, STANDARD.getY() + 1)),
-                Arguments.of(new Position(STANDARD.getX() + 2, STANDARD.getY() - 1)),
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY() - 2)),
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY() + 2)),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY() - 2)),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY() + 2)),
-                Arguments.of(new Position(STANDARD.getX() - 2, STANDARD.getY() - 1)),
-                Arguments.of(new Position(STANDARD.getX() - 2, STANDARD.getY() + 1))
+                Arguments.of(new Position(STANDARD.x() + 2, STANDARD.y() + 1)),
+                Arguments.of(new Position(STANDARD.x() + 2, STANDARD.y() - 1)),
+                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y() - 2)),
+                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y() + 2)),
+                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y() - 2)),
+                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y() + 2)),
+                Arguments.of(new Position(STANDARD.x() - 2, STANDARD.y() - 1)),
+                Arguments.of(new Position(STANDARD.x() - 2, STANDARD.y() + 1))
         );
     }
 
@@ -61,10 +61,10 @@ public class MaTest {
 
     static Stream<Arguments> test2() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY() + 1)),
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY() - 1)),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY() + 1)),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY() - 1))
+                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y() + 1)),
+                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y() - 1)),
+                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y() + 1)),
+                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y() - 1))
         );
     }
 

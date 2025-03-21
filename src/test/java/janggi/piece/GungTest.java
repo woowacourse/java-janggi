@@ -33,10 +33,10 @@ class GungTest {
 
     static Stream<Arguments> test1() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() + 1)),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() - 1))
+                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y())),
+                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y())),
+                Arguments.of(new Position(STANDARD.x(), STANDARD.y() + 1)),
+                Arguments.of(new Position(STANDARD.x(), STANDARD.y() - 1))
         );
     }
 
@@ -56,10 +56,10 @@ class GungTest {
 
     static Stream<Arguments> test2() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.getX() + 2, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX() - 2, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() + 2)),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() - 2))
+                Arguments.of(new Position(STANDARD.x() + 2, STANDARD.y())),
+                Arguments.of(new Position(STANDARD.x() - 2, STANDARD.y())),
+                Arguments.of(new Position(STANDARD.x(), STANDARD.y() + 2)),
+                Arguments.of(new Position(STANDARD.x(), STANDARD.y() - 2))
         );
     }
 
@@ -68,7 +68,7 @@ class GungTest {
     void test3() {
         //given
         Gung gung = Gung.generateInitialGung(CampType.CHO).getFirst();
-        Position destination = new Position(STANDARD.getX() + 1, STANDARD.getY());
+        Position destination = new Position(STANDARD.x() + 1, STANDARD.y());
         Gung otherPiece = Gung.from(destination);
 
         //when & then

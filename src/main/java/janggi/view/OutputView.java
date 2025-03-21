@@ -2,17 +2,15 @@ package janggi.view;
 
 import janggi.piece.Piece;
 import janggi.setting.CampType;
-import janggi.value.Position;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class OutputView {
 
     private static final char SPACE = '\u3000';
     private static final char SQUARE = '\u53E3';
-    private static final List<Character> unicodes = List.of('\uFF10', '\uFF11', '\uFF12', '\uFF13', '\uFF14', '\uFF15',
-            '\uFF16', '\uFF17', '\uFF18', '\uFF19');
+    private static final List<Character> unicodes = List.of(
+            '\uFF10', '\uFF11', '\uFF12', '\uFF13', '\uFF14', '\uFF15', '\uFF16', '\uFF17', '\uFF18', '\uFF19');
 
     public void writeStartMessage() {
         System.out.println("장기 게임을 시작하겠습니다!");
@@ -45,15 +43,14 @@ public class OutputView {
 
     private void writeOneLineInBoard(int i, List<Piece> allPieces) {
         List<Piece> pieces = allPieces.stream()
-                .filter(piece -> piece.getPosition().equals(new Position(piece.getPosition().getX(), i)))
-                .sorted(Comparator.comparing(Piece::getPosition))
+                .filter(piece -> piece.getPosition().y() == i)
                 .toList();
 
         System.out.print(unicodes.get(i));
         for (int x = 0; x < 9; x++) {
             int xPosition = x;
             pieces.stream()
-                    .filter(piece -> piece.getPosition().getX() == xPosition)
+                    .filter(piece -> piece.getPosition().x() == xPosition)
                     .findFirst()
                     .ifPresentOrElse(
                             piece -> System.out.print(piece.getPieceType().getName()),
