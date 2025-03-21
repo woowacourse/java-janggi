@@ -26,18 +26,24 @@ public final class Position implements Comparable<Position> {
                 .toList();
     }
 
+    public Position calculateDifference(Position other) {
+        int xDifference = x - other.getX();
+        int yDifference = y - other.getY();
+        return new Position(xDifference, yDifference);
+    }
+
+    public Position calculateSum(Position other) {
+        int xSum = x + other.getX();
+        int ySum = y + other.getY();
+        return new Position(xSum, ySum);
+    }
+
     public boolean isEqualsXPosition(int otherX) {
         return x == otherX;
     }
 
     public boolean isEqualsYPosition(int otherY) {
         return y == otherY;
-    }
-
-    public Position calculateDifference(Position other) {
-        int xDifference = x - other.getX();
-        int yDifference = y - other.getY();
-        return new Position(xDifference, yDifference);
     }
 
     @Override

@@ -33,25 +33,30 @@ public class Sang extends Piece {
 
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        SangDirection sangDirection = SangDirection.of(getPosition(), destination);
-        if (sangDirection == SangDirection.NONE) {
-            return false;
-        }
-        boolean isEnemyExist = isEnemyExistInRoute(enemy, sangDirection);
-        boolean isAlliesExist = isAlliesExistInRoute(allies, sangDirection);
-        if (isEnemyExist || isAlliesExist) {
-            return false;
-        }
-        return allies.stream().noneMatch(alliesPiece -> destination.equals(alliesPiece.getPosition()));
+        SangDirection direction = SangDirection.of(getPosition(), destination);
+
+        boolean followRuleOfMove = checkRuleOfMove(direction);
+        boolean existHurdleInPath = existHurdleInPath(direction, enemy, allies);
+        boolean existAllieInDestination = existPieceInDestination(destination, allies);
+        return followRuleOfMove && !existHurdleInPath && !existAllieInDestination;
     }
 
-    private boolean isEnemyExistInRoute(List<Piece> enemy, SangDirection direction) {
-        return enemy.stream()
-                .anyMatch(enemyPiece -> direction.isRoute(getPosition(), enemyPiece.getPosition()));
+    private boolean checkRuleOfMove(SangDirection direction) {
+        return direction != SangDirection.NONE;
     }
 
-    private boolean isAlliesExistInRoute(List<Piece> allies, SangDirection direction) {
-        return allies.stream()
-                .anyMatch(alliesPiece -> direction.isRoute(getPosition(), alliesPiece.getPosition()));
+    private boolean existHurdleInPath(SangDirection direction, List<Piece> enemy, List<Piece> allies) {
+        boolean existEnemyInPath = existPieceInPath(direction, enemy);
+        boolean existAlliesInPath = existPieceInPath(direction, allies);
+        return existEnemyInPath || existAlliesInPath;
+    }
+
+    private boolean existPieceInPath(SangDirection direction, List<Piece> pieces) {
+        return pieces.stream()
+                .anyMatch(piece -> direction.checkPositionInPath(getPosition(), piece.getPosition()));
+    }
+
+    private boolean existPieceInDestination(Position destination, List<Piece> pieces) {
+        return pieces.stream().anyMatch(piece -> destination.equals(piece.getPosition()));
     }
 }
