@@ -1,6 +1,9 @@
 package domain.pattern;
 
 import domain.JanggiPosition;
+import domain.piece.Piece;
+import domain.piece.Side;
+import domain.piece.사;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -10,6 +13,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class 사PathTest {
+    Piece piece = new 사(Side.CHO);
 
     @ParameterizedTest
     @MethodSource("provide사Path")
@@ -18,10 +22,9 @@ public class 사PathTest {
         int beforeRow = 9;
         int beforeColumn = 5;
         JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-        Path pathOf사 = new 사Path();
 
         // when
-        List<Pattern> 사path = pathOf사.getPath(beforePosition, afterPosition);
+        List<Pattern> 사path = piece.findPath(beforePosition, afterPosition);
 
         // when & then
         Assertions.assertThat(사path)
@@ -49,7 +52,7 @@ public class 사PathTest {
         JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> new 사Path().getPath(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> piece.findPath(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

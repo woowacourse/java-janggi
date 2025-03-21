@@ -1,9 +1,7 @@
 package domain.pattern;
 
-import domain.JanggiPosition;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public abstract class Path {
     protected List<Direction> pattern;
@@ -14,20 +12,11 @@ public abstract class Path {
         this.paths = paths;
     }
 
-    public List<Pattern> getPath(JanggiPosition beforePosition, JanggiPosition afterPosition) {
-        return paths.entrySet().stream()
-                .filter(entry -> {
-                    List<Pattern> patterns = entry.getValue();
-                    JanggiPosition newPosition = beforePosition.move(patterns);
-
-                    return newPosition.equals(afterPosition);
-                })
-                .findFirst()
-                .map(Entry::getValue)
-                .orElseThrow(() -> new IllegalStateException("해당 말은 해당 경로로 이동할 수 없습니다."));
-    }
-
     public List<Pattern> getPatterns(Direction direction) {
         return paths.get(direction);
+    }
+
+    public Map<Direction, List<Pattern>> getPaths() {
+        return paths;
     }
 }

@@ -3,6 +3,7 @@ package domain;
 import domain.pattern.Pattern;
 import domain.piece.Empty;
 import domain.piece.Piece;
+import domain.piece.state.Moved포;
 import domain.piece.포;
 import java.util.List;
 import java.util.Map;
@@ -19,60 +20,55 @@ public class JanggiBoard {
         return janggiBoard;
     }
 
-    public Piece getPieceFrom(JanggiPosition position) {
-        return janggiBoard.get(position);
-    }
-
     public void move(JanggiPosition beforePosition, JanggiPosition afterPosition) {
-        afterPosition.validateBound();
         Piece piece = getPieceFrom(beforePosition);
+        Piece targetPiece = getPieceFrom(afterPosition);
 
-        if (piece.getClass().equals(포.class)) {
-            move포(piece, beforePosition, afterPosition);
-        }
-        if (!piece.getClass().equals(포.class)) {
-            moveOtherPiece(piece, beforePosition, afterPosition);
-        }
-        validateDestinationPiece(piece, afterPosition);
-        janggiBoard.put(afterPosition, piece);
+        validateDestinationPiece(piece, targetPiece);
+
+        changeState(piece, targetPiece);
+        changePosition(beforePosition, afterPosition);
     }
 
-    private void validateDestinationPiece(Piece piece, JanggiPosition afterPosition) {
-        if (piece.isSameSide(getPieceFrom(afterPosition).getSide())) {
+    public Piece getPieceFrom(JanggiPosition beforePosition) {
+        validateBound(beforePosition);
+        return janggiBoard.get(beforePosition);
+    }
+
+    private void validateBound(JanggiPosition position) {
+        position.validateBound();
+    }
+
+    private void validateDestinationPiece(Piece piece, Piece targetPiece) {
+        if (piece.isSameSide(targetPiece.getSide())) {
             throw new IllegalStateException("목적지에 같은 팀의 기물이 존재하여 이동할 수 없습니다.");
         }
     }
 
-    private void moveOtherPiece(Piece piece, JanggiPosition beforePosition, JanggiPosition afterPosition) {
-        validateMoveOtherPiece(piece, beforePosition, afterPosition);
+    private void changeState(Piece piece, Piece targetPiece) {
+        piece.updateState();
+
+        if (!targetPiece.isEmpty()) {
+            targetPiece.captureIfNotMySide(piece);
+        }
+    }
+
+    private void changePosition(JanggiPosition beforePosition, JanggiPosition afterPosition) {
+        Piece piece = getPieceFrom(beforePosition);
+
+        if (piece.getState() instanceof Moved포) {
+            validateMove포(piece, beforePosition, afterPosition);
+        }
+        if (!(piece.getState() instanceof Moved포)) {
+            validateMoveOtherPiece(piece, beforePosition, afterPosition);
+        }
 
         janggiBoard.put(beforePosition, new Empty());
-        Piece pieceInDanger = janggiBoard.get(afterPosition);
-        if (!pieceInDanger.isEmpty()) {
-            pieceInDanger.captureIfNotMySide(piece.getSide());
-        }
+        janggiBoard.put(afterPosition, piece);
     }
 
-    private void validateMoveOtherPiece(Piece piece, JanggiPosition beforePosition, JanggiPosition afterPosition) {
+    private void validateMove포(Piece piece, JanggiPosition beforePosition, JanggiPosition afterPosition) {
         boolean isHurdle = isExistHurdle(piece, beforePosition, afterPosition);
-        if (isHurdle) {
-            throw new IllegalArgumentException("경로에 장애물이 있어서 기물을 움직일 수 없습니다.");
-        }
-    }
-
-    private void move포(Piece piece, JanggiPosition beforePosition, JanggiPosition afterPosition) {
-        boolean isHurdle = isExistHurdle(piece, beforePosition, afterPosition);
-        validateMove포(piece, beforePosition, afterPosition, isHurdle);
-
-        janggiBoard.put(beforePosition, new Empty());
-        Piece pieceInDanger = janggiBoard.get(afterPosition);
-        if (!pieceInDanger.isEmpty()) {
-            capturePieceIfNot포AndNotMySide(piece, pieceInDanger);
-        }
-    }
-
-    private void validateMove포(Piece piece, JanggiPosition beforePosition, JanggiPosition afterPosition,
-                               boolean isHurdle) {
         if (!isHurdle) {
             throw new IllegalArgumentException("경로에 장애물이 없어서 움직일 수 없습니다.");
         }
@@ -84,11 +80,11 @@ public class JanggiBoard {
         }
     }
 
-    private static void capturePieceIfNot포AndNotMySide(Piece piece, Piece pieceInDanger) {
-        if (!pieceInDanger.getClass().equals(포.class)) {
-            throw new IllegalStateException("포는 포를 잡을 수 없습니다.");
+    private void validateMoveOtherPiece(Piece piece, JanggiPosition beforePosition, JanggiPosition afterPosition) {
+        boolean isHurdle = isExistHurdle(piece, beforePosition, afterPosition);
+        if (isHurdle) {
+            throw new IllegalArgumentException("경로에 장애물이 있어서 기물을 움직일 수 없습니다.");
         }
-        pieceInDanger.captureIfNotMySide(piece.getSide());
     }
 
     private boolean isExistHurdle(Piece piece, JanggiPosition beforePosition, JanggiPosition afterPosition) {

@@ -2,6 +2,7 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.piece.state.Captured;
 import org.junit.jupiter.api.Test;
 
 public class PieceTest {
@@ -10,13 +11,14 @@ public class PieceTest {
     void 기물을_잡으면_잡힌_기물의_상태가_바뀐다() {
         // given
         Piece piece = new 마(Side.CHO);
+        Piece otherPiece = new 상(Side.HAN);
 
         // when
-        piece.captureIfNotMySide(Side.HAN);
+        piece.captureIfNotMySide(otherPiece);
 
         // then
-        assertThat(piece.getStatus())
-                .isEqualTo(PieceStatus.CAPTURED);
+        assertThat(piece.getState())
+                .isInstanceOf(Captured.class);
     }
 
     @Test
