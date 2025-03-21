@@ -3,35 +3,45 @@ package domain.position;
 import domain.Country;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
 
-public record PositionRank(
-        int value
-) {
+public enum PositionRank {
+    RANK_1(1),
+    RANK_2(2),
+    RANK_3(3),
+    RANK_4(4),
+    RANK_5(5),
+    RANK_6(6),
+    RANK_7(7),
+    RANK_8(8),
+    RANK_9(9),
+    RANK_10(10),
+    ;
 
-    public static final int MIN_VALUE = 1;
-    public static final int MAX_VALUE = 10;
+    private final int amount;
 
-    public PositionRank {
-        validateValue(value);
-    }
-
-    private void validateValue(final int value) {
-        if (value < MIN_VALUE) {
-            throw new IllegalArgumentException("랭크는 %d 이상이어야 합니다.".formatted(MIN_VALUE));
-        }
-        if (value > MAX_VALUE) {
-            throw new IllegalArgumentException("랭크는 %d 이하이어야 합니다.".formatted(MAX_VALUE));
-        }
+    PositionRank(final int amount) {
+        this.amount = amount;
     }
 
     public static PositionRank of(final int value, final Country country) {
         validateCountry(country);
         if (country == Country.HAN) {
-            return new PositionRank(11 - value);
+            return findByAmount(getReversedRankAmount(value));
         }
-        return new PositionRank(value);
+        return findByAmount(value);
+    }
+
+    private static int getReversedRankAmount(final int value) {
+        return 11 - value;
+    }
+
+    private static PositionRank findByAmount(final int amount) {
+        return Arrays.stream(PositionRank.values())
+                .filter(rank -> rank.amount == amount)
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("해당 랭크를 찾을 수 없습니다."));
     }
 
     private static void validateCountry(final Country country) {
@@ -41,29 +51,27 @@ public record PositionRank(
     }
 
     public static List<PositionRank> getAllRanks() {
-        return IntStream.rangeClosed(MIN_VALUE, MAX_VALUE)
-                .mapToObj(PositionRank::new)
-                .toList();
+        return Arrays.stream(values()).toList();
     }
 
     public PositionRank add(final int i) {
-        return new PositionRank(value + i);
+        return findByAmount(amount + i);
     }
 
     public boolean validateAdd(final int rankAmount) {
-        final int newValue = value + rankAmount;
-        return newValue >= MIN_VALUE && newValue <= MAX_VALUE;
+        return Arrays.stream(PositionRank.values())
+                .anyMatch(r -> r.amount == rankAmount);
     }
 
     public List<PositionRank> getBetweenRanks(final PositionRank rank) {
-        List<PositionRank> ranks = new ArrayList<>();
-        for (int newValue = Math.min(value, rank.value) + 1; newValue < Math.max(value, rank.value); newValue++) {
-            ranks.add(new PositionRank(newValue));
+        List<PositionRank> betweenRanks = new ArrayList<>();
+        for (int newAmount = Math.min(amount, rank.amount) + 1; newAmount < Math.max(amount, rank.amount); newAmount++) {
+            betweenRanks.add(findByAmount(newAmount));
         }
-        return ranks;
+        return betweenRanks;
     }
 
     public int distance(final PositionRank rank) {
-        return Math.abs(value - rank.value);
+        return Math.abs(amount - rank.amount);
     }
 }

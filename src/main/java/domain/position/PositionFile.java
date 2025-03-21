@@ -5,15 +5,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum PositionFile {
-    가(1),
-    나(2),
-    다(3),
-    라(4),
-    마(5),
-    바(6),
-    사(7),
-    아(8),
-    자(9),
+    FILE_1(1),
+    FILE_2(2),
+    FILE_3(3),
+    FILE_4(4),
+    FILE_5(5),
+    FILE_6(6),
+    FILE_7(7),
+    FILE_8(8),
+    FILE_9(9),
     ;
 
     private final int amount;
