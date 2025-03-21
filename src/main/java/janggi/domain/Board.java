@@ -1,7 +1,6 @@
-package janggi;
+package janggi.domain;
 
-import janggi.piece.Piece;
-
+import janggi.domain.piece.Piece;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

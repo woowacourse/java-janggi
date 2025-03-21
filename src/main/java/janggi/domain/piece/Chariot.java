@@ -1,31 +1,30 @@
-package janggi.piece;
+package janggi.domain.piece;
 
-import janggi.Board;
-import janggi.Position;
-import janggi.Score;
-import janggi.Team;
-
+import janggi.domain.Board;
+import janggi.domain.Position;
+import janggi.domain.Score;
+import janggi.domain.Team;
 import java.util.List;
 
-public class Guard extends Piece {
+public class Chariot extends Piece {
 
-    public Guard(final Position position, final Team team) {
+    public Chariot(final Position position, final Team team) {
         super(position, team);
     }
 
-    public static List<Guard> Default(Team team) {
+    public static List<Chariot> Default(Team team) {
         int defaultRow = Team.decideRow(1, team);
-        List<Integer> defaultColumns = List.of(4, 6);
+        List<Integer> defaultColumns = List.of(1, 9);
 
         return defaultColumns.stream()
-                .map(defaultColumn -> new Guard(Position.of(defaultRow, defaultColumn), team))
+                .map(defaultColumn -> new Chariot(Position.of(defaultRow, defaultColumn), team))
                 .toList();
     }
 
     @Override
     public Piece move(final Board board, final Position destination) {
         validateMove(board, destination);
-        return new Guard(destination, team);
+        return new Chariot(destination, team);
     }
 
     @Override
@@ -33,13 +32,13 @@ public class Guard extends Piece {
         int diffRow = destination.subtractRow(this.position);
         int diffColumn = destination.subtractColumn(this.position);
 
-        if (Math.abs(diffRow) + Math.abs(diffColumn) != 1) {
+        if (Math.min(Math.abs(diffRow), Math.abs(diffColumn)) != 0) {
             throw new IllegalArgumentException("이동할 수 없는 지점입니다.");
         }
     }
 
     @Override
     public Score die() {
-        return Score.Guard();
+        return Score.Chariot();
     }
 }

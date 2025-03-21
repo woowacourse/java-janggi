@@ -1,10 +1,10 @@
-package janggi.piece;
+package janggi.domain.piece;
 
-import janggi.Board;
-import janggi.Position;
-import janggi.Route;
-import janggi.Score;
-import janggi.Team;
+import janggi.domain.Board;
+import janggi.domain.Position;
+import janggi.domain.Route;
+import janggi.domain.Score;
+import janggi.domain.Team;
 
 public abstract class Piece {
 

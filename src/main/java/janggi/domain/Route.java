@@ -1,4 +1,4 @@
-package janggi;
+package janggi.domain;
 
 import java.util.ArrayList;
 import java.util.List;

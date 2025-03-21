@@ -1,4 +1,4 @@
-package janggi;
+package janggi.domain;
 
 import java.util.HashMap;
 import java.util.Map;

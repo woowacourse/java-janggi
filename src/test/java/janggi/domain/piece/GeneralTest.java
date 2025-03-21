@@ -1,8 +1,8 @@
-package janggi.piece;
+package janggi.domain.piece;
 
-import janggi.Board;
-import janggi.Position;
-import janggi.Team;
+import janggi.domain.Board;
+import janggi.domain.Position;
+import janggi.domain.Team;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,39 +12,39 @@ import org.junit.jupiter.params.provider.CsvSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class ElephantTest {
+class GeneralTest {
 
     @Test
-    @DisplayName("상은 수직/수평으로 1칸 이동 후, 진행 방향의 대각선으로 2칸 이동할 수 있다")
+    @DisplayName("궁은 수직/수평으로 1칸 이동할 수 있다")
     void move() {
         // given
         Position position = Position.of(5, 5);
-        Piece elephant = new Elephant(position, Team.RED);
-        Board board = Board.initialize(List.of(elephant));
+        Piece general = new General(position, Team.RED);
+        Board board = Board.initialize(List.of(general));
 
-        Position movedPosition = position.adjust(2, 3);
+        Position movedPosition = position.adjust(-1, 0);
 
         // when
-        Piece move = elephant.move(board, movedPosition);
+        Piece move = general.move(board, movedPosition);
 
         // then
         assertThat(move.getPosition()).isEqualTo(movedPosition);
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"2, 4", "4, 2", "3,3", "1,1"})
-    @DisplayName("상은 규칙에 어긋나게 움직일 수 없다")
+    @CsvSource(value = {"1, 1", "2, 0"})
+    @DisplayName("궁은 2칸 이상 움직일 수 없다")
     void move(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
-        Piece elephant = new Elephant(position, Team.RED);
-        Board board = Board.initialize(List.of(elephant));
+        Piece general = new General(position, Team.RED);
+        Board board = Board.initialize(List.of(general));
 
         Position movedPosition = position.adjust(rowDirection, columnDirection);
 
         // when
         // then
-        assertThatThrownBy(() -> elephant.move(board, movedPosition))
+        assertThatThrownBy(() -> general.move(board, movedPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("이동할 수 없는 지점입니다.");
     }

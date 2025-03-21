@@ -1,4 +1,4 @@
-package janggi;
+package janggi.domain;
 
 public record Score(int value) {
 

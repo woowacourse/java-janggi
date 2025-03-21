@@ -1,8 +1,8 @@
-package janggi.piece;
+package janggi.domain.piece;
 
-import janggi.Board;
-import janggi.Position;
-import janggi.Team;
+import janggi.domain.Board;
+import janggi.domain.Position;
+import janggi.domain.Team;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;

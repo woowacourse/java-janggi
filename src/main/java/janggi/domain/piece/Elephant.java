@@ -1,34 +1,33 @@
-package janggi.piece;
+package janggi.domain.piece;
 
-import janggi.Board;
-import janggi.Movement;
-import janggi.Position;
-import janggi.Score;
-import janggi.Team;
-
+import janggi.domain.Board;
+import janggi.domain.Movement;
+import janggi.domain.Position;
+import janggi.domain.Score;
+import janggi.domain.Team;
 import java.util.List;
 
-public class Horse extends Piece {
+public class Elephant extends Piece {
 
-    public static final Movement MOVEMENT = new Movement(List.of(1, 2));
+    public static final Movement MOVEMENT = new Movement(List.of(2, 3));
 
-    public Horse(final Position position, final Team team) {
+    public Elephant(final Position position, final Team team) {
         super(position, team);
     }
 
-    public static List<Horse> Default(Team team) {
+    public static List<Elephant> Default(Team team) {
         int defaultRow = Team.decideRow(1, team);
-        List<Integer> defaultColumns = List.of(3, 8);
+        List<Integer> defaultColumns = List.of(2, 7);
 
         return defaultColumns.stream()
-                .map(defaultColumn -> new Horse(Position.of(defaultRow, defaultColumn), team))
+                .map(defaultColumn -> new Elephant(Position.of(defaultRow, defaultColumn), team))
                 .toList();
     }
 
     @Override
     public Piece move(final Board board, final Position destination) {
         validateMove(board, destination);
-        return new Horse(destination, team);
+        return new Elephant(destination, team);
     }
 
     @Override
@@ -46,6 +45,6 @@ public class Horse extends Piece {
 
     @Override
     public Score die() {
-        return Score.Horse();
+        return Score.Elephant();
     }
 }

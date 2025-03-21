@@ -1,8 +1,8 @@
-package janggi.piece;
+package janggi.domain.piece;
 
-import janggi.Board;
-import janggi.Position;
-import janggi.Team;
+import janggi.domain.Board;
+import janggi.domain.Position;
+import janggi.domain.Team;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -119,5 +119,34 @@ class CannonTest {
         assertThatThrownBy(() -> cannon.move(board, movedPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("이동 경로에 기물 갯수가 조건에 맞지 않습니다.");
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"2,0", "-2,0", "0,2", "0,-2"})
+    @DisplayName("포는 포를 잡을 수 없다")
+    void cannotMoveWhenExistCannonInDestination(int rowDirection, int columnDirection) {
+        // given
+        Position position = Position.of(5, 5);
+        Piece cannon = new Cannon(position, Team.RED);
+        Piece soldier1 = new Soldier(position.adjust(1, 0), Team.GREEN);
+        Piece soldier2 = new Soldier(position.adjust(-1, 0), Team.GREEN);
+        Piece soldier3 = new Soldier(position.adjust(0, 1), Team.GREEN);
+        Piece soldier4 = new Soldier(position.adjust(0, -1), Team.GREEN);
+
+        Piece cannon1 = new Cannon(position.adjust(2, 0), Team.GREEN);
+        Piece cannon2 = new Cannon(position.adjust(-2, 0), Team.GREEN);
+        Piece cannon3 = new Cannon(position.adjust(0, 2), Team.GREEN);
+        Piece cannon4 = new Cannon(position.adjust(0, -2), Team.GREEN);
+
+        Board board = Board.initialize(
+                List.of(cannon, soldier1, soldier2, soldier3, soldier4, cannon1, cannon2, cannon3, cannon4));
+
+        Position movedPosition = position.adjust(rowDirection, columnDirection);
+
+        // when
+        // then
+        assertThatThrownBy(() -> cannon.move(board, movedPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("포는 포를 잡을 수 없습니다.");
     }
 }

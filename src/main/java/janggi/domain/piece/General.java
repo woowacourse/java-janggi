@@ -1,9 +1,9 @@
-package janggi.piece;
+package janggi.domain.piece;
 
-import janggi.Board;
-import janggi.Position;
-import janggi.Score;
-import janggi.Team;
+import janggi.domain.Board;
+import janggi.domain.Position;
+import janggi.domain.Score;
+import janggi.domain.Team;
 
 public class General extends Piece {
 
