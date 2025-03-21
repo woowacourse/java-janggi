@@ -47,10 +47,10 @@ public class OutputView {
             return;
         }
         if (piece.isSameTeam(Team.GREEN)) {
-            System.out.print(GREEN_COLOR_PREFIX + piece + " " + GREEN_COLOR_SUFFIX);
+            System.out.print(GREEN_COLOR_PREFIX + piece.getName() + " " + GREEN_COLOR_SUFFIX);
             return;
         }
-        System.out.print(RED_COLOR_PREFIX + piece + " " + RED_COLOR_SUFFIX);
+        System.out.print(RED_COLOR_PREFIX + piece.getName() + " " + RED_COLOR_SUFFIX);
     }
 
     public void printErrorMessage(IllegalArgumentException e) {

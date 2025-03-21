@@ -76,10 +76,10 @@ public abstract class Piece {
     protected abstract int[] getPathColumns(int pathIndex);
     protected abstract int[][] getAllPathRows();
     protected abstract int[][] getAllPathColumns();
-    protected abstract String getName();
+    public abstract String getName();
 
     @Override
     public String toString() {
-        return getName();
+        return team.getName() + "나라 " + getName();
     }
 }

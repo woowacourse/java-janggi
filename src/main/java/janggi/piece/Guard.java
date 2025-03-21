@@ -55,7 +55,7 @@ public class Guard extends Piece {
     }
 
     @Override
-    protected String getName() {
+    public String getName() {
         return NAME;
     }
 }
