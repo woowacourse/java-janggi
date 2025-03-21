@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.direction.OneStepDirection;
 import janggi.setting.CampType;
 import janggi.value.Position;
 import java.util.List;
@@ -36,25 +37,26 @@ public class Jol extends Piece {
 
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        if (!isRuleOfMove(destination)) {
+        boolean followRuleOfMove = checkRuleOfMove(destination);
+        boolean existHurdleInDestination = existHurdleInPosition(destination, allies);
+        return followRuleOfMove && !existHurdleInDestination;
+    }
+
+    private boolean checkRuleOfMove(Position destination) {
+        OneStepDirection direction = OneStepDirection.parse(getPosition(), destination);
+        if (direction == OneStepDirection.NONE) {
             return false;
         }
-        return isNotHurdle(destination, allies);
-    }
-
-    private boolean isRuleOfMove(Position destination) {
         if (campType == CampType.CHO) {
-            return destination.equals(new Position(getPosition().getX() - 1, getPosition().getY()))
-                    || destination.equals(new Position(getPosition().getX() + 1, getPosition().getY()))
-                    || destination.equals(new Position(getPosition().getX(), getPosition().getY() - 1));
+            System.out.println(direction);
+            System.out.println(direction != OneStepDirection.DOWN);
+            return direction != OneStepDirection.DOWN;
         }
-        return destination.equals(new Position(getPosition().getX() - 1, getPosition().getY()))
-                || destination.equals(new Position(getPosition().getX() + 1, getPosition().getY()))
-                || destination.equals(new Position(getPosition().getX(), getPosition().getY() + 1));
+        return direction != OneStepDirection.UP;
     }
 
-    private static boolean isNotHurdle(Position destination, List<Piece> allies) {
-        return allies.stream()
-                .noneMatch(piece -> piece.getPosition().equals(destination));
+    private boolean existHurdleInPosition(Position destination, List<Piece> pieces) {
+        return pieces.stream()
+                .anyMatch(piece -> piece.getPosition().equals(destination));
     }
 }
