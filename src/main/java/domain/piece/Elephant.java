@@ -1,18 +1,16 @@
 package domain.piece;
 
-import static domain.Offset.DOWN;
-import static domain.Offset.LEFT;
-import static domain.Offset.LEFT_DOWN;
-import static domain.Offset.LEFT_UP;
-import static domain.Offset.RIGHT;
-import static domain.Offset.RIGHT_DOWN;
-import static domain.Offset.RIGHT_UP;
-import static domain.Offset.UP;
+import static domain.board.Offset.DOWN;
+import static domain.board.Offset.LEFT;
+import static domain.board.Offset.LEFT_DOWN;
+import static domain.board.Offset.LEFT_UP;
+import static domain.board.Offset.RIGHT;
+import static domain.board.Offset.RIGHT_DOWN;
+import static domain.board.Offset.RIGHT_UP;
+import static domain.board.Offset.UP;
 
-import domain.BoardPosition;
-import domain.Offset;
-import domain.Piece;
-import domain.PieceType;
+import domain.board.BoardPosition;
+import domain.board.Offset;
 import domain.Team;
 import java.util.List;
 import java.util.Map;

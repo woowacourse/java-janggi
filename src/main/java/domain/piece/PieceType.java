@@ -1,8 +1,11 @@
-package domain;
+package domain.piece;
 
-import static domain.Offset.DOWN;
-import static domain.Offset.UP;
+import static domain.board.Offset.DOWN;
+import static domain.board.Offset.UP;
 
+import domain.Team;
+import domain.board.BoardPosition;
+import domain.board.Offset;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;

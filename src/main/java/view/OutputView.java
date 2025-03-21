@@ -1,7 +1,7 @@
 package view;
 
-import domain.BoardPosition;
-import domain.Piece;
+import domain.board.BoardPosition;
+import domain.piece.Piece;
 import domain.Team;
 import java.util.Map;
 

@@ -1,13 +1,13 @@
 package domain.piece;
 
-import static domain.Offset.RIGHT_UP;
-import static domain.Offset.UP;
+import static domain.board.Offset.RIGHT_UP;
+import static domain.board.Offset.UP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
-import domain.BoardPosition;
-import domain.Offset;
+import domain.board.BoardPosition;
+import domain.board.Offset;
 import domain.Team;
 import java.util.List;
 import java.util.stream.Stream;

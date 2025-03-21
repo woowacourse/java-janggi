@@ -1,5 +1,8 @@
-package domain;
+package domain.piece;
 
+import domain.Team;
+import domain.board.BoardPosition;
+import domain.board.Offset;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,7 +11,7 @@ public class Piece {
     protected final PieceType pieceType;
     protected final Team team;
 
-    protected Piece(
+    public Piece(
             final PieceType pieceType,
             final Team team
     ) {

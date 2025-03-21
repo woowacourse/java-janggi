@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 public record Offset(
         int x,

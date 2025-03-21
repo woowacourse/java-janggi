@@ -1,12 +1,10 @@
 package domain.piece;
 
-import static domain.Offset.DOWN;
-import static domain.Offset.UP;
+import static domain.board.Offset.DOWN;
+import static domain.board.Offset.UP;
 
-import domain.BoardPosition;
-import domain.Offset;
-import domain.Piece;
-import domain.PieceType;
+import domain.board.BoardPosition;
+import domain.board.Offset;
 import domain.Team;
 import java.util.List;
 

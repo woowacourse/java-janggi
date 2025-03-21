@@ -1,5 +1,8 @@
-package domain;
+package domain.board;
 
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.Team;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -1,9 +1,7 @@
 package domain.piece;
 
-import domain.BoardPosition;
-import domain.Offset;
-import domain.Piece;
-import domain.PieceType;
+import domain.board.BoardPosition;
+import domain.board.Offset;
 import domain.Team;
 import java.util.List;
 

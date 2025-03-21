@@ -2,6 +2,8 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.Offset;
+import domain.piece.PieceType;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;

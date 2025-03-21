@@ -1,6 +1,6 @@
 package controller;
 
-import domain.BoardPosition;
+import domain.board.BoardPosition;
 import domain.Janggi;
 import java.util.Arrays;
 import java.util.List;
