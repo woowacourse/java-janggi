@@ -1,11 +1,13 @@
 package janggi.board;
 
-import janggi.piece.Byeong;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
-import janggi.piece.Jol;
 import janggi.piece.King;
 import janggi.piece.Piece;
+import janggi.piece.Soldier;
 import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.List;
@@ -15,9 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class BoardTest {
 
@@ -87,37 +86,37 @@ class BoardTest {
     @Test
     void 두_좌표를_입력_받아_기물을_이동한다() {
         // Given
-        final Jol jol = new Jol();
-        final Byeong byeong = new Byeong();
+        final Soldier jolSoldier = new Soldier(Team.CHO);
+        final Soldier byeongSoldier = new Soldier(Team.HAN);
         final Position position1 = new Position(10, 1);
         final Position position2 = new Position(1, 1);
         int currentPositionValue = 101;
         int arrivalPositionValue = 91;
 
-        Board board = new Board(Map.of(jol, position1, byeong, position2), Map.of(position1, jol, position2, byeong));
+        Board board = new Board(Map.of(jolSoldier, position1, byeongSoldier, position2), Map.of(position1, jolSoldier, position2, byeongSoldier));
 
         // When
-        board.move(List.of(currentPositionValue, arrivalPositionValue), jol.getTeam());
+        board.move(List.of(currentPositionValue, arrivalPositionValue), jolSoldier.getTeam());
 
         // Then
         assertThat(board.getPieces().get(Position.from(arrivalPositionValue)))
-                .isEqualTo(jol);
+                .isEqualTo(jolSoldier);
     }
 
     @Test
     void 다른_팀의_기물을_이동하려_하면_예외가_발생한다() {
         // Given
-        final Jol jol = new Jol();
-        final Byeong byeong = new Byeong();
+        final Soldier jolSoldier = new Soldier(Team.CHO);
+        final Soldier byeongSoldier = new Soldier(Team.HAN);
         final Position position1 = new Position(10, 1);
         final Position position2 = new Position(1, 1);
         int currentPositionValue = 101;
         int arrivalPositionValue = 91;
 
-        Board board = new Board(Map.of(jol, position1, byeong, position2), Map.of(position1, jol, position2, byeong));
+        Board board = new Board(Map.of(jolSoldier, position1, byeongSoldier, position2), Map.of(position1, jolSoldier, position2, byeongSoldier));
 
         // When & Then
-        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), byeong.getTeam()))
+        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), byeongSoldier.getTeam()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 자신의 팀 기물만 움직일 수 있습니다.");
     }
@@ -125,17 +124,17 @@ class BoardTest {
     @Test
     void 해당_위치에_기물이_없을_경우_예외가_발생한다() {
         // Given
-        final Jol jol = new Jol();
-        final Byeong byeong = new Byeong();
+        final Soldier jolSoldier = new Soldier(Team.CHO);
+        final Soldier byeongSoldier = new Soldier(Team.HAN);
         final Position position1 = new Position(10, 1);
         final Position position2 = new Position(1, 1);
         int currentPositionValue = 102;
         int arrivalPositionValue = 91;
 
-        Board board = new Board(Map.of(jol, position1, byeong, position2), Map.of(position1, jol, position2, byeong));
+        Board board = new Board(Map.of(jolSoldier, position1, byeongSoldier, position2), Map.of(position1, jolSoldier, position2, byeongSoldier));
 
         // When & Then
-        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), jol.getTeam()))
+        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), jolSoldier.getTeam()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 해당 좌표에 기물이 존재하지 않습니다.");
     }
@@ -143,17 +142,17 @@ class BoardTest {
     @Test
     void 같은_위치로_이동을_시도하는_경우_예외가_발생한다() {
         // Given
-        final Jol jol = new Jol();
-        final Byeong byeong = new Byeong();
+        final Soldier jolSoldier = new Soldier(Team.CHO);
+        final Soldier byeongSoldier = new Soldier(Team.HAN);
         final Position position1 = new Position(10, 1);
         final Position position2 = new Position(1, 1);
         int currentPositionValue = 101;
         int arrivalPositionValue = 101;
 
-        Board board = new Board(Map.of(jol, position1, byeong, position2), Map.of(position1, jol, position2, byeong));
+        Board board = new Board(Map.of(jolSoldier, position1, byeongSoldier, position2), Map.of(position1, jolSoldier, position2, byeongSoldier));
 
         // When & Then
-        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), jol.getTeam()))
+        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), jolSoldier.getTeam()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 같은 위치로는 이동할 수 없습니다.");
     }
@@ -161,29 +160,29 @@ class BoardTest {
     @Test
     void 두_좌표를_입력받아_다른_팀의_기물을_잡는다() {
         // Given
-        final Jol jol = new Jol();
-        final Byeong byeong = new Byeong();
+        final Soldier jolSoldier = new Soldier(Team.CHO);
+        final Soldier byeongSoldier = new Soldier(Team.HAN);
         final Position position1 = new Position(10, 1);
         final Position position2 = new Position(9, 1);
         int currentPositionValue = 101;
         int arrivalPositionValue = 91;
 
-        Board board = new Board(Map.of(jol, position1, byeong, position2), Map.of(position1, jol, position2, byeong));
+        Board board = new Board(Map.of(jolSoldier, position1, byeongSoldier, position2), Map.of(position1, jolSoldier, position2, byeongSoldier));
 
         // When
-        board.move(List.of(currentPositionValue, arrivalPositionValue), jol.getTeam());
+        board.move(List.of(currentPositionValue, arrivalPositionValue), jolSoldier.getTeam());
 
         // Then
         assertThat(board.getPieces().get(Position.from(arrivalPositionValue)))
-                .isEqualTo(jol);
+                .isEqualTo(jolSoldier);
     }
 
     @Test
     void 두_좌표를_입력받아_포를_이동한다() {
         // Given
-        final Jol jol = new Jol();
-        final Byeong byeong = new Byeong();
-        final Cannon cannon = new Cannon(jol.getTeam());
+        final Soldier jolSoldier = new Soldier(Team.CHO);
+        final Soldier byeongSoldier = new Soldier(Team.HAN);
+        final Cannon cannon = new Cannon(jolSoldier.getTeam());
         final Position position1 = new Position(7, 1);
         final Position position2 = new Position(5, 1);
         final Position position3 = new Position(10, 1);
@@ -191,12 +190,12 @@ class BoardTest {
         int arrivalPositionValue = 61;
 
         Board board = new Board(Map.of(
-                jol, position1,
-                byeong, position2,
+                jolSoldier, position1,
+                byeongSoldier, position2,
                 cannon, position3
         ), Map.of(
-                position1, jol,
-                position2, byeong,
+                position1, jolSoldier,
+                position2, byeongSoldier,
                 position3, cannon
         ));
 
@@ -211,9 +210,9 @@ class BoardTest {
     @Test
     void 두_좌표를_입력받아_포가_상대팀_기물을_잡는다() {
         // Given
-        final Jol jol = new Jol();
-        final Byeong byeong = new Byeong();
-        final Cannon cannon = new Cannon(jol.getTeam());
+        final Soldier jolSoldier = new Soldier(Team.CHO);
+        final Soldier byeongSoldier = new Soldier(Team.HAN);
+        final Cannon cannon = new Cannon(jolSoldier.getTeam());
         final Position position1 = new Position(7, 1);
         final Position position2 = new Position(5, 1);
         final Position position3 = new Position(10, 1);
@@ -221,12 +220,12 @@ class BoardTest {
         int arrivalPositionValue = 51;
 
         Board board = new Board(Map.of(
-                jol, position1,
-                byeong, position2,
+                jolSoldier, position1,
+                byeongSoldier, position2,
                 cannon, position3
         ), Map.of(
-                position1, jol,
-                position2, byeong,
+                position1, jolSoldier,
+                position2, byeongSoldier,
                 position3, cannon
         ));
 
@@ -235,7 +234,7 @@ class BoardTest {
 
         // Then
         assertThat(board.getPieces()).isEqualTo(Map.of(
-                position1, jol,
+                position1, jolSoldier,
                 position2, cannon
         ));
     }
@@ -243,9 +242,9 @@ class BoardTest {
     @Test
     void 포가_포를_잡으려고_하면_예외가_발생한다() {
         // Given
-        final Jol jol = new Jol();
+        final Soldier soldier = new Soldier(Team.CHO);
         final Cannon targetCannon = new Cannon(Team.HAN);
-        final Cannon cannon = new Cannon(jol.getTeam());
+        final Cannon cannon = new Cannon(soldier.getTeam());
         final Position position1 = new Position(7, 1);
         final Position position2 = new Position(5, 1);
         final Position position3 = new Position(10, 1);
@@ -253,11 +252,11 @@ class BoardTest {
         int arrivalPositionValue = 51;
 
         Board board = new Board(Map.of(
-                jol, position1,
+                soldier, position1,
                 targetCannon, position2,
                 cannon, position3
         ), Map.of(
-                position1, jol,
+                position1, soldier,
                 position2, targetCannon,
                 position3, cannon
         ));
@@ -271,18 +270,18 @@ class BoardTest {
     @Test
     void 포는_중간에_기물이_없으면_이동하지_못한다() {
         // Given
-        final Jol jol = new Jol();
-        final Cannon cannon = new Cannon(jol.getTeam());
+        final Soldier soldier = new Soldier(Team.CHO);
+        final Cannon cannon = new Cannon(soldier.getTeam());
         final Position position1 = new Position(7, 1);
         final Position position3 = new Position(10, 1);
         int currentPositionValue = 101;
         int arrivalPositionValue = 81;
 
         Board board = new Board(Map.of(
-                jol, position1,
+                soldier, position1,
                 cannon, position3
         ), Map.of(
-                position1, jol,
+                position1, soldier,
                 position3, cannon
         ));
 
@@ -295,18 +294,18 @@ class BoardTest {
     @Test
     void 포를_제외한_기물은_중간에_기물이_있으면_이동하지_못한다() {
         // Given
-        final Jol jol = new Jol();
-        final Chariot cannon = new Chariot(jol.getTeam());
+        final Soldier soldier = new Soldier(Team.CHO);
+        final Chariot cannon = new Chariot(soldier.getTeam());
         final Position position1 = new Position(7, 1);
         final Position position3 = new Position(10, 1);
         int currentPositionValue = 101;
         int arrivalPositionValue = 61;
 
         Board board = new Board(Map.of(
-                jol, position1,
+                soldier, position1,
                 cannon, position3
         ), Map.of(
-                position1, jol,
+                position1, soldier,
                 position3, cannon
         ));
 
@@ -319,17 +318,17 @@ class BoardTest {
     @Test
     void 자신의_팀_기물은_잡을_수_없다() {
         // Given
-        final Jol jol = new Jol();
-        final Chariot chariot = new Chariot(jol.getTeam());
+        final Soldier soldier = new Soldier(Team.CHO);
+        final Chariot chariot = new Chariot(soldier.getTeam());
         final Position position1 = new Position(10, 1);
         final Position position2 = new Position(9, 1);
         int currentPositionValue = 101;
         int arrivalPositionValue = 91;
 
-        Board board = new Board(Map.of(jol, position1, chariot, position2), Map.of(position1, jol, position2, chariot));
+        Board board = new Board(Map.of(soldier, position1, chariot, position2), Map.of(position1, soldier, position2, chariot));
 
         // When & Then
-        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), jol.getTeam()))
+        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), soldier.getTeam()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 자신의 팀 기물은 잡을 수 없습니다.");
     }

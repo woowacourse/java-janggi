@@ -22,8 +22,8 @@ class CannonTest {
     @Test
     void 포는_움직인다() {
         // Given
-        final Jol jol = new Jol();
-        final Cannon cannon = new Cannon(jol.getTeam());
+        final Soldier soldier = new Soldier(Team.CHO);
+        final Cannon cannon = new Cannon(soldier.getTeam());
 
         Position currentPosition = new Position(8, 1);
         final Position middlePiecePosition = new Position(7, 1);
@@ -32,7 +32,7 @@ class CannonTest {
         // When
         Path path = cannon.makePath(currentPosition, arrivalPosition, Map.of(
                 currentPosition, cannon,
-                middlePiecePosition, jol
+                middlePiecePosition, soldier
         ));
         System.out.println(path.getPositions());
 
@@ -49,7 +49,7 @@ class CannonTest {
 
         // When & Then
         assertThatThrownBy(() -> cannon.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, cannon,
-                middlePosition, new Jol())))
+                middlePosition, new Soldier(Team.CHO))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 포는 한 방향으로만 이동할 수 있습니다.");
     }

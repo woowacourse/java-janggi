@@ -1,14 +1,13 @@
 package janggi.board;
 
-import janggi.piece.Byeong;
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
 import janggi.piece.Elephant;
 import janggi.piece.Guard;
 import janggi.piece.Horse;
-import janggi.piece.Jol;
 import janggi.piece.King;
 import janggi.piece.Piece;
+import janggi.piece.Soldier;
 import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.HashMap;
@@ -43,11 +42,11 @@ public class BoardFactory {
         positions.put(new Cannon(Team.CHO), new Position(8, 2));
         positions.put(new Cannon(Team.CHO), new Position(8, 8));
 
-        positions.put(new Jol(), new Position(7, 1));
-        positions.put(new Jol(), new Position(7, 3));
-        positions.put(new Jol(), new Position(7, 5));
-        positions.put(new Jol(), new Position(7, 7));
-        positions.put(new Jol(), new Position(7, 9));
+        positions.put(new Soldier(Team.HAN), new Position(7, 1));
+        positions.put(new Soldier(Team.HAN), new Position(7, 3));
+        positions.put(new Soldier(Team.HAN), new Position(7, 5));
+        positions.put(new Soldier(Team.HAN), new Position(7, 7));
+        positions.put(new Soldier(Team.HAN), new Position(7, 9));
     }
 
     private static void makeHanPieces(Map<Piece, Position> positions) {
@@ -64,10 +63,10 @@ public class BoardFactory {
         positions.put(new Cannon(Team.HAN), new Position(3, 2));
         positions.put(new Cannon(Team.HAN), new Position(3, 8));
 
-        positions.put(new Byeong(), new Position(4, 1));
-        positions.put(new Byeong(), new Position(4, 3));
-        positions.put(new Byeong(), new Position(4, 5));
-        positions.put(new Byeong(), new Position(4, 7));
-        positions.put(new Byeong(), new Position(4, 9));
+        positions.put(new Soldier(Team.HAN), new Position(4, 1));
+        positions.put(new Soldier(Team.HAN), new Position(4, 3));
+        positions.put(new Soldier(Team.HAN), new Position(4, 5));
+        positions.put(new Soldier(Team.HAN), new Position(4, 7));
+        positions.put(new Soldier(Team.HAN), new Position(4, 9));
     }
 }

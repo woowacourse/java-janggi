@@ -6,15 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Byeong extends Piece {
+public class Soldier extends Piece {
 
-    private static final int BYEONG_MOVE_DISTANCE = 1;
+    private static final int MOVE_DISTANCE = 1;
 
-    public Byeong() {
-        super(PieceType.BYEONG, Team.HAN);
+    public Soldier(Team team) {
+        super(PieceType.SOLDIER, team);
     }
 
-    @Override
     public Path makePath(Position currentPosition, Position arrivalPosition, final Map<Position, Piece> pieces) {
         int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
         int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
@@ -27,10 +26,14 @@ public class Byeong extends Piece {
         currentY = moveY(arrivalPosition, differenceForY, currentY, positions, currentX);
         moveX(arrivalPosition, differenceForX, currentX, positions, currentY);
         Path path = new Path(positions);
+        validatePath(pieces, path);
+        return path;
+    }
+
+    private void validatePath(final Map<Position, Piece> pieces, final Path path) {
         if (hasPieceInMiddle(path, pieces)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
         }
-        return path;
     }
 
     private boolean hasPieceInMiddle(final Path path, final Map<Position, Piece> pieces) {
@@ -67,13 +70,21 @@ public class Byeong extends Piece {
         return difference / Math.abs(difference);
     }
 
-    private void validateMove(int differenceForY, int differenceForX) {
-        if (canNotMoveBackward(differenceForY) || Math.abs(differenceForY) + Math.abs(differenceForX) > BYEONG_MOVE_DISTANCE) {
+    public void validateMove(final int differenceForY, final int differenceForX) {
+        if (getTeam() == Team.CHO && (canNotMoveBackward(differenceForY)
+                || Math.abs(differenceForY) + Math.abs(differenceForX) > MOVE_DISTANCE)) {
+            throw new IllegalArgumentException("[ERROR] 졸은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
+        }
+        if (getTeam() == Team.HAN && canNotMoveBackward(differenceForY)
+                || Math.abs(differenceForY) + Math.abs(differenceForX) > MOVE_DISTANCE) {
             throw new IllegalArgumentException("[ERROR] 병은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
         }
     }
 
     private boolean canNotMoveBackward(int differenceForY) {
+        if (getTeam() == Team.CHO) {
+            return differenceForY > 0;
+        }
         return differenceForY < 0;
     }
 }

@@ -11,6 +11,7 @@ public enum PieceType {
     CHARIOT("車"),
     CANNON("包"),
     JOL("卒"),
+    SOLDIER("卒"),
     BYEONG("兵");
 
     private static final String BLUE_CODE = "\u001B[34m";
