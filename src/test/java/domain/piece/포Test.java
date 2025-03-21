@@ -12,7 +12,7 @@ public class 포Test {
         JanggiPiece 포 = new 포(JanggiSide.CHO);
         JanggiPiece hurdlePiece = new 포(JanggiSide.CHO);
         int hurdleCount = 1;
-        JanggiPiece targetPiece = new 졸병(JanggiSide.CHO);
+        JanggiPiece targetPiece = new 졸(JanggiSide.CHO);
 
 
         // when & then
@@ -25,7 +25,7 @@ public class 포Test {
     void 포는_포를_잡을_수_없다() {
         // given
         JanggiPiece 포 = new 포(JanggiSide.CHO);
-        JanggiPiece hurdlePiece = new 졸병(JanggiSide.CHO);
+        JanggiPiece hurdlePiece = new 졸(JanggiSide.CHO);
         int hurdleCount = 1;
         JanggiPiece targetPiece = new 포(JanggiSide.HAN);
 
@@ -40,9 +40,9 @@ public class 포Test {
     void 포는_장애물을_1개만_뛰어넘을_수_있다() {
         // given
         JanggiPiece 포 = new 포(JanggiSide.CHO);
-        JanggiPiece hurdlePiece = new 졸병(JanggiSide.CHO);
+        JanggiPiece hurdlePiece = new 졸(JanggiSide.CHO);
         int hurdleCount = 2;
-        JanggiPiece targetPiece = new 졸병(JanggiSide.HAN);
+        JanggiPiece targetPiece = new 졸(JanggiSide.HAN);
 
 
         // when & then
@@ -57,7 +57,7 @@ public class 포Test {
         JanggiPiece 포 = new 포(JanggiSide.CHO);
         JanggiPiece hurdlePiece = new Empty();
         int hurdleCount = 0;
-        JanggiPiece targetPiece = new 졸병(JanggiSide.HAN);
+        JanggiPiece targetPiece = new 졸(JanggiSide.HAN);
 
 
         // when & then
@@ -70,9 +70,9 @@ public class 포Test {
     void 같은_팀인_기물은_잡을_수_없다() {
         // given
         JanggiPiece 포 = new 포(JanggiSide.CHO);
-        JanggiPiece hurdlePiece = new 졸병(JanggiSide.CHO);
+        JanggiPiece hurdlePiece = new 졸(JanggiSide.CHO);
         int hurdleCount = 1;
-        JanggiPiece targetPiece = new 졸병(JanggiSide.CHO);
+        JanggiPiece targetPiece = new 졸(JanggiSide.CHO);
 
 
         // when & then

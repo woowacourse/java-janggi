@@ -2,12 +2,11 @@ package domain.piece;
 
 import domain.JanggiPosition;
 import domain.pattern.Pattern;
-import domain.route.limited_route.EmptyRoute;
 import java.util.List;
 
 public final class Empty extends JanggiPiece {
     public Empty() {
-        super(0, JanggiSide.NONE, new EmptyRoute());
+        super(JanggiSide.NONE, JanggiPieceType.EMPTY);
     }
 
     @Override

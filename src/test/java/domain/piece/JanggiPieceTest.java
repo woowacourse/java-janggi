@@ -3,7 +3,6 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class JanggiPieceTest {
@@ -26,7 +25,7 @@ public class JanggiPieceTest {
         JanggiPiece 마 = new 마(JanggiSide.CHO);
         JanggiPiece hurdlePiece = new Empty();
         int hurdleCount = 1;
-        JanggiPiece targetPiece = new 졸병(JanggiSide.HAN);
+        JanggiPiece targetPiece = new 졸(JanggiSide.HAN);
 
 
         // when & then
@@ -39,9 +38,9 @@ public class JanggiPieceTest {
     void 같은_팀인_기물은_잡을_수_없다() {
         // given
         JanggiPiece 마 = new 마(JanggiSide.CHO);
-        JanggiPiece hurdlePiece = new 졸병(JanggiSide.CHO);
+        JanggiPiece hurdlePiece = new 졸(JanggiSide.CHO);
         int hurdleCount = 1;
-        JanggiPiece targetPiece = new 졸병(JanggiSide.CHO);
+        JanggiPiece targetPiece = new 졸(JanggiSide.CHO);
 
 
         // when & then

@@ -10,9 +10,10 @@ import domain.piece.JanggiPiece;
 import domain.piece.JanggiSide;
 import domain.piece.궁;
 import domain.piece.마;
+import domain.piece.병;
 import domain.piece.사;
 import domain.piece.상;
-import domain.piece.졸병;
+import domain.piece.졸;
 import domain.piece.차;
 import domain.piece.포;
 import java.util.Map;
@@ -50,7 +51,7 @@ public class JanggiBoardTest {
         JanggiPosition 차Position = new JanggiPosition(6, 1);
 
         JanggiBoardInitializerStub initializer = new JanggiBoardInitializerStub(Map.of(
-                졸병Position, new 졸병(JanggiSide.CHO),
+                졸병Position, new 졸(JanggiSide.CHO),
                 차Position, new 차(JanggiSide.CHO)
         ));
         JanggiBoard janggiBoard = new JanggiBoard(initializer);
@@ -144,7 +145,7 @@ public class JanggiBoardTest {
         void 졸을_이동시킬_수_있다(int afterRow, int afterColumn) {
             // given
             JanggiPosition beforePosition = new JanggiPosition(9, 5);
-            JanggiPiece piece = new 졸병(JanggiSide.CHO);
+            JanggiPiece piece = new 졸(JanggiSide.CHO);
             JanggiBoardInitializerStub initializer = new JanggiBoardInitializerStub(Map.of(
                     beforePosition, piece
             ));
@@ -155,7 +156,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(졸병.class);
+            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(졸.class);
         }
 
         @ParameterizedTest
@@ -163,7 +164,7 @@ public class JanggiBoardTest {
         void 병을_이동시킬_수_있다(int afterRow, int afterColumn) {
             // given
             JanggiPosition beforePosition = new JanggiPosition(9, 5);
-            JanggiPiece piece = new 졸병(JanggiSide.HAN);
+            JanggiPiece piece = new 병(JanggiSide.HAN);
             JanggiBoardInitializerStub initializer = new JanggiBoardInitializerStub(Map.of(
                     beforePosition, piece
             ));
@@ -174,7 +175,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(졸병.class);
+            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(병.class);
         }
 
         @ParameterizedTest
@@ -203,7 +204,7 @@ public class JanggiBoardTest {
             JanggiPosition 포beforePosition = new JanggiPosition(6, 2);
             JanggiPosition 졸beforePosition = new JanggiPosition(6, 3);
             JanggiPiece 포piece = new 포(JanggiSide.HAN);
-            JanggiPiece 졸piece = new 졸병(JanggiSide.CHO);
+            JanggiPiece 졸piece = new 졸(JanggiSide.CHO);
             JanggiBoardInitializerStub initializer = new JanggiBoardInitializerStub(Map.of(
                     포beforePosition, 포piece,
                     졸beforePosition, 졸piece
@@ -225,7 +226,7 @@ public class JanggiBoardTest {
         JanggiPosition 마beforePosition = new JanggiPosition(5, 4);
         JanggiPosition 졸Position = new JanggiPosition(3, 5);
         JanggiPiece 마piece = new 마(JanggiSide.HAN);
-        JanggiPiece 졸piece = new 졸병(JanggiSide.HAN);
+        JanggiPiece 졸piece = new 졸(JanggiSide.HAN);
         JanggiBoardInitializerStub initializer = new JanggiBoardInitializerStub(Map.of(
                 마beforePosition, 마piece,
                 졸Position, 졸piece
@@ -262,7 +263,7 @@ public class JanggiBoardTest {
         JanggiPosition 졸Position = new JanggiPosition(6, 3);
         JanggiPosition 마Position = new JanggiPosition(6, 4);
         JanggiPiece 포piece = new 포(JanggiSide.HAN);
-        JanggiPiece 졸piece = new 졸병(JanggiSide.CHO);
+        JanggiPiece 졸piece = new 졸(JanggiSide.CHO);
         JanggiPiece 마piece = new 마(JanggiSide.CHO);
         JanggiBoardInitializerStub initializer = new JanggiBoardInitializerStub(Map.of(
                 포beforePosition, 포piece,
@@ -285,7 +286,7 @@ public class JanggiBoardTest {
         JanggiPosition 졸Position = new JanggiPosition(6, 3);
         JanggiPosition second포Position = new JanggiPosition(6, 4);
         JanggiPiece first포piece = new 포(JanggiSide.HAN);
-        JanggiPiece 졸piece = new 졸병(JanggiSide.HAN);
+        JanggiPiece 졸piece = new 졸(JanggiSide.HAN);
         JanggiPiece second포piece = new 포(JanggiSide.CHO);
         JanggiBoardInitializerStub initializer = new JanggiBoardInitializerStub(Map.of(
                 first포beforePosition, first포piece,
@@ -304,7 +305,7 @@ public class JanggiBoardTest {
         JanggiPosition 마beforePosition = new JanggiPosition(8, 2);
         JanggiPosition 졸Position = new JanggiPosition(6, 3);
         JanggiPiece 마piece = new 마(JanggiSide.HAN);
-        JanggiPiece 졸piece = new 졸병(JanggiSide.CHO);
+        JanggiPiece 졸piece = new 졸(JanggiSide.CHO);
         JanggiBoardInitializerStub initializer = new JanggiBoardInitializerStub(Map.of(
                 마beforePosition, 마piece,
                 졸Position, 졸piece

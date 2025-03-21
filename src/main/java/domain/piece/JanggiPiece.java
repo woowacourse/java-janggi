@@ -2,24 +2,22 @@ package domain.piece;
 
 import domain.JanggiPosition;
 import domain.pattern.Pattern;
-import domain.route.JanggiPieceRoute;
 import java.util.List;
 
 public abstract class JanggiPiece {
-    protected final int score;
-    protected final JanggiSide side;
-    protected JanggiPieceStatus status;
-    protected JanggiPieceRoute routes;
 
-    public JanggiPiece(int score, final JanggiSide side, final JanggiPieceRoute routes) {
-        this.score = score;
+    protected final JanggiSide side;
+    protected final JanggiPieceType type;
+    protected JanggiPieceStatus status;
+
+    public JanggiPiece(final JanggiSide side, final JanggiPieceType type) {
         this.side = side;
         this.status = JanggiPieceStatus.ACTIVE;
-        this.routes = routes;
+        this.type = type;
     }
 
-    public List<Pattern> findPath(final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
-        return routes.getRoute(beforePosition, afterPosition);
+    public List<Pattern> findPath(final JanggiPosition origin, final JanggiPosition destination) {
+        return type.getRoute(origin, destination);
     }
 
     public boolean isEmpty() {
