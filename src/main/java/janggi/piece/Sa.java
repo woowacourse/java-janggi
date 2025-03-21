@@ -7,12 +7,8 @@ import java.util.List;
 
 public class Sa extends Piece {
 
-    private Sa(final Position position) {
+    public Sa(final Position position) {
         super(PieceType.SA, position);
-    }
-
-    public static Sa from(final Position position) {
-        return new Sa(position);
     }
 
     public static List<Sa> generateInitialSas(final CampType campType) {

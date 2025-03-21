@@ -20,7 +20,7 @@ class PiecesTest {
     @Test
     void test1() {
         //given
-        Pieces pieces = new Pieces(List.of(Gung.from(STANDARD)));
+        Pieces pieces = new Pieces(List.of(new Gung(STANDARD)));
 
         Position destination = new Position(5, 8);
 
@@ -36,7 +36,7 @@ class PiecesTest {
     @MethodSource()
     void test2(Position invalidPosition) {
         //given
-        Pieces pieces = new Pieces(List.of(Gung.from(STANDARD)));
+        Pieces pieces = new Pieces(List.of(new Gung(STANDARD)));
 
         //when & then
         assertThatThrownBy(() -> pieces.movePiece(List.of(), invalidPosition, new Position(5, 8)))
@@ -58,7 +58,7 @@ class PiecesTest {
     @MethodSource()
     void test3(Position invalidPosition) {
         //given
-        Pieces pieces = new Pieces(List.of(Gung.from(STANDARD)));
+        Pieces pieces = new Pieces(List.of(new Gung(STANDARD)));
 
         //when & then
         assertThatThrownBy(() -> pieces.movePiece(List.of(), STANDARD, invalidPosition))
@@ -79,7 +79,7 @@ class PiecesTest {
     @Test
     void test4() {
         //given
-        Pieces pieces = new Pieces(List.of(Gung.from(STANDARD)));
+        Pieces pieces = new Pieces(List.of(new Gung(STANDARD)));
 
         Position invalidPosition = new Position(5, 8);
 
@@ -91,7 +91,7 @@ class PiecesTest {
     @DisplayName("장기말이 목적지로 이동할 수 없는 경우 예외를 발생시킨다.")
     @Test
     void test5() {
-        Pieces pieces = new Pieces(List.of(Gung.from(STANDARD)));
+        Pieces pieces = new Pieces(List.of(new Gung(STANDARD)));
         Position destination = new Position(7, 8);
 
         assertThatThrownBy(() -> pieces.movePiece(List.of(), STANDARD, destination))

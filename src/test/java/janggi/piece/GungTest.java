@@ -69,7 +69,7 @@ class GungTest {
         //given
         Gung gung = Gung.generateInitialGung(CampType.CHO).getFirst();
         Position destination = new Position(STANDARD.x() + 1, STANDARD.y());
-        Gung otherPiece = Gung.from(destination);
+        Gung otherPiece = new Gung(destination);
 
         //when & then
         assertThatThrownBy(() -> gung.move(destination, List.of(), List.of(otherPiece)))

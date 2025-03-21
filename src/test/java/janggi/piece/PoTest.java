@@ -22,8 +22,8 @@ class PoTest {
     @MethodSource()
     void test1(Position jumpPadPosition, Position destination) {
         //given
-        Po po = Po.from(STANDARD);
-        Jol jumpPad = Jol.from(jumpPadPosition, CampType.CHO);
+        Po po = new Po(STANDARD);
+        Jol jumpPad = new Jol(jumpPadPosition, CampType.CHO);
 
         //when
         Po movedPo = po.move(destination, List.of(), List.of(jumpPad));
@@ -46,7 +46,7 @@ class PoTest {
     @MethodSource()
     void test2(Position destination) {
         //given
-        Po po = Po.from(STANDARD);
+        Po po = new Po(STANDARD);
 
         //when & then
         assertThatThrownBy(() -> po.move(destination, List.of(), List.of()))
@@ -68,8 +68,8 @@ class PoTest {
     @MethodSource()
     void test3(Position poPosition, Position destination) {
         //given
-        Po po = Po.from(STANDARD);
-        Po jumpPad = Po.from(poPosition);
+        Po po = new Po(STANDARD);
+        Po jumpPad = new Po(poPosition);
 
         //when & then
         assertThatThrownBy(() -> po.move(destination, List.of(), List.of(jumpPad)))
@@ -91,8 +91,8 @@ class PoTest {
     @MethodSource()
     void test4(Position poPosition, Position destination) {
         //given
-        Po po = Po.from(STANDARD);
-        Po jumpPad = Po.from(poPosition);
+        Po po = new Po(STANDARD);
+        Po jumpPad = new Po(poPosition);
 
         //when & then
         assertThatThrownBy(() -> po.move(destination, List.of(jumpPad), List.of()))
@@ -115,9 +115,9 @@ class PoTest {
     @MethodSource()
     void test5(List<Position> jumpPadPositions, Position destination) {
         //given
-        Po po = Po.from(STANDARD);
+        Po po = new Po(STANDARD);
         List<Jol> jumpPads = jumpPadPositions.stream()
-                .map(position -> Jol.from(position, CampType.CHO))
+                .map(position -> new Jol(position, CampType.CHO))
                 .toList();
 
         //when & then
@@ -151,9 +151,9 @@ class PoTest {
     @Test
     void test6() {
         //given
-        Po po = Po.from(STANDARD);
+        Po po = new Po(STANDARD);
         Position destination = new Position(8, STANDARD.y());
-        Jol jumpPad = Jol.from(destination, CampType.CHO);
+        Jol jumpPad = new Jol(destination, CampType.CHO);
 
         //when & then
         assertThatThrownBy(() -> po.move(destination, List.of(), List.of(jumpPad)))
@@ -165,8 +165,8 @@ class PoTest {
     @Test
     void test7() {
         //given
-        Po po = Po.from(STANDARD);
-        Jol jumpPad = Jol.from(new Position(STANDARD.x() + 1, STANDARD.y()), CampType.CHO);
+        Po po = new Po(STANDARD);
+        Jol jumpPad = new Jol(new Position(STANDARD.x() + 1, STANDARD.y()), CampType.CHO);
         Position destination = new Position(8, STANDARD.y());
 
         //when
@@ -180,7 +180,7 @@ class PoTest {
     @Test
     void test8() {
         //given
-        Po po = Po.from(STANDARD);
+        Po po = new Po(STANDARD);
         Position destination = new Position(5, 7);
 
         //when & then

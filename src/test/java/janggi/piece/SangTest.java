@@ -23,7 +23,7 @@ class SangTest {
     @MethodSource()
     void test1(Position destination) {
         //given
-        Sang sang = Sang.from(STANDARD);
+        Sang sang = new Sang(STANDARD);
 
         //when
         Sang movedSang = sang.move(destination, List.of(), List.of());
@@ -51,7 +51,7 @@ class SangTest {
     @MethodSource()
     void test2(Position destination) {
         //given
-        Sang sang = Sang.from(STANDARD);
+        Sang sang = new Sang(STANDARD);
 
         //when & then
         assertThatThrownBy(() -> sang.move(destination, List.of(), List.of()))
@@ -73,8 +73,8 @@ class SangTest {
     @MethodSource()
     void test4(Position hurdlePosition, Position destination) {
         //given
-        Sang sang = Sang.from(STANDARD);
-        Sang hurdle = Sang.from(hurdlePosition);
+        Sang sang = new Sang(STANDARD);
+        Sang hurdle = new Sang(hurdlePosition);
 
         //when & then
         assertAll(
@@ -100,11 +100,11 @@ class SangTest {
     @Test
     void test5() {
         //given
-        Sang sang = Sang.from(STANDARD);
+        Sang sang = new Sang(STANDARD);
         Position hurdle = new Position(7, 2);
 
         //when & then
-        assertThatThrownBy(() -> sang.move(hurdle, List.of(), List.of(Ma.from(hurdle))))
+        assertThatThrownBy(() -> sang.move(hurdle, List.of(), List.of(new Ma(hurdle))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -114,8 +114,8 @@ class SangTest {
     @MethodSource()
     void test6(Position hurdlePosition, Position destination) {
         //given
-        Sang sang = Sang.from(STANDARD);
-        Sang hurdle = Sang.from(hurdlePosition);
+        Sang sang = new Sang(STANDARD);
+        Sang hurdle = new Sang(hurdlePosition);
 
         //when & then
         assertAll(
@@ -141,11 +141,11 @@ class SangTest {
     @Test
     void test7() {
         //given
-        Sang sang = Sang.from(STANDARD);
+        Sang sang = new Sang(STANDARD);
         Position hurdle = new Position(7, 2);
 
         //when
-        Sang movedSang = sang.move(hurdle, List.of(Sang.from(hurdle)), List.of());
+        Sang movedSang = sang.move(hurdle, List.of(new Sang(hurdle)), List.of());
 
         //then
         Assertions.assertThat(movedSang.getPosition()).isEqualTo(hurdle);

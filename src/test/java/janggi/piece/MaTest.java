@@ -23,7 +23,7 @@ public class MaTest {
     @MethodSource()
     void test1(Position destination) {
         //given
-        Ma ma = Ma.from(STANDARD);
+        Ma ma = new Ma(STANDARD);
 
         //when
         Ma movedMa = ma.move(destination, List.of(), List.of());
@@ -51,7 +51,7 @@ public class MaTest {
     @MethodSource()
     void test2(Position destination) {
         //given
-        Ma ma = Ma.from(STANDARD);
+        Ma ma = new Ma(STANDARD);
 
         //when & then
         assertThatThrownBy(() -> ma.move(destination, List.of(), List.of()))
@@ -72,9 +72,9 @@ public class MaTest {
     @Test
     void test4() {
         //given
-        Ma ma = Ma.from(STANDARD);
+        Ma ma = new Ma(STANDARD);
         Position hurdlePosition = new Position(5, 4);
-        Ma hurdle = Ma.from(hurdlePosition);
+        Ma hurdle = new Ma(hurdlePosition);
 
         //when & then
         assertAll(
@@ -91,11 +91,11 @@ public class MaTest {
     @Test
     void test5() {
         //given
-        Ma ma = Ma.from(STANDARD);
+        Ma ma = new Ma(STANDARD);
         Position hurdle = new Position(6, 3);
 
         //when & then
-        assertThatThrownBy(() -> ma.move(hurdle, List.of(), List.of(Ma.from(hurdle))))
+        assertThatThrownBy(() -> ma.move(hurdle, List.of(), List.of(new Ma(hurdle))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -104,9 +104,9 @@ public class MaTest {
     @Test
     void test6() {
         //given
-        Ma ma = Ma.from(STANDARD);
+        Ma ma = new Ma(STANDARD);
         Position hurdlePosition = new Position(5, 4);
-        Ma hurdle = Ma.from(hurdlePosition);
+        Ma hurdle = new Ma(hurdlePosition);
 
         //when & then
         assertAll(
@@ -123,11 +123,11 @@ public class MaTest {
     @Test
     void test7() {
         //given
-        Ma ma = Ma.from(STANDARD);
+        Ma ma = new Ma(STANDARD);
         Position hurdle = new Position(6, 3);
 
         //when
-        Ma movedMa = ma.move(hurdle, List.of(Ma.from(hurdle)), List.of());
+        Ma movedMa = ma.move(hurdle, List.of(new Ma(hurdle)), List.of());
 
         //then
         Assertions.assertThat(movedMa.getPosition()).isEqualTo(hurdle);

@@ -23,7 +23,7 @@ class JolTest {
     @MethodSource()
     void test1(Position destination) {
         //given
-        Jol jol = Jol.from(STANDARD, CampType.CHO);
+        Jol jol = new Jol(STANDARD, CampType.CHO);
 
         //when
         Jol movedJol = jol.move(destination, List.of(), List.of());
@@ -45,7 +45,7 @@ class JolTest {
     @MethodSource()
     void test2(Position destination) {
         //given
-        Jol jol = Jol.from(STANDARD, CampType.HAN);
+        Jol jol = new Jol(STANDARD, CampType.HAN);
 
         //when
         Jol movedJol = jol.move(destination, List.of(), List.of());
@@ -68,7 +68,7 @@ class JolTest {
     @MethodSource()
     void test3(Position destination) {
         //given
-        Jol jol = Jol.from(STANDARD, CampType.CHO);
+        Jol jol = new Jol(STANDARD, CampType.CHO);
 
         //when & then
         assertThatThrownBy(() -> jol.move(destination, List.of(), List.of()))
@@ -88,9 +88,9 @@ class JolTest {
     @Test
     void test4() {
         //given
-        Jol jol = Jol.from(STANDARD, CampType.CHO);
+        Jol jol = new Jol(STANDARD, CampType.CHO);
         Position destination = new Position(4, 3);
-        Jol otherPiece = Jol.from(destination, CampType.CHO);
+        Jol otherPiece = new Jol(destination, CampType.CHO);
 
         //when & then
         assertThatThrownBy(() -> jol.move(destination, List.of(), List.of(otherPiece)))
@@ -102,9 +102,9 @@ class JolTest {
     @Test
     void test5() {
         //given
-        Jol jol = Jol.from(STANDARD, CampType.CHO);
+        Jol jol = new Jol(STANDARD, CampType.CHO);
         Position destination = new Position(4, 3);
-        Jol otherPiece = Jol.from(destination, CampType.CHO);
+        Jol otherPiece = new Jol(destination, CampType.CHO);
 
         //when
         Jol movedJol = jol.move(destination, List.of(otherPiece), List.of());

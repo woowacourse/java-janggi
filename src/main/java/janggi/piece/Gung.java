@@ -7,12 +7,8 @@ import java.util.List;
 
 public class Gung extends Piece {
 
-    private Gung(final Position position) {
+    public Gung(final Position position) {
         super(PieceType.GUNG, position);
-    }
-
-    public static Gung from(final Position position) {
-        return new Gung(position);
     }
 
     public static List<Gung> generateInitialGung(final CampType campType) {

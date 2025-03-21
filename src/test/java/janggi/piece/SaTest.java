@@ -22,7 +22,7 @@ class SaTest {
     @MethodSource()
     void test1(Position destination) {
         //given
-        Sa sa = Sa.from(STANDARD);
+        Sa sa = new Sa(STANDARD);
 
         //when
         Sa movedSa = sa.move(destination, List.of(), List.of());
@@ -46,7 +46,7 @@ class SaTest {
     @MethodSource()
     void test2(Position destination) {
         //given
-        Sa sa = Sa.from(STANDARD);
+        Sa sa = new Sa(STANDARD);
 
         //when & then
         assertThatThrownBy(() -> sa.move(destination, List.of(), List.of()))
@@ -69,7 +69,7 @@ class SaTest {
         //given
         Sa sa = Sa.generateInitialSas(CampType.CHO).getFirst();
         Position destination = new Position(3, 8);
-        Sa otherPiece = Sa.from(destination);
+        Sa otherPiece = new Sa(destination);
 
         //when & then
         assertThatThrownBy(() -> sa.move(destination, List.of(), List.of(otherPiece)))

@@ -23,7 +23,7 @@ class ChaTest {
     @MethodSource()
     void test1(Position destination) {
         //given
-        Cha cha = Cha.from(STANDARD);
+        Cha cha = new Cha(STANDARD);
 
         //when
         Cha movedCha = cha.move(destination, List.of(), List.of());
@@ -51,7 +51,7 @@ class ChaTest {
     @MethodSource()
     void test2(Position destination) {
         //given
-        Cha cha = Cha.from(STANDARD);
+        Cha cha = new Cha(STANDARD);
 
         //when & then
         assertThatThrownBy(() -> cha.move(destination, List.of(), List.of()))
@@ -72,10 +72,10 @@ class ChaTest {
     @Test
     void test4() {
         //given
-        Cha cha = Cha.from(STANDARD);
+        Cha cha = new Cha(STANDARD);
         Position positionBeforeHurdle = new Position(5, 4);
         Position destination = new Position(6, 4);
-        Cha otherPiece = Cha.from(destination);
+        Cha otherPiece = new Cha(destination);
 
         //when & then
         Cha movedCha = cha.move(positionBeforeHurdle, List.of(), List.of(otherPiece));
@@ -86,9 +86,9 @@ class ChaTest {
     @Test
     void test5() {
         //given
-        Cha cha = Cha.from(STANDARD);
+        Cha cha = new Cha(STANDARD);
         Position destination = new Position(6, 4);
-        Cha otherPiece = Cha.from(destination);
+        Cha otherPiece = new Cha(destination);
 
         //when & then
         assertAll(
@@ -105,10 +105,10 @@ class ChaTest {
     @Test
     void test7() {
         //given
-        Cha cha = Cha.from(STANDARD);
+        Cha cha = new Cha(STANDARD);
         Position positionBeforeHurdle = new Position(5, 4);
         Position destination = new Position(6, 4);
-        Cha otherPiece = Cha.from(destination);
+        Cha otherPiece = new Cha(destination);
 
         //when & then
         Cha movedCha = cha.move(destination, List.of(otherPiece), List.of());
@@ -119,10 +119,10 @@ class ChaTest {
     @Test
     void test6() {
         //given
-        Cha cha = Cha.from(STANDARD);
+        Cha cha = new Cha(STANDARD);
         Position destination = new Position(6, 4);
         Position hurdlePosition = new Position(5, 4);
-        Cha otherPiece = Cha.from(hurdlePosition);
+        Cha otherPiece = new Cha(hurdlePosition);
 
         //when & then
         assertThatThrownBy(() -> cha.move(destination, List.of(otherPiece), List.of()))

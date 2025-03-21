@@ -7,12 +7,8 @@ import java.util.List;
 
 public class Sang extends Piece {
 
-    private Sang(final Position position) {
+    public Sang(final Position position) {
         super(PieceType.SANG, position);
-    }
-
-    public static Sang from(final Position position) {
-        return new Sang(position);
     }
 
     public static List<Sang> generateInitialSangs(final CampType campType, final List<Integer> xPositions) {

@@ -9,13 +9,9 @@ public class Jol extends Piece {
 
     private final CampType campType;
 
-    private Jol(final Position position, final CampType campType) {
+    public Jol(final Position position, final CampType campType) {
         super(PieceType.JOL, position);
         this.campType = campType;
-    }
-
-    public static Jol from(final Position position, final CampType campType) {
-        return new Jol(position, campType);
     }
 
     public static List<Jol> generateInitialJols(final CampType campType) {

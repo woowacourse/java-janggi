@@ -7,12 +7,8 @@ import java.util.List;
 
 public class Cha extends Piece {
 
-    private Cha(final Position position) {
+    public Cha(final Position position) {
         super(PieceType.CHA, position);
-    }
-
-    public static Cha from(final Position position) {
-        return new Cha(position);
     }
 
     public static List<Cha> generateInitialChas(final CampType campType) {
