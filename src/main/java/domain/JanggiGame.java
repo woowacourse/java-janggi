@@ -39,6 +39,7 @@ public class JanggiGame {
                 OutputView.printWinnerTeam(team);
                 break;
             }
+            changeTurn();
         }
     }
 
