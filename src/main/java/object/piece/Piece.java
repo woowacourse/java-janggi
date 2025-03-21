@@ -1,6 +1,5 @@
 package object.piece;
 
-import java.util.Objects;
 import object.Coordinate;
 import object.Route;
 import object.strategy.MoveStrategy;
@@ -8,28 +7,22 @@ import object.strategy.MoveStrategy;
 public class Piece {
 
     private final Team team;
-    private final MoveRule moveRule;
+    private final MoveStrategy moveStrategy;
     private final Coordinate currentPosition;
 
-    public Piece(Team team, MoveStrategy moveStrategy, PieceType pieceType, Coordinate currentPosition) {
-        this.currentPosition = currentPosition;
-        this.moveRule = new MoveRule(moveStrategy, pieceType);
+    public Piece(Team team, MoveStrategy moveStrategy, Coordinate currentPosition) {
         this.team = team;
-    }
-
-    public Piece(Team team, MoveRule moveRule, Coordinate currentPosition) {
+        this.moveStrategy = moveStrategy;
         this.currentPosition = currentPosition;
-        this.moveRule = moveRule;
-        this.team = team;
     }
 
     public Piece move(Coordinate destination, Pieces onRoutePieces) {
-        Coordinate movedPosition = moveRule.move(destination, onRoutePieces, team);
-        return new Piece(this.team, this.moveRule, movedPosition);
+        Coordinate movedPosition = moveStrategy.move(destination, onRoutePieces, team);
+        return new Piece(this.team, this.moveStrategy, movedPosition);
     }
 
     public Route getLegalRoute(Coordinate destination) {
-        return moveRule.getLegalRoute(this.currentPosition, destination, team);
+        return moveStrategy.getLegalRoute(this.currentPosition, destination, team);
     }
 
     public boolean isSameTeam(Team moveTeam) {
@@ -48,28 +41,15 @@ public class Piece {
         return isSamePosition(comparePiece.currentPosition);
     }
 
-    public boolean isSameType(PieceType pieceType) {
-        return moveRule.isSameType(pieceType);
+    public boolean isSameType(PieceType comparePieceType) {
+        return moveStrategy.getPieceType().equals(comparePieceType);
     }
 
     public Team getTeam() {
         return team;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Piece piece = (Piece) o;
-        return Objects.equals(currentPosition, piece.currentPosition) && Objects.equals(moveRule, piece.moveRule);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(currentPosition, moveRule);
+    public PieceType getPieceType() {
+        return moveStrategy.getPieceType();
     }
 }

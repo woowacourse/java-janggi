@@ -2,6 +2,7 @@ package object.strategy;
 
 import object.Coordinate;
 import object.Route;
+import object.piece.PieceType;
 import object.piece.Pieces;
 import object.piece.Team;
 
@@ -17,5 +18,9 @@ public class GeneralStrategy implements MoveStrategy {
     @Override
     public Coordinate move(Coordinate destination, Pieces onRoutePieces, Team moveTeam) {
         throw new IllegalStateException(NOT_IMPLEMENTED_FEATURE);
+    }
+
+    public PieceType getPieceType() {
+        return PieceType.GENERAL;
     }
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import object.piece.Piece;
-import object.piece.PieceType;
 import object.piece.Pieces;
 import object.Coordinate;
 import object.Route;
@@ -44,7 +43,7 @@ public class ChariotStrategyTest {
         MoveStrategy moveStrategy = new ChariotStrategy();
         Pieces onRoutePieces = new Pieces(List.of(
                 new Piece(
-                        Team.BLUE, new ChariotStrategy(), PieceType.CHARIOT, new Coordinate(0, 1)
+                        Team.BLUE, new ChariotStrategy(), new Coordinate(0, 1)
                 )
         ));
 

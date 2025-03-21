@@ -35,7 +35,7 @@ public class ElephantStrategyTest {
         Coordinate destination = new Coordinate(2, 2);
         Pieces onRoutePieces = new Pieces(List.of(
                 new Piece(
-                        Team.BLUE, new SoldierStrategy(), PieceType.SOLIDER, new Coordinate(1, 1)
+                        Team.BLUE, new SoldierStrategy(), new Coordinate(1, 1)
                 )
         ));
 

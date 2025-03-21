@@ -50,6 +50,10 @@ public class CannonStrategy implements MoveStrategy {
         return destination;
     }
 
+    public PieceType getPieceType() {
+        return PieceType.CANNON;
+    }
+
     private static Route calculateLegalRoute(Coordinate minCoordinate, Coordinate maxCoordinate, List<Coordinate> coordinates,
                                              Coordinate direction) {
         while (!minCoordinate.equals(maxCoordinate)) {

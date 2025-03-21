@@ -1,16 +1,14 @@
 package object.piece;
 
 import java.util.List;
-import javax.swing.PopupFactory;
 import object.Coordinate;
+import object.strategy.GuardStrategy;
 import object.strategy.SoldierStrategy;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import object.strategy.ElephantStrategy;
 
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class PieceTest {
 
     @Test
@@ -21,19 +19,13 @@ public class PieceTest {
         Coordinate coordinate = new Coordinate(1, 1);
 
         // then
-        Assertions.assertThatNoException().isThrownBy(() -> new Piece(Team.BLUE, new ElephantStrategy(),
-                PieceType.CHARIOT, coordinate
-        ));
+        Assertions.assertThatNoException().isThrownBy(() -> new Piece(Team.BLUE, new ElephantStrategy(), coordinate));
     }
 
     @Test
     void 피스는_올바른_위치로_이동할_수_있다() {
         // given
-        Piece piece = new Piece(
-                Team.RED,
-                new MoveRule(new SoldierStrategy(), PieceType.SOLIDER),
-                new Coordinate(0, 0)
-        );
+        Piece piece = new Piece(Team.RED, new SoldierStrategy(), new Coordinate(0, 0));
         Coordinate destination = new Coordinate(1, 0);
 
         // when
@@ -44,5 +36,18 @@ public class PieceTest {
         boolean actual = movedPiece.isSamePosition(destination);
 
         Assertions.assertThat(actual).isEqualTo(expected);
+    }
+
+    @DisplayName("Piece는 자신의 pieceType을 반환할 수 있다.")
+    @Test
+    void pieceTypeReturnTest() {
+        // given
+        Piece piece = new Piece(Team.BLUE, new GuardStrategy(), new Coordinate(0, 0));
+
+        // when
+        PieceType pieceType = piece.getPieceType();
+
+        // then
+        Assertions.assertThat(pieceType).isEqualTo(PieceType.GUARD);
     }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import object.Coordinate;
 import object.Route;
+import object.piece.PieceType;
 import object.piece.Team;
 
 public class ChariotStrategy implements MoveStrategy {
@@ -30,5 +31,9 @@ public class ChariotStrategy implements MoveStrategy {
             coordinates.add(minCoordinate);
         }
         return new Route(coordinates);
+    }
+
+    public PieceType getPieceType() {
+        return PieceType.CHARIOT;
     }
 }

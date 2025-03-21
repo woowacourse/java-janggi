@@ -56,7 +56,7 @@ class SoldierStrategyTest {
         MoveStrategy moveStrategy = new SoldierStrategy();
         Pieces onRoutePieces = new Pieces(List.of(
                 new Piece(
-                        Team.BLUE, new SoldierStrategy(), PieceType.SOLIDER, new Coordinate(0, 1)
+                        Team.BLUE, new SoldierStrategy(), new Coordinate(0, 1)
                 )
         ));
 

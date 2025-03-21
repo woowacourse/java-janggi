@@ -5,6 +5,7 @@ import java.util.List;
 import object.Coordinate;
 import object.Route;
 import object.piece.Piece;
+import object.piece.PieceType;
 import object.piece.Pieces;
 import object.piece.Team;
 
@@ -13,7 +14,7 @@ public interface MoveStrategy {
     String INVALID_POSITION = "도달할 수 없는 위치입니다.";
 
     Route getLegalRoute(Coordinate startCoordinate, Coordinate endCoordinate, Team team);
-
+    PieceType getPieceType();
     default Route getLegalRoute(Coordinate startCoordinate, Coordinate endCoordinate, List<Route> canMoveDirections) {
         for (Route canMoveDirection : canMoveDirections) {
             List<Coordinate> moveRoute = new ArrayList<>();

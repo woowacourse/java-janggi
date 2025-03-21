@@ -3,6 +3,7 @@ package object.strategy;
 import java.util.List;
 import object.Coordinate;
 import object.Route;
+import object.piece.PieceType;
 import object.piece.Team;
 
 public class HorseStrategy implements MoveStrategy {
@@ -21,5 +22,9 @@ public class HorseStrategy implements MoveStrategy {
     @Override
     public Route getLegalRoute(Coordinate startCoordinate, Coordinate endCoordinate, Team team) {
         return getLegalRoute(startCoordinate, endCoordinate, canMoveDirections);
+    }
+
+    public PieceType getPieceType() {
+        return PieceType.HORSE;
     }
 }

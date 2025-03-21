@@ -35,8 +35,8 @@ public class CannonStrategyTest {
         Coordinate otherPieceCoordinate = new Coordinate(0, 4);
         Coordinate destinationPieceCoordinate = new Coordinate(0, 5);
         Pieces onRoutePieces = new Pieces(
-                List.of(new Piece(Team.BLUE, new SoldierStrategy(), PieceType.SOLIDER, otherPieceCoordinate),
-                        new Piece(Team.RED, new SoldierStrategy(), PieceType.SOLIDER, destinationPieceCoordinate))
+                List.of(new Piece(Team.BLUE, new SoldierStrategy(), otherPieceCoordinate),
+                        new Piece(Team.RED, new SoldierStrategy(), destinationPieceCoordinate))
         );
         // when
         Coordinate move = moveStrategy.move(new Coordinate(0, 5), onRoutePieces, Team.BLUE);
@@ -51,8 +51,8 @@ public class CannonStrategyTest {
         Coordinate otherPieceCoordinate = new Coordinate(0, 4);
         Coordinate destinationPieceCoordinate = new Coordinate(0, 5);
         Pieces onRoutePieces = new Pieces(
-                List.of(new Piece(Team.BLUE, new SoldierStrategy(), PieceType.SOLIDER, otherPieceCoordinate),
-                        new Piece(Team.BLUE, new SoldierStrategy(), PieceType.SOLIDER, destinationPieceCoordinate))
+                List.of(new Piece(Team.BLUE, new SoldierStrategy(), otherPieceCoordinate),
+                        new Piece(Team.BLUE, new SoldierStrategy(), destinationPieceCoordinate))
         );
         // when
         // then
@@ -67,8 +67,8 @@ public class CannonStrategyTest {
         Coordinate otherPieceCoordinate = new Coordinate(0, 4);
         Coordinate destinationPieceCoordinate = new Coordinate(0, 5);
         Pieces onRoutePieces = new Pieces(
-                List.of(new Piece(Team.BLUE, new SoldierStrategy(), PieceType.SOLIDER, otherPieceCoordinate),
-                        new Piece(Team.RED, new SoldierStrategy(), PieceType.SOLIDER, destinationPieceCoordinate))
+                List.of(new Piece(Team.BLUE, new SoldierStrategy(), otherPieceCoordinate),
+                        new Piece(Team.RED, new SoldierStrategy(), destinationPieceCoordinate))
         );
         // when
 
