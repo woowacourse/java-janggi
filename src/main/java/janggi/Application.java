@@ -5,16 +5,15 @@ import janggi.board.BoardGenerator;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
+import janggi.util.CommandParser;
 import janggi.view.BoardView;
 import janggi.view.InputView;
 import janggi.view.SetupOption;
 import janggi.view.WelcomeView;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Application {
 
-    private final WelcomeView welcomeView = new WelcomeView();
     private final InputView inputView = new InputView();
     private final BoardView boardView = new BoardView();
 
@@ -24,6 +23,7 @@ public class Application {
     }
 
     private void run() {
+        final WelcomeView welcomeView = new WelcomeView();
         welcomeView.display();
         final SetupOption setupOption = readSetupOption();
         final Board board = BoardGenerator.generate(setupOption);
@@ -63,7 +63,7 @@ public class Application {
 
     private void move(final Board board, final String input) {
         try {
-            final List<Integer> moveCommand = parseMoveCommand(input);
+            final List<Integer> moveCommand = CommandParser.parseMoveCommand(input);
             final Position start = new Position(Row.of(moveCommand.get(0)), Column.of(moveCommand.get(1)));
             final Position end = new Position(Row.of(moveCommand.get(2)), Column.of(moveCommand.get(3)));
             board.move(start, end);
@@ -72,14 +72,5 @@ public class Application {
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    private List<Integer> parseMoveCommand(final String input) {
-        List<Integer> moveInfo = new ArrayList<>();
-        moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(5))));
-        moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(6))));
-        moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(8))));
-        moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(9))));
-        return moveInfo;
     }
 }
