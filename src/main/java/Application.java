@@ -1,9 +1,9 @@
 import board.Board;
-import board.strategy.BoardCreateStrategy;
-import board.strategy.MaSangMaSang;
-import board.strategy.MaSangSangMa;
-import board.strategy.SangMaMaSang;
-import board.strategy.SangMaSangMa;
+import board.create.strategy.BoardCreateStrategy;
+import board.create.strategy.MaSangMaSang;
+import board.create.strategy.MaSangSangMa;
+import board.create.strategy.SangMaMaSang;
+import board.create.strategy.SangMaSangMa;
 import java.util.Map;
 import team.Team;
 import view.InputView;

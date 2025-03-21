@@ -1,4 +1,4 @@
-package board.strategy;
+package board.create.strategy;
 
 import coordinate.Coordinate;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import piece.Piece;
 import piece.Sang;
 import team.Team;
 
-public class MaSangSangMa extends BoardCreateStrategy {
+public class SangMaMaSang extends BoardCreateStrategy {
 
     @Override
     public Map<Coordinate, Piece> createPiecesByTeam(Team team) {
@@ -17,10 +17,10 @@ public class MaSangSangMa extends BoardCreateStrategy {
         int y = TEAM_Y_COORDINATE.get(team);
 
         Map<Coordinate, Piece> pieces = new HashMap<>();
-        pieces.put(new Coordinate(x.get(0), y), new Ma(team));
-        pieces.put(new Coordinate(x.get(1), y), new Sang(team));
-        pieces.put(new Coordinate(x.get(2), y), new Sang(team));
-        pieces.put(new Coordinate(x.get(3), y), new Ma(team));
+        pieces.put(new Coordinate(x.get(0), y), new Sang(team));
+        pieces.put(new Coordinate(x.get(1), y), new Ma(team));
+        pieces.put(new Coordinate(x.get(2), y), new Ma(team));
+        pieces.put(new Coordinate(x.get(3), y), new Sang(team));
         return pieces;
     }
 }

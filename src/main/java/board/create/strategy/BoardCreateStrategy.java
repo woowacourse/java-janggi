@@ -1,4 +1,4 @@
-package board.strategy;
+package board.create.strategy;
 
 import coordinate.Coordinate;
 import java.util.HashMap;

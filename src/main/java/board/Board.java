@@ -1,6 +1,6 @@
 package board;
 
-import board.strategy.BoardCreateStrategy;
+import board.create.strategy.BoardCreateStrategy;
 import coordinate.Coordinate;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ public class Board {
 
     private final Map<Coordinate, Piece> pieces;
 
-    public Board(Map<Coordinate, Piece> pieces) {
+    private Board(Map<Coordinate, Piece> pieces) {
         this.pieces = pieces;
     }
 
