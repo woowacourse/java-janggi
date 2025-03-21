@@ -1,7 +1,7 @@
-package domain.position;
+package position;
 
-import domain.piece.MoveDirection;
-import domain.piece.Piece;
+import piece.MoveDirection;
+import piece.Piece;
 
 import java.util.ArrayList;
 import java.util.List;

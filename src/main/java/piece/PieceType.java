@@ -1,7 +1,7 @@
-package domain.piece;
+package piece;
 
-import domain.position.Path;
-import domain.position.Position;
+import position.Path;
+import position.Position;
 
 import java.util.ArrayList;
 import java.util.List;

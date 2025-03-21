@@ -1,14 +1,18 @@
-package domain.position;
+package position;
 
-import domain.Country;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static testUtil.TestConstant.RANK_1;
+import static testUtil.TestConstant.RANK_2;
+import static testUtil.TestConstant.RANK_3;
+import static testUtil.TestConstant.RANK_4;
+import static testUtil.TestConstant.RANK_5;
+
+import game.Country;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
-import static testUtil.TestConstant.*;
 
 class PositionRankTest {
 

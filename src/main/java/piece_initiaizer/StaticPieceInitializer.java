@@ -1,15 +1,14 @@
-package domain.piece_initiaizer;
+package piece_initiaizer;
 
-import domain.Country;
-import domain.StartingPosition;
-import domain.piece.Piece;
-import domain.piece.PieceType;
-import domain.position.Position;
-import domain.position.PositionFile;
-import domain.position.PositionRank;
-
+import game.Country;
+import game.StartingPosition;
 import java.util.HashMap;
 import java.util.Map;
+import piece.Piece;
+import piece.PieceType;
+import position.Position;
+import position.PositionFile;
+import position.PositionRank;
 
 public final class StaticPieceInitializer implements PieceInitializer {
 

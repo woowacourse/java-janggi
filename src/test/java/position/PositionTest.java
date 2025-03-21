@@ -1,12 +1,21 @@
-package domain.position;
+package position;
 
-import domain.Country;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static testUtil.TestConstant.RANK_1;
+import static testUtil.TestConstant.RANK_10;
+import static testUtil.TestConstant.RANK_2;
+import static testUtil.TestConstant.RANK_3;
+import static testUtil.TestConstant.RANK_4;
+import static testUtil.TestConstant.RANK_5;
+import static testUtil.TestConstant.RANK_6;
+import static testUtil.TestConstant.RANK_7;
+import static testUtil.TestConstant.RANK_8;
+import static testUtil.TestConstant.RANK_9;
 
+import game.Country;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
-import static testUtil.TestConstant.*;
+import org.junit.jupiter.api.Test;
 
 class PositionTest {
 
@@ -41,7 +50,6 @@ class PositionTest {
         final PositionRank rank1 = PositionRank.of(10, Country.초나라);
         final PositionFile file2 = PositionFile.가;
         final PositionRank rank2 = PositionRank.of(10, Country.초나라);
-
 
         // expected
         assertThat(new Position(file1, rank1)).isEqualTo(new Position(file2, rank2));

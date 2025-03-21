@@ -1,6 +1,6 @@
-package domain.piece;
+package piece;
 
-import domain.position.Position;
+import position.Position;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -35,7 +35,7 @@ public enum MoveDirection {
             );
             case LEFT -> getPositionIf(
                     () -> currentPosition.isValidToAdd(-1, 0),
-                    () -> currentPosition.add(-1,0 )
+                    () -> currentPosition.add(-1, 0)
             );
             case UP_RIGHT -> getPositionIf(
                     () -> currentPosition.isValidToAdd(1, 1),

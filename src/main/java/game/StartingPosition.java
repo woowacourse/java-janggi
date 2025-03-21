@@ -1,4 +1,4 @@
-package domain;
+package game;
 
 public enum StartingPosition {
     마상마상,

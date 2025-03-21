@@ -1,6 +1,6 @@
-package domain.piece;
+package piece;
 
-import domain.position.Position;
+import position.Position;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static domain.position.PositionFile.*;
+import static position.PositionFile.*;
 import static org.assertj.core.api.Assertions.*;
 import static testUtil.TestConstant.*;
 
@@ -26,7 +26,7 @@ public class PieceTest {
             final Piece piece = new Piece(new Position(마, RANK_5), pieceType);
 
             // expected
-            assertThatCode(() -> piece.move(newPosition, List.of(),List.of()))
+            assertThatCode(() -> piece.move(newPosition, List.of(), List.of()))
                     .doesNotThrowAnyException();
         }
 
@@ -40,7 +40,7 @@ public class PieceTest {
             assertThatCode(() -> piece.move(newPosition, List.of(
                     new Piece(new Position(마, RANK_3), PieceType.차),
                     new Piece(new Position(마, RANK_7), PieceType.포)
-            ),List.of())).doesNotThrowAnyException();
+            ), List.of())).doesNotThrowAnyException();
         }
 
         @ParameterizedTest
@@ -53,7 +53,7 @@ public class PieceTest {
             assertThatThrownBy(() -> piece.move(poEncounterPosition, List.of(
                     new Piece(new Position(마, RANK_3), PieceType.차),
                     new Piece(new Position(마, RANK_7), PieceType.포)
-            ),List.of())).isInstanceOf(IllegalArgumentException.class).hasMessage("움직일 수 없는 위치입니다.");
+            ), List.of())).isInstanceOf(IllegalArgumentException.class).hasMessage("움직일 수 없는 위치입니다.");
         }
 
         @ParameterizedTest
@@ -66,7 +66,7 @@ public class PieceTest {
             assertThatThrownBy(() -> piece.move(noJumpPosition, List.of(
                     new Piece(new Position(마, RANK_3), PieceType.차),
                     new Piece(new Position(마, RANK_7), PieceType.포)
-            ),List.of())).isInstanceOf(IllegalArgumentException.class).hasMessage("움직일 수 없는 위치입니다.");
+            ), List.of())).isInstanceOf(IllegalArgumentException.class).hasMessage("움직일 수 없는 위치입니다.");
         }
 
         @Test
@@ -76,7 +76,7 @@ public class PieceTest {
             final Position position = new Position(라, RANK_1);
 
             // expected
-            assertThatThrownBy(() -> piece.move(position, List.of(),List.of()))
+            assertThatThrownBy(() -> piece.move(position, List.of(), List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("움직일 수 없는 위치입니다.");
         }
@@ -88,7 +88,7 @@ public class PieceTest {
             final Position newPosition = new Position(나, RANK_1);
 
             // when
-            final Piece result = piece.move(newPosition, List.of(),List.of());
+            final Piece result = piece.move(newPosition, List.of(), List.of());
 
             // then
             assertThat(result).extracting(
@@ -111,7 +111,7 @@ public class PieceTest {
             );
 
             // expected
-            assertThatThrownBy(() -> piece.move(newPosition, surroundingPieces,List.of()))
+            assertThatThrownBy(() -> piece.move(newPosition, surroundingPieces, List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("움직일 수 없는 위치입니다.");
         }
@@ -210,18 +210,18 @@ public class PieceTest {
             assertThatCode(() -> attacker.move(
                     new Position(마, RANK_5),
                     List.of(),
-                    List.of(new Piece(new Position(마, RANK_5), PieceType.마)          )
+                    List.of(new Piece(new Position(마, RANK_5), PieceType.마))
             )).doesNotThrowAnyException();
         }
 
         public static Stream<Arguments> provideEatablePiece() {
             return Stream.of(
-                    Arguments.of(new Piece(new Position(다,RANK_6),PieceType.마)),
-                    Arguments.of(new Piece(new Position(바,RANK_5),PieceType.차)),
-                    Arguments.of(new Piece(new Position(마,RANK_6),PieceType.장)),
-                    Arguments.of(new Piece(new Position(마,RANK_4),PieceType.졸)),
-                    Arguments.of(new Piece(new Position(나,RANK_3),PieceType.상)),
-                    Arguments.of(new Piece(new Position(마,RANK_6),PieceType.사))
+                    Arguments.of(new Piece(new Position(다, RANK_6), PieceType.마)),
+                    Arguments.of(new Piece(new Position(바, RANK_5), PieceType.차)),
+                    Arguments.of(new Piece(new Position(마, RANK_6), PieceType.장)),
+                    Arguments.of(new Piece(new Position(마, RANK_4), PieceType.졸)),
+                    Arguments.of(new Piece(new Position(나, RANK_3), PieceType.상)),
+                    Arguments.of(new Piece(new Position(마, RANK_6), PieceType.사))
             );
         }
 

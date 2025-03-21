@@ -1,4 +1,4 @@
-package domain;
+package game;
 
 public enum Country {
     한나라,

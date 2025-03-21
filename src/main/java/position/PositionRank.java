@@ -1,7 +1,6 @@
-package domain.position;
+package position;
 
-import domain.Country;
-
+import game.Country;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;

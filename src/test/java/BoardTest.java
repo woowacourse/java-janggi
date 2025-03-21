@@ -1,21 +1,24 @@
-package domain;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static testUtil.TestConstant.RANK_5;
 
-import domain.piece.Piece;
-import domain.piece.PieceType;
-import domain.piece_initiaizer.StaticPieceInitializer;
-import domain.position.Position;
-import domain.position.PositionFile;
+import game.Board;
+import game.Country;
+import game.StartingPosition;
+import game.Team;
+import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import piece.Piece;
+import piece.PieceType;
+import piece_initiaizer.StaticPieceInitializer;
+import position.Position;
+import position.PositionFile;
 import testUtil.TestConstant;
-
-import java.util.Map;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.*;
-import static testUtil.TestConstant.RANK_5;
 
 public class BoardTest {
 
@@ -63,7 +66,7 @@ public class BoardTest {
         final Team team2 = new Team(StartingPosition.마상마상, new StaticPieceInitializer(), Country.한나라);
 
         // expected
-        assertThatCode(() -> new Board(team1,team2))
+        assertThatCode(() -> new Board(team1, team2))
                 .doesNotThrowAnyException();
     }
 
@@ -93,7 +96,8 @@ public class BoardTest {
         final Map<Position, Piece> result = board.getBoard();
 
         // expected
-        assertThatThrownBy(() -> result.put(new Position(PositionFile.가, TestConstant.RANK_1), new Piece(new Position(PositionFile.라, RANK_5), PieceType.마)))
+        assertThatThrownBy(() -> result.put(new Position(PositionFile.가, TestConstant.RANK_1),
+                new Piece(new Position(PositionFile.라, RANK_5), PieceType.마)))
                 .isInstanceOf(UnsupportedOperationException.class);
     }
 

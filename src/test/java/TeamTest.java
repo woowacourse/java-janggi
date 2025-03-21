@@ -1,22 +1,24 @@
-package domain;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static testUtil.TestConstant.RANK_5;
 
-import domain.piece.Piece;
-import domain.piece.PieceType;
-import domain.piece_initiaizer.StaticPieceInitializer;
-import domain.position.Position;
-import domain.position.PositionFile;
+import game.Country;
+import game.StartingPosition;
+import game.Team;
+import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import piece.Piece;
+import piece.PieceType;
+import piece_initiaizer.StaticPieceInitializer;
+import position.Position;
+import position.PositionFile;
 import testUtil.TestConstant;
-
-import java.util.Map;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.*;
-import static testUtil.TestConstant.RANK_5;
 
 public class TeamTest {
 
@@ -35,15 +37,16 @@ public class TeamTest {
         // given
         final StartingPosition startingPosition = StartingPosition.마상상마;
         final Team team = new Team(startingPosition, new StaticPieceInitializer(), Country.한나라);
-        final Map<Position, Piece> result =  team.getPieces();
+        final Map<Position, Piece> result = team.getPieces();
 
         // expected
-        assertThatThrownBy(() -> result.put(new Position(PositionFile.가, TestConstant.RANK_10), new Piece(new Position(PositionFile.마, RANK_5), PieceType.상)))
+        assertThatThrownBy(() -> result.put(new Position(PositionFile.가, TestConstant.RANK_10),
+                new Piece(new Position(PositionFile.마, RANK_5), PieceType.상)))
                 .isInstanceOf(UnsupportedOperationException.class);
     }
 
     @ParameterizedTest
-    @CsvSource({"한나라","초나라"})
+    @CsvSource({"한나라", "초나라"})
     void 장기판의_나라가_존재한다(Country country) {
         // given
         final StartingPosition startingPosition = StartingPosition.마상상마;
@@ -64,7 +67,7 @@ public class TeamTest {
         final Team team = new Team(StartingPosition.마상마상, new StaticPieceInitializer(), Country.초나라);
 
         // when
-        final Map<Position, Piece> result =  team.getPieces();
+        final Map<Position, Piece> result = team.getPieces();
 
         // then
         assertThat(result.get(position)).extracting(
@@ -81,7 +84,7 @@ public class TeamTest {
         final Team team = new Team(StartingPosition.상마상마, new StaticPieceInitializer(), Country.초나라);
 
         // when
-        final Map<Position, Piece> result =  team.getPieces();
+        final Map<Position, Piece> result = team.getPieces();
 
         // then
         assertThat(result.get(position)).extracting(
@@ -98,7 +101,7 @@ public class TeamTest {
         final Team team = new Team(StartingPosition.마상상마, new StaticPieceInitializer(), Country.초나라);
 
         // when
-        final Map<Position, Piece> result =  team.getPieces();
+        final Map<Position, Piece> result = team.getPieces();
 
         // then
         assertThat(result.get(position)).extracting(
@@ -115,7 +118,7 @@ public class TeamTest {
         final Team team = new Team(StartingPosition.상마마상, new StaticPieceInitializer(), Country.초나라);
 
         // when
-        final Map<Position, Piece> result =  team.getPieces();
+        final Map<Position, Piece> result = team.getPieces();
 
         // then
         assertThat(result.get(position)).extracting(
@@ -132,7 +135,7 @@ public class TeamTest {
         final Team team = new Team(StartingPosition.마상마상, new StaticPieceInitializer(), Country.한나라);
 
         // when
-        final Map<Position, Piece> result =  team.getPieces();
+        final Map<Position, Piece> result = team.getPieces();
 
         // then
         assertThat(result.get(position)).extracting(
@@ -149,7 +152,7 @@ public class TeamTest {
         final Team team = new Team(StartingPosition.상마상마, new StaticPieceInitializer(), Country.한나라);
 
         // when
-        final Map<Position, Piece> result =  team.getPieces();
+        final Map<Position, Piece> result = team.getPieces();
 
         // then
         assertThat(result.get(position)).extracting(
@@ -166,7 +169,7 @@ public class TeamTest {
         final Team team = new Team(StartingPosition.마상상마, new StaticPieceInitializer(), Country.한나라);
 
         // when
-        final Map<Position, Piece> result =  team.getPieces();
+        final Map<Position, Piece> result = team.getPieces();
 
         // then
         assertThat(result.get(position)).extracting(
@@ -183,7 +186,7 @@ public class TeamTest {
         final Team team = new Team(StartingPosition.상마마상, new StaticPieceInitializer(), Country.한나라);
 
         // when
-        final Map<Position, Piece> result =  team.getPieces();
+        final Map<Position, Piece> result = team.getPieces();
 
         // then
         assertThat(result.get(position)).extracting(

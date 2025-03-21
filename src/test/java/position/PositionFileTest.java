@@ -1,4 +1,4 @@
-package domain.position;
+package position;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -42,7 +42,7 @@ class PositionFileTest {
         final PositionFile to = PositionFile.아;
 
         // when
-        final List<PositionFile> betweenFiles =  from.getBetweenFiles(to);
+        final List<PositionFile> betweenFiles = from.getBetweenFiles(to);
 
         // then
         assertThat(betweenFiles).containsExactlyInAnyOrder(

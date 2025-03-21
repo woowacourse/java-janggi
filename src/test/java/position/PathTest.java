@@ -1,14 +1,14 @@
-package domain.position;
+package position;
 
-import domain.piece.MoveDirection;
-import domain.piece.Piece;
-import domain.piece.PieceType;
+import piece.MoveDirection;
+import piece.Piece;
+import piece.PieceType;
 import org.junit.jupiter.api.Test;
 import testUtil.TestConstant;
 
 import java.util.List;
 
-import static domain.position.PositionFile.*;
+import static position.PositionFile.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static testUtil.TestConstant.*;
@@ -58,12 +58,14 @@ class PathTest {
         final Position startPosition = new Position(PositionFile.마, RANK_5);
 
         // when
-        final List<Path> result = Path.getMoveablePaths(startPosition, List.of(MoveDirection.DOWN, MoveDirection.DOWN_LEFT));
+        final List<Path> result = Path.getMoveablePaths(startPosition,
+                List.of(MoveDirection.DOWN, MoveDirection.DOWN_LEFT));
 
         // then
         assertThat(result).containsExactlyInAnyOrder(new Path(
                 new Position(PositionFile.라, RANK_3),
-                List.of(new Position(PositionFile.마, RANK_5), new Position(PositionFile.마, RANK_4), new Position(PositionFile.라, RANK_3))
+                List.of(new Position(PositionFile.마, RANK_5), new Position(PositionFile.마, RANK_4),
+                        new Position(PositionFile.라, RANK_3))
         ));
     }
 

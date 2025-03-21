@@ -1,11 +1,10 @@
-package domain;
-
-import domain.piece.Piece;
-import domain.piece_initiaizer.PieceInitializer;
-import domain.position.Position;
+package game;
 
 import java.util.Collections;
 import java.util.Map;
+import piece.Piece;
+import piece_initiaizer.PieceInitializer;
+import position.Position;
 
 public final class Team {
 
@@ -51,11 +50,13 @@ public final class Team {
         return country;
     }
 
-    public void move(final Position fromPosition, final Position tagetPosition, final Map<Position, Piece> enemyPieces) {
+    public void move(final Position fromPosition, final Position tagetPosition,
+                     final Map<Position, Piece> enemyPieces) {
         validateIsPieceExistInPosition(fromPosition);
 
         final Piece movePiece = pieces.get(fromPosition);
-        final Piece movedPiece = movePiece.move(tagetPosition, pieces.values().stream().toList(), enemyPieces.values().stream().toList());
+        final Piece movedPiece = movePiece.move(tagetPosition, pieces.values().stream().toList(),
+                enemyPieces.values().stream().toList());
         pieces.remove(fromPosition);
         pieces.put(movedPiece.getPosition(), movedPiece);
     }
