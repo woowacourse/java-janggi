@@ -15,8 +15,10 @@ public class Pho extends Piece {
 
     @Override
     public boolean isValidPoint(Point beforePoint, Point targetPoint) {
-        return !((beforePoint.x() == targetPoint.x() && beforePoint.y() == targetPoint.y()) || (
-                beforePoint.x() != targetPoint.x() && beforePoint.y() != targetPoint.y()));
+        boolean isStraightMove = beforePoint.x() == targetPoint.x() || beforePoint.y() == targetPoint.y();
+        boolean isSamePoint = beforePoint.x() == targetPoint.x() && beforePoint.y() == targetPoint.y();
+
+        return isStraightMove && !isSamePoint;
     }
 
     @Override
@@ -47,14 +49,6 @@ public class Pho extends Piece {
         if (piecesOnPathWithTargetOrNot.size() >= 3) {
             return false;
         }
-        if (piecesOnPathWithTargetOrNot.size() == 1) {
-            if (piecesOnPathWithTargetOrNot.values()
-                    .stream().findFirst().get() || piecesOnPathWithTargetOrNot.keySet()
-                    .stream().findFirst().get() instanceof Pho) {
-                return false;
-            }
-            return true;
-        }
 
         if (piecesOnPathWithTargetOrNot.size() == 2) {
             if (piecesOnPathWithTargetOrNot
@@ -70,7 +64,8 @@ public class Pho extends Piece {
                 return false;
             }
 
-            if (piecesOnPathWithTargetOrNot.entrySet().stream()
+            if (piecesOnPathWithTargetOrNot.entrySet()
+                    .stream()
                     .filter(Entry::getValue)
                     .findFirst()
                     .get()
@@ -80,8 +75,20 @@ public class Pho extends Piece {
             }
             return true;
         }
+
+        if (piecesOnPathWithTargetOrNot.size() == 1) {
+            if (piecesOnPathWithTargetOrNot.values()
+                    .stream()
+                    .findFirst()
+                    .get() ||
+                    piecesOnPathWithTargetOrNot.keySet()
+                    .stream()
+                            .findFirst()
+                            .get() instanceof Pho) {
+                return false;
+            }
+            return true;
+        }
         return true;
     }
-
-
 }

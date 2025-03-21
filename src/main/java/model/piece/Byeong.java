@@ -40,9 +40,12 @@ public class Byeong extends Piece {
     @Override
     public boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
         if (piecesOnPathWithTargetOrNot.size() == 1) {
-            return piecesOnPathWithTargetOrNot.keySet().stream().findFirst().get().getTeam() != this.team;
+            return piecesOnPathWithTargetOrNot.keySet()
+                    .stream()
+                    .findFirst()
+                    .get()
+                    .getTeam() != this.team;
         }
         return true;
     }
-
 }
