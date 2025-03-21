@@ -18,20 +18,22 @@ public class Application {
         while (true) {
             showCurrentPositionOfPieces(pieces);
             String choiceDirection = inputView.printMovePiece();
-            Position startPosition = Position.initFrom(InputParser.split(choiceDirection));
-            Piece piece = pieces.findPiece(startPosition);
+            Position departure = Position.initFrom(InputParser.split(choiceDirection));
+            Piece piece = pieces.findPiece(departure);
+
             String moveDirection = inputView.printMovePosition(piece);
-            Position destinationDirection = Position.initFrom(InputParser.split(moveDirection));
-            moveOfPiece(piece, pieces, destinationDirection);
+            Position arrival = Position.initFrom(InputParser.split(moveDirection));
+            moveOfPiece(pieces, departure, arrival);
         }
     }
 
-    private static void moveOfPiece(Piece piece, Pieces pieces, Position destinationDirection) {
+    private static void moveOfPiece(Pieces pieces, Position departure, Position arrival) {
+        Piece piece = pieces.findPiece(departure);
         if (piece.isCannon()) {
-            pieces.validateCannonMove(piece, destinationDirection);
+            //pieces.validateCannonMove(piece, destinationDirection);
             return;
         }
-        pieces.validateCanMove(piece, destinationDirection);
+        pieces.validateCanMove(departure, arrival);
     }
 
     private static void showCurrentPositionOfPieces(Pieces pieces) {
