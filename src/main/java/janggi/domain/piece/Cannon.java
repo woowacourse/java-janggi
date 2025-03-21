@@ -9,6 +9,8 @@ import java.util.List;
 
 public class Cannon extends Piece {
 
+    private static final int SCORE = 7;
+
     public Cannon(final Position position, final Team team) {
         super(position, team, PieceType.Cannon);
     }
@@ -65,6 +67,6 @@ public class Cannon extends Piece {
 
     @Override
     public Score die() {
-        return Score.Cannon();
+        return new Score(SCORE);
     }
 }

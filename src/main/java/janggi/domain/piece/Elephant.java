@@ -9,7 +9,8 @@ import java.util.List;
 
 public class Elephant extends Piece {
 
-    public static final Movement MOVEMENT = new Movement(List.of(2, 3));
+    private static final int SCORE = 3;
+    private static final Movement MOVEMENT = new Movement(List.of(2, 3));
 
     public Elephant(final Position position, final Team team) {
         super(position, team, PieceType.Elephant);
@@ -45,6 +46,6 @@ public class Elephant extends Piece {
 
     @Override
     public Score die() {
-        return Score.Elephant();
+        return new Score(SCORE);
     }
 }

@@ -7,6 +7,8 @@ import janggi.domain.Team;
 
 public class General extends Piece {
 
+    private static final int SCORE = 0;
+
     public General(final Position position, final Team team) {
         super(position, team, PieceType.General);
     }
@@ -36,6 +38,6 @@ public class General extends Piece {
 
     @Override
     public Score die() {
-        return Score.Soldier();
+        return new Score(SCORE);
     }
 }

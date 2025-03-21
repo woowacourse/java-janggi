@@ -8,6 +8,8 @@ import java.util.List;
 
 public class Guard extends Piece {
 
+    private static final int SCORE = 3;
+
     public Guard(final Position position, final Team team) {
         super(position, team, PieceType.Guard);
     }
@@ -39,6 +41,6 @@ public class Guard extends Piece {
 
     @Override
     public Score die() {
-        return Score.Guard();
+        return new Score(SCORE);
     }
 }

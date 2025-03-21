@@ -8,6 +8,8 @@ import java.util.List;
 
 public class Soldier extends Piece {
 
+    private static final int SCORE = 2;
+
     public Soldier(final Position position, final Team team) {
         super(position, team, PieceType.Soldier);
     }
@@ -47,6 +49,6 @@ public class Soldier extends Piece {
 
     @Override
     public Score die() {
-        return Score.Soldier();
+        return new Score(SCORE);
     }
 }

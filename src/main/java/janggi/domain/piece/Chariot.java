@@ -8,6 +8,8 @@ import java.util.List;
 
 public class Chariot extends Piece {
 
+    private static final int SCORE = 13;
+
     public Chariot(final Position position, final Team team) {
         super(position, team, PieceType.Chariot);
     }
@@ -39,6 +41,6 @@ public class Chariot extends Piece {
 
     @Override
     public Score die() {
-        return Score.Chariot();
+        return new Score(SCORE);
     }
 }
