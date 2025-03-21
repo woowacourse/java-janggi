@@ -7,10 +7,10 @@ import domain.PieceType;
 import domain.Team;
 import java.util.List;
 
-public class General extends Piece {
+public class Guard extends Piece {
 
-    public General(final Team team) {
-        super(PieceType.GENERAL, team);
+    public Guard(final Team team) {
+        super(PieceType.GUARD, team);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class General extends Piece {
     }
 
     // TODO : Piece의 추상 메서드로 두어도 괜찮을 것 같다.
-    // TODO : 추후) 왕은 궁성 밖으로 나갈 수 없다.
+    // TODO : 추후) 사는 궁성 밖으로 나갈 수 없다.
     private void validateOffset(final Offset offset) {
         if (offset.x() == 0 && Math.abs(offset.y()) == 1) {
             return;

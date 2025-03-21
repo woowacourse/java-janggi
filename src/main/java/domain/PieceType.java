@@ -158,12 +158,7 @@ public enum PieceType {
             List.of(new BoardPosition(0, 6), new BoardPosition(2, 6),
                     new BoardPosition(4, 6),
                     new BoardPosition(6, 6), new BoardPosition(8, 6))
-    ), Map.of(
-            RIGHT, List.of(RIGHT),
-            LEFT, List.of(LEFT),
-            UP, List.of(UP),
-            DOWN, List.of(DOWN)
-    ), 0);
+    ), null, 0);
 
     private final String title;
     private final Map<Team, List<BoardPosition>> initialPosition;
