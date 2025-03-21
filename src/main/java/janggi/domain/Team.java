@@ -38,4 +38,11 @@ public enum Team {
     public String getCountry() {
         return country;
     }
+
+    public static Team getEnemy(Team team) {
+        if (team.isRed()) {
+            return GREEN;
+        }
+        return RED;
+    }
 }

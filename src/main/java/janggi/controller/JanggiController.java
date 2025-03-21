@@ -1,6 +1,8 @@
 package janggi.controller;
 
 import janggi.domain.Board;
+import janggi.domain.JanggiGame;
+import janggi.domain.Player;
 import janggi.domain.Position;
 import janggi.domain.Team;
 import janggi.domain.piece.Cannon;
@@ -16,13 +18,13 @@ import janggi.view.OutputView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final Map<Command, Runnable> command;
-    private final Board board;
+    private final Map<Command, Consumer<JanggiGame>> command;
 
     public JanggiController(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
@@ -31,7 +33,24 @@ public class JanggiController {
                 Command.MOVE, this::movePiece,
                 Command.END, this::end
         );
-        this.board = initiateBoard();
+    }
+
+    public void run() {
+        JanggiGame janggiGame = initiateJanggiGame();
+        String command;
+        do {
+            printCurrentGame(janggiGame);
+            command = inputView.readCommand();
+            runCommand(janggiGame, command);
+        } while (!command.equals("end") && janggiGame.isContinue());
+        outputView.printGameWinMessage(janggiGame.getGameStatus());
+    }
+
+    private JanggiGame initiateJanggiGame() {
+        Player redPlayer = createPlayer(Team.RED);
+        Player greenPlayer = createPlayer(Team.GREEN);
+        Board board = initiateBoard();
+        return new JanggiGame(board, redPlayer, greenPlayer);
     }
 
     private Board initiateBoard() {
@@ -48,32 +67,33 @@ public class JanggiController {
         return Board.initialize(pieces);
     }
 
-    public void run() {
-        String command;
-        do {
-            outputView.printBoard(board.getPositionToPiece());
-            command = inputView.readCommand();
-            runCommand(command);
-        } while (!command.equals("end"));
+    private Player createPlayer(Team team) {
+        return inputView.readPlayer(team);
     }
 
-    private void runCommand(String commandInput) {
+    private void printCurrentGame(final JanggiGame janggiGame) {
+        outputView.printBoard(janggiGame.getPositionToPiece());
+        outputView.printCurrentTurn(janggiGame.getCurrentPlayer());
+        janggiGame.checkWinCondition();
+    }
+
+    private void runCommand(final JanggiGame janggiGame, final String commandInput) {
         try {
             Command command = Command.getCommand(commandInput);
-            Runnable commandRunner = this.command.get(command);
-            commandRunner.run();
+            Consumer<JanggiGame> commandRunner = this.command.get(command);
+            commandRunner.accept(janggiGame);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    private void movePiece() {
+    private void movePiece(JanggiGame janggiGame) {
         Position departure = inputView.readStartPosition();
         Position destination = inputView.readMovePosition();
-        board.movePiece(departure, destination);
+        janggiGame.moveByPlayer(departure, destination);
     }
 
-    private void end() {
+    private void end(JanggiGame janggiGame) {
         outputView.printEndMessage();
     }
 }
