@@ -4,6 +4,7 @@ import domain.InitialPiecesPositions;
 import domain.Team;
 import domain.piece.Cannon;
 import domain.piece.Piece;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +68,8 @@ public class Board {
             final BoardPosition destinationBoardPosition,
             final Piece movePiece
     ) {
-        int obstacleCount = calculateObstacleCount(movementRule, destinationBoardPosition, selectBoardPosition);
+        List<BoardPosition> routePositions = calculateRoutePositions(movementRule, selectBoardPosition);
+        int obstacleCount = calculateObstacleCount(routePositions, destinationBoardPosition);
         if (!movePiece.isObstacleCountAllowed(obstacleCount)) {
             throw new IllegalArgumentException("이동경로에 적합하지 않은 장애물이 있습니다.");
         }
@@ -78,37 +80,25 @@ public class Board {
     }
 
     private int calculateObstacleCount(
-            final List<Offset> movementRule,
-            final BoardPosition destinationBoardPosition,
-            BoardPosition currentBoardPosition
+            final List<BoardPosition> routePositions,
+            final BoardPosition destinationBoardPosition
     ) {
-        int obstacleCount = 0;
-        for (final Offset offset : movementRule) {
-            currentBoardPosition = currentBoardPosition.calculatePosition(offset);
-            if (currentBoardPosition.equals(destinationBoardPosition)) {
-                break;
-            }
-
-            if (pieces.containsKey(currentBoardPosition)) {
-                obstacleCount++;
-            }
-        }
-        return obstacleCount;
+        return (int) routePositions.stream()
+                .filter(pieces::containsKey)
+                .filter(position -> !position.equals(destinationBoardPosition))
+                .count();
     }
 
-    private void validateCannonMovementRule(
+    private List<BoardPosition> calculateRoutePositions(
             final List<Offset> movementRule,
-            final BoardPosition targetBoardPosition
+            BoardPosition currentBoardPosition
     ) {
-        BoardPosition currentBoardPosition = targetBoardPosition;
+        List<BoardPosition> routePositions = new ArrayList<>(movementRule.size());
         for (final Offset offset : movementRule) {
-            currentBoardPosition = currentBoardPosition.calculatePosition(offset);
-
-            if (pieces.containsKey(currentBoardPosition)
-                    && pieces.get(currentBoardPosition).getClass() == Cannon.class) {
-                throw new IllegalArgumentException("포는 포를 넘거나 잡을 수 없습니다.");
-            }
+            currentBoardPosition = currentBoardPosition.plus(offset);
+            routePositions.add(currentBoardPosition);
         }
+        return routePositions;
     }
 
     private void removeDestinationEnemyPiece(
@@ -118,6 +108,21 @@ public class Board {
     ) {
         if (destinationPiece != null && currentTeam != destinationPiece.getTeam()) {
             pieces.remove(destinationBoardPosition);
+        }
+    }
+
+    private void validateCannonMovementRule(
+            final List<Offset> movementRule,
+            final BoardPosition targetBoardPosition
+    ) {
+        BoardPosition currentBoardPosition = targetBoardPosition;
+        for (final Offset offset : movementRule) {
+            currentBoardPosition = currentBoardPosition.plus(offset);
+
+            if (pieces.containsKey(currentBoardPosition)
+                    && pieces.get(currentBoardPosition).getClass() == Cannon.class) {
+                throw new IllegalArgumentException("포는 포를 넘거나 잡을 수 없습니다.");
+            }
         }
     }
 

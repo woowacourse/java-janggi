@@ -165,11 +165,9 @@ class BoardTest {
             void movePieceCannonCase3() {
                 // given
                 Board board = new Board(Map.of(
-                        new BoardPosition(0, 0),
-                        new Cannon(Team.RED),
+                        new BoardPosition(0, 0), new Cannon(Team.RED),
                         new BoardPosition(0, 4), new Zzu(Team.RED),
-                        new BoardPosition(0, 6),
-                        new Cannon(Team.GREEN))
+                        new BoardPosition(0, 6), new Cannon(Team.GREEN))
                 );
 
                 // when & then
