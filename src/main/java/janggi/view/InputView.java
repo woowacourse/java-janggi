@@ -25,23 +25,23 @@ public class InputView {
 
     public Position readMovedPiecePosition() {
         System.out.println("이동할 장기말의 좌표 입력해주세요.");
-        String line = scanner.nextLine();
-        List<String> positionInput = List.of(line.split(","));
-        int x = Integer.parseInt(positionInput.getFirst());
-        int y = Integer.parseInt(positionInput.getLast());
-
-        System.out.println();
-        return new Position(x, y);
+        return readPosition();
     }
 
     public Position readDestinationPosition() {
         System.out.println("목적지 좌표를 입력해주세요.");
+        return readPosition();
+    }
+
+    private Position readPosition() {
         String line = scanner.nextLine();
         List<String> positionInput = List.of(line.split(","));
-        int x = Integer.parseInt(positionInput.getFirst());
-        int y = Integer.parseInt(positionInput.getLast());
-
-        System.out.println();
-        return new Position(x, y);
+        try {
+            int x = Integer.parseInt(positionInput.getFirst());
+            int y = Integer.parseInt(positionInput.getLast());
+            return new Position(x, y);
+        } catch (NumberFormatException exception) {
+            throw new IllegalArgumentException("[ERROR] 적절하지 않은 입력값입니다.");
+        }
     }
 }

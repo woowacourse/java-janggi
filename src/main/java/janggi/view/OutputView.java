@@ -10,26 +10,26 @@ public class OutputView {
     private static final char SPACE = '\u3000';
     private static final char SQUARE = '\u53E3';
     private static final List<Character> unicodes = List.of(
-            '\uFF10', '\uFF11', '\uFF12', '\uFF13', '\uFF14', '\uFF15', '\uFF16', '\uFF17', '\uFF18', '\uFF19');
+            '\uFF10', '\uFF11', '\uFF12', '\uFF13', '\uFF14',
+            '\uFF15', '\uFF16', '\uFF17', '\uFF18', '\uFF19');
 
     public void writeStartMessage() {
         System.out.println("장기 게임을 시작하겠습니다!");
     }
 
-    public void writeChoStart() {
-        System.out.println("초나라 먼저 시작");
-        System.out.println();
-    }
-
     public void writeJanggiBoard(final List<Piece> choPieces, final List<Piece> hanPieces) {
+        writeBoardYHeader();
+
         List<Piece> allPieces = new ArrayList<>();
         allPieces.addAll(choPieces);
         allPieces.addAll(hanPieces);
 
-        writeHeader();
-
-        for (int i = 0; i < 10; i++) {
-            writeOneLineInBoard(i, allPieces);
+        for (int y = 0; y < 10; y++) {
+            int yPosition = y;
+            List<Piece> pieces = allPieces.stream()
+                    .filter(piece -> piece.getPosition().y() == yPosition)
+                    .toList();
+            writeOneLineInBoard(y, pieces);
         }
 
         System.out.println();
@@ -38,15 +38,10 @@ public class OutputView {
     public void writeTurn(CampType campType) {
         String turnContent = String.format("%s의 턴입니다.", campType.getName());
         System.out.println(turnContent);
-        System.out.println();
     }
 
-    private void writeOneLineInBoard(int i, List<Piece> allPieces) {
-        List<Piece> pieces = allPieces.stream()
-                .filter(piece -> piece.getPosition().y() == i)
-                .toList();
-
-        System.out.print(unicodes.get(i));
+    private void writeOneLineInBoard(int y, List<Piece> pieces) {
+        System.out.print(unicodes.get(y));
         for (int x = 0; x < 9; x++) {
             int xPosition = x;
             pieces.stream()
@@ -60,12 +55,11 @@ public class OutputView {
         System.out.println();
     }
 
-    private static void writeHeader() {
+    private static void writeBoardYHeader() {
         System.out.print(SPACE);
         for (int i = 0; i < 9; i++) {
             System.out.print(unicodes.get(i));
         }
         System.out.println();
     }
-
 }
