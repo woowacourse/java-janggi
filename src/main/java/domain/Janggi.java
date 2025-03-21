@@ -9,39 +9,40 @@ import java.util.Map;
 public class Janggi {
 
     private final Board board;
-    private Team currentTeam;
+    private final Turn turn;
 
     public Janggi(
             final Board board,
-            final Team currentTeam
+            final Turn turn
     ) {
-        validateNotNull(board, currentTeam);
+        validateNotNull(board, turn);
         this.board = board;
-        this.currentTeam = currentTeam;
+        this.turn = turn;
     }
 
     private void validateNotNull(
             final Board board,
-            final Team currentTeam
+            final Turn turn
     ) {
-        if (board == null || currentTeam == null) {
-            throw new IllegalArgumentException("보드는 보드와 현재 팀을 가져야합니다.");
+        if (board == null || turn == null) {
+            throw new IllegalArgumentException("보드는 보드와 현재 턴을 가져야합니다.");
         }
     }
 
     public static Janggi initialize() {
         final Board board = Board.initialize();
-        final Team currentTeam = Team.GREEN;
-        return new Janggi(board, currentTeam);
+        final Turn turn = new Turn(Team.GREEN);
+        return new Janggi(board, turn);
     }
 
     public void processTurn(final SelectedPositions selectedPositions) {
         board.movePiece(
                 selectedPositions.selectPosition(),
                 selectedPositions.destinationPosition(),
-                currentTeam
+                turn.currentTeam()
         );
-        currentTeam = currentTeam.nextTeam();
+
+        turn.change();
     }
 
     public Map<BoardPosition, Piece> getPieces() {
@@ -49,6 +50,6 @@ public class Janggi {
     }
 
     public Team getCurrentTeam() {
-        return currentTeam;
+        return turn.currentTeam();
     }
 }

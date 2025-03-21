@@ -9,27 +9,30 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class TeamTest {
+class TurnTest {
 
     @Nested
     class ValidCases {
 
-        @DisplayName("다음 순서의 팀을 반환한다.")
+        @DisplayName("턴을 넘겨 현재 팀을 바꾼다.")
         @ParameterizedTest
         @MethodSource("provideTeamCases")
-        void nextTeam(
-                Team currentTeam,
-                Team expectedTeam
+        void change(
+                Turn currentTurn,
+                Team changedTeam
         ) {
-            // when & then
-            assertThat(currentTeam.nextTeam()).isEqualTo(expectedTeam);
+            // when
+            currentTurn.change();
+
+            // then
+            assertThat(currentTurn.currentTeam()).isEqualTo(changedTeam);
         }
 
         static Stream<Arguments> provideTeamCases() {
             // given
             return Stream.of(
-                    Arguments.of(Team.RED, Team.GREEN),
-                    Arguments.of(Team.GREEN, Team.RED)
+                    Arguments.of(new Turn(Team.RED), Team.GREEN),
+                    Arguments.of(new Turn(Team.GREEN), Team.RED)
             );
         }
     }
