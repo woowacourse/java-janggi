@@ -2,15 +2,12 @@ package janggi.piece;
 
 import janggi.board.Position;
 import janggi.board.Route;
-
 import java.util.List;
 
-public class Elephant implements Piece {
-
-    private final Side side;
+public class Elephant extends Piece {
 
     public Elephant(final Side side) {
-        this.side = side;
+        super(side);
     }
 
     @Override
@@ -28,7 +25,12 @@ public class Elephant implements Piece {
         );
     }
 
-    private static Route computeRouteFixDeltaX(final Position originalPosition, int deltaX, int upDown) {
+    @Override
+    public String getSymbol() {
+        return "E";
+    }
+
+    private Route computeRouteFixDeltaX(final Position originalPosition, int deltaX, int upDown) {
         Route candidateRoute = new Route();
         Position horizotalMovedPosition = originalPosition.move(deltaX, 0);
         Position diagonalMovedPosition1 = horizotalMovedPosition.move(deltaX, upDown);
@@ -40,7 +42,7 @@ public class Elephant implements Piece {
         return candidateRoute;
     }
 
-    private static Route computeRouteFixDeltaY(final Position position, int deltaY, int leftRight) {
+    private Route computeRouteFixDeltaY(final Position position, int deltaY, int leftRight) {
         Route candidateRoute = new Route();
         Position verticalMovedPosition = position.move(0, deltaY);
         Position diagonalMovedPosition1 = verticalMovedPosition.move(leftRight, deltaY);
@@ -52,18 +54,4 @@ public class Elephant implements Piece {
         return candidateRoute;
     }
 
-    @Override
-    public String getSymbol() {
-        return "E";
-    }
-
-    @Override
-    public boolean isCho() {
-        return side == Side.CHO;
-    }
-
-    @Override
-    public boolean isHan() {
-        return side == Side.HAN;
-    }
 }

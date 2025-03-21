@@ -2,12 +2,12 @@ package janggi.piece;
 
 import janggi.board.Position;
 import janggi.board.Route;
-
 import java.util.List;
 
-public class Empty implements Piece {
+public class Empty extends Piece {
 
     public Empty() {
+        super(Side.NONE);
     }
 
     @Override
@@ -20,13 +20,4 @@ public class Empty implements Piece {
         return "·";
     }
 
-    @Override
-    public boolean isCho() {
-        return false;
-    }
-
-    @Override
-    public boolean isHan() {
-        return false;
-    }
 }

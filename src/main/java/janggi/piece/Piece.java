@@ -2,16 +2,28 @@ package janggi.piece;
 
 import janggi.board.Position;
 import janggi.board.Route;
-
 import java.util.List;
 
-public interface Piece {
+public abstract class Piece {
 
-    List<Route> computeCandidatePositions(Position position);
+    protected static final int MOVE_LIMIT = 10;
 
-    String getSymbol();
+    private final Side side;
 
-    boolean isCho();
+    protected Piece(final Side side) {
+        this.side = side;
+    }
 
-    boolean isHan();
+    public abstract List<Route> computeCandidatePositions(final Position position);
+
+    public abstract String getSymbol();
+
+    public boolean isCho() {
+        return side == Side.CHO;
+    }
+
+    public boolean isHan() {
+        return side == Side.HAN;
+    }
+
 }

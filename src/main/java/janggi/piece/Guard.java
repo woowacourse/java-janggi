@@ -2,15 +2,12 @@ package janggi.piece;
 
 import janggi.board.Position;
 import janggi.board.Route;
-
 import java.util.List;
 
-public class Guard implements Piece {
-
-    private final Side side;
+public class Guard extends Piece {
 
     public Guard(final Side side) {
-        this.side = side;
+        super(side);
     }
 
     @Override
@@ -28,13 +25,4 @@ public class Guard implements Piece {
         return "S";
     }
 
-    @Override
-    public boolean isCho() {
-        return side == Side.CHO;
-    }
-
-    @Override
-    public boolean isHan() {
-        return side == Side.HAN;
-    }
 }

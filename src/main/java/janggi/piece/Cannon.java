@@ -2,17 +2,12 @@ package janggi.piece;
 
 import janggi.board.Position;
 import janggi.board.Route;
-
 import java.util.List;
 
-public class Cannon implements Piece {
-
-    private static final int MOVE_LIMIT = 10;
-
-    private final Side side;
+public class Cannon extends Piece {
 
     public Cannon(final Side side) {
-        this.side = side;
+        super(side);
     }
 
     @Override
@@ -37,13 +32,4 @@ public class Cannon implements Piece {
         return "P";
     }
 
-    @Override
-    public boolean isCho() {
-        return side == Side.CHO;
-    }
-
-    @Override
-    public boolean isHan() {
-        return side == Side.HAN;
-    }
 }
