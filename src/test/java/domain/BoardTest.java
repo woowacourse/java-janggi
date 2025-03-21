@@ -21,14 +21,14 @@ class BoardTest {
         // given
         // when
         // then
-        assertThatCode(Board::initialize).doesNotThrowAnyException();
+        assertThatCode(BoardFactory::create).doesNotThrowAnyException();
     }
 
     @Test
     void 보드판_말_32개_올바르게_생성() {
 
         // given
-        final Board board = Board.initialize();
+        final Board board = BoardFactory.create();
 
         // when
         final int pieceCount = board.countPieces();
@@ -41,7 +41,7 @@ class BoardTest {
     void 좌표에_해당되는_포지션_반환() {
 
         // given
-        final Board board = Board.initialize();
+        final Board board = BoardFactory.create();
         final Point point = Point.of(0, 0);
         final Position expectedPosition = new Position(point,
                 PieceFactory.createGreenTeam(Chariot::new, Score.CHARIOT));
@@ -57,7 +57,7 @@ class BoardTest {
     void 상의_이동_경로에_말이_있으면_true_없으면_false_반환() {
 
         // given
-        final Board board = Board.initialize();
+        final Board board = BoardFactory.create();
 
         // when
         final Position treuPosition = board.findPositionBy(Point.of(1, 0));
@@ -74,7 +74,7 @@ class BoardTest {
     void 특정_위치에_말이_있다면_true_없다면_false_반환() {
 
         // given
-        final Board board = Board.initialize();
+        final Board board = BoardFactory.create();
 
         // when
         // then
@@ -88,7 +88,7 @@ class BoardTest {
     void 이동할_위치에_같은_팀_말이_있으면_예외_발생() {
 
         // given
-        final Board board = Board.initialize();
+        final Board board = BoardFactory.create();
 
         // when
         final Position position = board.findPositionBy(Point.of(2, 0));
@@ -103,7 +103,7 @@ class BoardTest {
     void 이동할_위치에_같은_팀_말이_없으면_정상_동작() {
 
         // given
-        final Board board = Board.initialize();
+        final Board board = BoardFactory.create();
 
         // when
         final Position position = board.findPositionBy(Point.of(2, 0));
@@ -117,7 +117,7 @@ class BoardTest {
     @Test
     void 말이_올바른_이동을_한다() {
         // given
-        final Board board = Board.initialize();
+        final Board board = BoardFactory.create();
 
         // when
         final Position position = board.findPositionBy(Point.of(2, 0));
@@ -131,7 +131,7 @@ class BoardTest {
     @Test
     void 말이_상대_말을_잡을_수_있다() {
         // given
-        final Board board = Board.initialize();
+        final Board board = BoardFactory.create();
         final Point expectedPoint = Point.of(1, 6);
         final Cannon cannon = PieceFactory.createCannon();
 
@@ -160,7 +160,7 @@ class BoardTest {
     @Test
     void 포가_포를_잡지_못한다() {
         // given
-        final Board board = Board.initialize();
+        final Board board = BoardFactory.create();
         final Point expectedPoint = Point.of(1, 7);
         final Cannon cannon = PieceFactory.createCannon();
 
