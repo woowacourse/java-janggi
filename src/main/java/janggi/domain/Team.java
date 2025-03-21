@@ -1,8 +1,8 @@
 package janggi.domain;
 
 public enum Team {
-    RED("초", "\u001B[32m"),
-    GREEN("한", "\u001B[31m"),
+    RED("한", "\u001B[31m"),
+    GREEN("초", "\u001B[32m"),
     ;
 
     public static final String COLOR_RESET = "\u001B[0m";
