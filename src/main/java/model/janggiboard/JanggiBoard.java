@@ -40,7 +40,7 @@ public class JanggiBoard {
     }
 
     private void placePiece(JanggiBoardSetUp janggiBoardSetUp) {
-        janggiBoardSetUp.getMap().forEach((key, value)
+        janggiBoardSetUp.getPoints().forEach((key, value)
                 -> janggiBoard.get(key.y()).get(key.x()).place(value));
     }
 

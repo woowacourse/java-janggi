@@ -20,13 +20,13 @@ public class Janggi {
                 janggiBoard = new JanggiBoard(JanggiBoardSetUp.INNER_ELEPHANT);
                 break;
             case 2:
-                janggiBoard = new JanggiBoard(JanggiBoardSetUp.OUTER_ELEPHANT);
+                janggiBoard = new JanggiBoard(JanggiBoardSetUp.OUTER_SANG);
                 break;
             case 3:
-                janggiBoard = new JanggiBoard(JanggiBoardSetUp.LEFT_ELEPHANT);
+                janggiBoard = new JanggiBoard(JanggiBoardSetUp.LEFT_SANG);
                 break;
             case 4:
-                janggiBoard = new JanggiBoard(JanggiBoardSetUp.RIGHT_ELEPHANT);
+                janggiBoard = new JanggiBoard(JanggiBoardSetUp.RIGHT_SANG);
                 break;
             default:
                 throw new IllegalArgumentException("다시 입력하세요.");

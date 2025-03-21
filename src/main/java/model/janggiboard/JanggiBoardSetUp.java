@@ -16,10 +16,11 @@ import model.piece.Sang;
 
 public enum JanggiBoardSetUp {
 
-    INNER_ELEPHANT(Map.ofEntries(
+    INNER_SANG(Map.ofEntries(
             Map.entry(Point.of(1, 0), new Ma(BLUE)),
             Map.entry(Point.of(7, 0), new Ma(BLUE)),
             Map.entry(Point.of(2, 0), new Sang(BLUE)),
+
             Map.entry(Point.of(6, 0), new Sang(BLUE)),
 
             Map.entry(Point.of(1, 9), new Ma(RED)),
@@ -28,7 +29,7 @@ public enum JanggiBoardSetUp {
             Map.entry(Point.of(6, 9), new Sang(RED))
     )),
 
-    OUTER_ELEPHANT(Map.ofEntries(
+    OUTER_SANG(Map.ofEntries(
             Map.entry(Point.of(1, 0), new Sang(BLUE)),
             Map.entry(Point.of(7, 0), new Sang(BLUE)),
             Map.entry(Point.of(2, 0), new Ma(BLUE)),
@@ -40,7 +41,7 @@ public enum JanggiBoardSetUp {
             Map.entry(Point.of(6, 9), new Ma(RED))
     )),
 
-    LEFT_ELEPHANT(Map.ofEntries(
+    LEFT_SANG(Map.ofEntries(
 
             Map.entry(Point.of(1, 0), new Sang(BLUE)),
             Map.entry(Point.of(2, 0), new Ma(BLUE)),
@@ -53,7 +54,7 @@ public enum JanggiBoardSetUp {
             Map.entry(Point.of(7, 9), new Ma(RED))
     )),
 
-    RIGHT_ELEPHANT(Map.ofEntries(
+    RIGHT_SANG(Map.ofEntries(
             Map.entry(Point.of(1, 0), new Ma(BLUE)),
             Map.entry(Point.of(2, 0), new Sang(BLUE)),
             Map.entry(Point.of(6, 0), new Ma(BLUE)),
@@ -101,13 +102,13 @@ public enum JanggiBoardSetUp {
             Map.entry(Point.of(8, 9), new Cha(RED))
     ));
 
-    private Map<Point, Piece> map;
+    private Map<Point, Piece> points;
 
-    JanggiBoardSetUp(Map<Point, Piece> map) {
-        this.map = map;
+    JanggiBoardSetUp(Map<Point, Piece> points) {
+        this.points = points;
     }
 
-    public Map<Point, Piece> getMap() {
-        return map;
+    public Map<Point, Piece> getPoints() {
+        return points;
     }
 }

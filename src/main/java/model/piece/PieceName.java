@@ -9,8 +9,7 @@ public enum PieceName {
     PHO("包"),
     BYEONG("兵");
 
-
-
+    
     public String getName() {
         return name;
     }
