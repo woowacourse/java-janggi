@@ -76,7 +76,6 @@ public class Application {
 
     private List<Integer> parseMoveCommand(final String input) {
         List<Integer> moveInfo = new ArrayList<>();
-        System.out.println("내가 입력한 값 : " + input);
         moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(5))));
         moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(6))));
         moveInfo.add(Integer.parseInt(String.valueOf(input.charAt(8))));
