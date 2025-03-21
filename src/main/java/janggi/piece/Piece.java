@@ -1,8 +1,8 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.position.Position;
 import janggi.rule.MovingRules;
+import java.util.Map;
 
 public abstract class Piece {
 
@@ -14,15 +14,15 @@ public abstract class Piece {
         this.movingRules = movingRules;
     }
 
-    public abstract boolean canMove(final Position start, final Position end, final Board board);
+    public abstract void validateMove(final Position start, final Position end, final Map<Position, Piece> board);
 
     public abstract Type type();
 
-    public boolean isHan() {
+    public final boolean isHan() {
         return team == Team.HAN;
     }
 
-    public boolean isSameTeam(final Team team) {
-        return this.team == team;
+    public final boolean isSameTeam(final Piece other) {
+        return other.team == this.team;
     }
 }

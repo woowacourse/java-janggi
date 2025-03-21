@@ -10,11 +10,11 @@ class MovingRuleTest {
 
     @DisplayName("moveUnit의 합을 반환한다.")
     @Test
-    void testSumUnit() {
+    void testSumAllVectors() {
         // given
         final MovingRule movingRule = new MovingRule(List.of(new MoveVector(1, 0), new MoveVector(-1, 0)));
         // when
-        final MoveVector actual = movingRule.sumUnit();
+        final MoveVector actual = movingRule.sumAllVectors();
         // then
         assertThat(actual).isEqualTo(new MoveVector(0, 0));
     }

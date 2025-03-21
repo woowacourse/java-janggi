@@ -1,7 +1,6 @@
 package janggi.rule;
 
 import janggi.position.Position;
-import java.util.ArrayList;
 import java.util.List;
 
 public final class MovingRules {
@@ -12,21 +11,11 @@ public final class MovingRules {
         this.movingRules = movingRules;
     }
 
-    public boolean cannotFindRule(final Position start, final Position end) {
-        final List<MoveVector> positionDiffs = new ArrayList<>();
-        for (MovingRule movingRule : movingRules) {
-            positionDiffs.add(movingRule.sumUnit());
-        }
-        return !positionDiffs.contains(end.calculateMoveVector(start));
-    }
-
-    public MovingRule findMatchRule(final MoveVector startEndDiff) {
-        for (MovingRule movingRule : movingRules) {
-            final MoveVector vectorSum = movingRule.sumUnit();
-            if (vectorSum.equals(startEndDiff)) {
-                return movingRule;
-            }
-        }
-        throw new IllegalStateException();
+    public MovingRule findMatchRule(final Position start, final Position end) {
+        MoveVector startToEnd = end.calculateDifference(start);
+        return movingRules.stream()
+                .filter(movingRule -> movingRule.sumAllVectors().equals(startToEnd))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 기물의 규칙에 맞지 않는 움직임입니다."));
     }
 }

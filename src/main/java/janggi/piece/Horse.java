@@ -1,11 +1,11 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.position.Position;
 import janggi.rule.MoveVector;
 import janggi.rule.MovingRule;
 import janggi.rule.MovingRules;
 import janggi.rule.MovingRulesGenerator;
+import java.util.Map;
 
 public final class Horse extends Piece {
 
@@ -19,39 +19,19 @@ public final class Horse extends Piece {
     }
 
     @Override
-    public boolean canMove(final Position start, final Position end, final Board board) {
-        if (movingRules.cannotFindRule(start, end)) {
-            return false;
+    public void validateMove(final Position start, final Position end, final Map<Position, Piece> board) {
+        final MovingRule matchRule = movingRules.findMatchRule(start, end);
+        Position route = start;
+        for (MoveVector vector : matchRule.getVectorsWithoutLast()) {
+            route = route.add(vector);
+            if (board.containsKey(route)) {
+                throw new IllegalArgumentException("[ERROR] 기물의 이동 경로에 다른 기물이 있습니다.");
+            }
         }
-        if (cannotMoveThrough(start, end, board)) {
-            return false;
-        }
-        return !isPresentSameTeam(end, board);
     }
 
     @Override
     public Type type() {
         return Type.HORSE;
-    }
-
-    private boolean isPresentSameTeam(final Position end, final Board board) {
-        return board.isPresentSameTeam(team, end);
-    }
-
-    private boolean cannotMoveThrough(final Position start, final Position end, final Board board) {
-        final MovingRule matchRule = findMatchRule(start, end);
-        Position route = start;
-        for (MoveVector vector : matchRule.getVectorsWithoutLast()) {
-            route = route.add(vector);
-            if (board.isPresent(route)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private MovingRule findMatchRule(final Position start, final Position end) {
-        final MoveVector startEndDiff = end.calculateMoveVector(start);
-        return movingRules.findMatchRule(startEndDiff);
     }
 }

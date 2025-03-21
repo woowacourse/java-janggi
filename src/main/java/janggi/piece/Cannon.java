@@ -1,11 +1,10 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.position.Position;
 import janggi.rule.MoveVector;
-import janggi.rule.MovingRule;
 import janggi.rule.MovingRules;
 import janggi.rule.MovingRulesGenerator;
+import java.util.Map;
 
 public final class Cannon extends Piece {
 
@@ -19,43 +18,25 @@ public final class Cannon extends Piece {
     }
 
     @Override
-    public boolean canMove(final Position start, final Position end, final Board board) {
-        if (movingRules.cannotFindRule(start, end)) {
-            return false;
+    public void validateMove(final Position start, final Position end, final Map<Position, Piece> board) {
+        Position route = start;
+        int count = 0;
+        for (MoveVector vector : movingRules.findMatchRule(start, end).getVectorsWithoutLast()) {
+            route = route.add(vector);
+            if (board.containsKey(route) && board.get(route).type() == Type.CANNON) {
+                throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어 넘을 수 없습니다.");
+            }
+            if (board.containsKey(route) && ++count == 2) {
+                throw new IllegalArgumentException("[ERROR] 포는 단 하나의 기물만 뛰어 넘을 수 있습니다.");
+            }
         }
-        if (cannotMoveThrough(start, end, board)) {
-            return false;
+        if (count == 0) {
+            throw new IllegalArgumentException("[ERROR] 포는 적어도 하나의 기물을 뛰어 넘어야 합니다.");
         }
-        return isNotSameTeamAndNotJumpable(end, board);
     }
 
     @Override
     public Type type() {
         return Type.CANNON;
-    }
-
-    private boolean cannotMoveThrough(final Position start, final Position end, final Board board) {
-        final MovingRule matchRule = findMatchRule(start, end);
-        Position route = start;
-        int count = 0;
-        for (MoveVector vector : matchRule.getVectorsWithoutLast()) {
-            route = route.add(vector);
-            if (board.isExistCannon(route)) {
-                return true;
-            }
-            if (board.isPresent(route)) {
-                count++;
-            }
-        }
-        return count != 1;
-    }
-
-    private boolean isNotSameTeamAndNotJumpable(final Position end, final Board board) {
-        return !board.isPresentSameTeam(team, end) && !board.isExistCannon(end);
-    }
-
-    private MovingRule findMatchRule(final Position start, final Position end) {
-        final MoveVector startEndDiff = end.calculateMoveVector(start);
-        return movingRules.findMatchRule(startEndDiff);
     }
 }

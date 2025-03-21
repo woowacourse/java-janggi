@@ -13,7 +13,7 @@ public final class Position {
         this.column = column;
     }
 
-    public MoveVector calculateMoveVector(final Position another) {
+    public MoveVector calculateDifference(final Position another) {
         final int rowDiff = row.getValue() - another.getRowValue();
         final int columnDiff = column.getValue() - another.getColumnValue();
         return new MoveVector(rowDiff, columnDiff);

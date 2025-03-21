@@ -11,7 +11,7 @@ public final class MovingRule {
         this.movingRule = movingRule;
     }
 
-    public MoveVector sumUnit() {
+    public MoveVector sumAllVectors() {
         MoveVector sumUnit = new MoveVector(0, 0);
         for (MoveVector moveVector : movingRule) {
             sumUnit = sumUnit.add(moveVector);

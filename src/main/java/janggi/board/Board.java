@@ -1,8 +1,6 @@
 package janggi.board;
 
 import janggi.piece.Piece;
-import janggi.piece.Team;
-import janggi.piece.Type;
 import janggi.position.Position;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,38 +16,12 @@ public final class Board {
     public void move(final Position start, final Position end) {
         validateStartPosition(start);
         final Piece piece = board.get(start);
-        validateRoute(start, end, piece);
+        validateEndPosition(end, piece);
+        piece.validateMove(start, end, board);
+
         board.remove(end);
         board.remove(start);
         board.put(end, piece);
-    }
-
-    public boolean isPresentSameTeam(final Team team, final Position position) {
-        if (board.containsKey(position)) {
-            final Piece piece = board.get(position);
-            return piece.isSameTeam(team);
-        }
-        return false;
-    }
-
-    public boolean isPresent(final Position position) {
-        return board.containsKey(position);
-    }
-
-    public boolean isExistCannon(final Position position) {
-        if (board.containsKey(position)) {
-            final Piece piece = board.get(position);
-            return piece.type() == Type.CANNON;
-        }
-        return false;
-    }
-
-    public boolean isExistPiece(final Position position) {
-        return board.containsKey(position);
-    }
-
-    public Piece getPiece(final Position position) {
-        return board.get(position);
     }
 
     private void validateStartPosition(final Position start) {
@@ -59,10 +31,20 @@ public final class Board {
         }
     }
 
-    private void validateRoute(final Position start, final Position end, final Piece piece) {
-        if (!piece.canMove(start, end, this)) {
-            throw new IllegalArgumentException(
-                    String.format("[ERROR] %d%d 위치로 이동할 수 없습니다.", end.getRowValue(), end.getColumnValue()));
+    private void validateEndPosition(final Position end, final Piece piece) {
+        if (!board.containsKey(end)) {
+            return;
         }
+        if (piece.isSameTeam(board.get(end))) {
+            throw new IllegalArgumentException("[ERROR] 같은 팀의 기물은 잡을 수 없습니다.");
+        }
+    }
+
+    public boolean isExistPiece(final Position position) {
+        return board.containsKey(position);
+    }
+
+    public Piece getPiece(final Position position) {
+        return board.get(position);
     }
 }

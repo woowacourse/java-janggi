@@ -1,9 +1,9 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.position.Position;
 import janggi.rule.MovingRules;
 import janggi.rule.MovingRulesGenerator;
+import java.util.Map;
 
 public final class Guard extends Piece {
 
@@ -17,19 +17,11 @@ public final class Guard extends Piece {
     }
 
     @Override
-    public boolean canMove(final Position start, final Position end, final Board board) {
-        if (movingRules.cannotFindRule(start, end)) {
-            return false;
-        }
-        return !isPresentSameTeam(end, board);
+    public void validateMove(final Position start, final Position end, final Map<Position, Piece> board) {
     }
 
     @Override
     public Type type() {
         return Type.GUARD;
-    }
-
-    private boolean isPresentSameTeam(final Position end, final Board board) {
-        return board.isPresentSameTeam(team, end);
     }
 }

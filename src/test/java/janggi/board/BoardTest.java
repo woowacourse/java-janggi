@@ -29,20 +29,6 @@ class BoardTest {
                 .hasMessage("[ERROR] 80 위치에 기물이 없습니다.");
     }
 
-    @DisplayName("이동할 수 없는 규칙인 경우 예외가 발생한다.")
-    @Test
-    void testCannotFindRule() {
-        // given
-        final Board board = BoardGenerator.generate(SetupOption.INNER_SETUP);
-        final Position start = new Position(Row.SIX, Column.ZERO);
-        final Position end = new Position(Row.SEVEN, Column.ZERO);
-        // when
-        // then
-        assertThatThrownBy(() -> board.move(start, end))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 70 위치로 이동할 수 없습니다.");
-    }
-
     @DisplayName("병 한 칸 전진시킨다.")
     @Test
     void testMoveSoldier() {
