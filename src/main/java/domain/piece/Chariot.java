@@ -18,7 +18,6 @@ public class Chariot extends Piece {
             final BoardPosition after
     ) {
         final Offset offset = after.calculateOffset(before);
-        validateNotMove(offset);
         validateOffset(offset);
 
         return createMovementRule(offset);

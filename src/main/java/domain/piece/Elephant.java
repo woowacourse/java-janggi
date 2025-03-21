@@ -38,7 +38,6 @@ public class Elephant extends Piece {
             final BoardPosition after
     ) {
         final Offset offset = after.calculateOffset(before);
-        validateNotMove(offset);
         validateOffset(offset);
 
         return MOVEMENT_RULES.get(offset);

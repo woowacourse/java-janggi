@@ -56,20 +56,6 @@ class HorseTest {
     @Nested
     class InvalidCases {
 
-        @DisplayName("마를 같은 위치로 이동시키면 예외가 발생한다.")
-        @Test
-        void validateNotMove() {
-            // given
-            Horse horse = new Horse(Team.RED);
-            BoardPosition before = new BoardPosition(0 ,0);
-            BoardPosition after = new BoardPosition(0 ,0);
-
-            // when & then
-            assertThatThrownBy(() -> horse.findMovementRule(before, after))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("기물을 같은 위치로 이동시킬 수 없습니다.");
-        }
-
         @DisplayName("마를 마의 이동규칙에 맞지 않게 이동하면 예외가 발생한다.")
         @ParameterizedTest
         @MethodSource("provideInvalidBeforeAndAfterPosition")

@@ -2,6 +2,7 @@ package controller;
 
 import domain.board.BoardPosition;
 import domain.Janggi;
+import domain.board.SelectedPositions;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
@@ -32,7 +33,7 @@ public class JanggiController {
             final String destinationPosition = inputView.inputDestinationPosition();
             final BoardPosition destinationBoardPosition = createBoardPosition(destinationPosition);
 
-            janggi.processTurn(selectBoardPosition, destinationBoardPosition);
+            janggi.processTurn(new SelectedPositions(selectBoardPosition, destinationBoardPosition));
         }
     }
 

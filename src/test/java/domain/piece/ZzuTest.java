@@ -55,20 +55,6 @@ class ZzuTest {
     @Nested
     class InvalidCases {
 
-        @DisplayName("쭈를 같은 위치로 이동시키면 예외가 발생한다.")
-        @Test
-        void validateNotMove() {
-            // given
-            Zzu zzu = new Zzu(Team.GREEN);
-            BoardPosition before = new BoardPosition(0, 0);
-            BoardPosition after = new BoardPosition(0, 0);
-
-            // when & then
-            assertThatThrownBy(() -> zzu.findMovementRule(before, after))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("기물을 같은 위치로 이동시킬 수 없습니다.");
-        }
-
         @DisplayName("쭈를 한 칸 이상 움직이면 예외가 발생한다.")
         @ParameterizedTest
         @MethodSource("provideOverOneMovementPosition")

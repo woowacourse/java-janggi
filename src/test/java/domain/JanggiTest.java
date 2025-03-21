@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
 import domain.board.BoardPosition;
+import domain.board.SelectedPositions;
 import domain.piece.Zzu;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -23,9 +24,10 @@ class JanggiTest {
                     new BoardPosition(0, 0), new Zzu(Team.GREEN)
             ));
             Janggi janggi = new Janggi(board, Team.GREEN);
+            SelectedPositions selectedPositions = new SelectedPositions(new BoardPosition(0, 0), new BoardPosition(0, 1));
 
             // when
-            janggi.processTurn(new BoardPosition(0, 0), new BoardPosition(0, 1));
+            janggi.processTurn(selectedPositions);
 
             // then
             assertThat(janggi.getCurrentTeam()).isEqualTo(Team.RED);

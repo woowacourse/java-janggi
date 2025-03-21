@@ -21,12 +21,6 @@ public abstract class Piece {
 
     public abstract boolean isObstacleCountAllowed(final int obstacleCount);
 
-    protected void validateNotMove(final Offset offset) {
-        if (offset.hasNoMovement()) {
-            throw new IllegalArgumentException("기물을 같은 위치로 이동시킬 수 없습니다.");
-        }
-    }
-
     public Team getTeam() {
         return team;
     }

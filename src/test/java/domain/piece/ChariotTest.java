@@ -59,20 +59,6 @@ public class ChariotTest {
     @Nested
     class InvalidCases {
 
-        @DisplayName("차를 같은 위치로 이동시키면 예외가 발생한다.")
-        @Test
-        void validateNotMove() {
-            // given
-            Chariot chariot = new Chariot(Team.RED);
-            BoardPosition before = new BoardPosition(0 ,0);
-            BoardPosition after = new BoardPosition(0 ,0);
-
-            // when & then
-            assertThatThrownBy(() -> chariot.findMovementRule(before, after))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("기물을 같은 위치로 이동시킬 수 없습니다.");
-        }
-
         @DisplayName("차를 수직이나 수평으로 이동하지 않으면 예외가 발생한다.")
         @ParameterizedTest
         @MethodSource("provideInvalidBeforeAndAfterPosition")
