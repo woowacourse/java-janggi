@@ -12,11 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum PieceAssignType {
-    LEFT_TOP("왼상(상마상마)", List.of(1, 6), List.of(2, 7)),
-    RIGHT_TOP("오른상(마상마상)", List.of(2, 7), List.of(1, 6)),
-    IN_TOP("안상(마상상마)", List.of(2, 6), List.of(1, 7)),
-    OUT_TOP("바깥상(상마마상)", List.of(1, 7), List.of(2, 6)),
-    ;
+    LEFT_SANG("왼상(상마상마)", List.of(1, 6), List.of(2, 7)),
+    RIGHT_SANG("오른상(마상마상)", List.of(2, 7), List.of(1, 6)),
+    IN_SANG("안상(마상상마)", List.of(2, 6), List.of(1, 7)),
+    OUT_SANG("바깥상(상마마상)", List.of(1, 7), List.of(2, 6));
 
     private final String name;
     private final List<Integer> sangXPositions;

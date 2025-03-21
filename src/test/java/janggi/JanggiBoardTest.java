@@ -23,7 +23,7 @@ public class JanggiBoardTest {
     @MethodSource()
     void test1(PieceAssignType pieceAssignType, List<Position> maPositions) {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(pieceAssignType, PieceAssignType.LEFT_TOP);
+        JanggiBoard janggiBoard = new JanggiBoard(pieceAssignType, PieceAssignType.LEFT_SANG);
 
         //when
         List<Piece> choWorldPieces = janggiBoard.getChoPieces();
@@ -39,10 +39,10 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> test1() {
         return Stream.of(
-                Arguments.of(PieceAssignType.IN_TOP, List.of(new Position(1, 9), new Position(7, 9))),
-                Arguments.of(PieceAssignType.LEFT_TOP, List.of(new Position(2, 9), new Position(7, 9))),
-                Arguments.of(PieceAssignType.OUT_TOP, List.of(new Position(2, 9), new Position(6, 9))),
-                Arguments.of(PieceAssignType.RIGHT_TOP, List.of(new Position(1, 9), new Position(6, 9)))
+                Arguments.of(PieceAssignType.IN_SANG, List.of(new Position(1, 9), new Position(7, 9))),
+                Arguments.of(PieceAssignType.LEFT_SANG, List.of(new Position(2, 9), new Position(7, 9))),
+                Arguments.of(PieceAssignType.OUT_SANG, List.of(new Position(2, 9), new Position(6, 9))),
+                Arguments.of(PieceAssignType.RIGHT_SANG, List.of(new Position(1, 9), new Position(6, 9)))
         );
     }
 
@@ -51,7 +51,7 @@ public class JanggiBoardTest {
     @MethodSource()
     void test2(PieceAssignType pieceAssignType, List<Position> sangPositions) {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(pieceAssignType, PieceAssignType.LEFT_TOP);
+        JanggiBoard janggiBoard = new JanggiBoard(pieceAssignType, PieceAssignType.LEFT_SANG);
 
         //when
         List<Piece> choWorldPieces = janggiBoard.getChoPieces();
@@ -67,10 +67,10 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> test2() {
         return Stream.of(
-                Arguments.of(PieceAssignType.IN_TOP, List.of(new Position(2, 9), new Position(6, 9))),
-                Arguments.of(PieceAssignType.LEFT_TOP, List.of(new Position(1, 9), new Position(6, 9))),
-                Arguments.of(PieceAssignType.OUT_TOP, List.of(new Position(1, 9), new Position(7, 9))),
-                Arguments.of(PieceAssignType.RIGHT_TOP, List.of(new Position(2, 9), new Position(7, 9)))
+                Arguments.of(PieceAssignType.IN_SANG, List.of(new Position(2, 9), new Position(6, 9))),
+                Arguments.of(PieceAssignType.LEFT_SANG, List.of(new Position(1, 9), new Position(6, 9))),
+                Arguments.of(PieceAssignType.OUT_SANG, List.of(new Position(1, 9), new Position(7, 9))),
+                Arguments.of(PieceAssignType.RIGHT_SANG, List.of(new Position(2, 9), new Position(7, 9)))
         );
     }
 
@@ -79,7 +79,7 @@ public class JanggiBoardTest {
     @MethodSource()
     void test3(PieceAssignType pieceAssignType, List<Position> maPositions) {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.RIGHT_TOP, pieceAssignType);
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.RIGHT_SANG, pieceAssignType);
 
         //when
         List<Piece> hanWorldPieces = janggiBoard.getHanPieces();
@@ -95,10 +95,10 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> test3() {
         return Stream.of(
-                Arguments.of(PieceAssignType.IN_TOP, List.of(new Position(1, 0), new Position(7, 0))),
-                Arguments.of(PieceAssignType.LEFT_TOP, List.of(new Position(2, 0), new Position(7, 0))),
-                Arguments.of(PieceAssignType.OUT_TOP, List.of(new Position(2, 0), new Position(6, 0))),
-                Arguments.of(PieceAssignType.RIGHT_TOP, List.of(new Position(1, 0), new Position(6, 0)))
+                Arguments.of(PieceAssignType.IN_SANG, List.of(new Position(1, 0), new Position(7, 0))),
+                Arguments.of(PieceAssignType.LEFT_SANG, List.of(new Position(2, 0), new Position(7, 0))),
+                Arguments.of(PieceAssignType.OUT_SANG, List.of(new Position(2, 0), new Position(6, 0))),
+                Arguments.of(PieceAssignType.RIGHT_SANG, List.of(new Position(1, 0), new Position(6, 0)))
         );
     }
 
@@ -107,7 +107,7 @@ public class JanggiBoardTest {
     @MethodSource()
     void test4(PieceAssignType pieceAssignType, List<Position> sangPositions) {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.RIGHT_TOP, pieceAssignType);
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.RIGHT_SANG, pieceAssignType);
 
         //when
         List<Piece> hanWorldPieces = janggiBoard.getHanPieces();
@@ -123,10 +123,10 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> test4() {
         return Stream.of(
-                Arguments.of(PieceAssignType.IN_TOP, List.of(new Position(2, 0), new Position(6, 0))),
-                Arguments.of(PieceAssignType.LEFT_TOP, List.of(new Position(1, 0), new Position(6, 0))),
-                Arguments.of(PieceAssignType.OUT_TOP, List.of(new Position(1, 0), new Position(7, 0))),
-                Arguments.of(PieceAssignType.RIGHT_TOP, List.of(new Position(2, 0), new Position(7, 0)))
+                Arguments.of(PieceAssignType.IN_SANG, List.of(new Position(2, 0), new Position(6, 0))),
+                Arguments.of(PieceAssignType.LEFT_SANG, List.of(new Position(1, 0), new Position(6, 0))),
+                Arguments.of(PieceAssignType.OUT_SANG, List.of(new Position(1, 0), new Position(7, 0))),
+                Arguments.of(PieceAssignType.RIGHT_SANG, List.of(new Position(2, 0), new Position(7, 0)))
         );
     }
 
@@ -134,7 +134,7 @@ public class JanggiBoardTest {
     @Test
     void test5() {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.RIGHT_TOP, PieceAssignType.RIGHT_TOP);
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.RIGHT_SANG, PieceAssignType.RIGHT_SANG);
 
         //when
         List<Piece> choWorldPieces = janggiBoard.getChoPieces();
