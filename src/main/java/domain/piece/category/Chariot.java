@@ -8,10 +8,6 @@ public class Chariot extends Piece {
 
     private static final String NAME = "r";
 
-    public Chariot(final int row, final int column, final Directions directions) {
-        super(row, column, directions);
-    }
-
     public Chariot(final Position position, final Directions directions) {
         super(position, directions);
     }

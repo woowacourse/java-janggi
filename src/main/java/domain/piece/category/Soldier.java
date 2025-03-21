@@ -8,10 +8,6 @@ public class Soldier extends Piece {
 
     private static final String NAME = "p";
 
-    public Soldier(final int row, final int column, final Directions directions) {
-        super(row, column, directions);
-    }
-
     public Soldier(final Position position, final Directions directions) {
         super(position, directions);
     }

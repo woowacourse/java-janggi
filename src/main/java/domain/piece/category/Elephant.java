@@ -8,10 +8,6 @@ public class Elephant extends Piece {
 
     private static final String NAME = "e";
 
-    public Elephant(final int row, final int column, final Directions directions) {
-        super(row, column, directions);
-    }
-
     public Elephant(final Position position, final Directions directions) {
         super(position, directions);
     }

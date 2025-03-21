@@ -21,8 +21,10 @@ class PieceTest {
     void 기물_객체를_생성할_수_있다() {
         // given
         final Position position = Position.of(1, 2);
+
         // when
-        final TestPiece piece = new TestPiece(1, 2, new Directions(List.of()));
+        final TestPiece piece = new TestPiece(Position.of(1, 2), new Directions(List.of()));
+
         // then
         assertThat(piece.getPosition()).isEqualTo(position);
     }
@@ -32,12 +34,16 @@ class PieceTest {
         // given
         final Position targetPosition = Position.of(5, 5);
         List<Position> expected = List.of(Position.of(4, 6));
+
         List<Position> positions = List.of(Position.ofDirection(0, -1), Position.ofDirection(1, -1));
         List<Direction> directionElements = List.of(new Direction(positions, false));
         Directions directions = new Directions(directionElements);
-        Piece piece = new TestPiece(4, 7, directions);
+
+        Piece piece = new TestPiece(Position.of(4, 7), directions);
+
         // when
         List<Position> result = piece.getPath(targetPosition);
+
         // then
         assertThat(result).containsAll(expected);
     }
@@ -46,9 +52,11 @@ class PieceTest {
     void 위치가_같은지_판단한다() {
         // given
         final Position position = Position.of(1, 2);
-        final Piece piece = new TestPiece(1, 2, new Directions(List.of()));
+        final Piece piece = new TestPiece(Position.of(1, 2), new Directions(List.of()));
+
         // when
         boolean result = piece.isSamePosition(position);
+
         // then
         assertThat(result).isTrue();
     }
@@ -57,9 +65,11 @@ class PieceTest {
     void 위치를_변경한다() {
         // given
         final Position position = Position.of(2, 2);
-        final Piece piece = new TestPiece(1, 2, new Directions(List.of()));
+        final Piece piece = new TestPiece(Position.of(1, 2), new Directions(List.of()));
+
         // when
         Piece result = piece.updatePosition(position);
+
         // then
         assertThat(result.getPosition())
                 .isEqualTo(position);
@@ -68,14 +78,15 @@ class PieceTest {
     @Test
     void 왕인지_판단한다() {
         // given
-        final Piece king = new King(1, 2, new Directions(List.of()));
-        final Piece guard = new Guard(1, 2, new Directions(List.of()));
-        final Piece cannon = new Cannon(1, 2, new Directions(List.of()));
-        final Piece elephant = new Elephant(1, 2, new Directions(List.of()));
-        final Piece horse = new Horse(1, 2, new Directions(List.of()));
-        final Piece soldier = new Soldier(1, 2, new Directions(List.of()));
-        final Piece chariot = new Chariot(1, 2, new Directions(List.of()));
-        final Piece piece = new TestPiece(1, 2, new Directions(List.of()));
+        final Piece king = new King(Position.of(1, 2), new Directions(List.of()));
+        final Piece guard = new Guard(Position.of(1, 2), new Directions(List.of()));
+        final Piece cannon = new Cannon(Position.of(1, 2), new Directions(List.of()));
+        final Piece elephant = new Elephant(Position.of(1, 2), new Directions(List.of()));
+        final Piece horse = new Horse(Position.of(1, 2), new Directions(List.of()));
+        final Piece soldier = new Soldier(Position.of(1, 2), new Directions(List.of()));
+        final Piece chariot = new Chariot(Position.of(1, 2), new Directions(List.of()));
+        final Piece piece = new TestPiece(Position.of(1, 2), new Directions(List.of()));
+
         // when & then
         assertAll(
                 () -> assertThat(king.isKing()).isTrue(),
@@ -92,14 +103,15 @@ class PieceTest {
     @Test
     void 포인지_판단한다() {
         // given
-        final Piece cannon = new Cannon(1, 2, new Directions(List.of()));
-        final Piece king = new King(1, 2, new Directions(List.of()));
-        final Piece guard = new Guard(1, 2, new Directions(List.of()));
-        final Piece elephant = new Elephant(1, 2, new Directions(List.of()));
-        final Piece horse = new Horse(1, 2, new Directions(List.of()));
-        final Piece soldier = new Soldier(1, 2, new Directions(List.of()));
-        final Piece chariot = new Chariot(1, 2, new Directions(List.of()));
-        final Piece piece = new TestPiece(1, 2, new Directions(List.of()));
+        final Piece cannon = new Cannon(Position.of(1, 2), new Directions(List.of()));
+        final Piece king = new King(Position.of(1, 2), new Directions(List.of()));
+        final Piece guard = new Guard(Position.of(1, 2), new Directions(List.of()));
+        final Piece elephant = new Elephant(Position.of(1, 2), new Directions(List.of()));
+        final Piece horse = new Horse(Position.of(1, 2), new Directions(List.of()));
+        final Piece soldier = new Soldier(Position.of(1, 2), new Directions(List.of()));
+        final Piece chariot = new Chariot(Position.of(1, 2), new Directions(List.of()));
+        final Piece piece = new TestPiece(Position.of(1, 2), new Directions(List.of()));
+
         // when & then
         assertAll(
                 () -> assertThat(cannon.isCannon()).isTrue(),
@@ -114,9 +126,6 @@ class PieceTest {
     }
 
     static class TestPiece extends Piece {
-        public TestPiece(int row, int column, Directions directions) {
-            super(row, column, directions);
-        }
 
         public TestPiece(final Position position, final Directions directions) {
             super(position, directions);
