@@ -82,6 +82,4 @@ public class Pho extends Piece {
         }
         return true;
     }
-
-
 }

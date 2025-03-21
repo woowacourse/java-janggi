@@ -104,7 +104,6 @@ public enum JanggiBoardSetUp {
     private Map<Point, Piece> map;
 
     JanggiBoardSetUp(Map<Point, Piece> map) {
-        // 인자로 들어온 map에 불변하는 세팅 박고
         this.map = map;
     }
 
