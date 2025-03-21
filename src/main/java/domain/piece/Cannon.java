@@ -17,6 +17,9 @@ public class Cannon extends Piece {
         List<Position> path = new ArrayList<>();
         Position newPosition = startPosition;
 
+
+
+
         if (startPosition.compareRow(targetPosition) != 0 && startPosition.compareColumn(targetPosition) == 0) {
             newPosition = calculateNewPostion(startPosition.compareRow(targetPosition), newPosition, path, Move.BACK,
                     Move.FRONT);
