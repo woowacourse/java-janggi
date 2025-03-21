@@ -28,7 +28,6 @@ public class Guard extends Piece {
         return obstacleCount == 0;
     }
 
-    // TODO : Piece의 추상 메서드로 두어도 괜찮을 것 같다.
     // TODO : 추후) 사는 궁성 밖으로 나갈 수 없다.
     private void validateOffset(final Offset offset) {
         if (!offset.hasOneMovement()) {
