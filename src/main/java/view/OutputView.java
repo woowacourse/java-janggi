@@ -9,12 +9,14 @@ import java.util.Map;
 
 public class OutputView {
 
-    public void displayPlayerInfo(List<String> playerNames) {
+    public void displayPlayerInfo(List<Player> playerNames) {
         System.out.println("┌───────────────────────────┐");
         System.out.println("│        Korea Chase        │");
         System.out.println("└───────────────────────────┘");
         System.out.println();
-        System.out.printf("%s님의 팀은 청팀 입니다.\n %s님의 팀은 홍팀 입니다.\n", playerNames.getFirst(), playerNames.getLast());
+        System.out.printf("%s님의 팀은 %s청팀%s 입니다.\n%s님의 팀은 %s홍팀%s 입니다.\n", playerNames.getFirst().getName(),
+                TextColor.blue,
+                TextColor.exit, playerNames.getLast().getName(), TextColor.red, TextColor.exit);
     }
 
     public void displayJanggiBoard(Map<Position, Piece> board) {

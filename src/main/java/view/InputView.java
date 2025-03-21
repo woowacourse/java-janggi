@@ -2,7 +2,6 @@ package view;
 
 import domain.Player;
 import domain.Team;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,10 +9,11 @@ public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public List<String> readPlayerNames() {
+    public List<Player> readPlayerNames() {
         System.out.println("플레이어 두 명의 이름을 입력하시오. (플레이어1, 플레이어2)");
         String input = scanner.nextLine();
-        return Arrays.asList(input.trim().split(","));
+        return List.of(new Player(input.split(",")[0].trim(), Team.BLUE),
+                new Player(input.split(",")[1].trim(), Team.RED));
     }
 
     public List<Integer> readMovePiecePosition(Player player) {

@@ -15,10 +15,9 @@ public class JanggiGame {
     private int sequence = SEQUENCE_ZERO;
 
 
-    public JanggiGame(BoardGenerator boardGenerator, List<String> playerNames) {
+    public JanggiGame(BoardGenerator boardGenerator, List<Player> players) {
         this.janggiBoard = new JanggiBoard(boardGenerator);
-        this.players = List.of(new Player(playerNames.getFirst(), Team.BLUE),
-                new Player(playerNames.getLast(), Team.RED));
+        this.players = players;
     }
 
     public void move(Position startPosition, Position targetPosition) {

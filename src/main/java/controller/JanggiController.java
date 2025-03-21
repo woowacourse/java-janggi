@@ -19,7 +19,7 @@ public class JanggiController {
     }
 
     public void run() {
-        List<String> playerNames = inputView.readPlayerNames();
+        List<Player> playerNames = inputView.readPlayerNames();
         JanggiGame janggiGame = new JanggiGame(new JanggiBoardGenerator(), playerNames);
         outputView.displayPlayerInfo(playerNames);
         outputView.displayJanggiBoard(janggiGame.getBoardState());
