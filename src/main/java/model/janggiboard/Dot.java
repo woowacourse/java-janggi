@@ -4,7 +4,6 @@ import java.util.Optional;
 import model.piece.Piece;
 
 public class Dot {
-
     private Optional<Piece> piece;
 
     public Dot() {
@@ -20,10 +19,7 @@ public class Dot {
     }
 
     public Piece getPiece() {
-        if (!isPlaced()) {
-            throw new IllegalArgumentException("해당 점에는 장기말이 없습니다.");
-        }
-        return piece.get();
+        return piece.orElseThrow(() -> new IllegalArgumentException("해당 점에는 장기말이 없습니다."));
     }
 
     public void clear() {
