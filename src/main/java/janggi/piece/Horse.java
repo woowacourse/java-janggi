@@ -1,26 +1,44 @@
 package janggi.piece;
 
+import static janggi.Movement.DOWN;
+import static janggi.Movement.LEFT;
+import static janggi.Movement.LEFT_DOWN;
+import static janggi.Movement.LEFT_UP;
+import static janggi.Movement.RIGHT;
+import static janggi.Movement.RIGHT_DOWN;
+import static janggi.Movement.RIGHT_UP;
+import static janggi.Movement.UP;
+
+import janggi.Movement;
 import janggi.Team;
 import janggi.board.Position;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Horse extends Piece {
     private static final String NAME = "마";
-    private static final int[][] dRows = {{1, 1}, {1, 1}, {0, 1}, {0, -1}, {-1, -1}, {-1, -1}, {0, -1}, {0, 1}};
-    private static final int[][] dColumns = {{0, -1}, {0, 1}, {1, 1}, {1, 1}, {0, -1}, {0, 1}, {-1, -1}, {-1, -1}};
+    private static final List<List<Movement>> paths;
+
+    static {
+        paths = new ArrayList<>();
+        paths.add(List.of(UP, LEFT_UP));
+        paths.add(List.of(UP, RIGHT_UP));
+        paths.add(List.of(RIGHT, RIGHT_UP));
+        paths.add(List.of(RIGHT, RIGHT_DOWN));
+        paths.add(List.of(DOWN, RIGHT_DOWN));
+        paths.add(List.of(DOWN, LEFT_DOWN));
+        paths.add(List.of(LEFT, LEFT_UP));
+        paths.add(List.of(LEFT, LEFT_DOWN));
+    }
 
     public Horse(Team team) {
         super(team);
     }
 
     @Override
-    protected void validatePath(Map<Position, Piece> board, Position start, int pathIndex) {
-        validateNonPieceOnPath(board, start, pathIndex);
-    }
-
-    @Override
-    protected boolean isSameType(Piece other) {
-        return other instanceof Horse;
+    protected void validatePath(Map<Position, Piece> board, List<Position> path) {
+        validateNonPieceOnPath(board, path);
     }
 
     @Override
@@ -34,23 +52,13 @@ public class Horse extends Piece {
     }
 
     @Override
-    protected int[] getPathRows(int pathIndex) {
-        return dRows[pathIndex];
+    protected boolean isSameType(Piece other) {
+        return other instanceof Horse;
     }
 
     @Override
-    protected int[] getPathColumns(int pathIndex) {
-        return dColumns[pathIndex];
-    }
-
-    @Override
-    protected int[][] getAllPathRows() {
-        return dRows;
-    }
-
-    @Override
-    protected int[][] getAllPathColumns() {
-        return dColumns;
+    protected List<List<Movement>> getPaths() {
+        return paths;
     }
 
     @Override

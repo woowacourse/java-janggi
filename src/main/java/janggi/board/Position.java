@@ -15,10 +15,37 @@ public class Position {
         this(Integer.parseInt(column), Integer.parseInt(row));
     }
 
-    public Position plus(int columnDifference, int rowDifference) {
-        return new Position(column + columnDifference, row + rowDifference);
+    public Position up() {
+        return new Position(column, row + 1);
     }
 
+    public Position down() {
+        return new Position(column, row - 1);
+    }
+
+    public Position left() {
+        return new Position(column - 1, row);
+    }
+
+    public Position right() {
+        return new Position(column + 1, row);
+    }
+
+    public Position leftUp() {
+        return new Position(column - 1, row + 1);
+    }
+
+    public Position rightUp() {
+        return new Position(column + 1, row + 1);
+    }
+
+    public Position leftDown() {
+        return new Position(column - 1, row - 1);
+    }
+
+    public Position rightDown() {
+        return new Position(column + 1, row - 1);
+    }
     @Override
     public boolean equals(Object object) {
         if (object == null || getClass() != object.getClass()) return false;
