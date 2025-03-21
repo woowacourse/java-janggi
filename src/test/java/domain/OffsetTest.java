@@ -1,6 +1,13 @@
 package domain;
 
-import static domain.board.Offset.*;
+import static domain.board.Offset.DOWN;
+import static domain.board.Offset.LEFT;
+import static domain.board.Offset.LEFT_DOWN;
+import static domain.board.Offset.LEFT_UP;
+import static domain.board.Offset.RIGHT;
+import static domain.board.Offset.RIGHT_DOWN;
+import static domain.board.Offset.RIGHT_UP;
+import static domain.board.Offset.UP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -26,6 +33,29 @@ class OffsetTest {
             assertAll(
                     () -> assertThat(new Offset(0, 0).hasNoMovement()).isTrue(),
                     () -> assertThat(new Offset(1, 0).hasNoMovement()).isFalse()
+            );
+        }
+
+        @DisplayName("움직임이 1인 오프셋인지 확인한다.")
+        @Test
+        void hasOneMovement() {
+            assertAll(
+                    () -> assertThat(new Offset(0, 1).hasOneMovement()).isTrue(),
+                    () -> assertThat(new Offset(1, 0).hasOneMovement()).isTrue(),
+                    () -> assertThat(new Offset(-1, 0).hasOneMovement()).isTrue(),
+                    () -> assertThat(new Offset(0, -1).hasOneMovement()).isTrue(),
+                    () -> assertThat(new Offset(1, 1).hasOneMovement()).isFalse()
+            );
+        }
+
+        @DisplayName("움직임이 1인 오프셋인지 확인한다.")
+        @Test
+        void isDiagonalMovement() {
+            assertAll(
+                    () -> assertThat(new Offset(1, 1).isDiagonalMovement()).isTrue(),
+                    () -> assertThat(new Offset(1, -1).isDiagonalMovement()).isTrue(),
+                    () -> assertThat(new Offset(-1, 0).isDiagonalMovement()).isFalse(),
+                    () -> assertThat(new Offset(0, 1).isDiagonalMovement()).isFalse()
             );
         }
 

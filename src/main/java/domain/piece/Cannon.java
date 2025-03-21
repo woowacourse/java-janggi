@@ -31,18 +31,9 @@ public class Cannon extends Piece {
 
     // TODO : Piece의 추상 메서드로 두어도 괜찮을 것 같다.
     private void validateOffset(final Offset offset) {
-        if (isDiagonalMovement(offset) || hasOneMovement(offset)) {
+        if (offset.isDiagonalMovement() || offset.hasOneMovement()) {
             throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");
         }
-    }
-
-    private boolean isDiagonalMovement(final Offset offset) {
-        return offset.x() != 0 && offset.y() != 0;
-    }
-
-    private boolean hasOneMovement(final Offset offset) {
-        return (offset.x() == 0 && Math.abs(offset.y()) == 1) ||
-                (Math.abs(offset.x()) == 1 && offset.y() == 0);
     }
 
     private List<Offset> createMovementRule(final Offset offset) {

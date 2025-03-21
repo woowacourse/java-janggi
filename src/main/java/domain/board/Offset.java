@@ -30,6 +30,14 @@ public record Offset(
     public boolean hasNoMovement() {
         return x == 0 && y == 0;
     }
+    
+    public boolean hasOneMovement() {
+        return (x == 0 && Math.abs(y) == 1) || (Math.abs(x) == 1 && y == 0);
+    }
+
+    public boolean isDiagonalMovement() {
+        return x != 0 && y != 0;
+    }
 
     public Offset getUnitDirectionOffset() {
         return new Offset(Integer.compare(this.x, 0), Integer.compare(this.y, 0));
