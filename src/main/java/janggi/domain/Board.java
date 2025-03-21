@@ -11,7 +11,14 @@ public class Board {
     private final Map<Position, Piece> pieceMap;
 
     public Board(Map<Position, Piece> pieceMap) {
+        validate(pieceMap);
         this.pieceMap = pieceMap;
+    }
+
+    public void validate(Map<Position, Piece> pieceMap){
+        if(pieceMap == null){
+            throw new IllegalArgumentException();
+        }
     }
 
     public boolean hasPiece(Position position) {
@@ -38,10 +45,6 @@ public class Board {
         if (!pieceMap.containsKey(position)) {
             throw new IllegalArgumentException(ErrorMessage.POSITION_DOES_NOT_EXIST.getMessage());
         }
-    }
-
-    public void CaptureIfPresent(Position position){
-
     }
 
     public void movePiece(Position currentPosition, Position newPosition) {

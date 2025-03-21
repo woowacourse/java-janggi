@@ -3,7 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Board;
 import janggi.domain.move.Position;
 import janggi.domain.Side;
-import janggi.domain.piece.behavior.Cannon;
+import janggi.domain.piece.behavior.straightmove.Cannon;
 import janggi.domain.piece.behavior.General;
 import java.util.Objects;
 import java.util.Set;

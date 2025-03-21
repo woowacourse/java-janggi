@@ -1,42 +1,34 @@
-package janggi.domain.piece.behavior;
+package janggi.domain.piece.behavior.straightmove;
 
 import janggi.domain.Board;
-import janggi.domain.move.Position;
 import janggi.domain.Side;
+import janggi.domain.move.Position;
 import janggi.domain.move.Vector;
-import janggi.domain.piece.PieceBehavior;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Cannon implements PieceBehavior {
+public class Cannon extends StraightMoveBehavior {
 
-    // 포지션에서 isCannon을 봐서 처리할 수 있을 거 같음 외부로 나가지말고 내부에서만 보면 되기 때문에 처리하면 좋을 거 같음
-
-    // 그쪽 포지션에서
-
-    private static final List<Vector> VECTORS = List.of(
-            new Vector(1, 0),
-            new Vector(0, -1),
-            new Vector(0, 1),
-            new Vector(-1, 0));
-
-    @Override
-    public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
-        Set<Position> result = new HashSet<>();
-        for (Vector vector : VECTORS) {
-            position.calculateNextPosition(vector)
-                    .ifPresent(movePosition ->
-                            searchAvailableMoves(result, board, movePosition, vector, side,
-                                    board.hasPiece(movePosition)));
-        }
-
-        return result;
-    }
+    // 포지션에서 isCannon을 봐서 처리할 수 있을 거 같음 외부로 나가지말고 포는 포 자체에서 처리하면 되기에 내부에서 처리하면 좋을 거 같다
 
     @Override
     public String toName() {
         return "포";
+    }
+
+    @Override
+    protected List<Vector> getVectors() {
+        return List.of(
+                new Vector(1, 0),
+                new Vector(0, -1),
+                new Vector(0, 1),
+                new Vector(-1, 0));
+    }
+
+    @Override
+    public void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, Vector vector,
+                                     Side side) {
+        searchAvailableMoves(result, board, currentPosition, vector, side, board.hasPiece(currentPosition));
     }
 
     public void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, Vector vector,

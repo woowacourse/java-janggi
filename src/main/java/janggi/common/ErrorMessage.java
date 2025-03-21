@@ -8,6 +8,7 @@ public enum ErrorMessage {
     IS_NOT_SAME_SIDE("상대의 기물입니다."),
     CANNOT_MOVE_TO_POSITION("해당 좌표로 이동할 수 없습니다."),
     CANNOT_MOVE_PIECE("움직일 수 없는 기물입니다."),
+    NOT_NULL("NULL을 넣을 수 없습니다!"),
     ;
 
     private final String message;

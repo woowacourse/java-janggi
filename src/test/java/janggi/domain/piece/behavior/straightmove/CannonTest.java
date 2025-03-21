@@ -1,4 +1,4 @@
-package janggi.domain.piece.behavior;
+package janggi.domain.piece.behavior.straightmove;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -6,6 +6,7 @@ import janggi.domain.Board;
 import janggi.domain.move.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.behavior.Soldier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
