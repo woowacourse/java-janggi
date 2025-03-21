@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Position;
 import domain.Team;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Elephant extends Piece {
@@ -22,6 +23,11 @@ public class Elephant extends Piece {
     }
 
     @Override
+    public boolean isCanon() {
+        return false;
+    }
+
+    @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
         for (List<Move> moveList : moves) {
             boolean compareResult = comparePath(startPosition, targetPosition, moveList);
@@ -32,9 +38,13 @@ public class Elephant extends Piece {
         throw new IllegalArgumentException("이 위치로 이동할 수 없습니다.");
     }
 
-    @Override
-    public boolean isCanon() {
-        return false;
+    private List<Position> convertToPath(List<Move> moves, Position startPosition) {
+        List<Position> path = new ArrayList<>();
+        for (int i = 0; i < moves.size() - 1; i++) {
+            startPosition = startPosition.movePosition(moves.get(i));
+            path.add(startPosition);
+        }
+        return path;
     }
 
     private boolean comparePath(Position startPosition, Position targetPosition, List<Move> moveList) {
