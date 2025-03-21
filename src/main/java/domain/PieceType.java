@@ -158,16 +158,7 @@ public enum PieceType {
     HORSE("마", Map.of(
             Team.GREEN, List.of(new BoardPosition(2, 0), new BoardPosition(6, 0)),
             Team.RED, List.of(new BoardPosition(2, 9), new BoardPosition(6, 9))
-    ), Map.of(
-            new Offset(2, 1), List.of(RIGHT, RIGHT_UP),
-            new Offset(2, -1), List.of(RIGHT, RIGHT_DOWN),
-            new Offset(-2, 1), List.of(LEFT, LEFT_UP),
-            new Offset(-2, -1), List.of(LEFT, LEFT_DOWN),
-            new Offset(1, 2), List.of(UP, RIGHT_UP),
-            new Offset(1, -2), List.of(DOWN, RIGHT_DOWN),
-            new Offset(-1, 2), List.of(UP, LEFT_UP),
-            new Offset(-1, -2), List.of(DOWN, LEFT_DOWN)
-    ), 0),
+    ), null, 0),
     ZZU("쭈", Map.of(
             Team.GREEN,
             List.of(new BoardPosition(0, 3), new BoardPosition(2, 3),

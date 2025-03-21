@@ -2,7 +2,7 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.*;
 
 import domain.BoardPosition;
 import domain.Offset;
@@ -16,42 +16,39 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class ChariotTest {
+class HorseTest {
 
     @Nested
     class ValidCases {
 
-        @DisplayName("차의 이동 위치를 통해 이동 경로를 찾는다.")
+        @DisplayName("마의 이동 위치를 통해 이동 경로를 찾는다.")
         @Test
         void findMovementRule() {
             // given
-            Chariot chariot = new Chariot(Team.RED);
+            Horse horse = new Horse(Team.RED);
             BoardPosition before = new BoardPosition(0 ,0);
-            BoardPosition after = new BoardPosition(0 ,5);
+            BoardPosition after = new BoardPosition(1 ,2);
 
             // when
-            List<Offset> route = chariot.findMovementRule(before, after);
+            List<Offset> route = horse.findMovementRule(before, after);
 
             // then
-            assertThat(route).containsExactlyInAnyOrder(
+            assertThat(route).containsExactly(
                     new Offset(0, 1),
-                    new Offset(0, 1),
-                    new Offset(0, 1),
-                    new Offset(0, 1),
-                    new Offset(0, 1)
+                    new Offset(1, 1)
             );
         }
 
-        @DisplayName("차가 허용가능한 경로상 장애물 갯수인지 확인한다.")
+        @DisplayName("마가 허용가능한 경로상 장애물 갯수인지 확인한다.")
         @Test
         void isObstacleCountAllowed() {
             // given
-            Chariot chariot = new Chariot(Team.RED);
+            Horse horse = new Horse(Team.RED);
 
             // when & then
             assertAll(
-                    () -> assertThat(chariot.isObstacleCountAllowed(3)).isFalse(),
-                    () -> assertThat(chariot.isObstacleCountAllowed(0)).isTrue()
+                    () -> assertThat(horse.isObstacleCountAllowed(3)).isFalse(),
+                    () -> assertThat(horse.isObstacleCountAllowed(0)).isTrue()
             );
         }
     }
@@ -59,38 +56,38 @@ public class ChariotTest {
     @Nested
     class InvalidCases {
 
-        @DisplayName("차를 같은 위치로 이동시키면 예외가 발생한다.")
+        @DisplayName("마를 같은 위치로 이동시키면 예외가 발생한다.")
         @Test
         void validateNotMove() {
             // given
-            Chariot chariot = new Chariot(Team.RED);
+            Horse horse = new Horse(Team.RED);
             BoardPosition before = new BoardPosition(0 ,0);
             BoardPosition after = new BoardPosition(0 ,0);
 
             // when & then
-            assertThatThrownBy(() -> chariot.findMovementRule(before, after))
+            assertThatThrownBy(() -> horse.findMovementRule(before, after))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("기물을 같은 위치로 이동시킬 수 없습니다.");
         }
 
-        @DisplayName("차를 수직이나 수평으로 이동하지 않으면 예외가 발생한다.")
+        @DisplayName("마를 마의 이동규칙에 맞지 않게 이동하면 예외가 발생한다.")
         @ParameterizedTest
         @MethodSource("provideInvalidBeforeAndAfterPosition")
         void validateOffset(BoardPosition before, BoardPosition after) {
             // given
-            Chariot chariot = new Chariot(Team.RED);
+            Horse horse = new Horse(Team.RED);
 
             // when & then
-            assertThatThrownBy(() -> chariot.findMovementRule(before, after))
+            assertThatThrownBy(() -> horse.findMovementRule(before, after))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("해당 말은 해당 위치로 이동할 수 없습니다.");
         }
 
         static Stream<Arguments> provideInvalidBeforeAndAfterPosition() {
             return Stream.of(
-                    Arguments.of( new BoardPosition(0 ,0), new BoardPosition(5 ,3)),
-                    Arguments.of( new BoardPosition(5 ,5), new BoardPosition(4 ,3)),
-                    Arguments.of( new BoardPosition(3 ,2), new BoardPosition(5 ,0))
+                    Arguments.of( new BoardPosition(0 ,0), new BoardPosition(2 ,2)),
+                    Arguments.of( new BoardPosition(5 ,5), new BoardPosition(4 ,5)),
+                    Arguments.of( new BoardPosition(3 ,3), new BoardPosition(5 ,0))
             );
         }
     }

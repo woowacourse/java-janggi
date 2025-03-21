@@ -21,7 +21,7 @@ public class Chariot extends Piece {
     ) {
         final Offset offset = after.calculateOffset(before);
         validateNotMove(offset);
-        validateChariotOffset(offset);
+        validateOffset(offset);
 
         return createMovementRule(offset);
     }
@@ -31,7 +31,8 @@ public class Chariot extends Piece {
         return obstacleCount == 0;
     }
 
-    private void validateChariotOffset(final Offset offset) {
+    // TODO : Piece의 추상 메서드로 두어도 괜찮을 것 같다.
+    private void validateOffset(final Offset offset) {
         if (offset.x() != 0 && offset.y() != 0) {
             throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");
         }
