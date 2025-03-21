@@ -22,4 +22,15 @@ public class JanggiBoard {
 
         return row < BOUNDARY_START || row > ROW_SIZE || col < BOUNDARY_START || col > COL_SIZE;
     }
+
+    public boolean isOccupied(JanggiCoordinate coordinate) {
+        return board.containsKey(coordinate);
+    }
+
+    public Piece findPieceByCoordinate(JanggiCoordinate coordinate) {
+        if (isOccupied(coordinate)) {
+            return board.get(coordinate);
+        }
+        throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다.");
+    }
 }
