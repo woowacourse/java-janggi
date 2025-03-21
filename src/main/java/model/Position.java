@@ -1,5 +1,6 @@
 package model;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Position {
@@ -15,13 +16,12 @@ public class Position {
         this.row = row;
     }
 
-    private Position(String columnAndRow) {
-        String[] splittedColumnAndRow = columnAndRow.split(",");
-        this.column = Integer.parseInt(splittedColumnAndRow[0]);
-        this.row = Integer.parseInt(splittedColumnAndRow[1]);
+    private Position(List<String> columnAndRow) {
+        this.column = Integer.parseInt(columnAndRow.get(0));
+        this.row = Integer.parseInt(columnAndRow.get(1));
     }
 
-    public static Position initFrom(String columnAndRow) {
+    public static Position initFrom(List<String> columnAndRow) {
         return new Position(columnAndRow);
     }
 

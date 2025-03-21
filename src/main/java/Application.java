@@ -3,6 +3,7 @@ import model.Piece;
 import model.PieceInitializer;
 import model.Pieces;
 import model.Position;
+import utils.InputParser;
 import view.InputView;
 import view.OutputView;
 
@@ -17,9 +18,10 @@ public class Application {
         while (true) {
             showCurrentPositionOfPieces(pieces);
             String choiceDirection = inputView.printMovePiece();
-            Piece piece = pieces.findPiece(Position.initFrom(choiceDirection));
+            Position startPosition = Position.initFrom(InputParser.split(choiceDirection));
+            Piece piece = pieces.findPiece(startPosition);
             String moveDirection = inputView.printMovePosition(piece);
-            Position destinationDirection = Position.initFrom(moveDirection);
+            Position destinationDirection = Position.initFrom(InputParser.split(moveDirection));
             moveOfPiece(piece, pieces, destinationDirection);
         }
     }
