@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 class PiecesTest {
 
-    private Pieces pieces = Pieces.createAndInit();
+    private Pieces pieces = new Pieces(PieceInitializer.generate());
 
     @DisplayName("1, 4 에는 Red팀의 General이 존재해야 한다.")
     @Test

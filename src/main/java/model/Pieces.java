@@ -8,13 +8,8 @@ public class Pieces {
 
     public final List<Piece> pieces;
 
-    private Pieces() {
-        List<Piece> generate = PieceInitializer.generate();
-        this.pieces = new ArrayList<>(generate);
-    }
-
-    public static Pieces createAndInit() {
-        return new Pieces();
+    public Pieces(List<Piece> pieces) {
+        this.pieces = new ArrayList<>(pieces);
     }
 
     public Optional<Piece> findPieceOfView(Position position) {

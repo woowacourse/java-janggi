@@ -1,5 +1,6 @@
 import java.util.Optional;
 import model.Piece;
+import model.PieceInitializer;
 import model.Pieces;
 import model.Position;
 import view.InputView;
@@ -11,7 +12,7 @@ public class Application {
     private static final OutputView outputView = new OutputView();
 
     public static void main(String[] args) {
-        Pieces pieces = Pieces.createAndInit();
+        Pieces pieces = new Pieces(PieceInitializer.generate());
         outputView.printJanggiStart();
         while (true) {
             showCurrentPositionOfPieces(pieces);
