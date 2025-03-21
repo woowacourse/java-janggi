@@ -1,5 +1,7 @@
 package janggi.view;
 
+import janggi.domain.GameStatus;
+import janggi.domain.Player;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import java.util.Map;
@@ -25,6 +27,14 @@ public class OutputView {
             return;
         }
         System.out.print("＿");
+    }
+
+    public void printCurrentTurn(Player player) {
+        System.out.println(player.getName() + "(" + player.getTeam().getCountry() + ") 팀의 턴입니다!");
+    }
+
+    public void printGameWinMessage(GameStatus gameStatus) {
+        System.out.println(gameStatus.getText());
     }
 
     public void printEndMessage() {
