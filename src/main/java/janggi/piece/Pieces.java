@@ -18,17 +18,19 @@ public class Pieces {
         this.pieces = new ArrayList<>(pieces);
     }
 
-    public void movePiece(final List<Piece> enemyPieces, final Position targetPiecePosition,
-            final Position destination) {
+    public void movePiece(List<Piece> enemyPieces, Position targetPiecePosition, Position destination) {
         validatePositionInRange(targetPiecePosition);
         validatePositionInRange(destination);
-
-        Piece target = pieces.stream().filter(piece -> piece.getPosition().equals(targetPiecePosition))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 이동할 말이 존재하지 않습니다."));
+        Piece target = searchPiece(targetPiecePosition);
         pieces.remove(target);
         Piece movedTarget = target.move(destination, enemyPieces, pieces);
         pieces.add(movedTarget);
+    }
+
+    private Piece searchPiece(Position targetPiecePosition) {
+        return pieces.stream().filter(piece -> piece.getPosition().equals(targetPiecePosition))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 이동할 말이 존재하지 않습니다."));
     }
 
     private void validatePositionInRange(Position position) {
