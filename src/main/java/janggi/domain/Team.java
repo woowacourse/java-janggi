@@ -1,14 +1,18 @@
 package janggi.domain;
 
 public enum Team {
-    RED("초"),
-    GREEN("한"),
+    RED("초", "\u001B[32m"),
+    GREEN("한", "\u001B[31m"),
     ;
 
-    private final String country;
+    public static final String COLOR_RESET = "\u001B[0m";
 
-    Team(final String country) {
+    private final String country;
+    private final String color;
+
+    Team(final String country, final String color) {
         this.country = country;
+        this.color = color;
     }
 
     public static int decideRow(final int row, final Team team) {
@@ -25,6 +29,10 @@ public enum Team {
 
     public boolean isGreen() {
         return this == GREEN;
+    }
+
+    public String getColor() {
+        return color;
     }
 
     public String getCountry() {

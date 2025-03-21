@@ -26,11 +26,12 @@ public enum PieceType {
                 .filter(pieceType -> pieceType == piece.pieceType)
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("기물 이름 탐색 실패"));
-        return decideTeamName(target, piece.getTeam());
+        String teamName = decideTeamName(target, piece.getTeam());
+        return piece.getTeam().getColor() + teamName + Team.COLOR_RESET;
     }
 
     private String decideTeamName(PieceType pieceType, Team team) {
-        if (team == Team.RED) {
+        if (team.isRed()) {
             return pieceType.redName;
         }
         return pieceType.greenName;
