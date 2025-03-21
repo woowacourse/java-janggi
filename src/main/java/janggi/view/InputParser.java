@@ -6,15 +6,15 @@ import janggi.board.Position;
 import static janggi.board.Board.ROW_SIZE;
 
 public class InputParser {
-    private static final String START_GOAL_DELIMETER = " ";
-    private static final String ROW_COLUMN_DELIMETER = ",";
+    private static final String START_GOAL_DELIMITER = " ";
+    private static final String ROW_COLUMN_DELIMITER = ",";
     private static final int INDEX_AS_START_POSITION = 0;
     private static final int INDEX_AS_GOAL_POSITION = 1;
     private static final int INDEX_AS_COLUMN = 0;
     private static final int INDEX_AS_ROW = 1;
 
     public Position splitStartPosition(String input) {
-        String[] positions = input.split(START_GOAL_DELIMETER);
+        String[] positions = input.split(START_GOAL_DELIMITER);
         try {
             String[] startPosition = splitPositions(positions, INDEX_AS_START_POSITION);
             return getPosition(startPosition);
@@ -24,7 +24,7 @@ public class InputParser {
     }
 
     public Position splitGoalPosition(String input) {
-        String[] positions = input.split(START_GOAL_DELIMETER);
+        String[] positions = input.split(START_GOAL_DELIMITER);
         try {
             String[] goalPosition = splitPositions(positions, INDEX_AS_GOAL_POSITION);
             return getPosition(goalPosition);
@@ -34,7 +34,7 @@ public class InputParser {
     }
 
     private String[] splitPositions(String[] positions, int index) {
-        return positions[index].split(ROW_COLUMN_DELIMETER);
+        return positions[index].split(ROW_COLUMN_DELIMITER);
     }
 
     private Position getPosition(String[] position) {
