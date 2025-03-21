@@ -8,11 +8,11 @@ public abstract class JanggiPiece {
 
     protected final JanggiSide side;
     protected final JanggiPieceType type;
-    protected JanggiPieceStatus status;
+    protected boolean isCaptured;
 
     public JanggiPiece(final JanggiSide side, final JanggiPieceType type) {
         this.side = side;
-        this.status = JanggiPieceStatus.ACTIVE;
+        this.isCaptured = false;
         this.type = type;
     }
 
@@ -37,7 +37,7 @@ public abstract class JanggiPiece {
         if (isEmpty()) {
             return;
         }
-        this.status = JanggiPieceStatus.CAPTURED;
+        this.isCaptured = true;
     }
 
     public boolean isTypeOf(JanggiPieceType type) {
@@ -49,6 +49,6 @@ public abstract class JanggiPiece {
     }
 
     public boolean isCaptured() {
-        return status == JanggiPieceStatus.CAPTURED;
+        return isCaptured;
     }
 }
