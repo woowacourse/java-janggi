@@ -15,7 +15,7 @@ class PositionTest {
         final Position start = new Position(Row.SIX, Column.SIX);
         final Position end = new Position(Row.FIVE, Column.SEVEN);
         // when
-        final MoveVector actual = end.calculateMoveVector(start);
+        final MoveVector actual = end.calculateVectorDiff(start);
         // then
         assertThat(actual).isEqualTo(new MoveVector(-1, 1));
     }
