@@ -25,21 +25,27 @@ public class HorseMovement implements MovementRule {
             new Point(2, 1), List.of(RIGHT)
     );
 
-    private final int dir;
+    private final int direction;
 
-    public HorseMovement(int dir) {
-        this.dir = dir;
+    public HorseMovement(int direction) {
+        this.direction = direction;
     }
 
     @Override
     public Point move(Pieces pieces, Point from, Point to) {
-        List<Direction> directions = paths.get(to.minus(from));
-        if(directions == null) {
-            throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
-        }
+        List<Direction> directions = paths.getOrDefault(to.minus(from), List.of());
+        validateInvalidDestination(directions);
+
         Point checkPoint = new Point(from.x(), from.y());
         validateExistPieceInPath(pieces, directions, checkPoint);
+
         return to;
+    }
+
+    private void validateInvalidDestination(List<Direction> directions) {
+        if(directions.isEmpty()) {
+            throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
+        }
     }
 
     private void validateExistPieceInPath(Pieces pieces, List<Direction> directions, Point checkPoint) {
@@ -50,6 +56,6 @@ public class HorseMovement implements MovementRule {
 
     private boolean checkExistPieceInPoint(Pieces pieces, List<Direction> directions, Point checkPoint) {
         return directions.stream()
-                .anyMatch(direction -> pieces.isExistPieceIn(checkPoint.plus(direction.multiply(dir))));
+                .anyMatch(direction -> pieces.isExistPieceIn(checkPoint.plus(direction.multiply(this.direction))));
     }
 }

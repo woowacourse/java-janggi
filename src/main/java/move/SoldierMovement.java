@@ -13,16 +13,16 @@ public class SoldierMovement implements MovementRule {
 
     private static final List<Direction> paths = List.of(LEFT, RIGHT, UP);
 
-    private final int dir;
+    private final int direction;
 
-    public SoldierMovement(int dir) {
-        this.dir = dir;
+    public SoldierMovement(int direction) {
+        this.direction = direction;
     }
 
     @Override
     public Point move(Pieces pieces, Point from, Point to) {
         for (Direction direction : paths) {
-            if (from.plus(direction.multiply(dir)).equals(to)) {
+            if (from.plus(direction.multiply(this.direction)).equals(to)) {
                 return to;
             }
         }
