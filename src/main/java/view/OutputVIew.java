@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import model.Team;
-import model.janggi_board.Dot;
-import model.janggi_board.JanggiBoard;
+import model.janggiboard.Dot;
+import model.janggiboard.JanggiBoard;
 
 public class OutputVIew {
 

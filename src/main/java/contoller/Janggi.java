@@ -7,8 +7,8 @@ import static view.OutputVIew.displayJanggiBoard;
 import java.util.List;
 import model.Point;
 import model.Team;
-import model.janggi_board.JanggiBoard;
-import model.janggi_board.JanggiBoardSetUp;
+import model.janggiboard.JanggiBoard;
+import model.janggiboard.JanggiBoardSetUp;
 import view.OutputVIew;
 
 public class Janggi {

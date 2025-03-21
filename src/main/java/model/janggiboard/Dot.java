@@ -1,4 +1,4 @@
-package model.janggi_board;
+package model.janggiboard;
 
 import java.util.Optional;
 import model.piece.Piece;

@@ -1,6 +1,6 @@
-package model.janggi_board;
+package model.janggiboard;
 
-import static model.janggi_board.JanggiBoardSetUp.DEFAULT_SETUP;
+import static model.janggiboard.JanggiBoardSetUp.DEFAULT_SETUP;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,11 +60,13 @@ public class JanggiBoard {
         validateAfterPoint(beforePoint, targetPoint, piece);
         Path path = piece.calculatePath(beforePoint, targetPoint);
         Map<Piece, Boolean> piecesOnPathWithTargetOrNot = getPiecesOnPath(path, targetPoint);
+
         if (piece.canMove(piecesOnPathWithTargetOrNot)) {
             getDot(targetPoint).place(piece);
             getDot(beforePoint).clear();
             return;
         }
+
         throw new IllegalArgumentException("이동할 수 없습니다.");
     }
 

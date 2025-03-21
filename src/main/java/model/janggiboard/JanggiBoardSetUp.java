@@ -1,4 +1,4 @@
-package model.janggi_board;
+package model.janggiboard;
 
 import static model.Team.BLUE;
 import static model.Team.RED;

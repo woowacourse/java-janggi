@@ -2,7 +2,7 @@ package model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import model.janggi_board.Dot;
+import model.janggiboard.Dot;
 import model.piece.Jang;
 import model.piece.Piece;
 import org.junit.jupiter.api.DisplayName;

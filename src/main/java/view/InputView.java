@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 import model.Point;
 import model.Team;
-import model.janggi_board.JanggiBoard;
+import model.janggiboard.JanggiBoard;
 
 public class InputView {
     private static Scanner sc;

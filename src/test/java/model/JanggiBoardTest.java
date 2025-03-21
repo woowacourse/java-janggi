@@ -1,9 +1,9 @@
 package model;
 
-import static model.janggi_board.JanggiBoardSetUp.INNER_ELEPHANT;
+import static model.janggiboard.JanggiBoardSetUp.INNER_ELEPHANT;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import model.janggi_board.JanggiBoard;
+import model.janggiboard.JanggiBoard;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
