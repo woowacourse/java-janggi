@@ -27,10 +27,10 @@ public class Po extends Piece {
         if (paths.size() != 1) {
             return false;
         }
-        if (board.findPiece(paths.getFirst()).get().isPo()) {
+        if (isPo(board.findPiece(paths.getFirst()).get())) {
             return false;
         }
-        if (board.isExistence(arrival) && board.findPiece(arrival).get().isPo()) {
+        if (board.isExistence(arrival) && isPo(board.findPiece(arrival).get())) {
             return false;
         }
         return true;
@@ -67,5 +67,9 @@ public class Po extends Piece {
             return coordinates;
         }
         throw new IllegalStateException("유효하지 않은 좌표입니다.");
+    }
+
+    private boolean isPo(Piece piece) {
+        return piece instanceof Po;
     }
 }
