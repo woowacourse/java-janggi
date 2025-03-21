@@ -9,9 +9,4 @@ public class Board {
     public Board(final ChessPiecePositions chessPiecePositions) {
         this.chessPiecePositions = chessPiecePositions;
     }
-
-    public void initialize() {
-        chessPiecePositions.initialize();
-    }
-
 }

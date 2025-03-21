@@ -9,34 +9,8 @@ public class ChessPiecePositions {
 
     private final Map<ChessPosition, ChessPiece> chessPieces;
 
-    private ChessPiecePositions(final Map<ChessPosition, ChessPiece> chessPieces) {
-        this.chessPieces = chessPieces;
-    }
-
-    public static ChessPiecePositions empty() {
-        return new ChessPiecePositions(new HashMap<>());
-    }
-
-    public static ChessPiecePositions from(final Map<ChessPosition, ChessPiece> chessPieces) {
-        return new ChessPiecePositions(chessPieces);
-    }
-
-    public void initialize() {
-        List<ChessPiece> pieces = new ArrayList<>();
-        pieces.addAll(Cannon.initPieces());
-        pieces.addAll(Chariot.initPieces());
-        pieces.addAll(Elephant.initPieces());
-        pieces.addAll(Guard.initPieces());
-        pieces.addAll(Horse.initPieces());
-        pieces.addAll(King.initPieces());
-        pieces.addAll(Pawn.initPieces());
-        for (ChessPiece piece : pieces) {
-            chessPieces.put(piece.getPosition(), piece);
-        }
-    }
-
-    public Map<ChessPosition, ChessPiece> getChessPieces() {
-        return Collections.unmodifiableMap(chessPieces);
+    public ChessPiecePositions(ChessPiecePositionsGenerator generator) {
+        this.chessPieces = generator.generate();
     }
 
     public boolean existChessPieceByPosition(final ChessPosition position) {
@@ -62,5 +36,4 @@ public class ChessPiecePositions {
         chessPieces.remove(position);
 
     }
-
 }

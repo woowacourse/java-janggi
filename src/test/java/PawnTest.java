@@ -1,5 +1,6 @@
 import domain.position.ChessPiecePositions;
 import domain.position.ChessPosition;
+import domain.position.EmptyChessPiecePositionsGenerator;
 import domain.type.ChessTeam;
 import domain.chessPiece.Pawn;
 import org.junit.jupiter.api.DisplayName;
@@ -10,6 +11,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PawnTest {
+    private final ChessPiecePositions emptyPositions = new ChessPiecePositions(new EmptyChessPiecePositionsGenerator());
 
     @Test
     @DisplayName("폰이 이동 가능한 경로를 반환한다")
@@ -23,7 +25,7 @@ public class PawnTest {
 
         //when
         final Pawn pawn = new Pawn(chessPosition, ChessTeam.RED);
-        final List<ChessPosition> destinations = pawn.getDestinations(ChessPiecePositions.empty());
+        final List<ChessPosition> destinations = pawn.getDestinations(emptyPositions);
 
         //then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expectDestinations);
