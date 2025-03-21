@@ -8,7 +8,7 @@ import java.util.List;
 
 public record PieceOnRoute(List<Piece> pieces) {
 
-  private static final Piece emptyPiece = new EmptyPiece();
+  private static final Piece emptyPiece = EmptyPiece.getInstance();
 
   public boolean hasNotPieceOnRoute() {
     for (int i = 0; i < pieces.size() - 1; i++) {

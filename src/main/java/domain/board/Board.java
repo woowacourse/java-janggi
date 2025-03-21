@@ -11,7 +11,6 @@ import java.util.Map;
 public final class Board {
 
   private static final int VALID_SIZE = 90;
-  private static final EmptyPiece EMPTY_PIECE = new EmptyPiece();
 
   private final Map<Point, Piece> locations;
 
@@ -58,11 +57,11 @@ public final class Board {
     checkPieceOnRoute(pieceAtStartPoint, pieceOnRoute);
 
     locations.put(arrivalPoint, pieceAtStartPoint);
-    locations.put(startPoint, EMPTY_PIECE);
+    locations.put(startPoint, EmptyPiece.getInstance());
   }
 
   private void checkStartPoint(final Piece pieceAtStartPoint, final Team team) {
-    if (pieceAtStartPoint.equals(EMPTY_PIECE)) {
+    if (pieceAtStartPoint.equals(EmptyPiece.getInstance())) {
       throw new JanggiArgumentException("출발점에 이동할 기물이 없습니다.");
     }
     if (!pieceAtStartPoint.hasEqualTeam(team)) {

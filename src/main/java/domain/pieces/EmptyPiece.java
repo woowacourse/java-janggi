@@ -10,6 +10,18 @@ import java.util.List;
 
 public final class EmptyPiece implements Piece {
 
+  private static EmptyPiece emptyPiece = null;
+
+  private EmptyPiece() {
+  }
+
+  public static EmptyPiece getInstance() {
+    if (emptyPiece == null) {
+      emptyPiece = EmptyPiece.getInstance();
+    }
+    return emptyPiece;
+  }
+
   @Override
   public boolean hasEqualTeam(final Team team) {
     throw new JanggiArgumentException("기물이 없습니다.");
