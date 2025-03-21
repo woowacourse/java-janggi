@@ -22,7 +22,7 @@ public class OutputView {
         System.out.printf("%s님의 팀은 청팀 입니다.\n %s님의 팀은 홍팀 입니다.\n", playerNames.getFirst(), playerNames.getLast());
     }
 
-    public void printJanggiBoard(Map<Position, Piece> board) {
+    public void displayJanggiBoard(Map<Position, Piece> board) {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 9; j++) {
                 Piece piece = board.get(new Position(i + 1, j + 1));
@@ -68,5 +68,9 @@ public class OutputView {
 
         }
         return color + result + exit;
+    }
+
+    public void displayErrorMessage(String message) {
+        System.out.println(message);
     }
 }

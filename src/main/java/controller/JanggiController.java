@@ -22,16 +22,28 @@ public class JanggiController {
         List<String> playerNames = inputView.readPlayerNames();
         JanggiGame janggiGame = new JanggiGame(new JanggiBoardGenerator(), playerNames);
         outputView.displayPlayerInfo(playerNames);
-        outputView.printJanggiBoard(janggiGame.getBoardState());
+        outputView.displayJanggiBoard(janggiGame.getBoardState());
         while (true) {
             Player thisTurnPlayer = janggiGame.getThisTurnPlayer();
-            List<Integer> startRowAndColumn = inputView.readMovePiecePosition(thisTurnPlayer);
-            List<Integer> targetRowAndColumn = inputView.readTargetPosition(thisTurnPlayer);
-            Position startPosition = new Position(startRowAndColumn.getFirst(), startRowAndColumn.getLast());
-            Position targetPosition = new Position(targetRowAndColumn.getFirst(), targetRowAndColumn.getLast());
-            janggiGame.move(startPosition, targetPosition);
-
-            outputView.printJanggiBoard(janggiGame.getBoardState());
+            GameProcess(thisTurnPlayer, janggiGame);
+            outputView.displayJanggiBoard(janggiGame.getBoardState());
         }
+    }
+
+    private void GameProcess(Player thisTurnPlayer, JanggiGame janggiGame) {
+        while (true) {
+            try {
+                List<Integer> startRowAndColumn = inputView.readMovePiecePosition(thisTurnPlayer);
+                List<Integer> targetRowAndColumn = inputView.readTargetPosition(thisTurnPlayer);
+                Position startPosition = new Position(startRowAndColumn.getFirst(), startRowAndColumn.getLast());
+                Position targetPosition = new Position(targetRowAndColumn.getFirst(), targetRowAndColumn.getLast());
+                janggiGame.move(startPosition, targetPosition);
+                return;
+            } catch (IllegalArgumentException iae) {
+                outputView.displayErrorMessage(iae.getMessage());
+            }
+        }
+
+
     }
 }
