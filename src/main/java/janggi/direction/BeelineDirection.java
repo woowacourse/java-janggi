@@ -14,7 +14,10 @@ public enum BeelineDirection {
         if (current.isEqualsXPosition(destination.getX())) {
             return parseWithYAxis(current.getY(), destination.getY());
         }
-        return parseWithXAxis(current.getX(), destination.getX());
+        if (current.isEqualsYPosition(destination.getY())) {
+            return parseWithXAxis(current.getX(), destination.getX());
+        }
+        return NONE;
     }
 
     public List<Position> calculatePositionsInPath(Position current, Position destination) {
@@ -34,22 +37,22 @@ public enum BeelineDirection {
     }
 
     private static BeelineDirection parseWithYAxis(int currentY, int destinationY) {
-        if (currentY == destinationY) {
-            return NONE;
-        }
         if (currentY < destinationY) {
             return UP;
         }
-        return DOWN;
+        if (currentY > destinationY) {
+            return DOWN;
+        }
+        return NONE;
     }
 
     private static BeelineDirection parseWithXAxis(int currentX, int destinationX) {
-        if (currentX == destinationX) {
-            return NONE;
-        }
         if (currentX < destinationX) {
             return RIGHT;
         }
-        return LEFT;
+        if (currentX > destinationX) {
+            return LEFT;
+        }
+        return NONE;
     }
 }

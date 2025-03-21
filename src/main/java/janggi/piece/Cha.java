@@ -48,9 +48,9 @@ public class Cha extends Piece {
     }
 
     private boolean existHurdleInPath(List<Position> positionsInPath, List<Piece> enemy, List<Piece> allies) {
-        boolean isEnemyExistence = existPieceInPath(positionsInPath, enemy);
-        boolean isAlliesExistence = existPieceInPath(positionsInPath, allies);
-        return isEnemyExistence || isAlliesExistence;
+        boolean existEnemyInPath = existPieceInPath(positionsInPath, enemy);
+        boolean existAlliesInPath = existPieceInPath(positionsInPath, allies);
+        return existEnemyInPath || existAlliesInPath;
     }
 
     private boolean existPieceInPath(List<Position> positions, List<Piece> pieces) {
@@ -60,6 +60,6 @@ public class Cha extends Piece {
 
     private boolean existPieceInPosition(Position position, List<Piece> pieces) {
         return pieces.stream()
-                .anyMatch(piece -> piece.getPosition().equals(position));
+                .anyMatch(piece -> position.equals(piece.getPosition()));
     }
 }
