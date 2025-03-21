@@ -32,6 +32,9 @@ public class JanggiGame {
     }
 
     private void validateMovePiece(Position startPosition, Position targetPosition) {
+        if (janggiBoard.findPiece(startPosition) == null) {
+            throw new IllegalArgumentException("해당 자리에는 말이 없습니다.");
+        }
         if (!players.get(sequence).isTeam(janggiBoard.findPiece(startPosition))) {
             throw new IllegalArgumentException("자신의 말만 움직일 수 있습니다.");
         }
