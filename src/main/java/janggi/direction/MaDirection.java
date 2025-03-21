@@ -20,19 +20,12 @@ public enum MaDirection {
     }
 
     public static MaDirection of(final Position current, final Position destination) {
-        int xDistance = destination.x() - current.x();
-        int yDistance = destination.y() - current.y();
-
-        for (MaDirection maDirection : MaDirection.values()) {
-            List<Position> destinationPositions = maDirection.destinationPositions;
-            boolean isValidDirection = destinationPositions.stream()
-                    .anyMatch(position -> position.equals(new Position(xDistance, yDistance)));
-
-            if (isValidDirection) {
-                return maDirection;
-            }
-        }
-        return NONE;
+        Position relativePosition = destination.calculateDifference(current);
+        List<MaDirection> allDirections = List.of(MaDirection.values());
+        return allDirections.stream()
+                .filter(direction -> direction.destinationPositions.contains(relativePosition))
+                .findFirst()
+                .orElse(NONE);
     }
 
     public boolean checkPositionInPath(Position current, Position target) {
