@@ -22,20 +22,20 @@ class JanggiGameTest {
         Player redPlayer = new Player("flint", Team.RED);
         Player greenPlayer = new Player("abc", Team.GREEN);
         Board board = Board.initialize(
-                List.of(new General(Position.of(1, 1), Team.RED),
-                        new General(Position.of(2, 2), Team.GREEN),
-                        new Soldier(Position.of(2, 2), Team.GREEN)));
+                List.of(new General(Position.of(1, 1), Team.GREEN),
+                        new General(Position.of(2, 2), Team.RED),
+                        new Soldier(Position.of(2, 2), Team.RED)));
         JanggiGame janggiGame = new JanggiGame(board, redPlayer, greenPlayer);
 
         //when
         //then
 
         assertAll(() -> {
-            assertThat(janggiGame.getCurrentPlayer()).isEqualTo(redPlayer);
-            assertDoesNotThrow(() -> janggiGame.moveByPlayer(Position.of(1, 1), Position.of(1, 2)));
             assertThat(janggiGame.getCurrentPlayer()).isEqualTo(greenPlayer);
-            assertDoesNotThrow(() -> janggiGame.moveByPlayer(Position.of(2, 2), Position.of(2, 3)));
+            assertDoesNotThrow(() -> janggiGame.moveByPlayer(Position.of(1, 1), Position.of(1, 2)));
             assertThat(janggiGame.getCurrentPlayer()).isEqualTo(redPlayer);
+            assertDoesNotThrow(() -> janggiGame.moveByPlayer(Position.of(2, 2), Position.of(2, 3)));
+            assertThat(janggiGame.getCurrentPlayer()).isEqualTo(greenPlayer);
         });
     }
 
@@ -46,14 +46,16 @@ class JanggiGameTest {
         Player redPlayer = new Player("flint", Team.RED);
         Player greenPlayer = new Player("abc", Team.GREEN);
         Board board = Board.initialize(
-                List.of(new General(Position.of(1, 1), Team.RED),
-                        new General(Position.of(2, 2), Team.GREEN),
-                        new Soldier(Position.of(2, 2), Team.GREEN)));
+                List.of(new General(Position.of(1, 1), Team.GREEN),
+                        new General(Position.of(2, 2), Team.RED),
+                        new Soldier(Position.of(2, 3), Team.RED)));
         JanggiGame janggiGame = new JanggiGame(board, redPlayer, greenPlayer);
 
         //when
         //then
-        Assertions.assertThatThrownBy(() -> janggiGame.moveByPlayer(Position.of(2, 2), Position.of(2, 3)));
+        Assertions.assertThatThrownBy(() -> janggiGame.moveByPlayer(Position.of(2, 2), Position.of(3, 2)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("적의 기물을 선택할 수 없습니다.");
     }
 
     @ParameterizedTest
