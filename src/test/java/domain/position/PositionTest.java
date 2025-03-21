@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static testUtil.TestConstant.*;
+import static test_util.TestConstant.*;
 
 class PositionTest {
 

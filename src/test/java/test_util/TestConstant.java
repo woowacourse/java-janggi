@@ -1,4 +1,4 @@
-package testUtil;
+package test_util;
 
 import domain.Country;
 import domain.position.PositionRank;

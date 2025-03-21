@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static testUtil.TestConstant.*;
+import static test_util.TestConstant.*;
 
 class PositionRankTest {
 

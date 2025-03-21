@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 import static domain.position.PositionFile.*;
 import static org.assertj.core.api.Assertions.*;
-import static testUtil.TestConstant.*;
+import static test_util.TestConstant.*;
 
 public class PieceTest {
 

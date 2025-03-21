@@ -4,14 +4,14 @@ import domain.piece.MoveDirection;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import org.junit.jupiter.api.Test;
-import testUtil.TestConstant;
+import test_util.TestConstant;
 
 import java.util.List;
 
 import static domain.position.PositionFile.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static testUtil.TestConstant.*;
+import static test_util.TestConstant.*;
 
 class PathTest {
 
