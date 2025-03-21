@@ -1,17 +1,18 @@
 package domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
-import domain.piece.category.Advisor;
 import domain.piece.category.Cannon;
+import domain.piece.category.Chariot;
 import domain.piece.category.Elephant;
+import domain.piece.category.Guard;
 import domain.piece.category.Horse;
 import domain.piece.category.King;
-import domain.piece.category.Pawn;
-import domain.piece.category.Rook;
-import java.util.List;
+import domain.piece.category.Soldier;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class PieceInitTest {
 
@@ -23,12 +24,12 @@ class PieceInitTest {
         // then
         assertAll(() -> {
             assertThat(pieces.stream().filter(p -> p instanceof King).count()).isEqualTo(1);
-            assertThat(pieces.stream().filter(p -> p instanceof Rook).count()).isEqualTo(2);
+            assertThat(pieces.stream().filter(p -> p instanceof Chariot).count()).isEqualTo(2);
             assertThat(pieces.stream().filter(p -> p instanceof Cannon).count()).isEqualTo(2);
             assertThat(pieces.stream().filter(p -> p instanceof Horse).count()).isEqualTo(2);
             assertThat(pieces.stream().filter(p -> p instanceof Elephant).count()).isEqualTo(2);
-            assertThat(pieces.stream().filter(p -> p instanceof Advisor).count()).isEqualTo(2);
-            assertThat(pieces.stream().filter(p -> p instanceof Pawn).count()).isEqualTo(5);
+            assertThat(pieces.stream().filter(p -> p instanceof Guard).count()).isEqualTo(2);
+            assertThat(pieces.stream().filter(p -> p instanceof Soldier).count()).isEqualTo(5);
         });
     }
 
@@ -40,12 +41,12 @@ class PieceInitTest {
         // then
         assertAll(() -> {
             assertThat(pieces.stream().filter(p -> p instanceof King).count()).isEqualTo(1);
-            assertThat(pieces.stream().filter(p -> p instanceof Rook).count()).isEqualTo(2);
+            assertThat(pieces.stream().filter(p -> p instanceof Chariot).count()).isEqualTo(2);
             assertThat(pieces.stream().filter(p -> p instanceof Cannon).count()).isEqualTo(2);
             assertThat(pieces.stream().filter(p -> p instanceof Horse).count()).isEqualTo(2);
             assertThat(pieces.stream().filter(p -> p instanceof Elephant).count()).isEqualTo(2);
-            assertThat(pieces.stream().filter(p -> p instanceof Advisor).count()).isEqualTo(2);
-            assertThat(pieces.stream().filter(p -> p instanceof Pawn).count()).isEqualTo(5);
+            assertThat(pieces.stream().filter(p -> p instanceof Guard).count()).isEqualTo(2);
+            assertThat(pieces.stream().filter(p -> p instanceof Soldier).count()).isEqualTo(5);
         });
     }
 }

@@ -10,7 +10,7 @@ import domain.piece.PieceColor;
 import domain.piece.PieceInit;
 import domain.piece.Pieces;
 import domain.piece.Position;
-import domain.piece.category.Pawn;
+import domain.piece.category.Soldier;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,7 @@ class BoardTest {
         Position startPosition = Position.of(1, 4);
         Position targetPosition = Position.of(1, 5);
 
-        Piece expected = new Pawn(1, 5, PieceDirection.HAN_PAWN.get());
+        Piece expected = new Soldier(1, 5, PieceDirection.HAN_SOLDIER.get());
 
         Player han = new Player("한", PieceColor.RED);
         Player cho = new Player("초", PieceColor.BLUE);
@@ -81,8 +81,8 @@ class BoardTest {
 
         List<Piece> hanPieces = PieceInit.initHanPieces();
         List<Piece> choPieces = PieceInit.initChoPieces();
-        hanPieces.add(new Pawn(5, 3, PieceDirection.HAN_PAWN.get()));
-        hanPieces.add(new Pawn(6, 3, PieceDirection.HAN_PAWN.get()));
+        hanPieces.add(new Soldier(5, 3, PieceDirection.HAN_SOLDIER.get()));
+        hanPieces.add(new Soldier(6, 3, PieceDirection.HAN_SOLDIER.get()));
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(hanPieces));
@@ -112,7 +112,7 @@ class BoardTest {
 
         List<Piece> hanPieces = PieceInit.initHanPieces();
         List<Piece> choPieces = PieceInit.initChoPieces();
-        hanPieces.add(new Pawn(2, 5, PieceDirection.HAN_PAWN.get()));
+        hanPieces.add(new Soldier(2, 5, PieceDirection.HAN_SOLDIER.get()));
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(hanPieces));
@@ -176,7 +176,7 @@ class BoardTest {
         // then
         assertAll(() -> {
             assertThat(choPieces).hasSize(15);
-            assertThat(choPieces).doesNotContain(new Pawn(1, 7, PieceDirection.CHO_PAWN.get()));
+            assertThat(choPieces).doesNotContain(new Soldier(1, 7, PieceDirection.CHO_SOLDIER.get()));
         });
     }
 

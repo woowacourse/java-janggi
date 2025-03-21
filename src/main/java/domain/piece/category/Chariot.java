@@ -4,21 +4,21 @@ import domain.direction.Directions;
 import domain.piece.Piece;
 import domain.piece.Position;
 
-public class Advisor extends Piece {
+public class Chariot extends Piece {
 
-    private static final String NAME = "a";
+    private static final String NAME = "r";
 
-    public Advisor(final int row, final int column, final Directions directions) {
+    public Chariot(final int row, final int column, final Directions directions) {
         super(row, column, directions);
     }
 
-    public Advisor(final Position position, final Directions directions) {
+    public Chariot(final Position position, final Directions directions) {
         super(position, directions);
     }
 
     @Override
-    public Advisor updatePosition(final Position position) {
-        return new Advisor(position, directions);
+    public Chariot updatePosition(final Position position) {
+        return new Chariot(position, directions);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package domain.direction;
 
 import domain.piece.Position;
+
 import java.util.List;
 
 public enum PieceDirection {
@@ -11,7 +12,7 @@ public enum PieceDirection {
             new Direction(List.of(Position.ofDirection(1, 0)), false),
             new Direction(List.of(Position.ofDirection(-1, 0)), false)
     ))),
-    ROOK(new Directions(List.of(
+    CHARIOT(new Directions(List.of(
             new Direction(List.of(Position.ofDirection(0, 1)), true),
             new Direction(List.of(Position.ofDirection(0, -1)), true),
             new Direction(List.of(Position.ofDirection(1, 0)), true),
@@ -55,18 +56,18 @@ public enum PieceDirection {
                     List.of(Position.ofDirection(-1, 0), Position.ofDirection(-1, 1), Position.ofDirection(-1, 1)),
                     false)
     ))),
-    ADVISOR(new Directions(List.of(
+    GUARD(new Directions(List.of(
             new Direction(List.of(Position.ofDirection(0, 1)), false),
             new Direction(List.of(Position.ofDirection(0, -1)), false),
             new Direction(List.of(Position.ofDirection(1, 0)), false),
             new Direction(List.of(Position.ofDirection(-1, 0)), false)
     ))),
-    HAN_PAWN(new Directions(List.of(
+    HAN_SOLDIER(new Directions(List.of(
             new Direction(List.of(Position.ofDirection(0, 1)), false),
             new Direction(List.of(Position.ofDirection(1, 0)), false),
             new Direction(List.of(Position.ofDirection(-1, 0)), false)
     ))),
-    CHO_PAWN(new Directions(List.of(
+    CHO_SOLDIER(new Directions(List.of(
             new Direction(List.of(Position.ofDirection(1, 0)), false),
             new Direction(List.of(Position.ofDirection(-1, 0)), false),
             new Direction(List.of(Position.ofDirection(0, -1)), false)
