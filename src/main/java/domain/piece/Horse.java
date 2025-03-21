@@ -1,0 +1,66 @@
+package domain.piece;
+
+import static domain.board.Offset.DOWN;
+import static domain.board.Offset.LEFT;
+import static domain.board.Offset.LEFT_DOWN;
+import static domain.board.Offset.LEFT_UP;
+import static domain.board.Offset.RIGHT;
+import static domain.board.Offset.RIGHT_DOWN;
+import static domain.board.Offset.RIGHT_UP;
+import static domain.board.Offset.UP;
+
+import domain.board.BoardPosition;
+import domain.board.Offset;
+import domain.Team;
+import java.util.List;
+import java.util.Map;
+
+public class Horse extends Piece {
+
+    private static final Map<Offset, List<Offset>> MOVEMENT_RULES = Map.of(
+            new Offset(2, 1), List.of(RIGHT, RIGHT_UP),
+            new Offset(2, -1), List.of(RIGHT, RIGHT_DOWN),
+            new Offset(-2, 1), List.of(LEFT, LEFT_UP),
+            new Offset(-2, -1), List.of(LEFT, LEFT_DOWN),
+            new Offset(1, 2), List.of(UP, RIGHT_UP),
+            new Offset(1, -2), List.of(DOWN, RIGHT_DOWN),
+            new Offset(-1, 2), List.of(UP, LEFT_UP),
+            new Offset(-1, -2), List.of(DOWN, LEFT_DOWN)
+    );
+
+    public Horse(final Team team) {
+        super(team);
+    }
+
+    @Override
+    public List<Offset> findMovementRule(
+            final BoardPosition before,
+            final BoardPosition after
+    ) {
+        final Offset offset = after.calculateOffset(before);
+        validateOffset(offset);
+
+        return MOVEMENT_RULES.get(offset);
+    }
+
+    @Override
+    public boolean isAllowedObstacles(final List<Piece> obstacles) {
+        return obstacles.isEmpty();
+    }
+
+    @Override
+    public boolean isCatchable(final Piece piece) {
+        return true;
+    }
+
+    private void validateOffset(final Offset offset) {
+        if (!MOVEMENT_RULES.containsKey(offset)) {
+            throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "마";
+    }
+}
