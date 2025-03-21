@@ -1,7 +1,8 @@
 package janggi.piece;
 
 import janggi.board.Position;
-import janggi.board.Route;
+import janggi.move.Direction;
+import janggi.move.Route;
 
 import java.util.List;
 
@@ -16,11 +17,17 @@ public class King implements Piece {
     @Override
     public List<Route> computeCandidatePositions(final Position position) {
         return List.of(
-                new Route(position.move(-1, 0)),
-                new Route(position.move(1, 0)),
-                new Route(position.move(0, -1)),
-                new Route(position.move(0, 1))
+                createRoute(position, Direction.UP),
+                createRoute(position, Direction.RIGHT),
+                createRoute(position, Direction.LEFT),
+                createRoute(position, Direction.RIGHT)
         );
+    }
+
+    private Route createRoute(final Position position, final Direction direction) {
+        Route route = new Route();
+        route.addRoute(position.move(direction));
+        return route;
     }
 
     @Override

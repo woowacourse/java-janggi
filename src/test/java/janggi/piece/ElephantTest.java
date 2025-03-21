@@ -1,7 +1,7 @@
 package janggi.piece;
 
 import janggi.board.Position;
-import janggi.board.Route;
+import janggi.move.Route;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +21,7 @@ class ElephantTest {
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(8),
-                () -> assertThat(candidatePositions.getFirst().getDestination()).isEqualTo(new Position(5, 11))
+                () -> assertThat(candidatePositions.getFirst().getLastPosition()).isEqualTo(new Position(0, 6))
         );
     }
 

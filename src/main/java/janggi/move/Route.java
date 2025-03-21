@@ -1,4 +1,6 @@
-package janggi.board;
+package janggi.move;
+
+import janggi.board.Position;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,12 +23,16 @@ public class Route {
         positions.add(position);
     }
 
-    public Position getDestination() {
+    public Position getLastPosition() {
         return positions.getLast();
     }
 
     public List<Position> getIntermediatePositions() {
         return positions.subList(0, positions.size() - 1);
+    }
+
+    public void deleteFirstPosition() {
+        positions.removeFirst();
     }
 
     public List<Position> getPositions() {

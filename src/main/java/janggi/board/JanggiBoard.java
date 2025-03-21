@@ -1,6 +1,7 @@
 package janggi.board;
 
 import janggi.piece.*;
+import janggi.move.Route;
 
 import java.util.*;
 
@@ -75,7 +76,7 @@ public class JanggiBoard {
     private List<Position> filterReachableDestinationsNormal(final List<Route> routes, final Piece piece) {
         List<Position> reachablePositions = new ArrayList<>();
         for (Route route : routes) {
-            Position destination = route.getDestination();
+            Position destination = route.getLastPosition();
             if (isInvalidRoute(piece, route, destination)) continue;
             reachablePositions.add(destination);
         }
@@ -200,7 +201,6 @@ public class JanggiBoard {
     }
 
     public Map<Position, Piece> getBoard() {
-        return board;
+        return new HashMap<>(board);
     }
-
 }

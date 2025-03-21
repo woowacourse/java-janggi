@@ -1,7 +1,8 @@
 package janggi.piece;
 
 import janggi.board.Position;
-import janggi.board.Route;
+import janggi.move.Direction;
+import janggi.move.Route;
 
 import java.util.List;
 
@@ -17,19 +18,22 @@ public class Cannon implements Piece {
 
     @Override
     public List<Route> computeCandidatePositions(final Position position) {
-        Route rightRoute = new Route();
-        Route leftRoute = new Route();
-        Route upRoute = new Route();
-        Route downRoute = new Route();
-
-        for (int delta = 1; delta <= MOVE_LIMIT; delta++) {
-            rightRoute.addRoute(position.move(delta, 0));
-            leftRoute.addRoute(position.move(-delta, 0));
-            upRoute.addRoute(position.move(0, delta));
-            downRoute.addRoute(position.move(0, -delta));
-        }
+        Route upRoute = createRoute(position, Direction.UP);
+        Route downRoute = createRoute(position, Direction.DOWN);
+        Route leftRoute = createRoute(position, Direction.LEFT);
+        Route rightRoute = createRoute(position, Direction.RIGHT);
 
         return List.of(rightRoute, leftRoute, upRoute, downRoute);
+    }
+
+    private Route createRoute(final Position position, final Direction direction) {
+        Route route = new Route(position);
+        for (int i = 0; i < MOVE_LIMIT; i++) {
+            Position lastPosition = route.getLastPosition();
+            route.addRoute(lastPosition.move(direction));
+        }
+        route.deleteFirstPosition();
+        return route;
     }
 
     @Override

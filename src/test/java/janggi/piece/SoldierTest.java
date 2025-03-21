@@ -1,7 +1,7 @@
 package janggi.piece;
 
 import janggi.board.Position;
-import janggi.board.Route;
+import janggi.move.Route;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +22,7 @@ class SoldierTest {
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(3),
-                () -> assertThat(candidatePositions.getLast().getDestination()).isEqualTo(new Position(0, 5))
+                () -> assertThat(candidatePositions.getLast().getLastPosition()).isEqualTo(new Position(1, 6))
         );
     }
 
@@ -36,7 +36,7 @@ class SoldierTest {
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(3),
-                () -> assertThat(candidatePositions.getLast().getDestination()).isEqualTo(new Position(0, 4))
+                () -> assertThat(candidatePositions.getLast().getLastPosition()).isEqualTo(new Position(1, 3))
         );
     }
 }

@@ -1,7 +1,7 @@
 package janggi.piece;
 
 import janggi.board.Position;
-import janggi.board.Route;
+import janggi.move.Route;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +22,7 @@ class GuardTest {
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(4),
-                () -> assertThat(candidatePositions.getLast().getDestination()).isEqualTo(new Position(3, 10))
+                () -> assertThat(candidatePositions.getLast().getLastPosition()).isEqualTo(new Position(4, 9))
         );
     }
 

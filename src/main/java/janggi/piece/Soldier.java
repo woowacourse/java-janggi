@@ -1,7 +1,8 @@
 package janggi.piece;
 
 import janggi.board.Position;
-import janggi.board.Route;
+import janggi.move.Direction;
+import janggi.move.Route;
 
 import java.util.List;
 
@@ -21,20 +22,26 @@ public class Soldier implements Piece {
         return moveHan(position);
     }
 
-    private static List<Route> moveCho(final Position position) {
+    private List<Route> moveCho(final Position position) {
         return List.of(
-                new Route(position.move(-1, 0)),
-                new Route(position.move(1, 0)),
-                new Route(position.move(0, -1))
+                createRoute(position, Direction.LEFT),
+                createRoute(position, Direction.UP),
+                createRoute(position, Direction.RIGHT)
         );
     }
 
-    private static List<Route> moveHan(final Position position) {
+    private List<Route> moveHan(final Position position) {
         return List.of(
-                new Route(position.move(-1, 0)),
-                new Route(position.move(1, 0)),
-                new Route(position.move(0, 1))
+                createRoute(position, Direction.LEFT),
+                createRoute(position, Direction.DOWN),
+                createRoute(position, Direction.RIGHT)
         );
+    }
+
+    private Route createRoute(final Position position, final Direction direction) {
+        Route route = new Route();
+        route.addRoute(position.move(direction));
+        return route;
     }
 
     @Override

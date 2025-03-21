@@ -1,5 +1,6 @@
 package janggi.board;
 
+import janggi.move.Direction;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -13,9 +14,9 @@ class PositionTest {
     void test1() {
         Position position = new Position(1, 1);
 
-        Position movedPosition = position.move(1, 1);
+        Position movedPosition = position.move(Direction.RIGHT);
 
-        assertThat(movedPosition).isEqualTo(new Position(2, 2));
+        assertThat(movedPosition).isEqualTo(new Position(2, 1));
     }
 
     @Test
@@ -26,13 +27,11 @@ class PositionTest {
         int yLimit = 3;
 
         Position position = new Position(0, 0);
-        Position movedPosition1 = position.move(0, -1);
-        Position movedPosition2 = position.move(3, 0);
+        Position movedPosition1 = position.move(Direction.UP);
 
         assertAll(
                 () -> assertThat(position.isOutOfRange(xLimit, yLimit)).isFalse(),
-                () -> assertThat(movedPosition1.isOutOfRange(xLimit, yLimit)).isTrue(),
-                () -> assertThat(movedPosition2.isOutOfRange(xLimit, yLimit)).isTrue()
+                () -> assertThat(movedPosition1.isOutOfRange(xLimit, yLimit)).isTrue()
         );
     }
 

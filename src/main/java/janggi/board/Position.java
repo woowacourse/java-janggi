@@ -1,5 +1,7 @@
 package janggi.board;
 
+import janggi.move.Direction;
+
 import java.util.Objects;
 
 public class Position {
@@ -12,8 +14,8 @@ public class Position {
         this.y = y;
     }
 
-    public Position move(int deltaX, int deltaY) {
-        return new Position(x + deltaX, y + deltaY);
+    public Position move(Direction direction) {
+        return new Position(x + direction.getDeltaX(), y + direction.getDeltaY());
     }
 
     public boolean isOutOfRange(final int xLimit, final int yLimit) {
@@ -38,5 +40,13 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

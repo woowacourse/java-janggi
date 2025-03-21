@@ -1,5 +1,6 @@
 package janggi.board;
 
+import janggi.move.Route;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
