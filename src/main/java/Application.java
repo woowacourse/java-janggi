@@ -37,7 +37,7 @@ public class Application {
         for (int i = 0; i < 10; i++) {
             System.out.print(i + " ");
             for (int j = 0; j < 9; j++) {
-                Optional<Piece> piece = pieces.findPieceOfView(new Position(i, j));
+                Optional<Piece> piece = pieces.findPieceOfNullable(new Position(i, j));
                 outputView.printPieceOrHyphen(piece);
             }
             outputView.printBlankLine();

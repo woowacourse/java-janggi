@@ -1,28 +1,26 @@
 package model;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class Pieces {
 
-    public final List<Piece> pieces;
+    public final Map<Position, Piece> pieces;
 
-    public Pieces(List<Piece> pieces) {
-        this.pieces = new ArrayList<>(pieces);
+    public Pieces(Map<Position, Piece> pieces) {
+        this.pieces = new HashMap<>(pieces);
     }
 
-    public Optional<Piece> findPieceOfView(Position position) {
-        return pieces.stream()
-                .filter(piece -> piece.getPosition().equals(position))
-                .findFirst();
+    public Optional<Piece> findPieceOfNullable(Position position) {
+        return Optional.ofNullable(pieces.get(position));
     }
 
     public Piece findPiece(Position position) {
-        return pieces.stream()
-                .filter(piece -> piece.getPosition().equals(position))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물 없음"));
+        return pieces.computeIfAbsent(position, key -> {
+            throw new IllegalArgumentException("해당 위치에 기물 없음");
+        });
     }
 
     public void validateCanMove(Piece piece, Position destination) {
@@ -44,15 +42,13 @@ public class Pieces {
         boolean isAlreadyExist = positions.stream()
                 .filter(this::isAlreadyExist)
                 .anyMatch(position -> !position.equals(destination));
-
         if (isAlreadyExist) {
             throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
         }
     }
 
     private boolean isAlreadyExist(Position position) {
-        return pieces.stream()
-                .anyMatch(piece -> piece.getPosition().equals(position));
+        return pieces.get(position) != null;
     }
 
     private void validateDestination(Piece myPiece, Position destination) {
@@ -90,9 +86,8 @@ public class Pieces {
     }
 
     private boolean hasCannon(Position position) {
-        return pieces.stream()
-                .filter(piece -> piece.getPosition().equals(position))
-                .anyMatch(piece -> piece.getClass() == Cannon.class);
+        Piece findPiece = pieces.get(position);
+        return findPiece.isCannon();
     }
 
     private void validateDestinationOfCannon(Piece myPiece, Position destination) {
@@ -108,10 +103,7 @@ public class Pieces {
     }
 
     private Optional<Piece> findPieceOptional(Position destination) {
-        Optional<Piece> hasExistPiece = this.pieces.stream()
-            .filter(piece -> piece.getPosition().equals(destination))
-            .findFirst();
-        return hasExistPiece;
+        return Optional.ofNullable(pieces.get(destination));
     }
 
     private void movePosition(Piece myPiece, Position destination) {
