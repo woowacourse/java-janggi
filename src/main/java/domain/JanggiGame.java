@@ -27,9 +27,10 @@ public class JanggiGame {
         return board.getAlivePieces();
     }
 
-    public boolean isFinished() {
+    public boolean isInProgress(){
         return board.isInProgress();
     }
+
 
     public Player findPlayerByTeam(TeamType playerTeam) {
         return players.getTeamPlayer(playerTeam);

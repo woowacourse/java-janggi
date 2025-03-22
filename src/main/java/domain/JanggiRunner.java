@@ -36,7 +36,7 @@ public class JanggiRunner {
 
     private void executeGame(JanggiGame janggiGame) {
         TeamType nowTurn = TeamType.CHO;
-        while (isGameInProgress(janggiGame)) {
+        while (janggiGame.isInProgress()) {
             Player nowPlayer = janggiGame.findPlayerByTeam(nowTurn);
             Position startPosition = inputView.getStartPosition(nowPlayer);
             Position endPosition = inputView.getEndPosition(nowPlayer);
@@ -80,10 +80,6 @@ public class JanggiRunner {
         String firstPlayerName = inputView.getFirstPlayerName();
         String secondPlayerName = inputView.getSecondPlayerName();
         return new Usernames(firstPlayerName, secondPlayerName);
-    }
-
-    private boolean isGameInProgress(JanggiGame janggiGame) {
-        return !janggiGame.isFinished();
     }
 
     private TeamType findNextTurn(TeamType nowTurn) {
