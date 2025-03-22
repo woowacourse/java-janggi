@@ -1,31 +1,45 @@
 package view;
 
+import domain.Country;
+import domain.JanggiBoard;
 import domain.JanggiCoordinate;
-import domain.board.JanggiBoard;
-import domain.piece.Country;
 
 public class OutputView {
+    public static final String RESET = "\u001B[0m";  // 색상 초기화
+    public static final String RED = "\u001B[31m";   // 빨간색
+    public static final String GREEN = "\u001B[32m"; // 초록색
 
-    public void printJanggiBoard(JanggiBoard board) {
-        StringBuilder builder = new StringBuilder();
+    private static final int PRINT_START_ROW = 0;
+    private static final int PRINT_START_COL = 0;
 
-        for (int row = JanggiBoard.BOARD_MIN_SIZE; row <= JanggiBoard.ROW_SIZE; row++) {
-            for (int col = JanggiBoard.BOARD_MIN_SIZE; col <= JanggiBoard.COL_SIZE; col++) {
+    public void printCurrTurn(Country currTurn) {
+        System.out.println("현재 " + currTurn.getName() + "의 차례입니다.");
+    }
+
+    public void printCurrBoard(JanggiBoard board) {
+
+        for (int row = board.BOUNDARY_START; row <= board.ROW_SIZE; row++) {
+            for (int col = board.BOUNDARY_START; col <= board.COL_SIZE; col++) {
                 JanggiCoordinate coordinate = new JanggiCoordinate(row, col);
-                if (board.isBlankCoordinate(coordinate)) {
-                    builder.append("＿");
+                if (board.isOccupied(coordinate) && isCho(board, coordinate)) {
+                    System.out.print(GREEN + board.findPieceByCoordinate(coordinate).getPieceType().getName() + RESET);
                     continue;
                 }
-                Country country = board.findCountryByCoordinate(coordinate);
-                if (country == Country.CHO) {
-                    builder.append("\u001B[32m").append(board.getPieceType(coordinate)).append("\u001B[0m");
+                if (board.isOccupied(coordinate) && !isCho(board, coordinate)) {
+                    System.out.print(RED + board.findPieceByCoordinate(coordinate).getPieceType().getName() + RESET);
+                    continue;
                 }
-                if (country == Country.HAN) {
-                    builder.append("\u001B[31m").append(board.getPieceType(coordinate)).append("\u001B[0m");
-                }
+                System.out.print("＿");
             }
-            builder.append('\n');
+            System.out.println();
         }
-        System.out.println(builder);
+    }
+
+    private boolean isCho(JanggiBoard board, JanggiCoordinate coordinate) {
+        return board.findPieceByCoordinate(coordinate).getCountry() == Country.CHO;
+    }
+
+    public void printError(String message) {
+        System.out.println(message);
     }
 }

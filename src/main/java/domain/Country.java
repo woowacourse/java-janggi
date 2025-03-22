@@ -1,8 +1,8 @@
 package domain;
 
 public enum Country {
-    HAN("한"),
-    CHO("초"),
+    HAN("한나라"),
+    CHO("초나라"),
     ;
 
     private String name;

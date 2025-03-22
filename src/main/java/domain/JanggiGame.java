@@ -33,4 +33,12 @@ public class JanggiGame {
         }
         currTurn = Country.CHO;
     }
+
+    public Country getCurrTurn() {
+        return currTurn;
+    }
+
+    public JanggiBoard getBoard() {
+        return board;
+    }
 }
