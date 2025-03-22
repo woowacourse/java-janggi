@@ -6,6 +6,9 @@ import java.util.Objects;
 
 public class Position {
 
+    private static final int X_LIMIT = 9;
+    private static final int Y_LIMIT = 10;
+
     private final int x;
     private final int y;
 
@@ -18,8 +21,8 @@ public class Position {
         return new Position(x + direction.getDeltaX(), y + direction.getDeltaY());
     }
 
-    public boolean isOutOfRange(final int xLimit, final int yLimit) {
-        return x < 0 || y < 0 || x > xLimit - 1 || y > yLimit - 1;
+    public boolean isOutOfRange() {
+        return x < 0 || y < 0 || x > X_LIMIT - 1 || y > Y_LIMIT - 1;
     }
 
     public int getX() {
