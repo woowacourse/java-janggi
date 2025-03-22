@@ -53,5 +53,4 @@ public class PieceFactory {
                 Map.entry(Position.of(0, 8), new Chariot(TeamType.CHO))
         );
     }
-
 }

@@ -8,6 +8,7 @@ import domain.piece.strategy.RightElephantStrategy;
 import java.util.Arrays;
 
 public enum SetupOption {
+
     INNER_ELEPHANT_SETUP("1", new InnerElephantStrategy()),
     OUTER_ELEPHANT_SETUP("2", new OuterElephantStrategy()),
     RIGHT_ELEPHANT_SETUP("3", new RightElephantStrategy()),

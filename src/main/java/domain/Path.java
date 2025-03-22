@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Path {
+
     private final List<Direction> movement;
 
     public Path(List<Direction> movement) {

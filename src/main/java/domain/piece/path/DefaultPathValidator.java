@@ -6,6 +6,7 @@ import domain.position.Position;
 import java.util.List;
 
 public class DefaultPathValidator implements PathValidator {
+
     @Override
     public void validateMovePath(List<Position> positions, Board board) {
         if (hasPieceOnPath(positions, board)) {

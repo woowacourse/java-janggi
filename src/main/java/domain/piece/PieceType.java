@@ -1,6 +1,7 @@
 package domain.piece;
 
 public enum PieceType {
+
     CANNON("C"),
     CHARIOT("R"),
     ELEPHANT("E"),

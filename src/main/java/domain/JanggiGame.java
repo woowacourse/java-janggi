@@ -5,6 +5,7 @@ import domain.position.Position;
 import java.util.Map;
 
 public class JanggiGame {
+
     private final Players players;
     private final Board board;
 
@@ -16,7 +17,6 @@ public class JanggiGame {
     public void movePiece(Position startPosition, Position endPosition, TeamType teamType) {
         board.movePiece(startPosition, endPosition, teamType);
     }
-
 
     public Player findWinner() {
         TeamType winTeam = board.findWinTeam();

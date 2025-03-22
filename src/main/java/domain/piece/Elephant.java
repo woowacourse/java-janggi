@@ -8,6 +8,7 @@ import domain.position.Direction;
 import java.util.List;
 
 public class Elephant extends Piece {
+
     private static final List<Path> PATHS;
 
     static {

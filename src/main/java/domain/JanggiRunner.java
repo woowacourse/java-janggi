@@ -9,6 +9,7 @@ import view.InputView;
 import view.OutputView;
 
 public class JanggiRunner {
+
     private final InputView inputView;
     private final OutputView outputView;
 

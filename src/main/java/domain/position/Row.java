@@ -1,6 +1,7 @@
 package domain.position;
 
 public class Row extends Axis<Row> {
+
     public static final int MAX_ROW = 9;
     public static final int MIN_ROW = 0;
 

@@ -24,6 +24,4 @@ public class FixedMoveRule implements MoveRule{
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("지정한 포지션으로 이동할 수 없습니다."));
     }
-
-
 }

@@ -1,6 +1,7 @@
 package domain.position;
 
 public class Column extends Axis<Column> {
+
     public static final int MAX_COLUMN = 8;
     public static final int MIN_COLUMN = 0;
 

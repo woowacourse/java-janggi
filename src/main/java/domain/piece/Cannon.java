@@ -7,6 +7,7 @@ import domain.position.Direction;
 import java.util.List;
 
 public class Cannon extends Piece {
+
     private static final List<Direction> DIRECTIONS;
 
     static {

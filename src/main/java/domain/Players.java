@@ -1,6 +1,7 @@
 package domain;
 
 public class Players {
+
     private final Player choPlayer;
     private final Player hanPlayer;
 

@@ -3,6 +3,7 @@ package domain.position;
 import java.util.Objects;
 
 public abstract class Axis<T extends Axis<T>> {
+
     protected final int value;
 
     protected Axis(int value) {

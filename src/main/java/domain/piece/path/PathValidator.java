@@ -11,6 +11,7 @@ public interface PathValidator {
         validateMovePath(positions, board);
         validateDestination(to, board, movePiece);
     }
+
     void validateMovePath(List<Position> positions, Board board);
     void validateDestination(Position to, Board board, Piece movePiece);
 }

@@ -25,6 +25,10 @@ public abstract class Piece {
         this.pathValidator = piece.pathValidator;
     }
 
+    public abstract PieceType getType();
+
+    public abstract Piece newInstance();
+
     public boolean isSameTeam(Piece piece) {
         return this.teamType.equals(piece.teamType);
     }
@@ -41,8 +45,4 @@ public abstract class Piece {
         List<Position> intermediatePath = moveRule.getIntermediatePath(from, to);
         pathValidator.validatePath(intermediatePath, to, board, this);
     }
-
-    public abstract PieceType getType();
-
-    public abstract Piece newInstance();
 }
