@@ -1,9 +1,10 @@
 package domain.piece;
 
 import domain.board.Board;
-import domain.board.Node;
 import domain.board.Point;
 import fixture.BoardFixture;
+import java.util.HashMap;
+import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -20,21 +21,18 @@ class WangTest {
     @Test
     void 왕은_적_기물이_있는_위치로_갈_수_있다() {
         // given
-        Board board = BoardFixture.createEmptyBoard();
-
         Team wangTeam = Team.CHO;
         Piece wang = new Wang(wangTeam);
-
         Point wangPoint = Point.of(9, 5);
-        Node sourceNode = board.findNodeByPoint(wangPoint);
-
         Point destinationPoint = Point.of(9, 4);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
 
-        board.putPiece(destinationNode, new Byeong(wangTeam.inverse()));
+        Map<Point, Piece> pieceByPoint = new HashMap<>();
+        pieceByPoint.put(wangPoint, wang);
+        pieceByPoint.put(destinationPoint, new Cha(wangTeam.inverse()));
+        Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = wang.canMove(sourceNode, destinationNode, board);
+        final boolean actual = board.canMove(wangPoint, destinationPoint);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -43,19 +41,17 @@ class WangTest {
     @Test
     void 왕은_빈칸이_있는_위치로_갈_수_있다() {
         // given
-        Board board = BoardFixture.createEmptyBoard();
-
         Team wangTeam = Team.CHO;
         Piece wang = new Wang(wangTeam);
-
         Point wangPoint = Point.of(9, 5);
-        Node sourceNode = board.findNodeByPoint(wangPoint);
-
         Point destinationPoint = Point.of(9, 4);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+        Map<Point, Piece> pieceByPoint = new HashMap<>();
+        pieceByPoint.put(wangPoint, wang);
+        Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = wang.canMove(sourceNode, destinationNode, board);
+        final boolean actual = board.canMove(wangPoint, destinationPoint);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -64,20 +60,18 @@ class WangTest {
     @Test
     void 왕은_본인_팀의_기물이_있는_위치로_갈_수_없다() {
         // given
-        Board board = BoardFixture.createEmptyBoard();
-
         Team wangTeam = Team.CHO;
         Piece wang = new Wang(wangTeam);
-
         Point wangPoint = Point.of(9, 5);
-        Node sourceNode = board.findNodeByPoint(wangPoint);
-
         Point destinationPoint = Point.of(9, 4);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
 
-        board.putPiece(destinationNode, new Byeong(wangTeam));
+        Map<Point, Piece> pieceByPoint = new HashMap<>();
+        pieceByPoint.put(wangPoint, wang);
+        pieceByPoint.put(destinationPoint, new Cha(wangTeam));
+        Board board = BoardFixture.createTestBoard(pieceByPoint);
+
         // when
-        final boolean actual = wang.canMove(sourceNode, destinationNode, board);
+        final boolean actual = board.canMove(wangPoint, destinationPoint);
 
         // then
         Assertions.assertThat(actual).isFalse();

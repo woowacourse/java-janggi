@@ -5,11 +5,11 @@ import static domain.board.Board.END_ROW_INDEX;
 import static domain.board.Board.START_COLUMN_INDEX;
 import static domain.board.Board.START_ROW_INDEX;
 
-import domain.piece.PieceType;
 import domain.piece.Byeong;
 import domain.piece.Cha;
 import domain.piece.Ma;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Po;
 import domain.piece.Sa;
 import domain.piece.Sang;
@@ -27,10 +27,10 @@ public class BoardGenerator {
 
     public Board generateBoard(SangMaOrderCommand hanSangMaOrderCommand, SangMaOrderCommand choSangMaOrderCommand) {
         Map<Point, Node> nodeByPoint = initializeNodesAndEdges();
-        Map<Node, Piece> pieceByNode = initializePiecePosition(nodeByPoint,
+        Map<Point, Piece> pieceByPoint = initializePiecePosition(
                 hanSangMaOrderCommand,
                 choSangMaOrderCommand);
-        return new Board(pieceByNode, nodeByPoint);
+        return new Board(pieceByPoint, nodeByPoint);
     }
 
     public Map<Point, Node> initializeNodesAndEdges() {
@@ -69,64 +69,64 @@ public class BoardGenerator {
         return edges;
     }
 
-    public Map<Node, Piece> initializePiecePosition(Map<Point, Node> nodeByPoint,
-                                                    SangMaOrderCommand hanSangMaOrderCommand,
-                                                    SangMaOrderCommand choSangMaOrderCommand) {
-        Map<Node, Piece> board = new HashMap<>();
+    public Map<Point, Piece> initializePiecePosition(
+            SangMaOrderCommand hanSangMaOrderCommand,
+            SangMaOrderCommand choSangMaOrderCommand) {
+        Map<Point, Piece> board = new HashMap<>();
         List<Point> hanSangMaPoints = List.of(Point.of(1, 2), Point.of(1, 3), Point.of(1, 7), Point.of(1, 8));
-        initializeHanPiecePosition(hanSangMaPoints, hanSangMaOrderCommand, nodeByPoint, board);
+        initializeHanPiecePosition(hanSangMaPoints, hanSangMaOrderCommand, board);
 
         List<Point> choSangMaPoints = List.of(Point.of(10, 2), Point.of(10, 3), Point.of(10, 7), Point.of(10, 8));
-        initializeChoPiecePosition(choSangMaPoints, choSangMaOrderCommand, nodeByPoint, board);
+        initializeChoPiecePosition(choSangMaPoints, choSangMaOrderCommand, board);
 
         return board;
     }
 
     private void initializeHanPiecePosition(List<Point> sangMaPoints,
                                             SangMaOrderCommand sangMaOrderCommand,
-                                            Map<Point, Node> nodeByPoint, Map<Node, Piece> board) {
-        board.put(nodeByPoint.get(Point.of(4, 1)), new Byeong(Team.HAN));
-        board.put(nodeByPoint.get(Point.of(4, 3)), new Byeong(Team.HAN));
-        board.put(nodeByPoint.get(Point.of(4, 5)), new Byeong(Team.HAN));
-        board.put(nodeByPoint.get(Point.of(4, 7)), new Byeong(Team.HAN));
-        board.put(nodeByPoint.get(Point.of(4, 9)), new Byeong(Team.HAN));
+                                            Map<Point, Piece> board) {
+        board.put(Point.of(4, 1), new Byeong(Team.HAN));
+        board.put(Point.of(4, 3), new Byeong(Team.HAN));
+        board.put(Point.of(4, 5), new Byeong(Team.HAN));
+        board.put(Point.of(4, 7), new Byeong(Team.HAN));
+        board.put(Point.of(4, 9), new Byeong(Team.HAN));
 
-        board.put(nodeByPoint.get(Point.of(3, 2)), new Po(Team.HAN));
-        board.put(nodeByPoint.get(Point.of(3, 8)), new Po(Team.HAN));
+        board.put(Point.of(3, 2), new Po(Team.HAN));
+        board.put(Point.of(3, 8), new Po(Team.HAN));
 
-        board.put(nodeByPoint.get(Point.of(2, 5)), new Wang(Team.HAN));
+        board.put(Point.of(2, 5), new Wang(Team.HAN));
 
-        board.put(nodeByPoint.get(Point.of(1, 1)), new Cha(Team.HAN));
-        board.put(nodeByPoint.get(Point.of(1, 4)), new Sa(Team.HAN));
-        board.put(nodeByPoint.get(Point.of(1, 6)), new Sa(Team.HAN));
-        board.put(nodeByPoint.get(Point.of(1, 9)), new Cha(Team.HAN));
+        board.put(Point.of(1, 1), new Cha(Team.HAN));
+        board.put(Point.of(1, 4), new Sa(Team.HAN));
+        board.put(Point.of(1, 6), new Sa(Team.HAN));
+        board.put(Point.of(1, 9), new Cha(Team.HAN));
         Deque<Piece> sangMaOrder = createSangMaOrder(sangMaOrderCommand, Team.HAN);
         for (Point point : sangMaPoints) {
-            board.put(nodeByPoint.get(point), sangMaOrder.removeFirst());
+            board.put(point, sangMaOrder.removeFirst());
         }
     }
 
     private void initializeChoPiecePosition(List<Point> sangMaPoints,
                                             SangMaOrderCommand sangMaOrderCommand,
-                                            Map<Point, Node> nodeByPoint, Map<Node, Piece> board) {
-        board.put(nodeByPoint.get(Point.of(7, 1)), new Byeong(Team.CHO));
-        board.put(nodeByPoint.get(Point.of(7, 3)), new Byeong(Team.CHO));
-        board.put(nodeByPoint.get(Point.of(7, 5)), new Byeong(Team.CHO));
-        board.put(nodeByPoint.get(Point.of(7, 7)), new Byeong(Team.CHO));
-        board.put(nodeByPoint.get(Point.of(7, 9)), new Byeong(Team.CHO));
+                                            Map<Point, Piece> board) {
+        board.put(Point.of(7, 1), new Byeong(Team.CHO));
+        board.put(Point.of(7, 3), new Byeong(Team.CHO));
+        board.put(Point.of(7, 5), new Byeong(Team.CHO));
+        board.put(Point.of(7, 7), new Byeong(Team.CHO));
+        board.put(Point.of(7, 9), new Byeong(Team.CHO));
 
-        board.put(nodeByPoint.get(Point.of(8, 2)), new Po(Team.CHO));
-        board.put(nodeByPoint.get(Point.of(8, 8)), new Po(Team.CHO));
+        board.put(Point.of(8, 2), new Po(Team.CHO));
+        board.put(Point.of(8, 8), new Po(Team.CHO));
 
-        board.put(nodeByPoint.get(Point.of(9, 5)), new Wang(Team.CHO));
+        board.put(Point.of(9, 5), new Wang(Team.CHO));
 
-        board.put(nodeByPoint.get(Point.of(10, 1)), new Cha(Team.CHO));
-        board.put(nodeByPoint.get(Point.of(10, 4)), new Sa(Team.CHO));
-        board.put(nodeByPoint.get(Point.of(10, 6)), new Sa(Team.CHO));
-        board.put(nodeByPoint.get(Point.of(10, 9)), new Cha(Team.CHO));
+        board.put(Point.of(10, 1), new Cha(Team.CHO));
+        board.put(Point.of(10, 4), new Sa(Team.CHO));
+        board.put(Point.of(10, 6), new Sa(Team.CHO));
+        board.put(Point.of(10, 9), new Cha(Team.CHO));
         Deque<Piece> sangMaOrder = createSangMaOrder(sangMaOrderCommand, Team.CHO);
         for (Point point : sangMaPoints) {
-            board.put(nodeByPoint.get(point), sangMaOrder.removeFirst());
+            board.put(point, sangMaOrder.removeFirst());
         }
     }
 

@@ -26,7 +26,7 @@ public class InputView {
     public static MoveCommand inputMoveCommand(Team team) {
         System.out.printf("""
                 %n현재 턴 : %s나라
-                이동할 기물의 현재 위치와 이동할 위치를 입력해주세요. (예: move 1,1 2,1)
+                이동할 기물의 현재 위치와 이동할 위치를 입력해주세요. (예: move 7,1 7,2)
                 """, team.title());
         String input = scanner.nextLine();
 

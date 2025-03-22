@@ -1,10 +1,13 @@
 package domain.board;
 
 import domain.piece.Byeong;
+import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Po;
 import domain.piece.Team;
 import fixture.BoardFixture;
+import java.util.HashMap;
+import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -20,12 +23,13 @@ class BoardTest {
         void 특정_위치에_기물이_존재하면_true를_반환한다() {
             // given
             Point point = Point.of(1, 1);
-            Node node = new Node(point);
-            Board board = BoardFixture.createEmptyBoard();
-            board.putPiece(node, new Byeong(Team.CHO));
+
+            Map<Point, Piece> pieceByPoint = new HashMap<>();
+            pieceByPoint.put(point, new Byeong(Team.CHO));
+            Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             // when
-            final boolean actual = board.existsPieceByNode(node);
+            final boolean actual = board.existsPieceByPoint(point);
 
             // then
             Assertions.assertThat(actual).isTrue();
@@ -35,13 +39,15 @@ class BoardTest {
         void 특정_위치에_기물이_존재하지_않으면_false를_반환한다() {
             // given
             Point point = Point.of(1, 1);
-            Node node = new Node(point);
-            Board board = BoardFixture.createEmptyBoard();
-            board.putPiece(node, new Byeong(Team.CHO));
-            Node otherNode = board.findNodeByPoint(point.of(5, 5));
+
+            Map<Point, Piece> pieceByPoint = new HashMap<>();
+            pieceByPoint.put(point, new Byeong(Team.CHO));
+            Board board = BoardFixture.createTestBoard(pieceByPoint);
+
+            Point otherPoint = Point.of(5, 5);
 
             // when
-            final boolean actual = board.existsPieceByNode(otherNode);
+            final boolean actual = board.existsPieceByPoint(otherPoint);
 
             // then
             Assertions.assertThat(actual).isFalse();
@@ -51,13 +57,13 @@ class BoardTest {
         void 특정_위치에_존재하는_기물을_제거한다() {
             // given
             Point point = Point.of(1, 1);
-            Node node = new Node(point);
-            Board board = BoardFixture.createEmptyBoard();
-            board.putPiece(node, new Byeong(Team.CHO));
+            Map<Point, Piece> pieceByPoint = new HashMap<>();
+            pieceByPoint.put(point, new Byeong(Team.CHO));
+            Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             // when
-            board.removePieceByNode(node);
-            final boolean actual = board.existsPieceByNode(node);
+            board.removePiece(point);
+            final boolean actual = board.existsPieceByPoint(point);
 
             // then
             Assertions.assertThat(actual).isFalse();
@@ -68,12 +74,13 @@ class BoardTest {
             // given
             Team team = Team.CHO;
             Point point = Point.of(1, 1);
-            Node node = new Node(point);
-            Board board = BoardFixture.createEmptyBoard();
-            board.putPiece(node, new Byeong(team));
+
+            Map<Point, Piece> pieceByPoint = new HashMap<>();
+            pieceByPoint.put(point, new Byeong(team));
+            Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             // when
-            final boolean actual = board.hasPieceTeamByNode(node, team);
+            final boolean actual = board.hasTeamOfPiece(point, team);
 
             // then
             Assertions.assertThat(actual).isTrue();
@@ -84,13 +91,14 @@ class BoardTest {
             // given
             Team team = Team.CHO;
             Point point = Point.of(1, 1);
-            Node node = new Node(point);
-            Board board = BoardFixture.createEmptyBoard();
-            board.putPiece(node, new Byeong(team.inverse()));
+
+            Map<Point, Piece> pieceByPoint = new HashMap<>();
+            pieceByPoint.put(point, new Byeong(team.inverse()));
+            Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             // when
 
-            final boolean actual = board.hasPieceTeamByNode(node, team);
+            final boolean actual = board.hasTeamOfPiece(point, team);
 
             // then
             Assertions.assertThat(actual).isFalse();
@@ -102,13 +110,13 @@ class BoardTest {
             Team team = Team.CHO;
             PieceType pieceType = PieceType.PO;
             Point point = Point.of(1, 1);
-            Node node = new Node(point);
-            Board board = BoardFixture.createEmptyBoard();
 
-            board.putPiece(node, new Po(team.inverse()));
+            Map<Point, Piece> pieceByPoint = new HashMap<>();
+            pieceByPoint.put(point, new Po(team.inverse()));
+            Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             // when
-            final boolean actual = board.hasPieceTypeByNode(node, pieceType);
+            final boolean actual = board.hasPieceType(point, pieceType);
 
             // then
             Assertions.assertThat(actual).isTrue();
@@ -120,33 +128,16 @@ class BoardTest {
             Team team = Team.CHO;
             PieceType pieceType = PieceType.PO;
             Point point = Point.of(1, 1);
-            Node node = new Node(point);
-            Board board = BoardFixture.createEmptyBoard();
 
-            board.putPiece(node, new Byeong(team.inverse()));
+            Map<Point, Piece> pieceByPoint = new HashMap<>();
+            pieceByPoint.put(point, new Byeong(team.inverse()));
+            Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             // when
-            final boolean actual = board.hasPieceTypeByNode(node, pieceType);
+            final boolean actual = board.hasPieceType(point, pieceType);
 
             // then
             Assertions.assertThat(actual).isFalse();
-        }
-    }
-
-    @Nested
-    @DisplayName("예외가 발생하는 테스트")
-    class Fail {
-
-        @Test
-        void 특정_위치에_기물이_없으면_예외가_발생한다() {
-            // given
-            Point point = Point.of(1, 1);
-            Node node = new Node(point);
-            Board board = BoardFixture.createEmptyBoard();
-
-            // when & then
-            Assertions.assertThatThrownBy(() -> board.findPieceByNode(node))
-                    .isInstanceOf(IllegalArgumentException.class);
         }
     }
 }

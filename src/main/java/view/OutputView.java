@@ -1,12 +1,12 @@
 package view;
 
 import domain.board.Board;
-import domain.board.Node;
 import domain.board.Point;
 import domain.piece.Piece;
 import domain.piece.Team;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class OutputView {
 
@@ -15,20 +15,21 @@ public class OutputView {
     }
 
     public static void printBoard(Board board) {
+        Map<Point, Piece> pieceByPoint = board.getPieceByPoint();
+
         List<List<String>> boardString = new ArrayList<>();
         for (int row = Board.START_ROW_INDEX; row <= Board.END_ROW_INDEX; row++) {
 
             List<String> rowString = new ArrayList<>();
             boardString.add(rowString);
             for (int column = Board.START_COLUMN_INDEX; column <= Board.END_COLUMN_INDEX; column++) {
-                Node node = board.findNodeByPoint(Point.of(row, column));
-                if (!board.existsPieceByNode(node)) {
+                Point point = Point.of(row, column);
+                if (!board.existsPieceByPoint(point)) {
                     rowString.add(Painter.paintWhite("ㅁ"));
                     continue;
                 }
-
-                Piece piece = board.findPieceByNode(node);
-                if (board.hasPieceTeamByNode(node, Team.CHO)) {
+                Piece piece = pieceByPoint.get(point);
+                if (board.hasTeamOfPiece(point, Team.CHO)) {
                     rowString.add(Painter.paintGreen(piece.type().title()));
                     continue;
                 }

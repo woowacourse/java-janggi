@@ -1,4 +1,7 @@
-import domain.JanggiManager;
+package flow;
+
+import domain.board.Board;
+import domain.board.BoardGenerator;
 import domain.piece.Team;
 import domain.util.ErrorHandler;
 import view.InputView;
@@ -10,46 +13,52 @@ public class FlowManager {
 
     private static final Team START_TEAM = Team.CHO;
 
+    private final Turn turn;
+
+    public FlowManager() {
+        this.turn = new Turn(START_TEAM);
+    }
+
     public void startGame() {
         OutputView.printStart();
 
-        JanggiManager janggiManager = createJanggiManager();
-        OutputView.printBoard(janggiManager.board());
+        Board board = createBoard(new BoardGenerator());
+        OutputView.printBoard(board);
 
-        Turn turn = new Turn(START_TEAM);
         boolean isRunning = true;
         while (isRunning) {
-            isRunning = movePieceByTurn(janggiManager, turn);
+            isRunning = movePieceByTurn(board, turn);
         }
     }
 
-    private boolean movePieceByTurn(JanggiManager janggiManager, Turn turn) {
+    private boolean movePieceByTurn(Board board, Turn turn) {
         return ErrorHandler.retryUntilSuccess(() -> {
             MoveCommand moveCommand = InputView.inputMoveCommand(turn.team());
 
-            if (!janggiManager.hasPieceTeamByPoint(moveCommand.source(), turn.team())) {
+            if (!board.hasTeamOfPiece(moveCommand.source(), turn.team())) {
                 OutputView.printTurn(turn.team());
                 return true;
             }
 
-            if (janggiManager.existsWangByPoint(moveCommand.destination())) {
+            if (board.existsWangByPoint(moveCommand.destination())) {
                 OutputView.printMatchResult(turn.team());
                 return false;
             }
 
-            janggiManager.movePiece(moveCommand.source(), moveCommand.destination());
-            OutputView.printBoard(janggiManager.board());
+            board.movePiece(moveCommand.source(), moveCommand.destination());
+            OutputView.printBoard(board);
 
             turn.changeTurn();
             return true;
         });
     }
 
-    private JanggiManager createJanggiManager() {
+    private Board createBoard(BoardGenerator boardGenerator) {
         return ErrorHandler.retryUntilSuccess(() -> {
             SangMaOrderCommand hanSangMaOrderCommand = InputView.inputSangMaOrder(Team.HAN);
             SangMaOrderCommand choSangMaOrderCommand = InputView.inputSangMaOrder(Team.CHO);
-            return new JanggiManager(hanSangMaOrderCommand, choSangMaOrderCommand);
+
+            return boardGenerator.generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
         });
     }
 

@@ -26,7 +26,7 @@ public class Wang implements Piece {
                 .filter(currentNode::hasEdgeByDirection)
                 .map(currentNode::findNextNodeByDirection)
                 .filter(nextNode -> !(board.existsPieceByNode(nextNode)
-                        && board.hasPieceTeamByNode(nextNode, this.team)))
+                        && board.hasTeamOfPiece(nextNode, this.team)))
                 .toList();
     }
 

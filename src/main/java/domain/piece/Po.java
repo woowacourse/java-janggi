@@ -39,7 +39,7 @@ public class Po implements Piece {
             return;
         }
         Node nextNode = currentNode.findNextNodeByDirection(direction);
-        if (board.existsPoByNode(nextNode)) {
+        if (board.existsPo(nextNode)) {
             return;
         }
         if (board.existsPieceByNode(nextNode)) {
@@ -56,11 +56,11 @@ public class Po implements Piece {
             return;
         }
         Node nextNode = currentNode.findNextNodeByDirection(direction);
-        if (board.existsPoByNode(nextNode)
-                || (board.existsPieceByNode(nextNode) && board.hasPieceTeamByNode(nextNode, this.team))) {
+        if (board.existsPo(nextNode)
+                || (board.existsPieceByNode(nextNode) && board.hasTeamOfPiece(nextNode, this.team))) {
             return;
         }
-        if (board.existsPieceByNode(nextNode) && board.hasPieceTeamByNode(nextNode, this.team.inverse())) {
+        if (board.existsPieceByNode(nextNode) && board.hasTeamOfPiece(nextNode, this.team.inverse())) {
             candidates.add(nextNode);
             return;
         }
