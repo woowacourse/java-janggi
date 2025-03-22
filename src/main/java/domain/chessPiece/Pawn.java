@@ -19,16 +19,16 @@ public class Pawn extends LimitedMoveChessPiece {
             ChessTeam.RED, List.of(new Directions(List.of(LEFT)), new Directions(List.of(RIGHT)), new Directions(List.of(DOWN))),
             ChessTeam.BLUE, List.of(new Directions(List.of(LEFT)), new Directions(List.of(RIGHT)), new Directions(List.of(UP))));
 
-    public Pawn(ChessPosition position, final ChessTeam chessTeam) {
-        super(position, chessTeam, DIRECTIONS.get(chessTeam));
+    public Pawn(ChessTeam chessTeam) {
+        super(chessTeam, DIRECTIONS.get(chessTeam));
     }
 
-    public static List<Pawn> initPieces() {
-        return List.of(
-                new Pawn(new ChessPosition(3, 0), ChessTeam.RED),
-                new Pawn(new ChessPosition(3, 2), ChessTeam.RED),
-                new Pawn(new ChessPosition(6, 0), ChessTeam.BLUE),
-                new Pawn(new ChessPosition(6, 2), ChessTeam.BLUE)
+    public static Map<ChessPosition, ChessPiece> initPieces() {
+        return Map.of(
+                new ChessPosition(3, 0), new Pawn(ChessTeam.RED),
+                new ChessPosition(3, 2), new Pawn(ChessTeam.RED),
+                new ChessPosition(6, 0), new Pawn(ChessTeam.BLUE),
+                new ChessPosition(6, 2), new Pawn(ChessTeam.BLUE)
         );
     }
 

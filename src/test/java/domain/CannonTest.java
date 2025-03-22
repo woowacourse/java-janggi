@@ -17,15 +17,15 @@ import org.junit.jupiter.api.Test;
 
 class CannonTest {
     private final ChessPosition chessPosition = new ChessPosition(7, 4);
-    private final Cannon cannon = new Cannon(chessPosition, ChessTeam.BLUE);
+    private final Cannon cannon = new Cannon(ChessTeam.BLUE);
 
     private class NotExistCannonPositionsGenerator implements ChessPiecePositionsGenerator {
         @Override
         public Map<ChessPosition, ChessPiece> generate() {
             return Map.of(
                     chessPosition, cannon,
-                    new ChessPosition(6, 4), new Pawn(new ChessPosition(6, 4), ChessTeam.RED),
-                    new ChessPosition(2, 4), new Pawn(new ChessPosition(2, 4), ChessTeam.RED)
+                    new ChessPosition(6, 4), new Pawn(ChessTeam.RED),
+                    new ChessPosition(2, 4), new Pawn(ChessTeam.RED)
             );
         }
     }
@@ -43,7 +43,7 @@ class CannonTest {
         );
 
         //when
-        final List<ChessPosition> destinations = cannon.getDestinations(piecePositions);
+        final List<ChessPosition> destinations = cannon.getDestinations(chessPosition, piecePositions);
 
         //then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);
@@ -54,9 +54,9 @@ class CannonTest {
         public Map<ChessPosition, ChessPiece> generate() {
             return Map.of(
                     chessPosition, cannon,
-                    new ChessPosition(6, 4), new Cannon(new ChessPosition(6, 4), ChessTeam.RED),
-                    new ChessPosition(2, 4), new Pawn(new ChessPosition(2, 4), ChessTeam.RED),
-                    new ChessPosition(7,5), new Pawn(new ChessPosition(7, 5), ChessTeam.RED)
+                    new ChessPosition(6, 4), new Cannon(ChessTeam.RED),
+                    new ChessPosition(2, 4), new Pawn(ChessTeam.RED),
+                    new ChessPosition(7,5), new Pawn(ChessTeam.RED)
             );
         }
     }
@@ -74,7 +74,7 @@ class CannonTest {
         );
 
         //when
-        final List<ChessPosition> destinations = cannon.getDestinations(piecePositions);
+        final List<ChessPosition> destinations = cannon.getDestinations(chessPosition, piecePositions);
 
         //then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);

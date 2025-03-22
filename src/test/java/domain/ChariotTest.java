@@ -17,16 +17,16 @@ import org.junit.jupiter.api.Test;
 
 class ChariotTest {
     private final ChessPosition chariotPosition = new ChessPosition(7, 4);
-    private final Chariot chariot = new Chariot(chariotPosition, ChessTeam.BLUE);
+    private final Chariot chariot = new Chariot(ChessTeam.BLUE);
 
     private class FakeChessPositionsGenerator implements ChessPiecePositionsGenerator {
         @Override
         public Map<ChessPosition, ChessPiece> generate() {
             return Map.of(
-                    new ChessPosition(2, 4), new Pawn(new ChessPosition(2, 4), ChessTeam.RED),
-                    new ChessPosition(7, 3), new Pawn(new ChessPosition(2, 4), ChessTeam.RED),
-                    new ChessPosition(7, 5), new Pawn(new ChessPosition(2, 4), ChessTeam.RED),
-                    new ChessPosition(7, 8), new Pawn(new ChessPosition(2, 4), ChessTeam.RED)
+                    new ChessPosition(2, 4), new Pawn(ChessTeam.RED),
+                    new ChessPosition(7, 3), new Pawn(ChessTeam.RED),
+                    new ChessPosition(7, 5), new Pawn(ChessTeam.RED),
+                    new ChessPosition(7, 8), new Pawn(ChessTeam.RED)
             );
         }
     }
@@ -49,7 +49,7 @@ class ChariotTest {
 
         //when
 
-        final List<ChessPosition> destinations = chariot.getDestinations(piecePositions);
+        final List<ChessPosition> destinations = chariot.getDestinations(chariotPosition, piecePositions);
 
         //then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);

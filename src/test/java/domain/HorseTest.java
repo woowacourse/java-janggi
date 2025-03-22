@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 
 class HorseTest {
     private final ChessPosition horsePosition = new ChessPosition(4, 4);
-    private final Horse horse = new Horse(horsePosition, ChessTeam.BLUE);
+    private final Horse horse = new Horse(ChessTeam.BLUE);
 
     @Test
     @DisplayName("마의 이동 경로를 반환한다")
@@ -36,7 +36,7 @@ class HorseTest {
                 new ChessPosition(5, 2));
 
         //when
-        final List<ChessPosition> destinations = horse.getDestinations(emptyPositions);
+        final List<ChessPosition> destinations = horse.getDestinations(horsePosition, emptyPositions);
 
         //then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);
@@ -46,8 +46,8 @@ class HorseTest {
         @Override
         public Map<ChessPosition, ChessPiece> generate() {
             return Map.of(
-                    new ChessPosition(3, 4), new Pawn(new ChessPosition(3, 4), ChessTeam.RED),
-                    new ChessPosition(5, 2), new Pawn(new ChessPosition(5, 2), ChessTeam.BLUE)
+                    new ChessPosition(3, 4), new Pawn(ChessTeam.RED),
+                    new ChessPosition(5, 2), new Pawn(ChessTeam.BLUE)
             );
         }
     }
@@ -60,7 +60,7 @@ class HorseTest {
         final List<ChessPosition> expected = List.of(new ChessPosition(3, 2), new ChessPosition(3, 6), new ChessPosition(6, 3), new ChessPosition(6, 5), new ChessPosition(5, 6));
 
         //when
-        final List<ChessPosition> destinations = horse.getDestinations(piecePositions);
+        final List<ChessPosition> destinations = horse.getDestinations(horsePosition, piecePositions);
 
         //then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);

@@ -15,6 +15,7 @@ import static domain.direction.Direction.RIGHT_UP;
 import static domain.direction.Direction.UP;
 
 import java.util.List;
+import java.util.Map;
 
 public class Horse extends LimitedMoveChessPiece {
     private static final List<Directions> directions = List.of(
@@ -28,16 +29,16 @@ public class Horse extends LimitedMoveChessPiece {
             new Directions(List.of(DOWN, RIGHT_DOWN))
     );
 
-    public Horse(ChessPosition chessPosition, final ChessTeam team) {
-        super(chessPosition, team, directions);
+    public Horse(final ChessTeam team) {
+        super(team, directions);
     }
 
-    public static List<Horse> initPieces() {
-        return List.of(
-                new Horse(new ChessPosition(0, 1), ChessTeam.RED),
-                new Horse(new ChessPosition(0, 7), ChessTeam.RED),
-                new Horse(new ChessPosition(9, 1), ChessTeam.BLUE),
-                new Horse(new ChessPosition(9, 7), ChessTeam.BLUE)
+    public static Map<ChessPosition, ChessPiece> initPieces() {
+        return Map.of(
+                new ChessPosition(0, 1), new Horse(ChessTeam.RED),
+                new ChessPosition(0, 7), new Horse(ChessTeam.RED),
+                new ChessPosition(9, 1), new Horse(ChessTeam.BLUE),
+                new ChessPosition(9, 7), new Horse(ChessTeam.BLUE)
         );
     }
 

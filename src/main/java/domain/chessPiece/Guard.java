@@ -6,6 +6,7 @@ import domain.type.ChessTeam;
 import domain.direction.Directions;
 
 import java.util.List;
+import java.util.Map;
 
 import static domain.direction.Direction.*;
 
@@ -21,16 +22,16 @@ public class Guard extends LimitedMoveChessPiece {
             new Directions(List.of(DOWN, RIGHT_DOWN))
     );
 
-    public Guard(ChessPosition position, final ChessTeam team) {
-        super(position, team, directions);
+    public Guard(final ChessTeam team) {
+        super(team, directions);
     }
 
-    public static List<Guard> initPieces() {
-        return List.of(
-                new Guard(new ChessPosition(0, 3), ChessTeam.RED),
-                new Guard(new ChessPosition(0, 5), ChessTeam.RED),
-                new Guard(new ChessPosition(9, 3), ChessTeam.BLUE),
-                new Guard(new ChessPosition(9, 5), ChessTeam.BLUE)
+    public static Map<ChessPosition, ChessPiece> initPieces() {
+        return Map.of(
+                new ChessPosition(0, 3), new Guard(ChessTeam.RED),
+                new ChessPosition(0, 5), new Guard(ChessTeam.RED),
+                new ChessPosition(9, 3), new Guard(ChessTeam.BLUE),
+                new ChessPosition(9, 5), new Guard(ChessTeam.BLUE)
         );
     }
 

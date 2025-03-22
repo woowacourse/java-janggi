@@ -24,8 +24,8 @@ public class PawnTest {
         );
 
         //when
-        final Pawn pawn = new Pawn(chessPosition, ChessTeam.RED);
-        final List<ChessPosition> destinations = pawn.getDestinations(emptyPositions);
+        final Pawn pawn = new Pawn(ChessTeam.RED);
+        final List<ChessPosition> destinations = pawn.getDestinations(chessPosition, emptyPositions);
 
         //then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expectDestinations);

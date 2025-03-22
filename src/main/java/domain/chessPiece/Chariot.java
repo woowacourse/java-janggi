@@ -9,6 +9,7 @@ import domain.type.ChessTeam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static domain.direction.Direction.*;
@@ -18,8 +19,17 @@ public class Chariot extends UnlimitedMoveChessPiece {
 
     private static final List<Direction> directions = List.of(UP, DOWN, LEFT, RIGHT);
 
-    public Chariot(ChessPosition chessPosition, final ChessTeam team) {
-        super(chessPosition, team, directions);
+    public Chariot(final ChessTeam team) {
+        super(team, directions);
+    }
+
+    public static Map<ChessPosition, ChessPiece> initPieces() {
+        return Map.of(
+                new ChessPosition(0, 0), new Chariot(ChessTeam.RED),
+                new ChessPosition(0, 8), new Chariot(ChessTeam.RED),
+                new ChessPosition(9, 0), new Chariot(ChessTeam.BLUE),
+                new ChessPosition(9, 8), new Chariot(ChessTeam.BLUE)
+        );
     }
 
     @Override
@@ -42,15 +52,6 @@ public class Chariot extends UnlimitedMoveChessPiece {
             chessPositions.add(chessPosition);
         }
         return chessPositions.stream();
-    }
-
-    public static List<Chariot> initPieces() {
-        return List.of(
-                new Chariot(new ChessPosition(0, 0), ChessTeam.RED),
-                new Chariot(new ChessPosition(0, 8), ChessTeam.RED),
-                new Chariot(new ChessPosition(9, 0), ChessTeam.BLUE),
-                new Chariot(new ChessPosition(9, 8), ChessTeam.BLUE)
-        );
     }
 
     @Override

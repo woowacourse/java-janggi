@@ -8,8 +8,7 @@ import domain.type.ChessTeam;
 import java.util.List;
 
 public interface ChessPiece {
-    ChessPosition getPosition();
-    List<ChessPosition> getDestinations(final ChessPiecePositions positions);
+    List<ChessPosition> getDestinations(ChessPosition startPosition, ChessPiecePositions positions);
     ChessPieceType getChessPieceType();
     ChessTeam getTeam();
 }

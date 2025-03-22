@@ -15,6 +15,7 @@ import static domain.direction.Direction.RIGHT_UP;
 import static domain.direction.Direction.UP;
 
 import java.util.List;
+import java.util.Map;
 
 public class Elephant extends LimitedMoveChessPiece {
     private static final List<Directions> directions = List.of(
@@ -28,16 +29,16 @@ public class Elephant extends LimitedMoveChessPiece {
             new Directions(List.of(DOWN, RIGHT_DOWN, RIGHT_DOWN))
     );
 
-    public Elephant(ChessPosition position, final ChessTeam team) {
-        super(position, team, directions);
+    public Elephant(final ChessTeam team) {
+        super(team, directions);
     }
 
-    public static List<Elephant> initPieces() {
-        return List.of(
-                new Elephant(new ChessPosition(0, 2), ChessTeam.RED),
-                new Elephant(new ChessPosition(0, 6), ChessTeam.RED),
-                new Elephant(new ChessPosition(9, 2), ChessTeam.BLUE),
-                new Elephant(new ChessPosition(9, 6), ChessTeam.BLUE)
+    public static Map<ChessPosition, ChessPiece> initPieces() {
+        return Map.of(
+                new ChessPosition(0, 2), new Elephant(ChessTeam.RED),
+                new ChessPosition(0, 6), new Elephant(ChessTeam.RED),
+                new ChessPosition(9, 2), new Elephant(ChessTeam.BLUE),
+                new ChessPosition(9, 6), new Elephant(ChessTeam.BLUE)
         );
     }
 

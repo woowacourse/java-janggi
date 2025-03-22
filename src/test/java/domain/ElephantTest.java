@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ElephantTest {
     private final ChessPosition elephantPosition = new ChessPosition(4, 4);
-    private final Elephant elephant = new Elephant(elephantPosition, ChessTeam.BLUE);
+    private final Elephant elephant = new Elephant(ChessTeam.BLUE);
 
     @DisplayName("다른 기물이 없는 경우, 모든 목적지를 반환할 수 있다.")
     @Test
@@ -38,7 +38,7 @@ class ElephantTest {
         );
 
         //when
-        final List<ChessPosition> destinations = elephant.getDestinations(emptyPositions);
+        final List<ChessPosition> destinations = elephant.getDestinations(elephantPosition, emptyPositions);
 
         //then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);
@@ -48,9 +48,9 @@ class ElephantTest {
         @Override
         public Map<ChessPosition, ChessPiece> generate() {
             return Map.of(
-                    new ChessPosition(2, 5), new Pawn(new ChessPosition(2, 5), ChessTeam.RED),
-                    new ChessPosition(1, 2), new Pawn(new ChessPosition(1, 2), ChessTeam.BLUE),
-                    new ChessPosition(7, 2), new Pawn(new ChessPosition(7, 2), ChessTeam.RED)
+                    new ChessPosition(2, 5), new Pawn(ChessTeam.RED),
+                    new ChessPosition(1, 2), new Pawn(ChessTeam.BLUE),
+                    new ChessPosition(7, 2), new Pawn(ChessTeam.RED)
             );
         }
     }
@@ -71,7 +71,7 @@ class ElephantTest {
         );
 
         //when
-        final List<ChessPosition> destinations = elephant.getDestinations(piecePositions);
+        final List<ChessPosition> destinations = elephant.getDestinations(elephantPosition, piecePositions);
 
         //then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);

@@ -9,6 +9,7 @@ import domain.type.ChessTeam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static domain.direction.Direction.*;
 import static domain.direction.Direction.RIGHT;
@@ -16,16 +17,16 @@ import static domain.direction.Direction.RIGHT;
 public class Cannon extends UnlimitedMoveChessPiece {
     private static final List<Direction> directions = List.of(UP, DOWN, LEFT, RIGHT);
 
-    public Cannon(ChessPosition position, final ChessTeam team) {
-        super(position, team, directions);
+    public Cannon(final ChessTeam team) {
+        super(team, directions);
     }
 
-    public static List<Cannon> initPieces() {
-        return List.of(
-                new Cannon(new ChessPosition(2, 1), ChessTeam.RED),
-                new Cannon(new ChessPosition(2, 7), ChessTeam.RED),
-                new Cannon(new ChessPosition(7, 1), ChessTeam.BLUE),
-                new Cannon(new ChessPosition(7, 7), ChessTeam.BLUE)
+    public static Map<ChessPosition, ChessPiece> initPieces() {
+        return Map.of(
+                new ChessPosition(2, 1), new Cannon(ChessTeam.RED),
+                new ChessPosition(2, 7), new Cannon(ChessTeam.RED),
+                new ChessPosition(7, 1), new Cannon(ChessTeam.BLUE),
+                new ChessPosition(7, 7), new Cannon(ChessTeam.BLUE)
         );
     }
 

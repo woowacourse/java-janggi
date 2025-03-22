@@ -9,28 +9,21 @@ import java.util.List;
 
 public abstract class JanggiChessPiece implements ChessPiece {
 
-    private final ChessPosition position;
     private final ChessTeam team;
 
-    protected JanggiChessPiece(ChessPosition position, ChessTeam team) {
+    protected JanggiChessPiece(ChessTeam team) {
         this.team = team;
-        this.position = position;
     }
 
     @Override
-    public List<ChessPosition> getDestinations(ChessPiecePositions positions) {
-        List<Path> coordinates = getCoordinatePaths();
+    public List<ChessPosition> getDestinations(ChessPosition startPosition, ChessPiecePositions positions) {
+        List<Path> coordinates = getCoordinatePaths(startPosition);
         return getCoordinateDestinations(coordinates, positions);
     }
 
-    protected abstract List<Path> getCoordinatePaths();
+    protected abstract List<Path> getCoordinatePaths(ChessPosition startPosition);
 
     protected abstract List<ChessPosition> getCoordinateDestinations(List<Path> coordinates, ChessPiecePositions positions);
-
-    @Override
-    public ChessPosition getPosition() {
-        return position;
-    }
 
     @Override
     public ChessTeam getTeam() {

@@ -13,17 +13,17 @@ import java.util.List;
 public abstract class LimitedMoveChessPiece extends JanggiChessPiece {
     private final List<Directions> directions;
 
-    protected LimitedMoveChessPiece(ChessPosition position, ChessTeam team, List<Directions> directions) {
-        super(position, team);
+    protected LimitedMoveChessPiece(ChessTeam team, List<Directions> directions) {
+        super(team);
         this.directions = directions;
     }
 
     @Override
-    protected List<Path> getCoordinatePaths() {
+    protected List<Path> getCoordinatePaths(ChessPosition startPosition) {
         List<Path> result = new ArrayList<>();
         for (Directions direction : directions) {
-            if (direction.canApplyFrom(getPosition())) {
-                result.add(direction.getPathFrom(getPosition()));
+            if (direction.canApplyFrom(startPosition)) {
+                result.add(direction.getPathFrom(startPosition));
             }
         }
         return result;

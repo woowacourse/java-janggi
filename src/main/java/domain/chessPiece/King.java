@@ -6,6 +6,7 @@ import domain.type.ChessTeam;
 import domain.direction.Directions;
 
 import java.util.List;
+import java.util.Map;
 
 import static domain.direction.Direction.*;
 
@@ -22,14 +23,14 @@ public class King extends LimitedMoveChessPiece {
             new Directions(List.of(DOWN, RIGHT_DOWN))
     );
 
-    public King(ChessPosition position, final ChessTeam team) {
-        super(position, team, directions);
+    public King(final ChessTeam team) {
+        super(team, directions);
     }
 
-    public static List<King> initPieces() {
-        return List.of(
-                new King(new ChessPosition(1, 4), ChessTeam.RED),
-                new King(new ChessPosition(8, 4), ChessTeam.BLUE)
+    public static Map<ChessPosition, ChessPiece> initPieces() {
+        return Map.of(
+                new ChessPosition(1, 4), new King(ChessTeam.RED),
+                new ChessPosition(8, 4), new King(ChessTeam.BLUE)
         );
     }
 
