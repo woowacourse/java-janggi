@@ -25,10 +25,10 @@ public class Path {
 
     public List<Position> findPathPositionsFrom(Position startPosition) {
         List<Position> pathPositions = new ArrayList<>();
-
+        Position movePosition = startPosition;
         for (Direction direction : movement) {
-            startPosition = startPosition.movePosition(direction.getDeltaRow(), direction.getDeltaColumn());
-            pathPositions.add(startPosition);
+            movePosition = direction.moveFrom(movePosition);
+            pathPositions.add(movePosition);
         }
 
         pathPositions.removeLast();
