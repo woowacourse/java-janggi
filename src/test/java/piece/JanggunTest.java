@@ -2,6 +2,7 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static pieceProperty.PieceType.JANGGUN;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import pieceProperty.Position;
 
 class JanggunTest {
 
@@ -20,7 +22,7 @@ class JanggunTest {
         Position position = new Position(4, 5);
 
         //when
-        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), position);
+        Janggun janggun = new Janggun(position);
 
         //then
         assertThat(janggun.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -31,7 +33,7 @@ class JanggunTest {
     @MethodSource("JanggunNonIsMovePositionProvider")
     void isMoveValidate(Position position) {
         //given
-        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new Position(5, 5));
+        Janggun janggun = new Janggun(new Position(5, 5));
 
         //when //then
         assertThatThrownBy(() -> janggun.isMove(position))
@@ -44,7 +46,7 @@ class JanggunTest {
     @MethodSource("janggunIsMovePositionProvider")
     void isMove(Position position) {
         //given
-        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new Position(5, 5));
+        Janggun janggun = new Janggun(new Position(5, 5));
 
         //when
         boolean actual = janggun.isMove(position);
@@ -57,7 +59,7 @@ class JanggunTest {
     @Test
     void makeRoute() {
         //given
-        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new Position(5, 5));
+        Janggun janggun = new Janggun(new Position(5, 5));
         Position futurePosition = new Position(4, 5);
 
         //when
@@ -87,5 +89,13 @@ class JanggunTest {
                 Arguments.of(new Position(5, 4)),
                 Arguments.of(new Position(4, 5))
         );
+    }
+
+    @Test
+    @DisplayName("자신의 타입 리턴 테스트")
+    void pieceTypeTest() {
+        Janggun janggun = new Janggun(new Position(5, 5));
+
+        assertThat(janggun.getPieceType().equals(JANGGUN)).isTrue();
     }
 }

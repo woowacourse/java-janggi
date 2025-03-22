@@ -2,6 +2,7 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static pieceProperty.PieceType.SA;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import pieceProperty.Position;
 
 class SaTest {
 
@@ -20,7 +22,7 @@ class SaTest {
         Position position = new Position(4, 5);
 
         //when
-        Sa sa = new Sa(new PieceProfile("사", Nation.HAN), position);
+        Sa sa = new Sa(position);
 
         //then
         assertThat(sa.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -31,7 +33,7 @@ class SaTest {
     @MethodSource("saNonIsMovePositionProvider")
     void isMoveValidate(Position position) {
         //given
-        Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
+        Sa sa = new Sa(new Position(5, 5));
 
         //when //then
         assertThatThrownBy(() -> sa.isMove(position))
@@ -44,7 +46,7 @@ class SaTest {
     @MethodSource("saIsMovePositionProvider")
     void isMove(Position position) {
         //given
-        Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
+        Sa sa = new Sa(new Position(5, 5));
 
         //when
         boolean actual = sa.isMove(position);
@@ -57,7 +59,7 @@ class SaTest {
     @Test
     void makeRoute() {
         //given
-        Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
+        Sa sa = new Sa(new Position(5, 5));
         Position futurePosition = new Position(4, 5);
 
         //when
@@ -87,5 +89,13 @@ class SaTest {
                 Arguments.of(new Position(5, 4)),
                 Arguments.of(new Position(4, 5))
         );
+    }
+
+    @Test
+    @DisplayName("자신의 타입 리턴 테스트")
+    void pieceTypeTest() {
+        Sa sa = new Sa(new Position(5, 5));
+
+        assertThat(sa.getPieceType().equals(SA)).isTrue();
     }
 }

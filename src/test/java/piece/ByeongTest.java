@@ -2,6 +2,7 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static pieceProperty.PieceType.BYEONG;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import pieceProperty.Position;
 
 class ByeongTest {
     @DisplayName("볃은 이름과 위치를 가진다.")
@@ -19,7 +21,7 @@ class ByeongTest {
         Position position = new Position(0, 0);
 
         //when
-        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), position);
+        Byeong byeong = new Byeong(position);
 
         //then
         assertThat(byeong.getBoardPosition().getCol()).isEqualTo(0);
@@ -31,7 +33,7 @@ class ByeongTest {
     @MethodSource("byeongNonIsMovePositionProvider")
     void nonIsMove(Position position) {
         //given
-        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
+        Byeong byeong = new Byeong(new Position(5, 5));
 
         //when
         assertThatThrownBy(() -> byeong.isMove(position))
@@ -44,7 +46,7 @@ class ByeongTest {
     @MethodSource("byeongIsMovePositionProvider")
     void isMove(Position position) {
         //given
-        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
+        Byeong byeong = new Byeong(new Position(5, 5));
 
         //when
         boolean actual = byeong.isMove(position);
@@ -57,7 +59,7 @@ class ByeongTest {
     @Test
     void makeRoute() {
         //given
-        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
+        Byeong byeong = new Byeong(new Position(5, 5));
         Position futurePosition = new Position(4, 5);
 
         //when
@@ -81,5 +83,13 @@ class ByeongTest {
                 Arguments.of(new Position(5, 6)),
                 Arguments.of(new Position(5, 4))
         );
+    }
+
+    @Test
+    @DisplayName("자신의 타입 리턴 테스트")
+    void pieceTypeTest() {
+        Byeong byeong = new Byeong(new Position(5, 5));
+
+        assertThat(byeong.getPieceType().equals(BYEONG)).isTrue();
     }
 }

@@ -2,6 +2,7 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static pieceProperty.PieceType.CHA;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import pieceProperty.Position;
 
 class ChaTest {
 
@@ -20,7 +22,7 @@ class ChaTest {
         Position position = new Position(4, 5);
 
         //when
-        Cha cha = new Cha(new PieceProfile("차", Nation.HAN), position);
+        Cha cha = new Cha(position);
 
         //then
         assertThat(cha.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -30,7 +32,7 @@ class ChaTest {
     @Test
     void nonIsMove() {
         //given
-        Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(0, 0));
+        Cha cha = new Cha(new Position(0, 0));
 
         //when //then
         assertThatThrownBy(() -> cha.isMove(new Position(1, 1)))
@@ -43,7 +45,7 @@ class ChaTest {
     @MethodSource("chaIsMovePositionProvider")
     void isMove(Position position) {
         //given
-        Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(0, 0));
+        Cha cha = new Cha(new Position(0, 0));
 
         //when
         boolean actual = cha.isMove(position);
@@ -56,7 +58,7 @@ class ChaTest {
     @Test
     void makeRoute() {
         //given
-        Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(5, 5));
+        Cha cha = new Cha(new Position(5, 5));
         Position futurePosition = new Position(0, 5);
 
         //when
@@ -76,5 +78,13 @@ class ChaTest {
         return Stream.of(
                 Arguments.of(new Position(0, 1)),
                 Arguments.of(new Position(1, 0)));
+    }
+
+    @Test
+    @DisplayName("자신의 타입 리턴 테스트")
+    void pieceTypeTest() {
+        Cha cha = new Cha(new Position(5, 5));
+
+        assertThat(cha.getPieceType().equals(CHA)).isTrue();
     }
 }

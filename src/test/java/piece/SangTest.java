@@ -2,6 +2,7 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static pieceProperty.PieceType.SANG;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import pieceProperty.Position;
 
 class SangTest {
 
@@ -20,7 +22,7 @@ class SangTest {
         Position position = new Position(4, 5);
 
         //when
-        Sang sang = new Sang(new PieceProfile("상", Nation.HAN), position);
+        Sang sang = new Sang(position);
 
         //then
         assertThat(sang.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -31,7 +33,7 @@ class SangTest {
     @MethodSource("sangNonIsMovePositionProvider")
     void nonIsMove(Position position) {
         //given
-        Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
+        Sang sang = new Sang(new Position(5, 5));
 
         //when //then
         assertThatThrownBy(() -> sang.isMove(position))
@@ -44,7 +46,7 @@ class SangTest {
     @MethodSource("sangIsMovePositionProvider")
     void isMove(Position position) {
         //given
-        Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
+        Sang sang = new Sang(new Position(5, 5));
 
         //when
         boolean actual = sang.isMove(position);
@@ -58,7 +60,7 @@ class SangTest {
     @Test
     void makeRoute() {
         //given
-        Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
+        Sang sang = new Sang(new Position(5, 5));
         Position futurePosition = new Position(3, 2);
 
         //when
@@ -102,6 +104,13 @@ class SangTest {
         );
     }
 
+    @Test
+    @DisplayName("자신의 타입 리턴 테스트")
+    void pieceTypeTest() {
+        Sang sang = new Sang(new Position(5, 5));
+
+        assertThat(sang.getPieceType().equals(SANG)).isTrue();
+    }
 
 }
 

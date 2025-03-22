@@ -2,6 +2,7 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static pieceProperty.PieceType.MA;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import pieceProperty.Position;
 
 class MaTest {
 
@@ -20,7 +22,7 @@ class MaTest {
         Position position = new Position(4, 5);
 
         //when
-        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), position);
+        Ma ma = new Ma(position);
 
         //then
         assertThat(ma.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -31,7 +33,7 @@ class MaTest {
     @MethodSource("maNonIsMovePositionProvider")
     void nonIsMove(Position position) {
         //given
-        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+        Ma ma = new Ma(new Position(5, 5));
 
         //when //then
         assertThatThrownBy(() -> ma.isMove(position)).isInstanceOf(IllegalArgumentException.class)
@@ -43,7 +45,7 @@ class MaTest {
     @MethodSource("maIsMovePositionProvider")
     void isMove(Position position) {
         //given
-        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+        Ma ma = new Ma(new Position(5, 5));
 
         //when
         boolean actual = ma.isMove(position);
@@ -57,7 +59,7 @@ class MaTest {
     @Test
     void makeRoute() {
         //given
-        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+        Ma ma = new Ma(new Position(5, 5));
         Position futurePosition = new Position(3, 6);
 
         //when
@@ -80,6 +82,14 @@ class MaTest {
                 Arguments.of(new Position(4, 7)), Arguments.of(new Position(6, 7)),
                 Arguments.of(new Position(7, 6)), Arguments.of(new Position(7, 4)),
                 Arguments.of(new Position(6, 3)), Arguments.of(new Position(4, 3)));
+    }
+
+    @Test
+    @DisplayName("자신의 타입 리턴 테스트")
+    void pieceTypeTest() {
+        Ma ma = new Ma(new Position(5, 5));
+
+        assertThat(ma.getPieceType().equals(MA)).isTrue();
     }
 
 }

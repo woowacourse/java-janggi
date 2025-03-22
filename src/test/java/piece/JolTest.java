@@ -2,6 +2,7 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static pieceProperty.PieceType.JOL;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import pieceProperty.Position;
 
 class JolTest {
 
@@ -20,7 +22,7 @@ class JolTest {
         Position position = new Position(4, 5);
 
         //when
-        Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), position);
+        Jol jol = new Jol(position);
 
         //then
         assertThat(jol.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -31,7 +33,7 @@ class JolTest {
     @MethodSource("jolNonIsMovePositionProvider")
     void nonIsMove(Position position) {
         //given
-        Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), new Position(5, 5));
+        Jol jol = new Jol(new Position(5, 5));
 
         //when //then
         assertThatThrownBy(() -> jol.isMove(position))
@@ -44,7 +46,7 @@ class JolTest {
     @MethodSource("jolIsMovePositionProvider")
     void isMove(Position position) {
         //given
-        Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), new Position(5, 5));
+        Jol jol = new Jol(new Position(5, 5));
 
         //when
         boolean actual = jol.isMove(position);
@@ -58,7 +60,7 @@ class JolTest {
     @Test
     void makeRoute() {
         //given
-        Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), new Position(5, 5));
+        Jol jol = new Jol(new Position(5, 5));
         Position futurePosition = new Position(4, 5);
 
         //when
@@ -80,5 +82,13 @@ class JolTest {
                 Arguments.of(new Position(5, 4)),
                 Arguments.of(new Position(5, 6)),
                 Arguments.of(new Position(4, 5)));
+    }
+
+    @Test
+    @DisplayName("자신의 타입 리턴 테스트")
+    void pieceTypeTest() {
+        Jol jol = new Jol(new Position(5, 5));
+
+        assertThat(jol.getPieceType().equals(JOL)).isTrue();
     }
 }
