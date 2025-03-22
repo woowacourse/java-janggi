@@ -1,0 +1,23 @@
+import java.util.ArrayList;
+import piece.Piece;
+import java.util.List;
+import piece.Position;
+
+public class Pieces {
+    private final List<Piece> pieces;
+
+    public Pieces(List<Piece> pieces) {
+        this.pieces = new ArrayList<>(pieces);
+    }
+
+    public void removePiece(Position destination) {
+        pieces.stream()
+                .filter(piece -> piece.getBoardPosition().equals(destination))
+                .findFirst()
+                .ifPresent(pieces::remove);
+    }
+
+    public List<Piece> getPieces() {
+        return pieces;
+    }
+}
