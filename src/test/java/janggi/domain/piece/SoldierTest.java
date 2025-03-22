@@ -6,7 +6,6 @@ import janggi.domain.Side;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,7 +21,7 @@ class SoldierTest {
         Piece startingPiece = new Soldier(Side.HAN);
 
         Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
-        Board board = new Board(new HashMap<>(startingPieces));
+        Board board = new Board(startingPieces);
 
         // when
         Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);

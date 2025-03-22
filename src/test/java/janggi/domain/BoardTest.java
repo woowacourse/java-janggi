@@ -63,7 +63,7 @@ class BoardTest {
         Position endPosition = Position.of(4, 1);
 
         Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
-        Board board = new Board(new HashMap<>(startingPieces));
+        Board board = new Board(startingPieces);
 
         // when & then
         assertThatCode(() -> board.movePiece(startingPosition, endPosition))
@@ -80,7 +80,7 @@ class BoardTest {
         Piece endPiece = new Soldier(Side.CHO);
 
         Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece, endPosition, endPiece);
-        Board board = new Board(new HashMap<>(startingPieces));
+        Board board = new Board(startingPieces);
 
         // when & then
         assertThatThrownBy(() -> board.movePiece(startingPosition, endPosition))
@@ -98,7 +98,7 @@ class BoardTest {
         Piece endPiece = new Soldier(Side.HAN);
 
         Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece, endPosition, endPiece);
-        Board board = new Board(new HashMap<>(startingPieces));
+        Board board = new Board(startingPieces);
 
         // when & then
         assertThatCode(() -> board.movePiece(startingPosition, endPosition))

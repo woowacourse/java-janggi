@@ -6,7 +6,6 @@ import janggi.domain.Side;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,7 +25,7 @@ class ChariotTest {
                 Position.of(6, 1), new Soldier(Side.CHO),
                 Position.of(10, 2), new Soldier(Side.CHO)
         );
-        Board board = new Board(new HashMap<>(startingPieces));
+        Board board = new Board(startingPieces);
 
         // when
         Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
@@ -54,7 +53,7 @@ class ChariotTest {
                 Position.of(9, 1), new Soldier(Side.HAN),
                 Position.of(10, 2), new Soldier(Side.HAN)
         );
-        Board board = new Board(new HashMap<>(startingPieces));
+        Board board = new Board(startingPieces);
 
         // when
         Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
@@ -75,7 +74,7 @@ class ChariotTest {
                 startingPosition, startingPiece,
                 endPosition, new Soldier(Side.CHO)
         );
-        Board board = new Board(new HashMap<>(startingPieces));
+        Board board = new Board(startingPieces);
 
         // when
         Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);

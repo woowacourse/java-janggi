@@ -6,7 +6,6 @@ import janggi.domain.Side;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,7 +25,7 @@ class CannonTest {
                 Position.of(8, 3), new Soldier(Side.HAN),
                 Position.of(3, 7), new Soldier(Side.HAN)
         );
-        Board board = new Board(new HashMap<>(startingPieces));
+        Board board = new Board(startingPieces);
 
         // when
         Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
@@ -54,7 +53,7 @@ class CannonTest {
                 Position.of(4, 3), new Soldier(Side.HAN),
                 Position.of(8, 3), new Soldier(Side.HAN)
         );
-        Board board = new Board(new HashMap<>(startingPieces));
+        Board board = new Board(startingPieces);
 
         // when
         Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
@@ -76,7 +75,7 @@ class CannonTest {
                 Position.of(4, 3), new Soldier(Side.HAN),
                 Position.of(8, 3), new Soldier(Side.CHO)
         );
-        Board board = new Board(new HashMap<>(startingPieces));
+        Board board = new Board(startingPieces);
 
         // when
         Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
@@ -97,7 +96,7 @@ class CannonTest {
                 startingPosition, startingPiece,
                 Position.of(5, 5), new Cannon(Side.CHO)
         );
-        Board board = new Board(new HashMap<>(startingPieces));
+        Board board = new Board(startingPieces);
 
         // when
         Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
@@ -114,7 +113,7 @@ class CannonTest {
         Piece startingPiece = new Cannon(Side.HAN);
 
         Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
-        Board board = new Board(new HashMap<>(startingPieces));
+        Board board = new Board(startingPieces);
 
         // when
         Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
