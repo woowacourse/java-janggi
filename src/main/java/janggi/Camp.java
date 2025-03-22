@@ -14,6 +14,12 @@ public enum Camp {
             return HAN;
         }
     },
+    NEUTRAL("") {
+        @Override
+        public Camp reverse() {
+            return NEUTRAL;
+        }
+    },
     ;
 
     private final String name;

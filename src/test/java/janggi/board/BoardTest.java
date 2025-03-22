@@ -31,10 +31,10 @@ class BoardTest {
     @DisplayName("영역 밖으로 기물을 둘 때 예외가 발생한다.")
     @ParameterizedTest
     @CsvSource({
-            "9,11",
-            "9,0",
-            "10,10",
-            "0,10"
+            "8,11",
+            "8,-1",
+            "10,9",
+            "-1,9"
     })
     void shouldThrowException_WhenInvalidPoint(int x, int y) {
         // given
@@ -50,16 +50,16 @@ class BoardTest {
 
     @DisplayName("기물을 정상적인 좌표로 움직인다.")
     @Test
-    void moveTest() {
+    void movePieceTest() {
         // given
         Board board = new Board();
         Point from = new Point(0, 3);
+        Point to = new Point(0, 4);
         Piece piece = new Soldier(Camp.CHU, board);
         board.placePiece(from, piece);
-        Point to = new Point(0, 4);
 
         // when
-        board.move(from, to);
+        board.movePiece(from, to);
 
         // then
         assertThat(board.getPlacedPieces())
@@ -67,17 +67,20 @@ class BoardTest {
     }
 
     @DisplayName("기물을 보드판의 영역을 넘어서 움직일 경우 예외가 발생한다.")
-    @Test
-    void shouldThrowException_WhenInvalidMove() {
+    @ParameterizedTest
+    @CsvSource({
+            "0, 11",
+            "10, 0",
+    })
+    void shouldThrowException_WhenInvalidMovePiece(int x, int y) {
         // given
         Board board = new Board();
         Point from = new Point(0, 3);
-        Piece piece = new Soldier(Camp.CHU, board);
-        board.placePiece(from, piece);
-        Point to = new Point(0, 15);
+        Point to = new Point(x, y);
+        board.placePiece(from, new Soldier(Camp.CHU, board));
 
         // when & then
-        assertThatCode(() -> board.move(from, to))
+        assertThatCode(() -> board.movePiece(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("기물의 위치는 9 x 10 영역을 벗어날 수 없습니다.");
     }
@@ -91,7 +94,7 @@ class BoardTest {
         Point to = new Point(0, 4);
 
         // when & then
-        assertThatCode(() -> board.move(from, to))
+        assertThatCode(() -> board.movePiece(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치에서 기물을 찾을 수 없습니다.");
     }
@@ -109,14 +112,14 @@ class BoardTest {
         board.placePiece(to, toPiece);
 
         // when & then
-        assertThatCode(() -> board.move(from, to))
+        assertThatCode(() -> board.movePiece(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("같은 진영의 기물을 잡을 수 없습니다.");
     }
 
     @DisplayName("다른 진영의 기물을 잡을 수 있다.")
     @Test
-    void moveCatchTest() {
+    void movePieceCatchTest() {
         // given
         Board board = new Board();
         Point from = new Point(0, 3);
@@ -127,11 +130,9 @@ class BoardTest {
         board.placePiece(to, toPiece);
 
         // when
-        board.move(from, to);
+        board.movePiece(from, to);
 
         // then
-        assertThat(board.getPlacedPieces())
-                .containsEntry(from, null);
         assertThat(board.getPlacedPieces())
                 .containsEntry(to, fromPiece);
         assertThat(board.getPlacedPieces())
@@ -140,7 +141,7 @@ class BoardTest {
 
     @DisplayName("같은 위치로 이동할 경우 예외가 발생한다.")
     @Test
-    void shouldThrowException_WhenMoveSamePoint() {
+    void shouldThrowException_WhenMovePieceSamePoint() {
         // given
         Board board = new Board();
         Point fromPoint = new Point(1, 1);
@@ -148,7 +149,7 @@ class BoardTest {
         board.placePiece(fromPoint, new Soldier(Camp.CHU, board));
 
         // when & then
-        assertThatCode(() -> board.move(fromPoint, toPoint))
+        assertThatCode(() -> board.movePiece(fromPoint, toPoint))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("같은 위치로 이동할 수 없습니다.");
     }

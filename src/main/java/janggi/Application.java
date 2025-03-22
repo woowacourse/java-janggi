@@ -44,11 +44,11 @@ public final class Application {
         Point from = new Point(input[FROM_POINT_INDEX]);
         Point to = new Point(input[TO_POINT_INDEX]);
         validateSelectedPiece(board, from, baseCamp);
-        board.move(from, to);
+        board.movePiece(from, to);
     }
 
     private static void validateSelectedPiece(Board board, Point from, Camp baseCamp) {
-        Piece piece = board.peek(from);
+        Piece piece = board.getPiece(from);
         piece.validateSelect(baseCamp);
     }
 }

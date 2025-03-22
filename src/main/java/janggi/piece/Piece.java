@@ -19,10 +19,6 @@ public abstract class Piece {
 
     public abstract PieceSymbol getPieceSymbol();
 
-    protected boolean isBottom() {
-        return camp.isBottom();
-    }
-
     public void validateCatch(Piece otherPiece) {
         if (camp == otherPiece.getCamp()) {
             throw new IllegalArgumentException("같은 진영의 기물을 잡을 수 없습니다.");
@@ -33,6 +29,14 @@ public abstract class Piece {
         if (camp != baseCamp) {
             throw new IllegalArgumentException("다른 진영의 기물을 선택할 수 없습니다.");
         }
+    }
+
+    public boolean exists() {
+        return true;
+    }
+
+    protected boolean isBottom() {
+        return camp.isBottom();
     }
 
     public Camp getCamp() {
