@@ -49,7 +49,7 @@ public class Sa implements Movable {
 
     @Override
     public Movable updatePoint(Point afterPoint) {
-        return new Sang(team, afterPoint);
+        return new Sa(team, afterPoint);
     }
 
     @Override
