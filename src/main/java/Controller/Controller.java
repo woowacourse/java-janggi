@@ -7,8 +7,6 @@ import game.Team;
 import java.util.List;
 import piece_initiaizer.StaticPieceInitializer;
 import position.Position;
-import position.PositionFile;
-import position.PositionRank;
 import view.InputView;
 import view.OutputView;
 
@@ -36,8 +34,8 @@ public class Controller {
         while (true) {
             outputView.printTurn(board.getCurrentTurnTeam());
             List<String> moveInfo = inputView.readMoveCommand();
-            Position source = parsePosition(moveInfo.get(0), moveInfo.get(1));
-            Position target = parsePosition(moveInfo.get(2), moveInfo.get(3));
+            Position source = Position.from(moveInfo.get(0), moveInfo.get(1));
+            Position target = Position.from(moveInfo.get(2), moveInfo.get(3));
 
             if (source != null && target != null) {
                 board.move(source, target);
@@ -46,14 +44,5 @@ public class Controller {
         }
     }
 
-    private Position parsePosition(String fileStr, String rankStr) {
-        try {
-            PositionFile file = PositionFile.fromString(fileStr);
-            int rank = Integer.parseInt(rankStr);
-            return new Position(file, new PositionRank(rank));
-        } catch (Exception e) {
-            outputView.printMessage("[ERROR] 올바른 위치 형식이 아닙니다.");
-            return null;
-        }
-    }
+
 }
