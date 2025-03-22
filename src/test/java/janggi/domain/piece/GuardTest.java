@@ -1,7 +1,6 @@
 package janggi.domain.piece;
 
 import janggi.domain.Board;
-import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import org.junit.jupiter.api.DisplayName;
@@ -20,14 +19,13 @@ class GuardTest {
     void test1() {
         // given
         Position startingPosition = Position.of(1, 5);
-        Guard guard = new Guard();
-        Piece startingPiece = new Piece(Side.HAN, guard);
+        Piece startingPiece = new Guard(Side.HAN);
 
         Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
         Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Set<Position> actual = guard.generateAvailableMovePositions(board, Side.HAN, startingPosition);
+        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
         Set<Position> expected = Set.of(
                 Position.of(1, 4),
                 Position.of(1, 6),

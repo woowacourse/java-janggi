@@ -1,19 +1,19 @@
 package janggi.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import janggi.common.ErrorMessage;
 import janggi.domain.piece.General;
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.factory.PieceFactory;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class BoardTest {
 
@@ -64,7 +64,7 @@ class BoardTest {
     void test4() {
         // given
         Position position = Position.of(5, 1);
-        Piece soldier = new Piece(Side.CHO, new Soldier());
+        Piece soldier = new Soldier(Side.CHO);
         Map<Position, Piece> startingPieces = Map.of(position, soldier);
 
         Board board = new Board(new HashMap<>(startingPieces));
@@ -81,10 +81,10 @@ class BoardTest {
     void test5() {
         // given
         Position position = Position.of(5, 1);
-        Piece soldier1 = new Piece(Side.CHO, new Soldier());
+        Piece soldier1 = new Soldier(Side.CHO);
 
         Position newPosition = Position.of(4, 1);
-        Piece soldier2 = new Piece(Side.CHO, new Soldier());
+        Piece soldier2 = new Soldier(Side.CHO);
         Map<Position, Piece> startingPieces = Map.of(position, soldier1, newPosition, soldier2);
 
         Board board = new Board(new HashMap<>(startingPieces));
@@ -100,10 +100,10 @@ class BoardTest {
     void test6() {
         // given
         Position position = Position.of(5, 1);
-        Piece soldier1 = new Piece(Side.CHO, new Soldier());
+        Piece soldier1 = new Soldier(Side.CHO);
 
         Position newPosition = Position.of(4, 1);
-        Piece soldier2 = new Piece(Side.HAN, new Soldier());
+        Piece soldier2 = new Soldier(Side.HAN);
         Map<Position, Piece> startingPieces = Map.of(position, soldier1, newPosition, soldier2);
 
         Board board = new Board(new HashMap<>(startingPieces));
@@ -118,7 +118,7 @@ class BoardTest {
     void test7() {
         Board board = new Board(PieceFactory.initialize());
 
-        assertThat(board.hasGeneral(Side.HAN)).isTrue();
+        assertThat(board.hasGeneral()).isTrue();
     }
 
     @DisplayName("보드의 General이 없다면 false를 반환한다.")
@@ -126,14 +126,14 @@ class BoardTest {
     void test8() {
         // given
         Position position = Position.of(5, 1);
-        Piece general = new Piece(Side.CHO, new General());
+        Piece general = new General(Side.CHO);
 
         Position newPosition = Position.of(4, 1);
-        Piece soldier2 = new Piece(Side.HAN, new Soldier());
+        Piece soldier2 = new Soldier(Side.HAN);
         Map<Position, Piece> startingPieces = Map.of(position, general, newPosition, soldier2);
 
         Board board = new Board(new HashMap<>(startingPieces));
 
-        assertThat(board.hasGeneral(Side.HAN)).isFalse();
+        assertThat(board.hasGeneral()).isFalse();
     }
 }

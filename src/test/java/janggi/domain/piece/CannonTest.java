@@ -1,7 +1,6 @@
 package janggi.domain.piece;
 
 import janggi.domain.Board;
-import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import org.junit.jupiter.api.DisplayName;
@@ -20,18 +19,17 @@ class CannonTest {
     void test1() {
         // given
         Position startingPosition = Position.of(3, 3);
-        Cannon cannon = new Cannon();
-        Piece startingPiece = new Piece(Side.HAN, cannon);
+        Piece startingPiece = new Cannon(Side.HAN);
 
         Map<Position, Piece> startingPieces = Map.of(
                 startingPosition, startingPiece,
-                Position.of(8, 3), new Piece(Side.HAN, new Soldier()),
-                Position.of(3, 7), new Piece(Side.HAN, new Soldier())
+                Position.of(8, 3), new Soldier(Side.HAN),
+                Position.of(3, 7), new Soldier(Side.HAN)
         );
         Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, startingPosition);
+        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
         Set<Position> expected = Set.of(
                 Position.of(9, 3),
                 Position.of(10, 3),
@@ -48,19 +46,18 @@ class CannonTest {
     void test2() {
         // given
         Position startingPosition = Position.of(3, 3);
-        Cannon cannon = new Cannon();
-        Piece startingPiece = new Piece(Side.HAN, cannon);
+        Piece startingPiece = new Cannon(Side.HAN);
         Position endPosition = Position.of(7, 3);
 
         Map<Position, Piece> startingPieces = Map.of(
                 startingPosition, startingPiece,
-                Position.of(4, 3), new Piece(Side.HAN, new Soldier()),
-                Position.of(8, 3), new Piece(Side.HAN, new Soldier())
+                Position.of(4, 3), new Soldier(Side.HAN),
+                Position.of(8, 3), new Soldier(Side.HAN)
         );
         Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, startingPosition);
+        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
 
         // then
         assertThat(actual).contains(endPosition);
@@ -71,19 +68,18 @@ class CannonTest {
     void test3() {
         // given
         Position startingPosition = Position.of(3, 3);
-        Cannon cannon = new Cannon();
-        Piece startingPiece = new Piece(Side.HAN, cannon);
+        Piece startingPiece = new Cannon(Side.HAN);
         Position endPosition = Position.of(8, 3);
 
         Map<Position, Piece> startingPieces = Map.of(
                 startingPosition, startingPiece,
-                Position.of(4, 3), new Piece(Side.HAN, new Soldier()),
-                Position.of(8, 3), new Piece(Side.CHO, new Soldier())
+                Position.of(4, 3), new Soldier(Side.HAN),
+                Position.of(8, 3), new Soldier(Side.CHO)
         );
         Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, startingPosition);
+        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
 
         // then
         assertThat(actual).contains(endPosition);
@@ -94,18 +90,17 @@ class CannonTest {
     void test4() {
         // given
         Position startingPosition = Position.of(7, 5);
-        Cannon cannon = new Cannon();
-        Piece startingPiece = new Piece(Side.HAN, cannon);
+        Piece startingPiece = new Cannon(Side.HAN);
         Position endPosition = Position.of(4, 5);
 
         Map<Position, Piece> startingPieces = Map.of(
                 startingPosition, startingPiece,
-                Position.of(5, 5), new Piece(Side.CHO, new Cannon())
+                Position.of(5, 5), new Cannon(Side.CHO)
         );
         Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, startingPosition);
+        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
 
         // then
         assertThat(actual).doesNotContain(endPosition);
@@ -116,14 +111,13 @@ class CannonTest {
     void test5() {
         // given
         Position startingPosition = Position.of(3, 3);
-        Cannon cannon = new Cannon();
-        Piece startingPiece = new Piece(Side.HAN, cannon);
+        Piece startingPiece = new Cannon(Side.HAN);
 
         Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
         Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, startingPosition);
+        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
 
         // then
         assertThat(actual).isEmpty();

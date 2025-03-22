@@ -1,7 +1,6 @@
 package janggi.domain.piece;
 
 import janggi.domain.Board;
-import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import org.junit.jupiter.api.DisplayName;
@@ -20,18 +19,17 @@ class ChariotTest {
     void test1() {
         // given
         Position startingPosition = Position.of(10, 1);
-        Chariot chariot = new Chariot();
-        Piece startingPiece = new Piece(Side.HAN, chariot);
+        Piece startingPiece = new Chariot(Side.HAN);
 
         Map<Position, Piece> startingPieces = Map.of(
                 startingPosition, startingPiece,
-                Position.of(6, 1), new Piece(Side.CHO, new Soldier()),
-                Position.of(10, 2), new Piece(Side.CHO, new Soldier())
+                Position.of(6, 1), new Soldier(Side.CHO),
+                Position.of(10, 2), new Soldier(Side.CHO)
         );
         Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Set<Position> actual = chariot.generateAvailableMovePositions(board, Side.HAN, startingPosition);
+        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
         Set<Position> expected = Set.of(
                 Position.of(9, 1),
                 Position.of(8, 1),
@@ -49,18 +47,17 @@ class ChariotTest {
     void test2() {
         // given
         Position startingPosition = Position.of(10, 1);
-        Chariot chariot = new Chariot();
-        Piece startingPiece = new Piece(Side.HAN, chariot);
+        Piece startingPiece = new Chariot(Side.HAN);
 
         Map<Position, Piece> startingPieces = Map.of(
                 startingPosition, startingPiece,
-                Position.of(9, 1), new Piece(Side.HAN, new Soldier()),
-                Position.of(10, 2), new Piece(Side.HAN, new Soldier())
+                Position.of(9, 1), new Soldier(Side.HAN),
+                Position.of(10, 2), new Soldier(Side.HAN)
         );
         Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Set<Position> actual = chariot.generateAvailableMovePositions(board, Side.HAN, startingPosition);
+        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
 
         // then
         assertThat(actual).isEmpty();
@@ -71,18 +68,17 @@ class ChariotTest {
     void test3() {
         // given
         Position startingPosition = Position.of(10, 1);
-        Chariot chariot = new Chariot();
-        Piece startingPiece = new Piece(Side.HAN, chariot);
+        Piece startingPiece = new Chariot(Side.HAN);
         Position endPosition = Position.of(7, 1);
 
         Map<Position, Piece> startingPieces = Map.of(
                 startingPosition, startingPiece,
-                endPosition, new Piece(Side.CHO, new Soldier())
+                endPosition, new Soldier(Side.CHO)
         );
         Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Set<Position> actual = chariot.generateAvailableMovePositions(board, Side.HAN, startingPosition);
+        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
 
         // then
         assertThat(actual).contains(endPosition);

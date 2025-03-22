@@ -1,11 +1,12 @@
 package janggi.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import janggi.domain.piece.Cannon;
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class PieceTest {
 
@@ -13,7 +14,7 @@ class PieceTest {
     @Test
     void test1() {
         // given
-        Piece piece = new Piece(Side.HAN, new Soldier());
+        Piece piece = new Soldier(Side.HAN);
 
         // when
         boolean actual = piece.isSameSide(Side.HAN);
@@ -26,7 +27,7 @@ class PieceTest {
     @Test
     void test2() {
         // given
-        Piece piece = new Piece(Side.CHO, new Soldier());
+        Piece piece = new Soldier(Side.CHO);
 
         // when
         boolean actual = piece.isSameSide(Side.HAN);
@@ -39,7 +40,7 @@ class PieceTest {
     @Test
     void test3() {
         // given
-        Piece piece = new Piece(Side.CHO, new Cannon());
+        Piece piece = new Cannon(Side.CHO);
 
         // when
         boolean actual = piece.isCannon();
@@ -52,7 +53,7 @@ class PieceTest {
     @Test
     void test4() {
         // given
-        Piece piece = new Piece(Side.CHO, new Soldier());
+        Piece piece = new Soldier(Side.CHO);
 
         // when
         boolean actual = piece.isCannon();

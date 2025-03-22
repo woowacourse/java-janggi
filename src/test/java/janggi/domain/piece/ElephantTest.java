@@ -1,7 +1,6 @@
 package janggi.domain.piece;
 
 import janggi.domain.Board;
-import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import org.junit.jupiter.api.DisplayName;
@@ -20,14 +19,13 @@ class ElephantTest {
     void test1() {
         // given
         Position startingPosition = Position.of(1, 1);
-        Elephant elephant = new Elephant();
-        Piece startingPiece = new Piece(Side.HAN, elephant);
+        Piece startingPiece = new Elephant(Side.HAN);
 
         Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
         Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, startingPosition);
+        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
         Set<Position> expected = Set.of(
                 Position.of(4, 3),
                 Position.of(3, 4)
@@ -42,18 +40,17 @@ class ElephantTest {
     void test2() {
         // given
         Position startingPosition = Position.of(1, 1);
-        Elephant elephant = new Elephant();
-        Piece startingPiece = new Piece(Side.HAN, elephant);
+        Piece startingPiece = new Elephant(Side.HAN);
         Position endPosition = Position.of(4, 3);
 
         Map<Position, Piece> startingPieces = Map.of(
                 startingPosition, startingPiece,
-                endPosition, new Piece(Side.HAN, new Soldier())
+                endPosition, new Soldier(Side.HAN)
         );
         Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, startingPosition);
+        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
 
         // then
         assertThat(actual).doesNotContain(endPosition);
@@ -64,18 +61,17 @@ class ElephantTest {
     void test3() {
         // given
         Position startingPosition = Position.of(1, 1);
-        Elephant elephant = new Elephant();
-        Piece startingPiece = new Piece(Side.HAN, elephant);
+        Piece startingPiece = new Elephant(Side.HAN);
         Position endPosition = Position.of(4, 3);
 
         Map<Position, Piece> startingPieces = Map.of(
                 startingPosition, startingPiece,
-                endPosition, new Piece(Side.CHO, new Soldier())
+                endPosition, new Soldier(Side.CHO)
         );
         Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, startingPosition);
+        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
 
         // then
         assertThat(actual).contains(endPosition);
