@@ -6,8 +6,8 @@ import domain.JanggiCoordinate;
 import domain.PieceType;
 
 public abstract class Piece {
-    private Country country;
-    private PieceType pieceType;
+    private final Country country;
+    private final PieceType pieceType;
 
     protected Piece(Country country, PieceType pieceType) {
         this.country = country;

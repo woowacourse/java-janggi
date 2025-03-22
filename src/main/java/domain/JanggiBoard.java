@@ -9,7 +9,7 @@ public class JanggiBoard {
     private static final int COL_SIZE = 9;
     private static final int BOUNDARY_START = 1;
 
-    private Map<JanggiCoordinate, Piece> board;
+    private final Map<JanggiCoordinate, Piece> board;
 
     public JanggiBoard(Map<JanggiCoordinate, Piece> board) {
         this.board = board;

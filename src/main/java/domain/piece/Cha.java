@@ -4,7 +4,7 @@ import domain.*;
 
 public class Cha extends Piece implements LinearMove {
 
-    protected Cha(Country country) {
+    public Cha(Country country) {
         super(country, PieceType.CHA);
     }
 
