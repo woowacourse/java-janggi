@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Collections;
 import java.util.List;
 
 public class Byeong extends Piece {
@@ -16,7 +15,15 @@ public class Byeong extends Piece {
 
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        return List.of();
+        List<List<Position>> allDirections = List.of(
+            departure.findDownDirection(arrival),
+            departure.findLeftDirection(arrival),
+            departure.findRightDirection(arrival));
+
+        return allDirections.stream()
+            .filter(direction -> !direction.isEmpty())
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("해당 위치로는 이동할 수 없습니다."));
     }
 
     @Override
