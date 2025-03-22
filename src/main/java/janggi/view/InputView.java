@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.dto.MoveCommandDto;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -7,18 +8,21 @@ import java.util.Scanner;
 public class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
-    public List<String> readMoveCommand() {
+    public MoveCommandDto readMoveCommand() {
         System.out.println("시작위치, 움직일기물, 목적위치를 입력해주세요(예시: 12 마 33)");
 
         String input = scanner.nextLine();
         validateFormat(input);
-        return Arrays.stream(input.split(" "))
+
+        List<String> commands = Arrays.stream(input.split(" "))
                 .map(String::trim)
                 .toList();
+
+        return MoveCommandDto.from(commands.get(0), commands.get(1), commands.get(2));
     }
 
     private void validateFormat(String input) {
-        if (!input.matches("\\d\\d\\s\\S\\s\\d\\d")) {
+        if (!input.matches("\\d{2} \\S \\d{2}")) {
             throw new IllegalArgumentException("잘못된 형식의 입력입니다.");
         }
     }
