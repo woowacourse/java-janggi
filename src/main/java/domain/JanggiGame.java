@@ -1,7 +1,7 @@
 package domain;
 
-import domain.board.JanggiBoard;
-import domain.board.JanggiBoardInitPosition;
+import domain.board.Board;
+import domain.board.strategy.SangMaMaSang;
 import domain.piece.Country;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -16,7 +16,7 @@ public class JanggiGame {
     private Country currentTurn;
 
     public void start() {
-        JanggiBoard board = new JanggiBoard(JanggiBoardInitPosition.create());
+        Board board = new Board(new SangMaMaSang());
         currentTurn = Country.HAN;
 
         while (true) {
@@ -25,12 +25,12 @@ public class JanggiGame {
         }
     }
 
-    private void moveCommand(JanggiBoard board) {
+    private void moveCommand(Board board) {
         outputView.printJanggiBoard(board);
-        JanggiCoordinate originCoordinate = retryUntilValid(
+        Coordinate originCoordinate = retryUntilValid(
                 () -> inputView.readMovePiece(currentTurn.getCountryName()));
         board.validateOriginCoordinate(originCoordinate, currentTurn);
-        JanggiCoordinate destinationCoordinate = retryUntilValid(inputView::readMoveDestination);
+        Coordinate destinationCoordinate = retryUntilValid(inputView::readMoveDestination);
         board.movePiece(originCoordinate, destinationCoordinate);
     }
 
@@ -39,7 +39,6 @@ public class JanggiGame {
     }
 
     private <T> void operateTurn(T value, Consumer<T> consumer) {
-
         while (true) {
             try {
                 consumer.accept(value);
