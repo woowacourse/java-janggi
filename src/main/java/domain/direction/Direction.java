@@ -1,15 +1,16 @@
 package domain.direction;
 
 import domain.spatial.Position;
+import domain.spatial.Vector;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Direction {
 
-    private final List<Position> direction;
+    private final List<Vector> direction;
     private final boolean repeatable;
 
-    public Direction(final List<Position> direction, final boolean repeatable) {
+    public Direction(final List<Vector> direction, final boolean repeatable) {
         this.direction = direction;
         this.repeatable = repeatable;
     }
@@ -30,16 +31,17 @@ public class Direction {
 
     private boolean canReachWithRepeat(final Position start, final Position target) {
         Position current = start;
-        while (current.isValid() && !current.equals(target)) {
-            current = current.merge(direction.getFirst());
+        Vector vector = direction.getFirst();
+        while (current.isMoveValid(vector) && !current.equals(target)) {
+            current = current.moveBy(vector);
         }
-        return current.isValid() && current.equals(target);
+        return current.equals(target);
     }
 
     private boolean canReachWithoutRepeat(final Position start, final Position target) {
         Position current = start;
-        for (Position dir : direction) {
-            current = current.merge(dir);
+        for (Vector vector : direction) {
+            current = current.moveBy(vector);
         }
         return current.equals(target);
     }
@@ -49,7 +51,7 @@ public class Direction {
 
         Position path = start;
         while (!path.equals(target)) {
-            path = path.merge(direction.getFirst());
+            path = path.moveBy(direction.getFirst());
             paths.add(path);
         }
         return paths.subList(0, paths.size() - 1);
@@ -59,9 +61,9 @@ public class Direction {
         List<Position> paths = new ArrayList<>();
 
         Position path = start;
-        for (Position dir : direction) {
+        for (Vector vector : direction) {
             paths.add(path);
-            path = path.merge(dir);
+            path = path.moveBy(vector);
         }
         return paths.subList(1, paths.size());
     }
