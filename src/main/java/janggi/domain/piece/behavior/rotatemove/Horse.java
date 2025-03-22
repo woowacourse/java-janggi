@@ -12,9 +12,7 @@ public final class Horse extends RotateMoveBehavior {
 
     @Override
     protected List<Vectors> getVectorsList() {
-        return List.of(Vectors.of(Movement.DOWN, Movement.LEFT_DOWN),
-                Vectors.of(Movement.DOWN, Movement.RIGHT_DOWN)
-        );
+        return List.of(Vectors.of(Movement.DOWN, Movement.LEFT_DOWN), Vectors.of(Movement.DOWN, Movement.RIGHT_DOWN));
     }
 
     @Override

@@ -8,7 +8,8 @@ import janggi.domain.move.Vectors;
 import java.util.List;
 import java.util.Set;
 
-public final class Elephant extends RotateMoveBehavior {
+public final class
+Elephant extends RotateMoveBehavior {
 
     @Override
     protected List<Vectors> getVectorsList() {

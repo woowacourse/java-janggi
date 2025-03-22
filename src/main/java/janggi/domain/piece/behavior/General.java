@@ -21,7 +21,6 @@ public class General implements PieceBehavior {
             Movement.LEFT_UP,
             Movement.LEFT_DOWN,
             Movement.RIGHT_UP
-
     );
 
     @Override
@@ -43,5 +42,4 @@ public class General implements PieceBehavior {
     public boolean isGeneral() {
         return true;
     }
-
 }

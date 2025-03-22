@@ -1,8 +1,8 @@
 package janggi.manager;
 
 import janggi.domain.Board;
-import janggi.domain.move.Position;
 import janggi.domain.Side;
+import janggi.domain.move.Position;
 import janggi.dto.PositionDto;
 import janggi.util.RecoveryUtil;
 import janggi.view.Viewer;
