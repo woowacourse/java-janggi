@@ -15,7 +15,7 @@ class ElephantTest {
   @DisplayName("피스가 이동할 수 있는 지점들을 전부 반환한다")
   void test_isAbleToArrive() {
     // given
-    Elephant elephant = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
+    Elephant elephant = new Elephant(Team.CHO);
     Point startPoint = new Point(0, 0);
     Point arrivalPoint = new Point(3, 2);
 
@@ -30,7 +30,7 @@ class ElephantTest {
   @DisplayName("경로에 있는 모든 지점들을 반환한다")
   void test_getRoutePoints() {
     // given
-    Elephant elephant = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
+    Elephant elephant = new Elephant(Team.CHO);
     Point startPoint = new Point(0, 0);
     Point arrivalPoint = new Point(3, 2);
 
@@ -49,7 +49,7 @@ class ElephantTest {
   @DisplayName("경로 상 기물이 있으면 이동할 수 없다.")
   void test_isMovableWhenPieceOnRoute() {
     //given
-    Elephant elephant = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
+    Elephant elephant = new Elephant(Team.CHO);
     Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(elephant, empty, empty));
 
@@ -61,7 +61,7 @@ class ElephantTest {
   @DisplayName("경로 상 기물이 없으면 이동할 수 없다.")
   void test_isMovable() {
     //given
-    Elephant elephant = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
+    Elephant elephant = new Elephant(Team.CHO);
     Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, empty));
 
@@ -73,7 +73,7 @@ class ElephantTest {
   @DisplayName("도착점에 아군 기물이 있으면 이동할 수 없다.")
   void test_isMovableWhenPieceIsInMyTeam() {
     //given
-    Elephant elephant = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
+    Elephant elephant = new Elephant(Team.CHO);
     Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, elephant));
 
@@ -85,8 +85,8 @@ class ElephantTest {
   @DisplayName("도착점에 아군 기물이 없으면 이동할 수 있다.")
   void test_isMovableWhenPieceIsInOtherTeam() {
     //given
-    Elephant elephantHan = new Elephant(Team.HAN, BoardStub.generateElephantMovement());
-    Elephant elephantCho = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
+    Elephant elephantHan = new Elephant(Team.HAN);
+    Elephant elephantCho = new Elephant(Team.CHO);
     Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, elephantCho));
 
