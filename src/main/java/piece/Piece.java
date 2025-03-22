@@ -1,22 +1,25 @@
 package piece;
 
-import position.Path;
-import position.Position;
-
 import java.util.ArrayList;
 import java.util.List;
+import position.Path;
+import position.Position;
 
 public final class Piece {
 
     private final Position position;
     private final PieceType type;
 
+    public PieceType getType() {
+        return type;
+    }
+
     public Piece(final Position position, final PieceType type) {
         this.position = position;
         this.type = type;
     }
 
-    public Piece move(
+    public Piece movePiece(
             final Position newPosition,
             final List<Piece> allyPieces,
             final List<Piece> enemyPieces
@@ -25,7 +28,6 @@ public final class Piece {
         moveablePaths = filterMiddleBlocked(moveablePaths, allyPieces, enemyPieces);
         moveablePaths = filterFinalIsAlly(moveablePaths, allyPieces);
         moveablePaths = filterFinalIsPoWhenTypeIsPo(moveablePaths, enemyPieces);
-
         if (!isNewPositionExistInMoveablePath(newPosition, moveablePaths)) {
             throw new IllegalArgumentException("움직일 수 없는 위치입니다.");
         }

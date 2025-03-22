@@ -1,18 +1,36 @@
 package piece;
 
-import position.Position;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static position.PositionFile.가;
+import static position.PositionFile.나;
+import static position.PositionFile.다;
+import static position.PositionFile.라;
+import static position.PositionFile.마;
+import static position.PositionFile.바;
+import static position.PositionFile.사;
+import static position.PositionFile.아;
+import static position.PositionFile.자;
+import static testUtil.TestConstant.RANK_1;
+import static testUtil.TestConstant.RANK_10;
+import static testUtil.TestConstant.RANK_2;
+import static testUtil.TestConstant.RANK_3;
+import static testUtil.TestConstant.RANK_4;
+import static testUtil.TestConstant.RANK_5;
+import static testUtil.TestConstant.RANK_6;
+import static testUtil.TestConstant.RANK_7;
+import static testUtil.TestConstant.RANK_8;
+import static testUtil.TestConstant.RANK_9;
+
+import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.List;
-import java.util.stream.Stream;
-
-import static position.PositionFile.*;
-import static org.assertj.core.api.Assertions.*;
-import static testUtil.TestConstant.*;
+import position.Position;
 
 public class PieceTest {
 
@@ -26,7 +44,7 @@ public class PieceTest {
             final Piece piece = new Piece(new Position(마, RANK_5), pieceType);
 
             // expected
-            assertThatCode(() -> piece.move(newPosition, List.of(), List.of()))
+            assertThatCode(() -> piece.movePiece(newPosition, List.of(), List.of()))
                     .doesNotThrowAnyException();
         }
 
@@ -37,7 +55,7 @@ public class PieceTest {
             final Piece piece = new Piece(new Position(마, RANK_5), PieceType.포);
 
             // expected
-            assertThatCode(() -> piece.move(newPosition, List.of(
+            assertThatCode(() -> piece.movePiece(newPosition, List.of(
                     new Piece(new Position(마, RANK_3), PieceType.차),
                     new Piece(new Position(마, RANK_7), PieceType.포)
             ), List.of())).doesNotThrowAnyException();
@@ -50,7 +68,7 @@ public class PieceTest {
             final Piece piece = new Piece(new Position(마, RANK_5), PieceType.포);
 
             // expected
-            assertThatThrownBy(() -> piece.move(poEncounterPosition, List.of(
+            assertThatThrownBy(() -> piece.movePiece(poEncounterPosition, List.of(
                     new Piece(new Position(마, RANK_3), PieceType.차),
                     new Piece(new Position(마, RANK_7), PieceType.포)
             ), List.of())).isInstanceOf(IllegalArgumentException.class).hasMessage("움직일 수 없는 위치입니다.");
@@ -63,7 +81,7 @@ public class PieceTest {
             final Piece piece = new Piece(new Position(마, RANK_5), PieceType.포);
 
             // expected
-            assertThatThrownBy(() -> piece.move(noJumpPosition, List.of(
+            assertThatThrownBy(() -> piece.movePiece(noJumpPosition, List.of(
                     new Piece(new Position(마, RANK_3), PieceType.차),
                     new Piece(new Position(마, RANK_7), PieceType.포)
             ), List.of())).isInstanceOf(IllegalArgumentException.class).hasMessage("움직일 수 없는 위치입니다.");
@@ -76,7 +94,7 @@ public class PieceTest {
             final Position position = new Position(라, RANK_1);
 
             // expected
-            assertThatThrownBy(() -> piece.move(position, List.of(), List.of()))
+            assertThatThrownBy(() -> piece.movePiece(position, List.of(), List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("움직일 수 없는 위치입니다.");
         }
@@ -88,7 +106,7 @@ public class PieceTest {
             final Position newPosition = new Position(나, RANK_1);
 
             // when
-            final Piece result = piece.move(newPosition, List.of(), List.of());
+            final Piece result = piece.movePiece(newPosition, List.of(), List.of());
 
             // then
             assertThat(result).extracting(
@@ -111,7 +129,7 @@ public class PieceTest {
             );
 
             // expected
-            assertThatThrownBy(() -> piece.move(newPosition, surroundingPieces, List.of()))
+            assertThatThrownBy(() -> piece.movePiece(newPosition, surroundingPieces, List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("움직일 수 없는 위치입니다.");
         }
@@ -207,7 +225,7 @@ public class PieceTest {
             // given
 
             // expected
-            assertThatCode(() -> attacker.move(
+            assertThatCode(() -> attacker.movePiece(
                     new Position(마, RANK_5),
                     List.of(),
                     List.of(new Piece(new Position(마, RANK_5), PieceType.마))
@@ -231,7 +249,7 @@ public class PieceTest {
             // given
 
             // expected
-            assertThatCode(() -> piece.move(
+            assertThatCode(() -> piece.movePiece(
                     new Position(마, RANK_5),
                     List.of(
                             new Piece(new Position(라, RANK_5), PieceType.마),
@@ -256,7 +274,7 @@ public class PieceTest {
             // given
 
             // expected
-            assertThatThrownBy(() -> piece.move(
+            assertThatThrownBy(() -> piece.movePiece(
                     new Position(마, RANK_5),
                     List.of(
                             new Piece(new Position(라, RANK_5), PieceType.마),

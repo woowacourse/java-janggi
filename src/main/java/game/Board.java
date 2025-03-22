@@ -13,6 +13,14 @@ public final class Board {
 
     private boolean isTeam1Turn = true;
 
+    public Team getTeam1() {
+        return team1;
+    }
+
+    public Team getTeam2() {
+        return team2;
+    }
+
     public Board(final Team team1, final Team team2) {
         validateTeamIsNotNull(team1, team2);
         validateCountryIsNotSame(team1, team2);
@@ -43,14 +51,16 @@ public final class Board {
         if (isTeam1Turn) {
             team1.move(fromPosition, tagetPosition, team2.getPieces());
             nextTurn();
-        }
-        if (!isTeam1Turn) {
+        } else {
             team2.move(fromPosition, tagetPosition, team1.getPieces());
             nextTurn();
         }
     }
 
+
     private void nextTurn() {
         isTeam1Turn = !isTeam1Turn;
     }
+
+
 }

@@ -25,9 +25,10 @@ public record PositionRank(
         }
     }
 
-    public static PositionRank of(final int value, final Country country) {
+
+    public static PositionRank ofEachCountry(final int value, final Country country) {
         validateCountry(country);
-        if (country == Country.한나라) {
+        if (country == Country.HAN) {
             return new PositionRank(11 - value);
         }
         return new PositionRank(value);

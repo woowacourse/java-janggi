@@ -16,52 +16,52 @@ public final class StaticPieceInitializer implements PieceInitializer {
     public Map<Position, Piece> init(final StartingPosition startingPosition, final Country country) {
         final Map<Position, Piece> board = new HashMap<>();
 
-        PieceType 졸병 = country == Country.초나라 ? PieceType.졸 : PieceType.병;
+        PieceType 졸병 = country == Country.CHO ? PieceType.졸 : PieceType.병;
 
         insertIntoMap(
                 board,
-                new Piece(new Position(PositionFile.가, PositionRank.of(1, country)), PieceType.차),
-                new Piece(new Position(PositionFile.라, PositionRank.of(1, country)), PieceType.사),
-                new Piece(new Position(PositionFile.바, PositionRank.of(1, country)), PieceType.사),
-                new Piece(new Position(PositionFile.자, PositionRank.of(1, country)), PieceType.차),
-                new Piece(new Position(PositionFile.마, PositionRank.of(2, country)), PieceType.장),
-                new Piece(new Position(PositionFile.나, PositionRank.of(3, country)), PieceType.포),
-                new Piece(new Position(PositionFile.아, PositionRank.of(3, country)), PieceType.포),
-                new Piece(new Position(PositionFile.가, PositionRank.of(4, country)), 졸병),
-                new Piece(new Position(PositionFile.다, PositionRank.of(4, country)), 졸병),
-                new Piece(new Position(PositionFile.마, PositionRank.of(4, country)), 졸병),
-                new Piece(new Position(PositionFile.사, PositionRank.of(4, country)), 졸병),
-                new Piece(new Position(PositionFile.자, PositionRank.of(4, country)), 졸병)
+                new Piece(new Position(PositionFile.가, PositionRank.ofEachCountry(1, country)), PieceType.차),
+                new Piece(new Position(PositionFile.라, PositionRank.ofEachCountry(1, country)), PieceType.사),
+                new Piece(new Position(PositionFile.바, PositionRank.ofEachCountry(1, country)), PieceType.사),
+                new Piece(new Position(PositionFile.자, PositionRank.ofEachCountry(1, country)), PieceType.차),
+                new Piece(new Position(PositionFile.마, PositionRank.ofEachCountry(2, country)), PieceType.장),
+                new Piece(new Position(PositionFile.나, PositionRank.ofEachCountry(3, country)), PieceType.포),
+                new Piece(new Position(PositionFile.아, PositionRank.ofEachCountry(3, country)), PieceType.포),
+                new Piece(new Position(PositionFile.가, PositionRank.ofEachCountry(4, country)), 졸병),
+                new Piece(new Position(PositionFile.다, PositionRank.ofEachCountry(4, country)), 졸병),
+                new Piece(new Position(PositionFile.마, PositionRank.ofEachCountry(4, country)), 졸병),
+                new Piece(new Position(PositionFile.사, PositionRank.ofEachCountry(4, country)), 졸병),
+                new Piece(new Position(PositionFile.자, PositionRank.ofEachCountry(4, country)), 졸병)
         );
 
         switch (startingPosition) {
-            case 마상마상 -> insertIntoMap(
+            case RIGHT_ELEPHANT_SETUP -> insertIntoMap(
                     board,
-                    new Piece(new Position(PositionFile.나, PositionRank.of(1, country)), PieceType.마),
-                    new Piece(new Position(PositionFile.다, PositionRank.of(1, country)), PieceType.상),
-                    new Piece(new Position(PositionFile.사, PositionRank.of(1, country)), PieceType.마),
-                    new Piece(new Position(PositionFile.아, PositionRank.of(1, country)), PieceType.상)
+                    new Piece(new Position(PositionFile.나, PositionRank.ofEachCountry(1, country)), PieceType.마),
+                    new Piece(new Position(PositionFile.다, PositionRank.ofEachCountry(1, country)), PieceType.상),
+                    new Piece(new Position(PositionFile.사, PositionRank.ofEachCountry(1, country)), PieceType.마),
+                    new Piece(new Position(PositionFile.아, PositionRank.ofEachCountry(1, country)), PieceType.상)
             );
-            case 상마상마 -> insertIntoMap(
+            case LEFT_ELEPHANT_SETUP -> insertIntoMap(
                     board,
-                    new Piece(new Position(PositionFile.나, PositionRank.of(1, country)), PieceType.상),
-                    new Piece(new Position(PositionFile.다, PositionRank.of(1, country)), PieceType.마),
-                    new Piece(new Position(PositionFile.사, PositionRank.of(1, country)), PieceType.상),
-                    new Piece(new Position(PositionFile.아, PositionRank.of(1, country)), PieceType.마)
+                    new Piece(new Position(PositionFile.나, PositionRank.ofEachCountry(1, country)), PieceType.상),
+                    new Piece(new Position(PositionFile.다, PositionRank.ofEachCountry(1, country)), PieceType.마),
+                    new Piece(new Position(PositionFile.사, PositionRank.ofEachCountry(1, country)), PieceType.상),
+                    new Piece(new Position(PositionFile.아, PositionRank.ofEachCountry(1, country)), PieceType.마)
             );
-            case 상마마상 -> insertIntoMap(
+            case OUTER_ELEPHANT_SETUP -> insertIntoMap(
                     board,
-                    new Piece(new Position(PositionFile.나, PositionRank.of(1, country)), PieceType.상),
-                    new Piece(new Position(PositionFile.다, PositionRank.of(1, country)), PieceType.마),
-                    new Piece(new Position(PositionFile.사, PositionRank.of(1, country)), PieceType.마),
-                    new Piece(new Position(PositionFile.아, PositionRank.of(1, country)), PieceType.상)
+                    new Piece(new Position(PositionFile.나, PositionRank.ofEachCountry(1, country)), PieceType.상),
+                    new Piece(new Position(PositionFile.다, PositionRank.ofEachCountry(1, country)), PieceType.마),
+                    new Piece(new Position(PositionFile.사, PositionRank.ofEachCountry(1, country)), PieceType.마),
+                    new Piece(new Position(PositionFile.아, PositionRank.ofEachCountry(1, country)), PieceType.상)
             );
-            case 마상상마 -> insertIntoMap(
+            case INNER_ELEPHANT_SETUP -> insertIntoMap(
                     board,
-                    new Piece(new Position(PositionFile.나, PositionRank.of(1, country)), PieceType.마),
-                    new Piece(new Position(PositionFile.다, PositionRank.of(1, country)), PieceType.상),
-                    new Piece(new Position(PositionFile.사, PositionRank.of(1, country)), PieceType.상),
-                    new Piece(new Position(PositionFile.아, PositionRank.of(1, country)), PieceType.마)
+                    new Piece(new Position(PositionFile.나, PositionRank.ofEachCountry(1, country)), PieceType.마),
+                    new Piece(new Position(PositionFile.다, PositionRank.ofEachCountry(1, country)), PieceType.상),
+                    new Piece(new Position(PositionFile.사, PositionRank.ofEachCountry(1, country)), PieceType.상),
+                    new Piece(new Position(PositionFile.아, PositionRank.ofEachCountry(1, country)), PieceType.마)
             );
         }
         return board;

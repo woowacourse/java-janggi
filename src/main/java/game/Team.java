@@ -22,7 +22,7 @@ public final class Team {
 
     public static Team getFirstTeam(final Team team1, final Team team2) {
         validateIsDifferentTeam(team1, team2);
-        if (team1.getCountry() == Country.초나라) {
+        if (team1.getCountry() == Country.CHO) {
             return team1;
         }
         return team2;
@@ -30,7 +30,7 @@ public final class Team {
 
     public static Team getSecondTeam(final Team team1, final Team team2) {
         validateIsDifferentTeam(team1, team2);
-        if (team1.getCountry() == Country.한나라) {
+        if (team1.getCountry() == Country.HAN) {
             return team1;
         }
         return team2;
@@ -55,9 +55,12 @@ public final class Team {
         validateIsPieceExistInPosition(fromPosition);
 
         final Piece movePiece = pieces.get(fromPosition);
-        final Piece movedPiece = movePiece.move(tagetPosition, pieces.values().stream().toList(),
-                enemyPieces.values().stream().toList());
         pieces.remove(fromPosition);
+        final Piece movedPiece = movePiece.movePiece(tagetPosition, pieces.values().stream().toList(),
+                enemyPieces.values().stream().toList());
+        if (pieces.containsValue(movedPiece.getPosition())) {
+            pieces.remove(movedPiece.getPosition());
+        }
         pieces.put(movedPiece.getPosition(), movedPiece);
     }
 

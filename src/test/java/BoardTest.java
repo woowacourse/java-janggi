@@ -62,8 +62,8 @@ public class BoardTest {
     @Test
     void 보드를_만들_수_있다() {
         // given
-        final Team team1 = new Team(StartingPosition.마상마상, new StaticPieceInitializer(), Country.초나라);
-        final Team team2 = new Team(StartingPosition.마상마상, new StaticPieceInitializer(), Country.한나라);
+        final Team team1 = new Team(StartingPosition.RIGHT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.CHO);
+        final Team team2 = new Team(StartingPosition.RIGHT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.HAN);
 
         // expected
         assertThatCode(() -> new Board(team1, team2))
@@ -74,8 +74,8 @@ public class BoardTest {
     @MethodSource("providePositionAndPieceTypeOfAllPieces")
     void 보드를_통해_전체_기물_위치를_알_수_있다(Position position, PieceType pieceType) {
         // given
-        final Team team1 = new Team(StartingPosition.마상마상, new StaticPieceInitializer(), Country.초나라);
-        final Team team2 = new Team(StartingPosition.마상마상, new StaticPieceInitializer(), Country.한나라);
+        final Team team1 = new Team(StartingPosition.RIGHT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.CHO);
+        final Team team2 = new Team(StartingPosition.RIGHT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.HAN);
         final Board board = new Board(team1, team2);
 
         // when
@@ -90,8 +90,8 @@ public class BoardTest {
     @Test
     void 전체_기물_위치를_받았을_때_수정할_수_없다() {
         // given
-        final Team team1 = new Team(StartingPosition.마상마상, new StaticPieceInitializer(), Country.초나라);
-        final Team team2 = new Team(StartingPosition.마상마상, new StaticPieceInitializer(), Country.한나라);
+        final Team team1 = new Team(StartingPosition.RIGHT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.CHO);
+        final Team team2 = new Team(StartingPosition.RIGHT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.HAN);
         final Board board = new Board(team1, team2);
         final Map<Position, Piece> result = board.getBoard();
 
@@ -104,8 +104,8 @@ public class BoardTest {
     @Test
     void 보드에_추가된_팀들은_서로_달라야_한다() {
         // given
-        final Team team1 = new Team(StartingPosition.마상마상, new StaticPieceInitializer(), Country.초나라);
-        final Team team2 = new Team(StartingPosition.마상마상, new StaticPieceInitializer(), Country.초나라);
+        final Team team1 = new Team(StartingPosition.RIGHT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.CHO);
+        final Team team2 = new Team(StartingPosition.RIGHT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.CHO);
 
         // expected
         assertThatThrownBy(() -> new Board(team1, team2))
@@ -116,7 +116,7 @@ public class BoardTest {
     @Test
     void 팀이_null이면_예외가_발생한다() {
         // given
-        final Team team1 = new Team(StartingPosition.마상마상, new StaticPieceInitializer(), Country.초나라);
+        final Team team1 = new Team(StartingPosition.RIGHT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.CHO);
         final Team team2 = null;
 
         // expected

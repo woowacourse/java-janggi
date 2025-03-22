@@ -22,7 +22,7 @@ class PositionRankTest {
         int value = 0;
 
         // expected
-        assertThatThrownBy(() -> PositionRank.of(value, Country.초나라))
+        assertThatThrownBy(() -> PositionRank.ofEachCountry(value, Country.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("랭크는 1 이상이어야 합니다.");
     }
@@ -33,7 +33,7 @@ class PositionRankTest {
         int value = 11;
 
         // expected
-        assertThatThrownBy(() -> PositionRank.of(value, Country.초나라))
+        assertThatThrownBy(() -> PositionRank.ofEachCountry(value, Country.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("랭크는 10 이하이어야 합니다.");
     }
@@ -44,7 +44,7 @@ class PositionRankTest {
         final Country country = null;
 
         // expected
-        assertThatThrownBy(() -> PositionRank.of(1, country))
+        assertThatThrownBy(() -> PositionRank.ofEachCountry(1, country))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("나라는 필수값입니다.");
     }
@@ -52,8 +52,8 @@ class PositionRankTest {
     @Test
     void 랭크는_값이_같으면_같다고_판단된다() {
         // given
-        final PositionRank rank1 = PositionRank.of(10, Country.한나라);
-        final PositionRank rank2 = PositionRank.of(10, Country.한나라);
+        final PositionRank rank1 = PositionRank.ofEachCountry(10, Country.HAN);
+        final PositionRank rank2 = PositionRank.ofEachCountry(10, Country.HAN);
 
         // expected
         assertThat(rank1).isEqualTo(rank2);
@@ -63,20 +63,20 @@ class PositionRankTest {
     @ValueSource(ints = {1, 2, 3, 4})
     void 랭크에_값을_더하여_다음_랭크를_구할_수_있다(int addingValue) {
         // given
-        final PositionRank rank = PositionRank.of(5, Country.초나라);
+        final PositionRank rank = PositionRank.ofEachCountry(5, Country.CHO);
 
         // when
         PositionRank newRank = rank.add(addingValue);
 
         // then
-        assertThat(newRank).isEqualTo(PositionRank.of(5 + addingValue, Country.초나라));
+        assertThat(newRank).isEqualTo(PositionRank.ofEachCountry(5 + addingValue, Country.CHO));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {-6, -5})
     void 랭크에_값을_더했을_때_1_미만이면_예외가_발생한다(int addingValue) {
         // given
-        final PositionRank rank = PositionRank.of(5, Country.초나라);
+        final PositionRank rank = PositionRank.ofEachCountry(5, Country.CHO);
 
         // expected
         assertThatThrownBy(() -> rank.add(addingValue))
@@ -88,7 +88,7 @@ class PositionRankTest {
     @ValueSource(ints = {6, 7})
     void 랭크에_값을_더했을_때_10_초과이면_예외가_발생한다(int addingValue) {
         // given
-        final PositionRank rank = PositionRank.of(5, Country.초나라);
+        final PositionRank rank = PositionRank.ofEachCountry(5, Country.CHO);
 
         // expected
         assertThatThrownBy(() -> rank.add(addingValue))

@@ -28,15 +28,15 @@ public class TeamTest {
         // given
 
         // expected
-        assertThatCode(() -> new Team(startingPosition, new StaticPieceInitializer(), Country.초나라))
+        assertThatCode(() -> new Team(startingPosition, new StaticPieceInitializer(), Country.CHO))
                 .doesNotThrowAnyException();
     }
 
     @Test
     void 장기판_상태를_받았을_때_불변_맵이다() {
         // given
-        final StartingPosition startingPosition = StartingPosition.마상상마;
-        final Team team = new Team(startingPosition, new StaticPieceInitializer(), Country.한나라);
+        final StartingPosition startingPosition = StartingPosition.INNER_ELEPHANT_SETUP;
+        final Team team = new Team(startingPosition, new StaticPieceInitializer(), Country.HAN);
         final Map<Position, Piece> result = team.getPieces();
 
         // expected
@@ -49,7 +49,7 @@ public class TeamTest {
     @CsvSource({"한나라", "초나라"})
     void 장기판의_나라가_존재한다(Country country) {
         // given
-        final StartingPosition startingPosition = StartingPosition.마상상마;
+        final StartingPosition startingPosition = StartingPosition.INNER_ELEPHANT_SETUP;
         final Team team = new Team(startingPosition, new StaticPieceInitializer(), country);
 
         // when
@@ -64,7 +64,7 @@ public class TeamTest {
     @MethodSource("provide초나라마상마상PositionAndPieceTypeOfAllPieces")
     void 초나라와_마상마상으로_장기판이_초기화됐을_때_말들이_올바른_위치에_배치된다(Position position, PieceType pieceType) {
         // given
-        final Team team = new Team(StartingPosition.마상마상, new StaticPieceInitializer(), Country.초나라);
+        final Team team = new Team(StartingPosition.RIGHT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.CHO);
 
         // when
         final Map<Position, Piece> result = team.getPieces();
@@ -81,7 +81,7 @@ public class TeamTest {
     @MethodSource("provide초나라상마상마PositionAndPieceTypeOfAllPieces")
     void 초나라와_상마상마으로_장기판이_초기화됐을_때_말들이_올바른_위치에_배치된다(Position position, PieceType pieceType) {
         // given
-        final Team team = new Team(StartingPosition.상마상마, new StaticPieceInitializer(), Country.초나라);
+        final Team team = new Team(StartingPosition.LEFT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.CHO);
 
         // when
         final Map<Position, Piece> result = team.getPieces();
@@ -98,7 +98,7 @@ public class TeamTest {
     @MethodSource("provide초나라마상상마PositionAndPieceTypeOfAllPieces")
     void 초나라와_마상상마으로_장기판이_초기화됐을_때_말들이_올바른_위치에_배치된다(Position position, PieceType pieceType) {
         // given
-        final Team team = new Team(StartingPosition.마상상마, new StaticPieceInitializer(), Country.초나라);
+        final Team team = new Team(StartingPosition.INNER_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.CHO);
 
         // when
         final Map<Position, Piece> result = team.getPieces();
@@ -115,7 +115,7 @@ public class TeamTest {
     @MethodSource("provide초나라상마마상PositionAndPieceTypeOfAllPieces")
     void 초나라와_상마마상으로_장기판이_초기화됐을_때_말들이_올바른_위치에_배치된다(Position position, PieceType pieceType) {
         // given
-        final Team team = new Team(StartingPosition.상마마상, new StaticPieceInitializer(), Country.초나라);
+        final Team team = new Team(StartingPosition.OUTER_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.CHO);
 
         // when
         final Map<Position, Piece> result = team.getPieces();
@@ -132,7 +132,7 @@ public class TeamTest {
     @MethodSource("provide한나라마상마상PositionAndPieceTypeOfAllPieces")
     void 한나라와_마상마상으로_장기판이_초기화됐을_때_말들이_올바른_위치에_배치된다(Position position, PieceType pieceType) {
         // given
-        final Team team = new Team(StartingPosition.마상마상, new StaticPieceInitializer(), Country.한나라);
+        final Team team = new Team(StartingPosition.RIGHT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.HAN);
 
         // when
         final Map<Position, Piece> result = team.getPieces();
@@ -149,7 +149,7 @@ public class TeamTest {
     @MethodSource("provide한나라상마상마PositionAndPieceTypeOfAllPieces")
     void 한나라와_상마상마으로_장기판이_초기화됐을_때_말들이_올바른_위치에_배치된다(Position position, PieceType pieceType) {
         // given
-        final Team team = new Team(StartingPosition.상마상마, new StaticPieceInitializer(), Country.한나라);
+        final Team team = new Team(StartingPosition.LEFT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.HAN);
 
         // when
         final Map<Position, Piece> result = team.getPieces();
@@ -166,7 +166,7 @@ public class TeamTest {
     @MethodSource("provide한나라마상상마PositionAndPieceTypeOfAllPieces")
     void 한나라와_마상상마으로_장기판이_초기화됐을_때_말들이_올바른_위치에_배치된다(Position position, PieceType pieceType) {
         // given
-        final Team team = new Team(StartingPosition.마상상마, new StaticPieceInitializer(), Country.한나라);
+        final Team team = new Team(StartingPosition.INNER_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.HAN);
 
         // when
         final Map<Position, Piece> result = team.getPieces();
@@ -183,7 +183,7 @@ public class TeamTest {
     @MethodSource("provide한나라상마마상PositionAndPieceTypeOfAllPieces")
     void 한나라와_상마마상으로_장기판이_초기화됐을_때_말들이_올바른_위치에_배치된다(Position position, PieceType pieceType) {
         // given
-        final Team team = new Team(StartingPosition.상마마상, new StaticPieceInitializer(), Country.한나라);
+        final Team team = new Team(StartingPosition.OUTER_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.HAN);
 
         // when
         final Map<Position, Piece> result = team.getPieces();

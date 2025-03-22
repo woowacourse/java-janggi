@@ -49,4 +49,12 @@ public enum PositionFile {
     public int distance(final PositionFile file) {
         return Math.abs(amount - file.amount);
     }
+
+    public static PositionFile fromString(String fileStr) {
+        return Arrays.stream(values())
+                .filter(p -> p.name().equals(fileStr))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 파일입니다: " + fileStr));
+    }
+
 }
