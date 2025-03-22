@@ -20,7 +20,7 @@ public class Board {
 
     private Map<Point, Piece> initializeBoard() {
         Map<Point, Piece> board = new HashMap<>();
-        for (int i = 1; i <= COLUMN; i++) {
+        for (int i = 0; i < COLUMN; i++) {
             for (int j = 0; j < ROW; j++) {
                 board.put(new Point(i, j), null);
             }
