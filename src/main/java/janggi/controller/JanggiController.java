@@ -30,7 +30,7 @@ public class JanggiController {
         BoardSetup blueSetup = getBoardSetup(PieceColor.BLUE);
         InitialBoard initialBoard = InitialBoard.createBoard(redSetup, blueSetup);
 
-        PlayingBoard playingBoard = new PlayingBoard(initialBoard);
+        PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
         outputView.printBoard(playingBoard);
 
         JanggiGame janggiGame = new JanggiGame(new BlueTurn(playingBoard));

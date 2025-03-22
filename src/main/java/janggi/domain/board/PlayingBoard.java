@@ -11,8 +11,8 @@ public class PlayingBoard {
 
     private final Map<Position, Piece> board;
 
-    public PlayingBoard(InitialBoard initialBoard) {
-        this.board = initialBoard.getInitialBoard();
+    public PlayingBoard(Map<Position, Piece> board) {
+        this.board = board;
     }
 
     public Piece getPieceBy(Position position) {

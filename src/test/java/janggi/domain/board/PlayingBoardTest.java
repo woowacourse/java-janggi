@@ -1,5 +1,9 @@
 package janggi.domain.board;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import janggi.domain.piece.Empty;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
@@ -9,15 +13,13 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
-
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class PlayingBoardTest {
 
     @Test
     void 출발지에_있는_피스가_목적지까지_이동() {
         InitialBoard initialBoard = InitialBoard.createBoard(BoardSetup.INNER_ELEPHANT, BoardSetup.INNER_ELEPHANT);
-        PlayingBoard playingBoard = new PlayingBoard(initialBoard);
+        PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
 
         Position source = new Position(Row.ONE, Column.TWO);
         Position destination = new Position(Row.THREE, Column.THREE);
@@ -35,7 +37,7 @@ class PlayingBoardTest {
     @Test
     void 목적지가_잘못된_이동시_예외발생() {
         InitialBoard initialBoard = InitialBoard.createBoard(BoardSetup.INNER_ELEPHANT, BoardSetup.INNER_ELEPHANT);
-        PlayingBoard playingBoard = new PlayingBoard(initialBoard);
+        PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
 
         Position source = new Position(Row.ONE, Column.TWO);
         Position destination = new Position(Row.THREE, Column.TWO);
@@ -47,7 +49,7 @@ class PlayingBoardTest {
     @Test
     void 말은_이동경로에_기물이있으면_예외발생() {
         InitialBoard initialBoard = InitialBoard.createBoard(BoardSetup.INNER_ELEPHANT, BoardSetup.INNER_ELEPHANT);
-        PlayingBoard playingBoard = new PlayingBoard(initialBoard);
+        PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
 
         Position source = new Position(Row.ONE, Column.TWO);
         Position destination = new Position(Row.TWO, Column.FOUR);
@@ -61,7 +63,7 @@ class PlayingBoardTest {
     @Test
     void 움직이려는_기물과_해당_위치의_기물이_일치하지_않으면_예외발생() {
         InitialBoard initialBoard = InitialBoard.createBoard(BoardSetup.INNER_ELEPHANT, BoardSetup.INNER_ELEPHANT);
-        PlayingBoard playingBoard = new PlayingBoard(initialBoard);
+        PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
 
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.TWO, Column.ONE);
@@ -73,14 +75,12 @@ class PlayingBoardTest {
     @Test
     void 움직이려는_기물과_해당_위치의_기물이_일치하면_정상_이동() {
         InitialBoard initialBoard = InitialBoard.createBoard(BoardSetup.INNER_ELEPHANT, BoardSetup.INNER_ELEPHANT);
-        PlayingBoard playingBoard = new PlayingBoard(initialBoard);
+        PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
 
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.TWO, Column.ONE);
 
-        playingBoard.move(PieceType.CHARIOT, source, destination);
-
-//        assertThatCode(() -> playingBoard.move(PieceType.CHARIOT, source, destination))
-//                .doesNotThrowAnyException();
+        assertThatCode(() -> playingBoard.move(PieceType.CHARIOT, source, destination))
+                .doesNotThrowAnyException();
     }
 }
