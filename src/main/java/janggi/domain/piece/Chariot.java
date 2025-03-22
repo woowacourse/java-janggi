@@ -13,12 +13,8 @@ public class Chariot implements Piece {
 
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
-        for (Direction direction : DIRECTIONS) {
-            if (canMoveEndPointByDirection(janggiBoard, start, end, direction)) {
-                return true;
-            }
-        }
-        return false;
+        return DIRECTIONS.stream()
+                .anyMatch(path -> canMoveEndPointByDirection(janggiBoard, start, end, path));
     }
 
     private boolean canMoveEndPointByDirection(JanggiBoard janggiBoard, Point start, Point end,

@@ -17,16 +17,8 @@ public class Cannon implements Piece {
         if (isExistCannon(janggiBoard, end)) {
             return false;
         }
-        for (Direction direction : DIRECTIONS) {
-            if (canMoveEndPoint(janggiBoard, start, end, direction)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean canMoveUntilEndPoint(Point end, Point currPoint) {
-        return !currPoint.isSamePosition(end) && currPoint.isNotOutOfBoundary();
+        return DIRECTIONS.stream()
+                .anyMatch(path -> canMoveEndPoint(janggiBoard, start, end, path));
     }
 
     private boolean canMoveEndPoint(JanggiBoard janggiBoard, Point start, Point end, Direction direction) {
@@ -45,6 +37,10 @@ public class Cannon implements Piece {
             }
         }
         return isJump && current.isSamePosition(end);
+    }
+
+    private boolean canMoveUntilEndPoint(Point end, Point currPoint) {
+        return !currPoint.isSamePosition(end) && currPoint.isNotOutOfBoundary();
     }
 
     private boolean isExistCannon(JanggiBoard janggiBoard, Point point) {

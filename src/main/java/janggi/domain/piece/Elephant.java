@@ -24,23 +24,18 @@ public class Elephant implements Piece {
 
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
-        for (List<Direction> path : PATHS) {
-            if (canMoveEndPointByPath(janggiBoard, start, end, path)) {
-                return true;
-            }
-        }
-        return false;
+        return PATHS.stream()
+                .anyMatch(path -> canMoveEndPointByPath(janggiBoard, start, end, path));
     }
 
-    private boolean canMoveEndPointByPath(JanggiBoard janggiBoard, Point start, Point end, List<Direction> path) {
-        Point currPoint = start;
+    private boolean canMoveEndPointByPath(JanggiBoard janggiBoard, Point current, Point end, List<Direction> path) {
         for (Direction direction : path) {
-            currPoint = currPoint.move(direction);
-            if (janggiBoard.isExistPiece(currPoint)) {
+            current = current.move(direction);
+            if (janggiBoard.isExistPiece(current)) {
                 break;
             }
         }
-        return currPoint.isSamePosition(end);
+        return current.isSamePosition(end);
     }
 
     @Override

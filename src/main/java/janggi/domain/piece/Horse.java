@@ -24,12 +24,8 @@ public class Horse implements Piece {
 
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
-        for (List<Direction> path : PATHS) {
-            if (canMoveEndPointByPath(janggiBoard, start, end, path)) {
-                return true;
-            }
-        }
-        return false;
+        return PATHS.stream()
+                .anyMatch(path -> canMoveEndPointByPath(janggiBoard, start, end, path));
     }
 
     private boolean canMoveEndPointByPath(JanggiBoard janggiBoard, Point start, Point end, List<Direction> path) {
