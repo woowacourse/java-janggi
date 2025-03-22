@@ -26,4 +26,18 @@ public abstract class Piece {
     public PieceName getPieceName() {
         return pieceName;
     }
+
+    public int getVectorX(Point beforePoint, Point targetPoint){
+        return targetPoint.x() - beforePoint.x();
+    }
+    public int getVectorY(Point beforePoint, Point targetPoint){
+        return targetPoint.y() - beforePoint.y();
+    }
+
+    public int getUnitVector(int vector){
+        if(vector==0){
+            return 0;
+        }
+        return vector/Math.abs(vector);
+    }
 }

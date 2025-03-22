@@ -16,12 +16,10 @@ public class Sa extends Piece {
 
     @Override
     public boolean isValidPoint(Point beforePoint, Point targetPoint) {
-        List<Integer> horizontal = List.of(0, 0, -1, 1);
-        List<Integer> vertical = List.of(1, -1, 0, 0);
+        int vectorX = getVectorX(beforePoint, targetPoint);
+        int vectorY = getVectorY(beforePoint, targetPoint);
 
-        return IntStream.range(0, horizontal.size())
-                .anyMatch(i -> horizontal.get(i) + beforePoint.x() == targetPoint.x()
-                        && vertical.get(i) + beforePoint.y() == targetPoint.y());
+        return Math.pow(vectorX,2) + Math.pow(vectorY,2) == 1;
     }
 
     @Override

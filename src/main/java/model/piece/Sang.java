@@ -1,8 +1,6 @@
 package model.piece;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 import model.Path;
 import model.Point;
 import model.Team;
@@ -15,21 +13,19 @@ public class Sang extends Piece {
 
     @Override
     public boolean isValidPoint(Point beforePoint, Point targetPoint) {
-        List<Integer> horizontal = List.of(-2, 2, 3, 3, 2, -2, -3, -3);
-        List<Integer> vertical = List.of(3, 3, 2, -2, -3, -3, -2, 2);
+        int vectorX = getVectorX(beforePoint, targetPoint);
+        int vectorY = getVectorY(beforePoint, targetPoint);
 
-        return IntStream.range(0, horizontal.size())
-                .anyMatch(i -> horizontal.get(i) + beforePoint.x() == targetPoint.x()
-                        && vertical.get(i) + beforePoint.y() == targetPoint.y());
+        return Math.pow(vectorX,2) + Math.pow(vectorY,2) == 13;
     }
 
     @Override
     public Path calculatePath(Point beforePoint, Point targetPoint) {
-        int vectorX = targetPoint.x() - beforePoint.x();
-        int vectorY = targetPoint.y() - beforePoint.y();
+        int vectorX = getVectorX(beforePoint, targetPoint);
+        int vectorY = getVectorY(beforePoint, targetPoint);
 
-        int unitVectorX = vectorX / Math.abs(vectorX);
-        int unitVectorY = vectorY / Math.abs(vectorY);
+        int unitVectorX = getUnitVector(vectorX);
+        int unitVectorY = getUnitVector(vectorY);
 
         Point middlePoint1 = new Point(targetPoint.x() - unitVectorX, targetPoint.y() - unitVectorY);
         Point middlePoint2 = new Point(targetPoint.x() - unitVectorX * 2, targetPoint.y() - unitVectorY * 2);

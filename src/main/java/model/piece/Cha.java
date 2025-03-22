@@ -20,24 +20,18 @@ public class Cha extends Piece {
 
     @Override
     public Path calculatePath(Point beforePoint, Point targetPoint) {
-        int vectorX = targetPoint.x() - beforePoint.x();
-        int vectorY = targetPoint.y() - beforePoint.y();
+        int vectorX = getVectorX(beforePoint, targetPoint);
+        int vectorY = getVectorY(beforePoint, targetPoint);
+
+        int unitVectorX = getUnitVector(vectorX);
+        int unitVectorY = getUnitVector(vectorY);
 
         Path path = new Path();
 
-        if (vectorX == 0) {
-            int unitVectorY = vectorY / Math.abs(vectorY);
-            for (int i = 0; i < Math.abs(vectorY); i++) {
-                path.addPoint(new Point(targetPoint.x(), targetPoint.y() - unitVectorY * i));
+        for (int i = 0; i < Math.max(vectorY, vectorX); i++) {
+            path.addPoint(new Point(targetPoint.x() - unitVectorX * i, targetPoint.y() - unitVectorY * i));
             }
-        }
 
-        if (vectorY == 0) {
-            int unitVectorX = vectorX / Math.abs(vectorX);
-            for (int i = 0; i < Math.abs(vectorX); i++) {
-                path.addPoint(new Point(targetPoint.x() - unitVectorX * i, targetPoint.y()));
-            }
-        }
         return path;
     }
 

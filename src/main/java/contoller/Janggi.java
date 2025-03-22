@@ -17,7 +17,7 @@ public class Janggi {
         JanggiBoard janggiBoard;
         switch (setUpChoice) {
             case 1:
-                janggiBoard = new JanggiBoard(JanggiBoardSetUp.INNER_ELEPHANT);
+                janggiBoard = new JanggiBoard(JanggiBoardSetUp.INNER_SANG);
                 break;
             case 2:
                 janggiBoard = new JanggiBoard(JanggiBoardSetUp.OUTER_SANG);
