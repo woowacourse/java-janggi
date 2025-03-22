@@ -1,7 +1,6 @@
 package janggi.domain;
 
 import janggi.common.ErrorMessage;
-import janggi.domain.piece.General;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.factory.PieceFactory;
@@ -21,8 +20,7 @@ class BoardTest {
     @Test
     void test1() {
         // given
-        Map<Position, Piece> initialize = PieceFactory.initialize();
-        Board board = new Board(initialize);
+        Board board = new Board(PieceFactory.initialize());
         Position position = Position.of(7, 1);
 
         // when & then
@@ -34,8 +32,7 @@ class BoardTest {
     @Test
     void test2() {
         // given
-        Map<Position, Piece> initialize = PieceFactory.initialize();
-        Board board = new Board(initialize);
+        Board board = new Board(PieceFactory.initialize());
         Position position = Position.of(2, 1);
 
         // when & then
@@ -48,9 +45,7 @@ class BoardTest {
     @Test
     void test3() {
         // given
-        Map<Position, Piece> initialize = PieceFactory.initialize();
-
-        Board board = new Board(initialize);
+        Board board = new Board(PieceFactory.initialize());
         Position position = Position.of(1, 1);
 
         // when & then
@@ -63,16 +58,15 @@ class BoardTest {
     @Test
     void test4() {
         // given
-        Position position = Position.of(5, 1);
-        Piece soldier = new Soldier(Side.CHO);
-        Map<Position, Piece> startingPieces = Map.of(position, soldier);
+        Position startingPosition = Position.of(5, 1);
+        Piece startingPiece = new Soldier(Side.CHO);
+        Position endPosition = Position.of(4, 1);
 
+        Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
         Board board = new Board(new HashMap<>(startingPieces));
 
-        Position newPosition = Position.of(4, 1);
-
         // when & then
-        assertThatCode(() -> board.movePiece(position, newPosition))
+        assertThatCode(() -> board.movePiece(startingPosition, endPosition))
                 .doesNotThrowAnyException();
     }
 
@@ -80,17 +74,16 @@ class BoardTest {
     @Test
     void test5() {
         // given
-        Position position = Position.of(5, 1);
-        Piece soldier1 = new Soldier(Side.CHO);
+        Position startingPosition = Position.of(5, 1);
+        Piece startingPiece = new Soldier(Side.CHO);
+        Position endPosition = Position.of(4, 1);
+        Piece endPiece = new Soldier(Side.CHO);
 
-        Position newPosition = Position.of(4, 1);
-        Piece soldier2 = new Soldier(Side.CHO);
-        Map<Position, Piece> startingPieces = Map.of(position, soldier1, newPosition, soldier2);
-
+        Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece, endPosition, endPiece);
         Board board = new Board(new HashMap<>(startingPieces));
 
         // when & then
-        assertThatThrownBy(() -> board.movePiece(position, newPosition))
+        assertThatThrownBy(() -> board.movePiece(startingPosition, endPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.CANNOT_MOVE_TO_POSITION.getMessage());
     }
@@ -99,41 +92,42 @@ class BoardTest {
     @Test
     void test6() {
         // given
-        Position position = Position.of(5, 1);
-        Piece soldier1 = new Soldier(Side.CHO);
+        Position startingPosition = Position.of(5, 1);
+        Piece startingPiece = new Soldier(Side.CHO);
+        Position endPosition = Position.of(4, 1);
+        Piece endPiece = new Soldier(Side.HAN);
 
-        Position newPosition = Position.of(4, 1);
-        Piece soldier2 = new Soldier(Side.HAN);
-        Map<Position, Piece> startingPieces = Map.of(position, soldier1, newPosition, soldier2);
-
+        Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece, endPosition, endPiece);
         Board board = new Board(new HashMap<>(startingPieces));
 
         // when & then
-        assertThatCode(() -> board.movePiece(position, newPosition))
+        assertThatCode(() -> board.movePiece(startingPosition, endPosition))
                 .doesNotThrowAnyException();
     }
 
     @DisplayName("보드의 General이 있다면 true를 반환한다.")
     @Test
     void test7() {
+        // given
         Board board = new Board(PieceFactory.initialize());
 
-        assertThat(board.hasGeneral()).isTrue();
+        // when
+        boolean actual = board.hasGeneral();
+
+        // then
+        assertThat(actual).isTrue();
     }
 
     @DisplayName("보드의 General이 없다면 false를 반환한다.")
     @Test
     void test8() {
         // given
-        Position position = Position.of(5, 1);
-        Piece general = new General(Side.CHO);
+        Board board = new Board(new HashMap<>());
 
-        Position newPosition = Position.of(4, 1);
-        Piece soldier2 = new Soldier(Side.HAN);
-        Map<Position, Piece> startingPieces = Map.of(position, general, newPosition, soldier2);
+        // when
+        boolean actual = board.hasGeneral();
 
-        Board board = new Board(new HashMap<>(startingPieces));
-
-        assertThat(board.hasGeneral()).isFalse();
+        // then
+        assertThat(actual).isFalse();
     }
 }
