@@ -75,6 +75,6 @@ public class Po extends Piece {
     }
 
     private boolean isPo(Piece piece) {
-        return piece instanceof Po;
+        return piece.getClass() == this.getClass();
     }
 }
