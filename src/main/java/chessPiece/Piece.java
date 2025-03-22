@@ -6,22 +6,22 @@ import java.util.Objects;
 public abstract class Piece {
 
     private final PieceProfile pieceProfile;
-    protected BoardPosition boardPosition;
+    protected Position position;
 
-    public Piece(final PieceProfile pieceProfile, final BoardPosition boardPosition) {
+    public Piece(final PieceProfile pieceProfile, final Position position) {
         this.pieceProfile = pieceProfile;
-        this.boardPosition = boardPosition;
+        this.position = position;
     }
 
-    public BoardPosition getBoardPosition() {
-        return boardPosition;
+    public Position getBoardPosition() {
+        return position;
     }
 
-    public abstract boolean isMove(BoardPosition boardPosition);
+    public abstract boolean isMove(Position position);
 
-    public abstract List<BoardPosition> makeRoute(BoardPosition boardPosition);
+    public abstract List<Position> makeRoute(Position position);
 
-    public abstract void updateChessPiecePositionBy(BoardPosition boardPosition);
+    public abstract void updateChessPiecePositionBy(Position position);
 
     @Override
     public boolean equals(final Object o) {

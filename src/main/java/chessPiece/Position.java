@@ -2,12 +2,12 @@ package chessPiece;
 
 import java.util.Objects;
 
-public class BoardPosition {
+public class Position {
 
     private final int row;
     private final int col;
 
-    public BoardPosition(final int row, final int col) {
+    public Position(final int row, final int col) {
         validateOutOfBound(row, col);
         this.row = row;
         this.col = col;
@@ -32,7 +32,7 @@ public class BoardPosition {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final BoardPosition that = (BoardPosition) o;
+        final Position that = (Position) o;
         return getRow() == that.getRow() && getCol() == that.getCol();
     }
 

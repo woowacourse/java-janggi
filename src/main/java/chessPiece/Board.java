@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 public class Board {
 
-    private final Map<BoardPosition, Piece> janggiPan = new HashMap<>();
+    private final Map<Position, Piece> janggiPan = new HashMap<>();
 
     public Board(List<Piece> han, List<Piece> cho) {
         janggiPan.putAll(
@@ -17,11 +17,11 @@ public class Board {
         );
     }
 
-    public Map<BoardPosition, Piece> getJanggiPan() {
+    public Map<Position, Piece> getJanggiPan() {
         return janggiPan;
     }
 
-    public void updateBoard(final BoardPosition presentPosition, final BoardPosition futurePosition) {
+    public void updateBoard(final Position presentPosition, final Position futurePosition) {
         Piece piece = janggiPan.get(presentPosition);
         piece.isMove(futurePosition);
 
@@ -43,11 +43,11 @@ public class Board {
         piece.updateChessPiecePositionBy(futurePosition);
     }
 
-    private boolean isPo(BoardPosition boardPosition) {
-        return janggiPan.containsKey(boardPosition) && janggiPan.get(boardPosition).getName().equals("포");
+    private boolean isPo(Position position) {
+        return janggiPan.containsKey(position) && janggiPan.get(position).getName().equals("포");
     }
 
-    private boolean isPieceInFront(final BoardPosition presentPosition, final BoardPosition futurePosition) {
+    private boolean isPieceInFront(final Position presentPosition, final Position futurePosition) {
         int dx = presentPosition.getRow() - futurePosition.getRow();
         int dy = presentPosition.getCol() - futurePosition.getCol();
 
@@ -55,14 +55,14 @@ public class Board {
 
         if (dx == 0 && dy > 0) {
             for (int i = 1; i <= dy; i++) {
-                BoardPosition boardPosition =
-                        new BoardPosition(presentPosition.getRow(), futurePosition.getCol() + i);
+                Position position =
+                        new Position(presentPosition.getRow(), futurePosition.getCol() + i);
 
-                if (isPo(boardPosition)) {
+                if (isPo(position)) {
                     return false;
                 }
 
-                if (janggiPan.containsKey(boardPosition)) {
+                if (janggiPan.containsKey(position)) {
                     cnt++;
                 }
             }
@@ -71,12 +71,12 @@ public class Board {
 
         if (dx == 0 && dy < 0) {
             for (int i = 1; i <= Math.abs(dy); i++) {
-                BoardPosition boardPosition =
-                        new BoardPosition(presentPosition.getRow(), presentPosition.getCol() + i);
-                if (isPo(boardPosition)) {
+                Position position =
+                        new Position(presentPosition.getRow(), presentPosition.getCol() + i);
+                if (isPo(position)) {
                     return false;
                 }
-                if (janggiPan.containsKey(boardPosition)) {
+                if (janggiPan.containsKey(position)) {
                     cnt++;
                 }
             }
@@ -85,12 +85,12 @@ public class Board {
 
         if (dx > 0 && dy == 0) {
             for (int i = 1; i <= dx; i++) {
-                BoardPosition boardPosition =
-                        new BoardPosition(futurePosition.getRow() + i, futurePosition.getCol());
-                if (isPo(boardPosition)) {
+                Position position =
+                        new Position(futurePosition.getRow() + i, futurePosition.getCol());
+                if (isPo(position)) {
                     return false;
                 }
-                if (janggiPan.containsKey(boardPosition)) {
+                if (janggiPan.containsKey(position)) {
                     cnt++;
                 }
             }
@@ -98,12 +98,12 @@ public class Board {
         }
         if (dx < 0 && dy == 0) {
             for (int i = 1; i <= Math.abs(dx); i++) {
-                BoardPosition boardPosition =
-                        new BoardPosition(presentPosition.getRow() + i, futurePosition.getCol());
-                if (isPo(boardPosition)) {
+                Position position =
+                        new Position(presentPosition.getRow() + i, futurePosition.getCol());
+                if (isPo(position)) {
                     return false;
                 }
-                if (janggiPan.containsKey(boardPosition)) {
+                if (janggiPan.containsKey(position)) {
                     cnt++;
                 }
             }
@@ -112,13 +112,13 @@ public class Board {
         return false;
     }
 
-    public void checkObstacle(final BoardPosition presentPosition, final BoardPosition futurePosition) {
-        List<BoardPosition> route = janggiPan.get(presentPosition).makeRoute(futurePosition);
+    public void checkObstacle(final Position presentPosition, final Position futurePosition) {
+        List<Position> route = janggiPan.get(presentPosition).makeRoute(futurePosition);
 
         int cnt = 0;
         if (isPo(presentPosition)) {
-            for (BoardPosition boardPosition : route) {
-                if (janggiPan.containsKey(boardPosition)) {
+            for (Position position : route) {
+                if (janggiPan.containsKey(position)) {
                     cnt++;
                 }
             }
@@ -128,8 +128,8 @@ public class Board {
             return;
         }
 
-        for (BoardPosition boardPosition : route) {
-            if (janggiPan.containsKey(boardPosition)) {
+        for (Position position : route) {
+            if (janggiPan.containsKey(position)) {
                 throw new IllegalArgumentException("[ERROR] 이동하려는 경로에 장애물이 존재합니다.");
             }
         }

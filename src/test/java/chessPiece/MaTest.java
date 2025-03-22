@@ -17,36 +17,36 @@ class MaTest {
     @Test
     void maBoardPosition() {
         //given
-        BoardPosition boardPosition = new BoardPosition(4, 5);
+        Position position = new Position(4, 5);
 
         //when
-        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), boardPosition);
+        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), position);
 
         //then
-        assertThat(ma.getBoardPosition()).isEqualTo(new BoardPosition(4, 5));
+        assertThat(ma.getBoardPosition()).isEqualTo(new Position(4, 5));
     }
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
     @MethodSource("maNonIsMovePositionProvider")
-    void nonIsMove(BoardPosition boardPosition) {
+    void nonIsMove(Position position) {
         //given
-        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new BoardPosition(5, 5));
+        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> ma.isMove(boardPosition)).isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> ma.isMove(position)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("자신의 위치를 기준으로 직선으로 한칸 + 대각선으로 한칸 이동할 수 있다면 true를 반환한다.")
     @ParameterizedTest
     @MethodSource("maIsMovePositionProvider")
-    void isMove(BoardPosition boardPosition) {
+    void isMove(Position position) {
         //given
-        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new BoardPosition(5, 5));
+        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
 
         //when
-        boolean actual = ma.isMove(boardPosition);
+        boolean actual = ma.isMove(position);
 
         //then
         assertThat(actual).isTrue();
@@ -57,29 +57,29 @@ class MaTest {
     @Test
     void makeRoute() {
         //given
-        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new BoardPosition(5, 5));
-        BoardPosition futurePosition = new BoardPosition(3, 6);
+        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+        Position futurePosition = new Position(3, 6);
 
         //when
-        List<BoardPosition> actual = ma.makeRoute(futurePosition);
+        List<Position> actual = ma.makeRoute(futurePosition);
 
         //then
-        assertThat(actual).containsExactly(new BoardPosition(4, 5), new BoardPosition(3, 6));
+        assertThat(actual).containsExactly(new Position(4, 5), new Position(3, 6));
     }
 
     private static Stream<Arguments> maNonIsMovePositionProvider() {
-        return Stream.of(Arguments.of(new BoardPosition(3, 5)), Arguments.of(new BoardPosition(3, 3)),
-                Arguments.of(new BoardPosition(3, 7)), Arguments.of(new BoardPosition(5, 7)),
-                Arguments.of(new BoardPosition(3, 7)), Arguments.of(new BoardPosition(7, 7)),
-                Arguments.of(new BoardPosition(7, 5)), Arguments.of(new BoardPosition(7, 3)),
-                Arguments.of(new BoardPosition(5, 3)));
+        return Stream.of(Arguments.of(new Position(3, 5)), Arguments.of(new Position(3, 3)),
+                Arguments.of(new Position(3, 7)), Arguments.of(new Position(5, 7)),
+                Arguments.of(new Position(3, 7)), Arguments.of(new Position(7, 7)),
+                Arguments.of(new Position(7, 5)), Arguments.of(new Position(7, 3)),
+                Arguments.of(new Position(5, 3)));
     }
 
     private static Stream<Arguments> maIsMovePositionProvider() {
-        return Stream.of(Arguments.of(new BoardPosition(3, 4)), Arguments.of(new BoardPosition(3, 6)),
-                Arguments.of(new BoardPosition(4, 7)), Arguments.of(new BoardPosition(6, 7)),
-                Arguments.of(new BoardPosition(7, 6)), Arguments.of(new BoardPosition(7, 4)),
-                Arguments.of(new BoardPosition(6, 3)), Arguments.of(new BoardPosition(4, 3)));
+        return Stream.of(Arguments.of(new Position(3, 4)), Arguments.of(new Position(3, 6)),
+                Arguments.of(new Position(4, 7)), Arguments.of(new Position(6, 7)),
+                Arguments.of(new Position(7, 6)), Arguments.of(new Position(7, 4)),
+                Arguments.of(new Position(6, 3)), Arguments.of(new Position(4, 3)));
     }
 
 }

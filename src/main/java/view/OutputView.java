@@ -1,6 +1,6 @@
 package view;
 
-import chessPiece.BoardPosition;
+import chessPiece.Position;
 import chessPiece.Piece;
 import chessPiece.Nation;
 import java.util.Map;
@@ -13,19 +13,19 @@ public class OutputView {
     private static final String EMPTY_SPACE = "ㅤ";
     private static final String[][] JANGGIPAN = new String[10][9];
 
-    public void printJanggipan(Map<BoardPosition, Piece> board) {
+    public void printJanggipan(Map<Position, Piece> board) {
         System.out.println("ㅤ | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8");
         String[][] janggipan = JANGGIPAN;
         createJanggipan(board, janggipan);
         formatJanggipan(janggipan);
     }
 
-    private void createJanggipan(final Map<BoardPosition, Piece> board, final String[][] janggipan) {
-        for (BoardPosition boardPosition : board.keySet()) {
-            int x = boardPosition.getRow();
-            int y = boardPosition.getCol();
+    private void createJanggipan(final Map<Position, Piece> board, final String[][] janggipan) {
+        for (Position position : board.keySet()) {
+            int x = position.getRow();
+            int y = position.getCol();
 
-            Piece piece = board.get(boardPosition);
+            Piece piece = board.get(position);
             String name = piece.getName();
             if (piece.getPieceProfile().getNation().equals(Nation.HAN)) {
                 name = RED_COLOR_CODE + piece.getName() + EXIT_CODE;

@@ -4,14 +4,14 @@ import java.util.List;
 
 public class Sa extends Piece {
 
-    public Sa(final PieceProfile pieceProfile, final BoardPosition boardPosition) {
-        super(pieceProfile, boardPosition);
+    public Sa(final PieceProfile pieceProfile, final Position position) {
+        super(pieceProfile, position);
     }
 
     @Override
-    public boolean isMove(final BoardPosition boardPosition) {
-        int dx = getBoardPosition().getRow() - boardPosition.getRow();
-        int dy = getBoardPosition().getCol() - boardPosition.getCol();
+    public boolean isMove(final Position position) {
+        int dx = getBoardPosition().getRow() - position.getRow();
+        int dy = getBoardPosition().getCol() - position.getCol();
 
         if ((Math.abs(dx) == 1 && dy == 0) || (Math.abs(dy) == 1 && dx == 0)) {
             return true;
@@ -21,13 +21,13 @@ public class Sa extends Piece {
     }
 
     @Override
-    public List<BoardPosition> makeRoute(final BoardPosition boardPosition) {
-        return List.of(boardPosition);
+    public List<Position> makeRoute(final Position position) {
+        return List.of(position);
     }
 
     @Override
-    public void updateChessPiecePositionBy(BoardPosition boardPosition) {
-        this.boardPosition = boardPosition;
+    public void updateChessPiecePositionBy(Position position) {
+        this.position = position;
     }
 
 }

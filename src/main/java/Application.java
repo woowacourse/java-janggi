@@ -1,5 +1,5 @@
 import chessPiece.Board;
-import chessPiece.BoardPosition;
+import chessPiece.Position;
 import chessPiece.ChessPieceInitializer;
 import view.InputView;
 import view.OutputView;
@@ -15,8 +15,8 @@ public class Application {
         while (true) {
             try {
                 outputView.printJanggipan(board.getJanggiPan());
-                BoardPosition presentPosition = inputView.readPresentPick();
-                BoardPosition futurePosition = inputView.readFuturePick();
+                Position presentPosition = inputView.readPresentPick();
+                Position futurePosition = inputView.readFuturePick();
 
                 board.updateBoard(presentPosition, futurePosition);
             } catch (IllegalArgumentException e) {
