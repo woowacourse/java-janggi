@@ -32,6 +32,12 @@ public class OutputView {
         }
     }
 
+    public void printWinnerTeam(final Team winnerTeam) {
+        System.out.println();
+        System.out.println("게임 종료");
+        System.out.println("승리 팀은 " + winnerTeam.getTitle());
+    }
+
     private String createColorCode(final Team team) {
         if (team == Team.RED) {
             return RED;

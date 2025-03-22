@@ -35,6 +35,8 @@ public class JanggiController {
 
             janggi.processTurn(new SelectedPositions(selectBoardPosition, destinationBoardPosition));
         }
+
+        outputView.printWinnerTeam(janggi.findWinnerTeam());
     }
 
     public BoardPosition createBoardPosition(final String inputPosition) {
