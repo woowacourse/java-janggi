@@ -46,8 +46,11 @@ public class Janggi {
                 if (janggiBoard.isNotMyTeamPoint(movePoints.getFirst(), team)) {
                     throw new IllegalArgumentException("아군 장기말만 움직일 수 있습니다.");
                 }
-                isGameOver = janggiBoard.isCriticalPoint(movePoints.getLast()) &&
-                        janggiBoard.movePiece(movePoints.getFirst(), movePoints.getLast());
+                boolean isCriticalPoint = janggiBoard.isCriticalPoint(movePoints.getLast(), team);
+                boolean moveSuccess = janggiBoard.movePiece(movePoints.getFirst(), movePoints.getLast());
+                if (isCriticalPoint && moveSuccess) {
+                    isGameOver = true;
+                }
                 choTurn = !choTurn;
             } catch (IllegalArgumentException e) {
                 displayErrorMessage(e.getMessage());

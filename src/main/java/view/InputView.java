@@ -27,10 +27,10 @@ public class InputView {
         System.out.printf("%s 나라의 차례\n", team.getTeam());
         System.out.println("이동할 기물의 위치를 선택하세요. 입력 형식 : 가로(공백)세로 ex)1 2");
         List<Integer> beforePointInput = Arrays.stream(sc.nextLine().split(" ")).map(Integer::parseInt).toList();
-        Point beforePoint = Point.of(beforePointInput.get(0) - 1, beforePointInput.get(1) - 1);
+        Point beforePoint = Point.of(beforePointInput.getFirst() - 1, beforePointInput.getLast() - 1);
         System.out.println("이동될 위치를 선택하세요. 입력 형식 : 가로(공백)세로 ex)1 2");
         List<Integer> targetPointInput = Arrays.stream(sc.nextLine().split(" ")).map(Integer::parseInt).toList();
-        Point targetPoint = Point.of(targetPointInput.get(0) - 1, targetPointInput.get(1) - 1);
+        Point targetPoint = Point.of(targetPointInput.getFirst() - 1, targetPointInput.getLast() - 1);
 
         return List.of(beforePoint, targetPoint);
     }

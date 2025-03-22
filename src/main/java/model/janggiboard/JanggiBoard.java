@@ -56,8 +56,10 @@ public class JanggiBoard {
         return count;
     }
 
-    public boolean isCriticalPoint(Point targetPoint) {
-        return getDot(targetPoint).getPiece().isCriticalPiece();
+    public boolean isCriticalPoint(Point targetPoint, Team myTeam) {
+        return getDot(targetPoint).isPlaced()
+                && getDot(targetPoint).getPiece().isCriticalPiece()
+                && getDot(targetPoint).getPiece().getTeam() != myTeam;
     }
 
     public boolean movePiece(Point beforePoint, Point targetPoint) {
