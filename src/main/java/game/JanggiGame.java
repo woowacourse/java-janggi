@@ -57,9 +57,16 @@ public class JanggiGame {
     }
 
     public void validateBoardRange(Point point) {
-        if (point.y() < VERTICAL_START || point.y() > VERTICAL_END ||
-                point.x() < HORIZONTAL_START || point.x() > HORIZONTAL_END) {
+        if (isVerticalOutOfRange(point) || isHorizontalOutOfRange(point)) {
             throw new IllegalArgumentException(RANGE_EXCEED);
         }
+    }
+
+    private boolean isHorizontalOutOfRange(Point point) {
+        return point.x() < HORIZONTAL_START || point.x() > HORIZONTAL_END;
+    }
+
+    private boolean isVerticalOutOfRange(Point point) {
+        return point.y() < VERTICAL_START || point.y() > VERTICAL_END;
     }
 }
