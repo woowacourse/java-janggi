@@ -1,4 +1,4 @@
-package janggi.domain.piece.behavior.crossmove;
+package janggi.domain.piece.behavior.rotatemove;
 
 import janggi.domain.Board;
 import janggi.domain.Side;
@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class CrossMoveBehavior implements PieceBehavior {
+public abstract class RotateMoveBehavior implements PieceBehavior {
 
     @Override
     public final Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {

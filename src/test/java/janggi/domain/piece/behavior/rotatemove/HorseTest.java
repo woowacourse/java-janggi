@@ -1,4 +1,4 @@
-package janggi.domain.piece.behavior.crossmove;
+package janggi.domain.piece.behavior.rotatemove;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
