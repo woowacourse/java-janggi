@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.value.Position;
+import janggi.value.JanggiPosition;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -16,12 +16,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class MaTest {
 
-    static final Position STANDARD = new Position(4, 4);
+    static final JanggiPosition STANDARD = new JanggiPosition(4, 4);
 
     @DisplayName("장기말을 이동시킬 수 있다.")
     @ParameterizedTest
     @MethodSource()
-    void test1(Position destination) {
+    void test1(JanggiPosition destination) {
         //given
         Ma ma = Ma.from(STANDARD);
 
@@ -34,14 +34,14 @@ public class MaTest {
 
     static Stream<Arguments> test1() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.getX() + 2, STANDARD.getY() + 1)),
-                Arguments.of(new Position(STANDARD.getX() + 2, STANDARD.getY() - 1)),
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY() - 2)),
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY() + 2)),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY() - 2)),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY() + 2)),
-                Arguments.of(new Position(STANDARD.getX() - 2, STANDARD.getY() - 1)),
-                Arguments.of(new Position(STANDARD.getX() - 2, STANDARD.getY() + 1))
+                Arguments.of(new JanggiPosition(STANDARD.getX() + 2, STANDARD.getY() + 1)),
+                Arguments.of(new JanggiPosition(STANDARD.getX() + 2, STANDARD.getY() - 1)),
+                Arguments.of(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY() - 2)),
+                Arguments.of(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY() + 2)),
+                Arguments.of(new JanggiPosition(STANDARD.getX() - 1, STANDARD.getY() - 2)),
+                Arguments.of(new JanggiPosition(STANDARD.getX() - 1, STANDARD.getY() + 2)),
+                Arguments.of(new JanggiPosition(STANDARD.getX() - 2, STANDARD.getY() - 1)),
+                Arguments.of(new JanggiPosition(STANDARD.getX() - 2, STANDARD.getY() + 1))
         );
     }
 
@@ -49,7 +49,7 @@ public class MaTest {
     @DisplayName("장기말의 이동 규칙에 어긋난 경우 이동이 불가능합니다.")
     @ParameterizedTest
     @MethodSource()
-    void test2(Position destination) {
+    void test2(JanggiPosition destination) {
         //given
         Ma ma = Ma.from(STANDARD);
 
@@ -61,10 +61,10 @@ public class MaTest {
 
     static Stream<Arguments> test2() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY() + 1)),
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY() - 1)),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY() + 1)),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY() - 1))
+                Arguments.of(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY() + 1)),
+                Arguments.of(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY() - 1)),
+                Arguments.of(new JanggiPosition(STANDARD.getX() - 1, STANDARD.getY() + 1)),
+                Arguments.of(new JanggiPosition(STANDARD.getX() - 1, STANDARD.getY() - 1))
         );
     }
 
@@ -73,15 +73,15 @@ public class MaTest {
     void test4() {
         //given
         Ma ma = Ma.from(STANDARD);
-        Position hurdlePosition = new Position(5, 4);
-        Ma hurdle = Ma.from(hurdlePosition);
+        JanggiPosition hurdleJanggiPosition = new JanggiPosition(5, 4);
+        Ma hurdle = Ma.from(hurdleJanggiPosition);
 
         //when & then
         assertAll(
-                () -> assertThatThrownBy(() -> ma.move(new Position(6, 3), List.of(), List.of(hurdle)))
+                () -> assertThatThrownBy(() -> ma.move(new JanggiPosition(6, 3), List.of(), List.of(hurdle)))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다."),
-                () -> assertThatThrownBy(() -> ma.move(new Position(6, 5), List.of(), List.of(hurdle)))
+                () -> assertThatThrownBy(() -> ma.move(new JanggiPosition(6, 5), List.of(), List.of(hurdle)))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다.")
         );
@@ -92,7 +92,7 @@ public class MaTest {
     void test5() {
         //given
         Ma ma = Ma.from(STANDARD);
-        Position hurdle = new Position(6, 3);
+        JanggiPosition hurdle = new JanggiPosition(6, 3);
 
         //when & then
         assertThatThrownBy(() -> ma.move(hurdle, List.of(), List.of(Ma.from(hurdle))))
@@ -105,15 +105,15 @@ public class MaTest {
     void test6() {
         //given
         Ma ma = Ma.from(STANDARD);
-        Position hurdlePosition = new Position(5, 4);
-        Ma hurdle = Ma.from(hurdlePosition);
+        JanggiPosition hurdleJanggiPosition = new JanggiPosition(5, 4);
+        Ma hurdle = Ma.from(hurdleJanggiPosition);
 
         //when & then
         assertAll(
-                () -> assertThatThrownBy(() -> ma.move(new Position(6, 3), List.of(hurdle), List.of()))
+                () -> assertThatThrownBy(() -> ma.move(new JanggiPosition(6, 3), List.of(hurdle), List.of()))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다."),
-                () -> assertThatThrownBy(() -> ma.move(new Position(6, 5), List.of(hurdle), List.of()))
+                () -> assertThatThrownBy(() -> ma.move(new JanggiPosition(6, 5), List.of(hurdle), List.of()))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다.")
         );
@@ -124,7 +124,7 @@ public class MaTest {
     void test7() {
         //given
         Ma ma = Ma.from(STANDARD);
-        Position hurdle = new Position(6, 3);
+        JanggiPosition hurdle = new JanggiPosition(6, 3);
 
         //when
         Ma movedMa = ma.move(hurdle, List.of(Ma.from(hurdle)), List.of());

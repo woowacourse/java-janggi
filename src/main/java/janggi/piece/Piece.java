@@ -1,21 +1,21 @@
 package janggi.piece;
 
-import janggi.value.Position;
+import janggi.value.JanggiPosition;
 import java.util.List;
 
 public abstract class Piece {
 
     private final PieceType pieceType;
-    private final Position position;
+    private final JanggiPosition janggiPosition;
 
-    protected Piece(final PieceType pieceType, final Position position) {
+    protected Piece(final PieceType pieceType, final JanggiPosition janggiPosition) {
         this.pieceType = pieceType;
-        this.position = position;
+        this.janggiPosition = janggiPosition;
     }
 
-    abstract public Piece move(final Position destination, List<Piece> enemy, List<Piece> allies);
+    abstract public Piece move(final JanggiPosition destination, List<Piece> enemy, List<Piece> allies);
 
-    abstract protected boolean ableToMove(final Position destination, List<Piece> enemy, List<Piece> allies);
+    abstract protected boolean ableToMove(final JanggiPosition destination, List<Piece> enemy, List<Piece> allies);
 
     public PieceType getPieceType() {
         return pieceType;
@@ -25,7 +25,7 @@ public abstract class Piece {
         return this.pieceType == pieceType;
     }
 
-    public Position getPosition() {
-        return position;
+    public JanggiPosition getPosition() {
+        return janggiPosition;
     }
 }

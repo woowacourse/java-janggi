@@ -1,28 +1,28 @@
 package janggi.piece;
 
 import janggi.setting.CampType;
-import janggi.value.Position;
+import janggi.value.JanggiPosition;
 import java.util.List;
 
 public class Ma extends Piece {
 
-    private Ma(final Position position) {
-        super(PieceType.MA, position);
+    private Ma(final JanggiPosition janggiPosition) {
+        super(PieceType.MA, janggiPosition);
     }
 
-    public static Ma from(final Position position) {
-        return new Ma(position);
+    public static Ma from(final JanggiPosition janggiPosition) {
+        return new Ma(janggiPosition);
     }
 
     public static List<Ma> generateInitialMas(final CampType campType, final List<Integer> xPositions) {
         int yPosition = Math.abs(campType.getStartYPosition() - PieceType.MA.getHeight());
         return xPositions.stream()
-                .map(xPosition -> new Ma(new Position(xPosition, yPosition)))
+                .map(xPosition -> new Ma(new JanggiPosition(xPosition, yPosition)))
                 .toList();
     }
 
     @Override
-    public Ma move(Position destination, List<Piece> enemy, List<Piece> allies) {
+    public Ma move(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
         boolean isAble = ableToMove(destination, enemy, allies);
         if (!isAble) {
             throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
@@ -31,7 +31,7 @@ public class Ma extends Piece {
     }
 
     @Override
-    public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
+    public boolean ableToMove(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
         MaDirection maDirection = MaDirection.of(getPosition(), destination);
         if (maDirection == MaDirection.NONE) {
             return false;

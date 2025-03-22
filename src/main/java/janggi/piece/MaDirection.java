@@ -1,32 +1,32 @@
 package janggi.piece;
 
-import janggi.value.Position;
+import janggi.value.JanggiPosition;
 import java.util.List;
 
 public enum MaDirection {
-    LEFT(new Position(-1, 0), List.of(new Position(-2, -1), new Position(-2, 1))),
-    RIGHT(new Position(1, 0), List.of(new Position(2, -1), new Position(2, 1))),
-    UP(new Position(0, -1), List.of(new Position(-1, -2), new Position(1, -2))),
-    DOWN(new Position(0, 1), List.of(new Position(-1, 2), new Position(1, 2))),
-    NONE(new Position(0, 0), List.of()),
+    LEFT(new JanggiPosition(-1, 0), List.of(new JanggiPosition(-2, -1), new JanggiPosition(-2, 1))),
+    RIGHT(new JanggiPosition(1, 0), List.of(new JanggiPosition(2, -1), new JanggiPosition(2, 1))),
+    UP(new JanggiPosition(0, -1), List.of(new JanggiPosition(-1, -2), new JanggiPosition(1, -2))),
+    DOWN(new JanggiPosition(0, 1), List.of(new JanggiPosition(-1, 2), new JanggiPosition(1, 2))),
+    NONE(new JanggiPosition(0, 0), List.of()),
     ;
 
-    private final Position route;
-    private final List<Position> destinationPositions;
+    private final JanggiPosition route;
+    private final List<JanggiPosition> destinationJanggiPositions;
 
-    MaDirection(final Position route, final List<Position> destinationPositions) {
+    MaDirection(final JanggiPosition route, final List<JanggiPosition> destinationJanggiPositions) {
         this.route = route;
-        this.destinationPositions = destinationPositions;
+        this.destinationJanggiPositions = destinationJanggiPositions;
     }
 
-    public static MaDirection of(final Position current, final Position destination) {
+    public static MaDirection of(final JanggiPosition current, final JanggiPosition destination) {
         int xDistance = destination.getX() - current.getX();
         int yDistance = destination.getY() - current.getY();
 
         for (MaDirection maDirection : MaDirection.values()) {
-            List<Position> destinationPositions = maDirection.destinationPositions;
-            boolean isValidDirection = destinationPositions.stream()
-                    .anyMatch(position -> position.equals(new Position(xDistance, yDistance)));
+            List<JanggiPosition> destinationJanggiPositions = maDirection.destinationJanggiPositions;
+            boolean isValidDirection = destinationJanggiPositions.stream()
+                    .anyMatch(position -> position.equals(new JanggiPosition(xDistance, yDistance)));
 
             if (isValidDirection) {
                 return maDirection;
@@ -35,9 +35,9 @@ public enum MaDirection {
         return NONE;
     }
 
-    public boolean isDirectRoute(Position current, Position position) {
-        Position newPosition = new Position(current.getX() + route.getX(), current.getY() + route.getY());
-        return newPosition.equals(position);
+    public boolean isDirectRoute(JanggiPosition current, JanggiPosition janggiPosition) {
+        JanggiPosition newJanggiPosition = new JanggiPosition(current.getX() + route.getX(), current.getY() + route.getY());
+        return newJanggiPosition.equals(janggiPosition);
     }
 
 }

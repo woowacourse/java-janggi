@@ -7,7 +7,7 @@ import janggi.fixture.PiecePositionFixture;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.setting.AssignType;
-import janggi.value.Position;
+import janggi.value.JanggiPosition;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -21,112 +21,112 @@ public class JanggiBoardTest {
     @DisplayName("초의 마 초기배치를 할 수 있다.")
     @ParameterizedTest
     @MethodSource()
-    void test1(AssignType assignType, List<Position> maPositions) {
+    void test1(AssignType assignType, List<JanggiPosition> maJanggiPositions) {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(assignType, AssignType.LEFT_SANG);
 
         //when
         List<Piece> choWorldPieces = janggiBoard.getChoPieces();
 
-        List<Position> maPiecePositions = choWorldPieces.stream()
+        List<JanggiPosition> maPieceJanggiPositions = choWorldPieces.stream()
                 .filter(piece -> piece.getPieceType() == PieceType.MA)
                 .map(Piece::getPosition)
                 .toList();
 
         //then
-        assertThat(maPiecePositions).containsExactlyInAnyOrderElementsOf(maPositions);
+        assertThat(maPieceJanggiPositions).containsExactlyInAnyOrderElementsOf(maJanggiPositions);
     }
 
     private static Stream<Arguments> test1() {
         return Stream.of(
-                Arguments.of(AssignType.IN_SANG, List.of(new Position(1, 9), new Position(7, 9))),
-                Arguments.of(AssignType.LEFT_SANG, List.of(new Position(2, 9), new Position(7, 9))),
-                Arguments.of(AssignType.OUT_SANG, List.of(new Position(2, 9), new Position(6, 9))),
-                Arguments.of(AssignType.RIGHT_SANG, List.of(new Position(1, 9), new Position(6, 9)))
+                Arguments.of(AssignType.IN_SANG, List.of(new JanggiPosition(1, 9), new JanggiPosition(7, 9))),
+                Arguments.of(AssignType.LEFT_SANG, List.of(new JanggiPosition(2, 9), new JanggiPosition(7, 9))),
+                Arguments.of(AssignType.OUT_SANG, List.of(new JanggiPosition(2, 9), new JanggiPosition(6, 9))),
+                Arguments.of(AssignType.RIGHT_SANG, List.of(new JanggiPosition(1, 9), new JanggiPosition(6, 9)))
         );
     }
 
     @DisplayName("초의 상 초기배치를 할 수 있다.")
     @ParameterizedTest
     @MethodSource()
-    void test2(AssignType assignType, List<Position> sangPositions) {
+    void test2(AssignType assignType, List<JanggiPosition> sangJanggiPositions) {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(assignType, AssignType.LEFT_SANG);
 
         //when
         List<Piece> choWorldPieces = janggiBoard.getChoPieces();
 
-        List<Position> sangPiecePositions = choWorldPieces.stream()
+        List<JanggiPosition> sangPieceJanggiPositions = choWorldPieces.stream()
                 .filter(piece -> piece.getPieceType() == PieceType.SANG)
                 .map(Piece::getPosition)
                 .toList();
 
         //then
-        assertThat(sangPiecePositions).containsExactlyInAnyOrderElementsOf(sangPositions);
+        assertThat(sangPieceJanggiPositions).containsExactlyInAnyOrderElementsOf(sangJanggiPositions);
     }
 
     private static Stream<Arguments> test2() {
         return Stream.of(
-                Arguments.of(AssignType.IN_SANG, List.of(new Position(2, 9), new Position(6, 9))),
-                Arguments.of(AssignType.LEFT_SANG, List.of(new Position(1, 9), new Position(6, 9))),
-                Arguments.of(AssignType.OUT_SANG, List.of(new Position(1, 9), new Position(7, 9))),
-                Arguments.of(AssignType.RIGHT_SANG, List.of(new Position(2, 9), new Position(7, 9)))
+                Arguments.of(AssignType.IN_SANG, List.of(new JanggiPosition(2, 9), new JanggiPosition(6, 9))),
+                Arguments.of(AssignType.LEFT_SANG, List.of(new JanggiPosition(1, 9), new JanggiPosition(6, 9))),
+                Arguments.of(AssignType.OUT_SANG, List.of(new JanggiPosition(1, 9), new JanggiPosition(7, 9))),
+                Arguments.of(AssignType.RIGHT_SANG, List.of(new JanggiPosition(2, 9), new JanggiPosition(7, 9)))
         );
     }
 
     @DisplayName("한의 마 초기배치를 할 수 있다.")
     @ParameterizedTest
     @MethodSource()
-    void test3(AssignType assignType, List<Position> maPositions) {
+    void test3(AssignType assignType, List<JanggiPosition> maJanggiPositions) {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(AssignType.RIGHT_SANG, assignType);
 
         //when
         List<Piece> hanWorldPieces = janggiBoard.getHanPieces();
 
-        List<Position> maPiecePositions = hanWorldPieces.stream()
+        List<JanggiPosition> maPieceJanggiPositions = hanWorldPieces.stream()
                 .filter(piece -> piece.getPieceType() == PieceType.MA)
                 .map(Piece::getPosition)
                 .toList();
 
         //then
-        assertThat(maPiecePositions).containsExactlyInAnyOrderElementsOf(maPositions);
+        assertThat(maPieceJanggiPositions).containsExactlyInAnyOrderElementsOf(maJanggiPositions);
     }
 
     private static Stream<Arguments> test3() {
         return Stream.of(
-                Arguments.of(AssignType.IN_SANG, List.of(new Position(1, 0), new Position(7, 0))),
-                Arguments.of(AssignType.LEFT_SANG, List.of(new Position(2, 0), new Position(7, 0))),
-                Arguments.of(AssignType.OUT_SANG, List.of(new Position(2, 0), new Position(6, 0))),
-                Arguments.of(AssignType.RIGHT_SANG, List.of(new Position(1, 0), new Position(6, 0)))
+                Arguments.of(AssignType.IN_SANG, List.of(new JanggiPosition(1, 0), new JanggiPosition(7, 0))),
+                Arguments.of(AssignType.LEFT_SANG, List.of(new JanggiPosition(2, 0), new JanggiPosition(7, 0))),
+                Arguments.of(AssignType.OUT_SANG, List.of(new JanggiPosition(2, 0), new JanggiPosition(6, 0))),
+                Arguments.of(AssignType.RIGHT_SANG, List.of(new JanggiPosition(1, 0), new JanggiPosition(6, 0)))
         );
     }
 
     @DisplayName("한의 상 초기배치를 할 수 있다.")
     @ParameterizedTest
     @MethodSource()
-    void test4(AssignType assignType, List<Position> sangPositions) {
+    void test4(AssignType assignType, List<JanggiPosition> sangJanggiPositions) {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(AssignType.RIGHT_SANG, assignType);
 
         //when
         List<Piece> hanWorldPieces = janggiBoard.getHanPieces();
 
-        List<Position> sangPiecePositions = hanWorldPieces.stream()
+        List<JanggiPosition> sangPieceJanggiPositions = hanWorldPieces.stream()
                 .filter(piece -> piece.getPieceType() == PieceType.SANG)
                 .map(Piece::getPosition)
                 .toList();
 
         //then
-        assertThat(sangPiecePositions).containsExactlyInAnyOrderElementsOf(sangPositions);
+        assertThat(sangPieceJanggiPositions).containsExactlyInAnyOrderElementsOf(sangJanggiPositions);
     }
 
     private static Stream<Arguments> test4() {
         return Stream.of(
-                Arguments.of(AssignType.IN_SANG, List.of(new Position(2, 0), new Position(6, 0))),
-                Arguments.of(AssignType.LEFT_SANG, List.of(new Position(1, 0), new Position(6, 0))),
-                Arguments.of(AssignType.OUT_SANG, List.of(new Position(1, 0), new Position(7, 0))),
-                Arguments.of(AssignType.RIGHT_SANG, List.of(new Position(2, 0), new Position(7, 0)))
+                Arguments.of(AssignType.IN_SANG, List.of(new JanggiPosition(2, 0), new JanggiPosition(6, 0))),
+                Arguments.of(AssignType.LEFT_SANG, List.of(new JanggiPosition(1, 0), new JanggiPosition(6, 0))),
+                Arguments.of(AssignType.OUT_SANG, List.of(new JanggiPosition(1, 0), new JanggiPosition(7, 0))),
+                Arguments.of(AssignType.RIGHT_SANG, List.of(new JanggiPosition(2, 0), new JanggiPosition(7, 0)))
         );
     }
 
@@ -139,20 +139,20 @@ public class JanggiBoardTest {
         //when
         List<Piece> choWorldPieces = janggiBoard.getChoPieces();
 
-        getPositions(PieceType.CHA, PiecePositionFixture.CHA_POSITIONS, choWorldPieces);
-        getPositions(PieceType.GUNG, PiecePositionFixture.GUNG_POSITIONS, choWorldPieces);
-        getPositions(PieceType.SA, PiecePositionFixture.SA_POSITIONS, choWorldPieces);
-        getPositions(PieceType.JOL, PiecePositionFixture.JOL_POSITIONS, choWorldPieces);
-        getPositions(PieceType.PO, PiecePositionFixture.PO_POSITIONS, choWorldPieces);
+        getPositions(PieceType.CHA, PiecePositionFixture.CHA_JANGGI_POSITIONS, choWorldPieces);
+        getPositions(PieceType.GUNG, PiecePositionFixture.GUNG_JANGGI_POSITIONS, choWorldPieces);
+        getPositions(PieceType.SA, PiecePositionFixture.SA_JANGGI_POSITIONS, choWorldPieces);
+        getPositions(PieceType.JOL, PiecePositionFixture.JOL_JANGGI_POSITIONS, choWorldPieces);
+        getPositions(PieceType.PO, PiecePositionFixture.PO_JANGGI_POSITIONS, choWorldPieces);
     }
 
-    private void getPositions(PieceType pieceType, List<Position> positions, List<Piece> pieces) {
-        List<Position> maPiecePositions = pieces.stream()
+    private void getPositions(PieceType pieceType, List<JanggiPosition> janggiPositions, List<Piece> pieces) {
+        List<JanggiPosition> maPieceJanggiPositions = pieces.stream()
                 .filter(piece -> piece.getPieceType() == pieceType)
                 .map(Piece::getPosition)
                 .toList();
-        assertThat(maPiecePositions)
-                .containsExactlyInAnyOrderElementsOf(positions);
+        assertThat(maPieceJanggiPositions)
+                .containsExactlyInAnyOrderElementsOf(janggiPositions);
     }
 
 }

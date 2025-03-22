@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.setting.CampType;
-import janggi.value.Position;
+import janggi.value.JanggiPosition;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -16,12 +16,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class JolTest {
 
-    static final Position STANDARD = new Position(4, 4);
+    static final JanggiPosition STANDARD = new JanggiPosition(4, 4);
 
     @DisplayName("초의 장기말을 이동시킬 수 있다.")
     @ParameterizedTest
     @MethodSource()
-    void test1(Position destination) {
+    void test1(JanggiPosition destination) {
         //given
         Jol jol = Jol.from(STANDARD, CampType.CHO);
 
@@ -34,16 +34,16 @@ class JolTest {
 
     static Stream<Arguments> test1() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() - 1))
+                Arguments.of(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY())),
+                Arguments.of(new JanggiPosition(STANDARD.getX() - 1, STANDARD.getY())),
+                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() - 1))
         );
     }
 
     @DisplayName("한의 장기말을 이동시킬 수 있다.")
     @ParameterizedTest
     @MethodSource()
-    void test2(Position destination) {
+    void test2(JanggiPosition destination) {
         //given
         Jol jol = Jol.from(STANDARD, CampType.HAN);
 
@@ -56,9 +56,9 @@ class JolTest {
 
     static Stream<Arguments> test2() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() + 1))
+                Arguments.of(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY())),
+                Arguments.of(new JanggiPosition(STANDARD.getX() - 1, STANDARD.getY())),
+                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() + 1))
         );
     }
 
@@ -66,7 +66,7 @@ class JolTest {
     @DisplayName("장기말의 이동 규칙에 어긋난 경우 이동이 불가능합니다.")
     @ParameterizedTest
     @MethodSource()
-    void test3(Position destination) {
+    void test3(JanggiPosition destination) {
         //given
         Jol jol = Jol.from(STANDARD, CampType.CHO);
 
@@ -78,9 +78,9 @@ class JolTest {
 
     static Stream<Arguments> test3() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.getX() + 2, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX() - 2, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() - 2))
+                Arguments.of(new JanggiPosition(STANDARD.getX() + 2, STANDARD.getY())),
+                Arguments.of(new JanggiPosition(STANDARD.getX() - 2, STANDARD.getY())),
+                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() - 2))
         );
     }
 
@@ -89,7 +89,7 @@ class JolTest {
     void test4() {
         //given
         Jol jol = Jol.from(STANDARD, CampType.CHO);
-        Position destination = new Position(4, 3);
+        JanggiPosition destination = new JanggiPosition(4, 3);
         Jol otherPiece = Jol.from(destination, CampType.CHO);
 
         //when & then
@@ -103,7 +103,7 @@ class JolTest {
     void test5() {
         //given
         Jol jol = Jol.from(STANDARD, CampType.CHO);
-        Position destination = new Position(4, 3);
+        JanggiPosition destination = new JanggiPosition(4, 3);
         Jol otherPiece = Jol.from(destination, CampType.CHO);
 
         //when

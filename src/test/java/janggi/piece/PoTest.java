@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.setting.CampType;
-import janggi.value.Position;
+import janggi.value.JanggiPosition;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -15,15 +15,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class PoTest {
 
-    static final Position STANDARD = new Position(4, 4);
+    static final JanggiPosition STANDARD = new JanggiPosition(4, 4);
 
     @DisplayName("장기말을 이동시킬 수 있다.")
     @ParameterizedTest
     @MethodSource()
-    void test1(Position jumpPadPosition, Position destination) {
+    void test1(JanggiPosition jumpPadJanggiPosition, JanggiPosition destination) {
         //given
         Po po = Po.from(STANDARD);
-        Jol jumpPad = Jol.from(jumpPadPosition, CampType.CHO);
+        Jol jumpPad = Jol.from(jumpPadJanggiPosition, CampType.CHO);
 
         //when
         Po movedPo = po.move(destination, List.of(), List.of(jumpPad));
@@ -34,17 +34,17 @@ class PoTest {
 
     static Stream<Arguments> test1() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY()), new Position(8, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY()), new Position(0, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() + 1), new Position(STANDARD.getX(), 9)),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() - 1), new Position(STANDARD.getX(), 0))
+                Arguments.of(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY()), new JanggiPosition(8, STANDARD.getY())),
+                Arguments.of(new JanggiPosition(STANDARD.getX() - 1, STANDARD.getY()), new JanggiPosition(0, STANDARD.getY())),
+                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() + 1), new JanggiPosition(STANDARD.getX(), 9)),
+                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() - 1), new JanggiPosition(STANDARD.getX(), 0))
         );
     }
 
     @DisplayName("장기말의 경로상에 점프대가 없는 경우 이동할 수 없다")
     @ParameterizedTest
     @MethodSource()
-    void test2(Position destination) {
+    void test2(JanggiPosition destination) {
         //given
         Po po = Po.from(STANDARD);
 
@@ -56,20 +56,20 @@ class PoTest {
 
     static Stream<Arguments> test2() {
         return Stream.of(
-                Arguments.of(new Position(8, STANDARD.getY())),
-                Arguments.of(new Position(0, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX(), 0)),
-                Arguments.of(new Position(STANDARD.getX(), 9))
+                Arguments.of(new JanggiPosition(8, STANDARD.getY())),
+                Arguments.of(new JanggiPosition(0, STANDARD.getY())),
+                Arguments.of(new JanggiPosition(STANDARD.getX(), 0)),
+                Arguments.of(new JanggiPosition(STANDARD.getX(), 9))
         );
     }
 
     @DisplayName("장기말의 경로상에 아군 포가 있는 경우 이동할 수 없다")
     @ParameterizedTest
     @MethodSource()
-    void test3(Position poPosition, Position destination) {
+    void test3(JanggiPosition poJanggiPosition, JanggiPosition destination) {
         //given
         Po po = Po.from(STANDARD);
-        Po jumpPad = Po.from(poPosition);
+        Po jumpPad = Po.from(poJanggiPosition);
 
         //when & then
         assertThatThrownBy(() -> po.move(destination, List.of(), List.of(jumpPad)))
@@ -79,20 +79,20 @@ class PoTest {
 
     static Stream<Arguments> test3() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY()), new Position(8, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY()), new Position(0, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() + 1), new Position(STANDARD.getX(), 0)),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() - 1), new Position(STANDARD.getX(), 9))
+                Arguments.of(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY()), new JanggiPosition(8, STANDARD.getY())),
+                Arguments.of(new JanggiPosition(STANDARD.getX() - 1, STANDARD.getY()), new JanggiPosition(0, STANDARD.getY())),
+                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() + 1), new JanggiPosition(STANDARD.getX(), 0)),
+                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() - 1), new JanggiPosition(STANDARD.getX(), 9))
         );
     }
 
     @DisplayName("장기말의 경로상에 적군 포가 있는 경우 이동할 수 없다")
     @ParameterizedTest
     @MethodSource()
-    void test4(Position poPosition, Position destination) {
+    void test4(JanggiPosition poJanggiPosition, JanggiPosition destination) {
         //given
         Po po = Po.from(STANDARD);
-        Po jumpPad = Po.from(poPosition);
+        Po jumpPad = Po.from(poJanggiPosition);
 
         //when & then
         assertThatThrownBy(() -> po.move(destination, List.of(jumpPad), List.of()))
@@ -102,10 +102,10 @@ class PoTest {
 
     static Stream<Arguments> test4() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.getX() + 1, STANDARD.getY()), new Position(8, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX() - 1, STANDARD.getY()), new Position(0, STANDARD.getY())),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() + 1), new Position(STANDARD.getX(), 0)),
-                Arguments.of(new Position(STANDARD.getX(), STANDARD.getY() - 1), new Position(STANDARD.getX(), 9))
+                Arguments.of(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY()), new JanggiPosition(8, STANDARD.getY())),
+                Arguments.of(new JanggiPosition(STANDARD.getX() - 1, STANDARD.getY()), new JanggiPosition(0, STANDARD.getY())),
+                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() + 1), new JanggiPosition(STANDARD.getX(), 0)),
+                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() - 1), new JanggiPosition(STANDARD.getX(), 9))
         );
     }
 
@@ -113,10 +113,10 @@ class PoTest {
     @DisplayName("장기말의 경로상에 적군과 아군 상관없이 점프대가 2개이상인 경우 이동할 수 없다")
     @ParameterizedTest
     @MethodSource()
-    void test5(List<Position> jumpPadPositions, Position destination) {
+    void test5(List<JanggiPosition> jumpPadJanggiPositions, JanggiPosition destination) {
         //given
         Po po = Po.from(STANDARD);
-        List<Jol> jumpPads = jumpPadPositions.stream()
+        List<Jol> jumpPads = jumpPadJanggiPositions.stream()
                 .map(position -> Jol.from(position, CampType.CHO))
                 .toList();
 
@@ -129,21 +129,21 @@ class PoTest {
     static Stream<Arguments> test5() {
         return Stream.of(
                 Arguments.of(
-                        List.of(new Position(STANDARD.getX() + 1, STANDARD.getY()),
-                                new Position(STANDARD.getX() + 2, STANDARD.getY())),
-                        new Position(8, STANDARD.getY())),
+                        List.of(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY()),
+                                new JanggiPosition(STANDARD.getX() + 2, STANDARD.getY())),
+                        new JanggiPosition(8, STANDARD.getY())),
                 Arguments.of(
-                        List.of(new Position(STANDARD.getX() - 1, STANDARD.getY()),
-                                new Position(STANDARD.getX() - 2, STANDARD.getY())),
-                        new Position(0, STANDARD.getY())),
+                        List.of(new JanggiPosition(STANDARD.getX() - 1, STANDARD.getY()),
+                                new JanggiPosition(STANDARD.getX() - 2, STANDARD.getY())),
+                        new JanggiPosition(0, STANDARD.getY())),
                 Arguments.of(
-                        List.of(new Position(STANDARD.getX(), STANDARD.getY() + 1),
-                                new Position(STANDARD.getX(), STANDARD.getY() + 2)),
-                        new Position(STANDARD.getX(), 0)),
+                        List.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() + 1),
+                                new JanggiPosition(STANDARD.getX(), STANDARD.getY() + 2)),
+                        new JanggiPosition(STANDARD.getX(), 0)),
                 Arguments.of(
-                        List.of(new Position(STANDARD.getX(), STANDARD.getY() - 1),
-                                new Position(STANDARD.getX(), STANDARD.getY() - 2)),
-                        new Position(STANDARD.getX(), 9))
+                        List.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() - 1),
+                                new JanggiPosition(STANDARD.getX(), STANDARD.getY() - 2)),
+                        new JanggiPosition(STANDARD.getX(), 9))
         );
     }
 
@@ -152,7 +152,7 @@ class PoTest {
     void test6() {
         //given
         Po po = Po.from(STANDARD);
-        Position destination = new Position(8, STANDARD.getY());
+        JanggiPosition destination = new JanggiPosition(8, STANDARD.getY());
         Jol jumpPad = Jol.from(destination, CampType.CHO);
 
         //when & then
@@ -166,8 +166,8 @@ class PoTest {
     void test7() {
         //given
         Po po = Po.from(STANDARD);
-        Jol jumpPad = Jol.from(new Position(STANDARD.getX() + 1, STANDARD.getY()), CampType.CHO);
-        Position destination = new Position(8, STANDARD.getY());
+        Jol jumpPad = Jol.from(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY()), CampType.CHO);
+        JanggiPosition destination = new JanggiPosition(8, STANDARD.getY());
 
         //when
         Po movedPo = po.move(destination, List.of(jumpPad), List.of());
@@ -181,7 +181,7 @@ class PoTest {
     void test8() {
         //given
         Po po = Po.from(STANDARD);
-        Position destination = new Position(5, 7);
+        JanggiPosition destination = new JanggiPosition(5, 7);
 
         //when & then
         assertThatThrownBy(() -> po.move(destination, List.of(), List.of()))

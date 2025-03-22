@@ -2,7 +2,7 @@ package janggi.view;
 
 import janggi.setting.AssignType;
 import janggi.setting.CampType;
-import janggi.value.Position;
+import janggi.value.JanggiPosition;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,7 +23,7 @@ public class InputView {
         return assignType;
     }
 
-    public Position readMovedPiecePosition() {
+    public JanggiPosition readMovedPiecePosition() {
         System.out.println("이동할 장기말의 좌표 입력해주세요.");
         String line = scanner.nextLine();
         List<String> positionInput = List.of(line.split(","));
@@ -31,10 +31,10 @@ public class InputView {
         int y = Integer.parseInt(positionInput.getLast());
         
         System.out.println();
-        return new Position(x, y);
+        return new JanggiPosition(x, y);
     }
 
-    public Position readDestinationPosition() {
+    public JanggiPosition readDestinationPosition() {
         System.out.println("목적지 좌표를 입력해주세요.");
         String line = scanner.nextLine();
         List<String> positionInput = List.of(line.split(","));
@@ -42,6 +42,6 @@ public class InputView {
         int y = Integer.parseInt(positionInput.getLast());
 
         System.out.println();
-        return new Position(x, y);
+        return new JanggiPosition(x, y);
     }
 }

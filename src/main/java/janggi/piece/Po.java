@@ -1,30 +1,30 @@
 package janggi.piece;
 
 import janggi.setting.CampType;
-import janggi.value.Position;
+import janggi.value.JanggiPosition;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class Po extends Piece {
 
-    private Po(final Position position) {
-        super(PieceType.PO, position);
+    private Po(final JanggiPosition janggiPosition) {
+        super(PieceType.PO, janggiPosition);
     }
 
-    public static Po from(final Position position) {
-        return new Po(position);
+    public static Po from(final JanggiPosition janggiPosition) {
+        return new Po(janggiPosition);
     }
 
     public static List<Po> generateInitialPos(final CampType campType) {
         int yPosition = Math.abs(campType.getStartYPosition() - PieceType.PO.getHeight());
         return PieceType.PO.getDefaultXPositions().stream()
-                .map(xPosition -> new Po(new Position(xPosition, yPosition)))
+                .map(xPosition -> new Po(new JanggiPosition(xPosition, yPosition)))
                 .toList();
     }
 
     @Override
-    public Po move(final Position destination, final List<Piece> enemy, final List<Piece> allies) {
+    public Po move(final JanggiPosition destination, final List<Piece> enemy, final List<Piece> allies) {
         boolean isAble = ableToMove(destination, enemy, allies);
         if (!isAble) {
             throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
@@ -33,7 +33,7 @@ public class Po extends Piece {
     }
 
     @Override
-    public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
+    public boolean ableToMove(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
         //목적지 일직선 상에 있는지 있다면 리턴 false
         if (!isRuleOfMove(destination)) {
             return false;
@@ -45,13 +45,13 @@ public class Po extends Piece {
         }
 
         //현재 위치와 목적지(미포함) 사이에 좌표리스트 계산
-        List<Position> pathPositions = calculatePositions(destination);
+        List<JanggiPosition> pathJanggiPositions = calculatePositions(destination);
 
         //좌표리스트 아군 검색
-        List<Piece> alliesInPath = searchPieceInPath(allies, pathPositions);
+        List<Piece> alliesInPath = searchPieceInPath(allies, pathJanggiPositions);
 
         //좌표리스트 적군 검색
-        List<Piece> enemyInPath = searchPieceInPath(enemy, pathPositions);
+        List<Piece> enemyInPath = searchPieceInPath(enemy, pathJanggiPositions);
         
         //아군이나 적군이 없다면 리턴 false
         if (alliesInPath.isEmpty() && enemyInPath.isEmpty()) {
@@ -79,44 +79,44 @@ public class Po extends Piece {
                 .count();
     }
 
-    private static List<Piece> searchPieceInPath(List<Piece> allies, List<Position> pathPositions) {
+    private static List<Piece> searchPieceInPath(List<Piece> allies, List<JanggiPosition> pathJanggiPositions) {
         List<Piece> alliesInPath = new ArrayList<>();
-        for (Position pathPosition : pathPositions) {
+        for (JanggiPosition pathJanggiPosition : pathJanggiPositions) {
             allies.stream()
-                    .filter(alliesPiece -> alliesPiece.getPosition().equals(pathPosition))
+                    .filter(alliesPiece -> alliesPiece.getPosition().equals(pathJanggiPosition))
                     .forEach(alliesInPath::add);
         }
         return alliesInPath;
     }
 
-    private boolean isAlliesInDestination(Position destination, List<Piece> allies) {
+    private boolean isAlliesInDestination(JanggiPosition destination, List<Piece> allies) {
         return allies.stream()
                 .anyMatch(alliesPiece -> alliesPiece.getPosition().equals(destination));
     }
 
-    private boolean isRuleOfMove(Position destination) {
+    private boolean isRuleOfMove(JanggiPosition destination) {
         return getPosition().getX() == destination.getX() || getPosition().getY() == destination.getY();
     }
 
 
-    private List<Position> calculatePositions(Position destination) {
+    private List<JanggiPosition> calculatePositions(JanggiPosition destination) {
         if (getPosition().getX() == destination.getX()) {
             if (getPosition().getY() > destination.getY()) {
                 return IntStream.rangeClosed(destination.getY() - 1, getPosition().getY())
-                        .mapToObj(y -> new Position(getPosition().getX(), y))
+                        .mapToObj(y -> new JanggiPosition(getPosition().getX(), y))
                         .toList();
             }
             return IntStream.rangeClosed(getPosition().getY(), destination.getY() - 1)
-                    .mapToObj(y -> new Position(getPosition().getX(), y))
+                    .mapToObj(y -> new JanggiPosition(getPosition().getX(), y))
                     .toList();
         }
         if (getPosition().getX() > destination.getX()) {
             return IntStream.rangeClosed(destination.getX() - 1, getPosition().getX())
-                    .mapToObj(x -> new Position(x, getPosition().getY()))
+                    .mapToObj(x -> new JanggiPosition(x, getPosition().getY()))
                     .toList();
         }
         return IntStream.rangeClosed(getPosition().getX(), destination.getX() - 1)
-                .mapToObj(x -> new Position(x, getPosition().getY()))
+                .mapToObj(x -> new JanggiPosition(x, getPosition().getY()))
                 .toList();
     }
 }

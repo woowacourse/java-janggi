@@ -4,7 +4,7 @@ import janggi.piece.Piece;
 import janggi.piece.Pieces;
 import janggi.setting.AssignType;
 import janggi.setting.CampType;
-import janggi.value.Position;
+import janggi.value.JanggiPosition;
 import java.util.List;
 
 public class JanggiBoard {
@@ -17,12 +17,12 @@ public class JanggiBoard {
         this.hanPieces = new Pieces(hanAssignType.makeAssign(CampType.HAN));
     }
 
-    public void movePiece(CampType campType, Position targetPiecePosition, Position destination) {
+    public void movePiece(CampType campType, JanggiPosition targetPieceJanggiPosition, JanggiPosition destination) {
         if (campType == CampType.CHO) {
-            choPieces.movePiece(hanPieces.getPieces(), targetPiecePosition, destination);
+            choPieces.movePiece(hanPieces.getPieces(), targetPieceJanggiPosition, destination);
             return;
         }
-        hanPieces.movePiece(choPieces.getPieces(), targetPiecePosition, destination);
+        hanPieces.movePiece(choPieces.getPieces(), targetPieceJanggiPosition, destination);
     }
 
     public List<Piece> getChoPieces() {

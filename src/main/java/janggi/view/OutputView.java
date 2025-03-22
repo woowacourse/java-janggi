@@ -2,7 +2,7 @@ package janggi.view;
 
 import janggi.piece.Piece;
 import janggi.setting.CampType;
-import janggi.value.Position;
+import janggi.value.JanggiPosition;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -45,7 +45,7 @@ public class OutputView {
 
     private void writeOneLineInBoard(int i, List<Piece> allPieces) {
         List<Piece> pieces = allPieces.stream()
-                .filter(piece -> piece.getPosition().equals(new Position(piece.getPosition().getX(), i)))
+                .filter(piece -> piece.getPosition().equals(new JanggiPosition(piece.getPosition().getX(), i)))
                 .sorted(Comparator.comparing(Piece::getPosition))
                 .toList();
 

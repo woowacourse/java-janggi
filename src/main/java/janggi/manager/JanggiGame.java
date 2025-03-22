@@ -3,7 +3,7 @@ package janggi.manager;
 import janggi.board.JanggiBoard;
 import janggi.setting.AssignType;
 import janggi.setting.CampType;
-import janggi.value.Position;
+import janggi.value.JanggiPosition;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -36,9 +36,9 @@ public class JanggiGame {
 
     private void playTurn(JanggiBoard janggiBoard, CampType campType) {
         outputView.writeTurn(campType);
-        Position movedPiecePosition = inputView.readMovedPiecePosition();
-        Position destination = inputView.readDestinationPosition();
-        janggiBoard.movePiece(campType, movedPiecePosition, destination);
+        JanggiPosition movedPieceJanggiPosition = inputView.readMovedPiecePosition();
+        JanggiPosition destination = inputView.readDestinationPosition();
+        janggiBoard.movePiece(campType, movedPieceJanggiPosition, destination);
         outputView.writeJanggiBoard(janggiBoard.getChoPieces(), janggiBoard.getHanPieces());
     }
 
