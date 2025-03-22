@@ -1,25 +1,25 @@
 package domain.piece.movement;
 
-import domain.JanggiCoordinate;
+import domain.Coordinate;
 
 public enum SaMovement {
 
-    UP(new JanggiCoordinate(-1, 0)),
-    UP_RIGHT(new JanggiCoordinate(-1, 1)),
-    RIGHT(new JanggiCoordinate(0, 1)),
-    DOWN_RIGHT(new JanggiCoordinate(1, 1)),
-    DOWN(new JanggiCoordinate(1, 0)),
-    DOWN_LEFT(new JanggiCoordinate(1, -1)),
-    LEFT(new JanggiCoordinate(0, -1)),
-    UP_LEFT(new JanggiCoordinate(-1, -1));
+    UP(new Coordinate(-1, 0)),
+    UP_RIGHT(new Coordinate(-1, 1)),
+    RIGHT(new Coordinate(0, 1)),
+    DOWN_RIGHT(new Coordinate(1, 1)),
+    DOWN(new Coordinate(1, 0)),
+    DOWN_LEFT(new Coordinate(1, -1)),
+    LEFT(new Coordinate(0, -1)),
+    UP_LEFT(new Coordinate(-1, -1));
 
-    private final JanggiCoordinate direction;
+    private final Coordinate direction;
 
-    SaMovement(JanggiCoordinate direction) {
+    SaMovement(Coordinate direction) {
         this.direction = direction;
     }
 
-    public JanggiCoordinate getDirection() {
+    public Coordinate getDirection() {
         return direction;
     }
 }

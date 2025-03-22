@@ -1,20 +1,21 @@
 package domain.piece.movement;
 
-import domain.JanggiCoordinate;
+import domain.Coordinate;
 
 public enum PhoMovement {
-    UP(new JanggiCoordinate(-1, 0)),
-    DOWN(new JanggiCoordinate(1, 0)),
-    RIGHT(new JanggiCoordinate(0, 1)),
-    LEFT(new JanggiCoordinate(0, -1));
 
-    private final JanggiCoordinate direction;
+    UP(new Coordinate(-1, 0)),
+    DOWN(new Coordinate(1, 0)),
+    RIGHT(new Coordinate(0, 1)),
+    LEFT(new Coordinate(0, -1));
 
-    PhoMovement(JanggiCoordinate direction) {
+    private final Coordinate direction;
+
+    PhoMovement(Coordinate direction) {
         this.direction = direction;
     }
 
-    public JanggiCoordinate getDirection() {
+    public Coordinate getDirection() {
         return direction;
     }
 }

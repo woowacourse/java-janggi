@@ -1,20 +1,21 @@
 package domain.piece.movement;
 
-import domain.JanggiCoordinate;
+import domain.Coordinate;
 
 public enum ByeongMovement {
-    UP(new JanggiCoordinate(-1, 0)),
-    DOWN(new JanggiCoordinate(1, 0)),
-    RIGHT(new JanggiCoordinate(0, 1)),
-    LEFT(new JanggiCoordinate(0, -1));
 
-    private final JanggiCoordinate direction;
+    UP(new Coordinate(-1, 0)),
+    DOWN(new Coordinate(1, 0)),
+    RIGHT(new Coordinate(0, 1)),
+    LEFT(new Coordinate(0, -1));
 
-    ByeongMovement(JanggiCoordinate direction) {
+    private final Coordinate direction;
+
+    ByeongMovement(Coordinate direction) {
         this.direction = direction;
     }
 
-    public JanggiCoordinate getDirection() {
+    public Coordinate getDirection() {
         return direction;
     }
 }

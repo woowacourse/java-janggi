@@ -1,13 +1,12 @@
 package domain.piece;
 
-import domain.JanggiCoordinate;
-import domain.board.JanggiBoard;
-import domain.piece.movement.ChaMovement;
+import static domain.piece.PieceType.CHA;
 
+import domain.Coordinate;
+import domain.board.Board;
+import domain.piece.movement.ChaMovement;
 import java.util.ArrayList;
 import java.util.List;
-
-import static domain.piece.PieceType.CHA;
 
 public class Cha extends Piece {
     public Cha(Country country) {
@@ -15,17 +14,17 @@ public class Cha extends Piece {
     }
 
     @Override
-    public List<JanggiCoordinate> availableMovePositions(JanggiCoordinate currCoordinate,
-                                                         JanggiBoard janggiBoard) {
-        List<JanggiCoordinate> availablePositions = new ArrayList<>();
+    public List<Coordinate> availableMovePositions(Coordinate currCoordinate,
+                                                   Board board) {
+        List<Coordinate> availablePositions = new ArrayList<>();
         for (ChaMovement direction : ChaMovement.values()) {
-            JanggiCoordinate next = movePosition(currCoordinate, direction.getDirection());
+            Coordinate next = movePosition(currCoordinate, direction.getDirection());
             while (true) {
-                if (janggiBoard.isOutOfBoundary(next) || (janggiBoard.hasPiece(next) && janggiBoard.isMyTeam(
+                if (board.isOutOfBoundary(next) || (board.hasPiece(next) && board.isMyTeam(
                         currCoordinate, next))) {
                     break;
                 }
-                if (janggiBoard.hasPiece(next) && !janggiBoard.isMyTeam(currCoordinate, next)) {
+                if (board.hasPiece(next) && !board.isMyTeam(currCoordinate, next)) {
                     availablePositions.add(next);
                     break;
                 }
@@ -37,7 +36,7 @@ public class Cha extends Piece {
         return availablePositions;
     }
 
-    public static JanggiCoordinate movePosition(JanggiCoordinate currCoordinate, JanggiCoordinate moveOffset) {
+    public static Coordinate movePosition(Coordinate currCoordinate, Coordinate moveOffset) {
         return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
     }
 }

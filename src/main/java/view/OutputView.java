@@ -1,17 +1,21 @@
 package view;
 
-import domain.JanggiCoordinate;
-import domain.board.JanggiBoard;
+import static domain.Coordinate.BOARD_MIN_SIZE;
+import static domain.Coordinate.COL_SIZE;
+import static domain.Coordinate.ROW_SIZE;
+
+import domain.Coordinate;
+import domain.board.Board;
 import domain.piece.Country;
 
 public class OutputView {
 
-    public void printJanggiBoard(JanggiBoard board) {
+    public void printJanggiBoard(Board board) {
         StringBuilder builder = new StringBuilder();
 
-        for (int row = JanggiBoard.BOARD_MIN_SIZE; row <= JanggiBoard.ROW_SIZE; row++) {
-            for (int col = JanggiBoard.BOARD_MIN_SIZE; col <= JanggiBoard.COL_SIZE; col++) {
-                JanggiCoordinate coordinate = new JanggiCoordinate(row, col);
+        for (int row = BOARD_MIN_SIZE; row <= ROW_SIZE; row++) {
+            for (int col = BOARD_MIN_SIZE; col <= COL_SIZE; col++) {
+                Coordinate coordinate = new Coordinate(row, col);
                 if (board.isBlankCoordinate(coordinate)) {
                     builder.append("＿");
                     continue;

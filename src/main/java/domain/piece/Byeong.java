@@ -1,9 +1,8 @@
 package domain.piece;
 
-import domain.JanggiCoordinate;
-import domain.board.JanggiBoard;
+import domain.Coordinate;
+import domain.board.Board;
 import domain.piece.movement.ByeongMovement;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,9 +12,9 @@ public class Byeong extends Piece {
     }
 
     @Override
-    public List<JanggiCoordinate> availableMovePositions(JanggiCoordinate currCoordinate,
-                                                         JanggiBoard janggiBoard) {
-        Country country = janggiBoard.findCountryByCoordinate(currCoordinate);
+    public List<Coordinate> availableMovePositions(Coordinate currCoordinate,
+                                                   Board board) {
+        Country country = board.findCountryByCoordinate(currCoordinate);
         return Arrays.stream(ByeongMovement.values())
                 .filter(byeongMovement -> {
                     if (country == Country.CHO) {
@@ -24,11 +23,11 @@ public class Byeong extends Piece {
                     return byeongMovement != ByeongMovement.UP;
                 })
                 .map(byeongMovement -> movePosition(currCoordinate, byeongMovement.getDirection()))
-                .filter(next -> !janggiBoard.isOutOfBoundary(next) && !janggiBoard.isMyTeam(currCoordinate, next))
+                .filter(next -> !board.isOutOfBoundary(next) && !board.isMyTeam(currCoordinate, next))
                 .toList();
     }
 
-    public static JanggiCoordinate movePosition(JanggiCoordinate currCoordinate, JanggiCoordinate moveOffset) {
+    public static Coordinate movePosition(Coordinate currCoordinate, Coordinate moveOffset) {
         return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
     }
 }

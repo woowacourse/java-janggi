@@ -1,47 +1,46 @@
 package domain.piece.movement;
 
-import domain.JanggiCoordinate;
-
+import domain.Coordinate;
 import java.util.List;
 
 public enum SangMovement {
 
-    UP(new JanggiCoordinate(-1, 0),
-            List.of(new JanggiCoordinate(-2, -1), new JanggiCoordinate(-3, -2)),
-            List.of(new JanggiCoordinate(-2, 1), new JanggiCoordinate(-3, 2))),
+    UP(new Coordinate(-1, 0),
+            List.of(new Coordinate(-2, -1), new Coordinate(-3, -2)),
+            List.of(new Coordinate(-2, 1), new Coordinate(-3, 2))),
 
-    DOWN(new JanggiCoordinate(1, 0),
-            List.of(new JanggiCoordinate(2, -1), new JanggiCoordinate(3, -2)),
-            List.of(new JanggiCoordinate(2, 1), new JanggiCoordinate(3, 2))),
+    DOWN(new Coordinate(1, 0),
+            List.of(new Coordinate(2, -1), new Coordinate(3, -2)),
+            List.of(new Coordinate(2, 1), new Coordinate(3, 2))),
 
-    RIGHT(new JanggiCoordinate(0, 1),
-            List.of(new JanggiCoordinate(-1, 2), new JanggiCoordinate(-2, 3)),
-            List.of(new JanggiCoordinate(1, 2), new JanggiCoordinate(2, 3))),
+    RIGHT(new Coordinate(0, 1),
+            List.of(new Coordinate(-1, 2), new Coordinate(-2, 3)),
+            List.of(new Coordinate(1, 2), new Coordinate(2, 3))),
 
-    LEFT(new JanggiCoordinate(0, -1),
-            List.of(new JanggiCoordinate(1, -2), new JanggiCoordinate(2, -3)),
-            List.of(new JanggiCoordinate(-1, -2), new JanggiCoordinate(-2, -3)));
+    LEFT(new Coordinate(0, -1),
+            List.of(new Coordinate(1, -2), new Coordinate(2, -3)),
+            List.of(new Coordinate(-1, -2), new Coordinate(-2, -3)));
 
-    private final JanggiCoordinate direction;
-    private final List<JanggiCoordinate> leftDestination;
-    private final List<JanggiCoordinate> rightDestination;
+    private final Coordinate direction;
+    private final List<Coordinate> leftDestination;
+    private final List<Coordinate> rightDestination;
 
-    SangMovement(JanggiCoordinate direction, List<JanggiCoordinate> leftDestination,
-                 List<JanggiCoordinate> rightDestination) {
+    SangMovement(Coordinate direction, List<Coordinate> leftDestination,
+                 List<Coordinate> rightDestination) {
         this.direction = direction;
         this.leftDestination = leftDestination;
         this.rightDestination = rightDestination;
     }
 
-    public JanggiCoordinate getDirection() {
+    public Coordinate getDirection() {
         return direction;
     }
 
-    public List<JanggiCoordinate> getLeftDestination() {
+    public List<Coordinate> getLeftDestination() {
         return leftDestination;
     }
 
-    public List<JanggiCoordinate> getRightDestination() {
+    public List<Coordinate> getRightDestination() {
         return rightDestination;
     }
 }

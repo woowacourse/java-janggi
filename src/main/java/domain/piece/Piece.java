@@ -1,7 +1,7 @@
 package domain.piece;
 
-import domain.JanggiCoordinate;
-import domain.board.JanggiBoard;
+import domain.Coordinate;
+import domain.board.Board;
 import java.util.List;
 
 abstract public class Piece {
@@ -13,8 +13,8 @@ abstract public class Piece {
         this.type = type;
     }
 
-    abstract public List<JanggiCoordinate> availableMovePositions(JanggiCoordinate currCoordinate,
-                                                                  JanggiBoard janggiBoard);
+    abstract public List<Coordinate> availableMovePositions(Coordinate currCoordinate,
+                                                            Board board);
 
     public Country getCountry() {
         return this.country;

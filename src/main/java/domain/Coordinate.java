@@ -2,17 +2,21 @@ package domain;
 
 import java.util.Objects;
 
-public final class JanggiCoordinate {
+public final class Coordinate {
+    public static final int ROW_SIZE = 10;
+    public static final int COL_SIZE = 9;
+    public static final int BOARD_MIN_SIZE = 1;
+
     private final int row;
     private final int col;
 
-    public JanggiCoordinate(int row, int col) {
+    public Coordinate(int row, int col) {
         this.row = row;
         this.col = col;
     }
 
-    public JanggiCoordinate move(int increaseRow, int increaseCol) {
-        return new JanggiCoordinate(row + increaseRow, col + increaseCol);
+    public Coordinate move(int increaseRow, int increaseCol) {
+        return new Coordinate(row + increaseRow, col + increaseCol);
     }
 
     public boolean equals(Object o) {
@@ -22,7 +26,7 @@ public final class JanggiCoordinate {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        JanggiCoordinate that = (JanggiCoordinate) o;
+        Coordinate that = (Coordinate) o;
         return row == that.row && col == that.col;
     }
 

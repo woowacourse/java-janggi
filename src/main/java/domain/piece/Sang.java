@@ -1,7 +1,7 @@
 package domain.piece;
 
-import domain.JanggiCoordinate;
-import domain.board.JanggiBoard;
+import domain.Coordinate;
+import domain.board.Board;
 import domain.piece.movement.SangMovement;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,22 +13,22 @@ public class Sang extends Piece {
     }
 
     @Override
-    public List<JanggiCoordinate> availableMovePositions(JanggiCoordinate currCoordinate,
-                                                         JanggiBoard janggiBoard) {
-        List<JanggiCoordinate> availablePositions = new ArrayList<>();
+    public List<Coordinate> availableMovePositions(Coordinate currCoordinate,
+                                                   Board board) {
+        List<Coordinate> availablePositions = new ArrayList<>();
         for (SangMovement sangMovement : SangMovement.values()) {
-            JanggiCoordinate next = movePosition(currCoordinate, sangMovement.getDirection());
-            if (!janggiBoard.hasPiece(next)) {
-                List<JanggiCoordinate> left = sangMovement.getLeftDestination();
-                if (!janggiBoard.hasPiece(movePosition(currCoordinate, left.get(0))) &&
-                        (!janggiBoard.hasPiece(movePosition(currCoordinate, left.get(1))) || !janggiBoard.isMyTeam(
+            Coordinate next = movePosition(currCoordinate, sangMovement.getDirection());
+            if (!board.hasPiece(next)) {
+                List<Coordinate> left = sangMovement.getLeftDestination();
+                if (!board.hasPiece(movePosition(currCoordinate, left.get(0))) &&
+                        (!board.hasPiece(movePosition(currCoordinate, left.get(1))) || !board.isMyTeam(
                                 currCoordinate, movePosition(currCoordinate, left.get(1))))) {
                     availablePositions.add(movePosition(currCoordinate, left.get(1)));
                 }
-                
-                List<JanggiCoordinate> right = sangMovement.getRightDestination();
-                if (!janggiBoard.hasPiece(movePosition(currCoordinate, right.get(0))) &&
-                        (!janggiBoard.hasPiece(movePosition(currCoordinate, right.get(1))) || !janggiBoard.isMyTeam(
+
+                List<Coordinate> right = sangMovement.getRightDestination();
+                if (!board.hasPiece(movePosition(currCoordinate, right.get(0))) &&
+                        (!board.hasPiece(movePosition(currCoordinate, right.get(1))) || !board.isMyTeam(
                                 currCoordinate, movePosition(currCoordinate, right.get(1))))) {
                     availablePositions.add(movePosition(currCoordinate, right.get(1)));
                 }
@@ -37,7 +37,7 @@ public class Sang extends Piece {
         return availablePositions;
     }
 
-    public static JanggiCoordinate movePosition(JanggiCoordinate currCoordinate, JanggiCoordinate moveOffset) {
+    public static Coordinate movePosition(Coordinate currCoordinate, Coordinate moveOffset) {
         return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
     }
 }
