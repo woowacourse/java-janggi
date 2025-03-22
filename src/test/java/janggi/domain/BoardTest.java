@@ -8,8 +8,10 @@ import janggi.common.ErrorMessage;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Soldier;
 import janggi.factory.PieceFactory;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -63,9 +65,9 @@ class BoardTest {
         // given
         Position position = Position.of(5, 1);
         Piece soldier = new Piece(Side.CHO, new Soldier());
-        Map<Position, Piece> map = Map.of(position, soldier);
+        Map<Position, Piece> startingPieces = Map.of(position, soldier);
 
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
 
         Position newPosition = Position.of(4, 1);
 
@@ -83,9 +85,9 @@ class BoardTest {
 
         Position newPosition = Position.of(4, 1);
         Piece soldier2 = new Piece(Side.CHO, new Soldier());
-        Map<Position, Piece> map = Map.of(position, soldier1, newPosition, soldier2);
+        Map<Position, Piece> startingPieces = Map.of(position, soldier1, newPosition, soldier2);
 
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
 
         // when & then
         assertThatThrownBy(() -> board.movePiece(position, newPosition))
@@ -102,9 +104,9 @@ class BoardTest {
 
         Position newPosition = Position.of(4, 1);
         Piece soldier2 = new Piece(Side.HAN, new Soldier());
-        Map<Position, Piece> map = Map.of(position, soldier1, newPosition, soldier2);
+        Map<Position, Piece> startingPieces = Map.of(position, soldier1, newPosition, soldier2);
 
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
 
         // when & then
         assertThatCode(() -> board.movePiece(position, newPosition))
@@ -128,9 +130,9 @@ class BoardTest {
 
         Position newPosition = Position.of(4, 1);
         Piece soldier2 = new Piece(Side.HAN, new Soldier());
-        Map<Position, Piece> map = Map.of(position, general, newPosition, soldier2);
+        Map<Position, Piece> startingPieces = Map.of(position, general, newPosition, soldier2);
 
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
 
         assertThat(board.hasGeneral(Side.HAN)).isFalse();
     }

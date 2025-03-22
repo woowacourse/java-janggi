@@ -6,9 +6,11 @@ import janggi.domain.Board;
 import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -25,10 +27,10 @@ class CannonTest {
         Piece cannonPiece = new Piece(Side.HAN, cannon);
         Piece soldierPiece = new Piece(Side.HAN, soldier);
 
-        Map<Position, Piece> map = Map.of(position, cannonPiece, soldierPosition, soldierPiece);
+        Map<Position, Piece> startingPieces = Map.of(position, cannonPiece, soldierPosition, soldierPiece);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
         Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -50,11 +52,11 @@ class CannonTest {
         Piece soldierPiece1 = new Piece(Side.HAN, soldier1);
         Piece soldierPiece2 = new Piece(Side.HAN, soldier2);
 
-        Map<Position, Piece> map = Map.of(position, cannonPiece, soldierPosition1, soldierPiece1,
+        Map<Position, Piece> startingPieces = Map.of(position, cannonPiece, soldierPosition1, soldierPiece1,
                 soldierPosition2, soldierPiece2);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
         Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -75,11 +77,11 @@ class CannonTest {
         Piece soldierPiece1 = new Piece(Side.HAN, soldier1);
         Piece soldierPiece2 = new Piece(Side.CHO, soldier2);
 
-        Map<Position, Piece> map = Map.of(position, piece, soldierPosition1, soldierPiece1,
+        Map<Position, Piece> startingPieces = Map.of(position, piece, soldierPosition1, soldierPiece1,
                 soldierPosition2, soldierPiece2);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
         Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -97,10 +99,10 @@ class CannonTest {
         Piece piece = new Piece(Side.HAN, cannon);
         Piece cannon2Piece = new Piece(Side.HAN, cannon2);
 
-        Map<Position, Piece> map = Map.of(position, piece, cannon2Position, cannon2Piece);
+        Map<Position, Piece> startingPieces = Map.of(position, piece, cannon2Position, cannon2Piece);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
         Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -123,11 +125,11 @@ class CannonTest {
         Soldier soldier = new Soldier();
         Piece soldierPiece = new Piece(Side.HAN, soldier);
 
-        Map<Position, Piece> map = Map.of(position, piece, cannonPosition2, cannonPiece2,
+        Map<Position, Piece> startingPieces = Map.of(position, piece, cannonPosition2, cannonPiece2,
                 soldierPosition, soldierPiece);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
         Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.CHO, position);
 
         // then

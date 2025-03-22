@@ -6,9 +6,11 @@ import janggi.domain.Board;
 import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -24,10 +26,10 @@ class GuardTest {
         Guard guard = new Guard();
         Piece piece = new Piece(Side.HAN, guard);
 
-        Map<Position, Piece> map = Map.of(position, piece);
+        Map<Position, Piece> startingPieces = Map.of(position, piece);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
         Set<Position> actual = guard.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then

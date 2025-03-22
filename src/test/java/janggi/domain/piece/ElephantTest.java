@@ -6,9 +6,11 @@ import janggi.domain.Board;
 import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,10 +26,10 @@ class ElephantTest {
         Elephant elephant = new Elephant();
         Piece elephantPiece = new Piece(Side.HAN, elephant);
 
-        Map<Position, Piece> map = Map.of(position, elephantPiece);
+        Map<Position, Piece> startingPieces = Map.of(position, elephantPiece);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
         Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -46,10 +48,10 @@ class ElephantTest {
         Piece elephantPiece = new Piece(Side.HAN, elephant);
         Piece soldierPiece = new Piece(Side.HAN, soldier);
 
-        Map<Position, Piece> map = Map.of(position, elephantPiece, soldierPosition, soldierPiece);
+        Map<Position, Piece> startingPieces = Map.of(position, elephantPiece, soldierPosition, soldierPiece);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
         Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -67,10 +69,10 @@ class ElephantTest {
         Piece elephantPiece = new Piece(Side.HAN, elephant);
         Piece soldierPiece = new Piece(Side.CHO, soldier);
 
-        Map<Position, Piece> map = Map.of(position, elephantPiece, soldierPosition, soldierPiece);
+        Map<Position, Piece> startingPieces = Map.of(position, elephantPiece, soldierPosition, soldierPiece);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
         Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then

@@ -6,9 +6,11 @@ import janggi.domain.Board;
 import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -22,10 +24,10 @@ class HorseTest {
         Horse horse = new Horse();
         Piece piece = new Piece(Side.HAN, horse);
 
-        Map<Position, Piece> map = Map.of(position, piece);
+        Map<Position, Piece> startingPieces = Map.of(position, piece);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
         Set<Position> actual = horse.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -43,10 +45,10 @@ class HorseTest {
         Piece horsePiece = new Piece(Side.HAN, horse);
         Piece soldierPiece = new Piece(Side.HAN, soldier);
 
-        Map<Position, Piece> map = Map.of(position, horsePiece, soldierPosition, soldierPiece);
+        Map<Position, Piece> startingPieces = Map.of(position, horsePiece, soldierPosition, soldierPiece);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
         Set<Position> actual = horse.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -64,10 +66,10 @@ class HorseTest {
         Piece horsePiece = new Piece(Side.HAN, horse);
         Piece soldierPiece = new Piece(Side.CHO, soldier);
 
-        Map<Position, Piece> map = Map.of(position, horsePiece, soldierPosition, soldierPiece);
+        Map<Position, Piece> startingPieces = Map.of(position, horsePiece, soldierPosition, soldierPiece);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
         Set<Position> actual = horse.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then

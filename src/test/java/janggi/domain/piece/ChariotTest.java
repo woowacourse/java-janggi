@@ -6,9 +6,11 @@ import janggi.domain.Board;
 import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -22,10 +24,10 @@ class ChariotTest {
         Chariot chariot = new Chariot();
         Piece chariotPiece = new Piece(Side.HAN, chariot);
 
-        Map<Position, Piece> map = Map.of(position, chariotPiece);
+        Map<Position, Piece> startingPieces = Map.of(position, chariotPiece);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
         Set<Position> actual = chariot.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -43,10 +45,10 @@ class ChariotTest {
         Piece chariotPiece = new Piece(Side.HAN, chariot);
         Piece soldierPiece = new Piece(Side.HAN, soldier);
 
-        Map<Position, Piece> map = Map.of(position, chariotPiece, soldierPosition, soldierPiece);
+        Map<Position, Piece> startingPieces = Map.of(position, chariotPiece, soldierPosition, soldierPiece);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
         Set<Position> actual = chariot.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -64,10 +66,10 @@ class ChariotTest {
         Piece chariotPiece = new Piece(Side.HAN, chariot);
         Piece soldierPiece = new Piece(Side.CHO, soldier);
 
-        Map<Position, Piece> map = Map.of(position, chariotPiece, soldierPosition, soldierPiece);
+        Map<Position, Piece> startingPieces = Map.of(position, chariotPiece, soldierPosition, soldierPiece);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(new HashMap<>(startingPieces));
         Set<Position> actual = chariot.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
