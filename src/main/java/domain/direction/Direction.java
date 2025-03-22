@@ -29,19 +29,19 @@ public class Direction {
     }
 
     private boolean canReachWithRepeat(final Position start, final Position target) {
-        Position result = start;
-        while (result.isValid() && !result.equals(target)) {
-            result = result.merge(direction.getFirst());
+        Position current = start;
+        while (current.isValid() && !current.equals(target)) {
+            current = current.merge(direction.getFirst());
         }
-        return result.isValid() && result.equals(target);
+        return current.isValid() && current.equals(target);
     }
 
     private boolean canReachWithoutRepeat(final Position start, final Position target) {
-        Position result = start;
+        Position current = start;
         for (Position dir : direction) {
-            result = result.merge(dir);
+            current = current.merge(dir);
         }
-        return result.equals(target);
+        return current.equals(target);
     }
 
     private List<Position> createPathWithRepeat(final Position start, final Position target) {
