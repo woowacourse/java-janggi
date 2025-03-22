@@ -17,53 +17,64 @@ public final class MovingRulesGenerator {
     private static final int VERTICAL_RANGE = 10;
 
     public static MovingRules generalOrGuard() {
-        final MovingRule rule1 = new MovingRule(List.of(RIGHT));
-        final MovingRule rule2 = new MovingRule(List.of(LEFT));
-        final MovingRule rule3 = new MovingRule(List.of(UP));
-        final MovingRule rule4 = new MovingRule(List.of(DOWN));
-        return new MovingRules(List.of(rule1, rule2, rule3, rule4));
+        return new MovingRules(
+                List.of(
+                        new MovingRule(List.of(RIGHT)),
+                        new MovingRule(List.of(LEFT)),
+                        new MovingRule(List.of(UP)),
+                        new MovingRule(List.of(DOWN))
+                )
+        );
     }
 
     public static MovingRules hanSoldier() {
-        final MovingRule rule1 = new MovingRule(List.of(RIGHT));
-        final MovingRule rule2 = new MovingRule(List.of(LEFT));
-        final MovingRule rule3 = new MovingRule(List.of(DOWN));
-        return new MovingRules(List.of(rule1, rule2, rule3, rule3));
+        return new MovingRules(
+                List.of(
+                        new MovingRule(List.of(RIGHT)),
+                        new MovingRule(List.of(LEFT)),
+                        new MovingRule(List.of(DOWN))
+                )
+        );
     }
 
     public static MovingRules choSoldier() {
-        final MovingRule rule1 = new MovingRule(List.of(RIGHT));
-        final MovingRule rule2 = new MovingRule(List.of(LEFT));
-        final MovingRule rule3 = new MovingRule(List.of(UP));
-        return new MovingRules(List.of(rule1, rule2, rule3, rule3));
+        return new MovingRules(
+                List.of(
+                        new MovingRule(List.of(RIGHT)),
+                        new MovingRule(List.of(LEFT)),
+                        new MovingRule(List.of(UP))
+                )
+        );
     }
 
     public static MovingRules horse() {
-        final MovingRule movingRule1 = new MovingRule(List.of(RIGHT, RIGHT_UP));
-        final MovingRule movingRule2 = new MovingRule(List.of(RIGHT, RIGHT_DOWN));
-        final MovingRule movingRule3 = new MovingRule(List.of(DOWN, RIGHT_DOWN));
-        final MovingRule movingRule4 = new MovingRule(List.of(DOWN, LEFT_DOWN));
-        final MovingRule movingRule5 = new MovingRule(List.of(LEFT, LEFT_DOWN));
-        final MovingRule movingRule6 = new MovingRule(List.of(LEFT, LEFT_UP));
-        final MovingRule movingRule7 = new MovingRule(List.of(UP, LEFT_UP));
-        final MovingRule movingRule8 = new MovingRule(List.of(UP, RIGHT_UP));
         return new MovingRules(
-                List.of(movingRule1, movingRule2, movingRule3, movingRule4, movingRule5, movingRule6, movingRule7,
-                        movingRule8));
+                List.of(
+                        new MovingRule(List.of(RIGHT, RIGHT_UP)),
+                        new MovingRule(List.of(RIGHT, RIGHT_DOWN)),
+                        new MovingRule(List.of(DOWN, RIGHT_DOWN)),
+                        new MovingRule(List.of(DOWN, LEFT_DOWN)),
+                        new MovingRule(List.of(LEFT, LEFT_DOWN)),
+                        new MovingRule(List.of(LEFT, LEFT_UP)),
+                        new MovingRule(List.of(UP, LEFT_UP)),
+                        new MovingRule(List.of(UP, RIGHT_UP))
+                )
+        );
     }
 
     public static MovingRules elephant() {
-        final MovingRule movingRule1 = new MovingRule(List.of(RIGHT, RIGHT_UP, RIGHT_UP));
-        final MovingRule movingRule2 = new MovingRule(List.of(RIGHT, RIGHT_DOWN, RIGHT_DOWN));
-        final MovingRule movingRule3 = new MovingRule(List.of(DOWN, RIGHT_DOWN, RIGHT_DOWN));
-        final MovingRule movingRule4 = new MovingRule(List.of(DOWN, LEFT_DOWN, LEFT_DOWN));
-        final MovingRule movingRule5 = new MovingRule(List.of(LEFT, LEFT_DOWN, LEFT_DOWN));
-        final MovingRule movingRule6 = new MovingRule(List.of(LEFT, LEFT_UP, LEFT_UP));
-        final MovingRule movingRule7 = new MovingRule(List.of(UP, LEFT_UP, LEFT_UP));
-        final MovingRule movingRule8 = new MovingRule(List.of(UP, RIGHT_UP, RIGHT_UP));
         return new MovingRules(
-                List.of(movingRule1, movingRule2, movingRule3, movingRule4, movingRule5, movingRule6, movingRule7,
-                        movingRule8));
+                List.of(
+                        new MovingRule(List.of(RIGHT, RIGHT_UP, RIGHT_UP)),
+                        new MovingRule(List.of(RIGHT, RIGHT_DOWN, RIGHT_DOWN)),
+                        new MovingRule(List.of(DOWN, RIGHT_DOWN, RIGHT_DOWN)),
+                        new MovingRule(List.of(DOWN, LEFT_DOWN, LEFT_DOWN)),
+                        new MovingRule(List.of(LEFT, LEFT_DOWN, LEFT_DOWN)),
+                        new MovingRule(List.of(LEFT, LEFT_UP, LEFT_UP)),
+                        new MovingRule(List.of(UP, LEFT_UP, LEFT_UP)),
+                        new MovingRule(List.of(UP, RIGHT_UP, RIGHT_UP))
+                )
+        );
     }
 
     public static MovingRules cannonOrChariot() {
