@@ -4,10 +4,10 @@ import janggi.setting.AssignType;
 import java.util.Arrays;
 
 public enum Answer {
-    ONE("1", AssignType.LEFT_TOP),
-    TWO("2", AssignType.RIGHT_TOP),
-    THREE("3", AssignType.IN_TOP),
-    FOUR("4", AssignType.OUT_TOP);
+    ONE("1", AssignType.LEFT_SANG),
+    TWO("2", AssignType.RIGHT_SANG),
+    THREE("3", AssignType.IN_SANG),
+    FOUR("4", AssignType.OUT_SANG);
 
     private final String command;
     private final AssignType assignType;

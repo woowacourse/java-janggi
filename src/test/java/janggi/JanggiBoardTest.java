@@ -23,7 +23,7 @@ public class JanggiBoardTest {
     @MethodSource()
     void test1(AssignType assignType, List<Position> maPositions) {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(assignType, AssignType.LEFT_TOP);
+        JanggiBoard janggiBoard = new JanggiBoard(assignType, AssignType.LEFT_SANG);
 
         //when
         List<Piece> choWorldPieces = janggiBoard.getChoPieces();
@@ -39,10 +39,10 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> test1() {
         return Stream.of(
-                Arguments.of(AssignType.IN_TOP, List.of(new Position(1, 9), new Position(7, 9))),
-                Arguments.of(AssignType.LEFT_TOP, List.of(new Position(2, 9), new Position(7, 9))),
-                Arguments.of(AssignType.OUT_TOP, List.of(new Position(2, 9), new Position(6, 9))),
-                Arguments.of(AssignType.RIGHT_TOP, List.of(new Position(1, 9), new Position(6, 9)))
+                Arguments.of(AssignType.IN_SANG, List.of(new Position(1, 9), new Position(7, 9))),
+                Arguments.of(AssignType.LEFT_SANG, List.of(new Position(2, 9), new Position(7, 9))),
+                Arguments.of(AssignType.OUT_SANG, List.of(new Position(2, 9), new Position(6, 9))),
+                Arguments.of(AssignType.RIGHT_SANG, List.of(new Position(1, 9), new Position(6, 9)))
         );
     }
 
@@ -51,7 +51,7 @@ public class JanggiBoardTest {
     @MethodSource()
     void test2(AssignType assignType, List<Position> sangPositions) {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(assignType, AssignType.LEFT_TOP);
+        JanggiBoard janggiBoard = new JanggiBoard(assignType, AssignType.LEFT_SANG);
 
         //when
         List<Piece> choWorldPieces = janggiBoard.getChoPieces();
@@ -67,10 +67,10 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> test2() {
         return Stream.of(
-                Arguments.of(AssignType.IN_TOP, List.of(new Position(2, 9), new Position(6, 9))),
-                Arguments.of(AssignType.LEFT_TOP, List.of(new Position(1, 9), new Position(6, 9))),
-                Arguments.of(AssignType.OUT_TOP, List.of(new Position(1, 9), new Position(7, 9))),
-                Arguments.of(AssignType.RIGHT_TOP, List.of(new Position(2, 9), new Position(7, 9)))
+                Arguments.of(AssignType.IN_SANG, List.of(new Position(2, 9), new Position(6, 9))),
+                Arguments.of(AssignType.LEFT_SANG, List.of(new Position(1, 9), new Position(6, 9))),
+                Arguments.of(AssignType.OUT_SANG, List.of(new Position(1, 9), new Position(7, 9))),
+                Arguments.of(AssignType.RIGHT_SANG, List.of(new Position(2, 9), new Position(7, 9)))
         );
     }
 
@@ -79,7 +79,7 @@ public class JanggiBoardTest {
     @MethodSource()
     void test3(AssignType assignType, List<Position> maPositions) {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(AssignType.RIGHT_TOP, assignType);
+        JanggiBoard janggiBoard = new JanggiBoard(AssignType.RIGHT_SANG, assignType);
 
         //when
         List<Piece> hanWorldPieces = janggiBoard.getHanPieces();
@@ -95,10 +95,10 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> test3() {
         return Stream.of(
-                Arguments.of(AssignType.IN_TOP, List.of(new Position(1, 0), new Position(7, 0))),
-                Arguments.of(AssignType.LEFT_TOP, List.of(new Position(2, 0), new Position(7, 0))),
-                Arguments.of(AssignType.OUT_TOP, List.of(new Position(2, 0), new Position(6, 0))),
-                Arguments.of(AssignType.RIGHT_TOP, List.of(new Position(1, 0), new Position(6, 0)))
+                Arguments.of(AssignType.IN_SANG, List.of(new Position(1, 0), new Position(7, 0))),
+                Arguments.of(AssignType.LEFT_SANG, List.of(new Position(2, 0), new Position(7, 0))),
+                Arguments.of(AssignType.OUT_SANG, List.of(new Position(2, 0), new Position(6, 0))),
+                Arguments.of(AssignType.RIGHT_SANG, List.of(new Position(1, 0), new Position(6, 0)))
         );
     }
 
@@ -107,7 +107,7 @@ public class JanggiBoardTest {
     @MethodSource()
     void test4(AssignType assignType, List<Position> sangPositions) {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(AssignType.RIGHT_TOP, assignType);
+        JanggiBoard janggiBoard = new JanggiBoard(AssignType.RIGHT_SANG, assignType);
 
         //when
         List<Piece> hanWorldPieces = janggiBoard.getHanPieces();
@@ -123,10 +123,10 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> test4() {
         return Stream.of(
-                Arguments.of(AssignType.IN_TOP, List.of(new Position(2, 0), new Position(6, 0))),
-                Arguments.of(AssignType.LEFT_TOP, List.of(new Position(1, 0), new Position(6, 0))),
-                Arguments.of(AssignType.OUT_TOP, List.of(new Position(1, 0), new Position(7, 0))),
-                Arguments.of(AssignType.RIGHT_TOP, List.of(new Position(2, 0), new Position(7, 0)))
+                Arguments.of(AssignType.IN_SANG, List.of(new Position(2, 0), new Position(6, 0))),
+                Arguments.of(AssignType.LEFT_SANG, List.of(new Position(1, 0), new Position(6, 0))),
+                Arguments.of(AssignType.OUT_SANG, List.of(new Position(1, 0), new Position(7, 0))),
+                Arguments.of(AssignType.RIGHT_SANG, List.of(new Position(2, 0), new Position(7, 0)))
         );
     }
 
@@ -134,7 +134,7 @@ public class JanggiBoardTest {
     @Test
     void test5() {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(AssignType.RIGHT_TOP, AssignType.RIGHT_TOP);
+        JanggiBoard janggiBoard = new JanggiBoard(AssignType.RIGHT_SANG, AssignType.RIGHT_SANG);
 
         //when
         List<Piece> choWorldPieces = janggiBoard.getChoPieces();

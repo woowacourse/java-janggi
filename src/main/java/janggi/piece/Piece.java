@@ -15,7 +15,7 @@ public abstract class Piece {
 
     abstract public Piece move(final Position destination, List<Piece> enemy, List<Piece> allies);
 
-    abstract public boolean ableToMove(final Position destination, List<Piece> enemy, List<Piece> allies);
+    abstract protected boolean ableToMove(final Position destination, List<Piece> enemy, List<Piece> allies);
 
     public PieceType getPieceType() {
         return pieceType;
