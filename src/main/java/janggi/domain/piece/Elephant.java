@@ -5,6 +5,7 @@ import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.Vector;
 import janggi.domain.Vectors;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,9 +23,8 @@ public class Elephant implements PieceBehavior {
         Set<Position> result = new HashSet<>();
         List<Vectors> rotatedVectors = new ArrayList<>(VECTORS_LIST);
         for (int i = 0; i < 4; i++) {
-            rotatedVectors = Vectors.rotate(rotatedVectors);
-
             searchAvailableMoves(result, board, position, rotatedVectors, side);
+            rotatedVectors = Vectors.rotate(rotatedVectors);
         }
 
         return result;
@@ -67,7 +67,7 @@ public class Elephant implements PieceBehavior {
 
     private boolean canNotMove(List<Vector> vectors, Position currentPosition) {
         return vectors.stream()
-                .allMatch(currentPosition::canNotMove);
+                .anyMatch(currentPosition::canNotMove);
     }
 
     private boolean hasNotAvailableMiddleMove(List<Vector> vectors, Position currentPosition, Board board) {
