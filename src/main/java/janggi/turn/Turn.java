@@ -5,7 +5,7 @@ import janggi.piece.Piece;
 
 public abstract class Turn {
 
-    public abstract void changeTurn(Board board);
+    public abstract Turn changeTurn(Board board);
 
     public abstract String getTurnName();
 

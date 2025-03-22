@@ -9,8 +9,8 @@ public class HanTurn extends Turn {
     private static final String HAN_NAME = "한";
 
     @Override
-    public void changeTurn(Board board) {
-        board.changeTurn(new ChoTurn());
+    public Turn changeTurn(Board board) {
+        return new ChoTurn();
     }
 
     @Override
