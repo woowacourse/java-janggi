@@ -9,6 +9,7 @@ import piece.Pieces;
 public class CannonMovement implements MovementRule {
     private static final String CANNON_EXISTED = "[ERROR] 포가 존재하여 움직일 수 없습니다.";
     private static final String CANNON_EXPRESSION = "n";
+    public static final int CANNON_MOVEABLE_PIECE_COUNT = 1;
 
     @Override
     public Point move(Pieces pieces, Point from, Point to) {
@@ -17,6 +18,13 @@ public class CannonMovement implements MovementRule {
 
         List<Point> paths = findPaths(from, to);
 
+        int count = countPiecesInPaths(pieces, paths);
+        validateCannonMoveable(count);
+
+        return new Point(to.x(), to.y());
+    }
+
+    private int countPiecesInPaths(Pieces pieces, List<Point> paths) {
         int count = 0;
         for (Point path : paths) {
             if (pieces.isExistPieceIn(path)) {
@@ -25,12 +33,13 @@ public class CannonMovement implements MovementRule {
                 count++;
             }
         }
+        return count;
+    }
 
-        if (count == 1) {
-            return new Point(to.x(), to.y());
+    private void validateCannonMoveable(int count) {
+        if (count != CANNON_MOVEABLE_PIECE_COUNT) {
+            throw new IllegalArgumentException("[ERROR] 포는 기물을 하나만 넘을 수 있습니다.");
         }
-
-        throw new IllegalArgumentException("[ERROR] 포는 기물을 하나만 넘을 수 있습니다.");
     }
 
     private List<Point> findPaths(Point from, Point to) {
