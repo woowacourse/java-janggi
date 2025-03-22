@@ -5,7 +5,7 @@ import model.Path;
 import model.Point;
 import model.Team;
 
-public abstract class Piece {
+public abstract class Piece implements Hierarchy {
     Team team;
     PieceName pieceName;
 

@@ -42,4 +42,9 @@ public class Jang extends Piece {
         }
         return true;
     }
+
+    @Override
+    public boolean isCriticalPiece() {
+        return true;
+    }
 }
