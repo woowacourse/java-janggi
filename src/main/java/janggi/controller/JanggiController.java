@@ -1,16 +1,19 @@
 package janggi.controller;
 
 import janggi.domain.JanggiGame;
-import janggi.domain.board.Board;
-import janggi.domain.board.BoardFactory;
+import janggi.domain.board.BoardSetup;
+import janggi.domain.board.PlayingBoard;
+import janggi.domain.board.InitialBoard;
 import janggi.domain.board.Column;
 import janggi.domain.board.Position;
 import janggi.domain.board.Row;
 import janggi.domain.gameState.BlueTurn;
+import janggi.domain.piece.PieceColor;
 import janggi.domain.piece.PieceType;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
+import janggi.view.TeamColorName;
 import java.util.List;
 import janggi.view.PieceTypeName;
 
@@ -24,20 +27,35 @@ public class JanggiController {
     }
 
     public void run() {
-        BoardFactory boardFactory = new BoardFactory();
-        Board board = boardFactory.createBoard();
-        outputView.printBoard(board);
+        BoardSetup redSetup = getBoardSetup(PieceColor.RED);
+        BoardSetup blueSetup = getBoardSetup(PieceColor.BLUE);
+        InitialBoard initialBoard = InitialBoard.createBoard(redSetup, blueSetup);
 
-        JanggiGame janggiGame = new JanggiGame(new BlueTurn(board));
+        PlayingBoard playingBoard = new PlayingBoard(initialBoard);
+        outputView.printBoard(playingBoard);
+
+        JanggiGame janggiGame = new JanggiGame(new BlueTurn(playingBoard));
         while(!janggiGame.isFinished()) {
-            processWithRetry(() -> playTurn(janggiGame, board));
-
+            processWithRetry(() -> playTurn(janggiGame, playingBoard));
         }
 
         outputView.printWinner(janggiGame.getTurnColor());
     }
 
-    private void playTurn(JanggiGame janggiGame, Board board) {
+    private BoardSetup getBoardSetup(PieceColor teamColor) {
+        int setNumber = 0;
+
+        if(teamColor == PieceColor.RED) {
+            setNumber = inputView.readRedSetup();
+        }
+        if(teamColor == PieceColor.BLUE) {
+            setNumber = inputView.readBlueSetup();
+        }
+
+        return BoardSetup.from(setNumber);
+    }
+
+    private void playTurn(JanggiGame janggiGame, PlayingBoard playingBoard) {
         outputView.printTurnNotice(janggiGame.getTurnColor());
 
         List<String> commands = inputView.readMoveCommand();
@@ -47,7 +65,7 @@ public class JanggiController {
         PieceType pieceType = PieceTypeName.getTypeFrom(pieceNameInput);
         janggiGame.move(pieceType, source, destination);
 
-        outputView.printBoard(board);
+        outputView.printBoard(playingBoard);
     }
 
     private static Position createPosition(String input) {

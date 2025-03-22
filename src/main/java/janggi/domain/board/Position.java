@@ -13,6 +13,10 @@ public class Position {
         this.column = column;
     }
 
+    public static Position of(int row, int col) {
+        return new Position(Row.from(row), Column.from(col));
+    }
+
     public int rowDifference(Position other) {
         return other.rowValue() - row.intValue();
     }

@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.domain.board.Board;
+import janggi.domain.board.PlayingBoard;
 import janggi.domain.board.Column;
 import janggi.domain.board.Position;
 import janggi.domain.board.Row;
@@ -9,7 +9,7 @@ import janggi.domain.piece.PieceColor;
 
 public class OutputView {
 
-    public void printBoard(Board board) {
+    public void printBoard(PlayingBoard playingBoard) {
         StringBuilder sb = new StringBuilder();
 
         sb.append(getBoardHeader());
@@ -17,7 +17,7 @@ public class OutputView {
             sb.append(String.format(getStringColor() + "%d | ", row.getValue()));
             for (Column column : Column.values()) {
                 Position position = new Position(row, column);
-                Piece piece = board.getPieceBy(position);
+                Piece piece = playingBoard.getPieceBy(position);
                 String pieceName = PieceTypeName.getNameFrom(piece);
 
                 sb.append(pieceName + " ");

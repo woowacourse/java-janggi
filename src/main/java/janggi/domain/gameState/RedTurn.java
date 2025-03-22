@@ -1,17 +1,17 @@
 package janggi.domain.gameState;
 
-import janggi.domain.board.Board;
+import janggi.domain.board.PlayingBoard;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceColor;
 
 public class RedTurn extends InProgress {
-    public RedTurn(Board board) {
-        super(board, PieceColor.RED);
+    public RedTurn(PlayingBoard playingBoard) {
+        super(playingBoard, PieceColor.RED);
     }
 
     @Override
     protected State getNextTurn() {
-        return new BlueTurn(board);
+        return new BlueTurn(playingBoard);
     }
 
     @Override

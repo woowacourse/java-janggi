@@ -7,12 +7,12 @@ import janggi.domain.piece.PieceType;
 import java.util.List;
 import java.util.Map;
 
-public class Board {
+public class PlayingBoard {
 
     private final Map<Position, Piece> board;
 
-    public Board(Map<Position, Piece> board) {
-        this.board = board;
+    public PlayingBoard(InitialBoard initialBoard) {
+        this.board = initialBoard.getInitialBoard();
     }
 
     public Piece getPieceBy(Position position) {

@@ -1,28 +1,28 @@
 package janggi.domain.gameState;
 
-import janggi.domain.board.Board;
+import janggi.domain.board.PlayingBoard;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceColor;
 import janggi.domain.piece.PieceType;
 
 public abstract class InProgress implements State{
-    final Board board;
+    final PlayingBoard playingBoard;
     final PieceColor turnColor;
 
-    public InProgress(Board board, PieceColor turnColor) {
-        this.board = board;
+    public InProgress(PlayingBoard playingBoard, PieceColor turnColor) {
+        this.playingBoard = playingBoard;
         this.turnColor = turnColor;
     }
 
 
     @Override
     public final State movePiece(PieceType pieceType, Position source, Position destination) {
-        Piece sourcePiece = board.getPieceBy(source);
+        Piece sourcePiece = playingBoard.getPieceBy(source);
         validateIsMyPiece(sourcePiece);
 
-        Piece destinationPiece = board.getPieceBy(destination);
-        board.move(pieceType, source, destination);
+        Piece destinationPiece = playingBoard.getPieceBy(destination);
+        playingBoard.move(pieceType, source, destination);
 
         if (destinationPiece.isPieceType(PieceType.GENERAL)) {
             return new Finished(turnColor);
