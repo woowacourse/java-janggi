@@ -6,6 +6,7 @@ import domain.PieceType;
 import domain.board.JanggiBoard;
 
 public class Ma extends Piece {
+    private static final int MA_REACHABLE_RADIUS = 5;
 
     public Ma(Country country) {
         super(country, PieceType.MA);
@@ -40,13 +41,13 @@ public class Ma extends Piece {
     }
 
     private Direction getDirection(JanggiCoordinate from, JanggiCoordinate to) {
-        if (from.moveUp().moveUpRight().equals(to) || from.moveUp().moveUpLeft().equals(to)) {
+        if (from.moveUp().moveRightUp().equals(to) || from.moveUp().moveLeftUp().equals(to)) {
             return Direction.UP;
         }
-        if (from.moveRight().moveUpRight().equals(to) || from.moveRight().moveDownRight().equals(to)) {
+        if (from.moveRight().moveRightUp().equals(to) || from.moveRight().moveRightDown().equals(to)) {
             return Direction.RIGHT;
         }
-        if (from.moveDown().moveDownRight().equals(to) || from.moveDown().moveDownLeft().equals(to)) {
+        if (from.moveDown().moveRightDown().equals(to) || from.moveDown().moveLeftDown().equals(to)) {
             return Direction.DOWN;
         }
         return Direction.LEFT;
@@ -68,7 +69,7 @@ public class Ma extends Piece {
         int rowDst = Math.abs(from.getRow() - to.getRow());
         int colDst = Math.abs(from.getCol() - to.getCol());
 
-        if (square(rowDst) + square(colDst) != 5) {
+        if (square(rowDst) + square(colDst) != MA_REACHABLE_RADIUS) {
             throw new IllegalArgumentException("[ERROR] 마가 해당 위치로 이동할 수 없습니다.");
         }
     }

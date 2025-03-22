@@ -5,5 +5,8 @@ public enum Direction {
     DOWN,
     RIGHT,
     LEFT,
-    ;
+    RIGHT_UP,
+    RIGHT_DOWN,
+    LEFT_UP,
+    LEFT_DONW;
 }
