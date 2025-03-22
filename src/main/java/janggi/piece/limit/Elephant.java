@@ -30,8 +30,8 @@ public class Elephant extends LimitMovable {
         );
     }
 
-    private Route createRoute(final Position originalPosition, Direction normalDirection,
-                              Direction diagonalNormalDirection) {
+    private Route createRoute(final Position originalPosition, final Direction normalDirection,
+                              final Direction diagonalNormalDirection) {
         Route route = new Route();
         Position movedPosition = originalPosition.move(normalDirection);
         Position movedPosition2 = movedPosition.move(diagonalNormalDirection);

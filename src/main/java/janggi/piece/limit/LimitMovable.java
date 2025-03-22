@@ -12,7 +12,7 @@ public abstract class LimitMovable implements Piece {
 
     private final Side side;
 
-    public LimitMovable(Side side) {
+    public LimitMovable(final Side side) {
         this.side = side;
     }
 
@@ -21,26 +21,28 @@ public abstract class LimitMovable implements Piece {
         List<Position> reachablePositions = new ArrayList<>();
         for (Route route : routes) {
             Position destination = route.getLastPosition();
-            if (isInvalidRoute(route, destination, board)) continue;
+            if (isInvalidRoute(route, destination, board)) {
+                continue;
+            }
             reachablePositions.add(destination);
         }
         return reachablePositions;
     }
 
     private boolean isInvalidRoute(final Route route, final Position destination, final Map<Position, Piece> board) {
-        if (destination.isOutOfRange() || isAlly(board.get(destination))) {
+        if (destination.isOutOfRange()) {
             return true;
         }
-        if (checkInvalidIntermediatePositions(route, board)) {
+        if (isAlly(board.get(destination))) {
             return true;
         }
-        return isAlly(board.get(destination));
+        return checkInvalidIntermediatePositions(route, board);
     }
 
     private boolean checkInvalidIntermediatePositions(final Route route, final Map<Position, Piece> board) {
         for (Position position : route.getIntermediatePositions()) {
             Piece targetPiece = board.get(position);
-            if(targetPiece.isOccupied()) {
+            if (targetPiece.isOccupied()) {
                 return true;
             }
         }

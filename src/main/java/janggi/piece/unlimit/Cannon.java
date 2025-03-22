@@ -9,33 +9,32 @@ import java.util.Map;
 
 public class Cannon extends UnLimitMovable {
 
-    private final Side side;
-
     public Cannon(final Side side) {
-        this.side = side;
+        super(side);
     }
 
     @Override
-    public void addValidDestination(final List<Position> positions, final List<Position> reachablePositions, final Map<Position, Piece> board) {
-        boolean hasJumped = false;
+    public void addValidDestination(final List<Position> positions, final List<Position> reachablePositions,
+                                    final Map<Position, Piece> board) {
+        boolean isJumped = false;
         for (Position position : positions) {
             Piece targetPiece = board.get(position);
             if (position.isOutOfRange() || targetPiece.isNotJumpable()) {
                 break;
             }
-            if (!hasJumped && targetPiece.isOccupied()) {
-                hasJumped = true;
+            if (!isJumped && targetPiece.isOccupied()) {
+                isJumped = true;
                 continue;
             }
 
-            if (hasJumped && processAfterJump(reachablePositions, position, targetPiece)) {
+            if (isJumped && handleAfterJumped(reachablePositions, position, targetPiece)) {
                 break;
             }
         }
     }
 
-    private boolean processAfterJump(final List<Position> reachablePositions, final Position position,
-                                     final Piece targetPiece) {
+    private boolean handleAfterJumped(final List<Position> reachablePositions, final Position position,
+                                      final Piece targetPiece) {
         if (targetPiece.isOccupied()) {
             if (!isAlly(targetPiece)) {
                 reachablePositions.add(position);
@@ -44,16 +43,6 @@ public class Cannon extends UnLimitMovable {
         }
         reachablePositions.add(position);
         return false;
-    }
-
-    @Override
-    public boolean isCho() {
-        return side == Side.CHO;
-    }
-
-    @Override
-    public boolean isHan() {
-        return side == Side.HAN;
     }
 
     @Override

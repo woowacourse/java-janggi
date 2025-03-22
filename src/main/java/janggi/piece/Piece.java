@@ -9,7 +9,7 @@ public interface Piece {
 
     PieceType getType();
 
-    List<Route> computeCandidatePositions(Position position);
+    List<Route> computeCandidatePositions(final Position position);
 
     List<Position> filterReachableDestinations(final List<Route> routes, final Map<Position, Piece> board);
 

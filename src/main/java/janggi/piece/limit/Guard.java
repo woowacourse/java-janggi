@@ -13,7 +13,7 @@ public class Guard extends LimitMovable {
         super(side);
     }
 
-    public List<Route> computeCandidatePositions(Position position) {
+    public List<Route> computeCandidatePositions(final Position position) {
         return List.of(
                 createRoute(position, Direction.UP),
                 createRoute(position, Direction.RIGHT),

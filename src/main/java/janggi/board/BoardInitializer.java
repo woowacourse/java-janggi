@@ -1,10 +1,24 @@
 package janggi.board;
 
-import janggi.piece.Side;
-import janggi.piece.*;
+import static janggi.board.InitialPositions.CHO_CANNON_POSITIONS;
+import static janggi.board.InitialPositions.CHO_CHARIOT_POSITIONS;
+import static janggi.board.InitialPositions.CHO_ELEPHANT_POSITIONS;
+import static janggi.board.InitialPositions.CHO_GUARD_POSITIONS;
+import static janggi.board.InitialPositions.CHO_HORSE_POSITIONS;
+import static janggi.board.InitialPositions.CHO_KING_POSITIONS;
+import static janggi.board.InitialPositions.CHO_SOLDIER_POSITION;
+import static janggi.board.InitialPositions.HAN_CANNON_POSITIONS;
+import static janggi.board.InitialPositions.HAN_CHARIOT_POSITIONS;
+import static janggi.board.InitialPositions.HAN_ELEPHANT_POSITIONS;
+import static janggi.board.InitialPositions.HAN_GUARD_POSITIONS;
+import static janggi.board.InitialPositions.HAN_HORSE_POSITIONS;
+import static janggi.board.InitialPositions.HAN_KING_POSITIONS;
+import static janggi.board.InitialPositions.HAN_SOLDIER_POSITIONS;
 
-import janggi.piece.limit.Elephant;
 import janggi.piece.Empty;
+import janggi.piece.Piece;
+import janggi.piece.Side;
+import janggi.piece.limit.Elephant;
 import janggi.piece.limit.Guard;
 import janggi.piece.limit.Horse;
 import janggi.piece.limit.King;
@@ -13,8 +27,6 @@ import janggi.piece.unlimit.Cannon;
 import janggi.piece.unlimit.Chariot;
 import java.util.HashMap;
 import java.util.Map;
-
-import static janggi.board.InitialPositions.*;
 
 public class BoardInitializer {
 
@@ -36,7 +48,7 @@ public class BoardInitializer {
         return board;
     }
 
-    private static void initializeSoldier(Map<Position, Piece> board) {
+    private static void initializeSoldier(final Map<Position, Piece> board) {
         for (Position choSoldierPosition : CHO_SOLDIER_POSITION.getPositions()) {
             board.put(choSoldierPosition, new Soldier(Side.CHO));
         }

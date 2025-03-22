@@ -12,7 +12,7 @@ public enum PieceType {
 
     final String symbol;
 
-    PieceType(String symbol) {
+    PieceType(final String symbol) {
         this.symbol = symbol;
     }
 

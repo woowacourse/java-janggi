@@ -15,7 +15,7 @@ public class JanggiBoard {
 
     private final Map<Position, Piece> board;
 
-    public JanggiBoard(Map<Position, Piece> board) {
+    public JanggiBoard(final Map<Position, Piece> board) {
         this.board = new HashMap<>(board);
     }
 
@@ -35,7 +35,8 @@ public class JanggiBoard {
         return reachableDestinations;
     }
 
-    public Piece moveOrCatchPiece(final Position selectedPiecePosition, final Position destination, final List<Position> reachableDestinations) {
+    public Piece moveOrCatchPiece(final Position selectedPiecePosition, final Position destination,
+                                  final List<Position> reachableDestinations) {
         validateSelectedDestination(destination, reachableDestinations);
         Piece seletedPiece = board.get(selectedPiecePosition);
         board.put(selectedPiecePosition, new Empty());

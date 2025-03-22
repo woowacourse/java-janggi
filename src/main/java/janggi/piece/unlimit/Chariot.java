@@ -9,20 +9,8 @@ import java.util.Map;
 
 public class Chariot extends UnLimitMovable {
 
-    private final Side side;
-
     public Chariot(final Side side) {
-        this.side = side;
-    }
-
-    @Override
-    public boolean isCho() {
-        return side == Side.CHO;
-    }
-
-    @Override
-    public boolean isHan() {
-        return side == Side.HAN;
+        super(side);
     }
 
     @Override
@@ -32,7 +20,7 @@ public class Chariot extends UnLimitMovable {
 
     @Override
     public void addValidDestination(final List<Position> positions, final List<Position> reachablePositions,
-                                     Map<Position, Piece> board) {
+                                    final Map<Position, Piece> board) {
         for (Position position : positions) {
             Piece targetPiece = board.get(position);
             if (isBoundPosition(position, reachablePositions, targetPiece)) {

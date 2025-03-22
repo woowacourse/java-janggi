@@ -16,7 +16,7 @@ public class Empty implements Piece {
     }
 
     @Override
-    public List<Position> filterReachableDestinations(List<Route> routes, Map<Position, Piece> board) {
+    public List<Position> filterReachableDestinations(final List<Route> routes, final Map<Position, Piece> board) {
         throw new IllegalArgumentException("[ERROR] 프로그램에 오류가 발생했습니다.");
     }
 

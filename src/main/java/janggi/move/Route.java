@@ -1,7 +1,6 @@
 package janggi.move;
 
 import janggi.board.Position;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

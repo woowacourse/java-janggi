@@ -67,7 +67,7 @@ public enum InitialPositions {
 
     private final List<Position> positions;
 
-    InitialPositions(List<Position> positions) {
+    InitialPositions(final List<Position> positions) {
         this.positions = positions;
     }
 
