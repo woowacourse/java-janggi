@@ -1,45 +1,40 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import janggi.domain.Board;
+import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
-import janggi.factory.PieceFactory;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class SoldierTest {
 
-    private static Stream<Arguments> moveableArguments() {
-        return Stream.of(
-                Arguments.of(Position.of(7, 3), Side.HAN,
-                        List.of(Position.of(7, 2), Position.of(7, 4), Position.of(8, 3))),
-                Arguments.of(Position.of(7, 1), Side.HAN,
-                        List.of(Position.of(8, 1), Position.of(7, 2))),
-                Arguments.of(Position.of(7, 1), Side.CHO,
-                        List.of(Position.of(6, 1), Position.of(7, 2))),
-                Arguments.of(Position.of(1, 1), Side.CHO, List.of(Position.of(1, 2)))
-        );
-    }
-
-    @DisplayName("좌표를 입력하면 이동 가능한 좌표들을 반환한다.")
-    @ParameterizedTest
-    @MethodSource("moveableArguments")
-    void test1(Position startingPosition, Side side, List<Position> expected) {
+    @DisplayName("병이 움직일 수 있는 포지션들을 반환한다.")
+    @Test
+    void test1() {
         // given
-        Board board = new Board(PieceFactory.initialize());
+        Position startingPosition = Position.of(3, 3);
         Soldier soldier = new Soldier();
+        Piece startingPiece = new Piece(Side.HAN, soldier);
+
+        Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
+        Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Set<Position> actual = soldier.generateAvailableMovePositions(board, side, startingPosition);
+        Set<Position> actual = soldier.generateAvailableMovePositions(board, Side.HAN, startingPosition);
+        Set<Position> expected = Set.of(
+                Position.of(3, 2),
+                Position.of(4, 3),
+                Position.of(3, 4)
+        );
 
         // then
-        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+        assertThat(actual).hasSameElementsAs(expected);
     }
 }

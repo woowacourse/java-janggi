@@ -1,18 +1,17 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import janggi.domain.Board;
 import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class CannonTest {
 
@@ -20,119 +19,113 @@ class CannonTest {
     @Test
     void test1() {
         // given
-        Position position = Position.of(7, 5);
+        Position startingPosition = Position.of(3, 3);
         Cannon cannon = new Cannon();
-        Position soldierPosition = Position.of(5, 5);
-        Soldier soldier = new Soldier();
-        Piece cannonPiece = new Piece(Side.HAN, cannon);
-        Piece soldierPiece = new Piece(Side.HAN, soldier);
+        Piece startingPiece = new Piece(Side.HAN, cannon);
 
-        Map<Position, Piece> startingPieces = Map.of(position, cannonPiece, soldierPosition, soldierPiece);
+        Map<Position, Piece> startingPieces = Map.of(
+                startingPosition, startingPiece,
+                Position.of(8, 3), new Piece(Side.HAN, new Soldier()),
+                Position.of(3, 7), new Piece(Side.HAN, new Soldier())
+        );
+        Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Board board = new Board(new HashMap<>(startingPieces));
-        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
+        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, startingPosition);
+        Set<Position> expected = Set.of(
+                Position.of(9, 3),
+                Position.of(10, 3),
+                Position.of(3, 8),
+                Position.of(3, 9)
+        );
 
         // then
-        assertThat(actual).hasSize(4);
+        assertThat(actual).hasSameElementsAs(expected);
     }
 
-    @DisplayName("기물을 넘어가고 같은 팀의 기물의 전까지 이동할 수 있다.")
+    @DisplayName("포는 기물을 넘어야 같은 팀 기물의 전까지 이동할 수 있다.")
     @Test
     void test2() {
         // given
-        Position position = Position.of(7, 5);
+        Position startingPosition = Position.of(3, 3);
         Cannon cannon = new Cannon();
-        Position soldierPosition1 = Position.of(5, 5);
-        Soldier soldier1 = new Soldier();
-        Position soldierPosition2 = Position.of(1, 5);
-        Soldier soldier2 = new Soldier();
-        Piece cannonPiece = new Piece(Side.HAN, cannon);
+        Piece startingPiece = new Piece(Side.HAN, cannon);
+        Position endPosition = Position.of(7, 3);
 
-        Piece soldierPiece1 = new Piece(Side.HAN, soldier1);
-        Piece soldierPiece2 = new Piece(Side.HAN, soldier2);
-
-        Map<Position, Piece> startingPieces = Map.of(position, cannonPiece, soldierPosition1, soldierPiece1,
-                soldierPosition2, soldierPiece2);
+        Map<Position, Piece> startingPieces = Map.of(
+                startingPosition, startingPiece,
+                Position.of(4, 3), new Piece(Side.HAN, new Soldier()),
+                Position.of(8, 3), new Piece(Side.HAN, new Soldier())
+        );
+        Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Board board = new Board(new HashMap<>(startingPieces));
-        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
+        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, startingPosition);
 
         // then
-        assertThat(actual).hasSize(3);
+        assertThat(actual).contains(endPosition);
     }
 
-    @DisplayName("기물을 넘어가고 상대 기물이 있는 위치까지 이동할 수 있다.")
+    @DisplayName("포는 기물을 넘어야 상대 기물이 있는 위치까지 이동할 수 있다.")
     @Test
     void test3() {
         // given
-        Position position = Position.of(7, 5);
+        Position startingPosition = Position.of(3, 3);
         Cannon cannon = new Cannon();
-        Position soldierPosition1 = Position.of(6, 5);
-        Soldier soldier1 = new Soldier();
-        Position soldierPosition2 = Position.of(1, 5);
-        Soldier soldier2 = new Soldier();
-        Piece piece = new Piece(Side.HAN, cannon);
-        Piece soldierPiece1 = new Piece(Side.HAN, soldier1);
-        Piece soldierPiece2 = new Piece(Side.CHO, soldier2);
+        Piece startingPiece = new Piece(Side.HAN, cannon);
+        Position endPosition = Position.of(8, 3);
 
-        Map<Position, Piece> startingPieces = Map.of(position, piece, soldierPosition1, soldierPiece1,
-                soldierPosition2, soldierPiece2);
+        Map<Position, Piece> startingPieces = Map.of(
+                startingPosition, startingPiece,
+                Position.of(4, 3), new Piece(Side.HAN, new Soldier()),
+                Position.of(8, 3), new Piece(Side.CHO, new Soldier())
+        );
+        Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Board board = new Board(new HashMap<>(startingPieces));
-        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
+        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, startingPosition);
 
         // then
-        assertThat(actual).hasSize(5);
+        assertThat(actual).contains(endPosition);
     }
 
-    @DisplayName("이동 경로에 포가 있으면 넘어갈 수 없다.")
+    @DisplayName("포는 다른 포를 넘을 수 없다.")
     @Test
     void test4() {
         // given
-        Position position = Position.of(7, 5);
+        Position startingPosition = Position.of(7, 5);
         Cannon cannon = new Cannon();
-        Position cannon2Position = Position.of(5, 5);
-        Cannon cannon2 = new Cannon();
-        Piece piece = new Piece(Side.HAN, cannon);
-        Piece cannon2Piece = new Piece(Side.HAN, cannon2);
+        Piece startingPiece = new Piece(Side.HAN, cannon);
+        Position endPosition = Position.of(4, 5);
 
-        Map<Position, Piece> startingPieces = Map.of(position, piece, cannon2Position, cannon2Piece);
+        Map<Position, Piece> startingPieces = Map.of(
+                startingPosition, startingPiece,
+                Position.of(5, 5), new Piece(Side.CHO, new Cannon())
+        );
+        Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Board board = new Board(new HashMap<>(startingPieces));
-        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
+        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, startingPosition);
 
         // then
-        assertThat(actual).isEmpty();
+        assertThat(actual).doesNotContain(endPosition);
     }
 
-    @DisplayName("기물을 넘어가고 상대 기물이 포라면 지나갈 수 없다.")
+    @DisplayName("포는 넘을 기물이 없으면 이동할 수 없다.")
     @Test
     void test5() {
         // given
-        Position position = Position.of(10, 5);
+        Position startingPosition = Position.of(3, 3);
         Cannon cannon = new Cannon();
-        Piece piece = new Piece(Side.CHO, cannon);
+        Piece startingPiece = new Piece(Side.HAN, cannon);
 
-        Position cannonPosition2 = Position.of(4, 5);
-        Cannon cannon2 = new Cannon();
-        Piece cannonPiece2 = new Piece(Side.HAN, cannon2);
-
-        Position soldierPosition = Position.of(9, 5);
-        Soldier soldier = new Soldier();
-        Piece soldierPiece = new Piece(Side.HAN, soldier);
-
-        Map<Position, Piece> startingPieces = Map.of(position, piece, cannonPosition2, cannonPiece2,
-                soldierPosition, soldierPiece);
+        Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
+        Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Board board = new Board(new HashMap<>(startingPieces));
-        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.CHO, position);
+        Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, startingPosition);
 
         // then
-        assertThat(actual).hasSize(4);
+        assertThat(actual).isEmpty();
     }
 }

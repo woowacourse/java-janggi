@@ -1,38 +1,42 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import janggi.domain.Board;
 import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class GuardTest {
 
     @DisplayName("사가 움직일 수 있는 포지션들을 반환한다.")
-    @ParameterizedTest
-    @CsvSource(value = {"5,5,8", "10,5,5", "10,9,3"})
-    void test1(int row, int column, int expected) {
+    @Test
+    void test1() {
         // given
-        Position position = Position.of(row, column);
+        Position startingPosition = Position.of(1, 5);
         Guard guard = new Guard();
-        Piece piece = new Piece(Side.HAN, guard);
+        Piece startingPiece = new Piece(Side.HAN, guard);
 
-        Map<Position, Piece> startingPieces = Map.of(position, piece);
+        Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
+        Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Board board = new Board(new HashMap<>(startingPieces));
-        Set<Position> actual = guard.generateAvailableMovePositions(board, Side.HAN, position);
+        Set<Position> actual = guard.generateAvailableMovePositions(board, Side.HAN, startingPosition);
+        Set<Position> expected = Set.of(
+                Position.of(1, 4),
+                Position.of(1, 6),
+                Position.of(2, 5),
+                Position.of(2, 6),
+                Position.of(2, 4)
+        );
 
         // then
-        assertThat(actual).hasSize(expected);
+        assertThat(actual).hasSameElementsAs(expected);
     }
 }

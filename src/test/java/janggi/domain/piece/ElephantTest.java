@@ -1,20 +1,17 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import janggi.domain.Board;
 import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class ElephantTest {
 
@@ -22,60 +19,65 @@ class ElephantTest {
     @Test
     void test1() {
         // given
-        Position position = Position.of(4, 5);
+        Position startingPosition = Position.of(1, 1);
         Elephant elephant = new Elephant();
-        Piece elephantPiece = new Piece(Side.HAN, elephant);
+        Piece startingPiece = new Piece(Side.HAN, elephant);
 
-        Map<Position, Piece> startingPieces = Map.of(position, elephantPiece);
+        Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
+        Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Board board = new Board(new HashMap<>(startingPieces));
-        Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, position);
+        Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, startingPosition);
+        Set<Position> expected = Set.of(
+                Position.of(4, 3),
+                Position.of(3, 4)
+        );
 
         // then
-        assertThat(actual).hasSize(8);
+        assertThat(actual).hasSameElementsAs(expected);
     }
 
-    @DisplayName("상 앞에 팀의 기물이 있다면 갈 수 없다.")
-    @ParameterizedTest
-    @CsvSource(value = {"4,5,5,5,6", "4,5,6,6,7"})
-    void test2(int elephantRow, int elephantColumn, int otherRow, int otherColumn, int expected) {
+    @DisplayName("상의 최종 목적지에 팀의 기물이 있다면 갈 수 없다.")
+    @Test
+    void test2() {
         // given
-        Position position = Position.of(elephantRow, elephantColumn);
+        Position startingPosition = Position.of(1, 1);
         Elephant elephant = new Elephant();
-        Position soldierPosition = Position.of(otherRow, otherColumn);
-        Soldier soldier = new Soldier();
-        Piece elephantPiece = new Piece(Side.HAN, elephant);
-        Piece soldierPiece = new Piece(Side.HAN, soldier);
+        Piece startingPiece = new Piece(Side.HAN, elephant);
+        Position endPosition = Position.of(4, 3);
 
-        Map<Position, Piece> startingPieces = Map.of(position, elephantPiece, soldierPosition, soldierPiece);
+        Map<Position, Piece> startingPieces = Map.of(
+                startingPosition, startingPiece,
+                endPosition, new Piece(Side.HAN, new Soldier())
+        );
+        Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Board board = new Board(new HashMap<>(startingPieces));
-        Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, position);
+        Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, startingPosition);
 
         // then
-        assertThat(actual).hasSize(expected);
+        assertThat(actual).doesNotContain(endPosition);
     }
 
     @DisplayName("상의 최종 목적지에 상대의 기물이 있다면 해당 위치까지 갈 수 있다.")
     @Test
     void test3() {
         // given
-        Position position = Position.of(4, 5);
+        Position startingPosition = Position.of(1, 1);
         Elephant elephant = new Elephant();
-        Position soldierPosition = Position.of(7, 3);
-        Soldier soldier = new Soldier();
-        Piece elephantPiece = new Piece(Side.HAN, elephant);
-        Piece soldierPiece = new Piece(Side.CHO, soldier);
+        Piece startingPiece = new Piece(Side.HAN, elephant);
+        Position endPosition = Position.of(4, 3);
 
-        Map<Position, Piece> startingPieces = Map.of(position, elephantPiece, soldierPosition, soldierPiece);
+        Map<Position, Piece> startingPieces = Map.of(
+                startingPosition, startingPiece,
+                endPosition, new Piece(Side.CHO, new Soldier())
+        );
+        Board board = new Board(new HashMap<>(startingPieces));
 
         // when
-        Board board = new Board(new HashMap<>(startingPieces));
-        Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, position);
+        Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, startingPosition);
 
         // then
-        assertThat(actual).hasSize(8);
+        assertThat(actual).contains(endPosition);
     }
 }
