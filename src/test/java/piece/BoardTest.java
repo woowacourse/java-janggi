@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import pieceProperty.Position;
 
 class BoardTest {
 
@@ -29,8 +30,8 @@ class BoardTest {
     void notUpdateBoard() {
         //given
         List<Piece> pieces = List.of(
-                new Po(new PieceProfile("포", Nation.HAN), new Position(3, 2)),
-                new Po(new PieceProfile("포", Nation.HAN), new Position(4, 2))
+                new Po(new Position(3, 2)),
+                new Po(new Position(4, 2))
         );
 
         List<Piece> pieces2 = List.of();
@@ -51,7 +52,7 @@ class BoardTest {
     void updateBoard() {
         //given
         List<Piece> pieces = List.of(
-                new Byeong(new PieceProfile("병", Nation.HAN), new Position(3, 2))
+                new Byeong(new Position(3, 2))
         );
 
         List<Piece> pieces2 = List.of();
@@ -66,8 +67,7 @@ class BoardTest {
 
         //then
         Piece actual = board.getJanggiPan().get(futurePosition);
-        assertThat(actual).isEqualTo(new Byeong(new PieceProfile("병", Nation.HAN),
-                new Position(4, 2)));
+        assertThat(actual).isEqualTo(new Byeong(new Position(4, 2)));
     }
 
     @DisplayName("장기판의 기물이 포 인경우 옮길 수 있다.")
@@ -75,8 +75,8 @@ class BoardTest {
     void poUpdate() {
         //given
         List<Piece> pieces = List.of(
-                new Po(new PieceProfile("포", Nation.HAN), new Position(3, 2)),
-                new Byeong(new PieceProfile("병", Nation.HAN), new Position(4, 2))
+                new Po(new Position(3, 2)),
+                new Byeong(new Position(4, 2))
         );
 
         List<Piece> pieces2 = List.of();
@@ -91,17 +91,16 @@ class BoardTest {
 
         //then
         Piece actual = board.getJanggiPan().get(futurePosition);
-        assertThat(actual).isEqualTo(new Po(new PieceProfile("포", Nation.HAN),
-                new Position(5, 2)));
+        assertThat(actual).isEqualTo(new Po(new Position(5, 2)));
     }
 
     @DisplayName("장기판의 포앞에 기물이 2개 이상 존재한다면 예외를 던진다.")
     @Test
     void notUpdateFoInFrontTwoChessPiece() {
         List<Piece> pieces = List.of(
-                new Po(new PieceProfile("포", Nation.HAN), new Position(3, 2)),
-                new Jol(new PieceProfile("졸", Nation.HAN), new Position(4, 2)),
-                new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 2))
+                new Po(new Position(3, 2)),
+                new Jol(new Position(4, 2)),
+                new Byeong(new Position(5, 2))
         );
 
         List<Piece> pieces2 = List.of();
@@ -122,8 +121,8 @@ class BoardTest {
     void checkObstacle() {
         //given
         List<Piece> pieces = List.of(
-                new Cha(new PieceProfile("차", Nation.HAN), new Position(4, 2)),
-                new Byeong(new PieceProfile("병", Nation.HAN), new Position(7, 2))
+                new Cha(new Position(4, 2)),
+                new Byeong(new Position(7, 2))
         );
 
         List<Piece> pieces2 = List.of();

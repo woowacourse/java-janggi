@@ -1,10 +1,13 @@
 package piece;
 
+import static pieceProperty.PieceType.PO;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import pieceProperty.Position;
 
 public class Board {
 
@@ -44,7 +47,7 @@ public class Board {
     }
 
     private boolean isPo(Position position) {
-        return janggiPan.containsKey(position) && janggiPan.get(position).getName().equals("포");
+        return janggiPan.containsKey(position) && janggiPan.get(position).getPieceType().equals(PO);
     }
 
     private boolean isPieceInFront(final Position presentPosition, final Position futurePosition) {

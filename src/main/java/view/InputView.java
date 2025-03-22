@@ -1,6 +1,6 @@
 package view;
 
-import piece.Position;
+import pieceProperty.Position;
 import java.util.Scanner;
 
 public class InputView {

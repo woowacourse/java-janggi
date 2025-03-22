@@ -1,4 +1,4 @@
-package piece;
+package player;
 
 public enum Nation {
     HAN,
