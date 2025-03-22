@@ -32,4 +32,10 @@ public class JanggiBoard {
         }
         throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다.");
     }
+
+    public void movePiece(JanggiCoordinate from, JanggiCoordinate to) {
+        Piece piece = findPieceByCoordinate(from);
+        board.put(to, piece);
+        board.remove(from);
+    }
 }
