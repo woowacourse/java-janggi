@@ -3,7 +3,6 @@ package janggi.domain.piece;
 import janggi.domain.Board;
 import janggi.domain.Side;
 import janggi.domain.move.Position;
-import janggi.domain.piece.behavior.General;
 import java.util.Objects;
 import java.util.Set;
 
@@ -22,7 +21,7 @@ public class Piece {
     }
 
     public boolean isGeneral(Side side) {
-        return this.side == side && pieceBehavior instanceof General;
+        return this.side == side && pieceBehavior.isGeneral();
     }
 
     public Set<Position> getAvailableMovePositions(Board board, Position currentPosition) {

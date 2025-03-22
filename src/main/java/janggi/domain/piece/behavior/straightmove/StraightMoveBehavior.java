@@ -22,6 +22,11 @@ public abstract class StraightMoveBehavior implements PieceBehavior {
         return result;
     }
 
+    @Override
+    public final boolean isGeneral() {
+        return false;
+    }
+
     protected abstract List<Vector> getVectors();
 
     protected abstract void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition,

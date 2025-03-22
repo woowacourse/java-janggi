@@ -3,7 +3,6 @@ package janggi.domain.piece.behavior.rotatemove;
 import janggi.domain.Board;
 import janggi.domain.Side;
 import janggi.domain.move.Position;
-import janggi.domain.move.Vector;
 import janggi.domain.move.Vectors;
 import janggi.domain.piece.PieceBehavior;
 import java.util.ArrayList;
@@ -24,6 +23,11 @@ public abstract class RotateMoveBehavior implements PieceBehavior {
         }
 
         return result;
+    }
+
+    @Override
+    public final boolean isGeneral() {
+        return false;
     }
 
     protected abstract List<Vectors> getVectorsList();

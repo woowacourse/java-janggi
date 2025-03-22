@@ -10,4 +10,6 @@ public interface PieceBehavior {
     Set<Position> generateAvailableMovePositions(Board board, Side side, Position position);
 
     String toName();
+
+    boolean isGeneral();
 }

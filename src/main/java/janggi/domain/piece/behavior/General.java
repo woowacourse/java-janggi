@@ -39,4 +39,9 @@ public class General implements PieceBehavior {
         return "궁";
     }
 
+    @Override
+    public boolean isGeneral() {
+        return true;
+    }
+
 }
