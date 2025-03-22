@@ -20,10 +20,6 @@ public class Board {
         this.nodeByPoint = nodeByPoint;
     }
 
-    public void putPiece(Node node, Piece piece) {
-        board.put(node, piece);
-    }
-
     public Node findNodeByPoint(Point point) {
         if (!nodeByPoint.containsKey(point)) {
             throw new IllegalArgumentException("[ERROR] 해당 위치에 노드가 존재하지 않습니다.");
@@ -72,5 +68,9 @@ public class Board {
         }
         Piece piece = board.get(node);
         return piece.type() == pieceType;
+    }
+
+    public void putPiece(Node node, Piece piece) {
+        board.put(node, piece);
     }
 }
