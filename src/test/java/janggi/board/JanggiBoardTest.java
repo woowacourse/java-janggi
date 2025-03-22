@@ -311,4 +311,14 @@ class JanggiBoardTest {
         assertThat(janggiBoard.checkGameIsOver(catchedPiece)).isTrue();
     }
 
+    @Test
+    @DisplayName("이동할 기물 선택에서 빈 칸을 선택하면 예외를 던진다.")
+    void test22() {
+        JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
+
+        Position position = new Position(0, 8);
+
+        assertThatThrownBy(() -> janggiBoard.computeReachableDestination(position)).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 해당 위치에 움직일 수 있는 기물이 없습니다.");
+    }
 }
