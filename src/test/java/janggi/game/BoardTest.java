@@ -11,6 +11,7 @@ import janggi.piece.Gung;
 import janggi.piece.Movable;
 import janggi.piece.Po;
 import janggi.point.Point;
+import janggi.point.Route;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -61,7 +62,9 @@ public class BoardTest {
             Board board = new Board(pieces);
 
             Point startPoint = new Point(5, 4);
-            List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
+            Route route = new Route(List.of(
+                    new Point(4, 4), new Point(3, 4), new Point(2, 4))
+            );
 
             assertThat(board.checkHurdles(startPoint, route)).isTrue();
         }
@@ -75,7 +78,9 @@ public class BoardTest {
             Board board = new Board(pieces);
 
             Point startPoint = new Point(5, 4);
-            List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
+            Route route = new Route(List.of(
+                    new Point(4, 4), new Point(3, 4), new Point(2, 4))
+            );
 
             assertThat(board.checkHurdles(startPoint, route)).isFalse();
         }
@@ -90,7 +95,9 @@ public class BoardTest {
             Board board = new Board(pieces);
 
             Point startPoint = new Point(5, 4);
-            List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
+            Route route = new Route(List.of(
+                    new Point(4, 4), new Point(3, 4), new Point(2, 4))
+            );
 
             assertThat(board.checkHurdles(startPoint, route)).isFalse();
         }
@@ -105,7 +112,9 @@ public class BoardTest {
             Board board = new Board(pieces);
 
             Point startPoint = new Point(5, 4);
-            List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
+            Route route = new Route(List.of(
+                    new Point(4, 4), new Point(3, 4), new Point(2, 4))
+            );
 
             assertThat(board.checkHurdles(startPoint, route)).isTrue();
         }
@@ -121,7 +130,9 @@ public class BoardTest {
             Board board = new Board(pieces);
 
             Point startPoint = new Point(5, 4);
-            List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
+            Route route = new Route(List.of(
+                    new Point(4, 4), new Point(3, 4), new Point(2, 4))
+            );
 
             assertThat(board.checkHurdles(startPoint, route)).isTrue();
         }

@@ -1,11 +1,10 @@
 package janggi.piece;
 
 import janggi.game.Board;
-import janggi.point.Direction;
 import janggi.point.InitialPoint;
 import janggi.point.Point;
 import janggi.game.Team;
-import janggi.point.PointDistance;
+import janggi.point.Route;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,14 +40,14 @@ public class Po implements Movable {
         if (board.hasPieceOnPoint(targetPoint) && board.findByPoint(targetPoint) instanceof Po) {
             return false;
         }
-        List<Point> route = findRoute(targetPoint);
+        Route route = findRoute(targetPoint);
         List<Point> hurdles = new ArrayList<>();
-        for (Point point : route) {
-            if (findHurdle(point, hurdles, board)) {
-                continue;
-            }
-            return false;
-        }
+//        for (Point point : route) {
+//            if (findHurdle(point, hurdles, board)) {
+//                continue;
+//            }
+//            return false;
+//        }
         return hurdles.size() == 1;
     }
 
@@ -73,17 +72,17 @@ public class Po implements Movable {
     }
 
     @Override
-    public List<Point> findRoute(Point targetPoint) {
-        List<Point> route = new ArrayList<>();
-        Direction direction = Direction.cardinalFrom(point, targetPoint);
-        PointDistance distance = PointDistance.calculate(point, targetPoint);
-
-        Point pointer = point;
-        for (int i = 0; i < (int) distance.getDistance() - 1; i++) {
-            pointer = direction.move(pointer);
-            route.add(pointer);
-        }
-        return route;
+    public Route findRoute(Point targetPoint) {
+//        List<Point> route = new ArrayList<>();
+//        Direction direction = Direction.cardinalFrom(point, targetPoint);
+//        PointDistance distance = PointDistance.calculate(point, targetPoint);
+//
+//        Point pointer = point;
+//        for (int i = 0; i < (int) distance.getDistance() - 1; i++) {
+//            pointer = direction.move(pointer);
+//            route.add(pointer);
+//        }
+        return null;
     }
 
     @Override

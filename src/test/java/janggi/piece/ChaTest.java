@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.game.Team;
 import janggi.point.Point;
+import janggi.point.Route;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -68,11 +69,12 @@ public class ChaTest {
 
             Point targetPoint = new Point(6, 3);
 
-            List<Point> route = cha.findRoute(targetPoint);
+            Route route = cha.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(6, 5), new Point(6, 4), new Point(6, 3));
+                assertThat(route).isEqualTo(new Route(List.of(
+                        new Point(6, 5), new Point(6, 4), new Point(6, 3)
+                )));
             });
         }
 
@@ -83,11 +85,12 @@ public class ChaTest {
 
             Point targetPoint = new Point(6, 8);
 
-            List<Point> route = cha.findRoute(targetPoint);
+            Route route = cha.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(6, 7), new Point(6, 8));
+                assertThat(route).isEqualTo(new Route(List.of(
+                        new Point(6, 7), new Point(6, 8)
+                )));
             });
         }
 
@@ -98,12 +101,12 @@ public class ChaTest {
 
             Point targetPoint = new Point(2, 6);
 
-            List<Point> route = cha.findRoute(targetPoint);
+            Route route = cha.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(4);
-                assertThat(route).containsExactly(new Point(5, 6), new Point(4, 6),
-                        new Point(3, 6), new Point(2, 6));
+                assertThat(route).isEqualTo(new Route(List.of(
+                        new Point(5, 6), new Point(4, 6),
+                        new Point(3, 6), new Point(2, 6))));
             });
         }
 
@@ -114,11 +117,12 @@ public class ChaTest {
 
             Point targetPoint = new Point(8, 6);
 
-            List<Point> route = cha.findRoute(targetPoint);
+            Route route = cha.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(7, 6), new Point(8, 6));
+                assertThat(route).isEqualTo(new Route(List.of(
+                        new Point(7, 6), new Point(8, 6)
+                )));
             });
         }
     }

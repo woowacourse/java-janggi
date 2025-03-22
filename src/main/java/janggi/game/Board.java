@@ -9,6 +9,7 @@ import janggi.piece.Po;
 import janggi.piece.Sa;
 import janggi.piece.Sang;
 import janggi.point.Point;
+import janggi.point.Route;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -54,16 +55,14 @@ public class Board {
                 .anyMatch(piece -> piece.getPoint().equals(point));
     }
 
-    public boolean checkHurdles(Point startPoint, List<Point> route) {
+    public boolean checkHurdles(Point startPoint, Route route) {
         List<Point> piecePoints = runningPieces.stream()
                 .map(Movable::getPoint).toList();
 
-        List<Point> crashPoints = route.stream()
-                .filter(piecePoints::contains)
-                .toList();
+        List<Point> crashPoints = route.findCrashes(piecePoints);
 
         if (crashPoints.size() == 1
-                && route.getLast().equals(crashPoints.getFirst())
+                && route.findLastPoint().equals(crashPoints.getFirst())
         ) {
             Movable crashPiece = findByPoint(crashPoints.getFirst());
             Movable movingPiece = findByPoint(startPoint);
@@ -87,8 +86,8 @@ public class Board {
             if (!((Po) movingPiece).isMovable(afterPoint, this)) {
                 throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
             }
-        } else if (!movingPiece.isInMovingRange(afterPoint) || checkHurdles(beforePoint,
-                movingPiece.findRoute(afterPoint))
+        } else if (!movingPiece.isInMovingRange(afterPoint)
+                || checkHurdles(beforePoint, movingPiece.findRoute(afterPoint))
         ) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.game.Team;
 import janggi.point.Point;
+import janggi.point.Route;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -68,11 +69,12 @@ public class SaTest {
 
             Point targetPoint = new Point(6, 5);
 
-            List<Point> route = sa.findRoute(targetPoint);
+            Route route = sa.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(1);
-                assertThat(route).containsExactly(new Point(6, 5));
+                assertThat(route).isEqualTo(new Route(List.of(
+                        new Point(6, 5)
+                )));
             });
         }
 
@@ -83,11 +85,12 @@ public class SaTest {
 
             Point targetPoint = new Point(6, 7);
 
-            List<Point> route = sa.findRoute(targetPoint);
+            Route route = sa.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(1);
-                assertThat(route).containsExactly(new Point(6, 7));
+                assertThat(route).isEqualTo(new Route(List.of(
+                        new Point(6, 7)
+                )));
             });
         }
 
@@ -98,11 +101,12 @@ public class SaTest {
 
             Point targetPoint = new Point(5, 6);
 
-            List<Point> route = sa.findRoute(targetPoint);
+            Route route = sa.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(1);
-                assertThat(route).containsExactly(new Point(5, 6));
+                assertThat(route).isEqualTo(new Route(List.of(
+                        new Point(5, 6)
+                )));
             });
         }
 
@@ -113,11 +117,12 @@ public class SaTest {
 
             Point targetPoint = new Point(7, 6);
 
-            List<Point> route = sa.findRoute(targetPoint);
+            Route route = sa.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(1);
-                assertThat(route).containsExactly(new Point(7, 6));
+                assertThat(route).isEqualTo(new Route(List.of(
+                        new Point(7,6)
+                )));
             });
         }
     }

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.game.Team;
 import janggi.point.Point;
+import janggi.point.Route;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -108,11 +109,12 @@ class MaTest {
 
             Point targetPoint = new Point(3, 5);
 
-            List<Point> route = ma.findRoute(targetPoint);
+            Route route = ma.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(4, 4), new Point(3, 5));
+                assertThat(route).isEqualTo(new Route(List.of(
+                        new Point(4, 4), new Point(3, 5)
+                )));
             });
         }
 
@@ -123,11 +125,12 @@ class MaTest {
 
             Point targetPoint = new Point(4, 6);
 
-            List<Point> route = ma.findRoute(targetPoint);
+            Route route = ma.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(5, 5), new Point(4, 6));
+                assertThat(route).isEqualTo(new Route(List.of(
+                        new Point(5, 5), new Point(4, 6)
+                )));
             });
         }
 
@@ -138,11 +141,12 @@ class MaTest {
 
             Point targetPoint = new Point(6, 6);
 
-            List<Point> route = ma.findRoute(targetPoint);
+            Route route = ma.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(5, 5), new Point(6, 6));
+                assertThat(route).isEqualTo(new Route(List.of(
+                        new Point(5, 5), new Point(6, 6)
+                )));
             });
         }
 
@@ -153,11 +157,12 @@ class MaTest {
 
             Point targetPoint = new Point(7, 5);
 
-            List<Point> route = ma.findRoute(targetPoint);
+            Route route = ma.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(6, 4), new Point(7, 5));
+                assertThat(route).isEqualTo(new Route(List.of(
+                        new Point(6, 4), new Point(7, 5)
+                )));
             });
         }
 
@@ -168,11 +173,12 @@ class MaTest {
 
             Point targetPoint = new Point(7, 3);
 
-            List<Point> route = ma.findRoute(targetPoint);
+            Route route = ma.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(6, 4), new Point(7, 3));
+                assertThat(route).isEqualTo(new Route(List.of(
+                        new Point(6, 4), new Point(7, 3)
+                )));
             });
         }
 
@@ -183,11 +189,12 @@ class MaTest {
 
             Point targetPoint = new Point(6, 2);
 
-            List<Point> route = ma.findRoute(targetPoint);
+            Route route = ma.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(5, 3), new Point(6, 2));
+                assertThat(route).isEqualTo(new Route(List.of(
+                        new Point(5, 3), new Point(6, 2)
+                )));
             });
         }
 
@@ -198,11 +205,12 @@ class MaTest {
 
             Point targetPoint = new Point(4, 2);
 
-            List<Point> route = ma.findRoute(targetPoint);
+            Route route = ma.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(5, 3), new Point(4, 2));
+                assertThat(route).isEqualTo(new Route(List.of(
+                        new Point(5, 3), new Point(4, 2)
+                )));
             });
         }
 
@@ -213,11 +221,12 @@ class MaTest {
 
             Point targetPoint = new Point(3, 3);
 
-            List<Point> route = ma.findRoute(targetPoint);
+            Route route = ma.findRoute(targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(4, 4), new Point(3, 3));
+                assertThat(route).isEqualTo(new Route(List.of(
+                        new Point(4, 4), new Point(3, 3)
+                )));
             });
         }
     }

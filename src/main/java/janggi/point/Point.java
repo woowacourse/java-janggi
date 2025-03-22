@@ -22,8 +22,8 @@ public record Point(int row, int column) {
         }
     }
 
-    public Point move(int rowMovingDistance, int columnMovingDistance) {
-        return new Point(this.row + rowMovingDistance, this.column + columnMovingDistance);
+    public Point move(int rowOffset, int columnOffset) {
+        return new Point(this.row + rowOffset, this.column + columnOffset);
     }
 
     public boolean isSameRow(Point targetPoint) {
