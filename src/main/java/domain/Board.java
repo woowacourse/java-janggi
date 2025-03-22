@@ -2,73 +2,69 @@ package domain;
 
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import domain.position.Position;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Board {
-    private final List<Piece> alivePieces;
-    private final List<Piece> deadPieces;
+    private static final int GAME_RUNNING_KING_COUNT = 2;
+    private final Map<Position, Piece> pieces;
 
-    public Board(List<Piece> pieces) {
-        this.alivePieces = new ArrayList<>(pieces);
-        this.deadPieces = new ArrayList<>();
+    public Board(Map<Position, Piece> pieces) {
+        this.pieces = new HashMap<>(pieces);
     }
 
-    public void movePiece(Position startPosition, Position endPosition, TeamType team) {
-        Piece findPiece = findPieceByPosition(startPosition)
-                .orElseThrow(() -> new IllegalArgumentException("해당 좌표에는 말이 존재하지 않습니다."));
+    public void movePiece(Position from, Position to, TeamType team) {
+        Piece foundPiece = findPieceByPosition(from);
 
-        validateOwnPiece(team, findPiece);
-        validateCanMove(findPiece, endPosition);
+        validateOwnPiece(team, foundPiece);
+        foundPiece.validateMove(from, to, this);
 
-        changePieceState(endPosition);
-        findPiece.moveTo(endPosition);
+        changePosition(from, to, foundPiece);
     }
 
-    public boolean isFinished() {
-        return deadPieces.stream()
-                .anyMatch(piece -> piece.getType().equals(PieceType.KING));
+    private void changePosition(Position from, Position to, Piece foundPiece) {
+        pieces.remove(from);
+        pieces.put(to, foundPiece);
+    }
+
+    public boolean isInProgress() {
+        int kingCount = (int) pieces.values().stream()
+                .filter(piece -> piece.isSameType(PieceType.KING))
+                .count();
+
+        return kingCount != GAME_RUNNING_KING_COUNT;
     }
 
     public TeamType findWinTeam() {
-        Piece deadKing = findDeadKing();
-        if (deadKing.isSameTeam(TeamType.CHO)) {
-            return TeamType.HAN;
+        if (!isInProgress()) {
+            throw new IllegalArgumentException("게임이 종료되지 않아 우승을 판별할 수 없습니다.");
         }
-        return TeamType.CHO;
-    }
-
-    private void changePieceState(Position endPosition) {
-        findPieceByPosition(endPosition)
-                .ifPresent(piece -> {
-                    alivePieces.remove(piece);
-                    deadPieces.add(piece);
-                });
-    }
-
-    private boolean isNotSameTeam(TeamType team, Piece findPiece) {
-        return !findPiece.isSameTeam(team);
-    }
-
-    private Optional<Piece> findPieceByPosition(Position startPosition) {
-        return alivePieces.stream()
-                .filter(piece -> piece.hasSamePosition(startPosition))
-                .findAny();
-    }
-
-    private Piece findDeadKing() {
-        return deadPieces.stream()
+        Piece king = pieces.values().stream()
                 .filter(piece -> piece.isSameType(PieceType.KING))
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("아직 게임이 끝나지 않았습니다."));
+                .orElseThrow(() -> new IllegalStateException("게임에 왕이 존재하지 않아 우승을 판별할 수 없습니다."));
+
+        return findWinTeamByAliveKing(king);
     }
 
-    private void validateCanMove(Piece piece, Position endPosition) {
-        boolean canMove = piece.canMove(endPosition, alivePieces);
-        if (!canMove) {
-            throw new IllegalArgumentException("해당 좌표로 이동시킬 수 없습니다.");
+    private TeamType findWinTeamByAliveKing(Piece king) {
+        return Arrays.stream(TeamType.values())
+                .filter(king::isSameTeam)
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("왕의 팀이 존재하지 않습니다."));
+    }
+
+    public Piece findPieceByPosition(Position from) {
+        if (isEmptyPosition(from)) {
+            throw new IllegalArgumentException("해당 좌표에는 말이 존재하지 않습니다.");
         }
+        return pieces.get(from);
+    }
+
+    public boolean isEmptyPosition(Position position) {
+        return !pieces.containsKey(position);
     }
 
     private void validateOwnPiece(TeamType team, Piece findPiece) {
@@ -77,7 +73,17 @@ public class Board {
         }
     }
 
-    public List<Piece> getAlivePieces() {
-        return alivePieces.stream().map(Piece::newInstance).toList();
+    public Map<Position, Piece> getAlivePieces() {
+        Map<Position, Piece> copyPieces = new HashMap<>();
+        pieces.keySet()
+                .forEach(key -> {
+                    copyPieces.put(key, pieces.get(key).newInstance());
+                });
+
+        return copyPieces;
+    }
+
+    private boolean isNotSameTeam(TeamType team, Piece findPiece) {
+        return !findPiece.isSameTeam(team);
     }
 }

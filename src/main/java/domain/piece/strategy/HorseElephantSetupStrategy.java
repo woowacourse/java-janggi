@@ -2,23 +2,23 @@ package domain.piece.strategy;
 
 import domain.TeamType;
 import domain.piece.Piece;
-import java.util.ArrayList;
-import java.util.List;
+import domain.position.Position;
+import java.util.Map;
 
 public abstract class HorseElephantSetupStrategy {
 
-    protected final List<Piece> HAN_ELEPHANT_HORSE;
-    protected final List<Piece> CHO_ELEPHANT_HORSE;
+    protected final Map<Position, Piece> HAN_ELEPHANT_HORSE;
+    protected final Map<Position, Piece> CHO_ELEPHANT_HORSE;
 
-    protected HorseElephantSetupStrategy(List<Piece> hanElephantHorse, List<Piece> choElephantHorse) {
+    protected HorseElephantSetupStrategy(Map<Position, Piece> hanElephantHorse, Map<Position, Piece> choElephantHorse) {
         HAN_ELEPHANT_HORSE = hanElephantHorse;
         CHO_ELEPHANT_HORSE = choElephantHorse;
     }
 
-    public List<Piece> createElephantHorse(TeamType teamType) {
+    public Map<Position, Piece> createElephantHorse(TeamType teamType) {
         if (teamType == TeamType.CHO) {
-            return new ArrayList<>(CHO_ELEPHANT_HORSE);
+            return CHO_ELEPHANT_HORSE;
         }
-        return new ArrayList<>(HAN_ELEPHANT_HORSE);
+        return HAN_ELEPHANT_HORSE;
     }
 }

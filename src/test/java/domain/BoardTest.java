@@ -8,34 +8,37 @@ import domain.piece.King;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Soldier;
-import java.util.List;
-import java.util.Optional;
+import domain.position.Position;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
-    private List<Piece> pieces;
+    private Map<Position, Piece> pieces;
 
     @BeforeEach
     void beforeEach() {
-        pieces = List.of(
-                new Horse(Position.of(1, 1), TeamType.CHO),
-                new Soldier(Position.of(1, 2), TeamType.HAN),
-                new Soldier(Position.of(0, 1), TeamType.CHO),
-                new Horse(Position.of(0, 2), TeamType.HAN),
-                new King(Position.of(4, 3), TeamType.CHO),
-                new King(Position.of(3, 2), TeamType.HAN)
+        pieces = Map.of(
+                Position.of(1, 1), new Horse(TeamType.CHO),
+                Position.of(1, 2), new Soldier(TeamType.HAN),
+                Position.of(0, 1), new Soldier(TeamType.CHO),
+                Position.of(0, 2), new Horse(TeamType.HAN),
+                Position.of(4, 3), new King(TeamType.CHO),
+                Position.of(3, 2), new King(TeamType.HAN)
         );
     }
 
     @Test
     @DisplayName("사용자가 이동하려는 말의 좌표가 비어있으면 예외가 발생한다.")
     void movePieceException() {
-        Board board = new Board(List.of());
+        // given
+        Board board = new Board(Map.of());
         Position startPosition = Position.of(1, 1);
         Position endPosition = Position.of(1, 2);
+
+        // when & then
         assertThatThrownBy(() -> board.movePiece(startPosition, endPosition, TeamType.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표에는 말이 존재하지 않습니다.");
@@ -44,31 +47,33 @@ class BoardTest {
     @Test
     @DisplayName("이동하지 못한다면 예외가 발생한다.")
     void movePieceException2() {
+        // given
         Board board = new Board(pieces);
-
         Position startPosition = Position.of(0, 1);
         Position endPosition = Position.of(1, 1);
 
+        // when & then
         assertThatThrownBy(() -> board.movePiece(startPosition, endPosition, TeamType.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
+                .hasMessage("이동하려는 위치에 같은 팀의 기물이 존재합니다.");
     }
 
     @Test
     @DisplayName("해당 자리에 아무도 없으면 이동한다.")
     void movePieceException3() {
+        // given
         Board board = new Board(pieces);
 
         Position startPosition = Position.of(0, 1);
         Position endPosition = Position.of(0, 0);
 
+        // when
         board.movePiece(startPosition, endPosition, TeamType.CHO);
 
-        List<Piece> alivePieces = board.getAlivePieces();
-        Optional<Piece> optionalPiece = alivePieces.stream().filter(piece -> piece.hasSamePosition(endPosition))
-                .findAny();
-        assertThat(optionalPiece).isPresent();
-        Piece findPiece = optionalPiece.get();
+        // then
+        Map<Position, Piece> alivePieces = board.getAlivePieces();
+        assertThat(alivePieces.containsKey(endPosition)).isTrue();
+        Piece findPiece = alivePieces.get(endPosition);
         PieceType type = findPiece.getType();
         assertThat(type).isEqualTo(PieceType.SOLDIER);
     }
@@ -82,12 +87,10 @@ class BoardTest {
 
         board.movePiece(startPosition, endPosition, TeamType.CHO);
 
-        List<Piece> alivePieces = board.getAlivePieces();
+        Map<Position, Piece> alivePieces = board.getAlivePieces();
         assertThat(alivePieces).hasSize(5);
-        Optional<Piece> optionalPiece = alivePieces.stream().filter(piece -> piece.hasSamePosition(endPosition))
-                .findAny();
-        assertThat(optionalPiece).isPresent();
-        Piece findPiece = optionalPiece.get();
+        assertThat(alivePieces.containsKey(endPosition)).isTrue();
+        Piece findPiece = alivePieces.get(endPosition);
         PieceType type = findPiece.getType();
         assertThat(type).isEqualTo(PieceType.SOLDIER);
     }
@@ -102,7 +105,7 @@ class BoardTest {
 
         board.movePiece(startPosition, endPosition, TeamType.CHO);
 
-        assertThat(board.isFinished()).isTrue();
+        assertThat(board.isInProgress()).isTrue();
     }
 
     @Test
@@ -110,7 +113,7 @@ class BoardTest {
     void isFinishedTest2() {
         Board board = new Board(pieces);
 
-        assertThat(board.isFinished()).isFalse();
+        assertThat(board.isInProgress()).isFalse();
     }
 
     @Test

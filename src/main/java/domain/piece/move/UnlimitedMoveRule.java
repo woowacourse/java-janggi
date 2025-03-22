@@ -7,7 +7,7 @@ import java.util.List;
 
 public class UnlimitedMoveRule implements MoveRule {
 
-    private List<Direction> directions;
+    private final List<Direction> directions;
 
     public UnlimitedMoveRule(List<Direction> directions) {
         this.directions = directions;
@@ -19,19 +19,19 @@ public class UnlimitedMoveRule implements MoveRule {
         return getIntermediatePathByDirection(from, to, reachableDirection);
     }
 
-    private Direction getReachableDirection(Position from, Position to){
+    private Direction getReachableDirection(Position from, Position to) {
         return directions.stream()
-                .filter(directions -> isReachable(from, to, Direction.UP))
+                .filter(direction -> isReachable(from, to, direction))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("지정한 포지션으로 이동할 수 없습니다."));
     }
 
-    private boolean isReachable(Position from, Position to, Direction direction){
+    private boolean isReachable(Position from, Position to, Direction direction) {
         Position movePosition = from;
 
-        while(direction.canMoveFrom(from)){
+        while (direction.canMoveFrom(movePosition)) {
             movePosition = direction.moveFrom(movePosition);
-            if(movePosition.equals(to)){
+            if (movePosition.equals(to)) {
                 return true;
             }
         }
@@ -39,13 +39,14 @@ public class UnlimitedMoveRule implements MoveRule {
         return false;
     }
 
-    private List<Position> getIntermediatePathByDirection(Position from, Position to, Direction direction){
+    private List<Position> getIntermediatePathByDirection(Position from, Position to, Direction direction) {
         List<Position> intermediatePath = new ArrayList<>();
         Position movePosition = from;
-        while(movePosition.equals(to)){
-            intermediatePath.add(direction.moveFrom(movePosition));
+        while (!movePosition.equals(to)) {
+            movePosition = direction.moveFrom(movePosition);
+            intermediatePath.add(movePosition);
         }
-
+        intermediatePath.removeLast();
         return intermediatePath;
     }
 }

@@ -3,7 +3,8 @@ package domain;
 import domain.piece.Piece;
 import domain.piece.PieceFactory;
 import domain.piece.strategy.HorseElephantSetupStrategy;
-import java.util.List;
+import domain.position.Position;
+import java.util.Map;
 import view.InputView;
 import view.OutputView;
 
@@ -23,7 +24,7 @@ public class JanggiRunner {
     }
 
     private void showInitializedBoardResult(JanggiGame janggiGame) {
-        List<Piece> alivePieces = janggiGame.getAlivePieces();
+        Map<Position, Piece> alivePieces = janggiGame.getAlivePieces();
         outputView.printBoard(alivePieces);
     }
 
@@ -53,12 +54,12 @@ public class JanggiRunner {
         Players players = createPlayers();
         HorseElephantSetupStrategy firstPlayerStrategy = chooseStrategy(players.getChoPlayerName());
         HorseElephantSetupStrategy secondPlayerStrategy = chooseStrategy(players.getHanPlayerName());
-        List<Piece> allPieces = createAllPieces(firstPlayerStrategy, secondPlayerStrategy);
+        Map<Position, Piece> allPieces = createAllPieces(firstPlayerStrategy, secondPlayerStrategy);
         return new JanggiGame(players, allPieces);
     }
 
-    private List<Piece> createAllPieces(HorseElephantSetupStrategy firstPlayerStrategy,
-                                        HorseElephantSetupStrategy secondPlayerStrategy) {
+    private Map<Position, Piece> createAllPieces(HorseElephantSetupStrategy firstPlayerStrategy,
+                                                 HorseElephantSetupStrategy secondPlayerStrategy) {
         PieceFactory factory = new PieceFactory();
         return factory.createAllPieces(firstPlayerStrategy, secondPlayerStrategy);
     }

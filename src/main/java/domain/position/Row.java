@@ -1,4 +1,4 @@
-package domain;
+package domain.position;
 
 import java.util.Objects;
 
@@ -19,12 +19,12 @@ public class Row {
         }
     }
 
-    public boolean canMoveRow(int deltaRow){
+    public boolean canMoveRow(int deltaRow) {
         int moveRow = row + deltaRow;
         return moveRow <= MAX_ROW && moveRow >= MIN_ROW;
     }
 
-    public Row moveRow(int deltaRow){
+    public Row moveRow(int deltaRow) {
         return new Row(row + deltaRow);
     }
 

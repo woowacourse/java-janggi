@@ -1,20 +1,19 @@
 package view;
 
-import domain.Column;
 import domain.Player;
-import domain.Position;
-import domain.Row;
 import domain.TeamType;
 import domain.piece.Piece;
-import java.util.List;
+import domain.position.Column;
+import domain.position.Position;
+import domain.position.Row;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class OutputView {
 
-    public void printBoard(List<Piece> pieces) {
+    public void printBoard(Map<Position, Piece> pieces) {
         printColumnsInfo();
         printBoardInfo(pieces);
     }
@@ -23,13 +22,12 @@ public class OutputView {
         System.out.printf("%s가 승리했습니다!\n", player.getName());
     }
 
-    private void printBoardInfo(List<Piece> pieces) {
+    private void printBoardInfo(Map<Position, Piece> pieces) {
         for (int row = Row.MAX_ROW; row >= Row.MIN_ROW; row--) {
             printRowInfo(row);
             for (int col = Column.MIN_COLUMN; col <= Column.MAX_COLUMN; col++) {
                 Position position = Position.of(row, col);
-                Optional<Piece> findPiece = getFindPiece(pieces, position);
-                printPositionState(findPiece.orElse(null));
+                printPositionState(pieces, position);
             }
             System.out.println();
         }
@@ -40,17 +38,12 @@ public class OutputView {
         System.out.printf("%2d  ", row);
     }
 
-    private Optional<Piece> getFindPiece(List<Piece> pieces, Position position) {
-        return pieces.stream().filter(piece -> piece.hasSamePosition(position))
-                .findAny();
-    }
-
-    private void printPositionState(Piece findPiece) {
-        if (findPiece == null) {
+    private void printPositionState(Map<Position, Piece> pieces, Position position) {
+        if (!pieces.containsKey(position)) {
             System.out.print("- ");
             return;
         }
-        System.out.print(getDescription(findPiece) + " ");
+        System.out.print(getDescription(pieces.get(position)) + " ");
     }
 
     private void printColumnsInfo() {
