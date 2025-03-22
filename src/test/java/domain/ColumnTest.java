@@ -16,7 +16,7 @@ class ColumnTest {
         // when & then
         assertThatThrownBy(() -> new Column(column))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("장기판 열의 범위를 벗어났습니다.");
+                .hasMessage("좌표가 장기판의 범위를 벗어났습니다.");
     }
 
 }

@@ -16,11 +16,11 @@ public class Position {
     }
 
     public Position movePosition(int deltaRow, int deltaColumn) {
-        return new Position(row.moveRow(deltaRow), column.moveColumn(deltaColumn));
+        return new Position(row.move(deltaRow), column.move(deltaColumn));
     }
 
     public boolean canMovePosition(int deltaRow, int deltaColumn) {
-        return row.canMoveRow(deltaRow) && column.canMoveColumn(deltaColumn);
+        return row.canMove(deltaRow) && column.canMove(deltaColumn);
     }
 
     @Override
