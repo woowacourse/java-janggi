@@ -1,36 +1,61 @@
 package model;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 public class JolTest {
+    private final Jol jol = new Jol();
+    private final Position departure = new Position(Column.THREE, Row.THREE);
 
-    @DisplayName("이동 가능한 모든 위치를 가져온다")
-    @Test
-    void calculate_all_direction() {
-        Jol jol = new Jol();
-        List<List<Position>> moveResults = jol.calculateAllDirection(new Position(5, 5));
-        List<List<Position>> expected = List.of(
-            List.of(new Position(4, 5)),
-            List.of(new Position(5, 4)),
-            List.of(new Position(5, 6))
-        );
-        assertThat(moveResults).isEqualTo(expected);
+    @Nested
+    @DisplayName("Jol의 이동 가능한 경로를 구한다.")
+    class FindDirectionOfGeneral {
+
+        @Test
+        @DisplayName("Up 인 경우")
+        void case_up() {
+            Position arrival = new Position(Column.TWO, Row.THREE);
+            assertValidDirection(departure, arrival);
+        }
+
+        @Test
+        @DisplayName("Jol은 Down이 없기에, 아래로 움직인다면 예외가 발생해야 한다.")
+        void case_down() {
+            Position arrival = new Position(Column.FOUR, Row.THREE);
+            assertThatThrownBy(() -> jol.calculateAllDirection(departure, arrival))
+                .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
+        @DisplayName("Left 인 경우")
+        void case_left() {
+            Position arrival = new Position(Column.THREE, Row.TWO);
+            assertValidDirection(departure, arrival);
+        }
+
+        @Test
+        @DisplayName("Right 인 경우")
+        void case_right() {
+            Position arrival = new Position(Column.THREE, Row.FOUR);
+            assertValidDirection(departure, arrival);
+        }
+
+        private void assertValidDirection(Position departure, Position arrival) {
+            List<Position> findDirection = jol.calculateAllDirection(departure, arrival);
+            assertThat(findDirection).containsExactly(arrival);
+        }
     }
 
-    @DisplayName("0~9행, 0~8열을 벗어나면 빈 리스트를 반환해야 한다")
+    @DisplayName("jol이 갈 수 없는 경로라면, 예외를 던져야 한다")
     @Test
-    void invalid_direction_calculation_then_empty_list() {
-        Jol jol = new Jol();
-        List<List<Position>> moveResults = jol.calculateAllDirection(new Position(0, 2));
-        List<List<Position>> expected = List.of(
-            List.of(),
-            List.of(new Position(0, 1)),
-            List.of(new Position(0, 3))
-        );
-        assertThat(moveResults).isEqualTo(expected);
+    void cannot_go_position_then_throw_exception() {
+        Position arrival = new Position(Column.THREE, Row.FIVE);
+        assertThatThrownBy(() -> jol.calculateAllDirection(departure, arrival))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 }

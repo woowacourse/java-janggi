@@ -49,43 +49,43 @@ public class Position {
     }
 
     private Position moveUp() {
-        return new Position(column, row.down());
-    }
-
-    private boolean canMoveUp() {
-        return row.canDown();
-    }
-
-    private Position moveDown() {
-        return new Position(column, row.up());
-    }
-
-    private boolean canMoveDown() {
-        return row.canUp();
-    }
-
-    private Position moveLeft() {
         return new Position(column.down(), row);
     }
 
-    private boolean canMoveLeft() {
+    private boolean canMoveUp() {
         return column.canDown();
     }
 
-    private Position moveRight() {
+    private Position moveDown() {
         return new Position(column.up(), row);
     }
 
-    private boolean canMoveRight() {
+    private boolean canMoveDown() {
         return column.canUp();
     }
 
+    private Position moveLeft() {
+        return new Position(column, row.down());
+    }
+
+    private boolean canMoveLeft() {
+        return row.canDown();
+    }
+
+    private Position moveRight() {
+        return new Position(column, row.up());
+    }
+
+    private boolean canMoveRight() {
+        return row.canUp();
+    }
+
     private Position moveUpRight() {
-        return new Position(column.up(), row.down());
+        return new Position(column.down(), row.up());
     }
 
     private boolean canMoveUpRight() {
-        return column.canUp() && row.canDown();
+        return column.canDown() && row.canUp();
     }
 
     private Position moveUpLeft() {
@@ -105,7 +105,11 @@ public class Position {
     }
 
     private Position moveDownLeft() {
-        return new Position(column.down(), row.up());
+        return new Position(column.up(), row.down());
+    }
+
+    private boolean canDownLeft() {
+        return column.canUp() && row.canDown();
     }
 
     @Override
