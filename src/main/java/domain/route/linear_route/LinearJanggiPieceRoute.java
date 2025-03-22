@@ -5,7 +5,7 @@ import static domain.route.Direction.LEFT;
 import static domain.route.Direction.RIGHT;
 import static domain.route.Direction.UP;
 
-import domain.JanggiPosition;
+import domain.position.JanggiPosition;
 import domain.route.Direction;
 import domain.pattern.Pattern;
 import domain.route.JanggiPieceRoute;

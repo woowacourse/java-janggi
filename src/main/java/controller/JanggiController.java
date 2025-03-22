@@ -2,7 +2,7 @@ package controller;
 
 import domain.JanggiBoard.JanggiBoard;
 import domain.JanggiBoard.JanggiBoardBasicInitializer;
-import domain.JanggiPosition;
+import domain.position.JanggiPosition;
 import domain.piece.JanggiSide;
 import java.util.List;
 import view.InputView;

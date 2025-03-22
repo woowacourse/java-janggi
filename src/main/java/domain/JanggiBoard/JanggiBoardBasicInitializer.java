@@ -1,6 +1,6 @@
 package domain.JanggiBoard;
 
-import domain.JanggiPosition;
+import domain.position.JanggiPosition;
 import domain.piece.Empty;
 import domain.piece.JanggiPiece;
 import domain.piece.JanggiSide;

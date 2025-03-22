@@ -2,7 +2,7 @@ package view;
 
 import static view.JanggiPieceTypeDisplay.*;
 
-import domain.JanggiPosition;
+import domain.position.JanggiPosition;
 import domain.piece.JanggiPiece;
 import domain.piece.JanggiSide;
 import java.util.List;

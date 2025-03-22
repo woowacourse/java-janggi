@@ -17,6 +17,7 @@ import domain.piece.상;
 import domain.piece.졸;
 import domain.piece.차;
 import domain.piece.포;
+import domain.position.JanggiPosition;
 import java.util.Map;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -286,17 +287,19 @@ public class JanggiBoardTest {
         // given
         JanggiPosition 마beforePosition = new JanggiPosition(8, 2);
         JanggiPosition 졸Position = new JanggiPosition(6, 3);
+        JanggiPiece targetPiece = new 졸(JanggiSide.CHO);
 
         JanggiBoardInitializerStub initializer = new JanggiBoardInitializerStub(Map.of(
                 마beforePosition, HAN_마,
-                졸Position, CHO_졸
+                졸Position, targetPiece
         ));
+
         JanggiBoard janggiBoard = new JanggiBoard(initializer);
 
         // when
         janggiBoard.movePiece(마beforePosition, 졸Position);
 
         // then
-        assertThat(CHO_졸.isCaptured()).isTrue();
+        assertThat(targetPiece.isCaptured()).isTrue();
     }
 }

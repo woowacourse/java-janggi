@@ -1,8 +1,7 @@
 package domain.route;
 
-import domain.JanggiPosition;
+import domain.position.JanggiPosition;
 import domain.pattern.Pattern;
-import domain.piece.JanggiPiece;
 import domain.route.linear_route.포Route;
 import java.util.List;
 import java.util.stream.Stream;

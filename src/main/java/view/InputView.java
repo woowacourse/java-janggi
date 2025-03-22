@@ -1,6 +1,6 @@
 package view;
 
-import domain.JanggiPosition;
+import domain.position.JanggiPosition;
 import java.util.List;
 import java.util.Scanner;
 

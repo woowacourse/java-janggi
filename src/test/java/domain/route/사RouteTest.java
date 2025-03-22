@@ -1,6 +1,6 @@
 package domain.route;
 
-import domain.JanggiPosition;
+import domain.position.JanggiPosition;
 import domain.pattern.Pattern;
 import domain.route.limited_route.LimitedJanggiPieceRoute;
 import domain.route.limited_route.사Route;

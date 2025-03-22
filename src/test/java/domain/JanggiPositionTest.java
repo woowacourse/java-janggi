@@ -3,6 +3,7 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.pattern.Pattern;
+import domain.position.JanggiPosition;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ public class JanggiPositionTest {
     void 보드판_밖을_벗어나면_예외를_발생시킨다() {
         // when & then
         assertThatThrownBy(() -> new JanggiPosition(10, 0))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalStateException.class);
     }
 
     @Test

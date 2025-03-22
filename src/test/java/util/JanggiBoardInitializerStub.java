@@ -1,7 +1,7 @@
 package util;
 
 import domain.JanggiBoard.JanggiBoardInitializer;
-import domain.JanggiPosition;
+import domain.position.JanggiPosition;
 import domain.piece.Empty;
 import domain.piece.JanggiPiece;
 import java.util.HashMap;
