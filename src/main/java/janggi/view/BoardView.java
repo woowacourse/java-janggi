@@ -31,7 +31,7 @@ public final class BoardView {
     }
 
     private void displayRow(final Board board, final Row row) {
-        System.out.printf("%d ", row.getValue());
+        System.out.printf("%d ", row.ordinal());
         for (Column column : Column.values()) {
             Position position = new Position(row, column);
             displayPosition(board, position);

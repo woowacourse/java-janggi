@@ -14,8 +14,8 @@ public final class Position {
     }
 
     public MoveVector calculateVectorDiff(final Position another) {
-        final int rowDiff = row.getValue() - another.getRowValue();
-        final int columnDiff = column.getValue() - another.getColumnValue();
+        final int rowDiff = row.ordinal() - another.getRowValue();
+        final int columnDiff = column.ordinal() - another.getColumnValue();
         return new MoveVector(rowDiff, columnDiff);
     }
 
@@ -24,11 +24,11 @@ public final class Position {
     }
 
     public int getRowValue() {
-        return row.getValue();
+        return row.ordinal();
     }
 
     public int getColumnValue() {
-        return column.getValue();
+        return column.ordinal();
     }
 
     @Override
