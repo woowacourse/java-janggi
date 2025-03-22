@@ -2,9 +2,11 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.board.Board;
 import domain.board.BoardPosition;
+import domain.board.InitialBoardFixture;
 import domain.board.SelectedPositions;
 import domain.piece.General;
 import domain.piece.Zzu;
@@ -21,6 +23,19 @@ class JanggiTest {
 
     @Nested
     class ValidCases {
+
+        @DisplayName("초기 Janggi 객체를 생성한다.")
+        @Test
+        void initialize() {
+            // given & when
+            Janggi janggi = Janggi.initialize();
+
+            // then
+            assertAll(
+                    () -> assertThat(janggi.getPieces()).isEqualTo(InitialBoardFixture.rawInitialBoard),
+                    () -> assertThat(janggi.getCurrentTeam()).isEqualTo(Team.GREEN)
+            );
+        }
 
         @DisplayName("기물 이동을 성공하면 턴이 바뀐다.")
         @Test
