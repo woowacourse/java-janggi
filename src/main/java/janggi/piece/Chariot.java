@@ -6,6 +6,7 @@ import static janggi.Movement.RIGHT;
 import static janggi.Movement.UP;
 
 import janggi.Movement;
+import janggi.Path;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.Position;
@@ -44,7 +45,7 @@ public class Chariot extends Piece {
     }
 
     @Override
-    protected void validatePath(Board board, List<Position> path) {
+    protected void validatePath(Board board, Path path) {
         validateNonPieceOnPath(board, path);
     }
 

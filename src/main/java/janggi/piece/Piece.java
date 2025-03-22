@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.Movement;
+import janggi.Path;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.Position;
@@ -25,12 +26,12 @@ public abstract class Piece {
     }
 
     public void validateMovable(Board board, Position start, Position goal) {
-        List<Position> path = calculatePath(start, goal);
+        Path path = calculatePath(start, goal);
         validatePath(board, path);
         validatePieceOnGoal(board, goal);
     }
 
-    private List<Position> calculatePath(Position start, Position goal) {
+    private Path calculatePath(Position start, Position goal) {
         List<List<Movement>> paths = getPaths();
         for (List<Movement> movements : paths) {
             List<Position> path = new ArrayList<>();
@@ -45,17 +46,14 @@ public abstract class Piece {
                 path.add(position);
             }
             if (position.equals(goal)) {
-                return path;
+                return new Path(path);
             }
         }
         throw new IllegalArgumentException("[ERROR] %s은/는 해당 목적지로 이동할 수 없습니다.".formatted(getName()));
     }
 
-    protected void validateNonPieceOnPath(Board board, List<Position> path) {
-        for (Position position : path) {
-            if (path.getFirst() == position || path.getLast() == position) {
-                continue;
-            }
+    protected void validateNonPieceOnPath(Board board, Path path) {
+        for (Position position : path.getIntermediatePath()) {
             boolean isPieceExists = board.isPieceExists(position);
             if (isPieceExists) {
                 throw new IllegalArgumentException("[ERROR] 해당 경로에 다른 기물이 있어 이동할 수 없습니다.");
@@ -70,15 +68,15 @@ public abstract class Piece {
         }
     }
 
-    protected abstract void validatePath(Board board, List<Position> path);
+    @Override
+    public String toString() {
+        return team.getName() + "나라 " + getName();
+    }
+
+    protected abstract void validatePath(Board board, Path path);
     protected abstract void validatePieceOnGoal(Board board, Position goal);
     protected abstract List<List<Movement>> getPaths();
     public abstract boolean isSameType(Piece other);
     public abstract boolean isGeneral();
     public abstract String getName();
-
-    @Override
-    public String toString() {
-        return team.getName() + "나라 " + getName();
-    }
 }

@@ -6,6 +6,7 @@ import static janggi.Movement.RIGHT;
 import static janggi.Movement.UP;
 
 import janggi.Movement;
+import janggi.Path;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.Position;
@@ -43,11 +44,9 @@ public class Canon extends Piece {
     }
 
     @Override
-    protected void validatePath(Board board, List<Position> path) {
+    protected void validatePath(Board board, Path path) {
         int pieceCount = 0;
-        path.removeFirst();
-        path.removeLast();
-        for (Position position : path) {
+        for (Position position : path.getIntermediatePath()) {
             boolean isPieceNotExists = board.isPieceNotExists(position);
             if (isPieceNotExists) {
                 continue;
