@@ -1,9 +1,9 @@
-import flow.FlowManager;
+import manager.JanggiGameManager;
 
 public class Application {
 
     public static void main(String[] args) {
-        FlowManager flowManager = new FlowManager();
-        flowManager.startGame();
+        JanggiGameManager janggiGameManager = new JanggiGameManager();
+        janggiGameManager.startGame();
     }
 }

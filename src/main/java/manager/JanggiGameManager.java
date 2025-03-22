@@ -1,4 +1,4 @@
-package flow;
+package manager;
 
 import domain.board.Board;
 import domain.board.BoardGenerator;
@@ -9,13 +9,13 @@ import view.MoveCommand;
 import view.OutputView;
 import view.SangMaOrderCommand;
 
-public class FlowManager {
+public class JanggiGameManager {
 
     private static final Team START_TEAM = Team.CHO;
 
     private final Turn turn;
 
-    public FlowManager() {
+    public JanggiGameManager() {
         this.turn = new Turn(START_TEAM);
     }
 
