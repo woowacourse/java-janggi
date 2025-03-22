@@ -1,11 +1,15 @@
 package piece;
 
+import static pieceProperty.PieceType.BYEONG;
+
 import java.util.List;
+import pieceProperty.PieceType;
+import pieceProperty.Position;
 
 public class Byeong extends Piece {
 
-    public Byeong(final PieceProfile pieceProfile, final Position position) {
-        super(pieceProfile, position);
+    public Byeong(final Position position) {
+        super(position);
     }
 
     @Override
@@ -28,6 +32,11 @@ public class Byeong extends Piece {
     @Override
     public void updateChessPiecePositionBy(Position position) {
         this.position = position;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return BYEONG;
     }
 
 }

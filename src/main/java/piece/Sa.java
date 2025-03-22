@@ -1,11 +1,15 @@
 package piece;
 
+import static pieceProperty.PieceType.SA;
+
 import java.util.List;
+import pieceProperty.PieceType;
+import pieceProperty.Position;
 
 public class Sa extends Piece {
 
-    public Sa(final PieceProfile pieceProfile, final Position position) {
-        super(pieceProfile, position);
+    public Sa(final Position position) {
+        super(position);
     }
 
     @Override
@@ -28,6 +32,11 @@ public class Sa extends Piece {
     @Override
     public void updateChessPiecePositionBy(Position position) {
         this.position = position;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return SA;
     }
 
 }

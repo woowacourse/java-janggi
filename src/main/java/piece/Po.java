@@ -1,12 +1,16 @@
 package piece;
 
+import static pieceProperty.PieceType.PO;
+
 import java.util.ArrayList;
 import java.util.List;
+import pieceProperty.PieceType;
+import pieceProperty.Position;
 
 public class Po extends Piece {
 
-    public Po(final PieceProfile pieceProfile, final Position position) {
-        super(pieceProfile, position);
+    public Po(final Position position) {
+        super(position);
     }
 
     @Override
@@ -56,5 +60,10 @@ public class Po extends Piece {
     @Override
     public void updateChessPiecePositionBy(Position position) {
         this.position = position;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PO;
     }
 }

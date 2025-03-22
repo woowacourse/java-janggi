@@ -1,4 +1,4 @@
-package piece;
+package pieceProperty;
 
 import java.util.Objects;
 

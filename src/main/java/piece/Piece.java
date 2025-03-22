@@ -2,15 +2,14 @@ package piece;
 
 import java.util.List;
 import java.util.Objects;
-import java.PieceType;
+import pieceProperty.PieceType;
+import pieceProperty.Position;
 
 public abstract class Piece {
 
-    private final PieceProfile pieceProfile;
     protected Position position;
 
-    public Piece(final PieceProfile pieceProfile, final Position position) {
-        this.pieceProfile = pieceProfile;
+    public Piece(final Position position) {
         this.position = position;
     }
 
@@ -27,25 +26,16 @@ public abstract class Piece {
     public abstract PieceType getPieceType();
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final Piece that = (Piece) o;
-        return Objects.equals(getName(), that.getName()) && Objects.equals(getBoardPosition(),
-                that.getBoardPosition());
+        Piece piece = (Piece) o;
+        return Objects.equals(position, piece.position);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getBoardPosition());
-    }
-
-    public String getName() {
-        return pieceProfile.getName();
-    }
-
-    public PieceProfile getPieceProfile() {
-        return pieceProfile;
+        return Objects.hashCode(position);
     }
 }
