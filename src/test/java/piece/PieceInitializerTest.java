@@ -12,10 +12,10 @@ class PieceInitializerTest {
     @Test
     void choInit() {
         //given
-        ChessPieceInitializer chessPieceInitializer = new ChessPieceInitializer();
+        JanggiPieceInitializer janggiPieceInitializer = new JanggiPieceInitializer();
 
         //when
-        List<Piece> actual = chessPieceInitializer.choInit();
+        List<Piece> actual = janggiPieceInitializer.choInit();
 
         //then
         assertThat(actual).hasSize(16);
@@ -25,10 +25,10 @@ class PieceInitializerTest {
     @Test
     void hanInit() {
         //given
-        ChessPieceInitializer chessPieceInitializer = new ChessPieceInitializer();
+        JanggiPieceInitializer janggiPieceInitializer = new JanggiPieceInitializer();
 
         //when
-        List<Piece> actual = chessPieceInitializer.hanInit();
+        List<Piece> actual = janggiPieceInitializer.hanInit();
 
         //then
         assertThat(actual).hasSize(16);

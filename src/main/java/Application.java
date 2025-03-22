@@ -1,14 +1,14 @@
 import piece.Board;
 import piece.Position;
-import piece.ChessPieceInitializer;
+import piece.JanggiPieceInitializer;
 import view.InputView;
 import view.OutputView;
 
 public class Application {
     public static void main(String[] args) {
 
-        ChessPieceInitializer chessPieceInitializer = new ChessPieceInitializer();
-        Board board = new Board(chessPieceInitializer.hanInit(), chessPieceInitializer.choInit());
+        JanggiPieceInitializer janggiPieceInitializer = new JanggiPieceInitializer();
+        Board board = new Board(janggiPieceInitializer.hanInit(), janggiPieceInitializer.choInit());
         OutputView outputView = new OutputView();
         InputView inputView = new InputView();
 

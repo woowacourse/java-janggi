@@ -2,6 +2,7 @@ package piece;
 
 import java.util.List;
 import java.util.Objects;
+import java.PieceType;
 
 public abstract class Piece {
 
@@ -22,6 +23,8 @@ public abstract class Piece {
     public abstract List<Position> makeRoute(Position position);
 
     public abstract void updateChessPiecePositionBy(Position position);
+
+    public abstract PieceType getPieceType();
 
     @Override
     public boolean equals(final Object o) {

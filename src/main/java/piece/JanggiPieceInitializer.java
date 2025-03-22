@@ -3,7 +3,7 @@ package piece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChessPieceInitializer {
+public class JanggiPieceInitializer {
 
     public List<Piece> hanInit() {
         List<Piece> pieces = new ArrayList<>();

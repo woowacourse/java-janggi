@@ -13,9 +13,9 @@ class BoardTest {
     @Test
     void board() {
         //given
-        ChessPieceInitializer chessPieceInitializer = new ChessPieceInitializer();
-        List<Piece> han = chessPieceInitializer.hanInit();
-        List<Piece> cho = chessPieceInitializer.choInit();
+        JanggiPieceInitializer janggiPieceInitializer = new JanggiPieceInitializer();
+        List<Piece> han = janggiPieceInitializer.hanInit();
+        List<Piece> cho = janggiPieceInitializer.choInit();
 
         //when
         Board board = new Board(han, cho);
