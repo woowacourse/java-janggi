@@ -11,8 +11,11 @@ public final class Cannon extends Piece {
 
     private static final int POSSIBLE_JUMP_OVER_PIECE_COUNT = 1;
 
+    private final Board board;
+
     public Cannon(Camp camp, Board board) {
-        super(camp, board);
+        super(camp);
+        this.board = board;
     }
 
     @Override
@@ -28,7 +31,7 @@ public final class Cannon extends Piece {
     }
 
     private void validateJumpOverOnePiece(Point fromPoint, Point toPoint) {
-        Set<Piece> pieces = getBoard().getPiecesByPoint(findRoute(fromPoint, toPoint));
+        Set<Piece> pieces = board.getPiecesByPoint(findRoute(fromPoint, toPoint));
         validatePieceCount(pieces);
         validateNotJumpOverCannon(pieces);
     }

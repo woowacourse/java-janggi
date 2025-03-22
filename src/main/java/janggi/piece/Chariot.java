@@ -9,8 +9,11 @@ import java.util.Set;
 
 public final class Chariot extends Piece {
 
+    private final Board board;
+
     public Chariot(Camp camp, Board board) {
-        super(camp, board);
+        super(camp);
+        this.board = board;
     }
 
     @Override
@@ -26,7 +29,7 @@ public final class Chariot extends Piece {
     }
 
     private void validateObstacleOnRoute(Point fromPoint, Point toPoint) {
-        Set<Piece> pieces = getBoard().getPiecesByPoint(findRoute(fromPoint, toPoint));
+        Set<Piece> pieces = board.getPiecesByPoint(findRoute(fromPoint, toPoint));
         if (!pieces.isEmpty()) {
             throw new IllegalArgumentException("차는 기물을 넘어 이동할 수 없습니다.");
         }

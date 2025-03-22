@@ -9,8 +9,11 @@ import java.util.Set;
 
 public final class Elephant extends Piece {
 
+    private final Board board;
+
     public Elephant(Camp camp, Board board) {
-        super(camp, board);
+        super(camp);
+        this.board = board;
     }
 
     @Override
@@ -30,7 +33,7 @@ public final class Elephant extends Piece {
     }
 
     private void validateObstacleOnRoute(Point fromPoint, Point toPoint) {
-        Set<Piece> pieces = getBoard().getPiecesByPoint(findRoute(fromPoint, toPoint));
+        Set<Piece> pieces = board.getPiecesByPoint(findRoute(fromPoint, toPoint));
         if (!pieces.isEmpty()) {
             throw new IllegalArgumentException("상은 기물을 넘어서 이동할 수 없습니다.");
         }

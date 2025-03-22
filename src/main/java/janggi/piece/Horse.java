@@ -8,8 +8,11 @@ import java.util.Set;
 
 public final class Horse extends Piece {
 
+    private final Board board;
+
     public Horse(Camp camp, Board board) {
-        super(camp, board);
+        super(camp);
+        this.board = board;
     }
 
     @Override
@@ -29,7 +32,7 @@ public final class Horse extends Piece {
     }
 
     private void validateObstacleOnRoute(Point fromPoint, Point toPoint) {
-        Set<Piece> pieces = getBoard().getPiecesByPoint(Set.of(findRoute(fromPoint, toPoint)));
+        Set<Piece> pieces = board.getPiecesByPoint(Set.of(findRoute(fromPoint, toPoint)));
         if (!pieces.isEmpty()) {
             throw new IllegalArgumentException("마는 기물을 넘어서 이동할 수 없습니다.");
         }

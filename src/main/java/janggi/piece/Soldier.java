@@ -7,8 +7,11 @@ import janggi.board.Board;
 
 public final class Soldier extends Piece {
 
+    private final Board board;
+
     public Soldier(Camp camp, Board board) {
-        super(camp, board);
+        super(camp);
+        this.board = board;
     }
 
     @Override
