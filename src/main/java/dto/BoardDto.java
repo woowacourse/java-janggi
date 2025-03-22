@@ -3,9 +3,9 @@ package dto;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import board.Board;
-import piece.Piece;
-import view.util.Color;
+import janggi.board.Board;
+import janggi.piece.Piece;
+import console.util.Color;
 
 public record BoardDto(
     Map<PositionDto, String> pieces

@@ -1,8 +1,9 @@
-package piece;
+package janggi.piece;
 
+import janggi.Team;
 import java.util.List;
 
-import board.Position;
+import janggi.board.Position;
 
 public class Soldier extends Piece {
 

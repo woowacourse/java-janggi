@@ -2,15 +2,15 @@ package model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import board.Position;
+import janggi.board.Position;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import board.Board;
-import piece.Palace;
-import piece.Team;
+import janggi.board.Board;
+import janggi.piece.Palace;
+import janggi.Team;
 
 class BoardTest {
 

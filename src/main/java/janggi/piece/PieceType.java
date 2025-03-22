@@ -1,4 +1,4 @@
-package piece;
+package janggi.piece;
 
 public enum PieceType {
     PALACE,

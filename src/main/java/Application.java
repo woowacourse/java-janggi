@@ -1,13 +1,13 @@
-import board.Board;
-import board.Position;
-import board.Turn;
+import janggi.board.Board;
+import janggi.board.Position;
+import janggi.Turn;
 import dto.BoardDto;
 import dto.TeamDto;
 import java.util.function.BooleanSupplier;
-import piece.Piece;
-import view.Console;
-import view.Input;
-import view.Output;
+import janggi.piece.Piece;
+import console.Console;
+import console.Input;
+import console.Output;
 
 public class Application {
     private final Console console = new Console(new Input(), new Output());
@@ -20,20 +20,22 @@ public class Application {
     private void start() {
         Board board = Board.generate();
         Turn turn = Turn.start();
+
         console.startGame();
         console.board(BoardDto.from(board));
 
-        while (playTurn(board, turn)) {
+        while (takeTurn(board, turn)) {
             nextTurn(turn);
         }
         endGame(board);
     }
 
-    public boolean playTurn(Board board, Turn turn) {
+    public boolean takeTurn(Board board, Turn turn) {
         return process(() -> {
             console.turn(TeamDto.from(turn.getCurrentTeam()));
 
             var response = console.command();
+
             if (response.abstain()) {
                 abstain(board, turn);
                 return false;

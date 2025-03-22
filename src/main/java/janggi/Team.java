@@ -1,4 +1,4 @@
-package piece;
+package janggi;
 
 public enum Team {
     CHO,

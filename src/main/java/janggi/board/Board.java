@@ -1,11 +1,11 @@
-package board;
+package janggi.board;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import piece.Team;
-import piece.Piece;
-import piece.PieceType;
+import janggi.Team;
+import janggi.piece.Piece;
+import janggi.piece.PieceType;
 
 public class Board {
 

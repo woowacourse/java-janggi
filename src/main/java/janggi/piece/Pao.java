@@ -1,9 +1,10 @@
-package piece;
+package janggi.piece;
 
+import janggi.Team;
 import java.util.List;
 
-import board.Position;
-import board.Board;
+import janggi.board.Position;
+import janggi.board.Board;
 
 public class Pao extends Piece {
 

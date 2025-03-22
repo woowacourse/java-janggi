@@ -1,6 +1,6 @@
 package dto;
 
-import board.Position;
+import janggi.board.Position;
 
 public record CommandDto(
     Position source,

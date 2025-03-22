@@ -1,17 +1,17 @@
-package board;
+package janggi.board;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import piece.Team;
-import piece.Chariot;
-import piece.Elephant;
-import piece.Horse;
-import piece.Palace;
-import piece.Pao;
-import piece.Pawn;
-import piece.Piece;
-import piece.Soldier;
+import janggi.Team;
+import janggi.piece.Chariot;
+import janggi.piece.Elephant;
+import janggi.piece.Horse;
+import janggi.piece.Palace;
+import janggi.piece.Pao;
+import janggi.piece.Pawn;
+import janggi.piece.Piece;
+import janggi.piece.Soldier;
 
 class Initializer {
 

@@ -1,4 +1,4 @@
-package board;
+package janggi.board;
 
 public record Position(
     int x,

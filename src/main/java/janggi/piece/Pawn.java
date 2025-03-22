@@ -1,9 +1,10 @@
-package piece;
+package janggi.piece;
 
+import janggi.Team;
 import java.util.Arrays;
 import java.util.List;
 
-import board.Position;
+import janggi.board.Position;
 
 public class Pawn extends Piece {
 

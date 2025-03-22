@@ -1,4 +1,4 @@
-package view;
+package console;
 
 import dto.BoardDto;
 import dto.CommandDto;

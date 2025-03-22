@@ -1,9 +1,7 @@
-package board;
+package janggi;
 
-import static piece.Team.CHO;
-import static piece.Team.HAN;
-
-import piece.Team;
+import static janggi.Team.CHO;
+import static janggi.Team.HAN;
 
 public class Turn {
     private Team currentTeam;

@@ -1,13 +1,13 @@
-package view;
+package console;
 
 import java.util.Map;
 
 import dto.BoardDto;
 import dto.PositionDto;
 import dto.TeamDto;
-import board.Position;
-import board.Board;
-import view.util.Color;
+import janggi.board.Position;
+import janggi.board.Board;
+import console.util.Color;
 
 public class Output {
 
