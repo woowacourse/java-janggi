@@ -20,6 +20,12 @@ class BoardTest {
     @Nested
     class ValidCases {
 
+        @DisplayName("초기 장기판을 생성한다.")
+        @Test
+        void initialize() {
+            assertThat(Board.initialize().getPieces()).isEqualTo(InitialBoardFixture.rawInitialBoard);
+        }
+
         @DisplayName("선택한 위치의 기물을 선택한 위치로 이동시킨다.")
         @Test
         void movePiece() {
