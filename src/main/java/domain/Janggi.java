@@ -49,6 +49,15 @@ public class Janggi {
         return board.findAliveGenerals().size() == 1;
     }
 
+    public Team findWinnerTeam() {
+        if (!isGameFinish()) {
+            throw new IllegalStateException("게임이 종료되지 않았습니다.");
+        }
+        return board.findAliveGenerals()
+                .getLast()
+                .getTeam();
+    }
+
     public Map<BoardPosition, Piece> getPieces() {
         return board.getPieces();
     }

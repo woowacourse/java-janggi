@@ -1,6 +1,7 @@
 package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.Board;
 import domain.board.BoardPosition;
@@ -29,7 +30,8 @@ class JanggiTest {
                     new BoardPosition(0, 0), new Zzu(Team.GREEN)
             ));
             Janggi janggi = new Janggi(board, new Turn(Team.GREEN));
-            SelectedPositions selectedPositions = new SelectedPositions(new BoardPosition(0, 0), new BoardPosition(0, 1));
+            SelectedPositions selectedPositions = new SelectedPositions(new BoardPosition(0, 0),
+                    new BoardPosition(0, 1));
 
             // when
             janggi.processTurn(selectedPositions);
@@ -59,6 +61,36 @@ class JanggiTest {
                     Arguments.of(new Board(
                             Map.of(new BoardPosition(0, 0), new General(Team.GREEN))), true)
             );
+        }
+
+        @DisplayName("승리 팀을 찾는다.")
+        @Test
+        void findWinnerTeam() {
+            // given
+            Board board = new Board(Map.of(new BoardPosition(0, 0), new General(Team.RED)));
+            Janggi janggi = new Janggi(board, new Turn(Team.GREEN));
+
+            // when & then
+            assertThat(janggi.findWinnerTeam()).isEqualTo(Team.RED);
+        }
+    }
+
+    @Nested
+    class InvalidCases {
+
+        @DisplayName("승리 팀이 결정되지 않았는데 승리 팀을 찾는다면 예외가 발생한다.")
+        @Test
+        void findWinnerTeam() {
+            // given
+            Board board = new Board(
+                    Map.of(new BoardPosition(0, 0), new General(Team.RED),
+                            new BoardPosition(5, 5), new General(Team.GREEN)));
+            Janggi janggi = new Janggi(board, new Turn(Team.GREEN));
+
+            // when & then
+            assertThatThrownBy(janggi::findWinnerTeam)
+                    .isInstanceOf(IllegalStateException.class)
+                    .hasMessage("게임이 종료되지 않았습니다.");
         }
     }
 }
