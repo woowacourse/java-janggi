@@ -5,6 +5,7 @@ import static domain.pieces.PieceNames.CANNON;
 import domain.Team;
 import domain.board.PieceOnRoute;
 import domain.board.Point;
+import domain.movements.EndlessMovement;
 import domain.movements.PieceMovement;
 import java.util.List;
 
@@ -13,11 +14,16 @@ public final class Cannon implements Piece {
   private static final int VALID_BETWEEN_PIECE_COUNT = 1;
 
   private final Team team;
-  private final PieceMovement movements;
+  private final PieceMovement movement;
 
-  public Cannon(final Team team, final PieceMovement pieceMovement) {
-    this.movements = pieceMovement;
+  public Cannon(final Team team) {
     this.team = team;
+    this.movement = new EndlessMovement();
+  }
+
+  public Cannon(final Team team, final PieceMovement movement) {
+    this.team = team;
+    this.movement = movement;
   }
 
   @Override
@@ -27,7 +33,7 @@ public final class Cannon implements Piece {
 
   @Override
   public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
-    final List<Point> arrivalPoints = movements.calculateTotalArrivalPoints(startPoint);
+    final List<Point> arrivalPoints = movement.calculateTotalArrivalPoints(startPoint);
     return arrivalPoints.contains(arrivalPoint);
   }
 
@@ -50,7 +56,7 @@ public final class Cannon implements Piece {
 
   @Override
   public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
-    return movements.calculateRoutePoints(startPoint, arrivalPoint);
+    return movement.calculateRoutePoints(startPoint, arrivalPoint);
   }
 
   @Override

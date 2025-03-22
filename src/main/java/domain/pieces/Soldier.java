@@ -5,17 +5,25 @@ import static domain.pieces.PieceNames.SOLDIER;
 import domain.Team;
 import domain.board.PieceOnRoute;
 import domain.board.Point;
+import domain.movements.DefaultMovement;
+import domain.movements.Direction;
 import domain.movements.PieceMovement;
+import domain.movements.Route;
 import java.util.List;
 
 public final class Soldier implements Piece {
 
   private final Team team;
-  private final PieceMovement defaultMovement;
+  private final PieceMovement movement;
 
-  public Soldier(final Team team, final PieceMovement defaultMovement) {
+  public Soldier(final Team team) {
     this.team = team;
-    this.defaultMovement = defaultMovement;
+    this.movement = getDefaultMovementByTeam(team);
+  }
+
+  public Soldier(final Team team, final PieceMovement movement) {
+    this.team = team;
+    this.movement = movement;
   }
 
   @Override
@@ -25,7 +33,7 @@ public final class Soldier implements Piece {
 
   @Override
   public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
-    return defaultMovement.calculateTotalArrivalPoints(startPoint).contains(arrivalPoint);
+    return movement.calculateTotalArrivalPoints(startPoint).contains(arrivalPoint);
   }
 
   @Override
@@ -40,11 +48,24 @@ public final class Soldier implements Piece {
 
   @Override
   public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
-    return defaultMovement.calculateRoutePoints(startPoint, arrivalPoint);
+    return movement.calculateRoutePoints(startPoint, arrivalPoint);
   }
 
   @Override
   public String getName() {
     return SOLDIER.getNameForTeam(team);
+  }
+
+  private PieceMovement getDefaultMovementByTeam(Team team) {
+    if (team == Team.HAN) {
+      return new DefaultMovement(List.of(
+          new Route(List.of(Direction.SOUTH)),
+          new Route(List.of(Direction.EAST)),
+          new Route(List.of(Direction.WEST))));
+    }
+    return new DefaultMovement(List.of(
+        new Route(List.of(Direction.NORTH)),
+        new Route(List.of(Direction.EAST)),
+        new Route(List.of(Direction.WEST))));
   }
 }

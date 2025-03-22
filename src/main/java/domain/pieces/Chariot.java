@@ -5,19 +5,25 @@ import static domain.pieces.PieceNames.CHARIOT;
 import domain.Team;
 import domain.board.PieceOnRoute;
 import domain.board.Point;
+import domain.movements.EndlessMovement;
 import domain.movements.PieceMovement;
 import java.util.List;
 
 public final class Chariot implements Piece {
 
   private final Team team;
-  private final PieceMovement movements;
+  private final PieceMovement movement;
 
-  public Chariot(final Team team, final PieceMovement pieceMovement) {
-    this.movements = pieceMovement;
+  public Chariot(final Team team) {
     this.team = team;
+    this.movement = new EndlessMovement();
   }
 
+  public Chariot(final Team team, final PieceMovement movement) {
+    this.team = team;
+    this.movement = movement;
+  }
+  
   @Override
   public boolean hasEqualTeam(final Team team) {
     return this.team.equals(team);
@@ -25,7 +31,7 @@ public final class Chariot implements Piece {
 
   @Override
   public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
-    final List<Point> arrivalPoints = movements.calculateTotalArrivalPoints(startPoint);
+    final List<Point> arrivalPoints = movement.calculateTotalArrivalPoints(startPoint);
     return arrivalPoints.contains(arrivalPoint);
   }
 
@@ -44,7 +50,7 @@ public final class Chariot implements Piece {
 
   @Override
   public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
-    return movements.calculateRoutePoints(startPoint, arrivalPoint);
+    return movement.calculateRoutePoints(startPoint, arrivalPoint);
   }
 
   @Override
