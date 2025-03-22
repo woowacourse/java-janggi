@@ -1,6 +1,6 @@
 package domain.pieces;
 
-import static domain.pieces.PieceNames.EMPTY_PIECE;
+import static domain.pieces.PieceNames.EMPTY;
 
 import domain.Team;
 import domain.board.PieceOnRoute;
@@ -8,18 +8,18 @@ import domain.board.Point;
 import execptions.JanggiArgumentException;
 import java.util.List;
 
-public final class EmptyPiece implements Piece {
+public final class Empty implements Piece {
 
-  private static EmptyPiece emptyPiece = null;
+  private static Empty empty = null;
 
-  private EmptyPiece() {
+  private Empty() {
   }
 
-  public static EmptyPiece getInstance() {
-    if (emptyPiece == null) {
-      emptyPiece = EmptyPiece.getInstance();
+  public static Empty getInstance() {
+    if (empty == null) {
+      empty = Empty.getInstance();
     }
-    return emptyPiece;
+    return empty;
   }
 
   @Override
@@ -49,12 +49,12 @@ public final class EmptyPiece implements Piece {
 
   @Override
   public String getName() {
-    return EMPTY_PIECE.getNameForTeam(Team.NONE);
+    return EMPTY.getNameForTeam(Team.NONE);
   }
 
   @Override
   public boolean equals(final Object obj) {
-    return obj instanceof EmptyPiece;
+    return obj instanceof Empty;
   }
 
   @Override

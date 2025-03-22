@@ -67,7 +67,7 @@ class ChariotTest {
   void test_isMovableWhenPieceOnRoute() {
     //given
     Chariot chariot = new Chariot(Team.CHO, new EndlessMovement());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(chariot, empty, empty));
 
     //when&then
@@ -79,7 +79,7 @@ class ChariotTest {
   void test_isMovable() {
     //given
     Chariot chariot = new Chariot(Team.CHO, new EndlessMovement());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, empty));
 
     //when&then
@@ -91,7 +91,7 @@ class ChariotTest {
   void test_isMovableWhenPieceIsInMyTeam() {
     //given
     Chariot chariot = new Chariot(Team.CHO, new EndlessMovement());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, chariot));
 
     //when&then
@@ -104,7 +104,7 @@ class ChariotTest {
     //given
     Chariot chariotHan = new Chariot(Team.HAN, new EndlessMovement());
     Chariot chariotCho = new Chariot(Team.CHO, new EndlessMovement());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, chariotCho));
 
     //when&then

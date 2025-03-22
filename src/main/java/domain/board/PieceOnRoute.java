@@ -1,14 +1,14 @@
 package domain.board;
 
 import domain.Team;
-import domain.pieces.EmptyPiece;
+import domain.pieces.Empty;
 import domain.pieces.Piece;
 import execptions.JanggiArgumentException;
 import java.util.List;
 
 public record PieceOnRoute(List<Piece> pieces) {
 
-  private static final Piece emptyPiece = EmptyPiece.getInstance();
+  private static final Piece emptyPiece = Empty.getInstance();
 
   public boolean hasNotPieceOnRoute() {
     for (int i = 0; i < pieces.size() - 1; i++) {

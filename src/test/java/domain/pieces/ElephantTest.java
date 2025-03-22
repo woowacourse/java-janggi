@@ -50,7 +50,7 @@ class ElephantTest {
   void test_isMovableWhenPieceOnRoute() {
     //given
     Elephant elephant = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(elephant, empty, empty));
 
     //when&then
@@ -62,7 +62,7 @@ class ElephantTest {
   void test_isMovable() {
     //given
     Elephant elephant = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, empty));
 
     //when&then
@@ -74,7 +74,7 @@ class ElephantTest {
   void test_isMovableWhenPieceIsInMyTeam() {
     //given
     Elephant elephant = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, elephant));
 
     //when&then
@@ -87,7 +87,7 @@ class ElephantTest {
     //given
     Elephant elephantHan = new Elephant(Team.HAN, BoardStub.generateElephantMovement());
     Elephant elephantCho = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, elephantCho));
 
     //when&then

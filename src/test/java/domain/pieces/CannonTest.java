@@ -68,7 +68,7 @@ class CannonTest {
     //given
     Cannon cannon = new Cannon(Team.CHO, new EndlessMovement());
     Chariot chariot = new Chariot(Team.CHO, new EndlessMovement());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(chariot, empty, empty));
 
     //when&then
@@ -80,7 +80,7 @@ class CannonTest {
   void test_isMovableWhenCannonOnRoute() {
     //given
     Cannon cannon = new Cannon(Team.CHO, new EndlessMovement());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(cannon, empty, empty));
 
     //when&then
@@ -92,7 +92,7 @@ class CannonTest {
   void test_isMovable() {
     //given
     Cannon Cannon = new Cannon(Team.CHO, new EndlessMovement());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, empty));
 
     //when&then
@@ -106,7 +106,7 @@ class CannonTest {
     Cannon Cannon = new Cannon(Team.CHO, new EndlessMovement());
     Chariot chariot = new Chariot(Team.CHO, new EndlessMovement());
 
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(chariot, chariot, empty));
 
     //when&then
@@ -119,7 +119,7 @@ class CannonTest {
     //given
     Cannon cannon = new Cannon(Team.HAN, new EndlessMovement());
     Chariot chariot = new Chariot(Team.HAN, new EndlessMovement());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(chariot, empty, chariot));
 
     //when&then

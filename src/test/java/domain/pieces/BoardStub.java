@@ -28,7 +28,7 @@ public class BoardStub {
     final Map<Point, Piece> locations = new HashMap<>();
     for (int row = 0; row < BOARD_ROW_MAX; row++) {
       for (int column = 0; column < BOARD_COLUMN_MAX; column++) {
-        locations.put(new Point(row, column), EmptyPiece.getInstance());
+        locations.put(new Point(row, column), Empty.getInstance());
       }
     }
     return locations;

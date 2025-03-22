@@ -69,7 +69,7 @@ class SoldierTest {
   void test_isMovableWhenPieceIsInMyTeam() {
     //given
     Soldier soldier = new Soldier(Team.CHO, BoardStub.generateSoldierMovementForHan());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, soldier));
 
     //when&then
@@ -82,7 +82,7 @@ class SoldierTest {
     //given
     Soldier soldierHan = new Soldier(Team.HAN, BoardStub.generateSoldierMovementForCho());
     Soldier soldierCho = new Soldier(Team.CHO, BoardStub.generateSoldierMovementForHan());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, soldierCho));
 
     //when&then

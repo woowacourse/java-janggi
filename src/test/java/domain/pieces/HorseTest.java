@@ -49,7 +49,7 @@ class HorseTest {
   void test_isMovableWhenPieceOnRoute() {
     //given
     Horse horse = new Horse(Team.CHO, BoardStub.generateHorseMovement());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(horse, empty));
 
     //when&then
@@ -61,7 +61,7 @@ class HorseTest {
   void test_isMovable() {
     //given
     Horse horse = new Horse(Team.CHO, BoardStub.generateHorseMovement());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty));
 
     //when&then
@@ -73,7 +73,7 @@ class HorseTest {
   void test_isMovableWhenPieceIsInMyTeam() {
     //given
     Horse horse = new Horse(Team.CHO, BoardStub.generateHorseMovement());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, horse));
 
     //when&then
@@ -86,7 +86,7 @@ class HorseTest {
     //given
     Horse horseHan = new Horse(Team.HAN, BoardStub.generateHorseMovement());
     Horse horseCho = new Horse(Team.CHO, BoardStub.generateHorseMovement());
-    Piece empty = EmptyPiece.getInstance();
+    Piece empty = Empty.getInstance();
     PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, horseCho));
 
     //when&then
