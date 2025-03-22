@@ -60,11 +60,12 @@ public class BoardGenerator {
         for (Direction direction : List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT)) {
             int nextRow = row + direction.deltaRow();
             int nextColumn = column + direction.deltaColumn();
-            if (!isInRange(nextRow, nextColumn)) {
+            if (Point.isInvalidRange(nextRow, nextColumn)) {
                 continue;
             }
             Node nextNode = nodeByPoint.get(Point.of(nextRow, nextColumn));
-            edges.add(new Edge(nextNode, direction));
+            Edge edge = new Edge(nextNode, direction);
+            edges.add(edge);
         }
         return edges;
     }
@@ -147,10 +148,5 @@ public class BoardGenerator {
             default -> throw new IllegalArgumentException("[ERROR] 상 또는 마가 아닙니다.");
         }
         return piece;
-    }
-
-    private boolean isInRange(int row, int column) {
-        return START_ROW_INDEX <= row && row <= END_ROW_INDEX
-                && START_COLUMN_INDEX <= column && column <= END_COLUMN_INDEX;
     }
 }

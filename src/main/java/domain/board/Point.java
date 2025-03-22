@@ -10,13 +10,14 @@ public record Point(int row, int column) {
         return new Point(row, column);
     }
 
-    private void validateRange(int row, int column) {
-        if (row < Board.START_ROW_INDEX || row > Board.END_ROW_INDEX) {
-            throw new IllegalArgumentException(row + " : [ERROR] 행의 범위를 벗어난 값입니다.");
-        }
+    public static boolean isInvalidRange(int row, int column) {
+        return row < Board.START_ROW_INDEX || row > Board.END_ROW_INDEX
+                || column < Board.START_COLUMN_INDEX || column > Board.END_COLUMN_INDEX;
+    }
 
-        if (column < Board.START_COLUMN_INDEX || column > Board.END_COLUMN_INDEX) {
-            throw new IllegalArgumentException(column + " : [ERROR] 열의 범위를 벗어난 값입니다.");
+    private void validateRange(int row, int column) {
+        if (isInvalidRange(row, column)) {
+            throw new IllegalArgumentException(row + ", " + column + " : [ERROR] 행 또는 열의 범위를 벗어난 값입니다.");
         }
     }
 }
