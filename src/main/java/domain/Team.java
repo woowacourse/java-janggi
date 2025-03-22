@@ -10,6 +10,14 @@ public enum Team {
         this.title = title;
     }
 
+    public Team opposite() {
+        if (this == GREEN) {
+            return RED;
+        }
+
+        return GREEN;
+    }
+
     public String getTitle() {
         return title;
     }

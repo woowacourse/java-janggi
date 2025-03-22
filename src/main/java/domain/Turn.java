@@ -13,11 +13,6 @@ public class Turn {
     }
 
     public void change() {
-        if (team == Team.GREEN) {
-            team = Team.RED;
-            return;
-        }
-
-        team = Team.GREEN;
+        team = team.opposite();
     }
 }
