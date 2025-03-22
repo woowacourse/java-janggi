@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import piece.Piece;
 import piece.PieceType;
@@ -22,12 +23,10 @@ import testUtil.TestConstant;
 
 public class TeamTest {
 
-    @ParameterizedTest
-    @CsvSource({"마상마상", "상마상마", "상마마상", "마상상마"})
-    void 장기판을_초기화할_때_마상배치를_선택한다(StartingPosition startingPosition) {
-        // given
-
-        // expected
+    @ParameterizedTest(name = "상차림: {0}")
+    @EnumSource(StartingPosition.class)
+    void 장기판을_초기화할_때_상차림을_선택할_수_있다(StartingPosition startingPosition) {
+        // given + when + then
         assertThatCode(() -> new Team(startingPosition, new StaticPieceInitializer(), Country.CHO))
                 .doesNotThrowAnyException();
     }
@@ -41,12 +40,12 @@ public class TeamTest {
 
         // expected
         assertThatThrownBy(() -> result.put(new Position(PositionFile.가, TestConstant.RANK_10),
-                new Piece(new Position(PositionFile.마, RANK_5), PieceType.상)))
+                new Piece(new Position(PositionFile.마, RANK_5), PieceType.ELEPHANT)))
                 .isInstanceOf(UnsupportedOperationException.class);
     }
 
     @ParameterizedTest
-    @CsvSource({"한나라", "초나라"})
+    @CsvSource({"CHO", "HAN"})
     void 장기판의_나라가_존재한다(Country country) {
         // given
         final StartingPosition startingPosition = StartingPosition.INNER_ELEPHANT_SETUP;
@@ -198,169 +197,169 @@ public class TeamTest {
 
     public static Stream<Arguments> provide초나라마상마상PositionAndPieceTypeOfAllPieces() {
         return Stream.of(
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_1), PieceType.차),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_1), PieceType.마),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_1), PieceType.상),
-                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_1), PieceType.사),
-                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_1), PieceType.사),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_1), PieceType.마),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_1), PieceType.상),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_1), PieceType.차),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_2), PieceType.장),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_3), PieceType.포),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_3), PieceType.포),
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_4), PieceType.졸),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_4), PieceType.졸),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_4), PieceType.졸),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_4), PieceType.졸),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_4), PieceType.졸)
+                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_1), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_1), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_1), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_1), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_1), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_1), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_1), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_1), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_2), PieceType.GENERAL),
+                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_3), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_3), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_4), PieceType.CHO_SOLDIER)
         );
     }
 
     public static Stream<Arguments> provide초나라상마상마PositionAndPieceTypeOfAllPieces() {
         return Stream.of(
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_1), PieceType.차),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_1), PieceType.상),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_1), PieceType.마),
-                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_1), PieceType.사),
-                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_1), PieceType.사),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_1), PieceType.상),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_1), PieceType.마),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_1), PieceType.차),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_2), PieceType.장),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_3), PieceType.포),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_3), PieceType.포),
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_4), PieceType.졸),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_4), PieceType.졸),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_4), PieceType.졸),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_4), PieceType.졸),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_4), PieceType.졸)
+                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_1), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_1), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_1), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_1), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_1), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_1), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_1), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_1), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_2), PieceType.GENERAL),
+                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_3), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_3), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_4), PieceType.CHO_SOLDIER)
         );
     }
 
     public static Stream<Arguments> provide초나라상마마상PositionAndPieceTypeOfAllPieces() {
         return Stream.of(
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_1), PieceType.차),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_1), PieceType.상),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_1), PieceType.마),
-                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_1), PieceType.사),
-                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_1), PieceType.사),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_1), PieceType.마),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_1), PieceType.상),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_1), PieceType.차),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_2), PieceType.장),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_3), PieceType.포),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_3), PieceType.포),
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_4), PieceType.졸),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_4), PieceType.졸),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_4), PieceType.졸),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_4), PieceType.졸),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_4), PieceType.졸)
+                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_1), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_1), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_1), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_1), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_1), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_1), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_1), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_1), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_2), PieceType.GENERAL),
+                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_3), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_3), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_4), PieceType.CHO_SOLDIER)
         );
     }
 
     public static Stream<Arguments> provide초나라마상상마PositionAndPieceTypeOfAllPieces() {
         return Stream.of(
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_1), PieceType.차),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_1), PieceType.마),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_1), PieceType.상),
-                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_1), PieceType.사),
-                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_1), PieceType.사),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_1), PieceType.상),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_1), PieceType.마),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_1), PieceType.차),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_2), PieceType.장),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_3), PieceType.포),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_3), PieceType.포),
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_4), PieceType.졸),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_4), PieceType.졸),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_4), PieceType.졸),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_4), PieceType.졸),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_4), PieceType.졸)
+                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_1), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_1), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_1), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_1), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_1), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_1), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_1), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_1), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_2), PieceType.GENERAL),
+                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_3), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_3), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_4), PieceType.CHO_SOLDIER)
         );
     }
 
     public static Stream<Arguments> provide한나라마상마상PositionAndPieceTypeOfAllPieces() {
         return Stream.of(
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_10), PieceType.차),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_10), PieceType.마),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_10), PieceType.상),
-                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_10), PieceType.사),
-                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_10), PieceType.사),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_10), PieceType.마),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_10), PieceType.상),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_10), PieceType.차),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_9), PieceType.장),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_8), PieceType.포),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_8), PieceType.포),
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_7), PieceType.병),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_7), PieceType.병),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_7), PieceType.병),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_7), PieceType.병),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_7), PieceType.병)
+                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_10), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_10), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_10), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_10), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_10), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_10), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_10), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_10), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_9), PieceType.GENERAL),
+                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_8), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_8), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_7), PieceType.HAN_SOLDIER)
         );
     }
 
     public static Stream<Arguments> provide한나라상마상마PositionAndPieceTypeOfAllPieces() {
         return Stream.of(
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_10), PieceType.차),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_10), PieceType.상),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_10), PieceType.마),
-                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_10), PieceType.사),
-                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_10), PieceType.사),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_10), PieceType.상),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_10), PieceType.마),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_10), PieceType.차),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_9), PieceType.장),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_8), PieceType.포),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_8), PieceType.포),
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_7), PieceType.병),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_7), PieceType.병),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_7), PieceType.병),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_7), PieceType.병),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_7), PieceType.병)
+                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_10), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_10), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_10), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_10), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_10), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_10), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_10), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_10), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_9), PieceType.GENERAL),
+                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_8), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_8), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_7), PieceType.HAN_SOLDIER)
         );
     }
 
     public static Stream<Arguments> provide한나라마상상마PositionAndPieceTypeOfAllPieces() {
         return Stream.of(
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_10), PieceType.차),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_10), PieceType.마),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_10), PieceType.상),
-                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_10), PieceType.사),
-                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_10), PieceType.사),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_10), PieceType.상),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_10), PieceType.마),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_10), PieceType.차),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_9), PieceType.장),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_8), PieceType.포),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_8), PieceType.포),
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_7), PieceType.병),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_7), PieceType.병),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_7), PieceType.병),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_7), PieceType.병),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_7), PieceType.병)
+                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_10), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_10), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_10), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_10), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_10), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_10), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_10), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_10), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_9), PieceType.GENERAL),
+                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_8), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_8), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_7), PieceType.HAN_SOLDIER)
         );
     }
 
     public static Stream<Arguments> provide한나라상마마상PositionAndPieceTypeOfAllPieces() {
         return Stream.of(
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_10), PieceType.차),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_10), PieceType.상),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_10), PieceType.마),
-                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_10), PieceType.사),
-                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_10), PieceType.사),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_10), PieceType.마),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_10), PieceType.상),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_10), PieceType.차),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_9), PieceType.장),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_8), PieceType.포),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_8), PieceType.포),
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_7), PieceType.병),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_7), PieceType.병),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_7), PieceType.병),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_7), PieceType.병),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_7), PieceType.병)
+                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_10), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_10), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_10), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_10), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_10), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_10), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_10), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_10), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_9), PieceType.GENERAL),
+                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_8), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_8), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_7), PieceType.HAN_SOLDIER)
         );
     }
 }

@@ -1,17 +1,27 @@
 package position;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static position.PositionFile.가;
+import static position.PositionFile.라;
+import static position.PositionFile.마;
+import static position.PositionFile.바;
+import static position.PositionFile.아;
+import static testUtil.TestConstant.RANK_1;
+import static testUtil.TestConstant.RANK_2;
+import static testUtil.TestConstant.RANK_3;
+import static testUtil.TestConstant.RANK_4;
+import static testUtil.TestConstant.RANK_5;
+import static testUtil.TestConstant.RANK_6;
+import static testUtil.TestConstant.RANK_7;
+import static testUtil.TestConstant.RANK_9;
+
+import java.util.List;
+import org.junit.jupiter.api.Test;
 import piece.MoveDirection;
 import piece.Piece;
 import piece.PieceType;
-import org.junit.jupiter.api.Test;
 import testUtil.TestConstant;
-
-import java.util.List;
-
-import static position.PositionFile.*;
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static testUtil.TestConstant.*;
 
 class PathTest {
 
@@ -82,10 +92,10 @@ class PathTest {
 
         // when
         final List<Piece> result = path.getEncounteredMiddlePieces(List.of(
-                new Piece(new Position(마, RANK_2), PieceType.마),
-                new Piece(new Position(마, RANK_3), PieceType.마),
-                new Piece(new Position(아, RANK_7), PieceType.졸),
-                new Piece(new Position(아, RANK_7), PieceType.졸)
+                new Piece(new Position(마, RANK_2), PieceType.HORSE),
+                new Piece(new Position(마, RANK_3), PieceType.HORSE),
+                new Piece(new Position(아, RANK_7), PieceType.CHO_SOLDIER),
+                new Piece(new Position(아, RANK_7), PieceType.CHO_SOLDIER)
         ));
 
         // then
@@ -108,9 +118,9 @@ class PathTest {
 
         // when
         final boolean result = path.isEncounteredLast(List.of(
-                new Piece(new Position(마, RANK_9), PieceType.장),
-                new Piece(new Position(아, RANK_7), PieceType.상),
-                new Piece(new Position(마, RANK_5), PieceType.졸)
+                new Piece(new Position(마, RANK_9), PieceType.GENERAL),
+                new Piece(new Position(아, RANK_7), PieceType.ELEPHANT),
+                new Piece(new Position(마, RANK_5), PieceType.CHO_SOLDIER)
         ));
 
         // then
@@ -130,9 +140,9 @@ class PathTest {
 
         // when
         final boolean result = path.isEncounteredLast(List.of(
-                new Piece(new Position(가, RANK_9), PieceType.장),
-                new Piece(new Position(가, RANK_7), PieceType.상),
-                new Piece(new Position(가, RANK_5), PieceType.졸)
+                new Piece(new Position(가, RANK_9), PieceType.GENERAL),
+                new Piece(new Position(가, RANK_7), PieceType.ELEPHANT),
+                new Piece(new Position(가, RANK_5), PieceType.CHO_SOLDIER)
         ));
 
         // then

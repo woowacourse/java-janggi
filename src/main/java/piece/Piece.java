@@ -36,12 +36,12 @@ public final class Piece {
     }
 
     private List<Path> filterFinalIsPoWhenTypeIsPo(final List<Path> paths, final List<Piece> enemyPieces) {
-        if (type != PieceType.포) {
+        if (type != PieceType.CANNON) {
             return paths;
         }
 
         final List<Piece> poPiece = enemyPieces.stream()
-                .filter(piece -> piece.type == PieceType.포)
+                .filter(piece -> piece.type == PieceType.CANNON)
                 .toList();
 
         return paths.stream()
@@ -60,9 +60,9 @@ public final class Piece {
 
         return paths.stream()
                 .filter(path -> {
-                    if (type == PieceType.포) {
+                    if (type == PieceType.CANNON) {
                         List<Piece> piece = path.getEncounteredMiddlePieces(hello);
-                        return piece.size() == 1 && piece.getFirst().type != PieceType.포;
+                        return piece.size() == 1 && piece.getFirst().type != PieceType.CANNON;
                     } else {
                         return path.getEncounteredMiddlePieces(hello).isEmpty();
                     }

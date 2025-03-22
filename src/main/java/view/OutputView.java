@@ -59,8 +59,9 @@ public final class OutputView {
 
     private void displayPiece(Piece piece, boolean isCho) {
         String color = isCho ? BLUE : RED;
-        System.out.print(color + piece.getType().name().charAt(0) + RESET);
+        System.out.print(color + piece.getType().getDisplayName() + RESET);
     }
+
 
     public void printMessage(String message) {
         System.out.println(message);
