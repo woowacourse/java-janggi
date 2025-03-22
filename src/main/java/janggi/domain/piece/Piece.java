@@ -27,7 +27,7 @@ public abstract class Piece {
 
     public int countPieceInRoute(List<Piece> piecesInRoute) {
         return (int) piecesInRoute.stream()
-                .filter(piece -> !piece.isEmptyPiece())
+                .filter(piece -> !piece.isNotEmptyPiece())
                 .count();
     }
 
@@ -51,5 +51,5 @@ public abstract class Piece {
         return type;
     }
 
-    public abstract boolean isEmptyPiece();
+    public abstract boolean isNotEmptyPiece();
 }

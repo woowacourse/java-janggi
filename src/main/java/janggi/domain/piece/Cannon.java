@@ -22,7 +22,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public boolean isEmptyPiece() {
-        return false;
+    public boolean isNotEmptyPiece() {
+        return true;
     }
 }

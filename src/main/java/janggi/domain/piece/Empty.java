@@ -22,7 +22,7 @@ public class Empty extends Piece {
     }
 
     @Override
-    public boolean isEmptyPiece() {
-        return true;
+    public boolean isNotEmptyPiece() {
+        return false;
     }
 }
