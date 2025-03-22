@@ -20,19 +20,15 @@ public class Knight extends Piece {
 
     @Override
     protected boolean isMoveablePosition(Position destination) {
-        if (getPosition().getXDistance(destination) == VERTICAL_BASE_X_MOVEABLE_DISTANCE) {
-            return getPosition().getYDistance(destination) == VERTICAL_BASE_Y_MOVEABLE_DISTANCE;
-        }
-        if (getPosition().getXDistance(destination) == HORIZONTAL_BASE_X_MOVEABLE_DISTANCE) {
-            return getPosition().getYDistance(destination) == HORIZONTAL_BASE_Y_MOVEABLE_DISTANCE;
-        }
-        return false;
+        int xDistance = getPosition().getXDistance(destination);
+        int yDistance = getPosition().getYDistance(destination);
+        return (xDistance == VERTICAL_BASE_X_MOVEABLE_DISTANCE && yDistance == VERTICAL_BASE_Y_MOVEABLE_DISTANCE) ||
+                (xDistance == HORIZONTAL_BASE_X_MOVEABLE_DISTANCE && yDistance == HORIZONTAL_BASE_Y_MOVEABLE_DISTANCE);
     }
 
     @Override
     protected boolean isMoveablePath(List<Piece> existingPieces, Position destination) {
-        List<Position> path = findPath(destination);
-        List<Piece> onPathPieces = findAllPiecesOnPath(existingPieces, path);
+        List<Piece> onPathPieces = findAllPiecesOnPath(existingPieces, destination);
 
         if (!onPathPieces.isEmpty()) {
             return onPathPieces.stream()
@@ -42,85 +38,60 @@ public class Knight extends Piece {
         return true;
     }
 
-    private List<Position> findPath(Position destination) {
-        if (getPosition().getXDistance(destination) == VERTICAL_BASE_X_MOVEABLE_DISTANCE) {
+    private List<Piece> findAllPiecesOnPath(List<Piece> existingPieces, Position destination) {
+        Set<Position> path = new HashSet<>(findPaths(destination));
+
+        return existingPieces.stream()
+                .filter(existingPiece -> path.contains(existingPiece.getPosition()))
+                .toList();
+    }
+
+    private List<Position> findPaths(Position destination) {
+        if (isVerticalMove(destination)) {
             return findAllVerticalMovablePositions(destination);
         }
         return findAllHorizontalMovablePositions(destination);
     }
 
-    private List<Piece> findAllPiecesOnPath(List<Piece> existingPieces, List<Position> path) {
-        Set<Position> pathSet = new HashSet<>(path);
-        return existingPieces.stream()
-                .filter(existingPiece -> pathSet.contains(existingPiece.getPosition()))
-                .toList();
-    }
-
     private List<Position> findAllVerticalMovablePositions(Position destination) {
-        if (destination.getY() > getYPosition()) {
-            return findAllUpwardMovablePositions(destination);
-        }
-        return findAllDownwardMovablePositions(destination);
-    }
+        int x = getXPosition();
+        int y = getYPosition();
+        int xOffset = getXOffset(destination);
+        int yOffset = getYOffset(destination);
 
-    private List<Position> findAllUpwardMovablePositions(Position destination) {
-        if (destination.getX() > getXPosition()) {
-            return List.of(
-                    new Position(getXPosition(), getYPosition() + 1),
-                    new Position(getXPosition() + 1, getYPosition() + 2)
-            );
-        }
         return List.of(
-                new Position(getXPosition(), getYPosition() + 1),
-                new Position(getXPosition() - 1, getYPosition() + 2)
-        );
-    }
-
-    private List<Position> findAllDownwardMovablePositions(Position destination) {
-        if (destination.getX() > getXPosition()) {
-            return List.of(
-                    new Position(getXPosition(), getYPosition() - 1),
-                    new Position(getXPosition() + 1, getYPosition() - 2)
-            );
-        }
-        return List.of(
-                new Position(getXPosition(), getYPosition() - 1),
-                new Position(getXPosition() - 1, getYPosition() - 2)
+                new Position(x, y + yOffset),
+                new Position(x + xOffset, y + 2 * yOffset)
         );
     }
 
     private List<Position> findAllHorizontalMovablePositions(Position destination) {
+        int x = getXPosition();
+        int y = getYPosition();
+        int xOffset = getXOffset(destination);
+        int yOffset = getYOffset(destination);
+
+        return List.of(
+                new Position(x + xOffset, y),
+                new Position(x + 2 * xOffset, y + yOffset)
+        );
+    }
+
+    private int getXOffset(Position destination) {
         if (destination.getX() > getXPosition()) {
-            return findAllRightwardMovablePositions(destination);
+            return 1;
         }
-        return findAllLeftwardMovablePositions(destination);
+        return -1;
     }
 
-    private List<Position> findAllRightwardMovablePositions(Position destination) {
+    private int getYOffset(Position destination) {
         if (destination.getY() > getYPosition()) {
-            return List.of(
-                    new Position(getXPosition() + 1, getYPosition()),
-                    new Position(getXPosition() + 2, getYPosition() + 1)
-            );
+            return 1;
         }
-        // 오른쪽 아래 이동
-        return List.of(
-                new Position(getXPosition() + 1, getYPosition()),
-                new Position(getXPosition() + 2, getYPosition() - 1)
-        );
+        return -1;
     }
 
-    private List<Position> findAllLeftwardMovablePositions(Position destination) {
-        if (destination.getY() > getYPosition()) {
-            return List.of(
-                    new Position(getXPosition() - 1, getYPosition()),
-                    new Position(getXPosition() - 2, getYPosition() + 1)
-            );
-        }
-        // 왼쪽 아래 이동
-        return List.of(
-                new Position(getXPosition() - 1, getYPosition()),
-                new Position(getXPosition() - 2, getYPosition() - 1)
-        );
+    private boolean isVerticalMove(Position destination) {
+        return getPosition().getXDistance(destination) == VERTICAL_BASE_X_MOVEABLE_DISTANCE;
     }
 }
