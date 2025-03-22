@@ -1,7 +1,5 @@
 package domain;
 
-import domain.piece.Direction;
-
 import java.util.Objects;
 
 public final class JanggiCoordinate {

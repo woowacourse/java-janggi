@@ -1,9 +1,6 @@
 package domain.piece;
 
-import domain.Country;
-import domain.JanggiCoordinate;
-import domain.PieceType;
-import domain.board.JanggiBoard;
+import domain.*;
 
 public class Sang extends Piece {
 

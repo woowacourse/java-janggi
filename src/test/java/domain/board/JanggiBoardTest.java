@@ -1,6 +1,7 @@
 package domain.board;
 
 import domain.Country;
+import domain.JanggiBoard;
 import domain.JanggiCoordinate;
 import domain.piece.Ma;
 import domain.piece.Piece;

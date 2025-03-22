@@ -1,9 +1,9 @@
 package domain.piece;
 
 import domain.Country;
+import domain.JanggiBoard;
 import domain.JanggiCoordinate;
 import domain.PieceType;
-import domain.board.JanggiBoard;
 
 public abstract class Piece {
     private Country country;

@@ -1,8 +1,8 @@
 package domain.piece;
 
 import domain.Country;
+import domain.JanggiBoard;
 import domain.JanggiCoordinate;
-import domain.board.JanggiBoard;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

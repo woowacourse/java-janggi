@@ -1,9 +1,6 @@
 package domain.piece;
 
-import domain.Country;
-import domain.JanggiCoordinate;
-import domain.PieceType;
-import domain.board.JanggiBoard;
+import domain.*;
 
 public class Ma extends Piece {
     private static final int MA_REACHABLE_RADIUS = 5;

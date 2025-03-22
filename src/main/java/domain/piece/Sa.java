@@ -1,9 +1,9 @@
 package domain.piece;
 
 import domain.Country;
+import domain.JanggiBoard;
 import domain.JanggiCoordinate;
 import domain.PieceType;
-import domain.board.JanggiBoard;
 
 public class Sa extends Piece {
     private static final int SA_REACHABLE_RADIUS = 2;

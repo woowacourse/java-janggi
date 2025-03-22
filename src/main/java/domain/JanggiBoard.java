@@ -1,6 +1,5 @@
-package domain.board;
+package domain;
 
-import domain.JanggiCoordinate;
 import domain.piece.Piece;
 
 import java.util.Map;

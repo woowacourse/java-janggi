@@ -1,9 +1,9 @@
 package domain.piece;
 
 import domain.Country;
+import domain.JanggiBoard;
 import domain.JanggiCoordinate;
 import domain.PieceType;
-import domain.board.JanggiBoard;
 
 public class Gung extends Piece {
     private static final int GUNG_REACHABLE_RADIUS = 2;
