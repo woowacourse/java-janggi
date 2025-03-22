@@ -33,17 +33,21 @@ public class Janggi {
                 throw new IllegalArgumentException("다시 입력하세요.");
         }
         displayJanggiBoard(janggiBoard);
+        playerTurn(janggiBoard);
+    }
 
-        boolean continueGame = true;
+    private void playerTurn(JanggiBoard janggiBoard) {
+        boolean isGameOver = false;
         boolean choTurn = true;
-        while (continueGame) {
+        while (!isGameOver) {
             Team team = decideTeam(choTurn);
             try {
                 List<Point> movePoints = movePointInput(team);
                 if (janggiBoard.isNotMyTeamPoint(movePoints.getFirst(), team)) {
                     throw new IllegalArgumentException("아군 장기말만 움직일 수 있습니다.");
                 }
-                janggiBoard.move(movePoints.getFirst(), movePoints.getLast());
+                isGameOver = janggiBoard.isCriticalPoint(movePoints.getLast()) &&
+                        janggiBoard.movePiece(movePoints.getFirst(), movePoints.getLast());
                 choTurn = !choTurn;
             } catch (IllegalArgumentException e) {
                 displayErrorMessage(e.getMessage());

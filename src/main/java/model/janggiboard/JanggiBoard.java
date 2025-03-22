@@ -22,6 +22,14 @@ public class JanggiBoard {
         placePiece(DEFAULT_SETUP);
     }
 
+    private static List<Dot> getHorizontalDotsLine() {
+        List<Dot> dotLine = new ArrayList<>();
+        for (int i = 0; i < HORIZONTAL_SIZE; i++) {
+            dotLine.add(new Dot());
+        }
+        return dotLine;
+    }
+
     private List<List<Dot>> initializeJanggiBoard() {
         List<List<Dot>> dots = new ArrayList<>();
         for (int i = 0; i < VERTICAL_SIZE; i++) {
@@ -29,14 +37,6 @@ public class JanggiBoard {
             dots.add(dotLine);
         }
         return dots;
-    }
-
-    private static List<Dot> getHorizontalDotsLine() {
-        List<Dot> dotLine = new ArrayList<>();
-        for (int i = 0; i < HORIZONTAL_SIZE; i++) {
-            dotLine.add(new Dot());
-        }
-        return dotLine;
     }
 
     private void placePiece(JanggiBoardSetUp janggiBoardSetUp) {
@@ -56,15 +56,19 @@ public class JanggiBoard {
         return count;
     }
 
-    public void move(Point beforePoint, Point targetPoint) {
-        Piece piece = getDot(beforePoint).getPiece();
-        validateAfterPoint(beforePoint, targetPoint, piece);
-        Path path = piece.calculatePath(beforePoint, targetPoint);
+    public boolean isCriticalPoint(Point targetPoint) {
+        return getDot(targetPoint).getPiece().isCriticalPiece();
+    }
+
+    public boolean movePiece(Point beforePoint, Point targetPoint) {
+        Piece beforePiece = getDot(beforePoint).getPiece();
+        validateAfterPoint(beforePoint, targetPoint, beforePiece);
+        Path path = beforePiece.calculatePath(beforePoint, targetPoint);
         Map<Piece, Boolean> piecesOnPathWithTargetOrNot = getPiecesOnPath(path, targetPoint);
-        if (piece.canMove(piecesOnPathWithTargetOrNot)) {
-            getDot(targetPoint).place(piece);
+        if (beforePiece.canMove(piecesOnPathWithTargetOrNot)) {
+            getDot(targetPoint).place(beforePiece);
             getDot(beforePoint).clear();
-            return;
+            return true;
         }
         throw new IllegalArgumentException("이동할 수 없습니다.");
     }
