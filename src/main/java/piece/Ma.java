@@ -32,8 +32,7 @@ public class Ma extends Piece {
     }
 
     @Override
-    protected boolean canMoveConsideringObstacles(Board board, Coordinate departure,
-                                                  Coordinate arrival) {
+    protected boolean canMoveConsideringObstacles(Board board, Coordinate departure, Coordinate arrival) {
         return findPaths(departure, arrival)
                 .stream()
                 .noneMatch(board::isExistence);
