@@ -1,4 +1,6 @@
-package janggi;
+package janggi.piece;
+
+import janggi.camp.Camp;
 
 public enum PieceSymbol {
 

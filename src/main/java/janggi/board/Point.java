@@ -1,4 +1,4 @@
-package janggi;
+package janggi.board;
 
 import java.util.Objects;
 

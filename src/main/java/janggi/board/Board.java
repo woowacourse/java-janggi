@@ -1,6 +1,5 @@
 package janggi.board;
 
-import janggi.Point;
 import janggi.piece.Piece;
 import java.util.HashMap;
 import java.util.HashSet;

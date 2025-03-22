@@ -1,9 +1,8 @@
 package janggi.piece;
 
-import janggi.Camp;
-import janggi.PieceSymbol;
-import janggi.Point;
+import janggi.board.Point;
 import janggi.board.Board;
+import janggi.camp.Camp;
 
 public final class Guard extends Piece {
 
