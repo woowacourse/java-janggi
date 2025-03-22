@@ -56,4 +56,11 @@ public class OutputView {
     public static void printTurn(Team team) {
         System.out.printf("이번 턴은 %s나라입니다.%n", team.title());
     }
+
+    public static void printCannotMove(Point source, Point destination) {
+        System.out.printf("%d,%d에서 %d,%d로 이동할 수 없습니다.",
+                source.row(), source.column(),
+                destination.row(), destination.column()
+        );
+    }
 }

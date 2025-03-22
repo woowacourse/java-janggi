@@ -28,7 +28,7 @@ public class Board {
     }
 
     public boolean isRunning() {
-        return isEnd;
+        return !isEnd;
     }
 
     public void movePiece(Point source, Point destination) {

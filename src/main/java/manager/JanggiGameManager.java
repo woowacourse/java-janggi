@@ -2,6 +2,7 @@ package manager;
 
 import domain.board.Board;
 import domain.board.BoardGenerator;
+import domain.board.Point;
 import domain.piece.Team;
 import domain.util.ErrorHandler;
 import view.InputView;
@@ -33,13 +34,20 @@ public class JanggiGameManager {
     private void processTurn(Board board, Turn turn) {
         ErrorHandler.retryUntilSuccess(() -> {
             MoveCommand moveCommand = InputView.inputMoveCommand(turn.team());
+            Point source = moveCommand.source();
+            Point destination = moveCommand.destination();
 
-            if (!board.hasPieceInTeam(moveCommand.source(), turn.team())) {
+            if (!board.hasPieceInTeam(source, turn.team())) {
                 OutputView.printTurn(turn.team());
                 return;
             }
 
-            board.movePiece(moveCommand.source(), moveCommand.destination());
+            if (!board.canMove(source, destination)) {
+                OutputView.printCannotMove(source, destination);
+                return;
+            }
+
+            board.movePiece(source, moveCommand.destination());
             OutputView.printBoard(board);
 
             if (board.existsWang(moveCommand.destination())) {
