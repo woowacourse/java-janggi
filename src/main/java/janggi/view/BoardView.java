@@ -20,7 +20,7 @@ public final class BoardView {
             Type.GUARD, "사",
             Type.SOLDIER, "병"
     );
-    private static final String PLAY_TURN_FORMAT = "%s의 차례입니다.";
+    private static final String PLAY_TURN_FORMAT = "의 차례입니다.";
 
     public void displayGame(final Board board) {
         System.out.println();
@@ -57,6 +57,10 @@ public final class BoardView {
     }
 
     public void displayTurn(final Board board) {
-        System.out.println(String.format(PLAY_TURN_FORMAT, board.getTurn()));
+        if (board.getTurn().equals("한")) {
+            System.out.println(String.format("\u001B[31m" + "%s" + "\u001B[0m" + PLAY_TURN_FORMAT, board.getTurn()));
+            return;
+        }
+        System.out.println(String.format("\u001B[34m" + "%s" + "\u001B[0m" + PLAY_TURN_FORMAT, board.getTurn()));
     }
 }
