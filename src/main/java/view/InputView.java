@@ -1,22 +1,20 @@
 package view;
 
 import domain.JanggiPosition;
+import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public JanggiPosition getMovePieceInput() {
-        System.out.println("움직일 말을 선택하세요. (ex. 01)");
+    public List<JanggiPosition> getMovePieceInput() {
+        System.out.println("움직일 말의 위치와 원하는 도착지를 입력하세요. (ex. 01 45)");
         String position = scanner.nextLine();
-        return parseToPosition(position);
-    }
-
-    public JanggiPosition getDestinationInput() {
-        System.out.println("도착지를 선택하세요. (ex. 45)");
-        String position = scanner.nextLine();
-        return parseToPosition(position);
+        return List.of(
+                parseToPosition(position.substring(0, 2)),
+                parseToPosition(position.substring(3, 5))
+        );
     }
 
     private JanggiPosition parseToPosition(String positionRaw) {

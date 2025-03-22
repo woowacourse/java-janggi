@@ -58,4 +58,10 @@ public class OutputView {
     public static void printErrorMessage(String message) {
         System.out.println(message);
     }
+
+    public void printWinningMessage(JanggiSide nowTurn) {
+        System.out.println(getMessageWithColorOfSide(
+                nowTurn, JanggiSideDisplay.getJanggiSideDisplay(nowTurn))
+         + "의 승리입니다!");
+    }
 }

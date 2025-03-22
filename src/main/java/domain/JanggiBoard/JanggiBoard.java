@@ -4,6 +4,7 @@ import domain.JanggiPosition;
 import domain.pattern.Pattern;
 import domain.piece.Empty;
 import domain.piece.JanggiPiece;
+import domain.piece.JanggiPieceType;
 import domain.piece.JanggiSide;
 import java.util.List;
 import java.util.Map;
@@ -70,5 +71,16 @@ public final class JanggiBoard {
 
     public boolean isSameTeam(JanggiPosition position, JanggiSide janggiSide) {
         return getPieceOfPosition(position).isTeam(janggiSide);
+    }
+
+    public boolean isOpposite궁Captured(JanggiSide nowTurn) {
+        JanggiPiece opposite궁 = janggiBoard.keySet().stream()
+                .map(position -> getPieceOfPosition(position))
+                .filter(piece -> piece.getType() == JanggiPieceType.궁)
+                .filter(piece -> piece.getSide() == nowTurn.getOppositeSide())
+                .findFirst()
+                .orElseThrow();
+
+        return opposite궁.isCaptured();
     }
 }

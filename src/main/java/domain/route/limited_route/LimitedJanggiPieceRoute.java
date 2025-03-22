@@ -21,8 +21,11 @@ public class LimitedJanggiPieceRoute implements JanggiPieceRoute {
         return routes.entrySet().stream()
                 .filter(entry -> {
                     List<Pattern> patterns = entry.getValue();
-                    JanggiPosition newPosition = beforePosition.move(patterns);
-                    return newPosition.equals(afterPosition);
+                    if (beforePosition.canMove(patterns)) {
+                        JanggiPosition newPosition = beforePosition.move(patterns);
+                        return newPosition.equals(afterPosition);
+                    }
+                    return false;
                 })
                 .findFirst()
                 .map(Entry::getValue)

@@ -4,6 +4,7 @@ import domain.JanggiBoard.JanggiBoard;
 import domain.JanggiBoard.JanggiBoardBasicInitializer;
 import domain.JanggiPosition;
 import domain.piece.JanggiSide;
+import java.util.List;
 import view.InputView;
 import view.OutputView;
 
@@ -21,28 +22,29 @@ public class JanggiController {
         outputView.printInitBoardMessage();
         JanggiBoard board = new JanggiBoard(new JanggiBoardBasicInitializer());
         outputView.printBoard(board.getBoard());
+        JanggiSide nowTurn = JanggiSide.CHO;
 
         while (true) {
-            processOneTurn(board);
-        }
-    }
-
-    private void processOneTurn(JanggiBoard board) {
-        for (JanggiSide side : JanggiSide.getValidSides()) {
-            movePiece(board, side);
+            processMovePiece(board, nowTurn);
             outputView.printBoard(board.getBoard());
+            if (board.isOpposite궁Captured(nowTurn)) {
+                break;
+            }
+            nowTurn = nowTurn.getOppositeSide();
         }
+
+        outputView.printWinningMessage(nowTurn);
     }
 
-    private void movePiece(JanggiBoard board, JanggiSide side) {
+    private void processMovePiece(JanggiBoard board, JanggiSide side) {
         InputProcessor.repeatUntilNormalInput(() -> {
             outputView.printTurnMessage(side);
-            JanggiPosition origin = inputView.getMovePieceInput();
+            List<JanggiPosition> originAndDestination = inputView.getMovePieceInput();
+            JanggiPosition origin = originAndDestination.get(0);
+            JanggiPosition destination = originAndDestination.get(1);
             if (!board.isSameTeam(origin, side)) {
                 throw new IllegalArgumentException("차례에 맞는 말을 선택하세요.");
             }
-
-            JanggiPosition destination = inputView.getDestinationInput();
             board.movePiece(origin, destination);
         } , OutputView::printErrorMessage);
     }

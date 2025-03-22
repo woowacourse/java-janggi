@@ -12,4 +12,14 @@ public enum JanggiSide {
     public static List<JanggiSide> getValidSides() {
         return VALID_SIDES;
     }
+
+    public JanggiSide getOppositeSide() {
+        if (this == CHO) {
+            return HAN;
+        }
+        if (this == HAN) {
+            return CHO;
+        }
+        return NONE;
+    }
 }

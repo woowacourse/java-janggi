@@ -23,6 +23,18 @@ public record JanggiPosition(int rank, int file) {
         return newPosition;
     }
 
+    public boolean canMove(final List<Pattern> patterns) {
+        JanggiPosition newPosition = this;
+        try {
+            for (Pattern pattern : patterns) {
+                newPosition = newPosition.moveOnePosition(pattern);
+            }
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
+    }
+
     public JanggiPosition moveOnePosition(final Pattern pattern) {
         int newRank = getTransformedRank(pattern, rank);
         int newFile = file + pattern.getY();
