@@ -3,15 +3,12 @@ package janggi.piece;
 import janggi.board.Position;
 import janggi.move.Direction;
 import janggi.move.Route;
-
 import java.util.List;
 
-public class Horse implements Piece {
-
-    private final Side side;
+public class Horse extends LimitMovable {
 
     public Horse(final Side side) {
-        this.side = side;
+        super(side);
     }
 
     @Override
@@ -31,7 +28,8 @@ public class Horse implements Piece {
         );
     }
 
-    private Route createRoute(final Position originalPosition, Direction normalDirection, Direction diagonalNormalDirection) {
+    private Route createRoute(final Position originalPosition, Direction normalDirection,
+                              Direction diagonalNormalDirection) {
         Route route = new Route();
         Position movedPosition = originalPosition.move(normalDirection);
         Position movedPosition2 = movedPosition.move(diagonalNormalDirection);
@@ -43,17 +41,7 @@ public class Horse implements Piece {
     }
 
     @Override
-    public String getSymbol() {
-        return "M";
-    }
-
-    @Override
-    public boolean isCho() {
-        return side == Side.CHO;
-    }
-
-    @Override
-    public boolean isHan() {
-        return side == Side.HAN;
+    public PieceType getType() {
+        return PieceType.HORSE;
     }
 }

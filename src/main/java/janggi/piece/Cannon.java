@@ -1,14 +1,12 @@
 package janggi.piece;
 
 import janggi.board.Position;
-import janggi.move.Direction;
 import janggi.move.Route;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class Cannon implements Piece {
-
-    private static final int MOVE_LIMIT = 10;
+public class Cannon extends UnLimitMovable {
 
     private final Side side;
 
@@ -17,28 +15,44 @@ public class Cannon implements Piece {
     }
 
     @Override
-    public List<Route> computeCandidatePositions(final Position position) {
-        Route upRoute = createRoute(position, Direction.UP);
-        Route downRoute = createRoute(position, Direction.DOWN);
-        Route leftRoute = createRoute(position, Direction.LEFT);
-        Route rightRoute = createRoute(position, Direction.RIGHT);
-
-        return List.of(rightRoute, leftRoute, upRoute, downRoute);
-    }
-
-    private Route createRoute(final Position position, final Direction direction) {
-        Route route = new Route(position);
-        for (int i = 0; i < MOVE_LIMIT; i++) {
-            Position lastPosition = route.getLastPosition();
-            route.addRoute(lastPosition.move(direction));
+    public List<Position> filterReachableDestinations(final List<Route> routes, final Map<Position, Piece> board) {
+        List<Position> reachablePositions = new ArrayList<>();
+        for (Route route : routes) {
+            List<Position> positions = route.getPositions();
+            addValidDestination(positions, reachablePositions, board);
         }
-        route.deleteFirstPosition();
-        return route;
+        return reachablePositions;
     }
 
-    @Override
-    public String getSymbol() {
-        return "P";
+    private void addValidDestination(final List<Position> positions, final List<Position> reachablePositions,
+                                     final Map<Position, Piece> board) {
+        boolean hasJumped = false;
+        for (Position position : positions) {
+            Piece targetPiece = board.get(position);
+            if (position.isOutOfRange(9, 10) || targetPiece.isNotJumpable()) {
+                break;
+            }
+            if (!hasJumped && targetPiece.isOccupied()) {
+                hasJumped = true;
+                continue;
+            }
+
+            if (hasJumped && processAfterJump(reachablePositions, position, targetPiece)) {
+                break;
+            }
+        }
+    }
+
+    private boolean processAfterJump(final List<Position> reachablePositions, final Position position,
+                                     final Piece targetPiece) {
+        if (targetPiece.isOccupied()) {
+            if (!isAlly(targetPiece)) {
+                reachablePositions.add(position);
+            }
+            return true;
+        }
+        reachablePositions.add(position);
+        return false;
     }
 
     @Override
@@ -49,5 +63,10 @@ public class Cannon implements Piece {
     @Override
     public boolean isHan() {
         return side == Side.HAN;
+    }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.CANNON;
     }
 }

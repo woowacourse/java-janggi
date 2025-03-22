@@ -2,8 +2,8 @@ package janggi.piece;
 
 import janggi.board.Position;
 import janggi.move.Route;
-
 import java.util.List;
+import java.util.Map;
 
 public class Empty implements Piece {
 
@@ -16,8 +16,13 @@ public class Empty implements Piece {
     }
 
     @Override
-    public String getSymbol() {
-        return "·";
+    public List<Position> filterReachableDestinations(List<Route> routes, Map<Position, Piece> board) {
+        throw new IllegalArgumentException("[ERROR] 프로그램에 오류가 발생했습니다.");
+    }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.EMPTY;
     }
 
     @Override

@@ -3,19 +3,15 @@ package janggi.piece;
 import janggi.board.Position;
 import janggi.move.Direction;
 import janggi.move.Route;
-
 import java.util.List;
 
-public class Guard implements Piece {
-
-    private final Side side;
+public class Guard extends LimitMovable {
 
     public Guard(final Side side) {
-        this.side = side;
+        super(side);
     }
 
-    @Override
-    public List<Route> computeCandidatePositions(final Position position) {
+    public List<Route> computeCandidatePositions(Position position) {
         return List.of(
                 createRoute(position, Direction.UP),
                 createRoute(position, Direction.RIGHT),
@@ -31,17 +27,7 @@ public class Guard implements Piece {
     }
 
     @Override
-    public String getSymbol() {
-        return "S";
-    }
-
-    @Override
-    public boolean isCho() {
-        return side == Side.CHO;
-    }
-
-    @Override
-    public boolean isHan() {
-        return side == Side.HAN;
+    public PieceType getType() {
+        return PieceType.GUARD;
     }
 }

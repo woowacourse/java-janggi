@@ -5,17 +5,16 @@ import janggi.move.Direction;
 import janggi.move.Route;
 
 import java.util.List;
+import java.util.Map;
 
-public class Soldier implements Piece {
-
-    private final Side side;
+public class Soldier extends LimitMovable {
 
     public Soldier(final Side side) {
-        this.side = side;
+        super(side);
     }
 
     @Override
-    public List<Route> computeCandidatePositions(Position position) {
+    public List<Route> computeCandidatePositions(final Position position) {
         if (isCho()) {
             return moveCho(position);
         }
@@ -45,17 +44,7 @@ public class Soldier implements Piece {
     }
 
     @Override
-    public String getSymbol() {
-        return "J";
-    }
-
-    @Override
-    public boolean isCho() {
-        return side == Side.CHO;
-    }
-
-    @Override
-    public boolean isHan() {
-        return side == Side.HAN;
+    public PieceType getType() {
+        return PieceType.SOLDIER;
     }
 }
