@@ -1,7 +1,6 @@
 package janggiGame.piece;
 
 import janggiGame.board.Dot;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +8,6 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public class Elephant extends Piece {
-    private static final String NAME = "상";
-
     public Elephant(Dynasty dynasty) {
         super(dynasty);
     }
@@ -93,7 +90,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public String getName() {
-        return NAME;
+    public PieceType getType() {
+        return PieceType.ELEPHANT;
     }
 }

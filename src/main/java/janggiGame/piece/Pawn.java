@@ -1,14 +1,10 @@
 package janggiGame.piece;
 
 import janggiGame.board.Dot;
-
 import java.util.List;
 import java.util.Map;
 
 public class Pawn extends Piece {
-
-    public static final String NAME = "병";
-
     public Pawn(Dynasty dynasty) {
         super(dynasty);
     }
@@ -44,7 +40,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public String getName() {
-        return NAME;
+    public PieceType getType() {
+        return PieceType.PAWN;
     }
 }

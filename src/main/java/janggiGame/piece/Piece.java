@@ -1,7 +1,6 @@
 package janggiGame.piece;
 
 import janggiGame.board.Dot;
-
 import java.util.List;
 import java.util.Map;
 
@@ -28,5 +27,5 @@ public abstract class Piece {
 
     public abstract void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece);
 
-    public abstract String getName();
+    public abstract PieceType getType();
 }

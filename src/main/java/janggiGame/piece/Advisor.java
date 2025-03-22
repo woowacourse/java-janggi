@@ -1,13 +1,10 @@
 package janggiGame.piece;
 
 import janggiGame.board.Dot;
-
 import java.util.List;
 import java.util.Map;
 
 public class Advisor extends Piece {
-    public static final String NAME = "사";
-
     public Advisor(Dynasty dynasty) {
         super(dynasty);
     }
@@ -35,7 +32,7 @@ public class Advisor extends Piece {
     }
 
     @Override
-    public String getName() {
-        return NAME;
+    public PieceType getType() {
+        return PieceType.ADVISOR;
     }
 }

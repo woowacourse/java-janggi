@@ -1,7 +1,6 @@
 package janggiGame.piece;
 
 import janggiGame.board.Dot;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +8,6 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public class Chariot extends Piece {
-    private static final String NAME = "차";
-
     public Chariot(Dynasty dynasty) {
         super(dynasty);
     }
@@ -81,7 +78,7 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public String getName() {
-        return NAME;
+    public PieceType getType() {
+        return PieceType.CHARIOT;
     }
 }

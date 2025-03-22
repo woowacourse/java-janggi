@@ -1,13 +1,10 @@
 package janggiGame.piece;
 
 import janggiGame.board.Dot;
-
 import java.util.List;
 import java.util.Map;
 
 public class King extends Piece {
-    public static final String NAME = "장";
-
     public King(Dynasty dynasty) {
         super(dynasty);
     }
@@ -35,7 +32,7 @@ public class King extends Piece {
     }
 
     @Override
-    public String getName() {
-        return NAME;
+    public PieceType getType() {
+        return PieceType.KING;
     }
 }
