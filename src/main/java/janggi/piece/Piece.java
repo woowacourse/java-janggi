@@ -9,7 +9,7 @@ public abstract class Piece {
     private final PieceProfile pieceProfile;
     protected BoardPosition boardPosition;
 
-    public Piece(final PieceProfile pieceProfile, final BoardPosition boardPosition) {
+    protected Piece(final PieceProfile pieceProfile, final BoardPosition boardPosition) {
         this.pieceProfile = pieceProfile;
         this.boardPosition = boardPosition;
     }
