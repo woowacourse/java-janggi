@@ -3,6 +3,7 @@ package janggi.view;
 import janggi.common.ErrorMessage;
 import janggi.domain.Board;
 import janggi.domain.Side;
+import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.dto.PositionDto;
 import java.util.Scanner;
@@ -19,15 +20,20 @@ public class Viewer {
 
     private static final int POSITION_INPUT_SIZE = 2;
 
+    private static final int START_COLUMN = Position.getStartColumn();
+    private static final int LAST_COLUMN = Position.getLastColumn();
+    private static final int START_ROW = Position.getStartRow();
+    private static final int LAST_ROW = Position.getLastRow();
+
     public void printErrorMessage(Exception e) {
         System.out.println(Formatter.formatMessageWithHeader(ERROR_HEADER, e.getMessage()));
     }
 
     public void printBoard(Board board) {
         StringJoiner enterJoiner = new StringJoiner(LINE_SEPARATOR).add(formatFirstRowOfBoard());
-        for (int row = 1; row <= 10; row++) {
+        for (int row = START_ROW; row <= LAST_ROW; row++) {
             StringJoiner lineJoiner = new StringJoiner(BLANK);
-            for (int column = 1; column <= 9; column++) {
+            for (int column = START_COLUMN; column <= LAST_COLUMN; column++) {
                 lineJoiner.add(board.getPieceName(row, column));
             }
 
@@ -41,7 +47,7 @@ public class Viewer {
     private String formatFirstRowOfBoard() {
         StringJoiner joiner = new StringJoiner(BLANK);
 
-        for (int i = 1; i <= 9; i++) {
+        for (int i = START_COLUMN; i <= LAST_COLUMN; i++) {
             joiner.add(Formatter.formatFullWidthNumber(i));
         }
 

@@ -6,11 +6,16 @@ import java.util.Optional;
 
 public class Position {
 
-    private static final Position[][] CACHED = new Position[11][10];
+    private static final int START_COLUMN = 1;
+    private static final int LAST_COLUMN = 9;
+    private static final int START_ROW = 1;
+    private static final int LAST_ROW = 10;
+
+    private static final Position[][] CACHED = new Position[LAST_ROW + 1][LAST_COLUMN + 1];
 
     static {
-        for (int row = 1; row <= 10; row++) {
-            for (int column = 1; column <= 9; column++) {
+        for (int row = START_ROW; row <= LAST_ROW; row++) {
+            for (int column = START_COLUMN; column <= LAST_COLUMN; column++) {
                 CACHED[row][column] = new Position(row, column);
             }
         }
@@ -37,7 +42,23 @@ public class Position {
     }
 
     private static boolean isValid(int row, int column) {
-        return row >= 1 && row <= 10 && column >= 1 && column <= 9;
+        return row >= START_ROW && row <= LAST_ROW && column >= START_COLUMN && column <= LAST_COLUMN;
+    }
+
+    public static int getStartRow() {
+        return START_ROW;
+    }
+
+    public static int getLastRow() {
+        return LAST_ROW;
+    }
+
+    public static int getStartColumn() {
+        return START_COLUMN;
+    }
+
+    public static int getLastColumn() {
+        return LAST_COLUMN;
     }
 
     public Optional<Position> calculateNextPosition(Vector vector) {
