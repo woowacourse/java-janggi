@@ -1,7 +1,6 @@
 package janggi.piece;
 
 import janggi.point.Direction;
-import janggi.point.InitialPoint;
 import janggi.point.Point;
 import janggi.game.Team;
 import janggi.point.PointDistance;
@@ -11,7 +10,6 @@ import java.util.List;
 public class Cha implements Movable {
 
     private static final String NAME = "차";
-    private static final List<Cha> chas;
 
     private final Team team;
     private final Point point;
@@ -19,21 +17,6 @@ public class Cha implements Movable {
     public Cha(Team team, Point point) {
         this.team = team;
         this.point = point;
-    }
-
-    static {
-        List<Cha> createdPieces = new ArrayList<>();
-        for (Point point : InitialPoint.CHA.getRedPoints()) {
-            createdPieces.add(new Cha(Team.HAN, point));
-        }
-        for (Point point : InitialPoint.CHA.getBluePoints()) {
-            createdPieces.add(new Cha(Team.CHO, point));
-        }
-        chas = createdPieces;
-    }
-
-    public static List<Cha> values() {
-        return new ArrayList<>(chas);
     }
 
     @Override

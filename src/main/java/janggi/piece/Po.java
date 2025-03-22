@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.game.Board;
 import janggi.point.Direction;
-import janggi.point.InitialPoint;
 import janggi.point.Point;
 import janggi.game.Team;
 import janggi.point.PointDistance;
@@ -12,7 +11,6 @@ import java.util.List;
 public class Po implements Movable {
 
     private static final String NAME = "포";
-    private static final List<Po> pos;
 
     private final Team team;
     private final Point point;
@@ -20,21 +18,6 @@ public class Po implements Movable {
     public Po(Team team, Point point) {
         this.team = team;
         this.point = point;
-    }
-
-    static {
-        List<Po> createdPieces = new ArrayList<>();
-        for (Point point : InitialPoint.PO.getRedPoints()) {
-            createdPieces.add(new Po(Team.HAN, point));
-        }
-        for (Point point : InitialPoint.PO.getBluePoints()) {
-            createdPieces.add(new Po(Team.CHO, point));
-        }
-        pos = createdPieces;
-    }
-
-    public static List<Po> values() {
-        return new ArrayList<>(pos);
     }
 
     public boolean isMovable(Point targetPoint, Board board) {

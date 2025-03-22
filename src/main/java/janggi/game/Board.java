@@ -8,10 +8,13 @@ import janggi.piece.Movable;
 import janggi.piece.Po;
 import janggi.piece.Sa;
 import janggi.piece.Sang;
+import janggi.piece.InitialPieces;
 import janggi.point.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Board {
     private final List<Movable> runningPieces;
@@ -23,15 +26,10 @@ public class Board {
     }
 
     public static Board init() {
-        List<Movable> pieces = new ArrayList<>();
-
-        pieces.addAll(Gung.values());
-        pieces.addAll(Sa.values());
-        pieces.addAll(Ma.values());
-        pieces.addAll(Sang.values());
-        pieces.addAll(Cha.values());
-        pieces.addAll(Po.values());
-        pieces.addAll(Byeong.values());
+        List<Movable> pieces = Arrays.stream(InitialPieces.values())
+            .map(InitialPieces::getInitialPieces)
+            .flatMap(List::stream)
+            .toList();
 
         return new Board(pieces);
     }
