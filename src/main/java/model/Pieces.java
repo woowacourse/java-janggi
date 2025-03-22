@@ -17,7 +17,7 @@ public class Pieces {
         return Optional.ofNullable(pieces.get(position));
     }
 
-    public Piece findPiece(Position position) {
+    public Piece findPieceBy(Position position) {
         return pieces.computeIfAbsent(position, key -> {
             throw new IllegalArgumentException("해당 위치에 기물 없음");
         });
@@ -32,7 +32,7 @@ public class Pieces {
 
 
     private List<Position> findDirectionOfPiece(Position departure, Position arrival) {
-        Piece piece = findPiece(departure);
+        Piece piece = findPieceBy(departure);
         List<List<Position>> findResults = piece.calculateAllDirection(departure);
         return findResults.stream()
                 .filter(positions -> positions.contains(arrival))

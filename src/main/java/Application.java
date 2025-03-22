@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Optional;
 import model.Piece;
 import model.PieceInitializer;
@@ -17,18 +18,20 @@ public class Application {
         outputView.printJanggiStart();
         while (true) {
             showCurrentPositionOfPieces(pieces);
-            String choiceDirection = inputView.printMovePiece();
-            Position departure = Position.initFrom(InputParser.split(choiceDirection));
-            Piece piece = pieces.findPiece(departure);
+            String choiceDeparture = inputView.choiceDeparture();
+            List<String> departureColumnAndRow = InputParser.split(choiceDeparture);
+            Position departure = new Position(departureColumnAndRow.get(0), departureColumnAndRow.get(1));
+            Piece piece = pieces.findPieceBy(departure);
 
-            String moveDirection = inputView.printMovePosition(piece);
-            Position arrival = Position.initFrom(InputParser.split(moveDirection));
+            String choiceArrival = inputView.choiceArrivalOf(piece);
+            List<String> arrivalColumnAndRow = InputParser.split(choiceArrival);
+            Position arrival = new Position(arrivalColumnAndRow.get(0), arrivalColumnAndRow.get(1));
             moveOfPiece(pieces, departure, arrival);
         }
     }
 
     private static void moveOfPiece(Pieces pieces, Position departure, Position arrival) {
-        Piece piece = pieces.findPiece(departure);
+        Piece piece = pieces.findPieceBy(departure);
         if (piece.isCannon()) {
             //pieces.validateCannonMove(piece, destinationDirection);
             return;
