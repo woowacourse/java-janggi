@@ -71,8 +71,8 @@ public class OutputView {
         for (Piece piece : pieces) {
             Position position = piece.getPosition();
 
-            int row = position.getRow() - 1;
-            int column = position.getColumn() - 1;
+            int row = position.row() - 1;
+            int column = position.column() - 1;
 
             ArrayList<String> rows = defaultBoard.get(column);
             rows.set(row, color.getColor() + piece.getName() + COLOR_RESET);

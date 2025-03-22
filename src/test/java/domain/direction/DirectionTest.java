@@ -3,6 +3,7 @@ package domain.direction;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.spatial.Position;
+import domain.spatial.Vector;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,12 +14,12 @@ class DirectionTest {
     @Test
     void 반복_이동이_없는_방향성에_대해_경로를_반환한다() {
         // given
-        Position start = Position.of(5, 5);
-        Position target = Position.of(6, 3);
-        List<Position> expected = List.of(Position.of(5, 4));
+        Position start = new Position(5, 5);
+        Position target = new Position(6, 3);
+        List<Position> expected = List.of(new Position(5, 4));
 
-        List<Position> positions = List.of(Position.ofDirection(0, -1), Position.ofDirection(1, -1));
-        Direction direction = new Direction(positions, false);
+        List<Vector> vectors = List.of(new Vector(0, -1), new Vector(1, -1));
+        Direction direction = new Direction(vectors, false);
 
         // when
         List<Position> result = direction.createPath(start, target);
@@ -30,12 +31,12 @@ class DirectionTest {
     @Test
     void 반복_이동이_있는_방향성에_대해_경로를_반환한다() {
         // given
-        Position start = Position.of(5, 5);
-        Position target = Position.of(5, 9);
-        List<Position> expected = List.of(Position.of(5, 6), Position.of(5, 7), Position.of(5, 8));
+        Position start = new Position(5, 5);
+        Position target = new Position(5, 9);
+        List<Position> expected = List.of(new Position(5, 6), new Position(5, 7), new Position(5, 8));
 
-        List<Position> positions = List.of(Position.ofDirection(0, 1));
-        Direction direction = new Direction(positions, true);
+        List<Vector> vectors = List.of(new Vector(0, 1));
+        Direction direction = new Direction(vectors, true);
 
         // when
         List<Position> result = direction.createPath(start, target);
@@ -51,11 +52,11 @@ class DirectionTest {
     })
     void 반복이_아닌_경우_타겟_위치_도달_여부를_판단한다(int row, int column, boolean expectedResult) {
         // given
-        Position start = Position.of(5, 5);
-        Position target = Position.of(row, column);
+        Position start = new Position(5, 5);
+        Position target = new Position(row, column);
 
-        List<Position> positions = List.of(Position.ofDirection(0, -1), Position.ofDirection(1, -1));
-        Direction direction = new Direction(positions, false);
+        List<Vector> vectors = List.of(new Vector(0, -1), new Vector(1, -1));
+        Direction direction = new Direction(vectors, false);
 
         // when
         boolean result = direction.canReach(start, target);
@@ -71,11 +72,11 @@ class DirectionTest {
     })
     void 반복인_경우_타겟_위치_도달_여부를_판단한다(int row, int column, boolean expectedResult) {
         // given
-        Position start = Position.of(5, 5);
-        Position target = Position.of(row, column);
+        Position start = new Position(5, 5);
+        Position target = new Position(row, column);
 
-        List<Position> positions = List.of(Position.ofDirection(0, 1));
-        Direction direction = new Direction(positions, true);
+        List<Vector> vectors = List.of(new Vector(0, 1));
+        Direction direction = new Direction(vectors, true);
 
         // when
         boolean result = direction.canReach(start, target);

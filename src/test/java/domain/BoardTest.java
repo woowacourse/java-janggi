@@ -21,10 +21,10 @@ class BoardTest {
     @Test
     void 플레이어의_기물을_이동한다() {
         // given
-        Position startPosition = Position.of(1, 4);
-        Position targetPosition = Position.of(1, 5);
+        Position startPosition = new Position(1, 4);
+        Position targetPosition = new Position(1, 5);
 
-        Piece expected = new Soldier(Position.of(1, 5), PieceDirection.HAN_SOLDIER.get());
+        Piece expected = new Soldier(new Position(1, 5), PieceDirection.HAN_SOLDIER.get());
 
         Player han = new Player("한", PieceColor.RED);
         Player cho = new Player("초", PieceColor.BLUE);
@@ -48,8 +48,8 @@ class BoardTest {
     @Test
     void 타겟_위치에_플레이어의_기물이_있는_경우_예외가_발생한다() {
         // given
-        Position startPosition = Position.of(1, 1);
-        Position targetPosition = Position.of(1, 4);
+        Position startPosition = new Position(1, 1);
+        Position targetPosition = new Position(1, 4);
 
         Player han = new Player("한", PieceColor.RED);
         Player cho = new Player("초", PieceColor.BLUE);
@@ -72,17 +72,17 @@ class BoardTest {
     @Test
     void 포_이동_경로에_기물이_1개가_아닌_경우_예외가_발생한다() {
         // given
-        Position startPosition = Position.of(2, 3);
-        Position targetPosition1 = Position.of(4, 3);
-        Position targetPosition2 = Position.of(7, 3);
+        Position startPosition = new Position(2, 3);
+        Position targetPosition1 = new Position(4, 3);
+        Position targetPosition2 = new Position(7, 3);
 
         Player han = new Player("한", PieceColor.RED);
         Player cho = new Player("초", PieceColor.BLUE);
 
         List<Piece> hanPieces = PieceInit.initHanPieces();
         List<Piece> choPieces = PieceInit.initChoPieces();
-        hanPieces.add(new Soldier(Position.of(5, 3), PieceDirection.HAN_SOLDIER.get()));
-        hanPieces.add(new Soldier(Position.of(6, 3), PieceDirection.HAN_SOLDIER.get()));
+        hanPieces.add(new Soldier(new Position(5, 3), PieceDirection.HAN_SOLDIER.get()));
+        hanPieces.add(new Soldier(new Position(6, 3), PieceDirection.HAN_SOLDIER.get()));
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(hanPieces));
@@ -104,15 +104,15 @@ class BoardTest {
     @Test
     void 포의_목적지에_상대_포가_존재할_경우_예외가_발생한다() {
         // given
-        Position startPosition = Position.of(2, 3);
-        Position targetPosition = Position.of(2, 8);
+        Position startPosition = new Position(2, 3);
+        Position targetPosition = new Position(2, 8);
 
         Player han = new Player("한", PieceColor.RED);
         Player cho = new Player("초", PieceColor.BLUE);
 
         List<Piece> hanPieces = PieceInit.initHanPieces();
         List<Piece> choPieces = PieceInit.initChoPieces();
-        hanPieces.add(new Soldier(Position.of(2, 5), PieceDirection.HAN_SOLDIER.get()));
+        hanPieces.add(new Soldier(new Position(2, 5), PieceDirection.HAN_SOLDIER.get()));
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(hanPieces));
@@ -129,8 +129,8 @@ class BoardTest {
     @Test
     void 포의_경로에_다른_포가_존재할_경우_예외가_발생한다() {
         // given
-        Position startPosition = Position.of(2, 3);
-        Position targetPosition = Position.of(2, 9);
+        Position startPosition = new Position(2, 3);
+        Position targetPosition = new Position(2, 9);
 
         Player han = new Player("한", PieceColor.RED);
         Player cho = new Player("초", PieceColor.BLUE);
@@ -153,8 +153,8 @@ class BoardTest {
     @Test
     void 이동한_위치에_존재하는_상대_기물을_삭제한다() {
         // given
-        Position startPosition = Position.of(1, 1);
-        Position targetPosition = Position.of(1, 7);
+        Position startPosition = new Position(1, 1);
+        Position targetPosition = new Position(1, 7);
 
         Player han = new Player("한", PieceColor.RED);
         Player cho = new Player("초", PieceColor.BLUE);
@@ -168,7 +168,7 @@ class BoardTest {
 
         Board board = new Board(boardElements);
 
-        board.move(han, Position.of(1, 4), Position.of(2, 4));
+        board.move(han, new Position(1, 4), new Position(2, 4));
 
         // when
         board.move(han, startPosition, targetPosition);
@@ -176,7 +176,7 @@ class BoardTest {
         // then
         assertAll(() -> {
             assertThat(choPieces).hasSize(15);
-            assertThat(choPieces).doesNotContain(new Soldier(Position.of(1, 7), PieceDirection.CHO_SOLDIER.get()));
+            assertThat(choPieces).doesNotContain(new Soldier(new Position(1, 7), PieceDirection.CHO_SOLDIER.get()));
         });
     }
 
@@ -186,7 +186,7 @@ class BoardTest {
         Player han = new Player("한", PieceColor.RED);
         Player cho = new Player("초", PieceColor.BLUE);
 
-        Position kingPosition = Position.of(5, 9);
+        Position kingPosition = new Position(5, 9);
 
         Pieces choPieces = new Pieces(PieceInit.initChoPieces());
         choPieces.deleteByPosition(kingPosition);
@@ -210,7 +210,7 @@ class BoardTest {
         Player han = new Player("한", PieceColor.RED);
         Player cho = new Player("초", PieceColor.BLUE);
 
-        Position kingPosition = Position.of(5, 9);
+        Position kingPosition = new Position(5, 9);
 
         Pieces choPieces = new Pieces(PieceInit.initChoPieces());
         choPieces.deleteByPosition(kingPosition);

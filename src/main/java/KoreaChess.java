@@ -53,7 +53,7 @@ public class KoreaChess {
         int row = Integer.parseInt(positionElements.getFirst());
         int column = Integer.parseInt(positionElements.getLast());
 
-        return Position.of(row, column);
+        return new Position(row, column);
     }
 
     private Board createBoard(final Player han, final Player cho) {

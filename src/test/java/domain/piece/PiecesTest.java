@@ -19,13 +19,13 @@ class PiecesTest {
     @Test
     void 특정_위치에_있는_기물을_반환한다() {
         // given
-        Position position = Position.of(1, 5);
-        Horse expected = new Horse(Position.of(1, 5), new Directions(List.of()));
+        Position position = new Position(1, 5);
+        Horse expected = new Horse(new Position(1, 5), new Directions(List.of()));
 
         Pieces pieces = new Pieces(List.of(
-                new King(Position.of(2, 5), new Directions(List.of())),
+                new King(new Position(2, 5), new Directions(List.of())),
                 expected,
-                new Soldier(Position.of(5, 7), new Directions(List.of()))
+                new Soldier(new Position(5, 7), new Directions(List.of()))
         ));
 
         // when
@@ -39,17 +39,17 @@ class PiecesTest {
     void 좌표_목록에_일치하는_기물_개수를_계산한다() {
         // given
         Pieces pieces = new Pieces(List.of(
-                new King(Position.of(2, 5), new Directions(List.of())),
-                new Horse(Position.of(1, 5), new Directions(List.of())),
-                new Soldier(Position.of(5, 7), new Directions(List.of())),
-                new Soldier(Position.of(8, 1), new Directions(List.of())),
-                new Soldier(Position.of(2, 4), new Directions(List.of()))
+                new King(new Position(2, 5), new Directions(List.of())),
+                new Horse(new Position(1, 5), new Directions(List.of())),
+                new Soldier(new Position(5, 7), new Directions(List.of())),
+                new Soldier(new Position(8, 1), new Directions(List.of())),
+                new Soldier(new Position(2, 4), new Directions(List.of()))
         ));
 
         List<Position> positions = List.of(
-                Position.of(1, 5),
-                Position.of(2, 5),
-                Position.of(5, 7)
+                new Position(1, 5),
+                new Position(2, 5),
+                new Position(5, 7)
         );
 
         // when
@@ -62,13 +62,13 @@ class PiecesTest {
     @Test
     void 기물의_좌표를_변경한다() {
         // given
-        Piece piece = new King(Position.of(2, 5), new Directions(List.of()));
+        Piece piece = new King(new Position(2, 5), new Directions(List.of()));
 
-        Position position = Position.of(3, 5);
+        Position position = new Position(3, 5);
 
         List<Piece> pieceElements = new ArrayList<>();
         pieceElements.add(piece);
-        pieceElements.add(new Horse(Position.of(1, 5), new Directions(List.of())));
+        pieceElements.add(new Horse(new Position(1, 5), new Directions(List.of())));
         Pieces pieces = new Pieces(pieceElements);
 
         // when
@@ -82,10 +82,10 @@ class PiecesTest {
     @Test
     void 좌표에_기물이_존재하는지_판단한다() {
         // given
-        Position position = Position.of(3, 5);
+        Position position = new Position(3, 5);
         Pieces pieces = new Pieces(List.of(
-                new King(Position.of(2, 5), new Directions(List.of())),
-                new Horse(Position.of(3, 5), new Directions(List.of()))
+                new King(new Position(2, 5), new Directions(List.of())),
+                new Horse(new Position(3, 5), new Directions(List.of()))
         ));
 
         // when
@@ -99,13 +99,13 @@ class PiecesTest {
     @Test
     void 좌표의_기물을_삭제한다() {
         // given
-        Piece piece = new King(Position.of(2, 5), new Directions(List.of()));
+        Piece piece = new King(new Position(2, 5), new Directions(List.of()));
 
-        Position position = Position.of(2, 5);
+        Position position = new Position(2, 5);
 
         List<Piece> pieceElements = new ArrayList<>();
         pieceElements.add(piece);
-        pieceElements.add(new Horse(Position.of(1, 5), new Directions(List.of())));
+        pieceElements.add(new Horse(new Position(1, 5), new Directions(List.of())));
         Pieces pieces = new Pieces(pieceElements);
 
         // when
@@ -119,7 +119,7 @@ class PiecesTest {
     void 왕이_존재하는지_판단하다() {
         // given
         Pieces pieces = new Pieces(new ArrayList<>());
-        Pieces piecesInKing = new Pieces(List.of(new King(Position.of(5, 2), PieceDirection.KING.get())));
+        Pieces piecesInKing = new Pieces(List.of(new King(new Position(5, 2), PieceDirection.KING.get())));
 
         // when & then
         assertThat(pieces.existKing()).isFalse();
@@ -129,10 +129,10 @@ class PiecesTest {
     @Test
     void 좌표의_기물이_포인지_판단한다() {
         // given
-        Position position1 = Position.of(2, 3);
-        Position position2 = Position.of(3, 3);
+        Position position1 = new Position(2, 3);
+        Position position2 = new Position(3, 3);
 
-        Pieces pieces = new Pieces(List.of(new Cannon(Position.of(2, 3), PieceDirection.CANNON.get())));
+        Pieces pieces = new Pieces(List.of(new Cannon(new Position(2, 3), PieceDirection.CANNON.get())));
 
         // when & then
         pieces.isCannonByPosition(position1);
