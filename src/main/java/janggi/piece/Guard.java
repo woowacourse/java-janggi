@@ -4,8 +4,9 @@ import static janggi.Movement.DOWN;
 import static janggi.Movement.LEFT;
 import static janggi.Movement.RIGHT;
 import static janggi.Movement.UP;
+import static java.util.Collections.unmodifiableList;
 
-import janggi.Movement;
+import janggi.Movements;
 import janggi.Path;
 import janggi.Team;
 import janggi.board.Board;
@@ -16,14 +17,15 @@ import java.util.List;
 
 public class Guard extends Piece {
     private static final String NAME = "사";
-    private static final List<List<Movement>> paths;
+    private static final List<Movements> possibleMovements;
 
     static {
-        paths = new ArrayList<>();
-        paths.add(List.of(UP));
-        paths.add(List.of(LEFT));
-        paths.add(List.of(RIGHT));
-        paths.add(List.of(DOWN));
+        List<Movements> allMovements = new ArrayList<>();
+        allMovements.add(new Movements(UP));
+        allMovements.add(new Movements(LEFT));
+        allMovements.add(new Movements(RIGHT));
+        allMovements.add(new Movements(DOWN));
+        possibleMovements = allMovements;
     }
 
     public Guard(Team team) {
@@ -51,8 +53,8 @@ public class Guard extends Piece {
     }
 
     @Override
-    protected List<List<Movement>> getPaths() {
-        return paths;
+    protected List<Movements> getPossibleMovements() {
+        return unmodifiableList(possibleMovements);
     }
 
     @Override

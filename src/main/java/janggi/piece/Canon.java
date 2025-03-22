@@ -4,8 +4,10 @@ import static janggi.Movement.DOWN;
 import static janggi.Movement.LEFT;
 import static janggi.Movement.RIGHT;
 import static janggi.Movement.UP;
+import static java.util.Collections.unmodifiableList;
 
 import janggi.Movement;
+import janggi.Movements;
 import janggi.Path;
 import janggi.Team;
 import janggi.board.Board;
@@ -15,17 +17,17 @@ import java.util.List;
 
 public class Canon extends Piece {
     protected static final String NAME = "포";
-    private static final List<List<Movement>> paths;
+    private static final List<Movements> possibleMovements;
 
     static {
-        paths = new ArrayList<>();
+        List<Movements> allMovements = new ArrayList<>();
         for (Movement movement : List.of(UP, DOWN)) {
             for (int i = 1; i < 10; i++) {
                 List<Movement> tempMoves = new ArrayList<>();
                 for (int j = 0; j < i; j++) {
                     tempMoves.add(movement);
                 }
-                paths.add(tempMoves);
+                allMovements.add(new Movements(tempMoves));
             }
         }
         for (Movement movement : List.of(LEFT, RIGHT)) {
@@ -34,9 +36,10 @@ public class Canon extends Piece {
                 for (int j = 0; j < i; j++) {
                     tempMoves.add(movement);
                 }
-                paths.add(tempMoves);
+                allMovements.add(new Movements(tempMoves));
             }
         }
+        possibleMovements = allMovements;
     }
 
     public Canon(Team team) {
@@ -82,8 +85,8 @@ public class Canon extends Piece {
     }
 
     @Override
-    protected List<List<Movement>> getPaths() {
-        return paths;
+    protected List<Movements> getPossibleMovements() {
+        return unmodifiableList(possibleMovements);
     }
 
     @Override

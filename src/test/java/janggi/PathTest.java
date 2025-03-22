@@ -24,4 +24,20 @@ class PathTest {
         // then
         assertThat(result).containsExactly(intermediatePosition);
     }
+
+    @DisplayName("경로의_끝_Position이_주어진_Position과_일치하는_지_여부를_반환한다")
+    @Test
+    void lastEquals() {
+        // given
+        Position startPosition = createPosition(1, 2);
+        Position intermediatePosition = createPosition(1, 2);
+        Position goalPosition = createPosition(2, 4);
+        Path path = new Path(List.of(startPosition, intermediatePosition, goalPosition));
+
+        // when
+        boolean result = path.lastEquals(goalPosition);
+
+        // then
+        assertThat(result).isTrue();
+    }
 }

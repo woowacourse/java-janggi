@@ -4,8 +4,9 @@ import static janggi.Movement.DOWN;
 import static janggi.Movement.LEFT;
 import static janggi.Movement.RIGHT;
 import static janggi.Movement.UP;
+import static java.util.Collections.unmodifiableList;
 
-import janggi.Movement;
+import janggi.Movements;
 import janggi.Path;
 import janggi.Team;
 import janggi.board.Board;
@@ -15,22 +16,21 @@ import java.util.List;
 
 public class Soldier extends Piece {
     private static final String NAME = "졸";
-    // path 변수명을 다른 것으로 수정 TODO
-    private static final List<List<Movement>> greenTeamPaths;
-    private static final List<List<Movement>> redTeamPaths;
+    private static final List<Movements> greenTeamPossibleMovements;
+    private static final List<Movements> redTeamPossibleMovements;
 
     static {
-        greenTeamPaths = new ArrayList<>();
-        greenTeamPaths.add(List.of(UP));
-        greenTeamPaths.add(List.of(LEFT));
-        greenTeamPaths.add(List.of(RIGHT));
-        greenTeamPaths.add(List.of(DOWN));
+        greenTeamPossibleMovements = new ArrayList<>();
+        greenTeamPossibleMovements.add(new Movements(UP));
+        greenTeamPossibleMovements.add(new Movements(LEFT));
+        greenTeamPossibleMovements.add(new Movements(RIGHT));
+        greenTeamPossibleMovements.add(new Movements(DOWN));
 
-        redTeamPaths = new ArrayList<>();
-        redTeamPaths.add(List.of(UP));
-        redTeamPaths.add(List.of(LEFT));
-        redTeamPaths.add(List.of(RIGHT));
-        redTeamPaths.add(List.of(DOWN));
+        redTeamPossibleMovements = new ArrayList<>();
+        redTeamPossibleMovements.add(new Movements(UP));
+        redTeamPossibleMovements.add(new Movements(LEFT));
+        redTeamPossibleMovements.add(new Movements(RIGHT));
+        redTeamPossibleMovements.add(new Movements(DOWN));
     }
 
     public Soldier(Team team) {
@@ -58,11 +58,11 @@ public class Soldier extends Piece {
     }
 
     @Override
-    protected List<List<Movement>> getPaths() {
+    protected List<Movements> getPossibleMovements() {
         if (team == Team.RED) {
-            return redTeamPaths;
+            return unmodifiableList(redTeamPossibleMovements);
         }
-        return greenTeamPaths;
+        return unmodifiableList(greenTeamPossibleMovements);
     }
 
     @Override

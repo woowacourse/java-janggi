@@ -1,13 +1,12 @@
 package janggi.piece;
 
-import janggi.Movement;
+import janggi.Movements;
 import janggi.Path;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.Position;
 
 import janggi.board.PositionOutOfBoardBoundsException;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Piece {
@@ -26,27 +25,21 @@ public abstract class Piece {
     }
 
     public void validateMovable(Board board, Position start, Position goal) {
-        Path path = calculatePath(start, goal);
+        Path path = makePath(start, goal);
         validatePath(board, path);
         validatePieceOnGoal(board, goal);
     }
 
-    private Path calculatePath(Position start, Position goal) {
-        List<List<Movement>> paths = getPaths();
-        for (List<Movement> movements : paths) {
-            List<Position> path = new ArrayList<>();
-            Position position = start;
-            path.add(start);
-            for (Movement movement : movements) {
-                try {
-                    position = movement.movePosition(position);
-                } catch (PositionOutOfBoardBoundsException e) {
-                    continue;
+    private Path makePath(Position start, Position goal) {
+        List<Movements> possibleMovements = getPossibleMovements();
+        for (Movements movements : possibleMovements) {
+            try {
+                Path path = movements.makePath(start);
+                if (path.lastEquals(goal)) {
+                    return path;
                 }
-                path.add(position);
-            }
-            if (position.equals(goal)) {
-                return new Path(path);
+            } catch (PositionOutOfBoardBoundsException e) {
+                continue;
             }
         }
         throw new IllegalArgumentException("[ERROR] %s은/는 해당 목적지로 이동할 수 없습니다.".formatted(getName()));
@@ -68,14 +61,9 @@ public abstract class Piece {
         }
     }
 
-    @Override
-    public String toString() {
-        return team.getName() + "나라 " + getName();
-    }
-
     protected abstract void validatePath(Board board, Path path);
     protected abstract void validatePieceOnGoal(Board board, Position goal);
-    protected abstract List<List<Movement>> getPaths();
+    protected abstract List<Movements> getPossibleMovements();
     public abstract boolean isSameType(Piece other);
     public abstract boolean isGeneral();
     public abstract String getName();

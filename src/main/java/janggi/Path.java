@@ -17,4 +17,9 @@ public class Path {
         path.removeLast();
         return Collections.unmodifiableList(path);
     }
+
+    public boolean lastEquals(Position position) {
+        Position last = path.getLast();
+        return last.equals(position);
+    }
 }
