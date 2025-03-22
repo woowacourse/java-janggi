@@ -2,6 +2,7 @@ package game;
 
 import board.GameBoard;
 import direction.Point;
+import java.util.Objects;
 import team.Player;
 import team.Team;
 import view.InputView;
@@ -16,7 +17,10 @@ public class JanggiGame {
 
     private final GameBoard gameBoard;
 
-    public JanggiGame(GameBoard gameBoard) {
+    public JanggiGame(final GameBoard gameBoard) {
+        if (Objects.isNull(gameBoard)) {
+            throw new IllegalArgumentException("[ERROR] GameBoard는 null이 될 수 없습니다.");
+        }
         this.gameBoard = gameBoard;
     }
 
