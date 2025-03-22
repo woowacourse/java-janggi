@@ -24,16 +24,9 @@ public class Sang extends Piece {
 
     private void validateDoesNotHasObstacle(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         Direction moveDirection = getDirection(from, to);
-        if (moveDirection == Direction.UP && board.isOccupied(from.moveUp())) {
-            throw new IllegalArgumentException("[ERROR] 경로에 기물이 있어 해당 위치로 이동할 수 없습니다.");
-        }
-        if (moveDirection == Direction.RIGHT && board.isOccupied(from.moveRight())) {
-            throw new IllegalArgumentException("[ERROR] 경로에 기물이 있어 해당 위치로 이동할 수 없습니다.");
-        }
-        if (moveDirection == Direction.DOWN && board.isOccupied(from.moveDown())) {
-            throw new IllegalArgumentException("[ERROR] 경로에 기물이 있어 해당 위치로 이동할 수 없습니다.");
-        }
-        if (moveDirection == Direction.LEFT && board.isOccupied(from.moveLeft())) {
+        JanggiCoordinate next = from.move(moveDirection);
+
+        if (board.isOccupied(next)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 있어 해당 위치로 이동할 수 없습니다.");
         }
     }
