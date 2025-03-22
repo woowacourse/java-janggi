@@ -16,7 +16,7 @@ public enum TeamColorName {
         this.teamName = teamName;
     }
 
-    public static String geNameFrom(PieceColor teamColor) {
+    public static String getNameFrom(PieceColor teamColor) {
         return Arrays.stream(TeamColorName.values())
                 .filter(teamColorName -> teamColorName.teamColor == teamColor)
                 .findAny()

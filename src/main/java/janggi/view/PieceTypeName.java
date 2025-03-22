@@ -1,7 +1,6 @@
 package janggi.view;
 
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceColor;
 import janggi.domain.piece.PieceType;
 
 public enum PieceTypeName {
@@ -26,11 +25,9 @@ public enum PieceTypeName {
     public static String getNameFrom(Piece piece) {
         for(PieceTypeName pieceTypeName : PieceTypeName.values()) {
             if(piece.getType() == pieceTypeName.pieceType) {
-                String colorString = pieceTypeName.getColoSetString(piece);
-                return colorString + pieceTypeName.name;
+                return pieceTypeName.name;
             }
         }
-
         return EMPTY.name;
     }
 
@@ -41,17 +38,6 @@ public enum PieceTypeName {
             }
         }
         throw new IllegalArgumentException("잘못된 기물의 이름입니다.");
-    }
-
-    private String getColoSetString(Piece piece) {
-        PieceColor color = piece.getColor();
-        if(color == PieceColor.RED) {
-            return "\u001B[31m";
-        }
-        if(color == PieceColor.BLUE) {
-            return "\u001B[34m";
-        }
-        return "\u001B[0m";
     }
 
 }
