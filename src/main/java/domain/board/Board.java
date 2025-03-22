@@ -9,20 +9,26 @@ public class Board {
 
     private final Map<Point, Piece> pieceByPoint;
     private final PointNodeMapper pointNodeMapper;
+    private boolean isEnd;
 
     public Board(Map<Point, Piece> pieceByPoint, Map<Point, Node> nodeByPoint) {
         this.pieceByPoint = pieceByPoint;
         this.pointNodeMapper = new PointNodeMapper(nodeByPoint);
+        this.isEnd = false;
     }
 
     public boolean canMove(Point source, Point destination) {
-        if (!existsPieceByPoint(source)) {
+        if (!existsPiece(source)) {
             return false;
         }
-        Piece piece = pieceByPoint.get(source);
+        Piece piece = findPieceByPoint(source);
         Node sourceNode = findNodeByPoint(source);
         Node destinationNode = findNodeByPoint(destination);
         return piece.canMove(sourceNode, destinationNode, this);
+    }
+
+    public boolean isRunning() {
+        return isEnd;
     }
 
     public void movePiece(Point source, Point destination) {
@@ -33,6 +39,9 @@ public class Board {
             throw new IllegalArgumentException(source + " -> " + destination + " [ERROR] 이동할 수 없는 경로입니다.");
         }
 
+        if (existsWang(destination)) {
+            isEnd = true;
+        }
         pieceByPoint.put(destination, sourcePiece);
         removePiece(source);
     }
@@ -44,7 +53,7 @@ public class Board {
         return pointNodeMapper.getNodeByPoint(point);
     }
 
-    public boolean existsPieceByPoint(Point point) {
+    public boolean existsPiece(Point point) {
         if (!pointNodeMapper.existsPoint(point)) {
             return false;
         }
@@ -59,11 +68,11 @@ public class Board {
         return pieceByPoint.containsKey(point);
     }
 
-    public boolean existsWangByPoint(Point point) {
-        if (!existsPieceByPoint(point)) {
+    public boolean existsWang(Point point) {
+        if (!existsPiece(point)) {
             return false;
         }
-        Piece piece = pieceByPoint.get(point);
+        Piece piece = findPieceByPoint(point);
         return piece.type() == PieceType.WANG;
     }
 
@@ -72,40 +81,40 @@ public class Board {
             return false;
         }
         Point point = pointNodeMapper.getPointByNode(node);
-        Piece piece = pieceByPoint.get(point);
+        Piece piece = findPieceByPoint(point);
         return piece.type() == PieceType.PO;
     }
 
     public void removePiece(Point point) {
-        if (!existsPieceByPoint(point)) {
+        if (!existsPiece(point)) {
             return;
         }
-        Piece piece = pieceByPoint.get(point);
+        Piece piece = findPieceByPoint(point);
         pieceByPoint.remove(point, piece);
     }
 
-    public boolean hasTeamOfPiece(Point point, Team team) {
-        if (!existsPieceByPoint(point)) {
+    public boolean hasPieceInTeam(Point point, Team team) {
+        if (!existsPiece(point)) {
             return false;
         }
-        Piece piece = pieceByPoint.get(point);
+        Piece piece = findPieceByPoint(point);
         return piece.hasTeam(team);
     }
 
-    public boolean hasTeamOfPiece(Node node, Team team) {
+    public boolean hasPieceInTeam(Node node, Team team) {
         if (!existsPieceByNode(node)) {
             return false;
         }
         Point point = pointNodeMapper.getPointByNode(node);
-        Piece piece = pieceByPoint.get(point);
+        Piece piece = findPieceByPoint(point);
         return piece.hasTeam(team);
     }
 
     public boolean hasPieceType(Point point, PieceType pieceType) {
-        if (!existsPieceByPoint(point)) {
+        if (!existsPiece(point)) {
             return false;
         }
-        Piece piece = pieceByPoint.get(point);
+        Piece piece = findPieceByPoint(point);
         return piece.type() == pieceType;
     }
 

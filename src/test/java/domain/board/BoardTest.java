@@ -29,7 +29,7 @@ class BoardTest {
             Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             // when
-            final boolean actual = board.existsPieceByPoint(point);
+            final boolean actual = board.existsPiece(point);
 
             // then
             Assertions.assertThat(actual).isTrue();
@@ -47,7 +47,7 @@ class BoardTest {
             Point otherPoint = Point.of(5, 5);
 
             // when
-            final boolean actual = board.existsPieceByPoint(otherPoint);
+            final boolean actual = board.existsPiece(otherPoint);
 
             // then
             Assertions.assertThat(actual).isFalse();
@@ -63,7 +63,7 @@ class BoardTest {
 
             // when
             board.removePiece(point);
-            final boolean actual = board.existsPieceByPoint(point);
+            final boolean actual = board.existsPiece(point);
 
             // then
             Assertions.assertThat(actual).isFalse();
@@ -80,7 +80,7 @@ class BoardTest {
             Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             // when
-            final boolean actual = board.hasTeamOfPiece(point, team);
+            final boolean actual = board.hasPieceInTeam(point, team);
 
             // then
             Assertions.assertThat(actual).isTrue();
@@ -98,7 +98,7 @@ class BoardTest {
 
             // when
 
-            final boolean actual = board.hasTeamOfPiece(point, team);
+            final boolean actual = board.hasPieceInTeam(point, team);
 
             // then
             Assertions.assertThat(actual).isFalse();

@@ -39,7 +39,7 @@ public class Ma implements Piece {
         }
 
         Node destinationNode = sourceNode.moveByPath(destinationPath);
-        if (board.hasTeamOfPiece(destinationNode, this.team)) {
+        if (board.hasPieceInTeam(destinationNode, this.team)) {
             return;
         }
 

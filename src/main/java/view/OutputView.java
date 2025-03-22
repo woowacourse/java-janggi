@@ -29,12 +29,12 @@ public class OutputView {
             boardString.add(rowString);
             for (int column = MIN_COLUMN_INDEX; column <= MAX_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
-                if (!board.existsPieceByPoint(point)) {
+                if (!board.existsPiece(point)) {
                     rowString.add(Painter.paintWhite("ㅁ"));
                     continue;
                 }
                 Piece piece = pieceByPoint.get(point);
-                if (board.hasTeamOfPiece(point, Team.CHO)) {
+                if (board.hasPieceInTeam(point, Team.CHO)) {
                     rowString.add(Painter.paintGreen(piece.type().title()));
                     continue;
                 }

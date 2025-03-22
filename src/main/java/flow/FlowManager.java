@@ -25,36 +25,33 @@ public class FlowManager {
         Board board = createBoard(new BoardGenerator());
         OutputView.printBoard(board);
 
-        boolean isRunning = true;
-        while (isRunning) {
-            isRunning = movePieceByTurn(board, turn);
+        while (board.isRunning()) {
+            processTurn(board, turn);
         }
     }
 
-    private boolean movePieceByTurn(Board board, Turn turn) {
-        return ErrorHandler.retryUntilSuccess(() -> {
+    private void processTurn(Board board, Turn turn) {
+        ErrorHandler.retryUntilSuccess(() -> {
             MoveCommand moveCommand = InputView.inputMoveCommand(turn.team());
 
-            if (!board.hasTeamOfPiece(moveCommand.source(), turn.team())) {
+            if (!board.hasPieceInTeam(moveCommand.source(), turn.team())) {
                 OutputView.printTurn(turn.team());
-                return true;
-            }
-
-            if (board.existsWangByPoint(moveCommand.destination())) {
-                OutputView.printMatchResult(turn.team());
-                return false;
+                return;
             }
 
             board.movePiece(moveCommand.source(), moveCommand.destination());
             OutputView.printBoard(board);
 
+            if (board.existsWang(moveCommand.destination())) {
+                OutputView.printMatchResult(turn.team());
+                return;
+            }
             turn.changeTurn();
-            return true;
         });
     }
 
     private Board createBoard(BoardGenerator boardGenerator) {
-        return ErrorHandler.retryUntilSuccess(() -> {
+        return ErrorHandler.retryUntilSuccessWithReturn(() -> {
             SangMaOrderCommand hanSangMaOrderCommand = InputView.inputSangMaOrder(Team.HAN);
             SangMaOrderCommand choSangMaOrderCommand = InputView.inputSangMaOrder(Team.CHO);
 

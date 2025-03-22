@@ -42,7 +42,7 @@ public class Byeong implements Piece {
                 .filter(currentNode::hasEdgeByDirection)
                 .map(currentNode::findNextNodeByDirection)
                 .filter(nextNode -> !(board.existsPieceByNode(nextNode)
-                        && board.hasTeamOfPiece(nextNode, this.team)))
+                        && board.hasPieceInTeam(nextNode, this.team)))
                 .toList();
     }
 
