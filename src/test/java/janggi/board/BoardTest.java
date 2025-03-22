@@ -3,19 +3,17 @@ package janggi.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.board.Board;
-import janggi.board.ChessPieceInitializer;
-import java.util.List;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
-import janggi.piece.ChessPiece;
 import janggi.piece.Jol;
 import janggi.piece.Nation;
+import janggi.piece.Piece;
 import janggi.piece.PieceProfile;
 import janggi.piece.Po;
 import janggi.position.BoardPosition;
+import java.util.List;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
@@ -23,9 +21,9 @@ class BoardTest {
     @Test
     void board() {
         //given
-        ChessPieceInitializer chessPieceInitializer = new ChessPieceInitializer();
-        List<ChessPiece> han = chessPieceInitializer.hanInit();
-        List<ChessPiece> cho = chessPieceInitializer.choInit();
+        PieceInitializer pieceInitializer = new PieceInitializer();
+        List<Piece> han = pieceInitializer.hanInit();
+        List<Piece> cho = pieceInitializer.choInit();
 
         //when
         Board board = new Board(han, cho);
@@ -38,14 +36,14 @@ class BoardTest {
     @Test
     void notUpdateBoard() {
         //given
-        List<ChessPiece> chessPieces = List.of(
+        List<Piece> pieces = List.of(
                 new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(3, 2)),
                 new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(4, 2))
         );
 
-        List<ChessPiece> chessPieces2 = List.of();
+        List<Piece> pieces2 = List.of();
 
-        Board board = new Board(chessPieces, chessPieces2);
+        Board board = new Board(pieces, pieces2);
 
         BoardPosition presentPosition = new BoardPosition(3, 2);
         BoardPosition futurePosition = new BoardPosition(5, 2);
@@ -60,13 +58,13 @@ class BoardTest {
     @Test
     void updateBoard() {
         //given
-        List<ChessPiece> chessPieces = List.of(
+        List<Piece> pieces = List.of(
                 new Byeong(new PieceProfile("병", Nation.HAN), new BoardPosition(3, 2))
         );
 
-        List<ChessPiece> chessPieces2 = List.of();
+        List<Piece> pieces2 = List.of();
 
-        Board board = new Board(chessPieces, chessPieces2);
+        Board board = new Board(pieces, pieces2);
 
         BoardPosition presentPosition = new BoardPosition(3, 2);
         BoardPosition futurePosition = new BoardPosition(4, 2);
@@ -75,7 +73,7 @@ class BoardTest {
         board.updateBoard(presentPosition, futurePosition);
 
         //then
-        ChessPiece actual = board.getJanggiPan().get(futurePosition);
+        Piece actual = board.getJanggiPan().get(futurePosition);
         assertThat(actual).isEqualTo(new Byeong(new PieceProfile("병", Nation.HAN),
                 new BoardPosition(4, 2)));
     }
@@ -84,14 +82,14 @@ class BoardTest {
     @Test
     void poUpdate() {
         //given
-        List<ChessPiece> chessPieces = List.of(
+        List<Piece> pieces = List.of(
                 new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(3, 2)),
                 new Byeong(new PieceProfile("병", Nation.HAN), new BoardPosition(4, 2))
         );
 
-        List<ChessPiece> chessPieces2 = List.of();
+        List<Piece> pieces2 = List.of();
 
-        Board board = new Board(chessPieces, chessPieces2);
+        Board board = new Board(pieces, pieces2);
 
         BoardPosition presentPosition = new BoardPosition(3, 2);
         BoardPosition futurePosition = new BoardPosition(5, 2);
@@ -100,7 +98,7 @@ class BoardTest {
         board.updateBoard(presentPosition, futurePosition);
 
         //then
-        ChessPiece actual = board.getJanggiPan().get(futurePosition);
+        Piece actual = board.getJanggiPan().get(futurePosition);
         assertThat(actual).isEqualTo(new Po(new PieceProfile("포", Nation.HAN),
                 new BoardPosition(5, 2)));
     }
@@ -108,15 +106,15 @@ class BoardTest {
     @DisplayName("장기판의 포앞에 기물이 2개 이상 존재한다면 예외를 던진다.")
     @Test
     void notUpdateFoInFrontTwoChessPiece() {
-        List<ChessPiece> chessPieces = List.of(
+        List<Piece> pieces = List.of(
                 new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(3, 2)),
                 new Jol(new PieceProfile("졸", Nation.HAN), new BoardPosition(4, 2)),
                 new Byeong(new PieceProfile("병", Nation.HAN), new BoardPosition(5, 2))
         );
 
-        List<ChessPiece> chessPieces2 = List.of();
+        List<Piece> pieces2 = List.of();
 
-        Board board = new Board(chessPieces, chessPieces2);
+        Board board = new Board(pieces, pieces2);
 
         BoardPosition presentPosition = new BoardPosition(3, 2);
         BoardPosition futurePosition = new BoardPosition(6, 2);
@@ -131,17 +129,17 @@ class BoardTest {
     @Test
     void checkObstacle() {
         //given
-        List<ChessPiece> chessPieces = List.of(
+        List<Piece> pieces = List.of(
                 new Cha(new PieceProfile("차", Nation.HAN), new BoardPosition(4, 2)),
                 new Byeong(new PieceProfile("병", Nation.HAN), new BoardPosition(7, 2))
         );
 
-        List<ChessPiece> chessPieces2 = List.of();
+        List<Piece> pieces2 = List.of();
 
         BoardPosition presentPosition = new BoardPosition(4, 2);
         BoardPosition futurePosition = new BoardPosition(8, 2);
 
-        Board board = new Board(chessPieces, chessPieces2);
+        Board board = new Board(pieces, pieces2);
 
         //when //then
         assertThatThrownBy(() -> board.checkObstacle(presentPosition, futurePosition))

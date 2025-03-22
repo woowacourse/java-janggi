@@ -1,9 +1,9 @@
 package janggi.piece;
 
-import java.util.List;
 import janggi.position.BoardPosition;
+import java.util.List;
 
-public class Byeong extends ChessPiece {
+public class Byeong extends Piece {
 
     public Byeong(final PieceProfile pieceProfile, final BoardPosition boardPosition) {
         super(pieceProfile, boardPosition);

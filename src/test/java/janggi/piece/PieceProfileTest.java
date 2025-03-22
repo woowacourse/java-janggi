@@ -2,8 +2,6 @@ package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggi.piece.Nation;
-import janggi.piece.PieceProfile;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

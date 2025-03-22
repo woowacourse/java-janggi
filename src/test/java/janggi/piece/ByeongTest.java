@@ -3,9 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.piece.Byeong;
-import janggi.piece.Nation;
-import janggi.piece.PieceProfile;
+import janggi.position.BoardPosition;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import janggi.position.BoardPosition;
 
 class ByeongTest {
     @DisplayName("볃은 이름과 위치를 가진다.")

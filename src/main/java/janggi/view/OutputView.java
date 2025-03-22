@@ -1,8 +1,8 @@
 package janggi.view;
 
-import java.util.Map;
-import janggi.piece.ChessPiece;
+import janggi.piece.Piece;
 import janggi.position.BoardPosition;
+import java.util.Map;
 
 public class OutputView {
 
@@ -16,12 +16,12 @@ public class OutputView {
     private static final int BOARD_HEIGHT = 10;
     private static final String[][] JANGGI_BOARD_ARR = new String[BOARD_HEIGHT + 1][BOARD_WIDTH + 1];
 
-    public void printJanggiBoard(Map<BoardPosition, ChessPiece> janggiBoard) {
+    public void printJanggiBoard(Map<BoardPosition, Piece> janggiBoard) {
         initializeJanggiBoard(janggiBoard);
         printFormattedJanggiBoard();
     }
 
-    private void initializeJanggiBoard(final Map<BoardPosition, ChessPiece> janggiBoard) {
+    private void initializeJanggiBoard(final Map<BoardPosition, Piece> janggiBoard) {
         setBoardWithEmptySpaces();
         placeChessPieces(janggiBoard);
         setBoardLabels();
@@ -35,7 +35,7 @@ public class OutputView {
         }
     }
 
-    private void placeChessPieces(final Map<BoardPosition, ChessPiece> janggiBoard) {
+    private void placeChessPieces(final Map<BoardPosition, Piece> janggiBoard) {
         for (BoardPosition boardPosition : janggiBoard.keySet()) {
             int row = boardPosition.getRow() + 1;
             int col = boardPosition.getCol() + 1;
@@ -45,12 +45,12 @@ public class OutputView {
         }
     }
 
-    private String getColoredPieceName(final ChessPiece chessPiece) {
-        String name = chessPiece.getName();
-        if (chessPiece.isChoNation()) {
+    private String getColoredPieceName(final Piece piece) {
+        String name = piece.getName();
+        if (piece.isChoNation()) {
             return GREEN_COLOR_CODE + name + EXIT_CODE;
         }
-        if (chessPiece.isHanNation()) {
+        if (piece.isHanNation()) {
             return RED_COLOR_CODE + name + EXIT_CODE;
         }
         return name;

@@ -1,7 +1,7 @@
 package janggi;
 
 import janggi.board.Board;
-import janggi.board.ChessPieceInitializer;
+import janggi.board.PieceInitializer;
 import janggi.position.BoardPosition;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -33,8 +33,8 @@ public class JanggiGame {
     }
 
     private Board setJanggiBoard() {
-        ChessPieceInitializer chessPieceInitializer = new ChessPieceInitializer();
-        return new Board(chessPieceInitializer.hanInit(), chessPieceInitializer.choInit());
+        PieceInitializer pieceInitializer = new PieceInitializer();
+        return new Board(pieceInitializer.hanInit(), pieceInitializer.choInit());
     }
 
     private BoardPosition readPresentPosition() {

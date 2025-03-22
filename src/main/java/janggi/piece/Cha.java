@@ -1,10 +1,10 @@
 package janggi.piece;
 
+import janggi.position.BoardPosition;
 import java.util.ArrayList;
 import java.util.List;
-import janggi.position.BoardPosition;
 
-public class Cha extends ChessPiece {
+public class Cha extends Piece {
 
     public Cha(final PieceProfile pieceProfile, final BoardPosition boardPosition) {
         super(pieceProfile, boardPosition);
