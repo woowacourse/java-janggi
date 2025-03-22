@@ -8,24 +8,23 @@ import position.Position;
 
 public final class Board {
 
-    private final Team team1;
-    private final Team team2;
+    private final Team cho;
+    private final Team han;
+    private boolean isChoTurn = true;
 
-    private boolean isTeam1Turn = true;
-
-    public Team getTeam1() {
-        return team1;
+    public Team getCho() {
+        return cho;
     }
 
-    public Team getTeam2() {
-        return team2;
+    public Team getHan() {
+        return han;
     }
 
-    public Board(final Team team1, final Team team2) {
-        validateTeamIsNotNull(team1, team2);
-        validateCountryIsNotSame(team1, team2);
-        this.team1 = Team.getFirstTeam(team1, team2);
-        this.team2 = Team.getSecondTeam(team1, team2);
+    public Board(final Team cho, final Team han) {
+        validateTeamIsNotNull(cho, han);
+        validateCountryIsNotSame(cho, han);
+        this.cho = Team.getFirstTeam(cho, han);
+        this.han = Team.getSecondTeam(cho, han);
     }
 
     private void validateTeamIsNotNull(final Team team1, final Team team2) {
@@ -42,25 +41,26 @@ public final class Board {
 
     public Map<Position, Piece> getBoard() {
         final Map<Position, Piece> status = new HashMap<>();
-        status.putAll(team1.getPieces());
-        status.putAll(team2.getPieces());
+        status.putAll(cho.getPieces());
+        status.putAll(han.getPieces());
         return Collections.unmodifiableMap(status);
     }
 
     public void move(Position fromPosition, Position tagetPosition) {
-        if (isTeam1Turn) {
-            team1.move(fromPosition, tagetPosition, team2.getPieces());
+        if (isChoTurn) {
+            cho.move(fromPosition, tagetPosition, han.getPieces());
             nextTurn();
         } else {
-            team2.move(fromPosition, tagetPosition, team1.getPieces());
+            han.move(fromPosition, tagetPosition, cho.getPieces());
             nextTurn();
         }
     }
 
-
     private void nextTurn() {
-        isTeam1Turn = !isTeam1Turn;
+        isChoTurn = !isChoTurn;
     }
 
-
+    public Team getCurrentTurnTeam() {
+        return isChoTurn ? cho : han;
+    }
 }

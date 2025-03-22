@@ -34,10 +34,17 @@ public class InputView {
 
         List<String> moveInfo = new ArrayList<>();
         moveInfo.add(String.valueOf(input.charAt(5)));
-        moveInfo.add(String.valueOf(input.charAt(6)));
+        moveInfo.add(convertRankChar(input.charAt(6)));
         moveInfo.add(String.valueOf(input.charAt(8)));
-        moveInfo.add(String.valueOf(input.charAt(9)));
-
+        moveInfo.add(convertRankChar(input.charAt(9)));
         return moveInfo;
     }
+
+    private String convertRankChar(char ch) {
+        if (ch == '0') {
+            return "10";
+        }
+        return String.valueOf(ch);
+    }
+
 }

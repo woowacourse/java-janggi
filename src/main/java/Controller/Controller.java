@@ -34,6 +34,7 @@ public class Controller {
         outputView.displayBoard(board);
 
         while (true) {
+            outputView.printTurn(board.getCurrentTurnTeam());
             List<String> moveInfo = inputView.readMoveCommand();
             Position source = parsePosition(moveInfo.get(0), moveInfo.get(1));
             Position target = parsePosition(moveInfo.get(2), moveInfo.get(3));

@@ -1,6 +1,7 @@
 package view;
 
 import game.Board;
+import game.Country;
 import game.Team;
 import java.util.Map;
 import piece.Piece;
@@ -16,8 +17,8 @@ public final class OutputView {
     public void displayBoard(Board board) {
         System.out.println();
 
-        Team team1 = board.getTeam1();  // CHO
-        Team team2 = board.getTeam2();  // HAN
+        Team team1 = board.getCho();  // CHO
+        Team team2 = board.getHan();  // HAN
         Map<Position, Piece> team1Pieces = team1.getPieces();
         Map<Position, Piece> team2Pieces = team2.getPieces();
 
@@ -59,5 +60,13 @@ public final class OutputView {
 
     public void printMessage(String message) {
         System.out.println(message);
+    }
+
+    public void printTurn(Team team) {
+        if (team.getCountry() == Country.CHO) {
+            System.out.println("\n[초나라 턴입니다.]");
+        } else {
+            System.out.println("\n[한나라 턴입니다.]");
+        }
     }
 }
