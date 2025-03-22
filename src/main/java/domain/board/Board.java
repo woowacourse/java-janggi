@@ -7,11 +7,6 @@ import java.util.Map;
 
 public class Board {
 
-    public static int START_ROW_INDEX = 1;
-    public static int END_ROW_INDEX = 10;
-    public static int START_COLUMN_INDEX = 1;
-    public static int END_COLUMN_INDEX = 9;
-
     private final Map<Point, Piece> pieceByPoint;
     private final PointNodeMapper pointNodeMapper;
 

@@ -1,9 +1,9 @@
 package domain.board;
 
-import static domain.board.Board.END_COLUMN_INDEX;
-import static domain.board.Board.END_ROW_INDEX;
-import static domain.board.Board.START_COLUMN_INDEX;
-import static domain.board.Board.START_ROW_INDEX;
+import static domain.board.Point.END_COLUMN_INDEX;
+import static domain.board.Point.END_ROW_INDEX;
+import static domain.board.Point.START_COLUMN_INDEX;
+import static domain.board.Point.START_ROW_INDEX;
 
 import domain.piece.Byeong;
 import domain.piece.Cha;

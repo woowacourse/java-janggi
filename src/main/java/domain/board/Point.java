@@ -2,6 +2,11 @@ package domain.board;
 
 public record Point(int row, int column) {
 
+    public static int START_ROW_INDEX = 1;
+    public static int END_ROW_INDEX = 10;
+    public static int START_COLUMN_INDEX = 1;
+    public static int END_COLUMN_INDEX = 9;
+
     public Point {
         validateRange(row, column);
     }
@@ -11,11 +16,11 @@ public record Point(int row, int column) {
     }
 
     private void validateRange(int row, int column) {
-        if (row < Board.START_ROW_INDEX || row > Board.END_ROW_INDEX) {
+        if (row < START_ROW_INDEX || row > END_ROW_INDEX) {
             throw new IllegalArgumentException(row + " : [ERROR] 행의 범위를 벗어난 값입니다.");
         }
 
-        if (column < Board.START_COLUMN_INDEX || column > Board.END_COLUMN_INDEX) {
+        if (column < START_COLUMN_INDEX || column > END_COLUMN_INDEX) {
             throw new IllegalArgumentException(column + " : [ERROR] 열의 범위를 벗어난 값입니다.");
         }
     }
