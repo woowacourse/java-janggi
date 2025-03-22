@@ -17,7 +17,7 @@ public final class Empty implements Piece {
 
   public static Empty getInstance() {
     if (empty == null) {
-      empty = Empty.getInstance();
+      empty = new Empty();
     }
     return empty;
   }
