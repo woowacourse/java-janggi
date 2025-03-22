@@ -20,6 +20,36 @@ public class Ma extends Piece {
 
     private void validateMaMoveStrategy(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         validateReachableCoordinate(from, to);
+        validateDoesNotHasObstacle(board, from, to);
+    }
+
+    private void validateDoesNotHasObstacle(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+        Direction moveDirection = getDirection(from, to);
+        if (moveDirection == Direction.UP && board.isOccupied(from.moveUp())) {
+            throw new IllegalArgumentException("[ERROR] 경로에 기물이 있어 해당 위치로 이동할 수 없습니다.");
+        }
+        if (moveDirection == Direction.RIGHT && board.isOccupied(from.moveRight())) {
+            throw new IllegalArgumentException("[ERROR] 경로에 기물이 있어 해당 위치로 이동할 수 없습니다.");
+        }
+        if (moveDirection == Direction.DOWN && board.isOccupied(from.moveDown())) {
+            throw new IllegalArgumentException("[ERROR] 경로에 기물이 있어 해당 위치로 이동할 수 없습니다.");
+        }
+        if (moveDirection == Direction.LEFT && board.isOccupied(from.moveLeft())) {
+            throw new IllegalArgumentException("[ERROR] 경로에 기물이 있어 해당 위치로 이동할 수 없습니다.");
+        }
+    }
+
+    private Direction getDirection(JanggiCoordinate from, JanggiCoordinate to) {
+        if (from.moveUp().moveUpRight().equals(to) || from.moveUp().moveUpLeft().equals(to)) {
+            return Direction.UP;
+        }
+        if (from.moveRight().moveUpRight().equals(to) || from.moveRight().moveDownRight().equals(to)) {
+            return Direction.RIGHT;
+        }
+        if (from.moveDown().moveDownRight().equals(to) || from.moveDown().moveDownLeft().equals(to)) {
+            return Direction.DOWN;
+        }
+        return Direction.LEFT;
     }
 
     private void validateMoveCoordinate(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {

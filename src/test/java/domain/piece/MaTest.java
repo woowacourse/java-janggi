@@ -93,5 +93,44 @@ class MaTest {
                     () -> assertThatThrownBy(() -> ma.validateMove(board, maCoordinate, unReachable3)).isInstanceOf(IllegalArgumentException.class)
             );
         }
+
+        @DisplayName("말의 이동경로에 다른 기물이 막고 있으면 이동할 수 없다")
+        @Test
+        void validateMoveHasObstacle() {
+            Ma ma = new Ma(Country.HAN);
+            Ma obstaclePiece = new Ma(Country.HAN);
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+
+            JanggiCoordinate maCoordinate = new JanggiCoordinate(5, 5);
+            JanggiCoordinate obstacleCoordinate = new JanggiCoordinate(5, 6);
+            JanggiCoordinate moveCoordinate = new JanggiCoordinate(4, 7);
+
+            map.put(maCoordinate, ma);
+            map.put(obstacleCoordinate, obstaclePiece);
+
+            JanggiBoard board = new JanggiBoard(map);
+
+            assertThatThrownBy(() -> ma.validateMove(board, maCoordinate, moveCoordinate))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @DisplayName("말의 이동경로에 다른 기물이 막고 있지 않으면 이동할 수 있다")
+        @Test
+        void validateMoveNoObstacle() {
+            Ma ma = new Ma(Country.HAN);
+            Ma obstaclePiece = new Ma(Country.HAN);
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+
+            JanggiCoordinate maCoordinate = new JanggiCoordinate(5, 5);
+            JanggiCoordinate isNotObstacleCoordinate = new JanggiCoordinate(5, 4);
+            JanggiCoordinate moveCoordinate = new JanggiCoordinate(4, 7);
+
+            map.put(maCoordinate, ma);
+            map.put(isNotObstacleCoordinate, obstaclePiece);
+
+            JanggiBoard board = new JanggiBoard(map);
+
+            assertDoesNotThrow(() -> ma.validateMove(board, maCoordinate, moveCoordinate));
+        }
     }
 }
