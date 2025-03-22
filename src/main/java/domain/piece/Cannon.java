@@ -36,6 +36,11 @@ public class Cannon extends Piece {
         return this.getClass() != piece.getClass();
     }
 
+    @Override
+    public boolean isGeneral() {
+        return false;
+    }
+
     private void validateOffset(final Offset offset) {
         if (offset.isDiagonalMovement() || offset.hasOneMovement()) {
             throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");

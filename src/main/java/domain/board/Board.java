@@ -44,6 +44,12 @@ public class Board {
         changeSelectPieceBoardPosition(selectBoardPosition, destinationBoardPosition, selectedPiece);
     }
 
+    public List<Piece> findAliveGenerals() {
+        return pieces.values().stream()
+                .filter(Piece::isGeneral)
+                .toList();
+    }
+
     private void validateSelectBoardPosition(final BoardPosition selectBoardPosition) {
         if (!pieces.containsKey(selectBoardPosition)) {
             throw new IllegalArgumentException("이동하려는 기물이 없습니다.");

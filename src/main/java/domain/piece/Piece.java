@@ -23,6 +23,8 @@ public abstract class Piece {
 
     public abstract boolean isCatchable(final Piece piece);
 
+    public abstract boolean isGeneral();
+
     public boolean isMyTeam(final Team team) {
         return this.team == team;
     }

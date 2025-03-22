@@ -6,6 +6,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import domain.Team;
 import domain.piece.Cannon;
+import domain.piece.General;
 import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.piece.Zzu;
@@ -49,6 +50,20 @@ class BoardTest {
             assertThatCode(
                     () -> board.movePiece(new BoardPosition(0, 0), new BoardPosition(0, 6), Team.RED))
                     .doesNotThrowAnyException();
+        }
+
+        @DisplayName("살아있는 왕 기물들을 찾는다.")
+        @Test
+        void findAliveGenerals() {
+            // given
+            Board board = new Board(Map.of(
+                    new BoardPosition(0, 0), new General(Team.RED),
+                    new BoardPosition(0, 5), new General(Team.GREEN)
+            ));
+
+            // when & then
+            assertThat(board.findAliveGenerals())
+                    .containsExactlyInAnyOrder(new General(Team.RED), new General(Team.GREEN));
         }
     }
 
