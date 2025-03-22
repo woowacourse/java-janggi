@@ -1,6 +1,8 @@
 package janggi.domain;
 
 import janggi.common.ErrorMessage;
+import janggi.domain.piece.Piece;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -27,8 +29,7 @@ public class Board {
             throw new IllegalArgumentException(ErrorMessage.IS_NOT_SAME_SIDE.getMessage());
         }
 
-        if (piece.getAvailableMovePositions(this, position)
-                .isEmpty()) {
+        if (piece.generateAvailableMovePositions(this, position).isEmpty()) {
             throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_PIECE.getMessage());
         }
     }
@@ -41,7 +42,7 @@ public class Board {
 
     public void movePiece(Position currentPosition, Position newPosition) {
         Piece piece = getPiece(currentPosition);
-        Set<Position> availablePositions = piece.getAvailableMovePositions(this, currentPosition);
+        Set<Position> availablePositions = piece.generateAvailableMovePositions(this, currentPosition);
 
         if (!availablePositions.contains(newPosition)) {
             throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_TO_POSITION.getMessage());
@@ -72,20 +73,9 @@ public class Board {
                 .isCannon();
     }
 
-    public boolean hasGeneral(Side side) {
+    public boolean hasGeneral() {
         return pieceMap.values()
                 .stream()
-                .anyMatch(piece -> piece.isGeneral(side));
-    }
-
-    public String getPieceName(int row, int column) {
-        Position position = Position.of(row, column);
-
-        if (!hasPiece(position)) {
-            return "＿";
-        }
-
-        return pieceMap.get(position)
-                .toName();
+                .anyMatch(Piece::isGeneral);
     }
 }

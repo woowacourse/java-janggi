@@ -1,10 +1,13 @@
 package janggi.view;
 
 import janggi.common.ErrorMessage;
+import janggi.common.PieceName;
 import janggi.domain.Board;
-import janggi.domain.Piece;
+import janggi.domain.Position;
 import janggi.domain.Side;
+import janggi.domain.piece.Piece;
 import janggi.dto.PositionDto;
+
 import java.util.Scanner;
 import java.util.StringJoiner;
 
@@ -28,7 +31,8 @@ public class Viewer {
         for (int row = 1; row <= 10; row++) {
             StringJoiner lineJoiner = new StringJoiner(BLANK);
             for (int column = 1; column <= 9; column++) {
-                lineJoiner.add(board.getPieceName(row, column));
+                Position position = Position.of(row, column);
+                lineJoiner.add(getPieceName(board, position));
             }
 
             lineJoiner.add(Formatter.formatFullWidthNumber(row));
@@ -36,6 +40,14 @@ public class Viewer {
         }
 
         System.out.println(enterJoiner);
+    }
+
+    private String getPieceName(Board board, Position position) {
+        if (board.hasPiece(position)) {
+            Piece piece = board.getPiece(position);
+            return PieceName.findName(piece);
+        }
+        return "＿";
     }
 
     private String formatFirstRowOfBoard() {
@@ -75,10 +87,9 @@ public class Viewer {
         }
     }
 
-    public PositionDto readMove(Piece piece) {
-        String pieceName = piece.toName();
+    public PositionDto readMove() {
         System.out.println(
-                Formatter.formatMessageWithHeader(INFO_HEADER, pieceName + "이 움직일 좌표를 '세로,가로' 순으로 입력해주세요. (예: 3,5)"));
+                Formatter.formatMessageWithHeader(INFO_HEADER, "기물을 움직일 좌표를 '세로,가로' 순으로 입력해주세요. (예: 3,5)"));
         String input = scanner.nextLine();
 
         validatePosition(input);

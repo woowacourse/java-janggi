@@ -24,7 +24,7 @@ public class JanggiGame {
     }
 
     private Side repeatGameTurns(Board board, Side turn) {
-        while (board.hasGeneral(turn.reverse())) {
+        while (board.hasGeneral()) {
             viewer.printBoard(board);
             viewer.printTurnInfo(turn);
 
@@ -46,7 +46,7 @@ public class JanggiGame {
     }
 
     private void movePiece(Board board, Position currentPosition) {
-        PositionDto positionDto = viewer.readMove(board.getPiece(currentPosition));
+        PositionDto positionDto = viewer.readMove();
 
         Position targetPosition = Position.of(positionDto.row(), positionDto.column());
 
