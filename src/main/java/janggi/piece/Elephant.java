@@ -37,7 +37,7 @@ public final class Elephant extends Piece {
     }
 
     @Override
-    public Type type() {
+    public Type getType() {
         return Type.ELEPHANT;
     }
 }

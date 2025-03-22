@@ -4,7 +4,7 @@ import janggi.board.Board;
 import janggi.position.Position;
 import janggi.rule.MovingRules;
 
-public abstract class Piece {
+public sealed abstract class Piece permits Cannon, Chariot, Elephant, General, Guard, Horse, Soldier {
 
     protected final Team team;
     protected final MovingRules movingRules;
@@ -32,5 +32,5 @@ public abstract class Piece {
 
     protected abstract boolean isValidDestination(final Position end, final Board board);
 
-    public abstract Type type();
+    public abstract Type getType();
 }

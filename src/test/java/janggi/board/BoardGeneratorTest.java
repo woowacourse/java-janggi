@@ -24,8 +24,8 @@ class BoardGeneratorTest {
         final Piece piece2 = board.getPiece(new Position(Row.ZERO, Column.SIX));
         // then
         assertAll(
-                () -> assertThat(piece1.type()).isEqualTo(Type.ELEPHANT),
-                () -> assertThat(piece2.type()).isEqualTo(Type.ELEPHANT)
+                () -> assertThat(piece1.getType()).isEqualTo(Type.ELEPHANT),
+                () -> assertThat(piece2.getType()).isEqualTo(Type.ELEPHANT)
         );
     }
 
@@ -39,8 +39,8 @@ class BoardGeneratorTest {
         final Piece piece2 = board.getPiece(new Position(Row.ZERO, Column.SEVEN));
         // then
         assertAll(
-                () -> assertThat(piece1.type()).isEqualTo(Type.ELEPHANT),
-                () -> assertThat(piece2.type()).isEqualTo(Type.ELEPHANT)
+                () -> assertThat(piece1.getType()).isEqualTo(Type.ELEPHANT),
+                () -> assertThat(piece2.getType()).isEqualTo(Type.ELEPHANT)
         );
     }
 
@@ -54,8 +54,8 @@ class BoardGeneratorTest {
         final Piece piece2 = board.getPiece(new Position(Row.ZERO, Column.SEVEN));
         // then
         assertAll(
-                () -> assertThat(piece1.type()).isEqualTo(Type.ELEPHANT),
-                () -> assertThat(piece2.type()).isEqualTo(Type.ELEPHANT)
+                () -> assertThat(piece1.getType()).isEqualTo(Type.ELEPHANT),
+                () -> assertThat(piece2.getType()).isEqualTo(Type.ELEPHANT)
         );
     }
 
@@ -69,8 +69,8 @@ class BoardGeneratorTest {
         final Piece piece2 = board.getPiece(new Position(Row.ZERO, Column.SIX));
         // then
         assertAll(
-                () -> assertThat(piece1.type()).isEqualTo(Type.ELEPHANT),
-                () -> assertThat(piece2.type()).isEqualTo(Type.ELEPHANT)
+                () -> assertThat(piece1.getType()).isEqualTo(Type.ELEPHANT),
+                () -> assertThat(piece2.getType()).isEqualTo(Type.ELEPHANT)
         );
     }
 }

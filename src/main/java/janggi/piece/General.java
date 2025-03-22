@@ -27,7 +27,7 @@ public final class General extends Piece {
     }
 
     @Override
-    public Type type() {
+    public Type getType() {
         return Type.GENERAL;
     }
 }

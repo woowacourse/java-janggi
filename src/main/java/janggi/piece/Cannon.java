@@ -43,7 +43,7 @@ public final class Cannon extends Piece {
     }
 
     @Override
-    public Type type() {
+    public Type getType() {
         return Type.CANNON;
     }
 }

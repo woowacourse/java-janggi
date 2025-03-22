@@ -27,7 +27,7 @@ public final class Guard extends Piece {
     }
 
     @Override
-    public Type type() {
+    public Type getType() {
         return Type.GUARD;
     }
 }

@@ -45,7 +45,7 @@ public final class Board {
     public boolean isExistCannon(final Position position) {
         if (board.containsKey(position)) {
             final Piece piece = board.get(position);
-            return piece.type() == Type.CANNON;
+            return piece.getType() == Type.CANNON;
         }
         return false;
     }

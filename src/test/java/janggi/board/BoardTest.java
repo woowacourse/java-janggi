@@ -57,7 +57,7 @@ class BoardTest {
         board.move(start, end);
         final Piece actual = board.getPiece(end);
         // then
-        assertThat(actual.type()).isEqualTo(Type.SOLDIER);
+        assertThat(actual.getType()).isEqualTo(Type.SOLDIER);
     }
 
     @DisplayName("병 이동된 위치에 상대 기물이 있으면 잡으면서 이동한다.")
@@ -74,7 +74,7 @@ class BoardTest {
         board.move(start, end);
         final Piece actual = board.getPiece(end);
         // then
-        assertThat(actual.type()).isEqualTo(Type.SOLDIER);
+        assertThat(actual.getType()).isEqualTo(Type.SOLDIER);
     }
 
     @DisplayName("본인의 턴일 때 상대 말을 움직이려고 하면 예외를 발생시킨다.")

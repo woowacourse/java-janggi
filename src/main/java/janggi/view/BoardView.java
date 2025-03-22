@@ -48,7 +48,7 @@ public final class BoardView {
     }
 
     private static void displayPiece(final Piece piece) {
-        final String notation = PIECE_NOTATION_KOREAN.get(piece.type());
+        final String notation = PIECE_NOTATION_KOREAN.get(piece.getType());
         if (piece.isSameTeam(Team.HAN)) {
             System.out.print("\u001B[31m" + notation + " \u001B[0m");
             return;
