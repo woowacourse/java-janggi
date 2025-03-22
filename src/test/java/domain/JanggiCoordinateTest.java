@@ -29,8 +29,8 @@ class JanggiCoordinateTest {
             int col = coordinate.getCol();
 
             assertAll(
-                    () -> assertThat(row).isEqualTo(6),
-                    () -> assertThat(col).isEqualTo(5)
+                    () -> assertThat(row).isEqualTo(5),
+                    () -> assertThat(col).isEqualTo(6)
             );
         }
 
@@ -43,8 +43,8 @@ class JanggiCoordinateTest {
             int col = coordinate.getCol();
 
             assertAll(
-                    () -> assertThat(row).isEqualTo(4),
-                    () -> assertThat(col).isEqualTo(5)
+                    () -> assertThat(row).isEqualTo(5),
+                    () -> assertThat(col).isEqualTo(4)
             );
         }
 
@@ -57,8 +57,8 @@ class JanggiCoordinateTest {
             int col = coordinate.getCol();
 
             assertAll(
-                    () -> assertThat(row).isEqualTo(5),
-                    () -> assertThat(col).isEqualTo(4)
+                    () -> assertThat(row).isEqualTo(4),
+                    () -> assertThat(col).isEqualTo(5)
             );
         }
 
@@ -71,8 +71,8 @@ class JanggiCoordinateTest {
             int col = coordinate.getCol();
 
             assertAll(
-                    () -> assertThat(row).isEqualTo(5),
-                    () -> assertThat(col).isEqualTo(6)
+                    () -> assertThat(row).isEqualTo(6),
+                    () -> assertThat(col).isEqualTo(5)
             );
         }
     }
@@ -89,8 +89,8 @@ class JanggiCoordinateTest {
             int col = coordinate.getCol();
 
             assertAll(
-                    () -> assertThat(row).isEqualTo(6),
-                    () -> assertThat(col).isEqualTo(4)
+                    () -> assertThat(row).isEqualTo(4),
+                    () -> assertThat(col).isEqualTo(6)
             );
         }
 
@@ -131,8 +131,8 @@ class JanggiCoordinateTest {
             int col = coordinate.getCol();
 
             assertAll(
-                    () -> assertThat(row).isEqualTo(4),
-                    () -> assertThat(col).isEqualTo(6)
+                    () -> assertThat(row).isEqualTo(6),
+                    () -> assertThat(col).isEqualTo(4)
             );
         }
     }
