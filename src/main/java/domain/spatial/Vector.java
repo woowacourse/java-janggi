@@ -16,7 +16,7 @@ public class Vector {
         this.moveColumn = moveColumn;
     }
 
-    public Position applyTo(Position position) {
+    public Position applyTo(final Position position) {
         return new Position(position.row() + moveRow, position.column() + moveColumn);
     }
 
