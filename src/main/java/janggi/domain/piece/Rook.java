@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.Side;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.IntStream;
@@ -22,40 +23,50 @@ public class Rook extends Piece {
 
     @Override
     protected boolean isMoveablePath(List<Piece> existingPieces, Position destination) {
-        Set<Position> positionsTo = Set.copyOf(getPositionsTo(destination));
-        for (Piece existingPiece : existingPieces) {
-            if (positionsTo.contains(existingPiece.getPosition())) {
-                return false;
-            }
-            if (existingPiece.isSamePosition(destination)) {
-                return !existingPiece.getSide().equals(getSide());
-            }
+        List<Piece> onPathPieces = findAllPiecesOnPath(existingPieces, destination);
+
+        if (!onPathPieces.isEmpty()) {
+            return onPathPieces.stream()
+                    .filter(onPathPiece -> onPathPiece.isSamePosition(destination))
+                    .anyMatch(piece -> piece.getSide() != getSide());
         }
         return true;
     }
 
-    private List<Position> getPositionsTo(Position destination) {
-        if (hasSameX(destination)) {
-            if (getYPosition() < destination.getY()) {
-                return IntStream.range(getYPosition() + 1, destination.getY())
-                        .mapToObj(y -> new Position(getXPosition(), y))
-                        .toList();
-            }
-            return IntStream.range(destination.getY() + 1, getYPosition())
-                    .mapToObj(y -> new Position(getXPosition(), y))
-                    .toList();
+    private List<Piece> findAllPiecesOnPath(List<Piece> existingPieces, Position destination) {
+        Set<Position> path = new HashSet<>(findPaths(destination));
+
+        return existingPieces.stream()
+                .filter(existingPiece -> path.contains(existingPiece.getPosition()))
+                .toList();
+    }
+
+    private List<Position> findPaths(Position destination) {
+        if (isVerticalMove(destination)) {
+            return findAllVerticalMovablePositions(destination);
         }
-        if (getXPosition() < destination.getX()) {
-            return IntStream.range(getXPosition() + 1, destination.getX())
-                    .mapToObj(x -> new Position(x, getYPosition()))
-                    .toList();
-        }
-        return IntStream.range(destination.getX() + 1, getXPosition())
+        return findAllHorizontalMovablePositions(destination);
+    }
+
+    private List<Position> findAllVerticalMovablePositions(Position destination) {
+        int start = Math.min(getYPosition(), destination.getY()) + 1;
+        int end = Math.max(getYPosition(), destination.getY());
+
+        return IntStream.rangeClosed(start, end)
+                .mapToObj(y -> new Position(getXPosition(), y))
+                .toList();
+    }
+
+    private List<Position> findAllHorizontalMovablePositions(Position destination) {
+        int start = Math.min(getXPosition(), destination.getX()) + 1;
+        int end = Math.max(getXPosition(), destination.getX());
+
+        return IntStream.rangeClosed(start, end)
                 .mapToObj(x -> new Position(x, getYPosition()))
                 .toList();
     }
 
-    private boolean hasSameX(Position position) {
-        return getXPosition() == position.getX();
+    private boolean isVerticalMove(Position destination) {
+        return destination.hasSameX(getPosition());
     }
 }
