@@ -22,7 +22,7 @@ public class Pieces {
             throw new IllegalArgumentException("해당 위치에 기물 없음");
         });
     }
-
+/*
     public void validateCanMove(Position departure, Position arrival) {
         List<Position> positions = findDirectionOfPiece(departure, arrival); // 목적지 찾기
         validateMiddleDirection(arrival, positions); // 중간 목적지
@@ -30,10 +30,10 @@ public class Pieces {
         movePosition(departure, arrival);
     }
 
-
+/*
     private List<Position> findDirectionOfPiece(Position departure, Position arrival) {
         Piece piece = findPieceBy(departure);
-        List<List<Position>> findResults = piece.calculateAllDirection(departure);
+        List<Position> positions1 = piece.calculateAllDirection(departure, arrival);
         return findResults.stream()
                 .filter(positions -> positions.contains(arrival))
                 .findFirst()
@@ -41,6 +41,8 @@ public class Pieces {
     }
 
 
+
+ */
     private void validateMiddleDirection(Position arrival, List<Position> positions) {
         boolean isAlreadyExist = positions.stream()
                 .filter(this::isAlreadyExist)

@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cannon extends Piece{
+public class Cannon extends Piece {
 
     public Cannon(Team team) {
         super(team);
@@ -15,15 +15,11 @@ public class Cannon extends Piece{
     }
 
     @Override
-    public List<List<Position>> calculateAllDirection(Position position) {
-        List<List<Position>> positions = new ArrayList<>();
-        positions.addAll(findUpDirection(position));
-        positions.addAll(findDownDirection(position));
-        positions.addAll(findLeftDirection(position));
-        positions.addAll(findRightDirection(position));
-        return positions;
+    public List<Position> calculateAllDirection(Position departure, Position arrival) {
+        return List.of();
     }
 
+/*
     private List<List<Position>> findUpDirection(Position position) {
         int count = -2;
         List<List<Position>> tmpPosition = new ArrayList<>();
@@ -80,6 +76,8 @@ public class Cannon extends Piece{
         return tmpPosition;
     }
 
+
+ */
     @Override
     public String toString() {
         if (getTeam() == Team.RED) {
@@ -88,6 +86,8 @@ public class Cannon extends Piece{
         return "포";
     }
 }
+
+
 
 
 

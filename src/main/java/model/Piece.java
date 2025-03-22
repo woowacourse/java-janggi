@@ -10,7 +10,7 @@ public abstract class Piece{
         this.team = team;
     }
 
-    public abstract List<List<Position>> calculateAllDirection(Position position);
+    public abstract List<Position> calculateAllDirection(Position departure, Position arrival);
 
     public Team getTeam() {
         return team;

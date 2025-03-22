@@ -3,7 +3,7 @@ package model;
 import java.util.Collections;
 import java.util.List;
 
-public class Elephant extends Piece{
+public class Elephant extends Piece {
 
     public Elephant(Team team) {
         super(team);
@@ -15,14 +15,11 @@ public class Elephant extends Piece{
     }
 
     @Override
-    public List<List<Position>> calculateAllDirection(Position position) {
-        return List.of(
-            findUpLeft(position), findUpRight(position),
-            findLeftUp(position), findLeftDown(position),
-            findRightUp(position), findRightDown(position),
-            findDownLeft(position), findDownRight(position));
+    public List<Position> calculateAllDirection(Position departure, Position arrival) {
+        return List.of();
     }
 
+/*
     private List<Position> findUpLeft(Position position) {
         if (position.canChangeOfColumn(-1) && position.canChangeOfColumnAndRow(-2, -1) && position.canChangeOfColumnAndRow(-3, -2)) {
             return List.of(
@@ -103,6 +100,8 @@ public class Elephant extends Piece{
         return Collections.emptyList();
     }
 
+
+ */
     @Override
     public String toString() {
         if (getTeam() == Team.RED) {
@@ -111,3 +110,5 @@ public class Elephant extends Piece{
         return "상";
     }
 }
+
+

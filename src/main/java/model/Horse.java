@@ -15,13 +15,12 @@ public class Horse extends Piece {
     }
 
     @Override
-    public List<List<Position>> calculateAllDirection(Position position) {
-        return List.of(
-            findUpLeft(position), findUpRight(position),
-            findLeftUp(position), findLeftDown(position),
-            findRightUp(position), findRightDown(position),
-            findDownLeft(position), findDownRight(position));
+    public List<Position> calculateAllDirection(Position departure, Position arrival) {
+        return List.of();
     }
+/*
+
+  //  }
 
     private List<Position> findUpLeft(Position position) {
         if (position.canChangeOfColumn(-1) && position.canChangeOfColumnAndRow(-2, -1)) {
@@ -95,6 +94,9 @@ public class Horse extends Piece {
         return Collections.emptyList();
     }
 
+
+
+ */
     @Override
     public String toString() {
         if (getTeam() == Team.RED) {

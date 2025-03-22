@@ -3,7 +3,7 @@ package model;
 import java.util.Collections;
 import java.util.List;
 
-public class Jol extends Piece{
+public class Jol extends Piece {
 
     public Jol() {
         super(Team.GREEN);
@@ -15,13 +15,10 @@ public class Jol extends Piece{
     }
 
     @Override
-    public List<List<Position>> calculateAllDirection(Position position) {
-        return List.of(
-            findUpDirection(position),
-            findLeftDirection(position),
-            findRightDirection(position));
+    public List<Position> calculateAllDirection(Position departure, Position arrival) {
+        return List.of();
     }
-
+/*
     private List<Position> findUpDirection(Position position) {
         if (position.canChangeOfColumn(-1)) {
             return List.of(position.changeColumn(-1));
@@ -43,9 +40,12 @@ public class Jol extends Piece{
         return Collections.emptyList();
     }
 
+
+ */
     @Override
     public String toString() {
         return "졸";
     }
 }
+
 

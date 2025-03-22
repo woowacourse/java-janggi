@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InputParser {
 
@@ -8,7 +9,10 @@ public class InputParser {
 
     private InputParser() {}
 
-    public static List<String> split(String userInput) {
-        return List.of(userInput.split(DELIMITER));
+    public static List<Integer> splitAndConvert(String userInput) {
+        List<String> splitResult = List.of(userInput.split(DELIMITER));
+        return splitResult.stream()
+            .map(Integer::parseInt)
+            .collect(Collectors.toList());
     }
 }
