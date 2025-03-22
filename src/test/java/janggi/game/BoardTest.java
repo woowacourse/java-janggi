@@ -24,11 +24,19 @@ public class BoardTest {
     class InitBoardTest {
 
         @Test
-        @DisplayName("장기 말들을 가진 장기판을 생성할 수 있다.")
-        void createBoard() {
-            Board board = Board.init();
+        @DisplayName("32개의 기물을 가진 장기판을 생성할 수 있다.")
+        void createBoardWithPieces() {
+            Board board = Board.init(Team.CHO);
 
             assertThat(board.getRunningPieces()).hasSize(32);
+        }
+
+        @Test
+        @DisplayName("시작 팀을 지정하여 장기판을 생성할 수 있다.")
+        void createBoardWithStartTeam() {
+            Board board = Board.init(Team.CHO);
+
+            assertThat(board.getTurn()).isEqualTo(Team.CHO);
         }
     }
 
@@ -41,7 +49,7 @@ public class BoardTest {
         void searchByPoint() {
             Point point = new Point(8, 4);
             List<Movable> pieces = List.of(new Gung(Team.CHO, point));
-            Board board = new Board(pieces);
+            Board board = new Board(pieces, Team.CHO);
 
             assertThat(board.findByPoint(point)).isEqualTo(pieces.getFirst());
         }
@@ -58,7 +66,7 @@ public class BoardTest {
                     new Cha(Team.CHO, new Point(5, 4)),
                     new Byeong(Team.HAN, new Point(3, 4))
             );
-            Board board = new Board(pieces);
+            Board board = new Board(pieces, Team.CHO);
 
             Point startPoint = new Point(5, 4);
             List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
@@ -72,7 +80,7 @@ public class BoardTest {
             List<Movable> pieces = List.of(
                     new Cha(Team.CHO, new Point(5, 4))
             );
-            Board board = new Board(pieces);
+            Board board = new Board(pieces, Team.CHO);
 
             Point startPoint = new Point(5, 4);
             List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
@@ -87,7 +95,7 @@ public class BoardTest {
                     new Cha(Team.CHO, new Point(5, 4)),
                     new Byeong(Team.HAN, new Point(2, 4))
             );
-            Board board = new Board(pieces);
+            Board board = new Board(pieces, Team.CHO);
 
             Point startPoint = new Point(5, 4);
             List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
@@ -102,7 +110,7 @@ public class BoardTest {
                     new Cha(Team.CHO, new Point(5, 4)),
                     new Byeong(Team.CHO, new Point(2, 4))
             );
-            Board board = new Board(pieces);
+            Board board = new Board(pieces, Team.CHO);
 
             Point startPoint = new Point(5, 4);
             List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
@@ -118,7 +126,7 @@ public class BoardTest {
                     new Byeong(Team.CHO, new Point(3, 4)),
                     new Po(Team.CHO, new Point(2, 4))
             );
-            Board board = new Board(pieces);
+            Board board = new Board(pieces, Team.CHO);
 
             Point startPoint = new Point(5, 4);
             List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
@@ -137,7 +145,7 @@ public class BoardTest {
             Point beforePoint = new Point(6, 4);
             Byeong byeong = new Byeong(Team.CHO, beforePoint);
             List<Movable> pieces = new ArrayList<>(List.of(byeong));
-            Board board = new Board(pieces);
+            Board board = new Board(pieces, Team.CHO);
 
             Point afterPoint = new Point(5, 4);
             board.move(beforePoint, afterPoint);
@@ -160,7 +168,7 @@ public class BoardTest {
             Byeong byeong2 = new Byeong(Team.HAN, afterPoint);
 
             List<Movable> pieces = new ArrayList<>(List.of(byeong1, byeong2));
-            Board board = new Board(pieces);
+            Board board = new Board(pieces, Team.CHO);
 
             board.move(beforePoint, afterPoint);
 
@@ -181,7 +189,7 @@ public class BoardTest {
                     new Byeong(Team.CHO, new Point(6, 2)),
                     new Po(Team.CHO, beforePoint)
             );
-            Board board = new Board(new ArrayList<>(pieces));
+            Board board = new Board(new ArrayList<>(pieces), Team.CHO);
             Point targetPoint = new Point(6, 3);
 
             assertDoesNotThrow(() -> board.move(beforePoint, targetPoint));
@@ -196,7 +204,7 @@ public class BoardTest {
                     new Byeong(Team.CHO, new Point(6, 6)),
                     new Po(Team.CHO, beforePoint)
             );
-            Board board = new Board(new ArrayList<>(pieces));
+            Board board = new Board(new ArrayList<>(pieces), Team.CHO);
             Point targetPoint = new Point(6, 5);
 
             assertDoesNotThrow(() -> board.move(beforePoint, targetPoint));
@@ -210,7 +218,7 @@ public class BoardTest {
                     new Byeong(Team.HAN, new Point(3, 4)),
                     new Po(Team.CHO, beforePoint)
             );
-            Board board = new Board(new ArrayList<>(pieces));
+            Board board = new Board(new ArrayList<>(pieces), Team.CHO);
             Point targetPoint = new Point(2, 4);
 
             assertDoesNotThrow(() -> board.move(beforePoint, targetPoint));
@@ -225,7 +233,7 @@ public class BoardTest {
                     new Byeong(Team.HAN, new Point(7, 7)),
                     new Po(Team.CHO, beforePoint)
             );
-            Board board = new Board(new ArrayList<>(pieces));
+            Board board = new Board(new ArrayList<>(pieces), Team.CHO);
             Point targetPoint = new Point(5, 7);
 
             assertDoesNotThrow(() -> board.move(beforePoint, targetPoint));

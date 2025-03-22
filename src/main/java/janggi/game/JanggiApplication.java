@@ -21,7 +21,7 @@ public class JanggiApplication {
 
     private void run() {
         if (inputView.readGameStart()) {
-            Board board = Board.init();
+            Board board = Board.init(Team.CHO);
 
             while (true) { //TODO 우승자가 나오면 멈춘다.
                 boardView.displayBoard(board);

@@ -1,37 +1,30 @@
 package janggi.game;
 
-import janggi.piece.Byeong;
-import janggi.piece.Cha;
-import janggi.piece.Gung;
-import janggi.piece.Ma;
+import janggi.piece.InitialPieces;
 import janggi.piece.Movable;
 import janggi.piece.Po;
-import janggi.piece.Sa;
-import janggi.piece.Sang;
-import janggi.piece.InitialPieces;
 import janggi.point.Point;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Board {
+
     private final List<Movable> runningPieces;
     private Team turn;
 
-    public Board(List<Movable> runningPieces) {
+    public Board(List<Movable> runningPieces, Team startTeam) {
         this.runningPieces = runningPieces;
-        this.turn = Team.CHO;
+        this.turn = startTeam;
     }
 
-    public static Board init() {
+    public static Board init(Team startTeam) {
         List<Movable> pieces = Arrays.stream(InitialPieces.values())
             .map(InitialPieces::getInitialPieces)
             .flatMap(List::stream)
             .toList();
 
-        return new Board(pieces);
+        return new Board(pieces, startTeam);
     }
 
     public void reverseTurn() {
@@ -40,26 +33,26 @@ public class Board {
 
     public Movable findByPoint(Point point) {
         return runningPieces.stream()
-                .filter(piece -> piece.getPoint().equals(point))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다."));
+            .filter(piece -> piece.getPoint().equals(point))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다."));
     }
 
     public boolean hasPieceOnPoint(Point point) {
         return runningPieces.stream()
-                .anyMatch(piece -> piece.getPoint().equals(point));
+            .anyMatch(piece -> piece.getPoint().equals(point));
     }
 
     public boolean checkHurdles(Point startPoint, List<Point> route) {
         List<Point> piecePoints = runningPieces.stream()
-                .map(Movable::getPoint).toList();
+            .map(Movable::getPoint).toList();
 
         List<Point> crashPoints = route.stream()
-                .filter(piecePoints::contains)
-                .toList();
+            .filter(piecePoints::contains)
+            .toList();
 
         if (crashPoints.size() == 1
-                && route.getLast().equals(crashPoints.getFirst())
+            && route.getLast().equals(crashPoints.getFirst())
         ) {
             Movable crashPiece = findByPoint(crashPoints.getFirst());
             Movable movingPiece = findByPoint(startPoint);
@@ -84,7 +77,7 @@ public class Board {
                 throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
             }
         } else if (!movingPiece.isInMovingRange(afterPoint) || checkHurdles(beforePoint,
-                movingPiece.findRoute(afterPoint))
+            movingPiece.findRoute(afterPoint))
         ) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
