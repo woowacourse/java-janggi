@@ -25,11 +25,6 @@ public abstract class RotateMoveBehavior implements PieceBehavior {
         return result;
     }
 
-    @Override
-    public final boolean isGeneral() {
-        return false;
-    }
-
     protected abstract List<Vectors> getVectorsList();
 
     protected abstract void searchAvailableMoves(Set<Position> result, Board board, Position position,

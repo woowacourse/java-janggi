@@ -76,6 +76,10 @@ public class Board {
         return pieceMap.values().stream().anyMatch(piece -> piece.isGeneral(side));
     }
 
+    public boolean isCannon(Position position) {
+        return hasPiece(position) && getPiece(position).isCannon();
+    }
+
     public String getPieceName(int row, int column) {
         Position position = Position.of(row, column);
 

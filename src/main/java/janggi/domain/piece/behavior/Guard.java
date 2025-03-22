@@ -31,9 +31,4 @@ public final class Guard implements PieceBehavior {
     public String toName() {
         return "사";
     }
-
-    @Override
-    public boolean isGeneral() {
-        return false;
-    }
 }

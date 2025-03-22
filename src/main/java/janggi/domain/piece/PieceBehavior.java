@@ -11,5 +11,11 @@ public interface PieceBehavior {
 
     String toName();
 
-    boolean isGeneral();
+    default boolean isCannon() {
+        return false;
+    }
+
+    default boolean isGeneral() {
+        return false;
+    }
 }

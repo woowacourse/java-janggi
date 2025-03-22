@@ -24,6 +24,10 @@ public class Piece {
         return this.side == side && pieceBehavior.isGeneral();
     }
 
+    public boolean isCannon(){
+        return pieceBehavior.isCannon();
+    }
+
     public Set<Position> getAvailableMovePositions(Board board, Position currentPosition) {
         return pieceBehavior.generateAvailableMovePositions(board, this.side, currentPosition);
     }
@@ -33,10 +37,6 @@ public class Piece {
             return "\u001B[32m" + pieceBehavior.toName() + "\u001B[0m";
         }
         return "\u001B[31m" + pieceBehavior.toName() + "\u001B[0m";
-    }
-
-    public PieceBehavior getPieceBehavior() {
-        return pieceBehavior;
     }
 
     @Override

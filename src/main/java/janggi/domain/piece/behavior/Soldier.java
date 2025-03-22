@@ -28,9 +28,4 @@ public final class Soldier implements PieceBehavior {
     public String toName() {
         return "병";
     }
-
-    @Override
-    public boolean isGeneral() {
-        return false;
-    }
 }
