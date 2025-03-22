@@ -41,35 +41,4 @@ public class PieceTest {
             assertThat(isSameTeam).isFalse();
         }
     }
-
-    @Nested
-    @DisplayName("기물이 포인 지 판별하는 테스트")
-    class IsPoTest {
-
-        @Test
-        @DisplayName("기물이 포이면 true를 반환한다.")
-        void test1() {
-            // given
-            Piece piece = new Po(Team.HAN);
-
-            // when
-            boolean isPo = piece.isPo();
-
-            // then
-            assertThat(isPo).isTrue();
-        }
-
-        @Test
-        @DisplayName("기물이 포이면 true를 반환한다.")
-        void test2() {
-            // given
-            Piece piece = new Cha(Team.HAN);
-
-            // when
-            boolean isPo = piece.isPo();
-
-            // then
-            assertThat(isPo).isFalse();
-        }
-    }
 }
