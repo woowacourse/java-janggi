@@ -5,6 +5,7 @@ import janggi.point.InitialPoint;
 import janggi.point.Point;
 import janggi.game.Team;
 import janggi.point.PointDistance;
+import janggi.point.Route;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,18 +42,24 @@ public class Cha implements Movable {
         return point.isSameRow(targetPoint) || point.isSameColumn(targetPoint);
     }
 
-    @Override
-    public List<Point> findRoute(Point targetPoint) {
-        List<Point> route = new ArrayList<>();
-        Direction direction = Direction.cardinalFrom(point, targetPoint);
-        PointDistance distance = PointDistance.calculate(point, targetPoint);
+//    @Override
+//    public List<Point> findRoute(Point targetPoint) {
+//        List<Point> route = new ArrayList<>();
+//        Direction direction = Direction.cardinalFrom(point, targetPoint);
+//        PointDistance distance = PointDistance.calculate(point, targetPoint);
+//
+//        Point pointer = point;
+//        for (int i = 0; i < (int) distance.getDistance(); i++) {
+//            pointer = direction.move(pointer);
+//            route.add(pointer);
+//        }
+//        return route;
+//    }
 
-        Point pointer = point;
-        for (int i = 0; i < (int) distance.getDistance(); i++) {
-            pointer = direction.move(pointer);
-            route.add(pointer);
-        }
-        return route;
+    @Override
+    public Route findRoute(Point targetPoint) {
+        Direction direction = Direction.cardinalFrom(this.point, targetPoint);
+        return Route.repeat(direction, this.point, targetPoint);
     }
 
     @Override

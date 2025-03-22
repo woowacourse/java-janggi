@@ -14,12 +14,12 @@ public enum Direction {
     SOUTH_EAST(1, 1),
     DEFAULT(0, 0);
 
-    private final int rowDistance;
-    private final int columnDistance;
+    private final int rowOffset;
+    private final int columnOffset;
 
-    Direction(int rowDistance, int columnDistance) {
-        this.rowDistance = rowDistance;
-        this.columnDistance = columnDistance;
+    Direction(int rowOffset, int columnOffset) {
+        this.rowOffset = rowOffset;
+        this.columnOffset = columnOffset;
     }
 
     public static Direction cardinalFrom(Point startPoint, Point targetPoint) {
@@ -82,7 +82,11 @@ public enum Direction {
         return directions;
     }
 
-    public Point move(Point point) {
-        return point.move(rowDistance, columnDistance);
+    public int getRowOffset() {
+        return rowOffset;
+    }
+
+    public int getColumnOffset() {
+        return columnOffset;
     }
 }

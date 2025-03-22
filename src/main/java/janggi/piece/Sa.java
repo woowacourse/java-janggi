@@ -1,9 +1,11 @@
 package janggi.piece;
 
+import janggi.point.Direction;
 import janggi.point.InitialPoint;
 import janggi.point.Point;
 import janggi.game.Team;
 import janggi.point.PointDistance;
+import janggi.point.Route;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +45,9 @@ public class Sa implements Movable {
     }
 
     @Override
-    public List<Point> findRoute(Point targetPoint) {
-        return List.of(targetPoint);
+    public Route findRoute(Point targetPoint) {
+        Direction direction = Direction.cardinalFrom(this.point, targetPoint);
+        return Route.repeat(direction, this.point, targetPoint);
     }
 
     @Override

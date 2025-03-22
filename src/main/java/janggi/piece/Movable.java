@@ -2,7 +2,7 @@ package janggi.piece;
 
 import janggi.game.Team;
 import janggi.point.Point;
-import java.util.List;
+import janggi.point.Route;
 
 public interface Movable {
     String getName();
@@ -15,5 +15,5 @@ public interface Movable {
 
     boolean isInMovingRange(Point targetPoint);
 
-    List<Point> findRoute(Point targetPoint);
+    Route findRoute(Point targetPoint);
 }
