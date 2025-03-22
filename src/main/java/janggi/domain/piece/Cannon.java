@@ -4,39 +4,35 @@ import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.Vector;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Cannon implements PieceBehavior {
+public class Cannon extends Piece {
 
     private static final List<Vector> VECTORS = List.of(
             new Vector(1, 0),
             new Vector(0, -1),
             new Vector(0, 1),
-            new Vector(-1, 0));
+            new Vector(-1, 0)
+    );
+
+    public Cannon(Side side) {
+        super(side);
+    }
 
     @Override
-    public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
+    public Set<Position> generateAvailableMovePositions(Board board, Position position) {
         Set<Position> result = new HashSet<>();
         for (Vector vector : VECTORS) {
-            position.calculateNextPosition(vector)
-                    .ifPresent(movePosition ->
-                            searchAvailableMoves(result, board, movePosition, vector, side,
-                                    board.hasPiece(movePosition)));
+            position.calculateNextPosition(vector).ifPresent(movePosition -> searchAvailableMoves(result, board, movePosition, vector, side, board.hasPiece(movePosition)));
         }
 
         return result;
     }
 
-    @Override
-    public String toName() {
-        return "포";
-    }
-
-    public void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, Vector vector,
-                                     Side side,
-                                     boolean hasPassed) {
+    public void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, Vector vector, Side side, boolean hasPassed) {
         if (currentPosition.canNotMove(vector) || board.isCannon(currentPosition)) {
             return;
         }
@@ -61,5 +57,10 @@ public class Cannon implements PieceBehavior {
         }
 
         searchAvailableMoves(result, board, nextPosition, vector, side, board.hasPiece(nextPosition));
+    }
+
+    @Override
+    public boolean isCannon() {
+        return true;
     }
 }

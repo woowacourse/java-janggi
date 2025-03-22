@@ -11,12 +11,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Horse implements PieceBehavior {
+public class Horse extends Piece {
 
-    private static final List<Vectors> VECTOR_ROUTE_LIST = List.of(Vectors.of(new Vector(1, 0), new Vector(2, -1)), Vectors.of(new Vector(1, 0), new Vector(2, 1)));
+    private static final List<Vectors> VECTOR_ROUTE_LIST = List.of(
+            Vectors.of(new Vector(1, 0), new Vector(2, -1)),
+            Vectors.of(new Vector(1, 0), new Vector(2, 1))
+    );
+
+    public Horse(Side side) {
+        super(side);
+    }
 
     @Override
-    public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
+    public Set<Position> generateAvailableMovePositions(Board board, Position position) {
         Set<Position> result = new HashSet<>();
         List<Vectors> rotatedVectors = new ArrayList<>(VECTOR_ROUTE_LIST);
         for (int i = 0; i < 4; i++) {
@@ -25,11 +32,6 @@ public class Horse implements PieceBehavior {
         }
 
         return result;
-    }
-
-    @Override
-    public String toName() {
-        return "마";
     }
 
     private void searchAvailableMoves(Set<Position> result, Board board, Position position, List<Vectors> vectorsList, Side side) {

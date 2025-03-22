@@ -11,15 +11,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Elephant implements PieceBehavior {
+public class Elephant extends Piece {
 
     private static final List<Vectors> VECTORS_LIST = List.of(
             Vectors.of(new Vector(1, 0), new Vector(2, -1), new Vector(3, -2)),
             Vectors.of(new Vector(1, 0), new Vector(2, 1), new Vector(3, 2))
     );
 
+    public Elephant(Side side) {
+        super(side);
+    }
+
     @Override
-    public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
+    public Set<Position> generateAvailableMovePositions(Board board, Position position) {
         Set<Position> result = new HashSet<>();
         List<Vectors> rotatedVectors = new ArrayList<>(VECTORS_LIST);
         for (int i = 0; i < 4; i++) {
@@ -28,11 +32,6 @@ public class Elephant implements PieceBehavior {
         }
 
         return result;
-    }
-
-    @Override
-    public String toName() {
-        return "상";
     }
 
     private void searchAvailableMoves(Set<Position> result, Board board, Position position,
