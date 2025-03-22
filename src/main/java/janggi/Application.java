@@ -51,6 +51,7 @@ public class Application {
             moveUntilStop(command, board, input);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
+            return executeCommand(command, board);
         }
         return command;
     }
