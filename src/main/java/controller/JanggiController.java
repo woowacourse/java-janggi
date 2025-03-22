@@ -27,19 +27,42 @@ public class JanggiController {
         while (!janggi.isGameFinish()) {
             outputView.printBoard(janggi.getPieces(), janggi.getCurrentTeam());
 
-            final String selectPosition = inputView.inputSelectPosition();
-            final BoardPosition selectBoardPosition = createBoardPosition(selectPosition);
+            final BoardPosition selectBoardPosition = createSelectBoardPosition();
+            final BoardPosition destinationBoardPosition = createDestinationBoardPosition();
 
-            final String destinationPosition = inputView.inputDestinationPosition();
-            final BoardPosition destinationBoardPosition = createBoardPosition(destinationPosition);
-
-            janggi.processTurn(new SelectedPositions(selectBoardPosition, destinationBoardPosition));
+            try {
+                janggi.processTurn(new SelectedPositions(selectBoardPosition, destinationBoardPosition));
+            } catch (IllegalArgumentException e) {
+                outputView.printInputExceptionMessage(e);
+            }
         }
 
         outputView.printWinnerTeam(janggi.findWinnerTeam());
     }
 
-    public BoardPosition createBoardPosition(final String inputPosition) {
+    private BoardPosition createSelectBoardPosition() {
+        while(true) {
+            try {
+                final String selectPosition = inputView.inputSelectPosition();
+                return createBoardPosition(selectPosition);
+            } catch (IllegalArgumentException e) {
+                outputView.printInputExceptionMessage(e);
+            }
+        }
+    }
+
+    private BoardPosition createDestinationBoardPosition() {
+        while(true) {
+            try {
+                final String destinationPosition = inputView.inputDestinationPosition();
+                return createBoardPosition(destinationPosition);
+            } catch (IllegalArgumentException e) {
+                outputView.printInputExceptionMessage(e);
+            }
+        }
+    }
+
+    private BoardPosition createBoardPosition(final String inputPosition) {
         final List<Integer> positions = parseBoardPosition(inputPosition);
         validateSize(positions);
         final int x = positions.getFirst();

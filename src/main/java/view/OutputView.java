@@ -32,6 +32,11 @@ public class OutputView {
         }
     }
 
+    public void printInputExceptionMessage(final Exception e) {
+        System.out.println(e.getMessage());
+        System.out.println("다시 입력해주세요.");
+    }
+
     public void printWinnerTeam(final Team winnerTeam) {
         System.out.println();
         System.out.println("게임 종료");
