@@ -12,6 +12,7 @@ import model.janggiboard.JanggiBoard;
 import model.janggiboard.JanggiBoardSetUp;
 
 public class Janggi {
+
     public void play() {
         int setUpChoice = choiceSetUp();
         JanggiBoard janggiBoard;
@@ -34,24 +35,28 @@ public class Janggi {
         displayJanggiBoard(janggiBoard);
 
         boolean continueGame = true;
-
-        for (int i = 0; continueGame; i++) {
-            Team team = Team.RED;
-            if (i % 2 == 0) {
-                team = Team.BLUE;
-            }
+        boolean choTurn = true;
+        while (continueGame) {
+            Team team = decideTeam(choTurn);
             try {
                 List<Point> movePoints = movePointInput(team);
                 if (janggiBoard.isNotMyTeamPoint(movePoints.getFirst(), team)) {
                     throw new IllegalArgumentException("아군 장기말만 움직일 수 있습니다.");
                 }
                 janggiBoard.move(movePoints.getFirst(), movePoints.getLast());
-            } catch (Exception e) {
+                choTurn = !choTurn;
+            } catch (IllegalArgumentException e) {
                 displayErrorMessage(e.getMessage());
-                i--;
-                continue;
             }
             displayJanggiBoard(janggiBoard);
         }
+    }
+
+    private Team decideTeam(boolean choTurn) {
+        Team team = Team.RED;
+        if (choTurn) {
+            team = Team.BLUE;
+        }
+        return team;
     }
 }
