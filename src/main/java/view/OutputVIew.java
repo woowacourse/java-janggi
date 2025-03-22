@@ -35,7 +35,7 @@ public class OutputVIew {
             for (Dot dot : horizontalDotList) {
                 if (dot.isPlaced()) {
                     String teamFormat = BACKGROUND_BLUE + FONT_BLACK;
-                    if (dot.getPiece().getTeam() == Team.RED) {
+                    if (dot.getPiece().getTeam().isRed()) {
                         teamFormat = BACKGROUND_RED + FONT_BLACK;
                     }
                     horizontalNameLine.add(teamFormat + dot.getPiece().getPieceName().getName() + RESET);
