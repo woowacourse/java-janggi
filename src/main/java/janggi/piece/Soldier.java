@@ -7,10 +7,10 @@ import static janggi.Movement.UP;
 
 import janggi.Movement;
 import janggi.Team;
+import janggi.board.Board;
 import janggi.board.Position;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Soldier extends Piece {
     private static final String NAME = "졸";
@@ -37,12 +37,12 @@ public class Soldier extends Piece {
     }
 
     @Override
-    protected void validatePath(Map<Position, Piece> board, List<Position> path) {
+    protected void validatePath(Board board, List<Position> path) {
         validateNonPieceOnPath(board, path);
     }
 
     @Override
-    protected void validatePieceOnGoal(Map<Position, Piece> board, Position goal) {
+    protected void validatePieceOnGoal(Board board, Position goal) {
         validateSameTeamOnGoal(board, goal);
     }
 
@@ -52,7 +52,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    protected boolean isSameType(Piece other) {
+    public boolean isSameType(Piece other) {
         return other instanceof Soldier;
     }
 

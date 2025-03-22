@@ -25,7 +25,7 @@ public class Board {
         if (piece.isDifferentTeam(team)) {
             throw new IllegalArgumentException("[ERROR] 같은 진영의 기물만 움직일 수 있습니다.");
         }
-        piece.validateMovable(board, start, goal);
+        piece.validateMovable(this, start, goal);
         Piece attacked = move(start, goal);
         if (attacked != null && attacked.isGeneral()) {
             throw new GameOverException();
@@ -39,5 +39,23 @@ public class Board {
 
     public Map<Position, Piece> getBoard() {
         return Collections.unmodifiableMap(board);
+    }
+
+    public boolean isPieceExists(Position position) {
+        return board.get(position) != null;
+    }
+
+    public boolean isPieceNotExists(Position position) {
+        return board.get(position) == null;
+    }
+
+    public boolean isSameTeamExists(Position position, Team team) {
+        Piece piece = board.get(position);
+        return piece != null && piece.isSameTeam(team);
+    }
+
+    public boolean isSameTypePieceExists(Position position, Piece other) {
+        Piece piece = board.get(position);
+        return piece != null && piece.isSameType(other);
     }
 }

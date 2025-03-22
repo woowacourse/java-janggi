@@ -7,10 +7,10 @@ import static janggi.Movement.UP;
 
 import janggi.Movement;
 import janggi.Team;
+import janggi.board.Board;
 import janggi.board.Position;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Canon extends Piece {
     protected static final String NAME = "포";
@@ -43,16 +43,17 @@ public class Canon extends Piece {
     }
 
     @Override
-    protected void validatePath(Map<Position, Piece> board, List<Position> path) {
+    protected void validatePath(Board board, List<Position> path) {
         int pieceCount = 0;
         path.removeFirst();
         path.removeLast();
         for (Position position : path) {
-            Piece piece = board.get(position);
-            if (piece == null) {
+            boolean isPieceNotExists = board.isPieceNotExists(position);
+            if (isPieceNotExists) {
                 continue;
             }
-            if (piece.isSameType(this)) {
+            boolean isCanon = board.isSameTypePieceExists(position, this);
+            if (isCanon) {
                 throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
             }
             pieceCount++;
@@ -63,10 +64,10 @@ public class Canon extends Piece {
     }
 
     @Override
-    protected void validatePieceOnGoal(Map<Position, Piece> board, Position goal) {
+    protected void validatePieceOnGoal(Board board, Position goal) {
         validateSameTeamOnGoal(board, goal);
-        Piece other = board.get(goal);
-        if (other != null && other.isSameType(this)) {
+        boolean isCanonOnGoal = board.isSameTypePieceExists(goal, this);
+        if (isCanonOnGoal) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
         }
     }
@@ -77,7 +78,7 @@ public class Canon extends Piece {
     }
 
     @Override
-    protected boolean isSameType(Piece other) {
+    public boolean isSameType(Piece other) {
         return other instanceof Canon;
     }
 
