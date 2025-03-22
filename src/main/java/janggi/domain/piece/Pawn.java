@@ -2,7 +2,6 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.Side;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -38,36 +37,36 @@ public class Pawn extends Piece {
     }
 
     private List<Piece> findAllPiecesOnPath(List<Piece> existingPieces, Position destination) {
-        Set<Position> path = new HashSet<>(findPaths(destination));
+        Set<Position> pathsToDestination = findPathsToDestination(destination);
 
         return existingPieces.stream()
-                .filter(existingPiece -> path.contains(existingPiece.getPosition()))
+                .filter(existingPiece -> pathsToDestination.contains(existingPiece.getPosition()))
                 .toList();
     }
 
-    private List<Position> findPaths(Position destination) {
+    private Set<Position> findPathsToDestination(Position destination) {
         if (isVerticalMove(destination)) {
             return findAllVerticalMovablePositions();
         }
         return findAllHorizontalMovablePositions(destination);
     }
 
-    private List<Position> findAllVerticalMovablePositions() {
+    private Set<Position> findAllVerticalMovablePositions() {
         int x = getXPosition();
         int y = getYPosition();
         if (getSide() == Side.HAN) {
-            return List.of(new Position(x, y + MOVABLE_DISTANCE));
+            return Set.of(new Position(x, y + MOVABLE_DISTANCE));
         }
-        return List.of(new Position(x, y - MOVABLE_DISTANCE));
+        return Set.of(new Position(x, y - MOVABLE_DISTANCE));
     }
 
-    private List<Position> findAllHorizontalMovablePositions(Position destination) {
+    private Set<Position> findAllHorizontalMovablePositions(Position destination) {
         int x = getXPosition();
         int y = getYPosition();
         if (destination.getX() > getXPosition()) {
-            return List.of(new Position(x + MOVABLE_DISTANCE, y));
+            return Set.of(new Position(x + MOVABLE_DISTANCE, y));
         }
-        return List.of(new Position(x - MOVABLE_DISTANCE, y));
+        return Set.of(new Position(x - MOVABLE_DISTANCE, y));
     }
 
     private boolean isVerticalMove(Position destination) {

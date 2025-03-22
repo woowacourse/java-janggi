@@ -2,9 +2,9 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.Side;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Rook extends Piece {
@@ -34,36 +34,36 @@ public class Rook extends Piece {
     }
 
     private List<Piece> findAllPiecesOnPath(List<Piece> existingPieces, Position destination) {
-        Set<Position> path = new HashSet<>(findPaths(destination));
+        Set<Position> pathsToDestination = findPathsToDestination(destination);
 
         return existingPieces.stream()
-                .filter(existingPiece -> path.contains(existingPiece.getPosition()))
+                .filter(existingPiece -> pathsToDestination.contains(existingPiece.getPosition()))
                 .toList();
     }
 
-    private List<Position> findPaths(Position destination) {
+    private Set<Position> findPathsToDestination(Position destination) {
         if (isVerticalMove(destination)) {
             return findAllVerticalMovablePositions(destination);
         }
         return findAllHorizontalMovablePositions(destination);
     }
 
-    private List<Position> findAllVerticalMovablePositions(Position destination) {
+    private Set<Position> findAllVerticalMovablePositions(Position destination) {
         int start = Math.min(getYPosition(), destination.getY()) + 1;
         int end = Math.max(getYPosition(), destination.getY());
 
         return IntStream.rangeClosed(start, end)
                 .mapToObj(y -> new Position(getXPosition(), y))
-                .toList();
+                .collect(Collectors.toSet());
     }
 
-    private List<Position> findAllHorizontalMovablePositions(Position destination) {
+    private Set<Position> findAllHorizontalMovablePositions(Position destination) {
         int start = Math.min(getXPosition(), destination.getX()) + 1;
         int end = Math.max(getXPosition(), destination.getX());
 
         return IntStream.rangeClosed(start, end)
                 .mapToObj(x -> new Position(x, getYPosition()))
-                .toList();
+                .collect(Collectors.toSet());
     }
 
     private boolean isVerticalMove(Position destination) {

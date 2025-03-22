@@ -2,7 +2,6 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.Side;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -39,40 +38,40 @@ public class Elephant extends Piece {
     }
 
     private List<Piece> findAllPiecesOnPath(List<Piece> existingPieces, Position destination) {
-        Set<Position> path = new HashSet<>(findPaths(destination));
+        Set<Position> pathsToDestination = findPathsToDestination(destination);
 
         return existingPieces.stream()
-                .filter(existingPiece -> path.contains(existingPiece.getPosition()))
+                .filter(existingPiece -> pathsToDestination.contains(existingPiece.getPosition()))
                 .toList();
     }
 
-    private List<Position> findPaths(Position destination) {
+    private Set<Position> findPathsToDestination(Position destination) {
         if (isVerticalMove(destination)) {
             return findAllVerticalMovablePositions(destination);
         }
         return findAllHorizontalMovablePositions(destination);
     }
 
-    private List<Position> findAllVerticalMovablePositions(Position destination) {
+    private Set<Position> findAllVerticalMovablePositions(Position destination) {
         int x = getXPosition();
         int y = getYPosition();
         int xOffset = getXOffset(destination);
         int yOffset = getYOffset(destination);
 
-        return List.of(
+        return Set.of(
                 new Position(x, y + yOffset),
                 new Position(x + xOffset, y + 2 * yOffset),
                 new Position(x + 2 * xOffset, y + 3 * yOffset)
         );
     }
 
-    private List<Position> findAllHorizontalMovablePositions(Position destination) {
+    private Set<Position> findAllHorizontalMovablePositions(Position destination) {
         int x = getXPosition();
         int y = getYPosition();
         int xOffset = getXOffset(destination);
         int yOffset = getYOffset(destination);
 
-        return List.of(
+        return Set.of(
                 new Position(x + xOffset, y),
                 new Position(x + 2 * xOffset, y + yOffset),
                 new Position(x + 3 * xOffset, y + 2 * yOffset)
