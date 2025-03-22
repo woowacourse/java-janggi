@@ -1,7 +1,7 @@
 package controller;
 
-import domain.board.BoardPosition;
 import domain.Janggi;
+import domain.board.BoardPosition;
 import domain.board.SelectedPositions;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +24,7 @@ public class JanggiController {
 
     public void run() {
         final Janggi janggi = Janggi.initialize();
-        while (true) {
+        while (!janggi.isGameFinish()) {
             outputView.printBoard(janggi.getPieces(), janggi.getCurrentTeam());
 
             final String selectPosition = inputView.inputSelectPosition();

@@ -1,8 +1,8 @@
 package domain.piece;
 
+import domain.Team;
 import domain.board.BoardPosition;
 import domain.board.Offset;
-import domain.Team;
 import java.util.List;
 import java.util.stream.Stream;
 

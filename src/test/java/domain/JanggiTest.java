@@ -5,11 +5,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.board.Board;
 import domain.board.BoardPosition;
 import domain.board.SelectedPositions;
+import domain.piece.General;
 import domain.piece.Zzu;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class JanggiTest {
 
@@ -31,6 +36,29 @@ class JanggiTest {
 
             // then
             assertThat(janggi.getCurrentTeam()).isEqualTo(Team.RED);
+        }
+
+        @DisplayName("게임이 종료되었는지 확인한다.")
+        @ParameterizedTest
+        @MethodSource("provideBoard")
+        void isGameFinish(Board board, boolean gameFinishFlag) {
+            // given
+            Janggi janggi = new Janggi(board, new Turn(Team.GREEN));
+
+            // when & then
+            assertThat(janggi.isGameFinish()).isEqualTo(gameFinishFlag);
+        }
+
+        static Stream<Arguments> provideBoard() {
+            return Stream.of(
+                    Arguments.of(new Board(
+                            Map.of(new BoardPosition(0, 0), new General(Team.RED),
+                                    new BoardPosition(5, 5), new General(Team.GREEN))), false),
+                    Arguments.of(new Board(
+                            Map.of(new BoardPosition(0, 0), new General(Team.RED))), true),
+                    Arguments.of(new Board(
+                            Map.of(new BoardPosition(0, 0), new General(Team.GREEN))), true)
+            );
         }
     }
 }

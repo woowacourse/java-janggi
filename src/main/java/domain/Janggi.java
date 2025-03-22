@@ -45,6 +45,10 @@ public class Janggi {
         turn.change();
     }
 
+    public boolean isGameFinish() {
+        return board.findAliveGenerals().size() == 1;
+    }
+
     public Map<BoardPosition, Piece> getPieces() {
         return board.getPieces();
     }

@@ -3,9 +3,9 @@ package domain.piece;
 import static domain.board.Offset.DOWN;
 import static domain.board.Offset.UP;
 
+import domain.Team;
 import domain.board.BoardPosition;
 import domain.board.Offset;
-import domain.Team;
 import java.util.List;
 
 public class Zzu extends Piece {
