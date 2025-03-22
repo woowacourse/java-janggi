@@ -1,13 +1,10 @@
 package janggi.game;
 
-import janggi.piece.InitialPieces;
 import janggi.piece.Movable;
 import janggi.point.Point;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Board {
 
@@ -20,23 +17,13 @@ public class Board {
     }
 
     public static Board init(Team startTeam) {
-        Map<Point, Movable> runningPieces = Arrays.stream(InitialPieces.values())
-            .map(InitialPieces::getInitialPieces)
-            .flatMap(map -> map.entrySet().stream())
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        Map<Point, Movable> runningPieces = InitialPieces.getAllPieces();
 
         return new Board(runningPieces, startTeam);
     }
 
     public void reverseTurn() {
         this.turn = turn.reverse();
-    }
-
-    public Movable findPieceByPoint(Point point) {
-        if (runningPieces.containsKey(point)) {
-            return runningPieces.get(point);
-        }
-        throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
     }
 
     public void move(Point startPoint, Point targetPoint) {
@@ -105,6 +92,13 @@ public class Board {
         return (int) findRouteHurdles(route).stream()
             .filter(point -> !findPieceByPoint(point).getName().equals("포"))
             .count();
+    }
+
+    private Movable findPieceByPoint(Point point) {
+        if (runningPieces.containsKey(point)) {
+            return runningPieces.get(point);
+        }
+        throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
     }
 
     private List<Point> findRouteHurdles(List<Point> route) {
