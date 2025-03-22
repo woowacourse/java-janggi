@@ -35,8 +35,8 @@ public class PieceInitializer {
         board.put(new JanggiCoordinate(10, 6), new Sa(Country.CHO));
 
         // 궁(King) 배치
-        board.put(new JanggiCoordinate(1, 5), new Gung(Country.HAN));
-        board.put(new JanggiCoordinate(10, 5), new Gung(Country.CHO));
+        board.put(new JanggiCoordinate(2, 5), new Gung(Country.HAN));
+        board.put(new JanggiCoordinate(9, 5), new Gung(Country.CHO));
 
         // 포(Cannon) 배치
         board.put(new JanggiCoordinate(3, 2), new Pho(Country.HAN));
