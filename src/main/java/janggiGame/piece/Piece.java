@@ -11,13 +11,13 @@ public abstract class Piece {
         this.dynasty = dynasty;
     }
 
-    public void validateSameDynasty(Piece piece) {
+    public final void validateSameDynasty(Piece piece) {
         if (piece != null && piece.dynasty == this.dynasty) {
             throw new UnsupportedOperationException("[ERROR] 같은 나라의 말은 공격할 수 없습니다.");
         }
     }
 
-    public Dynasty getDynasty() {
+    public final Dynasty getDynasty() {
         return dynasty;
     }
 
