@@ -22,5 +22,4 @@ public class Cannon extends Piece {
     public List<Position> findAllRoute(Position source, Position destination) {
         return source.getBetweenPositions(destination);
     }
-
 }

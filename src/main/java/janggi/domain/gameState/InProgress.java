@@ -6,7 +6,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceColor;
 import janggi.domain.piece.PieceType;
 
-public abstract class InProgress implements State{
+public abstract class InProgress implements State {
     final PlayingBoard playingBoard;
     final PieceColor turnColor;
 
@@ -14,7 +14,6 @@ public abstract class InProgress implements State{
         this.playingBoard = playingBoard;
         this.turnColor = turnColor;
     }
-
 
     @Override
     public final State movePiece(PieceType pieceType, Position source, Position destination) {

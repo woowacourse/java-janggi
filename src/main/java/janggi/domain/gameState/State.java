@@ -10,5 +10,4 @@ public interface State {
     PieceColor getColor();
 
     boolean isFinished();
-
 }
