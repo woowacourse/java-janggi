@@ -58,15 +58,15 @@ public class Application {
 
     private void moveUntilStop(final Command command, final Board board, final String input) {
         if (!command.equals(Command.STOP)) {
-            move(board, input);
-        }
-    }
-
-    private void move(final Board board, final String input) {
-        try {
             final List<Integer> moveCommand = CommandParser.parseMoveCommand(input);
             final Position start = new Position(Row.of(moveCommand.get(0)), Column.of(moveCommand.get(1)));
             final Position end = new Position(Row.of(moveCommand.get(2)), Column.of(moveCommand.get(3)));
+            move(board, start, end);
+        }
+    }
+
+    private void move(final Board board, final Position start, final Position end) {
+        try {
             board.move(start, end);
             boardView.displayGame(board);
             boardView.displayTurn(board);
