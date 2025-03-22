@@ -1,7 +1,6 @@
 package domain.direction;
 
-import domain.piece.Position;
-
+import domain.spatial.Position;
 import java.util.List;
 
 public enum PieceDirection {

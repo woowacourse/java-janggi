@@ -5,7 +5,7 @@ import domain.Player;
 import domain.piece.Piece;
 import domain.piece.PieceColor;
 import domain.piece.Pieces;
-import domain.piece.Position;
+import domain.spatial.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class OutputView {
     public void printGameStart() {
         System.out.print("""
                  장기 게임을 시작합니다.
-
+                
                  - K : 왕
                  - h : 마
                  - r : 차

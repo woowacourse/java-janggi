@@ -16,6 +16,7 @@ import domain.piece.category.Guard;
 import domain.piece.category.Horse;
 import domain.piece.category.King;
 import domain.piece.category.Soldier;
+import domain.spatial.Position;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

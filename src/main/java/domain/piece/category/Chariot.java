@@ -2,7 +2,7 @@ package domain.piece.category;
 
 import domain.direction.Directions;
 import domain.piece.Piece;
-import domain.piece.Position;
+import domain.spatial.Position;
 
 public class Chariot extends Piece {
 

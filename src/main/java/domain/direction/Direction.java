@@ -1,6 +1,6 @@
 package domain.direction;
 
-import domain.piece.Position;
+import domain.spatial.Position;
 import java.util.ArrayList;
 import java.util.List;
 

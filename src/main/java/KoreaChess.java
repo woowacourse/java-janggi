@@ -4,7 +4,7 @@ import domain.piece.Piece;
 import domain.piece.PieceColor;
 import domain.piece.PieceInit;
 import domain.piece.Pieces;
-import domain.piece.Position;
+import domain.spatial.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

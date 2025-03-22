@@ -1,7 +1,6 @@
 package domain.direction;
 
-import domain.piece.Position;
-
+import domain.spatial.Position;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,7 +23,9 @@ public class Directions {
 
     @Override
     public boolean equals(final Object object) {
-        if (object == null || getClass() != object.getClass()) return false;
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
         Directions that = (Directions) object;
         return Objects.equals(directions, that.directions);
     }

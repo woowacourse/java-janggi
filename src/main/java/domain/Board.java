@@ -2,7 +2,7 @@ package domain;
 
 import domain.piece.Piece;
 import domain.piece.Pieces;
-import domain.piece.Position;
+import domain.spatial.Position;
 import java.util.List;
 import java.util.Map;
 

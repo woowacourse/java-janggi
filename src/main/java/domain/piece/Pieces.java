@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.spatial.Position;
 import java.util.List;
 
 public record Pieces(List<Piece> pieces) {
