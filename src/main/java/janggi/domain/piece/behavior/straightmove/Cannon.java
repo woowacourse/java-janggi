@@ -7,7 +7,7 @@ import janggi.domain.move.Vector;
 import java.util.List;
 import java.util.Set;
 
-public class Cannon extends StraightMoveBehavior {
+public final class Cannon extends StraightMoveBehavior {
 
     @Override
     public String toName() {

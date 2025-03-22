@@ -8,7 +8,7 @@ import janggi.domain.move.Vectors;
 import java.util.List;
 import java.util.Set;
 
-public class Elephant extends CrossMoveBehavior {
+public final class Elephant extends CrossMoveBehavior {
 
     @Override
     protected List<Vectors> getVectorsList() {

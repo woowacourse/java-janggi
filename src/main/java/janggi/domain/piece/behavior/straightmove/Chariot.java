@@ -7,7 +7,7 @@ import janggi.domain.move.Vector;
 import java.util.List;
 import java.util.Set;
 
-public class Chariot extends StraightMoveBehavior {
+public final class Chariot extends StraightMoveBehavior {
 
     @Override
     protected List<Vector> getVectors() {

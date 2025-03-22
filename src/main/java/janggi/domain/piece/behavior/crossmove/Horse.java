@@ -8,7 +8,7 @@ import janggi.domain.move.Vectors;
 import java.util.List;
 import java.util.Set;
 
-public class Horse extends CrossMoveBehavior {
+public final class Horse extends CrossMoveBehavior {
 
     @Override
     protected List<Vectors> getVectorsList() {

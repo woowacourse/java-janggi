@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Soldier implements PieceBehavior {
+public final class Soldier implements PieceBehavior {
 
     private static final List<Vector> VECTORS = List.of(new Vector(1, 0), new Vector(0, -1), new Vector(0, 1));
 
