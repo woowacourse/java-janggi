@@ -4,21 +4,21 @@ import domain.direction.Directions;
 import domain.piece.Piece;
 import domain.piece.Position;
 
-public class King extends Piece {
+public class General extends Piece {
 
     private static final String NAME = "K";
 
-    public King(final int row, final int column, final Directions directions) {
+    public General(final int row, final int column, final Directions directions) {
         super(row, column, directions);
     }
 
-    public King(final Position position, final Directions directions) {
+    public General(final Position position, final Directions directions) {
         super(position, directions);
     }
 
     @Override
-    public King updatePosition(final Position position) {
-        return new King(position, directions);
+    public General updatePosition(final Position position) {
+        return new General(position, directions);
     }
 
     @Override

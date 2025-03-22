@@ -7,6 +7,7 @@ import domain.piece.Position;
 public class Cannon extends Piece {
 
     private static final String NAME = "c";
+    private String type = "CANNON";
 
     public Cannon(final int row, final int column, final Directions directions) {
         super(row, column, directions);

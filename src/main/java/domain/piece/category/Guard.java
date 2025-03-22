@@ -4,21 +4,21 @@ import domain.direction.Directions;
 import domain.piece.Piece;
 import domain.piece.Position;
 
-public class Pawn extends Piece {
+public class Guard extends Piece {
 
-    private static final String NAME = "p";
+    private static final String NAME = "a";
 
-    public Pawn(final int row, final int column, final Directions directions) {
+    public Guard(final int row, final int column, final Directions directions) {
         super(row, column, directions);
     }
 
-    public Pawn(final Position position, final Directions directions) {
+    public Guard(final Position position, final Directions directions) {
         super(position, directions);
     }
 
     @Override
-    public Pawn updatePosition(final Position position) {
-        return new Pawn(position, directions);
+    public Guard updatePosition(final Position position) {
+        return new Guard(position, directions);
     }
 
     @Override

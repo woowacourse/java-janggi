@@ -4,21 +4,21 @@ import domain.direction.Directions;
 import domain.piece.Piece;
 import domain.piece.Position;
 
-public class Rook extends Piece {
+public class Soldier extends Piece {
 
-    private static final String NAME = "r";
+    private static final String NAME = "p";
 
-    public Rook(final int row, final int column, final Directions directions) {
+    public Soldier(final int row, final int column, final Directions directions) {
         super(row, column, directions);
     }
 
-    public Rook(final Position position, final Directions directions) {
+    public Soldier(final Position position, final Directions directions) {
         super(position, directions);
     }
 
     @Override
-    public Rook updatePosition(final Position position) {
-        return new Rook(position, directions);
+    public Soldier updatePosition(final Position position) {
+        return new Soldier(position, directions);
     }
 
     @Override

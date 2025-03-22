@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import domain.direction.Directions;
 import domain.direction.PieceDirection;
 import domain.piece.category.Cannon;
+import domain.piece.category.General;
 import domain.piece.category.Horse;
-import domain.piece.category.King;
-import domain.piece.category.Pawn;
+import domain.piece.category.Soldier;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -22,9 +22,9 @@ class PiecesTest {
         Horse expected = new Horse(1, 5, new Directions(List.of()));
 
         Pieces pieces = new Pieces(List.of(
-                new King(2, 5, new Directions(List.of())),
+                new General(2, 5, new Directions(List.of())),
                 expected,
-                new Pawn(5, 7, new Directions(List.of()))
+                new Soldier(5, 7, new Directions(List.of()))
         ));
 
         // when
@@ -38,11 +38,11 @@ class PiecesTest {
     void 좌표_목록에_일치하는_기물_개수를_계산한다() {
         // given
         Pieces pieces = new Pieces(List.of(
-                new King(2, 5, new Directions(List.of())),
+                new General(2, 5, new Directions(List.of())),
                 new Horse(1, 5, new Directions(List.of())),
-                new Pawn(5, 7, new Directions(List.of())),
-                new Pawn(8, 1, new Directions(List.of())),
-                new Pawn(2, 4, new Directions(List.of()))
+                new Soldier(5, 7, new Directions(List.of())),
+                new Soldier(8, 1, new Directions(List.of())),
+                new Soldier(2, 4, new Directions(List.of()))
         ));
 
         List<Position> positions = List.of(
@@ -61,7 +61,7 @@ class PiecesTest {
     @Test
     void 기물의_좌표를_변경한다() {
         // given
-        Piece piece = new King(2, 5, new Directions(List.of()));
+        Piece piece = new General(2, 5, new Directions(List.of()));
         Position position = Position.of(3, 5);
 
         List<Piece> pieceElements = new ArrayList<>();
@@ -83,7 +83,7 @@ class PiecesTest {
         Position position = Position.of(3, 5);
 
         Pieces pieces = new Pieces(List.of(
-                new King(2, 5, new Directions(List.of())),
+                new General(2, 5, new Directions(List.of())),
                 new Horse(3, 5, new Directions(List.of()))
         ));
 
@@ -98,7 +98,7 @@ class PiecesTest {
     @Test
     void 좌표의_기물을_삭제한다() {
         // given
-        Piece piece = new King(2, 5, new Directions(List.of()));
+        Piece piece = new General(2, 5, new Directions(List.of()));
         Position position = Position.of(2, 5);
 
         List<Piece> pieceElements = new ArrayList<>();
@@ -117,7 +117,7 @@ class PiecesTest {
     void 왕이_존재하는지_판단하다() {
         // given
         Pieces pieces = new Pieces(new ArrayList<>());
-        Pieces piecesInKing = new Pieces(List.of(new King(5, 2, PieceDirection.KING.get())));
+        Pieces piecesInKing = new Pieces(List.of(new General(5, 2, PieceDirection.KING.get())));
 
         // when & then
         assertThat(pieces.existKing()).isFalse();

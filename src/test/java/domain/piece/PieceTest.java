@@ -5,13 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.direction.Direction;
 import domain.direction.Directions;
-import domain.piece.category.Advisor;
 import domain.piece.category.Cannon;
+import domain.piece.category.Chariot;
 import domain.piece.category.Elephant;
+import domain.piece.category.General;
+import domain.piece.category.Guard;
 import domain.piece.category.Horse;
-import domain.piece.category.King;
-import domain.piece.category.Pawn;
-import domain.piece.category.Rook;
+import domain.piece.category.Soldier;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -79,13 +79,13 @@ class PieceTest {
     @Test
     void 왕인지_판단한다() {
         // given
-        final Piece king = new King(1, 2, new Directions(List.of()));
-        final Piece advisor = new Advisor(1, 2, new Directions(List.of()));
+        final Piece king = new General(1, 2, new Directions(List.of()));
+        final Piece advisor = new Guard(1, 2, new Directions(List.of()));
         final Piece cannon = new Cannon(1, 2, new Directions(List.of()));
         final Piece elephant = new Elephant(1, 2, new Directions(List.of()));
         final Piece horse = new Horse(1, 2, new Directions(List.of()));
-        final Piece pawn = new Pawn(1, 2, new Directions(List.of()));
-        final Piece rook = new Rook(1, 2, new Directions(List.of()));
+        final Piece pawn = new Soldier(1, 2, new Directions(List.of()));
+        final Piece rook = new Chariot(1, 2, new Directions(List.of()));
         final Piece piece = new TestPiece(1, 2, new Directions(List.of()));
 
         // when & then
@@ -105,12 +105,12 @@ class PieceTest {
     void 포인지_판단한다() {
         // given
         final Piece cannon = new Cannon(1, 2, new Directions(List.of()));
-        final Piece king = new King(1, 2, new Directions(List.of()));
-        final Piece advisor = new Advisor(1, 2, new Directions(List.of()));
+        final Piece king = new General(1, 2, new Directions(List.of()));
+        final Piece advisor = new Guard(1, 2, new Directions(List.of()));
         final Piece elephant = new Elephant(1, 2, new Directions(List.of()));
         final Piece horse = new Horse(1, 2, new Directions(List.of()));
-        final Piece pawn = new Pawn(1, 2, new Directions(List.of()));
-        final Piece rook = new Rook(1, 2, new Directions(List.of()));
+        final Piece pawn = new Soldier(1, 2, new Directions(List.of()));
+        final Piece rook = new Chariot(1, 2, new Directions(List.of()));
         final Piece piece = new TestPiece(1, 2, new Directions(List.of()));
 
         // when & then
