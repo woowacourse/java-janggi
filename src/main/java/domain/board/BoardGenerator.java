@@ -1,9 +1,9 @@
 package domain.board;
 
-import static domain.board.Point.END_COLUMN_INDEX;
-import static domain.board.Point.END_ROW_INDEX;
-import static domain.board.Point.START_COLUMN_INDEX;
-import static domain.board.Point.START_ROW_INDEX;
+import static domain.board.Point.MAX_COLUMN_INDEX;
+import static domain.board.Point.MAX_ROW_INDEX;
+import static domain.board.Point.MIN_COLUMN_INDEX;
+import static domain.board.Point.MIN_ROW_INDEX;
 
 import domain.piece.Byeong;
 import domain.piece.Cha;
@@ -36,16 +36,16 @@ public class BoardGenerator {
     public Map<Point, Node> initializeNodesAndEdges() {
         Map<Point, Node> nodeByPoint = new HashMap<>();
 
-        for (int row = START_ROW_INDEX; row <= END_ROW_INDEX; row++) {
-            for (int column = START_COLUMN_INDEX; column <= END_COLUMN_INDEX; column++) {
+        for (int row = MIN_ROW_INDEX; row <= MAX_ROW_INDEX; row++) {
+            for (int column = MIN_COLUMN_INDEX; column <= MAX_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
                 Node currentNode = new Node(point);
                 nodeByPoint.put(point, currentNode);
             }
         }
 
-        for (int row = START_ROW_INDEX; row <= END_ROW_INDEX; row++) {
-            for (int column = START_COLUMN_INDEX; column <= END_COLUMN_INDEX; column++) {
+        for (int row = MIN_ROW_INDEX; row <= MAX_ROW_INDEX; row++) {
+            for (int column = MIN_COLUMN_INDEX; column <= MAX_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
                 Node currentNode = nodeByPoint.get(point);
                 currentNode.addAllEdges(createEdges(row, column, nodeByPoint));
@@ -150,7 +150,7 @@ public class BoardGenerator {
     }
 
     private boolean isInRange(int row, int column) {
-        return START_ROW_INDEX <= row && row <= END_ROW_INDEX
-                && START_COLUMN_INDEX <= column && column <= END_COLUMN_INDEX;
+        return MIN_ROW_INDEX <= row && row <= MAX_ROW_INDEX
+                && MIN_COLUMN_INDEX <= column && column <= MAX_COLUMN_INDEX;
     }
 }

@@ -1,9 +1,9 @@
 package view;
 
-import static domain.board.Point.END_COLUMN_INDEX;
-import static domain.board.Point.END_ROW_INDEX;
-import static domain.board.Point.START_COLUMN_INDEX;
-import static domain.board.Point.START_ROW_INDEX;
+import static domain.board.Point.MAX_COLUMN_INDEX;
+import static domain.board.Point.MAX_ROW_INDEX;
+import static domain.board.Point.MIN_COLUMN_INDEX;
+import static domain.board.Point.MIN_ROW_INDEX;
 
 import domain.board.Board;
 import domain.board.Point;
@@ -23,11 +23,11 @@ public class OutputView {
         Map<Point, Piece> pieceByPoint = board.getPieceByPoint();
 
         List<List<String>> boardString = new ArrayList<>();
-        for (int row = START_ROW_INDEX; row <= END_ROW_INDEX; row++) {
+        for (int row = MIN_ROW_INDEX; row <= MAX_ROW_INDEX; row++) {
 
             List<String> rowString = new ArrayList<>();
             boardString.add(rowString);
-            for (int column = START_COLUMN_INDEX; column <= END_COLUMN_INDEX; column++) {
+            for (int column = MIN_COLUMN_INDEX; column <= MAX_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
                 if (!board.existsPieceByPoint(point)) {
                     rowString.add(Painter.paintWhite("ㅁ"));
