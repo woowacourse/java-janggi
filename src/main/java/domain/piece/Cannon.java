@@ -1,18 +1,26 @@
 package domain.piece;
 
-import domain.Direction;
-import domain.Position;
+import domain.position.Column;
+import domain.position.Direction;
+import domain.Path;
+import domain.position.Position;
+import domain.position.Row;
 import domain.TeamType;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Cannon extends Piece {
-    private static final List<Direction> directions;
+    private static final List<Path> PATHS;
 
     static {
-        directions = List.of(Direction.DOWN, Direction.UP, Direction.LEFT, Direction.RIGHT);
+        PATHS = List.of(
+                new Path(new ArrayList<>(Collections.nCopies(Row.MAX_ROW, Direction.DOWN))),
+                new Path(new ArrayList<>(Collections.nCopies(Row.MAX_ROW, Direction.UP))),
+                new Path(new ArrayList<>(Collections.nCopies(Column.MAX_COLUMN, Direction.LEFT))),
+                new Path(new ArrayList<>(Collections.nCopies(Column.MAX_COLUMN, Direction.RIGHT)))
+        );
     }
-
 
     public Cannon(Position position, TeamType teamType) {
         super(position, teamType);
@@ -23,40 +31,25 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public boolean canMove(Position expectedPosition, List<Piece> pieces) {
-        Direction direction = findDirectionToReachAt(expectedPosition);
-        if (direction == null) {
-            return false;
+    protected void validateMovePath(List<Position> pathPositions, List<Piece> alivePieces) {
+        if(hasCannonOnPath(pathPositions, alivePieces)){
+            throw new IllegalArgumentException("포는 뛰어넘을 수 없습니다.");
         }
-        if (hasCannonPieceAtIntermediatePositions(expectedPosition, pieces, direction)) {
-            return false;
+
+        int jumpPieceCount = countBlockedPiece(pathPositions, alivePieces);
+        if(jumpPieceCount != 1){
+            throw new IllegalArgumentException("포는 하나의 기물을 넘어야 합니다.");
         }
-        if (hasOnlyOnePieceAtIntermediatePositions(expectedPosition, pieces, direction)) {
-            return false;
-        }
-        return hasNotTeamAtPosition(expectedPosition, pieces, (piece -> piece.isSameType(PieceType.CANNON)));
     }
 
-    private boolean hasCannonPieceAtIntermediatePositions(Position expectedPosition, List<Piece> pieces,
-                                                          Direction direction) {
-        List<Position> intermediatePositions = findIntermediatePositions(direction, this.position, expectedPosition);
-        return hasCannon(intermediatePositions, pieces);
-    }
-
-    private boolean hasCannon(List<Position> intermediatePositions, List<Piece> alivePieces) {
-        return intermediatePositions.stream()
+    private boolean hasCannonOnPath(List<Position> pathPositions, List<Piece> alivePieces) {
+        return pathPositions.stream()
                 .anyMatch(position -> hasCannonPieceTo(position, alivePieces));
     }
 
     private boolean hasCannonPieceTo(Position position, List<Piece> alivePieces) {
         return alivePieces.stream()
-                .anyMatch(piece -> piece.hasSamePosition(position) && piece.isSameType(PieceType.CANNON));
-    }
-
-    private int countBlockedPiece(List<Position> intermediatePositions, List<Piece> alivePieces) {
-        return (int) intermediatePositions.stream()
-                .filter(position -> hasPieceTo(position, alivePieces))
-                .count();
+                .anyMatch(piece -> piece.hasSamePosition(position));
     }
 
     private boolean hasPieceTo(Position position, List<Piece> alivePieces) {
@@ -64,42 +57,10 @@ public class Cannon extends Piece {
                 .anyMatch(piece -> piece.hasSamePosition(position));
     }
 
-    private boolean hasOnlyOnePieceAtIntermediatePositions(Position expectedPosition, List<Piece> pieces,
-                                                           Direction direction) {
-        List<Position> intermediatePositions = findIntermediatePositions(direction, this.position, expectedPosition);
-        return countBlockedPiece(intermediatePositions, pieces) != 1;
-    }
-
-    private Direction findDirectionToReachAt(Position expectedPosition) {
-        for (Direction nextDirection : directions) {
-            Direction findDirection = findDirection(expectedPosition, nextDirection);
-            if (findDirection != null) {
-                return findDirection;
-            }
-        }
-        return null;
-    }
-
-    private Direction findDirection(Position expectedPosition, Direction nextDirection) {
-        Position current = this.position;
-        while (current.canMovePosition(nextDirection.getDeltaRow(), nextDirection.getDeltaColumn())) {
-            current = current.movePosition(nextDirection.getDeltaRow(), nextDirection.getDeltaColumn());
-            if (current.equals(expectedPosition)) {
-                return nextDirection;
-            }
-        }
-        return null;
-    }
-
-    private List<Position> findIntermediatePositions(Direction direction, Position start, Position end) {
-        Position cur = start;
-        List<Position> positions = new ArrayList<>();
-        while (!cur.equals(end)) {
-            cur = cur.movePosition(direction.getDeltaRow(), direction.getDeltaColumn());
-            positions.add(cur);
-        }
-        positions.removeLast();
-        return positions;
+    private int countBlockedPiece(List<Position> intermediatePositions, List<Piece> alivePieces) {
+        return (int) intermediatePositions.stream()
+                .filter(position -> hasPieceTo(position, alivePieces))
+                .count();
     }
 
     @Override
@@ -112,4 +73,8 @@ public class Cannon extends Piece {
         return new Cannon(this);
     }
 
+    @Override
+    protected List<Path> getPaths() {
+        return PATHS;
+    }
 }

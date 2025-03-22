@@ -1,23 +1,18 @@
 package domain;
 
+import domain.position.Direction;
+import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Movement {
+public class Path {
     private final List<Direction> movement;
 
-    public Movement(List<Direction> movement) {
+    public Path(List<Direction> movement) {
         this.movement = movement;
     }
 
-    public List<Position> findIntermediatePositions(Position startPosition, Position endPosition) {
-        if (isValidMove(startPosition, endPosition)) {
-            return getPathPositionsFrom(startPosition);
-        }
-        throw new IllegalArgumentException("지정한 포지션으로 이동할 수 없습니다.");
-    }
-
-    public boolean isValidMove(Position startPosition, Position endPosition) {
+    public boolean canReachFromTo(Position startPosition, Position endPosition) {
         Position curPosition = startPosition;
         for (Direction direction : movement) {
             if (isInvalidMove(curPosition, direction)) {
@@ -28,7 +23,7 @@ public class Movement {
         return curPosition.equals(endPosition);
     }
 
-    private List<Position> getPathPositionsFrom(Position startPosition) {
+    public List<Position> findPathPositionsFrom(Position startPosition) {
         List<Position> pathPositions = new ArrayList<>();
 
         for (Direction direction : movement) {

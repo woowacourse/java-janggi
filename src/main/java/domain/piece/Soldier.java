@@ -1,29 +1,26 @@
 package domain.piece;
 
-import domain.Direction;
-import domain.Movement;
-import domain.Movements;
-import domain.Position;
+import domain.position.Direction;
+import domain.Path;
+import domain.position.Position;
 import domain.TeamType;
 import java.util.List;
 import java.util.Map;
 
 public class Soldier extends Piece {
-    private static final Map<TeamType, Movements> MOVEMENTS;
+    private static final Map<TeamType, List<Path>> TEAM_PATH;
 
     static {
-        MOVEMENTS = Map.of(
+        TEAM_PATH = Map.of(
                 TeamType.CHO,
-                new Movements(
-                        List.of(new Movement(List.of(Direction.UP)),
-                                new Movement(List.of(Direction.RIGHT)),
-                                new Movement(List.of(Direction.LEFT)))
+                List.of(new Path(List.of(Direction.UP)),
+                        new Path(List.of(Direction.RIGHT)),
+                        new Path(List.of(Direction.LEFT))
                 ),
                 TeamType.HAN,
-                new Movements(
-                        List.of(new Movement(List.of(Direction.DOWN)),
-                                new Movement(List.of(Direction.RIGHT)),
-                                new Movement(List.of(Direction.LEFT)))
+                List.of(new Path(List.of(Direction.DOWN)),
+                        new Path(List.of(Direction.RIGHT)),
+                        new Path(List.of(Direction.LEFT))
                 )
         );
     }
@@ -37,15 +34,6 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public boolean canMove(Position expectedPosition, List<Piece> pieces) {
-        Movements findMovement = MOVEMENTS.get(this.teamType);
-        if(!findMovement.canMovePieceToPosition(this, expectedPosition, pieces)){
-            return false;
-        };
-        return hasNotTeamAtPosition(expectedPosition,pieces,(piece -> false));
-    }
-
-    @Override
     public PieceType getType() {
         return PieceType.SOLDIER;
     }
@@ -53,5 +41,13 @@ public class Soldier extends Piece {
     @Override
     public Piece newInstance() {
         return new Soldier(this);
+    }
+
+    @Override
+    protected List<Path> getPaths() {
+        if(!TEAM_PATH.containsKey(teamType)){
+            throw new IllegalStateException("존재하지 않는 팀입니다.");
+        }
+        return TEAM_PATH.get(teamType);
     }
 }

@@ -1,23 +1,20 @@
 package domain.piece;
 
-import domain.Direction;
-import domain.Movement;
-import domain.Movements;
-import domain.Position;
+import domain.position.Direction;
+import domain.Path;
+import domain.position.Position;
 import domain.TeamType;
 import java.util.List;
 
 public class Guard extends Piece {
-    private static final Movements MOVEMENTS;
+    private static final List<Path> PATHS;
 
     static {
-        MOVEMENTS = new Movements(
-                List.of(
-                        new Movement(List.of(Direction.UP)),
-                        new Movement(List.of(Direction.DOWN)),
-                        new Movement(List.of(Direction.RIGHT)),
-                        new Movement(List.of(Direction.LEFT))
-                )
+        PATHS = List.of(
+                new Path(List.of(Direction.UP)),
+                new Path(List.of(Direction.DOWN)),
+                new Path(List.of(Direction.RIGHT)),
+                new Path(List.of(Direction.LEFT))
         );
     }
 
@@ -30,14 +27,6 @@ public class Guard extends Piece {
     }
 
     @Override
-    public boolean canMove(Position expectedPosition, List<Piece> pieces) {
-        if(!MOVEMENTS.canMovePieceToPosition(this, expectedPosition, pieces)){
-            return false;
-        };
-        return hasNotTeamAtPosition(expectedPosition,pieces,(piece -> false));
-    }
-
-    @Override
     public PieceType getType() {
         return PieceType.GUARD;
     }
@@ -45,5 +34,10 @@ public class Guard extends Piece {
     @Override
     public Piece newInstance() {
         return new Guard(this);
+    }
+
+    @Override
+    protected List<Path> getPaths() {
+        return PATHS;
     }
 }

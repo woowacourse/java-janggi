@@ -1,17 +1,26 @@
 package domain.piece;
 
-import domain.Direction;
-import domain.Position;
+import domain.position.Column;
+import domain.position.Direction;
+import domain.Path;
+import domain.position.Position;
+import domain.position.Row;
 import domain.TeamType;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Chariot extends Piece {
 
-    private static final List<Direction> directions;
+    private static final List<Path> PATHS;
 
     static {
-        directions = List.of(Direction.DOWN,Direction.UP,Direction.LEFT,Direction.RIGHT);
+        PATHS = List.of(
+                new Path(new ArrayList<>(Collections.nCopies(Row.MAX_ROW, Direction.DOWN))),
+                new Path(new ArrayList<>(Collections.nCopies(Row.MAX_ROW, Direction.UP))),
+                new Path(new ArrayList<>(Collections.nCopies(Column.MAX_COLUMN, Direction.LEFT))),
+                new Path(new ArrayList<>(Collections.nCopies(Column.MAX_COLUMN, Direction.RIGHT)))
+        );
     }
 
     public Chariot(Position position, TeamType teamType) {
@@ -20,66 +29,6 @@ public class Chariot extends Piece {
 
     private Chariot(Chariot chariot){
         super(chariot);
-    }
-
-    @Override
-    public boolean canMove(Position expectedPosition, List<Piece> pieces) {
-        Direction direction = findDirectionToReachAt(expectedPosition);
-        if (direction == null) {
-            return false;
-        }
-        if (hasPieceAtIntermediatePositions(expectedPosition, pieces, direction)) {
-            return false;
-        }
-        return hasNotTeamAtPosition(expectedPosition, pieces, (piece -> false));
-    }
-
-    private boolean hasPieceAtIntermediatePositions(Position expectedPosition, List<Piece> pieces,
-                                                    Direction direction) {
-        List<Position> intermediatePositions = findIntermediatePositions(direction, this.position, expectedPosition);
-        return hasBlockedPiece(intermediatePositions, pieces);
-    }
-
-    private boolean hasBlockedPiece(List<Position> intermediatePositions, List<Piece> alivePieces) {
-        return intermediatePositions.stream()
-                .anyMatch(position -> hasPieceTo(position, alivePieces));
-    }
-
-    private boolean hasPieceTo(Position position, List<Piece> alivePieces) {
-        return alivePieces.stream()
-                .anyMatch(piece -> piece.hasSamePosition(position));
-    }
-
-    private Direction findDirectionToReachAt(Position expectedPosition) {
-        for (Direction nextDirection : directions) {
-            Direction findDirection = findDirection(expectedPosition, nextDirection);
-            if (findDirection != null) {
-                return findDirection;
-            }
-        }
-        return null;
-    }
-
-    private Direction findDirection(Position expectedPosition, Direction nextDirection) {
-        Position current = this.position;
-        while (current.canMovePosition(nextDirection.getDeltaRow(), nextDirection.getDeltaColumn())) {
-            current = current.movePosition(nextDirection.getDeltaRow(), nextDirection.getDeltaColumn());
-            if (current.equals(expectedPosition)) {
-                return nextDirection;
-            }
-        }
-        return null;
-    }
-
-    private List<Position> findIntermediatePositions(Direction direction, Position start, Position end) {
-        Position cur = start;
-        List<Position> positions = new ArrayList<>();
-        while (!cur.equals(end)) {
-            cur = cur.movePosition(direction.getDeltaRow(), direction.getDeltaColumn());
-            positions.add(cur);
-        }
-        positions.removeLast();
-        return positions;
     }
 
     @Override
@@ -92,4 +41,8 @@ public class Chariot extends Piece {
         return new Chariot(this);
     }
 
+    @Override
+    protected List<Path> getPaths() {
+        return PATHS;
+    }
 }

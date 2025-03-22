@@ -1,9 +1,10 @@
 package domain.piece;
 
-import domain.Position;
+import domain.Path;
+import domain.position.Position;
 import domain.TeamType;
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.Optional;
 
 public abstract class Piece {
     protected Position position;
@@ -39,15 +40,45 @@ public abstract class Piece {
         return this.getType().equals(pieceType);
     }
 
-    protected boolean hasNotTeamAtPosition(Position expectedPosition, List<Piece> alivePieces,
-                                        Predicate<Piece> predicate) {
-        boolean hasTeamAtPosition = alivePieces.stream()
-                .anyMatch(piece -> piece.hasSamePosition(expectedPosition) && (piece.isSameTeam(this) || predicate.test(
-                        piece)));
-        return !hasTeamAtPosition;
+    public boolean validateMove(Position expectedPosition, List<Piece> alivePieces) {
+        Path path = findReachablePath(expectedPosition)
+                .orElseThrow(() -> new IllegalArgumentException("지정한 포지션으로 이동할 수 없습니다."));
+
+        List<Position> pathPositions = path.findPathPositionsFrom(position);
+        validateMovePath(pathPositions, alivePieces);
+
+        validateDestination(expectedPosition, alivePieces);
+
+        return true;
     }
 
-    public abstract boolean canMove(Position expectedPosition, List<Piece> pieces);
+    private Optional<Path> findReachablePath(Position expectedPosition) {
+        return this.getPaths().stream()
+                .filter(path -> path.canReachFromTo(position, expectedPosition))
+                .findFirst();
+    }
+
+    protected void validateMovePath(List<Position> pathPositions, List<Piece> alivePieces) {
+        if (hasPieceOnPath(pathPositions, alivePieces)) {
+            throw new IllegalArgumentException("다른 기물이 막고 있어 이동할 수 없습니다.");
+        }
+    }
+
+    protected void validateDestination(Position expectedPosition, List<Piece> alivePieces) {
+        boolean hasTeamAtPosition = alivePieces.stream()
+                .anyMatch(piece -> piece.hasSamePosition(expectedPosition) && piece.isSameTeam(this));
+        if (hasTeamAtPosition) {
+            throw new IllegalArgumentException("도착 지점에 같은 팀의 기물이 있어 이동할 수 없습니다.");
+        }
+    }
+
+    private boolean hasPieceOnPath(List<Position> positions, List<Piece> alivePieces) {
+        return positions.stream()
+                .anyMatch(pos -> alivePieces.stream()
+                        .anyMatch(piece -> piece.hasSamePosition(pos)));
+    }
+
+    protected abstract List<Path> getPaths();
 
     public Position getPosition() {
         return position;
