@@ -20,4 +20,9 @@ public class Cannon extends Piece {
     public List<Position> findAllRoute(PiecePath path) {
         return path.getBetweenPositions();
     }
+
+    @Override
+    public boolean isEmptyPiece() {
+        return false;
+    }
 }

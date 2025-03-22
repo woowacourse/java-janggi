@@ -31,4 +31,9 @@ public class Horse extends Piece {
         Position route = path.getFractionalPosition(2);
         return List.of(route);
     }
+
+    @Override
+    public boolean isEmptyPiece() {
+        return false;
+    }
 }

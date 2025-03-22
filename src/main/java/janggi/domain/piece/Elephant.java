@@ -37,4 +37,9 @@ public class Elephant extends Piece {
         positions.add(secondPosition);
         return positions;
     }
+
+    @Override
+    public boolean isEmptyPiece() {
+        return false;
+    }
 }

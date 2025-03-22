@@ -21,4 +21,9 @@ public class General extends Piece {
     public List<Position> findAllRoute(PiecePath path) {
         return List.of();
     }
+
+    @Override
+    public boolean isEmptyPiece() {
+        return false;
+    }
 }
