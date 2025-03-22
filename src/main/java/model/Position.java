@@ -1,6 +1,7 @@
 package model;
 
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,63 +20,91 @@ public class Position {
         this.row = Row.getRowBy(columnAndRow.getLast());
     }
 
-    public Position moveUp() {
+    public List<Position> findUpDirection(Position arrival) {
+        if (this.canMoveUp() && this.moveUp().equals(arrival)) {
+            return List.of(this.moveUp());
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Position> findDownDirection( Position arrival) {
+        if (this.canMoveDown() && this.moveDown().equals(arrival)) {
+            return List.of(this.moveDown());
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Position> findLeftDirection(Position arrival) {
+        if (this.canMoveLeft() && this.moveLeft().equals(arrival)) {
+            return List.of(this.moveLeft());
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Position> findRightDirection(Position arrival) {
+        if (this.canMoveRight() && this.moveRight().equals(arrival)) {
+            return List.of(this.moveRight());
+        }
+        return Collections.emptyList();
+    }
+
+    private Position moveUp() {
         return new Position(column, row.down());
     }
 
-    public boolean canMoveUp() {
+    private boolean canMoveUp() {
         return row.canDown();
     }
 
-    public Position moveDown() {
+    private Position moveDown() {
         return new Position(column, row.up());
     }
 
-    public boolean canMoveDown() {
+    private boolean canMoveDown() {
         return row.canUp();
     }
 
-    public Position moveLeft() {
+    private Position moveLeft() {
         return new Position(column.down(), row);
     }
 
-    public boolean canMoveLeft() {
+    private boolean canMoveLeft() {
         return column.canDown();
     }
 
-    public Position moveRight() {
+    private Position moveRight() {
         return new Position(column.up(), row);
     }
 
-    public boolean canMoveRight() {
+    private boolean canMoveRight() {
         return column.canUp();
     }
 
-    public Position moveUpRight() {
+    private Position moveUpRight() {
         return new Position(column.up(), row.down());
     }
 
-    public boolean canMoveUpRight() {
+    private boolean canMoveUpRight() {
         return column.canUp() && row.canDown();
     }
 
-    public Position moveUpLeft() {
+    private Position moveUpLeft() {
         return new Position(column.down(), row.down());
     }
 
-    public boolean canMoveUpLeft() {
+    private boolean canMoveUpLeft() {
         return column.canDown() && row.canDown();
     }
 
-    public Position moveDownRight() {
+    private Position moveDownRight() {
         return new Position(column.up(), row.up());
     }
 
-    public boolean canMoveDownRight() {
+    private boolean canMoveDownRight() {
         return column.canUp() && row.canUp();
     }
 
-    public Position moveDownLeft() {
+    private Position moveDownLeft() {
         return new Position(column.down(), row.up());
     }
 
