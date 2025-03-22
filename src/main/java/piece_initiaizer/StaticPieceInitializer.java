@@ -20,48 +20,64 @@ public final class StaticPieceInitializer implements PieceInitializer {
 
         insertIntoMap(
                 board,
-                new Piece(new Position(PositionFile.가, PositionRank.ofEachCountry(1, country)), PieceType.ROOK),
-                new Piece(new Position(PositionFile.라, PositionRank.ofEachCountry(1, country)), PieceType.GUARD),
-                new Piece(new Position(PositionFile.바, PositionRank.ofEachCountry(1, country)), PieceType.GUARD),
-                new Piece(new Position(PositionFile.자, PositionRank.ofEachCountry(1, country)), PieceType.ROOK),
-                new Piece(new Position(PositionFile.마, PositionRank.ofEachCountry(2, country)), PieceType.GENERAL),
-                new Piece(new Position(PositionFile.나, PositionRank.ofEachCountry(3, country)), PieceType.CANNON),
-                new Piece(new Position(PositionFile.아, PositionRank.ofEachCountry(3, country)), PieceType.CANNON),
-                new Piece(new Position(PositionFile.가, PositionRank.ofEachCountry(4, country)), SOLDIER),
-                new Piece(new Position(PositionFile.다, PositionRank.ofEachCountry(4, country)), SOLDIER),
-                new Piece(new Position(PositionFile.마, PositionRank.ofEachCountry(4, country)), SOLDIER),
-                new Piece(new Position(PositionFile.사, PositionRank.ofEachCountry(4, country)), SOLDIER),
-                new Piece(new Position(PositionFile.자, PositionRank.ofEachCountry(4, country)), SOLDIER)
+                new Piece(new Position(PositionFile.FILE_1, PositionRank.ofEachCountry(1, country)), PieceType.ROOK),
+                new Piece(new Position(PositionFile.FILE_4, PositionRank.ofEachCountry(1, country)), PieceType.GUARD),
+                new Piece(new Position(PositionFile.FILE_6, PositionRank.ofEachCountry(1, country)), PieceType.GUARD),
+                new Piece(new Position(PositionFile.FILE_9, PositionRank.ofEachCountry(1, country)), PieceType.ROOK),
+                new Piece(new Position(PositionFile.FILE_5, PositionRank.ofEachCountry(2, country)), PieceType.GENERAL),
+                new Piece(new Position(PositionFile.FILE_2, PositionRank.ofEachCountry(3, country)), PieceType.CANNON),
+                new Piece(new Position(PositionFile.FILE_8, PositionRank.ofEachCountry(3, country)), PieceType.CANNON),
+                new Piece(new Position(PositionFile.FILE_1, PositionRank.ofEachCountry(4, country)), SOLDIER),
+                new Piece(new Position(PositionFile.FILE_3, PositionRank.ofEachCountry(4, country)), SOLDIER),
+                new Piece(new Position(PositionFile.FILE_5, PositionRank.ofEachCountry(4, country)), SOLDIER),
+                new Piece(new Position(PositionFile.FILE_7, PositionRank.ofEachCountry(4, country)), SOLDIER),
+                new Piece(new Position(PositionFile.FILE_9, PositionRank.ofEachCountry(4, country)), SOLDIER)
         );
 
         switch (startingPosition) {
             case RIGHT_ELEPHANT_SETUP -> insertIntoMap(
                     board,
-                    new Piece(new Position(PositionFile.나, PositionRank.ofEachCountry(1, country)), PieceType.HORSE),
-                    new Piece(new Position(PositionFile.다, PositionRank.ofEachCountry(1, country)), PieceType.ELEPHANT),
-                    new Piece(new Position(PositionFile.사, PositionRank.ofEachCountry(1, country)), PieceType.HORSE),
-                    new Piece(new Position(PositionFile.아, PositionRank.ofEachCountry(1, country)), PieceType.ELEPHANT)
+                    new Piece(new Position(PositionFile.FILE_2, PositionRank.ofEachCountry(1, country)),
+                            PieceType.HORSE),
+                    new Piece(new Position(PositionFile.FILE_3, PositionRank.ofEachCountry(1, country)),
+                            PieceType.ELEPHANT),
+                    new Piece(new Position(PositionFile.FILE_7, PositionRank.ofEachCountry(1, country)),
+                            PieceType.HORSE),
+                    new Piece(new Position(PositionFile.FILE_8, PositionRank.ofEachCountry(1, country)),
+                            PieceType.ELEPHANT)
             );
             case LEFT_ELEPHANT_SETUP -> insertIntoMap(
                     board,
-                    new Piece(new Position(PositionFile.나, PositionRank.ofEachCountry(1, country)), PieceType.ELEPHANT),
-                    new Piece(new Position(PositionFile.다, PositionRank.ofEachCountry(1, country)), PieceType.HORSE),
-                    new Piece(new Position(PositionFile.사, PositionRank.ofEachCountry(1, country)), PieceType.ELEPHANT),
-                    new Piece(new Position(PositionFile.아, PositionRank.ofEachCountry(1, country)), PieceType.HORSE)
+                    new Piece(new Position(PositionFile.FILE_2, PositionRank.ofEachCountry(1, country)),
+                            PieceType.ELEPHANT),
+                    new Piece(new Position(PositionFile.FILE_3, PositionRank.ofEachCountry(1, country)),
+                            PieceType.HORSE),
+                    new Piece(new Position(PositionFile.FILE_7, PositionRank.ofEachCountry(1, country)),
+                            PieceType.ELEPHANT),
+                    new Piece(new Position(PositionFile.FILE_8, PositionRank.ofEachCountry(1, country)),
+                            PieceType.HORSE)
             );
             case OUTER_ELEPHANT_SETUP -> insertIntoMap(
                     board,
-                    new Piece(new Position(PositionFile.나, PositionRank.ofEachCountry(1, country)), PieceType.ELEPHANT),
-                    new Piece(new Position(PositionFile.다, PositionRank.ofEachCountry(1, country)), PieceType.HORSE),
-                    new Piece(new Position(PositionFile.사, PositionRank.ofEachCountry(1, country)), PieceType.HORSE),
-                    new Piece(new Position(PositionFile.아, PositionRank.ofEachCountry(1, country)), PieceType.ELEPHANT)
+                    new Piece(new Position(PositionFile.FILE_2, PositionRank.ofEachCountry(1, country)),
+                            PieceType.ELEPHANT),
+                    new Piece(new Position(PositionFile.FILE_3, PositionRank.ofEachCountry(1, country)),
+                            PieceType.HORSE),
+                    new Piece(new Position(PositionFile.FILE_7, PositionRank.ofEachCountry(1, country)),
+                            PieceType.HORSE),
+                    new Piece(new Position(PositionFile.FILE_8, PositionRank.ofEachCountry(1, country)),
+                            PieceType.ELEPHANT)
             );
             case INNER_ELEPHANT_SETUP -> insertIntoMap(
                     board,
-                    new Piece(new Position(PositionFile.나, PositionRank.ofEachCountry(1, country)), PieceType.HORSE),
-                    new Piece(new Position(PositionFile.다, PositionRank.ofEachCountry(1, country)), PieceType.ELEPHANT),
-                    new Piece(new Position(PositionFile.사, PositionRank.ofEachCountry(1, country)), PieceType.ELEPHANT),
-                    new Piece(new Position(PositionFile.아, PositionRank.ofEachCountry(1, country)), PieceType.HORSE)
+                    new Piece(new Position(PositionFile.FILE_2, PositionRank.ofEachCountry(1, country)),
+                            PieceType.HORSE),
+                    new Piece(new Position(PositionFile.FILE_3, PositionRank.ofEachCountry(1, country)),
+                            PieceType.ELEPHANT),
+                    new Piece(new Position(PositionFile.FILE_7, PositionRank.ofEachCountry(1, country)),
+                            PieceType.ELEPHANT),
+                    new Piece(new Position(PositionFile.FILE_8, PositionRank.ofEachCountry(1, country)),
+                            PieceType.HORSE)
             );
         }
 

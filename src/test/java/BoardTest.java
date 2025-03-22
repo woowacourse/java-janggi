@@ -24,38 +24,38 @@ public class BoardTest {
 
     public static Stream<Arguments> providePositionAndPieceTypeOfAllPieces() {
         return Stream.of(
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_1), PieceType.ROOK),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_1), PieceType.HORSE),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_1), PieceType.ELEPHANT),
-                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_1), PieceType.GUARD),
-                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_1), PieceType.GUARD),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_1), PieceType.HORSE),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_1), PieceType.ELEPHANT),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_1), PieceType.ROOK),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_2), PieceType.GENERAL),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_3), PieceType.CANNON),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_3), PieceType.CANNON),
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_10), PieceType.ROOK),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_10), PieceType.HORSE),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_10), PieceType.ELEPHANT),
-                Arguments.of(new Position(PositionFile.라, TestConstant.RANK_10), PieceType.GUARD),
-                Arguments.of(new Position(PositionFile.바, TestConstant.RANK_10), PieceType.GUARD),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_10), PieceType.HORSE),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_10), PieceType.ELEPHANT),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_10), PieceType.ROOK),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_9), PieceType.GENERAL),
-                Arguments.of(new Position(PositionFile.나, TestConstant.RANK_8), PieceType.CANNON),
-                Arguments.of(new Position(PositionFile.아, TestConstant.RANK_8), PieceType.CANNON),
-                Arguments.of(new Position(PositionFile.가, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
-                Arguments.of(new Position(PositionFile.다, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
-                Arguments.of(new Position(PositionFile.마, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
-                Arguments.of(new Position(PositionFile.사, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
-                Arguments.of(new Position(PositionFile.자, TestConstant.RANK_7), PieceType.HAN_SOLDIER)
+                Arguments.of(new Position(PositionFile.FILE_1, TestConstant.RANK_1), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.FILE_2, TestConstant.RANK_1), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.FILE_3, TestConstant.RANK_1), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.FILE_4, TestConstant.RANK_1), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.FILE_6, TestConstant.RANK_1), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.FILE_7, TestConstant.RANK_1), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.FILE_8, TestConstant.RANK_1), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.FILE_9, TestConstant.RANK_1), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.FILE_5, TestConstant.RANK_2), PieceType.GENERAL),
+                Arguments.of(new Position(PositionFile.FILE_2, TestConstant.RANK_3), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.FILE_8, TestConstant.RANK_3), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.FILE_1, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.FILE_3, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.FILE_5, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.FILE_7, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.FILE_9, TestConstant.RANK_4), PieceType.CHO_SOLDIER),
+                Arguments.of(new Position(PositionFile.FILE_1, TestConstant.RANK_10), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.FILE_2, TestConstant.RANK_10), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.FILE_3, TestConstant.RANK_10), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.FILE_4, TestConstant.RANK_10), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.FILE_6, TestConstant.RANK_10), PieceType.GUARD),
+                Arguments.of(new Position(PositionFile.FILE_7, TestConstant.RANK_10), PieceType.HORSE),
+                Arguments.of(new Position(PositionFile.FILE_8, TestConstant.RANK_10), PieceType.ELEPHANT),
+                Arguments.of(new Position(PositionFile.FILE_9, TestConstant.RANK_10), PieceType.ROOK),
+                Arguments.of(new Position(PositionFile.FILE_5, TestConstant.RANK_9), PieceType.GENERAL),
+                Arguments.of(new Position(PositionFile.FILE_2, TestConstant.RANK_8), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.FILE_8, TestConstant.RANK_8), PieceType.CANNON),
+                Arguments.of(new Position(PositionFile.FILE_1, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.FILE_3, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.FILE_5, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.FILE_7, TestConstant.RANK_7), PieceType.HAN_SOLDIER),
+                Arguments.of(new Position(PositionFile.FILE_9, TestConstant.RANK_7), PieceType.HAN_SOLDIER)
         );
     }
 
@@ -96,8 +96,8 @@ public class BoardTest {
         final Map<Position, Piece> result = board.getBoard();
 
         // expected
-        assertThatThrownBy(() -> result.put(new Position(PositionFile.가, TestConstant.RANK_1),
-                new Piece(new Position(PositionFile.라, RANK_5), PieceType.HORSE)))
+        assertThatThrownBy(() -> result.put(new Position(PositionFile.FILE_1, TestConstant.RANK_1),
+                new Piece(new Position(PositionFile.FILE_4, RANK_5), PieceType.HORSE)))
                 .isInstanceOf(UnsupportedOperationException.class);
     }
 

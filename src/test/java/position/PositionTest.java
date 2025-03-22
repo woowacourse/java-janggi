@@ -22,7 +22,7 @@ class PositionTest {
     @Test
     void 위치_생성시_랭크가_null이면_예외가_발생한다() {
         // given
-        final PositionFile file = PositionFile.가;
+        final PositionFile file = PositionFile.FILE_1;
         final PositionRank rank = null;
 
         // expected
@@ -46,9 +46,9 @@ class PositionTest {
     @Test
     void 파일과_랭크가_같으면_동일하다고_판단한다() {
         // given
-        final PositionFile file1 = PositionFile.가;
+        final PositionFile file1 = PositionFile.FILE_1;
         final PositionRank rank1 = PositionRank.ofEachCountry(10, Country.CHO);
-        final PositionFile file2 = PositionFile.가;
+        final PositionFile file2 = PositionFile.FILE_1;
         final PositionRank rank2 = PositionRank.ofEachCountry(10, Country.CHO);
 
         // expected
@@ -58,30 +58,30 @@ class PositionTest {
     @Test
     void 현재_위치에서_십자_모양의_위치들을_반환할_수_있다() {
         // given
-        final Position curPosition = new Position(PositionFile.마, RANK_5);
+        final Position curPosition = new Position(PositionFile.FILE_5, RANK_5);
 
         // when
         final List<Position> result = curPosition.getAllCrossPositions();
 
         // then
         assertThat(result).containsExactlyInAnyOrder(
-                new Position(PositionFile.마, RANK_1),
-                new Position(PositionFile.마, RANK_2),
-                new Position(PositionFile.마, RANK_3),
-                new Position(PositionFile.마, RANK_4),
-                new Position(PositionFile.마, RANK_6),
-                new Position(PositionFile.마, RANK_7),
-                new Position(PositionFile.마, RANK_8),
-                new Position(PositionFile.마, RANK_9),
-                new Position(PositionFile.마, RANK_10),
-                new Position(PositionFile.가, RANK_5),
-                new Position(PositionFile.나, RANK_5),
-                new Position(PositionFile.다, RANK_5),
-                new Position(PositionFile.라, RANK_5),
-                new Position(PositionFile.바, RANK_5),
-                new Position(PositionFile.사, RANK_5),
-                new Position(PositionFile.아, RANK_5),
-                new Position(PositionFile.자, RANK_5)
+                new Position(PositionFile.FILE_5, RANK_1),
+                new Position(PositionFile.FILE_5, RANK_2),
+                new Position(PositionFile.FILE_5, RANK_3),
+                new Position(PositionFile.FILE_5, RANK_4),
+                new Position(PositionFile.FILE_5, RANK_6),
+                new Position(PositionFile.FILE_5, RANK_7),
+                new Position(PositionFile.FILE_5, RANK_8),
+                new Position(PositionFile.FILE_5, RANK_9),
+                new Position(PositionFile.FILE_5, RANK_10),
+                new Position(PositionFile.FILE_1, RANK_5),
+                new Position(PositionFile.FILE_2, RANK_5),
+                new Position(PositionFile.FILE_3, RANK_5),
+                new Position(PositionFile.FILE_4, RANK_5),
+                new Position(PositionFile.FILE_6, RANK_5),
+                new Position(PositionFile.FILE_7, RANK_5),
+                new Position(PositionFile.FILE_8, RANK_5),
+                new Position(PositionFile.FILE_9, RANK_5)
         );
     }
 }
