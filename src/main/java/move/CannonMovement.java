@@ -27,13 +27,20 @@ public class CannonMovement implements MovementRule {
     private int countPiecesInPaths(Pieces pieces, List<Point> paths) {
         int count = 0;
         for (Point path : paths) {
-            if (pieces.isExistPieceIn(path)) {
-                Piece piece = pieces.findByPoint(path);
-                validateIsNotCannon(piece);
-                count++;
-            }
+            count += countExistNonCannonPiece(pieces, path);
         }
+
         return count;
+    }
+
+    private int countExistNonCannonPiece(Pieces pieces, Point path) {
+        if (pieces.isExistPieceIn(path)) {
+            Piece piece = pieces.findByPoint(path);
+            validateIsNotCannon(piece);
+            return 1;
+        }
+
+        return 0;
     }
 
     private void validateCannonMoveable(int count) {
