@@ -1,49 +1,64 @@
 package janggi.domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import janggi.domain.board.Column;
+import janggi.domain.board.PiecePath;
 import janggi.domain.board.Position;
 import janggi.domain.board.Row;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class SoldierTest {
     @Test
     void 졸병이_앞으로_이동_가능() {
+        // given
         Soldier soldier = new Soldier(PieceColor.RED);
 
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.FIVE, Column.ONE);
-        boolean canMove = soldier.isValidMovement(source, destination);
+        PiecePath path = new PiecePath(source, destination);
 
+        // when
+        boolean canMove = soldier.isValidMovement(path);
+
+        // then
         assertThat(canMove).isTrue();
     }
 
     @Test
     void 졸병이_옆으로_이동_가능() {
+        // given
         Soldier soldier = new Soldier(PieceColor.RED);
+
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.FOUR, Column.TWO);
+        PiecePath path = new PiecePath(source, destination);
 
-        boolean canMove = soldier.isValidMovement(source, destination);
+        // when
+        boolean canMove = soldier.isValidMovement(path);
 
+        // then
         assertThat(canMove).isTrue();
     }
 
     @Test
     void 쫄병이_뒤로_이동_불가능() {
+        // given
         Soldier soldier = new Soldier(PieceColor.RED);
+
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.THREE, Column.ONE);
+        PiecePath path = new PiecePath(source, destination);
 
-        boolean canMove = soldier.isValidMovement(source, destination);
+        // when
+        boolean canMove = soldier.isValidMovement(path);
 
+        // then
         assertThat(canMove).isFalse();
     }
 

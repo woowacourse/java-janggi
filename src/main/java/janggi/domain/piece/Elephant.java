@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.PiecePath;
 import janggi.domain.board.Position;
-
 import janggi.domain.moveRule.DefaultMoveRule;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,9 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public boolean isValidMovement(Position source, Position destination) {
-        int rowDifference = source.rowDifference(destination);
-        int columnDifference = source.columnDifference(destination);
+    public boolean isValidMovement(PiecePath path) {
+        int rowDifference = path.rowDifference();
+        int columnDifference = path.columnDifference();
 
         if (Math.abs(rowDifference) == 3 && Math.abs(columnDifference) == 2) {
             return true;
@@ -27,11 +27,11 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public List<Position> findAllRoute(Position source, Position destination) {
+    public List<Position> findAllRoute(PiecePath path) {
         List<Position> positions = new ArrayList<>();
 
-        Position firstPosition = source.getPositionByFraction(destination, 3);
-        Position secondPosition = firstPosition.getPositionByFraction(destination, 2);
+        Position firstPosition = path.getFractionalPosition(3);
+        Position secondPosition = path.getFactionalPositionToTarget(firstPosition, 2);
 
         positions.add(firstPosition);
         positions.add(secondPosition);

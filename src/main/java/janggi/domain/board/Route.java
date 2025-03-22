@@ -5,18 +5,16 @@ import java.util.List;
 
 public class Route {
     private final Piece sourcePiece;
-    private final Position source;
-    private final Position destination;
+    private final PiecePath path;
 
-    public Route(Piece sourcePiece, Position source, Position destination) {
-        validateAvailableRoute(sourcePiece, source, destination);
+    public Route(Piece sourcePiece, PiecePath path) {
+        validateAvailableRoute(sourcePiece, path);
         this.sourcePiece = sourcePiece;
-        this.source = source;
-        this.destination = destination;
+        this.path = path;
     }
 
-    private void validateAvailableRoute(Piece sourcePiece, Position sourcePosition, Position destinationPosition) {
-        boolean isAvailableRoute = sourcePiece.isValidMovement(sourcePosition, destinationPosition);
+    private void validateAvailableRoute(Piece sourcePiece, PiecePath path) {
+        boolean isAvailableRoute = sourcePiece.isValidMovement(path);
 
         if(!isAvailableRoute) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없는 기물입니다.");
@@ -24,6 +22,6 @@ public class Route {
     }
 
     public List<Position> getAllRouteToDestination() {
-        return sourcePiece.findAllRoute(source, destination);
+        return sourcePiece.findAllRoute(path);
     }
 }

@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.PiecePath;
 import janggi.domain.board.Position;
 
 import janggi.domain.moveRule.DefaultMoveRule;
@@ -12,9 +13,9 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public boolean isValidMovement(Position source, Position destination) {
-        int rowDifference = source.rowDifference(destination);
-        int columnDifference = source.columnDifference(destination);
+    public boolean isValidMovement(PiecePath path) {
+        int rowDifference = path.rowDifference();
+        int columnDifference = path.columnDifference();
 
         if ((color == PieceColor.RED) && (rowDifference == 1 && columnDifference == 0)) {
             return true;
@@ -29,7 +30,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public List<Position> findAllRoute(Position source, Position destination) {
+    public List<Position> findAllRoute(PiecePath path) {
         return List.of();
     }
 }

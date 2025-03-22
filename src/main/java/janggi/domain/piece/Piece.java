@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.PiecePath;
 import janggi.domain.board.Position;
 
 import janggi.domain.moveRule.MoveRule;
@@ -16,9 +17,9 @@ public abstract class Piece {
         this.moveRule = moveRule;
     }
 
-    public abstract boolean isValidMovement(Position source, Position destination);
+    public abstract boolean isValidMovement(PiecePath path);
 
-    public abstract List<Position> findAllRoute(Position source, Position destination);
+    public abstract List<Position> findAllRoute(PiecePath path);
 
     public boolean canMove(Piece sourcePiece, Piece destinationPiece, List<Piece> piecesInRoute) {
         return moveRule.canMove(sourcePiece, destinationPiece, piecesInRoute);

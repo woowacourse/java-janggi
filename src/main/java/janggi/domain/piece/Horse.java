@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.PiecePath;
 import janggi.domain.board.Position;
 
 import janggi.domain.moveRule.DefaultMoveRule;
@@ -12,9 +13,9 @@ public class Horse extends Piece {
     }
 
     @Override
-    public boolean isValidMovement(Position source, Position destination) {
-        int rowDifference = source.rowDifference(destination);
-        int columnDifference = source.columnDifference(destination);
+    public boolean isValidMovement(PiecePath path) {
+        int rowDifference = path.rowDifference();
+        int columnDifference = path.columnDifference();
 
         if(Math.abs(rowDifference) == 2 && Math.abs(columnDifference) == 1) {
             return true;
@@ -26,9 +27,8 @@ public class Horse extends Piece {
     }
 
     @Override
-    public List<Position> findAllRoute(Position source, Position destination) {
-        Position route = source.getPositionByFraction(destination, 2);
-
+    public List<Position> findAllRoute(PiecePath path) {
+        Position route = path.getFractionalPosition(2);
         return List.of(route);
     }
 }

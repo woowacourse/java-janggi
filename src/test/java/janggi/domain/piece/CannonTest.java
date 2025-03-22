@@ -1,29 +1,30 @@
 package janggi.domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 import janggi.domain.board.Column;
+import janggi.domain.board.PiecePath;
 import janggi.domain.board.Position;
 import janggi.domain.board.Row;
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Elephant;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceColor;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class CannonTest {
     @Test
     void 포의_목적지까지의_이동경로에_포함되는_좌표를_반환() {
+        // given
         Cannon cannon = new Cannon(PieceColor.RED);
+
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.ONE, Column.FIVE);
+        PiecePath path = new PiecePath(source, destination);
 
-        List<Position> allRoute = cannon.findAllRoute(source, destination);
+        // when
+        List<Position> allRoute = cannon.findAllRoute(path);
 
+        // then
         assertAll(
                 () -> assertThat(allRoute).hasSize(3),
                 () -> assertThat(allRoute.get(0)).isEqualTo(new Position(Row.ONE, Column.TWO)),

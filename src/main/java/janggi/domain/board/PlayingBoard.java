@@ -38,7 +38,8 @@ public class PlayingBoard {
         Piece sourcePiece = getPieceBy(source);
         Piece destinationPiece = getPieceBy(destination);
 
-        Route route = new Route(sourcePiece, source, destination);
+        PiecePath path = new PiecePath(source, destination);
+        Route route = new Route(sourcePiece, path);
         List<Position> allRoute = route.getAllRouteToDestination();
         List<Piece> piecesOnRoute = getPiecesOnRoute(allRoute);
 
