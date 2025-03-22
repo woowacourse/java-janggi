@@ -34,13 +34,17 @@ public final class OutputView {
     }
 
     private void displayRow(Map<Position, Piece> team1Board, Map<Position, Piece> team2Board, PositionRank rank) {
-        System.out.print(rank.value() + " ");
+        System.out.print(formatRank(rank.value()) + " ");
 
         for (PositionFile file : PositionFile.values()) {
             Position position = new Position(file, rank);
             displayPosition(team1Board, team2Board, position);
         }
         System.out.println();
+    }
+
+    private String formatRank(int rankValue) {
+        return rankValue == 10 ? "0" : String.valueOf(rankValue);
     }
 
     private void displayPosition(Map<Position, Piece> team1Board, Map<Position, Piece> team2Board, Position position) {
