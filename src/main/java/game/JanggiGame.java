@@ -43,15 +43,17 @@ public class JanggiGame {
     }
 
     private Point requestMoveStartPosition(Player player) {
-        while (true) {
-            Point start = InputView.requestMoveStartPosition();
-            validateBoardRange(start);
+        // -- 1
+        Point start = InputView.requestMoveStartPosition();
+        validateBoardRange(start);
 
-            if (player.isContainPiece(start)) {
-                return start;
-            }
+        while (!player.isContainPiece(start)) {
             OutputView.displayWrongPoint();
+            start = InputView.requestMoveStartPosition();
+            validateBoardRange(start);
         }
+
+        return start;
     }
 
     public void validateBoardRange(Point point) {
