@@ -14,6 +14,9 @@ public enum Column {
     NINE(9),
     TEN(10);
 
+    private static final int MIN_VALUE = 1;
+    private static final int MAX_VALUE = 10;
+
     private final int value;
 
     Column(int value) {
@@ -25,5 +28,21 @@ public enum Column {
             .filter(result -> result.value == inputValue)
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Row입니다."));
+    }
+
+    public Column up() {
+        return getColumnBy(this.value + 1);
+    }
+
+    public boolean canUp() {
+        return this.value < MAX_VALUE;
+    }
+
+    public Column down() {
+        return getColumnBy(this.value - 1);
+    }
+
+    public boolean canDown() {
+        return this.value > MIN_VALUE;
     }
 }

@@ -13,6 +13,9 @@ public enum Row {
     EIGHT(8),
     NINE(9);
 
+    private static final int MIN_VALUE = 1;
+    private static final int MAX_VALUE = 9;
+
     private final int value;
 
     Row(int value) {
@@ -26,4 +29,19 @@ public enum Row {
             .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Row입니다."));
     }
 
+    public Row down() {
+        return getRowBy(this.value - 1);
+    }
+
+    public boolean canDown() {
+        return this.value > MIN_VALUE;
+    }
+
+    public Row up() {
+        return getRowBy(this.value + 1);
+    }
+
+    public boolean canUp() {
+        return this.value < MAX_VALUE;
+    }
 }
