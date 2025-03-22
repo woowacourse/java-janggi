@@ -1,7 +1,6 @@
 package board.create.strategy;
 
 import coordinate.Coordinate;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import piece.Cha;
@@ -24,19 +23,15 @@ public abstract class BoardCreateStrategy {
             Team.CHO, 10
     );
 
-    public final Map<Coordinate, Piece> create(Team team) {
-        Map<Coordinate, Piece> board = new HashMap<>();
-        board.putAll(createDefaultBoard(team));
-        board.putAll(createPiecesByTeam(team));
-        return board;
-    }
+    public abstract Map<Coordinate, Piece> create(Team team);
 
-    private Map<Coordinate, Piece> createDefaultBoard(Team team) {
+    protected Map<Coordinate, Piece> createDefaultBoard(Team team) {
         if (team.equals(Team.HAN)) {
             return createHanDefaultBoard();
         }
         return createChoDefaultBoard();
     }
+
 
     private Map<Coordinate, Piece> createHanDefaultBoard() {
         return Map.ofEntries(
@@ -71,6 +66,4 @@ public abstract class BoardCreateStrategy {
                 Map.entry(new Coordinate(9, 7), new Jol(Team.CHO))
         );
     }
-
-    protected abstract Map<Coordinate, Piece> createPiecesByTeam(Team team);
 }
