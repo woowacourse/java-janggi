@@ -7,12 +7,22 @@ import java.util.Set;
 
 public class Chariot implements Piece {
 
-    private static final Set<Direction> DIRECTIONS = Set.of(
+    private final Set<Direction> DIRECTIONS = Set.of(
             Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT
     );
 
-    private static boolean canMoveEndPointByDirection(JanggiBoard janggiBoard, Point start, Point end,
-                                                      Direction direction) {
+    @Override
+    public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
+        for (Direction direction : DIRECTIONS) {
+            if (canMoveEndPointByDirection(janggiBoard, start, end, direction)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean canMoveEndPointByDirection(JanggiBoard janggiBoard, Point start, Point end,
+                                               Direction direction) {
         Point currPoint = start;
         while (canMoveUntilEndPoint(end, currPoint)) {
             currPoint = currPoint.move(direction);
@@ -23,18 +33,8 @@ public class Chariot implements Piece {
         return currPoint.isSamePosition(end);
     }
 
-    private static boolean canMoveUntilEndPoint(Point end, Point currPoint) {
+    private boolean canMoveUntilEndPoint(Point end, Point currPoint) {
         return !currPoint.isSamePosition(end) && currPoint.isNotOutOfBoundary();
-    }
-
-    @Override
-    public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
-        for (Direction direction : DIRECTIONS) {
-            if (canMoveEndPointByDirection(janggiBoard, start, end, direction)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
