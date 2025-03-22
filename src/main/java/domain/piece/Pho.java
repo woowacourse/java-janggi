@@ -52,8 +52,7 @@ public class Pho extends Piece implements LinearMove {
             throw new IllegalArgumentException("[ERROR] 포는 기물을 넘어야 공격할 수 있습니다.");
         }
 
-        curr = curr.move(direction);
-        curr = findFirstCoordinate(janggiBoard, curr, to, direction);
+        curr = findFirstCoordinate(janggiBoard, curr.move(direction), to, direction);
         if (!curr.equals(to)) {
             throw new IllegalArgumentException("[ERROR] 포는 기물을 한번만 넘어 공격할 수 있습니다.");
         }
