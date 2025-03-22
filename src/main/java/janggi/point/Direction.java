@@ -76,7 +76,7 @@ public enum Direction {
     private static List<Direction> doRouting(int diagonalCount, Direction cardinal, Direction diagonal) {
         List<Direction> directions = new ArrayList<>();
         directions.add(cardinal);
-        for (int i = 0; i < diagonalCount; i++) {
+        for (int i = 0; i < diagonalCount - 1; i++) {
             directions.add(diagonal);
         }
         return directions;

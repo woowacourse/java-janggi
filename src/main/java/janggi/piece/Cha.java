@@ -1,8 +1,8 @@
 package janggi.piece;
 
+import janggi.game.Team;
 import janggi.point.Direction;
 import janggi.point.Point;
-import janggi.game.Team;
 import janggi.point.PointDistance;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,26 +12,24 @@ public class Cha implements Movable {
     private static final String NAME = "차";
 
     private final Team team;
-    private final Point point;
 
-    public Cha(Team team, Point point) {
+    public Cha(Team team) {
         this.team = team;
-        this.point = point;
     }
 
     @Override
-    public boolean isInMovingRange(Point targetPoint) {
-        return point.isSameRow(targetPoint) || point.isSameColumn(targetPoint);
+    public boolean isInMovingRange(Point startPoint, Point targetPoint) {
+        return startPoint.isSameRow(targetPoint) || startPoint.isSameColumn(targetPoint);
     }
 
     @Override
-    public List<Point> findRoute(Point targetPoint) {
+    public List<Point> findRoute(Point startPoint, Point targetPoint) {
         List<Point> route = new ArrayList<>();
-        Direction direction = Direction.cardinalFrom(point, targetPoint);
-        PointDistance distance = PointDistance.calculate(point, targetPoint);
+        Direction direction = Direction.cardinalFrom(startPoint, targetPoint);
+        PointDistance distance = PointDistance.calculate(startPoint, targetPoint);
 
-        Point pointer = point;
-        for (int i = 0; i < (int) distance.getDistance(); i++) {
+        Point pointer = startPoint;
+        for (int i = 0; i < (int) distance.getDistance() - 1; i++) {
             pointer = direction.move(pointer);
             route.add(pointer);
         }
@@ -39,18 +37,8 @@ public class Cha implements Movable {
     }
 
     @Override
-    public Movable updatePoint(Point afterPoint) {
-        return new Cha(team, afterPoint);
-    }
-
-    @Override
     public String getName() {
         return NAME;
-    }
-
-    @Override
-    public Point getPoint() {
-        return point;
     }
 
     @Override

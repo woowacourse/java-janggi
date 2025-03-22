@@ -1,9 +1,8 @@
 package janggi.piece;
 
-import janggi.game.Board;
+import janggi.game.Team;
 import janggi.point.Direction;
 import janggi.point.Point;
-import janggi.game.Team;
 import janggi.point.PointDistance;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,55 +12,23 @@ public class Po implements Movable {
     private static final String NAME = "포";
 
     private final Team team;
-    private final Point point;
 
-    public Po(Team team, Point point) {
+    public Po(Team team) {
         this.team = team;
-        this.point = point;
-    }
-
-    public boolean isMovable(Point targetPoint, Board board) {
-        if (board.hasPieceOnPoint(targetPoint) && board.findByPoint(targetPoint) instanceof Po) {
-            return false;
-        }
-        List<Point> route = findRoute(targetPoint);
-        List<Point> hurdles = new ArrayList<>();
-        for (Point point : route) {
-            if (findHurdle(point, hurdles, board)) {
-                continue;
-            }
-            return false;
-        }
-        return hurdles.size() == 1;
-    }
-
-    private boolean findHurdle(Point current, List<Point> hurdles, Board board) {
-        if (board.hasPieceOnPoint(current)) {
-            Movable piece = board.findByPoint(current);
-            if (piece instanceof Po && hurdles.isEmpty()) {
-                return false;
-            }
-            if (!hurdles.isEmpty()) {
-                return false;
-            }
-            hurdles.add(current);
-            return true;
-        }
-        return true;
     }
 
     @Override
-    public boolean isInMovingRange(Point targetPoint) {
-        return point.isSameRow(targetPoint) || point.isSameColumn(targetPoint);
+    public boolean isInMovingRange(Point startPoint, Point targetPoint) {
+        return startPoint.isSameRow(targetPoint) || startPoint.isSameColumn(targetPoint);
     }
 
     @Override
-    public List<Point> findRoute(Point targetPoint) {
+    public List<Point> findRoute(Point startPoint, Point targetPoint) {
         List<Point> route = new ArrayList<>();
-        Direction direction = Direction.cardinalFrom(point, targetPoint);
-        PointDistance distance = PointDistance.calculate(point, targetPoint);
+        Direction direction = Direction.cardinalFrom(startPoint, targetPoint);
+        PointDistance distance = PointDistance.calculate(startPoint, targetPoint);
 
-        Point pointer = point;
+        Point pointer = startPoint;
         for (int i = 0; i < (int) distance.getDistance() - 1; i++) {
             pointer = direction.move(pointer);
             route.add(pointer);
@@ -70,18 +37,8 @@ public class Po implements Movable {
     }
 
     @Override
-    public Movable updatePoint(Point afterPoint) {
-        return new Po(team, afterPoint);
-    }
-
-    @Override
     public String getName() {
         return NAME;
-    }
-
-    @Override
-    public Point getPoint() {
-        return point;
     }
 
     @Override
