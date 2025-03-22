@@ -3,7 +3,7 @@ package chessPiece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cha extends ChessPiece {
+public class Cha extends Piece {
 
     public Cha(final PieceProfile pieceProfile, final BoardPosition boardPosition) {
         super(pieceProfile, boardPosition);

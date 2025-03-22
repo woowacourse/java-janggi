@@ -8,22 +8,22 @@ import java.util.stream.Stream;
 
 public class Board {
 
-    private final Map<BoardPosition, ChessPiece> janggiPan = new HashMap<>();
+    private final Map<BoardPosition, Piece> janggiPan = new HashMap<>();
 
-    public Board(List<ChessPiece> han, List<ChessPiece> cho) {
+    public Board(List<Piece> han, List<Piece> cho) {
         janggiPan.putAll(
                 Stream.concat(han.stream(), cho.stream())
-                        .collect(Collectors.toMap(ChessPiece::getBoardPosition, piece -> piece))
+                        .collect(Collectors.toMap(Piece::getBoardPosition, piece -> piece))
         );
     }
 
-    public Map<BoardPosition, ChessPiece> getJanggiPan() {
+    public Map<BoardPosition, Piece> getJanggiPan() {
         return janggiPan;
     }
 
     public void updateBoard(final BoardPosition presentPosition, final BoardPosition futurePosition) {
-        ChessPiece chessPiece = janggiPan.get(presentPosition);
-        chessPiece.isMove(futurePosition);
+        Piece piece = janggiPan.get(presentPosition);
+        piece.isMove(futurePosition);
 
         checkObstacle(presentPosition, futurePosition);
 
@@ -33,14 +33,14 @@ public class Board {
             }
 
             janggiPan.remove(presentPosition);
-            janggiPan.put(futurePosition, chessPiece);
-            chessPiece.updateChessPiecePositionBy(futurePosition);
+            janggiPan.put(futurePosition, piece);
+            piece.updateChessPiecePositionBy(futurePosition);
             return;
         }
 
         janggiPan.remove(presentPosition);
-        janggiPan.put(futurePosition, chessPiece);
-        chessPiece.updateChessPiecePositionBy(futurePosition);
+        janggiPan.put(futurePosition, piece);
+        piece.updateChessPiecePositionBy(futurePosition);
     }
 
     private boolean isPo(BoardPosition boardPosition) {

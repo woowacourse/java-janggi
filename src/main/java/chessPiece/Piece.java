@@ -3,12 +3,12 @@ package chessPiece;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class ChessPiece {
+public abstract class Piece {
 
     private final PieceProfile pieceProfile;
     protected BoardPosition boardPosition;
 
-    public ChessPiece(final PieceProfile pieceProfile, final BoardPosition boardPosition) {
+    public Piece(final PieceProfile pieceProfile, final BoardPosition boardPosition) {
         this.pieceProfile = pieceProfile;
         this.boardPosition = boardPosition;
     }
@@ -28,7 +28,7 @@ public abstract class ChessPiece {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final ChessPiece that = (ChessPiece) o;
+        final Piece that = (Piece) o;
         return Objects.equals(getName(), that.getName()) && Objects.equals(getBoardPosition(),
                 that.getBoardPosition());
     }
