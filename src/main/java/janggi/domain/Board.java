@@ -8,14 +8,14 @@ import java.util.Set;
 
 public class Board {
 
-    private final Map<Position, Piece> pieceMap;
+    private final Map<Position, Piece> pieces;
 
-    public Board(Map<Position, Piece> pieceMap) {
-        this.pieceMap = pieceMap;
+    public Board(Map<Position, Piece> pieces) {
+        this.pieces = pieces;
     }
 
     public boolean hasPiece(Position position) {
-        return pieceMap.containsKey(position);
+        return pieces.containsKey(position);
     }
 
     public boolean isSameSide(Side side, Position position) {
@@ -24,7 +24,7 @@ public class Board {
 
     public void checkMoveablePiece(Side side, Position position) {
         validatePositionExists(position);
-        Piece piece = pieceMap.get(position);
+        Piece piece = pieces.get(position);
         if (!piece.isSameSide(side)) {
             throw new IllegalArgumentException(ErrorMessage.IS_NOT_SAME_SIDE.getMessage());
         }
@@ -35,7 +35,7 @@ public class Board {
     }
 
     private void validatePositionExists(Position position) {
-        if (!pieceMap.containsKey(position)) {
+        if (!pieces.containsKey(position)) {
             throw new IllegalArgumentException(ErrorMessage.POSITION_DOES_NOT_EXIST.getMessage());
         }
     }
@@ -48,16 +48,16 @@ public class Board {
             throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_TO_POSITION.getMessage());
         }
 
-        pieceMap.remove(currentPosition);
-        pieceMap.put(newPosition, piece);
+        pieces.remove(currentPosition);
+        pieces.put(newPosition, piece);
     }
 
     public Piece getPiece(Position position) {
-        if (!pieceMap.containsKey(position)) {
+        if (!pieces.containsKey(position)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_BOARD_POSITION.getMessage());
         }
 
-        return pieceMap.get(position);
+        return pieces.get(position);
     }
 
     public boolean canMoveToPosition(Side side, Position position) {
@@ -65,16 +65,16 @@ public class Board {
     }
 
     public boolean isCannon(Position position) {
-        if (!pieceMap.containsKey(position)) {
+        if (!pieces.containsKey(position)) {
             return false;
         }
 
-        return pieceMap.get(position)
+        return pieces.get(position)
                 .isCannon();
     }
 
     public boolean hasGeneral() {
-        return pieceMap.values()
+        return pieces.values()
                 .stream()
                 .anyMatch(Piece::isGeneral);
     }
