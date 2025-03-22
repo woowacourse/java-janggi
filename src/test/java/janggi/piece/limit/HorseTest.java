@@ -1,7 +1,8 @@
-package janggi.piece;
+package janggi.piece.limit;
 
 import janggi.board.Position;
 import janggi.move.Route;
+import janggi.piece.Side;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

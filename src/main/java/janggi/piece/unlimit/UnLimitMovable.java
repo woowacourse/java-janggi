@@ -1,12 +1,14 @@
-package janggi.piece;
+package janggi.piece.unlimit;
 
 import janggi.board.Position;
 import janggi.move.Direction;
 import janggi.move.Route;
+import janggi.piece.Piece;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class UnLimitMovable implements Piece{
+public abstract class UnLimitMovable implements Piece {
     private static final int MOVE_LIMIT = 10;
 
     public List<Route> computeCandidatePositions(Position position) {
@@ -28,4 +30,16 @@ public abstract class UnLimitMovable implements Piece{
         route.deleteFirstPosition();
         return route;
     }
+
+    @Override
+    public List<Position> filterReachableDestinations(List<Route> routes, Map<Position, Piece> board) {
+        List<Position> reachablePositions = new ArrayList<>();
+        for (Route route : routes) {
+            List<Position> positions = route.getPositions();
+            addValidDestination(positions, reachablePositions, board);
+        }
+        return reachablePositions;
+    }
+
+    protected abstract void addValidDestination(final List<Position> positions, final List<Position> reachablePositions, final Map<Position, Piece> board);
 }

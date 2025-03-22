@@ -1,8 +1,9 @@
-package janggi.piece;
+package janggi.piece.unlimit;
 
 import janggi.board.Position;
-import janggi.move.Route;
-import java.util.ArrayList;
+import janggi.piece.Piece;
+import janggi.piece.PieceType;
+import janggi.piece.Side;
 import java.util.List;
 import java.util.Map;
 
@@ -30,16 +31,7 @@ public class Chariot extends UnLimitMovable {
     }
 
     @Override
-    public List<Position> filterReachableDestinations(List<Route> routes, Map<Position, Piece> board) {
-        List<Position> reachablePositions = new ArrayList<>();
-        for (Route route : routes) {
-            List<Position> positions = route.getPositions();
-            addValidDestination(positions, reachablePositions, board);
-        }
-        return reachablePositions;
-    }
-
-    private void addValidDestination(final List<Position> positions, final List<Position> reachablePositions,
+    public void addValidDestination(final List<Position> positions, final List<Position> reachablePositions,
                                      Map<Position, Piece> board) {
         for (Position position : positions) {
             Piece targetPiece = board.get(position);
@@ -52,7 +44,7 @@ public class Chariot extends UnLimitMovable {
 
     private boolean isBoundPosition(final Position position, final List<Position> reachablePositions,
                                     final Piece targetPiece) {
-        if (position.isOutOfRange(9, 10) || isAlly(targetPiece)) {
+        if (position.isOutOfRange() || isAlly(targetPiece)) {
             return true;
         }
         if (targetPiece.isOccupied() && !isAlly(targetPiece)) {

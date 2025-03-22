@@ -1,7 +1,9 @@
-package janggi.piece;
+package janggi.piece.limit;
 
 import janggi.board.Position;
 import janggi.move.Route;
+import janggi.piece.Piece;
+import janggi.piece.Side;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +28,7 @@ public abstract class LimitMovable implements Piece {
     }
 
     private boolean isInvalidRoute(final Route route, final Position destination, final Map<Position, Piece> board) {
-        if (destination.isOutOfRange(9, 10) || isAlly(board.get(destination))) {
+        if (destination.isOutOfRange() || isAlly(board.get(destination))) {
             return true;
         }
         if (checkInvalidIntermediatePositions(route, board)) {

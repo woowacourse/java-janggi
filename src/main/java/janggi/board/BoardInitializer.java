@@ -3,6 +3,14 @@ package janggi.board;
 import janggi.piece.Side;
 import janggi.piece.*;
 
+import janggi.piece.limit.Elephant;
+import janggi.piece.Empty;
+import janggi.piece.limit.Guard;
+import janggi.piece.limit.Horse;
+import janggi.piece.limit.King;
+import janggi.piece.limit.Soldier;
+import janggi.piece.unlimit.Cannon;
+import janggi.piece.unlimit.Chariot;
 import java.util.HashMap;
 import java.util.Map;
 

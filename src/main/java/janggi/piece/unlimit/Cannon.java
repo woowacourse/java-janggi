@@ -1,8 +1,9 @@
-package janggi.piece;
+package janggi.piece.unlimit;
 
 import janggi.board.Position;
-import janggi.move.Route;
-import java.util.ArrayList;
+import janggi.piece.Piece;
+import janggi.piece.PieceType;
+import janggi.piece.Side;
 import java.util.List;
 import java.util.Map;
 
@@ -15,21 +16,11 @@ public class Cannon extends UnLimitMovable {
     }
 
     @Override
-    public List<Position> filterReachableDestinations(final List<Route> routes, final Map<Position, Piece> board) {
-        List<Position> reachablePositions = new ArrayList<>();
-        for (Route route : routes) {
-            List<Position> positions = route.getPositions();
-            addValidDestination(positions, reachablePositions, board);
-        }
-        return reachablePositions;
-    }
-
-    private void addValidDestination(final List<Position> positions, final List<Position> reachablePositions,
-                                     final Map<Position, Piece> board) {
+    public void addValidDestination(final List<Position> positions, final List<Position> reachablePositions, final Map<Position, Piece> board) {
         boolean hasJumped = false;
         for (Position position : positions) {
             Piece targetPiece = board.get(position);
-            if (position.isOutOfRange(9, 10) || targetPiece.isNotJumpable()) {
+            if (position.isOutOfRange() || targetPiece.isNotJumpable()) {
                 break;
             }
             if (!hasJumped && targetPiece.isOccupied()) {

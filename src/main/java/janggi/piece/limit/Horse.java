@@ -1,8 +1,10 @@
-package janggi.piece;
+package janggi.piece.limit;
 
 import janggi.board.Position;
 import janggi.move.Direction;
 import janggi.move.Route;
+import janggi.piece.PieceType;
+import janggi.piece.Side;
 import java.util.List;
 
 public class Horse extends LimitMovable {

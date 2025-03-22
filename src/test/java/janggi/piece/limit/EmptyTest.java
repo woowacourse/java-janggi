@@ -1,6 +1,7 @@
-package janggi.piece;
+package janggi.piece.limit;
 
 import janggi.board.Position;
+import janggi.piece.Empty;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

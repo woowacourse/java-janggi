@@ -1,17 +1,20 @@
-package janggi.piece;
+package janggi.piece.limit;
 
 import janggi.board.Position;
 import janggi.move.Direction;
 import janggi.move.Route;
+import janggi.piece.PieceType;
+import janggi.piece.Side;
 import java.util.List;
 
-public class Guard extends LimitMovable {
+public class King extends LimitMovable {
 
-    public Guard(final Side side) {
+    public King(final Side side) {
         super(side);
     }
 
-    public List<Route> computeCandidatePositions(Position position) {
+    @Override
+    public List<Route> computeCandidatePositions(final Position position) {
         return List.of(
                 createRoute(position, Direction.UP),
                 createRoute(position, Direction.RIGHT),
@@ -28,6 +31,6 @@ public class Guard extends LimitMovable {
 
     @Override
     public PieceType getType() {
-        return PieceType.GUARD;
+        return PieceType.KING;
     }
 }

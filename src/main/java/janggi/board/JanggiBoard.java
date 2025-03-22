@@ -30,12 +30,12 @@ public class JanggiBoard {
         Piece piece = board.get(position);
         List<Route> candidatesRoutes = piece.computeCandidatePositions(position);
         List<Position> reachableDestinations = piece.filterReachableDestinations(candidatesRoutes, board);
+
         validateReachableDestinations(reachableDestinations);
         return reachableDestinations;
     }
 
-    public Piece moveOrCatchPiece(final Position selectedPiecePosition, final Position destination,
-                                  final List<Position> reachableDestinations) {
+    public Piece moveOrCatchPiece(final Position selectedPiecePosition, final Position destination, final List<Position> reachableDestinations) {
         validateSelectedDestination(destination, reachableDestinations);
         Piece seletedPiece = board.get(selectedPiecePosition);
         board.put(selectedPiecePosition, new Empty());

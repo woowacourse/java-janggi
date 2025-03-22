@@ -23,15 +23,12 @@ class PositionTest {
     @DisplayName("좌표 이동 범위 테스트")
     void isOutOfRange() {
 
-        int xLimit = 3;
-        int yLimit = 3;
-
         Position position = new Position(0, 0);
         Position movedPosition1 = position.move(Direction.UP);
 
         assertAll(
-                () -> assertThat(position.isOutOfRange(xLimit, yLimit)).isFalse(),
-                () -> assertThat(movedPosition1.isOutOfRange(xLimit, yLimit)).isTrue()
+                () -> assertThat(position.isOutOfRange()).isFalse(),
+                () -> assertThat(movedPosition1.isOutOfRange()).isTrue()
         );
     }
 
