@@ -27,19 +27,19 @@ public final class JanggiCoordinate {
         return new JanggiCoordinate(this.row - 1, this.col);
     }
 
-    public JanggiCoordinate moveUpRight() {
+    public JanggiCoordinate moveRightUp() {
         return moveUp().moveRight();
     }
 
-    public JanggiCoordinate moveUpLeft() {
+    public JanggiCoordinate moveLeftUp() {
         return moveUp().moveLeft();
     }
 
-    public JanggiCoordinate moveDownRight() {
+    public JanggiCoordinate moveRightDown() {
         return moveDown().moveRight();
     }
 
-    public JanggiCoordinate moveDownLeft() {
+    public JanggiCoordinate moveLeftDown() {
         return moveDown().moveLeft();
     }
 

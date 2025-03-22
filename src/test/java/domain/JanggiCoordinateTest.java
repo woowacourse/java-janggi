@@ -83,7 +83,7 @@ class JanggiCoordinateTest {
         @DisplayName("좌표를 오른쪽 위 대각선으로 이동시킨다.")
         @Test
         void moveCoordinateUpRight() {
-            coordinate = coordinate.moveUpRight();
+            coordinate = coordinate.moveRightUp();
 
             int row = coordinate.getRow();
             int col = coordinate.getCol();
@@ -97,7 +97,7 @@ class JanggiCoordinateTest {
         @DisplayName("좌표를 왼쪽 위 대각선으로 이동시킨다.")
         @Test
         void moveCoordinateUpLeft() {
-            coordinate = coordinate.moveUpLeft();
+            coordinate = coordinate.moveLeftUp();
 
             int row = coordinate.getRow();
             int col = coordinate.getCol();
@@ -111,7 +111,7 @@ class JanggiCoordinateTest {
         @DisplayName("좌표를 오른쪽 아래 대각선으로 이동시킨다.")
         @Test
         void moveCoordinateDownRight() {
-            coordinate = coordinate.moveDownRight();
+            coordinate = coordinate.moveRightDown();
 
             int row = coordinate.getRow();
             int col = coordinate.getCol();
@@ -125,7 +125,7 @@ class JanggiCoordinateTest {
         @DisplayName("좌표를 왼쪽 아래 대각선으로 이동시킨다.")
         @Test
         void moveCoordinateUpDiagonal() {
-            coordinate = coordinate.moveDownLeft();
+            coordinate = coordinate.moveLeftDown();
 
             int row = coordinate.getRow();
             int col = coordinate.getCol();
