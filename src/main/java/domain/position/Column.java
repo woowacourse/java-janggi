@@ -1,4 +1,4 @@
-package domain;
+package domain.position;
 
 import java.util.Objects;
 
@@ -19,12 +19,12 @@ public class Column {
         }
     }
 
-    public boolean canMoveColumn(int deltaColumn){
+    public boolean canMoveColumn(int deltaColumn) {
         int moveColumn = column + deltaColumn;
         return moveColumn <= MAX_COLUMN && moveColumn >= MIN_COLUMN;
     }
 
-    public Column moveColumn(int deltaColumn){
+    public Column moveColumn(int deltaColumn) {
         return new Column(column + deltaColumn);
     }
 

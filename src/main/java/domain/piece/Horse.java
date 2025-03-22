@@ -1,9 +1,10 @@
 package domain.piece;
 
-import domain.position.Direction;
 import domain.Path;
-import domain.position.Position;
 import domain.TeamType;
+import domain.piece.move.FixedMoveRule;
+import domain.piece.path.DefaultPathValidator;
+import domain.position.Direction;
 import java.util.List;
 
 public class Horse extends Piece {
@@ -22,8 +23,8 @@ public class Horse extends Piece {
         );
     }
 
-    public Horse(Position position, TeamType teamType) {
-        super(position, teamType);
+    public Horse(TeamType teamType) {
+        super(teamType, new FixedMoveRule(PATHS), new DefaultPathValidator());
     }
 
     private Horse(Horse horse) {
@@ -38,10 +39,5 @@ public class Horse extends Piece {
     @Override
     public Piece newInstance() {
         return new Horse(this);
-    }
-
-    @Override
-    protected List<Path> getPaths() {
-        return PATHS;
     }
 }

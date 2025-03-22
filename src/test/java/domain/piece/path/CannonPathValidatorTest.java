@@ -21,13 +21,14 @@ class CannonPathValidatorTest {
 
     @BeforeEach
     void beforeEach() {
-        Board board = new Board(
+        board = new Board(
                 Map.of(
-                        Position.of(3, 4), new Cannon(TeamType.HAN)),
-                        Position.of(5, 2), new Horse(TeamType.CHO)),
-                        Position.of(3, 1), new Soldier(TeamType.CHO)),
-                        Position.of(7, 2), new Cannon(TeamType.CHO))
-                );
+                        Position.of(3, 4), new Cannon(TeamType.HAN),
+                        Position.of(5, 2), new Horse(TeamType.CHO),
+                        Position.of(3, 1), new Soldier(TeamType.CHO),
+                        Position.of(7, 2), new Cannon(TeamType.CHO)
+                )
+        );
     }
 
     @Test
@@ -87,7 +88,7 @@ class CannonPathValidatorTest {
 
     @Test
     @DisplayName("포가 포를 잡으려고 하면 예외가 발생한다")
-    void validateDestinationCannon(){
+    void validateDestinationCannon() {
         // given
         CannonPathValidator cannonPathValidator = new CannonPathValidator();
         Position destination = Position.of(3, 4);

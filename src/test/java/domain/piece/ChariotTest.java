@@ -1,10 +1,13 @@
 package domain.piece;
 
-import domain.Position;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import domain.Board;
 import domain.TeamType;
-import java.util.List;
+import domain.position.Position;
+import java.util.Map;
 import java.util.stream.Stream;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,81 +16,115 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class ChariotTest {
 
-    static Stream<Arguments> canMoveChariot() {
+    static Stream<Arguments> validateMoveChariotEmpty() {
         return Stream.of(
-                Arguments.of(Position.of(4, 3), true),
-                Arguments.of(Position.of(5, 3), true),
-                Arguments.of(Position.of(6, 3), true),
-                Arguments.of(Position.of(7, 3), true),
-                Arguments.of(Position.of(8, 3), true),
-                Arguments.of(Position.of(2, 3), true),
-                Arguments.of(Position.of(1, 3), true),
-                Arguments.of(Position.of(0, 3), true),
-                Arguments.of(Position.of(3, 2), true),
-                Arguments.of(Position.of(3, 1), true),
-                Arguments.of(Position.of(3, 0), true),
-                Arguments.of(Position.of(3, 4), true),
-                Arguments.of(Position.of(3, 5), true),
-                Arguments.of(Position.of(3, 6), true),
-                Arguments.of(Position.of(3, 7), true),
-                Arguments.of(Position.of(3, 8), true),
-                Arguments.of(Position.of(4, 4), false),
-                Arguments.of(Position.of(5, 5), false)
+                Arguments.of(Position.of(4, 3)),
+                Arguments.of(Position.of(5, 3)),
+                Arguments.of(Position.of(6, 3)),
+                Arguments.of(Position.of(7, 3)),
+                Arguments.of(Position.of(8, 3)),
+                Arguments.of(Position.of(2, 3)),
+                Arguments.of(Position.of(1, 3)),
+                Arguments.of(Position.of(0, 3)),
+                Arguments.of(Position.of(3, 2)),
+                Arguments.of(Position.of(3, 1)),
+                Arguments.of(Position.of(3, 0)),
+                Arguments.of(Position.of(3, 4)),
+                Arguments.of(Position.of(3, 5)),
+                Arguments.of(Position.of(3, 6)),
+                Arguments.of(Position.of(3, 7)),
+                Arguments.of(Position.of(3, 8))
         );
     }
 
     @ParameterizedTest
     @MethodSource
     @DisplayName("이동하려는 경로가 비었을 때 정상적으로 이동할 수 있다")
-    void canMoveChariot(Position movePosition, boolean expected) {
+    void validateMoveChariotEmpty(Position movePosition) {
+        // given
         Position startPosition = Position.of(3, 3);
-        Piece chariot = new Chariot(startPosition, TeamType.CHO);
+        Piece chariot = new Chariot(TeamType.CHO);
+        Board board = new Board(Map.of());
 
-        Assertions.assertThat(chariot.canMove(movePosition, List.of())).isEqualTo(expected);
+        // when & then
+        assertThatCode(() -> chariot.validateMove(startPosition, movePosition, board))
+                .doesNotThrowAnyException();
+    }
+
+    static Stream<Arguments> validateMoveChariotException() {
+        return Stream.of(
+                Arguments.of(Position.of(4, 4)),
+                Arguments.of(Position.of(5, 5))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    @DisplayName("이동할 수 없는 경로면 예외가 발생한다")
+    void validateMoveChariotException(Position movePosition) {
+        // given
+        Position startPosition = Position.of(3, 3);
+        Piece chariot = new Chariot(TeamType.CHO);
+        Board board = new Board(Map.of());
+
+        // when & then
+        assertThatThrownBy(() -> chariot.validateMove(startPosition, movePosition, board))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("지정한 포지션으로 이동할 수 없습니다.");
     }
 
     @Test
-    @DisplayName("이동 경로에 다른 기물이 있으면 false를 반환한다")
-    void canMoveChariot2() {
+    @DisplayName("이동 경로에 다른 기물이 있으면 예외가 발생한다")
+    void validateMoveChariotBlocked() {
+        // given
         Position startPosition = Position.of(2, 2);
         Position expectedPosition = Position.of(4, 2);
-        Piece chariot = new Chariot(startPosition, TeamType.HAN);
+        Piece chariot = new Chariot(TeamType.HAN);
 
         Position otherPosition = Position.of(3, 2);
-        Piece soldier = new Soldier(otherPosition, TeamType.HAN);
+        Piece other = new Soldier(TeamType.HAN);
 
-        boolean result = chariot.canMove(expectedPosition, List.of(soldier, chariot));
+        Board board = new Board(Map.of(otherPosition, other));
 
-        Assertions.assertThat(result).isFalse();
+        // when & then
+        assertThatThrownBy(() -> chariot.validateMove(startPosition, expectedPosition, board))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이동 경로에 기물이 있어 이동할 수 없습니다.");
     }
 
     @Test
-    @DisplayName("도착 지점에 아군이 있으면 false를 반환한다")
-    void canMoveChariot3() {
+    @DisplayName("도착 지점에 아군이 있으면 예외가 발생한다")
+    void validateMoveChariotTeam() {
+        // given
         Position startPosition = Position.of(2, 2);
         Position expectedPosition = Position.of(4, 2);
-        Piece chariot = new Chariot(startPosition, TeamType.HAN);
+        Piece chariot = new Chariot(TeamType.HAN);
 
         Position otherPosition = Position.of(4, 2);
-        Piece soldier = new Soldier(otherPosition, TeamType.HAN);
+        Piece other = new Soldier(TeamType.HAN);
+        Board board = new Board(Map.of(otherPosition, other));
 
-        boolean result = chariot.canMove(expectedPosition, List.of(soldier, chariot));
-
-        Assertions.assertThat(result).isFalse();
+        // when & then
+        assertThatThrownBy(() -> chariot.validateMove(startPosition, expectedPosition, board))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이동하려는 위치에 같은 팀의 기물이 존재합니다.");
     }
 
     @Test
-    @DisplayName("도착 지점에 적이 있으면 true를 반환한다")
-    void canMoveChariot4() {
+    @DisplayName("도착 지점에 적이 있으면 예외가 발생하지 않는다")
+    void validateMoveChariotEnemy() {
+        // given
         Position startPosition = Position.of(2, 2);
         Position expectedPosition = Position.of(4, 2);
-        Piece chariot = new Chariot(startPosition, TeamType.HAN);
+        Piece chariot = new Chariot(TeamType.HAN);
 
         Position otherPosition = Position.of(4, 2);
-        Piece soldier = new Soldier(otherPosition, TeamType.CHO);
+        Piece other = new Soldier(TeamType.CHO);
 
-        boolean result = chariot.canMove(expectedPosition, List.of(soldier, chariot));
+        Board board = new Board(Map.of(otherPosition, other));
 
-        Assertions.assertThat(result).isTrue();
+        // when & then
+        assertThatCode(() -> chariot.validateMove(startPosition, expectedPosition, board))
+                .doesNotThrowAnyException();
     }
 }

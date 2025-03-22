@@ -1,9 +1,10 @@
 package domain.piece;
 
-import domain.position.Direction;
 import domain.Path;
-import domain.position.Position;
 import domain.TeamType;
+import domain.piece.move.FixedMoveRule;
+import domain.piece.path.DefaultPathValidator;
+import domain.position.Direction;
 import java.util.List;
 import java.util.Map;
 
@@ -25,8 +26,8 @@ public class Soldier extends Piece {
         );
     }
 
-    public Soldier(Position position, TeamType teamType) {
-        super(position, teamType);
+    public Soldier(TeamType teamType) {
+        super(teamType, new FixedMoveRule(getPathsByTeam(teamType)), new DefaultPathValidator());
     }
 
     private Soldier(Soldier soldier) {
@@ -43,9 +44,8 @@ public class Soldier extends Piece {
         return new Soldier(this);
     }
 
-    @Override
-    protected List<Path> getPaths() {
-        if(!TEAM_PATH.containsKey(teamType)){
+    private static List<Path> getPathsByTeam(TeamType teamType) {
+        if (!TEAM_PATH.containsKey(teamType)) {
             throw new IllegalStateException("존재하지 않는 팀입니다.");
         }
         return TEAM_PATH.get(teamType);

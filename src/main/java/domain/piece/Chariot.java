@@ -1,33 +1,29 @@
 package domain.piece;
 
-import domain.position.Column;
-import domain.position.Direction;
-import domain.Path;
-import domain.position.Position;
-import domain.position.Row;
 import domain.TeamType;
-import java.util.ArrayList;
-import java.util.Collections;
+import domain.piece.move.UnlimitedMoveRule;
+import domain.piece.path.DefaultPathValidator;
+import domain.position.Direction;
 import java.util.List;
 
 public class Chariot extends Piece {
 
-    private static final List<Path> PATHS;
+    private static final List<Direction> DIRECTIONS;
 
     static {
-        PATHS = List.of(
-                new Path(new ArrayList<>(Collections.nCopies(Row.MAX_ROW, Direction.DOWN))),
-                new Path(new ArrayList<>(Collections.nCopies(Row.MAX_ROW, Direction.UP))),
-                new Path(new ArrayList<>(Collections.nCopies(Column.MAX_COLUMN, Direction.LEFT))),
-                new Path(new ArrayList<>(Collections.nCopies(Column.MAX_COLUMN, Direction.RIGHT)))
+        DIRECTIONS = List.of(
+                Direction.UP,
+                Direction.DOWN,
+                Direction.LEFT,
+                Direction.RIGHT
         );
     }
 
-    public Chariot(Position position, TeamType teamType) {
-        super(position, teamType);
+    public Chariot(TeamType teamType) {
+        super(teamType, new UnlimitedMoveRule(DIRECTIONS), new DefaultPathValidator());
     }
 
-    private Chariot(Chariot chariot){
+    private Chariot(Chariot chariot) {
         super(chariot);
     }
 
@@ -39,10 +35,5 @@ public class Chariot extends Piece {
     @Override
     public Piece newInstance() {
         return new Chariot(this);
-    }
-
-    @Override
-    protected List<Path> getPaths() {
-        return PATHS;
     }
 }

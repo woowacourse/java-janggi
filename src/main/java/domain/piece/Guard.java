@@ -1,9 +1,10 @@
 package domain.piece;
 
-import domain.position.Direction;
 import domain.Path;
-import domain.position.Position;
 import domain.TeamType;
+import domain.piece.move.FixedMoveRule;
+import domain.piece.path.DefaultPathValidator;
+import domain.position.Direction;
 import java.util.List;
 
 public class Guard extends Piece {
@@ -18,8 +19,8 @@ public class Guard extends Piece {
         );
     }
 
-    public Guard(Position position, TeamType teamType) {
-        super(position, teamType);
+    public Guard(TeamType teamType) {
+        super(teamType, new FixedMoveRule(PATHS), new DefaultPathValidator());
     }
 
     private Guard(Guard guard) {
@@ -36,8 +37,4 @@ public class Guard extends Piece {
         return new Guard(this);
     }
 
-    @Override
-    protected List<Path> getPaths() {
-        return PATHS;
-    }
 }
