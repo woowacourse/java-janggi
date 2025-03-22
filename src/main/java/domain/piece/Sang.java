@@ -17,7 +17,7 @@ public class Sang extends Piece {
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         validateMoveCoordinate(board, from, to);
         validateMaMoveStrategy(board, from, to);
-        validateTarget(board, from, to);
+        validateTarget(board, to);
     }
 
     private void validateMaMoveStrategy(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
@@ -60,7 +60,7 @@ public class Sang extends Piece {
         }
     }
 
-    private void validateTarget(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+    private void validateTarget(JanggiBoard board, JanggiCoordinate to) {
         if (board.isOccupied(to) && isSameCountry(board.findPieceByCoordinate(to))) {
             throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
         }
