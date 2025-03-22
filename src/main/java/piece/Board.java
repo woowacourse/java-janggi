@@ -1,4 +1,4 @@
-package chessPiece;
+package piece;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,6 +1,6 @@
 package view;
 
-import chessPiece.Position;
+import piece.Position;
 import java.util.Scanner;
 
 public class InputView {

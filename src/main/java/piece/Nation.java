@@ -1,4 +1,4 @@
-package chessPiece;
+package piece;
 
 public enum Nation {
     HAN,

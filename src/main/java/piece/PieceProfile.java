@@ -1,4 +1,4 @@
-package chessPiece;
+package piece;
 
 public class PieceProfile {
 

@@ -1,8 +1,8 @@
 package view;
 
-import chessPiece.Position;
-import chessPiece.Piece;
-import chessPiece.Nation;
+import piece.Position;
+import piece.Piece;
+import piece.Nation;
 import java.util.Map;
 
 public class OutputView {

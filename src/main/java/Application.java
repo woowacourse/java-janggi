@@ -1,6 +1,6 @@
-import chessPiece.Board;
-import chessPiece.Position;
-import chessPiece.ChessPieceInitializer;
+import piece.Board;
+import piece.Position;
+import piece.ChessPieceInitializer;
 import view.InputView;
 import view.OutputView;
 

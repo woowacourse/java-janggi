@@ -1,4 +1,4 @@
-package chessPiece;
+package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -11,63 +11,63 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class SaTest {
+class JanggunTest {
 
-    @DisplayName("사는 위치 정보를 가진다,")
+    @DisplayName("왕은 위치 정보를 가진다,")
     @Test
-    void saBoardPosition() {
+    void janggunBoardPosition() {
         //given
         Position position = new Position(4, 5);
 
         //when
-        Sa sa = new Sa(new PieceProfile("사", Nation.HAN), position);
+        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), position);
 
         //then
-        assertThat(sa.getBoardPosition()).isEqualTo(new Position(4, 5));
+        assertThat(janggun.getBoardPosition()).isEqualTo(new Position(4, 5));
     }
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
-    @MethodSource("saNonIsMovePositionProvider")
+    @MethodSource("JanggunNonIsMovePositionProvider")
     void isMoveValidate(Position position) {
         //given
-        Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
+        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new Position(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> sa.isMove(position))
+        assertThatThrownBy(() -> janggun.isMove(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("사는 상하좌우 한칸을 움직일 수 있다면 true를 반환한다.")
+    @DisplayName("왕은 상하좌우 한칸을 움직일 수 있다면 true를 반환한다.")
     @ParameterizedTest
-    @MethodSource("saIsMovePositionProvider")
+    @MethodSource("janggunIsMovePositionProvider")
     void isMove(Position position) {
         //given
-        Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
+        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new Position(5, 5));
 
         //when
-        boolean actual = sa.isMove(position);
+        boolean actual = janggun.isMove(position);
 
         //then
         assertThat(actual).isTrue();
     }
 
-    @DisplayName("사는 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
+    @DisplayName("왕은 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
     @Test
     void makeRoute() {
         //given
-        Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
+        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new Position(5, 5));
         Position futurePosition = new Position(4, 5);
 
         //when
-        List<Position> actual = sa.makeRoute(futurePosition);
+        List<Position> actual = janggun.makeRoute(futurePosition);
 
         //then
         assertThat(actual.contains(futurePosition)).isTrue();
     }
 
-    private static Stream<Arguments> saNonIsMovePositionProvider() {
+    private static Stream<Arguments> JanggunNonIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(7, 5)),
                 Arguments.of(new Position(3, 5)),
@@ -80,7 +80,7 @@ class SaTest {
         );
     }
 
-    private static Stream<Arguments> saIsMovePositionProvider() {
+    private static Stream<Arguments> janggunIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(6, 5)),
                 Arguments.of(new Position(5, 6)),
