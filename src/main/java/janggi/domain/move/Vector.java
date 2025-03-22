@@ -14,4 +14,8 @@ public record Vector(int y, int x) {
         }
         return new Vector(y, x);
     }
+
+    public Vector add(Vector vector) {
+        return new Vector(y + vector.y, x + vector.x);
+    }
 }

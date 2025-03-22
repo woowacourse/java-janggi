@@ -33,10 +33,11 @@ public abstract class RotateMoveBehavior implements PieceBehavior {
                                                  Side side);
 
     protected abstract void searchAvailableMove(Set<Position> result, Board board, Position position, Side side,
-                                                List<Vector> vectors);
+                                                Vectors vectors);
 
-    protected boolean canNotMove(List<Vector> vectors, Position currentPosition) {
-        return vectors.stream()
+    protected boolean canNotMove(Vectors vectors, Position currentPosition) {
+        return vectors.vectors()
+                .stream()
                 .allMatch(currentPosition::canNotMove);
     }
 }
