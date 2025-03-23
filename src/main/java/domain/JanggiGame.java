@@ -21,7 +21,9 @@ public class JanggiGame {
                 new Player(playerNames.getLast(), Team.HAN));
     }
 
-    public void move(Position startPosition, Position targetPosition) {
+    public void move(List<Integer> startRowAndColumn, List<Integer> targetRowAndColumn) {
+        Position startPosition = new Position(startRowAndColumn.getFirst(), startRowAndColumn.getLast());
+        Position targetPosition = new Position(targetRowAndColumn.getFirst(), targetRowAndColumn.getLast());
         validateMovePiece(startPosition, targetPosition);
         janggiBoard.move(startPosition, targetPosition);
         if (sequence == SEQUENCE_ZERO) {

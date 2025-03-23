@@ -24,13 +24,8 @@ public class JanggiController {
         outputView.displayPlayerInfo(playerNames);
         outputView.printJanggiBoard(janggiGame.getBoardState());
         while (true) {
-            Player thisTurnPlayer = janggiGame.getThisTurnPlayer();
-            List<Integer> startRowAndColumn = inputView.readMovePiecePosition(thisTurnPlayer);
-            List<Integer> targetRowAndColumn = inputView.readTargetPosition(thisTurnPlayer);
-            Position startPosition = new Position(startRowAndColumn.getFirst(), startRowAndColumn.getLast());
-            Position targetPosition = new Position(targetRowAndColumn.getFirst(), targetRowAndColumn.getLast());
-            janggiGame.move(startPosition, targetPosition);
-
+            outputView.printTurnMessage(janggiGame.getThisTurnPlayer());
+            janggiGame.move(inputView.readMovePiecePosition(), inputView.readTargetPosition());
             outputView.printJanggiBoard(janggiGame.getBoardState());
         }
     }
