@@ -3,8 +3,12 @@ package piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import pieceProperty.Position;
 
 class PositionTest {
@@ -21,12 +25,22 @@ class PositionTest {
     }
 
     @DisplayName("장기판의 범위를 초과하면 예외를 발생한다.")
-    @Test
-    void validateOutOfBound() {
+    @ParameterizedTest
+    @MethodSource("validateOutOfBoundProvider")
+    void validateOutOfBound(int row, int col) {
         //when - then
-        assertThatThrownBy(() -> new Position(11, 9))
+        assertThatThrownBy(() -> new Position(row, col))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
+    }
+
+    private static Stream<Arguments> validateOutOfBoundProvider() {
+        return Stream.of(
+                Arguments.of(-1, 7),
+                Arguments.of(11, 9),
+                Arguments.of(7, -1),
+                Arguments.of(7, 11)
+        );
     }
 
     @Test
