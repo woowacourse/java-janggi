@@ -1,15 +1,13 @@
 package janggi;
 
 import janggi.Team.Team;
+import janggi.Team.Turn;
 import janggi.board.Board;
 import janggi.board.BoardFactory;
-import janggi.piece.Team;
+import janggi.board.ElephantSetting;
 import janggi.utils.ExceptionHandler;
 import janggi.view.InputView;
 import janggi.view.ResultView;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.List;
 
 public class JanggiConsole {
 
@@ -23,16 +21,23 @@ public class JanggiConsole {
 
     public void start() {
         final BoardFactory boardFactory = new BoardFactory();
-        final Board board = boardFactory.makeBoard();
+        final Turn turn = new Turn();
+
+        resultView.printSetting();
+        ElephantSetting choElephantSetting = ElephantSetting.selectSetting(
+                inputView.readElephantSetting(turn.getAndTurnOver()));
+        ElephantSetting hanElephantSetting = ElephantSetting.selectSetting(
+                inputView.readElephantSetting(turn.getAndTurnOver()));
+        final Board board = boardFactory.makeBoard(choElephantSetting, hanElephantSetting);
+
         resultView.printBoard(board.getPieces());
-        final Deque<Team> orders = new ArrayDeque<>(List.of(Team.CHO, Team.HAN));
 
         while (board.canContinue()) {
-            final Team currentTeam = orders.poll();
+            final Team currentTeam = turn.getCurrentTeam();
             resultView.printOrder(currentTeam);
             ExceptionHandler.retry(() -> board.move(inputView.readMovingPosition(), currentTeam));
             resultView.printBoard(board.getPieces());
-            orders.offer(currentTeam);
+            turn.turnOver();
         }
 
         resultView.printJanggiResult(board.findWinningTeam());
