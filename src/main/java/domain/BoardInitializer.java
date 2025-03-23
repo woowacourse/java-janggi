@@ -1,10 +1,5 @@
 package domain;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.Elephant;
@@ -12,12 +7,16 @@ import domain.piece.Guard;
 import domain.piece.Horse;
 import domain.piece.King;
 import domain.piece.Solider;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class BoardInitializer {
 
     public Board init() {
         Board board = new Board();
-        Arrays.stream(Team.values()).forEach(team -> {
+        Arrays.stream(Color.values()).forEach(team -> {
             putSoldiers(team, board);
             putCannon(team, board);
             putKing(team, board);
@@ -29,60 +28,60 @@ public class BoardInitializer {
         return board;
     }
 
-    private void putHorse(final Team team, final Board board) {
+    private void putHorse(final Color color, final Board board) {
         board.putPieces(List.of(
-                new Horse(new Position(3, calculateRow(team, 0)), team, board),
-                new Horse(new Position(8, calculateRow(team, 0)), team, board)
+                new Horse(new Position(calculateRow(color, 0), 3), color, board),
+                new Horse(new Position(calculateRow(color, 0), 8), color, board)
         ));
     }
 
-    private void putElephant(final Team team, final Board board) {
+    private void putElephant(final Color color, final Board board) {
         board.putPieces(List.of(
-                new Elephant(new Position(2, calculateRow(team, 0)), team, board),
-                new Elephant(new Position(7, calculateRow(team, 0)), team, board)
+                new Elephant(new Position(calculateRow(color, 0), 2), color, board),
+                new Elephant(new Position( calculateRow(color, 0), 7), color, board)
         ));
     }
 
-    private void putGuard(final Team team, final Board board) {
+    private void putGuard(final Color color, final Board board) {
         board.putPieces(List.of(
-                new Guard(new Position(4, calculateRow(team, 0)), team, board),
-                new Guard(new Position(6, calculateRow(team, 0)), team, board)
+                new Guard(new Position(calculateRow(color, 0), 4), color, board),
+                new Guard(new Position(calculateRow(color, 0), 6), color, board)
         ));
     }
 
-    private void putChariot(final Team team, final Board board) {
+    private void putChariot(final Color color, final Board board) {
         board.putPieces(List.of(
-                new Chariot(new Position(1, calculateRow(team, 0)), team, board),
-                new Chariot(new Position(9, calculateRow(team, 0)), team, board)
+                new Chariot(new Position(calculateRow(color, 0), 1), color, board),
+                new Chariot(new Position(calculateRow(color, 0), 9), color, board)
         ));
     }
 
-    private void putKing(final Team team, final Board board) {
+    private void putKing(final Color color, final Board board) {
         board.putPieces(List.of(
-                new King(new Position(5, calculateRow(team, 1)), team, board),
-                new King(new Position(5, calculateRow(team, 1)), team, board)
+                new King(new Position(calculateRow(color, 1), 5), color, board),
+                new King(new Position(calculateRow(color, 1), 5), color, board)
         ));
     }
 
-    private void putCannon(final Team team, final Board board) {
+    private void putCannon(final Color color, final Board board) {
         board.putPieces(List.of(
-                new Cannon(new Position(2, calculateRow(team, 2)), team, board),
-                new Cannon(new Position(8, calculateRow(team, 2)), team, board)
+                new Cannon(new Position(calculateRow(color, 2), 2), color, board),
+                new Cannon(new Position(calculateRow(color, 2), 8), color, board)
         ));
     }
 
-    private void putSoldiers(final Team team, final Board board) {
+    private void putSoldiers(final Color color, final Board board) {
         board.putPieces(IntStream.range(1, 10)
                 .filter(BoardInitializer::isSoldierColumn)
                 .mapToObj(column -> new Solider(
-                        new Position(column, calculateRow(team, 3)),
-                        team,
+                        new Position(calculateRow(color, 3), column),
+                        color,
                         board)
                 ).collect(Collectors.toUnmodifiableList()));
     }
 
-    private int calculateRow(final Team team, final int rankLine) {
-        return team.getInitRow() + team.convertRowOffsetByTeam(rankLine);
+    private int calculateRow(final Color color, final int rankLine) {
+        return color.getInitRow() + color.convertRowOffsetByTeam(rankLine);
     }
 
     private static boolean isSoldierColumn(final int column) {

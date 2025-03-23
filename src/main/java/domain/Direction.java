@@ -22,23 +22,23 @@ public enum Direction {
         this.deltaColumn = deltaColumn;
     }
 
-    public int getDeltaRow() {
+    public int deltaRow() {
         return deltaRow;
     }
 
-    public int getDeltaColumn() {
+    public int deltaColumn() {
         return deltaColumn;
     }
 
     public static List<Direction> getStraightDirection() {
         return Arrays.stream(values())
-                .filter(direction -> direction.getDeltaRow() == 0 || direction.getDeltaColumn() == 0)
+                .filter(direction -> direction.deltaRow() == 0 || direction.deltaColumn() == 0)
                 .toList();
     }
 
     public static List<Direction> getCrossDirection() {
         return Arrays.stream(values())
-                .filter(direction -> direction.getDeltaRow() != 0 && direction.getDeltaColumn() != 0)
+                .filter(direction -> direction.deltaRow() != 0 && direction.deltaColumn() != 0)
                 .toList();
     }
 
@@ -51,16 +51,8 @@ public enum Direction {
 
     private boolean isSameStraightDirection(Direction direction) {
         if (deltaColumn != 0) {
-            return direction.getDeltaColumn() == deltaColumn;
+            return direction.deltaColumn() == deltaColumn;
         }
-        return direction.getDeltaRow() == deltaRow;
-    }
-
-    public boolean isCrossDirection() {
-        return Math.abs(deltaColumn) + Math.abs(deltaRow) == 2;
-    }
-
-    public boolean isStraightDirection() {
-        return Math.abs(deltaColumn) + Math.abs(deltaRow) == 1;
+        return direction.deltaRow() == deltaRow;
     }
 }

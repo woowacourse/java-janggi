@@ -1,58 +1,44 @@
 package domain.piece;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import domain.Board;
+import domain.Color;
 import domain.Direction;
+import domain.Path;
 import domain.Position;
-import domain.Team;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Elephant extends Piece {
 
-    public Elephant(final Position position, final Team team, final Board board) {
-        super(position, team, board);
+    public Elephant(final Position position, final Color color, final Board board) {
+        super(position, color, board);
     }
 
     @Override
     protected Set<Position> getMovablePositions() {
-        Set<Position> positions = new HashSet<>();
-        Direction.getStraightDirection().forEach(direction -> goOneSide(
-                position.nextPosition(direction),
-                direction,
-                positions,
-                0
-        ));
-        return positions;
+        return generatePath().stream()
+                .filter(path -> !board.isSameTeam(this, position.move(path)))
+                .filter(path -> !containsCornerPiece(path.cornerPositions()))
+                .map(Path::targetPosition)
+                .collect(Collectors.toSet());
+    }
+
+    private List<Path> generatePath() {
+        return Direction.getStraightDirection().stream()
+                .flatMap(direction -> direction.nextCrossDirection().stream()
+                        .map(cross -> List.of(direction, cross, cross))
+                        .filter(pathDirections -> position.canMove(pathDirections))
+                        .map(pathDirections -> new Path(pathDirections, position))
+                ).toList();
+    }
+
+    private boolean containsCornerPiece(List<Position> positions) {
+        return positions.stream().anyMatch(board::isExists);
     }
 
     @Override
     public String getDisplayName() {
         return "상";
     }
-
-    void goOneSide(Position position, Direction direction, Set<Position> positions, int moveCount) {
-        if (exitCondition(position, moveCount)) {
-            return;
-        }
-        if (moveCount == 2 && !board.isSameTeam(this, position)) {
-            positions.add(position);
-        }
-        if (direction.isStraightDirection()) {
-            direction.nextCrossDirection().forEach(crossDirection ->
-                    goOneSide(position.nextPosition(crossDirection), crossDirection, positions, moveCount + 1)
-            );
-            return;
-        }
-        goOneSide(position.nextPosition(direction), direction, positions, moveCount + 1);
-    }
-
-    private boolean exitCondition(Position position, int moveCount) {
-        return (
-                position.isInValidPosition() ||
-                (moveCount != 2 && board.isExists(position)) ||
-                moveCount > 2
-        );
-    }
-
 }

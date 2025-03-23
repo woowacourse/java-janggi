@@ -1,50 +1,45 @@
 package domain.piece;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import domain.Board;
+import domain.Color;
 import domain.Direction;
 import domain.Position;
-import domain.Team;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Chariot extends Piece {
 
-    public Chariot(final Position position, final Team team, final Board board) {
-        super(position, team, board);
+    public Chariot(final Position position, final Color color, final Board board) {
+        super(position, color, board);
     }
 
     @Override
     public Set<Position> getMovablePositions() {
-        Set<Position> positions = new HashSet<>();
-        Direction.getStraightDirection().forEach(direction -> goOneSide(
-                position.nextPosition(direction),
-                direction,
-                positions
-        ));
-        return positions;
+        return Direction.getStraightDirection().stream()
+                .flatMap(direction -> calculateMovablePositionInDirection(direction, position).stream())
+                .collect(Collectors.toSet());
+    }
+
+    private Set<Position> calculateMovablePositionInDirection(final Direction direction, final Position position) {
+        if (!position.canMove(direction)) {
+            return Set.of();
+        }
+        Position nextPosition = position.move(direction);
+        if (board.isSameTeam(this, nextPosition)) {
+            return Set.of();
+        }
+        if (board.isExists(nextPosition)) {
+            return Set.of(nextPosition);
+        }
+        return Stream.concat(
+                Stream.of(nextPosition),
+                calculateMovablePositionInDirection(direction, nextPosition).stream()
+        ).collect(Collectors.toSet());
     }
 
     @Override
     public String getDisplayName() {
         return "차";
     }
-
-    private void goOneSide(Position position, Direction direction, Set<Position> positions) {
-        if (exitCondition(position)) {
-            return;
-        }
-        if (!board.isExists(position)) {
-            goOneSide(position.nextPosition(direction), direction, positions);
-        }
-        positions.add(position);
-    }
-
-    private boolean exitCondition(Position position) {
-        return (
-                position.isInValidPosition() ||
-                (board.isExists(position) && board.isSameTeam(this, position))
-        );
-    }
-
 }

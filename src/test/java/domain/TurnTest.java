@@ -9,13 +9,13 @@ class TurnTest {
     void 현재_라운드가_어떤_팀의_차례인지_반환한다() {
         Turn turn = new Turn();
 
-        Assertions.assertThat(turn.getCurrnetTeam()).isEqualTo(Team.BLUE);
+        Assertions.assertThat(turn.getCurrnetTeam()).isEqualTo(Color.BLUE);
     }
 
     @Test
     void 라운드가_한번_진행되면_어떤_팀의_차례인지_반환한다() {
         Turn turn = new Turn();
         turn.increaseRound();
-        Assertions.assertThat(turn.getCurrnetTeam()).isEqualTo(Team.RED);
+        Assertions.assertThat(turn.getCurrnetTeam()).isEqualTo(Color.RED);
     }
 }

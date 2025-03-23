@@ -2,14 +2,14 @@ package domain;
 
 public class Player {
 
-    private final Team team;
+    private final Color color;
 
-    public Player(final Team team) {
-        this.team = team;
+    public Player(final Color color) {
+        this.color = color;
     }
 
-    public Team getTeam() {
-        return team;
+    public Color getTeam() {
+        return color;
     }
 
 }

@@ -1,23 +1,22 @@
 package domain.piece;
 
+import domain.Board;
+import domain.Color;
+import domain.Direction;
+import domain.Position;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import domain.Board;
-import domain.Direction;
-import domain.Position;
-import domain.Team;
-
 public class Guard extends Piece {
 
-    public Guard(final Position position, final Team team, final Board board) {
-        super(position, team, board);
+    public Guard(final Position position, final Color color, final Board board) {
+        super(position, color, board);
     }
 
     @Override
     protected Set<Position> getMovablePositions() {
         return Direction.getStraightDirection().stream()
-                .map(direction -> position.nextPosition(direction))
+                .map(direction -> position.move(direction))
                 .filter(this::isMovable)
                 .collect(Collectors.toSet());
     }

@@ -1,12 +1,12 @@
 package domain;
 
-public enum Team {
+public enum Color {
     RED(1),
     BLUE(10);
 
     private final int initRow;
 
-    Team(final int initRow) {
+    Color(final int initRow) {
         this.initRow = initRow;
     }
 
@@ -15,7 +15,7 @@ public enum Team {
     }
 
     public int convertRowOffsetByTeam(int offset) {
-        if (this == Team.BLUE) {
+        if (this == Color.BLUE) {
             return -offset;
         }
         return offset;

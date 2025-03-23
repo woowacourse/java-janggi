@@ -1,17 +1,16 @@
 package view;
 
-import java.util.stream.IntStream;
-
 import domain.Board;
+import domain.Color;
 import domain.Position;
-import domain.Team;
 import domain.piece.Piece;
+import java.util.stream.IntStream;
 
 public class OutputView {
 
-    private static final String red = "\u001B[31m";
-    private static final String blue = "\u001B[34m";
-    private static final String exit = "\u001B[0m";
+    private static final String RED = "\u001B[31m";
+    private static final String BLUE = "\u001B[34m";
+    private static final String EXIT = "\u001B[0m";
     private static final String BLANK_CELL = "ㅁ";
 
     public void printBoard(final Board board) {
@@ -54,11 +53,11 @@ public class OutputView {
         System.out.println(String.join(" ", "[ERROR]", content));
     }
 
-    private String convertContentColor(final Team team, final String content) {
-        if (team == Team.BLUE) {
-            return String.format("%s%s%s", blue, content, exit);
+    private String convertContentColor(final Color color, final String content) {
+        if (color == Color.BLUE) {
+            return String.format("%s%s%s", BLUE, content, EXIT);
         }
-        return String.format("%s%s%s", red, content, exit);
+        return String.format("%s%s%s", RED, content, EXIT);
     }
 
     public char toFullWidthCharacter(final String number) {

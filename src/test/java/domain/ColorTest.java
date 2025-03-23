@@ -5,12 +5,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
-class TeamTest {
+class ColorTest {
 
-    @EnumSource(Team.class)
+    @EnumSource(Color.class)
     @ParameterizedTest
-    void 팀은_홍팀과_청팀이_있다(Team team) {
-        assertThat(team).isEqualByComparingTo(team);
+    void 팀은_홍팀과_청팀이_있다(Color color) {
+        assertThat(color).isEqualByComparingTo(color);
     }
 
 }

@@ -4,11 +4,11 @@ public class Turn {
 
     private int value = 1;
 
-    public Team getCurrnetTeam() {
+    public Color getCurrnetTeam() {
         if (value % 2 == 0) {
-            return Team.RED;
+            return Color.RED;
         }
-        return Team.BLUE;
+        return Color.BLUE;
     }
 
     public void increaseRound() {

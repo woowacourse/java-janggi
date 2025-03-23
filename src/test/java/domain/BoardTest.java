@@ -1,13 +1,11 @@
 package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Chariot;
 import domain.piece.Piece;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -18,7 +16,7 @@ class BoardTest {
     void 장기판에_기물을_놓을_수_있다() {
         Board board = new Board(List.of());
         Position position = new Position(1, 1);
-        Piece piece = new Chariot(position, Team.BLUE, board);
+        Piece piece = new Chariot(position, Color.BLUE, board);
 
         board.putPiece(piece);
 
@@ -29,7 +27,7 @@ class BoardTest {
     void 위치를_알려주면_해당_위치의_기물을_장기판에서_제거한다() {
         Board board = new Board(List.of());
         Position position = new Position(1, 1);
-        Piece piece = new Chariot(position, Team.BLUE, board);
+        Piece piece = new Chariot(position, Color.BLUE, board);
         board.putPiece(piece);
 
         board.remove(position);
@@ -41,7 +39,7 @@ class BoardTest {
     void 장기판_기물이_존재하는지_확인한다() {
         Board board = new Board(List.of());
         Position position = new Position(1, 1);
-        Piece piece = new Chariot(position, Team.BLUE, board);
+        Piece piece = new Chariot(position, Color.BLUE, board);
         board.putPiece(piece);
 
         assertThat(board.isExists(position)).isTrue();
@@ -51,11 +49,11 @@ class BoardTest {
             "BLUE,true", "RED,false"
     })
     @ParameterizedTest
-    void 장기판_기물이_같은팀_기물인지_확인한다(Team team, boolean expected) {
+    void 장기판_기물이_같은팀_기물인지_확인한다(Color color, boolean expected) {
         Board board = new Board(List.of());
-        Chariot piece = new Chariot(new Position(1, 1), Team.BLUE, board);
+        Chariot piece = new Chariot(new Position(1, 1), Color.BLUE, board);
         board.putPiece(piece);
-        board.putPiece(new Chariot(new Position(2, 1), team, board));
+        board.putPiece(new Chariot(new Position(2, 1), color, board));
 
         assertThat(board.isSameTeam(piece, new Position(2, 1))).isEqualTo(expected);
     }
@@ -63,7 +61,7 @@ class BoardTest {
     @Test
     void 장기판에서_특정_위치의_기물을_찾는다() {
         Board board = new Board(List.of());
-        Piece piece = new Chariot(new Position(2, 1), Team.BLUE, board);
+        Piece piece = new Chariot(new Position(2, 1), Color.BLUE, board);
         board.putPiece(piece);
         assertThat(board.findPiece(new Position(2, 1))).isEqualTo(piece);
     }
@@ -71,15 +69,15 @@ class BoardTest {
     @Test
     void 장기판에서_내_팀의_특정_위치에_있는_기물을_찾는다() {
         Board board = new Board(List.of());
-        Piece piece = new Chariot(new Position(2, 1), Team.BLUE, board);
+        Piece piece = new Chariot(new Position(2, 1), Color.BLUE, board);
         board.putPiece(piece);
-        assertThat(board.findPiece(new Position(2, 1), Team.BLUE)).isEqualTo(piece);
+        assertThat(board.findPiece(new Position(2, 1), Color.BLUE)).isEqualTo(piece);
     }
 
     @Test
     void 장기판에서_특정_위치의_기물을_찾지_못한다() {
         Board board = new Board(List.of());
-        Piece piece = new Chariot(new Position(2, 1), Team.BLUE, board);
+        Piece piece = new Chariot(new Position(2, 1), Color.BLUE, board);
         board.putPiece(piece);
         assertThatThrownBy(() -> board.findPiece(new Position(2, 2)))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -88,9 +86,9 @@ class BoardTest {
     @Test
     void 장기판에서_내_팀의_특정_위치에_있는_기물을_찾지_못한다() {
         Board board = new Board(List.of());
-        Piece piece = new Chariot(new Position(2, 1), Team.BLUE, board);
+        Piece piece = new Chariot(new Position(2, 1), Color.BLUE, board);
         board.putPiece(piece);
-        assertThatThrownBy(() -> board.findPiece(new Position(2, 1), Team.RED))
+        assertThatThrownBy(() -> board.findPiece(new Position(2, 1), Color.RED))
                 .isInstanceOf(IllegalArgumentException.class);
 
     }

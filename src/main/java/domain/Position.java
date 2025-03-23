@@ -1,66 +1,48 @@
 package domain;
 
-import java.awt.Point;
-import java.util.Objects;
+import java.util.List;
 
-public class Position {
+public record Position(int row, int column) {
 
-    private final Point point;
     public static final int MIN_ROW = 1;
     public static final int MIN_COLUMN = 1;
     public static final int MAX_ROW = 10;
     public static final int MAX_COLUMN = 9;
 
-    public Position(final int column, final int row) {
-        this.point = new Point(column, row);
-    }
-
-    public int getColumn() {
-        return point.x;
-    }
-
-    public int getRow() {
-        return point.y;
-    }
-
-    public boolean isInValidPosition() {
-        int nextColumn = this.getColumn();
-        int nextRow = this.getRow();
-        return (
-                nextColumn < MIN_COLUMN ||
-                nextColumn > MAX_COLUMN ||
-                nextRow < MIN_ROW ||
-                nextRow > MAX_ROW
-        );
-    }
-
-    public Position nextPosition(final Direction direction) {
-        return new Position(
-                getColumn() + direction.getDeltaColumn(),
-                getRow() + direction.getDeltaRow()
-        );
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
+    public Position {
+        if (isInValidPosition(row, column)){
+            throw new IllegalArgumentException("위치는 장기판 내부여야 합니다.");
         }
-        if (!(o instanceof Position position)) {
-            return false;
+    }
+
+    public boolean canMove(final Path path) {
+        return !isInValidPosition(path.targetPosition().row, path.targetPosition().column);
+    }
+
+    public boolean canMove(final Direction direction) {
+        return !isInValidPosition(row + direction.deltaRow(), column + direction.deltaColumn());
+    }
+
+    public boolean canMove(final List<Direction> directions) {
+        Position currPosition = this;
+        for (Direction direction : directions) {
+            if (!currPosition.canMove(direction)) {
+                return false;
+            }
+            currPosition = currPosition.move(direction);
         }
-        return Objects.equals(point, position.point);
+        return true;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(point);
+    public Position move(final Direction direction) {
+        return new Position(row + direction.deltaRow(), column + direction.deltaColumn());
     }
 
-    @Override
-    public String toString() {
-        return "\nPosition{" +
-                "point=" + point +
-                '}';
+    public Position move(final Path path) {
+        return path.targetPosition();
+    }
+
+    private boolean isInValidPosition(int row, int column) {
+        return row < MIN_ROW || column < MIN_COLUMN || row > MAX_ROW || column > MAX_COLUMN;
     }
 }

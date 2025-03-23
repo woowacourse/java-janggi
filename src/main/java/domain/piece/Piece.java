@@ -1,20 +1,19 @@
 package domain.piece;
 
 import domain.Board;
+import domain.Color;
 import domain.Position;
-import domain.Team;
-import java.util.Objects;
 import java.util.Set;
 
 public abstract class Piece {
 
     protected Position position;
-    protected final Team team;
+    protected final Color color;
     protected final Board board;
 
-    protected Piece(final Position position, final Team team, final Board board) {
+    protected Piece(final Position position, final Color color, final Board board) {
         this.position = position;
-        this.team = team;
+        this.color = color;
         this.board = board;
     }
 
@@ -27,7 +26,7 @@ public abstract class Piece {
     }
 
     public boolean isSameTeam(final Piece otherPiece) {
-        return this.team == otherPiece.team;
+        return this.color == otherPiece.color;
     }
 
     public void move(final Position position) {
@@ -44,28 +43,11 @@ public abstract class Piece {
         return position;
     }
 
-    public Team getTeam() {
-        return team;
+    public Color getTeam() {
+        return color;
     }
 
     public Board getBoard() {
         return board;
     }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Piece piece)) {
-            return false;
-        }
-        return Objects.equals(getPosition(), piece.getPosition());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getPosition());
-    }
-
 }
