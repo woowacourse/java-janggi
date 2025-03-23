@@ -1,6 +1,7 @@
 package domain;
 
 import execptions.JanggiArgumentException;
+import java.util.EnumSet;
 
 public enum Team {
   HAN(false, 9),
@@ -27,6 +28,10 @@ public enum Team {
 
   public boolean isFirst() {
     return isFirst;
+  }
+
+  public static EnumSet<Team> getActualTeams() {
+    return EnumSet.complementOf(EnumSet.of(Team.NONE));
   }
 
   public int getInitialRow() {

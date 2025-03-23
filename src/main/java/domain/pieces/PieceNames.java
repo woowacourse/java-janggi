@@ -10,17 +10,17 @@ public enum PieceNames {
   GENERAL("將", "궁"),
   GUARD("士", "사"),
   SOLDIER("兵", "졸"),
-  EMPTY("-", "-");
+  EMPTY("ㅡ", "ㅡ");
 
   private final String nameForHan;
   private final String nameForCho;
 
-  PieceNames(String nameForHan, String nameForCho) {
+  PieceNames(final String nameForHan, final String nameForCho) {
     this.nameForHan = nameForHan;
     this.nameForCho = nameForCho;
   }
 
-  public String getNameForTeam(Team team) {
+  public String getNameForTeam(final Team team) {
     if (team.equals(Team.HAN)) {
       return this.nameForHan;
     }

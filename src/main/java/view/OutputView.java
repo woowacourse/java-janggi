@@ -9,6 +9,13 @@ public final class OutputView {
   private static final int MAX_COLUMN = 9;
   private static final int MAX_ROW = 10;
 
+  public void printTurnGuide() {
+    System.out.println("""
+        장기 게임에 오신걸 환영합니다.
+        입력 순서는 한나라 -> 초나라 순서입니다.
+        """);
+  }
+
   public void printBoard(final Map<Point, Piece> locations) {
     System.out.println(boardToString(locations));
   }
