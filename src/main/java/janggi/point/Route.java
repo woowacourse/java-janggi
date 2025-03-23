@@ -16,8 +16,11 @@ public class Route {
         List<Point> route = new ArrayList<>();
         Point pointer = startPoint;
         while (!pointer.equals(targetPoint)) {
-            pointer = pointer.move(direction.getRowOffset(), direction.getColumnOffset());
-            route.add(pointer);
+            try {
+                pointer = pointer.move(direction.getRowOffset(), direction.getColumnOffset());
+                route.add(pointer);
+            } catch (IllegalArgumentException ignore) {
+            }
         }
         return new Route(route);
     }
@@ -26,14 +29,22 @@ public class Route {
         List<Point> route = new ArrayList<>();
         Point pointer = startPoint;
         for (Direction direction : directions) {
-            pointer = pointer.move(direction.getRowOffset(), direction.getColumnOffset());
-            route.add(pointer);
+            try {
+                pointer = pointer.move(direction.getRowOffset(), direction.getColumnOffset());
+                route.add(pointer);
+            } catch (IllegalArgumentException ignore) {
+            }
         }
         return new Route(route);
     }
 
     public Point findLastPoint() {
         return route.getLast();
+    }
+
+    public boolean isCrashExists(Hurdles hurdles) {
+        return route.stream()
+                .anyMatch(point -> hurdles.containsPoint(point));
     }
 
     public List<Point> findCrashes(Board board) {
