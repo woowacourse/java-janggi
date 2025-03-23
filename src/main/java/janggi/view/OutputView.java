@@ -1,12 +1,6 @@
 package janggi.view;
 
 import janggi.domain.Team;
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Chariot;
-import janggi.domain.piece.Elephant;
-import janggi.domain.piece.General;
-import janggi.domain.piece.Guard;
-import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 import janggi.domain.position.Route;
@@ -83,27 +77,27 @@ public class OutputView {
     }
 
     private String getPieceName(Piece piece) {
-        if (piece.getClass() == General.class) {
+        if (piece.isGeneral()) {
             return "왕";
         }
 
-        if (piece.getClass() == Chariot.class) {
+        if (piece.isChariot()) {
             return "차";
         }
 
-        if (piece.getClass() == Elephant.class) {
+        if (piece.isElephant()) {
             return "상";
         }
 
-        if (piece.getClass() == Horse.class) {
+        if (piece.isHorse()) {
             return "마";
         }
 
-        if (piece.getClass() == Cannon.class) {
+        if (piece.isCannon()) {
             return "포";
         }
 
-        if (piece.getClass() == Guard.class) {
+        if (piece.isGuard()) {
             return "사";
         }
         return "졸";
