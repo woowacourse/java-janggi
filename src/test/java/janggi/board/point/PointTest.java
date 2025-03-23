@@ -1,4 +1,4 @@
-package janggi;
+package janggi.board.point;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;

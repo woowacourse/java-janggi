@@ -1,4 +1,6 @@
-package janggi;
+package janggi.view;
+
+import janggi.board.point.Point;
 
 public final class PointParser {
 

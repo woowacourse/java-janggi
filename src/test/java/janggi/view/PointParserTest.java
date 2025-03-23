@@ -1,4 +1,4 @@
-package janggi;
+package janggi.view;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 

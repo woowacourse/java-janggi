@@ -1,7 +1,7 @@
 package janggi.board;
 
-import janggi.Camp;
-import janggi.Point;
+import janggi.piece.Camp;
+import janggi.board.point.Point;
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
 import janggi.piece.Elephant;

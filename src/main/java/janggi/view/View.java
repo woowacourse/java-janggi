@@ -1,8 +1,7 @@
 package janggi.view;
 
-import janggi.Camp;
-import janggi.PieceSymbol;
-import janggi.Point;
+import janggi.piece.Camp;
+import janggi.board.point.Point;
 import janggi.piece.Piece;
 import java.util.Map;
 import java.util.Scanner;
@@ -48,7 +47,7 @@ public final class View {
     }
 
     public void displayCurrentTurnCamp(Camp camp) {
-        System.out.printf("%n%n[%s의 차례입니다.]%n", camp.getName());
+        System.out.printf("%n%n[%s의 차례입니다.]%n", CampFormatter.format(camp));
     }
 
     public String readMoveFromPoint() {
@@ -90,7 +89,7 @@ public final class View {
 
     private String formatPiece(Piece piece) {
         PieceSymbol pieceSymbol = piece.getPieceSymbol();
-        return pieceSymbol.getDisplayAttributes(piece.getCamp());
+        return PieceFormatter.formatPiece(pieceSymbol, piece.getCamp());
     }
 
     public void displayErrorMessage(String message) {

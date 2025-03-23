@@ -1,8 +1,7 @@
 package janggi.piece;
 
-import janggi.Camp;
-import janggi.PieceSymbol;
-import janggi.Point;
+import janggi.view.PieceSymbol;
+import janggi.board.point.Point;
 import janggi.board.Board;
 import java.util.HashSet;
 import java.util.Set;

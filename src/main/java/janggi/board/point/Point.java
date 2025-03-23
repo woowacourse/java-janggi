@@ -1,4 +1,4 @@
-package janggi;
+package janggi.board.point;
 
 public record Point(
         int x,

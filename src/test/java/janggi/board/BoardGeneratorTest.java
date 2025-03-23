@@ -3,7 +3,7 @@ package janggi.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.Point;
+import janggi.board.point.Point;
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
 import janggi.piece.Elephant;

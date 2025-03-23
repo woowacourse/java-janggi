@@ -2,7 +2,10 @@ package janggi;
 
 import janggi.board.Board;
 import janggi.board.BoardGenerator;
+import janggi.board.point.Point;
+import janggi.piece.Camp;
 import janggi.piece.Piece;
+import janggi.view.PointParser;
 import janggi.view.View;
 
 public final class Application {

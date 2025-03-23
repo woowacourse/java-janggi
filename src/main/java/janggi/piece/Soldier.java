@@ -1,8 +1,7 @@
 package janggi.piece;
 
-import janggi.Camp;
-import janggi.PieceSymbol;
-import janggi.Point;
+import janggi.view.PieceSymbol;
+import janggi.board.point.Point;
 import janggi.board.Board;
 
 public final class Soldier extends Piece {
@@ -40,6 +39,9 @@ public final class Soldier extends Piece {
 
     @Override
     public PieceSymbol getPieceSymbol() {
-        return PieceSymbol.SOLDIER;
+        if (isPlacedAtBottom()) {
+            return PieceSymbol.SOLDIER_JOL;
+        }
+        return PieceSymbol.SOLDIER_BYEONG;
     }
 }
