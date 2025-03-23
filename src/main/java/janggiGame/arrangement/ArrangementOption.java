@@ -11,12 +11,12 @@ public enum ArrangementOption {
     private final Integer option;
     private final ArrangementStrategy arrangementStrategy;
 
-    ArrangementOption(Integer option, ArrangementStrategy arrangementStrategy) {
+    ArrangementOption(final Integer option, final ArrangementStrategy arrangementStrategy) {
         this.option = option;
         this.arrangementStrategy = arrangementStrategy;
     }
 
-    public static ArrangementOption findBy(Integer optionNum) {
+    public static ArrangementOption findBy(final Integer optionNum) {
         return Arrays.stream(values())
                 .filter(instance -> instance.option.equals(optionNum))
                 .findFirst()
