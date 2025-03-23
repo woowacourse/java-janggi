@@ -1,10 +1,6 @@
 package view;
 
-import domain.Board;
-import domain.BoardLocation;
-import domain.Turn;
-import domain.piece.Piece;
-import java.util.Map;
+import domain.Team;
 
 public class OutputView {
 
@@ -25,26 +21,26 @@ public class OutputView {
                 """);
     }
 
-    public void showResult(Turn turn) {
-        System.out.println("기물을 옮긴 팀 : " + turn.getTurn());
-        Board board = turn.getBoard();
-        Map<BoardLocation, Piece> hanPieces = board.getHanBoard().getPieces();
-        Map<BoardLocation, Piece> choPieces = board.getChoBoard().getPieces();
-
-        System.out.println("================ 초나라 ======================");
-        for (Map.Entry<BoardLocation, Piece> entry : choPieces.entrySet()) {
-            System.out.println(entry.getKey().toString() + " : " + entry.getValue());
-        }
-        System.out.println("===========================================");
-
-        System.out.println("================ 한나라 ======================");
-        for (Map.Entry<BoardLocation, Piece> entry : hanPieces.entrySet()) {
-            System.out.println(entry.getKey().toString() + " : " + entry.getValue());
-        }
-        System.out.println("===========================================");
+    public void showResult(Team team) {
+        System.out.println("기물을 옮긴 팀 : " + team.toString());
+//        Board board = turn.getBoard();
+//        Map<BoardLocation, Piece> hanPieces = board.getHanBoard().getPieces();
+//        Map<BoardLocation, Piece> choPieces = board.getChoBoard().getPieces();
+//
+//        System.out.println("================ 초나라 ======================");
+//        for (Map.Entry<BoardLocation, Piece> entry : choPieces.entrySet()) {
+//            System.out.println(entry.getKey().toString() + " : " + entry.getValue());
+//        }
+//        System.out.println("===========================================");
+//
+//        System.out.println("================ 한나라 ======================");
+//        for (Map.Entry<BoardLocation, Piece> entry : hanPieces.entrySet()) {
+//            System.out.println(entry.getKey().toString() + " : " + entry.getValue());
+//        }
+//        System.out.println("===========================================");
     }
 
-    public void printTurn(Turn turn) {
-        System.out.println(turn.getTurn() + "턴 입니다.");
+    public void printTurn(Team turn) {
+        System.out.println(turn.toString() + "턴 입니다.");
     }
 }

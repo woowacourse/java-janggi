@@ -5,49 +5,34 @@ import java.util.List;
 
 public class Board {
 
-    private final ChoBoard choBoard;
-    private final HanBoard hanBoard;
+    private final TeamBoard teamBoard;
 
-    public Board(ChoBoard choBoard, HanBoard hanBoard) {
-        this.choBoard = choBoard;
-        this.hanBoard = hanBoard;
+    public Board(TeamBoard teamBoard) {
+        this.teamBoard = teamBoard;
     }
 
-    public void moveChoPiece(BoardLocation current, BoardLocation destination) {
-        Piece piece = choBoard.findByLocation(current);
-        if (piece.isMovable(current, destination)) {
-            List<BoardLocation> allPath = piece.createAllPath(current, destination);
-            if (piece.isCannon()) {
-                choBoard.validateCannon(allPath, destination);
-                hanBoard.validateCannon(allPath, destination);
-            }
-            choBoard.validateAllyMove(allPath, destination);
-            hanBoard.validateEnemyMove(allPath);
-            hanBoard.removeIfHas(destination);
-            choBoard.move(current, destination);
+    public void moveChoPiece(Team team, BoardLocation current, BoardLocation destination) {
+        Piece piece = teamBoard.findByLocation(current);
+        validateTeam(piece, team);
+
+        if (!piece.isMovable(current, destination)) {
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
         }
-    }
 
-    public void moveHanPiece(BoardLocation current, BoardLocation destination) {
-        Piece piece = hanBoard.findByLocation(current);
-        if (piece.isMovable(current, destination)) {
-            List<BoardLocation> allPath = piece.createAllPath(current, destination);
-            if (piece.isCannon()) {
-                choBoard.validateCannon(allPath, destination);
-                hanBoard.validateCannon(allPath, destination);
-            }
-            hanBoard.validateAllyMove(allPath, destination);
-            choBoard.validateEnemyMove(allPath);
-            choBoard.removeIfHas(destination);
-            hanBoard.move(current, destination);
+        List<BoardLocation> allPath = piece.createAllPath(current, destination);
+        if (piece.isCannon()) {
+            teamBoard.validateCannon(allPath, destination);
         }
+        teamBoard.validatePaths(allPath);
+        teamBoard.validateDestinationAlly(piece, destination);
+        teamBoard.removeIfHas(destination);
+        teamBoard.move(current, destination);
     }
 
-    public ChoBoard getChoBoard() {
-        return choBoard;
-    }
-
-    public HanBoard getHanBoard() {
-        return hanBoard;
+    private void validateTeam(Piece piece, Team team) {
+        if (piece.isEqualTeam(team)) {
+            return;
+        }
+        throw new IllegalArgumentException("[ERROR] 자신의 팀 기물만 움직일 수 있습니다");
     }
 }

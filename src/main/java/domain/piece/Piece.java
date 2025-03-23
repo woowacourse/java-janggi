@@ -1,15 +1,18 @@
 package domain.piece;
 
 import domain.BoardLocation;
+import domain.Team;
 import java.util.List;
 import java.util.Objects;
 
 public class Piece {
 
     private final PieceType pieceType;
+    private final Team team;
 
-    public Piece(PieceType pieceType) {
+    public Piece(PieceType pieceType, Team team) {
         this.pieceType = pieceType;
+        this.team = team;
     }
 
     public boolean isMovable(BoardLocation current, BoardLocation target) {
@@ -42,5 +45,13 @@ public class Piece {
     @Override
     public int hashCode() {
         return Objects.hashCode(pieceType);
+    }
+
+    public boolean isEqualTeam(Team team) {
+        return this.team == team;
+    }
+
+    public boolean isEqualTeam(Piece piece) {
+        return this.team == piece.team;
     }
 }

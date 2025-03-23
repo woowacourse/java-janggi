@@ -1,7 +1,7 @@
 package view;
 
 import domain.BoardLocation;
-import domain.Turn;
+import domain.Team;
 
 public class ConsoleView {
 
@@ -33,11 +33,11 @@ public class ConsoleView {
         return new BoardLocation(x, y);
     }
 
-    public void printResult(Turn turn) {
-        outputView.showResult(turn);
+    public void printResult(Team team) {
+        outputView.showResult(team);
     }
 
-    public void printTurn(Turn turn) {
-        outputView.printTurn(turn);
+    public void printTurn(Team team) {
+        outputView.printTurn(team);
     }
 }
