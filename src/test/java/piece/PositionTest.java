@@ -29,4 +29,17 @@ class PositionTest {
                 .hasMessageStartingWith("[ERROR]");
     }
 
+    @Test
+    @DisplayName("움직임 계산 테스트")
+    void upMovementTest() {
+        //given
+        Position present = new Position(5, 5);
+
+        //when
+        Position future = present.calculateMovement(-1, 0);
+
+        //then
+        assertThat(future).isEqualTo(new Position(4, 5));
+    }
+
 }
