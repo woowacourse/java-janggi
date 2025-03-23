@@ -18,12 +18,23 @@ public class OutputView {
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_BLUE = "\u001B[34m";
+    private static final String HAN_DYNASTY = ANSI_RED + "한나라" + ANSI_RESET;
+    private static final String CHU_DYNASTY = ANSI_BLUE + "초나라" + ANSI_RESET;
 
     public void printBoard(List<Piece> pieces) {
         int startX = 0;
         int startY = 9;
 
+        System.out.print("  ");
+
+        for (int j = startX; j <= 8; j++) {
+            System.out.print(j + " ");
+        }
+        System.out.println();
+
         for (int i = startY; i >= 0; i--) {
+            System.out.print(i + " ");
+
             for (int j = startX; j <= 8; j++) {
                 boolean check = true;
                 for (Piece piece : pieces) {
@@ -38,23 +49,30 @@ public class OutputView {
             }
             System.out.println();
         }
+
+        System.out.print("  ");
+
+        for (int j = startX; j <= 8; j++) {
+            System.out.print(j + " ");
+        }
+        System.out.println();
     }
 
     public void printPossibleRoutes(Set<Route> possibleRoutes) {
         System.out.println("이 기물은 ");
         for (Route possibleRoute : possibleRoutes) {
             Position destination = possibleRoute.getDestination();
-            System.out.println(String.format("%d %d", destination.x(), destination.y()));
+            System.out.printf("%d %d%n", destination.x(), destination.y());
         }
         System.out.println("로 이동할 수 있습니다.");
     }
 
     public void printTurn(final Team currentTurn) {
         if (currentTurn == Team.RED) {
-            System.out.println("한나라 차례입니다.");
+            System.out.println(HAN_DYNASTY + " 차례입니다.");
             return;
         }
-        System.out.println("초나라 차례입니다.");
+        System.out.println(CHU_DYNASTY + " 차례입니다.");
     }
 
     private String colorPiece(Piece piece) {
@@ -88,8 +106,6 @@ public class OutputView {
         if (piece.getClass() == Guard.class) {
             return "사";
         }
-
         return "졸";
-
     }
 }

@@ -30,8 +30,9 @@ public class JanggiController {
         while (true) {
             Team currentTurn = board.getTurn();
             outputView.printTurn(currentTurn);
-
-            if (inputView.continueGame() == UserContinueResponse.QUIT) {
+            UserContinueResponse userContinueResponse = retryUntilSuccess(inputView::continueGame);
+            
+            if (userContinueResponse == UserContinueResponse.QUIT) {
                 break;
             }
 
