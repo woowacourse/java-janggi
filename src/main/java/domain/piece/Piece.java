@@ -37,6 +37,10 @@ public abstract class Piece {
         return piece.team.equals(this.team);
     }
 
+    public final boolean isTeam(Team team) {
+        return this.team.equals(team);
+    }
+
     public final Team getTeam() {
         return team;
     }
