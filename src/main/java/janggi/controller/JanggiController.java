@@ -9,6 +9,7 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class JanggiController {
 
@@ -30,17 +31,34 @@ public class JanggiController {
             Team currentTurn = board.getTurn();
             outputView.printTurn(currentTurn);
 
-            Position position = inputView.inputPiecePosition();
-            Piece selectPiece = board.selectPiece(position);
+            // 말 고르기 --> 해당 위치에 말이 없으면 재입력
+            Piece selectedPiece = retryUntilSuccess(() -> selectPiece(board));
 
-            Set<Route> possibleRoutes = board.findPossibleRoutes(selectPiece);
+            // 해당 말이 갈 수 있는 위치 계산
+            Set<Route> possibleRoutes = board.findPossibleRoutes(selectedPiece);
             outputView.printPossibleRoutes(possibleRoutes);
 
-            Position destination = inputView.inputDestination();
+            // 목적지 입력받기 --> 해당 위치가 잘못된 위치라면 재입력
+            Position destination = retryUntilSuccess(inputView::inputDestination);
 
-            board.movePiece(destination, selectPiece);
+            board.movePiece(destination, selectedPiece);
             outputView.printBoard(pieces);
             board.changeTurn();
+        }
+    }
+
+    private Piece selectPiece(Board board) {
+        Position position = inputView.inputPiecePosition();
+        return board.selectPiece(position);
+    }
+
+    private <T> T retryUntilSuccess(Supplier<T> supplier) {
+        while (true) {
+            try {
+                return supplier.get();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 }

@@ -15,6 +15,8 @@ public abstract class Piece {
 
     protected abstract Set<RawRoute> calculateRawRoutes();
 
+    public abstract boolean isCannon();
+
     public Piece(final Position position, final Team team) {
         this.position = position;
         this.team = team;
@@ -59,6 +61,4 @@ public abstract class Piece {
     public boolean isEnemy(final Piece otherPiece) {
         return team != otherPiece.team;
     }
-
-    public abstract boolean isCannon();
 }
