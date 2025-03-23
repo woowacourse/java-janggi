@@ -7,6 +7,7 @@ import static domain.Coordinate.ROW_SIZE;
 import domain.Coordinate;
 import domain.piece.Country;
 import domain.piece.Piece;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +15,9 @@ public final class Board {
 
     private final Map<Coordinate, Piece> board;
 
-    public Board(BoardInitStrategy boardInitStrategy) {
-        board = boardInitStrategy.initialize();
+    public Board(Map<Coordinate, Piece> initBoard) {
+        this.board = new HashMap<>();
+        this.board.putAll(initBoard);
     }
 
     public void movePiece(Coordinate oldCoordinate, Coordinate newCoordinate) {

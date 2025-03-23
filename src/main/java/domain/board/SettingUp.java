@@ -24,7 +24,7 @@ public enum SettingUp {
             case "상마상마" -> SANG_MA_SANG_MA;
             case "마상상마" -> MA_SANG_SANG_MA;
             case "마상마상" -> MA_SANG_MA_SANG;
-            default -> throw new IllegalStateException("[ERROR] 존재하지 않는 상차림 전략입니다.");
+            default -> throw new IllegalArgumentException("[ERROR] 존재하지 않는 상차림 전략입니다.");
         };
     }
 

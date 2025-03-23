@@ -4,8 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import domain.board.Board;
-import domain.board.strategy.SangMaMaSang;
 import domain.piece.Country;
+import domain.piece.Ma;
+import domain.piece.Piece;
+import java.util.HashMap;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -18,11 +20,8 @@ class BoardTest {
         @DisplayName("장기판 밖으로 나갈 수 없다.")
         @Test
         void validateBoardBoundary1() {
-            int row = 11;
-            int col = 10;
-
-            Board board = new Board(new SangMaMaSang());
-            boolean isOutOfBoundary = board.isOutOfBoundary(new Coordinate(row, col));
+            Board board = new Board(new HashMap<>());
+            boolean isOutOfBoundary = board.isOutOfBoundary(new Coordinate(11, 10));
 
             assertThat(isOutOfBoundary).isTrue();
         }
@@ -30,7 +29,7 @@ class BoardTest {
         @DisplayName("자신의 기물이 아니면 움직일 수 없다.")
         @Test
         void validateOriginCoordinateTest() {
-            Board board = new Board(new SangMaMaSang());
+            Board board = new Board(new HashMap<>());
 
             Coordinate originCoordinate = new Coordinate(1, 1);
 
@@ -48,7 +47,9 @@ class BoardTest {
             Coordinate oldCoordinate = new Coordinate(1, 3);
             Coordinate newCoordinate = new Coordinate(3, 4);
 
-            Board board = new Board(new SangMaMaSang());
+            HashMap<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(oldCoordinate, new Ma(Country.HAN));
+            Board board = new Board(pieces);
 
             board.movePiece(oldCoordinate, newCoordinate);
 
@@ -63,7 +64,9 @@ class BoardTest {
             Coordinate oldCoordinate = new Coordinate(1, 2);
             Coordinate newCoordinate = new Coordinate(3, 2);
 
-            Board board = new Board(new SangMaMaSang());
+            HashMap<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(oldCoordinate, new Ma(Country.HAN));
+            Board board = new Board(pieces);
 
             assertThatThrownBy(() -> board.movePiece(oldCoordinate, newCoordinate))
                     .isInstanceOf(IllegalArgumentException.class);

@@ -11,16 +11,16 @@ import domain.piece.Sang;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SangMaMaSang implements BoardSettingUpStrategy {
+public class MaSangSangMa implements BoardSettingUpStrategy {
 
     @Override
     public Map<Coordinate, Piece> setUpChoByStrategy() {
         Map<Coordinate, Piece> pieces = new HashMap<>();
 
-        pieces.put(new Coordinate(10, 2), new Sang(CHO));
-        pieces.put(new Coordinate(10, 3), new Ma(CHO));
-        pieces.put(new Coordinate(10, 7), new Ma(CHO));
-        pieces.put(new Coordinate(10, 8), new Sang(CHO));
+        pieces.put(new Coordinate(10, 2), new Ma(CHO));
+        pieces.put(new Coordinate(10, 3), new Sang(CHO));
+        pieces.put(new Coordinate(10, 7), new Sang(CHO));
+        pieces.put(new Coordinate(10, 8), new Ma(CHO));
 
         return pieces;
     }
@@ -29,12 +29,11 @@ public class SangMaMaSang implements BoardSettingUpStrategy {
     public Map<Coordinate, Piece> setUpHanByStrategy() {
         Map<Coordinate, Piece> pieces = new HashMap<>();
 
-        pieces.put(new Coordinate(1, 2), new Sang(HAN));
-        pieces.put(new Coordinate(1, 3), new Ma(HAN));
-        pieces.put(new Coordinate(1, 7), new Ma(HAN));
-        pieces.put(new Coordinate(1, 8), new Sang(HAN));
+        pieces.put(new Coordinate(1, 2), new Ma(HAN));
+        pieces.put(new Coordinate(1, 3), new Sang(HAN));
+        pieces.put(new Coordinate(1, 7), new Sang(HAN));
+        pieces.put(new Coordinate(1, 8), new Ma(HAN));
 
         return pieces;
     }
-
 }

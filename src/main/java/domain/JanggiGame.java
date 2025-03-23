@@ -1,8 +1,12 @@
 package domain;
 
 import domain.board.Board;
-import domain.board.strategy.SangMaMaSang;
+import domain.board.BoardSettingUpStrategy;
+import domain.board.SettingUp;
 import domain.piece.Country;
+import domain.piece.Piece;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import view.InputView;
@@ -13,16 +17,31 @@ public class JanggiGame {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
 
-    private Country currentTurn;
+    private Country currentTurn = Country.HAN;
 
     public void start() {
-        Board board = new Board(new SangMaMaSang());
-        currentTurn = Country.HAN;
+        Board board = settingUp();
 
         while (true) {
-            operateTurn(board, this::moveCommand);
-            convertCountry();
+            takeTurn(board, this::moveCommand);
+            nextTurn();
         }
+    }
+
+    private Board settingUp() {
+        Map<Coordinate, Piece> boardSetup = new HashMap<>(BoardSettingUpStrategy.setUp());
+
+        SettingUp settingUpHan = retryUntilValid(() -> inputView.readSettingUp(currentTurn));
+        BoardSettingUpStrategy hanStrategy = settingUpHan.getStrategy();
+        boardSetup.putAll(hanStrategy.setUpHanByStrategy());
+
+        nextTurn();
+
+        SettingUp settingUpCho = retryUntilValid(() -> inputView.readSettingUp(currentTurn));
+        BoardSettingUpStrategy choStrategy = settingUpCho.getStrategy();
+        boardSetup.putAll(choStrategy.setUpChoByStrategy());
+
+        return new Board(boardSetup);
     }
 
     private void moveCommand(Board board) {
@@ -34,11 +53,11 @@ public class JanggiGame {
         board.movePiece(originCoordinate, destinationCoordinate);
     }
 
-    private void convertCountry() {
+    private void nextTurn() {
         currentTurn = Country.convertTurn(currentTurn);
     }
 
-    private <T> void operateTurn(T value, Consumer<T> consumer) {
+    private <T> void takeTurn(T value, Consumer<T> consumer) {
         while (true) {
             try {
                 consumer.accept(value);

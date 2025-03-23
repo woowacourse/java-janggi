@@ -4,45 +4,52 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.Coordinate;
 import domain.board.Board;
-import domain.board.strategy.SangMaMaSang;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 
-class PieceTest {
+class
+PieceTest {
     @Nested
     class MaTest {
         @DisplayName("말의 이동 가능한 경로를 검사한다")
         @Test
         void maAvailableMovePosition() {
-            Board board = new Board(new SangMaMaSang());
             Ma ma = new Ma(Country.HAN);
-            board.getBoard().put(new Coordinate(5, 5), ma);
-            List<Coordinate> availableMovePositions =
-                    ma.availableMovePositions(new Coordinate(5, 5), board);
+            Map<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(new Coordinate(5, 5), ma);
+            Board board = new Board(pieces);
 
-            assertThat(availableMovePositions.size()).isEqualTo(4);
+            List<Coordinate> availableMovePositions = ma.availableMovePositions(new Coordinate(5, 5), board);
+
+            assertThat(availableMovePositions.size()).isEqualTo(8);
         }
 
         @DisplayName("말의 이동 가능한 경로를 검사한다")
         @Test
         void maAvailableMovePosition1() {
-            Board board = new Board(new SangMaMaSang());
             Ma ma = new Ma(Country.HAN);
-            List<Coordinate> availableMovePositions =
-                    ma.availableMovePositions(new Coordinate(1, 2), board);
+            Map<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(new Coordinate(1, 2), ma);
+            Board board = new Board(pieces);
 
-            assertThat(availableMovePositions.size()).isEqualTo(2);
+            List<Coordinate> availableMovePositions = ma.availableMovePositions(new Coordinate(1, 2), board);
+
+            assertThat(availableMovePositions.size()).isEqualTo(3);
         }
 
         @DisplayName("말의 이동 가능한 경로를 검사한다")
         @Test
         void maAvailableMovePosition2() {
-            Board board = new Board(new SangMaMaSang());
             Ma ma = new Ma(Country.HAN);
+            Map<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(new Coordinate(1, 2), ma);
+            Board board = new Board(pieces);
+
             List<Coordinate> availableMovePositions =
                     ma.availableMovePositions(new Coordinate(1, 2), board);
 
@@ -57,24 +64,26 @@ class PieceTest {
         @DisplayName("상의 이동 가능한 경로를 검사한다")
         @Test
         void sangAvailableMovePosition() {
-            Board board = new Board(new SangMaMaSang());
             Sang sang = new Sang(Country.HAN);
-            board.getBoard().put(new Coordinate(5, 5), sang);
+            Map<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(new Coordinate(5, 5), sang);
+            Board board = new Board(pieces);
 
             List<Coordinate> availableMovePositions =
                     sang.availableMovePositions(new Coordinate(5, 5), board);
 
-            assertThat(availableMovePositions.size()).isEqualTo(4);
+            assertThat(availableMovePositions.size()).isEqualTo(8);
         }
 
         @DisplayName("상의 이동 가능한 경로를 검사한다")
         @Test
         void sangAvailableMovePosition1() {
-            Board board = new Board(HashMap::new);
             Sang sang = new Sang(Country.HAN);
-            board.getBoard().put(new Coordinate(1, 3), sang);
-            List<Coordinate> availableMovePositions = sang.availableMovePositions(
-                    new Coordinate(1, 3), board);
+            Map<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(new Coordinate(1, 3), sang);
+            Board board = new Board(pieces);
+
+            List<Coordinate> availableMovePositions = sang.availableMovePositions(new Coordinate(1, 3), board);
 
             assertThat(availableMovePositions.contains(new Coordinate(4, 1))).isTrue();
             assertThat(availableMovePositions.contains(new Coordinate(4, 5))).isTrue();
@@ -88,21 +97,24 @@ class PieceTest {
         @Test
         void chaAvailableMovePosition() {
             Cha cha = new Cha(Country.HAN);
-            Board board = new Board(new SangMaMaSang());
-            board.getBoard().put(new Coordinate(5, 5),
-                    cha);
+            Map<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(new Coordinate(5, 5), cha);
+            Board board = new Board(pieces);
 
             List<Coordinate> availableMovePositions = cha.availableMovePositions(
                     new Coordinate(5, 5), board);
 
-            assertThat(availableMovePositions.size()).isEqualTo(10);
+            assertThat(availableMovePositions.size()).isEqualTo(17);
         }
 
         @DisplayName("차의 이동 가능한 경로를 검사한다")
         @Test
         void chaAvailableMovePosition2() {
-            Board board = new Board(new SangMaMaSang());
             Cha cha = new Cha(Country.HAN);
+            Map<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(new Coordinate(1, 1), cha);
+            Board board = new Board(pieces);
+
             List<Coordinate> availableMovePositions =
                     cha.availableMovePositions(new Coordinate(1, 1), board);
 
@@ -117,14 +129,12 @@ class PieceTest {
         @Test
         void byeongAvailableMovePosition() {
             Byeong byeong = new Byeong(Country.HAN);
-            Board board = new Board(new SangMaMaSang());
-            board.getBoard().put(new Coordinate(5, 5),
-                    byeong);
-            board.getBoard().put(new Coordinate(6, 5),
-                    byeong);
+            Map<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(new Coordinate(5, 5), byeong);
+            pieces.put(new Coordinate(6, 5), byeong);
+            Board board = new Board(pieces);
 
-            List<Coordinate> availableMovePositions = byeong.availableMovePositions(
-                    new Coordinate(5, 5), board);
+            List<Coordinate> availableMovePositions = byeong.availableMovePositions(new Coordinate(5, 5), board);
 
             assertThat(availableMovePositions.size()).isEqualTo(2);
         }
@@ -132,8 +142,11 @@ class PieceTest {
         @DisplayName("병의 이동 가능한 경로를 검사한다")
         @Test
         void chaAvailableMovePosition2() {
-            Board board = new Board(new SangMaMaSang());
             Byeong byeong = new Byeong(Country.HAN);
+            Map<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(new Coordinate(4, 5), byeong);
+            Board board = new Board(pieces);
+
             List<Coordinate> availableMovePositions =
                     byeong.availableMovePositions(new Coordinate(4, 5), board);
 
@@ -150,20 +163,24 @@ class PieceTest {
         @Test
         void saAvailableMovePosition() {
             Sa sa = new Sa(Country.HAN);
-            Board board = new Board(new SangMaMaSang());
-            board.getBoard().put(new Coordinate(5, 5), sa);
+            Map<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(new Coordinate(5, 5), sa);
+            Board board = new Board(pieces);
 
             List<Coordinate> availableMovePositions = sa.availableMovePositions(
                     new Coordinate(5, 5), board);
 
-            assertThat(availableMovePositions.size()).isEqualTo(7);
+            assertThat(availableMovePositions.size()).isEqualTo(8);
         }
 
-        @DisplayName("병의 이동 가능한 경로를 검사한다")
+        @DisplayName("사의 이동 가능한 경로를 검사한다")
         @Test
         void chaAvailableMovePosition2() {
-            Board board = new Board(new SangMaMaSang());
             Sa sa = new Sa(Country.HAN);
+            Map<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(new Coordinate(1, 4), sa);
+            Board board = new Board(pieces);
+
             List<Coordinate> availableMovePositions =
                     sa.availableMovePositions(new Coordinate(1, 4), board);
 
@@ -179,20 +196,24 @@ class PieceTest {
         @Test
         void gungAvailableMovePosition() {
             Gung gung = new Gung(Country.HAN);
-            Board board = new Board(new SangMaMaSang());
-            board.getBoard().put(new Coordinate(5, 5), gung);
+            Map<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(new Coordinate(1, 5), gung);
+            Board board = new Board(pieces);
 
-            List<Coordinate> availableMovePositions = gung.availableMovePositions(
-                    new Coordinate(5, 5), board);
+            List<Coordinate> availableMovePositions =
+                    gung.availableMovePositions(new Coordinate(1, 5), board);
 
-            assertThat(availableMovePositions.size()).isEqualTo(7);
+            assertThat(availableMovePositions.size()).isEqualTo(5);
         }
 
         @DisplayName("궁의 이동 가능한 경로를 검사한다")
         @Test
         void chaAvailableMovePosition2() {
-            Board board = new Board(new SangMaMaSang());
             Gung gung = new Gung(Country.HAN);
+            Map<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(new Coordinate(2, 5), gung);
+            Board board = new Board(pieces);
+
             List<Coordinate> availableMovePositions =
                     gung.availableMovePositions(new Coordinate(2, 5), board);
 
@@ -208,43 +229,55 @@ class PieceTest {
     class PhoTest {
         @DisplayName("포의 이동 가능한 경로를 검사한다")
         @Test
-        void PhoAvailableMovePosition() {
+        void phoAvailableMovePosition() {
             Pho pho = new Pho(Country.HAN);
-            Board board = new Board(new SangMaMaSang());
-            board.getBoard().put(new Coordinate(5, 5), pho);
+            Cha cha = new Cha(Country.CHO);
+
+            Map<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(new Coordinate(5, 5), pho);
+            pieces.put(new Coordinate(6, 5), cha);
+            Board board = new Board(pieces);
 
             List<Coordinate> availableMovePositions = pho.availableMovePositions(
                     new Coordinate(5, 5), board);
 
-            assertThat(availableMovePositions.size()).isEqualTo(3);
+            assertThat(availableMovePositions.size()).isEqualTo(4);
         }
 
         @DisplayName("포는 포를 넘어갈 수 없다")
         @Test
-        void PhoAvailableMovePosition2() {
+        void phoAvailableMovePosition2() {
             Pho pho = new Pho(Country.HAN);
-            Board board = new Board(new SangMaMaSang());
-            board.getBoard().put(new Coordinate(4, 2), pho);
+            Pho pho2 = new Pho(Country.CHO);
+
+            Map<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(new Coordinate(5, 5), pho);
+            pieces.put(new Coordinate(6, 5), pho);
+            Board board = new Board(pieces);
 
             List<Coordinate> availableMovePositions = pho.availableMovePositions(
-                    new Coordinate(4, 2), board);
+                    new Coordinate(5, 5), board);
 
-            assertThat(availableMovePositions.size()).isEqualTo(1);
+            assertThat(availableMovePositions.size()).isEqualTo(0);
         }
 
         @DisplayName("포는 포를 잡을 수 없다")
         @Test
-        void PhoAvailableMovePosition3() {
+        void phoAvailableMovePosition3() {
             Pho pho = new Pho(Country.HAN);
-            Cha cha = new Cha(Country.HAN);
-            Board board = new Board(new SangMaMaSang());
-            board.getBoard().put(new Coordinate(4, 2), pho);
-            board.getBoard().put(new Coordinate(5, 2), cha);
+            Cha cha = new Cha(Country.CHO);
+            Pho pho2 = new Pho(Country.HAN);
+
+            Map<Coordinate, Piece> pieces = new HashMap<>();
+            pieces.put(new Coordinate(5, 5), pho);
+            pieces.put(new Coordinate(6, 5), cha);
+            pieces.put(new Coordinate(7, 5), pho2);
+            Board board = new Board(pieces);
 
             List<Coordinate> availableMovePositions = pho.availableMovePositions(
-                    new Coordinate(4, 2), board);
+                    new Coordinate(5, 2), board);
 
-            assertThat(availableMovePositions.size()).isEqualTo(3);
+            assertThat(availableMovePositions.size()).isEqualTo(0);
         }
     }
 }
