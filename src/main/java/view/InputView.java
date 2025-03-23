@@ -9,8 +9,7 @@ public class InputView {
     private static final Scanner scanner = new Scanner(System.in);
 
     public int readTableSetting(Team team) {
-        printf("%s 나라의 상차림을 선택해 주세요.", team.applyColorTeamName());
-        printNewLine();
+        println("%s 나라의 상차림을 선택해 주세요.", team.applyColorTeamName());
         println("1. 마상상마");
         println("2. 마상마상");
         println("3. 상마상마");
@@ -23,8 +22,7 @@ public class InputView {
     }
 
     public CoordinatesPair readMoveCoordinate(Team team) {
-        printf("%s 나라의 차례입니다.", team.applyColorTeamName());
-        printNewLine();
+        println("%s 나라의 차례입니다.", team.applyColorTeamName());
 
         println("출발 좌표를 입력해 주세요. 예) 1,4");
         String rawDeparture = scanner.nextLine();
@@ -65,12 +63,12 @@ public class InputView {
     public record CoordinatesPair(Coordinate departure, Coordinate arrival) {
     }
 
-    private void printf(String format, Object... args) {
-        System.out.printf(format, args);
+    private void println(String message) {
+        System.out.println(message);
     }
 
-    private void println(String text) {
-        System.out.println(text);
+    private void println(String format, Object... args) {
+        System.out.printf(format, args);
     }
 
     private void printNewLine() {

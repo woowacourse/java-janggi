@@ -37,16 +37,16 @@ public class OutputView {
         print(piece.colorName() + FULL_WIDTH_SPACE);
     }
 
+    private void print(String message) {
+        System.out.print(message);
+    }
+
+    private void println(String message) {
+        System.out.println(message);
+    }
+
     private void printf(String format, Object... args) {
         System.out.printf(format, args);
-    }
-
-    private void print(String text) {
-        System.out.print(text);
-    }
-
-    private void println(String text) {
-        System.out.println(text);
     }
 
     private void printNewLine() {
