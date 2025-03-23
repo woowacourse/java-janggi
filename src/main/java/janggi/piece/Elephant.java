@@ -3,8 +3,9 @@ package janggi.piece;
 import janggi.position.Position;
 import janggi.team.Team;
 
-public class Elephant implements Piece{
+import java.util.Arrays;
 
+public class Elephant implements Piece{
 
     public Elephant(Position position) {
     }

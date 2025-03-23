@@ -10,4 +10,5 @@ public record Position(Row x, Column y) {
         return y.value();
     }
 
+
 }

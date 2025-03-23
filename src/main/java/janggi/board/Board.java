@@ -6,6 +6,7 @@ import janggi.team.Team;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Board {
 
@@ -16,14 +17,14 @@ public class Board {
     }
 
     public boolean isAvailablePiece(Team team, String pieceName, Position position) {
-        if (team.equals(Team.CHO)){
+        if (team.equals(Team.CHO)) {
             return containPiece(pieceName, position);
         }
         return containPiece(pieceName, position);
     }
 
     public boolean checkLegalMove(List<Position> positionsOnPath) {
-       return isLegalMove(positionsOnPath) || isLegalMove(positionsOnPath);
+        return isLegalMove(positionsOnPath) || isLegalMove(positionsOnPath);
     }
 
     public List<Piece> initBoard(TableOption choOption, TableOption hanOption) {
@@ -52,7 +53,7 @@ public class Board {
                 new Piece(Team.HAN, new Position(new PositionX(8), new PositionY(6))),
                 new Piece(Team.HAN, new Position(new PositionX(3), new PositionY(9))),
                 new Piece(Team.HAN, new Position(new PositionX(5), new PositionY(9)))*/
-                ));
+        ));
 //        choDefaultPosition.addAll(choOption.getPieces());
 //        choDefaultPosition.addAll(hanOption.getPieces());
         return choDefaultPosition;
@@ -63,10 +64,10 @@ public class Board {
                 .anyMatch(piece -> piece.getName().equals(pieceName) && piece.getPosition().equals(position));
     }
 
-    public void move(Team team, String nickname, Position startPosition ,Position endPosition) {
+    public void move(Team team, String nickname, Position startPosition, Position endPosition) {
         Piece targetPiece = pieces.stream()
                 .filter(piece ->
-                        piece.getTeam() == team &&  piece.getName().equals(nickname) && piece.getPosition().equals(startPosition)
+                        piece.getTeam() == team && piece.getName().equals(nickname) && piece.getPosition().equals(startPosition)
                 ).
                 findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("이동할 말을 찾을 수 없습니다."));
@@ -83,7 +84,7 @@ public class Board {
     public boolean isLegalMoveForCannon(List<Position> positionsOnPath) {
         int obstacleCount = 0;
         for (Piece piece : pieces) {
-            if (positionsOnPath.contains(piece.getPosition())){
+            if (positionsOnPath.contains(piece.getPosition())) {
                 obstacleCount += 1;
             }
         }
