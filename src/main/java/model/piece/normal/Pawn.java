@@ -1,12 +1,13 @@
-package model.piece;
+package model.piece.normal;
 
 import java.util.Arrays;
 import java.util.List;
 
 import model.Position;
 import model.Team;
+import model.piece.PieceType;
 
-public class Pawn extends Piece {
+public class Pawn extends NormalPiece {
 
     public Pawn(int x, int y, Team team) {
         super(x, y, team);

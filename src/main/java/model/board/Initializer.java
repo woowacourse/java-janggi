@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Team;
-import model.piece.Chariot;
-import model.piece.Elephant;
-import model.piece.Horse;
-import model.piece.Palace;
-import model.piece.Pao;
-import model.piece.Pawn;
 import model.piece.Piece;
-import model.piece.Soldier;
+import model.piece.iterable.Chariot;
+import model.piece.iterable.Pao;
+import model.piece.normal.Elephant;
+import model.piece.normal.Horse;
+import model.piece.normal.Palace;
+import model.piece.normal.Pawn;
+import model.piece.normal.Soldier;
 
 class Initializer {
 

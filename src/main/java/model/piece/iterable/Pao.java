@@ -1,12 +1,13 @@
-package model.piece;
+package model.piece.iterable;
 
 import java.util.List;
 
 import model.Position;
 import model.Team;
 import model.board.Board;
+import model.piece.PieceType;
 
-public class Pao extends Piece {
+public class Pao extends IterablePiece {
 
     public Pao(int x, int y, Team team) {
         super(x, y, team);

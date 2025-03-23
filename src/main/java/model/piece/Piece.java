@@ -41,27 +41,9 @@ public abstract class Piece {
         }
     }
 
-    protected Route findMovableRoute(Board board, int dx, int dy) {
-        Position target = position.move(dx, dy);
-        for (var route : routes) {
-            Position routeSum = route.sum();
-            Position expected = position.move(routeSum);
-            if (target.equals(expected)) {
-                return route;
-            }
-        }
-        throw new IllegalArgumentException("[ERROR] 도달할 수 없는 위치입니다.");
-    }
+    protected abstract Route findMovableRoute(Board board, int dx, int dy);
 
-    protected void validateRoute(Board board, Route route, Position target) {
-        Position onRoute = position;
-        for (int i = 0; i < route.positions.size() - 1; i++) {
-            onRoute = onRoute.move(route.positions.get(i));
-            if (board.hasPieceOn(onRoute)) {
-                throw new IllegalArgumentException("[ERROR] 이동 경로에 다른 기물이 존재합니다.");
-            }
-        }
-    }
+    protected abstract void validateRoute(Board board, Route route, Position target);
 
     private void arrival(Board board, Position target) {
         if (!board.hasPieceOn(target)) {
@@ -82,7 +64,7 @@ public abstract class Piece {
         return position.equals(nextPos);
     }
 
-    protected record Route(
+    public record Route(
         List<Position> positions
     ) {
 

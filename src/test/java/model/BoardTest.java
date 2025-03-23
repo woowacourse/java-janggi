@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import model.board.Board;
-import model.piece.Palace;
+import model.piece.normal.Palace;
 
 class BoardTest {
 
