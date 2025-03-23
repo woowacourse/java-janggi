@@ -2,7 +2,7 @@ package janggi.board;
 
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
-import janggi.piece.Team;
+import janggi.Team.Team;
 import janggi.position.Path;
 import janggi.position.Position;
 import java.util.ArrayList;

@@ -6,7 +6,7 @@ import janggi.piece.Chariot;
 import janggi.piece.Jol;
 import janggi.piece.King;
 import janggi.piece.Piece;
-import janggi.piece.Team;
+import janggi.Team.Team;
 import janggi.position.Position;
 import java.util.List;
 import java.util.Map;

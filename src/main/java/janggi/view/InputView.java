@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.Team.Team;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -13,6 +14,11 @@ public class InputView {
 
     public InputView() {
         scanner = new Scanner(System.in);
+    }
+
+    public String readElephantSetting(Team team) {
+        System.out.printf(LINE + "%s나라의 배치 순서를 선택해주세요." + LINE, team.getTitle());
+        return scanner.nextLine();
     }
 
     public List<Integer> readMovingPosition() {

@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.Team.Team;
 import janggi.position.Path;
 import janggi.position.Position;
 import java.util.ArrayList;

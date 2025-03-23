@@ -9,7 +9,7 @@ import janggi.piece.Horse;
 import janggi.piece.Jol;
 import janggi.piece.King;
 import janggi.piece.Piece;
-import janggi.piece.Team;
+import janggi.Team.Team;
 import janggi.position.Position;
 import java.util.HashMap;
 import java.util.Map;

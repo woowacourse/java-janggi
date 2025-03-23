@@ -1,7 +1,7 @@
 package janggi.view;
 
 import janggi.piece.Piece;
-import janggi.piece.Team;
+import janggi.Team.Team;
 import janggi.position.Position;
 import java.util.Map;
 
@@ -12,9 +12,20 @@ public class ResultView {
     private static final String HEADER = "   1    2    3    4    5    6    7    8   9%n";
     private static final String BOARD_LINE = "   |    |    |    |    |    |    |    |   |%n";
 
+    public void printSetting() {
+        System.out.println("""
+                마와 상을 배치할 수 있는 경우의 수는 다음과 같습니다.
+                1. 상 마 상 마
+                2. 마 상 마 상
+                3. 상 마 마 상
+                4. 마 상 상 마
+                """);
+    }
+
     public void printBoard(final Map<Position, Piece> pieces) {
         System.out.printf(HEADER);
         for (int y = 1; y <= 10; y++) {
+            // TODO: 리스트로 스트링 넣고 팀에 따라 색깔 조합 + 한자 받아오기
             StringBuilder sb = new StringBuilder(String.format("%2d ", y));
             for (int x = 1; x <= 9; x++) {
                 Position currentPosition = Position.valueOf(y, x);

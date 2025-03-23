@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.Team.Team;
 import janggi.position.Path;
 import janggi.position.Position;
 import java.util.ArrayList;
@@ -10,7 +11,8 @@ public class Horse extends Piece {
 
     private static final Set<List<Integer>> AVAILABLE_DIFFERENCE = Set.of(
             List.of(2, 1), List.of(2, -1), List.of(-2, 1), List.of(-2, -1),
-            List.of(1, 2), List.of(1, -2), List.of(-1, 2), List.of(-1, -2));
+            List.of(1, 2), List.of(1, -2), List.of(-1, 2), List.of(-1, -2)
+    );
 
     public Horse(Team team) {
         super(PieceType.HORSE, team);
@@ -27,14 +29,13 @@ public class Horse extends Piece {
         int currentY = currentPosition.getY();
         int currentX = currentPosition.getX();
 
-        currentY = moveY(arrivalPosition, differenceForY, currentY, positions, currentX);
-        moveX(arrivalPosition, differenceForX, currentY, positions, currentX);
+        currentY = calculatePathY(arrivalPosition, positions, differenceForY, currentY, currentX);
+        calculatePathX(arrivalPosition, positions, differenceForX, currentY, currentX);
         return new Path(positions);
     }
 
-    private int moveY(Position arrivalPosition, int differenceForY, int currentY,
-                      List<Position> positions,
-                      int currentX) {
+    private int calculatePathY(Position arrivalPosition, List<Position> positions, int differenceForY,
+                               int currentY, int currentX) {
         if (isNotStartDirection(differenceForY)) {
             return currentY;
         }
@@ -45,9 +46,8 @@ public class Horse extends Piece {
         return currentY;
     }
 
-    private int moveX(Position arrivalPosition, int differenceForX, int currentY,
-                      List<Position> positions,
-                      int currentX) {
+    private int calculatePathX(Position arrivalPosition, List<Position> positions, int differenceForX,
+                               int currentY, int currentX) {
         if (isNotStartDirection(differenceForX)) {
             return currentX;
         }
