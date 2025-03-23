@@ -11,12 +11,6 @@ public abstract class Piece {
         this.dynasty = dynasty;
     }
 
-    public final void validateSameDynasty(Piece piece) {
-        if (piece != null && piece.dynasty == this.dynasty) {
-            throw new UnsupportedOperationException("[ERROR] 같은 나라의 말은 공격할 수 없습니다.");
-        }
-    }
-
     public final Dynasty getDynasty() {
         return dynasty;
     }
@@ -25,7 +19,11 @@ public abstract class Piece {
 
     public abstract void validateRoute(int dx, int dy);
 
-    public abstract void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece);
+    public void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
+        if (destinationPiece != null && destinationPiece.dynasty == this.dynasty) {
+            throw new UnsupportedOperationException("[ERROR] 같은 나라의 말은 공격할 수 없습니다.");
+        }
+    }
 
     public abstract PieceType getType();
 }

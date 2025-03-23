@@ -28,7 +28,7 @@ public class King extends Piece {
 
     @Override
     public void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
-        validateSameDynasty(destinationPiece);
+        super.validateMove(routesWithPiece, destinationPiece);
     }
 
     @Override

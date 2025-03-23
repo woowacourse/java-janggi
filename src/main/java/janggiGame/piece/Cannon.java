@@ -66,7 +66,7 @@ public class Cannon extends Piece {
 
     @Override
     public void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
-        validateSameDynasty(destinationPiece);
+        super.validateMove(routesWithPiece, destinationPiece);
 
         if (destinationPiece != null && destinationPiece.getType().equals(PieceType.CANNON)) {
             throw new UnsupportedOperationException("[ERROR] 포는 포를 공격할 수 없습니다.");
