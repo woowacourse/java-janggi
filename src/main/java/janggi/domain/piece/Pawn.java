@@ -39,7 +39,7 @@ public class Pawn extends Piece {
         if (pieces.isEmpty()) {
             return true;
         }
-        return pieces.getFirst().getSide() != getSide();
+        return pieces.getFirst().side != this.side;
     }
 
     private Set<Position> getMovablePositions() {
@@ -51,7 +51,7 @@ public class Pawn extends Piece {
             moveablePositions.add(new Position(getXPosition() + 1, getYPosition()));
         }
 
-        if (getSide() == Side.HAN) {
+        if (side == Side.HAN) {
             moveablePositions.add(new Position(getXPosition(), getYPosition() + 1));
             return moveablePositions;
         }

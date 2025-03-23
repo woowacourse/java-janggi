@@ -30,11 +30,11 @@ public class Elephant extends Piece {
 
     @Override
     protected boolean isMoveablePosition(Position destination) {
-        if (getPosition().getXDistance(destination) == VERTICAL_BASE_X_MOVEABLE_DISTANCE) {
-            return getPosition().getYDistance(destination) == VERTICAL_BASE_Y_MOVEABLE_DISTANCE;
+        if (position.getXDistance(destination) == VERTICAL_BASE_X_MOVEABLE_DISTANCE) {
+            return position.getYDistance(destination) == VERTICAL_BASE_Y_MOVEABLE_DISTANCE;
         }
-        if (getPosition().getXDistance(destination) == HORIZONTAL_BASE_X_MOVEABLE_DISTANCE) {
-            return getPosition().getYDistance(destination) == HORIZONTAL_BASE_Y_MOVEABLE_DISTANCE;
+        if (position.getXDistance(destination) == HORIZONTAL_BASE_X_MOVEABLE_DISTANCE) {
+            return position.getYDistance(destination) == HORIZONTAL_BASE_Y_MOVEABLE_DISTANCE;
         }
         return false;
     }
@@ -53,7 +53,7 @@ public class Elephant extends Piece {
     }
 
     private List<Position> findPath(Position destination) {
-        if (getPosition().getXDistance(destination) == VERTICAL_BASE_X_MOVEABLE_DISTANCE) {
+        if (position.getXDistance(destination) == VERTICAL_BASE_X_MOVEABLE_DISTANCE) {
             return findAllVerticalMovablePositions(destination);
         }
         return findAllHorizontalMovablePositions(destination);

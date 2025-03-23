@@ -7,8 +7,8 @@ import java.util.Objects;
 
 public abstract class Piece {
 
-    private final Side side;
-    private Position position;
+    protected final Side side;
+    protected Position position;
 
     protected Piece(Side side, int x, int y) {
         this.side = side;

@@ -22,10 +22,10 @@ public class Rook extends Piece {
 
     @Override
     protected boolean isMoveablePosition(Position destination) {
-        if (getPosition().hasSameX(destination)) {
-            return !getPosition().hasSameY(destination);
+        if (position.hasSameX(destination)) {
+            return !position.hasSameY(destination);
         }
-        return getPosition().hasSameY(destination);
+        return position.hasSameY(destination);
     }
 
     @Override

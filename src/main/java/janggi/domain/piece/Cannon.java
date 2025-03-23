@@ -23,10 +23,10 @@ public class Cannon extends Piece {
 
     @Override
     protected boolean isMoveablePosition(Position destination) {
-        if (getPosition().hasSameX(destination)) {
-            return !getPosition().hasSameY(destination);
+        if (position.hasSameX(destination)) {
+            return !position.hasSameY(destination);
         }
-        return getPosition().hasSameY(destination);
+        return position.hasSameY(destination);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class Cannon extends Piece {
             }
             Piece piece = findByPosition(existingPieces, destination);
 
-            return piece.getSide() != getSide() && !piece.isCannon();
+            return piece.side != this.side && !piece.isCannon();
         }
         return false;
     }
@@ -67,7 +67,7 @@ public class Cannon extends Piece {
     }
 
     private List<Piece> getPiecesOnPath(List<Piece> existingPieces, Position destination) {
-        if (getPosition().hasSameX(destination)) {
+        if (position.hasSameX(destination)) {
             return getPiecesOnVerticalPath(existingPieces, destination.getY());
         }
         return getPiecesOnHorizontalPath(existingPieces, destination.getX());

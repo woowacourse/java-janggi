@@ -22,7 +22,14 @@ public class OutputView {
 
     public void printJanggiBoard(JanggiBoard janggiBoard) {
         Map<Position, Piece> pieceMap = janggiBoard.getPieceMap();
+
+        System.out.print("   ");
+        for (int i = 0; i < 10; i ++) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
         for (int y = 9; y >= 0; y--) {
+            System.out.print(y + "  ");
             for (int x = 0; x < 9; x++) {
                 Position position = new Position(x, y);
                 Piece piece = pieceMap.get(position);
