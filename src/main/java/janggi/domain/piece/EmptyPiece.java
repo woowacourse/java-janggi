@@ -1,18 +1,34 @@
 package janggi.domain.piece;
 
-import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.point.Point;
+import janggi.domain.Dynasty;
+import janggi.domain.board.Point;
+import java.util.List;
 
 public class EmptyPiece implements Piece {
 
     @Override
-    public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
+    public boolean isEmptyPiece() {
+        return true;
+    }
+
+    @Override
+    public List<Point> movePath(Point from, Point to) {
+        throw new IllegalArgumentException("움직일 수 없습니다.");
+    }
+
+    @Override
+    public boolean canMove(PiecesOnPath piecesOnPath) {
         return false;
     }
 
     @Override
-    public boolean isEmptyPiece() {
-        return true;
+    public boolean isDynasty(Dynasty dynasty) {
+        return dynasty == Dynasty.EMPTY;
+    }
+
+    @Override
+    public boolean isSamePiece(Piece piece) {
+        return piece instanceof EmptyPiece;
     }
 
     @Override

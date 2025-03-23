@@ -5,7 +5,7 @@ import janggi.domain.Player;
 import janggi.domain.Players;
 import janggi.domain.board.BoardSetUp;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.point.DefaultPoint;
+import janggi.domain.board.Point;
 import janggi.view.InitializeView;
 import janggi.view.JanggiBoardView;
 import janggi.view.JanggiBoardView.Movement;
@@ -45,9 +45,9 @@ public class JanggiGame {
                     break;
                 }
                 if (movement.isMove()) {
-                    janggiBoard.move(currentTurnDynasty, new DefaultPoint(movement.startX(), movement.startY()),
-                            new DefaultPoint(movement.endX(), movement.endY()));
-                    janggiBoardView.printBoard(janggiBoard.getPointPieces());
+                    janggiBoard.move(currentTurnDynasty, new Point(movement.startX(), movement.startY()),
+                            new Point(movement.endX(), movement.endY()));
+                    janggiBoardView.printBoard(janggiBoard.getPieces());
                     currentTurnDynasty = changePlayerTurn(currentTurnDynasty);
                 }
             } catch (RuntimeException e) {
@@ -75,7 +75,7 @@ public class JanggiGame {
 
         janggiBoardView.printGameStartMessage();
         JanggiBoard janggiBoard = JanggiBoard.of(hanPlayerBoardSetUp, chuPlayerBoardSetUp);
-        janggiBoardView.printBoard(janggiBoard.getPointPieces());
+        janggiBoardView.printBoard(janggiBoard.getPieces());
 
         return janggiBoard;
     }

@@ -1,12 +1,11 @@
-package janggi.domain.board.point;
+package janggi.domain.board;
 
-import janggi.domain.board.Direction;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class ChuPointTest {
+class PointTest {
 
     @DisplayName("방향대로 움직일 수 있다")
     @ParameterizedTest
@@ -22,12 +21,12 @@ class ChuPointTest {
     })
     void move(Direction direction, int x1, int y1, int x2, int y2) {
         //given
-        ChuPoint currentPoint = new ChuPoint(x1, y1);
+        Point currentPoint = new Point(x1, y1);
 
         //when
         Point nextPoint = currentPoint.move(direction);
 
         //then
-        Assertions.assertThat(nextPoint).isEqualTo(new ChuPoint(x2, y2));
+        Assertions.assertThat(nextPoint).isEqualTo(new Point(x2, y2));
     }
 }

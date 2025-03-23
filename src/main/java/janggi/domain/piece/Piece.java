@@ -1,11 +1,19 @@
 package janggi.domain.piece;
 
-import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.point.Point;
+import janggi.domain.Dynasty;
+import janggi.domain.board.Point;
+import java.util.List;
 
 public interface Piece {
 
-    boolean isMovable(JanggiBoard janggiBoard, Point start, Point end);
-
     boolean isEmptyPiece();
+
+    List<Point> movePath(Point from, Point to);
+
+    boolean canMove(PiecesOnPath piecesOnPath);
+
+    boolean isDynasty(Dynasty dynasty);
+
+    boolean isSamePiece(Piece piece);
 }
+

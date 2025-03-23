@@ -1,8 +1,9 @@
 package janggi.domain.piece;
 
+import janggi.domain.Dynasty;
 import janggi.domain.board.Direction;
-import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.point.Point;
+import janggi.domain.board.Point;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -22,14 +23,10 @@ public class Horse implements Piece {
             List.of(Direction.LEFT, Direction.DOWN_LEFT_DIAGONAL)
     );
 
-    @Override
-    public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
-        for (List<Direction> path : PATHS) {
-            if (canMoveEndPointByPath(janggiBoard, start, end, path)) {
-                return true;
-            }
-        }
-        return false;
+    private final Dynasty dynasty;
+
+    public Horse(Dynasty dynasty) {
+        this.dynasty = dynasty;
     }
 
     @Override
@@ -37,15 +34,46 @@ public class Horse implements Piece {
         return false;
     }
 
-    private boolean canMoveEndPointByPath(JanggiBoard janggiBoard, Point start, Point end, List<Direction> path) {
-        Point currPoint = start;
-        for (Direction direction : path) {
-            currPoint = currPoint.move(direction);
-            if (janggiBoard.isExistPiece(currPoint)) {
-                break;
-            }
+    @Override
+    public List<Point> movePath(Point from, Point to) {
+        List<Direction> directions = PATHS.stream()
+                .filter(path -> canMove(path, from, to))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("이동할 수 없습니다."));
+
+        List<Point> points = new ArrayList<>();
+        Point curr = from;
+        for (Direction direction : directions) {
+            curr = curr.move(direction);
+            points.add(curr);
         }
-        return currPoint.isSamePosition(end);
+        return points;
+    }
+
+    @Override
+    public boolean isSamePiece(Piece piece) {
+        return piece instanceof Horse;
+    }
+
+    @Override
+    public boolean canMove(PiecesOnPath piecesOnPath) {
+        if (piecesOnPath.isDestinationOfDynasty(dynasty)) {
+            throw new IllegalArgumentException("목적지에 같은 나라의 기물이 있어 갈 수 없습니다.");
+        }
+        return piecesOnPath.isAllEmptyWithoutDestination();
+    }
+
+    @Override
+    public boolean isDynasty(Dynasty dynasty) {
+        return this.dynasty == dynasty;
+    }
+
+    private boolean canMove(List<Direction> path, Point from, Point to) {
+        Point curr = from;
+        for (Direction direction : path) {
+            curr = curr.move(direction);
+        }
+        return curr.isSamePosition(to);
     }
 
     @Override

@@ -1,8 +1,10 @@
 package janggi.domain.piece;
 
+import janggi.domain.Dynasty;
 import janggi.domain.board.Direction;
-import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.point.Point;
+import janggi.domain.board.Point;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class Chariot implements Piece {
@@ -11,16 +13,10 @@ public class Chariot implements Piece {
             Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT
     );
 
-    private static boolean canMoveEndPointByDirection(JanggiBoard janggiBoard, Point start, Point end,
-                                                      Direction direction) {
-        Point currPoint = start;
-        while (canMoveUntilEndPoint(end, currPoint)) {
-            currPoint = currPoint.move(direction);
-            if (janggiBoard.isExistPiece(currPoint)) {
-                break;
-            }
-        }
-        return currPoint.isSamePosition(end);
+    private final Dynasty dynasty;
+
+    public Chariot(Dynasty dynasty) {
+        this.dynasty = dynasty;
     }
 
     @Override
@@ -28,18 +24,46 @@ public class Chariot implements Piece {
         return false;
     }
 
-    private static boolean canMoveUntilEndPoint(Point end, Point currPoint) {
-        return !currPoint.isSamePosition(end) && currPoint.isNotOutOfBoundary();
+    @Override
+    public List<Point> movePath(Point from, Point to) {
+        Direction direction = DIRECTIONS.stream()
+                .filter(dir -> canMove(dir, from, to))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("이동할 수 없습니다."));
+
+        List<Point> points = new ArrayList<>();
+        Point curr = from;
+        while (curr.isNotOutOfBoundary() && !curr.isSamePosition(to)) {
+            curr = curr.move(direction);
+            points.add(curr);
+        }
+        return points;
     }
 
     @Override
-    public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
-        for (Direction direction : DIRECTIONS) {
-            if (canMoveEndPointByDirection(janggiBoard, start, end, direction)) {
-                return true;
-            }
+    public boolean canMove(PiecesOnPath piecesOnPath) {
+        if (piecesOnPath.isDestinationOfDynasty(dynasty)) {
+            throw new IllegalArgumentException("목적지에 같은 나라의 기물이 있어 갈 수 없습니다.");
         }
-        return false;
+        return piecesOnPath.isAllEmptyWithoutDestination();
+    }
+
+    @Override
+    public boolean isDynasty(Dynasty dynasty) {
+        return this.dynasty == dynasty;
+    }
+
+    @Override
+    public boolean isSamePiece(Piece piece) {
+        return piece instanceof Chariot;
+    }
+
+    private boolean canMove(Direction direction, Point from, Point to) {
+        Point curr = from;
+        while (curr.isNotOutOfBoundary() && !curr.isSamePosition(to)) {
+            curr = curr.move(direction);
+        }
+        return curr.isSamePosition(to);
     }
 
     @Override

@@ -1,9 +1,10 @@
 package janggi.domain.piece;
 
+import janggi.domain.Dynasty;
 import janggi.domain.board.Direction;
-import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.point.Point;
-import java.util.Optional;
+import janggi.domain.board.Point;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class Cannon implements Piece {
@@ -12,53 +13,63 @@ public class Cannon implements Piece {
             Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT
     );
 
+    private final Dynasty dynasty;
+
+    public Cannon(Dynasty dynasty) {
+        this.dynasty = dynasty;
+    }
+
     @Override
-    public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
-        if (isExistCannon(janggiBoard, end)) {
-            return false;
+    public List<Point> movePath(Point from, Point to) {
+        Direction direction = DIRECTIONS.stream()
+                .filter(dir -> canMove(dir, from, to))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("이동할 수 없습니다."));
+
+        List<Point> points = new ArrayList<>();
+        Point curr = from;
+        while (curr.isNotOutOfBoundary() && !curr.isSamePosition(to)) {
+            curr = curr.move(direction);
+            points.add(curr);
         }
-        for (Direction direction : DIRECTIONS) {
-            if (canMoveEndPoint(janggiBoard, start, end, direction)) {
-                return true;
-            }
+        return points;
+    }
+
+    @Override
+    public boolean canMove(PiecesOnPath piecesOnPath) {
+        if (piecesOnPath.isDestinationOfDynasty(dynasty)) {
+            throw new IllegalArgumentException("목적지에 같은 나라의 기물이 있어 갈 수 없습니다.");
         }
-        return false;
+        int countSamePieceWithoutDestination = piecesOnPath.countSamePieceWithoutDestination(this);
+        if (countSamePieceWithoutDestination > 0) {
+            throw new IllegalArgumentException("포를 뛰어넘거나 죽일수 없습니다.");
+        }
+        int countNotSamePieceWithoutDestination = piecesOnPath.countNotSamePieceWithoutDestination(this);
+        return (countNotSamePieceWithoutDestination == 0 || countNotSamePieceWithoutDestination == 1) &&
+                piecesOnPath.isNotSameDestination(this);
+    }
+
+    @Override
+    public boolean isDynasty(Dynasty dynasty) {
+        return this.dynasty == dynasty;
+    }
+
+    @Override
+    public boolean isSamePiece(Piece piece) {
+        return piece instanceof Cannon;
+    }
+
+    private boolean canMove(Direction direction, Point from, Point to) {
+        Point curr = from;
+        while (curr.isNotOutOfBoundary() && !curr.isSamePosition(to)) {
+            curr = curr.move(direction);
+        }
+        return curr.isSamePosition(to);
     }
 
     @Override
     public boolean isEmptyPiece() {
         return false;
-    }
-
-    private boolean canMoveUntilEndPoint(Point end, Point currPoint) {
-        return !currPoint.isSamePosition(end) && currPoint.isNotOutOfBoundary();
-    }
-
-    private boolean canMoveEndPoint(JanggiBoard janggiBoard, Point start, Point end, Direction direction) {
-        boolean isJump = false;
-        Point current = start;
-        while (canMoveUntilEndPoint(end, current)) {
-            current = current.move(direction);
-            if (isExistCannon(janggiBoard, current)) {
-                return false;
-            }
-            if (isAlreadyJumpedAndExistPiece(janggiBoard, isJump, current)) {
-                break;
-            }
-            if (janggiBoard.isExistPiece(current)) {
-                isJump = true;
-            }
-        }
-        return isJump && current.isSamePosition(end);
-    }
-
-    private boolean isExistCannon(JanggiBoard janggiBoard, Point point) {
-        BoardPiece piece = janggiBoard.findPointPiece(point);
-        return piece.isEqualPiece(this);
-    }
-
-    private boolean isAlreadyJumpedAndExistPiece(JanggiBoard janggiBoard, boolean isJump, Point current) {
-        return isJump && janggiBoard.isExistPiece(current);
     }
 
     @Override

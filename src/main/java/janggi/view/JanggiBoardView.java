@@ -2,9 +2,7 @@ package janggi.view;
 
 import janggi.domain.Dynasty;
 import janggi.domain.Player;
-import janggi.domain.board.point.DefaultPoint;
-import janggi.domain.board.point.Point;
-import janggi.domain.piece.BoardPiece;
+import janggi.domain.board.Point;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.Elephant;
@@ -16,7 +14,6 @@ import janggi.domain.piece.Soldier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 public class JanggiBoardView {
@@ -25,16 +22,25 @@ public class JanggiBoardView {
     private static final Scanner scanner = new Scanner(System.in);
     private static final String RESET = "\u001B[0m";
     private static final String RED = "\u001B[31m";
+    private static final Map<Piece, String> PIECE_LABELS = new HashMap<>() {{
+        put(new General(Dynasty.CHU), "궁");
+        put(new Guard(Dynasty.CHU), "사");
+        put(new Chariot(Dynasty.CHU), "차");
+        put(new Cannon(Dynasty.CHU), "포");
+        put(new Horse(Dynasty.CHU), "마");
+        put(new Elephant(Dynasty.CHU), "상");
+        put(new Soldier(Dynasty.CHU), "졸");
+
+        put(new General(Dynasty.HAN), "궁");
+        put(new Guard(Dynasty.HAN), "사");
+        put(new Chariot(Dynasty.HAN), "차");
+        put(new Cannon(Dynasty.HAN), "포");
+        put(new Horse(Dynasty.HAN), "마");
+        put(new Elephant(Dynasty.HAN), "상");
+        put(new Soldier(Dynasty.HAN), "졸");
+    }};
+
     private static final String BLUE = "\u001B[34m";
-    private static final Map<Piece, String> PIECE_LABELS = Map.of(
-            new General(), "궁",
-            new Guard(), "사",
-            new Chariot(), "차",
-            new Cannon(), "포",
-            new Horse(), "마",
-            new Elephant(), "상",
-            new Soldier(), "졸"
-    );
     private static final Map<String, Integer> VERTICAL_INPUT_MAP = Map.of(
             "ㄱ", 1,
             "ㄴ", 2,
@@ -46,15 +52,6 @@ public class JanggiBoardView {
             "ㅇ", 8,
             "ㅈ", 9
     );
-
-    private static Map<Point, BoardPiece> createBoardPiecesMap(Set<BoardPiece> boardPieces) {
-        Map<Point, BoardPiece> pieceMap = new HashMap<>();
-        for (BoardPiece boardPiece : boardPieces) {
-            Point currentPoint = boardPiece.getCurrentPoint();
-            pieceMap.put(new DefaultPoint(currentPoint.getX(), currentPoint.getY()), boardPiece);
-        }
-        return pieceMap;
-    }
 
     public void printGameStartMessage() {
         System.out.println("""
@@ -92,15 +89,13 @@ public class JanggiBoardView {
         System.out.println(convertChuColor(player.getNickname()) + "의 차례입니다. 이동할 위치를 입력해주세요. 예) move ㄱ2 ㄴ3");
     }
 
-    public void printBoard(Set<BoardPiece> boardPieces) {
-        Map<Point, BoardPiece> boardPieceMap = createBoardPiecesMap(boardPieces);
+    public void printBoard(Map<Point, Piece> boardPieces) {
 
         for (int x = 1; x <= 10; x++) {
             for (int y = 1; y <= 9; y++) {
-                DefaultPoint point = new DefaultPoint(x, y);
-                if (boardPieceMap.containsKey(point)) {
-                    BoardPiece boardPiece = boardPieceMap.get(point);
-                    printPointPiece(boardPiece);
+                Point point = new Point(x, y);
+                if (boardPieces.containsKey(point)) {
+                    printPointPiece(boardPieces.get(point));
                     continue;
                 }
                 System.out.print("ㅁ ");
@@ -111,9 +106,9 @@ public class JanggiBoardView {
         System.out.println("ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅅ ㅇ ㅈ");
     }
 
-    private void printPointPiece(BoardPiece boardPiece) {
-        String pieceLabel = PIECE_LABELS.get(boardPiece.getPiece());
-        if (boardPiece.getDynasty() == Dynasty.HAN) {
+    private void printPointPiece(Piece boardPiece) {
+        String pieceLabel = PIECE_LABELS.get(boardPiece);
+        if (boardPiece.isDynasty(Dynasty.HAN)) {
             System.out.print(convertHanColor(pieceLabel) + " ");
             return;
         }

@@ -1,46 +1,45 @@
 package janggi.domain.board;
 
 import janggi.domain.Dynasty;
-import janggi.domain.board.point.HanPoint;
-import janggi.domain.piece.BoardPiece;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Horse;
-import java.util.Set;
+import janggi.domain.piece.Piece;
+import java.util.Map;
 
 public enum HanBoardSetUp implements BoardSetUp {
-    INNER_ELEPHANT(Set.of(
-            new BoardPiece(new HanPoint(1, 2), new Horse(), Dynasty.HAN),
-            new BoardPiece(new HanPoint(1, 3), new Elephant(), Dynasty.HAN),
-            new BoardPiece(new HanPoint(1, 7), new Elephant(), Dynasty.HAN),
-            new BoardPiece(new HanPoint(1, 8), new Horse(), Dynasty.HAN)
+    INNER_ELEPHANT(Map.of(
+            new Point(1, 2), new Horse(Dynasty.HAN),
+            new Point(1, 3), new Elephant(Dynasty.HAN),
+            new Point(1, 7), new Elephant(Dynasty.HAN),
+            new Point(1, 8), new Horse(Dynasty.HAN)
     )),
-    OUTER_ELEPHANT(Set.of(
-            new BoardPiece(new HanPoint(1, 2), new Elephant(), Dynasty.HAN),
-            new BoardPiece(new HanPoint(1, 3), new Horse(), Dynasty.HAN),
-            new BoardPiece(new HanPoint(1, 7), new Horse(), Dynasty.HAN),
-            new BoardPiece(new HanPoint(1, 8), new Elephant(), Dynasty.HAN)
+    OUTER_ELEPHANT(Map.of(
+            new Point(1, 2), new Elephant(Dynasty.HAN),
+            new Point(1, 3), new Horse(Dynasty.HAN),
+            new Point(1, 7), new Horse(Dynasty.HAN),
+            new Point(1, 8), new Elephant(Dynasty.HAN)
     )),
-    RIGHT_ELEPHANT(Set.of(
-            new BoardPiece(new HanPoint(1, 2), new Horse(), Dynasty.HAN),
-            new BoardPiece(new HanPoint(1, 3), new Elephant(), Dynasty.HAN),
-            new BoardPiece(new HanPoint(1, 7), new Horse(), Dynasty.HAN),
-            new BoardPiece(new HanPoint(1, 8), new Elephant(), Dynasty.HAN)
+    RIGHT_ELEPHANT(Map.of(
+            new Point(1, 2), new Horse(Dynasty.HAN),
+            new Point(1, 3), new Elephant(Dynasty.HAN),
+            new Point(1, 7), new Horse(Dynasty.HAN),
+            new Point(1, 8), new Elephant(Dynasty.HAN)
     )),
-    LEFT_ELEPHANT(Set.of(
-            new BoardPiece(new HanPoint(1, 2), new Elephant(), Dynasty.HAN),
-            new BoardPiece(new HanPoint(1, 3), new Horse(), Dynasty.HAN),
-            new BoardPiece(new HanPoint(1, 7), new Elephant(), Dynasty.HAN),
-            new BoardPiece(new HanPoint(1, 8), new Horse(), Dynasty.HAN)
+    LEFT_ELEPHANT(Map.of(
+            new Point(1, 2), new Elephant(Dynasty.HAN),
+            new Point(1, 3), new Horse(Dynasty.HAN),
+            new Point(1, 7), new Elephant(Dynasty.HAN),
+            new Point(1, 8), new Horse(Dynasty.HAN)
     ));
 
-    private final Set<BoardPiece> piecePositions;
+    private final Map<Point, Piece> piecePositions;
 
-    HanBoardSetUp(Set<BoardPiece> piecePositions) {
+    HanBoardSetUp(Map<Point, Piece> piecePositions) {
         this.piecePositions = piecePositions;
     }
 
     @Override
-    public Set<BoardPiece> getPiecePositions() {
+    public Map<Point, Piece> getPiecePositions() {
         return piecePositions;
     }
 }

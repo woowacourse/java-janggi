@@ -4,91 +4,27 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Dynasty;
-import janggi.domain.board.point.ChuPoint;
-import janggi.domain.board.point.DefaultPoint;
-import janggi.domain.board.point.HanPoint;
-import janggi.domain.piece.BoardPiece;
-import janggi.domain.piece.EmptyPiece;
-import janggi.domain.piece.General;
 import janggi.domain.piece.Soldier;
-import java.util.Optional;
-import java.util.Set;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class JanggiBoardTest {
 
-
-    @DisplayName("위치에 있는 기물을 찾을 수 있다.")
-    @Test
-    void findPointPieceTest() {
-        //given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(9, 5), new General(), Dynasty.CHU)
-        ));
-
-        //when
-        BoardPiece result = janggiBoard.findPointPiece(new HanPoint(9, 5));
-
-        //then
-        assertThat(result).isEqualTo(new BoardPiece(new ChuPoint(9, 5), new General(), Dynasty.CHU));
-    }
-
-    @DisplayName("해당 위치에 기물이 없다면 EmptyPiece를 반환한다.")
-    @Test
-    void notFindPointPieceTest() {
-        //given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-
-        //when
-        BoardPiece result = janggiBoard.findPointPiece(new HanPoint(9, 5));
-
-        //then
-        assertThat(result).isEqualTo((new BoardPiece(new HanPoint(9,5), new EmptyPiece(), Dynasty.EMPTY)));
-    }
-
-    @DisplayName("해당 위치에 있는 기물이 있는지 확인할 수 있다.")
-    @Test
-    void isExistPieceTest() {
-        //given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(9, 5), new General(), Dynasty.CHU)
-        ));
-
-        //when
-        boolean result = janggiBoard.isExistPiece(new HanPoint(9, 5));
-
-        //then
-        assertThat(result).isTrue();
-    }
-
-    @DisplayName("해당 위치에 있는 기물이 없는지 확인할 수 있다.")
-    @Test
-    void isNotExistPieceTest() {
-        //given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-
-        //when
-        boolean result = janggiBoard.isExistPiece(new HanPoint(9, 5));
-
-        //then
-        assertThat(result).isFalse();
-    }
-
     @DisplayName("기물을 움직일 수 있다")
     @Test
     void move() {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(9, 5), new Soldier(), Dynasty.CHU)
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(9, 5), new Soldier(Dynasty.CHU)
         ));
 
         //when
-        janggiBoard.move(Dynasty.CHU, new DefaultPoint(9, 5), new DefaultPoint(8, 5));
+        janggiBoard.move(Dynasty.CHU, new Point(9, 5), new Point(8, 5));
 
         //then
-        assertThat(janggiBoard).isEqualTo(new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(8, 5), new Soldier(), Dynasty.CHU)
+        assertThat(janggiBoard).isEqualTo(new JanggiBoard(Map.of(
+                new Point(8, 5), new Soldier(Dynasty.CHU)
         )));
     }
 
@@ -96,12 +32,10 @@ public class JanggiBoardTest {
     @Test
     void move_whenNotExistPiece() {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(7, 5), new Soldier(), Dynasty.CHU)
-        ));
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of());
 
         //when
-        assertThatThrownBy(() -> janggiBoard.move(Dynasty.CHU, new DefaultPoint(9, 5), new DefaultPoint(8, 5)))
+        assertThatThrownBy(() -> janggiBoard.move(Dynasty.CHU, new Point(9, 5), new Point(8, 5)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("시작 위치에 기물이 존재하지 않습니다.");
     }
@@ -110,13 +44,13 @@ public class JanggiBoardTest {
     @Test
     void move_whenOtherDynastyPiece() {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(9, 5), new Soldier(), Dynasty.CHU)
-        ));
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(9, 5), new Soldier(Dynasty.CHU))
+        );
 
         //when
-        assertThatThrownBy(() -> janggiBoard.move(Dynasty.HAN, new DefaultPoint(9, 5), new DefaultPoint(8, 5)))
+        assertThatThrownBy(() -> janggiBoard.move(Dynasty.HAN, new Point(9, 5), new Point(9, 4)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("자신의 나라 기물이 아닙니다.");
+                .hasMessage("자신의 나라 기물만 움직일 수 있습니다.");
     }
 }

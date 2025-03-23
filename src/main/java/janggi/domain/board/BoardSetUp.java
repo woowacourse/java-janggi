@@ -1,8 +1,8 @@
 package janggi.domain.board;
 
-import janggi.domain.piece.BoardPiece;
-import java.util.Set;
+import janggi.domain.piece.Piece;
+import java.util.Map;
 
 public interface BoardSetUp {
-    Set<BoardPiece> getPiecePositions();
+    Map<Point, Piece> getPiecePositions();
 }
