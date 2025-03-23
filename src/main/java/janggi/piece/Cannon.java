@@ -4,6 +4,7 @@ import janggi.Camp;
 import janggi.PieceSymbol;
 import janggi.Point;
 import janggi.board.Board;
+import janggi.exception.ErrorException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ public final class Cannon extends Piece {
 
     private void validateLinearMove(Point fromPoint, Point toPoint) {
         if (!fromPoint.isHorizontal(toPoint) && !fromPoint.isVertical(toPoint)) {
-            throw new IllegalArgumentException("포는 수평 혹은 수직으로만 움직여야 합니다.");
+            throw new ErrorException("포는 수평 혹은 수직으로만 움직여야 합니다.");
         }
     }
 
@@ -38,13 +39,13 @@ public final class Cannon extends Piece {
 
     private void validatePieceCount(Set<Piece> pieces) {
         if (pieces.size() != POSSIBLE_JUMP_OVER_PIECE_COUNT) {
-            throw new IllegalArgumentException("포는 정확히 하나의 기물만 넘을 수 있습니다. 넘은 기물 수: %d".formatted(pieces.size()));
+            throw new ErrorException("포는 정확히 하나의 기물만 넘을 수 있습니다. 넘은 기물 수: %d".formatted(pieces.size()));
         }
     }
 
     private void validateNotJumpOverCannon(Set<Piece> pieces) {
         if (hasCannon(pieces)) {
-            throw new IllegalArgumentException("포는 포를 넘을 수 없습니다.");
+            throw new ErrorException("포는 포를 넘을 수 없습니다.");
         }
     }
 
@@ -85,7 +86,7 @@ public final class Cannon extends Piece {
     public void validateCatch(Piece otherPiece) {
         super.validateCatch(otherPiece);
         if (getPieceSymbol() == otherPiece.getPieceSymbol()) {
-            throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
+            throw new ErrorException("포는 포를 잡을 수 없습니다.");
         }
     }
 

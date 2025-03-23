@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import janggi.Camp;
 import janggi.Point;
 import janggi.board.Board;
+import janggi.exception.ErrorException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,7 +28,7 @@ class SoldierTest {
 
         // when & then
         assertThatCode(() -> soldier.validateMove(fromPoint, toPoint))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("뒤로 갈 수 없습니다.");
     }
 
@@ -68,7 +69,7 @@ class SoldierTest {
 
         // when & then
         assertThatCode(() -> soldier.validateMove(fromPoint, toPoint))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
     }
 
@@ -81,7 +82,7 @@ class SoldierTest {
 
         // when & then
         assertThatCode(() -> soldier.validateCatch(new Soldier(Camp.HAN, board)))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("같은 진영의 기물을 잡을 수 없습니다.");
     }
 }

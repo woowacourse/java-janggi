@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import janggi.Camp;
 import janggi.Point;
 import janggi.board.Board;
+import janggi.exception.ErrorException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -32,7 +33,7 @@ class CannonTest {
 
         // when & then
         assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("포는 수평 혹은 수직으로만 움직여야 합니다.");
     }
 
@@ -71,7 +72,7 @@ class CannonTest {
 
         // when & then
         assertThatCode(() -> chuCannon.validateCatch(hanCannon))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("포는 포를 잡을 수 없습니다.");
     }
 
@@ -87,7 +88,7 @@ class CannonTest {
 
         // when & then
         assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("포는 정확히 하나의 기물만 넘을 수 있습니다. 넘은 기물 수: 0");
     }
 
@@ -105,7 +106,7 @@ class CannonTest {
 
         // when & then
         assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("포는 정확히 하나의 기물만 넘을 수 있습니다. 넘은 기물 수: 2");
     }
 
@@ -122,7 +123,7 @@ class CannonTest {
 
         // when & then
         assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("포는 포를 넘을 수 없습니다.");
     }
 }

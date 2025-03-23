@@ -3,6 +3,7 @@ package janggi.piece;
 import janggi.Camp;
 import janggi.PieceSymbol;
 import janggi.Point;
+import janggi.exception.ErrorException;
 
 public abstract class Piece {
 
@@ -22,13 +23,13 @@ public abstract class Piece {
 
     public void validateCatch(Piece otherPiece) {
         if (camp == otherPiece.getCamp()) {
-            throw new IllegalArgumentException("같은 진영의 기물을 잡을 수 없습니다.");
+            throw new ErrorException("같은 진영의 기물을 잡을 수 없습니다.");
         }
     }
 
     public void validateSelect(Camp baseCamp) {
         if (camp != baseCamp) {
-            throw new IllegalArgumentException("다른 진영의 기물을 선택할 수 없습니다.");
+            throw new ErrorException("다른 진영의 기물을 선택할 수 없습니다.");
         }
     }
 

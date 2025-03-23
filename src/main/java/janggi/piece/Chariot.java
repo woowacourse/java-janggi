@@ -4,6 +4,7 @@ import janggi.Camp;
 import janggi.PieceSymbol;
 import janggi.Point;
 import janggi.board.Board;
+import janggi.exception.ErrorException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,14 +25,14 @@ public final class Chariot extends Piece {
 
     private void validateLinearMove(Point fromPoint, Point toPoint) {
         if (!fromPoint.isHorizontal(toPoint) && !fromPoint.isVertical(toPoint)) {
-            throw new IllegalArgumentException("차는 수평 혹은 수직으로만 움직여야 합니다.");
+            throw new ErrorException("차는 수평 혹은 수직으로만 움직여야 합니다.");
         }
     }
 
     private void validateObstacleOnRoute(Point fromPoint, Point toPoint) {
         Set<Piece> pieces = board.getPiecesByPoint(findRoute(fromPoint, toPoint));
         if (!pieces.isEmpty()) {
-            throw new IllegalArgumentException("차는 기물을 넘어 이동할 수 없습니다.");
+            throw new ErrorException("차는 기물을 넘어 이동할 수 없습니다.");
         }
     }
 

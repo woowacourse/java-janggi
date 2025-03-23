@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import janggi.Camp;
 import janggi.Point;
 import janggi.board.Board;
+import janggi.exception.ErrorException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -30,7 +31,7 @@ class ElephantTest {
 
         // when & then
         assertThatCode(() -> elephant.validateMove(fromPoint, toPoint))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("상은 직선으로 한 칸, 대각선으로 두 칸 움직여야 합니다.");
     }
 
@@ -79,7 +80,7 @@ class ElephantTest {
 
         // when & then
         assertThatCode(() -> elephant.validateMove(fromPoint, toPoint))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("상은 기물을 넘어서 이동할 수 없습니다.");
     }
 
@@ -108,7 +109,7 @@ class ElephantTest {
 
         // when & then
         assertThatCode(() -> elephant.validateMove(fromPoint, toPoint))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("상은 기물을 넘어서 이동할 수 없습니다.");
     }
 }

@@ -1,6 +1,7 @@
 package janggi.board;
 
 import janggi.Point;
+import janggi.exception.ErrorException;
 import janggi.piece.Piece;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,14 +36,14 @@ public class Board {
 
     private void validatePoint(Point point) {
         if (point.getX() < 0 || COLUMN <= point.getX() || point.getY() < 0 || ROW <= point.getY()) {
-            throw new IllegalArgumentException("기물의 위치는 9 x 10 영역을 벗어날 수 없습니다.");
+            throw new ErrorException("기물의 위치는 9 x 10 영역을 벗어날 수 없습니다.");
         }
     }
 
     public Piece peek(Point point) {
         Piece piece = placedPieces.get(point);
         if (piece == null) {
-            throw new IllegalArgumentException("해당 위치에서 기물을 찾을 수 없습니다.");
+            throw new ErrorException("해당 위치에서 기물을 찾을 수 없습니다.");
         }
         return piece;
     }
@@ -61,7 +62,7 @@ public class Board {
 
     private void validateMoveRequest(Point from, Point to) {
         if (from.equals(to)) {
-            throw new IllegalArgumentException("같은 위치로 이동할 수 없습니다.");
+            throw new ErrorException("같은 위치로 이동할 수 없습니다.");
         }
         validatePoint(from);
         validatePoint(to);

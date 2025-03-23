@@ -3,6 +3,7 @@ package janggi.view;
 import janggi.Camp;
 import janggi.PieceSymbol;
 import janggi.Point;
+import janggi.exception.ErrorException;
 import janggi.piece.Piece;
 import java.util.Map;
 import java.util.Scanner;
@@ -15,6 +16,10 @@ public class View {
     private static final String BOARD_DELIMITER_LINE = " | ";
 
     private final Scanner scanner = new Scanner(System.in);
+
+    public void displayErrorMessage(String message) {
+        System.out.println(message);
+    }
 
     public void displayStartBanner() {
         System.out.println("""
@@ -43,7 +48,7 @@ public class View {
         if (response.equalsIgnoreCase("n")) {
             return false;
         }
-        throw new IllegalArgumentException("y 또는 n을 입력해야 합니다.");
+        throw new ErrorException("y 또는 n을 입력해야 합니다.");
     }
 
     public String[] readMove(Camp camp) {

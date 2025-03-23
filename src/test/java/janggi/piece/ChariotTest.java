@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import janggi.Camp;
 import janggi.Point;
 import janggi.board.Board;
+import janggi.exception.ErrorException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,7 +30,7 @@ class ChariotTest {
 
         // when & then
         assertThatCode(() -> chariot.validateMove(fromPoint, toPoint))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("차는 수평 혹은 수직으로만 움직여야 합니다.");
     }
 
@@ -66,7 +67,7 @@ class ChariotTest {
 
         // when & then
         assertThatCode(() -> chariot.validateMove(fromPoint, toPoint))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("차는 기물을 넘어 이동할 수 없습니다.");
     }
 
@@ -83,7 +84,7 @@ class ChariotTest {
 
         // when & then
         assertThatCode(() -> chariot.validateSelect(camp))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("다른 진영의 기물을 선택할 수 없습니다.");
     }
 }

@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import janggi.Camp;
 import janggi.Point;
 import janggi.board.Board;
+import janggi.exception.ErrorException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -30,7 +31,7 @@ class HorseTest {
 
         // when & then
         assertThatCode(() -> horse.validateMove(fromPoint, toPoint))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("마는 직선으로 한 칸, 대각선으로 한 칸 움직여야 합니다.");
     }
 
@@ -79,7 +80,7 @@ class HorseTest {
 
         // when & then
         assertThatCode(() -> horse.validateMove(fromPoint, toPoint))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("마는 기물을 넘어서 이동할 수 없습니다.");
     }
 }

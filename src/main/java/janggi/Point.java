@@ -1,5 +1,6 @@
 package janggi;
 
+import janggi.exception.ErrorException;
 import java.util.Objects;
 
 public final class Point {
@@ -14,14 +15,14 @@ public final class Point {
 
     public Point(String value) {
         if (value.length() != 2) {
-            throw new IllegalArgumentException("잘못된 좌표 입력입니다.");
+            throw new ErrorException("잘못된 좌표 입력입니다.");
         }
         try {
             String[] split = value.split("", -1);
             this.x = Integer.parseInt(split[0]);
             this.y = Integer.parseInt(split[1]);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("숫자만 입력 가능합니다.");
+            throw new ErrorException("숫자만 입력 가능합니다.");
         }
     }
 

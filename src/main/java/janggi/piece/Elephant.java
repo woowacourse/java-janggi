@@ -4,6 +4,7 @@ import janggi.Camp;
 import janggi.PieceSymbol;
 import janggi.Point;
 import janggi.board.Board;
+import janggi.exception.ErrorException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +25,7 @@ public final class Elephant extends Piece {
 
     private void validateElephantMove(Point fromPoint, Point toPoint) {
         if (!isElephantMove(fromPoint.calculateXDistance(toPoint), fromPoint.calculateYDistance(toPoint))) {
-            throw new IllegalArgumentException("상은 직선으로 한 칸, 대각선으로 두 칸 움직여야 합니다.");
+            throw new ErrorException("상은 직선으로 한 칸, 대각선으로 두 칸 움직여야 합니다.");
         }
     }
 
@@ -35,7 +36,7 @@ public final class Elephant extends Piece {
     private void validateObstacleOnRoute(Point fromPoint, Point toPoint) {
         Set<Piece> pieces = board.getPiecesByPoint(findRoute(fromPoint, toPoint));
         if (!pieces.isEmpty()) {
-            throw new IllegalArgumentException("상은 기물을 넘어서 이동할 수 없습니다.");
+            throw new ErrorException("상은 기물을 넘어서 이동할 수 없습니다.");
         }
     }
 

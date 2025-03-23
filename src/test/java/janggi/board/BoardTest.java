@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.Camp;
 import janggi.Point;
+import janggi.exception.ErrorException;
 import janggi.piece.Elephant;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
@@ -44,7 +45,7 @@ class BoardTest {
 
         // when & then
         assertThatCode(() -> board.placePiece(point, piece))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("기물의 위치는 9 x 10 영역을 벗어날 수 없습니다.");
     }
 
@@ -78,7 +79,7 @@ class BoardTest {
 
         // when & then
         assertThatCode(() -> board.move(from, to))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("기물의 위치는 9 x 10 영역을 벗어날 수 없습니다.");
     }
 
@@ -92,7 +93,7 @@ class BoardTest {
 
         // when & then
         assertThatCode(() -> board.move(from, to))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("해당 위치에서 기물을 찾을 수 없습니다.");
     }
 
@@ -110,7 +111,7 @@ class BoardTest {
 
         // when & then
         assertThatCode(() -> board.move(from, to))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessage("같은 진영의 기물을 잡을 수 없습니다.");
     }
 
@@ -149,7 +150,7 @@ class BoardTest {
 
         // when & then
         assertThatCode(() -> board.move(fromPoint, toPoint))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("같은 위치로 이동할 수 없습니다.");
     }
 }
