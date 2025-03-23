@@ -1,9 +1,5 @@
 package domain.board;
 
-import static domain.Coordinate.BOARD_MIN_SIZE;
-import static domain.Coordinate.COL_SIZE;
-import static domain.Coordinate.ROW_SIZE;
-
 import domain.Coordinate;
 import domain.piece.Country;
 import domain.piece.Piece;
@@ -70,17 +66,8 @@ public final class Board {
         return board.containsKey(coordinate);
     }
 
-    public boolean isMyTeam(Coordinate originCoordinate, Coordinate coordinate) {
-        return hasPiece(coordinate) && board.get(originCoordinate).getCountry() == board.get(coordinate).getCountry();
-    }
-
-    public boolean isOutOfBoundary(Coordinate coordinate) {
-        int row = coordinate.getRow();
-        int col = coordinate.getCol();
-        if (row < BOARD_MIN_SIZE || row > ROW_SIZE) {
-            return true;
-        }
-        return col < BOARD_MIN_SIZE || col > COL_SIZE;
+    public boolean isMyTeam(Coordinate from, Coordinate to) {
+        return hasPiece(to) && board.get(from).getCountry() == board.get(to).getCountry();
     }
 
     public boolean isPho(Coordinate phoCoordinate) {

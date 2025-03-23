@@ -17,17 +17,16 @@ public class Byeong extends Piece {
     @Override
     public List<Coordinate> availableMovePositions(Coordinate currCoordinate, Board board) {
         return MOVEMENTS.stream()
-                .filter(this::getForwardDirection)
+                .filter(this::selectUpOrDown)
                 .map(currCoordinate::move)
-                .filter(next -> !board.isOutOfBoundary(next) && !board.isMyTeam(currCoordinate, next))
+                .filter(next -> !next.isOutOfBoundary() && !board.isMyTeam(currCoordinate, next))
                 .toList();
     }
 
-    private boolean getForwardDirection(Movement movement) {
+    private boolean selectUpOrDown(Movement movement) {
         if (country.isCho()) {
             return movement != Movement.DOWN;
-        } else {
-            return movement != Movement.UP;
         }
+        return movement != Movement.UP;
     }
 }

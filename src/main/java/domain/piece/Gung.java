@@ -19,7 +19,7 @@ public class Gung extends Piece {
     public List<Coordinate> availableMovePositions(Coordinate currCoordinate, Board board) {
         return movements.stream()
                 .map(movement -> movePosition(currCoordinate, movement.getDirection()))
-                .filter(next -> !board.isOutOfBoundary(next) && !board.isMyTeam(currCoordinate, next))
+                .filter(next -> !next.isOutOfBoundary() && !board.isMyTeam(currCoordinate, next))
                 .toList();
     }
 

@@ -20,7 +20,7 @@ public class Sa extends Piece {
                                                    Board board) {
         return movements.stream()
                 .map(movement -> movePosition(currCoordinate, movement.getDirection()))
-                .filter(next -> !board.isOutOfBoundary(next) && !board.isMyTeam(currCoordinate, next))
+                .filter(next -> !next.isOutOfBoundary() && !board.isMyTeam(currCoordinate, next))
                 .toList();
     }
 

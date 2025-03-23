@@ -20,8 +20,7 @@ class BoardTest {
         @DisplayName("장기판 밖으로 나갈 수 없다.")
         @Test
         void validateBoardBoundary1() {
-            Board board = new Board(new HashMap<>());
-            boolean isOutOfBoundary = board.isOutOfBoundary(new Coordinate(11, 10));
+            boolean isOutOfBoundary = new Coordinate(11, 10).isOutOfBoundary();
 
             assertThat(isOutOfBoundary).isTrue();
         }

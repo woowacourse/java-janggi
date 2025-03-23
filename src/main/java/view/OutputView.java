@@ -1,8 +1,7 @@
 package view;
 
-import static domain.Coordinate.BOARD_MIN_SIZE;
-import static domain.Coordinate.COL_SIZE;
-import static domain.Coordinate.ROW_SIZE;
+import static domain.Coordinate.MAX_COL;
+import static domain.Coordinate.MAX_ROW;
 
 import domain.Coordinate;
 import domain.board.Board;
@@ -13,8 +12,8 @@ public class OutputView {
     public void printJanggiBoard(Board board) {
         StringBuilder builder = new StringBuilder();
 
-        for (int row = BOARD_MIN_SIZE; row <= ROW_SIZE; row++) {
-            for (int col = BOARD_MIN_SIZE; col <= COL_SIZE; col++) {
+        for (int row = 1; row <= MAX_ROW; row++) {
+            for (int col = 1; col <= MAX_COL; col++) {
                 Coordinate coordinate = new Coordinate(row, col);
                 if (board.isBlankCoordinate(coordinate)) {
                     builder.append("＿");

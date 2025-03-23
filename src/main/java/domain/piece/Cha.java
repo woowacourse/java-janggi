@@ -24,7 +24,7 @@ public class Cha extends Piece {
         for (Movement movement : MOVEMENTS) {
             Coordinate next = currCoordinate.move(movement);
 
-            while (!board.isOutOfBoundary(next)) {
+            while (!next.isOutOfBoundary()) {
                 if (board.hasPiece(next)) {
                     if (!board.isMyTeam(currCoordinate, next)) {
                         availablePositions.add(next);
@@ -38,9 +38,5 @@ public class Cha extends Piece {
         }
 
         return availablePositions;
-    }
-
-    public static Coordinate movePosition(Coordinate currCoordinate, Coordinate moveOffset) {
-        return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
     }
 }

@@ -64,7 +64,7 @@ public class Pho extends Piece {
                                          Board board,
                                          Coordinate next,
                                          boolean hasObstacle) {
-        return board.isOutOfBoundary(next) ||
+        return next.isOutOfBoundary() ||
                 (board.hasPiece(next) && board.isPho(next)) ||
                 board.hasPiece(next) && hasObstacle && board.isMyTeam(currCoordinate, next);
     }

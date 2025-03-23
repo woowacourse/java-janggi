@@ -19,7 +19,7 @@ public class Ma extends Piece {
                 .filter(maMovement -> !board.hasPiece(movePosition(currCoordinate, maMovement.getDirection())))
                 .flatMap(maMovement -> maMovement.getDestination().stream()
                         .map(destination -> movePosition(currCoordinate, destination))
-                        .filter(next -> !board.isOutOfBoundary(next))
+                        .filter(next -> !next.isOutOfBoundary())
                         .filter(next -> !board.hasPiece(next) || !board.isMyTeam(currCoordinate, next))
                 )
                 .toList();

@@ -5,9 +5,8 @@ import java.util.Objects;
 
 public final class Coordinate {
 
-    public static final int ROW_SIZE = 10;
-    public static final int COL_SIZE = 9;
-    public static final int BOARD_MIN_SIZE = 1;
+    public static final int MAX_ROW = 10;
+    public static final int MAX_COL = 9;
 
     private final int row;
     private final int col;
@@ -15,6 +14,13 @@ public final class Coordinate {
     public Coordinate(int row, int col) {
         this.row = row;
         this.col = col;
+    }
+
+    public boolean isOutOfBoundary() {
+        if (this.row < 1 || this.row > MAX_ROW) {
+            return true;
+        }
+        return this.col < 1 || this.col > MAX_COL;
     }
 
     public Coordinate move(int increaseRow, int increaseCol) {
