@@ -10,6 +10,7 @@ import view.OutputView;
 
 public class JanggiController {
 
+    public static final JanggiSide JANGGI_GAME_STARTING_SIDE = JanggiSide.CHO;
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -22,7 +23,7 @@ public class JanggiController {
         outputView.printInitBoardMessage();
         JanggiBoard board = new JanggiBoard(new JanggiBoardBasicInitializer());
         outputView.printBoard(board.getBoard());
-        JanggiSide nowTurn = JanggiSide.CHO;
+        JanggiSide nowTurn = JANGGI_GAME_STARTING_SIDE;
 
         while (true) {
             processMovePiece(board, nowTurn);
