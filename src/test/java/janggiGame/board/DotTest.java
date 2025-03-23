@@ -82,4 +82,116 @@ class DotTest {
         // then
         assertThat(actual).isTrue();
     }
+
+    @DisplayName("점을 위 쪽으로 이동 시킨다.")
+    @Test
+    void up_Test() {
+        // given
+        Dot dot = Dot.of(1, 1);
+
+        // when
+        Dot actual = dot.up();
+        Dot expected = Dot.of(1, 2);
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @DisplayName("점을 아래 쪽으로 이동 시킨다.")
+    @Test
+    void down_Test() {
+        // given
+        Dot dot = Dot.of(1, 1);
+
+        // when
+        Dot actual = dot.down();
+        Dot expected = Dot.of(1, 0);
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @DisplayName("점을 왼 쪽으로 이동 시킨다.")
+    @Test
+    void left_Test() {
+        // given
+        Dot dot = Dot.of(1, 1);
+
+        // when
+        Dot actual = dot.left();
+        Dot expected = Dot.of(0, 1);
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @DisplayName("점을 오른 쪽으로 이동 시킨다.")
+    @Test
+    void right_Test() {
+        // given
+        Dot dot = Dot.of(1, 1);
+
+        // when
+        Dot actual = dot.right();
+        Dot expected = Dot.of(2, 1);
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @DisplayName("점을 왼쪽 위로 이동 시킨다.")
+    @Test
+    void upLeft_Test() {
+        // given
+        Dot dot = Dot.of(1, 1);
+
+        // when
+        Dot actual = dot.upLeft();
+        Dot expected = Dot.of(0, 2);
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @DisplayName("점을 왼쪽 아래로 이동 시킨다.")
+    @Test
+    void downLeft_Test() {
+        // given
+        Dot dot = Dot.of(1, 1);
+
+        // when
+        Dot actual = dot.downLeft();
+        Dot expected = Dot.of(0, 0);
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @DisplayName("점을 오른쪽 위로 이동 시킨다.")
+    @Test
+    void upRight_Test() {
+        // given
+        Dot dot = Dot.of(1, 1);
+
+        // when
+        Dot actual = dot.upRight();
+        Dot expected = Dot.of(2, 2);
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @DisplayName("점을 오른쪽 아래로 이동 시킨다.")
+    @Test
+    void downRight_Test() {
+        // given
+        Dot dot = Dot.of(1, 1);
+
+        // when
+        Dot actual = dot.downRight();
+        Dot expected = Dot.of(2, 0);
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
 }
