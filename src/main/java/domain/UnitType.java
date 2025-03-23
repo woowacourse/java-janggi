@@ -1,13 +1,13 @@
 package domain;
 
 public enum UnitType {
-    KING,
-    SCHOLAR,
-    CAR,
+    GENERAL,
+    GUARD,
+    CHARIOT,
     HORSE,
     ELEPHANT,
-    BOMB,
-    JOL,
+    CANNON,
+    SOLDIER,
     NONE,
     ;
 }

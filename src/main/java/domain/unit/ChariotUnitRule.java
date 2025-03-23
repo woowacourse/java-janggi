@@ -8,17 +8,17 @@ import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class BombUnitRule implements UnitRule {
-    @Override
+public class ChariotUnitRule implements UnitRule {
+
+    public UnitType getType() {
+        return UnitType.CHARIOT;
+    }
+
     public List<Route> calculateAllRoute(Position start) {
         List<Route> routes = new ArrayList<>();
         List<Position> positions = calculateEndPoints(start);
         for (Position end : positions) {
-            Route route = calculateRoute(start, end);
-            if (route.getPoints().size() == 1) {
-                continue;
-            }
-            routes.add(route);
+            routes.add(calculateRoute(start, end));
         }
         return routes;
     }
@@ -59,10 +59,5 @@ public class BombUnitRule implements UnitRule {
                 .filter(x -> startX != x)
                 .mapToObj(x -> new Position(x, startY))
                 .toList());
-    }
-
-    @Override
-    public UnitType getType() {
-        return UnitType.BOMB;
     }
 }

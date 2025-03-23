@@ -6,7 +6,7 @@ import domain.UnitType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JolUnitRule implements UnitRule {
+public class SoldierUnitRule implements UnitRule {
     @Override
     public List<Route> calculateAllRoute(Position start) {
         List<Route> routes = new ArrayList<>();
@@ -30,6 +30,6 @@ public class JolUnitRule implements UnitRule {
 
     @Override
     public UnitType getType() {
-        return UnitType.JOL;
+        return UnitType.SOLDIER;
     }
 }

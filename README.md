@@ -50,12 +50,12 @@
 ```
 
 ## 1단계 블랙잭 피드백
-- [ ] 장기 네이밍 변경하기 [장기 기획서](https://en.wikipedia.org/wiki/Janggi)
+- [x] 장기 네이밍 변경하기 [장기 기획서](https://en.wikipedia.org/wiki/Janggi)
 - [ ] `Team#isFront()` 메서드 삭제
 - [ ] `JanggiTest` 불필요한 줄바꿈 제거
 - [ ] `Position#isHorizontal()` -> `isHorizontalOrVertical()` 메서드 네임 변경
-- [ ] `CarUnitRule#calculateAllRoute()` 에서 `@Override` 애너테이션 붙이기
-- [ ] `BombUnitRule#calculateEndPoint()` 접근제한자 `private`으로 변경
+- [ ] `ChariotUnitRule#calculateAllRoute()` 에서 `@Override` 애너테이션 붙이기
+- [ ] `CannonUnitRule#calculateEndPoint()` 접근제한자 `private`으로 변경
 - [ ] `OutputView`에서 if문에 도달하지 않는 경우 예외 발생시키기
 - [ ] `Janggi` 외부에서 주입하기
 - [ ] `Janggi#changeTeam()`구현 로직 `Team` 객체에 메시지를 보내는 방향으로

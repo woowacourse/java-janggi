@@ -27,13 +27,13 @@ public class OutputView {
     }
 
     private String typeToName(UnitType unitType) {
-        if(unitType == UnitType.KING) {
+        if(unitType == UnitType.GENERAL) {
             return "궁";
         }
-        if(unitType == UnitType.SCHOLAR) {
+        if(unitType == UnitType.GUARD) {
             return "사";
         }
-        if(unitType == UnitType.CAR) {
+        if(unitType == UnitType.CHARIOT) {
             return "차";
         }
         if(unitType == UnitType.HORSE) {
@@ -42,10 +42,10 @@ public class OutputView {
         if(unitType == UnitType.ELEPHANT) {
             return "상";
         }
-        if(unitType == UnitType.BOMB) {
+        if(unitType == UnitType.CANNON) {
             return "포";
         }
-        if(unitType == UnitType.JOL) {
+        if(unitType == UnitType.SOLDIER) {
             return "병";
         }
         return "";

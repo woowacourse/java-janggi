@@ -36,17 +36,17 @@ public class Janggi {
 
     private List<Route> applyUnitProperty(Unit pickedUnit, Position pick, List<Route> totalRoutes) {
         UnitType type = pickedUnit.getType();
-        if (type == UnitType.BOMB) {
-            totalRoutes = totalRoutes.stream().filter(this::canBombJump).toList();
+        if (type == UnitType.CANNON) {
+            totalRoutes = totalRoutes.stream().filter(this::canCannonJump).toList();
             return totalRoutes.stream().filter(this::isAvailableEndPoint).toList();
         }
-        if (type == UnitType.JOL) {
-            return searchJolRoutes(pick, pickedUnit, totalRoutes);
+        if (type == UnitType.SOLDIER) {
+            return searchSoldierRoutes(pick, pickedUnit, totalRoutes);
         }
         return findAvailableRoute(totalRoutes);
     }
 
-    private static List<Route> searchJolRoutes(Position pick, Unit pickedUnit, List<Route> totalRoutes) {
+    private static List<Route> searchSoldierRoutes(Position pick, Unit pickedUnit, List<Route> totalRoutes) {
         if (pickedUnit.getTeam() == Team.HAN) {
             return totalRoutes.stream()
                     .filter(route -> route.getPoints().getFirst().getY() >= pick.getY())
@@ -57,11 +57,11 @@ public class Janggi {
                 .toList();
     }
 
-    private boolean canBombJump(Route route) {
+    private boolean canCannonJump(Route route) {
         int count = 0;
         for (Position position : route.getPointsExceptEndPoint()) {
             Optional<Unit> unit = findUnitByPoint(position);
-            if (unit.isPresent() && unit.get().getType() == UnitType.BOMB) {
+            if (unit.isPresent() && unit.get().getType() == UnitType.CANNON) {
                 return false;
             }
             if (unit.isPresent()) {

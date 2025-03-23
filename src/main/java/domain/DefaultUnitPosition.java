@@ -1,11 +1,11 @@
 package domain;
 
 import domain.position.Position;
-import domain.unit.BombUnitRule;
-import domain.unit.CarUnitRule;
+import domain.unit.CannonUnitRule;
+import domain.unit.ChariotUnitRule;
 import domain.unit.ElephantUnitRule;
 import domain.unit.HorseUnitRule;
-import domain.unit.JolUnitRule;
+import domain.unit.SoldierUnitRule;
 import domain.unit.NoneUnitRule;
 import domain.unit.Unit;
 import domain.unit.UnitRule;
@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public enum DefaultUnitPosition {
-    KING(1, 8, List.of(4), NoneUnitRule::new),
-    SCHOLAR(0, 9, List.of(3, 5), NoneUnitRule::new),
-    CAR(0, 9, List.of(0, 8), CarUnitRule::new),
-    BOMB(2, 7, List.of(1, 7), BombUnitRule::new),
-    JOL(3, 6, List.of(0, 2, 4, 6, 8), JolUnitRule::new),
+    GENERAL(1, 8, List.of(4), NoneUnitRule::new),
+    GUARD(0, 9, List.of(3, 5), NoneUnitRule::new),
+    CHARIOT(0, 9, List.of(0, 8), ChariotUnitRule::new),
+    CANNON(2, 7, List.of(1, 7), CannonUnitRule::new),
+    SOLDIER(3, 6, List.of(0, 2, 4, 6, 8), SoldierUnitRule::new),
     HORSE(0, 9, List.of(2, 7), HorseUnitRule::new),
     ELEPHANT(0, 9, List.of(1, 6), ElephantUnitRule::new),
     ;

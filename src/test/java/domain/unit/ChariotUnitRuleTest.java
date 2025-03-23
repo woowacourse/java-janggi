@@ -7,13 +7,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class CarUnitRuleTest {
+class ChariotUnitRuleTest {
     @Test
     @DisplayName("차가 갈 수 있는 엔드포인트를 모두 반환한다")
     void test1() {
         // given
         Position p = new Position(0, 0);
-        CarUnitRule rule = new CarUnitRule();
+        ChariotUnitRule rule = new ChariotUnitRule();
 
         // when
         List<Position> endPositions = rule.calculateEndPoints(p);
@@ -29,7 +29,7 @@ class CarUnitRuleTest {
         // given
         Position start = new Position(0, 0);
         Position end = new Position(0, 5);
-        CarUnitRule rule = new CarUnitRule();
+        ChariotUnitRule rule = new ChariotUnitRule();
 
         // when
         Route path = rule.calculateRoute(start, end);
