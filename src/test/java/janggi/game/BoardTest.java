@@ -55,7 +55,8 @@ public class BoardTest {
         @Test
         @DisplayName("다른 팀의 기물을 이동 시킬 수 없다.")
         void notMovePieceOfSameTeam() {
-            Map<Point, Movable> pieces = new HashMap<>(Map.of(new Point(6, 4), new Byeong(Team.HAN)));
+            Map<Point, Movable> pieces = new HashMap<>(
+                Map.of(new Point(6, 4), new Byeong(Team.HAN)));
             Board board = new Board(pieces, Team.CHO);
 
             Point startPoint = new Point(6, 4);
@@ -69,7 +70,8 @@ public class BoardTest {
         @Test
         @DisplayName("기물의 이동 범위를 벗어나면 이동 시킬 수 없다.")
         void notMovePieceOutOfRange() {
-            Map<Point, Movable> pieces = new HashMap<>(Map.of(new Point(6, 4), new Byeong(Team.CHO)));
+            Map<Point, Movable> pieces = new HashMap<>(
+                Map.of(new Point(6, 4), new Byeong(Team.CHO)));
             Board board = new Board(pieces, Team.CHO);
 
             Point startPoint = new Point(6, 4);
@@ -100,7 +102,8 @@ public class BoardTest {
         @Test
         @DisplayName("기물을 이동 시킬 수 있다.")
         void movePiece() {
-            Map<Point, Movable> pieces = new HashMap<>(Map.of(new Point(6, 4), new Byeong(Team.CHO)));
+            Map<Point, Movable> pieces = new HashMap<>(
+                Map.of(new Point(6, 4), new Byeong(Team.CHO)));
             Board board = new Board(pieces, Team.CHO);
 
             Point startPoint = new Point(6, 4);

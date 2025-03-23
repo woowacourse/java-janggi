@@ -11,7 +11,7 @@ public class InputView {
 
     public boolean readGameStart() {
         try {
-            System.out.println("게임을 시작하시겠습니까? (y/n)");
+            System.out.println("게임을 진행하시겠습니까? (y/n)");
             return YorN.fromText(scanner.nextLine()).toBoolean();
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage() + ERROR_SUFFIX);
@@ -73,9 +73,9 @@ public class InputView {
 
         private static YorN fromText(String input) {
             return Arrays.stream(values())
-                    .filter(value -> value.text.equals(input))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("입력은 y/n만 가능합니다."));
+                .filter(value -> value.text.equals(input))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("입력은 y/n만 가능합니다."));
         }
 
         private boolean toBoolean() {

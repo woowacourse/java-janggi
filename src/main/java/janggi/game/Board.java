@@ -18,7 +18,6 @@ public class Board {
 
     public static Board init(Team startTeam) {
         Map<Point, Movable> runningPieces = InitialPieces.getAllPieces();
-
         return new Board(runningPieces, startTeam);
     }
 

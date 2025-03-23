@@ -11,6 +11,7 @@ public class PointDistance {
     public static PointDistance calculate(Point startPoint, Point targetPoint) {
         double rowDistanceSquare = Math.pow(startPoint.row() - targetPoint.row(), 2);
         double columnDistanceSquare = Math.pow(startPoint.column() - targetPoint.column(), 2);
+
         return new PointDistance(Math.sqrt(rowDistanceSquare + columnDistanceSquare));
     }
 

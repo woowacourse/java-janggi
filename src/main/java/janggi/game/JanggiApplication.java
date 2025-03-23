@@ -20,33 +20,30 @@ public class JanggiApplication {
     }
 
     private void run() {
-        if (inputView.readGameStart()) {
-            Board board = Board.init(Team.CHO);
+        Board board = Board.init(Team.CHO);
 
-            while (true) { //TODO 우승자가 나오면 멈춘다.
-                boardView.displayBoard(board);
+        do {
+            boardView.displayBoard(board);
+            boardView.printTeam(board.getTurn());
 
-                boardView.printTeam(board.getTurn());
-                handleMoveException(() -> {
-                    Point startPoint = inputView.readStartPoint();
-                    Point targetPoint = inputView.readTargetPoint();
-                    board.move(startPoint, targetPoint);
-                });
+            handleMoveException(() -> {
+                Point startPoint = inputView.readStartPoint();
+                boardView.printSelectedPiece(board.findPieceByPoint(startPoint));
 
+                Point targetPoint = inputView.readTargetPoint();
+                board.move(startPoint, targetPoint);
+
+                boardView.printMovingResult(startPoint, targetPoint);
                 board.reverseTurn();
-            }
-        }
-
+            });
+        } while (inputView.readGameStart());
     }
 
     private void handleMoveException(Runnable action) {
-        while (true) {
-            try {
-                action.run();
-                return;
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
+        try {
+            action.run();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
     }
 }

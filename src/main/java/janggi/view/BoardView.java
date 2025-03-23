@@ -1,11 +1,10 @@
 package janggi.view;
 
 import janggi.game.Board;
-import janggi.piece.Movable;
 import janggi.game.Team;
+import janggi.piece.Movable;
 import janggi.point.Point;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 public class BoardView {
@@ -27,7 +26,8 @@ public class BoardView {
         Map<Point, Movable> pieces = board.getRunningPieces();
         placePieces(pieces);
         for (int row = 0; row < ROW_SIZE; row++) {
-            String line = String.format(" %2s |", "\u001B[37m" + toFullWidthNumber(row) + "\u001B[0m");
+            String line = String.format(" %2s |",
+                "\u001B[37m" + toFullWidthNumber(row) + "\u001B[0m");
             for (String token : matrix[row]) {
                 line += String.format(" %2s |", token);
             }
@@ -45,6 +45,15 @@ public class BoardView {
         System.out.printf("%s의 차례입니다.%n", team.getText());
     }
 
+    public void printSelectedPiece(Movable piece) {
+        System.out.printf("%s를(을) 선택했습니다.%n", piece.getName());
+    }
+
+    public void printMovingResult(Point startPoint, Point targetPoint) {
+        System.out.printf("(%d, %d) -> (%d, %d)로 이동했습니다.%n", startPoint.row(), startPoint.column(),
+            targetPoint.row(), targetPoint.column());
+    }
+
     private String toFullWidthNumber(int number) {
         String value = String.valueOf(number);
         StringBuilder sb = new StringBuilder();
@@ -60,7 +69,7 @@ public class BoardView {
 
     private void clearBoard() {
         Arrays.stream(matrix).forEach(
-                row -> Arrays.fill(row, "\u001B[30m" + "ㅁ" + "\u001B[0m")
+            row -> Arrays.fill(row, "\u001B[30m" + "ㅁ" + "\u001B[0m")
         );
     }
 
@@ -68,7 +77,8 @@ public class BoardView {
         for (Point point : pieces.keySet()) {
             Movable piece = pieces.get(point);
             Team team = piece.getTeam();
-            matrix[point.row()][point.column()] = team.getColorCode() + piece.getName() + EXIT_COLOR_CODE;
+            matrix[point.row()][point.column()] =
+                team.getColorCode() + piece.getName() + EXIT_COLOR_CODE;
         }
     }
 }
