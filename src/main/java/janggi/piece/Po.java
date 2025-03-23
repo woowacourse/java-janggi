@@ -1,9 +1,11 @@
 package janggi.piece;
 
 import janggi.game.Board;
+import janggi.point.Direction;
 import janggi.point.InitialPoint;
 import janggi.point.Point;
 import janggi.game.Team;
+import janggi.point.PointDistance;
 import janggi.point.Route;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,34 +39,58 @@ public class Po implements Movable {
     }
 
     public boolean isMovable(Point targetPoint, Board board) {
-        if (board.hasPieceOnPoint(targetPoint) && board.findByPoint(targetPoint) instanceof Po) {
+        // 포를 공격하려고 하면 false
+        if (board.hasPieceOnPoint(targetPoint)
+                && board.findByPoint(targetPoint) instanceof Po
+        ) {
             return false;
         }
-        Route route = findRoute(targetPoint);
-        List<Point> hurdles = new ArrayList<>();
-//        for (Point point : route) {
-//            if (findHurdle(point, hurdles, board)) {
-//                continue;
-//            }
-//            return false;
-//        }
-        return hurdles.size() == 1;
-    }
+        //목표지점까지의 루트 구함
+        Direction direction = Direction.cardinalFrom(this.point, targetPoint);
+        Route route = Route.repeat(direction, this.point, targetPoint);
 
-    private boolean findHurdle(Point current, List<Point> hurdles, Board board) {
-        if (board.hasPieceOnPoint(current)) {
-            Movable piece = board.findByPoint(current);
-            if (piece instanceof Po && hurdles.isEmpty()) {
+        List<Point> crashPoints = route.findCrashes(board);
+        if (crashPoints.isEmpty() || crashPoints.size() > 2) {
+            return false; //장애물 있으면 false
+        }
+
+        //bridge 확인
+        Point bridgePoint = crashPoints.getFirst();
+        if (board.findByPoint(bridgePoint) instanceof Po) {
+            return false;
+        }
+        if (bridgePoint.equals(targetPoint)) {
+            return false;
+        }
+
+        //prey 확인
+        if (crashPoints.size() == 2) {
+            Point preyPoint = crashPoints.getLast();
+            Movable prey = board.findByPoint(preyPoint);
+            if (prey instanceof Po) {
                 return false;
             }
-            if (!hurdles.isEmpty()) {
+            if (!preyPoint.equals(targetPoint)) {
                 return false;
             }
-            hurdles.add(current);
-            return true;
         }
         return true;
     }
+
+//    private boolean findHurdle(Point current, List<Point> hurdles, Board board) {
+//        if (board.hasPieceOnPoint(current)) {
+//            Movable piece = board.findByPoint(current);
+//            if (piece instanceof Po && hurdles.isEmpty()) {
+//                return false;
+//            }
+//            if (!hurdles.isEmpty()) {
+//                return false;
+//            }
+//            hurdles.add(current);
+//            return true;
+//        }
+//        return true;
+//    }
 
     @Override
     public boolean isInMovingRange(Point targetPoint) {
@@ -73,15 +99,7 @@ public class Po implements Movable {
 
     @Override
     public Route findRoute(Point targetPoint) {
-//        List<Point> route = new ArrayList<>();
-//        Direction direction = Direction.cardinalFrom(point, targetPoint);
-//        PointDistance distance = PointDistance.calculate(point, targetPoint);
-//
-//        Point pointer = point;
-//        for (int i = 0; i < (int) distance.getDistance() - 1; i++) {
-//            pointer = direction.move(pointer);
-//            route.add(pointer);
-//        }
+        //TODO 현재 사용중이지 않음
         return null;
     }
 

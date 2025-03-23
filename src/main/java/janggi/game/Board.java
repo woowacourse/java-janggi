@@ -56,10 +56,7 @@ public class Board {
     }
 
     public boolean checkHurdles(Point startPoint, Route route) {
-        List<Point> piecePoints = runningPieces.stream()
-                .map(Movable::getPoint).toList();
-
-        List<Point> crashPoints = route.findCrashes(piecePoints);
+        List<Point> crashPoints = route.findCrashes(this);
 
         if (crashPoints.size() == 1
                 && route.findLastPoint().equals(crashPoints.getFirst())

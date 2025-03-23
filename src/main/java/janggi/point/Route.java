@@ -1,5 +1,6 @@
 package janggi.point;
 
+import janggi.game.Board;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -35,9 +36,9 @@ public class Route {
         return route.getLast();
     }
 
-    public List<Point> findCrashes(List<Point> piecePoints) {
+    public List<Point> findCrashes(Board board) {
         return route.stream()
-                .filter(piecePoints::contains)
+                .filter(board::hasPieceOnPoint)
                 .toList();
     }
 
