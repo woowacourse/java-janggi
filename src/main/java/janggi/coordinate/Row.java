@@ -1,0 +1,31 @@
+package janggi.coordinate;
+
+public record Row(int value) {
+
+    private static final int MIN_ROW = 1;
+    private static final int MAX_ROW = 10;
+
+    public Row(final int value) {
+        this.value = value;
+        validateRange();
+    }
+
+    private void validateRange() {
+        if (MIN_ROW <= value && value <= MAX_ROW) {
+            return;
+        }
+        throw new IllegalArgumentException(String.format("%d ~ %d 의 행에만 접근할 수 있습니다", MIN_ROW, MAX_ROW));
+    }
+
+    public Row add(final int delta) {
+        return new Row(this.value + delta);
+    }
+
+    public Distance distanceTo(Row other) {
+        return new Distance(Math.abs(this.value - other.value), 0);
+    }
+
+    public Vector vectorTo(Row other) {
+        return new Vector(other.value - this.value, 0);
+    }
+}
