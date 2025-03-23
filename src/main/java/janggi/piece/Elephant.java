@@ -52,12 +52,4 @@ public class Elephant extends Piece {
         }
         return absValue;
     }
-
-    @Override
-    public List<Position> calculatePath(final Position start, final Position end) {
-        if (isValidMovingRule(start, end)) {
-            return findPath(start, end);
-        }
-        throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
-    }
 }

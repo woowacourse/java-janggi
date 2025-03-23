@@ -1,7 +1,6 @@
 package janggi.piece;
 
 import janggi.board.Position;
-import java.util.List;
 import java.util.Map;
 
 public class Soldier extends Piece {
@@ -26,13 +25,5 @@ public class Soldier extends Piece {
     private boolean isValidDirection(Position start, Position end) {
         int differenceY = end.y() - start.y();
         return (side == Side.RED && differenceY <= 0) || (side == Side.BLUE && differenceY >= 0);
-    }
-
-    @Override
-    public List<Position> calculatePath(final Position start, final Position end) {
-        if (isValidMovingRule(start, end) && isValidDirection(start, end)) {
-            return List.of();
-        }
-        throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
     }
 }

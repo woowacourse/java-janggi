@@ -1,7 +1,6 @@
 package janggi.piece;
 
 import janggi.board.Position;
-import java.util.List;
 import java.util.Map;
 
 public class King extends Piece {
@@ -21,13 +20,5 @@ public class King extends Piece {
         int absDifferenceX = Math.abs(differenceX);
         int absDifferenceY = Math.abs(differenceY);
         return (absDifferenceX == 1 && absDifferenceY == 0) || (absDifferenceX == 0 && absDifferenceY == 1);
-    }
-
-    @Override
-    public List<Position> calculatePath(final Position start, final Position end) {
-        if (isValidMovingRule(start, end)) {
-            return List.of();
-        }
-        throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
     }
 }

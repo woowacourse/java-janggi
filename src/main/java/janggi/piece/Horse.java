@@ -32,14 +32,6 @@ public class Horse extends Piece {
         return ((absDifferenceX == 2 && absDifferenceY == 1) || (absDifferenceX == 1 && absDifferenceY == 2));
     }
 
-    @Override
-    public List<Position> calculatePath(final Position start, final Position end) {
-        if (isValidMovingRule(start, end)) {
-            return List.of(findDirection(start, end));
-        }
-        throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
-    }
-
     private Position findDirection(final Position start, final Position end) {
         int differenceX = end.x() - start.x();
         int differenceY = end.y() - start.y();

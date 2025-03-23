@@ -57,12 +57,4 @@ public class Tank extends Piece {
     private boolean isValidMovingRule(final Position start, final Position end) {
         return start.isHorizontalMove(end) || start.isVerticalMove(end);
     }
-
-    @Override
-    public List<Position> calculatePath(final Position start, final Position end) {
-        if (isValidMovingRule(start, end)) {
-            return findPath(start, end);
-        }
-        throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
-    }
 }
