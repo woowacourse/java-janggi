@@ -1,23 +1,28 @@
 package domain.chessPiece;
 
-import domain.type.ChessPieceType;
-import domain.position.ChessPosition;
-import domain.type.ChessTeam;
 import domain.direction.Directions;
-
-import static domain.direction.Direction.DOWN;
-import static domain.direction.Direction.LEFT;
-import static domain.direction.Direction.RIGHT;
-import static domain.direction.Direction.UP;
+import domain.hurdlePolicy.HurdlePolicy;
+import domain.hurdlePolicy.UnpassableHurdlePolicy;
+import domain.position.ChessPosition;
+import domain.type.ChessPieceType;
+import domain.type.ChessTeam;
 
 import java.util.List;
 import java.util.Map;
 
+import static domain.direction.Direction.*;
+
 public class Pawn extends LimitedMoveChessPiece {
 
     private static final Map<ChessTeam, List<Directions>> DIRECTIONS = Map.of(
-            ChessTeam.RED, List.of(new Directions(List.of(LEFT)), new Directions(List.of(RIGHT)), new Directions(List.of(DOWN))),
-            ChessTeam.BLUE, List.of(new Directions(List.of(LEFT)), new Directions(List.of(RIGHT)), new Directions(List.of(UP))));
+            ChessTeam.RED, List.of(
+                    new Directions(List.of(LEFT)), new Directions(List.of(RIGHT)), new Directions(List.of(DOWN))
+            ),
+            ChessTeam.BLUE, List.of(
+                    new Directions(List.of(LEFT)), new Directions(List.of(RIGHT)), new Directions(List.of(UP))
+            )
+    );
+    private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
     public Pawn(ChessTeam chessTeam) {
         super(chessTeam, DIRECTIONS.get(chessTeam));
@@ -30,6 +35,11 @@ public class Pawn extends LimitedMoveChessPiece {
                 new ChessPosition(6, 0), new Pawn(ChessTeam.BLUE),
                 new ChessPosition(6, 2), new Pawn(ChessTeam.BLUE)
         );
+    }
+
+    @Override
+    protected HurdlePolicy getHurdlePolicy() {
+        return hurdlePolicy;
     }
 
     @Override

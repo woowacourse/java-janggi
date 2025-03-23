@@ -1,23 +1,21 @@
 package domain.chessPiece;
 
 import domain.direction.Direction;
-import domain.path.Path;
-import domain.position.ChessPiecePositions;
+import domain.hurdlePolicy.HurdlePolicy;
+import domain.hurdlePolicy.StopAtHurdlePolicy;
 import domain.position.ChessPosition;
 import domain.type.ChessPieceType;
 import domain.type.ChessTeam;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import static domain.direction.Direction.*;
-import static domain.direction.Direction.RIGHT;
 
 public class Chariot extends UnlimitedMoveChessPiece {
 
     private static final List<Direction> directions = List.of(UP, DOWN, LEFT, RIGHT);
+    private final HurdlePolicy hurdlePolicy = new StopAtHurdlePolicy();
 
     public Chariot(final ChessTeam team) {
         super(team, directions);
@@ -33,30 +31,12 @@ public class Chariot extends UnlimitedMoveChessPiece {
     }
 
     @Override
-    protected List<ChessPosition> getCoordinateDestinations(final List<Path> coordinates,
-                                                            final ChessPiecePositions positions) {
-        return coordinates.stream()
-                .flatMap(path -> getAvailablePosition(positions, path))
-                .toList();
-    }
-
-    private Stream<ChessPosition> getAvailablePosition(final ChessPiecePositions positions, final Path path) {
-        final List<ChessPosition> chessPositions = new ArrayList<>();
-        for (ChessPosition chessPosition : path.getPath()) {
-            if (positions.existChessPieceByPosition(chessPosition)) {
-                if (positions.getChessPieceByPosition(chessPosition).getTeam() != getTeam()) {
-                    chessPositions.add(chessPosition);
-                }
-                break;
-            }
-            chessPositions.add(chessPosition);
-        }
-        return chessPositions.stream();
+    protected HurdlePolicy getHurdlePolicy() {
+        return hurdlePolicy;
     }
 
     @Override
     public ChessPieceType getChessPieceType() {
         return ChessPieceType.CHARIOT;
     }
-
 }

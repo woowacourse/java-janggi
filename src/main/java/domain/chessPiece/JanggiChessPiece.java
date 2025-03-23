@@ -1,5 +1,6 @@
 package domain.chessPiece;
 
+import domain.hurdlePolicy.HurdlePolicy;
 import domain.position.ChessPiecePositions;
 import domain.position.ChessPosition;
 import domain.type.ChessTeam;
@@ -18,12 +19,13 @@ public abstract class JanggiChessPiece implements ChessPiece {
     @Override
     public List<ChessPosition> getDestinations(ChessPosition startPosition, ChessPiecePositions positions) {
         List<Path> coordinates = getCoordinatePaths(startPosition);
-        return getCoordinateDestinations(coordinates, positions);
+        HurdlePolicy hurdlePolicy = getHurdlePolicy();
+        return hurdlePolicy.pickDestinations(team, coordinates, positions);
     }
 
-    protected abstract List<Path> getCoordinatePaths(ChessPosition startPosition);
+    abstract protected List<Path> getCoordinatePaths(ChessPosition startPosition);
 
-    protected abstract List<ChessPosition> getCoordinateDestinations(List<Path> coordinates, ChessPiecePositions positions);
+    abstract protected HurdlePolicy getHurdlePolicy();
 
     @Override
     public ChessTeam getTeam() {

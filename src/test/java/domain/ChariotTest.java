@@ -45,7 +45,8 @@ class ChariotTest {
                 new ChessPosition(7, 3),
                 new ChessPosition(7,5),
                 new ChessPosition(8,4),
-                new ChessPosition(9,4));
+                new ChessPosition(9,4)
+        );
 
         //when
 

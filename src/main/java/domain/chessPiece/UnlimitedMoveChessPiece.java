@@ -2,7 +2,6 @@ package domain.chessPiece;
 
 import domain.direction.Direction;
 import domain.path.Path;
-import domain.position.ChessPiecePositions;
 import domain.position.ChessPosition;
 import domain.type.ChessTeam;
 
@@ -40,9 +39,4 @@ public abstract class UnlimitedMoveChessPiece extends JanggiChessPiece {
         }
         return chessPositions;
     }
-
-    @Override
-    protected abstract List<ChessPosition> getCoordinateDestinations(
-            List<Path> coordinates, ChessPiecePositions chessPiecePositions
-    );
 }

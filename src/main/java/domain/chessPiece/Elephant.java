@@ -1,21 +1,16 @@
 package domain.chessPiece;
 
-import domain.type.ChessPieceType;
-import domain.position.ChessPosition;
-import domain.type.ChessTeam;
 import domain.direction.Directions;
-
-import static domain.direction.Direction.DOWN;
-import static domain.direction.Direction.LEFT;
-import static domain.direction.Direction.LEFT_DOWN;
-import static domain.direction.Direction.LEFT_UP;
-import static domain.direction.Direction.RIGHT;
-import static domain.direction.Direction.RIGHT_DOWN;
-import static domain.direction.Direction.RIGHT_UP;
-import static domain.direction.Direction.UP;
+import domain.hurdlePolicy.HurdlePolicy;
+import domain.hurdlePolicy.UnpassableHurdlePolicy;
+import domain.position.ChessPosition;
+import domain.type.ChessPieceType;
+import domain.type.ChessTeam;
 
 import java.util.List;
 import java.util.Map;
+
+import static domain.direction.Direction.*;
 
 public class Elephant extends LimitedMoveChessPiece {
     private static final List<Directions> directions = List.of(
@@ -28,6 +23,7 @@ public class Elephant extends LimitedMoveChessPiece {
             new Directions(List.of(DOWN, LEFT_DOWN, LEFT_DOWN)),
             new Directions(List.of(DOWN, RIGHT_DOWN, RIGHT_DOWN))
     );
+    private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
     public Elephant(final ChessTeam team) {
         super(team, directions);
@@ -40,6 +36,11 @@ public class Elephant extends LimitedMoveChessPiece {
                 new ChessPosition(9, 2), new Elephant(ChessTeam.BLUE),
                 new ChessPosition(9, 6), new Elephant(ChessTeam.BLUE)
         );
+    }
+
+    @Override
+    protected HurdlePolicy getHurdlePolicy() {
+        return hurdlePolicy;
     }
 
     @Override
