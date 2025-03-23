@@ -4,12 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.position.Position;
 import domain.position.Route;
-import domain.unit.CannonUnitRule;
-import domain.unit.ChariotUnitRule;
-import domain.unit.ElephantUnitRule;
-import domain.unit.HorseUnitRule;
-import domain.unit.SoldierUnitRule;
+import domain.unit.Team;
 import domain.unit.Unit;
+import domain.unit.rule.CannonUnitRule;
+import domain.unit.rule.ChariotUnitRule;
+import domain.unit.rule.ElephantUnitRule;
+import domain.unit.rule.HorseUnitRule;
+import domain.unit.rule.SoldierUnitRule;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Disabled;

@@ -1,14 +1,14 @@
-package domain;
+package domain.position;
 
-import domain.position.Position;
-import domain.unit.CannonUnitRule;
-import domain.unit.ChariotUnitRule;
-import domain.unit.ElephantUnitRule;
-import domain.unit.HorseUnitRule;
-import domain.unit.NoneUnitRule;
-import domain.unit.SoldierUnitRule;
+import domain.unit.Team;
 import domain.unit.Unit;
-import domain.unit.UnitRule;
+import domain.unit.rule.CannonUnitRule;
+import domain.unit.rule.ChariotUnitRule;
+import domain.unit.rule.ElephantUnitRule;
+import domain.unit.rule.HorseUnitRule;
+import domain.unit.rule.NoneUnitRule;
+import domain.unit.rule.SoldierUnitRule;
+import domain.unit.rule.UnitRule;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;

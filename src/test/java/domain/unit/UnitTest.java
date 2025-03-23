@@ -2,9 +2,13 @@ package domain.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Team;
 import domain.position.Position;
 import domain.position.Route;
+import domain.unit.rule.CannonUnitRule;
+import domain.unit.rule.ChariotUnitRule;
+import domain.unit.rule.ElephantUnitRule;
+import domain.unit.rule.HorseUnitRule;
+import domain.unit.rule.SoldierUnitRule;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

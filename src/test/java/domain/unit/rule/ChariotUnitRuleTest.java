@@ -1,4 +1,4 @@
-package domain.unit;
+package domain.unit.rule;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

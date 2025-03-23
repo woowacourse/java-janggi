@@ -1,9 +1,9 @@
 package view;
 
-import domain.Team;
-import domain.UnitType;
 import domain.position.Position;
 import domain.position.Route;
+import domain.unit.Team;
+import domain.unit.UnitType;
 import java.util.List;
 
 public class OutputView {

@@ -1,9 +1,8 @@
 package domain.unit;
 
-import domain.Team;
-import domain.UnitType;
 import domain.position.Position;
 import domain.position.Route;
+import domain.unit.rule.UnitRule;
 import java.util.List;
 
 public class Unit {

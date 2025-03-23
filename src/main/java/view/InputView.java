@@ -1,6 +1,6 @@
 package view;
 
-import domain.Team;
+import domain.unit.Team;
 import java.util.Scanner;
 
 public class InputView {

@@ -1,8 +1,8 @@
-package domain.unit;
+package domain.unit.rule;
 
 import domain.position.Position;
 import domain.position.Route;
-import domain.UnitType;
+import domain.unit.UnitType;
 import java.util.List;
 
 public class NoneUnitRule implements UnitRule {

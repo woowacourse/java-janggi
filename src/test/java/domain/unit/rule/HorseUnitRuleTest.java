@@ -1,9 +1,9 @@
-package domain.unit;
+package domain.unit.rule;
 
 
-import domain.Direction;
 import domain.position.Point;
 import domain.position.Route;
+import domain.unit.Direction;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -25,7 +25,6 @@ class HorseUnitRuleTest {
 
         // then
 
-
     }
 
     @Test
@@ -42,7 +41,6 @@ class HorseUnitRuleTest {
         }
 
         // then
-
 
     }
 
