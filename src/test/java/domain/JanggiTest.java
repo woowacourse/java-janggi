@@ -31,7 +31,7 @@ class JanggiTest {
         Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
 
         // when
-        List<Route> routes = janggi.searchAvailableRoutes(targetPosition);
+        List<Route> routes = janggi.findMovableRoutesFrom(targetPosition);
 
         // then
         assertThat(routes).hasSize(6);
@@ -50,7 +50,7 @@ class JanggiTest {
         Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
 
         // when
-        List<Route> routes = janggi.searchAvailableRoutes(targetPosition);
+        List<Route> routes = janggi.findMovableRoutesFrom(targetPosition);
 
         // then
         assertThat(routes).hasSize(6);
@@ -69,7 +69,7 @@ class JanggiTest {
         Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
 
         // when
-        List<Route> routes = janggi.searchAvailableRoutes(targetPosition);
+        List<Route> routes = janggi.findMovableRoutesFrom(targetPosition);
 
         // then
         assertThat(routes).hasSize(12);
@@ -89,7 +89,7 @@ class JanggiTest {
         Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
 
         // when
-        List<Route> routes = janggi.searchAvailableRoutes(targetPosition);
+        List<Route> routes = janggi.findMovableRoutesFrom(targetPosition);
 
         // then
         assertThat(routes).hasSize(4);
@@ -108,7 +108,7 @@ class JanggiTest {
         Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
 
         // when
-        List<Route> routes = janggi.searchAvailableRoutes(targetPosition);
+        List<Route> routes = janggi.findMovableRoutesFrom(targetPosition);
 
         // then
         assertThat(routes).hasSize(2);

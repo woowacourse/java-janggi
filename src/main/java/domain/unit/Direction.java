@@ -22,19 +22,6 @@ public enum Direction {
         this.y = y;
     }
 
-    public List<Direction> getCross() {
-        if (this == UPPER) {
-            return List.of(UPPER_LEFT, UPPER_RIGHT);
-        }
-        if (this == UNDER) {
-            return List.of(UNDER_LEFT, UNDER_RIGHT);
-        }
-        if (this == LEFT) {
-            return List.of(UPPER_LEFT, UNDER_LEFT);
-        }
-        return List.of(UPPER_RIGHT, UNDER_RIGHT);
-    }
-
     public List<Direction> getNext() {
         if (this == NONE) {
             return List.of(UPPER, UNDER, LEFT, RIGHT);

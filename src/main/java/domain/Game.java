@@ -46,11 +46,11 @@ public class Game {
                 .toList();
         Position position = new Position(positionValue.get(0), positionValue.get(1));
 
-        List<Route> routes = janggi.searchAvailableRoutes(position);
+        List<Route> routes = janggi.findMovableRoutesFrom(position);
         outputView.printAvailableRoute(routes);
 
         // TODO: 장기 움직임 호출
 
-        janggi.changeTurn();
+        janggi.switchTurn();
     }
 }

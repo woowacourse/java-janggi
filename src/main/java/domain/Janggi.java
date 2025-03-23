@@ -28,44 +28,43 @@ public class Janggi {
         return new Janggi(units, turn);
     }
 
-    public List<Route> searchAvailableRoutes(Position pick) {
-        if (isEmptyPoint(pick)) {
+    public List<Route> findMovableRoutesFrom(Position pick) {
+        if (isEmptyPosition(pick)) {
             throw new IllegalArgumentException(EMPTY_POINT_EXCEPTION);
         }
+
         Unit pickedUnit = units.get(pick);
         List<Route> totalRoutes = pickedUnit.calculateRoutes(pick);
-        return applyUnitProperty(pickedUnit, pick, totalRoutes);
+        totalRoutes = filterRoutesByUnitType(pickedUnit, pick, totalRoutes);
+        return filterBlockedRoutes(totalRoutes);
     }
 
-    private List<Route> applyUnitProperty(Unit pickedUnit, Position pick, List<Route> totalRoutes) {
+    private List<Route> filterRoutesByUnitType(Unit pickedUnit, Position pick, List<Route> totalRoutes) {
         UnitType type = pickedUnit.getType();
         if (type == UnitType.CANNON) {
-            totalRoutes = totalRoutes.stream().filter(this::canCannonJump).toList();
-            return totalRoutes.stream().filter(this::isAvailableEndPoint).toList();
+            return totalRoutes.stream().filter(this::canCannonJump).toList();
         }
         if (type == UnitType.SOLDIER) {
-            return searchSoldierRoutes(pick, pickedUnit, totalRoutes);
+            return filterSoldierMoves(pick, pickedUnit, totalRoutes);
         }
-        return findAvailableRoute(totalRoutes);
+        return totalRoutes;
     }
 
-    private List<Route> searchSoldierRoutes(Position pick, Unit pickedUnit, List<Route> totalRoutes) {
+    private List<Route> filterSoldierMoves(Position pick, Unit pickedUnit, List<Route> totalRoutes) {
         if (pickedUnit.getTeam() == Team.HAN) {
             return totalRoutes.stream()
                     .filter(route -> route.getPoints().getFirst().getY() >= pick.getY())
-                    .filter(this::isAvailableEndPoint)
                     .toList();
         }
         return totalRoutes.stream()
                 .filter(route -> route.getPoints().getFirst().getY() <= pick.getY())
-                .filter(this::isAvailableEndPoint)
                 .toList();
     }
 
     private boolean canCannonJump(Route route) {
         int count = 0;
         for (Position position : route.getPointsExceptEndPoint()) {
-            if (isEmptyPoint(position)) {
+            if (isEmptyPosition(position)) {
                 continue;
             }
             Unit unit = units.get(position);
@@ -77,32 +76,32 @@ public class Janggi {
         return (count == 1);
     }
 
-    private List<Route> findAvailableRoute(List<Route> routes) {
+    private List<Route> filterBlockedRoutes(List<Route> routes) {
         return routes.stream()
-                .filter(this::isAvailableRoute)
-                .filter(this::isAvailableEndPoint)
+                .filter(this::isClearRoute)
+                .filter(this::isClearDestination)
                 .toList();
     }
 
-    private boolean isAvailableRoute(Route route) {
+    private boolean isClearRoute(Route route) {
         return route.getPointsExceptEndPoint().stream()
-                .allMatch(this::isEmptyPoint);
+                .allMatch(this::isEmptyPosition);
     }
 
-    private boolean isAvailableEndPoint(Route route) {
+    private boolean isClearDestination(Route route) {
         Position endPosition = route.searchEndPoint();
-        if (isEmptyPoint(endPosition)) {
+        if (isEmptyPosition(endPosition)) {
             return true;
         }
         Unit endPointUnit = units.get(endPosition);
         return endPointUnit.getTeam() != this.turn;
     }
 
-    private boolean isEmptyPoint(Position position) {
+    private boolean isEmptyPosition(Position position) {
         return !units.containsKey(position);
     }
 
-    public void changeTurn() {
+    public void switchTurn() {
         turn = turn.getOpposite();
     }
 
