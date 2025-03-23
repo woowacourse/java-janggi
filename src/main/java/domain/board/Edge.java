@@ -14,7 +14,7 @@ public class Edge {
         return nextNode;
     }
 
-    public Direction direction() {
-        return direction;
+    public boolean isSameDirection(Direction direction) {
+        return this.direction == direction;
     }
 }

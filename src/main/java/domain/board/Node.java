@@ -17,12 +17,12 @@ public class Node {
 
     public boolean hasEdgeByDirection(Direction direction) {
         return edges.stream()
-                .anyMatch(edge -> edge.direction() == direction);
+                .anyMatch(edge -> edge.isSameDirection(direction));
     }
 
     private Edge findEdgeByDirection(Direction direction) {
         return edges.stream()
-                .filter(edge -> edge.direction() == direction)
+                .filter(edge -> edge.isSameDirection(direction))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 방향의 엣지가 존재하지 않습니다."));
     }
