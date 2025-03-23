@@ -22,7 +22,7 @@ public class Position {
     }
 
     private void validateOutOfBound(final int row, final int col) {
-        if (row > 9 || col > 10) {
+        if (row > 9 || col > 10 || row < 0 || col < 0) {
             throw new IllegalArgumentException("[ERROR] 장기판은 10 x 9 입니다. 범위를 초과하였습니다.");
         }
     }
