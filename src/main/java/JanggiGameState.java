@@ -10,6 +10,10 @@ public class JanggiGameState {
         this.choPlayer = choPlayer;
     }
 
+    public boolean isGameOver() {
+        return (hanPlayer.isKingDie() || choPlayer.isKingDie());
+    }
+
     public Player getHanPlayer() {
         return hanPlayer;
     }
