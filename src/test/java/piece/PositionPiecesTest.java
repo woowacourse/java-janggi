@@ -10,7 +10,7 @@ public class PositionPiecesTest {
     @Test
     void 보드는_포지션별로_장기판을_관리한다() {
         // given
-
+        
         // when
 
         // then

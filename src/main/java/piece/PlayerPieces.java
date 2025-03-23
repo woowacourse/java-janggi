@@ -1,23 +1,31 @@
 package piece;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class PlayerPieces {
 
+    private static final String INVALID_PLAYER_SIZE = "장기는 2명이서 할 수 있습니다";
+    private static final int PLAYER_SIZE = 2;
+
     private final Map<Team, Pieces> teamBoard;
 
-    public PlayerPieces(InitiateJanggiTeamPieces initiateJanggiTeamPieces) {
-        this.teamBoard = initiateJanggiTeamPieces.janggiInitiatePieces();
+    public PlayerPieces(Map<Team, Pieces> teamBoard) {
+        this.teamBoard = new HashMap<>(teamBoard);
+        if (teamBoard.size() != PLAYER_SIZE) {
+            throw new IllegalArgumentException(INVALID_PLAYER_SIZE);
+        }
     }
 
     public Pieces allPieces() {
         Pieces bluePieces = teamBoard.get(Team.BLUE);
         Pieces redPieces = teamBoard.get(Team.RED);
-        return new Pieces(bluePieces.add(redPieces));
+        return bluePieces.add(redPieces);
     }
 
-    public boolean isKingDead() {
-        return false;
+    public Optional<Team> kingDeadTeam() {
+        return Optional.empty();
     }
 
     public void move(Team team, Position selectPiecePosition, Position selectPosition) {

@@ -13,7 +13,7 @@ public class Pieces {
     private final List<Piece> pieces;
 
     public Pieces(List<Piece> pieces) {
-        this.pieces = pieces;
+        this.pieces = new ArrayList<>(pieces);
     }
 
     public void killPieceFrom(Piece killerPiece, Pieces otherPieces) {
@@ -27,10 +27,10 @@ public class Pieces {
         }
     }
 
-    public List<Piece> add(Pieces otherPieces) {
+    public Pieces add(Pieces otherPieces) {
         List<Piece> resultPieces = new ArrayList<>(otherPieces.getPieces());
         resultPieces.addAll(pieces);
-        return Collections.unmodifiableList(resultPieces);
+        return new Pieces(resultPieces);
     }
 
     public Piece move(Position selectPiecePosition, Position movePosition, Pieces boardAllPieces) {

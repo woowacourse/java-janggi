@@ -18,7 +18,8 @@ public class KoreanChessApplication {
 
     public static void main(String[] args) {
         GameView gameView = new GameView();
-        PlayerPieces playerPieces = new PlayerPieces(new InitiateJanggiTeamPieces());
+        Map<Team, Pieces> teamPieces = new InitiateJanggiTeamPieces().janggiInitiatePieces();
+        PlayerPieces playerPieces = new PlayerPieces(teamPieces);
         gameView.printChangePieceNotImplement();
 
         playKoreanChess(playerPieces, gameView);
@@ -26,7 +27,7 @@ public class KoreanChessApplication {
 
     private static void playKoreanChess(PlayerPieces playerPieces, GameView gameView) {
         int turn = 0;
-        while (!playerPieces.isKingDead()) {
+        while (playerPieces.kingDeadTeam().isEmpty()) {
             try {
                 playTurn(playerPieces, gameView, turn);
                 turn = (turn + 1) % PLAYER_SIZE;
