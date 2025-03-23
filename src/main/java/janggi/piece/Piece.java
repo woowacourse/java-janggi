@@ -18,7 +18,7 @@ public abstract class Piece {
     public abstract PieceSymbol getPieceSymbol();
 
     protected boolean isStart() {
-        return camp.isStart();
+        return camp.isBottom();
     }
 
     public void validateCatch(Piece otherPiece) {
@@ -31,6 +31,10 @@ public abstract class Piece {
         if (camp != baseCamp) {
             throw new ErrorException("다른 진영의 기물을 선택할 수 없습니다.");
         }
+    }
+
+    public boolean isEmpty() {
+        return getPieceSymbol() == PieceSymbol.EMPTY;
     }
 
     public Camp getCamp() {

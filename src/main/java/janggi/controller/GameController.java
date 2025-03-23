@@ -42,7 +42,7 @@ public class GameController {
         while (true) {
             view.displayBoard(board.getPlacedPieces());
             requestPlayGameUntilSuccess(currentTurnCamp, board);
-            currentTurnCamp = currentTurnCamp.nextTurn();
+            currentTurnCamp = currentTurnCamp.opposite();
         }
     }
 

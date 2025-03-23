@@ -1,7 +1,10 @@
 package janggi.board;
 
+import janggi.Camp;
+import janggi.PieceSymbol;
 import janggi.Point;
 import janggi.exception.ErrorException;
+import janggi.piece.Empty;
 import janggi.piece.Piece;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,7 +26,7 @@ public class Board {
         Map<Point, Piece> board = new HashMap<>();
         for (int i = 0; i < COLUMN; i++) {
             for (int j = 0; j < ROW; j++) {
-                board.put(new Point(i, j), null);
+                board.put(new Point(i, j), new Empty(Camp.EMPTY));
             }
         }
         return board;
@@ -42,7 +45,7 @@ public class Board {
 
     public Piece peek(Point point) {
         Piece piece = placedPieces.get(point);
-        if (piece == null) {
+        if (piece.isEmpty()) {
             throw new ErrorException("해당 위치에서 기물을 찾을 수 없습니다.");
         }
         return piece;
@@ -53,10 +56,10 @@ public class Board {
         Piece fromPiece = peek(from);
         fromPiece.validateMove(from, to);
         Piece toPiece = placedPieces.get(to);
-        if (toPiece != null) {
+        if (!toPiece.isEmpty()) {
             fromPiece.validateCatch(toPiece);
         }
-        placedPieces.put(from, null);
+        placedPieces.put(from, new Empty(Camp.EMPTY));
         placedPieces.put(to, fromPiece);
     }
 
@@ -72,7 +75,7 @@ public class Board {
         Set<Piece> pieces = new HashSet<>();
         for (Point point : route) {
             Piece piece = placedPieces.get(point);
-            if (piece != null) {
+            if (!piece.isEmpty()) {
                 pieces.add(piece);
             }
         }

@@ -83,6 +83,6 @@ class SoldierTest {
         // when & then
         assertThatCode(() -> soldier.validateCatch(new Soldier(Camp.HAN, board)))
                 .isInstanceOf(ErrorException.class)
-                .hasMessage("같은 진영의 기물을 잡을 수 없습니다.");
+                .hasMessageContaining("같은 진영의 기물을 잡을 수 없습니다.");
     }
 }

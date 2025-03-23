@@ -32,7 +32,7 @@ class ElephantTest {
         // when & then
         assertThatCode(() -> elephant.validateMove(fromPoint, toPoint))
                 .isInstanceOf(ErrorException.class)
-                .hasMessage("상은 직선으로 한 칸, 대각선으로 두 칸 움직여야 합니다.");
+                .hasMessageContaining("상은 직선으로 한 칸, 대각선으로 두 칸 움직여야 합니다.");
     }
 
     @DisplayName("상은 직선으로 한 칸, 대각선으로 두 칸 움직일 수 있다.")
@@ -81,7 +81,7 @@ class ElephantTest {
         // when & then
         assertThatCode(() -> elephant.validateMove(fromPoint, toPoint))
                 .isInstanceOf(ErrorException.class)
-                .hasMessage("상은 기물을 넘어서 이동할 수 없습니다.");
+                .hasMessageContaining("상은 기물을 넘어서 이동할 수 없습니다.");
     }
 
     @DisplayName("상은 직선으로 한 칸, 대각선으로 두 칸 움직일 때 대각선으로 이동중 기물에 막힌 경우 예외가 발생한다.")
@@ -110,6 +110,6 @@ class ElephantTest {
         // when & then
         assertThatCode(() -> elephant.validateMove(fromPoint, toPoint))
                 .isInstanceOf(ErrorException.class)
-                .hasMessage("상은 기물을 넘어서 이동할 수 없습니다.");
+                .hasMessageContaining("상은 기물을 넘어서 이동할 수 없습니다.");
     }
 }

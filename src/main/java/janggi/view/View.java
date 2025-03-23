@@ -78,7 +78,7 @@ public class View {
     }
 
     private void displayPiece(Map<Point, Piece> placedPieces, int i, int j) {
-        if (placedPieces.get(new Point(j, i)) == null) {
+        if (placedPieces.get(new Point(j, i)).isEmpty()) {
             System.out.print(BOARD_DELIMITER_LINE + EMPTY_SPACE);
             return;
         }

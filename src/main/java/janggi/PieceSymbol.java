@@ -65,6 +65,12 @@ public enum PieceSymbol {
             return colorHanAttribute("병");
         }
     },
+    EMPTY() {
+        @Override
+        public String getDisplayAttributes(Camp camp) {
+            return " ";
+        }
+    }
     ;
 
     private static final String RED_COLOR_CODE = "\u001B[31m";

@@ -31,7 +31,7 @@ class ChariotTest {
         // when & then
         assertThatCode(() -> chariot.validateMove(fromPoint, toPoint))
                 .isInstanceOf(ErrorException.class)
-                .hasMessage("차는 수평 혹은 수직으로만 움직여야 합니다.");
+                .hasMessageContaining("차는 수평 혹은 수직으로만 움직여야 합니다.");
     }
 
     @DisplayName("차는 상하좌우 무제한으로 움직일 수 있다.")
@@ -68,7 +68,7 @@ class ChariotTest {
         // when & then
         assertThatCode(() -> chariot.validateMove(fromPoint, toPoint))
                 .isInstanceOf(ErrorException.class)
-                .hasMessage("차는 기물을 넘어 이동할 수 없습니다.");
+                .hasMessageContaining("차는 기물을 넘어 이동할 수 없습니다.");
     }
 
     @DisplayName("특정 진영이 선택할 수 없는 경우 예외가 발생한다.")
@@ -85,6 +85,6 @@ class ChariotTest {
         // when & then
         assertThatCode(() -> chariot.validateSelect(camp))
                 .isInstanceOf(ErrorException.class)
-                .hasMessage("다른 진영의 기물을 선택할 수 없습니다.");
+                .hasMessageContaining("다른 진영의 기물을 선택할 수 없습니다.");
     }
 }

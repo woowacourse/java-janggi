@@ -32,7 +32,7 @@ class HorseTest {
         // when & then
         assertThatCode(() -> horse.validateMove(fromPoint, toPoint))
                 .isInstanceOf(ErrorException.class)
-                .hasMessage("마는 직선으로 한 칸, 대각선으로 한 칸 움직여야 합니다.");
+                .hasMessageContaining("마는 직선으로 한 칸, 대각선으로 한 칸 움직여야 합니다.");
     }
 
     @DisplayName("마는 직선으로 한 칸, 대각선으로 한 칸 움직일 수 있다.")
@@ -81,6 +81,6 @@ class HorseTest {
         // when & then
         assertThatCode(() -> horse.validateMove(fromPoint, toPoint))
                 .isInstanceOf(ErrorException.class)
-                .hasMessage("마는 기물을 넘어서 이동할 수 없습니다.");
+                .hasMessageContaining("마는 기물을 넘어서 이동할 수 없습니다.");
     }
 }

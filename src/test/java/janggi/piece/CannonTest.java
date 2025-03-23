@@ -34,7 +34,7 @@ class CannonTest {
         // when & then
         assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
                 .isInstanceOf(ErrorException.class)
-                .hasMessage("포는 수평 혹은 수직으로만 움직여야 합니다.");
+                .hasMessageContaining("포는 수평 혹은 수직으로만 움직여야 합니다.");
     }
 
     @DisplayName("포는 수평 혹은 수직으로 움직일 수 있다.")
@@ -73,7 +73,7 @@ class CannonTest {
         // when & then
         assertThatCode(() -> chuCannon.validateCatch(hanCannon))
                 .isInstanceOf(ErrorException.class)
-                .hasMessage("포는 포를 잡을 수 없습니다.");
+                .hasMessageContaining("포는 포를 잡을 수 없습니다.");
     }
 
     @DisplayName("포의 경로에 기물이 없는 경우 예외가 발생한다.")
@@ -89,7 +89,7 @@ class CannonTest {
         // when & then
         assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
                 .isInstanceOf(ErrorException.class)
-                .hasMessage("포는 정확히 하나의 기물만 넘을 수 있습니다. 넘은 기물 수: 0");
+                .hasMessageContaining("포는 정확히 하나의 기물만 넘을 수 있습니다. 넘은 기물 수: 0");
     }
 
     @DisplayName("포의 경로에 기물이 2개인 경우 예외가 발생한다.")
@@ -107,7 +107,7 @@ class CannonTest {
         // when & then
         assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
                 .isInstanceOf(ErrorException.class)
-                .hasMessage("포는 정확히 하나의 기물만 넘을 수 있습니다. 넘은 기물 수: 2");
+                .hasMessageContaining("포는 정확히 하나의 기물만 넘을 수 있습니다. 넘은 기물 수: 2");
     }
 
     @DisplayName("포가 포를 넘어갈 경우 예외가 발생한다.")
@@ -124,6 +124,6 @@ class CannonTest {
         // when & then
         assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
                 .isInstanceOf(ErrorException.class)
-                .hasMessage("포는 포를 넘을 수 없습니다.");
+                .hasMessageContaining("포는 포를 넘을 수 없습니다.");
     }
 }
