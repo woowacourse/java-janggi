@@ -35,7 +35,7 @@ public class Position {
         return !(point.getY() < 0 || point.getY() > Y_MAX);
     }
 
-    public boolean isHorizontal(Position opposite) {
+    public boolean isHorizontalOrVertical(Position opposite) {
         return (this.x == opposite.x || this.y == opposite.y);
     }
 

@@ -16,7 +16,6 @@ class JanggiTest {
         Janggi janggi = new Janggi();
 
         // when
-
         List<Route> routes = janggi.searchAvailableRoutes(new Position(0, 3));
 
         // then

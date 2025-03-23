@@ -14,6 +14,7 @@ public class ChariotUnitRule implements UnitRule {
         return UnitType.CHARIOT;
     }
 
+    @Override
     public List<Route> calculateAllRoute(Position start) {
         List<Route> routes = new ArrayList<>();
         List<Position> positions = calculateEndPoints(start);
