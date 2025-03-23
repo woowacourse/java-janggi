@@ -1,9 +1,9 @@
 package janggi.board;
 
+import janggi.Team.Team;
 import janggi.piece.Elephant;
 import janggi.piece.Horse;
 import janggi.piece.Piece;
-import janggi.Team.Team;
 import janggi.position.Position;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,32 +14,32 @@ public enum ElephantSetting {
 
     INNER_ELEPHANT("1", (team, y) -> {
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(new Position(y, 2), new Horse(team));
-        pieces.put(new Position(y, 3), new Elephant(team));
+        pieces.put(new Position(y, 2), new Elephant(team));
+        pieces.put(new Position(y, 3), new Horse(team));
         pieces.put(new Position(y, 7), new Elephant(team));
         pieces.put(new Position(y, 8), new Horse(team));
         return pieces;
     }),
     OUTER_ELEPHANT("2", (team, y) -> {
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(new Position(y, 3), new Horse(team));
-        pieces.put(new Position(y, 2), new Elephant(team));
-        pieces.put(new Position(y, 8), new Elephant(team));
+        pieces.put(new Position(y, 2), new Horse(team));
+        pieces.put(new Position(y, 3), new Elephant(team));
         pieces.put(new Position(y, 7), new Horse(team));
+        pieces.put(new Position(y, 8), new Elephant(team));
         return pieces;
     }),
     RIGHT_ELEPHANT("3", (team, y) -> {
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(new Position(y, 2), new Horse(team));
-        pieces.put(new Position(y, 3), new Elephant(team));
-        pieces.put(new Position(y, 8), new Elephant(team));
+        pieces.put(new Position(y, 2), new Elephant(team));
+        pieces.put(new Position(y, 3), new Horse(team));
         pieces.put(new Position(y, 7), new Horse(team));
+        pieces.put(new Position(y, 8), new Elephant(team));
         return pieces;
     }),
     LEFT_ELEPHANT("4", (team, y) -> {
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(new Position(y, 3), new Horse(team));
-        pieces.put(new Position(y, 2), new Elephant(team));
+        pieces.put(new Position(y, 2), new Horse(team));
+        pieces.put(new Position(y, 3), new Elephant(team));
         pieces.put(new Position(y, 7), new Elephant(team));
         pieces.put(new Position(y, 8), new Horse(team));
         return pieces;

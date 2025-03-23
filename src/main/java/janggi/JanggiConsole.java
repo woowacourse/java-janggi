@@ -24,10 +24,10 @@ public class JanggiConsole {
         final Turn turn = new Turn();
 
         resultView.printSetting();
-        ElephantSetting choElephantSetting = ElephantSetting.selectSetting(
-                inputView.readElephantSetting(turn.getAndTurnOver()));
-        ElephantSetting hanElephantSetting = ElephantSetting.selectSetting(
-                inputView.readElephantSetting(turn.getAndTurnOver()));
+        ElephantSetting choElephantSetting = ExceptionHandler.repeat(() -> ElephantSetting.selectSetting((
+                inputView.readElephantSetting(turn.getAndTurnOver()))));
+        ElephantSetting hanElephantSetting = ExceptionHandler.repeat(() -> ElephantSetting.selectSetting((
+                inputView.readElephantSetting(turn.getAndTurnOver()))));
         final Board board = boardFactory.makeBoard(choElephantSetting, hanElephantSetting);
 
         resultView.printBoard(board.getPieces());
