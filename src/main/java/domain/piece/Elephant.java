@@ -23,13 +23,12 @@ public class Elephant extends Piece {
 
     @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
-        for (List<Move> moveList : moves) {
-            boolean compareResult = comparePath(startPosition, targetPosition, moveList);
-            if (compareResult) {
-                return convertToPath(moveList, startPosition);
-            }
-        }
-        throw new IllegalArgumentException("이 위치로 이동할 수 없습니다.");
+        List<Move> possibleMoves = moves.stream()
+                .filter(path -> isPossibleToArrive(startPosition, targetPosition, path))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("이 위치로 이동할 수 없습니다."));
+
+        return convertToPath(possibleMoves, startPosition);
     }
 
     @Override
@@ -37,11 +36,10 @@ public class Elephant extends Piece {
         return false;
     }
 
-    private boolean comparePath(Position startPosition, Position targetPosition, List<Move> moveList) {
-        Position movedPosition = startPosition;
+    private boolean isPossibleToArrive(Position startPosition, Position targetPosition, List<Move> moveList) {
         for (Move move : moveList) {
-            movedPosition = movedPosition.movePosition(move);
+            startPosition = startPosition.movePosition(move);
         }
-        return movedPosition.equals(targetPosition);
+        return startPosition.equals(targetPosition);
     }
 }

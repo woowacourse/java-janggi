@@ -14,13 +14,12 @@ public class Guard extends Piece {
 
     @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
-        for (Move move : moves) {
-            Position newPosition = startPosition.movePosition(move);
-            if (newPosition.equals(targetPosition)) {
-                return List.of();
-            }
-        }
-        throw new IllegalArgumentException("이 위치로 이동할 수 없습니다.");
+        return moves.stream()
+                .map(startPosition::movePosition)
+                .filter(newPosition -> newPosition.equals(targetPosition))
+                .findFirst()
+                .map(position -> List.<Position>of())
+                .orElseThrow(() -> new IllegalArgumentException("이 위치로 이동할 수 없습니다."));
     }
 
     @Override
