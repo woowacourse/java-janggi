@@ -11,6 +11,15 @@ public class Horse extends Piece {
             List.of(Move.BACK, Move.BACK_RIGHT)
             , List.of(Move.RIGHT, Move.FRONT_RIGHT), List.of(Move.RIGHT, Move.BACK_RIGHT),
             List.of(Move.LEFT, Move.FRONT_LEFT), List.of(Move.LEFT, Move.BACK_LEFT));
+            List.of(Move.FRONT, Move.FRONT_LEFT),
+            List.of(Move.FRONT, Move.FRONT_RIGHT),
+            List.of(Move.BACK, Move.BACK_LEFT),
+            List.of(Move.BACK, Move.BACK_RIGHT),
+            List.of(Move.RIGHT, Move.FRONT_RIGHT),
+            List.of(Move.RIGHT, Move.BACK_RIGHT),
+            List.of(Move.LEFT, Move.FRONT_LEFT),
+            List.of(Move.LEFT, Move.BACK_LEFT)
+    );
 
     public Horse(Team team) {
         super(team);
