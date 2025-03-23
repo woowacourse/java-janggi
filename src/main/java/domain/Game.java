@@ -47,7 +47,7 @@ public class Game {
         Position position = new Position(positionValue.get(0), positionValue.get(1));
 
         List<Route> routes = janggi.findMovableRoutesFrom(position);
-        outputView.printAvailableRoute(routes);
+        outputView.printAvailableRoute(position, routes);
 
         // TODO: 장기 움직임 호출
 

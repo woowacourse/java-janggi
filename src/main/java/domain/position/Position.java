@@ -37,6 +37,12 @@ public class Position {
         return !(point.getY() < 0 || point.getY() > Y_MAX);
     }
 
+    public double calculateDistance(Position other) {
+        int xDifference = Math.abs(this.getX() - other.getX());
+        int yDifference = Math.abs(this.getY() - other.getY());
+        return Math.sqrt(Math.pow(xDifference, 2) + Math.pow(yDifference, 2));
+    }
+
     public boolean isHorizontalOrVertical(Position opposite) {
         return (this.x == opposite.x || this.y == opposite.y);
     }

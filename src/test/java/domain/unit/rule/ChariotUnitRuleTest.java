@@ -36,6 +36,6 @@ class ChariotUnitRuleTest {
         Route path = rule.calculateRoute(start, end);
 
         // then
-        assertThat(path.getPoints()).hasSize(5);
+        assertThat(path.getPositions()).hasSize(5);
     }
 }

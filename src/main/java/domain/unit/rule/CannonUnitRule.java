@@ -15,7 +15,7 @@ public class CannonUnitRule implements UnitRule {
         List<Position> positions = calculateEndPoints(start);
         for (Position end : positions) {
             Route route = calculateRoute(start, end);
-            if (route.getPoints().size() == 1) {
+            if (route.getPositions().size() == 1) {
                 continue;
             }
             routes.add(route);

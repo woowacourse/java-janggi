@@ -8,9 +8,9 @@ import java.util.List;
 
 public class OutputView {
 
-    public void printAvailableRoute(List<Route> routes) {
+    public void printAvailableRoute(Position current, List<Route> routes) {
         for (Route route : routes) {
-            Position endPoint = route.searchEndPoint();
+            Position endPoint = route.searchDestination(current);
             System.out.printf("x = %d, y = %d\n"
                     , endPoint.getX(), endPoint.getY());
         }

@@ -36,13 +36,18 @@ public class Janggi {
         Unit pickedUnit = units.get(pick);
         List<Route> totalRoutes = pickedUnit.calculateRoutes(pick);
         totalRoutes = filterRoutesByUnitType(pickedUnit, pick, totalRoutes);
-        return filterBlockedRoutes(totalRoutes);
+        if (pickedUnit.getType() == UnitType.CANNON) {
+            return totalRoutes;
+        }
+        return filterBlockedRoutes(pick, totalRoutes);
     }
 
     private List<Route> filterRoutesByUnitType(Unit pickedUnit, Position pick, List<Route> totalRoutes) {
         UnitType type = pickedUnit.getType();
         if (type == UnitType.CANNON) {
-            return totalRoutes.stream().filter(this::canCannonJump).toList();
+            return totalRoutes.stream()
+                    .filter(route -> canCannonJump(pick, route))
+                    .toList();
         }
         if (type == UnitType.SOLDIER) {
             return filterSoldierMoves(pick, pickedUnit, totalRoutes);
@@ -53,17 +58,25 @@ public class Janggi {
     private List<Route> filterSoldierMoves(Position pick, Unit pickedUnit, List<Route> totalRoutes) {
         if (pickedUnit.getTeam() == Team.HAN) {
             return totalRoutes.stream()
-                    .filter(route -> route.getPoints().getFirst().getY() >= pick.getY())
+                    .filter(route -> route.getPositions().getFirst().getY() >= pick.getY())
                     .toList();
         }
         return totalRoutes.stream()
-                .filter(route -> route.getPoints().getFirst().getY() <= pick.getY())
+                .filter(route -> route.getPositions().getFirst().getY() <= pick.getY())
                 .toList();
     }
 
-    private boolean canCannonJump(Route route) {
+    private boolean canCannonJump(Position current, Route route) {
+        Position endPoint = route.searchDestination(current);
+        if (!isEmptyPosition(endPoint)) {
+            Unit endUnit = units.get(endPoint);
+            if (endUnit.getType() == UnitType.CANNON) {
+                return false;
+            }
+        }
+
         int count = 0;
-        for (Position position : route.getPointsExceptEndPoint()) {
+        for (Position position : route.getPositionsExceptDestination(current)) {
             if (isEmptyPosition(position)) {
                 continue;
             }
@@ -76,20 +89,20 @@ public class Janggi {
         return (count == 1);
     }
 
-    private List<Route> filterBlockedRoutes(List<Route> routes) {
+    private List<Route> filterBlockedRoutes(Position pick, List<Route> routes) {
         return routes.stream()
-                .filter(this::isClearRoute)
-                .filter(this::isClearDestination)
+                .filter(route -> isClearRoute(pick, route))
+                .filter(route -> isClearDestination(pick, route))
                 .toList();
     }
 
-    private boolean isClearRoute(Route route) {
-        return route.getPointsExceptEndPoint().stream()
+    private boolean isClearRoute(Position pick, Route route) {
+        return route.getPositionsExceptDestination(pick).stream()
                 .allMatch(this::isEmptyPosition);
     }
 
-    private boolean isClearDestination(Route route) {
-        Position endPosition = route.searchEndPoint();
+    private boolean isClearDestination(Position pick, Route route) {
+        Position endPosition = route.searchDestination(pick);
         if (isEmptyPosition(endPosition)) {
             return true;
         }

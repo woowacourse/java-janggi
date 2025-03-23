@@ -13,7 +13,6 @@ import domain.unit.rule.HorseUnitRule;
 import domain.unit.rule.SoldierUnitRule;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -75,7 +74,6 @@ class JanggiTest {
         assertThat(routes).hasSize(12);
     }
 
-    @Disabled
     @Test
     @DisplayName("기물(포)의 타기물을 고려한 이동경로를 구한다")
     void test4() {

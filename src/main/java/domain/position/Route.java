@@ -1,6 +1,7 @@
 package domain.position;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Route {
@@ -14,15 +15,20 @@ public class Route {
         return new Route(positions);
     }
 
-    public Position searchEndPoint() {
-        return positions.getLast();
+    public Position searchDestination(Position position) {
+        return positions.stream()
+                .max(Comparator.comparingDouble(pos -> pos.calculateDistance(position)))
+                .orElseThrow(() -> new IllegalArgumentException("비어있는 경로입니다."));
     }
 
-    public List<Position> getPoints() {
+    public List<Position> getPositionsExceptDestination(Position position) {
+        Position endPoint = searchDestination(position);
+        return positions.stream()
+                .filter(pos -> !pos.equals(endPoint))
+                .toList();
+    }
+
+    public List<Position> getPositions() {
         return Collections.unmodifiableList(positions);
-    }
-
-    public List<Position> getPointsExceptEndPoint() {
-        return positions.subList(0, positions.size() - 1);
     }
 }
