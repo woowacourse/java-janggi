@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import domain.JanggiBoard.JanggiBoard;
-import domain.JanggiBoard.JanggiBoardBasicInitializer;
+import domain.janggiboard.JanggiBoard;
+import domain.janggiboard.JanggiBoardBasicInitializer;
 import domain.piece.JanggiPiece;
 import domain.piece.JanggiSide;
 import domain.piece.궁;

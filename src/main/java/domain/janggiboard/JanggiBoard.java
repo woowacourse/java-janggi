@@ -1,4 +1,4 @@
-package domain.JanggiBoard;
+package domain.janggiboard;
 
 import domain.position.JanggiPosition;
 import domain.Pattern;

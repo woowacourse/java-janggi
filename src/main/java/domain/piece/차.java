@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.piece.movingStrategy.LinearMovingStrategy;
+import domain.piece.movingstrategy.LinearMovingStrategy;
 
 public final class 차 extends JanggiPiece {
 

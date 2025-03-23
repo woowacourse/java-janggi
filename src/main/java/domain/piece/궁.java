@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.piece.movingStrategy.LimitedMovingStrategy;
+import domain.piece.movingstrategy.LimitedMovingStrategy;
 
 public final class 궁 extends JanggiPiece {
 

@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.piece.movingStrategy.JanggiPieceMovingStrategy;
+import domain.piece.movingstrategy.JanggiPieceMovingStrategy;
 import domain.position.JanggiPosition;
 import domain.Pattern;
 import java.util.List;

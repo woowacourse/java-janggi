@@ -1,4 +1,4 @@
-package domain.piece.movingStrategy;
+package domain.piece.movingstrategy;
 
 import static domain.Direction.DOWN;
 import static domain.Direction.LEFT;

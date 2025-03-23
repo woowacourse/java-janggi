@@ -1,4 +1,4 @@
-package domain.piece.movingStrategy;
+package domain.piece.movingstrategy;
 
 import domain.Direction;
 import domain.Pattern;
