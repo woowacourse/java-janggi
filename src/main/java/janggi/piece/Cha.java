@@ -55,7 +55,7 @@ public class Cha extends Piece {
         return route;
     }
 
-    public void updateChessPiecePositionBy(Position position) {
+    public void updatePiecePositionBy(Position position) {
         this.position = position;
     }
 

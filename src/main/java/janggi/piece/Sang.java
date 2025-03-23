@@ -94,7 +94,7 @@ public class Sang extends Piece {
         return route;
     }
 
-    public void updateChessPiecePositionBy(Position position) {
+    public void updatePiecePositionBy(Position position) {
         this.position = position;
     }
 }

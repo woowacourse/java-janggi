@@ -19,7 +19,7 @@ public class Board {
                         ));
     }
 
-    public void updateBoard(final Position presentPosition, final Position futurePosition) {
+    public void pieceMove(final Position presentPosition, final Position futurePosition) {
         Piece piece = janggiBoard.get(presentPosition);
         piece.isMove(futurePosition);
 
@@ -30,15 +30,17 @@ public class Board {
                 throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 위치입니다.");
             }
 
-            janggiBoard.remove(presentPosition);
-            janggiBoard.put(futurePosition, piece);
-            piece.updateChessPiecePositionBy(futurePosition);
+            updatePiecePosition(presentPosition, futurePosition, piece);
             return;
         }
 
+        updatePiecePosition(presentPosition, futurePosition, piece);
+    }
+
+    private void updatePiecePosition(final Position presentPosition, final Position futurePosition, final Piece piece) {
         janggiBoard.remove(presentPosition);
         janggiBoard.put(futurePosition, piece);
-        piece.updateChessPiecePositionBy(futurePosition);
+        piece.updatePiecePositionBy(futurePosition);
     }
 
     private boolean isPo(Position position) {
@@ -110,7 +112,7 @@ public class Board {
         return false;
     }
 
-    public void checkObstacle(final Position presentPosition, final Position futurePosition) {
+    private void checkObstacle(final Position presentPosition, final Position futurePosition) {
         List<Position> route = janggiBoard.get(presentPosition).makeRoute(futurePosition);
 
         int cnt = 0;

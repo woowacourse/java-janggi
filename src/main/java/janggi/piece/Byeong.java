@@ -26,7 +26,7 @@ public class Byeong extends Piece {
         return List.of(position);
     }
 
-    public void updateChessPiecePositionBy(Position position) {
+    public void updatePiecePositionBy(Position position) {
         this.position = position;
     }
 

@@ -24,7 +24,7 @@ public class JanggiGame {
             try {
                 Position presentPosition = readPresentPosition();
                 Position futurePosition = readFuturePosition();
-                board.updateBoard(presentPosition, futurePosition);
+                board.pieceMove(presentPosition, futurePosition);
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
                 continue;

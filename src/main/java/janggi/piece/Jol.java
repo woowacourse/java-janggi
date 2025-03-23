@@ -25,7 +25,7 @@ public class Jol extends Piece {
         return List.of(position);
     }
 
-    public void updateChessPiecePositionBy(Position position) {
+    public void updatePiecePositionBy(Position position) {
         this.position = position;
     }
 

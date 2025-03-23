@@ -54,7 +54,7 @@ public class Po extends Piece {
         throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 위치입니다.");
     }
 
-    public void updateChessPiecePositionBy(Position position) {
+    public void updatePiecePositionBy(Position position) {
         this.position = position;
     }
 }

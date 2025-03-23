@@ -22,7 +22,7 @@ public abstract class Piece {
 
     public abstract List<Position> makeRoute(Position position);
 
-    public abstract void updateChessPiecePositionBy(Position position);
+    public abstract void updatePiecePositionBy(Position position);
 
     @Override
     public boolean equals(final Object o) {

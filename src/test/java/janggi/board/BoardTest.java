@@ -51,7 +51,7 @@ class BoardTest {
             Position futurePosition = new Position(5, 2);
 
             //when
-            board.updateBoard(presentPosition, futurePosition);
+            board.pieceMove(presentPosition, futurePosition);
 
             //then
             Piece actual = board.getJanggiBoard().get(futurePosition);
@@ -74,7 +74,7 @@ class BoardTest {
             Position futurePosition = new Position(5, 2);
 
             //when
-            board.updateBoard(presentPosition, futurePosition);
+            board.pieceMove(presentPosition, futurePosition);
 
             //then
             Piece actual = board.getJanggiBoard().get(futurePosition);
@@ -101,7 +101,7 @@ class BoardTest {
             Position futurePosition = new Position(7, 2);
 
             //when //then
-            assertThatThrownBy(() -> board.updateBoard(presentPosition, futurePosition))
+            assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageStartingWith("[ERROR]");
         }
@@ -120,7 +120,7 @@ class BoardTest {
             Position futurePosition = new Position(3, 7);
 
             //when //then
-            assertThatThrownBy(() -> board.updateBoard(presentPosition, futurePosition))
+            assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageStartingWith("[ERROR]");
         }
@@ -141,7 +141,7 @@ class BoardTest {
             Position futurePosition = new Position(5, 2);
 
             //when //then
-            assertThatThrownBy(() -> board.updateBoard(presentPosition, futurePosition))
+            assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageStartingWith("[ERROR]");
         }
@@ -161,7 +161,7 @@ class BoardTest {
             Position futurePosition = new Position(2, 5);
 
             //when //then
-            assertThatThrownBy(() -> board.updateBoard(presentPosition, futurePosition))
+            assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageStartingWith("[ERROR]");
         }
@@ -181,7 +181,7 @@ class BoardTest {
             Position futurePosition = new Position(3, 5);
 
             //when //then
-            assertThatThrownBy(() -> board.updateBoard(presentPosition, futurePosition))
+            assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageStartingWith("[ERROR]");
         }
@@ -201,7 +201,7 @@ class BoardTest {
             Position futurePosition = new Position(5, 3);
 
             //when //then
-            assertThatThrownBy(() -> board.updateBoard(presentPosition, futurePosition))
+            assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageStartingWith("[ERROR]");
         }
@@ -209,7 +209,7 @@ class BoardTest {
 
     @DisplayName("장기판의 기물을 옮길 수 있다.")
     @Test
-    void updateBoard() {
+    void pieceMove() {
         //given
         List<Piece> pieces = List.of(
                 new Byeong(new PieceProfile("병", Nation.HAN), new Position(3, 2))
@@ -221,7 +221,7 @@ class BoardTest {
         Position futurePosition = new Position(4, 2);
 
         //when
-        board.updateBoard(presentPosition, futurePosition);
+        board.pieceMove(presentPosition, futurePosition);
 
         //then
         Piece actual = board.getJanggiBoard().get(futurePosition);
@@ -230,7 +230,7 @@ class BoardTest {
     }
 
 
-    @DisplayName("기물이 이동하는 경로를 검사한다.")
+    @DisplayName("이동시키려는 경로에 장애물이 존재한다면 예외를 던진다.")
     @Test
     void checkObstacle() {
         //given
@@ -245,7 +245,7 @@ class BoardTest {
         Board board = new Board(pieces);
 
         //when //then
-        assertThatThrownBy(() -> board.checkObstacle(presentPosition, futurePosition))
+        assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
