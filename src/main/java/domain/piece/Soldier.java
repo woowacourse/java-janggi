@@ -31,24 +31,15 @@ public class Soldier extends Piece {
         super(teamType, new FixedMoveRule(getPathsByTeam(teamType)), new DefaultPathValidator());
     }
 
-    private Soldier(Soldier soldier) {
-        super(soldier);
-    }
-
-    @Override
-    public PieceType getType() {
-        return PieceType.SOLDIER;
-    }
-
-    @Override
-    public Piece newInstance() {
-        return new Soldier(this);
-    }
-
     private static List<Path> getPathsByTeam(TeamType teamType) {
         if (!TEAM_PATH.containsKey(teamType)) {
             throw new IllegalStateException("존재하지 않는 팀입니다.");
         }
         return TEAM_PATH.get(teamType);
+    }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.SOLDIER;
     }
 }

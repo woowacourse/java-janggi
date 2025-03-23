@@ -24,18 +24,8 @@ public class Guard extends Piece {
         super(teamType, new FixedMoveRule(PATHS), new DefaultPathValidator());
     }
 
-    private Guard(Guard guard) {
-        super(guard);
-    }
-
     @Override
     public PieceType getType() {
         return PieceType.GUARD;
     }
-
-    @Override
-    public Piece newInstance() {
-        return new Guard(this);
-    }
-
 }

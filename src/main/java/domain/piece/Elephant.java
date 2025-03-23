@@ -28,17 +28,8 @@ public class Elephant extends Piece {
         super(teamType, new FixedMoveRule(PATHS), new DefaultPathValidator());
     }
 
-    private Elephant(Elephant elephant) {
-        super(elephant);
-    }
-
     @Override
     public PieceType getType() {
         return PieceType.ELEPHANT;
-    }
-
-    @Override
-    public Piece newInstance() {
-        return new Elephant(this);
     }
 }

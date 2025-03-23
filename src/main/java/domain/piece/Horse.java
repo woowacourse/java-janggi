@@ -28,17 +28,8 @@ public class Horse extends Piece {
         super(teamType, new FixedMoveRule(PATHS), new DefaultPathValidator());
     }
 
-    private Horse(Horse horse) {
-        super(horse);
-    }
-
     @Override
     public PieceType getType() {
         return PieceType.HORSE;
-    }
-
-    @Override
-    public Piece newInstance() {
-        return new Horse(this);
     }
 }

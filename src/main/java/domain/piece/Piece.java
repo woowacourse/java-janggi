@@ -19,15 +19,7 @@ public abstract class Piece {
         this.pathValidator = pathValidator;
     }
 
-    protected Piece(Piece piece) {
-        this.teamType = piece.teamType;
-        this.moveRule = piece.moveRule;
-        this.pathValidator = piece.pathValidator;
-    }
-
     public abstract PieceType getType();
-
-    public abstract Piece newInstance();
 
     public boolean isSameTeam(Piece piece) {
         return this.teamType.equals(piece.teamType);

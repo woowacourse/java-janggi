@@ -23,17 +23,8 @@ public class Chariot extends Piece {
         super(teamType, new UnlimitedMoveRule(DIRECTIONS), new DefaultPathValidator());
     }
 
-    private Chariot(Chariot chariot) {
-        super(chariot);
-    }
-
     @Override
     public PieceType getType() {
         return PieceType.CHARIOT;
-    }
-
-    @Override
-    public Piece newInstance() {
-        return new Chariot(this);
     }
 }

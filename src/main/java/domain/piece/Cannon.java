@@ -23,17 +23,8 @@ public class Cannon extends Piece {
         super(teamType, new UnlimitedMoveRule(DIRECTIONS), new CannonPathValidator());
     }
 
-    private Cannon(Cannon cannon) {
-        super(cannon);
-    }
-
     @Override
     public PieceType getType() {
         return PieceType.CANNON;
-    }
-
-    @Override
-    public Piece newInstance() {
-        return new Cannon(this);
     }
 }

@@ -24,17 +24,8 @@ public class King extends Piece {
         super(teamType, new FixedMoveRule(PATHS), new DefaultPathValidator());
     }
 
-    private King(King king) {
-        super(king);
-    }
-
     @Override
     public PieceType getType() {
         return PieceType.KING;
-    }
-
-    @Override
-    public Piece newInstance() {
-        return new King(this);
     }
 }

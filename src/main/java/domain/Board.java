@@ -79,12 +79,6 @@ public class Board {
     }
 
     public Map<Position, Piece> getAlivePieces() {
-        Map<Position, Piece> copyPieces = new HashMap<>();
-        pieces.keySet()
-                .forEach(key -> {
-                    copyPieces.put(key, pieces.get(key).newInstance());
-                });
-
-        return copyPieces;
+        return new HashMap<>(pieces);
     }
 }
