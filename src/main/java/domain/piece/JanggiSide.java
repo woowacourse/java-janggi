@@ -1,7 +1,5 @@
 package domain.piece;
 
-import java.util.List;
-
 public enum JanggiSide {
     CHO,
     HAN,

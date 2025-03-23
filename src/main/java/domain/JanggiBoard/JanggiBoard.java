@@ -1,7 +1,7 @@
 package domain.JanggiBoard;
 
 import domain.position.JanggiPosition;
-import domain.pattern.Pattern;
+import domain.Pattern;
 import domain.piece.Empty;
 import domain.piece.JanggiPiece;
 import domain.piece.JanggiPieceType;
@@ -36,7 +36,7 @@ public final class JanggiBoard {
 
     private JanggiPiece getFirstHurdlePieceOnRoute(JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
         JanggiPiece hurdlePiece = new Empty();
-        List<Pattern> patterns = piece.findPath(origin, destination);
+        List<Pattern> patterns = piece.getRoute(origin, destination);
         JanggiPosition newPosition = origin;
         for (Pattern pattern : patterns) {
             newPosition = newPosition.moveOnePosition(pattern);
@@ -48,7 +48,7 @@ public final class JanggiBoard {
     }
 
     private int getHurdleCountOnRoute(final JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
-        List<Pattern> path = piece.findPath(origin, destination);
+        List<Pattern> path = piece.getRoute(origin, destination);
         List<Pattern> patterns = path.subList(0, path.size() - 1);
         int count = 0;
         JanggiPosition newPosition = origin;

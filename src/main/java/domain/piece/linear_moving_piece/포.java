@@ -1,6 +1,10 @@
-package domain.piece;
+package domain.piece.linear_moving_piece;
 
-public final class 포 extends JanggiPiece {
+import domain.piece.JanggiPiece;
+import domain.piece.JanggiPieceType;
+import domain.piece.JanggiSide;
+
+public final class 포 extends LinearMovingJanggiPiece {
 
     public 포(final JanggiSide side) {
         super(side, JanggiPieceType.포);

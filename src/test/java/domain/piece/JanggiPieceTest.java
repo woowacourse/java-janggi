@@ -4,6 +4,7 @@ import static domain.constant.JanggiPieceConstant.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.piece.limited_moving_piece.마;
 import org.junit.jupiter.api.Test;
 
 public class JanggiPieceTest {

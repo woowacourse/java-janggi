@@ -1,6 +1,6 @@
 package domain.position;
 
-import domain.pattern.Pattern;
+import domain.Pattern;
 import java.util.Arrays;
 
 public enum Rank {

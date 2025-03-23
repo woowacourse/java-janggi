@@ -1,4 +1,4 @@
-package domain.route;
+package domain;
 
 public enum Direction {
     RIGHT,

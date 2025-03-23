@@ -1,24 +1,23 @@
-package domain.route.linear_route;
+package domain.piece.linear_moving_piece;
 
-import static domain.route.Direction.DOWN;
-import static domain.route.Direction.LEFT;
-import static domain.route.Direction.RIGHT;
-import static domain.route.Direction.UP;
+import static domain.Direction.DOWN;
+import static domain.Direction.LEFT;
+import static domain.Direction.RIGHT;
+import static domain.Direction.UP;
 
+import domain.Pattern;
+import domain.piece.JanggiPiece;
+import domain.piece.JanggiPieceType;
+import domain.piece.JanggiSide;
 import domain.position.JanggiPosition;
-import domain.route.Direction;
-import domain.pattern.Pattern;
-import domain.route.JanggiPieceRoute;
+import domain.Direction;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-public class LinearJanggiPieceRoute implements JanggiPieceRoute {
+public abstract class LinearMovingJanggiPiece extends JanggiPiece {
 
-    protected final Map<Direction, Pattern> directions;
-
-    protected LinearJanggiPieceRoute(final Map<Direction, Pattern> directions) {
-        this.directions = directions;
+    public LinearMovingJanggiPiece(JanggiSide side, JanggiPieceType type) {
+        super(side, type);
     }
 
     @Override
@@ -65,15 +64,6 @@ public class LinearJanggiPieceRoute implements JanggiPieceRoute {
     }
 
     private List<Pattern> createPattern(final Direction newPath, int additionalSize) {
-        return Collections.nCopies(additionalSize, directions.get(newPath));
-    }
-
-    public Pattern getPattern(final Direction direction) {
-        return directions.get(direction);
-    }
-
-    @Override
-    public List<Pattern> getPatterns(final Direction direction) {
-        return List.of(directions.get(direction));
+        return Collections.nCopies(additionalSize, type.getRoutes().get(newPath).getFirst());
     }
 }

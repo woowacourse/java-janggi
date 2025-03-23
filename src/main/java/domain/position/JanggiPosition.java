@@ -1,6 +1,6 @@
 package domain.position;
 
-import domain.pattern.Pattern;
+import domain.Pattern;
 import java.util.List;
 
 public record JanggiPosition(Rank rank, File file) {

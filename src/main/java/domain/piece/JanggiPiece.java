@@ -1,7 +1,7 @@
 package domain.piece;
 
 import domain.position.JanggiPosition;
-import domain.pattern.Pattern;
+import domain.Pattern;
 import java.util.List;
 
 public abstract class JanggiPiece {
@@ -16,9 +16,7 @@ public abstract class JanggiPiece {
         this.type = type;
     }
 
-    public List<Pattern> findPath(final JanggiPosition origin, final JanggiPosition destination) {
-        return type.getRoute(origin, destination);
-    }
+    public abstract List<Pattern> getRoute(final JanggiPosition origin, final JanggiPosition destination);
 
     public boolean isEmpty() {
         return false;

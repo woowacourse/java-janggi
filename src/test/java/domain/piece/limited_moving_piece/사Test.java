@@ -1,10 +1,13 @@
-package domain.route;
+package domain.piece.limited_moving_piece;
 
+import static domain.constant.JanggiPieceConstant.CHO_사;
+
+import domain.Direction;
+import domain.Pattern;
+import domain.piece.JanggiPieceType;
 import domain.position.JanggiPosition;
-import domain.pattern.Pattern;
-import domain.route.limited_route.LimitedJanggiPieceRoute;
-import domain.route.limited_route.사Route;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,32 +15,31 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class 사RouteTest {
+public class 사Test {
 
     @ParameterizedTest
     @MethodSource("provide사Route")
-    void 사의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> route) {
+    void 사의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> expected) {
         // given
         int beforeRow = 9;
         int beforeColumn = 5;
         JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-        JanggiPieceRoute routeOf사 = new 사Route();
 
         // when
-        List<Pattern> 사route = routeOf사.getRoute(beforePosition, afterPosition);
+        List<Pattern> route = CHO_사.getRoute(beforePosition, afterPosition);
 
         // when & then
-        Assertions.assertThat(사route)
-                .isEqualTo(route);
+        Assertions.assertThat(route)
+                .isEqualTo(expected);
     }
 
     static Stream<Arguments> provide사Route() {
-        LimitedJanggiPieceRoute routeOf사 = new 사Route();
+        Map<Direction, List<Pattern>> routeOf사 = JanggiPieceType.사.getRoutes();
         return Stream.of(
-                Arguments.of(new JanggiPosition(8, 5), routeOf사.getPatterns(Direction.UP)),
-                Arguments.of(new JanggiPosition(9, 4), routeOf사.getPatterns(Direction.LEFT)),
-                Arguments.of(new JanggiPosition(9, 6), routeOf사.getPatterns(Direction.RIGHT)),
-                Arguments.of(new JanggiPosition(0, 5), routeOf사.getPatterns(Direction.DOWN)));
+                Arguments.of(new JanggiPosition(8, 5), routeOf사.get(Direction.UP)),
+                Arguments.of(new JanggiPosition(9, 4), routeOf사.get(Direction.LEFT)),
+                Arguments.of(new JanggiPosition(9, 6), routeOf사.get(Direction.RIGHT)),
+                Arguments.of(new JanggiPosition(0, 5), routeOf사.get(Direction.DOWN)));
     }
 
     @Test
@@ -52,7 +54,7 @@ public class 사RouteTest {
         JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> new 사Route().getRoute(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> CHO_사.getRoute(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

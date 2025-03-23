@@ -1,6 +1,6 @@
 package domain.position;
 
-import domain.pattern.Pattern;
+import domain.Pattern;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
