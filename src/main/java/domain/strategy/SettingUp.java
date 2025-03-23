@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 public enum SettingUp {
     INNER_ELEPHANT(1, new InnerElephantStrategy()),
-    LEFT_ELEPHANT(2, new LeftElephantStrategy()),
-    OUTER_ELEPHANT(3, new OuterElephantStrategy()),
-    RIGHT_ELEPHANT(4, new RightElephantStrategy());
+    OUTER_ELEPHANT(2, new OuterElephantStrategy()),
+    RIGHT_ELEPHANT(3, new RightElephantStrategy()),
+    LEFT_ELEPHANT(4, new LeftElephantStrategy());
 
     private final int command;
     private final SettingUpStrategy strategy;
