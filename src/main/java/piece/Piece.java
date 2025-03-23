@@ -30,7 +30,7 @@ public abstract class Piece {
     protected abstract Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival);
 
     public final boolean isSameTeam(Piece piece) {
-        return piece.team.equals(this.team);
+        return this.team.isSameTeam(piece.team);
     }
 
     public final String colorName() {

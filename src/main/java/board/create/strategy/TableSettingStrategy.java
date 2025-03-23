@@ -19,7 +19,7 @@ public abstract class TableSettingStrategy {
     }
 
     private Map<Coordinate, Piece> createDefaultBoard(Team team) {
-        if (team == Team.HAN) {
+        if (team.isSameTeam(Team.HAN)) {
             return new HashMap<>(createHanDefaultBoard());
         }
         return new HashMap<>(createChoDefaultBoard());

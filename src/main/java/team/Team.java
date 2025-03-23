@@ -22,6 +22,10 @@ public enum Team {
         this.maSangYCoordinate = maSangYCoordinate;
     }
 
+    public boolean isSameTeam(Team team) {
+        return this.equals(team);
+    }
+
     public String applyColor(String text) {
         return this.colorCode + text + RESET;
     }
