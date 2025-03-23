@@ -28,11 +28,6 @@ public class Elephant extends Piece {
         );
     }
 
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
-
     private List<RawPosition> makeRawPositions1() {
         return List.of(
                 new RawPosition(position.x(), position.y() + 1),

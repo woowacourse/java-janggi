@@ -15,11 +15,6 @@ public class Guard extends Piece {
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
-    }
-
-    @Override
     protected Set<RawRoute> calculateRawRoutes() {
         return Set.of(
                 new RawRoute(List.of(new RawPosition(position.x() + 1, position.y()))),

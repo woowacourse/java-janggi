@@ -69,7 +69,6 @@ public abstract class Piece {
             putValidPositions(rawRoute, positions);
             returnRoute.add(new Route(positions));
         } catch (IllegalArgumentException e) {
-            
         }
     }
 

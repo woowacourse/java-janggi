@@ -72,7 +72,7 @@ public class JanggiController {
         while (true) {
             try {
                 action.run();
-                return; // 성공적으로 실행되면 리턴
+                return;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

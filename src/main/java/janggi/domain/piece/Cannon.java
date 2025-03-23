@@ -16,11 +16,6 @@ public class Cannon extends Piece {
         this.pieceType = PieceType.CANNON;
     }
 
-    @Override
-    public boolean isCannon() {
-        return true;
-    }
-
     protected Set<RawRoute> calculateRawRoutes() {
         Set<RawRoute> rawRoutes = new HashSet<>();
 
