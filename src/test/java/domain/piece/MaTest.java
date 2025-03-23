@@ -1,6 +1,7 @@
 package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.BoardFixture;
 import domain.Coordinate;
@@ -28,14 +29,14 @@ class MaTest {
 
             // then
             assertThat(movableCandidates).containsOnly(
-                    new Coordinate(3, 4),
-                    new Coordinate(3, 6),
-                    new Coordinate(4, 3),
-                    new Coordinate(4, 7),
-                    new Coordinate(6, 3),
-                    new Coordinate(6, 7),
-                    new Coordinate(7, 4),
-                    new Coordinate(7, 6)
+                new Coordinate(3, 4),
+                new Coordinate(3, 6),
+                new Coordinate(4, 3),
+                new Coordinate(4, 7),
+                new Coordinate(6, 3),
+                new Coordinate(6, 7),
+                new Coordinate(7, 4),
+                new Coordinate(7, 6)
             );
         }
 
@@ -50,9 +51,9 @@ class MaTest {
 
             // then
             assertThat(movableCandidates).containsOnly(
-                    new Coordinate(1, 3),
-                    new Coordinate(3, 3),
-                    new Coordinate(4, 2)
+                new Coordinate(1, 3),
+                new Coordinate(3, 3),
+                new Coordinate(4, 2)
             );
         }
     }
@@ -67,12 +68,13 @@ class MaTest {
             // given
             Ma ma = new Ma(Team.CHO);
             Board board = new BoardFixture()
-                    .addPiece(5, 5, ma)
-                    .addPiece(5, 4, new Sang(Team.CHO))
-                    .build();
+                .addPiece(5, 5, ma)
+                .addPiece(5, 4, new Sang(Team.CHO))
+                .build();
 
             // when
-            boolean result = ma.canMoveConsideringObstacles(board, new Coordinate(5, 5), new Coordinate(4, 3));
+            boolean result = ma.canMoveConsideringObstacles(board, new Coordinate(5, 5),
+                new Coordinate(4, 3));
 
             // then
             assertThat(result).isFalse();
@@ -84,11 +86,12 @@ class MaTest {
             // given
             Ma ma = new Ma(Team.CHO);
             Board board = new BoardFixture()
-                    .addPiece(5, 5, ma)
-                    .build();
+                .addPiece(5, 5, ma)
+                .build();
 
             // when
-            boolean result = ma.canMoveConsideringObstacles(board, new Coordinate(5, 5), new Coordinate(4, 3));
+            boolean result = ma.canMoveConsideringObstacles(board, new Coordinate(5, 5),
+                new Coordinate(4, 3));
 
             // then
             assertThat(result).isTrue();
@@ -110,8 +113,10 @@ class MaTest {
             final var path2 = ma.findPaths(new Coordinate(5, 5), new Coordinate(3, 6));
 
             // then
-            assertThat(path1).containsOnly(new Coordinate(4, 5));
-            assertThat(path2).containsOnly(new Coordinate(4, 5));
+            assertAll(
+                () -> assertThat(path1).containsOnly(new Coordinate(4, 5)),
+                () -> assertThat(path2).containsOnly(new Coordinate(4, 5))
+            );
         }
 
         @Test
@@ -125,8 +130,10 @@ class MaTest {
             final var path2 = ma.findPaths(new Coordinate(5, 5), new Coordinate(6, 3));
 
             // then
-            assertThat(path1).containsOnly(new Coordinate(5, 4));
-            assertThat(path2).containsOnly(new Coordinate(5, 4));
+            assertAll(
+                () -> assertThat(path1).containsOnly(new Coordinate(5, 4)),
+                () -> assertThat(path2).containsOnly(new Coordinate(5, 4))
+            );
         }
 
         @Test
@@ -140,8 +147,10 @@ class MaTest {
             final var path2 = ma.findPaths(new Coordinate(5, 5), new Coordinate(7, 6));
 
             // then
-            assertThat(path1).containsOnly(new Coordinate(6, 5));
-            assertThat(path2).containsOnly(new Coordinate(6, 5));
+            assertAll(
+                () -> assertThat(path1).containsOnly(new Coordinate(6, 5)),
+                () -> assertThat(path2).containsOnly(new Coordinate(6, 5))
+            );
         }
 
         @Test
@@ -155,8 +164,10 @@ class MaTest {
             final var path2 = ma.findPaths(new Coordinate(5, 5), new Coordinate(6, 7));
 
             // then
-            assertThat(path1).containsOnly(new Coordinate(5, 6));
-            assertThat(path2).containsOnly(new Coordinate(5, 6));
+            assertAll(
+                () -> assertThat(path1).containsOnly(new Coordinate(5, 6)),
+                () -> assertThat(path2).containsOnly(new Coordinate(5, 6))
+            );
         }
     }
 }
