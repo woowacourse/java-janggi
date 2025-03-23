@@ -9,15 +9,13 @@ public enum PieceName {
     PHO("包"),
     BYEONG("兵");
 
-
-
-    public String getName() {
-        return name;
-    }
-
     private final String name;
 
     PieceName(String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }

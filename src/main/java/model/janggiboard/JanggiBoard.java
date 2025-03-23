@@ -14,7 +14,7 @@ import model.piece.Piece;
 public class JanggiBoard {
     public static final int VERTICAL_SIZE = 10;
     public static final int HORIZONTAL_SIZE = 9;
-    private List<List<Dot>> janggiBoard;
+    private final List<List<Dot>> janggiBoard;
 
     public JanggiBoard(JanggiBoardSetUp elephantSetup) {
         janggiBoard = initializeJanggiBoard();
@@ -46,12 +46,9 @@ public class JanggiBoard {
 
     public int countPiece() {
         int count = 0;
+
         for (List<Dot> row : janggiBoard) {
-            for (Dot dot : row) {
-                if (dot.isPlaced()) {
-                    count++;
-                }
-            }
+            count += (int) row.stream().filter(Dot::isPlaced).count();
         }
         return count;
     }

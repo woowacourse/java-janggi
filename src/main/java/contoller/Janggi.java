@@ -1,5 +1,11 @@
 package contoller;
 
+import static model.Team.BLUE;
+import static model.Team.RED;
+import static model.janggiboard.JanggiBoardSetUp.INNER_ELEPHANT;
+import static model.janggiboard.JanggiBoardSetUp.LEFT_ELEPHANT;
+import static model.janggiboard.JanggiBoardSetUp.OUTER_ELEPHANT;
+import static model.janggiboard.JanggiBoardSetUp.RIGHT_ELEPHANT;
 import static view.InputView.choiceSetUp;
 import static view.InputView.movePointInput;
 import static view.OutputVIew.displayErrorMessage;
@@ -9,29 +15,19 @@ import java.util.List;
 import model.Point;
 import model.Team;
 import model.janggiboard.JanggiBoard;
-import model.janggiboard.JanggiBoardSetUp;
 
 public class Janggi {
 
     public void play() {
         int setUpChoice = choiceSetUp();
-        JanggiBoard janggiBoard;
-        switch (setUpChoice) {
-            case 1:
-                janggiBoard = new JanggiBoard(JanggiBoardSetUp.INNER_ELEPHANT);
-                break;
-            case 2:
-                janggiBoard = new JanggiBoard(JanggiBoardSetUp.OUTER_ELEPHANT);
-                break;
-            case 3:
-                janggiBoard = new JanggiBoard(JanggiBoardSetUp.LEFT_ELEPHANT);
-                break;
-            case 4:
-                janggiBoard = new JanggiBoard(JanggiBoardSetUp.RIGHT_ELEPHANT);
-                break;
-            default:
-                throw new IllegalArgumentException("다시 입력하세요.");
-        }
+        JanggiBoard janggiBoard = switch (setUpChoice) {
+            case 1 -> new JanggiBoard(INNER_ELEPHANT);
+            case 2 -> new JanggiBoard(OUTER_ELEPHANT);
+            case 3 -> new JanggiBoard(LEFT_ELEPHANT);
+            case 4 -> new JanggiBoard(RIGHT_ELEPHANT);
+            default -> throw new IllegalArgumentException("다시 입력하세요.");
+        };
+
         displayJanggiBoard(janggiBoard);
         playerTurn(janggiBoard);
     }
@@ -60,10 +56,9 @@ public class Janggi {
     }
 
     private Team decideTeam(boolean choTurn) {
-        Team team = Team.RED;
         if (choTurn) {
-            team = Team.BLUE;
+            return BLUE;
         }
-        return team;
+        return RED;
     }
 }

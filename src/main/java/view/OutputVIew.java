@@ -7,6 +7,7 @@ import java.util.List;
 import model.Team;
 import model.janggiboard.Dot;
 import model.janggiboard.JanggiBoard;
+import model.piece.Piece;
 
 public class OutputVIew {
 
