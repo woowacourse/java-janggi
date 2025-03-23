@@ -26,14 +26,11 @@ public class JanggiController {
     }
 
     private void processMove(final JanggiGame game, final boolean isFirstPlayerTurn) {
-        final List<List<Integer>> movementRequest = inputView.readMovementRequest();
-        final List<Integer> originPointRequest = movementRequest.getFirst();
-        final Point originPoint = new Point(originPointRequest.getFirst(), originPointRequest.getLast());
+        final List<Point> movementRequest = inputView.readMovementRequest();
+        final Point startPoint = movementRequest.getFirst();
+        final Point arrivalPoint = movementRequest.getLast();
 
-        final List<Integer> arrivalPointRequest = movementRequest.getLast();
-        final Point arrivalPoint = new Point(arrivalPointRequest.getFirst(), arrivalPointRequest.getLast());
-
-        game.move(originPoint, arrivalPoint, isFirstPlayerTurn);
+        game.move(startPoint, arrivalPoint, isFirstPlayerTurn);
 
         outputView.printBoard(game.getBoard());
     }
