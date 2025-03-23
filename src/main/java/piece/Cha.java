@@ -33,10 +33,10 @@ public class Cha extends Piece {
             throw new IllegalStateException("차는 직선으로만 이동할 수 있습니다.");
         }
 
+        Set<Coordinate> coordinates = new HashSet<>();
         int x = departure.getX() + xDirection;
         int y = departure.getY() + yDirection;
 
-        Set<Coordinate> coordinates = new HashSet<>();
         while (x != arrival.getX() || y != arrival.getY()) {
             coordinates.add(new Coordinate(x, y));
             x += xDirection;
