@@ -53,6 +53,18 @@
 - c : 포
 - p : 졸
 
+한 팀의 초기 전략을 선택하십시오.
+1. 마상상마 (Inner Elephant Setup)
+2. 상마마상 (Outer Elephant Setup)
+3. 마상마상 (Right Elephant Setup)
+4. 상마상마 (Left Elephant Setup)
+
+초 팀의 초기 전략을 선택하십시오.
+1. 마상상마 (Inner Elephant Setup)
+2. 상마마상 (Outer Elephant Setup)
+3. 마상마상 (Right Elephant Setup)
+4. 상마상마 (Left Elephant Setup)
+
 ===== 장기판 상태 =====
    1 2 3 4 5 6 7 8 9
 1 |r e h a - a h e r|
