@@ -58,17 +58,21 @@ public abstract class Piece {
     public Set<Route> calculateRoutes() {
         final Set<Route> rawRoutes = new HashSet<>();
         for (RawRoute rawRoute : calculateRawRoutes()) {
-            putValidRoutes(rawRoute, rawRoutes);
+            Route route = getValidRoutes(rawRoute);
+            if (route != null) {
+                rawRoutes.add(getValidRoutes(rawRoute));
+            }
         }
         return rawRoutes;
     }
 
-    private void putValidRoutes(final RawRoute rawRoute, final Set<Route> returnRoute) {
+    private Route getValidRoutes(final RawRoute rawRoute) {
         try {
             final List<Position> positions = new ArrayList<>();
             putValidPositions(rawRoute, positions);
-            returnRoute.add(new Route(positions));
+            return new Route(positions);
         } catch (IllegalArgumentException e) {
+            return null;
         }
     }
 
