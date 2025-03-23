@@ -39,7 +39,7 @@ public class Crashes {
     //Po 적용
     //TODO Crashes 객체 둘로 나누기
     public boolean isBridgeOnly(Point targetPoint, Hurdles hurdles) {
-        if (crashes.size() == 1 || crashes.size() == 2) {
+        if (crashes.size() == 1) {
             return isBridgeExists(targetPoint, hurdles);
         }
         return false;
@@ -47,7 +47,8 @@ public class Crashes {
 
     public boolean isBridgeAndPreyOnly(Team movingTeam, Point targetPoint, Hurdles hurdles) {
         if (crashes.size() == 2) {
-            return (isPreyExists(movingTeam, targetPoint, hurdles));
+            return (isBridgeExists(targetPoint, hurdles)
+                    && isPreyExists(movingTeam, targetPoint, hurdles));
         }
         return false;
     }

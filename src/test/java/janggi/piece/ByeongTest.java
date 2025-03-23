@@ -110,6 +110,35 @@ class ByeongTest {
         }
     }
 
+    @Nested
+    @DisplayName("장애물 테스트")
+    class HurdleTest {
+        @Test
+        @DisplayName("좌로 이동 시 장애물이 있으면 이동가능 여부는 false이다.")
+        void checkLeftHurdle() {
+            Byeong byeong = new Byeong(Team.CHO, new Point(6, 6));
+            Point targetPoint = new Point(6, 5);
+            Board board = new Board(List.of(
+                    byeong,
+                    new Byeong(Team.CHO, targetPoint)
+            ));
+
+            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+        }
+
+        @Test
+        @DisplayName("좌로 이동 시 장애물이 없으면 이동가능 여부는 true이다.")
+        void checkLeftNoHurdle() {
+            Byeong byeong = new Byeong(Team.CHO, new Point(6, 6));
+            Point targetPoint = new Point(6, 5);
+            Board board = new Board(List.of(
+                    byeong
+            ));
+
+            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+        }
+    }
+
 //    @Nested
 //    @DisplayName("경로 테스트")
 //    class RouteTest {

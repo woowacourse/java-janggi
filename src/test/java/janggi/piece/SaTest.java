@@ -71,6 +71,35 @@ public class SaTest {
         }
     }
 
+    @Nested
+    @DisplayName("장애물 테스트")
+    class HurdleTest {
+        @Test
+        @DisplayName("좌로 이동 시 장애물이 있으면 이동가능 여부는 false이다.")
+        void checkLeftHurdle() {
+            Sa sa = new Sa(Team.CHO, new Point(5, 4));
+            Point targetPoint = new Point(5, 3);
+            Board board = new Board(List.of(
+                    sa,
+                    new Byeong(Team.CHO, targetPoint)
+            ));
+
+            assertThat(sa.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+        }
+
+        @Test
+        @DisplayName("좌로 이동 시 장애물이 없으면 이동가능 여부는 true이다.")
+        void checkLeftNoHurdle() {
+            Sa sa = new Sa(Team.CHO, new Point(5, 4));
+            Point targetPoint = new Point(5, 3);
+            Board board = new Board(List.of(
+                    sa
+            ));
+
+            assertThat(sa.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+        }
+    }
+
 //    @Nested
 //    @DisplayName("경로 테스트")
 //    class RouteTest {

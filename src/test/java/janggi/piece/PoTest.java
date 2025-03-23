@@ -74,6 +74,74 @@ public class PoTest {
 
             assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
         }
+
+        //TODO 공격테스트에 추가
+        @Test
+        @DisplayName("상으로 이동 시 포를 공격하려고 하면 이동가능 여부는 false이다.")
+        void checkUpWithPoPrey() {
+
+        }
+    }
+
+    @Nested
+    @DisplayName("장애물 테스트")
+    class HurdleTest {
+        @Test
+        @DisplayName("상으로 이동 시 장애물이 있으면 이동가능 여부는 false이다.")
+        void checkUpHurdle() {
+            Po po = new Po(Team.CHO, new Point(5, 4));
+            Point targetPoint = new Point(1, 4);
+            Point bridgePoint = new Point(3, 4);
+            Board board = new Board(List.of(
+                    po,
+                    new Byeong(Team.CHO, bridgePoint),
+                    new Byeong(Team.CHO, new Point(2, 4))
+            ));
+
+            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+        }
+
+        @Test
+        @DisplayName("상으로 이동 시 장애물이 없으면 이동가능 여부는 true이다.")
+        void checkUpNoHurdle() {
+            Po po = new Po(Team.CHO, new Point(5, 4));
+            Point targetPoint = new Point(1, 4);
+            Point bridgePoint = new Point(3, 4);
+            Board board = new Board(List.of(
+                    po,
+                    new Byeong(Team.CHO, bridgePoint)
+            ));
+
+            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+        }
+
+        //TODO 채우기
+        @Test
+        @DisplayName("상으로 이동 시 포를 건너뛰려고 하면 이동가능 여부는 false이다.")
+        void checkUpWithPoBridge() {
+            Po po = new Po(Team.CHO, new Point(5, 4));
+            Point targetPoint = new Point(1, 4);
+            Point bridgePoint = new Point(3, 4);
+            Board board = new Board(List.of(
+                    po,
+                    new Po(Team.CHO, bridgePoint)
+            ));
+
+            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+        }
+
+        @Test
+        @DisplayName("상으로 이동 시 장애물이 아예 없으면 이동가능 여부는 false이다.")
+        void checkUpWithNoBridge() {
+            Po po = new Po(Team.CHO, new Point(5, 4));
+            Point targetPoint = new Point(1, 4);
+            Board board = new Board(List.of(
+                    po,
+                    new Byeong(Team.HAN, targetPoint)
+            ));
+
+            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+        }
     }
 
 //    @Nested
