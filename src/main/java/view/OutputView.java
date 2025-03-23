@@ -13,24 +13,43 @@ public class OutputView {
 
     private static final String FULL_WIDTH_BAR = "＿";
     private static final String FULL_WIDTH_SPACE = "　";
+    private static final String COLUMN_HEADER = "   １　２　３　４　５　６　７　８　９";
 
     public void printBoard(Map<Coordinate, Piece> board) {
-        System.out.println("   １　２　３　４　５　６　７　８　９");
-
+        println(COLUMN_HEADER);
         for (int y = BOARD_MIN_HEIGHT; y <= BOARD_MAX_HEIGHT; y++) {
-            System.out.printf("%2d ", y);
-
+            printf("%2d ", y);
             for (int x = BOARD_MIN_WIDTH; x <= BOARD_MAX_WIDTH; x++) {
                 Coordinate coordinate = new Coordinate(x, y);
                 Piece piece = board.get(coordinate);
-                if (piece == null) {
-                    System.out.print(FULL_WIDTH_BAR + FULL_WIDTH_SPACE);
-                    continue;
-                }
-                System.out.print(piece.colorName() + FULL_WIDTH_SPACE);
+                printPiece(piece);
             }
-            System.out.println();
+            printNewLine();
         }
+        printNewLine();
+    }
+
+    private void printPiece(Piece piece) {
+        if (piece == null) {
+            print(FULL_WIDTH_BAR + FULL_WIDTH_SPACE);
+            return;
+        }
+        print(piece.colorName() + FULL_WIDTH_SPACE);
+    }
+
+    private void printf(String format, Object... args) {
+        System.out.printf(format, args);
+    }
+
+    private void print(String text) {
+        System.out.print(text);
+    }
+
+    private void println(String text) {
+        System.out.println(text);
+    }
+
+    private void printNewLine() {
         System.out.println();
     }
 }
