@@ -8,17 +8,30 @@ import janggi.domain.position.Route;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ElephantTest {
+    Piece elephant;
+
+    @BeforeEach
+    void makeElephant() {
+        elephant = new Elephant(new Position(4, 4), RED);
+    }
+
+    @DisplayName("해당 기물이 상 기물인지 확인한다.")
+    @Test
+    void isElephantTest() {
+        Assertions.assertThat(elephant.isElephant()).isTrue();
+    }
 
     @DisplayName("상 기물이 올바른 루트를 계산하는지 확인한다.")
     @Test
     void calculateRoutesTest() {
 
         // given
-        final Piece elephant = new Elephant(new Position(4, 4), RED);
         final Set<Route> soliderRoutes = elephant.calculateRoutes();
 
         final Route route1 = new Route(

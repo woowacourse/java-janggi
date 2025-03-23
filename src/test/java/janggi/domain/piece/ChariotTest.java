@@ -8,17 +8,30 @@ import janggi.domain.position.Route;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ChariotTest {
+    Piece chariot;
+
+    @BeforeEach
+    void makeChariot() {
+        chariot = new Chariot(new Position(4, 4), RED);
+    }
+
+    @DisplayName("해당 기물이 차 기물인지 확인한다.")
+    @Test
+    void isChariotTest() {
+        Assertions.assertThat(chariot.isChariot()).isTrue();
+    }
 
     @DisplayName("차 기물이 올바른 루트를 계산하는지 확인한다.")
     @Test
     void calculateRoutesTest() {
 
         // given
-        final Piece chariot = new Chariot(new Position(4, 4), RED);
         final Set<Route> chariotRoutes = chariot.calculateRoutes();
 
         final List<Route> downRoutes = new ArrayList<>();

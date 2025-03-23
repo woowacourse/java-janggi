@@ -11,6 +11,7 @@ public class Horse extends Piece {
 
     public Horse(final Position position, final Team team) {
         super(position, team);
+        this.pieceType = PieceType.HORSE;
     }
 
     @Override

@@ -11,6 +11,7 @@ public class Elephant extends Piece {
 
     public Elephant(final Position position, final Team team) {
         super(position, team);
+        this.pieceType = PieceType.ELEPHANT;
     }
 
     @Override

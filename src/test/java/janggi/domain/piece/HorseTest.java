@@ -8,17 +8,31 @@ import janggi.domain.position.Route;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class HorseTest {
+
+    Piece horse;
+
+    @BeforeEach
+    void makeHorse() {
+        horse = new Horse(new Position(4, 4), RED);
+    }
+
+    @DisplayName("해당 기물이 마 기물인지 확인한다.")
+    @Test
+    void isHorseTest() {
+        Assertions.assertThat(horse.isHorse()).isTrue();
+    }
 
     @DisplayName("마 기물이 올바른 루트를 계산하는지 확인한다.")
     @Test
     void calculateRoutesTest() {
 
         // given
-        final Piece horse = new Horse(new Position(4, 4), RED);
         final Set<Route> soliderRoutes = horse.calculateRoutes();
 
         final Route route1 = new Route(new ArrayList<>(List.of(new Position(4, 5), new Position(3, 6))));
@@ -36,5 +50,4 @@ class HorseTest {
         // then
         assertThat(soliderRoutes).isEqualTo(expected);
     }
-
 }

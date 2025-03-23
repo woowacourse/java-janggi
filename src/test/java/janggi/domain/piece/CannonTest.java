@@ -8,17 +8,29 @@ import janggi.domain.position.Route;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class CannonTest {
+    Piece cannon;
+
+    @BeforeEach
+    void makeCannon() {
+        cannon = new Cannon(new Position(4, 4), RED);
+    }
+
+    @DisplayName("해당 기물이 포 인지 확인한다.")
+    @Test
+    void isCannonTest() {
+        Assertions.assertThat(cannon.isCannon()).isTrue();
+    }
 
     @DisplayName("차 기물이 올바른 루트를 계산하는지 확인한다.")
     @Test
     void calculateRoutesTest() {
-
         // given
-        final Piece cannon = new Cannon(new Position(4, 4), RED);
         final Set<Route> cannonRoutes = cannon.calculateRoutes();
 
         final List<Route> downRoutes = new ArrayList<>();

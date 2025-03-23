@@ -13,6 +13,7 @@ public class Chariot extends Piece {
 
     public Chariot(final Position position, final Team team) {
         super(position, team);
+        this.pieceType = PieceType.CHARIOT;
     }
 
     @Override

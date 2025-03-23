@@ -8,17 +8,31 @@ import janggi.domain.position.Route;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class GuardTest {
+
+    Piece guard;
+
+    @BeforeEach
+    void makeGuard() {
+        guard = new Guard(new Position(1, 1), RED);
+    }
+
+    @DisplayName("해당 기물이 왕 기물인지 확인한다.")
+    @Test
+    void isGuradTest() {
+        Assertions.assertThat(guard.isGuard()).isTrue();
+    }
 
     @DisplayName("사 기물이 올바른 루트를 계산하는지 확인한다.")
     @Test
     void calculateRoutesTest() {
 
         // given
-        final Piece guard = new Guard(new Position(1, 1), RED);
         final Set<Route> soliderRoutes = guard.calculateRoutes();
 
         final Route route1 = new Route(new ArrayList<>(List.of(new Position(0, 1))));

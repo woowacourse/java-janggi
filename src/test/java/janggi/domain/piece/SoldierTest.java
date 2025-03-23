@@ -9,6 +9,8 @@ import janggi.domain.position.Route;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,12 +18,23 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class SoldierTest {
 
+    Piece soldier;
+
+    @BeforeEach
+    void makeSolider() {
+        soldier = new Soldier(new Position(1, 1), RED);
+    }
+
+    @DisplayName("해당 기물이 마 기물인지 확인한다.")
+    @Test
+    void isSoliderTest() {
+        Assertions.assertThat(soldier.isSoldier()).isTrue();
+    }
+
     @DisplayName("기물이 움직이는 지 확인한다.")
     @Test
     void moveTest() {
-
         // given
-        final Piece soldier = new Soldier(new Position(1, 1), RED);
         final Position newPosition = new Position(2, 2);
 
         // when
@@ -34,10 +47,8 @@ class SoldierTest {
     @DisplayName("졸이 올바른 루트를 계산하는지 확인한다.")
     @Test
     void calculateRoutesTest() {
-
         // given
-        final Piece solider = new Soldier(new Position(1, 1), RED);
-        final Set<Route> soliderRoutes = solider.calculateRoutes();
+        final Set<Route> soliderRoutes = soldier.calculateRoutes();
 
         final Route route1 = new Route(new ArrayList<>(List.of(new Position(0, 1))));
         final Route route2 = new Route(new ArrayList<>(List.of(new Position(2, 1))));
@@ -50,17 +61,12 @@ class SoldierTest {
         assertThat(soliderRoutes).isEqualTo(expected);
     }
 
-    @DisplayName("같은 팀이면 true를 반환한다.")
+    @DisplayName("같은 팀이면 참을 반환한다.")
     @ParameterizedTest
     @CsvSource(value = {
-            "RED,RED,true", "RED,BLUE,false"
+            "RED,true", "BLUE,false"
     })
-    void isSameTeamTest(Team firstTeam, Team secondTeam, boolean expected) {
-
-        // given
-        Piece piece1 = new Soldier(new Position(1, 1), firstTeam);
-
-        // when & then
-        assertThat(piece1.isSameTeam(secondTeam)).isEqualTo(expected);
+    void isSameTeamTest(Team secondTeam, boolean expected) {
+        assertThat(soldier.isSameTeam(secondTeam)).isEqualTo(expected);
     }
 }

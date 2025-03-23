@@ -14,6 +14,7 @@ public abstract class Piece {
 
     protected final Team team;
     protected Position position;
+    protected PieceType pieceType;
 
     public Piece(final Position position, final Team team) {
         this.position = position;
@@ -22,7 +23,33 @@ public abstract class Piece {
 
     protected abstract Set<RawRoute> calculateRawRoutes();
 
-    public abstract boolean isCannon();
+    public boolean isCannon() {
+        return this.pieceType == PieceType.CANNON;
+    }
+
+    public boolean isSoldier() {
+        return this.pieceType == PieceType.SOLIDER;
+    }
+
+    public boolean isGuard() {
+        return this.pieceType == PieceType.GUARD;
+    }
+
+    public boolean isChariot() {
+        return this.pieceType == PieceType.CHARIOT;
+    }
+
+    public boolean isElephant() {
+        return this.pieceType == PieceType.ELEPHANT;
+    }
+
+    public boolean isGeneral() {
+        return this.pieceType == PieceType.GENERAL;
+    }
+
+    public boolean isHorse() {
+        return this.pieceType == PieceType.HORSE;
+    }
 
     public void move(final Position position) {
         this.position = new Position(position.x(), position.y());
@@ -42,6 +69,7 @@ public abstract class Piece {
             putValidPositions(rawRoute, positions);
             returnRoute.add(new Route(positions));
         } catch (IllegalArgumentException e) {
+            
         }
     }
 

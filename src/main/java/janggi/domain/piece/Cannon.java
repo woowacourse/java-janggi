@@ -13,6 +13,7 @@ public class Cannon extends Piece {
 
     public Cannon(final Position position, final Team team) {
         super(position, team);
+        this.pieceType = PieceType.CANNON;
     }
 
     @Override
