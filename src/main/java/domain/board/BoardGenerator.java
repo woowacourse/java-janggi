@@ -140,13 +140,11 @@ public class BoardGenerator {
     }
 
     private Piece createPiece(PieceType pieceType, Team team) {
-        Piece piece;
-        switch (pieceType) {
-            case SANG -> piece = new Sang(team);
-            case MA -> piece = new Ma(team);
+        return switch (pieceType) {
+            case SANG -> new Sang(team);
+            case MA -> new Ma(team);
             default -> throw new IllegalArgumentException("[ERROR] 상 또는 마가 아닙니다.");
-        }
-        return piece;
+        };
     }
 
     private boolean isInRange(int row, int column) {

@@ -93,7 +93,7 @@ public class Board {
         pieceByPoint.remove(point, piece);
     }
 
-    public boolean hasPieceInTeam(Point point, Team team) {
+    public boolean matchTeam(Point point, Team team) {
         if (!existsPiece(point)) {
             return false;
         }
@@ -101,7 +101,7 @@ public class Board {
         return piece.hasTeam(team);
     }
 
-    public boolean hasPieceInTeam(Node node, Team team) {
+    public boolean matchTeam(Node node, Team team) {
         if (!existsPieceByNode(node)) {
             return false;
         }

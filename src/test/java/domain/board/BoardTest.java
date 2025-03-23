@@ -80,7 +80,7 @@ class BoardTest {
             Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             // when
-            final boolean actual = board.hasPieceInTeam(point, team);
+            final boolean actual = board.matchTeam(point, team);
 
             // then
             Assertions.assertThat(actual).isTrue();
@@ -98,7 +98,7 @@ class BoardTest {
 
             // when
 
-            final boolean actual = board.hasPieceInTeam(point, team);
+            final boolean actual = board.matchTeam(point, team);
 
             // then
             Assertions.assertThat(actual).isFalse();

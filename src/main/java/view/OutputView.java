@@ -34,7 +34,7 @@ public class OutputView {
                     continue;
                 }
                 Piece piece = pieceByPoint.get(point);
-                if (board.hasPieceInTeam(point, Team.CHO)) {
+                if (board.matchTeam(point, Team.CHO)) {
                     rowString.add(Painter.paintGreen(piece.type().title()));
                     continue;
                 }

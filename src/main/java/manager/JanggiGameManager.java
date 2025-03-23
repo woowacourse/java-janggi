@@ -37,7 +37,7 @@ public class JanggiGameManager {
             Point source = moveCommand.source();
             Point destination = moveCommand.destination();
 
-            if (!board.hasPieceInTeam(source, turn.team())) {
+            if (!board.matchTeam(source, turn.team())) {
                 OutputView.printTurn(turn.team());
                 return;
             }
