@@ -8,8 +8,8 @@ public class Board {
 
     private final Map<Team, Pieces> teamBoard;
 
-    public Board(JanggiTeamPiecesCreateFactory janggiTeamPiecesCreateFactory) {
-        this.teamBoard = janggiTeamPiecesCreateFactory.createJanggiInitiatePieces();
+    public Board(InitiateJanggiTeamPieces initiateJanggiTeamPieces) {
+        this.teamBoard = initiateJanggiTeamPieces.janggiInitiatePieces();
     }
 
     public Map<Position, Piece> playerBoard() {
