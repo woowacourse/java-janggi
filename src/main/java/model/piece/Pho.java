@@ -16,7 +16,7 @@ public class Pho extends Piece {
     @Override
     public boolean isValidPoint(Point beforePoint, Point targetPoint) {
         boolean isStraightMove = beforePoint.x() == targetPoint.x() || beforePoint.y() == targetPoint.y();
-        boolean isSamePoint = beforePoint.x() == targetPoint.x() && beforePoint.y() == targetPoint.y();
+        boolean isSamePoint = beforePoint.equals(targetPoint);
 
         return isStraightMove && !isSamePoint;
     }
