@@ -11,7 +11,6 @@ import janggi.domain.piece.Knight;
 import janggi.domain.piece.Pawn;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Rook;
-import java.util.Map;
 
 public class OutputView {
 
@@ -21,21 +20,24 @@ public class OutputView {
     public static final String EXIT = "\u001B[0m";
 
     public void printJanggiBoard(JanggiBoard janggiBoard) {
-        Map<Position, Piece> pieceMap = janggiBoard.getPieceMap();
-
-        System.out.print("   ");
-        for (int i = 0; i < 10; i ++) {
-            System.out.print(i + " ");
-        }
+        System.out.print("   0  1 2 3  4 5 6  7 8");
         System.out.println();
         for (int y = 9; y >= 0; y--) {
             System.out.print(y + "  ");
             for (int x = 0; x < 9; x++) {
                 Position position = new Position(x, y);
-                Piece piece = pieceMap.get(position);
+                Piece piece = findPiece(position, janggiBoard);
                 System.out.print(getSymbol(piece) + " ");
             }
             System.out.println();
+        }
+    }
+
+    private Piece findPiece(Position position, JanggiBoard janggiBoard) {
+        try {
+            return janggiBoard.findPieceByPosition(position);
+        } catch (IllegalArgumentException e) {
+            return null;
         }
     }
 

@@ -1,17 +1,18 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-
 import janggi.domain.Position;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.Side;
-import java.util.List;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.List;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 @ReplaceUnderBar
 class KnightTest {
@@ -299,6 +300,6 @@ class KnightTest {
     @ParameterizedTest
     @MethodSource("이동_가능한_경로가_좌표_밖에_있다면_계산되지_않는다_테스트_케이스")
     void 이동_가능한_경로가_좌표_밖에_있다면_계산되지_않는다(Knight knight, int x, int y) {
-        assertThatCode(() -> knight.move(List.of(), x, y)).doesNotThrowAnyException();
+        assertThatCode(() -> knight.move(List.of(), new Position(x, y), ALLY_SIDE)).doesNotThrowAnyException();
     }
 }

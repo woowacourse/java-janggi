@@ -37,8 +37,13 @@ class PieceTest {
         FakePiece piece = new FakePiece(ALLY_SIDE, DEFAULT_POSITION);
 
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> piece.move(List.of(), DEFAULT_POSITION.getX(), DEFAULT_POSITION.getY()))
-                .withMessage("현재 위치로 이동할 수 없습니다.");
+                .isThrownBy(
+                    () -> piece.move(
+                        List.of(),
+                        new Position(DEFAULT_POSITION.getX(), DEFAULT_POSITION.getY()),
+                        ALLY_SIDE
+                    )
+                ).withMessage("현재 위치로 이동할 수 없습니다.");
     }
 
     @Test
@@ -47,8 +52,13 @@ class PieceTest {
         piece.setIsMoveablePosition(false);
 
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> piece.move(List.of(), DEFAULT_POSITION.getX() + 1, DEFAULT_POSITION.getY() + 1))
-                .withMessage("해당 위치로 이동할 수 없습니다.");
+                .isThrownBy(
+                    () -> piece.move(
+                        List.of(),
+                            new Position(DEFAULT_POSITION.getX() + 1, DEFAULT_POSITION.getY() + 1),
+                            ALLY_SIDE
+                    )
+                ).withMessage("해당 위치로 이동할 수 없습니다.");
     }
 
     @Test
@@ -63,7 +73,7 @@ class PieceTest {
     void 움직일_수_있는_위치_경로일_경우_움직일_수_있다() {
         FakePiece piece = new FakePiece(ALLY_SIDE, DEFAULT_POSITION);
 
-        piece.move(List.of(), 3, 4);
+        piece.move(List.of(), new Position(3, 4), ALLY_SIDE);
 
         assertThat(piece.getPosition()).isEqualTo(new Position(3, 4));
     }
@@ -82,7 +92,7 @@ class PieceTest {
         FakePiece piece = new FakePiece(Side.CHO, DEFAULT_POSITION);
 
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> piece.move(List.of(), x, y))
+                .isThrownBy(() -> piece.move(List.of(), new Position(x, y), Side.CHO))
                 .withMessage("이동할 수 없는 좌표입니다.");
     }
 

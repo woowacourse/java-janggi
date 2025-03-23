@@ -27,10 +27,16 @@ public abstract class Piece {
         return this.position.equals(position);
     }
 
-    public void move(List<Piece> existingPieces, int x, int y) {
-        Position destination = new Position(x, y);
+    public void move(List<Piece> existingPieces, Position destination, Side turn) {
+        validateTurn(turn);
         validateMovable(existingPieces, destination);
         position = destination;
+    }
+
+    private void validateTurn(Side turn) {
+        if (this.side != turn) {
+            throw new IllegalArgumentException("상대방 기물을 움직일 수 없습니다.");
+        }
     }
 
     private void validateMovable(List<Piece> existingPieces, Position destination) {

@@ -362,24 +362,16 @@ class ElephantTest {
     public static Stream<Arguments> 이동_가능한_경로가_좌표_밖에_있다면_계산되지_않는다_테스트_케이스() {
         return Stream.of(
                 Arguments.of(
-                        createAllyElephant(0, 0),
-                        2,
-                        3
+                    createAllyElephant(0, 0), new Position(2, 3), ALLY_SIDE
                 ),
                 Arguments.of(
-                        createEnemyElephant(8, 0),
-                        6,
-                        3
+                    createEnemyElephant(8, 0), new Position(6, 3), ENEMY_SIDE
                 ),
                 Arguments.of(
-                        createEnemyElephant(8, 9),
-                        6,
-                        6
+                    createEnemyElephant(8, 9), new Position(6, 6), ENEMY_SIDE
                 ),
                 Arguments.of(
-                        createEnemyElephant(0, 9),
-                        2,
-                        6
+                    createEnemyElephant(0, 9), new Position(2, 6), ENEMY_SIDE
                 )
         );
     }
@@ -479,7 +471,7 @@ class ElephantTest {
 
     @ParameterizedTest
     @MethodSource("이동_가능한_경로가_좌표_밖에_있다면_계산되지_않는다_테스트_케이스")
-    void 이동_가능한_경로가_좌표_밖에_있다면_계산되지_않는다(Elephant elephant, int x, int y) {
-        assertThatCode(() -> elephant.move(List.of(), x, y)).doesNotThrowAnyException();
+    void 이동_가능한_경로가_좌표_밖에_있다면_계산되지_않는다(Elephant elephant, Position destination, Side turn) {
+        assertThatCode(() -> elephant.move(List.of(), destination, turn)).doesNotThrowAnyException();
     }
 }

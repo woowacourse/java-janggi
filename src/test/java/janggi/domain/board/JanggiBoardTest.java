@@ -1,24 +1,23 @@
 package janggi.domain.board;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.King;
-import janggi.domain.piece.Piece;
 import janggi.domain.piece.Rook;
 import janggi.domain.piece.gererator.ChoPieceGenerator;
 import janggi.domain.piece.gererator.DefaultChoPieceGenerator;
 import janggi.domain.piece.gererator.DefaultHanPieceGenerator;
 import janggi.domain.piece.gererator.HanPieceGenerator;
 import janggi.domain.piece.gererator.KnightElephantSetting;
-import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 class JanggiBoardTest {
 
@@ -53,25 +52,23 @@ class JanggiBoardTest {
         );
 
         janggiBoard.move(1, 0, 3, 3);
-        Map<Position, Piece> pieceMap = janggiBoard.getPieceMap();
-        assertThat(pieceMap.get(new Position(3, 3))).isEqualTo(new Elephant(Side.HAN, 3, 3));
-        assertThat(pieceMap.get(new Position(1, 0))).isNull();
+        assertThat(janggiBoard.findPieceByPosition(new Position(3,3)))
+            .isEqualTo(new Elephant(Side.HAN, 3, 3));
     }
 
     @Test
     void 움직인_위치에_적_기물이_있으면_적_기물을_잡을_수_있다() {
         JanggiBoard janggiBoard = new JanggiBoard(
-                HAN_PIECE_GENERATOR,
-                (setting) -> List.of(new Rook(Side.CHO, 4, 4)),
-                DEFAULT_HAN_KNIGHTELEPHANTSETTING,
-                DEFAULT_CHO_KNIGHTELEPHANTSETTING
+            (setting) -> List.of(new Rook(Side.HAN, 4, 7)),
+            CHO_PIECE_GENERATOR,
+            DEFAULT_HAN_KNIGHTELEPHANTSETTING,
+            DEFAULT_CHO_KNIGHTELEPHANTSETTING
         );
 
-        janggiBoard.move(4, 4, 4, 3);
+        janggiBoard.move(4, 7, 4, 8);
 
-        Map<Position, Piece> pieceMap = janggiBoard.getPieceMap();
-        assertThat(pieceMap.get(new Position(4, 3))).isEqualTo(new Rook(Side.CHO, 4, 3));
-        assertThat(pieceMap.get(new Position(4, 4))).isNull();
+        assertThat(janggiBoard.findPieceByPosition(new Position(4, 8)))
+            .isEqualTo(new Rook(Side.HAN, 4, 8));
     }
 
     @Test
