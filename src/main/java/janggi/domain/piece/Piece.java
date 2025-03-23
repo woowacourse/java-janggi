@@ -61,7 +61,7 @@ public abstract class Piece {
     }
 
     protected boolean isSameType(Piece piece) {
-        return this.pieceType == piece.pieceType;
+        return isSameType(piece.pieceType);
     }
 
     public boolean isSameType(PieceType pieceType) {
