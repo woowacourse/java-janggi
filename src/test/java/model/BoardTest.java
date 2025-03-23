@@ -2,7 +2,7 @@ package model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.board.Position;
+import janggi.position.Position;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;

@@ -1,5 +1,6 @@
 package janggi.board;
 
+import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 

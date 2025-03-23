@@ -15,7 +15,7 @@ import janggi.piece.Elephant;
 import janggi.piece.Horse;
 import janggi.piece.Palace;
 import janggi.piece.Pao;
-import janggi.piece.Pawn;
+import janggi.piece.pawn.Pawn;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
 

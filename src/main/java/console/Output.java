@@ -5,7 +5,7 @@ import java.util.Map;
 import dto.BoardDto;
 import dto.PositionDto;
 import dto.TeamDto;
-import janggi.board.Position;
+import janggi.position.Position;
 import janggi.board.Board;
 import console.util.Color;
 

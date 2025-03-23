@@ -1,5 +1,5 @@
 import janggi.board.Board;
-import janggi.board.Position;
+import janggi.position.Position;
 import janggi.Turn;
 import dto.BoardDto;
 import dto.TeamDto;

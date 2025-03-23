@@ -8,14 +8,14 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import janggi.board.Position;
+import janggi.position.Position;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.piece.Chariot;
 import janggi.piece.Elephant;
 import janggi.piece.Palace;
 import janggi.piece.Pao;
-import janggi.piece.Pawn;
+import janggi.piece.pawn.Pawn;
 import janggi.piece.Piece;
 
 class PieceMoveTest {
