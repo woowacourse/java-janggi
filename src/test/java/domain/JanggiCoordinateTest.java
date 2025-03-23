@@ -25,8 +25,8 @@ class JanggiCoordinateTest {
         void moveCoordinateToRight() {
             coordinate = coordinate.moveRight();
 
-            int row = coordinate.getRow();
-            int col = coordinate.getCol();
+            int row = coordinate.row();
+            int col = coordinate.col();
 
             assertAll(
                     () -> assertThat(row).isEqualTo(5),
@@ -39,8 +39,8 @@ class JanggiCoordinateTest {
         void moveCoordinateToLeft() {
             coordinate = coordinate.moveLeft();
 
-            int row = coordinate.getRow();
-            int col = coordinate.getCol();
+            int row = coordinate.row();
+            int col = coordinate.col();
 
             assertAll(
                     () -> assertThat(row).isEqualTo(5),
@@ -53,8 +53,8 @@ class JanggiCoordinateTest {
         void moveCoordinateToUp() {
             coordinate = coordinate.moveUp();
 
-            int row = coordinate.getRow();
-            int col = coordinate.getCol();
+            int row = coordinate.row();
+            int col = coordinate.col();
 
             assertAll(
                     () -> assertThat(row).isEqualTo(4),
@@ -67,8 +67,8 @@ class JanggiCoordinateTest {
         void moveCoordinateToDown() {
             coordinate = coordinate.moveDown();
 
-            int row = coordinate.getRow();
-            int col = coordinate.getCol();
+            int row = coordinate.row();
+            int col = coordinate.col();
 
             assertAll(
                     () -> assertThat(row).isEqualTo(6),
@@ -85,8 +85,8 @@ class JanggiCoordinateTest {
         void moveCoordinateUpRight() {
             coordinate = coordinate.moveRightUp();
 
-            int row = coordinate.getRow();
-            int col = coordinate.getCol();
+            int row = coordinate.row();
+            int col = coordinate.col();
 
             assertAll(
                     () -> assertThat(row).isEqualTo(4),
@@ -99,8 +99,8 @@ class JanggiCoordinateTest {
         void moveCoordinateUpLeft() {
             coordinate = coordinate.moveLeftUp();
 
-            int row = coordinate.getRow();
-            int col = coordinate.getCol();
+            int row = coordinate.row();
+            int col = coordinate.col();
 
             assertAll(
                     () -> assertThat(row).isEqualTo(4),
@@ -113,8 +113,8 @@ class JanggiCoordinateTest {
         void moveCoordinateDownRight() {
             coordinate = coordinate.moveRightDown();
 
-            int row = coordinate.getRow();
-            int col = coordinate.getCol();
+            int row = coordinate.row();
+            int col = coordinate.col();
 
             assertAll(
                     () -> assertThat(row).isEqualTo(6),
@@ -127,8 +127,8 @@ class JanggiCoordinateTest {
         void moveCoordinateUpDiagonal() {
             coordinate = coordinate.moveLeftDown();
 
-            int row = coordinate.getRow();
-            int col = coordinate.getCol();
+            int row = coordinate.row();
+            int col = coordinate.col();
 
             assertAll(
                     () -> assertThat(row).isEqualTo(6),

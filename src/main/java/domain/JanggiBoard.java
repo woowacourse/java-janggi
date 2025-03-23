@@ -16,8 +16,8 @@ public class JanggiBoard {
     }
 
     public boolean isOutOfBoundary(JanggiCoordinate coordinate) {
-        int row = coordinate.getRow();
-        int col = coordinate.getCol();
+        int row = coordinate.row();
+        int col = coordinate.col();
 
         return row < BOUNDARY_START || row > ROW_SIZE || col < BOUNDARY_START || col > COL_SIZE;
     }

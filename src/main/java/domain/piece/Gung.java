@@ -36,8 +36,8 @@ public class Gung extends Piece {
     }
 
     private void validateReachableCoordinate(JanggiCoordinate from, JanggiCoordinate to) {
-        int rowDst = Math.abs(from.getRow() - to.getRow());
-        int colDst = Math.abs(from.getCol() - to.getCol());
+        int rowDst = Math.abs(from.row() - to.row());
+        int colDst = Math.abs(from.col() - to.col());
 
         if (square(rowDst) + square(colDst) > GUNG_REACHABLE_RADIUS) {
             throw new IllegalArgumentException("[ERROR] 궁이 해당 위치로 이동할 수 없습니다.");

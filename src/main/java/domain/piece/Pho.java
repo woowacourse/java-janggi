@@ -30,11 +30,11 @@ public class Pho extends Piece implements LinearMove {
     }
 
     private boolean isSameRow(JanggiCoordinate from, JanggiCoordinate to) {
-        return from.getRow() == to.getRow();
+        return from.row() == to.row();
     }
 
     private boolean isSameCol(JanggiCoordinate from, JanggiCoordinate to) {
-        return from.getCol() == to.getCol();
+        return from.col() == to.col();
     }
 
     private void validateReachAble(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
@@ -70,14 +70,14 @@ public class Pho extends Piece implements LinearMove {
     }
 
     private Direction getVerticalDirection(JanggiCoordinate from, JanggiCoordinate to) {
-        if (from.getRow() > to.getRow()) {
+        if (from.row() > to.row()) {
             return Direction.UP;
         }
         return Direction.DOWN;
     }
 
     private Direction getHorizontalDirection(JanggiCoordinate from, JanggiCoordinate to) {
-        if (from.getCol() > to.getCol()) {
+        if (from.col() > to.col()) {
             return Direction.LEFT;
         }
         return Direction.RIGHT;
