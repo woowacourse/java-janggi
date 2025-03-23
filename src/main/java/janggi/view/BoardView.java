@@ -10,35 +10,14 @@ import java.util.Map;
 public class BoardView {
 
     public static final String EXIT_COLOR_CODE = "\u001B[0m";
-
     private static final int ROW_SIZE = 10;
     private static final int COLUMN_SIZE = 9;
+    private static final String EMPTY_CELL = "\u001B[30mㅁ\u001B[0m";
 
-    private final String[][] matrix;
+    private final String[][] matrix = new String[ROW_SIZE][COLUMN_SIZE];
 
     public BoardView() {
-        matrix = new String[ROW_SIZE][COLUMN_SIZE];
         clearBoard();
-    }
-
-    public void displayBoard(Board board) {
-        clearBoard();
-        Map<Point, Movable> pieces = board.getRunningPieces();
-        placePieces(pieces);
-        for (int row = 0; row < ROW_SIZE; row++) {
-            String line = String.format(" %2s |",
-                "\u001B[37m" + toFullWidthNumber(row) + "\u001B[0m");
-            for (String token : matrix[row]) {
-                line += String.format(" %2s |", token);
-            }
-            System.out.println(line);
-        }
-
-        String line = String.format(" %2s |", " ");
-        for (int column = 0; column < COLUMN_SIZE; column++) {
-            line += String.format(" %2s |", "\u001B[37m" + toFullWidthNumber(column) + "\u001B[0m");
-        }
-        System.out.println(line);
     }
 
     public void printTeam(Team team) {
@@ -50,35 +29,65 @@ public class BoardView {
     }
 
     public void printMovingResult(Point startPoint, Point targetPoint) {
-        System.out.printf("(%d, %d) -> (%d, %d)로 이동했습니다.%n", startPoint.row(), startPoint.column(),
+        System.out.printf("(%d, %d) -> (%d, %d)로 이동했습니다.%n",
+            startPoint.row(), startPoint.column(),
             targetPoint.row(), targetPoint.column());
     }
 
-    private String toFullWidthNumber(int number) {
-        String value = String.valueOf(number);
-        StringBuilder sb = new StringBuilder();
-        for (char c : value.toCharArray()) {
-            if (Character.isDigit(c)) {
-                sb.append((char) (c - '0' + '\uFF10')); // 전각 문자로 변환
-            } else {
-                sb.append(c); // 숫자가 아니면 그대로
-            }
+    public void displayBoard(Board board) {
+        clearBoard();
+        placePieces(board.getRunningPieces());
+
+        for (int row = 0; row < ROW_SIZE; row++) {
+            System.out.println(buildRow(row));
         }
-        return sb.toString();
+        System.out.println(buildColumnHeaders());
+    }
+
+    private String buildRow(int row) {
+        StringBuilder rowBuilder = new StringBuilder();
+        rowBuilder.append(
+            String.format(" %2s |", "\u001B[37m" + toFullWidthNumber(row) + "\u001B[0m"));
+        for (String token : matrix[row]) {
+            rowBuilder.append(String.format(" %2s ", token));
+        }
+        return rowBuilder.toString();
+    }
+
+    private String buildColumnHeaders() {
+        StringBuilder headerBuilder = new StringBuilder();
+        headerBuilder.append(" ㅁ |");
+        for (int column = 0; column < COLUMN_SIZE; column++) {
+            headerBuilder.append(
+                String.format(" %2s ", "\u001B[37m" + toFullWidthNumber(column) + "\u001B[0m"));
+        }
+        return headerBuilder.toString();
     }
 
     private void clearBoard() {
-        Arrays.stream(matrix).forEach(
-            row -> Arrays.fill(row, "\u001B[30m" + "ㅁ" + "\u001B[0m")
-        );
+        for (String[] row : matrix) {
+            Arrays.fill(row, EMPTY_CELL);
+        }
     }
 
     private void placePieces(Map<Point, Movable> pieces) {
-        for (Point point : pieces.keySet()) {
-            Movable piece = pieces.get(point);
-            Team team = piece.getTeam();
-            matrix[point.row()][point.column()] =
-                team.getColorCode() + piece.getName() + EXIT_COLOR_CODE;
+        for (Map.Entry<Point, Movable> entry : pieces.entrySet()) {
+            Point point = entry.getKey();
+            Movable piece = entry.getValue();
+            matrix[point.row()][point.column()] = formatPiece(piece);
         }
+    }
+
+    private String formatPiece(Movable piece) {
+        return piece.getTeam().getColorCode() + piece.getName() + EXIT_COLOR_CODE;
+    }
+
+    private String toFullWidthNumber(int number) {
+        String numberStr = String.valueOf(number);
+        StringBuilder sb = new StringBuilder();
+        for (char c : numberStr.toCharArray()) {
+            sb.append(Character.isDigit(c) ? (char) (c - '0' + '\uFF10') : c);
+        }
+        return sb.toString();
     }
 }
