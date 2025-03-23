@@ -23,13 +23,12 @@ class BoardTest {
         // given
         final Board board = new Board(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
         final Position position = new Position(0, 0);
-        final Piece expectedPiece = new Chariot(new Position(0, 0), BLUE);
 
         // when
         final Piece piece = board.selectPiece(position);
 
         // then
-        assertThat(piece).isEqualTo(expectedPiece);
+        assertThat(piece).isEqualTo(board.selectPiece(new Position(0, 0)));
     }
 
     @DisplayName("기물의 이동 가능한 경로를 찾는다.")

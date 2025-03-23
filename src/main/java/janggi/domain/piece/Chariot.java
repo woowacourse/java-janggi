@@ -30,23 +30,6 @@ public class Chariot extends Piece {
         return rawRoutes;
     }
 
-    @Override
-    protected boolean isValidRoute(final Route route, final List<Piece> otherPieces) {
-        final List<Piece> piecesInRoute = otherPieces.stream()
-                .filter(route::hasPosition)
-                .toList();
-        if (piecesInRoute.isEmpty()) {
-            return true;
-        }
-
-        if (piecesInRoute.size() == 1) {
-            final Piece pieceInWay = piecesInRoute.get(0);
-            return route.isDestination(pieceInWay) && isEnemy(pieceInWay);
-        }
-        return piecesInRoute.stream()
-                .allMatch(piece -> route.isDestination(piece) && isEnemy(piece));
-    }
-
     private Set<Route> generateRoutesInDirection(final Direction direction) {
         final Set<Route> directionalRoutes = new HashSet<>();
         final int maxSteps = getMaxSteps(direction, position);

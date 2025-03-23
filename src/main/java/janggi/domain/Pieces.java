@@ -6,7 +6,6 @@ import janggi.domain.piece.direction.Route;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Pieces {
 
@@ -20,15 +19,8 @@ public class Pieces {
         final List<Piece> otherPieces = pieces.stream()
                 .filter(p -> !p.equals(piece))
                 .toList();
-        return piece.getPossibleRoutes(otherPieces).stream()
-                .filter(route -> isValidNormalRoute(route, piece))
-                .collect(Collectors.toSet());
-    }
 
-    private boolean isValidNormalRoute(final Route route, final Piece piece) {
-        return pieces.stream()
-                .filter(route::hasPosition)
-                .allMatch(currentPiece -> route.isDestination(currentPiece) && piece.isEnemy(currentPiece));
+        return piece.getPossibleRoutes(otherPieces);
     }
 
     public Piece findPieceByPositionAndTeam(final Position position, final Team team) {

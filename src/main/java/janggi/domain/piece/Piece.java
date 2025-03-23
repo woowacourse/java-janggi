@@ -4,7 +4,6 @@ import janggi.domain.Team;
 import janggi.domain.piece.direction.Position;
 import janggi.domain.piece.direction.Route;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,16 +21,21 @@ public abstract class Piece {
     }
 
     protected boolean isValidRoute(final Route route, final List<Piece> otherPieces) {
+        final List<Piece> piecesInRoute = otherPieces.stream()
+                .filter(route::hasPosition)
+                .toList();
+        if (piecesInRoute.isEmpty()) {
+            return true;
+        }
 
-        final Position destination = route.getDestination();
-
-        final Optional<Piece> pieceAtDestination = otherPieces.stream()
-                .filter(p -> p.isSamePosition(destination))
-                .findFirst();
-
-        return pieceAtDestination.isEmpty() || isEnemy(pieceAtDestination.get());
+        if (piecesInRoute.size() == 1) {
+            final Piece pieceInWay = piecesInRoute.getFirst();
+            return route.isDestination(pieceInWay) && isEnemy(pieceInWay);
+        }
+        return piecesInRoute.stream()
+                .allMatch(piece -> route.isDestination(piece) && isEnemy(piece));
     }
-    
+
     public Piece(final Position position, final Team team) {
         this.position = position;
         this.team = team;
@@ -52,5 +56,9 @@ public abstract class Piece {
 
     public boolean isEnemy(final Piece otherPiece) {
         return team != otherPiece.team;
+    }
+
+    public boolean isCannon() {
+        return false;
     }
 }

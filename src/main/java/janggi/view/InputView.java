@@ -16,7 +16,7 @@ public class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
     public BoardSetup inputBoardSetup(final Team team) {
-        System.out.println("안상차림, 바깥상차람, 왼상차림, 오른상차림 중 골라주세요.");
+        System.out.println("안상차림, 바깥상차림, 왼상차림, 오른상차림 중 골라주세요.");
         if (team == RED) {
             System.out.println("한나라의 상차림을 입력해 주세요.");
             return getBoardSetup(scanner.nextLine());
