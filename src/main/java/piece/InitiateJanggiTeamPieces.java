@@ -56,7 +56,6 @@ public class InitiateJanggiTeamPieces {
             ));
 
     public InitiateJanggiTeamPieces() {
-        
     }
 
     public Map<Team, Pieces> janggiInitiatePieces() {

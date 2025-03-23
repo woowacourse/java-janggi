@@ -38,7 +38,7 @@ public class MoveRule {
             return false;
         }
         MoveRule moveRule = (MoveRule) o;
-        return Objects.equals(moveBehavior, moveRule.moveBehavior) && pieceType == moveRule.pieceType;
+        return pieceType == moveRule.pieceType;
     }
 
     @Override
