@@ -21,7 +21,7 @@ public class Cha extends Piece {
     protected boolean canMoveConsideringObstacles(Board board, Coordinate departure, Coordinate arrival) {
         return findPaths(departure, arrival)
                 .stream()
-                .noneMatch(board::isExistence);
+                .noneMatch(board::hasPiece);
     }
 
     @Override

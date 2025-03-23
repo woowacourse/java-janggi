@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import coordinate.Coordinate;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -66,8 +65,8 @@ public class BoardTest {
 
             // then
             assertAll(
-                    () -> assertThat(board.isExistence(departure)).isFalse(),
-                    () -> assertThat(board.findPiece(arrival)).hasValue(cha)
+                    () -> assertThat(board.hasPiece(departure)).isFalse(),
+                    () -> assertThat(board.getPiece(arrival)).isEqualTo(cha)
             );
         }
 
@@ -87,8 +86,8 @@ public class BoardTest {
 
             // then
             assertAll(
-                    () -> assertThat(board.isExistence(departure)).isFalse(),
-                    () -> assertThat(board.findPiece(arrival)).hasValue(cha)
+                    () -> assertThat(board.hasPiece(departure)).isFalse(),
+                    () -> assertThat(board.getPiece(arrival)).isEqualTo(cha)
             );
         }
     }
@@ -106,7 +105,7 @@ public class BoardTest {
                     .build();
 
             // when
-            boolean isExistence = board.isExistence(new Coordinate(5, 5));
+            boolean isExistence = board.hasPiece(new Coordinate(5, 5));
 
             // then
             assertThat(isExistence).isTrue();
@@ -120,7 +119,7 @@ public class BoardTest {
                     .build();
 
             // when
-            boolean isExistence = board.isExistence(new Coordinate(5, 5));
+            boolean isExistence = board.hasPiece(new Coordinate(5, 5));
 
             // then
             assertThat(isExistence).isFalse();
@@ -132,31 +131,32 @@ public class BoardTest {
     class FindPieceTest {
 
         @Test
-        @DisplayName("기물이 없는 경우 빈 Optional을 반환한다.")
+        @DisplayName("기물이 없는 경우 null을 반환한다.")
         void test1() {
             // given
             Board board = new BoardFixture().build();
 
             // when
-            Optional<Piece> piece = board.findPiece(new Coordinate(5, 5));
+            Piece piece = board.getPiece(new Coordinate(5, 5));
 
             // then
-            assertThat(piece).isEmpty();
+            assertThat(piece).isNull();
         }
 
         @Test
         @DisplayName("기물이 있는 경우 기물을 찾아 반환한다.")
         void test2() {
             // given
+            Ma ma = new Ma(Team.HAN);
             Board board = new BoardFixture()
-                    .addPiece(5, 5, new Ma(Team.HAN))
+                    .addPiece(5, 5, ma)
                     .build();
 
             // when
-            Optional<Piece> piece = board.findPiece(new Coordinate(5, 5));
+            Piece piece = board.getPiece(new Coordinate(5, 5));
 
             // then
-            assertThat(piece).isPresent();
+            assertThat(piece).isEqualTo(ma);
         }
     }
 }

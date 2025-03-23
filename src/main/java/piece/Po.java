@@ -21,16 +21,16 @@ public class Po extends Piece {
     @Override
     protected boolean canMoveConsideringObstacles(Board board, Coordinate departure, Coordinate arrival) {
         List<Coordinate> obstacles = findPaths(departure, arrival).stream()
-                .filter(board::isExistence)
+                .filter(board::hasPiece)
                 .toList();
 
         if (obstacles.size() != 1) {
             return false;
         }
-        if (isPo(board.findPiece(obstacles.get(0)).get())) {
+        if (isPo(board.getPiece(obstacles.get(0)))) {
             return false;
         }
-        if (board.isExistence(arrival) && isPo(board.findPiece(arrival).get())) {
+        if (board.hasPiece(arrival) && isPo(board.getPiece(arrival))) {
             return false;
         }
         return true;
