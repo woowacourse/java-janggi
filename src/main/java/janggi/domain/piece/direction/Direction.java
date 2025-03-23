@@ -33,8 +33,4 @@ public enum Direction {
     public static List<Direction> getStraightDirections() {
         return List.of(RIGHT, LEFT, DOWN, UP);
     }
-
-    public static List<Direction> getDiagonalDirections() {
-        return List.of(RIGHT_DOWN, RIGHT_UP, LEFT_DOWN, LEFT_UP);
-    }
 }
