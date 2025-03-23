@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 class SoldierTest {
 
     @ParameterizedTest
-    @DisplayName("BLUE 병사의 이동 경로가 벗어나면 false를 반환한다.")
+    @DisplayName("BLUE 병사가 위 혹은 좌우로 움직이지 않으면 false를 반환한다.")
     @CsvSource(value = {
             "5, 4",
             "6, 6",
@@ -33,7 +33,7 @@ class SoldierTest {
     }
 
     @ParameterizedTest
-    @DisplayName("RED 병사의 이동 경로가 벗어나면 예외를 던진다.")
+    @DisplayName("RED 병사가 아래 혹은 좌우로 움직이지 않으면 false를 반환한다.")
     @CsvSource(value = {
             "5, 6",
             "6, 4",

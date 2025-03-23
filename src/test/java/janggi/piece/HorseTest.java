@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class HorseTest {
 
     @ParameterizedTest
-    @DisplayName("시작점과 끝점이 주어졌을 때, 이동 가능하다면 true를 반환한다.")
+    @DisplayName("상하좌우 한 칸과 대각선 한 칸 이동하면 true를 반환한다.")
     @CsvSource(value = {
             "4, 7",
             "6, 7",
@@ -22,7 +22,7 @@ public class HorseTest {
             "7, 4",
             "7, 6"
     })
-    void shouldReturnTrueWhenCanMove(int destX, int destY) {
+    void shouldReturnTrueWhenFollowMovingRule(int destX, int destY) {
         // given
         Horse horse = new Horse(Side.RED);
         Position start = new Position(5, 5);
@@ -36,7 +36,7 @@ public class HorseTest {
     }
 
     @ParameterizedTest
-    @DisplayName("말의 이동 규칙이 어긋나면 false를 반환한다.")
+    @DisplayName("상하좌우 한 칸과 대각선 한 칸 이동하지 않으면 false를 반환한다.")
     @CsvSource(value = {
             "5, 5",
             "5, 6",
@@ -82,10 +82,10 @@ public class HorseTest {
         Horse horse = new Horse(Side.RED);
         Position start = new Position(5, 5);
         Position end = new Position(destX, destY);
-        Map<Position, Piece> pieceOnPath = Map.of(new Position(pathX, pathY), new Horse(Side.RED));
+        Map<Position, Piece> existsPieceOnPathBoard = Map.of(new Position(pathX, pathY), new Horse(Side.RED));
 
         // when
-        boolean canMove = horse.canMove(start, end, pieceOnPath);
+        boolean canMove = horse.canMove(start, end, existsPieceOnPathBoard);
 
         // then
         assertThat(canMove).isFalse();

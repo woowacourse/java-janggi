@@ -29,7 +29,7 @@ public class BoardFactoryTest {
         }
 
         @ParameterizedTest
-        @DisplayName("보드가 초기화 되면 2개의 진영이 16개의 기물을 가지고 있다.")
+        @DisplayName("보드가 초기화 되면 각 진영이 16개의 기물을 가지고 있다.")
         @CsvSource(value = {"RED", "BLUE"})
         void createEachSide16PiecesWhenStart(Side side) {
             // when
@@ -43,6 +43,7 @@ public class BoardFactoryTest {
             List<Piece> piecesOfSide = pieces.stream()
                     .filter(piece -> piece.getSide() == side)
                     .toList();
+
             int expected = 16;
             assertThat(piecesOfSide).hasSize(expected);
         }

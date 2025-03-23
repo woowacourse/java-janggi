@@ -11,14 +11,14 @@ import org.junit.jupiter.params.provider.CsvSource;
 class KingTest {
 
     @ParameterizedTest
-    @DisplayName("이동이 가능하면 true를 반환한다.")
+    @DisplayName("상하좌우 한 칸 이동하면 true를 반환한다.")
     @CsvSource(value = {
             "5, 6",
             "5, 4",
             "4, 5",
             "6, 5"
     })
-    void shouldReturnTrueWhenCanMove(int destX, int destY) {
+    void shouldReturnTrueWhenFollowMovingRule(int destX, int destY) {
         // given
         King king = new King(Side.RED);
         Position start = new Position(5, 5);
@@ -32,7 +32,7 @@ class KingTest {
     }
 
     @ParameterizedTest
-    @DisplayName("말의 이동 규칙이 어긋나면 예외를 발생한다.")
+    @DisplayName("상하좌우 한 칸 이동하지 않으면 false를 반환한다.")
     @CsvSource(value = {
             "3, 5",
             "7, 5",

@@ -23,7 +23,7 @@ public class BoardTest {
 
         @Test
         @DisplayName("현재 위치의 말과 목적지의 말이 같은 팀이라면 예외를 발생시킨다.")
-        void sholudThrowExceptionWhenCurrentPieceAndDestinationPieceIsSameSide() {
+        void shouldThrowExceptionWhenCurrentPieceAndDestinationPieceIsSameSide() {
             // given
             Board board = new Board(
                     Map.of(

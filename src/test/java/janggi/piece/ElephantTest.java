@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class ElephantTest {
 
-    @DisplayName("시작점, 끝점, 현재 장기말 위치들이 주어졌을 때, 이동 가능하면 true를 반환한다.")
+    @DisplayName("상하좌우 한 칸과 대각선 두 칸 이동하면 true를 반환한다.")
     @ParameterizedTest
     @CsvSource(value = {
             "3, 8",
@@ -23,7 +23,7 @@ class ElephantTest {
             "3, 2",
             "2, 3"
     })
-    void shouldReturnTrueWhenCanMove(int destX, int destY) {
+    void shouldReturnTrueWhenFollowMovingRule(int destX, int destY) {
         // given
         Elephant elephant = new Elephant(Side.RED);
         Position start = new Position(5, 5);
@@ -36,22 +36,23 @@ class ElephantTest {
         assertThat(canMove).isTrue();
     }
 
-    @DisplayName("시작점, 끝점, 현재 장기말 위치들이 주어졌을 때, 경로 상에 말이 존재하면 false를 반환한다.")
+    @DisplayName("경로 상에 말이 존재하면 false를 반환한다.")
     @Test
     void shouldReturnFalseWhenPieceOnPath() {
         // given
         Elephant elephant = new Elephant(Side.RED);
         Position start = new Position(5, 5);
         Position end = new Position(8, 5);
+        Map<Position, Piece> existsPieceOnPathBoard = Map.of(new Position(7, 5), new Tank(Side.BLUE));
 
         // when
-        boolean canMove = elephant.canMove(start, end, Map.of(new Position(7,5), new Tank(Side.BLUE)));
+        boolean canMove = elephant.canMove(start, end, existsPieceOnPathBoard);
 
         // then
         assertThat(canMove).isFalse();
     }
 
-    @DisplayName("시작점, 끝점, 현재 장기말 위치들이 주어졌을 때, 이동 규칙과 다르면 false를 반환한다.")
+    @DisplayName("상하좌우 한 칸과 대각선 두 칸을 이동하지 않으면 false를 반환한다.")
     @ParameterizedTest
     @CsvSource(value = {
             "6, 6",
