@@ -2,6 +2,7 @@ package janggi.piece;
 
 import janggi.board.Position;
 import java.util.List;
+import java.util.Map;
 
 public class Elephant extends Piece {
 
@@ -10,13 +11,29 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public List<Position> calculatePath(final Position start, final Position end) {
+    public boolean canMove(Position start, Position end, Map<Position, Piece> board) {
+        return isEmptyOnPath(board, findPath(start, end)) && isValidMovingRule(start, end);
+    }
+
+    private boolean isEmptyOnPath(Map<Position, Piece> board, List<Position> path) {
+        return path.stream()
+                .noneMatch(board::containsKey);
+    }
+
+    private List<Position> findPath(final Position start, final Position end) {
         int differenceX = end.x() - start.x();
         int differenceY = end.y() - start.y();
-        validateMovingRule(differenceX, differenceY);
         Position firstStep = calculateFirstDirection(start, differenceX, differenceY);
         Position secondStep = calculateSecondDirection(start, differenceX, differenceY);
         return List.of(firstStep, secondStep);
+    }
+
+    private boolean isValidMovingRule(final Position start, final Position end) {
+        int differenceX = end.x() - start.x();
+        int differenceY = end.y() - start.y();
+        int absDifferenceX = Math.abs(differenceX);
+        int absDifferenceY = Math.abs(differenceY);
+        return (absDifferenceX == 3 && absDifferenceY == 2) || (absDifferenceX == 2 && absDifferenceY == 3);
     }
 
     private Position calculateFirstDirection(final Position start, final int differenceX, final int differenceY) {
@@ -36,11 +53,10 @@ public class Elephant extends Piece {
         return absValue;
     }
 
-    private void validateMovingRule(final int differenceX, final int differenceY) {
-        int absDifferenceX = Math.abs(differenceX);
-        int absDifferenceY = Math.abs(differenceY);
-        if ((absDifferenceX == 3 && absDifferenceY == 2) || (absDifferenceX == 2 && absDifferenceY == 3)) {
-            return;
+    @Override
+    public List<Position> calculatePath(final Position start, final Position end) {
+        if (isValidMovingRule(start, end)) {
+            return findPath(start, end);
         }
         throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
     }
