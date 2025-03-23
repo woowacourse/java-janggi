@@ -28,10 +28,10 @@ public class Pieces {
                 .noneMatch(Piece::isKing);
     }
 
-    public void validateOurTeam(Position presentPosition) {
+    public void isAllyPieceAtStart(Position presentPosition) {
         pieces.stream()
                 .filter(piece -> piece.isSamePosition(presentPosition))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 움직일 수 있는 기물이 위치하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 움직일 수 있는 기물이 존재하지 않습니다."));
     }
 }

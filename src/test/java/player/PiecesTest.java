@@ -48,18 +48,18 @@ class PiecesTest {
 
     @Test
     @DisplayName("아군 판별 테스트")
-    void validateOurTeam() {
+    void isAllyPieceAtStart() {
         //given
         Jol jol = new Jol(new Position(5, 5));
         Janggun janggun = new Janggun(new Position(6, 4));
         Pieces pieces = new Pieces(List.of(jol, janggun));
 
         //when - then
-        assertThatThrownBy(() -> pieces.validateOurTeam(new Position(5, 7)))
+        assertThatThrownBy(() -> pieces.isAllyPieceAtStart(new Position(5, 7)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 위치에 움직일 수 있는 기물이 위치하지 않습니다.");
         ;
-        assertDoesNotThrow(() -> pieces.validateOurTeam(new Position(5, 5)));
+        assertDoesNotThrow(() -> pieces.isAllyPieceAtStart(new Position(5, 5)));
     }
 
 }
