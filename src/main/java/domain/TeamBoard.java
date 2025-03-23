@@ -5,8 +5,6 @@ import static domain.Team.HAN;
 
 import domain.piece.Cannon;
 import domain.piece.Chariot;
-import domain.piece.Elephant;
-import domain.piece.Horse;
 import domain.piece.King;
 import domain.piece.Pawn;
 import domain.piece.Piece;
@@ -79,15 +77,9 @@ public class TeamBoard {
                 .toList();
     }
 
-    public static TeamBoard createWithPieces(
-            List<BoardLocation> hanHorseBoardLocations,
-            List<BoardLocation> hanElephantBoardLocations,
-            List<BoardLocation> choHorseBoardLocations,
-            List<BoardLocation> choElephantBoardLocations
-    ) {
-        Map<BoardLocation, Piece> pieces = new HashMap<>();
-        hanHorseBoardLocations.forEach(horseLocation -> pieces.put(horseLocation, new Horse(HAN)));
-        hanElephantBoardLocations.forEach(elephantLocation -> pieces.put(elephantLocation, new Elephant(HAN)));
+    public static TeamBoard createWithPieces(Map<BoardLocation, Piece> placements) {
+        Map<BoardLocation, Piece> pieces = new HashMap<>(placements);
+
         pieces.put(new BoardLocation(1, 1), new Chariot(HAN));
         pieces.put(new BoardLocation(4, 1), new Scholar(HAN));
         pieces.put(new BoardLocation(6, 1), new Scholar(HAN));
@@ -101,8 +93,6 @@ public class TeamBoard {
         pieces.put(new BoardLocation(7, 4), new Pawn(HAN));
         pieces.put(new BoardLocation(9, 4), new Pawn(HAN));
 
-        choHorseBoardLocations.forEach(horseLocation -> pieces.put(horseLocation, new Horse(CHO)));
-        choElephantBoardLocations.forEach(elephantLocation -> pieces.put(elephantLocation, new Elephant(CHO)));
         pieces.put(new BoardLocation(1, 10), new Chariot(CHO));
         pieces.put(new BoardLocation(4, 10), new Scholar(CHO));
         pieces.put(new BoardLocation(6, 10), new Scholar(CHO));

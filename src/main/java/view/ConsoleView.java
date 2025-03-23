@@ -2,6 +2,9 @@ package view;
 
 import domain.BoardLocation;
 import domain.Team;
+import domain.piece.Piece;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConsoleView {
 
@@ -39,5 +42,14 @@ public class ConsoleView {
 
     public void printTurn(Team team) {
         outputView.printTurn(team);
+    }
+
+    public Map<BoardLocation, Piece> requestPlacements() {
+        Map<BoardLocation, Piece> placements = new HashMap<>();
+        Map<BoardLocation, Piece> hanPlacements = inputView.requestHanPlacements();
+        Map<BoardLocation, Piece> choPlacements = inputView.requestChoPlacements();
+        placements.putAll(hanPlacements);
+        placements.putAll(choPlacements);
+        return placements;
     }
 }

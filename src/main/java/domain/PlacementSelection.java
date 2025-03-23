@@ -74,4 +74,12 @@ public enum PlacementSelection {
         this.han = han;
         this.cho = cho;
     }
+
+    public Map<BoardLocation, Piece> getHan() {
+        return han;
+    }
+
+    public Map<BoardLocation, Piece> getCho() {
+        return cho;
+    }
 }

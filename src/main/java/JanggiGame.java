@@ -2,7 +2,8 @@ import domain.Board;
 import domain.BoardLocation;
 import domain.Team;
 import domain.TeamBoard;
-import java.util.List;
+import domain.piece.Piece;
+import java.util.Map;
 import view.ConsoleView;
 
 public class JanggiGame {
@@ -14,13 +15,9 @@ public class JanggiGame {
     }
 
     public void start() {
-        List<BoardLocation> hanHorses = List.of(new BoardLocation(2, 1), new BoardLocation(8, 1));
-        List<BoardLocation> hanElephants = List.of(new BoardLocation(3, 1), new BoardLocation(7, 1));
+        Map<BoardLocation, Piece> placements = consoleView.requestPlacements();
 
-        List<BoardLocation> choHorses = List.of(new BoardLocation(2, 10), new BoardLocation(8, 10));
-        List<BoardLocation> choElephants = List.of(new BoardLocation(3, 10), new BoardLocation(7, 10));
-
-        TeamBoard teamBoard = TeamBoard.createWithPieces(hanHorses, hanElephants, choHorses, choElephants);
+        TeamBoard teamBoard = TeamBoard.createWithPieces(placements);
         Board board = new Board(teamBoard);
 
         Team team = Team.getStartingTeam();
