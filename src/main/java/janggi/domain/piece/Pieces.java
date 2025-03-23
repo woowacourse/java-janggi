@@ -10,6 +10,11 @@ import java.util.stream.Stream;
 
 public class Pieces {
 
+    private final int BACK_ROW = 1;
+    private final int GENERAL_ROW = 2;
+    private final int CANNON_ROW = 3;
+    private final int SOLDIER_ROW = 4;
+
     private final List<Piece> pieces;
 
     private Pieces() {
@@ -26,18 +31,18 @@ public class Pieces {
 
     private void createCommonPieces() {
         for (Team team : Team.values()) {
-            pieces.add(new General(Position.of(team.decideRow(2), 5), team));
+            pieces.add(new General(Position.of(team.decideRow(GENERAL_ROW), 5), team));
             pieces.addAll(Stream.of(4, 6)
-                    .map(column -> new Guard(Position.of(team.decideRow(1), column), team))
+                    .map(column -> new Guard(Position.of(team.decideRow(BACK_ROW), column), team))
                     .toList());
             pieces.addAll(Stream.of(1, 3, 5, 7, 9)
-                    .map(defaultColumn -> new Soldier(Position.of(team.decideRow(4), defaultColumn), team))
+                    .map(defaultColumn -> new Soldier(Position.of(team.decideRow(SOLDIER_ROW), defaultColumn), team))
                     .toList());
             pieces.addAll(Stream.of(1, 9)
-                    .map(defaultColumn -> new Chariot(Position.of(team.decideRow(1), defaultColumn), team))
+                    .map(defaultColumn -> new Chariot(Position.of(team.decideRow(BACK_ROW), defaultColumn), team))
                     .toList());
             pieces.addAll(Stream.of(2, 8)
-                    .map(column -> new Cannon(Position.of(team.decideRow(3), column), team))
+                    .map(column -> new Cannon(Position.of(team.decideRow(CANNON_ROW), column), team))
                     .toList());
         }
     }
@@ -49,13 +54,13 @@ public class Pieces {
 
     private List<Elephant> createElephantPieces(Team team, final SetupType setupType) {
         return setupType.getElephantColumnNumbers(team).stream()
-                .map(defaultColumn -> new Elephant(Position.of(team.decideRow(1), defaultColumn), team))
+                .map(defaultColumn -> new Elephant(Position.of(team.decideRow(BACK_ROW), defaultColumn), team))
                 .toList();
     }
 
     private List<Horse> createHorsePieces(Team team, final SetupType setupType) {
         return setupType.getHorseColumnNumbers(team).stream()
-                .map(defaultColumn -> new Horse(Position.of(team.decideRow(1), defaultColumn), team))
+                .map(defaultColumn -> new Horse(Position.of(team.decideRow(BACK_ROW), defaultColumn), team))
                 .toList();
     }
 
