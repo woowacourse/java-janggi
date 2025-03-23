@@ -68,4 +68,14 @@ public abstract class Piece {
         return Objects.hashCode(getPosition());
     }
 
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "class" + this.getClass().getTypeName() +
+                "position=" + position +
+                ", team=" + team +
+                ", board=" + board +
+                '}';
+    }
+
 }

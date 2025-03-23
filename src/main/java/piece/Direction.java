@@ -5,40 +5,40 @@ import java.util.List;
 
 public enum Direction {
     LEFT(0, -1),
-    LEFT_TOP(1, -1),
-    LEFT_BOTTOM(-1, -1),
+    LEFT_TOP(-1, -1),
+    LEFT_BOTTOM(1, -1),
     RIGHT(0, 1),
-    RIGHT_TOP(1, 1),
-    RIGHT_BOTTOM(-1, 1),
-    TOP(1, 0),
-    BOTTOM(-1, 0),
+    RIGHT_TOP(-1, 1),
+    RIGHT_BOTTOM(1, 1),
+    TOP(-1, 0),
+    BOTTOM(1, 0),
     ;
 
-    private final int deltaRow;
-    private final int deltaColumn;
+    private final int row;
+    private final int column;
 
-    Direction(final int deltaRow, final int deltaColumn) {
-        this.deltaRow = deltaRow;
-        this.deltaColumn = deltaColumn;
+    Direction(final int row, final int column) {
+        this.row = row;
+        this.column = column;
     }
 
-    public int getDeltaRow() {
-        return deltaRow;
+    public int getRow() {
+        return row;
     }
 
-    public int getDeltaColumn() {
-        return deltaColumn;
+    public int getColumn() {
+        return column;
     }
 
     public static List<Direction> getStraightDirection() {
         return Arrays.stream(values())
-                .filter(direction -> direction.getDeltaRow() == 0 || direction.getDeltaColumn() == 0)
+                .filter(direction -> direction.row == 0 || direction.column == 0)
                 .toList();
     }
 
     public static List<Direction> getCrossDirection() {
         return Arrays.stream(values())
-                .filter(direction -> direction.getDeltaRow() != 0 && direction.getDeltaColumn() != 0)
+                .filter(direction -> direction.row != 0 && direction.column != 0)
                 .toList();
     }
 
@@ -50,17 +50,17 @@ public enum Direction {
     }
 
     private boolean isSameStraightDirection(Direction direction) {
-        if (deltaColumn != 0) {
-            return direction.getDeltaColumn() == deltaColumn;
+        if (column != 0) {
+            return direction.column == column;
         }
-        return direction.getDeltaRow() == deltaRow;
+        return direction.row == row;
     }
 
     public boolean isCrossDirection() {
-        return Math.abs(deltaColumn) + Math.abs(deltaRow) == 2;
+        return Math.abs(column) + Math.abs(row) == 2;
     }
 
     public boolean isStraightDirection() {
-        return Math.abs(deltaColumn) + Math.abs(deltaRow) == 1;
+        return Math.abs(column) + Math.abs(row) == 1;
     }
 }

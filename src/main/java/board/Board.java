@@ -57,7 +57,9 @@ public class Board {
                 .filter(piece -> piece.isSamePosition(position))
                 .filter(piece -> piece.getTeam() == team)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(String.format("올바른 기물의 위치를 입력해주세요(현재 턴: %s).", team.name())));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        String.format("올바른 기물의 위치를 입력해주세요(현재 턴: %s).", team.name()))
+                );
     }
 
     public List<Piece> getPieces() {

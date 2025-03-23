@@ -1,10 +1,10 @@
 package piece;
 
-import board.Board;
-import board.Position;
-
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import board.Board;
+import board.Position;
 
 public class Solider extends Piece {
 

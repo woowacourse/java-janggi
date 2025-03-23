@@ -14,17 +14,9 @@ public class Position {
     private final int row;
     private final int column;
 
-    public Position(final int column, final int row) {
-        this.column = column;
+    public Position(final int row, final int column) {
         this.row = row;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getColumn() {
-        return column;
+        this.column = column;
     }
 
     public boolean isInValidPosition() {
@@ -38,9 +30,17 @@ public class Position {
 
     public Position nextPosition(final Direction direction) {
         return new Position(
-                getColumn() + direction.getDeltaColumn(),
-                getRow() + direction.getDeltaRow()
+                row + direction.getRow(),
+                column + direction.getColumn()
         );
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
     }
 
     @Override
@@ -57,6 +57,14 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(getRow(), getColumn());
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "row=" + row +
+                ", column=" + column +
+                '}';
     }
 
 }

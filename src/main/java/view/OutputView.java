@@ -4,8 +4,8 @@ import java.util.stream.IntStream;
 
 import board.Board;
 import board.Position;
-import piece.Team;
 import piece.Piece;
+import piece.Team;
 
 public class OutputView {
 
@@ -30,7 +30,7 @@ public class OutputView {
     private void appendBoardByRow(final Board board, final CustomStringBuilder stringBuilder, final int rowIndex) {
         IntStream.range(1, 10).forEach(columnIndex -> stringBuilder.append(getCellContent(
                 board,
-                new Position(columnIndex, rowIndex))
+                new Position(rowIndex, columnIndex))
         ));
     }
 
