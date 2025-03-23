@@ -1,7 +1,5 @@
 package domain.piece;
 
-import static domain.piece.PieceType.*;
-
 import domain.BoardLocation;
 import domain.BoardVector;
 import domain.Team;
@@ -11,7 +9,7 @@ import java.util.List;
 public class Elephant extends Piece {
 
     public Elephant(Team team) {
-        super(ELEPHANT, team);
+        super(team);
     }
 
     @Override
@@ -49,5 +47,10 @@ public class Elephant extends Piece {
     @Override
     public boolean canDestination(Piece destinationPiece) {
         return !this.isEqualTeam(destinationPiece);
+    }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.ELEPHANT;
     }
 }

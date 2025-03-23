@@ -1,7 +1,5 @@
 package domain.piece;
 
-import static domain.piece.PieceType.*;
-
 import domain.BoardLocation;
 import domain.Team;
 import java.util.List;
@@ -9,7 +7,7 @@ import java.util.List;
 public class Scholar extends Piece {
 
     public Scholar(Team team) {
-        super(SCHOLAR, team);
+        super(team);
     }
 
     @Override
@@ -30,5 +28,10 @@ public class Scholar extends Piece {
     @Override
     public boolean canDestination(Piece destinationPiece) {
         return false; //TODO 2단계 궁성 단계에서 처리하도록 하기
+    }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.SCHOLAR;
     }
 }

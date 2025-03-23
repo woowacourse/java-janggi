@@ -1,7 +1,5 @@
 package domain.piece;
 
-import static domain.piece.PieceType.*;
-
 import domain.BoardLocation;
 import domain.BoardVector;
 import domain.Team;
@@ -11,7 +9,7 @@ import java.util.List;
 public class Cannon extends Piece {
 
     public Cannon(Team team) {
-        super(CANNON, team);
+        super(team);
     }
 
     @Override
@@ -55,5 +53,20 @@ public class Cannon extends Piece {
             return false;
         }
         return this.isNotSameType(destinationPiece);
+    }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.CANNON;
+    }
+
+    @Override
+    public int hashCode() {
+        return System.identityHashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this == obj || (obj != null && getClass() == obj.getClass());
     }
 }

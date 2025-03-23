@@ -1,7 +1,5 @@
 package domain.piece;
 
-import static domain.piece.PieceType.*;
-
 import domain.BoardLocation;
 import domain.BoardVector;
 import domain.Team;
@@ -11,7 +9,7 @@ import java.util.List;
 public class Horse extends Piece {
 
     public Horse(Team team) {
-        super(HORSE, team);
+        super(team);
     }
 
     @Override
@@ -47,5 +45,10 @@ public class Horse extends Piece {
     @Override
     public boolean canDestination(Piece destinationPiece) {
         return !this.isEqualTeam(destinationPiece);
+    }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.HORSE;
     }
 }

@@ -3,15 +3,12 @@ package domain.piece;
 import domain.BoardLocation;
 import domain.Team;
 import java.util.List;
-import java.util.Objects;
 
 public abstract class Piece {
 
-    protected final PieceType pieceType;
     protected final Team team;
 
-    public Piece(PieceType pieceType, Team team) {
-        this.pieceType = pieceType;
+    public Piece(Team team) {
         this.team = team;
     }
 
@@ -23,8 +20,10 @@ public abstract class Piece {
 
     public abstract boolean canDestination(Piece destinationPiece);
 
+    public abstract PieceType getType();
+
     public boolean isNotSameType(Piece piece) {
-        return this.pieceType != piece.pieceType;
+        return this != piece;
     }
 
     public boolean isEqualTeam(Team team) {
@@ -33,21 +32,5 @@ public abstract class Piece {
 
     public boolean isEqualTeam(Piece piece) {
         return this.team == piece.team;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Piece piece)) {
-            return false;
-        }
-        return pieceType == piece.pieceType;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(pieceType);
     }
 }

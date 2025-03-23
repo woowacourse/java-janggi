@@ -7,7 +7,7 @@ import java.util.List;
 public class King extends Piece {
 
     public King(Team team) {
-        super(PieceType.KING, team);
+        super(team);
     }
 
     @Override
@@ -28,5 +28,10 @@ public class King extends Piece {
     @Override
     public boolean canDestination(Piece destinationPiece) {
         return false; //TODO 2단계 궁성 단계에서 처리하도록 하기
+    }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.KING;
     }
 }

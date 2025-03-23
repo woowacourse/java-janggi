@@ -1,7 +1,5 @@
 package domain.piece;
 
-import static domain.piece.PieceType.*;
-
 import domain.BoardLocation;
 import domain.Team;
 import java.util.List;
@@ -9,7 +7,7 @@ import java.util.List;
 public class Pawn extends Piece {
 
     public Pawn(Team team) {
-        super(PAWN, team);
+        super(team);
     }
 
     @Override
@@ -43,5 +41,10 @@ public class Pawn extends Piece {
     @Override
     public boolean canDestination(Piece destinationPiece) {
         return !this.isEqualTeam(destinationPiece);
+    }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.PAWN;
     }
 }
