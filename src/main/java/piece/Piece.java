@@ -30,7 +30,7 @@ public abstract class Piece {
         return this.team == otherPiece.team;
     }
 
-    public void move(final Position position) {
+    public final void move(final Position position) {
         if (!getMovablePositions().contains(position)) {
             throw new IllegalArgumentException();
         }

@@ -1,6 +1,5 @@
 package board;
 
-import java.awt.Point;
 import java.util.Objects;
 
 import piece.Direction;
@@ -11,28 +10,29 @@ public class Position {
     private static final int MIN_COLUMN = 1;
     private static final int MAX_ROW = 10;
     private static final int MAX_COLUMN = 9;
-    private final Point point;
+
+    private final int row;
+    private final int column;
 
     public Position(final int column, final int row) {
-        this.point = new Point(column, row);
-    }
-
-    public int getColumn() {
-        return point.x;
+        this.column = column;
+        this.row = row;
     }
 
     public int getRow() {
-        return point.y;
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
     }
 
     public boolean isInValidPosition() {
-        int nextColumn = this.getColumn();
         int nextRow = this.getRow();
+        int nextColumn = this.getColumn();
         return (
-                nextColumn < MIN_COLUMN ||
-                nextColumn > MAX_COLUMN ||
-                nextRow < MIN_ROW ||
-                nextRow > MAX_ROW
+                nextRow < MIN_ROW || nextRow > MAX_ROW ||
+                        nextColumn < MIN_COLUMN || nextColumn > MAX_COLUMN
         );
     }
 
@@ -51,18 +51,12 @@ public class Position {
         if (!(o instanceof Position position)) {
             return false;
         }
-        return Objects.equals(point, position.point);
+        return getRow() == position.getRow() && getColumn() == position.getColumn();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(point);
+        return Objects.hash(getRow(), getColumn());
     }
 
-    @Override
-    public String toString() {
-        return "\nPosition{" +
-                "point=" + point +
-                '}';
-    }
 }
