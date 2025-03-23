@@ -7,7 +7,7 @@ import static domain.board.Direction.UP;
 
 import domain.board.Board;
 import domain.board.Direction;
-import domain.board.Node;
+import domain.board.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,33 +22,33 @@ public class Cha implements Piece {
     }
 
     @Override
-    public boolean canMove(Node source, Node destination, Board board) {
-        return findMovableNodes(source, board).contains(destination);
+    public boolean canMove(final Point source, final Point destination, final Board board) {
+        return findMovablePoints(source, board).contains(destination);
     }
 
-    private List<Node> findMovableNodes(Node sourceNode, Board board) {
-        List<Node> candidates = new ArrayList<>(List.of(sourceNode));
+    private List<Point> findMovablePoints(final Point source, final Board board) {
+        List<Point> candidates = new ArrayList<>(List.of(source));
         CHA_MOVABLE_DIRECTIONS.stream()
-                .filter(sourceNode::hasEdgeByDirection)
-                .forEach(direction ->
-                        findCandidates(sourceNode.findNextNodeByDirection(direction), board, direction, candidates));
-
+                .filter(direction -> board.existNextPoint(source, direction))
+                .forEach(direction -> findCandidates(
+                        board.getNextPoint(source, direction), board, direction,
+                        candidates)
+                );
         return candidates;
     }
 
-    private void findCandidates(Node currentNode,
-                                final Board board, final Direction direction,
-                                final List<Node> candidates) {
-        candidates.add(currentNode);
-        if (!currentNode.hasEdgeByDirection(direction)) {
+    private void findCandidates(final Point currentPoint, final Board board, final Direction direction,
+                                final List<Point> candidates) {
+        candidates.add(currentPoint);
+        if (!board.existNextPoint(currentPoint, direction)) {
             return;
         }
 
-        Node nextNode = currentNode.findNextNodeByDirection(direction);
-        if (board.matchTeam(nextNode, this.team)) {
+        Point nextPoint = board.getNextPoint(currentPoint, direction);
+        if (board.matchTeam(nextPoint, this.team)) {
             return;
         }
-        findCandidates(nextNode, board, direction, candidates);
+        findCandidates(nextPoint, board, direction, candidates);
     }
 
     @Override

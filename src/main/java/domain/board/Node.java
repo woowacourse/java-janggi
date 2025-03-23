@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.Directions;
+import domain.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,38 +15,38 @@ public class Node {
         this.edges = new ArrayList<>();
     }
 
-    public boolean hasEdgeByDirection(Direction direction) {
+    public boolean hasNextNode(Direction direction) {
         return edges.stream()
                 .anyMatch(edge -> edge.direction() == direction);
     }
 
-    private Edge findEdgeByDirection(Direction direction) {
+    private Edge getEdgeByDirection(Direction direction) {
         return edges.stream()
                 .filter(edge -> edge.direction() == direction)
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 방향의 엣지가 존재하지 않습니다."));
     }
 
-    public Node findNextNodeByDirection(Direction direction) {
-        Edge edge = findEdgeByDirection(direction);
+    public Node getNextNodeByDirection(Direction direction) {
+        Edge edge = getEdgeByDirection(direction);
         return edge.nextNode();
     }
 
-    public boolean canMoveByPath(Directions directions) {
+    public boolean canMoveByPath(Path path) {
         Node currentNode = this;
-        for (Direction direction : directions.directions()) {
-            if (!currentNode.hasEdgeByDirection(direction)) {
+        for (Direction direction : path.directions()) {
+            if (!currentNode.hasNextNode(direction)) {
                 return false;
             }
-            currentNode = currentNode.findNextNodeByDirection(direction);
+            currentNode = currentNode.getNextNodeByDirection(direction);
         }
         return true;
     }
 
-    public Node moveByPath(Directions directions) {
+    public Node moveByPath(Path path) {
         Node currentNode = this;
-        for (Direction direction : directions.directions()) {
-            currentNode = currentNode.findNextNodeByDirection(direction);
+        for (Direction direction : path.directions()) {
+            currentNode = currentNode.getNextNodeByDirection(direction);
         }
         return currentNode;
     }

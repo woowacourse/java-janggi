@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.Directions;
+import domain.Path;
 import fixture.BoardFixture;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -19,10 +19,10 @@ class NodeTest {
             // given
             Board board = BoardFixture.createEmptyBoard();
             Point point = Point.of(4, 1);
-            Node node = board.findNodeByPoint(point);
+            Node node = board.getNodeByPoint(point);
 
             // when
-            final boolean actual = node.hasEdgeByDirection(Direction.UP);
+            final boolean actual = node.hasNextNode(Direction.UP);
 
             // then
             Assertions.assertThat(actual).isTrue();
@@ -33,10 +33,10 @@ class NodeTest {
             // given
             Board board = BoardFixture.createEmptyBoard();
             Point point = Point.of(4, 1);
-            Node node = board.findNodeByPoint(point);
+            Node node = board.getNodeByPoint(point);
 
             // when
-            final boolean actual = node.hasEdgeByDirection(Direction.LEFT);
+            final boolean actual = node.hasNextNode(Direction.LEFT);
 
             // then
             Assertions.assertThat(actual).isFalse();
@@ -47,11 +47,11 @@ class NodeTest {
             // given
             Board board = BoardFixture.createEmptyBoard();
             Point point = Point.of(4, 5);
-            Node node = board.findNodeByPoint(point);
-            Directions directions = new Directions(List.of(Direction.DOWN, Direction.DOWN));
+            Node node = board.getNodeByPoint(point);
+            Path path = new Path(List.of(Direction.DOWN, Direction.DOWN));
 
             // when
-            final boolean actual = node.canMoveByPath(directions);
+            final boolean actual = node.canMoveByPath(path);
 
             // then
             Assertions.assertThat(actual).isTrue();
@@ -62,11 +62,11 @@ class NodeTest {
             // given
             Board board = BoardFixture.createEmptyBoard();
             Point point = Point.of(1, 5);
-            Node node = board.findNodeByPoint(point);
-            Directions directions = new Directions(List.of(Direction.LEFT, Direction.UP));
+            Node node = board.getNodeByPoint(point);
+            Path path = new Path(List.of(Direction.LEFT, Direction.UP));
 
             // when
-            final boolean actual = node.canMoveByPath(directions);
+            final boolean actual = node.canMoveByPath(path);
 
             // then
             Assertions.assertThat(actual).isFalse();

@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.board.Board;
 import domain.board.Direction;
-import domain.board.Node;
+import domain.board.Point;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,16 +17,15 @@ public class Sa implements Piece {
     }
 
     @Override
-    public boolean canMove(Node source, Node destination, Board board) {
-        return findMovableNodes(source, board).contains(destination);
+    public boolean canMove(final Point source, final Point destination, final Board board) {
+        return findMovablePoints(source, board).contains(destination);
     }
 
-    private List<Node> findMovableNodes(Node currentNode, Board board) {
+    private List<Point> findMovablePoints(final Point point, final Board board) {
         return SA_MOVABLE_DIRECTIONS.stream()
-                .filter(currentNode::hasEdgeByDirection)
-                .map(currentNode::findNextNodeByDirection)
-                .filter(nextNode -> !(board.existsPieceByNode(nextNode)
-                        && board.matchTeam(nextNode, this.team)))
+                .filter(direction -> board.existNextPoint(point, direction))
+                .map(direction -> board.getNextPoint(point, direction))
+                .filter(nextPoint -> !(board.existsPiece(nextPoint) && board.matchTeam(nextPoint, this.team)))
                 .toList();
     }
 

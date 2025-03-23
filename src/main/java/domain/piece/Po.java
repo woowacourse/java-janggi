@@ -7,7 +7,7 @@ import static domain.board.Direction.UP;
 
 import domain.board.Board;
 import domain.board.Direction;
-import domain.board.Node;
+import domain.board.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,52 +20,59 @@ public class Po implements Piece {
     }
 
     @Override
-    public boolean canMove(Node source, Node destination, Board board) {
-        return findMovableNodes(source, board).contains(destination);
+    public boolean canMove(final Point source, final Point destination, final Board board) {
+        return findMovablePoints(source, board).contains(destination);
     }
 
-    private List<Node> findMovableNodes(Node sourceNode, Board board) {
-        List<Node> candidates = new ArrayList<>();
+    private List<Point> findMovablePoints(final Point source, final Board board) {
+        List<Point> candidates = new ArrayList<>();
         for (Direction direction : List.of(UP, RIGHT, DOWN, LEFT)) {
-            findHurdle(sourceNode, direction, board, candidates);
+            if (!existHurdle(source, direction, board)) {
+                continue;
+            }
+            Point hurdle = findHurdle(source, direction, board);
+            findCandidates(hurdle, direction, board, candidates);
         }
         return candidates;
     }
 
-    private void findHurdle(Node currentNode,
-                            final Direction direction, final Board board,
-                            final List<Node> candidates) {
-        if (!currentNode.hasEdgeByDirection(direction)) {
-            return;
+    private boolean existHurdle(final Point currentPoint, final Direction direction, final Board board) {
+        if (!board.existNextPoint(currentPoint, direction)) {
+            return false;
         }
-        Node nextNode = currentNode.findNextNodeByDirection(direction);
-        if (board.existsPo(nextNode)) {
-            return;
+        Point nextPoint = board.getNextPoint(currentPoint, direction);
+        if (board.existsPiece(nextPoint) && !board.existsPo(nextPoint)) {
+            return true;
         }
-        if (board.existsPieceByNode(nextNode)) {
-            findCandidates(nextNode, direction, board, candidates);
-            return;
-        }
-        findHurdle(nextNode, direction, board, candidates);
+        return existHurdle(nextPoint, direction, board);
     }
 
-    private void findCandidates(Node currentNode,
-                                final Direction direction, final Board board,
-                                final List<Node> candidates) {
-        if (!currentNode.hasEdgeByDirection(direction)) {
+    private Point findHurdle(final Point currentPoint, final Direction direction, final Board board) {
+        if (!board.existNextPoint(currentPoint, direction)) {
+            throw new IllegalArgumentException("이동할 경로가 없습니다.");
+        }
+        Point nextPoint = board.getNextPoint(currentPoint, direction);
+        if (board.existsPiece(nextPoint) && !board.existsPo(nextPoint)) {
+            return nextPoint;
+        }
+        return findHurdle(nextPoint, direction, board);
+    }
+
+    private void findCandidates(final Point currentPoint, final Direction direction, final Board board,
+                                final List<Point> candidates) {
+        if (!board.existNextPoint(currentPoint, direction)) {
             return;
         }
-        Node nextNode = currentNode.findNextNodeByDirection(direction);
-        if (board.existsPo(nextNode)
-                || (board.existsPieceByNode(nextNode) && board.matchTeam(nextNode, this.team))) {
+        Point nextPoint = board.getNextPoint(currentPoint, direction);
+        if (board.existsPo(nextPoint) || board.matchTeam(nextPoint, this.team)) {
             return;
         }
-        if (board.existsPieceByNode(nextNode) && board.matchTeam(nextNode, this.team.inverse())) {
-            candidates.add(nextNode);
+        if (board.matchTeam(nextPoint, this.team.inverse())) {
+            candidates.add(nextPoint);
             return;
         }
-        candidates.add(nextNode);
-        findCandidates(nextNode, direction, board, candidates);
+        candidates.add(nextPoint);
+        findCandidates(nextPoint, direction, board, candidates);
     }
 
     @Override

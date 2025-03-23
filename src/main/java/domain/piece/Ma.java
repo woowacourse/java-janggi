@@ -1,10 +1,9 @@
 package domain.piece;
 
-import domain.Directions;
 import domain.Movement;
 import domain.board.Board;
 import domain.board.FixedMovePattern;
-import domain.board.Node;
+import domain.board.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,41 +16,36 @@ public class Ma implements Piece {
     }
 
     @Override
-    public boolean canMove(Node source, Node destination, Board board) {
-        return findMovableNodes(source, board).contains(destination);
+    public boolean canMove(final Point source, final Point destination, final Board board) {
+        return findMovablePoints(source, board).contains(destination);
     }
 
-    private List<Node> findMovableNodes(Node sourceNode, Board board) {
-        List<Node> candidates = new ArrayList<>();
+    private List<Point> findMovablePoints(final Point source, final Board board) {
+        List<Point> candidates = new ArrayList<>();
         for (Movement movement : FixedMovePattern.MA_MOVEMENTS.movements()) {
-            checkObstaclesAndAddCandidate(sourceNode,
-                    movement.obstaclePaths(), movement.destinationPath(),
-                    candidates, board);
+            if (!canMove(source, movement, board)) {
+                continue;
+            }
+            candidates.add(board.getPointMovedByPath(source, movement.destinationPath()));
         }
         return candidates;
     }
 
-    private void checkObstaclesAndAddCandidate(Node sourceNode,
-                                               List<Directions> obstaclePaths, Directions destinationPath,
-                                               List<Node> candidates, final Board board) {
-        if (!sourceNode.canMoveByPath(destinationPath)) {
-            return;
+    private boolean canMove(final Point point, final Movement movement, final Board board) {
+        if (!board.canMoveByPath(point, movement.destinationPath())) {
+            return false;
         }
 
-        Node destinationNode = sourceNode.moveByPath(destinationPath);
-        if (board.matchTeam(destinationNode, this.team)) {
-            return;
+        Point destinationPoint = board.getPointMovedByPath(point, movement.destinationPath());
+        if (board.matchTeam(destinationPoint, this.team)) {
+            return false;
         }
 
-        List<Node> obstacleNodes = obstaclePaths.stream()
-                .filter(sourceNode::canMoveByPath)
-                .map(sourceNode::moveByPath)
+        List<Point> obstaclePoints = movement.obstaclePaths().stream()
+                .filter(path -> board.canMoveByPath(point, path))
+                .map(path -> board.getPointMovedByPath(point, path))
                 .toList();
-
-        if (obstacleNodes.stream().anyMatch(board::existsPieceByNode)) {
-            return;
-        }
-        candidates.add(destinationNode);
+        return obstaclePoints.stream().noneMatch(board::existsPiece);
     }
 
     @Override

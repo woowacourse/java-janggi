@@ -22,11 +22,10 @@ public class JanggiGameManager {
 
     public void startGame() {
         OutputView.printStart();
-
         Board board = createBoard(new BoardGenerator());
-        OutputView.printBoard(board);
 
         while (board.isRunning()) {
+            OutputView.printBoard(board);
             processTurn(board, turn);
         }
     }
