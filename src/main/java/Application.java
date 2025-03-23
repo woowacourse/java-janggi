@@ -1,9 +1,9 @@
 import board.Board;
-import board.create.strategy.BoardCreateStrategy;
 import board.create.strategy.MaSangMaSang;
 import board.create.strategy.MaSangSangMa;
 import board.create.strategy.SangMaMaSang;
 import board.create.strategy.SangMaSangMa;
+import board.create.strategy.TableSettingStrategy;
 import java.util.Map;
 import team.Team;
 import view.InputView;
@@ -12,7 +12,7 @@ import view.OutputView;
 
 public class Application {
 
-    private static final Map<Integer, BoardCreateStrategy> boardCreateStrategy = Map.of(
+    private static final Map<Integer, TableSettingStrategy> boardCreateStrategy = Map.of(
             1, new MaSangSangMa(),
             2, new MaSangMaSang(),
             3, new SangMaSangMa(),

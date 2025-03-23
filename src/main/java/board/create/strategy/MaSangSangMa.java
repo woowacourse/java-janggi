@@ -9,7 +9,7 @@ import piece.Piece;
 import piece.Sang;
 import team.Team;
 
-public class MaSangSangMa extends BoardCreateStrategy {
+public class MaSangSangMa extends TableSettingStrategy {
 
     @Override
     public Map<Coordinate, Piece> create(Team team) {

@@ -1,6 +1,6 @@
 package board;
 
-import board.create.strategy.BoardCreateStrategy;
+import board.create.strategy.TableSettingStrategy;
 import coordinate.Coordinate;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ public class Board {
         this.pieces = pieces;
     }
 
-    public static Board create(BoardCreateStrategy hanStrategy, BoardCreateStrategy choStrategy) {
+    public static Board create(TableSettingStrategy hanStrategy, TableSettingStrategy choStrategy) {
         Map<Coordinate, Piece> pieces = new HashMap<>();
         pieces.putAll(hanStrategy.create(Team.HAN));
         pieces.putAll(choStrategy.create(Team.CHO));

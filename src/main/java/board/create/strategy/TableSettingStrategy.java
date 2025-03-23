@@ -11,7 +11,7 @@ import piece.Po;
 import piece.Sa;
 import team.Team;
 
-public abstract class BoardCreateStrategy {
+public abstract class TableSettingStrategy {
 
     protected static Map<Team, List<Integer>> TEAM_X_COORDINATE = Map.of(
             Team.HAN, List.of(8, 7, 3, 2),

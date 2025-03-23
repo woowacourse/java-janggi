@@ -1,6 +1,6 @@
 package board;
 
-import board.create.strategy.BoardCreateStrategy;
+import board.create.strategy.TableSettingStrategy;
 import coordinate.Coordinate;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class BoardFixture {
     }
 
     public Board build() {
-        BoardCreateStrategy strategy = new BoardCreateStrategy() {
+        TableSettingStrategy strategy = new TableSettingStrategy() {
             @Override
             public Map<Coordinate, Piece> create(Team team) {
                 return pieces;
