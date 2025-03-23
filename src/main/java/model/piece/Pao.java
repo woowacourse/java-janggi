@@ -25,8 +25,9 @@ public class Pao extends Piece {
             return null;
         }
         Route route = movableRoute(board, target);
-        if (route != null)
+        if (route != null) {
             return route;
+        }
         return null;
     }
 
@@ -42,7 +43,7 @@ public class Pao extends Piece {
     private Route validateRoute(Board board, Position target, Route route) {
         boolean isOvered = false;
         Position nextPos = nextPositionOnRoute(position, route);
-        while (board.isInboard(nextPos)) {
+        while (board.isInBoard(nextPos)) {
             if (overPiece(board, nextPos)) {
                 isOvered = true;
             }

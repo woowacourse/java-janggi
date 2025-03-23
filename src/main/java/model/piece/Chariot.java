@@ -24,7 +24,7 @@ public class Chariot extends Piece {
         for (var route : routes) {
             Position dir = route.positions().getFirst();
             Position nextPos = position.move(dir.x(), dir.y());
-            while (board.isInboard(nextPos)) {
+            while (board.isInBoard(nextPos)) {
                 if (nextPos.equals(target)) {
                     return route;
                 }

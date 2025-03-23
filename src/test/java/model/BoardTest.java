@@ -14,10 +14,10 @@ class BoardTest {
 
     @Test
     @DisplayName("9(가로) x 10(세로) 크기의 장기판을 사용한다.")
-    void isInboardTest() {
+    void isInBoardTest() {
         Board board = new Board(List.of());
-        assertThat(board.isInboard(new Position(9, 0))).isFalse();
-        assertThat(board.isInboard(new Position(0, 10))).isFalse();
+        assertThat(board.isInBoard(new Position(9, 0))).isFalse();
+        assertThat(board.isInBoard(new Position(0, 10))).isFalse();
     }
 
     @Test

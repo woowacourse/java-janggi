@@ -2,6 +2,7 @@ package model.piece;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.ToIntFunction;
 
 import model.Position;
 import model.Team;
@@ -9,7 +10,7 @@ import model.board.Board;
 
 public abstract class Piece {
 
-    private Team team;
+    private final Team team;
     protected Position position;
     protected final List<Route> routes = new ArrayList<>();
 
@@ -20,19 +21,24 @@ public abstract class Piece {
 
     public void move(Board board, Team currentTurn, int dx, int dy) {
         Position target = position.move(dx, dy);
-        if (!board.isInboard(target)) {
-            throw new IllegalArgumentException("[ERROR] 장기판 내에서만 이동할 수 있습니다.");
-        }
-        if (!currentTurn.equals(team)) {
-            throw new IllegalArgumentException("[ERROR] 다른 팀의 기물은 움직일 수 없습니다.");
-        }
+        validateInBoard(board, target);
+        validateTeam(currentTurn);
         Route movableRoute = findMovableRoute(board, dx, dy);
-        if (movableRoute == null) {
-            throw new IllegalArgumentException("[ERROR] 도달할 수 없는 위치입니다.");
-        }
         validateRoute(board, movableRoute, target);
         arrival(board, target);
         position = target;
+    }
+
+    private void validateTeam(Team currentTurn) {
+        if (!currentTurn.equals(team)) {
+            throw new IllegalArgumentException("[ERROR] 다른 팀의 기물은 움직일 수 없습니다.");
+        }
+    }
+
+    private static void validateInBoard(Board board, Position target) {
+        if (!board.isInBoard(target)) {
+            throw new IllegalArgumentException("[ERROR] 장기판 내에서만 이동할 수 있습니다.");
+        }
     }
 
     protected Route findMovableRoute(Board board, int dx, int dy) {
@@ -44,7 +50,7 @@ public abstract class Piece {
                 return route;
             }
         }
-        return null;
+        throw new IllegalArgumentException("[ERROR] 도달할 수 없는 위치입니다.");
     }
 
     protected void validateRoute(Board board, Route route, Position target) {
@@ -81,13 +87,13 @@ public abstract class Piece {
     ) {
 
         public Position sum() {
-            int sumX = positions.stream()
-                .mapToInt(Position::x)
+            return new Position(sumOf(Position::x), sumOf(Position::y));
+        }
+
+        private int sumOf(ToIntFunction<Position> function) {
+            return positions.stream()
+                .mapToInt(function)
                 .sum();
-            int sumY = positions.stream()
-                .mapToInt(Position::y)
-                .sum();
-            return new Position(sumX, sumY);
         }
     }
 

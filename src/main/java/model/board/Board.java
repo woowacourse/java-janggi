@@ -23,7 +23,7 @@ public class Board {
         return new Initializer().generate();
     }
 
-    public boolean isInboard(Position position) {
+    public boolean isInBoard(Position position) {
         return position.x() < WIDTH_SIZE && position.x() >= 0
             && position.y() < HEIGHT_SIZE && position.y() >= 0;
     }
