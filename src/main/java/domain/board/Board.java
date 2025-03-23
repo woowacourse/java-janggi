@@ -43,25 +43,10 @@ public class Board {
         removePiece(source);
     }
 
-    public Node getNodeByPoint(final Point point) {
-        if (!pointNodeMapper.existsPoint(point)) {
-            throw new IllegalArgumentException(point + ": [ERROR] 해당 위치에 노드가 존재하지 않습니다.");
-        }
-        return pointNodeMapper.getNodeByPoint(point);
-    }
-
     public boolean existsPiece(final Point point) {
         if (!pointNodeMapper.existsPoint(point)) {
             return false;
         }
-        return pieceByPoint.containsKey(point);
-    }
-
-    public boolean existsPiece(final Node node) {
-        if (!pointNodeMapper.existsNode(node)) {
-            return false;
-        }
-        Point point = pointNodeMapper.getPointByNode(node);
         return pieceByPoint.containsKey(point);
     }
 
@@ -93,15 +78,6 @@ public class Board {
         if (!existsPiece(point)) {
             return false;
         }
-        Piece piece = getPieceByPoint(point);
-        return piece.hasTeam(team);
-    }
-
-    public boolean matchTeam(final Node node, final Team team) {
-        if (!existsPiece(node)) {
-            return false;
-        }
-        Point point = pointNodeMapper.getPointByNode(node);
         Piece piece = getPieceByPoint(point);
         return piece.hasTeam(team);
     }

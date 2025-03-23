@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.Movement;
 import domain.board.Board;
-import domain.board.JumpingMovement;
+import domain.board.JumpingMovements;
 import domain.board.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class Sang implements Piece {
 
     private List<Point> findMovablePoints(final Point source, final Board board) {
         List<Point> candidates = new ArrayList<>();
-        for (Movement movement : JumpingMovement.SANG_MOVEMENTS.movements()) {
+        for (Movement movement : JumpingMovements.SANG.movements()) {
             if (!canMove(source, movement, board)) {
                 continue;
             }
