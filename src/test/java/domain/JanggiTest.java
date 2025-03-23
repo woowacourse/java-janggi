@@ -104,7 +104,7 @@ class JanggiTest {
 
             // when & then
             assertThatThrownBy(janggi::findWinnerTeam)
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(IllegalCallerException.class)
                     .hasMessage("게임이 종료되지 않았습니다.");
         }
     }

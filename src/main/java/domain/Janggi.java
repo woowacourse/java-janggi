@@ -51,7 +51,7 @@ public class Janggi {
 
     public Team findWinnerTeam() {
         if (!isGameFinish()) {
-            throw new IllegalStateException("게임이 종료되지 않았습니다.");
+            throw new IllegalCallerException("게임이 종료되지 않았습니다.");
         }
         return board.findAliveGenerals()
                 .getLast()
