@@ -28,7 +28,7 @@ public class Sang implements Movable {
     @Override
     public Route findRoute(Point startPoint, Point targetPoint) {
         List<Point> route = new ArrayList<>();
-        List<Direction> directions = Direction.complexFrom(startPoint, targetPoint, 3, 2);
+        List<Direction> directions = Direction.complexFrom(startPoint, targetPoint, 2);
 
         Point pointer = startPoint;
         for (Direction direction : directions) {

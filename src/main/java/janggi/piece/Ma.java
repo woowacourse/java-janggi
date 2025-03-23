@@ -28,7 +28,7 @@ public class Ma implements Movable {
     @Override
     public Route findRoute(Point startPoint, Point targetPoint) {
         List<Point> route = new ArrayList<>();
-        List<Direction> directions = Direction.complexFrom(startPoint, targetPoint, 2, 1);
+        List<Direction> directions = Direction.complexFrom(startPoint, targetPoint, 1);
 
         Point pointer = startPoint;
         for (Direction direction : directions) {
