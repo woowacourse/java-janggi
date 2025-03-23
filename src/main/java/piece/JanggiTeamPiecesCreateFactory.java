@@ -10,7 +10,7 @@ import move.MaMoveBehavior;
 import move.SaMoveBehavior;
 import move.SangMoveBehavior;
 
-public class InitiateJanggiTeamPieces {
+public class JanggiTeamPiecesCreateFactory {
 
     private static final Map<Team, Pieces> initiatePieces = Map.of(
             Team.RED, new Pieces(
@@ -55,11 +55,10 @@ public class InitiateJanggiTeamPieces {
                     )
             ));
 
-    public InitiateJanggiTeamPieces() {
-        
+    public JanggiTeamPiecesCreateFactory() {
     }
-
-    public Map<Team, Pieces> janggiInitiatePieces() {
+    
+    public Map<Team, Pieces> createJanggiInitiatePieces() {
         return initiatePieces;
     }
 }
