@@ -4,7 +4,7 @@ import domain.board.Position;
 import domain.piece.Piece;
 import domain.piece.PieceColor;
 
-public class Finished implements State{
+public class Finished implements State {
     private final PieceColor pieceColor;
 
     public Finished(PieceColor pieceColor) {

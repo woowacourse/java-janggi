@@ -1,7 +1,14 @@
 package domain.board;
 
-import domain.piece.*;
-
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
+import domain.piece.General;
+import domain.piece.Guard;
+import domain.piece.Horse;
+import domain.piece.Piece;
+import domain.piece.PieceColor;
+import domain.piece.Soldier;
 import java.util.HashMap;
 import java.util.Map;
 

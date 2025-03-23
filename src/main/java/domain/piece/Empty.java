@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.board.Position;
-
 import java.util.List;
 
 public class Empty extends Piece {

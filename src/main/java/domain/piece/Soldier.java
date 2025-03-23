@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.board.Position;
-
 import java.util.List;
 
 public class Soldier extends Piece {
@@ -24,7 +23,8 @@ public class Soldier extends Piece {
         if ((color == PieceColor.BLUE) && (rowDifference == BACKWARD_MOVE && columnDifference == NO_MOVE)) {
             return true;
         }
-        if ((rowDifference == NO_MOVE && columnDifference == BACKWARD_MOVE) || (rowDifference == NO_MOVE && columnDifference == FORWARD_MOVE)) {
+        if ((rowDifference == NO_MOVE && columnDifference == BACKWARD_MOVE) || (rowDifference == NO_MOVE
+                && columnDifference == FORWARD_MOVE)) {
             return true;
         }
         return false;

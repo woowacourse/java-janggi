@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.board.Position;
-
 import java.util.List;
 
 public class Cannon extends Piece {
@@ -17,6 +16,7 @@ public class Cannon extends Piece {
 
         return rowDifference == NO_MOVE || columnDifference == NO_MOVE;
     }
+
     @Override
     public List<Position> findAllRoute(Position source, Position destination) {
         return source.getBetweenPositions(destination);
@@ -31,7 +31,7 @@ public class Cannon extends Piece {
 
         boolean hasSamePiece = piecesInRoute.stream()
                 .anyMatch(this::isSamePiece);
-        if(hasSamePiece) {
+        if (hasSamePiece) {
             return false;
         }
 

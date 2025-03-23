@@ -1,11 +1,15 @@
 package domain.gameState;
 
-import domain.board.*;
-import domain.piece.Piece;
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import domain.board.Board;
+import domain.board.BoardFactory;
+import domain.board.Column;
+import domain.board.Position;
+import domain.board.Row;
+import domain.piece.Piece;
+import org.junit.jupiter.api.Test;
 
 class BlueTurnTest {
     @Test

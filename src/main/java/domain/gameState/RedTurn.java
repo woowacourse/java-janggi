@@ -24,7 +24,7 @@ public class RedTurn implements State {
         board.move(piece, source, destination);
         boolean isGeneral = destinationPiece.isSamePiece(new General(pieceColor));
 
-        if(isGeneral) {
+        if (isGeneral) {
             return new Finished(pieceColor);
         }
         return new BlueTurn(board);

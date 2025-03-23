@@ -1,8 +1,15 @@
 package view;
 
-import domain.piece.*;
-
-import java.util.Arrays;
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
+import domain.piece.Empty;
+import domain.piece.General;
+import domain.piece.Guard;
+import domain.piece.Horse;
+import domain.piece.Piece;
+import domain.piece.PieceColor;
+import domain.piece.Soldier;
 
 public enum PieceName {
     CANNON(Cannon.class, "포"),
@@ -12,8 +19,7 @@ public enum PieceName {
     GUARD(Guard.class, "사"),
     HORSE(Horse.class, "마"),
     SOLDIER(Soldier.class, "졸"),
-    EMPTY(Empty.class, "ㅁ")
-    ;
+    EMPTY(Empty.class, "ㅁ");
 
     private final Class<? extends Piece> pieceType;
     private final String name;
@@ -24,8 +30,8 @@ public enum PieceName {
     }
 
     public static String getNameFromPiece(Piece piece) {
-        for(PieceName pieceName : PieceName.values()) {
-            if(pieceName.pieceType.equals(piece.getClass())) {
+        for (PieceName pieceName : PieceName.values()) {
+            if (pieceName.pieceType.equals(piece.getClass())) {
                 String colorString = pieceName.getColorString(piece);
                 return colorString + pieceName.name;
             }
@@ -35,8 +41,8 @@ public enum PieceName {
     }
 
     public static Class<? extends Piece> pieceTypeFromName(String name) {
-        for(PieceName pieceName : PieceName.values()) {
-            if(pieceName.name.equals(name)) {
+        for (PieceName pieceName : PieceName.values()) {
+            if (pieceName.name.equals(name)) {
                 return pieceName.pieceType;
             }
         }
@@ -45,10 +51,10 @@ public enum PieceName {
 
     private String getColorString(Piece piece) {
         PieceColor color = piece.getColor();
-        if(color == PieceColor.RED) {
+        if (color == PieceColor.RED) {
             return "\u001B[31m";
         }
-        if(color == PieceColor.BLUE) {
+        if (color == PieceColor.BLUE) {
             return "\u001B[34m";
         }
         return "\u001B[0m";

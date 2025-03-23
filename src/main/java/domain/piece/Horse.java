@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.board.Position;
-
 import java.util.List;
 
 public class Horse extends Piece {
@@ -18,10 +17,10 @@ public class Horse extends Piece {
         int rowDifference = source.rowDifference(destination);
         int columnDifference = source.columnDifference(destination);
 
-        if(Math.abs(rowDifference) == HORSE_STRAIGHT_MOVE && Math.abs(columnDifference) == HORSE_SIDE_MOVE) {
+        if (Math.abs(rowDifference) == HORSE_STRAIGHT_MOVE && Math.abs(columnDifference) == HORSE_SIDE_MOVE) {
             return true;
         }
-        if(Math.abs(rowDifference) == HORSE_SIDE_MOVE && Math.abs(columnDifference) == HORSE_STRAIGHT_MOVE) {
+        if (Math.abs(rowDifference) == HORSE_SIDE_MOVE && Math.abs(columnDifference) == HORSE_STRAIGHT_MOVE) {
             return true;
         }
         return false;

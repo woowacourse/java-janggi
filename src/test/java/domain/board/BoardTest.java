@@ -1,11 +1,18 @@
 package domain.board;
 
-import domain.piece.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import domain.piece.Chariot;
+import domain.piece.Empty;
+import domain.piece.Horse;
+import domain.piece.Piece;
+import domain.piece.PieceColor;
+import domain.piece.Soldier;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.*;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class BoardTest {

@@ -34,7 +34,7 @@ public class Position {
 
         Position currentPosition = updatePosition(new Position(row, column), rowDir, columnDir);
         List<Position> positions = new ArrayList<>();
-        while(!currentPosition.equals(other)) {
+        while (!currentPosition.equals(other)) {
             positions.add(currentPosition);
             currentPosition = updatePosition(currentPosition, rowDir, columnDir);
         }
@@ -42,7 +42,7 @@ public class Position {
     }
 
     private int getDirection(int difference) {
-        if(difference != 0) {
+        if (difference != 0) {
             return difference / Math.abs(difference);
         }
         return 0;
@@ -70,7 +70,9 @@ public class Position {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Position position)) return false;
+        if (!(o instanceof Position position)) {
+            return false;
+        }
         return row == position.row && column == position.column;
     }
 
