@@ -1,88 +1,85 @@
-/*
 package model;
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.List;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
 public class ChariotTest {
-    
-    private Piece chariot = new Chariot(new Position(5, 5), Team.RED);
 
-    @DisplayName("chariot이 위로 세 칸 움직일 경우, 행이 -3 되어야 한다.")
-    @Test
-    void when_chariot_move_then_column_minus_one() {
-        chariot.up(3);
+    private final Chariot chariot = new Chariot(Team.GREEN);
 
-        Position expectedPosition = new Position(2, 5);
-        Position currentPosition = chariot.getPosition();
-        assertThat(expectedPosition).isEqualTo(currentPosition);
-    }
-
-    @DisplayName("chariot이 아래로 세 칸 움직일 경우, 행이 +3 되어야 한다.")
-    @Test
-    void when_chariot_move_then_column_plus_one() {
-        chariot.down(3);
-
-        Position expectedPosition = new Position(8, 5);
-        Position currentPosition = chariot.getPosition();
-        assertThat(expectedPosition).isEqualTo(currentPosition);
-    }
-
-    @DisplayName("chariot이 좌측으로 세 칸 움직일 경우, 열이 -3 되어야 한다.")
-    @Test
-    void when_chariot_move_then_row_minus_one() {
-        chariot.left(3);
-
-        Position expectedPosition = new Position(5, 2);
-        Position currentPosition = chariot.getPosition();
-        assertThat(expectedPosition).isEqualTo(currentPosition);
-    }
-
-    @DisplayName("chariot이 우측으로 세 칸 움직일 경우, 열이 +3 되어야 한다.")
-    @Test
-    void when_chariot_move_then_row_plus_one() {
-        chariot.right(3);
-
-        Position expectedPosition = new Position(5, 8);
-        Position currentPosition = chariot.getPosition();
-        assertThat(expectedPosition).isEqualTo(currentPosition);
-    }
-
-    @DisplayName("chariot이 10행 9열을 벗어나면 예외가 발생한다")
     @Nested
-    class chariotMoveException {
+    @DisplayName("Chariot의 이동 가능한 경로를 구한다.")
+    class FindDirectionOfGeneral {
 
-        @DisplayName("up인 경우")
         @Test
-        void when_up() {
-            assertThatThrownBy(() -> chariot.up(6))
-                    .isInstanceOf(IllegalArgumentException.class);
+        @DisplayName("Up 인 경우")
+        void case_up() {
+            Position departure = new Position(Column.TEN, Row.ONE);
+            Position arrival = new Position(Column.FIVE, Row.ONE);
+            List<Position> findDirection = chariot.calculateAllDirection(departure, arrival);
+            List<Position> expectedPosition = List.of(
+                new Position(Column.NINE, Row.ONE),
+                new Position(Column.EIGHT, Row.ONE),
+                new Position(Column.SEVEN, Row.ONE),
+                new Position(Column.SIX, Row.ONE),
+                new Position(Column.FIVE, Row.ONE));
+            assertThat(findDirection).containsExactlyInAnyOrderElementsOf(expectedPosition);
         }
 
-        @DisplayName("down인 경우")
         @Test
-        void when_down() {
-            assertThatThrownBy(() -> chariot.down(6))
-                    .isInstanceOf(IllegalArgumentException.class);
+        @DisplayName("Down 인 경우")
+        void case_down() {
+            Position departure = new Position(Column.FIVE, Row.FIVE);
+            Position arrival = new Position(Column.TEN, Row.FIVE);
+            List<Position> findDirection = chariot.calculateAllDirection(departure, arrival);
+            List<Position> expectedPosition = List.of(
+                new Position(Column.TEN, Row.FIVE),
+                new Position(Column.NINE, Row.FIVE),
+                new Position(Column.EIGHT, Row.FIVE),
+                new Position(Column.SEVEN, Row.FIVE),
+                new Position(Column.SIX, Row.FIVE));
+            assertThat(findDirection).containsExactlyInAnyOrderElementsOf(expectedPosition);
         }
 
-        @DisplayName("left인 경우")
         @Test
-        void when_left() {
-            assertThatThrownBy(() -> chariot.left(6))
-                    .isInstanceOf(IllegalArgumentException.class);
+        @DisplayName("Left 인 경우")
+        void case_left() {
+            Position departure = new Position(Column.FIVE, Row.FIVE);
+            Position arrival = new Position(Column.FIVE, Row.ONE);
+            List<Position> findDirection = chariot.calculateAllDirection(departure, arrival);
+            List<Position> expectedPosition = List.of(
+                new Position(Column.FIVE, Row.FOUR),
+                new Position(Column.FIVE, Row.THREE),
+                new Position(Column.FIVE, Row.TWO),
+                new Position(Column.FIVE, Row.ONE));
+                assertThat(findDirection).containsExactlyInAnyOrderElementsOf(expectedPosition);
         }
 
-        @DisplayName("right인 경우")
         @Test
-        void when_right() {
-            assertThatThrownBy(() -> chariot.right(6))
-                    .isInstanceOf(IllegalArgumentException.class);
+        @DisplayName("Right 인 경우")
+        void case_right() {
+            Position departure = new Position(Column.FIVE, Row.FIVE);
+            Position arrival = new Position(Column.FIVE, Row.NINE);
+            List<Position> findDirection = chariot.calculateAllDirection(departure, arrival);
+            List<Position> expectedPosition = List.of(
+                new Position(Column.FIVE, Row.SIX),
+                new Position(Column.FIVE, Row.SEVEN),
+                new Position(Column.FIVE, Row.EIGHT),
+                new Position(Column.FIVE, Row.NINE));
+            assertThat(findDirection).containsExactlyInAnyOrderElementsOf(expectedPosition);
         }
+    }
+
+    @DisplayName("Chariot가 갈 수 없는 경로라면, 예외를 던져야 한다")
+    @Test
+    void cannot_go_position_then_throw_exception() {
+        Position departure = new Position(Column.FIVE, Row.FIVE);
+        Position arrival = new Position(Column.SIX, Row.SIX);
+        assertThatThrownBy(() -> chariot.calculateAllDirection(departure, arrival));
     }
 }
-*/

@@ -1,6 +1,7 @@
 package model;
 
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -44,6 +45,58 @@ public class Position {
     public List<Position> findRightDirection(Position arrival) {
         if (this.canMoveRight() && this.moveRight().equals(arrival)) {
             return List.of(this.moveRight());
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Position> findUpDirectionUntilEnd(Position arrival) {
+        List<Position> temporaryDirection = new ArrayList<>();
+        Position movedPosition = this.copyOf();
+        while (movedPosition.canMoveUp()) {
+            movedPosition = movedPosition.moveUp();
+            temporaryDirection.add(movedPosition);
+            if (movedPosition.equals(arrival)) {
+                return temporaryDirection;
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Position> findDownDirectionUntilEnd(Position arrival) {
+        List<Position> temporaryDirection = new ArrayList<>();
+        Position movedPosition = this.copyOf();
+        while (movedPosition.canMoveDown()) {
+            movedPosition = movedPosition.moveDown();
+            temporaryDirection.add(movedPosition);
+            if (movedPosition.equals(arrival)) {
+                return temporaryDirection;
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Position> findLeftDirectionUntilEnd(Position arrival) {
+        List<Position> temporaryDirection = new ArrayList<>();
+        Position movedPosition = this.copyOf();
+        while (movedPosition.canMoveLeft()) {
+            movedPosition = movedPosition.moveLeft();
+            temporaryDirection.add(movedPosition);
+            if (movedPosition.equals(arrival)) {
+                return temporaryDirection;
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Position> findRightDirectionUntilEnd(Position arrival) {
+        List<Position> temporaryDirection = new ArrayList<>();
+        Position movedPosition = this.copyOf();
+        while (movedPosition.canMoveRight()) {
+            movedPosition = movedPosition.moveRight();
+            temporaryDirection.add(movedPosition);
+            if (movedPosition.equals(arrival)) {
+                return temporaryDirection;
+            }
         }
         return Collections.emptyList();
     }
@@ -110,6 +163,10 @@ public class Position {
 
     private boolean canDownLeft() {
         return column.canUp() && row.canDown();
+    }
+
+    private Position copyOf() {
+        return new Position(this.column, this.row);
     }
 
     @Override
