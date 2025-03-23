@@ -2,10 +2,10 @@ package domain.board;
 
 public record Point(int row, int column) {
 
-    public static int MIN_ROW_INDEX = 1;
-    public static int MAX_ROW_INDEX = 10;
-    public static int MIN_COLUMN_INDEX = 1;
-    public static int MAX_COLUMN_INDEX = 9;
+    public static final int MIN_ROW_INDEX = 1;
+    public static final int MAX_ROW_INDEX = 10;
+    public static final int MIN_COLUMN_INDEX = 1;
+    public static final int MAX_COLUMN_INDEX = 9;
 
     public Point {
         validateRange(row, column);
