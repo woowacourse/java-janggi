@@ -18,8 +18,7 @@ public class Advisor extends Piece {
         return List.of();
     }
 
-    @Override
-    public void validateRoute(int dx, int dy) {
+    private void validateRoute(int dx, int dy) {
         if (Math.abs(dx) + Math.abs(dy) != 1) {
             throw new UnsupportedOperationException("[ERROR] 사가 이동할 수 있는 목적지가 아닙니다.");
         }

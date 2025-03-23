@@ -26,6 +26,16 @@ public class Chariot extends Piece {
         return getDirectionalRoute(origin, dx, Dot::right, Dot::left);
     }
 
+    private void validateRoute(int dx, int dy) {
+        if (dx != 0 && dy != 0) {
+            throw new UnsupportedOperationException("[ERROR] 차가 이동할 수 있는 목적지가 아닙니다.");
+        }
+
+        if (dx == 0 && dy == 0) {
+            throw new IllegalArgumentException("[ERROR] 같은 위치로 이동할 수 없습니다.");
+        }
+    }
+
     private List<Dot> getDirectionalRoute(Dot origin, int delta,
                                           Function<Dot, Dot> positiveMove,
                                           Function<Dot, Dot> negativeMove) {
@@ -51,17 +61,6 @@ public class Chariot extends Piece {
             return negativeMove;
         }
         return Function.identity();
-    }
-
-    @Override
-    public void validateRoute(int dx, int dy) {
-        if (dx != 0 && dy != 0) {
-            throw new UnsupportedOperationException("[ERROR] 차가 이동할 수 있는 목적지가 아닙니다.");
-        }
-
-        if (dx == 0 && dy == 0) {
-            throw new IllegalArgumentException("[ERROR] 같은 위치로 이동할 수 없습니다.");
-        }
     }
 
     @Override

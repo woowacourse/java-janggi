@@ -35,6 +35,12 @@ public class Elephant extends Piece {
         return route;
     }
 
+    private void validateRoute(int dx, int dy) {
+        if (!(isFirstMoveVertical(dx, dy) || isFirstMoveHorizontal(dx, dy))) {
+            throw new UnsupportedOperationException("[ERROR] 상이 이동할 수 있는 목적지가 아닙니다.");
+        }
+    }
+
     private Function<Dot, Dot> getFirstMove(int dx, int dy) {
         if (isFirstMoveVertical(dx, dy)) {
             if (dy > 0) {
@@ -62,13 +68,6 @@ public class Elephant extends Piece {
         }
 
         return Dot::downLeft;
-    }
-
-    @Override
-    public void validateRoute(int dx, int dy) {
-        if (!(isFirstMoveVertical(dx, dy) || isFirstMoveHorizontal(dx, dy))) {
-            throw new UnsupportedOperationException("[ERROR] 상이 이동할 수 있는 목적지가 아닙니다.");
-        }
     }
 
     private boolean isFirstMoveVertical(int dx, int dy) {
