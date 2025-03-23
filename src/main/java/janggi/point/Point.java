@@ -12,10 +12,9 @@ public record Point(int row, int column) {
 
     private void validateRange(int row, int column) {
         if (row < BOARD_LOWER_BOUND
-                || column < BOARD_LOWER_BOUND
-                || row > BOARD_ROW_UPPER_BOUND
-                || column > BOARD_COLUMN_UPPER_BOUND
-        ) {
+            || column < BOARD_LOWER_BOUND
+            || row > BOARD_ROW_UPPER_BOUND
+            || column > BOARD_COLUMN_UPPER_BOUND) {
             throw new IllegalArgumentException("보드판의 범위를 벗어난 좌표입니다.");
         }
     }
