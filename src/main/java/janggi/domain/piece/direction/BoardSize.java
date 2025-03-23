@@ -16,4 +16,8 @@ public enum BoardSize {
     public static boolean validateSize(final int x, final int y) {
         return x >= MIN_X.size && x <= MAX_X.size && y >= MIN_Y.size && y <= MAX_Y.size;
     }
+
+    public int getSize() {
+        return size;
+    }
 }

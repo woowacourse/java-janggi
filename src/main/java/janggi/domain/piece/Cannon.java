@@ -1,5 +1,10 @@
 package janggi.domain.piece;
 
+import static janggi.domain.piece.direction.BoardSize.MAX_X;
+import static janggi.domain.piece.direction.BoardSize.MAX_Y;
+import static janggi.domain.piece.direction.BoardSize.MIN_X;
+import static janggi.domain.piece.direction.BoardSize.MIN_Y;
+
 import janggi.domain.Team;
 import janggi.domain.piece.direction.Direction;
 import janggi.domain.piece.direction.Position;
@@ -75,12 +80,12 @@ public class Cannon extends Piece {
     }
 
     private int getMaxSteps(final Direction direction, final Position position) {
-        if (direction.dx() > 0) {
-            return 8 - position.x();
-        } else if (direction.dx() < 0) {
+        if (direction.dx() > MIN_X.getSize()) {
+            return MAX_X.getSize() - position.x();
+        } else if (direction.dx() < MIN_X.getSize()) {
             return position.x();
-        } else if (direction.dy() > 0) {
-            return 9 - position.y();
+        } else if (direction.dy() > MIN_Y.getSize()) {
+            return MAX_Y.getSize() - position.y();
         }
         return position.y();
     }
