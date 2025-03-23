@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.setting.CampType;
 import janggi.value.JanggiPosition;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -25,103 +24,92 @@ public class Po extends Piece {
 
     @Override
     public Po move(final JanggiPosition destination, final List<Piece> enemy, final List<Piece> allies) {
-        boolean isAble = ableToMove(destination, enemy, allies);
-        if (!isAble) {
+        if (!ableToMove(destination, enemy, allies)) {
             throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
         }
         return new Po(destination);
     }
 
     @Override
-    public boolean ableToMove(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
-        //목적지 일직선 상에 있는지 있다면 리턴 false
-        if (!isRuleOfMove(destination)) {
-            return false;
-        }
-        //목적지 위치에 아군이 있다면 리턴 false
-        boolean isInDestination = isAlliesInDestination(destination, allies);
-        if (isInDestination) {
+    protected boolean ableToMove(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
+        // 목적지가 직선 상에 있는지 확인
+        if (!isStraightLine(destination)) {
             return false;
         }
 
-        //현재 위치와 목적지(미포함) 사이에 좌표리스트 계산
-        List<JanggiPosition> pathJanggiPositions = calculatePositions(destination);
+        // 목적지에 아군이 있는지 확인
+        if (isAlliesInDestination(destination, allies)) {
+            return false;
+        }
 
-        //좌표리스트 아군 검색
-        List<Piece> alliesInPath = searchPieceInPath(allies, pathJanggiPositions);
+        // 현재 위치와 목적지 사이의 경로 계산
+        List<JanggiPosition> pathPositions = calculatePathPositions(destination);
 
-        //좌표리스트 적군 검색
-        List<Piece> enemyInPath = searchPieceInPath(enemy, pathJanggiPositions);
-        
-        //아군이나 적군이 없다면 리턴 false
+        // 경로 상의 아군과 적군 검색
+        List<Piece> alliesInPath = searchPiecesInPath(allies, pathPositions);
+        List<Piece> enemyInPath = searchPiecesInPath(enemy, pathPositions);
+
+        // 경로 상에 아군이나 적군이 없으면 이동 불가
         if (alliesInPath.isEmpty() && enemyInPath.isEmpty()) {
             return false;
         }
 
-        //아군이나 적군사이에 포가 있다면 리턴 false
-        long alliesPoCountInPath = countPoInPath(alliesInPath);
-        long enemyPoCountInPath = countPoInPath(enemyInPath);
-        if (alliesPoCountInPath + enemyPoCountInPath != 0) {
+        // 경로 상에 포가 있는지 확인
+        if (containsPo(alliesInPath) || containsPo(enemyInPath)) {
             return false;
         }
 
-        //아군과 적군의 합이 두개이상일 경우 리턴 false
-        if (alliesInPath.size() + enemyInPath.size() >= 2) {
-            return false;
-        }
-
-        return true;
+        // 경로 상의 말이 딱 하나인지 확인
+        return alliesInPath.size() + enemyInPath.size() == 1;
     }
 
-    private long countPoInPath(List<Piece> alliesInPath) {
-        return alliesInPath.stream()
-                .filter(alliesPiece -> alliesPiece.checkPieceType(PieceType.PO))
-                .count();
-    }
-
-    private List<Piece> searchPieceInPath(List<Piece> allies, List<JanggiPosition> pathJanggiPositions) {
-        List<Piece> alliesInPath = new ArrayList<>();
-        for (JanggiPosition pathJanggiPosition : pathJanggiPositions) {
-            allies.stream()
-                    .filter(alliesPiece -> alliesPiece.getPosition().equals(pathJanggiPosition))
-                    .forEach(alliesInPath::add);
-        }
-        return alliesInPath;
+    private boolean isStraightLine(JanggiPosition destination) {
+        return getPosition().getX() == destination.getX() || getPosition().getY() == destination.getY();
     }
 
     private boolean isAlliesInDestination(JanggiPosition destination, List<Piece> allies) {
         return allies.stream()
-                .anyMatch(alliesPiece -> alliesPiece.getPosition().equals(destination));
+                .anyMatch(piece -> piece.getPosition().equals(destination));
     }
 
-    private boolean isRuleOfMove(JanggiPosition destination) {
-        return getPosition().getX() == destination.getX() || getPosition().getY() == destination.getY();
+    private List<JanggiPosition> calculatePathPositions(JanggiPosition destination) {
+        int startX = getPosition().getX();
+        int startY = getPosition().getY();
+        int endX = destination.getX();
+        int endY = destination.getY();
+
+        if (startX == endX) {
+            return generatePositionsAlongY(startX, startY, endY);
+        }
+        return generatePositionsAlongX(startY, startX, endX);
     }
 
-
-    private List<JanggiPosition> calculatePositions(JanggiPosition destination) {
-        if (getPosition().getX() == destination.getX()) {
-            if (getPosition().getY() > destination.getY()) {
-                return IntStream.rangeClosed(destination.getY() - 1, getPosition().getY())
-                        .filter(y -> y > 0)
-                        .mapToObj(y -> new JanggiPosition(getPosition().getX(), y))
-                        .toList();
-            }
-            return IntStream.rangeClosed(getPosition().getY(), destination.getY() - 1)
-                    .filter(y -> y > 0)
-                    .mapToObj(y -> new JanggiPosition(getPosition().getX(), y))
-                    .toList();
-        }
-        if (getPosition().getX() > destination.getX()) {
-            return IntStream.rangeClosed(destination.getX() - 1, getPosition().getX())
-                    .filter(x -> x > 0)
-                    .mapToObj(x -> new JanggiPosition(x, getPosition().getY()))
-                    .toList();
-        }
-
-        return IntStream.rangeClosed(getPosition().getX(), destination.getX() - 1)
-                .filter(x -> x > 0)
-                .mapToObj(x -> new JanggiPosition(x, getPosition().getY()))
+    private List<JanggiPosition> generatePositionsAlongY(int x, int startY, int endY) {
+        int minY = Math.min(startY, endY);
+        int maxY = Math.max(startY, endY);
+        return IntStream.rangeClosed(minY + 1, maxY - 1)
+                .filter(y -> y > 0)
+                .mapToObj(y -> new JanggiPosition(x, y))
                 .toList();
+    }
+
+    private List<JanggiPosition> generatePositionsAlongX(int y, int startX, int endX) {
+        int minX = Math.min(startX, endX);
+        int maxX = Math.max(startX, endX);
+        return IntStream.rangeClosed(minX + 1, maxX - 1)
+                .filter(x -> x > 0)
+                .mapToObj(x -> new JanggiPosition(x, y))
+                .toList();
+    }
+
+    private List<Piece> searchPiecesInPath(List<Piece> pieces, List<JanggiPosition> pathPositions) {
+        return pieces.stream()
+                .filter(piece -> pathPositions.contains(piece.getPosition()))
+                .toList();
+    }
+
+    private boolean containsPo(List<Piece> pieces) {
+        return pieces.stream()
+                .anyMatch(piece -> piece.checkPieceType(PieceType.PO));
     }
 }

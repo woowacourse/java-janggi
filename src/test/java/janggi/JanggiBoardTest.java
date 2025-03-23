@@ -7,9 +7,11 @@ import janggi.fixture.PiecePositionFixture;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.setting.AssignType;
+import janggi.setting.CampType;
 import janggi.value.JanggiPosition;
 import java.util.List;
 import java.util.stream.Stream;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -153,6 +155,44 @@ public class JanggiBoardTest {
                 .toList();
         assertThat(maPieceJanggiPositions)
                 .containsExactlyInAnyOrderElementsOf(janggiPositions);
+    }
+
+    @DisplayName("초나라 장기말 움직임 확인")
+    @Test
+    void test6() {
+        //given
+        CampType campType = CampType.CHO;
+        JanggiPosition targetJanggiPosition = new JanggiPosition(4,8);
+        JanggiPosition destination = new JanggiPosition(5,8);
+
+        JanggiBoard janggiBoard = new JanggiBoard(AssignType.IN_SANG, AssignType.IN_SANG);
+        List<Piece> choPieces = janggiBoard.getChoPieces();
+        //when
+        janggiBoard.movePiece(campType, targetJanggiPosition, destination);
+        List<Piece> pieces = choPieces.stream().filter(piece -> piece.getPieceType() == PieceType.GUNG).toList();
+        Piece gung = pieces.getFirst();
+
+        //then
+        Assertions.assertThat(gung.getPosition()).isEqualTo(destination);
+    }
+
+    @DisplayName("한나라 장기말 움직임 확인")
+    @Test
+    void test7() {
+        //given
+        CampType campType = CampType.HAN;
+        JanggiPosition targetJanggiPosition = new JanggiPosition(4,1);
+        JanggiPosition destination = new JanggiPosition(5,1);
+
+        JanggiBoard janggiBoard = new JanggiBoard(AssignType.IN_SANG, AssignType.IN_SANG);
+        List<Piece> hanPieces = janggiBoard.getHanPieces();
+        //when
+        janggiBoard.movePiece(campType, targetJanggiPosition, destination);
+        List<Piece> pieces = hanPieces.stream().filter(piece -> piece.getPieceType() == PieceType.GUNG).toList();
+        Piece gung = pieces.getFirst();
+
+        //then
+        Assertions.assertThat(gung.getPosition()).isEqualTo(destination);
     }
 
 }

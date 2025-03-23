@@ -31,7 +31,7 @@ public class Sang extends Piece {
     }
 
     @Override
-    public boolean ableToMove(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
+    protected boolean ableToMove(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
         SangDirection sangDirection = SangDirection.of(getPosition(), destination);
         if (sangDirection == SangDirection.NONE) {
             return false;

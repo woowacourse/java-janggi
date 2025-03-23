@@ -22,6 +22,6 @@ public enum Answer {
                 .filter(command -> command.command.equals(number))
                 .findFirst()
                 .map(value -> value.assignType)
-                .orElseThrow(() -> new IllegalArgumentException("예외메시지 나중에"));
+                .orElseThrow(() -> new IllegalArgumentException("1,2,3,4번 희망하는 숫자를 입력하셔야 합니다."));
     }
 }

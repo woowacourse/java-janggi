@@ -24,66 +24,78 @@ public class Cha extends Piece {
     }
 
     @Override
-    public Cha move(final JanggiPosition destination, final List<Piece> enemy, final List<Piece> allies) {
-        boolean isAble = ableToMove(destination, enemy, allies);
-        if (!isAble) {
+    public Cha move(final JanggiPosition destination, final List<Piece> enemyPieces, final List<Piece> allyPieces) {
+        if (!ableToMove(destination, enemyPieces, allyPieces)) {
             throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
         }
         return new Cha(destination);
     }
 
     @Override
-    public boolean ableToMove(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
-        if (!isRuleOfMove(destination)) {
+    protected boolean ableToMove(JanggiPosition destination, List<Piece> enemyPieces, List<Piece> allyPieces) {
+        if (!isValidMove(destination)) {
             return false;
         }
-        return isNotHurdle(destination, enemy, allies);
+        return isPathBlockedByAlly(destination, allyPieces) && isPathClearOrBlockedByEnemy(destination, enemyPieces);
     }
 
-    private boolean isRuleOfMove(JanggiPosition destination) {
+    private boolean isValidMove(JanggiPosition destination) {
         return getPosition().getX() == destination.getX() || getPosition().getY() == destination.getY();
     }
 
-    private boolean isNotHurdle(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
-        List<JanggiPosition> janggiPositions = calculatePositions(destination);
-        for (JanggiPosition janggiPosition : janggiPositions) {
-            if (janggiPosition.equals(destination)) {
+    private boolean isPathBlockedByAlly(JanggiPosition destination, List<Piece> allyPieces) {
+        List<JanggiPosition> pathPositions = calculatePathPositions(destination);
+        return pathPositions.stream()
+                .noneMatch(position -> isPositionOccupiedByAlly(position, allyPieces));
+    }
+
+    private boolean isPathClearOrBlockedByEnemy(JanggiPosition destination, List<Piece> enemyPieces) {
+        List<JanggiPosition> pathPositions = calculatePathPositions(destination);
+        for (JanggiPosition position : pathPositions) {
+            if (position.equals(destination)) {
+                // 목적지에는 상대방이 있으면 공격 가능 (2.1)
                 continue;
             }
-            boolean isEnemyExistence = enemy.stream()
-                    .anyMatch(enemyPiece -> enemyPiece.getPosition().equals(janggiPosition));
-            if (isEnemyExistence) {
-                return false;
-            }
-        }
-        for (JanggiPosition janggiPosition : janggiPositions) {
-            boolean isAlliesExistence = allies.stream()
-                    .anyMatch(alliesPiece -> alliesPiece.getPosition().equals(janggiPosition));
-            if (isAlliesExistence) {
+            if (isPositionOccupiedByEnemy(position, enemyPieces)) {
                 return false;
             }
         }
         return true;
     }
 
-    private List<JanggiPosition> calculatePositions(JanggiPosition destination) {
-        if (getPosition().getX() == destination.getX()) {
-            if (getPosition().getY() > destination.getY()) {
-                return IntStream.rangeClosed(destination.getY(), getPosition().getY())
-                        .mapToObj(y -> new JanggiPosition(getPosition().getX(), y))
-                        .toList();
-            }
-            return IntStream.rangeClosed(getPosition().getY(), destination.getY())
-                    .mapToObj(y -> new JanggiPosition(getPosition().getX(), y))
-                    .toList();
+    private boolean isPositionOccupiedByAlly(JanggiPosition position, List<Piece> allyPieces) {
+        return allyPieces.stream().anyMatch(piece -> piece.getPosition().equals(position));
+    }
+
+    private boolean isPositionOccupiedByEnemy(JanggiPosition position, List<Piece> enemyPieces) {
+        return enemyPieces.stream().anyMatch(piece -> piece.getPosition().equals(position));
+    }
+
+    private List<JanggiPosition> calculatePathPositions(JanggiPosition destination) {
+        int startX = getPosition().getX();
+        int startY = getPosition().getY();
+        int endX = destination.getX();
+        int endY = destination.getY();
+
+        if (startX == endX) {
+            return generatePositionsAlongY(startX, startY, endY);
         }
-        if (getPosition().getX() > destination.getX()) {
-            return IntStream.rangeClosed(destination.getX(), getPosition().getX())
-                    .mapToObj(x -> new JanggiPosition(x, getPosition().getY()))
-                    .toList();
-        }
-        return IntStream.rangeClosed(getPosition().getX(), destination.getX())
-                .mapToObj(x -> new JanggiPosition(x, getPosition().getY()))
+        return generatePositionsAlongX(startY, startX, endX);
+    }
+
+    private List<JanggiPosition> generatePositionsAlongY(int x, int startY, int endY) {
+        int minY = Math.min(startY, endY);
+        int maxY = Math.max(startY, endY);
+        return IntStream.rangeClosed(minY, maxY)
+                .mapToObj(y -> new JanggiPosition(x, y))
+                .toList();
+    }
+
+    private List<JanggiPosition> generatePositionsAlongX(int y, int startX, int endX) {
+        int minX = Math.min(startX, endX);
+        int maxX = Math.max(startX, endX);
+        return IntStream.rangeClosed(minX, maxX)
+                .mapToObj(x -> new JanggiPosition(x, y))
                 .toList();
     }
 }

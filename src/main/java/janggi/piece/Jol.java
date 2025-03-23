@@ -26,35 +26,34 @@ public class Jol extends Piece {
     }
 
     @Override
-    public Jol move(final JanggiPosition destination, final List<Piece> enemy, final List<Piece> allies) {
-        boolean isAble = ableToMove(destination, enemy, allies);
-        if (!isAble) {
+    public Jol move(final JanggiPosition destination, final List<Piece> enemyPieces, final List<Piece> allyPieces) {
+        if (!ableToMove(destination, enemyPieces, allyPieces)) {
             throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
         }
         return new Jol(destination, campType);
     }
 
     @Override
-    public boolean ableToMove(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
-        if (!isRuleOfMove(destination)) {
-            return false;
-        }
-        return isNotHurdle(destination, allies);
+    protected boolean ableToMove(JanggiPosition destination, List<Piece> enemyPieces, List<Piece> allyPieces) {
+        return isValidMove(destination) && isNotBlockedByAlly(destination, allyPieces);
     }
 
-    private boolean isRuleOfMove(JanggiPosition destination) {
+    private boolean isValidMove(JanggiPosition destination) {
+        int currentX = getPosition().getX();
+        int currentY = getPosition().getY();
+        int destX = destination.getX();
+        int destY = destination.getY();
+
         if (campType == CampType.CHO) {
-            return destination.equals(new JanggiPosition(getPosition().getX() - 1, getPosition().getY()))
-                    || destination.equals(new JanggiPosition(getPosition().getX() + 1, getPosition().getY()))
-                    || destination.equals(new JanggiPosition(getPosition().getX(), getPosition().getY() - 1));
+            return (destX == currentX && destY == currentY - 1)
+                    || (destY == currentY && Math.abs(destX - currentX) == 1);
         }
-        return destination.equals(new JanggiPosition(getPosition().getX() - 1, getPosition().getY()))
-                || destination.equals(new JanggiPosition(getPosition().getX() + 1, getPosition().getY()))
-                || destination.equals(new JanggiPosition(getPosition().getX(), getPosition().getY() + 1));
+        return (destX == currentX && destY == currentY + 1)
+                || (destY == currentY && Math.abs(destX - currentX) == 1);
     }
 
-    private static boolean isNotHurdle(JanggiPosition destination, List<Piece> allies) {
-        return allies.stream()
+    private boolean isNotBlockedByAlly(JanggiPosition destination, List<Piece> allyPieces) {
+        return allyPieces.stream()
                 .noneMatch(piece -> piece.getPosition().equals(destination));
     }
 }

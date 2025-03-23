@@ -31,7 +31,7 @@ public class Ma extends Piece {
     }
 
     @Override
-    public boolean ableToMove(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
+    protected boolean ableToMove(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
         MaDirection maDirection = MaDirection.of(getPosition(), destination);
         if (maDirection == MaDirection.NONE) {
             return false;
