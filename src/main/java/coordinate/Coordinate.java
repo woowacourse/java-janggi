@@ -6,8 +6,8 @@ import static constant.JanggiConstant.BOARD_MIN_HEIGHT;
 import static constant.JanggiConstant.BOARD_MIN_WIDTH;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 public class Coordinate {
@@ -22,11 +22,21 @@ public class Coordinate {
         this.y = y;
     }
 
-    public Optional<Coordinate> pickChangedCoordinate(int x, int y) {
-        if (isInvalidX(this.x + x) || isInvalidY(this.y + y)) {
-            return Optional.empty();
+    public Coordinate pickChangedCoordinate(List<MoveVector> moveVectors) {
+        int deltaX = moveVectors.stream()
+                .mapToInt(MoveVector::deltaX)
+                .sum();
+        int deltaY = moveVectors.stream()
+                .mapToInt(MoveVector::deltaY)
+                .sum();
+
+        int newX = this.x + deltaX;
+        int newY = this.y + deltaY;
+
+        if (isInvalidX(newX) || isInvalidY(newY)) {
+            return null;
         }
-        return Optional.of(new Coordinate(this.x + x, this.y + y));
+        return new Coordinate(newX, newY);
     }
 
     public Set<Coordinate> pickCrossCoordinates() {

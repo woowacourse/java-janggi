@@ -1,8 +1,10 @@
 package coordinate;
 
+import static coordinate.Direction.UP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -72,10 +74,10 @@ public class CoordinateTest {
         Coordinate coordinate = new Coordinate(5, 5);
 
         // when
-        Coordinate changedCoordinate = coordinate.pickChangedCoordinate(1, 1).get();
+        Coordinate changedCoordinate = coordinate.pickChangedCoordinate(List.of(UP));
 
         // then
-        assertThat(changedCoordinate).isEqualTo(new Coordinate(6, 6));
+        assertThat(changedCoordinate).isEqualTo(new Coordinate(5, 4));
     }
 
     @Test
