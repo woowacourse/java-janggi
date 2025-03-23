@@ -1,6 +1,7 @@
 package piece;
 
 import java.util.Objects;
+import move.Direction;
 
 public class Position {
 
@@ -12,9 +13,9 @@ public class Position {
         this.column = column;
     }
 
-    public Position add(Position position) {
-        int newRow = this.row + position.row;
-        int newColumn = this.column + position.column;
+    public Position add(Direction direction) {
+        int newRow = this.row + direction.y();
+        int newColumn = this.column + direction.x();
 
         return new Position(newRow, newColumn);
     }

@@ -44,7 +44,7 @@ public class ChaMoveBehaviorTest {
         MoveBehavior moveBehavior = new ChaMoveBehavior();
         Pieces onRoutePieces = new Pieces(List.of(
                 new Piece(
-                        new Position(0, 1),
+                        new Position(0, 0),
                         new ChaMoveBehavior(),
                         PieceType.CHA,
                         Team.BLUE

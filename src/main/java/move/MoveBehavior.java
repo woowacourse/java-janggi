@@ -24,13 +24,13 @@ public interface MoveBehavior {
 
     Route getLegalRoute(Position startPosition, Position endPosition, Team team);
 
-    default Route getLegalRoute(Position startPosition, Position endPosition, List<Route> canMoveDirections) {
-        for (Route canMoveDirection : canMoveDirections) {
-            List<Position> moveRoute = new ArrayList<>();
+    default Route getLegalRoute(Position startPosition, Position endPosition, List<Directions> canMoveDirections) {
+        for (Directions canMoveDirection : canMoveDirections) {
             Position currentPosition = startPosition;
-            currentPosition = movePosition(canMoveDirection, currentPosition, moveRoute);
+            List<Position> movePositions = new ArrayList<>();
+            currentPosition = movePosition(canMoveDirection, currentPosition, movePositions);
             if (currentPosition.equals(endPosition)) {
-                return new Route(moveRoute);
+                return new Route(movePositions);
             }
         }
         throw new InvalidMovePosition();
@@ -46,9 +46,9 @@ public interface MoveBehavior {
         return destination;
     }
 
-    private Position movePosition(Route canMoveDirection, Position currentPosition, List<Position> moveRoute) {
-        for (Position position : canMoveDirection.positions()) {
-            currentPosition = currentPosition.add(position);
+    private Position movePosition(Directions directions, Position currentPosition, List<Position> moveRoute) {
+        for (Direction direction : directions.getDirections()) {
+            currentPosition = currentPosition.add(direction);
             moveRoute.add(currentPosition);
         }
         return currentPosition;

@@ -7,15 +7,16 @@ import piece.Team;
 
 public class MaMoveBehavior implements MoveBehavior {
 
-    private static final List<Route> canMoveDirections = List.of(
-            new Route(List.of(new Position(1, 0), new Position(1, -1))),
-            new Route(List.of(new Position(1, 0), new Position(1, 1))),
-            new Route(List.of(new Position(-1, 0), new Position(-1, -1))),
-            new Route(List.of(new Position(-1, 0), new Position(-1, 1))),
-            new Route(List.of(new Position(0, 1), new Position(1, 1))),
-            new Route(List.of(new Position(0, 1), new Position(-1, 1))),
-            new Route(List.of(new Position(0, -1), new Position(1, 1))),
-            new Route(List.of(new Position(0, -1), new Position(-1, -1)))
+    private static final List<Directions> canMoveDirections = List.of(
+            new Directions(List.of(Direction.UP, Direction.UP_LEFT)),
+            new Directions(List.of(Direction.UP, Direction.UP_RIGHT)),
+            new Directions(List.of(Direction.DOWN, Direction.DOWN_LEFT)),
+            new Directions(List.of(Direction.DOWN, Direction.DOWN_RIGHT)),
+            new Directions(List.of(Direction.RIGHT, Direction.UP_RIGHT)),
+            new Directions(List.of(Direction.RIGHT, Direction.DOWN_RIGHT)),
+            new Directions(List.of(Direction.LEFT, Direction.UP_LEFT)),
+            new Directions(List.of(Direction.LEFT, Direction.DOWN_LEFT)
+            )
     );
 
     @Override

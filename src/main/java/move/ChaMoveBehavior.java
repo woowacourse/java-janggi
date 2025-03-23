@@ -21,16 +21,16 @@ public class ChaMoveBehavior implements MoveBehavior {
     private Route calculateSameLineRoute(Position startPosition, Position endPosition, Position minPosition,
                                          Position maxPosition, List<Position> positions) {
         if (startPosition.isSameColumn(endPosition)) {
-            return calculateLegalRoute(minPosition, maxPosition, positions, new Position(1, 0));
+            return calculateLegalRoute(minPosition, maxPosition, positions, Direction.UP);
         }
         if (startPosition.isSameRow(endPosition)) {
-            return calculateLegalRoute(minPosition, maxPosition, positions, new Position(0, 1));
+            return calculateLegalRoute(minPosition, maxPosition, positions, Direction.RIGHT);
         }
         throw new InvalidMovePosition();
     }
 
     private Route calculateLegalRoute(Position minPosition, Position maxPosition, List<Position> positions,
-                                      Position direction) {
+                                      Direction direction) {
         while (!minPosition.equals(maxPosition)) {
             minPosition = minPosition.add(direction);
             positions.add(minPosition);

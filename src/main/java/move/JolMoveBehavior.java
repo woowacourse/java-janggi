@@ -8,29 +8,29 @@ import piece.Team;
 
 public class JolMoveBehavior implements MoveBehavior {
 
-    private static final Map<Team, List<Route>> teamCanMoveDirection;
+    private static final Map<Team, List<Directions>> teamCanMoveDirection;
 
     static {
-        final List<Route> blueCanMoveDirections = List.of(
-                new Route(
-                        List.of(new Position(0, 1))
+        final List<Directions> blueCanMoveDirections = List.of(
+                new Directions(
+                        List.of(Direction.RIGHT)
                 ),
-                new Route(
-                        List.of(new Position(0, -1))
+                new Directions(
+                        List.of(Direction.LEFT)
                 ),
-                new Route(
-                        List.of(new Position(1, 0))
+                new Directions(
+                        List.of(Direction.UP)
                 )
         );
-        final List<Route> redCanMoveDirections = List.of(
-                new Route(
-                        List.of(new Position(0, 1))
+        final List<Directions> redCanMoveDirections = List.of(
+                new Directions(
+                        List.of(Direction.RIGHT)
                 ),
-                new Route(
-                        List.of(new Position(0, -1))
+                new Directions(
+                        List.of(Direction.LEFT)
                 ),
-                new Route(
-                        List.of(new Position(-1, 0))
+                new Directions(
+                        List.of(Direction.DOWN)
                 )
         );
 
