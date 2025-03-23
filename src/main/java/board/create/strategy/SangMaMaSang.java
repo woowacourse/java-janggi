@@ -1,7 +1,6 @@
 package board.create.strategy;
 
 import coordinate.Coordinate;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import piece.Ma;
@@ -13,11 +12,10 @@ public class SangMaMaSang extends TableSettingStrategy {
 
     @Override
     public Map<Coordinate, Piece> create(Team team) {
-        List<Integer> x = TEAM_X_COORDINATE.get(team);
-        int y = TEAM_Y_COORDINATE.get(team);
+        List<Integer> x = team.getMaSangXCoordinates();
+        int y = team.getMaSangYCoordinate();
 
-        Map<Coordinate, Piece> pieces = new HashMap<>();
-        pieces.putAll(createDefaultBoard(team));
+        Map<Coordinate, Piece> pieces = super.create(team);
         pieces.put(new Coordinate(x.get(0), y), new Sang(team));
         pieces.put(new Coordinate(x.get(1), y), new Ma(team));
         pieces.put(new Coordinate(x.get(2), y), new Ma(team));

@@ -1,7 +1,7 @@
 package board.create.strategy;
 
 import coordinate.Coordinate;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import piece.Byeong;
 import piece.Cha;
@@ -14,25 +14,16 @@ import team.Team;
 
 public abstract class TableSettingStrategy {
 
-    protected static Map<Team, List<Integer>> TEAM_X_COORDINATE = Map.of(
-            Team.HAN, List.of(8, 7, 3, 2),
-            Team.CHO, List.of(2, 3, 7, 8)
-    );
-
-    protected static Map<Team, Integer> TEAM_Y_COORDINATE = Map.of(
-            Team.HAN, 1,
-            Team.CHO, 10
-    );
-
-    public abstract Map<Coordinate, Piece> create(Team team);
-
-    protected Map<Coordinate, Piece> createDefaultBoard(Team team) {
-        if (team.equals(Team.HAN)) {
-            return createHanDefaultBoard();
-        }
-        return createChoDefaultBoard();
+    public Map<Coordinate, Piece> create(Team team) {
+        return createDefaultBoard(team);
     }
 
+    private Map<Coordinate, Piece> createDefaultBoard(Team team) {
+        if (team == Team.HAN) {
+            return new HashMap<>(createHanDefaultBoard());
+        }
+        return new HashMap<>(createChoDefaultBoard());
+    }
 
     private Map<Coordinate, Piece> createHanDefaultBoard() {
         return Map.ofEntries(
