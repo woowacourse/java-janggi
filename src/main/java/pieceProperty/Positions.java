@@ -1,12 +1,13 @@
 package pieceProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Positions {
     private final List<Position> positions;
 
     public Positions(List<Position> positions) {
-        this.positions = positions;
+        this.positions = new ArrayList<>(positions);
     }
 
     public void addPosition(Position position) {
