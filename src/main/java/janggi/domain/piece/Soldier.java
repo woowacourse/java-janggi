@@ -1,19 +1,35 @@
 package janggi.domain.piece;
 
-import static janggi.domain.Team.BLUE;
 import static janggi.domain.Team.RED;
+import static janggi.domain.piece.direction.BoardSize.validateSize;
+import static janggi.domain.piece.direction.Direction.DOWN;
+import static janggi.domain.piece.direction.Direction.LEFT;
+import static janggi.domain.piece.direction.Direction.RIGHT;
+import static janggi.domain.piece.direction.Direction.UP;
 
-import janggi.domain.piece.direction.RawRoute;
 import janggi.domain.Team;
+import janggi.domain.piece.direction.Direction;
 import janggi.domain.piece.direction.Position;
-import janggi.domain.piece.direction.RawPosition;
+import janggi.domain.piece.direction.Route;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Soldier extends Piece {
 
-    private static final Map<Team, Integer> direction = Map.of(RED, -1, BLUE, 1);
+    private static final List<List<Direction>> RED_GUARD_MOVES = List.of(
+            List.of(UP),
+            List.of(LEFT),
+            List.of(RIGHT)
+    );
+
+    private static final List<List<Direction>> BLUE_GUARD_MOVES = List.of(
+            List.of(DOWN),
+            List.of(LEFT),
+            List.of(RIGHT)
+    );
 
     public Soldier(final Position position, final Team team) {
         super(position, team);
@@ -25,11 +41,33 @@ public class Soldier extends Piece {
     }
 
     @Override
-    protected Set<RawRoute> calculateRawRoutes() {
-        return Set.of(
-                new RawRoute(List.of(new RawPosition(position.x() + 1, position.y()))),
-                new RawRoute(List.of(new RawPosition(position.x() - 1, position.y()))),
-                new RawRoute(List.of(new RawPosition(position.x(), position.y() + direction.get(team))))
-        );
+    protected Set<Route> calculateRawRoutes() {
+        return getMovesByTeam().stream()
+                .map(this::calculateRoute)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
+    }
+
+    private List<List<Direction>> getMovesByTeam() {
+        if (team == RED) {
+            return RED_GUARD_MOVES;
+        }
+        return BLUE_GUARD_MOVES;
+    }
+
+    private Optional<Route> calculateRoute(final List<Direction> move) {
+        int x = position.x();
+        int y = position.y();
+        final List<Position> positions = new ArrayList<>();
+
+        for (final Direction direction : move) {
+            x += direction.dx();
+            y += direction.dy();
+            if (validateSize(x, y)) {
+                positions.add(new Position(x, y));
+            }
+        }
+        return Optional.of(new Route(positions));
     }
 }
