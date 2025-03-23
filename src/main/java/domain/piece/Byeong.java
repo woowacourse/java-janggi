@@ -18,9 +18,7 @@ public class Byeong extends Piece {
     public List<Coordinate> availableMovePositions(Coordinate currCoordinate, Board board) {
         return MOVEMENTS.stream()
                 .filter(this::getForwardDirection)
-                .map(movement -> currCoordinate.move(
-                        movement.getDirection().getRow(),
-                        movement.getDirection().getCol()))
+                .map(currCoordinate::move)
                 .filter(next -> !board.isOutOfBoundary(next) && !board.isMyTeam(currCoordinate, next))
                 .toList();
     }

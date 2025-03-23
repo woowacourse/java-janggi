@@ -1,8 +1,10 @@
 package domain;
 
+import domain.piece.movement.Movement;
 import java.util.Objects;
 
 public final class Coordinate {
+
     public static final int ROW_SIZE = 10;
     public static final int COL_SIZE = 9;
     public static final int BOARD_MIN_SIZE = 1;
@@ -17,6 +19,10 @@ public final class Coordinate {
 
     public Coordinate move(int increaseRow, int increaseCol) {
         return new Coordinate(row + increaseRow, col + increaseCol);
+    }
+
+    public Coordinate move(Movement movement) {
+        return move(movement.getDirection().getRow(), movement.getDirection().getCol());
     }
 
     public boolean equals(Object o) {

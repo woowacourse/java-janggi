@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Cha extends Piece {
 
-    private final List<Movement> movements = List.of(
+    private final List<Movement> MOVEMENTS = List.of(
             Movement.UP, Movement.DOWN, Movement.RIGHT, Movement.LEFT);
 
     public Cha(Country country) {
@@ -18,25 +18,25 @@ public class Cha extends Piece {
     }
 
     @Override
-    public List<Coordinate> availableMovePositions(Coordinate currCoordinate,
-                                                   Board board) {
+    public List<Coordinate> availableMovePositions(Coordinate currCoordinate, Board board) {
         List<Coordinate> availablePositions = new ArrayList<>();
-        for (Movement movement : movements) {
-            Coordinate next = movePosition(currCoordinate, movement.getDirection());
-            while (true) {
-                if (board.isOutOfBoundary(next) || (board.hasPiece(next) && board.isMyTeam(
-                        currCoordinate, next))) {
-                    break;
-                }
-                if (board.hasPiece(next) && !board.isMyTeam(currCoordinate, next)) {
-                    availablePositions.add(next);
+
+        for (Movement movement : MOVEMENTS) {
+            Coordinate next = currCoordinate.move(movement);
+
+            while (!board.isOutOfBoundary(next)) {
+                if (board.hasPiece(next)) {
+                    if (!board.isMyTeam(currCoordinate, next)) {
+                        availablePositions.add(next);
+                    }
                     break;
                 }
 
                 availablePositions.add(next);
-                next = movePosition(next, movement.getDirection());
+                next = next.move(movement);
             }
         }
+
         return availablePositions;
     }
 
