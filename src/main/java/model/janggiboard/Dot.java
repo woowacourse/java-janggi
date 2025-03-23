@@ -4,7 +4,7 @@ import model.piece.Piece;
 
 public class Dot {
 
-    private Piece piece;
+    private final Piece piece;
 
     public Dot() {
         piece = null;

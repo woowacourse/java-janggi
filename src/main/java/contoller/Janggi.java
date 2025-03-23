@@ -14,23 +14,13 @@ import view.OutputVIew;
 public class Janggi {
     public void play() {
         int setUpChoice = choiceSetUp();
-        JanggiBoard janggiBoard;
-        switch (setUpChoice) {
-            case 1:
-                janggiBoard = new JanggiBoard(JanggiBoardSetUp.INNER_SANG);
-                break;
-            case 2:
-                janggiBoard = new JanggiBoard(JanggiBoardSetUp.OUTER_SANG);
-                break;
-            case 3:
-                janggiBoard = new JanggiBoard(JanggiBoardSetUp.LEFT_SANG);
-                break;
-            case 4:
-                janggiBoard = new JanggiBoard(JanggiBoardSetUp.RIGHT_SANG);
-                break;
-            default:
-                throw new IllegalArgumentException("다시 입력하세요.");
-        }
+        JanggiBoard janggiBoard = switch (setUpChoice) {
+            case 1 -> new JanggiBoard(JanggiBoardSetUp.INNER_SANG);
+            case 2 -> new JanggiBoard(JanggiBoardSetUp.OUTER_SANG);
+            case 3 -> new JanggiBoard(JanggiBoardSetUp.LEFT_SANG);
+            case 4 -> new JanggiBoard(JanggiBoardSetUp.RIGHT_SANG);
+            default -> throw new IllegalArgumentException("다시 입력하세요.");
+        };
         displayJanggiBoard(janggiBoard);
 
         for (int i = 0; true; i++) {
