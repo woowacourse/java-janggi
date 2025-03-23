@@ -2,11 +2,14 @@ package domain.piece;
 
 import domain.Coordinate;
 import domain.board.Board;
-import domain.piece.movement.PhoMovement;
+import domain.piece.movement.Movement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Pho extends Piece {
+
+    private final List<Movement> movements = List.of(
+            Movement.UP, Movement.DOWN, Movement.RIGHT, Movement.LEFT);
 
     public Pho(Country country) {
         super(country, PieceType.PHO);
@@ -15,8 +18,8 @@ public class Pho extends Piece {
     @Override
     public List<Coordinate> availableMovePositions(Coordinate currCoordinate, Board board) {
         List<Coordinate> availablePositions = new ArrayList<>();
-        for (PhoMovement direction : PhoMovement.values()) {
-            Coordinate next = movePosition(currCoordinate, direction.getDirection());
+        for (Movement movement : movements) {
+            Coordinate next = movePosition(currCoordinate, movement.getDirection());
             boolean hasObstacle = false;
             while (true) {
                 if (invalidPhoCoordinate(currCoordinate, board, next, hasObstacle)) {
@@ -32,7 +35,7 @@ public class Pho extends Piece {
                 if (isObstacle(board, next, hasObstacle)) {
                     hasObstacle = true;
                 }
-                next = movePosition(next, direction.getDirection());
+                next = movePosition(next, movement.getDirection());
             }
         }
         return availablePositions;

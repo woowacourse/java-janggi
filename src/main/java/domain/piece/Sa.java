@@ -2,11 +2,14 @@ package domain.piece;
 
 import domain.Coordinate;
 import domain.board.Board;
-import domain.piece.movement.SaMovement;
-import java.util.Arrays;
+import domain.piece.movement.Movement;
 import java.util.List;
 
 public class Sa extends Piece {
+
+    private final List<Movement> movements = List.of(
+            Movement.UP, Movement.UP_RIGHT, Movement.RIGHT, Movement.DOWN_RIGHT,
+            Movement.DOWN, Movement.DOWN_LEFT, Movement.LEFT, Movement.UP_LEFT);
 
     public Sa(Country country) {
         super(country, PieceType.SA);
@@ -15,8 +18,8 @@ public class Sa extends Piece {
     @Override
     public List<Coordinate> availableMovePositions(Coordinate currCoordinate,
                                                    Board board) {
-        return Arrays.stream(SaMovement.values())
-                .map(gungMovement -> movePosition(currCoordinate, gungMovement.getDirection()))
+        return movements.stream()
+                .map(movement -> movePosition(currCoordinate, movement.getDirection()))
                 .filter(next -> !board.isOutOfBoundary(next) && !board.isMyTeam(currCoordinate, next))
                 .toList();
     }

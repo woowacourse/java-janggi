@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Ma extends Piece {
+
     public Ma(Country country) {
         super(country, PieceType.MA);
     }
