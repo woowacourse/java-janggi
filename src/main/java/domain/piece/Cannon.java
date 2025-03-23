@@ -25,12 +25,21 @@ public class Cannon extends Piece {
     @Override
     public boolean canMove(Piece destination, List<Piece> piecesInRoute) {
         int pieceCount = this.countPieceInRoute(piecesInRoute);
-        boolean noSamePiece = piecesInRoute.stream()
-                .noneMatch(this::isSamePiece);
+        if (pieceCount != ONE_PIECE) {
+            return false;
+        }
 
-        boolean isDestinationOtherPiece = !this.isSamePiece(destination);
+        boolean hasSamePiece = piecesInRoute.stream()
+                .anyMatch(this::isSamePiece);
+        if(hasSamePiece) {
+            return false;
+        }
 
-        return pieceCount == ONE_PIECE && this.isOtherTeam(destination) && noSamePiece && isDestinationOtherPiece;
+        boolean isDestinationSamePiece = this.isSamePiece(destination);
+        if (isDestinationSamePiece) {
+            return false;
+        }
+
+        return this.isOtherTeam(destination);
     }
-
 }
