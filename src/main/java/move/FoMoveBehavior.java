@@ -1,5 +1,6 @@
 package move;
 
+import exception.InvalidMovePosition;
 import java.util.ArrayList;
 import java.util.List;
 import piece.Piece;
@@ -11,7 +12,6 @@ import piece.Team;
 
 public class FoMoveBehavior implements MoveBehavior {
 
-    private static final String INVALID_MOVE_LOCATION = "이동불가능한 위치입니다.";
 
     @Override
     public Route getLegalRoute(Position startPosition, Position endPosition, Team team) {
@@ -22,19 +22,19 @@ public class FoMoveBehavior implements MoveBehavior {
         return calculateLegalRoute(startPosition, endPosition, minPosition, maxPosition, positions);
     }
 
-    private static Route calculateLegalRoute(Position startPosition, Position endPosition, Position minPosition,
-                                             Position maxPosition, List<Position> positions) {
+    private Route calculateLegalRoute(Position startPosition, Position endPosition, Position minPosition,
+                                      Position maxPosition, List<Position> positions) {
         if (startPosition.isSameColumn(endPosition)) {
             return calculateLegalRoute(minPosition, maxPosition, positions, new Position(1, 0));
         }
         if (startPosition.isSameRow(endPosition)) {
             return calculateLegalRoute(minPosition, maxPosition, positions, new Position(0, 1));
         }
-        throw new IllegalArgumentException(INVALID_MOVE_LOCATION);
+        throw new InvalidMovePosition();
     }
 
-    private static Route calculateLegalRoute(Position minPosition, Position maxPosition, List<Position> positions,
-                                             Position direction) {
+    private Route calculateLegalRoute(Position minPosition, Position maxPosition, List<Position> positions,
+                                      Position direction) {
         while (!minPosition.equals(maxPosition)) {
             minPosition = minPosition.add(direction);
             positions.add(minPosition);
@@ -54,32 +54,23 @@ public class FoMoveBehavior implements MoveBehavior {
         return destination;
     }
 
-    private static void validateFoMove(Position destination, Team moveTeam, int onRoutePiecesSize, Piece firstPiece,
-                                       Piece lastPiece) {
-        if (!(onRoutePiecesSize == 1 || onRoutePiecesSize == 2)) {
-            throw new IllegalArgumentException(INVALID_MOVE_LOCATION);
-        }
-        if (onRoutePiecesSize == 1 && firstPiece.isSamePosition(destination)) {
-            throw new IllegalArgumentException(INVALID_MOVE_LOCATION);
-        }
-        if (onRoutePiecesSize == 2 && !lastPiece.isSamePosition(destination)) {
-            throw new IllegalArgumentException(INVALID_MOVE_LOCATION);
-        }
-        if (lastPiece.isSamePosition(destination) && lastPiece.isSameTeam(moveTeam)) {
-            throw new IllegalArgumentException(INVALID_MOVE_LOCATION);
-        }
+    private void validateFoMove(Position destination, Team moveTeam, int onRoutePiecesSize, Piece firstPiece,
+                                Piece lastPiece) {
+        throwInvalidMoveBehaviorByCondition(() -> !(onRoutePiecesSize == 1 || onRoutePiecesSize == 2));
+        throwInvalidMoveBehaviorByCondition(() -> onRoutePiecesSize == 1 && firstPiece.isSamePosition(destination));
+        throwInvalidMoveBehaviorByCondition(() -> onRoutePiecesSize == 2 && !lastPiece.isSamePosition(destination));
+        throwInvalidMoveBehaviorByCondition(
+                () -> lastPiece.isSamePosition(destination) && lastPiece.isSameTeam(moveTeam));
     }
 
     private void validatePiecesEmpty(Pieces pieces) {
         if (pieces.size() == 0) {
-            throw new IllegalArgumentException(INVALID_MOVE_LOCATION);
+            throw new InvalidMovePosition();
         }
     }
 
     private void validateIsFo(Piece firstPiece, Piece lastPiece) {
-        if (isFo(firstPiece) || isFo(lastPiece)) {
-            throw new IllegalArgumentException(INVALID_MOVE_LOCATION);
-        }
+        throwInvalidMoveBehaviorByCondition(() -> isFo(firstPiece) || isFo(lastPiece));
     }
 
     private boolean isFo(Piece piece) {

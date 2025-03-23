@@ -6,7 +6,7 @@ import piece.Team;
 
 public class GameView {
     private static final String EMPTY_PIECE = "ㅁ";
-    private static final String INVALID_POSITION = "좌표는 r,c 방식이어야합니다.";
+    private static final String INVALID_POSITION_INPUT = "좌표는 r,c 방식이어야합니다.";
     private static final String NOT_NUMBER = "입력된 값이 숫자가 아닙니다.";
     private static final String RED_COLOR_FORMAT = "\u001B[31m%s\u001B[0m";
     private static final String BLUE_COLOR_FORMAT = "\u001B[34m%s\u001B[0m";
@@ -71,7 +71,7 @@ public class GameView {
     private Position inputPosition(String s) {
         String[] position = s.split(",");
         if (position.length != 2) {
-            throw new IllegalArgumentException(INVALID_POSITION);
+            throw new IllegalArgumentException(INVALID_POSITION_INPUT);
         }
         return inputPosition(position);
     }

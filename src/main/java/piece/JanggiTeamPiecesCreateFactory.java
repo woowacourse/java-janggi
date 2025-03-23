@@ -57,8 +57,7 @@ public class JanggiTeamPiecesCreateFactory {
 
     public JanggiTeamPiecesCreateFactory() {
     }
-
-
+    
     public Map<Team, Pieces> createJanggiInitiatePieces() {
         return initiatePieces;
     }

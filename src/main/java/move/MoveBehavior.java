@@ -1,5 +1,6 @@
 package move;
 
+import exception.InvalidMovePosition;
 import java.util.ArrayList;
 import java.util.List;
 import piece.Piece;
@@ -10,7 +11,16 @@ import piece.Team;
 
 public interface MoveBehavior {
 
-    String INVALID_POSITION = "도달할 수 없는 위치입니다.";
+    @FunctionalInterface
+    interface MoveBehaviorThrowingPredicate {
+        boolean test();
+    }
+
+    default void throwInvalidMoveBehaviorByCondition(MoveBehaviorThrowingPredicate throwCondition) {
+        if (throwCondition.test()) {
+            throw new InvalidMovePosition();
+        }
+    }
 
     Route getLegalRoute(Position startPosition, Position endPosition, Team team);
 
@@ -23,17 +33,14 @@ public interface MoveBehavior {
                 return new Route(moveRoute);
             }
         }
-        throw new IllegalArgumentException(INVALID_POSITION);
+        throw new InvalidMovePosition();
     }
+
 
     default Position move(Position destination, Pieces onRoutePieces, Team moveTeam) {
         for (Piece piece : onRoutePieces.getPieces()) {
-            if (!piece.isSamePosition(destination)) {
-                throw new IllegalArgumentException(INVALID_POSITION);
-            }
-            if (piece.isSameTeam(moveTeam)) {
-                throw new IllegalArgumentException(INVALID_POSITION);
-            }
+            throwInvalidMoveBehaviorByCondition(() -> !piece.isSamePosition(destination));
+            throwInvalidMoveBehaviorByCondition(() -> piece.isSameTeam(moveTeam));
         }
 
         return destination;
