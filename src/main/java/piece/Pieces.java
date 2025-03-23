@@ -15,7 +15,7 @@ public class Pieces {
         return pieces.stream()
                 .filter(piece -> piece.isSamePoint(point))
                 .findAny()
-                .get();
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 좌표에 기물이 존재하지 않습니다."));
     }
 
     public boolean isExistPieceIn(Point point) {
