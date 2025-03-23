@@ -17,8 +17,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 class PawnTest {
     public static Stream<Arguments> providePawnAndOriginAndDestination() {
         return Stream.of(
-                Arguments.of(new Pawn(Dynasty.HAN), Dot.findBy(0, 5), Dot.findBy(0, 6)),
-                Arguments.of(new Pawn(Dynasty.CHO), Dot.findBy(0, 3), Dot.findBy(0, 2))
+                Arguments.of(new Pawn(Dynasty.HAN), Dot.of(0, 5), Dot.of(0, 6)),
+                Arguments.of(new Pawn(Dynasty.CHO), Dot.of(0, 3), Dot.of(0, 2))
         );
     }
 
@@ -26,8 +26,8 @@ class PawnTest {
     @Test
     void pawnCanGetRoute() {
         // given
-        Dot origin = Dot.findBy(1, 1);
-        Dot destination = Dot.findBy(1, 0);
+        Dot origin = Dot.of(1, 1);
+        Dot destination = Dot.of(1, 0);
         Pawn pawn = new Pawn(Dynasty.HAN);
 
         // when

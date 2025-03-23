@@ -11,8 +11,8 @@ public class Pawn extends Piece {
 
     @Override
     public List<Dot> getRoute(Dot origin, Dot destination) {
-        int dx = origin.getDx(destination);
-        int dy = origin.getDy(destination);
+        int dx = origin.calculateRowChange(destination);
+        int dy = origin.calculateColumnChange(destination);
 
         validateRoute(dx, dy);
 

@@ -15,14 +15,14 @@ class ChariotTest {
     @Test
     void chariotCanGetRoute() {
         // given
-        Dot origin = Dot.findBy(1, 1);
-        Dot destination = Dot.findBy(1, 3);
+        Dot origin = Dot.of(1, 1);
+        Dot destination = Dot.of(1, 3);
         Chariot chariot = new Chariot(Dynasty.HAN);
 
         // when
         List<Dot> actual = chariot.getRoute(origin, destination);
 
-        List<Dot> expected = List.of(Dot.findBy(1, 2));
+        List<Dot> expected = List.of(Dot.of(1, 2));
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -32,8 +32,8 @@ class ChariotTest {
     @Test
     void chariotCannotGetRoute() {
         // given
-        Dot origin = Dot.findBy(1, 1);
-        Dot destination = Dot.findBy(2, 3);
+        Dot origin = Dot.of(1, 1);
+        Dot destination = Dot.of(2, 3);
         Chariot chariot = new Chariot(Dynasty.HAN);
 
         // when // then
@@ -50,8 +50,8 @@ class ChariotTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.findBy(1, 2), null);
-        routesWithPiece.put(Dot.findBy(1, 3), null);
+        routesWithPiece.put(Dot.of(1, 2), null);
+        routesWithPiece.put(Dot.of(1, 3), null);
 
         // when // then
         assertThatCode(() -> chariot.validateMove(routesWithPiece, null))
@@ -65,8 +65,8 @@ class ChariotTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.findBy(1, 2), null);
-        routesWithPiece.put(Dot.findBy(1, 3), new Chariot(Dynasty.HAN));
+        routesWithPiece.put(Dot.of(1, 2), null);
+        routesWithPiece.put(Dot.of(1, 3), new Chariot(Dynasty.HAN));
 
         // when // then
         assertThatCode(() -> chariot.validateMove(routesWithPiece, null))
@@ -81,8 +81,8 @@ class ChariotTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.findBy(1, 2), null);
-        routesWithPiece.put(Dot.findBy(1, 3), null);
+        routesWithPiece.put(Dot.of(1, 2), null);
+        routesWithPiece.put(Dot.of(1, 3), null);
 
         // when // then
         assertThatCode(() -> chariot.validateMove(routesWithPiece, new Chariot(Dynasty.HAN)))

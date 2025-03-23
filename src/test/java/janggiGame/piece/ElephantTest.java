@@ -17,11 +17,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 class ElephantTest {
     public static Stream<Arguments> provideElephantOriginAndDestinationAndExpected() {
         return Stream.of(
-                Arguments.of(Dot.findBy(5, 6), Dot.findBy(7, 9), List.of(Dot.findBy(5, 7), Dot.findBy(6, 8))),
-                Arguments.of(Dot.findBy(5, 6), Dot.findBy(3, 9), List.of(Dot.findBy(5, 7), Dot.findBy(4, 8))),
-                Arguments.of(Dot.findBy(5, 6), Dot.findBy(8, 8), List.of(Dot.findBy(6, 6), Dot.findBy(7, 7))),
-                Arguments.of(Dot.findBy(5, 6), Dot.findBy(8, 4), List.of(Dot.findBy(6, 6), Dot.findBy(7, 5))),
-                Arguments.of(Dot.findBy(5, 6), Dot.findBy(3, 3), List.of(Dot.findBy(5, 5), Dot.findBy(4, 4)))
+                Arguments.of(Dot.of(5, 6), Dot.of(7, 9), List.of(Dot.of(5, 7), Dot.of(6, 8))),
+                Arguments.of(Dot.of(5, 6), Dot.of(3, 9), List.of(Dot.of(5, 7), Dot.of(4, 8))),
+                Arguments.of(Dot.of(5, 6), Dot.of(8, 8), List.of(Dot.of(6, 6), Dot.of(7, 7))),
+                Arguments.of(Dot.of(5, 6), Dot.of(8, 4), List.of(Dot.of(6, 6), Dot.of(7, 5))),
+                Arguments.of(Dot.of(5, 6), Dot.of(3, 3), List.of(Dot.of(5, 5), Dot.of(4, 4)))
 
         );
     }
@@ -44,8 +44,8 @@ class ElephantTest {
     @Test
     void elephantCannotGetRoute() {
         // given
-        Dot origin = Dot.findBy(1, 1);
-        Dot destination = Dot.findBy(3, 3);
+        Dot origin = Dot.of(1, 1);
+        Dot destination = Dot.of(3, 3);
         Elephant elephant = new Elephant(Dynasty.HAN);
 
         // when // then
@@ -62,8 +62,8 @@ class ElephantTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Elephant elephant = new Elephant(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.findBy(5, 7), null);
-        routesWithPiece.put(Dot.findBy(6, 8), null);
+        routesWithPiece.put(Dot.of(5, 7), null);
+        routesWithPiece.put(Dot.of(6, 8), null);
 
         // when // then
         assertThatCode(() -> elephant.validateMove(routesWithPiece, null))
@@ -77,8 +77,8 @@ class ElephantTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Elephant elephant = new Elephant(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.findBy(5, 7), null);
-        routesWithPiece.put(Dot.findBy(6, 8), new Elephant(Dynasty.HAN));
+        routesWithPiece.put(Dot.of(5, 7), null);
+        routesWithPiece.put(Dot.of(6, 8), new Elephant(Dynasty.HAN));
 
         // when // then
         assertThatCode(() -> elephant.validateMove(routesWithPiece, null))

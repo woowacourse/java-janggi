@@ -17,11 +17,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 class HorseTest {
     public static Stream<Arguments> provideHorseOriginAndDestinationAndExpected() {
         return Stream.of(
-                Arguments.of(Dot.findBy(5, 6), Dot.findBy(6, 8), List.of(Dot.findBy(5, 7))),
-                Arguments.of(Dot.findBy(5, 6), Dot.findBy(4, 8), List.of(Dot.findBy(5, 7))),
-                Arguments.of(Dot.findBy(5, 6), Dot.findBy(7, 7), List.of(Dot.findBy(6, 6))),
-                Arguments.of(Dot.findBy(5, 6), Dot.findBy(7, 5), List.of(Dot.findBy(6, 6))),
-                Arguments.of(Dot.findBy(5, 6), Dot.findBy(4, 4), List.of(Dot.findBy(5, 5)))
+                Arguments.of(Dot.of(5, 6), Dot.of(6, 8), List.of(Dot.of(5, 7))),
+                Arguments.of(Dot.of(5, 6), Dot.of(4, 8), List.of(Dot.of(5, 7))),
+                Arguments.of(Dot.of(5, 6), Dot.of(7, 7), List.of(Dot.of(6, 6))),
+                Arguments.of(Dot.of(5, 6), Dot.of(7, 5), List.of(Dot.of(6, 6))),
+                Arguments.of(Dot.of(5, 6), Dot.of(4, 4), List.of(Dot.of(5, 5)))
         );
     }
 
@@ -43,8 +43,8 @@ class HorseTest {
     @Test
     void horseCannotGetRoute() {
         // given
-        Dot origin = Dot.findBy(1, 1);
-        Dot destination = Dot.findBy(3, 3);
+        Dot origin = Dot.of(1, 1);
+        Dot destination = Dot.of(3, 3);
         Horse horse = new Horse(Dynasty.HAN);
 
         // when // then
@@ -60,7 +60,7 @@ class HorseTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Horse horse = new Horse(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.findBy(5, 7), null);
+        routesWithPiece.put(Dot.of(5, 7), null);
 
         // when // then
         assertThatCode(() -> horse.validateMove(routesWithPiece, null))
@@ -74,7 +74,7 @@ class HorseTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Horse horse = new Horse(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.findBy(6, 8), new Horse(Dynasty.HAN));
+        routesWithPiece.put(Dot.of(6, 8), new Horse(Dynasty.HAN));
 
         // when // then
         assertThatCode(() -> horse.validateMove(routesWithPiece, null))

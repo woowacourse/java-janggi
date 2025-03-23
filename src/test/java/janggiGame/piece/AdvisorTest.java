@@ -15,8 +15,8 @@ class AdvisorTest {
     @Test
     void advisorCanGetRoute() {
         // given
-        Dot origin = Dot.findBy(1, 1);
-        Dot destination = Dot.findBy(1, 0);
+        Dot origin = Dot.of(1, 1);
+        Dot destination = Dot.of(1, 0);
         Advisor advisor = new Advisor(Dynasty.HAN);
 
         // when

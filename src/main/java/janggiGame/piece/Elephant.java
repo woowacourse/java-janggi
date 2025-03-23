@@ -20,8 +20,8 @@ public class Elephant extends Piece {
     public List<Dot> getRoute(Dot origin, Dot destination) {
         List<Dot> route = new ArrayList<>();
 
-        int dx = origin.getDx(destination);
-        int dy = origin.getDy(destination);
+        int dx = origin.calculateRowChange(destination);
+        int dy = origin.calculateColumnChange(destination);
 
         validateRoute(dx, dy);
 

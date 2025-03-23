@@ -12,9 +12,9 @@ public class OutputView {
 
     public void printBoard(Map<Dot, Piece> pieces) {
         for (Dot dot : Dot.getDots()) {
-            if (dot.getX() == 0) {
+            if (dot.getRow() == 0) {
                 System.out.println();
-                System.out.printf("%d", dot.getY());
+                System.out.printf("%d", dot.getColumn());
             }
 
             if (!pieces.containsKey(dot)) {

@@ -28,7 +28,7 @@ class BoardTest {
         int y = 2;
 
         // when // then
-        assertThatCode(() -> Dot.findBy(x, y))
+        assertThatCode(() -> Dot.of(x, y))
                 .doesNotThrowAnyException();
     }
 
@@ -40,7 +40,7 @@ class BoardTest {
         int x = 2;
 
         // when // then
-        assertThatCode(() -> Dot.findBy(x, y))
+        assertThatCode(() -> Dot.of(x, y))
                 .doesNotThrowAnyException();
     }
 
@@ -50,7 +50,7 @@ class BoardTest {
     void validateDotRange(int x, int y) {
 
         // when // then
-        assertThatCode(() -> Dot.findBy(x, y))
+        assertThatCode(() -> Dot.of(x, y))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -59,8 +59,8 @@ class BoardTest {
     @Test
     void createDotsCache() {
         // given
-        Dot dotA = Dot.findBy(1, 1);
-        Dot dotB = Dot.findBy(1, 1);
+        Dot dotA = Dot.of(1, 1);
+        Dot dotB = Dot.of(1, 1);
 
         // when
         boolean actual = dotA == dotB;

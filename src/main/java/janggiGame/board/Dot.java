@@ -5,113 +5,95 @@ import java.util.List;
 import java.util.Objects;
 
 public class Dot {
-    private static final Integer MIN_X_RANGE = 0;
-    private static final Integer MAX_X_RANGE = 8;
-    private static final Integer MIN_Y_RANGE = 0;
-    private static final Integer MAX_Y_RANGE = 9;
+    private static final int MIN_ROW_RANGE = 0;
+    private static final int MAX_ROW_RANGE = 8;
+    private static final int MIN_COLUMN_RANGE = 0;
+    private static final int MAX_COLUMN_RANGE = 9;
     private static final List<Dot> dots = createDots();
 
-    private final Integer x;
-    private final Integer y;
+    private final int row;
+    private final int column;
 
-    public Dot(Integer x, Integer y) {
-        this.x = x;
-        this.y = y;
+    public Dot(final int row, final int column) {
+        this.row = row;
+        this.column = column;
     }
 
     private static List<Dot> createDots() {
         List<Dot> dots = new ArrayList<>();
-        for (int i = MAX_Y_RANGE; i >= MIN_Y_RANGE; i--) {
-            for (int j = MIN_X_RANGE; j <= MAX_X_RANGE; j++) {
-                dots.add(new Dot(j, i));
+        for (int column = MAX_COLUMN_RANGE; column >= MIN_COLUMN_RANGE; column--) {
+            for (int row = MIN_ROW_RANGE; row <= MAX_ROW_RANGE; row++) {
+                dots.add(new Dot(row, column));
             }
         }
         return dots;
+    }
+
+    public static Dot of(final int row, final int column) {
+        return dots.stream()
+                .filter(d -> d.row == row && d.column == column)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 장기판에 존재하는 좌표가 아닙니다."));
     }
 
     public static List<Dot> getDots() {
         return List.copyOf(dots);
     }
 
-    public static Dot findBy(int x, int y) {
-        validateDotRange(x, y);
-        return dots.stream()
-                .filter(d -> d.x == x && d.y == y)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하는 좌표가 아닙니다."));
-    }
-
-    private static void validateDotRange(Integer x, Integer y) {
-        validateXRange(x);
-        validateYRange(y);
-    }
-
-    private static void validateXRange(Integer x) {
-        if (x < MIN_X_RANGE || x > MAX_X_RANGE) {
-            throw new IllegalArgumentException("[ERROR] x 좌표의 범위가 벗어났습니다.");
-        }
-    }
-
-    private static void validateYRange(Integer y) {
-        if (y < MIN_Y_RANGE || y > MAX_Y_RANGE) {
-            throw new IllegalArgumentException("[ERROR] y 좌표의 범위가 벗어났습니다.");
-        }
-    }
-
     public Dot getReverse() {
         return dots.stream()
-                .filter(d -> d.x == MAX_X_RANGE - this.x)
-                .filter(d -> d.y == MAX_Y_RANGE - this.y)
+                .filter(d -> d.row == MAX_ROW_RANGE - this.row)
+                .filter(d -> d.column == MAX_COLUMN_RANGE - this.column)
                 .findFirst()
                 .orElseThrow(RuntimeException::new);
     }
 
-    public Integer getX() {
-        return x;
+    public Integer getRow() {
+        return row;
     }
 
-    public Integer getY() {
-        return y;
+    public Integer getColumn() {
+        return column;
     }
 
-    public int getDx(Dot other) {
-        return other.x - this.x;
+    public int calculateRowChange(Dot other) {
+        return other.row - this.row;
     }
 
-    public int getDy(Dot other) {
-        return other.y - this.y;
+    public int calculateColumnChange(Dot other) {
+        return other.column - this.column;
     }
 
     public Dot up() {
-        return findBy(x, y + 1);
+        return of(row, column + 1);
     }
 
     public Dot down() {
-        return findBy(x, y - 1);
+        return of(row, column - 1);
     }
 
     public Dot right() {
-        return findBy(x + 1, y);
+        return of(row + 1, column);
     }
 
     public Dot left() {
-        return findBy(x - 1, y);
+        return of(row - 1, column);
     }
 
     public Dot upRight() {
-        return findBy(x + 1, y + 1);
+        return of(row + 1, column + 1);
     }
 
     public Dot upLeft() {
-        return findBy(x - 1, y + 1);
+        return of(row - 1, column + 1);
     }
 
     public Dot downRight() {
-        return findBy(x + 1, y - 1);
+        return of(row + 1, column - 1);
     }
 
     public Dot downLeft() {
-        return findBy(x - 1, y - 1);
+        return of(row - 1, column - 1);
     }
 
     @Override
@@ -120,11 +102,11 @@ public class Dot {
             return false;
         }
         Dot dot = (Dot) o;
-        return Objects.equals(x, dot.x) && Objects.equals(y, dot.y);
+        return Objects.equals(row, dot.row) && Objects.equals(column, dot.column);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return Objects.hash(row, column);
     }
 }
