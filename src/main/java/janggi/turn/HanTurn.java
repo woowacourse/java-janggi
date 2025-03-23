@@ -1,7 +1,6 @@
 package janggi.turn;
 
 import janggi.board.Board;
-import janggi.piece.Piece;
 import janggi.piece.Team;
 
 public class HanTurn extends Turn {
@@ -19,7 +18,7 @@ public class HanTurn extends Turn {
     }
 
     @Override
-    public boolean isMovingSameTeam(final Piece piece) {
-        return piece.isSameTeam(Team.HAN);
+    public boolean isMovingSameTeam(final Team team) {
+        return team == Team.HAN;
     }
 }

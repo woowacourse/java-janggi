@@ -62,7 +62,7 @@ public final class Board {
     }
 
     private void validateTurn(final Piece piece) {
-        if (!turn.isMovingSameTeam(piece)) {
+        if (!turn.isMovingSameTeam(piece.getTeam())) {
             throw new IllegalArgumentException(
                     String.format("[ERROR] 다른 팀의 기물을 움직이고 있습니다."));
         }

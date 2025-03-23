@@ -1,7 +1,7 @@
 package janggi.turn;
 
 import janggi.board.Board;
-import janggi.piece.Piece;
+import janggi.piece.Team;
 
 public abstract class Turn {
 
@@ -9,5 +9,5 @@ public abstract class Turn {
 
     public abstract String getTurnName();
 
-    public abstract boolean isMovingSameTeam(final Piece piece);
+    public abstract boolean isMovingSameTeam(final Team team);
 }

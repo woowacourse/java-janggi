@@ -28,6 +28,10 @@ public sealed abstract class Piece permits Cannon, Chariot, Elephant, General, G
         return this.team == team;
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
     protected abstract boolean cannotMoveThrough(final Position start, final Position end, final Board board);
 
     protected abstract boolean isValidDestination(final Position end, final Board board);
