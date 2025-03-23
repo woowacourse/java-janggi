@@ -1,5 +1,6 @@
 package janggi;
 
+import janggi.coordinate.Position;
 import janggi.piece.Piece;
 
 import java.util.Collections;
@@ -27,21 +28,8 @@ public class Board {
         return positionToPiece.containsKey(position);
     }
 
-    public void movePiece(final Position departure, final Position destination) {
-        Piece allyPiece = getPiece(departure);
-        Piece movedPiece = allyPiece.move(this, destination);
-
-        Score score = positionToPiece.remove(departure).die();
-        // TODO 2.1 단계(점수 계산) 요구사항 추가 예정
-        updateBoard(destination, movedPiece);
-    }
-
-    private void updateBoard(final Position destination, final Piece movedPiece) {
-        positionToPiece.put(destination, movedPiece);
-    }
-
     public boolean isAlly(final Position position, final Team team) {
-        return getPiece(position).isAlly(team);
+        return isExists(position) && getPiece(position).isAlly(team);
     }
 
     public Piece getPiece(final Position departure) {
@@ -49,6 +37,19 @@ public class Board {
             return positionToPiece.get(departure);
         }
         throw new IllegalArgumentException("장기말이 존재하지 않는 지점입니다.");
+    }
+
+    public void movePiece(final Position departure, final Position destination) {
+        Piece allyPiece = getPiece(departure);
+        Piece movedPiece = allyPiece.move(this, destination);
+
+        Score score = positionToPiece.remove(destination).die();
+        updateBoard(departure, destination, movedPiece);
+    }
+
+    private void updateBoard(final Position departure, final Position destination, final Piece movedPiece) {
+        positionToPiece.remove(departure);
+        positionToPiece.put(destination, movedPiece);
     }
 
     public Map<Position, Piece> getPositionToPiece() {

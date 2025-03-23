@@ -1,5 +1,6 @@
 package janggi;
 
+import janggi.coordinate.Position;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,7 @@ class BoardTest {
     void isAlly(Team team, boolean expected) {
         // given
         Position position = Position.of(1, 1);
-        Board board = Board.initialize(List.of(Soldier.of(position, Team.RED)));
+        Board board = Board.from(List.of(Soldier.of(position, Team.RED)));
 
         // when
         boolean actual = board.isAlly(position, team);
@@ -35,7 +36,7 @@ class BoardTest {
         // given
         Position position = Position.of(1, 1);
         Soldier soldier = Soldier.of(position, Team.RED);
-        Board board = Board.initialize(List.of(soldier));
+        Board board = Board.from(List.of(soldier));
 
         // when
         Piece piece = board.getPiece(position);
@@ -50,7 +51,7 @@ class BoardTest {
         // given
         Position position = Position.of(1, 1);
         Soldier soldier = Soldier.of(position, Team.RED);
-        Board board = Board.initialize(List.of(soldier));
+        Board board = Board.from(List.of(soldier));
 
         // when
         // then
