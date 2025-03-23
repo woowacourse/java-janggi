@@ -1,24 +1,22 @@
 package janggiGame.piece;
 
-import janggiGame.board.Board;
-import janggiGame.board.Dot;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
+import janggiGame.board.Dot;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 class KingTest {
     @DisplayName("장의 목적지로 가는 경로는 항상 비어있다.")
     @Test
     void kingCanGetRoute() {
         // given
-        Dot origin = Board.findBy(1, 1);
-        Dot destination = Board.findBy(1, 0);
+        Dot origin = Dot.findBy(1, 1);
+        Dot destination = Dot.findBy(1, 0);
         Advisor king = new Advisor(Dynasty.HAN);
 
         // when

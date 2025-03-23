@@ -1,6 +1,5 @@
 package view;
 
-import janggiGame.board.Board;
 import janggiGame.board.Dot;
 import janggiGame.piece.Dynasty;
 import java.util.List;
@@ -14,7 +13,7 @@ public class InputView {
             3. 좌상 배치
             4. 우상 배치""";
     private static final ResourceBundle dynastyBundle = ResourceBundle.getBundle("dynasty");
-    
+
     private final Scanner scanner = new Scanner(System.in);
 
     public List<Dot> readPieceMovement(Dynasty dynasty) {
@@ -37,8 +36,8 @@ public class InputView {
         int destinationX = Integer.parseInt(destinationXY[0].trim());
         int destinationY = Integer.parseInt(destinationXY[1].trim());
 
-        Dot origin = Board.findBy(originX, originY);
-        Dot destination = Board.findBy(destinationX, destinationY);
+        Dot origin = Dot.findBy(originX, originY);
+        Dot destination = Dot.findBy(destinationX, destinationY);
 
         return List.of(origin, destination);
     }

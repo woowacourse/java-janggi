@@ -1,29 +1,27 @@
 package janggiGame.piece;
 
-import janggiGame.board.Board;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+
 import janggiGame.board.Dot;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-
 class HorseTest {
     public static Stream<Arguments> provideHorseOriginAndDestinationAndExpected() {
         return Stream.of(
-                Arguments.of(Board.findBy(5, 6), Board.findBy(6, 8), List.of(Board.findBy(5, 7))),
-                Arguments.of(Board.findBy(5, 6), Board.findBy(4, 8), List.of(Board.findBy(5, 7))),
-                Arguments.of(Board.findBy(5, 6), Board.findBy(7, 7), List.of(Board.findBy(6, 6))),
-                Arguments.of(Board.findBy(5, 6), Board.findBy(7, 5), List.of(Board.findBy(6, 6))),
-                Arguments.of(Board.findBy(5, 6), Board.findBy(4, 4), List.of(Board.findBy(5, 5)))
+                Arguments.of(Dot.findBy(5, 6), Dot.findBy(6, 8), List.of(Dot.findBy(5, 7))),
+                Arguments.of(Dot.findBy(5, 6), Dot.findBy(4, 8), List.of(Dot.findBy(5, 7))),
+                Arguments.of(Dot.findBy(5, 6), Dot.findBy(7, 7), List.of(Dot.findBy(6, 6))),
+                Arguments.of(Dot.findBy(5, 6), Dot.findBy(7, 5), List.of(Dot.findBy(6, 6))),
+                Arguments.of(Dot.findBy(5, 6), Dot.findBy(4, 4), List.of(Dot.findBy(5, 5)))
         );
     }
 
@@ -45,8 +43,8 @@ class HorseTest {
     @Test
     void horseCannotGetRoute() {
         // given
-        Dot origin = Board.findBy(1, 1);
-        Dot destination = Board.findBy(3, 3);
+        Dot origin = Dot.findBy(1, 1);
+        Dot destination = Dot.findBy(3, 3);
         Horse horse = new Horse(Dynasty.HAN);
 
         // when // then
@@ -62,7 +60,7 @@ class HorseTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Horse horse = new Horse(Dynasty.HAN);
 
-        routesWithPiece.put(Board.findBy(5, 7), null);
+        routesWithPiece.put(Dot.findBy(5, 7), null);
 
         // when // then
         assertThatCode(() -> horse.validateMove(routesWithPiece, null))
@@ -76,7 +74,7 @@ class HorseTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Horse horse = new Horse(Dynasty.HAN);
 
-        routesWithPiece.put(Board.findBy(6, 8), new Horse(Dynasty.HAN));
+        routesWithPiece.put(Dot.findBy(6, 8), new Horse(Dynasty.HAN));
 
         // when // then
         assertThatCode(() -> horse.validateMove(routesWithPiece, null))

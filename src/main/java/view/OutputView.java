@@ -1,6 +1,5 @@
 package view;
 
-import janggiGame.board.Board;
 import janggiGame.board.Dot;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
@@ -12,7 +11,7 @@ public class OutputView {
     private static final String BLANK = "＿";
 
     public void printBoard(Map<Dot, Piece> pieces) {
-        for (Dot dot : Board.getDots()) {
+        for (Dot dot : Dot.getDots()) {
             if (dot.getX() == 0) {
                 System.out.println();
                 System.out.printf("%d", dot.getY());
