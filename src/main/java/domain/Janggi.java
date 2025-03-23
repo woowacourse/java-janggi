@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Janggi {
+
+    public static final String EMPTY_POINT_EXCEPTION = "해당 위치에 기물이 존재하지 않습니다.";
+
     private final Map<Position, Unit> units;
     private Team turn;
 
@@ -25,7 +28,7 @@ public class Janggi {
 
     public List<Route> searchAvailableRoutes(Position pick) {
         if (isEmptyPoint(pick)) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException(EMPTY_POINT_EXCEPTION);
         }
         Unit pickedUnit = units.get(pick);
         List<Route> totalRoutes = pickedUnit.calculateRoutes(pick);

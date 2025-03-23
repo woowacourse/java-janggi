@@ -38,7 +38,7 @@ public class OutputView {
         if (unitType == UnitType.SOLDIER) {
             return "병";
         }
-        throw new IllegalStateException("");
+        throw new IllegalStateException("예기치 못한 예외가 발생하였습니다.");
     }
 
     private String teamToName(Team team) {
@@ -48,6 +48,6 @@ public class OutputView {
         if (team == Team.CHO) {
             return "초나라";
         }
-        throw new IllegalStateException("");
+        throw new IllegalStateException("예기치 못한 예외가 발생하였습니다.");
     }
 }

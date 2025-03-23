@@ -1,9 +1,10 @@
 package domain.unit;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import domain.position.Position;
 import domain.position.Route;
 import java.util.List;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +20,7 @@ class ChariotUnitRuleTest {
         List<Position> endPositions = rule.calculateEndPoints(p);
 
         // then
-        Assertions.assertThat(endPositions)
+        assertThat(endPositions)
                 .hasSize(17);
     }
 
@@ -35,6 +36,6 @@ class ChariotUnitRuleTest {
         Route path = rule.calculateRoute(start, end);
 
         // then
-        Assertions.assertThat(path.getPoints()).hasSize(5);
+        assertThat(path.getPoints()).hasSize(5);
     }
 }

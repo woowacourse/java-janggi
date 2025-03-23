@@ -3,6 +3,8 @@ package domain.position;
 import java.util.Objects;
 
 public class Position {
+
+    public static final String INVALID_POSITION_EXCEPTION = "유효하지 않은 장기판 위치입니다.";
     public static final int X_MAX = 8;
     public static final int Y_MAX = 9;
 
@@ -21,10 +23,10 @@ public class Position {
 
     private void validate(int x, int y) {
         if (x < 0 || x > X_MAX) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException(INVALID_POSITION_EXCEPTION);
         }
         if (y < 0 || y > Y_MAX) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException(INVALID_POSITION_EXCEPTION);
         }
     }
 

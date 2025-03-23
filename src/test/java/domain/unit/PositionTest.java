@@ -1,7 +1,10 @@
 package domain.unit;
 
+import static domain.position.Position.INVALID_POSITION_EXCEPTION;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import domain.position.Position;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -18,9 +21,9 @@ class PositionTest {
         int y = Integer.parseInt(split[1]);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> new Position(x, y))
+        assertThatThrownBy(() -> new Position(x, y))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("");
+                .hasMessage(INVALID_POSITION_EXCEPTION);
     }
 
     @ValueSource(strings = {"0,2", "2,0", "2,9", "8,2"})
@@ -39,7 +42,7 @@ class PositionTest {
         boolean b = position.isHorizontalOrVertical(opposite);
 
         // then
-        Assertions.assertThat(b).isTrue();
+        assertThat(b).isTrue();
     }
 
     @ValueSource(strings = {"3,3", "1,1", "3,1", "1,3"})
@@ -58,6 +61,6 @@ class PositionTest {
         boolean b = position.isHorizontalOrVertical(opposite);
 
         // then
-        Assertions.assertThat(b).isFalse();
+        assertThat(b).isFalse();
     }
 }
