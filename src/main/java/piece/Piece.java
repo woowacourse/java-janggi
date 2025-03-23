@@ -15,10 +15,6 @@ public class Piece {
         this.team = team;
     }
 
-    public Team team() {
-        return team;
-    }
-
     public void move(Pieces onRoutePieces, Position movePosition) {
         this.position = moveRule.move(movePosition, onRoutePieces, team);
     }
@@ -41,6 +37,10 @@ public class Piece {
 
     public boolean isSameTeam(Piece comparePiece) {
         return isSameTeam(comparePiece.team);
+    }
+
+    public Team team() {
+        return team;
     }
 
     public Position getPosition() {
