@@ -12,6 +12,16 @@ public class Cannon extends Piece {
     }
 
     @Override
+    public boolean isKing() {
+        return false;
+    }
+
+    @Override
+    public boolean isCannon() {
+        return true;
+    }
+
+    @Override
     protected boolean isMoveablePosition(Position destination) {
         if (getPosition().hasSameX(destination)) {
             return !getPosition().hasSameY(destination);
@@ -30,7 +40,7 @@ public class Cannon extends Piece {
             }
             Piece piece = findByPosition(existingPieces, destination);
 
-            return piece.getSide() != getSide() && !piece.getClass().equals(this.getClass());
+            return piece.getSide() != getSide() && !piece.isCannon();
         }
         return false;
     }

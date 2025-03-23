@@ -2,11 +2,11 @@ package janggi.domain.board;
 
 import janggi.domain.Position;
 import janggi.domain.Side;
-import janggi.domain.piece.King;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.gererator.ChoPieceGenerator;
 import janggi.domain.piece.gererator.HanPieceGenerator;
 import janggi.domain.piece.gererator.KnightElephantSetting;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,13 +58,13 @@ public class JanggiBoard {
 
     public boolean isEnd() {
         return pieceMap.values().stream()
-                .filter(value -> value.getClass() == King.class)
+                .filter(Piece::isKing)
                 .count() != 2;
     }
 
     public Side getWinner() {
         return pieceMap.values().stream()
-                .filter(value -> value.getClass() == King.class)
+                .filter(Piece::isKing)
                 .map(Piece::getSide)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("게임이 종료되지 않았습니다."));

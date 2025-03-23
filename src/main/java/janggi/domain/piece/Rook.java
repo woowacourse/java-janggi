@@ -11,6 +11,16 @@ public class Rook extends Piece {
     }
 
     @Override
+    public boolean isKing() {
+        return false;
+    }
+
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
+
+    @Override
     protected boolean isMoveablePosition(Position destination) {
         if (getPosition().hasSameX(destination)) {
             return !getPosition().hasSameY(destination);

@@ -11,6 +11,16 @@ public class King extends Piece {
     }
 
     @Override
+    public boolean isKing() {
+        return true;
+    }
+
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
+
+    @Override
     protected boolean isMoveablePosition(Position destination) {
         return false;
     }

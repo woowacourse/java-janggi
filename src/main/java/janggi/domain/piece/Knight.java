@@ -19,6 +19,16 @@ public class Knight extends Piece {
     }
 
     @Override
+    public boolean isKing() {
+        return false;
+    }
+
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
+
+    @Override
     protected boolean isMoveablePosition(Position destination) {
         if (getPosition().getXDistance(destination) == VERTICAL_BASE_X_MOVEABLE_DISTANCE) {
             return getPosition().getYDistance(destination) == VERTICAL_BASE_Y_MOVEABLE_DISTANCE;

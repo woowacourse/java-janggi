@@ -1,16 +1,17 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-
 import janggi.domain.Position;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.Side;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 @ReplaceUnderBar
 class PieceTest {
@@ -102,6 +103,16 @@ class PieceTest {
 
         public void setIsMoveablePath(boolean isMoveablePath) {
             this.isMoveablePath = isMoveablePath;
+        }
+
+        @Override
+        public boolean isCannon() {
+            return false;
+        }
+
+        @Override
+        public boolean isKing() {
+            return false;
         }
 
         @Override

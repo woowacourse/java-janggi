@@ -61,6 +61,10 @@ public abstract class Piece {
 
     protected abstract boolean isMoveablePath(List<Piece> existingPieces, Position destination);
 
+    public abstract boolean isKing();
+
+    public abstract boolean isCannon();
+
     @Override
     public String toString() {
         return "Piece{" +

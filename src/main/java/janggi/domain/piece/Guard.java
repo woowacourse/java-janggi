@@ -11,6 +11,16 @@ public class Guard extends Piece {
     }
 
     @Override
+    public boolean isCannon() {
+        return false;
+    }
+
+    @Override
+    public boolean isKing() {
+        return false;
+    }
+
+    @Override
     protected boolean isMoveablePosition(Position destination) {
         return false;
     }
