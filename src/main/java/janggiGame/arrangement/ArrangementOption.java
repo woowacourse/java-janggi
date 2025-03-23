@@ -1,6 +1,7 @@
 package janggiGame.arrangement;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public enum ArrangementOption {
     INNER_ELEPHANT(1, new InnerElephantStrategy()),
@@ -12,8 +13,8 @@ public enum ArrangementOption {
     private final ArrangementStrategy arrangementStrategy;
 
     ArrangementOption(final Integer option, final ArrangementStrategy arrangementStrategy) {
-        this.option = option;
-        this.arrangementStrategy = arrangementStrategy;
+        this.option = Objects.requireNonNull(option);
+        this.arrangementStrategy = Objects.requireNonNull(arrangementStrategy);
     }
 
     public static ArrangementOption findBy(final Integer optionNum) {

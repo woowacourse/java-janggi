@@ -3,12 +3,13 @@ package janggiGame.piece;
 import janggiGame.Dot;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public abstract class Piece {
     private final Dynasty dynasty;
 
     public Piece(Dynasty dynasty) {
-        this.dynasty = dynasty;
+        this.dynasty = Objects.requireNonNull(dynasty);
     }
 
     public final Dynasty getDynasty() {
