@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public final class InputView {
     private static final Scanner scanner = new Scanner(System.in);
-    public static final int START_POINT_INDEX = 0;
-    public static final int ARRIVAL_POINT_INDEX = 1;
+    private static final int START_POINT_INDEX = 0;
+    private static final int ARRIVAL_POINT_INDEX = 1;
 
     public List<List<Integer>> readMovementRequest() {
         System.out.println("출발점과 도착점의 위치를 알려주세요 ex.2,1 3,1");
