@@ -6,12 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.direction.PieceDirection;
 import domain.piece.Piece;
-import domain.piece.PieceInit;
 import domain.piece.Pieces;
 import domain.piece.category.Soldier;
 import domain.spatial.Position;
+import domain.strategy.InnerElephantStrategy;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
@@ -28,12 +27,12 @@ class BoardTest {
         Player han = new Player(Team.HAN);
         Player cho = new Player(Team.CHO);
 
-        List<Piece> hanPieces = PieceInit.initHanPieces();
-        List<Piece> choPieces = PieceInit.initChoPieces();
+        Pieces hanPieces = createPiecesByPlayer(han);
+        Pieces choPieces = createPiecesByPlayer(cho);
 
         Map<Player, Pieces> boardElements = new HashMap<>();
-        boardElements.put(han, new Pieces(hanPieces));
-        boardElements.put(cho, new Pieces(choPieces));
+        boardElements.put(han, hanPieces);
+        boardElements.put(cho, choPieces);
 
         Board board = new Board(boardElements);
 
@@ -41,7 +40,7 @@ class BoardTest {
         board.move(han, startPosition, targetPosition);
 
         // then
-        assertThat(hanPieces).contains(expected);
+        assertThat(hanPieces.pieces()).contains(expected);
     }
 
     @Test
@@ -53,12 +52,12 @@ class BoardTest {
         Player han = new Player(Team.HAN);
         Player cho = new Player(Team.CHO);
 
-        List<Piece> hanPieces = PieceInit.initHanPieces();
-        List<Piece> choPieces = PieceInit.initChoPieces();
+        Pieces hanPieces = createPiecesByPlayer(han);
+        Pieces choPieces = createPiecesByPlayer(cho);
 
         Map<Player, Pieces> boardElements = new HashMap<>();
-        boardElements.put(han, new Pieces(hanPieces));
-        boardElements.put(cho, new Pieces(choPieces));
+        boardElements.put(han, hanPieces);
+        boardElements.put(cho, choPieces);
 
         Board board = new Board(boardElements);
 
@@ -78,14 +77,15 @@ class BoardTest {
         Player han = new Player(Team.HAN);
         Player cho = new Player(Team.CHO);
 
-        List<Piece> hanPieces = PieceInit.initHanPieces();
-        List<Piece> choPieces = PieceInit.initChoPieces();
-        hanPieces.add(new Soldier(new Position(5, 3), PieceDirection.HAN_SOLDIER.get()));
-        hanPieces.add(new Soldier(new Position(6, 3), PieceDirection.HAN_SOLDIER.get()));
+        Pieces hanPieces = createPiecesByPlayer(han);
+        Pieces choPieces = createPiecesByPlayer(cho);
+
+        hanPieces.pieces().add(new Soldier(new Position(5, 3), PieceDirection.HAN_SOLDIER.get()));
+        hanPieces.pieces().add(new Soldier(new Position(6, 3), PieceDirection.HAN_SOLDIER.get()));
 
         Map<Player, Pieces> boardElements = new HashMap<>();
-        boardElements.put(han, new Pieces(hanPieces));
-        boardElements.put(cho, new Pieces(choPieces));
+        boardElements.put(han, hanPieces);
+        boardElements.put(cho, choPieces);
 
         Board board = new Board(boardElements);
 
@@ -109,13 +109,13 @@ class BoardTest {
         Player han = new Player(Team.HAN);
         Player cho = new Player(Team.CHO);
 
-        List<Piece> hanPieces = PieceInit.initHanPieces();
-        List<Piece> choPieces = PieceInit.initChoPieces();
-        hanPieces.add(new Soldier(new Position(2, 5), PieceDirection.HAN_SOLDIER.get()));
+        Pieces hanPieces = createPiecesByPlayer(han);
+        Pieces choPieces = createPiecesByPlayer(cho);
+        hanPieces.pieces().add(new Soldier(new Position(2, 5), PieceDirection.HAN_SOLDIER.get()));
 
         Map<Player, Pieces> boardElements = new HashMap<>();
-        boardElements.put(han, new Pieces(hanPieces));
-        boardElements.put(cho, new Pieces(choPieces));
+        boardElements.put(han, hanPieces);
+        boardElements.put(cho, choPieces);
 
         Board board = new Board(boardElements);
 
@@ -134,12 +134,12 @@ class BoardTest {
         Player han = new Player(Team.HAN);
         Player cho = new Player(Team.CHO);
 
-        List<Piece> hanPieces = PieceInit.initHanPieces();
-        List<Piece> choPieces = PieceInit.initChoPieces();
+        Pieces hanPieces = createPiecesByPlayer(han);
+        Pieces choPieces = createPiecesByPlayer(cho);
 
         Map<Player, Pieces> boardElements = new HashMap<>();
-        boardElements.put(han, new Pieces(hanPieces));
-        boardElements.put(cho, new Pieces(choPieces));
+        boardElements.put(han, hanPieces);
+        boardElements.put(cho, choPieces);
 
         Board board = new Board(boardElements);
 
@@ -158,12 +158,12 @@ class BoardTest {
         Player han = new Player(Team.HAN);
         Player cho = new Player(Team.CHO);
 
-        List<Piece> hanPieces = PieceInit.initHanPieces();
-        List<Piece> choPieces = PieceInit.initChoPieces();
+        Pieces hanPieces = createPiecesByPlayer(han);
+        Pieces choPieces = createPiecesByPlayer(cho);
 
         Map<Player, Pieces> boardElements = new HashMap<>();
-        boardElements.put(han, new Pieces(hanPieces));
-        boardElements.put(cho, new Pieces(choPieces));
+        boardElements.put(han, hanPieces);
+        boardElements.put(cho, choPieces);
 
         Board board = new Board(boardElements);
 
@@ -174,8 +174,9 @@ class BoardTest {
 
         // then
         assertAll(() -> {
-            assertThat(choPieces).hasSize(15);
-            assertThat(choPieces).doesNotContain(new Soldier(new Position(1, 7), PieceDirection.CHO_SOLDIER.get()));
+            assertThat(choPieces.pieces()).hasSize(15);
+            assertThat(choPieces.pieces()).doesNotContain(
+                    new Soldier(new Position(1, 7), PieceDirection.CHO_SOLDIER.get()));
         });
     }
 
@@ -187,11 +188,11 @@ class BoardTest {
 
         Position kingPosition = new Position(5, 9);
 
-        Pieces choPieces = new Pieces(PieceInit.initChoPieces());
+        Pieces choPieces = createPiecesByPlayer(cho);
         choPieces.deleteByPosition(kingPosition);
 
         Map<Player, Pieces> boardElements = new HashMap<>();
-        boardElements.put(han, new Pieces(PieceInit.initHanPieces()));
+        boardElements.put(han, createPiecesByPlayer(han));
         boardElements.put(cho, choPieces);
 
         Board board = new Board(boardElements);
@@ -211,11 +212,11 @@ class BoardTest {
 
         Position kingPosition = new Position(5, 9);
 
-        Pieces choPieces = new Pieces(PieceInit.initChoPieces());
+        Pieces choPieces = createPiecesByPlayer(cho);
         choPieces.deleteByPosition(kingPosition);
 
         Map<Player, Pieces> boardElements = new HashMap<>();
-        boardElements.put(han, new Pieces(PieceInit.initHanPieces()));
+        boardElements.put(han, createPiecesByPlayer(han));
         boardElements.put(cho, choPieces);
 
         Board board = new Board(boardElements);
@@ -225,5 +226,10 @@ class BoardTest {
 
         // then
         assertThat(winner).isEqualTo(han);
+    }
+
+    private Pieces createPiecesByPlayer(final Player player) {
+        InnerElephantStrategy strategy = new InnerElephantStrategy();
+        return strategy.initPieces(player);
     }
 }
