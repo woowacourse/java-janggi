@@ -40,4 +40,8 @@ public class Position {
     public int hashCode() {
         return Objects.hash(getRow(), getCol());
     }
+
+    public Position calculateMovement(int dRow, int dCol) {
+        return new Position(row + dRow, col + dCol);
+    }
 }
