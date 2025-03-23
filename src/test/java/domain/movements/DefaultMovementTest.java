@@ -1,9 +1,8 @@
 package domain.movements;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.board.Point;
 import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -27,6 +26,23 @@ class DefaultMovementTest {
 
             // then
             assertThat(arrivalPoints).contains(new Point(3, -2), new Point(-3, -2));
+        }
+
+        @Test
+        @DisplayName("이동 가능하지 않은 도착점들은 반환하지 않는다")
+        void test_doesNotReturnInvalidPoints() {
+            // given
+            List<Direction> directions1 = List.of(Direction.NORTH, Direction.NORTHWEST, Direction.NORTHWEST);
+            List<Direction> directions2 = List.of(Direction.SOUTH, Direction.SOUTHWEST, Direction.SOUTHWEST);
+            List<Route> routes = List.of(new Route(directions1), new Route(directions2));
+            DefaultMovement defaultMovement = new DefaultMovement(routes);
+            Point startPoint = new Point(0, 0);
+
+            // when
+            List<Point> arrivalPoints = defaultMovement.calculateTotalArrivalPoints(startPoint);
+
+            // then
+            assertThat(arrivalPoints).doesNotContain(new Point(3, 2), new Point(-3, 2));
         }
 
         @Test
