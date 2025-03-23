@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static pieceProperty.PieceType.CHA;
 
-import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import pieceProperty.Position;
+import pieceProperty.Positions;
 
 class ChaTest {
 
@@ -62,10 +62,10 @@ class ChaTest {
         Position futurePosition = new Position(0, 5);
 
         //when
-        List<Position> actual = cha.makeRoute(futurePosition);
+        Positions actual = cha.makeRoute(futurePosition);
 
         //then
-        assertThat(actual).containsExactly(
+        assertThat(actual.getPositions()).containsExactly(
                 new Position(4, 5),
                 new Position(3, 5),
                 new Position(2, 5),

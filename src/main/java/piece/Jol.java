@@ -5,6 +5,7 @@ import static pieceProperty.PieceType.JOL;
 import java.util.List;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
+import pieceProperty.Positions;
 
 public class Jol extends Piece {
 
@@ -24,8 +25,8 @@ public class Jol extends Piece {
     }
 
     @Override
-    public List<Position> makeRoute(final Position position) {
-        return List.of(position);
+    public Positions makeRoute(final Position position) {
+        return new Positions(List.of(position));
     }
 
     @Override

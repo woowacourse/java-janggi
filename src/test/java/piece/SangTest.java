@@ -12,6 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import pieceProperty.Position;
+import pieceProperty.Positions;
 
 class SangTest {
 
@@ -64,10 +65,10 @@ class SangTest {
         Position futurePosition = new Position(3, 2);
 
         //when
-        List<Position> actual = sang.makeRoute(futurePosition);
+        Positions actual = sang.makeRoute(futurePosition);
 
         //then
-        assertThat(actual).containsExactly(
+        assertThat(actual.getPositions()).containsExactly(
                 new Position(5, 4),
                 new Position(4, 3),
                 new Position(3, 2)

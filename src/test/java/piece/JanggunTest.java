@@ -12,6 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import pieceProperty.Position;
+import pieceProperty.Positions;
 
 class JanggunTest {
 
@@ -63,10 +64,10 @@ class JanggunTest {
         Position futurePosition = new Position(4, 5);
 
         //when
-        List<Position> actual = janggun.makeRoute(futurePosition);
+        Positions actual = janggun.makeRoute(futurePosition);
 
         //then
-        assertThat(actual.contains(futurePosition)).isTrue();
+        assertThat(actual.getPositions().contains(futurePosition)).isTrue();
     }
 
     private static Stream<Arguments> JanggunNonCanMoveToPositionProvider() {

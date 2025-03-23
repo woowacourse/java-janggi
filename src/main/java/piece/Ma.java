@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
+import pieceProperty.Positions;
 
 public class Ma extends Piece {
 
@@ -38,8 +39,8 @@ public class Ma extends Piece {
     }
 
     @Override
-    public List<Position> makeRoute(final Position position) {
-        List<Position> route = new ArrayList<>();
+    public Positions makeRoute(final Position position) {
+        Positions route = new Positions(List.of());
 
         int dx = getBoardPosition().getRow() - position.getRow();
         int dy = getBoardPosition().getCol() - position.getCol();
@@ -47,43 +48,43 @@ public class Ma extends Piece {
         int presentRow = getBoardPosition().getRow();
 
         if (dx == 2 && dy == 1) {
-            route.add(new Position(presentRow - 1, presentCol));
-            route.add(new Position(presentRow - 2, presentCol - 1));
+            route.addPosition(new Position(presentRow - 1, presentCol));
+            route.addPosition(new Position(presentRow - 2, presentCol - 1));
         }
 
         if (dx == 2 && dy == -1) {
-            route.add(new Position(presentRow - 1, presentCol));
-            route.add(new Position(presentRow - 2, presentCol + 1));
+            route.addPosition(new Position(presentRow - 1, presentCol));
+            route.addPosition(new Position(presentRow - 2, presentCol + 1));
         }
 
         if (dx == 1 && dy == -2) {
-            route.add(new Position(presentRow, presentCol + 1));
-            route.add(new Position(presentRow - 1, presentCol + 2));
+            route.addPosition(new Position(presentRow, presentCol + 1));
+            route.addPosition(new Position(presentRow - 1, presentCol + 2));
         }
 
         if (dx == -1 && dy == -2) {
-            route.add(new Position(presentRow, presentCol + 1));
-            route.add(new Position(presentRow + 1, presentCol + 2));
+            route.addPosition(new Position(presentRow, presentCol + 1));
+            route.addPosition(new Position(presentRow + 1, presentCol + 2));
         }
 
         if (dx == -2 && dy == -1) {
-            route.add(new Position(presentRow + 1, presentCol));
-            route.add(new Position(presentRow + 2, presentCol + 1));
+            route.addPosition(new Position(presentRow + 1, presentCol));
+            route.addPosition(new Position(presentRow + 2, presentCol + 1));
         }
 
         if (dx == -2 && dy == 1) {
-            route.add(new Position(presentRow + 1, presentCol));
-            route.add(new Position(presentRow + 2, presentCol - 1));
+            route.addPosition(new Position(presentRow + 1, presentCol));
+            route.addPosition(new Position(presentRow + 2, presentCol - 1));
         }
 
         if (dx == 1 && dy == 2) {
-            route.add(new Position(presentRow, presentCol - 1));
-            route.add(new Position(presentRow - 1, presentCol - 2));
+            route.addPosition(new Position(presentRow, presentCol - 1));
+            route.addPosition(new Position(presentRow - 1, presentCol - 2));
         }
 
         if (dx == -1 && dy == 2) {
-            route.add(new Position(presentRow, presentCol - 1));
-            route.add(new Position(presentRow + 1, presentCol - 2));
+            route.addPosition(new Position(presentRow, presentCol - 1));
+            route.addPosition(new Position(presentRow + 1, presentCol - 2));
         }
 
         return route;

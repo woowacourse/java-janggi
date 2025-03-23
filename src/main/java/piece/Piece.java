@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
+import pieceProperty.Positions;
 
 public abstract class Piece {
 
@@ -23,7 +24,7 @@ public abstract class Piece {
 
     public abstract boolean canMoveTo(Position position);
 
-    public abstract List<Position> makeRoute(Position position);
+    public abstract Positions makeRoute(Position position);
 
     public abstract void updateChessPiecePositionBy(Position position);
 

@@ -26,7 +26,7 @@ public class Board {
 
     public void updateBoard(final Position presentPosition, final Position futurePosition) {
         Piece piece = janggiPan.get(presentPosition);
-        piece.isMove(futurePosition);
+        piece.canMoveTo(futurePosition);
 
         checkObstacle(presentPosition, futurePosition);
 
@@ -116,7 +116,7 @@ public class Board {
     }
 
     public void checkObstacle(final Position presentPosition, final Position futurePosition) {
-        List<Position> route = janggiPan.get(presentPosition).makeRoute(futurePosition);
+        List<Position> route = janggiPan.get(presentPosition).makeRoute(futurePosition).getPositions();
 
         int cnt = 0;
         if (isPo(presentPosition)) {

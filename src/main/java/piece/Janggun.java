@@ -5,6 +5,7 @@ import static pieceProperty.PieceType.JANGGUN;
 import java.util.List;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
+import pieceProperty.Positions;
 
 public class Janggun extends Piece {
 
@@ -25,8 +26,8 @@ public class Janggun extends Piece {
     }
 
     @Override
-    public List<Position> makeRoute(final Position position) {
-        return List.of(position);
+    public Positions makeRoute(final Position position) {
+        return new Positions(List.of(position));
     }
 
     @Override
