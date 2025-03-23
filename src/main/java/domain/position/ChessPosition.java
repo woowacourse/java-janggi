@@ -1,5 +1,7 @@
 package domain.position;
 
+import domain.direction.Direction;
+
 public record ChessPosition(
         int row,
         int column
@@ -11,15 +13,21 @@ public record ChessPosition(
 
     public ChessPosition {
         if (!isValid(row, column)) {
-            throw new IllegalArgumentException("위치는 (0, 0) ~ (9, 8) 값만 가능합니다.");
+            throw new IllegalArgumentException(
+                    String.format("위치는 (%d, %d) ~ (%d, %d) 값만 가능합니다.", MIN_ROW, MIN_COL, MAX_ROW, MAX_COL)
+            );
         }
     }
 
-    public static boolean isValid(final int row, final int col) {
+    private boolean isValid(final int row, final int col) {
         return row >= MIN_ROW && row <= MAX_ROW && col >= MIN_COL && col <= MAX_COL;
     }
 
-    public ChessPosition move(final int dR, final int dC) {
-        return new ChessPosition(row + dR, column + dC);
+    public boolean canMove(Direction direction) {
+        return isValid(row + direction.dr, column + direction.dc);
+    }
+
+    public ChessPosition move(Direction direction) {
+        return new ChessPosition(row + direction.dr, column + direction.dc);
     }
 }

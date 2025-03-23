@@ -30,12 +30,10 @@ public abstract class UnlimitedMoveChessPiece extends JanggiChessPiece {
 
     private List<ChessPosition> getBoundaryPositions(ChessPosition startPosition, Direction direction) {
         final List<ChessPosition> chessPositions = new ArrayList<>();
-        for (int distance = 1; distance <= 9; distance++) {
-            final int nextRow = startPosition.row() + direction.dr * distance;
-            final int nextColumn = startPosition.column() + direction.dc * distance;
-            if (ChessPosition.isValid(nextRow, nextColumn)) {
-                chessPositions.add(new ChessPosition(nextRow, nextColumn));
-            }
+        ChessPosition currentPosition = startPosition;
+        while (currentPosition.canMove(direction)) {
+            currentPosition = currentPosition.move(direction);
+            chessPositions.add(currentPosition);
         }
         return chessPositions;
     }

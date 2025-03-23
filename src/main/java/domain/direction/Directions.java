@@ -16,12 +16,10 @@ public class Directions {
     public boolean canApplyFrom(final ChessPosition startPosition) {
         ChessPosition currentPosition = startPosition;
         for (Direction direction : directions) {
-            final int nextRow = currentPosition.row() + direction.dr;
-            final int nextCol = currentPosition.column() + direction.dc;
-            if (!ChessPosition.isValid(nextRow, nextCol)) {
+            if (!currentPosition.canMove(direction)) {
                 return false;
             }
-            currentPosition = new ChessPosition(nextRow, nextCol);
+            currentPosition = currentPosition.move(direction);
         }
         return true;
     }
@@ -29,17 +27,15 @@ public class Directions {
     public Path getPathFrom(ChessPosition currentPosition) {
         List<ChessPosition> positions = new ArrayList<>();
         for (Direction direction : directions) {
-            final int nextRow = currentPosition.row() + direction.dr;
-            final int nextCol = currentPosition.column() + direction.dc;
-            validatePosition(nextRow, nextCol);
-            currentPosition = new ChessPosition(nextRow, nextCol);
+            validatePosition(currentPosition, direction);
+            currentPosition = currentPosition.move(direction);
             positions.add(currentPosition);
         }
         return new Path(positions);
     }
 
-    private void validatePosition(final int row, final int col) {
-        if (!ChessPosition.isValid(row, col)) {
+    private void validatePosition(ChessPosition currentPosition, Direction direction) {
+        if (!currentPosition.canMove(direction)) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
     }
