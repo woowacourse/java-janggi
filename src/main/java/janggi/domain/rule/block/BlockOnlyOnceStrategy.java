@@ -3,7 +3,7 @@ package janggi.domain.rule.block;
 import janggi.domain.Board;
 import janggi.domain.Route;
 
-public class CannonBlockStrategy implements BlockStrategy {
+public class BlockOnlyOnceStrategy implements BlockStrategy {
 
     private static final int BLOCK_COUNT = 1;
 
