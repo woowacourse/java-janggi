@@ -40,16 +40,15 @@ public class 상Test {
     }
 
     static Stream<Arguments> provide상Route() {
-        Map<Direction, List<Pattern>> 상routes = JanggiPieceType.상.getRoutes();
         return Stream.of(
-                Arguments.of(new JanggiPosition(4, 8), 상routes.get(Direction.RIGHT_UP)),
-                Arguments.of(new JanggiPosition(8, 8), 상routes.get(Direction.RIGHT_DOWN)),
-                Arguments.of(new JanggiPosition(9, 7), 상routes.get(Direction.DOWN_RIGHT)),
-                Arguments.of(new JanggiPosition(9, 3), 상routes.get(Direction.DOWN_LEFT)),
-                Arguments.of(new JanggiPosition(8, 2), 상routes.get(Direction.LEFT_DOWN)),
-                Arguments.of(new JanggiPosition(4, 2), 상routes.get(Direction.LEFT_UP)),
-                Arguments.of(new JanggiPosition(3, 3), 상routes.get(Direction.UP_LEFT)),
-                Arguments.of(new JanggiPosition(3, 7), 상routes.get(Direction.UP_RIGHT))
+                Arguments.of(new JanggiPosition(4, 8), List.of(Pattern.MOVE_RIGHT, Pattern.MOVE_DIAGONAL_UP_RIGHT, Pattern.MOVE_DIAGONAL_UP_RIGHT)),
+                Arguments.of(new JanggiPosition(8, 8), List.of(Pattern.MOVE_RIGHT, Pattern.MOVE_DIAGONAL_DOWN_RIGHT, Pattern.MOVE_DIAGONAL_DOWN_RIGHT)),
+                Arguments.of(new JanggiPosition(9, 7), List.of(Pattern.MOVE_DOWN, Pattern.MOVE_DIAGONAL_DOWN_RIGHT, Pattern.MOVE_DIAGONAL_DOWN_RIGHT)),
+                Arguments.of(new JanggiPosition(9, 3), List.of(Pattern.MOVE_DOWN, Pattern.MOVE_DIAGONAL_DOWN_LEFT, Pattern.MOVE_DIAGONAL_DOWN_LEFT)),
+                Arguments.of(new JanggiPosition(8, 2), List.of(Pattern.MOVE_LEFT, Pattern.MOVE_DIAGONAL_DOWN_LEFT, Pattern.MOVE_DIAGONAL_DOWN_LEFT)),
+                Arguments.of(new JanggiPosition(4, 2), List.of(Pattern.MOVE_LEFT, Pattern.MOVE_DIAGONAL_UP_LEFT, Pattern.MOVE_DIAGONAL_UP_LEFT)),
+                Arguments.of(new JanggiPosition(3, 3), List.of(Pattern.MOVE_UP, Pattern.MOVE_DIAGONAL_UP_LEFT, Pattern.MOVE_DIAGONAL_UP_LEFT)),
+                Arguments.of(new JanggiPosition(3, 7), List.of(Pattern.MOVE_UP, Pattern.MOVE_DIAGONAL_UP_RIGHT, Pattern.MOVE_DIAGONAL_UP_RIGHT))
         );
     }
 

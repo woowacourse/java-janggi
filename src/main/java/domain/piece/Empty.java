@@ -7,7 +7,7 @@ import java.util.List;
 
 public final class Empty extends JanggiPiece {
     public Empty() {
-        super(JanggiSide.NONE, JanggiPieceType.EMPTY, new NoneMovingStrategy());
+        super(JanggiSide.NONE, JanggiPieceType.EMPTY);
     }
 
     @Override

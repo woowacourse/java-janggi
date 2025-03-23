@@ -10,17 +10,15 @@ public abstract class JanggiPiece {
     protected final JanggiSide side;
     protected final JanggiPieceType type;
     protected boolean isCaptured;
-    protected final JanggiPieceMovingStrategy movingStrategy;
 
-    public JanggiPiece(final JanggiSide side, final JanggiPieceType type, final JanggiPieceMovingStrategy movingStrategy) {
+    public JanggiPiece(final JanggiSide side, final JanggiPieceType type) {
         this.side = side;
         this.isCaptured = false;
         this.type = type;
-        this.movingStrategy = movingStrategy;
     }
 
     public List<Pattern> getRoute(JanggiPosition origin, JanggiPosition destination) {
-        return movingStrategy.getRoute(type.getRoutes(), origin, destination);
+        return type.getRoute(origin, destination);
     }
 
     public boolean isEmpty() {

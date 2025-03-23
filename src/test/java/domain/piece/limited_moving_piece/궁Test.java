@@ -40,12 +40,11 @@ public class 궁Test {
     }
 
     static Stream<Arguments> provide궁Route() {
-        Map<Direction, List<Pattern>> routeOf궁 = JanggiPieceType.궁.getRoutes();
         return Stream.of(
-                Arguments.of(new JanggiPosition(8, 5), routeOf궁.get(Direction.UP)),
-                Arguments.of(new JanggiPosition(9, 4), routeOf궁.get(Direction.LEFT)),
-                Arguments.of(new JanggiPosition(9, 6), routeOf궁.get(Direction.RIGHT)),
-                Arguments.of(new JanggiPosition(0, 5), routeOf궁.get(Direction.DOWN)));
+                Arguments.of(new JanggiPosition(8, 5), List.of(Pattern.MOVE_UP)),
+                Arguments.of(new JanggiPosition(9, 4), List.of(Pattern.MOVE_LEFT)),
+                Arguments.of(new JanggiPosition(9, 6), List.of(Pattern.MOVE_RIGHT)),
+                Arguments.of(new JanggiPosition(0, 5), List.of(Pattern.MOVE_DOWN)));
     }
 
     @Test

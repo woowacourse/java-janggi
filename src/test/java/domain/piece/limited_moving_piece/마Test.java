@@ -38,16 +38,15 @@ public class 마Test {
     }
 
     static Stream<Arguments> provide마Path() {
-        Map<Direction, List<Pattern>> pathOf마 = JanggiPieceType.마.getRoutes();
         return Stream.of(
-                Arguments.of(new JanggiPosition(5, 2), pathOf마.get(Direction.LEFT_UP)),
-                Arguments.of(new JanggiPosition(5, 6), pathOf마.get(Direction.RIGHT_UP)),
-                Arguments.of(new JanggiPosition(4, 5), pathOf마.get(Direction.UP_RIGHT)),
-                Arguments.of(new JanggiPosition(4, 3), pathOf마.get(Direction.UP_LEFT)),
-                Arguments.of(new JanggiPosition(7, 2), pathOf마.get(Direction.LEFT_DOWN)),
-                Arguments.of(new JanggiPosition(8, 3), pathOf마.get(Direction.DOWN_LEFT)),
-                Arguments.of(new JanggiPosition(8, 5), pathOf마.get(Direction.DOWN_RIGHT)),
-                Arguments.of(new JanggiPosition(7, 6), pathOf마.get(Direction.RIGHT_DOWN))
+                Arguments.of(new JanggiPosition(5, 2), List.of(Pattern.MOVE_LEFT, Pattern.MOVE_DIAGONAL_UP_LEFT)),
+                Arguments.of(new JanggiPosition(5, 6), List.of(Pattern.MOVE_RIGHT, Pattern.MOVE_DIAGONAL_UP_RIGHT)),
+                Arguments.of(new JanggiPosition(4, 5), List.of(Pattern.MOVE_UP, Pattern.MOVE_DIAGONAL_UP_RIGHT)),
+                Arguments.of(new JanggiPosition(4, 3), List.of(Pattern.MOVE_UP, Pattern.MOVE_DIAGONAL_UP_LEFT)),
+                Arguments.of(new JanggiPosition(7, 2), List.of(Pattern.MOVE_LEFT, Pattern.MOVE_DIAGONAL_DOWN_LEFT)),
+                Arguments.of(new JanggiPosition(8, 3), List.of(Pattern.MOVE_DOWN, Pattern.MOVE_DIAGONAL_DOWN_LEFT)),
+                Arguments.of(new JanggiPosition(8, 5), List.of(Pattern.MOVE_DOWN, Pattern.MOVE_DIAGONAL_DOWN_RIGHT)),
+                Arguments.of(new JanggiPosition(7, 6), List.of(Pattern.MOVE_RIGHT, Pattern.MOVE_DIAGONAL_DOWN_RIGHT))
         );
     }
 
