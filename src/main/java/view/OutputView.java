@@ -1,5 +1,10 @@
 package view;
 
+import static constant.JanggiConstant.BOARD_MAX_HEIGHT;
+import static constant.JanggiConstant.BOARD_MAX_WIDTH;
+import static constant.JanggiConstant.BOARD_MIN_HEIGHT;
+import static constant.JanggiConstant.BOARD_MIN_WIDTH;
+
 import coordinate.Coordinate;
 import java.util.Map;
 import piece.Piece;
@@ -12,11 +17,11 @@ public class OutputView {
     public void printBoard(Map<Coordinate, Piece> board) {
         System.out.println("   １　２　３　４　５　６　７　８　９");
 
-        for (int height = 1; height <= 10; height++) {
-            System.out.printf("%2d ", height);
+        for (int y = BOARD_MIN_HEIGHT; y <= BOARD_MAX_HEIGHT; y++) {
+            System.out.printf("%2d ", y);
 
-            for (int width = 1; width <= 9; width++) {
-                Coordinate coordinate = new Coordinate(width, height);
+            for (int x = BOARD_MIN_WIDTH; x <= BOARD_MAX_WIDTH; x++) {
+                Coordinate coordinate = new Coordinate(x, y);
                 Piece piece = board.get(coordinate);
                 if (piece == null) {
                     System.out.print(FULL_WIDTH_BAR + FULL_WIDTH_SPACE);

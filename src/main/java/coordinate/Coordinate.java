@@ -1,5 +1,10 @@
 package coordinate;
 
+import static constant.JanggiConstant.BOARD_MAX_HEIGHT;
+import static constant.JanggiConstant.BOARD_MAX_WIDTH;
+import static constant.JanggiConstant.BOARD_MIN_HEIGHT;
+import static constant.JanggiConstant.BOARD_MIN_WIDTH;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
@@ -26,10 +31,10 @@ public class Coordinate {
 
     public Set<Coordinate> pickCrossCoordinates() {
         Set<Coordinate> coordinates = new HashSet<>();
-        for (int x = 1; x <= 9; x++) {
+        for (int x = BOARD_MIN_WIDTH; x <= BOARD_MAX_WIDTH; x++) {
             coordinates.add(new Coordinate(x, this.y));
         }
-        for (int y = 1; y <= 10; y++) {
+        for (int y = BOARD_MIN_HEIGHT; y <= BOARD_MAX_HEIGHT; y++) {
             coordinates.add(new Coordinate(this.x, y));
         }
         coordinates.remove(this);
@@ -37,22 +42,24 @@ public class Coordinate {
     }
 
     private boolean isInvalidX(int x) {
-        return x < 1 || x > 9;
+        return x < BOARD_MIN_WIDTH || x > BOARD_MAX_WIDTH;
     }
 
     private void validateXCoordinate(int x) {
         if (isInvalidX(x)) {
-            throw new IllegalArgumentException("가로 좌표는 1에서 9사이여야 합니다.");
+            throw new IllegalArgumentException(
+                    String.format("가로 좌표는 %d에서 %d사이여야 합니다.", BOARD_MIN_WIDTH, BOARD_MAX_WIDTH));
         }
     }
 
     private static boolean isInvalidY(int y) {
-        return y < 1 || y > 10;
+        return y < BOARD_MIN_HEIGHT || y > BOARD_MAX_HEIGHT;
     }
 
     private void validateYCoordinate(int y) {
         if (isInvalidY(y)) {
-            throw new IllegalArgumentException("세로 좌표는 1에서 10사이여야 합니다.");
+            throw new IllegalArgumentException(
+                    String.format("세로 좌표는 %d에서 %d사이여야 합니다.", BOARD_MIN_HEIGHT, BOARD_MAX_HEIGHT));
         }
     }
 
