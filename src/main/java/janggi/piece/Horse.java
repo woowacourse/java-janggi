@@ -2,6 +2,7 @@ package janggi.piece;
 
 import janggi.board.Position;
 import java.util.List;
+import java.util.Map;
 
 public class Horse extends Piece {
 
@@ -10,14 +11,38 @@ public class Horse extends Piece {
     }
 
     @Override
-    public List<Position> calculatePath(final Position start, final Position end) {
-        int differenceX = end.x() - start.x();
-        int differenceY = end.y() - start.y();
-        validateMovingRule(differenceX, differenceY);
-        return List.of(calculateDirection(start, differenceX, differenceY));
+    public boolean canMove(final Position start, final Position end, final Map<Position, Piece> board) {
+        return isEmptyOnPath(board, findPath(start, end)) && isValidMovingRule(start, end);
     }
 
-    private Position calculateDirection(final Position start, final int differenceX, final int differenceY) {
+    private boolean isEmptyOnPath(final Map<Position, Piece> board, final List<Position> path) {
+        return path.stream()
+                .noneMatch(board::containsKey);
+    }
+
+    private List<Position> findPath(final Position start, final Position end) {
+        return List.of(findDirection(start, end));
+    }
+
+    private boolean isValidMovingRule(final Position start, final Position end) {
+        int differenceX = end.x() - start.x();
+        int differenceY = end.y() - start.y();
+        int absDifferenceX = Math.abs(differenceX);
+        int absDifferenceY = Math.abs(differenceY);
+        return ((absDifferenceX == 2 && absDifferenceY == 1) || (absDifferenceX == 1 && absDifferenceY == 2));
+    }
+
+    @Override
+    public List<Position> calculatePath(final Position start, final Position end) {
+        if (isValidMovingRule(start, end)) {
+            return List.of(findDirection(start, end));
+        }
+        throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
+    }
+
+    private Position findDirection(final Position start, final Position end) {
+        int differenceX = end.x() - start.x();
+        int differenceY = end.y() - start.y();
         return start.offset(reduceOne(differenceX), reduceOne(differenceY));
     }
 
@@ -28,15 +53,5 @@ public class Horse extends Piece {
             return absValue * -1;
         }
         return absValue;
-    }
-
-    private void validateMovingRule(final int differenceX, final int differenceY) {
-        int absDifferenceX = Math.abs(differenceX);
-        int absDifferenceY = Math.abs(differenceY);
-        if ((absDifferenceX == 2 && absDifferenceY == 1)
-                || (absDifferenceX == 1 && absDifferenceY == 2)) {
-            return;
-        }
-        throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
     }
 }
