@@ -146,32 +146,4 @@ class TeamBoardTest {
         assertThat(teamBoard.getPieces().get(current)).isNull();
         assertThat(teamBoard.getPieces().get(destination)).isEqualTo(currentPiece);
     }
-
-    @DisplayName("이동경로에 포가 아닌 기물이 1개가 아니라면 예외를 발생시킨다")
-    @Test
-    void test6() {
-        // given
-        List<BoardLocation> allPath = List.of(new BoardLocation(1, 1), new BoardLocation(4, 1));
-        BoardLocation destination = new BoardLocation(1, 2);
-        TeamBoard teamBoard = new TeamBoard(BoardFixture.createTeamBoard());
-
-        // when & then
-        assertThatThrownBy(() -> {
-            teamBoard.validateAllyMove(allPath, destination);
-        }).isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @DisplayName("이동경로에 포가 아닌 기물이 1개지만 목적지에 포가 있다면 예외를 발생시킨다")
-    @Test
-    void test8() {
-        // given
-        List<BoardLocation> allPath = List.of(new BoardLocation(1, 1));
-        BoardLocation destination = new BoardLocation(2, 3);
-        TeamBoard teamBoard = new TeamBoard(BoardFixture.createTeamBoard());
-
-        // when & then
-        assertThatThrownBy(() -> {
-            teamBoard.validateAllyMove(allPath, destination);
-        }).isInstanceOf(IllegalArgumentException.class);
-    }
 }

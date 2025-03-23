@@ -1,9 +1,13 @@
 package domain;
 
-import static domain.Team.*;
+import static domain.Team.CHO;
+import static domain.Team.DEFAULT;
+import static domain.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.piece.Elephant;
+import domain.piece.Pawn;
+import domain.piece.Piece;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,5 +56,59 @@ public class ElephantTest {
 
         // then
         assertThat(allPath).containsAll(List.of(new BoardLocation(1, 2), new BoardLocation(2, 3)));
+    }
+
+    @DisplayName("이동 경로에 기물이 있다면 false를 반환한다")
+    @Test
+    void test4() {
+        // given
+        List<Piece> pathPiece = List.of(new Pawn(Team.DEFAULT));
+        Piece piece = new Elephant(Team.DEFAULT);
+        // when
+        boolean canArrive = piece.canArrive(pathPiece);
+        // then
+        assertThat(canArrive).isFalse();
+    }
+
+    @DisplayName("이동 경로에 기물이 없으면 true를 반환한다")
+    @Test
+    void test5() {
+        // given
+        List<Piece> pathPiece = List.of();
+        Piece piece = new Elephant(Team.DEFAULT);
+
+        // when
+        boolean canArrive = piece.canArrive(pathPiece);
+
+        // then
+        assertThat(canArrive).isTrue();
+    }
+
+    @DisplayName("목표 위치에 아군 기물이 있다면 false를 반환한다")
+    @Test
+    void test11() {
+        // given
+        Piece destination = new Pawn(HAN);
+        Piece start = new Elephant(HAN);
+
+        // when
+        boolean canArrive = start.canDestination(destination);
+
+        //then
+        assertThat(canArrive).isFalse();
+    }
+
+    @DisplayName("목표 위치에 적군 기물이 있다면 true를 반환한다")
+    @Test
+    void test12() {
+        // given
+        Piece destination = new Pawn(CHO);
+        Piece start = new Elephant(HAN);
+
+        // when
+        boolean canArrive = start.canDestination(destination);
+
+        //then
+        assertThat(canArrive).isTrue();
     }
 }
