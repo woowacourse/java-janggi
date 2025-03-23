@@ -10,11 +10,14 @@ import domain.type.ChessTeam;
 import java.util.List;
 import java.util.Map;
 
-import static domain.direction.Direction.*;
-
 public class Chariot extends UnlimitedMoveChessPiece {
 
-    private static final List<Direction> directions = List.of(UP, DOWN, LEFT, RIGHT);
+    private static final List<Direction> directions = List.of(
+            Direction.UP,
+            Direction.DOWN,
+            Direction.LEFT,
+            Direction.RIGHT
+    );
     private final HurdlePolicy hurdlePolicy = new StopAtHurdlePolicy();
 
     public Chariot(final ChessTeam team) {

@@ -1,5 +1,6 @@
 package domain.chessPiece;
 
+import domain.direction.Direction;
 import domain.direction.Directions;
 import domain.hurdlePolicy.HurdlePolicy;
 import domain.hurdlePolicy.UnpassableHurdlePolicy;
@@ -10,16 +11,18 @@ import domain.type.ChessTeam;
 import java.util.List;
 import java.util.Map;
 
-import static domain.direction.Direction.*;
-
 public class Pawn extends LimitedMoveChessPiece {
 
     private static final Map<ChessTeam, List<Directions>> DIRECTIONS = Map.of(
             ChessTeam.RED, List.of(
-                    new Directions(List.of(LEFT)), new Directions(List.of(RIGHT)), new Directions(List.of(DOWN))
+                    new Directions(List.of(Direction.LEFT)),
+                    new Directions(List.of(Direction.RIGHT)),
+                    new Directions(List.of(Direction.DOWN))
             ),
             ChessTeam.BLUE, List.of(
-                    new Directions(List.of(LEFT)), new Directions(List.of(RIGHT)), new Directions(List.of(UP))
+                    new Directions(List.of(Direction.LEFT)),
+                    new Directions(List.of(Direction.RIGHT)),
+                    new Directions(List.of(Direction.UP))
             )
     );
     private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
