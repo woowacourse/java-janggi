@@ -11,6 +11,8 @@ import java.util.List;
 public class Sang implements Movable {
 
     private static final String NAME = "상";
+    private static final double MOVE_DISTANCE = Math.sqrt(13);
+    private static final int DIAGONAL_COUNT = 2;
 
     private final Team team;
 
@@ -22,13 +24,13 @@ public class Sang implements Movable {
     public boolean isInMovingRange(Point startPoint, Point targetPoint) {
         PointDistance distance = PointDistance.calculate(startPoint, targetPoint);
 
-        return distance.isSameWith(Math.sqrt(13));
+        return distance.isSameWith(MOVE_DISTANCE);
     }
 
     @Override
     public Route findRoute(Point startPoint, Point targetPoint) {
         List<Point> route = new ArrayList<>();
-        List<Direction> directions = Direction.complexFrom(startPoint, targetPoint, 2);
+        List<Direction> directions = Direction.complexFrom(startPoint, targetPoint, DIAGONAL_COUNT);
 
         Point pointer = startPoint;
         for (Direction direction : directions) {

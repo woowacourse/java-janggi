@@ -9,6 +9,7 @@ import java.util.List;
 public class Byeong implements Movable {
 
     private static final String NAME = "병";
+    private static final double MOVE_DISTANCE = 1;
 
     private final Team team;
 
@@ -21,9 +22,9 @@ public class Byeong implements Movable {
         PointDistance distance = PointDistance.calculate(startPoint, targetPoint);
 
         if (team == Team.CHO) {
-            return distance.isSameWith(1) && !startPoint.isRowLessThan(targetPoint);
+            return distance.isSameWith(MOVE_DISTANCE) && !startPoint.isRowLessThan(targetPoint);
         }
-        return distance.isSameWith(1) && !startPoint.isRowBiggerThan(targetPoint);
+        return distance.isSameWith(MOVE_DISTANCE) && !startPoint.isRowBiggerThan(targetPoint);
     }
 
     @Override

@@ -8,6 +8,8 @@ import java.util.Set;
 
 public class Route {
 
+    private static final int NEEDED_HURDLE_NUMBER = 1;
+
     private final List<Point> path;
     private final Point targetPoint;
 
@@ -30,7 +32,7 @@ public class Route {
         if (hasTargetPointHurdles(startPoint, board)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
-        if (countJumperForPo(board) != 1) {
+        if (countJumperForPo(board) != NEEDED_HURDLE_NUMBER) {
             throw new IllegalArgumentException("포는 포를 제외한 하나의 기물만 필요합니다.");
         }
         if (board.getRunningPieces().containsKey(targetPoint)
