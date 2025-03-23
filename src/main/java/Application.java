@@ -1,4 +1,4 @@
-import domain.JanggiGame;
+import domain.game.JanggiGame;
 
 public class Application {
 

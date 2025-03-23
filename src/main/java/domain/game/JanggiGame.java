@@ -1,5 +1,6 @@
-package domain;
+package domain.game;
 
+import domain.Coordinate;
 import domain.board.Board;
 import domain.board.SettingUp;
 import domain.piece.Country;
