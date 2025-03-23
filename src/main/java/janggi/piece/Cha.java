@@ -1,11 +1,11 @@
 package janggi.piece;
 
+import janggi.point.Crashes;
 import janggi.point.Direction;
 import janggi.point.Hurdles;
 import janggi.point.InitialPoint;
 import janggi.point.Point;
 import janggi.game.Team;
-import janggi.point.PointDistance;
 import janggi.point.Route;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,8 @@ public class Cha implements Movable {
         //장애물 체크
         Route route = Route.repeat(direction, this.point, targetPoint);
         if (route.isCrashExists(hurdles)) {
-            return false;
+            Crashes crashPoints = route.findCrashes(hurdles);
+            return crashPoints.isPreyOnly(this.team, targetPoint, hurdles);
         }
         return true;
     }

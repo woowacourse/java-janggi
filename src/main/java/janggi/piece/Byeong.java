@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.point.Crashes;
 import janggi.point.Direction;
 import janggi.point.Hurdles;
 import janggi.point.InitialPoint;
@@ -53,7 +54,8 @@ public class Byeong implements Movable {
         //장애물 체크
         Route route = Route.repeat(direction, this.point, targetPoint);
         if (route.isCrashExists(hurdles)) {
-            return false;
+            Crashes crashPoints = route.findCrashes(hurdles);
+            return crashPoints.isPreyOnly(this.team, targetPoint, hurdles);
         }
         return true;
     }

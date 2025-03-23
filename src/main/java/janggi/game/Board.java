@@ -65,23 +65,6 @@ public class Board {
         return new Hurdles(hurdles);
     }
 
-    public boolean checkHurdles(Point startPoint, Route route) {
-        List<Point> crashPoints = route.findCrashes(this);
-
-        if (crashPoints.size() == 1
-                && route.findLastPoint().equals(crashPoints.getFirst())
-        ) {
-            Movable crashPiece = findByPoint(crashPoints.getFirst());
-            Movable movingPiece = findByPoint(startPoint);
-            Team crashPieceColor = crashPiece.getTeam();
-            Team movingPieceColor = movingPiece.getTeam();
-
-            return crashPieceColor == movingPieceColor;
-        }
-
-        return !crashPoints.isEmpty();
-    }
-
     public void move(Point beforePoint, Point afterPoint) {
         Movable movingPiece = findByPoint(beforePoint);
 

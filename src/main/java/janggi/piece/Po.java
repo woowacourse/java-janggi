@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.game.Board;
+import janggi.point.Crashes;
 import janggi.point.Direction;
 import janggi.point.Hurdles;
 import janggi.point.InitialPoint;
@@ -42,45 +42,14 @@ public class Po implements Movable {
     @Override
     public boolean isInMovingRange(Point targetPoint, Hurdles hurdles) {
         Direction direction = Direction.cardinalFrom(this.point, targetPoint);
+
+        //장애물, bridge 체크
         Route route = Route.repeat(direction, this.point, targetPoint);
 
-        List<Point> crashPoints = route.findCrashes(hurdles);
-
-        //bridge만 있어야 함
-        if (crashPoints.size() == 1 || crashPoints.size() == 2) {
-            if (bridgeNotExists(targetPoint, hurdles, crashPoints)) {
-                return false;
-            }
-            //bridge + prey가 있어야 함
-            if (crashPoints.size() == 2) {
-                if (preyNotExists(targetPoint, hurdles, crashPoints)) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
-    private static boolean bridgeNotExists(Point targetPoint, Hurdles hurdles, List<Point> crashPoints) {
-        Point bridgePoint = crashPoints.getFirst();
-        if (hurdles.findByPoint(bridgePoint) instanceof Po) {
-            return true;
-        }
-        if (bridgePoint.equals(targetPoint)) {
-            return true;
-        }
-        return false;
-    }
-
-    private static boolean preyNotExists(Point targetPoint, Hurdles hurdles, List<Point> crashPoints) {
-        Point preyPoint = crashPoints.getLast();
-        Movable prey = hurdles.findByPoint(preyPoint);
-        if (prey instanceof Po) {
-            return true;
-        }
-        if (!preyPoint.equals(targetPoint)) {
-            return true;
+        if (route.isCrashExists(hurdles)) {
+            Crashes crashPoints = route.findCrashes(hurdles);
+            return crashPoints.isBridgeOnly(targetPoint, hurdles)
+                    || crashPoints.isBridgeAndPreyOnly(this.team, targetPoint, hurdles);
         }
         return false;
     }

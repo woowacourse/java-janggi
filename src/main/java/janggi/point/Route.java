@@ -1,6 +1,5 @@
 package janggi.point;
 
-import janggi.game.Board;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,16 +41,33 @@ public class Route {
         return route.getLast();
     }
 
-    public boolean isCrashExists(Hurdles hurdles) {
-        return route.stream()
-                .anyMatch(point -> hurdles.containsPoint(point));
+    public Crashes findCrashes(Hurdles hurdles) {
+        return new Crashes(route.stream()
+                .filter(hurdles::containsPoint)
+                .toList());
     }
 
-    public List<Point> findCrashes(Hurdles hurdles) {
-        return route.stream()
-                .filter(hurdles::containsPoint)
-                .toList();
+    public boolean isCrashExists(Hurdles hurdles) {
+        Crashes crashPoints = findCrashes(hurdles);
+        return crashPoints.isPresent();
     }
+
+//    public boolean checkHurdles(Point startPoint, Route route) {
+//        List<Point> crashPoints = route.findCrashes(this);
+//
+//        if (crashPoints.size() == 1
+//                && route.findLastPoint().equals(crashPoints.getFirst())
+//        ) {
+//            Movable crashPiece = findByPoint(crashPoints.getFirst());
+//            Movable movingPiece = findByPoint(startPoint);
+//            Team crashPieceColor = crashPiece.getTeam();
+//            Team movingPieceColor = movingPiece.getTeam();
+//
+//            return crashPieceColor == movingPieceColor;
+//        }
+//
+//        return !crashPoints.isEmpty();
+//    }
 
     @Override
     public boolean equals(Object o) {
