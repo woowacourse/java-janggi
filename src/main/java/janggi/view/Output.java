@@ -1,7 +1,6 @@
 package janggi.view;
 
-import janggi.board.BoardCho;
-import janggi.board.BoardHan;
+import janggi.board.Board;
 import janggi.piece.Piece;
 import janggi.team.Team;
 
@@ -15,33 +14,31 @@ public class Output {
     private static final String HAN_RED = "\u001B[31m";
     private static final String CHO_BLUE = "\u001B[34m";
 
-    public void printBoard(BoardHan boardHan, BoardCho boardCho) {
-        List<Piece> allPieces = new ArrayList<>();
-        allPieces.addAll(boardHan.getBoard());
-        allPieces.addAll(boardCho.getBoard());
+    public void printBoard(Board board) {
+        List<Piece> allPieces = board.getBoard();
 
-        allPieces.sort(Comparator.comparingInt((Piece p) -> p.getPosition().getY())
-                .thenComparingInt(p -> p.getPosition().getX()));
+        allPieces.sort(Comparator.comparingInt((Piece p) -> p.getPosition().getColumn())
+                .thenComparingInt(p -> p.getPosition().getRow()));
 
-        String[][] board = new String[9][10];
+        String[][] locatedPieces = new String[9][10];
 
         for (int x = 0; x <= 8; x++) {
             for (int y = 0; y <= 9; y++) {
-                board[x][y] = "_";
+                locatedPieces[x][y] = "_";
             }
         }
 
         for (Piece piece : allPieces) {
-            int x = piece.getPosition().getX();
-            int y = piece.getPosition().getY();
+            int x = piece.getPosition().getRow();
+            int y = piece.getPosition().getColumn();
             String color = piece.getTeam().equals(Team.CHO) ? CHO_BLUE : HAN_RED;
-            board[x][y] = color + piece.getName() + RESET;
+            locatedPieces[x][y] = color + piece.getName() + RESET;
         }
 
         for (int y = 9; y >= 0; y--) {
             System.out.println();
             for (int x = 0; x <= 8; x++) {
-                System.out.print(board[x][y]);
+                System.out.print(locatedPieces[x][y]);
             }
         }
 

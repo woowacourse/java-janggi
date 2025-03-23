@@ -1,41 +1,35 @@
 package janggi.piece;
 
-import janggi.team.Team;
 import janggi.position.Position;
+import janggi.team.Team;
 
-public class Horse implements Piece {
+public class Horse implements Piece{
 
-    private final String name = "H"; //ma
-    private final Team team;
-    private Position position;
-
-    public Horse(Team team, Position position) {
-        this.team = team;
-        this.position = position;
-    }
-
-    @Override
-    public boolean isOccupiedByMe(Position position) {
-        return position.equals(this.position);
-    }
-
-    @Override
-    public void move(Position position) {
-        this.position = this.position.update(position);
+    public Horse(Position position) {
     }
 
     @Override
     public Position getPosition() {
-        return position;
+        return null;
     }
 
     @Override
     public String getName() {
-        return name;
+        return "";
     }
 
     @Override
     public Team getTeam() {
-        return team;
+        return null;
+    }
+
+    @Override
+    public boolean isOccupiedByMe(Position position) {
+        return false;
+    }
+
+    @Override
+    public void move(Position position) {
+
     }
 }

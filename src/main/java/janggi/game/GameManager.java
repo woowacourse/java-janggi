@@ -11,7 +11,7 @@ import java.util.regex.*;
 import java.util.Arrays;
 import java.util.List;
 
-public class GameManager {
+/*public class GameManager {
     private final Input input;
     private final Output output;
 
@@ -21,11 +21,9 @@ public class GameManager {
     }
 
     public void run() {
-        BoardCho boardCho = new BoardCho(receiveOption(Team.CHO));
-        BoardHan boardHan = new BoardHan(receiveOption(Team.HAN));
-        Board board = new Board(boardCho, boardHan);
+        Board board = new Board(receiveOption(Team.CHO), receiveOption(Team.HAN));
 
-        output.printBoard(boardHan, boardCho);
+        output.printBoard(board);
 
         String pieceTeamInfo = input.readPieceTeamName();
         Team teamName = Team.from(pieceTeamInfo);
@@ -61,14 +59,9 @@ public class GameManager {
         }
 
         // 말 이동 업데이트
-        if (teamName.equals(Team.CHO)) {
-            boardCho.move(pieceName, pieceCurrentPosition,pieceMovedPosition);
-        }
-        if (teamName.equals(Team.HAN)) {
-            boardHan.move(pieceName, pieceCurrentPosition,pieceMovedPosition);
-        }
+        board.move(teamName, pieceName, pieceCurrentPosition,pieceMovedPosition);
 
-        output.printBoard(boardHan, boardCho);
+        output.printBoard(board);
     }
 
     public BoardOption receiveOption(Team team) {
@@ -98,4 +91,4 @@ public class GameManager {
 
     // todo 각 말의 오프셋 계산해 검증하기
     // 상인 경우, x축, y축 이동 방향에 따른 변화량 차이 (2, 3) (3, 2)
-}
+}*/
