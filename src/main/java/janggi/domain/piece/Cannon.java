@@ -11,6 +11,8 @@ import java.util.Set;
 
 public class Cannon extends Piece {
 
+    private static final int REQUIRED_JUMP_PIECES = 1;
+
     public Cannon(final Position position, final Team team) {
         super(position, team);
     }
@@ -20,6 +22,7 @@ public class Cannon extends Piece {
         return true;
     }
 
+    @Override
     public Set<Route> calculateRoutes() {
         final Set<Route> rawRoutes = new HashSet<>();
 
@@ -27,6 +30,30 @@ public class Cannon extends Piece {
             rawRoutes.addAll(generateRoutesInDirection(direction));
         }
         return rawRoutes;
+    }
+
+    @Override
+    protected boolean isValidRoute(final Route route, final List<Piece> otherPieces) {
+        return isValidCannonRoute(route, otherPieces);
+    }
+
+    private boolean isValidCannonRoute(final Route route, final List<Piece> otherPieces) {
+        return countPiecesInRoute(route, otherPieces) == REQUIRED_JUMP_PIECES;
+    }
+
+    private int countPiecesInRoute(final Route route, final List<Piece> otherPieces) {
+        final long cannonOrDestinationCount = otherPieces.stream()
+                .filter(route::hasPosition)
+                .filter(piece -> piece.isCannon() || route.isDestination(piece))
+                .count();
+
+        if (cannonOrDestinationCount > 0) {
+            return 0;
+        }
+
+        return (int) otherPieces.stream()
+                .filter(route::hasPosition)
+                .count();
     }
 
     private Set<Route> generateRoutesInDirection(final Direction direction) {

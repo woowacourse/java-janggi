@@ -52,7 +52,7 @@ class PiecesTest {
         final Pieces pieces = new Pieces(List.of(chariot, soldier1, soldier2, soldier3, soldier4));
 
         // when
-        final Set<Route> possibleRoutes = pieces.getPossibleRoutesForChariot(chariot);
+        final Set<Route> possibleRoutes = pieces.getPossibleRoutes(chariot);
 
         // then
         assertThat(possibleRoutes.size()).isEqualTo(7);
@@ -73,7 +73,7 @@ class PiecesTest {
         final Pieces pieces = new Pieces(List.of(cannon, soldier1, cannon1, soldier3, cannon2, soldier2));
 
         // when
-        final Set<Route> possibleRoutes = pieces.getPossibleRoutesForCannon(cannon);
+        final Set<Route> possibleRoutes = pieces.getPossibleRoutes(cannon);
 
         // then
         assertThat(possibleRoutes.size()).isEqualTo(6);

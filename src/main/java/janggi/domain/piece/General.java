@@ -28,8 +28,7 @@ public class General extends Piece {
     public General(final Position position, final Team team) {
         super(position, team);
     }
-    
-    @Override
+
     public Set<Route> calculateRoutes() {
         return GENERAL_MOVES.stream()
                 .map(this::calculateRoute)
@@ -46,10 +45,18 @@ public class General extends Piece {
         for (final Direction direction : move) {
             x += direction.dx();
             y += direction.dy();
-            if (validateSize(x, y)) {
-                positions.add(new Position(x, y));
+            if (!validateSize(x, y)) {
+                return Optional.empty();
             }
+            positions.add(new Position(x, y));
         }
         return Optional.of(new Route(positions));
+    }
+
+    @Override
+    public Set<Route> getPossibleRoutes(final List<Piece> otherPieces) {
+        return calculateRoutes().stream()
+                .filter(route -> super.isValidRoute(route, otherPieces))
+                .collect(Collectors.toSet());
     }
 }

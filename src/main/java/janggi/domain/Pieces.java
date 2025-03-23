@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 
 public class Pieces {
 
-    private static final int REQUIRED_JUMP_PIECES_FOR_CANNON = 1;
-
     private final List<Piece> pieces;
 
     public Pieces(final List<Piece> pieces) {
@@ -19,48 +17,15 @@ public class Pieces {
     }
 
     public Set<Route> getPossibleRoutes(final Piece piece) {
-        return piece.calculateRoutes().stream()
+        final List<Piece> otherPieces = pieces.stream()
+                .filter(p -> !p.equals(piece))
+                .toList();
+        return piece.getPossibleRoutes(otherPieces).stream()
                 .filter(route -> isValidNormalRoute(route, piece))
                 .collect(Collectors.toSet());
     }
 
     private boolean isValidNormalRoute(final Route route, final Piece piece) {
-        return pieces.stream()
-                .filter(route::hasPosition)
-                .allMatch(currentPiece -> route.isDestination(currentPiece) && piece.isEnemy(currentPiece));
-    }
-
-    public Set<Route> getPossibleRoutesForCannon(final Piece piece) {
-        return piece.calculateRoutes().stream()
-                .filter(this::isValidCannonRoute)
-                .collect(Collectors.toSet());
-    }
-
-    private boolean isValidCannonRoute(final Route route) {
-        return countPiecesInRoute(route) == REQUIRED_JUMP_PIECES_FOR_CANNON;
-    }
-
-    private int countPiecesInRoute(final Route route) {
-        final long cannonOrDestinationCount = pieces.stream()
-                .filter(route::hasPosition)
-                .filter(currentPiece -> currentPiece.isCannon() || route.isDestination(currentPiece))
-                .count();
-
-        if (cannonOrDestinationCount > 0) {
-            return 0;
-        }
-        return (int) pieces.stream()
-                .filter(route::hasPosition)
-                .count();
-    }
-
-    public Set<Route> getPossibleRoutesForChariot(final Piece piece) {
-        return piece.calculateRoutes().stream()
-                .filter(route -> isValidChariotRoute(route, piece))
-                .collect(Collectors.toSet());
-    }
-
-    private boolean isValidChariotRoute(final Route route, final Piece piece) {
         return pieces.stream()
                 .filter(route::hasPosition)
                 .allMatch(currentPiece -> route.isDestination(currentPiece) && piece.isEnemy(currentPiece));

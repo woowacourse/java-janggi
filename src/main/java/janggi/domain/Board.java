@@ -23,12 +23,6 @@ public class Board {
     }
 
     public Set<Route> findPossibleRoutes(final Piece piece) {
-        if (piece.isCannon()) {
-            return pieces.getPossibleRoutesForCannon(piece);
-        }
-        if (piece.isChariot()) {
-            return pieces.getPossibleRoutesForChariot(piece);
-        }
         return pieces.getPossibleRoutes(piece);
     }
 
