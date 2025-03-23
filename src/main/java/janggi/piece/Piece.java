@@ -2,6 +2,7 @@ package janggi.piece;
 
 import janggi.board.Position;
 import java.util.List;
+import java.util.Map;
 
 public abstract class Piece {
 
@@ -18,6 +19,8 @@ public abstract class Piece {
     public Side getSide() {
         return side;
     }
+
+    public abstract boolean canMove(final Position start, final Position end, Map<Position, Piece> board);
 
     public abstract List<Position> calculatePath(final Position start, final Position end);
 }

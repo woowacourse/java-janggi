@@ -17,23 +17,49 @@ public record Position(int x, int y) {
         }
     }
 
-    public Position up(final int changeValue) {
-        return new Position(x, y + changeValue);
+    public Position up(final int step) {
+        return new Position(x, y + step);
     }
 
-    public Position down(final int changeValue) {
-        return new Position(x, y - changeValue);
+    public Position down(final int step) {
+        return new Position(x, y - step);
     }
 
-    public Position left(final int changeValue) {
-        return new Position(x - changeValue, y);
+    public Position left(final int step) {
+        return new Position(x - step, y);
     }
 
-    public Position right(final int changeValue) {
-        return new Position(x + changeValue, y);
+    public Position right(final int step) {
+        return new Position(x + step, y);
     }
 
-    public Position offset(int offsetX, int offsetY) {
+    public Position offset(final int offsetX, final int offsetY) {
         return new Position(x + offsetX, y + offsetY);
+    }
+
+    public Position moveHorizontal(final int step) {
+        if (step > 0) {
+            return up(step);
+        }
+        return down(step);
+    }
+
+    public Position moveVertical(final int step) {
+        if (step > 0) {
+            return right(step);
+        }
+        return left(step);
+    }
+
+    public boolean isHorizontalMove(final Position other) {
+        int changeXValue = this.x - other.x;
+        int changeYValue = this.y - other.y;
+        return changeXValue != 0 && changeYValue == 0;
+    }
+
+    public boolean isVerticalMove(final Position other) {
+        int changeXValue = this.x - other.x;
+        int changeYValue = this.y - other.y;
+        return changeXValue == 0 && changeYValue != 0;
     }
 }
