@@ -1,5 +1,6 @@
 import java.util.Map;
 import piece.Board;
+import piece.JanggiTeamPiecesCreateFactory;
 import piece.Position;
 import piece.Team;
 
@@ -15,7 +16,7 @@ public class KoreanChessApplication {
 
     public static void main(String[] args) {
         GameView gameView = new GameView();
-        Board board = new Board(INITIATE_JANGGI_FILE);
+        Board board = new Board(new JanggiTeamPiecesCreateFactory());
         gameView.printChangePieceNotImplement();
 
         playKoreanChess(board, gameView);
