@@ -19,7 +19,6 @@ public class Board {
                         ));
     }
 
-
     public void updateBoard(final Position presentPosition, final Position futurePosition) {
         Piece piece = janggiBoard.get(presentPosition);
         piece.isMove(futurePosition);
@@ -115,15 +114,21 @@ public class Board {
         List<Position> route = janggiBoard.get(presentPosition).makeRoute(futurePosition);
 
         int cnt = 0;
+
         if (isPo(presentPosition)) {
             for (Position position : route) {
                 if (janggiBoard.containsKey(position)) {
                     cnt++;
                 }
             }
+            if (cnt == 0) {
+                throw new IllegalArgumentException("[ERROR] 포는 반드시 포를 제외한 기물 하나를 넘어야 합니다.");
+            }
+
             if (cnt >= 2) {
                 throw new IllegalArgumentException("[ERROR] 이동하려는 경로에 장애물이 존재합니다.");
             }
+
             return;
         }
 
