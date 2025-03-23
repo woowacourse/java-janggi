@@ -32,6 +32,13 @@ public class Pieces {
         pieces.stream()
                 .filter(piece -> piece.isSamePosition(presentPosition))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 움직일 수 있는 기물이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 시작 위치에 아군 기물이 존재하지 않습니다."));
+    }
+
+    public void isAllyPieceAtDestination(Position destination) {
+        pieces.stream()
+                .filter(piece -> piece.isSamePosition(destination))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 도착지에 아군 기물이 존재합니다."));
     }
 }
