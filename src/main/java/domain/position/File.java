@@ -39,10 +39,15 @@ public enum File {
     }
 
     public boolean canMoveFile(Pattern pattern) {
-        if ((pattern.getY() == 1 && this == rightMost()) || (pattern.getY() == -1 && this == leftMost())) {
-            return false;
-        }
-        return true;
+        return canMoveRight(pattern) && canMoveLeft(pattern);
+    }
+
+    private boolean canMoveRight(Pattern pattern) {
+        return !(pattern.getY() == 1 && this == rightMost());
+    }
+
+    private boolean canMoveLeft(Pattern pattern) {
+        return !(pattern.getY() == -1 && this == leftMost());
     }
 
     public boolean isBiggerThan(File file) {

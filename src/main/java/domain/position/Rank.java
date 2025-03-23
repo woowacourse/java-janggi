@@ -43,10 +43,15 @@ public enum Rank {
     }
 
     public boolean canMoveRank(Pattern pattern) {
-        if ((pattern.getX() == -1 && this == top()) || (pattern.getX() == 1 && this == bottom())) {
-            return false;
-        }
-        return true;
+        return canMoveUp(pattern) && canMoveDown(pattern);
+    }
+
+    private boolean canMoveUp(Pattern pattern) {
+        return !(pattern.getX() == -1 && this == top());
+    }
+
+    private boolean canMoveDown(Pattern pattern) {
+        return !(pattern.getX() == 1 && this == bottom());
     }
 
     public boolean isBiggerThan(Rank other) {
