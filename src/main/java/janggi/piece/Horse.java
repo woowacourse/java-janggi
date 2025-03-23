@@ -5,36 +5,14 @@ import janggi.team.Team;
 
 import java.util.Objects;
 
-public class Horse implements Piece{
+public class Horse implements Piece {
 
+    private final Team team;
     private final Position position;
 
-    public Horse(Position position) {
+    public Horse(Team team, Position position) {
+        this.team = team;
         this.position = position;
-    }
-
-    @Override
-    public Position getPosition() {
-        return null;
-    }
-
-    @Override
-    public String getName() {
-        return "";
-    }
-
-    @Override
-    public Team getTeam() {
-        return null;
-    }
-
-    @Override
-    public boolean isOccupiedByMe(Position position) {
-        return false;
-    }
-
-    @Override
-    public void move(Position position) {
     }
 
     @Override

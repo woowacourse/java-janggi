@@ -40,12 +40,12 @@ public enum TableOption {
                 .orElseThrow(() -> new IllegalArgumentException("선택한 옵션은 존재하지 않습니다."));
     }
 
-    public List<Piece> generateTableSetPieces(Row row) {
+    public List<Piece> generateTableSetPieces(Team team,Row row) {
         List<Piece> tableSettings = new ArrayList<>();
-        tableSettings.add(new Elephant(new Position(row,rightElephantColumn)));
-        tableSettings.add(new Elephant(new Position(row,leftElephantColumn)));
-        tableSettings.add(new Horse(new Position(row,rightHorseColumn)));
-        tableSettings.add(new Horse(new Position(row,leftHorseColumn)));
+        tableSettings.add(new Elephant(team,new Position(row,rightElephantColumn)));
+        tableSettings.add(new Elephant(team,new Position(row,leftElephantColumn)));
+        tableSettings.add(new Horse(team,new Position(row,rightHorseColumn)));
+        tableSettings.add(new Horse(team,new Position(row,leftHorseColumn)));
         return tableSettings;
     }
 }

@@ -1,6 +1,5 @@
 package janggi.view;
 
-import janggi.board.Board;
 import janggi.piece.Piece;
 import janggi.team.Team;
 
@@ -13,7 +12,7 @@ public class Output {
     private static final String RESET = "\u001B[0m";
     private static final String HAN_RED = "\u001B[31m";
     private static final String CHO_BLUE = "\u001B[34m";
-
+/*
     public void printBoard(Board board) {
         List<Piece> allPieces = board.getBoard();
 
@@ -43,5 +42,5 @@ public class Output {
         }
 
         System.out.println();
-    }
+    }*/
 }

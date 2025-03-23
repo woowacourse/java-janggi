@@ -28,8 +28,8 @@ public enum Team {
                 .orElseThrow(() -> new IllegalArgumentException("팀 이름이 존재하지 않습니다"));
     }
 
-    public List<Piece> locatePiece(TableOption option) {
-        return option.generateTableSetPieces(initialRow);
+    public List<Piece> locatePiece(Team team, TableOption option) {
+        return option.generateTableSetPieces(this, initialRow);
     }
 
     public String getValue() {

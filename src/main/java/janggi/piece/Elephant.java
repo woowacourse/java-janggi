@@ -3,40 +3,16 @@ package janggi.piece;
 import janggi.position.Position;
 import janggi.team.Team;
 
-import java.util.Arrays;
 import java.util.Objects;
 
-public class Elephant implements Piece{
+public class Elephant implements Piece {
 
+    private final Team team;
     private final Position position;
 
-    public Elephant(Position position) {
+    public Elephant(Team team, Position position) {
+        this.team = team;
         this.position = position;
-    }
-
-    @Override
-    public Position getPosition() {
-        return null;
-    }
-
-    @Override
-    public String getName() {
-        return "";
-    }
-
-    @Override
-    public Team getTeam() {
-        return null;
-    }
-
-    @Override
-    public boolean isOccupiedByMe(Position position) {
-        return false;
-    }
-
-    @Override
-    public void move(Position position) {
-
     }
 
     @Override

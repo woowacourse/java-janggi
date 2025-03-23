@@ -1,3 +1,4 @@
+/*
 package janggi.board;
 
 import janggi.piece.*;
@@ -6,7 +7,6 @@ import janggi.team.Team;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Board {
 
@@ -29,7 +29,8 @@ public class Board {
 
     public List<Piece> initBoard(TableOption choOption, TableOption hanOption) {
         List<Piece> choDefaultPosition = new ArrayList<>(List.of(
-                /*new Piece(Team.CHO,new Position(new PositionX(4), new PositionY(1))),
+                */
+/*new Piece(Team.CHO,new Position(new PositionX(4), new PositionY(1))),
                 new Piece(Team.CHO,new Position(new PositionX(1), new PositionY(2))),
                 new Piece(Team.CHO,new Position(new PositionX(7), new PositionY(2))),
                 new Piece(Team.CHO,new Position(new PositionX(0), new PositionY(0))),
@@ -52,7 +53,8 @@ public class Board {
                 new Piece(Team.HAN, new Position(new PositionX(6), new PositionY(6))),
                 new Piece(Team.HAN, new Position(new PositionX(8), new PositionY(6))),
                 new Piece(Team.HAN, new Position(new PositionX(3), new PositionY(9))),
-                new Piece(Team.HAN, new Position(new PositionX(5), new PositionY(9)))*/
+                new Piece(Team.HAN, new Position(new PositionX(5), new PositionY(9)))*//*
+
         ));
 //        choDefaultPosition.addAll(choOption.getPieces());
 //        choDefaultPosition.addAll(hanOption.getPieces());
@@ -110,3 +112,4 @@ public class Board {
     }
 
 }
+*/
