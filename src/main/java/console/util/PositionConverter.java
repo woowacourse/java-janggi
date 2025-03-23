@@ -33,6 +33,10 @@ public class PositionConverter {
     }
 
     public Position convert(String input){
-        return new Position(convertColumn.get(input.charAt(0)), convertRow.get(input.charAt(1)));
+        try{
+            return new Position(convertColumn.get(input.charAt(0)), convertRow.get(input.charAt(1)));
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("[ERROR] 잘못된 입력 형식입니다.");
+        }
     }
 }

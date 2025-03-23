@@ -1,6 +1,5 @@
 package console;
 
-import dto.CommandDto;
 import janggi.Turn;
 import janggi.board.Board;
 
@@ -13,7 +12,6 @@ public class Console {
         this.output = output;
     }
 
-
     public void startGame() {
         output.startGame();
     }
@@ -22,12 +20,8 @@ public class Console {
         output.display(board);
     }
 
-//    public void turn(TeamDto teamDto) {
-//        output.turn(teamDto);
-//    }
-
-    public CommandDto command() {
-        return input.command();
+    public String move() {
+        return input.read();
     }
 
     public void retry(IllegalArgumentException e) {

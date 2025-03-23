@@ -1,8 +1,10 @@
 import console.Console;
 import console.Input;
 import console.Output;
+import console.util.PositionConverter;
 import janggi.Turn;
 import janggi.board.Board;
+import janggi.position.Position;
 import java.util.function.BooleanSupplier;
 
 public class Application {
@@ -30,13 +32,11 @@ public class Application {
         return process(() -> {
             console.display(turn);
 
-            var response = console.command();
+            //todo: 검증
+            String[] movePosition = console.move().split(" ");
+            Position source = new PositionConverter().convert(movePosition[0]);
+            Position destination = new PositionConverter().convert(movePosition[1]);
 
-//            if (response.abstain()) {
-//                abstain(board, turn);
-//                return false;
-//            }
-//
 //            move(response.source(), response.destination(), board, turn);
 //            console.display(BoardDto.from(board));
 //
