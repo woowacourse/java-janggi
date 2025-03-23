@@ -19,12 +19,16 @@ public final class Board {
         this.board = new HashMap<>(BoardSettingUpStrategy.setUp());
     }
 
+    public Board(Map<Coordinate, Piece> board) {
+        this.board = board;
+    }
+
     public void setUpHan(SettingUp settingUp) {
-        board.putAll(settingUp.getStrategy().setUpHan());
+        board.putAll(settingUp.getStrategy().setUpCho());
     }
 
     public void setUpCho(SettingUp settingUp) {
-        board.putAll(settingUp.getStrategy().setUpCho());
+        board.putAll(settingUp.getStrategy().setUpHan());
     }
 
     public void movePiece(Coordinate oldCoordinate, Coordinate newCoordinate) {

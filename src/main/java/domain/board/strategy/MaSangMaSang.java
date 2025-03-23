@@ -14,7 +14,7 @@ import java.util.Map;
 public class MaSangMaSang implements BoardSettingUpStrategy {
 
     @Override
-    public Map<Coordinate, Piece> setUpCho() {
+    public Map<Coordinate, Piece> setUpHan() {
         Map<Coordinate, Piece> pieces = new HashMap<>();
 
         pieces.put(new Coordinate(10, 2), new Ma(CHO));
@@ -26,13 +26,13 @@ public class MaSangMaSang implements BoardSettingUpStrategy {
     }
 
     @Override
-    public Map<Coordinate, Piece> setUpHan() {
+    public Map<Coordinate, Piece> setUpCho() {
         Map<Coordinate, Piece> pieces = new HashMap<>();
 
-        pieces.put(new Coordinate(1, 2), new Sang(HAN));
-        pieces.put(new Coordinate(1, 3), new Ma(HAN));
-        pieces.put(new Coordinate(1, 7), new Sang(HAN));
         pieces.put(new Coordinate(1, 8), new Ma(HAN));
+        pieces.put(new Coordinate(1, 7), new Sang(HAN));
+        pieces.put(new Coordinate(1, 3), new Ma(HAN));
+        pieces.put(new Coordinate(1, 2), new Sang(HAN));
 
         return pieces;
     }
