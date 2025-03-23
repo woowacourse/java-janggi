@@ -74,13 +74,8 @@ public final class JanggiBoard {
     }
 
     public boolean isOpposite궁Captured(JanggiSide nowTurn) {
-        JanggiPiece opposite궁 = janggiBoard.keySet().stream()
-                .map(position -> getPieceOfPosition(position))
-                .filter(piece -> piece.getType() == JanggiPieceType.궁)
-                .filter(piece -> piece.getSide() == nowTurn.getOppositeSide())
-                .findFirst()
-                .orElseThrow();
-
-        return opposite궁.isCaptured();
+        return janggiBoard.keySet().stream()
+                .map(this::getPieceOfPosition)
+                .noneMatch(piece -> piece.isTypeOf(JanggiPieceType.궁) && piece.getSide() == nowTurn.getOppositeSide());
     }
 }

@@ -60,8 +60,6 @@ public class OutputView {
     }
 
     public void printWinningMessage(JanggiSide nowTurn) {
-        System.out.println(getMessageWithColorOfSide(
-                nowTurn, JanggiSideDisplay.getJanggiSideDisplay(nowTurn))
-         + "의 승리입니다!");
+        System.out.println(LINE_SEPARATOR + getMessageWithColorOfSide(nowTurn, JanggiSideDisplay.getJanggiSideDisplay(nowTurn)) + "의 승리입니다!");
     }
 }
