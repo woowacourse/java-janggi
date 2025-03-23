@@ -13,9 +13,9 @@ public class Board {
     private final Map<Point, Piece> pieceByPoint;
     private final PointNodeMapper pointNodeMapper;
 
-    public Board(Map<Point, Piece> pieceByPoint, Map<Point, Node> nodeByPoint) {
+    public Board(Map<Point, Piece> pieceByPoint, PointNodeMapper pointNodeMapper) {
         this.pieceByPoint = pieceByPoint;
-        this.pointNodeMapper = new PointNodeMapper(nodeByPoint);
+        this.pointNodeMapper = pointNodeMapper;
     }
 
     public boolean isEnd() {

@@ -11,11 +11,11 @@ public record Point(int row, int column) {
         validateRange(row, column);
     }
 
-    public static Point of(int row, int column) {
+    public static Point of(final int row, final int column) {
         return new Point(row, column);
     }
 
-    private void validateRange(int row, int column) {
+    private void validateRange(final int row, final int column) {
         if (row < MIN_ROW_INDEX || row > MAX_ROW_INDEX) {
             throw new IllegalArgumentException(row + " : [ERROR] 행의 범위를 벗어난 값입니다.");
         }

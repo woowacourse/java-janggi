@@ -7,7 +7,6 @@ import static domain.board.Direction.UP;
 
 import fixture.BoardFixture;
 import java.util.List;
-import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -49,7 +48,7 @@ class NodeTest {
             final Node upNode = new Node(Point.of(1, 2));
             Node leftNode = new Node(Point.of(2, 1));
             Node rightNode = new Node(Point.of(2, 3));
-            Node downNode = new Node(Point.of(2, 3));
+
             Edge upEdge = new Edge(upNode, UP);
             Edge leftEdge = new Edge(leftNode, LEFT);
             Edge rightEdge = new Edge(rightNode, RIGHT);
@@ -67,8 +66,9 @@ class NodeTest {
         @Test
         void 특정_위치에서_경로를_따라_이동한_위치가_판_내부_위치면_true를_반환한다() {
             // given
-            final Map<Point, Node> nodeByPoint = BoardFixture.createDefaultNodesByPoint();
-            Node node = nodeByPoint.get(Point.of(2, 3));
+            final PointNodeMapper pointNodeMapper = BoardFixture.createDefaultPointNodeMapper();
+            Point point = Point.of(2, 3);
+            Node node = pointNodeMapper.getNodeByPoint(point);
             Path path = Path.RIGHT_RIGHT_UP_PATH;
 
             // when
@@ -81,8 +81,9 @@ class NodeTest {
         @Test
         void 특정_위치에서_경로를_따라_이동한_위치가_판을_벗어난_위치면_false를_반환한다() {
             // given
-            final Map<Point, Node> nodeByPoint = BoardFixture.createDefaultNodesByPoint();
-            Node node = nodeByPoint.get(Point.of(2, 3));
+            final PointNodeMapper pointNodeMapper = BoardFixture.createDefaultPointNodeMapper();
+            Point point = Point.of(2, 3);
+            Node node = pointNodeMapper.getNodeByPoint(point);
             Path path = Path.RIGHT_RIGHT_RIGHT_UP_UP_PATH;
 
             // when

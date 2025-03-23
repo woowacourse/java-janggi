@@ -1,10 +1,5 @@
 package domain.board;
 
-import static domain.board.Point.MAX_COLUMN_INDEX;
-import static domain.board.Point.MAX_ROW_INDEX;
-import static domain.board.Point.MIN_COLUMN_INDEX;
-import static domain.board.Point.MIN_ROW_INDEX;
-
 import domain.piece.Byeong;
 import domain.piece.Cha;
 import domain.piece.Ma;
@@ -16,7 +11,6 @@ import domain.piece.Sang;
 import domain.piece.Team;
 import domain.piece.Wang;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
@@ -27,49 +21,11 @@ public class BoardGenerator {
 
     public Board generateBoard(final SangMaOrderCommand hanSangMaOrderCommand,
                                final SangMaOrderCommand choSangMaOrderCommand) {
-        Map<Point, Node> nodeByPoint = createDefaultNodesByPoint();
-        Map<Point, Piece> pieceByPoint = createPieces(
-                hanSangMaOrderCommand,
-                choSangMaOrderCommand);
-        return new Board(pieceByPoint, nodeByPoint);
-    }
+        PointNodeMapperFactory pointNodeMapperFactory = new PointNodeMapperFactory();
+        PointNodeMapper pointNodeMapper = pointNodeMapperFactory.createDefaultPointNodeMapper();
+        Map<Point, Piece> pieceByPoint = createPieces(hanSangMaOrderCommand, choSangMaOrderCommand);
 
-    public Map<Point, Node> createDefaultNodesByPoint() {
-        Map<Point, Node> nodeByPoint = new HashMap<>();
-
-        for (int row = MIN_ROW_INDEX; row <= MAX_ROW_INDEX; row++) {
-            for (int column = MIN_COLUMN_INDEX; column <= MAX_COLUMN_INDEX; column++) {
-                Point point = Point.of(row, column);
-                Node currentNode = new Node(point);
-                nodeByPoint.put(point, currentNode);
-            }
-        }
-
-        for (int row = MIN_ROW_INDEX; row <= MAX_ROW_INDEX; row++) {
-            for (int column = MIN_COLUMN_INDEX; column <= MAX_COLUMN_INDEX; column++) {
-                Point point = Point.of(row, column);
-                Node currentNode = nodeByPoint.get(point);
-                currentNode.addAllEdges(createEdges(row, column, nodeByPoint));
-            }
-        }
-
-        return nodeByPoint;
-    }
-
-    private List<Edge> createEdges(final int row, final int column,
-                                   final Map<Point, Node> nodeByPoint) {
-        List<Edge> edges = new ArrayList<>();
-
-        for (Direction direction : Direction.VERTICALS) {
-            int nextRow = row + direction.deltaRow();
-            int nextColumn = column + direction.deltaColumn();
-            if (!isInRange(nextRow, nextColumn)) {
-                continue;
-            }
-            Node nextNode = nodeByPoint.get(Point.of(nextRow, nextColumn));
-            edges.add(new Edge(nextNode, direction));
-        }
-        return edges;
+        return new Board(pieceByPoint, pointNodeMapper);
     }
 
     private Map<Point, Piece> createPieces(
@@ -85,9 +41,9 @@ public class BoardGenerator {
         return board;
     }
 
-    private void initializeHanPieces(List<Point> sangMaPoints,
-                                     SangMaOrderCommand sangMaOrderCommand,
-                                     Map<Point, Piece> board) {
+    private void initializeHanPieces(final List<Point> sangMaPoints,
+                                     final SangMaOrderCommand sangMaOrderCommand,
+                                     final Map<Point, Piece> board) {
         board.put(Point.of(4, 1), new Byeong(Team.HAN));
         board.put(Point.of(4, 3), new Byeong(Team.HAN));
         board.put(Point.of(4, 5), new Byeong(Team.HAN));
@@ -149,10 +105,5 @@ public class BoardGenerator {
             case MA -> new Ma(team);
             default -> throw new IllegalArgumentException("[ERROR] 상 또는 마가 아닙니다.");
         };
-    }
-
-    private boolean isInRange(final int row, final int column) {
-        return MIN_ROW_INDEX <= row && row <= MAX_ROW_INDEX
-                && MIN_COLUMN_INDEX <= column && column <= MAX_COLUMN_INDEX;
     }
 }
