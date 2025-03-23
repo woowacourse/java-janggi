@@ -7,7 +7,7 @@ import piece.Team;
 
 public class MaMoveBehavior implements MoveBehavior {
 
-    private final List<Route> canMoveDirections = List.of(
+    private static final List<Route> canMoveDirections = List.of(
             new Route(List.of(new Position(1, 0), new Position(1, -1))),
             new Route(List.of(new Position(1, 0), new Position(1, 1))),
             new Route(List.of(new Position(-1, 0), new Position(-1, -1))),
