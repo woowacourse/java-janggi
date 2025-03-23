@@ -1,20 +1,21 @@
 package janggi.piece;
 
 import janggi.value.JanggiPosition;
+import janggi.value.RelativePosition;
 import java.util.List;
 
 public enum MaDirection {
-    LEFT(new JanggiPosition(-1, 0), List.of(new JanggiPosition(-2, -1), new JanggiPosition(-2, 1))),
-    RIGHT(new JanggiPosition(1, 0), List.of(new JanggiPosition(2, -1), new JanggiPosition(2, 1))),
-    UP(new JanggiPosition(0, -1), List.of(new JanggiPosition(-1, -2), new JanggiPosition(1, -2))),
-    DOWN(new JanggiPosition(0, 1), List.of(new JanggiPosition(-1, 2), new JanggiPosition(1, 2))),
-    NONE(new JanggiPosition(0, 0), List.of()),
+    LEFT(new RelativePosition(-1, 0), List.of(new RelativePosition(-2, -1), new RelativePosition(-2, 1))),
+    RIGHT(new RelativePosition(1, 0), List.of(new RelativePosition(2, -1), new RelativePosition(2, 1))),
+    UP(new RelativePosition(0, -1), List.of(new RelativePosition(-1, -2), new RelativePosition(1, -2))),
+    DOWN(new RelativePosition(0, 1), List.of(new RelativePosition(-1, 2), new RelativePosition(1, 2))),
+    NONE(new RelativePosition(0, 0), List.of()),
     ;
 
-    private final JanggiPosition route;
-    private final List<JanggiPosition> destinationJanggiPositions;
+    private final RelativePosition route;
+    private final List<RelativePosition> destinationJanggiPositions;
 
-    MaDirection(final JanggiPosition route, final List<JanggiPosition> destinationJanggiPositions) {
+    MaDirection(final RelativePosition route, final List<RelativePosition> destinationJanggiPositions) {
         this.route = route;
         this.destinationJanggiPositions = destinationJanggiPositions;
     }
@@ -24,9 +25,8 @@ public enum MaDirection {
         int yDistance = destination.getY() - current.getY();
 
         for (MaDirection maDirection : MaDirection.values()) {
-            List<JanggiPosition> destinationJanggiPositions = maDirection.destinationJanggiPositions;
-            boolean isValidDirection = destinationJanggiPositions.stream()
-                    .anyMatch(position -> position.equals(new JanggiPosition(xDistance, yDistance)));
+            boolean isValidDirection = maDirection.destinationJanggiPositions.stream()
+                    .anyMatch(position -> position.equals(new RelativePosition(xDistance, yDistance)));
 
             if (isValidDirection) {
                 return maDirection;

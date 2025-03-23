@@ -36,21 +36,14 @@ public class Ma extends Piece {
         if (maDirection == MaDirection.NONE) {
             return false;
         }
-        boolean isEnemyExist = isEnemyExistInRoute(enemy, maDirection);
-        boolean isAlliesExist = isAlliesExistInRoute(allies, maDirection);
-        if (isEnemyExist || isAlliesExist) {
+        if (isPieceExistInRoute(enemy, maDirection) || isPieceExistInRoute(allies, maDirection)) {
             return false;
         }
         return allies.stream().noneMatch(alliesPiece -> destination.equals(alliesPiece.getPosition()));
     }
 
-    private boolean isEnemyExistInRoute(List<Piece> enemy, MaDirection direction) {
-        return enemy.stream()
-                .anyMatch(enemyPiece -> direction.isDirectRoute(getPosition(), enemyPiece.getPosition()));
-    }
-
-    private boolean isAlliesExistInRoute(List<Piece> allies, MaDirection direction) {
-        return allies.stream()
-                .anyMatch(alliesPiece -> direction.isDirectRoute(getPosition(), alliesPiece.getPosition()));
+    private boolean isPieceExistInRoute(List<Piece> pieces, MaDirection maDirection) {
+        return pieces.stream()
+                .anyMatch(piece -> maDirection.isDirectRoute(getPosition(), piece.getPosition()));
     }
 }

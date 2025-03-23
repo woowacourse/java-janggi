@@ -36,21 +36,14 @@ public class Sang extends Piece {
         if (sangDirection == SangDirection.NONE) {
             return false;
         }
-        boolean isEnemyExist = isEnemyExistInRoute(enemy, sangDirection);
-        boolean isAlliesExist = isAlliesExistInRoute(allies, sangDirection);
-        if (isEnemyExist || isAlliesExist) {
+        if (isPieceExistInRoute(enemy, sangDirection) || isPieceExistInRoute(allies, sangDirection)) {
             return false;
         }
         return allies.stream().noneMatch(alliesPiece -> destination.equals(alliesPiece.getPosition()));
     }
 
-    private boolean isEnemyExistInRoute(List<Piece> enemy, SangDirection direction) {
-        return enemy.stream()
-                .anyMatch(enemyPiece -> direction.isRoute(getPosition(), enemyPiece.getPosition()));
-    }
-
-    private boolean isAlliesExistInRoute(List<Piece> allies, SangDirection direction) {
-        return allies.stream()
-                .anyMatch(alliesPiece -> direction.isRoute(getPosition(), alliesPiece.getPosition()));
+    private boolean isPieceExistInRoute(List<Piece> pieces, SangDirection direction) {
+        return pieces.stream()
+                .anyMatch(piece -> direction.isRoute(getPosition(), piece.getPosition()));
     }
 }

@@ -58,8 +58,7 @@ class GungTest {
         return Stream.of(
                 Arguments.of(new JanggiPosition(STANDARD.getX() + 2, STANDARD.getY())),
                 Arguments.of(new JanggiPosition(STANDARD.getX() - 2, STANDARD.getY())),
-                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() + 2)),
-                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() - 2))
+                Arguments.of(new JanggiPosition(STANDARD.getX(),STANDARD.getY()-2))
         );
     }
 

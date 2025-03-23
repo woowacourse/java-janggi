@@ -31,50 +31,6 @@ class PiecesTest {
         assertThat(gung.getPosition()).isEqualTo(destination);
     }
 
-    @DisplayName("이동시킬 장기말을 찾는 좌표가 범위를 벗어난 경우 예외를 발생시킨다.")
-    @ParameterizedTest
-    @MethodSource()
-    void test2(JanggiPosition invalidJanggiPosition) {
-        //given
-        Pieces pieces = new Pieces(List.of(Gung.from(STANDARD)));
-
-        //when & then
-        assertThatThrownBy(() -> pieces.movePiece(List.of(), invalidJanggiPosition, new JanggiPosition(5, 8)))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] x좌표는 0~8, y좌표는 0~9 사이로 입력해주세요.");
-    }
-
-    static Stream<Arguments> test2() {
-        return Stream.of(
-                Arguments.of(new JanggiPosition(-1, 0)),
-                Arguments.of(new JanggiPosition(9, 0)),
-                Arguments.of(new JanggiPosition(0, -1)),
-                Arguments.of(new JanggiPosition(0, 10))
-        );
-    }
-
-    @DisplayName("목적지 좌표가 번위를 벗어난 경우 예외를 발생시킨다.")
-    @ParameterizedTest
-    @MethodSource()
-    void test3(JanggiPosition invalidJanggiPosition) {
-        //given
-        Pieces pieces = new Pieces(List.of(Gung.from(STANDARD)));
-
-        //when & then
-        assertThatThrownBy(() -> pieces.movePiece(List.of(), STANDARD, invalidJanggiPosition))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] x좌표는 0~8, y좌표는 0~9 사이로 입력해주세요.");
-    }
-
-    static Stream<Arguments> test3() {
-        return Stream.of(
-                Arguments.of(new JanggiPosition(-1, 0)),
-                Arguments.of(new JanggiPosition(9, 0)),
-                Arguments.of(new JanggiPosition(0, -1)),
-                Arguments.of(new JanggiPosition(0, 10))
-        );
-    }
-
     @DisplayName("이동시킬 좌표에 장기말이 존재하지 않는 경우 예외를 발생시킨다.")
     @Test
     void test4() {

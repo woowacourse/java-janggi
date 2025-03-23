@@ -73,13 +73,13 @@ public class Po extends Piece {
         return true;
     }
 
-    private static long countPoInPath(List<Piece> alliesInPath) {
+    private long countPoInPath(List<Piece> alliesInPath) {
         return alliesInPath.stream()
                 .filter(alliesPiece -> alliesPiece.checkPieceType(PieceType.PO))
                 .count();
     }
 
-    private static List<Piece> searchPieceInPath(List<Piece> allies, List<JanggiPosition> pathJanggiPositions) {
+    private List<Piece> searchPieceInPath(List<Piece> allies, List<JanggiPosition> pathJanggiPositions) {
         List<Piece> alliesInPath = new ArrayList<>();
         for (JanggiPosition pathJanggiPosition : pathJanggiPositions) {
             allies.stream()
@@ -103,19 +103,24 @@ public class Po extends Piece {
         if (getPosition().getX() == destination.getX()) {
             if (getPosition().getY() > destination.getY()) {
                 return IntStream.rangeClosed(destination.getY() - 1, getPosition().getY())
+                        .filter(y -> y > 0)
                         .mapToObj(y -> new JanggiPosition(getPosition().getX(), y))
                         .toList();
             }
             return IntStream.rangeClosed(getPosition().getY(), destination.getY() - 1)
+                    .filter(y -> y > 0)
                     .mapToObj(y -> new JanggiPosition(getPosition().getX(), y))
                     .toList();
         }
         if (getPosition().getX() > destination.getX()) {
             return IntStream.rangeClosed(destination.getX() - 1, getPosition().getX())
+                    .filter(x -> x > 0)
                     .mapToObj(x -> new JanggiPosition(x, getPosition().getY()))
                     .toList();
         }
+
         return IntStream.rangeClosed(getPosition().getX(), destination.getX() - 1)
+                .filter(x -> x > 0)
                 .mapToObj(x -> new JanggiPosition(x, getPosition().getY()))
                 .toList();
     }

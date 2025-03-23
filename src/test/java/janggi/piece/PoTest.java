@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class PoTest {
 
-    static final JanggiPosition STANDARD = new JanggiPosition(4, 4);
+    private static final JanggiPosition STANDARD = new JanggiPosition(4, 4);
 
     @DisplayName("장기말을 이동시킬 수 있다.")
     @ParameterizedTest
@@ -40,6 +40,7 @@ class PoTest {
                 Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() - 1), new JanggiPosition(STANDARD.getX(), 0))
         );
     }
+
 
     @DisplayName("장기말의 경로상에 점프대가 없는 경우 이동할 수 없다")
     @ParameterizedTest
