@@ -32,7 +32,15 @@ public class Board {
         return pieces.getPossibleRoutes(piece);
     }
 
-    public void movePiece(final Position position, Piece piece) {
+    public void movePiece(final Position position, Piece piece, final Set<Route> possibleRoutes) {
+        List<Position> possibleDestinations = possibleRoutes.stream()
+                .map(Route::getDestination)
+                .toList();
+
+        if (!possibleDestinations.contains(position)) {
+            throw new IllegalArgumentException("움직일 수 없는 위치입니다.");
+        }
+        
         pieces.move(position, piece);
     }
 

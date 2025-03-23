@@ -31,7 +31,7 @@ public class JanggiController {
             Team currentTurn = board.getTurn();
             outputView.printTurn(currentTurn);
             UserContinueResponse userContinueResponse = retryUntilSuccess(inputView::continueGame);
-            
+
             if (userContinueResponse == UserContinueResponse.QUIT) {
                 break;
             }
@@ -41,9 +41,8 @@ public class JanggiController {
             Set<Route> possibleRoutes = board.findPossibleRoutes(selectedPiece);
             outputView.printPossibleRoutes(possibleRoutes);
 
-            Position destination = retryUntilSuccess(inputView::inputDestination);
+            retryUntilSuccess(() -> movePiece(board, selectedPiece, possibleRoutes));
 
-            board.movePiece(destination, selectedPiece);
             outputView.printBoard(pieces);
             board.changeTurn();
         }
@@ -54,10 +53,26 @@ public class JanggiController {
         return board.selectPiece(position);
     }
 
+    private void movePiece(Board board, Piece selectedPiece, Set<Route> possibleRoutes) {
+        Position destination = inputView.inputDestination();
+        board.movePiece(destination, selectedPiece, possibleRoutes);
+    }
+
     private <T> T retryUntilSuccess(Supplier<T> supplier) {
         while (true) {
             try {
                 return supplier.get();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    private void retryUntilSuccess(Runnable action) {
+        while (true) {
+            try {
+                action.run();
+                return; // 성공적으로 실행되면 리턴
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
