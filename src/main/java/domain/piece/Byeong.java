@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Byeong extends Piece {
 
-    private final List<Movement> movements = List.of(
+    private final List<Movement> MOVEMENTS = List.of(
             Movement.UP, Movement.DOWN, Movement.RIGHT, Movement.LEFT);
 
     public Byeong(Country country) {
@@ -16,20 +16,20 @@ public class Byeong extends Piece {
 
     @Override
     public List<Coordinate> availableMovePositions(Coordinate currCoordinate, Board board) {
-        Country country = board.findCountryByCoordinate(currCoordinate);
-        return movements.stream()
-                .filter(movement -> {
-                    if (country == Country.CHO) {
-                        return movement != Movement.DOWN;
-                    }
-                    return movement != Movement.UP;
-                })
-                .map(Movement -> movePosition(currCoordinate, Movement.getDirection()))
+        return MOVEMENTS.stream()
+                .filter(this::getForwardDirection)
+                .map(movement -> currCoordinate.move(
+                        movement.getDirection().getRow(),
+                        movement.getDirection().getCol()))
                 .filter(next -> !board.isOutOfBoundary(next) && !board.isMyTeam(currCoordinate, next))
                 .toList();
     }
 
-    public static Coordinate movePosition(Coordinate currCoordinate, Coordinate moveOffset) {
-        return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
+    private boolean getForwardDirection(Movement movement) {
+        if (country.isCho()) {
+            return movement != Movement.DOWN;
+        } else {
+            return movement != Movement.UP;
+        }
     }
 }
