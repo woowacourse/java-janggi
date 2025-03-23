@@ -74,7 +74,7 @@ public class CoordinateTest {
         Coordinate coordinate = new Coordinate(5, 5);
 
         // when
-        Coordinate changedCoordinate = coordinate.pickChangedCoordinate(List.of(UP));
+        Coordinate changedCoordinate = coordinate.moveBy(List.of(UP));
 
         // then
         assertThat(changedCoordinate).isEqualTo(new Coordinate(5, 4));
@@ -87,7 +87,7 @@ public class CoordinateTest {
         Coordinate coordinate = new Coordinate(5, 5);
 
         // when
-        Set<Coordinate> crossCoordinates = coordinate.pickCrossCoordinates();
+        Set<Coordinate> crossCoordinates = coordinate.moveByCross();
 
         // then
         assertThat(crossCoordinates).containsOnly(

@@ -22,7 +22,7 @@ public class Coordinate {
         this.y = y;
     }
 
-    public Coordinate pickChangedCoordinate(List<MoveVector> moveVectors) {
+    public Coordinate moveBy(List<MoveVector> moveVectors) {
         int deltaX = moveVectors.stream()
                 .mapToInt(MoveVector::deltaX)
                 .sum();
@@ -39,7 +39,7 @@ public class Coordinate {
         return new Coordinate(newX, newY);
     }
 
-    public Set<Coordinate> pickCrossCoordinates() {
+    public Set<Coordinate> moveByCross() {
         Set<Coordinate> coordinates = new HashSet<>();
         for (int x = BOARD_MIN_WIDTH; x <= BOARD_MAX_WIDTH; x++) {
             coordinates.add(new Coordinate(x, this.y));
@@ -62,7 +62,7 @@ public class Coordinate {
         }
     }
 
-    private static boolean isInvalidY(int y) {
+    private boolean isInvalidY(int y) {
         return y < BOARD_MIN_HEIGHT || y > BOARD_MAX_HEIGHT;
     }
 

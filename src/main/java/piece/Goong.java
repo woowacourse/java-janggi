@@ -29,7 +29,7 @@ public class Goong extends Piece {
                         List.of(RIGHT),
                         List.of(LEFT)
                 )
-                .map(departure::pickChangedCoordinate)
+                .map(departure::moveBy)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
     }

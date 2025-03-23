@@ -37,7 +37,7 @@ public class Sang extends Piece {
                         List.of(LEFT, LEFT_UP, LEFT_UP),
                         List.of(LEFT, LEFT_DOWN, LEFT_DOWN)
                 )
-                .map(departure::pickChangedCoordinate)
+                .map(departure::moveBy)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
     }
@@ -86,8 +86,8 @@ public class Sang extends Piece {
 
     private Set<Coordinate> toCoordinates(List<MoveVector> moveVectors, Coordinate departure) {
         return Set.of(
-                departure.pickChangedCoordinate(List.of(moveVectors.getFirst())),
-                departure.pickChangedCoordinate(List.of(moveVectors.getFirst(), moveVectors.getLast()))
+                departure.moveBy(List.of(moveVectors.getFirst())),
+                departure.moveBy(List.of(moveVectors.getFirst(), moveVectors.getLast()))
         );
     }
 

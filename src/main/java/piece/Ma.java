@@ -37,7 +37,7 @@ public class Ma extends Piece {
                         List.of(LEFT, LEFT_UP),
                         List.of(LEFT, LEFT_DOWN)
                 )
-                .map(departure::pickChangedCoordinate)
+                .map(departure::moveBy)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
     }
@@ -56,15 +56,15 @@ public class Ma extends Piece {
 
         if (Math.abs(deltaX) == 2 && deltaY != 0) {
             if (deltaX > 0) {
-                return Set.of(departure.pickChangedCoordinate(List.of(RIGHT)));
+                return Set.of(departure.moveBy(List.of(RIGHT)));
             }
-            return Set.of(departure.pickChangedCoordinate(List.of(LEFT)));
+            return Set.of(departure.moveBy(List.of(LEFT)));
         }
         if (Math.abs(deltaY) == 2 && deltaX != 0) {
             if (deltaY > 0) {
-                return Set.of(departure.pickChangedCoordinate(List.of(DOWN)));
+                return Set.of(departure.moveBy(List.of(DOWN)));
             }
-            return Set.of(departure.pickChangedCoordinate(List.of(UP)));
+            return Set.of(departure.moveBy(List.of(UP)));
         }
 
         throw new IllegalStateException("유효하지 않은 좌표입니다.");
