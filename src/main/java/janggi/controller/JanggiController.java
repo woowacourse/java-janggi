@@ -42,7 +42,7 @@ public class JanggiController {
             printCurrentGame(janggiGame);
             command = inputView.readCommand();
             runCommand(janggiGame, command);
-        } while (!command.equals("end") && janggiGame.isContinue());
+        } while (!"end".equals(command) && janggiGame.isContinue());
         outputView.printGameWinMessage(janggiGame.getGameStatus());
     }
 
