@@ -11,8 +11,8 @@ public enum Direction {
     NORTH_WEST(-1, -1),
     NORTH_EAST(-1, 1),
     SOUTH_WEST(1, -1),
-    SOUTH_EAST(1, 1),
-    DEFAULT(0, 0);
+    SOUTH_EAST(1, 1)
+    ;
 
     private final int rowOffset;
     private final int columnOffset;
@@ -40,12 +40,13 @@ public enum Direction {
                 return SOUTH;
             }
         }
-        return DEFAULT;
+        throw new IllegalArgumentException("이동이 불가능한 방향입니다.");
     }
 
-    public static List<Direction> complexFrom(Point startPoint, Point targetPoint, int gap, int diagonalCount) {
+    public static List<Direction> oneCardinalAndDiagonalFrom(Point startPoint, Point targetPoint, int gap, int diagonalCount) {
         int rowGap = startPoint.row() - targetPoint.row();
         int columnGap = startPoint.column() - targetPoint.column();
+        //TODO first, second direction으로 정리하기
         if (rowGap == gap) {
             if (columnGap > 0) {
                 return doRouting(diagonalCount, NORTH, NORTH_WEST);
@@ -70,7 +71,7 @@ public enum Direction {
             }
             return doRouting(diagonalCount, EAST, SOUTH_EAST);
         }
-        return List.of(DEFAULT);
+        throw new IllegalArgumentException("이동이 불가능한 방향입니다.");
     }
 
     private static List<Direction> doRouting(int diagonalCount, Direction cardinal, Direction diagonal) {

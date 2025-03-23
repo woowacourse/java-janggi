@@ -47,9 +47,9 @@ public class Route {
                 .anyMatch(point -> hurdles.containsPoint(point));
     }
 
-    public List<Point> findCrashes(Board board) {
+    public List<Point> findCrashes(Hurdles hurdles) {
         return route.stream()
-                .filter(board::hasPieceOnPoint)
+                .filter(hurdles::containsPoint)
                 .toList();
     }
 

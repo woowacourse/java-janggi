@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.point.Direction;
+import janggi.point.Hurdles;
 import janggi.point.InitialPoint;
 import janggi.point.Point;
 import janggi.game.Team;
@@ -38,16 +39,19 @@ public class Sang implements Movable {
     }
 
     @Override
-    public boolean isInMovingRange(Point targetPoint) {
+    public boolean isInMovingRange(Point targetPoint, Hurdles hurdles) {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
+        if (!distance.isSameWith(Math.sqrt(5))) {
+            return false;
+        }
+        List<Direction> directions = Direction.oneCardinalAndDiagonalFrom(this.point, targetPoint, 3, 2);
 
-        return distance.isSameWith(Math.sqrt(13));
-    }
-
-    @Override
-    public Route findRoute(Point targetPoint) {
-        List<Direction> directions = Direction.complexFrom(point, targetPoint, 3, 2);
-        return Route.follow(directions, this.point);
+        //장애물 체크
+        Route route = Route.follow(directions, this.point);
+        if (route.isCrashExists(hurdles)) {
+            return false;
+        }
+        return true;
     }
 
     @Override

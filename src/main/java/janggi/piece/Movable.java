@@ -1,8 +1,8 @@
 package janggi.piece;
 
 import janggi.game.Team;
+import janggi.point.Hurdles;
 import janggi.point.Point;
-import janggi.point.Route;
 
 public interface Movable {
     String getName();
@@ -13,7 +13,5 @@ public interface Movable {
 
     Movable updatePoint(Point afterPoint);
 
-    boolean isInMovingRange(Point targetPoint);
-
-    Route findRoute(Point targetPoint);
+    boolean isInMovingRange(Point targetPoint, Hurdles hurdles);
 }

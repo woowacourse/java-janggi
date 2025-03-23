@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.point.Direction;
+import janggi.point.Hurdles;
 import janggi.point.InitialPoint;
 import janggi.point.Point;
 import janggi.game.Team;
@@ -38,28 +39,15 @@ public class Cha implements Movable {
     }
 
     @Override
-    public boolean isInMovingRange(Point targetPoint) {
-        return point.isSameRow(targetPoint) || point.isSameColumn(targetPoint);
-    }
-
-//    @Override
-//    public List<Point> findRoute(Point targetPoint) {
-//        List<Point> route = new ArrayList<>();
-//        Direction direction = Direction.cardinalFrom(point, targetPoint);
-//        PointDistance distance = PointDistance.calculate(point, targetPoint);
-//
-//        Point pointer = point;
-//        for (int i = 0; i < (int) distance.getDistance(); i++) {
-//            pointer = direction.move(pointer);
-//            route.add(pointer);
-//        }
-//        return route;
-//    }
-
-    @Override
-    public Route findRoute(Point targetPoint) {
+    public boolean isInMovingRange(Point targetPoint, Hurdles hurdles) {
         Direction direction = Direction.cardinalFrom(this.point, targetPoint);
-        return Route.repeat(direction, this.point, targetPoint);
+
+        //장애물 체크
+        Route route = Route.repeat(direction, this.point, targetPoint);
+        if (route.isCrashExists(hurdles)) {
+            return false;
+        }
+        return true;
     }
 
     @Override

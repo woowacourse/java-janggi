@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.point.Direction;
+import janggi.point.Hurdles;
 import janggi.point.InitialPoint;
 import janggi.point.Point;
 import janggi.game.Team;
@@ -38,19 +39,33 @@ public class Byeong implements Movable {
     }
 
     @Override
-    public boolean isInMovingRange(Point targetPoint) {
+    public boolean isInMovingRange(Point targetPoint, Hurdles hurdles) {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
-
-        if (team == Team.CHO) {
-            return distance.isSameWith(1) && !point.isRowLessThan(targetPoint);
+        if (!distance.isSameWith(1)) {
+            return false;
         }
-        return distance.isSameWith(1) && !point.isRowBiggerThan(targetPoint);
+        Direction direction = Direction.cardinalFrom(this.point, targetPoint);
+
+        if (movesDown(direction)) {
+            return false;
+        }
+
+        //장애물 체크
+        Route route = Route.repeat(direction, this.point, targetPoint);
+        if (route.isCrashExists(hurdles)) {
+            return false;
+        }
+        return true;
     }
 
-    @Override
-    public Route findRoute(Point targetPoint) {
-        Direction direction = Direction.cardinalFrom(this.point, targetPoint);
-        return Route.repeat(direction, this.point, targetPoint);
+    private boolean movesDown(Direction direction) {
+        if (team == Team.CHO && direction == Direction.SOUTH) {
+            return true;
+        }
+        if (team == Team.HAN && direction == Direction.NORTH) {
+            return true;
+        }
+        return false;
     }
 
     @Override

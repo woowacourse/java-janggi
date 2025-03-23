@@ -8,20 +8,22 @@ import janggi.piece.Movable;
 import janggi.piece.Po;
 import janggi.piece.Sa;
 import janggi.piece.Sang;
+import janggi.point.Hurdles;
 import janggi.point.Point;
 import janggi.point.Route;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Board {
     private final List<Movable> runningPieces;
-    private final List<Movable> attackedPieces;
     private Team turn;
 
     public Board(List<Movable> runningPieces) {
         this.runningPieces = runningPieces;
-        this.attackedPieces = new ArrayList<>();
         this.turn = Team.CHO;
     }
 
@@ -55,6 +57,14 @@ public class Board {
                 .anyMatch(piece -> piece.getPoint().equals(point));
     }
 
+    public Hurdles findHurdles() {
+        Map<Point, Movable> hurdles = new HashMap<>();
+        runningPieces.forEach(piece ->
+            hurdles.put(piece.getPoint(), piece)
+        );
+        return new Hurdles(hurdles);
+    }
+
     public boolean checkHurdles(Point startPoint, Route route) {
         List<Point> crashPoints = route.findCrashes(this);
 
@@ -69,7 +79,7 @@ public class Board {
             return crashPieceColor == movingPieceColor;
         }
 
-        return crashPoints.size() > 0;
+        return !crashPoints.isEmpty();
     }
 
     public void move(Point beforePoint, Point afterPoint) {
@@ -79,13 +89,16 @@ public class Board {
             throw new IllegalArgumentException(turn.getText() + "의 기물만 이동할 수 있습니다.");
         }
 
-        if (movingPiece instanceof Po) {
-            if (!((Po) movingPiece).isMovable(afterPoint, this)) {
-                throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
-            }
-        } else if (!movingPiece.isInMovingRange(afterPoint)
-                || checkHurdles(beforePoint, movingPiece.findRoute(afterPoint))
-        ) {
+//        if (movingPiece instanceof Po) {
+//            if (!((Po) movingPiece).isMovable(afterPoint, this)) {
+//                throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
+//            }
+//        } else if (!movingPiece.isInMovingRange(afterPoint)
+//                || checkHurdles(beforePoint, movingPiece.findRoute(afterPoint))
+//        ) {
+//            throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
+//        }
+        if (!movingPiece.isInMovingRange(afterPoint, findHurdles())) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
 
@@ -93,7 +106,6 @@ public class Board {
 
         if (hasPieceOnPoint(afterPoint)) {
             Movable target = findByPoint(afterPoint);
-            this.attackedPieces.add(target);
             runningPieces.remove(target);
         }
 
