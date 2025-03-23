@@ -95,5 +95,9 @@ public abstract class Piece {
         return team;
     }
 
+    public boolean equalsTeam(Team team) {
+        return this.team == team;
+    }
+
     public abstract PieceType type();
 }

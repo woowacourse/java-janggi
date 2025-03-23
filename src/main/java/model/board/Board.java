@@ -58,7 +58,7 @@ public class Board {
 
     public void abstain(Team team) {
         Piece palace = getPalaces().stream()
-            .filter(piece -> piece.getTeam() == team)
+            .filter(piece -> piece.equalsTeam(team))
             .findAny()
             .orElseThrow(() -> new IllegalStateException("[ERROR] 존재하지 않는 팀이 기권했습니다."));
 
