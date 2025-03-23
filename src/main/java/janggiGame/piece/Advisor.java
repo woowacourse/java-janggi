@@ -1,6 +1,6 @@
 package janggiGame.piece;
 
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import java.util.List;
 
 public class Advisor extends Piece {

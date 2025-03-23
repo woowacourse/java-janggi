@@ -1,6 +1,6 @@
 package janggiGame.arrangement;
 
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Elephant;
 import janggiGame.piece.Horse;

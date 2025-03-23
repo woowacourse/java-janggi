@@ -3,7 +3,7 @@ package janggiGame.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

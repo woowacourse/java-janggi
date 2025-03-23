@@ -3,7 +3,7 @@ package janggiGame.arrangement;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import janggiGame.piece.Advisor;
 import janggiGame.piece.Cannon;
 import janggiGame.piece.Chariot;

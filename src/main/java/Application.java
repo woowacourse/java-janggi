@@ -1,6 +1,6 @@
 import janggiGame.Board;
+import janggiGame.Dot;
 import janggiGame.arrangement.ArrangementOption;
-import janggiGame.board.Dot;
 import janggiGame.piece.Dynasty;
 import java.util.List;
 import view.InputView;

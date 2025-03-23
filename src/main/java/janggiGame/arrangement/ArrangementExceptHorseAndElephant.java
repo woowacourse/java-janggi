@@ -1,6 +1,6 @@
 package janggiGame.arrangement;
 
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import janggiGame.piece.Advisor;
 import janggiGame.piece.Cannon;
 import janggiGame.piece.Chariot;

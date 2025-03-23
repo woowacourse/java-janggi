@@ -1,4 +1,4 @@
-package janggiGame.board;
+package janggiGame;
 
 import java.util.ArrayList;
 import java.util.List;

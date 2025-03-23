@@ -1,6 +1,6 @@
 package view;
 
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import janggiGame.piece.Dynasty;
 import java.util.List;
 import java.util.ResourceBundle;

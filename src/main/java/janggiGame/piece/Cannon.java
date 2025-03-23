@@ -1,6 +1,6 @@
 package janggiGame.piece;
 
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
