@@ -10,6 +10,7 @@ import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.direction.Position;
 import janggi.domain.piece.direction.Route;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -42,10 +43,22 @@ public class OutputView {
 
     public void printPossibleRoutes(final Set<Route> possibleRoutes) {
         System.out.println("이 기물은 ");
-        for (final Route possibleRoute : possibleRoutes) {
-            final Position destination = possibleRoute.getDestination();
+
+        final List<Route> sortedRoutes = new ArrayList<>(possibleRoutes);
+        sortedRoutes.sort((route1, route2) -> {
+            final Position pos1 = route1.getDestination();
+            final Position pos2 = route2.getDestination();
+
+            if (pos1.x() != pos2.x()) {
+                return Integer.compare(pos1.x(), pos2.x());
+            }
+            return Integer.compare(pos1.y(), pos2.y());
+        });
+        for (final Route route : sortedRoutes) {
+            final Position destination = route.getDestination();
             System.out.printf("%d %d%n", destination.x(), destination.y());
         }
+
         System.out.println("로 이동할 수 있습니다.");
     }
 
