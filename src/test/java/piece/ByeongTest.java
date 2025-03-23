@@ -12,21 +12,21 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import team.Team;
 
-class JolTest {
+class ByeongTest {
 
     @Nested
-    @DisplayName("졸의 생성 테스트")
+    @DisplayName("병의 생성 테스트")
     class ConstructorTest {
 
         @Test
-        @DisplayName("졸은 한나라에서 사용할 수 없다.")
+        @DisplayName("병은 초나라에서 사용할 수 없다.")
         void test1() {
             // given
 
             // when & then
-            assertThatThrownBy(() -> new Jol(Team.HAN))
+            assertThatThrownBy(() -> new Byeong(Team.CHO))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("졸은 한나라에서 사용할 수 없습니다.");
+                    .hasMessage("병은 초나라에서 사용할 수 없습니다.");
         }
     }
 
@@ -35,35 +35,35 @@ class JolTest {
     class MovableCandidatesTest {
 
         @Test
-        @DisplayName("졸의 출발 좌표가 (5,5)일 때 이동 가능한 좌표 후보 3개를 반환한다.")
+        @DisplayName("병의 출발 좌표가 (5,5)일 때 이동 가능한 좌표 후보 3개를 반환한다.")
         void test1() {
             // given
-            Jol jol = new Jol(Team.CHO);
+            Byeong byeong = new Byeong(Team.HAN);
 
             // when
-            Set<Coordinate> movableCandidates = jol.findMovableCandidates(new Coordinate(5, 5));
+            Set<Coordinate> movableCandidates = byeong.findMovableCandidates(new Coordinate(5, 5));
 
             // then
             assertThat(movableCandidates).containsOnly(
-                    new Coordinate(5, 4),
+                    new Coordinate(5, 6),
                     new Coordinate(6, 5),
                     new Coordinate(4, 5)
             );
         }
 
         @Test
-        @DisplayName("졸의 출발 좌표가 (1,7)일 때 보드판을 벗어난 좌표는 후보에서 제외한다.")
+        @DisplayName("병의 출발 좌표가 (1,4)일 때 보드판을 벗어난 좌표는 후보에서 제외한다.")
         void test2() {
             // given
-            Jol jol = new Jol(Team.CHO);
+            Byeong byeong = new Byeong(Team.HAN);
 
             // when
-            Set<Coordinate> movableCandidates = jol.findMovableCandidates(new Coordinate(1, 7));
+            Set<Coordinate> movableCandidates = byeong.findMovableCandidates(new Coordinate(1, 4));
 
             // then
             assertThat(movableCandidates).containsOnly(
-                    new Coordinate(2, 7),
-                    new Coordinate(1, 6)
+                    new Coordinate(2, 4),
+                    new Coordinate(1, 5)
             );
         }
     }
@@ -73,18 +73,18 @@ class JolTest {
     class CanMoveConsideringObstaclesTest {
 
         @Test
-        @DisplayName("졸은 장애물을 고려하지 않아도 된다.")
+        @DisplayName("병은 장애물을 고려하지 않아도 된다.")
         void test1() {
             // given
-            Jol jol = new Jol(Team.CHO);
+            Byeong byeong = new Byeong(Team.HAN);
             Board board = new BoardFixture()
-                    .addPiece(4, 5, new Sang(Team.CHO))
-                    .addPiece(6, 5, new Sang(Team.CHO))
-                    .addPiece(5, 6, new Sang(Team.CHO))
+                    .addPiece(4, 5, new Sang(Team.HAN))
+                    .addPiece(6, 5, new Sang(Team.HAN))
+                    .addPiece(5, 6, new Sang(Team.HAN))
                     .build();
 
             // when
-            boolean result = jol.canMoveConsideringObstacles(board, new Coordinate(5, 5), new Coordinate(5, 6));
+            boolean result = byeong.canMoveConsideringObstacles(board, new Coordinate(5, 5), new Coordinate(5, 6));
 
             // then
             assertThat(result).isTrue();
@@ -96,13 +96,13 @@ class JolTest {
     class FindPathsTest {
 
         @Test
-        @DisplayName("졸은 경로가 없다.")
+        @DisplayName("병은 경로가 없다.")
         void test1() {
             // given
-            Jol jol = new Jol(Team.CHO);
+            Byeong byeong = new Byeong(Team.HAN);
 
             // when
-            Set<Coordinate> paths = jol.findPaths(new Coordinate(5, 5), new Coordinate(5, 6));
+            Set<Coordinate> paths = byeong.findPaths(new Coordinate(5, 5), new Coordinate(5, 6));
 
             // then
             assertThat(paths).isEmpty();
