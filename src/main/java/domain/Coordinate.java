@@ -1,9 +1,6 @@
 package domain;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
 
 public class Coordinate {
 
@@ -29,10 +26,6 @@ public class Coordinate {
         int newY = this.y + movement.deltaY();
 
         return new Coordinate(newX, newY);
-    }
-
-    public Coordinate move(int deltaX, int deltaY) {
-        return new Coordinate(this.x + deltaX, this.y + deltaY);
     }
 
     private boolean isInvalidX(int x) {
@@ -80,8 +73,8 @@ public class Coordinate {
     @Override
     public String toString() {
         return "Coordinate{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+            "x=" + x +
+            ", y=" + y +
+            '}';
     }
 }

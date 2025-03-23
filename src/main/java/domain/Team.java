@@ -11,8 +11,4 @@ public enum Team {
     Team(int direction) {
         this.direction = direction;
     }
-
-    public int getDirection() {
-        return direction;
-    }
 }
