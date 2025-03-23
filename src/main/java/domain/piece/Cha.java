@@ -29,7 +29,7 @@ public class Cha implements Piece {
     private List<Point> findMovablePoints(final Point source, final Board board) {
         List<Point> candidates = new ArrayList<>(List.of(source));
         CHA_MOVABLE_DIRECTIONS.stream()
-                .filter(direction -> board.existNextPoint(source, direction))
+                .filter(direction -> board.existsNextPoint(source, direction))
                 .forEach(direction -> findCandidates(
                         board.getNextPoint(source, direction), board, direction,
                         candidates)
@@ -40,7 +40,7 @@ public class Cha implements Piece {
     private void findCandidates(final Point currentPoint, final Board board, final Direction direction,
                                 final List<Point> candidates) {
         candidates.add(currentPoint);
-        if (!board.existNextPoint(currentPoint, direction)) {
+        if (!board.existsNextPoint(currentPoint, direction)) {
             return;
         }
 

@@ -39,7 +39,7 @@ public class Byeong implements Piece {
 
     private List<Point> findMovablePoints(final Point point, final Board board) {
         return DIRECTIONS_BY_TEAM.get(this.team).stream()
-                .filter(direction -> board.existNextPoint(point, direction))
+                .filter(direction -> board.existsNextPoint(point, direction))
                 .map(direction -> board.getNextPoint(point, direction))
                 .filter(nextPoint -> !(board.existsPiece(nextPoint) && board.matchTeam(nextPoint, this.team)))
                 .toList();

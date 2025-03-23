@@ -27,7 +27,7 @@ public class Po implements Piece {
     private List<Point> findMovablePoints(final Point source, final Board board) {
         List<Point> candidates = new ArrayList<>();
         for (Direction direction : List.of(UP, RIGHT, DOWN, LEFT)) {
-            if (!existHurdle(source, direction, board)) {
+            if (!existsHurdle(source, direction, board)) {
                 continue;
             }
             Point hurdle = findHurdle(source, direction, board);
@@ -36,19 +36,19 @@ public class Po implements Piece {
         return candidates;
     }
 
-    private boolean existHurdle(final Point currentPoint, final Direction direction, final Board board) {
-        if (!board.existNextPoint(currentPoint, direction)) {
+    private boolean existsHurdle(final Point currentPoint, final Direction direction, final Board board) {
+        if (!board.existsNextPoint(currentPoint, direction)) {
             return false;
         }
         Point nextPoint = board.getNextPoint(currentPoint, direction);
         if (board.existsPiece(nextPoint) && !board.existsPo(nextPoint)) {
             return true;
         }
-        return existHurdle(nextPoint, direction, board);
+        return existsHurdle(nextPoint, direction, board);
     }
 
     private Point findHurdle(final Point currentPoint, final Direction direction, final Board board) {
-        if (!board.existNextPoint(currentPoint, direction)) {
+        if (!board.existsNextPoint(currentPoint, direction)) {
             throw new IllegalArgumentException("이동할 경로가 없습니다.");
         }
         Point nextPoint = board.getNextPoint(currentPoint, direction);
@@ -60,7 +60,7 @@ public class Po implements Piece {
 
     private void findCandidates(final Point currentPoint, final Direction direction, final Board board,
                                 final List<Point> candidates) {
-        if (!board.existNextPoint(currentPoint, direction)) {
+        if (!board.existsNextPoint(currentPoint, direction)) {
             return;
         }
         Point nextPoint = board.getNextPoint(currentPoint, direction);

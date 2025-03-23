@@ -96,13 +96,13 @@ public class Board {
     }
 
     private Piece getPieceByPoint(final Point point) {
-        if (!pieceByPoint.containsKey(point)) {
+        if (!existsPiece(point)) {
             throw new IllegalArgumentException(point + ": [ERROR] 해당 좌표에 기물이 존재하지 않습니다.");
         }
         return pieceByPoint.get(point);
     }
 
-    public boolean existNextPoint(final Point point, final Direction direction) {
+    public boolean existsNextPoint(final Point point, final Direction direction) {
         if (!pointNodeMapper.existsPoint(point)) {
             return false;
         }
