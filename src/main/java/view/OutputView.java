@@ -48,13 +48,16 @@ public class OutputView {
         if(unitType == UnitType.SOLDIER) {
             return "병";
         }
-        return "";
+        throw new IllegalStateException("");
     }
 
     private String teamToName(Team team) {
         if (team == Team.HAN) {
             return "한나라";
         }
-        return "초나라";
+        if (team == Team.CHO) {
+            return "초나라";
+        }
+        throw new IllegalStateException("");
     }
 }
