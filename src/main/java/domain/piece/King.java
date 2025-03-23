@@ -34,4 +34,14 @@ public class King extends Piece {
     public PieceType getType() {
         return PieceType.KING;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this == obj || (obj != null && getClass() == obj.getClass());
+    }
+
+    @Override
+    public int hashCode() {
+        return System.identityHashCode(this);
+    }
 }

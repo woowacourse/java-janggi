@@ -3,6 +3,7 @@ package domain.piece;
 import domain.BoardLocation;
 import domain.Team;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Piece {
 
@@ -23,7 +24,7 @@ public abstract class Piece {
     public abstract PieceType getType();
 
     public boolean isNotSameType(Piece piece) {
-        return this != piece;
+        return !Objects.equals(this.getType(), piece.getType());
     }
 
     public boolean isEqualTeam(Team team) {

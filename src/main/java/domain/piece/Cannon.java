@@ -61,12 +61,12 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public int hashCode() {
-        return System.identityHashCode(this);
+    public boolean equals(Object obj) {
+        return this == obj || (obj != null && getClass() == obj.getClass());
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return this == obj || (obj != null && getClass() == obj.getClass());
+    public int hashCode() {
+        return System.identityHashCode(this);
     }
 }
