@@ -12,8 +12,8 @@ public class InputView {
     }
 
     public int readSettingUpStrategyCommand(final Player player) {
-        System.out.println(player.team().getName() + " 팀의 초기 전략을 선택하십시오.");
-        System.out.println("""
+        System.out.println(System.lineSeparator() + player.team().getName() + " 팀의 초기 전략을 선택하십시오.");
+        System.out.print("""
                 1. 마상상마 (Inner Elephant Setup)
                 2. 상마마상 (Outer Elephant Setup)
                 3. 마상마상 (Right Elephant Setup)

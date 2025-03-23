@@ -22,11 +22,11 @@ public class KoreaChess {
     }
 
     public void run() {
+        outputView.printGameStart();
+
         Player han = new Player(Team.HAN);
         Player cho = new Player(Team.CHO);
         Board board = createBoard(han, cho);
-
-        outputView.printGameStart();
         outputView.printBoard(board);
 
         while (!board.isFinish()) {
