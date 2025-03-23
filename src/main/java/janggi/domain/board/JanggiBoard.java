@@ -9,6 +9,7 @@ import janggi.domain.piece.gererator.KnightElephantSetting;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class JanggiBoard {
 
@@ -35,6 +36,7 @@ public class JanggiBoard {
         Piece sourcePiece = findPieceByPosition(source);
         List<Piece> existingPieces = getAllPiecesExceptSourcePiece(sourcePiece);
         Position destination = new Position(destinationX, destinationY);
+        killEnemyPieceIfPresent(destination);
 
         sourcePiece.move(existingPieces, destination, turn);
         turn = Side.opposite(turn);
@@ -51,6 +53,15 @@ public class JanggiBoard {
         return pieces.stream()
             .filter(piece -> !piece.equals(sourcePiece))
             .toList();
+    }
+
+    private void killEnemyPieceIfPresent(Position destination) {
+        Optional<Piece> enemyPiece = pieces.stream()
+            .filter(piece -> piece.isSamePosition(destination))
+            .filter(piece -> piece.isEnemy(turn))
+            .findFirst();
+
+        enemyPiece.ifPresent(pieces::remove);
     }
 
     public boolean isEnd() {

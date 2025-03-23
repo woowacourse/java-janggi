@@ -71,6 +71,10 @@ public abstract class Piece {
 
     public abstract boolean isCannon();
 
+    public boolean isEnemy(Side turn) {
+        return turn != this.side;
+    }
+
     @Override
     public String toString() {
         return "Piece{" +
