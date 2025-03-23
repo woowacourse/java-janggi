@@ -6,7 +6,7 @@ import java.util.List;
 
 public class King extends Piece {
 
-    private final List<Move> moves = List.of(Move.FRONT, Move.BACK, Move.RIGHT, Move.LEFT);
+    private static final List<Move> moves = List.of(Move.FRONT, Move.BACK, Move.RIGHT, Move.LEFT);
 
     public King(Team team) {
         super(team);

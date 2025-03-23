@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Elephant extends Piece {
 
-    private final List<List<Move>> moves = List.of(
+    private static final List<List<Move>> moves = List.of(
             List.of(Move.FRONT, Move.FRONT_LEFT, Move.FRONT_LEFT),
             List.of(Move.FRONT, Move.FRONT_RIGHT, Move.FRONT_RIGHT),
             List.of(Move.BACK, Move.BACK_LEFT, Move.BACK_LEFT),
