@@ -23,6 +23,10 @@ public class Piece {
         return this.nickname.equalsIgnoreCase(nickname);
     }
 
+    public boolean isSamePoint(Point point) {
+        return this.point.equals(point);
+    }
+
     public String getName() {
         return nickname;
     }

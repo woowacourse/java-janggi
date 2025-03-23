@@ -13,14 +13,14 @@ public class Pieces {
 
     public Piece findByPoint(Point point) {
         return pieces.stream()
-                .filter(piece -> piece.getPosition().equals(point))
+                .filter(piece -> piece.isSamePoint(point))
                 .findAny()
                 .get();
     }
 
     public boolean isExistPieceIn(Point point) {
         return pieces.stream()
-                .anyMatch(piece -> piece.getPosition().equals(point));
+                .anyMatch(piece -> piece.isSamePoint(point));
     }
 
     public List<Piece> getPieces() {

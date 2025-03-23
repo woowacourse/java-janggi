@@ -24,10 +24,6 @@ public class JanggiGame {
         this.gameBoard = gameBoard;
     }
 
-    public void showInitialBoard() {
-        OutputView.displayBoard(gameBoard);
-    }
-
     public void run() {
         for (Team team : Team.values()) {
             Player player = gameBoard.findPlayer(team);
@@ -40,6 +36,10 @@ public class JanggiGame {
             player.move(gameBoard.findAllPieces(), start, end);
             OutputView.displayBoard(gameBoard);
         }
+    }
+
+    public void showInitialBoard() {
+        OutputView.displayBoard(gameBoard);
     }
 
     private Point requestMoveStartPosition(Player player) {

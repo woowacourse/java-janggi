@@ -16,19 +16,15 @@ public class Player {
         this.team = team;
     }
 
-    public boolean isContainPiece(Point position) {
+    public boolean isContainPiece(Point point) {
         return pieces.stream()
-                .anyMatch(piece -> piece.getPosition().equals(position));
+                .anyMatch(piece -> piece.isSamePoint(point));
     }
 
     public Optional<Piece> findPieceBy(Point point) {
         return pieces.stream()
-                .filter(piece -> piece.getPosition().equals(point))
+                .filter(piece -> piece.isSamePoint(point))
                 .findFirst();
-    }
-
-    public boolean isTeam(Team team) {
-        return this.team.equals(team);
     }
 
     public void move(Pieces allPieces, Point start, Point end) {
@@ -42,6 +38,10 @@ public class Player {
         if (findPieceBy(end).isPresent()) {
             throw new IllegalArgumentException("[ERROR] 목적지에 본인의 기물이 존재합니다.");
         }
+    }
+
+    public boolean isTeam(Team team) {
+        return this.team.equals(team);
     }
 
     public List<Piece> getPieces() {
