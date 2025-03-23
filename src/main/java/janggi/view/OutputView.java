@@ -52,6 +52,10 @@ public class OutputView {
         System.out.println();
     }
 
+    public void printCannotMove() {
+        System.out.println("해당 기물은 움직일 수 없습니다.");
+    }
+
     public void printPossibleRoutes(Set<Route> possibleRoutes) {
         System.out.println("이 기물은 ");
         for (Route possibleRoute : possibleRoutes) {
