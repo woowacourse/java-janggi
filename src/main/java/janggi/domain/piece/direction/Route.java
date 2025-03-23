@@ -13,12 +13,8 @@ public class Route {
     }
 
     public boolean hasPosition(final Piece piece) {
-        for (final Position position : route) {
-            if (piece.isSamePosition(position)) {
-                return true;
-            }
-        }
-        return false;
+        return route.stream()
+                .anyMatch(piece::isSamePosition);
     }
 
     public boolean isDestination(final Piece piece) {

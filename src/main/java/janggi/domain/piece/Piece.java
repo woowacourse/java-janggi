@@ -3,7 +3,6 @@ package janggi.domain.piece;
 import janggi.domain.Team;
 import janggi.domain.piece.direction.Position;
 import janggi.domain.piece.direction.Route;
-import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Piece {
@@ -11,7 +10,7 @@ public abstract class Piece {
     protected Position position;
     protected final Team team;
 
-    protected abstract Set<Route> calculateRawRoutes();
+    public abstract Set<Route> calculateRoutes();
 
     public Piece(final Position position, final Team team) {
         this.position = position;
@@ -24,9 +23,6 @@ public abstract class Piece {
         this.position = new Position(position.x(), position.y());
     }
 
-    public Set<Route> calculateRoutes() {
-        return new HashSet<>(calculateRawRoutes());
-    }
 
     public boolean isSamePosition(final Position otherPosition) {
         return position.equals(otherPosition);

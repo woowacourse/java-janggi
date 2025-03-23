@@ -35,7 +35,7 @@ public class General extends Piece {
     }
 
     @Override
-    protected Set<Route> calculateRawRoutes() {
+    public Set<Route> calculateRoutes() {
         return GENERAL_MOVES.stream()
                 .map(this::calculateRoute)
                 .filter(Optional::isPresent)

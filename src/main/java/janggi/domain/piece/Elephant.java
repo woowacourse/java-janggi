@@ -38,7 +38,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    protected Set<Route> calculateRawRoutes() {
+    public Set<Route> calculateRoutes() {
         return ELEPHANT_MOVES.stream()
                 .map(this::calculateRoute)
                 .filter(Optional::isPresent)

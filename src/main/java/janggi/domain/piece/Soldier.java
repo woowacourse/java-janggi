@@ -41,7 +41,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    protected Set<Route> calculateRawRoutes() {
+    public Set<Route> calculateRoutes() {
         return getMovesByTeam().stream()
                 .map(this::calculateRoute)
                 .filter(Optional::isPresent)

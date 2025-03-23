@@ -35,7 +35,7 @@ public class Guard extends Piece {
     }
 
     @Override
-    protected Set<Route> calculateRawRoutes() {
+    public Set<Route> calculateRoutes() {
         return GUARD_MOVES.stream()
                 .map(this::calculateRoute)
                 .filter(Optional::isPresent)
