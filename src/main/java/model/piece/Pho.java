@@ -51,41 +51,44 @@ public class Pho extends Piece {
             return false;
         }
         if (piecesOnPathWithTargetOrNot.size() == 2) {
-            if (piecesOnPathWithTargetOrNot
-                    .keySet()
-                    .stream()
-                    .anyMatch(piece -> piece instanceof Pho)) {
-                return false;
-            }
-            if (piecesOnPathWithTargetOrNot.values()
-                    .stream()
-                    .noneMatch(isTargetPoint -> isTargetPoint)) {
-                return false;
-            }
-            if (piecesOnPathWithTargetOrNot.entrySet()
-                    .stream()
-                    .filter(Entry::getValue)
-                    .findFirst()
-                    .orElseThrow(() -> new RuntimeException("[ERROR] 종점에 위치한 장애물이 존재하지 않습니다.\n"))
-                    .getKey()
-                    .getTeam() == this.team) {
-                return false;
-            }
-            return true;
+            return noPhoInObstacles(piecesOnPathWithTargetOrNot)
+                    && oneObstacleInTargetPoint(piecesOnPathWithTargetOrNot)
+                    && isEnemy(piecesOnPathWithTargetOrNot);
         }
         if (piecesOnPathWithTargetOrNot.size() == 1) {
-            if (piecesOnPathWithTargetOrNot.values()
-                    .stream()
-                    .findFirst()
-                    .get() ||
-                    piecesOnPathWithTargetOrNot.keySet()
-                            .stream()
-                            .findFirst()
-                            .get() instanceof Pho) {
-                return false;
-            }
-            return true;
+            return !isTargetPoint(piecesOnPathWithTargetOrNot) &&
+                    noPhoInObstacles(piecesOnPathWithTargetOrNot);
         }
         return true;
+    }
+
+    private Boolean isTargetPoint(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
+        return piecesOnPathWithTargetOrNot.values()
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("[ERROR] 종점에 위치한 장애물이 존재하지 않습니다.\n"));
+    }
+
+    private boolean noPhoInObstacles(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
+        return piecesOnPathWithTargetOrNot
+                .keySet()
+                .stream()
+                .noneMatch(piece -> piece instanceof Pho);
+    }
+
+    private boolean oneObstacleInTargetPoint(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
+        return piecesOnPathWithTargetOrNot.values()
+                .stream()
+                .anyMatch(isTargetPoint -> isTargetPoint);
+    }
+
+    private boolean isEnemy(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
+        return piecesOnPathWithTargetOrNot.entrySet()
+                .stream()
+                .filter(Entry::getValue)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("[ERROR] 종점에 위치한 장애물이 존재하지 않습니다.\n"))
+                .getKey()
+                .getTeam() != this.team;
     }
 }
