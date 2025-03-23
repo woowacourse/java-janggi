@@ -2,7 +2,6 @@ package janggiGame.piece;
 
 import janggiGame.board.Dot;
 import java.util.List;
-import java.util.Map;
 
 public class Pawn extends Piece {
     public Pawn(Dynasty dynasty) {
@@ -32,11 +31,6 @@ public class Pawn extends Piece {
         if (dynasty == Dynasty.CHO && dy < 0) {
             throw new UnsupportedOperationException("[ERROR] 병은 뒤로 이동할 수 없습니다.");
         }
-    }
-
-    @Override
-    public void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
-        super.validateMove(routesWithPiece, destinationPiece);
     }
 
     @Override
