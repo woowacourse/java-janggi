@@ -56,7 +56,7 @@ public final class Soldier implements Piece {
     return SOLDIER.getNameForTeam(team);
   }
 
-  private PieceMovement getDefaultMovementByTeam(Team team) {
+  private PieceMovement getDefaultMovementByTeam(final Team team) {
     if (team == Team.HAN) {
       return new DefaultMovement(List.of(
           new Route(List.of(Direction.SOUTH)),

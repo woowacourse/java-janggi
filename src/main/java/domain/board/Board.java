@@ -1,7 +1,7 @@
 package domain.board;
 
 import domain.Team;
-import domain.pieces.EmptyPiece;
+import domain.pieces.Empty;
 import domain.pieces.Piece;
 import execptions.JanggiArgumentException;
 import java.util.HashMap;
@@ -16,7 +16,7 @@ public final class Board {
 
   public Board(final Map<Point, Piece> locations) {
     validate(locations);
-    this.locations = locations;
+    this.locations = new HashMap<>(locations);
   }
 
   public Map<Point, Piece> getLocations() {
@@ -57,11 +57,11 @@ public final class Board {
     checkPieceOnRoute(pieceAtStartPoint, pieceOnRoute);
 
     locations.put(arrivalPoint, pieceAtStartPoint);
-    locations.put(startPoint, EmptyPiece.getInstance());
+    locations.put(startPoint, Empty.getInstance());
   }
 
   private void checkStartPoint(final Piece pieceAtStartPoint, final Team team) {
-    if (pieceAtStartPoint.equals(EmptyPiece.getInstance())) {
+    if (pieceAtStartPoint.equals(Empty.getInstance())) {
       throw new JanggiArgumentException("출발점에 이동할 기물이 없습니다.");
     }
     if (!pieceAtStartPoint.hasEqualTeam(team)) {

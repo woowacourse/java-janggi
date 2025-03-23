@@ -28,7 +28,7 @@ public final class Guard implements Piece {
 
   @Override
   public boolean isMovable(final PieceOnRoute pieceOnRoute) {
-    throw new JanggiArgumentException("장군은 이동할 수 없습니다.");
+    throw new JanggiArgumentException("신하는 이동할 수 없습니다.");
   }
 
   @Override

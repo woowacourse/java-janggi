@@ -1,4 +1,4 @@
-package domain.board.factory.elephantLocator;
+package domain.board.factory.elephantLocators;
 
 import domain.Team;
 import domain.board.Point;

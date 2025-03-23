@@ -18,17 +18,7 @@ public final class Horse implements Piece {
 
   public Horse(final Team team) {
     this.team = team;
-    this.movement = new DefaultMovement(List.of(
-        new Route(List.of(Direction.NORTH, Direction.NORTHWEST)),
-        new Route(List.of(Direction.NORTH, Direction.NORTHEAST)),
-        new Route(List.of(Direction.EAST, Direction.NORTHEAST)),
-        new Route(List.of(Direction.EAST, Direction.SOUTHEAST)),
-        new Route(List.of(Direction.SOUTH, Direction.SOUTHEAST)),
-        new Route(List.of(Direction.SOUTH, Direction.SOUTHWEST)),
-        new Route(List.of(Direction.WEST, Direction.SOUTHWEST)),
-        new Route(List.of(Direction.WEST, Direction.NORTHWEST))
-    ));
-    ;
+    this.movement = getDefaultMovementForHorse();
   }
 
   public Horse(final Team team, final PieceMovement movement) {
@@ -67,5 +57,18 @@ public final class Horse implements Piece {
   @Override
   public String getName() {
     return HORSE.getNameForTeam(team);
+  }
+
+  private DefaultMovement getDefaultMovementForHorse() {
+    return new DefaultMovement(List.of(
+        new Route(List.of(Direction.NORTH, Direction.NORTHWEST)),
+        new Route(List.of(Direction.NORTH, Direction.NORTHEAST)),
+        new Route(List.of(Direction.EAST, Direction.NORTHEAST)),
+        new Route(List.of(Direction.EAST, Direction.SOUTHEAST)),
+        new Route(List.of(Direction.SOUTH, Direction.SOUTHEAST)),
+        new Route(List.of(Direction.SOUTH, Direction.SOUTHWEST)),
+        new Route(List.of(Direction.WEST, Direction.SOUTHWEST)),
+        new Route(List.of(Direction.WEST, Direction.NORTHWEST))
+    ));
   }
 }
