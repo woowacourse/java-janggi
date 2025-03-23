@@ -55,21 +55,13 @@ public class Board {
                 .anyMatch(piece -> piece.getPoint().equals(point));
     }
 
-    public Hurdles findHurdles() {
-        Map<Point, Movable> hurdles = new HashMap<>();
-        runningPieces.forEach(piece ->
-            hurdles.put(piece.getPoint(), piece)
-        );
-        return new Hurdles(hurdles);
-    }
-
     public void move(Point beforePoint, Point afterPoint) {
         Movable movingPiece = findByPoint(beforePoint);
         if (turn != movingPiece.getTeam()) {
             throw new IllegalArgumentException(turn.getText() + "의 기물만 이동할 수 있습니다.");
         }
 
-        if (!movingPiece.isInMovingRange(afterPoint, findHurdles())) {
+        if (!movingPiece.canMove(afterPoint, findHurdles())) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
         Movable updatedMoving = movingPiece.updatePoint(afterPoint);
@@ -81,6 +73,14 @@ public class Board {
 
         runningPieces.remove(movingPiece);
         runningPieces.add(updatedMoving);
+    }
+
+    public Hurdles findHurdles() {
+        Map<Point, Movable> hurdles = new HashMap<>();
+        runningPieces.forEach(piece ->
+                hurdles.put(piece.getPoint(), piece)
+        );
+        return new Hurdles(hurdles);
     }
 
     public List<Movable> getRunningPieces() {

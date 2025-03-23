@@ -40,14 +40,21 @@ public class Gung implements Movable {
     }
 
     @Override
-    public boolean isInMovingRange(Point targetPoint, Hurdles hurdles) {
-        PointDistance distance = PointDistance.calculate(point, targetPoint);
-        if (!distance.isSameWith(1) && !distance.isSameWith(Math.sqrt(2))) {
+    public boolean canMove(Point targetPoint, Hurdles hurdles) {
+        if (isDistanceOverFlow(targetPoint)) {
             return false;
         }
         Direction direction = Direction.cardinalOrDiagonalFrom(this.point, targetPoint);
 
-        //장애물 체크
+        return isRouteHaveNoHurdle(targetPoint, hurdles, direction);
+    }
+
+    private boolean isDistanceOverFlow(Point targetPoint) {
+        PointDistance distance = PointDistance.calculate(point, targetPoint);
+        return !distance.isSameWith(1) && !distance.isSameWith(Math.sqrt(2));
+    }
+
+    private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
         Route route = Route.repeat(direction, this.point, targetPoint);
         if (route.isCrashExists(hurdles)) {
             Crashes crashes = route.findCrashes(hurdles, this);

@@ -37,7 +37,7 @@ public class GungTest {
                     gung
             ));
 
-            assertThat(gung.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(gung.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -49,7 +49,7 @@ public class GungTest {
                     gung
             ));
 
-            assertThat(gung.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(gung.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -61,7 +61,7 @@ public class GungTest {
                     gung
             ));
 
-            assertThat(gung.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(gung.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -73,7 +73,7 @@ public class GungTest {
                     gung
             ));
 
-            assertThat(gung.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(gung.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -85,7 +85,7 @@ public class GungTest {
                     gung
             ));
 
-            assertThat(gung.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(gung.canMove(targetPoint, board.findHurdles())).isTrue();
         }
     }
 
@@ -102,7 +102,7 @@ public class GungTest {
                     new Byeong(Team.CHO, targetPoint)
             ));
 
-            assertThat(gung.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+            assertThat(gung.canMove(targetPoint, board.findHurdles())).isFalse();
         }
 
         @Test
@@ -114,7 +114,7 @@ public class GungTest {
                     gung
             ));
 
-            assertThat(gung.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(gung.canMove(targetPoint, board.findHurdles())).isTrue();
         }
     }
 
@@ -132,7 +132,7 @@ public class GungTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(gung.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(gung.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -145,7 +145,7 @@ public class GungTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(gung.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(gung.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -158,7 +158,7 @@ public class GungTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(gung.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(gung.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -171,7 +171,7 @@ public class GungTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(gung.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(gung.canMove(targetPoint, board.findHurdles())).isTrue();
         }
     }
 }

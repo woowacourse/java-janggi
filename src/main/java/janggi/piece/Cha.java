@@ -39,10 +39,13 @@ public class Cha implements Movable {
     }
 
     @Override
-    public boolean isInMovingRange(Point targetPoint, Hurdles hurdles) {
+    public boolean canMove(Point targetPoint, Hurdles hurdles) {
         Direction direction = Direction.cardinalFrom(this.point, targetPoint);
 
-        //장애물 체크
+        return isRouteHaveNoHurdle(targetPoint, hurdles, direction);
+    }
+
+    private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
         Route route = Route.repeat(direction, this.point, targetPoint);
         if (route.isCrashExists(hurdles)) {
             Crashes crashes = route.findCrashes(hurdles, this);

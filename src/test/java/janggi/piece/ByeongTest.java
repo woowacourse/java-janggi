@@ -25,7 +25,7 @@ class ByeongTest {
                     byeong
             ));
 
-            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -37,7 +37,7 @@ class ByeongTest {
                     byeong
             ));
 
-            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -49,7 +49,7 @@ class ByeongTest {
                     byeong
             ));
 
-            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isFalse();
         }
 
         @Test
@@ -61,7 +61,7 @@ class ByeongTest {
                     byeong
             ));
 
-            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -73,7 +73,7 @@ class ByeongTest {
                     byeong
             ));
 
-            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isFalse();
         }
 
         @Test
@@ -85,7 +85,7 @@ class ByeongTest {
                     byeong
             ));
 
-            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isFalse();
         }
 
         @Test
@@ -97,7 +97,7 @@ class ByeongTest {
                     byeong
             ));
 
-            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isTrue();
         }
     }
 
@@ -114,7 +114,7 @@ class ByeongTest {
                     new Byeong(Team.CHO, targetPoint)
             ));
 
-            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isFalse();
         }
 
         @Test
@@ -126,7 +126,7 @@ class ByeongTest {
                     byeong
             ));
 
-            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isTrue();
         }
     }
 
@@ -144,7 +144,7 @@ class ByeongTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -157,7 +157,7 @@ class ByeongTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -170,7 +170,7 @@ class ByeongTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isFalse();
         }
 
         @Test
@@ -183,7 +183,7 @@ class ByeongTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -196,7 +196,7 @@ class ByeongTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isFalse();
         }
 
         @Test
@@ -209,7 +209,7 @@ class ByeongTest {
                     new Byeong(Team.CHO, targetPoint)
             ));
 
-            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isFalse();
         }
 
         @Test
@@ -222,7 +222,7 @@ class ByeongTest {
                     new Byeong(Team.CHO, targetPoint)
             ));
 
-            assertThat(byeong.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isTrue();
         }
     }
 }

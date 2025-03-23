@@ -40,16 +40,23 @@ public class Ma implements Movable {
     }
 
     @Override
-    public boolean isInMovingRange(Point targetPoint, Hurdles hurdles) {
-        PointDistance distance = PointDistance.calculate(point, targetPoint);
-        if (!distance.isSameWith(Math.sqrt(5))) {
+    public boolean canMove(Point targetPoint, Hurdles hurdles) {
+        if (isDistanceOverflow(targetPoint)) {
             return false;
         }
         List<Direction> directions = Direction.oneCardinalAndDiagonalFrom(
                 this.point, targetPoint, 2, 1
         );
 
-        //장애물 체크
+        return isRouteHaveNoHurdle(targetPoint, hurdles, directions);
+    }
+
+    private boolean isDistanceOverflow(Point targetPoint) {
+        PointDistance distance = PointDistance.calculate(point, targetPoint);
+        return !distance.isSameWith(Math.sqrt(5));
+    }
+
+    private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, List<Direction> directions) {
         Route route = Route.follow(directions, this.point);
         if (route.isCrashExists(hurdles)) {
             Crashes crashes = route.findCrashes(hurdles, this);

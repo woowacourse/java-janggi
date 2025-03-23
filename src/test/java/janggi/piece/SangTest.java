@@ -15,7 +15,7 @@ public class SangTest {
     @Nested
     @DisplayName("이동 가능 확인 테스트")
     class CheckMovableTest {
-        
+
         @Test
         @DisplayName("상-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkUpRightMovable() {
@@ -25,7 +25,7 @@ public class SangTest {
                     sang
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -37,7 +37,7 @@ public class SangTest {
                     sang
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -49,7 +49,7 @@ public class SangTest {
                     sang
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -61,7 +61,7 @@ public class SangTest {
                     sang
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -73,7 +73,7 @@ public class SangTest {
                     sang
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -85,7 +85,7 @@ public class SangTest {
                     sang
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -97,7 +97,7 @@ public class SangTest {
                     sang
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -109,7 +109,7 @@ public class SangTest {
                     sang
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
     }
 
@@ -126,7 +126,7 @@ public class SangTest {
                     new Byeong(Team.HAN, new Point(5, 3))
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isFalse();
         }
 
         @Test
@@ -139,7 +139,7 @@ public class SangTest {
                     new Byeong(Team.HAN, new Point(4, 2))
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isFalse();
         }
 
         @Test
@@ -151,7 +151,7 @@ public class SangTest {
                     sang
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
     }
 
@@ -169,7 +169,7 @@ public class SangTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -182,7 +182,7 @@ public class SangTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -195,7 +195,7 @@ public class SangTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -208,7 +208,7 @@ public class SangTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -221,7 +221,7 @@ public class SangTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -234,7 +234,7 @@ public class SangTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -247,7 +247,7 @@ public class SangTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -260,7 +260,7 @@ public class SangTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(sang.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(sang.canMove(targetPoint, board.findHurdles())).isTrue();
         }
     }
 }

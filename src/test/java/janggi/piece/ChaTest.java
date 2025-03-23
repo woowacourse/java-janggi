@@ -25,7 +25,7 @@ public class ChaTest {
                     cha
             ));
 
-            assertThat(cha.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(cha.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -37,7 +37,7 @@ public class ChaTest {
                     cha
             ));
 
-            assertThat(cha.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(cha.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -49,7 +49,7 @@ public class ChaTest {
                     cha
             ));
 
-            assertThat(cha.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(cha.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -61,7 +61,7 @@ public class ChaTest {
                     cha
             ));
 
-            assertThat(cha.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(cha.canMove(targetPoint, board.findHurdles())).isTrue();
         }
     }
 
@@ -78,7 +78,7 @@ public class ChaTest {
                     new Byeong(Team.CHO, new Point(6, 3))
             ));
 
-            assertThat(cha.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+            assertThat(cha.canMove(targetPoint, board.findHurdles())).isFalse();
         }
 
         @Test
@@ -90,7 +90,7 @@ public class ChaTest {
                     cha
             ));
 
-            assertThat(cha.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(cha.canMove(targetPoint, board.findHurdles())).isTrue();
         }
     }
 
@@ -108,7 +108,7 @@ public class ChaTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(cha.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(cha.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -121,7 +121,7 @@ public class ChaTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(cha.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(cha.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -134,7 +134,7 @@ public class ChaTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(cha.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(cha.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -147,7 +147,7 @@ public class ChaTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(cha.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(cha.canMove(targetPoint, board.findHurdles())).isTrue();
         }
     }
 }

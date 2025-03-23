@@ -11,8 +11,7 @@ public enum Direction {
     NORTH_WEST(-1, -1),
     NORTH_EAST(-1, 1),
     SOUTH_WEST(1, -1),
-    SOUTH_EAST(1, 1)
-    ;
+    SOUTH_EAST(1, 1);
 
     private final int rowOffset;
     private final int columnOffset;
@@ -112,10 +111,10 @@ public enum Direction {
         throw new IllegalArgumentException("이동이 불가능한 방향입니다.");
     }
 
-    private static List<Direction> doRouting(int diagonalCount, Direction cardinal, Direction diagonal) {
+    private static List<Direction> doRouting(int diagonalRepeatCount, Direction cardinal, Direction diagonal) {
         List<Direction> directions = new ArrayList<>();
         directions.add(cardinal);
-        for (int i = 0; i < diagonalCount; i++) {
+        for (int i = 0; i < diagonalRepeatCount; i++) {
             directions.add(diagonal);
         }
         return directions;

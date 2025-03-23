@@ -7,7 +7,7 @@ import janggi.point.Hurdles;
 import janggi.point.Point;
 import java.util.List;
 
-public final class CrashOrBridgeAndPrey extends Crashes{
+public final class CrashOrBridgeAndPrey extends Crashes {
     public CrashOrBridgeAndPrey(List<Point> crashes) {
         super(crashes);
     }
@@ -57,7 +57,7 @@ public final class CrashOrBridgeAndPrey extends Crashes{
          * 같은 포를 먹지 않고,
          * 팀이 다르면 isPreyExists = true
          */
-        if (prey instanceof Po) { //TODO 수정 - prey.isPo()?
+        if (prey instanceof Po) {
             return false;
         }
         if (!preyPoint.equals(targetPoint)) {

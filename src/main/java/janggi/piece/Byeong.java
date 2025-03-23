@@ -40,9 +40,8 @@ public class Byeong implements Movable {
     }
 
     @Override
-    public boolean isInMovingRange(Point targetPoint, Hurdles hurdles) {
-        PointDistance distance = PointDistance.calculate(point, targetPoint);
-        if (!distance.isSameWith(1)) {
+    public boolean canMove(Point targetPoint, Hurdles hurdles) {
+        if (isDistanceOverFlow(targetPoint)) {
             return false;
         }
         Direction direction = Direction.cardinalFrom(this.point, targetPoint);
@@ -51,13 +50,12 @@ public class Byeong implements Movable {
             return false;
         }
 
-        //장애물 체크
-        Route route = Route.repeat(direction, this.point, targetPoint);
-        if (route.isCrashExists(hurdles)) {
-            Crashes crashes = route.findCrashes(hurdles, this);
-            return crashes.hasNoCrashes(this.team, targetPoint, hurdles);
-        }
-        return true;
+        return isRouteHaveNoHurdle(targetPoint, hurdles, direction);
+    }
+
+    private boolean isDistanceOverFlow(Point targetPoint) {
+        PointDistance distance = PointDistance.calculate(point, targetPoint);
+        return !distance.isSameWith(1);
     }
 
     private boolean movesDown(Direction direction) {
@@ -68,6 +66,15 @@ public class Byeong implements Movable {
             return true;
         }
         return false;
+    }
+
+    private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
+        Route route = Route.repeat(direction, this.point, targetPoint);
+        if (route.isCrashExists(hurdles)) {
+            Crashes crashes = route.findCrashes(hurdles, this);
+            return crashes.hasNoCrashes(this.team, targetPoint, hurdles);
+        }
+        return true;
     }
 
     @Override

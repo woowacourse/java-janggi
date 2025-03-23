@@ -25,7 +25,7 @@ class MaTest {
                     ma
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -37,7 +37,7 @@ class MaTest {
                     ma
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -49,7 +49,7 @@ class MaTest {
                     ma
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -61,7 +61,7 @@ class MaTest {
                     ma
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -73,7 +73,7 @@ class MaTest {
                     ma
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -85,7 +85,7 @@ class MaTest {
                     ma
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -97,7 +97,7 @@ class MaTest {
                     ma
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -109,7 +109,7 @@ class MaTest {
                     ma
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
     }
 
@@ -126,7 +126,7 @@ class MaTest {
                     new Byeong(Team.HAN, new Point(5, 3))
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isFalse();
         }
 
         @Test
@@ -138,7 +138,7 @@ class MaTest {
                     ma
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
     }
 
@@ -156,7 +156,7 @@ class MaTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -169,7 +169,7 @@ class MaTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -182,7 +182,7 @@ class MaTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -195,7 +195,7 @@ class MaTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -208,7 +208,7 @@ class MaTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -221,7 +221,7 @@ class MaTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -234,7 +234,7 @@ class MaTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -247,7 +247,7 @@ class MaTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(ma.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(ma.canMove(targetPoint, board.findHurdles())).isTrue();
         }
     }
 }

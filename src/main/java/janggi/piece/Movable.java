@@ -13,5 +13,5 @@ public interface Movable {
 
     Movable updatePoint(Point afterPoint);
 
-    boolean isInMovingRange(Point targetPoint, Hurdles hurdles);
+    boolean canMove(Point targetPoint, Hurdles hurdles);
 }

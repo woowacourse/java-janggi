@@ -40,9 +40,8 @@ public class Sang implements Movable {
     }
 
     @Override
-    public boolean isInMovingRange(Point targetPoint, Hurdles hurdles) {
-        PointDistance distance = PointDistance.calculate(point, targetPoint);
-        if (!distance.isSameWith(Math.sqrt(13))) {
+    public boolean canMove(Point targetPoint, Hurdles hurdles) {
+        if (isDistanceOverFlow(targetPoint)) {
             return false;
         }
         List<Direction> directions = Direction.oneCardinalAndDiagonalFrom(
@@ -50,6 +49,18 @@ public class Sang implements Movable {
         );
 
         //장애물 체크
+        return isRouteHaveNoHurdle(targetPoint, hurdles, directions);
+    }
+
+    private boolean isDistanceOverFlow(Point targetPoint) {
+        PointDistance distance = PointDistance.calculate(point, targetPoint);
+        if (!distance.isSameWith(Math.sqrt(13))) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, List<Direction> directions) {
         Route route = Route.follow(directions, this.point);
         if (route.isCrashExists(hurdles)) {
             Crashes crashes = route.findCrashes(hurdles, this);

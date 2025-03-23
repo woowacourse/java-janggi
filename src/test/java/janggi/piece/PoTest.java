@@ -27,7 +27,7 @@ public class PoTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(po.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -41,7 +41,7 @@ public class PoTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(po.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -55,7 +55,7 @@ public class PoTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(po.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -69,7 +69,7 @@ public class PoTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(po.canMove(targetPoint, board.findHurdles())).isTrue();
         }
     }
 
@@ -88,7 +88,7 @@ public class PoTest {
                     new Byeong(Team.CHO, new Point(2, 4))
             ));
 
-            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+            assertThat(po.canMove(targetPoint, board.findHurdles())).isFalse();
         }
 
         @Test
@@ -102,7 +102,7 @@ public class PoTest {
                     new Byeong(Team.CHO, bridgePoint)
             ));
 
-            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(po.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -116,7 +116,7 @@ public class PoTest {
                     new Po(Team.CHO, bridgePoint)
             ));
 
-            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+            assertThat(po.canMove(targetPoint, board.findHurdles())).isFalse();
         }
 
         @Test
@@ -129,7 +129,7 @@ public class PoTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+            assertThat(po.canMove(targetPoint, board.findHurdles())).isFalse();
         }
     }
 
@@ -148,7 +148,7 @@ public class PoTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(po.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -162,7 +162,7 @@ public class PoTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(po.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -176,7 +176,7 @@ public class PoTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(po.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -190,7 +190,7 @@ public class PoTest {
                     new Byeong(Team.HAN, targetPoint)
             ));
 
-            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+            assertThat(po.canMove(targetPoint, board.findHurdles())).isTrue();
         }
 
         @Test
@@ -204,7 +204,7 @@ public class PoTest {
                     new Po(Team.HAN, targetPoint)
             ));
 
-            assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isFalse();
+            assertThat(po.canMove(targetPoint, board.findHurdles())).isFalse();
         }
     }
 }

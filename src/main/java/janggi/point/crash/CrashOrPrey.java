@@ -7,7 +7,7 @@ import janggi.point.Hurdles;
 import janggi.point.Point;
 import java.util.List;
 
-public final class CrashOrPrey extends Crashes{
+public final class CrashOrPrey extends Crashes {
 
     public CrashOrPrey(List<Point> crashes) {
         super(crashes);
