@@ -21,23 +21,7 @@ class PlayerTest {
         //then
         assertAll(() -> {
             assertThat(player.getName()).isEqualTo(name);
-            assertThat(player.getScore()).isEqualTo(new Score(0));
+            assertThat(player.getTeam()).isEqualTo(team);
         });
-    }
-
-    @Test
-    @DisplayName("플레이어의 점수를 추가할 수 있다")
-    void addScore() {
-        //given
-        String name = "flint";
-        Team team = Team.RED;
-        Player player = new Player(name, team);
-
-        //when
-        Score score = new Score(10);
-        player.addScore(score);
-
-        //then
-        assertThat(player.getScore()).isEqualTo(score);
     }
 }

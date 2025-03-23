@@ -2,7 +2,6 @@ package janggi.domain.piece;
 
 import janggi.domain.Board;
 import janggi.domain.Position;
-import janggi.domain.Score;
 import janggi.domain.Team;
 import janggi.domain.rule.MoveRule;
 import janggi.domain.rule.Movement;
@@ -21,9 +20,7 @@ public abstract class Piece {
         this.moveRule = moveRule;
     }
 
-    public abstract Piece move(Board board, Position destination);
-
-    public abstract Score die();
+    public abstract Piece move(final Board board, final Position destination);
 
     protected void validateMove(final Board board, final Position destination, Movement movement) {
         moveRule.validateMove(board, this.position, destination, movement);

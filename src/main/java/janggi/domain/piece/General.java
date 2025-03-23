@@ -2,7 +2,6 @@ package janggi.domain.piece;
 
 import janggi.domain.Board;
 import janggi.domain.Position;
-import janggi.domain.Score;
 import janggi.domain.Team;
 import janggi.domain.rule.MoveRule;
 import janggi.domain.rule.Movement;
@@ -12,7 +11,6 @@ import java.util.List;
 
 public class General extends Piece {
 
-    private static final int SCORE = 0;
     private static final Movement MOVEMENT = new Movement(List.of(0, 1));
 
     public General(final Position position, final Team team) {
@@ -30,10 +28,5 @@ public class General extends Piece {
     public Piece move(final Board board, final Position destination) {
         validateMove(board, destination, MOVEMENT);
         return new General(destination, team);
-    }
-
-    @Override
-    public Score die() {
-        return new Score(SCORE);
     }
 }

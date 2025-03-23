@@ -2,7 +2,6 @@ package janggi.domain.piece;
 
 import janggi.domain.Board;
 import janggi.domain.Position;
-import janggi.domain.Score;
 import janggi.domain.Team;
 import janggi.domain.rule.MoveRule;
 import janggi.domain.rule.Movement;
@@ -12,7 +11,6 @@ import java.util.List;
 
 public class Chariot extends Piece {
 
-    private static final int SCORE = 13;
     private static final Movement MOVEMENT = new Movement(List.of(0, 1));
 
     public Chariot(final Position position, final Team team) {
@@ -32,10 +30,5 @@ public class Chariot extends Piece {
     public Piece move(final Board board, final Position destination) {
         validateMove(board, destination, MOVEMENT);
         return new Chariot(destination, team);
-    }
-
-    @Override
-    public Score die() {
-        return new Score(SCORE);
     }
 }
