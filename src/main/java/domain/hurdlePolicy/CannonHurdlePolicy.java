@@ -58,7 +58,7 @@ public class CannonHurdlePolicy implements HurdlePolicy {
     ) {
         List<ChessPosition> result = new ArrayList<>();
         for (ChessPosition currentPosition : overHurdlePaths) {
-            if (canMoveTo(team, currentPosition, positions)) {
+            if (canMove(team, currentPosition, positions)) {
                 result.add(currentPosition);
             }
             if (positions.existChessPieceByPosition(currentPosition)) {
@@ -68,7 +68,7 @@ public class CannonHurdlePolicy implements HurdlePolicy {
         return result;
     }
 
-    private boolean canMoveTo(ChessTeam team, ChessPosition targetPosition, ChessPiecePositions positions) {
+    private boolean canMove(ChessTeam team, ChessPosition targetPosition, ChessPiecePositions positions) {
         return !positions.existChessPieceByPosition(targetPosition) || isHurdle(team, targetPosition, positions);
     }
 }
