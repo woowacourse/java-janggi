@@ -13,14 +13,14 @@ import org.junit.jupiter.api.Test;
 class ChariotTest {
     @DisplayName("차는 목적지로 가는 경로를 구할 수 있다.")
     @Test
-    void chariotCanGetRoute() {
+    void chariotCanGetIntermediatePoints() {
         // given
         Dot origin = Dot.of(1, 1);
         Dot destination = Dot.of(1, 3);
         Chariot chariot = new Chariot(Dynasty.HAN);
 
         // when
-        List<Dot> actual = chariot.getRoute(origin, destination);
+        List<Dot> actual = chariot.getIntermediatePoints(origin, destination);
 
         List<Dot> expected = List.of(Dot.of(1, 2));
 
@@ -30,14 +30,14 @@ class ChariotTest {
 
     @DisplayName("차가 목적지로 갈 수 없다면 예외를 발생시킨다")
     @Test
-    void chariotCannotGetRoute() {
+    void chariotCannotGetIntermediatePoints() {
         // given
         Dot origin = Dot.of(1, 1);
         Dot destination = Dot.of(2, 3);
         Chariot chariot = new Chariot(Dynasty.HAN);
 
         // when // then
-        assertThatCode(() -> chariot.getRoute(origin, destination))
+        assertThatCode(() -> chariot.getIntermediatePoints(origin, destination))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR]");
     }

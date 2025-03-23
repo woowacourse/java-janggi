@@ -9,7 +9,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public List<Dot> getRoute(Dot origin, Dot destination) {
+    public List<Dot> getIntermediatePoints(Dot origin, Dot destination) {
         int dx = origin.calculateRowChange(destination);
         int dy = origin.calculateColumnChange(destination);
 

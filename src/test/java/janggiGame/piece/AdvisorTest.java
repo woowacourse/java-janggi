@@ -13,14 +13,14 @@ import org.junit.jupiter.api.Test;
 class AdvisorTest {
     @DisplayName("사의 목적지로 가는 경로는 항상 비어있다.")
     @Test
-    void advisorCanGetRoute() {
+    void advisorCanGetIntermediatePoints() {
         // given
         Dot origin = Dot.of(1, 1);
         Dot destination = Dot.of(1, 0);
         Advisor advisor = new Advisor(Dynasty.HAN);
 
         // when
-        List<Dot> actual = advisor.getRoute(origin, destination);
+        List<Dot> actual = advisor.getIntermediatePoints(origin, destination);
 
         // then
         assertThat(actual).isEmpty();

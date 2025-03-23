@@ -15,9 +15,9 @@ public abstract class Piece {
         return dynasty;
     }
 
-    public abstract List<Dot> getRoute(Dot origin, Dot destination);
+    public abstract List<Dot> getIntermediatePoints(Dot origin, Dot destination);
 
-    public void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
+    public void validateMove(Map<Dot, Piece> IntermediatePointsWithPiece, Piece destinationPiece) {
         if (destinationPiece != null && destinationPiece.dynasty == this.dynasty) {
             throw new UnsupportedOperationException("[ERROR] 같은 나라의 말은 공격할 수 없습니다.");
         }

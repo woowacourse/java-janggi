@@ -24,14 +24,14 @@ class PawnTest {
 
     @DisplayName("병의 목적지로 가는 경로는 항상 비어있다.")
     @Test
-    void pawnCanGetRoute() {
+    void pawnCanGetIntermediatePoints() {
         // given
         Dot origin = Dot.of(1, 1);
         Dot destination = Dot.of(1, 0);
         Pawn pawn = new Pawn(Dynasty.HAN);
 
         // when
-        List<Dot> actual = pawn.getRoute(origin, destination);
+        List<Dot> actual = pawn.getIntermediatePoints(origin, destination);
 
         // then
         assertThat(actual).isEmpty();
@@ -42,7 +42,7 @@ class PawnTest {
     @MethodSource("providePawnAndOriginAndDestination")
     void pawnCannotMoveBack(Pawn pawn, Dot origin, Dot destination) {
         // when // then
-        assertThatCode(() -> pawn.getRoute(origin, destination))
+        assertThatCode(() -> pawn.getIntermediatePoints(origin, destination))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR]");
     }

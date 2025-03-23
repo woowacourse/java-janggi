@@ -28,12 +28,12 @@ class HorseTest {
     @DisplayName("마는 목적지로 가는 경로를 구할 수 있다.")
     @ParameterizedTest
     @MethodSource("provideHorseOriginAndDestinationAndExpected")
-    void horseCanGetRoute(Dot origin, Dot destination, List<Dot> expected) {
+    void horseCanGetIntermediatePoints(Dot origin, Dot destination, List<Dot> expected) {
         // given
         Horse horse = new Horse(Dynasty.HAN);
 
         // when
-        List<Dot> actual = horse.getRoute(origin, destination);
+        List<Dot> actual = horse.getIntermediatePoints(origin, destination);
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -41,14 +41,14 @@ class HorseTest {
 
     @DisplayName("마는 목적지로 갈 수 없다면 예외를 발생시킨다")
     @Test
-    void horseCannotGetRoute() {
+    void horseCannotGetIntermediatePoints() {
         // given
         Dot origin = Dot.of(1, 1);
         Dot destination = Dot.of(3, 3);
         Horse horse = new Horse(Dynasty.HAN);
 
         // when // then
-        assertThatCode(() -> horse.getRoute(origin, destination))
+        assertThatCode(() -> horse.getIntermediatePoints(origin, destination))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR]");
     }

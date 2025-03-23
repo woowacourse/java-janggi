@@ -35,22 +35,22 @@ public class JanggiGame {
 
         Piece originPiece = pieces.get(origin);
 
-        List<Dot> route = originPiece.getRoute(origin, destination);
+        List<Dot> route = originPiece.getIntermediatePoints(origin, destination);
 
-        Map<Dot, Piece> routeWithPiece = getPiecesOn(route);
+        Map<Dot, Piece> intermediatePointsWithPiece = getPiecesOn(route);
 
-        originPiece.validateMove(routeWithPiece, pieces.getOrDefault(destination, null));
+        originPiece.validateMove(intermediatePointsWithPiece, pieces.getOrDefault(destination, null));
 
         movePiece(origin, destination, originPiece);
     }
 
     private Map<Dot, Piece> getPiecesOn(List<Dot> route) {
-        Map<Dot, Piece> routeWithPiece = new HashMap<>();
+        Map<Dot, Piece> intermediatePointsWithPiece = new HashMap<>();
 
         for (Dot dot : route) {
-            routeWithPiece.put(dot, pieces.getOrDefault(dot, null));
+            intermediatePointsWithPiece.put(dot, pieces.getOrDefault(dot, null));
         }
-        return routeWithPiece;
+        return intermediatePointsWithPiece;
     }
 
     private void movePiece(Dot origin, Dot destination, Piece originPiece) {

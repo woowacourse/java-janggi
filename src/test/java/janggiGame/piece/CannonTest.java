@@ -13,13 +13,13 @@ import org.junit.jupiter.api.Test;
 class CannonTest {
     @DisplayName("포는 목적지로 가는 경로를 구할 수 있다.")
     @Test
-    void cannonCanGetRoute() {
+    void cannonCanGetIntermediatePoints() {
         Dot origin = Dot.of(1, 1);
         Dot destination = Dot.of(1, 3);
         Cannon cannon = new Cannon(Dynasty.HAN);
 
         // when
-        List<Dot> actual = cannon.getRoute(origin, destination);
+        List<Dot> actual = cannon.getIntermediatePoints(origin, destination);
 
         List<Dot> expected = List.of(Dot.of(1, 2));
 
@@ -29,14 +29,14 @@ class CannonTest {
 
     @DisplayName("포가 목적지로 갈 수 없다면 예외를 발생시킨다")
     @Test
-    void cannonCannotGetRoute() {
+    void cannonCannotGetIntermediatePoints() {
         // given
         Dot origin = Dot.of(1, 1);
         Dot destination = Dot.of(2, 3);
         Cannon cannon = new Cannon(Dynasty.HAN);
 
         // when // then
-        assertThatCode(() -> cannon.getRoute(origin, destination))
+        assertThatCode(() -> cannon.getIntermediatePoints(origin, destination))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR]");
     }

@@ -29,12 +29,12 @@ class ElephantTest {
     @DisplayName("상은 목적지로 가는 경로를 구할 수 있다.")
     @ParameterizedTest
     @MethodSource("provideElephantOriginAndDestinationAndExpected")
-    void elephantCanGetRoute(Dot origin, Dot destination, List<Dot> expected) {
+    void elephantCanGetIntermediatePoints(Dot origin, Dot destination, List<Dot> expected) {
         // given
         Elephant elephant = new Elephant(Dynasty.HAN);
 
         // when
-        List<Dot> actual = elephant.getRoute(origin, destination);
+        List<Dot> actual = elephant.getIntermediatePoints(origin, destination);
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -42,14 +42,14 @@ class ElephantTest {
 
     @DisplayName("상이 목적지로 갈 수 없다면 예외를 발생시킨다")
     @Test
-    void elephantCannotGetRoute() {
+    void elephantCannotGetIntermediatePoints() {
         // given
         Dot origin = Dot.of(1, 1);
         Dot destination = Dot.of(3, 3);
         Elephant elephant = new Elephant(Dynasty.HAN);
 
         // when // then
-        assertThatCode(() -> elephant.getRoute(origin, destination))
+        assertThatCode(() -> elephant.getIntermediatePoints(origin, destination))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR]");
     }

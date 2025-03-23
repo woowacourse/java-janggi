@@ -13,7 +13,7 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public List<Dot> getRoute(Dot origin, Dot destination) {
+    public List<Dot> getIntermediatePoints(Dot origin, Dot destination) {
         int dx = origin.calculateRowChange(destination);
         int dy = origin.calculateColumnChange(destination);
 
@@ -64,10 +64,10 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
-        super.validateMove(routesWithPiece, destinationPiece);
+    public void validateMove(Map<Dot, Piece> IntermediatePointsWithPiece, Piece destinationPiece) {
+        super.validateMove(IntermediatePointsWithPiece, destinationPiece);
 
-        routesWithPiece.values()
+        IntermediatePointsWithPiece.values()
                 .stream()
                 .filter(Objects::nonNull)
                 .findAny()
