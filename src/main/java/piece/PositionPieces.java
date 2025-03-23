@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Board {
+public class PositionPieces {
 
     private final Pieces allPieces;
 
-    public Board(Pieces allPieces) {
+    public PositionPieces(Pieces allPieces) {
         this.allPieces = allPieces;
     }
 

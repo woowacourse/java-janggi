@@ -2,11 +2,11 @@ package piece;
 
 import java.util.Map;
 
-public class TeamPieces {
+public class PlayerPieces {
 
     private final Map<Team, Pieces> teamBoard;
 
-    public TeamPieces(InitiateJanggiTeamPieces initiateJanggiTeamPieces) {
+    public PlayerPieces(InitiateJanggiTeamPieces initiateJanggiTeamPieces) {
         this.teamBoard = initiateJanggiTeamPieces.janggiInitiatePieces();
     }
 

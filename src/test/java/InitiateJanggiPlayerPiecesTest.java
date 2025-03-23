@@ -19,7 +19,7 @@ import piece.Position;
 import piece.Team;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-public class InitiateJanggiTeamPiecesTest {
+public class InitiateJanggiPlayerPiecesTest {
 
     final List<Piece> redTeamInitiatePieces = List.of(
             new Piece(new Position(0, 0), new ChaMoveBehavior(), PieceType.CHA, Team.RED),

@@ -1,11 +1,11 @@
 import java.util.Map;
-import piece.Board;
 import piece.InitiateJanggiTeamPieces;
 import piece.Piece;
 import piece.Pieces;
+import piece.PlayerPieces;
 import piece.Position;
+import piece.PositionPieces;
 import piece.Team;
-import piece.TeamPieces;
 
 public class KoreanChessApplication {
 
@@ -18,17 +18,17 @@ public class KoreanChessApplication {
 
     public static void main(String[] args) {
         GameView gameView = new GameView();
-        TeamPieces teamPieces = new TeamPieces(new InitiateJanggiTeamPieces());
+        PlayerPieces playerPieces = new PlayerPieces(new InitiateJanggiTeamPieces());
         gameView.printChangePieceNotImplement();
 
-        playKoreanChess(teamPieces, gameView);
+        playKoreanChess(playerPieces, gameView);
     }
 
-    private static void playKoreanChess(TeamPieces teamPieces, GameView gameView) {
+    private static void playKoreanChess(PlayerPieces playerPieces, GameView gameView) {
         int turn = 0;
-        while (!teamPieces.isKingDead()) {
+        while (!playerPieces.isKingDead()) {
             try {
-                playTurn(teamPieces, gameView, turn);
+                playTurn(playerPieces, gameView, turn);
                 turn = (turn + 1) % PLAYER_SIZE;
             } catch (IllegalArgumentException e) {
                 gameView.printError(e.getMessage());
@@ -36,15 +36,15 @@ public class KoreanChessApplication {
         }
     }
 
-    private static void playTurn(TeamPieces teamPieces, GameView gameView, int turn) {
-        Pieces allPieces = teamPieces.allPieces();
-        Board board = new Board(allPieces);
+    private static void playTurn(PlayerPieces playerPieces, GameView gameView, int turn) {
+        Pieces allPieces = playerPieces.allPieces();
+        PositionPieces board = new PositionPieces(allPieces);
         Map<Position, Piece> positionPieces = board.positionPieces();
         gameView.printJanggiBoard(positionPieces);
         Team team = turnTable.get(turn);
         gameView.printTurn(team);
         Position selectPiecePosition = gameView.inputSelectPiece();
         Position selectPosition = gameView.inputPiecePosition();
-        teamPieces.move(team, selectPiecePosition, selectPosition);
+        playerPieces.move(team, selectPiecePosition, selectPosition);
     }
 }
