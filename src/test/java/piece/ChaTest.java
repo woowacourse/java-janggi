@@ -30,25 +30,25 @@ class ChaTest {
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @Test
-    void nonIsMove() {
+    void nonCanMoveTo() {
         //given
         Cha cha = new Cha(new Position(0, 0));
 
         //when //then
-        assertThatThrownBy(() -> cha.isMove(new Position(1, 1)))
+        assertThatThrownBy(() -> cha.canMoveTo(new Position(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("차는 움직임을 자신의 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 true를 반환한다.")
     @ParameterizedTest
-    @MethodSource("chaIsMovePositionProvider")
-    void isMove(Position position) {
+    @MethodSource("chaCanMoveToPositionProvider")
+    void canMoveTo(Position position) {
         //given
         Cha cha = new Cha(new Position(0, 0));
 
         //when
-        boolean actual = cha.isMove(position);
+        boolean actual = cha.canMoveTo(position);
 
         //then
         assertThat(actual).isTrue();
@@ -74,7 +74,7 @@ class ChaTest {
         );
     }
 
-    private static Stream<Arguments> chaIsMovePositionProvider() {
+    private static Stream<Arguments> chaCanMoveToPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(0, 1)),
                 Arguments.of(new Position(1, 0)));

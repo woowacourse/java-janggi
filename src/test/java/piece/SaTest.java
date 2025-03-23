@@ -30,26 +30,26 @@ class SaTest {
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
-    @MethodSource("saNonIsMovePositionProvider")
-    void isMoveValidate(Position position) {
+    @MethodSource("saNonCanMoveToPositionProvider")
+    void canMoveToValidate(Position position) {
         //given
         Sa sa = new Sa(new Position(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> sa.isMove(position))
+        assertThatThrownBy(() -> sa.canMoveTo(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("사는 상하좌우 한칸을 움직일 수 있다면 true를 반환한다.")
     @ParameterizedTest
-    @MethodSource("saIsMovePositionProvider")
-    void isMove(Position position) {
+    @MethodSource("saCanMoveToPositionProvider")
+    void canMoveTo(Position position) {
         //given
         Sa sa = new Sa(new Position(5, 5));
 
         //when
-        boolean actual = sa.isMove(position);
+        boolean actual = sa.canMoveTo(position);
 
         //then
         assertThat(actual).isTrue();
@@ -69,7 +69,7 @@ class SaTest {
         assertThat(actual.contains(futurePosition)).isTrue();
     }
 
-    private static Stream<Arguments> saNonIsMovePositionProvider() {
+    private static Stream<Arguments> saNonCanMoveToPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(7, 5)),
                 Arguments.of(new Position(3, 5)),
@@ -82,7 +82,7 @@ class SaTest {
         );
     }
 
-    private static Stream<Arguments> saIsMovePositionProvider() {
+    private static Stream<Arguments> saCanMoveToPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(6, 5)),
                 Arguments.of(new Position(5, 6)),

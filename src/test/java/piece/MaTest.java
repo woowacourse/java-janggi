@@ -30,25 +30,25 @@ class MaTest {
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
-    @MethodSource("maNonIsMovePositionProvider")
-    void nonIsMove(Position position) {
+    @MethodSource("maNonCanMoveToPositionProvider")
+    void nonCanMoveTo(Position position) {
         //given
         Ma ma = new Ma(new Position(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> ma.isMove(position)).isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> ma.canMoveTo(position)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("자신의 위치를 기준으로 직선으로 한칸 + 대각선으로 한칸 이동할 수 있다면 true를 반환한다.")
     @ParameterizedTest
-    @MethodSource("maIsMovePositionProvider")
-    void isMove(Position position) {
+    @MethodSource("maCanMoveToPositionProvider")
+    void canMoveTo(Position position) {
         //given
         Ma ma = new Ma(new Position(5, 5));
 
         //when
-        boolean actual = ma.isMove(position);
+        boolean actual = ma.canMoveTo(position);
 
         //then
         assertThat(actual).isTrue();
@@ -69,7 +69,7 @@ class MaTest {
         assertThat(actual).containsExactly(new Position(4, 5), new Position(3, 6));
     }
 
-    private static Stream<Arguments> maNonIsMovePositionProvider() {
+    private static Stream<Arguments> maNonCanMoveToPositionProvider() {
         return Stream.of(Arguments.of(new Position(3, 5)), Arguments.of(new Position(3, 3)),
                 Arguments.of(new Position(3, 7)), Arguments.of(new Position(5, 7)),
                 Arguments.of(new Position(3, 7)), Arguments.of(new Position(7, 7)),
@@ -77,7 +77,7 @@ class MaTest {
                 Arguments.of(new Position(5, 3)));
     }
 
-    private static Stream<Arguments> maIsMovePositionProvider() {
+    private static Stream<Arguments> maCanMoveToPositionProvider() {
         return Stream.of(Arguments.of(new Position(3, 4)), Arguments.of(new Position(3, 6)),
                 Arguments.of(new Position(4, 7)), Arguments.of(new Position(6, 7)),
                 Arguments.of(new Position(7, 6)), Arguments.of(new Position(7, 4)),

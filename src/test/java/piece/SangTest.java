@@ -30,26 +30,26 @@ class SangTest {
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
     @ParameterizedTest
-    @MethodSource("sangNonIsMovePositionProvider")
-    void nonIsMove(Position position) {
+    @MethodSource("sangNonCanMoveToPositionProvider")
+    void nonCanMoveTo(Position position) {
         //given
         Sang sang = new Sang(new Position(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> sang.isMove(position))
+        assertThatThrownBy(() -> sang.canMoveTo(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("상은 자신의 위치를 기준으로 직선으로 한칸 대각선으로 두칸 이동할 수 있다.")
     @ParameterizedTest
-    @MethodSource("sangIsMovePositionProvider")
-    void isMove(Position position) {
+    @MethodSource("sangCanMoveToPositionProvider")
+    void canMoveTo(Position position) {
         //given
         Sang sang = new Sang(new Position(5, 5));
 
         //when
-        boolean actual = sang.isMove(position);
+        boolean actual = sang.canMoveTo(position);
 
         //then
         assertThat(actual).isTrue();
@@ -74,7 +74,7 @@ class SangTest {
         );
     }
 
-    private static Stream<Arguments> sangIsMovePositionProvider() {
+    private static Stream<Arguments> sangCanMoveToPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(2, 3)),
                 Arguments.of(new Position(2, 7)),
@@ -87,7 +87,7 @@ class SangTest {
         );
     }
 
-    private static Stream<Arguments> sangNonIsMovePositionProvider() {
+    private static Stream<Arguments> sangNonCanMoveToPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(2, 5)),
                 Arguments.of(new Position(2, 4)),

@@ -14,7 +14,7 @@ public class Cha extends Piece {
     }
 
     @Override
-    public boolean isMove(Position position) {
+    public boolean canMoveTo(Position position) {
         if ((super.getBoardPosition().getRow() == position.getRow())
                 || (super.getBoardPosition().getCol() == position.getCol())) {
             return true;

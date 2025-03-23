@@ -49,7 +49,7 @@ public class Po extends Piece {
     }
 
     @Override
-    public boolean isMove(final Position position) {
+    public boolean canMoveTo(final Position position) {
         if (super.getBoardPosition().getRow() == position.getRow()
                 || super.getBoardPosition().getCol() == position.getCol()) {
             return true;

@@ -30,26 +30,26 @@ class JanggunTest {
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
-    @MethodSource("JanggunNonIsMovePositionProvider")
-    void isMoveValidate(Position position) {
+    @MethodSource("JanggunNonCanMoveToPositionProvider")
+    void canMoveToValidate(Position position) {
         //given
         Janggun janggun = new Janggun(new Position(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> janggun.isMove(position))
+        assertThatThrownBy(() -> janggun.canMoveTo(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("왕은 상하좌우 한칸을 움직일 수 있다면 true를 반환한다.")
     @ParameterizedTest
-    @MethodSource("janggunIsMovePositionProvider")
-    void isMove(Position position) {
+    @MethodSource("janggunCanMoveToPositionProvider")
+    void canMoveTo(Position position) {
         //given
         Janggun janggun = new Janggun(new Position(5, 5));
 
         //when
-        boolean actual = janggun.isMove(position);
+        boolean actual = janggun.canMoveTo(position);
 
         //then
         assertThat(actual).isTrue();
@@ -69,7 +69,7 @@ class JanggunTest {
         assertThat(actual.contains(futurePosition)).isTrue();
     }
 
-    private static Stream<Arguments> JanggunNonIsMovePositionProvider() {
+    private static Stream<Arguments> JanggunNonCanMoveToPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(7, 5)),
                 Arguments.of(new Position(3, 5)),
@@ -82,7 +82,7 @@ class JanggunTest {
         );
     }
 
-    private static Stream<Arguments> janggunIsMovePositionProvider() {
+    private static Stream<Arguments> janggunCanMoveToPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(6, 5)),
                 Arguments.of(new Position(5, 6)),

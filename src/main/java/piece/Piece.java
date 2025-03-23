@@ -21,7 +21,7 @@ public abstract class Piece {
         return position.equals(this.position);
     }
 
-    public abstract boolean isMove(Position position);
+    public abstract boolean canMoveTo(Position position);
 
     public abstract List<Position> makeRoute(Position position);
 

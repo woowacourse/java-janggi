@@ -30,25 +30,25 @@ class PoTest {
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @Test
-    void nonIsMove() {
+    void nonCanMoveTo() {
         //given
         Po po = new Po(new Position(0, 0));
 
         //when //then
-        assertThatThrownBy(() -> po.isMove(new Position(1, 1)))
+        assertThatThrownBy(() -> po.canMoveTo(new Position(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("포는 움직임을 자신의 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 true를 반환한다.")
     @ParameterizedTest
-    @MethodSource("poIsMovePositionProvider")
-    void isMove(Position position) {
+    @MethodSource("poCanMoveToPositionProvider")
+    void canMoveTo(Position position) {
         //given
         Po po = new Po(new Position(0, 0));
 
         //when
-        boolean actual = po.isMove(position);
+        boolean actual = po.canMoveTo(position);
 
         //then
         assertThat(actual).isTrue();
@@ -74,7 +74,7 @@ class PoTest {
         );
     }
 
-    private static Stream<Arguments> poIsMovePositionProvider() {
+    private static Stream<Arguments> poCanMoveToPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(0, 1)),
                 Arguments.of(new Position(1, 0))

@@ -13,7 +13,7 @@ public class Byeong extends Piece {
     }
 
     @Override
-    public boolean isMove(final Position position) {
+    public boolean canMoveTo(final Position position) {
         int dx = getBoardPosition().getRow() - position.getRow();
         int dy = getBoardPosition().getCol() - position.getCol();
 

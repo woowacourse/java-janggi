@@ -30,26 +30,26 @@ class ByeongTest {
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
     @ParameterizedTest
-    @MethodSource("byeongNonIsMovePositionProvider")
-    void nonIsMove(Position position) {
+    @MethodSource("byeongNonCanMoveToPositionProvider")
+    void nonCanMoveTo(Position position) {
         //given
         Byeong byeong = new Byeong(new Position(5, 5));
 
         //when
-        assertThatThrownBy(() -> byeong.isMove(position))
+        assertThatThrownBy(() -> byeong.canMoveTo(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("자신의 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동을 할 수 있다면 true를 반환한다.")
     @ParameterizedTest
-    @MethodSource("byeongIsMovePositionProvider")
-    void isMove(Position position) {
+    @MethodSource("byeongCanMoveToPositionProvider")
+    void canMoveTo(Position position) {
         //given
         Byeong byeong = new Byeong(new Position(5, 5));
 
         //when
-        boolean actual = byeong.isMove(position);
+        boolean actual = byeong.canMoveTo(position);
 
         //then
         assertThat(actual).isTrue();
@@ -69,7 +69,7 @@ class ByeongTest {
         assertThat(actual.contains(futurePosition)).isTrue();
     }
 
-    private static Stream<Arguments> byeongNonIsMovePositionProvider() {
+    private static Stream<Arguments> byeongNonCanMoveToPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(4, 5)),
                 Arguments.of(new Position(6, 3)),
@@ -77,7 +77,7 @@ class ByeongTest {
         );
     }
 
-    private static Stream<Arguments> byeongIsMovePositionProvider() {
+    private static Stream<Arguments> byeongCanMoveToPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(6, 5)),
                 Arguments.of(new Position(5, 6)),

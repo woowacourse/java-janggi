@@ -30,26 +30,26 @@ class JolTest {
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
-    @MethodSource("jolNonIsMovePositionProvider")
-    void nonIsMove(Position position) {
+    @MethodSource("jolNonCanMoveToPositionProvider")
+    void nonCanMoveTo(Position position) {
         //given
         Jol jol = new Jol(new Position(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> jol.isMove(position))
+        assertThatThrownBy(() -> jol.canMoveTo(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("자신의 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동이 가능하다면 true를 반환한다.")
     @ParameterizedTest
-    @MethodSource("jolIsMovePositionProvider")
-    void isMove(Position position) {
+    @MethodSource("jolCanMoveToPositionProvider")
+    void canMoveTo(Position position) {
         //given
         Jol jol = new Jol(new Position(5, 5));
 
         //when
-        boolean actual = jol.isMove(position);
+        boolean actual = jol.canMoveTo(position);
 
         //then
         assertThat(actual).isTrue();
@@ -70,14 +70,14 @@ class JolTest {
         assertThat(actual.contains(futurePosition)).isTrue();
     }
 
-    private static Stream<Arguments> jolNonIsMovePositionProvider() {
+    private static Stream<Arguments> jolNonCanMoveToPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(6, 5)),
                 Arguments.of(new Position(6, 3)),
                 Arguments.of(new Position(6, 6)));
     }
 
-    private static Stream<Arguments> jolIsMovePositionProvider() {
+    private static Stream<Arguments> jolCanMoveToPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(5, 4)),
                 Arguments.of(new Position(5, 6)),
