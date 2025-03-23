@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class Piece {
-    protected final Dynasty dynasty;
+    private final Dynasty dynasty;
 
     public Piece(Dynasty dynasty) {
         this.dynasty = dynasty;
