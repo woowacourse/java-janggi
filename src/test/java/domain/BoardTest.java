@@ -64,8 +64,8 @@ public class BoardTest {
 
             // then
             assertAll(
-                    () -> assertThat(board.isExistence(departure)).isFalse(),
-                    () -> assertThat(board.findPiece(arrival)).hasValue(cha)
+                    () -> assertThat(board.findAt(departure)).isEmpty(),
+                    () -> assertThat(board.findAt(arrival)).hasValue(cha)
             );
         }
 
@@ -85,43 +85,9 @@ public class BoardTest {
 
             // then
             assertAll(
-                    () -> assertThat(board.isExistence(departure)).isFalse(),
-                    () -> assertThat(board.findPiece(arrival)).hasValue(cha)
+                    () -> assertThat(board.findAt(departure)).isEmpty(),
+                    () -> assertThat(board.findAt(arrival)).hasValue(cha)
             );
-        }
-    }
-
-    @Nested
-    @DisplayName("기물의 존재 여부 테스트")
-    class IsExistenceTest {
-
-        @Test
-        @DisplayName("해당 좌표에 기물이 있으면 true를 반환한다.")
-        void test1() {
-            // given
-            Board board = new BoardFixture()
-                    .addPiece(5, 5, new Cha(Team.HAN))
-                    .build();
-
-            // when
-            boolean isExistence = board.isExistence(new Coordinate(5, 5));
-
-            // then
-            assertThat(isExistence).isTrue();
-        }
-
-        @Test
-        @DisplayName("해당 좌표에 기물이 없으면 false를 반환한다.")
-        void test2() {
-            // given
-            Board board = new BoardFixture()
-                    .build();
-
-            // when
-            boolean isExistence = board.isExistence(new Coordinate(5, 5));
-
-            // then
-            assertThat(isExistence).isFalse();
         }
     }
 
@@ -136,7 +102,7 @@ public class BoardTest {
             Board board = new BoardFixture().build();
 
             // when
-            Optional<Piece> piece = board.findPiece(new Coordinate(5, 5));
+            Optional<Piece> piece = board.findAt(new Coordinate(5, 5));
 
             // then
             assertThat(piece).isEmpty();
@@ -151,7 +117,7 @@ public class BoardTest {
                     .build();
 
             // when
-            Optional<Piece> piece = board.findPiece(new Coordinate(5, 5));
+            Optional<Piece> piece = board.findAt(new Coordinate(5, 5));
 
             // then
             assertThat(piece).isPresent();

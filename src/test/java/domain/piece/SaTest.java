@@ -88,7 +88,7 @@ class SaTest {
             Sa sa = new Sa(Team.HAN);
 
             // when
-            Set<Coordinate> paths = sa.findPaths(new Coordinate(5, 5), new Coordinate(5, 6));
+            final var paths = sa.findPaths(new Coordinate(5, 5), new Coordinate(5, 6));
 
             // then
             assertThat(paths).isEmpty();

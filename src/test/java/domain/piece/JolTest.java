@@ -118,7 +118,7 @@ class JolTest {
             Jol jol = new Jol(Team.HAN);
 
             // when
-            Set<Coordinate> paths = jol.findPaths(new Coordinate(5, 5), new Coordinate(5, 6));
+            final var paths = jol.findPaths(new Coordinate(5, 5), new Coordinate(5, 6));
 
             // then
             assertThat(paths).isEmpty();

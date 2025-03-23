@@ -2,8 +2,8 @@ package domain.piece;
 
 import domain.Coordinate;
 import domain.Team;
-import domain.board.Board;
-import java.util.HashSet;
+import domain.board.PieceFinder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -19,29 +19,31 @@ public class Po extends Piece {
     }
 
     @Override
-    protected boolean canMoveConsideringObstacles(Board board, Coordinate departure, Coordinate arrival) {
-        List<Coordinate> paths = findPaths(departure, arrival).stream()
-                .filter(board::isExistence)
-                .toList();
+    protected boolean canMoveConsideringObstacles(PieceFinder pieceFinder, Coordinate departure, Coordinate arrival) {
+        final var paths = findPaths(departure, arrival);
 
-        if (paths.size() != 1) {
+        final var piecesInPath = pieceFinder.findPiecesIn(paths);
+        if (piecesInPath.size() != 1) {
             return false;
         }
-        if (board.findPiece(paths.getFirst()).get().isPo()) {
+
+        final var podari = piecesInPath.getFirst();
+        if (podari.isPo()) {
             return false;
         }
-        if (board.isExistence(arrival) && board.findPiece(arrival).get().isPo()) {
-            return false;
-        }
-        return true;
+
+        final var isArrivalPo = pieceFinder.findAt(arrival)
+            .map(Piece::isPo)
+            .orElse(false);
+        return !isArrivalPo;
     }
 
     @Override
-    protected Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
+    protected List<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
         int dx = arrival.getX() - departure.getX();
         int dy = arrival.getY() - departure.getY();
 
-        Set<Coordinate> coordinates = new HashSet<>();
+        List<Coordinate> coordinates = new ArrayList<>();
         if (dx == 0 && dy > 0) { // 아래
             for (int y = departure.getY() + 1; y < arrival.getY(); y++) {
                 coordinates.add(new Coordinate(departure.getX(), y));

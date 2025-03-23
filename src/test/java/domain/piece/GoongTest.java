@@ -6,6 +6,7 @@ import domain.BoardFixture;
 import domain.Coordinate;
 import domain.Team;
 import domain.board.Board;
+import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -88,7 +89,7 @@ class GoongTest {
             Goong goong = new Goong(Team.HAN);
 
             // when
-            Set<Coordinate> paths = goong.findPaths(new Coordinate(5, 5), new Coordinate(5, 6));
+            final var paths = goong.findPaths(new Coordinate(5, 5), new Coordinate(5, 6));
 
             // then
             assertThat(paths).isEmpty();

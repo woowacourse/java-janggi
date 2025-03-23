@@ -171,7 +171,7 @@ class PoTest {
             Po po = new Po(Team.HAN);
 
             // when
-            Set<Coordinate> paths = po.findPaths(new Coordinate(5, 5), new Coordinate(5, 1));
+            final var paths = po.findPaths(new Coordinate(5, 5), new Coordinate(5, 1));
 
             // then
             assertThat(paths).containsOnly(
@@ -187,7 +187,7 @@ class PoTest {
             Po po = new Po(Team.HAN);
 
             // when
-            Set<Coordinate> paths = po.findPaths(new Coordinate(5, 5), new Coordinate(5, 10));
+            final var paths = po.findPaths(new Coordinate(5, 5), new Coordinate(5, 10));
 
             // then
             assertThat(paths).containsOnly(
@@ -204,7 +204,7 @@ class PoTest {
             Po po = new Po(Team.HAN);
 
             // when
-            Set<Coordinate> paths = po.findPaths(new Coordinate(5, 5), new Coordinate(1, 5));
+            final var paths = po.findPaths(new Coordinate(5, 5), new Coordinate(1, 5));
 
             // then
             assertThat(paths).containsOnly(
@@ -220,7 +220,7 @@ class PoTest {
             Po po = new Po(Team.HAN);
 
             // when
-            Set<Coordinate> paths = po.findPaths(new Coordinate(5, 5), new Coordinate(9, 5));
+            final var paths = po.findPaths(new Coordinate(5, 5), new Coordinate(9, 5));
 
             // then
             assertThat(paths).containsOnly(

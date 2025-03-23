@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.Coordinate;
 import domain.Team;
-import domain.board.Board;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,29 +17,22 @@ public class Sang extends Piece {
     @Override
     protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
         return Stream.of(
-                        departure.pickChangedCoordinate(2, -3), // 상우
-                        departure.pickChangedCoordinate(2, 3), // 하우
-                        departure.pickChangedCoordinate(-2, -3), //상좌
-                        departure.pickChangedCoordinate(-2, 3), //하좌
-                        departure.pickChangedCoordinate(3, -2), // 우상
-                        departure.pickChangedCoordinate(3, 2), //우하
-                        departure.pickChangedCoordinate(-3, -2), //좌상
-                        departure.pickChangedCoordinate(-3, 2) //좌하
-                )
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(Collectors.toSet());
+                departure.pickChangedCoordinate(2, -3), // 상우
+                departure.pickChangedCoordinate(2, 3), // 하우
+                departure.pickChangedCoordinate(-2, -3), //상좌
+                departure.pickChangedCoordinate(-2, 3), //하좌
+                departure.pickChangedCoordinate(3, -2), // 우상
+                departure.pickChangedCoordinate(3, 2), //우하
+                departure.pickChangedCoordinate(-3, -2), //좌상
+                departure.pickChangedCoordinate(-3, 2) //좌하
+            )
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.toSet());
     }
 
     @Override
-    protected boolean canMoveConsideringObstacles(Board board, Coordinate departure, Coordinate arrival) {
-        return findPaths(departure, arrival)
-                .stream()
-                .noneMatch(board::isExistence);
-    }
-
-    @Override
-    protected Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
+    protected List<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
         int dx = arrival.getX() - departure.getX();
         int dy = arrival.getY() - departure.getY();
 
@@ -47,39 +40,39 @@ public class Sang extends Piece {
             //좌우시작
             if (dx < 0 && dy < 0) {
                 //좌상
-                return Set.of(departure.pickChangedCoordinate(-1, 0).get(),
-                        departure.pickChangedCoordinate(-2, -1).get());
+                return List.of(departure.pickChangedCoordinate(-1, 0).get(),
+                    departure.pickChangedCoordinate(-2, -1).get());
             } else if (dx < 0 && dy > 0) {
                 //좌하
-                return Set.of(departure.pickChangedCoordinate(-1, 0).get(),
-                        departure.pickChangedCoordinate(-2, 1).get());
+                return List.of(departure.pickChangedCoordinate(-1, 0).get(),
+                    departure.pickChangedCoordinate(-2, 1).get());
             } else if (dx > 0 && dy < 0) {
                 //우상
-                return Set.of(departure.pickChangedCoordinate(1, 0).get(),
-                        departure.pickChangedCoordinate(2, -1).get());
+                return List.of(departure.pickChangedCoordinate(1, 0).get(),
+                    departure.pickChangedCoordinate(2, -1).get());
             } else if (dx > 0 && dy > 0) {
                 //우하
-                return Set.of(departure.pickChangedCoordinate(1, 0).get(),
-                        departure.pickChangedCoordinate(2, 1).get());
+                return List.of(departure.pickChangedCoordinate(1, 0).get(),
+                    departure.pickChangedCoordinate(2, 1).get());
             }
         } else {
             //상하시작
             if (dx < 0 && dy < 0) {
                 //상좌
-                return Set.of(departure.pickChangedCoordinate(0, -1).get(),
-                        departure.pickChangedCoordinate(-1, -2).get());
+                return List.of(departure.pickChangedCoordinate(0, -1).get(),
+                    departure.pickChangedCoordinate(-1, -2).get());
             } else if (dx < 0 && dy > 0) {
                 //하좌
-                return Set.of(departure.pickChangedCoordinate(0, 1).get(),
-                        departure.pickChangedCoordinate(-1, 2).get());
+                return List.of(departure.pickChangedCoordinate(0, 1).get(),
+                    departure.pickChangedCoordinate(-1, 2).get());
             } else if (dx > 0 && dy < 0) {
                 //상우
-                return Set.of(departure.pickChangedCoordinate(0, -1).get(),
-                        departure.pickChangedCoordinate(1, -2).get());
+                return List.of(departure.pickChangedCoordinate(0, -1).get(),
+                    departure.pickChangedCoordinate(1, -2).get());
             } else if (dx > 0 && dy > 0) {
                 //하우
-                return Set.of(departure.pickChangedCoordinate(0, 1).get(),
-                        departure.pickChangedCoordinate(1, 2).get());
+                return List.of(departure.pickChangedCoordinate(0, 1).get(),
+                    departure.pickChangedCoordinate(1, 2).get());
             }
         }
         throw new IllegalStateException("유효하지 않은 좌표입니다.");

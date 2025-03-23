@@ -100,7 +100,7 @@ public class ChaTest {
             Cha cha = new Cha(Team.HAN);
 
             // when
-            Set<Coordinate> paths = cha.findPaths(new Coordinate(5, 5), new Coordinate(5, 1));
+            final var paths = cha.findPaths(new Coordinate(5, 5), new Coordinate(5, 1));
 
             // then
             assertThat(paths).containsOnly(
@@ -116,7 +116,7 @@ public class ChaTest {
             Cha cha = new Cha(Team.HAN);
 
             // when
-            Set<Coordinate> paths = cha.findPaths(new Coordinate(5, 5), new Coordinate(5, 10));
+            final var paths = cha.findPaths(new Coordinate(5, 5), new Coordinate(5, 10));
 
             // then
             assertThat(paths).containsOnly(
@@ -133,7 +133,7 @@ public class ChaTest {
             Cha cha = new Cha(Team.HAN);
 
             // when
-            Set<Coordinate> paths = cha.findPaths(new Coordinate(5, 5), new Coordinate(1, 5));
+            final var paths = cha.findPaths(new Coordinate(5, 5), new Coordinate(1, 5));
 
             // then
             assertThat(paths).containsOnly(
@@ -149,7 +149,7 @@ public class ChaTest {
             Cha cha = new Cha(Team.HAN);
 
             // when
-            Set<Coordinate> paths = cha.findPaths(new Coordinate(5, 5), new Coordinate(9, 5));
+            final var paths = cha.findPaths(new Coordinate(5, 5), new Coordinate(9, 5));
 
             // then
             assertThat(paths).containsOnly(

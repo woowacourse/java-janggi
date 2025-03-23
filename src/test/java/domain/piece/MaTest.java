@@ -106,8 +106,8 @@ class MaTest {
             Ma ma = new Ma(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = ma.findPaths(new Coordinate(5, 5), new Coordinate(3, 4));
-            Set<Coordinate> path2 = ma.findPaths(new Coordinate(5, 5), new Coordinate(3, 6));
+            final var path1 = ma.findPaths(new Coordinate(5, 5), new Coordinate(3, 4));
+            final var path2 = ma.findPaths(new Coordinate(5, 5), new Coordinate(3, 6));
 
             // then
             assertThat(path1).containsOnly(new Coordinate(4, 5));
@@ -121,8 +121,8 @@ class MaTest {
             Ma ma = new Ma(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = ma.findPaths(new Coordinate(5, 5), new Coordinate(4, 3));
-            Set<Coordinate> path2 = ma.findPaths(new Coordinate(5, 5), new Coordinate(6, 3));
+            final var path1 = ma.findPaths(new Coordinate(5, 5), new Coordinate(4, 3));
+            final var path2 = ma.findPaths(new Coordinate(5, 5), new Coordinate(6, 3));
 
             // then
             assertThat(path1).containsOnly(new Coordinate(5, 4));
@@ -136,8 +136,8 @@ class MaTest {
             Ma ma = new Ma(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = ma.findPaths(new Coordinate(5, 5), new Coordinate(7, 4));
-            Set<Coordinate> path2 = ma.findPaths(new Coordinate(5, 5), new Coordinate(7, 6));
+            final var path1 = ma.findPaths(new Coordinate(5, 5), new Coordinate(7, 4));
+            final var path2 = ma.findPaths(new Coordinate(5, 5), new Coordinate(7, 6));
 
             // then
             assertThat(path1).containsOnly(new Coordinate(6, 5));
@@ -151,8 +151,8 @@ class MaTest {
             Ma ma = new Ma(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = ma.findPaths(new Coordinate(5, 5), new Coordinate(4, 7));
-            Set<Coordinate> path2 = ma.findPaths(new Coordinate(5, 5), new Coordinate(6, 7));
+            final var path1 = ma.findPaths(new Coordinate(5, 5), new Coordinate(4, 7));
+            final var path2 = ma.findPaths(new Coordinate(5, 5), new Coordinate(6, 7));
 
             // then
             assertThat(path1).containsOnly(new Coordinate(5, 6));

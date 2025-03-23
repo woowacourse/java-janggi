@@ -106,7 +106,7 @@ class SangTest {
             Sang sang = new Sang(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(2, 3));
+            final var path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(2, 3));
 
             // then
             assertThat(path1).containsOnly(
@@ -122,7 +122,7 @@ class SangTest {
             Sang sang = new Sang(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(2, 7));
+            final var path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(2, 7));
 
             // then
             assertThat(path1).containsOnly(
@@ -138,7 +138,7 @@ class SangTest {
             Sang sang = new Sang(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(3, 8));
+            final var path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(3, 8));
 
             // then
             assertThat(path1).containsOnly(
@@ -154,7 +154,7 @@ class SangTest {
             Sang sang = new Sang(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(7, 8));
+            final var path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(7, 8));
 
             // then
             assertThat(path1).containsOnly(
@@ -170,7 +170,7 @@ class SangTest {
             Sang sang = new Sang(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(8, 7));
+            final var path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(8, 7));
 
             // then
             assertThat(path1).containsOnly(
@@ -186,7 +186,7 @@ class SangTest {
             Sang sang = new Sang(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(8, 3));
+            final var path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(8, 3));
 
             // then
             assertThat(path1).containsOnly(
@@ -202,7 +202,7 @@ class SangTest {
             Sang sang = new Sang(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(7, 2));
+            final var path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(7, 2));
 
             // then
             assertThat(path1).containsOnly(
@@ -218,7 +218,7 @@ class SangTest {
             Sang sang = new Sang(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(3, 2));
+            final var path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(3, 2));
 
             // then
             assertThat(path1).containsOnly(

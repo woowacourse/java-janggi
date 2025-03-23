@@ -2,8 +2,8 @@ package domain.piece;
 
 import domain.Coordinate;
 import domain.Team;
-import domain.board.Board;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class Cha extends Piece {
@@ -18,18 +18,11 @@ public class Cha extends Piece {
     }
 
     @Override
-    protected boolean canMoveConsideringObstacles(Board board, Coordinate departure, Coordinate arrival) {
-        return findPaths(departure, arrival)
-                .stream()
-                .noneMatch(board::isExistence);
-    }
-
-    @Override
-    protected Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
+    protected List<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
         int dx = arrival.getX() - departure.getX();
         int dy = arrival.getY() - departure.getY();
 
-        Set<Coordinate> coordinates = new HashSet<>();
+        List<Coordinate> coordinates = new ArrayList<>();
         if (dx == 0 && dy > 0) { // 아래
             for (int y = departure.getY() + 1; y < arrival.getY(); y++) {
                 coordinates.add(new Coordinate(departure.getX(), y));
