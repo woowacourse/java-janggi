@@ -2,32 +2,47 @@ package view;
 
 import board.GameBoard;
 import direction.Point;
-import java.util.Optional;
 import piece.Piece;
 import piece.Pieces;
 
 public class OutputView {
 
-    public static void displayBoard(GameBoard gameBoard) {
+    private static final int ROW_START = 1;
+    private static final int ROW_END = 10;
+    private static final int COLUMN_START = 1;
+    private static final int COLUMN_END = 9;
+
+    public static void printBoard(final GameBoard gameBoard) {
         Pieces pieces = gameBoard.findAllPieces();
 
         System.out.println();
-        for (int i = 1; i <= 10; i++) {
-            for (int j = 1; j <= 9; j++) {
-                Point point = new Point(j, i);
-                Optional<Piece> findPiece = pieces.getPieces().stream()
-                        .filter(piece -> piece.getPosition().equals(point))
-                        .findAny();
-                if(findPiece.isEmpty()) {
-                    System.out.print(".");
-                    continue;
-                }
-                System.out.print(findPiece.get().getName());
-            }
-            System.out.println(" " + i);
-        }
+        printPiecesInBoard(pieces);
         System.out.println("123456789");
         System.out.println();
+    }
+
+    private static void printPiecesInBoard(Pieces pieces) {
+        for (int row = ROW_START; row <= ROW_END; row++) {
+            printPiecesInRow(row, pieces);
+            System.out.println(" " + row);
+        }
+    }
+
+    private static void printPiecesInRow(int row, Pieces pieces) {
+        for (int column = COLUMN_START; column <= COLUMN_END; column++) {
+            Point point = new Point(column, row);
+            printPieceInPosition(pieces, point);
+        }
+    }
+
+    private static void printPieceInPosition(final Pieces pieces, final Point point) {
+        if (pieces.isExistPieceIn(point)) {
+            Piece findPiece = pieces.findByPoint(point);
+            System.out.print(findPiece.getName());
+            return;
+        }
+
+        System.out.print(".");
     }
 
     public static void displayWrongPoint() {

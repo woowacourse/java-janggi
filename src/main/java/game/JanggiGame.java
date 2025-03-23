@@ -34,12 +34,12 @@ public class JanggiGame {
             validateBoardRange(end);
 
             player.move(gameBoard.findAllPieces(), start, end);
-            OutputView.displayBoard(gameBoard);
+            OutputView.printBoard(gameBoard);
         }
     }
 
     public void showInitialBoard() {
-        OutputView.displayBoard(gameBoard);
+        OutputView.printBoard(gameBoard);
     }
 
     private Point requestMoveStartPosition(Player player) {
@@ -62,10 +62,10 @@ public class JanggiGame {
     }
 
     private boolean isHorizontalOutOfRange(Point point) {
-        return point.x() < HORIZONTAL_START || point.x() > HORIZONTAL_END;
+        return point.column() < HORIZONTAL_START || point.column() > HORIZONTAL_END;
     }
 
     private boolean isVerticalOutOfRange(Point point) {
-        return point.y() < VERTICAL_START || point.y() > VERTICAL_END;
+        return point.row() < VERTICAL_START || point.row() > VERTICAL_END;
     }
 }
