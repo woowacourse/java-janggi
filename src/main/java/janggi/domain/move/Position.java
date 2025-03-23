@@ -61,7 +61,7 @@ public class Position {
         return LAST_COLUMN;
     }
 
-    public Optional<Position> calculateNextPosition(Vector vector) {
+    public Optional<Position> getValidNextPosition(Vector vector) {
         int newRow = this.row + vector.y();
         int newColumn = this.column + vector.x();
 

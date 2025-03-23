@@ -21,7 +21,7 @@ public final class Guard implements PieceBehavior {
     public Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
         return MOVEMENTS.stream()
                 .map(Movement::getVector)
-                .map(vector -> position.calculateNextPosition(vector.side(side)))
+                .map(vector -> position.getValidNextPosition(vector.side(side)))
                 .flatMap(Optional::stream)
                 .filter(availablePosition -> board.canMoveToPosition(side, availablePosition))
                 .collect(Collectors.toUnmodifiableSet());
