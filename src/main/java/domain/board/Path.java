@@ -1,11 +1,10 @@
-package domain;
+package domain.board;
 
 import static domain.board.Direction.DOWN;
 import static domain.board.Direction.LEFT;
 import static domain.board.Direction.RIGHT;
 import static domain.board.Direction.UP;
 
-import domain.board.Direction;
 import java.util.List;
 
 public enum Path {

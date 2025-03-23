@@ -1,8 +1,8 @@
 package domain.piece;
 
-import domain.Movement;
 import domain.board.Board;
 import domain.board.JumpingMovements;
+import domain.board.Movement;
 import domain.board.Point;
 import java.util.ArrayList;
 import java.util.List;

@@ -4,7 +4,7 @@ import domain.board.Board;
 import domain.board.BoardGenerator;
 import domain.board.Point;
 import domain.piece.Team;
-import domain.util.ErrorHandler;
+import util.ErrorHandler;
 import view.InputView;
 import view.MoveCommand;
 import view.OutputView;

@@ -5,7 +5,6 @@ import static domain.board.Direction.LEFT;
 import static domain.board.Direction.RIGHT;
 import static domain.board.Direction.UP;
 
-import domain.Path;
 import fixture.BoardFixture;
 import java.util.List;
 import java.util.Map;

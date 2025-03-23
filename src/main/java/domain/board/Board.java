@@ -1,6 +1,5 @@
 package domain.board;
 
-import domain.Path;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
