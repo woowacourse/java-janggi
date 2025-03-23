@@ -3,7 +3,7 @@ package domain.board;
 import domain.Team;
 import domain.pieces.Empty;
 import domain.pieces.Piece;
-import execptions.JanggiArgumentException;
+import execptions.JanggiGameRuleWarningException;
 import java.util.List;
 
 public record PieceOnRoute(List<Piece> pieces) {
@@ -40,7 +40,7 @@ public record PieceOnRoute(List<Piece> pieces) {
   public boolean canNotJumpOverFirstPiece() {
     return pieces.stream().filter(piece -> !piece.equals(emptyPiece))
         .findFirst()
-        .orElseThrow(() -> new JanggiArgumentException("기물이 없습니다."))
+        .orElseThrow(() -> new JanggiGameRuleWarningException("기물이 없습니다."))
         .canNotJumpOver();
   }
 }

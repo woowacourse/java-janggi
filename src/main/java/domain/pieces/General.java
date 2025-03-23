@@ -5,7 +5,7 @@ import static domain.pieces.PieceNames.GENERAL;
 import domain.Team;
 import domain.board.PieceOnRoute;
 import domain.board.Point;
-import execptions.JanggiArgumentException;
+import execptions.JanggiGameRuleWarningException;
 import java.util.List;
 
 public final class General implements Piece {
@@ -23,12 +23,12 @@ public final class General implements Piece {
 
   @Override
   public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
-    throw new JanggiArgumentException("장군은 이동할 수 없습니다.");
+    throw new JanggiGameRuleWarningException("장군은 이동할 수 없습니다.");
   }
 
   @Override
   public boolean isMovable(final PieceOnRoute pieceOnRoute) {
-    throw new JanggiArgumentException("장군은 이동할 수 없습니다.");
+    throw new JanggiGameRuleWarningException("장군은 이동할 수 없습니다.");
   }
 
   @Override
@@ -38,7 +38,7 @@ public final class General implements Piece {
 
   @Override
   public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
-    throw new JanggiArgumentException("장군은 이동할 수 없습니다.");
+    throw new JanggiGameRuleWarningException("장군은 이동할 수 없습니다.");
   }
 
   @Override

@@ -1,7 +1,7 @@
 package domain.movements;
 
 import domain.board.Point;
-import execptions.JanggiArgumentException;
+import execptions.JanggiGameRuleWarningException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,6 +39,6 @@ public final class EndlessMovement implements PieceMovement {
         return pointsOnRoute.subList(0, pointsOnRoute.indexOf(arrivalPoint) + 1);
       }
     }
-    throw new JanggiArgumentException("해당 위치로 이동할 수 없습니다.");
+    throw new JanggiGameRuleWarningException("해당 위치로 이동할 수 없습니다.");
   }
 }

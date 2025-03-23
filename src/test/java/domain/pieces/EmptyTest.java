@@ -1,7 +1,7 @@
 package domain.pieces;
 
 import domain.Team;
-import execptions.JanggiArgumentException;
+import execptions.JanggiGameRuleWarningException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -20,7 +20,7 @@ class EmptyTest {
       final Piece empty = Empty.getInstance();
       //when&then
       Assertions.assertThatThrownBy(() -> empty.hasEqualTeam(Team.HAN))
-          .isInstanceOf(JanggiArgumentException.class)
+          .isInstanceOf(JanggiGameRuleWarningException.class)
           .hasMessageContaining("기물이 없습니다.");
     }
   }

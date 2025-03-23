@@ -3,7 +3,7 @@ package domain.board;
 import domain.Team;
 import domain.pieces.Empty;
 import domain.pieces.Piece;
-import execptions.JanggiArgumentException;
+import execptions.JanggiGameRuleWarningException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,12 +32,12 @@ public final class Board {
       processMovement(startPoint, arrivalPoint, team);
       return;
     }
-    throw new JanggiArgumentException("보드의 범위 바깥입니다.");
+    throw new JanggiGameRuleWarningException("보드의 범위 바깥입니다.");
   }
 
   private void validate(final Map<Point, Piece> locations) {
     if (locations.size() != VALID_SIZE) {
-      throw new JanggiArgumentException("보드의 크기는 9x10 이어야 합니다.");
+      throw new JanggiGameRuleWarningException("보드의 크기는 9x10 이어야 합니다.");
     }
   }
 
@@ -62,16 +62,16 @@ public final class Board {
 
   private void checkStartPoint(final Piece pieceAtStartPoint, final Team team) {
     if (pieceAtStartPoint.equals(Empty.getInstance())) {
-      throw new JanggiArgumentException("출발점에 이동할 기물이 없습니다.");
+      throw new JanggiGameRuleWarningException("출발점에 이동할 기물이 없습니다.");
     }
     if (!pieceAtStartPoint.hasEqualTeam(team)) {
-      throw new JanggiArgumentException("아군 기물만 움직일 수 있습니다.");
+      throw new JanggiGameRuleWarningException("아군 기물만 움직일 수 있습니다.");
     }
   }
 
   private void checkPieceOnRoute(final Piece pieceAtStartPoint, final PieceOnRoute pieceOnRoute) {
     if (!pieceAtStartPoint.isMovable(pieceOnRoute)) {
-      throw new JanggiArgumentException("해당 경로로 이동할 수 없습니다.");
+      throw new JanggiGameRuleWarningException("해당 경로로 이동할 수 없습니다.");
     }
   }
 
@@ -81,7 +81,7 @@ public final class Board {
       final Piece pieceAtStartPoint
   ) {
     if (!pieceAtStartPoint.isAbleToArrive(startPoint, arrivalPoint)) {
-      throw new JanggiArgumentException("해당 기물이 도착할 수 없는 위치입니다.");
+      throw new JanggiGameRuleWarningException("해당 기물이 도착할 수 없는 위치입니다.");
     }
   }
 
