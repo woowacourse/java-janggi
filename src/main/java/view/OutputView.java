@@ -18,8 +18,8 @@ public class OutputView {
 
     public void printCurrBoard(JanggiBoard board) {
 
-        for (int row = board.BOUNDARY_START; row <= board.ROW_SIZE; row++) {
-            for (int col = board.BOUNDARY_START; col <= board.COL_SIZE; col++) {
+        for (int row = JanggiCoordinate.BOUNDARY_START; row <= JanggiCoordinate.ROW_SIZE; row++) {
+            for (int col = JanggiCoordinate.BOUNDARY_START; col <= JanggiCoordinate.COL_SIZE; col++) {
                 JanggiCoordinate coordinate = new JanggiCoordinate(row, col);
                 if (board.isOccupied(coordinate) && isCho(board, coordinate)) {
                     System.out.print(GREEN + board.findPieceByCoordinate(coordinate).getPieceType().getName() + RESET);

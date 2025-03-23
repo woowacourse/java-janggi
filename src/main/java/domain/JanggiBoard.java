@@ -5,21 +5,12 @@ import domain.piece.Piece;
 import java.util.Map;
 
 public class JanggiBoard {
-    public static final int ROW_SIZE = 10;
-    public static final int COL_SIZE = 9;
-    public static final int BOUNDARY_START = 1;
+
 
     private final Map<JanggiCoordinate, Piece> board;
 
     public JanggiBoard(Map<JanggiCoordinate, Piece> board) {
         this.board = board;
-    }
-
-    public boolean isOutOfBoundary(JanggiCoordinate coordinate) {
-        int row = coordinate.row();
-        int col = coordinate.col();
-
-        return row < BOUNDARY_START || row > ROW_SIZE || col < BOUNDARY_START || col > COL_SIZE;
     }
 
     public boolean isOccupied(JanggiCoordinate coordinate) {

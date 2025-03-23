@@ -10,12 +10,6 @@ public class Byeong extends Piece {
         super(country, PieceType.BYEONG);
     }
 
-    private void validateMoveCoordinate(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        if (board.isOutOfBoundary(from) || board.isOutOfBoundary(to)) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 좌표위치 입니다.");
-        }
-    }
-
     private void validateByeongMove(JanggiCoordinate from, JanggiCoordinate to) {
         if (super.getCountry() == Country.HAN) {
             validateHanMove(from, to);
@@ -46,7 +40,6 @@ public class Byeong extends Piece {
 
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateMoveCoordinate(board, from, to);
         validateByeongMove(from, to);
         validateTarget(board, to);
     }

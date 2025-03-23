@@ -18,32 +18,6 @@ class SangTest {
     @Nested
     class MaCoordinateTest {
 
-        @DisplayName("움직이려는 상의 시작 위치가 보드의 밖이면 에러를 반환한다.")
-        @Test
-        void validateMaFromCoordinate() {
-            Piece sang = new Sang(Country.HAN);
-            JanggiBoard board = new JanggiBoard(new HashMap<>());
-
-            JanggiCoordinate outOfBoard = new JanggiCoordinate(0, 0);
-            JanggiCoordinate inBoard = new JanggiCoordinate(5, 5);
-
-            assertThatThrownBy(() -> sang.validateMove(board, outOfBoard, inBoard))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @DisplayName("움직이려는 상의 도착 위치가 보드의 밖이면 에러를 반환한다.")
-        @Test
-        void validateMaToCoordinate() {
-            Piece sang = new Sang(Country.HAN);
-            JanggiBoard board = new JanggiBoard(new HashMap<>());
-
-            JanggiCoordinate inBoard = new JanggiCoordinate(-1, -1);
-            JanggiCoordinate outOfBoard = new JanggiCoordinate(5, 5);
-
-            assertThatThrownBy(() -> sang.validateMove(board, inBoard, outOfBoard))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
         @DisplayName("내 상은 내 기물을 잡으려고 할 수 없다.")
         @Test
         void validateTarget() {

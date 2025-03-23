@@ -8,12 +8,6 @@ public class Cha extends Piece implements LinearMove {
         super(country, PieceType.CHA);
     }
 
-    private void validateMoveCoordinate(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        if (board.isOutOfBoundary(from) || board.isOutOfBoundary(to)) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 좌표위치 입니다.");
-        }
-    }
-
     private void validateTarget(JanggiBoard board, JanggiCoordinate to) {
         if (board.isOccupied(to) && isSameCountry(board.findPieceByCoordinate(to))) {
             throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
@@ -75,7 +69,6 @@ public class Cha extends Piece implements LinearMove {
 
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateMoveCoordinate(board, from, to);
         validateLinearMove(board, from, to);
         validateTarget(board, to);
     }

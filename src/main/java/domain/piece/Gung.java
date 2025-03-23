@@ -14,19 +14,12 @@ public class Gung extends Piece {
 
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateMoveCoordinate(board, from, to);
         validateMaMoveStrategy(from, to);
         validateTarget(board, to);
     }
 
     private void validateMaMoveStrategy(JanggiCoordinate from, JanggiCoordinate to) {
         validateReachableCoordinate(from, to);
-    }
-
-    private void validateMoveCoordinate(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        if (board.isOutOfBoundary(from) || board.isOutOfBoundary(to)) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 좌표위치 입니다.");
-        }
     }
 
     private void validateTarget(JanggiBoard board, JanggiCoordinate to) {

@@ -4,8 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class JanggiCoordinateTest {
@@ -15,6 +18,26 @@ class JanggiCoordinateTest {
     @BeforeEach
     void initCoordinate() {
         coordinate = new JanggiCoordinate(5, 5);
+    }
+
+    @Nested
+    class CoordinateCreateTest {
+
+        @DisplayName("유효하지 않은 row의 경우 생성되지 않고 에러를 반환한다")
+        @ParameterizedTest
+        @ValueSource(ints = {-2, -1, 11, 12})
+        void coordinateCreateTest1(int row) {
+            assertThatThrownBy(() -> new JanggiCoordinate(row, 5))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @DisplayName("유효하지 않은 col의 경우 생성되지 않고 에러를 반환한다")
+        @ParameterizedTest
+        @ValueSource(ints = {-2, -1, 10, 11})
+        void coordinateCreateTest2(int col) {
+            assertThatThrownBy(() -> new JanggiCoordinate(5, col))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
     }
 
     @Nested

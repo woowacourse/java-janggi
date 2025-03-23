@@ -17,12 +17,6 @@ public class Pho extends Piece implements LinearMove {
         }
     }
 
-    private void validateMoveCoordinate(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        if (board.isOutOfBoundary(from) || board.isOutOfBoundary(to)) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 좌표위치 입니다.");
-        }
-    }
-
     private void validateRowCol(JanggiCoordinate from, JanggiCoordinate to) {
         if (!isSameRow(from, to) && !isSameCol(from, to)) {
             throw new IllegalArgumentException("[ERROR] 해당 위치로 이동할 수 없습니다.");
@@ -91,7 +85,6 @@ public class Pho extends Piece implements LinearMove {
 
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateMoveCoordinate(board, from, to);
         validateLinearMove(board, from, to);
         validateTarget(board, to);
     }

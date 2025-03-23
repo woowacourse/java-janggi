@@ -5,6 +5,7 @@ import domain.JanggiCoordinate;
 import java.util.Scanner;
 
 public class InputView {
+
     private static final int ROW_IDX = 0;
     private static final int COL_IDX = 1;
 
