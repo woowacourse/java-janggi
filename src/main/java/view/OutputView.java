@@ -13,6 +13,8 @@ import java.util.stream.IntStream;
 
 public class OutputView {
 
+    private static final String ERROR_PREFIX = "[ERROR] ";
+
     public void printBoard(Map<Position, Piece> pieces) {
         printColumnsInfo();
         printBoardInfo(pieces);
@@ -60,5 +62,9 @@ public class OutputView {
             return piece.getType().getDescription().toLowerCase();
         }
         return piece.getType().getDescription();
+    }
+
+    public void printError(String errorMessage) {
+        System.out.println(ERROR_PREFIX + errorMessage);
     }
 }

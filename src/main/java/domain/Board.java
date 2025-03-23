@@ -42,7 +42,7 @@ public class Board {
                 .filter(piece -> piece.isSameType(PieceType.KING))
                 .count();
 
-        return kingCount != GAME_RUNNING_KING_COUNT;
+        return kingCount == GAME_RUNNING_KING_COUNT;
     }
 
     public Piece findPieceByPosition(Position from) {

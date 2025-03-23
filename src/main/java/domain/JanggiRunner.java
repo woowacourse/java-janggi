@@ -37,14 +37,24 @@ public class JanggiRunner {
     private void executeGame(JanggiGame janggiGame) {
         TeamType nowTurn = TeamType.CHO;
         while (janggiGame.isInProgress()) {
+            nowTurn = playerTurn(janggiGame, nowTurn);
+        }
+    }
+
+    private TeamType playerTurn(JanggiGame janggiGame, TeamType nowTurn) {
+        try {
             Player nowPlayer = janggiGame.findPlayerByTeam(nowTurn);
             Position startPosition = inputView.getStartPosition(nowPlayer);
             Position endPosition = inputView.getEndPosition(nowPlayer);
             janggiGame.movePiece(startPosition, endPosition, nowTurn);
             outputView.printBoard(janggiGame.getAlivePieces());
-            nowTurn = findNextTurn(nowTurn);
+            return findNextTurn(nowTurn);
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
+            return playerTurn(janggiGame, nowTurn);
         }
     }
+
 
     private void showWinner(JanggiGame janggiGame) {
         Player winner = janggiGame.findWinner();
