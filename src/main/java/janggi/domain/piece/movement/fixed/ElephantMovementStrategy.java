@@ -8,13 +8,13 @@ import java.util.stream.Collectors;
 
 public class ElephantMovementStrategy implements FixedMovementStrategy {
 
-    private static final List<Vector> VERTICAL_MOVEMENT_PATTERNS = List.of(
+    private static final List<Vector> VERTICAL_MOVEMENT_VECTORS = List.of(
             new Vector(0, 1),
             new Vector(1, 2),
             new Vector(2, 3)
     );
 
-    private static final List<Vector> HORIZONTAL_MOVEMENT_PATTERNS = List.of(
+    private static final List<Vector> HORIZONTAL_MOVEMENT_VECTORS = List.of(
             new Vector(1, 0),
             new Vector(2, 1),
             new Vector(3, 2)
@@ -32,9 +32,9 @@ public class ElephantMovementStrategy implements FixedMovementStrategy {
 
     private Set<Position> findPathsToDestination(Position origin, Position destination) {
         if (isVerticalMove(origin, destination)) {
-            return findAllMovablePositions(origin, destination, VERTICAL_MOVEMENT_PATTERNS);
+            return findAllMovablePositions(origin, destination, VERTICAL_MOVEMENT_VECTORS);
         }
-        return findAllMovablePositions(origin, destination, HORIZONTAL_MOVEMENT_PATTERNS);
+        return findAllMovablePositions(origin, destination, HORIZONTAL_MOVEMENT_VECTORS);
     }
 
     private Set<Position> findAllMovablePositions(
@@ -49,10 +49,10 @@ public class ElephantMovementStrategy implements FixedMovementStrategy {
     }
 
     private boolean isVerticalMove(Position origin, Position destination) {
-        return VERTICAL_MOVEMENT_PATTERNS.getLast().hasRelativeOffsetFrom(origin, destination);
+        return VERTICAL_MOVEMENT_VECTORS.getLast().hasRelativeOffsetFrom(origin, destination);
     }
 
     private boolean isHorizontalMove(Position origin, Position destination) {
-        return HORIZONTAL_MOVEMENT_PATTERNS.getLast().hasRelativeOffsetFrom(origin, destination);
+        return HORIZONTAL_MOVEMENT_VECTORS.getLast().hasRelativeOffsetFrom(origin, destination);
     }
 }
