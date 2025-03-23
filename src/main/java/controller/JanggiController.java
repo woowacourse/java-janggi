@@ -1,8 +1,6 @@
 package controller;
 
 import domain.JanggiGame;
-import domain.Player;
-import domain.Position;
 import domain.boardgenerator.JanggiBoardGenerator;
 import java.util.List;
 import java.util.function.Supplier;
