@@ -11,6 +11,7 @@ import static direction.Direction.UP_RIGHT_DIAGONAL;
 
 import direction.Direction;
 import direction.Point;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import piece.Pieces;
@@ -51,14 +52,29 @@ public class ElephantMovement implements MovementRule {
         }
     }
 
-    private void validateExistPieceInPath(Pieces pieces, List<Direction> directions, Point checkPoint) {
-        if (checkExistPieceInPoint(pieces, directions, checkPoint)) {
-            throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
+    private void validateExistPieceInPath(Pieces pieces, List<Direction> directions, Point startPoint) {
+        List<Point> path = directionsToPath(directions, startPoint);
+
+        for (Point point : path) {
+            validateExistPieceInPoint(pieces, point);
         }
     }
 
-    private boolean checkExistPieceInPoint(Pieces pieces, List<Direction> directions, Point checkPoint) {
-        return directions.stream()
-                .anyMatch(direction -> pieces.isExistPieceIn(checkPoint.plus(direction.multiply(this.direction))));
+    private List<Point> directionsToPath(List<Direction> directions, Point checkPoint) {
+        List<Point> path = new ArrayList<>();
+        for (Direction direction : directions) {
+            Point nextDirection = direction.multiply(this.direction);
+            checkPoint = checkPoint.plus(nextDirection);
+
+            path.add(checkPoint);
+        }
+
+        return path;
+    }
+
+    private void validateExistPieceInPoint(Pieces pieces, Point point) {
+        if (pieces.isExistPieceIn(point)) {
+            throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
+        }
     }
 }
