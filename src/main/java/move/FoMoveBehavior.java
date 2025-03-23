@@ -15,11 +15,11 @@ public class FoMoveBehavior implements MoveBehavior {
 
     @Override
     public Route getLegalRoute(Position startPosition, Position endPosition, Team team) {
-        Position minPosition = Position.getMinPosition(startPosition, endPosition);
-        Position maxPosition = Position.getMaxPosition(startPosition, endPosition);
+        Position smallerPosition = startPosition.getSmallerPosition(endPosition);
+        Position biggerPosition = startPosition.getBiggerPosition(endPosition);
 
         List<Position> positions = new ArrayList<>();
-        return calculateLegalRoute(startPosition, endPosition, minPosition, maxPosition, positions);
+        return calculateLegalRoute(startPosition, endPosition, smallerPosition, biggerPosition, positions);
     }
 
     private Route calculateLegalRoute(Position startPosition, Position endPosition, Position minPosition,

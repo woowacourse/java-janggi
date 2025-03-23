@@ -31,16 +31,16 @@ public class Position {
         return (this.row + this.column) - (position.row + position.column) > 0;
     }
 
-    public static Position getMinPosition(Position position, Position otherPosition) {
-        if (position.isAbsoluteBigger(otherPosition)) {
+    public Position getSmallerPosition(Position otherPosition) {
+        if (this.isAbsoluteBigger(otherPosition)) {
             return otherPosition;
         }
-        return position;
+        return this;
     }
 
-    public static Position getMaxPosition(Position position, Position otherPosition) {
-        if (position.isAbsoluteBigger(otherPosition)) {
-            return position;
+    public Position getBiggerPosition(Position otherPosition) {
+        if (this.isAbsoluteBigger(otherPosition)) {
+            return this;
         }
         return otherPosition;
     }
