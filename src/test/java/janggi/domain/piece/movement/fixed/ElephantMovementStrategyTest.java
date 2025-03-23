@@ -534,28 +534,4 @@ class ElephantMovementStrategyTest {
         assertThat(ELEPHANT_MOVEMENT_STRATEGY.getAllPiecesOnPath(map, origin, destination)
                 .getValues()).containsExactlyInAnyOrderEntriesOf(expected.getValues());
     }
-//
-//    @ParameterizedTest
-//    @MethodSource("이동하고자_하는_경로에_다른_기물이_존재하면_이동할_수_없다_테스트_케이스")
-//    void 이동하고자_하는_경로에_다른_기물이_존재하면_이동할_수_없다(Elephant elephant, List<Piece> existingPieces, int x, int y) {
-//        assertThat(elephantMovement.isMoveablePath(existingPieces, new Position(x, y))).isFalse();
-//    }
-//
-//    @ParameterizedTest
-//    @MethodSource("이동하고자_하는_경로에_다른_기물이_존재하지_않으면_이동할_수_있다_테스트_케이스")
-//    void 이동하고자_하는_경로에_다른_기물이_존재하지_않으면_이동할_수_있다(Elephant elephant, List<Piece> existingPieces, int x, int y) {
-//        assertThat(elephantMovement.isMoveablePath(existingPieces, new Position(x, y))).isTrue();
-//    }
-//
-//    @ParameterizedTest
-//    @MethodSource("이동하고자_하는_위치에_적_기물이_있으면_이동할_수_있다_테스트_케이스")
-//    void 이동하고자_하는_위치에_적_기물이_있으면_이동할_수_있다(Elephant elephant, List<Piece> existingPieces, int x, int y) {
-//        assertThat(elephantMovement.isMoveablePath(existingPieces, new Position(x, y))).isTrue();
-//    }
-//
-//    @ParameterizedTest
-//    @MethodSource("이동하고자_하는_위치에_아군_기물이_있으면_이동할_수_없다_테스트_케이스")
-//    void 이동하고자_하는_위치에_아군_기물이_있으면_이동할_수_없다(Elephant elephant, List<Piece> existingPieces, int x, int y) {
-//        assertThat(elephantMovement.isMoveablePath(existingPieces, new Position(x, y))).isFalse();
-//    }
 }
