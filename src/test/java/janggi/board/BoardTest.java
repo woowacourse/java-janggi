@@ -22,11 +22,10 @@ class BoardTest {
     void board() {
         //given
         PieceInitializer pieceInitializer = new PieceInitializer();
-        List<Piece> han = pieceInitializer.hanInit();
-        List<Piece> cho = pieceInitializer.choInit();
+        List<Piece> pieces = pieceInitializer.generate();
 
         //when
-        Board board = new Board(han, cho);
+        Board board = new Board(pieces);
 
         //then
         assertThat(board.getJanggiBoard()).hasSize(32);
@@ -41,9 +40,7 @@ class BoardTest {
                 new Po(new PieceProfile("포", Nation.HAN), new Position(4, 2))
         );
 
-        List<Piece> pieces2 = List.of();
-
-        Board board = new Board(pieces, pieces2);
+        Board board = new Board(pieces);
 
         Position presentPosition = new Position(3, 2);
         Position futurePosition = new Position(5, 2);
@@ -62,9 +59,7 @@ class BoardTest {
                 new Byeong(new PieceProfile("병", Nation.HAN), new Position(3, 2))
         );
 
-        List<Piece> pieces2 = List.of();
-
-        Board board = new Board(pieces, pieces2);
+        Board board = new Board(pieces);
 
         Position presentPosition = new Position(3, 2);
         Position futurePosition = new Position(4, 2);
@@ -87,9 +82,7 @@ class BoardTest {
                 new Byeong(new PieceProfile("병", Nation.HAN), new Position(4, 2))
         );
 
-        List<Piece> pieces2 = List.of();
-
-        Board board = new Board(pieces, pieces2);
+        Board board = new Board(pieces);
 
         Position presentPosition = new Position(3, 2);
         Position futurePosition = new Position(5, 2);
@@ -112,9 +105,7 @@ class BoardTest {
                 new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 2))
         );
 
-        List<Piece> pieces2 = List.of();
-
-        Board board = new Board(pieces, pieces2);
+        Board board = new Board(pieces);
 
         Position presentPosition = new Position(3, 2);
         Position futurePosition = new Position(6, 2);
@@ -134,12 +125,10 @@ class BoardTest {
                 new Byeong(new PieceProfile("병", Nation.HAN), new Position(7, 2))
         );
 
-        List<Piece> pieces2 = List.of();
-
         Position presentPosition = new Position(4, 2);
         Position futurePosition = new Position(8, 2);
 
-        Board board = new Board(pieces, pieces2);
+        Board board = new Board(pieces);
 
         //when //then
         assertThatThrownBy(() -> board.checkObstacle(presentPosition, futurePosition))

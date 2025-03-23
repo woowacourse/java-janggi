@@ -34,7 +34,7 @@ public class JanggiGame {
 
     private Board setJanggiBoard() {
         PieceInitializer pieceInitializer = new PieceInitializer();
-        return new Board(pieceInitializer.hanInit(), pieceInitializer.choInit());
+        return new Board(pieceInitializer.generate());
     }
 
     private Position readPresentPosition() {

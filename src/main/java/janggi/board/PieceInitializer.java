@@ -17,7 +17,7 @@ import java.util.List;
 
 public class PieceInitializer {
 
-    public List<Piece> hanInit() {
+    public List<Piece> generate() {
         List<Piece> pieces = new ArrayList<>();
 
         pieces.add(new Cha(new PieceProfile("차", Nation.HAN), new Position(0, 0)));
@@ -42,12 +42,6 @@ public class PieceInitializer {
         pieces.add(new Byeong(new PieceProfile("병", Nation.HAN), new Position(3, 4)));
         pieces.add(new Byeong(new PieceProfile("병", Nation.HAN), new Position(3, 6)));
         pieces.add(new Byeong(new PieceProfile("병", Nation.HAN), new Position(3, 8)));
-
-        return pieces;
-    }
-
-    public List<Piece> choInit() {
-        List<Piece> pieces = new ArrayList<>();
 
         pieces.add(new Cha(new PieceProfile("차", Nation.CHO), new Position(9, 0)));
         pieces.add(new Cha(new PieceProfile("차", Nation.CHO), new Position(9, 8)));
@@ -74,4 +68,5 @@ public class PieceInitializer {
 
         return pieces;
     }
+
 }

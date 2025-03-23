@@ -7,18 +7,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Board {
 
     private final Map<Position, Piece> janggiBoard = new HashMap<>();
 
-    public Board(List<Piece> han, List<Piece> cho) {
+    public Board(List<Piece> pieces) {
         janggiBoard.putAll(
-                Stream.concat(han.stream(), cho.stream())
-                        .collect(Collectors.toMap(Piece::getBoardPosition, piece -> piece))
-        );
+                pieces.stream()
+                        .collect((Collectors.toMap(Piece::getBoardPosition, piece -> piece))
+                        ));
     }
+
 
     public void updateBoard(final Position presentPosition, final Position futurePosition) {
         Piece piece = janggiBoard.get(presentPosition);

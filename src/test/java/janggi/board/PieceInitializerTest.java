@@ -9,29 +9,16 @@ import org.junit.jupiter.api.Test;
 
 class PieceInitializerTest {
 
-    @DisplayName("초나라 기물의 위치를 초기화 할 수 있다.")
+    @DisplayName("게임에 필요한 32개의 기물을 생성한다.")
     @Test
-    void choInit() {
+    void generate() {
         //given
         PieceInitializer pieceInitializer = new PieceInitializer();
 
         //when
-        List<Piece> actual = pieceInitializer.choInit();
+        List<Piece> actual = pieceInitializer.generate();
 
         //then
-        assertThat(actual).hasSize(16);
-    }
-
-    @DisplayName("한나라 기물의 위치를 초기화 할 수 있다.")
-    @Test
-    void hanInit() {
-        //given
-        PieceInitializer pieceInitializer = new PieceInitializer();
-
-        //when
-        List<Piece> actual = pieceInitializer.hanInit();
-
-        //then
-        assertThat(actual).hasSize(16);
+        assertThat(actual).hasSize(32);
     }
 }
