@@ -1,8 +1,15 @@
 package model;
 
+import static model.Movement.LEFT;
+import static model.Movement.RIGHT;
+import static model.Movement.UP;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Jol extends Piece {
+
+    private final List<Movement> movements = List.of(UP, LEFT, RIGHT);
 
     public Jol() {
         super(Team.GREEN);
@@ -15,15 +22,27 @@ public class Jol extends Piece {
 
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        List<List<Position>> allDirections = List.of(
-            departure.findUpDirection(arrival),
-            departure.findLeftDirection(arrival),
-            departure.findRightDirection(arrival));
+        List<Position> temporaryPosition = new ArrayList<>();
+        calculatePositionOfMovement(departure, temporaryPosition);
+        return findArrivalDirection(arrival, temporaryPosition);
+    }
 
-        return allDirections.stream()
-            .filter(direction -> !direction.isEmpty())
+    private void calculatePositionOfMovement(Position departure, List<Position> temporaryPosition) {
+        for (Movement movement : movements) {
+            if (!departure.canMove(movement)) {
+                continue;
+            }
+            temporaryPosition.add(departure.move(movement));
+        }
+    }
+
+    private List<Position> findArrivalDirection(Position arrival,
+        List<Position> temporaryPosition) {
+        return temporaryPosition.stream()
+            .filter(position -> position.equals(arrival))
             .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("해당 위치로는 이동할 수 없습니다."));
+            .map(List::of)
+            .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."));
     }
 
     @Override
