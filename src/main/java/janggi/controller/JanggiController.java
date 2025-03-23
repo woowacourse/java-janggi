@@ -4,19 +4,11 @@ import janggi.domain.Board;
 import janggi.domain.JanggiGame;
 import janggi.domain.Player;
 import janggi.domain.Position;
+import janggi.domain.SetupType;
 import janggi.domain.Team;
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Chariot;
-import janggi.domain.piece.Elephant;
-import janggi.domain.piece.General;
-import janggi.domain.piece.Guard;
-import janggi.domain.piece.Horse;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.Soldier;
+import janggi.domain.piece.Pieces;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -54,17 +46,10 @@ public class JanggiController {
     }
 
     private Board initiateBoard() {
-        List<Piece> pieces = new ArrayList<>();
-        for (Team team : Team.values()) {
-            pieces.add(General.Default(team));
-            pieces.addAll(Guard.Default(team));
-            pieces.addAll(Soldier.Default(team));
-            pieces.addAll(Horse.Default(team));
-            pieces.addAll(Elephant.Default(team));
-            pieces.addAll(Chariot.Default(team));
-            pieces.addAll(Cannon.Default(team));
-        }
-        return Board.initialize(pieces);
+        SetupType redSetupType = inputView.readSetupType(Team.RED);
+        SetupType greenSetupType = inputView.readSetupType(Team.GREEN);
+        Pieces pieces = Pieces.createPieces(redSetupType, greenSetupType);
+        return Board.initialize(pieces.getPieces());
     }
 
     private Player createPlayer(Team team) {
