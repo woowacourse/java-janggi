@@ -37,10 +37,10 @@ public class Pieces {
     }
 
     private boolean isValidCannonRoute(Route route) {
-        return countPiecesInRoute(route) == REQUIRED_JUMP_PIECES_FOR_CANNON;
+        return countJumpablePiecesInRoute(route) == REQUIRED_JUMP_PIECES_FOR_CANNON;
     }
 
-    private int countPiecesInRoute(Route route) {
+    private int countJumpablePiecesInRoute(Route route) {
         long cannonOrDestinationCount = pieces.stream()
                 .filter(route::hasPosition)
                 .filter(currentPiece -> currentPiece.isCannon() || route.isDestination(currentPiece))
