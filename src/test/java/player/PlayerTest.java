@@ -1,7 +1,7 @@
 package player;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static player.Nation.CHO;
 import static player.Nation.HAN;
 
@@ -72,6 +72,17 @@ class PlayerTest {
 
         //then
         assertThat(player.getPieces().getPieces().contains(new Janggun(new Position(5, 5)))).isFalse();
+    }
+
+    @DisplayName("같은 국가 판단 테스트")
+    @Test
+    void isSameNationTest() {
+        //given
+        Player player = new Player(new Pieces(List.of()), HAN);
+
+        //when-then
+        assertThat(player.isSameNation(HAN)).isTrue();
+        assertThat(player.isSameNation(CHO)).isFalse();
     }
 
 }
