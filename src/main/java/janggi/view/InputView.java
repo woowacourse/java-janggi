@@ -1,7 +1,7 @@
 package janggi.view;
 
+import janggi.position.Position;
 import java.util.Scanner;
-import janggi.position.BoardPosition;
 
 public class InputView {
 
@@ -12,7 +12,7 @@ public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public BoardPosition readPresentPosition() {
+    public Position readPresentPosition() {
         System.out.println("초나라 턴 입니다. 움직이고 싶은 말의 위치를 좌표로 입력해주세요.(좌표는 쉼표(,) 기준으로 구분)");
 
         String inputPosition = readLine().trim();
@@ -20,10 +20,10 @@ public class InputView {
         String[] splitPosition = inputSplit(inputPosition);
         validatePositionSize(splitPosition);
 
-        return new BoardPosition(parseInt(splitPosition[DX]), parseInt(splitPosition[DY]));
+        return new Position(parseInt(splitPosition[DX]), parseInt(splitPosition[DY]));
     }
 
-    public BoardPosition readFuturePosition() {
+    public Position readFuturePosition() {
         System.out.println("해당 말을 이동시킬 위치를 좌표로 입력해 주세요.(좌표는 쉼표(,) 기준으로 구분)");
 
         String inputPosition = readLine().trim();
@@ -31,7 +31,7 @@ public class InputView {
         String[] splitPosition = inputSplit(inputPosition);
         validatePositionSize(splitPosition);
 
-        return new BoardPosition(parseInt(splitPosition[DX]), parseInt(splitPosition[DY]));
+        return new Position(parseInt(splitPosition[DX]), parseInt(splitPosition[DY]));
     }
 
     private void validatePositionSize(final String[] split) {

@@ -1,7 +1,7 @@
 package janggi.view;
 
 import janggi.piece.Piece;
-import janggi.position.BoardPosition;
+import janggi.position.Position;
 import java.util.Map;
 
 public class OutputView {
@@ -16,12 +16,12 @@ public class OutputView {
     private static final int BOARD_HEIGHT = 10;
     private static final String[][] JANGGI_BOARD_ARR = new String[BOARD_HEIGHT + 1][BOARD_WIDTH + 1];
 
-    public void printJanggiBoard(Map<BoardPosition, Piece> janggiBoard) {
+    public void printJanggiBoard(Map<Position, Piece> janggiBoard) {
         initializeJanggiBoard(janggiBoard);
         printFormattedJanggiBoard();
     }
 
-    private void initializeJanggiBoard(final Map<BoardPosition, Piece> janggiBoard) {
+    private void initializeJanggiBoard(final Map<Position, Piece> janggiBoard) {
         setBoardWithEmptySpaces();
         placeChessPieces(janggiBoard);
         setBoardLabels();
@@ -35,12 +35,12 @@ public class OutputView {
         }
     }
 
-    private void placeChessPieces(final Map<BoardPosition, Piece> janggiBoard) {
-        for (BoardPosition boardPosition : janggiBoard.keySet()) {
-            int row = boardPosition.getRow() + 1;
-            int col = boardPosition.getCol() + 1;
+    private void placeChessPieces(final Map<Position, Piece> janggiBoard) {
+        for (Position position : janggiBoard.keySet()) {
+            int row = position.getRow() + 1;
+            int col = position.getCol() + 1;
 
-            String pieceName = getColoredPieceName(janggiBoard.get(boardPosition));
+            String pieceName = getColoredPieceName(janggiBoard.get(position));
             JANGGI_BOARD_ARR[row][col] = " | " + pieceName;
         }
     }

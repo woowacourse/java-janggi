@@ -1,18 +1,18 @@
 package janggi.piece;
 
-import janggi.position.BoardPosition;
+import janggi.position.Position;
 import java.util.List;
 
 public class Jol extends Piece {
 
-    public Jol(final PieceProfile pieceProfile, final BoardPosition boardPosition) {
-        super(pieceProfile, boardPosition);
+    public Jol(final PieceProfile pieceProfile, final Position position) {
+        super(pieceProfile, position);
     }
 
     @Override
-    public boolean isMove(final BoardPosition boardPosition) {
-        int dx = getBoardPosition().getRow() - boardPosition.getRow();
-        int dy = getBoardPosition().getCol() - boardPosition.getCol();
+    public boolean isMove(final Position position) {
+        int dx = getBoardPosition().getRow() - position.getRow();
+        int dy = getBoardPosition().getCol() - position.getCol();
 
         if (dx == 0 && Math.abs(dy) == 1 || dx == 1 && dy == 0) {
             return true;
@@ -21,12 +21,12 @@ public class Jol extends Piece {
     }
 
     @Override
-    public List<BoardPosition> makeRoute(final BoardPosition boardPosition) {
-        return List.of(boardPosition);
+    public List<Position> makeRoute(final Position position) {
+        return List.of(position);
     }
 
-    public void updateChessPiecePositionBy(BoardPosition boardPosition) {
-        this.boardPosition = boardPosition;
+    public void updateChessPiecePositionBy(Position position) {
+        this.position = position;
     }
 
 }

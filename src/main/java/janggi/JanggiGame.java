@@ -2,7 +2,7 @@ package janggi;
 
 import janggi.board.Board;
 import janggi.board.PieceInitializer;
-import janggi.position.BoardPosition;
+import janggi.position.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -22,8 +22,8 @@ public class JanggiGame {
             outputView.printJanggiBoard(board.getJanggiBoard());
 
             try {
-                BoardPosition presentPosition = readPresentPosition();
-                BoardPosition futurePosition = readFuturePosition();
+                Position presentPosition = readPresentPosition();
+                Position futurePosition = readFuturePosition();
                 board.updateBoard(presentPosition, futurePosition);
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
@@ -37,7 +37,7 @@ public class JanggiGame {
         return new Board(pieceInitializer.hanInit(), pieceInitializer.choInit());
     }
 
-    private BoardPosition readPresentPosition() {
+    private Position readPresentPosition() {
         while (true) {
             try {
                 return inputView.readPresentPosition();
@@ -47,7 +47,7 @@ public class JanggiGame {
         }
     }
 
-    private BoardPosition readFuturePosition() {
+    private Position readFuturePosition() {
         while (true) {
             try {
                 return inputView.readFuturePosition();

@@ -3,7 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.position.BoardPosition;
+import janggi.position.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -18,23 +18,23 @@ class PoTest {
     @Test
     void poBoardPosition() {
         //given
-        BoardPosition boardPosition = new BoardPosition(4, 5);
+        Position position = new Position(4, 5);
 
         //when
-        Po po = new Po(new PieceProfile("포", Nation.HAN), boardPosition);
+        Po po = new Po(new PieceProfile("포", Nation.HAN), position);
 
         //then
-        assertThat(po.getBoardPosition()).isEqualTo(new BoardPosition(4, 5));
+        assertThat(po.getBoardPosition()).isEqualTo(new Position(4, 5));
     }
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @Test
     void nonIsMove() {
         //given
-        Po po = new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(0, 0));
+        Po po = new Po(new PieceProfile("포", Nation.HAN), new Position(0, 0));
 
         //when //then
-        assertThatThrownBy(() -> po.isMove(new BoardPosition(1, 1)))
+        assertThatThrownBy(() -> po.isMove(new Position(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -42,12 +42,12 @@ class PoTest {
     @DisplayName("포는 움직임을 자신의 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 true를 반환한다.")
     @ParameterizedTest
     @MethodSource("poIsMovePositionProvider")
-    void isMove(BoardPosition boardPosition) {
+    void isMove(Position position) {
         //given
-        Po po = new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(0, 0));
+        Po po = new Po(new PieceProfile("포", Nation.HAN), new Position(0, 0));
 
         //when
-        boolean actual = po.isMove(boardPosition);
+        boolean actual = po.isMove(position);
 
         //then
         assertThat(actual).isTrue();
@@ -57,26 +57,26 @@ class PoTest {
     @Test
     void makeRoute() {
         //given
-        Po po = new Po(new PieceProfile("포", Nation.HAN), new BoardPosition(0, 0));
-        BoardPosition futurePosition = new BoardPosition(5, 0);
+        Po po = new Po(new PieceProfile("포", Nation.HAN), new Position(0, 0));
+        Position futurePosition = new Position(5, 0);
 
         //when
-        List<BoardPosition> actual = po.makeRoute(futurePosition);
+        List<Position> actual = po.makeRoute(futurePosition);
 
         //then
         assertThat(actual).containsExactly(
-                new BoardPosition(1, 0),
-                new BoardPosition(2, 0),
-                new BoardPosition(3, 0),
-                new BoardPosition(4, 0),
-                new BoardPosition(5, 0)
+                new Position(1, 0),
+                new Position(2, 0),
+                new Position(3, 0),
+                new Position(4, 0),
+                new Position(5, 0)
         );
     }
 
     private static Stream<Arguments> poIsMovePositionProvider() {
         return Stream.of(
-                Arguments.of(new BoardPosition(0, 1)),
-                Arguments.of(new BoardPosition(1, 0))
+                Arguments.of(new Position(0, 1)),
+                Arguments.of(new Position(1, 0))
         );
     }
 

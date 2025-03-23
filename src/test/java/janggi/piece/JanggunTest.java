@@ -3,7 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.position.BoardPosition;
+import janggi.position.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -18,24 +18,24 @@ class JanggunTest {
     @Test
     void janggunBoardPosition() {
         //given
-        BoardPosition boardPosition = new BoardPosition(4, 5);
+        Position position = new Position(4, 5);
 
         //when
-        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), boardPosition);
+        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), position);
 
         //then
-        assertThat(janggun.getBoardPosition()).isEqualTo(new BoardPosition(4, 5));
+        assertThat(janggun.getBoardPosition()).isEqualTo(new Position(4, 5));
     }
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
     @MethodSource("JanggunNonIsMovePositionProvider")
-    void isMoveValidate(BoardPosition boardPosition) {
+    void isMoveValidate(Position position) {
         //given
-        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new BoardPosition(5, 5));
+        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new Position(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> janggun.isMove(boardPosition))
+        assertThatThrownBy(() -> janggun.isMove(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -43,12 +43,12 @@ class JanggunTest {
     @DisplayName("왕은 상하좌우 한칸을 움직일 수 있다면 true를 반환한다.")
     @ParameterizedTest
     @MethodSource("janggunIsMovePositionProvider")
-    void isMove(BoardPosition boardPosition) {
+    void isMove(Position position) {
         //given
-        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new BoardPosition(5, 5));
+        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new Position(5, 5));
 
         //when
-        boolean actual = janggun.isMove(boardPosition);
+        boolean actual = janggun.isMove(position);
 
         //then
         assertThat(actual).isTrue();
@@ -58,11 +58,11 @@ class JanggunTest {
     @Test
     void makeRoute() {
         //given
-        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new BoardPosition(5, 5));
-        BoardPosition futurePosition = new BoardPosition(4, 5);
+        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new Position(5, 5));
+        Position futurePosition = new Position(4, 5);
 
         //when
-        List<BoardPosition> actual = janggun.makeRoute(futurePosition);
+        List<Position> actual = janggun.makeRoute(futurePosition);
 
         //then
         assertThat(actual.contains(futurePosition)).isTrue();
@@ -70,23 +70,23 @@ class JanggunTest {
 
     private static Stream<Arguments> JanggunNonIsMovePositionProvider() {
         return Stream.of(
-                Arguments.of(new BoardPosition(7, 5)),
-                Arguments.of(new BoardPosition(3, 5)),
-                Arguments.of(new BoardPosition(5, 7)),
-                Arguments.of(new BoardPosition(5, 3)),
-                Arguments.of(new BoardPosition(6, 6)),
-                Arguments.of(new BoardPosition(4, 6)),
-                Arguments.of(new BoardPosition(6, 4)),
-                Arguments.of(new BoardPosition(4, 4))
+                Arguments.of(new Position(7, 5)),
+                Arguments.of(new Position(3, 5)),
+                Arguments.of(new Position(5, 7)),
+                Arguments.of(new Position(5, 3)),
+                Arguments.of(new Position(6, 6)),
+                Arguments.of(new Position(4, 6)),
+                Arguments.of(new Position(6, 4)),
+                Arguments.of(new Position(4, 4))
         );
     }
 
     private static Stream<Arguments> janggunIsMovePositionProvider() {
         return Stream.of(
-                Arguments.of(new BoardPosition(6, 5)),
-                Arguments.of(new BoardPosition(5, 6)),
-                Arguments.of(new BoardPosition(5, 4)),
-                Arguments.of(new BoardPosition(4, 5))
+                Arguments.of(new Position(6, 5)),
+                Arguments.of(new Position(5, 6)),
+                Arguments.of(new Position(5, 4)),
+                Arguments.of(new Position(4, 5))
         );
     }
 }

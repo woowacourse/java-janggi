@@ -3,7 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.position.BoardPosition;
+import janggi.position.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -17,10 +17,10 @@ class ByeongTest {
     @Test
     void byenogBoardPosition() {
         //given
-        BoardPosition boardPosition = new BoardPosition(0, 0);
+        Position position = new Position(0, 0);
 
         //when
-        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), boardPosition);
+        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), position);
 
         //then
         assertThat(byeong.getBoardPosition().getCol()).isEqualTo(0);
@@ -30,12 +30,12 @@ class ByeongTest {
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
     @ParameterizedTest
     @MethodSource("byeongNonIsMovePositionProvider")
-    void nonIsMove(BoardPosition boardPosition) {
+    void nonIsMove(Position position) {
         //given
-        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new BoardPosition(5, 5));
+        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
 
         //when
-        assertThatThrownBy(() -> byeong.isMove(boardPosition))
+        assertThatThrownBy(() -> byeong.isMove(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -43,12 +43,12 @@ class ByeongTest {
     @DisplayName("자신의 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동을 할 수 있다면 true를 반환한다.")
     @ParameterizedTest
     @MethodSource("byeongIsMovePositionProvider")
-    void isMove(BoardPosition boardPosition) {
+    void isMove(Position position) {
         //given
-        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new BoardPosition(5, 5));
+        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
 
         //when
-        boolean actual = byeong.isMove(boardPosition);
+        boolean actual = byeong.isMove(position);
 
         //then
         assertThat(actual).isTrue();
@@ -58,11 +58,11 @@ class ByeongTest {
     @Test
     void makeRoute() {
         //given
-        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new BoardPosition(5, 5));
-        BoardPosition futurePosition = new BoardPosition(4, 5);
+        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
+        Position futurePosition = new Position(4, 5);
 
         //when
-        List<BoardPosition> actual = byeong.makeRoute(futurePosition);
+        List<Position> actual = byeong.makeRoute(futurePosition);
 
         //then
         assertThat(actual.contains(futurePosition)).isTrue();
@@ -70,17 +70,17 @@ class ByeongTest {
 
     private static Stream<Arguments> byeongNonIsMovePositionProvider() {
         return Stream.of(
-                Arguments.of(new BoardPosition(4, 5)),
-                Arguments.of(new BoardPosition(6, 3)),
-                Arguments.of(new BoardPosition(6, 6))
+                Arguments.of(new Position(4, 5)),
+                Arguments.of(new Position(6, 3)),
+                Arguments.of(new Position(6, 6))
         );
     }
 
     private static Stream<Arguments> byeongIsMovePositionProvider() {
         return Stream.of(
-                Arguments.of(new BoardPosition(6, 5)),
-                Arguments.of(new BoardPosition(5, 6)),
-                Arguments.of(new BoardPosition(5, 4))
+                Arguments.of(new Position(6, 5)),
+                Arguments.of(new Position(5, 6)),
+                Arguments.of(new Position(5, 4))
         );
     }
 }
