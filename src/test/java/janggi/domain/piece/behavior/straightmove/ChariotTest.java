@@ -30,7 +30,8 @@ class ChariotTest {
         Set<Position> actual = chariot.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual).hasSize(17);
+        assertThat(actual).hasSize(17)
+                .contains(Position.of(1,1), Position.of(10,9));
     }
 
     @DisplayName("차 앞에 팀의 기물이 있다면 갈 수 없다.")

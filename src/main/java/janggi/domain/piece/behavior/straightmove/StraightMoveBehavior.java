@@ -14,11 +14,13 @@ public abstract class StraightMoveBehavior implements PieceBehavior {
     public final Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
         Set<Position> result = new HashSet<>();
         for (Vector vector : getVectors()) {
-            position.calculateNextPosition(vector)
-                    .ifPresent(movePosition ->
-                            searchAvailableMoves(result, board, movePosition, vector, side));
-        }
+            if (position.canNotMove(vector)) {
+                continue;
+            }
 
+            Position movePosition = position.moveToNextPosition(vector);
+            searchAvailableMoves(result, board, movePosition, vector, side);
+        }
         return result;
     }
 

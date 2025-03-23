@@ -40,4 +40,3 @@ public abstract class RotateMoveBehavior implements PieceBehavior {
                 .allMatch(currentPosition::canNotMove);
     }
 }
-

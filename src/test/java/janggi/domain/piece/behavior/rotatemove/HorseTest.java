@@ -3,8 +3,8 @@ package janggi.domain.piece.behavior.rotatemove;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Board;
-import janggi.domain.move.Position;
 import janggi.domain.Side;
+import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.behavior.Soldier;
 import java.util.HashMap;
@@ -30,7 +30,8 @@ class HorseTest {
         Set<Position> actual = horse.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual).hasSize(8);
+        assertThat(actual).hasSize(8).
+                contains(Position.of(1, 4), Position.of(2, 3));
     }
 
     @DisplayName("말 앞에 팀의 기물이 있다면 갈 수 없다.")

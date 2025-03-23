@@ -3,8 +3,8 @@ package janggi.domain.piece.behavior.straightmove;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Board;
-import janggi.domain.move.Position;
 import janggi.domain.Side;
+import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.behavior.Soldier;
 import java.util.HashMap;
@@ -33,7 +33,10 @@ class CannonTest {
         Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual).hasSize(4);
+        assertThat(actual).containsExactlyInAnyOrder(Position.of(4, 5),
+                Position.of(3, 5),
+                Position.of(2, 5),
+                Position.of(1, 5));
     }
 
     @DisplayName("기물을 넘어가고 같은 팀의 기물의 전까지 이동할 수 있다.")

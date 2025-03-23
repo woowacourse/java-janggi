@@ -3,8 +3,8 @@ package janggi.domain.piece.behavior.rotatemove;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Board;
-import janggi.domain.move.Position;
 import janggi.domain.Side;
+import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.behavior.Soldier;
 import java.util.HashMap;
@@ -32,7 +32,16 @@ class ElephantTest {
         Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
-        assertThat(actual).hasSize(8);
+        assertThat(actual).containsExactlyInAnyOrder(
+                Position.of(1, 3),
+                Position.of(2, 2),
+                Position.of(1, 7),
+                Position.of(2, 8),
+                Position.of(6, 2),
+                Position.of(7, 3),
+                Position.of(7, 7),
+                Position.of(6, 8)
+        );
     }
 
     @DisplayName("상 앞에 팀의 기물이 있다면 갈 수 없다.")
