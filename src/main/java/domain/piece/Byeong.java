@@ -2,27 +2,29 @@ package domain.piece;
 
 import domain.Coordinate;
 import domain.board.Board;
-import domain.piece.movement.ByeongMovement;
-import java.util.Arrays;
+import domain.piece.movement.Movement;
 import java.util.List;
 
 public class Byeong extends Piece {
+
+    private final List<Movement> movements = List.of(
+            Movement.UP, Movement.DOWN, Movement.RIGHT, Movement.LEFT);
+
     public Byeong(Country country) {
         super(country, PieceType.BYEONG);
     }
 
     @Override
-    public List<Coordinate> availableMovePositions(Coordinate currCoordinate,
-                                                   Board board) {
+    public List<Coordinate> availableMovePositions(Coordinate currCoordinate, Board board) {
         Country country = board.findCountryByCoordinate(currCoordinate);
-        return Arrays.stream(ByeongMovement.values())
-                .filter(byeongMovement -> {
+        return movements.stream()
+                .filter(movement -> {
                     if (country == Country.CHO) {
-                        return byeongMovement != ByeongMovement.DOWN;
+                        return movement != Movement.DOWN;
                     }
-                    return byeongMovement != ByeongMovement.UP;
+                    return movement != Movement.UP;
                 })
-                .map(byeongMovement -> movePosition(currCoordinate, byeongMovement.getDirection()))
+                .map(Movement -> movePosition(currCoordinate, Movement.getDirection()))
                 .filter(next -> !board.isOutOfBoundary(next) && !board.isMyTeam(currCoordinate, next))
                 .toList();
     }
