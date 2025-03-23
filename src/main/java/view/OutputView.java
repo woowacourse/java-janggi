@@ -17,11 +17,7 @@ public class OutputView {
     public static final String exit = "\u001B[0m";
 
     public void displayPlayerInfo(List<String> playerNames) {
-        System.out.println("┌───────────────────────────┐");
-        System.out.println("│        Korea Chase        │");
-        System.out.println("└───────────────────────────┘");
-        System.out.println();
-        System.out.printf("%s님의 팀은 청팀 입니다.\n %s님의 팀은 홍팀 입니다.\n", playerNames.getFirst(), playerNames.getLast());
+        System.out.printf("%n%s: 초나라%n%s: 한나라%n%n", playerNames.getFirst(), playerNames.getLast());
     }
 
     public void printJanggiBoard(Map<Position, Piece> board) {
