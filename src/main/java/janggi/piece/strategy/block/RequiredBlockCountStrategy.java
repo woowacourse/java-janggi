@@ -1,8 +1,8 @@
 package janggi.piece.strategy.block;
 
 import janggi.Board;
-import janggi.Position;
-import janggi.Route;
+import janggi.coordinate.Position;
+import janggi.coordinate.Route;
 
 public class RequiredBlockCountStrategy implements BlockStrategy {
 
@@ -23,7 +23,7 @@ public class RequiredBlockCountStrategy implements BlockStrategy {
     }
 
     private int countPieceInRoute(Board board, Position departure, Position destination) {
-        return (int) Route.of(departure, destination).stream()
+        return (int) Route.of(departure, destination).calculate().stream()
                 .filter(board::isExists)
                 .count();
     }
