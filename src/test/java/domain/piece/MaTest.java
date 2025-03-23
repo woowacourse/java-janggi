@@ -4,11 +4,12 @@ import domain.board.Board;
 import domain.board.Node;
 import domain.board.Point;
 import fixture.BoardFixture;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("마 테스트")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -19,7 +20,7 @@ class MaTest {
         // given
         Piece piece = new Ma(Team.CHO);
         // when & then
-        Assertions.assertThat(piece.type()).isEqualTo(PieceType.MA);
+        assertThat(piece.type()).isEqualTo(PieceType.MA);
     }
 
     @Test
@@ -44,7 +45,7 @@ class MaTest {
         final boolean actual = ma.canMove(sourceNode, destinationNode, board);
 
         // then
-        Assertions.assertThat(actual).isFalse();
+        assertThat(actual).isFalse();
     }
 
     @Test
@@ -67,7 +68,7 @@ class MaTest {
         final boolean actual = ma.canMove(sourceNode, destinationNode, board);
 
         // then
-        Assertions.assertThat(actual).isFalse();
+        assertThat(actual).isFalse();
     }
 
     @Test
@@ -89,7 +90,7 @@ class MaTest {
         final boolean actual = ma.canMove(sourceNode, destinationNode, board);
 
         // then
-        Assertions.assertThat(actual).isTrue();
+        assertThat(actual).isTrue();
     }
 
     @Test
@@ -112,6 +113,6 @@ class MaTest {
         final boolean actual = ma.canMove(sourceNode, destinationNode, board);
 
         // then
-        Assertions.assertThat(actual).isTrue();
+        assertThat(actual).isTrue();
     }
 }

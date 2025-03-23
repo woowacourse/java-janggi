@@ -2,13 +2,15 @@ package domain.board;
 
 import domain.Directions;
 import fixture.BoardFixture;
-import java.util.List;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("노드 테스트")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -29,7 +31,7 @@ class NodeTest {
             final boolean actual = node.hasEdgeByDirection(Direction.UP);
 
             // then
-            Assertions.assertThat(actual).isTrue();
+            assertThat(actual).isTrue();
         }
 
         @Test
@@ -43,7 +45,7 @@ class NodeTest {
             final boolean actual = node.hasEdgeByDirection(Direction.LEFT);
 
             // then
-            Assertions.assertThat(actual).isFalse();
+            assertThat(actual).isFalse();
         }
 
         @Test
@@ -58,7 +60,7 @@ class NodeTest {
             final boolean actual = node.canMoveByPath(directions);
 
             // then
-            Assertions.assertThat(actual).isTrue();
+            assertThat(actual).isTrue();
         }
 
         @Test
@@ -73,7 +75,7 @@ class NodeTest {
             final boolean actual = node.canMoveByPath(directions);
 
             // then
-            Assertions.assertThat(actual).isFalse();
+            assertThat(actual).isFalse();
         }
     }
 }

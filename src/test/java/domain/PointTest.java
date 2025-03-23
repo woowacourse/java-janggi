@@ -1,12 +1,13 @@
 package domain;
 
 import domain.board.Point;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("포인트 테스트")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -18,7 +19,7 @@ class PointTest {
         // given
         final int column = 1;
         // when & then
-        Assertions.assertThatThrownBy(() -> Point.of(row, column))
+        assertThatThrownBy(() -> Point.of(row, column))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -28,7 +29,7 @@ class PointTest {
         // given
         final int row = 1;
         // when & then
-        Assertions.assertThatThrownBy(() -> Point.of(row, column))
+        assertThatThrownBy(() -> Point.of(row, column))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

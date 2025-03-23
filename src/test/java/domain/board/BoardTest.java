@@ -5,12 +5,14 @@ import domain.piece.PieceType;
 import domain.piece.Po;
 import domain.piece.Team;
 import fixture.BoardFixture;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("보드 테스트")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -32,7 +34,7 @@ class BoardTest {
             final boolean actual = board.existsPieceByNode(node);
 
             // then
-            Assertions.assertThat(actual).isTrue();
+            assertThat(actual).isTrue();
         }
 
         @Test
@@ -48,7 +50,7 @@ class BoardTest {
             final boolean actual = board.existsPieceByNode(otherNode);
 
             // then
-            Assertions.assertThat(actual).isFalse();
+            assertThat(actual).isFalse();
         }
 
         @Test
@@ -64,7 +66,7 @@ class BoardTest {
             final boolean actual = board.existsPieceByNode(node);
 
             // then
-            Assertions.assertThat(actual).isFalse();
+            assertThat(actual).isFalse();
         }
 
         @Test
@@ -80,7 +82,7 @@ class BoardTest {
             final boolean actual = board.hasPieceTeamByNode(node, team);
 
             // then
-            Assertions.assertThat(actual).isTrue();
+            assertThat(actual).isTrue();
         }
 
         @Test
@@ -97,7 +99,7 @@ class BoardTest {
             final boolean actual = board.hasPieceTeamByNode(node, team);
 
             // then
-            Assertions.assertThat(actual).isFalse();
+            assertThat(actual).isFalse();
         }
 
         @Test
@@ -115,7 +117,7 @@ class BoardTest {
             final boolean actual = board.hasPieceTypeByNode(node, pieceType);
 
             // then
-            Assertions.assertThat(actual).isTrue();
+            assertThat(actual).isTrue();
         }
 
         @Test
@@ -133,7 +135,7 @@ class BoardTest {
             final boolean actual = board.hasPieceTypeByNode(node, pieceType);
 
             // then
-            Assertions.assertThat(actual).isFalse();
+            assertThat(actual).isFalse();
         }
     }
 
@@ -149,7 +151,7 @@ class BoardTest {
             Board board = BoardFixture.createEmptyBoard();
 
             // when & then
-            Assertions.assertThatThrownBy(() -> board.findPieceByNode(node))
+            assertThatThrownBy(() -> board.findPieceByNode(node))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

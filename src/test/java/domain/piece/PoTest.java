@@ -4,11 +4,12 @@ import domain.board.Board;
 import domain.board.Node;
 import domain.board.Point;
 import fixture.BoardFixture;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("포 테스트")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -19,7 +20,7 @@ class PoTest {
         // given
         Piece piece = new Po(Team.CHO);
         // when & then
-        Assertions.assertThat(piece.type()).isEqualTo(PieceType.PO);
+        assertThat(piece.type()).isEqualTo(PieceType.PO);
     }
 
     @Test
@@ -46,7 +47,7 @@ class PoTest {
         final boolean actual = po.canMove(sourceNode, destinationNode, board);
 
         // then
-        Assertions.assertThat(actual).isFalse();
+        assertThat(actual).isFalse();
     }
 
     @Test
@@ -73,7 +74,7 @@ class PoTest {
         final boolean actual = po.canMove(sourceNode, destinationNode, board);
 
         // then
-        Assertions.assertThat(actual).isFalse();
+        assertThat(actual).isFalse();
     }
 
     @Test
@@ -101,7 +102,7 @@ class PoTest {
         final boolean actual = po.canMove(sourceNode, destinationNode, board);
 
         // then
-        Assertions.assertThat(actual).isFalse();
+        assertThat(actual).isFalse();
     }
 
     @Test
@@ -133,7 +134,7 @@ class PoTest {
         final boolean actual = po.canMove(sourceNode, destinationNode, board);
 
         // then
-        Assertions.assertThat(actual).isFalse();
+        assertThat(actual).isFalse();
     }
 
     @Test
@@ -160,7 +161,7 @@ class PoTest {
         final boolean actual = po.canMove(sourceNode, destinationNode, board);
 
         // then
-        Assertions.assertThat(actual).isTrue();
+        assertThat(actual).isTrue();
     }
 
     @Test
@@ -188,6 +189,6 @@ class PoTest {
         final boolean actual = po.canMove(sourceNode, destinationNode, board);
 
         // then
-        Assertions.assertThat(actual).isTrue();
+        assertThat(actual).isTrue();
     }
 }
