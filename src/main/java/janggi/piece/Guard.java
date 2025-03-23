@@ -10,15 +10,13 @@ public class Guard extends Piece {
     }
 
     @Override
-    public boolean canMove(Position start, Position end, Map<Position, Piece> board) {
+    public boolean canMove(final Position start, final Position end, final Map<Position, Piece> board) {
         return isValidMovingRule(start, end);
     }
 
-    private boolean isValidMovingRule(Position start, Position end) {
-        int differenceX = end.x() - start.x();
-        int differenceY = end.y() - start.y();
-        int absDifferenceX = Math.abs(differenceX);
-        int absDifferenceY = Math.abs(differenceY);
-        return (absDifferenceX == 1 && absDifferenceY == 0) || (absDifferenceX == 0 && absDifferenceY == 1);
+    private boolean isValidMovingRule(final Position start, final Position end) {
+        int absDeltaX = start.absDeltaX(end);
+        int absDeltaY = start.absDeltaY(end);
+        return (absDeltaX == 1 && absDeltaY == 0) || (absDeltaX == 0 && absDeltaY == 1);
     }
 }

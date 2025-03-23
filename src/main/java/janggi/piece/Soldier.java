@@ -10,20 +10,26 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public boolean canMove(Position start, Position end, Map<Position, Piece> board) {
+    public boolean canMove(final Position start, final Position end, final Map<Position, Piece> board) {
         return isValidMovingRule(start, end) && isValidDirection(start, end);
     }
 
     private boolean isValidMovingRule(final Position start, final Position end) {
-        int differenceY = end.y() - start.y();
-        int differenceX = end.x() - start.x();
-        int absDifferenceX = Math.abs(differenceX);
-        int absDifferenceY = Math.abs(differenceY);
-        return ((absDifferenceX == 1 && absDifferenceY == 0) || (absDifferenceX == 0 && absDifferenceY == 1));
+        int absDeltaX = start.absDeltaX(end);
+        int absDeltaY = start.absDeltaY(end);
+        return (absDeltaX == 1 && absDeltaY == 0) || (absDeltaX == 0 && absDeltaY == 1);
     }
 
-    private boolean isValidDirection(Position start, Position end) {
-        int differenceY = end.y() - start.y();
-        return (side == Side.RED && differenceY <= 0) || (side == Side.BLUE && differenceY >= 0);
+    private boolean isValidDirection(final Position start, final Position end) {
+        return (side == Side.RED && isValidRedSideDirection(start, end))
+                || (side == Side.BLUE && isValidBlueSideDirection(start, end));
+    }
+
+    private boolean isValidRedSideDirection(Position start, Position end) {
+        return start.isDown(end) || start.isHorizontalMove(end);
+    }
+
+    private boolean isValidBlueSideDirection(Position start, Position end) {
+        return start.isUp(end) || start.isHorizontalMove(end);
     }
 }

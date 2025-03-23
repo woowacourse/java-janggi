@@ -12,11 +12,11 @@ public class Tank extends Piece {
     }
 
     @Override
-    public boolean canMove(Position start, Position end, Map<Position, Piece> board) {
+    public boolean canMove(final Position start, final Position end, final Map<Position, Piece> board) {
         return isEmptyOnPath(board, findPath(start, end)) && isValidMovingRule(start, end);
     }
 
-    private boolean isEmptyOnPath(Map<Position, Piece> board, List<Position> path) {
+    private boolean isEmptyOnPath(final Map<Position, Piece> board, final List<Position> path) {
         return path.stream()
                 .noneMatch(board::containsKey);
     }
@@ -29,27 +29,23 @@ public class Tank extends Piece {
     }
 
     private List<Position> findHorizontalPath(final Position start, final Position end) {
-        int differenceX = end.x() - start.x();
-        int movingCount = Math.abs(differenceX);
-        if (differenceX > 0) {
-            return IntStream.range(1, movingCount)
+        if (start.deltaX(end) > 0) {
+            return IntStream.range(1, start.absDeltaX(end))
                     .mapToObj(start::right)
                     .toList();
         }
-        return IntStream.range(1, movingCount)
+        return IntStream.range(1, start.absDeltaX(end))
                 .mapToObj(start::left)
                 .toList();
     }
 
     private List<Position> findVerticalPath(final Position start, final Position end) {
-        int differenceY = end.y() - start.y();
-        int differenceYAmount = Math.abs(differenceY);
-        if (differenceY > 0) {
-            return IntStream.range(1, differenceYAmount)
+        if (start.deltaY(end) > 0) {
+            return IntStream.range(1, start.absDeltaY(end))
                     .mapToObj(start::up)
                     .toList();
         }
-        return IntStream.range(1, differenceYAmount)
+        return IntStream.range(1, start.absDeltaY(end))
                 .mapToObj(start::down)
                 .toList();
     }

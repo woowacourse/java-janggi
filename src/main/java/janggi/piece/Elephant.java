@@ -11,37 +11,35 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public boolean canMove(Position start, Position end, Map<Position, Piece> board) {
+    public boolean canMove(final Position start,final Position end,final Map<Position, Piece> board) {
         return isEmptyOnPath(board, findPath(start, end)) && isValidMovingRule(start, end);
     }
 
-    private boolean isEmptyOnPath(Map<Position, Piece> board, List<Position> path) {
+    private boolean isEmptyOnPath(final Map<Position, Piece> board,final List<Position> path) {
         return path.stream()
                 .noneMatch(board::containsKey);
     }
 
     private List<Position> findPath(final Position start, final Position end) {
-        int differenceX = end.x() - start.x();
-        int differenceY = end.y() - start.y();
-        Position firstStep = calculateFirstDirection(start, differenceX, differenceY);
-        Position secondStep = calculateSecondDirection(start, differenceX, differenceY);
+        int deltaX = start.deltaX(end);
+        int deltaY = start.deltaY(end);
+        Position firstStep = calculateFirstDirection(start, deltaX, deltaY);
+        Position secondStep = calculateSecondDirection(start, deltaX, deltaY);
         return List.of(firstStep, secondStep);
     }
 
     private boolean isValidMovingRule(final Position start, final Position end) {
-        int differenceX = end.x() - start.x();
-        int differenceY = end.y() - start.y();
-        int absDifferenceX = Math.abs(differenceX);
-        int absDifferenceY = Math.abs(differenceY);
-        return (absDifferenceX == 3 && absDifferenceY == 2) || (absDifferenceX == 2 && absDifferenceY == 3);
+        int absDeltaX = start.absDeltaX(end);
+        int absDeltaY = start.absDeltaY(end);
+        return (absDeltaX == 3 && absDeltaY == 2) || (absDeltaX == 2 && absDeltaY == 3);
     }
 
-    private Position calculateFirstDirection(final Position start, final int differenceX, final int differenceY) {
-        return start.offset(reduceByAmount(differenceX, 2), reduceByAmount(differenceY, 2));
+    private Position calculateFirstDirection(final Position start, final int deltaX, final int deltaY) {
+        return start.offset(reduceByAmount(deltaX, 2), reduceByAmount(deltaY, 2));
     }
 
-    private Position calculateSecondDirection(final Position start, final int differenceX, final int differenceY) {
-        return start.offset(reduceByAmount(differenceX, 1), reduceByAmount(differenceY, 1));
+    private Position calculateSecondDirection(final Position start, final int deltaX, final int deltaY) {
+        return start.offset(reduceByAmount(deltaX, 1), reduceByAmount(deltaY, 1));
     }
 
     private int reduceByAmount(final int value, final int amount) {

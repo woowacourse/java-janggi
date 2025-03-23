@@ -37,29 +37,43 @@ public record Position(int x, int y) {
         return new Position(x + offsetX, y + offsetY);
     }
 
-    public Position moveHorizontal(final int step) {
-        if (step > 0) {
-            return up(step);
-        }
-        return down(step);
-    }
-
-    public Position moveVertical(final int step) {
-        if (step > 0) {
-            return right(step);
-        }
-        return left(step);
-    }
-
     public boolean isHorizontalMove(final Position other) {
-        int changeXValue = this.x - other.x;
-        int changeYValue = this.y - other.y;
-        return changeXValue != 0 && changeYValue == 0;
+        return deltaX(other) != 0 && deltaY(other) == 0;
     }
 
     public boolean isVerticalMove(final Position other) {
-        int changeXValue = this.x - other.x;
-        int changeYValue = this.y - other.y;
-        return changeXValue == 0 && changeYValue != 0;
+        return deltaX(other) == 0 && deltaY(other) != 0;
+    }
+
+    public boolean isUp(final Position other) {
+        return deltaY(other) > 0;
+    }
+
+    public boolean isDown(final Position other) {
+        return deltaY(other) < 0;
+    }
+
+    public boolean isLeft(final Position other) {
+        return deltaX(other) < 0;
+    }
+
+    public boolean isRight(final Position other) {
+        return deltaX(other) > 0;
+    }
+
+    public int deltaX(final Position other) {
+        return other.x - this.x;
+    }
+
+    public int deltaY(final Position other) {
+        return other.y - this.y;
+    }
+
+    public int absDeltaX(final Position other) {
+        return Math.abs(deltaX(other));
+    }
+
+    public int absDeltaY(final Position other) {
+        return Math.abs(deltaY(other));
     }
 }

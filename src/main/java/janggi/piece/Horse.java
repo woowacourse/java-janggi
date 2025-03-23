@@ -25,17 +25,15 @@ public class Horse extends Piece {
     }
 
     private boolean isValidMovingRule(final Position start, final Position end) {
-        int differenceX = end.x() - start.x();
-        int differenceY = end.y() - start.y();
-        int absDifferenceX = Math.abs(differenceX);
-        int absDifferenceY = Math.abs(differenceY);
-        return ((absDifferenceX == 2 && absDifferenceY == 1) || (absDifferenceX == 1 && absDifferenceY == 2));
+        int absDeltaX = start.absDeltaX(end);
+        int absDeltaY = start.absDeltaY(end);
+        return (absDeltaX == 2 && absDeltaY == 1) || (absDeltaX == 1 && absDeltaY == 2);
     }
 
     private Position findDirection(final Position start, final Position end) {
-        int differenceX = end.x() - start.x();
-        int differenceY = end.y() - start.y();
-        return start.offset(reduceOne(differenceX), reduceOne(differenceY));
+        int deltaX = start.deltaX(end);
+        int deltaY = start.deltaY(end);
+        return start.offset(reduceOne(deltaX), reduceOne(deltaY));
     }
 
     private int reduceOne(final int value) {
