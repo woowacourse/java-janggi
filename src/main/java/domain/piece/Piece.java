@@ -5,47 +5,34 @@ import domain.Movement;
 import domain.Team;
 import domain.board.PieceFinder;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public abstract class Piece {
 
     protected final Team team;
+    protected final Coordinate coordinate;
+
     private final Set<Movement> movements;
 
-    public Piece(Team team, Set<Movement> movements) {
+    public Piece(Team team, Coordinate coordinate, Set<Movement> movements) {
         this.team = team;
+        this.coordinate = coordinate;
         this.movements = movements;
     }
 
-    public final boolean canMove(PieceFinder pieceFinder, Coordinate departure,
-        Coordinate arrival) {
-        if (!findMovableCandidates(departure).contains(arrival)) {
-            return false;
-        }
-        return canMoveConsideringObstacles(pieceFinder, departure, arrival);
-    }
-
-    protected final Set<Movement> movementsAt(Coordinate departure) {
+    public final Set<Movement> movements() {
         Set<Movement> movements = new HashSet<>(this.movements);
-        if (departure.isInCastle()) {
-            Set<Movement> diagonalMovements = departure.getMovementsIfInCastle();
+        if (coordinate.isInCastle()) {
+            Set<Movement> diagonalMovements = coordinate.getMovementsIfInCastle();
             movements.addAll(diagonalMovements);
         }
 
         return movements;
     }
 
-    protected boolean canMoveConsideringObstacles(
-        PieceFinder pieceFinder, Coordinate departure, Coordinate arrival
-    ) {
-        final List<Coordinate> path = findPaths(departure, arrival);
-        return pieceFinder.nonePiecesIn(path);
-    }
+    public abstract boolean canMove(Coordinate arrival, PieceFinder pieceFinder);
 
-    protected abstract Set<Coordinate> findMovableCandidates(Coordinate departure);
-
-    protected abstract List<Coordinate> findPaths(Coordinate departure, Coordinate arrival);
+    public abstract Piece moveTo(Coordinate arrival);
 
     public final boolean isSameTeam(Piece piece) {
         return piece.team.equals(this.team);
@@ -57,6 +44,10 @@ public abstract class Piece {
 
     public final Team getTeam() {
         return team;
+    }
+
+    public Coordinate getCoordinate() {
+        return coordinate;
     }
 
     public boolean isPo() {

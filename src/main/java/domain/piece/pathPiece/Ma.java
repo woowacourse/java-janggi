@@ -1,4 +1,4 @@
-package domain.piece;
+package domain.piece.pathPiece;
 
 import static domain.Movement.DOWN;
 import static domain.Movement.LEFT;
@@ -12,14 +12,16 @@ import static domain.Movement.UP;
 import domain.Coordinate;
 import domain.Movement;
 import domain.Team;
+import domain.piece.Piece;
 import java.util.List;
 import java.util.Set;
 
-public class Ma extends LimitedMovingPiece {
+public class Ma extends PathPiece {
 
-    public Ma(Team team) {
+    public Ma(Team team, Coordinate coordinate) {
         super(
             team,
+            coordinate,
             Set.of(
                 Movement.combine(LEFT, LEFT_UP),
                 Movement.combine(LEFT, LEFT_DOWN),
@@ -34,25 +36,31 @@ public class Ma extends LimitedMovingPiece {
     }
 
     @Override
-    protected List<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
-        int dx = arrival.getX() - departure.getX();
-        int dy = arrival.getY() - departure.getY();
+    public Piece moveTo(final Coordinate arrival) {
+        return new Ma(team, arrival);
+    }
+
+    public Path findPath(Coordinate arrival) {
+        int dx = arrival.getX() - coordinate.getX();
+        int dy = arrival.getY() - coordinate.getY();
 
         final var movement = computeMovement(dx, dy);
-        return List.of(departure.move(movement));
+        return new Path(List.of(coordinate.move(movement)));
     }
 
     private Movement computeMovement(final int dx, final int dy) {
-        if (Math.abs(dx) == 2) {
-            if (dx < 0) {
-                return LEFT;
-            }
+        if (dx == -2 && Math.abs(dy) == 1) {
+            return LEFT;
+        }
+        if (dx == 2 && Math.abs(dy) == 1) {
             return RIGHT;
         }
-
-        if (dy < 0) {
+        if (dy == -2 && Math.abs(dx) == 1) {
             return UP;
         }
-        return DOWN;
+        if (dy == 2 && Math.abs(dx) == 1) {
+            return DOWN;
+        }
+        throw new IllegalArgumentException("마가 움직일 수 없는 움직임입니다.");
     }
 }

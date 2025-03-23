@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.board.Board;
-import domain.piece.Cha;
-import domain.piece.Ma;
+import domain.piece.pathPiece.Cha;
+import domain.piece.pathPiece.Ma;
 import domain.piece.Piece;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -37,8 +37,8 @@ public class BoardTest {
         void test2() {
             // given
             Board board = new BoardFixture()
-                .addPiece(5, 5, new Cha(Team.HAN))
-                .addPiece(5, 6, new Ma(Team.HAN))
+                .addPiece(5, 5, new Cha(Team.HAN, new Coordinate(5, 5)))
+                .addPiece(5, 6, new Ma(Team.HAN, new Coordinate(5, 6)))
                 .build();
 
             // when & then
@@ -51,10 +51,10 @@ public class BoardTest {
         @DisplayName("도착 좌표에 다른 팀 기물이 있고 정상적으로 이동됐을 경우, 출발 좌표는 비어있고 도착 좌표의 기물을 대체한다.")
         void test3() {
             // given
-            Cha cha = new Cha(Team.HAN);
+            Cha cha = new Cha(Team.HAN, new Coordinate(5, 5));
             Board board = new BoardFixture()
                 .addPiece(5, 5, cha)
-                .addPiece(5, 6, new Ma(Team.CHO))
+                .addPiece(5, 6, new Ma(Team.CHO, new Coordinate(5, 6)))
                 .build();
             Coordinate departure = new Coordinate(5, 5);
             Coordinate arrival = new Coordinate(5, 6);
@@ -73,7 +73,7 @@ public class BoardTest {
         @DisplayName("도착 좌표에 다른 팀 기물이 없고 정상적으로 이동됐을 경우, 출발 좌표는 비어있고 도착 좌표에 이동한 기물이 위치한다.")
         void test4() {
             // given
-            Cha cha = new Cha(Team.HAN);
+            Cha cha = new Cha(Team.HAN, new Coordinate(5, 5));
             Board board = new BoardFixture()
                 .addPiece(5, 5, cha)
                 .build();
@@ -113,7 +113,7 @@ public class BoardTest {
         void test2() {
             // given
             Board board = new BoardFixture()
-                .addPiece(5, 5, new Ma(Team.HAN))
+                .addPiece(5, 5, new Ma(Team.HAN, new Coordinate(5, 5)))
                 .build();
 
             // when

@@ -33,7 +33,6 @@ public class Coordinate {
     public boolean canMove(Movement movement) {
         int newX = this.x + movement.deltaX();
         int newY = this.y + movement.deltaY();
-
         return !isInvalidX(newX) && !isInvalidY(newY);
     }
 

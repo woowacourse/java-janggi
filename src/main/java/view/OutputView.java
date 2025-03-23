@@ -2,15 +2,15 @@ package view;
 
 import domain.Coordinate;
 import domain.Team;
-import domain.piece.Byeong;
-import domain.piece.Cha;
-import domain.piece.Goong;
-import domain.piece.Jol;
-import domain.piece.Ma;
+import domain.piece.noPathPiece.Byeong;
+import domain.piece.pathPiece.Cha;
+import domain.piece.noPathPiece.Goong;
+import domain.piece.noPathPiece.Jol;
+import domain.piece.pathPiece.Ma;
 import domain.piece.Piece;
-import domain.piece.Po;
-import domain.piece.Sa;
-import domain.piece.Sang;
+import domain.piece.pathPiece.Po;
+import domain.piece.noPathPiece.Sa;
+import domain.piece.pathPiece.Sang;
 import java.util.Map;
 import java.util.Optional;
 

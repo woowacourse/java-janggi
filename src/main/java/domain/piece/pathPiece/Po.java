@@ -1,26 +1,29 @@
-package domain.piece;
+package domain.piece.pathPiece;
 
 import domain.Coordinate;
 import domain.Movement;
 import domain.Team;
 import domain.board.PieceFinder;
-import java.util.Set;
+import domain.piece.Piece;
 
-public class Po extends UnlimitedStraightMovingPiece {
+public class Po extends UnlimitedPathPiece {
 
-    public Po(Team team) {
+    public Po(Team team, Coordinate coordinate) {
         super(
             team,
-            Set.of(Movement.UP, Movement.DOWN, Movement.LEFT, Movement.RIGHT)
+            coordinate,
+            Movement.CROSS_MOVEMENTS
         );
     }
 
     @Override
-    protected boolean canMoveConsideringObstacles(PieceFinder pieceFinder, Coordinate departure,
-        Coordinate arrival) {
-        final var paths = findPaths(departure, arrival);
+    public boolean canMove(
+        final Coordinate arrival,
+        final PieceFinder pieceFinder
+    ) {
+        final var path = findPath(arrival);
 
-        final var piecesInPath = pieceFinder.findPiecesIn(paths);
+        final var piecesInPath = pieceFinder.findPiecesIn(path.coordinates());
         if (piecesInPath.size() != 1) {
             return false;
         }
@@ -34,6 +37,11 @@ public class Po extends UnlimitedStraightMovingPiece {
             .map(Piece::isPo)
             .orElse(false);
         return !isArrivalPo;
+    }
+
+    @Override
+    public Piece moveTo(final Coordinate arrival) {
+        return new Po(team, arrival);
     }
 
     @Override

@@ -2,7 +2,10 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.Coordinate;
 import domain.Team;
+import domain.piece.pathPiece.Cha;
+import domain.piece.pathPiece.Po;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -17,8 +20,8 @@ public class PieceTest {
         @DisplayName("다른 기물과 같은 팀이면 true를 반환한다.")
         void test1() {
             // given
-            Piece piece1 = new Cha(Team.HAN);
-            Piece piece2 = new Cha(Team.HAN);
+            Piece piece1 = new Cha(Team.HAN, new Coordinate(1, 1));
+            Piece piece2 = new Cha(Team.HAN, new Coordinate(1, 2));
 
             // when
             boolean isSameTeam = piece1.isSameTeam(piece2);
@@ -31,8 +34,8 @@ public class PieceTest {
         @DisplayName("다른 기물과 다른 팀이면 false를 반환한다.")
         void test2() {
             // given
-            Piece piece1 = new Cha(Team.HAN);
-            Piece piece2 = new Cha(Team.CHO);
+            Piece piece1 = new Cha(Team.HAN, new Coordinate(1, 1));
+            Piece piece2 = new Cha(Team.CHO, new Coordinate(1, 2));
 
             // when
             boolean isSameTeam = piece1.isSameTeam(piece2);
@@ -50,7 +53,7 @@ public class PieceTest {
         @DisplayName("기물이 포이면 true를 반환한다.")
         void test1() {
             // given
-            Piece piece = new Po(Team.HAN);
+            Piece piece = new Po(Team.HAN, new Coordinate(1, 1));
 
             // when
             boolean isPo = piece.isPo();
@@ -63,7 +66,7 @@ public class PieceTest {
         @DisplayName("기물이 포이면 true를 반환한다.")
         void test2() {
             // given
-            Piece piece = new Cha(Team.HAN);
+            Piece piece = new Cha(Team.HAN, new Coordinate(1, 1));
 
             // when
             boolean isPo = piece.isPo();

@@ -19,7 +19,7 @@ public class Board implements PieceFinder {
         checkDeparturePieceExisting(departure);
         final Piece selectedPiece = pieces.get(departure);
 
-        checkArrivalIsMovable(departure, arrival, selectedPiece);
+        checkArrivalIsMovable(arrival, selectedPiece);
         checkArrivalIsNotSameTeam(arrival, selectedPiece);
 
         doMovePiece(departure, arrival, selectedPiece);
@@ -27,7 +27,7 @@ public class Board implements PieceFinder {
 
     private void doMovePiece(Coordinate departure, Coordinate arrival, Piece piece) {
         pieces.remove(departure);
-        pieces.merge(arrival, piece, (existing, selected) -> selected);
+        pieces.merge(arrival, piece.moveTo(arrival), (existing, selected) -> selected);
     }
 
     private void checkDeparturePieceExisting(final Coordinate departure) {
@@ -47,11 +47,10 @@ public class Board implements PieceFinder {
     }
 
     private void checkArrivalIsMovable(
-        final Coordinate departure,
         final Coordinate arrival,
         final Piece selectedPiece
     ) {
-        final boolean cannotMoveToArrival = !selectedPiece.canMove(this, departure, arrival);
+        final boolean cannotMoveToArrival = !selectedPiece.canMove(arrival, this);
         if (cannotMoveToArrival) {
             throw new IllegalArgumentException("해당 기물이 이동할 수 없는 좌표입니다.");
         }
