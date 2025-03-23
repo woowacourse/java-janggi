@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 import domain.board.Point;
 import org.assertj.core.api.Assertions;
