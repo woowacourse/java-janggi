@@ -47,7 +47,7 @@ public interface BoardSettingUpStrategy {
         return pieces;
     }
 
-    Map<Coordinate, Piece> setUpHan();
-
     Map<Coordinate, Piece> setUpCho();
+
+    Map<Coordinate, Piece> setUpHan();
 }

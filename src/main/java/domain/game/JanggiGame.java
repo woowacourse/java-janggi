@@ -41,10 +41,14 @@ public class JanggiGame {
 
     private void moveCommand(Board board) {
         outputView.printJanggiBoard(board);
-        Coordinate originCoordinate = retryUntilValid(
-                () -> inputView.readMovePiece(currentTurn.getCountryName()));
+
+        Coordinate originCoordinate = retryUntilValid(() ->
+                inputView.readMovePiece(currentTurn.getCountryName()));
+
         board.validateOriginCoordinate(originCoordinate, currentTurn);
+
         Coordinate destinationCoordinate = retryUntilValid(inputView::readMoveDestination);
+        
         board.movePiece(originCoordinate, destinationCoordinate);
     }
 

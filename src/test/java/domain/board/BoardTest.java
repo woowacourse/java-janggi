@@ -1,9 +1,9 @@
-package domain;
+package domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import domain.board.Board;
+import domain.Coordinate;
 import domain.piece.Country;
 import domain.piece.Ma;
 import domain.piece.Piece;

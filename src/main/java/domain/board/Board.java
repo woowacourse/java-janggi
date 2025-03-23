@@ -24,11 +24,11 @@ public final class Board {
     }
 
     public void setUpHan(SettingUp settingUp) {
-        board.putAll(settingUp.getStrategy().setUpCho());
+        board.putAll(settingUp.getStrategy().setUpHan());
     }
 
     public void setUpCho(SettingUp settingUp) {
-        board.putAll(settingUp.getStrategy().setUpHan());
+        board.putAll(settingUp.getStrategy().setUpCho());
     }
 
     public void movePiece(Coordinate oldCoordinate, Coordinate newCoordinate) {
@@ -40,9 +40,13 @@ public final class Board {
         board.remove(oldCoordinate);
     }
 
+    public Piece findPieceByCoordinate(Coordinate coordinate) {
+        return board.get(coordinate);
+    }
+
     public String getPieceType(Coordinate coordinate) {
         validatePieceCoordinate(coordinate);
-        return board.get(coordinate).getPieceType();
+        return board.get(coordinate).getPieceName();
     }
 
     private void validateMoveCoordinate(Coordinate newCoordinate,

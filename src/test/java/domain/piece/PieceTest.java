@@ -12,8 +12,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 
-class
-PieceTest {
+class PieceTest {
     @Nested
     class MaTest {
         @DisplayName("말의 이동 가능한 경로를 검사한다")
