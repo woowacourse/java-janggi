@@ -15,11 +15,11 @@ public class RouteTest {
         Position destination = Position.of(4, 3);
 
         //when
-        List<Position> expected = Route.of(departure, destination);
+        Route expected = Route.of(departure, destination);
 
         //then
         List<Position> actual = List.of(Position.of(2, 3), Position.of(3, 3));
-        Assertions.assertThat(expected).containsExactlyElementsOf(actual);
+        Assertions.assertThat(expected.getPositions()).containsExactlyElementsOf(actual);
     }
 
     @Test
@@ -30,11 +30,11 @@ public class RouteTest {
         Position destination = Position.of(1, 3);
 
         //when
-        List<Position> expected = Route.of(departure, destination);
+        Route expected = Route.of(departure, destination);
 
         //then
         List<Position> actual = List.of(Position.of(3, 3), Position.of(2, 3));
-        Assertions.assertThat(expected).containsExactlyElementsOf(actual);
+        Assertions.assertThat(expected.getPositions()).containsExactlyElementsOf(actual);
     }
 
     @Test
@@ -45,11 +45,11 @@ public class RouteTest {
         Position destination = Position.of(3, 4);
 
         //when
-        List<Position> expected = Route.of(departure, destination);
+        Route expected = Route.of(departure, destination);
 
         //then
         List<Position> actual = List.of(Position.of(3, 2), Position.of(3, 3));
-        Assertions.assertThat(expected).containsExactlyElementsOf(actual);
+        Assertions.assertThat(expected.getPositions()).containsExactlyElementsOf(actual);
     }
 
     @Test
@@ -60,11 +60,11 @@ public class RouteTest {
         Position destination = Position.of(3, 1);
 
         //when
-        List<Position> expected = Route.of(departure, destination);
+        Route expected = Route.of(departure, destination);
 
         //then
         List<Position> actual = List.of(Position.of(3, 3), Position.of(3, 2));
-        Assertions.assertThat(expected).containsExactlyElementsOf(actual);
+        Assertions.assertThat(expected.getPositions()).containsExactlyElementsOf(actual);
     }
 
     @Test
@@ -75,11 +75,11 @@ public class RouteTest {
         Position destination = Position.of(4, 3);
 
         //when
-        List<Position> expected = Route.of(departure, destination);
+        Route expected = Route.of(departure, destination);
 
         //then
         List<Position> actual = List.of(Position.of(2, 1), Position.of(3, 2));
-        Assertions.assertThat(expected).containsExactlyElementsOf(actual);
+        Assertions.assertThat(expected.getPositions()).containsExactlyElementsOf(actual);
     }
 
     @Test
@@ -90,11 +90,11 @@ public class RouteTest {
         Position destination = Position.of(1, 1);
 
         //when
-        List<Position> expected = Route.of(departure, destination);
+        Route expected = Route.of(departure, destination);
 
         //then
         List<Position> actual = List.of(Position.of(3, 3), Position.of(2, 2));
-        Assertions.assertThat(expected).containsExactlyElementsOf(actual);
+        Assertions.assertThat(expected.getPositions()).containsExactlyElementsOf(actual);
     }
 
     @Test
@@ -105,11 +105,11 @@ public class RouteTest {
         Position destination = Position.of(7, 1);
 
         //when
-        List<Position> expected = Route.of(departure, destination);
+        Route expected = Route.of(departure, destination);
 
         //then
         List<Position> actual = List.of(Position.of(5, 3), Position.of(6, 2));
-        Assertions.assertThat(expected).containsExactlyElementsOf(actual);
+        Assertions.assertThat(expected.getPositions()).containsExactlyElementsOf(actual);
     }
 
     @Test
@@ -120,10 +120,10 @@ public class RouteTest {
         Position destination = Position.of(7, 5);
 
         //when
-        List<Position> expected = Route.of(departure, destination);
+        Route expected = Route.of(departure, destination);
 
         //then
         List<Position> actual = List.of(Position.of(5, 3), Position.of(6, 4));
-        Assertions.assertThat(expected).containsExactlyElementsOf(actual);
+        Assertions.assertThat(expected.getPositions()).containsExactlyElementsOf(actual);
     }
 }

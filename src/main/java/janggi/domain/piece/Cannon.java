@@ -36,18 +36,18 @@ public class Cannon extends Piece {
 
     private void validateCannonRestrict(final Board board, final Position destination) {
         checkExistCannonInDestination(board, destination);
-        boolean containsCannon = Route.of(this.position, destination).stream()
-                .filter(board::isExists)
-                .anyMatch(position -> board.getPiece(position).isSameType(this));
-
-        if (containsCannon) {
-            throw new IllegalArgumentException("이동 경로에 포가 존재합니다.");
-        }
+        checkIsOverCannon(board, Route.of(position, destination));
     }
 
     private void checkExistCannonInDestination(final Board board, final Position destination) {
         if (board.isExists(destination) && board.getPiece(destination).isSameType(this)) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
+        }
+    }
+
+    private void checkIsOverCannon(final Board board, final Route route) {
+        if (route.isExistSameTypePiece(board, this.pieceType)) {
+            throw new IllegalArgumentException("포는 포를 넘을 수 없습니다.");
         }
     }
 }

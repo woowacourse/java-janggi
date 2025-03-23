@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Board;
 import janggi.domain.Position;
+import janggi.domain.Route;
 import janggi.domain.Team;
 import janggi.domain.rule.MoveRule;
 import janggi.domain.rule.Movement;
@@ -24,7 +25,8 @@ public abstract class Piece {
 
     protected void validateMove(final Board board, final Position destination, Movement movement) {
         validateSamePosition(destination);
-        moveRule.validateMove(board, this.position, destination, movement);
+        moveRule.validateMove(this.position, destination, movement);
+        moveRule.validateBlock(board, Route.of(position, destination));
         validateIsAlly(board, destination, this.team);
     }
 
