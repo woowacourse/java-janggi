@@ -1,11 +1,8 @@
 package domain.board;
 
 import domain.Coordinate;
-import domain.Team;
-import domain.board.createStrategy.BoardCreateStrategy;
 import domain.piece.Piece;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -79,12 +76,5 @@ public class Board implements PieceFinder {
 
     public Map<Coordinate, Piece> getPieces() {
         return Collections.unmodifiableMap(pieces);
-    }
-
-    public static Board create(BoardCreateStrategy hanStrategy, BoardCreateStrategy choStrategy) {
-        Map<Coordinate, Piece> pieces = new HashMap<>();
-        pieces.putAll(hanStrategy.create(Team.HAN));
-        pieces.putAll(choStrategy.create(Team.CHO));
-        return new Board(pieces);
     }
 }
