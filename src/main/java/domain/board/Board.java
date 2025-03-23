@@ -24,7 +24,7 @@ public class Board {
     }
 
     public Piece getPieceBy(Position position) {
-        return board.getOrDefault(position, new Empty());
+        return board.getOrDefault(position, Empty.getInstance());
     }
 
     private void validateCorrectPiece(Position source, Piece selectedPiece) {

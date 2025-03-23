@@ -5,8 +5,15 @@ import domain.board.Position;
 import java.util.List;
 
 public class Empty extends Piece {
+
+    private static final Empty INSTANCE = new Empty();
+
     public Empty() {
         super(PieceColor.NONE);
+    }
+
+    public static Empty getInstance() {
+        return INSTANCE;
     }
 
     @Override
