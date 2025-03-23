@@ -54,16 +54,21 @@ public class JanggiBoard {
     }
 
     public boolean isCriticalPoint(Point targetPoint, Team myTeam) {
-        return getDot(targetPoint).isPlaced()
-                && getDot(targetPoint).getPiece().isCriticalPiece()
-                && getDot(targetPoint).getPiece().getTeam() != myTeam;
+        if (getDot(targetPoint).isPlaced()) {
+            Piece targetPiece = getDot(targetPoint).getPiece()
+                    .orElseThrow(() -> new IllegalArgumentException("해당 점에는 장기말이 없습니다."));
+            return targetPiece.isCriticalPiece() && targetPiece.getTeam() != myTeam;
+        }
+        return false;
     }
 
     public boolean movePiece(Point beforePoint, Point targetPoint) {
-        Piece beforePiece = getDot(beforePoint).getPiece();
+        Piece beforePiece = getDot(beforePoint).getPiece()
+                .orElseThrow(() -> new IllegalArgumentException("해당 점에는 장기말이 없습니다."));
         validateAfterPoint(beforePoint, targetPoint, beforePiece);
         Path path = beforePiece.calculatePath(beforePoint, targetPoint);
         Map<Piece, Boolean> piecesOnPathWithTargetOrNot = getPiecesOnPath(path, targetPoint);
+
         if (beforePiece.canMove(piecesOnPathWithTargetOrNot)) {
             getDot(targetPoint).place(beforePiece);
             getDot(beforePoint).clear();
@@ -96,11 +101,13 @@ public class JanggiBoard {
     private void addPiecesOnPathWithTargetOrNot(Point targetPoint, Point point,
                                                 Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
         if (getDot(point).isPlaced()) {
+            Piece piece = getDot(point).getPiece()
+                    .orElseThrow(() -> new IllegalArgumentException("해당 점에는 장기말이 없습니다."));
             if (point.equals(targetPoint)) {
-                piecesOnPathWithTargetOrNot.put(getDot(point).getPiece(), true);
+                piecesOnPathWithTargetOrNot.put(piece, true);
                 return;
             }
-            piecesOnPathWithTargetOrNot.put(getDot(point).getPiece(), false);
+            piecesOnPathWithTargetOrNot.put(piece, false);
         }
     }
 
@@ -109,6 +116,8 @@ public class JanggiBoard {
     }
 
     public boolean isNotMyTeamPoint(Point beforePoint, Team team) {
-        return getDot(beforePoint).getPiece().getTeam() != team;
+        return getDot(beforePoint).getPiece()
+                .orElseThrow(() -> new IllegalArgumentException("해당 점에는 장기말이 없습니다."))
+                .getTeam() != team;
     }
 }

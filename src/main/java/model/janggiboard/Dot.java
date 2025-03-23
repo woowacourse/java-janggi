@@ -4,25 +4,25 @@ import java.util.Optional;
 import model.piece.Piece;
 
 public class Dot {
-    private Optional<Piece> piece;
+    private Piece piece;
 
     public Dot() {
-        piece = Optional.empty();
+        piece = null;
     }
 
     public void place(Piece piece) {
-        this.piece = Optional.ofNullable(piece);
+        this.piece = piece;
     }
 
     public boolean isPlaced() {
-        return piece.isPresent();
+        return piece != null;
     }
 
-    public Piece getPiece() {
-        return piece.orElseThrow(() -> new IllegalArgumentException("해당 점에는 장기말이 없습니다."));
+    public Optional<Piece> getPiece() {
+        return Optional.ofNullable(piece);
     }
 
     public void clear() {
-        this.piece = Optional.empty();
+        this.piece = null;
     }
 }

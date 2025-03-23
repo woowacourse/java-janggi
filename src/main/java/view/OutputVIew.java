@@ -36,10 +36,12 @@ public class OutputVIew {
             for (Dot dot : horizontalDotList) {
                 if (dot.isPlaced()) {
                     String teamFormat = BACKGROUND_BLUE + FONT_BLACK;
-                    if (dot.getPiece().getTeam() == Team.RED) {
+                    Piece piece = dot.getPiece()
+                            .orElseThrow(() -> new IllegalArgumentException("해당 점에는 장기말이 없습니다."));
+                    if (piece.getTeam() == Team.RED) {
                         teamFormat = BACKGROUND_RED + FONT_BLACK;
                     }
-                    horizontalNameLine.add(teamFormat + dot.getPiece().getPieceName().getName() + RESET);
+                    horizontalNameLine.add(teamFormat + piece.getPieceName().getName() + RESET);
                     continue;
                 }
                 horizontalNameLine.add(BACKGROUND_YELLOW + FONT_BLACK + "ㅇ" + RESET);
