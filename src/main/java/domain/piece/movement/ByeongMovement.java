@@ -4,18 +4,19 @@ import domain.Coordinate;
 
 public enum ByeongMovement {
 
-    UP(new Coordinate(-1, 0)),
-    DOWN(new Coordinate(1, 0)),
-    RIGHT(new Coordinate(0, 1)),
-    LEFT(new Coordinate(0, -1));
+    UP(Movement.UP),
+    DOWN(Movement.DOWN),
+    RIGHT(Movement.RIGHT),
+    LEFT(Movement.LEFT);
 
-    private final Coordinate direction;
+    private final Movement movement;
 
-    ByeongMovement(Coordinate direction) {
-        this.direction = direction;
+    ByeongMovement(Movement movement) {
+        this.movement = movement;
     }
 
     public Coordinate getDirection() {
-        return direction;
+        return movement.getDirection();
     }
+
 }
