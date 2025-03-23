@@ -1,17 +1,18 @@
 package domain;
 
+import static domain.Team.DEFAULT;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.piece.strategy.ChariotMoveStrategy;
+import domain.piece.Cannon;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class ChariotMoveStrategyTest {
+public class CannonTest {
 
-    ChariotMoveStrategy chariot = new ChariotMoveStrategy();
+    private Cannon cannon = new Cannon(DEFAULT);
 
-    @DisplayName("차(車)는 현재 위치에서 한 방향으로 목적지에 도착할 수 있다면 true를 반환한다")
+    @DisplayName("포는 현재 위치에서 한 방향으로 목적지에 도착할 수 있다면 true를 반환한다")
     @Test
     void test() {
         // given
@@ -19,13 +20,13 @@ class ChariotMoveStrategyTest {
         BoardLocation destination = new BoardLocation(1, 2);
 
         // when
-        boolean isMovable = chariot.isMovable(current, destination);
+        boolean isMovable = cannon.isMovable(current, destination);
 
         // then
         assertThat(isMovable).isTrue();
     }
 
-    @DisplayName("차(車)는 현재 위치에서 한 방향으로 목적지에 도착할 수 없다면 false를 반환한다")
+    @DisplayName("포는 현재 위치에서 한 방향으로 목적지에 도착할 수 없다면 false를 반환한다")
     @Test
     void test2() {
         // given
@@ -33,7 +34,7 @@ class ChariotMoveStrategyTest {
         BoardLocation destination = new BoardLocation(2, 2);
 
         // when
-        boolean isMovable = chariot.isMovable(current, destination);
+        boolean isMovable = cannon.isMovable(current, destination);
 
         // then
         assertThat(isMovable).isFalse();
@@ -47,7 +48,7 @@ class ChariotMoveStrategyTest {
         BoardLocation destination = new BoardLocation(4, 1);
 
         // when
-        List<BoardLocation> allPath = chariot.createAllPath(current, destination);
+        List<BoardLocation> allPath = cannon.createAllPath(current, destination);
 
         // then
         assertThat(allPath).containsAll(List.of(new BoardLocation(2, 1), new BoardLocation(3, 1)));

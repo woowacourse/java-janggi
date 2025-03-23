@@ -1,14 +1,18 @@
-package domain.piece.strategy;
+package domain.piece;
+
+import static domain.piece.PieceType.*;
 
 import domain.BoardLocation;
 import domain.BoardVector;
-import domain.piece.MoveStrategy;
-import domain.piece.Piece;
-import domain.piece.PieceType;
+import domain.Team;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CannonMoveStrategy implements MoveStrategy {
+public class Chariot extends Piece {
+
+    public Chariot(Team team) {
+        super(CHARIOT, team);
+    }
 
     @Override
     public boolean isMovable(BoardLocation current, BoardLocation destination) {
@@ -39,20 +43,11 @@ public class CannonMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canArrive(List<Piece> pathPiece) {
-        if (pathPiece.size() != 1){
-            return false;
-        }
-        if (pathPiece.getFirst().isSameType(PieceType.CANNON)){
-            return false;
-        }
-        return true;
+        return pathPiece.isEmpty();
     }
 
     @Override
-    public boolean canDestination(Piece selectPiece ,Piece destinationPiece) {
-        if (destinationPiece.isEqualTeam(selectPiece)){
-            return false;
-        }
-        return !selectPiece.isSameType(destinationPiece);
+    public boolean canDestination(Piece destinationPiece) {
+        return !this.isEqualTeam(destinationPiece);
     }
 }

@@ -1,15 +1,16 @@
 package domain;
 
+import static domain.Team.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.piece.strategy.HorseMoveStrategy;
+import domain.piece.Horse;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class HorseMoveStrategyTest {
+public class HorseTest {
 
-    private HorseMoveStrategy horse = new HorseMoveStrategy();
+    private Horse horse = new Horse(DEFAULT);
 
     @DisplayName("마는 상하좌우 한 칸 그리고 대각선 한 칸 움직일 때의 목적지 좌표로 위치 가능하다면 true를 반환한다")
     @Test

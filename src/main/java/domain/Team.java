@@ -2,7 +2,8 @@ package domain;
 
 public enum Team {
     HAN,
-    CHO;
+    CHO,
+    DEFAULT;
 
     public static Team getStartingTeam() {
         return CHO;

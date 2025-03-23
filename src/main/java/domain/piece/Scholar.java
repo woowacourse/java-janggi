@@ -1,11 +1,16 @@
-package domain.piece.strategy;
+package domain.piece;
+
+import static domain.piece.PieceType.*;
 
 import domain.BoardLocation;
-import domain.piece.MoveStrategy;
-import domain.piece.Piece;
+import domain.Team;
 import java.util.List;
 
-public class KingMoveStrategy implements MoveStrategy {
+public class Scholar extends Piece {
+
+    public Scholar(Team team) {
+        super(SCHOLAR, team);
+    }
 
     @Override
     public boolean isMovable(BoardLocation current, BoardLocation destination) {
@@ -23,7 +28,7 @@ public class KingMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public boolean canDestination(Piece selectPiece, Piece destinationPiece) {
+    public boolean canDestination(Piece destinationPiece) {
         return false; //TODO 2단계 궁성 단계에서 처리하도록 하기
     }
 }

@@ -1,15 +1,16 @@
 package domain;
 
+import static domain.Team.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.piece.strategy.ElephantMoveStrategy;
+import domain.piece.Elephant;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class ElephantMoveStrategyTest {
+public class ElephantTest {
 
-    ElephantMoveStrategy elephant = new ElephantMoveStrategy();
+    Elephant elephant = new Elephant(DEFAULT);
 
     @DisplayName("상은 상하좌우 한 칸 그리고 대각선 두 칸 움직일 때의 목적지 좌표로 위치 가능하다면 true를 반환한다")
     @Test

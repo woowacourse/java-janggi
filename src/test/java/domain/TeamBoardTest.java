@@ -3,8 +3,8 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.piece.Chariot;
 import domain.piece.Piece;
-import domain.piece.PieceType;
 import fixture.BoardFixture;
 import java.util.List;
 import java.util.Map;
@@ -85,7 +85,7 @@ class TeamBoardTest {
         Piece piece = teamBoard.findByLocation(boardLocation);
 
         //then
-        assertThat(piece).isEqualTo(new Piece(PieceType.CHARIOT, Team.HAN));
+        assertThat(piece).isEqualTo(new Chariot(Team.HAN));
     }
 
     @Test

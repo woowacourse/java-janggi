@@ -1,14 +1,27 @@
-package domain.piece.strategy;
+package domain.piece;
+
+import static domain.piece.PieceType.*;
 
 import domain.BoardLocation;
-import domain.piece.MoveStrategy;
-import domain.piece.Piece;
+import domain.Team;
 import java.util.List;
 
-public class ChoPawnMoveStrategy implements MoveStrategy {
+public class Pawn extends Piece {
+
+    public Pawn(Team team) {
+        super(PAWN, team);
+    }
 
     @Override
     public boolean isMovable(BoardLocation current, BoardLocation destination) {
+        if (this.team == Team.HAN) {
+            int differenceX = current.distanceX(destination);
+            int differenceY = current.distanceY(destination);
+            boolean isOrthogonalMove = differenceX == 0 || differenceY == 0;
+            boolean isOneStepMove = differenceX == 1 || differenceY == 1;
+            boolean isMovingUp = destination.isUp(current);
+            return isOrthogonalMove && isOneStepMove && !isMovingUp;
+        }
         int differenceX = current.distanceX(destination);
         int differenceY = current.distanceY(destination);
         boolean a = differenceX == 0 || differenceY == 0;
@@ -28,7 +41,7 @@ public class ChoPawnMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public boolean canDestination(Piece selectPiece, Piece destinationPiece) {
-        return !selectPiece.isEqualTeam(destinationPiece);
+    public boolean canDestination(Piece destinationPiece) {
+        return !this.isEqualTeam(destinationPiece);
     }
 }
