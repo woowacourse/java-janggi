@@ -1,10 +1,10 @@
 package janggi.controller;
 
 import janggi.domain.Board;
-import janggi.domain.Route;
 import janggi.domain.Team;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Position;
+import janggi.domain.position.Position;
+import janggi.domain.position.Route;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.UserContinueResponse;

@@ -1,7 +1,9 @@
 package janggi.domain.piece;
 
-import janggi.domain.RawRoute;
 import janggi.domain.Team;
+import janggi.domain.position.Position;
+import janggi.domain.position.RawPosition;
+import janggi.domain.position.RawRoute;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

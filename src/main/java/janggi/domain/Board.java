@@ -3,7 +3,8 @@ package janggi.domain;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Position;
+import janggi.domain.position.Position;
+import janggi.domain.position.Route;
 import java.util.List;
 import java.util.Set;
 
@@ -40,7 +41,7 @@ public class Board {
         if (!possibleDestinations.contains(position)) {
             throw new IllegalArgumentException("움직일 수 없는 위치입니다.");
         }
-        
+
         pieces.move(position, piece);
     }
 

@@ -1,8 +1,10 @@
 package janggi.domain.piece;
 
-import janggi.domain.RawRoute;
-import janggi.domain.Route;
 import janggi.domain.Team;
+import janggi.domain.position.Position;
+import janggi.domain.position.RawPosition;
+import janggi.domain.position.RawRoute;
+import janggi.domain.position.Route;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -10,17 +12,17 @@ import java.util.Set;
 
 public abstract class Piece {
 
-    protected Position position;
     protected final Team team;
-
-    protected abstract Set<RawRoute> calculateRawRoutes();
-
-    public abstract boolean isCannon();
+    protected Position position;
 
     public Piece(final Position position, final Team team) {
         this.position = position;
         this.team = team;
     }
+
+    protected abstract Set<RawRoute> calculateRawRoutes();
+
+    public abstract boolean isCannon();
 
     public void move(final Position position) {
         this.position = new Position(position.x(), position.y());
@@ -40,7 +42,6 @@ public abstract class Piece {
             putValidPositions(rawRoute, positions);
             returnRoute.add(new Route(positions));
         } catch (IllegalArgumentException e) {
-            return;
         }
     }
 

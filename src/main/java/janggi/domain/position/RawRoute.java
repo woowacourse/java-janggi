@@ -1,6 +1,5 @@
-package janggi.domain;
+package janggi.domain.position;
 
-import janggi.domain.piece.RawPosition;
 import java.util.List;
 
 public record RawRoute(List<RawPosition> rawPositions) {

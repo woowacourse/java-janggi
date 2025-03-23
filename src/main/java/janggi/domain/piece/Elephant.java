@@ -1,11 +1,17 @@
 package janggi.domain.piece;
 
-import janggi.domain.RawRoute;
 import janggi.domain.Team;
+import janggi.domain.position.Position;
+import janggi.domain.position.RawPosition;
+import janggi.domain.position.RawRoute;
 import java.util.List;
 import java.util.Set;
 
 public class Elephant extends Piece {
+
+    public Elephant(final Position position, final Team team) {
+        super(position, team);
+    }
 
     @Override
     protected Set<RawRoute> calculateRawRoutes() {
@@ -19,10 +25,6 @@ public class Elephant extends Piece {
                 new RawRoute(makeRawPositions7()),
                 new RawRoute(makeRawPositions8())
         );
-    }
-
-    public Elephant(final Position position, final Team team) {
-        super(position, team);
     }
 
     @Override

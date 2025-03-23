@@ -3,8 +3,10 @@ package janggi.domain.piece;
 import static janggi.domain.Team.BLUE;
 import static janggi.domain.Team.RED;
 
-import janggi.domain.RawRoute;
 import janggi.domain.Team;
+import janggi.domain.position.Position;
+import janggi.domain.position.RawPosition;
+import janggi.domain.position.RawRoute;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

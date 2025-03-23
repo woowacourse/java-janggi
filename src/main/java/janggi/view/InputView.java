@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.domain.piece.Position;
+import janggi.domain.position.Position;
 import java.util.Scanner;
 
 public class InputView {

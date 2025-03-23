@@ -10,8 +10,8 @@ import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Position;
 import janggi.domain.piece.Soldier;
+import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
