@@ -6,6 +6,7 @@ import janggi.domain.Team;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -72,5 +73,20 @@ class PieceTest {
         assertThatThrownBy(() -> piece.move(board, movedPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("목적지에 아군이 존재합니다.");
+    }
+
+    @Test
+    @DisplayName("같은 위치를 입력하면 예외를 던진다")
+    void throwExceptionWhenSamePosition() {
+        // given
+        Position position = Position.of(5, 5);
+        Piece piece = new Soldier(position, Team.RED);
+        Board board = Board.initialize(List.of(piece));
+
+        // when
+        // then
+        assertThatThrownBy(() -> piece.move(board, position))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("현재 위치와 이동할 위치와 같은 위치입니다");
     }
 }

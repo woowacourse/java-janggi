@@ -23,8 +23,15 @@ public abstract class Piece {
     public abstract Piece move(final Board board, final Position destination);
 
     protected void validateMove(final Board board, final Position destination, Movement movement) {
+        validateSamePosition(destination);
         moveRule.validateMove(board, this.position, destination, movement);
         validateIsAlly(board, destination, this.team);
+    }
+
+    private void validateSamePosition(final Position destination) {
+        if (position.equals(destination)) {
+            throw new IllegalArgumentException("현재 위치와 이동할 위치와 같은 위치입니다");
+        }
     }
 
     private void validateIsAlly(final Board board, final Position destination, final Team team) {
