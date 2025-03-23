@@ -24,6 +24,13 @@ public class JanggiGame {
         players.nextTurn();
     }
 
+    public boolean isEnd() {
+        boolean isChoGungDead = !janggiBoard.existGung(Team.CHO);
+        boolean isHanGungDead = !janggiBoard.existGung(Team.HAN);
+
+        return isChoGungDead || isHanGungDead;
+    }
+
     private void validateMovePiece(Position startPosition, Position targetPosition) {
         if (janggiBoard.findPiece(startPosition) == null) {
             throw new IllegalArgumentException("기물이 존재하지 않는 위치입니다.");

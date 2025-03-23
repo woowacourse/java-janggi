@@ -30,4 +30,9 @@ public class Gung extends Piece {
     public boolean isPo() {
         return false;
     }
+
+    @Override
+    public boolean isGung() {
+        return true;
+    }
 }

@@ -23,6 +23,10 @@ public class JanggiBoard {
         board.put(targetPosition, startPiece);
     }
 
+    public boolean existGung(Team team) {
+        return board.values().stream().anyMatch(piece -> piece.isGung() && piece.compareTeam(team));
+    }
+
     private void validateMovePiece(Piece startPiece, List<Position> path, Piece targetPositionPiece) {
         if (startPiece.isPo()) {
             validateCanonMove(path, targetPositionPiece);

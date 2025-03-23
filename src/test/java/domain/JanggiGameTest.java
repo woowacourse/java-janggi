@@ -79,4 +79,35 @@ public class JanggiGameTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("기물이 존재하지 않는 위치입니다.");
     }
+
+    @DisplayName("두 궁이 모두 생존하고 있으면 게임은 진행 중이다")
+    @Test
+    void test5() {
+        // given
+        Map<Position, Piece> board = new HashMap<>();
+        board.put(new Position(1, 1), new Gung(Team.HAN));
+        board.put(new Position(1, 2), new Gung(Team.CHO));
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(board), List.of("플레이어1", "플레이어2"));
+
+        // when
+        boolean actual = game.isEnd();
+
+        // then
+        assertThat(actual).isFalse();
+    }
+
+    @DisplayName("하나의 궁이라도 죽었으면 게임은 종료되었다")
+    @Test
+    void test6() {
+        // given
+        Map<Position, Piece> board = new HashMap<>();
+        board.put(new Position(1, 1), new Gung(Team.HAN));
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(board), List.of("플레이어1", "플레이어2"));
+
+        // when
+        boolean actual = game.isEnd();
+
+        // then
+        assertThat(actual).isTrue();
+    }
 }

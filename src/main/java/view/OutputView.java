@@ -76,4 +76,8 @@ public class OutputView {
     public void printErrorMessage(Exception exception) {
         System.out.printf("[ERROR] %s%n", exception.getMessage());
     }
+
+    public void printGameEnd() {
+        System.out.println("궁이 사망해서 게임이 종료되었습니다.");
+    }
 }

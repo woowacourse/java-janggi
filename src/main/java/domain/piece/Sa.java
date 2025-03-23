@@ -26,4 +26,9 @@ public class Sa extends Piece {
     public boolean isPo() {
         return false;
     }
+
+    @Override
+    public boolean isGung() {
+        return false;
+    }
 }

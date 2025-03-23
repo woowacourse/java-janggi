@@ -45,4 +45,9 @@ public class Po extends Piece {
         return true;
     }
 
+    @Override
+    public boolean isGung() {
+        return false;
+    }
+
 }

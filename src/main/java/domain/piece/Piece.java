@@ -27,11 +27,17 @@ public abstract class Piece {
 
     public abstract boolean isPo();
 
+    public abstract boolean isGung();
+
     public Team getTeam() {
         return team;
     }
 
     public boolean compareTeam(Piece otherPiece) {
-        return this.team == otherPiece.team;
+        return compareTeam(otherPiece.team);
+    }
+
+    public boolean compareTeam(Team team) {
+        return this.team == team;
     }
 }
