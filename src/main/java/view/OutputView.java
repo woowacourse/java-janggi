@@ -1,5 +1,6 @@
 package view;
 
+import domain.JanggiGame;
 import domain.Position;
 import domain.Team;
 import domain.piece.Piece;
@@ -14,27 +15,31 @@ public class OutputView {
 
     public static final String exit = "\u001B[0m";
 
-    public void displayPlayerInfo(List<String> playerNames) {
-        System.out.printf("%n%s: 초나라%n%s: 한나라%n%n", playerNames.getFirst(), playerNames.getLast());
+    public void printGameInfo(List<String> playerNames, JanggiGame janggiGame) {
+        System.out.printf("%n%s: 초나라%n%s: 한나라%n", playerNames.getFirst(), playerNames.getLast());
+        printJanggiBoard(janggiGame);
     }
 
-    public void printJanggiBoard(Map<Position, Piece> board) {
+    public void printJanggiBoard(JanggiGame game) {
+        Map<Position, Piece> board = game.getBoardState();
+        StringBuilder stringBuilder = new StringBuilder("\n");
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 9; j++) {
                 Piece piece = board.get(new Position(i + 1, j + 1));
                 if (piece == null) {
-                    System.out.print(white + "ㅁ" + exit);
+                    stringBuilder.append(white + "ㅁ" + exit);
                     continue;
                 }
                 if (piece.getTeam() == Team.HAN) {
-                    System.out.print(convertToString(red, piece));
+                    stringBuilder.append(convertToString(red, piece));
                 }
                 if (piece.getTeam() == Team.CHO) {
-                    System.out.print(convertToString(green, piece));
+                    stringBuilder.append(convertToString(green, piece));
                 }
             }
-            System.out.println();
+            stringBuilder.append("\n");
         }
+        System.out.print(stringBuilder);
     }
 
     private String convertToString(String color, Piece piece) {

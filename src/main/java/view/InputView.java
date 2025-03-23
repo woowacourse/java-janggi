@@ -35,7 +35,7 @@ public class InputView {
     }
 
     public String readCommand(Player player) {
-        System.out.printf("%s의 차례입니다. 게임을 진행하려면 y, 종료하려면 n을 입력하시오.%n", convertToCountry(player.getTeam()));
+        System.out.printf("%s의 차례입니다. 게임을 계속하려면 y, 종료하려면 n을 입력하시오.%n", convertToCountry(player.getTeam()));
         return scanner.nextLine();
     }
 
