@@ -22,18 +22,7 @@ public class Board {
     public void pieceMove(final Position presentPosition, final Position futurePosition) {
         Piece piece = janggiBoard.get(presentPosition);
         piece.isMove(futurePosition);
-
         checkObstacle(presentPosition, futurePosition);
-
-        if (isPo(presentPosition)) {
-            if (!isPieceInFront(presentPosition, futurePosition)) {
-                throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 위치입니다.");
-            }
-
-            updatePiecePosition(presentPosition, futurePosition, piece);
-            return;
-        }
-
         updatePiecePosition(presentPosition, futurePosition, piece);
     }
 
@@ -43,102 +32,47 @@ public class Board {
         piece.updatePiecePositionBy(futurePosition);
     }
 
-    private boolean isPo(Position position) {
-        return janggiBoard.containsKey(position) && janggiBoard.get(position).getName().equals("포");
-    }
-
-    private boolean isPieceInFront(final Position presentPosition, final Position futurePosition) {
-        int dx = presentPosition.getRow() - futurePosition.getRow();
-        int dy = presentPosition.getCol() - futurePosition.getCol();
-
-        int cnt = 0;
-
-        if (dx == 0 && dy > 0) {
-            for (int i = 1; i <= dy; i++) {
-                Position position =
-                        new Position(presentPosition.getRow(), futurePosition.getCol() + i);
-
-                if (isPo(position)) {
-                    return false;
-                }
-
-                if (janggiBoard.containsKey(position)) {
-                    cnt++;
-                }
-            }
-            return cnt <= 1;
-        }
-
-        if (dx == 0 && dy < 0) {
-            for (int i = 1; i <= Math.abs(dy); i++) {
-                Position position =
-                        new Position(presentPosition.getRow(), presentPosition.getCol() + i);
-                if (isPo(position)) {
-                    return false;
-                }
-                if (janggiBoard.containsKey(position)) {
-                    cnt++;
-                }
-            }
-            return cnt <= 1;
-        }
-
-        if (dx > 0 && dy == 0) {
-            for (int i = 1; i <= dx; i++) {
-                Position position =
-                        new Position(futurePosition.getRow() + i, futurePosition.getCol());
-                if (isPo(position)) {
-                    return false;
-                }
-                if (janggiBoard.containsKey(position)) {
-                    cnt++;
-                }
-            }
-            return cnt <= 1;
-        }
-        if (dx < 0 && dy == 0) {
-            for (int i = 1; i <= Math.abs(dx); i++) {
-                Position position =
-                        new Position(presentPosition.getRow() + i, futurePosition.getCol());
-                if (isPo(position)) {
-                    return false;
-                }
-                if (janggiBoard.containsKey(position)) {
-                    cnt++;
-                }
-            }
-            return cnt <= 1;
-        }
-        return false;
-    }
-
     private void checkObstacle(final Position presentPosition, final Position futurePosition) {
-        List<Position> route = janggiBoard.get(presentPosition).makeRoute(futurePosition);
-
-        int cnt = 0;
+        List<Position> moveRoute = janggiBoard.get(presentPosition).makeRoute(futurePosition);
 
         if (isPo(presentPosition)) {
-            for (Position position : route) {
-                if (janggiBoard.containsKey(position)) {
-                    cnt++;
-                }
-            }
-            if (cnt == 0) {
-                throw new IllegalArgumentException("[ERROR] 포는 반드시 포를 제외한 기물 하나를 넘어야 합니다.");
-            }
-
-            if (cnt >= 2) {
-                throw new IllegalArgumentException("[ERROR] 이동하려는 경로에 장애물이 존재합니다.");
-            }
-
+            validatePoMove(moveRoute);
             return;
         }
 
-        for (Position position : route) {
+        for (Position position : moveRoute) {
             if (janggiBoard.containsKey(position)) {
-                throw new IllegalArgumentException("[ERROR] 이동하려는 경로에 장애물이 존재합니다.");
+                throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다. 이동하려는 경로에 장애물이 존재합니다.");
             }
         }
+    }
+
+    private void validatePoMove(final List<Position> moveRoute) {
+        int obstacleCount = 0;
+        for (Position position : moveRoute) {
+            if (isPo(position)) {
+                throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다. 이동하려는 경로에 포가 존재합니다. 포는 포를 넘을 수 없습니다.");
+            }
+
+            if (janggiBoard.containsKey(position)) {
+                obstacleCount++;
+            }
+        }
+        validateObstacleBy(obstacleCount);
+    }
+
+    private void validateObstacleBy(final int obstacle) {
+        if (obstacle == 0) {
+            throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다. 포는 반드시 포를 제외한 기물 하나를 넘어야 합니다.");
+        }
+
+        if (obstacle >= 2) {
+            throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다. 이동하려는 경로에 " + obstacle + "개의 장애물이 존재합니다.");
+        }
+    }
+
+    private boolean isPo(Position position) {
+        return janggiBoard.containsKey(position) && janggiBoard.get(position).getName().equals("포");
     }
 
     public Map<Position, Piece> getJanggiBoard() {
