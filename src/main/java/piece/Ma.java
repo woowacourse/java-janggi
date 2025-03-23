@@ -1,8 +1,19 @@
 package piece;
 
+import static coordinate.DiagonalDirection.LEFT_DOWN;
+import static coordinate.DiagonalDirection.LEFT_UP;
+import static coordinate.DiagonalDirection.RIGHT_DOWN;
+import static coordinate.DiagonalDirection.RIGHT_UP;
+import static coordinate.Direction.DOWN;
+import static coordinate.Direction.LEFT;
+import static coordinate.Direction.RIGHT;
+import static coordinate.Direction.UP;
+
 import board.Board;
 import coordinate.Coordinate;
-import java.util.Optional;
+import coordinate.MoveVector;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,18 +27,18 @@ public class Ma extends Piece {
 
     @Override
     protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
-        return Stream.of(
-                        departure.pickChangedCoordinate(-2, -1),
-                        departure.pickChangedCoordinate(-2, 1),
-                        departure.pickChangedCoordinate(-1, -2),
-                        departure.pickChangedCoordinate(-1, 2),
-                        departure.pickChangedCoordinate(1, -2),
-                        departure.pickChangedCoordinate(1, 2),
-                        departure.pickChangedCoordinate(2, -1),
-                        departure.pickChangedCoordinate(2, 1)
+        return Stream.<List<MoveVector>>of(
+                        List.of(UP, RIGHT_UP),
+                        List.of(UP, LEFT_UP),
+                        List.of(DOWN, RIGHT_DOWN),
+                        List.of(DOWN, LEFT_DOWN),
+                        List.of(RIGHT, RIGHT_UP),
+                        List.of(RIGHT, RIGHT_DOWN),
+                        List.of(LEFT, LEFT_UP),
+                        List.of(LEFT, LEFT_DOWN)
                 )
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .map(departure::pickChangedCoordinate)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
     }
 
