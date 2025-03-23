@@ -101,11 +101,7 @@ public class Janggi {
     }
 
     public void changeTurn() {
-        if (turn == Team.HAN) {
-            turn = Team.CHO;
-            return;
-        }
-        turn = Team.HAN;
+        turn = turn.getOpposite();
     }
 
     public Team getTurn() {

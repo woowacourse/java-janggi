@@ -58,7 +58,7 @@
 - [x] `CannonUnitRule#calculateEndPoint()` 접근제한자 `private`으로 변경
 - [x] `OutputView`에서 if문에 도달하지 않는 경우 예외 발생시키기
 - [ ] `Janggi` 외부에서 주입하기
-- [ ] `Janggi#changeTeam()`구현 로직 `Team` 객체에 메시지를 보내는 방향으로
+- [x] `Janggi#changeTeam()`구현 로직 `Team` 객체에 메시지를 보내는 방향으로
 - [ ] `Unit` -> 동등성 정의 로직 수정
 - [ ] `Unit` 객체 인스턴스 변수 3개를 2개로 줄이기
 - [ ] 에외 메시지 작성
