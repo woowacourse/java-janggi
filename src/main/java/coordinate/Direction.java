@@ -1,6 +1,7 @@
 package coordinate;
 
 public enum Direction implements MoveVector {
+
     UP(0, -1),
     DOWN(0, 1),
     LEFT(-1, 0),

@@ -1,6 +1,7 @@
 package coordinate;
 
 public enum DiagonalDirection implements MoveVector {
+
     RIGHT_UP(1, -1),
     RIGHT_DOWN(1, 1),
     LEFT_UP(-1, -1),
