@@ -10,13 +10,11 @@ import janggi.piece.Sa;
 import janggi.piece.Sang;
 import janggi.point.Hurdles;
 import janggi.point.Point;
-import janggi.point.Route;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Board {
     private final List<Movable> runningPieces;
@@ -67,29 +65,18 @@ public class Board {
 
     public void move(Point beforePoint, Point afterPoint) {
         Movable movingPiece = findByPoint(beforePoint);
-
         if (turn != movingPiece.getTeam()) {
             throw new IllegalArgumentException(turn.getText() + "의 기물만 이동할 수 있습니다.");
         }
 
-//        if (movingPiece instanceof Po) {
-//            if (!((Po) movingPiece).isMovable(afterPoint, this)) {
-//                throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
-//            }
-//        } else if (!movingPiece.isInMovingRange(afterPoint)
-//                || checkHurdles(beforePoint, movingPiece.findRoute(afterPoint))
-//        ) {
-//            throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
-//        }
         if (!movingPiece.isInMovingRange(afterPoint, findHurdles())) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
-
         Movable updatedMoving = movingPiece.updatePoint(afterPoint);
 
         if (hasPieceOnPoint(afterPoint)) {
-            Movable target = findByPoint(afterPoint);
-            runningPieces.remove(target);
+            Movable prey = findByPoint(afterPoint);
+            runningPieces.remove(prey);
         }
 
         runningPieces.remove(movingPiece);
