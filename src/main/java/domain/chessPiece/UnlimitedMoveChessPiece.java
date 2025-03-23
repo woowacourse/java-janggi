@@ -17,7 +17,7 @@ public abstract class UnlimitedMoveChessPiece extends JanggiChessPiece {
     }
 
     @Override
-    protected List<Path> getCoordinatePaths(ChessPosition startPosition) {
+    protected final List<Path> getCoordinatePaths(ChessPosition startPosition) {
         final List<Path> paths = new ArrayList<>();
         for (Direction direction : directions) {
             List<ChessPosition> boundaryPositions = getBoundaryPositions(startPosition, direction);

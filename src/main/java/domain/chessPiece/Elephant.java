@@ -3,6 +3,7 @@ package domain.chessPiece;
 import domain.direction.Directions;
 import domain.hurdlePolicy.HurdlePolicy;
 import domain.hurdlePolicy.UnpassableHurdlePolicy;
+import domain.path.Path;
 import domain.position.ChessPosition;
 import domain.type.ChessPieceType;
 import domain.type.ChessTeam;
