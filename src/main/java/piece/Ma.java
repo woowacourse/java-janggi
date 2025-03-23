@@ -55,12 +55,16 @@ public class Ma extends Piece {
         int deltaY = arrival.getY() - departure.getY();
 
         if (Math.abs(deltaX) == 2 && deltaY != 0) {
-            return Set.of(departure.pickChangedCoordinate(deltaX / 2, 0)
-                    .orElseThrow(() -> new IllegalStateException("유효하지 않은 좌표입니다.")));
+            if (deltaX > 0) {
+                return Set.of(departure.pickChangedCoordinate(List.of(RIGHT)));
+            }
+            return Set.of(departure.pickChangedCoordinate(List.of(LEFT)));
         }
         if (Math.abs(deltaY) == 2 && deltaX != 0) {
-            return Set.of(departure.pickChangedCoordinate(0, deltaY / 2)
-                    .orElseThrow(() -> new IllegalStateException("유효하지 않은 좌표입니다.")));
+            if (deltaY > 0) {
+                return Set.of(departure.pickChangedCoordinate(List.of(DOWN)));
+            }
+            return Set.of(departure.pickChangedCoordinate(List.of(UP)));
         }
 
         throw new IllegalStateException("유효하지 않은 좌표입니다.");
