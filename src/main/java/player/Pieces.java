@@ -41,4 +41,10 @@ public class Pieces {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 도착지에 아군 기물이 존재합니다."));
     }
+
+    public void canPieceMoveTo(Position presentPosition, Position destination) {
+        pieces.stream()
+                .filter(piece -> piece.isSamePosition(presentPosition))
+                .anyMatch(piece -> piece.canMoveTo(destination));
+    }
 }
