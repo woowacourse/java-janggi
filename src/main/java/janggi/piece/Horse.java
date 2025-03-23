@@ -47,17 +47,17 @@ public final class Horse extends Piece {
     }
 
     private Point getNextHorizontalPoint(Point fromPoint, Point toPoint) {
-        if (fromPoint.getX() < toPoint.getX()) {
-            return new Point(fromPoint.getX() + 1, fromPoint.getY());
+        if (fromPoint.x() < toPoint.x()) {
+            return new Point(fromPoint.x() + 1, fromPoint.y());
         }
-        return new Point(fromPoint.getX() - 1, fromPoint.getY());
+        return new Point(fromPoint.x() - 1, fromPoint.y());
     }
 
     private Point getNextVerticalPoint(Point fromPoint, Point toPoint) {
-        if (fromPoint.getY() < toPoint.getY()) {
-            return new Point(fromPoint.getX(), fromPoint.getY() + 1);
+        if (fromPoint.y() < toPoint.y()) {
+            return new Point(fromPoint.x(), fromPoint.y() + 1);
         }
-        return new Point(fromPoint.getX(), fromPoint.getY() - 1);
+        return new Point(fromPoint.x(), fromPoint.y() - 1);
     }
 
     @Override

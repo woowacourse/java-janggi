@@ -8,9 +8,6 @@ import janggi.view.View;
 public final class Application {
 
     private static final Camp FIRST_TURN_CAMP = Camp.CHU;
-    private static final int FROM_POINT_INDEX = 0;
-    private static final int TO_POINT_INDEX = 1;
-    private static final String ERROR_MESSAGE_FORMAT = "%n[ERROR] %s";
 
     public static void main(String[] args) {
         View view = new View();
@@ -33,18 +30,19 @@ public final class Application {
 
     private static void playTurnUntilSuccess(View view, Camp currentTurnCamp, Board board) {
         try {
-            playTurn(view.readMove(currentTurnCamp), currentTurnCamp, board);
+            playTurn(view, currentTurnCamp, board);
         } catch (IllegalArgumentException e) {
-            System.out.printf(ERROR_MESSAGE_FORMAT, e.getMessage());
-            playTurn(view.readMove(currentTurnCamp), currentTurnCamp, board);
+            view.displayErrorMessage(e.getMessage());
+            playTurn(view, currentTurnCamp, board);
         }
     }
 
-    private static void playTurn(String[] input, Camp baseCamp, Board board) {
-        Point from = new Point(input[FROM_POINT_INDEX]);
-        Point to = new Point(input[TO_POINT_INDEX]);
-        validateSelectedPiece(board, from, baseCamp);
-        board.movePiece(from, to);
+    private static void playTurn(View view, Camp baseCamp, Board board) {
+        view.displayCurrentTurnCamp(baseCamp);
+        Point fromPoint = PointParser.parse(view.readMoveFromPoint());
+        Point toPoint = PointParser.parse(view.readMoveToPoint());
+        validateSelectedPiece(board, fromPoint, baseCamp);
+        board.movePiece(fromPoint, toPoint);
     }
 
     private static void validateSelectedPiece(Board board, Point from, Camp baseCamp) {

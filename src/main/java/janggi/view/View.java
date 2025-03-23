@@ -13,6 +13,7 @@ public final class View {
     private static final int COLUMN = 9;
     private static final String EMPTY_SPACE = "ㅤ";
     private static final String BOARD_DELIMITER_LINE = " | ";
+    private static final String ERROR_MESSAGE_FORMAT = "%n[ERROR] %s";
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -46,11 +47,18 @@ public final class View {
         throw new IllegalArgumentException("y 또는 n을 입력해야 합니다.");
     }
 
-    public String[] readMove(Camp camp) {
+    public void displayCurrentTurnCamp(Camp camp) {
         System.out.printf("%n%n[%s의 차례입니다.]%n", camp.getName());
-        System.out.println("이동시킬 기물의 좌표와 도착 지점의 좌표를 입력해 주세요. 예) 03,13");
-        return scanner.nextLine()
-                .split(",", -1);
+    }
+
+    public String readMoveFromPoint() {
+        System.out.println("이동시킬 기물의 좌표를 입력해 주세요. 예) 03");
+        return scanner.nextLine();
+    }
+
+    public String readMoveToPoint() {
+        System.out.println("기물을 이동할 위치의 좌표를 입력해 주세요. 예) 13");
+        return scanner.nextLine();
     }
 
     public void displayBoard(Map<Point, Piece> placedPieces) {
@@ -83,5 +91,9 @@ public final class View {
     private String formatPiece(Piece piece) {
         PieceSymbol pieceSymbol = piece.getPieceSymbol();
         return pieceSymbol.getDisplayAttributes(piece.getCamp());
+    }
+
+    public void displayErrorMessage(String message) {
+        System.out.printf((ERROR_MESSAGE_FORMAT), message);
     }
 }

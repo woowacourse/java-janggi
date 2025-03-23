@@ -53,9 +53,9 @@ public final class Cannon extends Piece {
     private Set<Point> findRoute(Point fromPoint, Point toPoint) {
         boolean isHorizontal = fromPoint.isHorizontal(toPoint);
         if (isHorizontal) {
-            return findHorizontalRoute(fromPoint.getY(), fromPoint.getX(), toPoint.getX());
+            return findHorizontalRoute(fromPoint.y(), fromPoint.x(), toPoint.x());
         }
-        return findVerticalRoute(fromPoint.getX(), fromPoint.getY(), toPoint.getY());
+        return findVerticalRoute(fromPoint.x(), fromPoint.y(), toPoint.y());
     }
 
     private Set<Point> findHorizontalRoute(int fixedY, int fromX, int toX) {

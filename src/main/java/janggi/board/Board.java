@@ -55,7 +55,7 @@ public final class Board {
     }
 
     private void validatePointWithinBounds(Point point) {
-        boolean isOutOfBound = point.getX() < 0 || COLUMN <= point.getX() || point.getY() < 0 || ROW <= point.getY();
+        boolean isOutOfBound = point.x() < 0 || COLUMN <= point.x() || point.y() < 0 || ROW <= point.y();
         if (isOutOfBound) {
             throw new IllegalArgumentException("기물의 위치는 %d x %d 영역을 벗어날 수 없습니다.".formatted(COLUMN, ROW));
         }
