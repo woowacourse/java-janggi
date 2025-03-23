@@ -1,6 +1,5 @@
 package view;
 
-import domain.Player;
 import domain.Position;
 import domain.Team;
 import domain.piece.Piece;
@@ -69,15 +68,7 @@ public class OutputView {
         return color + result + exit;
     }
 
-    public void printTurnMessage(Player player) {
-        System.out.printf("%s의 차례입니다.%n", convertToCountry(player.getTeam()));
-    }
-
-    private String convertToCountry(Team team) {
-        return switch (team) {
-            case Team.HAN -> "한나라";
-            case Team.CHO -> "초나라";
-            default -> "알 수 없는 나라";
-        };
+    public void printErrorMessage(Exception exception) {
+        System.out.printf("[ERROR] %s%n", exception.getMessage());
     }
 }
