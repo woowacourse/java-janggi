@@ -23,6 +23,8 @@ public abstract class Piece {
 
     public abstract void updateChessPiecePositionBy(Position position);
 
+    public abstract boolean isKing();
+
     public abstract PieceType getPieceType();
 
     @Override

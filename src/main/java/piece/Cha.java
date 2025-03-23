@@ -64,6 +64,11 @@ public class Cha extends Piece {
     }
 
     @Override
+    public boolean isKing() {
+        return false;
+    }
+
+    @Override
     public PieceType getPieceType() {
         return CHA;
     }

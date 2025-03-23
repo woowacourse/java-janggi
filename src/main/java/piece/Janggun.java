@@ -35,6 +35,11 @@ public class Janggun extends Piece {
     }
 
     @Override
+    public boolean isKing() {
+        return true;
+    }
+
+    @Override
     public PieceType getPieceType() {
         return JANGGUN;
     }
