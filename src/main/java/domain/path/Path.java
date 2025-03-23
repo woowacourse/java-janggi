@@ -22,15 +22,15 @@ public class Path {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (!(o instanceof final Path path1)) {
-            return false;
-        }
-        return Objects.equals(getPath(), path1.getPath());
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Path path1 = (Path) object;
+        return Objects.equals(path, path1.path);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getPath());
+        return Objects.hash(path);
     }
 }

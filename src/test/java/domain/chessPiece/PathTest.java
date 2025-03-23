@@ -1,3 +1,5 @@
+package domain.chessPiece;
+
 import domain.path.Path;
 import domain.position.ChessPosition;
 import org.junit.jupiter.api.DisplayName;

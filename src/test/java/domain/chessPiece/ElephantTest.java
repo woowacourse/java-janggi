@@ -1,4 +1,4 @@
-package domain;
+package domain.chessPiece;
 
 import domain.chessPiece.ChessPiece;
 import domain.chessPiece.Elephant;

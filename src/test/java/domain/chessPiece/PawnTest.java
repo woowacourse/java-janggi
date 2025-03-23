@@ -1,3 +1,5 @@
+package domain.chessPiece;
+
 import domain.position.ChessPiecePositions;
 import domain.position.ChessPosition;
 import domain.position.EmptyChessPiecePositionsGenerator;

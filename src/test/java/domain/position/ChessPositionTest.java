@@ -1,4 +1,4 @@
-package domain;
+package domain.position;
 
 import domain.position.ChessPosition;
 import org.junit.jupiter.api.DisplayName;
