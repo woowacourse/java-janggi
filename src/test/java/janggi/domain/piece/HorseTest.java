@@ -34,7 +34,7 @@ class HorseTest {
     @ParameterizedTest
     @CsvSource(value = {"1, 3", "3, 1", "2,2"})
     @DisplayName("마는 규칙에 어긋나게 움직일 수 없다")
-    void move(int rowDirection, int columnDirection) {
+    void cannotMoveToInvalidDirection(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
         Piece horse = new Horse(position, Team.RED);

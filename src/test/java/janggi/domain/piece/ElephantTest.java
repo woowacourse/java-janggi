@@ -34,7 +34,7 @@ class ElephantTest {
     @ParameterizedTest
     @CsvSource(value = {"2, 4", "4, 2", "3,3", "1,1"})
     @DisplayName("상은 규칙에 어긋나게 움직일 수 없다")
-    void move(int rowDirection, int columnDirection) {
+    void cannotMoveToInvalidDirection(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
         Piece elephant = new Elephant(position, Team.RED);

@@ -16,9 +16,7 @@ public class PositionTest {
     @DisplayName("유효하지 않은 범위로 위치를 생성할 수 없다.")
     void validateRange(int row, int column) {
         //given
-
         //when
-
         //then
         assertThatThrownBy(() -> Position.of(row, column))
                 .isInstanceOf(IllegalArgumentException.class)

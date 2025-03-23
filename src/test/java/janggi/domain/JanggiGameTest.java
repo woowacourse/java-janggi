@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 class JanggiGameTest {
 
     @Test
-    @DisplayName("RED 팀부터 기물을 이동할 수 있다")
+    @DisplayName("GREEN 팀부터 기물을 이동할 수 있다")
     void moveByPlayer() {
         //given
         Player redPlayer = new Player("flint", Team.RED);

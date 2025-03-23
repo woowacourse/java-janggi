@@ -34,7 +34,7 @@ class GeneralTest {
     @ParameterizedTest
     @CsvSource(value = {"1, 1", "2, 0"})
     @DisplayName("궁은 2칸 이상 움직일 수 없다")
-    void move(int rowDirection, int columnDirection) {
+    void cannotMoveToInvalidCount(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
         Piece general = new General(position, Team.RED);

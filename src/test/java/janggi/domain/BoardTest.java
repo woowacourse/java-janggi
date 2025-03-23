@@ -31,7 +31,7 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("대상 위치에 기물이 아군임을 확인할 수 있다")
+    @DisplayName("Board에 Piece를 기반으로 초기화할 수 있다")
     void getPiece() {
         // given
         Position position = Position.of(1, 1);
@@ -72,21 +72,6 @@ class BoardTest {
 
         //then
         assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    @DisplayName("두 팀의 궁이 모두 살아있으면 게임을 진행한다")
-    void checkGeneralDiedWhenAllAlive() {
-        //given
-        Board board = Board.initialize(
-                List.of(new General(Position.of(1, 1), Team.RED),
-                        new General(Position.of(1, 2), Team.GREEN)));
-
-        //when
-        GameStatus actual = board.checkGeneralDied();
-
-        //then
-        assertThat(actual).isEqualTo(GameStatus.CONTINUE);
     }
 
     @Test

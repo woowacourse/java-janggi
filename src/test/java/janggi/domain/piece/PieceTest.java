@@ -60,8 +60,10 @@ class PieceTest {
 
     @ParameterizedTest
     @MethodSource("provideAllyPiece")
-    @DisplayName("포가 아닌 기물은 목적지에 아군이 존재할 경우 이동할 수 없다")
-    void cannotMoveWhenExistAllyPieceInDestination(Piece piece, Piece allyPiece, int rowDirection,
+    @DisplayName("모든 기물은 목적지에 아군이 존재할 경우 이동할 수 없다 - 포 제외 케이스")
+    void cannotMoveWhenExistAllyPieceInDestination(Piece piece,
+                                                   Piece allyPiece,
+                                                   int rowDirection,
                                                    int columnDirection) {
         // given
         Board board = Board.initialize(List.of(piece, allyPiece));
@@ -74,6 +76,25 @@ class PieceTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("목적지에 아군이 존재합니다.");
     }
+
+    @Test
+    @DisplayName("모든 기물은 목적지에 아군이 존재할 경우 이동할 수 없다 - 포 케이스")
+    void cannotMoveWhenExistAllyPieceInDestination() {
+        // given
+        Piece piece = new Cannon(Position.of(1, 1), Team.RED);
+        Piece otherPiece = new Soldier(Position.of(2, 1), Team.RED);
+        Piece allyPiece = new Soldier(Position.of(3, 1), Team.RED);
+        Board board = Board.initialize(List.of(piece, otherPiece, allyPiece));
+
+        Position movedPosition = piece.getPosition().adjust(2, 0);
+
+        // when
+        // then
+        assertThatThrownBy(() -> piece.move(board, movedPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("목적지에 아군이 존재합니다.");
+    }
+
 
     @Test
     @DisplayName("같은 위치를 입력하면 예외를 던진다")
