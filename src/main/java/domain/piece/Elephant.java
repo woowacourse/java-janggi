@@ -25,12 +25,9 @@ public class Elephant extends Piece {
         List<BoardLocation> path = new ArrayList<>();
         for (Direction direction : Direction.values()) {
             for (Diagonal diagonal : Diagonal.values()) {
-                if (diagonal.notContains(direction)) {
-                    continue;
-                }
-                if (boardVector.equals(new BoardVector(direction.getX() + diagonal.getX() + diagonal.getX(), direction.getY() + diagonal.getY() + diagonal.getY()))) {
-                    BoardLocation next = current.move(direction.getX(), direction.getY());
-                    BoardLocation nextDiagonal = current.move(direction.getX() + diagonal.getX(), direction.getY() + diagonal.getY());
+                if (boardVector.equals(new BoardVector(direction.x() + diagonal.x() + diagonal.x(), direction.y() + diagonal.y() + diagonal.y()))) {
+                    BoardLocation next = current.move(direction.x(), direction.y());
+                    BoardLocation nextDiagonal = current.move(direction.x() + diagonal.x(), direction.y() + diagonal.y());
                     path.add(next);
                     path.add(nextDiagonal);
                 }

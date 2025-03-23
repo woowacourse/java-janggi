@@ -22,11 +22,14 @@ public class Board {
         List<BoardLocation> allPath = piece.createAllPath(current, destination);
         List<Piece> pathPiece = teamBoard.extractPathPiece(allPath);
         if (!piece.canArrive(pathPiece)){
-            throw new IllegalArgumentException("[ERROR] 해당 기물은 이동경로가 막혀있어 이동할 수 없습니다");
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
         }
-        Piece destinationPiece = teamBoard.findByLocation(destination);
-        if (!piece.canDestination(destinationPiece)){
-            throw new IllegalArgumentException("[ERROR] 목적지에 이동할 수 없습니다.");
+
+        if (teamBoard.contains(destination)) {
+            Piece destinationPiece = teamBoard.findByLocation(destination);
+            if (!piece.canDestination(destinationPiece)){
+                throw new IllegalArgumentException("[ERROR] 해당 기물은 목적지로 이동할 수 없습니다.");
+            }
         }
 
         teamBoard.removeIfHas(destination);

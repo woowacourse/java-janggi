@@ -26,15 +26,32 @@ public class Chariot extends Piece {
 
         if (boardVector.isDxZero()) {
             int dy = boardVector.dy();
-            for (int i = 1; i < dy; i++) {
-                path.add(current.moveY(i));
+            if (dy > 0) {
+                for (int i = 1; i < dy; i++) {
+                    path.add(current.moveY(i));
+                }
             }
+
+            if (dy < 0) {
+                for (int i = -1; i > dy; i--) {
+                    path.add(current.moveY(i));
+                }
+            }
+
             return path;
         }
 
-        int dx = boardVector.dx();
-        for (int i = 1; i < dx; i++) {
-            path.add(current.moveX(i));
+        int dx = boardVector.getAbsDx();
+        if (dx > 0) {
+            for (int i = 1; i < dx; i++) {
+                path.add(current.moveY(i));
+            }
+        }
+
+        if (dx < 0) {
+            for (int i = -1; i > dx; i--) {
+                path.add(current.moveY(i));
+            }
         }
         return path;
     }

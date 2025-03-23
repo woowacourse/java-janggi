@@ -25,11 +25,8 @@ public class Horse extends Piece {
         List<BoardLocation> path = new ArrayList<>();
         for(Direction direction : Direction.values()) {
             for (Diagonal diagonal : Diagonal.values()) {
-                if (diagonal.notContains(direction)) {
-                    continue;
-                }
-                if (boardVector.equals(new BoardVector(direction.getX() + diagonal.getX(), direction.getY() + diagonal.getY()))) {
-                    BoardLocation next = current.move(direction.getX(), direction.getY());
+                if (boardVector.equals(new BoardVector(direction.x() + diagonal.x(), direction.y() + diagonal.y()))) {
+                    BoardLocation next = current.move(direction.x(), direction.y());
                     path.add(next);
                 }
             }

@@ -2,21 +2,19 @@ package domain;
 
 import java.util.Objects;
 
-public class BoardLocation {
+public record BoardLocation(
+        int x,
+        int y
+) {
 
     private static final int START_X = 1;
     private static final int START_Y = 1;
     private static final int END_X = 9;
     private static final int END_Y = 10;
 
-    private final int x;
-    private final int y;
-
-    public BoardLocation(int x, int y) {
+    public BoardLocation {
         validateXRange(x);
         validateYRange(y);
-        this.x = x;
-        this.y = y;
     }
 
     private void validateYRange(int y) {
