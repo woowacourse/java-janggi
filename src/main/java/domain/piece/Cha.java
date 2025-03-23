@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Cannon extends Piece {
+public class Cha extends Piece {
 
-    public Cannon(Team team) {
+    public Cha(Team team) {
         super(team);
     }
 
@@ -42,7 +42,6 @@ public class Cannon extends Piece {
 
     @Override
     public boolean isCanon() {
-        return true;
+        return false;
     }
-
 }

@@ -3,14 +3,12 @@ package domain.piece;
 import domain.Position;
 import domain.Team;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
 
-public class Chariot extends Piece {
+public class Po extends Piece {
 
-    public Chariot(Team team) {
+    public Po(Team team) {
         super(team);
     }
 
@@ -44,6 +42,7 @@ public class Chariot extends Piece {
 
     @Override
     public boolean isCanon() {
-        return false;
+        return true;
     }
+
 }

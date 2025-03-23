@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class KingTest {
+public class GungTest {
 
     @DisplayName("사는 상하좌우로 이동할 수 있다.")
     @ParameterizedTest
@@ -22,12 +22,12 @@ public class KingTest {
     void test(int row, int column, Move move) {
 
         //given
-        King king = new King(Team.CHO);
+        Gung gung = new Gung(Team.CHO);
         Position startPosition = new Position(4, 4);
         Position targetPosition = new Position(row, column);
 
         //when
-        List<Position> resultMove = king.calculatePath(startPosition, targetPosition);
+        List<Position> resultMove = gung.calculatePath(startPosition, targetPosition);
 
         // then
         Assertions.assertThat(resultMove).isEqualTo(List.of());
@@ -38,10 +38,10 @@ public class KingTest {
     void test1() {
 
         //given
-        King king = new King(Team.HAN);
+        Gung gung = new Gung(Team.HAN);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> king.calculatePath(new Position(4, 1), new Position(4, 3)))
+        Assertions.assertThatThrownBy(() -> gung.calculatePath(new Position(4, 1), new Position(4, 3)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이 위치로 이동할 수 없습니다.");
     }

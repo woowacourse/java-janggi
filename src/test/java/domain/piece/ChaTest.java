@@ -9,16 +9,16 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class ChariotTest {
+public class ChaTest {
 
     @DisplayName("차의 이동 경로를 계산할 수 있다")
     @Test
     void test1() {
-        Chariot chariot = new Chariot(Team.HAN);
+        Cha cha = new Cha(Team.HAN);
 
-        List<Position> path1 = chariot.calculatePath(new Position(1, 1), new Position(1, 4));
-        List<Position> path2 = chariot.calculatePath(new Position(1, 1), new Position(4, 1));
-        List<Position> path3 = chariot.calculatePath(new Position(6, 1), new Position(3, 1));
+        List<Position> path1 = cha.calculatePath(new Position(1, 1), new Position(1, 4));
+        List<Position> path2 = cha.calculatePath(new Position(1, 1), new Position(4, 1));
+        List<Position> path3 = cha.calculatePath(new Position(6, 1), new Position(3, 1));
         List<Position> expected1 = List.of(new Position(1, 2), new Position(1, 3));
         List<Position> expected2 = List.of(new Position(2, 1), new Position(3, 1));
         List<Position> expected3 = List.of(new Position(5, 1), new Position(4, 1));
@@ -34,9 +34,9 @@ public class ChariotTest {
     @DisplayName("차로 이동할 수 없는 위치인 경우 예외를 발생시킨다")
     @Test
     void test3() {
-        Chariot chariot = new Chariot(Team.HAN);
+        Cha cha = new Cha(Team.HAN);
 
-        assertThatThrownBy(() -> chariot.calculatePath(new Position(1, 1), new Position(2, 2)))
+        assertThatThrownBy(() -> cha.calculatePath(new Position(1, 1), new Position(2, 2)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이 위치로는 움직일 수 없습니다.");
     }

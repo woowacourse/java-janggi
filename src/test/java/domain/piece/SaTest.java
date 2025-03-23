@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class GuardTest {
+class SaTest {
 
 
     @DisplayName("사는 상하좌우로 이동할 수 있다.")
@@ -22,12 +22,12 @@ class GuardTest {
     void test(int row, int column, Move move) {
 
         //given
-        Guard guard = new Guard(Team.CHO);
+        Sa sa = new Sa(Team.CHO);
         Position startPosition = new Position(4, 4);
         Position targetPosition = new Position(row, column);
 
         //when
-        List<Position> resultMove = guard.calculatePath(startPosition, targetPosition);
+        List<Position> resultMove = sa.calculatePath(startPosition, targetPosition);
 
         // then
         Assertions.assertThat(resultMove).isEqualTo(List.of());

@@ -15,8 +15,8 @@ public class PieceTest {
     })
     void test(Team team1, Team team2, boolean expected) {
         // given
-        Piece piece1 = new Horse(team1);
-        Piece piece2 = new Horse(team2);
+        Piece piece1 = new Ma(team1);
+        Piece piece2 = new Ma(team2);
 
         // when
         boolean actual = piece1.compareTeam(piece2);

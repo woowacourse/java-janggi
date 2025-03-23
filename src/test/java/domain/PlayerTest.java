@@ -1,6 +1,6 @@
 package domain;
 
-import domain.piece.Horse;
+import domain.piece.Ma;
 import domain.piece.Piece;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +12,7 @@ class PlayerTest {
     @Test
     void test() {
         // given
-        Piece piece = new Horse(Team.HAN);
+        Piece piece = new Ma(Team.HAN);
         Player player = new Player("짱구", Team.HAN);
         // when
         boolean result = player.isTeam(piece);

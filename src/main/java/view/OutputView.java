@@ -41,28 +41,30 @@ public class OutputView {
     private String convertToString(String color, Piece piece) {
         String result = "";
         switch (piece.getClass().getSimpleName()) {
-            case "Pawn":
+            case "Byeong":
                 result = "병";
                 break;
-            case "Chariot":
+            case "Jol":
+                result = "졸";
+                break;
+            case "Cha":
                 result = "차";
                 break;
-            case "Elephant":
+            case "Sang":
                 result = "상";
                 break;
-            case "Guard":
+            case "Sa":
                 result = "사";
                 break;
-            case "Horse":
+            case "Ma":
                 result = "마";
                 break;
-            case "King":
+            case "Gung":
                 result = "궁";
                 break;
-            case "Cannon":
+            case "Po":
                 result = "포";
                 break;
-
         }
         return color + result + exit;
     }

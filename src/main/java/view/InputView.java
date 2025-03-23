@@ -15,13 +15,13 @@ public class InputView {
         return Arrays.asList(input.split(","));
     }
 
-    public List<Integer> readMovePiecePosition(Player player) {
-        System.out.printf("(%s)%s님이 움직일 말의 좌표를 입력하세요%n", player.getTeam(), player.getName());
+    public List<Integer> readMovePiecePosition() {
+        System.out.println("움직일 기물의 행과 열을 입력하시오. 예) 4,1");
         return readPosition();
     }
 
-    public List<Integer> readTargetPosition(Player player) {
-        System.out.printf("(%s)%s님이 이동할 좌표를 입력하세요%n", player.getTeam(), player.getName());
+    public List<Integer> readTargetPosition() {
+        System.out.println("이동할 위치의 행과 열을 입력하시오. 예) 4,2");
         return readPosition();
     }
 

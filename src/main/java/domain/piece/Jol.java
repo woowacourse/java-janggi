@@ -4,11 +4,11 @@ import domain.Position;
 import domain.Team;
 import java.util.List;
 
-public class King extends Piece {
+public class Jol extends Piece {
 
-    private static final List<Move> moves = List.of(Move.FRONT, Move.BACK, Move.RIGHT, Move.LEFT);
+    private static final List<Move> moves = List.of(Move.FRONT, Move.RIGHT, Move.LEFT);
 
-    public King(Team team) {
+    public Jol(Team team) {
         super(team);
     }
 

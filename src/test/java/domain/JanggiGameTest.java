@@ -3,9 +3,9 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.piece.Cannon;
-import domain.piece.Chariot;
-import domain.piece.King;
+import domain.piece.Po;
+import domain.piece.Cha;
+import domain.piece.Gung;
 import domain.piece.Piece;
 import java.util.HashMap;
 import java.util.List;
@@ -19,13 +19,13 @@ public class JanggiGameTest {
     @Test
     void test1() {
         // given
-        Cannon choCannon = new Cannon(Team.CHO);
-        King choKing = new King(Team.CHO);
+        Po choPo = new Po(Team.CHO);
+        Gung choGung = new Gung(Team.CHO);
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
 
-        beforeBoard.put(new Position(8, 2), choCannon);
-        beforeBoard.put(new Position(8, 5), choKing);
+        beforeBoard.put(new Position(8, 2), choPo);
+        beforeBoard.put(new Position(8, 5), choGung);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiGame game = new JanggiGame(boardGenerator, List.of("플레이어1", "플레이어2"));
@@ -42,12 +42,12 @@ public class JanggiGameTest {
     void test2() {
         // given
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        King choKing = new King(Team.CHO);
-        beforeBoard.put(new Position(1, 1), choKing);
+        Gung choGung = new Gung(Team.CHO);
+        beforeBoard.put(new Position(1, 1), choGung);
         JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), List.of("플레이어1", "플레이어2"));
 
         Map<Position, Piece> afterBoard = new HashMap<>();
-        afterBoard.put(new Position(2, 1), choKing);
+        afterBoard.put(new Position(2, 1), choGung);
 
         // when
         game.move(List.of(1, 1), List.of(2, 1));
@@ -60,8 +60,8 @@ public class JanggiGameTest {
     @Test
     void test3() {
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        Chariot choChariot = new Chariot(Team.CHO);
-        beforeBoard.put(new Position(1, 1), choChariot);
+        Cha choCha = new Cha(Team.CHO);
+        beforeBoard.put(new Position(1, 1), choCha);
         JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), List.of("플레이어1", "플레이어2"));
 
         assertThatThrownBy(() -> game.move(List.of(1, 1), List.of(1, 1)))
