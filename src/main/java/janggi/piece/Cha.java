@@ -4,6 +4,7 @@ import janggi.game.Team;
 import janggi.point.Direction;
 import janggi.point.Point;
 import janggi.point.PointDistance;
+import janggi.point.Route;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Cha implements Movable {
     }
 
     @Override
-    public List<Point> findRoute(Point startPoint, Point targetPoint) {
+    public Route findRoute(Point startPoint, Point targetPoint) {
         List<Point> route = new ArrayList<>();
         Direction direction = Direction.cardinalFrom(startPoint, targetPoint);
         PointDistance distance = PointDistance.calculate(startPoint, targetPoint);
@@ -33,7 +34,7 @@ public class Cha implements Movable {
             pointer = direction.move(pointer);
             route.add(pointer);
         }
-        return route;
+        return new Route(route, targetPoint);
     }
 
     @Override

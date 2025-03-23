@@ -3,6 +3,7 @@ package janggi.piece;
 import janggi.game.Team;
 import janggi.point.Point;
 import janggi.point.PointDistance;
+import janggi.point.Route;
 import java.util.List;
 
 public class Byeong implements Movable {
@@ -26,8 +27,8 @@ public class Byeong implements Movable {
     }
 
     @Override
-    public List<Point> findRoute(Point startPoint, Point targetPoint) {
-        return List.of();
+    public Route findRoute(Point startPoint, Point targetPoint) {
+        return new Route(List.of(), targetPoint);
     }
 
     @Override

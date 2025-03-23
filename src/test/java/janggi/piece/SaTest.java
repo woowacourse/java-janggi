@@ -1,9 +1,11 @@
 package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.game.Team;
 import janggi.point.Point;
+import janggi.point.Route;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -71,8 +73,12 @@ public class SaTest {
             Point startPoint = new Point(6, 6);
             Point targetPoint = new Point(6, 5);
 
-            assertThat(sa.findRoute(startPoint, targetPoint)).hasSize(0);
+            Route route = sa.findRoute(startPoint, targetPoint);
 
+            assertAll(() -> {
+                assertThat(route.getPath()).hasSize(0);
+                assertThat(route.getTargetPoint()).isEqualTo(new Point(6, 5));
+            });
         }
 
         @Test
@@ -83,7 +89,12 @@ public class SaTest {
             Point startPoint = new Point(6, 6);
             Point targetPoint = new Point(6, 7);
 
-            assertThat(sa.findRoute(startPoint, targetPoint)).hasSize(0);
+            Route route = sa.findRoute(startPoint, targetPoint);
+
+            assertAll(() -> {
+                assertThat(route.getPath()).hasSize(0);
+                assertThat(route.getTargetPoint()).isEqualTo(new Point(6, 7));
+            });
         }
 
         @Test
@@ -94,7 +105,12 @@ public class SaTest {
             Point startPoint = new Point(6, 6);
             Point targetPoint = new Point(5, 6);
 
-            assertThat(sa.findRoute(startPoint, targetPoint)).hasSize(0);
+            Route route = sa.findRoute(startPoint, targetPoint);
+
+            assertAll(() -> {
+                assertThat(route.getPath()).hasSize(0);
+                assertThat(route.getTargetPoint()).isEqualTo(new Point(5, 6));
+            });
         }
 
         @Test
@@ -105,7 +121,12 @@ public class SaTest {
             Point startPoint = new Point(6, 6);
             Point targetPoint = new Point(7, 6);
 
-            assertThat(sa.findRoute(startPoint, targetPoint)).hasSize(0);
+            Route route = sa.findRoute(startPoint, targetPoint);
+
+            assertAll(() -> {
+                assertThat(route.getPath()).hasSize(0);
+                assertThat(route.getTargetPoint()).isEqualTo(new Point(7, 6));
+            });
         }
     }
 }

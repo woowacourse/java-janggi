@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.game.Team;
 import janggi.point.Point;
+import janggi.point.Route;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -117,11 +118,13 @@ public class SangTest {
             Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(2, 6);
 
-            List<Point> route = sang.findRoute(startPoint, targetPoint);
+            Route route = sang.findRoute(startPoint, targetPoint);
+            List<Point> path = route.getPath();
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(4, 4), new Point(3, 5));
+                assertThat(path).hasSize(2);
+                assertThat(path).containsExactly(new Point(4, 4), new Point(3, 5));
+                assertThat(route.getTargetPoint()).isEqualTo(new Point(2, 6));
             });
         }
 
@@ -133,11 +136,13 @@ public class SangTest {
             Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(3, 7);
 
-            List<Point> route = sang.findRoute(startPoint, targetPoint);
+            Route route = sang.findRoute(startPoint, targetPoint);
+            List<Point> path = route.getPath();
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(5, 5), new Point(4, 6));
+                assertThat(path).hasSize(2);
+                assertThat(path).containsExactly(new Point(5, 5), new Point(4, 6));
+                assertThat(route.getTargetPoint()).isEqualTo(new Point(3, 7));
             });
         }
 
@@ -149,11 +154,13 @@ public class SangTest {
             Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(7, 7);
 
-            List<Point> route = sang.findRoute(startPoint, targetPoint);
+            Route route = sang.findRoute(startPoint, targetPoint);
+            List<Point> path = route.getPath();
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(5, 5), new Point(6, 6));
+                assertThat(path).hasSize(2);
+                assertThat(path).containsExactly(new Point(5, 5), new Point(6, 6));
+                assertThat(route.getTargetPoint()).isEqualTo(new Point(7, 7));
             });
         }
 
@@ -165,11 +172,13 @@ public class SangTest {
             Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(8, 6);
 
-            List<Point> route = sang.findRoute(startPoint, targetPoint);
+            Route route = sang.findRoute(startPoint, targetPoint);
+            List<Point> path = route.getPath();
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(6, 4), new Point(7, 5));
+                assertThat(path).hasSize(2);
+                assertThat(path).containsExactly(new Point(6, 4), new Point(7, 5));
+                assertThat(route.getTargetPoint()).isEqualTo(new Point(8, 6));
             });
         }
 
@@ -181,11 +190,13 @@ public class SangTest {
             Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(8, 2);
 
-            List<Point> route = sang.findRoute(startPoint, targetPoint);
+            Route route = sang.findRoute(startPoint, targetPoint);
+            List<Point> path = route.getPath();
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(6, 4), new Point(7, 3));
+                assertThat(path).hasSize(2);
+                assertThat(path).containsExactly(new Point(6, 4), new Point(7, 3));
+                assertThat(route.getTargetPoint()).isEqualTo(new Point(8, 2));
             });
         }
 
@@ -197,11 +208,13 @@ public class SangTest {
             Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(7, 1);
 
-            List<Point> route = sang.findRoute(startPoint, targetPoint);
+            Route route = sang.findRoute(startPoint, targetPoint);
+            List<Point> path = route.getPath();
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(5, 3), new Point(6, 2));
+                assertThat(path).hasSize(2);
+                assertThat(path).containsExactly(new Point(5, 3), new Point(6, 2));
+                assertThat(route.getTargetPoint()).isEqualTo(new Point(7, 1));
             });
         }
 
@@ -213,11 +226,13 @@ public class SangTest {
             Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(3, 1);
 
-            List<Point> route = sang.findRoute(startPoint, targetPoint);
+            Route route = sang.findRoute(startPoint, targetPoint);
+            List<Point> path = route.getPath();
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(5, 3), new Point(4, 2));
+                assertThat(path).hasSize(2);
+                assertThat(path).containsExactly(new Point(5, 3), new Point(4, 2));
+                assertThat(route.getTargetPoint()).isEqualTo(new Point(3, 1));
             });
         }
 
@@ -229,11 +244,13 @@ public class SangTest {
             Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(2, 2);
 
-            List<Point> route = sang.findRoute(startPoint, targetPoint);
+            Route route = sang.findRoute(startPoint, targetPoint);
+            List<Point> path = route.getPath();
 
             assertAll(() -> {
-                assertThat(route).hasSize(2);
-                assertThat(route).containsExactly(new Point(4, 4), new Point(3, 3));
+                assertThat(path).hasSize(2);
+                assertThat(path).containsExactly(new Point(4, 4), new Point(3, 3));
+                assertThat(route.getTargetPoint()).isEqualTo(new Point(2, 2));
             });
         }
     }

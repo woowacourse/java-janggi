@@ -2,8 +2,8 @@ package janggi.game;
 
 import janggi.piece.Movable;
 import janggi.point.Point;
+import janggi.point.Route;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -26,9 +26,19 @@ public class Board {
         this.turn = turn.reverse();
     }
 
+    public Movable findPieceByPoint(Point point) {
+        if (runningPieces.containsKey(point)) {
+            return runningPieces.get(point);
+        }
+        throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
+    }
+
     public void move(Point startPoint, Point targetPoint) {
         Movable movingPiece = findPieceByPoint(startPoint);
         validateMovable(startPoint, targetPoint);
+
+        Route route = movingPiece.findRoute(startPoint, targetPoint);
+        route.validateRoute(startPoint, this);
 
         runningPieces.remove(startPoint);
         runningPieces.remove(targetPoint);
@@ -38,73 +48,12 @@ public class Board {
     private void validateMovable(Point startPoint, Point targetPoint) {
         Movable movingPiece = findPieceByPoint(startPoint);
 
-        if (movingPiece.getName().equals("포")) {
-            checkMovableWithHurdle(startPoint, targetPoint);
-            return;
-        }
-        checkMovableWithoutHurdle(startPoint, targetPoint);
-    }
-
-    private void checkMovableWithoutHurdle(Point startPoint, Point targetPoint) {
-        Movable movingPiece = findPieceByPoint(startPoint);
-
         if (turn != movingPiece.getTeam()) {
             throw new IllegalArgumentException(turn.getText() + "의 기물만 이동할 수 있습니다.");
         }
-        if (!movingPiece.isInMovingRange(startPoint, targetPoint)
-            || !findRouteHurdles(movingPiece.findRoute(startPoint, targetPoint)).isEmpty()
-            || hasTargetPointHurdles(startPoint, targetPoint)) {
+        if (!movingPiece.isInMovingRange(startPoint, targetPoint)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
-    }
-
-    private void checkMovableWithHurdle(Point startPoint, Point targetPoint) {
-        Movable movingPiece = findPieceByPoint(startPoint);
-        List<Point> route = movingPiece.findRoute(startPoint, targetPoint);
-
-        if (turn != movingPiece.getTeam()) {
-            throw new IllegalArgumentException(turn.getText() + "의 기물만 이동할 수 있습니다.");
-        }
-        if (!movingPiece.isInMovingRange(startPoint, targetPoint)
-            || hasTargetPointHurdles(startPoint, targetPoint)) {
-            throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
-        }
-        if (countJumperForPo(route) != 1) {
-            throw new IllegalArgumentException("포는 포를 제외한 하나의 기물만 필요합니다.");
-        }
-        if (runningPieces.containsKey(targetPoint)
-            && findPieceByPoint(targetPoint).getName().equals("포")) {
-            throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
-        }
-    }
-
-    private boolean hasTargetPointHurdles(Point startPoint, Point targetPoint) {
-        if (runningPieces.containsKey(targetPoint)) {
-            Team startPieceTeam = findPieceByPoint(startPoint).getTeam();
-            Team targetPieceTeam = findPieceByPoint(targetPoint).getTeam();
-
-            return startPieceTeam == targetPieceTeam;
-        }
-        return false;
-    }
-
-    private int countJumperForPo(List<Point> route) {
-        return (int) findRouteHurdles(route).stream()
-            .filter(point -> !findPieceByPoint(point).getName().equals("포"))
-            .count();
-    }
-
-    private Movable findPieceByPoint(Point point) {
-        if (runningPieces.containsKey(point)) {
-            return runningPieces.get(point);
-        }
-        throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
-    }
-
-    private List<Point> findRouteHurdles(List<Point> route) {
-        return route.stream()
-            .filter(runningPieces::containsKey)
-            .toList();
     }
 
     public Map<Point, Movable> getRunningPieces() {
