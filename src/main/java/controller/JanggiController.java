@@ -20,21 +20,21 @@ public class JanggiController {
         });
     }
 
-    public boolean playTurn() {
-        return process(() -> {
+    public void playTurn() {
+        process(() -> {
             outputView.turn(service.currentTurn());
-
             var response = inputView.command();
             if (response.abstain()) {
                 service.abstain();
-                return false;
+                return;
             }
-
             service.move(response.source(), response.destination());
             outputView.board(service.getBoard());
-
-            return service.isPlaying();
         });
+    }
+
+    public boolean isPlaying() {
+        return process(service::isPlaying);
     }
 
     public void nextTurn() {
