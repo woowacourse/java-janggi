@@ -14,14 +14,11 @@ public enum TeamSymbol {
         this.displayName = displayName;
     }
 
-    public static TeamSymbol from(Team team) {
+    public static String from(Team team) {
         return Arrays.stream(values())
             .filter(teamSymbol -> teamSymbol.name().equals(team.name()))
             .findAny()
-            .orElseThrow(() -> new IllegalStateException("[ERROR] 잘못된 팀 정보입니다."));
-    }
-
-    public String getDisplayName() {
-        return displayName;
+            .orElseThrow(() -> new IllegalStateException("[ERROR] 잘못된 팀 정보입니다."))
+            .displayName;
     }
 }

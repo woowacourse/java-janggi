@@ -2,6 +2,9 @@ package console;
 
 import console.util.Color;
 import console.util.PieceSymbol;
+import console.util.TeamSymbol;
+import janggi.Team;
+import janggi.Turn;
 import janggi.board.Board;
 import janggi.piece.Piece;
 import janggi.position.Column;
@@ -15,7 +18,7 @@ public class Output {
         System.out.printf("장기 게임을 시작합니다.%n%n");
     }
 
-    public void board(Board board) {
+    public void display(Board board) {
         Map<Position, Piece> onPosition = board.onPosition();
         for (Row row : Row.values()) {
             System.out.print(row.ordinal() + " ");
@@ -33,10 +36,11 @@ public class Output {
         System.out.println("  A  B C  D E  F G  H I ");
     }
 
-//    public void turn(TeamDto teamDto) {
-//        System.out.printf("%n%s의 차례입니다.%n%n", Color.apply(teamDto, teamDto.getDisplayName()));
-//    }
-//
+    public void display(Turn turn) {
+        Team currentTeam = turn.getCurrentTeam();
+        System.out.printf("%n%s의 차례입니다.%n%n", Color.apply(currentTeam, TeamSymbol.from(currentTeam)));
+    }
+
 //    public void result(TeamDto winnerTeamDto) {
 //        String winner = Color.apply(winnerTeamDto, winnerTeamDto.getDisplayName());
 //        System.out.printf("%n%s가 승리했습니다. 게임을 종료합니다.%n", winner);
@@ -45,4 +49,5 @@ public class Output {
     public void retry(Exception e) {
         System.out.println(e.getMessage() + " 다시 입력해주세요.");
     }
+
 }

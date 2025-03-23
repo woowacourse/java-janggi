@@ -18,31 +18,32 @@ public class Application {
         Turn turn = Turn.start();
 
         console.startGame();
-        console.board(board);
+        console.display(board);
 
-//        while (takeTurn(board, turn)) {
-//            nextTurn(turn);
-//        }
+        while (takeTurn(board, turn)) {
+            nextTurn(turn);
+        }
 //        endGame(board);
     }
 
-//    public boolean takeTurn(Board board, Turn turn) {
-//        return process(() -> {
-//            console.turn(TeamDto.from(turn.getCurrentTeam()));
-//
-//            var response = console.command();
-//
+    public boolean takeTurn(Board board, Turn turn) {
+        return process(() -> {
+            console.display(turn);
+
+            var response = console.command();
+
 //            if (response.abstain()) {
 //                abstain(board, turn);
 //                return false;
 //            }
 //
 //            move(response.source(), response.destination(), board, turn);
-//            console.board(BoardDto.from(board));
+//            console.display(BoardDto.from(board));
 //
 //            return isPlaying(board);
-//        });
-//    }
+            return false;
+        });
+    }
 
     public void nextTurn(Turn turn) {
         turn.next();
