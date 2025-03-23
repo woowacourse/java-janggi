@@ -1,10 +1,10 @@
 import domain.Board;
 import domain.Player;
-import domain.piece.Piece;
-import domain.piece.PieceColor;
-import domain.piece.PieceInit;
+import domain.Team;
 import domain.piece.Pieces;
 import domain.spatial.Position;
+import domain.strategy.SettingUp;
+import domain.strategy.SettingUpStrategy;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +22,8 @@ public class KoreaChess {
     }
 
     public void run() {
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player(Team.HAN);
+        Player cho = new Player(Team.CHO);
         Board board = createBoard(han, cho);
 
         outputView.printGameStart();
@@ -41,6 +41,20 @@ public class KoreaChess {
         outputView.printWinner(winner);
     }
 
+    private Board createBoard(final Player han, final Player cho) {
+        Map<Player, Pieces> board = new HashMap<>();
+        board.put(han, createPiecesByPlayer(han));
+        board.put(cho, createPiecesByPlayer(cho));
+
+        return new Board(board);
+    }
+
+    private Pieces createPiecesByPlayer(final Player player) {
+        int command = inputView.readSettingUpStrategyCommand(player);
+        SettingUpStrategy strategy = SettingUp.findStrategyByCommand(command);
+        return strategy.initPieces(player);
+    }
+
     private void processTurn(final Player player, final Board board) {
         Position movingHanPosition = parseToPosition(inputView.readMovingPiecePosition(player));
         Position targetHanPosition = parseToPosition(inputView.readTargetPiecePosition());
@@ -54,16 +68,5 @@ public class KoreaChess {
         int column = Integer.parseInt(positionElements.getLast());
 
         return new Position(row, column);
-    }
-
-    private Board createBoard(final Player han, final Player cho) {
-        List<Piece> hanPieces = PieceInit.initHanPieces();
-        List<Piece> choPieces = PieceInit.initChoPieces();
-
-        Map<Player, Pieces> board = new HashMap<>();
-        board.put(han, new Pieces(hanPieces));
-        board.put(cho, new Pieces(choPieces));
-
-        return new Board(board);
     }
 }
