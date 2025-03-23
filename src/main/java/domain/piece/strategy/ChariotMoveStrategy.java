@@ -3,6 +3,7 @@ package domain.piece.strategy;
 import domain.BoardLocation;
 import domain.BoardVector;
 import domain.piece.MoveStrategy;
+import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,5 +34,15 @@ public class ChariotMoveStrategy implements MoveStrategy {
             path.add(current.moveX(i));
         }
         return path;
+    }
+
+    @Override
+    public boolean canArrive(List<Piece> pathPiece) {
+        return pathPiece.isEmpty();
+    }
+
+    @Override
+    public boolean canDestination(Piece selectPiece, Piece destinationPiece) {
+        return !selectPiece.isEqualTeam(destinationPiece);
     }
 }

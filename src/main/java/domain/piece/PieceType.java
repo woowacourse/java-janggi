@@ -34,4 +34,12 @@ public enum PieceType {
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation target) {
         return this.moveStrategy.createAllPath(current, target);
     }
+
+    public boolean canArrive(List<Piece> pathPiece) {
+        return moveStrategy.canArrive(pathPiece);
+    }
+
+    public boolean canDestination(Piece selectPiece, Piece destinationPiece) {
+        return moveStrategy.canDestination(selectPiece, destinationPiece);
+    }
 }

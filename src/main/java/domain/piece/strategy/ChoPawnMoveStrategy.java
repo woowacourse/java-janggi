@@ -2,6 +2,7 @@ package domain.piece.strategy;
 
 import domain.BoardLocation;
 import domain.piece.MoveStrategy;
+import domain.piece.Piece;
 import java.util.List;
 
 public class ChoPawnMoveStrategy implements MoveStrategy {
@@ -19,5 +20,15 @@ public class ChoPawnMoveStrategy implements MoveStrategy {
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
         return List.of();
+    }
+
+    @Override
+    public boolean canArrive(List<Piece> pathPiece) {
+        return pathPiece.isEmpty();
+    }
+
+    @Override
+    public boolean canDestination(Piece selectPiece, Piece destinationPiece) {
+        return !selectPiece.isEqualTeam(destinationPiece);
     }
 }

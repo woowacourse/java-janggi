@@ -23,9 +23,14 @@ public class Piece {
         return pieceType.createAllPath(current, target);
     }
 
-    public boolean isCannon() {
-        return pieceType == PieceType.CANNON;
+    public boolean isSameType(Piece piece) {
+        return this.pieceType == piece.pieceType;
     }
+
+    public boolean isSameType(PieceType pieceType) {
+        return this.pieceType == pieceType;
+    }
+
 
     public String toString() {
         return pieceType.toString();
@@ -53,5 +58,13 @@ public class Piece {
 
     public boolean isEqualTeam(Piece piece) {
         return this.team == piece.team;
+    }
+
+    public boolean canArrive(List<Piece> pathPiece) {
+        return pieceType.canArrive(pathPiece);
+    }
+
+    public boolean canDestination(Piece destinationPiece) {
+        return pieceType.canDestination(this, destinationPiece);
     }
 }

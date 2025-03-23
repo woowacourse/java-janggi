@@ -3,6 +3,8 @@ package domain.piece.strategy;
 import domain.BoardLocation;
 import domain.BoardVector;
 import domain.piece.MoveStrategy;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,5 +35,24 @@ public class CannonMoveStrategy implements MoveStrategy {
             path.add(current.moveX(i));
         }
         return path;
+    }
+
+    @Override
+    public boolean canArrive(List<Piece> pathPiece) {
+        if (pathPiece.size() != 1){
+            return false;
+        }
+        if (pathPiece.getFirst().isSameType(PieceType.CANNON)){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean canDestination(Piece selectPiece ,Piece destinationPiece) {
+        if (destinationPiece.isEqualTeam(selectPiece)){
+            return false;
+        }
+        return !selectPiece.isSameType(destinationPiece);
     }
 }

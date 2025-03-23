@@ -11,7 +11,7 @@ public class Board {
         this.teamBoard = teamBoard;
     }
 
-    public void moveChoPiece(Team team, BoardLocation current, BoardLocation destination) {
+    public void movePiece(Team team, BoardLocation current, BoardLocation destination) {
         Piece piece = teamBoard.findByLocation(current);
         validateTeam(piece, team);
 
@@ -20,11 +20,15 @@ public class Board {
         }
 
         List<BoardLocation> allPath = piece.createAllPath(current, destination);
-        if (piece.isCannon()) {
-            teamBoard.validateCannon(allPath, destination);
+        List<Piece> pathPiece = teamBoard.extractPathPiece(allPath);
+        if (!piece.canArrive(pathPiece)){
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 이동경로가 막혀있어 이동할 수 없습니다");
         }
-        teamBoard.validatePaths(allPath);
-        teamBoard.validateDestinationAlly(piece, destination);
+        Piece destinationPiece = teamBoard.findByLocation(destination);
+        if (!piece.canDestination(destinationPiece)){
+            throw new IllegalArgumentException("[ERROR] 목적지에 이동할 수 없습니다.");
+        }
+
         teamBoard.removeIfHas(destination);
         teamBoard.move(current, destination);
     }

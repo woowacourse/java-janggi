@@ -5,6 +5,7 @@ import domain.BoardVector;
 import domain.piece.Diagonal;
 import domain.piece.Direction;
 import domain.piece.MoveStrategy;
+import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,5 +36,15 @@ public class ElephantMoveStrategy implements MoveStrategy {
             }
         }
         return path;
+    }
+
+    @Override
+    public boolean canArrive(List<Piece> pathPiece) {
+        return pathPiece.isEmpty();
+    }
+
+    @Override
+    public boolean canDestination(Piece selectPiece, Piece destinationPiece) {
+        return !selectPiece.isEqualTeam(destinationPiece);
     }
 }

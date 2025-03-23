@@ -1,6 +1,7 @@
 package domain;
 
-import static domain.Team.*;
+import static domain.Team.CHO;
+import static domain.Team.HAN;
 import static domain.piece.PieceType.CANNON;
 import static domain.piece.PieceType.CHARIOT;
 import static domain.piece.PieceType.CHO_PAWN;
@@ -69,22 +70,14 @@ public class TeamBoard {
         pieces.put(destination, piece);
     }
 
-    public void validateCannon(List<BoardLocation> allPath, BoardLocation destination) {
-        int count = 0;
-        for (BoardLocation boardLocation : allPath) {
-            for (BoardLocation pieceLocation : pieces.keySet()) {
-                if (boardLocation.equals(pieceLocation) && !pieces.get(pieceLocation).isCannon()) {
-                    count++;
-                }
-            }
-        }
-        if (count != 1 || pieces.get(destination).isCannon()) {
-            throw new IllegalArgumentException("[ERROR] 움직일 수 없는 좌표입니다");
-        }
-    }
-
     public Map<BoardLocation, Piece> getPieces() {
         return pieces;
+    }
+
+    public List<Piece> extractPathPiece(List<BoardLocation> allPath) {
+        return allPath.stream()
+                .map(pieces::get)
+                .toList();
     }
 
     public static TeamBoard createWithPieces(

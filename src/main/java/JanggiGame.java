@@ -30,7 +30,7 @@ public class JanggiGame {
 
             BoardLocation current = consoleView.requestCurrent();
             BoardLocation destination = consoleView.requestDestination();
-            board.moveChoPiece(team, current, destination);
+            board.movePiece(team, current, destination);
 
             consoleView.printResult(team);
             team = team.opposite();
