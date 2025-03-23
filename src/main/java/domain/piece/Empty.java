@@ -1,6 +1,5 @@
 package domain.piece;
 
-import domain.piece.movingstrategy.NoneMovingStrategy;
 import domain.position.JanggiPosition;
 import domain.Pattern;
 import java.util.List;

@@ -1,4 +1,4 @@
-package domain.piece.movingstrategy;
+package domain.piece.routestrategy;
 
 import static domain.Direction.DOWN;
 import static domain.Direction.LEFT;
@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class LinearMovingStrategy implements JanggiPieceMovingStrategy {
+public class LinearRouteStrategy implements JanggiPieceRouteStrategy {
 
     @Override
     public List<Pattern> getRoute(final Map<Direction, List<Pattern>> routes, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {

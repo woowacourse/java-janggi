@@ -1,15 +1,14 @@
 package domain.piece;
 
-import domain.piece.movingstrategy.JanggiPieceMovingStrategy;
 import domain.position.JanggiPosition;
 import domain.Pattern;
 import java.util.List;
 
-public abstract class JanggiPiece {
+public class JanggiPiece {
 
-    protected final JanggiSide side;
-    protected final JanggiPieceType type;
-    protected boolean isCaptured;
+    private final JanggiSide side;
+    private final JanggiPieceType type;
+    private boolean isCaptured;
 
     public JanggiPiece(final JanggiSide side, final JanggiPieceType type) {
         this.side = side;
@@ -26,12 +25,7 @@ public abstract class JanggiPiece {
     }
 
     public void checkPieceCanMove(JanggiPiece hurdlePiece, int hurdleCount, JanggiPiece targetPiece) {
-        if (isMyTeam(targetPiece)) {
-            throw new IllegalStateException("같은 팀의 기물은 잡을 수 없습니다.");
-        }
-        if (hurdleCount != 0) {
-            throw new IllegalStateException("해당 기물은 장애물을 뛰어넘을 수 없습니다.");
-        }
+        type.validateCanMove(this.side, hurdlePiece, hurdleCount, targetPiece);
     }
 
     public void captureIfNotEmpty() {

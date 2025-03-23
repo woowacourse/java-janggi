@@ -8,15 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import domain.janggiboard.JanggiBoard;
 import domain.janggiboard.JanggiBoardBasicInitializer;
 import domain.piece.JanggiPiece;
+import domain.piece.JanggiPieceType;
 import domain.piece.JanggiSide;
-import domain.piece.궁;
-import domain.piece.마;
-import domain.piece.병;
-import domain.piece.사;
-import domain.piece.상;
-import domain.piece.졸;
-import domain.piece.차;
-import domain.piece.포;
 import domain.position.JanggiPosition;
 import java.util.Map;
 import org.junit.jupiter.api.Nested;
@@ -80,7 +73,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(궁.class);
+            assertThat(janggiBoard.getPieceOfPosition(afterPosition).isTypeOf(JanggiPieceType.궁)).isTrue();
         }
 
         @ParameterizedTest
@@ -98,7 +91,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(마.class);
+            assertThat(janggiBoard.getPieceOfPosition(afterPosition).isTypeOf(JanggiPieceType.마)).isTrue();
         }
 
         @ParameterizedTest
@@ -116,7 +109,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(사.class);
+            assertThat(janggiBoard.getPieceOfPosition(afterPosition).isTypeOf(JanggiPieceType.사)).isTrue();
         }
 
         @ParameterizedTest
@@ -134,7 +127,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(상.class);
+            assertThat(janggiBoard.getPieceOfPosition(afterPosition).isTypeOf(JanggiPieceType.상)).isTrue();
         }
 
         @ParameterizedTest
@@ -152,7 +145,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(졸.class);
+            assertThat(janggiBoard.getPieceOfPosition(afterPosition).isTypeOf(JanggiPieceType.졸)).isTrue();
         }
 
         @ParameterizedTest
@@ -170,7 +163,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(병.class);
+            assertThat(janggiBoard.getPieceOfPosition(afterPosition).isTypeOf(JanggiPieceType.병)).isTrue();
         }
 
         @ParameterizedTest
@@ -189,7 +182,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(afterPosition)).isInstanceOf(차.class);
+            assertThat(janggiBoard.getPieceOfPosition(afterPosition).isTypeOf(JanggiPieceType.차)).isTrue();
         }
 
         @Test
@@ -208,7 +201,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(포beforePosition, 포afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(포afterPosition)).isInstanceOf(포.class);
+            assertThat(janggiBoard.getPieceOfPosition(포afterPosition).isTypeOf(JanggiPieceType.포)).isTrue();
         }
     }
 
@@ -287,7 +280,7 @@ public class JanggiBoardTest {
         // given
         JanggiPosition 마beforePosition = new JanggiPosition(8, 2);
         JanggiPosition 졸Position = new JanggiPosition(6, 3);
-        JanggiPiece targetPiece = new 졸(JanggiSide.CHO);
+        JanggiPiece targetPiece = new JanggiPiece(JanggiSide.CHO, JanggiPieceType.졸);
 
         JanggiBoardInitializerStub initializer = new JanggiBoardInitializerStub(Map.of(
                 마beforePosition, HAN_마,

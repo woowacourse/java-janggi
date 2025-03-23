@@ -1,12 +1,9 @@
 package domain.piece.movingstrategy;
 
-import domain.Direction;
-import domain.Pattern;
-import domain.position.JanggiPosition;
-import java.util.List;
-import java.util.Map;
+import domain.piece.JanggiPiece;
+import domain.piece.JanggiSide;
 
 public interface JanggiPieceMovingStrategy {
 
-    List<Pattern> getRoute(Map<Direction, List<Pattern>> routes, JanggiPosition origin, JanggiPosition destination);
+    void checkPieceCanMove(JanggiSide mySide, JanggiPiece hurdlePiece, int hurdleCount, JanggiPiece targetPiece);
 }

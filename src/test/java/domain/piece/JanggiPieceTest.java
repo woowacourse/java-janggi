@@ -11,7 +11,7 @@ public class JanggiPieceTest {
     @Test
     void 기물을_잡으면_잡힌_기물의_상태가_바뀐다() {
         // given
-        JanggiPiece piece = new 마(JanggiSide.CHO);
+        JanggiPiece piece = new JanggiPiece(JanggiSide.CHO, JanggiPieceType.마);
 
         // when
         piece.captureIfNotEmpty();

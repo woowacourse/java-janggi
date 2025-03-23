@@ -1,17 +1,10 @@
 package domain.janggiboard;
 
+import domain.piece.JanggiPieceType;
 import domain.position.JanggiPosition;
 import domain.piece.Empty;
 import domain.piece.JanggiPiece;
 import domain.piece.JanggiSide;
-import domain.piece.궁;
-import domain.piece.마;
-import domain.piece.사;
-import domain.piece.상;
-import domain.piece.졸;
-import domain.piece.차;
-import domain.piece.포;
-import domain.piece.병;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,40 +28,40 @@ public final class JanggiBoardBasicInitializer implements JanggiBoardInitializer
     }
 
     private static void initChoJanggiBoard(final Map<JanggiPosition, JanggiPiece> janggiBoard) {
-        janggiBoard.put(new JanggiPosition(9, 5), new 궁(JanggiSide.CHO));
-        janggiBoard.put(new JanggiPosition(0, 1), new 차(JanggiSide.CHO));
-        janggiBoard.put(new JanggiPosition(0, 9), new 차(JanggiSide.CHO));
-        janggiBoard.put(new JanggiPosition(8, 2), new 포(JanggiSide.CHO));
-        janggiBoard.put(new JanggiPosition(8, 8), new 포(JanggiSide.CHO));
-        janggiBoard.put(new JanggiPosition(7, 1), new 졸(JanggiSide.CHO));
-        janggiBoard.put(new JanggiPosition(7, 3), new 졸(JanggiSide.CHO));
-        janggiBoard.put(new JanggiPosition(7, 5), new 졸(JanggiSide.CHO));
-        janggiBoard.put(new JanggiPosition(7, 7), new 졸(JanggiSide.CHO));
-        janggiBoard.put(new JanggiPosition(7, 9), new 졸(JanggiSide.CHO));
-        janggiBoard.put(new JanggiPosition(0, 4), new 사(JanggiSide.CHO));
-        janggiBoard.put(new JanggiPosition(0, 6), new 사(JanggiSide.CHO));
-        janggiBoard.put(new JanggiPosition(0, 2), new 마(JanggiSide.CHO));
-        janggiBoard.put(new JanggiPosition(0, 8), new 마(JanggiSide.CHO));
-        janggiBoard.put(new JanggiPosition(0, 3), new 상(JanggiSide.CHO));
-        janggiBoard.put(new JanggiPosition(0, 7), new 상(JanggiSide.CHO));
+        janggiBoard.put(new JanggiPosition(9, 5), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.궁));
+        janggiBoard.put(new JanggiPosition(0, 1), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.차));
+        janggiBoard.put(new JanggiPosition(0, 9), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.차));
+        janggiBoard.put(new JanggiPosition(8, 2), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.포));
+        janggiBoard.put(new JanggiPosition(8, 8), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.포));
+        janggiBoard.put(new JanggiPosition(7, 1), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.졸));
+        janggiBoard.put(new JanggiPosition(7, 3), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.졸));
+        janggiBoard.put(new JanggiPosition(7, 5), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.졸));
+        janggiBoard.put(new JanggiPosition(7, 7), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.졸));
+        janggiBoard.put(new JanggiPosition(7, 9), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.졸));
+        janggiBoard.put(new JanggiPosition(0, 4), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.사));
+        janggiBoard.put(new JanggiPosition(0, 6), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.사));
+        janggiBoard.put(new JanggiPosition(0, 2), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.마));
+        janggiBoard.put(new JanggiPosition(0, 8), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.마));
+        janggiBoard.put(new JanggiPosition(0, 3), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.상));
+        janggiBoard.put(new JanggiPosition(0, 7), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.상));
     }
 
     private static void initHanJanggiBoard(final Map<JanggiPosition, JanggiPiece> janggiBoard) {
-        janggiBoard.put(new JanggiPosition(2, 5), new 궁(JanggiSide.HAN));
-        janggiBoard.put(new JanggiPosition(1, 1), new 차(JanggiSide.HAN));
-        janggiBoard.put(new JanggiPosition(1, 9), new 차(JanggiSide.HAN));
-        janggiBoard.put(new JanggiPosition(3, 2), new 포(JanggiSide.HAN));
-        janggiBoard.put(new JanggiPosition(3, 8), new 포(JanggiSide.HAN));
-        janggiBoard.put(new JanggiPosition(4, 1), new 병(JanggiSide.HAN));
-        janggiBoard.put(new JanggiPosition(4, 3), new 병(JanggiSide.HAN));
-        janggiBoard.put(new JanggiPosition(4, 5), new 병(JanggiSide.HAN));
-        janggiBoard.put(new JanggiPosition(4, 7), new 병(JanggiSide.HAN));
-        janggiBoard.put(new JanggiPosition(4, 9), new 병(JanggiSide.HAN));
-        janggiBoard.put(new JanggiPosition(1, 4), new 사(JanggiSide.HAN));
-        janggiBoard.put(new JanggiPosition(1, 6), new 사(JanggiSide.HAN));
-        janggiBoard.put(new JanggiPosition(1, 2), new 마(JanggiSide.HAN));
-        janggiBoard.put(new JanggiPosition(1, 8), new 마(JanggiSide.HAN));
-        janggiBoard.put(new JanggiPosition(1, 3), new 상(JanggiSide.HAN));
-        janggiBoard.put(new JanggiPosition(1, 7), new 상(JanggiSide.HAN));
+        janggiBoard.put(new JanggiPosition(2, 5), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.궁));
+        janggiBoard.put(new JanggiPosition(1, 1), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.차));
+        janggiBoard.put(new JanggiPosition(1, 9), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.차));
+        janggiBoard.put(new JanggiPosition(3, 2), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.포));
+        janggiBoard.put(new JanggiPosition(3, 8), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.포));
+        janggiBoard.put(new JanggiPosition(4, 1), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.병));
+        janggiBoard.put(new JanggiPosition(4, 3), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.병));
+        janggiBoard.put(new JanggiPosition(4, 5), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.병));
+        janggiBoard.put(new JanggiPosition(4, 7), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.병));
+        janggiBoard.put(new JanggiPosition(4, 9), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.병));
+        janggiBoard.put(new JanggiPosition(1, 4), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.사));
+        janggiBoard.put(new JanggiPosition(1, 6), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.사));
+        janggiBoard.put(new JanggiPosition(1, 2), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.마));
+        janggiBoard.put(new JanggiPosition(1, 8), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.마));
+        janggiBoard.put(new JanggiPosition(1, 3), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.상));
+        janggiBoard.put(new JanggiPosition(1, 7), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.상));
     }
 }
