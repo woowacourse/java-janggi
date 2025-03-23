@@ -12,16 +12,16 @@ public class Application {
 
         // TODO move to Players Class
         for (Team team : Team.values()) {
-            pieces.add(General.Default(team));
-            pieces.addAll(Guard.Default(team));
-            pieces.addAll(Soldier.Default(team));
-            pieces.addAll(Horse.Default(team));
-            pieces.addAll(Elephant.Default(team));
-            pieces.addAll(Chariot.Default(team));
-            pieces.addAll(Cannon.Default(team));
+            pieces.add(General.defaultOf(team));
+            pieces.addAll(Guard.defaultsOf(team));
+            pieces.addAll(Soldier.defaultsOf(team));
+            pieces.addAll(Horse.defaultsOf(team));
+            pieces.addAll(Elephant.defaultsOf(team));
+            pieces.addAll(Chariot.defaultsOf(team));
+            pieces.addAll(Cannon.defaultsOf(team));
         }
 
         // TODO move to JanggiGame Class
-        Board.initialize(pieces);
+        Board.from(pieces);
     }
 }

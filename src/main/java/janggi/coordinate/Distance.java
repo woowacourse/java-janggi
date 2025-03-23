@@ -8,16 +8,16 @@ public record Distance(int rowDistance, int columnDistance) {
         validateSign();
     }
 
-    private void validateSign() {
-        if (rowDistance < 0 || columnDistance < 0) {
-            throw new IllegalArgumentException("거리는 음수가 될 수 없습니다");
-        }
-    }
-
     public static Distance of(Position from, Position to) {
         Distance rowDistance = from.row().distanceTo(to.row());
         Distance columnDistance = from.column().distanceTo(to.column());
         return rowDistance.combine(columnDistance);
+    }
+
+    private void validateSign() {
+        if (rowDistance < 0 || columnDistance < 0) {
+            throw new IllegalArgumentException("거리는 음수가 될 수 없습니다");
+        }
     }
 
     public Distance combine(Distance other) {
@@ -35,7 +35,7 @@ public record Distance(int rowDistance, int columnDistance) {
     }
 
     public int getTotal() {
-        return rowDistance +  columnDistance;
+        return rowDistance + columnDistance;
     }
 
     public int getStraight() {
