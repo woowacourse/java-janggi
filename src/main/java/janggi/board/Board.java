@@ -2,6 +2,7 @@ package janggi.board;
 
 import janggi.piece.Piece;
 import janggi.position.Position;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +18,6 @@ public class Board {
                 Stream.concat(han.stream(), cho.stream())
                         .collect(Collectors.toMap(Piece::getBoardPosition, piece -> piece))
         );
-    }
-
-    public Map<Position, Piece> getJanggiBoard() {
-        return janggiBoard;
     }
 
     public void updateBoard(final Position presentPosition, final Position futurePosition) {
@@ -136,4 +133,9 @@ public class Board {
             }
         }
     }
+
+    public Map<Position, Piece> getJanggiBoard() {
+        return Collections.unmodifiableMap(janggiBoard);
+    }
+
 }
