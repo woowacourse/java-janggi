@@ -16,10 +16,7 @@ public class Board {
     public void move(final Position start, final Position end) {
         validatePieceExistsByPosition(start);
         Piece pickedPiece = board.get(start);
-        if (board.containsKey(end)) {
-            Piece targetPiece = board.get(end);
-            validateTargetPiece(pickedPiece, targetPiece);
-        }
+        validateEndPosition(end, pickedPiece);
 
         if (pickedPiece.canMove(start, end, board)) {
             board.remove(start);
@@ -30,17 +27,24 @@ public class Board {
         throw new IllegalArgumentException("이동할 수 없습니다.");
     }
 
-    private void validatePieceExistsByPosition(final Position position) {
-        if (board.containsKey(position)) {
-            return;
+    private void validateEndPosition(final Position end, final Piece pickedPiece) {
+        if (board.containsKey(end)) {
+            Piece targetPiece = board.get(end);
+            validateTargetPiece(pickedPiece, targetPiece);
         }
-        throw new IllegalArgumentException("선택된 좌표에 말이 없습니다.");
     }
 
     private static void validateTargetPiece(final Piece pickedPiece, final Piece targetPiece) {
         if (pickedPiece.isSameSide(targetPiece)) {
             throw new IllegalArgumentException("같은 팀이 있는 위치로는 이동할 수 없습니다.");
         }
+    }
+
+    private void validatePieceExistsByPosition(final Position position) {
+        if (board.containsKey(position)) {
+            return;
+        }
+        throw new IllegalArgumentException("선택된 좌표에 말이 없습니다.");
     }
 
     public Map<Position, Piece> getBoard() {
