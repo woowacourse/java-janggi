@@ -13,7 +13,7 @@ public final class Soldier extends Piece {
 
     @Override
     public void validateMove(Point fromPoint, Point toPoint) {
-        if (isBottom()) {
+        if (isPlacedAtBottom()) {
             validateJolMove(fromPoint, toPoint);
             return;
         }

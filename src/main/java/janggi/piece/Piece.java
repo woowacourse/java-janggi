@@ -35,7 +35,11 @@ public abstract class Piece {
         return true;
     }
 
-    protected boolean isBottom() {
+    public boolean isPlacedAtBottom() {
+        return isBottom();
+    }
+
+    private boolean isBottom() {
         return camp.isBottom();
     }
 
