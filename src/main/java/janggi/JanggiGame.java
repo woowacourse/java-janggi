@@ -19,7 +19,7 @@ public class JanggiGame {
     public void startGame() {
         Board board = setJanggiBoard();
         while (true) {
-            outputView.printJanggiBoard(board.getJanggiPan());
+            outputView.printJanggiBoard(board.getJanggiBoard());
 
             try {
                 BoardPosition presentPosition = readPresentPosition();

@@ -29,7 +29,7 @@ class BoardTest {
         Board board = new Board(han, cho);
 
         //then
-        assertThat(board.getJanggiPan()).hasSize(32);
+        assertThat(board.getJanggiBoard()).hasSize(32);
     }
 
     @DisplayName("장기판의 기물이 포일때 앞의 기물이 포라면 예외를 던진다.")
@@ -73,7 +73,7 @@ class BoardTest {
         board.updateBoard(presentPosition, futurePosition);
 
         //then
-        Piece actual = board.getJanggiPan().get(futurePosition);
+        Piece actual = board.getJanggiBoard().get(futurePosition);
         assertThat(actual).isEqualTo(new Byeong(new PieceProfile("병", Nation.HAN),
                 new BoardPosition(4, 2)));
     }
@@ -98,7 +98,7 @@ class BoardTest {
         board.updateBoard(presentPosition, futurePosition);
 
         //then
-        Piece actual = board.getJanggiPan().get(futurePosition);
+        Piece actual = board.getJanggiBoard().get(futurePosition);
         assertThat(actual).isEqualTo(new Po(new PieceProfile("포", Nation.HAN),
                 new BoardPosition(5, 2)));
     }

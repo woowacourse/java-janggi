@@ -10,21 +10,21 @@ import java.util.stream.Stream;
 
 public class Board {
 
-    private final Map<BoardPosition, Piece> janggiPan = new HashMap<>();
+    private final Map<BoardPosition, Piece> janggiBoard = new HashMap<>();
 
     public Board(List<Piece> han, List<Piece> cho) {
-        janggiPan.putAll(
+        janggiBoard.putAll(
                 Stream.concat(han.stream(), cho.stream())
                         .collect(Collectors.toMap(Piece::getBoardPosition, piece -> piece))
         );
     }
 
-    public Map<BoardPosition, Piece> getJanggiPan() {
-        return janggiPan;
+    public Map<BoardPosition, Piece> getJanggiBoard() {
+        return janggiBoard;
     }
 
     public void updateBoard(final BoardPosition presentPosition, final BoardPosition futurePosition) {
-        Piece piece = janggiPan.get(presentPosition);
+        Piece piece = janggiBoard.get(presentPosition);
         piece.isMove(futurePosition);
 
         checkObstacle(presentPosition, futurePosition);
@@ -34,19 +34,19 @@ public class Board {
                 throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 위치입니다.");
             }
 
-            janggiPan.remove(presentPosition);
-            janggiPan.put(futurePosition, piece);
+            janggiBoard.remove(presentPosition);
+            janggiBoard.put(futurePosition, piece);
             piece.updateChessPiecePositionBy(futurePosition);
             return;
         }
 
-        janggiPan.remove(presentPosition);
-        janggiPan.put(futurePosition, piece);
+        janggiBoard.remove(presentPosition);
+        janggiBoard.put(futurePosition, piece);
         piece.updateChessPiecePositionBy(futurePosition);
     }
 
     private boolean isPo(BoardPosition boardPosition) {
-        return janggiPan.containsKey(boardPosition) && janggiPan.get(boardPosition).getName().equals("포");
+        return janggiBoard.containsKey(boardPosition) && janggiBoard.get(boardPosition).getName().equals("포");
     }
 
     private boolean isPieceInFront(final BoardPosition presentPosition, final BoardPosition futurePosition) {
@@ -64,7 +64,7 @@ public class Board {
                     return false;
                 }
 
-                if (janggiPan.containsKey(boardPosition)) {
+                if (janggiBoard.containsKey(boardPosition)) {
                     cnt++;
                 }
             }
@@ -78,7 +78,7 @@ public class Board {
                 if (isPo(boardPosition)) {
                     return false;
                 }
-                if (janggiPan.containsKey(boardPosition)) {
+                if (janggiBoard.containsKey(boardPosition)) {
                     cnt++;
                 }
             }
@@ -92,7 +92,7 @@ public class Board {
                 if (isPo(boardPosition)) {
                     return false;
                 }
-                if (janggiPan.containsKey(boardPosition)) {
+                if (janggiBoard.containsKey(boardPosition)) {
                     cnt++;
                 }
             }
@@ -105,7 +105,7 @@ public class Board {
                 if (isPo(boardPosition)) {
                     return false;
                 }
-                if (janggiPan.containsKey(boardPosition)) {
+                if (janggiBoard.containsKey(boardPosition)) {
                     cnt++;
                 }
             }
@@ -115,12 +115,12 @@ public class Board {
     }
 
     public void checkObstacle(final BoardPosition presentPosition, final BoardPosition futurePosition) {
-        List<BoardPosition> route = janggiPan.get(presentPosition).makeRoute(futurePosition);
+        List<BoardPosition> route = janggiBoard.get(presentPosition).makeRoute(futurePosition);
 
         int cnt = 0;
         if (isPo(presentPosition)) {
             for (BoardPosition boardPosition : route) {
-                if (janggiPan.containsKey(boardPosition)) {
+                if (janggiBoard.containsKey(boardPosition)) {
                     cnt++;
                 }
             }
@@ -131,7 +131,7 @@ public class Board {
         }
 
         for (BoardPosition boardPosition : route) {
-            if (janggiPan.containsKey(boardPosition)) {
+            if (janggiBoard.containsKey(boardPosition)) {
                 throw new IllegalArgumentException("[ERROR] 이동하려는 경로에 장애물이 존재합니다.");
             }
         }
