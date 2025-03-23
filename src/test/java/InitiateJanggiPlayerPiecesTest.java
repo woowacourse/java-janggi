@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import move.ChaMoveBehavior;
@@ -16,6 +17,7 @@ import piece.Piece;
 import piece.PieceType;
 import piece.Pieces;
 import piece.Position;
+import piece.TableSetting;
 import piece.Team;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -85,5 +87,32 @@ public class InitiateJanggiPlayerPiecesTest {
         Assertions.assertThat(piecesMap.get(Team.BLUE).size()).isEqualTo(16);
         Assertions.assertThat(piecesMap.get(Team.RED).size()).isEqualTo(16);
         Assertions.assertThat(piecesMap.get(Team.RED).size() + piecesMap.get(Team.BLUE).size()).isEqualTo(32);
+    }
+
+    @Test
+    void 상차림을_옵션으로_받을수_있다() {
+        // given
+        Map<Team, TableSetting> teamTableSetting = Map.of(Team.BLUE, TableSetting.SANG_MA_MA_SANG, Team.RED,
+                TableSetting.SANG_MA_SANG_MA);
+
+        List<Piece> expectedMaSangs = List.of(
+                new Piece(new Position(9, 1), new SangMoveBehavior(), PieceType.SANG, Team.BLUE),
+                new Piece(new Position(9, 2), new MaMoveBehavior(), PieceType.MA, Team.BLUE),
+                new Piece(new Position(9, 6), new MaMoveBehavior(), PieceType.MA, Team.BLUE),
+                new Piece(new Position(9, 7), new SangMoveBehavior(), PieceType.SANG, Team.BLUE),
+                new Piece(new Position(0, 1), new SangMoveBehavior(), PieceType.SANG, Team.RED),
+                new Piece(new Position(0, 2), new MaMoveBehavior(), PieceType.MA, Team.RED),
+                new Piece(new Position(0, 6), new SangMoveBehavior(), PieceType.SANG, Team.RED),
+                new Piece(new Position(0, 7), new MaMoveBehavior(), PieceType.MA, Team.RED)
+        );
+
+        // when
+        Map<Team, Pieces> piecesMap = new InitiateJanggiTeamPieces(teamTableSetting).janggiInitiatePieces();
+        List<Piece> createdPieces = new ArrayList<>();
+        for (Pieces pieces : piecesMap.values()) {
+            createdPieces.addAll(pieces.getPieces());
+        }
+        // then
+        Assertions.assertThat(createdPieces).containsAll(expectedMaSangs);
     }
 }

@@ -15,8 +15,8 @@ class JolMoveBehaviorTest {
     @Test
     void 졸은_가능한_경로를_반환한다() {
         // given
-        Position startPosition = new Position(0, 0);
-        Position endPosition = new Position(1, 0);
+        Position startPosition = new Position(1, 0);
+        Position endPosition = new Position(0, 0);
         MoveBehavior moveBehavior = new JolMoveBehavior();
 
         // when
@@ -31,8 +31,8 @@ class JolMoveBehaviorTest {
     @Test
     void 홍팀_졸은_장기판기준_아래이동_경로를_반환한다() {
         // given
-        Position startPosition = new Position(8, 0);
-        Position endPosition = new Position(7, 0);
+        Position startPosition = new Position(7, 0);
+        Position endPosition = new Position(8, 0);
         MoveBehavior moveBehavior = new JolMoveBehavior();
 
         // when

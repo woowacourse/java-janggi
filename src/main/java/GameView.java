@@ -2,9 +2,11 @@ import java.util.Map;
 import java.util.Scanner;
 import piece.Piece;
 import piece.Position;
+import piece.TableSetting;
 import piece.Team;
 
 public class GameView {
+
     private static final String EMPTY_PIECE = "ㅁ";
     private static final String INVALID_POSITION_INPUT = "좌표는 r,c 방식이어야합니다.";
     private static final String NOT_NUMBER = "입력된 값이 숫자가 아닙니다.";
@@ -12,9 +14,12 @@ public class GameView {
     private static final String BLUE_COLOR_FORMAT = "\u001B[34m%s\u001B[0m";
     private static final String GRID_HELPER = "  영일이삼사오육칠팔\n\n";
     private static final String WINNER_FORMAT = "%s 이 승리하였습니다.";
+    private static final Map<Integer, TableSetting> TABLE_SETTING_MAPPER = Map.of(0,
+            TableSetting.MA_SANG_MA_SANG,
+            1, TableSetting.MA_SANG_SANG_MA, 2, TableSetting.SANG_MA_MA_SANG,
+            3, TableSetting.SANG_MA_SANG_MA);
 
     private final Scanner scanner;
-
 
     public GameView() {
         this.scanner = new Scanner(System.in);
@@ -22,11 +27,6 @@ public class GameView {
 
     public void printTurn(Team team) {
         System.out.printf("%s 차례입니다.%n", team.getType());
-    }
-
-
-    public void printChangePieceNotImplement() {
-        System.out.println("상차림 기능은 아직 구현이 안되었습니다.");
     }
 
     public void printJanggiBoard(Map<Position, Piece> positionPieceMap) {
@@ -60,14 +60,14 @@ public class GameView {
 
     public Position inputSelectPiece() {
         System.out.printf("이동할 기물 위치를 입력해주세요 (r,c) %n");
-        String s = scanner.nextLine();
-        return inputPosition(s);
+        String input = scanner.nextLine();
+        return inputPosition(input);
     }
 
     public Position inputPiecePosition() {
         System.out.printf("이동시킬 위치를 입력해주세요 (r,c) %n");
-        String s = scanner.nextLine();
-        return inputPosition(s);
+        String input = scanner.nextLine();
+        return inputPosition(input);
     }
 
     private Position inputPosition(String s) {
@@ -94,5 +94,16 @@ public class GameView {
 
     public void printWinner(Team winner) {
         System.out.printf(WINNER_FORMAT, winner.getType());
+    }
+
+    public TableSetting inputTableSetting(Team team) {
+        System.out.printf("%s 팀 의 상차림을 선택해주세요 0:마상마상 1:마상상마, 2:상마마상 3:상마상마", team.getType());
+        String input = scanner.nextLine();
+        try {
+            int selectTableSetting = Integer.parseInt(input);
+            return TABLE_SETTING_MAPPER.get(selectTableSetting);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(NOT_NUMBER);
+        }
     }
 }

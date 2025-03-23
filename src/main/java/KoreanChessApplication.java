@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import piece.InitiateJanggiTeamPieces;
@@ -6,6 +7,7 @@ import piece.Pieces;
 import piece.PlayerPieces;
 import piece.Position;
 import piece.PositionPieces;
+import piece.TableSetting;
 import piece.Team;
 
 public class KoreanChessApplication {
@@ -19,11 +21,19 @@ public class KoreanChessApplication {
 
     public static void main(String[] args) {
         GameView gameView = new GameView();
-        Map<Team, Pieces> teamPieces = new InitiateJanggiTeamPieces().janggiInitiatePieces();
+        Map<Team, TableSetting> teamTableSetting = inputTableSetting(gameView);
+        Map<Team, Pieces> teamPieces = new InitiateJanggiTeamPieces(teamTableSetting).janggiInitiatePieces();
         PlayerPieces playerPieces = new PlayerPieces(teamPieces);
-        gameView.printChangePieceNotImplement();
-
         playKoreanChess(playerPieces, gameView);
+    }
+
+    private static Map<Team, TableSetting> inputTableSetting(GameView gameView) {
+        Map<Team, TableSetting> tableSetting = new HashMap<>();
+        for (Team team : Team.values()) {
+            TableSetting selectTableSetting = gameView.inputTableSetting(team);
+            tableSetting.put(team, selectTableSetting);
+        }
+        return tableSetting;
     }
 
     private static void playKoreanChess(PlayerPieces playerPieces, GameView gameView) {
