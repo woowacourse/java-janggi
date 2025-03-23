@@ -3,7 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.board.point.Point;
 
-public class Guard implements Piece {
+public class EmptyPiece implements Piece {
 
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
@@ -12,7 +12,7 @@ public class Guard implements Piece {
 
     @Override
     public boolean isEmptyPiece() {
-        return false;
+        return true;
     }
 
     @Override

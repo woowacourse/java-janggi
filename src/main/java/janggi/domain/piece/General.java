@@ -22,6 +22,11 @@ public class General implements Piece {
     }
 
     @Override
+    public boolean isEmptyPiece() {
+        return false;
+    }
+
+    @Override
     public int hashCode() {
         return getClass().hashCode();
     }

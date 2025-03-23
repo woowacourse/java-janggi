@@ -23,6 +23,11 @@ public class Chariot implements Piece {
         return currPoint.isSamePosition(end);
     }
 
+    @Override
+    public boolean isEmptyPiece() {
+        return false;
+    }
+
     private static boolean canMoveUntilEndPoint(Point end, Point currPoint) {
         return !currPoint.isSamePosition(end) && currPoint.isNotOutOfBoundary();
     }

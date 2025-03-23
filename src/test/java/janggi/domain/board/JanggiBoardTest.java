@@ -8,6 +8,7 @@ import janggi.domain.board.point.ChuPoint;
 import janggi.domain.board.point.DefaultPoint;
 import janggi.domain.board.point.HanPoint;
 import janggi.domain.piece.BoardPiece;
+import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Soldier;
 import java.util.Optional;
@@ -27,23 +28,23 @@ public class JanggiBoardTest {
         ));
 
         //when
-        Optional<BoardPiece> result = janggiBoard.findPointPiece(new HanPoint(9, 5));
+        BoardPiece result = janggiBoard.findPointPiece(new HanPoint(9, 5));
 
         //then
-        assertThat(result).isEqualTo(Optional.of(new BoardPiece(new ChuPoint(9, 5), new General(), Dynasty.CHU)));
+        assertThat(result).isEqualTo(new BoardPiece(new ChuPoint(9, 5), new General(), Dynasty.CHU));
     }
 
-    @DisplayName("해당 위치에 기물이 없을 수 있다.")
+    @DisplayName("해당 위치에 기물이 없다면 EmptyPiece를 반환한다.")
     @Test
     void notFindPointPieceTest() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Set.of());
 
         //when
-        Optional<BoardPiece> result = janggiBoard.findPointPiece(new HanPoint(9, 5));
+        BoardPiece result = janggiBoard.findPointPiece(new HanPoint(9, 5));
 
         //then
-        assertThat(result).isNotPresent();
+        assertThat(result).isEqualTo((new BoardPiece(new HanPoint(9,5), new EmptyPiece(), Dynasty.EMPTY)));
     }
 
     @DisplayName("해당 위치에 있는 기물이 있는지 확인할 수 있다.")

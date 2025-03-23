@@ -10,6 +10,7 @@ import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
+import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Soldier;
 import java.util.HashSet;
 import java.util.Objects;
@@ -62,21 +63,21 @@ public class JanggiBoard {
     }
 
     public boolean isExistPiece(Point point) {
-        return findPointPiece(point).isPresent();
+        return !findPointPiece(point).isEmptyPiece();
     }
 
-    public Optional<BoardPiece> findPointPiece(Point point) {
+    public BoardPiece findPointPiece(Point point) {
         return boardPieces.stream()
                 .filter(pointPiece -> pointPiece.isSamePosition(point))
-                .findFirst();
+                .findFirst()
+                .orElse(new BoardPiece(point, new EmptyPiece(), Dynasty.EMPTY));
     }
 
     public void move(Dynasty dynasty, DefaultPoint startPoint, DefaultPoint endPoint) {
-        Optional<BoardPiece> startBoardPiece = findPointPiece(startPoint);
-        if (startBoardPiece.isEmpty()) {
+        BoardPiece boardPiece = findPointPiece(startPoint);
+        if (boardPiece.isEmptyPiece()) {
             throw new IllegalArgumentException("시작 위치에 기물이 존재하지 않습니다.");
         }
-        BoardPiece boardPiece = startBoardPiece.get();
         if (!boardPiece.isSameDynasty(dynasty)) {
             throw new IllegalArgumentException("자신의 나라 기물이 아닙니다.");
         }

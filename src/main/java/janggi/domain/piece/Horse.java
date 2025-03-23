@@ -32,6 +32,11 @@ public class Horse implements Piece {
         return false;
     }
 
+    @Override
+    public boolean isEmptyPiece() {
+        return false;
+    }
+
     private boolean canMoveEndPointByPath(JanggiBoard janggiBoard, Point start, Point end, List<Direction> path) {
         Point currPoint = start;
         for (Direction direction : path) {

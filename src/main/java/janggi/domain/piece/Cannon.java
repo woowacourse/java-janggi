@@ -25,6 +25,11 @@ public class Cannon implements Piece {
         return false;
     }
 
+    @Override
+    public boolean isEmptyPiece() {
+        return false;
+    }
+
     private boolean canMoveUntilEndPoint(Point end, Point currPoint) {
         return !currPoint.isSamePosition(end) && currPoint.isNotOutOfBoundary();
     }
@@ -48,12 +53,8 @@ public class Cannon implements Piece {
     }
 
     private boolean isExistCannon(JanggiBoard janggiBoard, Point point) {
-        Optional<BoardPiece> pointPiece = janggiBoard.findPointPiece(point);
-        if (pointPiece.isPresent()) {
-            BoardPiece piece = pointPiece.get();
-            return piece.isEqualPiece(this);
-        }
-        return false;
+        BoardPiece piece = janggiBoard.findPointPiece(point);
+        return piece.isEqualPiece(this);
     }
 
     private boolean isAlreadyJumpedAndExistPiece(JanggiBoard janggiBoard, boolean isJump, Point current) {

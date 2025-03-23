@@ -6,4 +6,6 @@ import janggi.domain.board.point.Point;
 public interface Piece {
 
     boolean isMovable(JanggiBoard janggiBoard, Point start, Point end);
+
+    boolean isEmptyPiece();
 }
