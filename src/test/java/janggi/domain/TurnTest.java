@@ -27,7 +27,7 @@ class TurnTest {
     void getCurrentTurnTest() {
 
         // given
-        Turn turn = Turn.initialize();
+        final Turn turn = Turn.initialize();
 
         // when & then
         assertThat(turn.getCurrentTurn()).isEqualTo(BLUE);
@@ -38,7 +38,7 @@ class TurnTest {
     void changeTurnTest() {
 
         // given
-        Turn turn = Turn.initialize();
+        final Turn turn = Turn.initialize();
 
         // when & then
         assertAll(() -> {

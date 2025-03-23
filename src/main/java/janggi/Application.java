@@ -6,11 +6,11 @@ import janggi.view.OutputView;
 
 public class Application {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
-        InputView inputView = new InputView();
-        OutputView outputView = new OutputView();
-        JanggiController janggiController = new JanggiController(inputView, outputView);
+        final InputView inputView = new InputView();
+        final OutputView outputView = new OutputView();
+        final JanggiController janggiController = new JanggiController(inputView, outputView);
         janggiController.run();
 
     }

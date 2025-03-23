@@ -9,8 +9,8 @@ import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.direction.Position;
 import janggi.domain.piece.Soldier;
+import janggi.domain.piece.direction.Position;
 import janggi.domain.piece.direction.Route;
 import java.util.List;
 import java.util.Set;
@@ -24,15 +24,15 @@ class PiecesTest {
     void getPossibleRoutesTest() {
 
         // given
-        Piece horse = new Horse(new Position(4, 4), RED);
-        Piece soldier1 = new Soldier(new Position(5, 4), RED);
-        Piece soldier2 = new Soldier(new Position(3, 6), RED);
-        Piece soldier3 = new Soldier(new Position(2, 5), BLUE);
+        final Piece horse = new Horse(new Position(4, 4), RED);
+        final Piece soldier1 = new Soldier(new Position(5, 4), RED);
+        final Piece soldier2 = new Soldier(new Position(3, 6), RED);
+        final Piece soldier3 = new Soldier(new Position(2, 5), BLUE);
 
-        Pieces pieces = new Pieces(List.of(horse, soldier1, soldier2, soldier3));
+        final Pieces pieces = new Pieces(List.of(horse, soldier1, soldier2, soldier3));
 
         // when
-        Set<Route> possibleRoutes = pieces.getPossibleRoutes(horse);
+        final Set<Route> possibleRoutes = pieces.getPossibleRoutes(horse);
 
         // then
         assertThat(possibleRoutes.size()).isEqualTo(5);
@@ -43,16 +43,16 @@ class PiecesTest {
     void getPossibleRoutesForChariotTest() {
 
         // given
-        Piece chariot = new Chariot(new Position(4, 4), RED);
-        Piece soldier1 = new Soldier(new Position(5, 4), RED);
-        Piece soldier2 = new Soldier(new Position(1, 4), RED);
-        Piece soldier3 = new Soldier(new Position(4, 8), BLUE);
-        Piece soldier4 = new Soldier(new Position(4, 3), BLUE);
+        final Piece chariot = new Chariot(new Position(4, 4), RED);
+        final Piece soldier1 = new Soldier(new Position(5, 4), RED);
+        final Piece soldier2 = new Soldier(new Position(1, 4), RED);
+        final Piece soldier3 = new Soldier(new Position(4, 8), BLUE);
+        final Piece soldier4 = new Soldier(new Position(4, 3), BLUE);
 
-        Pieces pieces = new Pieces(List.of(chariot, soldier1, soldier2, soldier3, soldier4));
+        final Pieces pieces = new Pieces(List.of(chariot, soldier1, soldier2, soldier3, soldier4));
 
         // when
-        Set<Route> possibleRoutes = pieces.getPossibleRoutesForChariot(chariot);
+        final Set<Route> possibleRoutes = pieces.getPossibleRoutesForChariot(chariot);
 
         // then
         assertThat(possibleRoutes.size()).isEqualTo(7);
@@ -63,17 +63,17 @@ class PiecesTest {
     void getPossibleRoutesForCannonTest() {
 
         // given
-        Piece cannon = new Cannon(new Position(4, 4), RED);
-        Piece soldier1 = new Soldier(new Position(5, 4), RED);
-        Piece cannon1 = new Cannon(new Position(1, 4), BLUE);
-        Piece soldier3 = new Soldier(new Position(2, 4), RED);
-        Piece cannon2 = new Cannon(new Position(4, 2), RED);
-        Piece soldier2 = new Soldier(new Position(4, 6), BLUE);
+        final Piece cannon = new Cannon(new Position(4, 4), RED);
+        final Piece soldier1 = new Soldier(new Position(5, 4), RED);
+        final Piece cannon1 = new Cannon(new Position(1, 4), BLUE);
+        final Piece soldier3 = new Soldier(new Position(2, 4), RED);
+        final Piece cannon2 = new Cannon(new Position(4, 2), RED);
+        final Piece soldier2 = new Soldier(new Position(4, 6), BLUE);
 
-        Pieces pieces = new Pieces(List.of(cannon, soldier1, cannon1, soldier3, cannon2, soldier2));
+        final Pieces pieces = new Pieces(List.of(cannon, soldier1, cannon1, soldier3, cannon2, soldier2));
 
         // when
-        Set<Route> possibleRoutes = pieces.getPossibleRoutesForCannon(cannon);
+        final Set<Route> possibleRoutes = pieces.getPossibleRoutesForCannon(cannon);
 
         // then
         assertThat(possibleRoutes.size()).isEqualTo(6);
@@ -84,8 +84,8 @@ class PiecesTest {
     void findPieceByPositionAndTeamTest() {
 
         // given
-        Piece soldier = new Soldier(new Position(1, 1), RED);
-        Pieces pieces = new Pieces(List.of(soldier));
+        final Piece soldier = new Soldier(new Position(1, 1), RED);
+        final Pieces pieces = new Pieces(List.of(soldier));
 
         // when
         assertThat(pieces.findPieceByPositionAndTeam(new Position(1, 1), RED)).isEqualTo(soldier);
@@ -96,8 +96,8 @@ class PiecesTest {
     void moveTest() {
 
         // given
-        Piece soldier = new Soldier(new Position(1, 1), RED);
-        Pieces pieces = new Pieces(List.of(soldier));
+        final Piece soldier = new Soldier(new Position(1, 1), RED);
+        final Pieces pieces = new Pieces(List.of(soldier));
 
         // when
         pieces.move(new Position(1, 2), soldier);
@@ -109,9 +109,9 @@ class PiecesTest {
     @DisplayName("기물을 움직이며 해당 자리에 기물이 있을 경우 삭제한다.")
     @Test
     void moveAndKillTest() {
-        Piece soldier1 = new Soldier(new Position(1, 1), RED);
-        Piece soldier2 = new Soldier(new Position(1, 2), BLUE);
-        Pieces pieces = new Pieces(List.of(soldier1, soldier2));
+        final Piece soldier1 = new Soldier(new Position(1, 1), RED);
+        final Piece soldier2 = new Soldier(new Position(1, 2), BLUE);
+        final Pieces pieces = new Pieces(List.of(soldier1, soldier2));
 
         pieces.move(new Position(1, 2), soldier1);
 

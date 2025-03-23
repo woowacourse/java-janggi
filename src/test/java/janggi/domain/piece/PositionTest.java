@@ -18,8 +18,8 @@ class PositionTest {
     void equalTest(final int firstX, final int firstY, final int secondX, final int secondY, final boolean expected) {
 
         // given
-        Position firstPosition = new Position(firstX, firstY);
-        Position secondPosition = new Position(secondX, secondY);
+        final Position firstPosition = new Position(firstX, firstY);
+        final Position secondPosition = new Position(secondX, secondY);
 
         // when & then
         assertThat(firstPosition.equals(secondPosition)).isEqualTo(expected);

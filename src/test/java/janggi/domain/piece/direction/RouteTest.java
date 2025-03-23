@@ -17,8 +17,9 @@ class RouteTest {
     @CsvSource(value = {
             "1, 1, 2, 2, 3, 3, 4, 4, false", "1, 1, 2, 2, 3, 3, 1, 1, true"
     })
-    void hasNotPositionTest(int firstX, int firstY, int secondX, int secondY, int destinationX, int destinationY,
-                            int targetX, int targetY, boolean expected) {
+    void hasNotPositionTest(final int firstX, final int firstY, final int secondX, final int secondY,
+                            final int destinationX, final int destinationY,
+                            final int targetX, final int targetY, final boolean expected) {
 
         // given
         final Route route = new Route(List.of(new Position(firstX, firstY), new Position(secondX, secondY),

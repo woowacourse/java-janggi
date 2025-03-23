@@ -3,8 +3,8 @@ package janggi.domain.piece;
 import static janggi.domain.Team.RED;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.piece.direction.Route;
 import janggi.domain.piece.direction.Position;
+import janggi.domain.piece.direction.Route;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +23,7 @@ class CannonTest {
 
         final List<Route> downRoutes = new ArrayList<>();
         for (int i = 5; i <= 9; i++) {
-            List<Position> positions = new ArrayList<>();
+            final List<Position> positions = new ArrayList<>();
             for (int j = 5; j <= i; j++) {
                 positions.add(new Position(4, j));
             }
@@ -32,7 +32,7 @@ class CannonTest {
 
         final List<Route> upRoutes = new ArrayList<>();
         for (int i = 3; i >= 0; i--) {
-            List<Position> positions = new ArrayList<>();
+            final List<Position> positions = new ArrayList<>();
             for (int j = 3; j >= i; j--) {
                 positions.add(new Position(4, j));
             }
@@ -41,7 +41,7 @@ class CannonTest {
 
         final List<Route> rightRoutes = new ArrayList<>();
         for (int i = 5; i <= 8; i++) {
-            List<Position> positions = new ArrayList<>();
+            final List<Position> positions = new ArrayList<>();
             for (int j = 5; j <= i; j++) {
                 positions.add(new Position(j, 4));
             }
@@ -50,7 +50,7 @@ class CannonTest {
 
         final List<Route> leftRoutes = new ArrayList<>();
         for (int i = 3; i >= 0; i--) {
-            List<Position> positions = new ArrayList<>();
+            final List<Position> positions = new ArrayList<>();
             for (int j = 3; j >= i; j--) {
                 positions.add(new Position(j, 4));
             }

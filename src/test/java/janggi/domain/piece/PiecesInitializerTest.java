@@ -13,7 +13,7 @@ class PiecesInitializerTest {
     void initializeTest() {
 
         // given
-        List<Piece> pieces = PiecesInitializer.initializePieces();
+        final List<Piece> pieces = PiecesInitializer.initializePieces();
 
         // when & then
         assertThat(pieces.size()).isEqualTo(32);

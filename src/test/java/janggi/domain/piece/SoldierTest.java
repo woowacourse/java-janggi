@@ -3,9 +3,9 @@ package janggi.domain.piece;
 import static janggi.domain.Team.RED;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.piece.direction.Route;
 import janggi.domain.Team;
 import janggi.domain.piece.direction.Position;
+import janggi.domain.piece.direction.Route;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -55,10 +55,10 @@ class SoldierTest {
     @CsvSource(value = {
             "RED,RED,true", "RED,BLUE,false"
     })
-    void isSameTeamTest(Team firstTeam, Team secondTeam, boolean expected) {
+    void isSameTeamTest(final Team firstTeam, final Team secondTeam, final boolean expected) {
 
         // given
-        Piece piece1 = new Soldier(new Position(1, 1), firstTeam);
+        final Piece piece1 = new Soldier(new Position(1, 1), firstTeam);
 
         // when & then
         assertThat(piece1.isSameTeam(secondTeam)).isEqualTo(expected);
