@@ -21,4 +21,9 @@ public class HanPoint extends Point {
             case DOWN_RIGHT_DIAGONAL -> new HanPoint(x - 1, y - 1);
         };
     }
+
+    @Override
+    public Point copy(Point point) {
+        return new HanPoint(point.x, point.y);
+    }
 }

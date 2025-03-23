@@ -23,13 +23,11 @@ public abstract class Point {
         return this.x == point.getX() && y == point.getY();
     }
 
-    public Point copy(Point endPoint) {
-        return new HanPoint(endPoint.getX(), endPoint.getY());
-    }
-
     public boolean isNotOutOfBoundary() {
         return x <= MAXIMUM_ROW && x >= MINIMUM_ROW && y <= MAXIMUM_COLUMN && y >= MINIMUM_COLUMN;
     }
+
+    abstract public Point copy(Point point);
 
     public int getX() {
         return x;

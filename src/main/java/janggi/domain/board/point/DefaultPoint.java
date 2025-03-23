@@ -12,4 +12,9 @@ public class DefaultPoint extends Point {
     public Point move(Direction direction) {
         throw new IllegalStateException("움직일 수 없습니다.");
     }
+
+    @Override
+    public Point copy(Point point) {
+        return new DefaultPoint(point.x, point.y);
+    }
 }

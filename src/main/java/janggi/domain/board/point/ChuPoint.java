@@ -21,4 +21,9 @@ public class ChuPoint extends Point {
             case DOWN_RIGHT_DIAGONAL -> new ChuPoint(x + 1, y + 1);
         };
     }
+
+    @Override
+    public Point copy(Point point) {
+        return new ChuPoint(point.x, point.y);
+    }
 }
