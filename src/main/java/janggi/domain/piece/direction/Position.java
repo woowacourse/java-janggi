@@ -13,7 +13,5 @@ public record Position(int x, int y) {
             return;
         }
         throw new IllegalArgumentException("보드를 벗어났습니다.");
-
     }
-
 }

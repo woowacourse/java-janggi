@@ -25,10 +25,13 @@ public class Elephant extends Piece {
     private static final List<List<Direction>> ELEPHANT_MOVES = List.of(
             List.of(UP, RIGHT_UP, RIGHT_UP),
             List.of(UP, LEFT_UP, LEFT_UP),
+
             List.of(RIGHT, RIGHT_UP, RIGHT_UP),
             List.of(RIGHT, RIGHT_DOWN, RIGHT_DOWN),
+
             List.of(DOWN, LEFT_DOWN, LEFT_DOWN),
             List.of(DOWN, RIGHT_DOWN, RIGHT_DOWN),
+
             List.of(LEFT, LEFT_UP, LEFT_UP),
             List.of(LEFT, LEFT_DOWN, LEFT_DOWN)
     );

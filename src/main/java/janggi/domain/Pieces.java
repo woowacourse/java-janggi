@@ -49,7 +49,6 @@ public class Pieces {
         if (cannonOrDestinationCount > 0) {
             return 0;
         }
-
         return (int) pieces.stream()
                 .filter(route::hasPosition)
                 .count();

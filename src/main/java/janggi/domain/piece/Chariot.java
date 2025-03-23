@@ -37,13 +37,11 @@ public class Chariot extends Piece {
             final List<Position> positions = new ArrayList<>(generatePositions(direction, steps, position));
             directionalRoutes.add(new Route(positions));
         }
-
         return directionalRoutes;
     }
 
     private List<Position> generatePositions(final Direction direction, final int steps,
                                              final Position position) {
-
         final List<Position> rawPositions = new ArrayList<>();
 
         for (int step = 1; step <= steps; step++) {

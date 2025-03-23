@@ -1,10 +1,10 @@
 package janggi.controller;
 
 import janggi.domain.Board;
-import janggi.domain.piece.direction.Route;
 import janggi.domain.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.direction.Position;
+import janggi.domain.piece.direction.Route;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
@@ -21,7 +21,6 @@ public class JanggiController {
     }
 
     public void run() {
-
         final Board board = new Board();
         final List<Piece> pieces = board.getPieces();
         outputView.printBoard(pieces);

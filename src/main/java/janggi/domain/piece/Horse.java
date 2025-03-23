@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 public class Horse extends Piece {
 
     private static final List<List<Direction>> HORSE_MOVES = List.of(
-
             List.of(RIGHT, RIGHT_UP),
             List.of(RIGHT, RIGHT_DOWN),
 
