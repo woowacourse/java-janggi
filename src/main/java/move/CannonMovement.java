@@ -7,9 +7,8 @@ import piece.Piece;
 import piece.Pieces;
 
 public class CannonMovement implements MovementRule {
-    private static final String CANNON_EXISTED = "[ERROR] 포가 존재하여 움직일 수 없습니다.";
     private static final String CANNON_EXPRESSION = "n";
-    public static final int CANNON_MOVEABLE_PIECE_COUNT = 1;
+    private static final int CANNON_MOVEABLE_PIECE_COUNT = 1;
 
     @Override
     public Point move(Pieces pieces, Point from, Point to) {
@@ -21,7 +20,7 @@ public class CannonMovement implements MovementRule {
         int count = countPiecesInPaths(pieces, paths);
         validateCannonMoveable(count);
 
-        return new Point(to.x(), to.y());
+        return new Point(to.column(), to.row());
     }
 
     private int countPiecesInPaths(Pieces pieces, List<Point> paths) {
@@ -51,10 +50,10 @@ public class CannonMovement implements MovementRule {
 
     private List<Point> findPaths(Point from, Point to) {
         List<Point> paths = new ArrayList<>();
-        int minX = Math.min(from.x(), to.x());
-        int maxX = Math.max(from.x(), to.x());
-        int minY = Math.min(from.y(), to.y());
-        int maxY = Math.max(from.y(), to.y());
+        int minX = Math.min(from.column(), to.column());
+        int maxX = Math.max(from.column(), to.column());
+        int minY = Math.min(from.row(), to.row());
+        int maxY = Math.max(from.row(), to.row());
 
         for (int y = minY; y <= maxY; y++) {
             for (int x = minX; x <= maxX; x++) {
@@ -82,7 +81,7 @@ public class CannonMovement implements MovementRule {
 
     private void validateIsNotCannon(Piece piece) {
         if (piece.isSameType(CANNON_EXPRESSION)) {
-            throw new IllegalArgumentException(CANNON_EXISTED);
+            throw new IllegalArgumentException("[ERROR] 포가 존재하여 움직일 수 없습니다.");
         }
     }
 }

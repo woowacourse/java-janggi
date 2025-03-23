@@ -1,25 +1,25 @@
 package direction;
 
-public record Point(int x, int y) {
+public record Point(int column, int row) {
 
     public Point minus(Point other) {
-        return new Point(x - other.x, y - other.y);
+        return new Point(column - other.column, row - other.row);
     }
 
     public Point plus(Point other) {
-        return new Point(x + other.x, y + other.y);
+        return new Point(column + other.column, row + other.row);
     }
 
     public Point multiply(int dir) {
-        return new Point(x * dir, y * dir);
+        return new Point(column * dir, row * dir);
     }
 
     public boolean isDifferentX(Point point) {
-        return point.x != this.x;
+        return point.column != this.column;
     }
 
     public boolean isDifferentY(Point point) {
-        return point.y != this.y;
+        return point.row != this.row;
     }
 
 }

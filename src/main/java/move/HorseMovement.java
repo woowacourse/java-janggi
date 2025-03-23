@@ -36,7 +36,7 @@ public class HorseMovement implements MovementRule {
         List<Direction> directions = paths.getOrDefault(to.minus(from), List.of());
         validateInvalidDestination(directions);
 
-        Point checkPoint = new Point(from.x(), from.y());
+        Point checkPoint = new Point(from.column(), from.row());
         validateExistPieceInPath(pieces, directions, checkPoint);
 
         return to;

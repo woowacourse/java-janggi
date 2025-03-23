@@ -16,13 +16,13 @@ public class GeneralMovement implements MovementRule {
     }
 
     private void validatePossibleHorizontalMovement(Point from, Point to) {
-        if ((from.x() + MAXIMUM_MOVE_RANGE) < to.x() || (from.x() - MAXIMUM_MOVE_RANGE) > to.x()) {
+        if ((from.column() + MAXIMUM_MOVE_RANGE) < to.column() || (from.column() - MAXIMUM_MOVE_RANGE) > to.column()) {
             throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
         }
     }
 
     private void validatePossibleVerticalMovement(Point from, Point to) {
-        if ((from.y() + MAXIMUM_MOVE_RANGE) < to.y() || (from.y() - MAXIMUM_MOVE_RANGE) > to.y()) {
+        if ((from.row() + MAXIMUM_MOVE_RANGE) < to.row() || (from.row() - MAXIMUM_MOVE_RANGE) > to.row()) {
             throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
         }
     }

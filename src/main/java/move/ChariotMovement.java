@@ -3,7 +3,6 @@ package move;
 import direction.Point;
 import java.util.ArrayList;
 import java.util.List;
-import piece.Piece;
 import piece.Pieces;
 
 public class ChariotMovement implements MovementRule {
@@ -19,15 +18,15 @@ public class ChariotMovement implements MovementRule {
             validateNonExistPieceInPath(pieces, path);
         }
 
-        return new Point(to.x(), to.y());
+        return new Point(to.column(), to.row());
     }
 
     private List<Point> findPaths(Point from, Point to) {
         List<Point> paths = new ArrayList<>();
-        int minX = Math.min(from.x(), to.x());
-        int maxX = Math.max(from.x(), to.x());
-        int minY = Math.min(from.y(), to.y());
-        int maxY = Math.max(from.y(), to.y());
+        int minX = Math.min(from.column(), to.column());
+        int maxX = Math.max(from.column(), to.column());
+        int minY = Math.min(from.row(), to.row());
+        int maxY = Math.max(from.row(), to.row());
 
         for (int y = minY; y <= maxY; y++) {
             for (int x = minX; x <= maxX; x++) {
@@ -42,7 +41,7 @@ public class ChariotMovement implements MovementRule {
     }
 
     private void validateStraightDestination(Point from, Point to) {
-        if(from.x() != to.x() && from.y() != to.y()) {
+        if(from.column() != to.column() && from.row() != to.row()) {
             throw new IllegalArgumentException();
         }
     }
