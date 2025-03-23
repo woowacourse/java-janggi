@@ -81,7 +81,7 @@ public class Po implements Piece {
     }
 
     @Override
-    public boolean hasTeam(Team team) {
-        return this.team == team;
+    public Team team() {
+        return this.team;
     }
 }

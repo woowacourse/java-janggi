@@ -4,22 +4,30 @@ import domain.Path;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Board {
 
     private final Map<Point, Piece> pieceByPoint;
     private final PointNodeMapper pointNodeMapper;
-    private boolean isEnd;
 
     public Board(Map<Point, Piece> pieceByPoint, Map<Point, Node> nodeByPoint) {
         this.pieceByPoint = pieceByPoint;
         this.pointNodeMapper = new PointNodeMapper(nodeByPoint);
-        this.isEnd = false;
     }
 
     public boolean isRunning() {
-        return !isEnd;
+        return isTwoWangsAlive();
+    }
+
+    private boolean isTwoWangsAlive() {
+        return pieceByPoint.values().stream()
+                .filter(piece -> piece.type() == PieceType.WANG)
+                .map(Piece::team)
+                .collect(Collectors.toSet())
+                .containsAll(List.of(Team.CHO, Team.HAN));
     }
 
     public boolean canMove(final Point source, final Point destination) {
@@ -36,9 +44,6 @@ public class Board {
             throw new IllegalArgumentException(source + " -> " + destination + " [ERROR] 이동할 수 없는 경로입니다.");
         }
 
-        if (existsWang(destination)) {
-            isEnd = true;
-        }
         pieceByPoint.put(destination, sourcePiece);
         removePiece(source);
     }
@@ -79,7 +84,7 @@ public class Board {
             return false;
         }
         Piece piece = getPieceByPoint(point);
-        return piece.hasTeam(team);
+        return piece.team() == team;
     }
 
     public boolean hasPieceType(final Point point, final PieceType pieceType) {

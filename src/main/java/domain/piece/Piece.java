@@ -9,5 +9,5 @@ public interface Piece {
 
     PieceType type();
 
-    boolean hasTeam(Team team);
+    Team team();
 }
