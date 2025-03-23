@@ -29,6 +29,10 @@ public class TeamBoard {
         throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 없습니다.");
     }
 
+    public boolean contains(BoardLocation destination) {
+        return pieces.containsKey(destination);
+    }
+
     public void validateAllyMove(List<BoardLocation> allPath, BoardLocation destination) {
         Set<BoardLocation> located = pieces.keySet();
         if (located.contains(destination)) {
@@ -73,6 +77,7 @@ public class TeamBoard {
 
     public List<Piece> extractPathPiece(List<BoardLocation> allPath) {
         return allPath.stream()
+                .filter(pieces::containsKey)
                 .map(pieces::get)
                 .toList();
     }

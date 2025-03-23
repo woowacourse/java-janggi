@@ -21,16 +21,20 @@ public class JanggiGame {
         Board board = new Board(teamBoard);
 
         Team team = Team.getStartingTeam();
-        consoleView.showBoard();
+        consoleView.showBoard(teamBoard.getPieces());
         while (true) {
-            consoleView.printTurn(team);
+            try {
+                consoleView.printTurn(team);
 
-            BoardLocation current = consoleView.requestCurrent();
-            BoardLocation destination = consoleView.requestDestination();
-            board.movePiece(team, current, destination);
+                BoardLocation current = consoleView.requestCurrent();
+                BoardLocation destination = consoleView.requestDestination();
+                board.movePiece(team, current, destination);
 
-            consoleView.printResult(team);
-            team = team.opposite();
+                consoleView.showBoard(teamBoard.getPieces());
+                team = team.opposite();
+            } catch (RuntimeException e) {
+                consoleView.printMessage(e.getMessage());
+            }
         }
     }
 }

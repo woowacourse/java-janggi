@@ -16,12 +16,8 @@ public class ConsoleView {
         this.outputView = outputView;
     }
 
-    public String inputHanHorseElephantLocation() {
-        return inputView.inputHanHorseElephantLocation();
-    }
-
-    public void showBoard() {
-        outputView.showBoard();
+    public void showBoard(Map<BoardLocation, Piece> pieces) {
+        outputView.showBoard(pieces);
     }
 
     public BoardLocation requestCurrent() {
@@ -36,10 +32,6 @@ public class ConsoleView {
         return new BoardLocation(x, y);
     }
 
-    public void printResult(Team team) {
-        outputView.showResult(team);
-    }
-
     public void printTurn(Team team) {
         outputView.printTurn(team);
     }
@@ -51,5 +43,9 @@ public class ConsoleView {
         placements.putAll(hanPlacements);
         placements.putAll(choPlacements);
         return placements;
+    }
+
+    public void printMessage(String message) {
+        outputView.printMessage(message);
     }
 }

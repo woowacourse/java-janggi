@@ -18,19 +18,8 @@ public class InputView {
             4, EHHE
     );
 
-    public String inputHanHorseElephantLocation() {
-        System.out.println("""
-                한나라는 아래 중 하나를 선택해주세요.
-                1. 馬象馬象(마상마상)
-                2. 象馬象馬(상마상마)
-                3. 馬象象馬(마상상마)
-                4. 象馬馬象(상마마상)
-                """);
-        return scanner.nextLine();
-    }
-
     public int requestStartX() {
-        System.out.println("움직일 기물의 X좌표를 입력해주세요");
+        System.out.println("움직일 기물의 좌표를 입력해주세요 ex) 1,2");
         return Integer.parseInt(scanner.nextLine());
     }
 
@@ -51,7 +40,7 @@ public class InputView {
 
     public Map<BoardLocation, Piece> requestHanPlacements() {
         System.out.println("한나라는 아래 중 하나를 선택해주세요.");
-        System.out.println("""
+        System.out.print("""
                 1. 馬象馬象(마상마상)
                 2. 象馬象馬(상마상마)
                 3. 馬象象馬(마상상마)
@@ -66,7 +55,7 @@ public class InputView {
 
     public Map<BoardLocation, Piece> requestChoPlacements() {
         System.out.println("초나라는 아래 중 하나를 선택해주세요");
-        System.out.println("""
+        System.out.print("""
                 1. 馬象馬象(마상마상)
                 2. 象馬象馬(상마상마)
                 3. 馬象象馬(마상상마)

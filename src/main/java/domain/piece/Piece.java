@@ -23,15 +23,19 @@ public abstract class Piece {
 
     public abstract PieceType getType();
 
-    public boolean isNotSameType(Piece piece) {
+    public final boolean isNotSameType(Piece piece) {
         return !Objects.equals(this.getType(), piece.getType());
     }
 
-    public boolean isEqualTeam(Team team) {
+    public final boolean isEqualTeam(Team team) {
         return this.team == team;
     }
 
-    public boolean isEqualTeam(Piece piece) {
+    public final boolean isEqualTeam(Piece piece) {
         return this.team == piece.team;
+    }
+
+    public final Team getTeam() {
+        return this.team;
     }
 }
