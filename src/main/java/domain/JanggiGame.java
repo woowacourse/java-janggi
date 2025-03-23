@@ -1,12 +1,8 @@
 package domain;
 
 import domain.board.Board;
-import domain.board.BoardSettingUpStrategy;
 import domain.board.SettingUp;
 import domain.piece.Country;
-import domain.piece.Piece;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import view.InputView;
@@ -29,19 +25,17 @@ public class JanggiGame {
     }
 
     private Board settingUp() {
-        Map<Coordinate, Piece> boardSetup = new HashMap<>(BoardSettingUpStrategy.setUp());
+        Board board = new Board();
 
         SettingUp settingUpHan = retryUntilValid(() -> inputView.readSettingUp(currentTurn));
-        BoardSettingUpStrategy hanStrategy = settingUpHan.getStrategy();
-        boardSetup.putAll(hanStrategy.setUpHanByStrategy());
+        board.setUpHan(settingUpHan);
 
         nextTurn();
 
         SettingUp settingUpCho = retryUntilValid(() -> inputView.readSettingUp(currentTurn));
-        BoardSettingUpStrategy choStrategy = settingUpCho.getStrategy();
-        boardSetup.putAll(choStrategy.setUpChoByStrategy());
+        board.setUpCho(settingUpCho);
 
-        return new Board(boardSetup);
+        return board;
     }
 
     private void moveCommand(Board board) {
