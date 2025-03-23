@@ -96,7 +96,15 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("게임이 끝났으면 true를 반환한다")
+    @DisplayName("게임이 진행중이면 true를 반환한다")
+    void isFinishedTest2() {
+        Board board = new Board(pieces);
+
+        assertThat(board.isInProgress()).isTrue();
+    }
+
+    @Test
+    @DisplayName("게임이 끝났으면 false를 반환한다")
     void isFinishedTest() {
         Board board = new Board(pieces);
 
@@ -104,14 +112,6 @@ class BoardTest {
         Position endPosition = Position.of(3, 2);
 
         board.movePiece(startPosition, endPosition, TeamType.CHO);
-
-        assertThat(board.isInProgress()).isTrue();
-    }
-
-    @Test
-    @DisplayName("게임이 끝나지 않았으면 false를 반환한다")
-    void isFinishedTest2() {
-        Board board = new Board(pieces);
 
         assertThat(board.isInProgress()).isFalse();
     }

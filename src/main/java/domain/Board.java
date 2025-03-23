@@ -26,7 +26,7 @@ public class Board {
     }
 
     public TeamType findWinTeam() {
-        if (!isInProgress()) {
+        if (isInProgress()) {
             throw new IllegalArgumentException("게임이 종료되지 않아 우승을 판별할 수 없습니다.");
         }
         Piece king = pieces.values().stream()
