@@ -18,14 +18,13 @@ public abstract class Piece {
         this.movements = movements;
     }
 
-    public final boolean canMove(PieceFinder pieceFinder, Coordinate departure, Coordinate arrival) {
+    public final boolean canMove(PieceFinder pieceFinder, Coordinate departure,
+        Coordinate arrival) {
         if (!findMovableCandidates(departure).contains(arrival)) {
             return false;
         }
         return canMoveConsideringObstacles(pieceFinder, departure, arrival);
     }
-
-    protected abstract Set<Coordinate> findMovableCandidates(Coordinate departure);
 
     protected final Set<Movement> movementsAt(Coordinate departure) {
         Set<Movement> movements = new HashSet<>(this.movements);
@@ -37,10 +36,14 @@ public abstract class Piece {
         return movements;
     }
 
-    protected boolean canMoveConsideringObstacles(PieceFinder pieceFinder, Coordinate departure, Coordinate arrival) {
-        final var path = findPaths(departure, arrival);
+    protected boolean canMoveConsideringObstacles(
+        PieceFinder pieceFinder, Coordinate departure, Coordinate arrival
+    ) {
+        final List<Coordinate> path = findPaths(departure, arrival);
         return pieceFinder.nonePiecesIn(path);
     }
+
+    protected abstract Set<Coordinate> findMovableCandidates(Coordinate departure);
 
     protected abstract List<Coordinate> findPaths(Coordinate departure, Coordinate arrival);
 

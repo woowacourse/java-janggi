@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class LimitedMovementPiece extends Piece {
+public abstract class LimitedMovingPiece extends Piece {
 
-    public LimitedMovementPiece(final Team team, final Set<Movement> movements) {
+    public LimitedMovingPiece(final Team team, final Set<Movement> movements) {
         super(team, movements);
     }
 

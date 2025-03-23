@@ -6,7 +6,7 @@ import domain.Team;
 import domain.board.PieceFinder;
 import java.util.Set;
 
-public class Po extends UnlimitedCrossMovementPiece {
+public class Po extends UnlimitedStraightMovingPiece {
 
     public Po(Team team) {
         super(

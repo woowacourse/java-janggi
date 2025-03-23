@@ -5,7 +5,7 @@ import domain.Movement;
 import domain.Team;
 import java.util.List;
 
-public class Sa extends LimitedMovementPiece {
+public class Sa extends LimitedMovingPiece {
 
     public Sa(Team team) {
         super(

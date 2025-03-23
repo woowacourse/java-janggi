@@ -15,7 +15,7 @@ import domain.Team;
 import java.util.List;
 import java.util.Set;
 
-public class Sang extends LimitedMovementPiece {
+public class Sang extends LimitedMovingPiece {
 
     public Sang(Team team) {
         super(

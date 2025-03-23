@@ -4,13 +4,30 @@ import domain.Coordinate;
 import domain.Movement;
 import domain.Team;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class UnlimitedCrossMovementPiece extends UnlimitedMovementPiece {
+public abstract class UnlimitedStraightMovingPiece extends Piece {
 
-    public UnlimitedCrossMovementPiece(final Team team, final Set<Movement> movements) {
+    public UnlimitedStraightMovingPiece(final Team team, final Set<Movement> movements) {
         super(team, movements);
+    }
+
+    @Override
+    protected final Set<Coordinate> findMovableCandidates(Coordinate departure) {
+        Set<Coordinate> candidates = new HashSet<>();
+
+        for (final var movement : movementsAt(departure)) {
+            var current = departure;
+
+            while (current.canMove(movement)) {
+                var next = current.move(movement);
+                candidates.add(next);
+                current = next;
+            }
+        }
+        return candidates;
     }
 
     @Override

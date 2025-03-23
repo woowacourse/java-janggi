@@ -6,7 +6,7 @@ import domain.Team;
 import java.util.List;
 import java.util.Set;
 
-public class Jol extends LimitedMovementPiece {
+public class Jol extends LimitedMovingPiece {
 
     public Jol() {
         super(

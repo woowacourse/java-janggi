@@ -6,7 +6,7 @@ import domain.Team;
 import java.util.List;
 import java.util.Set;
 
-public class Byeong extends LimitedMovementPiece{
+public class Byeong extends LimitedMovingPiece {
 
     public Byeong() {
         super(
