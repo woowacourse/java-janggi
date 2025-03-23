@@ -1,8 +1,11 @@
 import java.util.Map;
 import piece.Board;
 import piece.InitiateJanggiTeamPieces;
+import piece.Piece;
+import piece.Pieces;
 import piece.Position;
 import piece.Team;
+import piece.TeamPieces;
 
 public class KoreanChessApplication {
 
@@ -15,17 +18,17 @@ public class KoreanChessApplication {
 
     public static void main(String[] args) {
         GameView gameView = new GameView();
-        Board board = new Board(new InitiateJanggiTeamPieces());
+        TeamPieces teamPieces = new TeamPieces(new InitiateJanggiTeamPieces());
         gameView.printChangePieceNotImplement();
 
-        playKoreanChess(board, gameView);
+        playKoreanChess(teamPieces, gameView);
     }
 
-    private static void playKoreanChess(Board board, GameView gameView) {
+    private static void playKoreanChess(TeamPieces teamPieces, GameView gameView) {
         int turn = 0;
-        while (!board.isKingDead()) {
+        while (!teamPieces.isKingDead()) {
             try {
-                playTurn(board, gameView, turn);
+                playTurn(teamPieces, gameView, turn);
                 turn = (turn + 1) % PLAYER_SIZE;
             } catch (IllegalArgumentException e) {
                 gameView.printError(e.getMessage());
@@ -33,12 +36,15 @@ public class KoreanChessApplication {
         }
     }
 
-    private static void playTurn(Board board, GameView gameView, int turn) {
-        gameView.playerBoard(board.playerBoard());
+    private static void playTurn(TeamPieces teamPieces, GameView gameView, int turn) {
+        Pieces allPieces = teamPieces.allPieces();
+        Board board = new Board(allPieces);
+        Map<Position, Piece> positionPieces = board.positionPieces();
+        gameView.printJanggiBoard(positionPieces);
         Team team = turnTable.get(turn);
         gameView.printTurn(team);
         Position selectPiecePosition = gameView.inputSelectPiece();
         Position selectPosition = gameView.inputPiecePosition();
-        board.move(team, selectPiecePosition, selectPosition);
+        teamPieces.move(team, selectPiecePosition, selectPosition);
     }
 }

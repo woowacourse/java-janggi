@@ -6,42 +6,18 @@ import java.util.Map;
 
 public class Board {
 
-    private final Map<Team, Pieces> teamBoard;
+    private final Pieces allPieces;
 
-    public Board(InitiateJanggiTeamPieces initiateJanggiTeamPieces) {
-        this.teamBoard = initiateJanggiTeamPieces.janggiInitiatePieces();
+    public Board(Pieces allPieces) {
+        this.allPieces = allPieces;
     }
 
-    public Map<Position, Piece> playerBoard() {
-        List<Piece> allPieces = allPieces();
+    public Map<Position, Piece> positionPieces() {
+        List<Piece> allPieces = this.allPieces.getPieces();
         Map<Position, Piece> playerBoard = new HashMap<>();
         for (Piece piece : allPieces) {
             playerBoard.put(piece.getPosition(), piece);
         }
         return playerBoard;
-    }
-
-    private List<Piece> allPieces() {
-        Pieces bluePieces = teamBoard.get(Team.BLUE);
-        Pieces redPieces = teamBoard.get(Team.RED);
-        return bluePieces.add(redPieces);
-    }
-
-    public boolean isKingDead() {
-        return false;
-    }
-
-    public void move(Team team, Position selectPiecePosition, Position selectPosition) {
-        Pieces pieces = teamBoard.get(team);
-        Piece piece = pieces.move(selectPiecePosition, selectPosition, allPieces());
-        Pieces otherPieces = otherTeamPieces(team);
-        pieces.killPieceFrom(piece, otherPieces);
-    }
-
-    private Pieces otherTeamPieces(Team team) {
-        if (team == Team.BLUE) {
-            return teamBoard.get(Team.RED);
-        }
-        return teamBoard.get(Team.BLUE);
     }
 }

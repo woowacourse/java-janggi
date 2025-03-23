@@ -9,7 +9,7 @@ import java.util.Map;
 public class Pieces {
 
     private static final String INVALID_PIECE_POSITION = "규칙에 맞지않은 입력입니다";
-    
+
     private final List<Piece> pieces;
 
     public Pieces(List<Piece> pieces) {
@@ -33,7 +33,7 @@ public class Pieces {
         return Collections.unmodifiableList(resultPieces);
     }
 
-    public Piece move(Position selectPiecePosition, Position movePosition, List<Piece> boardAllPieces) {
+    public Piece move(Position selectPiecePosition, Position movePosition, Pieces boardAllPieces) {
         Piece piece = findPiece(selectPiecePosition);
         Route route = piece.getRoute(selectPiecePosition, movePosition);
         Pieces piecesOnRoute = findPiecesOnRouteIncludeOtherTeam(route, piece, boardAllPieces);
@@ -41,9 +41,10 @@ public class Pieces {
         return piece;
     }
 
-    private Pieces findPiecesOnRouteIncludeOtherTeam(Route route, Piece movePiece, List<Piece> boardAllPieces) {
+    private Pieces findPiecesOnRouteIncludeOtherTeam(Route route, Piece movePiece, Pieces boardAllPieces) {
+        List<Piece> allPieces = boardAllPieces.getPieces();
         Map<Position, Piece> positionPieces = new HashMap<>();
-        for (Piece piece : boardAllPieces) {
+        for (Piece piece : allPieces) {
             if (piece.equals(movePiece)) {
                 continue;
             }

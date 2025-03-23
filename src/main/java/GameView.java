@@ -27,7 +27,7 @@ public class GameView {
         System.out.println("상차림 기능은 아직 구현이 안되었습니다.");
     }
 
-    public void playerBoard(Map<Position, Piece> positionPieceMap) {
+    public void printJanggiBoard(Map<Position, Piece> positionPieceMap) {
         StringBuilder stringBuilder = new StringBuilder(GRID_HELPER);
         for (int i = 9; i >= 0; i--) {
             stringBuilder.append(i).append(" ");

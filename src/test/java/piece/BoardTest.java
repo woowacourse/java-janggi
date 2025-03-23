@@ -5,5 +5,6 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class BoardTest {
+    
 
 }
