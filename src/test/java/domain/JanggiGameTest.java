@@ -19,13 +19,13 @@ public class JanggiGameTest {
     @Test
     void test1() {
         // given
-        Cannon blueCannon = new Cannon(Team.BLUE);
-        King blueKing = new King(Team.BLUE);
+        Cannon choCannon = new Cannon(Team.CHO);
+        King choKing = new King(Team.CHO);
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
 
-        beforeBoard.put(new Position(8, 2), blueCannon);
-        beforeBoard.put(new Position(8, 5), blueKing);
+        beforeBoard.put(new Position(8, 2), choCannon);
+        beforeBoard.put(new Position(8, 5), choKing);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiGame game = new JanggiGame(boardGenerator, List.of("플레이어1", "플레이어2"));
@@ -42,17 +42,15 @@ public class JanggiGameTest {
     void test2() {
         // given
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        King blueKing = new King(Team.BLUE);
-        beforeBoard.put(new Position(1, 1), blueKing);
+        King choKing = new King(Team.CHO);
+        beforeBoard.put(new Position(1, 1), choKing);
         JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), List.of("플레이어1", "플레이어2"));
 
         Map<Position, Piece> afterBoard = new HashMap<>();
-        afterBoard.put(new Position(2, 1), blueKing);
+        afterBoard.put(new Position(2, 1), choKing);
 
-        Position startPosition = new Position(1, 1);
-        Position targetPosition = new Position(2, 1);
         // when
-        game.move(startPosition, targetPosition);
+        game.move(List.of(1, 1), List.of(2, 1));
         // then
         assertThat(beforeBoard).isEqualTo(afterBoard);
     }
@@ -62,11 +60,11 @@ public class JanggiGameTest {
     @Test
     void test3() {
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        Chariot blueChariot = new Chariot(Team.BLUE);
-        beforeBoard.put(new Position(1, 1), blueChariot);
+        Chariot choChariot = new Chariot(Team.CHO);
+        beforeBoard.put(new Position(1, 1), choChariot);
         JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), List.of("플레이어1", "플레이어2"));
 
-        assertThatThrownBy(() -> game.move(new Position(1, 1), new Position(1, 1)))
+        assertThatThrownBy(() -> game.move(List.of(1, 1), List.of(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("말을 움직여 주세요");
     }

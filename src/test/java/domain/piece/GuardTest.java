@@ -22,7 +22,7 @@ class GuardTest {
     void test(int row, int column, Move move) {
 
         //given
-        Guard guard = new Guard(Team.BLUE);
+        Guard guard = new Guard(Team.CHO);
         Position startPosition = new Position(4, 4);
         Position targetPosition = new Position(row, column);
 

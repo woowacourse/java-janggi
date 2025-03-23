@@ -22,7 +22,7 @@ public class KingTest {
     void test(int row, int column, Move move) {
 
         //given
-        King king = new King(Team.BLUE);
+        King king = new King(Team.CHO);
         Position startPosition = new Position(4, 4);
         Position targetPosition = new Position(row, column);
 
@@ -38,7 +38,7 @@ public class KingTest {
     void test1() {
 
         //given
-        King king = new King(Team.RED);
+        King king = new King(Team.HAN);
 
         // when & then
         Assertions.assertThatThrownBy(() -> king.calculatePath(new Position(4, 1), new Position(4, 3)))

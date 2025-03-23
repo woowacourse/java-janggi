@@ -11,7 +11,7 @@ public class PieceTest {
     @DisplayName("두 기물의 팀이 같은지 판단한다")
     @ParameterizedTest
     @CsvSource({
-            "RED, RED, true", "RED, BLUE, false "
+            "HAN, HAN, true", "HAN, CHO, false "
     })
     void test(Team team1, Team team2, boolean expected) {
         // given

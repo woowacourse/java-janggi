@@ -15,7 +15,7 @@ class CannonTest {
     @Test
     void test() {
         // given
-        Cannon cannon = new Cannon(Team.RED);
+        Cannon cannon = new Cannon(Team.HAN);
         Position startPosition = new Position(3, 2);
         Position targetPosition = new Position(6, 2);
         // when
@@ -28,7 +28,7 @@ class CannonTest {
     @DisplayName("포로 이동할 수 없는 위치인 경우 예외를 발생시킨다")
     @Test
     void test3() {
-        Cannon cannon = new Cannon(Team.RED);
+        Cannon cannon = new Cannon(Team.HAN);
 
         assertThatThrownBy(() -> cannon.calculatePath(new Position(1, 1), new Position(2, 2)))
                 .isInstanceOf(IllegalArgumentException.class)

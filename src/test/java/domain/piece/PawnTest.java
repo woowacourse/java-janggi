@@ -14,7 +14,7 @@ class PawnTest {
     void test() {
 
         //given
-        Pawn pawn = new Pawn(Team.RED);
+        Pawn pawn = new Pawn(Team.HAN);
 
         //when
         List<Position> move = pawn.calculatePath(new Position(4, 1), new Position(4, 2));
@@ -28,7 +28,7 @@ class PawnTest {
     void test1() {
 
         //given
-        Pawn pawn = new Pawn(Team.RED);
+        Pawn pawn = new Pawn(Team.HAN);
 
         // when & then
         Assertions.assertThatThrownBy(() -> pawn.calculatePath(new Position(4, 1), new Position(4, 3)))

@@ -14,7 +14,7 @@ public class ChariotTest {
     @DisplayName("차의 이동 경로를 계산할 수 있다")
     @Test
     void test1() {
-        Chariot chariot = new Chariot(Team.RED);
+        Chariot chariot = new Chariot(Team.HAN);
 
         List<Position> path1 = chariot.calculatePath(new Position(1, 1), new Position(1, 4));
         List<Position> path2 = chariot.calculatePath(new Position(1, 1), new Position(4, 1));
@@ -34,7 +34,7 @@ public class ChariotTest {
     @DisplayName("차로 이동할 수 없는 위치인 경우 예외를 발생시킨다")
     @Test
     void test3() {
-        Chariot chariot = new Chariot(Team.RED);
+        Chariot chariot = new Chariot(Team.HAN);
 
         assertThatThrownBy(() -> chariot.calculatePath(new Position(1, 1), new Position(2, 2)))
                 .isInstanceOf(IllegalArgumentException.class)

@@ -12,7 +12,7 @@ public class HorseTest {
     @DisplayName("마의 이동 경로를 계산할 수 있다")
     @Test
     void test1() {
-        Horse horse = new Horse(Team.RED);
+        Horse horse = new Horse(Team.HAN);
 
         List<Position> moves = horse.calculatePath(new Position(4, 4), new Position(3, 6));
         List<Position> expected = List.of(new Position(4, 5));
@@ -23,7 +23,7 @@ public class HorseTest {
     @DisplayName("마로 갈 수 없는 위치일 경우 예외를 발생시킨다")
     @Test
     void test2() {
-        Horse horse = new Horse(Team.RED);
+        Horse horse = new Horse(Team.HAN);
 
         Assertions.assertThatThrownBy(() -> horse.calculatePath(new Position(4, 4), new Position(4, 5)))
                 .isInstanceOf(IllegalArgumentException.class)

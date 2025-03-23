@@ -19,8 +19,8 @@ public class JanggiBoardTest {
     @Test
     void test1() {
         Map<Position, Piece> board = Map.of(
-                new Position(4, 1), new Pawn(Team.RED),
-                new Position(4, 5), new Pawn(Team.RED)
+                new Position(4, 1), new Pawn(Team.HAN),
+                new Position(4, 5), new Pawn(Team.HAN)
         );
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(board);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -38,8 +38,8 @@ public class JanggiBoardTest {
     @Test
     void test2() {
         Map<Position, Piece> board = Map.of(
-                new Position(1, 1), new Chariot(Team.RED),
-                new Position(1, 2), new Horse(Team.RED)
+                new Position(1, 1), new Chariot(Team.HAN),
+                new Position(1, 2), new Horse(Team.HAN)
         );
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(board);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -56,7 +56,7 @@ public class JanggiBoardTest {
     @DisplayName("장기말은 이동시 목표 좌표로 위치가 바뀐다.")
     @Test
     void test3() {
-        Pawn pawn = new Pawn(Team.RED);
+        Pawn pawn = new Pawn(Team.HAN);
         // given
         Map<Position, Piece> beforeBoard = new HashMap<>();
         beforeBoard.put(new Position(4, 1), pawn);
@@ -80,15 +80,15 @@ public class JanggiBoardTest {
     @Test
     void test4() {
         //given
-        Chariot blueChariot = new Chariot(Team.BLUE);
-        Chariot redChariot = new Chariot(Team.RED);
+        Chariot choChariot = new Chariot(Team.CHO);
+        Chariot hanChariot = new Chariot(Team.HAN);
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        beforeBoard.put(new Position(4, 1), blueChariot);
-        beforeBoard.put(new Position(8, 1), redChariot);
+        beforeBoard.put(new Position(4, 1), choChariot);
+        beforeBoard.put(new Position(8, 1), hanChariot);
 
         Map<Position, Piece> afterBoard = new HashMap<>();
-        afterBoard.put(new Position(8, 1), blueChariot);
+        afterBoard.put(new Position(8, 1), choChariot);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -107,12 +107,12 @@ public class JanggiBoardTest {
     @Test
     void test5() {
         //given
-        Chariot blueChariot1 = new Chariot(Team.BLUE);
-        Chariot blueChariot2 = new Chariot(Team.BLUE);
+        Chariot choChariot1 = new Chariot(Team.CHO);
+        Chariot choChariot2 = new Chariot(Team.CHO);
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        beforeBoard.put(new Position(4, 1), blueChariot1);
-        beforeBoard.put(new Position(8, 1), blueChariot2);
+        beforeBoard.put(new Position(4, 1), choChariot1);
+        beforeBoard.put(new Position(8, 1), choChariot2);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -130,10 +130,10 @@ public class JanggiBoardTest {
     @Test
     void test6() {
         //given
-        Cannon blueCannon = new Cannon(Team.BLUE);
+        Cannon choCannon = new Cannon(Team.CHO);
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        beforeBoard.put(new Position(4, 1), blueCannon);
+        beforeBoard.put(new Position(4, 1), choCannon);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -151,12 +151,12 @@ public class JanggiBoardTest {
     @Test
     void test7() {
         //given
-        Chariot blueChariot = new Chariot(Team.BLUE);
-        Pawn bluePawn = new Pawn(Team.BLUE);
+        Chariot choChariot = new Chariot(Team.CHO);
+        Pawn choPawn = new Pawn(Team.CHO);
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        beforeBoard.put(new Position(1, 1), blueChariot);
-        beforeBoard.put(new Position(4, 1), bluePawn);
+        beforeBoard.put(new Position(1, 1), choChariot);
+        beforeBoard.put(new Position(4, 1), choPawn);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -174,12 +174,12 @@ public class JanggiBoardTest {
     @Test
     void test8() {
         //given
-        Cannon blueCannon1 = new Cannon(Team.BLUE);
-        Cannon blueCannon2 = new Cannon(Team.BLUE);
+        Cannon choCannon1 = new Cannon(Team.CHO);
+        Cannon choCannon2 = new Cannon(Team.CHO);
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        beforeBoard.put(new Position(8, 2), blueCannon1);
-        beforeBoard.put(new Position(8, 8), blueCannon2);
+        beforeBoard.put(new Position(8, 2), choCannon1);
+        beforeBoard.put(new Position(8, 8), choCannon2);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -197,14 +197,14 @@ public class JanggiBoardTest {
     @Test
     void test9() {
         //given
-        Cannon blueCannon1 = new Cannon(Team.BLUE);
-        Cannon blueCannon2 = new Cannon(Team.RED);
-        King blueKing = new King(Team.RED);
+        Cannon choCannon1 = new Cannon(Team.CHO);
+        Cannon choCannon2 = new Cannon(Team.HAN);
+        King choKing = new King(Team.HAN);
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        beforeBoard.put(new Position(8, 2), blueCannon1);
-        beforeBoard.put(new Position(8, 5), blueKing);
-        beforeBoard.put(new Position(8, 8), blueCannon2);
+        beforeBoard.put(new Position(8, 2), choCannon1);
+        beforeBoard.put(new Position(8, 5), choKing);
+        beforeBoard.put(new Position(8, 8), choCannon2);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -222,16 +222,16 @@ public class JanggiBoardTest {
     @Test
     void test10() {
         //given
-        Cannon blueCannon = new Cannon(Team.BLUE);
-        King blueKing = new King(Team.BLUE);
+        Cannon choCannon = new Cannon(Team.CHO);
+        King choKing = new King(Team.CHO);
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
         Map<Position, Piece> afterBoard = new HashMap<>();
 
-        beforeBoard.put(new Position(8, 2), blueCannon);
-        beforeBoard.put(new Position(8, 5), blueKing);
-        afterBoard.put(new Position(8, 8), blueCannon);
-        afterBoard.put(new Position(8, 5), blueKing);
+        beforeBoard.put(new Position(8, 2), choCannon);
+        beforeBoard.put(new Position(8, 5), choKing);
+        afterBoard.put(new Position(8, 8), choCannon);
+        afterBoard.put(new Position(8, 5), choKing);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
