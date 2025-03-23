@@ -2,21 +2,29 @@ package view;
 
 import domain.Coordinate;
 import domain.Team;
+import domain.piece.Byeong;
+import domain.piece.Cha;
+import domain.piece.Goong;
+import domain.piece.Jol;
+import domain.piece.Ma;
 import domain.piece.Piece;
-import domain.piece.Piece.Type;
+import domain.piece.Po;
+import domain.piece.Sa;
+import domain.piece.Sang;
 import java.util.Map;
 import java.util.Optional;
 
 public class OutputView {
 
-    private static final Map<Type, String> PIECE_NAMES = Map.of(
-            Type.CHA, "차",
-            Type.MA, "마",
-            Type.SANG, "상",
-            Type.SA, "사",
-            Type.GOONG, "궁",
-            Type.PO, "포",
-            Type.JOL, "졸"
+    private static final Map<Class<? extends Piece>, String> PIECE_NAMES = Map.of(
+        Cha.class, "차",
+        Ma.class, "마",
+        Sang.class, "상",
+        Sa.class, "사",
+        Goong.class, "궁",
+        Po.class, "포",
+        Jol.class, "졸",
+        Byeong.class, "병"
     );
 
     private static final String RED = "\u001B[31m";
@@ -24,8 +32,8 @@ public class OutputView {
     private static final String RESET = "\u001B[0m";
 
     private static final Map<Team, String> TEAM_COLORS = Map.of(
-            Team.HAN, RED,
-            Team.CHO, BLUE
+        Team.HAN, RED,
+        Team.CHO, BLUE
     );
 
     private static final String FULL_WIDTH_BAR = "＿";
@@ -49,14 +57,13 @@ public class OutputView {
 
     private void printPiece(Piece piece) {
         Optional.ofNullable(piece).ifPresentOrElse(
-                p -> System.out.print(applyColor(p) + FULL_WIDTH_SPACE),
-                () -> System.out.print(FULL_WIDTH_BAR + FULL_WIDTH_SPACE)
+            p -> System.out.print(applyColor(p) + FULL_WIDTH_SPACE),
+            () -> System.out.print(FULL_WIDTH_BAR + FULL_WIDTH_SPACE)
         );
     }
 
     private String applyColor(Piece piece) {
-        Type type = Type.getType(piece);
         Team team = piece.getTeam();
-        return TEAM_COLORS.get(team) + PIECE_NAMES.get(type) + RESET;
+        return TEAM_COLORS.get(team) + PIECE_NAMES.get(piece.getClass()) + RESET;
     }
 }

@@ -35,4 +35,9 @@ public class Po extends UnlimitedCrossMovementPiece {
             .orElse(false);
         return !isArrivalPo;
     }
+
+    @Override
+    public boolean isPo() {
+        return true;
+    }
 }
