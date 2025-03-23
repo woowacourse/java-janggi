@@ -26,8 +26,7 @@ public class KoreaChess {
 
         Player han = new Player(Team.HAN);
         Player cho = new Player(Team.CHO);
-        Board board = createBoard(han, cho);
-        outputView.printBoard(board);
+        Board board = initializeGame(han, cho);
 
         while (!board.isFinish()) {
             processTurn(han, board);
@@ -36,9 +35,13 @@ public class KoreaChess {
             }
             processTurn(cho, board);
         }
+        printWinner(board);
+    }
 
-        Player winner = board.getWinner();
-        outputView.printWinner(winner);
+    private Board initializeGame(final Player han, final Player cho) {
+        Board board = createBoard(han, cho);
+        outputView.printBoard(board);
+        return board;
     }
 
     private Board createBoard(final Player han, final Player cho) {
@@ -68,5 +71,10 @@ public class KoreaChess {
         int column = Integer.parseInt(positionElements.getLast());
 
         return new Position(row, column);
+    }
+
+    private void printWinner(final Board board) {
+        Player winner = board.getWinner();
+        outputView.printWinner(winner);
     }
 }
