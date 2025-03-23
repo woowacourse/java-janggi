@@ -68,7 +68,7 @@ public class InputView {
     }
 
     private void println(String format, Object... args) {
-        System.out.printf(format, args);
+        System.out.printf((format) + "%n", args);
     }
 
     private void printNewLine() {
