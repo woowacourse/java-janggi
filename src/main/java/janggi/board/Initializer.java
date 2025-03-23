@@ -18,6 +18,7 @@ import static janggi.board.InitPositions.D9;
 import static janggi.board.InitPositions.E1;
 import static janggi.board.InitPositions.E3;
 import static janggi.board.InitPositions.E6;
+import static janggi.board.InitPositions.E8;
 import static janggi.board.InitPositions.F0;
 import static janggi.board.InitPositions.F9;
 import static janggi.board.InitPositions.G0;
@@ -36,6 +37,7 @@ import static janggi.board.InitPositions.I9;
 import janggi.piece.pawn.ChoPawn;
 import janggi.piece.pawn.HanPawn;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import janggi.Team;
@@ -47,13 +49,14 @@ import janggi.piece.Pao;
 import janggi.piece.pawn.Pawn;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
+import java.util.Set;
 
 class Initializer {
 
-    public Board generate() {
-        List<Piece> pieces = new ArrayList<>();
+    public Set<Piece> generate() {
+        Set<Piece> pieces = new HashSet<>();
         pieces.add(new Palace(E1.position, Team.HAN));
-        pieces.add(new Palace(E1.position, Team.CHO));
+        pieces.add(new Palace(E8.position, Team.CHO));
 
         pieces.add(new Soldier(D0.position, Team.HAN));
         pieces.add(new Soldier(F0.position, Team.HAN));
@@ -91,6 +94,6 @@ class Initializer {
         pieces.add(new ChoPawn(G6.position));
         pieces.add(new ChoPawn(I6.position));
 
-        return new Board(pieces);
+        return pieces;
     }
 }

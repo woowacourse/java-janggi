@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import janggi.position.Position;
-import janggi.board.Board;
 
 public abstract class Piece {
 
@@ -58,18 +57,18 @@ public abstract class Piece {
 //        }
 //    }
 
-    private void arrival(Board board, Position target) {
-        if (!board.hasPieceOn(target)) {
-            return;
-        }
-        Piece targetPiece = board.get(target);
-        if (targetPiece.team == team) {
-            throw new IllegalArgumentException("[ERROR] 도착 지점에 같은 팀의 기물이 존재합니다.");
-        }
-        board.take(targetPiece);
-    }
+//    private void arrival(Board board, Position target) {
+//        if (!board.hasPieceOn(target)) {
+//            return;
+//        }
+//        Piece targetPiece = board.get(target);
+//        if (targetPiece.team == team) {
+//            throw new IllegalArgumentException("[ERROR] 도착 지점에 같은 팀의 기물이 존재합니다.");
+//        }
+//        board.take(targetPiece);
+//    }
 
-    public Position getPosition() {
+    public Position position() {
         return position;
     }
 

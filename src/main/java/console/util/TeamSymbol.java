@@ -1,22 +1,22 @@
-package dto;
+package console.util;
 
 import java.util.Arrays;
 
 import janggi.Team;
 
-public enum TeamDto {
+public enum TeamSymbol {
     CHO("초나라"),
     HAN("한나라");
 
     private final String displayName;
 
-    TeamDto(String displayName) {
+    TeamSymbol(String displayName) {
         this.displayName = displayName;
     }
 
-    public static TeamDto from(Team team) {
+    public static TeamSymbol from(Team team) {
         return Arrays.stream(values())
-            .filter(teamDto -> teamDto.name().equals(team.name()))
+            .filter(teamSymbol -> teamSymbol.name().equals(team.name()))
             .findAny()
             .orElseThrow(() -> new IllegalStateException("[ERROR] 잘못된 팀 정보입니다."));
     }

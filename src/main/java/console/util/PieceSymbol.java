@@ -1,11 +1,10 @@
-package dto;
-
-import java.util.Arrays;
+package console.util;
 
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
+import java.util.Arrays;
 
-public enum PieceDto {
+public enum PieceSymbol {
     PALACE("궁", PieceType.PALACE),
     SOLDIER("사", PieceType.SOLDIER),
     ELEPHANT("상", PieceType.ELEPHANT),
@@ -13,21 +12,24 @@ public enum PieceDto {
     CHARIOT("차", PieceType.CHARIOT),
     PAO("포", PieceType.PAO),
     PAWN("병", PieceType.PAWN),
+
+    EMPTY("＿", null);
     ;
 
     private final String name;
     private final PieceType type;
 
-    PieceDto(String name, PieceType type) {
+    PieceSymbol(String name, PieceType type) {
         this.name = name;
         this.type = type;
     }
 
-    public static PieceDto from(Piece piece) {
+    public static String from(Piece piece) {
         return Arrays.stream(values())
-            .filter(pieceDto -> pieceDto.type == piece.type())
-            .findAny()
-            .orElseThrow(() -> new IllegalStateException("[ERROR] 잘못된 기물 종류입니다."));
+                .filter(symbol -> symbol.type == piece.type())
+                .findAny()
+                .orElse(EMPTY)
+                .name;
     }
 
     public String getName() {

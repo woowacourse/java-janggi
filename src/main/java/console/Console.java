@@ -1,8 +1,7 @@
 package console;
 
-import dto.BoardDto;
 import dto.CommandDto;
-import dto.TeamDto;
+import janggi.board.Board;
 
 public class Console {
     private final Input input;
@@ -18,13 +17,13 @@ public class Console {
         output.startGame();
     }
 
-    public void board(BoardDto board) {
+    public void board(Board board) {
         output.board(board);
     }
 
-    public void turn(TeamDto teamDto) {
-        output.turn(teamDto);
-    }
+//    public void turn(TeamDto teamDto) {
+//        output.turn(teamDto);
+//    }
 
     public CommandDto command() {
         return input.command();
@@ -34,7 +33,7 @@ public class Console {
         output.retry(e);
     }
 
-    public void result(TeamDto winner) {
-        output.result(winner);
-    }
+//    public void result(TeamDto winner) {
+//        output.result(winner);
+//    }
 }
