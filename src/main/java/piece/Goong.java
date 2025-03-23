@@ -1,8 +1,15 @@
 package piece;
 
+import static coordinate.Direction.DOWN;
+import static coordinate.Direction.LEFT;
+import static coordinate.Direction.RIGHT;
+import static coordinate.Direction.UP;
+
 import board.Board;
 import coordinate.Coordinate;
-import java.util.Optional;
+import coordinate.MoveVector;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,14 +23,14 @@ public class Goong extends Piece {
 
     @Override
     protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
-        return Stream.of(
-                        departure.pickChangedCoordinate(1, 0),
-                        departure.pickChangedCoordinate(-1, 0),
-                        departure.pickChangedCoordinate(0, 1),
-                        departure.pickChangedCoordinate(0, -1)
+        return Stream.<List<MoveVector>>of(
+                        List.of(UP),
+                        List.of(DOWN),
+                        List.of(RIGHT),
+                        List.of(LEFT)
                 )
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .map(departure::pickChangedCoordinate)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
     }
 
