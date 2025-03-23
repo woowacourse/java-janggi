@@ -1,10 +1,10 @@
 package janggi.domain.position;
 
-public record Position(int x, int y) {
+import static janggi.domain.Board.MAX_X_POSITION;
+import static janggi.domain.Board.MAX_Y_POSITION;
+import static janggi.domain.Board.MIN_POSITION;
 
-    private static final int MIN_POSITION = 0;
-    private static final int MAX_X_POSITION = 8;
-    private static final int MAX_Y_POSITION = 9;
+public record Position(int x, int y) {
 
     public Position {
         validatePosition(x, y);

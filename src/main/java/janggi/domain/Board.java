@@ -10,6 +10,10 @@ import java.util.Set;
 
 public class Board {
 
+    public static final int MIN_POSITION = 0;
+    public static final int MAX_X_POSITION = 8;
+    public static final int MAX_Y_POSITION = 9;
+
     private final Pieces pieces;
     private final Turn turn;
 
