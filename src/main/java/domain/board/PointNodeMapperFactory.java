@@ -51,7 +51,7 @@ public class PointNodeMapperFactory {
         return edges;
     }
 
-    private boolean isInRange(int row, int column) {
+    private boolean isInRange(final int row, final int column) {
         try {
             Point.of(row, column);
         } catch (IllegalArgumentException e) {

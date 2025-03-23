@@ -13,7 +13,7 @@ public class Board {
     private final Map<Point, Piece> pieceByPoint;
     private final PointNodeMapper pointNodeMapper;
 
-    public Board(Map<Point, Piece> pieceByPoint, PointNodeMapper pointNodeMapper) {
+    public Board(final Map<Point, Piece> pieceByPoint, final PointNodeMapper pointNodeMapper) {
         this.pieceByPoint = pieceByPoint;
         this.pointNodeMapper = pointNodeMapper;
     }

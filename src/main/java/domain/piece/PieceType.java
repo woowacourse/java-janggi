@@ -13,7 +13,7 @@ public enum PieceType {
 
     private final String title;
 
-    PieceType(String title) {
+    PieceType(final String title) {
         this.title = title;
     }
 
