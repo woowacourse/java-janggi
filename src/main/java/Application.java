@@ -4,6 +4,7 @@ import console.Output;
 import console.util.PositionConverter;
 import janggi.Turn;
 import janggi.board.Board;
+import janggi.piece.Piece;
 import janggi.position.Position;
 import java.util.function.BooleanSupplier;
 
@@ -37,11 +38,11 @@ public class Application {
             Position source = new PositionConverter().convert(movePosition[0]);
             Position destination = new PositionConverter().convert(movePosition[1]);
 
-//            move(response.source(), response.destination(), board, turn);
-//            console.display(BoardDto.from(board));
-//
+            move(source, destination, board, turn);
+            console.display(board);
+
 //            return isPlaying(board);
-            return false;
+            return true;
         });
     }
 
@@ -63,10 +64,13 @@ public class Application {
 //        console.result(getWinner(board));
 //    }
 
-//    public void move(Position source, Position destination, Board board, Turn turn) {
-//        Piece piece = board.get(source);
-////        piece.move(board, turn.getCurrentTeam(), destination.x() - source.x(), destination.y() - source.y());
-//    }
+    public void move(Position source, Position destination, Board board, Turn turn) {
+        Piece piece = board.get(source); // source기물 받아오기
+        turn.canMove(piece);
+
+//        piece.move(board, turn.getCurrentTeam(), destination.x() - source.x(), destination.y() - source.y());
+        piece.move(board, destination);
+    }
 //
 //    public boolean isPlaying(Board board) {
 //        return board.getWinnerIfGameOver() == null;

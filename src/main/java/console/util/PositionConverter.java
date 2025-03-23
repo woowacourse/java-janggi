@@ -11,6 +11,7 @@ public class PositionConverter {
     private Map<Character, Column> convertColumn = new HashMap<>();
 
     {
+        convertRow.put('0',Row.ZERO);
         convertRow.put('1',Row.ONE);
         convertRow.put('2',Row.TWO);
         convertRow.put('3',Row.THREE);
@@ -19,6 +20,7 @@ public class PositionConverter {
         convertRow.put('6',Row.SIX);
         convertRow.put('7',Row.SEVEN);
         convertRow.put('8',Row.EIGHT);
+        convertRow.put('9',Row.NINE);
     }
 
     {
@@ -30,6 +32,7 @@ public class PositionConverter {
         convertColumn.put('f', Column.F);
         convertColumn.put('g', Column.G);
         convertColumn.put('h', Column.H);
+        convertColumn.put('i', Column.I);
     }
 
     public Position convert(String input){

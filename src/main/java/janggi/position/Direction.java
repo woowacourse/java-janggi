@@ -16,12 +16,19 @@ public enum Direction {
     WEST_SOUTH(-1, -1),
     WEST_NORTH(-1, 1);
 
-    private final int x;
-    private final int y;
+    private final int row;
+    private final int column;
 
-    Direction(final int x, final int y) {
-        this.x = x;
-        this.y = y;
+    Direction(final int row, final int column) {
+        this.row = row;
+        this.column = column;
     }
 
+    public int row() {
+        return row;
+    }
+
+    public int column() {
+        return column;
+    }
 }

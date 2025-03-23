@@ -10,7 +10,8 @@ public enum Row {
     SIX,
     SEVEN,
     EIGHT,
-    NINE;
+    NINE,
+    ;
 
     public boolean canMove(int step) {
         final var movedIndex = ordinal() + step;
@@ -22,16 +23,16 @@ public enum Row {
             return values()[ordinal() + step];
         }
 
-        throw new IllegalStateException("[ERROR] 장기판 내에서만 이동할 수 있습니다.");
+        throw new IllegalArgumentException("[ERROR] 장기판 내에서만 이동할 수 있습니다.");
     }
 
-    public Row move(Row row) {
-        int step = row.ordinal();
-        if (canMove(step)) {
-            return values()[ordinal() + step];
-        }
-
-        throw new IllegalStateException("[ERROR] 장기판 내에서만 이동할 수 있습니다.");
-    }
+//    public Row move(Row row) {
+//        int step = row.ordinal();
+//        if (canMove(step)) {
+//            return values()[ordinal() + step];
+//        }
+//
+//        throw new IllegalArgumentException("[ERROR] 장기판 내에서만 이동할 수 있습니다.");
+//    }
 
 }

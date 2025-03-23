@@ -6,20 +6,13 @@ import static java.util.stream.Collectors.toMap;
 import janggi.position.Position;
 
 import janggi.piece.Piece;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 public class Board {
 
-    public static final int WIDTH_SIZE = 9;
-    public static final int HEIGHT_SIZE = 10;
-
-//    private final List<Piece> pieces;
     private final Map<Position, Piece> onPosition;
-
-//    public Board(List<Piece> pieces) {
-//        this.pieces = new ArrayList<>(pieces);
-//    }
 
     public Board(Set<Piece> pieces) {
         onPosition = pieces.stream().collect(toMap(Piece::position, identity()));
@@ -29,26 +22,30 @@ public class Board {
         return new Board(new Initializer().generate());
     }
 
-//    public boolean isInboard(Position position) {
-//        return position.x() < WIDTH_SIZE && position.x() >= 0
-//            && position.y() < HEIGHT_SIZE && position.y() >= 0;
-//    }
+    public boolean hasPieceOn(Position position) {
+        return toSet().stream()
+            .anyMatch(piece -> piece.onPosition(position));
+    }
 
-//    public boolean hasPieceOn(Position position) {
-//        return pieces.stream()
-//            .anyMatch(piece -> piece.onPosition(position));
-//    }
-//
-//    public Piece get(Position position) {
-//        return pieces.stream()
-//            .filter(piece -> piece.onPosition(position))
-//            .findAny()
-//            .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
-//    }
-//
-//    public void take(Piece target) {
-//        pieces.remove(target);
-//    }
+    public Piece get(Position position) {
+        return toSet().stream()
+            .filter(piece -> piece.onPosition(position))
+            .findAny()
+            .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
+    }
+
+    public Set<Piece> toSet(){
+        return new HashSet<>(onPosition.values());
+    }
+
+    public void take(Piece destination) {
+        onPosition.remove(destination.position());
+    }
+
+    public Map<Position, Piece> onPosition() {
+        return onPosition;
+    }
+
 //
 //    public Team getWinnerIfGameOver() {
 //        List<Piece> palaces = getPalaces();
@@ -76,9 +73,4 @@ public class Board {
 //            .filter(piece -> piece.type() == PieceType.PALACE)
 //            .toList();
 //    }
-
-
-    public Map<Position, Piece> onPosition() {
-        return onPosition;
-    }
 }

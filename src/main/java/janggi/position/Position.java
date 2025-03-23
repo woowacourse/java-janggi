@@ -11,17 +11,33 @@ public class Position{
         this.row = row;
     }
 
-    public Position move(Row row, Column column) {
-        return new Position(column.move(column), row.move(row));
+    public Position move(int row, int column) {
+        return new Position(this.column.move(column), this.row.move(row));
+    }
+//
+//    public Position move(Position other) {
+//        return new Position(column.move(other.column), row.move(other.row));
+//    }
+//
+//    public Position multiply(Position other) {
+//        // return new Position(x * other.x, y * other.y);
+//        return null;
+//    }
+
+    public boolean canMove(int row, int column) {
+        return this.row.canMove(row) && this.column.canMove(column);
     }
 
-    public Position move(Position other) {
-        return new Position(column.move(other.column), row.move(other.row));
+    public Position move(Direction direction) {
+        return new Position(column.move(direction.column()), row.move(direction.row()));
     }
 
-    public Position multiply(Position other) {
-        // return new Position(x * other.x, y * other.y);
-        return null;
+    public Column getColumn() {
+        return column;
+    }
+
+    public Row getRow() {
+        return row;
     }
 
     @Override
