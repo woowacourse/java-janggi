@@ -91,7 +91,7 @@ class CannonTest {
         // then
         assertThatThrownBy(() -> cannon.move(board, movedPosition))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("이동 경로에 포가 존재합니다.");
+                .hasMessageContaining("포는 포를 넘을 수 없습니다.");
     }
 
     @ParameterizedTest

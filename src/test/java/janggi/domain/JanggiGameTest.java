@@ -24,18 +24,24 @@ class JanggiGameTest {
         Board board = Board.initialize(
                 List.of(new General(Position.of(1, 1), Team.GREEN),
                         new General(Position.of(2, 2), Team.RED),
-                        new Soldier(Position.of(2, 2), Team.RED)));
+                        new Soldier(Position.of(3, 3), Team.RED)));
         JanggiGame janggiGame = new JanggiGame(board, redPlayer, greenPlayer);
 
         //when
         //then
 
         assertAll(() -> {
-            assertThat(janggiGame.getCurrentPlayer()).isEqualTo(greenPlayer);
+            assertThat(janggiGame.getCurrentPlayer())
+                    .usingRecursiveComparison()
+                    .isEqualTo(greenPlayer);
             assertDoesNotThrow(() -> janggiGame.moveByPlayer(Position.of(1, 1), Position.of(1, 2)));
-            assertThat(janggiGame.getCurrentPlayer()).isEqualTo(redPlayer);
+            assertThat(janggiGame.getCurrentPlayer())
+                    .usingRecursiveComparison()
+                    .isEqualTo(redPlayer);
             assertDoesNotThrow(() -> janggiGame.moveByPlayer(Position.of(2, 2), Position.of(2, 3)));
-            assertThat(janggiGame.getCurrentPlayer()).isEqualTo(greenPlayer);
+            assertThat(janggiGame.getCurrentPlayer())
+                    .usingRecursiveComparison()
+                    .isEqualTo(greenPlayer);
         });
     }
 
