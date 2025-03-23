@@ -9,6 +9,9 @@ public class Positions {
         this.positions = positions;
     }
 
+    public void addPosition(Position position) {
+        positions.add(position);
+    }
     public List<Position> getPositions() {
         return positions;
     }
