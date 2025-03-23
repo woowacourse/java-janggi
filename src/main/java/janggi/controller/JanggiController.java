@@ -7,6 +7,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import janggi.view.UserContinueResponse;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -22,7 +23,6 @@ public class JanggiController {
     }
 
     public void run() {
-
         Board board = new Board();
         List<Piece> pieces = board.getPieces();
         outputView.printBoard(pieces);
@@ -31,14 +31,15 @@ public class JanggiController {
             Team currentTurn = board.getTurn();
             outputView.printTurn(currentTurn);
 
-            // 말 고르기 --> 해당 위치에 말이 없으면 재입력
+            if (inputView.continueGame() == UserContinueResponse.QUIT) {
+                break;
+            }
+
             Piece selectedPiece = retryUntilSuccess(() -> selectPiece(board));
 
-            // 해당 말이 갈 수 있는 위치 계산
             Set<Route> possibleRoutes = board.findPossibleRoutes(selectedPiece);
             outputView.printPossibleRoutes(possibleRoutes);
 
-            // 목적지 입력받기 --> 해당 위치가 잘못된 위치라면 재입력
             Position destination = retryUntilSuccess(inputView::inputDestination);
 
             board.movePiece(destination, selectedPiece);

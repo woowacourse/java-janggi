@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class InputView {
 
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     public Position inputPiecePosition() {
         System.out.println("선택할 말의 위치를 골라주세요. 예시) 1 5");
@@ -19,5 +19,11 @@ public class InputView {
         String input = scanner.nextLine();
         String[] splittedInput = input.split(" ");
         return new Position(Integer.parseInt(splittedInput[0]), Integer.parseInt(splittedInput[1]));
+    }
+
+    public UserContinueResponse continueGame() {
+        System.out.println("게임을 계속하려면 Y, 종료하려면 N을 눌러주세요");
+        String userInput = scanner.nextLine();
+        return UserContinueResponse.getValidUserResponse(userInput);
     }
 }
