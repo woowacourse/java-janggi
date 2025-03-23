@@ -31,15 +31,7 @@ public abstract class Piece {
 
         return pieceAtDestination.isEmpty() || isEnemy(pieceAtDestination.get());
     }
-
-    public boolean isCannon() {
-        return false;
-    }
-
-    public boolean isChariot() {
-        return false;
-    }
-
+    
     public Piece(final Position position, final Team team) {
         this.position = position;
         this.team = team;

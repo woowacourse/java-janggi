@@ -69,15 +69,4 @@ class ChariotTest {
         // then
         assertThat(chariotRoutes).isEqualTo(expected);
     }
-
-    @DisplayName("차 기물인지 확인한다.")
-    @Test
-    void isChariotTest() {
-
-        // given
-        Piece chariot = new Chariot(new Position(0, 0), RED);
-
-        // when & then
-        assertThat(chariot.isChariot()).isTrue();
-    }
 }

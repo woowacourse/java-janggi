@@ -18,11 +18,6 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public boolean isCannon() {
-        return true;
-    }
-
-    @Override
     public Set<Route> calculateRoutes() {
         final Set<Route> rawRoutes = new HashSet<>();
 
@@ -44,7 +39,7 @@ public class Cannon extends Piece {
     private int countPiecesInRoute(final Route route, final List<Piece> otherPieces) {
         final long cannonOrDestinationCount = otherPieces.stream()
                 .filter(route::hasPosition)
-                .filter(piece -> piece.isCannon() || route.isDestination(piece))
+                .filter(route::isDestination)
                 .count();
 
         if (cannonOrDestinationCount > 0) {

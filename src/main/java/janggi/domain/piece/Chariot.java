@@ -16,11 +16,6 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public boolean isChariot() {
-        return true;
-    }
-
-    @Override
     public Set<Route> calculateRoutes() {
         final Set<Route> rawRoutes = new HashSet<>();
 
