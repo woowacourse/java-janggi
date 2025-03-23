@@ -22,22 +22,19 @@ public class Pao extends Piece {
     protected Route findMovableRoute(Board board, int dx, int dy) {
         Position target = position.move(dx, dy);
         if (isTargetPao(board, target)) {
-            return null;
+            throw new IllegalArgumentException("[ERROR] 도달할 수 없는 위치입니다.");
         }
-        Route route = movableRoute(board, target);
-        if (route != null) {
-            return route;
-        }
-        return null;
+        return movableRoute(board, target);
     }
 
     private Route movableRoute(Board board, Position target) {
         for (var route : routes) {
             Route route1 = validateRoute(board, target, route);
-            if (route1 != null)
+            if (route1 != null) {
                 return route1;
+            }
         }
-        return null;
+        throw new IllegalArgumentException("[ERROR] 도달할 수 없는 위치입니다.");
     }
 
     private Route validateRoute(Board board, Position target, Route route) {
@@ -77,13 +74,13 @@ public class Pao extends Piece {
         }
     }
 
-    private static void validateOverPao(Board board, Position validatePosition) {
+    private void validateOverPao(Board board, Position validatePosition) {
         if (board.get(validatePosition).type() == PieceType.PAO) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 넘을 수 없습니다.");
         }
     }
 
-    private static void validateIsOvered(boolean isOvered) {
+    private void validateIsOvered(boolean isOvered) {
         if (isOvered) {
             throw new IllegalArgumentException("[ERROR] 포는 기물을 1개만 넘을 수 있습니다.");
         }
