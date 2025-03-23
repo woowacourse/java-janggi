@@ -24,7 +24,7 @@ public class Piece {
         return this.side == side && pieceBehavior.isGeneral();
     }
 
-    public boolean isCannon(){
+    public boolean isCannon() {
         return pieceBehavior.isCannon();
     }
 
@@ -33,10 +33,7 @@ public class Piece {
     }
 
     public String toName() {
-        if (side == Side.CHO) {
-            return "\u001B[32m" + pieceBehavior.toName() + "\u001B[0m";
-        }
-        return "\u001B[31m" + pieceBehavior.toName() + "\u001B[0m";
+        return side.toName(pieceBehavior);
     }
 
     @Override
