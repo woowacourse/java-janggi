@@ -71,11 +71,11 @@ class PiecesTest {
         Pieces pieces = new Pieces(List.of(jol, janggun));
 
         //when - then
-        assertThatThrownBy(() -> pieces.validateAllyPieceAtDestination(new Position(5, 7)))
+        assertThatThrownBy(() -> pieces.validateAllyPieceAtDestination(new Position(5, 5)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 도착지에 아군 기물이 존재합니다.");
-        ;
-        assertDoesNotThrow(() -> pieces.validateAllyPieceAtDestination(new Position(5, 5)));
+
+        assertDoesNotThrow(() -> pieces.validateAllyPieceAtDestination(new Position(5, 7)));
     }
 
     @Test
