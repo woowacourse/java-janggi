@@ -42,7 +42,7 @@ public class Sang implements Movable {
     @Override
     public boolean isInMovingRange(Point targetPoint, Hurdles hurdles) {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
-        if (!distance.isSameWith(Math.sqrt(5))) {
+        if (!distance.isSameWith(Math.sqrt(13))) {
             return false;
         }
         List<Direction> directions = Direction.oneCardinalAndDiagonalFrom(

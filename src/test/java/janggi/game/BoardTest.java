@@ -48,95 +48,96 @@ public class BoardTest {
         }
     }
 
-    @Nested
-    @DisplayName("기물 경로 장애물 테스트")
-    class HurdleTest {
-
-        @Test
-        @DisplayName("기물 경로의 좌표들에 장애물이 있는지 확인할 수 있다.")
-        void checkHurdlesOnRoute() {
-            List<Movable> pieces = List.of(
-                    new Cha(Team.CHO, new Point(5, 4)),
-                    new Byeong(Team.HAN, new Point(3, 4))
-            );
-            Board board = new Board(pieces);
-
-            Point startPoint = new Point(5, 4);
-            Route route = new Route(List.of(
-                    new Point(4, 4), new Point(3, 4), new Point(2, 4))
-            );
-
-            assertThat(board.checkHurdles(startPoint, route)).isTrue();
-        }
-
-        @Test
-        @DisplayName("기물 경로의 좌표들에 장애물이 있는지 확인할 수 있다.")
-        void checkHurdlesNotOnRoute() {
-            List<Movable> pieces = List.of(
-                    new Cha(Team.CHO, new Point(5, 4))
-            );
-            Board board = new Board(pieces);
-
-            Point startPoint = new Point(5, 4);
-            Route route = new Route(List.of(
-                    new Point(4, 4), new Point(3, 4), new Point(2, 4))
-            );
-
-            assertThat(board.checkHurdles(startPoint, route)).isFalse();
-        }
-
-        @Test
-        @DisplayName("기물 경로의 마지막 좌표에 다른 팀의 말이 있다면 장애물이 없다고 확인할 수 있다.")
-        void checkNotHurdleRouteIsOtherTeam() {
-            List<Movable> pieces = List.of(
-                    new Cha(Team.CHO, new Point(5, 4)),
-                    new Byeong(Team.HAN, new Point(2, 4))
-            );
-            Board board = new Board(pieces);
-
-            Point startPoint = new Point(5, 4);
-            Route route = new Route(List.of(
-                    new Point(4, 4), new Point(3, 4), new Point(2, 4))
-            );
-
-            assertThat(board.checkHurdles(startPoint, route)).isFalse();
-        }
-
-        @Test
-        @DisplayName("기물 경로의 마지막 좌표에 같은 팀의 말이 있다면 장애물이 있다고 확인할 수 있다.")
-        void checkIsHurdleRouteIsSameTeam() {
-            List<Movable> pieces = List.of(
-                    new Cha(Team.CHO, new Point(5, 4)),
-                    new Byeong(Team.CHO, new Point(2, 4))
-            );
-            Board board = new Board(pieces);
-
-            Point startPoint = new Point(5, 4);
-            Route route = new Route(List.of(
-                    new Point(4, 4), new Point(3, 4), new Point(2, 4))
-            );
-
-            assertThat(board.checkHurdles(startPoint, route)).isTrue();
-        }
-
-        @Test
-        @DisplayName("포 기물을 움직일 때 기물 경로의 마지막 좌표에 포가 있으면 장애물이 있다고 확인할 수 있다.")
-        void checkIsHurdleRouteIsSamePo() {
-            List<Movable> pieces = List.of(
-                    new Po(Team.CHO, new Point(5, 4)),
-                    new Byeong(Team.CHO, new Point(3, 4)),
-                    new Po(Team.CHO, new Point(2, 4))
-            );
-            Board board = new Board(pieces);
-
-            Point startPoint = new Point(5, 4);
-            Route route = new Route(List.of(
-                    new Point(4, 4), new Point(3, 4), new Point(2, 4))
-            );
-
-            assertThat(board.checkHurdles(startPoint, route)).isTrue();
-        }
-    }
+    //TODO 각 기물의 책임이 됨
+//    @Nested
+//    @DisplayName("기물 경로 장애물 테스트")
+//    class HurdleTest {
+//
+//        @Test
+//        @DisplayName("기물 경로의 좌표들에 장애물이 있는지 확인할 수 있다.")
+//        void checkHurdlesOnRoute() {
+//            List<Movable> pieces = List.of(
+//                    new Cha(Team.CHO, new Point(5, 4)),
+//                    new Byeong(Team.HAN, new Point(3, 4))
+//            );
+//            Board board = new Board(pieces);
+//
+//            Point startPoint = new Point(5, 4);
+//            Route route = new Route(List.of(
+//                    new Point(4, 4), new Point(3, 4), new Point(2, 4))
+//            );
+//
+//            assertThat(board.checkHurdles(startPoint, route)).isTrue();
+//        }
+//
+//        @Test
+//        @DisplayName("기물 경로의 좌표들에 장애물이 있는지 확인할 수 있다.")
+//        void checkHurdlesNotOnRoute() {
+//            List<Movable> pieces = List.of(
+//                    new Cha(Team.CHO, new Point(5, 4))
+//            );
+//            Board board = new Board(pieces);
+//
+//            Point startPoint = new Point(5, 4);
+//            Route route = new Route(List.of(
+//                    new Point(4, 4), new Point(3, 4), new Point(2, 4))
+//            );
+//
+//            assertThat(board.checkHurdles(startPoint, route)).isFalse();
+//        }
+//
+//        @Test
+//        @DisplayName("기물 경로의 마지막 좌표에 다른 팀의 말이 있다면 장애물이 없다고 확인할 수 있다.")
+//        void checkNotHurdleRouteIsOtherTeam() {
+//            List<Movable> pieces = List.of(
+//                    new Cha(Team.CHO, new Point(5, 4)),
+//                    new Byeong(Team.HAN, new Point(2, 4))
+//            );
+//            Board board = new Board(pieces);
+//
+//            Point startPoint = new Point(5, 4);
+//            Route route = new Route(List.of(
+//                    new Point(4, 4), new Point(3, 4), new Point(2, 4))
+//            );
+//
+//            assertThat(board.checkHurdles(startPoint, route)).isFalse();
+//        }
+//
+//        @Test
+//        @DisplayName("기물 경로의 마지막 좌표에 같은 팀의 말이 있다면 장애물이 있다고 확인할 수 있다.")
+//        void checkIsHurdleRouteIsSameTeam() {
+//            List<Movable> pieces = List.of(
+//                    new Cha(Team.CHO, new Point(5, 4)),
+//                    new Byeong(Team.CHO, new Point(2, 4))
+//            );
+//            Board board = new Board(pieces);
+//
+//            Point startPoint = new Point(5, 4);
+//            Route route = new Route(List.of(
+//                    new Point(4, 4), new Point(3, 4), new Point(2, 4))
+//            );
+//
+//            assertThat(board.checkHurdles(startPoint, route)).isTrue();
+//        }
+//
+//        @Test
+//        @DisplayName("포 기물을 움직일 때 기물 경로의 마지막 좌표에 포가 있으면 장애물이 있다고 확인할 수 있다.")
+//        void checkIsHurdleRouteIsSamePo() {
+//            List<Movable> pieces = List.of(
+//                    new Po(Team.CHO, new Point(5, 4)),
+//                    new Byeong(Team.CHO, new Point(3, 4)),
+//                    new Po(Team.CHO, new Point(2, 4))
+//            );
+//            Board board = new Board(pieces);
+//
+//            Point startPoint = new Point(5, 4);
+//            Route route = new Route(List.of(
+//                    new Point(4, 4), new Point(3, 4), new Point(2, 4))
+//            );
+//
+//            assertThat(board.checkHurdles(startPoint, route)).isTrue();
+//        }
+//    }
 
     @Nested
     @DisplayName("기물 이동 테스트")

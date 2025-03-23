@@ -40,20 +40,14 @@ public class Crashes {
     //TODO Crashes 객체 둘로 나누기
     public boolean isBridgeOnly(Point targetPoint, Hurdles hurdles) {
         if (crashes.size() == 1 || crashes.size() == 2) {
-            if (isBridgeExists(targetPoint, hurdles)) {
-                return false;
-            }
-            return true;
+            return isBridgeExists(targetPoint, hurdles);
         }
         return false;
     }
 
     public boolean isBridgeAndPreyOnly(Team movingTeam, Point targetPoint, Hurdles hurdles) {
         if (crashes.size() == 2) {
-            if (isPreyExists(movingTeam, targetPoint, hurdles)) {
-                return false;
-            }
-            return true;
+            return (isPreyExists(movingTeam, targetPoint, hurdles));
         }
         return false;
     }
