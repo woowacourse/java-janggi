@@ -5,6 +5,11 @@ import domain.board.Position;
 import java.util.List;
 
 public abstract class Piece {
+
+    public static final int NO_MOVE = 0;
+    public static final int NO_PIECE = 0;
+    public static final int ONE_PIECE = 1;
+
     final PieceColor color;
 
     Piece(PieceColor color) {

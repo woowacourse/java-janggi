@@ -14,7 +14,7 @@ public class Chariot extends Piece {
         int rowDifference = source.rowDifference(destination);
         int columnDifference = source.columnDifference(destination);
 
-        return rowDifference == 0 || columnDifference == 0;
+        return rowDifference == NO_MOVE || columnDifference == NO_MOVE;
     }
 
     @Override
@@ -26,6 +26,6 @@ public class Chariot extends Piece {
     public boolean canMove(Piece destinationPiece, List<Piece> piecesInRoute) {
         int pieceCountInRoute = this.countPieceInRoute(piecesInRoute);
 
-        return this.isOtherTeam(destinationPiece) && pieceCountInRoute == 0;
+        return this.isOtherTeam(destinationPiece) && pieceCountInRoute == NO_PIECE;
     }
 }

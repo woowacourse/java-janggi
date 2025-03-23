@@ -7,6 +7,9 @@ import java.util.List;
 
 public class Elephant extends Piece {
 
+    public static final int ELEPHANT_STRAIGHT_MOVE = 3;
+    public static final int ELEPHANT_SIDE_MOVE = 2;
+
     public Elephant(PieceColor color) {
         super(color);
     }
@@ -16,7 +19,7 @@ public class Elephant extends Piece {
         int rowDifference = source.rowDifference(destination);
         int columnDifference = source.columnDifference(destination);
 
-        if (Math.abs(rowDifference) == 3 && Math.abs(columnDifference) == 2) {
+        if (Math.abs(rowDifference) == ELEPHANT_STRAIGHT_MOVE && Math.abs(columnDifference) == ELEPHANT_SIDE_MOVE) {
             return true;
         }
         if (Math.abs(rowDifference) == 2 && Math.abs(columnDifference) == 3) {
@@ -41,6 +44,6 @@ public class Elephant extends Piece {
     public boolean canMove(Piece destinationPiece, List<Piece> piecesInRoute) {
         int pieceCountInRoute = this.countPieceInRoute(piecesInRoute);
 
-        return this.isOtherTeam(destinationPiece) && pieceCountInRoute == 0;
+        return this.isOtherTeam(destinationPiece) && pieceCountInRoute == NO_PIECE;
     }
 }

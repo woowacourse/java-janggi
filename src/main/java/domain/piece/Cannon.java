@@ -15,7 +15,7 @@ public class Cannon extends Piece {
         int rowDifference = source.rowDifference(destination);
         int columnDifference = source.columnDifference(destination);
 
-        return rowDifference == 0 || columnDifference == 0;
+        return rowDifference == NO_MOVE || columnDifference == NO_MOVE;
     }
     @Override
     public List<Position> findAllRoute(Position source, Position destination) {
@@ -30,7 +30,7 @@ public class Cannon extends Piece {
 
         boolean isDestinationOtherPiece = !this.isSamePiece(destination);
 
-        return pieceCount == 1 && this.isOtherTeam(destination) && noSamePiece && isDestinationOtherPiece;
+        return pieceCount == ONE_PIECE && this.isOtherTeam(destination) && noSamePiece && isDestinationOtherPiece;
     }
 
 }

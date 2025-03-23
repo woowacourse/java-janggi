@@ -6,6 +6,9 @@ import java.util.List;
 
 public class Horse extends Piece {
 
+    public static final int HORSE_STRAIGHT_MOVE = 2;
+    public static final int HORSE_SIDE_MOVE = 1;
+
     public Horse(PieceColor color) {
         super(color);
     }
@@ -15,10 +18,10 @@ public class Horse extends Piece {
         int rowDifference = source.rowDifference(destination);
         int columnDifference = source.columnDifference(destination);
 
-        if(Math.abs(rowDifference) == 2 && Math.abs(columnDifference) == 1) {
+        if(Math.abs(rowDifference) == HORSE_STRAIGHT_MOVE && Math.abs(columnDifference) == HORSE_SIDE_MOVE) {
             return true;
         }
-        if(Math.abs(rowDifference) == 1 && Math.abs(columnDifference) == 2) {
+        if(Math.abs(rowDifference) == HORSE_SIDE_MOVE && Math.abs(columnDifference) == HORSE_STRAIGHT_MOVE) {
             return true;
         }
         return false;
@@ -35,6 +38,6 @@ public class Horse extends Piece {
     public boolean canMove(Piece destinationPiece, List<Piece> piecesInRoute) {
         int pieceCountInRoute = this.countPieceInRoute(piecesInRoute);
 
-        return this.isOtherTeam(destinationPiece) && pieceCountInRoute == 0;
+        return this.isOtherTeam(destinationPiece) && pieceCountInRoute == NO_PIECE;
     }
 }
