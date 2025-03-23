@@ -3,10 +3,10 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.piece.Po;
 import domain.piece.Cha;
 import domain.piece.Gung;
 import domain.piece.Piece;
+import domain.piece.Po;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,5 +67,16 @@ public class JanggiGameTest {
         assertThatThrownBy(() -> game.move(List.of(1, 1), List.of(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("말을 움직여 주세요");
+    }
+
+    @DisplayName("시작 위치에 기물이 존재하지 않는 경우 예외를 발생시킨다")
+    @Test
+    void test4() {
+        Map<Position, Piece> beforeBoard = new HashMap<>();
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), List.of("플레이어1", "플레이어2"));
+
+        assertThatThrownBy(() -> game.move(List.of(1, 1), List.of(1, 2)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("기물이 존재하지 않는 위치입니다.");
     }
 }

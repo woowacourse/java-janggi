@@ -25,6 +25,9 @@ public class JanggiGame {
     }
 
     private void validateMovePiece(Position startPosition, Position targetPosition) {
+        if (janggiBoard.findPiece(startPosition) == null) {
+            throw new IllegalArgumentException("기물이 존재하지 않는 위치입니다.");
+        }
         if (!players.isSameTeamThisTurnPlayerAndPiece(janggiBoard.findPiece(startPosition))) {
             throw new IllegalArgumentException("자신의 말만 움직일 수 있습니다.");
         }
