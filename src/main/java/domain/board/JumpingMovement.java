@@ -9,7 +9,7 @@ import domain.Movement;
 import domain.Path;
 import java.util.List;
 
-public enum FixedMovePattern {
+public enum JumpingMovement {
 
     MA_MOVEMENTS(
             List.of(
@@ -47,7 +47,7 @@ public enum FixedMovePattern {
 
     private final List<Movement> movements;
 
-    FixedMovePattern(List<Movement> movements) {
+    JumpingMovement(List<Movement> movements) {
         this.movements = movements;
     }
 
