@@ -24,28 +24,42 @@ public class Pao extends Piece {
         if (isTargetPao(board, target)) {
             return null;
         }
-        boolean isOvered = false;
+        Route route = movableRoute(board, target);
+        if (route != null)
+            return route;
+        return null;
+    }
+
+    private Route movableRoute(Board board, Position target) {
         for (var route : routes) {
-            Position nextPos = nextPositionOnRoute(position, route);
-            while (board.isInboard(nextPos)) {
-                if (overPiece(board, nextPos)) {
-                    isOvered = true;
-                }
-                if (nextPos.equals(target) && isOvered) {
-                    return route;
-                }
-                nextPos = nextPositionOnRoute(nextPos, route);
-            }
+            Route route1 = validateRoute(board, target, route);
+            if (route1 != null)
+                return route1;
         }
         return null;
     }
 
-    private boolean overPiece(Board board, Position nextPos) {
-        return board.hasPieceOn(nextPos);
+    private Route validateRoute(Board board, Position target, Route route) {
+        boolean isOvered = false;
+        Position nextPos = nextPositionOnRoute(position, route);
+        while (board.isInboard(nextPos)) {
+            if (overPiece(board, nextPos)) {
+                isOvered = true;
+            }
+            if (nextPos.equals(target) && isOvered) {
+                return route;
+            }
+            nextPos = nextPositionOnRoute(nextPos, route);
+        }
+        return null;
     }
 
     private boolean isTargetPao(Board board, Position target) {
         return board.hasPieceOn(target) && board.get(target).type() == PieceType.PAO;
+    }
+
+    private boolean overPiece(Board board, Position nextPos) {
+        return board.hasPieceOn(nextPos);
     }
 
     @Override
