@@ -17,15 +17,6 @@ public class Soldier extends Piece {
         super(position, team, PieceType.SOLDIER, new MoveRule(new OneStepMoveStrategy(), new BasicBlockStrategy()));
     }
 
-    public static List<Soldier> Default(Team team) {
-        int defaultRow = team.decideRow(4);
-        List<Integer> defaultColumns = List.of(1, 3, 5, 7, 9);
-
-        return defaultColumns.stream()
-                .map(defaultColumn -> new Soldier(Position.of(defaultRow, defaultColumn), team))
-                .toList();
-    }
-
     @Override
     public Piece move(final Board board, final Position destination) {
         validateMove(board, destination, MOVEMENT);

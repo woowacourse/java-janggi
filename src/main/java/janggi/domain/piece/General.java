@@ -17,13 +17,6 @@ public class General extends Piece {
         super(position, team, PieceType.GENERAL, new MoveRule(new OneStepMoveStrategy(), new BasicBlockStrategy()));
     }
 
-    public static General Default(Team team) {
-        int defaultRow = team.decideRow(2);
-        int defaultColumn = 5;
-
-        return new General(Position.of(defaultRow, defaultColumn), team);
-    }
-
     @Override
     public Piece move(final Board board, final Position destination) {
         validateMove(board, destination, MOVEMENT);

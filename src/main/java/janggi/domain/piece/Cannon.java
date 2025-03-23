@@ -18,15 +18,6 @@ public class Cannon extends Piece {
         super(position, team, PieceType.CANNON, new MoveRule(new StraightMoveStrategy(), new BlockOnlyOnceStrategy()));
     }
 
-    public static List<Cannon> Default(Team team) {
-        int defaultRow = team.decideRow(3);
-        List<Integer> defaultColumns = List.of(2, 8);
-
-        return defaultColumns.stream()
-                .map(defaultColumn -> new Cannon(Position.of(defaultRow, defaultColumn), team))
-                .toList();
-    }
-
     @Override
     public Piece move(final Board board, final Position destination) {
         validateMove(board, destination, MOVEMENT);

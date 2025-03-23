@@ -17,15 +17,6 @@ public class Elephant extends Piece {
         super(position, team, PieceType.ELEPHANT, new MoveRule(new CurveMoveStrategy(), new BasicBlockStrategy()));
     }
 
-    public static List<Elephant> Default(Team team) {
-        int defaultRow = team.decideRow(1);
-        List<Integer> defaultColumns = List.of(2, 7);
-
-        return defaultColumns.stream()
-                .map(defaultColumn -> new Elephant(Position.of(defaultRow, defaultColumn), team))
-                .toList();
-    }
-
     @Override
     public Piece move(final Board board, final Position destination) {
         validateMove(board, destination, MOVEMENT);

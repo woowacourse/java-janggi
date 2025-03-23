@@ -17,15 +17,6 @@ public class Chariot extends Piece {
         super(position, team, PieceType.CHARIOT, new MoveRule(new StraightMoveStrategy(), new BasicBlockStrategy()));
     }
 
-    public static List<Chariot> Default(Team team) {
-        int defaultRow = team.decideRow(1);
-        List<Integer> defaultColumns = List.of(1, 9);
-
-        return defaultColumns.stream()
-                .map(defaultColumn -> new Chariot(Position.of(defaultRow, defaultColumn), team))
-                .toList();
-    }
-
     @Override
     public Piece move(final Board board, final Position destination) {
         validateMove(board, destination, MOVEMENT);

@@ -17,15 +17,6 @@ public class Horse extends Piece {
         super(position, team, PieceType.HORSE, new MoveRule(new CurveMoveStrategy(), new BasicBlockStrategy()));
     }
 
-    public static List<Horse> Default(Team team) {
-        int defaultRow = team.decideRow(1);
-        List<Integer> defaultColumns = List.of(3, 8);
-
-        return defaultColumns.stream()
-                .map(defaultColumn -> new Horse(Position.of(defaultRow, defaultColumn), team))
-                .toList();
-    }
-
     @Override
     public Piece move(final Board board, final Position destination) {
         validateMove(board, destination, MOVEMENT);

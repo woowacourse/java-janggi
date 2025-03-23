@@ -17,15 +17,6 @@ public class Guard extends Piece {
         super(position, team, PieceType.GUARD, new MoveRule(new OneStepMoveStrategy(), new BasicBlockStrategy()));
     }
 
-    public static List<Guard> Default(Team team) {
-        int defaultRow = team.decideRow(1);
-        List<Integer> defaultColumns = List.of(4, 6);
-
-        return defaultColumns.stream()
-                .map(defaultColumn -> new Guard(Position.of(defaultRow, defaultColumn), team))
-                .toList();
-    }
-
     @Override
     public Piece move(final Board board, final Position destination) {
         validateMove(board, destination, MOVEMENT);
