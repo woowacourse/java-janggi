@@ -7,6 +7,7 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 
 import java.util.Map.Entry;
+import java.util.function.Consumer;
 
 public class Controller {
 
@@ -14,8 +15,8 @@ public class Controller {
     private final OutputView outputView;
 
     public Controller(
-            InputView inputView,
-            OutputView outputView
+        InputView inputView,
+        OutputView outputView
     ) {
         this.inputView = inputView;
         this.outputView = outputView;
@@ -32,47 +33,50 @@ public class Controller {
         KnightElephantSettingCommand choKnightElephantSettingCommand = inputView.inputChoKnightElephantSetting();
 
         return new JanggiBoard(
-                new DefaultHanPieceGenerator(),
-                new DefaultChoPieceGenerator(),
-                hanKnightElephantSettingCommand.getKnightElephantSetting(),
-                choKnightElephantSettingCommand.getKnightElephantSetting()
+            new DefaultHanPieceGenerator(),
+            new DefaultChoPieceGenerator(),
+            hanKnightElephantSettingCommand.getKnightElephantSetting(),
+            choKnightElephantSettingCommand.getKnightElephantSetting()
         );
     }
 
     private void playGame(JanggiBoard janggiBoard) {
         while (!janggiBoard.isEnd()) {
-            moveHan(janggiBoard);
+            computeException(this::moveHan, janggiBoard);
             outputView.printJanggiBoard(janggiBoard);
 
             if (janggiBoard.isEnd()) {
                 break;
             }
 
-            moveCho(janggiBoard);
+            computeException(this::moveCho, janggiBoard);
             outputView.printJanggiBoard(janggiBoard);
         }
         outputView.printWinner(janggiBoard.getWinner());
     }
 
     private void moveHan(JanggiBoard janggiBoard) {
-        try {
-            Entry<Integer, Integer> source = inputView.inputHanMoveSource();
-            Entry<Integer, Integer> destination = inputView.inputHanMoveDestination();
-            janggiBoard.move(source.getKey(), source.getValue(), destination.getKey(), destination.getValue());
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            moveHan(janggiBoard);
-        }
+        Entry<Integer, Integer> source = inputView.inputHanMoveSource();
+        Entry<Integer, Integer> destination = inputView.inputHanMoveDestination();
+        janggiBoard.move(source.getKey(), source.getValue(), destination.getKey(), destination.getValue());
     }
 
     private void moveCho(JanggiBoard janggiBoard) {
-        try {
-            Entry<Integer, Integer> source = inputView.inputChoMoveSource();
-            Entry<Integer, Integer> destination = inputView.inputChoMoveDestination();
-            janggiBoard.move(source.getKey(), source.getValue(), destination.getKey(), destination.getValue());
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            moveCho(janggiBoard);
+        Entry<Integer, Integer> source = inputView.inputChoMoveSource();
+        Entry<Integer, Integer> destination = inputView.inputChoMoveDestination();
+        janggiBoard.move(source.getKey(), source.getValue(), destination.getKey(), destination.getValue());
+    }
+
+    private void computeException(Consumer<JanggiBoard> move, JanggiBoard janggiBoard) {
+        boolean moveSuccess = false;
+
+        while (!moveSuccess) {
+            try {
+                move.accept(janggiBoard);
+                moveSuccess = true;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 }
