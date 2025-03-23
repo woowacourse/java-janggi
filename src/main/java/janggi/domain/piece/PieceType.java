@@ -22,18 +22,17 @@ public enum PieceType {
     }
 
     public String getName(Piece piece) {
-        PieceType target = Arrays.stream(PieceType.values())
+        return Arrays.stream(PieceType.values())
                 .filter(pieceType -> pieceType == piece.pieceType)
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("기물 이름 탐색 실패"));
-        String teamName = decideTeamName(target, piece.getTeam());
-        return piece.getTeam().getColor() + teamName + Team.COLOR_RESET;
+                .orElseThrow(() -> new IllegalArgumentException("기물 이름 탐색 실패"))
+                .decideTeamName(piece.getTeam());
     }
 
-    private String decideTeamName(PieceType pieceType, Team team) {
+    private String decideTeamName(Team team) {
         if (team.isRed()) {
-            return pieceType.redName;
+            return team.getColorName(redName);
         }
-        return pieceType.greenName;
+        return team.getColorName(greenName);
     }
 }

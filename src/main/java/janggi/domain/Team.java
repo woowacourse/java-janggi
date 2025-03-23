@@ -5,7 +5,7 @@ public enum Team {
     GREEN("초", "\u001B[32m"),
     ;
 
-    public static final String COLOR_RESET = "\u001B[0m";
+    private static final String COLOR_RESET = "\u001B[0m";
 
     private final String country;
     private final String color;
@@ -31,10 +31,6 @@ public enum Team {
         return this == GREEN;
     }
 
-    public String getColor() {
-        return color;
-    }
-
     public String getCountry() {
         return country;
     }
@@ -44,5 +40,9 @@ public enum Team {
             return GREEN;
         }
         return RED;
+    }
+
+    public String getColorName(final String name) {
+        return this.color + name + Team.COLOR_RESET;
     }
 }
