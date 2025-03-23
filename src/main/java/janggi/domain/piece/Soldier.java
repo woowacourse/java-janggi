@@ -36,11 +36,6 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
-    }
-
-    @Override
     public Set<Route> calculateRoutes() {
         return getMovesByTeam().stream()
                 .map(this::calculateRoute)

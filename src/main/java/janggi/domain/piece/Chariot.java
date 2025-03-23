@@ -16,8 +16,8 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
+    public boolean isChariot() {
+        return true;
     }
 
     public Set<Route> calculateRoutes() {

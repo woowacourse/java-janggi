@@ -12,12 +12,18 @@ public abstract class Piece {
 
     public abstract Set<Route> calculateRoutes();
 
+    public boolean isCannon() {
+        return false;
+    }
+
+    public boolean isChariot() {
+        return false;
+    }
+
     public Piece(final Position position, final Team team) {
         this.position = position;
         this.team = team;
     }
-
-    public abstract boolean isCannon();
 
     public void move(final Position position) {
         this.position = new Position(position.x(), position.y());

@@ -28,12 +28,7 @@ public class General extends Piece {
     public General(final Position position, final Team team) {
         super(position, team);
     }
-
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
-
+    
     @Override
     public Set<Route> calculateRoutes() {
         return GENERAL_MOVES.stream()

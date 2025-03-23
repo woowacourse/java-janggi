@@ -1,7 +1,5 @@
 package janggi.domain;
 
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Chariot;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PiecesInitializer;
 import janggi.domain.piece.direction.Position;
@@ -25,10 +23,10 @@ public class Board {
     }
 
     public Set<Route> findPossibleRoutes(final Piece piece) {
-        if (piece.getClass() == Cannon.class) {
+        if (piece.isCannon()) {
             return pieces.getPossibleRoutesForCannon(piece);
         }
-        if (piece.getClass() == Chariot.class) {
+        if (piece.isChariot()) {
             return pieces.getPossibleRoutesForChariot(piece);
         }
         return pieces.getPossibleRoutes(piece);

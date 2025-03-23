@@ -60,9 +60,4 @@ public class Elephant extends Piece {
         }
         return Optional.of(new Route(positions));
     }
-
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
 }

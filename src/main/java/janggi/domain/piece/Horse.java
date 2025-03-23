@@ -42,11 +42,6 @@ public class Horse extends Piece {
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
-    }
-
-    @Override
     public Set<Route> calculateRoutes() {
         return HORSE_MOVES.stream()
                 .map(this::calculateRoute)
