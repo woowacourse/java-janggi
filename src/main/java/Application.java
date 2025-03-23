@@ -1,4 +1,4 @@
-import janggiGame.JanggiGame;
+import janggiGame.Board;
 import janggiGame.arrangement.ArrangementOption;
 import janggiGame.board.Dot;
 import janggiGame.piece.Dynasty;
@@ -9,27 +9,27 @@ import view.OutputView;
 public class Application {
 
     public static void main(String[] args) {
-        JanggiGame janggiGame = new JanggiGame();
-
+        Board board = new Board();
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
+
         Dynasty[] dynasties = Dynasty.values();
         int turn = 0;
 
         int option = inputView.readHanArrangement();
-        janggiGame.arrangeHanPieces(ArrangementOption.findBy(option).getArrangementStrategy());
+        board.arrangeHanPieces(ArrangementOption.findBy(option).getArrangementStrategy());
 
         option = inputView.readChoArrangement();
-        janggiGame.arrangeChoPieces(ArrangementOption.findBy(option).getArrangementStrategy());
+        board.arrangeChoPieces(ArrangementOption.findBy(option).getArrangementStrategy());
 
         while (true) {
-            outputView.printBoard(janggiGame.getPieces());
+            outputView.printBoard(board.getSurvivedPieces());
             try {
                 Dynasty currentDynasty = dynasties[turn % 2];
 
                 List<Dot> movement = inputView.readPieceMovement(currentDynasty);
 
-                janggiGame.processTurn(currentDynasty, movement.getFirst(), movement.getLast());
+                board.processTurn(currentDynasty, movement.getFirst(), movement.getLast());
 
                 turn++;
             } catch (Exception e) {
