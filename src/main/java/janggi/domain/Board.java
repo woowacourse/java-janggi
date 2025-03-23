@@ -49,10 +49,6 @@ public class Board {
         return getPiece(position).isAlly(team);
     }
 
-    public boolean isEnemy(final Position position, final Team team) {
-        return !isAlly(position, team);
-    }
-
     public GameStatus checkGeneralDied() {
         List<Piece> general = positionToPiece.keySet().stream()
                 .filter(position -> positionToPiece.get(position).isSameType(PieceType.GENERAL))
