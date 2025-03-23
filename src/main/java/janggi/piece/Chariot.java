@@ -6,6 +6,7 @@ import janggi.Point;
 import janggi.board.Board;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.BiFunction;
 
 public final class Chariot extends Piece {
 
@@ -35,27 +36,18 @@ public final class Chariot extends Piece {
     private Set<Point> findRoute(Point fromPoint, Point toPoint) {
         boolean isHorizontal = fromPoint.isHorizontal(toPoint);
         if (isHorizontal) {
-            return findHorizontalRoute(fromPoint.y(), fromPoint.x(), toPoint.x());
+            return findRouteByFromAndTo(fromPoint.y(), fromPoint.x(), toPoint.x(), Point::new);
         }
-        return findVerticalRoute(fromPoint.x(), fromPoint.y(), toPoint.y());
+        return findRouteByFromAndTo(fromPoint.x(), fromPoint.y(), toPoint.y(), (a, b) -> new Point(b, a));
     }
 
-    private Set<Point> findHorizontalRoute(int fixedY, int fromX, int toX) {
+    private Set<Point> findRouteByFromAndTo(int fixed, int from, int to,
+                                            BiFunction<Integer, Integer, Point> pointGenerator) {
         Set<Point> route = new HashSet<>();
-        int start = Math.min(fromX, toX) + 1;
-        int end = Math.max(fromX, toX);
+        int start = Math.min(from, to) + 1;
+        int end = Math.max(from, to);
         for (int i = start; i < end; i++) {
-            route.add(new Point(i, fixedY));
-        }
-        return route;
-    }
-
-    private Set<Point> findVerticalRoute(int fixedX, int fromY, int toY) {
-        Set<Point> route = new HashSet<>();
-        int start = Math.min(fromY, toY) + 1;
-        int end = Math.max(fromY, toY);
-        for (int i = start; i < end; i++) {
-            route.add(new Point(fixedX, i));
+            route.add(pointGenerator.apply(i, fixed));
         }
         return route;
     }
