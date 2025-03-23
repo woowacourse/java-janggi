@@ -1,7 +1,9 @@
 package janggi.domain.piece;
 
+import janggi.domain.Offset;
 import janggi.domain.Position;
 import janggi.domain.Side;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +15,23 @@ public class Knight extends Piece {
 
     private static final int HORIZONTAL_BASE_X_MOVEABLE_DISTANCE = 2;
     private static final int HORIZONTAL_BASE_Y_MOVEABLE_DISTANCE = 1;
+
+    private static final List<Offset> UP_RIGHT_PATH = List.of(
+        new Offset(0, 1), new Offset(1, 2));
+    private static final List<Offset> UP_LEFT_PATH = List.of(
+        new Offset(0, 1), new Offset(-1, 2));
+    private static final List<Offset> DOWN_RIGHT_PATH = List.of(
+        new Offset(0, -1), new Offset(1, -2));
+    private static final List<Offset> DOWN_LEFT_PATH = List.of(
+        new Offset(0, -1), new Offset(-1, -2));
+    private static final List<Offset> RIGHT_UP_PATH = List.of(
+        new Offset(1, 0), new Offset(2, 1));
+    private static final List<Offset> RIGHT_DOWN_PATH = List.of(
+        new Offset(1, 0), new Offset(2, -1));
+    private static final List<Offset> LEFT_UP_PATH = List.of(
+        new Offset(-1, 0), new Offset(-2, 1));
+    private static final List<Offset> LEFT_DOWN_PATH = List.of(
+        new Offset(-1, 0), new Offset(-2, -1));
 
     public Knight(Side side, int x, int y) {
         super(side, x, y);
@@ -75,28 +94,16 @@ public class Knight extends Piece {
 
     private List<Position> findAllUpwardMovablePositions(Position destination) {
         if (destination.getX() > getXPosition()) {
-            return List.of(
-                    new Position(getXPosition(), getYPosition() + 1),
-                    new Position(getXPosition() + 1, getYPosition() + 2)
-            );
+            return applyOffsets(UP_RIGHT_PATH);
         }
-        return List.of(
-                new Position(getXPosition(), getYPosition() + 1),
-                new Position(getXPosition() - 1, getYPosition() + 2)
-        );
+        return applyOffsets(UP_LEFT_PATH);
     }
 
     private List<Position> findAllDownwardMovablePositions(Position destination) {
         if (destination.getX() > getXPosition()) {
-            return List.of(
-                    new Position(getXPosition(), getYPosition() - 1),
-                    new Position(getXPosition() + 1, getYPosition() - 2)
-            );
+            return applyOffsets(DOWN_RIGHT_PATH);
         }
-        return List.of(
-                new Position(getXPosition(), getYPosition() - 1),
-                new Position(getXPosition() - 1, getYPosition() - 2)
-        );
+        return applyOffsets(DOWN_LEFT_PATH);
     }
 
     private List<Position> findAllHorizontalMovablePositions(Position destination) {
@@ -108,29 +115,21 @@ public class Knight extends Piece {
 
     private List<Position> findAllRightwardMovablePositions(Position destination) {
         if (destination.getY() > getYPosition()) {
-            return List.of(
-                    new Position(getXPosition() + 1, getYPosition()),
-                    new Position(getXPosition() + 2, getYPosition() + 1)
-            );
+            return applyOffsets(RIGHT_UP_PATH);
         }
-        // 오른쪽 아래 이동
-        return List.of(
-                new Position(getXPosition() + 1, getYPosition()),
-                new Position(getXPosition() + 2, getYPosition() - 1)
-        );
+        return applyOffsets(RIGHT_DOWN_PATH);
     }
 
     private List<Position> findAllLeftwardMovablePositions(Position destination) {
         if (destination.getY() > getYPosition()) {
-            return List.of(
-                    new Position(getXPosition() - 1, getYPosition()),
-                    new Position(getXPosition() - 2, getYPosition() + 1)
-            );
+            return applyOffsets(LEFT_UP_PATH);
         }
-        // 왼쪽 아래 이동
-        return List.of(
-                new Position(getXPosition() - 1, getYPosition()),
-                new Position(getXPosition() - 2, getYPosition() - 1)
-        );
+        return applyOffsets(LEFT_DOWN_PATH);
+    }
+
+    private List<Position> applyOffsets(List<Offset> offsets) {
+        return offsets.stream()
+            .map(offset -> offset.applyTo(position))
+            .toList();
     }
 }
