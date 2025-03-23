@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.board.Board;
 import domain.piece.Cha;
-import domain.piece.Jol;
+import domain.piece.Ma;
 import domain.piece.Piece;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -24,12 +24,12 @@ public class BoardTest {
         void test1() {
             // given
             Board board = new BoardFixture()
-                    .build();
+                .build();
 
             // when & then
             assertThatThrownBy(() -> board.move(new Coordinate(5, 5), new Coordinate(5, 6)))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("해당 좌표에는 기물이 없습니다.");
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 좌표에는 기물이 없습니다.");
         }
 
         @Test
@@ -37,14 +37,14 @@ public class BoardTest {
         void test2() {
             // given
             Board board = new BoardFixture()
-                    .addPiece(5, 5, new Cha(Team.HAN))
-                    .addPiece(5, 6, new Jol(Team.HAN))
-                    .build();
+                .addPiece(5, 5, new Cha(Team.HAN))
+                .addPiece(5, 6, new Ma(Team.HAN))
+                .build();
 
             // when & then
             assertThatThrownBy(() -> board.move(new Coordinate(5, 5), new Coordinate(5, 6)))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("도착 좌표에 같은 팀 말이 있습니다.");
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("도착 좌표에 같은 팀 말이 있습니다.");
         }
 
         @Test
@@ -53,9 +53,9 @@ public class BoardTest {
             // given
             Cha cha = new Cha(Team.HAN);
             Board board = new BoardFixture()
-                    .addPiece(5, 5, cha)
-                    .addPiece(5, 6, new Jol(Team.CHO))
-                    .build();
+                .addPiece(5, 5, cha)
+                .addPiece(5, 6, new Ma(Team.CHO))
+                .build();
             Coordinate departure = new Coordinate(5, 5);
             Coordinate arrival = new Coordinate(5, 6);
 
@@ -64,8 +64,8 @@ public class BoardTest {
 
             // then
             assertAll(
-                    () -> assertThat(board.findAt(departure)).isEmpty(),
-                    () -> assertThat(board.findAt(arrival)).hasValue(cha)
+                () -> assertThat(board.findAt(departure)).isEmpty(),
+                () -> assertThat(board.findAt(arrival)).hasValue(cha)
             );
         }
 
@@ -75,8 +75,8 @@ public class BoardTest {
             // given
             Cha cha = new Cha(Team.HAN);
             Board board = new BoardFixture()
-                    .addPiece(5, 5, cha)
-                    .build();
+                .addPiece(5, 5, cha)
+                .build();
             Coordinate departure = new Coordinate(5, 5);
             Coordinate arrival = new Coordinate(5, 6);
 
@@ -85,8 +85,8 @@ public class BoardTest {
 
             // then
             assertAll(
-                    () -> assertThat(board.findAt(departure)).isEmpty(),
-                    () -> assertThat(board.findAt(arrival)).hasValue(cha)
+                () -> assertThat(board.findAt(departure)).isEmpty(),
+                () -> assertThat(board.findAt(arrival)).hasValue(cha)
             );
         }
     }
@@ -113,8 +113,8 @@ public class BoardTest {
         void test2() {
             // given
             Board board = new BoardFixture()
-                    .addPiece(5, 5, new Jol(Team.HAN))
-                    .build();
+                .addPiece(5, 5, new Ma(Team.HAN))
+                .build();
 
             // when
             Optional<Piece> piece = board.findAt(new Coordinate(5, 5));

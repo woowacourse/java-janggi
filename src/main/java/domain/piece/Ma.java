@@ -1,34 +1,36 @@
 package domain.piece;
 
+import static domain.Movement.DOWN;
+import static domain.Movement.LEFT;
+import static domain.Movement.LEFT_DOWN;
+import static domain.Movement.LEFT_UP;
+import static domain.Movement.RIGHT;
+import static domain.Movement.RIGHT_DOWN;
+import static domain.Movement.RIGHT_UP;
+import static domain.Movement.UP;
+
 import domain.Coordinate;
+import domain.Movement;
 import domain.Team;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class Ma extends Piece {
+public class Ma extends LimitedMovementPiece {
 
     public Ma(Team team) {
-        super(team);
-    }
-
-    @Override
-    protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
-        return Stream.of(
-                departure.pickChangedCoordinate(-2, -1),
-                departure.pickChangedCoordinate(-2, 1),
-                departure.pickChangedCoordinate(-1, -2),
-                departure.pickChangedCoordinate(-1, 2),
-                departure.pickChangedCoordinate(1, -2),
-                departure.pickChangedCoordinate(1, 2),
-                departure.pickChangedCoordinate(2, -1),
-                departure.pickChangedCoordinate(2, 1)
+        super(
+            team,
+            Set.of(
+                Movement.combine(LEFT, LEFT_UP),
+                Movement.combine(LEFT, LEFT_DOWN),
+                Movement.combine(RIGHT, RIGHT_UP),
+                Movement.combine(RIGHT, RIGHT_DOWN),
+                Movement.combine(UP, LEFT_UP),
+                Movement.combine(UP, RIGHT_UP),
+                Movement.combine(DOWN, LEFT_DOWN),
+                Movement.combine(DOWN, RIGHT_DOWN)
             )
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .collect(Collectors.toSet());
+        );
     }
 
     @Override
@@ -36,18 +38,21 @@ public class Ma extends Piece {
         int dx = arrival.getX() - departure.getX();
         int dy = arrival.getY() - departure.getY();
 
+        final var movement = computeMovement(dx, dy);
+        return List.of(departure.move(movement));
+    }
+
+    private Movement computeMovement(final int dx, final int dy) {
         if (Math.abs(dx) == 2) {
-            if (dx > 0) {
-                return List.of(departure.pickChangedCoordinate(1, 0).get());
+            if (dx < 0) {
+                return LEFT;
             }
-            return List.of(departure.pickChangedCoordinate(-1, 0).get());
+            return RIGHT;
         }
-        if (Math.abs(dy) == 2) {
-            if (dy > 0) {
-                return List.of(departure.pickChangedCoordinate(0, 1).get());
-            }
-            return List.of(departure.pickChangedCoordinate(0, -1).get());
+
+        if (dy < 0) {
+            return UP;
         }
-        throw new IllegalStateException("유효하지 않은 좌표입니다.");
+        return DOWN;
     }
 }

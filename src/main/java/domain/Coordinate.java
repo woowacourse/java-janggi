@@ -17,23 +17,22 @@ public class Coordinate {
         this.y = y;
     }
 
-    public Optional<Coordinate> pickChangedCoordinate(int x, int y) {
-        if (isInvalidX(this.x + x) || isInvalidY(this.y + y)) {
-            return Optional.empty();
-        }
-        return Optional.of(new Coordinate(this.x + x, this.y + y));
+    public boolean canMove(Movement movement) {
+        int newX = this.x + movement.deltaX();
+        int newY = this.y + movement.deltaY();
+
+        return !isInvalidX(newX) && !isInvalidY(newY);
     }
 
-    public Set<Coordinate> pickCrossCoordinates() {
-        Set<Coordinate> coordinates = new HashSet<>();
-        for (int x = 1; x <= 9; x++) {
-            coordinates.add(new Coordinate(x, this.y));
-        }
-        for (int y = 1; y <= 10; y++) {
-            coordinates.add(new Coordinate(this.x, y));
-        }
-        coordinates.remove(this);
-        return coordinates;
+    public Coordinate move(Movement movement) {
+        int newX = this.x + movement.deltaX();
+        int newY = this.y + movement.deltaY();
+
+        return new Coordinate(newX, newY);
+    }
+
+    public Coordinate move(int deltaX, int deltaY) {
+        return new Coordinate(this.x + deltaX, this.y + deltaY);
     }
 
     private boolean isInvalidX(int x) {
@@ -46,7 +45,7 @@ public class Coordinate {
         }
     }
 
-    private static boolean isInvalidY(int y) {
+    private boolean isInvalidY(int y) {
         return y < 1 || y > 10;
     }
 

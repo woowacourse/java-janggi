@@ -1,34 +1,36 @@
 package domain.piece;
 
+import static domain.Movement.DOWN;
+import static domain.Movement.LEFT;
+import static domain.Movement.LEFT_DOWN;
+import static domain.Movement.LEFT_UP;
+import static domain.Movement.RIGHT;
+import static domain.Movement.RIGHT_DOWN;
+import static domain.Movement.RIGHT_UP;
+import static domain.Movement.UP;
+
 import domain.Coordinate;
+import domain.Movement;
 import domain.Team;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class Sang extends Piece {
+public class Sang extends LimitedMovementPiece {
 
     public Sang(Team team) {
-        super(team);
-    }
-
-    @Override
-    protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
-        return Stream.of(
-                departure.pickChangedCoordinate(2, -3), // 상우
-                departure.pickChangedCoordinate(2, 3), // 하우
-                departure.pickChangedCoordinate(-2, -3), //상좌
-                departure.pickChangedCoordinate(-2, 3), //하좌
-                departure.pickChangedCoordinate(3, -2), // 우상
-                departure.pickChangedCoordinate(3, 2), //우하
-                departure.pickChangedCoordinate(-3, -2), //좌상
-                departure.pickChangedCoordinate(-3, 2) //좌하
+        super(
+            team,
+            Set.of(
+                Movement.combine(LEFT, LEFT_UP, LEFT_UP),
+                Movement.combine(LEFT, LEFT_DOWN, LEFT_DOWN),
+                Movement.combine(RIGHT, RIGHT_UP, RIGHT_UP),
+                Movement.combine(RIGHT, RIGHT_DOWN, RIGHT_DOWN),
+                Movement.combine(UP, LEFT_UP, LEFT_UP),
+                Movement.combine(UP, RIGHT_UP, RIGHT_UP),
+                Movement.combine(DOWN, LEFT_DOWN, LEFT_DOWN),
+                Movement.combine(DOWN, RIGHT_DOWN, RIGHT_DOWN)
             )
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .collect(Collectors.toSet());
+        );
     }
 
     @Override
@@ -36,44 +38,41 @@ public class Sang extends Piece {
         int dx = arrival.getX() - departure.getX();
         int dy = arrival.getY() - departure.getY();
 
+        return computeMovement(dx, dy)
+            .stream()
+            .map(departure::move)
+            .toList();
+    }
+
+    private List<Movement> computeMovement(final int dx, final int dy) {
         if (Math.abs(dx) > Math.abs(dy)) {
-            //좌우시작
             if (dx < 0 && dy < 0) {
                 //좌상
-                return List.of(departure.pickChangedCoordinate(-1, 0).get(),
-                    departure.pickChangedCoordinate(-2, -1).get());
+                return List.of(LEFT, Movement.combine(LEFT, LEFT_UP));
             } else if (dx < 0 && dy > 0) {
                 //좌하
-                return List.of(departure.pickChangedCoordinate(-1, 0).get(),
-                    departure.pickChangedCoordinate(-2, 1).get());
+                return List.of(LEFT, Movement.combine(LEFT, LEFT_DOWN));
             } else if (dx > 0 && dy < 0) {
                 //우상
-                return List.of(departure.pickChangedCoordinate(1, 0).get(),
-                    departure.pickChangedCoordinate(2, -1).get());
+                return List.of(RIGHT, Movement.combine(RIGHT, RIGHT_UP));
             } else if (dx > 0 && dy > 0) {
                 //우하
-                return List.of(departure.pickChangedCoordinate(1, 0).get(),
-                    departure.pickChangedCoordinate(2, 1).get());
+                return List.of(RIGHT, Movement.combine(RIGHT, RIGHT_DOWN));
             }
-        } else {
-            //상하시작
-            if (dx < 0 && dy < 0) {
-                //상좌
-                return List.of(departure.pickChangedCoordinate(0, -1).get(),
-                    departure.pickChangedCoordinate(-1, -2).get());
-            } else if (dx < 0 && dy > 0) {
-                //하좌
-                return List.of(departure.pickChangedCoordinate(0, 1).get(),
-                    departure.pickChangedCoordinate(-1, 2).get());
-            } else if (dx > 0 && dy < 0) {
-                //상우
-                return List.of(departure.pickChangedCoordinate(0, -1).get(),
-                    departure.pickChangedCoordinate(1, -2).get());
-            } else if (dx > 0 && dy > 0) {
-                //하우
-                return List.of(departure.pickChangedCoordinate(0, 1).get(),
-                    departure.pickChangedCoordinate(1, 2).get());
-            }
+        }
+
+        if (dx < 0 && dy < 0) {
+            //상좌
+            return List.of(UP, Movement.combine(UP, LEFT_UP));
+        } else if (dx < 0 && dy > 0) {
+            //하좌
+            return List.of(DOWN, Movement.combine(DOWN, LEFT_DOWN));
+        } else if (dx > 0 && dy < 0) {
+            //상우
+            return List.of(UP, Movement.combine(UP, RIGHT_UP));
+        } else if (dx > 0 && dy > 0) {
+            //하우
+            return List.of(DOWN, Movement.combine(DOWN, RIGHT_DOWN));
         }
         throw new IllegalStateException("유효하지 않은 좌표입니다.");
     }

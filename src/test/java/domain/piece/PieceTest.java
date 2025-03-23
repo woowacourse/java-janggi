@@ -17,8 +17,8 @@ public class PieceTest {
         @DisplayName("다른 기물과 같은 팀이면 true를 반환한다.")
         void test1() {
             // given
-            Piece piece1 = new Jol(Team.HAN);
-            Piece piece2 = new Jol(Team.HAN);
+            Piece piece1 = new Cha(Team.HAN);
+            Piece piece2 = new Cha(Team.HAN);
 
             // when
             boolean isSameTeam = piece1.isSameTeam(piece2);
@@ -31,8 +31,8 @@ public class PieceTest {
         @DisplayName("다른 기물과 다른 팀이면 false를 반환한다.")
         void test2() {
             // given
-            Piece piece1 = new Jol(Team.HAN);
-            Piece piece2 = new Jol(Team.CHO);
+            Piece piece1 = new Cha(Team.HAN);
+            Piece piece2 = new Cha(Team.CHO);
 
             // when
             boolean isSameTeam = piece1.isSameTeam(piece2);
