@@ -1,8 +1,9 @@
 package janggi.piece;
 
 import janggi.Board;
-import janggi.Position;
 import janggi.Team;
+import janggi.coordinate.Position;
+import janggi.coordinate.Vector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -21,9 +22,9 @@ class SoldierTest {
         // given
         Position position = Position.of(5, 5);
         Piece soldier = Soldier.of(position, team);
-        Board board = Board.initialize(List.of(soldier));
+        Board board = Board.from(List.of(soldier));
 
-        Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         Piece move = soldier.move(board, movedPosition);
@@ -35,13 +36,13 @@ class SoldierTest {
     @ParameterizedTest
     @CsvSource(value = {"RED, -1", "GREEN, 1"})
     @DisplayName("졸/병은 본진 방향으로 이동할 수 없다")
-    void cannotMoveToAllyBase(Team team, int rowDirection) {
+    void cannotMoveToAllyBase(Team team, int deltaRow) {
         // given
         Position position = Position.of(5, 5);
         Piece soldier = Soldier.of(position, team);
-        Board board = Board.initialize(List.of(soldier));
+        Board board = Board.from(List.of(soldier));
 
-        Position movedPosition = position.adjust(rowDirection, 0);
+        Position movedPosition = position.add(new Vector(deltaRow, 0));
 
         // when
         // then
@@ -57,9 +58,9 @@ class SoldierTest {
         // given
         Position position = Position.of(5, 5);
         Piece soldier = Soldier.of(position, Team.RED);
-        Board board = Board.initialize(List.of(soldier));
+        Board board = Board.from(List.of(soldier));
 
-        Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         // then

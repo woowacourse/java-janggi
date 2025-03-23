@@ -1,6 +1,10 @@
 package janggi.piece;
 
-import janggi.*;
+import janggi.Board;
+import janggi.Score;
+import janggi.Team;
+import janggi.coordinate.Position;
+import janggi.coordinate.Route;
 import janggi.piece.strategy.block.BlockStrategy;
 import janggi.piece.strategy.block.RequiredBlockCountStrategy;
 import janggi.piece.strategy.move.MoveStrategy;
@@ -12,15 +16,22 @@ public class Cannon extends Piece {
 
     public static final int REQUIRE_BLOCK_COUNT = 1;
 
-    private Cannon(final Position position, final Team team, final MoveStrategy moveStrategy, final BlockStrategy blockStrategy) {
+    private Cannon(final Position position,
+                   final Team team,
+                   final MoveStrategy moveStrategy,
+                   final BlockStrategy blockStrategy) {
         super(position, team, moveStrategy, blockStrategy);
     }
 
     public static Cannon of(final Position position, final Team team) {
-        return new Cannon(position, team, new StraightMoveStrategy(), new RequiredBlockCountStrategy(REQUIRE_BLOCK_COUNT));
+        return new Cannon(
+                position,
+                team,
+                new StraightMoveStrategy(),
+                new RequiredBlockCountStrategy(REQUIRE_BLOCK_COUNT));
     }
 
-    public static List<Cannon> Default(Team team) {
+    public static List<Cannon> defaultsOf(Team team) {
         int defaultRow = Team.decideRow(3, team);
         List<Integer> defaultColumns = List.of(2, 8);
 
@@ -41,7 +52,9 @@ public class Cannon extends Piece {
 
     @Override
     protected void validateSpecialRule(Board board, Position destination) {
-        boolean containsCannon = Route.of(position, destination).stream()
+        boolean excludeDestination = false;
+
+        boolean containsCannon = Route.of(position, destination).calculate(excludeDestination).stream()
                 .filter(board::isExists)
                 .anyMatch(position -> board.getPiece(position).getType().isCannon());
 

@@ -1,8 +1,9 @@
 package janggi.piece;
 
 import janggi.Board;
-import janggi.Position;
 import janggi.Team;
+import janggi.coordinate.Position;
+import janggi.coordinate.Vector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -21,9 +22,9 @@ class ChariotTest {
         // given
         Position position = Position.of(5, 5);
         Piece chariot = Chariot.of(position, Team.RED);
-        Board board = Board.initialize(List.of(chariot));
+        Board board = Board.from(List.of(chariot));
 
-        Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         Piece move = chariot.move(board, movedPosition);
@@ -39,9 +40,9 @@ class ChariotTest {
         // given
         Position position = Position.of(5, 5);
         Piece chariot = Chariot.of(position, Team.RED);
-        Board board = Board.initialize(List.of(chariot));
+        Board board = Board.from(List.of(chariot));
 
-        Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         // then

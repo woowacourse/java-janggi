@@ -1,6 +1,9 @@
 package janggi.piece;
 
-import janggi.*;
+import janggi.Board;
+import janggi.Score;
+import janggi.Team;
+import janggi.coordinate.Position;
 import janggi.piece.strategy.block.BlockStrategy;
 import janggi.piece.strategy.block.RequiredBlockCountStrategy;
 import janggi.piece.strategy.move.CurvedMoveStrategy;
@@ -10,17 +13,18 @@ import java.util.List;
 
 public class Horse extends Piece {
 
-    public static final CurvedMovement MOVEMENT = new CurvedMovement(1, 2);
+    public static final int STRAIGHT_MOVEMENT = 1;
+    public static final int DIAGONAL_MOVEMENT = 1;
 
     public Horse(final Position position, final Team team, final MoveStrategy moveStrategy, final BlockStrategy blockStrategy) {
         super(position, team, moveStrategy, blockStrategy);
     }
 
     public static Horse of(Position position, Team team) {
-        return new Horse(position, team, new CurvedMoveStrategy(MOVEMENT), RequiredBlockCountStrategy.common());
+        return new Horse(position, team, new CurvedMoveStrategy(STRAIGHT_MOVEMENT, DIAGONAL_MOVEMENT), RequiredBlockCountStrategy.common());
     }
 
-    public static List<Horse> Default(Team team) {
+    public static List<Horse> defaultsOf(Team team) {
         int defaultRow = Team.decideRow(1, team);
         List<Integer> defaultColumns = List.of(3, 8);
 

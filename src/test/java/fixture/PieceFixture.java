@@ -1,0 +1,20 @@
+package fixture;
+
+import janggi.Team;
+import janggi.coordinate.Position;
+import janggi.piece.*;
+
+public class PieceFixture {
+
+    public static Piece create(int row, int column, PieceType pieceType, Team team) {
+        return switch (pieceType) {
+            case SOLDIER -> Soldier.of(Position.of(row, column), team);
+            case GUARD -> Guard.of(Position.of(row, column), team);
+            case HORSE -> Horse.of(Position.of(row, column), team);
+            case ELEPHANT -> Elephant.of(Position.of(row, column), team);
+            case CHARIOT -> Chariot.of(Position.of(row, column), team);
+            case CANNON -> Cannon.of(Position.of(row, column), team);
+            case GENERAL -> General.of(Position.of(row, column), team);
+        };
+    }
+}

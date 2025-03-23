@@ -1,8 +1,9 @@
 package janggi.piece;
 
 import janggi.Board;
-import janggi.Position;
 import janggi.Team;
+import janggi.coordinate.Position;
+import janggi.coordinate.Vector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,9 +22,9 @@ class GeneralTest {
         // given
         Position position = Position.of(5, 5);
         Piece general = General.of(position, Team.RED);
-        Board board = Board.initialize(List.of(general));
+        Board board = Board.from(List.of(general));
 
-        Position movedPosition = position.adjust(-1, 0);
+        Position movedPosition = position.add(new Vector(-1, 0));
 
         // when
         Piece move = general.move(board, movedPosition);
@@ -35,13 +36,13 @@ class GeneralTest {
     @ParameterizedTest
     @CsvSource(value = {"1, 1", "2, 0"})
     @DisplayName("궁은 2칸 이상 움직일 수 없다")
-    void move(int rowDirection, int columnDirection) {
+    void move(int deltaRow, int deltaColumn) {
         // given
         Position position = Position.of(5, 5);
         Piece general = General.of(position, Team.RED);
-        Board board = Board.initialize(List.of(general));
+        Board board = Board.from(List.of(general));
 
-        Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Position movedPosition = position.add(new Vector(deltaRow, deltaColumn));
 
         // when
         // then

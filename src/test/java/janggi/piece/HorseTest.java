@@ -1,8 +1,9 @@
 package janggi.piece;
 
 import janggi.Board;
-import janggi.Position;
 import janggi.Team;
+import janggi.coordinate.Position;
+import janggi.coordinate.Vector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,9 +22,9 @@ class HorseTest {
         // given
         Position position = Position.of(5, 5);
         Piece horse = Horse.of(position, Team.RED);
-        Board board = Board.initialize(List.of(horse));
+        Board board = Board.from(List.of(horse));
 
-        Position movedPosition = position.adjust(1, 2);
+        Position movedPosition = position.add(new Vector(1, 2));
 
         // when
         Piece move = horse.move(board, movedPosition);
@@ -39,9 +40,9 @@ class HorseTest {
         // given
         Position position = Position.of(5, 5);
         Piece horse = Horse.of(position, Team.RED);
-        Board board = Board.initialize(List.of(horse));
+        Board board = Board.from(List.of(horse));
 
-        Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         // then

@@ -1,9 +1,9 @@
 package janggi.piece;
 
 import janggi.Board;
-import janggi.Position;
 import janggi.Score;
 import janggi.Team;
+import janggi.coordinate.Position;
 import janggi.piece.strategy.block.BlockStrategy;
 import janggi.piece.strategy.block.RequiredBlockCountStrategy;
 import janggi.piece.strategy.move.MoveStrategy;
@@ -21,7 +21,7 @@ public class Guard extends Piece {
         return new Guard(position, team, new SingleMoveStrategy(), RequiredBlockCountStrategy.common());
     }
 
-    public static List<Guard> Default(Team team) {
+    public static List<Guard> defaultsOf(Team team) {
         int defaultRow = Team.decideRow(1, team);
         List<Integer> defaultColumns = List.of(4, 6);
 

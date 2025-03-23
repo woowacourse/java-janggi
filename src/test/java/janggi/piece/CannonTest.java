@@ -1,8 +1,9 @@
 package janggi.piece;
 
 import janggi.Board;
-import janggi.Position;
 import janggi.Team;
+import janggi.coordinate.Position;
+import janggi.coordinate.Vector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,13 +23,13 @@ class CannonTest {
         // given
         Position position = Position.of(5, 5);
         Piece cannon = Cannon.of(position, Team.RED);
-        Piece soldier1 = Soldier.of(position.adjust(1, 0), Team.RED);
-        Piece soldier2 = Soldier.of(position.adjust(0, 1), Team.RED);
-        Piece soldier3 = Soldier.of(position.adjust(-1, 0), Team.RED);
-        Piece soldier4 = Soldier.of(position.adjust(0, -1), Team.RED);
-        Board board = Board.initialize(List.of(cannon, soldier1, soldier2, soldier3, soldier4));
+        Piece soldier1 = Soldier.of(position.add(new Vector(1, 0)), Team.RED);
+        Piece soldier2 = Soldier.of(position.add(new Vector(0, 1)), Team.RED);
+        Piece soldier3 = Soldier.of(position.add(new Vector(-1, 0)), Team.RED);
+        Piece soldier4 = Soldier.of(position.add(new Vector(0, -1)), Team.RED);
+        Board board = Board.from(List.of(cannon, soldier1, soldier2, soldier3, soldier4));
 
-        Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         Piece move = cannon.move(board, movedPosition);
@@ -44,9 +45,9 @@ class CannonTest {
         // given
         Position position = Position.of(5, 5);
         Piece cannon = Cannon.of(position, Team.RED);
-        Board board = Board.initialize(List.of(cannon));
+        Board board = Board.from(List.of(cannon));
 
-        Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         // then
@@ -61,9 +62,9 @@ class CannonTest {
         // given
         Position position = Position.of(5, 5);
         Piece cannon = Cannon.of(position, Team.RED);
-        Board board = Board.initialize(List.of(cannon));
+        Board board = Board.from(List.of(cannon));
 
-        Position movedPosition = position.adjust(3, 0);
+        Position movedPosition = position.add(new Vector(3, 0));
 
         // when
         // then
@@ -79,14 +80,14 @@ class CannonTest {
         // given
         Position position = Position.of(5, 5);
         Piece cannon = Cannon.of(position, Team.RED);
-        Piece otherAllyCannon1 = Cannon.of(position.adjust(1, 0), Team.RED);
-        Piece otherAllyCannon2 = Cannon.of(position.adjust(-1, 0), Team.RED);
-        Piece otherEnemyCannon1 = Cannon.of(position.adjust(0, 1), Team.GREEN);
-        Piece otherEnemyCannon2 = Cannon.of(position.adjust(0, -1), Team.GREEN);
-        Board board = Board.initialize(
+        Piece otherAllyCannon1 = Cannon.of(position.add(new Vector(1, 0)), Team.RED);
+        Piece otherAllyCannon2 = Cannon.of(position.add(new Vector(-1, 0)), Team.RED);
+        Piece otherEnemyCannon1 = Cannon.of(position.add(new Vector(0, 1)), Team.GREEN);
+        Piece otherEnemyCannon2 = Cannon.of(position.add(new Vector(0, -1)), Team.GREEN);
+        Board board = Board.from(
                 List.of(cannon, otherAllyCannon1, otherAllyCannon2, otherEnemyCannon1, otherEnemyCannon2));
 
-        Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         // then
@@ -102,23 +103,43 @@ class CannonTest {
         // given
         Position position = Position.of(5, 5);
         Piece cannon = Cannon.of(position, Team.RED);
-        Piece soldier1 = Soldier.of(position.adjust(1, 0), Team.GREEN);
-        Piece soldier2 = Soldier.of(position.adjust(2, 0), Team.GREEN);
-        Piece soldier3 = Soldier.of(position.adjust(-1, 0), Team.GREEN);
-        Piece soldier4 = Soldier.of(position.adjust(-2, 0), Team.GREEN);
-        Piece soldier5 = Soldier.of(position.adjust(0, 1), Team.GREEN);
-        Piece soldier6 = Soldier.of(position.adjust(0, 2), Team.GREEN);
-        Piece soldier7 = Soldier.of(position.adjust(0, -1), Team.GREEN);
-        Piece soldier8 = Soldier.of(position.adjust(0, -2), Team.GREEN);
-        Board board = Board.initialize(
+        Piece soldier1 = Soldier.of(position.add(new Vector(1, 0)), Team.GREEN);
+        Piece soldier2 = Soldier.of(position.add(new Vector(2, 0)), Team.GREEN);
+        Piece soldier3 = Soldier.of(position.add(new Vector(-1, 0)), Team.GREEN);
+        Piece soldier4 = Soldier.of(position.add(new Vector(-2, 0)), Team.GREEN);
+        Piece soldier5 = Soldier.of(position.add(new Vector(0, 1)), Team.GREEN);
+        Piece soldier6 = Soldier.of(position.add(new Vector(0, 2)), Team.GREEN);
+        Piece soldier7 = Soldier.of(position.add(new Vector(0, -1)), Team.GREEN);
+        Piece soldier8 = Soldier.of(position.add(new Vector(0, -2)), Team.GREEN);
+        Board board = Board.from(
                 List.of(cannon, soldier1, soldier2, soldier3, soldier4, soldier5, soldier6, soldier7, soldier8));
 
-        Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         // then
         assertThatThrownBy(() -> cannon.move(board, movedPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("이동 경로에 기물 갯수가 조건에 맞지 않습니다.");
+    }
+
+    @Test
+    @DisplayName("포의 도착지에 적의 포가 포함되면 이동할 수 없다")
+    void cannotMoveWhenExistCannonInDestination() {
+        // given
+        Position position = Position.of(5, 5);
+        Piece cannon = Cannon.of(position, Team.RED);
+        Piece soldier = Soldier.of(position.add(new Vector(1, 0)), Team.GREEN);
+        Piece otherEnemyCannon = Cannon.of(position.add(new Vector(2, 0)), Team.GREEN);
+        Board board = Board.from(
+                List.of(cannon, soldier, otherEnemyCannon));
+
+        Position movedPosition = position.add(new Vector(2, 0));
+
+        // when
+        // then
+        assertThatThrownBy(() -> cannon.move(board, movedPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("이동 경로에 포가 존재합니다.");
     }
 }

@@ -1,9 +1,9 @@
 package janggi.piece;
 
 import janggi.Board;
-import janggi.Position;
 import janggi.Score;
 import janggi.Team;
+import janggi.coordinate.Position;
 import janggi.piece.strategy.block.BlockStrategy;
 import janggi.piece.strategy.move.MoveStrategy;
 
@@ -58,7 +58,7 @@ public abstract class Piece {
     }
 
     private void validateIsAlly(final Board board, final Position destination) {
-        if ((board.isExists(destination) && board.isAlly(destination, team))) {
+        if (board.isAlly(destination, team)) {
             throw new IllegalArgumentException("목적지에 아군이 존재합니다.");
         }
     }
