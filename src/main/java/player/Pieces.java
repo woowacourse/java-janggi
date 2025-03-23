@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import piece.Piece;
 import java.util.List;
 import pieceProperty.Position;
+import pieceProperty.Positions;
 
 public class Pieces {
     private final List<Piece> pieces;
@@ -45,5 +46,13 @@ public class Pieces {
         pieces.stream()
                 .filter(piece -> piece.isSamePosition(presentPosition))
                 .anyMatch(piece -> piece.canMoveTo(destination));
+    }
+
+    public Positions makeRoute(Position presentPosition, Position destination) {
+        return pieces.stream()
+                .filter(piece -> piece.isSamePosition(presentPosition))
+                .findFirst()
+                .map(piece -> piece.makeRoute(destination))
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 시작 위치에 아군 기물이 존재하지 않습니다."));
     }
 }
