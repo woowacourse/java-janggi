@@ -21,11 +21,11 @@ class NodeTest {
         @Test
         void 특정_위치에서_특정_방향으로_가는_경로가_있으면_true를_반환한다() {
             // given
-            final Node centerNode = new Node(Point.of(2, 2));
-            final Node upNode = new Node(Point.of(1, 2));
-            Node leftNode = new Node(Point.of(2, 1));
-            Node rightNode = new Node(Point.of(2, 3));
-            Node downNode = new Node(Point.of(2, 3));
+            final Node centerNode = new Node();
+            final Node upNode = new Node();
+            Node leftNode = new Node();
+            Node rightNode = new Node();
+            Node downNode = new Node();
             Edge upEdge = new Edge(upNode, UP);
             Edge leftEdge = new Edge(leftNode, LEFT);
             Edge rightEdge = new Edge(rightNode, RIGHT);
@@ -44,10 +44,10 @@ class NodeTest {
         @Test
         void 특정_위치에서_특정_방향으로_가는_경로가_없으면_false를_반환한다() {
             // given
-            final Node centerNode = new Node(Point.of(2, 2));
-            final Node upNode = new Node(Point.of(1, 2));
-            Node leftNode = new Node(Point.of(2, 1));
-            Node rightNode = new Node(Point.of(2, 3));
+            final Node centerNode = new Node();
+            final Node upNode = new Node();
+            Node leftNode = new Node();
+            Node rightNode = new Node();
 
             Edge upEdge = new Edge(upNode, UP);
             Edge leftEdge = new Edge(leftNode, LEFT);

@@ -18,7 +18,7 @@ public class PointNodeMapperFactory {
         for (int row = MIN_ROW_INDEX; row <= MAX_ROW_INDEX; row++) {
             for (int column = MIN_COLUMN_INDEX; column <= MAX_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
-                Node currentNode = new Node(point);
+                Node currentNode = new Node();
                 nodeByPoint.put(point, currentNode);
             }
         }
@@ -31,8 +31,7 @@ public class PointNodeMapperFactory {
             }
         }
 
-        PointNodeMapper pointNodeMapper = new PointNodeMapper(nodeByPoint);
-        return pointNodeMapper;
+        return new PointNodeMapper(nodeByPoint);
     }
 
     private List<Edge> createEdges(final int row, final int column,
