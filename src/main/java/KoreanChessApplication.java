@@ -7,7 +7,6 @@ import piece.Team;
 public class KoreanChessApplication {
 
     private static final Map<Integer, Team> turnTable;
-    private static final String INITIATE_JANGGI_FILE = "/initialPieces.txt";
     private static final int PLAYER_SIZE = 2;
 
     static {
