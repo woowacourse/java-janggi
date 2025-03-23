@@ -58,7 +58,7 @@ public class CannonMovement implements MovementRule {
 
         for (int y = minY; y <= maxY; y++) {
             for (int x = minX; x <= maxX; x++) {
-                if (x == minX && y == minY) {
+                if (from.equals(new Point(x, y))) {
                     continue;
                 }
 
