@@ -1,7 +1,8 @@
 package janggi.piece.strategy.move;
 
 import janggi.Board;
-import janggi.Position;
+import janggi.coordinate.Distance;
+import janggi.coordinate.Position;
 
 public class SingleMoveStrategy implements MoveStrategy {
 
@@ -9,11 +10,9 @@ public class SingleMoveStrategy implements MoveStrategy {
 
     @Override
     public void validate(final Board board, final Position departure, final Position destination) {
-        int diffRow = destination.subtractRow(departure);
-        int diffColumn = destination.subtractColumn(departure);
-
-        if (Math.abs(diffRow) + Math.abs(diffColumn) != SINGLE_STEP) {
-            throw new IllegalArgumentException(exceptionMessage);
+        if (Distance.of(departure, destination).getTotal() == SINGLE_STEP) {
+            return;
         }
+        throw new IllegalArgumentException(exceptionMessage);
     }
 }

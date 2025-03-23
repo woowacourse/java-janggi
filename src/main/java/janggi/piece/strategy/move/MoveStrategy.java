@@ -1,7 +1,7 @@
 package janggi.piece.strategy.move;
 
 import janggi.Board;
-import janggi.Position;
+import janggi.coordinate.Position;
 
 public interface MoveStrategy {
 
