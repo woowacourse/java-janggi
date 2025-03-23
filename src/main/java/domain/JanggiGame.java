@@ -17,8 +17,8 @@ public class JanggiGame {
 
     public JanggiGame(BoardGenerator boardGenerator, List<String> playerNames) {
         this.janggiBoard = new JanggiBoard(boardGenerator);
-        this.players = List.of(new Player(playerNames.getFirst(), Team.BLUE),
-                new Player(playerNames.getLast(), Team.RED));
+        this.players = List.of(new Player(playerNames.getFirst(), Team.CHO),
+                new Player(playerNames.getLast(), Team.HAN));
     }
 
     public void move(Position startPosition, Position targetPosition) {

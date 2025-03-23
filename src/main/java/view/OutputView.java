@@ -1,5 +1,6 @@
 package view;
 
+import domain.Player;
 import domain.Position;
 import domain.Team;
 import domain.piece.Piece;
@@ -8,10 +9,8 @@ import java.util.Map;
 
 public class OutputView {
 
-    public static final String black = "\u001B[30m";
     public static final String red = "\u001B[31m";
     public static final String green = "\u001B[32m";
-    public static final String blue = "\u001B[34m";
     public static final String white = "\u001B[37m";
 
     public static final String exit = "\u001B[0m";
@@ -28,11 +27,11 @@ public class OutputView {
                     System.out.print(white + "ㅁ" + exit);
                     continue;
                 }
-                if (piece.getTeam() == Team.RED) {
+                if (piece.getTeam() == Team.HAN) {
                     System.out.print(convertToString(red, piece));
                 }
-                if (piece.getTeam() == Team.BLUE) {
-                    System.out.print(convertToString(blue, piece));
+                if (piece.getTeam() == Team.CHO) {
+                    System.out.print(convertToString(green, piece));
                 }
             }
             System.out.println();
@@ -66,5 +65,17 @@ public class OutputView {
 
         }
         return color + result + exit;
+    }
+
+    public void printTurnMessage(Player player) {
+        System.out.printf("%s의 차례입니다.%n", convertToCountry(player.getTeam()));
+    }
+
+    private String convertToCountry(Team team) {
+        return switch (team) {
+            case Team.HAN -> "한나라";
+            case Team.CHO -> "초나라";
+            default -> "알 수 없는 나라";
+        };
     }
 }
