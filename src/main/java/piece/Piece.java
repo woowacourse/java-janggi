@@ -17,6 +17,10 @@ public abstract class Piece {
         return position;
     }
 
+    public boolean isSamePosition(Position position) {
+        return position.equals(this.position);
+    }
+
     public abstract boolean isMove(Position position);
 
     public abstract List<Position> makeRoute(Position position);
