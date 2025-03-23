@@ -41,7 +41,7 @@ public class Po extends Piece {
     }
 
     @Override
-    public boolean isCanon() {
+    public boolean isPo() {
         return true;
     }
 

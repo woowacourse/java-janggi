@@ -24,10 +24,10 @@ public class JanggiBoard {
     }
 
     private void validateMovePiece(Piece startPiece, List<Position> path, Piece targetPositionPiece) {
-        if (startPiece.isCanon()) {
+        if (startPiece.isPo()) {
             validateCanonMove(path, targetPositionPiece);
         }
-        if (!startPiece.isCanon()) {
+        if (!startPiece.isPo()) {
             validateNonCanonMove(path);
         }
         validateSameTeamAttack(startPiece, targetPositionPiece);
@@ -48,13 +48,13 @@ public class JanggiBoard {
     }
 
     private void validateAttackCanon(Piece targetPositionPiece) {
-        if (targetPositionPiece != null && targetPositionPiece.isCanon()) {
+        if (targetPositionPiece != null && targetPositionPiece.isPo()) {
             throw new IllegalArgumentException("포는 포끼리 잡을 수 없습니다");
         }
     }
 
     private void validateJumpCanon(Position position) {
-        if (findPiece(position) != null && findPiece(position).isCanon()) {
+        if (findPiece(position) != null && findPiece(position).isPo()) {
             throw new IllegalArgumentException("포는 포끼리 건너뛸 수 없습니다.");
         }
     }

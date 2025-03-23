@@ -27,7 +27,7 @@ public class Jol extends Piece {
     }
 
     @Override
-    public boolean isCanon() {
+    public boolean isPo() {
         return false;
     }
 }

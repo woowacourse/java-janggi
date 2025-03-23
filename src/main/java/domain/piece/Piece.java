@@ -25,7 +25,7 @@ public abstract class Piece {
 
     public abstract List<Position> calculatePath(Position startPosition, Position targetPosition);
 
-    public abstract boolean isCanon();
+    public abstract boolean isPo();
 
     public Team getTeam() {
         return team;
