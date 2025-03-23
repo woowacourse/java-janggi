@@ -13,17 +13,17 @@ public class InputView {
         System.out.println("움직일 말을 알려주세요.");
         String from = scanner.nextLine();
 
-        String[] rawFromPoint = from.split(" ");
-        return new Point(
-                Integer.parseInt(rawFromPoint[COLUMN_INDEX]),
-                Integer.parseInt(rawFromPoint[ROW_INDEX])
-        );
+        return rawPointToPoint(from);
     }
 
     public static Point requestMoveEndPosition() {
         System.out.println("도착지를 알려주세요.");
         String to = scanner.nextLine();
 
+        return rawPointToPoint(to);
+    }
+
+    private static Point rawPointToPoint(String to) {
         String[] rawToPoint = to.split(" ");
         return new Point(
                 Integer.parseInt(rawToPoint[COLUMN_INDEX]),
