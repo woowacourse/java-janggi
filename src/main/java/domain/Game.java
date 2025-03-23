@@ -2,8 +2,11 @@ package domain;
 
 import domain.position.Position;
 import domain.position.Route;
+import domain.unit.Unit;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import view.InputView;
 import view.OutputView;
 
@@ -12,14 +15,28 @@ public class Game {
     private final InputView inputView;
     private final OutputView outputView;
 
-    public Game(Janggi janggi, InputView inputView, OutputView outputView) {
-        this.janggi = janggi;
+    public Game(InputView inputView, OutputView outputView) {
+        this.janggi = createJanggi();
         this.inputView = inputView;
         this.outputView = outputView;
     }
 
+    private Janggi createJanggi() {
+        Map<Position, Unit> hanUnits = settingUnits(Team.HAN);
+        Map<Position, Unit> choUnits = settingUnits(Team.CHO);
+        return Janggi.of(hanUnits, choUnits, Team.CHO);
+    }
+
+    private Map<Position, Unit> settingUnits(Team team) {
+        Map<Position, Unit> units = new HashMap<>();
+        for (DefaultUnitPosition value : DefaultUnitPosition.values()) {
+            units.putAll(DefaultUnitPosition.createDefaultUnits(value, team));
+        }
+        return units;
+    }
+
     public void helloWorld() {
-        outputView.printUnits(janggi.getUnits());
+        // TODO: 장기말 출력
         String rawPosition = inputView.readPosition(janggi.getTurn());
         List<Integer> positionValue = Arrays.stream(rawPosition.split(","))
                 .map(String::trim)

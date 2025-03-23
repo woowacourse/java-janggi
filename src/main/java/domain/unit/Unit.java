@@ -1,34 +1,27 @@
 package domain.unit;
 
-import domain.position.Position;
-import domain.position.Route;
 import domain.Team;
 import domain.UnitType;
+import domain.position.Position;
+import domain.position.Route;
 import java.util.List;
-import java.util.Objects;
 
 public class Unit {
-    private final Position position;
     private final Team team;
     private final UnitRule unitRule;
 
 
-    public Unit(Position position, Team team, UnitRule unitRule) {
-        this.position = position;
+    public Unit(Team team, UnitRule unitRule) {
         this.team = team;
         this.unitRule = unitRule;
     }
 
-    public static Unit of(Position position, Team team, UnitRule unitRule) {
-        return new Unit(position, team, unitRule);
+    public static Unit of(Team team, UnitRule unitRule) {
+        return new Unit(team, unitRule);
     }
 
-    public List<Route> calculateRoutes() {
-        return unitRule.calculateAllRoute(this.position);
-    }
-
-    public boolean isSamePoint(Position position) {
-        return this.position.equals(position);
+    public List<Route> calculateRoutes(Position position) {
+        return unitRule.calculateAllRoute(position);
     }
 
     public UnitType getType() {
@@ -37,23 +30,5 @@ public class Unit {
 
     public Team getTeam() {
         return team;
-    }
-
-    public Position getPosition() {
-        return this.position;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        Unit carUnit = (Unit) object;
-        return Objects.equals(position, carUnit.position);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(position);
     }
 }

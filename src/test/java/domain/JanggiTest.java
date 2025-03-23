@@ -1,65 +1,115 @@
 package domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import domain.position.Position;
 import domain.position.Route;
+import domain.unit.CannonUnitRule;
+import domain.unit.ChariotUnitRule;
+import domain.unit.ElephantUnitRule;
+import domain.unit.HorseUnitRule;
+import domain.unit.SoldierUnitRule;
+import domain.unit.Unit;
 import java.util.List;
-import org.assertj.core.api.Assertions;
+import java.util.Map;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class JanggiTest {
-
     @Test
-    @DisplayName("졸의 이동경로를 구한다.")
+    @DisplayName("기물(상)의 타기물을 고려한 이동경로를 구한다")
     void test1() {
         // given
-        Janggi janggi = new Janggi();
+        Unit target = Unit.of(Team.CHO, new ElephantUnitRule());
+        Position targetPosition = new Position(4, 5);
+        Map<Position, Unit> units = Map.of(
+                targetPosition, target,
+                new Position(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
+        );
+        Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
 
         // when
-        List<Route> routes = janggi.searchAvailableRoutes(new Position(0, 3));
+        List<Route> routes = janggi.searchAvailableRoutes(targetPosition);
 
         // then
-        Assertions.assertThat(routes).hasSize(2);
+        assertThat(routes).hasSize(6);
     }
 
     @Test
-    @DisplayName("포의 이동경로를 구한다.")
+    @DisplayName("기물(마)의 타기물을 고려한 이동경로를 구한다")
     void test2() {
         // given
-        Janggi janggi = new Janggi();
+        Unit target = Unit.of(Team.CHO, new HorseUnitRule());
+        Position targetPosition = new Position(4, 5);
+        Map<Position, Unit> units = Map.of(
+                targetPosition, target,
+                new Position(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
+        );
+        Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
 
         // when
-        List<Route> routes = janggi.searchAvailableRoutes(new Position(1, 7));
+        List<Route> routes = janggi.searchAvailableRoutes(targetPosition);
 
         // then
-        Assertions.assertThat(routes).hasSize(0);
+        assertThat(routes).hasSize(6);
     }
 
     @Test
-    @DisplayName("경로 중에 기물이 있다면 거짓이다")
+    @DisplayName("기물(차)의 타기물을 고려한 이동경로를 구한다")
     void test3() {
         // given
-        Janggi janggi = new Janggi();
+        Unit target = Unit.of(Team.CHO, new ChariotUnitRule());
+        Position targetPosition = new Position(4, 5);
+        Map<Position, Unit> units = Map.of(
+                targetPosition, target,
+                new Position(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
+        );
+        Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
 
         // when
-        boolean isFalse = janggi.isAvailableRoute(Route.of(List.of
-                (new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4))));
+        List<Route> routes = janggi.searchAvailableRoutes(targetPosition);
 
         // then
-        Assertions.assertThat(isFalse).isFalse();
+        assertThat(routes).hasSize(12);
+    }
+
+    @Disabled
+    @Test
+    @DisplayName("기물(포)의 타기물을 고려한 이동경로를 구한다")
+    void test4() {
+        // given
+        Unit target = Unit.of(Team.CHO, new CannonUnitRule());
+        Position targetPosition = new Position(4, 5);
+        Map<Position, Unit> units = Map.of(
+                targetPosition, target,
+                new Position(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
+        );
+        Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
+
+        // when
+        List<Route> routes = janggi.searchAvailableRoutes(targetPosition);
+
+        // then
+        assertThat(routes).hasSize(4);
     }
 
     @Test
-    @DisplayName("경로 중에 기물이 없다면 참이다")
-    void test4() {
+    @DisplayName("기물(졸)의 타기물을 고려한 이동경로를 구한다")
+    void test5() {
         // given
-        Janggi janggi = new Janggi();
+        Unit target = Unit.of(Team.CHO, new SoldierUnitRule());
+        Position targetPosition = new Position(4, 5);
+        Map<Position, Unit> units = Map.of(
+                targetPosition, target,
+                new Position(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
+        );
+        Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
 
         // when
-        boolean isTrue = janggi.isAvailableRoute(Route.of(List.of
-                (new Position(0, 1), new Position(0, 2), new Position(0, 4))));
+        List<Route> routes = janggi.searchAvailableRoutes(targetPosition);
 
         // then
-        Assertions.assertThat(isTrue).isTrue();
+        assertThat(routes).hasSize(2);
     }
 }

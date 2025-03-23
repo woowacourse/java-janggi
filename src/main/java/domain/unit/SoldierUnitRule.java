@@ -1,8 +1,9 @@
 package domain.unit;
 
+import domain.UnitType;
+import domain.position.Point;
 import domain.position.Position;
 import domain.position.Route;
-import domain.UnitType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,12 +18,9 @@ public class SoldierUnitRule implements UnitRule {
         int x = start.getX();
         int y = start.getY();
         for (int i = 0; i < dx.size(); i++) {
-            try {
-                routes.add(Route.of(
-                        List.of(new Position(x + dx.get(i), y + dy.get(i))))
-                );
-            } catch (IllegalArgumentException exception) {
-                continue;
+            List<Point> route = List.of(Point.of(x + dx.get(i), y + dy.get(i)));
+            if (route.stream().allMatch(Position::isCanBePosition)) {
+                routes.add(Route.of(route.stream().map(Position::from).toList()));
             }
         }
         return routes;

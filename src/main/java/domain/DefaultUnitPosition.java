@@ -5,12 +5,14 @@ import domain.unit.CannonUnitRule;
 import domain.unit.ChariotUnitRule;
 import domain.unit.ElephantUnitRule;
 import domain.unit.HorseUnitRule;
-import domain.unit.SoldierUnitRule;
 import domain.unit.NoneUnitRule;
+import domain.unit.SoldierUnitRule;
 import domain.unit.Unit;
 import domain.unit.UnitRule;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public enum DefaultUnitPosition {
     GENERAL(1, 8, List.of(4), NoneUnitRule::new),
@@ -35,12 +37,15 @@ public enum DefaultUnitPosition {
         this.rule = rule;
     }
 
-    public static List<Unit> createDefaultUnits(DefaultUnitPosition position, Team team) {
+    public static Map<Position, Unit> createDefaultUnits(DefaultUnitPosition position, Team team) {
         if (team == Team.CHO) {
             return position.xPositions.stream()
-                    .map(x -> Unit.of(new Position(x, position.choY), team, position.rule.get())).toList();
+                    .map(x -> new Position(x, position.choY))
+                    .collect(Collectors.toMap(pos -> pos, pos -> Unit.of(team, position.rule.get())
+                    ));
         }
         return position.xPositions.stream()
-                .map(x -> Unit.of(new Position(x, position.hanY), team, position.rule.get())).toList();
+                .map(x -> new Position(x, position.hanY))
+                .collect(Collectors.toMap(pos -> pos, pos -> Unit.of(team, position.rule.get())));
     }
 }
