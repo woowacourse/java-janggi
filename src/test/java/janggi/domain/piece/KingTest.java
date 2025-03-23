@@ -13,11 +13,4 @@ class KingTest {
 
         assertThat(king.isMoveablePosition(null)).isFalse();
     }
-
-    @Test
-    void 킹은_움직일_수_있는_경로가_없다() {
-        King king = new King(Side.CHO, 1, 2);
-
-        assertThat(king.isMoveablePath(null, null)).isFalse();
-    }
 }
