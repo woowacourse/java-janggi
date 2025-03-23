@@ -2,6 +2,7 @@ package janggi.view;
 
 import janggi.domain.Player;
 import janggi.domain.Position;
+import janggi.domain.SetupType;
 import janggi.domain.Team;
 import java.util.Scanner;
 
@@ -61,5 +62,22 @@ public class InputView {
         String input = scanner.nextLine();
         validateEmptyInput(input);
         return new Player(input, team);
+    }
+
+    public SetupType readSetupType(Team team) {
+        try {
+            System.out.println(team.getCountry() + " 팀의 사용하실 상차림 옵션을 선택하세요");
+            System.out.println("""
+                    1. 왼상차림(차 상 마 사 궁 사 상 마 차): 두 상이 모두 마의 왼쪽(대국자 기준)에 배치된다.
+                    2. 오른상차림(차 마 상 사 궁 사 마 상 차): 두 상이 모두 마의 오른쪽에 배치된다.
+                    3. 안상차림(차 마 상 사 궁 사 상 마 차): 두 상이 모두 사의 옆(궁에서 가까운 위치)에 배치된다.
+                    4. 바깥상차림(차 상 마 사 궁 사 마 상 차): 두 상이 모두 차의 옆(궁에서 먼 위치)에 배치된다.""");
+            String input = scanner.nextLine();
+            validateEmptyInput(input);
+            int optionInput = Integer.parseInt(input);
+            return SetupType.findSetupType(optionInput);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("잘못된 입력입니다.");
+        }
     }
 }
