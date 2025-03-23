@@ -43,4 +43,35 @@ class PlayerTest {
         assertThat(player.isKingDie()).isFalse();
     }
 
+    @Test
+    @DisplayName("플레이어 기물 이동 테스트")
+    void movePieceTest() {
+        //given
+        Pieces pieces = new Pieces(List.of(new Janggun(new Position(5, 5))));
+        Player player = new Player(pieces, HAN);
+        Position presentPosition = new Position(5, 5);
+        Position destination = new Position(5, 6);
+
+        //when
+        player.movePiece(presentPosition, destination);
+
+        //then
+        assertThat(player.isKingDie()).isFalse();
+    }
+
+    @Test
+    @DisplayName("플레이어 기물 삭제 테스트")
+    void removePiece() {
+        //given
+        Pieces pieces = new Pieces(List.of(new Janggun(new Position(5, 5))));
+        Player player = new Player(pieces, HAN);
+        Position destination = new Position(5, 5);
+
+        //when
+        player.removePiece(destination);
+
+        //then
+        assertThat(player.getPieces().getPieces().contains(new Janggun(new Position(5, 5)))).isFalse();
+    }
+
 }
