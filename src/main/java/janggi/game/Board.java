@@ -57,20 +57,34 @@ public class Board {
 
     public void move(Point beforePoint, Point afterPoint) {
         Movable movingPiece = findByPoint(beforePoint);
+        validatePieceTeam(movingPiece);
+        validatePieceMovable(afterPoint, movingPiece);
+
+        Movable updatedMoving = movingPiece.updatePoint(afterPoint);
+        removeAttackedPiece(afterPoint);
+        updateMovedPiece(movingPiece, updatedMoving);
+    }
+
+    private void validatePieceTeam(Movable movingPiece) {
         if (turn != movingPiece.getTeam()) {
             throw new IllegalArgumentException(turn.getText() + "의 기물만 이동할 수 있습니다.");
         }
+    }
 
+    private void validatePieceMovable(Point afterPoint, Movable movingPiece) {
         if (!movingPiece.canMove(afterPoint, findHurdles())) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
-        Movable updatedMoving = movingPiece.updatePoint(afterPoint);
+    }
 
+    private void removeAttackedPiece(Point afterPoint) {
         if (hasPieceOnPoint(afterPoint)) {
             Movable prey = findByPoint(afterPoint);
             runningPieces.remove(prey);
         }
+    }
 
+    private void updateMovedPiece(Movable movingPiece, Movable updatedMoving) {
         runningPieces.remove(movingPiece);
         runningPieces.add(updatedMoving);
     }
