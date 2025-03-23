@@ -92,4 +92,12 @@ class ByeongTest {
 
         assertThat(byeong.getPieceType().equals(BYEONG)).isTrue();
     }
+
+    @Test
+    @DisplayName("왕인지 물어보는 테스트")
+    void isKingTest() {
+        Byeong byeong = new Byeong(new Position(5, 5));
+
+        assertThat(byeong.isKing()).isFalse();
+    }
 }

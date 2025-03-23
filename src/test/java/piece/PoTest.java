@@ -89,4 +89,12 @@ class PoTest {
         assertThat(po.getPieceType().equals(PO)).isTrue();
     }
 
+    @Test
+    @DisplayName("왕인지 물어보는 테스트")
+    void isKingTest() {
+        Po po = new Po(new Position(5, 5));
+
+        assertThat(po.isKing()).isFalse();
+    }
+
 }

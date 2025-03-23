@@ -87,4 +87,13 @@ class ChaTest {
 
         assertThat(cha.getPieceType().equals(CHA)).isTrue();
     }
+
+    @Test
+    @DisplayName("왕인지 물어보는 테스트")
+    void isKingTest() {
+        Cha cha = new Cha(new Position(5, 5));
+
+        assertThat(cha.isKing()).isFalse();
+    }
+
 }

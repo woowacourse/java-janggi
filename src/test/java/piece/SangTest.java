@@ -112,5 +112,13 @@ class SangTest {
         assertThat(sang.getPieceType().equals(SANG)).isTrue();
     }
 
+    @Test
+    @DisplayName("왕인지 물어보는 테스트")
+    void isKingTest() {
+        Sang sang = new Sang(new Position(5, 5));
+
+        assertThat(sang.isKing()).isFalse();
+    }
+
 }
 

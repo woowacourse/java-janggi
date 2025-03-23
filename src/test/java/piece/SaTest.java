@@ -98,4 +98,12 @@ class SaTest {
 
         assertThat(sa.getPieceType().equals(SA)).isTrue();
     }
+
+    @Test
+    @DisplayName("왕인지 물어보는 테스트")
+    void isKingTest() {
+        Sa sa  = new Sa(new Position(5, 5));
+
+        assertThat(sa.isKing()).isFalse();
+    }
 }

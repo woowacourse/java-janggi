@@ -98,4 +98,12 @@ class JanggunTest {
 
         assertThat(janggun.getPieceType().equals(JANGGUN)).isTrue();
     }
+
+    @Test
+    @DisplayName("왕인지 물어보는 테스트")
+    void isKingTest() {
+        Janggun janggun = new Janggun(new Position(5, 5));
+
+        assertThat(janggun.isKing()).isTrue();
+    }
 }

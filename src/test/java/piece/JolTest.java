@@ -91,4 +91,12 @@ class JolTest {
 
         assertThat(jol.getPieceType().equals(JOL)).isTrue();
     }
+
+    @Test
+    @DisplayName("왕인지 물어보는 테스트")
+    void isKingTest() {
+        Jol jol = new Jol(new Position(5, 5));
+
+        assertThat(jol.isKing()).isFalse();
+    }
 }
