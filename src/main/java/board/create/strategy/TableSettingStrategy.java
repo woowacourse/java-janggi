@@ -3,6 +3,7 @@ package board.create.strategy;
 import coordinate.Coordinate;
 import java.util.List;
 import java.util.Map;
+import piece.Byeong;
 import piece.Cha;
 import piece.Goong;
 import piece.Jol;
@@ -42,11 +43,11 @@ public abstract class TableSettingStrategy {
                 Map.entry(new Coordinate(5, 2), new Goong(Team.HAN)),
                 Map.entry(new Coordinate(2, 3), new Po(Team.HAN)),
                 Map.entry(new Coordinate(8, 3), new Po(Team.HAN)),
-                Map.entry(new Coordinate(1, 4), new Jol(Team.HAN)),
-                Map.entry(new Coordinate(3, 4), new Jol(Team.HAN)),
-                Map.entry(new Coordinate(5, 4), new Jol(Team.HAN)),
-                Map.entry(new Coordinate(7, 4), new Jol(Team.HAN)),
-                Map.entry(new Coordinate(9, 4), new Jol(Team.HAN))
+                Map.entry(new Coordinate(1, 4), new Byeong(Team.HAN)),
+                Map.entry(new Coordinate(3, 4), new Byeong(Team.HAN)),
+                Map.entry(new Coordinate(5, 4), new Byeong(Team.HAN)),
+                Map.entry(new Coordinate(7, 4), new Byeong(Team.HAN)),
+                Map.entry(new Coordinate(9, 4), new Byeong(Team.HAN))
         );
     }
 

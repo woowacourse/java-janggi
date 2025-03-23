@@ -18,6 +18,9 @@ public class Jol extends Piece {
 
     public Jol(Team team) {
         super(team);
+        if (team == Team.HAN) {
+            throw new IllegalArgumentException("졸은 한나라에서 사용할 수 없습니다.");
+        }
     }
 
     @Override

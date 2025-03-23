@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import piece.Cha;
 import piece.Jol;
+import piece.Ma;
 import piece.Piece;
 import team.Team;
 
@@ -39,7 +40,7 @@ public class BoardTest {
             // given
             Board board = new BoardFixture()
                     .addPiece(5, 5, new Cha(Team.HAN))
-                    .addPiece(5, 6, new Jol(Team.HAN))
+                    .addPiece(5, 6, new Ma(Team.HAN))
                     .build();
 
             // when & then
@@ -148,7 +149,7 @@ public class BoardTest {
         void test2() {
             // given
             Board board = new BoardFixture()
-                    .addPiece(5, 5, new Jol(Team.HAN))
+                    .addPiece(5, 5, new Ma(Team.HAN))
                     .build();
 
             // when
