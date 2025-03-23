@@ -37,7 +37,7 @@ public class 병Test {
     }
 
     @Test
-    void 병의_이동_전_후_위치가_알맞지_않으면_예외를_발생시킨다() {
+    void 병이_이동할_수_없는_경로면_예외를_발생시킨다() {
         // given
         JanggiPosition beforePosition = new JanggiPosition(7, 5);
         JanggiPosition afterPosition = new JanggiPosition(6, 5);

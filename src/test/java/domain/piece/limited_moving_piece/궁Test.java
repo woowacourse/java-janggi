@@ -43,7 +43,7 @@ public class 궁Test {
     }
 
     @Test
-    void 궁의_이동_전_후_위치가_알맞지_않으면_예외를_발생시킨다() {
+    void 궁이_이동할_수_없는_경로면_예외를_발생시킨다() {
         // given
         int beforeRow = 9;
         int beforeColumn = 5;

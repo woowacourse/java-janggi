@@ -128,7 +128,7 @@ public class 포Test {
     }
 
     @Test
-    void 포의_이동_전_후_위치가_알맞지_않으면_예외를_발생시킨다() {
+    void 포가_이동할_수_없는_경로면_예외를_발생시킨다() {
         // given
         int beforeRow = 0;
         int beforeColumn = 1;

@@ -47,7 +47,7 @@ public class 마Test {
     }
 
     @Test
-    void 마의_이동_전_후_위치가_알맞지_않으면_예외를_발생시킨다() {
+    void 마가_이동할_수_없는_경로면_예외를_발생시킨다() {
         // given
         JanggiPosition beforePosition = new JanggiPosition(6, 4);
         JanggiPosition afterPosition = new JanggiPosition(4, 4);
