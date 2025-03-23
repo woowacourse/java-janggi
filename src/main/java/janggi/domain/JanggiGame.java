@@ -31,7 +31,9 @@ public class JanggiGame {
     }
 
     private void changeTurn(Team currentTurn) {
-        turn = currentTurn.getEnemy();
+        if (gameStatus == GameStatus.CONTINUE) {
+            turn = currentTurn.getEnemy();
+        }
     }
 
     public void checkWinCondition() {
