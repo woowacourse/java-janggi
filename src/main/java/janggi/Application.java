@@ -27,7 +27,7 @@ public class Application {
         while (true) {
             view.displayBoard(board.getPlacedPieces());
             playTurnUntilSuccess(view, currentTurnCamp, board);
-            currentTurnCamp = currentTurnCamp.reverse();
+            currentTurnCamp = currentTurnCamp.nextTurn();
         }
     }
 

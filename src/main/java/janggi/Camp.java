@@ -4,13 +4,13 @@ public enum Camp {
 
     HAN("한") {
         @Override
-        public Camp reverse() {
+        public Camp nextTurn() {
             return CHU;
         }
     },
     CHU("초") {
         @Override
-        public Camp reverse() {
+        public Camp nextTurn() {
             return HAN;
         }
     },
@@ -22,9 +22,9 @@ public enum Camp {
         this.name = name;
     }
 
-    public abstract Camp reverse();
+    public abstract Camp nextTurn();
 
-    public boolean isBottom() {
+    public boolean isStart() {
         return this == CHU;
     }
 

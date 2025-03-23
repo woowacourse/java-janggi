@@ -16,8 +16,8 @@ public abstract class Piece {
 
     public abstract PieceSymbol getPieceSymbol();
 
-    protected boolean isBottom() {
-        return camp.isBottom();
+    protected boolean isStart() {
+        return camp.isStart();
     }
 
     public void validateCatch(Piece otherPiece) {
