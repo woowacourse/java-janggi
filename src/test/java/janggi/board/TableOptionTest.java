@@ -69,10 +69,10 @@ public class TableOptionTest {
                         Team.HAN,
                         TableOption.HEEH,
                         List.of(
-                                new Elephant(new Position(new Row(10), new Column(8))),
-                                new Elephant(new Position(new Row(10), new Column(2))),
-                                new Horse(new Position(new Row(10), new Column(7))),
-                                new Horse(new Position(new Row(10), new Column(3)))
+                                new Elephant(new Position(new Row(10), new Column(7))),
+                                new Elephant(new Position(new Row(10), new Column(3))),
+                                new Horse(new Position(new Row(10), new Column(8))),
+                                new Horse(new Position(new Row(10), new Column(2)))
                         )
                 ),
                 Arguments.arguments(
@@ -109,10 +109,10 @@ public class TableOptionTest {
                         Team.CHO,
                         TableOption.HEEH,
                         List.of(
-                                new Elephant(new Position(new Row(1), new Column(8))),
-                                new Elephant(new Position(new Row(1), new Column(2))),
-                                new Horse(new Position(new Row(1), new Column(7))),
-                                new Horse(new Position(new Row(1), new Column(3)))
+                                new Elephant(new Position(new Row(1), new Column(7))),
+                                new Elephant(new Position(new Row(1), new Column(3))),
+                                new Horse(new Position(new Row(1), new Column(8))),
+                                new Horse(new Position(new Row(1), new Column(2)))
                                 )
                 )
         );

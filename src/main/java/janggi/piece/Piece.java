@@ -14,4 +14,5 @@ public interface Piece {
     boolean isOccupiedByMe(Position position);
 
     void move(Position position);
+
 }
