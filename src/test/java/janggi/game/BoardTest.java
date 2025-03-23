@@ -3,16 +3,14 @@ package janggi.game;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import janggi.piece.Byeong;
-import janggi.piece.Cha;
-import janggi.piece.Gung;
+import janggi.piece.Ma;
 import janggi.piece.Movable;
 import janggi.piece.Po;
 import janggi.point.Point;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -20,7 +18,7 @@ import org.junit.jupiter.api.Test;
 public class BoardTest {
 
     @Nested
-    @DisplayName("장기 판 초기화 테스트")
+    @DisplayName("장기 판 초기화 및 팀 테스트")
     class InitBoardTest {
 
         @Test
@@ -38,141 +36,118 @@ public class BoardTest {
 
             assertThat(board.getTurn()).isEqualTo(Team.CHO);
         }
-    }
-
-    @Nested
-    @DisplayName("기물 검색 테스트")
-    class SearchTest {
 
         @Test
-        @DisplayName("입력 좌표에 기물이 위치하는지 확인할 수 있다.")
-        void searchByPoint() {
-            Point point = new Point(8, 4);
-            List<Movable> pieces = List.of(new Gung(Team.CHO, point));
-            Board board = new Board(pieces, Team.CHO);
+        @DisplayName("팀을 변경할 수 있다.")
+        void changeTeam() {
+            Board board = Board.init(Team.CHO);
 
-            assertThat(board.findByPoint(point)).isEqualTo(pieces.getFirst());
+            board.reverseTurn();
+
+            assertThat(board.getTurn()).isEqualTo(Team.HAN);
         }
     }
 
     @Nested
-    @DisplayName("기물 경로 장애물 테스트")
-    class HurdleTest {
+    @DisplayName("포를 제외한 기물 이동 테스트")
+    class MoveExceptPoTest {
 
         @Test
-        @DisplayName("기물 경로의 좌표들에 장애물이 있는지 확인할 수 있다.")
-        void checkHurdlesOnRoute() {
-            List<Movable> pieces = List.of(
-                    new Cha(Team.CHO, new Point(5, 4)),
-                    new Byeong(Team.HAN, new Point(3, 4))
-            );
+        @DisplayName("다른 팀의 기물을 이동 시킬 수 없다.")
+        void notMovePieceOfSameTeam() {
+            Map<Point, Movable> pieces = new HashMap<>(Map.of(new Point(6, 4), new Byeong(Team.HAN)));
             Board board = new Board(pieces, Team.CHO);
 
-            Point startPoint = new Point(5, 4);
-            List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
+            Point startPoint = new Point(6, 4);
+            Point targetPoint = new Point(5, 4);
 
-            assertThat(board.checkHurdles(startPoint, route)).isTrue();
+            assertThatThrownBy(() -> board.move(startPoint, targetPoint))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(board.getTurn().getText() + "의 기물만 이동할 수 있습니다.");
         }
 
         @Test
-        @DisplayName("기물 경로의 좌표들에 장애물이 있는지 확인할 수 있다.")
-        void checkHurdlesNotOnRoute() {
-            List<Movable> pieces = List.of(
-                    new Cha(Team.CHO, new Point(5, 4))
-            );
+        @DisplayName("기물의 이동 범위를 벗어나면 이동 시킬 수 없다.")
+        void notMovePieceOutOfRange() {
+            Map<Point, Movable> pieces = new HashMap<>(Map.of(new Point(6, 4), new Byeong(Team.CHO)));
             Board board = new Board(pieces, Team.CHO);
 
-            Point startPoint = new Point(5, 4);
-            List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
+            Point startPoint = new Point(6, 4);
+            Point targetPoint = new Point(4, 4);
 
-            assertThat(board.checkHurdles(startPoint, route)).isFalse();
+            assertThatThrownBy(() -> board.move(startPoint, targetPoint))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("해당 위치로 이동할 수 없습니다.");
         }
 
         @Test
-        @DisplayName("기물 경로의 마지막 좌표에 다른 팀의 말이 있다면 장애물이 없다고 확인할 수 있다.")
-        void checkNotHurdleRouteIsOtherTeam() {
-            List<Movable> pieces = List.of(
-                    new Cha(Team.CHO, new Point(5, 4)),
-                    new Byeong(Team.HAN, new Point(2, 4))
-            );
+        @DisplayName("기물은 이동 경로에 다른 기물이 있으면 이동 시킬 수 없다.")
+        void notMovePieceWithHurdle() {
+            Map<Point, Movable> pieces = new HashMap<>(Map.of(
+                new Point(6, 4), new Ma(Team.CHO),
+                new Point(5, 4), new Byeong(Team.CHO)
+            ));
             Board board = new Board(pieces, Team.CHO);
 
-            Point startPoint = new Point(5, 4);
-            List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
+            Point startPoint = new Point(6, 4);
+            Point targetPoint = new Point(4, 5);
 
-            assertThat(board.checkHurdles(startPoint, route)).isFalse();
+            assertThatThrownBy(() -> board.move(startPoint, targetPoint))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("해당 위치로 이동할 수 없습니다.");
         }
 
         @Test
-        @DisplayName("기물 경로의 마지막 좌표에 같은 팀의 말이 있다면 장애물이 있다고 확인할 수 있다.")
-        void checkIsHurdleRouteIsSameTeam() {
-            List<Movable> pieces = List.of(
-                    new Cha(Team.CHO, new Point(5, 4)),
-                    new Byeong(Team.CHO, new Point(2, 4))
-            );
+        @DisplayName("기물을 이동 시킬 수 있다.")
+        void movePiece() {
+            Map<Point, Movable> pieces = new HashMap<>(Map.of(new Point(6, 4), new Byeong(Team.CHO)));
             Board board = new Board(pieces, Team.CHO);
 
-            Point startPoint = new Point(5, 4);
-            List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
+            Point startPoint = new Point(6, 4);
+            Point targetPoint = new Point(5, 4);
+            board.move(startPoint, targetPoint);
 
-            assertThat(board.checkHurdles(startPoint, route)).isTrue();
+            Map<Point, Movable> updatePieces = board.getRunningPieces();
+
+            assertThat(updatePieces.get(targetPoint)).isInstanceOf(Movable.class);
         }
 
         @Test
-        @DisplayName("포 기물을 움직일 때 기물 경로의 마지막 좌표에 포가 있으면 장애물이 있다고 확인할 수 있다.")
-        void checkIsHurdleRouteIsSamePo() {
-            List<Movable> pieces = List.of(
-                    new Po(Team.CHO, new Point(5, 4)),
-                    new Byeong(Team.CHO, new Point(3, 4)),
-                    new Po(Team.CHO, new Point(2, 4))
-            );
+        @DisplayName("이동 하는 위치에 같은 팀의 기물이 있으면 공격할 수 없다.")
+        void notAttackPiece() {
+            Map<Point, Movable> pieces = new HashMap<>(Map.of(
+                new Point(6, 4), new Byeong(Team.CHO),
+                new Point(5, 4), new Byeong(Team.CHO)
+            ));
             Board board = new Board(pieces, Team.CHO);
 
-            Point startPoint = new Point(5, 4);
-            List<Point> route = List.of(new Point(4, 4), new Point(3, 4), new Point(2, 4));
+            Point startPoint = new Point(6, 4);
+            Point targetPoint = new Point(5, 4);
 
-            assertThat(board.checkHurdles(startPoint, route)).isTrue();
+            assertThatThrownBy(() -> board.move(startPoint, targetPoint))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("해당 위치로 이동할 수 없습니다.");
         }
-    }
-
-    @Nested
-    @DisplayName("기물 이동 테스트")
-    class MoveTest {
 
         @Test
-        @DisplayName("기물의 위치를 특정 위치로 바꿀 수 있다.")
-        void updatePoint() {
-            Point beforePoint = new Point(6, 4);
-            Byeong byeong = new Byeong(Team.CHO, beforePoint);
-            List<Movable> pieces = new ArrayList<>(List.of(byeong));
+        @DisplayName("이동 하는 위치에 다른 팀의 기물이 있으면 공격할 수 있다.")
+        void attackPiece() {
+            Map<Point, Movable> pieces = new HashMap<>(Map.of(
+                new Point(6, 4), new Byeong(Team.CHO),
+                new Point(5, 4), new Byeong(Team.HAN)
+            ));
             Board board = new Board(pieces, Team.CHO);
 
-            Point afterPoint = new Point(5, 4);
-            board.move(beforePoint, afterPoint);
+            Point startPoint = new Point(6, 4);
+            Point targetPoint = new Point(5, 4);
+            board.move(startPoint, targetPoint);
+
+            Map<Point, Movable> updatePieces = board.getRunningPieces();
 
             assertAll(() -> {
-                assertThat(board.findByPoint(afterPoint).getPoint()).isEqualTo(afterPoint);
-                assertThatThrownBy(() -> board.findByPoint(beforePoint))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessageContaining("해당 좌표에 기물이 존재하지 않습니다.");
+                assertThat(updatePieces.get(targetPoint)).isInstanceOf(Movable.class);
+                assertThat(updatePieces).hasSize(1);
             });
-        }
-
-        @Test
-        @DisplayName("이동 하는 위치에 기물이 있으면 공격한다.")
-        void attackPiece() {
-            Point beforePoint = new Point(6, 4);
-            Byeong byeong1 = new Byeong(Team.CHO, beforePoint);
-
-            Point afterPoint = new Point(5, 4);
-            Byeong byeong2 = new Byeong(Team.HAN, afterPoint);
-
-            List<Movable> pieces = new ArrayList<>(List.of(byeong1, byeong2));
-            Board board = new Board(pieces, Team.CHO);
-
-            board.move(beforePoint, afterPoint);
-
-            assertThat(board.getRunningPieces()).hasSize(1);
         }
     }
 
@@ -181,62 +156,124 @@ public class BoardTest {
     class PoMoveTest {
 
         @Test
-        @DisplayName("좌로 이동할 수 있다면 true를 반환한다.")
-        void checkLeftMovable() {
-            Point beforePoint = new Point(6, 6);
-            List<Movable> pieces = List.of(
-                    new Byeong(Team.CHO, new Point(6, 4)),
-                    new Byeong(Team.CHO, new Point(6, 2)),
-                    new Po(Team.CHO, beforePoint)
-            );
-            Board board = new Board(new ArrayList<>(pieces), Team.CHO);
-            Point targetPoint = new Point(6, 3);
+        @DisplayName("다른 팀의 기물을 이동 시킬 수 없다.")
+        void notMovePieceOfSameTeam() {
+            Map<Point, Movable> pieces = new HashMap<>(Map.of(new Point(6, 4), new Po(Team.HAN)));
+            Board board = new Board(pieces, Team.CHO);
 
-            assertDoesNotThrow(() -> board.move(beforePoint, targetPoint));
+            Point startPoint = new Point(6, 4);
+            Point targetPoint = new Point(5, 4);
+
+            assertThatThrownBy(() -> board.move(startPoint, targetPoint))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(board.getTurn().getText() + "의 기물만 이동할 수 있습니다.");
         }
 
         @Test
-        @DisplayName("우로 이동할 수 있다면 true를 반환한다.")
-        void checkRightMovable() {
-            Point beforePoint = new Point(6, 2);
-            List<Movable> pieces = List.of(
-                    new Byeong(Team.CHO, new Point(6, 4)),
-                    new Byeong(Team.CHO, new Point(6, 6)),
-                    new Po(Team.CHO, beforePoint)
-            );
-            Board board = new Board(new ArrayList<>(pieces), Team.CHO);
-            Point targetPoint = new Point(6, 5);
+        @DisplayName("기물의 이동 범위를 벗어나면 이동 시킬 수 없다.")
+        void notMovePieceOutOfRange() {
+            Map<Point, Movable> pieces = new HashMap<>(Map.of(new Point(6, 4), new Po(Team.CHO)));
+            Board board = new Board(pieces, Team.CHO);
 
-            assertDoesNotThrow(() -> board.move(beforePoint, targetPoint));
+            Point startPoint = new Point(6, 4);
+            Point targetPoint = new Point(5, 3);
+
+            assertThatThrownBy(() -> board.move(startPoint, targetPoint))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("해당 위치로 이동할 수 없습니다.");
         }
 
         @Test
-        @DisplayName("상으로 이동할 수 있다면 true를 반환한다.")
-        void checkUpMovable() {
-            Point beforePoint = new Point(6, 4);
-            List<Movable> pieces = List.of(
-                    new Byeong(Team.HAN, new Point(3, 4)),
-                    new Po(Team.CHO, beforePoint)
-            );
-            Board board = new Board(new ArrayList<>(pieces), Team.CHO);
-            Point targetPoint = new Point(2, 4);
+        @DisplayName("이동 하는 위치에 같은 팀의 기물이 있으면 공격할 수 없다.")
+        void notAttackPiece() {
+            Map<Point, Movable> pieces = new HashMap<>(Map.of(
+                new Point(6, 4), new Po(Team.CHO),
+                new Point(5, 4), new Byeong(Team.CHO)
+            ));
+            Board board = new Board(pieces, Team.CHO);
 
-            assertDoesNotThrow(() -> board.move(beforePoint, targetPoint));
+            Point startPoint = new Point(6, 4);
+            Point targetPoint = new Point(5, 4);
+
+            assertThatThrownBy(() -> board.move(startPoint, targetPoint))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("해당 위치로 이동할 수 없습니다.");
         }
 
         @Test
-        @DisplayName("하으로 이동할 수 있다면 true를 반환한다.")
-        void checkDownMovable() {
-            Point beforePoint = new Point(0, 7);
-            List<Movable> pieces = List.of(
-                    new Byeong(Team.HAN, new Point(2, 7)),
-                    new Byeong(Team.HAN, new Point(7, 7)),
-                    new Po(Team.CHO, beforePoint)
-            );
-            Board board = new Board(new ArrayList<>(pieces), Team.CHO);
-            Point targetPoint = new Point(5, 7);
+        @DisplayName("포는 포를 제외한 기물이 경로에 하나가 없다면 공격할 수 없다.")
+        void notAttackPieceWithoutHurdle() {
+            Map<Point, Movable> pieces = new HashMap<>(Map.of(
+                new Point(6, 4), new Po(Team.CHO),
+                new Point(5, 4), new Po(Team.HAN),
+                new Point(4, 4), new Byeong(Team.HAN)
+            ));
+            Board board = new Board(pieces, Team.CHO);
 
-            assertDoesNotThrow(() -> board.move(beforePoint, targetPoint));
+            Point startPoint = new Point(6, 4);
+            Point targetPoint = new Point(4, 4);
+
+            assertThatThrownBy(() -> board.move(startPoint, targetPoint))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("포는 포를 제외한 하나의 기물만 필요합니다.");
+        }
+
+        @Test
+        @DisplayName("포는 포를 공격할 수 없다.")
+        void notAttackPieceWithPo() {
+            Map<Point, Movable> pieces = new HashMap<>(Map.of(
+                new Point(6, 4), new Po(Team.CHO),
+                new Point(5, 4), new Byeong(Team.CHO),
+                new Point(4, 4), new Po(Team.HAN)
+            ));
+            Board board = new Board(pieces, Team.CHO);
+
+            Point startPoint = new Point(6, 4);
+            Point targetPoint = new Point(4, 4);
+
+            assertThatThrownBy(() -> board.move(startPoint, targetPoint))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("포는 포를 잡을 수 없습니다.");
+        }
+
+        @Test
+        @DisplayName("기물을 이동 시킬 수 있다.")
+        void movePiece() {
+            Map<Point, Movable> pieces = new HashMap<>(Map.of(
+                new Point(6, 4), new Po(Team.CHO),
+                new Point(5, 4), new Byeong(Team.CHO)
+            ));
+            Board board = new Board(pieces, Team.CHO);
+
+            Point startPoint = new Point(6, 4);
+            Point targetPoint = new Point(4, 4);
+            board.move(startPoint, targetPoint);
+
+            Map<Point, Movable> updatePieces = board.getRunningPieces();
+
+            assertThat(updatePieces.get(targetPoint)).isInstanceOf(Movable.class);
+        }
+
+        @Test
+        @DisplayName("이동 하는 위치에 다른 팀의 기물이 있으면 공격할 수 있다.")
+        void attackPiece() {
+            Map<Point, Movable> pieces = new HashMap<>(Map.of(
+                new Point(6, 4), new Po(Team.CHO),
+                new Point(5, 4), new Byeong(Team.CHO),
+                new Point(4, 4), new Byeong(Team.HAN)
+            ));
+            Board board = new Board(pieces, Team.CHO);
+
+            Point startPoint = new Point(6, 4);
+            Point targetPoint = new Point(4, 4);
+            board.move(startPoint, targetPoint);
+
+            Map<Point, Movable> updatePieces = board.getRunningPieces();
+
+            assertAll(() -> {
+                assertThat(updatePieces.get(targetPoint)).isInstanceOf(Movable.class);
+                assertThat(updatePieces).hasSize(2);
+            });
         }
     }
 }

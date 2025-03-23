@@ -19,81 +19,89 @@ public class SangTest {
         @Test
         @DisplayName("상-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkUpRightMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO);
 
+            Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(2, 6);
 
-            assertThat(sang.isInMovingRange(targetPoint)).isTrue();
+            assertThat(sang.isInMovingRange(startPoint, targetPoint)).isTrue();
         }
 
         @Test
         @DisplayName("우-좌측대각선로 이동할 수 있다면 true를 반환한다.")
         void checkRightLeftMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO);
 
+            Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(3, 7);
 
-            assertThat(sang.isInMovingRange(targetPoint)).isTrue();
+            assertThat(sang.isInMovingRange(startPoint, targetPoint)).isTrue();
         }
 
         @Test
         @DisplayName("우-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkRightRightMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO);
 
+            Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(7, 7);
 
-            assertThat(sang.isInMovingRange(targetPoint)).isTrue();
+            assertThat(sang.isInMovingRange(startPoint, targetPoint)).isTrue();
         }
 
         @Test
         @DisplayName("하-좌측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkDownLeftMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO);
 
+            Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(8, 6);
 
-            assertThat(sang.isInMovingRange(targetPoint)).isTrue();
+            assertThat(sang.isInMovingRange(startPoint, targetPoint)).isTrue();
         }
 
         @Test
         @DisplayName("하-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkDownRightMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO);
 
+            Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(8, 2);
 
-            assertThat(sang.isInMovingRange(targetPoint)).isTrue();
+            assertThat(sang.isInMovingRange(startPoint, targetPoint)).isTrue();
         }
 
         @Test
         @DisplayName("좌-좌측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkLeftLeftMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO);
 
+            Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(7, 1);
 
-            assertThat(sang.isInMovingRange(targetPoint)).isTrue();
+            assertThat(sang.isInMovingRange(startPoint, targetPoint)).isTrue();
         }
 
         @Test
         @DisplayName("좌-우측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkLeftRightMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO);
 
+            Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(3, 1);
 
-            assertThat(sang.isInMovingRange(targetPoint)).isTrue();
+            assertThat(sang.isInMovingRange(startPoint, targetPoint)).isTrue();
         }
 
         @Test
         @DisplayName("상-좌측대각선으로 이동할 수 있다면 true를 반환한다.")
         void checkUpLeftMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO);
 
+            Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(2, 2);
 
-            assertThat(sang.isInMovingRange(targetPoint)).isTrue();
+            assertThat(sang.isInMovingRange(startPoint, targetPoint)).isTrue();
         }
     }
 
@@ -104,120 +112,128 @@ public class SangTest {
         @Test
         @DisplayName("상-우측대각선로 이동 경로를 생성할 수 있다.")
         void checkUpRightRouteMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO);
 
+            Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(2, 6);
 
-            List<Point> route = sang.findRoute(targetPoint);
+            List<Point> route = sang.findRoute(startPoint, targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(4, 4), new Point(3, 5), new Point(2, 6));
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(4, 4), new Point(3, 5));
             });
         }
 
         @Test
         @DisplayName("우-좌측대각선로 이동 경로를 생성할 수 있다.")
         void checkRightLeftRouteMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO);
 
+            Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(3, 7);
 
-            List<Point> route = sang.findRoute(targetPoint);
+            List<Point> route = sang.findRoute(startPoint, targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(5, 5), new Point(4, 6), new Point(3, 7));
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(5, 5), new Point(4, 6));
             });
         }
 
         @Test
         @DisplayName("우-우측대각선로 이동 경로를 생성할 수 있다.")
         void checkRightRightRouteMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO);
 
+            Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(7, 7);
 
-            List<Point> route = sang.findRoute(targetPoint);
+            List<Point> route = sang.findRoute(startPoint, targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(5, 5), new Point(6, 6), new Point(7, 7));
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(5, 5), new Point(6, 6));
             });
         }
 
         @Test
         @DisplayName("하-좌측대각선로 이동 경로를 생성할 수 있다.")
         void checkDownLeftRouteMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO);
 
+            Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(8, 6);
 
-            List<Point> route = sang.findRoute(targetPoint);
+            List<Point> route = sang.findRoute(startPoint, targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(6, 4), new Point(7, 5), new Point(8, 6));
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(6, 4), new Point(7, 5));
             });
         }
 
         @Test
         @DisplayName("하-우측대각선로 이동 경로를 생성할 수 있다.")
         void checkDownRightRouteMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO);
 
+            Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(8, 2);
 
-            List<Point> route = sang.findRoute(targetPoint);
+            List<Point> route = sang.findRoute(startPoint, targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(6, 4), new Point(7, 3), new Point(8, 2));
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(6, 4), new Point(7, 3));
             });
         }
 
         @Test
         @DisplayName("좌-좌측대각선로 이동 경로를 생성할 수 있다.")
         void checkLeftLeftRouteMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO);
 
+            Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(7, 1);
 
-            List<Point> route = sang.findRoute(targetPoint);
+            List<Point> route = sang.findRoute(startPoint, targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(5, 3), new Point(6, 2), new Point(7, 1));
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(5, 3), new Point(6, 2));
             });
         }
 
         @Test
         @DisplayName("좌-우측대각선로 이동 경로를 생성할 수 있다.")
         void checkLeftRightRouteMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO);
 
+            Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(3, 1);
 
-            List<Point> route = sang.findRoute(targetPoint);
+            List<Point> route = sang.findRoute(startPoint, targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(5, 3), new Point(4, 2), new Point(3, 1));
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(5, 3), new Point(4, 2));
             });
         }
 
         @Test
         @DisplayName("상-좌측대각선로 이동 경로를 생성할 수 있다.")
         void checkUpLeftRouteMovable() {
-            Sang sang = new Sang(Team.CHO, new Point(5, 4));
+            Sang sang = new Sang(Team.CHO);
 
+            Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(2, 2);
 
-            List<Point> route = sang.findRoute(targetPoint);
+            List<Point> route = sang.findRoute(startPoint, targetPoint);
 
             assertAll(() -> {
-                assertThat(route).hasSize(3);
-                assertThat(route).containsExactly(new Point(4, 4), new Point(3, 3), new Point(2, 2));
+                assertThat(route).hasSize(2);
+                assertThat(route).containsExactly(new Point(4, 4), new Point(3, 3));
             });
         }
     }

@@ -19,41 +19,45 @@ public class PoTest {
         @Test
         @DisplayName("좌로 이동할 수 있다면 true를 반환한다.")
         void checkLeftMovable() {
-            Po po = new Po(Team.CHO, new Point(6, 6));
+            Po po = new Po(Team.CHO);
 
+            Point startPoint = new Point(6, 6);
             Point targetPoint = new Point(6, 4);
 
-            assertThat(po.isInMovingRange(targetPoint)).isTrue();
+            assertThat(po.isInMovingRange(startPoint, targetPoint)).isTrue();
         }
 
         @Test
         @DisplayName("우로 이동할 수 있다면 true를 반환한다.")
         void checkRightMovable() {
-            Po po = new Po(Team.CHO, new Point(6, 6));
+            Po po = new Po(Team.CHO);
 
+            Point startPoint = new Point(6, 6);
             Point targetPoint = new Point(6, 8);
 
-            assertThat(po.isInMovingRange(targetPoint)).isTrue();
+            assertThat(po.isInMovingRange(startPoint, targetPoint)).isTrue();
         }
 
         @Test
         @DisplayName("상으로 이동할 수 있다면 true를 반환한다.")
         void checkUpMovable() {
-            Po po = new Po(Team.CHO, new Point(6, 6));
+            Po po = new Po(Team.CHO);
 
+            Point startPoint = new Point(6, 6);
             Point targetPoint = new Point(4, 6);
 
-            assertThat(po.isInMovingRange(targetPoint)).isTrue();
+            assertThat(po.isInMovingRange(startPoint, targetPoint)).isTrue();
         }
 
         @Test
         @DisplayName("하으로 이동할 수 있다면 true를 반환한다.")
         void checkDownMovable() {
-            Po po = new Po(Team.CHO, new Point(6, 6));
+            Po po = new Po(Team.CHO);
 
+            Point startPoint = new Point(6, 6);
             Point targetPoint = new Point(8, 6);
 
-            assertThat(po.isInMovingRange(targetPoint)).isTrue();
+            assertThat(po.isInMovingRange(startPoint, targetPoint)).isTrue();
         }
     }
 
@@ -64,11 +68,12 @@ public class PoTest {
         @Test
         @DisplayName("좌로 이동 경로를 생성할 수 있다.")
         void checkLeftRouteMovable() {
-            Po po = new Po(Team.CHO, new Point(6, 6));
+            Po po = new Po(Team.CHO);
 
+            Point startPoint = new Point(6, 6);
             Point targetPoint = new Point(6, 3);
 
-            List<Point> route = po.findRoute(targetPoint);
+            List<Point> route = po.findRoute(startPoint, targetPoint);
 
             assertAll(() -> {
                 assertThat(route).hasSize(2);
@@ -79,11 +84,12 @@ public class PoTest {
         @Test
         @DisplayName("우로 이동 경로를 생성할 수 있다.")
         void checkRightRouteMovable() {
-            Po po = new Po(Team.CHO, new Point(6, 6));
+            Po po = new Po(Team.CHO);
 
+            Point startPoint = new Point(6, 6);
             Point targetPoint = new Point(6, 8);
 
-            List<Point> route = po.findRoute(targetPoint);
+            List<Point> route = po.findRoute(startPoint, targetPoint);
 
             assertAll(() -> {
                 assertThat(route).hasSize(1);
@@ -94,11 +100,12 @@ public class PoTest {
         @Test
         @DisplayName("상로 이동 경로를 생성할 수 있다.")
         void checkUpRouteMovable() {
-            Po po = new Po(Team.CHO, new Point(6, 6));
+            Po po = new Po(Team.CHO);
 
+            Point startPoint = new Point(6, 6);
             Point targetPoint = new Point(2, 6);
 
-            List<Point> route = po.findRoute(targetPoint);
+            List<Point> route = po.findRoute(startPoint, targetPoint);
 
             assertAll(() -> {
                 assertThat(route).hasSize(3);
@@ -110,11 +117,12 @@ public class PoTest {
         @Test
         @DisplayName("하로 이동 경로를 생성할 수 있다.")
         void checkDownRouteMovable() {
-            Po po = new Po(Team.CHO, new Point(6, 6));
+            Po po = new Po(Team.CHO);
 
+            Point startPoint = new Point(6, 6);
             Point targetPoint = new Point(8, 6);
 
-            List<Point> route = po.findRoute(targetPoint);
+            List<Point> route = po.findRoute(startPoint, targetPoint);
 
             assertAll(() -> {
                 assertThat(route).hasSize(1);
