@@ -11,7 +11,7 @@ import janggiGame.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HorseElephantChangeStrategy implements ArrangementStrategy {
+public class ArrangementExceptHorseAndElephant implements ArrangementStrategy {
     @Override
     public Map<Dot, Piece> arrange(Dynasty dynasty) {
         Map<Dot, Piece> result = new HashMap<>();

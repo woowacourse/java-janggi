@@ -7,7 +7,7 @@ import janggiGame.piece.Horse;
 import janggiGame.piece.Piece;
 import java.util.Map;
 
-public class LeftElephantStrategy extends HorseElephantChangeStrategy {
+public class LeftElephantStrategy extends ArrangementExceptHorseAndElephant {
     @Override
     public Map<Dot, Piece> arrange(Dynasty dynasty) {
         Map<Dot, Piece> result = super.arrange(dynasty);
