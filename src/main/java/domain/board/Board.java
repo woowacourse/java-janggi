@@ -5,6 +5,7 @@ import domain.piece.PieceType;
 import domain.piece.Team;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Board {
@@ -17,16 +18,30 @@ public class Board {
         this.pointNodeMapper = new PointNodeMapper(nodeByPoint);
     }
 
-    public boolean isRunning() {
-        return isTwoWangsAlive();
+    public boolean isEnd() {
+        return !isTwoWangsAlive();
     }
 
     private boolean isTwoWangsAlive() {
+        return findTeamsOfWang().containsAll(List.of(Team.CHO, Team.HAN));
+    }
+
+    public Team findWinTeam() {
+        if (!isEnd()) {
+            throw new IllegalStateException("아직 게임이 끝나지 않았습니다.");
+        }
+        Set<Team> foundTeam = findTeamsOfWang();
+        if (foundTeam.contains(Team.CHO)) {
+            return Team.CHO;
+        }
+        return Team.HAN;
+    }
+
+    private Set<Team> findTeamsOfWang() {
         return pieceByPoint.values().stream()
                 .filter(piece -> piece.type() == PieceType.WANG)
                 .map(Piece::team)
-                .collect(Collectors.toSet())
-                .containsAll(List.of(Team.CHO, Team.HAN));
+                .collect(Collectors.toSet());
     }
 
     public boolean canMove(final Point source, final Point destination) {
@@ -52,14 +67,6 @@ public class Board {
             return false;
         }
         return pieceByPoint.containsKey(point);
-    }
-
-    public boolean existsWang(final Point point) {
-        if (!existsPiece(point)) {
-            return false;
-        }
-        Piece piece = getPieceByPoint(point);
-        return piece.type() == PieceType.WANG;
     }
 
     public boolean existsPo(final Point point) {

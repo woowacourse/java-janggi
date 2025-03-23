@@ -24,10 +24,13 @@ public class JanggiGameManager {
         OutputView.printStart();
         Board board = createBoard(new BoardGenerator());
 
-        while (board.isRunning()) {
+        while (!board.isEnd()) {
             OutputView.printBoard(board);
             processTurn(board, turn);
+            turn.changeTurn();
         }
+
+        OutputView.printMatchResult(board.findWinTeam());
     }
 
     private void processTurn(Board board, Turn turn) {
@@ -40,20 +43,13 @@ public class JanggiGameManager {
                 OutputView.printTurn(turn.team());
                 return;
             }
-
             if (!board.canMove(source, destination)) {
                 OutputView.printCannotMove(source, destination);
                 return;
             }
 
-            board.movePiece(source, moveCommand.destination());
+            board.movePiece(source, destination);
             OutputView.printBoard(board);
-
-            if (board.existsWang(moveCommand.destination())) {
-                OutputView.printMatchResult(turn.team());
-                return;
-            }
-            turn.changeTurn();
         });
     }
 
