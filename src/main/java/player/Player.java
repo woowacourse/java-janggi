@@ -9,4 +9,7 @@ public class Player {
         this.nation = nation;
     }
 
+    public boolean isKingDie() {
+        return pieces.isKingDie();
+    }
 }
