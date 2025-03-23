@@ -43,7 +43,7 @@ public enum Column {
     }
 
     public boolean canUp(int increaseAmount) {
-        return this.value + increaseAmount < MAX_VALUE;
+        return this.value + increaseAmount <= MAX_VALUE;
     }
 
     public Column down() {
@@ -59,6 +59,6 @@ public enum Column {
     }
 
     public boolean canDown(int decreaseAmount) {
-        return this.value - Math.abs(decreaseAmount) > MIN_VALUE;
+        return this.value - Math.abs(decreaseAmount) >= MIN_VALUE;
     }
 }
