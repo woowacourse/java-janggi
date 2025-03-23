@@ -2,6 +2,7 @@ package domain.piece.linear_moving_piece;
 
 import static domain.constant.JanggiPieceConstant.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import domain.Pattern;
 import domain.piece.Empty;
@@ -141,5 +142,30 @@ public class 포Test {
         // when & then
         Assertions.assertThatThrownBy(() -> CHO_포.getRoute(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
+    }
+
+    @Test
+    void 포가_아닌_장애물이_1개_존재하지만_도착지에_같은_편의_말이_존재하는_경우_예외를_발생시킨다() {
+        // given
+        JanggiPiece piece = CHO_포;
+        JanggiPiece hurdlePiece = CHO_졸;
+        int hurdleCount = 1;
+        JanggiPiece targetPiece = CHO_졸;
+
+        // when & then
+        assertThatThrownBy(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+                .isInstanceOf(IllegalStateException.class);
+    }
+
+    @Test
+    void 포가_아닌_장애물이_1개_존재하고_도착지에_포가_아닌_상대_편의_말이_존재하는_경우_이동할_수_있다() {
+        // given
+        JanggiPiece piece = CHO_포;
+        JanggiPiece hurdlePiece = CHO_졸;
+        int hurdleCount = 1;
+        JanggiPiece targetPiece = HAN_병;
+
+        // when & then
+        assertDoesNotThrow(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece));
     }
 }

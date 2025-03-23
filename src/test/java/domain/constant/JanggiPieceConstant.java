@@ -26,4 +26,5 @@ public class JanggiPieceConstant {
     public static final JanggiPiece HAN_차 = new 차(JanggiSide.HAN);
     public static final JanggiPiece CHO_포 = new 포(JanggiSide.CHO);
     public static final JanggiPiece HAN_포 = new 포(JanggiSide.HAN);
+    public static final JanggiPiece EMPTY = new Empty();
 }
