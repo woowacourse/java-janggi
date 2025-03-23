@@ -16,14 +16,6 @@ public class Path {
         this.positions.addAll(pathPositions);
     }
 
-    public Path(List<Position> positions) {
-        this.positions.addAll(positions);
-    }
-
-    public void addPosition(Position position) {
-        positions.add(position);
-    }
-
     public Position targetPosition() {
         return positions.getLast();
     }

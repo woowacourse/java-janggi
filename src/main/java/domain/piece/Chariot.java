@@ -4,9 +4,9 @@ import domain.Board;
 import domain.Color;
 import domain.Direction;
 import domain.Position;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Chariot extends Piece {
 
@@ -22,20 +22,19 @@ public class Chariot extends Piece {
     }
 
     private Set<Position> calculateMovablePositionInDirection(final Direction direction, final Position position) {
+        Set<Position> positions = new HashSet<>();
         if (!position.canMove(direction)) {
-            return Set.of();
+            return positions;
         }
         Position nextPosition = position.move(direction);
-        if (board.isSameTeam(this, nextPosition)) {
-            return Set.of();
+        if (!board.anyMatchSameTeam(this, nextPosition)) {
+            positions.add(nextPosition);
         }
         if (board.isExists(nextPosition)) {
-            return Set.of(nextPosition);
+            return positions;
         }
-        return Stream.concat(
-                Stream.of(nextPosition),
-                calculateMovablePositionInDirection(direction, nextPosition).stream()
-        ).collect(Collectors.toSet());
+        positions.addAll(calculateMovablePositionInDirection(direction, nextPosition));
+        return positions;
     }
 
     @Override

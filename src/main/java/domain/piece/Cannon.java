@@ -6,6 +6,7 @@ import domain.Direction;
 import domain.Position;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Cannon extends Piece {
 
@@ -15,14 +16,10 @@ public class Cannon extends Piece {
 
     @Override
     protected Set<Position> getMovablePositions() {
-        Set<Position> positions = new HashSet<>();
-        Direction.getStraightDirection().forEach(direction -> goOneSide(
-                position.move(direction),
-                direction,
-                false,
-                positions)
-        );
-        return positions;
+        return Direction.getStraightDirection()
+                .stream()
+                .flatMap(direction -> computePositions(position, direction, 0).stream())
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -30,25 +27,26 @@ public class Cannon extends Piece {
         return "포";
     }
 
-    private void goOneSide(Position position, Direction direction, boolean hasHuddle, Set<Position> positions) {
-        if (exitCondition(position, direction, hasHuddle)) {
-            return;
+    private Set<Position> computePositions(Position position, Direction direction, int meetCount) {
+        Set<Position> positions = new HashSet<>();
+        if (!position.canMove(direction) || meetCount > 1) {
+            return positions;
         }
-        if (!hasHuddle && position.canMove(direction)) {
-            goOneSide(position.move(direction), direction, board.isExists(position), positions);
-            return;
+        Position nextPosition = position.move(direction);
+        if (board.isCannonAt(nextPosition)) {
+            return positions;
         }
-        if (!board.isExists(position) && position.canMove(direction)) {
-            goOneSide(position.move(direction), direction, true, positions);
+        if (meetCount == 1 && !board.anyMatchSameTeam(this, nextPosition)) {
+            positions.add(nextPosition);
         }
-        positions.add(position);
+        positions.addAll(computePositions(nextPosition, direction, computeMeetCount(meetCount, nextPosition)));
+        return positions;
     }
 
-    private boolean exitCondition(Position position, Direction direction, boolean hasHuddle) {
-        return (
-                board.isCannonAt(position) ||
-                (board.isSameTeam(this, position) && hasHuddle)
-        );
+    private int computeMeetCount(int currentMeetCount, Position nextPosition) {
+        if (board.isExists(nextPosition)) {
+            return currentMeetCount + 1;
+        }
+        return currentMeetCount;
     }
-
 }

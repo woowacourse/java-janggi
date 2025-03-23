@@ -18,7 +18,7 @@ public class Horse extends Piece {
     @Override
     protected Set<Position> getMovablePositions() {
         return generatePath().stream()
-                .filter(path -> !board.isSameTeam(this, position.move(path)))
+                .filter(path -> !board.anyMatchSameTeam(this, position.move(path)))
                 .filter(path -> !containsCornerPiece(path.cornerPositions()))
                 .map(Path::targetPosition)
                 .collect(Collectors.toSet());

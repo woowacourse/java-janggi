@@ -15,10 +15,6 @@ public record Position(int row, int column) {
         }
     }
 
-    public boolean canMove(final Path path) {
-        return !isInValidPosition(path.targetPosition().row, path.targetPosition().column);
-    }
-
     public boolean canMove(final Direction direction) {
         return !isInValidPosition(row + direction.deltaRow(), column + direction.deltaColumn());
     }

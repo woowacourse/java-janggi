@@ -35,7 +35,7 @@ public class Solider extends Piece {
     }
 
     private boolean isMovable(final Position position) {
-        return !board.isExists(position) || !board.isSameTeam(this, position);
+        return !board.isExists(position) || !board.anyMatchSameTeam(this, position);
     }
 
 }

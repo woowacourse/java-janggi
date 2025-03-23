@@ -33,7 +33,7 @@ public abstract class Piece {
         if (!getMovablePositions().contains(position)) {
             throw new IllegalArgumentException();
         }
-        if (!board.isSameTeam(this, position)) {
+        if (!board.anyMatchSameTeam(this, position)) {
             board.remove(position);
         }
         this.position = position;

@@ -55,7 +55,7 @@ class BoardTest {
         board.putPiece(piece);
         board.putPiece(new Chariot(new Position(2, 1), color, board));
 
-        assertThat(board.isSameTeam(piece, new Position(2, 1))).isEqualTo(expected);
+        assertThat(board.anyMatchSameTeam(piece, new Position(2, 1))).isEqualTo(expected);
     }
 
     @Test
