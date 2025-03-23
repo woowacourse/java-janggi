@@ -17,6 +17,18 @@ public class SaTest {
     class CheckMovableTest {
 
         @Test
+        @DisplayName("북서쪽으로 이동할 수 있다면 true를 반환한다.")
+        void checkUpLeftMovable() {
+            Sa sa = new Sa(Team.CHO, new Point(6, 6));
+            Point targetPoint = new Point(5, 5);
+            Board board = new Board(List.of(
+                    sa
+            ));
+
+            assertThat(sa.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+        }
+
+        @Test
         @DisplayName("좌로 이동할 수 있다면 true를 반환한다.")
         void checkLeftMovable() {
             Sa sa = new Sa(Team.CHO, new Point(6, 6));

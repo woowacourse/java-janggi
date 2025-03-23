@@ -42,10 +42,10 @@ public class Gung implements Movable {
     @Override
     public boolean isInMovingRange(Point targetPoint, Hurdles hurdles) {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
-        if (!distance.isSameWith(1)) {
+        if (!distance.isSameWith(1) && !distance.isSameWith(Math.sqrt(2))) {
             return false;
         }
-        Direction direction = Direction.cardinalFrom(this.point, targetPoint);
+        Direction direction = Direction.cardinalOrDiagonalFrom(this.point, targetPoint);
 
         //장애물 체크
         Route route = Route.repeat(direction, this.point, targetPoint);

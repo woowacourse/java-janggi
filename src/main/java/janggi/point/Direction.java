@@ -43,6 +43,43 @@ public enum Direction {
         throw new IllegalArgumentException("이동이 불가능한 방향입니다.");
     }
 
+    public static Direction cardinalOrDiagonalFrom(Point startPoint, Point targetPoint) {
+        if (startPoint.isSameRow(targetPoint)) {
+            if (startPoint.isColumnBiggerThan(targetPoint)) {
+                return WEST;
+            }
+            if (startPoint.isColumnLessThan(targetPoint)) {
+                return EAST;
+            }
+
+        }
+        if (startPoint.isSameColumn(targetPoint)) {
+            if (startPoint.isRowBiggerThan(targetPoint)) {
+                return NORTH;
+            }
+            if (startPoint.isRowLessThan(targetPoint)) {
+                return SOUTH;
+            }
+        }
+        if (startPoint.isRowBiggerThan(targetPoint)) {
+            if (startPoint.isColumnBiggerThan(targetPoint)) {
+                return NORTH_WEST;
+            }
+            if (startPoint.isColumnLessThan(targetPoint)) {
+                return NORTH_EAST;
+            }
+        }
+        if (startPoint.isRowLessThan(targetPoint)) {
+            if (startPoint.isColumnBiggerThan(targetPoint)) {
+                return SOUTH_WEST;
+            }
+            if (startPoint.isColumnLessThan(targetPoint)) {
+                return SOUTH_EAST;
+            }
+        }
+        throw new IllegalArgumentException("이동이 불가능한 방향입니다.");
+    }
+
     public static List<Direction> oneCardinalAndDiagonalFrom(Point startPoint, Point targetPoint, int gap, int diagonalCount) {
         int rowGap = startPoint.row() - targetPoint.row();
         int columnGap = startPoint.column() - targetPoint.column();

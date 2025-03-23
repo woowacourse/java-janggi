@@ -28,7 +28,17 @@ public class GungTest {
     @Nested
     @DisplayName("이동 가능 확인 테스트")
     class CheckMovableTest {
-        //TODO 궁과 사는 대각선 이동도 가능함
+        @Test
+        @DisplayName("북서쪽으로 이동할 수 있다면 true를 반환한다.")
+        void checkUpLeftMovable() {
+            Gung gung = new Gung(Team.CHO, new Point(6, 6));
+            Point targetPoint = new Point(5, 5);
+            Board board = new Board(List.of(
+                    gung
+            ));
+
+            assertThat(gung.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
+        }
 
         @Test
         @DisplayName("좌로 이동할 수 있다면 true를 반환한다.")
