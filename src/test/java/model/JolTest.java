@@ -14,7 +14,7 @@ public class JolTest {
 
     @Nested
     @DisplayName("Jol의 이동 가능한 경로를 구한다.")
-    class FindDirectionOfGeneral {
+    class FindDirectionOfJol {
 
         @Test
         @DisplayName("Up 인 경우")

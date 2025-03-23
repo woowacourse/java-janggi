@@ -14,7 +14,7 @@ public class GuardTest {
 
     @Nested
     @DisplayName("Guard의 이동 가능한 경로를 구한다.")
-    class FindDirectionOfGeneral {
+    class FindDirectionOfGuard {
 
         @Test
         @DisplayName("Up 인 경우")

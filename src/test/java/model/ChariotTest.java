@@ -14,7 +14,7 @@ public class ChariotTest {
 
     @Nested
     @DisplayName("Chariot의 이동 가능한 경로를 구한다.")
-    class FindDirectionOfGeneral {
+    class FindDirectionOfChariot {
 
         @Test
         @DisplayName("Up 인 경우")

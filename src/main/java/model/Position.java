@@ -28,7 +28,7 @@ public class Position {
         return Collections.emptyList();
     }
 
-    public List<Position> findDownDirection( Position arrival) {
+    public List<Position> findDownDirection(Position arrival) {
         if (this.canMoveDown() && this.moveDown().equals(arrival)) {
             return List.of(this.moveDown());
         }
@@ -101,71 +101,207 @@ public class Position {
         return Collections.emptyList();
     }
 
-    private Position moveUp() {
+    public List<Position> findUpAndUpRight(Position arrival) {
+        List<Position> temporaryDirection = new ArrayList<>();
+        Position movedPosition = this.copyOf();
+        if (movedPosition.canMoveUp()) {
+            movedPosition = movedPosition.moveUp();
+            temporaryDirection.add(movedPosition);
+        }
+        if (movedPosition.canMoveUpRight()) {
+            Position nextMovedPosition = movedPosition.moveUpRight();
+            if (arrival.equals(nextMovedPosition)) {
+                temporaryDirection.add(nextMovedPosition);
+                return temporaryDirection;
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Position> findUpAndUpLeft(Position arrival) {
+        List<Position> temporaryDirection = new ArrayList<>();
+        Position movedPosition = this.copyOf();
+        if (movedPosition.canMoveUp()) {
+            movedPosition = movedPosition.moveUp();
+            temporaryDirection.add(movedPosition);
+        }
+        if (movedPosition.canMoveUpLeft()) {
+            Position nextMovedPosition = movedPosition.moveUpLeft();
+            if (arrival.equals(nextMovedPosition)) {
+                temporaryDirection.add(nextMovedPosition);
+                return temporaryDirection;
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Position> findDownAndDownRight(Position arrival) {
+        List<Position> temporaryDirection = new ArrayList<>();
+        Position movedPosition = this.copyOf();
+        if (movedPosition.canMoveDown()) {
+            movedPosition = movedPosition.moveDown();
+            temporaryDirection.add(movedPosition);
+        }
+        if (movedPosition.canMoveDownRight()) {
+            Position nextMovedPosition = movedPosition.moveDownRight();
+            if (arrival.equals(nextMovedPosition)) {
+                temporaryDirection.add(nextMovedPosition);
+                return temporaryDirection;
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Position> findDownAndDownLeft(Position arrival) {
+        List<Position> temporaryDirection = new ArrayList<>();
+        Position movedPosition = this.copyOf();
+        if (movedPosition.canMoveDown()) {
+            movedPosition = movedPosition.moveDown();
+            temporaryDirection.add(movedPosition);
+        }
+        if (movedPosition.canMoveDownLeft()) {
+            Position nextMovedPosition = movedPosition.moveDownLeft();
+            if (arrival.equals(nextMovedPosition)) {
+                temporaryDirection.add(nextMovedPosition);
+                return temporaryDirection;
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Position> findLeftAndUpLeft(Position arrival) {
+        List<Position> temporaryDirection = new ArrayList<>();
+        Position movedPosition = this.copyOf();
+        if (movedPosition.canMoveLeft()) {
+            movedPosition = movedPosition.moveLeft();
+            temporaryDirection.add(movedPosition);
+        }
+        if (movedPosition.canMoveUpLeft()) {
+            Position nextMovedPosition = movedPosition.moveUpLeft();
+            if (arrival.equals(nextMovedPosition)) {
+                temporaryDirection.add(nextMovedPosition);
+                return temporaryDirection;
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Position> findLeftAndDownLeft(Position arrival) {
+        List<Position> temporaryDirection = new ArrayList<>();
+        Position movedPosition = this.copyOf();
+        if (movedPosition.canMoveLeft()) {
+            movedPosition = movedPosition.moveLeft();
+            temporaryDirection.add(movedPosition);
+        }
+        if (movedPosition.canMoveDownLeft()) {
+            Position nextMovedPosition = movedPosition.moveDownLeft();
+            if (arrival.equals(nextMovedPosition)) {
+                temporaryDirection.add(nextMovedPosition);
+                return temporaryDirection;
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Position> findRightAndUpRight(Position arrival) {
+        List<Position> temporaryDirection = new ArrayList<>();
+        Position movedPosition = this.copyOf();
+        if (movedPosition.canMoveRight()) {
+            movedPosition = movedPosition.moveRight();
+            temporaryDirection.add(movedPosition);
+        }
+        if (movedPosition.canMoveUpRight()) {
+            Position nextMovedPosition = movedPosition.moveUpRight();
+            if (arrival.equals(nextMovedPosition)) {
+                temporaryDirection.add(nextMovedPosition);
+                return temporaryDirection;
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Position> findRightAndDownRight(Position arrival) {
+        List<Position> temporaryDirection = new ArrayList<>();
+        Position movedPosition = this.copyOf();
+        if (movedPosition.canMoveRight()) {
+            movedPosition = movedPosition.moveRight();
+            temporaryDirection.add(movedPosition);
+        }
+        if (movedPosition.canMoveDownRight()) {
+            Position nextMovedPosition = movedPosition.moveDownRight();
+            if (arrival.equals(nextMovedPosition)) {
+                temporaryDirection.add(nextMovedPosition);
+                return temporaryDirection;
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    public Position moveUp() {
         return new Position(column.down(), row);
     }
 
-    private boolean canMoveUp() {
+    public boolean canMoveUp() {
         return column.canDown();
     }
 
-    private Position moveDown() {
+    public Position moveDown() {
         return new Position(column.up(), row);
     }
 
-    private boolean canMoveDown() {
+    public boolean canMoveDown() {
         return column.canUp();
     }
 
-    private Position moveLeft() {
+    public Position moveLeft() {
         return new Position(column, row.down());
     }
 
-    private boolean canMoveLeft() {
+    public boolean canMoveLeft() {
         return row.canDown();
     }
 
-    private Position moveRight() {
+    public Position moveRight() {
         return new Position(column, row.up());
     }
 
-    private boolean canMoveRight() {
+    public boolean canMoveRight() {
         return row.canUp();
     }
 
-    private Position moveUpRight() {
+    public Position moveUpRight() {
         return new Position(column.down(), row.up());
     }
 
-    private boolean canMoveUpRight() {
+    public boolean canMoveUpRight() {
         return column.canDown() && row.canUp();
     }
 
-    private Position moveUpLeft() {
+    public Position moveUpLeft() {
         return new Position(column.down(), row.down());
     }
 
-    private boolean canMoveUpLeft() {
+    public boolean canMoveUpLeft() {
         return column.canDown() && row.canDown();
     }
 
-    private Position moveDownRight() {
+    public Position moveDownRight() {
         return new Position(column.up(), row.up());
     }
 
-    private boolean canMoveDownRight() {
+    public boolean canMoveDownRight() {
         return column.canUp() && row.canUp();
     }
 
-    private Position moveDownLeft() {
+    public Position moveDownLeft() {
         return new Position(column.up(), row.down());
     }
 
-    private boolean canDownLeft() {
+    public boolean canMoveDownLeft() {
         return column.canUp() && row.canDown();
     }
 
-    private Position copyOf() {
+    public Position copyOf() {
         return new Position(this.column, this.row);
     }
 

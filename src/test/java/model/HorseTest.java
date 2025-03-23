@@ -1,46 +1,118 @@
 package model;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class HorseTest {
 
-    @DisplayName("이동하는 모든 경로를 가져온다")
-    @Test
-    void calculate_all_direction() {
-        Horse horse = new Horse(new Position(5, 5), Team.RED);
-        List<List<Position>> moveResults = horse.calculateAllDirection();
-        List<List<Position>> expected = List.of(
-            List.of(new Position(4, 5), new Position(3, 4)),
-            List.of(new Position(4, 5), new Position(3, 6)),
-            List.of(new Position(5, 4), new Position(4, 3)),
-            List.of(new Position(5, 4), new Position(6, 3)),
-            List.of(new Position(5, 6), new Position(4, 7)),
-            List.of(new Position(5, 6), new Position(6, 7)),
-            List.of(new Position(6, 5), new Position(7, 4)),
-            List.of(new Position(6, 5), new Position(7, 6))
-        );
-        assertThat(moveResults).containsExactlyInAnyOrderElementsOf(expected);
+    private final Horse horse = new Horse(Team.RED);
+    private final Position departure = new Position(Column.THREE, Row.THREE);
+
+    @Nested
+    @DisplayName("horse의 이동 가능한 경로를 구한다.")
+    class FindDirectionOfHorse {
+
+        @Test
+        @DisplayName("위 + 우측 상단 대각인 경우")
+        void up_and_up_right() {
+            Position arrival = new Position(Column.ONE, Row.FOUR);
+            List<Position> findDirection = horse.calculateAllDirection(departure, arrival);
+            List<Position> expectedPosition = List.of(
+                new Position(Column.TWO, Row.THREE),
+                new Position(Column.ONE, Row.FOUR));
+            assertThat(findDirection).containsExactlyInAnyOrderElementsOf(expectedPosition);
+        }
+
+        @Test
+        @DisplayName("위 + 좌측 상단 대각인 경우 ")
+        void up_and_up_left() {
+            Position arrival = new Position(Column.ONE, Row.TWO);
+            List<Position> findDirection = horse.calculateAllDirection(departure, arrival);
+            List<Position> expectedPosition = List.of(
+                new Position(Column.TWO, Row.THREE),
+                new Position(Column.ONE, Row.TWO));
+            assertThat(findDirection).containsExactlyInAnyOrderElementsOf(expectedPosition);
+        }
+
+        @Test
+        @DisplayName("아래 + 우측 하단 대각인 경우")
+        void down_and_down_right() {
+            Position arrival = new Position(Column.FIVE, Row.FOUR);
+            List<Position> findDirection = horse.calculateAllDirection(departure, arrival);
+            List<Position> expectedPosition = List.of(
+                new Position(Column.FOUR, Row.THREE),
+                new Position(Column.FIVE, Row.FOUR));
+            assertThat(findDirection).containsExactlyInAnyOrderElementsOf(expectedPosition);
+        }
+
+        @Test
+        @DisplayName("아래 + 좌측 하단 대각인 경우")
+        void down_and_down_left() {
+            Position arrival = new Position(Column.FIVE, Row.TWO);
+            List<Position> findDirection = horse.calculateAllDirection(departure, arrival);
+            List<Position> expectedPosition = List.of(
+                new Position(Column.FOUR, Row.THREE),
+                new Position(Column.FIVE, Row.TWO));
+            assertThat(findDirection).containsExactlyInAnyOrderElementsOf(expectedPosition);
+        }
+
+        @Test
+        @DisplayName("좌측 + 좌측 상단 대각인 경우")
+        void left_and_up_left() {
+            Position arrival = new Position(Column.TWO, Row.ONE);
+            List<Position> findDirection = horse.calculateAllDirection(departure, arrival);
+            List<Position> expectedPosition = List.of(
+                new Position(Column.THREE, Row.TWO),
+                new Position(Column.TWO, Row.ONE));
+            assertThat(findDirection).containsExactlyInAnyOrderElementsOf(expectedPosition);
+        }
+
+        @Test
+        @DisplayName("좌측 + 좌측 하단 대각인 경우")
+        void left_and_down_left() {
+            Position arrival = new Position(Column.FOUR, Row.ONE);
+            List<Position> findDirection = horse.calculateAllDirection(departure, arrival);
+            List<Position> expectedPosition = List.of(
+                new Position(Column.THREE, Row.TWO),
+                new Position(Column.FOUR, Row.ONE));
+            assertThat(findDirection).containsExactlyInAnyOrderElementsOf(expectedPosition);
+        }
+
+        @Test
+        @DisplayName("우측 + 우측 상단 대각인 경우")
+        void right_and_up_right() {
+            Position arrival = new Position(Column.FOUR, Row.FIVE);
+            List<Position> findDirection = horse.calculateAllDirection(departure, arrival);
+            List<Position> expectedPosition = List.of(
+                new Position(Column.THREE, Row.FOUR),
+                new Position(Column.FOUR, Row.FIVE));
+            assertThat(findDirection).containsExactlyInAnyOrderElementsOf(expectedPosition);
+        }
+
+        @Test
+        @DisplayName("우측 + 우측 하단 대각인 경우")
+        void right_and_down_right() {
+            Position arrival = new Position(Column.TWO, Row.FIVE);
+            List<Position> findDirection = horse.calculateAllDirection(departure, arrival);
+            List<Position> expectedPosition = List.of(
+                new Position(Column.THREE, Row.FOUR),
+                new Position(Column.TWO, Row.FIVE));
+            assertThat(findDirection).containsExactlyInAnyOrderElementsOf(expectedPosition);
+        }
     }
 
-    @DisplayName("0~9행, 0~8열을 벗어나면 빈 리스트를 반환해야 한다")
+    @Disabled
+    @DisplayName("horse가 갈 수 없는 경로라면, 예외를 던져야 한다")
     @Test
-    void invalid_direction_calculation_then_empty_list() {
-        Horse horse = new Horse(new Position(0, 2), Team.RED);
-        List<List<Position>> moveResults = horse.calculateAllDirection();
-        List<List<Position>> expected = List.of(
-            List.of(),
-            List.of(),
-            List.of(),
-            List.of(new Position(0, 1), new Position(1, 0)),
-            List.of(),
-            List.of(new Position(0, 3), new Position(1, 4)),
-            List.of(new Position(1, 2), new Position(2, 1)),
-            List.of(new Position(1, 2), new Position(2, 3))
-        );
-        assertThat(moveResults).containsExactlyInAnyOrderElementsOf(expected);
+    void cannot_go_position_then_throw_exception() {
+        Position arrival = new Position(Column.THREE, Row.FIVE);
+        assertThatThrownBy(() -> horse.calculateAllDirection(departure, arrival))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 }

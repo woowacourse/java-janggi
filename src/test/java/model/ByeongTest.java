@@ -15,7 +15,7 @@ public class ByeongTest {
 
     @Nested
     @DisplayName("Byeong의 이동 가능한 경로를 구한다.")
-    class FindDirectionOfGeneral {
+    class FindDirectionOfByeong {
 
         @Test
         @DisplayName("Up - Byeong은 Up이 없기에, 위로 움직인다면 예외가 발생해야 한다")
