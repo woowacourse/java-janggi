@@ -25,7 +25,7 @@ public class TableOptionTest {
     void tableOptionTest(Team team, TableOption tableOption, List<Piece> expectedPieces) {
         //given
         //when
-        List<Piece> pieces = team.locatePiece(team, tableOption);
+        List<Piece> pieces = team.locatePiece(tableOption);
         //then
         for (Piece piece : pieces) {
             assertThat(expectedPieces).contains(piece);

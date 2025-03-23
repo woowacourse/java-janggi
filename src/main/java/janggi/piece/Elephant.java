@@ -19,11 +19,11 @@ public class Elephant implements Piece {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Elephant elephant = (Elephant) o;
-        return Objects.equals(position, elephant.position);
+        return team == elephant.team && Objects.equals(position, elephant.position);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(position);
+        return Objects.hash(team, position);
     }
 }

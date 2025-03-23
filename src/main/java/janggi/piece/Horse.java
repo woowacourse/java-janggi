@@ -19,11 +19,11 @@ public class Horse implements Piece {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Horse horse = (Horse) o;
-        return Objects.equals(position, horse.position);
+        return team == horse.team && Objects.equals(position, horse.position);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(position);
+        return Objects.hash(team, position);
     }
 }
