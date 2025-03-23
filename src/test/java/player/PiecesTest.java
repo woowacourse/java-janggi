@@ -47,7 +47,7 @@ class PiecesTest {
     }
 
     @Test
-    @DisplayName("아군 판별 테스트")
+    @DisplayName("시작 지점 아군 판별 테스트")
     void isAllyPieceAtStart() {
         //given
         Jol jol = new Jol(new Position(5, 5));
@@ -57,9 +57,25 @@ class PiecesTest {
         //when - then
         assertThatThrownBy(() -> pieces.isAllyPieceAtStart(new Position(5, 7)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 해당 위치에 움직일 수 있는 기물이 위치하지 않습니다.");
+                .hasMessage("[ERROR] 시작 위치에 아군 기물이 존재하지 않습니다.");
         ;
         assertDoesNotThrow(() -> pieces.isAllyPieceAtStart(new Position(5, 5)));
+    }
+
+    @Test
+    @DisplayName("도착 지점 아군 판별 테스트")
+    void isAllyPieceAtDestination() {
+        //given
+        Jol jol = new Jol(new Position(5, 5));
+        Janggun janggun = new Janggun(new Position(6, 4));
+        Pieces pieces = new Pieces(List.of(jol, janggun));
+
+        //when - then
+        assertThatThrownBy(() -> pieces.isAllyPieceAtDestination(new Position(5, 7)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 도착지에 아군 기물이 존재합니다.");
+        ;
+        assertDoesNotThrow(() -> pieces.isAllyPieceAtDestination(new Position(5, 5)));
     }
 
 }
