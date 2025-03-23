@@ -1,6 +1,6 @@
 package janggi.board;
 
-import janggi.Team;
+import janggi.piece.Team;
 import janggi.fixture.BoardFixture;
 import janggi.piece.Chariot;
 import janggi.piece.General;

@@ -1,6 +1,6 @@
 package janggi.fixture;
 
-import janggi.Team;
+import janggi.piece.Team;
 import janggi.board.Board;
 import janggi.board.Position;
 import janggi.piece.Canon;

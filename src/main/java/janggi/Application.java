@@ -11,6 +11,7 @@ import janggi.piece.Guard;
 import janggi.piece.Horse;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
+import janggi.piece.Team;
 import janggi.view.InputParser;
 import janggi.view.InputView;
 import janggi.view.OutputView;

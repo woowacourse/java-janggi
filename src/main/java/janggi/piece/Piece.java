@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.Team;
 import janggi.board.Position;
 
 import java.util.Map;

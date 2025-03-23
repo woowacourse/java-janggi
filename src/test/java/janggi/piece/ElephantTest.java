@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.Team;
 import janggi.board.Board;
 import janggi.board.Position;
 import org.junit.jupiter.api.Test;

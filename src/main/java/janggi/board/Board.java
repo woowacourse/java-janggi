@@ -1,6 +1,6 @@
 package janggi.board;
 
-import janggi.Team;
+import janggi.piece.Team;
 import janggi.piece.Piece;
 
 import java.util.Collections;
