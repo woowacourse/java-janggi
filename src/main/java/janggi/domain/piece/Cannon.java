@@ -89,7 +89,6 @@ public class Cannon extends Piece {
             final int newX = position.x() + (direction.dx() * step);
             final int newY = position.y() + (direction.dy() * step);
 
-            // 보드 범위 내인지 확인
             if (isWithinBoardBounds(newX, newY)) {
                 positions.add(new Position(newX, newY));
             } else {
@@ -111,8 +110,7 @@ public class Cannon extends Piece {
             return position.x() - MIN_X.getSize();
         } else if (direction.dy() > 0) {
             return MAX_Y.getSize() - position.y();
-        } else {
-            return position.y() - MIN_Y.getSize();
         }
+        return position.y() - MIN_Y.getSize();
     }
 }

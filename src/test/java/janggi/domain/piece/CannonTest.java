@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 class CannonTest {
 
-    @DisplayName("차 기물이 올바른 루트를 계산하는지 확인한다.")
+    @DisplayName("포 기물이 올바른 루트를 계산하는지 확인한다.")
     @Test
     void calculateRoutesTest() {
 

@@ -32,7 +32,7 @@ public class Chariot extends Piece {
 
     private Set<Route> generateRoutesInDirection(final Direction direction) {
         final Set<Route> directionalRoutes = new HashSet<>();
-        final int maxSteps = getMaxSteps(direction, position);
+        final int maxSteps = calculateMaxSteps(direction);
 
         for (int steps = 1; steps <= maxSteps; steps++) {
             final List<Position> positions = new ArrayList<>(generatePositions(direction, steps, position));
@@ -53,14 +53,14 @@ public class Chariot extends Piece {
         return rawPositions;
     }
 
-    private int getMaxSteps(final Direction direction, final Position position) {
-        if (direction.dx() > MIN_X.getSize()) {
+    private int calculateMaxSteps(final Direction direction) {
+        if (direction.dx() > 0) {
             return MAX_X.getSize() - position.x();
-        } else if (direction.dx() < MIN_X.getSize()) {
-            return position.x();
-        } else if (direction.dy() > MIN_Y.getSize()) {
+        } else if (direction.dx() < 0) {
+            return position.x() - MIN_X.getSize();
+        } else if (direction.dy() > 0) {
             return MAX_Y.getSize() - position.y();
         }
-        return position.y();
+        return position.y() - MIN_Y.getSize();
     }
 }

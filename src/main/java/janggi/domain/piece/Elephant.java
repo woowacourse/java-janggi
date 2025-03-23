@@ -64,11 +64,4 @@ public class Elephant extends Piece {
         }
         return Optional.of(new Route(positions));
     }
-
-    @Override
-    public Set<Route> getPossibleRoutes(final List<Piece> otherPieces) {
-        return calculateRoutes().stream()
-                .filter(route -> super.isValidRoute(route, otherPieces))
-                .collect(Collectors.toSet());
-    }
 }
