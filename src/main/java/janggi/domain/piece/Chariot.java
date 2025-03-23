@@ -1,8 +1,9 @@
 package janggi.domain.piece;
 
+import janggi.domain.Dynasty;
 import janggi.domain.board.Direction;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.point.Point;
+import janggi.domain.board.Position;
 import java.util.Set;
 
 public class Chariot implements Piece {
@@ -12,25 +13,24 @@ public class Chariot implements Piece {
     );
 
     @Override
-    public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
+    public boolean isMovable(JanggiBoard janggiBoard, Dynasty dynasty, Position start, Position end) {
         return DIRECTIONS.stream()
                 .anyMatch(path -> canMoveEndPointByDirection(janggiBoard, start, end, path));
     }
 
-    private boolean canMoveEndPointByDirection(JanggiBoard janggiBoard, Point start, Point end,
+    private boolean canMoveEndPointByDirection(JanggiBoard janggiBoard, Position start, Position end,
                                                Direction direction) {
-        Point currPoint = start;
-        while (canMoveUntilEndPoint(end, currPoint)) {
+        Position currPoint = start;
+        while (!currPoint.equals(end)) {
+            if (!currPoint.canMove(direction)) {
+                break;
+            }
             currPoint = currPoint.move(direction);
             if (janggiBoard.isExistPiece(currPoint)) {
                 break;
             }
         }
-        return currPoint.isSamePosition(end);
-    }
-
-    private boolean canMoveUntilEndPoint(Point end, Point currPoint) {
-        return !currPoint.isSamePosition(end) && currPoint.isNotOutOfBoundary();
+        return currPoint.equals(end);
     }
 
     @Override

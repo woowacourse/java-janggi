@@ -1,8 +1,9 @@
 package janggi.domain.piece;
 
+import janggi.domain.Dynasty;
 import janggi.domain.board.Direction;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.point.Point;
+import janggi.domain.board.Position;
 import java.util.Optional;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ public class Cannon implements Piece {
     );
 
     @Override
-    public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
+    public boolean isMovable(JanggiBoard janggiBoard, Dynasty dynasty, Position start, Position end) {
         if (isExistCannon(janggiBoard, end)) {
             return false;
         }
@@ -21,10 +22,13 @@ public class Cannon implements Piece {
                 .anyMatch(path -> canMoveEndPoint(janggiBoard, start, end, path));
     }
 
-    private boolean canMoveEndPoint(JanggiBoard janggiBoard, Point start, Point end, Direction direction) {
+    private boolean canMoveEndPoint(JanggiBoard janggiBoard, Position start, Position end, Direction direction) {
         boolean isJump = false;
-        Point current = start;
-        while (canMoveUntilEndPoint(end, current)) {
+        Position current = start;
+        while (!current.equals(end)) {
+            if (current.canMove(direction)) {
+                break;
+            }
             current = current.move(direction);
             if (isExistCannon(janggiBoard, current)) {
                 return false;
@@ -36,14 +40,10 @@ public class Cannon implements Piece {
                 isJump = true;
             }
         }
-        return isJump && current.isSamePosition(end);
+        return isJump && current.equals(end);
     }
 
-    private boolean canMoveUntilEndPoint(Point end, Point currPoint) {
-        return !currPoint.isSamePosition(end) && currPoint.isNotOutOfBoundary();
-    }
-
-    private boolean isExistCannon(JanggiBoard janggiBoard, Point point) {
+    private boolean isExistCannon(JanggiBoard janggiBoard, Position point) {
         Optional<BoardPiece> pointPiece = janggiBoard.findPointPiece(point);
         if (pointPiece.isPresent()) {
             BoardPiece piece = pointPiece.get();
@@ -52,7 +52,7 @@ public class Cannon implements Piece {
         return false;
     }
 
-    private boolean isAlreadyJumpedAndExistPiece(JanggiBoard janggiBoard, boolean isJump, Point current) {
+    private boolean isAlreadyJumpedAndExistPiece(JanggiBoard janggiBoard, boolean isJump, Position current) {
         return isJump && janggiBoard.isExistPiece(current);
     }
 

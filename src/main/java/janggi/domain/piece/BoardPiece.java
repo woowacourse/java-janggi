@@ -2,42 +2,35 @@ package janggi.domain.piece;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.point.Point;
+import janggi.domain.board.Position;
 import java.util.Objects;
 
 public class BoardPiece {
 
     private final Piece piece;
     private final Dynasty dynasty;
-    private Point currentPoint;
 
-    public BoardPiece(Point currentPoint, Piece piece, Dynasty dynasty) {
-        this.currentPoint = currentPoint;
+    public BoardPiece(Piece piece, Dynasty dynasty) {
         this.piece = piece;
         this.dynasty = dynasty;
     }
 
-    public void move(JanggiBoard janggiBoard, Point endPoint) {
-        validateExistSameDynastyPiece(janggiBoard, endPoint);
-        if (!piece.isMovable(janggiBoard, currentPoint, endPoint)) {
+    public void move(JanggiBoard janggiBoard, Position start, Position end) {
+        validateExistSameDynastyPiece(janggiBoard, end);
+        if (!piece.isMovable(janggiBoard, dynasty, start, end)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
-        currentPoint = currentPoint.copy(endPoint);
     }
 
     public boolean isSameDynasty(Dynasty dynasty) {
         return this.dynasty == dynasty;
     }
 
-    public boolean isSamePosition(Point point) {
-        return this.currentPoint.isSamePosition(point);
-    }
-
     public boolean isEqualPiece(Piece piece) {
         return this.piece.equals(piece);
     }
 
-    private void validateExistSameDynastyPiece(JanggiBoard janggiBoard, Point endPoint) {
+    private void validateExistSameDynastyPiece(JanggiBoard janggiBoard, Position endPoint) {
         janggiBoard.findPointPiece(endPoint)
                 .ifPresent((pointPiece -> {
                     if (pointPiece.isSameDynasty(dynasty)) {
@@ -55,13 +48,13 @@ public class BoardPiece {
             return false;
         }
         BoardPiece that = (BoardPiece) o;
-        return Objects.equals(currentPoint, that.currentPoint) && Objects.equals(piece, that.piece)
+        return Objects.equals(piece, that.piece)
                 && dynasty == that.dynasty;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(currentPoint, piece, dynasty);
+        return Objects.hash(piece, dynasty);
     }
 
     public Piece getPiece() {
@@ -70,9 +63,5 @@ public class BoardPiece {
 
     public Dynasty getDynasty() {
         return dynasty;
-    }
-
-    public Point getCurrentPoint() {
-        return currentPoint;
     }
 }

@@ -1,9 +1,8 @@
 package janggi.view;
 
 import janggi.domain.Dynasty;
-import janggi.domain.Player;
-import janggi.domain.board.point.DefaultPoint;
-import janggi.domain.board.point.Point;
+import janggi.domain.player.Player;
+import janggi.domain.board.Position;
 import janggi.domain.piece.BoardPiece;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
@@ -13,10 +12,8 @@ import janggi.domain.piece.Guard;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 public class JanggiBoardView {
@@ -46,15 +43,6 @@ public class JanggiBoardView {
             "ㅇ", 8,
             "ㅈ", 9
     );
-
-    private static Map<Point, BoardPiece> createBoardPiecesMap(Set<BoardPiece> boardPieces) {
-        Map<Point, BoardPiece> pieceMap = new HashMap<>();
-        for (BoardPiece boardPiece : boardPieces) {
-            Point currentPoint = boardPiece.getCurrentPoint();
-            pieceMap.put(new DefaultPoint(currentPoint.getX(), currentPoint.getY()), boardPiece);
-        }
-        return pieceMap;
-    }
 
     public void printGameStartMessage() {
         System.out.println("""
@@ -92,12 +80,10 @@ public class JanggiBoardView {
         System.out.println(convertChuColor(player.getNickname()) + "의 차례입니다. 이동할 위치를 입력해주세요. 예) move ㄱ2 ㄴ3");
     }
 
-    public void printBoard(Set<BoardPiece> boardPieces) {
-        Map<Point, BoardPiece> boardPieceMap = createBoardPiecesMap(boardPieces);
-
+    public void printBoard(Map<Position, BoardPiece> boardPieceMap) {
         for (int x = 1; x <= 10; x++) {
             for (int y = 1; y <= 9; y++) {
-                DefaultPoint point = new DefaultPoint(x, y);
+                Position point = new Position(x, y);
                 if (boardPieceMap.containsKey(point)) {
                     BoardPiece boardPiece = boardPieceMap.get(point);
                     printPointPiece(boardPiece);

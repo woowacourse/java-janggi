@@ -1,78 +1,75 @@
 package janggi.domain.board;
 
 import janggi.domain.Dynasty;
-import janggi.domain.board.point.ChuPoint;
-import janggi.domain.board.point.DefaultPoint;
-import janggi.domain.board.point.HanPoint;
-import janggi.domain.board.point.Point;
 import janggi.domain.piece.BoardPiece;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
 import janggi.domain.piece.Soldier;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 public class JanggiBoard {
 
-    private static final Set<BoardPiece> PIECE_INITIAL_POSITIONS = new HashSet<>() {
+    private static final Map<Position, BoardPiece> PIECE_INITIAL_POSITIONS = new HashMap<>() {
         {
-            add(new BoardPiece(new HanPoint(1, 1), new Chariot(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(1, 4), new Guard(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(1, 6), new Guard(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(1, 9), new Chariot(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(2, 5), new General(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(3, 2), new Cannon(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(3, 8), new Cannon(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(4, 1), new Soldier(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(4, 3), new Soldier(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(4, 5), new Soldier(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(4, 7), new Soldier(), Dynasty.HAN));
-            add(new BoardPiece(new HanPoint(4, 9), new Soldier(), Dynasty.HAN));
+            put(new Position(1, 1), new BoardPiece(new Chariot(), Dynasty.HAN));
+            put(new Position(1, 4), new BoardPiece(new Guard(), Dynasty.HAN));
+            put(new Position(1, 6), new BoardPiece(new Guard(), Dynasty.HAN));
+            put(new Position(1, 9), new BoardPiece(new Chariot(), Dynasty.HAN));
+            put(new Position(2, 5), new BoardPiece(new General(), Dynasty.HAN));
+            put(new Position(3, 2), new BoardPiece(new Cannon(), Dynasty.HAN));
+            put(new Position(3, 8), new BoardPiece(new Cannon(), Dynasty.HAN));
+            put(new Position(4, 1), new BoardPiece(new Soldier(), Dynasty.HAN));
+            put(new Position(4, 3), new BoardPiece(new Soldier(), Dynasty.HAN));
+            put(new Position(4, 5), new BoardPiece(new Soldier(), Dynasty.HAN));
+            put(new Position(4, 7), new BoardPiece(new Soldier(), Dynasty.HAN));
+            put(new Position(4, 9), new BoardPiece(new Soldier(), Dynasty.HAN));
 
-            add(new BoardPiece(new ChuPoint(10, 1), new Chariot(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(10, 4), new Guard(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(10, 6), new Guard(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(10, 9), new Chariot(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(9, 5), new General(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(8, 2), new Cannon(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(8, 8), new Cannon(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(7, 1), new Soldier(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(7, 3), new Soldier(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(7, 5), new Soldier(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(7, 7), new Soldier(), Dynasty.CHU));
-            add(new BoardPiece(new ChuPoint(7, 9), new Soldier(), Dynasty.CHU));
+            put(new Position(10, 1), new BoardPiece(new Chariot(), Dynasty.CHU));
+            put(new Position(10, 4), new BoardPiece(new Guard(), Dynasty.CHU));
+            put(new Position(10, 6), new BoardPiece(new Guard(), Dynasty.CHU));
+            put(new Position(10, 9), new BoardPiece(new Chariot(), Dynasty.CHU));
+            put(new Position(9, 5), new BoardPiece(new General(), Dynasty.CHU));
+            put(new Position(8, 2), new BoardPiece(new Cannon(), Dynasty.CHU));
+            put(new Position(8, 8), new BoardPiece(new Cannon(), Dynasty.CHU));
+            put(new Position(7, 1), new BoardPiece(new Soldier(), Dynasty.CHU));
+            put(new Position(7, 3), new BoardPiece(new Soldier(), Dynasty.CHU));
+            put(new Position(7, 5), new BoardPiece(new Soldier(), Dynasty.CHU));
+            put(new Position(7, 7), new BoardPiece(new Soldier(), Dynasty.CHU));
+            put(new Position(7, 9), new BoardPiece(new Soldier(), Dynasty.CHU));
         }
     };
 
-    private final Set<BoardPiece> boardPieces;
+    private final Map<Position, BoardPiece> boardPieces;
 
-    public JanggiBoard(Set<BoardPiece> boardPieces) {
+    public JanggiBoard(Map<Position, BoardPiece> boardPieces) {
         this.boardPieces = boardPieces;
     }
 
     public static JanggiBoard of(BoardSetUp hanBoardSetUp, BoardSetUp chuBoardSetUp) {
-        Set<BoardPiece> boardPieces = new HashSet<>(PIECE_INITIAL_POSITIONS);
-        boardPieces.addAll(hanBoardSetUp.getPiecePositions());
-        boardPieces.addAll(chuBoardSetUp.getPiecePositions());
-        return new JanggiBoard(boardPieces);
+        HashMap<Position, BoardPiece> pieceMap = new HashMap<>(PIECE_INITIAL_POSITIONS);
+        pieceMap.putAll(hanBoardSetUp.getDynastySetUp(Dynasty.HAN, hanBoardSetUp));
+        pieceMap.putAll(chuBoardSetUp.getDynastySetUp(Dynasty.CHU, chuBoardSetUp));
+        return new JanggiBoard(pieceMap);
     }
 
-    public boolean isExistPiece(Point point) {
-        return findPointPiece(point).isPresent();
+    public boolean isExistPiece(Position position) {
+        return boardPieces.containsKey(position);
     }
 
-    public Optional<BoardPiece> findPointPiece(Point point) {
-        return boardPieces.stream()
-                .filter(pointPiece -> pointPiece.isSamePosition(point))
+    public Optional<BoardPiece> findPointPiece(Position target) {
+        return boardPieces.keySet().stream()
+                .filter(position -> position.equals(target))
+                .map(boardPieces::get)
                 .findFirst();
     }
 
-    public void move(Dynasty dynasty, DefaultPoint startPoint, DefaultPoint endPoint) {
-        Optional<BoardPiece> startBoardPiece = findPointPiece(startPoint);
+    public void move(Dynasty dynasty, Position start, Position end) {
+        Optional<BoardPiece> startBoardPiece = findPointPiece(start);
         if (startBoardPiece.isEmpty()) {
             throw new IllegalArgumentException("시작 위치에 기물이 존재하지 않습니다.");
         }
@@ -80,7 +77,9 @@ public class JanggiBoard {
         if (!boardPiece.isSameDynasty(dynasty)) {
             throw new IllegalArgumentException("자신의 나라 기물이 아닙니다.");
         }
-        boardPiece.move(this, endPoint);
+        boardPiece.move(this, start, end);
+        boardPieces.remove(start);
+        boardPieces.put(end, boardPiece);
     }
 
     @Override
@@ -100,7 +99,7 @@ public class JanggiBoard {
         return Objects.hashCode(boardPieces);
     }
 
-    public Set<BoardPiece> getPointPieces() {
+    public Map<Position, BoardPiece> getBoardPieces() {
         return boardPieces;
     }
 }

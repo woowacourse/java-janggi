@@ -1,10 +1,8 @@
 package janggi.view;
 
 import janggi.domain.Dynasty;
-import janggi.domain.Player;
+import janggi.domain.player.Player;
 import janggi.domain.board.BoardSetUp;
-import janggi.domain.board.ChuBoardSetUp;
-import janggi.domain.board.HanBoardSetUp;
 import java.util.Scanner;
 
 public class InitializeView {
@@ -24,28 +22,13 @@ public class InitializeView {
         System.out.println("\n" + player.getNickname() + "의 상차림을 선택해 주세요.");
         printBoardSetUpGuide();
         String menu = readLine();
-        if (player.getDynasty() == Dynasty.HAN) {
-            if (menu.equals("1")) {
-                return HanBoardSetUp.RIGHT_ELEPHANT;
-            }
-            if (menu.equals("2")) {
-                return HanBoardSetUp.LEFT_ELEPHANT;
-            }
-            if (menu.equals("3")) {
-                return HanBoardSetUp.OUTER_ELEPHANT;
-            }
-            return HanBoardSetUp.INNER_ELEPHANT;
-        }
-        if (menu.equals("1")) {
-            return ChuBoardSetUp.RIGHT_ELEPHANT;
-        }
-        if (menu.equals("2")) {
-            return ChuBoardSetUp.LEFT_ELEPHANT;
-        }
-        if (menu.equals("3")) {
-            return ChuBoardSetUp.OUTER_ELEPHANT;
-        }
-        return ChuBoardSetUp.INNER_ELEPHANT;
+        return switch (menu) {
+            case "1" -> BoardSetUp.RIGHT_ELEPHANT;
+            case "2" -> BoardSetUp.LEFT_ELEPHANT;
+            case "3" -> BoardSetUp.OUTER_ELEPHANT;
+            case "4" -> BoardSetUp.INNER_ELEPHANT;
+            default -> throw new IllegalArgumentException("잘못된 입력입니다.");
+        };
     }
 
     private void printBoardSetUpGuide() {

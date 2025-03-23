@@ -1,8 +1,9 @@
 package janggi.domain.piece;
 
+import janggi.domain.Dynasty;
 import janggi.domain.board.Direction;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.point.Point;
+import janggi.domain.board.Position;
 import java.util.List;
 import java.util.Set;
 
@@ -23,20 +24,23 @@ public class Horse implements Piece {
     );
 
     @Override
-    public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
+    public boolean isMovable(JanggiBoard janggiBoard, Dynasty dynasty, Position start, Position end) {
         return PATHS.stream()
                 .anyMatch(path -> canMoveEndPointByPath(janggiBoard, start, end, path));
     }
 
-    private boolean canMoveEndPointByPath(JanggiBoard janggiBoard, Point start, Point end, List<Direction> path) {
-        Point currPoint = start;
+    private boolean canMoveEndPointByPath(JanggiBoard janggiBoard, Position start, Position end, List<Direction> path) {
+        Position currPoint = start;
         for (Direction direction : path) {
+            if (!currPoint.canMove(direction)) {
+                break;
+            }
             currPoint = currPoint.move(direction);
             if (janggiBoard.isExistPiece(currPoint)) {
                 break;
             }
         }
-        return currPoint.isSamePosition(end);
+        return currPoint.equals(end);
     }
 
     @Override
