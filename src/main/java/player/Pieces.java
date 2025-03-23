@@ -14,7 +14,7 @@ public class Pieces {
 
     public void removePiece(Position destination) {
         pieces.stream()
-                .filter(piece -> piece.getBoardPosition().equals(destination))
+                .filter(piece -> piece.isSamePosition(destination))
                 .findFirst()
                 .ifPresent(pieces::remove);
     }
