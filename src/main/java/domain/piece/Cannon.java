@@ -3,6 +3,7 @@ package domain.piece;
 import domain.Position;
 import domain.Team;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Cannon extends Piece {
@@ -13,45 +14,30 @@ public class Cannon extends Piece {
 
     @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
+        validateStraightMove(startPosition, targetPosition);
+        List<Move> moves = decideMove(startPosition, targetPosition);
+        return convertToPath(moves, startPosition);
+    }
 
-        List<Position> path = new ArrayList<>();
-        Position newPosition = startPosition;
-
-
-
-
-        if (startPosition.compareRow(targetPosition) != 0 && startPosition.compareColumn(targetPosition) == 0) {
-            newPosition = calculateNewPostion(startPosition.compareRow(targetPosition), newPosition, path, Move.BACK,
-                    Move.FRONT);
-        }
-        if (startPosition.compareRow(targetPosition) == 0 && startPosition.compareColumn(targetPosition) != 0) {
-            calculateNewPostion(startPosition.compareColumn(targetPosition), newPosition, path, Move.RIGHT,
-                    Move.LEFT);
-        }
+    private void validateStraightMove(Position startPosition, Position targetPosition) {
         if (startPosition.compareRow(targetPosition) != 0 && startPosition.compareColumn(targetPosition) != 0) {
             throw new IllegalArgumentException("이 위치로는 움직일 수 없습니다.");
         }
-
-        return path;
     }
 
-    private Position calculateNewPostion(int startPosition, Position newPosition,
-                                         List<Position> path, Move backOrLeft,
-                                         Move frontOrRight) {
-        int count = startPosition;
-        if (count < 0) {
-            for (int i = 0; i < Math.abs(count) - 1; i++) {
-                newPosition = newPosition.movePosition(backOrLeft);
-                path.add(newPosition);
-            }
+    private List<Move> decideMove(Position startPosition, Position targetPosition) {
+        int rowDiff = startPosition.compareRow(targetPosition);
+        int columnDiff = startPosition.compareColumn(targetPosition);
+        if (rowDiff > 0) {
+            return new ArrayList<>(Collections.nCopies(rowDiff, Move.FRONT));
         }
-        if (count > 0) {
-            for (int i = 0; i < count - 1; i++) {
-                newPosition = newPosition.movePosition(frontOrRight);
-                path.add(newPosition);
-            }
+        if (rowDiff < 0) {
+            return new ArrayList<>(Collections.nCopies(Math.abs(rowDiff), Move.BACK));
         }
-        return newPosition;
+        if (columnDiff < 0) {
+            return new ArrayList<>(Collections.nCopies(Math.abs(columnDiff), Move.RIGHT));
+        }
+        return new ArrayList<>(Collections.nCopies(columnDiff, Move.LEFT));
     }
 
     @Override
