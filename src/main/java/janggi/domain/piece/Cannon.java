@@ -15,7 +15,7 @@ public class Cannon extends Piece {
     private static final Movement MOVEMENT = new Movement(List.of(0, 1));
 
     public Cannon(final Position position, final Team team) {
-        super(position, team, PieceType.Cannon, new MoveRule(new StraightMoveStrategy(), new CannonBlockStrategy()));
+        super(position, team, PieceType.CANNON, new MoveRule(new StraightMoveStrategy(), new CannonBlockStrategy()));
     }
 
     public static List<Cannon> Default(Team team) {

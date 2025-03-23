@@ -14,7 +14,7 @@ public class Chariot extends Piece {
     private static final Movement MOVEMENT = new Movement(List.of(0, 1));
 
     public Chariot(final Position position, final Team team) {
-        super(position, team, PieceType.Chariot, new MoveRule(new StraightMoveStrategy(), new BasicBlockStrategy()));
+        super(position, team, PieceType.CHARIOT, new MoveRule(new StraightMoveStrategy(), new BasicBlockStrategy()));
     }
 
     public static List<Chariot> Default(Team team) {

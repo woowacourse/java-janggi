@@ -14,7 +14,7 @@ public class Elephant extends Piece {
     private static final Movement MOVEMENT = new Movement(List.of(2, 3));
 
     public Elephant(final Position position, final Team team) {
-        super(position, team, PieceType.Elephant, new MoveRule(new CurveMoveStrategy(), new BasicBlockStrategy()));
+        super(position, team, PieceType.ELEPHANT, new MoveRule(new CurveMoveStrategy(), new BasicBlockStrategy()));
     }
 
     public static List<Elephant> Default(Team team) {

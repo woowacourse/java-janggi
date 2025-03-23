@@ -14,7 +14,7 @@ public class Guard extends Piece {
     private static final Movement MOVEMENT = new Movement(List.of(0, 1));
 
     public Guard(final Position position, final Team team) {
-        super(position, team, PieceType.Guard, new MoveRule(new OneStepMoveStrategy(), new BasicBlockStrategy()));
+        super(position, team, PieceType.GUARD, new MoveRule(new OneStepMoveStrategy(), new BasicBlockStrategy()));
     }
 
     public static List<Guard> Default(Team team) {

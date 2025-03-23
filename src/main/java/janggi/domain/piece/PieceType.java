@@ -4,13 +4,13 @@ import janggi.domain.Team;
 import java.util.Arrays;
 
 public enum PieceType {
-    General("한", "초"),
-    Chariot("차", "차"),
-    Elephant("상", "상"),
-    Guard("사", "사"),
-    Horse("마", "마"),
-    Soldier("병", "졸"),
-    Cannon("포", "포"),
+    GENERAL("한", "초"),
+    CHARIOT("차", "차"),
+    ELEPHANT("상", "상"),
+    GUARD("사", "사"),
+    HORSE("마", "마"),
+    SOLDIER("병", "졸"),
+    CANNON("포", "포"),
     ;
 
     private final String redName;

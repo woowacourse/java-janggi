@@ -14,7 +14,7 @@ public class Soldier extends Piece {
     private static final Movement MOVEMENT = new Movement(List.of(0, 1));
 
     public Soldier(final Position position, final Team team) {
-        super(position, team, PieceType.Soldier, new MoveRule(new OneStepMoveStrategy(), new BasicBlockStrategy()));
+        super(position, team, PieceType.SOLDIER, new MoveRule(new OneStepMoveStrategy(), new BasicBlockStrategy()));
     }
 
     public static List<Soldier> Default(Team team) {

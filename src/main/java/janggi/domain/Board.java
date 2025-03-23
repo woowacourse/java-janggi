@@ -55,7 +55,7 @@ public class Board {
 
     public GameStatus checkGeneralDied() {
         List<Piece> general = positionToPiece.keySet().stream()
-                .filter(position -> positionToPiece.get(position).isSameType(PieceType.General))
+                .filter(position -> positionToPiece.get(position).isSameType(PieceType.GENERAL))
                 .map(positionToPiece::get)
                 .toList();
         long red = findGeneral(general, Team.RED);
@@ -71,7 +71,7 @@ public class Board {
 
     public GameStatus checkRemainOnlyGeneral() {
         long countWithoutGeneral = positionToPiece.keySet().stream()
-                .filter(position -> !positionToPiece.get(position).isSameType(PieceType.General))
+                .filter(position -> !positionToPiece.get(position).isSameType(PieceType.GENERAL))
                 .count();
         if (countWithoutGeneral == 0) {
             return GameStatus.DRAW;

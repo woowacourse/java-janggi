@@ -14,7 +14,7 @@ public class Horse extends Piece {
     private static final Movement MOVEMENT = new Movement(List.of(1, 2));
 
     public Horse(final Position position, final Team team) {
-        super(position, team, PieceType.Horse, new MoveRule(new CurveMoveStrategy(), new BasicBlockStrategy()));
+        super(position, team, PieceType.HORSE, new MoveRule(new CurveMoveStrategy(), new BasicBlockStrategy()));
     }
 
     public static List<Horse> Default(Team team) {
