@@ -80,6 +80,6 @@ class EmptySpaceTest {
 
         // then
         assertThat(pieceSymbol)
-            .isSameAs(PieceSymbol.EMPTY_SPACE);
+                .isSameAs(PieceSymbol.EMPTY_SPACE);
     }
 }

@@ -86,6 +86,6 @@ class BoardGeneratorTest {
 
         // then
         assertThat(count)
-            .isSameAs(32);
+                .isSameAs(32);
     }
 }

@@ -11,22 +11,6 @@ import org.junit.jupiter.api.Test;
 
 class PieceTest {
 
-    static class TestPiece extends Piece {
-
-        public TestPiece(Camp camp, Board board) {
-            super(camp, board);
-        }
-
-        @Override
-        public void validateMove(Point fromPoint, Point toPoint) {
-        }
-
-        @Override
-        public PieceSymbol getPieceSymbol() {
-            return PieceSymbol.GENERAL;
-        }
-    }
-    
     @DisplayName("기물은 같은 진영의 기물을 잡으려고 하는 경우 예외가 발생한다.")
     @Test
     void shouldThrowException_WhenCatchSameCamp() {
@@ -63,5 +47,21 @@ class PieceTest {
         assertThatCode(() -> testPiece.validateSelect(Camp.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("다른 진영의 기물을 선택할 수 없습니다.");
+    }
+
+    static class TestPiece extends Piece {
+
+        public TestPiece(Camp camp, Board board) {
+            super(camp, board);
+        }
+
+        @Override
+        public void validateMove(Point fromPoint, Point toPoint) {
+        }
+
+        @Override
+        public PieceSymbol getPieceSymbol() {
+            return PieceSymbol.GENERAL;
+        }
     }
 }
