@@ -48,34 +48,34 @@ class PiecesTest {
 
     @Test
     @DisplayName("시작 지점 아군 판별 테스트")
-    void isAllyPieceAtStart() {
+    void validateAllyPieceAtStart() {
         //given
         Jol jol = new Jol(new Position(5, 5));
         Janggun janggun = new Janggun(new Position(6, 4));
         Pieces pieces = new Pieces(List.of(jol, janggun));
 
         //when - then
-        assertThatThrownBy(() -> pieces.isAllyPieceAtStart(new Position(5, 7)))
+        assertThatThrownBy(() -> pieces.validateAllyPieceAtStart(new Position(5, 7)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 시작 위치에 아군 기물이 존재하지 않습니다.");
         ;
-        assertDoesNotThrow(() -> pieces.isAllyPieceAtStart(new Position(5, 5)));
+        assertDoesNotThrow(() -> pieces.validateAllyPieceAtStart(new Position(5, 5)));
     }
 
     @Test
     @DisplayName("도착 지점 아군 판별 테스트")
-    void isAllyPieceAtDestination() {
+    void validateAllyPieceAtDestination() {
         //given
         Jol jol = new Jol(new Position(5, 5));
         Janggun janggun = new Janggun(new Position(6, 4));
         Pieces pieces = new Pieces(List.of(jol, janggun));
 
         //when - then
-        assertThatThrownBy(() -> pieces.isAllyPieceAtDestination(new Position(5, 7)))
+        assertThatThrownBy(() -> pieces.validateAllyPieceAtDestination(new Position(5, 7)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 도착지에 아군 기물이 존재합니다.");
         ;
-        assertDoesNotThrow(() -> pieces.isAllyPieceAtDestination(new Position(5, 5)));
+        assertDoesNotThrow(() -> pieces.validateAllyPieceAtDestination(new Position(5, 5)));
     }
 
 }

@@ -28,14 +28,14 @@ public class Pieces {
                 .noneMatch(Piece::isKing);
     }
 
-    public void isAllyPieceAtStart(Position presentPosition) {
+    public void validateAllyPieceAtStart(Position presentPosition) {
         pieces.stream()
                 .filter(piece -> piece.isSamePosition(presentPosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 시작 위치에 아군 기물이 존재하지 않습니다."));
     }
 
-    public void isAllyPieceAtDestination(Position destination) {
+    public void validateAllyPieceAtDestination(Position destination) {
         pieces.stream()
                 .filter(piece -> piece.isSamePosition(destination))
                 .findFirst()
