@@ -10,7 +10,6 @@ import janggi.view.OutputView;
 import janggi.view.UserContinueResponse;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Supplier;
 
 public class JanggiController {
 
@@ -30,18 +29,21 @@ public class JanggiController {
         while (true) {
             Team currentTurn = board.getTurn();
             outputView.printTurn(currentTurn);
-            UserContinueResponse userContinueResponse = retryUntilSuccess(inputView::continueGame);
+            UserContinueResponse userContinueResponse = UserExceptionHandler.retryUntilSuccess(inputView::continueGame);
 
             if (userContinueResponse == UserContinueResponse.QUIT) {
                 break;
             }
-
-            Piece selectedPiece = retryUntilSuccess(() -> selectPiece(board));
-
+            Piece selectedPiece = UserExceptionHandler.retryUntilSuccess(() -> selectPiece(board));
             Set<Route> possibleRoutes = board.findPossibleRoutes(selectedPiece);
-            outputView.printPossibleRoutes(possibleRoutes);
 
-            retryUntilSuccess(() -> movePiece(board, selectedPiece, possibleRoutes));
+            if (possibleRoutes.isEmpty()) {
+                outputView.printCannotMove();
+            }
+            if (!possibleRoutes.isEmpty()) {
+                outputView.printPossibleRoutes(possibleRoutes);
+                UserExceptionHandler.retryUntilSuccess(() -> movePiece(board, selectedPiece, possibleRoutes));
+            }
 
             outputView.printBoard(pieces);
             board.changeTurn();
@@ -56,26 +58,5 @@ public class JanggiController {
     private void movePiece(Board board, Piece selectedPiece, Set<Route> possibleRoutes) {
         Position destination = inputView.inputDestination();
         board.movePiece(destination, selectedPiece, possibleRoutes);
-    }
-
-    private <T> T retryUntilSuccess(Supplier<T> supplier) {
-        while (true) {
-            try {
-                return supplier.get();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
-    private void retryUntilSuccess(Runnable action) {
-        while (true) {
-            try {
-                action.run();
-                return;
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
     }
 }
