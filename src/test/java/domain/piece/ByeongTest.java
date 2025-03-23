@@ -31,7 +31,7 @@ class ByeongTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(byeongPoint, destinationPoint);
+        final boolean actual = byeong.canMove(byeongPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -50,7 +50,7 @@ class ByeongTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(byeongPoint, destinationPoint);
+        final boolean actual = byeong.canMove(byeongPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -69,7 +69,7 @@ class ByeongTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(byeongPoint, destinationPoint);
+        final boolean actual = byeong.canMove(byeongPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -88,7 +88,7 @@ class ByeongTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(byeongPoint, destinationPoint);
+        final boolean actual = byeong.canMove(byeongPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -107,7 +107,7 @@ class ByeongTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(byeongPoint, destinationPoint);
+        final boolean actual = byeong.canMove(byeongPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -126,7 +126,7 @@ class ByeongTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(byeongPoint, destinationPoint);
+        final boolean actual = byeong.canMove(byeongPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -145,7 +145,7 @@ class ByeongTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(byeongPoint, destinationPoint);
+        final boolean actual = byeong.canMove(byeongPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -164,7 +164,7 @@ class ByeongTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(byeongPoint, destinationPoint);
+        final boolean actual = byeong.canMove(byeongPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -184,7 +184,7 @@ class ByeongTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(byeongPoint, destinationPoint);
+        final boolean actual = byeong.canMove(byeongPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -203,7 +203,7 @@ class ByeongTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(byeongPoint, destinationPoint);
+        final boolean actual = byeong.canMove(byeongPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -224,7 +224,7 @@ class ByeongTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(byeongPoint, destinationPoint);
+        final boolean actual = byeong.canMove(byeongPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();

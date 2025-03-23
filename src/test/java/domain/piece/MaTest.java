@@ -33,7 +33,7 @@ class MaTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(maPoint, destinationPoint);
+        final boolean actual = ma.canMove(maPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -53,7 +53,7 @@ class MaTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(maPoint, destinationPoint);
+        final boolean actual = ma.canMove(maPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -72,7 +72,7 @@ class MaTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(maPoint, destinationPoint);
+        final boolean actual = ma.canMove(maPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -92,7 +92,7 @@ class MaTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(maPoint, destinationPoint);
+        final boolean actual = ma.canMove(maPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();

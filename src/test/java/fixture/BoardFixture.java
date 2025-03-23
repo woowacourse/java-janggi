@@ -12,13 +12,13 @@ public class BoardFixture {
 
     public static Board createEmptyBoard() {
         BoardGenerator boardGenerator = new BoardGenerator();
-        Map<Point, Node> nodeByPoint = boardGenerator.initializeNodesAndEdges();
+        Map<Point, Node> nodeByPoint = boardGenerator.createDefaultNodesAndEdges();
         return new Board(new HashMap<>(), nodeByPoint);
     }
 
     public static Board createTestBoard(Map<Point, Piece> pieceByPoint) {
         BoardGenerator boardGenerator = new BoardGenerator();
-        Map<Point, Node> nodeByPoint = boardGenerator.initializeNodesAndEdges();
+        Map<Point, Node> nodeByPoint = boardGenerator.createDefaultNodesAndEdges();
         return new Board(pieceByPoint, nodeByPoint);
     }
 }

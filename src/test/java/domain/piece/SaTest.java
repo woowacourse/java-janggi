@@ -32,7 +32,7 @@ class SaTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(saPoint, destinationPoint);
+        final boolean actual = sa.canMove(saPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -51,7 +51,7 @@ class SaTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(saPoint, destinationPoint);
+        final boolean actual = sa.canMove(saPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -71,7 +71,7 @@ class SaTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(saPoint, destinationPoint);
+        final boolean actual = sa.canMove(saPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();

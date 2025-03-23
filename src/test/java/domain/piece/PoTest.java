@@ -33,7 +33,7 @@ class PoTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(poPoint, destinationPoint);
+        final boolean actual = po.canMove(poPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -54,7 +54,7 @@ class PoTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(poPoint, destinationPoint);
+        final boolean actual = po.canMove(poPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -76,7 +76,7 @@ class PoTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(poPoint, destinationPoint);
+        final boolean actual = po.canMove(poPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -98,7 +98,7 @@ class PoTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(poPoint, destinationPoint);
+        final boolean actual = po.canMove(poPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -122,7 +122,7 @@ class PoTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(poPoint, destinationPoint);
+        final boolean actual = po.canMove(poPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -143,7 +143,7 @@ class PoTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(poPoint, destinationPoint);
+        final boolean actual = po.canMove(poPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -165,7 +165,7 @@ class PoTest {
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
-        final boolean actual = board.canMove(poPoint, destinationPoint);
+        final boolean actual = po.canMove(poPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();

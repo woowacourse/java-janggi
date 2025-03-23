@@ -32,7 +32,7 @@ class WangTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(wangPoint, destinationPoint);
+        final boolean actual = wang.canMove(wangPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -51,7 +51,7 @@ class WangTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(wangPoint, destinationPoint);
+        final boolean actual = wang.canMove(wangPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -71,7 +71,7 @@ class WangTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(wangPoint, destinationPoint);
+        final boolean actual = wang.canMove(wangPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();

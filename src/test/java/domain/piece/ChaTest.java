@@ -32,7 +32,7 @@ class ChaTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(chaPoint, destinationPoint);
+        final boolean actual = cha.canMove(chaPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -52,7 +52,7 @@ class ChaTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(chaPoint, destinationPoint);
+        final boolean actual = cha.canMove(chaPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -71,7 +71,7 @@ class ChaTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(chaPoint, destinationPoint);
+        final boolean actual = cha.canMove(chaPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -91,7 +91,7 @@ class ChaTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(chaPoint, destinationPoint);
+        final boolean actual = cha.canMove(chaPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -111,7 +111,7 @@ class ChaTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(chaPoint, destinationPoint);
+        final boolean actual = cha.canMove(chaPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -130,7 +130,7 @@ class ChaTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(chaPoint, destinationPoint);
+        final boolean actual = cha.canMove(chaPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -150,7 +150,7 @@ class ChaTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(chaPoint, destinationPoint);
+        final boolean actual = cha.canMove(chaPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -170,7 +170,7 @@ class ChaTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(chaPoint, destinationPoint);
+        final boolean actual = cha.canMove(chaPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -189,7 +189,7 @@ class ChaTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(chaPoint, destinationPoint);
+        final boolean actual = cha.canMove(chaPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -209,7 +209,7 @@ class ChaTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(chaPoint, destinationPoint);
+        final boolean actual = cha.canMove(chaPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -229,7 +229,7 @@ class ChaTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(chaPoint, destinationPoint);
+        final boolean actual = cha.canMove(chaPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -248,7 +248,7 @@ class ChaTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(chaPoint, destinationPoint);
+        final boolean actual = cha.canMove(chaPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();

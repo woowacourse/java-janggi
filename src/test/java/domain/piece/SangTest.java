@@ -33,7 +33,7 @@ class SangTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(sangPoint, destinationPoint);
+        final boolean actual = sang.canMove(sangPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -54,7 +54,7 @@ class SangTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(sangPoint, destinationPoint);
+        final boolean actual = sang.canMove(sangPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -74,7 +74,7 @@ class SangTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(sangPoint, destinationPoint);
+        final boolean actual = sang.canMove(sangPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isFalse();
@@ -93,7 +93,7 @@ class SangTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(sangPoint, destinationPoint);
+        final boolean actual = sang.canMove(sangPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
@@ -113,7 +113,7 @@ class SangTest {
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
-        final boolean actual = board.canMove(sangPoint, destinationPoint);
+        final boolean actual = sang.canMove(sangPoint, destinationPoint, board);
 
         // then
         Assertions.assertThat(actual).isTrue();
