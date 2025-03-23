@@ -63,10 +63,14 @@ public class Board {
     }
 
     public boolean existsPiece(final Point point) {
-        if (!pointNodeMapper.existsPoint(point)) {
+        if (!existsPoint(point)) {
             return false;
         }
         return pieceByPoint.containsKey(point);
+    }
+
+    private boolean existsPoint(Point point) {
+        return pointNodeMapper.existsPoint(point);
     }
 
     public boolean existsPo(final Point point) {
@@ -109,7 +113,7 @@ public class Board {
     }
 
     public boolean existsNextPoint(final Point point, final Direction direction) {
-        if (!pointNodeMapper.existsPoint(point)) {
+        if (!existsPoint(point)) {
             return false;
         }
         Node node = pointNodeMapper.getNodeByPoint(point);
@@ -124,7 +128,7 @@ public class Board {
     }
 
     public boolean canMoveByPath(final Point point, final Path path) {
-        if (!pointNodeMapper.existsPoint(point)) {
+        if (!existsPoint(point)) {
             return false;
         }
         Node node = pointNodeMapper.getNodeByPoint(point);
@@ -138,7 +142,7 @@ public class Board {
     }
 
     private void validateExistPoint(final Point point) {
-        if (!pointNodeMapper.existsPoint(point)) {
+        if (!existsPoint(point)) {
             throw new IllegalArgumentException(point.row() + ", " + point.column() + ": 존재하지 않는 좌표입니다.");
         }
     }
