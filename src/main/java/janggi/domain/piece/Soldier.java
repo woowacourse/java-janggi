@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
 import static janggi.domain.Team.RED;
-import static janggi.domain.piece.direction.BoardSize.validateSize;
+import static janggi.domain.piece.direction.BoardSize.isInBoard;
 import static janggi.domain.piece.direction.Direction.DOWN;
 import static janggi.domain.piece.direction.Direction.LEFT;
 import static janggi.domain.piece.direction.Direction.RIGHT;
@@ -58,7 +58,7 @@ public class Soldier extends Piece {
         for (final Direction direction : move) {
             x += direction.dx();
             y += direction.dy();
-            if (!validateSize(x, y)) {
+            if (!isInBoard(x, y)) {
                 return Optional.empty();
             }
             positions.add(new Position(x, y));

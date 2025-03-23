@@ -1,6 +1,6 @@
 package janggi.domain.piece.direction;
 
-import static janggi.domain.piece.direction.BoardSize.validateSize;
+import static janggi.domain.piece.direction.BoardSize.isInBoard;
 
 public record Position(int x, int y) {
 
@@ -9,7 +9,7 @@ public record Position(int x, int y) {
     }
 
     private void validatePosition(final int x, final int y) {
-        if (validateSize(x, y)) {
+        if (isInBoard(x, y)) {
             return;
         }
         throw new IllegalArgumentException("보드를 벗어났습니다.");
