@@ -69,14 +69,14 @@ public class CannonMovement implements MovementRule {
     }
 
     private void validateStraightDestination(Point from, Point to) {
-        if (from.x() != to.x() && from.y() != to.y()) {
-            throw new IllegalArgumentException();
+        if (from.isDifferentX(to) && from.isDifferentY(to)) {
+            throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 경로입니다.");
         }
     }
 
     private void validateStartSameDestination(Point from, Point to) {
         if (from.equals(to)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("[ERROR] 원래 위치를 선택할 수 없습니다.");
         }
     }
 
