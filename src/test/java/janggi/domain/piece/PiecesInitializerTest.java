@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import static janggi.domain.BoardSetup.INNER_ELEPHANT_SETUP;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
@@ -13,7 +14,7 @@ class PiecesInitializerTest {
     void initializeTest() {
 
         // given
-        final List<Piece> pieces = PiecesInitializer.initializePieces();
+        final List<Piece> pieces = PiecesInitializer.initializePieces(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
 
         // when & then
         assertThat(pieces.size()).isEqualTo(32);
