@@ -22,4 +22,9 @@ public class Pieces {
     public List<Piece> getPieces() {
         return pieces;
     }
+
+    public boolean isKingDie() {
+        return pieces.stream()
+                .noneMatch(Piece::isKing);
+    }
 }
