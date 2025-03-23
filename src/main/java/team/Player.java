@@ -31,10 +31,6 @@ public class Player {
         return this.team.equals(team);
     }
 
-    public List<Piece> getPieces() {
-        return pieces;
-    }
-
     public void move(Pieces allPieces, Point start, Point end) {
         validateExistMyPieceOnDestination(end);
 
@@ -46,5 +42,9 @@ public class Player {
         if (findPieceBy(end).isPresent()) {
             throw new IllegalArgumentException("[ERROR] 목적지에 본인의 기물이 존재합니다.");
         }
+    }
+
+    public List<Piece> getPieces() {
+        return pieces;
     }
 }

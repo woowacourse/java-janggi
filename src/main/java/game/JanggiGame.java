@@ -43,7 +43,6 @@ public class JanggiGame {
     }
 
     private Point requestMoveStartPosition(Player player) {
-        // -- 1
         Point start = InputView.requestMoveStartPosition();
         validateBoardRange(start);
 

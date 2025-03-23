@@ -15,19 +15,19 @@ public class Piece {
         this.point = point;
     }
 
-    public String getName() {
-        return nickname;
-    }
-
-    public Point getPosition() {
-        return point;
-    }
-
     public void move(Pieces allPieces, Point to) {
         point = movementRule.move(allPieces, point, to);
     }
 
     public boolean isSameType(String nickname) {
         return this.nickname.equalsIgnoreCase(nickname);
+    }
+
+    public String getName() {
+        return nickname;
+    }
+
+    public Point getPosition() {
+        return point;
     }
 }

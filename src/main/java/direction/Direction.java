@@ -16,11 +16,11 @@ public enum Direction {
         this.direction = direction;
     }
 
-    public Point getDirection() {
-        return direction;
-    }
-
     public Point multiply(int dir) {
         return this.direction.multiply(dir);
+    }
+
+    public Point getDirection() {
+        return direction;
     }
 }
