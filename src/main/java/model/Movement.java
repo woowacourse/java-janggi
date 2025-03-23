@@ -26,7 +26,7 @@ public enum Movement {
     LEFT_DOWN_LEFT_DOWN_LEFT(2, -3),
     LEFT_UP_LEFT_UP_LEFT(-2, -3),
     RIGHT_DOWN_RIGHT_DOWN_RIGHT(2, 3),
-    RIGHT_UO_RIGHT_UP_RIGHT(-2, 3);
+    RIGHT_UP_RIGHT_UP_RIGHT(-2, 3);
 
     private final int column;
     private final int row;
