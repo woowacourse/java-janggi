@@ -80,33 +80,34 @@ public enum Direction {
         throw new IllegalArgumentException("이동이 불가능한 방향입니다.");
     }
 
-    public static List<Direction> oneCardinalAndDiagonalFrom(Point startPoint, Point targetPoint, int gap, int diagonalCount) {
+    public static List<Direction> oneCardinalAndDiagonalFrom(Point startPoint, Point targetPoint,
+                                                             int maxBetweenRowAndColumnGap, int diagonalRepeatCount
+    ) {
         int rowGap = startPoint.row() - targetPoint.row();
         int columnGap = startPoint.column() - targetPoint.column();
-        //TODO first, second direction으로 정리하기
-        if (rowGap == gap) {
+        if (rowGap == maxBetweenRowAndColumnGap) {
             if (columnGap > 0) {
-                return doRouting(diagonalCount, NORTH, NORTH_WEST);
+                return doRouting(diagonalRepeatCount, NORTH, NORTH_WEST);
             }
-            return doRouting(diagonalCount, NORTH, NORTH_EAST);
+            return doRouting(diagonalRepeatCount, NORTH, NORTH_EAST);
         }
-        if (rowGap == -gap) {
+        if (rowGap == -maxBetweenRowAndColumnGap) {
             if (columnGap > 0) {
-                return doRouting(diagonalCount, SOUTH, SOUTH_WEST);
+                return doRouting(diagonalRepeatCount, SOUTH, SOUTH_WEST);
             }
-            return doRouting(diagonalCount, SOUTH, SOUTH_EAST);
+            return doRouting(diagonalRepeatCount, SOUTH, SOUTH_EAST);
         }
-        if (columnGap == gap) {
+        if (columnGap == maxBetweenRowAndColumnGap) {
             if (rowGap > 0) {
-                return doRouting(diagonalCount, WEST, NORTH_WEST);
+                return doRouting(diagonalRepeatCount, WEST, NORTH_WEST);
             }
-            return doRouting(diagonalCount, WEST, SOUTH_WEST);
+            return doRouting(diagonalRepeatCount, WEST, SOUTH_WEST);
         }
-        if (columnGap == -gap) {
+        if (columnGap == -maxBetweenRowAndColumnGap) {
             if (rowGap > 0) {
-                return doRouting(diagonalCount, EAST, NORTH_EAST);
+                return doRouting(diagonalRepeatCount, EAST, NORTH_EAST);
             }
-            return doRouting(diagonalCount, EAST, SOUTH_EAST);
+            return doRouting(diagonalRepeatCount, EAST, SOUTH_EAST);
         }
         throw new IllegalArgumentException("이동이 불가능한 방향입니다.");
     }

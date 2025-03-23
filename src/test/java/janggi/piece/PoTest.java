@@ -71,13 +71,6 @@ public class PoTest {
 
             assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
         }
-
-        //TODO 공격테스트에 추가
-        @Test
-        @DisplayName("상으로 이동 시 포를 공격하려고 하면 이동가능 여부는 false이다.")
-        void checkUpWithPoPrey() {
-
-        }
     }
 
     @Nested
@@ -112,7 +105,6 @@ public class PoTest {
             assertThat(po.isInMovingRange(targetPoint, board.findHurdles())).isTrue();
         }
 
-        //TODO 채우기
         @Test
         @DisplayName("상으로 이동 시 포를 건너뛰려고 하면 이동가능 여부는 false이다.")
         void checkUpWithPoBridge() {

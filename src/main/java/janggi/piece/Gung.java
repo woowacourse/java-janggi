@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.point.Crashes;
+import janggi.point.crash.Crashes;
 import janggi.point.Direction;
 import janggi.point.Hurdles;
 import janggi.point.InitialPoint;
@@ -50,8 +50,8 @@ public class Gung implements Movable {
         //장애물 체크
         Route route = Route.repeat(direction, this.point, targetPoint);
         if (route.isCrashExists(hurdles)) {
-            Crashes crashPoints = route.findCrashes(hurdles);
-            return crashPoints.isPreyOnly(this.team, targetPoint, hurdles);
+            Crashes crashes = route.findCrashes(hurdles, this);
+            return crashes.hasNoCrashes(this.team, targetPoint, hurdles);
         }
         return true;
     }

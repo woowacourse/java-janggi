@@ -1,5 +1,10 @@
 package janggi.point;
 
+import janggi.piece.Movable;
+import janggi.piece.Po;
+import janggi.point.crash.CrashOrBridgeAndPrey;
+import janggi.point.crash.CrashOrPrey;
+import janggi.point.crash.Crashes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,37 +42,19 @@ public class Route {
         return new Route(route);
     }
 
-    public Point findLastPoint() {
-        return route.getLast();
-    }
-
-    public Crashes findCrashes(Hurdles hurdles) {
-        return new Crashes(route.stream()
+    public Crashes findCrashes(Hurdles hurdles, Movable movable) {
+        List<Point> crashPoints = route.stream()
                 .filter(hurdles::containsPoint)
-                .toList());
+                .toList();
+        if (movable instanceof Po) {
+            return new CrashOrBridgeAndPrey(crashPoints);
+        }
+        return new CrashOrPrey(crashPoints);
     }
 
     public boolean isCrashExists(Hurdles hurdles) {
-        Crashes crashPoints = findCrashes(hurdles);
-        return crashPoints.isPresent();
+        return route.stream().anyMatch(hurdles::containsPoint);
     }
-
-//    public boolean checkHurdles(Point startPoint, Route route) {
-//        List<Point> crashPoints = route.findCrashes(this);
-//
-//        if (crashPoints.size() == 1
-//                && route.findLastPoint().equals(crashPoints.getFirst())
-//        ) {
-//            Movable crashPiece = findByPoint(crashPoints.getFirst());
-//            Movable movingPiece = findByPoint(startPoint);
-//            Team crashPieceColor = crashPiece.getTeam();
-//            Team movingPieceColor = movingPiece.getTeam();
-//
-//            return crashPieceColor == movingPieceColor;
-//        }
-//
-//        return !crashPoints.isEmpty();
-//    }
 
     @Override
     public boolean equals(Object o) {

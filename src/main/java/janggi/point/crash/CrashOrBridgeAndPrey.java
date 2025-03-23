@@ -1,51 +1,31 @@
-package janggi.point;
+package janggi.point.crash;
 
 import janggi.game.Team;
 import janggi.piece.Movable;
 import janggi.piece.Po;
+import janggi.point.Hurdles;
+import janggi.point.Point;
 import java.util.List;
 
-public class Crashes {
-    private final List<Point> crashes;
-
-    public Crashes(List<Point> crashes) {
-        this.crashes = crashes;
+public final class CrashOrBridgeAndPrey extends Crashes{
+    public CrashOrBridgeAndPrey(List<Point> crashes) {
+        super(crashes);
     }
 
-    public boolean isPresent() {
-        return !crashes.isEmpty();
+    @Override
+    public boolean hasNoCrashes(Team movingTeam, Point targetPoint, Hurdles hurdles) {
+        return isBridgeOnly(targetPoint, hurdles)
+                || isBridgeAndPreyOnly(movingTeam, targetPoint, hurdles);
     }
 
-    //Po 제외
-    public boolean isPreyOnly(Team movingTeam, Point targetPoint, Hurdles hurdles) {
-        if (crashes.size() == 1) {
-            Point preyPoint = crashes.getFirst();
-            Movable preyPiece = hurdles.findByPoint(preyPoint);
-            /**
-             * 유일한 장애물이 먹이 위치에 있고
-             * 팀이 다르면 isPreyOnly = true
-             */
-            if (!preyPoint.equals(targetPoint)) {
-                return false;
-            }
-            if (movingTeam == preyPiece.getTeam()) {
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    //Po 적용
-    //TODO Crashes 객체 둘로 나누기
-    public boolean isBridgeOnly(Point targetPoint, Hurdles hurdles) {
+    private boolean isBridgeOnly(Point targetPoint, Hurdles hurdles) {
         if (crashes.size() == 1) {
             return isBridgeExists(targetPoint, hurdles);
         }
         return false;
     }
 
-    public boolean isBridgeAndPreyOnly(Team movingTeam, Point targetPoint, Hurdles hurdles) {
+    private boolean isBridgeAndPreyOnly(Team movingTeam, Point targetPoint, Hurdles hurdles) {
         if (crashes.size() == 2) {
             return (isBridgeExists(targetPoint, hurdles)
                     && isPreyExists(movingTeam, targetPoint, hurdles));
@@ -77,7 +57,7 @@ public class Crashes {
          * 같은 포를 먹지 않고,
          * 팀이 다르면 isPreyExists = true
          */
-        if (prey instanceof Po) { //TODO 수정 - prey.canAttackSameTeam으로?
+        if (prey instanceof Po) { //TODO 수정 - prey.isPo()?
             return false;
         }
         if (!preyPoint.equals(targetPoint)) {
