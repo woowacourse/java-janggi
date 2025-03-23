@@ -78,4 +78,20 @@ class PiecesTest {
         assertDoesNotThrow(() -> pieces.validateAllyPieceAtDestination(new Position(5, 5)));
     }
 
+    @Test
+    @DisplayName("출발 지점에 있는 기물이 도착 지점에 갈 수 있는지 테스트")
+    void canPieceMoveToTest() {
+        //given
+        Jol jol = new Jol(new Position(5, 5));
+        Janggun janggun = new Janggun(new Position(6, 4));
+        Pieces pieces = new Pieces(List.of(jol, janggun));
+
+        //when - then
+        assertThatThrownBy(() -> pieces.canPieceMoveTo(new Position(5,5), new Position(5, 7)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 졸이 움직일 수 없는 위치입니다.");
+
+        assertDoesNotThrow(() -> pieces.canPieceMoveTo(new Position(5, 5), new Position(5, 6)));
+    }
+
 }
