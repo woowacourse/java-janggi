@@ -51,7 +51,7 @@ public enum Column {
     }
 
     public Column down(int decreaseAmount) {
-        return getColumnBy(this.value - decreaseAmount);
+        return getColumnBy(this.value - Math.abs(decreaseAmount));
     }
 
     public boolean canDown() {
@@ -59,6 +59,6 @@ public enum Column {
     }
 
     public boolean canDown(int decreaseAmount) {
-        return this.value - decreaseAmount > MIN_VALUE;
+        return this.value - Math.abs(decreaseAmount) > MIN_VALUE;
     }
 }

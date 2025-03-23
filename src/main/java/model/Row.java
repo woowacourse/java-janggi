@@ -34,7 +34,7 @@ public enum Row {
     }
 
     public Row down(int decreaseAmount) {
-        return getRowBy(this.value - decreaseAmount);
+        return getRowBy(this.value - Math.abs(decreaseAmount));
     }
 
     public boolean canDown() {
@@ -42,7 +42,7 @@ public enum Row {
     }
 
     public boolean canDown(int decreaseAmount) {
-        return this.value - decreaseAmount > MIN_VALUE;
+        return this.value - Math.abs(decreaseAmount) > MIN_VALUE;
     }
 
     public Row up() {
