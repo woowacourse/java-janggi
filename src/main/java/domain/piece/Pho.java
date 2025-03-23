@@ -41,7 +41,7 @@ public class Pho extends Piece implements LinearMove {
         Direction direction = getDirection(from, to);
         JanggiCoordinate curr = from.move(direction);
 
-        curr = findFirstCoordinate(janggiBoard, curr, to, direction);
+        curr = findFirstPieceCoordinate(janggiBoard, curr, to, direction);
         if (isSameType(janggiBoard.findPieceByCoordinate(curr))) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 넘을 수 없습니다.");
         }
@@ -49,13 +49,13 @@ public class Pho extends Piece implements LinearMove {
             throw new IllegalArgumentException("[ERROR] 포는 기물을 넘어야 공격할 수 있습니다.");
         }
 
-        curr = findFirstCoordinate(janggiBoard, curr.move(direction), to, direction);
+        curr = findFirstPieceCoordinate(janggiBoard, curr.move(direction), to, direction);
         if (!curr.equals(to)) {
             throw new IllegalArgumentException("[ERROR] 포는 기물을 한번만 넘어 공격할 수 있습니다.");
         }
     }
 
-    private JanggiCoordinate findFirstCoordinate(JanggiBoard janggiBoard, JanggiCoordinate curr, JanggiCoordinate to, Direction direction) {
+    private JanggiCoordinate findFirstPieceCoordinate(JanggiBoard janggiBoard, JanggiCoordinate curr, JanggiCoordinate to, Direction direction) {
         while (!janggiBoard.isOccupied(curr) && !curr.equals(to)) {
             curr = curr.move(direction);
         }
