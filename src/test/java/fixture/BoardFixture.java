@@ -5,20 +5,18 @@ import domain.board.BoardGenerator;
 import domain.board.Node;
 import domain.board.Point;
 import domain.piece.Piece;
-import java.util.HashMap;
 import java.util.Map;
 
 public class BoardFixture {
 
-    public static Board createEmptyBoard() {
-        BoardGenerator boardGenerator = new BoardGenerator();
-        Map<Point, Node> nodeByPoint = boardGenerator.createDefaultNodesAndEdges();
-        return new Board(new HashMap<>(), nodeByPoint);
+    private static final BoardGenerator BOARD_GENERATOR = new BoardGenerator();
+
+    public static Map<Point, Node> createDefaultNodesByPoint() {
+        return BOARD_GENERATOR.createDefaultNodesByPoint();
     }
 
     public static Board createTestBoard(Map<Point, Piece> pieceByPoint) {
-        BoardGenerator boardGenerator = new BoardGenerator();
-        Map<Point, Node> nodeByPoint = boardGenerator.createDefaultNodesAndEdges();
+        Map<Point, Node> nodeByPoint = BOARD_GENERATOR.createDefaultNodesByPoint();
         return new Board(pieceByPoint, nodeByPoint);
     }
 }

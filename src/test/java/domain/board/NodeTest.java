@@ -1,75 +1,96 @@
-//package domain.board;
-//
-//import domain.Path;
-//import fixture.BoardFixture;
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Map;
-//import org.assertj.core.api.Assertions;
-//import org.junit.jupiter.api.DisplayName;
-//import org.junit.jupiter.api.Nested;
-//import org.junit.jupiter.api.Test;
-//
-//class NodeTest {
-//
-//    @Nested
-//    @DisplayName("예외가 발생하지 않는 테스트")
-//    class Success {
-//
-//        @Test
-//        void 특정_위치에서_특정_방향으로_가는_경로가_있으면_true를_반환한다() {
-//            // given
-//            Map<Point, Node> nodeByPoint = new HashMap<>();
-//
-//            // when
-//            final boolean actual = node.hasNextNode(Direction.UP);
-//
-//            // then
-//            Assertions.assertThat(actual).isTrue();
-//        }
-//
-//        @Test
-//        void 특정_위치에서_특정_방향으로_가는_경로가_없으면_false를_반환한다() {
-//            // given
-//            Board board = BoardFixture.createEmptyBoard();
-//            Point point = Point.of(4, 1);
-//            Node node = board.getNodeByPoint(point);
-//
-//            // when
-//            final boolean actual = node.hasNextNode(Direction.LEFT);
-//
-//            // then
-//            Assertions.assertThat(actual).isFalse();
-//        }
-//
-//        @Test
-//        void 특정_위치에서_경로를_따라_이동한_위치가_판_내부_위치면_true를_반환한다() {
-//            // given
-//            Board board = BoardFixture.createEmptyBoard();
-//            Point point = Point.of(4, 5);
-//            Node node = board.getNodeByPoint(point);
-//            Path path = new Path(List.of(Direction.DOWN, Direction.DOWN));
-//
-//            // when
-//            final boolean actual = node.canMoveByPath(path);
-//
-//            // then
-//            Assertions.assertThat(actual).isTrue();
-//        }
-//
-//        @Test
-//        void 특정_위치에서_경로를_따라_이동한_위치가_판을_벗어난_위치면_false를_반환한다() {
-//            // given
-//            Board board = BoardFixture.createEmptyBoard();
-//            Point point = Point.of(1, 5);
-//            Node node = board.getNodeByPoint(point);
-//            Path path = new Path(List.of(Direction.LEFT, Direction.UP));
-//
-//            // when
-//            final boolean actual = node.canMoveByPath(path);
-//
-//            // then
-//            Assertions.assertThat(actual).isFalse();
-//        }
-//    }
-//}
+package domain.board;
+
+import static domain.board.Direction.DOWN;
+import static domain.board.Direction.LEFT;
+import static domain.board.Direction.RIGHT;
+import static domain.board.Direction.UP;
+
+import domain.Path;
+import fixture.BoardFixture;
+import java.util.List;
+import java.util.Map;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+class NodeTest {
+
+    @Nested
+    @DisplayName("예외가 발생하지 않는 테스트")
+    class Success {
+
+        @Test
+        void 특정_위치에서_특정_방향으로_가는_경로가_있으면_true를_반환한다() {
+            // given
+            final Node centerNode = new Node(Point.of(2, 2));
+            final Node upNode = new Node(Point.of(1, 2));
+            Node leftNode = new Node(Point.of(2, 1));
+            Node rightNode = new Node(Point.of(2, 3));
+            Node downNode = new Node(Point.of(2, 3));
+            Edge upEdge = new Edge(upNode, UP);
+            Edge leftEdge = new Edge(leftNode, LEFT);
+            Edge rightEdge = new Edge(rightNode, RIGHT);
+            Edge downEdge = new Edge(downNode, DOWN);
+            List<Edge> edges = List.of(upEdge, leftEdge, rightEdge, downEdge);
+
+            centerNode.addAllEdges(edges);
+
+            // when
+            final boolean actual = centerNode.hasNextNode(DOWN);
+
+            // then
+            Assertions.assertThat(actual).isTrue();
+        }
+
+        @Test
+        void 특정_위치에서_특정_방향으로_가는_경로가_없으면_false를_반환한다() {
+            // given
+            final Node centerNode = new Node(Point.of(2, 2));
+            final Node upNode = new Node(Point.of(1, 2));
+            Node leftNode = new Node(Point.of(2, 1));
+            Node rightNode = new Node(Point.of(2, 3));
+            Node downNode = new Node(Point.of(2, 3));
+            Edge upEdge = new Edge(upNode, UP);
+            Edge leftEdge = new Edge(leftNode, LEFT);
+            Edge rightEdge = new Edge(rightNode, RIGHT);
+            List<Edge> edges = List.of(upEdge, leftEdge, rightEdge);
+
+            centerNode.addAllEdges(edges);
+
+            // when
+            final boolean actual = centerNode.hasNextNode(DOWN);
+
+            // then
+            Assertions.assertThat(actual).isFalse();
+        }
+
+        @Test
+        void 특정_위치에서_경로를_따라_이동한_위치가_판_내부_위치면_true를_반환한다() {
+            // given
+            final Map<Point, Node> nodeByPoint = BoardFixture.createDefaultNodesByPoint();
+            Node node = nodeByPoint.get(Point.of(2, 3));
+            Path path = Path.RIGHT_RIGHT_UP_PATH;
+
+            // when
+            final boolean actual = node.canMoveByPath(path);
+
+            // then
+            Assertions.assertThat(actual).isTrue();
+        }
+
+        @Test
+        void 특정_위치에서_경로를_따라_이동한_위치가_판을_벗어난_위치면_false를_반환한다() {
+            // given
+            final Map<Point, Node> nodeByPoint = BoardFixture.createDefaultNodesByPoint();
+            Node node = nodeByPoint.get(Point.of(2, 3));
+            Path path = Path.RIGHT_RIGHT_RIGHT_UP_UP_PATH;
+
+            // when
+            final boolean actual = node.canMoveByPath(path);
+
+            // then
+            Assertions.assertThat(actual).isFalse();
+        }
+    }
+}

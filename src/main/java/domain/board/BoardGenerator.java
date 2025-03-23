@@ -27,14 +27,14 @@ public class BoardGenerator {
 
     public Board generateBoard(final SangMaOrderCommand hanSangMaOrderCommand,
                                final SangMaOrderCommand choSangMaOrderCommand) {
-        Map<Point, Node> nodeByPoint = createDefaultNodesAndEdges();
+        Map<Point, Node> nodeByPoint = createDefaultNodesByPoint();
         Map<Point, Piece> pieceByPoint = createPieces(
                 hanSangMaOrderCommand,
                 choSangMaOrderCommand);
         return new Board(pieceByPoint, nodeByPoint);
     }
 
-    public Map<Point, Node> createDefaultNodesAndEdges() {
+    public Map<Point, Node> createDefaultNodesByPoint() {
         Map<Point, Node> nodeByPoint = new HashMap<>();
 
         for (int row = MIN_ROW_INDEX; row <= MAX_ROW_INDEX; row++) {
