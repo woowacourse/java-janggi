@@ -1,0 +1,54 @@
+package janggiGame.arrangement;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+
+import janggiGame.board.Dot;
+import janggiGame.piece.Advisor;
+import janggiGame.piece.Cannon;
+import janggiGame.piece.Chariot;
+import janggiGame.piece.Dynasty;
+import janggiGame.piece.Elephant;
+import janggiGame.piece.Horse;
+import janggiGame.piece.King;
+import janggiGame.piece.Pawn;
+import janggiGame.piece.Piece;
+import java.util.Map;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+class InnerElephantStrategyTest {
+    @DisplayName("상을 안쪽으로 배치한다.")
+    @Test
+    void innerElephantStrategy_Test() {
+        InnerElephantStrategy strategy = new InnerElephantStrategy();
+
+        // when
+        Map<Dot, Piece> pieces = strategy.arrange(Dynasty.HAN);
+
+        // then
+        assertThat(pieces).hasSize(16);
+        assertInstanceOf(Chariot.class, pieces.get(Dot.of(0, 0)));
+        assertInstanceOf(Chariot.class, pieces.get(Dot.of(8, 0)));
+
+        assertInstanceOf(Advisor.class, pieces.get(Dot.of(3, 0)));
+        assertInstanceOf(Advisor.class, pieces.get(Dot.of(5, 0)));
+
+        assertInstanceOf(King.class, pieces.get(Dot.of(4, 1)));
+
+        assertInstanceOf(Cannon.class, pieces.get(Dot.of(1, 2)));
+        assertInstanceOf(Cannon.class, pieces.get(Dot.of(7, 2)));
+
+        assertInstanceOf(Pawn.class, pieces.get(Dot.of(0, 3)));
+        assertInstanceOf(Pawn.class, pieces.get(Dot.of(2, 3)));
+        assertInstanceOf(Pawn.class, pieces.get(Dot.of(4, 3)));
+        assertInstanceOf(Pawn.class, pieces.get(Dot.of(6, 3)));
+        assertInstanceOf(Pawn.class, pieces.get(Dot.of(8, 3)));
+
+        assertInstanceOf(Horse.class, pieces.get(Dot.of(1, 0)));
+        assertInstanceOf(Horse.class, pieces.get(Dot.of(7, 0)));
+
+        assertInstanceOf(Elephant.class, pieces.get(Dot.of(2, 0)));
+        assertInstanceOf(Elephant.class, pieces.get(Dot.of(6, 0)));
+    }
+}
