@@ -1,8 +1,6 @@
 package model;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,220 +19,44 @@ public class Position {
         this.row = Row.getRowBy(columnAndRow.getLast());
     }
 
-    public List<Position> findUpDirection(Position arrival) {
-        if (this.canMoveUp() && this.moveUp().equals(arrival)) {
-            return List.of(this.moveUp());
-        }
-        return Collections.emptyList();
+    public boolean canMove(final Movement movement) {
+        int columnAmount = movement.getColumn();
+        int rowAmount = movement.getRow();
+        return canMoveColumn(columnAmount) && canMoveRow(rowAmount);
     }
 
-    public List<Position> findDownDirection(Position arrival) {
-        if (this.canMoveDown() && this.moveDown().equals(arrival)) {
-            return List.of(this.moveDown());
-        }
-        return Collections.emptyList();
+    public Position move(Movement movement) {
+        int columnAmount = movement.getColumn();
+        int rowAmount = movement.getRow();
+        return new Position(moveColumn(columnAmount), moveRow(rowAmount));
     }
 
-    public List<Position> findLeftDirection(Position arrival) {
-        if (this.canMoveLeft() && this.moveLeft().equals(arrival)) {
-            return List.of(this.moveLeft());
+    private Column moveColumn(int columnAmount) {
+        if (columnAmount > 0) {
+            return column.up(columnAmount);
         }
-        return Collections.emptyList();
+        return column.down(columnAmount);
     }
 
-    public List<Position> findRightDirection(Position arrival) {
-        if (this.canMoveRight() && this.moveRight().equals(arrival)) {
-            return List.of(this.moveRight());
+    private Row moveRow(int rowAmount) {
+        if (rowAmount > 0) {
+            return row.up(rowAmount);
         }
-        return Collections.emptyList();
+        return row.down(rowAmount);
     }
 
-    public List<Position> findUpDirectionUntilEnd(Position arrival) {
-        List<Position> temporaryDirection = new ArrayList<>();
-        Position movedPosition = this.copyOf();
-        while (movedPosition.canMoveUp()) {
-            movedPosition = movedPosition.moveUp();
-            temporaryDirection.add(movedPosition);
-            if (movedPosition.equals(arrival)) {
-                return temporaryDirection;
-            }
+    private boolean canMoveColumn(int columnAmount) {
+        if (columnAmount > 0) {
+            return column.canUp(columnAmount);
         }
-        return Collections.emptyList();
+        return column.canDown(columnAmount);
     }
 
-    public List<Position> findDownDirectionUntilEnd(Position arrival) {
-        List<Position> temporaryDirection = new ArrayList<>();
-        Position movedPosition = this.copyOf();
-        while (movedPosition.canMoveDown()) {
-            movedPosition = movedPosition.moveDown();
-            temporaryDirection.add(movedPosition);
-            if (movedPosition.equals(arrival)) {
-                return temporaryDirection;
-            }
+    private boolean canMoveRow(int rowAmount) {
+        if (rowAmount > 0) {
+            return row.canUp(rowAmount);
         }
-        return Collections.emptyList();
-    }
-
-    public List<Position> findLeftDirectionUntilEnd(Position arrival) {
-        List<Position> temporaryDirection = new ArrayList<>();
-        Position movedPosition = this.copyOf();
-        while (movedPosition.canMoveLeft()) {
-            movedPosition = movedPosition.moveLeft();
-            temporaryDirection.add(movedPosition);
-            if (movedPosition.equals(arrival)) {
-                return temporaryDirection;
-            }
-        }
-        return Collections.emptyList();
-    }
-
-    public List<Position> findRightDirectionUntilEnd(Position arrival) {
-        List<Position> temporaryDirection = new ArrayList<>();
-        Position movedPosition = this.copyOf();
-        while (movedPosition.canMoveRight()) {
-            movedPosition = movedPosition.moveRight();
-            temporaryDirection.add(movedPosition);
-            if (movedPosition.equals(arrival)) {
-                return temporaryDirection;
-            }
-        }
-        return Collections.emptyList();
-    }
-
-    public List<Position> findUpAndUpRight(Position arrival) {
-        List<Position> temporaryDirection = new ArrayList<>();
-        Position movedPosition = this.copyOf();
-        if (movedPosition.canMoveUp()) {
-            movedPosition = movedPosition.moveUp();
-            temporaryDirection.add(movedPosition);
-        }
-        if (movedPosition.canMoveUpRight()) {
-            Position nextMovedPosition = movedPosition.moveUpRight();
-            if (arrival.equals(nextMovedPosition)) {
-                temporaryDirection.add(nextMovedPosition);
-                return temporaryDirection;
-            }
-        }
-        return Collections.emptyList();
-    }
-
-    public List<Position> findUpAndUpLeft(Position arrival) {
-        List<Position> temporaryDirection = new ArrayList<>();
-        Position movedPosition = this.copyOf();
-        if (movedPosition.canMoveUp()) {
-            movedPosition = movedPosition.moveUp();
-            temporaryDirection.add(movedPosition);
-        }
-        if (movedPosition.canMoveUpLeft()) {
-            Position nextMovedPosition = movedPosition.moveUpLeft();
-            if (arrival.equals(nextMovedPosition)) {
-                temporaryDirection.add(nextMovedPosition);
-                return temporaryDirection;
-            }
-        }
-        return Collections.emptyList();
-    }
-
-    public List<Position> findDownAndDownRight(Position arrival) {
-        List<Position> temporaryDirection = new ArrayList<>();
-        Position movedPosition = this.copyOf();
-        if (movedPosition.canMoveDown()) {
-            movedPosition = movedPosition.moveDown();
-            temporaryDirection.add(movedPosition);
-        }
-        if (movedPosition.canMoveDownRight()) {
-            Position nextMovedPosition = movedPosition.moveDownRight();
-            if (arrival.equals(nextMovedPosition)) {
-                temporaryDirection.add(nextMovedPosition);
-                return temporaryDirection;
-            }
-        }
-        return Collections.emptyList();
-    }
-
-    public List<Position> findDownAndDownLeft(Position arrival) {
-        List<Position> temporaryDirection = new ArrayList<>();
-        Position movedPosition = this.copyOf();
-        if (movedPosition.canMoveDown()) {
-            movedPosition = movedPosition.moveDown();
-            temporaryDirection.add(movedPosition);
-        }
-        if (movedPosition.canMoveDownLeft()) {
-            Position nextMovedPosition = movedPosition.moveDownLeft();
-            if (arrival.equals(nextMovedPosition)) {
-                temporaryDirection.add(nextMovedPosition);
-                return temporaryDirection;
-            }
-        }
-        return Collections.emptyList();
-    }
-
-    public List<Position> findLeftAndUpLeft(Position arrival) {
-        List<Position> temporaryDirection = new ArrayList<>();
-        Position movedPosition = this.copyOf();
-        if (movedPosition.canMoveLeft()) {
-            movedPosition = movedPosition.moveLeft();
-            temporaryDirection.add(movedPosition);
-        }
-        if (movedPosition.canMoveUpLeft()) {
-            Position nextMovedPosition = movedPosition.moveUpLeft();
-            if (arrival.equals(nextMovedPosition)) {
-                temporaryDirection.add(nextMovedPosition);
-                return temporaryDirection;
-            }
-        }
-        return Collections.emptyList();
-    }
-
-    public List<Position> findLeftAndDownLeft(Position arrival) {
-        List<Position> temporaryDirection = new ArrayList<>();
-        Position movedPosition = this.copyOf();
-        if (movedPosition.canMoveLeft()) {
-            movedPosition = movedPosition.moveLeft();
-            temporaryDirection.add(movedPosition);
-        }
-        if (movedPosition.canMoveDownLeft()) {
-            Position nextMovedPosition = movedPosition.moveDownLeft();
-            if (arrival.equals(nextMovedPosition)) {
-                temporaryDirection.add(nextMovedPosition);
-                return temporaryDirection;
-            }
-        }
-        return Collections.emptyList();
-    }
-
-    public List<Position> findRightAndUpRight(Position arrival) {
-        List<Position> temporaryDirection = new ArrayList<>();
-        Position movedPosition = this.copyOf();
-        if (movedPosition.canMoveRight()) {
-            movedPosition = movedPosition.moveRight();
-            temporaryDirection.add(movedPosition);
-        }
-        if (movedPosition.canMoveUpRight()) {
-            Position nextMovedPosition = movedPosition.moveUpRight();
-            if (arrival.equals(nextMovedPosition)) {
-                temporaryDirection.add(nextMovedPosition);
-                return temporaryDirection;
-            }
-        }
-        return Collections.emptyList();
-    }
-
-    public List<Position> findRightAndDownRight(Position arrival) {
-        List<Position> temporaryDirection = new ArrayList<>();
-        Position movedPosition = this.copyOf();
-        if (movedPosition.canMoveRight()) {
-            movedPosition = movedPosition.moveRight();
-            temporaryDirection.add(movedPosition);
-        }
-        if (movedPosition.canMoveDownRight()) {
-            Position nextMovedPosition = movedPosition.moveDownRight();
-            if (arrival.equals(nextMovedPosition)) {
-                temporaryDirection.add(nextMovedPosition);
-                return temporaryDirection;
-            }
-        }
-        return Collections.emptyList();
+        return row.canDown(rowAmount);
     }
 
     public Position moveUp() {
@@ -299,10 +121,6 @@ public class Position {
 
     public boolean canMoveDownLeft() {
         return column.canUp() && row.canDown();
-    }
-
-    public Position copyOf() {
-        return new Position(this.column, this.row);
     }
 
     @Override

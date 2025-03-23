@@ -33,15 +33,32 @@ public enum Row {
         return getRowBy(this.value - 1);
     }
 
+    public Row down(int decreaseAmount) {
+        return getRowBy(this.value - decreaseAmount);
+    }
+
     public boolean canDown() {
         return this.value > MIN_VALUE;
+    }
+
+    public boolean canDown(int decreaseAmount) {
+        return this.value - decreaseAmount > MIN_VALUE;
     }
 
     public Row up() {
         return getRowBy(this.value + 1);
     }
 
+    public Row up(int increaseAmount) {
+        return getRowBy(this.value + increaseAmount);
+    }
+
     public boolean canUp() {
         return this.value < MAX_VALUE;
     }
+
+    public boolean canUp(int increaseAmount) {
+        return this.value + increaseAmount < MAX_VALUE;
+    }
+
 }

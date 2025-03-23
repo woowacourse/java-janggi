@@ -34,15 +34,31 @@ public enum Column {
         return getColumnBy(this.value + 1);
     }
 
+    public Column up(int increaseAmount) {
+        return getColumnBy(this.value + increaseAmount);
+    }
+
     public boolean canUp() {
         return this.value < MAX_VALUE;
+    }
+
+    public boolean canUp(int increaseAmount) {
+        return this.value + increaseAmount < MAX_VALUE;
     }
 
     public Column down() {
         return getColumnBy(this.value - 1);
     }
 
+    public Column down(int decreaseAmount) {
+        return getColumnBy(this.value - decreaseAmount);
+    }
+
     public boolean canDown() {
         return this.value > MIN_VALUE;
+    }
+
+    public boolean canDown(int decreaseAmount) {
+        return this.value - decreaseAmount > MIN_VALUE;
     }
 }
