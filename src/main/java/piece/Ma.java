@@ -51,21 +51,18 @@ public class Ma extends Piece {
 
     @Override
     protected Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
-        int dx = arrival.getX() - departure.getX();
-        int dy = arrival.getY() - departure.getY();
+        int deltaX = arrival.getX() - departure.getX();
+        int deltaY = arrival.getY() - departure.getY();
 
-        if (Math.abs(dx) == 2) {
-            if (dx > 0) {
-                return Set.of(departure.pickChangedCoordinate(1, 0).get());
-            }
-            return Set.of(departure.pickChangedCoordinate(-1, 0).get());
+        if (Math.abs(deltaX) == 2 && deltaY != 0) {
+            return Set.of(departure.pickChangedCoordinate(deltaX / 2, 0)
+                    .orElseThrow(() -> new IllegalStateException("유효하지 않은 좌표입니다.")));
         }
-        if (Math.abs(dy) == 2) {
-            if (dy > 0) {
-                return Set.of(departure.pickChangedCoordinate(0, 1).get());
-            }
-            return Set.of(departure.pickChangedCoordinate(0, -1).get());
+        if (Math.abs(deltaY) == 2 && deltaX != 0) {
+            return Set.of(departure.pickChangedCoordinate(0, deltaY / 2)
+                    .orElseThrow(() -> new IllegalStateException("유효하지 않은 좌표입니다.")));
         }
+
         throw new IllegalStateException("유효하지 않은 좌표입니다.");
     }
 
