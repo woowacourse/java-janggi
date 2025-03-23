@@ -3,7 +3,6 @@ package view;
 import domain.Board;
 import domain.Player;
 import domain.piece.Piece;
-import domain.piece.PieceColor;
 import domain.piece.Pieces;
 import domain.spatial.Position;
 import java.util.ArrayList;
@@ -43,8 +42,8 @@ public class OutputView {
     }
 
     public void printWinner(final Player winner) {
-        System.out.println(winner.name() + "의 승리로 게임이 종료되었습니다.");
-        System.out.println("우승자 : " + winner.name());
+        System.out.println(winner.team().getName() + "의 승리로 게임이 종료되었습니다.");
+        System.out.println("우승자 : " + winner.team().getName());
     }
 
     private List<ArrayList<String>> createDefaultBoard() {
@@ -59,7 +58,7 @@ public class OutputView {
 
     private void updateDefaultBoard(final Map<Player, Pieces> board, final List<ArrayList<String>> defaultBoard) {
         for (Player player : board.keySet()) {
-            PieceColor color = player.color();
+            String color = player.team().getColor();
 
             List<Piece> pieces = board.get(player).pieces();
             updatePiecesToDefaultBoard(defaultBoard, pieces, color);
@@ -67,7 +66,7 @@ public class OutputView {
     }
 
     private void updatePiecesToDefaultBoard(final List<ArrayList<String>> defaultBoard, final List<Piece> pieces,
-                                            final PieceColor color) {
+                                            final String color) {
         for (Piece piece : pieces) {
             Position position = piece.getPosition();
 
@@ -75,7 +74,7 @@ public class OutputView {
             int column = position.column() - 1;
 
             ArrayList<String> rows = defaultBoard.get(column);
-            rows.set(row, color.getColor() + piece.getName() + COLOR_RESET);
+            rows.set(row, color + piece.getName() + COLOR_RESET);
             defaultBoard.set(column, rows);
         }
     }

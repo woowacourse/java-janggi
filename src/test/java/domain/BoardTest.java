@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.direction.PieceDirection;
 import domain.piece.Piece;
-import domain.piece.PieceColor;
 import domain.piece.PieceInit;
 import domain.piece.Pieces;
 import domain.piece.category.Soldier;
@@ -26,8 +25,8 @@ class BoardTest {
 
         Piece expected = new Soldier(new Position(1, 5), PieceDirection.HAN_SOLDIER.get());
 
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player(Team.HAN);
+        Player cho = new Player(Team.CHO);
 
         List<Piece> hanPieces = PieceInit.initHanPieces();
         List<Piece> choPieces = PieceInit.initChoPieces();
@@ -51,8 +50,8 @@ class BoardTest {
         Position startPosition = new Position(1, 1);
         Position targetPosition = new Position(1, 4);
 
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player(Team.HAN);
+        Player cho = new Player(Team.CHO);
 
         List<Piece> hanPieces = PieceInit.initHanPieces();
         List<Piece> choPieces = PieceInit.initChoPieces();
@@ -76,8 +75,8 @@ class BoardTest {
         Position targetPosition1 = new Position(4, 3);
         Position targetPosition2 = new Position(7, 3);
 
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player(Team.HAN);
+        Player cho = new Player(Team.CHO);
 
         List<Piece> hanPieces = PieceInit.initHanPieces();
         List<Piece> choPieces = PieceInit.initChoPieces();
@@ -107,8 +106,8 @@ class BoardTest {
         Position startPosition = new Position(2, 3);
         Position targetPosition = new Position(2, 8);
 
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player(Team.HAN);
+        Player cho = new Player(Team.CHO);
 
         List<Piece> hanPieces = PieceInit.initHanPieces();
         List<Piece> choPieces = PieceInit.initChoPieces();
@@ -132,8 +131,8 @@ class BoardTest {
         Position startPosition = new Position(2, 3);
         Position targetPosition = new Position(2, 9);
 
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player(Team.HAN);
+        Player cho = new Player(Team.CHO);
 
         List<Piece> hanPieces = PieceInit.initHanPieces();
         List<Piece> choPieces = PieceInit.initChoPieces();
@@ -156,8 +155,8 @@ class BoardTest {
         Position startPosition = new Position(1, 1);
         Position targetPosition = new Position(1, 7);
 
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player(Team.HAN);
+        Player cho = new Player(Team.CHO);
 
         List<Piece> hanPieces = PieceInit.initHanPieces();
         List<Piece> choPieces = PieceInit.initChoPieces();
@@ -183,8 +182,8 @@ class BoardTest {
     @Test
     void 게임_종료_여부를_판단한다() {
         // given
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player(Team.HAN);
+        Player cho = new Player(Team.CHO);
 
         Position kingPosition = new Position(5, 9);
 
@@ -207,8 +206,8 @@ class BoardTest {
     @Test
     void 우승자를_반환한다() {
         // given
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player(Team.HAN);
+        Player cho = new Player(Team.CHO);
 
         Position kingPosition = new Position(5, 9);
 
