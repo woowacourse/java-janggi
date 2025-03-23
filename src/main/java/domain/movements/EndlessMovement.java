@@ -23,7 +23,7 @@ public final class EndlessMovement implements PieceMovement {
     public List<Point> calculateTotalArrivalPoints(final Point startPoint) {
         final List<Point> arrivalPoints = new ArrayList<>();
         for (final Route route : routes) {
-            List<Point> pointsOnRoute = route.getAllPointsOnRoute(startPoint);
+            final List<Point> pointsOnRoute = route.getAllPointsOnRoute(startPoint);
             arrivalPoints.addAll(pointsOnRoute);
         }
         return arrivalPoints;

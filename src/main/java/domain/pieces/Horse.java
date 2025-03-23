@@ -1,18 +1,17 @@
 package domain.pieces;
 
-import static domain.pieces.PieceNames.HORSE;
-
 import domain.Team;
 import domain.board.PieceOnRoute;
 import domain.board.Point;
 import domain.movements.PieceMovement;
+import static domain.pieces.PieceNames.HORSE;
 import java.util.List;
 
 public final class Horse implements Piece {
     private final Team team;
     private final PieceMovement defaultMovement;
 
-    public Horse(Team team, PieceMovement defaultMovement) {
+    public Horse(final Team team, final PieceMovement defaultMovement) {
         this.team = team;
         this.defaultMovement = defaultMovement;
     }

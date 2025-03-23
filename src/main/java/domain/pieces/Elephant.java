@@ -1,11 +1,10 @@
 package domain.pieces;
 
-import static domain.pieces.PieceNames.ELEPHANT;
-
 import domain.Team;
 import domain.board.PieceOnRoute;
 import domain.board.Point;
 import domain.movements.PieceMovement;
+import static domain.pieces.PieceNames.ELEPHANT;
 import java.util.List;
 
 public final class Elephant implements Piece {
@@ -13,7 +12,7 @@ public final class Elephant implements Piece {
     private final Team team;
     private final PieceMovement defaultMovement;
 
-    public Elephant(Team team, PieceMovement defaultMovement) {
+    public Elephant(final Team team, final PieceMovement defaultMovement) {
         this.defaultMovement = defaultMovement;
         this.team = team;
     }
