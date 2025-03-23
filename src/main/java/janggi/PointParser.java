@@ -15,18 +15,21 @@ public final class PointParser {
     }
 
     private static void validateInput(String value) {
-        if (value == null || value.length() != VALID_LENGTH) {
-            throw new IllegalArgumentException("잘못된 좌표 입력입니다.");
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException("입력이 비어있습니다.");
+        }
+        if (value.length() != VALID_LENGTH) {
+            throw new IllegalArgumentException("잘못된 좌표 입력입니다. 입력: %s".formatted(value));
         }
     }
 
     private static Point convertToPoint(String value) {
         try {
-            int x = Character.getNumericValue(value.charAt(X_INDEX));
-            int y = Character.getNumericValue(value.charAt(Y_INDEX));
+            int x = Integer.parseInt(String.valueOf(value.charAt(X_INDEX)));
+            int y = Integer.parseInt(String.valueOf(value.charAt(Y_INDEX)));
             return new Point(x, y);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("숫자만 입력 가능합니다.");
+            throw new IllegalArgumentException("숫자만 입력 가능합니다. 입력: %s".formatted(value));
         }
     }
 }
