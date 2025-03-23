@@ -18,7 +18,7 @@ public class Guard extends Piece {
     }
 
     public static List<Guard> Default(Team team) {
-        int defaultRow = Team.decideRow(1, team);
+        int defaultRow = team.decideRow(1);
         List<Integer> defaultColumns = List.of(4, 6);
 
         return defaultColumns.stream()

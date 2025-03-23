@@ -18,7 +18,7 @@ public class General extends Piece {
     }
 
     public static General Default(Team team) {
-        int defaultRow = Team.decideRow(2, team);
+        int defaultRow = team.decideRow(2);
         int defaultColumn = 5;
 
         return new General(Position.of(defaultRow, defaultColumn), team);

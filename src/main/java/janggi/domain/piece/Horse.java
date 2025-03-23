@@ -18,7 +18,7 @@ public class Horse extends Piece {
     }
 
     public static List<Horse> Default(Team team) {
-        int defaultRow = Team.decideRow(1, team);
+        int defaultRow = team.decideRow(1);
         List<Integer> defaultColumns = List.of(3, 8);
 
         return defaultColumns.stream()

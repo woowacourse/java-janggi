@@ -18,7 +18,7 @@ public class Chariot extends Piece {
     }
 
     public static List<Chariot> Default(Team team) {
-        int defaultRow = Team.decideRow(1, team);
+        int defaultRow = team.decideRow(1);
         List<Integer> defaultColumns = List.of(1, 9);
 
         return defaultColumns.stream()

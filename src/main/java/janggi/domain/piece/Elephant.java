@@ -18,7 +18,7 @@ public class Elephant extends Piece {
     }
 
     public static List<Elephant> Default(Team team) {
-        int defaultRow = Team.decideRow(1, team);
+        int defaultRow = team.decideRow(1);
         List<Integer> defaultColumns = List.of(2, 7);
 
         return defaultColumns.stream()

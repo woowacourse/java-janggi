@@ -19,7 +19,7 @@ public class Cannon extends Piece {
     }
 
     public static List<Cannon> Default(Team team) {
-        int defaultRow = Team.decideRow(3, team);
+        int defaultRow = team.decideRow(3);
         List<Integer> defaultColumns = List.of(2, 8);
 
         return defaultColumns.stream()

@@ -15,8 +15,8 @@ public enum Team {
         this.color = color;
     }
 
-    public static int decideRow(final int row, final Team team) {
-        if (team.isGreen()) {
+    public int decideRow(final int row) {
+        if (isGreen()) {
             int rowFlipBase = 11;
             return rowFlipBase - row;
         }
@@ -39,8 +39,8 @@ public enum Team {
         return country;
     }
 
-    public static Team getEnemy(Team team) {
-        if (team.isRed()) {
+    public Team getEnemy() {
+        if (isRed()) {
             return GREEN;
         }
         return RED;

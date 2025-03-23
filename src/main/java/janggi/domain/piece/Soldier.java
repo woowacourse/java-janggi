@@ -18,7 +18,7 @@ public class Soldier extends Piece {
     }
 
     public static List<Soldier> Default(Team team) {
-        int defaultRow = Team.decideRow(4, team);
+        int defaultRow = team.decideRow(4);
         List<Integer> defaultColumns = List.of(1, 3, 5, 7, 9);
 
         return defaultColumns.stream()
