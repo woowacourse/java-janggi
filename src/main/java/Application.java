@@ -30,6 +30,10 @@ public class Application {
         Board board = createBoard(hanTableSetting, choTableSetting);
         outputView.printBoard(board.getPieces());
 
+        processGame(board, inputView, outputView);
+    }
+
+    private static void processGame(final Board board, final InputView inputView, final OutputView outputView) {
         while (true) {
             for (Team team : Team.values()) {
                 CoordinatesPair coordinatesPair = inputView.readMoveCoordinate(team);
