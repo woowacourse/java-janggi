@@ -30,7 +30,7 @@ public class JanggiManager {
         }
     }
 
-    private void movePiece(String inputStartPosition, String inputEndPosition, Board board) {
+    private void movePiece(final String inputStartPosition, final String inputEndPosition, final Board board) {
         handleException(() -> {
             Position start = parsePosition(inputStartPosition);
             Position end = parsePosition(inputEndPosition);
@@ -40,9 +40,13 @@ public class JanggiManager {
 
     private Position parsePosition(final String input) {
         String[] coordinate = input.split(",");
-        int x = Integer.parseInt(coordinate[0]);
-        int y = Integer.parseInt(coordinate[1]);
-        return new Position(x, y);
+        try {
+            int x = Integer.parseInt(coordinate[0]);
+            int y = Integer.parseInt(coordinate[1]);
+            return new Position(x, y);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("(x,y) 형태로 입력해주세요.");
+        }
     }
 
     private void handleException(final Runnable action) {

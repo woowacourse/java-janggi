@@ -13,7 +13,25 @@ import java.util.Map;
 
 public class OutputView {
 
+    private static final String ERROR_PREFIX = "ERROR";
+
     public void printBoard(Map<Position, Piece> board) {
+        String[][] boardOutput = initBoardOutput(board);
+        printBoardOutput(boardOutput);
+    }
+
+    private static void printBoardOutput(String[][] boardOutput) {
+        for (int i = 9; i >= 0; i--) {
+            for (String[] strings : boardOutput) {
+                System.out.printf("%s\t", strings[i]);
+            }
+            System.out.printf("\t%d%n", i + 1);
+        }
+        System.out.println();
+        System.out.println("1\t2\t3\t4\t5\t6\t7\t8\t9");
+    }
+
+    private static String[][] initBoardOutput(Map<Position, Piece> board) {
         String[][] boardOutput = new String[9][10];
         for (int i = 0; i < boardOutput.length; i++) {
             for (int j = 0; j < boardOutput[i].length; j++) {
@@ -27,18 +45,11 @@ public class OutputView {
                 boardOutput[i][j] = ".";
             }
         }
-        for (int i = 9; i >= 0; i--) {
-            for (int j = 0; j < boardOutput.length; j++) {
-                System.out.printf("%s\t", boardOutput[j][i]);
-            }
-            System.out.printf("\t%d%n", i + 1);
-        }
-        System.out.println();
-        System.out.println("1\t2\t3\t4\t5\t6\t7\t8\t9");
+        return boardOutput;
     }
 
     public void printErrorMessage(Exception e) {
-        System.out.println(e.getMessage());
+        System.out.println(ERROR_PREFIX + e.getMessage());
     }
 
     enum PieceOutput {
@@ -50,6 +61,9 @@ public class OutputView {
         SOLDIER("S"),
         TANK("T");
 
+        public static final String BLUE_SIDE_COLOR = "\u001B[34m";
+        public static final String COLOR_EXIT = "\u001B[0m";
+        public static final String RED_SIDE_COLOR = "\u001B[31m";
         private final String output;
 
         PieceOutput(String output) {
@@ -57,10 +71,11 @@ public class OutputView {
         }
 
         private static String getPieceOutputByPieceAndSide(Piece piece) {
+            String text = getPieceOutputByPiece(piece);
             if (piece.getSide() == Side.RED) {
-                return getPieceOutputByPiece(piece);
+                return RED_SIDE_COLOR + text + COLOR_EXIT;
             }
-            return getPieceOutputByPiece(piece).toLowerCase();
+            return BLUE_SIDE_COLOR + text + COLOR_EXIT;
         }
 
         private static String getPieceOutputByPiece(Piece piece) {
