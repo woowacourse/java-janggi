@@ -2,6 +2,7 @@ package piece;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 public class PlayerPieces {
@@ -25,6 +26,12 @@ public class PlayerPieces {
     }
 
     public Optional<Team> kingDeadTeam() {
+        for (Entry<Team, Pieces> teamPiecesEntry : teamBoard.entrySet()) {
+            Pieces pieces = teamPiecesEntry.getValue();
+            if (!pieces.isPieceExist(PieceType.GUNG)) {
+                return Optional.of(teamPiecesEntry.getKey());
+            }
+        }
         return Optional.empty();
     }
 
@@ -37,6 +44,7 @@ public class PlayerPieces {
     }
 
     private Pieces otherTeamPieces(Team team) {
+        Team opposite = team.opposite();
         if (team == Team.BLUE) {
             return teamBoard.get(Team.RED);
         }

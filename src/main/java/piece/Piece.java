@@ -52,7 +52,7 @@ public class Piece {
     }
 
     public Route getRoute(Position selectPiecePosition, Position movePosition) {
-        return moveRule.getRoute(selectPiecePosition, movePosition);
+        return moveRule.getRoute(selectPiecePosition, movePosition, team);
     }
 
     @Override

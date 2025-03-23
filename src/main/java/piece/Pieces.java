@@ -91,4 +91,13 @@ public class Pieces {
     public Piece getLastPiece() {
         return pieces.getLast();
     }
+
+    public boolean isPieceExist(PieceType pieceType) {
+        for (Piece piece : pieces) {
+            if (piece.isSameType(pieceType)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

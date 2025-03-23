@@ -21,8 +21,8 @@ public class MoveRule {
         return pieceType.equals(comparePieceType);
     }
 
-    public Route getRoute(Position selectPiecePosition, Position movePosition) {
-        return moveBehavior.getLegalRoute(selectPiecePosition, movePosition, Team.BLUE);
+    public Route getRoute(Position selectPiecePosition, Position movePosition, Team team) {
+        return moveBehavior.getLegalRoute(selectPiecePosition, movePosition, team);
     }
 
     public String getType() {

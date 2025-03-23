@@ -11,6 +11,8 @@ public class GameView {
     private static final String RED_COLOR_FORMAT = "\u001B[31m%s\u001B[0m";
     private static final String BLUE_COLOR_FORMAT = "\u001B[34m%s\u001B[0m";
     private static final String GRID_HELPER = "  영일이삼사오육칠팔\n\n";
+    private static final String WINNER_FORMAT = "%s 이 승리하였습니다.";
+
     private final Scanner scanner;
 
 
@@ -88,5 +90,9 @@ public class GameView {
 
     public void printError(String message) {
         System.out.printf("[ERROR] %s\n", message);
+    }
+
+    public void printWinner(Team winner) {
+        System.out.printf(WINNER_FORMAT, winner.getType());
     }
 }

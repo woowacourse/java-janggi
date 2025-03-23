@@ -2,8 +2,10 @@ package piece;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import move.ChaMoveBehavior;
 import move.FoMoveBehavior;
+import move.GungMoveBehavior;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -61,5 +63,29 @@ public class PlayerPiecesTest {
         // then
         Assertions.assertThatIterable(playerPieces.allPieces().getPieces())
                 .containsExactlyInAnyOrderElementsOf(bluePieces.getPieces());
+    }
+
+    @Test
+    void 궁이_없는_팀을_반환한다() {
+        var bluePiece = new Piece(new Position(0, 1), new GungMoveBehavior(), PieceType.GUNG, Team.BLUE);
+        var redPiece = new Piece(new Position(1, 1), new FoMoveBehavior(), PieceType.FO, Team.RED);
+        Pieces bluePieces = new Pieces(List.of(bluePiece));
+        Pieces redPieces = new Pieces(List.of(redPiece));
+        Map<Team, Pieces> teamPieces = Map.of(Team.BLUE, bluePieces, Team.RED, redPieces);
+        PlayerPieces playerPieces = new PlayerPieces(teamPieces);
+        Optional<Team> loseTeam = playerPieces.kingDeadTeam();
+        Assertions.assertThat(loseTeam.get()).isEqualTo(Team.RED);
+    }
+
+    @Test
+    void 모두_궁이_있으면_아무것도_반환하지않는다() {
+        var bluePiece = new Piece(new Position(0, 1), new GungMoveBehavior(), PieceType.GUNG, Team.BLUE);
+        var redPiece = new Piece(new Position(1, 1), new GungMoveBehavior(), PieceType.GUNG, Team.RED);
+        Pieces bluePieces = new Pieces(List.of(bluePiece));
+        Pieces redPieces = new Pieces(List.of(redPiece));
+        Map<Team, Pieces> teamPieces = Map.of(Team.BLUE, bluePieces, Team.RED, redPieces);
+        PlayerPieces playerPieces = new PlayerPieces(teamPieces);
+        Optional<Team> loseTeam = playerPieces.kingDeadTeam();
+        Assertions.assertThat(loseTeam.isEmpty()).isTrue();
     }
 }

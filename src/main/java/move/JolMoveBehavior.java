@@ -19,7 +19,7 @@ public class JolMoveBehavior implements MoveBehavior {
                         List.of(Direction.LEFT)
                 ),
                 new Directions(
-                        List.of(Direction.UP)
+                        List.of(Direction.DOWN)
                 )
         );
         final List<Directions> redCanMoveDirections = List.of(
@@ -30,7 +30,7 @@ public class JolMoveBehavior implements MoveBehavior {
                         List.of(Direction.LEFT)
                 ),
                 new Directions(
-                        List.of(Direction.DOWN)
+                        List.of(Direction.UP)
                 )
         );
 

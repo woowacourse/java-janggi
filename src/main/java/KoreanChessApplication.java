@@ -1,4 +1,5 @@
 import java.util.Map;
+import java.util.Optional;
 import piece.InitiateJanggiTeamPieces;
 import piece.Piece;
 import piece.Pieces;
@@ -27,14 +28,19 @@ public class KoreanChessApplication {
 
     private static void playKoreanChess(PlayerPieces playerPieces, GameView gameView) {
         int turn = 0;
-        while (playerPieces.kingDeadTeam().isEmpty()) {
+        Optional<Team> loseTeam = playerPieces.kingDeadTeam();
+        while (loseTeam.isEmpty()) {
             try {
                 playTurn(playerPieces, gameView, turn);
                 turn = (turn + 1) % PLAYER_SIZE;
+                loseTeam = playerPieces.kingDeadTeam();
             } catch (IllegalArgumentException e) {
                 gameView.printError(e.getMessage());
             }
         }
+        playTurn(playerPieces, gameView, turn);
+        Team team = loseTeam.get();
+        gameView.printWinner(team.opposite());
     }
 
     private static void playTurn(PlayerPieces playerPieces, GameView gameView, int turn) {
