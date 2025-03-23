@@ -19,10 +19,10 @@ public class JanggiBoard {
 
     public void movePiece(CampType campType, JanggiPosition targetPieceJanggiPosition, JanggiPosition destination) {
         if (campType == CampType.CHO) {
-            choPieces.movePiece(hanPieces.getPieces(), targetPieceJanggiPosition, destination);
+            choPieces.movePiece(hanPieces, targetPieceJanggiPosition, destination);
             return;
         }
-        hanPieces.movePiece(choPieces.getPieces(), targetPieceJanggiPosition, destination);
+        hanPieces.movePiece(choPieces, targetPieceJanggiPosition, destination);
     }
 
     public List<Piece> getChoPieces() {

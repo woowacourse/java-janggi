@@ -25,7 +25,7 @@ class GungTest {
         Gung gung = Gung.generateInitialGung(CampType.CHO).getFirst();
 
         //when
-        Gung movedGung = gung.move(destination, List.of(), List.of());
+        Gung movedGung = gung.move(destination, new Pieces(List.of()), new Pieces(List.of()));
 
         //then
         assertThat(movedGung.getPosition()).isEqualTo(destination);
@@ -40,7 +40,6 @@ class GungTest {
         );
     }
 
-
     @DisplayName("장기말의 이동 규칙에 어긋난 경우 이동이 불가능합니다.")
     @ParameterizedTest
     @MethodSource()
@@ -49,7 +48,7 @@ class GungTest {
         Gung gung = Gung.generateInitialGung(CampType.CHO).getFirst();
 
         //when & then
-        assertThatThrownBy(() -> gung.move(destination, List.of(), List.of()))
+        assertThatThrownBy(() -> gung.move(destination, new Pieces(List.of()), new Pieces(List.of())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -71,7 +70,7 @@ class GungTest {
         Gung otherPiece = Gung.from(destination);
 
         //when & then
-        assertThatThrownBy(() -> gung.move(destination, List.of(), List.of(otherPiece)))
+        assertThatThrownBy(() -> gung.move(destination, new Pieces(List.of()), new Pieces(List.of(otherPiece))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }

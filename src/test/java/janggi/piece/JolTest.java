@@ -26,7 +26,7 @@ class JolTest {
         Jol jol = Jol.from(STANDARD, CampType.CHO);
 
         //when
-        Jol movedJol = jol.move(destination, List.of(), List.of());
+        Jol movedJol = jol.move(destination, new Pieces(List.of()), new Pieces(List.of()));
 
         //then
         assertThat(movedJol.getPosition()).isEqualTo(destination);
@@ -48,7 +48,7 @@ class JolTest {
         Jol jol = Jol.from(STANDARD, CampType.HAN);
 
         //when
-        Jol movedJol = jol.move(destination, List.of(), List.of());
+        Jol movedJol = jol.move(destination, new Pieces(List.of()), new Pieces(List.of()));
 
         //then
         assertThat(movedJol.getPosition()).isEqualTo(destination);
@@ -62,7 +62,6 @@ class JolTest {
         );
     }
 
-
     @DisplayName("장기말의 이동 규칙에 어긋난 경우 이동이 불가능합니다.")
     @ParameterizedTest
     @MethodSource()
@@ -71,7 +70,7 @@ class JolTest {
         Jol jol = Jol.from(STANDARD, CampType.CHO);
 
         //when & then
-        assertThatThrownBy(() -> jol.move(destination, List.of(), List.of()))
+        assertThatThrownBy(() -> jol.move(destination, new Pieces(List.of()), new Pieces(List.of())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -93,7 +92,7 @@ class JolTest {
         Jol otherPiece = Jol.from(destination, CampType.CHO);
 
         //when & then
-        assertThatThrownBy(() -> jol.move(destination, List.of(), List.of(otherPiece)))
+        assertThatThrownBy(() -> jol.move(destination, new Pieces(List.of()), new Pieces(List.of(otherPiece))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -107,7 +106,7 @@ class JolTest {
         Jol otherPiece = Jol.from(destination, CampType.CHO);
 
         //when
-        Jol movedJol = jol.move(destination, List.of(otherPiece), List.of());
+        Jol movedJol = jol.move(destination, new Pieces(List.of(otherPiece)), new Pieces(List.of()));
 
         //then
         Assertions.assertThat(movedJol.getPosition()).isEqualTo(destination);

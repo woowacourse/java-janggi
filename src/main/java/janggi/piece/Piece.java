@@ -13,9 +13,9 @@ public abstract class Piece {
         this.janggiPosition = janggiPosition;
     }
 
-    abstract public Piece move(final JanggiPosition destination, List<Piece> enemy, List<Piece> allies);
+    abstract public Piece move(final JanggiPosition destination, Pieces enemy, Pieces allies);
 
-    abstract protected boolean ableToMove(final JanggiPosition destination, List<Piece> enemy, List<Piece> allies);
+    abstract protected boolean ableToMove(final JanggiPosition destination, Pieces enemy, Pieces allies);
 
     public PieceType getPieceType() {
         return pieceType;

@@ -23,7 +23,7 @@ public class Po extends Piece {
     }
 
     @Override
-    public Po move(final JanggiPosition destination, final List<Piece> enemy, final List<Piece> allies) {
+    public Po move(final JanggiPosition destination, final Pieces enemy, final Pieces allies) {
         if (!ableToMove(destination, enemy, allies)) {
             throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
         }
@@ -31,36 +31,47 @@ public class Po extends Piece {
     }
 
     @Override
-    protected boolean ableToMove(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
+    protected boolean ableToMove(JanggiPosition destination, Pieces enemy, Pieces allies) {
         // 목적지가 직선 상에 있는지 확인
         if (!isStraightLine(destination)) {
             return false;
         }
 
         // 목적지에 아군이 있는지 확인
-        if (isAlliesInDestination(destination, allies)) {
+        if (allies.isPositionOccupiedByEnemy(destination)) {
             return false;
         }
+//        if (isAlliesInDestination(destination, allies)) {
+//            return false;
+//        }
 
         // 현재 위치와 목적지 사이의 경로 계산
         List<JanggiPosition> pathPositions = calculatePathPositions(destination);
 
-        // 경로 상의 아군과 적군 검색
-        List<Piece> alliesInPath = searchPiecesInPath(allies, pathPositions);
-        List<Piece> enemyInPath = searchPiecesInPath(enemy, pathPositions);
-
-        // 경로 상에 아군이나 적군이 없으면 이동 불가
-        if (alliesInPath.isEmpty() && enemyInPath.isEmpty()) {
+        if (!allies.isPieceInPathEmpty(pathPositions, enemy.getPieces())) {
             return false;
         }
 
-        // 경로 상에 포가 있는지 확인
-        if (containsPo(alliesInPath) || containsPo(enemyInPath)) {
+//        // 경로 상의 아군과 적군 검색
+//        List<Piece> alliesInPath = searchPiecesInPath(allies, pathPositions);
+//        List<Piece> enemyInPath = searchPiecesInPath(enemy, pathPositions);
+//
+//        // 경로 상에 아군이나 적군이 없으면 이동 불가
+//        if (alliesInPath.isEmpty() && enemyInPath.isEmpty()) {
+//            return false;
+//        }
+
+        if (allies.isPoInPath(pathPositions, enemy.getPieces())) {
             return false;
         }
+//        // 경로 상에 포가 있는지 확인
+//        if (containsPo(alliesInPath) || containsPo(enemyInPath)) {
+//            return false;
+//        }
 
-        // 경로 상의 말이 딱 하나인지 확인
-        return alliesInPath.size() + enemyInPath.size() == 1;
+//        // 경로 상의 말이 딱 하나인지 확인
+//        return alliesInPath.size() + enemyInPath.size() == 1;
+        return allies.isOnlyOnePieceInPath(pathPositions, enemy.getPieces(), allies.getPieces());
     }
 
     private boolean isStraightLine(JanggiPosition destination) {

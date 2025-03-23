@@ -25,7 +25,7 @@ class SaTest {
         Sa sa = Sa.from(STANDARD);
 
         //when
-        Sa movedSa = sa.move(destination, List.of(), List.of());
+        Sa movedSa = sa.move(destination, new Pieces(List.of()), new Pieces(List.of()));
 
         //then
         assertThat(movedSa.getPosition()).isEqualTo(destination);
@@ -40,7 +40,6 @@ class SaTest {
         );
     }
 
-
     @DisplayName("장기말의 이동 규칙에 어긋난 경우 이동이 불가능합니다.")
     @ParameterizedTest
     @MethodSource()
@@ -49,7 +48,7 @@ class SaTest {
         Sa sa = Sa.from(STANDARD);
 
         //when & then
-        assertThatThrownBy(() -> sa.move(destination, List.of(), List.of()))
+        assertThatThrownBy(() -> sa.move(destination, new Pieces(List.of()), new Pieces(List.of())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -72,7 +71,7 @@ class SaTest {
         Sa otherPiece = Sa.from(destination);
 
         //when & then
-        assertThatThrownBy(() -> sa.move(destination, List.of(), List.of(otherPiece)))
+        assertThatThrownBy(() -> sa.move(destination, new Pieces(List.of()), new Pieces(List.of(otherPiece))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }

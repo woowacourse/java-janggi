@@ -26,7 +26,7 @@ public class MaTest {
         Ma ma = Ma.from(STANDARD);
 
         //when
-        Ma movedMa = ma.move(destination, List.of(), List.of());
+        Ma movedMa = ma.move(destination, new Pieces(List.of()), new Pieces(List.of()));
 
         //then
         assertThat(movedMa.getPosition()).isEqualTo(destination);
@@ -54,7 +54,7 @@ public class MaTest {
         Ma ma = Ma.from(STANDARD);
 
         //when & then
-        assertThatThrownBy(() -> ma.move(destination, List.of(), List.of()))
+        assertThatThrownBy(() -> ma.move(destination, new Pieces(List.of()), new Pieces(List.of())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -78,10 +78,10 @@ public class MaTest {
 
         //when & then
         assertAll(
-                () -> assertThatThrownBy(() -> ma.move(new JanggiPosition(6, 3), List.of(), List.of(hurdle)))
+                () -> assertThatThrownBy(() -> ma.move(new JanggiPosition(6, 3), new Pieces(List.of()), new Pieces(List.of(hurdle))))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다."),
-                () -> assertThatThrownBy(() -> ma.move(new JanggiPosition(6, 5), List.of(), List.of(hurdle)))
+                () -> assertThatThrownBy(() -> ma.move(new JanggiPosition(6, 5), new Pieces(List.of()), new Pieces(List.of(hurdle))))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다.")
         );
@@ -95,7 +95,7 @@ public class MaTest {
         JanggiPosition hurdle = new JanggiPosition(6, 3);
 
         //when & then
-        assertThatThrownBy(() -> ma.move(hurdle, List.of(), List.of(Ma.from(hurdle))))
+        assertThatThrownBy(() -> ma.move(hurdle, new Pieces(List.of()), new Pieces(List.of(Ma.from(hurdle)))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -110,10 +110,10 @@ public class MaTest {
 
         //when & then
         assertAll(
-                () -> assertThatThrownBy(() -> ma.move(new JanggiPosition(6, 3), List.of(hurdle), List.of()))
+                () -> assertThatThrownBy(() -> ma.move(new JanggiPosition(6, 3), new Pieces(List.of(hurdle)), new Pieces(List.of())))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다."),
-                () -> assertThatThrownBy(() -> ma.move(new JanggiPosition(6, 5), List.of(hurdle), List.of()))
+                () -> assertThatThrownBy(() -> ma.move(new JanggiPosition(6, 5), new Pieces(List.of(hurdle)), new Pieces(List.of())))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다.")
         );
@@ -127,7 +127,7 @@ public class MaTest {
         JanggiPosition hurdle = new JanggiPosition(6, 3);
 
         //when
-        Ma movedMa = ma.move(hurdle, List.of(Ma.from(hurdle)), List.of());
+        Ma movedMa = ma.move(hurdle, new Pieces(List.of(Ma.from(hurdle))), new Pieces(List.of()));
 
         //then
         Assertions.assertThat(movedMa.getPosition()).isEqualTo(hurdle);

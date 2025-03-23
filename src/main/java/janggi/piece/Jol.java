@@ -26,7 +26,7 @@ public class Jol extends Piece {
     }
 
     @Override
-    public Jol move(final JanggiPosition destination, final List<Piece> enemyPieces, final List<Piece> allyPieces) {
+    public Jol move(final JanggiPosition destination, final Pieces enemyPieces, final Pieces allyPieces) {
         if (!ableToMove(destination, enemyPieces, allyPieces)) {
             throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
         }
@@ -34,8 +34,8 @@ public class Jol extends Piece {
     }
 
     @Override
-    protected boolean ableToMove(JanggiPosition destination, List<Piece> enemyPieces, List<Piece> allyPieces) {
-        return isValidMove(destination) && isNotBlockedByAlly(destination, allyPieces);
+    protected boolean ableToMove(JanggiPosition destination, Pieces enemyPieces, Pieces allyPieces) {
+        return isValidMove(destination) && allyPieces.isNotBlockedByAlly(destination);
     }
 
     private boolean isValidMove(JanggiPosition destination) {
@@ -52,8 +52,4 @@ public class Jol extends Piece {
                 || (destY == currentY && Math.abs(destX - currentX) == 1);
     }
 
-    private boolean isNotBlockedByAlly(JanggiPosition destination, List<Piece> allyPieces) {
-        return allyPieces.stream()
-                .noneMatch(piece -> piece.getPosition().equals(destination));
-    }
 }

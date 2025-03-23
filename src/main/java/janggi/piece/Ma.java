@@ -22,7 +22,7 @@ public class Ma extends Piece {
     }
 
     @Override
-    public Ma move(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
+    public Ma move(JanggiPosition destination, Pieces enemy, Pieces allies) {
         boolean isAble = ableToMove(destination, enemy, allies);
         if (!isAble) {
             throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
@@ -31,19 +31,16 @@ public class Ma extends Piece {
     }
 
     @Override
-    protected boolean ableToMove(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
+    protected boolean ableToMove(JanggiPosition destination, Pieces enemy, Pieces allies) {
         MaDirection maDirection = MaDirection.of(getPosition(), destination);
         if (maDirection == MaDirection.NONE) {
             return false;
         }
-        if (isPieceExistInRoute(enemy, maDirection) || isPieceExistInRoute(allies, maDirection)) {
+        if (enemy.isPieceExistInRoute(maDirection, getPosition()) ||
+                allies.isPieceExistInRoute(maDirection, getPosition())) {
             return false;
         }
-        return allies.stream().noneMatch(alliesPiece -> destination.equals(alliesPiece.getPosition()));
+        return allies.isNotBlockedByAlly(destination);
     }
 
-    private boolean isPieceExistInRoute(List<Piece> pieces, MaDirection maDirection) {
-        return pieces.stream()
-                .anyMatch(piece -> maDirection.isDirectRoute(getPosition(), piece.getPosition()));
-    }
 }

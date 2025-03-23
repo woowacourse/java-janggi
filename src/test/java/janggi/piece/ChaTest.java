@@ -26,7 +26,7 @@ class ChaTest {
         Cha cha = Cha.from(STANDARD);
 
         //when
-        Cha movedCha = cha.move(destination, List.of(), List.of());
+        Cha movedCha = cha.move(destination, new Pieces(List.of()), new Pieces(List.of()));
 
         //then
         assertThat(movedCha.getPosition()).isEqualTo(destination);
@@ -54,7 +54,7 @@ class ChaTest {
         Cha cha = Cha.from(STANDARD);
 
         //when & then
-        assertThatThrownBy(() -> cha.move(destination, List.of(), List.of()))
+        assertThatThrownBy(() -> cha.move(destination, new Pieces(List.of()), new Pieces(List.of())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -78,7 +78,7 @@ class ChaTest {
         Cha otherPiece = Cha.from(destination);
 
         //when & then
-        Cha movedCha = cha.move(janggiPositionBeforeHurdle, List.of(), List.of(otherPiece));
+        Cha movedCha = cha.move(janggiPositionBeforeHurdle, new Pieces(List.of()), new Pieces(List.of(otherPiece)));
         assertThat(movedCha.getPosition()).isEqualTo(janggiPositionBeforeHurdle);
     }
 
@@ -92,10 +92,10 @@ class ChaTest {
 
         //when & then
         assertAll(
-                () -> assertThatThrownBy(() -> cha.move(new JanggiPosition(6, 4), List.of(), List.of(otherPiece)))
+                () -> assertThatThrownBy(() -> cha.move(new JanggiPosition(6, 4), new Pieces(List.of()), new Pieces(List.of(otherPiece))))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다."),
-                () -> assertThatThrownBy(() -> cha.move(new JanggiPosition(7, 4), List.of(), List.of(otherPiece)))
+                () -> assertThatThrownBy(() -> cha.move(new JanggiPosition(7, 4), new Pieces(List.of()), new Pieces(List.of(otherPiece))))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다.")
         );
@@ -111,7 +111,7 @@ class ChaTest {
         Cha otherPiece = Cha.from(hurdleJanggiPosition);
 
         //when & then
-        assertThatThrownBy(() -> cha.move(destination, List.of(otherPiece), List.of()))
+        assertThatThrownBy(() -> cha.move(destination, new Pieces(List.of(otherPiece)), new Pieces(List.of())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -126,7 +126,7 @@ class ChaTest {
         Cha otherPiece = Cha.from(destination);
 
         //when & then
-        Cha movedCha = cha.move(destination, List.of(otherPiece), List.of());
+        Cha movedCha = cha.move(destination, new Pieces(List.of(otherPiece)), new Pieces(List.of()));
         Assertions.assertThat(movedCha.getPosition()).isEqualTo(destination);
     }
 
@@ -140,10 +140,10 @@ class ChaTest {
 
         //when & then
         assertAll(
-                () -> assertThatThrownBy(() -> cha.move(new JanggiPosition(7, 4), List.of(), List.of(otherPiece)))
+                () -> assertThatThrownBy(() -> cha.move(new JanggiPosition(7, 4), new Pieces(List.of()), new Pieces(List.of(otherPiece))))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다."),
-                () -> assertThatThrownBy(() -> cha.move(new JanggiPosition(8, 4), List.of(), List.of(otherPiece)))
+                () -> assertThatThrownBy(() -> cha.move(new JanggiPosition(8, 4), new Pieces(List.of()), new Pieces(List.of(otherPiece))))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다.")
         );

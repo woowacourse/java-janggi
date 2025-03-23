@@ -28,7 +28,7 @@ public class JanggiGame {
         outputView.writeChoStart();
 
         // TODO: 현재 단계에서는 종료조건 없음, 2단계에서 승패 구현할때 구현 예정
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 10; i++) {
             playTurn(janggiBoard, CampType.CHO);
             playTurn(janggiBoard, CampType.HAN);
         }

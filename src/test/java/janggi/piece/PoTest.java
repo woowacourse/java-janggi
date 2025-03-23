@@ -26,7 +26,7 @@ class PoTest {
         Jol jumpPad = Jol.from(jumpPadJanggiPosition, CampType.CHO);
 
         //when
-        Po movedPo = po.move(destination, List.of(), List.of(jumpPad));
+        Po movedPo = po.move(destination, new Pieces(List.of()), new Pieces(List.of(jumpPad)));
 
         //then
         assertThat(movedPo.getPosition()).isEqualTo(destination);
@@ -50,7 +50,7 @@ class PoTest {
         Po po = Po.from(STANDARD);
 
         //when & then
-        assertThatThrownBy(() -> po.move(destination, List.of(), List.of()))
+        assertThatThrownBy(() -> po.move(destination, new Pieces(List.of()), new Pieces(List.of())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -73,7 +73,7 @@ class PoTest {
         Po jumpPad = Po.from(poJanggiPosition);
 
         //when & then
-        assertThatThrownBy(() -> po.move(destination, List.of(), List.of(jumpPad)))
+        assertThatThrownBy(() -> po.move(destination, new Pieces(List.of()), new Pieces(List.of(jumpPad))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -96,7 +96,7 @@ class PoTest {
         Po jumpPad = Po.from(poJanggiPosition);
 
         //when & then
-        assertThatThrownBy(() -> po.move(destination, List.of(jumpPad), List.of()))
+        assertThatThrownBy(() -> po.move(destination, new Pieces(List.of(jumpPad)), new Pieces(List.of())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -110,7 +110,6 @@ class PoTest {
         );
     }
 
-
     @DisplayName("장기말의 경로상에 적군과 아군 상관없이 점프대가 2개이상인 경우 이동할 수 없다")
     @ParameterizedTest
     @MethodSource()
@@ -122,7 +121,7 @@ class PoTest {
                 .toList();
 
         //when & then
-        assertThatThrownBy(() -> po.move(destination, List.of(jumpPads.getFirst()), List.of(jumpPads.getLast())))
+        assertThatThrownBy(() -> po.move(destination, new Pieces(List.of(jumpPads.getFirst())), new Pieces(List.of(jumpPads.getLast()))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -157,7 +156,7 @@ class PoTest {
         Jol jumpPad = Jol.from(destination, CampType.CHO);
 
         //when & then
-        assertThatThrownBy(() -> po.move(destination, List.of(), List.of(jumpPad)))
+        assertThatThrownBy(() -> po.move(destination, new Pieces(List.of()), new Pieces(List.of(jumpPad))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -171,7 +170,7 @@ class PoTest {
         JanggiPosition destination = new JanggiPosition(8, STANDARD.getY());
 
         //when
-        Po movedPo = po.move(destination, List.of(jumpPad), List.of());
+        Po movedPo = po.move(destination, new Pieces(List.of(jumpPad)), new Pieces(List.of()));
 
         //then
         assertThat(movedPo.getPosition()).isEqualTo(destination);
@@ -185,7 +184,7 @@ class PoTest {
         JanggiPosition destination = new JanggiPosition(5, 7);
 
         //when & then
-        assertThatThrownBy(() -> po.move(destination, List.of(), List.of()))
+        assertThatThrownBy(() -> po.move(destination, new Pieces(List.of()), new Pieces(List.of())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }

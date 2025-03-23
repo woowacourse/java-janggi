@@ -24,7 +24,7 @@ public class Cha extends Piece {
     }
 
     @Override
-    public Cha move(final JanggiPosition destination, final List<Piece> enemyPieces, final List<Piece> allyPieces) {
+    public Cha move(final JanggiPosition destination, final Pieces enemyPieces, final Pieces allyPieces) {
         if (!ableToMove(destination, enemyPieces, allyPieces)) {
             throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
         }
@@ -32,43 +32,27 @@ public class Cha extends Piece {
     }
 
     @Override
-    protected boolean ableToMove(JanggiPosition destination, List<Piece> enemyPieces, List<Piece> allyPieces) {
+    protected boolean ableToMove(JanggiPosition destination, Pieces enemyPieces, Pieces allyPieces) {
         if (!isValidMove(destination)) {
             return false;
         }
-        return isPathBlockedByAlly(destination, allyPieces) && isPathClearOrBlockedByEnemy(destination, enemyPieces);
+
+        List<JanggiPosition> pathPositions = calculatePathPositions(destination);
+
+        // 목적지에 적이 있는지 확인
+        boolean isDestinationOccupiedByEnemy = enemyPieces.isPositionOccupiedByEnemy(destination);
+
+        if (isDestinationOccupiedByEnemy) {
+            // 목적지에 적이 있는 경우, 경로 상에 아군이 없어야 함
+            return allyPieces.isPathBlockedByAlly(pathPositions);
+        }
+        // 목적지에 적이 없는 경우, 경로 상에 아군이나 적이 없어야 함
+        return allyPieces.isPathBlockedByAlly(pathPositions)
+                && enemyPieces.isPathBlockedByEnemy(pathPositions);
     }
 
     private boolean isValidMove(JanggiPosition destination) {
         return getPosition().getX() == destination.getX() || getPosition().getY() == destination.getY();
-    }
-
-    private boolean isPathBlockedByAlly(JanggiPosition destination, List<Piece> allyPieces) {
-        List<JanggiPosition> pathPositions = calculatePathPositions(destination);
-        return pathPositions.stream()
-                .noneMatch(position -> isPositionOccupiedByAlly(position, allyPieces));
-    }
-
-    private boolean isPathClearOrBlockedByEnemy(JanggiPosition destination, List<Piece> enemyPieces) {
-        List<JanggiPosition> pathPositions = calculatePathPositions(destination);
-        for (JanggiPosition position : pathPositions) {
-            if (position.equals(destination)) {
-                // 목적지에는 상대방이 있으면 공격 가능 (2.1)
-                continue;
-            }
-            if (isPositionOccupiedByEnemy(position, enemyPieces)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean isPositionOccupiedByAlly(JanggiPosition position, List<Piece> allyPieces) {
-        return allyPieces.stream().anyMatch(piece -> piece.getPosition().equals(position));
-    }
-
-    private boolean isPositionOccupiedByEnemy(JanggiPosition position, List<Piece> enemyPieces) {
-        return enemyPieces.stream().anyMatch(piece -> piece.getPosition().equals(position));
     }
 
     private List<JanggiPosition> calculatePathPositions(JanggiPosition destination) {

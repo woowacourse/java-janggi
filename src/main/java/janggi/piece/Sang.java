@@ -22,7 +22,7 @@ public class Sang extends Piece {
     }
 
     @Override
-    public Sang move(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
+    public Sang move(JanggiPosition destination, Pieces enemy, Pieces allies) {
         boolean isAble = ableToMove(destination, enemy, allies);
         if (!isAble) {
             throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
@@ -31,19 +31,16 @@ public class Sang extends Piece {
     }
 
     @Override
-    protected boolean ableToMove(JanggiPosition destination, List<Piece> enemy, List<Piece> allies) {
+    protected boolean ableToMove(JanggiPosition destination, Pieces enemy, Pieces allies) {
         SangDirection sangDirection = SangDirection.of(getPosition(), destination);
         if (sangDirection == SangDirection.NONE) {
             return false;
         }
-        if (isPieceExistInRoute(enemy, sangDirection) || isPieceExistInRoute(allies, sangDirection)) {
+        if (enemy.isPieceExistInRouteSang(sangDirection, getPosition()) ||
+                allies.isPieceExistInRouteSang(sangDirection, getPosition())) {
             return false;
         }
-        return allies.stream().noneMatch(alliesPiece -> destination.equals(alliesPiece.getPosition()));
+        return allies.isNotBlockedByAlly(destination);
     }
 
-    private boolean isPieceExistInRoute(List<Piece> pieces, SangDirection direction) {
-        return pieces.stream()
-                .anyMatch(piece -> direction.isRoute(getPosition(), piece.getPosition()));
-    }
 }
