@@ -5,7 +5,9 @@ import direction.Point;
 
 public class InputView {
 
-    private final static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
+    public static final int COLUMN_INDEX = 0;
+    public static final int ROW_INDEX = 1;
 
     public static Point requestMoveStartPosition() {
         System.out.println("움직일 말을 알려주세요.");
@@ -13,8 +15,8 @@ public class InputView {
 
         String[] rawFromPoint = from.split(" ");
         return new Point(
-                Integer.parseInt(rawFromPoint[0]),
-                Integer.parseInt(rawFromPoint[1])
+                Integer.parseInt(rawFromPoint[COLUMN_INDEX]),
+                Integer.parseInt(rawFromPoint[ROW_INDEX])
         );
     }
 
@@ -24,8 +26,8 @@ public class InputView {
 
         String[] rawToPoint = to.split(" ");
         return new Point(
-                Integer.parseInt(rawToPoint[0]),
-                Integer.parseInt(rawToPoint[1])
+                Integer.parseInt(rawToPoint[COLUMN_INDEX]),
+                Integer.parseInt(rawToPoint[ROW_INDEX])
         );
     }
 }
