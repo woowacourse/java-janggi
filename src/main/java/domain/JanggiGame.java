@@ -2,23 +2,18 @@ package domain;
 
 import domain.boardgenerator.BoardGenerator;
 import domain.piece.Piece;
+import domain.player.Players;
 import java.util.List;
 import java.util.Map;
 
 public class JanggiGame {
 
-    public static final int SEQUENCE_ZERO = 0;
-    public static final int SEQUENCE_ONE = 1;
-
     private final JanggiBoard janggiBoard;
-    private final List<Player> players;
-    private int sequence = SEQUENCE_ZERO;
-
+    private final Players players;
 
     public JanggiGame(BoardGenerator boardGenerator, List<String> playerNames) {
         this.janggiBoard = new JanggiBoard(boardGenerator);
-        this.players = List.of(new Player(playerNames.getFirst(), Team.CHO),
-                new Player(playerNames.getLast(), Team.HAN));
+        this.players = Players.ofNames(playerNames.getFirst(), playerNames.getLast());
     }
 
     public void move(List<Integer> startRowAndColumn, List<Integer> targetRowAndColumn) {
@@ -26,15 +21,11 @@ public class JanggiGame {
         Position targetPosition = new Position(targetRowAndColumn.getFirst(), targetRowAndColumn.getLast());
         validateMovePiece(startPosition, targetPosition);
         janggiBoard.move(startPosition, targetPosition);
-        if (sequence == SEQUENCE_ZERO) {
-            sequence = SEQUENCE_ONE;
-            return;
-        }
-        sequence = SEQUENCE_ZERO;
+        players.nextTurn();
     }
 
     private void validateMovePiece(Position startPosition, Position targetPosition) {
-        if (!players.get(sequence).isTeam(janggiBoard.findPiece(startPosition))) {
+        if (!players.isSameTeamThisTurnPlayerAndPiece(janggiBoard.findPiece(startPosition))) {
             throw new IllegalArgumentException("자신의 말만 움직일 수 있습니다.");
         }
         if (startPosition.equals(targetPosition)) {
@@ -43,7 +34,7 @@ public class JanggiGame {
     }
 
     public Player getThisTurnPlayer() {
-        return players.get(sequence);
+        return players.getThisTurnPlayer();
     }
 
     public Map<Position, Piece> getBoardState() {

@@ -1,6 +1,7 @@
 package domain;
 
 import domain.piece.Piece;
+import java.util.Objects;
 
 public class Player {
 
@@ -17,11 +18,24 @@ public class Player {
         return team == piece.getTeam();
     }
 
-    public String getName() {
-        return name;
-    }
-
     public Team getTeam() {
         return team;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Player player = (Player) o;
+        return Objects.equals(name, player.name) && team == player.team;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, team);
     }
 }
