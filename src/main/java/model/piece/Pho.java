@@ -13,10 +13,12 @@ public class Pho extends Piece {
         pieceName = PieceName.PHO;
     }
 
-    @Override
     public boolean isValidPoint(Point beforePoint, Point targetPoint) {
-        return !((beforePoint.x() == targetPoint.x() && beforePoint.y() == targetPoint.y()) || (
-                beforePoint.x() != targetPoint.x() && beforePoint.y() != targetPoint.y()));
+        boolean isStraightMove = beforePoint.x() == targetPoint.x()
+                || beforePoint.y() == targetPoint.y();
+        boolean isSamePoint = beforePoint.x() == targetPoint.x()
+                && beforePoint.y() == targetPoint.y();
+        return isStraightMove && !isSamePoint;
     }
 
     @Override

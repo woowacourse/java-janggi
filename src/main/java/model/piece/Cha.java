@@ -12,12 +12,13 @@ public class Cha extends Piece {
         pieceName = PieceName.CHA;
     }
 
-    @Override
     public boolean isValidPoint(Point beforePoint, Point targetPoint) {
-        return !((beforePoint.x() == targetPoint.x() && beforePoint.y() == targetPoint.y()) || (
-                beforePoint.x() != targetPoint.x() && beforePoint.y() != targetPoint.y()));
+        boolean isStraightMove = beforePoint.x() == targetPoint.x()
+                || beforePoint.y() == targetPoint.y();
+        boolean isSamePoint = beforePoint.x() == targetPoint.x()
+                && beforePoint.y() == targetPoint.y();
+        return isStraightMove && !isSamePoint;
     }
-
     @Override
     public Path calculatePath(Point beforePoint, Point targetPoint) {
         int vectorX = getVectorX(beforePoint, targetPoint);
