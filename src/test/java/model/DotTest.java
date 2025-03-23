@@ -12,9 +12,8 @@ class DotTest {
     @Test
     @DisplayName("교차점 위에 기물이 존재하는지 여부 반환")
     void test1() {
-        Dot dot = new Dot();
         Piece jang = new Jang(Team.RED);
-        dot.place(jang);
+        Dot dot = new Dot(jang);
 
         assertThat(dot.isPlaced()).isTrue();
     }

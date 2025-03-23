@@ -40,8 +40,9 @@ public class JanggiBoard {
     }
 
     private void placePiece(JanggiBoardSetUp janggiBoardSetUp) {
-        janggiBoardSetUp.getPoints().forEach((key, value)
-                -> janggiBoard.get(key.y()).get(key.x()).place(value));
+        janggiBoardSetUp.getPoints().forEach((key, value) -> {
+            janggiBoard.get(key.y()).set(key.x(), new Dot(value));
+        });
     }
 
     public int countPiece() {
@@ -63,8 +64,8 @@ public class JanggiBoard {
         Map<Piece, Boolean> piecesOnPathWithTargetOrNot = getPiecesOnPath(path, targetPoint);
 
         if (piece.canMove(piecesOnPathWithTargetOrNot)) {
-            getDot(targetPoint).place(piece);
-            getDot(beforePoint).clear();
+            janggiBoard.get(targetPoint.y()).set(targetPoint.x(), new Dot(piece));
+            janggiBoard.get(beforePoint.y()).set(beforePoint.x(), new Dot());
             return;
         }
 
@@ -103,11 +104,12 @@ public class JanggiBoard {
         }
     }
 
+    public boolean isNotMyTeamPoint(Point beforePoint, Team team) {
+        return getDot(beforePoint).getPiece().getTeam() != team;
+    }
+
     public List<List<Dot>> getJanggiBoard() {
         return janggiBoard;
     }
 
-    public boolean isNotMyTeamPoint(Point beforePoint, Team team) {
-        return getDot(beforePoint).getPiece().getTeam() != team;
-    }
 }

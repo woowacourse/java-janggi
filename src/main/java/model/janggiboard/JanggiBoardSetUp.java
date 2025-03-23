@@ -102,7 +102,7 @@ public enum JanggiBoardSetUp {
             Map.entry(Point.of(8, 9), new Cha(RED))
     ));
 
-    private Map<Point, Piece> points;
+    private final Map<Point, Piece> points;
 
     JanggiBoardSetUp(Map<Point, Piece> points) {
         this.points = points;

@@ -1,8 +1,6 @@
 package model.piece;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 import model.Path;
 import model.Point;
 import model.Team;

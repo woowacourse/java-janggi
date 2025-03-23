@@ -1,32 +1,27 @@
 package model.janggiboard;
 
-import java.util.Optional;
 import model.piece.Piece;
 
 public class Dot {
 
-    private Optional<Piece> piece;
+    private Piece piece;
 
     public Dot() {
-        piece = Optional.empty();
+        piece = null;
     }
 
-    public void place(Piece piece) {
-        this.piece = Optional.ofNullable(piece);
+    public Dot(Piece piece) {
+        this.piece = piece;
     }
 
     public boolean isPlaced() {
-        return piece.isPresent();
+        return piece != null;
     }
 
     public Piece getPiece() {
         if (!isPlaced()) {
             throw new IllegalArgumentException("해당 점에는 장기말이 없습니다.");
         }
-        return piece.get();
-    }
-
-    public void clear() {
-        this.piece = Optional.empty();
+        return piece;
     }
 }
