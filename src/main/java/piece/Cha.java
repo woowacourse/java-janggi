@@ -26,35 +26,24 @@ public class Cha extends Piece {
 
     @Override
     protected Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
-        int dx = arrival.getX() - departure.getX();
-        int dy = arrival.getY() - departure.getY();
+        int xDirection = Integer.compare(arrival.getX(), departure.getX()); // -1, 0, 1
+        int yDirection = Integer.compare(arrival.getY(), departure.getY()); // -1, 0, 1
+
+        if (xDirection != 0 && yDirection != 0) {
+            throw new IllegalStateException("차는 직선으로만 이동할 수 있습니다.");
+        }
+
+        int x = departure.getX() + xDirection;
+        int y = departure.getY() + yDirection;
 
         Set<Coordinate> coordinates = new HashSet<>();
-        if (dx == 0 && dy > 0) { // 아래
-            for (int y = departure.getY() + 1; y < arrival.getY(); y++) {
-                coordinates.add(new Coordinate(departure.getX(), y));
-            }
-            return coordinates;
+        while (x != arrival.getX() || y != arrival.getY()) {
+            coordinates.add(new Coordinate(x, y));
+            x += xDirection;
+            y += yDirection;
         }
-        if (dx == 0 && dy < 0) { // 위
-            for (int y = departure.getY() - 1; y > arrival.getY(); y--) {
-                coordinates.add(new Coordinate(departure.getX(), y));
-            }
-            return coordinates;
-        }
-        if (dx > 0 && dy == 0) { // 오른쪽
-            for (int x = departure.getX() + 1; x < arrival.getX(); x++) {
-                coordinates.add(new Coordinate(x, departure.getY()));
-            }
-            return coordinates;
-        }
-        if (dx < 0 && dy == 0) { // 왼쪽
-            for (int x = departure.getX() - 1; x > arrival.getX(); x--) {
-                coordinates.add(new Coordinate(x, departure.getY()));
-            }
-            return coordinates;
-        }
-        throw new IllegalStateException("유효하지 않은 좌표입니다.");
+
+        return coordinates;
     }
 
     @Override
