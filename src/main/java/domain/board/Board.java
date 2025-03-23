@@ -69,7 +69,7 @@ public class Board {
         return pieceByPoint.containsKey(point);
     }
 
-    private boolean existsPoint(Point point) {
+    private boolean existsPoint(final Point point) {
         return pointNodeMapper.existsPoint(point);
     }
 
