@@ -11,7 +11,7 @@ import piece.Pieces;
 
 public class SoldierMovement implements MovementRule {
 
-    private static final List<Direction> paths = List.of(LEFT, RIGHT, UP);
+    private static final List<Direction> directions = List.of(LEFT, RIGHT, UP);
 
     private final int direction;
 
@@ -21,12 +21,11 @@ public class SoldierMovement implements MovementRule {
 
     @Override
     public Point move(Pieces pieces, Point from, Point to) {
-        for (Direction direction : paths) {
-            if (from.plus(direction.multiply(this.direction)).equals(to)) {
-                return to;
-            }
-        }
-
-        throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
+        return directions.stream()
+                .map(direction -> direction.multiply(this.direction))
+                .map(from::plus)
+                .filter(nextPoint -> nextPoint.equals(to))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다."));
     }
 }
