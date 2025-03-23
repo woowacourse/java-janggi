@@ -7,11 +7,11 @@ import piece.Direction;
 
 public class Position {
 
+    private static final int MIN_ROW = 1;
+    private static final int MIN_COLUMN = 1;
+    private static final int MAX_ROW = 10;
+    private static final int MAX_COLUMN = 9;
     private final Point point;
-    public static final int MIN_ROW = 1;
-    public static final int MIN_COLUMN = 1;
-    public static final int MAX_ROW = 10;
-    public static final int MAX_COLUMN = 9;
 
     public Position(final int column, final int row) {
         this.point = new Point(column, row);
