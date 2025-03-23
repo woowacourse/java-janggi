@@ -50,6 +50,29 @@ public class ChaTest {
                     new Coordinate(5, 10) // 아래쪽
             );
         }
+
+        @Nested
+        @DisplayName("차가 궁성 내에서 대각선을 따라 움직일 수 있다.")
+        class InCastleMovableCandidatesTest {
+
+            @Test
+            @DisplayName("차의 출발 좌표가 (5,2)일 때 대각선 4개의 방향 또한 후보로 반환한다.")
+            void test1() {
+                // given
+                Cha cha = new Cha(Team.HAN);
+
+                // when
+                Set<Coordinate> movableCandidates = cha.findMovableCandidates(new Coordinate(5, 2));
+
+                // then
+                assertThat(movableCandidates).contains(
+                    new Coordinate(4, 1),
+                    new Coordinate(4, 3),
+                    new Coordinate(6, 1),
+                    new Coordinate(6, 3)
+                );
+            }
+        }
     }
 
     @Nested

@@ -17,7 +17,7 @@ public abstract class UnlimitedMovementPiece extends Piece {
     protected final Set<Coordinate> findMovableCandidates(Coordinate departure) {
         Set<Coordinate> candidates = new HashSet<>();
 
-        for (final var movement : this.movements) {
+        for (final var movement : movementsAt(departure)) {
             var current = departure;
 
             while (current.canMove(movement)) {

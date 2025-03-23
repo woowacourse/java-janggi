@@ -1,8 +1,24 @@
 package domain;
 
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class Coordinate {
+
+    private static final Map<Coordinate, Set<Movement>> CASTLE_DIAGONAL_CONNECTIONS = Map.of(
+        new Coordinate(4, 1), Set.of(Movement.RIGHT_DOWN),
+        new Coordinate(4, 3), Set.of(Movement.RIGHT_UP),
+        new Coordinate(6, 1), Set.of(Movement.LEFT_DOWN),
+        new Coordinate(6, 3), Set.of(Movement.LEFT_UP),
+        new Coordinate(5, 2), Set.of(Movement.LEFT_UP, Movement.RIGHT_UP, Movement.LEFT_DOWN, Movement.RIGHT_DOWN),
+
+        new Coordinate(4, 8), Set.of(Movement.RIGHT_DOWN),
+        new Coordinate(4, 10), Set.of(Movement.RIGHT_UP),
+        new Coordinate(6, 8), Set.of(Movement.LEFT_DOWN),
+        new Coordinate(6, 10), Set.of(Movement.LEFT_UP),
+        new Coordinate(5, 9), Set.of(Movement.LEFT_UP, Movement.RIGHT_UP, Movement.LEFT_DOWN, Movement.RIGHT_DOWN)
+    );
 
     private final int x;
     private final int y;
@@ -26,6 +42,18 @@ public class Coordinate {
         int newY = this.y + movement.deltaY();
 
         return new Coordinate(newX, newY);
+    }
+
+    public boolean isInCastle() {
+        Set<Integer> xCoordinates = Set.of(4, 5, 6);
+        Set<Integer> yCoordinates = Set.of(1, 2, 3, 8, 9, 10);
+
+        return xCoordinates.contains(this.x)
+            && yCoordinates.contains(this.y);
+    }
+
+    public Set<Movement> getMovementsIfInCastle() {
+        return CASTLE_DIAGONAL_CONNECTIONS.getOrDefault(this, Set.of());
     }
 
     private boolean isInvalidX(int x) {

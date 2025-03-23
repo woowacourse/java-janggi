@@ -3,8 +3,14 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.Set;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class CoordinateTest {
 
@@ -99,5 +105,54 @@ public class CoordinateTest {
         // when
         assertThatThrownBy(() -> coordinate.move(Movement.UP))
             .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @ParameterizedTest
+    @DisplayName("현재 좌표가 궁성 내부인 지 알 수 있다.")
+    @CsvSource({
+        "4,1","5,1","6,1",
+        "4,2","5,2","6,2",
+        "4,3","5,3","6,3",
+
+        "4,8","5,8","6,8",
+        "4,9","5,9","6,9",
+        "4,10","5,10","6,10",
+    })
+    void test10(int x, int y) {
+        //given
+        Coordinate coordinate = new Coordinate(x, y);
+
+        //when
+        boolean inCastle = coordinate.isInCastle();
+
+        //then
+        assertThat(inCastle).isTrue();
+    }
+
+    @ParameterizedTest
+    @DisplayName("현재 좌표가 궁성 내부로 대각선이 이어진 곳이라면 이어진 대각선 움직임들을 반환한다.")
+    @MethodSource("provideCoordinatesAndExpectedMovement")
+    void test11(Coordinate coordinate, Set<Movement> movements) {
+        //when
+        Set<Movement> diagonalMovements = coordinate.getMovementsIfInCastle();
+
+        //then
+        assertThat(diagonalMovements).containsExactlyElementsOf(movements);
+    }
+
+    public static Stream<Arguments> provideCoordinatesAndExpectedMovement() {
+        return Stream.of(
+            Arguments.of(new Coordinate(4, 1), Set.of(Movement.RIGHT_DOWN)),
+            Arguments.of(new Coordinate(4, 3), Set.of(Movement.RIGHT_UP)),
+            Arguments.of(new Coordinate(6, 1), Set.of(Movement.LEFT_DOWN)),
+            Arguments.of(new Coordinate(6, 3), Set.of(Movement.LEFT_UP)),
+            Arguments.of(new Coordinate(5, 2), Set.of(Movement.LEFT_UP, Movement.LEFT_DOWN, Movement.RIGHT_UP, Movement.RIGHT_DOWN)),
+
+            Arguments.of(new Coordinate(4, 8), Set.of(Movement.RIGHT_DOWN)),
+            Arguments.of(new Coordinate(4, 10), Set.of(Movement.RIGHT_UP)),
+            Arguments.of(new Coordinate(6, 8), Set.of(Movement.LEFT_DOWN)),
+            Arguments.of(new Coordinate(6, 10), Set.of(Movement.LEFT_UP)),
+            Arguments.of(new Coordinate(5, 9), Set.of(Movement.LEFT_UP, Movement.LEFT_DOWN, Movement.RIGHT_UP, Movement.RIGHT_DOWN)
+            ));
     }
 }

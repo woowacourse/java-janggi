@@ -15,7 +15,7 @@ public abstract class LimitedMovementPiece extends Piece {
 
     @Override
     protected final Set<Coordinate> findMovableCandidates(final Coordinate departure) {
-        return movements.stream()
+        return movementsAt(departure).stream()
             .filter(departure::canMove)
             .map(departure::move)
             .collect(Collectors.toSet());

@@ -48,8 +48,84 @@ class SaTest {
             assertThat(movableCandidates).containsOnly(
                     new Coordinate(3, 1),
                     new Coordinate(5, 1),
-                    new Coordinate(4, 2)
+                    new Coordinate(4, 2),
+                    new Coordinate(5, 2)
             );
+        }
+
+        @Nested
+        @DisplayName("사가 궁성 내에서 대각선을 따라 움직일 수 있다.")
+        class InCastleMovableCandidatesTest {
+
+            @Test
+            @DisplayName("사의 출발 좌표가 (5,2)일 때 대각선 4개의 방향 또한 후보로 반환한다.")
+            void test1() {
+                // given
+                Sa sa = new Sa(Team.HAN);
+
+                // when
+                Set<Coordinate> movableCandidates = sa.findMovableCandidates(new Coordinate(5, 2));
+
+                // then
+                assertThat(movableCandidates).contains(
+                    new Coordinate(4, 1),
+                    new Coordinate(4, 3),
+                    new Coordinate(6, 1),
+                    new Coordinate(6, 3)
+                );
+            }
+
+            @Test
+            @DisplayName("사의 출발 좌표가 (4,1)일 때 궁성의 대각선을 따라 우측 하단을 후보로 반환한다.")
+            void test2() {
+                // given
+                Sa sa = new Sa(Team.HAN);
+
+                // when
+                Set<Coordinate> movableCandidates = sa.findMovableCandidates(new Coordinate(4, 1));
+
+                // then
+                assertThat(movableCandidates).contains(new Coordinate(5, 2));
+            }
+
+            @Test
+            @DisplayName("사의 출발 좌표가 (4,3)일 때 궁성의 대각선을 따라 우측 상단을 후보로 반환한다.")
+            void test3() {
+                // given
+                Sa sa = new Sa(Team.HAN);
+
+                // when
+                Set<Coordinate> movableCandidates = sa.findMovableCandidates(new Coordinate(4, 3));
+
+                // then
+                assertThat(movableCandidates).contains(new Coordinate(5, 2));
+            }
+
+            @Test
+            @DisplayName("사의 출발 좌표가 (6,1)일 때 궁성의 대각선을 따라 좌측 하단을 후보로 반환한다.")
+            void test4() {
+                // given
+                Sa sa = new Sa(Team.HAN);
+
+                // when
+                Set<Coordinate> movableCandidates = sa.findMovableCandidates(new Coordinate(6, 1));
+
+                // then
+                assertThat(movableCandidates).contains(new Coordinate(5, 2));
+            }
+
+            @Test
+            @DisplayName("사의 출발 좌표가 (6,3)일 때 궁성의 대각선을 따라 좌측 상단을 후보로 반환한다.")
+            void test5() {
+                // given
+                Sa sa = new Sa(Team.HAN);
+
+                // when
+                Set<Coordinate> movableCandidates = sa.findMovableCandidates(new Coordinate(6, 3));
+
+                // then
+                assertThat(movableCandidates).contains(new Coordinate(5, 2));
+            }
         }
     }
 

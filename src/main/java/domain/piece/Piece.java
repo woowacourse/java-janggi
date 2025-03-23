@@ -4,13 +4,14 @@ import domain.Coordinate;
 import domain.Movement;
 import domain.Team;
 import domain.board.PieceFinder;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public abstract class Piece {
 
     protected final Team team;
-    protected final Set<Movement> movements;
+    private final Set<Movement> movements;
 
     public Piece(Team team, Set<Movement> movements) {
         this.team = team;
@@ -25,6 +26,16 @@ public abstract class Piece {
     }
 
     protected abstract Set<Coordinate> findMovableCandidates(Coordinate departure);
+
+    protected final Set<Movement> movementsAt(Coordinate departure) {
+        Set<Movement> movements = new HashSet<>(this.movements);
+        if (departure.isInCastle()) {
+            Set<Movement> diagonalMovements = departure.getMovementsIfInCastle();
+            movements.addAll(diagonalMovements);
+        }
+
+        return movements;
+    }
 
     protected boolean canMoveConsideringObstacles(PieceFinder pieceFinder, Coordinate departure, Coordinate arrival) {
         final var path = findPaths(departure, arrival);
