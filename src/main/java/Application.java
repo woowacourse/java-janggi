@@ -19,21 +19,40 @@ public class Application {
             4, new SangMaMaSang()
     );
 
-    public static void main(String[] args) {
-        InputView inputView = new InputView();
-        OutputView outputView = new OutputView();
+    private final InputView inputView = new InputView();
+    private final OutputView outputView = new OutputView();
 
-        int hanTableSetting = inputView.readTableSetting(Team.HAN);
-        int choTableSetting = inputView.readTableSetting(Team.CHO);
-        Board board = Board.create(boardCreateStrategy.get(hanTableSetting), boardCreateStrategy.get(choTableSetting));
+    public static void main(String[] args) {
+        new Application().run();
+    }
+
+    private void run() {
+        Board board = initializeBoard();
         outputView.printBoard(board.getPieces());
 
+        startGame(board);
+    }
+
+    private Board initializeBoard() {
+        int hanTableSetting = inputView.readTableSetting(Team.HAN);
+        int choTableSetting = inputView.readTableSetting(Team.CHO);
+        return Board.create(
+                boardCreateStrategy.get(hanTableSetting),
+                boardCreateStrategy.get(choTableSetting)
+        );
+    }
+
+    private void startGame(Board board) {
         while (true) {
             for (Team team : Team.values()) {
-                CoordinatesPair coordinatesPair = inputView.readMoveCoordinate(team);
-                board.move(coordinatesPair.departure(), coordinatesPair.arrival());
-                outputView.printBoard(board.getPieces());
+                playTurn(board, team);
             }
         }
+    }
+
+    private void playTurn(Board board, Team team) {
+        CoordinatesPair coordinatesPair = inputView.readMoveCoordinate(team);
+        board.move(coordinatesPair.departure(), coordinatesPair.arrival());
+        outputView.printBoard(board.getPieces());
     }
 }
