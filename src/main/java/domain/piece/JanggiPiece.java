@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.piece.movingStrategy.JanggiPieceMovingStrategy;
 import domain.position.JanggiPosition;
 import domain.Pattern;
 import java.util.List;
@@ -9,14 +10,18 @@ public abstract class JanggiPiece {
     protected final JanggiSide side;
     protected final JanggiPieceType type;
     protected boolean isCaptured;
+    protected final JanggiPieceMovingStrategy movingStrategy;
 
-    public JanggiPiece(final JanggiSide side, final JanggiPieceType type) {
+    public JanggiPiece(final JanggiSide side, final JanggiPieceType type, final JanggiPieceMovingStrategy movingStrategy) {
         this.side = side;
         this.isCaptured = false;
         this.type = type;
+        this.movingStrategy = movingStrategy;
     }
 
-    public abstract List<Pattern> getRoute(final JanggiPosition origin, final JanggiPosition destination);
+    public List<Pattern> getRoute(JanggiPosition origin, JanggiPosition destination) {
+        return movingStrategy.getRoute(type.getRoutes(), origin, destination);
+    }
 
     public boolean isEmpty() {
         return false;

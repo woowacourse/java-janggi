@@ -1,12 +1,13 @@
 package domain.piece;
 
+import domain.piece.movingStrategy.NoneMovingStrategy;
 import domain.position.JanggiPosition;
 import domain.Pattern;
 import java.util.List;
 
 public final class Empty extends JanggiPiece {
     public Empty() {
-        super(JanggiSide.NONE, JanggiPieceType.EMPTY);
+        super(JanggiSide.NONE, JanggiPieceType.EMPTY, new NoneMovingStrategy());
     }
 
     @Override

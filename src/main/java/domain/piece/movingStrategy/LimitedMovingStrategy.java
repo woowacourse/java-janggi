@@ -1,22 +1,17 @@
-package domain.piece.limited_moving_piece;
+package domain.piece.movingStrategy;
 
+import domain.Direction;
 import domain.Pattern;
-import domain.piece.JanggiPiece;
-import domain.piece.JanggiPieceType;
-import domain.piece.JanggiSide;
 import domain.position.JanggiPosition;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
-public abstract class LimitedMovingJanggiPiece extends JanggiPiece {
-
-    public LimitedMovingJanggiPiece(JanggiSide side, JanggiPieceType type) {
-        super(side, type);
-    }
+public class LimitedMovingStrategy implements JanggiPieceMovingStrategy {
 
     @Override
-    public List<Pattern> getRoute(final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
-        return type.getRoutes().entrySet().stream()
+    public List<Pattern> getRoute(final Map<Direction, List<Pattern>> routes, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
+        return routes.entrySet().stream()
                 .filter(entry -> {
                     List<Pattern> patterns = entry.getValue();
                     if (beforePosition.canMove(patterns)) {

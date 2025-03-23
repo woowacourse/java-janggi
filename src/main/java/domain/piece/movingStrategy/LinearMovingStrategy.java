@@ -1,37 +1,32 @@
-package domain.piece.linear_moving_piece;
+package domain.piece.movingStrategy;
 
 import static domain.Direction.DOWN;
 import static domain.Direction.LEFT;
 import static domain.Direction.RIGHT;
 import static domain.Direction.UP;
 
-import domain.Pattern;
-import domain.piece.JanggiPiece;
-import domain.piece.JanggiPieceType;
-import domain.piece.JanggiSide;
-import domain.position.JanggiPosition;
 import domain.Direction;
+import domain.Pattern;
+import domain.position.JanggiPosition;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
-public abstract class LinearMovingJanggiPiece extends JanggiPiece {
-
-    public LinearMovingJanggiPiece(JanggiSide side, JanggiPieceType type) {
-        super(side, type);
-    }
+public class LinearMovingStrategy implements JanggiPieceMovingStrategy {
 
     @Override
-    public List<Pattern> getRoute(final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
+    public List<Pattern> getRoute(final Map<Direction, List<Pattern>> routes, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
         if (afterPosition.rank() == beforePosition.rank()) {
-            return setNewPathAndGetAdditionalSizeAboutLeftOrRight(beforePosition, afterPosition);
+            return setNewPathAndGetAdditionalSizeAboutLeftOrRight(routes, beforePosition, afterPosition);
         }
         if (afterPosition.file() == beforePosition.file()) {
-            return setNewPathAndGetAdditionalSizeAboutUpOrDown(beforePosition, afterPosition);
+            return setNewPathAndGetAdditionalSizeAboutUpOrDown(routes, beforePosition, afterPosition);
         }
         throw new IllegalStateException("해당 말은 해당 경로로 이동할 수 없습니다.");
     }
 
     private List<Pattern> setNewPathAndGetAdditionalSizeAboutLeftOrRight(
+            final Map<Direction, List<Pattern>> routes,
             final JanggiPosition beforePosition,
             final JanggiPosition afterPosition
     ) {
@@ -44,10 +39,11 @@ public abstract class LinearMovingJanggiPiece extends JanggiPiece {
             newPath = LEFT;
             additionalSize = afterPosition.getFileGap(beforePosition);
         }
-        return createPattern(newPath, additionalSize);
+        return createPattern(routes.get(newPath), additionalSize);
     }
 
     private List<Pattern> setNewPathAndGetAdditionalSizeAboutUpOrDown(
+            final Map<Direction, List<Pattern>> routes,
             final JanggiPosition beforePosition,
             final JanggiPosition afterPosition
     ) {
@@ -60,10 +56,10 @@ public abstract class LinearMovingJanggiPiece extends JanggiPiece {
             newPath = UP;
             additionalSize = afterPosition.getRankGap(beforePosition);
         }
-        return createPattern(newPath, additionalSize);
+        return createPattern(routes.get(newPath), additionalSize);
     }
 
-    private List<Pattern> createPattern(final Direction newPath, int additionalSize) {
-        return Collections.nCopies(additionalSize, type.getRoutes().get(newPath).getFirst());
+    private List<Pattern> createPattern(final List<Pattern> direction, int additionalSize) {
+        return Collections.nCopies(additionalSize, direction.getFirst());
     }
 }
