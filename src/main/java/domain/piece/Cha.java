@@ -1,10 +1,5 @@
 package domain.piece;
 
-import static domain.board.Direction.DOWN;
-import static domain.board.Direction.LEFT;
-import static domain.board.Direction.RIGHT;
-import static domain.board.Direction.UP;
-
 import domain.board.Board;
 import domain.board.Direction;
 import domain.board.Point;
@@ -12,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cha implements Piece {
-
-    private static final List<Direction> CHA_MOVABLE_DIRECTIONS = List.of(UP, RIGHT, DOWN, LEFT);
 
     private final Team team;
 
@@ -28,7 +21,7 @@ public class Cha implements Piece {
 
     private List<Point> findMovablePoints(final Point source, final Board board) {
         List<Point> candidates = new ArrayList<>(List.of(source));
-        CHA_MOVABLE_DIRECTIONS.stream()
+        Direction.VERTICALS.stream()
                 .filter(direction -> board.existsNextPoint(source, direction))
                 .forEach(direction -> findCandidates(
                         board.getNextPoint(source, direction), board, direction,

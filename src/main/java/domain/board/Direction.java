@@ -1,5 +1,7 @@
 package domain.board;
 
+import java.util.List;
+
 public enum Direction {
 
     UP(-1, 0),
@@ -11,6 +13,8 @@ public enum Direction {
     DOWN_LEFT(1, -1),
     DOWN_RIGHT(1, 1),
     ;
+
+    public static final List<Direction> VERTICALS = List.of(UP, DOWN, LEFT, RIGHT);
 
     private final int deltaRow;
     private final int deltaColumn;

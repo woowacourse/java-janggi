@@ -59,7 +59,8 @@ public class BoardGenerator {
     private List<Edge> createEdges(final int row, final int column,
                                    final Map<Point, Node> nodeByPoint) {
         List<Edge> edges = new ArrayList<>();
-        for (Direction direction : List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT)) {
+
+        for (Direction direction : Direction.VERTICALS) {
             int nextRow = row + direction.deltaRow();
             int nextColumn = column + direction.deltaColumn();
             if (!isInRange(nextRow, nextColumn)) {
