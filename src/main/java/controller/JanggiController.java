@@ -20,18 +20,22 @@ public class JanggiController {
     }
 
     public void run() {
-        List<String> playerNames = inputView.readPlayerNames();
-        JanggiGame janggiGame = new JanggiGame(new JanggiBoardGenerator(), playerNames);
-        outputView.displayPlayerInfo(playerNames);
-        outputView.printJanggiBoard(janggiGame.getBoardState());
+        JanggiGame game = initGame();
         while (true) {
-            Command command = retry(() -> Command.find(inputView.readCommand(janggiGame.getThisTurnPlayer())));
+            Command command = retry(() -> Command.find(inputView.readCommand(game.getThisTurnPlayer())));
             if (command == Command.NO) {
                 break;
             }
-            retry(() -> janggiGame.move(inputView.readMovePiecePosition(), inputView.readTargetPosition()));
-            outputView.printJanggiBoard(janggiGame.getBoardState());
+            retry(() -> game.move(inputView.readMovePiecePosition(), inputView.readTargetPosition()));
+            outputView.printJanggiBoard(game);
         }
+    }
+
+    private JanggiGame initGame() {
+        List<String> playerNames = inputView.readPlayerNames();
+        JanggiGame game = new JanggiGame(new JanggiBoardGenerator(), playerNames);
+        outputView.printGameInfo(playerNames, game);
+        return game;
     }
 
     private <T> T retry(Supplier<T> supplier) {
