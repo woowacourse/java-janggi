@@ -1,6 +1,10 @@
 package janggi.controller;
 
+import static janggi.domain.Team.BLUE;
+import static janggi.domain.Team.RED;
+
 import janggi.domain.Board;
+import janggi.domain.BoardSetup;
 import janggi.domain.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.direction.Position;
@@ -21,7 +25,9 @@ public class JanggiController {
     }
 
     public void run() {
-        final Board board = new Board();
+        final BoardSetup redBoardSetup = inputView.inputBoardSetup(RED);
+        final BoardSetup blueBoardSetup = inputView.inputBoardSetup(BLUE);
+        final Board board = new Board(redBoardSetup, blueBoardSetup);
         final List<Piece> pieces = board.getPieces();
         outputView.printBoard(pieces);
 

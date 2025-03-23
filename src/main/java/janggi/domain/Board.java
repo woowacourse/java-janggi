@@ -12,8 +12,8 @@ public class Board {
     private final Pieces pieces;
     private final Turn turn;
 
-    public Board() {
-        this.pieces = new Pieces(PiecesInitializer.initializePieces());
+    public Board(final BoardSetup redBoardSetup, final BoardSetup blueBoardSetup) {
+        this.pieces = new Pieces(PiecesInitializer.initializePieces(redBoardSetup, blueBoardSetup));
         this.turn = Turn.initialize();
     }
 
