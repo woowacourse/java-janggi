@@ -27,10 +27,10 @@ public class JanggiController {
         while (!janggi.isGameFinish()) {
             outputView.printBoard(janggi.getPieces(), janggi.getCurrentTeam());
 
-            final BoardPosition selectBoardPosition = createSelectBoardPosition();
-            final BoardPosition destinationBoardPosition = createDestinationBoardPosition();
-
             try {
+                final BoardPosition selectBoardPosition = createSelectBoardPosition();
+                final BoardPosition destinationBoardPosition = createDestinationBoardPosition();
+
                 janggi.processTurn(new SelectedPositions(selectBoardPosition, destinationBoardPosition));
             } catch (IllegalArgumentException e) {
                 outputView.printInputExceptionMessage(e);
@@ -41,25 +41,13 @@ public class JanggiController {
     }
 
     private BoardPosition createSelectBoardPosition() {
-        while(true) {
-            try {
-                final String selectPosition = inputView.inputSelectPosition();
-                return createBoardPosition(selectPosition);
-            } catch (IllegalArgumentException e) {
-                outputView.printInputExceptionMessage(e);
-            }
-        }
+        final String selectPosition = inputView.inputSelectPosition();
+        return createBoardPosition(selectPosition);
     }
 
     private BoardPosition createDestinationBoardPosition() {
-        while(true) {
-            try {
-                final String destinationPosition = inputView.inputDestinationPosition();
-                return createBoardPosition(destinationPosition);
-            } catch (IllegalArgumentException e) {
-                outputView.printInputExceptionMessage(e);
-            }
-        }
+        final String destinationPosition = inputView.inputDestinationPosition();
+        return createBoardPosition(destinationPosition);
     }
 
     private BoardPosition createBoardPosition(final String inputPosition) {

@@ -15,6 +15,7 @@ public class OutputView {
             final Map<BoardPosition, Piece> pieces,
             final Team team
     ) {
+        System.out.println();
         System.out.println("현재 턴: " + team.getTitle());
         for (int i = 9; i >= 0; i--) {
             for (int j = 0; j < 9; j++) {
