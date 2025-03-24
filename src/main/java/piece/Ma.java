@@ -42,39 +42,39 @@ public class Ma extends Piece {
     public Positions makeRoute(final Position destination) {
         Positions route = new Positions(List.of());
 
-        int dRow = position.calculateDRow(destination);
-        int dCol = position.calculateDCol(destination);
+        int dRow = getPosition().calculateDRow(destination);
+        int dCol = getPosition().calculateDCol(destination);
 
         if (isUpLeftUp(dRow, dCol)) {
-            route.addPosition(Movement.calculateUpMovement(position));
+            route.addPosition(Movement.calculateUpMovement(getPosition()));
         }
 
         if (isUpRightUp(dRow, dCol)) {
-            route.addPosition(Movement.calculateUpMovement(position));
+            route.addPosition(Movement.calculateUpMovement(getPosition()));
         }
 
         if (isRightRightUp(dRow, dCol)) {
-            route.addPosition(Movement.calculateRightMovement(position));
+            route.addPosition(Movement.calculateRightMovement(getPosition()));
         }
 
         if (isRightRightDown(dRow, dCol)) {
-            route.addPosition(Movement.calculateRightMovement(position));
+            route.addPosition(Movement.calculateRightMovement(getPosition()));
         }
 
         if (isDownRightDown(dRow, dCol)) {
-            route.addPosition(Movement.calculateDownMovement(position));
+            route.addPosition(Movement.calculateDownMovement(getPosition()));
         }
 
         if (isDownLeftDown(dRow, dCol)) {
-            route.addPosition(Movement.calculateDownMovement(position));
+            route.addPosition(Movement.calculateDownMovement(getPosition()));
         }
 
         if (isLeftLeftUp(dRow, dCol)) {
-            route.addPosition(Movement.calculateLeftMovement(position));
+            route.addPosition(Movement.calculateLeftMovement(getPosition()));
         }
 
         if (isLeftLeftDown(dRow, dCol)) {
-            route.addPosition(Movement.calculateLeftMovement(position));
+            route.addPosition(Movement.calculateLeftMovement(getPosition()));
         }
 
         return route;
@@ -96,14 +96,14 @@ public class Ma extends Piece {
     }
 
     private boolean isInvalidMaMove(final Position destination) {
-        return !calculateUpRightUPMovement(position).equals(destination)
-                && !calculateUpLeftUpMovement(position).equals(destination)
-                && !calculateDownRightDownMovement(position).equals(destination)
-                && !calculateDownLeftDownMovement(position).equals(destination)
-                && !calculateRightRightUpMovement(position).equals(destination)
-                && !calculateRightRightDownMovement(position).equals(destination)
-                && !calculateLeftLeftUpMovement(position).equals(destination)
-                && !calculateLeftLeftDownMovement(position).equals(destination);
+        return !calculateUpRightUPMovement(getPosition()).equals(destination)
+                && !calculateUpLeftUpMovement(getPosition()).equals(destination)
+                && !calculateDownRightDownMovement(getPosition()).equals(destination)
+                && !calculateDownLeftDownMovement(getPosition()).equals(destination)
+                && !calculateRightRightUpMovement(getPosition()).equals(destination)
+                && !calculateRightRightDownMovement(getPosition()).equals(destination)
+                && !calculateLeftLeftUpMovement(getPosition()).equals(destination)
+                && !calculateLeftLeftDownMovement(getPosition()).equals(destination);
     }
 
 }

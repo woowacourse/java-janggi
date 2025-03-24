@@ -42,47 +42,47 @@ public class Sang extends Piece {
     public Positions makeRoute(final Position destination) {
         Positions route = new Positions(List.of());
 
-        int dRow = position.calculateDRow(destination);
-        int dCol = position.calculateDCol(destination);
+        int dRow = getPosition().calculateDRow(destination);
+        int dCol = getPosition().calculateDCol(destination);
 
         if (isUpLeftUpLeftUp(dRow, dCol)) {
-            route.addPosition(Movement.calculateUpMovement(position));
-            route.addPosition(Movement.calculateUpLeftUpMovement(position));
+            route.addPosition(Movement.calculateUpMovement(getPosition()));
+            route.addPosition(Movement.calculateUpLeftUpMovement(getPosition()));
         }
 
         if (isUpRightUpRightUp(dRow, dCol)) {
-            route.addPosition(Movement.calculateUpMovement(position));
-            route.addPosition(Movement.calculateUpRightUPMovement(position));
+            route.addPosition(Movement.calculateUpMovement(getPosition()));
+            route.addPosition(Movement.calculateUpRightUPMovement(getPosition()));
         }
 
         if (isRightUpRightUpRight(dRow, dCol)) {
-            route.addPosition(Movement.calculateRightMovement(position));
-            route.addPosition(Movement.calculateRightRightUpMovement(position));
+            route.addPosition(Movement.calculateRightMovement(getPosition()));
+            route.addPosition(Movement.calculateRightRightUpMovement(getPosition()));
         }
 
         if (isRightRightDownRightDown(dRow, dCol)) {
-            route.addPosition(Movement.calculateRightMovement(position));
-            route.addPosition(Movement.calculateRightRightDownMovement(position));
+            route.addPosition(Movement.calculateRightMovement(getPosition()));
+            route.addPosition(Movement.calculateRightRightDownMovement(getPosition()));
         }
 
         if (isDownLeftDownLeftDown(dRow, dCol)) {
-            route.addPosition(Movement.calculateDownMovement(position));
-            route.addPosition(Movement.calculateDownLeftDownMovement(position));
+            route.addPosition(Movement.calculateDownMovement(getPosition()));
+            route.addPosition(Movement.calculateDownLeftDownMovement(getPosition()));
         }
 
         if (isDownRightDownRightDown(dRow, dCol)) {
-            route.addPosition(Movement.calculateDownMovement(position));
-            route.addPosition(Movement.calculateDownRightDownMovement(position));
+            route.addPosition(Movement.calculateDownMovement(getPosition()));
+            route.addPosition(Movement.calculateDownRightDownMovement(getPosition()));
         }
 
         if (isLeftLeftUpLeftUp(dRow, dCol)) {
-            route.addPosition(Movement.calculateLeftMovement(position));
-            route.addPosition(Movement.calculateLeftLeftUpMovement(position));
+            route.addPosition(Movement.calculateLeftMovement(getPosition()));
+            route.addPosition(Movement.calculateLeftLeftUpMovement(getPosition()));
         }
 
         if (isLeftLeftDownLeftDown(dRow, dCol)) {
-            route.addPosition(Movement.calculateLeftMovement(position));
-            route.addPosition(Movement.calculateLeftLeftDownMovement(position));
+            route.addPosition(Movement.calculateLeftMovement(getPosition()));
+            route.addPosition(Movement.calculateLeftLeftDownMovement(getPosition()));
         }
 
         return route;
@@ -104,13 +104,13 @@ public class Sang extends Piece {
     }
 
     private boolean isInvalidSangMove(final Position destination) {
-        return !calculateUpRightUpRightUpMovement(position).equals(destination)
-                && !calculateUpLeftUpLeftUpMovement(position).equals(destination)
-                && !calculateRightRightUpRightUpMovement(position).equals(destination)
-                && !calculateRightRightDownRightDownMovement(position).equals(destination)
-                && !calculateDownRightDownRightDownMovement(position).equals(destination)
-                && !calculateDownLeftDownLeftDownMovement(position).equals(destination)
-                && !calculateLeftLeftUpLeftUpMovement(position).equals(destination)
-                && !calculateLeftLeftDownLeftDownMovement(position).isSameRow(destination);
+        return !calculateUpRightUpRightUpMovement(getPosition()).equals(destination)
+                && !calculateUpLeftUpLeftUpMovement(getPosition()).equals(destination)
+                && !calculateRightRightUpRightUpMovement(getPosition()).equals(destination)
+                && !calculateRightRightDownRightDownMovement(getPosition()).equals(destination)
+                && !calculateDownRightDownRightDownMovement(getPosition()).equals(destination)
+                && !calculateDownLeftDownLeftDownMovement(getPosition()).equals(destination)
+                && !calculateLeftLeftUpLeftUpMovement(getPosition()).equals(destination)
+                && !calculateLeftLeftDownLeftDownMovement(getPosition()).isSameRow(destination);
     }
 }

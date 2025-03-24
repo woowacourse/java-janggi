@@ -7,7 +7,6 @@ import static pieceProperty.Movement.calculateUpMovement;
 import static pieceProperty.PieceType.SA;
 
 import java.util.List;
-import pieceProperty.Movement;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
@@ -47,10 +46,10 @@ public class Sa extends Piece {
     }
 
     private boolean isInvalidSaMove(final Position destination) {
-        return !calculateDownMovement(position).equals(destination)
-                && !calculateUpMovement(position).equals(destination)
-                && !calculateLeftMovement(position).equals(destination)
-                && !calculateRightMovement(position).equals(destination);
+        return !calculateDownMovement(getPosition()).equals(destination)
+                && !calculateUpMovement(getPosition()).equals(destination)
+                && !calculateLeftMovement(getPosition()).equals(destination)
+                && !calculateRightMovement(getPosition()).equals(destination);
     }
 
 }

@@ -46,10 +46,10 @@ public class Janggun extends Piece {
     }
 
     private boolean isInvalidJanggunMove(final Position destination) {
-        return !calculateUpMovement(position).equals(destination)
-                && !calculateRightMovement(position).equals(destination)
-                && !calculateLeftMovement(position).equals(destination)
-                && !calculateDownMovement(position).equals(destination);
+        return !calculateUpMovement(getPosition()).equals(destination)
+                && !calculateRightMovement(getPosition()).equals(destination)
+                && !calculateLeftMovement(getPosition()).equals(destination)
+                && !calculateDownMovement(getPosition()).equals(destination);
     }
 
 }

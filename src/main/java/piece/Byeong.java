@@ -6,7 +6,6 @@ import static pieceProperty.Movement.calculateRightMovement;
 import static pieceProperty.PieceType.BYEONG;
 
 import java.util.List;
-import pieceProperty.Movement;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
@@ -46,9 +45,9 @@ public class Byeong extends Piece {
     }
 
     private boolean isInvalidByeongMove(final Position destination) {
-        return !calculateDownMovement(position).equals(destination)
-                && !calculateLeftMovement(position).equals(destination)
-                && !calculateRightMovement(position).equals(destination);
+        return !calculateDownMovement(getPosition()).equals(destination)
+                && !calculateLeftMovement(getPosition()).equals(destination)
+                && !calculateRightMovement(getPosition()).equals(destination);
     }
 
 }

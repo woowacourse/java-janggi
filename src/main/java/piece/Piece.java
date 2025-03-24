@@ -7,7 +7,7 @@ import pieceProperty.Positions;
 
 public abstract class Piece {
 
-    protected Position position;
+    private Position position;
 
     public Piece(final Position position) {
         this.position = position;
@@ -34,6 +34,10 @@ public abstract class Piece {
     public abstract boolean isPo();
 
     public abstract PieceType getPieceType();
+
+    public Position getPosition() {
+        return position;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -7,7 +7,6 @@ import static pieceProperty.Movement.isUpward;
 import static pieceProperty.PieceType.PO;
 
 import java.util.List;
-import pieceProperty.Movement;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
@@ -22,8 +21,8 @@ public class Po extends Piece {
     @Override
     public Positions makeRoute(final Position destination) {
         Positions route = new Positions(List.of());
-        int dRow = position.calculateDRow(destination);
-        int dCol = position.calculateDCol(destination);
+        int dRow = getPosition().calculateDRow(destination);
+        int dCol = getPosition().calculateDCol(destination);
 
         int presentCol = getBoardPosition().getCol();
         int presentRow = getBoardPosition().getRow();
@@ -70,7 +69,7 @@ public class Po extends Piece {
     }
 
     private boolean isInvalidPoMove(Position destination) {
-        return !position.isSameCol(destination) && !position.isSameRow(destination);
+        return !getPosition().isSameCol(destination) && !getPosition().isSameRow(destination);
     }
 
     private void addDownwardRoute(final int dRow, Positions route, final int presentRow, final int presentCol) {
