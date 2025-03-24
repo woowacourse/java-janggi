@@ -1,6 +1,7 @@
 package player;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static player.Nation.CHO;
 import static player.Nation.HAN;
@@ -83,6 +84,24 @@ class PlayerTest {
         //when-then
         assertThat(player.isSameNation(HAN)).isTrue();
         assertThat(player.isSameNation(CHO)).isFalse();
+    }
+
+    @Test
+    @DisplayName("출발 지점에 있는 기물이 도착 지점에 갈 수 있는지 테스트")
+    void canPieceMoveToTest() {
+        //given
+        Jol jol = new Jol(new Position(5, 5));
+        Janggun janggun = new Janggun(new Position(6, 4));
+        Pieces pieces = new Pieces(List.of(jol, janggun));
+        Player player = new Player(pieces, HAN);
+
+        //when - then
+        assertThatThrownBy(() -> player.validateAllyPieceAtStart(new Position(5,6)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 시작 위치에 아군 기물이 존재하지 않습니다.");
+
+
+        assertDoesNotThrow(() -> pieces.canPieceMoveTo(new Position(5, 5), new Position(5, 6)));
     }
 
 }
