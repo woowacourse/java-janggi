@@ -25,7 +25,9 @@ public abstract class Piece {
 
     public abstract Positions makeRoute(Position position);
 
-    public abstract void updateChessPiecePositionBy(Position position);
+    public void updateChessPiecePositionBy(Position position) {
+        this.position = position;
+    }
 
     public abstract boolean isKing();
 

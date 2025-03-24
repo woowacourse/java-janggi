@@ -63,11 +63,6 @@ public class Po extends Piece {
     }
 
     @Override
-    public void updateChessPiecePositionBy(Position position) {
-        this.position = position;
-    }
-
-    @Override
     public boolean isKing() {
         return false;
     }

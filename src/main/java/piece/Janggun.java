@@ -19,7 +19,6 @@ public class Janggun extends Piece {
     public void canMoveTo(final Position destination) {
         if (isInvalidJanggunMove(destination)) {
             throw new IllegalArgumentException(ErrorMessage.formatMessage("왕이 움직일 수 없는 위치 입니다."));
-
         }
     }
 
