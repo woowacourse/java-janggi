@@ -24,10 +24,10 @@ class CannonTest {
     @DisplayName("해당 기물이 포 인지 확인한다.")
     @Test
     void isCannonTest() {
-        Assertions.assertThat(cannon.isCannon()).isTrue();
+        Assertions.assertThat(cannon.isSameType(PieceType.CANNON)).isTrue();
     }
 
-    @DisplayName("차 기물이 올바른 루트를 계산하는지 확인한다.")
+    @DisplayName("포 기물이 올바른 루트를 계산하는지 확인한다.")
     @Test
     void calculateRoutesTest() {
         // given

@@ -25,7 +25,7 @@ class HorseTest {
     @DisplayName("해당 기물이 마 기물인지 확인한다.")
     @Test
     void isHorseTest() {
-        Assertions.assertThat(horse.isHorse()).isTrue();
+        Assertions.assertThat(horse.isSameType(PieceType.HORSE)).isTrue();
     }
 
     @DisplayName("마 기물이 올바른 루트를 계산하는지 확인한다.")

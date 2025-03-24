@@ -25,10 +25,10 @@ class SoldierTest {
         soldier = new Soldier(new Position(1, 1), RED);
     }
 
-    @DisplayName("해당 기물이 마 기물인지 확인한다.")
+    @DisplayName("해당 기물이 졸 기물인지 확인한다.")
     @Test
     void isSoliderTest() {
-        Assertions.assertThat(soldier.isSoldier()).isTrue();
+        Assertions.assertThat(soldier.isSameType(PieceType.SOLIDER)).isTrue();
     }
 
     @DisplayName("기물이 움직이는 지 확인한다.")

@@ -23,32 +23,8 @@ public abstract class Piece {
 
     protected abstract Set<RawRoute> calculateRawRoutes();
 
-    public boolean isCannon() {
-        return this.pieceType == PieceType.CANNON;
-    }
-
-    public boolean isSoldier() {
-        return this.pieceType == PieceType.SOLIDER;
-    }
-
-    public boolean isGuard() {
-        return this.pieceType == PieceType.GUARD;
-    }
-
-    public boolean isChariot() {
-        return this.pieceType == PieceType.CHARIOT;
-    }
-
-    public boolean isElephant() {
-        return this.pieceType == PieceType.ELEPHANT;
-    }
-
-    public boolean isGeneral() {
-        return this.pieceType == PieceType.GENERAL;
-    }
-
-    public boolean isHorse() {
-        return this.pieceType == PieceType.HORSE;
+    public boolean isSameType(PieceType pieceType) {
+        return this.pieceType == pieceType;
     }
 
     public void move(final Position position) {

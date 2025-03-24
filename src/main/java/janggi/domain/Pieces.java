@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.domain.position.Route;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class Pieces {
     private int countJumpablePiecesInRoute(Route route) {
         long cannonOrDestinationCount = pieces.stream()
                 .filter(route::hasPosition)
-                .filter(currentPiece -> currentPiece.isCannon() || route.isDestination(currentPiece))
+                .filter(currentPiece -> currentPiece.isSameType(PieceType.CANNON) || route.isDestination(currentPiece))
                 .count();
 
         if (cannonOrDestinationCount > 0) {

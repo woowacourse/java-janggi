@@ -22,10 +22,10 @@ class GuardTest {
         guard = new Guard(new Position(1, 1), RED);
     }
 
-    @DisplayName("해당 기물이 왕 기물인지 확인한다.")
+    @DisplayName("해당 기물이 사 기물인지 확인한다.")
     @Test
     void isGuradTest() {
-        Assertions.assertThat(guard.isGuard()).isTrue();
+        Assertions.assertThat(guard.isSameType(PieceType.GUARD)).isTrue();
     }
 
     @DisplayName("사 기물이 올바른 루트를 계산하는지 확인한다.")

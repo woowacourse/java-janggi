@@ -2,6 +2,7 @@ package janggi.view;
 
 import janggi.domain.Team;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.domain.position.Route;
 import java.util.List;
@@ -81,27 +82,27 @@ public class OutputView {
     }
 
     private String getPieceName(Piece piece) {
-        if (piece.isGeneral()) {
+        if (piece.isSameType(PieceType.GENERAL)) {
             return "왕";
         }
 
-        if (piece.isChariot()) {
+        if (piece.isSameType(PieceType.CHARIOT)) {
             return "차";
         }
 
-        if (piece.isElephant()) {
+        if (piece.isSameType(PieceType.ELEPHANT)) {
             return "상";
         }
 
-        if (piece.isHorse()) {
+        if (piece.isSameType(PieceType.HORSE)) {
             return "마";
         }
 
-        if (piece.isCannon()) {
+        if (piece.isSameType(PieceType.CANNON)) {
             return "포";
         }
 
-        if (piece.isGuard()) {
+        if (piece.isSameType(PieceType.GUARD)) {
             return "사";
         }
         return "졸";

@@ -24,7 +24,7 @@ class GeneralTest {
     @DisplayName("해당 기물이 왕 기물인지 확인한다.")
     @Test
     void isGeneralTest() {
-        Assertions.assertThat(general.isGeneral()).isTrue();
+        Assertions.assertThat(general.isSameType(PieceType.GENERAL)).isTrue();
     }
 
     @DisplayName("왕 기물이 올바른 루트를 계산하는지 확인한다.")

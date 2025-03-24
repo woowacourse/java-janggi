@@ -24,7 +24,7 @@ class ChariotTest {
     @DisplayName("해당 기물이 차 기물인지 확인한다.")
     @Test
     void isChariotTest() {
-        Assertions.assertThat(chariot.isChariot()).isTrue();
+        Assertions.assertThat(chariot.isSameType(PieceType.CHARIOT)).isTrue();
     }
 
     @DisplayName("차 기물이 올바른 루트를 계산하는지 확인한다.")

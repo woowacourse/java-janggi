@@ -24,7 +24,7 @@ class ElephantTest {
     @DisplayName("해당 기물이 상 기물인지 확인한다.")
     @Test
     void isElephantTest() {
-        Assertions.assertThat(elephant.isElephant()).isTrue();
+        Assertions.assertThat(elephant.isSameType(PieceType.ELEPHANT)).isTrue();
     }
 
     @DisplayName("상 기물이 올바른 루트를 계산하는지 확인한다.")
