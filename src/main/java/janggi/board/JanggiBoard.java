@@ -28,8 +28,8 @@ public class JanggiBoard {
         validatePositionHasPiece(position);
 
         Piece piece = board.get(position);
-        List<Route> candidatesRoutes = piece.computeCandidatePositions(position);
-        List<Position> reachableDestinations = piece.filterReachableDestinations(candidatesRoutes, board);
+
+        List<Position> reachableDestinations = piece.computeReachableDestinations(position, board);
 
         validateReachableDestinations(reachableDestinations);
         return reachableDestinations;

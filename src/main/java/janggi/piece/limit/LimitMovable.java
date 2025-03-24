@@ -17,19 +17,23 @@ public abstract class LimitMovable implements Piece {
     }
 
     @Override
-    public List<Position> filterReachableDestinations(final List<Route> routes, final Map<Position, Piece> board) {
+    public List<Position> computeReachableDestinations(final Position position, final Map<Position, Piece> board) {
+        List<Route> candidateRoutes = computeCandidatePositions(position);
+
         List<Position> reachablePositions = new ArrayList<>();
-        for (Route route : routes) {
-            Position destination = route.getLastPosition();
-            if (isInvalidRoute(route, destination, board)) {
+        for (Route route : candidateRoutes) {
+            if (isInvalidRoute(route, board)) {
                 continue;
             }
-            reachablePositions.add(destination);
+            reachablePositions.add(route.getLastPosition());
         }
         return reachablePositions;
     }
 
-    private boolean isInvalidRoute(final Route route, final Position destination, final Map<Position, Piece> board) {
+    abstract List<Route> computeCandidatePositions(final Position position);
+
+    private boolean isInvalidRoute(final Route route, final Map<Position, Piece> board) {
+        Position destination = route.getLastPosition();
         if (destination.isOutOfRange()) {
             return true;
         }

@@ -27,6 +27,20 @@ public abstract class UnLimitMovable implements Piece {
         return List.of(rightRoute, leftRoute, upRoute, downRoute);
     }
 
+    @Override
+    public List<Position> computeReachableDestinations(final Position position, final Map<Position, Piece> board) {
+        List<Route> candidateRoutes = computeCandidatePositions(position);
+        List<Position> reachablePositions = new ArrayList<>();
+        for (Route route : candidateRoutes) {
+            List<Position> positions = route.getPositions();
+            addValidDestination(positions, reachablePositions, board);
+        }
+        return reachablePositions;
+    }
+
+    protected abstract void addValidDestination(final List<Position> positions, final List<Position> reachablePositions,
+                                                final Map<Position, Piece> board);
+
     private Route createRoute(final Position position, final Direction direction) {
         Route route = new Route(position);
 
@@ -37,19 +51,6 @@ public abstract class UnLimitMovable implements Piece {
         route.deleteFirstPosition();
         return route;
     }
-
-    @Override
-    public List<Position> filterReachableDestinations(final List<Route> routes, final Map<Position, Piece> board) {
-        List<Position> reachablePositions = new ArrayList<>();
-        for (Route route : routes) {
-            List<Position> positions = route.getPositions();
-            addValidDestination(positions, reachablePositions, board);
-        }
-        return reachablePositions;
-    }
-
-    protected abstract void addValidDestination(final List<Position> positions, final List<Position> reachablePositions,
-                                                final Map<Position, Piece> board);
 
     @Override
     public boolean isCho() {

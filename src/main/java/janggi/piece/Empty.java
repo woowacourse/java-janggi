@@ -11,12 +11,7 @@ public class Empty implements Piece {
     }
 
     @Override
-    public List<Route> computeCandidatePositions(final Position position) {
-        throw new IllegalArgumentException("[ERROR] 이 위치에는 말이 존재하지 않습니다.");
-    }
-
-    @Override
-    public List<Position> filterReachableDestinations(final List<Route> routes, final Map<Position, Piece> board) {
+    public List<Position> computeReachableDestinations(final Position position, final Map<Position, Piece> board) {
         throw new IllegalArgumentException("[ERROR] 프로그램에 오류가 발생했습니다.");
     }
 
