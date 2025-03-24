@@ -59,6 +59,6 @@ public class ElephantMovement implements MovementRule {
 
     private boolean checkExistPieceInPoint(Pieces pieces, List<Direction> directions, Point checkPoint) {
         return directions.stream()
-                .anyMatch(direction -> pieces.isExistPieceIn(checkPoint.plus(direction.multiply(this.direction))));
+                .anyMatch(direction -> pieces.isExistPieceIn(checkPoint.plus(direction.multiply(dir))));
     }
 }

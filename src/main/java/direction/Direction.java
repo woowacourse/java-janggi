@@ -20,7 +20,7 @@ public enum Direction {
         return direction;
     }
 
-    public Point multiply(int dir) {
-        return this.direction.multiply(dir);
+    public Point apply(int side) {
+        return direction.apply(side);
     }
 }
