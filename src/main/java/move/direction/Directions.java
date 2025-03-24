@@ -1,4 +1,4 @@
-package move;
+package move.direction;
 
 import java.util.List;
 

@@ -1,9 +1,10 @@
-import move.Direction;
+package piece.location;
+
+import move.direction.Direction;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-import piece.Position;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class PositionTest {

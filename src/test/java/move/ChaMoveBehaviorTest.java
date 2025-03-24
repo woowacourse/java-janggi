@@ -6,9 +6,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
 import piece.Pieces;
-import piece.Position;
-import piece.Route;
 import piece.Team;
+import piece.location.Position;
+import piece.location.Route;
 
 public class ChaMoveBehaviorTest {
     @Test

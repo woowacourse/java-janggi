@@ -1,11 +1,11 @@
+package piece;
+
 import move.SangMoveBehavior;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-import piece.Piece;
-import piece.Position;
-import piece.Team;
+import piece.location.Position;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class PieceTest {

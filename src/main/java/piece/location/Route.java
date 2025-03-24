@@ -1,4 +1,4 @@
-package piece;
+package piece.location;
 
 import java.util.Collections;
 import java.util.List;

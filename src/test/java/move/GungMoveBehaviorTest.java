@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import piece.Pieces;
-import piece.Position;
 import piece.Team;
+import piece.location.Position;
 
 public class GungMoveBehaviorTest {
     @Test

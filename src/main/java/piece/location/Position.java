@@ -1,7 +1,7 @@
-package piece;
+package piece.location;
 
 import java.util.Objects;
-import move.Direction;
+import move.direction.Direction;
 
 public class Position {
 

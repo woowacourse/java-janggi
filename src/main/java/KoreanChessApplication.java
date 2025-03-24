@@ -2,13 +2,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import piece.InitiateJanggiTeamPieces;
 import piece.Piece;
 import piece.Pieces;
 import piece.PlayerPieces;
-import piece.Position;
-import piece.TableSetting;
 import piece.Team;
+import piece.initiate.InitiateJanggiTeamPieces;
+import piece.initiate.TableSetting;
+import piece.location.Position;
 
 public class KoreanChessApplication {
 

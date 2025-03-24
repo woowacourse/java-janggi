@@ -2,10 +2,11 @@ package move;
 
 import java.util.ArrayList;
 import java.util.List;
+import move.direction.Direction;
 import piece.PieceType;
-import piece.Position;
-import piece.Route;
 import piece.Team;
+import piece.location.Position;
+import piece.location.Route;
 
 public class ChaMoveBehavior extends MoveBehavior {
 

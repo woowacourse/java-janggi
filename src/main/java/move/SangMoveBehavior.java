@@ -1,10 +1,12 @@
 package move;
 
 import java.util.List;
+import move.direction.Direction;
+import move.direction.Directions;
 import piece.PieceType;
-import piece.Position;
-import piece.Route;
 import piece.Team;
+import piece.location.Position;
+import piece.location.Route;
 
 public class SangMoveBehavior extends MoveBehavior {
 

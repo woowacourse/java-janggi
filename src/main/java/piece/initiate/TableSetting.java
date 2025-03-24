@@ -1,13 +1,16 @@
-package piece;
+package piece.initiate;
 
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import move.MaMoveBehavior;
 import move.SangMoveBehavior;
+import piece.Piece;
+import piece.Team;
+import piece.location.Position;
 
 public enum TableSetting {
-    
+
     MA_SANG_MA_SANG("마상_마상",
             List.of(
                     new Piece(new Position(9, 1), new MaMoveBehavior(), Team.BLUE),

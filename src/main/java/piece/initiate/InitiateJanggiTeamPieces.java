@@ -1,4 +1,4 @@
-package piece;
+package piece.initiate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +9,10 @@ import move.FoMoveBehavior;
 import move.GungMoveBehavior;
 import move.JolMoveBehavior;
 import move.SaMoveBehavior;
+import piece.Piece;
+import piece.Pieces;
+import piece.Team;
+import piece.location.Position;
 
 public class InitiateJanggiTeamPieces {
 

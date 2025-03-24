@@ -2,6 +2,8 @@ package piece;
 
 import java.util.Objects;
 import move.MoveBehavior;
+import piece.location.Position;
+import piece.location.Route;
 
 public class Piece {
 

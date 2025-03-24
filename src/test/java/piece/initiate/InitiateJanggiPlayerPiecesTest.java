@@ -1,3 +1,5 @@
+package piece.initiate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,12 +12,10 @@ import move.SaMoveBehavior;
 import move.SangMoveBehavior;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import piece.InitiateJanggiTeamPieces;
 import piece.Piece;
 import piece.Pieces;
-import piece.Position;
-import piece.TableSetting;
 import piece.Team;
+import piece.location.Position;
 
 public class InitiateJanggiPlayerPiecesTest {
 

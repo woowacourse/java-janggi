@@ -1,9 +1,9 @@
 import java.util.Map;
 import java.util.Scanner;
 import piece.Piece;
-import piece.Position;
-import piece.TableSetting;
 import piece.Team;
+import piece.initiate.TableSetting;
+import piece.location.Position;
 
 public class GameView {
 

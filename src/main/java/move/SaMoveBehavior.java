@@ -2,9 +2,9 @@ package move;
 
 import piece.PieceType;
 import piece.Pieces;
-import piece.Position;
-import piece.Route;
 import piece.Team;
+import piece.location.Position;
+import piece.location.Route;
 
 public class SaMoveBehavior extends MoveBehavior {
 

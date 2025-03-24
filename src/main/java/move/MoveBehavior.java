@@ -2,12 +2,14 @@ package move;
 
 import java.util.ArrayList;
 import java.util.List;
+import move.direction.Direction;
+import move.direction.Directions;
 import piece.Piece;
 import piece.PieceType;
 import piece.Pieces;
-import piece.Position;
-import piece.Route;
 import piece.Team;
+import piece.location.Position;
+import piece.location.Route;
 
 public abstract class MoveBehavior {
 
