@@ -45,7 +45,7 @@ class BoardTest {
             Node node = new Node(point);
             Board board = BoardFixture.createEmptyBoard();
             board.putPiece(node, new Byeong(Team.CHO));
-            Node otherNode = board.findNodeByPoint(point.of(5, 5));
+            Node otherNode = board.findNodeByPoint(Point.of(5, 5));
 
             // when
             final boolean actual = board.existsPieceByNode(otherNode);
