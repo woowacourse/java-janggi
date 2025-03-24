@@ -20,7 +20,7 @@ class GungTest {
     @DisplayName("장기말을 이동시킬 수 있다.")
     @ParameterizedTest
     @MethodSource()
-    void test1(Position destination) {
+    void canMove(Position destination) {
         Gung gung = new Gung(START_POSITION);
 
         Gung movedGung = gung.move(destination, List.of(), List.of());
@@ -28,7 +28,7 @@ class GungTest {
         assertThat(movedGung.getPosition()).isEqualTo(destination);
     }
 
-    static Stream<Arguments> test1() {
+    static Stream<Arguments> canMove() {
         return Stream.of(
                 Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y())),
                 Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y())),
@@ -41,7 +41,7 @@ class GungTest {
     @DisplayName("장기말의 이동 규칙에 어긋난 경우 이동이 불가능합니다.")
     @ParameterizedTest
     @MethodSource()
-    void test2(Position destination) {
+    void canNotMoveBecauseRuleOfMove(Position destination) {
         Gung gung = new Gung(START_POSITION);
 
         assertThatThrownBy(() -> gung.move(destination, List.of(), List.of()))
@@ -49,7 +49,7 @@ class GungTest {
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
 
-    static Stream<Arguments> test2() {
+    static Stream<Arguments> canNotMoveBecauseRuleOfMove() {
         return Stream.of(
                 Arguments.of(new Position(START_POSITION.x() + 2, START_POSITION.y())),
                 Arguments.of(new Position(START_POSITION.x() - 2, START_POSITION.y())),
@@ -60,7 +60,7 @@ class GungTest {
 
     @DisplayName("아군 장기말이 장애물일 경우 해당 위치로 이동이 불가능하다.")
     @Test
-    void test3() {
+    void canNotMoveToDestinationWithAllies() {
         Gung gung = new Gung(START_POSITION);
         Gung alliesPiece = new Gung(DESTINATION_POSITION);
 
@@ -71,7 +71,7 @@ class GungTest {
 
     @DisplayName("상대 장기말이 장애물일 경우 장애물 위치까지 이동이 가능하다.")
     @Test
-    void test4() {
+    void canMoveToDestinationWithEnemy() {
         Gung gung = new Gung(START_POSITION);
         Cha enemyPiece = new Cha(DESTINATION_POSITION);
 

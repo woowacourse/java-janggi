@@ -24,7 +24,7 @@ class ChaTest {
     @DisplayName("장기말을 이동시킬 수 있다.")
     @ParameterizedTest
     @MethodSource()
-    void test1(Position destination) {
+    void canMove(Position destination) {
         Cha cha = new Cha(START_POSITION);
 
         Cha movedCha = cha.move(destination, List.of(), List.of());
@@ -32,7 +32,7 @@ class ChaTest {
         assertThat(movedCha.getPosition()).isEqualTo(destination);
     }
 
-    static Stream<Arguments> test1() {
+    static Stream<Arguments> canMove() {
         return Stream.of(
                 Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y())),
                 Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y())),
@@ -49,7 +49,7 @@ class ChaTest {
     @DisplayName("장기말의 이동 규칙에 어긋난 경우 이동이 불가능합니다.")
     @ParameterizedTest
     @MethodSource()
-    void test2(Position destination) {
+    void canNotMoveBecauseRuleOfMove(Position destination) {
         Cha cha = new Cha(START_POSITION);
 
         assertThatThrownBy(() -> cha.move(destination, List.of(), List.of()))
@@ -57,7 +57,7 @@ class ChaTest {
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
 
-    static Stream<Arguments> test2() {
+    static Stream<Arguments> canNotMoveBecauseRuleOfMove() {
         return Stream.of(
                 Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() + 1)),
                 Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() - 1)),
@@ -68,7 +68,7 @@ class ChaTest {
 
     @DisplayName("아군 장기말이 장애물일 경우 장애물 이전 위치까지 이동이 가능하다.")
     @Test
-    void test4() {
+    void canMoveToPreviousPositionWithAllies() {
         Cha cha = new Cha(START_POSITION);
         Cha alliesPiece = new Cha(DESTINATION_POSITION);
 
@@ -78,7 +78,7 @@ class ChaTest {
 
     @DisplayName("아군 장기말이 장애물일 경우 장애물 위치를 포함해 너머로 이동이 불가능하다.")
     @Test
-    void test5() {
+    void canNotMoveToOverPositionWithAllies() {
         Cha cha = new Cha(START_POSITION);
         Cha alliesPiece = new Cha(DESTINATION_POSITION);
 
@@ -94,7 +94,7 @@ class ChaTest {
 
     @DisplayName("상대 장기말이 장애물일 경우 장애물 위치까지 이동이 가능하다.")
     @Test
-    void test7() {
+    void canMoveToDestinationWithEnemy() {
         Cha cha = new Cha(START_POSITION);
         Cha enemyPiece = new Cha(DESTINATION_POSITION);
 
@@ -104,7 +104,7 @@ class ChaTest {
 
     @DisplayName("상대 장기말이 장애물일 경우 장애물 위치를 제외하고 너머로 이동이 불가능하다.")
     @Test
-    void test6() {
+    void canMoveToOverPositionWith() {
         Cha cha = new Cha(START_POSITION);
         Cha enemyPiece = new Cha(DESTINATION_POSITION);
 
