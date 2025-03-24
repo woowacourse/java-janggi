@@ -1,5 +1,8 @@
 package janggi.board;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 public record Position(int x, int y) {
 
     private static final int BOARD_X_LOWER_BOUND = 1;
@@ -75,5 +78,27 @@ public record Position(int x, int y) {
 
     public int absDeltaY(final Position other) {
         return Math.abs(deltaY(other));
+    }
+
+    public List<Position> horizontalPath(final Position other) {
+        if (this.isRight(other)) {
+            return IntStream.range(1, this.absDeltaX(other))
+                    .mapToObj(this::right)
+                    .toList();
+        }
+        return IntStream.range(1, this.absDeltaX(other))
+                .mapToObj(this::left)
+                .toList();
+    }
+
+    public List<Position> verticalPath(final Position other) {
+        if (this.isUp(other)) {
+            return IntStream.range(1, this.absDeltaY(other))
+                    .mapToObj(this::up)
+                    .toList();
+        }
+        return IntStream.range(1, this.absDeltaY(other))
+                .mapToObj(this::down)
+                .toList();
     }
 }

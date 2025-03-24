@@ -3,7 +3,6 @@ package janggi.piece;
 import janggi.board.Position;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 public class Cannon extends Piece {
 
@@ -42,30 +41,8 @@ public class Cannon extends Piece {
 
     private List<Position> findPath(final Position start, final Position end) {
         if (start.isHorizontalMove(end)) {
-            return findHorizontalPath(start, end);
+            return start.horizontalPath(end);
         }
-        return findVerticalPath(start, end);
-    }
-
-    private List<Position> findHorizontalPath(final Position start, final Position end) {
-        if (start.isRight(end)) {
-            return IntStream.range(1, start.absDeltaX(end))
-                    .mapToObj(start::right)
-                    .toList();
-        }
-        return IntStream.range(1, start.absDeltaX(end))
-                .mapToObj(start::left)
-                .toList();
-    }
-
-    private List<Position> findVerticalPath(final Position start, final Position end) {
-        if (start.isUp(end)) {
-            return IntStream.range(1, start.absDeltaY(end))
-                    .mapToObj(start::up)
-                    .toList();
-        }
-        return IntStream.range(1, start.absDeltaY(end))
-                .mapToObj(start::down)
-                .toList();
+        return start.verticalPath(end);
     }
 }
