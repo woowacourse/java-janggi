@@ -15,7 +15,7 @@ public abstract class Piece {
         this.dynasty = dynasty;
     }
 
-    public List<Point> movePath(Point from, Point to) {
+    public final List<Point> movePath(Point from, Point to) {
         MovePath movePath = paths().stream()
                 .filter(each -> each.canMove(from, to))
                 .findFirst()
@@ -24,7 +24,7 @@ public abstract class Piece {
         return movePath.movePoints(from, to);
     }
 
-    public boolean isDynasty(Dynasty dynasty) {
+    public final boolean isDynasty(Dynasty dynasty) {
         return this.dynasty == dynasty;
     }
 
