@@ -3,7 +3,6 @@ package janggi.view;
 import janggi.board.Point;
 import janggi.camp.Camp;
 import janggi.piece.Piece;
-import janggi.piece.PieceSymbol;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;

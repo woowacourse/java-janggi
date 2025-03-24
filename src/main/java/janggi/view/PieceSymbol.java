@@ -1,4 +1,4 @@
-package janggi.piece;
+package janggi.view;
 
 import janggi.camp.Camp;
 
