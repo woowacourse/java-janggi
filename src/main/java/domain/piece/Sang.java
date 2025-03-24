@@ -32,12 +32,13 @@ public class Sang extends Piece {
     }
 
     private boolean isPossibleToArrive(Position startPosition, Position targetPosition, List<Move> moveList) {
+        Position newPosition = startPosition;
         for (Move move : moveList) {
-            if (!startPosition.canMovePosition(move)) {
+            if (!newPosition.canMovePosition(move)) {
                 return false;
             }
-            startPosition = startPosition.movePosition(move);
+            newPosition = newPosition.movePosition(move);
         }
-        return startPosition.equals(targetPosition);
+        return newPosition.equals(targetPosition);
     }
 }
