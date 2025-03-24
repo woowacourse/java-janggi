@@ -11,7 +11,7 @@ public class Sang extends Piece implements DistanceMove {
     }
 
     private void validateSangMoveStrategy(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateReachableCoordinate(from, to, SANG_REACHABLE_DISTANCE);
+        validateReachableDistanceCoordinate(from, to, SANG_REACHABLE_DISTANCE);
         validateDoesNotHasObstacle(board, from, to);
     }
 

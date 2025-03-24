@@ -10,7 +10,7 @@ public class Ma extends Piece implements DistanceMove {
     }
 
     private void validateMaMoveStrategy(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateReachableCoordinate(from, to, MA_REACHABLE_DISTANCE);
+        validateReachableDistanceCoordinate(from, to, MA_REACHABLE_DISTANCE);
         validateDoesNotHasObstacle(board, from, to);
     }
 
