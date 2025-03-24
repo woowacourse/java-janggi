@@ -20,10 +20,9 @@ public enum Direction {
 
     public static Direction find(Point from, Point to) {
         Point distance = to.minus(from);
-        Point point = new Point(Integer.signum(distance.x()), Integer.signum(distance.y()));
-        return Arrays.stream(Direction.values()).filter(
-                        value -> value.direction.equals(point)
-                )
+        Point compareDirection = new Point(Integer.signum(distance.x()), Integer.signum(distance.y()));
+        return Arrays.stream(Direction.values())
+                .filter(value -> value.direction.equals(compareDirection))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 방향이 존재하지 않습니다."));
     }
