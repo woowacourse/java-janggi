@@ -1,6 +1,7 @@
 package position;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static piece.Team.HAN;
 import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
@@ -8,8 +9,6 @@ import static position.PositionFixtures.E1;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
 import piece.Palace;
 import piece.Piece;
 
@@ -35,6 +34,19 @@ public class BoardTest {
 
         // when - then
         assertThat(board.isBlank(E1)).isFalse();
+    }
+
+    @Test
+    @DisplayName("같은 팀 기물을 움직이려 하면 예외가 발생한다.")
+    void validateTeamTest(){
+        // given
+        Piece palace = new Palace(HAN, E1);
+        Board board = new Board(Set.of(palace));
+
+        // when - then
+        assertThatThrownBy(() -> board.validateTeam(HAN))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 같은 팀 기물만 움직일 수 있습니다.");
     }
 
 }

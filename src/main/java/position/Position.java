@@ -44,12 +44,4 @@ public final class Position {
         return Objects.hash(column, row);
     }
 
-    public Column getColumn() {
-        return column;
-    }
-
-    public Row getRow() {
-        return row;
-    }
-
 }
