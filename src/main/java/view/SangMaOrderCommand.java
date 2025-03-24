@@ -15,12 +15,12 @@ public enum SangMaOrderCommand {
     private final String input;
     private final List<PieceType> pieceTypes;
 
-    SangMaOrderCommand(String input, List<PieceType> pieceTypes) {
+    SangMaOrderCommand(final String input, final List<PieceType> pieceTypes) {
         this.input = input;
         this.pieceTypes = pieceTypes;
     }
 
-    public static SangMaOrderCommand from(String input) {
+    public static SangMaOrderCommand from(final String input) {
         return Arrays.stream(values())
                 .filter(command -> command.input.equals(input))
                 .findAny()

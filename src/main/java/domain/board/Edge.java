@@ -5,7 +5,7 @@ public class Edge {
     private final Node nextNode;
     private final Direction direction;
 
-    public Edge(Node nextNode, Direction direction) {
+    public Edge(final Node nextNode, final Direction direction) {
         this.nextNode = nextNode;
         this.direction = direction;
     }
@@ -14,7 +14,7 @@ public class Edge {
         return nextNode;
     }
 
-    public boolean isSameDirection(Direction direction) {
+    public boolean isSameDirection(final Direction direction) {
         return this.direction == direction;
     }
 }

@@ -15,12 +15,12 @@ public class Po implements Piece {
 
     private final Team team;
 
-    public Po(Team team) {
+    public Po(final Team team) {
         this.team = team;
     }
 
     @Override
-    public List<Node> findMovableNodes(Node sourceNode, Board board) {
+    public List<Node> findMovableNodes(final Node sourceNode, final Board board) {
         List<Node> candidates = new ArrayList<>();
         for (Direction direction : List.of(UP, RIGHT, DOWN, LEFT)) {
             findHurdle(sourceNode, direction, board, candidates);
@@ -36,7 +36,7 @@ public class Po implements Piece {
                 break;
             }
             Node nextNode = currentNode.findNextNodeByDirection(direction);
-            if (board.existsPieceTypeByNode(nextNode, type())) {
+            if (board.hasPieceTypeByNode(nextNode, type())) {
                 break;
             }
             if (board.existsPieceByNode(nextNode)) {
@@ -54,7 +54,7 @@ public class Po implements Piece {
                 break;
             }
             Node nextNode = currentNode.findNextNodeByDirection(direction);
-            if (board.existsPieceTypeByNode(nextNode, type())
+            if (board.hasPieceTypeByNode(nextNode, type())
                     || (board.existsPieceByNode(nextNode) && board.hasPieceTeamByNode(nextNode, this.team))) {
                 break;
             }

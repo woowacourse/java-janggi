@@ -30,7 +30,7 @@ public class JanggiController {
         } while (true);
     }
 
-    private void moveByTurn(Turn turn, Board board) {
+    private void moveByTurn(final Turn turn, final Board board) {
         ErrorHandler.retryUntilSuccess(() -> {
             MoveCommand moveCommand = InputView.inputMoveCommand(turn.team());
             Node sourceNode = board.findNodeByPoint(moveCommand.source());
@@ -50,7 +50,7 @@ public class JanggiController {
         return boardGenerator.generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
     }
 
-    private SangMaOrderCommand createSangMaOrderCommandByTeam(Team team) {
+    private SangMaOrderCommand createSangMaOrderCommandByTeam(final Team team) {
         return ErrorHandler.retryUntilSuccess(() -> InputView.inputSangMaOrder(team));
     }
 }

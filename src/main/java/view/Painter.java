@@ -7,15 +7,15 @@ public class Painter {
     private static final String WHITE = "\u001B[37m";
     public static final String RESET = "\u001B[0m";
 
-    public static String paintRed(String text) {
+    public static String paintRed(final String text) {
         return RED + text;
     }
 
-    public static String paintGreen(String text) {
+    public static String paintGreen(final String text) {
         return GREEN + text;
     }
 
-    public static String paintWhite(String text) {
+    public static String paintWhite(final String text) {
         return WHITE + text;
     }
 

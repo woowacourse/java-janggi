@@ -25,7 +25,8 @@ import view.SangMaOrderCommand;
 
 public class BoardGenerator {
 
-    public Board generateBoard(SangMaOrderCommand hanSangMaOrderCommand, SangMaOrderCommand choSangMaOrderCommand) {
+    public Board generateBoard(final SangMaOrderCommand hanSangMaOrderCommand,
+                               final SangMaOrderCommand choSangMaOrderCommand) {
         Map<Point, Node> nodeByPoint = initializeNodesAndEdges();
         Map<Node, Piece> pieceByNode = initializePiecePosition(nodeByPoint,
                 hanSangMaOrderCommand,
@@ -55,7 +56,7 @@ public class BoardGenerator {
         return nodeByPoint;
     }
 
-    private List<Edge> createEdges(int row, int column, Map<Point, Node> nodeByPoint) {
+    private List<Edge> createEdges(final int row, final int column, final Map<Point, Node> nodeByPoint) {
         List<Edge> edges = new ArrayList<>();
         for (Direction direction : List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT)) {
             int nextRow = row + direction.deltaRow();
@@ -70,9 +71,9 @@ public class BoardGenerator {
         return edges;
     }
 
-    public Map<Node, Piece> initializePiecePosition(Map<Point, Node> nodeByPoint,
-                                                    SangMaOrderCommand hanSangMaOrderCommand,
-                                                    SangMaOrderCommand choSangMaOrderCommand) {
+    public Map<Node, Piece> initializePiecePosition(final Map<Point, Node> nodeByPoint,
+                                                    final SangMaOrderCommand hanSangMaOrderCommand,
+                                                    final SangMaOrderCommand choSangMaOrderCommand) {
         Map<Node, Piece> board = new HashMap<>();
         List<Point> hanSangMaPoints = List.of(Point.of(1, 2), Point.of(1, 3), Point.of(1, 7), Point.of(1, 8));
         initializeHanPiecePosition(hanSangMaPoints, hanSangMaOrderCommand, nodeByPoint, board);
@@ -83,9 +84,10 @@ public class BoardGenerator {
         return board;
     }
 
-    private void initializeHanPiecePosition(List<Point> sangMaPoints,
-                                            SangMaOrderCommand sangMaOrderCommand,
-                                            Map<Point, Node> nodeByPoint, Map<Node, Piece> board) {
+    private void initializeHanPiecePosition(final List<Point> sangMaPoints,
+                                            final SangMaOrderCommand sangMaOrderCommand,
+                                            final Map<Point, Node> nodeByPoint,
+                                            final Map<Node, Piece> board) {
         board.put(nodeByPoint.get(Point.of(4, 1)), new Byeong(Team.HAN));
         board.put(nodeByPoint.get(Point.of(4, 3)), new Byeong(Team.HAN));
         board.put(nodeByPoint.get(Point.of(4, 5)), new Byeong(Team.HAN));
@@ -107,9 +109,10 @@ public class BoardGenerator {
         }
     }
 
-    private void initializeChoPiecePosition(List<Point> sangMaPoints,
-                                            SangMaOrderCommand sangMaOrderCommand,
-                                            Map<Point, Node> nodeByPoint, Map<Node, Piece> board) {
+    private void initializeChoPiecePosition(final List<Point> sangMaPoints,
+                                            final SangMaOrderCommand sangMaOrderCommand,
+                                            final Map<Point, Node> nodeByPoint,
+                                            final Map<Node, Piece> board) {
         board.put(nodeByPoint.get(Point.of(7, 1)), new Byeong(Team.CHO));
         board.put(nodeByPoint.get(Point.of(7, 3)), new Byeong(Team.CHO));
         board.put(nodeByPoint.get(Point.of(7, 5)), new Byeong(Team.CHO));
@@ -131,7 +134,7 @@ public class BoardGenerator {
         }
     }
 
-    private Deque<Piece> createSangMaOrder(SangMaOrderCommand sangMaOrderCommand, Team team) {
+    private Deque<Piece> createSangMaOrder(final SangMaOrderCommand sangMaOrderCommand, final Team team) {
         List<PieceType> pieceTypes = sangMaOrderCommand.getPieceTypes();
         Deque<Piece> pieces = new ArrayDeque<>();
         for (PieceType pieceType : pieceTypes) {
@@ -140,13 +143,11 @@ public class BoardGenerator {
         return pieces;
     }
 
-    private Piece createPiece(PieceType pieceType, Team team) {
-        Piece piece;
-        switch (pieceType) {
-            case SANG -> piece = new Sang(team);
-            case MA -> piece = new Ma(team);
+    private Piece createPiece(final PieceType pieceType, final Team team) {
+        return switch (pieceType) {
+            case SANG -> new Sang(team);
+            case MA -> new Ma(team);
             default -> throw new IllegalArgumentException("[ERROR] 상 또는 마가 아닙니다.");
-        }
-        return piece;
+        };
     }
 }

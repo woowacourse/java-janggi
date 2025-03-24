@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 public class ErrorHandler {
 
-    public static void retryUntilSuccess(Runnable runnable) {
+    public static void retryUntilSuccess(final Runnable runnable) {
         while (true) {
             try {
                 runnable.run();
@@ -15,7 +15,7 @@ public class ErrorHandler {
         }
     }
 
-    public static <T> T retryUntilSuccess(Supplier<T> supplier) {
+    public static <T> T retryUntilSuccess(final Supplier<T> supplier) {
         while (true) {
             try {
                 return supplier.get();

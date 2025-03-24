@@ -11,7 +11,7 @@ public class InputView {
     private static final Scanner scanner = new Scanner(System.in);
     private static final String MOVE_COMMAND_INPUT = "move";
 
-    public static SangMaOrderCommand inputSangMaOrder(Team team) {
+    public static SangMaOrderCommand inputSangMaOrder(final Team team) {
         System.out.printf("""
                 %n%s나라 상마 순서 번호를 입력해주세요. (예: 3)
                 1. 상마상마
@@ -23,7 +23,7 @@ public class InputView {
         return SangMaOrderCommand.from(input);
     }
 
-    public static MoveCommand inputMoveCommand(Team team) {
+    public static MoveCommand inputMoveCommand(final Team team) {
         System.out.printf("""
                 %n현재 턴 : %s나라
                 이동할 기물의 현재 위치와 이동할 위치를 입력해주세요. (예: move 1,1 2,1)
@@ -45,19 +45,19 @@ public class InputView {
         return new MoveCommand(sourcePoint, destinationPoint);
     }
 
-    private static void validateCommand(String command) {
+    private static void validateCommand(final String command) {
         if (!MOVE_COMMAND_INPUT.equals(command)) {
             throw new IllegalArgumentException("[ERROR] 올바른 커맨드를 입력해주세요.");
         }
     }
 
-    private static void validateSize(List<String> point) {
+    private static void validateSize(final List<String> point) {
         if (point.size() != 2) {
             throw new IllegalArgumentException(point + ": [ERROR] 위치 정보를 올바르게 입력해주세요. (예: 1,1)");
         }
     }
 
-    private static int convertToInteger(String input) {
+    private static int convertToInteger(final String input) {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {

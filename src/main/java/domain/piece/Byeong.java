@@ -28,12 +28,12 @@ public class Byeong implements Piece {
 
     private final Team team;
 
-    public Byeong(Team team) {
+    public Byeong(final Team team) {
         this.team = team;
     }
 
     @Override
-    public List<Node> findMovableNodes(Node currentNode, Board board) {
+    public List<Node> findMovableNodes(final Node currentNode, final Board board) {
         return DIRECTIONS_BY_TEAM.get(this.team).stream()
                 .filter(currentNode::hasEdgeByDirection)
                 .map(currentNode::findNextNodeByDirection)
@@ -48,7 +48,7 @@ public class Byeong implements Piece {
     }
 
     @Override
-    public boolean hasTeam(Team team) {
+    public boolean hasTeam(final Team team) {
         return this.team == team;
     }
 }

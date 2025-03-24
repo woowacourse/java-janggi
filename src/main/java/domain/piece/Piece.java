@@ -7,21 +7,21 @@ import java.util.List;
 
 public interface Piece {
 
-    default boolean canMove(Node source, Node destination, Board board) {
+    default boolean canMove(final Node source, final Node destination, final Board board) {
         return isDifferentNode(source, destination) && containsInCandidates(source, destination, board);
     }
 
-    private boolean isDifferentNode(Node source, Node destination) {
+    private boolean isDifferentNode(final Node source, final Node destination) {
         return !destination.isSameNode(source);
     }
 
-    private boolean containsInCandidates(Node source, Node destination, Board board) {
+    private boolean containsInCandidates(final Node source, final Node destination, final Board board) {
         return findMovableNodes(source, board).contains(destination);
     }
 
-    List<Node> findMovableNodes(Node source, Board board);
+    List<Node> findMovableNodes(final Node source, final Board board);
 
     PieceType type();
 
-    boolean hasTeam(Team team);
+    boolean hasTeam(final Team team);
 }

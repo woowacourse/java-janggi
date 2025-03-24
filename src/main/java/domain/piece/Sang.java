@@ -51,12 +51,12 @@ public class Sang implements Piece {
 
     private final Team team;
 
-    public Sang(Team team) {
+    public Sang(final Team team) {
         this.team = team;
     }
 
     @Override
-    public List<Node> findMovableNodes(Node sourceNode, Board board) {
+    public List<Node> findMovableNodes(final Node sourceNode, final Board board) {
         List<Node> candidates = new ArrayList<>();
         for (PiecePath piecePath : PIECE_PATHS) {
             checkObstaclesAndAddCandidate(sourceNode,
@@ -66,9 +66,9 @@ public class Sang implements Piece {
         return candidates;
     }
 
-    private void checkObstaclesAndAddCandidate(Node sourceNode,
-                                               List<Directions> obstaclePaths, Directions destinationPath,
-                                               List<Node> candidates, final Board board) {
+    private void checkObstaclesAndAddCandidate(final Node sourceNode,
+                                               final List<Directions> obstaclePaths, final Directions destinationPath,
+                                               final List<Node> candidates, final Board board) {
         if (!sourceNode.canMoveByPath(destinationPath)) {
             return;
         }
@@ -95,7 +95,7 @@ public class Sang implements Piece {
     }
 
     @Override
-    public boolean hasTeam(Team team) {
+    public boolean hasTeam(final Team team) {
         return this.team == team;
     }
 }

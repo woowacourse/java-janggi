@@ -17,12 +17,12 @@ public class Cha implements Piece {
 
     private final Team team;
 
-    public Cha(Team team) {
+    public Cha(final Team team) {
         this.team = team;
     }
 
     @Override
-    public List<Node> findMovableNodes(Node sourceNode, final Board board) {
+    public List<Node> findMovableNodes(final Node sourceNode, final Board board) {
         List<Node> candidates = new ArrayList<>();
         CHA_MOVABLE_DIRECTIONS.stream()
                 .filter(sourceNode::hasEdgeByDirection)
@@ -57,7 +57,7 @@ public class Cha implements Piece {
     }
 
     @Override
-    public boolean hasTeam(Team team) {
+    public boolean hasTeam(final Team team) {
         return this.team == team;
     }
 }

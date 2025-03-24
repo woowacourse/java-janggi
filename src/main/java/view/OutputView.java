@@ -14,7 +14,7 @@ public class OutputView {
         System.out.println("장기 게임에 오신 것을 환영합니다.");
     }
 
-    public static void printBoard(Board board) {
+    public static void printBoard(final Board board) {
         List<List<String>> boardString = new ArrayList<>();
         for (int row = Board.START_ROW_INDEX; row <= Board.END_ROW_INDEX; row++) {
 
@@ -43,11 +43,11 @@ public class OutputView {
         Painter.clean();
     }
 
-    public static void printMatchResult(Team winTeam) {
+    public static void printMatchResult(final Team winTeam) {
         System.out.printf("%s나라의 승리입니다.%n", winTeam.title());
     }
 
-    public static void printTurn(Team team) {
+    public static void printTurn(final Team team) {
         System.out.printf("이번 턴은 %s나라입니다.%n", team.title());
     }
 }

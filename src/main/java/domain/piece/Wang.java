@@ -12,12 +12,12 @@ public class Wang implements Piece {
 
     private final Team team;
 
-    public Wang(Team team) {
+    public Wang(final Team team) {
         this.team = team;
     }
 
     @Override
-    public List<Node> findMovableNodes(Node currentNode, Board board) {
+    public List<Node> findMovableNodes(final Node currentNode, final Board board) {
         return WANG_MOVABLE_DIRECTIONS.stream()
                 .filter(currentNode::hasEdgeByDirection)
                 .map(currentNode::findNextNodeByDirection)
@@ -32,7 +32,7 @@ public class Wang implements Piece {
     }
 
     @Override
-    public boolean hasTeam(Team team) {
+    public boolean hasTeam(final Team team) {
         return this.team == team;
     }
 }

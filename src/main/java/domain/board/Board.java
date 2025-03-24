@@ -16,42 +16,51 @@ public class Board {
     private final Map<Node, Piece> board;
     private final Map<Point, Node> nodeByPoint;
 
-    public Board(Map<Node, Piece> board, Map<Point, Node> nodeByPoint) {
+    public Board(final Map<Node, Piece> board, final Map<Point, Node> nodeByPoint) {
         this.board = board;
         this.nodeByPoint = nodeByPoint;
     }
 
-    public void putPiece(Node node, Piece piece) {
-        board.put(node, piece);
-    }
-
-    public Node findNodeByPoint(Point point) {
+    public Node findNodeByPoint(final Point point) {
         if (!nodeByPoint.containsKey(point)) {
             throw new IllegalArgumentException("[ERROR] 해당 위치에 노드가 존재하지 않습니다.");
         }
         return nodeByPoint.get(point);
     }
 
-    public Piece findPieceByNode(Node node) {
-        if (!board.containsKey(node)) {
+    public boolean hasPieceTeamByNode(final Node node, final Team team) {
+        if (!existsPieceByNode(node)) {
+            return false;
+        }
+        Piece piece = findPieceByNode(node);
+        return piece.hasTeam(team);
+    }
+
+    public boolean existsPieceByNode(final Node node) {
+        return board.containsKey(node);
+    }
+
+    public void movePiece(final Node sourceNode, final Node destinationNode, final Board board) {
+        Piece sourcePiece = findPieceByNode(sourceNode);
+        if (!sourcePiece.canMove(sourceNode, destinationNode, board)) {
+            throw new IllegalArgumentException(sourceNode + " -> " + destinationNode + " [ERROR] 이동할 수 없는 경로입니다.");
+        }
+        putPiece(destinationNode, sourcePiece);
+        removePieceByNode(sourceNode);
+    }
+
+    public Piece findPieceByNode(final Node node) {
+        if (!existsPieceByNode(node)) {
             throw new IllegalArgumentException("[ERROR] 해당 노드에 기물이 존재하지 않습니다.");
         }
         return board.get(node);
     }
 
-    public boolean existsPieceByNode(Node node) {
-        return board.containsKey(node);
+    public void putPiece(final Node node, final Piece piece) {
+        board.put(node, piece);
     }
 
-    public boolean existsPieceTypeByNode(Node node, PieceType pieceType) {
-        if (!existsPieceByNode(node)) {
-            return false;
-        }
-        Piece piece = board.get(node);
-        return piece.type() == pieceType;
-    }
-
-    public void removePieceByNode(Node node) {
+    public void removePieceByNode(final Node node) {
         if (!existsPieceByNode(node)) {
             return;
         }
@@ -59,35 +68,17 @@ public class Board {
         board.remove(node, piece);
     }
 
-    public boolean hasPieceTeamByNode(Node node, Team team) {
-        if (!existsPieceByNode(node)) {
-            return false;
-        }
-        Piece piece = board.get(node);
-        return piece.hasTeam(team);
+    public boolean isOpponentWangDead(Team team) {
+        return board.keySet().stream()
+                .filter(node -> hasPieceTeamByNode(node, team.inverse()))
+                .noneMatch(node -> hasPieceTypeByNode(node, PieceType.WANG));
     }
 
-    public boolean hasPieceTypeByNode(Node node, PieceType pieceType) {
+    public boolean hasPieceTypeByNode(final Node node, final PieceType pieceType) {
         if (!existsPieceByNode(node)) {
             return false;
         }
         Piece piece = board.get(node);
         return piece.type() == pieceType;
-    }
-
-    public void movePiece(Node sourceNode, Node destinationNode, Board board) {
-        Piece sourcePiece = findPieceByNode(sourceNode);
-        if (!sourcePiece.canMove(sourceNode, destinationNode, board)) {
-            throw new IllegalArgumentException(sourceNode + " -> " + destinationNode + " [ERROR] 이동할 수 없는 경로입니다.");
-        }
-
-        putPiece(destinationNode, sourcePiece);
-        removePieceByNode(sourceNode);
-    }
-
-    public boolean isOpponentWangDead(Team team) {
-        return board.keySet().stream()
-                .filter(node -> hasPieceTeamByNode(node, team.inverse()))
-                .noneMatch(node -> hasPieceTypeByNode(node, PieceType.WANG));
     }
 }

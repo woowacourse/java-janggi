@@ -10,33 +10,33 @@ public class Node {
     private final Point point;
     private final List<Edge> edges;
 
-    public Node(Point point) {
+    public Node(final Point point) {
         this.point = point;
         this.edges = new ArrayList<>();
     }
 
-    public boolean isSameNode(Node destination) {
+    public boolean isSameNode(final Node destination) {
         return this == destination;
     }
 
-    public boolean hasEdgeByDirection(Direction direction) {
+    public boolean hasEdgeByDirection(final Direction direction) {
         return edges.stream()
                 .anyMatch(edge -> edge.isSameDirection(direction));
     }
 
-    private Edge findEdgeByDirection(Direction direction) {
+    private Edge findEdgeByDirection(final Direction direction) {
         return edges.stream()
                 .filter(edge -> edge.isSameDirection(direction))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 방향의 엣지가 존재하지 않습니다."));
     }
 
-    public Node findNextNodeByDirection(Direction direction) {
+    public Node findNextNodeByDirection(final Direction direction) {
         Edge edge = findEdgeByDirection(direction);
         return edge.nextNode();
     }
 
-    public boolean canMoveByPath(Directions directions) {
+    public boolean canMoveByPath(final Directions directions) {
         Node currentNode = this;
         for (Direction direction : directions.directions()) {
             if (!currentNode.hasEdgeByDirection(direction)) {
@@ -47,7 +47,7 @@ public class Node {
         return true;
     }
 
-    public Node moveByPath(Directions directions) {
+    public Node moveByPath(final Directions directions) {
         Node currentNode = this;
         for (Direction direction : directions.directions()) {
             currentNode = currentNode.findNextNodeByDirection(direction);
@@ -55,7 +55,7 @@ public class Node {
         return currentNode;
     }
 
-    public void addAllEdges(List<Edge> edges) {
+    public void addAllEdges(final List<Edge> edges) {
         this.edges.addAll(edges);
     }
 
