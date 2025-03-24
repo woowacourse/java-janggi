@@ -55,16 +55,19 @@ public class JanggiBoard {
 
     public boolean isCriticalPoint(Point targetPoint, Team myTeam) {
         if (getDot(targetPoint).isPlaced()) {
-            Piece targetPiece = getDot(targetPoint).getPiece()
-                    .orElseThrow(() -> new IllegalArgumentException("해당 점에는 장기말이 없습니다."));
+            Piece targetPiece = findPieceFromDot(targetPoint);
             return targetPiece.isCriticalPiece() && targetPiece.getTeam() != myTeam;
         }
         return false;
     }
 
-    public boolean movePiece(Point beforePoint, Point targetPoint) {
-        Piece beforePiece = getDot(beforePoint).getPiece()
+    private Piece findPieceFromDot(Point targetPoint) {
+        return getDot(targetPoint).getPiece()
                 .orElseThrow(() -> new IllegalArgumentException("해당 점에는 장기말이 없습니다."));
+    }
+
+    public boolean movePiece(Point beforePoint, Point targetPoint) {
+        Piece beforePiece = findPieceFromDot(beforePoint);
         validateAfterPoint(beforePoint, targetPoint, beforePiece);
         Path path = beforePiece.calculatePath(beforePoint, targetPoint);
         Map<Piece, Boolean> piecesOnPathWithTargetOrNot = getPiecesOnPath(path, targetPoint);
@@ -101,8 +104,7 @@ public class JanggiBoard {
     private void addPiecesOnPathWithTargetOrNot(Point targetPoint, Point point,
                                                 Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
         if (getDot(point).isPlaced()) {
-            Piece piece = getDot(point).getPiece()
-                    .orElseThrow(() -> new IllegalArgumentException("해당 점에는 장기말이 없습니다."));
+            Piece piece = findPieceFromDot(point);
             if (point.equals(targetPoint)) {
                 piecesOnPathWithTargetOrNot.put(piece, true);
                 return;
