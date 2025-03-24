@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 class PhoTest {
     @Test
     @DisplayName("포 기물 생성 테스트")
-    public void test1() {
+    void test1() {
         Team team = Team.RED;
 
         Pho Pho = new Pho(team);
@@ -30,14 +30,14 @@ class PhoTest {
     class PhoMovableTest {
         @Test
         @DisplayName("포 이동 가능 여부 판별 테스트")
-        public void test2() {
+        void test2() {
             Pho Pho = new Pho(Team.RED);
             assertThat(Pho.isValidPoint(Point.of(0,0), Point.of(100,0))).isTrue();
         }
 
         @Test
         @DisplayName("포 이동 불가능 여부 판별 테스트")
-        public void test3() {
+        void test3() {
             Pho Pho = new Pho(Team.RED);
             assertThat(Pho.isValidPoint(Point.of(0,0), Point.of(10,10))).isFalse();
         }
@@ -47,8 +47,8 @@ class PhoTest {
     @DisplayName("포 이동 경로 계산 테스트")
     class PhoCalculatePathTest {
         @Test
-        @DisplayName("수직 테스트")
-        public void test1() {
+        @DisplayName("수직으로 이동 가능 테스트")
+        void test1() {
             Pho Pho = new Pho(Team.RED);
             Point point1 = new Point(0, 1);
             Point point2 = new Point(0, 2);
@@ -68,8 +68,8 @@ class PhoTest {
         }
 
         @Test
-        @DisplayName("수평 테스트")
-        public void test2() {
+        @DisplayName("수평으로 이동 가능 테스트")
+        void test2() {
             Pho Pho = new Pho(Team.RED);
             Point point1 = new Point(1, 0);
             Point point2 = new Point(2, 0);
@@ -93,7 +93,7 @@ class PhoTest {
     @DisplayName("포 경로 방해 테스트")
     class PhoIsProhibitedPathTest {
         @Nested
-        @DisplayName("장애물이 없는 경우")
+        @DisplayName("장애물이 없는 경우  이동 가능 테스트")
         class NoProhibitedPathTest {
             @Test
             void test1(){
@@ -106,7 +106,7 @@ class PhoTest {
         @DisplayName("장애물이 1개 경우")
         class OneProhibitedPathTest {
             @Test
-            @DisplayName("중간에 1개 - 포가 아닌 경우")
+            @DisplayName("중간에 1개 - 포가 아닌 경우 이동 가능 테스트")
             void test2(){
                 Pho pho = new Pho(Team.RED);
                 Map<Piece, Boolean> pieces = new HashMap<>();
@@ -115,7 +115,7 @@ class PhoTest {
             }
 
             @Test
-            @DisplayName("중간에 1개 - 포인 경우")
+            @DisplayName("중간에 1개 - 포인 경우인 경우 이동 불가능 테스트")
             void test3(){
                 Pho pho = new Pho(Team.RED);
                 Map<Piece, Boolean> pieces = new HashMap<>();
@@ -124,7 +124,7 @@ class PhoTest {
             }
 
             @Test
-            @DisplayName("종점에 1개인 경우")
+            @DisplayName("종점에 1개인 경우 이동 불가능 테스트")
             void test4(){
                 Pho pho = new Pho(Team.RED);
                 Map<Piece, Boolean> pieces = new HashMap<>();
@@ -137,7 +137,7 @@ class PhoTest {
         @DisplayName("장애물이 1개 경우")
         class TwoProhibitedPathTest {
             @Test
-            @DisplayName("중간 2개")
+            @DisplayName("중간 2개인 경우 이동 불가능 테스트")
             void test1(){
                 Pho pho = new Pho(Team.RED);
                 Map<Piece, Boolean> pieces = new HashMap<>();
@@ -147,7 +147,7 @@ class PhoTest {
             }
 
             @Test
-            @DisplayName("포가 하나라도 존재")
+            @DisplayName("포가 하나라도 존재인 경우 이동 불가능 테스트")
             void test2(){
                 Pho pho = new Pho(Team.RED);
                 Map<Piece, Boolean> pieces = new HashMap<>();
@@ -157,7 +157,7 @@ class PhoTest {
             }
 
             @Test
-            @DisplayName("포가 없고 종점에 아군")
+            @DisplayName("포가 없고 종점에 아군인 경우 이동 불가능 테스트")
             void test3(){
                 Pho pho = new Pho(Team.RED);
                 Map<Piece, Boolean> pieces = new HashMap<>();
@@ -167,7 +167,7 @@ class PhoTest {
             }
 
             @Test
-            @DisplayName("포가 없고 종점에 적군")
+            @DisplayName("포가 없고 종점에 적군인 경우 이동 가능 테스트")
             void test4(){
                 Pho pho = new Pho(Team.RED);
                 Map<Piece, Boolean> pieces = new HashMap<>();
@@ -178,7 +178,7 @@ class PhoTest {
         }
 
         @Nested
-        @DisplayName("장애물이 3개 이상인 경우")
+        @DisplayName("장애물이 3개 이상인 경우 이동 불가능 테스트")
         class ThreeProhibitedPathTest {
             @Test
             void test1() {

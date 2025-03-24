@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 class ByeongTest {
     @Test
     @DisplayName("병 기물 생성 테스트")
-    public void test1() {
+    void test1() {
         Team team = Team.RED;
 
         Byeong byeong = new Byeong(team);
@@ -28,7 +28,7 @@ class ByeongTest {
     class ByeongMovableTest {
         @Test
         @DisplayName("초나라 병 이동 가능 테스트")
-        public void test1() {
+        void test1() {
             Byeong byeong = new Byeong(Team.BLUE);
             assertAll(
                     () -> assertThat(byeong.isValidPoint(Point.of(0,0), Point.of(0,1))).isTrue(),
@@ -37,8 +37,8 @@ class ByeongTest {
         }
 
         @Test
-        @DisplayName("한나라 병 이동 가능 테스트")
-        public void test2() {
+        @DisplayName("한나라 병 이동 가능")
+        void test2() {
             Byeong byeong = new Byeong(Team.RED);
             assertAll(
                     () -> assertThat(byeong.isValidPoint(Point.of(0,0), Point.of(0,1))).isFalse(),
@@ -47,8 +47,8 @@ class ByeongTest {
         }
 
         @Test
-        @DisplayName("병 이동 불가능 테스트")
-        public void test3() {
+        @DisplayName("병 이동 불가능")
+        void test3() {
             Byeong byeong = new Byeong(Team.RED);
             assertThat(byeong.isValidPoint(Point.of(0,0), Point.of(2,0))).isFalse();
         }
@@ -58,8 +58,8 @@ class ByeongTest {
     @DisplayName("병 이동 경로 계산 테스트")
     class ByeongCalculatePathTest {
         @Test
-        @DisplayName("수직")
-        public void test1() {
+        @DisplayName("수직으로 병이 이동할 수 있는지 테스트")
+        void test1() {
             Byeong byeong = new Byeong(Team.RED);
             Point point = new Point(0, 1);
 
@@ -67,8 +67,8 @@ class ByeongTest {
         }
 
         @Test
-        @DisplayName("수평")
-        public void test2() {
+        @DisplayName("수평으로 병이 이동할 수 있는지 테스트")
+        void test2() {
             Byeong byeong = new Byeong(Team.RED);
             Point point = new Point(1, 0);
 
@@ -81,8 +81,8 @@ class ByeongTest {
     class ByeongIsProhibitedPathTest {
 
         @Test
-        @DisplayName("아군")
-        public void test1() {
+        @DisplayName("아군인 경우에 병 이동 불가")
+        void test1() {
             Byeong byeong = new Byeong(Team.RED);
             Map<Piece, Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.RED), true);
@@ -91,8 +91,8 @@ class ByeongTest {
         }
 
         @Test
-        @DisplayName("적군")
-        public void test2() {
+        @DisplayName("적군인 경우 이동 가능")
+        void test2() {
             Byeong byeong = new Byeong(Team.RED);
             Map<Piece, Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.BLUE), true);

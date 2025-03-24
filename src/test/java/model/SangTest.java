@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 class SangTest {
     @Test
     @DisplayName("상 기물 생성 테스트")
-    public void test1() {
+    void test1() {
         Team team = Team.RED;
 
         Sang sang = new Sang(team);
@@ -28,14 +28,14 @@ class SangTest {
     class SangMovableTest {
         @Test
         @DisplayName("가능")
-        public void test1() {
+        void test1() {
             Sang sang = new Sang(Team.RED);
             assertThat(sang.isValidPoint(Point.of(0,0), Point.of(-2,-3))).isTrue();
         }
 
         @Test
         @DisplayName("불가능")
-        public void test2() {
+        void test2() {
             Sang sang = new Sang(Team.RED);
             assertThat(sang.isValidPoint(Point.of(0,0), Point.of(-2,-2))).isFalse();
         }
@@ -46,8 +46,8 @@ class SangTest {
     class MaCalculatePathTest {
 
         @Test
-        @DisplayName("경로 테스트_1")
-        public void test1() {
+        @DisplayName("상 이동 가능 테스트")
+        void test1() {
             Sang sang = new Sang(Team.RED);
             Point point = new Point(0, 1);
             Point point2 = new Point(1, 2);
@@ -63,8 +63,8 @@ class SangTest {
         }
 
         @Test
-        @DisplayName("경로 테스트_2")
-        public void test2() {
+        @DisplayName("상 이동 가능 테스트")
+        void test2() {
             Sang sang = new Sang(Team.RED);
             Point point = new Point(0, -1);
             Point point2 = new Point(-1, -2);
@@ -83,8 +83,8 @@ class SangTest {
     class SangIsProhibitedPathTest {
 
         @Test
-        @DisplayName("중간 아군")
-        public void test1() {
+        @DisplayName("중간 아군인 경우 이동 불가능 테스트")
+        void test1() {
             Sang sang = new Sang(Team.RED);
             Map<Piece,Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.RED),false);
@@ -93,8 +93,8 @@ class SangTest {
         }
 
         @Test
-        @DisplayName("중간 아군 2명")
-        public void test5() {
+        @DisplayName("중간 아군 2명인 경우 이동 불가능 테스트")
+        void test5() {
             Sang sang = new Sang(Team.RED);
             Map<Piece,Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.RED),false);
@@ -104,8 +104,8 @@ class SangTest {
         }
 
         @Test
-        @DisplayName("종점 아군")
-        public void test2() {
+        @DisplayName("종점 아군인 경우 이동 불가능 테스트")
+        void test2() {
             Sang sang = new Sang(Team.RED);
             Map<Piece,Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.RED),true);
@@ -115,8 +115,8 @@ class SangTest {
 
 
         @Test
-        @DisplayName("중간 적군")
-        public void test3() {
+        @DisplayName("중간 적군인 경우 이동 불가능 테스트")
+        void test3() {
             Sang sang = new Sang(Team.RED);
             Map<Piece,Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.BLUE),false);
@@ -125,8 +125,8 @@ class SangTest {
         }
 
         @Test
-        @DisplayName("종점 적군")
-        public void test4() {
+        @DisplayName("종점 적군인 경우 이동 가능 테스트")
+        void test4() {
             Sang sang = new Sang(Team.RED);
             Map<Piece,Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.BLUE),true);

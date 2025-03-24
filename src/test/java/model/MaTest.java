@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 class MaTest {
     @Test
     @DisplayName("마 기물 생성 테스트")
-    public void test1() {
+    void test1() {
         Team team = Team.RED;
 
         Ma ma = new Ma(team);
@@ -28,14 +28,14 @@ class MaTest {
     class MaMovableTest {
         @Test
         @DisplayName("가능")
-        public void test1() {
+        void test1() {
             Ma ma = new Ma(Team.RED);
             assertThat(ma.isValidPoint(Point.of(0,0), Point.of(2,1))).isTrue();
         }
 
         @Test
         @DisplayName("불가능")
-        public void test2() {
+        void test2() {
             Ma ma = new Ma(Team.RED);
             assertThat(ma.isValidPoint(Point.of(0,0), Point.of(2,2))).isFalse();
         }
@@ -46,7 +46,7 @@ class MaTest {
     class MaCalculatePathTest {
         @Test
         @DisplayName("중간 경유지 포함 여부 테스트")
-        public void test1() {
+        void test1() {
             Ma ma = new Ma(Team.RED);
             Point point1 = new Point(0, 1);
             Point point2 = new Point(1, 2);
@@ -64,8 +64,8 @@ class MaTest {
     class MaIsProhibitedPathTest {
 
         @Test
-        @DisplayName("중간 아군")
-        public void test1() {
+        @DisplayName("중간 아군인 경우 이동 불가능 테스트")
+        void test1() {
             Ma ma = new Ma(Team.RED);
             Map<Piece,Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.RED),false);
@@ -74,8 +74,8 @@ class MaTest {
         }
 
         @Test
-        @DisplayName("종점 아군")
-        public void test2() {
+        @DisplayName("종점 아군인 경우 이동 불가능 테스트")
+        void test2() {
             Ma ma = new Ma(Team.RED);
             Map<Piece,Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.RED),true);
@@ -85,8 +85,8 @@ class MaTest {
 
 
         @Test
-        @DisplayName("중간 적군")
-        public void test3() {
+        @DisplayName("중간 적군인 경우 이동 불가능 테스트")
+        void test3() {
             Ma ma = new Ma(Team.RED);
             Map<Piece,Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.BLUE),false);
@@ -95,8 +95,8 @@ class MaTest {
         }
 
         @Test
-        @DisplayName("종점 적군")
-        public void test4() {
+        @DisplayName("종점 적군인 경우 이동 가능 테스트")
+        void test4() {
             Ma ma = new Ma(Team.RED);
             Map<Piece,Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.BLUE),true);

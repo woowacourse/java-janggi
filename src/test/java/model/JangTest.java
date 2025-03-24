@@ -15,7 +15,7 @@ class JangTest {
 
     @Test
     @DisplayName("장 기물 생성 테스트")
-    public void test1() {
+    void test1() {
         Team team = Team.RED;
 
         Jang jang = new Jang(team);
@@ -28,14 +28,14 @@ class JangTest {
     class JangMovableTest {
         @Test
         @DisplayName("장 이동 가능 테스트")
-        public void test2() {
+        void test2() {
             Jang jang = new Jang(Team.RED);
             assertThat(jang.isValidPoint(Point.of(0, 0), Point.of(1, 0))).isTrue();
         }
 
         @Test
         @DisplayName("장 이동 불가능 테스트")
-        public void test3() {
+        void test3() {
             Jang jang = new Jang(Team.RED);
             assertThat(jang.isValidPoint(Point.of(0, 0), Point.of(2, 0))).isFalse();
         }
@@ -45,8 +45,8 @@ class JangTest {
     @DisplayName("장 이동 경로 계산 테스트")
     class JangCalculatePathTest {
         @Test
-        @DisplayName("수직")
-        public void test1() {
+        @DisplayName("수직인 경우 이동 가능 테스트")
+        void test1() {
             Jang jang = new Jang(Team.RED);
             Point point = new Point(0, 1);
 
@@ -54,8 +54,8 @@ class JangTest {
         }
 
         @Test
-        @DisplayName("수평")
-        public void test2() {
+        @DisplayName("수평인 경우 이동 가능 테스트")
+        void test2() {
             Jang jang = new Jang(Team.RED);
             Point point = new Point(1, 0);
 
@@ -68,8 +68,8 @@ class JangTest {
     class JangIsProhibitedPathTest {
 
         @Test
-        @DisplayName("아군")
-        public void test3() {
+        @DisplayName("아군인 경우 이동 불가능 테스트")
+        void test3() {
             Jang jang = new Jang(Team.RED);
             Map<Piece, Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.RED), true);
@@ -78,8 +78,8 @@ class JangTest {
         }
 
         @Test
-        @DisplayName("적군")
-        public void test4() {
+        @DisplayName("적군인 경우 이동 가능 테스트")
+        void test4() {
             Jang jang = new Jang(Team.RED);
             Map<Piece, Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.BLUE), true);

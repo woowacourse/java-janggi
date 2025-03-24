@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 class ChaTest {
     @Test
     @DisplayName("차 기물 생성 테스트")
-    public void test1() {
+    void test1() {
         Team team = Team.RED;
 
         Cha cha = new Cha(team);
@@ -28,14 +28,14 @@ class ChaTest {
 
         @Test
         @DisplayName("차 이동 가능 여부 판별 테스트")
-        public void test2() {
+        void test2() {
             Cha cha = new Cha(Team.RED);
             assertThat(cha.isValidPoint(Point.of(0, 0), Point.of(100, 0))).isTrue();
         }
 
         @Test
         @DisplayName("차 이동 불가능 여부 판별 테스트")
-        public void test3() {
+        void test3() {
             Cha cha = new Cha(Team.RED);
             assertThat(cha.isValidPoint(Point.of(0, 0), Point.of(10, 10))).isFalse();
         }
@@ -45,8 +45,8 @@ class ChaTest {
     @DisplayName("차 이동 경로 계산 테스트")
     class ChaCalculatePathTest {
         @Test
-        @DisplayName("수직 테스트")
-        public void test1() {
+        @DisplayName("수직 방향으로 이동 가능 테스트")
+        void test1() {
             Cha cha = new Cha(Team.RED);
             Point point1 = new Point(0, 1);
             Point point2 = new Point(0, 2);
@@ -66,8 +66,8 @@ class ChaTest {
         }
 
         @Test
-        @DisplayName("수평 테스트")
-        public void test2() {
+        @DisplayName("수평 방향으로 이동 가능 테스트")
+        void test2() {
             Cha cha = new Cha(Team.RED);
             Point point1 = new Point(1, 0);
             Point point2 = new Point(2, 0);
@@ -92,8 +92,8 @@ class ChaTest {
     class ChaIsProhibitedPathTest {
 
         @Test
-        @DisplayName("중간 아군")
-        public void test1() {
+        @DisplayName("중간 아군인 경우 이동 불가능 테스트")
+        void test1() {
             Cha cha = new Cha(Team.RED);
             Map<Piece, Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.RED), false);
@@ -102,8 +102,8 @@ class ChaTest {
         }
 
         @Test
-        @DisplayName("중간 아군 2명")
-        public void test5() {
+        @DisplayName("중간 아군 2명인 경우 이동 불가능 테스트")
+        void test5() {
             Cha cha = new Cha(Team.RED);
             Map<Piece, Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.RED), false);
@@ -113,8 +113,8 @@ class ChaTest {
         }
 
         @Test
-        @DisplayName("종점 아군")
-        public void test2() {
+        @DisplayName("종점 아군인 경우 이동 불가능 테스트")
+        void test2() {
             Cha cha = new Cha(Team.RED);
             Map<Piece, Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.RED), true);
@@ -124,8 +124,8 @@ class ChaTest {
 
 
         @Test
-        @DisplayName("중간 적군")
-        public void test3() {
+        @DisplayName("중간 적군인 경우 이동 불가능 테스트")
+        void test3() {
             Cha cha = new Cha(Team.RED);
             Map<Piece, Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.BLUE), false);
@@ -134,8 +134,8 @@ class ChaTest {
         }
 
         @Test
-        @DisplayName("종점 적군")
-        public void test4() {
+        @DisplayName("종점 적군인 경우 이동 가능 테스트")
+        void test4() {
             Cha cha = new Cha(Team.RED);
             Map<Piece, Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.BLUE), true);

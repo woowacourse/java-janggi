@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 class SaTest {
     @Test
     @DisplayName("사 기물 생성 테스트")
-    public void test1() {
+    void test1() {
         Team team = Team.RED;
 
         Sa sa = new Sa(team);
@@ -27,14 +27,14 @@ class SaTest {
     class SaMovableTest {
         @Test
         @DisplayName("사 이동 가능 테스트")
-        public void test2() {
+        void test2() {
             Sa sa = new Sa(Team.RED);
             assertThat(sa.isValidPoint(Point.of(0,0), Point.of(1,0))).isTrue();
         }
 
         @Test
         @DisplayName("사 이동 불가능 테스트")
-        public void test3() {
+        void test3() {
             Sa sa = new Sa(Team.RED);
             assertThat(sa.isValidPoint(Point.of(0,0), Point.of(2,0))).isFalse();
         }
@@ -43,8 +43,8 @@ class SaTest {
     @DisplayName("사 이동 경로 계산 테스트")
     class SaCalculatePathTest {
         @Test
-        @DisplayName("수직")
-        public void test1() {
+        @DisplayName("수직방향으로 이동 가능 테스트")
+        void test1() {
             Sa sa = new Sa(Team.RED);
             Point point =new Point(0,1);
 
@@ -52,8 +52,8 @@ class SaTest {
         }
 
         @Test
-        @DisplayName("수평")
-        public void test2() {
+        @DisplayName("수평방향으로 이동 가능 테스트")
+        void test2() {
             Sa sa = new Sa(Team.RED);
             Point point =new Point(1,0);
 
@@ -66,8 +66,8 @@ class SaTest {
     class SaIsProhibitedPathTest {
 
         @Test
-        @DisplayName("아군")
-        public void test3() {
+        @DisplayName("아군인 경우 이동 불가능 테스트")
+        void test3() {
             Sa sa = new Sa(Team.RED);
             Map<Piece,Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.RED),true);;
@@ -76,8 +76,8 @@ class SaTest {
         }
 
         @Test
-        @DisplayName("적군")
-        public void test4() {
+        @DisplayName("적군인 경우 이동 가능 테스트")
+        void test4() {
             Sa sa = new Sa(Team.RED);
             Map<Piece,Boolean> pieces = new HashMap<>();
             pieces.put(new Cha(Team.BLUE),true);
