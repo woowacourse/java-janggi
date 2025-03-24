@@ -43,23 +43,29 @@ public class OutputView {
         appendBoardHeader(sb);
         final Map<Position, Piece> map = board.getJanggiBoard();
         for (int i = Position.POSITION_RANGE_X_MIN; i <= Position.POSITION_RANGE_X_MAX; i++) {
-
-            sb.append(NumberFormat.findNumberName(i) + " ");
-            for (int j = Position.POSITION_RANGE_Y_MIN; j <= Position.POSITION_RANGE_Y_MAX; j++) {
-                final Position now = new Position(i, j);
-
-                if (map.containsKey(now)) {
-                    final Piece piece = map.get(now);
-                    sb.append(TEAM_FORMAT.get(piece.getTeamType()));
-                    sb.append(PIECE_FORMAT.get(piece.getClass()));
-                    sb.append(COLOR_RESET + " ");
-                    continue;
-                }
-                sb.append("　 ");
-            }
-            sb.append(System.lineSeparator());
+            appendRow(sb, map, i);
         }
         System.out.println(sb);
+    }
+
+    private static void appendRow(final StringBuilder sb, final Map<Position, Piece> map, final int i) {
+        sb.append(NumberFormat.findNumberName(i) + " ");
+        for (int j = Position.POSITION_RANGE_Y_MIN; j <= Position.POSITION_RANGE_Y_MAX; j++) {
+            final Position now = new Position(i, j);
+            appendPiece(sb, map, now);
+        }
+        sb.append(System.lineSeparator());
+    }
+
+    private static void appendPiece(final StringBuilder sb, final Map<Position, Piece> map, final Position now) {
+        if (map.containsKey(now)) {
+            final Piece piece = map.get(now);
+            sb.append(TEAM_FORMAT.get(piece.getTeamType()));
+            sb.append(PIECE_FORMAT.get(piece.getClass()));
+            sb.append(COLOR_RESET + " ");
+            return;
+        }
+        sb.append("　 ");
     }
 
     private static void appendBoardHeader(final StringBuilder sb) {
