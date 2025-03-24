@@ -6,8 +6,6 @@ import domain.spatial.Position;
 
 public class Chariot extends Piece {
 
-    private static final String NAME = "r";
-
     public Chariot(final Position position, final Directions directions) {
         super(position, directions);
     }
@@ -25,9 +23,5 @@ public class Chariot extends Piece {
     @Override
     public boolean isCannon() {
         return false;
-    }
-
-    public String getName() {
-        return NAME;
     }
 }

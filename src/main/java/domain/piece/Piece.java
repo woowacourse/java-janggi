@@ -21,8 +21,6 @@ public abstract class Piece {
 
     public abstract boolean isCannon();
 
-    public abstract String getName();
-
     public List<Position> getPath(final Position targetPosition) {
         return directions.getPath(position, targetPosition);
     }

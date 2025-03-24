@@ -6,8 +6,6 @@ import domain.spatial.Position;
 
 public class Cannon extends Piece {
 
-    private static final String NAME = "c";
-
     public Cannon(final Position position, final Directions directions) {
         super(position, directions);
     }
@@ -25,9 +23,5 @@ public class Cannon extends Piece {
     @Override
     public boolean isCannon() {
         return true;
-    }
-
-    public String getName() {
-        return NAME;
     }
 }
