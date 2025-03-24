@@ -14,8 +14,7 @@ import piece.Piece;
 
 public class BoardTest {
 
-    @ParameterizedTest
-    @EnumSource()
+    @Test
     @DisplayName("위치에 기물이 존재하는지 확인할 수 있다.")
     void isBlankTest_1() {
         // given

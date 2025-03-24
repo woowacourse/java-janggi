@@ -83,21 +83,21 @@ public class PalaceTest {
 
     /*
     0 ＿ * ＿
-    1 궁 궁 *
-    2 ＿ 궁 ＿
+    1 사 궁 *
+    2 ＿ 사 ＿
     3 d e f
     */
     @Test
     @DisplayName("궁의 이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest_4() {
         // given
-        Piece hanPalace = new Palace(E1);
-        Piece choPalace1 = new Palace(D1);
-        Piece choPalace2 = new Palace(E2);
-        Board board = new Board(Set.of(hanPalace, choPalace1, choPalace2));
+        Piece palace = new Palace(E1);
+        Piece soldier1 = new Soldier(D1);
+        Piece soldier2 = new Soldier(E2);
+        Board board = new Board(Set.of(palace, soldier1, soldier2));
 
         // when
-        Routes palaceRoutes = hanPalace.possibleRoutes(board);
+        Routes palaceRoutes = palace.possibleRoutes(board);
 
         // then
         assertThat(palaceRoutes.routes().size()).isEqualTo(2);

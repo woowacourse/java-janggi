@@ -83,21 +83,21 @@ public class SoldierTest {
 
     /*
     0 ＿ * ＿
-    1 사 사 *
-    2 ＿ 사 ＿
+    1 마 사 *
+    2 ＿ 마 ＿
     3 d e f
     */
     @Test
     @DisplayName("사가 이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest_4() {
         // given
-        Piece soldier1 = new Soldier(E1);
-        Piece soldier2 = new Soldier(D1);
-        Piece soldier3 = new Soldier(E2);
-        Board board = new Board(Set.of(soldier1, soldier2, soldier3));
+        Piece soldier = new Soldier(E1);
+        Piece horse1 = new Horse(D1);
+        Piece horse2 = new Horse(E2);
+        Board board = new Board(Set.of(soldier, horse1, horse2));
 
         // when
-        Routes soldierRoutes = soldier1.possibleRoutes(board);
+        Routes soldierRoutes = soldier.possibleRoutes(board);
 
         // then
         assertThat(soldierRoutes.routes().size()).isEqualTo(2);
