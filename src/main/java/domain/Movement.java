@@ -19,6 +19,14 @@ public record Movement(
 
     public static final Set<Movement> CROSS_MOVEMENTS = Set.of(LEFT, RIGHT, UP, DOWN);
 
+    public boolean isUpDirection() {
+        return deltaY < 0;
+    }
+
+    public boolean isDownDirection() {
+        return deltaY > 0;
+    }
+
     public static Movement combine(Movement... movements) {
         int deltaX = 0;
         int deltaY = 0;
