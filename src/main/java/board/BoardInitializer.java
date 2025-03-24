@@ -32,43 +32,43 @@ public class BoardInitializer {
 
     private void putHorse(final Team team, final Board board) {
         board.putPieces(List.of(
-                new Horse(new Position(calculateRow(team, 0), 3), team, board),
-                new Horse(new Position(calculateRow(team, 0), 8), team, board)
+                new Horse(new Position(calculateRow(team, 0), 3), team),
+                new Horse(new Position(calculateRow(team, 0), 8), team)
         ));
     }
 
     private void putElephant(final Team team, final Board board) {
         board.putPieces(List.of(
-                new Elephant(new Position(calculateRow(team, 0), 2), team, board),
-                new Elephant(new Position(calculateRow(team, 0), 7), team, board)
+                new Elephant(new Position(calculateRow(team, 0), 2), team),
+                new Elephant(new Position(calculateRow(team, 0), 7), team)
         ));
     }
 
     private void putGuard(final Team team, final Board board) {
         board.putPieces(List.of(
-                new Guard(new Position(calculateRow(team, 0), 4), team, board),
-                new Guard(new Position(calculateRow(team, 0), 6), team, board)
+                new Guard(new Position(calculateRow(team, 0), 4), team),
+                new Guard(new Position(calculateRow(team, 0), 6), team)
         ));
     }
 
     private void putChariot(final Team team, final Board board) {
         board.putPieces(List.of(
-                new Chariot(new Position(calculateRow(team, 0), 1), team, board),
-                new Chariot(new Position(calculateRow(team, 0), 9), team, board)
+                new Chariot(new Position(calculateRow(team, 0), 1), team),
+                new Chariot(new Position(calculateRow(team, 0), 9), team)
         ));
     }
 
     private void putKing(final Team team, final Board board) {
         board.putPieces(List.of(
-                new King(new Position(calculateRow(team, 1), 5), team, board),
-                new King(new Position(calculateRow(team, 1), 5), team, board)
+                new King(new Position(calculateRow(team, 1), 5), team),
+                new King(new Position(calculateRow(team, 1), 5), team)
         ));
     }
 
     private void putCannon(final Team team, final Board board) {
         board.putPieces(List.of(
-                new Cannon(new Position(calculateRow(team, 2), 2), team, board),
-                new Cannon(new Position(calculateRow(team, 2), 8), team, board)
+                new Cannon(new Position(calculateRow(team, 2), 2), team),
+                new Cannon(new Position(calculateRow(team, 2), 8), team)
         ));
     }
 
@@ -76,9 +76,7 @@ public class BoardInitializer {
         board.putPieces(IntStream.range(1, 10)
                 .filter(BoardInitializer::isSoldierColumn)
                 .mapToObj(column -> new Solider(
-                        new Position(calculateRow(team, 3), column),
-                        team,
-                        board)
+                        new Position(calculateRow(team, 3), column), team)
                 ).collect(Collectors.toUnmodifiableList()));
     }
 

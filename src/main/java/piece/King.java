@@ -8,15 +8,15 @@ import board.Position;
 
 public class King extends Piece {
 
-    public King(final Position position, final Team team, final Board board) {
-        super(position, team, board);
+    public King(final Position position, final Team team) {
+        super(position, team);
     }
 
     @Override
-    protected Set<Position> getMovablePositions() {
+    protected Set<Position> getMovablePositions(final Board board) {
         return Direction.getStraightDirection().stream()
                 .map(direction -> position.nextPosition(direction))
-                .filter(this::isMovable)
+                .filter(position -> isMovable(position, board))
                 .collect(Collectors.toSet());
     }
 
@@ -25,7 +25,7 @@ public class King extends Piece {
         return "궁";
     }
 
-    private boolean isMovable(final Position position) {
+    private boolean isMovable(final Position position, final Board board) {
         return !board.isExists(position) || !board.isSameTeam(this, position);
     }
 

@@ -8,17 +8,18 @@ import board.Position;
 
 public class Chariot extends Piece {
 
-    public Chariot(final Position position, final Team team, final Board board) {
-        super(position, team, board);
+    public Chariot(final Position position, final Team team) {
+        super(position, team);
     }
 
     @Override
-    public Set<Position> getMovablePositions() {
+    public Set<Position> getMovablePositions(final Board board) {
         Set<Position> positions = new HashSet<>();
         Direction.getStraightDirection().forEach(direction -> goOneSide(
                 position.nextPosition(direction),
                 direction,
-                positions
+                positions,
+                board
         ));
         return positions;
     }
@@ -28,20 +29,20 @@ public class Chariot extends Piece {
         return "차";
     }
 
-    private void goOneSide(Position position, Direction direction, Set<Position> positions) {
-        if (exitCondition(position)) {
+    private void goOneSide(Position position, Direction direction, Set<Position> positions, final Board board) {
+        if (exitCondition(position, board)) {
             return;
         }
         if (!board.isExists(position)) {
-            goOneSide(position.nextPosition(direction), direction, positions);
+            goOneSide(position.nextPosition(direction), direction, positions, board);
         }
         positions.add(position);
     }
 
-    private boolean exitCondition(Position position) {
+    private boolean exitCondition(Position position, final Board board) {
         return (
                 position.isInValidPosition() ||
-                (board.isExists(position) && board.isSameTeam(this, position))
+                        (board.isExists(position) && board.isSameTeam(this, position))
         );
     }
 

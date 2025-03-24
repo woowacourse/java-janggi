@@ -8,19 +8,20 @@ import board.Position;
 
 public class Cannon extends Piece {
 
-    public Cannon(final Position position, final Team team, final Board board) {
-        super(position, team, board);
+    public Cannon(final Position position, final Team team) {
+        super(position, team);
     }
 
     @Override
-    protected Set<Position> getMovablePositions() {
+    protected Set<Position> getMovablePositions(final Board board) {
         Set<Position> positions = new HashSet<>();
         Direction.getStraightDirection().forEach(direction -> goOneSide(
                 position.nextPosition(direction),
                 direction,
                 false,
-                positions)
-        );
+                positions,
+                board
+        ));
         return positions;
     }
 
@@ -29,25 +30,26 @@ public class Cannon extends Piece {
         return "포";
     }
 
-    private void goOneSide(Position position, Direction direction, boolean hasHuddle, Set<Position> positions) {
-        if (exitCondition(position, hasHuddle)) {
+    private void goOneSide(Position position, Direction direction, boolean hasHuddle, Set<Position> positions,
+                           final Board board) {
+        if (exitCondition(position, hasHuddle, board)) {
             return;
         }
         if (!hasHuddle) {
-            goOneSide(position.nextPosition(direction), direction, board.isExists(position), positions);
+            goOneSide(position.nextPosition(direction), direction, board.isExists(position), positions, board);
             return;
         }
         if (!board.isExists(position)) {
-            goOneSide(position.nextPosition(direction), direction, true, positions);
+            goOneSide(position.nextPosition(direction), direction, true, positions, board);
         }
         positions.add(position);
     }
 
-    private boolean exitCondition(Position position, boolean hasHuddle) {
+    private boolean exitCondition(Position position, boolean hasHuddle, final Board board) {
         return (
                 position.isInValidPosition() ||
-                board.isCannonAt(position) ||
-                (board.isSameTeam(this, position) && hasHuddle)
+                        board.isCannonAt(position) ||
+                        (board.isSameTeam(this, position) && hasHuddle)
         );
     }
 

@@ -23,7 +23,7 @@ public class JanggiApplication {
 
     private static void playGame(final Board board, final Turn turn) {
         Piece piece = retry(() -> inputMovePosition(board, turn));
-        retry(() -> movePosition(piece));
+        retry(() -> movePosition(piece, board));
         outputView.printBoard(board);
         turn.increaseRound();
         if (inputView.inputExitGame()) {
@@ -37,9 +37,9 @@ public class JanggiApplication {
         return board.findPiece(movePosition, turn.getCurrnetTeam());
     }
 
-    private static void movePosition(final Piece piece) {
+    private static void movePosition(final Piece piece, final Board board) {
         Position targetPosition = inputView.inputMoveTargetPosition();
-        piece.move(targetPosition);
+        piece.move(targetPosition, board);
     }
 
     private static <T> T retry(final Supplier<T> supplier) {

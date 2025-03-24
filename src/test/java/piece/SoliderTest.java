@@ -3,7 +3,6 @@ package piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -17,11 +16,11 @@ class SoliderTest {
     @Test
     void 졸의_이동할_수_있는_위치를_계산한다() {
         Board board = new Board(List.of());
-        Piece piece = new Solider(initPosition, Team.RED, board);
-        board.putPiece(new Solider(new Position(4, 4), Team.BLUE, board));
-        board.putPiece(new Solider(new Position(5, 3), Team.RED, board));
+        Piece piece = new Solider(initPosition, Team.RED);
+        board.putPiece(new Solider(new Position(4, 4), Team.BLUE));
+        board.putPiece(new Solider(new Position(5, 3), Team.RED));
 
-        assertThat(piece.getMovablePositions()).containsExactlyInAnyOrder(
+        assertThat(piece.getMovablePositions(board)).containsExactlyInAnyOrder(
                 new Position(4, 4),
                 new Position(4, 2)
         );

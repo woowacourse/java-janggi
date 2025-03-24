@@ -8,18 +8,19 @@ import board.Position;
 
 public class Horse extends Piece {
 
-    public Horse(final Position position, final Team team, final Board board) {
-        super(position, team, board);
+    public Horse(final Position position, final Team team) {
+        super(position, team);
     }
 
     @Override
-    protected Set<Position> getMovablePositions() {
+    protected Set<Position> getMovablePositions(final Board board) {
         Set<Position> positions = new HashSet<>();
         Direction.getStraightDirection().forEach(direction -> goOneSide(
                 position.nextPosition(direction),
                 direction,
                 positions,
-                0
+                0,
+                board
         ));
         return positions;
     }
@@ -29,8 +30,8 @@ public class Horse extends Piece {
         return "마";
     }
 
-    private void goOneSide(Position position, Direction direction, Set<Position> positions, int moveCount) {
-        if (exitCondition(position, direction, moveCount)) {
+    private void goOneSide(Position position, Direction direction, Set<Position> positions, int moveCount, Board board) {
+        if (exitCondition(position, direction, moveCount, board)) {
             return;
         }
         if (direction.isCrossDirection() && !board.isSameTeam(this, position)) {
@@ -38,11 +39,11 @@ public class Horse extends Piece {
             return;
         }
         for (Direction crossDirection : direction.nextCrossDirection()) {
-            goOneSide(position.nextPosition(crossDirection), crossDirection, positions, moveCount + 1);
+            goOneSide(position.nextPosition(crossDirection), crossDirection, positions, moveCount + 1, board);
         }
     }
 
-    private boolean exitCondition(Position position, Direction direction, int moveCount) {
+    private boolean exitCondition(Position position, Direction direction, int moveCount, Board board) {
         return (
                 position.isInValidPosition() ||
                 (direction.isStraightDirection() && board.isExists(position)) ||
