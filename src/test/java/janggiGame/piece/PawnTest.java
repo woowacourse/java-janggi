@@ -1,29 +1,21 @@
 package janggiGame.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+
 import janggiGame.board.Board;
 import janggiGame.board.Dot;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-
 class PawnTest {
-    public static Stream<Arguments> providePawnAndOriginAndDestination() {
-        return Stream.of(
-                Arguments.of(new Pawn(Dynasty.HAN), Board.findBy(0, 5), Board.findBy(0, 6)),
-                Arguments.of(new Pawn(Dynasty.CHO), Board.findBy(0, 3), Board.findBy(0, 2))
-        );
-    }
-
     @DisplayName("병의 목적지로 가는 경로는 항상 비어있다.")
     @Test
     void pawnCanGetRoute() {
@@ -47,6 +39,13 @@ class PawnTest {
         assertThatCode(() -> pawn.getRoute(origin, destination))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR]");
+    }
+
+    public static Stream<Arguments> providePawnAndOriginAndDestination() {
+        return Stream.of(
+                Arguments.of(new Pawn(Dynasty.HAN), Board.findBy(0, 5), Board.findBy(0, 6)),
+                Arguments.of(new Pawn(Dynasty.CHO), Board.findBy(0, 3), Board.findBy(0, 2))
+        );
     }
 
     @DisplayName("병은 목적지에 같은 나라의 기물이 존재한다면 이동할 수 없다")
