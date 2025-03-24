@@ -33,6 +33,16 @@ public class Board {
         piece.updatePiecePositionBy(futurePosition);
     }
 
+    public void validateEmptyPieceBy(final Position presentPosition) {
+        if (isNotContainPiece(presentPosition)) {
+            throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다. 기물이 존재하는 좌표를 입력해 주세요.");
+        }
+    }
+
+    private boolean isNotContainPiece(final Position presentPosition) {
+        return !janggiBoard.containsKey(presentPosition);
+    }
+
     public Map<Position, Piece> getJanggiBoard() {
         return Collections.unmodifiableMap(janggiBoard);
     }

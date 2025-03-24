@@ -33,18 +33,11 @@ public class JanggiGame {
         }
     }
 
-            try {
-                Position presentPosition = readPresentPosition();
-                Position futurePosition = readFuturePosition();
-                board.pieceMove(presentPosition, futurePosition);
-            } catch (IllegalArgumentException e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
-        }
     private void playTurn(final Board board, final Team currentTurnTeam) {
         try {
             outputView.printJanggiBoard(board.getJanggiBoard());
             final Position presentPosition = readPresentPosition(currentTurnTeam.getDescription());
+            board.validateEmptyPieceBy(presentPosition);
             validateCurrentTeamBy(board, presentPosition, currentTurnTeam);
 
             final Position futurePosition = readFuturePosition();

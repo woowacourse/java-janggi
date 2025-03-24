@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
-import janggi.piece.Nation;
 import janggi.piece.Piece;
 import janggi.piece.PieceProfile;
+import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -29,13 +29,31 @@ class BoardTest {
         assertThat(board.getJanggiBoard()).hasSize(32);
     }
 
+    @DisplayName("선택한 위치에 기물이 존재하지 않는다면 예외를 던진다.")
+    @Test
+    void emptyPieceByPosition() {
+        //given
+        final List<Piece> pieces = List.of(
+                new Byeong(new PieceProfile("병", Team.HAN), new Position(3, 2))
+        );
+
+        final Board board = new Board(pieces);
+
+        final Position presentPosition = new Position(4, 2);
+
+        //when //then
+        assertThatThrownBy(() -> board.validateEmptyPieceBy(presentPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageStartingWith("[ERROR]");
+    }
+
     @DisplayName("이동시키려는 경로에 장애물이 존재한다면 예외를 던진다.")
     @Test
     void exceptionObstacle() {
         //given
         final List<Piece> pieces = List.of(
-                new Cha(new PieceProfile("차", Nation.HAN), new Position(4, 2)),
-                new Byeong(new PieceProfile("병", Nation.HAN), new Position(7, 2))
+                new Cha(new PieceProfile("차", Team.HAN), new Position(4, 2)),
+                new Byeong(new PieceProfile("병", Team.HAN), new Position(7, 2))
         );
 
         final Position presentPosition = new Position(4, 2);
@@ -54,7 +72,7 @@ class BoardTest {
     void pieceMove() {
         //given
         final List<Piece> pieces = List.of(
-                new Byeong(new PieceProfile("병", Nation.HAN), new Position(3, 2))
+                new Byeong(new PieceProfile("병", Team.HAN), new Position(3, 2))
         );
 
         final Board board = new Board(pieces);
@@ -67,7 +85,7 @@ class BoardTest {
 
         //then
         final Piece actual = board.getJanggiBoard().get(futurePosition);
-        assertThat(actual).isEqualTo(new Byeong(new PieceProfile("병", Nation.HAN),
+        assertThat(actual).isEqualTo(new Byeong(new PieceProfile("병", Team.HAN),
                 new Position(4, 2)));
     }
 
