@@ -14,23 +14,44 @@ public class Soldier extends Piece {
         super(PieceType.SOLDIER, team);
     }
 
-    public Path makePath(Position currentPosition, Position arrivalPosition, final Map<Position, Piece> pieces) {
-        int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
-        int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
-
-        validateMove(differenceForY, differenceForX);
-
-        final List<Position> positions = new ArrayList<>();
-        int currentY = currentPosition.getY();
-        int currentX = currentPosition.getX();
-        currentY = moveY(arrivalPosition, differenceForY, currentY, positions, currentX);
-        moveX(arrivalPosition, differenceForX, currentX, positions, currentY);
-        Path path = new Path(positions);
-        validatePath(pieces, path);
-        return path;
+    @Override
+    protected void validateMove(final int differenceForY, final int differenceForX) {
+        if (getTeam() == Team.CHO && (canNotMoveBackward(differenceForY)
+                || Math.abs(differenceForY) + Math.abs(differenceForX) > MOVE_DISTANCE)) {
+            throw new IllegalArgumentException("[ERROR] 졸은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
+        }
+        if (getTeam() == Team.HAN && canNotMoveBackward(differenceForY)
+                || Math.abs(differenceForY) + Math.abs(differenceForX) > MOVE_DISTANCE) {
+            throw new IllegalArgumentException("[ERROR] 병은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
+        }
     }
 
-    private void validatePath(final Map<Position, Piece> pieces, final Path path) {
+    @Override
+    protected int moveY(Position arrivalPosition, int differenceForY, final int differenceForX, int currentY,
+                        List<Position> positions,
+                        int currentX) {
+        int differenceUnitY = calculateUnit(differenceForY);
+        while (currentY != arrivalPosition.getY()) {
+            currentY += differenceUnitY;
+            positions.add(Position.valueOf(currentY, currentX));
+        }
+        return currentY;
+    }
+
+    @Override
+    protected int moveX(Position arrivalPosition, final int differenceForY, int differenceForX, int currentX,
+                        List<Position> positions,
+                        int currentY) {
+        int differenceUnitX = calculateUnit(differenceForX);
+        while (currentX != arrivalPosition.getX()) {
+            currentX += differenceUnitX;
+            positions.add(Position.valueOf(currentY, currentX));
+        }
+        return currentX;
+    }
+
+    @Override
+    protected void validatePath(final Map<Position, Piece> pieces, final Path path) {
         if (hasPieceInMiddle(path, pieces)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
         }
@@ -43,42 +64,11 @@ public class Soldier extends Piece {
                 .anyMatch(pieces::containsKey);
     }
 
-    private int moveY(Position arrivalPosition, int differenceForY, int currentY, List<Position> positions,
-                      int currentX) {
-        int differenceUnitY = calculateUnit(differenceForY);
-        while (currentY != arrivalPosition.getY()) {
-            currentY += differenceUnitY;
-            positions.add(Position.valueOf(currentY, currentX));
-        }
-        return currentY;
-    }
-
-    private int moveX(Position arrivalPosition, int differenceForX, int currentX, List<Position> positions,
-                      int currentY) {
-        int differenceUnitX = calculateUnit(differenceForX);
-        while (currentX != arrivalPosition.getX()) {
-            currentX += differenceUnitX;
-            positions.add(Position.valueOf(currentY, currentX));
-        }
-        return currentX;
-    }
-
     private int calculateUnit(int difference) {
         if (difference == 0) {
             return difference;
         }
         return difference / Math.abs(difference);
-    }
-
-    public void validateMove(final int differenceForY, final int differenceForX) {
-        if (getTeam() == Team.CHO && (canNotMoveBackward(differenceForY)
-                || Math.abs(differenceForY) + Math.abs(differenceForX) > MOVE_DISTANCE)) {
-            throw new IllegalArgumentException("[ERROR] 졸은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
-        }
-        if (getTeam() == Team.HAN && canNotMoveBackward(differenceForY)
-                || Math.abs(differenceForY) + Math.abs(differenceForX) > MOVE_DISTANCE) {
-            throw new IllegalArgumentException("[ERROR] 병은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
-        }
     }
 
     private boolean canNotMoveBackward(int differenceForY) {
