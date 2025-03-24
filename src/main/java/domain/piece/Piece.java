@@ -19,10 +19,6 @@ abstract public class Piece {
         return this.country;
     }
 
-    public boolean isPho() {
-        return false;
-    }
-
     public PieceType getType() {
         return type;
     }

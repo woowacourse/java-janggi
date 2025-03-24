@@ -54,10 +54,5 @@ public class Pho extends Piece {
             availablePositions.add(next);
         }
     }
-
-
-    @Override
-    public boolean isPho() {
-        return true;
-    }
+    
 }
