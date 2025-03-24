@@ -70,4 +70,11 @@ public class Pieces {
         return pieces;
     }
 
+    public Boolean isPoAt(Position presentPosition) {
+        return pieces.stream()
+                .filter(piece -> piece.isSamePosition(presentPosition))
+                .findFirst()
+                .map(Piece::isPo)
+                .orElseThrow();
+    }
 }
