@@ -15,64 +15,67 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class SaTest {
 
-    static final Position STANDARD = new Position(4, 4);
+    static final Position START_POSITION = new Position(4, 4);
+    static final Position DESTINATION_POSITION = new Position(4, 4);
 
     @DisplayName("장기말을 이동시킬 수 있다.")
     @ParameterizedTest
     @MethodSource()
-    void test1(Position destination) {
-        //given
-        Sa sa = new Sa(STANDARD);
+    void canMove(Position destination) {
+        Sa sa = new Sa(START_POSITION);
 
-        //when
         Sa movedSa = sa.move(destination, List.of(), List.of());
 
-        //then
         assertThat(movedSa.getPosition()).isEqualTo(destination);
     }
 
-    static Stream<Arguments> test1() {
+    static Stream<Arguments> canMove() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x(), STANDARD.y() + 1)),
-                Arguments.of(new Position(STANDARD.x(), STANDARD.y() - 1))
+                Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() + 1)),
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() - 1))
         );
     }
-
 
     @DisplayName("장기말의 이동 규칙에 어긋난 경우 이동이 불가능합니다.")
     @ParameterizedTest
     @MethodSource()
-    void test2(Position destination) {
-        //given
-        Sa sa = new Sa(STANDARD);
+    void canNotMoveBecauseRuleOfMove(Position destination) {
+        Sa sa = new Sa(START_POSITION);
 
-        //when & then
         assertThatThrownBy(() -> sa.move(destination, List.of(), List.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
 
-    static Stream<Arguments> test2() {
+    static Stream<Arguments> canNotMoveBecauseRuleOfMove() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.x() + 2, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x() - 2, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x(), STANDARD.y() + 2)),
-                Arguments.of(new Position(STANDARD.x(), STANDARD.y() - 2))
+                Arguments.of(new Position(START_POSITION.x() + 2, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x() - 2, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() + 2)),
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() - 2))
         );
     }
 
-    @DisplayName("아군 장기말이 장애물일 경우 해당 위치로 이동이 불가능하다.")
+    @DisplayName("아군 장기말이 목적지에 있을 경우 해당 위치로 이동이 불가능하다.")
     @Test
-    void test3() {
-        //given
+    void canNotMoveBecauseAlliesInDestination() {
         Sa sa = Sa.generateInitialSas(CampType.CHO).getFirst();
-        Position destination = new Position(3, 8);
-        Sa otherPiece = new Sa(destination);
+        Sa alliesPiece = new Sa(DESTINATION_POSITION);
 
-        //when & then
-        assertThatThrownBy(() -> sa.move(destination, List.of(), List.of(otherPiece)))
+        assertThatThrownBy(() -> sa.move(DESTINATION_POSITION, List.of(), List.of(alliesPiece)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 이동이 불가능합니다.");
+    }
+
+    @DisplayName("아군 장기말이 목적지에 있을 경우 해당 위치로 이동이 불가능하다.")
+    @Test
+    void canMoveWithEnemyInDestination() {
+        Sa sa = Sa.generateInitialSas(CampType.CHO).getFirst();
+        Sa alliesPiece = new Sa(DESTINATION_POSITION);
+
+        assertThatThrownBy(() -> sa.move(DESTINATION_POSITION, List.of(), List.of(alliesPiece)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
