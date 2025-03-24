@@ -27,12 +27,12 @@ class BoardTest {
 
         @DisplayName("자신의 기물이 아니면 움직일 수 없다.")
         @Test
-        void validateOriginCoordinateTest() {
+        void validateFromTest() {
             Board board = new Board(new HashMap<>());
 
             Coordinate originCoordinate = new Coordinate(1, 1);
 
-            assertThatThrownBy(() -> board.validateOriginCoordinate(originCoordinate, Country.CHO))
+            assertThatThrownBy(() -> board.validateIsMyPiece(originCoordinate, Country.HAN))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -52,22 +52,22 @@ class BoardTest {
 
             board.movePiece(oldCoordinate, newCoordinate);
 
-            assertThatThrownBy(() -> board.getPieceType(oldCoordinate))
+            assertThatThrownBy(() -> board.findPieceTypeByCoordinate(oldCoordinate))
                     .isInstanceOf(IllegalArgumentException.class);
-            assertThat(board.getPieceType(newCoordinate)).isEqualTo("마");
+            assertThat(board.findPieceTypeByCoordinate(newCoordinate)).isEqualTo("마");
         }
 
         @DisplayName("말이 이동 불가능한 위치로 이동할 수 없다.")
         @Test
         void validateMoveCoordinateTest() {
-            Coordinate oldCoordinate = new Coordinate(1, 2);
-            Coordinate newCoordinate = new Coordinate(3, 2);
+            Coordinate from = new Coordinate(1, 2);
+            Coordinate to = new Coordinate(3, 2);
 
             HashMap<Coordinate, Piece> pieces = new HashMap<>();
-            pieces.put(oldCoordinate, new Ma(Country.HAN));
+            pieces.put(from, new Ma(Country.HAN));
             Board board = new Board(pieces);
 
-            assertThatThrownBy(() -> board.movePiece(oldCoordinate, newCoordinate))
+            assertThatThrownBy(() -> board.movePiece(from, to))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

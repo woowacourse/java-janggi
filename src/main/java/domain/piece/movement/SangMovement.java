@@ -25,8 +25,7 @@ public enum SangMovement {
     private final List<Coordinate> leftDestination;
     private final List<Coordinate> rightDestination;
 
-    SangMovement(Coordinate direction, List<Coordinate> leftDestination,
-                 List<Coordinate> rightDestination) {
+    SangMovement(Coordinate direction, List<Coordinate> leftDestination, List<Coordinate> rightDestination) {
         this.direction = direction;
         this.leftDestination = leftDestination;
         this.rightDestination = rightDestination;

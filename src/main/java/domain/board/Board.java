@@ -27,26 +27,27 @@ public final class Board {
         board.putAll(settingUp.getStrategy().setUpCho());
     }
 
-    public void movePiece(Coordinate oldCoordinate, Coordinate newCoordinate) {
-        validatePieceCoordinate(oldCoordinate);
-        Piece piece = board.get(oldCoordinate);
-        List<Coordinate> coordinates = piece.availableMovePositions(oldCoordinate, this);
-        validateMoveCoordinate(newCoordinate, coordinates);
-        board.put(newCoordinate, piece);
-        board.remove(oldCoordinate);
+    public void movePiece(Coordinate from, Coordinate to) {
+        Piece piece = findPieceByCoordinate(from);
+
+        List<Coordinate> availables = piece.availableMovePositions(from, this);
+        validateMoveCoordinate(to, availables);
+
+        board.put(to, piece);
+        board.remove(from);
     }
 
     public Piece findPieceByCoordinate(Coordinate coordinate) {
+        validatePieceCoordinate(coordinate);
         return board.get(coordinate);
     }
 
-    public String getPieceType(Coordinate coordinate) {
+    public String findPieceTypeByCoordinate(Coordinate coordinate) {
         validatePieceCoordinate(coordinate);
         return board.get(coordinate).getPieceName();
     }
 
-    private void validateMoveCoordinate(Coordinate newCoordinate,
-                                        List<Coordinate> coordinates) {
+    private void validateMoveCoordinate(Coordinate newCoordinate, List<Coordinate> coordinates) {
         if (!coordinates.contains(newCoordinate)) {
             throw new IllegalArgumentException("[ERROR] 이동 불가능한 위치입니다.");
         }
@@ -67,26 +68,25 @@ public final class Board {
     }
 
     public boolean isMyTeam(Coordinate from, Coordinate to) {
-        return hasPiece(to) && board.get(from).getCountry() == board.get(to).getCountry();
+        return hasPiece(to) && findPieceByCoordinate(from).getCountry() == findPieceByCoordinate(to).getCountry();
     }
 
     public boolean isPho(Coordinate phoCoordinate) {
-        return board.get(phoCoordinate).isPho();
-    }
-
-    public Map<Coordinate, Piece> getBoard() {
-        return board;
+        return findPieceByCoordinate(phoCoordinate).isPho();
     }
 
     public Country findCountryByCoordinate(Coordinate currCoordinate) {
-        return board.get(currCoordinate).getCountry();
+        return findPieceByCoordinate(currCoordinate).getCountry();
     }
 
-    public void validateOriginCoordinate(Coordinate originCoordinate, Country currentTurn) {
-        if (!hasPiece(originCoordinate)) {
+    public void validateFrom(Coordinate from) {
+        if (!hasPiece(from)) {
             throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다.");
         }
-        if (findCountryByCoordinate(originCoordinate) != currentTurn) {
+    }
+
+    public void validateIsMyPiece(Coordinate from, Country currentCountry) {
+        if (findCountryByCoordinate(from) != currentCountry) {
             throw new IllegalArgumentException("[ERROR] 자신의 기물만 움직일 수 있습니다.");
         }
     }

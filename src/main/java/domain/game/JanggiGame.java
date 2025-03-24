@@ -14,13 +14,13 @@ public class JanggiGame {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
 
-    private Country currentTurn = Country.HAN;
+    private Country currentCountry = Country.HAN;
 
     public void start() {
         Board board = settingUp();
 
         while (true) {
-            takeTurn(board, this::moveCommand);
+            takeTurn(board, this::movePiece);
             nextTurn();
         }
     }
@@ -28,32 +28,30 @@ public class JanggiGame {
     private Board settingUp() {
         Board board = new Board();
 
-        SettingUp settingUpHan = retryUntilValid(() -> inputView.readSettingUp(currentTurn));
+        SettingUp settingUpHan = retryUntilValid(() -> inputView.readSettingUp(currentCountry));
         board.setUpHan(settingUpHan);
 
         nextTurn();
 
-        SettingUp settingUpCho = retryUntilValid(() -> inputView.readSettingUp(currentTurn));
+        SettingUp settingUpCho = retryUntilValid(() -> inputView.readSettingUp(currentCountry));
         board.setUpCho(settingUpCho);
 
         return board;
     }
 
-    private void moveCommand(Board board) {
+    private void movePiece(Board board) {
         outputView.printJanggiBoard(board);
 
-        Coordinate originCoordinate = retryUntilValid(() ->
-                inputView.readMovePiece(currentTurn.getCountryName()));
+        Coordinate from = retryUntilValid(() -> inputView.readMoveFrom(currentCountry.getCountryName()));
+        board.validateIsMyPiece(from, currentCountry);
 
-        board.validateOriginCoordinate(originCoordinate, currentTurn);
+        Coordinate to = retryUntilValid(inputView::readMoveTo);
 
-        Coordinate destinationCoordinate = retryUntilValid(inputView::readMoveDestination);
-
-        board.movePiece(originCoordinate, destinationCoordinate);
+        board.movePiece(from, to);
     }
 
     private void nextTurn() {
-        currentTurn = currentTurn.convertTurn();
+        currentCountry = currentCountry.convertTurn();
     }
 
     private <T> void takeTurn(T value, Consumer<T> consumer) {

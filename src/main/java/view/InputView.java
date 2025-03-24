@@ -9,7 +9,7 @@ public class InputView {
 
     private final static Scanner scanner = new Scanner(System.in);
 
-    public Coordinate readMovePiece(String countryName) {
+    public Coordinate readMoveFrom(String countryName) {
         System.out.println(countryName + "의 옮길 기물의 좌표를 입력해주세요.");
         String coordinate = scanner.nextLine();
         return new Coordinate(
@@ -17,7 +17,7 @@ public class InputView {
                 Integer.parseInt(coordinate.split(",")[1]));
     }
 
-    public Coordinate readMoveDestination() {
+    public Coordinate readMoveTo() {
         System.out.println("기물을 옮길 좌표를 입력해주세요.");
         String coordinate = scanner.nextLine();
         return new Coordinate(

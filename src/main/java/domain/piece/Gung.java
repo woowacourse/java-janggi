@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Gung extends Piece {
 
-    private final List<Movement> movements = List.of(
+    private final List<Movement> MOVEMENTS = List.of(
             Movement.UP, Movement.UP_RIGHT, Movement.RIGHT, Movement.DOWN_RIGHT,
             Movement.DOWN, Movement.DOWN_LEFT, Movement.LEFT, Movement.UP_LEFT);
 
@@ -17,13 +17,10 @@ public class Gung extends Piece {
 
     @Override
     public List<Coordinate> availableMovePositions(Coordinate currCoordinate, Board board) {
-        return movements.stream()
-                .map(movement -> movePosition(currCoordinate, movement.getDirection()))
+        return MOVEMENTS.stream()
+                .map(currCoordinate::move)
                 .filter(next -> !next.isOutOfBoundary() && !board.isMyTeam(currCoordinate, next))
                 .toList();
     }
 
-    public static Coordinate movePosition(Coordinate currCoordinate, Coordinate moveOffset) {
-        return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
-    }
 }
