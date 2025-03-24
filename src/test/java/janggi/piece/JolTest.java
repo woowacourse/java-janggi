@@ -7,7 +7,6 @@ import janggi.setting.CampType;
 import janggi.value.Position;
 import java.util.List;
 import java.util.stream.Stream;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,27 +15,25 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class JolTest {
 
-    static final Position STANDARD = new Position(4, 4);
+    static final Position START_POSITION = new Position(4, 4);
+    static final Position DESTINATION_POSITION = new Position(5, 4);
 
     @DisplayName("초의 장기말을 이동시킬 수 있다.")
     @ParameterizedTest
     @MethodSource()
     void test1(Position destination) {
-        //given
-        Jol jol = new Jol(STANDARD, CampType.CHO);
+        Jol jol = new Jol(START_POSITION, CampType.CHO);
 
-        //when
         Jol movedJol = jol.move(destination, List.of(), List.of());
 
-        //then
         assertThat(movedJol.getPosition()).isEqualTo(destination);
     }
 
     static Stream<Arguments> test1() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x(), STANDARD.y() - 1))
+                Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() - 1))
         );
     }
 
@@ -44,33 +41,45 @@ class JolTest {
     @ParameterizedTest
     @MethodSource()
     void test2(Position destination) {
-        //given
-        Jol jol = new Jol(STANDARD, CampType.HAN);
+        Jol jol = new Jol(START_POSITION, CampType.HAN);
 
-        //when
         Jol movedJol = jol.move(destination, List.of(), List.of());
 
-        //then
         assertThat(movedJol.getPosition()).isEqualTo(destination);
     }
 
     static Stream<Arguments> test2() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x(), STANDARD.y() + 1))
+                Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() + 1))
         );
     }
 
+    @DisplayName("졸은 뒤로 이동이 불가능하다.")
+    @ParameterizedTest
+    @MethodSource()
+    void test10(Jol jol, Position backPosition) {
+        assertThatThrownBy(() -> jol.move(backPosition, List.of(), List.of()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 이동이 불가능합니다.");
+    }
+
+    static Stream<Arguments> test10() {
+        return Stream.of(
+                Arguments.of(new Jol(START_POSITION, CampType.CHO), new Position(
+                        START_POSITION.x(), START_POSITION.y() + 1)),
+                Arguments.of(new Jol(START_POSITION, CampType.CHO), new Position(
+                        START_POSITION.x(), START_POSITION.y() - 1))
+        );
+    }
 
     @DisplayName("장기말의 이동 규칙에 어긋난 경우 이동이 불가능합니다.")
     @ParameterizedTest
     @MethodSource()
     void test3(Position destination) {
-        //given
-        Jol jol = new Jol(STANDARD, CampType.CHO);
+        Jol jol = new Jol(START_POSITION, CampType.CHO);
 
-        //when & then
         assertThatThrownBy(() -> jol.move(destination, List.of(), List.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
@@ -78,22 +87,19 @@ class JolTest {
 
     static Stream<Arguments> test3() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.x() + 2, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x() - 2, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x(), STANDARD.y() - 2))
+                Arguments.of(new Position(START_POSITION.x() + 2, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x() - 2, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() - 2))
         );
     }
 
     @DisplayName("아군 장기말이 장애물일 경우 해당 위치로 이동이 불가능하다.")
     @Test
     void test4() {
-        //given
-        Jol jol = new Jol(STANDARD, CampType.CHO);
-        Position destination = new Position(4, 3);
-        Jol otherPiece = new Jol(destination, CampType.CHO);
+        Jol jol = new Jol(START_POSITION, CampType.CHO);
+        Jol alliesPiece = new Jol(DESTINATION_POSITION, CampType.CHO);
 
-        //when & then
-        assertThatThrownBy(() -> jol.move(destination, List.of(), List.of(otherPiece)))
+        assertThatThrownBy(() -> jol.move(DESTINATION_POSITION, List.of(), List.of(alliesPiece)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -101,15 +107,11 @@ class JolTest {
     @DisplayName("상대 장기말이 장애물일 경우 해당 위치로 이동이 가능하다.")
     @Test
     void test5() {
-        //given
-        Jol jol = new Jol(STANDARD, CampType.CHO);
-        Position destination = new Position(4, 3);
-        Jol otherPiece = new Jol(destination, CampType.CHO);
+        Jol jol = new Jol(START_POSITION, CampType.CHO);
+        Jol enemyPiece = new Jol(DESTINATION_POSITION, CampType.CHO);
 
-        //when
-        Jol movedJol = jol.move(destination, List.of(otherPiece), List.of());
+        Jol movedJol = jol.move(DESTINATION_POSITION, List.of(enemyPiece), List.of());
 
-        //then
-        Assertions.assertThat(movedJol.getPosition()).isEqualTo(destination);
+        assertThat(movedJol.getPosition()).isEqualTo(DESTINATION_POSITION);
     }
 }
