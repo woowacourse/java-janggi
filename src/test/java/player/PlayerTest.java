@@ -88,7 +88,7 @@ class PlayerTest {
 
     @Test
     @DisplayName("출발 지점에 있는 기물이 도착 지점에 갈 수 있는지 테스트")
-    void canPieceMoveToTest() {
+    void validateAllyPieceAtStartTest() {
         //given
         Jol jol = new Jol(new Position(5, 5));
         Janggun janggun = new Janggun(new Position(6, 4));
@@ -101,7 +101,7 @@ class PlayerTest {
                 .hasMessage("[ERROR] 시작 위치에 아군 기물이 존재하지 않습니다.");
 
 
-        assertDoesNotThrow(() -> pieces.canPieceMoveTo(new Position(5, 5), new Position(5, 6)));
+        assertDoesNotThrow(() -> player.canPieceMoveTo(new Position(5, 5), new Position(5, 6)));
     }
 
     @Test
@@ -118,7 +118,24 @@ class PlayerTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 도착지에 아군 기물이 존재합니다.");
 
-        assertDoesNotThrow(() -> pieces.validateAllyPieceAtDestination(new Position(5, 7)));
+        assertDoesNotThrow(() -> player.validateAllyPieceAtDestination(new Position(5, 7)));
+    }
+
+    @Test
+    @DisplayName("출발 지점에 있는 기물이 도착 지점에 갈 수 있는지 테스트")
+    void canPieceMoveToTest() {
+        //given
+        Jol jol = new Jol(new Position(5, 5));
+        Janggun janggun = new Janggun(new Position(6, 4));
+        Pieces pieces = new Pieces(List.of(jol, janggun));
+        Player player = new Player(pieces, HAN);
+
+        //when - then
+        assertThatThrownBy(() -> player.canPieceMoveTo(new Position(5,5), new Position(5, 7)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 졸이 움직일 수 없는 위치입니다.");
+
+        assertDoesNotThrow(() -> player.canPieceMoveTo(new Position(5, 5), new Position(5, 6)));
     }
 
 }
