@@ -18,7 +18,7 @@ public class Dot {
         return piece != null;
     }
 
-    public Optional<Piece> getPiece() {
+    public Optional<Piece> findPiece() {
         return Optional.ofNullable(piece);
     }
 
