@@ -1,6 +1,7 @@
 package route;
 
 import java.util.List;
+import java.util.stream.Stream;
 import position.Board;
 import position.Position;
 
@@ -13,16 +14,18 @@ public final class Route {
 
     public boolean isPossibleRoute(final Position source, Board board) {
         Position target = source;
-        for (int directionCount = 0; directionCount < directions.size()-1; directionCount++) {
-            if(!target.canMove(directions.get(directionCount), board)){
+        for (int directionCount = 0; directionCount < directions.size() - 1; directionCount++) {
+            if (!target.canMove(directions.get(directionCount), board)) {
                 return false;
-            };
+            }
             target = target.move(directions.get(directionCount));
         }
 
-        if(!target.canMoveLast(directions.getLast(), board)){
-            return false;
-        };
-        return true;
+        return target.canMoveLast(directions.getLast(), board);
     }
+
+    public Route add(Route route) {
+        return new Route(Stream.concat(directions.stream(), route.directions.stream()).toList());
+    }
+
 }

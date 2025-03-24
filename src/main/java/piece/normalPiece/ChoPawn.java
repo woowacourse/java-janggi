@@ -7,7 +7,7 @@ import route.Routes;
 
 public class ChoPawn extends NormalPiece{
 
-    protected ChoPawn(Position position) {
+    public ChoPawn(Position position) {
         super(Team.CHO, position, Routes.ofChoPawn());
     }
 

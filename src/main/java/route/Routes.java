@@ -96,6 +96,15 @@ public final class Routes {
         this.routes = routes;
     }
 
+    public static Routes ofChariot() {
+        return new Routes(Set.of(
+                new Route(List.of(EAST)),
+                new Route(List.of(WEST)),
+                new Route(List.of(SOUTH)),
+                new Route(List.of(NORTH))
+        ));
+    }
+
 
     public Set<Route> routes() {
         return routes;
@@ -106,6 +115,18 @@ public final class Routes {
         for (Route route : routes) {
             if(route.isPossibleRoute(source, board)){
                 possibleRoutes.add(route);
+            }
+        }
+        return new Routes(possibleRoutes);
+    }
+
+    public Routes possibleStraightRoutes(Position source, Board board) {
+        Set<Route> possibleRoutes = new HashSet<>();
+        for (Route route : routes) {
+            Route straight = route;
+            while(straight.isPossibleRoute(source, board)){
+                possibleRoutes.add(straight);
+                straight = straight.add(route);
             }
         }
         return new Routes(possibleRoutes);
