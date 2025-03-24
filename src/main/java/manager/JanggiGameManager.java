@@ -27,7 +27,6 @@ public class JanggiGameManager {
         while (!board.isEnd()) {
             OutputView.printBoard(board);
             processTurn(board, turn);
-            turn.changeTurn();
         }
 
         OutputView.printMatchResult(board.findWinTeam());
@@ -50,6 +49,7 @@ public class JanggiGameManager {
 
             board.movePiece(source, destination);
             OutputView.printBoard(board);
+            turn.changeTurn();
         });
     }
 
