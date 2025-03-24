@@ -3,11 +3,48 @@ package janggi.piece;
 import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Po extends Piece {
 
     public Po(final PieceProfile pieceProfile, final Position position) {
         super(pieceProfile, position);
+    }
+
+    @Override
+    public void updatePiecePositionBy(Position position) {
+        this.position = position;
+    }
+
+    @Override
+    public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
+        List<Position> route = makeRoute(futurePosition);
+        validatePoMove(route, janggiBoard);
+    }
+
+    private void validatePoMove(final List<Position> moveRoute, final Map<Position, Piece> janggiBoard) {
+        int obstacleCount = 0;
+
+        for (Position position : moveRoute) {
+            if (janggiBoard.containsKey(position) && janggiBoard.get(position).getName().equals("포")) {
+                throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다. 이동하려는 경로에 포가 존재합니다. 포는 포를 넘을 수 없습니다.");
+            }
+
+            if (janggiBoard.containsKey(position)) {
+                obstacleCount++;
+            }
+        }
+        validateObstacleBy(obstacleCount);
+    }
+
+    private void validateObstacleBy(final int obstacle) {
+        if (obstacle == 0) {
+            throw new IllegalArgumentException("[ERROR] 포를 이동할 수 없습니다. 포는 반드시 포를 제외한 기물 하나를 넘어야 합니다.");
+        }
+
+        if (obstacle >= 2) {
+            throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다. 이동하려는 경로에 " + obstacle + "개의 장애물이 존재합니다.");
+        }
     }
 
     @Override
@@ -52,9 +89,5 @@ public class Po extends Piece {
             return true;
         }
         throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 위치입니다.");
-    }
-
-    public void updatePiecePositionBy(Position position) {
-        this.position = position;
     }
 }

@@ -2,6 +2,7 @@ package janggi.piece;
 
 import janggi.position.Position;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public abstract class Piece {
@@ -14,15 +15,21 @@ public abstract class Piece {
         this.position = position;
     }
 
-    public Position getBoardPosition() {
-        return position;
-    }
+    public abstract void updatePiecePositionBy(Position position);
 
-    public abstract boolean isMove(Position position);
+    public abstract void checkObstacle(final Position futurePosition, Map<Position, Piece> janggiBoard);
 
     public abstract List<Position> makeRoute(Position position);
 
-    public abstract void updatePiecePositionBy(Position position);
+    public abstract boolean isMove(Position position);
+
+    public boolean isChoNation() {
+        return pieceProfile.isCho();
+    }
+
+    public boolean isHanNation() {
+        return pieceProfile.isHan();
+    }
 
     @Override
     public boolean equals(final Object o) {
@@ -39,19 +46,11 @@ public abstract class Piece {
         return Objects.hash(getName(), getBoardPosition());
     }
 
+    public Position getBoardPosition() {
+        return position;
+    }
+
     public String getName() {
         return pieceProfile.getName();
-    }
-
-    public PieceProfile getPieceProfile() {
-        return pieceProfile;
-    }
-
-    public boolean isChoNation() {
-        return pieceProfile.isCho();
-    }
-
-    public boolean isHanNation() {
-        return pieceProfile.isHan();
     }
 }

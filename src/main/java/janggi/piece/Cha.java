@@ -3,6 +3,7 @@ package janggi.piece;
 import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Cha extends Piece {
 
@@ -11,13 +12,22 @@ public class Cha extends Piece {
     }
 
     @Override
-    public boolean isMove(Position position) {
-        if ((getBoardPosition().getRow() == position.getRow())
-                || (getBoardPosition().getCol() == position.getCol())) {
-            return true;
-        }
+    public void updatePiecePositionBy(Position position) {
+        this.position = position;
+    }
 
-        throw new IllegalArgumentException("[ERROR] 차가 움직일 수 없는 위치 입니다.");
+    @Override
+    public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
+        List<Position> moveRoute = makeRoute(futurePosition);
+        for (Position position : moveRoute) {
+            validateObstacle(janggiBoard, position);
+        }
+    }
+
+    private void validateObstacle(final Map<Position, Piece> janggiBoard, final Position position) {
+        if (janggiBoard.containsKey(position)) {
+            throw new IllegalArgumentException("[ERROR] 차를 이동할 수 없습니다. 이동하려는 경로에 장애물이 존재합니다.");
+        }
     }
 
     @Override
@@ -55,8 +65,14 @@ public class Cha extends Piece {
         return route;
     }
 
-    public void updatePiecePositionBy(Position position) {
-        this.position = position;
+    @Override
+    public boolean isMove(Position position) {
+        if ((getBoardPosition().getRow() == position.getRow())
+                || (getBoardPosition().getCol() == position.getCol())) {
+            return true;
+        }
+
+        throw new IllegalArgumentException("[ERROR] 차가 움직일 수 없는 위치 입니다.");
     }
 
 }

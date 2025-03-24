@@ -3,6 +3,7 @@ package janggi.piece;
 import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Sang extends Piece {
 
@@ -11,27 +12,22 @@ public class Sang extends Piece {
     }
 
     @Override
-    public boolean isMove(final Position position) {
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
+    public void updatePiecePositionBy(Position position) {
+        this.position = position;
+    }
 
-        if (dx == 3 && Math.abs(dy) == 2) {
-            return true;
+    @Override
+    public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
+        List<Position> moveRoute = makeRoute(futurePosition);
+        for (Position position : moveRoute) {
+            validateObstacle(janggiBoard, position);
         }
+    }
 
-        if (dy == 3 && Math.abs(dx) == 2) {
-            return true;
+    private void validateObstacle(final Map<Position, Piece> janggiBoard, final Position position) {
+        if (janggiBoard.containsKey(position)) {
+            throw new IllegalArgumentException("[ERROR] 상을 이동할 수 없습니다. 이동하려는 경로에 장애물이 존재합니다.");
         }
-
-        if (dx == -3 && Math.abs(dy) == 2) {
-            return true;
-        }
-
-        if (dy == -3 && Math.abs(dx) == 2) {
-            return true;
-        }
-
-        throw new IllegalArgumentException("[ERROR] 상이 움직일 수 없는 위치입니다.");
     }
 
     @Override
@@ -94,7 +90,27 @@ public class Sang extends Piece {
         return route;
     }
 
-    public void updatePiecePositionBy(Position position) {
-        this.position = position;
+    @Override
+    public boolean isMove(final Position position) {
+        int dx = getBoardPosition().getRow() - position.getRow();
+        int dy = getBoardPosition().getCol() - position.getCol();
+
+        if (dx == 3 && Math.abs(dy) == 2) {
+            return true;
+        }
+
+        if (dy == 3 && Math.abs(dx) == 2) {
+            return true;
+        }
+
+        if (dx == -3 && Math.abs(dy) == 2) {
+            return true;
+        }
+
+        if (dy == -3 && Math.abs(dx) == 2) {
+            return true;
+        }
+
+        throw new IllegalArgumentException("[ERROR] 상이 움직일 수 없는 위치입니다.");
     }
 }

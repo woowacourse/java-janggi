@@ -1,5 +1,7 @@
 package janggi.piece;
 
+import java.util.Objects;
+
 public class PieceProfile {
 
     private final String name;
@@ -10,14 +12,6 @@ public class PieceProfile {
         this.nation = nation;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public Nation getNation() {
-        return nation;
-    }
-
     public boolean isCho() {
         return Nation.isCho(this.nation);
     }
@@ -26,4 +20,25 @@ public class PieceProfile {
         return Nation.isHan(this.nation);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Nation getNation() {
+        return nation;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final PieceProfile that = (PieceProfile) o;
+        return Objects.equals(getName(), that.getName()) && getNation() == that.getNation();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getNation());
+    }
 }

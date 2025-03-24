@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class ByeongTest {
-    @DisplayName("볃은 이름과 위치를 가진다.")
+    @DisplayName("병은 이름과 위치를 가진다.")
     @Test
     void byenogBoardPosition() {
         //given
