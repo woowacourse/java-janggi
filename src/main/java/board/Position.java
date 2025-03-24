@@ -56,7 +56,9 @@ public record Position(int x, int y) {
             }
         }
         betweenPositions.removeFirst();
-        betweenPositions.removeLast();
+        if (betweenPositions.size() > 1) {
+            betweenPositions.removeLast();
+        }
 
         return betweenPositions;
     }
