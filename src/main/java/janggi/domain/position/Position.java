@@ -44,10 +44,6 @@ public record Position(
         return positions;
     }
 
-    public int distance(Position other) {
-        return Math.max(this.file.distance(other.file), this.rank.distance(other.rank));
-    }
-
     public List<Position> createPositionsUntil(final Position nextPosition) {
         if (this.file == nextPosition.file) {
             List<PositionRank> ranks = this.rank.getBetweenRanks(nextPosition.rank);

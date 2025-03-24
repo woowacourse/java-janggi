@@ -3,93 +3,47 @@ package janggi.domain.piece;
 import janggi.domain.position.Path;
 import janggi.domain.position.Position;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public final class Piece {
+public abstract class Piece {
 
-    private final Position position;
-    private final PieceType type;
+    protected Position position;
 
-    public Piece(final Position position, final PieceType type) {
+    public Piece(final Position position) {
         this.position = position;
-        this.type = type;
-    }
-
-    public Piece move(
-            final Position newPosition,
-            final List<Piece> allyPieces,
-            final List<Piece> enemyPieces
-    ) {
-        List<Path> moveablePaths = type.getMoveablePaths(position);
-        moveablePaths = filterMiddleBlocked(moveablePaths, allyPieces, enemyPieces);
-        moveablePaths = filterFinalIsAlly(moveablePaths, allyPieces);
-        moveablePaths = filterFinalIsPoWhenTypeIsPo(moveablePaths, enemyPieces);
-
-        if (!isNewPositionExistInMoveablePath(newPosition, moveablePaths)) {
-            throw new IllegalArgumentException("움직일 수 없는 위치입니다.");
-        }
-
-        return new Piece(newPosition, type);
-    }
-
-    private List<Path> filterFinalIsPoWhenTypeIsPo(final List<Path> paths, final List<Piece> enemyPieces) {
-        if (type != PieceType.포) {
-            return paths;
-        }
-
-        final List<Piece> poPiece = enemyPieces.stream()
-                .filter(piece -> piece.type == PieceType.포)
-                .toList();
-
-        return paths.stream()
-                .filter(path -> !path.isEncounteredLast(poPiece))
-                .toList();
-    }
-
-    private List<Path> filterMiddleBlocked(
-            final List<Path> paths,
-            final List<Piece> allyPieces,
-            final List<Piece> enemyPieces
-    ) {
-        final List<Piece> allPieces = new ArrayList<>();
-        allPieces.addAll(allyPieces);
-        allPieces.addAll(enemyPieces);
-
-        return paths.stream()
-                .filter(path -> {
-                    if (type == PieceType.포) {
-                        List<Piece> encounteredPieces = path.getEncounteredMiddlePieces(allPieces);
-                        return encounteredPieces.size() == 1 && encounteredPieces.getFirst().type != PieceType.포;
-                    } else {
-                        return path.getEncounteredMiddlePieces(allPieces).isEmpty();
-                    }
-                })
-                .toList();
-    }
-
-    private List<Path> filterFinalIsAlly(final List<Path> paths, final List<Piece> allyPieces) {
-        return paths.stream()
-                .filter(path -> !path.isEncounteredLast(allyPieces))
-                .toList();
-    }
-
-    private static boolean isNewPositionExistInMoveablePath(final Position newPosition, final List<Path> paths) {
-        return paths.stream()
-                .map(Path::finalPosition)
-                .toList()
-                .contains(newPosition);
     }
 
     public Position getPosition() {
         return position;
     }
 
-    @Override
-    public String toString() {
-        return "Piece{" +
-                "position=" + position +
-                ", type=" + type +
-                '}';
+    public void move(
+            final Position newPosition,
+            final List<Piece> allyPieces,
+            final List<Piece> enemyPieces
+    ) {
+        List<Path> moveablePaths = getMoveablePaths(allyPieces, enemyPieces);
+
+        if (!isNewPositionExistInMoveablePath(newPosition, moveablePaths)) {
+            throw new IllegalArgumentException("움직일 수 없는 위치입니다.");
+        }
+
+        this.position = newPosition;
+    }
+
+    protected abstract List<Path> getMoveablePaths(final List<Piece> allyPieces, final List<Piece> enemyPieces);
+
+    private boolean isNewPositionExistInMoveablePath(final Position newPosition, final List<Path> paths) {
+        return paths.stream()
+                .map(Path::finalPosition)
+                .toList()
+                .contains(newPosition);
+    }
+
+    protected List<Position> getPositionsOf(final List<List<Piece>> pieces) {
+        return pieces.stream()
+                .flatMap(pieces1 -> pieces1.stream()
+                        .map(piece -> piece.position))
+                .toList();
     }
 }

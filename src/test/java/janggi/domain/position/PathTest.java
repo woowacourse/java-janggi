@@ -1,7 +1,6 @@
 package janggi.domain.position;
 
 import janggi.BaseTest;
-import janggi.domain.piece.MoveDirection;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import org.junit.jupiter.api.Test;
@@ -58,7 +57,7 @@ class PathTest extends BaseTest {
         final Position startPosition = new Position(PositionFile.FILE_5, RANK_5);
 
         // when
-        final List<Path> result = Path.getMoveablePaths(startPosition, List.of(MoveDirection.DOWN, MoveDirection.DOWN_LEFT));
+        final List<Path> result = Path.getMoveablePaths(startPosition, List.of(Direction.DOWN, Direction.DOWN_LEFT));
 
         // then
         assertThat(result).containsExactlyInAnyOrder(new Path(

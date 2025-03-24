@@ -2,8 +2,7 @@ package janggi.domain.piece_initiaizer;
 
 import janggi.domain.Country;
 import janggi.domain.StartingPosition;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
+import janggi.domain.piece.*;
 import janggi.domain.position.Position;
 import janggi.domain.position.PositionFile;
 import janggi.domain.position.PositionRank;
@@ -17,52 +16,62 @@ public final class StaticPieceInitializer implements PieceInitializer {
     public Map<Position, Piece> init(final StartingPosition startingPosition, final Country country) {
         final Map<Position, Piece> board = new HashMap<>();
 
-        PieceType 졸병 = country == Country.CHO ? PieceType.졸 : PieceType.병;
+        if (country == Country.CHO) {
+            insertIntoMap(board,
+                    new Jol(new Position(PositionFile.FILE_1, PositionRank.of(1, country))),
+                    new Jol(new Position(PositionFile.FILE_3, PositionRank.of(1, country))),
+                    new Jol(new Position(PositionFile.FILE_5, PositionRank.of(1, country))),
+                    new Jol(new Position(PositionFile.FILE_7, PositionRank.of(1, country))),
+                    new Jol(new Position(PositionFile.FILE_9, PositionRank.of(1, country)))
+            );
+        } else {
+            insertIntoMap(board,
+                    new Byeong(new Position(PositionFile.FILE_1, PositionRank.of(1, country))),
+                    new Byeong(new Position(PositionFile.FILE_3, PositionRank.of(1, country))),
+                    new Byeong(new Position(PositionFile.FILE_5, PositionRank.of(1, country))),
+                    new Byeong(new Position(PositionFile.FILE_7, PositionRank.of(1, country))),
+                    new Byeong(new Position(PositionFile.FILE_9, PositionRank.of(1, country)))
+            );
+        }
 
-        insertIntoMap(
-                board,
-                new Piece(new Position(PositionFile.FILE_1, PositionRank.of(1, country)), PieceType.차),
-                new Piece(new Position(PositionFile.FILE_4, PositionRank.of(1, country)), PieceType.사),
-                new Piece(new Position(PositionFile.FILE_6, PositionRank.of(1, country)), PieceType.사),
-                new Piece(new Position(PositionFile.FILE_9, PositionRank.of(1, country)), PieceType.차),
-                new Piece(new Position(PositionFile.FILE_5, PositionRank.of(2, country)), PieceType.장),
-                new Piece(new Position(PositionFile.FILE_2, PositionRank.of(3, country)), PieceType.포),
-                new Piece(new Position(PositionFile.FILE_8, PositionRank.of(3, country)), PieceType.포),
-                new Piece(new Position(PositionFile.FILE_1, PositionRank.of(4, country)), 졸병),
-                new Piece(new Position(PositionFile.FILE_3, PositionRank.of(4, country)), 졸병),
-                new Piece(new Position(PositionFile.FILE_5, PositionRank.of(4, country)), 졸병),
-                new Piece(new Position(PositionFile.FILE_7, PositionRank.of(4, country)), 졸병),
-                new Piece(new Position(PositionFile.FILE_9, PositionRank.of(4, country)), 졸병)
+        insertIntoMap(board,
+                new Jol(new Position(PositionFile.FILE_1, PositionRank.of(1, country))),
+                new Sa(new Position(PositionFile.FILE_4, PositionRank.of(1, country))),
+                new Sa(new Position(PositionFile.FILE_6, PositionRank.of(1, country))),
+                new Cha(new Position(PositionFile.FILE_9, PositionRank.of(1, country))),
+                new Jang(new Position(PositionFile.FILE_5, PositionRank.of(2, country))),
+                new Po(new Position(PositionFile.FILE_2, PositionRank.of(3, country))),
+                new Po(new Position(PositionFile.FILE_8, PositionRank.of(3, country)))
         );
 
         switch (startingPosition) {
             case 마상마상 -> insertIntoMap(
                     board,
-                    new Piece(new Position(PositionFile.FILE_2, PositionRank.of(1, country)), PieceType.마),
-                    new Piece(new Position(PositionFile.FILE_3, PositionRank.of(1, country)), PieceType.상),
-                    new Piece(new Position(PositionFile.FILE_7, PositionRank.of(1, country)), PieceType.마),
-                    new Piece(new Position(PositionFile.FILE_8, PositionRank.of(1, country)), PieceType.상)
+                    new Ma(new Position(PositionFile.FILE_2, PositionRank.of(1, country))),
+                    new Sang(new Position(PositionFile.FILE_3, PositionRank.of(1, country))),
+                    new Ma(new Position(PositionFile.FILE_7, PositionRank.of(1, country))),
+                    new Sang(new Position(PositionFile.FILE_8, PositionRank.of(1, country)))
             );
             case 상마상마 -> insertIntoMap(
                     board,
-                    new Piece(new Position(PositionFile.FILE_2, PositionRank.of(1, country)), PieceType.상),
-                    new Piece(new Position(PositionFile.FILE_3, PositionRank.of(1, country)), PieceType.마),
-                    new Piece(new Position(PositionFile.FILE_7, PositionRank.of(1, country)), PieceType.상),
-                    new Piece(new Position(PositionFile.FILE_8, PositionRank.of(1, country)), PieceType.마)
+                    new Sang(new Position(PositionFile.FILE_2, PositionRank.of(1, country))),
+                    new Ma(new Position(PositionFile.FILE_3, PositionRank.of(1, country))),
+                    new Sang(new Position(PositionFile.FILE_7, PositionRank.of(1, country))),
+                    new Ma(new Position(PositionFile.FILE_8, PositionRank.of(1, country)))
             );
             case 상마마상 -> insertIntoMap(
                     board,
-                    new Piece(new Position(PositionFile.FILE_2, PositionRank.of(1, country)), PieceType.상),
-                    new Piece(new Position(PositionFile.FILE_3, PositionRank.of(1, country)), PieceType.마),
-                    new Piece(new Position(PositionFile.FILE_7, PositionRank.of(1, country)), PieceType.마),
-                    new Piece(new Position(PositionFile.FILE_8, PositionRank.of(1, country)), PieceType.상)
+                    new Sang(new Position(PositionFile.FILE_2, PositionRank.of(1, country))),
+                    new Ma(new Position(PositionFile.FILE_3, PositionRank.of(1, country))),
+                    new Ma(new Position(PositionFile.FILE_7, PositionRank.of(1, country))),
+                    new Sang(new Position(PositionFile.FILE_8, PositionRank.of(1, country)))
             );
             case 마상상마 -> insertIntoMap(
                     board,
-                    new Piece(new Position(PositionFile.FILE_2, PositionRank.of(1, country)), PieceType.마),
-                    new Piece(new Position(PositionFile.FILE_3, PositionRank.of(1, country)), PieceType.상),
-                    new Piece(new Position(PositionFile.FILE_7, PositionRank.of(1, country)), PieceType.상),
-                    new Piece(new Position(PositionFile.FILE_8, PositionRank.of(1, country)), PieceType.마)
+                    new Ma(new Position(PositionFile.FILE_2, PositionRank.of(1, country))),
+                    new Sang(new Position(PositionFile.FILE_3, PositionRank.of(1, country))),
+                    new Sang(new Position(PositionFile.FILE_7, PositionRank.of(1, country))),
+                    new Ma(new Position(PositionFile.FILE_8, PositionRank.of(1, country)))
             );
         }
         return board;
