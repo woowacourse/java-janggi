@@ -6,6 +6,7 @@ import java.util.List;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
+import view.ErrorMessage;
 
 public class Jol extends Piece {
 
@@ -21,7 +22,7 @@ public class Jol extends Piece {
         if (dx == 0 && Math.abs(dy) == 1 || dx == 1 && dy == 0) {
             return true;
         }
-        throw new IllegalArgumentException("[ERROR] 졸이 움직일 수 없는 위치입니다.");
+        throw new IllegalArgumentException(ErrorMessage.formatMessage("졸이 움직일 수 없는 위치입니다."));
     }
 
     @Override

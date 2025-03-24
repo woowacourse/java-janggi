@@ -6,6 +6,7 @@ import java.util.List;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
+import view.ErrorMessage;
 
 public class Janggun extends Piece {
 
@@ -22,7 +23,7 @@ public class Janggun extends Piece {
             return true;
         }
 
-        throw new IllegalArgumentException("[ERROR] 왕이 움직일 수 없는 위치 입니다.");
+        throw new IllegalArgumentException(ErrorMessage.formatMessage("왕이 움직일 수 없는 위치 입니다."));
     }
 
     @Override

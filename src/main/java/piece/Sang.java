@@ -6,6 +6,7 @@ import java.util.List;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
+import view.ErrorMessage;
 
 public class Sang extends Piece {
 
@@ -34,7 +35,7 @@ public class Sang extends Piece {
             return true;
         }
 
-        throw new IllegalArgumentException("[ERROR] 상이 움직일 수 없는 위치입니다.");
+        throw new IllegalArgumentException(ErrorMessage.formatMessage("상이 움직일 수 없는 위치입니다."));
     }
 
     @Override

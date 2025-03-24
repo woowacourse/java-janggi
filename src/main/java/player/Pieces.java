@@ -5,6 +5,7 @@ import piece.Piece;
 import java.util.List;
 import pieceProperty.Position;
 import pieceProperty.Positions;
+import view.ErrorMessage;
 
 public class Pieces {
     private final List<Piece> pieces;
@@ -29,12 +30,12 @@ public class Pieces {
         pieces.stream()
                 .filter(piece -> piece.isSamePosition(presentPosition))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 시작 위치에 아군 기물이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.formatMessage("시작 위치에 아군 기물이 존재하지 않습니다.")));
     }
 
     public void validateAllyPieceAtDestination(Position destination) {
         if (pieces.stream().anyMatch(piece -> piece.isSamePosition(destination))) {
-            throw new IllegalArgumentException("[ERROR] 도착지에 아군 기물이 존재합니다.");
+            throw new IllegalArgumentException(ErrorMessage.formatMessage("도착지에 아군 기물이 존재합니다."));
         }
     }
 
@@ -49,7 +50,7 @@ public class Pieces {
                 .filter(piece -> piece.isSamePosition(presentPosition))
                 .findFirst()
                 .map(piece -> piece.makeRoute(destination))
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 시작 위치에 아군 기물이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.formatMessage("시작 위치에 아군 기물이 존재하지 않습니다.")));
     }
 
     public int countObstacle(Positions route) {

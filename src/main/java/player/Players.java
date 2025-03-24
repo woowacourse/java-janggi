@@ -3,6 +3,7 @@ package player;
 import java.util.List;
 import pieceProperty.Position;
 import pieceProperty.Positions;
+import view.ErrorMessage;
 
 public class Players {
     private final List<Player> players;
@@ -59,13 +60,13 @@ public class Players {
 
         if (isPoAt(attackNation, presentPosition)) {
             if (count >= 2 || isExistPoInRoute(route)) {
-                throw new IllegalArgumentException("[ERROR] 포가 가는 경로에 장애물이 2개 이상 존재하거나 포가 존재하여 이동할 수 없습니다.");
+                throw new IllegalArgumentException(ErrorMessage.formatMessage("포가 가는 경로에 장애물이 2개 이상 존재하거나 포가 존재하여 이동할 수 없습니다."));
             }
             return;
         }
 
         if (count >= 1) {
-            throw new IllegalArgumentException("[ERROR] 장애물이 존재하여 이동할 수 없습니다.");
+            throw new IllegalArgumentException(ErrorMessage.formatMessage("장애물이 존재하여 이동할 수 없습니다."));
         }
 
     }
@@ -88,7 +89,7 @@ public class Players {
                 .filter(player -> player.isSameNation(attackNation))
                 .map(player -> player.makeRoute(presentPosition, destination))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 경로가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.formatMessage("경로가 존재하지 않습니다.")));
     }
 
     public void removePiece(Nation defenseNation, Position destination) {
