@@ -7,15 +7,17 @@ import domain.board.strategy.SangMaSangMa;
 
 public enum SettingUp {
 
-    SANG_MA_MA_SANG("상마마상"),
-    SANG_MA_SANG_MA("상마상마"),
-    MA_SANG_SANG_MA("마상상마"),
-    MA_SANG_MA_SANG("마상마상");
+    SANG_MA_MA_SANG("상마마상", new SangMaMaSang()),
+    SANG_MA_SANG_MA("상마상마", new SangMaSangMa()),
+    MA_SANG_SANG_MA("마상상마", new MaSangSangMa()),
+    MA_SANG_MA_SANG("마상마상", new MaSangMaSang());
 
     private final String settingUp;
+    private final BoardSettingUpStrategy strategy;
 
-    SettingUp(String settingUp) {
+    SettingUp(String settingUp, BoardSettingUpStrategy strategy) {
         this.settingUp = settingUp;
+        this.strategy = strategy;
     }
 
     public static SettingUp of(String settingUp) {
@@ -29,11 +31,6 @@ public enum SettingUp {
     }
 
     public BoardSettingUpStrategy getStrategy() {
-        return switch (this) {
-            case SANG_MA_MA_SANG -> new SangMaMaSang();
-            case SANG_MA_SANG_MA -> new SangMaSangMa();
-            case MA_SANG_MA_SANG -> new MaSangMaSang();
-            case MA_SANG_SANG_MA -> new MaSangSangMa();
-        };
+        return strategy;
     }
 }
