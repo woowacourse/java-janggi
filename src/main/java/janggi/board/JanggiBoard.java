@@ -1,9 +1,9 @@
 package janggi.board;
 
-import janggi.move.Route;
 import janggi.piece.Empty;
 import janggi.piece.Piece;
-import janggi.piece.PieceType;
+import janggi.piece.Side;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,13 +24,11 @@ public class JanggiBoard {
         return new JanggiBoard(board);
     }
 
-    public List<Position> computeReachableDestination(final Position position) {
-        validatePositionHasPiece(position);
+    public List<Position> computeReachableDestination(final Side side, final Position position) {
+        validatePieceSelect(side, position);
 
         Piece piece = board.get(position);
-
         List<Position> reachableDestinations = piece.computeReachableDestinations(position, board);
-
         validateReachableDestinations(reachableDestinations);
         return reachableDestinations;
     }
@@ -49,6 +47,21 @@ public class JanggiBoard {
 
     public boolean checkGameIsOver(final Piece catchedPiece) {
         return catchedPiece.isGameOver();
+    }
+
+    private void validatePieceSelect(final Side side, final Position position) {
+        validateSideSelectedPiece(side, position);
+        validatePositionHasPiece(position);
+    }
+
+    private void validateSideSelectedPiece(final Side side, final Position position) {
+        Piece piece = board.get(position);
+        if (side == Side.HAN && piece.isCho()) {
+            throw new IllegalArgumentException("[ERROR] 상대편의 기물을 선택하셨습니다. 다시 선택하세요.");
+        }
+        if (side == Side.CHO && piece.isHan()) {
+            throw new IllegalArgumentException("[ERROR] 상대편의 기물을 선택하셨습니다. 다시 선택하세요.");
+        }
     }
 
     private void validatePositionHasPiece(final Position position) {
