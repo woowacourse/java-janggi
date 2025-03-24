@@ -1,41 +1,35 @@
 package janggi.piece;
 
-import janggi.team.Team;
-import janggi.position.Position;
+import janggi.board.Position;
+import janggi.palace.PalaceArea;
+import janggi.team.TeamName;
 
-public class Elephant implements Piece {
+public class Elephant extends Piece {
 
-    private final String name = "E"; //sang
-    private final Team team;
-    private Position position;
-
-    public Elephant(Team team, Position position) {
-        this.team = team;
+    public Elephant(TeamName teamName, Position position) {
+        this.teamName = teamName;
         this.position = position;
+        this.pieceName = PieceName.ELEPHANT;
+        this.pieceStatus = PieceStatus.ALIVE;
     }
 
     @Override
-    public boolean isOccupiedByMe(Position position) {
-        return position.equals(this.position);
+    public boolean validateMovement(Position currentPosition, Position destination, PalaceArea palaceArea) {
+        int offsetX = Math.abs(currentPosition.x() - destination.x());
+        int offsetY = Math.abs(currentPosition.y() - destination.y());
+
+        boolean isValidMove = offsetX == OFFSET_TWO && offsetY == OFFSET_THREE
+                || offsetX == OFFSET_THREE && offsetY == OFFSET_TWO;
+        if (!isValidMove) {
+            throw new IllegalArgumentException(INVALID_MOVEMENT);
+        }
+        return true;
     }
 
     @Override
-    public void move(Position position) {
-        this.position = this.position.update(position);
-    }
-
-    @Override
-    public Position getPosition() {
-        return position;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public Team getTeam() {
-        return team;
+    public void updateStatusIfCaught(Position opponentPosition) {
+        if (this.position.equals(opponentPosition)) {
+            this.pieceStatus = PieceStatus.CAUGHT;
+        }
     }
 }

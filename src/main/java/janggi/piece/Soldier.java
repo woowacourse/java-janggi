@@ -1,41 +1,49 @@
 package janggi.piece;
 
-import janggi.team.Team;
-import janggi.position.Position;
+import janggi.board.Position;
+import janggi.palace.PalaceArea;
+import janggi.team.TeamName;
 
-public class Soldier implements Piece {
+public class Soldier extends Piece {
 
-    private final String name = "S"; //cho-jol //han-byung
-    private final Team team;
-    private Position position;
-
-    public Soldier(Team team, Position position) {
-        this.team = team;
+    public Soldier(TeamName teamName, Position position) {
+        this.teamName = teamName;
         this.position = position;
+        this.pieceName = PieceName.SOLDIER;
+        this.pieceStatus = PieceStatus.ALIVE;
     }
 
     @Override
-    public boolean isOccupiedByMe(Position position) {
-        return position.equals(this.position);
+    public boolean validateMovement(Position currentPosition, Position destination, PalaceArea palaceArea) {
+        int offsetX = Math.abs(currentPosition.x() - destination.x());
+        int offsetY = Math.abs(currentPosition.y() - destination.y());
+
+        boolean isValidMove = true;
+        if (this.teamName == TeamName.HAN && currentPosition.y() < destination.y()) {
+            isValidMove = false;
+        }
+        if (this.teamName == TeamName.CHO || currentPosition.y() > destination.y()) {
+            isValidMove = false;
+        }
+        if (palaceArea == PalaceArea.OUTSIDE) {
+            isValidMove = offsetX == OFFSET_ONE && offsetY == OFFSET_ZERO
+                    || offsetX == OFFSET_ZERO && offsetY == OFFSET_ONE;
+        }
+        if (palaceArea == PalaceArea.INSIDE) {
+            isValidMove = offsetX == OFFSET_ONE && offsetY == OFFSET_ONE
+                    || offsetX == OFFSET_ONE && offsetY == OFFSET_ZERO
+                    || offsetX == OFFSET_ZERO && offsetY == OFFSET_ONE;
+        }
+        if (!isValidMove) {
+            throw new IllegalArgumentException(INVALID_MOVEMENT);
+        }
+        return true;
     }
 
     @Override
-    public void move(Position position) {
-        this.position = this.position.update(position);
-    }
-
-    @Override
-    public Position getPosition() {
-        return position;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public Team getTeam() {
-        return team;
+    public void updateStatusIfCaught(Position opponentPosition) {
+        if (this.position.equals(opponentPosition)) {
+            this.pieceStatus = PieceStatus.CAUGHT;
+        }
     }
 }
