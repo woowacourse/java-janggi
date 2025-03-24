@@ -60,6 +60,6 @@ public class HorseMovement implements MovementRule {
 
     private boolean isExistedPieceAtPoint(Pieces pieces, List<Direction> paths, Point checkPoint) {
         return paths.stream()
-                .anyMatch(direction -> pieces.isPlacedAt(checkPoint.apply(direction, side)));
+                .anyMatch(direction -> pieces.isContainPiece(checkPoint.apply(direction, side)));
     }
 }

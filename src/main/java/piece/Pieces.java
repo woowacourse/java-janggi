@@ -2,7 +2,6 @@ package piece;
 
 import direction.Point;
 import java.util.List;
-import team.Team;
 
 public class Pieces {
 
@@ -19,7 +18,7 @@ public class Pieces {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
     }
 
-    public boolean isPlacedAt(Point point) {
+    public boolean isContainPiece(Point point) {
         return pieces.stream()
                 .anyMatch(piece -> piece.isEqualPositionWith(point));
     }
@@ -29,8 +28,13 @@ public class Pieces {
     }
 
     public void validateNotContainPiece(Point point) {
-        if(isPlacedAt(point)) {
+        if(isContainPiece(point)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
         }
+    }
+
+    public boolean isAlreadyPieceInPosition(Point point) {
+        return pieces.stream()
+                .anyMatch(piece -> piece.isEqualPositionWith(point));
     }
 }

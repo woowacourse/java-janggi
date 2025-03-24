@@ -73,8 +73,8 @@ public class MemoryGameBoard implements GameBoard {
         redPieces.add(new Piece("S", new Point(9, 4), new SoldierMovement(RED.direction())));
 
         this.players = new ArrayList<>(List.of(
-                new Player(greenPieces, GREEN),
-                new Player(redPieces, RED)
+                new Player(new Pieces(greenPieces), GREEN),
+                new Player(new Pieces(redPieces), RED)
         ));
     }
 

@@ -27,7 +27,7 @@ public class CannonMovement implements MovementRule {
 
     private int calculateNotCannonPieceCountInPaths(Pieces pieces, Point from, Point to) {
         return (int) findPaths(from, to).stream()
-                .filter(pieces::isPlacedAt)
+                .filter(pieces::isContainPiece)
                 .map(pieces::getByPoint)
                 .filter(piece -> !piece.isSameType(CANNON_EXPRESSION))
                 .count();
@@ -35,7 +35,7 @@ public class CannonMovement implements MovementRule {
 
     private int calculateCannonPieceCountInPaths(Pieces pieces, Point from, Point to) {
         return (int) findPaths(from, to).stream()
-                .filter(pieces::isPlacedAt)
+                .filter(pieces::isContainPiece)
                 .map(pieces::getByPoint)
                 .filter(piece -> piece.isSameType(CANNON_EXPRESSION))
                 .count();

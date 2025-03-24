@@ -7,24 +7,20 @@ import piece.Pieces;
 
 public class Player {
 
-    private final List<Piece> pieces;
+    private final Pieces pieces;
     private final Team team;
 
-    public Player(List<Piece> pieces, Team team) {
+    public Player(Pieces pieces, Team team) {
         this.pieces = pieces;
         this.team = team;
     }
 
-    public boolean isContainPiece(Point position) {
-        return pieces.stream()
-                .anyMatch(piece -> piece.isEqualPositionWith(position));
+    public boolean isContainPiece(Point point) {
+        return pieces.isContainPiece(point);
     }
 
     public Piece getPieceByPoint(Point point) {
-        return pieces.stream()
-                .filter(piece -> piece.isEqualPositionWith(point))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 좌표에 기물이 존재하지 않습니다."));
+        return pieces.getByPoint(point);
     }
 
     public boolean isTeam(Team targetTeam) {
@@ -32,7 +28,7 @@ public class Player {
     }
 
     public List<Piece> getPieces() {
-        return pieces;
+        return pieces.getPieces();
     }
 
     public void play(Pieces allPieces, Point start, Point end) {
@@ -47,7 +43,6 @@ public class Player {
     }
 
     private boolean isAlreadyPlayerPieceInPosition(Point point) {
-        return pieces.stream()
-                .anyMatch(piece -> piece.isEqualPositionWith(point));
+        return pieces.isAlreadyPieceInPosition(point);
     }
 }
