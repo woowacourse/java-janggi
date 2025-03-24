@@ -4,11 +4,9 @@ import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
 import janggi.team.Team;
-import org.assertj.core.api.Assertions;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 public class ElephantTest {
     @Test
