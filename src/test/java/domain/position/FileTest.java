@@ -1,6 +1,7 @@
 package domain.position;
 
 import domain.MovingPattern;
+import janggiexception.OutOfBoardException;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -39,6 +40,21 @@ class FileTest {
                 Arguments.of(File.FIVE, MovingPattern.MOVE_LEFT, true),
                 Arguments.of(File.NINE, MovingPattern.MOVE_RIGHT, false),
                 Arguments.of(File.ONE, MovingPattern.MOVE_LEFT, false)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideFilesAndNotMovable")
+    void 더이상_움직일_수_없는_경우_예외를_발생시킨다(File file, MovingPattern pattern) {
+        // when & then
+        Assertions.assertThatThrownBy(() -> file.moveFile(pattern))
+                .isInstanceOf(OutOfBoardException.class);
+    }
+
+    private static Stream<Arguments> provideFilesAndNotMovable() {
+        return Stream.of(
+                Arguments.of(File.ONE, MovingPattern.MOVE_LEFT),
+                Arguments.of(File.NINE, MovingPattern.MOVE_RIGHT)
         );
     }
 

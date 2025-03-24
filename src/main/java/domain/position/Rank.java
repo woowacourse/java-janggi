@@ -1,6 +1,7 @@
 package domain.position;
 
 import domain.MovingPattern;
+import janggiexception.OutOfBoardException;
 import java.util.Arrays;
 
 public enum Rank {
@@ -64,14 +65,14 @@ public enum Rank {
 
     private Rank moveUp() {
         if (this == ONE) {
-            throw new IllegalStateException("더이상 위로 이동할 수 없습니다.");
+            throw new OutOfBoardException();
         }
         return findByNumber(this.rank - 1);
     }
 
     private Rank moveDown() {
         if (this == ZERO) {
-            throw new IllegalStateException("더이상 아래로 이동할 수 없습니다.");
+            throw new OutOfBoardException();
         }
         return findByNumber(this.rank + 1);
     }

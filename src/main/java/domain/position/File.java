@@ -1,6 +1,7 @@
 package domain.position;
 
 import domain.MovingPattern;
+import janggiexception.OutOfBoardException;
 import java.util.Arrays;
 
 public enum File {
@@ -68,14 +69,14 @@ public enum File {
 
     private File moveRight() {
         if (this == NINE) {
-            throw new IllegalStateException("더이상 오른쪽으로 움직일 수 없습니다.");
+            throw new OutOfBoardException();
         }
         return findByNumber(file + 1);
     }
 
     private File moveLeft() {
         if (this == ONE) {
-            throw new IllegalStateException("더이상 왼쪽으로 움직일 수 없습니다.");
+            throw new OutOfBoardException();
         }
         return findByNumber(file - 1);
     }

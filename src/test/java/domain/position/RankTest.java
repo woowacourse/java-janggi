@@ -1,6 +1,7 @@
 package domain.position;
 
 import domain.MovingPattern;
+import janggiexception.OutOfBoardException;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -40,6 +41,21 @@ class RankTest {
                 Arguments.of(Rank.FIVE, MovingPattern.MOVE_DOWN, true),
                 Arguments.of(Rank.ZERO, MovingPattern.MOVE_DOWN, false),
                 Arguments.of(Rank.ONE, MovingPattern.MOVE_UP, false)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideRanksAndNotMovable")
+    void 더이상_움직일_수_없는_경우_예외를_발생시킨다(Rank rank, MovingPattern pattern) {
+        // when & then
+        Assertions.assertThatThrownBy(() -> rank.moveRank(pattern))
+                .isInstanceOf(OutOfBoardException.class);
+    }
+
+    private static Stream<Arguments> provideRanksAndNotMovable() {
+        return Stream.of(
+                Arguments.of(Rank.ZERO, MovingPattern.MOVE_DOWN),
+                Arguments.of(Rank.ONE, MovingPattern.MOVE_UP)
         );
     }
 
