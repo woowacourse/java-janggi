@@ -22,28 +22,29 @@ public class Pieces {
             throw new IllegalArgumentException("해당 위치에 기물 없음");
         });
     }
-/*
-    public void validateCanMove(Position departure, Position arrival) {
-        List<Position> positions = findDirectionOfPiece(departure, arrival); // 목적지 찾기
-        validateMiddleDirection(arrival, positions); // 중간 목적지
-        validateDestination(departure, arrival); // 같은 팀이라면 에러, 다른 팀이라면 제거
-        movePosition(departure, arrival);
+
+    public void move(Position departure, Position arrival) {
+        List<Position> directionToArrive = findDirectionOfPiece(departure, arrival);
+        validateMiddleDirection(departure, arrival, directionToArrive);
+        validateAnotherPieceOfArrival(departure, arrival);
+        moveDepartureToArrival(departure, arrival);
     }
 
-/*
+    private void validateMiddleDirection(Position departure, Position arrival, List<Position> directionToArrive) {
+        Piece piece = pieces.get(departure);
+        if (piece.isCannon()) {
+            validateAnotherPieceOfMiddleDirectionForCannon(arrival, directionToArrive);
+            return;
+        }
+        validateAnotherPieceOfMiddleDirection(arrival, directionToArrive);
+    }
+
     private List<Position> findDirectionOfPiece(Position departure, Position arrival) {
         Piece piece = findPieceBy(departure);
-        List<Position> positions1 = piece.calculateAllDirection(departure, arrival);
-        return findResults.stream()
-                .filter(positions -> positions.contains(arrival))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당 위치로는 이동할 수 없습니다."));
+        return piece.calculateAllDirection(departure, arrival);
     }
 
-
-
- */
-    private void validateMiddleDirection(Position arrival, List<Position> positions) {
+    private void validateAnotherPieceOfMiddleDirection(Position arrival, List<Position> positions) {
         boolean isAlreadyExist = positions.stream()
                 .filter(this::isAlreadyExist)
                 .anyMatch(position -> !position.equals(arrival));
@@ -56,36 +57,33 @@ public class Pieces {
         return pieces.get(position) != null;
     }
 
-    private void validateDestination(Position departure, Position arrival) {
-        Optional<Piece> hasExistPiece = findPieceOptional(arrival);
-
-        if (hasExistPiece.isEmpty()) {
+    private void validateAnotherPieceOfArrival(Position departure, Position arrival) {
+        if (pieces.get(arrival) == null) {
             return;
         }
-
-        Piece departurePositionPiece = pieces.get(departure);
-        Piece currentArrivalPositionPiece = pieces.get(arrival);
-
-        if (departurePositionPiece.getTeam() == currentArrivalPositionPiece.getTeam()) {
-            throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
-        }
+        validateSameTeamExistOfArrival(departure, arrival);
         pieces.remove(arrival);
     }
 
-    /*
-    public void validateCannonMove(Piece piece, Position destination) {
-        List<Position> positions = findDirectionOfPiece(piece, destination); // 목적지 찾기
-        validateMiddleDirectionOfCannon(destination, positions);
-        validateDestinationOfCannon(piece, destination); // 같은 팀이라면 에러, 다른 팀이라면 제거
-        movePosition(piece, destination);
+    private void validateSameTeamExistOfArrival(Position departure, Position arrival) {
+        Piece departurePositionPiece = pieces.get(departure);
+        Piece currentArrivalPositionPiece = pieces.get(arrival);
+        validateIsBothCannon(departurePositionPiece, currentArrivalPositionPiece);
+        if (departurePositionPiece.getTeam() == currentArrivalPositionPiece.getTeam()) {
+            throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
+        }
     }
 
+    private void validateIsBothCannon(Piece departurePositionPiece, Piece currentArrivalPositionPiece) {
+        if (departurePositionPiece.isCannon() && currentArrivalPositionPiece.isCannon()) {
+            throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
+        }
+    }
 
-     */
-    private void validateMiddleDirectionOfCannon(Position destination, List<Position> positions) {
+    private void validateAnotherPieceOfMiddleDirectionForCannon(Position arrival, List<Position> positions) {
         long pieceCount = positions.stream()
             .filter(this::isAlreadyExist)
-            .filter(position -> !position.equals(destination))
+            .filter(position -> !position.equals(arrival))
             .count();
 
         boolean hasCannon = positions.stream()
@@ -102,23 +100,7 @@ public class Pieces {
         return findPiece.isCannon();
     }
 
-    private void validateDestinationOfCannon(Piece myPiece, Position destination) {
-        Optional<Piece> hasExistPiece = findPieceOptional(destination);
-        if (hasExistPiece.isEmpty()) {
-            return;
-        }
-        Piece existPiece = hasExistPiece.get();
-        if (myPiece.getTeam() == existPiece.getTeam() || existPiece.isCannon()) {
-            throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
-        }
-        pieces.remove(existPiece);
-    }
-
-    private Optional<Piece> findPieceOptional(Position destination) {
-        return Optional.ofNullable(pieces.get(destination));
-    }
-
-    private void movePosition(Position departure, Position arrival) {
+    private void moveDepartureToArrival(Position departure, Position arrival) {
         Piece piece = pieces.get(departure);
         pieces.put(arrival, piece);
         pieces.remove(departure);

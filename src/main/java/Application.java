@@ -29,23 +29,11 @@ public class Application {
             String choiceArrival = inputView.choiceArrivalOf(departurePiece);
             List<Integer> columnAndRowOfArrival = InputParser.splitAndConvert(choiceArrival);
             Position arrival = new Position(columnAndRowOfArrival);
-            //moveOfPiece(pieces, departure, arrival);
+            pieces.move(departure, arrival);
         }
     }
-/*
-    private static void moveOfPiece(Pieces pieces, Position departure, Position arrival) {
-        Piece piece = pieces.findPieceBy(departure);
-        if (piece.isCannon()) {
-            //pieces.validateCannonMove(piece, destinationDirection);
-            return;
-        }
-        pieces.validateCanMove(departure, arrival);
-    }
 
-
- */
     private static void showCurrentPositionOfPieces(Pieces pieces) {
-
         for (Column column : Column.values()) {
             for (Row row : Row.values()) {
                 Optional<Piece> piece = pieces.findPieceOfNullable(
