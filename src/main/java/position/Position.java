@@ -13,16 +13,6 @@ public record Position(
         validateRank(rank);
     }
 
-    public static Position from(String fileStr, String rankStr) {
-        try {
-            PositionFile file = PositionFile.fromString(fileStr);
-            int rank = Integer.parseInt(rankStr);
-            return new Position(file, new PositionRank(rank));
-        } catch (Exception e) {
-            throw new IllegalArgumentException("[ERROR] 올바른 위치 형식이 아닙니다: " + fileStr + rankStr);
-        }
-    }
-
     private void validateFile(final PositionFile file) {
         if (file == null) {
             throw new IllegalArgumentException("파일은 필수값입니다.");

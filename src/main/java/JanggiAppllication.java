@@ -5,6 +5,8 @@ import game.Team;
 import java.util.List;
 import piece.StaticPieceInitializer;
 import position.Position;
+import position.PositionFile;
+import position.PositionRank;
 import view.InputView;
 import view.OutputView;
 
@@ -31,8 +33,10 @@ public class JanggiAppllication {
         while (true) {
             outputView.printTurn(board.getCurrentTurnTeam());
             List<String> moveInfo = inputView.readMoveCommand();
-            Position source = Position.from(moveInfo.get(0), moveInfo.get(1));
-            Position target = Position.from(moveInfo.get(2), moveInfo.get(3));
+
+            Position source = new Position(PositionFile.of(moveInfo.get(0)), PositionRank.of(moveInfo.get(1)));
+            Position target = new Position(PositionFile.of(moveInfo.get(2)), PositionRank.of(moveInfo.get(3)));
+
             board.move(source, target);
             outputView.displayBoard(board);
         }

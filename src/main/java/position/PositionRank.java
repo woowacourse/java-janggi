@@ -16,6 +16,10 @@ public record PositionRank(
         validateValue(value);
     }
 
+    public static PositionRank of(String s) {
+        return new PositionRank(Integer.parseInt(s));
+    }
+
     private void validateValue(final int value) {
         if (value < MIN_VALUE) {
             throw new IllegalArgumentException("랭크는 %d 이상이어야 합니다.".formatted(MIN_VALUE));

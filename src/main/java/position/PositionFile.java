@@ -51,7 +51,7 @@ public enum PositionFile {
         return Math.abs(amount - file.amount);
     }
 
-    public static PositionFile fromString(String fileStr) {
+    public static PositionFile of(String fileStr) {
         return Arrays.stream(values())
                 .filter(p -> p.displayName.equals(fileStr))
                 .findFirst()
