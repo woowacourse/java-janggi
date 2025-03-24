@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -86,22 +87,129 @@ class SangTest {
         );
     }
 
-    @DisplayName("병은 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
-    @Test
-    void makeRoute() {
-        //given
-        final Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
-        final Position futurePosition = new Position(3, 2);
+    @Nested
+    @DisplayName("상은 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
+    class MakeRoute {
 
-        //when
-        final List<Position> actual = sang.makeRoute(futurePosition);
+        @DisplayName("자신의 위치에서 위로 한칸 이동 후 왼쪽 대각선으로 두칸 이동하는 경로를 계산한다")
+        @Test
+        void makeRouteCase1() {
+            final Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
+            final Position futurePosition = new Position(2, 3);
 
-        //then
-        assertThat(actual).containsExactly(
-                new Position(5, 4),
-                new Position(4, 3),
-                new Position(3, 2)
-        );
+            final List<Position> actual = sang.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(4, 5),
+                    new Position(3, 4),
+                    new Position(2, 3)
+            );
+        }
+
+        @DisplayName("자신의 위치에서 위로 한칸 이동 후 오른쪽 대각선으로 두칸 이동하는 경로를 계산한다")
+        @Test
+        void makeRouteCase2() {
+            final Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
+            final Position futurePosition = new Position(2, 7);
+
+            final List<Position> actual = sang.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(4, 5),
+                    new Position(3, 6),
+                    new Position(2, 7)
+            );
+        }
+
+        @DisplayName("자신의 위치에서 오른쪽으로 한칸 이동 후 왼쪽 대각선으로 두칸 이동하는 경로를 계산한다")
+        @Test
+        void makeRouteCase3() {
+            final Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
+            final Position futurePosition = new Position(3, 8);
+
+            final List<Position> actual = sang.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(5, 6),
+                    new Position(4, 7),
+                    new Position(3, 8)
+            );
+        }
+
+        @DisplayName("자신의 위치에서 오른쪽으로 한칸 이동 후 오른쪽 대각선으로 두칸 이동하는 경로를 계산한다")
+        @Test
+        void makeRouteCase4() {
+            final Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
+            final Position futurePosition = new Position(7, 8);
+
+            final List<Position> actual = sang.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(5, 6),
+                    new Position(6, 7),
+                    new Position(7, 8)
+            );
+        }
+
+        @DisplayName("자신의 위치에서 아래쪽으로 한칸 이동 후 왼쪽 대각선으로 두칸 이동하는 경로를 계산한다")
+        @Test
+        void makeRouteCase5() {
+            final Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
+            final Position futurePosition = new Position(8, 7);
+
+            final List<Position> actual = sang.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(6, 5),
+                    new Position(7, 6),
+                    new Position(8, 7)
+            );
+        }
+
+        @DisplayName("자신의 위치에서 아래쪽으로 한칸 이동 후 오른쪽 대각선으로 두칸 이동하는 경로를 계산한다")
+        @Test
+        void makeRouteCase6() {
+            final Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
+            final Position futurePosition = new Position(8, 3);
+
+            final List<Position> actual = sang.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(6, 5),
+                    new Position(7, 4),
+                    new Position(8, 3)
+            );
+        }
+
+        @DisplayName("자신의 위치에서 왼쪽으로 한칸 이동 후 왼쪽 대각선으로 두칸 이동하는 경로를 계산한다")
+        @Test
+        void makeRouteCase7() {
+            final Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
+            final Position futurePosition = new Position(7, 2);
+
+            final List<Position> actual = sang.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(5, 4),
+                    new Position(6, 3),
+                    new Position(7, 2)
+            );
+        }
+
+        @DisplayName("자신의 위치에서 왼쪽으로 한칸 이동 후 오른쪽 대각선으로 두칸 이동하는 경로를 계산한다")
+        @Test
+        void makeRouteCase8() {
+            final Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
+            final Position futurePosition = new Position(3, 2);
+
+            final List<Position> actual = sang.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(5, 4),
+                    new Position(4, 3),
+                    new Position(3, 2)
+            );
+        }
     }
 
     @DisplayName("상이 일보 전진하는 자리에 멱(장애물)이 존재한다면 예외가 발생한다.")
