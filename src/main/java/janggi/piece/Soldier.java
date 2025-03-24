@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.position.Path;
 import janggi.position.Position;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,12 +15,12 @@ public class Soldier extends Piece {
 
     @Override
     protected void validateMove(final int differenceForY, final int differenceForX) {
-        if (getTeam() == Team.CHO && (canNotMoveBackward(differenceForY)
-                || Math.abs(differenceForY) + Math.abs(differenceForX) > MOVE_DISTANCE)) {
+        if (isSameTeam(Team.CHO) && (canNotMoveBackward(differenceForY) || doesNotMoveInRange(differenceForY,
+                differenceForX))) {
             throw new IllegalArgumentException("[ERROR] 졸은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
         }
-        if (getTeam() == Team.HAN && canNotMoveBackward(differenceForY)
-                || Math.abs(differenceForY) + Math.abs(differenceForX) > MOVE_DISTANCE) {
+        if (isSameTeam(Team.HAN) && (canNotMoveBackward(differenceForY)
+                || doesNotMoveInRange(differenceForY, differenceForX))) {
             throw new IllegalArgumentException("[ERROR] 병은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
         }
     }
@@ -58,9 +57,13 @@ public class Soldier extends Piece {
     }
 
     private boolean canNotMoveBackward(int differenceForY) {
-        if (getTeam() == Team.CHO) {
+        if (isSameTeam(Team.CHO)) {
             return differenceForY > 0;
         }
         return differenceForY < 0;
+    }
+
+    private boolean doesNotMoveInRange(final int differenceForY, final int differenceForX) {
+        return Math.abs(differenceForY) + Math.abs(differenceForX) > MOVE_DISTANCE;
     }
 }

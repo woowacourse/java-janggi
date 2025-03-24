@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.position.Path;
 import janggi.position.Position;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +21,7 @@ public class Horse extends Piece {
 
     @Override
     protected void validateMove(int differenceForY, int differenceForX) {
-        if (canNotMove(differenceForY, differenceForX)) {
+        if (doesNotMoveInRange(differenceForY, differenceForX)) {
             throw new IllegalArgumentException("[ERROR] 말은 직선 1칸 이동 후 대각선 1칸으로만 이동할 수 있습니다.");
         }
     }
@@ -60,7 +59,7 @@ public class Horse extends Piece {
         }
     }
 
-    private boolean canNotMove(int differenceForY, int differenceForX) {
+    private boolean doesNotMoveInRange(int differenceForY, int differenceForX) {
         return !AVAILABLE_DIFFERENCE.contains(List.of(differenceForY, differenceForX));
     }
 

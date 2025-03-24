@@ -23,7 +23,7 @@ class CannonTest {
     void 포는_움직인다() {
         // Given
         final Soldier soldier = new Soldier(Team.CHO);
-        final Cannon cannon = new Cannon(soldier.getTeam());
+        final Cannon cannon = new Cannon(Team.CHO);
 
         Position currentPosition = new Position(8, 1);
         final Position middlePiecePosition = new Position(7, 1);
@@ -34,7 +34,6 @@ class CannonTest {
                 currentPosition, cannon,
                 middlePiecePosition, soldier
         ));
-        System.out.println(path.getPositions());
 
         // Then
         assertThat(path).isEqualTo(new Path(List.of(middlePiecePosition, arrivalPosition)));

@@ -46,7 +46,7 @@ public class Cannon extends Piece {
 
     @Override
     protected void validateMove(int differenceForY, int differenceForX) {
-        if (canNotMove(differenceForY, differenceForX)) {
+        if (doesNotMoveInRange(differenceForY, differenceForX)) {
             throw new IllegalArgumentException("[ERROR] 포는 한 방향으로만 이동할 수 있습니다.");
         }
     }
@@ -67,7 +67,7 @@ public class Cannon extends Piece {
                 .anyMatch(piece -> piece.matchPieceType(PieceType.CANNON));
     }
 
-    private boolean canNotMove(int differenceForY, int differenceForX) {
+    private boolean doesNotMoveInRange(int differenceForY, int differenceForX) {
         return !((Math.abs(differenceForY) > 0 && Math.abs(differenceForX) == 0) ||
                 (Math.abs(differenceForY) == 0 && Math.abs(differenceForX) > 0));
     }

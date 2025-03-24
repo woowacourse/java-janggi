@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.position.Path;
 import janggi.position.Position;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ public class King extends Piece {
 
     @Override
     protected void validateMove(int differenceForY, int differenceForX) {
-        if (Math.abs(differenceForY) + Math.abs(differenceForX) != KING_MOVE_DISTANCE) {
+        if (doesNotMoveInRange(differenceForY, differenceForX)) {
             throw new IllegalArgumentException("[ERROR] 왕은 한 방향으로 한 칸만 이동할 수 있습니다.");
         }
     }
@@ -48,5 +47,9 @@ public class King extends Piece {
         if (hasPieceInMiddle(path, pieces)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
         }
+    }
+
+    private boolean doesNotMoveInRange(final int differenceForY, final int differenceForX) {
+        return Math.abs(differenceForY) + Math.abs(differenceForX) != KING_MOVE_DISTANCE;
     }
 }

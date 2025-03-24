@@ -67,7 +67,7 @@ public class Board {
     }
 
     private void validateOwnPiece(Team currentTeam, Piece piece) {
-        if (currentTeam != piece.getTeam()) {
+        if (!piece.isSameTeam(currentTeam)) {
             throw new IllegalArgumentException("[ERROR] 자신의 팀 기물만 움직일 수 있습니다.");
         }
     }
@@ -85,7 +85,7 @@ public class Board {
 
     private void catchPiece(Position currentPosition, Position arrivalPosition, Piece piece) {
         Piece existPiece = findPieceByPosition(arrivalPosition);
-        if (existPiece.getTeam() == piece.getTeam()) {
+        if (existPiece.isSameTeam(piece.getTeam())) {
             throw new IllegalArgumentException("[ERROR] 자신의 팀 기물은 잡을 수 없습니다.");
         }
         updatePosition(currentPosition, arrivalPosition, piece);
