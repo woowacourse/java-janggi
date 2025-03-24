@@ -1,10 +1,12 @@
 package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.position.Position;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -88,5 +90,41 @@ class SaTest {
                 Arguments.of(new Position(5, 4)),
                 Arguments.of(new Position(4, 5))
         );
+    }
+
+
+    @DisplayName("사의 이동 경로에 장애물이 있다면 예외를 던진다.")
+    @Test
+    void hasObstacle() {
+        //given
+        final Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
+
+        final Map<Position, Piece> board = Map.of(
+                new Position(6, 5), new Cha(new PieceProfile("차", Nation.HAN), new Position(6, 5))
+        );
+
+        final Position futurePosition = new Position(6, 5);
+
+        //when //then
+        assertThatThrownBy(() -> sa.checkObstacle(futurePosition, board))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageStartingWith("[ERROR]");
+    }
+
+    @DisplayName("사의 이동 경로에 장애물이 없다면 예외를 던지지 않는다.")
+    @Test
+    void nonObstacle() {
+        //given
+        final Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
+
+        final Map<Position, Piece> board = Map.of(
+                new Position(7, 5), new Cha(new PieceProfile("차", Nation.HAN), new Position(7, 5))
+        );
+
+        final Position futurePosition = new Position(6, 5);
+
+        //when //then
+        assertThatCode(() -> sa.checkObstacle(futurePosition, board))
+                .doesNotThrowAnyException();
     }
 }
