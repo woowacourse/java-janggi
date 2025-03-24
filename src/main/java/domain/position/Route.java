@@ -14,6 +14,10 @@ public class Route {
         return new Route(positions);
     }
 
+    public Position searchStartPoint() {
+        return positions.getFirst();
+    }
+
     public Position searchEndPoint() {
         return positions.getLast();
     }

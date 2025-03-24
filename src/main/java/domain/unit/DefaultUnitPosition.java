@@ -1,14 +1,6 @@
-package domain;
+package domain.unit;
 
 import domain.position.Position;
-import domain.unit.BombUnitRule;
-import domain.unit.CarUnitRule;
-import domain.unit.ElephantUnitRule;
-import domain.unit.HorseUnitRule;
-import domain.unit.JolUnitRule;
-import domain.unit.NoneUnitRule;
-import domain.unit.Unit;
-import domain.unit.UnitRule;
 import java.util.List;
 import java.util.function.Supplier;
 
