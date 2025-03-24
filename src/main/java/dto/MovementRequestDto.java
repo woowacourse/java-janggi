@@ -4,8 +4,8 @@ import domain.board.Point;
 import java.util.List;
 
 public class MovementRequestDto {
-    private List<Integer> startPoint;
-    private List<Integer> arrivalPoint;
+    private final List<Integer> startPoint;
+    private final List<Integer> arrivalPoint;
 
     public MovementRequestDto(final List<Integer> startPoint, final List<Integer> arrivalPoint) {
         this.startPoint = startPoint;
