@@ -7,8 +7,6 @@ import java.util.List;
 
 public class Chariot extends Piece {
 
-    private final List<Move> moves = List.of(Move.FRONT, Move.BACK, Move.RIGHT, Move.LEFT);
-
     public Chariot(Team team) {
         super(team);
     }
@@ -19,11 +17,11 @@ public class Chariot extends Piece {
         List<Position> path = new ArrayList<>();
         Position newPosition = startPosition;
         if (startPosition.compareRow(targetPosition) != 0 && startPosition.compareColumn(targetPosition) == 0) {
-            newPosition = calculateNewPosition(startPosition.compareRow(targetPosition), newPosition, Move.BACK, path,
+            newPosition = calculateNewPosition(startPosition.compareRow(targetPosition), newPosition, path, Move.BACK,
                     Move.FRONT);
         }
         if (startPosition.compareRow(targetPosition) == 0 && startPosition.compareColumn(targetPosition) != 0) {
-            calculateNewPosition(startPosition.compareColumn(targetPosition), newPosition, Move.RIGHT, path, Move.LEFT);
+            calculateNewPosition(startPosition.compareColumn(targetPosition), newPosition, path, Move.RIGHT, Move.LEFT);
         }
         if (startPosition.compareRow(targetPosition) != 0 && startPosition.compareColumn(targetPosition) != 0) {
             throw new IllegalArgumentException("이 위치로는 움직일 수 없습니다.");
@@ -31,21 +29,21 @@ public class Chariot extends Piece {
         return path;
     }
 
-    private Position calculateNewPosition(int startPosition, Position newPosition, Move back, List<Position> path,
-                                          Move front) {
-        int count = startPosition;
-        if (count < 0) {
-            newPosition = addNewPositionOnPath(Math.abs(count), newPosition, back, path);
+    private Position calculateNewPosition(int startPosition, Position newPosition, List<Position> path,
+                                          Move backOrRight,
+                                          Move frontOrLeft) {
+        if (startPosition < 0) {
+            newPosition = addNewPositionOnPath(Math.abs(startPosition), newPosition, path, backOrRight);
         }
-        if (count > 0) {
-            newPosition = addNewPositionOnPath(count, newPosition, front, path);
+        if (startPosition > 0) {
+            newPosition = addNewPositionOnPath(startPosition, newPosition, path, frontOrLeft);
         }
         return newPosition;
     }
 
-    private Position addNewPositionOnPath(int count, Position newPosition, Move back, List<Position> path) {
+    private Position addNewPositionOnPath(int count, Position newPosition, List<Position> path, Move movement) {
         for (int i = 0; i < count - 1; i++) {
-            newPosition = newPosition.movePosition(back);
+            newPosition = newPosition.movePosition(movement);
             path.add(newPosition);
         }
         return newPosition;
