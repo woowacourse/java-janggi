@@ -1,10 +1,11 @@
 package board;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import piece.Piece;
 import piece.TeamType;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BoardFactory {
 
@@ -12,14 +13,10 @@ public class BoardFactory {
         final Map<Position, Piece> initMap = new HashMap<>();
 
         for (final TeamType teamType : TeamType.values()) {
-            for (final PieceInitialPosition pieceType : PieceInitialPosition.values()) {
-                final List<Position> initPositions = pieceType.getInitPositions(teamType);
-                for (final Position position : initPositions) {
-                    initMap.put(position, pieceType.createPiece(teamType));
-                }
-            }
+            Arrays.stream(PieceInitialPosition.values())
+                    .map(pieceType -> pieceType.getPositions(teamType))
+                    .forEachOrdered(initMap::putAll);
         }
-
         return new Board(initMap);
     }
 }

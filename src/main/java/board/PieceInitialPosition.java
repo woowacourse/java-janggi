@@ -1,17 +1,11 @@
 package board;
 
+import piece.*;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import piece.Cannon;
-import piece.Chariot;
-import piece.Elephant;
-import piece.General;
-import piece.Guard;
-import piece.Horse;
-import piece.Piece;
-import piece.Soldier;
-import piece.TeamType;
 
 public enum PieceInitialPosition {
 
@@ -63,12 +57,16 @@ public enum PieceInitialPosition {
         this.construct = construct;
     }
 
-    public List<Position> getInitPositions(final TeamType teamType) {
-        return initPositions.get(teamType);
-    }
-
     public Piece createPiece(final TeamType teamType) {
         return this.construct.apply(teamType);
     }
 
+    public Map<Position, Piece> getPositions(final TeamType teamType) {
+        Map<Position, Piece> datas = new HashMap<>();
+        List<Position> positions = initPositions.get(teamType);
+        for (Position position : positions) {
+            datas.put(position, createPiece(teamType));
+        }
+        return datas;
+    }
 }
