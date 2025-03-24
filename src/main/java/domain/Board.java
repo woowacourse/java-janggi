@@ -1,8 +1,8 @@
 package domain;
 
-import domain.piece.Cannon;
 import domain.piece.General;
 import domain.piece.PieceFactory;
+import domain.piece.PieceType;
 import domain.position.Point;
 import domain.position.Position;
 import java.util.List;
@@ -27,29 +27,35 @@ public class Board {
     }
 
     public boolean canMoveOnPath(final Position fromPosition, final Point toPoint) {
-
         final List<Point> pointOnPath = fromPosition.calculatePossiblePoint(toPoint);
-
-        final long matchCount = positions.stream()
-                .filter(position -> pointOnPath.stream().anyMatch(position::isSame))
-                .count();
+        final long matchCount = countPieceOnPath(pointOnPath);
 
         if (matchCount == 0) {
             return true;
         }
-        final Cannon cannon = PieceFactory.createCannon();
-        if (matchCount == 1 && fromPosition.isSamePiece(cannon)) {
-            final Position middlePosition = positions.stream()
-                    .filter(position -> pointOnPath.stream().anyMatch(position::isSame))
-                    .findFirst()
-                    .orElseThrow();
-            if (middlePosition.isSamePiece(cannon)) {
-                return false;
-            }
-
-            return !hasPieceAt(toPoint) || !findPositionBy(toPoint).isSamePiece(cannon);
+        if (matchCount != 1) {
+            return false;
         }
-        return false;
+
+        final Position middlePosition = getMiddlePosition(pointOnPath);
+        if (hasPieceAt(toPoint)) {
+            final Position toPosition = findPositionBy(toPoint);
+            return fromPosition.canPassOverPiece(middlePosition, toPosition, PieceType.CANNON);
+        }
+        return fromPosition.canPassOverPiece(middlePosition, PieceType.CANNON);
+    }
+
+    private long countPieceOnPath(final List<Point> pointOnPath) {
+        return positions.stream()
+                .filter(position -> pointOnPath.stream().anyMatch(position::isSame))
+                .count();
+    }
+
+    private Position getMiddlePosition(final List<Point> pointOnPath) {
+        return positions.stream()
+                .filter(position -> pointOnPath.stream().anyMatch(position::isSame))
+                .findFirst()
+                .orElseThrow();
     }
 
     public boolean hasPieceAt(final Point point) {
