@@ -3,7 +3,7 @@ import static player.Nation.HAN;
 
 import java.util.List;
 import pieceProperty.Position;
-import piece.JanggiPieceInitializer;
+import pieceProperty.JanggiPieceInitializer;
 import player.Pieces;
 import player.Player;
 import player.Players;

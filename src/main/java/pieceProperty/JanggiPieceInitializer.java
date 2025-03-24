@@ -1,8 +1,16 @@
-package piece;
+package pieceProperty;
 
 import java.util.ArrayList;
 import java.util.List;
-import pieceProperty.Position;
+import piece.Byeong;
+import piece.Cha;
+import piece.Janggun;
+import piece.Jol;
+import piece.Ma;
+import piece.Piece;
+import piece.Po;
+import piece.Sa;
+import piece.Sang;
 import player.Pieces;
 
 public class JanggiPieceInitializer {
