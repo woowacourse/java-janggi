@@ -6,10 +6,10 @@ import janggi.domain.piece.movement.FiniteMovePath;
 import janggi.domain.piece.movement.MovePath;
 import java.util.Set;
 
-public class Soldier extends Piece {
+public class HanSoldier extends Piece {
 
-    public Soldier(Dynasty dynasty) {
-        super(dynasty);
+    public HanSoldier() {
+        super(Dynasty.HAN);
     }
 
     @Override
@@ -27,13 +27,13 @@ public class Soldier extends Piece {
 
     @Override
     public boolean isSamePiece(Piece piece) {
-        return piece instanceof Soldier;
+        return piece instanceof HanSoldier;
     }
 
     @Override
     protected Set<MovePath> paths() {
         return Set.of(
-                new FiniteMovePath(Direction.UP),
+                new FiniteMovePath(Direction.DOWN),
                 new FiniteMovePath(Direction.LEFT),
                 new FiniteMovePath(Direction.RIGHT)
         );

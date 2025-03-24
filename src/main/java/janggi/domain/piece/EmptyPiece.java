@@ -27,6 +27,6 @@ public class EmptyPiece extends Piece {
 
     @Override
     protected Set<MovePath> paths() {
-        return Set.of();
+        throw new IllegalStateException("방향이 없습니다.");
     }
 }

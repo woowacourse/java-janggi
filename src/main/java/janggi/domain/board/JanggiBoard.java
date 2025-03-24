@@ -3,12 +3,13 @@ package janggi.domain.board;
 import janggi.domain.Dynasty;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
+import janggi.domain.piece.ChuSoldier;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
+import janggi.domain.piece.HanSoldier;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PiecesOnPath;
-import janggi.domain.piece.Soldier;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -26,11 +27,11 @@ public class JanggiBoard {
             put(new Point(2, 5), new General(Dynasty.HAN));
             put(new Point(3, 2), new Cannon(Dynasty.HAN));
             put(new Point(3, 8), new Cannon(Dynasty.HAN));
-            put(new Point(4, 1), new Soldier(Dynasty.HAN));
-            put(new Point(4, 3), new Soldier(Dynasty.HAN));
-            put(new Point(4, 5), new Soldier(Dynasty.HAN));
-            put(new Point(4, 7), new Soldier(Dynasty.HAN));
-            put(new Point(4, 9), new Soldier(Dynasty.HAN));
+            put(new Point(4, 1), new HanSoldier());
+            put(new Point(4, 3), new HanSoldier());
+            put(new Point(4, 5), new HanSoldier());
+            put(new Point(4, 7), new HanSoldier());
+            put(new Point(4, 9), new HanSoldier());
 
             put(new Point(10, 1), new Chariot(Dynasty.CHU));
             put(new Point(10, 4), new Guard(Dynasty.CHU));
@@ -39,11 +40,11 @@ public class JanggiBoard {
             put(new Point(9, 5), new General(Dynasty.CHU));
             put(new Point(8, 2), new Cannon(Dynasty.CHU));
             put(new Point(8, 8), new Cannon(Dynasty.CHU));
-            put(new Point(7, 1), new Soldier(Dynasty.CHU));
-            put(new Point(7, 3), new Soldier(Dynasty.CHU));
-            put(new Point(7, 5), new Soldier(Dynasty.CHU));
-            put(new Point(7, 7), new Soldier(Dynasty.CHU));
-            put(new Point(7, 9), new Soldier(Dynasty.CHU));
+            put(new Point(7, 1), new ChuSoldier());
+            put(new Point(7, 3), new ChuSoldier());
+            put(new Point(7, 5), new ChuSoldier());
+            put(new Point(7, 7), new ChuSoldier());
+            put(new Point(7, 9), new ChuSoldier());
         }
     };
 

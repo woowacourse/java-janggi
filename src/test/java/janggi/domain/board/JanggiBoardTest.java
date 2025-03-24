@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Dynasty;
-import janggi.domain.piece.Soldier;
+import janggi.domain.piece.ChuSoldier;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ public class JanggiBoardTest {
     void move() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(9, 5), new Soldier(Dynasty.CHU)
+                new Point(9, 5), new ChuSoldier(Dynasty.CHU)
         ));
 
         //when
@@ -24,7 +24,7 @@ public class JanggiBoardTest {
 
         //then
         assertThat(janggiBoard).isEqualTo(new JanggiBoard(Map.of(
-                new Point(8, 5), new Soldier(Dynasty.CHU)
+                new Point(8, 5), new ChuSoldier(Dynasty.CHU)
         )));
     }
 
@@ -45,7 +45,7 @@ public class JanggiBoardTest {
     void move_whenOtherDynastyPiece() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(9, 5), new Soldier(Dynasty.CHU))
+                new Point(9, 5), new ChuSoldier(Dynasty.CHU))
         );
 
         //when
