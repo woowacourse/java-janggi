@@ -10,9 +10,13 @@ import domain.piece.PieceType;
 import domain.piece.Soldier;
 import domain.position.Position;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class BoardTest {
 
@@ -127,5 +131,27 @@ class BoardTest {
         board.movePiece(startPosition, endPosition, TeamType.CHO);
 
         assertThat(board.findWinTeam()).isEqualTo(TeamType.CHO);
+    }
+
+    static Stream validateOwnPieceTest() {
+        return Stream.of(
+                Arguments.of(Position.of(1, 1), Position.of(2, 3), TeamType.HAN),
+                Arguments.of(Position.of(1, 2), Position.of(1, 3), TeamType.CHO),
+                Arguments.of(Position.of(0, 1), Position.of(1, 1), TeamType.HAN),
+                Arguments.of(Position.of(3, 2), Position.of(3, 1), TeamType.CHO)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    @DisplayName("움직이려는 기물이 진행중인 팀의 기물이 아니면 예외가 발생한다")
+    void validateOwnPieceTest(Position from, Position to, TeamType moveTeam) {
+        // given
+        Board board = new Board(pieces);
+
+        // when & then
+        assertThatThrownBy(() -> board.movePiece(from, to, moveTeam))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("본인 말만 움직일 수 있습니다.");
     }
 }
