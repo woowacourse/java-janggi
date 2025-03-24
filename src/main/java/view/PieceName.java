@@ -1,7 +1,6 @@
 package view;
 
 import domain.piece.Piece;
-import domain.piece.PieceColor;
 import domain.piece.PieceType;
 import java.util.Arrays;
 
@@ -38,16 +37,4 @@ public enum PieceName {
                 .findAny()
                 .orElse(PieceType.EMPTY);
     }
-
-    private String getColorString(Piece piece) {
-        PieceColor color = piece.getColor();
-        if (color == PieceColor.RED) {
-            return "\u001B[31m";
-        }
-        if (color == PieceColor.BLUE) {
-            return "\u001B[34m";
-        }
-        return "\u001B[0m";
-    }
-
 }

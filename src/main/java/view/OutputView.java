@@ -8,6 +8,11 @@ import domain.piece.Piece;
 import domain.piece.PieceColor;
 
 public class OutputView {
+
+    private final static String RED_COLOR = "\u001B[31m";
+    private final static String BLUE_COLOR = "\u001B[34m";
+    private final static String WHITE_COLOR = "\u001B[0m";
+
     public void printBorad(Board board) {
         System.out.println("  일 이 삼 사 오 육 칠 팔 구");
         for (Row row : Row.values()) {
@@ -15,34 +20,44 @@ public class OutputView {
             for (Column column : Column.values()) {
                 Position position = new Position(row, column);
                 Piece piece = board.getPieceBy(position);
+                String color = applyColor(piece);
                 String pieceName = PieceName.getNameFromPieceType(piece);
 
-                System.out.print(pieceName + " ");
+                System.out.print(color + pieceName + WHITE_COLOR + " ");
             }
             System.out.println();
         }
     }
 
     public void printTurnNotice(PieceColor turnColor) {
-        String color = "";
-        if (turnColor == PieceColor.BLUE) {
-            color = "초나라";
-        }
-        if (turnColor == PieceColor.RED) {
-            color = "한나라";
-        }
+        String color = getTeamName(turnColor);
         System.out.println(getStringColor() + color + "차례입니다.");
     }
 
     public void printWinner(PieceColor turnColor) {
-        String color = "";
+        String color = getTeamName(turnColor);
+        System.out.println(color + " 승리");
+    }
+
+    private String applyColor(Piece piece) {
+        PieceColor color = piece.getColor();
+        if (color == PieceColor.RED) {
+            return RED_COLOR;
+        }
+        if (color == PieceColor.BLUE) {
+            return BLUE_COLOR;
+        }
+        return WHITE_COLOR;
+    }
+
+    private static String getTeamName(PieceColor turnColor) {
         if (turnColor == PieceColor.BLUE) {
-            color = "초나라";
+            return BLUE_COLOR + "초나라 " + WHITE_COLOR;
         }
         if (turnColor == PieceColor.RED) {
-            color = "한나라";
+            return RED_COLOR + "한나라 " + WHITE_COLOR;
         }
-        System.out.println(color + " 승리");
+        return "";
     }
 
     public void printError(String message) {
