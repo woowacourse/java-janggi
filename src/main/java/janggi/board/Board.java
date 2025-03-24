@@ -46,7 +46,7 @@ public class Board {
     }
 
     public boolean isPieceNotExists(Position position) {
-        return board.get(position) == null;
+        return !isPieceExists(position);
     }
 
     public boolean isSameTeamExists(Position position, Team team) {

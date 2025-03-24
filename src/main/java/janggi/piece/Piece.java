@@ -21,7 +21,7 @@ public abstract class Piece {
     }
 
     public boolean isDifferentTeam(Team team) {
-        return this.team != team;
+        return !isSameTeam(team);
     }
 
     public void validateMovable(Board board, Position start, Position goal) {
