@@ -20,15 +20,6 @@ public class Janggi {
         this.turn = turn;
     }
 
-    private void validateNotNull(
-            final Board board,
-            final Turn turn
-    ) {
-        if (board == null || turn == null) {
-            throw new IllegalArgumentException("보드는 보드와 현재 턴을 가져야합니다.");
-        }
-    }
-
     public static Janggi initialize() {
         final Board board = Board.initialize();
         final Turn turn = new Turn(Team.GREEN);
@@ -56,6 +47,15 @@ public class Janggi {
         return board.findAliveGenerals()
                 .getLast()
                 .getTeam();
+    }
+
+    private void validateNotNull(
+            final Board board,
+            final Turn turn
+    ) {
+        if (board == null || turn == null) {
+            throw new IllegalArgumentException("보드는 보드와 현재 턴을 가져야합니다.");
+        }
     }
 
     public Map<BoardPosition, Piece> getPieces() {
