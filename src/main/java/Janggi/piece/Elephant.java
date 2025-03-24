@@ -6,13 +6,15 @@ import java.util.List;
 
 public class Elephant extends Piece{
 
+    private static final double ELEPHANT_DISTANCE = Math.sqrt(13);
+
     public Elephant(final Country country) {
         super(country);
     }
 
     @Override
     public boolean canMove(final Position now, final Position destination, final Board board) {
-        if (now.calculateDistance(destination) != Math.sqrt(13)) {
+        if (now.calculateDistance(destination) != ELEPHANT_DISTANCE) {
             return false;
         }
 

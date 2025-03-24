@@ -7,6 +7,9 @@ import java.util.Scanner;
 
 public class InputView {
 
+    private static final int POSITION_START_INDEX = 5;
+    private static final int POSITION_X_INDEX = 0;
+    private static final int POSITION_Y_INDEX = 1;
     private static final Scanner sc = new Scanner(System.in);
 
     public static List<Position> readPositions() {
@@ -18,12 +21,12 @@ public class InputView {
             throw new IllegalArgumentException("잘못된 형식의 입력입니다.");
         }
 
-        final String parsedInput = input.substring(5);
-        final String[] positionTexts = parsedInput.split(" ", -1);
+        final String parsedInput = input.substring(POSITION_START_INDEX);
+        final String[] positionTexts = parsedInput.split(" ");
         final List<Position> positions = new ArrayList<>();
         for (final String positionText : positionTexts) {
-            final int x = NumberFormat.findNumber(positionText.charAt(0) + "");
-            final int y = NumberFormat.findNumber(positionText.charAt(1) + "");
+            final int x = NumberFormat.findNumber(positionText.charAt(POSITION_X_INDEX) + "");
+            final int y = NumberFormat.findNumber(positionText.charAt(POSITION_Y_INDEX) + "");
             positions.add(new Position(x, y));
         }
         return positions;

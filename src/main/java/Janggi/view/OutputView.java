@@ -41,10 +41,10 @@ public class OutputView {
 
         final StringBuilder sb = new StringBuilder("ㅁ 일 이 삼 사 오 육 칠 팔 구\n");
         final Map<Position, Piece> map = board.getJanggiBoard();
-        for (int i = 1; i <= 10; i++) {
+        for (int i = Position.POSITION_RANGE_X_MIN; i <= Position.POSITION_RANGE_X_MAX; i++) {
 
             sb.append(NumberFormat.findNumberName(i) + " ");
-            for (int j = 1; j <= 9; j++) {
+            for (int j = Position.POSITION_RANGE_Y_MIN; j <= Position.POSITION_RANGE_Y_MAX; j++) {
                 final Position now = new Position(i, j);
 
                 if (map.containsKey(now)) {

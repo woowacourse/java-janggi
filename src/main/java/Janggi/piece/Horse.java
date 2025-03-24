@@ -5,13 +5,15 @@ import Janggi.board.Position;
 
 public class Horse extends Piece {
 
+    private static final double HORSE_DISTANCE = Math.sqrt(5);
+
     public Horse(final Country country) {
         super(country);
     }
 
     @Override
     public boolean canMove(final Position now, final Position destination, final Board board) {
-        if (now.calculateDistance(destination) != Math.sqrt(5)) {
+        if (now.calculateDistance(destination) != HORSE_DISTANCE) {
             return false;
         }
         final Position position = now.calculateHorseMiddlePosition(destination);

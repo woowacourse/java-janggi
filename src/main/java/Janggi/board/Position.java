@@ -7,6 +7,11 @@ import java.util.List;
 
 public record Position(int x, int y) {
 
+    public static final int POSITION_RANGE_X_MIN = 1;
+    public static final int POSITION_RANGE_X_MAX = 10;
+    public static final int POSITION_RANGE_Y_MIN = 1;
+    public static final int POSITION_RANGE_Y_MAX = 9;
+
     public Position(final int x, final int y) {
         validatePositionRange(x, y);
         this.x = x;
@@ -14,10 +19,10 @@ public record Position(int x, int y) {
     }
 
     private void validatePositionRange(final int x, final int y) {
-        if (x < 1 || 10 < x) {
+        if (x < POSITION_RANGE_X_MIN || POSITION_RANGE_X_MAX < x) {
             throw new IllegalArgumentException("좌표 범위가 벗어났습니다.");
         }
-        if (y < 1 || 9 < y) {
+        if (y < POSITION_RANGE_Y_MIN || POSITION_RANGE_Y_MAX < y) {
             throw new IllegalArgumentException("좌표 범위가 벗어났습니다.");
         }
     }
