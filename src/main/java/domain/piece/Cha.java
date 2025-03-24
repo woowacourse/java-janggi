@@ -11,7 +11,8 @@ import java.util.List;
 public class Cha extends Piece {
 
     private static final List<Movement> MOVEMENTS = List.of(
-            Movement.UP, Movement.DOWN, Movement.RIGHT, Movement.LEFT);
+            Movement.UP, Movement.DOWN, Movement.RIGHT, Movement.LEFT
+    );
 
     public Cha(Country country) {
         super(country, CHA);
@@ -19,24 +20,22 @@ public class Cha extends Piece {
 
     @Override
     public List<Coordinate> availableMovePositions(Coordinate from, Board board) {
-        List<Coordinate> availablePositions = new ArrayList<>();
+        List<Coordinate> availables = new ArrayList<>();
 
         for (Movement movement : MOVEMENTS) {
             Coordinate next = from.move(movement);
 
             while (!next.isOutOfBoundary()) {
-                if (board.hasPiece(next)) {
-                    if (!board.isMyTeam(country, next)) {
-                        availablePositions.add(next);
-                    }
+                if (board.hasPiece(next) && !board.isMyTeam(country, next)) {
+                    availables.add(next);
                     break;
                 }
 
-                availablePositions.add(next);
+                availables.add(next);
                 next = next.move(movement);
             }
         }
 
-        return availablePositions;
+        return availables;
     }
 }

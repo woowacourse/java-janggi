@@ -19,7 +19,8 @@ public class Gung extends Piece {
     public List<Coordinate> availableMovePositions(Coordinate from, Board board) {
         return MOVEMENTS.stream()
                 .map(from::move)
-                .filter(next -> !next.isOutOfBoundary() && !board.isMyTeam(country, next))
+                .filter(to -> !to.isOutOfBoundary())
+                .filter(to -> !board.isMyTeam(country, to))
                 .toList();
     }
 

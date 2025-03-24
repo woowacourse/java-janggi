@@ -9,7 +9,8 @@ import java.util.List;
 public class Pho extends Piece {
 
     private static final List<Movement> MOVEMENTS = List.of(
-            Movement.UP, Movement.DOWN, Movement.RIGHT, Movement.LEFT);
+            Movement.UP, Movement.DOWN, Movement.RIGHT, Movement.LEFT
+    );
 
     public Pho(Country country) {
         super(country, PieceType.PHO);
@@ -18,54 +19,42 @@ public class Pho extends Piece {
     @Override
     public List<Coordinate> availableMovePositions(Coordinate from, Board board) {
         List<Coordinate> availablePositions = new ArrayList<>();
+
         for (Movement movement : MOVEMENTS) {
             Coordinate next = from.move(movement);
-            boolean hasObstacle = false;
-            while (true) {
-                if (invalidPhoCoordinate(board, next, hasObstacle)) {
-                    break;
+            boolean isJumped = false;
+
+            while (!next.isOutOfBoundary()) {
+
+                if (!isJumped) {
+                    if (board.hasPiece(next)) {
+                        if (board.isPho(next)) {
+                            break;
+                        }
+                        isJumped = true;
+                    }
+                } else {
+                    if (!board.hasPiece(next)) {
+                        availablePositions.add(next);
+                    } else {
+                        canCapture(board, next, availablePositions);
+                        break;
+                    }
                 }
-                if (isBlankCoordinateAndReachable(board, next, hasObstacle)) {
-                    availablePositions.add(next);
-                }
-                if (isEnemyAndReachable(board, next, hasObstacle)) {
-                    availablePositions.add(next);
-                    break;
-                }
-                if (isObstacle(board, next, hasObstacle)) {
-                    hasObstacle = true;
-                }
+
                 next = next.move(movement);
             }
         }
+
         return availablePositions;
     }
 
-    private boolean isObstacle(Board board,
-                               Coordinate next,
-                               boolean hasObstacle) {
-        return board.hasPiece(next) && !hasObstacle && !board.isPho(next);
+    private void canCapture(Board board, Coordinate next, List<Coordinate> availablePositions) {
+        if (!board.isMyTeam(country, next) && !board.isPho(next)) {
+            availablePositions.add(next);
+        }
     }
 
-    private boolean isEnemyAndReachable(Board board,
-                                        Coordinate next,
-                                        boolean hasObstacle) {
-        return board.hasPiece(next) && hasObstacle && !board.isMyTeam(country, next);
-    }
-
-    private boolean isBlankCoordinateAndReachable(Board board,
-                                                  Coordinate next,
-                                                  boolean hasObstacle) {
-        return !board.hasPiece(next) && hasObstacle;
-    }
-
-    private boolean invalidPhoCoordinate(Board board,
-                                         Coordinate next,
-                                         boolean hasObstacle) {
-        return next.isOutOfBoundary() ||
-                (board.hasPiece(next) && board.isPho(next)) ||
-                board.hasPiece(next) && hasObstacle && board.isMyTeam(country, next);
-    }
 
     @Override
     public boolean isPho() {
