@@ -15,6 +15,13 @@ public class PointNodeMapperFactory {
     public PointNodeMapper createDefaultPointNodeMapper() {
         Map<Point, Node> nodeByPoint = new HashMap<>();
 
+        createAllNodes(nodeByPoint);
+        createAllEdges(nodeByPoint);
+
+        return new PointNodeMapper(nodeByPoint);
+    }
+
+    private void createAllNodes(Map<Point, Node> nodeByPoint) {
         for (int row = MIN_ROW_INDEX; row <= MAX_ROW_INDEX; row++) {
             for (int column = MIN_COLUMN_INDEX; column <= MAX_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
@@ -22,20 +29,20 @@ public class PointNodeMapperFactory {
                 nodeByPoint.put(point, currentNode);
             }
         }
+    }
 
+    private void createAllEdges(Map<Point, Node> nodeByPoint) {
         for (int row = MIN_ROW_INDEX; row <= MAX_ROW_INDEX; row++) {
             for (int column = MIN_COLUMN_INDEX; column <= MAX_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
                 Node currentNode = nodeByPoint.get(point);
-                currentNode.addAllEdges(createEdges(row, column, nodeByPoint));
+                currentNode.addAllEdges(createEdgesByPoint(row, column, nodeByPoint));
             }
         }
-
-        return new PointNodeMapper(nodeByPoint);
     }
 
-    private List<Edge> createEdges(final int row, final int column,
-                                   final Map<Point, Node> nodeByPoint) {
+    private List<Edge> createEdgesByPoint(final int row, final int column,
+                                          final Map<Point, Node> nodeByPoint) {
         List<Edge> edges = new ArrayList<>();
 
         for (Direction direction : Direction.VERTICALS) {
