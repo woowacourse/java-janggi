@@ -23,7 +23,7 @@ class JolTest {
         final Position position = new Position(4, 5);
 
         //when
-        final Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), position);
+        final Jol jol = new Jol(new PieceProfile("졸", Team.HAN), position);
 
         //then
         assertThat(jol.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -34,7 +34,7 @@ class JolTest {
     @MethodSource("jolNonIsMovePositionProvider")
     void nonIsMove(final Position position) {
         //given
-        final Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), new Position(5, 5));
+        final Jol jol = new Jol(new PieceProfile("졸", Team.HAN), new Position(5, 5));
 
         //when //then
         assertThatThrownBy(() -> jol.isMove(position))
@@ -47,7 +47,7 @@ class JolTest {
     @MethodSource("jolIsMovePositionProvider")
     void isMove(final Position position) {
         //given
-        final Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), new Position(5, 5));
+        final Jol jol = new Jol(new PieceProfile("졸", Team.HAN), new Position(5, 5));
 
         //when
         final boolean actual = jol.isMove(position);
@@ -60,7 +60,7 @@ class JolTest {
     @Test
     void makeRoute() {
         //given
-        final Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), new Position(5, 5));
+        final Jol jol = new Jol(new PieceProfile("졸", Team.HAN), new Position(5, 5));
         final Position futurePosition = new Position(4, 5);
 
         //when
@@ -88,10 +88,10 @@ class JolTest {
     @Test
     void hasObstacle() {
         //given
-        final Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), new Position(5, 5));
+        final Jol jol = new Jol(new PieceProfile("졸", Team.HAN), new Position(5, 5));
 
         final Map<Position, Piece> board = Map.of(
-                new Position(6, 5), new Cha(new PieceProfile("차", Nation.HAN), new Position(6, 5))
+                new Position(6, 5), new Cha(new PieceProfile("차", Team.HAN), new Position(6, 5))
         );
 
         final Position futurePosition = new Position(6, 5);
@@ -106,10 +106,10 @@ class JolTest {
     @Test
     void nonObstacle() {
         //given
-        final Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), new Position(5, 5));
+        final Jol jol = new Jol(new PieceProfile("졸", Team.HAN), new Position(5, 5));
 
         final Map<Position, Piece> board = Map.of(
-                new Position(7, 5), new Cha(new PieceProfile("차", Nation.HAN), new Position(7, 5))
+                new Position(7, 5), new Cha(new PieceProfile("차", Team.HAN), new Position(7, 5))
         );
 
         final Position futurePosition = new Position(6, 5);

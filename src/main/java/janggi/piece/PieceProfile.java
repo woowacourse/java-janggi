@@ -5,27 +5,27 @@ import java.util.Objects;
 public class PieceProfile {
 
     private final String name;
-    private final Nation nation;
+    private final Team team;
 
-    public PieceProfile(final String name, final Nation nation) {
+    public PieceProfile(final String name, final Team team) {
         this.name = name;
-        this.nation = nation;
+        this.team = team;
     }
 
     public boolean isCho() {
-        return Nation.isCho(this.nation);
+        return Team.isCho(this.team);
     }
 
     public boolean isHan() {
-        return Nation.isHan(this.nation);
+        return Team.isHan(this.team);
     }
 
     public String getName() {
         return name;
     }
 
-    public Nation getNation() {
-        return nation;
+    public Team getNation() {
+        return team;
     }
 
     @Override

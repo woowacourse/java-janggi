@@ -23,7 +23,7 @@ class ByeongTest {
         final Position position = new Position(0, 0);
 
         //when
-        final Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), position);
+        final Byeong byeong = new Byeong(new PieceProfile("병", Team.HAN), position);
 
         //then
         assertThat(byeong.getBoardPosition().getCol()).isEqualTo(0);
@@ -35,7 +35,7 @@ class ByeongTest {
     @MethodSource("byeongNonIsMovePositionProvider")
     void nonIsMove(final Position position) {
         //given
-        final Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
+        final Byeong byeong = new Byeong(new PieceProfile("병", Team.HAN), new Position(5, 5));
 
         //when
         assertThatThrownBy(() -> byeong.isMove(position))
@@ -56,7 +56,7 @@ class ByeongTest {
     @MethodSource("byeongIsMovePositionProvider")
     void isMove(final Position position) {
         //given
-        final Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
+        final Byeong byeong = new Byeong(new PieceProfile("병", Team.HAN), new Position(5, 5));
 
         //when
         final boolean actual = byeong.isMove(position);
@@ -77,7 +77,7 @@ class ByeongTest {
     @Test
     void makeRoute() {
         //given
-        final Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
+        final Byeong byeong = new Byeong(new PieceProfile("병", Team.HAN), new Position(5, 5));
         final Position futurePosition = new Position(4, 5);
 
         //when
@@ -91,10 +91,10 @@ class ByeongTest {
     @Test
     void hasObstacle() {
         //given
-        final Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
+        final Byeong byeong = new Byeong(new PieceProfile("병", Team.HAN), new Position(5, 5));
 
         final Map<Position, Piece> board = Map.of(
-                new Position(6, 5), new Cha(new PieceProfile("차", Nation.HAN), new Position(6, 5))
+                new Position(6, 5), new Cha(new PieceProfile("차", Team.HAN), new Position(6, 5))
         );
 
         final Position futurePosition = new Position(6, 5);
@@ -109,10 +109,10 @@ class ByeongTest {
     @Test
     void nonObstacle() {
         //given
-        final Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
+        final Byeong byeong = new Byeong(new PieceProfile("병", Team.HAN), new Position(5, 5));
 
         final Map<Position, Piece> board = Map.of(
-                new Position(7, 5), new Cha(new PieceProfile("차", Nation.HAN), new Position(7, 5))
+                new Position(7, 5), new Cha(new PieceProfile("차", Team.HAN), new Position(7, 5))
         );
 
         final Position futurePosition = new Position(6, 5);

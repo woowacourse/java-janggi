@@ -25,10 +25,28 @@ public abstract class Piece {
 
     public abstract boolean isMove(final Position position);
 
-    public void validateSameNation(final Piece other) {
-        if (other != null && this.getPieceProfile().getNation().isSameNation(other.getPieceProfile().getNation())) {
+    public void validateTeam(final Piece other) {
+        if (isSameTeam(other)) {
             throw new IllegalArgumentException("[ERROR] 같은 팀의 기물을 잡을 수 없습니다.");
         }
+    }
+
+    public void validateTeam(final Team currentTurnTeam) {
+        if (isNotSameTeam(currentTurnTeam)) {
+            throw new IllegalArgumentException("[ERROR] 다른 팀의 기물을 선택할 수 없습니다.");
+        }
+    }
+
+    private boolean isSameTeam(final Piece other) {
+        return other != null && isSame(other.getPieceProfile().getNation());
+    }
+
+    private boolean isNotSameTeam(final Team currentTurnTeam) {
+        return !isSame(currentTurnTeam);
+    }
+
+    private boolean isSame(final Team other) {
+        return pieceProfile.getNation().isSameNation(other);
     }
 
     public boolean isChoNation() {

@@ -24,7 +24,7 @@ class MaTest {
         final Position position = new Position(4, 5);
 
         //when
-        final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), position);
+        final Ma ma = new Ma(new PieceProfile("마", Team.HAN), position);
 
         //then
         assertThat(ma.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -35,7 +35,7 @@ class MaTest {
     @MethodSource("maNonIsMovePositionProvider")
     void nonIsMove(final Position position) {
         //given
-        final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+        final Ma ma = new Ma(new PieceProfile("마", Team.HAN), new Position(5, 5));
 
         //when //then
         assertThatThrownBy(() -> ma.isMove(position)).isInstanceOf(IllegalArgumentException.class)
@@ -47,7 +47,7 @@ class MaTest {
     @MethodSource("maIsMovePositionProvider")
     void isMove(final Position position) {
         //given
-        final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+        final Ma ma = new Ma(new PieceProfile("마", Team.HAN), new Position(5, 5));
 
         //when
         final boolean actual = ma.isMove(position);
@@ -63,7 +63,7 @@ class MaTest {
         @DisplayName("자신의 위치에서 위로 한칸 이동 후 왼쪽 대각선으로 한칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase1() {
-            final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+            final Ma ma = new Ma(new PieceProfile("마", Team.HAN), new Position(5, 5));
             final Position futurePosition = new Position(3, 4);
 
             final List<Position> actual = ma.makeRoute(futurePosition);
@@ -77,7 +77,7 @@ class MaTest {
         @DisplayName("자신의 위치에서 위로 한칸 이동 후 오른쪽 대각선으로 한칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase2() {
-            final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+            final Ma ma = new Ma(new PieceProfile("마", Team.HAN), new Position(5, 5));
             final Position futurePosition = new Position(3, 6);
 
             final List<Position> actual = ma.makeRoute(futurePosition);
@@ -91,7 +91,7 @@ class MaTest {
         @DisplayName("자신의 위치에서 오른쪽으로 한칸 이동 후 왼쪽 대각선으로 한칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase3() {
-            final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+            final Ma ma = new Ma(new PieceProfile("마", Team.HAN), new Position(5, 5));
             final Position futurePosition = new Position(4, 7);
 
             final List<Position> actual = ma.makeRoute(futurePosition);
@@ -105,7 +105,7 @@ class MaTest {
         @DisplayName("자신의 위치에서 오른쪽으로 한칸 이동 후 오른쪽 대각선으로 한칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase4() {
-            final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+            final Ma ma = new Ma(new PieceProfile("마", Team.HAN), new Position(5, 5));
             final Position futurePosition = new Position(6, 7);
 
             final List<Position> actual = ma.makeRoute(futurePosition);
@@ -119,7 +119,7 @@ class MaTest {
         @DisplayName("자신의 위치에서 아래쪽으로 한칸 이동 후 왼쪽 대각선으로 한칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase5() {
-            final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+            final Ma ma = new Ma(new PieceProfile("마", Team.HAN), new Position(5, 5));
             final Position futurePosition = new Position(7, 6);
 
             final List<Position> actual = ma.makeRoute(futurePosition);
@@ -133,7 +133,7 @@ class MaTest {
         @DisplayName("자신의 위치에서 아래쪽으로 한칸 이동 후 오른쪽 대각선으로 한칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase6() {
-            final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+            final Ma ma = new Ma(new PieceProfile("마", Team.HAN), new Position(5, 5));
             final Position futurePosition = new Position(7, 4);
 
             final List<Position> actual = ma.makeRoute(futurePosition);
@@ -147,7 +147,7 @@ class MaTest {
         @DisplayName("자신의 위치에서 왼쪽으로 한칸 이동 후 왼쪽 대각선으로 한칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase7() {
-            final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+            final Ma ma = new Ma(new PieceProfile("마", Team.HAN), new Position(5, 5));
             final Position futurePosition = new Position(6, 3);
 
             final List<Position> actual = ma.makeRoute(futurePosition);
@@ -161,7 +161,7 @@ class MaTest {
         @DisplayName("자신의 위치에서 왼쪽으로 한칸 이동 후 오른쪽 대각선으로 한칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase8() {
-            final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+            final Ma ma = new Ma(new PieceProfile("마", Team.HAN), new Position(5, 5));
             final Position futurePosition = new Position(4, 3);
 
             final List<Position> actual = ma.makeRoute(futurePosition);
@@ -176,7 +176,7 @@ class MaTest {
     @Test
     void makeRoute() {
         //given
-        final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+        final Ma ma = new Ma(new PieceProfile("마", Team.HAN), new Position(5, 5));
         final Position futurePosition = new Position(3, 6);
 
         //when
@@ -205,10 +205,10 @@ class MaTest {
     @Test
     void hasObstacle() {
         //given
-        final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(0, 2));
+        final Ma ma = new Ma(new PieceProfile("마", Team.HAN), new Position(0, 2));
 
         final Map<Position, Piece> board = Map.of(
-                new Position(1, 2), new Cha(new PieceProfile("차", Nation.HAN), new Position(1, 2))
+                new Position(1, 2), new Cha(new PieceProfile("차", Team.HAN), new Position(1, 2))
         );
 
         final Position futurePosition = new Position(2, 3);
@@ -223,10 +223,10 @@ class MaTest {
     @Test
     void nonObstacle() {
         //given
-        final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(0, 2));
+        final Ma ma = new Ma(new PieceProfile("마", Team.HAN), new Position(0, 2));
 
         final Map<Position, Piece> board = Map.of(
-                new Position(2, 2), new Cha(new PieceProfile("차", Nation.HAN), new Position(2, 2))
+                new Position(2, 2), new Cha(new PieceProfile("차", Team.HAN), new Position(2, 2))
         );
 
         final Position futurePosition = new Position(2, 3);

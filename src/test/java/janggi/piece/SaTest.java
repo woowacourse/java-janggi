@@ -23,7 +23,7 @@ class SaTest {
         final Position position = new Position(4, 5);
 
         //when
-        final Sa sa = new Sa(new PieceProfile("사", Nation.HAN), position);
+        final Sa sa = new Sa(new PieceProfile("사", Team.HAN), position);
 
         //then
         assertThat(sa.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -34,7 +34,7 @@ class SaTest {
     @MethodSource("saNonIsMovePositionProvider")
     void isMoveValidate(final Position position) {
         //given
-        final Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
+        final Sa sa = new Sa(new PieceProfile("사", Team.HAN), new Position(5, 5));
 
         //when //then
         assertThatThrownBy(() -> sa.isMove(position))
@@ -47,7 +47,7 @@ class SaTest {
     @MethodSource("saIsMovePositionProvider")
     void isMove(final Position position) {
         //given
-        final Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
+        final Sa sa = new Sa(new PieceProfile("사", Team.HAN), new Position(5, 5));
 
         //when
         final boolean actual = sa.isMove(position);
@@ -60,7 +60,7 @@ class SaTest {
     @Test
     void makeRoute() {
         //given
-        final Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
+        final Sa sa = new Sa(new PieceProfile("사", Team.HAN), new Position(5, 5));
         final Position futurePosition = new Position(4, 5);
 
         //when
@@ -97,10 +97,10 @@ class SaTest {
     @Test
     void hasObstacle() {
         //given
-        final Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
+        final Sa sa = new Sa(new PieceProfile("사", Team.HAN), new Position(5, 5));
 
         final Map<Position, Piece> board = Map.of(
-                new Position(6, 5), new Cha(new PieceProfile("차", Nation.HAN), new Position(6, 5))
+                new Position(6, 5), new Cha(new PieceProfile("차", Team.HAN), new Position(6, 5))
         );
 
         final Position futurePosition = new Position(6, 5);
@@ -115,10 +115,10 @@ class SaTest {
     @Test
     void nonObstacle() {
         //given
-        final Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
+        final Sa sa = new Sa(new PieceProfile("사", Team.HAN), new Position(5, 5));
 
         final Map<Position, Piece> board = Map.of(
-                new Position(7, 5), new Cha(new PieceProfile("차", Nation.HAN), new Position(7, 5))
+                new Position(7, 5), new Cha(new PieceProfile("차", Team.HAN), new Position(7, 5))
         );
 
         final Position futurePosition = new Position(6, 5);

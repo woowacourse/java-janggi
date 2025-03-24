@@ -12,10 +12,10 @@ class PieceProfileTest {
     void profile() {
         //given
         final String name = "차";
-        final Nation nation = Nation.CHO;
+        final Team team = Team.CHO;
 
         //when //then
-        assertThatCode(() -> new PieceProfile(name, nation))
+        assertThatCode(() -> new PieceProfile(name, team))
                 .doesNotThrowAnyException();
     }
 

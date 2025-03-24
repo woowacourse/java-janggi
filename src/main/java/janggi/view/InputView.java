@@ -12,8 +12,10 @@ public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public Position readPresentPosition() {
-        System.out.println("초나라 턴 입니다. 움직이고 싶은 말의 위치를 좌표로 입력해주세요.(좌표는 쉼표(,) 기준으로 구분)");
+    public Position readPresentPosition(final String currentTurnTeam) {
+        final String readPositionFormat = String.format(
+                "%s 턴 입니다. 움직이고 싶은 말의 위치를 좌표로 입력해주세요.(ex 1,1). (좌표는 쉼표(,) 기준으로 구분)", currentTurnTeam);
+        System.out.println(readPositionFormat);
 
         final String inputPosition = readLine().trim();
 
