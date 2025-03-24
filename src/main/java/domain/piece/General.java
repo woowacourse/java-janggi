@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.Team;
-import domain.board.BoardPosition;
 import domain.board.Offset;
 import java.util.List;
 
@@ -11,27 +10,22 @@ public class General extends Piece {
         super(team);
     }
 
+    // TODO : 추후) 왕은 궁성 밖으로 나갈 수 없다.
     @Override
-    public List<Offset> findMovementRule(
-            final BoardPosition before,
-            final BoardPosition after
-    ) {
-        final Offset offset = after.calculateOffset(before);
-        validateOffset(offset);
+    protected void validateOffset(final Offset offset) {
+        if (!offset.hasOneMovement()) {
+            throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");
+        }
+    }
 
+    @Override
+    protected List<Offset> createMovementRule(final Offset offset) {
         return List.of(offset);
     }
 
     @Override
     public boolean isGeneral() {
         return true;
-    }
-
-    // TODO : 추후) 왕은 궁성 밖으로 나갈 수 없다.
-    private void validateOffset(final Offset offset) {
-        if (!offset.hasOneMovement()) {
-            throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");
-        }
     }
 
     @Override

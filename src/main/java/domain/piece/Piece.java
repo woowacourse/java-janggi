@@ -14,14 +14,19 @@ public abstract class Piece {
         this.team = team;
     }
 
-    public abstract List<Offset> findMovementRule(
+    public List<Offset> findMovementRule(
             final BoardPosition before,
             final BoardPosition after
-    );
+    ) {
+        final Offset offset = after.calculateOffset(before);
+        validateOffset(offset);
 
-    public boolean isGeneral() {
-        return false;
+        return createMovementRule(offset);
     }
+
+    protected abstract void validateOffset(final Offset offset);
+
+    protected abstract List<Offset> createMovementRule(final Offset offset);
 
     public boolean isAllowedObstacles(final List<Piece> obstacles) {
         return obstacles.isEmpty();
@@ -33,6 +38,10 @@ public abstract class Piece {
 
     public boolean isMyTeam(final Team team) {
         return this.team == team;
+    }
+
+    public boolean isGeneral() {
+        return false;
     }
 
     @Override

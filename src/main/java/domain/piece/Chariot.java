@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.Team;
-import domain.board.BoardPosition;
 import domain.board.Offset;
 import java.util.List;
 import java.util.stream.Stream;
@@ -13,23 +12,14 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public List<Offset> findMovementRule(
-            final BoardPosition before,
-            final BoardPosition after
-    ) {
-        final Offset offset = after.calculateOffset(before);
-        validateOffset(offset);
-
-        return createMovementRule(offset);
-    }
-
-    private void validateOffset(final Offset offset) {
+    protected void validateOffset(final Offset offset) {
         if (offset.isDiagonalMovement()) {
             throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");
         }
     }
 
-    private List<Offset> createMovementRule(final Offset offset) {
+    @Override
+    protected List<Offset> createMovementRule(final Offset offset) {
         final Offset unitDirection = offset.getUnitDirectionOffset();
         int distance = getDistance(offset, unitDirection);
 
