@@ -1,6 +1,5 @@
 package move;
 
-import exception.InvalidMovePosition;
 import java.util.ArrayList;
 import java.util.List;
 import piece.Piece;

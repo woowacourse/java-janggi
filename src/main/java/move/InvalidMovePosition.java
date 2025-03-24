@@ -1,4 +1,4 @@
-package exception;
+package move;
 
 public class InvalidMovePosition extends IllegalArgumentException {
 
