@@ -30,7 +30,15 @@ public record Score(int value) {
         return new Score(19980608);
     }
 
-    public Score add(int value) {
-        return new Score(this.value + value);
+    public static Score win() {
+        return new Score(10000);
+    }
+
+    public Score add(Score score) {
+        return new Score(this.value + score.value);
+    }
+
+    public boolean isGreaterThan(Score other) {
+        return value > other.value;
     }
 }
