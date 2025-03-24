@@ -3,7 +3,6 @@ package janggi.movement.crash;
 import janggi.game.Team;
 import janggi.movement.route.Hurdles;
 import janggi.piece.Movable;
-import janggi.piece.Po;
 import janggi.point.Point;
 import java.util.List;
 
@@ -40,7 +39,7 @@ public final class CrashOrBridgeAndPrey extends Crashes {
          * 같은 포를 뛰어넘는 게 아니고,
          * 먹이 위치에 있지 않다면 isBridgeExists = true
          */
-        if (hurdles.findByPoint(bridgePoint) instanceof Po) {
+        if (hurdles.findByPoint(bridgePoint).isPo()) {
             return false;
         }
         if (bridgePoint.equals(targetPoint)) {
@@ -57,7 +56,7 @@ public final class CrashOrBridgeAndPrey extends Crashes {
          * 같은 포를 먹지 않고,
          * 팀이 다르면 isPreyExists = true
          */
-        if (prey instanceof Po) {
+        if (prey.isPo()) {
             return false;
         }
         if (!preyPoint.equals(targetPoint)) {

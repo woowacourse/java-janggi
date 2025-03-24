@@ -3,7 +3,6 @@ package janggi.movement.crash;
 import janggi.game.Team;
 import janggi.movement.route.Hurdles;
 import janggi.piece.Movable;
-import janggi.piece.Po;
 import janggi.point.Point;
 import java.util.List;
 
@@ -15,7 +14,7 @@ public abstract class Crashes {
     }
 
     public static Crashes fromPieceType(Movable movable, List<Point> crashPoints) {
-        if (movable instanceof Po) {
+        if (movable.isPo()) {
             return new CrashOrBridgeAndPrey(crashPoints);
         }
         return new CrashOrPrey(crashPoints);
