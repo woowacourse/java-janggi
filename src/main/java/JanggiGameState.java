@@ -1,28 +1,30 @@
-import player.Player;
+import static player.Nation.CHO;
+import static player.Nation.HAN;
+
+import pieceProperty.Position;
+import player.Nation;
+import player.Players;
 
 public class JanggiGameState {
-    private final Player hanPlayer;
-    private final Player choPlayer;
-    private final Boolean isChoTurn = true;
+    private final Players players;
+    private Nation attackNation = CHO;
 
-    public JanggiGameState(Player hanPlayer, Player choPlayer) {
-        this.hanPlayer = hanPlayer;
-        this.choPlayer = choPlayer;
+    public JanggiGameState(Players players) {
+        this.players = players;
     }
 
     public boolean isGameOver() {
-        return (hanPlayer.isKingDie() || choPlayer.isKingDie());
+        return players.isKingDie();
     }
 
-    public Player getHanPlayer() {
-        return hanPlayer;
+    public void movePiece(Position presentPosition, Position destination) {
+        players.validateMovement(attackNation, presentPosition, destination);
+        players.movePiece(attackNation, presentPosition, destination);
+        attackNation = HAN;
     }
 
-    public Player getChoPlayer() {
-        return choPlayer;
+    public Nation getAttackNation() {
+        return attackNation;
     }
 
-    public Boolean getChoTurn() {
-        return isChoTurn;
-    }
 }
