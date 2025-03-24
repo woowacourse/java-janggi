@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -61,59 +62,111 @@ class ChaTest {
                 Arguments.of(new Position(1, 0)));
     }
 
+    @Nested
     @DisplayName("차는 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
-    @Test
-    void makeRoute() {
-        //given
-        final Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(5, 5));
-        final Position futurePosition = new Position(0, 5);
+    class makeRoute {
 
-        //when
-        final List<Position> actual = cha.makeRoute(futurePosition);
+        @DisplayName("수직으로 아래로 이동할 때 경로를 계산한다.")
+        @Test
+        void makeRouteVerticalDown() {
+            final Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(0, 0));
+            final Position futurePosition = new Position(5, 0);
 
-        //then
-        assertThat(actual).containsExactly(
-                new Position(4, 5),
-                new Position(3, 5),
-                new Position(2, 5),
-                new Position(1, 5),
-                new Position(0, 5)
-        );
+            final List<Position> actual = cha.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(1, 0),
+                    new Position(2, 0),
+                    new Position(3, 0),
+                    new Position(4, 0),
+                    new Position(5, 0)
+            );
+        }
+
+        @DisplayName("수직으로 위로 이동할 때 경로를 계산한다.")
+        @Test
+        void makeRouteVerticalUp() {
+            final Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(5, 0));
+            final Position futurePosition = new Position(0, 0);
+
+            final List<Position> actual = cha.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(4, 0),
+                    new Position(3, 0),
+                    new Position(2, 0),
+                    new Position(1, 0),
+                    new Position(0, 0)
+            );
+        }
+
+        @DisplayName("수평으로 오른쪽으로 이동할 때 경로를 계산한다.")
+        @Test
+        void makeRouteHorizontalRight() {
+            final Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(0, 0));
+            final Position futurePosition = new Position(0, 5);
+
+            final List<Position> actual = cha.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(0, 1),
+                    new Position(0, 2),
+                    new Position(0, 3),
+                    new Position(0, 4),
+                    new Position(0, 5)
+            );
+        }
+
+        @DisplayName("수평으로 왼쪽으로 이동할 때 경로를 계산한다.")
+        @Test
+        void makeRouteHorizontalLeft() {
+            final Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(0, 5));
+            final Position futurePosition = new Position(0, 0);
+
+            final List<Position> actual = cha.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(0, 4),
+                    new Position(0, 3),
+                    new Position(0, 2),
+                    new Position(0, 1),
+                    new Position(0, 0)
+            );
+        }
+
+        @DisplayName("차의 이동 경로에 장애물이 있다면 예외를 던진다.")
+        @Test
+        void hasObstacle() {
+            //given
+            final Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(5, 5));
+
+            final Map<Position, Piece> board = Map.of(
+                    new Position(6, 5), new Byeong(new PieceProfile("병", Nation.HAN), new Position(6, 5))
+            );
+
+            final Position futurePosition = new Position(7, 5);
+
+            //when //then
+            assertThatThrownBy(() -> cha.checkObstacle(futurePosition, board))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageStartingWith("[ERROR]");
+        }
+
+        @DisplayName("차의 이동 경로에 장애물이 없다면 예외를 던지지 않는다.")
+        @Test
+        void nonObstacle() {
+            //given
+            final Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(5, 5));
+
+            final Map<Position, Piece> board = Map.of(
+                    new Position(7, 5), new Byeong(new PieceProfile("병", Nation.HAN), new Position(7, 5))
+            );
+
+            final Position futurePosition = new Position(6, 5);
+
+            //when //then
+            assertThatCode(() -> cha.checkObstacle(futurePosition, board))
+                    .doesNotThrowAnyException();
+        }
     }
-
-    @DisplayName("차의 이동 경로에 장애물이 있다면 예외를 던진다.")
-    @Test
-    void hasObstacle() {
-        //given
-        final Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(5, 5));
-
-        final Map<Position, Piece> board = Map.of(
-                new Position(6, 5), new Byeong(new PieceProfile("병", Nation.HAN), new Position(6, 5))
-        );
-
-        final Position futurePosition = new Position(7, 5);
-
-        //when //then
-        assertThatThrownBy(() -> cha.checkObstacle(futurePosition, board))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageStartingWith("[ERROR]");
-    }
-
-    @DisplayName("차의 이동 경로에 장애물이 없다면 예외를 던지지 않는다.")
-    @Test
-    void nonObstacle() {
-        //given
-        final Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(5, 5));
-
-        final Map<Position, Piece> board = Map.of(
-                new Position(7, 5), new Byeong(new PieceProfile("병", Nation.HAN), new Position(7, 5))
-        );
-
-        final Position futurePosition = new Position(6, 5);
-
-        //when //then
-        assertThatCode(() -> cha.checkObstacle(futurePosition, board))
-                .doesNotThrowAnyException();
-    }
-
 }
