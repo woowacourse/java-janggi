@@ -20,7 +20,7 @@ public abstract class Piece {
         int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
         int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
 
-        validateMove(differenceForY, differenceForX);
+        validateDistanceAndDirection(differenceForY, differenceForX);
 
         final List<Position> positions = new ArrayList<>();
         int currentY = currentPosition.getY();
@@ -31,7 +31,13 @@ public abstract class Piece {
         return new Path(positions);
     }
 
-    abstract void validateMove(int differenceForY, int differenceForX);
+    abstract void validateDistanceAndDirection(int differenceForY, int differenceForX);
+
+    public void validateMove(List<Piece> pieces, boolean hasPieceInArrivalPosition) {
+        if ((hasPieceInArrivalPosition && pieces.size() > 1) || (!hasPieceInArrivalPosition && !pieces.isEmpty())) {
+            throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
+        }
+    }
 
     int calculatePathY(Position arrivalPosition, int differenceForY, int differenceForX,
                        List<Position> positions, int currentY, int currentX) {
@@ -43,14 +49,13 @@ public abstract class Piece {
         return currentY;
     }
 
-    int calculatePathX(Position arrivalPosition, int differenceForY, int differenceForX,
-                       List<Position> positions, int currentY, int currentX) {
+    void calculatePathX(Position arrivalPosition, int differenceForY, int differenceForX,
+                        List<Position> positions, int currentY, int currentX) {
         int differenceUnitX = calculateUnit(differenceForX);
         while (currentX != arrivalPosition.getX()) {
             currentX += differenceUnitX;
             positions.add(Position.valueOf(currentY, currentX));
         }
-        return currentX;
     }
 
     int calculateUnit(int difference) {

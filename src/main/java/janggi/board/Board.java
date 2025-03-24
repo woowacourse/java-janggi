@@ -25,7 +25,18 @@ public class Board {
 
         Piece piece = findOwnPiece(currentTeam, currentPosition);
         Path path = piece.makePath(currentPosition, arrivalPosition);
+
+        piece.validateMove(getPiecesByPath(path), hasPiece(arrivalPosition));
         movePiece(piece, currentPosition, arrivalPosition, path);
+    }
+
+    private void movePiece(Piece piece, Position currentPosition, Position arrivalPosition, Path path) {
+        if (hasPiece(arrivalPosition)) {
+            catchPiece(currentPosition, arrivalPosition, piece);
+            return;
+        }
+        updatePosition(currentPosition, arrivalPosition, piece);
+
     }
 
     public boolean canContinue() {
@@ -69,38 +80,6 @@ public class Board {
         }
     }
 
-    private void movePiece(Piece piece, Position currentPosition, Position arrivalPosition, Path path) {
-        if (piece.matchPieceType(PieceType.PO)) {
-            moveCannon(currentPosition, arrivalPosition, piece, path);
-            return;
-        }
-        moveOther(currentPosition, arrivalPosition, piece, path);
-    }
-
-    private void moveCannon(Position currentPosition, Position arrivalPosition, Piece piece, Path path) {
-        if (computeCountExistPieceExceptLast(path) != 1) {
-            throw new IllegalArgumentException("[ERROR] 오직 하나의 기물만 뛰어넘을 수 있습니다.");
-        }
-        if (hasPo(path)) {
-            throw new IllegalArgumentException("[ERROR] 포는 포끼리 뛰어넘거나 잡을 수 없습니다.");
-        }
-        if (hasPiece(arrivalPosition)) {
-            catchPiece(currentPosition, arrivalPosition, piece);
-        }
-        updatePosition(currentPosition, arrivalPosition, piece);
-    }
-
-    private void moveOther(Position currentPosition, Position arrivalPosition, Piece piece, Path path) {
-        if (doNotContain(path)) {
-            updatePosition(currentPosition, arrivalPosition, piece);
-            return;
-        }
-        if (!hasPiece(arrivalPosition)) {
-            throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
-        }
-        catchPiece(currentPosition, arrivalPosition, piece);
-    }
-
     private int computeCountExistPieceExceptLast(Path path) {
         List<Position> positions = new ArrayList<>(path.getPositions());
         positions.removeLast();
@@ -110,11 +89,11 @@ public class Board {
                 .count();
     }
 
-    private boolean hasPo(final Path path) {
+    private List<Piece> getPiecesByPath(final Path path) {
         return path.getPositions().stream()
                 .filter(pieces::containsKey)
                 .map(pieces::get)
-                .anyMatch(piece -> piece.matchPieceType(PieceType.PO));
+                .toList();
     }
 
     private boolean hasPiece(final Position position) {
@@ -146,6 +125,6 @@ public class Board {
     }
 
     public Map<Position, Piece> getPieces() {
-        return pieces;
+        return new HashMap<>(pieces);
     }
 }

@@ -20,7 +20,7 @@ public class Sa extends Piece {
     }
 
     @Override
-    public void validateMove(int differenceForY, int differenceForX) {
+    void validateDistanceAndDirection(int differenceForY, int differenceForX) {
         if (canNotMove(differenceForY, differenceForX)) {
             throw new IllegalArgumentException("[ERROR] 사는 한 방향으로 한 칸만 이동할 수 있습니다.");
         }

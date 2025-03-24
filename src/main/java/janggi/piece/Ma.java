@@ -28,8 +28,8 @@ public class Ma extends Piece {
     }
 
     @Override
-    public int calculatePathY(Position arrivalPosition, int differenceForY, int differenceForX,
-                              List<Position> positions, int currentY, int currentX) {
+    int calculatePathY(Position arrivalPosition, int differenceForY, int differenceForX,
+                       List<Position> positions, int currentY, int currentX) {
         if (isNotStartDirection(differenceForY)) {
             return currentY;
         }
@@ -41,20 +41,19 @@ public class Ma extends Piece {
     }
 
     @Override
-    public int calculatePathX(Position arrivalPosition, int differenceForY, int differenceForX,
-                              List<Position> positions, int currentY, int currentX) {
+    void calculatePathX(Position arrivalPosition, int differenceForY, int differenceForX,
+                        List<Position> positions, int currentY, int currentX) {
         if (isNotStartDirection(differenceForX)) {
-            return currentX;
+            return;
         }
         int differenceUnitX = calculateUnit(differenceForX);
         currentX += differenceUnitX;
         positions.add(Position.valueOf(currentY, currentX));
         positions.add(arrivalPosition);
-        return currentX;
     }
 
     @Override
-    public void validateMove(int differenceForY, int differenceForX) {
+    void validateDistanceAndDirection(int differenceForY, int differenceForX) {
         if (canNotMove(differenceForY, differenceForX)) {
             throw new IllegalArgumentException("[ERROR] 말은 직선 1칸 이동 후 대각선 1칸으로만 이동할 수 있습니다.");
         }

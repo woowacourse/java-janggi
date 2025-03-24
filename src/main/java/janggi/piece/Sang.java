@@ -47,10 +47,10 @@ public class Sang extends Piece {
     }
 
     @Override
-    int calculatePathX(Position arrivalPosition, int differenceForY, int differenceForX,
-                       List<Position> positions, int currentY, int currentX) {
+    void calculatePathX(Position arrivalPosition, int differenceForY, int differenceForX,
+                        List<Position> positions, int currentY, int currentX) {
         if (isNotStartDirection(differenceForX)) {
-            return currentX;
+            return;
         }
         int differenceUnitX = calculateUnit(differenceForX);
         currentX += differenceUnitX;
@@ -62,16 +62,15 @@ public class Sang extends Piece {
         positions.add(Position.valueOf(currentY, currentX));
 
         positions.add(arrivalPosition);
-        return currentX;
     }
 
     @Override
-    public void validateMove(final int differenceForY, final int differenceForX) {
+    void validateDistanceAndDirection(final int differenceForY, final int differenceForX) {
         if (canNotMove(differenceForY, differenceForX)) {
             throw new IllegalArgumentException("[ERROR] 상은 직선 1칸 이동 후 대각선 2칸으로만 이동할 수 있습니다.");
         }
     }
-    
+
     private boolean canNotMove(int differenceForY, int differenceForX) {
         return !AVAILABLE_DIFFERENCE.contains(List.of(differenceForY, differenceForX));
     }

@@ -19,7 +19,7 @@ public class Jol extends Piece {
     }
 
     @Override
-    public void validateMove(int differenceForY, int differenceForX) {
+    void validateDistanceAndDirection(int differenceForY, int differenceForX) {
         if (canNotMove(differenceForY, differenceForX)) {
             throw new IllegalArgumentException("[ERROR] 졸은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
         }
