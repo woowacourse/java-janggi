@@ -6,10 +6,14 @@ import static player.Nation.HAN;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import piece.Byeong;
 import piece.Janggun;
+import piece.Jol;
+import piece.Ma;
 import pieceProperty.Position;
 import player.Pieces;
 import player.Player;
+import player.Players;
 
 class JanggiGameStateTest {
 
@@ -19,9 +23,10 @@ class JanggiGameStateTest {
         //given
         Player hanPlayer = new Player(new Pieces(List.of()), HAN);
         Player choPlayer = new Player(new Pieces(List.of()), CHO);
+        Players players = new Players(List.of(choPlayer, hanPlayer));
 
         //when - then
-        assertDoesNotThrow(() -> new JanggiGameState(hanPlayer, choPlayer));
+        assertDoesNotThrow(() -> new JanggiGameState(players));
     }
 
     @Test
@@ -30,7 +35,9 @@ class JanggiGameStateTest {
         //given
         Player hanPlayer = new Player(new Pieces(List.of(new Janggun(new Position(5, 5)))), HAN);
         Player choPlayer = new Player(new Pieces(List.of()), CHO);
-        JanggiGameState janggiGameState = new JanggiGameState(hanPlayer, choPlayer);
+        Players players = new Players(List.of(choPlayer, hanPlayer));
+
+        JanggiGameState janggiGameState = new JanggiGameState(players);
 
         //when - then
         assertThat(janggiGameState.isGameOver()).isTrue();
@@ -42,7 +49,8 @@ class JanggiGameStateTest {
         //given
         Player hanPlayer = new Player(new Pieces(List.of(new Janggun(new Position(5, 5)))), HAN);
         Player choPlayer = new Player(new Pieces(List.of(new Janggun(new Position(6, 5)))), CHO);
-        JanggiGameState janggiGameState = new JanggiGameState(hanPlayer, choPlayer);
+        Players players = new Players(List.of(choPlayer, hanPlayer));
+        JanggiGameState janggiGameState = new JanggiGameState(players);
 
         //when - then
         assertThat(janggiGameState.isGameOver()).isFalse();
@@ -54,11 +62,41 @@ class JanggiGameStateTest {
         //given
         Player hanPlayer = new Player(new Pieces(List.of()), HAN);
         Player choPlayer = new Player(new Pieces(List.of(new Janggun(new Position(6, 5)))), CHO);
-        JanggiGameState janggiGameState = new JanggiGameState(hanPlayer, choPlayer);
+        Players players = new Players(List.of(choPlayer, hanPlayer));
+        JanggiGameState janggiGameState = new JanggiGameState(players);
 
         //when - then
         assertThat(janggiGameState.isGameOver()).isTrue();
     }
 
+    @Test
+    @DisplayName("기물 이동 테스트")
+    void movePieceTest() {
+        //given
+        Janggun janggun = new Janggun(new Position(1, 7));
+        Pieces pieces1 = new Pieces(List.of(
+                new Ma(new Position(4, 5)),
+                new Janggun(new Position(5, 5)), new Jol(new Position(6, 5))
+                , new Byeong(new Position(4, 3))
+        ));
+
+        Pieces pieces2 = new Pieces(List.of(
+                janggun, new Jol(new Position(2, 5))
+                , new Byeong(new Position(3, 3))
+        ));
+
+        Player player1 = new Player(pieces1, HAN);
+        Player player2 = new Player(pieces2, CHO);
+
+        Players players = new Players(List.of(player1, player2));
+        JanggiGameState janggiGameState = new JanggiGameState(players);
+
+        //when
+        janggiGameState.movePiece(new Position(1, 7), new Position(1, 6));
+
+        //then
+        assertThat(janggiGameState.getAttackNation().equals(HAN)).isTrue();
+        assertThat(janggun.isSamePosition(new Position(1, 6))).isTrue();
+    }
 
 }
