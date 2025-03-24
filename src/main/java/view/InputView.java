@@ -1,6 +1,7 @@
 package view;
 
 import domain.Team;
+import dto.MovementRequestDto;
 import execptions.JanggiGameRuleWarningException;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -16,50 +17,46 @@ public final class InputView {
     public EnumMap<Team, Integer> readChoicesForSetup() {
         final EnumMap<Team, Integer> elephantLocatorByTeam = new EnumMap<>(Team.class);
         for (final Team team : Team.getActualTeams()) {
-            final int choice = readChoiceForElephantLocation();
+            final int choice = readChoiceForElephantLocation(team.getName());
             elephantLocatorByTeam.put(team, choice);
         }
         return elephantLocatorByTeam;
     }
 
-    public List<List<Integer>> readMovementRequest() {
-        System.out.println("출발점과 도착점의 위치를 입력해주세요 ex. A,1 B,2");
+    public MovementRequestDto readMovementRequest(String team) {
+        System.out.println(team + "의 입력 차례입니다.");
+        System.out.println("출발점과 도착점의 위치를 입력해주세요 ex. (A,1) (B,2)");
         final String input = scanner.nextLine();
         final String[] splitInput = input.split(" ");
         final List<Integer> startPoint = formatToIntegerList(splitInput[START_POINT_INDEX]);
         final List<Integer> arrivalPoint = formatToIntegerList(splitInput[ARRIVAL_POINT_INDEX]);
-        return List.of(startPoint, arrivalPoint);
+        return new MovementRequestDto(startPoint, arrivalPoint);
     }
 
-    private List<Integer> formatToIntegerList(String splitInput) {
-        String[] split = splitInput.split(",");
-        List<Integer> parsedInputs = new ArrayList<>();
+    private List<Integer> formatToIntegerList(final String splitInput) {
+        final String parseInput = splitInput.replaceAll("[()]", "");
+        final String[] split = parseInput.split(",");
+        final List<Integer> parsedInputs = new ArrayList<>();
         parsedInputs.add(parseRowToInt(split[0]));
-        parsedInputs.add(parseColumnToInt(split[1]));
+        parsedInputs.add(parseToInt(split[1]));
         return parsedInputs;
     }
 
-    private static int parseColumnToInt(String split) {
+    private int parseToInt(final String split) {
         try {
-            int column = Integer.parseInt(split);
-            if (column < 0 || column > 9) {
-                throw new IllegalArgumentException();
-            }
-            return column;
-        } catch (IllegalArgumentException e) {
-            throw new JanggiGameRuleWarningException("열 입력은 0부터 8까지의 숫자여야 합니다.");
+            return Integer.parseInt(split);
+        } catch (NumberFormatException e) {
+            throw new JanggiGameRuleWarningException("입력값이 숫자여야 합니다: " + split);
         }
     }
 
-    private int parseRowToInt(String split) {
-        char c = split.charAt(0);
-        if (c >= 'A' && c <= 'J') {
-            return c - 'A';
-        }
-        throw new JanggiGameRuleWarningException("행 입력은 A부터 J까지의 대문자여야 합니다.");
+    private int parseRowToInt(final String split) {
+        final char c = split.charAt(0);
+        return 'J' - c;
     }
 
-    private int readChoiceForElephantLocation() {
+    private int readChoiceForElephantLocation(String team) {
+        System.out.println(team + "의 입력 차례입니다.");
         System.out.println("""
                 마와 상의 배치를 선택해주세요.
                 1. 바깥상 차림(상마마상)
@@ -67,6 +64,6 @@ public final class InputView {
                 3. 왼상 차림(상마상마)
                 4. 오른상 차림(마상마상)
                 """);
-        return Integer.parseInt(scanner.nextLine());
+        return parseToInt(scanner.nextLine());
     }
 }

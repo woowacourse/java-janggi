@@ -9,10 +9,14 @@ public final class OutputView {
     private static final int MAX_COLUMN = 9;
     private static final int MAX_ROW = 10;
 
+    public void printError(String message) {
+        System.out.println(message);
+    }
+
     public void printTurnGuide() {
         System.out.println("""
                 장기 게임에 오신걸 환영합니다.
-                입력 순서는 한나라 -> 초나라 순서입니다.
+                입력 순서는 초나라 -> 한나라 순서입니다.
                 """);
     }
 
@@ -29,7 +33,7 @@ public final class OutputView {
             addPieceName(locations, row, builder);
             builder.append("\n");
         }
-
+        builder.append("\n초나라는 한글, 한나라는 한자로 표시됩니다.");
         return builder.toString();
     }
 
@@ -56,4 +60,5 @@ public final class OutputView {
             }
         }
     }
+
 }

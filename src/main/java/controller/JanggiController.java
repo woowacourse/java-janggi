@@ -3,8 +3,10 @@ package controller;
 import domain.JanggiGame;
 import domain.Team;
 import domain.board.Point;
+import dto.MovementRequestDto;
+import execptions.JanggiGameRuleWarningException;
 import java.util.EnumMap;
-import java.util.List;
+import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
 
@@ -20,7 +22,7 @@ public class JanggiController {
 
     public void run() {
         outputView.printTurnGuide();
-        final JanggiGame game = setupGame();
+        final JanggiGame game = handleInput(this::setupGame);
         outputView.printBoard(game.getBoard());
         while (true) {
             processMove(game);
@@ -33,24 +35,25 @@ public class JanggiController {
     }
 
     private void processMove(final JanggiGame game) {
-        final List<List<Integer>> movementRequest = inputView.readMovementRequest();
-        final Point originPoint = getOriginPoint(movementRequest);
-        final Point arrivalPoint = getArrivalPoint(movementRequest);
-
-        game.move(originPoint, arrivalPoint);
-
-        outputView.printBoard(game.getBoard());
+        final Team currentPlayerTeam = game.getCurrentPlayerTeam();
+        try {
+            final MovementRequestDto movementRequest = inputView.readMovementRequest(currentPlayerTeam.getName());
+            final Point originPoint = movementRequest.getOriginPoint();
+            final Point arrivalPoint = movementRequest.getArrivalPoint();
+            game.move(originPoint, arrivalPoint);
+            outputView.printBoard(game.getBoard());
+        } catch (JanggiGameRuleWarningException e) {
+            outputView.printError(e.getMessage());
+        }
     }
 
-    private Point getOriginPoint(final List<List<Integer>> movementRequest) {
-        final List<Integer> originPointRequest = movementRequest.getFirst();
-        return new Point(originPointRequest.getFirst(),
-                originPointRequest.getLast());
-    }
 
-    private Point getArrivalPoint(final List<List<Integer>> movementRequest) {
-        final List<Integer> arrivalPointRequest = movementRequest.getLast();
-        return new Point(arrivalPointRequest.getFirst(),
-                arrivalPointRequest.getLast());
+    private <T> T handleInput(Supplier<T> inputSupplier) {
+        try {
+            return inputSupplier.get();
+        } catch (JanggiGameRuleWarningException e) {
+            outputView.printError(e.getMessage());
+            return handleInput(inputSupplier);
+        }
     }
 }

@@ -4,16 +4,18 @@ import execptions.JanggiArgumentException;
 import java.util.EnumSet;
 
 public enum Team {
-    HAN(false, 9),
-    CHO(true, 0),
-    NONE(false, -1);
+    CHO(true, 0, "초나라"),
+    HAN(false, 9, "한나라"),
+    NONE(false, -1, "");
 
     private final boolean isFirst;
     private final int initialRow;
+    private final String name;
 
-    Team(final boolean isFirst, int initialRow) {
+    Team(final boolean isFirst, int initialRow, String name) {
         this.isFirst = isFirst;
         this.initialRow = initialRow;
+        this.name = name;
     }
 
     public int calculateRowForPiece(int row) {
@@ -36,5 +38,9 @@ public enum Team {
 
     public int getInitialRow() {
         return initialRow;
+    }
+
+    public String getName() {
+        return name;
     }
 }

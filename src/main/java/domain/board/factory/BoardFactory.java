@@ -56,7 +56,7 @@ public final class BoardFactory {
             case 2 -> new InnerElephantLocator();
             case 3 -> new LeftElephantLocator();
             case 4 -> new RightElephantLocator();
-            default -> throw new JanggiGameRuleWarningException("등록되지 않은 배치를 선택했습니다: " + team + " = " + choice);
+            default -> throw new JanggiGameRuleWarningException(team.getName() + "가 등록되지 않은 배치를 선택했습니다: " + choice);
         };
     }
 

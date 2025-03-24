@@ -10,7 +10,7 @@ public enum PieceNames {
     GENERAL("將", "궁"),
     GUARD("士", "사"),
     SOLDIER("兵", "졸"),
-    EMPTY("ㅡ", "ㅡ");
+    EMPTY("―", "―");
 
     private final String nameForHan;
     private final String nameForCho;

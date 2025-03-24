@@ -22,8 +22,8 @@ public final class JanggiGame {
     }
 
     public static JanggiGame setup(final EnumMap<Team, Integer> elephantLocatorByTeam) {
-        Board board = BoardFactory.generateBoard(elephantLocatorByTeam);
-        List<Player> players = elephantLocatorByTeam.keySet().stream()
+        final Board board = BoardFactory.generateBoard(elephantLocatorByTeam);
+        final List<Player> players = elephantLocatorByTeam.keySet().stream()
                 .map(Player::new)
                 .collect(Collectors.toList());
         return new JanggiGame(board, players);
@@ -34,11 +34,19 @@ public final class JanggiGame {
     }
 
     public void move(final Point startPoint, final Point arrivalPoint) {
+        board.movePiece(startPoint, arrivalPoint, getCurrentPlayerTeam());
+        manageCurrentPlayerTurn();
+    }
+
+    public Team getCurrentPlayerTeam() {
         final Player currentPlayer = players.stream()
                 .filter(player -> player.isFirstAttack() == isFirstPlayerTurn)
                 .findFirst()
                 .orElseThrow();
-        board.movePiece(startPoint, arrivalPoint, currentPlayer.getTeam());
+        return currentPlayer.getTeam();
+    }
+
+    private void manageCurrentPlayerTurn() {
         isFirstPlayerTurn = !isFirstPlayerTurn;
     }
 }

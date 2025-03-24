@@ -28,11 +28,14 @@ public final class Board {
             final Point arrivalPoint,
             final Team team
     ) {
-        if (locations.containsKey(startPoint) && locations.containsKey(arrivalPoint)) {
+        boolean isInvalidStartPoint = locations.containsKey(startPoint);
+        boolean isInvalidArrivalPoint = locations.containsKey(arrivalPoint);
+        if (isInvalidStartPoint && isInvalidArrivalPoint) {
             processMovement(startPoint, arrivalPoint, team);
             return;
         }
-        throw new JanggiGameRuleWarningException("보드의 범위 바깥입니다.");
+        throw new JanggiGameRuleWarningException(
+                "보드의 범위 바깥입니다. 출발점 유효: " + isInvalidStartPoint + ", 도착점 유효: " + isInvalidArrivalPoint);
     }
 
     private void validate(final Map<Point, Piece> locations) {
