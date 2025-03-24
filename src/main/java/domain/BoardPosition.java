@@ -5,6 +5,11 @@ public record BoardPosition(
     int y
 ) {
 
+    public static final int MIN_X = 0;
+    public static final int MAX_X = 8;
+    public static final int MIN_Y = 0;
+    public static final int MAX_Y = 9;
+
     public BoardPosition {
         validateRange(x, y);
     }
@@ -13,7 +18,7 @@ public record BoardPosition(
         final int x,
         final int y
     ) {
-        if (x < 0 || x > 8 || y < 0 || y > 9) {
+        if (x < MIN_X || x > MAX_X || y < MIN_Y || y > MAX_Y) {
             throw new IllegalArgumentException("장기판의 범위를 벗어났습니다.");
         }
     }

@@ -16,9 +16,9 @@ public class OutputView {
         final Team team
     ) {
         System.out.println("현재 턴: " + team.getTitle());
-        for (int i = 9; i >= 0; i--) {
+        for (int i = BoardPosition.MAX_Y; i >= BoardPosition.MIN_Y; i--) {
             printRowHeader(i);
-            for (int j = 0; j < 9; j++) {
+            for (int j = BoardPosition.MIN_X; j <= BoardPosition.MAX_X; j++) {
                 final BoardPosition boardPosition = new BoardPosition(j, i);
                 final Piece piece = pieces.get(boardPosition);
                 printPiece(piece);
@@ -37,7 +37,7 @@ public class OutputView {
             System.out.print(" . ");
             return;
         }
-        
+
         final String pieceTitle = piece.getPieceType()
             .getTitle();
         final String color = createColorCode(piece.getTeam());
