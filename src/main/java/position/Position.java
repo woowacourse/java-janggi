@@ -19,6 +19,13 @@ public final class Position {
         return false;
     }
 
+    public boolean canMoveLast(Direction direction, Board board) {
+        if (column.canMove(direction.column()) && row.canMove(direction.row())) {
+            return board.canMoveLast(new Position(column.move(direction.column()), row.move(direction.row())));
+        }
+        return false;
+    }
+
     public Position move(Direction direction) {
         return new Position(column.move(direction.column()), row.move(direction.row()));
     }
@@ -44,4 +51,5 @@ public final class Position {
     public Row getRow() {
         return row;
     }
+
 }

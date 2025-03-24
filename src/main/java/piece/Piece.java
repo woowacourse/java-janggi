@@ -16,12 +16,21 @@ public abstract class Piece {
     }
 
     public Routes possibleRoutes(Board board) {
+        validateTeamOfPiece(board);
         return routes.possibleRoutes(position, board);
+    }
+
+    private void validateTeamOfPiece(Board board) {
+        board.validateTeam(team);
     }
 
     public abstract PieceType type();
 
     public Position position() {
         return position;
+    }
+
+    public boolean isDifferentTeam(Team currentTeam) {
+        return team!=currentTeam;
     }
 }

@@ -33,7 +33,7 @@ public class PalaceTest {
     void possibleRoutesTest_1() {
         // given
         Piece palace = new Palace(HAN, E1);
-        Board board = new Board(Set.of(palace));
+        Board board = new Board(HAN, Set.of(palace));
 
         // when
         Routes palaceRoutes = palace.possibleRoutes(board);
@@ -53,7 +53,7 @@ public class PalaceTest {
     void possibleRoutesTest_2() {
         // given
         Piece palace = new Palace(HAN, E0);
-        Board board = new Board(Set.of(palace));
+        Board board = new Board(HAN, Set.of(palace));
 
         // when
         Routes palaceRoutes = palace.possibleRoutes(board);
@@ -73,7 +73,7 @@ public class PalaceTest {
     void possibleRoutesTest_3() {
         // given
         Piece palace = new Palace(HAN, I0);
-        Board board = new Board(Set.of(palace));
+        Board board = new Board(HAN, Set.of(palace));
 
         // when
         Routes palaceRoutes = palace.possibleRoutes(board);
@@ -95,7 +95,7 @@ public class PalaceTest {
         Piece palace = new Palace(HAN, E1);
         Piece soldier1 = new Soldier(HAN, D1);
         Piece soldier2 = new Soldier(HAN, E2);
-        Board board = new Board(Set.of(palace, soldier1, soldier2));
+        Board board = new Board(HAN, Set.of(palace, soldier1, soldier2));
 
         // when
         Routes palaceRoutes = palace.possibleRoutes(board);

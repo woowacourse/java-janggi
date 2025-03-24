@@ -1,6 +1,7 @@
 package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static piece.Team.CHO;
 import static piece.Team.HAN;
 import static position.PositionFixtures.B0;
 import static position.PositionFixtures.B2;
@@ -33,7 +34,7 @@ public class HorseTest {
     void possibleRoutesTest_1() {
         // given
         Piece horse = new Horse(HAN, C2);
-        Board board = new Board(Set.of(horse));
+        Board board = new Board(HAN, Set.of(horse));
 
         // when
         Routes horseRoutes = horse.possibleRoutes(board);
@@ -56,7 +57,7 @@ public class HorseTest {
         // given
         Piece horse = new Horse(HAN, C2);
         Piece palace = new Palace(HAN, B2);
-        Board board = new Board(Set.of(palace, horse));
+        Board board = new Board(HAN, Set.of(palace, horse));
 
         // when
         Routes horseRoutes = horse.possibleRoutes(board);
@@ -79,12 +80,35 @@ public class HorseTest {
         // given
         Piece horse = new Horse(HAN, C2);
         Piece palace = new Palace(HAN, B0);
-        Board board = new Board(Set.of(palace, horse));
+        Board board = new Board(HAN, Set.of(palace, horse));
 
         // when
         Routes horseRoutes = horse.possibleRoutes(board);
 
         // then
         assertThat(horseRoutes.routes().size()).isEqualTo(7);
+    }
+
+    /*
+    0 ＿ 궁 ＿ * ＿
+    1 * ＿ ＿ ＿ *
+    2 ＿ ＿ 마 ＿ ＿
+    3 * ＿ ＿ ＿ *
+    4 ＿ * ＿ * ＿
+      a b  c d  e
+    */
+    @Test
+    @DisplayName("마가 이동 가능한 경로를 모두 표시할 수 있다.")
+    void possibleRoutesTest_4() {
+        // given
+        Piece horse = new Horse(HAN, C2);
+        Piece palace = new Palace(CHO, B0);
+        Board board = new Board(HAN, Set.of(palace, horse));
+
+        // when
+        Routes horseRoutes = horse.possibleRoutes(board);
+
+        // then
+        assertThat(horseRoutes.routes().size()).isEqualTo(8);
     }
 }

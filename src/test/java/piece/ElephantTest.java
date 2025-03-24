@@ -35,7 +35,7 @@ public class ElephantTest {
     void possibleRoutesTest_1() {
         // given
         Piece elephant = new Elephant(HAN, D3);
-        Board board = new Board(Set.of(elephant));
+        Board board = new Board(HAN, Set.of(elephant));
 
         // when
         Routes elephantRoutes = elephant.possibleRoutes(board);
@@ -61,7 +61,7 @@ public class ElephantTest {
         Piece elephant = new Elephant(HAN, D3);
         Piece horse1 = new Horse(HAN, E5);
         Piece horse2 = new Horse(HAN, B2);
-        Board board = new Board(Set.of(elephant, horse1, horse2));
+        Board board = new Board(HAN, Set.of(elephant, horse1, horse2));
 
         // when
         Routes elephantRoutes = elephant.possibleRoutes(board);

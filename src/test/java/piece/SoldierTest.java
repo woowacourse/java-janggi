@@ -33,7 +33,7 @@ public class SoldierTest {
     void possibleRoutesTest_1() {
         // given
         Piece soldier = new Soldier(HAN, E1);
-        Board board = new Board(Set.of(soldier));
+        Board board = new Board(HAN, Set.of(soldier));
 
         // when
         Routes soldierRoutes = soldier.possibleRoutes(board);
@@ -53,7 +53,7 @@ public class SoldierTest {
     void possibleRoutesTest_2() {
         // given
         Piece soldier = new Soldier(HAN, E0);
-        Board board = new Board(Set.of(soldier));
+        Board board = new Board(HAN, Set.of(soldier));
 
         // when
         Routes soldierRoutes = soldier.possibleRoutes(board);
@@ -73,7 +73,7 @@ public class SoldierTest {
     void possibleRoutesTest_3() {
         // given
         Piece soldier = new Soldier(HAN, I0);
-        Board board = new Board(Set.of(soldier));
+        Board board = new Board(HAN, Set.of(soldier));
 
         // when
         Routes soldierRoutes = soldier.possibleRoutes(board);
@@ -95,7 +95,7 @@ public class SoldierTest {
         Piece soldier = new Soldier(HAN, E1);
         Piece horse1 = new Horse(HAN, D1);
         Piece horse2 = new Horse(HAN, E2);
-        Board board = new Board(Set.of(soldier, horse1, horse2));
+        Board board = new Board(HAN, Set.of(soldier, horse1, horse2));
 
         // when
         Routes soldierRoutes = soldier.possibleRoutes(board);

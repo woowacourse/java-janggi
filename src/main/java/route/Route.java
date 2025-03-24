@@ -13,12 +13,16 @@ public final class Route {
 
     public boolean isPossibleRoute(final Position source, Board board) {
         Position target = source;
-        for (Direction direction : directions) {
-            if(!target.canMove(direction, board)){
+        for (int directionCount = 0; directionCount < directions.size()-1; directionCount++) {
+            if(!target.canMove(directions.get(directionCount), board)){
                 return false;
             };
-            target = target.move(direction);
+            target = target.move(directions.get(directionCount));
         }
+
+        if(!target.canMoveLast(directions.getLast(), board)){
+            return false;
+        };
         return true;
     }
 }
