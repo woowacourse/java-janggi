@@ -18,7 +18,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public boolean equalsType(final Piece piece) {
-        return piece instanceof Soldier;
+    public boolean isCannon() {
+        return false;
     }
 }

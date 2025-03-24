@@ -17,10 +17,10 @@ public class Board {
         return janggiBoard.containsKey(existPosition);
     }
 
-    public boolean equalsTypeByPositionAndPiece(final Position position, final Piece piece) {
-        if (janggiBoard.containsKey(position)) {
-            final Piece target = janggiBoard.get(position);
-            return target.equalsType(piece);
+    public boolean isCannonByPosition(final Position position){
+        if (janggiBoard.containsKey(position)){
+            final Piece piece = janggiBoard.get(position);
+            return piece.isCannon();
         }
         return false;
     }

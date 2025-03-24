@@ -70,10 +70,9 @@ public class BoardTest {
             );
             final Board board = new Board(map);
             final Position cannonPosition = new Position(1, 1);
-            final Piece cannonPiece = new Cannon(Country.HAN);
 
             // when
-            final boolean actualCannon = board.equalsTypeByPositionAndPiece(cannonPosition, cannonPiece);
+            final boolean actualCannon = board.isCannonByPosition(cannonPosition);
 
             // then
             assertThat(actualCannon).isTrue();

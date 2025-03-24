@@ -22,7 +22,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    public boolean equalsType(final Piece piece) {
-        return piece instanceof Horse;
+    public boolean isCannon() {
+        return false;
     }
 }

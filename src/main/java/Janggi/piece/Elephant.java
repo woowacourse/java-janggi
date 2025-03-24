@@ -26,7 +26,7 @@ public class Elephant extends Piece{
     }
 
     @Override
-    public boolean equalsType(final Piece piece) {
-        return piece instanceof Elephant;
+    public boolean isCannon() {
+        return false;
     }
 }

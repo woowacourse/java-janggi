@@ -12,7 +12,7 @@ public class Cannon extends Piece {
 
     @Override
     public boolean canMove(final Position now, final Position destination, final Board board) {
-        if (!now.isSameLine(destination) || board.equalsTypeByPositionAndPiece(destination, this)) {
+        if (!now.isSameLine(destination) || board.isCannonByPosition(destination)) {
             return false;
         }
 
@@ -22,7 +22,7 @@ public class Cannon extends Piece {
             if (board.existPieceByPosition(position)) {
                 count++;
 
-                if (board.equalsTypeByPositionAndPiece(position, this)) {
+                if (board.isCannonByPosition(position)) {
                     return false;
                 }
             }
@@ -35,7 +35,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public boolean equalsType(final Piece piece) {
-        return piece instanceof Cannon;
+    public boolean isCannon() {
+        return true;
     }
 }

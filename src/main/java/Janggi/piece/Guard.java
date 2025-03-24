@@ -15,7 +15,7 @@ public class Guard extends Piece{
     }
 
     @Override
-    public boolean equalsType(final Piece piece) {
-        return piece instanceof Guard;
+    public boolean isCannon() {
+        return false;
     }
 }

@@ -20,7 +20,7 @@ public abstract class Piece {
 
     public abstract boolean canMove(final Position now, final Position destination, final Board board);
 
-    public abstract boolean equalsType(final Piece piece);
+    public abstract boolean isCannon();
 
     public boolean equalsTeamType(final Country country) {
         return this.country == country;

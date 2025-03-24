@@ -25,7 +25,7 @@ public class Chariot extends Piece{
     }
 
     @Override
-    public boolean equalsType(final Piece piece) {
-        return piece instanceof Chariot;
+    public boolean isCannon() {
+        return false;
     }
 }

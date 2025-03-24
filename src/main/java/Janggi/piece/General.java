@@ -15,7 +15,7 @@ public class General extends Piece{
     }
 
     @Override
-    public boolean equalsType(final Piece piece) {
-        return piece instanceof General;
+    public boolean isCannon() {
+        return false;
     }
 }
