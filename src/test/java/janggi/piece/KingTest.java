@@ -28,7 +28,7 @@ class KingTest {
             "1, 1, 1, 2",
             "1, 2, 1, 1",
     })
-    void 왕은_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX) {
+    void 왕은_한칸씩_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX) {
         // Given
         Position currentPosition = new Position(currentY, currentX);
         Position arrivalPosition = new Position(arrivalY, arrivalX);

@@ -25,8 +25,8 @@ class ChariotTest {
 
     @ParameterizedTest
     @MethodSource
-    void 차는_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX,
-                 final List<Position> expected) {
+    void 차는_수직이나_수평으로_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX,
+                           final List<Position> expected) {
         // Given
         Position currentPosition = new Position(currentY, currentX);
         Position arrivalPosition = new Position(arrivalY, arrivalX);
@@ -38,7 +38,7 @@ class ChariotTest {
         assertThat(path).isEqualTo(new Path(expected));
     }
 
-    private static Stream<Arguments> 차는_움직인다() {
+    private static Stream<Arguments> 차는_수직이나_수평으로_움직인다() {
         return Stream.of(
                 Arguments.of(1, 1, 10, 1, List.of(
                         new Position(2, 1), new Position(3, 1), new Position(4, 1),

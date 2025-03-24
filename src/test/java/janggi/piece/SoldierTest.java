@@ -26,13 +26,15 @@ class SoldierTest {
 
     @Nested
     class JolTest {
+
         @ParameterizedTest
         @CsvSource({
                 "2, 1, 1, 1",
                 "1, 1, 1, 2",
                 "1, 2, 1, 1",
         })
-        void 졸은_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX) {
+        void 졸은_뒤로_갈_수_없고_앞과_양_옆으로만_이동한다(final int currentY, final int currentX, final int arrivalY,
+                                         final int arrivalX) {
             // Given
             Position currentPosition = new Position(currentY, currentX);
             Position arrivalPosition = new Position(arrivalY, arrivalX);
@@ -85,13 +87,15 @@ class SoldierTest {
 
     @Nested
     class ByeongTest {
+
         @ParameterizedTest
         @CsvSource({
                 "1, 1, 2, 1",
                 "1, 1, 1, 2",
                 "1, 2, 1, 1",
         })
-        void 병은_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX) {
+        void 병은_뒤로_갈_수_없고_앞과_양_옆으로만_이동한다(final int currentY, final int currentX, final int arrivalY,
+                                         final int arrivalX) {
             // Given
             Position currentPosition = new Position(currentY, currentX);
             Position arrivalPosition = new Position(arrivalY, arrivalX);

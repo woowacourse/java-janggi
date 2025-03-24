@@ -20,7 +20,7 @@ class CannonTest {
     }
 
     @Test
-    void 포는_움직인다() {
+    void 포는_이동_경로_중간에_기물이_존재하는_경우에만_움직인다() {
         // Given
         final Soldier soldier = new Soldier(Team.CHO);
         final Cannon cannon = new Cannon(Team.CHO);
