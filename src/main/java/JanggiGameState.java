@@ -1,5 +1,4 @@
 import static player.Nation.CHO;
-import static player.Nation.HAN;
 
 import pieceProperty.Position;
 import player.Nation;
@@ -20,7 +19,8 @@ public class JanggiGameState {
     public void movePiece(Position presentPosition, Position destination) {
         players.validateMovement(attackNation, presentPosition, destination);
         players.movePiece(attackNation, presentPosition, destination);
-        attackNation = HAN;
+        players.removePiece(attackNation.getDefenseNation(), destination);
+        attackNation = attackNation.getDefenseNation();
     }
 
     public Nation getAttackNation() {
