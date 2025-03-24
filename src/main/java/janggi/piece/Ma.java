@@ -1,9 +1,7 @@
 package janggi.piece;
 
 import janggi.Team.Team;
-import janggi.position.Path;
 import janggi.position.Position;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -19,23 +17,8 @@ public class Ma extends Piece {
     }
 
     @Override
-    public Path makePath(final Position currentPosition, final Position arrivalPosition) {
-        int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
-        int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
-
-        validateMove(differenceForY, differenceForX);
-
-        final List<Position> positions = new ArrayList<>();
-        int currentY = currentPosition.getY();
-        int currentX = currentPosition.getX();
-
-        currentY = calculatePathY(arrivalPosition, positions, differenceForY, currentY, currentX);
-        calculatePathX(arrivalPosition, positions, differenceForX, currentY, currentX);
-        return new Path(positions);
-    }
-
-    private int calculatePathY(Position arrivalPosition, List<Position> positions, int differenceForY,
-                               int currentY, int currentX) {
+    public int calculatePathY(Position arrivalPosition, int differenceForY, int differenceForX,
+                              List<Position> positions, int currentY, int currentX) {
         if (isNotStartDirection(differenceForY)) {
             return currentY;
         }
@@ -46,8 +29,9 @@ public class Ma extends Piece {
         return currentY;
     }
 
-    private int calculatePathX(Position arrivalPosition, List<Position> positions, int differenceForX,
-                               int currentY, int currentX) {
+    @Override
+    public int calculatePathX(Position arrivalPosition, int differenceForY, int differenceForX,
+                              List<Position> positions, int currentY, int currentX) {
         if (isNotStartDirection(differenceForX)) {
             return currentX;
         }
@@ -58,7 +42,8 @@ public class Ma extends Piece {
         return currentX;
     }
 
-    private void validateMove(int differenceForY, int differenceForX) {
+    @Override
+    public void validateMove(int differenceForY, int differenceForX) {
         if (canNotMove(differenceForY, differenceForX)) {
             throw new IllegalArgumentException("[ERROR] 말은 직선 1칸 이동 후 대각선 1칸으로만 이동할 수 있습니다.");
         }
