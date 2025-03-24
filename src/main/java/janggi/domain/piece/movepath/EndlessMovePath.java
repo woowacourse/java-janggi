@@ -16,10 +16,10 @@ public class EndlessMovePath implements MovePath {
     @Override
     public boolean canMove(Point from, Point to) {
         Point curr = from;
-        while (!curr.isOutOfBoundary() && !curr.isSamePosition(to)) {
+        while (!curr.isSamePosition(to) && curr.canMove(direction)) {
             curr = curr.move(direction);
         }
-        return curr.isSamePosition(to);
+        return curr.equals(to);
     }
 
     @Override

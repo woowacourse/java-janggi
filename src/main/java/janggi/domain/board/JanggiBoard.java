@@ -70,10 +70,11 @@ public class JanggiBoard {
             throw new IllegalArgumentException("자신의 나라 기물만 움직일 수 있습니다.");
         }
         List<Point> movePath = piece.movePath(from, to);
-        if (piece.canMove(toPiecesOnPath(movePath))) {
-            pieces.remove(from);
-            pieces.put(to, piece);
+        if (!piece.canMove(toPiecesOnPath(movePath))) {
+            throw new IllegalArgumentException("해당 위치로 움직일 수 없습니다.");
         }
+        pieces.remove(from);
+        pieces.put(to, piece);
     }
 
     private Piece findPiece(Point point) {
