@@ -168,5 +168,33 @@ class PlayersTest {
                 players.validateMovement(CHO, new Position(1, 7), new Position(1, 6)));
     }
 
+    @Test
+    @DisplayName("기물 이동 테스트")
+    void movePieceTest() {
+        //given
+        Janggun janggun = new Janggun(new Position(1, 7));
+        Pieces pieces1 = new Pieces(List.of(
+                new Ma(new Position(4, 5)),
+                new Janggun(new Position(5, 5)), new Jol(new Position(6, 5))
+                , new Byeong(new Position(4, 3))
+        ));
+
+        Pieces pieces2 = new Pieces(List.of(
+                janggun, new Jol(new Position(2, 5))
+                , new Byeong(new Position(3, 3))
+        ));
+
+        Player player1 = new Player(pieces1, HAN);
+        Player player2 = new Player(pieces2, CHO);
+
+        Players players = new Players(List.of(player1, player2));
+
+        //when
+        players.movePiece(CHO, new Position(1, 7), new Position(1, 6));
+
+        //then
+        assertThat(janggun.isSamePosition(new Position(1, 6))).isTrue();
+    }
+
 
 }
