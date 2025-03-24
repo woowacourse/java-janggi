@@ -8,7 +8,7 @@ import view.ErrorMessage;
 public class Players {
     private final List<Player> players;
 
-    public Players(List<Player> players) {
+    public Players(final List<Player> players) {
         this.players = players;
     }
 
@@ -17,42 +17,49 @@ public class Players {
                 .anyMatch(Player::isKingDie);
     }
 
-    public void validateMovement(Nation attackNation, Position presentPosition, Position destination) {
+    public void validateMovement(final Nation attackNation, final Position presentPosition, final Position destination) {
         validateAllyPieceAtStart(attackNation, presentPosition);
         validateAllyPieceAtDestination(attackNation, destination);
         canPieceMoveTo(attackNation, presentPosition, destination);
         validateRoute(attackNation, presentPosition, destination);
     }
 
-    public void movePiece(Nation attackNation, Position presentPosition, Position destination) {
+    public void movePiece(final Nation attackNation, final Position presentPosition, final Position destination) {
         players.stream()
                 .filter(player -> player.isSameNation(attackNation))
                 .findFirst()
                 .ifPresent(player -> player.movePiece(presentPosition, destination));
     }
 
-    private void validateAllyPieceAtStart(Nation attackNation, Position presentPosition) {
+    public void removePiece(final Nation defenseNation, final Position destination) {
+        players.stream()
+                .filter(player -> player.isSameNation(defenseNation))
+                .findFirst()
+                .ifPresent(player -> player.removePiece(destination));
+    }
+
+    private void validateAllyPieceAtStart(final Nation attackNation, final Position presentPosition) {
         players.stream()
                 .filter(player -> player.isSameNation(attackNation))
                 .findFirst()
                 .ifPresent(player -> player.validateAllyPieceAtStart(presentPosition));
     }
 
-    private void validateAllyPieceAtDestination(Nation attackNation, Position destination) {
+    private void validateAllyPieceAtDestination(final Nation attackNation, final Position destination) {
         players.stream()
                 .filter(player -> player.isSameNation(attackNation))
                 .findFirst()
                 .ifPresent(player -> player.validateAllyPieceAtDestination(destination));
     }
 
-    private void canPieceMoveTo(Nation attackNation, Position presentPosition, Position destination){
+    private void canPieceMoveTo(final Nation attackNation, final Position presentPosition, final Position destination){
         players.stream()
                 .filter(player -> player.isSameNation(attackNation))
                 .findFirst()
                 .ifPresent(player -> player.canPieceMoveTo(presentPosition, destination));
     }
 
-    private void validateRoute(Nation attackNation, Position presentPosition, Position destination) {
+    private void validateRoute(final Nation attackNation, final Position presentPosition, final Position destination) {
         Positions route = makeRoute(attackNation, presentPosition, destination);
         int count = players.stream()
                 .mapToInt(player -> player.countObstacle(route))
@@ -71,7 +78,7 @@ public class Players {
 
     }
 
-    private Boolean isPoAt(Nation attackNation, Position presentPosition) {
+    private Boolean isPoAt(final Nation attackNation, final Position presentPosition) {
         return players.stream()
                 .filter(player -> player.isSameNation(attackNation))
                 .findFirst()
@@ -79,12 +86,12 @@ public class Players {
                 .orElseThrow();
     }
 
-    private Boolean isExistPoInRoute(Positions route) {
+    private Boolean isExistPoInRoute(final Positions route) {
         return players.stream()
                 .anyMatch(player -> player.isExistPoInRoute(route));
     }
 
-    private Positions makeRoute(Nation attackNation, Position presentPosition, Position destination) {
+    private Positions makeRoute(final Nation attackNation, final Position presentPosition, final Position destination) {
         return players.stream()
                 .filter(player -> player.isSameNation(attackNation))
                 .map(player -> player.makeRoute(presentPosition, destination))
@@ -92,10 +99,4 @@ public class Players {
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.formatMessage("경로가 존재하지 않습니다.")));
     }
 
-    public void removePiece(Nation defenseNation, Position destination) {
-        players.stream()
-                .filter(player -> player.isSameNation(defenseNation))
-                .findFirst()
-                .ifPresent(player -> player.removePiece(destination));
-    }
 }

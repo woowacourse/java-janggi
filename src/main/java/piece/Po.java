@@ -73,25 +73,25 @@ public class Po extends Piece {
         return !position.isSameCol(destination) && !position.isSameRow(destination);
     }
 
-    private void addDownwardRoute(int dRow, Positions route, int presentRow, int presentCol) {
+    private void addDownwardRoute(final int dRow, Positions route, final int presentRow, final int presentCol) {
         for (int i = 1; i < Math.abs(dRow); i++) {
             route.addPosition(new Position(presentRow + i, presentCol));
         }
     }
 
-    private void addUpwardRoute(int dRow, Positions route, int presentRow, int presentCol) {
+    private void addUpwardRoute(final int dRow, Positions route, final int presentRow, final int presentCol) {
         for (int i = 1; i < dRow; i++) {
             route.addPosition(new Position(presentRow - i, presentCol));
         }
     }
 
-    private void addRightwardRoute(int dCol, Positions route, int presentRow, int presentCol) {
+    private void addRightwardRoute(final int dCol, Positions route, final int presentRow, final int presentCol) {
         for (int i = 1; i < Math.abs(dCol); i++) {
             route.addPosition(new Position(presentRow, presentCol + i));
         }
     }
 
-    private void addLeftwardRoute(int dCol, Positions route, int presentRow, int presentCol) {
+    private void addLeftwardRoute(final int dCol, Positions route, final int presentRow, final int presentCol) {
         for (int i = 1; i < dCol; i++) {
             route.addPosition(new Position(presentRow, presentCol - i));
         }

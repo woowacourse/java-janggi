@@ -27,7 +27,7 @@ public class OutputView {
     private static final String PIECE_DELIMITER = " | ";
     private static final String ROW = "  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9";
 
-    public void printJanggiPan(Pieces hanPieces, Pieces choPieces) {
+    public void printJanggiPan(final Pieces hanPieces, final Pieces choPieces) {
         String[][] janggiPan = new String[10][9];
 
 
@@ -65,7 +65,7 @@ public class OutputView {
 
     }
 
-    public void printResult(Boolean isChoKingDie) {
+    public void printResult(final Boolean isChoKingDie) {
         if (isChoKingDie) {
             System.out.println("한나라 승리!");
             return;

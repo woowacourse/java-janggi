@@ -46,7 +46,7 @@ public class Sa extends Piece {
         return SA;
     }
 
-    private boolean isInvalidSaMove(Position destination) {
+    private boolean isInvalidSaMove(final Position destination) {
         return !calculateDownMovement(position).equals(destination)
                 && !calculateUpMovement(position).equals(destination)
                 && !calculateLeftMovement(position).equals(destination)

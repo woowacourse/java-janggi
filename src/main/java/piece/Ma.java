@@ -95,7 +95,7 @@ public class Ma extends Piece {
         return MA;
     }
 
-    private boolean isInvalidMaMove(Position destination) {
+    private boolean isInvalidMaMove(final Position destination) {
         return !calculateUpRightUPMovement(position).equals(destination)
                 && !calculateUpLeftUpMovement(position).equals(destination)
                 && !calculateDownRightDownMovement(position).equals(destination)

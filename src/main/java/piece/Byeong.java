@@ -45,7 +45,7 @@ public class Byeong extends Piece {
         return BYEONG;
     }
 
-    private boolean isInvalidByeongMove(Position destination) {
+    private boolean isInvalidByeongMove(final Position destination) {
         return !calculateDownMovement(position).equals(destination)
                 && !calculateLeftMovement(position).equals(destination)
                 && !calculateRightMovement(position).equals(destination);

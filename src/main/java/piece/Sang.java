@@ -103,7 +103,7 @@ public class Sang extends Piece {
         return SANG;
     }
 
-    private boolean isInvalidSangMove(Position destination) {
+    private boolean isInvalidSangMove(final Position destination) {
         return !calculateUpRightUpRightUpMovement(position).equals(destination)
                 && !calculateUpLeftUpLeftUpMovement(position).equals(destination)
                 && !calculateRightRightUpRightUpMovement(position).equals(destination)

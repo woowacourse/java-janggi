@@ -8,7 +8,7 @@ public class JanggiGameState {
     private final Players players;
     private Nation attackNation = CHO;
 
-    public JanggiGameState(Players players) {
+    public JanggiGameState(final Players players) {
         this.players = players;
     }
 
@@ -16,7 +16,7 @@ public class JanggiGameState {
         return players.isKingDie();
     }
 
-    public void movePiece(Position presentPosition, Position destination) {
+    public void movePiece(final Position presentPosition, final Position destination) {
         players.validateMovement(attackNation, presentPosition, destination);
         players.movePiece(attackNation, presentPosition, destination);
         players.removePiece(attackNation.getDefenseNation(), destination);

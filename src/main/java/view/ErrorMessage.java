@@ -9,7 +9,7 @@ public enum ErrorMessage {
         this.errorMessage = errorMessage;
     }
 
-    public static String formatMessage(String message) {
+    public static String formatMessage(final String message) {
         return String.format(ERROR.errorMessage, message);
     }
 }

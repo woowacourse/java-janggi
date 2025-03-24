@@ -7,7 +7,6 @@ import static pieceProperty.Movement.calculateUpMovement;
 import static pieceProperty.PieceType.JANGGUN;
 
 import java.util.List;
-import pieceProperty.Movement;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
@@ -46,7 +45,7 @@ public class Janggun extends Piece {
         return JANGGUN;
     }
 
-    private boolean isInvalidJanggunMove(Position destination) {
+    private boolean isInvalidJanggunMove(final Position destination) {
         return !calculateUpMovement(position).equals(destination)
                 && !calculateRightMovement(position).equals(destination)
                 && !calculateLeftMovement(position).equals(destination)

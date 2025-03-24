@@ -38,187 +38,187 @@ public enum Movement {
         this.dCol = dCol;
     }
 
-    public static Position calculateUpMovement(Position presentPosition) {
+    public static Position calculateUpMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(UP.dRow, UP.dCol);
     }
 
-    public static Position calculateDownMovement(Position presentPosition) {
+    public static Position calculateDownMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(DOWN.dRow, DOWN.dCol);
     }
 
-    public static Position calculateRightMovement(Position presentPosition) {
+    public static Position calculateRightMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(RIGHT.dRow, RIGHT.dCol);
     }
 
-    public static Position calculateLeftMovement(Position presentPosition) {
+    public static Position calculateLeftMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(LEFT.dRow, LEFT.dCol);
     }
 
-    public static Position calculateRightUpMovement(Position presentPosition) {
+    public static Position calculateRightUpMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(RIGHT_UP_DIAGONAL.dRow, RIGHT_UP_DIAGONAL.dCol);
     }
 
-    public static Position calculateRightDownMovement(Position presentPosition) {
+    public static Position calculateRightDownMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(RIGHT_DOWN_DIAGONAL.dRow, RIGHT_DOWN_DIAGONAL.dCol);
     }
 
-    public static Position calculateLeftUpMovement(Position presentPosition) {
+    public static Position calculateLeftUpMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(LEFT_UP_DIAGONAL.dRow, LEFT_UP_DIAGONAL.dCol);
     }
 
-    public static Position calculateLeftDownMovement(Position presentPosition) {
+    public static Position calculateLeftDownMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(LEFT_DOWN_DIAGONAL.dRow, LEFT_DOWN_DIAGONAL.dCol);
     }
 
-    public static Position calculateUpRightUPMovement(Position presentPosition) {
+    public static Position calculateUpRightUPMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(UP_RIGHT_UP_DIAGONAL.dRow, UP_RIGHT_UP_DIAGONAL.dCol);
     }
 
-    public static Position calculateUpLeftUpMovement(Position presentPosition) {
+    public static Position calculateUpLeftUpMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(UP_LEFT_UP_DIAGONAL.dRow, UP_LEFT_UP_DIAGONAL.dCol);
     }
 
-    public static Position calculateRightRightUpMovement(Position presentPosition) {
+    public static Position calculateRightRightUpMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(RIGHT_RIGHT_UP_DIAGONAL.dRow, RIGHT_RIGHT_UP_DIAGONAL.dCol);
     }
 
-    public static Position calculateRightRightDownMovement(Position presentPosition) {
+    public static Position calculateRightRightDownMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(RIGHT_RIGHT_DOWN_DIAGONAL.dRow, RIGHT_RIGHT_DOWN_DIAGONAL.dCol);
     }
 
-    public static Position calculateDownRightDownMovement(Position presentPosition) {
+    public static Position calculateDownRightDownMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(DOWN_RIGHT_DOWN_DIAGONAL.dRow, DOWN_RIGHT_DOWN_DIAGONAL.dCol);
     }
 
-    public static Position calculateDownLeftDownMovement(Position presentPosition) {
+    public static Position calculateDownLeftDownMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(DOWN_LEFT_DOWN_DIAGONAL.dRow, DOWN_LEFT_DOWN_DIAGONAL.dCol);
     }
 
-    public static Position calculateLeftLeftUpMovement(Position presentPosition) {
+    public static Position calculateLeftLeftUpMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(LEFT_LEFT_UP_DIAGONAL.dRow, LEFT_LEFT_UP_DIAGONAL.dCol);
     }
 
-    public static Position calculateLeftLeftDownMovement(Position presentPosition) {
+    public static Position calculateLeftLeftDownMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(LEFT_LEFT_DOWN_DIAGONAL.dRow, LEFT_LEFT_DOWN_DIAGONAL.dCol);
     }
 
-    public static Position calculateUpRightUpRightUpMovement(Position presentPosition) {
+    public static Position calculateUpRightUpRightUpMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(UP_RIGHT_UP_DIAGONAL_UP_RIGHT_UP_DIAGONAL.dRow,
                 UP_RIGHT_UP_DIAGONAL_UP_RIGHT_UP_DIAGONAL.dCol);
     }
 
-    public static Position calculateUpLeftUpLeftUpMovement(Position presentPosition) {
+    public static Position calculateUpLeftUpLeftUpMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(UP_LEFT_UP_DIAGONAL_LEFT_UP_DIAGONAL.dRow,
                 UP_LEFT_UP_DIAGONAL_LEFT_UP_DIAGONAL.dCol);
     }
 
-    public static Position calculateRightRightUpRightUpMovement(Position presentPosition) {
+    public static Position calculateRightRightUpRightUpMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(RIGHT_RIGHT_UP_DIAGONAL_RIGHT_UP_DIAGONAL.dRow,
                 RIGHT_RIGHT_UP_DIAGONAL_RIGHT_UP_DIAGONAL.dCol);
     }
 
-    public static Position calculateRightRightDownRightDownMovement(Position presentPosition) {
+    public static Position calculateRightRightDownRightDownMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(RIGHT_RIGHT_DOWN_DIAGONAL_RIGHT_DOWN_DIAGONAL.dRow,
                 RIGHT_RIGHT_DOWN_DIAGONAL_RIGHT_DOWN_DIAGONAL.dCol);
     }
 
-    public static Position calculateDownRightDownRightDownMovement(Position presentPosition) {
+    public static Position calculateDownRightDownRightDownMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(DOWN_RIGHT_DOWN_DIAGONAL_RIGHT_DOWN_DIAGONAL.dRow,
                 DOWN_RIGHT_DOWN_DIAGONAL_RIGHT_DOWN_DIAGONAL.dCol);
     }
 
-    public static Position calculateDownLeftDownLeftDownMovement(Position presentPosition) {
+    public static Position calculateDownLeftDownLeftDownMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(DOWN_LEFT_DOWN_DIAGONAL_LEFT_DOWN_DIAGONAL.dRow,
                 DOWN_LEFT_DOWN_DIAGONAL_LEFT_DOWN_DIAGONAL.dCol);
     }
 
-    public static Position calculateLeftLeftUpLeftUpMovement(Position presentPosition) {
+    public static Position calculateLeftLeftUpLeftUpMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(LEFT_LEFT_UP_DIAGONAL_LEFT_UP_DIAGONAL.dRow,
                 LEFT_LEFT_UP_DIAGONAL_LEFT_UP_DIAGONAL.dCol);
     }
 
-    public static Position calculateLeftLeftDownLeftDownMovement(Position presentPosition) {
+    public static Position calculateLeftLeftDownLeftDownMovement(final Position presentPosition) {
         return presentPosition.calculateMovement(LEFT_LEFT_DOWN_DIAGONAL_LEFT_DOWN__DIAGONAL.dRow,
                 LEFT_LEFT_DOWN_DIAGONAL_LEFT_DOWN__DIAGONAL.dCol);
     }
 
-    public static boolean isUpLeftUpLeftUp(int dRow, int dCol) {
+    public static boolean isUpLeftUpLeftUp(final int dRow, final int dCol) {
         return dRow == 3 && dCol == 2;
     }
 
-    public static boolean isUpRightUpRightUp(int dRow, int dCol) {
+    public static boolean isUpRightUpRightUp(final int dRow, final int dCol) {
         return dRow == 3 && dCol == -2;
     }
 
-    public static boolean isRightUpRightUpRight (int dRow, int dCol) {
+    public static boolean isRightUpRightUpRight (final int dRow, final int dCol) {
         return dRow == 2 && dCol == -3;
     }
 
-    public static boolean isRightRightDownRightDown(int dRow, int dCol) {
+    public static boolean isRightRightDownRightDown(final int dRow, final int dCol) {
         return dRow == -2 && dCol == -3;
     }
 
-    public static boolean isDownRightDownRightDown(int dRow, int dCol) {
+    public static boolean isDownRightDownRightDown(final int dRow, final int dCol) {
         return dRow == -3 && dCol == -2;
     }
 
-    public static boolean isDownLeftDownLeftDown(int dRow, int dCol) {
+    public static boolean isDownLeftDownLeftDown(final int dRow, final int dCol) {
         return dRow == -3 && dCol == 2;
     }
 
-    public static boolean isLeftLeftUpLeftUp(int dRow, int dCol) {
+    public static boolean isLeftLeftUpLeftUp(final int dRow, final int dCol) {
         return dRow == 2 && dCol == 3;
     }
 
-    public static boolean isLeftLeftDownLeftDown(int dRow, int dCol) {
+    public static boolean isLeftLeftDownLeftDown(final int dRow, final int dCol) {
         return dRow == -2 && dCol == 3;
     }
 
-    public static boolean isUpLeftUp(int dRow, int dCol) {
+    public static boolean isUpLeftUp(final int dRow, final int dCol) {
         return dRow == 2 && dCol == 1;
     }
 
-    public static boolean isUpRightUp(int dRow, int dCol) {
+    public static boolean isUpRightUp(final int dRow, final int dCol) {
         return dRow == 2 && dCol == -1;
     }
 
-    public static boolean isRightRightUp(int dRow, int dCol) {
+    public static boolean isRightRightUp(final int dRow, final int dCol) {
         return dRow == 1 && dCol == - 2;
     }
 
-    public static boolean isRightRightDown(int dRow, int dCol) {
+    public static boolean isRightRightDown(final int dRow, final int dCol) {
         return dRow == -1 && dCol == -2;
     }
 
-    public static boolean isDownRightDown(int dRow, int dCol) {
+    public static boolean isDownRightDown(final int dRow, final int dCol) {
         return dRow == -2 && dCol == -1;
     }
 
-    public static boolean isDownLeftDown(int dRow, int dCol) {
+    public static boolean isDownLeftDown(final int dRow, final int dCol) {
         return dRow == -2 && dCol == 1;
     }
 
-    public static boolean isLeftLeftDown(int dRow, int dCol) {
+    public static boolean isLeftLeftDown(final int dRow, final int dCol) {
         return dRow == -1 && dCol == 2;
     }
 
-    public static boolean isLeftLeftUp(int dRow, int dCol) {
+    public static boolean isLeftLeftUp(final int dRow, final int dCol) {
         return dRow == 1 && dCol == 2;
     }
 
-    public static boolean isLeftward(int dRow, int dCol) {
+    public static boolean isLeftward(final int dRow, final int dCol) {
         return dRow == 0 && dCol > 0;
     }
 
-    public static boolean isRightward(int dRow, int dCol) {
+    public static boolean isRightward(final int dRow, final int dCol) {
         return dRow == 0 && dCol < 0;
     }
 
-    public static boolean isUpward(int dRow, int dCol) {
+    public static boolean isUpward(final int dRow, final int dCol) {
         return dRow > 0 && dCol == 0;
     }
 
-    public static boolean isDownward(int dRow, int dCol) {
+    public static boolean isDownward(final int dRow, final int dCol) {
         return dRow < 0 && dCol == 0;
     }
 

@@ -14,7 +14,7 @@ public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public Position getPresentPosition(Nation attatckNation) {
+    public Position getPresentPosition(final Nation attatckNation) {
         if (attatckNation.equals(CHO)) {
             System.out.println(IS_CHO_TURN);
             return getUserPositionUntilValidate();

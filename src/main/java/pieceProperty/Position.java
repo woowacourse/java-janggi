@@ -14,23 +14,23 @@ public class Position {
         this.col = col;
     }
 
-    public Position calculateMovement(int dRow, int dCol) {
+    public Position calculateMovement(final int dRow, final int dCol) {
         return new Position(row + dRow, col + dCol);
     }
 
-    public Boolean isSameRow(Position destination) {
+    public Boolean isSameRow(final Position destination) {
         return row == destination.getRow();
     }
 
-    public Boolean isSameCol(Position destination) {
+    public Boolean isSameCol(final Position destination) {
         return col == destination.col;
     }
 
-    public int calculateDRow(Position destination) {
+    public int calculateDRow(final Position destination) {
         return row - destination.row;
     }
 
-    public int calculateDCol(Position destination) {
+    public int calculateDCol(final Position destination) {
         return col - destination.col;
     }
 

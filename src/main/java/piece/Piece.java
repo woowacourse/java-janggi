@@ -17,15 +17,15 @@ public abstract class Piece {
         return position;
     }
 
-    public boolean isSamePosition(Position position) {
+    public boolean isSamePosition(final Position position) {
         return position.equals(this.position);
     }
 
-    public abstract void canMoveTo(Position position);
+    public abstract void canMoveTo(final Position position);
 
-    public abstract Positions makeRoute(Position position);
+    public abstract Positions makeRoute(final Position position);
 
-    public void updateChessPiecePositionBy(Position position) {
+    public void updateChessPiecePositionBy(final Position position) {
         this.position = position;
     }
 
