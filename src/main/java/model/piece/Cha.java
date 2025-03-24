@@ -8,8 +8,7 @@ import model.Team;
 public class Cha extends Piece {
 
     public Cha(Team team) {
-        super(team);
-        pieceName = PieceName.CHA;
+        super(team,PieceName.CHA);
     }
 
     public boolean isValidPoint(Point beforePoint, Point targetPoint) {
@@ -42,10 +41,17 @@ public class Cha extends Piece {
             return true;
         }
         if (piecesOnPathWithTargetOrNot.size() == 1) {
-            if (!piecesOnPathWithTargetOrNot.values().stream().findFirst().get()) {
+            if (!piecesOnPathWithTargetOrNot.values()
+                    .stream()
+                    .findFirst()
+                    .get()) {
                 return false;
             }
-            return piecesOnPathWithTargetOrNot.keySet().stream().findFirst().get().getTeam() != this.team;
+            return piecesOnPathWithTargetOrNot.keySet()
+                    .stream()
+                    .findFirst()
+                    .get()
+                    .getTeam() != this.team;
         }
         return false;
     }

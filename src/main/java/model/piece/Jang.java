@@ -1,8 +1,6 @@
 package model.piece;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 import model.Path;
 import model.Point;
 import model.Team;
@@ -10,8 +8,7 @@ import model.Team;
 public class Jang extends Piece {
 
     public Jang(Team team) {
-        super(team);
-        this.pieceName = PieceName.JANG;
+        super(team, PieceName.JANG);
     }
 
     @Override
@@ -32,7 +29,11 @@ public class Jang extends Piece {
     @Override
     public boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
         if (piecesOnPathWithTargetOrNot.size() == 1) {
-            return piecesOnPathWithTargetOrNot.keySet().stream().findFirst().get().getTeam() != this.team;
+            return piecesOnPathWithTargetOrNot.keySet()
+                    .stream()
+                    .findFirst()
+                    .get()
+                    .getTeam() != this.team;
         }
         return true;
     }

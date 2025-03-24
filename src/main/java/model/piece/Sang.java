@@ -7,8 +7,7 @@ import model.Team;
 
 public class Sang extends Piece {
     public Sang(Team team) {
-        super(team);
-        pieceName = PieceName.SANG;
+        super(team, PieceName.SANG);
     }
 
     @Override
@@ -44,10 +43,17 @@ public class Sang extends Piece {
             return false;
         }
         if (piecesOnPathWithTargetOrNot.size() == 1) {
-            if (!piecesOnPathWithTargetOrNot.values().stream().findFirst().get()) {
+            if (!piecesOnPathWithTargetOrNot.values()
+                    .stream()
+                    .findFirst()
+                    .get()) {
                 return false;
             }
-            return piecesOnPathWithTargetOrNot.keySet().stream().findFirst().get().getTeam() != this.team;
+            return piecesOnPathWithTargetOrNot.keySet()
+                    .stream()
+                    .findFirst()
+                    .get()
+                    .getTeam() != this.team;
         }
         return true;
     }

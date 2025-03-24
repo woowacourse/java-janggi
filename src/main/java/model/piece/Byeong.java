@@ -10,8 +10,7 @@ import model.Team;
 public class Byeong extends Piece {
 
     public Byeong(Team team) {
-        super(team);
-        pieceName = PieceName.BYEONG;
+        super(team, PieceName.BYEONG);
     }
 
     @Override

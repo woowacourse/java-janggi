@@ -14,6 +14,8 @@ import model.piece.Piece;
 public class JanggiBoard {
     public static final int VERTICAL_SIZE = 10;
     public static final int HORIZONTAL_SIZE = 9;
+    private static final int HORIZONTAL_MINIMUM_SIZE = 0;
+    private static final int VERTICAL_MINIMUM_SIZE = 0;
     private final List<List<Dot>> janggiBoard;
 
     public JanggiBoard(JanggiBoardSetUp elephantSetup) {
@@ -46,15 +48,10 @@ public class JanggiBoard {
     }
 
     public int countPiece() {
-        int count = 0;
-        for (List<Dot> row : janggiBoard) {
-            for (Dot dot : row) {
-                if (dot.isPlaced()) {
-                    count++;
-                }
-            }
-        }
-        return count;
+        return (int) janggiBoard.stream()
+                .flatMap(List::stream)
+                .filter(Dot::isPlaced)
+                .count();
     }
 
     public void move(Point beforePoint, Point targetPoint) {
@@ -79,7 +76,8 @@ public class JanggiBoard {
     }
 
     private Dot getDot(Point point) {
-        if (point.x() < 0 || point.y() < 0 || point.x() > HORIZONTAL_SIZE - 1 || point.y() > VERTICAL_SIZE - 1) {
+        if (point.x() < HORIZONTAL_MINIMUM_SIZE
+                || point.y() < VERTICAL_MINIMUM_SIZE || point.x() >= HORIZONTAL_SIZE || point.y() >= VERTICAL_SIZE) {
             throw new IllegalArgumentException("장기판을 벗어난 좌표입니다.");
         }
         return janggiBoard.get(point.y()).get(point.x());
@@ -95,12 +93,12 @@ public class JanggiBoard {
 
     private void addPiecesOnPathWithTargetOrNot(Point targetPoint, Point point,
                                                 Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
+        boolean isLastPoint = false;
+        if (point.equals(targetPoint)) {
+            isLastPoint = true;
+        }
         if (getDot(point).isPlaced()) {
-            if (point.equals(targetPoint)) {
-                piecesOnPathWithTargetOrNot.put(getDot(point).getPiece(), true);
-                return;
-            }
-            piecesOnPathWithTargetOrNot.put(getDot(point).getPiece(), false);
+            piecesOnPathWithTargetOrNot.put(getDot(point).getPiece(), isLastPoint);
         }
     }
 

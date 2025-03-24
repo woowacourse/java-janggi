@@ -9,8 +9,7 @@ import model.Team;
 public class Pho extends Piece {
 
     public Pho(Team team) {
-        super(team);
-        pieceName = PieceName.PHO;
+        super(team,PieceName.PHO);
     }
 
     public boolean isValidPoint(Point beforePoint, Point targetPoint) {

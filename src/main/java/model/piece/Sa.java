@@ -8,8 +8,7 @@ import model.Team;
 public class Sa extends Piece {
 
     public Sa(Team team) {
-        super(team);
-        pieceName = PieceName.SA;
+        super(team,PieceName.SA);
     }
 
     @Override
@@ -30,7 +29,10 @@ public class Sa extends Piece {
     @Override
     public boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
         if (piecesOnPathWithTargetOrNot.size() == 1) {
-            return piecesOnPathWithTargetOrNot.keySet().stream().findFirst().get().getTeam() != this.team;
+            return piecesOnPathWithTargetOrNot.keySet().stream()
+                    .findFirst()
+                    .get()
+                    .getTeam() != this.team;
         }
         return true;
     }

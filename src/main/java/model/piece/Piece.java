@@ -9,8 +9,9 @@ public abstract class Piece {
     Team team;
     PieceName pieceName;
 
-    protected Piece(Team team) {
+    protected Piece(Team team, PieceName pieceName) {
         this.team = team;
+        this.pieceName = pieceName;
     }
 
     public Team getTeam() {
