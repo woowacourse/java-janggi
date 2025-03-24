@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.PieceFactory;
+import domain.piece.PieceType;
 import domain.position.Point;
 import domain.position.Position;
 import org.assertj.core.api.SoftAssertions;
@@ -183,5 +184,53 @@ class BoardTest {
             softly.assertThat(position.isSamePiece(cannon)).isTrue();
         });
 
+    }
+
+    @Test
+    void 포가_포를_넘지_못한다() {
+        // given
+        final Board board = BoardFactory.create();
+
+        // when
+        final Position position = board.findPositionBy(Point.of(1, 2));
+        final Point toPoint = Point.of(1, 8);
+        if (board.canMoveOnPath(position, toPoint)) {
+            board.move(position, toPoint, OutputView::printCaptureMessage);
+        }
+
+        // then
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(position.isSamePieceType(PieceType.CANNON)).isTrue();
+            softly.assertThat(board.hasPieceAt(toPoint)).isFalse();
+        });
+    }
+
+    @Test
+    void 포가_포를_제외한_말을_넘어서_잡는다() {
+        // given
+        final Board board = BoardFactory.create();
+
+        // when
+        final Position notCannonPosition = board.findPositionBy(Point.of(2, 3));
+        final Point toPoint1 = Point.of(1, 3);
+        board.move(notCannonPosition, toPoint1, OutputView::printCaptureMessage);
+
+        final Position position2 = board.findPositionBy(Point.of(2, 6));
+        final Point toPoint2 = Point.of(1, 6);
+        board.move(position2, toPoint2, OutputView::printCaptureMessage);
+
+        final Position cannonPosition = board.findPositionBy(Point.of(1, 2));
+        final Point toPoint3 = Point.of(1, 6);
+        if (board.canMoveOnPath(cannonPosition, toPoint3)) {
+            board.move(cannonPosition, toPoint3, OutputView::printCaptureMessage);
+        }
+
+        // then
+        final Position movedCannonPosition = board.findPositionBy(Point.of(1, 6));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cannonPosition.isSamePieceType(PieceType.CANNON)).isTrue();
+            softly.assertThat(notCannonPosition.isSamePieceType(PieceType.CANNON)).isFalse();
+            softly.assertThat(movedCannonPosition.isSamePieceType(PieceType.CANNON)).isTrue();
+        });
     }
 }
