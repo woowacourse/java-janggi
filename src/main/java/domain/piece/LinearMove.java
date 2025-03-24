@@ -7,6 +7,8 @@ import domain.JanggiCoordinate;
 public interface LinearMove {
     void validateLinearMove(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to);
 
+    void validateReachAble(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to);
+
     default Direction getVerticalDirection(JanggiCoordinate from, JanggiCoordinate to) {
         if (from.row() > to.row()) {
             return Direction.UP;

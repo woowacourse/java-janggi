@@ -8,12 +8,6 @@ public class Cha extends Piece implements LinearMove {
         super(country, PieceType.CHA);
     }
 
-    private void validateTarget(JanggiBoard board, JanggiCoordinate to) {
-        if (board.isOccupied(to) && isSameCountry(board.findPieceByCoordinate(to))) {
-            throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
-        }
-    }
-    
     @Override
     public void validateLinearMove(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
         validateRowCol(from, to);
@@ -23,10 +17,11 @@ public class Cha extends Piece implements LinearMove {
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         validateLinearMove(board, from, to);
-        validateTarget(board, to);
+        validateTarget(board, from, to);
     }
 
-    private void validateReachAble(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
+    @Override
+    public void validateReachAble(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
         Direction direction = getDirection(from, to);
         JanggiCoordinate curr = from.move(direction);
         while (!janggiBoard.isOccupied(curr) && !curr.equals(to)) {

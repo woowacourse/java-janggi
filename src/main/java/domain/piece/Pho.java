@@ -8,21 +8,46 @@ public class Pho extends Piece implements LinearMove {
         super(country, PieceType.PHO);
     }
 
-    private void validateTarget(JanggiBoard board, JanggiCoordinate to) {
-        if (board.isOccupied(to) && isSameCountry(board.findPieceByCoordinate(to))) {
-            throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
+    private JanggiCoordinate findFirstPieceCoordinate(JanggiBoard janggiBoard, JanggiCoordinate curr, JanggiCoordinate to, Direction direction) {
+        while (!janggiBoard.isOccupied(curr) && !curr.equals(to)) {
+            curr = curr.move(direction);
         }
-        if (board.isOccupied(to) && isSameType(board.findPieceByCoordinate(to))) {
-            throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
+        return curr;
+    }
+
+    private void validatePhoTarget(JanggiBoard board, JanggiCoordinate to) {
+        if (!board.isOccupied(to)) {
+            return;
+        }
+
+        Piece targetPiece = board.findPieceByCoordinate(to);
+        if (targetPiece.getPieceType() == PieceType.PHO) {
+            throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
         }
     }
 
-    private void validateReachAble(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
+    @Override
+    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+        validateLinearMove(board, from, to);
+        validateTarget(board, from, to);
+    }
+
+    @Override
+    public void validateLinearMove(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
+        validateRowCol(from, to);
+        validateReachAble(janggiBoard, from, to);
+        validatePhoTarget(janggiBoard, to);
+    }
+
+    @Override
+    public void validateReachAble(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
         Direction direction = getDirection(from, to);
         JanggiCoordinate curr = from.move(direction);
 
         curr = findFirstPieceCoordinate(janggiBoard, curr, to, direction);
-        if (isSameType(janggiBoard.findPieceByCoordinate(curr))) {
+        Piece currPiece = janggiBoard.findPieceByCoordinate(curr);
+
+        if (currPiece.getPieceType() == PieceType.PHO) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 넘을 수 없습니다.");
         }
         if (curr.equals(to)) {
@@ -33,24 +58,5 @@ public class Pho extends Piece implements LinearMove {
         if (!curr.equals(to)) {
             throw new IllegalArgumentException("[ERROR] 포는 기물을 한번만 넘어 공격할 수 있습니다.");
         }
-    }
-
-    private JanggiCoordinate findFirstPieceCoordinate(JanggiBoard janggiBoard, JanggiCoordinate curr, JanggiCoordinate to, Direction direction) {
-        while (!janggiBoard.isOccupied(curr) && !curr.equals(to)) {
-            curr = curr.move(direction);
-        }
-        return curr;
-    }
-
-    @Override
-    public void validateLinearMove(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
-        validateRowCol(from, to);
-        validateReachAble(janggiBoard, from, to);
-    }
-
-    @Override
-    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateLinearMove(board, from, to);
-        validateTarget(board, to);
     }
 }

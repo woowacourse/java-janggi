@@ -31,16 +31,10 @@ public class Ma extends Piece implements DistanceMove {
         throw new IllegalArgumentException("[ERROR] 경로에 기물이 있어 해당 위치로 이동할 수 없습니다.");
     }
 
-    private void validateTarget(JanggiBoard board, JanggiCoordinate to) {
-        if (board.isOccupied(to) && isSameCountry(board.findPieceByCoordinate(to))) {
-            throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
-        }
-    }
-
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         validateMaMoveStrategy(board, from, to);
-        validateTarget(board, to);
+        validateTarget(board, from, to);
     }
 
     private Direction getDirection(JanggiCoordinate from, JanggiCoordinate to) {

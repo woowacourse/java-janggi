@@ -18,12 +18,6 @@ public class Byeong extends Piece {
         validateChoMove(from, to);
     }
 
-    private void validateTarget(JanggiBoard board, JanggiCoordinate to) {
-        if (board.isOccupied(to) && isSameCountry(board.findPieceByCoordinate(to))) {
-            throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
-        }
-    }
-
     private void validateHanMove(JanggiCoordinate from, JanggiCoordinate to) {
         if (from.moveDown().equals(to) || from.moveRight().equals(to) || from.moveLeft().equals(to)) {
             return;
@@ -41,6 +35,6 @@ public class Byeong extends Piece {
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         validateByeongMove(from, to);
-        validateTarget(board, to);
+        validateTarget(board, from, to);
     }
 }

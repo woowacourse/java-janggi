@@ -16,13 +16,18 @@ public abstract class Piece {
 
     public abstract void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to);
 
-    public boolean isSameType(Piece piece) {
-        return this.pieceType == piece.getPieceType();
+    protected void validateTarget(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+        if (!board.isOccupied(to)) {
+            return;
+        }
+
+        Piece currPiece = board.findPieceByCoordinate(from);
+        Piece targetPiece = board.findPieceByCoordinate(to);
+        if (Country.isSameContry(currPiece, targetPiece)) {
+            throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
+        }
     }
 
-    public boolean isSameCountry(Piece piece) {
-        return this.country == piece.getCountry();
-    }
 
     public Country getCountry() {
         return country;
