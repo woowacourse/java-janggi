@@ -8,9 +8,11 @@ import java.util.Objects;
 
 public abstract class Piece {
 
-    protected final Team team;
+    protected final PieceType pieceType;
 
-    public Piece(final Team team) {
+    protected final Team team;
+    public Piece(final PieceType pieceType, final Team team) {
+        this.pieceType = pieceType;
         this.team = team;
     }
 
@@ -41,7 +43,7 @@ public abstract class Piece {
     }
 
     public boolean isGeneral() {
-        return false;
+        return PieceType.GENERAL == pieceType;
     }
 
     @Override
@@ -56,6 +58,10 @@ public abstract class Piece {
     @Override
     public int hashCode() {
         return Objects.hashCode(team);
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
     }
 
     public Team getTeam() {

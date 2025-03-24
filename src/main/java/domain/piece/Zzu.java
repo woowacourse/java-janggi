@@ -10,7 +10,7 @@ import java.util.List;
 public class Zzu extends Piece {
 
     public Zzu(final Team team) {
-        super(team);
+        super(PieceType.ZZU, team);
     }
 
     @Override

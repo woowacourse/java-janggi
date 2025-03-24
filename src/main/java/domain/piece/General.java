@@ -7,7 +7,7 @@ import java.util.List;
 public class General extends Piece {
 
     public General(final Team team) {
-        super(team);
+        super(PieceType.GENERAL, team);
     }
 
     @Override
@@ -20,11 +20,6 @@ public class General extends Piece {
     @Override
     protected List<Offset> createMovementRule(final Offset offset) {
         return List.of(offset);
-    }
-
-    @Override
-    public boolean isGeneral() {
-        return true;
     }
 
     @Override

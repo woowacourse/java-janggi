@@ -10,7 +10,7 @@ public class Cannon extends Piece {
     private static final int ALLOWED_OBSTACLES_COUNT = 1;
 
     public Cannon(final Team team) {
-        super(team);
+        super(PieceType.CANNON, team);
     }
 
     @Override
@@ -33,12 +33,12 @@ public class Cannon extends Piece {
     @Override
     public boolean isAllowedObstacles(final List<Piece> obstacles) {
         return obstacles.size() == ALLOWED_OBSTACLES_COUNT
-                && obstacles.getLast().getClass() != this.getClass();
+                && PieceType.CANNON != obstacles.getLast().getPieceType();
     }
 
     @Override
     public boolean isCatchable(final Piece piece) {
-        return this.getClass() != piece.getClass();
+        return PieceType.CANNON != piece.getPieceType();
     }
 
     private int getDistance(final Offset offset, final Offset unitDirection) {

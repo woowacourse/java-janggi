@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 public class Chariot extends Piece {
 
     public Chariot(final Team team) {
-        super(team);
+        super(PieceType.CHARIOT, team);
     }
 
     @Override
