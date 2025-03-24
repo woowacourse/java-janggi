@@ -15,7 +15,7 @@ public record Position(
     }
 
     public Position moveBy(final Vector vector) {
-        return vector.applyTo(this);
+        return new Position(row + vector.moveRow(), column + vector.moveColumn());
     }
 
     public boolean isMoveValid(final Vector vector) {

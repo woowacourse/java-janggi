@@ -1,19 +1,14 @@
 package domain.spatial;
 
-public class Vector {
+public record Vector(int moveRow, int moveColumn) {
 
     private static final int MAX_MOVE_ROW = 1;
     private static final int MIN_MOVE_ROW = -1;
     private static final int MAX_MOVE_COLUMN = 1;
     private static final int MIN_MOVE_COLUMN = -1;
 
-    private final int moveRow;
-    private final int moveColumn;
-
-    public Vector(final int moveRow, final int moveColumn) {
+    public Vector {
         validateRange(moveRow, moveColumn);
-        this.moveRow = moveRow;
-        this.moveColumn = moveColumn;
     }
 
     public Position applyTo(final Position position) {
