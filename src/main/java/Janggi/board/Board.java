@@ -1,6 +1,7 @@
 package Janggi.board;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import Janggi.piece.Piece;
 import Janggi.piece.Country;
@@ -68,6 +69,12 @@ public class Board {
     private void movePieceToDestination(final Position source, final Position destination) {
         janggiBoard.put(destination, janggiBoard.get(source));
         janggiBoard.remove(source);
+    }
+
+    public int calculatePieceCountByPositions(final List<Position> positions) {
+        return (int) positions.stream()
+                .filter(janggiBoard::containsKey)
+                .count();
     }
 
     public Map<Position, Piece> getJanggiBoard() {

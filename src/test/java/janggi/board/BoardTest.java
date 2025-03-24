@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import Janggi.board.Board;
 import Janggi.board.Position;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -75,7 +76,7 @@ public class BoardTest {
 
         @DisplayName("보드의 특정 위치가 포라면 true를 반환한다.")
         @Test
-        void calculatePieceCountByPositions() {
+        void isCannonByPosition() {
             // given
             final Map<Position, Piece> map = Map.of(
                     new Position(1, 1), new Cannon(Country.HAN),
@@ -111,6 +112,28 @@ public class BoardTest {
             // then
             assertThat(actualEquals).isTrue();
             assertThat(actualNotEquals).isFalse();
+        }
+
+        @DisplayName("보드에 주어진 범위에 존재하는 기물의 수를 반환")
+        @Test
+        void calculatePieceCountByPositions() {
+            // given
+            final Map<Position, Piece> map = Map.of(
+                    new Position(1, 1), new Cannon(Country.HAN),
+                    new Position(1, 2), new Cannon(Country.HAN),
+                    new Position(1, 3), new Cannon(Country.HAN)
+            );
+            final Board board = new Board(map);
+            final List<Position> positions = List.of(
+                    new Position(1, 1), new Position(1, 2)
+            );
+            final int expected = 2;
+
+            // when
+            final int actual = board.calculatePieceCountByPositions(positions);
+
+            // then
+            assertThat(actual).isEqualTo(expected);
         }
     }
 
