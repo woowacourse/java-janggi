@@ -5,6 +5,11 @@ import view.ErrorMessage;
 
 public class Position {
 
+    private static final int MAX_ROW = 9;
+    private static final int MAX_COL = 10;
+    private static final int MIN_ROW = 0;
+    private static final int MIN_COL = 0;
+
     private final int row;
     private final int col;
 
@@ -43,7 +48,7 @@ public class Position {
     }
 
     private void validateOutOfBound(final int row, final int col) {
-        if (row > 9 || col > 10 || row < 0 || col < 0) {
+        if (row > MAX_ROW || col > MAX_COL || row < MIN_ROW || col < MIN_COL) {
             throw new IllegalArgumentException(ErrorMessage.formatMessage("장기판은 10 x 9 입니다. 범위를 초과하였습니다."));
         }
     }
