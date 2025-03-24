@@ -21,6 +21,8 @@ public abstract class Piece {
 
     public abstract boolean isCannon();
 
+    public abstract void validateMoveByPathPieceCount(final int pathPieceCount);
+
     public List<Position> getPath(final Position targetPosition) {
         return directions.getPath(position, targetPosition);
     }

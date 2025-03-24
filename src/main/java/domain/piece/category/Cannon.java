@@ -6,6 +6,8 @@ import domain.spatial.Position;
 
 public class Cannon extends Piece {
 
+    private static final int PIECES_TO_PASS = 1;
+
     public Cannon(final Position position, final Directions directions) {
         super(position, directions);
     }
@@ -23,5 +25,12 @@ public class Cannon extends Piece {
     @Override
     public boolean isCannon() {
         return true;
+    }
+
+    @Override
+    public void validateMoveByPathPieceCount(final int pathPieceCount) {
+        if (pathPieceCount != PIECES_TO_PASS) {
+            throw new IllegalArgumentException("[ERROR] 포는 중간에 기물이 " + PIECES_TO_PASS + "개여야 합니다.");
+        }
     }
 }

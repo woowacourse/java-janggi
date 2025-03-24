@@ -1,8 +1,5 @@
 package domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
 import domain.direction.Direction;
 import domain.direction.Directions;
 import domain.piece.category.Cannon;
@@ -15,6 +12,8 @@ import domain.piece.category.Soldier;
 import domain.spatial.Position;
 import domain.spatial.Vector;
 import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import org.junit.jupiter.api.Test;
 
 class PieceTest {
@@ -129,6 +128,8 @@ class PieceTest {
 
     static class TestPiece extends Piece {
 
+        private static final int PIECES_TO_PASS = 0;
+
         public TestPiece(final Position position, final Directions directions) {
             super(position, directions);
         }
@@ -149,8 +150,10 @@ class PieceTest {
         }
 
         @Override
-        public String getName() {
-            return "";
+        public void validateMoveByPathPieceCount(final int pathPieceCount) {
+            if (pathPieceCount != PIECES_TO_PASS) {
+                throw new IllegalArgumentException("[ERROR] 테스트는 중간에 기물이 " + PIECES_TO_PASS + "개여야 합니다.");
+            }
         }
     }
 }

@@ -6,6 +6,8 @@ import domain.spatial.Position;
 
 public class Horse extends Piece {
 
+    private static final int PIECES_TO_PASS = 0;
+
     public Horse(final Position position, final Directions directions) {
         super(position, directions);
     }
@@ -23,5 +25,12 @@ public class Horse extends Piece {
     @Override
     public boolean isCannon() {
         return false;
+    }
+
+    @Override
+    public void validateMoveByPathPieceCount(final int pathPieceCount) {
+        if (pathPieceCount != PIECES_TO_PASS) {
+            throw new IllegalArgumentException("[ERROR] 마는 중간에 기물이 " + PIECES_TO_PASS + "개여야 합니다.");
+        }
     }
 }
