@@ -2,7 +2,6 @@ package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.AssertionsKt.assertAll;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;

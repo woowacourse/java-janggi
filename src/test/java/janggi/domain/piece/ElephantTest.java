@@ -4,10 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.point.ChuPoint;
-import janggi.domain.board.point.DefaultPoint;
-import janggi.domain.board.point.HanPoint;
-import java.util.Set;
+import janggi.domain.board.Point;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,11 +15,11 @@ class ElephantTest {
     @Test
     void isMovable() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of());
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of());
         Piece elephant = new Elephant();
 
         // when
-        boolean isMovable = elephant.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(4, 3));
+        boolean isMovable = elephant.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(4, 3));
 
         // then
         assertThat(isMovable).isTrue();
@@ -31,11 +29,11 @@ class ElephantTest {
     @Test
     void isNotMovable_WhenImpossibleEndPoint() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of());
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of());
         Piece elephant = new Elephant();
 
         // when
-        boolean isMovable = elephant.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(4, 2));
+        boolean isMovable = elephant.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(4, 2));
 
         // then
         assertThat(isMovable)
@@ -46,13 +44,13 @@ class ElephantTest {
     @Test
     void isNotMovable_WhenPieceInPath() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(2, 1), new Horse(), Dynasty.HAN)
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(2, 1), new BoardPiece(new Horse(), Dynasty.HAN)
         ));
         Piece elephant = new Elephant();
 
         // when
-        boolean isMovable = elephant.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(4, 3));
+        boolean isMovable = elephant.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(4, 3));
 
         // then
         assertThat(isMovable)
@@ -63,13 +61,13 @@ class ElephantTest {
     @Test
     void isNotMovable_WhenOtherPieceInEndPoint() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(4, 3), new Horse(), Dynasty.CHU)
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(4, 3), new BoardPiece(new Horse(), Dynasty.CHU)
         ));
         Elephant elephant = new Elephant();
 
         // when
-        boolean isMovable = elephant.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(4, 3));
+        boolean isMovable = elephant.isMovable(janggiBoard, Dynasty.CHU, new Point(1, 1), new Point(4, 3));
 
         // then
         assertThat(isMovable)

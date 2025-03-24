@@ -4,10 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.point.ChuPoint;
-import janggi.domain.board.point.DefaultPoint;
-import janggi.domain.board.point.HanPoint;
-import java.util.Set;
+import janggi.domain.board.Point;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -25,11 +23,11 @@ class ChariotTest {
     })
     void isMovable(int x1, int y1, int x2, int y2) {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Piece rook = new Chariot();
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of());
+        Piece chariot = new Chariot();
 
         // when
-        boolean isMovable = rook.isMovable(janggiBoard, new HanPoint(x1, y1), new DefaultPoint(x2, y2));
+        boolean isMovable = chariot.isMovable(janggiBoard, Dynasty.HAN, new Point(x1, y1), new Point(x2, y2));
 
         // then
         assertThat(isMovable).isTrue();
@@ -39,11 +37,11 @@ class ChariotTest {
     @Test
     void isNotMovable_WhenImpossibleEndPoint() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Piece rook = new Chariot();
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of());
+        Piece chariot = new Chariot();
 
         // when
-        boolean isMovable = rook.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 2));
+        boolean isMovable = chariot.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(2, 2));
 
         // then
         assertThat(isMovable)
@@ -54,13 +52,13 @@ class ChariotTest {
     @Test
     void isNotMovable_WhenPieceInPath() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(1, 2), new Horse(), Dynasty.HAN)
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(1, 2), new BoardPiece(new Horse(), Dynasty.HAN)
         ));
-        Piece rook = new Chariot();
+        Piece chariot = new Chariot();
 
         // when
-        boolean isMovable = rook.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(1, 4));
+        boolean isMovable = chariot.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(1, 4));
 
         // then
         assertThat(isMovable)
@@ -71,13 +69,13 @@ class ChariotTest {
     @Test
     void isNotMovable_WhenOtherPieceInEndPoint() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(1, 4), new Horse(), Dynasty.CHU)
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(1, 4), new BoardPiece(new Horse(), Dynasty.CHU)
         ));
-        Piece rook = new Chariot();
+        Piece chariot = new Chariot();
 
         // when
-        boolean isMovable = rook.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(1, 4));
+        boolean isMovable = chariot.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(1, 4));
 
         // then
         assertThat(isMovable)

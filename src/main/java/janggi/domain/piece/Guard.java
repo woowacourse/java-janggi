@@ -2,12 +2,12 @@ package janggi.domain.piece;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.Position;
+import janggi.domain.board.Point;
 
 public class Guard implements Piece {
 
     @Override
-    public boolean isMovable(JanggiBoard janggiBoard, Dynasty dynasty, Position start, Position end) {
+    public boolean isMovable(JanggiBoard janggiBoard, Dynasty dynasty, Point start, Point end) {
         return false;
     }
 

@@ -4,10 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.point.ChuPoint;
-import janggi.domain.board.point.DefaultPoint;
-import janggi.domain.board.point.HanPoint;
-import java.util.Set;
+import janggi.domain.board.Point;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,11 +15,11 @@ class HorseTest {
     @Test
     void isMovable() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Piece knight = new Horse();
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of());
+        Piece horse = new Horse();
 
         // when
-        boolean isMovable = knight.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 3));
+        boolean isMovable = horse.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(2, 3));
 
         // then
         assertThat(isMovable).isTrue();
@@ -31,11 +29,11 @@ class HorseTest {
     @Test
     void isNotMovable_WhenImpossibleEndPoint() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of());
-        Piece knight = new Horse();
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of());
+        Piece horse = new Horse();
 
         // when
-        boolean isMovable = knight.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 2));
+        boolean isMovable = horse.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(2, 2));
 
         // then
         assertThat(isMovable)
@@ -46,13 +44,13 @@ class HorseTest {
     @Test
     void isNotMovable_WhenPieceInPath() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(1, 2), new Horse(), Dynasty.HAN)
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(1, 2), new BoardPiece(new Horse(), Dynasty.HAN)
         ));
-        Piece knight = new Horse();
+        Piece horse = new Horse();
 
         // when
-        boolean isMovable = knight.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 3));
+        boolean isMovable = horse.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(2, 3));
 
         // then
         assertThat(isMovable)
@@ -63,13 +61,13 @@ class HorseTest {
     @Test
     void isNotMovable_WhenOtherPieceInEndPoint() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(2, 3), new Horse(), Dynasty.CHU)
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(2, 3), new BoardPiece(new Horse(), Dynasty.CHU)
         ));
-        Piece knight = new Horse();
+        Piece horse = new Horse();
 
         // when
-        boolean isMovable = knight.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 3));
+        boolean isMovable = horse.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(2, 3));
 
         // then
         assertThat(isMovable)

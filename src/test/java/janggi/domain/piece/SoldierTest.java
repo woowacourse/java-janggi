@@ -4,10 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.point.ChuPoint;
-import janggi.domain.board.point.DefaultPoint;
-import janggi.domain.board.point.HanPoint;
-import java.util.Set;
+import janggi.domain.board.Point;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,20 +13,39 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 public class SoldierTest {
 
-    @DisplayName("폰은 상좌우 한칸 움직일 수 있다")
+    @DisplayName("한나라 폰은 상좌우 한칸 움직일 수 있다")
     @ParameterizedTest
     @CsvSource({
             "1, 1, 2, 1",
             "1, 2, 1, 1",
             "1, 2, 1, 3",
     })
-    void isMovable(int x1, int y1, int x2, int y2) {
+    void isMovable_Han(int x1, int y1, int x2, int y2) {
         //givenR
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of());
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of());
         Soldier soldier = new Soldier();
 
         //when
-        boolean result = soldier.isMovable(janggiBoard, new HanPoint(x1, y1), new HanPoint(x2, y2));
+        boolean result = soldier.isMovable(janggiBoard, Dynasty.HAN, new Point(x1, y1), new Point(x2, y2));
+
+        //then
+        assertThat(result).isTrue();
+    }
+
+    @DisplayName("초나라 폰은 상좌우 한칸 움직일 수 있다")
+    @ParameterizedTest
+    @CsvSource({
+            "2, 1, 1, 1",
+            "1, 2, 1, 1",
+            "1, 2, 1, 3",
+    })
+    void isMovable_Chu(int x1, int y1, int x2, int y2) {
+        //givenR
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of());
+        Soldier soldier = new Soldier();
+
+        //when
+        boolean result = soldier.isMovable(janggiBoard, Dynasty.CHU, new Point(x1, y1), new Point(x2, y2));
 
         //then
         assertThat(result).isTrue();
@@ -38,11 +55,11 @@ public class SoldierTest {
     @Test
     void isNotMovable_WhenImpossibleEndPoint() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of());
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of());
         Piece soldier = new Soldier();
 
         // when
-        boolean isMovable = soldier.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 2));
+        boolean isMovable = soldier.isMovable(janggiBoard, Dynasty.CHU, new Point(1, 1), new Point(2, 2));
 
         // then
         assertThat(isMovable)
@@ -53,13 +70,13 @@ public class SoldierTest {
     @Test
     void isNotMovable_WhenOtherPieceInEndPoint() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(1, 2), new Soldier(), Dynasty.CHU)
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(1, 2), new BoardPiece(new Soldier(), Dynasty.CHU)
         ));
         Piece soldier = new Soldier();
 
         // when
-        boolean isMovable = soldier.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(1, 2));
+        boolean isMovable = soldier.isMovable(janggiBoard, Dynasty.CHU, new Point(1, 1), new Point(1, 2));
 
         // then
         assertThat(isMovable)

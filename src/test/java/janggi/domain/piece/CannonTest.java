@@ -4,31 +4,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.point.ChuPoint;
-import janggi.domain.board.point.DefaultPoint;
-import janggi.domain.board.point.HanPoint;
-import java.util.Set;
+import janggi.domain.board.Point;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class CannonTest {
 
-    /*
-    1. 출발지에서 목적지까지 포가 아닌 기물이 한개 있어야함
-    2. 목적지에 자신의 편이나 상대편의 포가 있으면 안됨
-     */
-
     @DisplayName("출발지에서 목적지까지 포가 아닌 기물이 한개 있어야한다.")
     @Test
     void moveCannonTest() {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(4, 4), new Soldier(), Dynasty.HAN)
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(4, 4), new BoardPiece(new Soldier(), Dynasty.HAN)
         ));
         Cannon cannon = new Cannon();
 
         //when
-        boolean movable = cannon.isMovable(janggiBoard, new HanPoint(4, 1), new DefaultPoint(4, 9));
+        boolean movable = cannon.isMovable(janggiBoard, Dynasty.HAN, new Point(4, 1), new Point(4, 9));
 
         //then
         assertThat(movable).isTrue();
@@ -38,14 +31,14 @@ class CannonTest {
     @Test
     void moveCannonTest_WhenTwoPieceInPath() {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(4, 4), new Soldier(), Dynasty.HAN),
-                new BoardPiece(new HanPoint(4, 6), new Soldier(), Dynasty.HAN)
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(4, 4), new BoardPiece(new Soldier(), Dynasty.HAN),
+                new Point(4, 6), new BoardPiece(new Soldier(), Dynasty.HAN)
         ));
         Cannon cannon = new Cannon();
 
         //when
-        boolean movable = cannon.isMovable(janggiBoard, new HanPoint(4, 1), new DefaultPoint(4, 9));
+        boolean movable = cannon.isMovable(janggiBoard, Dynasty.HAN, new Point(4, 1), new Point(4, 9));
 
         //then
         assertThat(movable).isFalse();
@@ -55,13 +48,13 @@ class CannonTest {
     @Test
     void notJumpCannon() {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new HanPoint(4, 4), new Cannon(), Dynasty.HAN)
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(4, 4), new BoardPiece(new Cannon(), Dynasty.HAN)
         ));
         Cannon cannon = new Cannon();
 
         //when
-        boolean movable = cannon.isMovable(janggiBoard, new HanPoint(4, 1), new DefaultPoint(4, 9));
+        boolean movable = cannon.isMovable(janggiBoard, Dynasty.HAN, new Point(4, 1), new Point(4, 9));
 
         //then
         assertThat(movable).isFalse();
@@ -71,13 +64,13 @@ class CannonTest {
     @Test
     void notJumpCannon_WhenEndPositionExistCannon() {
         //given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(4, 9), new Cannon(), Dynasty.CHU)
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(4, 9), new BoardPiece(new Cannon(), Dynasty.CHU)
         ));
         Cannon cannon = new Cannon();
 
         //when
-        boolean movable = cannon.isMovable(janggiBoard, new HanPoint(4, 1), new DefaultPoint(4, 9));
+        boolean movable = cannon.isMovable(janggiBoard, Dynasty.HAN, new Point(4, 1), new Point(4, 9));
 
         //then
         assertThat(movable).isFalse();
@@ -87,11 +80,11 @@ class CannonTest {
     @Test
     void notMove_WhenImpossibleDirection() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of());
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of());
         Cannon cannon = new Cannon();
 
         // when
-        boolean isMovable = cannon.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(2, 2));
+        boolean isMovable = cannon.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(2, 2));
 
         // then
         assertThat(isMovable)
@@ -102,14 +95,14 @@ class CannonTest {
     @Test
     void isNotMovable_WhenOtherPieceInEndPoint() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(Set.of(
-                new BoardPiece(new ChuPoint(1, 8), new Horse(), Dynasty.CHU),
-                new BoardPiece(new ChuPoint(1, 4), new Horse(), Dynasty.CHU)
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(1, 8), new BoardPiece(new Horse(), Dynasty.CHU),
+                new Point(1, 4), new BoardPiece(new Horse(), Dynasty.CHU)
         ));
         Cannon cannon = new Cannon();
 
         // when
-        boolean isMovable = cannon.isMovable(janggiBoard, new HanPoint(1, 1), new DefaultPoint(1, 8));
+        boolean isMovable = cannon.isMovable(janggiBoard, Dynasty.CHU, new Point(1, 1), new Point(1, 8));
 
         // then
         assertThat(isMovable)

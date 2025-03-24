@@ -3,34 +3,23 @@ package janggi.domain.piece;
 import janggi.domain.Dynasty;
 import janggi.domain.board.Direction;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.Position;
+import janggi.domain.board.Point;
+import janggi.domain.piece.moveStrategy.LongRangeMoveStrategy;
+import janggi.domain.piece.moveStrategy.MoveStrategy;
+import java.util.List;
 import java.util.Set;
 
 public class Chariot implements Piece {
 
-    private final Set<Direction> DIRECTIONS = Set.of(
-            Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT
+    private final Set<List<Direction>> DIRECTIONS = Set.of(
+            List.of(Direction.UP), List.of(Direction.DOWN), List.of(Direction.RIGHT), List.of(Direction.LEFT)
     );
 
-    @Override
-    public boolean isMovable(JanggiBoard janggiBoard, Dynasty dynasty, Position start, Position end) {
-        return DIRECTIONS.stream()
-                .anyMatch(path -> canMoveEndPointByDirection(janggiBoard, start, end, path));
-    }
+    private final MoveStrategy moveStrategy = new LongRangeMoveStrategy();
 
-    private boolean canMoveEndPointByDirection(JanggiBoard janggiBoard, Position start, Position end,
-                                               Direction direction) {
-        Position currPoint = start;
-        while (!currPoint.equals(end)) {
-            if (!currPoint.canMove(direction)) {
-                break;
-            }
-            currPoint = currPoint.move(direction);
-            if (janggiBoard.isExistPiece(currPoint)) {
-                break;
-            }
-        }
-        return currPoint.equals(end);
+    @Override
+    public boolean isMovable(JanggiBoard janggiBoard, Dynasty dynasty, Point start, Point end) {
+        return moveStrategy.isMovable(janggiBoard, start, end, DIRECTIONS);
     }
 
     @Override
