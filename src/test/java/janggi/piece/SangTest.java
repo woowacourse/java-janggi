@@ -1,10 +1,12 @@
 package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.position.Position;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,6 +42,23 @@ class SangTest {
                 .hasMessageStartingWith("[ERROR]");
     }
 
+    private static Stream<Arguments> sangNonIsMovePositionProvider() {
+        return Stream.of(
+                Arguments.of(new Position(2, 5)),
+                Arguments.of(new Position(2, 4)),
+                Arguments.of(new Position(2, 6)),
+                Arguments.of(new Position(4, 8)),
+                Arguments.of(new Position(5, 8)),
+                Arguments.of(new Position(6, 8)),
+                Arguments.of(new Position(8, 4)),
+                Arguments.of(new Position(8, 5)),
+                Arguments.of(new Position(8, 6)),
+                Arguments.of(new Position(4, 2)),
+                Arguments.of(new Position(5, 2)),
+                Arguments.of(new Position(6, 2))
+        );
+    }
+
     @DisplayName("상은 자신의 위치를 기준으로 직선으로 한칸 대각선으로 두칸 이동할 수 있다.")
     @ParameterizedTest
     @MethodSource("sangIsMovePositionProvider")
@@ -54,6 +73,18 @@ class SangTest {
         assertThat(actual).isTrue();
     }
 
+    private static Stream<Arguments> sangIsMovePositionProvider() {
+        return Stream.of(
+                Arguments.of(new Position(2, 3)),
+                Arguments.of(new Position(2, 7)),
+                Arguments.of(new Position(7, 8)),
+                Arguments.of(new Position(3, 8)),
+                Arguments.of(new Position(8, 3)),
+                Arguments.of(new Position(8, 7)),
+                Arguments.of(new Position(3, 2)),
+                Arguments.of(new Position(7, 2))
+        );
+    }
 
     @DisplayName("병은 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
     @Test
@@ -73,36 +104,39 @@ class SangTest {
         );
     }
 
-    private static Stream<Arguments> sangIsMovePositionProvider() {
-        return Stream.of(
-                Arguments.of(new Position(2, 3)),
-                Arguments.of(new Position(2, 7)),
-                Arguments.of(new Position(7, 8)),
-                Arguments.of(new Position(3, 8)),
-                Arguments.of(new Position(8, 3)),
-                Arguments.of(new Position(8, 7)),
-                Arguments.of(new Position(3, 2)),
-                Arguments.of(new Position(7, 2))
+    @DisplayName("상이 일보 전진하는 자리에 멱(장애물)이 존재한다면 예외가 발생한다.")
+    @Test
+    void hasObstacle() {
+        //given
+        Sang sang = new Sang(new PieceProfile("마", Nation.HAN), new Position(0, 7));
+
+        Map<Position, Piece> board = Map.of(
+                new Position(1, 7), new Cha(new PieceProfile("차", Nation.HAN), new Position(1, 7))
         );
+
+        Position futurePosition = new Position(3, 5);
+
+        //when //then
+        assertThatThrownBy(() -> sang.checkObstacle(futurePosition, board))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageStartingWith("[ERROR]");
     }
 
-    private static Stream<Arguments> sangNonIsMovePositionProvider() {
-        return Stream.of(
-                Arguments.of(new Position(2, 5)),
-                Arguments.of(new Position(2, 4)),
-                Arguments.of(new Position(2, 6)),
-                Arguments.of(new Position(4, 8)),
-                Arguments.of(new Position(5, 8)),
-                Arguments.of(new Position(6, 8)),
-                Arguments.of(new Position(8, 4)),
-                Arguments.of(new Position(8, 5)),
-                Arguments.of(new Position(8, 6)),
-                Arguments.of(new Position(4, 2)),
-                Arguments.of(new Position(5, 2)),
-                Arguments.of(new Position(6, 2))
+    @DisplayName("상의 이동 경로에 장애물이 없다면 예외를 던지지 않는다.")
+    @Test
+    void nonObstacle() {
+        //given
+        Sang sang = new Sang(new PieceProfile("마", Nation.HAN), new Position(0, 7));
+
+        Map<Position, Piece> board = Map.of(
+                new Position(2, 7), new Cha(new PieceProfile("차", Nation.HAN), new Position(2, 7))
         );
+
+        Position futurePosition = new Position(3, 5);
+
+        //when //then
+        assertThatCode(() -> sang.checkObstacle(futurePosition, board))
+                .doesNotThrowAnyException();
     }
-
-
 }
 
