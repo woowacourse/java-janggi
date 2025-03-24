@@ -67,8 +67,8 @@ public final class Board {
         return board.containsKey(coordinate);
     }
 
-    public boolean isMyTeam(Coordinate from, Coordinate to) {
-        return hasPiece(to) && findPieceByCoordinate(from).getCountry() == findPieceByCoordinate(to).getCountry();
+    public boolean isMyTeam(Country country, Coordinate to) {
+        return hasPiece(to) && country == findPieceByCoordinate(to).getCountry();
     }
 
     public boolean isPho(Coordinate phoCoordinate) {
@@ -77,12 +77,6 @@ public final class Board {
 
     public Country findCountryByCoordinate(Coordinate currCoordinate) {
         return findPieceByCoordinate(currCoordinate).getCountry();
-    }
-
-    public void validateFrom(Coordinate from) {
-        if (!hasPiece(from)) {
-            throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다.");
-        }
     }
 
     public void validateIsMyPiece(Coordinate from, Country currentCountry) {

@@ -13,7 +13,7 @@ abstract public class Piece {
         this.type = type;
     }
 
-    abstract public List<Coordinate> availableMovePositions(Coordinate currCoordinate, Board board);
+    abstract public List<Coordinate> availableMovePositions(Coordinate from, Board board);
 
     public Country getCountry() {
         return this.country;

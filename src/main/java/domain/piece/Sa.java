@@ -16,11 +16,11 @@ public class Sa extends Piece {
     }
 
     @Override
-    public List<Coordinate> availableMovePositions(Coordinate currCoordinate,
+    public List<Coordinate> availableMovePositions(Coordinate from,
                                                    Board board) {
         return movements.stream()
-                .map(movement -> movePosition(currCoordinate, movement.getDirection()))
-                .filter(next -> !next.isOutOfBoundary() && !board.isMyTeam(currCoordinate, next))
+                .map(movement -> movePosition(from, movement.getDirection()))
+                .filter(next -> !next.isOutOfBoundary() && !board.isMyTeam(country, next))
                 .toList();
     }
 

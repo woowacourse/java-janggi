@@ -13,14 +13,14 @@ public class Ma extends Piece {
     }
 
     @Override
-    public List<Coordinate> availableMovePositions(Coordinate currCoordinate,
+    public List<Coordinate> availableMovePositions(Coordinate from,
                                                    Board board) {
         return Arrays.stream(MaMovement.values())
-                .filter(maMovement -> !board.hasPiece(movePosition(currCoordinate, maMovement.getDirection())))
+                .filter(maMovement -> !board.hasPiece(movePosition(from, maMovement.getDirection())))
                 .flatMap(maMovement -> maMovement.getDestination().stream()
-                        .map(destination -> movePosition(currCoordinate, destination))
+                        .map(destination -> movePosition(from, destination))
                         .filter(next -> !next.isOutOfBoundary())
-                        .filter(next -> !board.hasPiece(next) || !board.isMyTeam(currCoordinate, next))
+                        .filter(next -> !board.hasPiece(next) || !board.isMyTeam(country, next))
                 )
                 .toList();
     }

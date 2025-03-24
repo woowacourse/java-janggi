@@ -16,10 +16,10 @@ public class Gung extends Piece {
     }
 
     @Override
-    public List<Coordinate> availableMovePositions(Coordinate currCoordinate, Board board) {
+    public List<Coordinate> availableMovePositions(Coordinate from, Board board) {
         return MOVEMENTS.stream()
-                .map(currCoordinate::move)
-                .filter(next -> !next.isOutOfBoundary() && !board.isMyTeam(currCoordinate, next))
+                .map(from::move)
+                .filter(next -> !next.isOutOfBoundary() && !board.isMyTeam(country, next))
                 .toList();
     }
 

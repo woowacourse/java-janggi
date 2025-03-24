@@ -16,19 +16,19 @@ public class Pho extends Piece {
     }
 
     @Override
-    public List<Coordinate> availableMovePositions(Coordinate currCoordinate, Board board) {
+    public List<Coordinate> availableMovePositions(Coordinate from, Board board) {
         List<Coordinate> availablePositions = new ArrayList<>();
         for (Movement movement : movements) {
-            Coordinate next = movePosition(currCoordinate, movement.getDirection());
+            Coordinate next = movePosition(from, movement.getDirection());
             boolean hasObstacle = false;
             while (true) {
-                if (invalidPhoCoordinate(currCoordinate, board, next, hasObstacle)) {
+                if (invalidPhoCoordinate(board, next, hasObstacle)) {
                     break;
                 }
                 if (isBlankCoordinateAndReachable(board, next, hasObstacle)) {
                     availablePositions.add(next);
                 }
-                if (isEnemyAndReachable(currCoordinate, board, next, hasObstacle)) {
+                if (isEnemyAndReachable(board, next, hasObstacle)) {
                     availablePositions.add(next);
                     break;
                 }
@@ -47,11 +47,10 @@ public class Pho extends Piece {
         return board.hasPiece(next) && !hasObstacle && !board.isPho(next);
     }
 
-    private boolean isEnemyAndReachable(Coordinate currCoordinate,
-                                        Board board,
+    private boolean isEnemyAndReachable(Board board,
                                         Coordinate next,
                                         boolean hasObstacle) {
-        return board.hasPiece(next) && hasObstacle && !board.isMyTeam(currCoordinate, next);
+        return board.hasPiece(next) && hasObstacle && !board.isMyTeam(country, next);
     }
 
     private boolean isBlankCoordinateAndReachable(Board board,
@@ -60,13 +59,12 @@ public class Pho extends Piece {
         return !board.hasPiece(next) && hasObstacle;
     }
 
-    private boolean invalidPhoCoordinate(Coordinate currCoordinate,
-                                         Board board,
+    private boolean invalidPhoCoordinate(Board board,
                                          Coordinate next,
                                          boolean hasObstacle) {
         return next.isOutOfBoundary() ||
                 (board.hasPiece(next) && board.isPho(next)) ||
-                board.hasPiece(next) && hasObstacle && board.isMyTeam(currCoordinate, next);
+                board.hasPiece(next) && hasObstacle && board.isMyTeam(country, next);
     }
 
     public Coordinate movePosition(Coordinate currCoordinate,
