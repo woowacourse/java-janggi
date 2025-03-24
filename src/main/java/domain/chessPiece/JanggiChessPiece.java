@@ -3,6 +3,7 @@ package domain.chessPiece;
 import domain.hurdlePolicy.HurdlePolicy;
 import domain.position.ChessPiecePositions;
 import domain.position.ChessPosition;
+import domain.score.Score;
 import domain.type.ChessTeam;
 import domain.path.Path;
 
@@ -30,5 +31,10 @@ public abstract class JanggiChessPiece implements ChessPiece {
     @Override
     public final ChessTeam getTeam() {
         return team;
+    }
+
+    @Override
+    public final Score getScore() {
+        return getChessPieceType().score;
     }
 }

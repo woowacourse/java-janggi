@@ -1,9 +1,8 @@
 package domain.position;
 
-import domain.type.ChessPieceType;
-import domain.chessPiece.*;
+import domain.chessPiece.ChessPiece;
 
-import java.util.*;
+import java.util.Map;
 
 public class ChessPiecePositions {
 
@@ -18,22 +17,37 @@ public class ChessPiecePositions {
     }
 
     public ChessPiece getChessPieceByPosition(final ChessPosition position) {
-        if (!existChessPieceByPosition(position)) {
-            throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다");
-        }
+        validateExistPiece(position);
         return chessPieces.get(position);
     }
 
-    public ChessPieceType getChessPieceTypeByPosition(final ChessPosition position) {
-        return getChessPieceByPosition(position).getChessPieceType();
+    public void move(final ChessPosition from, final ChessPosition to) {
+        validateExistPiece(from);
+        validateEmptyPosition(to);
+        ChessPiece target = getChessPieceByPosition(from);
+        removeChessPieceByPosition(from);
+        putChessPiece(to, target);
     }
 
-    public void moveChessPiece(final ChessPosition position, final ChessPiece piece) {
-        chessPieces.put(position, piece);
+    private void validateExistPiece(final ChessPosition position) {
+        if (!existChessPieceByPosition(position)) {
+            throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
+        }
     }
 
-    public void removeChessPiece(final ChessPosition position) {
+    private void validateEmptyPosition(final ChessPosition position) {
+        if (existChessPieceByPosition(position)) {
+            throw new IllegalArgumentException("해당 위치에 이미 다른 기물이 존재합니다.");
+        }
+    }
+
+    public void removeChessPieceByPosition(final ChessPosition position) {
+        validateExistPiece(position);
         chessPieces.remove(position);
+    }
 
+    private void putChessPiece(final ChessPosition position, final ChessPiece chessPiece) {
+        validateEmptyPosition(position);
+        chessPieces.put(position, chessPiece);
     }
 }
