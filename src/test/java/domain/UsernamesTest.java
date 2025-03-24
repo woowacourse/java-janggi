@@ -19,7 +19,7 @@ class UsernamesTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"a,true", "c,false"})
+    @CsvSource({"a,true", "b, true", "c,false"})
     @DisplayName("이름이 있는지 확인한다.")
     void hasNameTest(String findUsername, boolean expected) {
         // given
@@ -30,11 +30,12 @@ class UsernamesTest {
         assertThat(result).isEqualTo(expected);
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource({"a, b", "b, a"})
     @DisplayName("다른 이름을 반환한다.")
-    void getAnotherPlayerNameTest() {
+    void getAnotherPlayerNameTest(String nameA, String nameB) {
         // given
-        Usernames usernames = new Usernames("a", "b");
+        Usernames usernames = new Usernames(nameA, nameB);
         // when
         String anotherPlayerName = usernames.getAnotherPlayerName("a");
         // then
