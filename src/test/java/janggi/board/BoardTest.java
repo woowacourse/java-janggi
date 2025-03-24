@@ -1,12 +1,12 @@
 package janggi.board;
 
-import janggi.piece.Byeong;
-import janggi.piece.Cannon;
-import janggi.piece.Chariot;
-import janggi.piece.Jol;
-import janggi.piece.King;
-import janggi.piece.Piece;
 import janggi.Team.Team;
+import janggi.piece.Byeong;
+import janggi.piece.Cha;
+import janggi.piece.Gung;
+import janggi.piece.Jol;
+import janggi.piece.Piece;
+import janggi.piece.Po;
 import janggi.position.Position;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +23,7 @@ class BoardTest {
 
     @ParameterizedTest
     @MethodSource
-    void 게임을_계속_진행하기_위해_두_나라의_왕이_모두_존재하면_true를_반환한다(final Map<Position, Piece> pieces, final boolean expected) {
+    void 게임을_계속_진행하기_위해_두_나라의_궁이_모두_존재하면_true를_반환한다(final Map<Position, Piece> pieces, final boolean expected) {
         // Given
         Board board = new Board(pieces);
 
@@ -31,20 +31,20 @@ class BoardTest {
         assertThat(board.canContinue()).isEqualTo(expected);
     }
 
-    private static Stream<Arguments> 게임을_계속_진행하기_위해_두_나라의_왕이_모두_존재하면_true를_반환한다() {
-        King king1 = new King(Team.HAN);
-        King king2 = new King(Team.CHO);
+    private static Stream<Arguments> 게임을_계속_진행하기_위해_두_나라의_궁이_모두_존재하면_true를_반환한다() {
+        Gung gung1 = new Gung(Team.HAN);
+        Gung gung2 = new Gung(Team.CHO);
         Position position1 = new Position(1, 1);
         Position position2 = new Position(1, 2);
         return Stream.of(
                 Arguments.of(
                         Map.of(
-                                position1, king1,
-                                position2, king2
+                                position1, gung1,
+                                position2, gung2
                         ), true),
                 Arguments.of(
                         Map.of(
-                                position1, king1
+                                position1, gung1
                         ), false)
         );
     }
@@ -53,31 +53,31 @@ class BoardTest {
     void 승리한_팀을_반환한다() {
         // Given
         Team team = Team.HAN;
-        King king = new King(team);
+        Gung gung = new Gung(team);
         Position position = new Position(1, 1);
-        Board board = new Board(Map.of(position, king));
+        Board board = new Board(Map.of(position, gung));
 
         // When & Then
         assertThat(board.findWinningTeam()).isEqualTo(team);
     }
 
     @Test
-    void 왕이_두_팀_모두_존재하면_승리팀을_판별할_수_없다() {
+    void 궁이_두_팀_모두_존재하면_승리팀을_판별할_수_없다() {
         // Given
         Team team = Team.HAN;
-        King king1 = new King(team);
-        King king2 = new King(team);
+        Gung gung1 = new Gung(team);
+        Gung gung2 = new Gung(team);
         Position position1 = new Position(1, 1);
         Position position2 = new Position(1, 2);
         Board board = new Board(Map.of(
-                position1, king1,
-                position2, king2
+                position1, gung1,
+                position2, gung2
         ));
 
         // When & Then
         assertThatThrownBy(board::findWinningTeam)
                 .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("[ERROR] 왕이 하나가 아니라면 접근할 수 없습니다.");
+                .hasMessageContaining("[ERROR] 궁이 하나가 아니라면 접근할 수 없습니다.");
     }
 
     @Test
@@ -191,7 +191,7 @@ class BoardTest {
         // Given
         final Jol jol = new Jol();
         final Byeong byeong = new Byeong();
-        final Cannon cannon = new Cannon(jol.getTeam());
+        final Po po = new Po(jol.getTeam());
         final Position position1 = new Position(7, 1);
         final Position position2 = new Position(5, 1);
         final Position position3 = new Position(10, 1);
@@ -201,15 +201,15 @@ class BoardTest {
         Board board = new Board(Map.of(
                 position1, jol,
                 position2, byeong,
-                position3, cannon
+                position3, po
         ));
 
         // When
-        board.move(List.of(currentPositionValue, arrivalPositionValue), cannon.getTeam());
+        board.move(List.of(currentPositionValue, arrivalPositionValue), po.getTeam());
 
         // Then
         assertThat(board.getPieces().get(Position.from(arrivalPositionValue)))
-                .isEqualTo(cannon);
+                .isEqualTo(po);
     }
 
     @Test
@@ -217,7 +217,7 @@ class BoardTest {
         // Given
         final Jol jol = new Jol();
         final Byeong byeong = new Byeong();
-        final Cannon cannon = new Cannon(jol.getTeam());
+        final Po po = new Po(jol.getTeam());
         final Position position1 = new Position(7, 1);
         final Position position2 = new Position(5, 1);
         final Position position3 = new Position(10, 1);
@@ -227,16 +227,16 @@ class BoardTest {
         Board board = new Board(Map.of(
                 position1, jol,
                 position2, byeong,
-                position3, cannon
+                position3, po
         ));
 
         // When
-        board.move(List.of(currentPositionValue, arrivalPositionValue), cannon.getTeam());
+        board.move(List.of(currentPositionValue, arrivalPositionValue), po.getTeam());
 
         // Then
         assertThat(board.getPieces()).isEqualTo(Map.of(
                 position1, jol,
-                position2, cannon
+                position2, po
         ));
     }
 
@@ -244,8 +244,8 @@ class BoardTest {
     void 포가_포를_잡으려고_하면_예외가_발생한다() {
         // Given
         final Jol jol = new Jol();
-        final Cannon targetCannon = new Cannon(Team.HAN);
-        final Cannon cannon = new Cannon(jol.getTeam());
+        final Po targetPo = new Po(Team.HAN);
+        final Po po = new Po(jol.getTeam());
         final Position position1 = new Position(7, 1);
         final Position position2 = new Position(5, 1);
         final Position position3 = new Position(10, 1);
@@ -254,12 +254,12 @@ class BoardTest {
 
         Board board = new Board(Map.of(
                 position1, jol,
-                position2, targetCannon,
-                position3, cannon
+                position2, targetPo,
+                position3, po
         ));
 
         // When & Then
-        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), cannon.getTeam()))
+        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), po.getTeam()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 포는 포끼리 뛰어넘거나 잡을 수 없습니다.");
     }
@@ -268,7 +268,7 @@ class BoardTest {
     void 포는_중간에_기물이_없으면_이동하지_못한다() {
         // Given
         final Jol jol = new Jol();
-        final Cannon cannon = new Cannon(jol.getTeam());
+        final Po po = new Po(jol.getTeam());
         final Position position1 = new Position(7, 1);
         final Position position3 = new Position(10, 1);
         int currentPositionValue = 101;
@@ -276,11 +276,11 @@ class BoardTest {
 
         Board board = new Board(Map.of(
                 position1, jol,
-                position3, cannon
+                position3, po
         ));
 
         // When & Then
-        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), cannon.getTeam()))
+        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), po.getTeam()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 오직 하나의 기물만 뛰어넘을 수 있습니다.");
     }
@@ -289,7 +289,7 @@ class BoardTest {
     void 포를_제외한_기물은_중간에_기물이_있으면_이동하지_못한다() {
         // Given
         final Jol jol = new Jol();
-        final Chariot cannon = new Chariot(jol.getTeam());
+        final Cha cannon = new Cha(jol.getTeam());
         final Position position1 = new Position(7, 1);
         final Position position3 = new Position(10, 1);
         int currentPositionValue = 101;
@@ -310,7 +310,7 @@ class BoardTest {
     void 자신의_팀_기물은_잡을_수_없다() {
         // Given
         final Jol jol = new Jol();
-        final Chariot chariot = new Chariot(jol.getTeam());
+        final Cha cha = new Cha(jol.getTeam());
         final Position position1 = new Position(10, 1);
         final Position position2 = new Position(9, 1);
         int currentPositionValue = 101;
@@ -318,7 +318,7 @@ class BoardTest {
 
         Board board = new Board(Map.of(
                 position1, jol,
-                position2, chariot
+                position2, cha
         ));
 
         // When & Then

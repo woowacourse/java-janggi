@@ -6,10 +6,10 @@ import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class King extends Piece {
+public class Gung extends Piece {
 
-    public King(Team team) {
-        super(PieceType.KING, team);
+    public Gung(Team team) {
+        super(PieceType.GUNG, team);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class King extends Piece {
 
     private void validateMove(int differenceForY, int differenceForX) {
         if (Math.abs(differenceForY) + Math.abs(differenceForX) != 1) {
-            throw new IllegalArgumentException("[ERROR] 왕은 한 방향으로 한 칸만 이동할 수 있습니다.");
+            throw new IllegalArgumentException("[ERROR] 궁은 한 방향으로 한 칸만 이동할 수 있습니다.");
         }
     }
 

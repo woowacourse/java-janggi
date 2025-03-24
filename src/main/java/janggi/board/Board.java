@@ -1,8 +1,8 @@
 package janggi.board;
 
+import janggi.Team.Team;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
-import janggi.Team.Team;
 import janggi.position.Path;
 import janggi.position.Position;
 import java.util.ArrayList;
@@ -34,14 +34,14 @@ public class Board {
 
     public Team findWinningTeam() {
         if (calculateExistKing() != 1) {
-            throw new IllegalStateException("[ERROR] 왕이 하나가 아니라면 접근할 수 없습니다.");
+            throw new IllegalStateException("[ERROR] 궁이 하나가 아니라면 접근할 수 없습니다.");
         }
 
         return pieces.values().stream()
-                .filter(piece -> piece.matchPieceType(PieceType.KING))
+                .filter(piece -> piece.matchPieceType(PieceType.GUNG))
                 .map(Piece::getTeam)
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("[ERROR] 왕이 존재하지 않을 수 없습니다."));
+                .orElseThrow(() -> new IllegalStateException("[ERROR] 궁이 존재하지 않을 수 없습니다."));
     }
 
     private void validateSamePosition(Position currentPosition, Position arrivalPosition) {
@@ -70,7 +70,7 @@ public class Board {
     }
 
     private void movePiece(Piece piece, Position currentPosition, Position arrivalPosition, Path path) {
-        if (piece.matchPieceType(PieceType.CANNON)) {
+        if (piece.matchPieceType(PieceType.PO)) {
             moveCannon(currentPosition, arrivalPosition, piece, path);
             return;
         }
@@ -81,7 +81,7 @@ public class Board {
         if (computeCountExistPieceExceptLast(path) != 1) {
             throw new IllegalArgumentException("[ERROR] 오직 하나의 기물만 뛰어넘을 수 있습니다.");
         }
-        if (hasCannon(path)) {
+        if (hasPo(path)) {
             throw new IllegalArgumentException("[ERROR] 포는 포끼리 뛰어넘거나 잡을 수 없습니다.");
         }
         if (hasPiece(arrivalPosition)) {
@@ -110,11 +110,11 @@ public class Board {
                 .count();
     }
 
-    private boolean hasCannon(final Path path) {
+    private boolean hasPo(final Path path) {
         return path.getPositions().stream()
                 .filter(pieces::containsKey)
                 .map(pieces::get)
-                .anyMatch(piece -> piece.matchPieceType(PieceType.CANNON));
+                .anyMatch(piece -> piece.matchPieceType(PieceType.PO));
     }
 
     private boolean hasPiece(final Position position) {
@@ -141,7 +141,7 @@ public class Board {
 
     private int calculateExistKing() {
         return (int) pieces.values().stream()
-                .filter(piece -> piece.matchPieceType(PieceType.KING))
+                .filter(piece -> piece.matchPieceType(PieceType.GUNG))
                 .count();
     }
 
