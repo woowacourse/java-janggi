@@ -33,22 +33,18 @@ public class Po extends Piece {
     @Override
     protected boolean ableToMove(JanggiPosition destination, Pieces enemy, Pieces allies) {
         // 목적지가 직선 상에 있는지 확인
-        if (!isStraightLine(destination)) {
+        if (!isValidMove(destination)) {
             return false;
         }
-
         // 목적지에 아군이 있는지 확인
         if (!allies.isNotBlockedBy(destination)) {
             return false;
         }
-
         // 현재 위치와 목적지 사이의 경로 계산
         List<JanggiPosition> pathPositions = FourDirection.from(destination, getPosition());
-
         if (!allies.isPieceInPathEmpty(pathPositions, enemy.getPieces())) {
             return false;
         }
-
         if (allies.isPoInPath(pathPositions, enemy.getPieces())) {
             return false;
         }
@@ -56,7 +52,7 @@ public class Po extends Piece {
         return allies.isOnlyOnePieceInPath(pathPositions, enemy.getPieces(), allies.getPieces());
     }
 
-    private boolean isStraightLine(JanggiPosition destination) {
+    private boolean isValidMove(JanggiPosition destination) {
         return getPosition().getX() == destination.getX() || getPosition().getY() == destination.getY();
     }
 
