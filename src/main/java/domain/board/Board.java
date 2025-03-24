@@ -40,8 +40,9 @@ public class Board {
         validateMovementRule(movementRule, selectBoardPosition, destinationBoardPosition, selectedPiece);
 
         validateCatchable(selectedPiece, destinationPiece, currentTeam);
-        removeDestinationEnemyPiece(destinationBoardPosition, currentTeam, destinationPiece);
-        changeSelectPieceBoardPosition(selectBoardPosition, destinationBoardPosition, selectedPiece);
+
+        removeDestinationEnemyPiece(destinationBoardPosition, currentTeam);
+        changeSelectPieceBoardPosition(selectBoardPosition, destinationBoardPosition);
     }
 
     public List<Piece> findAliveGenerals() {
@@ -119,21 +120,23 @@ public class Board {
 
     private void removeDestinationEnemyPiece(
             final BoardPosition destinationBoardPosition,
-            final Team currentTeam,
-            final Piece destinationPiece
+            final Team currentTeam
     ) {
-        if (destinationPiece != null && !destinationPiece.isMyTeam(currentTeam)) {
-            pieces.remove(destinationBoardPosition);
+        if (!pieces.containsKey(destinationBoardPosition)) {
+            return;
         }
+        if (pieces.get(destinationBoardPosition).isMyTeam(currentTeam)) {
+            throw new IllegalCallerException("같은 팀의 기물을 잡을 수는 없습니다.");
+        }
+        pieces.remove(destinationBoardPosition);
     }
 
     private void changeSelectPieceBoardPosition(
             final BoardPosition selectBoardPosition,
-            final BoardPosition destinationBoardPosition,
-            final Piece selectedPiece
+            final BoardPosition destinationBoardPosition
     ) {
-        pieces.remove(selectBoardPosition);
-        pieces.put(destinationBoardPosition, selectedPiece);
+        final Piece movePiece = pieces.remove(selectBoardPosition);
+        pieces.put(destinationBoardPosition, movePiece);
     }
 
     public static Board initialize() {
