@@ -62,6 +62,12 @@ public class Guard implements Piece {
         return this.position.equals(position);
     }
 
+    @Override
+    public boolean isObstacle(List<Position> pathPositions) {
+        return pathPositions.stream()
+                .anyMatch(pathPosition -> pathPosition.equals(position));
+    }
+
 
     @Override
     public boolean equals(Object o) {

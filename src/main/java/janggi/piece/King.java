@@ -63,6 +63,12 @@ public class King implements Piece {
     }
 
     @Override
+    public boolean isObstacle(List<Position> pathPositions) {
+        return pathPositions.stream()
+                .anyMatch(pathPosition -> pathPosition.equals(position));
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         King king = (King) o;

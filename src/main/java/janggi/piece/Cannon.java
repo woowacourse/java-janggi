@@ -10,6 +10,12 @@ public class Cannon implements Piece {
 
     private final Team team;
     private final Position position;
+    private final List<Movement> movements = List.of(
+            Movement.UP,
+            Movement.DOWN,
+            Movement.RIGHT,
+            Movement.LEFT
+    );
 
 
     public Cannon(Team team, Position position) {
@@ -30,6 +36,12 @@ public class Cannon implements Piece {
     @Override
     public boolean matchesPosition(Position position) {
         return false;
+    }
+
+    @Override
+    public boolean isObstacle(List<Position> pathPositions) {
+        return pathPositions.stream()
+                .anyMatch(pathPosition -> pathPosition.equals(position));
     }
 
     @Override

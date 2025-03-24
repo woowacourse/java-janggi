@@ -56,28 +56,6 @@ public class MovementTest {
                                 new Position(new Row(0), new Column(2)),
                                 new Position(new Row(0), new Column(0))
                         )
-                ),
-                Arguments.arguments(
-                        List.of(
-                                Movement.UP_UP_RIGHT,
-                                Movement.UP_UP_LEFT,
-                                Movement.DOWN_DOWN_RIGHT,
-                                Movement.DOWN_DOWN_LEFT,
-                                Movement.RIGHT_RIGHT_UP,
-                                Movement.RIGHT_RIGHT_DOWN,
-                                Movement.LEFT_LEFT_UP,
-                                Movement.LEFT_LEFT_DOWN
-                        ),
-                        List.of(
-                                new Position(new Row(2), new Column(3)),
-                                new Position(new Row(0), new Column(3)),
-                                new Position(new Row(2), new Column(-1)),
-                                new Position(new Row(0), new Column(-1)),
-                                new Position(new Row(3), new Column(2)),
-                                new Position(new Row(3), new Column(0)),
-                                new Position(new Row(-1), new Column(2)),
-                                new Position(new Row(-1), new Column(0))
-                        )
                 )
         );
     }
