@@ -3,6 +3,7 @@ package position;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import piece.MoveDirection;
 
 public record Position(
         PositionFile file,
@@ -30,8 +31,16 @@ public record Position(
         return new Position(file.add(fileAmount), rank.add(rankAmount));
     }
 
+    public Position addMoveDirection(final MoveDirection moveDirection) {
+        return new Position(file.add(moveDirection.x()), rank.add(moveDirection.y()));
+    }
+
     public boolean isValidToAdd(final int fileAmount, final int rankAmount) {
         return file.validateAdd(fileAmount) && rank.validateAdd(rankAmount);
+    }
+
+    public Boolean isValidToAddMoveDirection(MoveDirection moveDirection) {
+        return file.validateAdd(moveDirection.x()) && rank.validateAdd(moveDirection.y());
     }
 
     public List<Position> getAllCrossPositions() {
@@ -66,4 +75,6 @@ public record Position(
 
         throw new IllegalArgumentException("일자로 연결되지 않으면 위치를 생성할 수 없습니다.");
     }
+
+
 }

@@ -1,60 +1,39 @@
 package piece;
 
-import position.Position;
-
 import java.util.List;
 import java.util.function.Supplier;
+import position.Position;
 
 public enum MoveDirection {
 
-    CROSS_INF,
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT,
-
-    UP_LEFT,
-    UP_RIGHT,
-    DOWN_LEFT,
-    DOWN_RIGHT,
+    UP(0, 1),
+    DOWN(0, -1),
+    LEFT(-1, 0),
+    RIGHT(1, 0),
+    UP_LEFT(-1, 1),
+    UP_RIGHT(1, 1),
+    DOWN_LEFT(-1, -1),
+    DOWN_RIGHT(1, -1),
+    CROSS_INF(0, 0),
     ;
 
+    private final int x;
+    private final int y;
+
+    MoveDirection(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public List<Position> calculateNextPositionsFrom(Position currentPosition) {
-        return switch (this) {
-            case UP -> getPositionIf(
-                    () -> currentPosition.isValidToAdd(0, 1),
-                    () -> currentPosition.add(0, 1)
-            );
-            case DOWN -> getPositionIf(
-                    () -> currentPosition.isValidToAdd(0, -1),
-                    () -> currentPosition.add(0, -1)
-            );
-            case RIGHT -> getPositionIf(
-                    () -> currentPosition.isValidToAdd(1, 0),
-                    () -> currentPosition.add(1, 0)
-            );
-            case LEFT -> getPositionIf(
-                    () -> currentPosition.isValidToAdd(-1, 0),
-                    () -> currentPosition.add(-1, 0)
-            );
-            case UP_RIGHT -> getPositionIf(
-                    () -> currentPosition.isValidToAdd(1, 1),
-                    () -> currentPosition.add(1, 1)
-            );
-            case UP_LEFT -> getPositionIf(
-                    () -> currentPosition.isValidToAdd(-1, 1),
-                    () -> currentPosition.add(-1, 1)
-            );
-            case DOWN_RIGHT -> getPositionIf(
-                    () -> currentPosition.isValidToAdd(1, -1),
-                    () -> currentPosition.add(1, -1)
-            );
-            case DOWN_LEFT -> getPositionIf(
-                    () -> currentPosition.isValidToAdd(-1, -1),
-                    () -> currentPosition.add(-1, -1)
-            );
-            case CROSS_INF -> currentPosition.getAllCrossPositions();
-        };
+        if (this == CROSS_INF) {
+            return currentPosition.getAllCrossPositions();
+        }
+        return getPositionIf(
+                () -> currentPosition.isValidToAdd(x, y),
+                () -> currentPosition.add(x, y)
+        );
+
     }
 
     private List<Position> getPositionIf(
@@ -65,5 +44,13 @@ public enum MoveDirection {
             return List.of();
         }
         return List.of(result.get());
+    }
+
+    public int x() {
+        return x;
+    }
+
+    public int y() {
+        return y;
     }
 }
