@@ -1,5 +1,8 @@
 package janggi.coordinate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public record Row(int value) {
 
     private static final int MIN_ROW = 1;
@@ -8,6 +11,14 @@ public record Row(int value) {
     public Row(final int value) {
         this.value = value;
         validateRange();
+    }
+
+    public static List<Row> defaults() {
+        List<Row> rows = new ArrayList<>();
+        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
+            rows.add(new Row(row));
+        }
+        return rows;
     }
 
     private void validateRange() {

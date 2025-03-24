@@ -1,5 +1,8 @@
 package janggi.coordinate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public record Column(int value) {
 
     private static final int MIN_COLUMN = 1;
@@ -8,6 +11,14 @@ public record Column(int value) {
     public Column(final int value) {
         this.value = value;
         validateRange();
+    }
+
+    public static List<Column> defaults() {
+        List<Column> columns = new ArrayList<>();
+        for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
+            columns.add(new Column(column));
+        }
+        return columns;
     }
 
     private void validateRange() {
