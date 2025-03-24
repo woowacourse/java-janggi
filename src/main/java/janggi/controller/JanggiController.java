@@ -38,19 +38,23 @@ public class JanggiController {
             Piece selectedPiece = UserExceptionHandler.retryUntilSuccess(() -> selectPiece(board));
             Set<Position> possibleDestinations = board.findDestinations(selectedPiece);
 
-            if (possibleDestinations.isEmpty()) {
-                outputView.printCannotMove();
-            }
-            if (!possibleDestinations.isEmpty()) {
-                outputView.printPossibleRoutes(possibleDestinations);
-                UserExceptionHandler.retryUntilSuccess(() -> movePiece(board, selectedPiece, possibleDestinations));
-            }
+            showPossibleDestinations(possibleDestinations, board, selectedPiece);
 
             outputView.printBoard(pieces);
             board.changeTurn();
         }
     }
 
+    private void showPossibleDestinations(Set<Position> possibleDestinations, Board board, Piece selectedPiece) {
+        if (possibleDestinations.isEmpty()) {
+            outputView.printCannotMove();
+        }
+        if (!possibleDestinations.isEmpty()) {
+            outputView.printPossibleRoutes(possibleDestinations);
+            UserExceptionHandler.retryUntilSuccess(() -> movePiece(board, selectedPiece, possibleDestinations));
+        }
+    }
+    
     private Piece selectPiece(Board board) {
         Position position = inputView.inputPiecePosition();
         return board.selectPiece(position);
