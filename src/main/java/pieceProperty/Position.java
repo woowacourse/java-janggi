@@ -13,6 +13,10 @@ public class Position {
         this.col = col;
     }
 
+    public Position calculateMovement(int dRow, int dCol) {
+        return new Position(row + dRow, col + dCol);
+    }
+
     public int getRow() {
         return row;
     }
@@ -39,9 +43,5 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(getRow(), getCol());
-    }
-
-    public Position calculateMovement(int dRow, int dCol) {
-        return new Position(row + dRow, col + dCol);
     }
 }

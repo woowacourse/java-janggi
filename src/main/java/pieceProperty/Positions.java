@@ -15,11 +15,12 @@ public class Positions {
         positions.add(position);
     }
 
+    public boolean containsPosition(Piece piece) {
+        return positions.stream().anyMatch(piece::isSamePosition);
+    }
+
     public List<Position> getPositions() {
         return positions;
     }
 
-    public boolean containsPosition(Piece piece) {
-        return positions.stream().anyMatch(piece::isSamePosition);
-    }
 }

@@ -20,10 +20,6 @@ public class Pieces {
                 .ifPresent(pieces::remove);
     }
 
-    public List<Piece> getPieces() {
-        return pieces;
-    }
-
     public boolean isKingDie() {
         return pieces.stream()
                 .noneMatch(Piece::isKing);
@@ -61,4 +57,9 @@ public class Pieces {
                 .filter(route::containsPosition)
                 .count();
     }
+
+    public List<Piece> getPieces() {
+        return pieces;
+    }
+
 }
