@@ -6,6 +6,8 @@ import java.util.List;
 
 public class Cannon extends Piece {
 
+    private static final int MUST_JUMP_PIECE_COUNT = 1;
+
     public Cannon(final Country country) {
         super(country);
     }
@@ -16,21 +18,13 @@ public class Cannon extends Piece {
             return false;
         }
 
-        int count = 0;
         final List<Position> positions = now.calculateBetweenPositions(destination);
-        for (final Position position : positions) {
-            if (board.existPieceByPosition(position)) {
-                count++;
+        final int pieceCountInPositions = board.calculatePieceCountByPositions(positions);
 
-                if (board.isCannonByPosition(position)) {
-                    return false;
-                }
-            }
-        }
-
-        if (count != 1) {
+        if (pieceCountInPositions != MUST_JUMP_PIECE_COUNT || board.containsCannonByPositions(positions)) {
             return false;
         }
+
         return true;
     }
 
