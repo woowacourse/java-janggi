@@ -22,6 +22,7 @@ public class Board {
     public void pieceMove(final Position presentPosition, final Position futurePosition) {
         Piece piece = janggiBoard.get(presentPosition);
         piece.isMove(futurePosition);
+        piece.validateSameNation(janggiBoard.get(futurePosition));
         piece.checkObstacle(futurePosition, janggiBoard);
         updatePiecePosition(presentPosition, futurePosition, piece);
     }

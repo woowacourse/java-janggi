@@ -12,4 +12,7 @@ public enum Nation {
         return HAN.equals(nation);
     }
 
+    public boolean isSameNation(final Nation nation) {
+        return this.equals(nation);
+    }
 }

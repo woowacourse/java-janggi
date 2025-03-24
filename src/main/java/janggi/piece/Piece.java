@@ -23,6 +23,12 @@ public abstract class Piece {
 
     public abstract boolean isMove(Position position);
 
+    public void validateSameNation(final Piece other) {
+        if (other != null && this.getPieceProfile().getNation().isSameNation(other.getPieceProfile().getNation())) {
+            throw new IllegalArgumentException("[ERROR] 같은 팀의 기물을 잡을 수 없습니다.");
+        }
+    }
+
     public boolean isChoNation() {
         return pieceProfile.isCho();
     }
@@ -48,6 +54,10 @@ public abstract class Piece {
 
     public Position getBoardPosition() {
         return position;
+    }
+
+    public PieceProfile getPieceProfile() {
+        return pieceProfile;
     }
 
     public String getName() {
