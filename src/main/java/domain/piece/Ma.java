@@ -12,11 +12,6 @@ public class Ma extends Piece implements DistanceMove {
         super(country, PieceType.MA);
     }
 
-    private void validateMaMoveStrategy(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateReachableDistanceCoordinate(from, to, isReachAble);
-        validateDoesNotHasObstacle(board, from, to);
-    }
-
     private void validateDoesNotHasObstacle(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         Direction moveDirection = getDirection(from, to);
         if (moveDirection == Direction.UP && !board.isOccupied(from.moveUp())) {
@@ -36,7 +31,9 @@ public class Ma extends Piece implements DistanceMove {
 
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateMaMoveStrategy(board, from, to);
+        validateCoordinate(to);
+        validateReachableDistanceCoordinate(from, to, isReachAble);
+        validateDoesNotHasObstacle(board, from, to);
         validateTarget(board, from, to);
     }
 

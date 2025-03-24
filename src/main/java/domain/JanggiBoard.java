@@ -5,6 +5,9 @@ import domain.piece.Piece;
 import java.util.Map;
 
 public class JanggiBoard {
+    public static final int ROW_SIZE = 10;
+    public static final int COL_SIZE = 9;
+    public static final int BOUNDARY_START = 1;
 
 
     private final Map<JanggiCoordinate, Piece> board;

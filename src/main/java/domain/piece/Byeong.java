@@ -34,6 +34,7 @@ public class Byeong extends Piece {
 
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+        validateCoordinate(to);
         validateByeongMove(from, to);
         validateTarget(board, from, to);
     }

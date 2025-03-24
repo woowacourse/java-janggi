@@ -5,6 +5,8 @@ import domain.JanggiBoard;
 import domain.JanggiCoordinate;
 import domain.PieceType;
 
+import static domain.JanggiBoard.*;
+
 public abstract class Piece {
     private final Country country;
     private final PieceType pieceType;
@@ -28,6 +30,11 @@ public abstract class Piece {
         }
     }
 
+    protected void validateCoordinate(JanggiCoordinate coordinate) {
+        if (coordinate.row() < BOUNDARY_START || coordinate.row() > ROW_SIZE || coordinate.col() < BOUNDARY_START || coordinate.col() > COL_SIZE) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 좌표입니다.");
+        }
+    }
 
     public Country getCountry() {
         return country;
