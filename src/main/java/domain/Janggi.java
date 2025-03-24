@@ -12,6 +12,8 @@ import java.util.Map;
 public class Janggi {
 
     public static final String EMPTY_POINT_EXCEPTION = "해당 위치에 기물이 존재하지 않습니다.";
+    public static final String PICK_OPPOSITE_UNIT_EXCEPTION = "상대팀 말은 고를 수 없습니다.";
+    public static final String CANNOT_MOVE_EXCEPTION = "이동할 수 없는 도착지입니다.";
 
     private final Map<Position, Unit> units;
     private Team turn;
@@ -28,12 +30,35 @@ public class Janggi {
         return new Janggi(units, turn);
     }
 
+    public void doTurn(Position pick, Position destination) {
+        if (!canMove(pick, destination)) {
+            throw new IllegalArgumentException(CANNOT_MOVE_EXCEPTION);
+        }
+        Unit pickedUnit = units.get(pick);
+        Unit destinationUnit = units.get(destination);
+        if (destinationUnit != null && destinationUnit.getTeam() == turn.getOpposite()) {
+            units.remove(destination);
+        }
+        units.remove(pick);
+        units.put(destination, pickedUnit);
+    }
+
+    private boolean canMove(Position pick, Position destination) {
+        List<Route> movableRoutes = findMovableRoutesFrom(pick);
+        return movableRoutes.stream()
+                .map(route -> route.searchDestination(pick))
+                .anyMatch(position -> position.equals(destination));
+    }
+
     public List<Route> findMovableRoutesFrom(Position pick) {
         if (isEmptyPosition(pick)) {
             throw new IllegalArgumentException(EMPTY_POINT_EXCEPTION);
         }
-
         Unit pickedUnit = units.get(pick);
+        if (pickedUnit.getTeam() != turn) {
+            throw new IllegalArgumentException(PICK_OPPOSITE_UNIT_EXCEPTION);
+        }
+
         List<Route> totalRoutes = pickedUnit.calculateRoutes(pick);
         totalRoutes = filterRoutesByUnitType(pickedUnit, pick, totalRoutes);
         if (pickedUnit.getType() == UnitType.CANNON) {
