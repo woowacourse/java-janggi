@@ -2,8 +2,8 @@ package janggi.domain.piece;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.Direction;
-import janggi.domain.piece.movement.FiniteMovePath;
-import janggi.domain.piece.movement.MovePath;
+import janggi.domain.piece.movepath.FiniteMovePath;
+import janggi.domain.piece.movepath.MovePath;
 import java.util.Set;
 
 public class Horse extends Piece {

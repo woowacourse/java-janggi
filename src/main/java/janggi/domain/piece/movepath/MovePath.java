@@ -1,4 +1,4 @@
-package janggi.domain.piece.movement;
+package janggi.domain.piece.movepath;
 
 import janggi.domain.board.Point;
 import java.util.List;

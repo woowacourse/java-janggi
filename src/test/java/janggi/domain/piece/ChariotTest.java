@@ -14,15 +14,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class ChariotTest {
 
-    @DisplayName("한나라 졸이 목적지까지 가는데 거치는 포인트를 알 수 있다")
+    @DisplayName("차가 목적지까지 가는데 거치는 포인트를 알 수 있다")
     @ParameterizedTest
     @MethodSource("provideMovablePosition")
     void movePath(Point from, Point to, List<Point> expected) {
         //given
-        Chariot horse = new Chariot(Dynasty.HAN);
+        Chariot chariot = new Chariot(Dynasty.HAN);
 
         //when
-        List<Point> points = horse.movePath(from, to);
+        List<Point> points = chariot.movePath(from, to);
 
         //then
         assertThat(points).isEqualTo(expected);
@@ -33,10 +33,10 @@ class ChariotTest {
     @MethodSource("providePiecesOnPath")
     void canMove(PiecesOnPath piecesOnPath, boolean expected) {
         //given
-        Chariot horse = new Chariot(Dynasty.HAN);
+        Chariot chariot = new Chariot(Dynasty.HAN);
 
         //when
-        boolean actual = horse.canMove(piecesOnPath);
+        boolean actual = chariot.canMove(piecesOnPath);
 
         //then
         assertThat(actual).isEqualTo(expected);

@@ -1,25 +1,22 @@
-package janggi.domain.piece.movement;
+package janggi.domain.piece.movepath;
 
 import janggi.domain.board.Direction;
 import janggi.domain.board.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FiniteMovePath implements MovePath {
-    private final List<Direction> directions;
+public class EndlessMovePath implements MovePath {
 
-    public FiniteMovePath(Direction... directions) {
-        this(List.of(directions));
-    }
+    private final Direction direction;
 
-    public FiniteMovePath(List<Direction> directions) {
-        this.directions = new ArrayList<>(directions);
+    public EndlessMovePath(Direction direction) {
+        this.direction = direction;
     }
 
     @Override
     public boolean canMove(Point from, Point to) {
         Point curr = from;
-        for (Direction direction : directions) {
+        while (!curr.isOutOfBoundary() && !curr.isSamePosition(to)) {
             curr = curr.move(direction);
         }
         return curr.isSamePosition(to);
@@ -30,14 +27,13 @@ public class FiniteMovePath implements MovePath {
         if (!canMove(from, to)) {
             throw new IllegalArgumentException("이동할 수 없습니다.");
         }
-
-        return createMovePoints(from);
+        return createMovePoints(from, to);
     }
 
-    private List<Point> createMovePoints(Point from) {
+    private List<Point> createMovePoints(Point from, Point to) {
         List<Point> points = new ArrayList<>();
         Point curr = from;
-        for (Direction direction : directions) {
+        while (!curr.isOutOfBoundary() && !curr.isSamePosition(to)) {
             curr = curr.move(direction);
             points.add(curr);
         }
