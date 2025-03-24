@@ -13,16 +13,12 @@ class CannonTest {
 
     @DisplayName("Cannon은 목적지가 같은 라인이 아니라면 false를 반환한다.")
     @Test
-    void cannon1() {
+    void withInDirectionFailureByNonSameLine() {
         // given
         final Piece cannonPiece = new Cannon(TeamType.BLUE);
         final Position now = new Position(1, 1);
         final Position ableDest = new Position(1, 3);
         final Position notAbleDest = new Position(2, 2);
-        final TeamType teamType = TeamType.RED;
-        final Map<Position, Piece> map = Map.of(new Position(1, 2),
-                new General(teamType));
-        final Board board = new Board(map);
 
         // when
         final boolean actual1 = cannonPiece.withInDirection(now, ableDest);
@@ -37,7 +33,7 @@ class CannonTest {
 
     @DisplayName("Cannon은 목적지까지 가는 중 아무런 기물이 없다면 false를 반환한다.")
     @Test
-    void cannon2() {
+    void passFilterFailureByNonPieceBetween() {
         // given
         final Piece cannonPiece = new Cannon(TeamType.BLUE);
         final Position now = new Position(1, 1);
@@ -61,7 +57,7 @@ class CannonTest {
 
     @DisplayName("Cannon은 목적지까지 가던 중 포를 만나면 false를 반환한다.")
     @Test
-    void cannon3() {
+    void isAbleToMoveFailureByMeetCannon() {
         // given
         final Piece cannonPiece = new Cannon(TeamType.BLUE);
         final Position now = new Position(1, 1);
@@ -80,7 +76,7 @@ class CannonTest {
 
     @DisplayName("Cannon은 목적지까지 가던 중 2개 이상의 기물을 만나면 false를 반환한다.")
     @Test
-    void cannon4() {
+    void isAbleToMoveFailureByOneMorePieces() {
         // given
         final Piece cannonPiece = new Cannon(TeamType.BLUE);
         final Position now = new Position(1, 1);
@@ -100,7 +96,7 @@ class CannonTest {
 
     @DisplayName("포는 포를 죽일 수 없다.")
     @Test
-    void cannon5() {
+    void isAbleToMoveFailureByDestinationIsCannon() {
         // given
         final Piece cannonPiece = new Cannon(TeamType.BLUE);
         final Position now = new Position(1, 1);

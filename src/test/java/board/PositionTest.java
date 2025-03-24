@@ -1,13 +1,14 @@
 package board;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class PositionTest {
 
@@ -18,7 +19,7 @@ public class PositionTest {
 
         @DisplayName("포지션을 생성하면 주어진 값으로 초기화된다.")
         @Test
-        void construct1() {
+        void newPosition() {
             // given
             final int x = 1;
             final int y = 1;
@@ -35,7 +36,7 @@ public class PositionTest {
 
         @DisplayName("포지션의 범위가 벗어나면 예외가 발생한다.")
         @Test
-        void construct2() {
+        void newPositionFailureByNonRange() {
             // given
             final int x = 0;
             final int y = 1;

@@ -1,19 +1,20 @@
 package piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import board.Board;
 import board.Position;
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class ElephantTest {
 
     @DisplayName("Elephant는 직-대-대 방향으로 이동할 수 있다.")
     @Test
-    void elephant() {
+    void isAbleToMove() {
         // given
         final Piece elephantPiece = new Elephant(TeamType.BLUE);
         final Position now = new Position(1, 1);
@@ -35,7 +36,7 @@ class ElephantTest {
 
     @DisplayName("Elephant는 직 또는 직-대 방향에 기물이 존재하면 이동할 수 없다.")
     @Test
-    void elephant1() {
+    void isAbleToMoveByAnyPiece() {
         // given
         final Piece elephantPiece = new Elephant(TeamType.BLUE);
         final Position now = new Position(2, 2);

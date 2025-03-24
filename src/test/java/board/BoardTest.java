@@ -1,19 +1,15 @@
 package board;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.HashMap;
-import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import piece.Cannon;
-import piece.Chariot;
-import piece.General;
-import piece.Piece;
-import piece.Soldier;
-import piece.TeamType;
+import piece.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BoardTest {
 
@@ -21,9 +17,9 @@ public class BoardTest {
     @DisplayName("보드 생성")
     class ConstructBoard {
 
-        @DisplayName("보드를 생성했을 때 사이즈가 총 90이어야 한다.")
+        @DisplayName("보드를 생성되어야 한다.")
         @Test
-        void construct1() {
+        void newBoard() {
             //given
             //when
             final var board = new Board(new HashMap<>());
@@ -105,7 +101,7 @@ public class BoardTest {
     class UpdatePosition {
         @Test
         @DisplayName("src 위치에 있는 기물이 dest로 옮겨질 수 있다면 이동시킨다.")
-        void updatePosition3() {
+        void updatePositionSuccess() {
             // given
             final Map<Position, Piece> map = Map.of(
                     new Position(1, 1), new Chariot(TeamType.RED)
@@ -129,7 +125,7 @@ public class BoardTest {
 
         @Test
         @DisplayName("src 위치에 기물이 존재하지 않으면 예외가 발생한다")
-        void updatePosition() {
+        void updatePositionFailureByNonPieceInSrcPosition() {
             // given
             final Board board = new Board(new HashMap<>());
 
@@ -144,7 +140,7 @@ public class BoardTest {
 
         @Test
         @DisplayName("src 위치에 기물이 현재 턴의 팀이 아니라면 예외가 발생한다")
-        void updatePosition1() {
+        void updatePositionFailureBySameTeamType() {
             // given
             final Map<Position, Piece> map = Map.of(
                     new Position(1, 1), new Cannon(TeamType.BLUE)
@@ -162,7 +158,7 @@ public class BoardTest {
 
         @Test
         @DisplayName("src 위치에 기물이 dest로 갈 수 없다면 예외가 발생한다")
-        void updatePosition2() {
+        void updatePositionFailureByCantMove() {
             // given
             final Map<Position, Piece> map = Map.of(
                     new Position(1, 1), new Cannon(TeamType.RED)

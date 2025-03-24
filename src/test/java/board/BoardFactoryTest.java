@@ -13,7 +13,7 @@ public class BoardFactoryTest {
 
         @DisplayName("보드 사이즈가 올바르게 생성된다.")
         @Test
-        void boardFactory() {
+        void generateBoard() {
             // given
             final int expected = 32;
             final BoardFactory factory = new BoardFactory();

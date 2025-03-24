@@ -1,11 +1,12 @@
 package piece;
 
-import java.util.Arrays;
-import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class TeamTypeTest {
 
@@ -15,7 +16,7 @@ public class TeamTypeTest {
 
         @DisplayName("팀 타입의 사이즈가 올바른지 테스트한다.")
         @Test
-        void teamType() {
+        void size() {
             // given
             final int expectedSize = 2;
             final List<TeamType> expectedTypes = List.of(
