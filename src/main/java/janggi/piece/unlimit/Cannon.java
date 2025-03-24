@@ -20,32 +20,30 @@ public class Cannon extends UnLimitMovable {
         List<Position> reachableDestinations = new ArrayList<>();
         boolean isJumped = false;
         for (Position position : positions) {
-            Piece targetPiece = board.get(position);
-            if (position.isOutOfRange() || targetPiece.isNotJumpable()) {
+            Piece positionPiece = board.get(position);
+            if (position.isOutOfRange() || positionPiece.isCannon()) {
                 break;
             }
-            if (!isJumped && targetPiece.isOccupied()) {
+            if (!isJumped && positionPiece.isOccupied()) {
                 isJumped = true;
                 continue;
             }
 
-            if (isJumped && handleAfterJumped(reachableDestinations, position, targetPiece)) {
-                break;
+            if(isJumped) {
+                reachableDestinations.addAll(filterValidDestination(position, positionPiece));
+                if(positionPiece.isOccupied()) {
+                    break;
+                }
             }
         }
         return reachableDestinations;
     }
 
-    private boolean handleAfterJumped(final List<Position> reachablePositions, final Position position,
-                                      final Piece targetPiece) {
-        if (targetPiece.isOccupied()) {
-            if (!isAlly(targetPiece)) {
-                reachablePositions.add(position);
-            }
-            return true;
+    private List<Position> filterValidDestination(final Position position, final Piece positionPiece) {
+        if(!positionPiece.isOccupied() || !isAlly(positionPiece)) {
+            return List.of(position);
         }
-        reachablePositions.add(position);
-        return false;
+        return List.of();
     }
 
     @Override

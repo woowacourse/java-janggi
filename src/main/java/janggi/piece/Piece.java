@@ -1,7 +1,6 @@
 package janggi.piece;
 
 import janggi.board.Position;
-import janggi.move.Route;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +21,6 @@ public interface Piece {
         if (isHan()) {
             return piece.isHan();
         }
-//        throw new IllegalStateException("[ERROR] 프로그램에 오류가 생겼습니다."); //Empty일 경우 예외를 던짐. 그냥 false를 반환한다면?
         return false;
     }
 
@@ -30,7 +28,7 @@ public interface Piece {
         return !(getType() == PieceType.EMPTY);
     }
 
-    default boolean isNotJumpable() {
+    default boolean isCannon() {
         return getType() == PieceType.CANNON;
     }
 
