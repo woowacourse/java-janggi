@@ -1,5 +1,7 @@
 package janggi.domain.piece.direction;
 
+import java.util.Objects;
+
 public record Position(int x, int y) {
 
     private static final int MIN_X = 0;
@@ -28,5 +30,19 @@ public record Position(int x, int y) {
 
     public Position move(final Direction direction) {
         return new Position(x + direction.dx(), y + direction.dy());
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final Position position = (Position) o;
+        return x == position.x && y == position.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

@@ -45,15 +45,54 @@ class PositionTest {
     void canMoveTest() {
 
         // given
-        Position position = new Position(0, 0);
+        final Position position = new Position(0, 0);
 
         // when
-        boolean result = position.canMove(Direction.RIGHT_UP);
+        final boolean result = position.canMove(Direction.RIGHT_UP);
 
         // then
         assertThat(result).isTrue();
-
-
     }
 
+    @DisplayName("해당 위치로 이동 불가능하다면 false를 반환한다.")
+    @Test
+    void canNotMoveTest() {
+
+        // given
+        final Position position = new Position(0, 0);
+
+        // when
+        final boolean result = position.canMove(Direction.LEFT);
+
+        // then
+        assertThat(result).isFalse();
+    }
+
+    @DisplayName("해당 위치로 이동하면 새로운 포지션을 갖는다.")
+    @Test
+    void moveTest() {
+
+        // given
+        final Position position = new Position(0, 0);
+
+        // when
+        final Position newPosition = position.move(Direction.RIGHT_UP);
+
+        // then
+        assertThat(newPosition.equals(new Position(1, 1))).isTrue();
+    }
+
+    @DisplayName("주어진 좌표가 보드 안이면 true 아니면 false를 반환한다.")
+    @ParameterizedTest
+    @CsvSource(value = {
+            "0, 0, true", "8, 9, true", "-1, -1, false", "9, 8, false"
+    })
+    void isInBoardTest(final int x, final int y, final boolean expected) {
+
+        // given
+        final Position position = new Position(0, 0);
+
+        // when & then
+        assertThat(position.isInBoard(x, y)).isEqualTo(expected);
+    }
 }
