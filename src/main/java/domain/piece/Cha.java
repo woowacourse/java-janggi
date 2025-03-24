@@ -20,22 +20,25 @@ public class Cha extends Piece {
 
     @Override
     public List<Coordinate> availableMovePositions(Coordinate from, Board board) {
-        List<Coordinate> availables = new ArrayList<>();
+        List<Coordinate> availablePositions = new ArrayList<>();
 
         for (Movement movement : MOVEMENTS) {
             Coordinate next = from.move(movement);
 
             while (!next.isOutOfBoundary()) {
-                if (board.hasPiece(next) && !board.isMyTeam(country, next)) {
-                    availables.add(next);
+                if (board.hasPiece(next)) {
+                    if (!board.isMyTeam(country, next)) {
+                        availablePositions.add(next);
+                    }
                     break;
                 }
 
-                availables.add(next);
+                availablePositions.add(next);
                 next = next.move(movement);
             }
         }
 
-        return availables;
+        return availablePositions;
     }
+
 }
