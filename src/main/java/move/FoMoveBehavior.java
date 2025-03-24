@@ -46,8 +46,13 @@ public class FoMoveBehavior extends MoveBehavior {
                                 Piece lastPiece) {
         throwInvalidMoveBehaviorByCondition(() -> isFo(firstPiece) || isFo(lastPiece));
         throwInvalidMoveBehaviorByCondition(() -> !(onRoutePiecesSize == 1 || onRoutePiecesSize == 2));
-        throwInvalidMoveBehaviorByCondition(() -> onRoutePiecesSize == 1 && firstPiece.isSamePosition(destination));
-        throwInvalidMoveBehaviorByCondition(() -> onRoutePiecesSize == 2 && !lastPiece.isSamePosition(destination));
+
+        if (onRoutePiecesSize == 1) {
+            throwInvalidMoveBehaviorByCondition(() -> firstPiece.isSamePosition(destination));
+        }
+        if (onRoutePiecesSize == 2) {
+            throwInvalidMoveBehaviorByCondition(() -> !lastPiece.isSamePosition(destination));
+        }
         throwInvalidMoveBehaviorByCondition(
                 () -> lastPiece.isSamePosition(destination) && lastPiece.isSameTeam(moveTeam));
     }
