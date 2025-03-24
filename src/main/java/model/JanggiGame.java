@@ -44,6 +44,10 @@ public class JanggiGame {
         turn = turn.change();
     }
 
+    public Team getCurrentTurn() {
+        return this.turn;
+    }
+
     public String showCurrentPositionOfPieces() {
         StringBuilder sb = new StringBuilder();
         for (Column column : Column.values()) {

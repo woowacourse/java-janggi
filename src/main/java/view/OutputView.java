@@ -1,6 +1,8 @@
 package view;
 
 
+import model.Team;
+
 public class OutputView {
 
     public void printJanggiStart() {
@@ -14,5 +16,9 @@ public class OutputView {
 
     public void printErrorMessage(String message) {
         System.out.println(message);
+    }
+
+    public void printCurrentTurnOfTeam(Team currentTurn) {
+        System.out.println("현재 %s의 턴입니다.".formatted(currentTurn.getValue()));
     }
 }

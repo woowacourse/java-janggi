@@ -2,6 +2,7 @@ import java.util.function.Supplier;
 import model.JanggiGame;
 import model.Piece;
 import model.Position;
+import model.Team;
 import view.InputView;
 import view.OutputView;
 
@@ -15,6 +16,8 @@ public class Application {
         outputView.printJanggiStart();
         while (true) {
             String currentPosition = janggiGame.showCurrentPositionOfPieces();
+            Team currentTurn = janggiGame.getCurrentTurn();
+            outputView.printCurrentTurnOfTeam(currentTurn);
             outputView.printCurrentPosition(currentPosition);
             Position departure = createDeparture();
             createArrivalAndMove(departure);
