@@ -58,7 +58,7 @@ public class OutputView {
     }
 
     public static void printCannotMove(Point source, Point destination) {
-        System.out.printf("%d,%d에서 %d,%d로 이동할 수 없습니다.",
+        System.out.printf("%d,%d에서 %d,%d로 이동할 수 없습니다.%n",
                 source.row(), source.column(),
                 destination.row(), destination.column()
         );
