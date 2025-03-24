@@ -37,12 +37,14 @@ public class JanggiGame {
 
     private void playJanggi(Players players, JanggiBoard janggiBoard) {
         Dynasty currentTurnDynasty = Dynasty.CHU;
-        while (true) {
+        boolean gameEnded = false;
+
+        while (!gameEnded) {
             Player currentTurnPlayer = players.findDynastyPlayer(currentTurnDynasty);
             try {
                 Movement movement = janggiBoardView.readPlayerMove(currentTurnPlayer);
                 if (movement.isEnd()) {
-                    break;
+                    gameEnded = true;
                 }
                 if (movement.isMove()) {
                     janggiBoard.move(currentTurnDynasty, new Point(movement.startX(), movement.startY()),
@@ -50,11 +52,12 @@ public class JanggiGame {
                     janggiBoardView.printBoard(janggiBoard.getPieces());
                     currentTurnDynasty = changePlayerTurn(currentTurnDynasty);
                 }
-            } catch (RuntimeException e) {
+            } catch (IllegalArgumentException e) {
                 System.out.println("[ERROR] " + e.getMessage());
             }
         }
     }
+
 
     private Dynasty changePlayerTurn(Dynasty currentTurnDynasty) {
         if (currentTurnDynasty == Dynasty.HAN) {
