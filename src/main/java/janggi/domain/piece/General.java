@@ -13,17 +13,6 @@ public class General implements Piece {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        return this.getClass() == obj.getClass();
-    }
-
-    @Override
     public boolean isEmptyPiece() {
         return false;
     }
@@ -46,6 +35,17 @@ public class General implements Piece {
     @Override
     public boolean isDynasty(Dynasty dynasty) {
         return this.dynasty == dynasty;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        return this.getClass() == obj.getClass();
     }
 
     @Override

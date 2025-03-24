@@ -33,7 +33,7 @@ public class Chariot implements Piece {
 
         List<Point> points = new ArrayList<>();
         Point curr = from;
-        while (curr.isNotOutOfBoundary() && !curr.isSamePosition(to)) {
+        while (!curr.isOutOfBoundary() && !curr.isSamePosition(to)) {
             curr = curr.move(direction);
             points.add(curr);
         }
@@ -60,7 +60,7 @@ public class Chariot implements Piece {
 
     private boolean canMove(Direction direction, Point from, Point to) {
         Point curr = from;
-        while (curr.isNotOutOfBoundary() && !curr.isSamePosition(to)) {
+        while (!curr.isOutOfBoundary() && !curr.isSamePosition(to)) {
             curr = curr.move(direction);
         }
         return curr.isSamePosition(to);
