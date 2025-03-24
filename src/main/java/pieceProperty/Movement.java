@@ -1,7 +1,5 @@
 package pieceProperty;
 
-import java.security.PublicKey;
-
 public enum Movement {
     UP(-1, 0),
     DOWN(1, 0),
@@ -174,6 +172,54 @@ public enum Movement {
 
     public static boolean isLeftLeftDownLeftDown(int dRow, int dCol) {
         return dRow == -2 && dCol == 3;
+    }
+
+    public static boolean isUpLeftUp(int dRow, int dCol) {
+        return dRow == 2 && dCol == 1;
+    }
+
+    public static boolean isUpRightUp(int dRow, int dCol) {
+        return dRow == 2 && dCol == -1;
+    }
+
+    public static boolean isRightRightUp(int dRow, int dCol) {
+        return dRow == 1 && dCol == - 2;
+    }
+
+    public static boolean isRightRightDown(int dRow, int dCol) {
+        return dRow == -1 && dCol == -2;
+    }
+
+    public static boolean isDownRightDown(int dRow, int dCol) {
+        return dRow == -2 && dCol == -1;
+    }
+
+    public static boolean isDownLeftDown(int dRow, int dCol) {
+        return dRow == -2 && dCol == 1;
+    }
+
+    public static boolean isLeftLeftDown(int dRow, int dCol) {
+        return dRow == -1 && dCol == 2;
+    }
+
+    public static boolean isLeftLeftUp(int dRow, int dCol) {
+        return dRow == 1 && dCol == 2;
+    }
+
+    public static boolean isLeftward(int dRow, int dCol) {
+        return dRow == 0 && dCol > 0;
+    }
+
+    public static boolean isRightward(int dRow, int dCol) {
+        return dRow == 0 && dCol < 0;
+    }
+
+    public static boolean isUpward(int dRow, int dCol) {
+        return dRow > 0 && dCol == 0;
+    }
+
+    public static boolean isDownward(int dRow, int dCol) {
+        return dRow < 0 && dCol == 0;
     }
 
     public int getDRow() {

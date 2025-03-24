@@ -3,6 +3,7 @@ package piece;
 import static pieceProperty.PieceType.PO;
 
 import java.util.List;
+import pieceProperty.Movement;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
@@ -23,18 +24,22 @@ public class Po extends Piece {
         int presentCol = getBoardPosition().getCol();
         int presentRow = getBoardPosition().getRow();
 
-        if (dRow == 0 && dCol > 0) {
+        if (Movement.isLeftward(dRow, dCol)) {
             addLeftwardRoute(dCol, route, presentRow, presentCol);
         }
-        if (dRow == 0 && dCol < 0) {
+
+        if (Movement.isRightward(dRow, dCol)) {
             addRightwardRoute(dCol, route, presentRow, presentCol);
         }
-        if (dRow > 0 && dCol == 0) {
+
+        if (Movement.isUpward(dRow, dCol)) {
             addUpwardRoute(dRow, route, presentRow, presentCol);
         }
-        if (dRow < 0 && dCol == 0) {
+
+        if (Movement.isDownward(dRow, dCol)) {
             addDownwardRoute(dRow, route, presentRow, presentCol);
         }
+
 
         return route;
     }

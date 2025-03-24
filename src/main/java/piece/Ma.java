@@ -29,35 +29,35 @@ public class Ma extends Piece {
         int dRow = position.calculateDRow(destination);
         int dCol = position.calculateDCol(destination);
 
-        if (dRow == 2 && dCol == 1) {
+        if (Movement.isUpLeftUp(dRow, dCol)) {
             route.addPosition(Movement.calculateUpMovement(position));
         }
 
-        if (dRow == 2 && dCol == -1) {
+        if (Movement.isUpRightUp(dRow, dCol)) {
             route.addPosition(Movement.calculateUpMovement(position));
         }
 
-        if (dRow == 1 && dCol == -2) {
+        if (Movement.isRightRightUp(dRow, dCol)) {
             route.addPosition(Movement.calculateRightMovement(position));
         }
 
-        if (dRow == -1 && dCol == -2) {
+        if (Movement.isRightRightDown(dRow, dCol)) {
             route.addPosition(Movement.calculateRightMovement(position));
         }
 
-        if (dRow == -2 && dCol == -1) {
+        if (Movement.isDownRightDown(dRow, dCol)) {
             route.addPosition(Movement.calculateDownMovement(position));
         }
 
-        if (dRow == -2 && dCol == 1) {
+        if (Movement.isDownLeftDown(dRow, dCol)) {
             route.addPosition(Movement.calculateDownMovement(position));
         }
 
-        if (dRow == 1 && dCol == 2) {
+        if (Movement.isLeftLeftUp(dRow, dCol)) {
             route.addPosition(Movement.calculateLeftMovement(position));
         }
 
-        if (dRow == -1 && dCol == 2) {
+        if (Movement.isLeftLeftDown(dRow, dCol)) {
             route.addPosition(Movement.calculateLeftMovement(position));
         }
 
