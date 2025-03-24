@@ -2,11 +2,11 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
+import domain.Team;
 import domain.board.BoardPosition;
 import domain.board.Offset;
-import domain.Team;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -26,8 +26,8 @@ class HorseTest {
         void findMovementRule() {
             // given
             Horse horse = new Horse(Team.RED);
-            BoardPosition before = new BoardPosition(0 ,0);
-            BoardPosition after = new BoardPosition(1 ,2);
+            BoardPosition before = new BoardPosition(0, 0);
+            BoardPosition after = new BoardPosition(1, 2);
 
             // when
             List<Offset> route = horse.findMovementRule(before, after);
@@ -71,9 +71,9 @@ class HorseTest {
 
         static Stream<Arguments> provideInvalidBeforeAndAfterPosition() {
             return Stream.of(
-                    Arguments.of( new BoardPosition(0 ,0), new BoardPosition(2 ,2)),
-                    Arguments.of( new BoardPosition(5 ,5), new BoardPosition(4 ,5)),
-                    Arguments.of( new BoardPosition(3 ,3), new BoardPosition(5 ,0))
+                    Arguments.of(new BoardPosition(0, 0), new BoardPosition(2, 2)),
+                    Arguments.of(new BoardPosition(5, 5), new BoardPosition(4, 5)),
+                    Arguments.of(new BoardPosition(3, 3), new BoardPosition(5, 0))
             );
         }
     }

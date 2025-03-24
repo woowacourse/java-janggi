@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import domain.Team;
 import domain.board.BoardPosition;
 import domain.board.Offset;
-import domain.Team;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -26,8 +26,8 @@ public class ChariotTest {
         void findMovementRule() {
             // given
             Chariot chariot = new Chariot(Team.RED);
-            BoardPosition before = new BoardPosition(0 ,0);
-            BoardPosition after = new BoardPosition(0 ,5);
+            BoardPosition before = new BoardPosition(0, 0);
+            BoardPosition after = new BoardPosition(0, 5);
 
             // when
             List<Offset> route = chariot.findMovementRule(before, after);
@@ -74,9 +74,9 @@ public class ChariotTest {
 
         static Stream<Arguments> provideInvalidBeforeAndAfterPosition() {
             return Stream.of(
-                    Arguments.of( new BoardPosition(0 ,0), new BoardPosition(5 ,3)),
-                    Arguments.of( new BoardPosition(5 ,5), new BoardPosition(4 ,3)),
-                    Arguments.of( new BoardPosition(3 ,2), new BoardPosition(5 ,0))
+                    Arguments.of(new BoardPosition(0, 0), new BoardPosition(5, 3)),
+                    Arguments.of(new BoardPosition(5, 5), new BoardPosition(4, 3)),
+                    Arguments.of(new BoardPosition(3, 2), new BoardPosition(5, 0))
             );
         }
     }

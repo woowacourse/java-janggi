@@ -2,11 +2,11 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
+import domain.Team;
 import domain.board.BoardPosition;
 import domain.board.Offset;
-import domain.Team;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -26,8 +26,8 @@ class CannonTest {
         void findMovementRule() {
             // given
             Cannon cannon = new Cannon(Team.RED);
-            BoardPosition before = new BoardPosition(0 ,0);
-            BoardPosition after = new BoardPosition(0 ,5);
+            BoardPosition before = new BoardPosition(0, 0);
+            BoardPosition after = new BoardPosition(0, 5);
 
             // when
             List<Offset> route = cannon.findMovementRule(before, after);
@@ -50,7 +50,8 @@ class CannonTest {
 
             // when & then
             assertAll(
-                    () -> assertThat(cannon.isAllowedObstacles(List.of(new Zzu(Team.RED), new Horse(Team.GREEN)))).isFalse(),
+                    () -> assertThat(
+                            cannon.isAllowedObstacles(List.of(new Zzu(Team.RED), new Horse(Team.GREEN)))).isFalse(),
                     () -> assertThat(cannon.isAllowedObstacles(List.of())).isFalse(),
                     () -> assertThat(cannon.isAllowedObstacles(List.of(new Cannon(Team.RED)))).isFalse(),
                     () -> assertThat(cannon.isAllowedObstacles(List.of(new Zzu(Team.RED)))).isTrue()
@@ -90,9 +91,9 @@ class CannonTest {
 
         static Stream<Arguments> provideInvalidBeforeAndAfterPosition() {
             return Stream.of(
-                    Arguments.of( new BoardPosition(0 ,0), new BoardPosition(5 ,3)),
-                    Arguments.of( new BoardPosition(5 ,5), new BoardPosition(4 ,3)),
-                    Arguments.of( new BoardPosition(3 ,2), new BoardPosition(5 ,0))
+                    Arguments.of(new BoardPosition(0, 0), new BoardPosition(5, 3)),
+                    Arguments.of(new BoardPosition(5, 5), new BoardPosition(4, 3)),
+                    Arguments.of(new BoardPosition(3, 2), new BoardPosition(5, 0))
             );
         }
     }

@@ -1,7 +1,7 @@
 package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.Team;
 import org.junit.jupiter.api.DisplayName;
