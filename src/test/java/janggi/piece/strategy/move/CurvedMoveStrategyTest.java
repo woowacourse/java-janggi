@@ -2,10 +2,9 @@ package janggi.piece.strategy.move;
 
 import janggi.Board;
 import janggi.coordinate.Position;
+import janggi.piece.Pieces;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -31,7 +30,7 @@ class CurvedMoveStrategyTest {
         Position departure = Position.of(1, 1);
         Position destination = Position.of(4, 2); // + (직선2, 대각선1)
 
-        Board board = Board.from(List.of());
+        Board board = Board.from(Pieces.empty());
 
         // when
         // then
@@ -46,7 +45,7 @@ class CurvedMoveStrategyTest {
         Position departure = Position.of(1, 1);
         Position destination = Position.of(3, 2); // + (직선1, 대각선1)
 
-        Board board = Board.from(List.of());
+        Board board = Board.from(Pieces.empty());
 
         // when
         // then

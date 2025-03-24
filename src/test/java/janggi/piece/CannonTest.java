@@ -22,12 +22,12 @@ class CannonTest {
     void move(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
-        Piece cannon = Cannon.of(position, Team.RED);
-        Piece soldier1 = Soldier.of(position.add(new Vector(1, 0)), Team.RED);
-        Piece soldier2 = Soldier.of(position.add(new Vector(0, 1)), Team.RED);
-        Piece soldier3 = Soldier.of(position.add(new Vector(-1, 0)), Team.RED);
-        Piece soldier4 = Soldier.of(position.add(new Vector(0, -1)), Team.RED);
-        Board board = Board.from(List.of(cannon, soldier1, soldier2, soldier3, soldier4));
+        Piece cannon = Cannon.of(position, Team.HAN);
+        Piece soldier1 = Soldier.of(position.add(new Vector(1, 0)), Team.HAN);
+        Piece soldier2 = Soldier.of(position.add(new Vector(0, 1)), Team.HAN);
+        Piece soldier3 = Soldier.of(position.add(new Vector(-1, 0)), Team.HAN);
+        Piece soldier4 = Soldier.of(position.add(new Vector(0, -1)), Team.HAN);
+        Board board = Board.from(Pieces.empty().addAll(List.of(cannon, soldier1, soldier2, soldier3, soldier4)));
 
         Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
@@ -44,8 +44,8 @@ class CannonTest {
     void cannotMoveToInvalidDirection(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
-        Piece cannon = Cannon.of(position, Team.RED);
-        Board board = Board.from(List.of(cannon));
+        Piece cannon = Cannon.of(position, Team.HAN);
+        Board board = Board.from(Pieces.empty().addAll(List.of(cannon)));
 
         Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
@@ -61,8 +61,8 @@ class CannonTest {
     void cannotMoveWhenNotExistOtherPieceInRoute() {
         // given
         Position position = Position.of(5, 5);
-        Piece cannon = Cannon.of(position, Team.RED);
-        Board board = Board.from(List.of(cannon));
+        Piece cannon = Cannon.of(position, Team.HAN);
+        Board board = Board.from(Pieces.empty().addAll(List.of(cannon)));
 
         Position movedPosition = position.add(new Vector(3, 0));
 
@@ -79,13 +79,13 @@ class CannonTest {
     void cannotMoveWhenExistCannonInRoute(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
-        Piece cannon = Cannon.of(position, Team.RED);
-        Piece otherAllyCannon1 = Cannon.of(position.add(new Vector(1, 0)), Team.RED);
-        Piece otherAllyCannon2 = Cannon.of(position.add(new Vector(-1, 0)), Team.RED);
-        Piece otherEnemyCannon1 = Cannon.of(position.add(new Vector(0, 1)), Team.GREEN);
-        Piece otherEnemyCannon2 = Cannon.of(position.add(new Vector(0, -1)), Team.GREEN);
+        Piece cannon = Cannon.of(position, Team.HAN);
+        Piece otherAllyCannon1 = Cannon.of(position.add(new Vector(1, 0)), Team.HAN);
+        Piece otherAllyCannon2 = Cannon.of(position.add(new Vector(-1, 0)), Team.HAN);
+        Piece otherEnemyCannon1 = Cannon.of(position.add(new Vector(0, 1)), Team.CHO);
+        Piece otherEnemyCannon2 = Cannon.of(position.add(new Vector(0, -1)), Team.CHO);
         Board board = Board.from(
-                List.of(cannon, otherAllyCannon1, otherAllyCannon2, otherEnemyCannon1, otherEnemyCannon2));
+                Pieces.empty().addAll(List.of(cannon, otherAllyCannon1, otherAllyCannon2, otherEnemyCannon1, otherEnemyCannon2)));
 
         Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
@@ -102,17 +102,17 @@ class CannonTest {
     void cannotMoveWhenExistOtherPieceMoreThanOneInRoute(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
-        Piece cannon = Cannon.of(position, Team.RED);
-        Piece soldier1 = Soldier.of(position.add(new Vector(1, 0)), Team.GREEN);
-        Piece soldier2 = Soldier.of(position.add(new Vector(2, 0)), Team.GREEN);
-        Piece soldier3 = Soldier.of(position.add(new Vector(-1, 0)), Team.GREEN);
-        Piece soldier4 = Soldier.of(position.add(new Vector(-2, 0)), Team.GREEN);
-        Piece soldier5 = Soldier.of(position.add(new Vector(0, 1)), Team.GREEN);
-        Piece soldier6 = Soldier.of(position.add(new Vector(0, 2)), Team.GREEN);
-        Piece soldier7 = Soldier.of(position.add(new Vector(0, -1)), Team.GREEN);
-        Piece soldier8 = Soldier.of(position.add(new Vector(0, -2)), Team.GREEN);
+        Piece cannon = Cannon.of(position, Team.HAN);
+        Piece soldier1 = Soldier.of(position.add(new Vector(1, 0)), Team.CHO);
+        Piece soldier2 = Soldier.of(position.add(new Vector(2, 0)), Team.CHO);
+        Piece soldier3 = Soldier.of(position.add(new Vector(-1, 0)), Team.CHO);
+        Piece soldier4 = Soldier.of(position.add(new Vector(-2, 0)), Team.CHO);
+        Piece soldier5 = Soldier.of(position.add(new Vector(0, 1)), Team.CHO);
+        Piece soldier6 = Soldier.of(position.add(new Vector(0, 2)), Team.CHO);
+        Piece soldier7 = Soldier.of(position.add(new Vector(0, -1)), Team.CHO);
+        Piece soldier8 = Soldier.of(position.add(new Vector(0, -2)), Team.CHO);
         Board board = Board.from(
-                List.of(cannon, soldier1, soldier2, soldier3, soldier4, soldier5, soldier6, soldier7, soldier8));
+                Pieces.empty().addAll(List.of(cannon, soldier1, soldier2, soldier3, soldier4, soldier5, soldier6, soldier7, soldier8)));
 
         Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
@@ -128,11 +128,11 @@ class CannonTest {
     void cannotMoveWhenExistCannonInDestination() {
         // given
         Position position = Position.of(5, 5);
-        Piece cannon = Cannon.of(position, Team.RED);
-        Piece soldier = Soldier.of(position.add(new Vector(1, 0)), Team.GREEN);
-        Piece otherEnemyCannon = Cannon.of(position.add(new Vector(2, 0)), Team.GREEN);
+        Piece cannon = Cannon.of(position, Team.HAN);
+        Piece soldier = Soldier.of(position.add(new Vector(1, 0)), Team.CHO);
+        Piece otherEnemyCannon = Cannon.of(position.add(new Vector(2, 0)), Team.CHO);
         Board board = Board.from(
-                List.of(cannon, soldier, otherEnemyCannon));
+                Pieces.empty().addAll(List.of(cannon, soldier, otherEnemyCannon)));
 
         Position movedPosition = position.add(new Vector(2, 0));
 

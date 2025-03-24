@@ -6,6 +6,7 @@ import janggi.Team;
 import janggi.coordinate.Position;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
+import janggi.piece.Pieces;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +22,7 @@ class RequiredBlockCountStrategyTest {
     void commonReturnsZeroBlockStrategy() {
         // given
         BlockStrategy strategy = RequiredBlockCountStrategy.common();
-        Board board = Board.from(List.of());
+        Board board = Board.from(Pieces.empty());
 
         // when
         // then
@@ -38,10 +39,10 @@ class RequiredBlockCountStrategyTest {
         Position destination = Position.of(1, 5);
 
         List<Piece> pieces = List.of(
-                PieceFixture.create(1, 2, PieceType.SOLDIER, Team.RED),
-                PieceFixture.create(1, 3, PieceType.SOLDIER, Team.RED)
+                PieceFixture.createPiece(1, 2, PieceType.SOLDIER, Team.HAN),
+                PieceFixture.createPiece(1, 3, PieceType.SOLDIER, Team.HAN)
         );
-        Board board = Board.from(pieces);
+        Board board = Board.from(Pieces.empty().addAll(pieces));
         BlockStrategy strategy = new RequiredBlockCountStrategy(2);
 
         // when
@@ -59,9 +60,9 @@ class RequiredBlockCountStrategyTest {
         Position destination = Position.of(1, 5);
 
         List<Piece> pieces = List.of(
-                PieceFixture.create(1, 2, PieceType.SOLDIER, Team.RED)
+                PieceFixture.createPiece(1, 2, PieceType.SOLDIER, Team.HAN)
         );
-        Board board = Board.from(pieces);
+        Board board = Board.from(Pieces.empty().addAll(pieces));
         BlockStrategy strategy = new RequiredBlockCountStrategy(2);
 
         // when

@@ -21,8 +21,8 @@ class HorseTest {
     void move() {
         // given
         Position position = Position.of(5, 5);
-        Piece horse = Horse.of(position, Team.RED);
-        Board board = Board.from(List.of(horse));
+        Piece horse = Horse.of(position, Team.HAN);
+        Board board = Board.from(Pieces.empty().addAll(List.of(horse)));
 
         Position movedPosition = position.add(new Vector(1, 2));
 
@@ -39,8 +39,8 @@ class HorseTest {
     void move(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
-        Piece horse = Horse.of(position, Team.RED);
-        Board board = Board.from(List.of(horse));
+        Piece horse = Horse.of(position, Team.HAN);
+        Board board = Board.from(Pieces.empty().addAll(List.of(horse)));
 
         Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 

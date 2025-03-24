@@ -16,13 +16,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class SoldierTest {
 
     @ParameterizedTest
-    @CsvSource(value = {"1, 0, RED", "0, 1, RED", "0,-1, RED", "0, -1, GREEN", "0, 1, GREEN", "-1, 0, GREEN"})
+    @CsvSource(value = {"1, 0, HAN", "0, 1, HAN", "0,-1, HAN", "0, -1, CHO", "0, 1, CHO", "-1, 0, CHO"})
     @DisplayName("졸/병은 적진을 향한 수직 혹은 수평으로 1칸 이동할 수 있다")
     void move(int rowDirection, int columnDirection, Team team) {
         // given
         Position position = Position.of(5, 5);
         Piece soldier = Soldier.of(position, team);
-        Board board = Board.from(List.of(soldier));
+        Pieces pieces = new Pieces(List.of());
+        Board board = Board.from(pieces.add(soldier));
 
         Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
@@ -34,13 +35,14 @@ class SoldierTest {
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"RED, -1", "GREEN, 1"})
+    @CsvSource(value = {"HAN, -1", "CHO, 1"})
     @DisplayName("졸/병은 본진 방향으로 이동할 수 없다")
     void cannotMoveToAllyBase(Team team, int deltaRow) {
         // given
         Position position = Position.of(5, 5);
         Piece soldier = Soldier.of(position, team);
-        Board board = Board.from(List.of(soldier));
+        Pieces pieces = new Pieces(List.of());
+        Board board = Board.from(pieces.add(soldier));
 
         Position movedPosition = position.add(new Vector(deltaRow, 0));
 
@@ -57,8 +59,9 @@ class SoldierTest {
     void move(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
-        Piece soldier = Soldier.of(position, Team.RED);
-        Board board = Board.from(List.of(soldier));
+        Piece soldier = Soldier.of(position, Team.HAN);
+        Pieces pieces = new Pieces(List.of());
+        Board board = Board.from(pieces.add(soldier));
 
         Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 

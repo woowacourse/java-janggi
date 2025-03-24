@@ -1,7 +1,10 @@
 package janggi;
 
+import fixture.PieceFixture;
 import janggi.coordinate.Position;
 import janggi.piece.Piece;
+import janggi.piece.PieceType;
+import janggi.piece.Pieces;
 import janggi.piece.Soldier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,12 +19,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class BoardTest {
 
     @ParameterizedTest
-    @CsvSource(value = {"RED, true", "GREEN, false"})
+    @CsvSource(value = {"HAN, true", "CHO, false"})
     @DisplayName("대상 위치에 기물이 아군임을 확인할 수 있다")
     void isAlly(Team team, boolean expected) {
         // given
         Position position = Position.of(1, 1);
-        Board board = Board.from(List.of(Soldier.of(position, Team.RED)));
+        Board board = Board.from(Pieces.empty().addAll(List.of(Soldier.of(position, Team.HAN))));
 
         // when
         boolean actual = board.isAlly(position, team);
@@ -35,8 +38,8 @@ class BoardTest {
     void getPiece() {
         // given
         Position position = Position.of(1, 1);
-        Soldier soldier = Soldier.of(position, Team.RED);
-        Board board = Board.from(List.of(soldier));
+        Soldier soldier = Soldier.of(position, Team.HAN);
+        Board board = Board.from(Pieces.empty().addAll(List.of(soldier)));
 
         // when
         Piece piece = board.getPiece(position);
@@ -50,8 +53,8 @@ class BoardTest {
     void throwExceptionWhenNotExists() {
         // given
         Position position = Position.of(1, 1);
-        Soldier soldier = Soldier.of(position, Team.RED);
-        Board board = Board.from(List.of(soldier));
+        Soldier soldier = Soldier.of(position, Team.HAN);
+        Board board = Board.from(Pieces.empty().addAll(List.of(soldier)));
 
         // when
         // then

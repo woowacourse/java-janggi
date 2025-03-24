@@ -6,7 +6,7 @@ import janggi.piece.*;
 
 public class PieceFixture {
 
-    public static Piece create(int row, int column, PieceType pieceType, Team team) {
+    public static Piece createPiece(int row, int column, PieceType pieceType, Team team) {
         return switch (pieceType) {
             case SOLDIER -> Soldier.of(Position.of(row, column), team);
             case GUARD -> Guard.of(Position.of(row, column), team);

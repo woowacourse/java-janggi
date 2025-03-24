@@ -20,7 +20,7 @@ class PieceTest {
 
     private static Stream<Arguments> provideAllyPiece() {
         Position position = Position.of(5, 5);
-        Team team = Team.RED;
+        Team team = Team.HAN;
 
         return Stream.of(
                 Arguments.of(Guard.of(position, team), Soldier.of(position.add(new Vector(1, 0)), team), 1, 0),
@@ -34,8 +34,8 @@ class PieceTest {
 
     private static Stream<Arguments> provideEnemyPiece() {
         Position position = Position.of(5, 5);
-        Team team = Team.RED;
-        Team ohterTeam = Team.GREEN;
+        Team team = Team.HAN;
+        Team ohterTeam = Team.CHO;
 
         return Stream.of(
                 Arguments.of(Guard.of(position, team), Soldier.of(position.add(new Vector(1, 0)), ohterTeam), 1, 0),
@@ -55,7 +55,7 @@ class PieceTest {
                                                    int rowDirection,
                                                    int columnDirection) {
         // given
-        Board board = Board.from(List.of(piece, allyPiece));
+        Board board = Board.from(Pieces.empty().addAll(List.of(piece, allyPiece)));
         Position movedPosition = piece.getPosition().add(new Vector(rowDirection, columnDirection));
 
         // when
@@ -77,10 +77,10 @@ class PieceTest {
         Position movedPosition = piece.getPosition().add(new Vector(rowDirection, columnDirection));
 
         if (piece.getType().isCannon()) {
-            pieces.add(Soldier.of(movedPosition.add(new Vector(-1, 0)), Team.RED));
+            pieces.add(Soldier.of(movedPosition.add(new Vector(-1, 0)), Team.HAN));
         }
 
-        Board board = Board.from(pieces);
+        Board board = Board.from(Pieces.empty().addAll(pieces));
 
         // when
         // then

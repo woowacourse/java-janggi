@@ -2,6 +2,7 @@ package janggi.piece.strategy.move;
 
 import janggi.Board;
 import janggi.coordinate.Position;
+import janggi.piece.Pieces;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,7 @@ class StraightMoveStrategyTest {
         Position departure = Position.of(2, 5);
         Position destination = Position.of(5, 5); // column 동일, row만 변경
 
-        Board board = Board.from(List.of());
+        Board board = Board.from(Pieces.empty());
 
         // when
         // then
@@ -35,7 +36,7 @@ class StraightMoveStrategyTest {
         Position departure = Position.of(4, 2);
         Position destination = Position.of(4, 7); // row 동일, column만 변경
 
-        Board board = Board.from(List.of());
+        Board board = Board.from(Pieces.empty());
 
         // when
         // then
@@ -50,7 +51,7 @@ class StraightMoveStrategyTest {
         Position departure = Position.of(3, 3);
         Position destination = Position.of(5, 5); // row/column 모두 변경
 
-        Board board = Board.from(List.of());
+        Board board = Board.from(Pieces.empty());
 
         // when
         // then

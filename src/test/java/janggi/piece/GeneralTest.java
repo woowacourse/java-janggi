@@ -21,8 +21,8 @@ class GeneralTest {
     void move() {
         // given
         Position position = Position.of(5, 5);
-        Piece general = General.of(position, Team.RED);
-        Board board = Board.from(List.of(general));
+        Piece general = General.of(position, Team.HAN);
+        Board board = Board.from(Pieces.empty().add(general));
 
         Position movedPosition = position.add(new Vector(-1, 0));
 
@@ -39,8 +39,8 @@ class GeneralTest {
     void move(int deltaRow, int deltaColumn) {
         // given
         Position position = Position.of(5, 5);
-        Piece general = General.of(position, Team.RED);
-        Board board = Board.from(List.of(general));
+        Piece general = General.of(position, Team.HAN);
+        Board board = Board.from(Pieces.empty().add(general));
 
         Position movedPosition = position.add(new Vector(deltaRow, deltaColumn));
 

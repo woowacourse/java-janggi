@@ -21,8 +21,8 @@ class ElephantTest {
     void move() {
         // given
         Position position = Position.of(5, 5);
-        Piece elephant = Elephant.of(position, Team.RED);
-        Board board = Board.from(List.of(elephant));
+        Piece elephant = Elephant.of(position, Team.HAN);
+        Board board = Board.from(Pieces.empty().addAll(List.of(elephant)));
 
         Position movedPosition = position.add(new Vector(2, 3));
 
@@ -39,8 +39,8 @@ class ElephantTest {
     void move(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
-        Piece elephant = Elephant.of(position, Team.RED);
-        Board board = Board.from(List.of(elephant));
+        Piece elephant = Elephant.of(position, Team.HAN);
+        Board board = Board.from(Pieces.empty().addAll(List.of(elephant)));
 
         Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 

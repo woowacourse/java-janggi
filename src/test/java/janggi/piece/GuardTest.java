@@ -21,8 +21,8 @@ class GuardTest {
     void move() {
         // given
         Position position = Position.of(5, 5);
-        Piece guard = Guard.of(position, Team.RED);
-        Board board = Board.from(List.of(guard));
+        Piece guard = Guard.of(position, Team.HAN);
+        Board board = Board.from(Pieces.empty().add(guard));
 
         Position movedPosition = position.add(new Vector(-1, 0));
 
@@ -39,8 +39,8 @@ class GuardTest {
     void move(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
-        Piece guard = Guard.of(position, Team.RED);
-        Board board = Board.from(List.of(guard));
+        Piece guard = Guard.of(position, Team.HAN);
+        Board board = Board.from(Pieces.empty().add(guard));
 
         Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 

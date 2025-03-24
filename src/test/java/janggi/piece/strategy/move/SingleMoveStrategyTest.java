@@ -2,6 +2,7 @@ package janggi.piece.strategy.move;
 
 import janggi.Board;
 import janggi.coordinate.Position;
+import janggi.piece.Pieces;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,7 @@ class SingleMoveStrategyTest {
         Position departure = Position.of(3, 3);
         Position destination = Position.of(3, 4); // column +1
 
-        Board board = Board.from(List.of());
+        Board board = Board.from(Pieces.empty());
 
         // when
         // then
@@ -35,7 +36,7 @@ class SingleMoveStrategyTest {
         Position departure = Position.of(3, 3);
         Position destination = Position.of(3, 5); // column +2
 
-        Board board = Board.from(List.of());
+        Board board = Board.from(Pieces.empty());
 
         // when
         // then

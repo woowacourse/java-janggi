@@ -21,8 +21,8 @@ class ChariotTest {
     void move(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
-        Piece chariot = Chariot.of(position, Team.RED);
-        Board board = Board.from(List.of(chariot));
+        Piece chariot = Chariot.of(position, Team.HAN);
+        Board board = Board.from(Pieces.empty().addAll(List.of(chariot)));
 
         Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
@@ -39,8 +39,8 @@ class ChariotTest {
     void cannotMoveToInvalidDirection(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
-        Piece chariot = Chariot.of(position, Team.RED);
-        Board board = Board.from(List.of(chariot));
+        Piece chariot = Chariot.of(position, Team.HAN);
+        Board board = Board.from(Pieces.empty().addAll(List.of(chariot)));
 
         Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
