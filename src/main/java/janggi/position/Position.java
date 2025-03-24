@@ -4,6 +4,10 @@ import java.util.Objects;
 
 public record Position(Row row, Column column) {
 
+    public Position move(int rowMovement, int columnMovement) {
+        return new Position(row.move(rowMovement), column.move(columnMovement));
+    }
+
     public int getRow() {
         return row.value();
     }
