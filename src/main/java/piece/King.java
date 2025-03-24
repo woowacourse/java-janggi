@@ -15,7 +15,7 @@ public class King extends Piece {
     @Override
     protected Set<Position> getMovablePositions(final Board board) {
         return Direction.getStraightDirection().stream()
-                .map(direction -> position.nextPosition(direction))
+                .map(direction -> position.moveByDirection(direction))
                 .filter(position -> isMovable(position, board))
                 .collect(Collectors.toSet());
     }
@@ -26,7 +26,7 @@ public class King extends Piece {
     }
 
     private boolean isMovable(final Position position, final Board board) {
-        return !board.isExists(position) || !board.isSameTeam(this, position);
+        return !board.isExists(position) || !board.isSameTeamPosition(this.team, position);
     }
 
 }

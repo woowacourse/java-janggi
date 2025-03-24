@@ -16,7 +16,7 @@ public class Solider extends Piece {
     protected Set<Position> getMovablePositions(final Board board) {
         return Direction.getStraightDirection().stream()
                 .filter(direction -> getUnmovableDirection() != direction)
-                .map(direction -> position.nextPosition(direction))
+                .map(direction -> position.moveByDirection(direction))
                 .filter(position -> isMovable(position, board))
                 .collect(Collectors.toSet());
     }
@@ -34,7 +34,7 @@ public class Solider extends Piece {
     }
 
     private boolean isMovable(final Position position, final Board board) {
-        return !board.isExists(position) || !board.isSameTeam(this, position);
+        return !board.isExists(position) || !board.isSameTeamPosition(this.team, position);
     }
 
 }

@@ -16,7 +16,7 @@ public class Cannon extends Piece {
     protected Set<Position> getMovablePositions(final Board board) {
         Set<Position> positions = new HashSet<>();
         Direction.getStraightDirection().forEach(direction -> goOneSide(
-                position.nextPosition(direction),
+                position.moveByDirection(direction),
                 direction,
                 false,
                 positions,
@@ -36,11 +36,11 @@ public class Cannon extends Piece {
             return;
         }
         if (!hasHuddle) {
-            goOneSide(position.nextPosition(direction), direction, board.isExists(position), positions, board);
+            goOneSide(position.moveByDirection(direction), direction, board.isExists(position), positions, board);
             return;
         }
         if (!board.isExists(position)) {
-            goOneSide(position.nextPosition(direction), direction, true, positions, board);
+            goOneSide(position.moveByDirection(direction), direction, true, positions, board);
         }
         positions.add(position);
     }
@@ -49,7 +49,7 @@ public class Cannon extends Piece {
         return (
                 position.isInValidPosition() ||
                         board.isCannonAt(position) ||
-                        (board.isSameTeam(this, position) && hasHuddle)
+                        (board.isSameTeamPosition(this.team, position) && hasHuddle)
         );
     }
 

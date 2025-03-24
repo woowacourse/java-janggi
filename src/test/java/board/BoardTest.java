@@ -79,11 +79,12 @@ class BoardTest {
     @ParameterizedTest
     void 장기판_기물이_같은팀_기물인지_확인한다(Team team, boolean expected) {
         Board board = new Board(List.of());
-        Chariot piece = new Chariot(new Position(1, 1), Team.BLUE);
+        Team blue = Team.BLUE;
+        Chariot piece = new Chariot(new Position(1, 1), team);
         board.putPiece(piece);
         board.putPiece(new Chariot(new Position(2, 1), team));
 
-        assertThat(board.isSameTeam(piece, new Position(2, 1))).isEqualTo(expected);
+        assertThat(board.isSameTeamPosition(blue, new Position(2, 1))).isEqualTo(expected);
     }
 
     @Test

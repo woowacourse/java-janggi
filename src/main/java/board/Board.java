@@ -47,8 +47,9 @@ public class Board {
         return pieces.stream().anyMatch(piece -> piece.isSamePosition(position));
     }
 
-    public boolean isSameTeam(final Piece piece, final Position newPosition) {
-        return pieces.stream().anyMatch(p -> p.isSamePosition(newPosition) && p.isSameTeam(piece.getTeam()));
+    public boolean isSameTeamPosition(final Team team, final Position position) {
+        return pieces.stream()
+                .anyMatch(p -> p.isSamePosition(position) && p.isSameTeam(team));
     }
 
     public void remove(final Position position) {

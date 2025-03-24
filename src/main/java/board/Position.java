@@ -28,7 +28,7 @@ public class Position {
         );
     }
 
-    public Position nextPosition(final Direction direction) {
+    public Position moveByDirection(final Direction direction) {
         return new Position(
                 row + direction.getRow(),
                 column + direction.getColumn()

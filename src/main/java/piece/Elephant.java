@@ -16,7 +16,7 @@ public class Elephant extends Piece {
     protected Set<Position> getMovablePositions(final Board board) {
         Set<Position> positions = new HashSet<>();
         Direction.getStraightDirection().forEach(direction -> goOneSide(
-                position.nextPosition(direction),
+                position.moveByDirection(direction),
                 direction,
                 positions,
                 0,
@@ -34,16 +34,16 @@ public class Elephant extends Piece {
         if (exitCondition(position, moveCount, board)) {
             return;
         }
-        if (moveCount == 2 && !board.isSameTeam(this, position)) {
+        if (moveCount == 2 && !board.isSameTeamPosition(this.team, position)) {
             positions.add(position);
         }
         if (direction.isStraightDirection()) {
             direction.nextCrossDirection().forEach(crossDirection ->
-                    goOneSide(position.nextPosition(crossDirection), crossDirection, positions, moveCount + 1, board)
+                    goOneSide(position.moveByDirection(crossDirection), crossDirection, positions, moveCount + 1, board)
             );
             return;
         }
-        goOneSide(position.nextPosition(direction), direction, positions, moveCount + 1, board);
+        goOneSide(position.moveByDirection(direction), direction, positions, moveCount + 1, board);
     }
 
     private boolean exitCondition(Position position, int moveCount, Board board) {

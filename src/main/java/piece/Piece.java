@@ -28,14 +28,14 @@ public abstract class Piece {
         return this.team == team;
     }
 
-    public final void move(final Position position, final Board board) {
-        if (!getMovablePositions(board).contains(position)) {
+    public final void move(final Position destination, final Board board) {
+        if (!getMovablePositions(board).contains(destination)) {
             throw new IllegalArgumentException("해당 위치로 기물이 이동할 수 없습니다.");
         }
-        if (!board.isSameTeam(this, position)) {
-            board.remove(position);
+        if (!board.isSameTeamPosition(team, destination)) {
+            board.remove(destination);
         }
-        this.position = position;
+        this.position = destination;
     }
 
     public Position getPosition() {

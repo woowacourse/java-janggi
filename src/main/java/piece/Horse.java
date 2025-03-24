@@ -1,6 +1,7 @@
 package piece;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import board.Board;
@@ -8,47 +9,53 @@ import board.Position;
 
 public class Horse extends Piece {
 
+    private static final List<Movement> MOVEMENTS = List.of(
+            Movement.TOP_LEFT_TOP,
+            Movement.TOP_RIGHT_TOP,
+            Movement.BOTTOM_LEFT_BOTTOM,
+            Movement.BOTTOM_RIGHT_BOTTOM,
+            Movement.LEFT_LEFT_TOP,
+            Movement.LEFT_LEFT_BOTTOM,
+            Movement.RIGHT_RIGHT_TOP
+    );
+    private static final int MOVEMENT_TOTAL_STEP = 2;
+
     public Horse(final Position position, final Team team) {
         super(position, team);
     }
 
     @Override
     protected Set<Position> getMovablePositions(final Board board) {
-        Set<Position> positions = new HashSet<>();
-        Direction.getStraightDirection().forEach(direction -> goOneSide(
-                position.nextPosition(direction),
-                direction,
-                positions,
-                0,
-                board
-        ));
-        return positions;
+        Set<Position> movablePositions = new HashSet<>();
+        for (Movement movement : MOVEMENTS) {
+            addMovablePosition(board, movement, movablePositions);
+        }
+        return movablePositions;
+    }
+
+    private void addMovablePosition(final Board board, final Movement movement, final Set<Position> movablePositions) {
+        Position beforeLastStepPosition = moveBeforeLastStep(board, movement);
+        Position movableFinalPosition = movement.applyMovementLastStep(beforeLastStepPosition);
+        if (movableFinalPosition.isInValidPosition() || board.isSameTeamPosition(team, movableFinalPosition)) {
+            return;
+        }
+        movablePositions.add(movableFinalPosition);
+    }
+
+    private Position moveBeforeLastStep(final Board board, final Movement movement) {
+        Position movePosition = position;
+        for (int step = 1; step < MOVEMENT_TOTAL_STEP; step++) {
+            movePosition = movement.applyMovementStep(step, movePosition);
+            if (movePosition.isInValidPosition() || board.isExists(movePosition)) {
+                break;
+            }
+        }
+        return movePosition;
     }
 
     @Override
     public String getDisplayName() {
         return "마";
-    }
-
-    private void goOneSide(Position position, Direction direction, Set<Position> positions, int moveCount, Board board) {
-        if (exitCondition(position, direction, moveCount, board)) {
-            return;
-        }
-        if (direction.isCrossDirection() && !board.isSameTeam(this, position)) {
-            positions.add(position);
-            return;
-        }
-        for (Direction crossDirection : direction.nextCrossDirection()) {
-            goOneSide(position.nextPosition(crossDirection), crossDirection, positions, moveCount + 1, board);
-        }
-    }
-
-    private boolean exitCondition(Position position, Direction direction, int moveCount, Board board) {
-        return (
-                position.isInValidPosition() ||
-                (direction.isStraightDirection() && board.isExists(position)) ||
-                moveCount > 1
-        );
     }
 
 }
