@@ -60,7 +60,7 @@ class BoardTest {
         // then
         assertThatThrownBy(() -> board.getPiece(Position.of(1, 2)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("장기말이 존재하지 않는 지점입니다.");
+                .hasMessage("기물이 존재하지 않는 지점입니다.");
     }
 
     @Test

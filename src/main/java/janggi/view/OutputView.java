@@ -14,6 +14,33 @@ import java.util.List;
 
 public class OutputView {
 
+    private static String getPieceName(final Piece piece) {
+        String pieceName = piece.getType().getDescription();
+
+        if (piece.getTeam().isHan()) {
+            if (piece.getType() == PieceType.SOLDIER) {
+                pieceName = "병";
+            }
+            pieceName = processRedColorString(pieceName);
+        }
+
+        if (piece.getTeam().isCho()) {
+            if (piece.getType() == PieceType.SOLDIER) {
+                pieceName = "졸";
+            }
+            pieceName = processGreenColorString(pieceName);
+        }
+        return pieceName;
+    }
+
+    private static String processRedColorString(String pieceName) {
+        return "\u001B[31m" + pieceName + "\u001B[0m";
+    }
+
+    private static String processGreenColorString(final String pieceName) {
+        return "\u001B[32m" + pieceName + "\u001B[0m";
+    }
+
     public void displayBoard(final Board board) {
         StringBuilder stringBuilder = new StringBuilder();
         String space = " ";
@@ -58,8 +85,6 @@ public class OutputView {
         System.out.println(stringBuilder);
     }
 
-
-
     public void displayScore(final Players players) {
         for (Team team : Team.values()) {
             display(String.format("%s나라 점수: %d",
@@ -83,32 +108,5 @@ public class OutputView {
     public void display(final String message) {
         System.out.println(message);
         System.out.println();
-    }
-
-    private static String getPieceName(final Piece piece) {
-        String pieceName = piece.getType().getDescription();
-
-        if (piece.getTeam().isHan()) {
-            if (piece.getType() == PieceType.SOLDIER) {
-                pieceName = "병";
-            }
-            pieceName = processRedColorString(pieceName);
-        }
-
-        if (piece.getTeam().isCho()) {
-            if (piece.getType() == PieceType.SOLDIER) {
-                pieceName = "졸";
-            }
-            pieceName = processGreenColorString(pieceName);
-        }
-        return pieceName;
-    }
-
-    private static String processRedColorString(String pieceName) {
-        return "\u001B[31m" + pieceName + "\u001B[0m";
-    }
-
-    private static String processGreenColorString(final String pieceName) {
-        return "\u001B[32m" + pieceName + "\u001B[0m";
     }
 }
