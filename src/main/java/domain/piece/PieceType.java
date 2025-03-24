@@ -18,4 +18,5 @@ public enum PieceType {
     public String getDescription() {
         return description;
     }
+
 }

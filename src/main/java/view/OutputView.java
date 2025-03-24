@@ -30,11 +30,11 @@ public class OutputView {
                 }
                 Country country = board.findCountryByCoordinate(coordinate);
                 if (country == Country.CHO) {
-                    builder.append("\u001B[32m").append(board.findPieceTypeByCoordinate(coordinate))
+                    builder.append("\u001B[32m").append(board.findPieceTypeByCoordinate(coordinate).getDescription())
                             .append("\u001B[0m");
                 }
                 if (country == Country.HAN) {
-                    builder.append("\u001B[31m").append(board.findPieceTypeByCoordinate(coordinate))
+                    builder.append("\u001B[31m").append(board.findPieceTypeByCoordinate(coordinate).getDescription())
                             .append("\u001B[0m");
                 }
             }

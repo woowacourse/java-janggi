@@ -3,6 +3,7 @@ package domain.board;
 import domain.Coordinate;
 import domain.piece.Country;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,9 +43,9 @@ public final class Board {
         return board.get(coordinate);
     }
 
-    public String findPieceTypeByCoordinate(Coordinate coordinate) {
+    public PieceType findPieceTypeByCoordinate(Coordinate coordinate) {
         validatePieceCoordinate(coordinate);
-        return board.get(coordinate).getPieceName();
+        return board.get(coordinate).getType();
     }
 
     private void validateMoveCoordinate(Coordinate newCoordinate, List<Coordinate> coordinates) {

@@ -23,10 +23,6 @@ abstract public class Piece {
         return false;
     }
 
-    public String getPieceName() {
-        return type.getDescription();
-    }
-
     public PieceType getType() {
         return type;
     }
