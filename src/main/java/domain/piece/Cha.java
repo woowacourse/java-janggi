@@ -29,7 +29,7 @@ public class Cha extends Piece implements LinearMove {
         }
         if (janggiBoard.isOccupied(curr) &&
                 janggiBoard.findPieceByCoordinate(curr) != janggiBoard.findPieceByCoordinate(to)) {
-            throw new IllegalArgumentException("[ERROR] 기물을 넘어서 이동 할 수 없습니다.");
+            throw new IllegalArgumentException("[ERROR] 경로에 기물이 있어 해당 위치로 이동할 수 없습니다.");
         }
     }
 }
