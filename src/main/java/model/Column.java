@@ -61,4 +61,8 @@ public enum Column {
     public boolean canDown(int decreaseAmount) {
         return this.value - Math.abs(decreaseAmount) >= MIN_VALUE;
     }
+
+    public int getValue() {
+        return value;
+    }
 }

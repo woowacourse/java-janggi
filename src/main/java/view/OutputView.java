@@ -7,11 +7,8 @@ public class OutputView {
         System.out.println("장기 시작");
     }
 
-    public void printBlankLine() {
-        System.out.println();
-    }
-
     public void printCurrentPosition(String currentPosition) {
+        System.out.println("  １２３４５６７８９");
         System.out.println(currentPosition);
     }
 

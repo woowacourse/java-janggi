@@ -47,6 +47,7 @@ public class JanggiGame {
     public String showCurrentPositionOfPieces() {
         StringBuilder sb = new StringBuilder();
         for (Column column : Column.values()) {
+            sb.append(column.getValue()+ " ");
             for (Row row : Row.values()) {
                 Optional<Piece> piece = pieces.findPieceOfNullable(new Position(column, row));
                 if (piece.isEmpty()) {
