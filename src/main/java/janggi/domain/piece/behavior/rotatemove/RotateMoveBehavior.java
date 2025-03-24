@@ -27,11 +27,11 @@ public abstract class RotateMoveBehavior implements PieceBehavior {
 
     protected abstract List<Vectors> getVectorsList();
 
-    protected abstract void searchAvailableMoves(Set<Position> result, Board board, Position position,
+    protected abstract void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition,
                                                  List<Vectors> vectorsList,
                                                  Side side);
 
-    protected abstract void searchAvailableMove(Set<Position> result, Board board, Position position, Side side,
+    protected abstract void searchAvailableMove(Set<Position> result, Board board, Position currentPosition, Side side,
                                                 Vectors vectors);
 
     protected boolean canNotMove(Vectors vectors, Position currentPosition) {

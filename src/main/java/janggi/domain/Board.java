@@ -73,7 +73,8 @@ public class Board {
     }
 
     public boolean hasGeneral(Side side) {
-        return pieceMap.values().stream().anyMatch(piece -> piece.isGeneral(side));
+        return pieceMap.values().stream()
+                .anyMatch(piece -> piece.isGeneral(side));
     }
 
     public boolean isCannon(Position position) {

@@ -19,26 +19,26 @@ public final class Elephant extends RotateMoveBehavior {
     }
 
     @Override
-    protected void searchAvailableMoves(Set<Position> result, Board board, Position position,
+    protected void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition,
                                         List<Vectors> vectorsList,
                                         Side side) {
         for (Vectors vectors : vectorsList) {
-            searchAvailableMove(result, board, position, side, vectors);
+            searchAvailableMove(result, board, currentPosition, side, vectors);
         }
     }
 
     @Override
-    protected void searchAvailableMove(Set<Position> result, Board board, Position position, Side side,
+    protected void searchAvailableMove(Set<Position> result, Board board, Position currentPosition, Side side,
                                        Vectors vectors) {
-        if (canNotMove(vectors, position)) {
+        if (canNotMove(vectors, currentPosition)) {
             return;
         }
 
-        if (hasNotAvailableMiddleMove(vectors, position, board)) {
+        if (hasNotAvailableMiddleMove(vectors, currentPosition, board)) {
             return;
         }
 
-        Position finalPosition = position.moveToNextPosition(vectors.accumulate(2));
+        Position finalPosition = currentPosition.moveToNextPosition(vectors.accumulate(2));
 
         if (board.canMoveToPosition(side, finalPosition)) {
             result.add(finalPosition);

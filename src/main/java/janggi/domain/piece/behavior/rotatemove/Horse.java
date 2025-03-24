@@ -16,22 +16,22 @@ public final class Horse extends RotateMoveBehavior {
     }
 
     @Override
-    protected void searchAvailableMoves(Set<Position> result, Board board, Position position, List<Vectors> vectorsList,
+    protected void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, List<Vectors> vectorsList,
                                         Side side) {
         for (Vectors vectors : vectorsList) {
-            searchAvailableMove(result, board, position, side, vectors);
+            searchAvailableMove(result, board, currentPosition, side, vectors);
         }
     }
 
     @Override
-    protected void searchAvailableMove(Set<Position> result, Board board, Position position, Side side,
+    protected void searchAvailableMove(Set<Position> result, Board board, Position currentPosition, Side side,
                                        Vectors vectors) {
-        if (canNotMove(vectors, position)) {
+        if (canNotMove(vectors, currentPosition)) {
             return;
         }
 
-        Position midPosition = position.moveToNextPosition(vectors.accumulate(0));
-        Position finalPosition = position.moveToNextPosition(vectors.accumulate(1));
+        Position midPosition = currentPosition.moveToNextPosition(vectors.accumulate(0));
+        Position finalPosition = currentPosition.moveToNextPosition(vectors.accumulate(1));
 
         if (board.hasPiece(midPosition)) {
             return;
