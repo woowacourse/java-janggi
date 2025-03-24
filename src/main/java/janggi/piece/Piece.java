@@ -28,6 +28,12 @@ public abstract class Piece {
 
     public abstract Score die();
 
+    public abstract PieceType getType();
+
+    public Team getTeam() {
+        return team;
+    }
+
     protected abstract Piece createPiece(Position destination);
 
     protected void validateMove(final Board board, final Position destination) {
@@ -39,7 +45,6 @@ public abstract class Piece {
 
     protected abstract void validateSpecialRule(Board board, Position destination);
 
-    protected abstract PieceType getType();
 
     public boolean isAlly(final Team team) {
         return this.team == team;
