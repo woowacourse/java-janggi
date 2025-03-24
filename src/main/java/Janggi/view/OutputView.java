@@ -2,16 +2,16 @@ package Janggi.view;
 
 import Janggi.board.Board;
 import Janggi.board.Position;
-import java.util.Map;
 import Janggi.piece.Cannon;
 import Janggi.piece.Chariot;
+import Janggi.piece.Country;
 import Janggi.piece.Elephant;
 import Janggi.piece.General;
 import Janggi.piece.Guard;
 import Janggi.piece.Horse;
 import Janggi.piece.Piece;
 import Janggi.piece.Soldier;
-import Janggi.piece.Country;
+import java.util.Map;
 
 public class OutputView {
 
@@ -39,7 +39,8 @@ public class OutputView {
         System.out.println("현재 보드 상태입니다.");
         System.out.println("현재 턴은 다음의 팀입니다. : " + country);
 
-        final StringBuilder sb = new StringBuilder("ㅁ 일 이 삼 사 오 육 칠 팔 구\n");
+        final StringBuilder sb = new StringBuilder();
+        appendBoardHeader(sb);
         final Map<Position, Piece> map = board.getJanggiBoard();
         for (int i = Position.POSITION_RANGE_X_MIN; i <= Position.POSITION_RANGE_X_MAX; i++) {
 
@@ -56,8 +57,18 @@ public class OutputView {
                 }
                 sb.append("　 ");
             }
-            sb.append("\n");
+            sb.append(System.lineSeparator());
         }
         System.out.println(sb);
+    }
+
+    private static void appendBoardHeader(final StringBuilder sb) {
+        final NumberFormat[] values = NumberFormat.values();
+
+        sb.append("ㅁ ");
+        for (int i = Position.POSITION_RANGE_Y_MIN - 1; i < Position.POSITION_RANGE_Y_MAX; i++) {
+            sb.append(values[i].name()).append(" ");
+        }
+        sb.append(System.lineSeparator());
     }
 }
