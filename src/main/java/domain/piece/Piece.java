@@ -19,7 +19,7 @@ public abstract class Piece {
         this.state = state;
     }
 
-    public List<Pattern> findPath(JanggiPosition beforePosition, JanggiPosition afterPosition) {
+    public List<Pattern> findMovablePath(JanggiPosition beforePosition, JanggiPosition afterPosition) {
         return state.findMovablePath(path, beforePosition, afterPosition);
     }
 

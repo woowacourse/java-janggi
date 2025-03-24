@@ -24,7 +24,7 @@ public class 차PathTest {
         JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
 
         // when
-        List<Pattern> 차path = piece.findPath(beforePosition, afterPosition);
+        List<Pattern> 차path = piece.findMovablePath(beforePosition, afterPosition);
 
         // when & then
         Assertions.assertThat(차path).containsAll(path);
@@ -63,7 +63,7 @@ public class 차PathTest {
         JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> piece.findPath(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> piece.findMovablePath(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

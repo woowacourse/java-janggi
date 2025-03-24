@@ -24,7 +24,7 @@ public class 궁PathTest {
         JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
 
         // when
-        List<Pattern> 궁path = piece.findPath(beforePosition, afterPostion);
+        List<Pattern> 궁path = piece.findMovablePath(beforePosition, afterPostion);
 
         // when & then
         Assertions.assertThat(궁path)
@@ -53,7 +53,7 @@ public class 궁PathTest {
 
         // when & then
         Assertions.assertThatThrownBy(
-                        () -> piece.findPath(beforePosition, afterPosition))
+                        () -> piece.findMovablePath(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

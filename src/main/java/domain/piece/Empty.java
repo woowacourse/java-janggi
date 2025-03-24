@@ -10,7 +10,7 @@ public class Empty extends Piece {
     }
 
     @Override
-    public List<Pattern> findPath(JanggiPosition beforePosition, JanggiPosition afterPosition) {
+    public List<Pattern> findMovablePath(JanggiPosition beforePosition, JanggiPosition afterPosition) {
         throw new IllegalStateException("움직일 말이 존재하지 않습니다.");
     }
 

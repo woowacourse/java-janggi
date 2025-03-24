@@ -22,7 +22,7 @@ public class 병PathTest {
         JanggiPosition beforePosition = new JanggiPosition(7, 5);
 
         // when
-        List<Pattern> 병path = piece.findPath(beforePosition, afterPosition);
+        List<Pattern> 병path = piece.findMovablePath(beforePosition, afterPosition);
 
         // when & then
         Assertions.assertThat(병path)
@@ -45,7 +45,7 @@ public class 병PathTest {
         JanggiPosition afterPosition = new JanggiPosition(6, 5);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> piece.findPath(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> piece.findMovablePath(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 

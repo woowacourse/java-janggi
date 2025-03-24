@@ -23,7 +23,7 @@ public class 마PathTest {
         마Path pathOf마 = new 마Path();
 
         // when
-        List<Pattern> 마path = piece.findPath(beforePosition, afterPosition);
+        List<Pattern> 마path = piece.findMovablePath(beforePosition, afterPosition);
 
         // when & then
         Assertions.assertThat(마path)
@@ -51,7 +51,7 @@ public class 마PathTest {
         JanggiPosition afterPosition = new JanggiPosition(4, 4);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> piece.findPath(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> piece.findMovablePath(beforePosition, afterPosition))
                 .isInstanceOf(IllegalStateException.class);
     }
 }
