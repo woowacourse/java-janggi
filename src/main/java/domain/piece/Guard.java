@@ -26,4 +26,9 @@ public class Guard extends AbstractPiece {
         }
         return absoluteX == 0 && absoluteY == 1;
     }
+
+    @Override
+    public PieceType type() {
+        return PieceType.GUARD;
+    }
 }

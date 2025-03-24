@@ -2,6 +2,7 @@ package domain;
 
 import domain.piece.AbstractPiece;
 import domain.piece.PieceFactory;
+import domain.piece.PieceType;
 import domain.position.Distance;
 import domain.position.Point;
 import java.util.List;
@@ -24,6 +25,12 @@ class AbstractPieceTest {
         @Override
         public boolean isMovable(final Distance distance) {
             return false;
+        }
+
+        // 해당 말은 타입이 없기에 null로 유지
+        @Override
+        public PieceType type() {
+            return null;
         }
     }
 

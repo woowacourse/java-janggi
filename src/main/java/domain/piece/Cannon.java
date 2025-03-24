@@ -71,4 +71,9 @@ public class Cannon extends AbstractPiece {
         }
         return absoluteX == 0 && absoluteY >= 2;
     }
+
+    @Override
+    public PieceType type() {
+        return PieceType.CANNON;
+    }
 }

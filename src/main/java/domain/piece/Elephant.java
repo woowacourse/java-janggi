@@ -74,4 +74,9 @@ public class Elephant extends AbstractPiece {
         }
         return absoluteX == 3 && absoluteY == 2;
     }
+
+    @Override
+    public PieceType type() {
+        return PieceType.ELEPHANT;
+    }
 }

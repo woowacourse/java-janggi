@@ -27,4 +27,9 @@ public class Soldier extends AbstractPiece {
         }
         return (distance.x() == 1 || distance.x() == -1) && distance.y() == 0;
     }
+
+    @Override
+    public PieceType type() {
+        return PieceType.SOLDIER;
+    }
 }

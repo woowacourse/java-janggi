@@ -64,4 +64,9 @@ public class Horse extends AbstractPiece {
         }
         return absoluteX == 2 && absoluteY == 1;
     }
+
+    @Override
+    public PieceType type() {
+        return PieceType.HORSE;
+    }
 }

@@ -14,6 +14,8 @@ public interface Piece {
 
     Score getScore();
 
+    PieceType type();
+
     boolean equals(final Object other);
 
     int hashCode();

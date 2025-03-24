@@ -69,4 +69,9 @@ public class Chariot extends AbstractPiece {
         }
         return distance.x() != 0 && distance.y() == 0;
     }
+
+    @Override
+    public PieceType type() {
+        return PieceType.CHARIOT;
+    }
 }

@@ -1,6 +1,7 @@
 package domain.position;
 
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,6 +21,14 @@ public class Position {
 
     public boolean isSamePiece(final Piece other) {
         return this.piece.equals(other);
+    }
+
+    public boolean isSamePieceType(final Position other) {
+        return this.piece.type() == other.piece.type();
+    }
+
+    public boolean isSamePieceType(final PieceType otherPieceType) {
+        return this.piece.type() == otherPieceType;
     }
 
     public boolean isGreenTeam() {
@@ -54,5 +63,26 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hashCode(point);
+    }
+
+    public boolean canPassOverPiece(
+            final Position middlePosition,
+            final Position toPosition,
+            final PieceType pieceType
+    ) {
+        if (!isSamePieceType(pieceType)) {
+            return false;
+        }
+        if (isSamePieceType(middlePosition)) {
+            return false;
+        }
+        return !isSamePieceType(toPosition);
+    }
+
+    public boolean canPassOverPiece(final Position middlePosition, final PieceType pieceType) {
+        if (!isSamePieceType(pieceType)) {
+            return false;
+        }
+        return !isSamePieceType(middlePosition);
     }
 }
