@@ -1,14 +1,19 @@
 package janggi.domain.piece;
 
 import janggi.domain.Dynasty;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PiecesOnPath {
 
     private final List<Piece> pieces;
 
+    public PiecesOnPath(Piece... pieces) {
+        this(List.of(pieces));
+    }
+
     public PiecesOnPath(List<Piece> pieces) {
-        this.pieces = pieces;
+        this.pieces = new ArrayList<>(pieces);
     }
 
     public boolean isDestinationOfDynasty(Dynasty dynasty) {
@@ -35,6 +40,9 @@ public class PiecesOnPath {
     }
 
     private Piece destination() {
+        if (pieces.isEmpty()) {
+            return new EmptyPiece();
+        }
         return pieces.getLast();
     }
 

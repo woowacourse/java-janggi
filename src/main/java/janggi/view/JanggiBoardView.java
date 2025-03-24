@@ -9,6 +9,7 @@ import janggi.domain.piece.ChuSoldier;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
+import janggi.domain.piece.HanSoldier;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public class JanggiBoardView {
         put(new Cannon(Dynasty.CHU), "포");
         put(new Horse(Dynasty.CHU), "마");
         put(new Elephant(Dynasty.CHU), "상");
-        put(new ChuSoldier(Dynasty.CHU), "졸");
+        put(new ChuSoldier(), "졸");
 
         put(new General(Dynasty.HAN), "궁");
         put(new Guard(Dynasty.HAN), "사");
@@ -37,7 +38,7 @@ public class JanggiBoardView {
         put(new Cannon(Dynasty.HAN), "포");
         put(new Horse(Dynasty.HAN), "마");
         put(new Elephant(Dynasty.HAN), "상");
-        put(new ChuSoldier(Dynasty.HAN), "졸");
+        put(new HanSoldier(), "졸");
     }};
 
     private static final String BLUE = "\u001B[34m";

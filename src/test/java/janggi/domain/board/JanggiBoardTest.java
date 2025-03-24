@@ -16,7 +16,7 @@ public class JanggiBoardTest {
     void move() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(9, 5), new ChuSoldier(Dynasty.CHU)
+                new Point(9, 5), new ChuSoldier()
         ));
 
         //when
@@ -24,7 +24,7 @@ public class JanggiBoardTest {
 
         //then
         assertThat(janggiBoard).isEqualTo(new JanggiBoard(Map.of(
-                new Point(8, 5), new ChuSoldier(Dynasty.CHU)
+                new Point(8, 5), new ChuSoldier()
         )));
     }
 
@@ -45,7 +45,7 @@ public class JanggiBoardTest {
     void move_whenOtherDynastyPiece() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(9, 5), new ChuSoldier(Dynasty.CHU))
+                new Point(9, 5), new ChuSoldier())
         );
 
         //when
