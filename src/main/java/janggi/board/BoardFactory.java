@@ -1,6 +1,7 @@
 package janggi.board;
 
 import janggi.Team.Team;
+import janggi.piece.Byeong;
 import janggi.piece.Cha;
 import janggi.piece.Gung;
 import janggi.piece.Jol;
@@ -63,17 +64,17 @@ public class BoardFactory {
         pieces.put(new Position(INITIAL_Y_OF_PO_FOR_HAN, 2), new Po(targetTeam));
         pieces.put(new Position(INITIAL_Y_OF_PO_FOR_HAN, 8), new Po(targetTeam));
 
-        pieces.put(new Position(INITIAL_Y_OF_BYEONG_FOR_HAN, 1), new Jol());
-        pieces.put(new Position(INITIAL_Y_OF_BYEONG_FOR_HAN, 3), new Jol());
-        pieces.put(new Position(INITIAL_Y_OF_BYEONG_FOR_HAN, 5), new Jol());
-        pieces.put(new Position(INITIAL_Y_OF_BYEONG_FOR_HAN, 7), new Jol());
-        pieces.put(new Position(INITIAL_Y_OF_BYEONG_FOR_HAN, 9), new Jol());
+        pieces.put(new Position(INITIAL_Y_OF_BYEONG_FOR_HAN, 1), new Byeong());
+        pieces.put(new Position(INITIAL_Y_OF_BYEONG_FOR_HAN, 3), new Byeong());
+        pieces.put(new Position(INITIAL_Y_OF_BYEONG_FOR_HAN, 5), new Byeong());
+        pieces.put(new Position(INITIAL_Y_OF_BYEONG_FOR_HAN, 7), new Byeong());
+        pieces.put(new Position(INITIAL_Y_OF_BYEONG_FOR_HAN, 9), new Byeong());
     }
 
     private static Map<Position, Piece> getSangSetting(Team team, SangSetting sangSetting) {
         if (team == Team.HAN) {
-            return sangSetting.getSangSetting(team, INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_CHO);
+            return sangSetting.getSangSetting(team, INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_HAN);
         }
-        return sangSetting.getSangSetting(team, INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_HAN);
+        return sangSetting.getSangSetting(team, INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_CHO);
     }
 }
