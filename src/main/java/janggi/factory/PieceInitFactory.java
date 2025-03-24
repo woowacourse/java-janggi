@@ -7,21 +7,15 @@ import janggi.domain.piece.PieceBehavior;
 import janggi.domain.piece.behavior.General;
 import janggi.domain.piece.behavior.Guard;
 import janggi.domain.piece.behavior.Soldier;
-import janggi.domain.piece.behavior.rotatemove.Elephant;
-import janggi.domain.piece.behavior.rotatemove.Horse;
 import janggi.domain.piece.behavior.straightmove.Cannon;
 import janggi.domain.piece.behavior.straightmove.Chariot;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum PieceFactory {
+public enum PieceInitFactory {
     GENERAL1(Side.CHO, 9, 5, new General()),
     GUARD1(Side.CHO, 10, 4, new Guard()),
     GUARD2(Side.CHO, 10, 6, new Guard()),
-    ELEPHANT1(Side.CHO, 10, 2, new Elephant()),
-    ELEPHANT2(Side.CHO, 10, 7, new Elephant()),
-    HORSE1(Side.CHO, 10, 3, new Horse()),
-    HORSE2(Side.CHO, 10, 8, new Horse()),
     CHARIOT1(Side.CHO, 10, 1, new Chariot()),
     CHARIOT2(Side.CHO, 10, 9, new Chariot()),
     CANNON1(Side.CHO, 8, 2, new Cannon()),
@@ -34,10 +28,6 @@ public enum PieceFactory {
     GENERAL2(Side.HAN, 2, 5, new General()),
     GUARD3(Side.HAN, 1, 4, new Guard()),
     GUARD4(Side.HAN, 1, 6, new Guard()),
-    ELEPHANT3(Side.HAN, 1, 2, new Elephant()),
-    ELEPHANT4(Side.HAN, 1, 7, new Elephant()),
-    HORSE3(Side.HAN, 1, 3, new Horse()),
-    HORSE4(Side.HAN, 1, 8, new Horse()),
     CHARIOT3(Side.HAN, 1, 1, new Chariot()),
     CHARIOT4(Side.HAN, 1, 9, new Chariot()),
     CANNON3(Side.HAN, 3, 2, new Cannon()),
@@ -54,7 +44,7 @@ public enum PieceFactory {
     private final int column;
     private final PieceBehavior pieceBehavior;
 
-    PieceFactory(Side side, int row, int column, PieceBehavior pieceBehavior) {
+    PieceInitFactory(Side side, int row, int column, PieceBehavior pieceBehavior) {
         this.side = side;
         this.row = row;
         this.column = column;
@@ -64,7 +54,7 @@ public enum PieceFactory {
     public static Map<Position, Piece> initialize() {
         Map<Position, Piece> map = new HashMap<>();
 
-        for (PieceFactory value : PieceFactory.values()) {
+        for (PieceInitFactory value : PieceInitFactory.values()) {
             Position position = Position.of(value.row, value.column);
             Piece piece = new Piece(value.side, value.pieceBehavior);
             map.put(position, piece);

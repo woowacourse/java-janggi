@@ -3,9 +3,14 @@ package janggi.manager;
 import janggi.domain.Board;
 import janggi.domain.Side;
 import janggi.domain.move.Position;
+import janggi.domain.piece.Piece;
 import janggi.dto.PositionDto;
+import janggi.factory.PieceInitFactory;
+import janggi.factory.masang.MaSangFactory;
 import janggi.util.RecoveryUtil;
+import janggi.view.MaSangPosition;
 import janggi.view.Viewer;
+import java.util.Map;
 
 public class JanggiGame {
 
@@ -15,12 +20,28 @@ public class JanggiGame {
         this.viewer = viewer;
     }
 
-    public void start(Board board) {
+    public void start() {
+        Board board = initializeBoard();
+
         Side turn = Side.CHO;
 
         turn = repeatGameTurns(board, turn);
 
         viewer.winner(turn);
+    }
+
+    private Board initializeBoard() {
+        Map<Position, Piece> initializeBoard = PieceInitFactory.initialize();
+        initializeBoard.putAll(placeMaSangPiecesBySide(Side.CHO));
+        initializeBoard.putAll(placeMaSangPiecesBySide(Side.HAN));
+
+        return new Board(initializeBoard);
+    }
+
+    private Map<Position, Piece> placeMaSangPiecesBySide(Side side) {
+        MaSangPosition maSangPosition = RecoveryUtil.executeWithRetry(() ->viewer.settingMaSangPlacement(side));
+
+        return MaSangFactory.create(maSangPosition, side);
     }
 
     private Side repeatGameTurns(Board board, Side turn) {

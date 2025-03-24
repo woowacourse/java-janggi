@@ -9,6 +9,8 @@ public enum ErrorMessage {
     CANNOT_MOVE_TO_POSITION("해당 좌표로 이동할 수 없습니다."),
     CANNOT_MOVE_PIECE("움직일 수 없는 기물입니다."),
     NOT_NULL("NULL을 넣을 수 없습니다!"),
+    INVALID_MASANG_INPUT("잘못된 입력입니다. 숫자 1, 2, 3, 4로 입력해주세요."),
+    INVALID_PIECES_TOTAL_COUNT("장기 기물 개수가 32개가 아닙니다.")
     ;
 
     private final String message;

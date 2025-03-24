@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.Board;
 import janggi.domain.move.Position;
 import janggi.domain.Side;
-import janggi.factory.PieceFactory;
+import janggi.factory.PieceInitFactory;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -33,7 +33,7 @@ class SoldierTest {
     @MethodSource("moveableArguments")
     void test1(Position startingPosition, Side side, List<Position> expected) {
         // given
-        Board board = new Board(PieceFactory.initialize());
+        Board board = new Board(PieceInitFactory.initialize());
         Soldier soldier = new Soldier();
 
         // when

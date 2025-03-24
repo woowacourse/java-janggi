@@ -11,6 +11,8 @@ public class Position {
     private static final int START_ROW = 1;
     private static final int LAST_ROW = 10;
 
+    private static final int HAN_BOUNDARY = 4;
+
     private static final Position[][] CACHED = new Position[LAST_ROW + 1][LAST_COLUMN + 1];
 
     static {
@@ -82,7 +84,15 @@ public class Position {
         int newRow = this.row + vector.y();
         int newColumn = this.column + vector.x();
 
-        return new Position(newRow, newColumn);
+        return Position.of(newRow, newColumn);
+    }
+
+    public Position changeToHan() {
+        if (this.row <= HAN_BOUNDARY) {
+            throw new IllegalArgumentException("이미 한나라의 영역입니다.");
+        }
+
+        return Position.of(LAST_ROW - this.row + 1, LAST_COLUMN - column + 1);
     }
 
     @Override

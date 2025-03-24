@@ -29,6 +29,16 @@ public class Viewer {
         System.out.println(Formatter.formatMessageWithHeader(ERROR_HEADER, e.getMessage()));
     }
 
+    public MaSangPosition settingMaSangPlacement(Side side) {
+        System.out.println(Formatter.formatSide(side) + "의 차림을 숫자로 선택해주세요");
+        System.out.println("1. 상마상마");
+        System.out.println("2. 마상마상");
+        System.out.println("3. 마상상마");
+        System.out.println("4. 상마마상");
+
+        return MaSangPosition.find(scanner.nextLine());
+    }
+
     public void printBoard(Board board) {
         StringJoiner enterJoiner = new StringJoiner(LINE_SEPARATOR).add(formatFirstRowOfBoard());
         for (int row = START_ROW; row <= LAST_ROW; row++) {

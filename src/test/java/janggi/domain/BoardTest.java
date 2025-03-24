@@ -9,20 +9,32 @@ import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.behavior.General;
 import janggi.domain.piece.behavior.Soldier;
-import janggi.factory.PieceFactory;
+import janggi.factory.PieceInitFactory;
+import janggi.factory.masang.MaSangFactory;
+import janggi.view.MaSangPosition;
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
+    Board board;
+
+    @BeforeEach
+    void init() {
+        Map<Position, Piece> initialize = PieceInitFactory.initialize();
+        initialize.putAll(MaSangFactory.create(MaSangPosition.MA_SANG_MA_SANG, Side.CHO));
+        initialize.putAll(MaSangFactory.create(MaSangPosition.MA_SANG_MA_SANG, Side.HAN));
+
+        board = new Board(initialize);
+    }
+
     @DisplayName("움직일 수 있는 기물인지 확인한다.")
     @Test
     void test1() {
         // given
-        Map<Position, Piece> initialize = PieceFactory.initialize();
-        Board board = new Board(initialize);
         Position position = Position.of(7, 1);
 
         // when & then
@@ -34,8 +46,6 @@ class BoardTest {
     @Test
     void test2() {
         // given
-        Map<Position, Piece> initialize = PieceFactory.initialize();
-        Board board = new Board(initialize);
         Position position = Position.of(2, 1);
 
         // when & then
@@ -48,9 +58,7 @@ class BoardTest {
     @Test
     void test3() {
         // given
-        Map<Position, Piece> initialize = PieceFactory.initialize();
 
-        Board board = new Board(initialize);
         Position position = Position.of(1, 1);
 
         // when & then
@@ -116,7 +124,7 @@ class BoardTest {
     @DisplayName("보드의 General이 있다면 true를 반환한다.")
     @Test
     void test7() {
-        Board board = new Board(PieceFactory.initialize());
+        Board board = new Board(PieceInitFactory.initialize());
 
         assertThat(board.hasGeneral(Side.HAN)).isTrue();
     }
