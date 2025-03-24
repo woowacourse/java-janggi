@@ -13,7 +13,7 @@ public class InputView {
 
     public static SangMaOrderCommand inputSangMaOrder(Team team) {
         System.out.printf("""
-                %n%s나라 상마 순서를 입력해주세요.
+                %n%s나라 상마 순서 번호를 입력해주세요. (예: 3)
                 1. 상마상마
                 2. 상마마상
                 3. 마상상마

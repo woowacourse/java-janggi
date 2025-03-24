@@ -24,7 +24,7 @@ public enum SangMaOrderCommand {
         return Arrays.stream(values())
                 .filter(command -> command.input.equals(input))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 올바른 상마 순서 커맨드를 입력해주세요."));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 올바른 상마 순서 번호를 입력해주세요."));
     }
 
     public List<PieceType> getPieceTypes() {
