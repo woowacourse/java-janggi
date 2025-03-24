@@ -19,8 +19,13 @@ class SangMoveBehaviorTest {
         List<Position> route = moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE);
 
         List<Position> expectPositions = List.of(new Position(0, 1), new Position(1, 2), new Position(2, 3));
-        Assertions.assertThat(route.size()).isEqualTo(3);
-        Assertions.assertThatIterable(route).containsExactlyElementsOf(expectPositions);
+
+        org.assertj.core.api.Assertions.assertThatCode(() -> {
+            org.junit.jupiter.api.Assertions.assertAll(
+                    () -> Assertions.assertThat(route.size()).isEqualTo(2),
+                    () -> Assertions.assertThatIterable(route).containsExactlyElementsOf(expectPositions)
+            );
+        }).doesNotThrowAnyException();
     }
 
     @Test

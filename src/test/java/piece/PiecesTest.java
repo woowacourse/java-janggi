@@ -33,8 +33,12 @@ public class PiecesTest {
 
         pieces.killPieceFrom(piece1, otherPieces);
 
-        Assertions.assertThat(otherPieces.getPieces().size()).isEqualTo(0);
-        Assertions.assertThat(pieces.getFirstPiece()).isEqualTo(piece1);
+        org.assertj.core.api.Assertions.assertThatCode(() -> {
+            org.junit.jupiter.api.Assertions.assertAll(
+                    () -> Assertions.assertThat(otherPieces.getPieces().size()).isEqualTo(0),
+                    () -> Assertions.assertThat(pieces.getFirstPiece()).isEqualTo(piece1)
+            );
+        }).doesNotThrowAnyException();
     }
 
     @Test

@@ -18,8 +18,12 @@ class JolMoveBehaviorTest {
 
         List<Position> route = moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE);
 
-        Assertions.assertThat(route.size()).isEqualTo(1);
-        Assertions.assertThat(route.getFirst()).isEqualTo(endPosition);
+        org.assertj.core.api.Assertions.assertThatCode(() -> {
+            org.junit.jupiter.api.Assertions.assertAll(
+                    () -> Assertions.assertThat(route.size()).isEqualTo(1),
+                    () -> Assertions.assertThat(route.getLast()).isEqualTo(endPosition)
+            );
+        }).doesNotThrowAnyException();
     }
 
     @Test
@@ -30,8 +34,12 @@ class JolMoveBehaviorTest {
 
         List<Position> route = moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.RED);
 
-        Assertions.assertThat(route.size()).isEqualTo(1);
-        Assertions.assertThat(route.getFirst()).isEqualTo(endPosition);
+        org.assertj.core.api.Assertions.assertThatCode(() -> {
+            org.junit.jupiter.api.Assertions.assertAll(
+                    () -> Assertions.assertThat(route.size()).isEqualTo(1),
+                    () -> Assertions.assertThat(route.getLast()).isEqualTo(endPosition)
+            );
+        }).doesNotThrowAnyException();
     }
 
 

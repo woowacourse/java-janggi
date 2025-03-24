@@ -18,8 +18,12 @@ class ChaMoveBehaviorTest {
 
         List<Position> route = moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE);
 
-        Assertions.assertThat(route.size()).isEqualTo(5);
-        Assertions.assertThat(route.getLast()).isEqualTo(endPosition);
+        org.assertj.core.api.Assertions.assertThatCode(() -> {
+            org.junit.jupiter.api.Assertions.assertAll(
+                    () -> Assertions.assertThat(route.size()).isEqualTo(5),
+                    () -> Assertions.assertThat(route.getLast()).isEqualTo(endPosition)
+            );
+        }).doesNotThrowAnyException();
     }
 
     @Test
