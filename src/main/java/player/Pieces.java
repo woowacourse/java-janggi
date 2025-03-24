@@ -58,6 +58,14 @@ public class Pieces {
                 .count();
     }
 
+    public void movePiece(Position presentPosition, Position destination) {
+        pieces.stream()
+                .filter(piece -> piece.isSamePosition(presentPosition))
+                .findFirst()
+                .ifPresent(piece -> piece.updateChessPiecePositionBy(destination));
+    }
+
+
     public List<Piece> getPieces() {
         return pieces;
     }
