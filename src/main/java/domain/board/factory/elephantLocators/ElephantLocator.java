@@ -7,8 +7,8 @@ import java.util.Map;
 
 public interface ElephantLocator {
 
-  Map<Point, Piece> setupElephant(final Team team);
+    Map<Point, Piece> setupElephant(final Team team);
 
-  Map<Point, Piece> setupHorse(final Team team);
+    Map<Point, Piece> setupHorse(final Team team);
 
 }

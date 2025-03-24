@@ -10,57 +10,57 @@ import java.util.List;
 
 public final class Empty implements Piece {
 
-  private static Empty empty = null;
+    private static Empty empty = null;
 
-  private Empty() {
-  }
-
-  public static Empty getInstance() {
-    if (empty == null) {
-      empty = new Empty();
+    private Empty() {
     }
-    return empty;
-  }
 
-  @Override
-  public boolean hasEqualTeam(final Team team) {
-    throw new JanggiGameRuleWarningException("기물이 없습니다.");
-  }
+    public static Empty getInstance() {
+        if (empty == null) {
+            empty = new Empty();
+        }
+        return empty;
+    }
 
-  @Override
-  public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
-    throw new JanggiGameRuleWarningException("기물이 없습니다.");
-  }
+    @Override
+    public boolean hasEqualTeam(final Team team) {
+        throw new JanggiGameRuleWarningException("기물이 없습니다.");
+    }
 
-  @Override
-  public boolean isMovable(final PieceOnRoute pieceOnRoute) {
-    throw new JanggiGameRuleWarningException("기물이 없습니다.");
-  }
+    @Override
+    public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
+        throw new JanggiGameRuleWarningException("기물이 없습니다.");
+    }
 
-  @Override
-  public boolean canNotJumpOver() {
-    return false;
-  }
+    @Override
+    public boolean isMovable(final PieceOnRoute pieceOnRoute) {
+        throw new JanggiGameRuleWarningException("기물이 없습니다.");
+    }
 
-  @Override
-  public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
-    throw new JanggiGameRuleWarningException("기물이 없습니다.");
-  }
+    @Override
+    public boolean canNotJumpOver() {
+        return false;
+    }
 
-  @Override
-  public String getName() {
-    return EMPTY.getNameForTeam(Team.NONE);
-  }
+    @Override
+    public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
+        throw new JanggiGameRuleWarningException("기물이 없습니다.");
+    }
 
-  @Override
-  public boolean equals(final Object obj) {
-    return obj instanceof Empty;
-  }
+    @Override
+    public String getName() {
+        return EMPTY.getNameForTeam(Team.NONE);
+    }
 
-  @Override
-  public int hashCode() {
-    return super.hashCode();
-  }
+    @Override
+    public boolean equals(final Object obj) {
+        return obj instanceof Empty;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 
 
 }

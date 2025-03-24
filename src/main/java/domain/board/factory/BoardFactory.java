@@ -23,66 +23,65 @@ import java.util.Map.Entry;
 
 public final class BoardFactory {
 
-  private static final int BOARD_ROW_MAX = 10;
-  private static final int BOARD_COLUMN_MAX = 9;
-  private static final int MAX_SOLDIER_COUNT = 5;
+    private static final int BOARD_ROW_MAX = 10;
+    private static final int BOARD_COLUMN_MAX = 9;
+    private static final int MAX_SOLDIER_COUNT = 5;
 
 
-  public static Board generateBoard(final EnumMap<Team, Integer> setupsByTeam) {
-    final Map<Point, Piece> locations = generateEmptyBoard();
-    for (final Entry<Team, Integer> setup : setupsByTeam.entrySet()) {
-      final Team team = setup.getKey();
-      final ElephantLocator locator = createFromChoice(setup.getValue(), team);
-      locations.putAll(setupLocationsOnBoard(team));
-      locations.putAll(locator.setupHorse(team));
-      locations.putAll(locator.setupElephant(team));
+    public static Board generateBoard(final EnumMap<Team, Integer> setupsByTeam) {
+        final Map<Point, Piece> locations = generateEmptyBoard();
+        for (final Entry<Team, Integer> setup : setupsByTeam.entrySet()) {
+            final Team team = setup.getKey();
+            final ElephantLocator locator = createFromChoice(setup.getValue(), team);
+            locations.putAll(setupLocationsOnBoard(team));
+            locations.putAll(locator.setupHorse(team));
+            locations.putAll(locator.setupElephant(team));
+        }
+        return new Board(locations);
     }
-    return new Board(locations);
-  }
 
-  private static Map<Point, Piece> generateEmptyBoard() {
-    final Map<Point, Piece> locations = new HashMap<>();
-    for (int row = 0; row < BOARD_ROW_MAX; row++) {
-      for (int column = 0; column < BOARD_COLUMN_MAX; column++) {
-        locations.put(new Point(row, column), Empty.getInstance());
-      }
+    private static Map<Point, Piece> generateEmptyBoard() {
+        final Map<Point, Piece> locations = new HashMap<>();
+        for (int row = 0; row < BOARD_ROW_MAX; row++) {
+            for (int column = 0; column < BOARD_COLUMN_MAX; column++) {
+                locations.put(new Point(row, column), Empty.getInstance());
+            }
+        }
+        return locations;
     }
-    return locations;
-  }
 
-  private static ElephantLocator createFromChoice(final int choice, final Team team) {
-    return switch (choice) {
-      case 1 -> new OuterElephantLocator();
-      case 2 -> new InnerElephantLocator();
-      case 3 -> new LeftElephantLocator();
-      case 4 -> new RightElephantLocator();
-      default ->
-          throw new JanggiGameRuleWarningException("등록되지 않은 배치를 선택했습니다: " + team + " = " + choice);
-    };
-  }
-
-  private static Map<Point, Piece> setupLocationsOnBoard(final Team team) {
-    final Map<Point, Piece> locations = new HashMap<>();
-    putSoldiersOnLocations(team, locations);
-
-    locations.put(new Point(team.calculateRowForPiece(0), 0), new Chariot(team));
-    locations.put(new Point(team.calculateRowForPiece(0), 8), new Chariot(team));
-
-    locations.put(new Point(team.calculateRowForPiece(2), 1), new Cannon(team));
-    locations.put(new Point(team.calculateRowForPiece(2), 7), new Cannon(team));
-
-    locations.put(new Point(team.calculateRowForPiece(0), 3), new Guard(team));
-    locations.put(new Point(team.calculateRowForPiece(0), 5), new Guard(team));
-
-    locations.put(new Point(team.calculateRowForPiece(1), 4), new General(team));
-
-    return locations;
-  }
-
-  private static void putSoldiersOnLocations(final Team team, final Map<Point, Piece> locations) {
-    for (int column = 0; column < MAX_SOLDIER_COUNT; column++) {
-      final int row = team.calculateRowForPiece(3);
-      locations.put(new Point(row, column * 2), new Soldier(team));
+    private static ElephantLocator createFromChoice(final int choice, final Team team) {
+        return switch (choice) {
+            case 1 -> new OuterElephantLocator();
+            case 2 -> new InnerElephantLocator();
+            case 3 -> new LeftElephantLocator();
+            case 4 -> new RightElephantLocator();
+            default -> throw new JanggiGameRuleWarningException("등록되지 않은 배치를 선택했습니다: " + team + " = " + choice);
+        };
     }
-  }
+
+    private static Map<Point, Piece> setupLocationsOnBoard(final Team team) {
+        final Map<Point, Piece> locations = new HashMap<>();
+        putSoldiersOnLocations(team, locations);
+
+        locations.put(new Point(team.calculateRowForPiece(0), 0), new Chariot(team));
+        locations.put(new Point(team.calculateRowForPiece(0), 8), new Chariot(team));
+
+        locations.put(new Point(team.calculateRowForPiece(2), 1), new Cannon(team));
+        locations.put(new Point(team.calculateRowForPiece(2), 7), new Cannon(team));
+
+        locations.put(new Point(team.calculateRowForPiece(0), 3), new Guard(team));
+        locations.put(new Point(team.calculateRowForPiece(0), 5), new Guard(team));
+
+        locations.put(new Point(team.calculateRowForPiece(1), 4), new General(team));
+
+        return locations;
+    }
+
+    private static void putSoldiersOnLocations(final Team team, final Map<Point, Piece> locations) {
+        for (int column = 0; column < MAX_SOLDIER_COUNT; column++) {
+            final int row = team.calculateRowForPiece(3);
+            locations.put(new Point(row, column * 2), new Soldier(team));
+        }
+    }
 }

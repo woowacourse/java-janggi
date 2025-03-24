@@ -4,11 +4,11 @@ import view.OutputView;
 
 public final class Application {
 
-  public static void main(String[] args) {
-    final InputView inputView = new InputView();
-    final OutputView outputView = new OutputView();
+    public static void main(String[] args) {
+        final InputView inputView = new InputView();
+        final OutputView outputView = new OutputView();
 
-    final JanggiController controller = new JanggiController(inputView, outputView);
-    controller.run();
-  }
+        final JanggiController controller = new JanggiController(inputView, outputView);
+        controller.run();
+    }
 }

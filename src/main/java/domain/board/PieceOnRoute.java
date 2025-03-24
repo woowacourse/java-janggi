@@ -8,39 +8,39 @@ import java.util.List;
 
 public record PieceOnRoute(List<Piece> pieces) {
 
-  private static final Piece emptyPiece = Empty.getInstance();
+    private static final Piece emptyPiece = Empty.getInstance();
 
-  public boolean hasNotPieceOnRoute() {
-    for (int i = 0; i < pieces.size() - 1; i++) {
-      if (!pieces.get(i).equals(emptyPiece)) {
+    public boolean hasNotPieceOnRoute() {
+        for (int i = 0; i < pieces.size() - 1; i++) {
+            if (!pieces.get(i).equals(emptyPiece)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean hasArrivalPointInMyTeam(final Team team) {
+        Piece last = pieces.getLast();
+        if (!last.equals(emptyPiece)) {
+            return last.hasEqualTeam(team);
+        }
         return false;
-      }
     }
-    return true;
-  }
 
-  public boolean hasArrivalPointInMyTeam(final Team team) {
-    Piece last = pieces.getLast();
-    if (!last.equals(emptyPiece)) {
-      return last.hasEqualTeam(team);
+    public int countPieceOnRoute() {
+        int count = 0;
+        for (int i = 0; i < pieces.size() - 1; i++) {
+            if (!pieces.get(i).equals(emptyPiece)) {
+                count++;
+            }
+        }
+        return count;
     }
-    return false;
-  }
 
-  public int countPieceOnRoute() {
-    int count = 0;
-    for (int i = 0; i < pieces.size() - 1; i++) {
-      if (!pieces.get(i).equals(emptyPiece)) {
-        count++;
-      }
+    public boolean canNotJumpOverFirstPiece() {
+        return pieces.stream().filter(piece -> !piece.equals(emptyPiece))
+                .findFirst()
+                .orElseThrow(() -> new JanggiGameRuleWarningException("기물이 없습니다."))
+                .canNotJumpOver();
     }
-    return count;
-  }
-
-  public boolean canNotJumpOverFirstPiece() {
-    return pieces.stream().filter(piece -> !piece.equals(emptyPiece))
-        .findFirst()
-        .orElseThrow(() -> new JanggiGameRuleWarningException("기물이 없습니다."))
-        .canNotJumpOver();
-  }
 }

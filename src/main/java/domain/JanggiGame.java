@@ -11,34 +11,34 @@ import java.util.stream.Collectors;
 
 public final class JanggiGame {
 
-  private final Board board;
-  private final List<Player> players;
+    private final Board board;
+    private final List<Player> players;
 
-  private boolean isFirstPlayerTurn = true;
+    private boolean isFirstPlayerTurn = true;
 
-  public JanggiGame(final Board board, final List<Player> players) {
-    this.board = board;
-    this.players = players;
-  }
+    public JanggiGame(final Board board, final List<Player> players) {
+        this.board = board;
+        this.players = players;
+    }
 
-  public static JanggiGame setup(final EnumMap<Team, Integer> elephantLocatorByTeam) {
-    Board board = BoardFactory.generateBoard(elephantLocatorByTeam);
-    List<Player> players = elephantLocatorByTeam.keySet().stream()
-        .map(Player::new)
-        .collect(Collectors.toList());
-    return new JanggiGame(board, players);
-  }
+    public static JanggiGame setup(final EnumMap<Team, Integer> elephantLocatorByTeam) {
+        Board board = BoardFactory.generateBoard(elephantLocatorByTeam);
+        List<Player> players = elephantLocatorByTeam.keySet().stream()
+                .map(Player::new)
+                .collect(Collectors.toList());
+        return new JanggiGame(board, players);
+    }
 
-  public Map<Point, Piece> getBoard() {
-    return board.getLocations();
-  }
+    public Map<Point, Piece> getBoard() {
+        return board.getLocations();
+    }
 
-  public void move(final Point startPoint, final Point arrivalPoint) {
-    final Player currentPlayer = players.stream()
-        .filter(player -> player.isFirstAttack() == isFirstPlayerTurn)
-        .findFirst()
-        .orElseThrow();
-    board.movePiece(startPoint, arrivalPoint, currentPlayer.getTeam());
-    isFirstPlayerTurn = !isFirstPlayerTurn;
-  }
+    public void move(final Point startPoint, final Point arrivalPoint) {
+        final Player currentPlayer = players.stream()
+                .filter(player -> player.isFirstAttack() == isFirstPlayerTurn)
+                .findFirst()
+                .orElseThrow();
+        board.movePiece(startPoint, arrivalPoint, currentPlayer.getTeam());
+        isFirstPlayerTurn = !isFirstPlayerTurn;
+    }
 }

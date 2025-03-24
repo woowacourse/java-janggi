@@ -9,19 +9,19 @@ import org.junit.jupiter.api.Test;
 
 class EmptyTest {
 
-  @Nested
-  @DisplayName("기물이 없을 때")
-  class TestErrorEmpty {
+    @Nested
+    @DisplayName("기물이 없을 때")
+    class TestErrorEmpty {
 
-    @Test
-    @DisplayName("팀 여부를 물어보면 예외를 발생한다.")
-    void test_isTeam() {
-      //given
-      final Piece empty = Empty.getInstance();
-      //when&then
-      Assertions.assertThatThrownBy(() -> empty.hasEqualTeam(Team.HAN))
-          .isInstanceOf(JanggiGameRuleWarningException.class)
-          .hasMessageContaining("기물이 없습니다.");
+        @Test
+        @DisplayName("팀 여부를 물어보면 예외를 발생한다.")
+        void test_isTeam() {
+            //given
+            final Piece empty = Empty.getInstance();
+            //when&then
+            Assertions.assertThatThrownBy(() -> empty.hasEqualTeam(Team.HAN))
+                    .isInstanceOf(JanggiGameRuleWarningException.class)
+                    .hasMessageContaining("기물이 없습니다.");
+        }
     }
-  }
 }

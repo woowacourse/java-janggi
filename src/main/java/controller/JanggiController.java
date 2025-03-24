@@ -10,47 +10,47 @@ import view.OutputView;
 
 public class JanggiController {
 
-  private final InputView inputView;
-  private final OutputView outputView;
+    private final InputView inputView;
+    private final OutputView outputView;
 
-  public JanggiController(final InputView inputView, final OutputView outputView) {
-    this.inputView = inputView;
-    this.outputView = outputView;
-  }
-
-  public void run() {
-    outputView.printTurnGuide();
-    final JanggiGame game = setupGame();
-    outputView.printBoard(game.getBoard());
-    while (true) {
-      processMove(game);
+    public JanggiController(final InputView inputView, final OutputView outputView) {
+        this.inputView = inputView;
+        this.outputView = outputView;
     }
-  }
 
-  private JanggiGame setupGame() {
-    final EnumMap<Team, Integer> choicesForSetup = inputView.readChoicesForSetup();
-    return JanggiGame.setup(choicesForSetup);
-  }
+    public void run() {
+        outputView.printTurnGuide();
+        final JanggiGame game = setupGame();
+        outputView.printBoard(game.getBoard());
+        while (true) {
+            processMove(game);
+        }
+    }
 
-  private void processMove(final JanggiGame game) {
-    final List<List<Integer>> movementRequest = inputView.readMovementRequest();
-    final Point originPoint = getOriginPoint(movementRequest);
-    final Point arrivalPoint = getArrivalPoint(movementRequest);
+    private JanggiGame setupGame() {
+        final EnumMap<Team, Integer> choicesForSetup = inputView.readChoicesForSetup();
+        return JanggiGame.setup(choicesForSetup);
+    }
 
-    game.move(originPoint, arrivalPoint);
+    private void processMove(final JanggiGame game) {
+        final List<List<Integer>> movementRequest = inputView.readMovementRequest();
+        final Point originPoint = getOriginPoint(movementRequest);
+        final Point arrivalPoint = getArrivalPoint(movementRequest);
 
-    outputView.printBoard(game.getBoard());
-  }
+        game.move(originPoint, arrivalPoint);
 
-  private Point getOriginPoint(final List<List<Integer>> movementRequest) {
-    final List<Integer> originPointRequest = movementRequest.getFirst();
-    return new Point(originPointRequest.getFirst(),
-        originPointRequest.getLast());
-  }
+        outputView.printBoard(game.getBoard());
+    }
 
-  private Point getArrivalPoint(final List<List<Integer>> movementRequest) {
-    final List<Integer> arrivalPointRequest = movementRequest.getLast();
-    return new Point(arrivalPointRequest.getFirst(),
-        arrivalPointRequest.getLast());
-  }
+    private Point getOriginPoint(final List<List<Integer>> movementRequest) {
+        final List<Integer> originPointRequest = movementRequest.getFirst();
+        return new Point(originPointRequest.getFirst(),
+                originPointRequest.getLast());
+    }
+
+    private Point getArrivalPoint(final List<List<Integer>> movementRequest) {
+        final List<Integer> arrivalPointRequest = movementRequest.getLast();
+        return new Point(arrivalPointRequest.getFirst(),
+                arrivalPointRequest.getLast());
+    }
 }

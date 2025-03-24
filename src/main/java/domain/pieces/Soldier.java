@@ -13,59 +13,59 @@ import java.util.List;
 
 public final class Soldier implements Piece {
 
-  private final Team team;
-  private final PieceMovement movement;
+    private final Team team;
+    private final PieceMovement movement;
 
-  public Soldier(final Team team) {
-    this.team = team;
-    this.movement = getDefaultMovementByTeam(team);
-  }
-
-  public Soldier(final Team team, final PieceMovement movement) {
-    this.team = team;
-    this.movement = movement;
-  }
-
-  @Override
-  public boolean hasEqualTeam(final Team team) {
-    return this.team.equals(team);
-  }
-
-  @Override
-  public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
-    return movement.calculateTotalArrivalPoints(startPoint).contains(arrivalPoint);
-  }
-
-  @Override
-  public boolean isMovable(final PieceOnRoute pieceOnRoute) {
-    return !pieceOnRoute.hasArrivalPointInMyTeam(team);
-  }
-
-  @Override
-  public boolean canNotJumpOver() {
-    return false;
-  }
-
-  @Override
-  public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
-    return movement.calculateRoutePoints(startPoint, arrivalPoint);
-  }
-
-  @Override
-  public String getName() {
-    return SOLDIER.getNameForTeam(team);
-  }
-
-  private PieceMovement getDefaultMovementByTeam(final Team team) {
-    if (team == Team.HAN) {
-      return new DefaultMovement(List.of(
-          new Route(List.of(Direction.SOUTH)),
-          new Route(List.of(Direction.EAST)),
-          new Route(List.of(Direction.WEST))));
+    public Soldier(final Team team) {
+        this.team = team;
+        this.movement = getDefaultMovementByTeam(team);
     }
-    return new DefaultMovement(List.of(
-        new Route(List.of(Direction.NORTH)),
-        new Route(List.of(Direction.EAST)),
-        new Route(List.of(Direction.WEST))));
-  }
+
+    public Soldier(final Team team, final PieceMovement movement) {
+        this.team = team;
+        this.movement = movement;
+    }
+
+    @Override
+    public boolean hasEqualTeam(final Team team) {
+        return this.team.equals(team);
+    }
+
+    @Override
+    public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
+        return movement.calculateTotalArrivalPoints(startPoint).contains(arrivalPoint);
+    }
+
+    @Override
+    public boolean isMovable(final PieceOnRoute pieceOnRoute) {
+        return !pieceOnRoute.hasArrivalPointInMyTeam(team);
+    }
+
+    @Override
+    public boolean canNotJumpOver() {
+        return false;
+    }
+
+    @Override
+    public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
+        return movement.calculateRoutePoints(startPoint, arrivalPoint);
+    }
+
+    @Override
+    public String getName() {
+        return SOLDIER.getNameForTeam(team);
+    }
+
+    private PieceMovement getDefaultMovementByTeam(final Team team) {
+        if (team == Team.HAN) {
+            return new DefaultMovement(List.of(
+                    new Route(List.of(Direction.SOUTH)),
+                    new Route(List.of(Direction.EAST)),
+                    new Route(List.of(Direction.WEST))));
+        }
+        return new DefaultMovement(List.of(
+                new Route(List.of(Direction.NORTH)),
+                new Route(List.of(Direction.EAST)),
+                new Route(List.of(Direction.WEST))));
+    }
 }
