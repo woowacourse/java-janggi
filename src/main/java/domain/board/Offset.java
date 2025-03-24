@@ -4,6 +4,8 @@ public record Offset(
         int x,
         int y
 ) {
+    private static final int MAXIMUM_ROW = 9;
+    private static final int MAXIMUM_COLUMN = 8;
 
     public static final Offset UP = new Offset(0, 1);
     public static final Offset DOWN = new Offset(0, -1);
@@ -22,7 +24,7 @@ public record Offset(
             final int x,
             final int y
     ) {
-        if (Math.abs(x) > 8 || Math.abs(y) > 9) {
+        if (Math.abs(x) > MAXIMUM_COLUMN || Math.abs(y) > MAXIMUM_ROW) {
             throw new IllegalArgumentException("오프셋의 범위를 벗어났습니다.");
         }
     }
