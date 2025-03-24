@@ -20,7 +20,7 @@ class BoardTest {
 
         board.putPiece(piece);
 
-        assertThat(board.getPieces()).hasSize(1);
+        assertThat(board.findPiece(position)).isNotNull();
     }
 
     @Test
@@ -32,7 +32,7 @@ class BoardTest {
 
         board.remove(position);
 
-        assertThat(board.getPieces()).isEmpty();
+        assertThatThrownBy(() -> board.findPiece(position)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -71,7 +71,9 @@ class BoardTest {
         Board board = new Board(List.of());
         Piece piece = new Chariot(new Position(2, 1), Color.BLUE, board);
         board.putPiece(piece);
-        assertThat(board.findPiece(new Position(2, 1), Color.BLUE)).isEqualTo(piece);
+        Piece findPiece = board.findPiece(new Position(2, 1));
+        assertThat(findPiece).isEqualTo(piece);
+        assertThat(findPiece.getTeam()).isEqualTo(piece.getTeam());
     }
 
     @Test
@@ -81,15 +83,5 @@ class BoardTest {
         board.putPiece(piece);
         assertThatThrownBy(() -> board.findPiece(new Position(2, 2)))
                 .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    void 장기판에서_내_팀의_특정_위치에_있는_기물을_찾지_못한다() {
-        Board board = new Board(List.of());
-        Piece piece = new Chariot(new Position(2, 1), Color.BLUE, board);
-        board.putPiece(piece);
-        assertThatThrownBy(() -> board.findPiece(new Position(2, 1), Color.RED))
-                .isInstanceOf(IllegalArgumentException.class);
-
     }
 }

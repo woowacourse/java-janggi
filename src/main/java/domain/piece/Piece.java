@@ -17,18 +17,6 @@ public abstract class Piece {
         this.board = board;
     }
 
-    protected abstract Set<Position> getMovablePositions();
-
-    public abstract String getDisplayName();
-
-    public boolean isSamePosition(final Position position) {
-        return this.position.equals(position);
-    }
-
-    public boolean isSameTeam(final Piece otherPiece) {
-        return this.color == otherPiece.color;
-    }
-
     public void move(final Position position) {
         if (!getMovablePositions().contains(position)) {
             throw new IllegalArgumentException();
@@ -37,6 +25,14 @@ public abstract class Piece {
             board.remove(position);
         }
         this.position = position;
+    }
+
+    public boolean isSameTeam(final Piece otherPiece) {
+        return this.color == otherPiece.color;
+    }
+
+    public boolean isSamePosition(final Position position) {
+        return this.position.equals(position);
     }
 
     public Position getPosition() {
@@ -50,4 +46,8 @@ public abstract class Piece {
     public Board getBoard() {
         return board;
     }
+
+    protected abstract Set<Position> getMovablePositions();
+
+    public abstract String getDisplayName();
 }

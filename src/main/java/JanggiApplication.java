@@ -1,12 +1,12 @@
-import java.util.function.Supplier;
-
 import domain.Board;
 import domain.BoardInitializer;
 import domain.Position;
 import domain.Turn;
 import domain.piece.Piece;
+import java.util.List;
 import view.InputView;
 import view.OutputView;
+import view.Parser;
 
 public class JanggiApplication {
 
@@ -18,38 +18,22 @@ public class JanggiApplication {
         Board board = boardInitializer.init();
         Turn turn = new Turn();
         outputView.printBoard(board);
-        playGame(board, turn);
+        retry(() -> playGame(board, turn));
     }
 
     private static void playGame(final Board board, final Turn turn) {
-        Piece piece = retry(() -> inputMovePosition(board, turn));
-        retry(() -> movePosition(piece));
         outputView.printBoard(board);
-        turn.increaseRound();
-        if (inputView.inputExitGame()) {
+        String command = inputView.inputMovePositions();
+        if (command.equals("Q")) {
             return;
         }
-        playGame(board, turn);
-    }
-
-    private static Piece inputMovePosition(final Board board, final Turn turn) {
-        Position movePosition = inputView.inputMovePiecePosition();
-        return board.findPiece(movePosition, turn.getCurrnetTeam());
-    }
-
-    private static void movePosition(final Piece piece) {
-        Position targetPosition = inputView.inputMoveTargetPosition();
-        piece.move(targetPosition);
-    }
-
-    private static <T> T retry(final Supplier<T> supplier) {
-        while (true) {
-            try {
-                return supplier.get();
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
+        List<Position> positions = Parser.parsePositions(command);
+        Position startPosition = positions.get(0);
+        Position endPosition = positions.get(1);
+        Piece piece = board.findPiece(startPosition);
+        piece.move(endPosition);
+        turn.increaseRound();
+        outputView.printBoard(board);
     }
 
     private static void retry(final Runnable runnable) {
@@ -59,6 +43,8 @@ public class JanggiApplication {
                 return;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
+            } catch (Exception e) {
+                outputView.printError("예상치 못한 예외가 발생했습니다.");
             }
         }
     }

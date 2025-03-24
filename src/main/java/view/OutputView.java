@@ -29,7 +29,7 @@ public class OutputView {
     private void appendBoardByRow(final Board board, final CustomStringBuilder stringBuilder, final int rowIndex) {
         IntStream.range(1, 10).forEach(columnIndex -> stringBuilder.append(getCellContent(
                 board,
-                new Position(columnIndex, rowIndex))
+                new Position(rowIndex, columnIndex))
         ));
     }
 

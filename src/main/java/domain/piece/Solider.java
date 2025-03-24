@@ -17,6 +17,7 @@ public class Solider extends Piece {
     protected Set<Position> getMovablePositions() {
         return Direction.getStraightDirection().stream()
                 .filter(direction -> getUnmovableDirection() != direction)
+                .filter(direction -> position.canMove(direction))
                 .map(direction -> position.move(direction))
                 .filter(this::isMovable)
                 .collect(Collectors.toSet());

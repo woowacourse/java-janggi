@@ -49,16 +49,4 @@ public class Board {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("올바른 기물의 위치를 입력해주세요."));
     }
-
-    public Piece findPiece(final Position position, final Color color) {
-        return pieces.stream()
-                .filter(piece -> piece.isSamePosition(position))
-                .filter(piece -> piece.getTeam() == color)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(String.format("올바른 기물의 위치를 입력해주세요(현재 턴: %s).", color.name())));
-    }
-
-    public List<Piece> getPieces() {
-        return pieces;
-    }
 }

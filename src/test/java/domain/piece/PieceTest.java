@@ -68,7 +68,8 @@ class PieceTest {
         piece.move(nextPosition);
 
         assertThat(piece.getPosition()).isEqualTo(nextPosition);
-        assertThat(board.getPieces()).hasSize(1);
+        assertThat(board.findPiece(nextPosition)).isNotNull();
+        assertThatThrownBy(() -> board.findPiece(position)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @CsvSource(value = {

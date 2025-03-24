@@ -73,11 +73,16 @@ public class BoardInitializer {
     private void putSoldiers(final Color color, final Board board) {
         board.putPieces(IntStream.range(1, 10)
                 .filter(BoardInitializer::isSoldierColumn)
-                .mapToObj(column -> new Solider(
-                        new Position(calculateRow(color, 3), column),
-                        color,
-                        board)
-                ).collect(Collectors.toUnmodifiableList()));
+                .mapToObj(column -> generateSolider(color, board, column))
+                .collect(Collectors.toUnmodifiableList()));
+    }
+
+    private Solider generateSolider(Color color, Board board, int column) {
+        return new Solider(
+                new Position(calculateRow(color, 3), column),
+                color,
+                board
+        );
     }
 
     private int calculateRow(final Color color, final int rankLine) {
@@ -87,5 +92,4 @@ public class BoardInitializer {
     private static boolean isSoldierColumn(final int column) {
         return column % 2 != 0;
     }
-
 }
