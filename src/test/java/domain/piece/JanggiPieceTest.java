@@ -199,7 +199,7 @@ public class JanggiPieceTest {
             JanggiPosition afterPosition = new JanggiPosition(4, 4);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> CHO_마.getRoute(beforePosition, afterPosition))
+            assertThatThrownBy(() -> CHO_마.getRoute(beforePosition, afterPosition))
                     .isInstanceOf(InvalidPathException.class);
         }
 
@@ -274,7 +274,7 @@ public class JanggiPieceTest {
             JanggiPosition afterPosition = new JanggiPosition(6, 5);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> HAN_병.getRoute(beforePosition, afterPosition))
+            assertThatThrownBy(() -> HAN_병.getRoute(beforePosition, afterPosition))
                     .isInstanceOf(InvalidPathException.class);
         }
 
@@ -301,6 +301,21 @@ public class JanggiPieceTest {
 
             // when & then
             assertDoesNotThrow(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece));
+        }
+
+        @Test
+        void 궁성_내부에서는_대각선으로_이동할_수_있다() {
+            // given
+            JanggiPosition beforePosition = new JanggiPosition(9, 5);
+            JanggiPosition afterPosition = new JanggiPosition(0, 4);
+
+            // when
+            List<MovingPattern> route = HAN_병.getRoute(beforePosition, afterPosition);
+
+            // when & then
+            Assertions.assertThat(route).containsAll(List.of(
+                    MovingPattern.MOVE_DIAGONAL_DOWN_LEFT
+            ));
         }
     }
 
@@ -348,7 +363,7 @@ public class JanggiPieceTest {
             JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> CHO_사.getRoute(beforePosition, afterPosition))
+            assertThatThrownBy(() -> CHO_사.getRoute(beforePosition, afterPosition))
                     .isInstanceOf(InvalidPathException.class);
         }
 
@@ -389,7 +404,7 @@ public class JanggiPieceTest {
             JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> CHO_사.getRoute(beforePosition, afterPosition))
+            assertThatThrownBy(() -> CHO_사.getRoute(beforePosition, afterPosition))
                     .isInstanceOf(IllegalStateException.class);
         }
     }
@@ -438,7 +453,7 @@ public class JanggiPieceTest {
             JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> CHO_상.getRoute(beforePosition, afterPosition))
+            assertThatThrownBy(() -> CHO_상.getRoute(beforePosition, afterPosition))
                     .isInstanceOf(InvalidPathException.class);
         }
 
@@ -520,7 +535,7 @@ public class JanggiPieceTest {
             JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> CHO_졸.getRoute(beforePosition, afterPosition))
+            assertThatThrownBy(() -> CHO_졸.getRoute(beforePosition, afterPosition))
                     .isInstanceOf(InvalidPathException.class);
         }
 
@@ -547,6 +562,21 @@ public class JanggiPieceTest {
 
             // when & then
             assertDoesNotThrow(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece));
+        }
+
+        @Test
+        void 궁성_내부에서는_대각선으로_이동할_수_있다() {
+            // given
+            JanggiPosition beforePosition = new JanggiPosition(3, 6);
+            JanggiPosition afterPosition = new JanggiPosition(2, 5);
+
+            // when
+            List<MovingPattern> route = CHO_졸.getRoute(beforePosition, afterPosition);
+
+            // when & then
+            Assertions.assertThat(route).containsAll(List.of(
+                    MovingPattern.MOVE_DIAGONAL_UP_LEFT
+            ));
         }
     }
 
@@ -603,7 +633,7 @@ public class JanggiPieceTest {
             JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> CHO_차.getRoute(beforePosition, afterPosition))
+            assertThatThrownBy(() -> CHO_차.getRoute(beforePosition, afterPosition))
                     .isInstanceOf(InvalidPathException.class);
         }
 
@@ -643,6 +673,32 @@ public class JanggiPieceTest {
             // when & then
             assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(HurdleExistException.class);
+        }
+
+        @Test
+        void 궁성_내부에서는_대각선으로_이동할_수_있다() {
+            // given
+            JanggiPosition beforePosition = new JanggiPosition(0, 4);
+            JanggiPosition afterPosition = new JanggiPosition(8, 6);
+
+            // when
+            List<MovingPattern> route = CHO_차.getRoute(beforePosition, afterPosition);
+
+            // when & then
+            Assertions.assertThat(route).containsAll(List.of(
+                    MovingPattern.MOVE_DIAGONAL_UP_RIGHT,
+                    MovingPattern.MOVE_DIAGONAL_UP_RIGHT
+            ));
+        }
+
+        @Test
+        void 궁성_내부에서도_대각선으로_이동할_수_없는_경우가_있다() {
+            // given
+            JanggiPosition beforePosition = new JanggiPosition(9, 4);
+            JanggiPosition afterPosition = new JanggiPosition(8, 5);
+
+            // when & then
+            assertThatThrownBy(() -> CHO_차.getRoute(beforePosition, afterPosition));
         }
     }
 
@@ -766,7 +822,7 @@ public class JanggiPieceTest {
             JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> CHO_포.getRoute(beforePosition, afterPosition))
+            assertThatThrownBy(() -> CHO_포.getRoute(beforePosition, afterPosition))
                     .isInstanceOf(InvalidPathException.class);
         }
 
@@ -793,6 +849,22 @@ public class JanggiPieceTest {
 
             // when & then
             assertDoesNotThrow(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece));
+        }
+
+        @Test
+        void 궁성_내부에서는_대각선으로_이동할_수_있다() {
+            // given
+            JanggiPosition beforePosition = new JanggiPosition(0, 4);
+            JanggiPosition afterPosition = new JanggiPosition(8, 6);
+
+            // when
+            List<MovingPattern> route = CHO_포.getRoute(beforePosition, afterPosition);
+
+            // when & then
+            Assertions.assertThat(route).containsAll(List.of(
+                    MovingPattern.MOVE_DIAGONAL_UP_RIGHT,
+                    MovingPattern.MOVE_DIAGONAL_UP_RIGHT
+            ));
         }
     }
 }

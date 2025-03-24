@@ -10,6 +10,7 @@ import domain.piece.routestrategy.LimitedRouteStrategy;
 import domain.piece.routestrategy.LinearRouteStrategy;
 import domain.piece.routestrategy.NoneRouteStrategy;
 import domain.piece.routestrategy.PalaceRouteStrategy;
+import domain.piece.routestrategy.SoldierMovingStrategy;
 import domain.position.JanggiPosition;
 import java.util.List;
 
@@ -58,24 +59,36 @@ public enum JanggiPieceType {
     SOLDIER_OF_CHO(2, List.of(
             List.of(MovingPattern.MOVE_RIGHT),
             List.of(MovingPattern.MOVE_LEFT),
-            List.of(MovingPattern.MOVE_UP)
-    ), new LimitedRouteStrategy(), new MovingNormalStrategy()),
+            List.of(MovingPattern.MOVE_UP),
+            List.of(MovingPattern.MOVE_DIAGONAL_UP_RIGHT),
+            List.of(MovingPattern.MOVE_DIAGONAL_UP_LEFT)
+    ), new SoldierMovingStrategy(), new MovingNormalStrategy()),
     SOLDIER_OF_HAN(2, List.of(
             List.of(MovingPattern.MOVE_RIGHT),
             List.of(MovingPattern.MOVE_DOWN),
-            List.of(MovingPattern.MOVE_LEFT)
-    ), new LimitedRouteStrategy(), new MovingNormalStrategy()),
+            List.of(MovingPattern.MOVE_LEFT),
+            List.of(MovingPattern.MOVE_DIAGONAL_DOWN_LEFT),
+            List.of(MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT)
+    ), new SoldierMovingStrategy(), new MovingNormalStrategy()),
     CHARIOT(13, List.of(
             List.of(MovingPattern.MOVE_RIGHT),
             List.of(MovingPattern.MOVE_DOWN),
             List.of(MovingPattern.MOVE_LEFT),
-            List.of(MovingPattern.MOVE_UP)
+            List.of(MovingPattern.MOVE_UP),
+            List.of(MovingPattern.MOVE_DIAGONAL_UP_RIGHT),
+            List.of(MovingPattern.MOVE_DIAGONAL_UP_LEFT),
+            List.of(MovingPattern.MOVE_DIAGONAL_DOWN_LEFT),
+            List.of(MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT)
     ), new LinearRouteStrategy(), new MovingNormalStrategy()),
     CANNON(7, List.of(
             List.of(MovingPattern.MOVE_RIGHT),
             List.of(MovingPattern.MOVE_DOWN),
             List.of(MovingPattern.MOVE_LEFT),
-            List.of(MovingPattern.MOVE_UP)
+            List.of(MovingPattern.MOVE_UP),
+            List.of(MovingPattern.MOVE_DIAGONAL_UP_RIGHT),
+            List.of(MovingPattern.MOVE_DIAGONAL_UP_LEFT),
+            List.of(MovingPattern.MOVE_DIAGONAL_DOWN_LEFT),
+            List.of(MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT)
     ), new LinearRouteStrategy(), new MovingCannonStrategy()),
     EMPTY(0, List.of(), new NoneRouteStrategy(), new NoneMovingStrategy());
 
