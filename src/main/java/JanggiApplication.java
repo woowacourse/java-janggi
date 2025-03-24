@@ -22,8 +22,8 @@ public class JanggiApplication {
     }
 
     private static void playGame(final Board board, final Turn turn) {
-        Piece piece = retry(() -> inputMovePosition(board, turn));
-        retry(() -> movePosition(piece, board));
+        Position startPosition = retry(() -> readStartPosition(board, turn));
+        retry(() -> movePosition(board, startPosition));
         outputView.printBoard(board);
         turn.increaseRound();
         if (inputView.inputExitGame()) {
@@ -32,14 +32,15 @@ public class JanggiApplication {
         playGame(board, turn);
     }
 
-    private static Piece inputMovePosition(final Board board, final Turn turn) {
-        Position movePosition = inputView.inputMovePiecePosition();
-        return board.findPiece(movePosition, turn.getCurrnetTeam());
+    private static Position readStartPosition(final Board board, final Turn turn) {
+        Position startPosition = inputView.readStartPosition();
+        board.isValidTurn(startPosition, turn);
+        return startPosition;
     }
 
-    private static void movePosition(final Piece piece, final Board board) {
-        Position targetPosition = inputView.inputMoveTargetPosition();
-        piece.move(targetPosition, board);
+    private static void movePosition(final Board board, final Position startPosition) {
+        Position destinationPosition = inputView.readDestinationPosition();
+        board.move(startPosition, destinationPosition);
     }
 
     private static <T> T retry(final Supplier<T> supplier) {

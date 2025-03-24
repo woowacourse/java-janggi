@@ -8,14 +8,14 @@ public class InputView {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public Position inputMovePiecePosition() {
+    public Position readStartPosition() {
         System.out.println("이동하고자 하는 기물의 위치를 입력해주세요.");
         String[] tokens = scanner.nextLine()
                 .split(",");
         return new Position(parse(tokens[0]), parse(tokens[1]));
     }
 
-    public Position inputMoveTargetPosition() {
+    public Position readDestinationPosition() {
         System.out.println("기물이 이동하고자 하는 위치를 입력해주세요.");
         String[] tokens = scanner.nextLine()
                 .split(",");

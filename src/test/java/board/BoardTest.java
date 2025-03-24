@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import piece.Chariot;
 import piece.Piece;
+import piece.Solider;
 import piece.Team;
 
 class BoardTest {
@@ -24,6 +25,30 @@ class BoardTest {
         board.putPiece(piece);
 
         assertThat(board.getPieces()).hasSize(1);
+    }
+
+    @Test
+    void 시작_위치와_목적지를_알려주면_기물을_움직인다() {
+        Position start = new Position(4, 1);
+        Position destination = new Position(5, 1);
+        Piece piece = new Solider(start, Team.RED);
+        Board board = new Board(List.of(piece));
+
+        board.move(start, destination);
+
+        assertThat(board.findPieceByPosition(destination))
+                .isEqualTo(new Solider(destination, Team.RED));
+    }
+
+    @Test
+    void 갈_수_없는_목적지를_알려주면_기물을_움직일_수_없다() {
+        Position start = new Position(4, 1);
+        Position destination = new Position(3, 1);
+        Piece piece = new Solider(start, Team.RED);
+        Board board = new Board(List.of(piece));
+
+        assertThatThrownBy(() -> board.move(start, destination))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -66,15 +91,7 @@ class BoardTest {
         Board board = new Board(List.of());
         Piece piece = new Chariot(new Position(2, 1), Team.BLUE);
         board.putPiece(piece);
-        assertThat(board.findPiece(new Position(2, 1))).isEqualTo(piece);
-    }
-
-    @Test
-    void 장기판에서_내_팀의_특정_위치에_있는_기물을_찾는다() {
-        Board board = new Board(List.of());
-        Piece piece = new Chariot(new Position(2, 1), Team.BLUE);
-        board.putPiece(piece);
-        assertThat(board.findPiece(new Position(2, 1), Team.BLUE)).isEqualTo(piece);
+        assertThat(board.findPieceByPosition(new Position(2, 1))).isEqualTo(piece);
     }
 
     @Test
@@ -82,18 +99,8 @@ class BoardTest {
         Board board = new Board(List.of());
         Piece piece = new Chariot(new Position(2, 1), Team.BLUE);
         board.putPiece(piece);
-        assertThatThrownBy(() -> board.findPiece(new Position(2, 2)))
+        assertThatThrownBy(() -> board.findPieceByPosition(new Position(2, 2)))
                 .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    void 장기판에서_내_팀의_특정_위치에_있는_기물을_찾지_못한다() {
-        Board board = new Board(List.of());
-        Piece piece = new Chariot(new Position(2, 1), Team.BLUE);
-        board.putPiece(piece);
-        assertThatThrownBy(() -> board.findPiece(new Position(2, 1), Team.RED))
-                .isInstanceOf(IllegalArgumentException.class);
-
     }
 
 }

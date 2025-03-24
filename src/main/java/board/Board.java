@@ -3,6 +3,7 @@ package board;
 import java.util.ArrayList;
 import java.util.List;
 
+import game.Turn;
 import piece.Cannon;
 import piece.Piece;
 import piece.Team;
@@ -27,12 +28,27 @@ public class Board {
         pieces.add(piece);
     }
 
+    public void isValidTurn(final Position startPosition, final Turn turn) {
+        Piece pieceByPosition = findPieceByPosition(startPosition);
+        Team currentTurnTeam = turn.getCurrnetTeam();
+        if (!pieceByPosition.isSameTeam(currentTurnTeam)) {
+            throw new IllegalArgumentException(
+                    String.format("올바른 기물의 위치를 입력해주세요(현재 턴: %s).", currentTurnTeam.name())
+            );
+        }
+    }
+
+    public void move(final Position start, final Position destination) {
+        Piece movingPiece = findPieceByPosition(start);
+        movingPiece.move(destination, this);
+    }
+
     public boolean isExists(final Position position) {
         return pieces.stream().anyMatch(piece -> piece.isSamePosition(position));
     }
 
     public boolean isSameTeam(final Piece piece, final Position newPosition) {
-        return pieces.stream().anyMatch(p -> p.isSamePosition(newPosition) && p.isSameTeam(piece));
+        return pieces.stream().anyMatch(p -> p.isSamePosition(newPosition) && p.isSameTeam(piece.getTeam()));
     }
 
     public void remove(final Position position) {
@@ -45,21 +61,11 @@ public class Board {
                 .anyMatch(Cannon.class::isInstance);
     }
 
-    public Piece findPiece(final Position position) {
+    public Piece findPieceByPosition(final Position position) {
         return pieces.stream()
                 .filter(piece -> piece.isSamePosition(position))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("올바른 기물의 위치를 입력해주세요."));
-    }
-
-    public Piece findPiece(final Position position, final Team team) {
-        return pieces.stream()
-                .filter(piece -> piece.isSamePosition(position))
-                .filter(piece -> piece.getTeam() == team)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(
-                        String.format("올바른 기물의 위치를 입력해주세요(현재 턴: %s).", team.name()))
-                );
     }
 
     public List<Piece> getPieces() {

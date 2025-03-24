@@ -24,13 +24,13 @@ public abstract class Piece {
         return this.position.equals(position);
     }
 
-    public boolean isSameTeam(final Piece otherPiece) {
-        return this.team == otherPiece.team;
+    public boolean isSameTeam(final Team team) {
+        return this.team == team;
     }
 
     public final void move(final Position position, final Board board) {
         if (!getMovablePositions(board).contains(position)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("해당 위치로 기물이 이동할 수 없습니다.");
         }
         if (!board.isSameTeam(this, position)) {
             board.remove(position);
