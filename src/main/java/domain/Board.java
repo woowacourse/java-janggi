@@ -1,7 +1,5 @@
 package domain;
 
-import domain.piece.General;
-import domain.piece.PieceFactory;
 import domain.piece.PieceType;
 import domain.position.Point;
 import domain.position.Position;
@@ -89,9 +87,8 @@ public class Board {
     }
 
     public boolean hasOnlyOneGeneral() {
-        final General general = PieceFactory.createGeneral();
         final long count = positions.stream()
-                .filter(position -> position.isSamePiece(general))
+                .filter(position -> position.isSamePieceType(PieceType.GENERAL))
                 .count();
 
         return count == 1;
@@ -102,9 +99,8 @@ public class Board {
             throw new IllegalStateException("궁이 1개일 때만 호출이 가능합니다.");
         }
 
-        final General general = PieceFactory.createGeneral();
         final Position position = positions.stream()
-                .filter(p -> p.isSamePiece(general))
+                .filter(p -> p.isSamePieceType(PieceType.GENERAL))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("궁이 존재하지 않습니다."));
 
