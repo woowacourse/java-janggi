@@ -13,10 +13,13 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public boolean isMovable(BoardLocation current, BoardLocation destination) {
+    public void validateMovable(BoardLocation current, BoardLocation destination) {
         int differenceX = current.distanceX(destination);
         int differenceY = current.distanceY(destination);
-        return (differenceX == 2 && differenceY == 3) || (differenceX == 3 && differenceY == 2);
+         if ((differenceX == 2 && differenceY == 3) || (differenceX == 3 && differenceY == 2)){
+          return;
+         }
+        throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
     }
 
     @Override
@@ -37,13 +40,18 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public boolean canArrive(List<Piece> pathPiece) {
-        return pathPiece.isEmpty();
+    public void validateArrival(List<Piece> pathPiece) {
+        if (pathPiece.isEmpty()){
+            return;
+        }
+        throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
     }
 
     @Override
-    public boolean canDestination(Piece destinationPiece) {
-        return !this.isEqualTeam(destinationPiece);
+    public void validateKillable(Piece destinationPiece) {
+        if (this.isEqualTeam(destinationPiece)){
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 목적지로 이동할 수 없습니다.");
+        }
     }
 
     @Override

@@ -3,6 +3,8 @@ package domain;
 import static domain.Team.CHO;
 import static domain.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Pawn;
 import domain.piece.Piece;
@@ -11,8 +13,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class PawnTest {
-    private Pawn choPawn = new Pawn(Team.CHO);
-    private Pawn hanPawn = new Pawn(Team.HAN);
 
     @DisplayName("졸의 경우 현재 위치에서 출력 기준 상,좌,우 방향으로 한 칸만 이동하여 목적지에 도착할 수 있다면 true를 반환한다")
     @Test
@@ -21,11 +21,11 @@ public class PawnTest {
         BoardLocation current = new BoardLocation(1, 2);
         BoardLocation destination = new BoardLocation(1, 1);
 
-        // when
-        boolean isMovable = choPawn.isMovable(current, destination);
-
-        // then
-        assertThat(isMovable).isTrue();
+        Pawn choPawn = new Pawn(Team.CHO);
+        // when & then
+        assertThatCode(
+                () -> choPawn.validateMovable(current, destination)
+        ).doesNotThrowAnyException();
     }
 
     @DisplayName("졸의 경우 현재 위치에서 출력 기준 상,좌,우 방향으로 한 칸만 이동하여 목적지에 도착할 수 없다면 false를 반환한다")
@@ -35,11 +35,11 @@ public class PawnTest {
         BoardLocation current = new BoardLocation(1, 3);
         BoardLocation destination = new BoardLocation(1, 1);
 
-        // when
-        boolean isMovable = choPawn.isMovable(current, destination);
-
-        // then
-        assertThat(isMovable).isFalse();
+        Pawn choPawn = new Pawn(Team.CHO);
+        // when & then
+        assertThatThrownBy(() -> {
+            choPawn.validateMovable(current, destination);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("졸의 경우 현재 위치에서 출력 기준 하방향으로 한 칸만 이동하여 목적지에 도착할 수 없다면 false를 반환한다")
@@ -49,11 +49,11 @@ public class PawnTest {
         BoardLocation current = new BoardLocation(3, 2);
         BoardLocation destination = new BoardLocation(3, 3);
 
-        // when
-        boolean isMovable = choPawn.isMovable(current, destination);
-
-        // then
-        assertThat(isMovable).isFalse();
+        Pawn choPawn = new Pawn(Team.CHO);
+        // when & then
+        assertThatThrownBy(() -> {
+            choPawn.validateMovable(current, destination);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("졸 현재 위치에서 목표 좌표까지 이동하는 모든 경로를 반환한다")
@@ -63,6 +63,7 @@ public class PawnTest {
         BoardLocation current = new BoardLocation(1, 1);
         BoardLocation destination = new BoardLocation(2, 1);
 
+        Pawn choPawn = new Pawn(Team.CHO);
         // when
         List<BoardLocation> allPath = choPawn.createAllPath(current, destination);
 
@@ -77,11 +78,12 @@ public class PawnTest {
         BoardLocation current = new BoardLocation(1, 1);
         BoardLocation destination = new BoardLocation(1, 2);
 
-        // when
-        boolean isMovable = hanPawn.isMovable(current, destination);
+        Pawn hanPawn = new Pawn(Team.HAN);
 
-        // then
-        assertThat(isMovable).isTrue();
+        // when & then
+        assertThatCode(
+                () -> hanPawn.validateMovable(current, destination)
+        ).doesNotThrowAnyException();
     }
 
     @DisplayName("병의 경우 현재 위치에서 출력 기준 하,좌,우 방향으로 한 칸만 이동하여 목적지에 도착할 수 없다면 false를 반환한다")
@@ -91,11 +93,12 @@ public class PawnTest {
         BoardLocation current = new BoardLocation(1, 1);
         BoardLocation destination = new BoardLocation(1, 3);
 
-        // when
-        boolean isMovable = hanPawn.isMovable(current, destination);
+        Pawn hanPawn = new Pawn(Team.HAN);
 
-        // then
-        assertThat(isMovable).isFalse();
+        // when & then
+        assertThatThrownBy(() -> {
+            hanPawn.validateMovable(current, destination);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("병의 경우 현재 위치에서 출력 기준 상방향으로 한 칸만 이동하여 목적지에 도착할 수 없다면 false를 반환한다")
@@ -105,11 +108,12 @@ public class PawnTest {
         BoardLocation current = new BoardLocation(3, 3);
         BoardLocation destination = new BoardLocation(3, 2);
 
-        // when
-        boolean isMovable = hanPawn.isMovable(current, destination);
+        Pawn hanPawn = new Pawn(Team.HAN);
 
-        // then
-        assertThat(isMovable).isFalse();
+        // when & then
+        assertThatThrownBy(() -> {
+            hanPawn.validateMovable(current, destination);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("병 현재 위치에서 목표 좌표까지 이동하는 모든 경로를 반환한다")
@@ -119,6 +123,7 @@ public class PawnTest {
         BoardLocation current = new BoardLocation(1, 1);
         BoardLocation destination = new BoardLocation(2, 1);
 
+        Pawn hanPawn = new Pawn(Team.HAN);
         // when
         List<BoardLocation> allPath = hanPawn.createAllPath(current, destination);
 
@@ -132,10 +137,11 @@ public class PawnTest {
         // given
         List<Piece> pathPiece = List.of(new Pawn(Team.DEFAULT));
         Piece piece = new Pawn(Team.DEFAULT);
-        // when
-        boolean canArrive = piece.canArrive(pathPiece);
-        // then
-        assertThat(canArrive).isFalse();
+
+        // when & then
+        assertThatThrownBy(() -> {
+            piece.validateArrival(pathPiece);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("이동 경로에 기물이 없으면 true를 반환한다")
@@ -145,11 +151,10 @@ public class PawnTest {
         List<Piece> pathPiece = List.of();
         Piece piece = new Pawn(Team.DEFAULT);
 
-        // when
-        boolean canArrive = piece.canArrive(pathPiece);
-
-        // then
-        assertThat(canArrive).isTrue();
+        // when & then
+        assertThatCode(
+                () -> piece.validateArrival(pathPiece)
+        ).doesNotThrowAnyException();
     }
 
     @DisplayName("목표 위치에 아군 기물이 있다면 false를 반환한다")
@@ -159,11 +164,10 @@ public class PawnTest {
         Piece destination = new Pawn(HAN);
         Piece start = new Pawn(HAN);
 
-        // when
-        boolean canArrive = start.canDestination(destination);
-
-        //then
-        assertThat(canArrive).isFalse();
+        // when & then
+        assertThatThrownBy(() -> {
+            start.validateOccupiable(destination);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("목표 위치에 적군 기물이 있다면 true를 반환한다")
@@ -173,10 +177,9 @@ public class PawnTest {
         Piece destination = new Pawn(CHO);
         Piece start = new Pawn(HAN);
 
-        // when
-        boolean canArrive = start.canDestination(destination);
-
-        //then
-        assertThat(canArrive).isTrue();
+        // when & then
+        assertThatCode(
+                () -> start.validateOccupiable(destination)
+        ).doesNotThrowAnyException();
     }
 }

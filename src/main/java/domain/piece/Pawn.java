@@ -11,21 +11,27 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean isMovable(BoardLocation current, BoardLocation destination) {
+    public void validateMovable(BoardLocation current, BoardLocation destination) {
         if (this.team == Team.HAN) {
             int differenceX = current.distanceX(destination);
             int differenceY = current.distanceY(destination);
             boolean isOrthogonalMove = differenceX == 0 || differenceY == 0;
             boolean isOneStepMove = differenceX == 1 || differenceY == 1;
             boolean isMovingUp = destination.isUp(current);
-            return isOrthogonalMove && isOneStepMove && !isMovingUp;
+            if (isOrthogonalMove && isOneStepMove && !isMovingUp){
+                return;
+            }
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
         }
         int differenceX = current.distanceX(destination);
         int differenceY = current.distanceY(destination);
-        boolean a = differenceX == 0 || differenceY == 0;
-        boolean b = differenceX == 1 || differenceY == 1;
-        boolean c = destination.isDown(current);
-        return a && b && !c;
+        boolean isOrthogonalMove = differenceX == 0 || differenceY == 0;
+        boolean isOneStepMove = differenceX == 1 || differenceY == 1;
+        boolean isMovingDown = destination.isDown(current);
+        if (isOrthogonalMove && isOneStepMove && !isMovingDown){
+         return;
+        }
+        throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
     }
 
     @Override
@@ -34,13 +40,18 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean canArrive(List<Piece> pathPiece) {
-        return pathPiece.isEmpty();
+    public void validateArrival(List<Piece> pathPiece) {
+        if (pathPiece.isEmpty()){
+            return;
+        }
+        throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
     }
 
     @Override
-    public boolean canDestination(Piece destinationPiece) {
-        return !this.isEqualTeam(destinationPiece);
+    public void validateKillable(Piece destinationPiece) {
+        if (this.isEqualTeam(destinationPiece)){
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 목적지로 이동할 수 없습니다.");
+        }
     }
 
     @Override

@@ -7,5 +7,6 @@ public enum PieceType {
     ELEPHANT,
     SCHOLAR,
     KING,
-    PAWN;
+    PAWN,
+    DEFAULT;
 }

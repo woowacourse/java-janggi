@@ -13,10 +13,13 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public boolean isMovable(BoardLocation current, BoardLocation destination) {
+    public void validateMovable(BoardLocation current, BoardLocation destination) {
         int differenceX = current.distanceX(destination);
         int differenceY = current.distanceY(destination);
-        return differenceX == 0 || differenceY == 0;
+        if (differenceX == 0 || differenceY == 0){
+            return;
+        }
+        throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
     }
 
     @Override
@@ -44,32 +47,37 @@ public class Cannon extends Piece {
         int dx = boardVector.getAbsDx();
         if (dx > 0) {
             for (int i = 1; i < dx; i++) {
-                path.add(current.moveY(i));
+                path.add(current.moveX(i));
             }
         }
 
         if (dx < 0) {
             for (int i = -1; i > dx; i--) {
-                path.add(current.moveY(i));
+                path.add(current.moveX(i));
             }
         }
         return path;
     }
 
     @Override
-    public boolean canArrive(List<Piece> pathPiece) {
+    public void validateArrival(List<Piece> pathPiece) {
         if (pathPiece.size() != 1){
-            return false;
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
         }
-        return this.isNotSameType(pathPiece.getFirst());
+        if (this.isNotSameType(pathPiece.getFirst())){
+            return;
+        }
+        throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
     }
 
     @Override
-    public boolean canDestination(Piece destinationPiece) {
+    public void validateKillable(Piece destinationPiece) {
         if (this.isEqualTeam(destinationPiece)){
-            return false;
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
         }
-        return this.isNotSameType(destinationPiece);
+        if (!this.isNotSameType(destinationPiece)){
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
+        }
     }
 
     @Override

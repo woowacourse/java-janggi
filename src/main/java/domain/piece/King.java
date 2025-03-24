@@ -11,8 +11,8 @@ public class King extends Piece {
     }
 
     @Override
-    public boolean isMovable(BoardLocation current, BoardLocation destination) {
-        return false; //TODO 2단계 궁성 단계에서 처리하도록 하기
+    public void validateMovable(BoardLocation current, BoardLocation destination) {
+        return; //TODO 2단계 궁성 단계에서 처리하도록 하기
     }
 
     @Override
@@ -21,13 +21,13 @@ public class King extends Piece {
     }
 
     @Override
-    public boolean canArrive(List<Piece> pathPiece) {
-        return false; //TODO 2단계 궁성 단계에서 처리하도록 하기
+    public void validateArrival(List<Piece> pathPiece) {
+        return; //TODO 2단계 궁성 단계에서 처리하도록 하기
     }
 
     @Override
-    public boolean canDestination(Piece destinationPiece) {
-        return false; //TODO 2단계 궁성 단계에서 처리하도록 하기
+    public void validateKillable(Piece destinationPiece) {
+        return; //TODO 2단계 궁성 단계에서 처리하도록 하기
     }
 
     @Override

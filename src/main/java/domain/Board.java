@@ -1,49 +1,90 @@
 package domain;
 
+import static domain.Team.CHO;
+import static domain.Team.DEFAULT;
+import static domain.Team.HAN;
+
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.DefaultPiece;
+import domain.piece.King;
+import domain.piece.Pawn;
 import domain.piece.Piece;
+import domain.piece.Scholar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Board {
 
-    private final TeamBoard teamBoard;
+    private final Map<BoardLocation, Piece> pieces;
 
-    public Board(TeamBoard teamBoard) {
-        this.teamBoard = teamBoard;
+    public Board(Map<BoardLocation, Piece> pieces) {
+        this.pieces = pieces;
     }
 
-    // TODO : movePiece 메소드 분리
-    // 1. 현재 위치에 있는 기물 가져오기
-    // 2.
-    public void movePiece(Team team, BoardLocation current, BoardLocation destination) {
-        Piece piece = teamBoard.findByLocation(current);
-        validateTeam(piece, team);
-
-        // TODO : validate 메소드로 분리하기
-        if (!piece.isMovable(current, destination)) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
+    public Piece findByLocation(BoardLocation current) {
+        if (pieces.containsKey(current)) {
+            return pieces.get(current);
         }
-
-        List<BoardLocation> allPath = piece.createAllPath(current, destination);
-        List<Piece> pathPiece = teamBoard.extractPathPiece(allPath);
-        if (!piece.canArrive(pathPiece)){
-            throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
-        }
-
-        if (teamBoard.contains(destination)) {
-            Piece destinationPiece = teamBoard.findByLocation(destination);
-            if (!piece.canDestination(destinationPiece)){
-                throw new IllegalArgumentException("[ERROR] 해당 기물은 목적지로 이동할 수 없습니다.");
-            }
-        }
-
-        teamBoard.removeIfHas(destination);
-        teamBoard.move(current, destination);
+        throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 없습니다.");
     }
 
-    private void validateTeam(Piece piece, Team team) {
-        if (piece.isEqualTeam(team)) {
-            return;
+    public Piece getByLocation(BoardLocation current) {
+        if (pieces.containsKey(current)) {
+            return pieces.get(current);
         }
-        throw new IllegalArgumentException("[ERROR] 자신의 팀 기물만 움직일 수 있습니다");
+        return new DefaultPiece(DEFAULT);
+    }
+
+    public void removeIfHas(BoardLocation destination) {
+        pieces.remove(destination);
+    }
+
+    public void occupy(BoardLocation current, BoardLocation destination) {
+        Piece piece = pieces.remove(current);
+        pieces.put(destination, piece);
+    }
+
+    public List<Piece> extractPathPiece(List<BoardLocation> allPath) {
+        return allPath.stream()
+                .filter(pieces::containsKey)
+                .map(pieces::get)
+                .toList();
+    }
+
+    public Map<BoardLocation, Piece> getPieces() {
+        return pieces;
+    }
+
+    public static Board createWithPieces(Map<BoardLocation, Piece> placements) {
+        Map<BoardLocation, Piece> pieces = new HashMap<>(placements);
+
+        pieces.put(new BoardLocation(1, 1), new Chariot(HAN));
+        pieces.put(new BoardLocation(4, 1), new Scholar(HAN));
+        pieces.put(new BoardLocation(6, 1), new Scholar(HAN));
+        pieces.put(new BoardLocation(9, 1), new Chariot(HAN));
+        pieces.put(new BoardLocation(5, 2), new King(HAN));
+        pieces.put(new BoardLocation(2, 3), new Cannon(HAN));
+        pieces.put(new BoardLocation(8, 3), new Cannon(HAN));
+        pieces.put(new BoardLocation(1, 4), new Pawn(HAN));
+        pieces.put(new BoardLocation(3, 4), new Pawn(HAN));
+        pieces.put(new BoardLocation(5, 4), new Pawn(HAN));
+        pieces.put(new BoardLocation(7, 4), new Pawn(HAN));
+        pieces.put(new BoardLocation(9, 4), new Pawn(HAN));
+
+        pieces.put(new BoardLocation(1, 10), new Chariot(CHO));
+        pieces.put(new BoardLocation(4, 10), new Scholar(CHO));
+        pieces.put(new BoardLocation(6, 10), new Scholar(CHO));
+        pieces.put(new BoardLocation(9, 10), new Chariot(CHO));
+        pieces.put(new BoardLocation(5, 9), new King(CHO));
+        pieces.put(new BoardLocation(2, 8), new Cannon(CHO));
+        pieces.put(new BoardLocation(8, 8), new Cannon(CHO));
+        pieces.put(new BoardLocation(1, 7), new Pawn(CHO));
+        pieces.put(new BoardLocation(3, 7), new Pawn(CHO));
+        pieces.put(new BoardLocation(5, 7), new Pawn(CHO));
+        pieces.put(new BoardLocation(7, 7), new Pawn(CHO));
+        pieces.put(new BoardLocation(9, 7), new Pawn(CHO));
+        return new Board(pieces);
     }
 }

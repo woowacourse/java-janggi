@@ -13,15 +13,31 @@ public abstract class Piece {
         this.team = team;
     }
 
-    public abstract boolean isMovable(BoardLocation current, BoardLocation target);
+    public abstract void validateMovable(BoardLocation current, BoardLocation target);
 
     public abstract List<BoardLocation> createAllPath(BoardLocation current, BoardLocation target);
 
-    public abstract boolean canArrive(List<Piece> pathPiece);
 
-    public abstract boolean canDestination(Piece destinationPiece);
+    public abstract void validateArrival(List<Piece> pathPiece);
+
+    protected abstract void validateKillable(Piece destinationPiece);
 
     public abstract PieceType getType();
+
+    public void validateEqualTeam(Team team){
+        if (this.isEqualTeam(team)) {
+            return;
+        }
+        throw new IllegalArgumentException("[ERROR] 자신의 팀 기물만 움직일 수 있습니다");
+    };
+
+
+    public void validateOccupiable(Piece destinationPiece) {
+        if (destinationPiece.isNull()) {
+            return;
+        }
+        validateKillable(destinationPiece);
+    }
 
     public final boolean isNotSameType(Piece piece) {
         return !Objects.equals(this.getType(), piece.getType());
@@ -37,5 +53,9 @@ public abstract class Piece {
 
     public final Team getTeam() {
         return this.team;
+    }
+
+    public boolean isNull() {
+        return false;
     }
 }

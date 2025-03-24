@@ -1,8 +1,8 @@
-import domain.Board;
 import domain.BoardLocation;
 import domain.Team;
-import domain.TeamBoard;
+import domain.Board;
 import domain.piece.Piece;
+import java.util.List;
 import java.util.Map;
 import view.ConsoleView;
 
@@ -17,24 +17,41 @@ public class JanggiGame {
     public void start() {
         Map<BoardLocation, Piece> placements = consoleView.requestPlacements();
 
-        TeamBoard teamBoard = TeamBoard.createWithPieces(placements);
-        Board board = new Board(teamBoard); // TODO : Board와 TeamBoard 합치기
+        Board board = Board.createWithPieces(placements);
 
         Team team = Team.getStartingTeam();
-        consoleView.showBoard(teamBoard.getPieces());
+        consoleView.showBoard(board.getPieces());
         while (true) {
             try {
                 consoleView.printTurn(team);
 
-                BoardLocation current = consoleView.requestCurrent();
-                BoardLocation destination = consoleView.requestDestination();
-                board.movePiece(team, current, destination);
+                processGame(board, team);
 
-                consoleView.showBoard(teamBoard.getPieces());
+                consoleView.showBoard(board.getPieces());
                 team = team.opposite();
             } catch (RuntimeException e) {
                 consoleView.printMessage(e.getMessage());
             }
         }
+    }
+
+    private void processGame(Board board, Team team) {
+        BoardLocation current = consoleView.requestCurrent();
+        BoardLocation destination = consoleView.requestDestination();
+
+        Piece piece = board.findByLocation(current);
+
+        piece.validateEqualTeam(team);
+        piece.validateMovable(current, destination);
+
+        List<BoardLocation> allPath = piece.createAllPath(current, destination);
+        List<Piece> pathPiece = board.extractPathPiece(allPath);
+        piece.validateArrival(pathPiece);
+
+        Piece destinationPiece = board.getByLocation(destination);
+        piece.validateOccupiable(destinationPiece);
+
+        board.removeIfHas(destination);
+        board.occupy(current, destination);
     }
 }

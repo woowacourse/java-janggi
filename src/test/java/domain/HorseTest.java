@@ -4,6 +4,8 @@ import static domain.Team.CHO;
 import static domain.Team.DEFAULT;
 import static domain.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Horse;
 import domain.piece.Pawn;
@@ -16,32 +18,30 @@ public class HorseTest {
 
     private Horse horse = new Horse(DEFAULT);
 
-    @DisplayName("마는 상하좌우 한 칸 그리고 대각선 한 칸 움직일 때의 목적지 좌표로 위치 가능하다면 true를 반환한다")
+    @DisplayName("마는 상하좌우 한 칸 그리고 대각선 한 칸 움직일 때의 목적지 좌표로 위치 가능하다면 예와를 발생시키지않는다")
     @Test
     void test() {
         // given
         BoardLocation current = new BoardLocation(1, 1);
         BoardLocation destination = new BoardLocation(2, 3);
 
-        // when
-        boolean isMovable = horse.isMovable(current, destination);
-
-        // then
-        assertThat(isMovable).isTrue();
+        // when & then
+        assertThatCode(
+                () -> horse.validateMovable(current, destination)
+        ).doesNotThrowAnyException();
     }
 
-    @DisplayName("마는 현재 위치에서 한 방향으로 목적지에 도착할 수 없다면 false를 반환한다")
+    @DisplayName("마는 현재 위치에서 한 방향으로 목적지에 도착할 수 없다면 예외를 발생시킨다.")
     @Test
     void test2() {
         // given
         BoardLocation current = new BoardLocation(1, 1);
         BoardLocation destination = new BoardLocation(3, 3);
 
-        // when
-        boolean isMovable = horse.isMovable(current, destination);
-
-        // then
-        assertThat(isMovable).isFalse();
+        // when & then
+        assertThatThrownBy(() -> {
+            horse.validateMovable(current, destination);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("현재 위치에서 목표 좌표까지 이동하는 모든 경로를 반환한다")
@@ -58,57 +58,54 @@ public class HorseTest {
         assertThat(allPath).containsAll(List.of(new BoardLocation(1,2)));
     }
 
-    @DisplayName("이동 경로에 기물이 있다면 false를 반환한다")
+    @DisplayName("이동 경로에 기물이 있다면 예외를 발생시킨다.")
     @Test
     void test4() {
         // given
         List<Piece> pathPiece = List.of(new Pawn(Team.DEFAULT));
         Piece piece = new Horse(Team.DEFAULT);
-        // when
-        boolean canArrive = piece.canArrive(pathPiece);
-        // then
-        assertThat(canArrive).isFalse();
+        // when & then
+        assertThatThrownBy(() -> {
+            piece.validateArrival(pathPiece);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("이동 경로에 기물이 없으면 true를 반환한다")
+    @DisplayName("이동 경로에 기물이 없으면 예와를 발생시키지않는다")
     @Test
     void test5() {
         // given
         List<Piece> pathPiece = List.of();
         Piece piece = new Horse(Team.DEFAULT);
 
-        // when
-        boolean canArrive = piece.canArrive(pathPiece);
-
-        // then
-        assertThat(canArrive).isTrue();
+        // when & then
+        assertThatCode(
+                () -> piece.validateArrival(pathPiece)
+        ).doesNotThrowAnyException();
     }
 
-    @DisplayName("목표 위치에 아군 기물이 있다면 false를 반환한다")
+    @DisplayName("목표 위치에 아군 기물이 있다면 예외를 발생시킨다.")
     @Test
     void test11() {
         // given
         Piece destination = new Pawn(HAN);
         Piece start = new Horse(HAN);
 
-        // when
-        boolean canArrive = start.canDestination(destination);
-
-        //then
-        assertThat(canArrive).isFalse();
+        // when & then
+        assertThatThrownBy(() -> {
+            start.validateOccupiable(destination);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("목표 위치에 적군 기물이 있다면 true를 반환한다")
+    @DisplayName("목표 위치에 적군 기물이 있다면 예와를 발생시키지않는다")
     @Test
     void test12() {
         // given
         Piece destination = new Pawn(CHO);
         Piece start = new Horse(HAN);
 
-        // when
-        boolean canArrive = start.canDestination(destination);
-
-        //then
-        assertThat(canArrive).isTrue();
+        // when & then
+        assertThatCode(
+                () -> start.validateOccupiable(destination)
+        ).doesNotThrowAnyException();
     }
 }
