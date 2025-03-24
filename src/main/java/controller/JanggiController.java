@@ -50,7 +50,7 @@ public class JanggiController {
             action.run();
         } catch (IllegalArgumentException e) {
             outputView.retry(e);
-            action.run();
+            process(action);
         }
     }
 

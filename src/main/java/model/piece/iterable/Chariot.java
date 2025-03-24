@@ -32,7 +32,7 @@ public class Chariot extends IterablePiece {
                 nextPos = nextPos.move(dir.x(), dir.y());
             }
         }
-        return null;
+        throw new IllegalArgumentException("[ERROR] 도달할 수 없는 위치입니다.");
     }
 
     @Override
