@@ -1,6 +1,7 @@
-package janggi.point;
+package janggi.movement.route;
 
 import janggi.piece.Movable;
+import janggi.point.Point;
 import java.util.Map;
 
 public class Hurdles {

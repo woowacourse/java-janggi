@@ -1,7 +1,7 @@
 package janggi.piece;
 
 import janggi.game.Team;
-import janggi.point.Hurdles;
+import janggi.movement.route.Hurdles;
 import janggi.point.Point;
 
 public interface Movable {

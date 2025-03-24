@@ -1,11 +1,11 @@
 package janggi.piece;
 
-import janggi.point.Direction;
-import janggi.point.Hurdles;
+import janggi.movement.direction.Direction;
+import janggi.movement.route.Hurdles;
 import janggi.point.InitialPoint;
 import janggi.point.Point;
 import janggi.game.Team;
-import janggi.point.Route;
+import janggi.movement.route.Route;
 import java.util.ArrayList;
 import java.util.List;
 

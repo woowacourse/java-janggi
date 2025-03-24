@@ -1,5 +1,6 @@
-package janggi.point;
+package janggi.movement.direction;
 
+import janggi.point.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

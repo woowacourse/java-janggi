@@ -1,5 +1,7 @@
-package janggi.point;
+package janggi.movement.distance;
 
+
+import janggi.point.Point;
 
 public class PointDistance {
     private final double distance;

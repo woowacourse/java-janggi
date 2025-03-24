@@ -8,7 +8,7 @@ import janggi.piece.Movable;
 import janggi.piece.Po;
 import janggi.piece.Sa;
 import janggi.piece.Sang;
-import janggi.point.Hurdles;
+import janggi.movement.route.Hurdles;
 import janggi.point.Point;
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,6 +1,6 @@
 package janggi.game;
 
-import janggi.point.Direction;
+import janggi.movement.direction.Direction;
 
 public enum Team {
     HAN("한나라", Direction.SOUTH, "\u001B[31m"),

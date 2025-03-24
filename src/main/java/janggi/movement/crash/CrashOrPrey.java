@@ -1,9 +1,8 @@
-package janggi.point.crash;
+package janggi.movement.crash;
 
 import janggi.game.Team;
+import janggi.movement.route.Hurdles;
 import janggi.piece.Movable;
-import janggi.piece.Po;
-import janggi.point.Hurdles;
 import janggi.point.Point;
 import java.util.List;
 
