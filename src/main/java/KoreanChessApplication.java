@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import piece.InitiateJanggiTeamPieces;
@@ -6,7 +7,6 @@ import piece.Piece;
 import piece.Pieces;
 import piece.PlayerPieces;
 import piece.Position;
-import piece.PositionPieces;
 import piece.TableSetting;
 import piece.Team;
 
@@ -60,13 +60,21 @@ public class KoreanChessApplication {
 
     private static void playTurn(PlayerPieces playerPieces, GameView gameView, int turn) {
         Pieces allPieces = playerPieces.allPieces();
-        PositionPieces board = new PositionPieces(allPieces);
-        Map<Position, Piece> positionPieces = board.positionPieces();
+        Map<Position, Piece> positionPieces = positionPieces(allPieces);
         gameView.printJanggiBoard(positionPieces);
         Team team = turnTable.get(turn);
         gameView.printTurn(team);
         Position selectPiecePosition = gameView.inputSelectPiece();
         Position selectPosition = gameView.inputPiecePosition();
         playerPieces.move(team, selectPiecePosition, selectPosition);
+    }
+
+    public static Map<Position, Piece> positionPieces(Pieces pieces) {
+        List<Piece> allPieces = pieces.getPieces();
+        Map<Position, Piece> playerBoard = new HashMap<>();
+        for (Piece piece : allPieces) {
+            playerBoard.put(piece.getPosition(), piece);
+        }
+        return playerBoard;
     }
 }

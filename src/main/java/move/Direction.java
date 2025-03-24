@@ -1,6 +1,7 @@
 package move;
 
 public enum Direction {
+    
     UP(1, 0),
     DOWN(-1, 0),
     LEFT(0, -1),
@@ -10,9 +11,8 @@ public enum Direction {
     DOWN_LEFT(-1, -1),
     DOWN_RIGHT(-1, 1);
 
-    final int y;
-
-    final int x;
+    private final int y;
+    private final int x;
 
     Direction(int y, int x) {
         this.y = y;
