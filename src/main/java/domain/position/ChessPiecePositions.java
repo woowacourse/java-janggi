@@ -2,6 +2,7 @@ package domain.position;
 
 import domain.chessPiece.ChessPiece;
 
+import java.util.Collections;
 import java.util.Map;
 
 public class ChessPiecePositions {
@@ -49,5 +50,9 @@ public class ChessPiecePositions {
     private void putChessPiece(final ChessPosition position, final ChessPiece chessPiece) {
         validateEmptyPosition(position);
         chessPieces.put(position, chessPiece);
+    }
+
+    public Map<ChessPosition, ChessPiece> getChessPieces() {
+        return Collections.unmodifiableMap(chessPieces);
     }
 }

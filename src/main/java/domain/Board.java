@@ -23,6 +23,10 @@ public class Board {
         ));
     }
 
+    public boolean isExistPieceAt(ChessPosition position) {
+        return chessPiecePositions.existChessPieceByPosition(position);
+    }
+
     public void move(final ChessTeam currentTeam, final ChessPosition from, final ChessPosition to) {
         validateTeam(currentTeam, from);
         validateDestination(from, to);
@@ -37,6 +41,13 @@ public class Board {
         return chessPiece.getDestinations(position, chessPiecePositions);
     }
 
+    public void validateTeam(final ChessTeam currentTeam, final ChessPosition from) {
+        ChessPiece chessPiece = chessPiecePositions.getChessPieceByPosition(from);
+        if (currentTeam != chessPiece.getTeam()) {
+            throw new IllegalArgumentException("상대편의 기물을 움직일 수 없습니다.");
+        }
+    }
+
     private void killTarget(ChessTeam currentTeam, ChessPosition to) {
         ChessPiece target = chessPiecePositions.getChessPieceByPosition(to);
         updateScore(currentTeam, target);
@@ -49,17 +60,14 @@ public class Board {
         scores.put(currentTeam, updatedScore);
     }
 
-    private void validateTeam(final ChessTeam currentTeam, final ChessPosition from) {
-        ChessPiece chessPiece = chessPiecePositions.getChessPieceByPosition(from);
-        if (currentTeam != chessPiece.getTeam()) {
-            throw new IllegalArgumentException("상대편의 기물을 움직일 수 없습니다.");
-        }
-    }
-
     private void validateDestination(final ChessPosition from, final ChessPosition to) {
         List<ChessPosition> destinations = getAvailableDestination(from);
         if (!destinations.contains(to)) {
             throw new IllegalArgumentException("이동할 수 없는 경로입니다.");
         }
+    }
+
+    public Map<ChessPosition, ChessPiece> getPositions() {
+        return chessPiecePositions.getChessPieces();
     }
 }

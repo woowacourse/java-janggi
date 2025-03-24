@@ -6,10 +6,10 @@ public record ChessPosition(
         int row,
         int column
 ) {
-    private static final int MIN_ROW = 0;
-    private static final int MAX_ROW = 9;
-    private static final int MIN_COL = 0;
-    private static final int MAX_COL = 8;
+    public static final int MIN_ROW = 0;
+    public static final int MAX_ROW = 9;
+    public static final int MIN_COL = 0;
+    public static final int MAX_COL = 8;
 
     public ChessPosition {
         if (!isValid(row, column)) {
