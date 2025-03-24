@@ -1,5 +1,6 @@
-package janggi.domain.piece;
+package janggi.domain.piece.impl;
 
+import janggi.domain.piece.Piece;
 import janggi.domain.position.Path;
 import janggi.domain.position.Position;
 

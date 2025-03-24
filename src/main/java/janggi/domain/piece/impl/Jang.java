@@ -1,5 +1,8 @@
-package janggi.domain.piece;
+package janggi.domain.piece.impl;
 
+import janggi.domain.piece.Gung;
+import janggi.domain.piece.InGungPiece;
+import janggi.domain.piece.Piece;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Path;
 import janggi.domain.position.Position;
@@ -7,20 +10,25 @@ import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Byeong extends Piece {
+public class Jang extends InGungPiece {
 
     private final List<Movement> availableMovements = List.of(
-            Movement.DOWN,
+            Movement.UP,
             Movement.LEFT,
-            Movement.RIGHT
+            Movement.RIGHT,
+            Movement.DOWN,
+            Movement.UP_LEFT,
+            Movement.UP_RIGHT,
+            Movement.DOWN_LEFT,
+            Movement.DOWN_RIGHT
     );
 
-    public Byeong(final Position position) {
-        super(position);
+    public Jang(final Position position, final Gung gung) {
+        super(position, gung);
     }
 
     @Override
-    public List<Path> getMoveablePaths(final List<Piece> allyPieces, final List<Piece> enemyPieces) {
+    public List<Path> getMoveablePathsWithNoGung(final List<Piece> allyPieces, final List<Piece> enemyPieces) {
         final List<Path> availablePaths = new ArrayList<>();
 
         for (Movement availableMovement : availableMovements) {

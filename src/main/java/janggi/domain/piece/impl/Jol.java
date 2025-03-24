@@ -1,5 +1,6 @@
-package janggi.domain.piece;
+package janggi.domain.piece.impl;
 
+import janggi.domain.piece.Piece;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Path;
 import janggi.domain.position.Position;
@@ -7,16 +8,15 @@ import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sa extends Piece {
+public class Jol extends Piece {
 
     private final List<Movement> availableMovements = List.of(
-            Movement.LEFT,
-            Movement.RIGHT,
             Movement.UP,
-            Movement.DOWN
+            Movement.LEFT,
+            Movement.RIGHT
     );
 
-    public Sa(final Position position) {
+    public Jol(final Position position) {
         super(position);
     }
 

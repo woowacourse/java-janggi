@@ -46,7 +46,7 @@ public enum PositionFile {
         return betweenFiles;
     }
 
-    public int distance(final PositionFile file) {
-        return Math.abs(amount - file.amount);
+    public boolean isBetween(final PositionFile minFile, final PositionFile maxFile) {
+        return minFile.ordinal() <= ordinal() && ordinal() <= maxFile.ordinal();
     }
 }

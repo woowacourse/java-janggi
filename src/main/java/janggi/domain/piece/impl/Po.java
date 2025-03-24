@@ -1,5 +1,6 @@
-package janggi.domain.piece;
+package janggi.domain.piece.impl;
 
+import janggi.domain.piece.Piece;
 import janggi.domain.position.Path;
 import janggi.domain.position.Position;
 
@@ -36,7 +37,7 @@ public class Po extends Piece {
         pieces.addAll(enemyPieces);
 
         final List<Piece> blockingPieces = pieces.stream()
-                .filter(piece -> path.isBlockedWith(List.of(piece.position)))
+                .filter(piece -> path.isBlockedWith(List.of(piece.getPosition())))
                 .toList();
 
         return blockingPieces.size() == 1 && blockingPieces.getFirst() instanceof Po;
