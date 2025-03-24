@@ -1,8 +1,5 @@
 package view;
 
-import model.Piece;
-
-import java.util.Optional;
 
 public class OutputView {
 
@@ -10,15 +7,11 @@ public class OutputView {
         System.out.println("장기 시작");
     }
 
-    public void printPieceOrHyphen(Optional<Piece> piece) {
-        if (piece.isPresent()) {
-            System.out.print(piece.get());
-        } else {
-            System.out.print("－");
-        }
-    }
-
     public void printBlankLine() {
         System.out.println();
+    }
+
+    public void printCurrentPosition(String currentPosition) {
+        System.out.println(currentPosition);
     }
 }
