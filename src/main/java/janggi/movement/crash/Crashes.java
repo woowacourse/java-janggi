@@ -21,4 +21,12 @@ public abstract class Crashes {
     }
 
     public abstract boolean hasNoCrashes(Team movingTeam, Point targetPoint, Hurdles hurdles);
+
+    protected boolean isPreyOtherTeam(Team movingTeam, Movable preyPiece) {
+        return movingTeam != preyPiece.getTeam();
+    }
+
+    protected boolean isPreyInTargetPoint(Point targetPoint, Point preyPoint) {
+        return preyPoint.equals(targetPoint);
+    }
 }

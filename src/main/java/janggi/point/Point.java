@@ -2,9 +2,9 @@ package janggi.point;
 
 public record Point(int row, int column) {
 
-    private static final int BOARD_LOWER_BOUND = 0;
-    private static final int BOARD_ROW_UPPER_BOUND = 9;
-    private static final int BOARD_COLUMN_UPPER_BOUND = 8;
+    private static final int LOWER_BOUND = 0;
+    private static final int ROW_UPPER_BOUND = 9;
+    private static final int COLUMN_UPPER_BOUND = 8;
 
     public Point(int row, int column) {
         validateRange(row, column);
@@ -13,10 +13,10 @@ public record Point(int row, int column) {
     }
 
     private void validateRange(int row, int column) {
-        if (row < BOARD_LOWER_BOUND
-                || column < BOARD_LOWER_BOUND
-                || row > BOARD_ROW_UPPER_BOUND
-                || column > BOARD_COLUMN_UPPER_BOUND
+        if (row < LOWER_BOUND
+                || column < LOWER_BOUND
+                || row > ROW_UPPER_BOUND
+                || column > COLUMN_UPPER_BOUND
         ) {
             throw new IllegalArgumentException("보드판의 범위를 벗어난 좌표입니다.");
         }

@@ -20,18 +20,9 @@ public final class CrashOrPrey extends Crashes {
     private boolean isPreyOnly(Team movingTeam, Point targetPoint, Hurdles hurdles) {
         if (crashes.size() == 1) {
             Point preyPoint = crashes.getFirst();
-            Movable preyPiece = hurdles.findByPoint(preyPoint);
-            /**
-             * 유일한 장애물이 먹이 위치에 있고
-             * 팀이 다르면 isPreyOnly = true
-             */
-            if (!preyPoint.equals(targetPoint)) {
-                return false;
-            }
-            if (movingTeam == preyPiece.getTeam()) {
-                return false;
-            }
-            return true;
+            Movable prey = hurdles.findByPoint(preyPoint);
+            return isPreyInTargetPoint(targetPoint, preyPoint)
+                    && isPreyOtherTeam(movingTeam, prey);
         }
         return false;
     }

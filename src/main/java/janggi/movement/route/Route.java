@@ -18,11 +18,7 @@ public class Route {
         List<Point> route = new ArrayList<>();
         Point pointer = startPoint;
         while (!pointer.equals(targetPoint)) {
-            try {
-                pointer = pointer.move(direction.getRowOffset(), direction.getColumnOffset());
-                route.add(pointer);
-            } catch (IllegalArgumentException ignore) {
-            }
+            pointer = addPointInRangeToRoute(direction, pointer, route);
         }
         return new Route(route);
     }
@@ -31,13 +27,18 @@ public class Route {
         List<Point> route = new ArrayList<>();
         Point pointer = startPoint;
         for (Direction direction : directions) {
-            try {
-                pointer = pointer.move(direction.getRowOffset(), direction.getColumnOffset());
-                route.add(pointer);
-            } catch (IllegalArgumentException ignore) {
-            }
+            pointer = addPointInRangeToRoute(direction, pointer, route);
         }
         return new Route(route);
+    }
+
+    private static Point addPointInRangeToRoute(Direction direction, Point pointer, List<Point> route) {
+        try {
+            pointer = pointer.move(direction.getRowOffset(), direction.getColumnOffset());
+            route.add(pointer);
+        } catch (IllegalArgumentException ignore) {
+        }
+        return pointer;
     }
 
     public boolean hasNoHurdle(Movable movingPiece, Point targetPoint, Hurdles hurdles) {
