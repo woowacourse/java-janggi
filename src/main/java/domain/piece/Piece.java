@@ -19,11 +19,17 @@ public abstract class Piece {
             final BoardPosition after
     );
 
-    public abstract boolean isAllowedObstacles(final List<Piece> obstacles);
+    public boolean isGeneral() {
+        return false;
+    }
 
-    public abstract boolean isCatchable(final Piece piece);
+    public boolean isAllowedObstacles(final List<Piece> obstacles) {
+        return obstacles.isEmpty();
+    }
 
-    public abstract boolean isGeneral();
+    public boolean isCatchable(final Piece piece) {
+        return true;
+    }
 
     public boolean isMyTeam(final Team team) {
         return this.team == team;

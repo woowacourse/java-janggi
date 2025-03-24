@@ -25,21 +25,6 @@ public class Zzu extends Piece {
         return List.of(offset);
     }
 
-    @Override
-    public boolean isAllowedObstacles(final List<Piece> obstacles) {
-        return obstacles.isEmpty();
-    }
-
-    @Override
-    public boolean isCatchable(final Piece piece) {
-        return true;
-    }
-
-    @Override
-    public boolean isGeneral() {
-        return false;
-    }
-
     private void validateOffset(final Offset offset) {
         if (!offset.hasOneMovement() || isMovingBackward(offset)) {
             throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");

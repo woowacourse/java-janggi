@@ -23,16 +23,6 @@ public class General extends Piece {
     }
 
     @Override
-    public boolean isAllowedObstacles(final List<Piece> obstacles) {
-        return obstacles.isEmpty();
-    }
-
-    @Override
-    public boolean isCatchable(final Piece piece) {
-        return true;
-    }
-
-    @Override
     public boolean isGeneral() {
         return true;
     }
