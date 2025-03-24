@@ -11,8 +11,8 @@ public enum Country {
         this.countryName = countryName;
     }
 
-    public static Country convertTurn(Country country) {
-        if (country == Country.HAN) {
+    public Country convertTurn() {
+        if (this == Country.HAN) {
             return Country.CHO;
         }
         return Country.HAN;

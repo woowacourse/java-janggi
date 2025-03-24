@@ -48,12 +48,12 @@ public class JanggiGame {
         board.validateOriginCoordinate(originCoordinate, currentTurn);
 
         Coordinate destinationCoordinate = retryUntilValid(inputView::readMoveDestination);
-        
+
         board.movePiece(originCoordinate, destinationCoordinate);
     }
 
     private void nextTurn() {
-        currentTurn = Country.convertTurn(currentTurn);
+        currentTurn = currentTurn.convertTurn();
     }
 
     private <T> void takeTurn(T value, Consumer<T> consumer) {
