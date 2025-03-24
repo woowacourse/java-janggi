@@ -1,9 +1,13 @@
 package model;
 
+import static model.Movement.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Cannon extends Piece {
+
+    private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
 
     public Cannon(Team team) {
         super(team);
@@ -16,7 +20,22 @@ public class Cannon extends Piece {
 
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        return List.of();
+        return calculatePositionOfMovement(departure, arrival);
+    }
+
+    private List<Position> calculatePositionOfMovement(Position departure, Position arrival) {
+        for (Movement movement : movements) {
+            List<Position> temporaryPosition = new ArrayList<>();
+            Position movedPosition = departure.copyOf();
+            while (movedPosition.canMove(movement)) {
+                temporaryPosition.add(movedPosition.move(movement));
+                movedPosition = movedPosition.move(movement);
+                if (movedPosition.equals(arrival)) {
+                    return temporaryPosition;
+                }
+            }
+        }
+        throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
     }
 
     @Override

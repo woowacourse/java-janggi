@@ -1,122 +1,86 @@
-/*
 package model;
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.List;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
 public class CannonTest {
-    
-    private Piece cannon = new Cannon(new Position(5, 5), Team.RED);
 
-    @DisplayName("cannon이 위로 세 칸 움직일 경우, 행이 -3 되어야 한다.")
-    @Test
-    void when_cannon_move_then_column_minus_one() {
-        cannon.up(3);
+    private final Cannon cannon = new Cannon(Team.GREEN);
 
-        Position expectedPosition = new Position(2, 5);
-        Position currentPosition = cannon.getPosition();
-        assertThat(expectedPosition).isEqualTo(currentPosition);
-    }
-
-    @DisplayName("cannon이 아래로 세 칸 움직일 경우, 행이 +3 되어야 한다.")
-    @Test
-    void when_cannon_move_then_column_plus_one() {
-        cannon.down(3);
-
-        Position expectedPosition = new Position(8, 5);
-        Position currentPosition = cannon.getPosition();
-        assertThat(expectedPosition).isEqualTo(currentPosition);
-    }
-
-    @DisplayName("cannon이 좌측으로 세 칸 움직일 경우, 열이 -3 되어야 한다.")
-    @Test
-    void when_cannon_move_then_row_minus_one() {
-        cannon.left(3);
-
-        Position expectedPosition = new Position(5, 2);
-        Position currentPosition = cannon.getPosition();
-        assertThat(expectedPosition).isEqualTo(currentPosition);
-    }
-
-    @DisplayName("cannon이 우측으로 세 칸 움직일 경우, 열이 +3 되어야 한다.")
-    @Test
-    void when_cannon_move_then_row_plus_one() {
-        cannon.right(3);
-
-        Position expectedPosition = new Position(5, 8);
-        Position currentPosition = cannon.getPosition();
-        assertThat(expectedPosition).isEqualTo(currentPosition);
-    }
-
-    @DisplayName("Cannon이 10행 9열을 벗어나면 예외가 발생한다")
     @Nested
-    class CannonMoveException {
+    @DisplayName("Cannon의 이동 가능한 경로를 구한다.")
+    class FindDirectionOfCannon {
 
-        @DisplayName("up인 경우")
         @Test
-        void when_up() {
-            assertThatThrownBy(() -> cannon.up(6))
-                    .isInstanceOf(IllegalArgumentException.class);
+        @DisplayName("Up 인 경우")
+        void case_up() {
+            Position departure = new Position(Column.TEN, Row.ONE);
+            Position arrival = new Position(Column.FIVE, Row.ONE);
+            List<Position> findDirection = cannon.calculateAllDirection(departure, arrival);
+            List<Position> expectedPosition = List.of(
+                new Position(Column.NINE, Row.ONE),
+                new Position(Column.EIGHT, Row.ONE),
+                new Position(Column.SEVEN, Row.ONE),
+                new Position(Column.SIX, Row.ONE),
+                new Position(Column.FIVE, Row.ONE));
+            assertThat(findDirection).containsExactlyInAnyOrderElementsOf(expectedPosition);
         }
 
-        @DisplayName("down인 경우")
         @Test
-        void when_down() {
-            assertThatThrownBy(() -> cannon.down(6))
-                    .isInstanceOf(IllegalArgumentException.class);
+        @DisplayName("Down 인 경우")
+        void case_down() {
+            Position departure = new Position(Column.FIVE, Row.FIVE);
+            Position arrival = new Position(Column.TEN, Row.FIVE);
+            List<Position> findDirection = cannon.calculateAllDirection(departure, arrival);
+            List<Position> expectedPosition = List.of(
+                new Position(Column.TEN, Row.FIVE),
+                new Position(Column.NINE, Row.FIVE),
+                new Position(Column.EIGHT, Row.FIVE),
+                new Position(Column.SEVEN, Row.FIVE),
+                new Position(Column.SIX, Row.FIVE));
+            assertThat(findDirection).containsExactlyInAnyOrderElementsOf(expectedPosition);
         }
 
-        @DisplayName("left인 경우")
         @Test
-        void when_left() {
-            assertThatThrownBy(() -> cannon.left(6))
-                    .isInstanceOf(IllegalArgumentException.class);
+        @DisplayName("Left 인 경우")
+        void case_left() {
+            Position departure = new Position(Column.FIVE, Row.FIVE);
+            Position arrival = new Position(Column.FIVE, Row.ONE);
+            List<Position> findDirection = cannon.calculateAllDirection(departure, arrival);
+            List<Position> expectedPosition = List.of(
+                new Position(Column.FIVE, Row.FOUR),
+                new Position(Column.FIVE, Row.THREE),
+                new Position(Column.FIVE, Row.TWO),
+                new Position(Column.FIVE, Row.ONE));
+            assertThat(findDirection).containsExactlyInAnyOrderElementsOf(expectedPosition);
         }
 
-        @DisplayName("right인 경우")
         @Test
-        void when_right() {
-            assertThatThrownBy(() -> cannon.right(6))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-    }
-
-    @DisplayName("1만큼 움직이면 예외를 발생시켜야 한다")
-    @Nested
-    class MoveOneException {
-
-
-        @DisplayName("up인 경우")
-        @Test
-        void when_up() {
-            assertThatThrownBy(() -> cannon.up(1))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @DisplayName("down인 경우")
-        @Test
-        void when_down() {
-            assertThatThrownBy(() -> cannon.down(1))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @DisplayName("left인 경우")
-        @Test
-        void when_left() {
-            assertThatThrownBy(() -> cannon.left(1))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @DisplayName("right인 경우")
-        @Test
-        void when_right() {
-            assertThatThrownBy(() -> cannon.right(1))
-                    .isInstanceOf(IllegalArgumentException.class);
+        @DisplayName("Right 인 경우")
+        void case_right() {
+            Position departure = new Position(Column.FIVE, Row.FIVE);
+            Position arrival = new Position(Column.FIVE, Row.NINE);
+            List<Position> findDirection = cannon.calculateAllDirection(departure, arrival);
+            List<Position> expectedPosition = List.of(
+                new Position(Column.FIVE, Row.SIX),
+                new Position(Column.FIVE, Row.SEVEN),
+                new Position(Column.FIVE, Row.EIGHT),
+                new Position(Column.FIVE, Row.NINE));
+            assertThat(findDirection).containsExactlyInAnyOrderElementsOf(expectedPosition);
         }
     }
+
+    @DisplayName("Cannon이 갈 수 없는 경로라면, 예외를 던져야 한다")
+    @Test
+    void cannot_go_position_then_throw_exception() {
+        Position departure = new Position(Column.FIVE, Row.FIVE);
+        Position arrival = new Position(Column.SIX, Row.SIX);
+        assertThatThrownBy(() -> cannon.calculateAllDirection(departure, arrival));
+    }
+
 }
-*/
