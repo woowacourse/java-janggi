@@ -16,7 +16,7 @@ public class OutputView {
     private static final int BOARD_HEIGHT = 10;
     private static final String[][] JANGGI_BOARD_ARR = new String[BOARD_HEIGHT + 1][BOARD_WIDTH + 1];
 
-    public void printJanggiBoard(Map<Position, Piece> janggiBoard) {
+    public void printJanggiBoard(final Map<Position, Piece> janggiBoard) {
         initializeJanggiBoard(janggiBoard);
         printFormattedJanggiBoard();
     }
@@ -36,17 +36,17 @@ public class OutputView {
     }
 
     private void placeChessPieces(final Map<Position, Piece> janggiBoard) {
-        for (Position position : janggiBoard.keySet()) {
-            int row = position.getRow() + 1;
-            int col = position.getCol() + 1;
+        for (final Position position : janggiBoard.keySet()) {
+            final int row = position.getRow() + 1;
+            final int col = position.getCol() + 1;
 
-            String pieceName = getColoredPieceName(janggiBoard.get(position));
+            final String pieceName = getColoredPieceName(janggiBoard.get(position));
             JANGGI_BOARD_ARR[row][col] = " | " + pieceName;
         }
     }
 
     private String getColoredPieceName(final Piece piece) {
-        String name = piece.getName();
+        final String name = piece.getName();
         if (piece.isChoNation()) {
             return GREEN_COLOR_CODE + name + EXIT_CODE;
         }

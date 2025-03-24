@@ -6,10 +6,10 @@ public class Application {
 
     public static void main(String[] args) {
 
-        OutputView outputView = new OutputView();
-        InputView inputView = new InputView();
+        final OutputView outputView = new OutputView();
+        final InputView inputView = new InputView();
 
-        JanggiGame janggiGame = new JanggiGame(outputView, inputView);
+        final JanggiGame janggiGame = new JanggiGame(outputView, inputView);
         janggiGame.startGame();
     }
 

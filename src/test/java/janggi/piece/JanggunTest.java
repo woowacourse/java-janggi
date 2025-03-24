@@ -18,10 +18,10 @@ class JanggunTest {
     @Test
     void janggunBoardPosition() {
         //given
-        Position position = new Position(4, 5);
+        final Position position = new Position(4, 5);
 
         //when
-        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), position);
+        final Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), position);
 
         //then
         assertThat(janggun.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -30,9 +30,9 @@ class JanggunTest {
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
     @MethodSource("JanggunNonIsMovePositionProvider")
-    void isMoveValidate(Position position) {
+    void isMoveValidate(final Position position) {
         //given
-        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new Position(5, 5));
+        final Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new Position(5, 5));
 
         //when //then
         assertThatThrownBy(() -> janggun.isMove(position))
@@ -43,12 +43,12 @@ class JanggunTest {
     @DisplayName("왕은 상하좌우 한칸을 움직일 수 있다면 true를 반환한다.")
     @ParameterizedTest
     @MethodSource("janggunIsMovePositionProvider")
-    void isMove(Position position) {
+    void isMove(final Position position) {
         //given
-        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new Position(5, 5));
+        final Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new Position(5, 5));
 
         //when
-        boolean actual = janggun.isMove(position);
+        final boolean actual = janggun.isMove(position);
 
         //then
         assertThat(actual).isTrue();
@@ -58,11 +58,11 @@ class JanggunTest {
     @Test
     void makeRoute() {
         //given
-        Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new Position(5, 5));
-        Position futurePosition = new Position(4, 5);
+        final Janggun janggun = new Janggun(new PieceProfile("왕", Nation.HAN), new Position(5, 5));
+        final Position futurePosition = new Position(4, 5);
 
         //when
-        List<Position> actual = janggun.makeRoute(futurePosition);
+        final List<Position> actual = janggun.makeRoute(futurePosition);
 
         //then
         assertThat(actual.contains(futurePosition)).isTrue();

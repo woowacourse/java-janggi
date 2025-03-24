@@ -20,10 +20,10 @@ class PoTest {
     @Test
     void poBoardPosition() {
         //given
-        Position position = new Position(4, 5);
+        final Position position = new Position(4, 5);
 
         //when
-        Po po = new Po(new PieceProfile("포", Nation.HAN), position);
+        final Po po = new Po(new PieceProfile("포", Nation.HAN), position);
 
         //then
         assertThat(po.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -33,7 +33,7 @@ class PoTest {
     @Test
     void nonIsMove() {
         //given
-        Po po = new Po(new PieceProfile("포", Nation.HAN), new Position(0, 0));
+        final Po po = new Po(new PieceProfile("포", Nation.HAN), new Position(0, 0));
 
         //when //then
         assertThatThrownBy(() -> po.isMove(new Position(1, 1)))
@@ -44,12 +44,12 @@ class PoTest {
     @DisplayName("포는 움직임을 자신의 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 true를 반환한다.")
     @ParameterizedTest
     @MethodSource("poIsMovePositionProvider")
-    void isMove(Position position) {
+    void isMove(final Position position) {
         //given
-        Po po = new Po(new PieceProfile("포", Nation.HAN), new Position(0, 0));
+        final Po po = new Po(new PieceProfile("포", Nation.HAN), new Position(0, 0));
 
         //when
-        boolean actual = po.isMove(position);
+        final boolean actual = po.isMove(position);
 
         //then
         assertThat(actual).isTrue();
@@ -59,11 +59,11 @@ class PoTest {
     @Test
     void makeRoute() {
         //given
-        Po po = new Po(new PieceProfile("포", Nation.HAN), new Position(0, 0));
-        Position futurePosition = new Position(5, 0);
+        final Po po = new Po(new PieceProfile("포", Nation.HAN), new Position(0, 0));
+        final Position futurePosition = new Position(5, 0);
 
         //when
-        List<Position> actual = po.makeRoute(futurePosition);
+        final List<Position> actual = po.makeRoute(futurePosition);
 
         //then
         assertThat(actual).containsExactly(
@@ -79,26 +79,25 @@ class PoTest {
     @DisplayName("포를 수직 또는 수평으로 이동시킬 수 있다.")
     class PoMoving {
 
-
         @DisplayName("포는 수직으로 이동할 떄 포를 제외한 장애물이 앞에 있는 경우 장애물을 넘어서 이동할 수 있다.")
         @Test
         void poMovingVertical() {
             //given
-            List<Piece> pieces = List.of(
+            final List<Piece> pieces = List.of(
                     new Po(new PieceProfile("포", Nation.HAN), new Position(3, 2)),
                     new Byeong(new PieceProfile("병", Nation.HAN), new Position(4, 2))
             );
 
-            Board board = new Board(pieces);
+            final Board board = new Board(pieces);
 
-            Position presentPosition = new Position(3, 2);
-            Position futurePosition = new Position(5, 2);
+            final Position presentPosition = new Position(3, 2);
+            final Position futurePosition = new Position(5, 2);
 
             //when
             board.pieceMove(presentPosition, futurePosition);
 
             //then
-            Piece actual = board.getJanggiBoard().get(futurePosition);
+            final Piece actual = board.getJanggiBoard().get(futurePosition);
             assertThat(actual).isEqualTo(new Po(new PieceProfile("포", Nation.HAN),
                     new Position(5, 2)));
         }
@@ -107,15 +106,15 @@ class PoTest {
         @Test
         void poMovingHorizontal() {
             //given
-            List<Piece> pieces = List.of(
+            final List<Piece> pieces = List.of(
                     new Po(new PieceProfile("포", Nation.HAN), new Position(3, 2)),
                     new Byeong(new PieceProfile("병", Nation.HAN), new Position(4, 2))
             );
 
-            Board board = new Board(pieces);
+            final Board board = new Board(pieces);
 
-            Position presentPosition = new Position(3, 2);
-            Position futurePosition = new Position(5, 2);
+            final Position presentPosition = new Position(3, 2);
+            final Position futurePosition = new Position(5, 2);
 
             //when
             board.pieceMove(presentPosition, futurePosition);
@@ -137,14 +136,14 @@ class PoTest {
         @Test
         void poNotMovingVerticalInFrontNothing() {
             //given
-            List<Piece> pieces = List.of(
+            final List<Piece> pieces = List.of(
                     new Po(new PieceProfile("포", Nation.HAN), new Position(3, 2))
             );
 
-            Board board = new Board(pieces);
+            final Board board = new Board(pieces);
 
-            Position presentPosition = new Position(3, 2);
-            Position futurePosition = new Position(7, 2);
+            final Position presentPosition = new Position(3, 2);
+            final Position futurePosition = new Position(7, 2);
 
             //when //then
             assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))
@@ -156,14 +155,14 @@ class PoTest {
         @Test
         void poNotMovingHorizontalInFrontNothing() {
             //given
-            List<Piece> pieces = List.of(
+            final List<Piece> pieces = List.of(
                     new Po(new PieceProfile("포", Nation.HAN), new Position(3, 2))
             );
 
-            Board board = new Board(pieces);
+            final Board board = new Board(pieces);
 
-            Position presentPosition = new Position(3, 2);
-            Position futurePosition = new Position(3, 7);
+            final Position presentPosition = new Position(3, 2);
+            final Position futurePosition = new Position(3, 7);
 
             //when //then
             assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))
@@ -176,15 +175,15 @@ class PoTest {
         void notPoMovingVerticalInFrontPo() {
 
             //given
-            List<Piece> pieces = List.of(
+            final List<Piece> pieces = List.of(
                     new Po(new PieceProfile("포", Nation.HAN), new Position(3, 2)),
                     new Po(new PieceProfile("포", Nation.HAN), new Position(4, 2))
             );
 
-            Board board = new Board(pieces);
+            final Board board = new Board(pieces);
 
-            Position presentPosition = new Position(3, 2);
-            Position futurePosition = new Position(5, 2);
+            final Position presentPosition = new Position(3, 2);
+            final Position futurePosition = new Position(5, 2);
 
             //when //then
             assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))
@@ -196,15 +195,15 @@ class PoTest {
         @Test
         void notPoMovingHorizontalInFrontPo() {
             //given
-            List<Piece> pieces = List.of(
+            final List<Piece> pieces = List.of(
                     new Po(new PieceProfile("포", Nation.HAN), new Position(2, 3)),
                     new Po(new PieceProfile("포", Nation.HAN), new Position(2, 4))
             );
 
-            Board board = new Board(pieces);
+            final Board board = new Board(pieces);
 
-            Position presentPosition = new Position(2, 3);
-            Position futurePosition = new Position(2, 5);
+            final Position presentPosition = new Position(2, 3);
+            final Position futurePosition = new Position(2, 5);
 
             //when //then
             assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))
@@ -215,16 +214,16 @@ class PoTest {
         @DisplayName("포를 수평으로 이동 시킬 때 앞에 기물이 2개 이상 존재한다면 예외를 던진다.")
         @Test
         void notFoMovingHorizontalInFrontTwoPiece() {
-            List<Piece> pieces = List.of(
+            final List<Piece> pieces = List.of(
                     new Po(new PieceProfile("포", Nation.HAN), new Position(3, 2)),
                     new Jol(new PieceProfile("졸", Nation.HAN), new Position(3, 3)),
                     new Byeong(new PieceProfile("병", Nation.HAN), new Position(3, 4))
             );
 
-            Board board = new Board(pieces);
+            final Board board = new Board(pieces);
 
-            Position presentPosition = new Position(3, 2);
-            Position futurePosition = new Position(3, 5);
+            final Position presentPosition = new Position(3, 2);
+            final Position futurePosition = new Position(3, 5);
 
             //when //then
             assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))
@@ -235,16 +234,16 @@ class PoTest {
         @DisplayName("포를 수직으로 이동 시킬 때 앞에 기물이 2개 이상 존재한다면 예외를 던진다.")
         @Test
         void notFoMovingVerticalInFrontTwoPiece() {
-            List<Piece> pieces = List.of(
+            final List<Piece> pieces = List.of(
                     new Po(new PieceProfile("포", Nation.HAN), new Position(2, 3)),
                     new Jol(new PieceProfile("졸", Nation.HAN), new Position(3, 3)),
                     new Byeong(new PieceProfile("병", Nation.HAN), new Position(4, 3))
             );
 
-            Board board = new Board(pieces);
+            final Board board = new Board(pieces);
 
-            Position presentPosition = new Position(2, 3);
-            Position futurePosition = new Position(5, 3);
+            final Position presentPosition = new Position(2, 3);
+            final Position futurePosition = new Position(5, 3);
 
             //when //then
             assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))

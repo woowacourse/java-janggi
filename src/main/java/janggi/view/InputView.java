@@ -15,9 +15,9 @@ public class InputView {
     public Position readPresentPosition() {
         System.out.println("초나라 턴 입니다. 움직이고 싶은 말의 위치를 좌표로 입력해주세요.(좌표는 쉼표(,) 기준으로 구분)");
 
-        String inputPosition = readLine().trim();
+        final String inputPosition = readLine().trim();
 
-        String[] splitPosition = inputSplit(inputPosition);
+        final String[] splitPosition = inputSplit(inputPosition);
         validatePositionSize(splitPosition);
 
         return new Position(parseInt(splitPosition[DX]), parseInt(splitPosition[DY]));
@@ -26,9 +26,9 @@ public class InputView {
     public Position readFuturePosition() {
         System.out.println("해당 말을 이동시킬 위치를 좌표로 입력해 주세요.(좌표는 쉼표(,) 기준으로 구분)");
 
-        String inputPosition = readLine().trim();
+        final String inputPosition = readLine().trim();
 
-        String[] splitPosition = inputSplit(inputPosition);
+        final String[] splitPosition = inputSplit(inputPosition);
         validatePositionSize(splitPosition);
 
         return new Position(parseInt(splitPosition[DX]), parseInt(splitPosition[DY]));

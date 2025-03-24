@@ -20,10 +20,10 @@ class SangTest {
     @Test
     void sangBoardPosition() {
         //given
-        Position position = new Position(4, 5);
+        final Position position = new Position(4, 5);
 
         //when
-        Sang sang = new Sang(new PieceProfile("상", Nation.HAN), position);
+        final Sang sang = new Sang(new PieceProfile("상", Nation.HAN), position);
 
         //then
         assertThat(sang.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -32,9 +32,9 @@ class SangTest {
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
     @ParameterizedTest
     @MethodSource("sangNonIsMovePositionProvider")
-    void nonIsMove(Position position) {
+    void nonIsMove(final Position position) {
         //given
-        Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
+        final Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
 
         //when //then
         assertThatThrownBy(() -> sang.isMove(position))
@@ -62,12 +62,12 @@ class SangTest {
     @DisplayName("상은 자신의 위치를 기준으로 직선으로 한칸 대각선으로 두칸 이동할 수 있다.")
     @ParameterizedTest
     @MethodSource("sangIsMovePositionProvider")
-    void isMove(Position position) {
+    void isMove(final Position position) {
         //given
-        Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
+        final Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
 
         //when
-        boolean actual = sang.isMove(position);
+        final boolean actual = sang.isMove(position);
 
         //then
         assertThat(actual).isTrue();
@@ -90,11 +90,11 @@ class SangTest {
     @Test
     void makeRoute() {
         //given
-        Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
-        Position futurePosition = new Position(3, 2);
+        final Sang sang = new Sang(new PieceProfile("상", Nation.HAN), new Position(5, 5));
+        final Position futurePosition = new Position(3, 2);
 
         //when
-        List<Position> actual = sang.makeRoute(futurePosition);
+        final List<Position> actual = sang.makeRoute(futurePosition);
 
         //then
         assertThat(actual).containsExactly(
@@ -108,13 +108,13 @@ class SangTest {
     @Test
     void hasObstacle() {
         //given
-        Sang sang = new Sang(new PieceProfile("마", Nation.HAN), new Position(0, 7));
+        final Sang sang = new Sang(new PieceProfile("마", Nation.HAN), new Position(0, 7));
 
-        Map<Position, Piece> board = Map.of(
+        final Map<Position, Piece> board = Map.of(
                 new Position(1, 7), new Cha(new PieceProfile("차", Nation.HAN), new Position(1, 7))
         );
 
-        Position futurePosition = new Position(3, 5);
+        final Position futurePosition = new Position(3, 5);
 
         //when //then
         assertThatThrownBy(() -> sang.checkObstacle(futurePosition, board))
@@ -126,13 +126,13 @@ class SangTest {
     @Test
     void nonObstacle() {
         //given
-        Sang sang = new Sang(new PieceProfile("마", Nation.HAN), new Position(0, 7));
+        final Sang sang = new Sang(new PieceProfile("마", Nation.HAN), new Position(0, 7));
 
-        Map<Position, Piece> board = Map.of(
+        final Map<Position, Piece> board = Map.of(
                 new Position(2, 7), new Cha(new PieceProfile("차", Nation.HAN), new Position(2, 7))
         );
 
-        Position futurePosition = new Position(3, 5);
+        final Position futurePosition = new Position(3, 5);
 
         //when //then
         assertThatCode(() -> sang.checkObstacle(futurePosition, board))

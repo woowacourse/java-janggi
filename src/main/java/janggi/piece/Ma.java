@@ -34,10 +34,10 @@ public class Ma extends Piece {
     public List<Position> makeRoute(final Position position) {
         List<Position> route = new ArrayList<>();
 
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
-        int presentCol = getBoardPosition().getCol();
-        int presentRow = getBoardPosition().getRow();
+        final int dx = getBoardPosition().getRow() - position.getRow();
+        final int dy = getBoardPosition().getCol() - position.getCol();
+        final int presentCol = getBoardPosition().getCol();
+        final int presentRow = getBoardPosition().getRow();
 
         if (dx == 2 && dy == 1) {
             route.add(new Position(presentRow - 1, presentCol));
@@ -84,8 +84,8 @@ public class Ma extends Piece {
 
     @Override
     public boolean isMove(final Position position) {
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
+        final int dx = getBoardPosition().getRow() - position.getRow();
+        final int dy = getBoardPosition().getCol() - position.getCol();
 
         if (dx == 2 && Math.abs(dy) == 1) {
             return true;

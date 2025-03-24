@@ -18,7 +18,7 @@ import java.util.List;
 public class PieceInitializer {
 
     public List<Piece> generate() {
-        List<Piece> pieces = new ArrayList<>();
+        final List<Piece> pieces = new ArrayList<>();
 
         pieces.add(new Cha(new PieceProfile("차", Nation.HAN), new Position(0, 0)));
         pieces.add(new Cha(new PieceProfile("차", Nation.HAN), new Position(0, 8)));

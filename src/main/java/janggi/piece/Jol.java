@@ -11,14 +11,14 @@ public class Jol extends Piece {
     }
 
     @Override
-    public void updatePiecePositionBy(Position position) {
+    public void updatePiecePositionBy(final Position position) {
         this.position = position;
     }
 
     @Override
     public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
-        List<Position> moveRoute = makeRoute(futurePosition);
-        for (Position position : moveRoute) {
+        final List<Position> moveRoute = makeRoute(futurePosition);
+        for (final Position position : moveRoute) {
             validateObstacle(janggiBoard, position);
         }
     }

@@ -20,10 +20,10 @@ class ByeongTest {
     @Test
     void byenogBoardPosition() {
         //given
-        Position position = new Position(0, 0);
+        final Position position = new Position(0, 0);
 
         //when
-        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), position);
+        final Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), position);
 
         //then
         assertThat(byeong.getBoardPosition().getCol()).isEqualTo(0);
@@ -33,9 +33,9 @@ class ByeongTest {
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면(가로,세로 한칸을 제외한 경로) 예외를 던진다.")
     @ParameterizedTest
     @MethodSource("byeongNonIsMovePositionProvider")
-    void nonIsMove(Position position) {
+    void nonIsMove(final Position position) {
         //given
-        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
+        final Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
 
         //when
         assertThatThrownBy(() -> byeong.isMove(position))
@@ -54,12 +54,12 @@ class ByeongTest {
     @DisplayName("자신의 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동을 할 수 있다면 true를 반환한다.")
     @ParameterizedTest
     @MethodSource("byeongIsMovePositionProvider")
-    void isMove(Position position) {
+    void isMove(final Position position) {
         //given
-        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
+        final Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
 
         //when
-        boolean actual = byeong.isMove(position);
+        final boolean actual = byeong.isMove(position);
 
         //then
         assertThat(actual).isTrue();
@@ -77,11 +77,11 @@ class ByeongTest {
     @Test
     void makeRoute() {
         //given
-        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
-        Position futurePosition = new Position(4, 5);
+        final Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
+        final Position futurePosition = new Position(4, 5);
 
         //when
-        List<Position> actual = byeong.makeRoute(futurePosition);
+        final List<Position> actual = byeong.makeRoute(futurePosition);
 
         //then
         assertThat(actual.contains(futurePosition)).isTrue();
@@ -91,13 +91,13 @@ class ByeongTest {
     @Test
     void hasObstacle() {
         //given
-        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
+        final Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
 
-        Map<Position, Piece> board = Map.of(
+        final Map<Position, Piece> board = Map.of(
                 new Position(6, 5), new Cha(new PieceProfile("차", Nation.HAN), new Position(6, 5))
         );
 
-        Position futurePosition = new Position(6, 5);
+        final Position futurePosition = new Position(6, 5);
 
         //when //then
         assertThatThrownBy(() -> byeong.checkObstacle(futurePosition, board))
@@ -109,13 +109,13 @@ class ByeongTest {
     @Test
     void nonObstacle() {
         //given
-        Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
+        final Byeong byeong = new Byeong(new PieceProfile("병", Nation.HAN), new Position(5, 5));
 
-        Map<Position, Piece> board = Map.of(
+        final Map<Position, Piece> board = Map.of(
                 new Position(7, 5), new Cha(new PieceProfile("차", Nation.HAN), new Position(7, 5))
         );
 
-        Position futurePosition = new Position(6, 5);
+        final Position futurePosition = new Position(6, 5);
 
         //when //then
         assertThatCode(() -> byeong.checkObstacle(futurePosition, board))

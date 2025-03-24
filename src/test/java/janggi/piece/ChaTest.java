@@ -20,10 +20,10 @@ class ChaTest {
     @Test
     void chaBoardPosition() {
         //given
-        Position position = new Position(4, 5);
+        final Position position = new Position(4, 5);
 
         //when
-        Cha cha = new Cha(new PieceProfile("차", Nation.HAN), position);
+        final Cha cha = new Cha(new PieceProfile("차", Nation.HAN), position);
 
         //then
         assertThat(cha.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -33,7 +33,7 @@ class ChaTest {
     @Test
     void nonIsMove() {
         //given
-        Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(0, 0));
+        final Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(0, 0));
 
         //when //then
         assertThatThrownBy(() -> cha.isMove(new Position(1, 1)))
@@ -44,12 +44,12 @@ class ChaTest {
     @DisplayName("차는 움직임을 자신의 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 true를 반환한다.")
     @ParameterizedTest
     @MethodSource("chaIsMovePositionProvider")
-    void isMove(Position position) {
+    void isMove(final Position position) {
         //given
-        Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(0, 0));
+        final Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(0, 0));
 
         //when
-        boolean actual = cha.isMove(position);
+        final boolean actual = cha.isMove(position);
 
         //then
         assertThat(actual).isTrue();
@@ -65,11 +65,11 @@ class ChaTest {
     @Test
     void makeRoute() {
         //given
-        Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(5, 5));
-        Position futurePosition = new Position(0, 5);
+        final Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(5, 5));
+        final Position futurePosition = new Position(0, 5);
 
         //when
-        List<Position> actual = cha.makeRoute(futurePosition);
+        final List<Position> actual = cha.makeRoute(futurePosition);
 
         //then
         assertThat(actual).containsExactly(
@@ -85,13 +85,13 @@ class ChaTest {
     @Test
     void hasObstacle() {
         //given
-        Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(5, 5));
+        final Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(5, 5));
 
-        Map<Position, Piece> board = Map.of(
+        final Map<Position, Piece> board = Map.of(
                 new Position(6, 5), new Byeong(new PieceProfile("병", Nation.HAN), new Position(6, 5))
         );
 
-        Position futurePosition = new Position(7, 5);
+        final Position futurePosition = new Position(7, 5);
 
         //when //then
         assertThatThrownBy(() -> cha.checkObstacle(futurePosition, board))
@@ -103,13 +103,13 @@ class ChaTest {
     @Test
     void nonObstacle() {
         //given
-        Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(5, 5));
+        final Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(5, 5));
 
-        Map<Position, Piece> board = Map.of(
+        final Map<Position, Piece> board = Map.of(
                 new Position(7, 5), new Byeong(new PieceProfile("병", Nation.HAN), new Position(7, 5))
         );
 
-        Position futurePosition = new Position(6, 5);
+        final Position futurePosition = new Position(6, 5);
 
         //when //then
         assertThatCode(() -> cha.checkObstacle(futurePosition, board))

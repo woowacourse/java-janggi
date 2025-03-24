@@ -17,7 +17,7 @@ public class JanggiGame {
     }
 
     public void startGame() {
-        Board board = setJanggiBoard();
+        final Board board = setJanggiBoard();
         while (true) {
             outputView.printJanggiBoard(board.getJanggiBoard());
 
@@ -27,13 +27,12 @@ public class JanggiGame {
                 board.pieceMove(presentPosition, futurePosition);
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
-                continue;
             }
         }
     }
 
     private Board setJanggiBoard() {
-        PieceInitializer pieceInitializer = new PieceInitializer();
+        final PieceInitializer pieceInitializer = new PieceInitializer();
         return new Board(pieceInitializer.generate());
     }
 

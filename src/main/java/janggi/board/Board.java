@@ -12,7 +12,7 @@ public class Board {
 
     private final Map<Position, Piece> janggiBoard = new HashMap<>();
 
-    public Board(List<Piece> pieces) {
+    public Board(final List<Piece> pieces) {
         janggiBoard.putAll(
                 pieces.stream()
                         .collect((Collectors.toMap(Piece::getBoardPosition, piece -> piece))
@@ -20,7 +20,7 @@ public class Board {
     }
 
     public void pieceMove(final Position presentPosition, final Position futurePosition) {
-        Piece piece = janggiBoard.get(presentPosition);
+        final Piece piece = janggiBoard.get(presentPosition);
         piece.isMove(futurePosition);
         piece.validateSameNation(janggiBoard.get(futurePosition));
         piece.checkObstacle(futurePosition, janggiBoard);

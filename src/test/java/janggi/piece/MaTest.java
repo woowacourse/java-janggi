@@ -20,10 +20,10 @@ class MaTest {
     @Test
     void maBoardPosition() {
         //given
-        Position position = new Position(4, 5);
+        final Position position = new Position(4, 5);
 
         //when
-        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), position);
+        final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), position);
 
         //then
         assertThat(ma.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -32,9 +32,9 @@ class MaTest {
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
     @MethodSource("maNonIsMovePositionProvider")
-    void nonIsMove(Position position) {
+    void nonIsMove(final Position position) {
         //given
-        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+        final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
 
         //when //then
         assertThatThrownBy(() -> ma.isMove(position)).isInstanceOf(IllegalArgumentException.class)
@@ -44,12 +44,12 @@ class MaTest {
     @DisplayName("자신의 위치를 기준으로 직선으로 한칸 + 대각선으로 한칸 이동할 수 있다면 true를 반환한다.")
     @ParameterizedTest
     @MethodSource("maIsMovePositionProvider")
-    void isMove(Position position) {
+    void isMove(final Position position) {
         //given
-        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+        final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
 
         //when
-        boolean actual = ma.isMove(position);
+        final boolean actual = ma.isMove(position);
 
         //then
         assertThat(actual).isTrue();
@@ -60,11 +60,11 @@ class MaTest {
     @Test
     void makeRoute() {
         //given
-        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
-        Position futurePosition = new Position(3, 6);
+        final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(5, 5));
+        final Position futurePosition = new Position(3, 6);
 
         //when
-        List<Position> actual = ma.makeRoute(futurePosition);
+        final List<Position> actual = ma.makeRoute(futurePosition);
 
         //then
         assertThat(actual).containsExactly(new Position(4, 5), new Position(3, 6));
@@ -89,13 +89,13 @@ class MaTest {
     @Test
     void hasObstacle() {
         //given
-        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(0, 2));
+        final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(0, 2));
 
-        Map<Position, Piece> board = Map.of(
+        final Map<Position, Piece> board = Map.of(
                 new Position(1, 2), new Cha(new PieceProfile("차", Nation.HAN), new Position(1, 2))
         );
 
-        Position futurePosition = new Position(2, 3);
+        final Position futurePosition = new Position(2, 3);
 
         //when //then
         assertThatThrownBy(() -> ma.checkObstacle(futurePosition, board))
@@ -107,13 +107,13 @@ class MaTest {
     @Test
     void nonObstacle() {
         //given
-        Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(0, 2));
+        final Ma ma = new Ma(new PieceProfile("마", Nation.HAN), new Position(0, 2));
 
-        Map<Position, Piece> board = Map.of(
+        final Map<Position, Piece> board = Map.of(
                 new Position(2, 2), new Cha(new PieceProfile("차", Nation.HAN), new Position(2, 2))
         );
 
-        Position futurePosition = new Position(2, 3);
+        final Position futurePosition = new Position(2, 3);
 
         //when //then
         assertThatCode(() -> ma.checkObstacle(futurePosition, board))

@@ -14,8 +14,8 @@ class PieceTest {
     @Test
     void sameNation() {
         //given
-        Piece piece = new StubPiece(new PieceProfile("테스트 말", Nation.HAN), new Position(0, 0));
-        Piece other = new StubPiece(new PieceProfile("테스트 말", Nation.HAN), new Position(1, 0));
+        final Piece piece = new StubPiece(new PieceProfile("테스트 말", Nation.HAN), new Position(0, 0));
+        final Piece other = new StubPiece(new PieceProfile("테스트 말", Nation.HAN), new Position(1, 0));
 
         //when //then
         assertThatThrownBy(() -> piece.validateSameNation(other))

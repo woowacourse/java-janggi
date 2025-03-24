@@ -11,14 +11,14 @@ public class Byeong extends Piece {
     }
 
     @Override
-    public void updatePiecePositionBy(Position position) {
+    public void updatePiecePositionBy(final Position position) {
         this.position = position;
     }
 
     @Override
     public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
-        List<Position> moveRoute = makeRoute(futurePosition);
-        for (Position position : moveRoute) {
+        final List<Position> moveRoute = makeRoute(futurePosition);
+        for (final Position position : moveRoute) {
             validateObstacle(janggiBoard, position);
         }
     }
@@ -36,8 +36,8 @@ public class Byeong extends Piece {
 
     @Override
     public boolean isMove(final Position position) {
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
+        final int dx = getBoardPosition().getRow() - position.getRow();
+        final int dy = getBoardPosition().getCol() - position.getCol();
 
         if (dx == 0 && Math.abs(dy) == 1 || dx == -1 && dy == 0) {
             return true;

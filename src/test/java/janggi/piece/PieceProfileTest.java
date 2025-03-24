@@ -11,8 +11,8 @@ class PieceProfileTest {
     @Test
     void profile() {
         //given
-        String name = "차";
-        Nation nation = Nation.CHO;
+        final String name = "차";
+        final Nation nation = Nation.CHO;
 
         //when //then
         assertThatCode(() -> new PieceProfile(name, nation))

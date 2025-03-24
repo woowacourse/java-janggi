@@ -18,10 +18,10 @@ class SaTest {
     @Test
     void saBoardPosition() {
         //given
-        Position position = new Position(4, 5);
+        final Position position = new Position(4, 5);
 
         //when
-        Sa sa = new Sa(new PieceProfile("사", Nation.HAN), position);
+        final Sa sa = new Sa(new PieceProfile("사", Nation.HAN), position);
 
         //then
         assertThat(sa.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -30,9 +30,9 @@ class SaTest {
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
     @MethodSource("saNonIsMovePositionProvider")
-    void isMoveValidate(Position position) {
+    void isMoveValidate(final Position position) {
         //given
-        Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
+        final Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
 
         //when //then
         assertThatThrownBy(() -> sa.isMove(position))
@@ -43,12 +43,12 @@ class SaTest {
     @DisplayName("사는 상하좌우 한칸을 움직일 수 있다면 true를 반환한다.")
     @ParameterizedTest
     @MethodSource("saIsMovePositionProvider")
-    void isMove(Position position) {
+    void isMove(final Position position) {
         //given
-        Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
+        final Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
 
         //when
-        boolean actual = sa.isMove(position);
+        final boolean actual = sa.isMove(position);
 
         //then
         assertThat(actual).isTrue();
@@ -58,11 +58,11 @@ class SaTest {
     @Test
     void makeRoute() {
         //given
-        Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
-        Position futurePosition = new Position(4, 5);
+        final Sa sa = new Sa(new PieceProfile("사", Nation.HAN), new Position(5, 5));
+        final Position futurePosition = new Position(4, 5);
 
         //when
-        List<Position> actual = sa.makeRoute(futurePosition);
+        final List<Position> actual = sa.makeRoute(futurePosition);
 
         //then
         assertThat(actual.contains(futurePosition)).isTrue();

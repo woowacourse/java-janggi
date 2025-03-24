@@ -12,14 +12,14 @@ public class Cha extends Piece {
     }
 
     @Override
-    public void updatePiecePositionBy(Position position) {
+    public void updatePiecePositionBy(final Position position) {
         this.position = position;
     }
 
     @Override
     public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
-        List<Position> moveRoute = makeRoute(futurePosition);
-        for (Position position : moveRoute) {
+        final List<Position> makeRoute = makeRoute(futurePosition);
+        for (final Position position : makeRoute) {
             validateObstacle(janggiBoard, position);
         }
     }
@@ -32,11 +32,11 @@ public class Cha extends Piece {
 
     @Override
     public List<Position> makeRoute(final Position position) {
-        List<Position> route = new ArrayList<>();
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
-        int presentCol = getBoardPosition().getCol();
-        int presentRow = getBoardPosition().getRow();
+        final List<Position> route = new ArrayList<>();
+        final int dx = getBoardPosition().getRow() - position.getRow();
+        final int dy = getBoardPosition().getCol() - position.getCol();
+        final int presentCol = getBoardPosition().getCol();
+        final int presentRow = getBoardPosition().getRow();
 
         if (dx == 0 && dy > 0) {
             for (int i = 1; i <= dy; i++) {
@@ -66,7 +66,7 @@ public class Cha extends Piece {
     }
 
     @Override
-    public boolean isMove(Position position) {
+    public boolean isMove(final Position position) {
         if ((getBoardPosition().getRow() == position.getRow())
                 || (getBoardPosition().getCol() == position.getCol())) {
             return true;

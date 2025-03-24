@@ -12,7 +12,7 @@ class PositionTest {
     @Test
     void locationCreate() {
         //given
-        Position position = new Position(4, 5);
+        final Position position = new Position(4, 5);
 
         //when - then
         assertThat(position.getRow()).isEqualTo(4);

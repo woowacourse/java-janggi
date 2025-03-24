@@ -12,20 +12,20 @@ public class Po extends Piece {
     }
 
     @Override
-    public void updatePiecePositionBy(Position position) {
+    public void updatePiecePositionBy(final Position position) {
         this.position = position;
     }
 
     @Override
     public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
-        List<Position> route = makeRoute(futurePosition);
+        final List<Position> route = makeRoute(futurePosition);
         validatePoMove(route, janggiBoard);
     }
 
     private void validatePoMove(final List<Position> moveRoute, final Map<Position, Piece> janggiBoard) {
         int obstacleCount = 0;
 
-        for (Position position : moveRoute) {
+        for (final Position position : moveRoute) {
             if (janggiBoard.containsKey(position) && janggiBoard.get(position).getName().equals("포")) {
                 throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다. 이동하려는 경로에 포가 존재합니다. 포는 포를 넘을 수 없습니다.");
             }
@@ -49,11 +49,11 @@ public class Po extends Piece {
 
     @Override
     public List<Position> makeRoute(final Position position) {
-        List<Position> route = new ArrayList<>();
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
-        int presentCol = getBoardPosition().getCol();
-        int presentRow = getBoardPosition().getRow();
+        final List<Position> route = new ArrayList<>();
+        final int dx = getBoardPosition().getRow() - position.getRow();
+        final int dy = getBoardPosition().getCol() - position.getCol();
+        final int presentCol = getBoardPosition().getCol();
+        final int presentRow = getBoardPosition().getRow();
 
         if (dx == 0 && dy > 0) {
             for (int i = 1; i <= dy; i++) {

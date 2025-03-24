@@ -18,10 +18,10 @@ class JolTest {
     @Test
     void jolByeongBoardPosition() {
         //given
-        Position position = new Position(4, 5);
+        final Position position = new Position(4, 5);
 
         //when
-        Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), position);
+        final Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), position);
 
         //then
         assertThat(jol.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -30,9 +30,9 @@ class JolTest {
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
     @MethodSource("jolNonIsMovePositionProvider")
-    void nonIsMove(Position position) {
+    void nonIsMove(final Position position) {
         //given
-        Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), new Position(5, 5));
+        final Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), new Position(5, 5));
 
         //when //then
         assertThatThrownBy(() -> jol.isMove(position))
@@ -43,12 +43,12 @@ class JolTest {
     @DisplayName("자신의 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동이 가능하다면 true를 반환한다.")
     @ParameterizedTest
     @MethodSource("jolIsMovePositionProvider")
-    void isMove(Position position) {
+    void isMove(final Position position) {
         //given
-        Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), new Position(5, 5));
+        final Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), new Position(5, 5));
 
         //when
-        boolean actual = jol.isMove(position);
+        final boolean actual = jol.isMove(position);
 
         //then
         assertThat(actual).isTrue();
@@ -59,11 +59,11 @@ class JolTest {
     @Test
     void makeRoute() {
         //given
-        Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), new Position(5, 5));
-        Position futurePosition = new Position(4, 5);
+        final Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), new Position(5, 5));
+        final Position futurePosition = new Position(4, 5);
 
         //when
-        List<Position> actual = jol.makeRoute(futurePosition);
+        final List<Position> actual = jol.makeRoute(futurePosition);
 
         //then
         assertThat(actual.contains(futurePosition)).isTrue();

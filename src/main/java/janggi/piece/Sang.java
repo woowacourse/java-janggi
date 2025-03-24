@@ -12,14 +12,14 @@ public class Sang extends Piece {
     }
 
     @Override
-    public void updatePiecePositionBy(Position position) {
+    public void updatePiecePositionBy(final Position position) {
         this.position = position;
     }
 
     @Override
     public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
-        List<Position> moveRoute = makeRoute(futurePosition);
-        for (Position position : moveRoute) {
+        final List<Position> moveRoute = makeRoute(futurePosition);
+        for (final Position position : moveRoute) {
             validateObstacle(janggiBoard, position);
         }
     }
@@ -32,12 +32,12 @@ public class Sang extends Piece {
 
     @Override
     public List<Position> makeRoute(final Position position) {
-        List<Position> route = new ArrayList<>();
+        final List<Position> route = new ArrayList<>();
 
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
-        int presentRow = getBoardPosition().getRow();
-        int presentCol = getBoardPosition().getCol();
+        final int dx = getBoardPosition().getRow() - position.getRow();
+        final int dy = getBoardPosition().getCol() - position.getCol();
+        final int presentRow = getBoardPosition().getRow();
+        final int presentCol = getBoardPosition().getCol();
 
         if (dx == 3 && dy == 2) {
             route.add(new Position(presentRow - 1, presentCol));
@@ -92,8 +92,8 @@ public class Sang extends Piece {
 
     @Override
     public boolean isMove(final Position position) {
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
+        final int dx = getBoardPosition().getRow() - position.getRow();
+        final int dy = getBoardPosition().getCol() - position.getCol();
 
         if (dx == 3 && Math.abs(dy) == 2) {
             return true;
