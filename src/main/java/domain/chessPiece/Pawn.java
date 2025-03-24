@@ -35,8 +35,14 @@ public class Pawn extends LimitedMoveChessPiece {
         return Map.of(
                 new ChessPosition(3, 0), new Pawn(ChessTeam.RED),
                 new ChessPosition(3, 2), new Pawn(ChessTeam.RED),
+                new ChessPosition(3, 4), new Pawn(ChessTeam.RED),
+                new ChessPosition(3, 6), new Pawn(ChessTeam.RED),
+                new ChessPosition(3, 8), new Pawn(ChessTeam.RED),
                 new ChessPosition(6, 0), new Pawn(ChessTeam.BLUE),
-                new ChessPosition(6, 2), new Pawn(ChessTeam.BLUE)
+                new ChessPosition(6, 2), new Pawn(ChessTeam.BLUE),
+                new ChessPosition(6, 4), new Pawn(ChessTeam.BLUE),
+                new ChessPosition(6, 6), new Pawn(ChessTeam.BLUE),
+                new ChessPosition(6, 8), new Pawn(ChessTeam.BLUE)
         );
     }
 
