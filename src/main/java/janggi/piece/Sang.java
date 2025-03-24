@@ -42,10 +42,7 @@ public class Sang extends Movable {
 
     private boolean isDistanceOverFlow(Point targetPoint) {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
-        if (!distance.isSameWith(Math.sqrt(13))) {
-            return true;
-        }
-        return false;
+        return distance.notMatches(Math.sqrt(13));
     }
 
     private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, List<Direction> directions) {

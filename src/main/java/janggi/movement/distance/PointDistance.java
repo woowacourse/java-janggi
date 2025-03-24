@@ -16,11 +16,7 @@ public class PointDistance {
         return new PointDistance(Math.sqrt(rowDistanceSquare + columnDistanceSquare));
     }
 
-    public boolean isSameWith(double distance) {
-        return this.distance == distance;
-    }
-
-    public double getDistance() {
-        return distance;
+    public boolean notMatches(double distance) {
+        return this.distance != distance;
     }
 }

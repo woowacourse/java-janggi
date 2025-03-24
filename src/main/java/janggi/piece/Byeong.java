@@ -37,7 +37,7 @@ public class Byeong extends Movable {
 
     private boolean isDistanceOverFlow(Point targetPoint) {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
-        return !distance.isSameWith(1);
+        return distance.notMatches(1);
     }
 
     private boolean movesDown(Direction direction) {

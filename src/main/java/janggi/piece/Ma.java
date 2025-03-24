@@ -42,7 +42,7 @@ public class Ma extends Movable {
 
     private boolean isDistanceOverflow(Point targetPoint) {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
-        return !distance.isSameWith(Math.sqrt(5));
+        return distance.notMatches(Math.sqrt(5));
     }
 
     private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, List<Direction> directions) {

@@ -34,10 +34,7 @@ public class Sa extends Movable {
 
     private boolean isDistanceOverFlow(Point targetPoint) {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
-        if (!distance.isSameWith(1) && !distance.isSameWith(Math.sqrt(2))) {
-            return true;
-        }
-        return false;
+        return distance.notMatches(1) && distance.notMatches(Math.sqrt(2));
     }
 
     private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
