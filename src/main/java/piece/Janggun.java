@@ -17,11 +17,17 @@ public class Janggun extends Piece {
 
     @Override
     public void canMoveTo(final Position destination) {
-        if (!Movement.upMovement(position).equals(destination) && !Movement.rightMovement(position).equals(destination)
-        && !Movement.leftMovement(position).equals(destination) && !Movement.downMovement(position).equals(destination)) {
+        if (isInvalidJanggunMove(destination)) {
             throw new IllegalArgumentException(ErrorMessage.formatMessage("왕이 움직일 수 없는 위치 입니다."));
 
         }
+    }
+
+    private boolean isInvalidJanggunMove(Position destination) {
+        return !Movement.upMovement(position).equals(destination)
+                && !Movement.rightMovement(position).equals(destination)
+                && !Movement.leftMovement(position).equals(destination)
+                && !Movement.downMovement(position).equals(destination);
     }
 
     @Override

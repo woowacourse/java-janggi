@@ -17,11 +17,15 @@ public class Byeong extends Piece {
 
     @Override
     public void canMoveTo(final Position destination) {
-
-        if (!Movement.downMovement(position).equals(destination) &&
-        !Movement.leftMovement(position).equals(destination) && !Movement.rightMovement(position).equals(destination)) {
+        if (isInvalidByeongMove(destination)) {
             throw new IllegalArgumentException(ErrorMessage.formatMessage("병이 움직일 수 없는 위치 입니다."));
         }
+    }
+
+    private boolean isInvalidByeongMove(Position destination) {
+        return !Movement.downMovement(position).equals(destination)
+                && !Movement.leftMovement(position).equals(destination)
+                && !Movement.rightMovement(position).equals(destination);
     }
 
     @Override

@@ -17,10 +17,15 @@ public class Jol extends Piece {
 
     @Override
     public void canMoveTo(final Position destination) {
-        if (!Movement.upMovement(position).equals(destination) &&
-                !Movement.leftMovement(position).equals(destination) && !Movement.rightMovement(position).equals(destination)) {
+        if (isInvalidJolMove(destination)) {
             throw new IllegalArgumentException(ErrorMessage.formatMessage("졸이 움직일 수 없는 위치입니다."));
         }
+    }
+
+    private boolean isInvalidJolMove(Position destination) {
+        return !Movement.upMovement(position).equals(destination)
+                && !Movement.leftMovement(position).equals(destination)
+                && !Movement.rightMovement(position).equals(destination);
     }
 
     @Override

@@ -17,10 +17,16 @@ public class Sa extends Piece {
 
     @Override
     public void canMoveTo(final Position destination) {
-        if (!Movement.downMovement(position).equals(destination) && !Movement.upMovement(position).equals(destination)
-        && !Movement.leftMovement(position).equals(destination) && !Movement.rightMovement(position).equals(destination)) {
+        if (isInvalidSaMove(destination)) {
             throw new IllegalArgumentException(ErrorMessage.formatMessage("사가 움직일 수 없는 위치 입니다."));
         }
+    }
+
+    private boolean isInvalidSaMove(Position destination) {
+        return !Movement.downMovement(position).equals(destination)
+                && !Movement.upMovement(position).equals(destination)
+                && !Movement.leftMovement(position).equals(destination)
+                && !Movement.rightMovement(position).equals(destination);
     }
 
     @Override

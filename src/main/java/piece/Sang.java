@@ -17,13 +17,20 @@ public class Sang extends Piece {
 
     @Override
     public void canMoveTo(final Position destination) {
-        if (!Movement.upRightUpRightUpMovement(position).equals(destination)
-        && !Movement.upLeftUpLeftUpMovement(position).equals(destination) && !Movement.rightRightUpRightUpMovement(position).equals(destination)
-        && !Movement.rightRightDownRightDownMovement(position).equals(destination) && !Movement.downRightDownRightDownMovement(position).equals(destination)
-        && !Movement.downLeftDownLeftDownMovement(position).equals(destination) && !Movement.leftLeftUpLeftUpMovement(position).equals(destination)
-        && !Movement.leftLeftDownLeftDownMovement(position).isSameRow(destination)) {
+        if (isInvalidSangMove(destination)) {
             throw new IllegalArgumentException(ErrorMessage.formatMessage("상이 움직일 수 없는 위치입니다."));
         }
+    }
+
+    private boolean isInvalidSangMove(Position destination) {
+        return !Movement.upRightUpRightUpMovement(position).equals(destination)
+                && !Movement.upLeftUpLeftUpMovement(position).equals(destination)
+                && !Movement.rightRightUpRightUpMovement(position).equals(destination)
+                && !Movement.rightRightDownRightDownMovement(position).equals(destination)
+                && !Movement.downRightDownRightDownMovement(position).equals(destination)
+                && !Movement.downLeftDownLeftDownMovement(position).equals(destination)
+                && !Movement.leftLeftUpLeftUpMovement(position).equals(destination)
+                && !Movement.leftLeftDownLeftDownMovement(position).isSameRow(destination);
     }
 
     @Override

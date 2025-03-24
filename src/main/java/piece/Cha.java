@@ -16,10 +16,14 @@ public class Cha extends Piece {
 
     @Override
     public void canMoveTo(Position destination) {
-        if (!position.isSameRow(destination) && !position.isSameCol(destination)) {
+        if (isInvalidChaMove(destination)) {
             throw new IllegalArgumentException(ErrorMessage.formatMessage("차가 움직일 수 없는 위치 입니다."));
 
         }
+    }
+
+    private boolean isInvalidChaMove(Position destination) {
+        return !position.isSameRow(destination) && !position.isSameCol(destination);
     }
 
     @Override

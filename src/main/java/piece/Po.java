@@ -52,10 +52,14 @@ public class Po extends Piece {
 
     @Override
     public void canMoveTo(final Position destination) {
-        if (!position.isSameCol(destination) && !position.isSameRow(destination)) {
+        if (isInvalidPoMove(destination)) {
             throw new IllegalArgumentException(ErrorMessage.formatMessage("포가 움직일 수 없는 위치입니다."));
 
         }
+    }
+
+    private boolean isInvalidPoMove(Position destination) {
+        return !position.isSameCol(destination) && !position.isSameRow(destination);
     }
 
     @Override

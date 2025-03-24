@@ -18,14 +18,20 @@ public class Ma extends Piece {
 
     @Override
     public void canMoveTo(final Position destination) {
-        if (!Movement.upRightUPMovement(position).equals(destination) &&
-                !Movement.upLeftUpMovement(position).equals(destination) &&
-                !Movement.downRightDownMovement(position).equals(destination) &&
-                !Movement.downLeftDownMovement(position).equals(destination) &&
-        !Movement.rightRightUpMovement(position).equals(destination) && !Movement.rightRightDownMovement(position).equals(destination)
-        && !Movement.leftLeftUpMovement(position).equals(destination) && !Movement.leftLeftDownMovement(position).equals(destination)) {
+        if (isInvalidMaMove(destination)) {
             throw new IllegalArgumentException(ErrorMessage.formatMessage("마가 움직일 수 없는 위치입니다."));
         }
+    }
+
+    private boolean isInvalidMaMove(Position destination) {
+        return !Movement.upRightUPMovement(position).equals(destination)
+                && !Movement.upLeftUpMovement(position).equals(destination)
+                && !Movement.downRightDownMovement(position).equals(destination)
+                && !Movement.downLeftDownMovement(position).equals(destination)
+                && !Movement.rightRightUpMovement(position).equals(destination)
+                && !Movement.rightRightDownMovement(position).equals(destination)
+                && !Movement.leftLeftUpMovement(position).equals(destination)
+                && !Movement.leftLeftDownMovement(position).equals(destination);
     }
 
     @Override
