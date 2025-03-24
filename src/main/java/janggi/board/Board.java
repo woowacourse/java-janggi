@@ -5,7 +5,6 @@ import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.position.Path;
 import janggi.position.Position;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,15 +27,6 @@ public class Board {
 
         piece.validateMove(getPiecesByPath(path), hasPiece(arrivalPosition));
         movePiece(piece, currentPosition, arrivalPosition, path);
-    }
-
-    private void movePiece(Piece piece, Position currentPosition, Position arrivalPosition, Path path) {
-        if (hasPiece(arrivalPosition)) {
-            catchPiece(currentPosition, arrivalPosition, piece);
-            return;
-        }
-        updatePosition(currentPosition, arrivalPosition, piece);
-
     }
 
     public boolean canContinue() {
@@ -80,15 +70,6 @@ public class Board {
         }
     }
 
-    private int computeCountExistPieceExceptLast(Path path) {
-        List<Position> positions = new ArrayList<>(path.getPositions());
-        positions.removeLast();
-
-        return (int) positions.stream()
-                .filter(pieces::containsKey)
-                .count();
-    }
-
     private List<Piece> getPiecesByPath(final Path path) {
         return path.getPositions().stream()
                 .filter(pieces::containsKey)
@@ -100,12 +81,13 @@ public class Board {
         return pieces.containsKey(position);
     }
 
-    private void catchPiece(Position currentPosition, Position arrivalPosition, Piece piece) {
-        Piece existPiece = findPieceByPosition(arrivalPosition);
-        if (existPiece.getTeam() == piece.getTeam()) {
-            throw new IllegalArgumentException("[ERROR] 자신의 팀 기물은 잡을 수 없습니다.");
+    private void movePiece(Piece piece, Position currentPosition, Position arrivalPosition, Path path) {
+        if (hasPiece(arrivalPosition)) {
+            catchPiece(currentPosition, arrivalPosition, piece);
+            return;
         }
         updatePosition(currentPosition, arrivalPosition, piece);
+
     }
 
     private void updatePosition(Position currentPosition, Position arrivalPosition, Piece piece) {
@@ -113,9 +95,12 @@ public class Board {
         this.pieces.put(arrivalPosition, piece);
     }
 
-    private boolean doNotContain(Path path) {
-        return path.getPositions().stream()
-                .noneMatch(pieces::containsKey);
+    private void catchPiece(Position currentPosition, Position arrivalPosition, Piece piece) {
+        Piece existPiece = findPieceByPosition(arrivalPosition);
+        if (existPiece.getTeam() == piece.getTeam()) {
+            throw new IllegalArgumentException("[ERROR] 자신의 팀 기물은 잡을 수 없습니다.");
+        }
+        updatePosition(currentPosition, arrivalPosition, piece);
     }
 
     private int calculateExistKing() {
