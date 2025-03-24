@@ -26,12 +26,4 @@ public enum Direction {
     public int getDeltaColumn() {
         return deltaColumn;
     }
-
-    public Position moveFrom(Position from){
-        return from.movePosition(this.deltaRow, this.deltaColumn);
-    }
-
-    public boolean canMoveFrom(Position from){
-        return from.canMovePosition(this.deltaRow, this.deltaColumn);
-    }
 }

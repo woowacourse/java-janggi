@@ -29,8 +29,8 @@ public class UnlimitedMoveRule implements MoveRule {
     private boolean isReachable(Position from, Position to, Direction direction) {
         Position movePosition = from;
 
-        while (direction.canMoveFrom(movePosition)) {
-            movePosition = direction.moveFrom(movePosition);
+        while (movePosition.canMoveDirection(direction)) {
+            movePosition = movePosition.moveDirection(direction);
             if (movePosition.equals(to)) {
                 return true;
             }
@@ -43,7 +43,7 @@ public class UnlimitedMoveRule implements MoveRule {
         List<Position> intermediatePath = new ArrayList<>();
         Position movePosition = from;
         while (!movePosition.equals(to)) {
-            movePosition = direction.moveFrom(movePosition);
+            movePosition = movePosition.moveDirection(direction);
             intermediatePath.add(movePosition);
         }
         intermediatePath.removeLast();

@@ -16,11 +16,19 @@ public class Position {
         return new Position(new Row(row), new Column(column));
     }
 
-    public Position movePosition(int deltaRow, int deltaColumn) {
+    public Position moveDirection(Direction direction) {
+        return movePosition(direction.getDeltaRow(), direction.getDeltaColumn());
+    }
+
+    public boolean canMoveDirection(Direction direction){
+        return canMovePosition(direction.getDeltaRow(), direction.getDeltaColumn());
+    }
+
+    private Position movePosition(int deltaRow, int deltaColumn) {
         return new Position(row.move(deltaRow), column.move(deltaColumn));
     }
 
-    public boolean canMovePosition(int deltaRow, int deltaColumn) {
+    private boolean canMovePosition(int deltaRow, int deltaColumn) {
         return row.canMove(deltaRow) && column.canMove(deltaColumn);
     }
 

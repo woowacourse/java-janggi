@@ -19,7 +19,7 @@ public class Path {
             if (isInvalidMove(curPosition, direction)) {
                 return false;
             }
-            curPosition = curPosition.movePosition(direction.getDeltaRow(), direction.getDeltaColumn());
+            curPosition = curPosition.moveDirection(direction);
         }
         return curPosition.equals(endPosition);
     }
@@ -28,7 +28,7 @@ public class Path {
         List<Position> pathPositions = new ArrayList<>();
         Position movePosition = startPosition;
         for (Direction direction : movement) {
-            movePosition = direction.moveFrom(movePosition);
+            movePosition = movePosition.moveDirection(direction);
             pathPositions.add(movePosition);
         }
 
@@ -37,6 +37,6 @@ public class Path {
     }
 
     private boolean isInvalidMove(Position curPosition, Direction direction) {
-        return !curPosition.canMovePosition(direction.getDeltaRow(), direction.getDeltaColumn());
+        return !curPosition.canMoveDirection(direction);
     }
 }
