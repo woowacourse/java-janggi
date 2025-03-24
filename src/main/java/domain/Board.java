@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,28 +28,10 @@ public class Board {
 
     private static Map<BoardPosition, Piece> createInitializePieces() {
         final Map<BoardPosition, Piece> pieces = new HashMap<>();
-
-        PieceType.CANNON.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position, new Piece(PieceType.CANNON, team))));
-        PieceType.CHARIOT.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position, new Piece(PieceType.CHARIOT, team))));
-        PieceType.ELEPHANT.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position, new Piece(PieceType.ELEPHANT, team))));
-        PieceType.GENERAL.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position, new Piece(PieceType.GENERAL, team))));
-        PieceType.GUARD.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position, new Piece(PieceType.GUARD, team))));
-        PieceType.HORSE.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position, new Piece(PieceType.HORSE, team))));
-        PieceType.쭈.getInitialPosition()
-            .forEach((team, positions) -> positions
-                .forEach(position -> pieces.put(position, new Piece(PieceType.쭈, team))));
+        Arrays.stream(PieceType.values())
+            .forEach(type -> type.getInitialPosition()
+                .forEach((team, positions) -> positions
+                    .forEach(position -> pieces.put(position, new Piece(type, team)))));
 
         return pieces;
     }
