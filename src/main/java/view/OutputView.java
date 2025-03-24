@@ -12,11 +12,12 @@ public class OutputView {
     private final static String RED_COLOR = "\u001B[31m";
     private final static String BLUE_COLOR = "\u001B[34m";
     private final static String WHITE_COLOR = "\u001B[0m";
+    private final static String YELLOW_COLOR = "\u001B[33m";
 
     public void printBorad(Board board) {
-        System.out.println("  일 이 삼 사 오 육 칠 팔 구");
+        System.out.println(YELLOW_COLOR + "  일 이 삼 사 오 육 칠 팔 구" + WHITE_COLOR);
         for (Row row : Row.values()) {
-            System.out.print(row.getValue() % 10 + " ");
+            System.out.print(YELLOW_COLOR + row.getValue() % 10 + " " + WHITE_COLOR);
             for (Column column : Column.values()) {
                 Position position = new Position(row, column);
                 Piece piece = board.getPieceBy(position);
