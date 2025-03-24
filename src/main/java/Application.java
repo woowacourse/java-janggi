@@ -1,3 +1,4 @@
+import java.util.function.Supplier;
 import model.JanggiGame;
 import model.Piece;
 import model.Position;
@@ -15,12 +16,35 @@ public class Application {
         while (true) {
             String currentPosition = janggiGame.showCurrentPositionOfPieces();
             outputView.printCurrentPosition(currentPosition);
-            String choiceDeparture = inputView.choiceDeparture();
-            Position departure = janggiGame.createPositionAndCheckTurn(choiceDeparture);
+            Position departure = createDeparture();
+            createArrivalAndMove(departure);
+        }
+    }
+
+    private static void createArrivalAndMove(Position departure) {
+        retryOnInvalidInput(() -> {
             Piece pieceOfDeparture = janggiGame.findPieceBy(departure);
             String choiceArrival = inputView.choiceArrivalOf(pieceOfDeparture);
             Position arrival = janggiGame.createPositionFrom(choiceArrival);
             janggiGame.move(departure, arrival);
+            return null;
+        });
+    }
+
+    private static Position createDeparture() {
+        return retryOnInvalidInput(() -> {
+            String choiceDeparture = inputView.choiceDeparture();
+            return janggiGame.createPositionAndCheckTurn(choiceDeparture);
+        });
+    }
+
+    private static <T> T retryOnInvalidInput(Supplier<T> input) {
+        while (true) {
+            try {
+                return input.get();
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
         }
     }
 }

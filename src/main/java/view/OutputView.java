@@ -14,4 +14,8 @@ public class OutputView {
     public void printCurrentPosition(String currentPosition) {
         System.out.println(currentPosition);
     }
+
+    public void printErrorMessage(String message) {
+        System.out.println(message);
+    }
 }
