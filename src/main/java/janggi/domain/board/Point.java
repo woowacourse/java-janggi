@@ -23,7 +23,7 @@ public record Point(int x, int y) {
     public boolean canMove(Direction direction) {
         int nextX = x + direction.getX();
         int nextY = y + direction.getY();
-        return nextX >= MINIMUM_COLUMN && nextX <= MAXIMUM_COLUMN && nextY >= MINIMUM_COLUMN && nextY <= MAXIMUM_COLUMN;
+        return nextX >= MINIMUM_ROW && nextX <= MAXIMUM_ROW && nextY >= MINIMUM_COLUMN && nextY <= MAXIMUM_COLUMN;
     }
 
     public boolean isOutOfBoundary() {

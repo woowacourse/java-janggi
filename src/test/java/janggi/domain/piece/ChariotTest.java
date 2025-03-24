@@ -49,7 +49,11 @@ class ChariotTest {
                         List.of(Fixtures.SIX_FOUR, Fixtures.SIX_THREE, Fixtures.SIX_TWO, Fixtures.SIX_ONE)),
                 Arguments.of(Fixtures.SIX_FIVE, Fixtures.SIX_NINE,
                         List.of(Fixtures.SIX_SIX, Fixtures.SIX_SEVEN, Fixtures.SIX_EIGHT, Fixtures.SIX_NINE)),
-                Arguments.of(Fixtures.SIX_FIVE, Fixtures.EIGHT_FIVE, List.of(Fixtures.SEVEN_FIVE, Fixtures.EIGHT_FIVE))
+                Arguments.of(Fixtures.SIX_FIVE, Fixtures.EIGHT_FIVE, List.of(Fixtures.SEVEN_FIVE, Fixtures.EIGHT_FIVE)),
+                Arguments.of(Fixtures.ONE_ONE, Fixtures.TEN_ONE,
+                        List.of(Fixtures.TWO_ONE, Fixtures.THREE_ONE, Fixtures.FOUR_ONE, Fixtures.FIVE_ONE,
+                                Fixtures.SIX_ONE, Fixtures.SEVEN_ONE, Fixtures.EIGHT_ONE, Fixtures.NINE_ONE,
+                                Fixtures.TEN_ONE))
         );
     }
 

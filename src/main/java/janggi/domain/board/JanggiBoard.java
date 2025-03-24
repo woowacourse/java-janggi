@@ -1,13 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.Dynasty;
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Chariot;
-import janggi.domain.piece.ChuSoldier;
 import janggi.domain.piece.EmptyPiece;
-import janggi.domain.piece.General;
-import janggi.domain.piece.Guard;
-import janggi.domain.piece.HanSoldier;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PiecesOnPath;
 import java.util.Collections;
@@ -18,36 +12,6 @@ import java.util.Objects;
 
 public class JanggiBoard {
 
-    private static final Map<Point, Piece> PIECE_INITIAL_POSITIONS = new HashMap<>() {
-        {
-            put(new Point(1, 1), new Chariot(Dynasty.HAN));
-            put(new Point(1, 4), new Guard(Dynasty.HAN));
-            put(new Point(1, 6), new Guard(Dynasty.HAN));
-            put(new Point(1, 9), new Chariot(Dynasty.HAN));
-            put(new Point(2, 5), new General(Dynasty.HAN));
-            put(new Point(3, 2), new Cannon(Dynasty.HAN));
-            put(new Point(3, 8), new Cannon(Dynasty.HAN));
-            put(new Point(4, 1), new HanSoldier());
-            put(new Point(4, 3), new HanSoldier());
-            put(new Point(4, 5), new HanSoldier());
-            put(new Point(4, 7), new HanSoldier());
-            put(new Point(4, 9), new HanSoldier());
-
-            put(new Point(10, 1), new Chariot(Dynasty.CHU));
-            put(new Point(10, 4), new Guard(Dynasty.CHU));
-            put(new Point(10, 6), new Guard(Dynasty.CHU));
-            put(new Point(10, 9), new Chariot(Dynasty.CHU));
-            put(new Point(9, 5), new General(Dynasty.CHU));
-            put(new Point(8, 2), new Cannon(Dynasty.CHU));
-            put(new Point(8, 8), new Cannon(Dynasty.CHU));
-            put(new Point(7, 1), new ChuSoldier());
-            put(new Point(7, 3), new ChuSoldier());
-            put(new Point(7, 5), new ChuSoldier());
-            put(new Point(7, 7), new ChuSoldier());
-            put(new Point(7, 9), new ChuSoldier());
-        }
-    };
-
     private final Map<Point, Piece> pieces;
 
     public JanggiBoard(Map<Point, Piece> pieces) {
@@ -55,10 +19,10 @@ public class JanggiBoard {
     }
 
     public static JanggiBoard of(BoardSetUp hanBoardSetUp, BoardSetUp chuBoardSetUp) {
-        Map<Point, Piece> boardPieces = new HashMap<>(PIECE_INITIAL_POSITIONS);
-        boardPieces.putAll(hanBoardSetUp.getPiecePositions());
-        boardPieces.putAll(chuBoardSetUp.getPiecePositions());
-        return new JanggiBoard(boardPieces);
+        Map<Point, Piece> pieces = new HashMap<>();
+        pieces.putAll(hanBoardSetUp.pieces());
+        pieces.putAll(chuBoardSetUp.pieces());
+        return new JanggiBoard(pieces);
     }
 
     public void move(Dynasty dynasty, Point from, Point to) {

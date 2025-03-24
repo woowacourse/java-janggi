@@ -1,9 +1,15 @@
 package janggi.domain.board;
 
 import janggi.domain.Dynasty;
+import janggi.domain.piece.Cannon;
+import janggi.domain.piece.Chariot;
 import janggi.domain.piece.Elephant;
+import janggi.domain.piece.General;
+import janggi.domain.piece.Guard;
+import janggi.domain.piece.HanSoldier;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
+import java.util.HashMap;
 import java.util.Map;
 
 public enum HanBoardSetUp implements BoardSetUp {
@@ -32,6 +38,23 @@ public enum HanBoardSetUp implements BoardSetUp {
             new Point(1, 8), new Horse(Dynasty.HAN)
     ));
 
+    private static final Map<Point, Piece> PIECE_INITIAL_POSITIONS = new HashMap<>() {
+        {
+            put(new Point(1, 1), new Chariot(Dynasty.HAN));
+            put(new Point(1, 4), new Guard(Dynasty.HAN));
+            put(new Point(1, 6), new Guard(Dynasty.HAN));
+            put(new Point(1, 9), new Chariot(Dynasty.HAN));
+            put(new Point(2, 5), new General(Dynasty.HAN));
+            put(new Point(3, 2), new Cannon(Dynasty.HAN));
+            put(new Point(3, 8), new Cannon(Dynasty.HAN));
+            put(new Point(4, 1), new HanSoldier());
+            put(new Point(4, 3), new HanSoldier());
+            put(new Point(4, 5), new HanSoldier());
+            put(new Point(4, 7), new HanSoldier());
+            put(new Point(4, 9), new HanSoldier());
+        }
+    };
+
     private final Map<Point, Piece> piecePositions;
 
     HanBoardSetUp(Map<Point, Piece> piecePositions) {
@@ -39,7 +62,9 @@ public enum HanBoardSetUp implements BoardSetUp {
     }
 
     @Override
-    public Map<Point, Piece> getPiecePositions() {
-        return piecePositions;
+    public Map<Point, Piece> pieces() {
+        HashMap<Point, Piece> pieces = new HashMap<>(PIECE_INITIAL_POSITIONS);
+        pieces.putAll(piecePositions);
+        return pieces;
     }
 }
