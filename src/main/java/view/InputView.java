@@ -8,8 +8,8 @@ import player.Nation;
 
 public class InputView {
 
-    private static final String IS_CHO_TURN = "초나라 턴 입니다. 움직이고 싶은 말의 위치를 입력해주세요.";
-    private static final String IS_HAN_TURN = "한나라 턴 입니다. 움직이고 싶은 말의 위치를 입력해주세요.";
+    private static final String IS_CHO_TURN = "초나라 턴 입니다. 움직이고 싶은 말의 위치를 입력해주세요. (ex - 0,2)";
+    private static final String IS_HAN_TURN = "한나라 턴 입니다. 움직이고 싶은 말의 위치를 입력해주세요. (ex - 0,2)";
     private static final String DESTINATION_PROMPT = "해당 말을 이동시킬 위치를 입려해 주세요.";
 
     private final Scanner scanner = new Scanner(System.in);
