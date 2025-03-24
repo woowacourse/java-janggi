@@ -2,7 +2,6 @@ package domain.janggiboard;
 
 import domain.position.JanggiPosition;
 import domain.Pattern;
-import domain.piece.Empty;
 import domain.piece.JanggiPiece;
 import domain.piece.JanggiPieceType;
 import domain.piece.JanggiSide;
@@ -23,10 +22,10 @@ public final class JanggiBoard {
         JanggiPiece targetPiece = janggiBoard.get(destination);
         JanggiPiece hurdlePiece = getFirstHurdlePieceOnRoute(piece, origin, destination);
         int hurdleCount = getHurdleCountOnRoute(piece, origin, destination);
-        piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece);
+        piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece);
 
-        janggiBoard.put(origin, new Empty());
-        targetPiece.captureIfNotEmpty();
+        janggiBoard.put(origin, new JanggiPiece(JanggiSide.NONE, JanggiPieceType.EMPTY));
+        targetPiece.capture();
         janggiBoard.put(destination, piece);
     }
 
@@ -35,7 +34,7 @@ public final class JanggiBoard {
     }
 
     private JanggiPiece getFirstHurdlePieceOnRoute(JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
-        JanggiPiece hurdlePiece = new Empty();
+        JanggiPiece hurdlePiece = new JanggiPiece(JanggiSide.NONE, JanggiPieceType.EMPTY);
         List<Pattern> patterns = piece.getRoute(origin, destination);
         JanggiPosition newPosition = origin;
         for (Pattern pattern : patterns) {
@@ -76,6 +75,6 @@ public final class JanggiBoard {
     public boolean isOpposite궁Captured(JanggiSide nowTurn) {
         return janggiBoard.keySet().stream()
                 .map(this::getPieceOfPosition)
-                .noneMatch(piece -> piece.isTypeOf(JanggiPieceType.궁) && piece.getSide() == nowTurn.getOppositeSide());
+                .noneMatch(piece -> piece.isTypeOf(JanggiPieceType.궁) && piece.isTeam(nowTurn.getOppositeSide()));
     }
 }

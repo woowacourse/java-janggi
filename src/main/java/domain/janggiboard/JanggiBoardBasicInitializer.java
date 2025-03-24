@@ -2,7 +2,6 @@ package domain.janggiboard;
 
 import domain.piece.JanggiPieceType;
 import domain.position.JanggiPosition;
-import domain.piece.Empty;
 import domain.piece.JanggiPiece;
 import domain.piece.JanggiSide;
 import java.util.HashMap;
@@ -19,7 +18,7 @@ public final class JanggiBoardBasicInitializer implements JanggiBoardInitializer
         final Map<JanggiPosition, JanggiPiece> janggiBoard = new HashMap<>();
         for (Integer rank : janggiBoardRanks) {
             for (Integer file : janggiBoardFiles) {
-                janggiBoard.put(new JanggiPosition(rank, file), new Empty());
+                janggiBoard.put(new JanggiPosition(rank, file), new JanggiPiece(JanggiSide.NONE, JanggiPieceType.EMPTY));
             }
         }
         initChoJanggiBoard(janggiBoard);

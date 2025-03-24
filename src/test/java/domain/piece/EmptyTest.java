@@ -1,5 +1,6 @@
 package domain.piece;
 
+import static domain.constant.JanggiPieceConstant.EMPTY;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.position.JanggiPosition;
@@ -11,13 +12,13 @@ public class EmptyTest {
     @Test
     void 기물이_없다는_것을_객체로_표현할_수_있다() {
         // when & then
-        Assertions.assertDoesNotThrow(() -> new Empty());
+        Assertions.assertDoesNotThrow(() -> new JanggiPiece(JanggiSide.NONE, JanggiPieceType.EMPTY));
     }
 
     @Test
     void 기물이_존재하지_않을_때_움직이려_하는_경우_예외를_발생시킨다() {
         // when & then
-        assertThatThrownBy(() -> new Empty().getRoute(new JanggiPosition(0, 0), new JanggiPosition(1, 1)))
+        assertThatThrownBy(() -> EMPTY.getRoute(new JanggiPosition(0, 0), new JanggiPosition(1, 1)))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

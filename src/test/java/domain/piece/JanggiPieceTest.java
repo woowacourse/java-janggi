@@ -24,7 +24,7 @@ public class JanggiPieceTest {
         JanggiPiece piece = new JanggiPiece(JanggiSide.CHO, JanggiPieceType.마);
 
         // when
-        piece.captureIfNotEmpty();
+        piece.capture();
 
         // then
         assertThat(piece.isCaptured()).isTrue();
@@ -34,12 +34,12 @@ public class JanggiPieceTest {
     void 포가_아닌_기물은_장애물을_넘을_수_없다() {
         // given
         JanggiPiece 마 = CHO_마;
-        JanggiPiece hurdlePiece = new Empty();
+        JanggiPiece hurdlePiece = EMPTY;
         int hurdleCount = 1;
         JanggiPiece targetPiece = HAN_병;
 
         // when & then
-        assertThatThrownBy(() -> 마.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+        assertThatThrownBy(() -> 마.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("해당 기물은 장애물을 뛰어넘을 수 없습니다.");
     }
@@ -54,7 +54,7 @@ public class JanggiPieceTest {
 
 
         // when & then
-        assertThatThrownBy(() -> 마.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+        assertThatThrownBy(() -> 마.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("같은 팀의 기물은 잡을 수 없습니다.");
     }
@@ -118,7 +118,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = CHO_졸;
 
             // when & then
-            assertThatThrownBy(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+            assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(IllegalStateException.class);
         }
 
@@ -131,7 +131,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = HAN_병;
 
             // when & then
-            assertDoesNotThrow(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece));
+            assertDoesNotThrow(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece));
         }
     }
 
@@ -185,7 +185,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = CHO_졸;
 
             // when & then
-            assertThatThrownBy(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+            assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(IllegalStateException.class);
         }
 
@@ -198,7 +198,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = HAN_병;
 
             // when & then
-            assertDoesNotThrow(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece));
+            assertDoesNotThrow(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece));
         }
 
         @Test
@@ -210,7 +210,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = HAN_병;
 
             // when & then
-            assertThatThrownBy(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+            assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(IllegalStateException.class);
         }
     }
@@ -260,7 +260,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = HAN_포;
 
             // when & then
-            assertThatThrownBy(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+            assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(IllegalStateException.class);
         }
 
@@ -273,7 +273,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = CHO_졸;
 
             // when & then
-            assertDoesNotThrow(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece));
+            assertDoesNotThrow(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece));
         }
     }
 
@@ -329,7 +329,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = CHO_졸;
 
             // when & then
-            assertThatThrownBy(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+            assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(IllegalStateException.class);
         }
 
@@ -342,7 +342,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = HAN_병;
 
             // when & then
-            assertDoesNotThrow(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece));
+            assertDoesNotThrow(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece));
         }
     }
 
@@ -403,7 +403,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = CHO_졸;
 
             // when & then
-            assertThatThrownBy(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+            assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(IllegalStateException.class);
         }
 
@@ -416,7 +416,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = HAN_병;
 
             // when & then
-            assertDoesNotThrow(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece));
+            assertDoesNotThrow(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece));
         }
 
         @Test
@@ -428,7 +428,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = HAN_병;
 
             // when & then
-            assertThatThrownBy(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+            assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(IllegalStateException.class);
         }
     }
@@ -485,7 +485,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = CHO_졸;
 
             // when & then
-            assertThatThrownBy(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+            assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(IllegalStateException.class);
         }
 
@@ -498,7 +498,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = HAN_병;
 
             // when & then
-            assertDoesNotThrow(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece));
+            assertDoesNotThrow(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece));
         }
     }
 
@@ -568,7 +568,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = CHO_졸;
 
             // when & then
-            assertThatThrownBy(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+            assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(IllegalStateException.class);
         }
 
@@ -581,7 +581,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = HAN_병;
 
             // when & then
-            assertDoesNotThrow(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece));
+            assertDoesNotThrow(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece));
         }
 
         @Test
@@ -593,7 +593,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = HAN_병;
 
             // when & then
-            assertThatThrownBy(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+            assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(IllegalStateException.class);
         }
     }
@@ -610,7 +610,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = CHO_졸;
 
             // when & then
-            assertThatThrownBy(() -> 포.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+            assertThatThrownBy(() -> 포.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(IllegalStateException.class)
                     .hasMessage("포는 포를 넘을 수 없습니다.");
         }
@@ -624,7 +624,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = HAN_포;
 
             // when & then
-            assertThatThrownBy(() -> 포.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+            assertThatThrownBy(() -> 포.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(IllegalStateException.class)
                     .hasMessage("포는 포를 잡을 수 없습니다.");
         }
@@ -638,7 +638,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = HAN_병;
 
             // when & then
-            assertThatThrownBy(() -> 포.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+            assertThatThrownBy(() -> 포.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(IllegalStateException.class)
                     .hasMessage("포는 장애물 1개를 뛰어넘어야 합니다.");
         }
@@ -647,12 +647,12 @@ public class JanggiPieceTest {
         void 포는_장애물을_1개가_있어야_움직일_수_있다() {
             // given
             JanggiPiece 포 = CHO_포;
-            JanggiPiece hurdlePiece = new Empty();
+            JanggiPiece hurdlePiece = EMPTY;
             int hurdleCount = 0;
             JanggiPiece targetPiece = HAN_병;
 
             // when & then
-            assertThatThrownBy(() -> 포.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+            assertThatThrownBy(() -> 포.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(IllegalStateException.class)
                     .hasMessage("포는 장애물 1개를 뛰어넘어야 합니다.");
         }
@@ -666,7 +666,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = CHO_졸;
 
             // when & then
-            assertThatThrownBy(() -> 포.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+            assertThatThrownBy(() -> 포.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(IllegalStateException.class)
                     .hasMessage("같은 팀의 기물은 잡을 수 없습니다.");
         }
@@ -736,7 +736,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = CHO_졸;
 
             // when & then
-            assertThatThrownBy(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece))
+            assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                     .isInstanceOf(IllegalStateException.class);
         }
 
@@ -749,7 +749,7 @@ public class JanggiPieceTest {
             JanggiPiece targetPiece = HAN_병;
 
             // when & then
-            assertDoesNotThrow(() -> piece.checkPieceCanMove(hurdlePiece, hurdleCount, targetPiece));
+            assertDoesNotThrow(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece));
         }
     }
 }

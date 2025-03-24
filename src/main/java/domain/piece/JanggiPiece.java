@@ -21,30 +21,31 @@ public class JanggiPiece {
     }
 
     public boolean isEmpty() {
-        return false;
+        return type == JanggiPieceType.EMPTY;
     }
 
-    public void checkPieceCanMove(JanggiPiece hurdlePiece, int hurdleCount, JanggiPiece targetPiece) {
+    public void validateCanMove(JanggiPiece hurdlePiece, int hurdleCount, JanggiPiece targetPiece) {
         type.validateCanMove(this.side, hurdlePiece, hurdleCount, targetPiece);
     }
 
-    public void captureIfNotEmpty() {
-        if (isEmpty()) {
-            return;
-        }
+    public void capture() {
         this.isCaptured = true;
     }
 
-    public boolean isTypeOf(JanggiPieceType type) {
-        return this.type == type;
+    public boolean isTypeOf(JanggiPieceType expectedType) {
+        return type == expectedType;
     }
 
     public boolean isMyTeam(JanggiPiece other) {
-        return this.side == other.side;
+        return side == other.side;
     }
 
     public boolean isCaptured() {
         return isCaptured;
+    }
+
+    public boolean isTeam(JanggiSide other) {
+        return side == other;
     }
 
     public JanggiPieceType getType() {
@@ -53,9 +54,5 @@ public class JanggiPiece {
 
     public JanggiSide getSide() {
         return side;
-    }
-
-    public boolean isTeam(JanggiSide other) {
-        return this.side == other;
     }
 }

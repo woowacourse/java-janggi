@@ -1,8 +1,9 @@
 package util;
 
 import domain.janggiboard.JanggiBoardInitializer;
+import domain.piece.JanggiPieceType;
+import domain.piece.JanggiSide;
 import domain.position.JanggiPosition;
-import domain.piece.Empty;
 import domain.piece.JanggiPiece;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +20,7 @@ public class JanggiBoardInitializerStub implements JanggiBoardInitializer {
         this.janggiBoard = new HashMap<>();
         for (Integer file : files) {
             for (Integer rank : ranks) {
-                this.janggiBoard.put(new JanggiPosition(rank, file), new Empty());
+                this.janggiBoard.put(new JanggiPosition(rank, file), new JanggiPiece(JanggiSide.NONE, JanggiPieceType.EMPTY));
             }
         }
 
