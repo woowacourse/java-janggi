@@ -1,9 +1,12 @@
 package view;
 
+import domain.Team;
 import domain.board.Point;
 import domain.pieces.Piece;
+import domain.pieces.PieceNames;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public final class OutputView {
 
@@ -54,8 +57,10 @@ public final class OutputView {
     ) {
         for (int column = 0; column < MAX_COLUMN; column++) {
             final Point point = new Point(row, column);
-            final Piece piece = locations.get(point);
-            builder.append(piece.getName());
+            Optional.ofNullable(locations.get(point)).ifPresentOrElse(
+                    piece -> builder.append(piece.getName()),
+                    () -> builder.append(PieceNames.EMPTY.getNameForTeam(Team.NONE))
+            );
             builder.append(" ");
             addBoardLinefeed(builder, column);
         }

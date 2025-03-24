@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.Team;
 import domain.board.PiecesOnRoute;
 import domain.board.Point;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,8 +50,7 @@ class HorseTest {
     void test_isMovableWhenPieceOnRoute() {
         //given
         Horse horse = new Horse(Team.CHO);
-        Piece empty = Empty.getInstance();
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(horse, empty));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(horse, null));
 
         //when&then
         assertThat(horse.isMovable(piecesOnRoute)).isFalse();
@@ -61,8 +61,7 @@ class HorseTest {
     void test_isMovable() {
         //given
         Horse horse = new Horse(Team.CHO);
-        Piece empty = Empty.getInstance();
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(empty, empty));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null));
 
         //when&then
         assertThat(horse.isMovable(piecesOnRoute)).isTrue();
@@ -73,8 +72,7 @@ class HorseTest {
     void test_isMovableWhenPieceIsInMyTeam() {
         //given
         Horse horse = new Horse(Team.CHO);
-        Piece empty = Empty.getInstance();
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(empty, horse));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, horse));
 
         //when&then
         assertThat(horse.isMovable(piecesOnRoute)).isFalse();
@@ -86,8 +84,7 @@ class HorseTest {
         //given
         Horse horseHan = new Horse(Team.HAN);
         Horse horseCho = new Horse(Team.CHO);
-        Piece empty = Empty.getInstance();
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(empty, horseCho));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, horseCho));
 
         //when&then
         assertThat(horseHan.isMovable(piecesOnRoute)).isTrue();

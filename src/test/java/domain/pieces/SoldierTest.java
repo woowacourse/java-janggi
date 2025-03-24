@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.Team;
 import domain.board.PiecesOnRoute;
 import domain.board.Point;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -69,8 +70,7 @@ class SoldierTest {
     void test_isMovableWhenPieceIsInMyTeam() {
         //given
         Soldier soldier = new Soldier(Team.CHO);
-        Piece empty = Empty.getInstance();
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(empty, empty, soldier));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, soldier));
 
         //when&then
         assertThat(soldier.isMovable(piecesOnRoute)).isFalse();
@@ -82,8 +82,7 @@ class SoldierTest {
         //given
         Soldier soldierHan = new Soldier(Team.HAN);
         Soldier soldierCho = new Soldier(Team.CHO);
-        Piece empty = Empty.getInstance();
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(empty, empty, soldierCho));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, soldierCho));
 
         //when&then
         assertThat(soldierHan.isMovable(piecesOnRoute)).isTrue();

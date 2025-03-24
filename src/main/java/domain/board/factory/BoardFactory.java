@@ -10,7 +10,6 @@ import domain.board.factory.elephantLocators.OuterElephantLocator;
 import domain.board.factory.elephantLocators.RightElephantLocator;
 import domain.pieces.Cannon;
 import domain.pieces.Chariot;
-import domain.pieces.Empty;
 import domain.pieces.General;
 import domain.pieces.Guard;
 import domain.pieces.Piece;
@@ -25,27 +24,10 @@ import java.util.stream.IntStream;
 
 public final class BoardFactory {
 
-    private static final int BOARD_ROW_MAX = 10;
-    private static final int BOARD_COLUMN_MAX = 9;
     private static final int MAX_SOLDIER_COUNT = 5;
 
 
     public static Board generateBoard(final EnumMap<Team, Integer> setupsByTeam) {
-        final Map<Point, Piece> locations = generateEmptyBoard();
-        locations.putAll(setupBoardOnPieces(setupsByTeam));
-        return new Board(locations);
-    }
-
-    private static Map<Point, Piece> generateEmptyBoard() {
-        return IntStream.range(0, BOARD_ROW_MAX)
-                .boxed()
-                .flatMap(row -> IntStream.range(0, BOARD_COLUMN_MAX)
-                        .boxed()
-                        .map(col -> Map.entry(new Point(row, col), Empty.getInstance())))
-                .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
-    }
-
-    private static Map<Point, Piece> setupBoardOnPieces(final EnumMap<Team, Integer> setupsByTeam) {
         final Map<Point, Piece> locations = new HashMap<>();
         for (final Entry<Team, Integer> setup : setupsByTeam.entrySet()) {
             final Team team = setup.getKey();
@@ -55,7 +37,7 @@ public final class BoardFactory {
             locations.putAll(locator.setupHorse(team));
             locations.putAll(locator.setupElephant(team));
         }
-        return locations;
+        return new Board(locations);
     }
 
     private static ElephantLocator createFromChoice(final int choice, final Team team) {

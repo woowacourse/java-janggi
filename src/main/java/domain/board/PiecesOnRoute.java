@@ -1,22 +1,23 @@
 package domain.board;
 
 import domain.Team;
-import domain.pieces.Empty;
 import domain.pieces.Piece;
-import execptions.JanggiGameRuleWarningException;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public record PiecesOnRoute(List<Piece> pieces) {
 
     public boolean hasSameTeamInArrivalPoint(final Team team) {
-        final Piece lastPiece = pieces.getLast();
-        return lastPiece.hasEqualTeam(team);
+        return Optional.ofNullable(pieces.getLast())
+                .map(lastPiece -> lastPiece.hasEqualTeam(team))
+                .orElse(false);
     }
 
     public int count() {
         return (int) pieces.stream()
+                .filter(Objects::nonNull)
                 .limit(pieces.size() - 1)
-                .filter(piece -> !piece.equals(Empty.getInstance()))
                 .count();
     }
 
@@ -25,9 +26,8 @@ public record PiecesOnRoute(List<Piece> pieces) {
     }
 
     public boolean canNotJumpOverFirstPiece() {
-        return pieces.stream()
-                .findFirst()
-                .orElseThrow(() -> new JanggiGameRuleWarningException("잘못된 위치입니다."))
-                .canNotJumpOver();
+        return pieces.stream().findFirst()
+                .map(Piece::canNotJumpOver)
+                .orElse(false);
     }
 }

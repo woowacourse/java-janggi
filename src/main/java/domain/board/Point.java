@@ -8,6 +8,18 @@ public record Point(int row, int column) {
         return new Point(row + direction.getRow(), column + direction.getColumn());
     }
 
+    public boolean isInRange(int maxRow, int maxColumn) {
+        return isInRangeOnRow(maxRow) && isInRangeOnColumn(maxColumn);
+    }
+
+    private boolean isInRangeOnColumn(int maxColumn) {
+        return column >= 0 && row < maxColumn;
+    }
+
+    private boolean isInRangeOnRow(int maxRow) {
+        return row >= 0 && row < maxRow;
+    }
+
     @Override
     public String toString() {
         return "(" + row + "," + column + ")";

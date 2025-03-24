@@ -7,10 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import domain.Team;
 import domain.board.factory.BoardFactory;
 import domain.pieces.Piece;
-import domain.pieces.Soldier;
 import execptions.JanggiGameRuleWarningException;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -21,18 +19,6 @@ public final class BoardTest {
     @Nested
     @DisplayName("보드가 생성될 때")
     class TestMakeBoard {
-
-        @Test
-        @DisplayName("보드는 9x10 크기로 구성되어야 한다")
-        void test_generateBoard() {
-            //given
-            Map<Point, Piece> locations = new HashMap<>();
-            locations.put(new Point(3, 1), new Soldier(Team.CHO));
-
-            // when & then
-            assertThatThrownBy(() -> new Board(locations))
-                    .isInstanceOf(JanggiGameRuleWarningException.class);
-        }
 
         @Test
         @DisplayName("보드는 0,0부터 9,8까지 포함된다")
