@@ -3,7 +3,6 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggi.view.PieceSymbol;
 import janggi.board.point.Point;
 import janggi.board.Board;
 import org.junit.jupiter.api.DisplayName;

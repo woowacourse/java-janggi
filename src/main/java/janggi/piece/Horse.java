@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.view.PieceSymbol;
 import janggi.board.point.Point;
 import janggi.board.Board;
 import java.util.Set;
