@@ -11,6 +11,11 @@ public class CannonPathValidator implements PathValidator {
     private static final int CANNON_JUMP_COUNT = 1;
 
     @Override
+    public void validatePath(List<Position> positions, Position to, Board board, Piece movePiece) {
+        validateMovePath(positions, board);
+        validateDestination(to, board, movePiece);
+    }
+
     public void validateMovePath(List<Position> positions, Board board) {
         if (isCannonOnPath(positions, board)) {
             throw new IllegalArgumentException("포는 포를 뛰어넘을 수 없습니다.");
@@ -22,7 +27,6 @@ public class CannonPathValidator implements PathValidator {
 
     }
 
-    @Override
     public void validateDestination(Position to, Board board, Piece movePiece) {
         if (board.isEmptyPosition(to)) {
             return;
