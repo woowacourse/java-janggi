@@ -8,6 +8,7 @@ import janggi.domain.board.Point;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -27,18 +28,74 @@ class CannonTest {
         assertThat(points).isEqualTo(expected);
     }
 
-    @DisplayName("이동 경로에 있는 기물들을 보고 이동할 수 있는지 확인할 수 있다.")
-    @ParameterizedTest
-    @MethodSource("providePiecesOnPath")
-    void canMove(PiecesOnPath piecesOnPath, boolean expected) {
+    @DisplayName("이동 경로에 아무 기물도 없다면 이동 할 수 없다.")
+    @Test
+    void canMove_whenEmptyPiece() {
         //given
-        Chariot horse = new Chariot(Dynasty.HAN);
+        PiecesOnPath piecesOnPath = new PiecesOnPath();
+        Cannon cannon = new Cannon(Dynasty.HAN);
 
         //when
-        boolean actual = horse.canMove(piecesOnPath);
+        boolean actual = cannon.canMove(piecesOnPath);
 
         //then
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isEqualTo(false);
+    }
+
+    @DisplayName("목적지가 아닌 이동 경로에 포가 아닌 기물이 하나 있다면 이동할 수 있다.")
+    @Test
+    void canMove_whenExistOnePieceWithoutDestination() {
+        //given
+        PiecesOnPath piecesOnPath = new PiecesOnPath(new HanSoldier(), new EmptyPiece());
+        Cannon cannon = new Cannon(Dynasty.HAN);
+
+        //when
+        boolean actual = cannon.canMove(piecesOnPath);
+
+        //then
+        assertThat(actual).isEqualTo(true);
+    }
+
+    @DisplayName("목적지에 다른나라의 기물이 있고 중간 지점에 하나의 기물이 있다면 움직일 수 있다.")
+    @Test
+    void canMove_whenExistOnePieceWithoutDestination_and_notSameDynastyAtDestination() {
+        //given
+        PiecesOnPath piecesOnPath = new PiecesOnPath(new HanSoldier(), new Horse(Dynasty.CHU));
+        Cannon cannon = new Cannon(Dynasty.HAN);
+
+        //when
+        boolean actual = cannon.canMove(piecesOnPath);
+
+        //then
+        assertThat(actual).isEqualTo(true);
+    }
+
+    @DisplayName("중간지점에 포가 있다면 움직일 수 없다.")
+    @Test
+    void cannotMove_whenExistCannonInMiddlePath() {
+        //given
+        PiecesOnPath piecesOnPath = new PiecesOnPath(new Cannon(Dynasty.HAN), new Horse(Dynasty.CHU));
+        Cannon cannon = new Cannon(Dynasty.HAN);
+
+        //when
+        boolean actual = cannon.canMove(piecesOnPath);
+
+        //then
+        assertThat(actual).isEqualTo(false);
+    }
+
+    @DisplayName("목적지에 포가 있다면 움직일 수 없다.")
+    @Test
+    void cannotMove_whenExistCannonAtDestination() {
+        //given
+        PiecesOnPath piecesOnPath = new PiecesOnPath(new HanSoldier(), new Cannon(Dynasty.CHU));
+        Cannon cannon = new Cannon(Dynasty.HAN);
+
+        //when
+        boolean actual = cannon.canMove(piecesOnPath);
+
+        //then
+        assertThat(actual).isEqualTo(false);
     }
 
     private static Stream<Arguments> provideMovablePosition() {
@@ -49,15 +106,6 @@ class CannonTest {
                 Arguments.of(Fixtures.SIX_FIVE, Fixtures.SIX_NINE,
                         List.of(Fixtures.SIX_SIX, Fixtures.SIX_SEVEN, Fixtures.SIX_EIGHT, Fixtures.SIX_NINE)),
                 Arguments.of(Fixtures.SIX_FIVE, Fixtures.EIGHT_FIVE, List.of(Fixtures.SEVEN_FIVE, Fixtures.EIGHT_FIVE))
-        );
-    }
-
-    private static Stream<Arguments> providePiecesOnPath() {
-        return Stream.of(
-                Arguments.of(new PiecesOnPath(), true),
-                Arguments.of(new PiecesOnPath(new EmptyPiece()), true),
-                Arguments.of(new PiecesOnPath(new Horse(Dynasty.CHU)), true),
-                Arguments.of(new PiecesOnPath(new Horse(Dynasty.HAN)), false)
         );
     }
 }

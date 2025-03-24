@@ -25,14 +25,16 @@ public class PiecesOnPath {
                 .allMatch(Piece::isEmptyPiece);
     }
 
-    public int countSamePieceWithoutDestination(Piece piece) {
-        return Math.toIntExact(withoutDestination().stream()
+    public int countSamePiece(Piece piece) {
+        return Math.toIntExact(pieces.stream()
                 .filter(each -> each.isSamePiece(piece))
                 .count());
     }
 
     public int countNotSamePieceWithoutDestination(Piece piece) {
-        return pieces.size() - countSamePieceWithoutDestination(piece);
+        return Math.toIntExact(withoutDestination().stream()
+                .filter(each -> !each.isSamePiece(piece))
+                .count());
     }
 
     public boolean isNotSameDestination(Piece piece) {
