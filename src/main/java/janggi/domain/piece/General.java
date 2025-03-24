@@ -1,29 +1,22 @@
 package janggi.domain.piece;
 
 import janggi.domain.Dynasty;
-import janggi.domain.board.Point;
-import java.util.List;
+import janggi.domain.piece.movement.MovePath;
+import java.util.Set;
 
-public class General implements Piece {
-
-    private final Dynasty dynasty;
+public class General extends Piece {
 
     public General(Dynasty dynasty) {
-        this.dynasty = dynasty;
-    }
-
-    @Override
-    public boolean isEmptyPiece() {
-        return false;
-    }
-
-    @Override
-    public List<Point> movePath(Point from, Point to) {
-        return List.of();
+        super(dynasty);
     }
 
     @Override
     public boolean canMove(PiecesOnPath piecesOnPath) {
+        return false;
+    }
+
+    @Override
+    public boolean isEmptyPiece() {
         return false;
     }
 
@@ -33,23 +26,7 @@ public class General implements Piece {
     }
 
     @Override
-    public boolean isDynasty(Dynasty dynasty) {
-        return this.dynasty == dynasty;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        return this.getClass() == obj.getClass();
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
+    protected Set<MovePath> paths() {
+        return Set.of();
     }
 }

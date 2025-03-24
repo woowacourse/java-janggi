@@ -2,37 +2,14 @@ package janggi.domain.piece;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.Direction;
-import janggi.domain.board.Point;
-import java.util.ArrayList;
-import java.util.List;
+import janggi.domain.piece.movement.EndlessMovePath;
+import janggi.domain.piece.movement.MovePath;
 import java.util.Set;
 
-public class Cannon implements Piece {
-
-    private static final Set<Direction> DIRECTIONS = Set.of(
-            Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT
-    );
-
-    private final Dynasty dynasty;
+public class Cannon extends Piece {
 
     public Cannon(Dynasty dynasty) {
-        this.dynasty = dynasty;
-    }
-
-    @Override
-    public List<Point> movePath(Point from, Point to) {
-        Direction direction = DIRECTIONS.stream()
-                .filter(dir -> canMove(dir, from, to))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("이동할 수 없습니다."));
-
-        List<Point> points = new ArrayList<>();
-        Point curr = from;
-        while (!curr.isOutOfBoundary() && !curr.isSamePosition(to)) {
-            curr = curr.move(direction);
-            points.add(curr);
-        }
-        return points;
+        super(dynasty);
     }
 
     @Override
@@ -50,8 +27,8 @@ public class Cannon implements Piece {
     }
 
     @Override
-    public boolean isDynasty(Dynasty dynasty) {
-        return this.dynasty == dynasty;
+    public boolean isEmptyPiece() {
+        return false;
     }
 
     @Override
@@ -59,32 +36,12 @@ public class Cannon implements Piece {
         return piece instanceof Cannon;
     }
 
-    private boolean canMove(Direction direction, Point from, Point to) {
-        Point curr = from;
-        while (!curr.isOutOfBoundary() && !curr.isSamePosition(to)) {
-            curr = curr.move(direction);
-        }
-        return curr.isSamePosition(to);
-    }
-
     @Override
-    public boolean isEmptyPiece() {
-        return false;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        return this.getClass() == obj.getClass();
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
+    protected Set<MovePath> paths() {
+        return Set.of(
+                new EndlessMovePath(Direction.UP),
+                new EndlessMovePath(Direction.DOWN),
+                new EndlessMovePath(Direction.RIGHT),
+                new EndlessMovePath(Direction.LEFT));
     }
 }
