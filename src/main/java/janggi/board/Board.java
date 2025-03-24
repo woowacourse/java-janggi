@@ -31,11 +31,11 @@ public class Board {
     }
 
     public void placePiece(Position position, Piece piece) {
-        validatePoint(position);
+        validatePosition(position);
         placedPieces.put(position, piece);
     }
 
-    private void validatePoint(Position position) {
+    private void validatePosition(Position position) {
         if (position.getX() < 0 || COLUMN <= position.getX() || position.getY() < 0 || ROW <= position.getY()) {
             throw new ErrorException("기물의 위치는 9 x 10 영역을 벗어날 수 없습니다.");
         }
@@ -65,11 +65,11 @@ public class Board {
         if (from.equals(to)) {
             throw new ErrorException("같은 위치로 이동할 수 없습니다.");
         }
-        validatePoint(from);
-        validatePoint(to);
+        validatePosition(from);
+        validatePosition(to);
     }
 
-    public Set<Piece> getPiecesByPoint(Set<Position> route) {
+    public Set<Piece> getPiecesByPosition(Set<Position> route) {
         Set<Piece> pieces = new HashSet<>();
         for (Position position : route) {
             Piece piece = placedPieces.get(position);

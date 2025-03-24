@@ -32,7 +32,7 @@ public final class Elephant extends Piece {
     }
 
     private void validateObstacleOnRoute(Position fromPosition, Position toPosition) {
-        Set<Piece> pieces = board.getPiecesByPoint(findRoute(fromPosition, toPosition));
+        Set<Piece> pieces = board.getPiecesByPosition(findRoute(fromPosition, toPosition));
         if (!pieces.isEmpty()) {
             throw new ErrorException("상은 기물을 넘어서 이동할 수 없습니다.");
         }
@@ -40,45 +40,45 @@ public final class Elephant extends Piece {
 
     private Set<Position> findRoute(Position fromPosition, Position toPosition) {
         Set<Position> route = new HashSet<>();
-        if (isNextPointOnHorizontal(fromPosition, toPosition)) {
+        if (isNextPositionOnHorizontal(fromPosition, toPosition)) {
             return findHorizontalRoute(fromPosition, toPosition, route);
         }
         return findVerticalRoute(fromPosition, toPosition, route);
     }
 
-    private boolean isNextPointOnHorizontal(Position fromPosition, Position toPosition) {
+    private boolean isNextPositionOnHorizontal(Position fromPosition, Position toPosition) {
         return fromPosition.calculateXDistance(toPosition) == 3;
     }
 
     private Set<Position> findHorizontalRoute(Position fromPosition, Position toPosition, Set<Position> route) {
-        Position firstPosition = getNextHorizontalPoint(fromPosition, toPosition);
+        Position firstPosition = getNextHorizontalPosition(fromPosition, toPosition);
         route.add(firstPosition);
-        route.add(findSecondPoint(toPosition, firstPosition));
+        route.add(findSecondPosition(toPosition, firstPosition));
         return route;
     }
 
     private Set<Position> findVerticalRoute(Position fromPosition, Position toPosition, Set<Position> route) {
-        Position firstPosition = getNextVerticalPoint(fromPosition, toPosition);
+        Position firstPosition = getNextVerticalPosition(fromPosition, toPosition);
         route.add(firstPosition);
-        route.add(findSecondPoint(toPosition, firstPosition));
+        route.add(findSecondPosition(toPosition, firstPosition));
         return route;
     }
 
-    private Position getNextHorizontalPoint(Position fromPosition, Position toPosition) {
+    private Position getNextHorizontalPosition(Position fromPosition, Position toPosition) {
         if (fromPosition.getX() < toPosition.getX()) {
             return new Position(fromPosition.getX() + 1, fromPosition.getY());
         }
         return new Position(fromPosition.getX() - 1, fromPosition.getY());
     }
 
-    private Position getNextVerticalPoint(Position fromPosition, Position toPosition) {
+    private Position getNextVerticalPosition(Position fromPosition, Position toPosition) {
         if (fromPosition.getY() < toPosition.getY()) {
             return new Position(fromPosition.getX(), fromPosition.getY() + 1);
         }
         return new Position(fromPosition.getX(), fromPosition.getY() - 1);
     }
 
-    private Position findSecondPoint(Position toPosition, Position firstPosition) {
+    private Position findSecondPosition(Position toPosition, Position firstPosition) {
         return new Position((firstPosition.getX() + toPosition.getX()) / 2,
                 (firstPosition.getY() + toPosition.getY()) / 2);
     }

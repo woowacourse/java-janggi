@@ -31,31 +31,31 @@ public final class Horse extends Piece {
     }
 
     private void validateObstacleOnRoute(Position fromPosition, Position toPosition) {
-        Set<Piece> pieces = board.getPiecesByPoint(Set.of(findRoute(fromPosition, toPosition)));
+        Set<Piece> pieces = board.getPiecesByPosition(Set.of(findRoute(fromPosition, toPosition)));
         if (!pieces.isEmpty()) {
             throw new ErrorException("마는 기물을 넘어서 이동할 수 없습니다.");
         }
     }
 
     private Position findRoute(Position fromPosition, Position toPosition) {
-        if (isNextPointOnHorizontal(fromPosition, toPosition)) {
-            return getNextHorizontalPoint(fromPosition, toPosition);
+        if (isNextPositionOnHorizontal(fromPosition, toPosition)) {
+            return getNextHorizontalPosition(fromPosition, toPosition);
         }
-        return getNextVerticalPoint(fromPosition, toPosition);
+        return getNextVerticalPosition(fromPosition, toPosition);
     }
 
-    private boolean isNextPointOnHorizontal(Position fromPosition, Position toPosition) {
+    private boolean isNextPositionOnHorizontal(Position fromPosition, Position toPosition) {
         return fromPosition.calculateXDistance(toPosition) == 2;
     }
 
-    private Position getNextHorizontalPoint(Position fromPosition, Position toPosition) {
+    private Position getNextHorizontalPosition(Position fromPosition, Position toPosition) {
         if (fromPosition.getX() < toPosition.getX()) {
             return new Position(fromPosition.getX() + 1, fromPosition.getY());
         }
         return new Position(fromPosition.getX() - 1, fromPosition.getY());
     }
 
-    private Position getNextVerticalPoint(Position fromPosition, Position toPosition) {
+    private Position getNextVerticalPosition(Position fromPosition, Position toPosition) {
         if (fromPosition.getY() < toPosition.getY()) {
             return new Position(fromPosition.getX(), fromPosition.getY() + 1);
         }

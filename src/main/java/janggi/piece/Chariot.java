@@ -28,7 +28,7 @@ public final class Chariot extends Piece {
     }
 
     private void validateObstacleOnRoute(Position fromPosition, Position toPosition) {
-        Set<Piece> pieces = board.getPiecesByPoint(findRoute(fromPosition, toPosition));
+        Set<Piece> pieces = board.getPiecesByPosition(findRoute(fromPosition, toPosition));
         if (!pieces.isEmpty()) {
             throw new ErrorException("차는 기물을 넘어 이동할 수 없습니다.");
         }

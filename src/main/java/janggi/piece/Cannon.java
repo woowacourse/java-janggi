@@ -30,7 +30,7 @@ public final class Cannon extends Piece {
     }
 
     private void validateJumpOverOnePiece(Position fromPosition, Position toPosition) {
-        Set<Piece> pieces = board.getPiecesByPoint(findRoute(fromPosition, toPosition));
+        Set<Piece> pieces = board.getPiecesByPosition(findRoute(fromPosition, toPosition));
         validatePieceCount(pieces);
         validateNotJumpOverCannon(pieces);
     }

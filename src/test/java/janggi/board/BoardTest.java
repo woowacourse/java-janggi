@@ -37,7 +37,7 @@ class BoardTest {
             "10,10",
             "0,10"
     })
-    void shouldThrowException_WhenInvalidPoint(int x, int y) {
+    void shouldThrowException_WhenInvalidPosition(int x, int y) {
         // given
         Board board = new Board();
         Position position = new Position(x, y);
@@ -141,7 +141,7 @@ class BoardTest {
 
     @DisplayName("같은 위치로 이동할 경우 예외가 발생한다.")
     @Test
-    void shouldThrowException_WhenMoveSamePoint() {
+    void shouldThrowException_WhenMoveSamePosition() {
         // given
         Board board = new Board();
         Position fromPosition = new Position(1, 1);
