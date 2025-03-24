@@ -1,37 +1,34 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ElephantTest {
 
-    @DisplayName("상이 움직일 수 있는 포지션들을 반환한다.")
+    @DisplayName("상의 이동 경로 중간에 기물이 있다면 움직일 수 없다.")
     @Test
     void test1() {
         // given
         Position startingPosition = Position.of(1, 1);
         Piece startingPiece = new Elephant(Side.HAN);
+        Position endPosition = Position.of(4, 3);
 
-        Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
-        Board board = new Board(startingPieces);
-
-        // when
-        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
-        Set<Position> expected = Set.of(
-                Position.of(4, 3),
-                Position.of(3, 4)
+        Map<Position, Piece> startingPieces = Map.of(
+                startingPosition, startingPiece,
+                Position.of(3, 2), new Soldier(Side.CHO)
         );
 
+        // when
+        boolean actual = startingPiece.canMove(startingPieces, startingPosition, endPosition);
+
         // then
-        assertThat(actual).hasSameElementsAs(expected);
+        assertThat(actual).isFalse();
     }
 
     @DisplayName("상의 최종 목적지에 팀의 기물이 있다면 갈 수 없다.")
@@ -46,13 +43,12 @@ class ElephantTest {
                 startingPosition, startingPiece,
                 endPosition, new Soldier(Side.HAN)
         );
-        Board board = new Board(startingPieces);
 
         // when
-        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
+        boolean actual = startingPiece.canMove(startingPieces, startingPosition, endPosition);
 
         // then
-        assertThat(actual).doesNotContain(endPosition);
+        assertThat(actual).isFalse();
     }
 
     @DisplayName("상의 최종 목적지에 상대의 기물이 있다면 해당 위치까지 갈 수 있다.")
@@ -67,12 +63,11 @@ class ElephantTest {
                 startingPosition, startingPiece,
                 endPosition, new Soldier(Side.CHO)
         );
-        Board board = new Board(startingPieces);
 
         // when
-        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
+        boolean actual = startingPiece.canMove(startingPieces, startingPosition, endPosition);
 
         // then
-        assertThat(actual).contains(endPosition);
+        assertThat(actual).isTrue();
     }
 }

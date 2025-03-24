@@ -2,10 +2,9 @@ package janggi.domain;
 
 import janggi.common.ErrorMessage;
 import janggi.domain.piece.Piece;
-
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class Board {
 
@@ -15,24 +14,13 @@ public class Board {
         this.pieces = new HashMap<>(pieces);
     }
 
-    public boolean hasPiece(Position position) {
-        return pieces.containsKey(position);
-    }
+    public boolean canMovePiece(Side currentTurn, Position selectedPosition, Position targetPosition) {
+        validatePositionExists(selectedPosition);
+        validateCurrentTurn(selectedPosition, currentTurn);
+        validateTargetPiece(selectedPosition, targetPosition);
 
-    public boolean isSameSide(Side side, Position position) {
-        return getPiece(position).isSameSide(side);
-    }
-
-    public void checkMoveablePiece(Side side, Position position) {
-        validatePositionExists(position);
-        Piece piece = pieces.get(position);
-        if (!piece.isSameSide(side)) {
-            throw new IllegalArgumentException(ErrorMessage.IS_NOT_SAME_SIDE.getMessage());
-        }
-
-        if (piece.generateAvailableMovePositions(this, position).isEmpty()) {
-            throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_PIECE.getMessage());
-        }
+        Piece selectedPiece = getPiece(selectedPosition);
+        return selectedPiece.canMove(Collections.unmodifiableMap(pieces), selectedPosition, targetPosition);
     }
 
     private void validatePositionExists(Position position) {
@@ -41,37 +29,44 @@ public class Board {
         }
     }
 
-    public void movePiece(Position currentPosition, Position newPosition) {
-        Piece piece = getPiece(currentPosition);
-        Set<Position> availablePositions = piece.generateAvailableMovePositions(this, currentPosition);
+    private void validateCurrentTurn(Position selectedPosition, Side turn) {
+        Piece selectedPiece = getPiece(selectedPosition);
+        if (!selectedPiece.isSameSide(turn)) {
+            throw new IllegalArgumentException(ErrorMessage.IS_NOT_SAME_SIDE.getMessage());
+        }
+    }
 
-        if (!availablePositions.contains(newPosition)) {
-            throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_TO_POSITION.getMessage());
+    private void validateTargetPiece(Position selectedPosition, Position targetPosition) {
+        if (!pieces.containsKey(targetPosition)) {
+            return;
         }
 
-        pieces.remove(currentPosition);
-        pieces.put(newPosition, piece);
+        Piece selectedPiece = getPiece(selectedPosition);
+        Piece targetPiece = getPiece(targetPosition);
+        if (selectedPiece.equals(targetPiece) || selectedPiece.isSameSide(targetPiece)) {
+            throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_TO_POSITION.getMessage());
+        }
     }
 
     public Piece getPiece(Position position) {
         if (!pieces.containsKey(position)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_BOARD_POSITION.getMessage());
         }
-
         return pieces.get(position);
     }
 
-    public boolean canMoveToPosition(Side side, Position position) {
-        return !hasPiece(position) || !isSameSide(side, position);
+    public void movePiece(Position selectedPosition, Position targetPosition) {
+        Piece selectedPiece = getPiece(selectedPosition);
+        updatePosition(selectedPosition, targetPosition, selectedPiece);
     }
 
-    public boolean isCannon(Position position) {
-        if (!pieces.containsKey(position)) {
-            return false;
-        }
+    private void updatePosition(Position selectedPosition, Position targetPosition, Piece selectedPiece) {
+        pieces.remove(selectedPosition);
+        pieces.put(targetPosition, selectedPiece);
+    }
 
-        return pieces.get(position)
-                .isCannon();
+    public boolean hasPiece(Position position) {
+        return pieces.containsKey(position);
     }
 
     public boolean hasGeneral() {

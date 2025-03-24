@@ -1,12 +1,11 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.Vector;
-
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class Cannon extends Piece {
@@ -23,40 +22,54 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public Set<Position> generateAvailableMovePositions(Board board, Position position) {
+    public Set<Position> generateAvailableMovePositions(Map<Position, Piece> pieces, Position currentPosition) {
         Set<Position> result = new HashSet<>();
         for (Vector vector : VECTORS) {
-            position.calculateNextPosition(vector).ifPresent(movePosition -> searchAvailableMoves(result, board, movePosition, vector, side, board.hasPiece(movePosition)));
+            currentPosition.calculateNextPosition(vector)
+                    .ifPresent(nextPosition -> searchAvailableMoves(result, pieces, nextPosition, vector, pieces.containsKey(nextPosition)));
         }
 
         return result;
     }
 
-    public void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, Vector vector, Side side, boolean hasPassed) {
-        if (currentPosition.canNotMove(vector) || board.isCannon(currentPosition)) {
+    public void searchAvailableMoves(Set<Position> result, Map<Position, Piece> pieces, Position currentPosition,
+                                     Vector vector, boolean hasPassed) {
+        if (!canContinueFromPosition(pieces, currentPosition, vector)) {
             return;
         }
 
         Position nextPosition = currentPosition.moveToNextPosition(vector);
-        if (board.isCannon(nextPosition)) {
-            return;
-        }
 
-        if (hasPassed && board.hasPiece(nextPosition) && !board.isSameSide(side, nextPosition)) {
+        if (pieces.containsKey(nextPosition) && canCatchPiece(pieces, nextPosition, hasPassed)) {
             result.add(nextPosition);
             return;
         }
 
-        if (hasPassed && board.hasPiece(nextPosition)) {
-            return;
-        }
-
-        if (hasPassed) {
+        if (hasPassed && !pieces.containsKey(nextPosition)) {
             result.add(nextPosition);
-            searchAvailableMoves(result, board, nextPosition, vector, side, true);
+            searchAvailableMoves(result, pieces, nextPosition, vector, true);
         }
 
-        searchAvailableMoves(result, board, nextPosition, vector, side, board.hasPiece(nextPosition));
+        searchAvailableMoves(result, pieces, nextPosition, vector, pieces.containsKey(nextPosition));
+    }
+
+    private boolean canContinueFromPosition(Map<Position, Piece> pieces, Position currentPosition, Vector vector) {
+        if (currentPosition.canNotMove(vector)) {
+            return false;
+        }
+        if (!pieces.containsKey(currentPosition)) {
+            return true;
+        }
+        Piece currentPiece = pieces.get(currentPosition);
+        return !currentPiece.isCannon();
+    }
+
+    private boolean canCatchPiece(Map<Position, Piece> pieces, Position targetPosition, boolean hasPassed) {
+        if (!hasPassed) {
+            return false;
+        }
+        Piece targetPiece = pieces.get(targetPosition);
+        return !targetPiece.isSameSide(side) && !targetPiece.isCannon();
     }
 
     @Override

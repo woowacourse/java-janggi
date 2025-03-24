@@ -1,11 +1,10 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.Vector;
-
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,12 +21,20 @@ public class General extends Piece {
     }
 
     @Override
-    public Set<Position> generateAvailableMovePositions(Board board, Position position) {
+    public Set<Position> generateAvailableMovePositions(Map<Position, Piece> pieces, Position currentPosition) {
         return VECTORS.stream()
-                .map(vector -> position.calculateNextPosition(vector.side(side)))
+                .map(vector -> currentPosition.calculateNextPosition(vector.side(side)))
                 .flatMap(Optional::stream)
-                .filter(availablePosition -> board.canMoveToPosition(side, availablePosition))
+                .filter(availablePosition -> canMoveToPosition(pieces, availablePosition))
                 .collect(Collectors.toUnmodifiableSet());
+    }
+
+    private boolean canMoveToPosition(Map<Position, Piece> pieces, Position position) {
+        if (!pieces.containsKey(position)) {
+            return true;
+        }
+        Piece nextPiece = pieces.get(position);
+        return !nextPiece.isSameSide(side);
     }
 
     @Override

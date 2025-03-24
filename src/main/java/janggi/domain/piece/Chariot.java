@@ -1,12 +1,11 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.Vector;
-
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class Chariot extends Piece {
@@ -23,21 +22,19 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public Set<Position> generateAvailableMovePositions(Board board, Position position) {
+    public Set<Position> generateAvailableMovePositions(Map<Position, Piece> pieces, Position currentPosition) {
         Set<Position> result = new HashSet<>();
         for (Vector vector : VECTORS) {
-            position.calculateNextPosition(vector)
-                    .ifPresent(movePosition ->
-                            searchAvailableMoves(result, board, movePosition, vector, side));
+            currentPosition.calculateNextPosition(vector)
+                    .ifPresent(movePosition -> searchAvailableMoves(result, pieces, movePosition, vector));
         }
 
         return result;
     }
 
-    public void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, Vector vector,
-                                     Side side) {
-        if (board.hasPiece(currentPosition)) {
-            addPositionIfNotSameSide(result, board, currentPosition, side);
+    public void searchAvailableMoves(Set<Position> result, Map<Position, Piece> pieces, Position currentPosition, Vector vector) {
+        if (pieces.containsKey(currentPosition)) {
+            addPositionIfNotSameSide(result, pieces, currentPosition);
             return;
         }
         result.add(currentPosition);
@@ -47,11 +44,12 @@ public class Chariot extends Piece {
         }
         Position nextPosition = currentPosition.moveToNextPosition(vector);
 
-        searchAvailableMoves(result, board, nextPosition, vector, side);
+        searchAvailableMoves(result, pieces, nextPosition, vector);
     }
 
-    private void addPositionIfNotSameSide(Set<Position> result, Board board, Position currentPosition, Side side) {
-        if (board.isSameSide(side, currentPosition)) {
+    private void addPositionIfNotSameSide(Set<Position> result, Map<Position, Piece> pieces, Position currentPosition) {
+        Piece targetPiece = pieces.get(currentPosition);
+        if (targetPiece.isSameSide(side)) {
             return;
         }
         result.add(currentPosition);

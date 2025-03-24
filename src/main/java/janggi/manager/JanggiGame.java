@@ -1,5 +1,6 @@
 package janggi.manager;
 
+import janggi.common.ErrorMessage;
 import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.Side;
@@ -28,28 +29,33 @@ public class JanggiGame {
             viewer.printBoard(board);
             viewer.printTurnInfo(turn);
 
-            Side finalTurn = turn;
-            Position position = RecoveryUtil.executeWithRetry(() -> choosePiece(board, finalTurn));
-            RecoveryUtil.executeWithRetry(() -> movePiece(board, position));
+            Side currentTurn = turn;
+
+            RecoveryUtil.executeWithRetry(() -> commenceTurn(board, currentTurn));
 
             turn = turn.reverse();
         }
         return turn;
     }
 
-    private Position choosePiece(Board board, Side turn) {
-        PositionDto positionDto = viewer.readPieceSelection();
-        Position position = Position.of(positionDto.row(), positionDto.column());
-        board.checkMoveablePiece(turn, position);
+    private void commenceTurn(Board board, Side turn) {
+        Position selectedPosition = getSelectedPosition();
+        Position targetPosition = getTargetPosition();
 
-        return position;
+        if (!board.canMovePiece(turn, selectedPosition, targetPosition)) {
+            throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_PIECE.getMessage());
+        }
+
+        board.movePiece(selectedPosition, targetPosition);
     }
 
-    private void movePiece(Board board, Position currentPosition) {
+    private Position getSelectedPosition() {
+        PositionDto positionDto = viewer.readPieceSelection();
+        return Position.of(positionDto.row(), positionDto.column());
+    }
+
+    private Position getTargetPosition() {
         PositionDto positionDto = viewer.readMove();
-
-        Position targetPosition = Position.of(positionDto.row(), positionDto.column());
-
-        board.movePiece(currentPosition, targetPosition);
+        return Position.of(positionDto.row(), positionDto.column());
     }
 }

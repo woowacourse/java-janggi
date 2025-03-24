@@ -4,11 +4,10 @@ import janggi.common.ErrorMessage;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.factory.PieceFactory;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -16,16 +15,20 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class BoardTest {
 
-    @DisplayName("움직일 수 있는 기물인지 확인한다.")
+    @DisplayName("현재 차례인 팀의 기물을 선택하면 움직일 수 있다.")
     @Test
     void test1() {
         // given
         Board board = new Board(PieceFactory.initialize());
-        Position position = Position.of(7, 1);
+        Side turn = Side.CHO;
+        Position selectedPosition = Position.of(7, 1);
+        Position targetPosition = Position.of(6, 1);
+
+        // when
+        boolean actual = board.canMovePiece(turn, selectedPosition, targetPosition);
 
         // when & then
-        assertThatCode(() -> board.checkMoveablePiece(Side.CHO, position))
-                .doesNotThrowAnyException();
+        assertThat(actual).isTrue();
     }
 
     @DisplayName("해당 포지션에 기물이 존재하지 않으면 예외를 반환한다.")
@@ -33,23 +36,27 @@ class BoardTest {
     void test2() {
         // given
         Board board = new Board(PieceFactory.initialize());
-        Position position = Position.of(2, 1);
+        Side turn = Side.CHO;
+        Position selectedPosition = Position.of(2, 1);
+        Position targetPosition = Position.of(3, 1);
 
         // when & then
-        assertThatThrownBy(() -> board.checkMoveablePiece(Side.CHO, position))
+        assertThatThrownBy(() -> board.canMovePiece(turn, selectedPosition, targetPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.POSITION_DOES_NOT_EXIST.getMessage());
     }
 
-    @DisplayName("상대의 기물이라면 예외를 반환한다.")
+    @DisplayName("상대의 기물을 움직이려고 하면 예외를 반환한다.")
     @Test
     void test3() {
         // given
         Board board = new Board(PieceFactory.initialize());
-        Position position = Position.of(1, 1);
+        Side turn = Side.HAN;
+        Position selectedPosition = Position.of(7, 1);
+        Position targetPosition = Position.of(6, 1);
 
         // when & then
-        assertThatThrownBy(() -> board.checkMoveablePiece(Side.CHO, position))
+        assertThatThrownBy(() -> board.canMovePiece(turn, selectedPosition, targetPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.IS_NOT_SAME_SIDE.getMessage());
     }
@@ -75,6 +82,7 @@ class BoardTest {
     void test5() {
         // given
         Position startingPosition = Position.of(5, 1);
+        Side turn = Side.CHO;
         Piece startingPiece = new Soldier(Side.CHO);
         Position endPosition = Position.of(4, 1);
         Piece endPiece = new Soldier(Side.CHO);
@@ -83,7 +91,7 @@ class BoardTest {
         Board board = new Board(startingPieces);
 
         // when & then
-        assertThatThrownBy(() -> board.movePiece(startingPosition, endPosition))
+        assertThatThrownBy(() -> board.canMovePiece(turn, startingPosition, endPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.CANNOT_MOVE_TO_POSITION.getMessage());
     }
@@ -105,7 +113,7 @@ class BoardTest {
                 .doesNotThrowAnyException();
     }
 
-    @DisplayName("보드의 General이 있다면 true를 반환한다.")
+    @DisplayName("보드에 General이 있다면 true를 반환한다.")
     @Test
     void test7() {
         // given
@@ -118,7 +126,7 @@ class BoardTest {
         assertThat(actual).isTrue();
     }
 
-    @DisplayName("보드의 General이 없다면 false를 반환한다.")
+    @DisplayName("보드에 General이 없다면 false를 반환한다.")
     @Test
     void test8() {
         // given

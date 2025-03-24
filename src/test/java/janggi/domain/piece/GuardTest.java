@@ -1,39 +1,52 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.Side;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.Map;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GuardTest {
 
-    @DisplayName("사가 움직일 수 있는 포지션들을 반환한다.")
+    @DisplayName("사는 팀의 기물이 있는 곳으로 이동할 수 없다.")
     @Test
     void test1() {
         // given
         Position startingPosition = Position.of(1, 5);
         Piece startingPiece = new Guard(Side.HAN);
+        Position endPosition = Position.of(1, 4);
 
-        Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
-        Board board = new Board(startingPieces);
-
-        // when
-        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
-        Set<Position> expected = Set.of(
-                Position.of(1, 4),
-                Position.of(1, 6),
-                Position.of(2, 5),
-                Position.of(2, 6),
-                Position.of(2, 4)
+        Map<Position, Piece> startingPieces = Map.of(
+                startingPosition, startingPiece,
+                endPosition, new Soldier(Side.HAN)
         );
 
+        // when
+        boolean actual = startingPiece.canMove(startingPieces, startingPosition, endPosition);
+
         // then
-        assertThat(actual).hasSameElementsAs(expected);
+        assertThat(actual).isFalse();
+    }
+
+    @DisplayName("사의 이동 경로에 상대 팀 기물이 있으면 이동할 수 있다.")
+    @Test
+    void test2() {
+        // given
+        Position startingPosition = Position.of(1, 5);
+        Piece startingPiece = new Guard(Side.HAN);
+        Position endPosition = Position.of(1, 4);
+
+        Map<Position, Piece> startingPieces = Map.of(
+                startingPosition, startingPiece,
+                endPosition, new Soldier(Side.CHO)
+        );
+
+        // when
+        boolean actual = startingPiece.canMove(startingPieces, startingPosition, endPosition);
+
+        // then
+        assertThat(actual).isTrue();
     }
 }

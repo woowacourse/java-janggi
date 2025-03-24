@@ -1,44 +1,33 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.Side;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.Map;
-import java.util.Set;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ChariotTest {
 
-    @DisplayName("차가 움직일 수 있는 포지션들을 반환한다.")
-    @Test
-    void test1() {
+    @DisplayName("차는 상하좌우 직선으로 이동할 수 있다.")
+    @ParameterizedTest
+    @CsvSource(value = {"5,3", "5,7", "2,5", "7,5"})
+    void test1(int row, int column) {
         // given
-        Position startingPosition = Position.of(10, 1);
+        Position startingPosition = Position.of(5, 5);
         Piece startingPiece = new Chariot(Side.HAN);
+        Position endPosition = Position.of(row, column);
 
-        Map<Position, Piece> startingPieces = Map.of(
-                startingPosition, startingPiece,
-                Position.of(6, 1), new Soldier(Side.CHO),
-                Position.of(10, 2), new Soldier(Side.CHO)
-        );
-        Board board = new Board(startingPieces);
+        Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
 
         // when
-        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
-        Set<Position> expected = Set.of(
-                Position.of(9, 1),
-                Position.of(8, 1),
-                Position.of(7, 1),
-                Position.of(6, 1),
-                Position.of(10, 2)
-        );
+        boolean actual = startingPiece.canMove(startingPieces, startingPosition, endPosition);
 
         // then
-        assertThat(actual).hasSameElementsAs(expected);
+        assertThat(actual).isTrue();
     }
 
     @DisplayName("차 앞에 팀의 기물이 있다면 갈 수 없다.")
@@ -47,19 +36,18 @@ class ChariotTest {
         // given
         Position startingPosition = Position.of(10, 1);
         Piece startingPiece = new Chariot(Side.HAN);
+        Position endPosition = Position.of(10, 5);
 
         Map<Position, Piece> startingPieces = Map.of(
                 startingPosition, startingPiece,
-                Position.of(9, 1), new Soldier(Side.HAN),
                 Position.of(10, 2), new Soldier(Side.HAN)
         );
-        Board board = new Board(startingPieces);
 
         // when
-        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
+        boolean actual = startingPiece.canMove(startingPieces, startingPosition, endPosition);
 
         // then
-        assertThat(actual).isEmpty();
+        assertThat(actual).isFalse();
     }
 
     @DisplayName("차 앞에 상대의 기물이 있다면 해당 위치까지 갈 수 있다.")
@@ -74,12 +62,11 @@ class ChariotTest {
                 startingPosition, startingPiece,
                 endPosition, new Soldier(Side.CHO)
         );
-        Board board = new Board(startingPieces);
 
         // when
-        Set<Position> actual = startingPiece.generateAvailableMovePositions(board, startingPosition);
+        boolean actual = startingPiece.canMove(startingPieces, startingPosition, endPosition);
 
         // then
-        assertThat(actual).contains(endPosition);
+        assertThat(actual).isTrue();
     }
 }
