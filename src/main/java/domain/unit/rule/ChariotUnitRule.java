@@ -10,10 +10,6 @@ import java.util.stream.Stream;
 
 public class ChariotUnitRule implements UnitRule {
 
-    public UnitType getType() {
-        return UnitType.CHARIOT;
-    }
-
     @Override
     public List<Route> calculateAllRoute(Position start) {
         List<Route> routes = new ArrayList<>();
@@ -60,5 +56,9 @@ public class ChariotUnitRule implements UnitRule {
                 .filter(x -> startX != x)
                 .mapToObj(x -> Position.of(x, startY))
                 .toList());
+    }
+
+    public UnitType getType() {
+        return UnitType.CHARIOT;
     }
 }

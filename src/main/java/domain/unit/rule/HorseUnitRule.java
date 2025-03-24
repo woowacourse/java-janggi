@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HorseUnitRule implements UnitRule {
+
     @Override
     public List<Route> calculateAllRoute(Position start) {
         List<Route> routes = new ArrayList<>();

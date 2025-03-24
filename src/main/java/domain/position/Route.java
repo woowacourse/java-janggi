@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Route {
+
     private final List<Position> positions;
 
     private Route(List<Position> positions) {

@@ -3,6 +3,7 @@ package domain.unit;
 import java.util.List;
 
 public enum Direction {
+
     UPPER(0, 1),
     UPPER_RIGHT(1, 1),
     RIGHT(1, 0),

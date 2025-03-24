@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SoldierUnitRule implements UnitRule {
+
     @Override
     public List<Route> calculateAllRoute(Position start) {
         List<Route> routes = new ArrayList<>();

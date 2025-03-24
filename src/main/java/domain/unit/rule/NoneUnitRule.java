@@ -6,6 +6,7 @@ import domain.unit.UnitType;
 import java.util.List;
 
 public class NoneUnitRule implements UnitRule {
+
     @Override
     public List<Route> calculateAllRoute(Position start) {
         return List.of();

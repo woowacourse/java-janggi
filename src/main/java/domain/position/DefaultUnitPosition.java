@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public enum DefaultUnitPosition {
+    
     GENERAL(1, 8, List.of(4), NoneUnitRule::new),
     GUARD(0, 9, List.of(3, 5), NoneUnitRule::new),
     CHARIOT(0, 9, List.of(0, 8), ChariotUnitRule::new),

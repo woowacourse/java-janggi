@@ -6,6 +6,7 @@ import domain.unit.rule.UnitRule;
 import java.util.List;
 
 public class Unit {
+
     private final Team team;
     private final UnitRule unitRule;
 

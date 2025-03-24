@@ -13,6 +13,7 @@ import view.InputView;
 import view.OutputView;
 
 public class Game {
+
     private final Janggi janggi;
     private final InputView inputView;
     private final OutputView outputView;

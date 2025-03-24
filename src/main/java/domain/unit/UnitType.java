@@ -1,6 +1,7 @@
 package domain.unit;
 
 public enum UnitType {
+    
     GENERAL,
     GUARD,
     CHARIOT,
