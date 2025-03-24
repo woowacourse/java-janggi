@@ -15,9 +15,20 @@ public class Elephant extends Piece {
         return isEmptyOnPath(board, findPath(start, end)) && isValidMovingRule(start, end);
     }
 
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
+
     private boolean isEmptyOnPath(final Map<Position, Piece> board, final List<Position> path) {
         return path.stream()
                 .noneMatch(board::containsKey);
+    }
+
+    private boolean isValidMovingRule(final Position start, final Position end) {
+        int absDeltaX = start.absDeltaX(end);
+        int absDeltaY = start.absDeltaY(end);
+        return (absDeltaX == 3 && absDeltaY == 2) || (absDeltaX == 2 && absDeltaY == 3);
     }
 
     private List<Position> findPath(final Position start, final Position end) {
@@ -26,12 +37,6 @@ public class Elephant extends Piece {
         Position firstStep = calculateFirstDirection(start, deltaX, deltaY);
         Position secondStep = calculateSecondDirection(start, deltaX, deltaY);
         return List.of(firstStep, secondStep);
-    }
-
-    private boolean isValidMovingRule(final Position start, final Position end) {
-        int absDeltaX = start.absDeltaX(end);
-        int absDeltaY = start.absDeltaY(end);
-        return (absDeltaX == 3 && absDeltaY == 2) || (absDeltaX == 2 && absDeltaY == 3);
     }
 
     private Position calculateFirstDirection(final Position start, final int deltaX, final int deltaY) {

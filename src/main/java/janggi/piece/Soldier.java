@@ -14,6 +14,11 @@ public class Soldier extends Piece {
         return isValidMovingRule(start, end) && isValidDirection(start, end);
     }
 
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
+
     private boolean isValidMovingRule(final Position start, final Position end) {
         int absDeltaX = start.absDeltaX(end);
         int absDeltaY = start.absDeltaY(end);

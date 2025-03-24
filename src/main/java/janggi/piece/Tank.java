@@ -15,9 +15,18 @@ public class Tank extends Piece {
         return isEmptyOnPath(board, findPath(start, end)) && isValidMovingRule(start, end);
     }
 
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
+
     private boolean isEmptyOnPath(final Map<Position, Piece> board, final List<Position> path) {
         return path.stream()
                 .noneMatch(board::containsKey);
+    }
+
+    private boolean isValidMovingRule(final Position start, final Position end) {
+        return start.isHorizontalMove(end) || start.isVerticalMove(end);
     }
 
     private List<Position> findPath(final Position start, final Position end) {
@@ -25,9 +34,5 @@ public class Tank extends Piece {
             return start.horizontalPath(end);
         }
         return start.verticalPath(end);
-    }
-
-    private boolean isValidMovingRule(final Position start, final Position end) {
-        return start.isHorizontalMove(end) || start.isVerticalMove(end);
     }
 }

@@ -14,6 +14,11 @@ public class King extends Piece {
         return isValidMovingRule(start, end);
     }
 
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
+
     private boolean isValidMovingRule(Position start, Position end) {
         int absDeltaX = start.absDeltaX(end);
         int absDeltaY = start.absDeltaY(end);

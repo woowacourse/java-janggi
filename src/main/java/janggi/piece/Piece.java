@@ -20,4 +20,6 @@ public abstract class Piece {
     }
 
     public abstract boolean canMove(final Position start, final Position end, Map<Position, Piece> board);
+
+    public abstract boolean isCannon();
 }

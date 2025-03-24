@@ -15,24 +15,29 @@ public class Cannon extends Piece {
         List<Position> path = findPath(start, end);
         return isOnePieceOnPath(board, path)
                 && notExistsCannonOnPath(board, path)
-                && isNotCannonTargetPiece(board.get(end))
+                && isNotCannonTargetPiece(board, end)
                 && isValidMovingRule(start, end);
     }
 
+    @Override
+    public boolean isCannon() {
+        return true;
+    }
+
     private boolean isOnePieceOnPath(final Map<Position, Piece> board, final List<Position> path) {
-        long countPieceOnPath = path.stream()
+        long countPieceOnPath = path
+                .stream()
                 .filter(board::containsKey)
                 .count();
         return countPieceOnPath == 1;
     }
 
     private boolean notExistsCannonOnPath(final Map<Position, Piece> board, final List<Position> path) {
-        return path.stream()
-                .noneMatch(position -> board.containsKey(position) && board.get(position) instanceof Cannon);
+        return path.stream().noneMatch(position -> board.containsKey(position) && board.get(position).isCannon());
     }
 
-    private boolean isNotCannonTargetPiece(final Piece targetPiece) {
-        return !(targetPiece instanceof Cannon);
+    private boolean isNotCannonTargetPiece(final Map<Position, Piece> board, final Position end) {
+        return !(board.containsKey(end) && board.get(end).isCannon());
     }
 
     private boolean isValidMovingRule(final Position start, final Position end) {

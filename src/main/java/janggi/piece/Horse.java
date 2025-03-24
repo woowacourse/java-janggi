@@ -15,19 +15,24 @@ public class Horse extends Piece {
         return isEmptyOnPath(board, findPath(start, end)) && isValidMovingRule(start, end);
     }
 
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
+
     private boolean isEmptyOnPath(final Map<Position, Piece> board, final List<Position> path) {
         return path.stream()
                 .noneMatch(board::containsKey);
-    }
-
-    private List<Position> findPath(final Position start, final Position end) {
-        return List.of(findDirection(start, end));
     }
 
     private boolean isValidMovingRule(final Position start, final Position end) {
         int absDeltaX = start.absDeltaX(end);
         int absDeltaY = start.absDeltaY(end);
         return (absDeltaX == 2 && absDeltaY == 1) || (absDeltaX == 1 && absDeltaY == 2);
+    }
+
+    private List<Position> findPath(final Position start, final Position end) {
+        return List.of(findDirection(start, end));
     }
 
     private Position findDirection(final Position start, final Position end) {
