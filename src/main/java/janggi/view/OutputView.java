@@ -79,7 +79,7 @@ public class OutputView {
     }
 
     public void printSuccessMove() {
-        System.out.printf("성공적으로 기물을 이동했습니다.");
+        System.out.println("성공적으로 기물을 이동했습니다.");
     }
 
     public void printErrorMessage(final String message) {
