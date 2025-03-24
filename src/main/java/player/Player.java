@@ -37,6 +37,7 @@ public class Player {
     }
 
     public void removePiece(Position destination) {
+        pieces.removePiece(destination);
     }
 
     public boolean isSameNation(Nation nation) {
