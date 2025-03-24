@@ -9,8 +9,8 @@ import model.Team;
 import model.board.Board;
 
 public abstract class Piece {
-
     private final Team team;
+
     protected Position position;
     protected final List<Route> routes = new ArrayList<>();
 
@@ -18,6 +18,12 @@ public abstract class Piece {
         this.team = team;
         position = new Position(x, y);
     }
+
+    protected abstract Route findMovableRoute(Board board, int dx, int dy);
+
+    protected abstract void validateRoute(Board board, Route route, Position target);
+
+    public abstract PieceType type();
 
     public void move(Board board, Team currentTurn, int dx, int dy) {
         Position target = position.move(dx, dy);
@@ -41,10 +47,6 @@ public abstract class Piece {
         }
     }
 
-    protected abstract Route findMovableRoute(Board board, int dx, int dy);
-
-    protected abstract void validateRoute(Board board, Route route, Position target);
-
     private void arrival(Board board, Position target) {
         if (board.hasPieceOn(target)) {
             Piece targetPiece = board.get(target);
@@ -66,20 +68,20 @@ public abstract class Piece {
     public boolean onPosition(Position nextPos) {
         return position.equals(nextPos);
     }
-
     public record Route(
         List<Position> positions
     ) {
 
+
         public Position sum() {
             return new Position(sumOf(Position::x), sumOf(Position::y));
         }
-
         private int sumOf(ToIntFunction<Position> function) {
             return positions.stream()
                 .mapToInt(function)
                 .sum();
         }
+
     }
 
     public Team getTeam() {
@@ -89,6 +91,4 @@ public abstract class Piece {
     public boolean equalsTeam(Team team) {
         return this.team == team;
     }
-
-    public abstract PieceType type();
 }

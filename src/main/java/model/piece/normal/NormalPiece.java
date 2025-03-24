@@ -12,6 +12,8 @@ public abstract class NormalPiece extends Piece {
         super(x, y, team);
     }
 
+    public abstract PieceType type();
+
     protected Piece.Route findMovableRoute(Board board, int dx, int dy) {
         Position target = position.move(dx, dy);
         for (var route : routes) {
@@ -33,6 +35,4 @@ public abstract class NormalPiece extends Piece {
             }
         }
     }
-
-    public abstract PieceType type();
 }
