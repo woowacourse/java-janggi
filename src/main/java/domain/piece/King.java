@@ -15,9 +15,9 @@ public class King extends Piece {
     @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
         for (Move move : moves) {
-            if (!startPosition.canMovePosition(move)) {
+ /*           if (!startPosition.canMovePosition(move)) {
                 continue;
-            }
+            }*/
             Position newPosition = startPosition.movePosition(move);
             if (newPosition.equals(targetPosition)) {
                 return List.of();

@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Cannon;
 import domain.piece.Chariot;
+import domain.piece.Horse;
 import domain.piece.King;
 import domain.piece.Piece;
 import java.util.HashMap;
@@ -28,8 +29,9 @@ public class JanggiGameTest {
         beforeBoard.put(new Position(8, 5), blueKing);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiGame game = new JanggiGame(boardGenerator, List.of("플레이어1", "플레이어2"));
 
+        JanggiGame game = new JanggiGame(boardGenerator,
+                List.of(new Player("플레이어1", Team.BLUE), new Player("플레이어2", Team.RED)));
         // when
         Map<Position, Piece> boardState = game.getBoardState();
 
@@ -37,20 +39,63 @@ public class JanggiGameTest {
         assertThat(boardState).isEqualTo(beforeBoard);
     }
 
-    @DisplayName("장기판의 말을 이동시킨다")
+    @DisplayName("장기판의 말을 이동시킨다 - 궁")
     @Test
     void test2() {
         // given
         Map<Position, Piece> beforeBoard = new HashMap<>();
         King blueKing = new King(Team.BLUE);
         beforeBoard.put(new Position(1, 1), blueKing);
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), List.of("플레이어1", "플레이어2"));
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard),
+                List.of(new Player("플레이어1", Team.BLUE), new Player("플레이어2", Team.RED)));
 
         Map<Position, Piece> afterBoard = new HashMap<>();
         afterBoard.put(new Position(2, 1), blueKing);
 
         Position startPosition = new Position(1, 1);
         Position targetPosition = new Position(2, 1);
+        // when
+        game.move(startPosition, targetPosition);
+        // then
+        assertThat(beforeBoard).isEqualTo(afterBoard);
+    }
+
+    @DisplayName("장기판의 말을 이동시킨다 - 차")
+    @Test
+    void test24() {
+        // given
+        Map<Position, Piece> beforeBoard = new HashMap<>();
+        Chariot blueChariot = new Chariot(Team.BLUE);
+        beforeBoard.put(new Position(1, 1), blueChariot);
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard),
+                List.of(new Player("플레이어1", Team.BLUE), new Player("플레이어2", Team.RED)));
+
+        Map<Position, Piece> afterBoard = new HashMap<>();
+        afterBoard.put(new Position(2, 1), blueChariot);
+
+        Position startPosition = new Position(1, 1);
+        Position targetPosition = new Position(2, 1);
+        // when
+        game.move(startPosition, targetPosition);
+        // then
+        assertThat(beforeBoard).isEqualTo(afterBoard);
+    }
+
+    @DisplayName("장기판의 말을 이동시킨다 - 마")
+    @Test
+    void test25() {
+        // given
+        Map<Position, Piece> beforeBoard = new HashMap<>();
+        Horse blueHorse = new Horse(Team.BLUE);
+        beforeBoard.put(new Position(1, 1), blueHorse);
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard),
+                List.of(new Player("플레이어1", Team.BLUE), new Player("플레이어2", Team.RED)));
+
+        Map<Position, Piece> afterBoard = new HashMap<>();
+        afterBoard.put(new Position(3, 2), blueHorse);
+
+        Position startPosition = new Position(1, 1);
+        Position targetPosition = new Position(3, 2);
         // when
         game.move(startPosition, targetPosition);
         // then
@@ -64,7 +109,8 @@ public class JanggiGameTest {
         Map<Position, Piece> beforeBoard = new HashMap<>();
         Chariot blueChariot = new Chariot(Team.BLUE);
         beforeBoard.put(new Position(1, 1), blueChariot);
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), List.of("플레이어1", "플레이어2"));
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard),
+                List.of(new Player("플레이어1", Team.BLUE), new Player("플레이어2", Team.RED)));
 
         assertThatThrownBy(() -> game.move(new Position(1, 1), new Position(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)

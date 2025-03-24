@@ -35,6 +35,7 @@ public class Elephant extends Piece {
     @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
         for (List<Move> moveList : moves) {
+
             boolean compareResult = comparePath(startPosition, targetPosition, moveList);
             if (compareResult) {
                 return convertToPath(moveList, startPosition);
@@ -56,6 +57,9 @@ public class Elephant extends Piece {
     private boolean comparePath(Position startPosition, Position targetPosition, List<Move> moveList) {
         Position movedPosition = startPosition;
         for (Move move : moveList) {
+            if (!startPosition.canMovePosition(move)) {
+                continue;
+            }
             movedPosition = movedPosition.movePosition(move);
         }
         return movedPosition.equals(targetPosition);
