@@ -54,13 +54,13 @@ public class JanggiBoard {
     }
 
     private void validateAttackCanon(Piece targetPositionPiece) {
-        if (targetPositionPiece != null && targetPositionPiece.isPo()) {
+        if (targetPositionPiece instanceof Po) {
             throw new IllegalArgumentException("포는 포끼리 잡을 수 없습니다");
         }
     }
 
     private void validateJumpCanon(Position position) {
-        if (findPiece(position) != null && findPiece(position).isPo()) {
+        if (findPiece(position) instanceof Po) {
             throw new IllegalArgumentException("포는 포끼리 건너뛸 수 없습니다.");
         }
     }
