@@ -2,6 +2,7 @@ package domain.piece.routestrategy;
 
 import domain.MovingPattern;
 import domain.position.JanggiPosition;
+import janggiexception.InvalidPathException;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class LinearRouteStrategy implements JanggiPieceRouteStrategy {
                 return createPattern(direction, getMoveCount(beforePosition, afterPosition, direction));
             }
         }
-        throw new IllegalStateException("해당 말은 해당 경로로 이동할 수 없습니다.");
+        throw new InvalidPathException();
     }
 
     private boolean isValidDirection(

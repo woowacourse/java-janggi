@@ -7,6 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import domain.MovingPattern;
 import domain.position.JanggiPosition;
+import janggiexception.BlockedByFriendlyPieceException;
+import janggiexception.CannotCapture포Exception;
+import janggiexception.CannotJump포Exception;
+import janggiexception.HurdleExistException;
+import janggiexception.InvalidPathException;
+import janggiexception.NotExistOnlyOneHurdleException;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -40,8 +46,7 @@ public class JanggiPieceTest {
 
         // when & then
         assertThatThrownBy(() -> 마.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessage("해당 기물은 장애물을 뛰어넘을 수 없습니다.");
+                .isInstanceOf(HurdleExistException.class);
     }
 
     @Test
@@ -55,8 +60,7 @@ public class JanggiPieceTest {
 
         // when & then
         assertThatThrownBy(() -> 마.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessage("같은 팀의 기물은 잡을 수 없습니다.");
+                .isInstanceOf(BlockedByFriendlyPieceException.class);
     }
 
     @Test
@@ -106,7 +110,7 @@ public class JanggiPieceTest {
             // when & then
             assertThatThrownBy(
                     () -> CHO_궁.getRoute(beforePosition, afterPosition))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(InvalidPathException.class);
         }
 
         @Test
@@ -119,7 +123,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(BlockedByFriendlyPieceException.class);
         }
 
         @Test
@@ -173,7 +177,7 @@ public class JanggiPieceTest {
 
             // when & then
             Assertions.assertThatThrownBy(() -> CHO_마.getRoute(beforePosition, afterPosition))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(InvalidPathException.class);
         }
 
         @Test
@@ -186,7 +190,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(BlockedByFriendlyPieceException.class);
         }
 
         @Test
@@ -211,7 +215,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(HurdleExistException.class);
         }
     }
 
@@ -248,7 +252,7 @@ public class JanggiPieceTest {
 
             // when & then
             Assertions.assertThatThrownBy(() -> HAN_병.getRoute(beforePosition, afterPosition))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(InvalidPathException.class);
         }
 
         @Test
@@ -261,7 +265,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(BlockedByFriendlyPieceException.class);
         }
 
         @Test
@@ -317,7 +321,7 @@ public class JanggiPieceTest {
 
             // when & then
             Assertions.assertThatThrownBy(() -> CHO_사.getRoute(beforePosition, afterPosition))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(InvalidPathException.class);
         }
 
         @Test
@@ -330,7 +334,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(BlockedByFriendlyPieceException.class);
         }
 
         @Test
@@ -391,7 +395,7 @@ public class JanggiPieceTest {
 
             // when & then
             Assertions.assertThatThrownBy(() -> CHO_상.getRoute(beforePosition, afterPosition))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(InvalidPathException.class);
         }
 
         @Test
@@ -404,7 +408,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(BlockedByFriendlyPieceException.class);
         }
 
         @Test
@@ -429,7 +433,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(HurdleExistException.class);
         }
     }
 
@@ -473,7 +477,7 @@ public class JanggiPieceTest {
 
             // when & then
             Assertions.assertThatThrownBy(() -> CHO_졸.getRoute(beforePosition, afterPosition))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(InvalidPathException.class);
         }
 
         @Test
@@ -486,7 +490,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(BlockedByFriendlyPieceException.class);
         }
 
         @Test
@@ -556,7 +560,7 @@ public class JanggiPieceTest {
 
             // when & then
             Assertions.assertThatThrownBy(() -> CHO_차.getRoute(beforePosition, afterPosition))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(InvalidPathException.class);
         }
 
         @Test
@@ -569,7 +573,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(BlockedByFriendlyPieceException.class);
         }
 
         @Test
@@ -594,7 +598,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(HurdleExistException.class);
         }
     }
 
@@ -611,8 +615,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> 포.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(IllegalStateException.class)
-                    .hasMessage("포는 포를 넘을 수 없습니다.");
+                    .isInstanceOf(CannotJump포Exception.class);
         }
 
         @Test
@@ -625,8 +628,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> 포.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(IllegalStateException.class)
-                    .hasMessage("포는 포를 잡을 수 없습니다.");
+                    .isInstanceOf(CannotCapture포Exception.class);
         }
 
         @Test
@@ -639,8 +641,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> 포.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(IllegalStateException.class)
-                    .hasMessage("포는 장애물 1개를 뛰어넘어야 합니다.");
+                    .isInstanceOf(NotExistOnlyOneHurdleException.class);
         }
 
         @Test
@@ -653,8 +654,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> 포.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(IllegalStateException.class)
-                    .hasMessage("포는 장애물 1개를 뛰어넘어야 합니다.");
+                    .isInstanceOf(NotExistOnlyOneHurdleException.class);
         }
 
         @Test
@@ -667,8 +667,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> 포.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(IllegalStateException.class)
-                    .hasMessage("같은 팀의 기물은 잡을 수 없습니다.");
+                    .isInstanceOf(BlockedByFriendlyPieceException.class);
         }
 
         @ParameterizedTest
@@ -724,7 +723,7 @@ public class JanggiPieceTest {
 
             // when & then
             Assertions.assertThatThrownBy(() -> CHO_포.getRoute(beforePosition, afterPosition))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(InvalidPathException.class);
         }
 
         @Test
@@ -737,7 +736,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(BlockedByFriendlyPieceException.class);
         }
 
         @Test

@@ -2,6 +2,7 @@ package domain.piece.routestrategy;
 
 import domain.MovingPattern;
 import domain.position.JanggiPosition;
+import janggiexception.InvalidPathException;
 import java.util.List;
 
 public class LimitedRouteStrategy implements JanggiPieceRouteStrategy {
@@ -17,6 +18,6 @@ public class LimitedRouteStrategy implements JanggiPieceRouteStrategy {
                     return false;
                 })
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("해당 말은 해당 경로로 이동할 수 없습니다."));
+                .orElseThrow(InvalidPathException::new);
     }
 }

@@ -2,16 +2,18 @@ package domain.piece.movingstrategy;
 
 import domain.piece.JanggiPiece;
 import domain.piece.JanggiSide;
+import janggiexception.BlockedByFriendlyPieceException;
+import janggiexception.HurdleExistException;
 
 public class MovingNormalStrategy implements JanggiPieceMovingStrategy {
 
     @Override
     public void checkPieceCanMove(JanggiSide mySide, JanggiPiece hurdlePiece, int hurdleCount, JanggiPiece targetPiece) {
         if (targetPiece.isTeamOf(mySide)) {
-            throw new IllegalStateException("같은 팀의 기물은 잡을 수 없습니다.");
+            throw new BlockedByFriendlyPieceException();
         }
         if (hurdleCount != 0) {
-            throw new IllegalStateException("해당 기물은 장애물을 뛰어넘을 수 없습니다.");
+            throw new HurdleExistException();
         }
     }
 }

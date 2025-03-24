@@ -11,6 +11,9 @@ import domain.piece.JanggiPiece;
 import domain.piece.JanggiPieceType;
 import domain.piece.JanggiSide;
 import domain.position.JanggiPosition;
+import janggiexception.BlockedByFriendlyPieceException;
+import janggiexception.HurdleExistException;
+import janggiexception.NotExistOnlyOneHurdleException;
 import java.util.Map;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -52,7 +55,7 @@ public class JanggiBoardTest {
 
         // when & then
         assertThatThrownBy(() -> janggiBoard.movePiece(차Position, new JanggiPosition(4, 1)))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(HurdleExistException.class);
     }
 
     @Nested
@@ -218,7 +221,7 @@ public class JanggiBoardTest {
 
         // when & then
         assertThatThrownBy(() -> janggiBoard.movePiece(마beforePosition, 졸Position))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(BlockedByFriendlyPieceException.class);
     }
 
     @Test
@@ -255,7 +258,7 @@ public class JanggiBoardTest {
 
         // then
         assertThatThrownBy(() -> janggiBoard.movePiece(포beforePosition, 포afterPosition))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(NotExistOnlyOneHurdleException.class);
     }
 
     @Test
