@@ -14,8 +14,8 @@ public class Board {
         this.positionDatas = new HashMap<>(map);
     }
 
-    public boolean existPieceByPosition(final Position existPosition) {
-        return positionDatas.containsKey(existPosition);
+    public boolean existPieceByPosition(final Position position) {
+        return positionDatas.containsKey(position);
     }
 
     public boolean equalsTypeByPositionAndPiece(final Position position, final Piece piece) {
