@@ -3,8 +3,8 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.board.Point;
-import janggi.board.Board;
 import janggi.camp.Camp;
+import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,8 +22,7 @@ class ChariotTest {
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int toX, int toY) {
         // given
-        Board board = new Board();
-        Chariot chariot = new Chariot(camp, board);
+        Chariot chariot = new Chariot(camp);
         Point fromPoint = new Point(3, 3);
         Point toPoint = new Point(toX, toY);
 
@@ -43,8 +42,7 @@ class ChariotTest {
     })
     void validateMoveTest(Camp camp, int toX, int toY) {
         // given
-        Board board = new Board();
-        Chariot chariot = new Chariot(camp, board);
+        Chariot chariot = new Chariot(camp);
         Point fromPoint = new Point(3, 3);
         Point toPoint = new Point(toX, toY);
 
@@ -57,15 +55,11 @@ class ChariotTest {
     @Test
     void shouldThrowException_WhenBlocked() {
         // given
-        Board board = new Board();
-        board.placePiece(new Point(3, 5), new Soldier(Camp.CHU, board));
-        Chariot chariot = new Chariot(Camp.CHU, board);
-        Point fromPoint = new Point(3, 3);
-        board.placePiece(fromPoint, chariot);
-        Point toPoint = new Point(3, 7);
+        Chariot chariot = new Chariot(Camp.CHU);
+        Set<Piece> piecesOnRoute = Set.of(new Soldier(Camp.CHU));
 
         // when & then
-        assertThatCode(() -> chariot.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> chariot.validatePathObstacles(piecesOnRoute))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("차는 기물을 넘어 이동할 수 없습니다.");
     }
@@ -78,8 +72,7 @@ class ChariotTest {
     })
     void shouldThrowException_WhenSelectOtherCampPiece(Camp camp, Camp otherCamp) {
         // given
-        Board board = new Board();
-        Chariot chariot = new Chariot(otherCamp, board);
+        Chariot chariot = new Chariot(otherCamp);
 
         // when & then
         assertThatCode(() -> chariot.validateSelect(camp))

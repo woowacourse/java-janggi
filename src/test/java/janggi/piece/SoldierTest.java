@@ -3,7 +3,6 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.board.Point;
-import janggi.board.Board;
 import janggi.camp.Camp;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,8 +19,7 @@ class SoldierTest {
     })
     void shouldThrowException_WhenMoveBackward(Camp camp, int toY) {
         // given
-        Board board = new Board();
-        Soldier soldier = new Soldier(camp, board);
+        Soldier soldier = new Soldier(camp);
         Point fromPoint = new Point(0, 1);
         Point toPoint = new Point(0, toY);
 
@@ -43,8 +41,7 @@ class SoldierTest {
     })
     void validMoveTest(Camp camp, int toX, int toY) {
         // given
-        Board board = new Board();
-        Soldier soldier = new Soldier(camp, board);
+        Soldier soldier = new Soldier(camp);
         Point fromPoint = new Point(1, 1);
         Point toPoint = new Point(toX, toY);
 
@@ -61,8 +58,7 @@ class SoldierTest {
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int toX, int toY) {
         // given
-        Board board = new Board();
-        Soldier soldier = new Soldier(camp, board);
+        Soldier soldier = new Soldier(camp);
         Point fromPoint = new Point(1, 1);
         Point toPoint = new Point(toX, toY);
 
@@ -76,11 +72,10 @@ class SoldierTest {
     @Test
     void shouldThrowException_WhenCatchSameCamp() {
         // given
-        Board board = new Board();
-        Soldier soldier = new Soldier(Camp.HAN, board);
+        Soldier soldier = new Soldier(Camp.HAN);
 
         // when & then
-        assertThatCode(() -> soldier.validateCatch(new Soldier(Camp.HAN, board)))
+        assertThatCode(() -> soldier.validateCatch(new Soldier(Camp.HAN)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("같은 진영의 기물을 잡을 수 없습니다.");
     }

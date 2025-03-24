@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.board.Point;
 import janggi.camp.Camp;
 import janggi.view.PieceSymbol;
@@ -9,14 +8,13 @@ import java.util.Set;
 
 public final class Chariot extends Piece {
 
-    public Chariot(Camp camp, Board board) {
-        super(camp, board);
+    public Chariot(Camp camp) {
+        super(camp);
     }
 
     @Override
     public void validateMove(Point fromPoint, Point toPoint) {
         validateLinearMove(fromPoint, toPoint);
-        validateObstacleOnRoute(fromPoint, toPoint);
     }
 
     private void validateLinearMove(Point fromPoint, Point toPoint) {
@@ -25,14 +23,15 @@ public final class Chariot extends Piece {
         }
     }
 
-    private void validateObstacleOnRoute(Point fromPoint, Point toPoint) {
-        Set<Piece> pieces = getBoard().getPiecesByPoint(findRoute(fromPoint, toPoint));
-        if (!pieces.isEmpty()) {
+    @Override
+    public void validatePathObstacles(Set<Piece> piecesOnRoute) {
+        if (!piecesOnRoute.isEmpty()) {
             throw new IllegalArgumentException("차는 기물을 넘어 이동할 수 없습니다.");
         }
     }
 
-    private Set<Point> findRoute(Point fromPoint, Point toPoint) {
+    @Override
+    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
         boolean isHorizontal = fromPoint.isHorizontal(toPoint);
         if (isHorizontal) {
             return findHorizontalRoute(fromPoint.getY(), fromPoint.getX(), toPoint.getX());

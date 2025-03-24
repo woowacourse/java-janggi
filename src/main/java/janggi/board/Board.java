@@ -38,24 +38,13 @@ public class Board {
         }
     }
 
-    public Piece peek(Point point) {
-        Piece piece = placedPieces.get(point);
-        if (piece == null) {
-            throw new IllegalArgumentException("해당 위치에서 기물을 찾을 수 없습니다.");
-        }
-        return piece;
-    }
-
     public void move(Point from, Point to) {
         validateMoveRequest(from, to);
         Piece fromPiece = peek(from);
-        fromPiece.validateMove(from, to);
-        Piece toPiece = placedPieces.get(to);
-        if (toPiece != null) {
-            fromPiece.validateCatch(toPiece);
-        }
-        placedPieces.put(from, null);
-        placedPieces.put(to, fromPiece);
+        validateMovable(from, to, fromPiece);
+        validatePath(from, to, fromPiece);
+        validateCatchable(to, fromPiece);
+        executeMove(from, to, fromPiece);
     }
 
     private void validateMoveRequest(Point from, Point to) {
@@ -66,7 +55,37 @@ public class Board {
         validatePoint(to);
     }
 
-    public Set<Piece> getPiecesByPoint(Set<Point> route) {
+    public Piece peek(Point point) {
+        Piece piece = placedPieces.get(point);
+        if (piece == null) {
+            throw new IllegalArgumentException("해당 위치에서 기물을 찾을 수 없습니다.");
+        }
+        return piece;
+    }
+
+    private void validateMovable(Point from, Point to, Piece fromPiece) {
+        fromPiece.validateMove(from, to);
+    }
+
+    private void validatePath(Point from, Point to, Piece fromPiece) {
+        Set<Point> route = fromPiece.findRoute(from, to);
+        Set<Piece> piecesByPoint = getPiecesByPoint(route);
+        fromPiece.validatePathObstacles(piecesByPoint);
+    }
+
+    private void validateCatchable(Point to, Piece fromPiece) {
+        Piece toPiece = placedPieces.get(to);
+        if (toPiece != null) {
+            fromPiece.validateCatch(toPiece);
+        }
+    }
+
+    private void executeMove(Point from, Point to, Piece fromPiece) {
+        placedPieces.put(from, null);
+        placedPieces.put(to, fromPiece);
+    }
+
+    private Set<Piece> getPiecesByPoint(Set<Point> route) {
         Set<Piece> pieces = new HashSet<>();
         for (Point point : route) {
             Piece piece = placedPieces.get(point);

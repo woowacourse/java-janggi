@@ -1,18 +1,28 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.board.Point;
 import janggi.camp.Camp;
 import janggi.view.PieceSymbol;
+import java.util.Set;
 
 public final class Guard extends Piece {
 
-    public Guard(Camp camp, Board board) {
-        super(camp, board);
+    public Guard(Camp camp) {
+        super(camp);
     }
 
     @Override
     public void validateMove(Point fromPoint, Point toPoint) {
+    }
+
+    @Override
+    public void validatePathObstacles(Set<Piece> piecesOnRoute) {
+
+    }
+
+    @Override
+    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
+        return Set.of();
     }
 
     @Override

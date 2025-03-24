@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.board.Point;
 import janggi.camp.Camp;
 import janggi.view.PieceSymbol;
@@ -8,14 +7,13 @@ import java.util.Set;
 
 public final class Horse extends Piece {
 
-    public Horse(Camp camp, Board board) {
-        super(camp, board);
+    public Horse(Camp camp) {
+        super(camp);
     }
 
     @Override
     public void validateMove(Point fromPoint, Point toPoint) {
         validateHorseMove(fromPoint, toPoint);
-        validateObstacleOnRoute(fromPoint, toPoint);
     }
 
     private void validateHorseMove(Point fromPoint, Point toPoint) {
@@ -28,18 +26,19 @@ public final class Horse extends Piece {
         return (xDistance == 2 && yDistance == 1) || (xDistance == 1 && yDistance == 2);
     }
 
-    private void validateObstacleOnRoute(Point fromPoint, Point toPoint) {
-        Set<Piece> pieces = getBoard().getPiecesByPoint(Set.of(findRoute(fromPoint, toPoint)));
-        if (!pieces.isEmpty()) {
+    @Override
+    public void validatePathObstacles(Set<Piece> piecesOnRoute) {
+        if (!piecesOnRoute.isEmpty()) {
             throw new IllegalArgumentException("마는 기물을 넘어서 이동할 수 없습니다.");
         }
     }
 
-    private Point findRoute(Point fromPoint, Point toPoint) {
+    @Override
+    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
         if (isNextPointOnHorizontal(fromPoint, toPoint)) {
-            return getNextHorizontalPoint(fromPoint, toPoint);
+            return Set.of(getNextHorizontalPoint(fromPoint, toPoint));
         }
-        return getNextVerticalPoint(fromPoint, toPoint);
+        return Set.of(getNextVerticalPoint(fromPoint, toPoint));
     }
 
     private boolean isNextPointOnHorizontal(Point fromPoint, Point toPoint) {

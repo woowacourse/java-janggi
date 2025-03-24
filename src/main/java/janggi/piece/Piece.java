@@ -1,21 +1,23 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.board.Point;
 import janggi.camp.Camp;
 import janggi.view.PieceSymbol;
+import java.util.Set;
 
 public abstract class Piece {
 
     private final Camp camp;
-    private final Board board;
 
-    public Piece(Camp camp, Board board) {
+    public Piece(Camp camp) {
         this.camp = camp;
-        this.board = board;
     }
 
     public abstract void validateMove(Point fromPoint, Point toPoint);
+
+    public abstract void validatePathObstacles(Set<Piece> piecesOnRoute);
+
+    public abstract Set<Point> findRoute(Point fromPoint, Point toPoint);
 
     public abstract PieceSymbol getPieceSymbol();
 
@@ -37,9 +39,5 @@ public abstract class Piece {
 
     public Camp getCamp() {
         return camp;
-    }
-
-    public Board getBoard() {
-        return board;
     }
 }

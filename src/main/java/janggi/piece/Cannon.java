@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.board.Point;
 import janggi.camp.Camp;
 import janggi.view.PieceSymbol;
@@ -11,14 +10,13 @@ public final class Cannon extends Piece {
 
     private static final int POSSIBLE_JUMP_OVER_PIECE_COUNT = 1;
 
-    public Cannon(Camp camp, Board board) {
-        super(camp, board);
+    public Cannon(Camp camp) {
+        super(camp);
     }
 
     @Override
     public void validateMove(Point fromPoint, Point toPoint) {
         validateLinearMove(fromPoint, toPoint);
-        validateJumpOverOnePiece(fromPoint, toPoint);
     }
 
     private void validateLinearMove(Point fromPoint, Point toPoint) {
@@ -27,10 +25,10 @@ public final class Cannon extends Piece {
         }
     }
 
-    private void validateJumpOverOnePiece(Point fromPoint, Point toPoint) {
-        Set<Piece> pieces = getBoard().getPiecesByPoint(findRoute(fromPoint, toPoint));
-        validatePieceCount(pieces);
-        validateNotJumpOverCannon(pieces);
+    @Override
+    public void validatePathObstacles(Set<Piece> piecesOnRoute) {
+        validatePieceCount(piecesOnRoute);
+        validateNotJumpOverCannon(piecesOnRoute);
     }
 
     private void validatePieceCount(Set<Piece> pieces) {
@@ -50,7 +48,8 @@ public final class Cannon extends Piece {
                 .anyMatch(piece -> piece.getPieceSymbol() == this.getPieceSymbol());
     }
 
-    private Set<Point> findRoute(Point fromPoint, Point toPoint) {
+    @Override
+    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
         boolean isHorizontal = fromPoint.isHorizontal(toPoint);
         if (isHorizontal) {
             return findHorizontalRoute(fromPoint.getY(), fromPoint.getX(), toPoint.getX());

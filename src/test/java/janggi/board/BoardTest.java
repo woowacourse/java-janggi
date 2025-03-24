@@ -20,7 +20,7 @@ class BoardTest {
         // given
         Board board = new Board();
         Point point = new Point(1, 1);
-        Piece piece = new Elephant(Camp.HAN, board);
+        Piece piece = new Elephant(Camp.HAN);
 
         // when & then
         assertThatCode(() -> board.placePiece(point, piece))
@@ -39,7 +39,7 @@ class BoardTest {
         // given
         Board board = new Board();
         Point point = new Point(x, y);
-        Piece piece = new Elephant(Camp.HAN, board);
+        Piece piece = new Elephant(Camp.HAN);
 
         // when & then
         assertThatCode(() -> board.placePiece(point, piece))
@@ -53,7 +53,7 @@ class BoardTest {
         // given
         Board board = new Board();
         Point from = new Point(0, 3);
-        Piece piece = new Soldier(Camp.CHU, board);
+        Piece piece = new Soldier(Camp.CHU);
         board.placePiece(from, piece);
         Point to = new Point(0, 4);
 
@@ -71,7 +71,7 @@ class BoardTest {
         // given
         Board board = new Board();
         Point from = new Point(0, 3);
-        Piece piece = new Soldier(Camp.CHU, board);
+        Piece piece = new Soldier(Camp.CHU);
         board.placePiece(from, piece);
         Point to = new Point(0, 15);
 
@@ -102,8 +102,8 @@ class BoardTest {
         Board board = new Board();
         Point from = new Point(0, 3);
         Point to = new Point(0, 4);
-        Piece fromPiece = new Soldier(Camp.CHU, board);
-        Piece toPiece = new Soldier(Camp.CHU, board);
+        Piece fromPiece = new Soldier(Camp.CHU);
+        Piece toPiece = new Soldier(Camp.CHU);
         board.placePiece(from, fromPiece);
         board.placePiece(to, toPiece);
 
@@ -120,8 +120,8 @@ class BoardTest {
         Board board = new Board();
         Point from = new Point(0, 3);
         Point to = new Point(0, 4);
-        Piece fromPiece = new Soldier(Camp.CHU, board);
-        Piece toPiece = new Soldier(Camp.HAN, board);
+        Piece fromPiece = new Soldier(Camp.CHU);
+        Piece toPiece = new Soldier(Camp.HAN);
         board.placePiece(from, fromPiece);
         board.placePiece(to, toPiece);
 
@@ -144,7 +144,7 @@ class BoardTest {
         Board board = new Board();
         Point fromPoint = new Point(1, 1);
         Point toPoint = new Point(1, 1);
-        board.placePiece(fromPoint, new Soldier(Camp.CHU, board));
+        board.placePiece(fromPoint, new Soldier(Camp.CHU));
 
         // when & then
         assertThatCode(() -> board.move(fromPoint, toPoint))

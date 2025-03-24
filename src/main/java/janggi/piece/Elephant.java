@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.board.Point;
 import janggi.camp.Camp;
 import janggi.view.PieceSymbol;
@@ -9,14 +8,13 @@ import java.util.Set;
 
 public final class Elephant extends Piece {
 
-    public Elephant(Camp camp, Board board) {
-        super(camp, board);
+    public Elephant(Camp camp) {
+        super(camp);
     }
 
     @Override
     public void validateMove(Point fromPoint, Point toPoint) {
         validateElephantMove(fromPoint, toPoint);
-        validateObstacleOnRoute(fromPoint, toPoint);
     }
 
     private void validateElephantMove(Point fromPoint, Point toPoint) {
@@ -29,14 +27,15 @@ public final class Elephant extends Piece {
         return (xDistance == 2 && yDistance == 3) || (xDistance == 3 && yDistance == 2);
     }
 
-    private void validateObstacleOnRoute(Point fromPoint, Point toPoint) {
-        Set<Piece> pieces = getBoard().getPiecesByPoint(findRoute(fromPoint, toPoint));
-        if (!pieces.isEmpty()) {
+    @Override
+    public void validatePathObstacles(Set<Piece> piecesOnRoute) {
+        if (!piecesOnRoute.isEmpty()) {
             throw new IllegalArgumentException("상은 기물을 넘어서 이동할 수 없습니다.");
         }
     }
 
-    private Set<Point> findRoute(Point fromPoint, Point toPoint) {
+    @Override
+    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
         Set<Point> route = new HashSet<>();
         if (isNextPointOnHorizontal(fromPoint, toPoint)) {
             return findHorizontalRoute(fromPoint, toPoint, route);
