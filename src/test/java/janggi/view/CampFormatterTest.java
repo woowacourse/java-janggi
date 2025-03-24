@@ -21,6 +21,6 @@ class CampFormatterTest {
 
         // then
         assertThat(formatted)
-            .isEqualTo(expected);
+                .isEqualTo(expected);
     }
 }

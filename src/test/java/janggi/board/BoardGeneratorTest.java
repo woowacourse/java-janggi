@@ -11,7 +11,8 @@ import janggi.piece.General;
 import janggi.piece.Guard;
 import janggi.piece.Horse;
 import janggi.piece.Piece;
-import janggi.piece.Soldier;
+import janggi.piece.SoldierByeong;
+import janggi.piece.SoldierJol;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,11 +27,11 @@ class BoardGeneratorTest {
 
         // then
         assertAll(
-                () -> assertThat(board.getPiece(new Point(0, 3))).isInstanceOf(Soldier.class),
-                () -> assertThat(board.getPiece(new Point(2, 3))).isInstanceOf(Soldier.class),
-                () -> assertThat(board.getPiece(new Point(4, 3))).isInstanceOf(Soldier.class),
-                () -> assertThat(board.getPiece(new Point(6, 3))).isInstanceOf(Soldier.class),
-                () -> assertThat(board.getPiece(new Point(8, 3))).isInstanceOf(Soldier.class),
+                () -> assertThat(board.getPiece(new Point(0, 3))).isInstanceOf(SoldierJol.class),
+                () -> assertThat(board.getPiece(new Point(2, 3))).isInstanceOf(SoldierJol.class),
+                () -> assertThat(board.getPiece(new Point(4, 3))).isInstanceOf(SoldierJol.class),
+                () -> assertThat(board.getPiece(new Point(6, 3))).isInstanceOf(SoldierJol.class),
+                () -> assertThat(board.getPiece(new Point(8, 3))).isInstanceOf(SoldierJol.class),
 
                 () -> assertThat(board.getPiece(new Point(1, 2))).isInstanceOf(Cannon.class),
                 () -> assertThat(board.getPiece(new Point(7, 2))).isInstanceOf(Cannon.class),
@@ -56,11 +57,11 @@ class BoardGeneratorTest {
 
         // then
         assertAll(
-                () -> assertThat(board.getPiece(new Point(0, 6))).isInstanceOf(Soldier.class),
-                () -> assertThat(board.getPiece(new Point(2, 6))).isInstanceOf(Soldier.class),
-                () -> assertThat(board.getPiece(new Point(4, 6))).isInstanceOf(Soldier.class),
-                () -> assertThat(board.getPiece(new Point(6, 6))).isInstanceOf(Soldier.class),
-                () -> assertThat(board.getPiece(new Point(8, 6))).isInstanceOf(Soldier.class),
+                () -> assertThat(board.getPiece(new Point(0, 6))).isInstanceOf(SoldierByeong.class),
+                () -> assertThat(board.getPiece(new Point(2, 6))).isInstanceOf(SoldierByeong.class),
+                () -> assertThat(board.getPiece(new Point(4, 6))).isInstanceOf(SoldierByeong.class),
+                () -> assertThat(board.getPiece(new Point(6, 6))).isInstanceOf(SoldierByeong.class),
+                () -> assertThat(board.getPiece(new Point(8, 6))).isInstanceOf(SoldierByeong.class),
 
                 () -> assertThat(board.getPiece(new Point(1, 7))).isInstanceOf(Cannon.class),
                 () -> assertThat(board.getPiece(new Point(7, 7))).isInstanceOf(Cannon.class),

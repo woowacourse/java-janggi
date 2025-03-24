@@ -17,8 +17,4 @@ public enum Camp {
     ;
 
     public abstract Camp reverse();
-
-    public boolean isBottom() {
-        return this == CHU;
-    }
 }

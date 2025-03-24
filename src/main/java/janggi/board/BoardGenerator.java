@@ -8,23 +8,24 @@ import janggi.piece.Elephant;
 import janggi.piece.General;
 import janggi.piece.Guard;
 import janggi.piece.Horse;
-import janggi.piece.Soldier;
+import janggi.piece.SoldierByeong;
+import janggi.piece.SoldierJol;
 
 public final class BoardGenerator {
 
     public static Board generate() {
         Board board = new Board();
-        placeChuPieces(board);
         placeHanPieces(board);
+        placeChuPieces(board);
         return board;
     }
 
     private static void placeHanPieces(Board board) {
-        board.placePiece(new Point(0, 6), new Soldier(Camp.HAN, board));
-        board.placePiece(new Point(2, 6), new Soldier(Camp.HAN, board));
-        board.placePiece(new Point(4, 6), new Soldier(Camp.HAN, board));
-        board.placePiece(new Point(6, 6), new Soldier(Camp.HAN, board));
-        board.placePiece(new Point(8, 6), new Soldier(Camp.HAN, board));
+        board.placePiece(new Point(0, 6), new SoldierByeong(board));
+        board.placePiece(new Point(2, 6), new SoldierByeong(board));
+        board.placePiece(new Point(4, 6), new SoldierByeong(board));
+        board.placePiece(new Point(6, 6), new SoldierByeong(board));
+        board.placePiece(new Point(8, 6), new SoldierByeong(board));
 
         board.placePiece(new Point(1, 7), new Cannon(Camp.HAN, board));
         board.placePiece(new Point(7, 7), new Cannon(Camp.HAN, board));
@@ -56,10 +57,10 @@ public final class BoardGenerator {
         board.placePiece(new Point(1, 2), new Cannon(Camp.CHU, board));
         board.placePiece(new Point(7, 2), new Cannon(Camp.CHU, board));
 
-        board.placePiece(new Point(0, 3), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(2, 3), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(4, 3), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(6, 3), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(8, 3), new Soldier(Camp.CHU, board));
+        board.placePiece(new Point(0, 3), new SoldierJol(board));
+        board.placePiece(new Point(2, 3), new SoldierJol(board));
+        board.placePiece(new Point(4, 3), new SoldierJol(board));
+        board.placePiece(new Point(6, 3), new SoldierJol(board));
+        board.placePiece(new Point(8, 3), new SoldierJol(board));
     }
 }

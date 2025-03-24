@@ -1,10 +1,12 @@
 package janggi.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggi.board.point.Point;
 import janggi.board.Board;
+import janggi.board.point.Point;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -71,10 +73,10 @@ class ElephantTest {
         Elephant elephant = new Elephant(camp, board);
         Point fromPoint = new Point(5, 5);
         Point toPoint = new Point(toX, toY);
-        board.placePiece(new Point(5, 6), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(6, 5), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(5, 4), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(4, 5), new Soldier(Camp.CHU, board));
+        board.placePiece(new Point(5, 6), new SoldierJol(board));
+        board.placePiece(new Point(6, 5), new SoldierJol(board));
+        board.placePiece(new Point(5, 4), new SoldierJol(board));
+        board.placePiece(new Point(4, 5), new SoldierJol(board));
 
         // when & then
         assertThatCode(() -> elephant.validateMove(fromPoint, toPoint))
@@ -96,18 +98,33 @@ class ElephantTest {
         Elephant elephant = new Elephant(camp, board);
         Point fromPoint = new Point(5, 5);
         Point toPoint = new Point(toX, toY);
-        board.placePiece(new Point(6, 7), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(7, 6), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(6, 3), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(3, 6), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(4, 3), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(3, 4), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(7, 4), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(4, 7), new Soldier(Camp.CHU, board));
+        board.placePiece(new Point(6, 7), new SoldierJol(board));
+        board.placePiece(new Point(7, 6), new SoldierJol(board));
+        board.placePiece(new Point(6, 3), new SoldierJol(board));
+        board.placePiece(new Point(3, 6), new SoldierJol(board));
+        board.placePiece(new Point(4, 3), new SoldierJol(board));
+        board.placePiece(new Point(3, 4), new SoldierJol(board));
+        board.placePiece(new Point(7, 4), new SoldierJol(board));
+        board.placePiece(new Point(4, 7), new SoldierJol(board));
 
         // when & then
         assertThatCode(() -> elephant.validateMove(fromPoint, toPoint))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("상은 기물을 넘어서 이동할 수 없습니다.");
+    }
+
+    @DisplayName("자신의 기물 형태를 반환한다.")
+    @Test
+    void getPieceSymbolTest() {
+        // given
+        Board board = new Board();
+        Elephant elephant = new Elephant(Camp.HAN, board);
+
+        // when
+        PieceSymbol pieceSymbol = elephant.getPieceSymbol();
+
+        // then
+        assertThat(pieceSymbol)
+                .isSameAs(PieceSymbol.ELEPHANT);
     }
 }

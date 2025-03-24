@@ -29,14 +29,6 @@ public abstract class Piece {
         }
     }
 
-    public boolean isPlacedAtBottom() {
-        return isBottom();
-    }
-
-    private boolean isBottom() {
-        return camp.isBottom();
-    }
-
     public Camp getCamp() {
         return camp;
     }

@@ -1,9 +1,10 @@
 package janggi.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggi.board.point.Point;
 import janggi.board.Board;
+import janggi.board.point.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -57,7 +58,7 @@ class ChariotTest {
     void shouldThrowException_WhenBlocked() {
         // given
         Board board = new Board();
-        board.placePiece(new Point(3, 5), new Soldier(Camp.CHU, board));
+        board.placePiece(new Point(3, 5), new SoldierJol(board));
         Chariot chariot = new Chariot(Camp.CHU, board);
         Point fromPoint = new Point(3, 3);
         board.placePiece(fromPoint, chariot);
@@ -84,5 +85,20 @@ class ChariotTest {
         assertThatCode(() -> chariot.validateSelect(camp))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("다른 진영의 기물을 선택할 수 없습니다.");
+    }
+
+    @DisplayName("자신의 기물 형태를 반환한다.")
+    @Test
+    void getPieceSymbolTest() {
+        // given
+        Board board = new Board();
+        Chariot chariot = new Chariot(Camp.CHU, board);
+
+        // when
+        PieceSymbol pieceSymbol = chariot.getPieceSymbol();
+
+        // then
+        assertThat(pieceSymbol)
+                .isSameAs(PieceSymbol.CHARIOT);
     }
 }
