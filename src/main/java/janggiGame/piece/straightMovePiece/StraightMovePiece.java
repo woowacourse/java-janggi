@@ -39,10 +39,11 @@ public abstract class StraightMovePiece extends Piece {
         List<Dot> route = new ArrayList<>();
         Function<Dot, Dot> moveFunction = getMoveFunction(delta, positiveMove, negativeMove);
 
-        while (Math.abs(delta) > 1) {
+        int steps = Math.abs(delta) - 1;
+
+        for(int i = 0; i < steps; i++) {
             origin = moveFunction.apply(origin);
             route.add(origin);
-            delta -= Integer.signum(delta);
         }
 
         return route;
