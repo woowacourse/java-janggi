@@ -68,14 +68,7 @@ public class Pieces {
     private void validateSameTeamExistOfArrival(Position departure, Position arrival) {
         Piece departurePositionPiece = pieces.get(departure);
         Piece currentArrivalPositionPiece = pieces.get(arrival);
-        validateIsBothCannon(departurePositionPiece, currentArrivalPositionPiece);
         if (departurePositionPiece.getTeam() == currentArrivalPositionPiece.getTeam()) {
-            throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
-        }
-    }
-
-    private void validateIsBothCannon(Piece departurePositionPiece, Piece currentArrivalPositionPiece) {
-        if (departurePositionPiece.isCannon() && currentArrivalPositionPiece.isCannon()) {
             throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
         }
     }
@@ -92,11 +85,14 @@ public class Pieces {
         if (pieceCount == 1 && !hasCannon) {
             return;
         }
-        throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
+        throw new IllegalArgumentException("같은 포 끼리는 넘을 수 없습니다.");
     }
 
     private boolean hasCannon(Position position) {
         Piece findPiece = pieces.get(position);
+        if (findPiece == null) {
+            return false;
+        }
         return findPiece.isCannon();
     }
 
