@@ -4,6 +4,8 @@ import janggi.board.Position;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.piece.Side;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +16,8 @@ public class Cannon extends UnLimitMovable {
     }
 
     @Override
-    public void addValidDestination(final List<Position> positions, final List<Position> reachablePositions,
-                                    final Map<Position, Piece> board) {
+    public List<Position> addValidDestination(final List<Position> positions, final Map<Position, Piece> board) {
+        List<Position> reachableDestinations = new ArrayList<>();
         boolean isJumped = false;
         for (Position position : positions) {
             Piece targetPiece = board.get(position);
@@ -27,10 +29,11 @@ public class Cannon extends UnLimitMovable {
                 continue;
             }
 
-            if (isJumped && handleAfterJumped(reachablePositions, position, targetPiece)) {
+            if (isJumped && handleAfterJumped(reachableDestinations, position, targetPiece)) {
                 break;
             }
         }
+        return reachableDestinations;
     }
 
     private boolean handleAfterJumped(final List<Position> reachablePositions, final Position position,

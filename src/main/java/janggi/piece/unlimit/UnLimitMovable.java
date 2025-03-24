@@ -30,16 +30,15 @@ public abstract class UnLimitMovable implements Piece {
     @Override
     public List<Position> computeReachableDestinations(final Position position, final Map<Position, Piece> board) {
         List<Route> candidateRoutes = computeCandidatePositions(position);
-        List<Position> reachablePositions = new ArrayList<>();
+        List<Position> reachableDestinations = new ArrayList<>();
         for (Route route : candidateRoutes) {
             List<Position> positions = route.getPositions();
-            addValidDestination(positions, reachablePositions, board);
+            reachableDestinations.addAll(addValidDestination(positions, board));
         }
-        return reachablePositions;
+        return reachableDestinations;
     }
 
-    protected abstract void addValidDestination(final List<Position> positions, final List<Position> reachablePositions,
-                                                final Map<Position, Piece> board);
+    protected abstract List<Position> addValidDestination(final List<Position> positions, final Map<Position, Piece> board);
 
     private Route createRoute(final Position position, final Direction direction) {
         Route route = new Route(position);

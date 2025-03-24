@@ -34,10 +34,7 @@ public abstract class LimitMovable implements Piece {
 
     private boolean isInvalidRoute(final Route route, final Map<Position, Piece> board) {
         Position destination = route.getLastPosition();
-        if (destination.isOutOfRange()) {
-            return true;
-        }
-        if (isAlly(board.get(destination))) {
+        if (destination.isOutOfRange() || isAlly(board.get(destination))) {
             return true;
         }
         return checkInvalidIntermediatePositions(route, board);

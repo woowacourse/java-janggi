@@ -22,7 +22,8 @@ public interface Piece {
         if (isHan()) {
             return piece.isHan();
         }
-        throw new IllegalStateException("[ERROR] 프로그램에 오류가 생겼습니다.");
+//        throw new IllegalStateException("[ERROR] 프로그램에 오류가 생겼습니다."); //Empty일 경우 예외를 던짐. 그냥 false를 반환한다면?
+        return false;
     }
 
     default boolean isOccupied() {
@@ -31,5 +32,9 @@ public interface Piece {
 
     default boolean isNotJumpable() {
         return getType() == PieceType.CANNON;
+    }
+
+    default boolean isGameOver() {
+        return getType() == PieceType.KING;
     }
 }

@@ -48,7 +48,7 @@ public class JanggiBoard {
     }
 
     public boolean checkGameIsOver(final Piece catchedPiece) {
-        return catchedPiece.getType() == PieceType.KING;
+        return catchedPiece.isGameOver();
     }
 
     private void validatePositionHasPiece(final Position position) {

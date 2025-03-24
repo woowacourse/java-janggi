@@ -26,9 +26,9 @@ public class JanggiGame {
 
                 Position selectedPiecePosition = inputView.selectPiece();
 
-                List<Position> reachablePositions = computeReachableDestinations(board, selectedPiecePosition);
+                List<Position> reachableDestinations = computeReachableDestinations(board, selectedPiecePosition);
 
-                Piece catchedPiece = processMove(board, selectedPiecePosition, reachablePositions);
+                Piece catchedPiece = processMove(board, selectedPiecePosition, reachableDestinations);
 
                 if (board.checkGameIsOver(catchedPiece)) {
                     break;
