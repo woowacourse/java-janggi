@@ -14,7 +14,7 @@ public abstract class NoPathPiece extends Piece {
     }
 
     @Override
-    public final boolean canMove(final Coordinate arrival, final PieceSearcher pieceSearcher) {
+    public boolean canMove(final Coordinate arrival, final PieceSearcher pieceSearcher) {
         return movements().stream()
             .filter(coordinate::canMove)
             .map(coordinate::move)

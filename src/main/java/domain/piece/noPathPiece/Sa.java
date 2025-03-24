@@ -5,7 +5,7 @@ import domain.Movement;
 import domain.Team;
 import domain.piece.Piece;
 
-public class Sa extends NoPathPiece {
+public class Sa extends InCastleNoPathPiece {
 
     public Sa(Team team, Coordinate coordinate) {
         super(
