@@ -74,8 +74,8 @@ public class Board {
             final BoardPosition destinationBoardPosition,
             final Piece movePiece
     ) {
-        List<BoardPosition> routePositions = calculateRoutePositions(movementRule, selectBoardPosition);
-        List<Piece> obstacles = findObstacles(routePositions, destinationBoardPosition);
+        final List<BoardPosition> routePositions = calculateRoutePositions(movementRule, selectBoardPosition);
+        final List<Piece> obstacles = findObstacles(routePositions, destinationBoardPosition);
         if (!movePiece.isAllowedObstacles(obstacles)) {
             throw new IllegalArgumentException("이동경로에 넘을 수 없는 기물이 있습니다.");
         }
@@ -96,7 +96,7 @@ public class Board {
             final List<Offset> movementRule,
             BoardPosition currentBoardPosition
     ) {
-        List<BoardPosition> routePositions = new ArrayList<>(movementRule.size());
+        final List<BoardPosition> routePositions = new ArrayList<>(movementRule.size());
         for (final Offset offset : movementRule) {
             currentBoardPosition = currentBoardPosition.plus(offset);
             routePositions.add(currentBoardPosition);

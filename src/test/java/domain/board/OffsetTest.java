@@ -47,7 +47,7 @@ class OffsetTest {
             );
         }
 
-        @DisplayName("움직임이 1인 오프셋인지 확인한다.")
+        @DisplayName("대각 움직임인지 확인한다.")
         @Test
         void isDiagonalMovement() {
             assertAll(

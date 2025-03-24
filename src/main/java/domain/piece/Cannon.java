@@ -49,7 +49,7 @@ public class Cannon extends Piece {
 
     private List<Offset> createMovementRule(final Offset offset) {
         final Offset unitDirection = offset.getUnitDirectionOffset();
-        int distance = getDistance(offset, unitDirection);
+        final int distance = getDistance(offset, unitDirection);
 
         return Stream.generate(() -> unitDirection)
                 .limit(distance)
