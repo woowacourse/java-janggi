@@ -7,9 +7,20 @@ import java.util.Set;
 
 public class Ma extends Piece {
 
+    private static final List<Integer> FORWARD_RIGHT_DIAGONAL = List.of(2, 1);
+    private static final List<Integer> FORWARD_LEFT_DIAGONAL = List.of(2, -1);
+    private static final List<Integer> RIGHT_RIGHT_DIAGONAL = List.of(-1, 2);
+    private static final List<Integer> RIGHT_LEFT_DIAGONAL = List.of(1, 2);
+    private static final List<Integer> LEFT_RIGHT_DIAGONAL = List.of(1, -2);
+    private static final List<Integer> LEFT_LEFT_DIAGONAL = List.of(-1, -2);
+    private static final List<Integer> BACKWARD_RIGHT_DIAGONAL = List.of(-2, 1);
+    private static final List<Integer> BACKWARD_LEFT_DIAGONAL = List.of(-2, -1);
+    
     private static final Set<List<Integer>> AVAILABLE_DIFFERENCE = Set.of(
-            List.of(2, 1), List.of(2, -1), List.of(-2, 1), List.of(-2, -1),
-            List.of(1, 2), List.of(1, -2), List.of(-1, 2), List.of(-1, -2)
+            FORWARD_RIGHT_DIAGONAL, FORWARD_LEFT_DIAGONAL,
+            RIGHT_RIGHT_DIAGONAL, RIGHT_LEFT_DIAGONAL,
+            LEFT_RIGHT_DIAGONAL, LEFT_LEFT_DIAGONAL,
+            BACKWARD_RIGHT_DIAGONAL, BACKWARD_LEFT_DIAGONAL
     );
 
     public Ma(Team team) {

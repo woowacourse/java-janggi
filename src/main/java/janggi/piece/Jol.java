@@ -3,8 +3,17 @@ package janggi.piece;
 import janggi.Team.Team;
 import janggi.position.Position;
 import java.util.List;
+import java.util.Set;
 
 public class Jol extends Piece {
+
+    private static final List<Integer> FORWARD = List.of(-1, 0);
+    private static final List<Integer> RIGHT = List.of(0, 1);
+    private static final List<Integer> LEFT = List.of(0, -1);
+
+    private static final Set<List<Integer>> AVAILABLE_DIFFERENCE = Set.of(
+            FORWARD, RIGHT, LEFT
+    );
 
     public Jol() {
         super(PieceType.JOL, Team.CHO);
@@ -34,7 +43,7 @@ public class Jol extends Piece {
 
     @Override
     public void validateMove(int differenceForY, int differenceForX) {
-        if (canNotMoveBackward(differenceForY) || Math.abs(differenceForY) + Math.abs(differenceForX) > 1) {
+        if (canNotMove(differenceForY, differenceForX)) {
             throw new IllegalArgumentException("[ERROR] 졸은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
         }
     }
@@ -46,7 +55,8 @@ public class Jol extends Piece {
         return difference / Math.abs(difference);
     }
 
-    private boolean canNotMoveBackward(int differenceForY) {
-        return differenceForY > 0;
+
+    private boolean canNotMove(int differenceForY, int differenceForX) {
+        return !AVAILABLE_DIFFERENCE.contains(List.of(differenceForY, differenceForX));
     }
 }
