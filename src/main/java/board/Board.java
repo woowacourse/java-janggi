@@ -35,7 +35,7 @@ public class Board {
 
     public void updatePosition(final Position source, final Position destination, final Country country) {
         validatePositionAndTeam(source, country);
-        validatePieceCanMove(source, destination, country);
+        validatePieceCanMove(source, destination);
 
         movePieceToDestination(source, destination);
     }
@@ -46,7 +46,7 @@ public class Board {
         }
     }
 
-    private void validatePieceCanMove(final Position source, final Position destination, final Country country) {
+    private void validatePieceCanMove(final Position source, final Position destination) {
         final Piece piece = janggiBoard.get(source);
 
         if (!piece.isAbleToMove(source, destination, this)) {
