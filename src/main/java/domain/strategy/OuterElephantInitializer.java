@@ -1,7 +1,6 @@
 package domain.strategy;
 
 import domain.Player;
-import domain.Team;
 import domain.direction.PieceDirection;
 import domain.piece.Piece;
 import domain.piece.Pieces;
@@ -14,7 +13,7 @@ public class OuterElephantInitializer extends SettingUpInitializer {
 
     @Override
     public Pieces initPieces(final Player player) {
-        if (player.team().equals(Team.HAN)) {
+        if (player.isHanTeam()) {
             return initHanPieces();
         }
         return initChoPieces();
