@@ -46,14 +46,17 @@ public abstract class Piece {
     protected abstract void validateRoute(Board board, Route route, Position target);
 
     private void arrival(Board board, Position target) {
-        if (!board.hasPieceOn(target)) {
-            return;
+        if (board.hasPieceOn(target)) {
+            Piece targetPiece = board.get(target);
+            validateTeam(targetPiece);
+            board.take(targetPiece);
         }
-        Piece targetPiece = board.get(target);
+    }
+
+    private void validateTeam(Piece targetPiece) {
         if (targetPiece.team == team) {
             throw new IllegalArgumentException("[ERROR] 도착 지점에 같은 팀의 기물이 존재합니다.");
         }
-        board.take(targetPiece);
     }
 
     public Position getPosition() {
