@@ -8,5 +8,5 @@ import java.util.Map;
 
 public interface JanggiPieceRouteStrategy {
 
-    List<Pattern> getRoute(Map<Direction, List<Pattern>> routes, JanggiPosition origin, JanggiPosition destination);
+    List<Pattern> getRoute(List<List<Pattern>> routes, JanggiPosition origin, JanggiPosition destination);
 }

@@ -1,65 +1,56 @@
 package domain.piece.routestrategy;
 
-import static domain.Direction.DOWN;
-import static domain.Direction.LEFT;
-import static domain.Direction.RIGHT;
-import static domain.Direction.UP;
-
-import domain.Direction;
 import domain.Pattern;
 import domain.position.JanggiPosition;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class LinearRouteStrategy implements JanggiPieceRouteStrategy {
 
     @Override
-    public List<Pattern> getRoute(final Map<Direction, List<Pattern>> routes, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
-        if (afterPosition.rank() == beforePosition.rank()) {
-            return setNewPathAndGetAdditionalSizeAboutLeftOrRight(routes, beforePosition, afterPosition);
-        }
-        if (afterPosition.file() == beforePosition.file()) {
-            return setNewPathAndGetAdditionalSizeAboutUpOrDown(routes, beforePosition, afterPosition);
+    public List<Pattern> getRoute(final List<List<Pattern>> routes, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
+        for (List<Pattern> route : routes) {
+            Pattern direction = route.getFirst();
+            if (isValidDirection(beforePosition, afterPosition, direction)) {
+                return createPattern(direction, getMoveCount(beforePosition, afterPosition, direction));
+            }
         }
         throw new IllegalStateException("해당 말은 해당 경로로 이동할 수 없습니다.");
     }
 
-    private List<Pattern> setNewPathAndGetAdditionalSizeAboutLeftOrRight(
-            final Map<Direction, List<Pattern>> routes,
+    private boolean isValidDirection(
             final JanggiPosition beforePosition,
-            final JanggiPosition afterPosition
+            final JanggiPosition afterPosition,
+            final Pattern direction
     ) {
-        Direction newPath;
-        int additionalSize;
-        if (afterPosition.isBiggerFileThan(beforePosition)) {
-            newPath = RIGHT;
-            additionalSize = afterPosition.getFileGap(beforePosition);
-        } else {
-            newPath = LEFT;
-            additionalSize = afterPosition.getFileGap(beforePosition);
+        JanggiPosition newPosition = beforePosition;
+        while (newPosition.canMoveOnePosition(direction)) {
+            newPosition = newPosition.moveOnePosition(direction);
+            if (newPosition.equals(afterPosition)) {
+                return true;
+            }
         }
-        return createPattern(routes.get(newPath), additionalSize);
+        return false;
     }
 
-    private List<Pattern> setNewPathAndGetAdditionalSizeAboutUpOrDown(
-            final Map<Direction, List<Pattern>> routes,
+    private int getMoveCount(
             final JanggiPosition beforePosition,
-            final JanggiPosition afterPosition
+            final JanggiPosition afterPosition,
+            final Pattern direction
     ) {
-        Direction newPath;
-        int additionalSize;
-        if (afterPosition.isBiggerRankThan(beforePosition)) {
-            newPath = DOWN;
-            additionalSize = afterPosition.getRankGap(beforePosition);
-        } else {
-            newPath = UP;
-            additionalSize = afterPosition.getRankGap(beforePosition);
+        int moveCount = 0;
+        JanggiPosition newPosition = beforePosition;
+        while (newPosition.canMoveOnePosition(direction)) {
+            newPosition = newPosition.moveOnePosition(direction);
+            moveCount++;
+            if (newPosition.equals(afterPosition)) {
+                return moveCount;
+            }
         }
-        return createPattern(routes.get(newPath), additionalSize);
+        return moveCount;
     }
 
-    private List<Pattern> createPattern(final List<Pattern> direction, int additionalSize) {
-        return Collections.nCopies(additionalSize, direction.getFirst());
+    private List<Pattern> createPattern(final Pattern direction, int additionalSize) {
+        return Collections.nCopies(additionalSize, direction);
     }
 }

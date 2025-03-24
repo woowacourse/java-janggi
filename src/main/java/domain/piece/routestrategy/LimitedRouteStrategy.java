@@ -10,18 +10,16 @@ import java.util.Map.Entry;
 public class LimitedRouteStrategy implements JanggiPieceRouteStrategy {
 
     @Override
-    public List<Pattern> getRoute(final Map<Direction, List<Pattern>> routes, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
-        return routes.entrySet().stream()
-                .filter(entry -> {
-                    List<Pattern> patterns = entry.getValue();
-                    if (beforePosition.canMove(patterns)) {
-                        JanggiPosition newPosition = beforePosition.move(patterns);
+    public List<Pattern> getRoute(final List<List<Pattern>> routes, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
+        return routes.stream()
+                .filter(route -> {
+                    if (beforePosition.canMove(route)) {
+                        JanggiPosition newPosition = beforePosition.move(route);
                         return newPosition.equals(afterPosition);
                     }
                     return false;
                 })
                 .findFirst()
-                .map(Entry::getValue)
                 .orElseThrow(() -> new IllegalStateException("해당 말은 해당 경로로 이동할 수 없습니다."));
     }
 }

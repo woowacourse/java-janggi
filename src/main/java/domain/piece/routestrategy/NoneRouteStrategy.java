@@ -9,7 +9,7 @@ import java.util.Map;
 public class NoneRouteStrategy implements JanggiPieceRouteStrategy {
 
     @Override
-    public List<Pattern> getRoute(Map<Direction, List<Pattern>> routes, JanggiPosition origin,
+    public List<Pattern> getRoute(List<List<Pattern>> routes, JanggiPosition origin,
                                   JanggiPosition destination) {
         throw new IllegalStateException("움직일 기물이 존재하지 않습니다.");
     }
