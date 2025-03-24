@@ -1,6 +1,7 @@
 package board;
 
-import static team.Team.*;
+import static team.Team.GREEN;
+import static team.Team.RED;
 
 import java.util.ArrayList;
 import java.util.List;
