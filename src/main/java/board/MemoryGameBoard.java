@@ -83,7 +83,7 @@ public class MemoryGameBoard implements GameBoard {
         return players.stream()
                 .filter(player -> player.isTeam(team))
                 .findAny()
-                .get();
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 팀이 존재하지 않습니다."));
     }
 
     @Override
