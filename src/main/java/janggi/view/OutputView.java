@@ -1,19 +1,19 @@
 package janggi.view;
 
 import janggi.board.Position;
-import janggi.piece.Side;
 import janggi.piece.Cannon;
 import janggi.piece.Elephant;
 import janggi.piece.Guard;
 import janggi.piece.Horse;
 import janggi.piece.King;
 import janggi.piece.Piece;
+import janggi.piece.Side;
 import janggi.piece.Soldier;
 import java.util.Map;
 
 public class OutputView {
 
-    private static final String ERROR_PREFIX = "ERROR";
+    private static final String ERROR_PREFIX = "[ERROR] ";
 
     public void printBoard(Map<Position, Piece> board) {
         String[][] boardOutput = initBoardOutput(board);

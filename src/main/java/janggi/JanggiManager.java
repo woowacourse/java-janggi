@@ -1,7 +1,6 @@
 package janggi;
 
 import janggi.board.Board;
-import janggi.board.BoardFactory;
 import janggi.board.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -10,14 +9,17 @@ public class JanggiManager {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final Board board;
+    private Turn turn;
 
-    public JanggiManager(InputView inputView, OutputView outputView) {
+    public JanggiManager(Board board, InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.board = board;
+        this.turn = Turn.firstTurn();
     }
 
     public void play() {
-        Board board = BoardFactory.initBoard();
         outputView.printBoard(board.getBoard());
         while (true) {
             String inputStartPosition = inputView.readStartPosition();
@@ -25,16 +27,17 @@ public class JanggiManager {
                 break;
             }
             String inputEndPosition = inputView.readEndPosition();
-            movePiece(inputStartPosition, inputEndPosition, board);
+            movePiece(inputStartPosition, inputEndPosition);
             outputView.printBoard(board.getBoard());
         }
     }
 
-    private void movePiece(final String inputStartPosition, final String inputEndPosition, final Board board) {
+    private void movePiece(final String inputStartPosition, final String inputEndPosition) {
         handleException(() -> {
             Position start = parsePosition(inputStartPosition);
             Position end = parsePosition(inputEndPosition);
-            board.move(start, end);
+            board.move(start, end, turn);
+            this.turn = turn.nextTurn();
         });
     }
 

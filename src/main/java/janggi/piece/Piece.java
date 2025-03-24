@@ -15,6 +15,10 @@ public abstract class Piece {
         return this.side == other.side;
     }
 
+    public boolean isSameSide(final Side side) {
+        return this.side == side;
+    }
+
     public Side getSide() {
         return side;
     }

@@ -1,5 +1,6 @@
 package janggi.board;
 
+import janggi.Turn;
 import janggi.piece.Piece;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,9 +14,10 @@ public class Board {
         this.board = new HashMap<>(board);
     }
 
-    public void move(final Position start, final Position end) {
-        validatePieceExistsByPosition(start);
+    public void move(final Position start, final Position end, final Turn turn) {
+        validatePieceOnStartPosition(start);
         Piece pickedPiece = board.get(start);
+        validatePickedPieceBySide(pickedPiece, turn);
         validateEndPosition(end, pickedPiece);
 
         if (pickedPiece.canMove(start, end, board)) {
@@ -40,11 +42,18 @@ public class Board {
         }
     }
 
-    private void validatePieceExistsByPosition(final Position position) {
+    private void validatePieceOnStartPosition(final Position position) {
         if (board.containsKey(position)) {
             return;
         }
         throw new IllegalArgumentException("선택된 좌표에 말이 없습니다.");
+    }
+
+    private void validatePickedPieceBySide(final Piece pickedPiece, final Turn turn) {
+        if (pickedPiece.isSameSide(turn.side())) {
+            return;
+        }
+        throw new IllegalArgumentException("본인 팀 말을 선택해주세요.");
     }
 
     public Map<Position, Piece> getBoard() {

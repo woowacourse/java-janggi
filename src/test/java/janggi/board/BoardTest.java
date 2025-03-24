@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.Turn;
 import janggi.piece.Cannon;
 import janggi.piece.Piece;
 import janggi.piece.Side;
@@ -33,9 +34,10 @@ public class BoardTest {
             );
             Position start = new Position(1, 1);
             Position end = new Position(2, 1);
+            Turn turn = new Turn(Side.RED);
 
             // then
-            assertThatThrownBy(() -> board.move(start, end))
+            assertThatThrownBy(() -> board.move(start, end, turn))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -51,9 +53,10 @@ public class BoardTest {
             );
             Position start = new Position(1, 1);
             Position end = new Position(2, 1);
+            Turn turn = new Turn(Side.RED);
 
             // when
-            board.move(start, end);
+            board.move(start, end, turn);
 
             // then
             assertAll(
@@ -74,11 +77,12 @@ public class BoardTest {
             );
             Position start = new Position(1, 1);
             Position end = new Position(2, 2);
+            Turn turn = new Turn(Side.RED);
 
             // when
 
             // then
-            assertThatThrownBy(() -> board.move(start, end))
+            assertThatThrownBy(() -> board.move(start, end, turn))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -95,11 +99,12 @@ public class BoardTest {
             );
             Position start = new Position(1, 1);
             Position end = new Position(5, 1);
+            Turn turn = new Turn(Side.RED);
 
             // when
 
             // then
-            assertThatThrownBy(() -> board.move(start, end))
+            assertThatThrownBy(() -> board.move(start, end, turn))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -117,11 +122,12 @@ public class BoardTest {
             );
             Position start = new Position(1, 1);
             Position end = new Position(6, 1);
+            Turn turn = new Turn(Side.RED);
 
             // when
 
             // then
-            assertThatThrownBy(() -> board.move(start, end))
+            assertThatThrownBy(() -> board.move(start, end, turn))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -138,11 +144,12 @@ public class BoardTest {
             );
             Position start = new Position(1, 1);
             Position end = new Position(6, 1);
+            Turn turn = new Turn(Side.RED);
 
             // when
 
             // then
-            assertThatCode(() -> board.move(start, end))
+            assertThatCode(() -> board.move(start, end, turn))
                     .doesNotThrowAnyException();
         }
 
@@ -159,11 +166,12 @@ public class BoardTest {
             );
             Position start = new Position(1, 1);
             Position end = new Position(6, 1);
+            Turn turn = new Turn(Side.RED);
 
             // when
 
             // then
-            assertThatThrownBy(() -> board.move(start, end))
+            assertThatThrownBy(() -> board.move(start, end, turn))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -179,11 +187,12 @@ public class BoardTest {
             );
             Position start = new Position(1, 1);
             Position end = new Position(6, 1);
+            Turn turn = new Turn(Side.RED);
 
             // when
 
             // then
-            assertThatThrownBy(() -> board.move(start, end))
+            assertThatThrownBy(() -> board.move(start, end, turn))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -201,12 +210,65 @@ public class BoardTest {
             );
             Position start = new Position(1, 1);
             Position end = new Position(6, 1);
+            Turn turn = new Turn(Side.RED);
 
             // when
 
             // then
-            assertThatThrownBy(() -> board.move(start, end))
+            assertThatThrownBy(() -> board.move(start, end, turn))
                     .isInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    @Nested
+    @DisplayName("턴 테스트")
+    class TurnTest {
+
+        @DisplayName("본인의 턴이 아니라면 예외를 던진다.")
+        @Test
+        void throwExceptionWhenIsNotMyTurn() {
+            // given
+            Piece piece = new Cannon(Side.RED);
+            Board board = new Board(
+                    Map.of(
+                            new Position(1, 1), piece,
+                            new Position(3, 1), new Soldier(Side.RED),
+                            new Position(6, 1), new Cannon(Side.BLUE)
+                    )
+            );
+            Position start = new Position(1, 1);
+            Position end = new Position(6, 1);
+            Turn turn = new Turn(Side.BLUE);
+
+            // when
+
+            // then
+            assertThatThrownBy(() -> board.move(start, end, turn))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @DisplayName("본인 턴이라면 말을 이동시킨다.")
+        @Test
+        void movePieceWhenMyTurn() {
+            // given
+            Piece piece = new Tank(Side.RED);
+            Board board = new Board(
+                    Map.of(
+                            new Position(1, 1), piece
+                    )
+            );
+            Position start = new Position(1, 1);
+            Position end = new Position(2, 1);
+            Turn turn = new Turn(Side.RED);
+
+            // when
+            board.move(start, end, turn);
+
+            // then
+            assertAll(
+                    () -> assertThat(board.getBoard().get(end)).isEqualTo(piece),
+                    () -> assertThat(board.getBoard().get(start)).isNull()
+            );
         }
     }
 }
