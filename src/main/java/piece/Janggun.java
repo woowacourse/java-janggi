@@ -1,5 +1,9 @@
 package piece;
 
+import static pieceProperty.Movement.calculateDownMovement;
+import static pieceProperty.Movement.calculateLeftMovement;
+import static pieceProperty.Movement.calculateRightMovement;
+import static pieceProperty.Movement.calculateUpMovement;
 import static pieceProperty.PieceType.JANGGUN;
 
 import java.util.List;
@@ -43,10 +47,10 @@ public class Janggun extends Piece {
     }
 
     private boolean isInvalidJanggunMove(Position destination) {
-        return !Movement.calculateUpMovement(position).equals(destination)
-                && !Movement.calculateRightMovement(position).equals(destination)
-                && !Movement.calculateLeftMovement(position).equals(destination)
-                && !Movement.calculateDownMovement(position).equals(destination);
+        return !calculateUpMovement(position).equals(destination)
+                && !calculateRightMovement(position).equals(destination)
+                && !calculateLeftMovement(position).equals(destination)
+                && !calculateDownMovement(position).equals(destination);
     }
 
 }

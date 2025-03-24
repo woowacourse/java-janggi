@@ -1,5 +1,8 @@
 package piece;
 
+import static pieceProperty.Movement.calculateDownMovement;
+import static pieceProperty.Movement.calculateLeftMovement;
+import static pieceProperty.Movement.calculateRightMovement;
 import static pieceProperty.PieceType.BYEONG;
 
 import java.util.List;
@@ -43,9 +46,9 @@ public class Byeong extends Piece {
     }
 
     private boolean isInvalidByeongMove(Position destination) {
-        return !Movement.calculateDownMovement(position).equals(destination)
-                && !Movement.calculateLeftMovement(position).equals(destination)
-                && !Movement.calculateRightMovement(position).equals(destination);
+        return !calculateDownMovement(position).equals(destination)
+                && !calculateLeftMovement(position).equals(destination)
+                && !calculateRightMovement(position).equals(destination);
     }
 
 }

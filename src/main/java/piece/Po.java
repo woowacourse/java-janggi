@@ -1,5 +1,9 @@
 package piece;
 
+import static pieceProperty.Movement.isDownward;
+import static pieceProperty.Movement.isLeftward;
+import static pieceProperty.Movement.isRightward;
+import static pieceProperty.Movement.isUpward;
 import static pieceProperty.PieceType.PO;
 
 import java.util.List;
@@ -24,22 +28,21 @@ public class Po extends Piece {
         int presentCol = getBoardPosition().getCol();
         int presentRow = getBoardPosition().getRow();
 
-        if (Movement.isLeftward(dRow, dCol)) {
+        if (isLeftward(dRow, dCol)) {
             addLeftwardRoute(dCol, route, presentRow, presentCol);
         }
 
-        if (Movement.isRightward(dRow, dCol)) {
+        if (isRightward(dRow, dCol)) {
             addRightwardRoute(dCol, route, presentRow, presentCol);
         }
 
-        if (Movement.isUpward(dRow, dCol)) {
+        if (isUpward(dRow, dCol)) {
             addUpwardRoute(dRow, route, presentRow, presentCol);
         }
 
-        if (Movement.isDownward(dRow, dCol)) {
+        if (isDownward(dRow, dCol)) {
             addDownwardRoute(dRow, route, presentRow, presentCol);
         }
-
 
         return route;
     }
@@ -48,7 +51,6 @@ public class Po extends Piece {
     public void canMoveTo(final Position destination) {
         if (isInvalidPoMove(destination)) {
             throw new IllegalArgumentException(ErrorMessage.formatMessage("포가 움직일 수 없는 위치입니다."));
-
         }
     }
 
