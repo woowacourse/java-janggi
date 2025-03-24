@@ -7,7 +7,6 @@ import janggi.domain.Side;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.behavior.Soldier;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
@@ -25,10 +24,8 @@ class ElephantTest {
         Elephant elephant = new Elephant();
         Piece elephantPiece = new Piece(Side.HAN, elephant);
 
-        Map<Position, Piece> map = Map.of(position, elephantPiece);
-
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(Map.of(position, elephantPiece));
         Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -56,10 +53,8 @@ class ElephantTest {
         Piece elephantPiece = new Piece(Side.HAN, elephant);
         Piece soldierPiece = new Piece(Side.HAN, soldier);
 
-        Map<Position, Piece> map = Map.of(position, elephantPiece, soldierPosition, soldierPiece);
-
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(Map.of(position, elephantPiece, soldierPosition, soldierPiece));
         Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -77,10 +72,8 @@ class ElephantTest {
         Piece elephantPiece = new Piece(Side.HAN, elephant);
         Piece soldierPiece = new Piece(Side.CHO, soldier);
 
-        Map<Position, Piece> map = Map.of(position, elephantPiece, soldierPosition, soldierPiece);
-
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(Map.of(position, elephantPiece, soldierPosition, soldierPiece));
         Set<Position> actual = elephant.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then

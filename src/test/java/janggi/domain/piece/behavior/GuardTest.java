@@ -3,10 +3,9 @@ package janggi.domain.piece.behavior;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Board;
-import janggi.domain.move.Position;
 import janggi.domain.Side;
+import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
@@ -24,10 +23,8 @@ class GuardTest {
         Guard guard = new Guard();
         Piece piece = new Piece(Side.HAN, guard);
 
-        Map<Position, Piece> map = Map.of(position, piece);
-
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(Map.of(position, piece));
         Set<Position> actual = guard.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then

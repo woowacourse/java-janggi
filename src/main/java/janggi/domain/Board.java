@@ -3,6 +3,7 @@ package janggi.domain;
 import janggi.common.ErrorMessage;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ public class Board {
 
     public Board(Map<Position, Piece> pieceMap) {
         validate(pieceMap);
-        this.pieceMap = pieceMap;
+        this.pieceMap = new HashMap<>(pieceMap);
     }
 
     public void validate(Map<Position, Piece> pieceMap) {

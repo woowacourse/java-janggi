@@ -23,10 +23,8 @@ class HorseTest {
         Horse horse = new Horse();
         Piece piece = new Piece(Side.HAN, horse);
 
-        Map<Position, Piece> map = Map.of(position, piece);
-
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(Map.of(position, piece));
         Set<Position> actual = horse.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -45,10 +43,8 @@ class HorseTest {
         Piece horsePiece = new Piece(Side.HAN, horse);
         Piece soldierPiece = new Piece(Side.HAN, soldier);
 
-        Map<Position, Piece> map = Map.of(position, horsePiece, soldierPosition, soldierPiece);
-
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(Map.of(position, horsePiece, soldierPosition, soldierPiece));
         Set<Position> actual = horse.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -66,10 +62,8 @@ class HorseTest {
         Piece horsePiece = new Piece(Side.HAN, horse);
         Piece soldierPiece = new Piece(Side.CHO, soldier);
 
-        Map<Position, Piece> map = Map.of(position, horsePiece, soldierPosition, soldierPiece);
-
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(Map.of(position, horsePiece, soldierPosition, soldierPiece));
         Set<Position> actual = horse.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then

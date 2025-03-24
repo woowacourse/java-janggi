@@ -22,7 +22,6 @@ public final class Soldier implements PieceBehavior {
                 .flatMap(Optional::stream)
                 .filter(availablePosition -> board.canMoveToPosition(side, availablePosition))
                 .collect(Collectors.toUnmodifiableSet());
-
     }
 
     @Override

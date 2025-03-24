@@ -24,10 +24,8 @@ class GeneralTest {
         General general = new General();
         Piece piece = new Piece(Side.HAN, general);
 
-        Map<Position, Piece> map = Map.of(position, piece);
-
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(Map.of(position, piece));
         Set<Position> actual = general.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
