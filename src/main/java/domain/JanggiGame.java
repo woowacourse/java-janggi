@@ -2,12 +2,14 @@ package domain;
 
 import domain.piece.Piece;
 
+import java.util.Map;
+
 public class JanggiGame {
     private final JanggiBoard board;
     private Country currTurn;
 
-    public JanggiGame() {
-        board = new JanggiBoard(PieceInitializer.init());
+    public JanggiGame(Map<JanggiCoordinate, Piece> initBoard) {
+        board = new JanggiBoard(initBoard);
         currTurn = Country.CHO;
     }
 

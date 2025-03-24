@@ -2,6 +2,7 @@ package controller;
 
 import domain.JanggiCoordinate;
 import domain.JanggiGame;
+import domain.PieceInitializer;
 import view.InputView;
 import view.OutputView;
 
@@ -16,7 +17,7 @@ public class JanggiController {
     }
 
     public void startJanggiGame() {
-        JanggiGame game = new JanggiGame();
+        JanggiGame game = new JanggiGame(PieceInitializer.init());
 
         while (true) {
             try {
