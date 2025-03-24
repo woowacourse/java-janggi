@@ -5,8 +5,10 @@ import static route.Direction.NORTH;
 import static route.Direction.SOUTH;
 import static route.Direction.WEST;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import position.Board;
 import position.Position;
 
 public final class Routes {
@@ -42,10 +44,13 @@ public final class Routes {
         return routes;
     }
 
-    public Routes possibleRoutes() {
+    public Routes possibleRoutes(Position source, Board board) {
+        Set<Route> possibleRoutes = new HashSet<>();
         for (Route route : routes) {
-
+            if(route.isPossibleRoute(source, board)){
+                possibleRoutes.add(route);
+            }
         }
-        return null;
+        return new Routes(possibleRoutes);
     }
 }

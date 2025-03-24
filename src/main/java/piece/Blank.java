@@ -1,11 +1,16 @@
 package piece;
 
+import position.Position;
 import route.Routes;
 
 public class Blank extends Piece{
 
-    public Blank() {
-        super(Routes.ofBlank());
+    public Blank(Position position) {
+        super(position, Routes.ofBlank());
     }
 
+    @Override
+    public PieceType type() {
+        return PieceType.BLANK;
+    }
 }

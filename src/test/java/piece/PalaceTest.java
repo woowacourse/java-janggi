@@ -1,7 +1,14 @@
 package piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static position.PositionFixtures.E0;
+import static position.PositionFixtures.E1;
+import static position.PositionFixtures.I0;
+
+import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import position.Board;
 import route.Routes;
 
 public class PalaceTest {
@@ -9,7 +16,7 @@ public class PalaceTest {
     @Test
     @DisplayName("장기 말의 종류에는 궁이 있다.")
     void createPalaceTest(){
-        Piece palace = new Palace();
+        Piece palace = new Palace(E1);
     }
 
     /*
@@ -18,23 +25,78 @@ public class PalaceTest {
     2 ＿ * ＿
     3 d e f
     */
-    // todo: routes 선행
     @Test
     @DisplayName("궁의 이동 가능한 경로를 모두 표시할 수 있다.")
-    void possibleRoutesTest(){
-        Piece palace = new Palace();
+    void possibleRoutesTest_1(){
+        // given
+        Piece palace = new Palace(E1);
+        Board board = new Board(Set.of(palace));
 
-        Routes palaceRoutes = palace.possibleRoutes();
+        // when
+        Routes palaceRoutes = palace.possibleRoutes(board);
+
+        // then
+        assertThat(palaceRoutes.routes().size()).isEqualTo(4);
     }
 
-    // todo: routes와 direction 선행 필요.
+    /*
+    0 * 궁 *
+    1 ＿ * ＿
+    2 ＿ ＿ ＿
+    3 d e f
+    */
+    @Test
+    @DisplayName("궁의 이동 가능한 경로를 모두 표시할 수 있다.")
+    void possibleRoutesTest_2(){
+        // given
+        Piece palace = new Palace(E0);
+        Board board = new Board(Set.of(palace));
+
+        // when
+        Routes palaceRoutes = palace.possibleRoutes(board);
+
+        // then
+        assertThat(palaceRoutes.routes().size()).isEqualTo(3);
+    }
+
+    /*
+    0 ＿ * 궁
+    1 ＿ ＿ *
+    2 ＿ ＿ ＿
+    3 g h  i
+    */
+    @Test
+    @DisplayName("궁의 이동 가능한 경로를 모두 표시할 수 있다.")
+    void possibleRoutesTest_3(){
+        // given
+        Piece palace = new Palace(I0);
+        Board board = new Board(Set.of(palace));
+
+        // when
+        Routes palaceRoutes = palace.possibleRoutes(board);
+
+        // then
+        assertThat(palaceRoutes.routes().size()).isEqualTo(2);
+    }
+
+//    /*
+//    0 ＿ * 궁
+//    1 ＿ ＿ *
+//    2 ＿ ＿ ＿
+//    3 g h  i
+//    */
 //    @Test
-//    @DisplayName("궁은 상하좌우로 이동할 수 있다.")
-//    void movePalaceTest(){
+//    @DisplayName("궁의 이동 가능한 경로를 모두 표시할 수 있다.")
+//    void possibleRoutesTest_4(){
 //        // given
-//        Piece palace = new Palace(E1);
+//        Piece palace = new Palace();
+//        Board board = new Board(PositionFixtures.generateWithBlank());
 //
-//        // when - then
-//        Assertions.assertThat(palace.canMove(E0)).isTrue();
+//        // when
+//        Routes palaceRoutes = palace.possibleRoutes(I0, board);
+//
+//        // then
+//        assertThat(palaceRoutes.routes().size()).isEqualTo(2);
 //    }
+
 }

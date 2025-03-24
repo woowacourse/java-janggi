@@ -1,6 +1,7 @@
 package routes;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static position.PositionFixtures.E1;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,6 @@ public class RoutesTest {
     @Test
     @DisplayName("이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest(){
-        Piece palace = new Palace();
+        Piece palace = new Palace(E1);
     }
 }
