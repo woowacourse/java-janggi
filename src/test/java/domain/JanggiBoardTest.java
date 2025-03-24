@@ -8,13 +8,22 @@ import static domain.Fixtures._FIVE_NINE;
 import static domain.Fixtures._FIVE_ONE;
 import static domain.Fixtures._FIVE_SEVEN;
 import static domain.Fixtures._FIVE_TWO;
+import static domain.Fixtures._FOUR_FIVE;
 import static domain.Fixtures._FOUR_FOUR;
+import static domain.Fixtures._FOUR_NINE;
 import static domain.Fixtures._FOUR_ONE;
 import static domain.Fixtures._FOUR_SEVEN;
 import static domain.Fixtures._FOUR_THREE;
 import static domain.Fixtures._FOUR_TWO;
 import static domain.Fixtures._NINE_FIVE;
 import static domain.Fixtures._NINE_FOUR;
+import static domain.Fixtures._ONE_EIGHT;
+import static domain.Fixtures._ONE_FOUR;
+import static domain.Fixtures._ONE_NINE;
+import static domain.Fixtures._ONE_ONE;
+import static domain.Fixtures._ONE_SEVEN;
+import static domain.Fixtures._ONE_SIX;
+import static domain.Fixtures._ONE_THREE;
 import static domain.Fixtures._ONE_TWO;
 import static domain.Fixtures._SEVEN_EIGHT;
 import static domain.Fixtures._SEVEN_FIVE;
@@ -26,12 +35,17 @@ import static domain.Fixtures._SEVEN_TWO;
 import static domain.Fixtures._SIX_FIVE;
 import static domain.Fixtures._SIX_ONE;
 import static domain.Fixtures._SIX_SEVEN;
+import static domain.Fixtures._THREE_EIGHT;
 import static domain.Fixtures._THREE_THREE;
 import static domain.Fixtures._THREE_TWO;
 import static domain.Fixtures._TWO_EIGHT;
+import static domain.Fixtures._TWO_FIVE;
+import static domain.Fixtures._ZERO_EIGHT;
 import static domain.Fixtures._ZERO_FOUR;
 import static domain.Fixtures._ZERO_NINE;
 import static domain.Fixtures._ZERO_ONE;
+import static domain.Fixtures._ZERO_SEVEN;
+import static domain.Fixtures._ZERO_SIX;
 import static domain.Fixtures._ZERO_THREE;
 import static domain.Fixtures._ZERO_TWO;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -78,38 +92,38 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> providePlaceAndPiece() {
         return Stream.of(
-                Arguments.of(new JanggiPosition(9, 5), new 궁(Side.CHO)),
-                Arguments.of(new JanggiPosition(0, 1), new 차(Side.CHO)),
-                Arguments.of(new JanggiPosition(0, 9), new 차(Side.CHO)),
-                Arguments.of(new JanggiPosition(8, 2), new 포(Side.CHO)),
-                Arguments.of(new JanggiPosition(8, 8), new 포(Side.CHO)),
-                Arguments.of(new JanggiPosition(7, 1), new 졸병(Side.CHO)),
-                Arguments.of(new JanggiPosition(7, 3), new 졸병(Side.CHO)),
-                Arguments.of(new JanggiPosition(7, 5), new 졸병(Side.CHO)),
-                Arguments.of(new JanggiPosition(7, 7), new 졸병(Side.CHO)),
-                Arguments.of(new JanggiPosition(7, 9), new 졸병(Side.CHO)),
-                Arguments.of(new JanggiPosition(0, 4), new 사(Side.CHO)),
-                Arguments.of(new JanggiPosition(0, 6), new 사(Side.CHO)),
-                Arguments.of(new JanggiPosition(0, 2), new 마(Side.CHO)),
-                Arguments.of(new JanggiPosition(0, 8), new 마(Side.CHO)),
-                Arguments.of(new JanggiPosition(0, 3), new 상(Side.CHO)),
-                Arguments.of(new JanggiPosition(0, 7), new 상(Side.CHO)),
-                Arguments.of(new JanggiPosition(2, 5), new 궁(Side.HAN)),
-                Arguments.of(new JanggiPosition(1, 1), new 차(Side.HAN)),
-                Arguments.of(new JanggiPosition(1, 9), new 차(Side.HAN)),
-                Arguments.of(new JanggiPosition(3, 2), new 포(Side.HAN)),
-                Arguments.of(new JanggiPosition(3, 8), new 포(Side.HAN)),
-                Arguments.of(new JanggiPosition(4, 1), new 졸병(Side.HAN)),
-                Arguments.of(new JanggiPosition(4, 3), new 졸병(Side.HAN)),
-                Arguments.of(new JanggiPosition(4, 5), new 졸병(Side.HAN)),
-                Arguments.of(new JanggiPosition(4, 7), new 졸병(Side.HAN)),
-                Arguments.of(new JanggiPosition(4, 9), new 졸병(Side.HAN)),
-                Arguments.of(new JanggiPosition(1, 4), new 사(Side.HAN)),
-                Arguments.of(new JanggiPosition(1, 6), new 사(Side.HAN)),
-                Arguments.of(new JanggiPosition(1, 2), new 마(Side.HAN)),
-                Arguments.of(new JanggiPosition(1, 8), new 마(Side.HAN)),
-                Arguments.of(new JanggiPosition(1, 3), new 상(Side.HAN)),
-                Arguments.of(new JanggiPosition(1, 7), new 상(Side.HAN))
+                Arguments.of(_NINE_FIVE, new 궁(Side.CHO)),
+                Arguments.of(_ZERO_ONE, new 차(Side.CHO)),
+                Arguments.of(_ZERO_NINE, new 차(Side.CHO)),
+                Arguments.of(_EIGHT_TWO, new 포(Side.CHO)),
+                Arguments.of(_EIGHT_EIGHT, new 포(Side.CHO)),
+                Arguments.of(_SEVEN_ONE, new 졸병(Side.CHO)),
+                Arguments.of(_SEVEN_THREE, new 졸병(Side.CHO)),
+                Arguments.of(_SEVEN_FIVE, new 졸병(Side.CHO)),
+                Arguments.of(_SEVEN_SEVEN, new 졸병(Side.CHO)),
+                Arguments.of(_SEVEN_NINE, new 졸병(Side.CHO)),
+                Arguments.of(_ZERO_FOUR, new 사(Side.CHO)),
+                Arguments.of(_ZERO_SIX, new 사(Side.CHO)),
+                Arguments.of(_ZERO_TWO, new 마(Side.CHO)),
+                Arguments.of(_ZERO_EIGHT, new 마(Side.CHO)),
+                Arguments.of(_ZERO_THREE, new 상(Side.CHO)),
+                Arguments.of(_ZERO_SEVEN, new 상(Side.CHO)),
+                Arguments.of(_TWO_FIVE, new 궁(Side.HAN)),
+                Arguments.of(_ONE_ONE, new 차(Side.HAN)),
+                Arguments.of(_ONE_NINE, new 차(Side.HAN)),
+                Arguments.of(_THREE_TWO, new 포(Side.HAN)),
+                Arguments.of(_THREE_EIGHT, new 포(Side.HAN)),
+                Arguments.of(_FOUR_ONE, new 졸병(Side.HAN)),
+                Arguments.of(_FOUR_THREE, new 졸병(Side.HAN)),
+                Arguments.of(_FOUR_FIVE, new 졸병(Side.HAN)),
+                Arguments.of(_FOUR_SEVEN, new 졸병(Side.HAN)),
+                Arguments.of(_FOUR_NINE, new 졸병(Side.HAN)),
+                Arguments.of(_ONE_FOUR, new 사(Side.HAN)),
+                Arguments.of(_ONE_SIX, new 사(Side.HAN)),
+                Arguments.of(_ONE_TWO, new 마(Side.HAN)),
+                Arguments.of(_ONE_EIGHT, new 마(Side.HAN)),
+                Arguments.of(_ONE_THREE, new 상(Side.HAN)),
+                Arguments.of(_ONE_SEVEN, new 상(Side.HAN))
         );
     }
 
