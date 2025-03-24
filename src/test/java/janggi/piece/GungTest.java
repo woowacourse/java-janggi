@@ -3,10 +3,10 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.setting.CampType;
 import janggi.value.Position;
 import java.util.List;
 import java.util.stream.Stream;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,28 +15,26 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class GungTest {
 
-    static final Position STANDARD = new Position(4, 8);
+    static final Position START_POSITION = new Position(4, 4);
+    static final Position DESTINATION_POSITION = new Position(5, 4);
 
     @DisplayName("장기말을 이동시킬 수 있다.")
     @ParameterizedTest
     @MethodSource()
     void test1(Position destination) {
-        //given
-        Gung gung = Gung.generateInitialGung(CampType.CHO).getFirst();
+        Gung gung = new Gung(START_POSITION);
 
-        //when
         Gung movedGung = gung.move(destination, List.of(), List.of());
 
-        //then
         assertThat(movedGung.getPosition()).isEqualTo(destination);
     }
 
     static Stream<Arguments> test1() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x(), STANDARD.y() + 1)),
-                Arguments.of(new Position(STANDARD.x(), STANDARD.y() - 1))
+                Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() + 1)),
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() - 1))
         );
     }
 
@@ -45,10 +43,8 @@ class GungTest {
     @ParameterizedTest
     @MethodSource()
     void test2(Position destination) {
-        //given
-        Gung gung = Gung.generateInitialGung(CampType.CHO).getFirst();
+        Gung gung = new Gung(START_POSITION);
 
-        //when & then
         assertThatThrownBy(() -> gung.move(destination, List.of(), List.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
@@ -56,24 +52,31 @@ class GungTest {
 
     static Stream<Arguments> test2() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.x() + 2, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x() - 2, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x(), STANDARD.y() + 2)),
-                Arguments.of(new Position(STANDARD.x(), STANDARD.y() - 2))
+                Arguments.of(new Position(START_POSITION.x() + 2, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x() - 2, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() + 2)),
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() - 2))
         );
     }
 
     @DisplayName("아군 장기말이 장애물일 경우 해당 위치로 이동이 불가능하다.")
     @Test
     void test3() {
-        //given
-        Gung gung = Gung.generateInitialGung(CampType.CHO).getFirst();
-        Position destination = new Position(STANDARD.x() + 1, STANDARD.y());
-        Gung otherPiece = new Gung(destination);
+        Gung gung = new Gung(START_POSITION);
+        Gung alliesPiece = new Gung(DESTINATION_POSITION);
 
-        //when & then
-        assertThatThrownBy(() -> gung.move(destination, List.of(), List.of(otherPiece)))
+        assertThatThrownBy(() -> gung.move(DESTINATION_POSITION, List.of(), List.of(alliesPiece)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
+    }
+
+    @DisplayName("상대 장기말이 장애물일 경우 장애물 위치까지 이동이 가능하다.")
+    @Test
+    void test4() {
+        Gung gung = new Gung(START_POSITION);
+        Cha enemyPiece = new Cha(DESTINATION_POSITION);
+
+        Gung movedGung = gung.move(DESTINATION_POSITION, List.of(enemyPiece), List.of());
+        Assertions.assertThat(movedGung.getPosition()).isEqualTo(DESTINATION_POSITION);
     }
 }
