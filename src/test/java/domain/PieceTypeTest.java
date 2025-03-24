@@ -17,11 +17,11 @@ class PieceTypeTest {
         @Test
         void findMovementRule() {
             // given
-            PieceType pieceType = PieceType.쭈;
+            PieceType pieceType = PieceType.JJU;
 
             // when
             Optional<List<Offset>> optionalMovementRule = pieceType.findMovementRule(
-                    new Offset(1, 0), Team.GREEN);
+                new Offset(1, 0), Team.GREEN);
 
             // then
             assertThat(optionalMovementRule).isPresent();

@@ -256,7 +256,7 @@ public enum PieceType {
         new Offset(-1, 2), List.of(new Offset(0, 1), new Offset(-1, 1)),
         new Offset(-1, -2), List.of(new Offset(0, -1), new Offset(-1, -1))
     ), 0),
-    쭈("쭈", Map.of(
+    JJU("쭈", Map.of(
         Team.GREEN,
         List.of(new BoardPosition(0, 3), new BoardPosition(2, 3),
             new BoardPosition(4, 3),
@@ -270,7 +270,7 @@ public enum PieceType {
         new Offset(-1, 0), List.of(new Offset(-1, 0)),
         new Offset(0, 1), List.of(new Offset(0, 1)),
         new Offset(0, -1), List.of(new Offset(0, -1))
-    ), 0);
+    ), 0);  // Soldiers
 
     private final String title;
     private final Map<Team, List<BoardPosition>> initialPosition;
@@ -306,11 +306,12 @@ public enum PieceType {
         final Team team,
         final List<Offset> movementRule
     ) {
-        if (this == PieceType.쭈 && team == Team.RED && movementRule.contains(new Offset(0, 1))) {
+        if (this == PieceType.JJU && team == Team.RED && movementRule.contains(new Offset(0, 1))) {
             return true;
         }
 
-        if (this == PieceType.쭈 && team == Team.GREEN && movementRule.contains(new Offset(0, -1))) {
+        if (this == PieceType.JJU && team == Team.GREEN && movementRule.contains(
+            new Offset(0, -1))) {
             return true;
         }
 

@@ -17,7 +17,7 @@ class JanggiTest {
         void processTurn() {
             // given
             Board board = new Board(Map.of(
-                    new BoardPosition(0, 0), new Piece(PieceType.쭈, Team.GREEN)
+                new BoardPosition(0, 0), new Piece(PieceType.JJU, Team.GREEN)
             ));
             Janggi janggi = new Janggi(board, Team.GREEN);
 
