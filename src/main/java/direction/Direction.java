@@ -1,5 +1,7 @@
 package direction;
 
+import java.util.Arrays;
+
 public enum Direction {
     LEFT(new Point(-1, 0)),
     RIGHT(new Point(1, 0)),
@@ -14,6 +16,16 @@ public enum Direction {
 
     Direction(Point direction) {
         this.direction = direction;
+    }
+
+    public static Direction find(Point from, Point to) {
+        Point distance = to.minus(from);
+        Point point = new Point(Integer.signum(distance.x()), Integer.signum(distance.y()));
+        return Arrays.stream(Direction.values()).filter(
+                        value -> value.direction.equals(point)
+                )
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 방향이 존재하지 않습니다."));
     }
 
     public Point getDirection() {

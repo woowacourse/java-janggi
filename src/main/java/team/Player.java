@@ -2,7 +2,6 @@ package team;
 
 import direction.Point;
 import java.util.List;
-import java.util.Optional;
 import piece.Piece;
 import piece.Pieces;
 
@@ -18,33 +17,37 @@ public class Player {
 
     public boolean isContainPiece(Point position) {
         return pieces.stream()
-                .anyMatch(piece -> piece.getPosition().equals(position));
+                .anyMatch(piece -> piece.isEqualPositionWith(position));
     }
 
-    public Optional<Piece> findPieceBy(Point point) {
+    public Piece getPieceByPoint(Point point) {
         return pieces.stream()
-                .filter(piece -> piece.getPosition().equals(point))
-                .findFirst();
+                .filter(piece -> piece.isEqualPositionWith(point))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 좌표에 기물이 존재하지 않습니다."));
     }
 
-    public boolean isTeam(Team team) {
-        return this.team.equals(team);
+    public boolean isTeam(Team targetTeam) {
+        return team.equals(targetTeam);
     }
 
     public List<Piece> getPieces() {
         return pieces;
     }
 
-    public void move(Pieces allPieces, Point start, Point end) {
-        validateExistMyPieceOnDestination(end);
-
-        Piece piece = findPieceBy(start).get();
+    public void play(Pieces allPieces, Point start, Point end) {
+        Piece piece = getPieceByPoint(start);
         piece.move(allPieces, end);
     }
 
-    private void validateExistMyPieceOnDestination(Point end) {
-        if (findPieceBy(end).isPresent()) {
+    public void validateAlreadyPlayerPieceInPosition(Point end) {
+        if (isAlreadyPlayerPieceInPosition(end)) {
             throw new IllegalArgumentException("[ERROR] 목적지에 본인의 기물이 존재합니다.");
         }
+    }
+
+    private boolean isAlreadyPlayerPieceInPosition(Point point) {
+        return pieces.stream()
+                .anyMatch(piece -> piece.isEqualPositionWith(point));
     }
 }

@@ -26,19 +26,19 @@ public class JanggiGame {
 
     public void run() {
         for (Team team : Team.values()) {
-            Player player = gameBoard.findPlayer(team);
+            Player currentPlayer = gameBoard.findPlayer(team);
 
-            Point start = requestMoveStartPosition(player);
+            Point start = requestMovementStartPosition(currentPlayer);
+            Point end = requestMovementEndPosition();
 
-            Point end = InputView.requestMoveEndPosition();
-            validateBoardRange(end);
+            currentPlayer.validateAlreadyPlayerPieceInPosition(end);
 
-            player.move(gameBoard.findAllPieces(), start, end);
+            currentPlayer.play(gameBoard.findAllPieces(), start, end);
             OutputView.displayBoard(gameBoard);
         }
     }
 
-    private Point requestMoveStartPosition(Player player) {
+    private Point requestMovementStartPosition(Player player) {
         while (true) {
             Point start = InputView.requestMoveStartPosition();
             validateBoardRange(start);
@@ -48,6 +48,12 @@ public class JanggiGame {
             }
             OutputView.displayWrongPoint();
         }
+    }
+
+    private Point requestMovementEndPosition() {
+        Point end = InputView.requestMovementEndPosition();
+        validateBoardRange(end);
+        return end;
     }
 
     public void validateBoardRange(Point point) {

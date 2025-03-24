@@ -7,27 +7,33 @@ public class Piece {
 
     private final String nickname;
     private final MovementRule movementRule;
-    private Point point;
+    private Point currentPosition;
 
-    public Piece(String nickname, Point point, MovementRule movementRule) {
+    public Piece(String nickname, Point currentPosition, MovementRule movementRule) {
         this.nickname = nickname;
         this.movementRule = movementRule;
-        this.point = point;
+        this.currentPosition = currentPosition;
     }
 
-    public String getName() {
+    public String getNickName() {
         return nickname;
     }
 
     public Point getPosition() {
-        return point;
+        return currentPosition;
+    }
+
+    public boolean isEqualPositionWith(Point targetPoint) {
+        return currentPosition.equals(targetPoint);
     }
 
     public void move(Pieces allPieces, Point to) {
-        point = movementRule.move(allPieces, point, to);
+        movementRule.validateDestination(currentPosition, to);
+        movementRule.checkPaths(allPieces, currentPosition, to);
+        currentPosition = to;
     }
 
-    public boolean isSameType(String nickname) {
-        return this.nickname.equalsIgnoreCase(nickname);
+    public boolean isSameType(String targetNickname) {
+        return nickname.equalsIgnoreCase(targetNickname);
     }
 }

@@ -22,7 +22,7 @@ public class OutputView {
                     System.out.print(".");
                     continue;
                 }
-                System.out.print(findPiece.get().getName());
+                System.out.print(findPiece.get().getNickName());
             }
             System.out.println(" " + i);
         }

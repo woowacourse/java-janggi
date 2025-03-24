@@ -15,7 +15,7 @@ public class InputView {
         );
     }
 
-    public static Point requestMoveEndPosition() {
+    public static Point requestMovementEndPosition() {
         System.out.println("도착지를 알려주세요.");
         Scanner scanner = new Scanner(System.in);
         String to = scanner.nextLine();

@@ -2,6 +2,7 @@ package piece;
 
 import direction.Point;
 import java.util.List;
+import team.Team;
 
 public class Pieces {
 
@@ -11,19 +12,25 @@ public class Pieces {
         this.pieces = pieces;
     }
 
-    public Piece findByPoint(Point point) {
+    public Piece getByPoint(Point point) {
         return pieces.stream()
-                .filter(piece -> piece.getPosition().equals(point))
+                .filter(piece -> piece.isEqualPositionWith(point))
                 .findAny()
-                .get();
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
     }
 
-    public boolean isExistPieceIn(Point point) {
+    public boolean isPlacedAt(Point point) {
         return pieces.stream()
-                .anyMatch(piece -> piece.getPosition().equals(point));
+                .anyMatch(piece -> piece.isEqualPositionWith(point));
     }
 
     public List<Piece> getPieces() {
         return pieces;
+    }
+
+    public void validateNotContainPiece(Point point) {
+        if(isPlacedAt(point)) {
+            throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
+        }
     }
 }
