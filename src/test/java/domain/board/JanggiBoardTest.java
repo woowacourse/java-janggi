@@ -4,6 +4,7 @@ import domain.Country;
 import domain.JanggiBoard;
 import domain.JanggiCoordinate;
 import domain.piece.Ma;
+import domain.piece.Pho;
 import domain.piece.Piece;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -39,6 +41,22 @@ class JanggiBoardTest {
 
             assertThatThrownBy(() -> janggiBoard.findPieceByCoordinate(new JanggiCoordinate(2, 2)))
                     .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @DisplayName("보드에 기물이 있는 경우 기물을 이동 시킬 수 있다")
+        @Test
+        void boardPieceMoveTest() {
+            Piece piece = new Pho(Country.HAN);
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+            JanggiCoordinate from = new JanggiCoordinate(5, 5);
+            JanggiCoordinate to = new JanggiCoordinate(3, 3);
+
+            map.put(from, piece);
+            JanggiBoard janggiBoard = new JanggiBoard(map);
+
+            assertDoesNotThrow(() -> janggiBoard.movePiece(from, to));
+            assertThat(janggiBoard.isOccupied(from)).isFalse();
+            assertThat(janggiBoard.isOccupied(to)).isTrue();
         }
     }
 }
