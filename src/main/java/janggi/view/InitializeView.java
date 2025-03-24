@@ -1,8 +1,8 @@
 package janggi.view;
 
 import janggi.domain.Dynasty;
-import janggi.domain.player.Player;
 import janggi.domain.board.BoardSetUp;
+import janggi.domain.player.Player;
 import java.util.Scanner;
 
 public class InitializeView {

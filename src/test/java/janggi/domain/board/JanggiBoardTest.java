@@ -12,6 +12,7 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("장기 보드 테스트")
 public class JanggiBoardTest {
 
     @DisplayName("장기판의 특정 위치에 기물이 있는지 알 수 있다.")

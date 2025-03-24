@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+@DisplayName("보드 말 테스트")
 class BoardPieceTest {
 
     @DisplayName("원하는 위치로 이동할 수 있는지 검사한다.")

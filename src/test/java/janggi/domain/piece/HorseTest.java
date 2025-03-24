@@ -9,6 +9,7 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("마 테스트")
 class HorseTest {
 
     @DisplayName("마가 가는 방향에 기물이 없다면 이동할 수 있다.")

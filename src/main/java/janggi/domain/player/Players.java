@@ -12,6 +12,13 @@ public class Players {
         this.players = players;
     }
 
+    public Player findDynastyPlayer(Dynasty dynasty) {
+        return players.stream()
+                .filter(player -> player.isSameDynasty(dynasty))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당 나라의 플레이어가 존재하지 않습니다."));
+    }
+
     private void validatePlayers(List<Player> players) {
         if (players.size() != 2) {
             throw new IllegalArgumentException("플레이어는 두 명이어야 합니다.");
@@ -21,12 +28,5 @@ public class Players {
         if (distinctPlayers.size() < 2) {
             throw new IllegalArgumentException("플레이어는 중복될 수 없습니다.");
         }
-    }
-
-    public Player findDynastyPlayer(Dynasty dynasty) {
-        return players.stream()
-                .filter(player -> player.isSameDynasty(dynasty))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당 나라의 플레이어가 존재하지 않습니다."));
     }
 }

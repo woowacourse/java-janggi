@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@DisplayName("플레이어 테스트")
 class PlayerTest {
 
     @DisplayName("닉네임이 1자 ~ 6자인 플레이어를 생성한다.")

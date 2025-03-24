@@ -9,6 +9,7 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("상 테스트")
 class ElephantTest {
 
     @DisplayName("상이 가는 방향에 기물이 없다면 이동할 수 있다.")

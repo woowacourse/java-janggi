@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("플레이어들 테스트")
 class PlayersTest {
 
     @DisplayName("중복되지 않은 두명의 플레이어를 저장한다.")

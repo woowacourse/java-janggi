@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+@DisplayName("차 테스트")
 class ChariotTest {
 
     @DisplayName("차가 가는 방향에 기물이 없다면 이동할 수 있다.")

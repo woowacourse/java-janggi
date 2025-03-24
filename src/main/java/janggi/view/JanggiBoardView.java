@@ -1,8 +1,7 @@
 package janggi.view;
 
 import janggi.domain.Dynasty;
-import janggi.domain.player.Player;
-import janggi.domain.board.Position;
+import janggi.domain.board.Point;
 import janggi.domain.piece.BoardPiece;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
@@ -12,6 +11,7 @@ import janggi.domain.piece.Guard;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
+import janggi.domain.player.Player;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -72,18 +72,10 @@ public class JanggiBoardView {
         throw new IllegalArgumentException("입력 형식이 틀렸습니다.");
     }
 
-    private void printPlayerMoveGuide(Player player) {
-        if (player.getDynasty() == Dynasty.HAN) {
-            System.out.println(convertHanColor(player.getNickname()) + "의 차례입니다. 이동할 위치를 입력해주세요. 예) move ㄱ2 ㄴ3");
-            return;
-        }
-        System.out.println(convertChuColor(player.getNickname()) + "의 차례입니다. 이동할 위치를 입력해주세요. 예) move ㄱ2 ㄴ3");
-    }
-
-    public void printBoard(Map<Position, BoardPiece> boardPieceMap) {
+    public void printBoard(Map<Point, BoardPiece> boardPieceMap) {
         for (int x = 1; x <= 10; x++) {
             for (int y = 1; y <= 9; y++) {
-                Position point = new Position(x, y);
+                Point point = new Point(x, y);
                 if (boardPieceMap.containsKey(point)) {
                     BoardPiece boardPiece = boardPieceMap.get(point);
                     printPointPiece(boardPiece);
@@ -95,6 +87,18 @@ public class JanggiBoardView {
             System.out.println();
         }
         System.out.println("ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅅ ㅇ ㅈ");
+    }
+
+    public void printException(String message) {
+        System.out.println("[ERROR] " + message);
+    }
+
+    private void printPlayerMoveGuide(Player player) {
+        if (player.getDynasty() == Dynasty.HAN) {
+            System.out.println(convertHanColor(player.getNickname()) + "의 차례입니다. 이동할 위치를 입력해주세요. 예) move ㄱ2 ㄴ3");
+            return;
+        }
+        System.out.println(convertChuColor(player.getNickname()) + "의 차례입니다. 이동할 위치를 입력해주세요. 예) move ㄱ2 ㄴ3");
     }
 
     private void printPointPiece(BoardPiece boardPiece) {
@@ -121,6 +125,7 @@ public class JanggiBoardView {
     public record Movement(
             String command, int startX, int startY, int endX, int endY
     ) {
+
         public Movement(String command) {
             this(command, -1, -1, -1, -1);
         }
@@ -128,9 +133,9 @@ public class JanggiBoardView {
         public boolean isEnd() {
             return this.command.equals("end");
         }
-
         public boolean isMove() {
             return this.command.equals("move");
         }
+
     }
 }

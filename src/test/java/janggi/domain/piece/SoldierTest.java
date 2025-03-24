@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+@DisplayName("졸 테스트")
 public class SoldierTest {
 
     @DisplayName("한나라 폰은 상좌우 한칸 움직일 수 있다")

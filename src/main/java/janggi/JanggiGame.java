@@ -1,11 +1,11 @@
 package janggi;
 
 import janggi.domain.Dynasty;
-import janggi.domain.player.Player;
-import janggi.domain.player.Players;
 import janggi.domain.board.BoardSetUp;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.Position;
+import janggi.domain.board.Point;
+import janggi.domain.player.Player;
+import janggi.domain.player.Players;
 import janggi.view.InitializeView;
 import janggi.view.JanggiBoardView;
 import janggi.view.JanggiBoardView.Movement;
@@ -25,7 +25,7 @@ public class JanggiGame {
         try {
             play();
         } catch (RuntimeException e) {
-            System.out.println("[ERROR] " + e.getMessage());
+            janggiBoardView.printException(e.getMessage());
         }
     }
 
@@ -45,13 +45,13 @@ public class JanggiGame {
                     break;
                 }
                 if (movement.isMove()) {
-                    janggiBoard.move(currentTurnDynasty, new Position(movement.startX(), movement.startY()),
-                            new Position(movement.endX(), movement.endY()));
+                    janggiBoard.move(currentTurnDynasty, new Point(movement.startX(), movement.startY()),
+                            new Point(movement.endX(), movement.endY()));
                     janggiBoardView.printBoard(janggiBoard.getBoardPieces());
                     currentTurnDynasty = changePlayerTurn(currentTurnDynasty);
                 }
             } catch (RuntimeException e) {
-                System.out.println("[ERROR] " + e.getMessage());
+                janggiBoardView.printException(e.getMessage());
             }
         }
     }
@@ -72,11 +72,9 @@ public class JanggiGame {
     private JanggiBoard createJanggiBoard(Players players) {
         BoardSetUp chuPlayerBoardSetUp = initializeView.readBoardSetUp(players.findDynastyPlayer(Dynasty.CHU));
         BoardSetUp hanPlayerBoardSetUp = initializeView.readBoardSetUp(players.findDynastyPlayer(Dynasty.HAN));
-
         janggiBoardView.printGameStartMessage();
         JanggiBoard janggiBoard = JanggiBoard.of(hanPlayerBoardSetUp, chuPlayerBoardSetUp);
         janggiBoardView.printBoard(janggiBoard.getBoardPieces());
-
         return janggiBoard;
     }
 }

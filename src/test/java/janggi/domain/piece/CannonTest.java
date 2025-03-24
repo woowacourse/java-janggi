@@ -9,6 +9,7 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("포 테스트")
 class CannonTest {
 
     @DisplayName("출발지에서 목적지까지 포가 아닌 기물이 한개 있어야한다.")

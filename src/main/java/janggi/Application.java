@@ -8,7 +8,6 @@ public class Application {
         InitializeView initializeView = new InitializeView();
         JanggiBoardView janggiBoardView = new JanggiBoardView();
         JanggiGame janggiGame = new JanggiGame(initializeView, janggiBoardView);
-
         janggiGame.start();
     }
 }
