@@ -32,18 +32,18 @@ public class Position {
         return (this.row + this.column) - (position.row + position.column) > 0;
     }
 
-    public Position getSmallerPosition(Position otherPosition) {
-        if (this.isAbsoluteBigger(otherPosition)) {
-            return otherPosition;
-        }
-        return this;
-    }
-
     public Position getBiggerPosition(Position otherPosition) {
         if (this.isAbsoluteBigger(otherPosition)) {
             return this;
         }
         return otherPosition;
+    }
+
+    public Position getSmallerPosition(Position otherPosition) {
+        if (this.isAbsoluteBigger(otherPosition)) {
+            return otherPosition;
+        }
+        return this;
     }
 
     @Override

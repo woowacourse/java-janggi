@@ -41,7 +41,7 @@ public class KoreanChessApplication {
         Optional<Team> loseTeam = playerPieces.kingDeadTeam();
         while (loseTeam.isEmpty()) {
             TurnResult turnResult = playKoreanChess(playerPieces, gameView, turn);
-            turn = turnResult.nextTurn();
+            turn = turnResult.nextTurn() % PLAYER_SIZE;
         }
         playTurn(playerPieces, gameView, turn);
         Team team = loseTeam.get();

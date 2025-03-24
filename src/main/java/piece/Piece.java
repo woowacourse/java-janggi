@@ -21,6 +21,10 @@ public class Piece {
         this.position = moveBehavior.move(movePosition, onRoutePieces, team);
     }
 
+    public List<Position> calculateLegalRoute(Position selectPiecePosition, Position movePosition) {
+        return moveBehavior.calculateLegalRoute(selectPiecePosition, movePosition, team);
+    }
+
     public boolean isSamePosition(Position destination) {
         return position.equals(destination);
     }
@@ -51,10 +55,6 @@ public class Piece {
 
     public PieceType getType() {
         return moveBehavior.getPieceType();
-    }
-
-    public List<Position> getRoute(Position selectPiecePosition, Position movePosition) {
-        return moveBehavior.calculateLegalRoute(selectPiecePosition, movePosition, team);
     }
 
     @Override
