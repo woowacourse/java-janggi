@@ -36,8 +36,8 @@ public class Jol extends Piece {
 
     @Override
     public boolean isMove(final Position position) {
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
+        final int dx = getBoardPosition().getRow() - position.getRow();
+        final int dy = getBoardPosition().getCol() - position.getCol();
 
         if (dx == 0 && Math.abs(dy) == 1 || dx == 1 && dy == 0) {
             return true;

@@ -1,10 +1,12 @@
 package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.position.Position;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,9 +16,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class JolTest {
 
-    @DisplayName("졸병은 이름과 위치 정보를 가진다,")
+    @DisplayName("졸은 이름과 위치 정보를 가진다,")
     @Test
-    void jolByeongBoardPosition() {
+    void jolBoardPosition() {
         //given
         final Position position = new Position(4, 5);
 
@@ -54,7 +56,6 @@ class JolTest {
         assertThat(actual).isTrue();
     }
 
-
     @DisplayName("졸은 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
     @Test
     void makeRoute() {
@@ -81,5 +82,40 @@ class JolTest {
                 Arguments.of(new Position(5, 4)),
                 Arguments.of(new Position(5, 6)),
                 Arguments.of(new Position(4, 5)));
+    }
+
+    @DisplayName("졸의 이동 경로에 장애물이 있다면 예외를 던진다.")
+    @Test
+    void hasObstacle() {
+        //given
+        final Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), new Position(5, 5));
+
+        final Map<Position, Piece> board = Map.of(
+                new Position(6, 5), new Cha(new PieceProfile("차", Nation.HAN), new Position(6, 5))
+        );
+
+        final Position futurePosition = new Position(6, 5);
+
+        //when //then
+        assertThatThrownBy(() -> jol.checkObstacle(futurePosition, board))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageStartingWith("[ERROR]");
+    }
+
+    @DisplayName("졸의 이동 경로에 장애물이 없다면 예외를 던지지 않는다.")
+    @Test
+    void nonObstacle() {
+        //given
+        final Jol jol = new Jol(new PieceProfile("졸", Nation.HAN), new Position(5, 5));
+
+        final Map<Position, Piece> board = Map.of(
+                new Position(7, 5), new Cha(new PieceProfile("차", Nation.HAN), new Position(7, 5))
+        );
+
+        final Position futurePosition = new Position(6, 5);
+
+        //when //then
+        assertThatCode(() -> jol.checkObstacle(futurePosition, board))
+                .doesNotThrowAnyException();
     }
 }
