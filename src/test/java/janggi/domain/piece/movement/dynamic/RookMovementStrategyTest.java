@@ -6,8 +6,8 @@ import janggi.domain.Position;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Pieces;
-import janggi.domain.piece.Rook;
 import java.util.Arrays;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -23,12 +23,12 @@ class RookMovementStrategyTest {
     private static final Side ENEMY_SIDE = Side.HAN;
     private static final RookMovementStrategy ROOK_MOVEMENT_STRATEGY = new RookMovementStrategy();
 
-    private static Rook createAllyRook(int x, int y) {
-        return new Rook(ALLY_SIDE, x, y);
+    private static Piece createAllyRook(int x, int y) {
+        return new Piece(PieceType.ROOK, ROOK_MOVEMENT_STRATEGY, ALLY_SIDE, x, y);
     }
 
-    private static Rook createEnemyRook(int x, int y) {
-        return new Rook(ENEMY_SIDE, x, y);
+    private static Piece createEnemyRook(int x, int y) {
+        return new Piece(PieceType.ROOK, ROOK_MOVEMENT_STRATEGY, ENEMY_SIDE, x, y);
     }
 
     private static Pieces makePieces(Piece... pieces) {

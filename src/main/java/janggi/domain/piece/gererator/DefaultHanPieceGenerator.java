@@ -3,14 +3,14 @@ package janggi.domain.piece.gererator;
 import static janggi.domain.piece.gererator.KnightElephantSetting.KNIGHT_ELEPHANT_KNIGHT_ELEPHANT;
 
 import janggi.domain.Side;
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Elephant;
-import janggi.domain.piece.Guard;
-import janggi.domain.piece.King;
-import janggi.domain.piece.Knight;
-import janggi.domain.piece.Pawn;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Rook;
+import janggi.domain.piece.PieceType;
+import janggi.domain.piece.movement.dynamic.CannonMovementStrategy;
+import janggi.domain.piece.movement.dynamic.PawnMovementStrategy;
+import janggi.domain.piece.movement.dynamic.RookMovementStrategy;
+import janggi.domain.piece.movement.fixed.ElephantMovementStrategy;
+import janggi.domain.piece.movement.fixed.GuardMovementStrategy;
+import janggi.domain.piece.movement.fixed.KingMovementStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,22 +27,22 @@ public class DefaultHanPieceGenerator implements HanPieceGenerator {
 
     private List<Piece> generateDefaultPieces() {
         return List.of(
-                new Pawn(SIDE, 0, 3),
-                new Pawn(SIDE, 2, 3),
-                new Pawn(SIDE, 4, 3),
-                new Pawn(SIDE, 6, 3),
-                new Pawn(SIDE, 8, 3),
+            new Piece(PieceType.PAWN, new PawnMovementStrategy(), SIDE, 0, 3),
+            new Piece(PieceType.PAWN, new PawnMovementStrategy(), SIDE, 2, 3),
+            new Piece(PieceType.PAWN, new PawnMovementStrategy(), SIDE, 4, 3),
+            new Piece(PieceType.PAWN, new PawnMovementStrategy(), SIDE, 6, 3),
+            new Piece(PieceType.PAWN, new PawnMovementStrategy(), SIDE, 8, 3),
 
-                new Cannon(SIDE, 1, 2),
-                new Cannon(SIDE, 7, 2),
+            new Piece(PieceType.CANNON, new CannonMovementStrategy(), SIDE, 1, 2),
+            new Piece(PieceType.CANNON, new CannonMovementStrategy(), SIDE, 7, 2),
 
-                new Rook(SIDE, 0, 0),
-                new Rook(SIDE, 8, 0),
+            new Piece(PieceType.ROOK, new RookMovementStrategy(), SIDE, 0, 0),
+            new Piece(PieceType.ROOK, new RookMovementStrategy(), SIDE, 8, 0),
 
-                new Guard(SIDE, 3, 0),
-                new Guard(SIDE, 5, 0),
+            new Piece(PieceType.GUARD, new GuardMovementStrategy(), SIDE, 3, 0),
+            new Piece(PieceType.GUARD, new GuardMovementStrategy(), SIDE, 5, 0),
 
-                new King(SIDE, 4, 1)
+            new Piece(PieceType.KING, new KingMovementStrategy(), SIDE, 4, 1)
         );
     }
 
@@ -62,37 +62,37 @@ public class DefaultHanPieceGenerator implements HanPieceGenerator {
 
     private List<Piece> generateKnightElephantKnightElephant() {
         return List.of(
-                new Knight(SIDE, 1, 0),
-                new Elephant(SIDE, 2, 0),
-                new Knight(SIDE, 6, 0),
-                new Elephant(SIDE, 7, 0)
+            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 1, 0),
+            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 2, 0),
+            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 6, 0),
+            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 7, 0)
         );
     }
 
     private List<Piece> generateKnightElephantElephantKnight() {
         return List.of(
-                new Knight(SIDE, 1, 0),
-                new Elephant(SIDE, 2, 0),
-                new Elephant(SIDE, 6, 0),
-                new Knight(SIDE, 7, 0)
+            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 1, 0),
+            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 2, 0),
+            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 6, 0),
+            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 7, 0)
         );
     }
 
     private List<Piece> generateElephantKnightKnightElephant() {
         return List.of(
-                new Elephant(SIDE, 1, 0),
-                new Knight(SIDE, 2, 0),
-                new Knight(SIDE, 6, 0),
-                new Elephant(SIDE, 7, 0)
+            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 1, 0),
+            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 2, 0),
+            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 6, 0),
+            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 7, 0)
         );
     }
 
     private List<Piece> generateElephantKnightElephantKnight() {
         return List.of(
-                new Elephant(SIDE, 1, 0),
-                new Knight(SIDE, 2, 0),
-                new Elephant(SIDE, 6, 0),
-                new Knight(SIDE, 7, 0)
+            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 1, 0),
+            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 2, 0),
+            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 6, 0),
+            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 7, 0)
         );
     }
 }

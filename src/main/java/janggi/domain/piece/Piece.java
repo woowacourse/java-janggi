@@ -2,16 +2,20 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.Side;
-import java.util.List;
+import janggi.domain.piece.movement.MovementStrategy;
 import java.util.Objects;
 
-public abstract class Piece {
+public class Piece {
 
+    private final PieceType pieceType;
     private final Side side;
+    private final MovementStrategy movementStrategy;
     private Position position;
 
-    protected Piece(Side side, int x, int y) {
+    public Piece(PieceType pieceType, MovementStrategy movementStrategy, Side side, int x, int y) {
+        this.pieceType = pieceType;
         this.side = side;
+        this.movementStrategy = movementStrategy;
         this.position = new Position(x, y);
     }
 
@@ -27,19 +31,16 @@ public abstract class Piece {
         return this.position.equals(position);
     }
 
-    public void move(List<Piece> existingPieces, int x, int y) {
+    public void move(Pieces map, int x, int y) {
         Position destination = new Position(x, y);
-        validateMovable(existingPieces, destination);
+        validateMovable(map, destination);
         position = destination;
     }
 
-    private void validateMovable(List<Piece> existingPieces, Position destination) {
+    private void validateMovable(Pieces map, Position destination) {
         validateSamePosition(destination);
-        if (!isMoveablePosition(destination)) {
+        if (!movementStrategy.isMoveable(map, position, side, destination)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
-        }
-        if (!isMoveablePath(existingPieces, destination)) {
-            throw new IllegalArgumentException("불가능한 경로입니다.");
         }
     }
 
@@ -49,24 +50,16 @@ public abstract class Piece {
         }
     }
 
-    public int getXPosition() {
-        return position.getX();
+    public PieceType getPieceType() {
+        return pieceType;
     }
-
-    public int getYPosition() {
-        return position.getY();
-    }
-
-    protected abstract boolean isMoveablePosition(Position destination);
-
-    protected abstract boolean isMoveablePath(List<Piece> existingPieces, Position destination);
 
     @Override
     public String toString() {
         return "Piece{" +
-                "side=" + side +
-                ", position=" + position +
-                '}';
+            "side=" + side +
+            ", position=" + position +
+            '}';
     }
 
     @Override

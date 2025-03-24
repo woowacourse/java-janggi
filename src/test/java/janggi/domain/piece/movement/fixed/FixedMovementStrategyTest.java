@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.Position;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.Side;
-import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Pieces;
 import java.util.Arrays;
 import java.util.Map;
@@ -25,70 +25,74 @@ class FixedMovementStrategyTest {
     private static final Side ENEMY_SIDE = Side.CHO;
     private final RawFixedMovementStrategy rawFixedMovementStrategy = new RawFixedMovementStrategy();
 
+    private static Piece createElephant(Side side, int x, int y) {
+        return new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), side, x, y);
+    }
+
     private static Stream<Arguments> 목적지까지의_경로에_기물이_없는지_확인한다_테스트_케이스() {
         return Stream.of(
-                Arguments.of(
-                        createPieces(new Elephant(ALLEY_SIDE, 5, 6)),
-                        ALLEY_SIDE,
-                        new Position(5, 5),
-                        new Position(7, 8),
-                        createPieces(new Elephant(ALLEY_SIDE, 5, 6)),
-                        false
-                ),
-                Arguments.of(
-                        createPieces(new Elephant(ALLEY_SIDE, 5, 6)),
-                        ALLEY_SIDE,
-                        new Position(5, 5),
-                        new Position(8, 7),
-                        createPieces(new Elephant(ALLEY_SIDE, 5, 6)),
-                        false
-                ),
-                Arguments.of(
-                        createPieces(new Elephant(ALLEY_SIDE, 5, 6)),
-                        ALLEY_SIDE,
-                        new Position(5, 5),
-                        new Position(8, 7),
-                        createPieces(new Elephant(ALLEY_SIDE, 5, 6)),
-                        false
-                )
+            Arguments.of(
+                createPieces(createElephant(ALLEY_SIDE, 5, 6)),
+                ALLEY_SIDE,
+                new Position(5, 5),
+                new Position(7, 8),
+                createPieces(createElephant(ALLEY_SIDE, 5, 6)),
+                false
+            ),
+            Arguments.of(
+                createPieces(createElephant(ALLEY_SIDE, 5, 6)),
+                ALLEY_SIDE,
+                new Position(5, 5),
+                new Position(8, 7),
+                createPieces(createElephant(ALLEY_SIDE, 5, 6)),
+                false
+            ),
+            Arguments.of(
+                createPieces(createElephant(ALLEY_SIDE, 5, 6)),
+                ALLEY_SIDE,
+                new Position(5, 5),
+                new Position(8, 7),
+                createPieces(createElephant(ALLEY_SIDE, 5, 6)),
+                false
+            )
         );
     }
 
     private static Stream<Arguments> 목적지에_아군이_있다면_움직일_수_없다_테스트_케이스() {
         return Stream.of(
-                Arguments.of(
-                        createPieces(new Elephant(ALLEY_SIDE, 5, 6)),
-                        ALLEY_SIDE,
-                        new Position(5, 5),
-                        new Position(7, 8),
-                        createPieces(new Elephant(ALLEY_SIDE, 7, 8))
-                ),
-                Arguments.of(
-                        createPieces(new Elephant(ALLEY_SIDE, 5, 6)),
-                        ALLEY_SIDE,
-                        new Position(5, 5),
-                        new Position(8, 7),
-                        createPieces(new Elephant(ALLEY_SIDE, 8, 7))
-                )
+            Arguments.of(
+                createPieces(createElephant(ALLEY_SIDE, 5, 6)),
+                ALLEY_SIDE,
+                new Position(5, 5),
+                new Position(7, 8),
+                createPieces(createElephant(ALLEY_SIDE, 7, 8))
+            ),
+            Arguments.of(
+                createPieces(createElephant(ALLEY_SIDE, 5, 6)),
+                ALLEY_SIDE,
+                new Position(5, 5),
+                new Position(8, 7),
+                createPieces(createElephant(ALLEY_SIDE, 8, 7))
+            )
         );
     }
 
     private static Stream<Arguments> 목적지에_적군이_있다면_움직일_수_없다_테스트_케이스() {
         return Stream.of(
-                Arguments.of(
-                        createPieces(new Elephant(ALLEY_SIDE, 5, 6)),
-                        ALLEY_SIDE,
-                        new Position(5, 5),
-                        new Position(7, 8),
-                        createPieces(new Elephant(ENEMY_SIDE, 7, 8))
-                ),
-                Arguments.of(
-                        createPieces(new Elephant(ALLEY_SIDE, 5, 6)),
-                        ALLEY_SIDE,
-                        new Position(5, 5),
-                        new Position(8, 7),
-                        createPieces(new Elephant(ENEMY_SIDE, 8, 7))
-                )
+            Arguments.of(
+                createPieces(createElephant(ALLEY_SIDE, 5, 6)),
+                ALLEY_SIDE,
+                new Position(5, 5),
+                new Position(7, 8),
+                createPieces(createElephant(ENEMY_SIDE, 7, 8))
+            ),
+            Arguments.of(
+                createPieces(createElephant(ALLEY_SIDE, 5, 6)),
+                ALLEY_SIDE,
+                new Position(5, 5),
+                new Position(8, 7),
+                createPieces(createElephant(ENEMY_SIDE, 8, 7))
+            )
         );
     }
 
@@ -99,12 +103,12 @@ class FixedMovementStrategyTest {
     @ParameterizedTest
     @MethodSource("목적지까지의_경로에_기물이_없는지_확인한다_테스트_케이스")
     void 목적지까지의_경로에_기물이_없는지_확인한다(
-            Pieces map,
-            Side side,
-            Position origin,
-            Position destination,
-            Pieces onPathPieces,
-            boolean expected
+        Pieces map,
+        Side side,
+        Position origin,
+        Position destination,
+        Pieces onPathPieces,
+        boolean expected
     ) {
 
         rawFixedMovementStrategy.setIsLegalDestination(true);
@@ -116,11 +120,11 @@ class FixedMovementStrategyTest {
     @ParameterizedTest
     @MethodSource("목적지에_아군이_있다면_움직일_수_없다_테스트_케이스")
     void 목적지에_아군이_있다면_움직일_수_없다(
-            Pieces map,
-            Side side,
-            Position origin,
-            Position destination,
-            Pieces onPathPieces
+        Pieces map,
+        Side side,
+        Position origin,
+        Position destination,
+        Pieces onPathPieces
     ) {
 
         rawFixedMovementStrategy.setIsLegalDestination(true);
@@ -132,11 +136,11 @@ class FixedMovementStrategyTest {
     @ParameterizedTest
     @MethodSource("목적지에_적군이_있다면_움직일_수_없다_테스트_케이스")
     void 목적지에_적군이_있다면_움직일_수_없다(
-            Pieces map,
-            Side side,
-            Position origin,
-            Position destination,
-            Pieces onPathPieces
+        Pieces map,
+        Side side,
+        Position origin,
+        Position destination,
+        Pieces onPathPieces
     ) {
 
         rawFixedMovementStrategy.setIsLegalDestination(true);
@@ -151,7 +155,7 @@ class FixedMovementStrategyTest {
         rawFixedMovementStrategy.setAllPiecesOnPath(new Pieces(Map.of()));
 
         assertThat(rawFixedMovementStrategy.isMoveable(createPieces(), new Position(0, 0), ALLEY_SIDE,
-                new Position(0, 0))).isTrue();
+            new Position(0, 0))).isTrue();
     }
 
     private static final class RawFixedMovementStrategy implements FixedMovementStrategy {
