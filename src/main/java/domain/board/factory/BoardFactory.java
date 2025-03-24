@@ -15,7 +15,8 @@ import domain.pieces.General;
 import domain.pieces.Guard;
 import domain.pieces.Piece;
 import domain.pieces.Soldier;
-import execptions.JanggiArgumentException;
+import execptions.JanggiGameRuleWarningException;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -27,11 +28,11 @@ public final class BoardFactory {
   private static final int MAX_SOLDIER_COUNT = 5;
 
 
-  public static Board generateBoard(final Map<Team, Integer> setupsByTeam) {
+  public static Board generateBoard(final EnumMap<Team, Integer> setupsByTeam) {
     final Map<Point, Piece> locations = generateEmptyBoard();
     for (final Entry<Team, Integer> setup : setupsByTeam.entrySet()) {
       final Team team = setup.getKey();
-      final ElephantLocator locator = createFromChoice(setup.getValue());
+      final ElephantLocator locator = createFromChoice(setup.getValue(), team);
       locations.putAll(setupLocationsOnBoard(team));
       locations.putAll(locator.setupHorse(team));
       locations.putAll(locator.setupElephant(team));
@@ -49,13 +50,14 @@ public final class BoardFactory {
     return locations;
   }
 
-  private static ElephantLocator createFromChoice(int choice) {
+  private static ElephantLocator createFromChoice(final int choice, final Team team) {
     return switch (choice) {
       case 1 -> new OuterElephantLocator();
       case 2 -> new InnerElephantLocator();
       case 3 -> new LeftElephantLocator();
       case 4 -> new RightElephantLocator();
-      default -> throw new JanggiArgumentException("등록되지 않은 배치입니다: " + choice);
+      default ->
+          throw new JanggiGameRuleWarningException("등록되지 않은 배치를 선택했습니다: " + team + " = " + choice);
     };
   }
 

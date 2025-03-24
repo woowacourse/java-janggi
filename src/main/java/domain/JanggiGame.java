@@ -4,6 +4,7 @@ import domain.board.Board;
 import domain.board.Point;
 import domain.board.factory.BoardFactory;
 import domain.pieces.Piece;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,7 +21,7 @@ public final class JanggiGame {
     this.players = players;
   }
 
-  public static JanggiGame setup(final Map<Team, Integer> elephantLocatorByTeam) {
+  public static JanggiGame setup(final EnumMap<Team, Integer> elephantLocatorByTeam) {
     Board board = BoardFactory.generateBoard(elephantLocatorByTeam);
     List<Player> players = elephantLocatorByTeam.keySet().stream()
         .map(Player::new)

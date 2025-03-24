@@ -3,8 +3,8 @@ package controller;
 import domain.JanggiGame;
 import domain.Team;
 import domain.board.Point;
+import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 import view.InputView;
 import view.OutputView;
 
@@ -28,7 +28,7 @@ public class JanggiController {
   }
 
   private JanggiGame setupGame() {
-    final Map<Team, Integer> choicesForSetup = inputView.readChoicesForSetup();
+    final EnumMap<Team, Integer> choicesForSetup = inputView.readChoicesForSetup();
     return JanggiGame.setup(choicesForSetup);
   }
 

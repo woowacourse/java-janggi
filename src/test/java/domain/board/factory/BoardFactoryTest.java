@@ -8,8 +8,8 @@ import domain.board.Board;
 import domain.board.Point;
 import domain.pieces.Piece;
 import domain.pieces.PieceNames;
-import execptions.JanggiArgumentException;
-import java.util.HashMap;
+import execptions.JanggiGameRuleWarningException;
+import java.util.EnumMap;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -26,15 +26,15 @@ class BoardFactoryTest {
     @DisplayName("바깥 차림을 선택한 경우")
     void test_setupOuterElephantLocator() {
       //given
-      final Map<Team, Integer> setupsByTeam = new HashMap<>();
+      final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);
       final Team team = Team.HAN;
-      setupsByTeam.put(team, 1);
+      setups.put(team, 1);
       final Point pointLeft = new Point(team.getInitialRow(), 1);
       final Point pointRight = new Point(team.getInitialRow(), 7);
       final String expected = PieceNames.ELEPHANT.getNameForTeam(team);
 
       //when
-      final Board board = BoardFactory.generateBoard(setupsByTeam);
+      final Board board = BoardFactory.generateBoard(setups);
       final Map<Point, Piece> locations = board.getLocations();
 
       //then
@@ -48,15 +48,15 @@ class BoardFactoryTest {
     @DisplayName("안상 차림을 선택한 경우")
     void test_setupInnerElephantLocator() {
       //given
-      final Map<Team, Integer> setupsByTeam = new HashMap<>();
+      final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);
       final Team team = Team.HAN;
-      setupsByTeam.put(team, 2);
+      setups.put(team, 2);
       final Point pointLeft = new Point(team.getInitialRow(), 2);
       final Point pointRight = new Point(team.getInitialRow(), 6);
       final String expected = PieceNames.ELEPHANT.getNameForTeam(team);
 
       //when
-      final Board board = BoardFactory.generateBoard(setupsByTeam);
+      final Board board = BoardFactory.generateBoard(setups);
       final Map<Point, Piece> locations = board.getLocations();
 
       //then
@@ -70,15 +70,15 @@ class BoardFactoryTest {
     @DisplayName("왼상 차림을 선택한 경우")
     void test_setupLeftElephantLocator() {
       //given
-      final Map<Team, Integer> setupsByTeam = new HashMap<>();
+      final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);
       final Team team = Team.HAN;
-      setupsByTeam.put(team, 3);
+      setups.put(team, 3);
       final Point pointLeft = new Point(team.getInitialRow(), 1);
       final Point pointRight = new Point(team.getInitialRow(), 6);
       final String expected = PieceNames.ELEPHANT.getNameForTeam(team);
 
       //when
-      final Board board = BoardFactory.generateBoard(setupsByTeam);
+      final Board board = BoardFactory.generateBoard(setups);
       final Map<Point, Piece> locations = board.getLocations();
 
       //then
@@ -92,15 +92,15 @@ class BoardFactoryTest {
     @DisplayName("오른상 차림을 선택한 경우")
     void test_setupRightElephantLocator() {
       //given
-      final Map<Team, Integer> setupsByTeam = new HashMap<>();
+      final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);
       final Team team = Team.HAN;
-      setupsByTeam.put(team, 4);
+      setups.put(team, 4);
       final Point pointLeft = new Point(team.getInitialRow(), 2);
       final Point pointRight = new Point(team.getInitialRow(), 7);
       final String expected = PieceNames.ELEPHANT.getNameForTeam(team);
 
       //when
-      final Board board = BoardFactory.generateBoard(setupsByTeam);
+      final Board board = BoardFactory.generateBoard(setups);
       final Map<Point, Piece> locations = board.getLocations();
 
       //then
@@ -114,21 +114,21 @@ class BoardFactoryTest {
     @DisplayName("팀에 따라 다르게 선택한 경우")
     void test_setupLocatorForEachTeam() {
       //given
-      final Map<Team, Integer> setupsByTeam = new HashMap<>();
+      final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);
       final Team han = Team.HAN;
-      setupsByTeam.put(han, 1);
+      setups.put(han, 1);
       final Point pointLeftForHan = new Point(han.getInitialRow(), 1);
       final Point pointRightForHan = new Point(han.getInitialRow(), 7);
       final String expectedForHan = PieceNames.ELEPHANT.getNameForTeam(han);
 
       final Team cho = Team.CHO;
-      setupsByTeam.put(cho, 4);
+      setups.put(cho, 4);
       final Point pointLeftForCho = new Point(cho.getInitialRow(), 2);
       final Point pointRightForCho = new Point(cho.getInitialRow(), 7);
       final String expectedForCho = PieceNames.ELEPHANT.getNameForTeam(cho);
 
       //when
-      final Board board = BoardFactory.generateBoard(setupsByTeam);
+      final Board board = BoardFactory.generateBoard(setups);
       final Map<Point, Piece> locations = board.getLocations();
 
       //then
@@ -144,13 +144,13 @@ class BoardFactoryTest {
     @DisplayName("등록되지 않은 차림을 선택한 경우")
     void error_setupInvalidElephantLocator() {
       //given
-      final Map<Team, Integer> setupsByTeam = new HashMap<>();
+      final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);
       final Team team = Team.HAN;
-      setupsByTeam.put(team, Integer.MAX_VALUE);
+      setups.put(team, Integer.MAX_VALUE);
 
       //when&then
-      assertThatThrownBy(() -> BoardFactory.generateBoard(setupsByTeam))
-          .isInstanceOf(JanggiArgumentException.class);
+      assertThatThrownBy(() -> BoardFactory.generateBoard(setups))
+          .isInstanceOf(JanggiGameRuleWarningException.class);
     }
   }
 }

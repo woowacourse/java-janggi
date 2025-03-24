@@ -8,7 +8,8 @@ import domain.Team;
 import domain.board.factory.BoardFactory;
 import domain.pieces.Piece;
 import domain.pieces.Soldier;
-import execptions.JanggiArgumentException;
+import execptions.JanggiGameRuleWarningException;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -30,14 +31,14 @@ public final class BoardTest {
 
       // when & then
       assertThatThrownBy(() -> new Board(locations))
-          .isInstanceOf(JanggiArgumentException.class);
+          .isInstanceOf(JanggiGameRuleWarningException.class);
     }
 
     @Test
     @DisplayName("보드는 0,0부터 9,8까지 포함된다")
     void test_locationRange() {
       //given
-      final Map<Team, Integer> setups = new HashMap<>();
+      final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);
       setups.put(Team.HAN, 1);
       setups.put(Team.CHO, 1);
       final Board board = BoardFactory.generateBoard(setups);
@@ -62,7 +63,7 @@ public final class BoardTest {
     @DisplayName("해당 경로로 이동할 수 없으면 예외를 던진다")
     void test_throwExceptionWhenPieceIsNotMovable() {
       // given
-      final Map<Team, Integer> setups = new HashMap<>();
+      final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);
       setups.put(Team.HAN, 1);
       setups.put(Team.CHO, 1);
       final Board board = BoardFactory.generateBoard(setups);
@@ -71,7 +72,7 @@ public final class BoardTest {
 
       // when
       assertThatThrownBy(() -> board.movePiece(startPoint, arrivalpoint, Team.CHO))
-          .isInstanceOf(JanggiArgumentException.class)
+          .isInstanceOf(JanggiGameRuleWarningException.class)
           .hasMessageContaining("해당 경로로 이동할 수 없습니다.");
     }
 
@@ -79,7 +80,7 @@ public final class BoardTest {
     @DisplayName("해당 위치가 이동할 수 없는 위치면 예외를 던진다")
     void test_throwExceptionWhenPieceIsNotAbleToArrive() {
       // given
-      final Map<Team, Integer> setups = new HashMap<>();
+      final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);
       setups.put(Team.HAN, 1);
       setups.put(Team.CHO, 1);
       final Board board = BoardFactory.generateBoard(setups);
@@ -89,7 +90,7 @@ public final class BoardTest {
 
       // when
       assertThatThrownBy(() -> board.movePiece(startPoint, arrivalpoint, Team.HAN))
-          .isInstanceOf(JanggiArgumentException.class)
+          .isInstanceOf(JanggiGameRuleWarningException.class)
           .hasMessageContaining("아군 기물만 움직일 수 있습니다.");
     }
 
@@ -97,7 +98,7 @@ public final class BoardTest {
     @DisplayName("이동할 기물이 존재하지 않으면 예외를 던진다")
     void test_NoPieceOnStartPoint() {
       // given
-      final Map<Team, Integer> setups = new HashMap<>();
+      final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);
       setups.put(Team.HAN, 1);
       setups.put(Team.CHO, 1);
       final Board board = BoardFactory.generateBoard(setups);
@@ -106,7 +107,7 @@ public final class BoardTest {
 
       // when & then
       assertThatThrownBy(() -> board.movePiece(startPoint, arrivalpoint, Team.HAN))
-          .isInstanceOf(JanggiArgumentException.class)
+          .isInstanceOf(JanggiGameRuleWarningException.class)
           .hasMessageContaining("출발점에 이동할 기물이 없습니다.");
     }
   }

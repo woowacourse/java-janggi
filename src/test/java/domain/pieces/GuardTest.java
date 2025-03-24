@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Team;
 import domain.board.Point;
-import execptions.JanggiArgumentException;
+import execptions.JanggiGameRuleWarningException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +18,6 @@ class GuardTest {
 
     // when & then
     assertThatThrownBy(() -> guard.isAbleToArrive(new Point(3, 2), new Point(2, 3)))
-        .isInstanceOf(JanggiArgumentException.class);
+        .isInstanceOf(JanggiGameRuleWarningException.class);
   }
 }
