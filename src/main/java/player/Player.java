@@ -51,4 +51,8 @@ public class Player {
     public Pieces getPieces() {
         return pieces;
     }
+
+    public Boolean isPoAt( Position presentPosition) {
+        return pieces.isPoAt(presentPosition);
+    }
 }
