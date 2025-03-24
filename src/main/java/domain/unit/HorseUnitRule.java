@@ -1,9 +1,7 @@
 package domain.unit;
 
-import domain.Direction;
 import domain.position.Position;
 import domain.position.Route;
-import domain.UnitType;
 import domain.position.Point;
 import java.util.ArrayList;
 import java.util.List;

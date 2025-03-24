@@ -1,10 +1,13 @@
-package domain;
+package domain.game;
 
 import domain.position.Position;
 import domain.position.Route;
+import domain.unit.DefaultUnitPosition;
+import domain.unit.Team;
+import domain.unit.Unit;
+import domain.unit.UnitType;
 import java.util.ArrayList;
 import java.util.List;
-import domain.unit.Unit;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -27,9 +30,16 @@ public class Janggi {
         return units;
     }
 
+    public void judgeUnitTurn(Position position) {
+        Optional<Unit> unit = findUnitByPoint(position);
+        if (unit.isEmpty() || unit.get().getTeam() != this.turn) {
+            throw new IllegalArgumentException("기물이 없거나 현재 차례가 아닙니다.");
+        }
+    }
+
     public List<Route> searchAvailableRoutes(Position pick) {
         Unit pickedUnit = findUnitByPoint(pick)
-                .orElseThrow(() -> new IllegalArgumentException(""));
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 없습니다."));
         List<Route> totalRoutes = pickedUnit.calculateRoutes();
         return applyUnitProperty(pickedUnit, pick, totalRoutes);
     }
@@ -46,7 +56,7 @@ public class Janggi {
         return findAvailableRoute(totalRoutes);
     }
 
-    private static List<Route> searchJolRoutes(Position pick, Unit pickedUnit, List<Route> totalRoutes) {
+    private List<Route> searchJolRoutes(Position pick, Unit pickedUnit, List<Route> totalRoutes) {
         if (pickedUnit.getTeam() == Team.HAN) {
             return totalRoutes.stream()
                     .filter(route -> route.getPoints().getFirst().getY() >= pick.getY())
@@ -114,5 +124,9 @@ public class Janggi {
 
     public List<Unit> getUnits() {
         return units;
+    }
+
+    public void moveAndCaptureIfEnemyExists(Route route) {
+
     }
 }

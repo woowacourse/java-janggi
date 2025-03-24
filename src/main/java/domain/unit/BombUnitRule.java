@@ -2,7 +2,6 @@ package domain.unit;
 
 import domain.position.Position;
 import domain.position.Route;
-import domain.UnitType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -15,7 +14,7 @@ public class BombUnitRule implements UnitRule {
         List<Position> positions = calculateEndPoints(start);
         for (Position end : positions) {
             Route route = calculateRoute(start, end);
-            if (route.getPoints().size() == 1) {
+            if (route.getPoints().size() == 2) {
                 continue;
             }
             routes.add(route);

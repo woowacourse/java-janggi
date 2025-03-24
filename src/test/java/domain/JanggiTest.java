@@ -1,5 +1,6 @@
 package domain;
 
+import domain.game.Janggi;
 import domain.position.Position;
 import domain.position.Route;
 import java.util.List;

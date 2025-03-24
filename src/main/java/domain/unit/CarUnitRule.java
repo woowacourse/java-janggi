@@ -2,18 +2,17 @@ package domain.unit;
 
 import domain.position.Position;
 import domain.position.Route;
-import domain.UnitType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class CarUnitRule implements UnitRule {
-
     public UnitType getType() {
         return UnitType.CAR;
     }
 
+    @Override
     public List<Route> calculateAllRoute(Position start) {
         List<Route> routes = new ArrayList<>();
         List<Position> positions = calculateEndPoints(start);
