@@ -1,33 +1,29 @@
 package domain;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
-public class Coordinate {
+public record Coordinate(int x, int y) {
 
     private static final Map<Coordinate, Set<Movement>> CASTLE_DIAGONAL_CONNECTIONS = Map.of(
         new Coordinate(4, 1), Set.of(Movement.RIGHT_DOWN),
         new Coordinate(4, 3), Set.of(Movement.RIGHT_UP),
         new Coordinate(6, 1), Set.of(Movement.LEFT_DOWN),
         new Coordinate(6, 3), Set.of(Movement.LEFT_UP),
-        new Coordinate(5, 2), Set.of(Movement.LEFT_UP, Movement.RIGHT_UP, Movement.LEFT_DOWN, Movement.RIGHT_DOWN),
+        new Coordinate(5, 2),
+        Set.of(Movement.LEFT_UP, Movement.RIGHT_UP, Movement.LEFT_DOWN, Movement.RIGHT_DOWN),
 
         new Coordinate(4, 8), Set.of(Movement.RIGHT_DOWN),
         new Coordinate(4, 10), Set.of(Movement.RIGHT_UP),
         new Coordinate(6, 8), Set.of(Movement.LEFT_DOWN),
         new Coordinate(6, 10), Set.of(Movement.LEFT_UP),
-        new Coordinate(5, 9), Set.of(Movement.LEFT_UP, Movement.RIGHT_UP, Movement.LEFT_DOWN, Movement.RIGHT_DOWN)
+        new Coordinate(5, 9),
+        Set.of(Movement.LEFT_UP, Movement.RIGHT_UP, Movement.LEFT_DOWN, Movement.RIGHT_DOWN)
     );
 
-    private final int x;
-    private final int y;
-
-    public Coordinate(int x, int y) {
+    public Coordinate {
         validateXCoordinate(x);
         validateYCoordinate(y);
-        this.x = x;
-        this.y = y;
     }
 
     public boolean canMove(Movement movement) {
@@ -73,35 +69,5 @@ public class Coordinate {
         if (isInvalidY(y)) {
             throw new IllegalArgumentException("세로 좌표는 1에서 10사이여야 합니다.");
         }
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        Coordinate that = (Coordinate) object;
-        return x == that.x && y == that.y;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
-    }
-
-    @Override
-    public String toString() {
-        return "Coordinate{" +
-            "x=" + x +
-            ", y=" + y +
-            '}';
     }
 }

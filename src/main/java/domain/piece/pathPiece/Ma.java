@@ -41,8 +41,8 @@ public class Ma extends PathPiece {
     }
 
     public Path findPath(Coordinate arrival) {
-        int dx = arrival.getX() - coordinate.getX();
-        int dy = arrival.getY() - coordinate.getY();
+        int dx = arrival.x() - coordinate.x();
+        int dy = arrival.y() - coordinate.y();
 
         final var movement = computeMovement(dx, dy);
         return new Path(List.of(coordinate.move(movement)));

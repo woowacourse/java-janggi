@@ -41,8 +41,8 @@ public class Sang extends PathPiece {
     }
 
     protected Path findPath(Coordinate arrival) {
-        int dx = arrival.getX() - coordinate.getX();
-        int dy = arrival.getY() - coordinate.getY();
+        int dx = arrival.x() - coordinate.x();
+        int dy = arrival.y() - coordinate.y();
 
         final var coordinates = computeMovement(dx, dy)
             .stream()
