@@ -82,6 +82,7 @@ public class JanggiController {
         while (true) {
             try {
                 runnable.run();
+                return;
             } catch (Exception e) {
                 System.out.println("[Error] " + e.getMessage() + "\n");
             }
