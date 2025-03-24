@@ -6,10 +6,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Cannon;
 import domain.piece.Chariot;
+import domain.piece.General;
 import domain.piece.PieceFactory;
 import domain.piece.PieceType;
 import domain.position.Point;
 import domain.position.Position;
+import java.util.List;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import view.OutputView;
@@ -233,4 +235,55 @@ class BoardTest {
             softly.assertThat(movedCannonPosition.isSamePieceType(PieceType.CANNON)).isTrue();
         });
     }
+
+    @Test
+    void 보드판에_궁이_1개가_아니다() {
+
+        // given
+        final Board board = BoardFactory.create();
+
+        // when
+        // then
+        assertThat(board.hasOnlyOneGeneral()).isFalse();
+    }
+
+    @Test
+    void 보드판에_궁이_1개다() {
+
+        // given
+        final Board board = new Board(List.of(new Position(Point.of(4, 1), PieceFactory.createGeneral())));
+
+        // when
+        // then
+        assertThat(board.hasOnlyOneGeneral()).isTrue();
+    }
+
+    @Test
+    void 초나라가_우승팀이다() {
+
+        // given
+        final Board board = new Board(
+                List.of(new Position(Point.of(4, 1), PieceFactory.createGreenTeam(General::new, Score.GENERAL))));
+
+        // when
+        final Team winTeam = board.determineWinTeam();
+
+        // then
+        assertThat(winTeam).isEqualTo(Team.GREEN);
+    }
+
+    @Test
+    void 한나라가_우승팀이다() {
+
+        // given
+        final Board board = new Board(
+                List.of(new Position(Point.of(4, 1), PieceFactory.createRedTeam(General::new, Score.GENERAL))));
+
+        // when
+        final Team winTeam = board.determineWinTeam();
+
+        // then
+        assertThat(winTeam).isEqualTo(Team.RED);
+    }
+
 }
