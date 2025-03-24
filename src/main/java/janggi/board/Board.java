@@ -7,6 +7,7 @@ import janggi.piece.Piece;
 import janggi.position.Position;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,6 +15,11 @@ public class Board {
 
     public static final int COLUMN = 9;
     public static final int ROW = 10;
+
+    private static final Map<Camp, Position> PALACE_POSITIONS = Map.of(
+            Camp.CHO, new Position(4, 1),
+            Camp.HAN, new Position(4, 8)
+    );
 
     private final Map<Position, Piece> placedPieces;
 
@@ -88,5 +94,21 @@ public class Board {
     public void validateSelectedPiece(Position position, Camp baseCamp) {
         Piece piece = placedPieces.get(position);
         piece.validateSelect(baseCamp);
+    }
+
+    public void validateCampPalace(Position piecePosition, Camp baseCamp) {
+        Position palaceCenter = PALACE_POSITIONS.get(baseCamp);
+        List<Position> surroundingPositions = findPalacePositions(palaceCenter.getX(), palaceCenter.getY());
+        if (!surroundingPositions.contains(piecePosition)) {
+            throw new ErrorException("궁성 안에서 이동해야 합니다.");
+
+        }
+    }
+
+    private List<Position> findPalacePositions(int centerX, int centerY) {
+        List<Integer> directions = List.of(-1, 0, 1);
+        return directions.stream()
+                .flatMap(dx -> directions.stream().map(dy -> new Position(centerX + dx, centerY + dy)))
+                .toList();
     }
 }
