@@ -38,10 +38,7 @@ public class Ma extends Piece {
     }
 
     private void validateReachableCoordinate(JanggiCoordinate from, JanggiCoordinate to) {
-        int rowDst = Math.abs(from.row() - to.row());
-        int colDst = Math.abs(from.col() - to.col());
-
-        if (square(rowDst) + square(colDst) != MA_REACHABLE_RADIUS) {
+        if (from.distanceTo(to) != MA_REACHABLE_RADIUS) {
             throw new IllegalArgumentException("[ERROR] 마가 해당 위치로 이동할 수 없습니다.");
         }
     }
@@ -63,9 +60,5 @@ public class Ma extends Piece {
             return Direction.DOWN;
         }
         return Direction.LEFT;
-    }
-
-    private int square(int n) {
-        return (int) Math.pow(n, 2);
     }
 }

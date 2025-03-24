@@ -24,18 +24,15 @@ public class Sang extends Piece {
         }
     }
 
-    private void validateTarget(JanggiBoard board, JanggiCoordinate to) {
-        if (board.isOccupied(to) && isSameCountry(board.findPieceByCoordinate(to))) {
-            throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
+    private void validateReachableCoordinate(JanggiCoordinate from, JanggiCoordinate to) {
+        if (from.distanceTo(to) != SANG_REACHABLE_RADIUS) {
+            throw new IllegalArgumentException("[ERROR] 상이 해당 위치로 이동할 수 없습니다.");
         }
     }
 
-    private void validateReachableCoordinate(JanggiCoordinate from, JanggiCoordinate to) {
-        int rowDst = Math.abs(from.row() - to.row());
-        int colDst = Math.abs(from.col() - to.col());
-
-        if (square(rowDst) + square(colDst) != SANG_REACHABLE_RADIUS) {
-            throw new IllegalArgumentException("[ERROR] 상이 해당 위치로 이동할 수 없습니다.");
+    private void validateTarget(JanggiBoard board, JanggiCoordinate to) {
+        if (board.isOccupied(to) && isSameCountry(board.findPieceByCoordinate(to))) {
+            throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
         }
     }
 
@@ -56,9 +53,5 @@ public class Sang extends Piece {
             return Direction.LEFT_UP;
         }
         return Direction.LEFT_DOWN;
-    }
-
-    private int square(int n) {
-        return (int) Math.pow(n, 2);
     }
 }
