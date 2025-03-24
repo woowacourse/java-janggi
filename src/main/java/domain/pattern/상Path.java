@@ -11,22 +11,26 @@ import static domain.pattern.Direction.UP_RIGHT;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class 상Path extends Path {
 
     public 상Path() {
-        super(List.of(UP_RIGHT, RIGHT_UP, RIGHT_DOWN, DOWN_RIGHT, DOWN_LEFT, LEFT_DOWN, LEFT_UP,
-                        UP_LEFT),
-                Map.of(
-                        UP_RIGHT, List.of(Pattern.UP, Pattern.DIAGONAL_UP_RIGHT, Pattern.DIAGONAL_UP_RIGHT),
-                        RIGHT_UP, List.of(Pattern.RIGHT, Pattern.DIAGONAL_UP_RIGHT, Pattern.DIAGONAL_UP_RIGHT),
-                        RIGHT_DOWN, List.of(Pattern.RIGHT, Pattern.DIAGONAL_DOWN_RIGHT, Pattern.DIAGONAL_DOWN_RIGHT),
-                        DOWN_RIGHT, List.of(Pattern.DOWN, Pattern.DIAGONAL_DOWN_RIGHT, Pattern.DIAGONAL_DOWN_RIGHT),
-                        DOWN_LEFT, List.of(Pattern.DOWN, Pattern.DIAGONAL_DOWN_LEFT, Pattern.DIAGONAL_DOWN_LEFT),
-                        LEFT_DOWN, List.of(Pattern.LEFT, Pattern.DIAGONAL_DOWN_LEFT, Pattern.DIAGONAL_DOWN_LEFT),
-                        LEFT_UP, List.of(Pattern.LEFT, Pattern.DIAGONAL_UP_LEFT, Pattern.DIAGONAL_UP_LEFT),
-                        UP_LEFT, List.of(Pattern.UP, Pattern.DIAGONAL_UP_LEFT, Pattern.DIAGONAL_UP_LEFT)
-                ));
+        super(List.of(UP_RIGHT, RIGHT_UP, RIGHT_DOWN, DOWN_RIGHT, DOWN_LEFT, LEFT_DOWN, LEFT_UP, UP_LEFT),
+                createPatternMap());
     }
 
+    private static Map<Direction, List<Pattern>> createPatternMap() {
+        return Stream.of(
+                Map.entry(UP_RIGHT, List.of(Pattern.UP, Pattern.DIAGONAL_UP_RIGHT, Pattern.DIAGONAL_UP_RIGHT)),
+                Map.entry(RIGHT_UP, List.of(Pattern.RIGHT, Pattern.DIAGONAL_UP_RIGHT, Pattern.DIAGONAL_UP_RIGHT)),
+                Map.entry(RIGHT_DOWN, List.of(Pattern.RIGHT, Pattern.DIAGONAL_DOWN_RIGHT, Pattern.DIAGONAL_DOWN_RIGHT)),
+                Map.entry(DOWN_RIGHT, List.of(Pattern.DOWN, Pattern.DIAGONAL_DOWN_RIGHT, Pattern.DIAGONAL_DOWN_RIGHT)),
+                Map.entry(DOWN_LEFT, List.of(Pattern.DOWN, Pattern.DIAGONAL_DOWN_LEFT, Pattern.DIAGONAL_DOWN_LEFT)),
+                Map.entry(LEFT_DOWN, List.of(Pattern.LEFT, Pattern.DIAGONAL_DOWN_LEFT, Pattern.DIAGONAL_DOWN_LEFT)),
+                Map.entry(LEFT_UP, List.of(Pattern.LEFT, Pattern.DIAGONAL_UP_LEFT, Pattern.DIAGONAL_UP_LEFT)),
+                Map.entry(UP_LEFT, List.of(Pattern.UP, Pattern.DIAGONAL_UP_LEFT, Pattern.DIAGONAL_UP_LEFT))
+        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
 }

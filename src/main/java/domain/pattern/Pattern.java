@@ -11,8 +11,8 @@ public enum Pattern {
     DIAGONAL_DOWN_LEFT(1, -1),
     DIAGONAL_UP_LEFT(-1, -1);
 
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     Pattern(int x, int y) {
         this.x = x;
