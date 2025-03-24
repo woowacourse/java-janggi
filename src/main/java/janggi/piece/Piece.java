@@ -15,13 +15,15 @@ public abstract class Piece {
         this.position = position;
     }
 
-    public abstract void updatePiecePositionBy(Position position);
+    public void updatePiecePositionBy(final Position position) {
+        this.position = position;
+    }
 
     public abstract void checkObstacle(final Position futurePosition, Map<Position, Piece> janggiBoard);
 
-    public abstract List<Position> makeRoute(Position position);
+    public abstract List<Position> makeRoute(final Position position);
 
-    public abstract boolean isMove(Position position);
+    public abstract boolean isMove(final Position position);
 
     public void validateSameNation(final Piece other) {
         if (other != null && this.getPieceProfile().getNation().isSameNation(other.getPieceProfile().getNation())) {

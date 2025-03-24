@@ -30,13 +30,7 @@ class PieceTest {
         }
 
         @Override
-        public void updatePiecePositionBy(final Position position) {
-
-        }
-
-        @Override
         public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
-
         }
 
         @Override

@@ -10,10 +10,6 @@ public class Sa extends Piece {
         super(pieceProfile, position);
     }
 
-    @Override
-    public void updatePiecePositionBy(final Position position) {
-        this.position = position;
-    }
 
     @Override
     public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {

@@ -12,11 +12,6 @@ public class Cha extends Piece {
     }
 
     @Override
-    public void updatePiecePositionBy(final Position position) {
-        this.position = position;
-    }
-
-    @Override
     public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
         final List<Position> makeRoute = makeRoute(futurePosition);
         for (final Position position : makeRoute) {
