@@ -14,11 +14,11 @@ public record Point(int column, int row) {
         return new Point(column * dir, row * dir);
     }
 
-    public boolean isDifferentX(Point point) {
+    public boolean isDifferentColumn(Point point) {
         return point.column != this.column;
     }
 
-    public boolean isDifferentY(Point point) {
+    public boolean isDifferentRow(Point point) {
         return point.row != this.row;
     }
 

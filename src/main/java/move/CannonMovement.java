@@ -68,7 +68,7 @@ public class CannonMovement implements MovementRule {
     }
 
     private void validateStraightDestination(Point from, Point to) {
-        if (from.isDifferentX(to) && from.isDifferentY(to)) {
+        if (from.isDifferentColumn(to) && from.isDifferentRow(to)) {
             throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 경로입니다.");
         }
     }
