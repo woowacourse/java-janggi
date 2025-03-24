@@ -1,4 +1,4 @@
-package piece;
+package piece.normalPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static piece.Team.HAN;
@@ -11,6 +11,7 @@ import static position.PositionFixtures.I0;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import piece.Piece;
 import position.Board;
 import route.Routes;
 

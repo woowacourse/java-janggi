@@ -5,7 +5,7 @@ import static java.util.stream.Collectors.toMap;
 
 import java.util.Map;
 import java.util.Set;
-import piece.Blank;
+import piece.normalPiece.Blank;
 import piece.Piece;
 import piece.PieceType;
 import piece.Team;

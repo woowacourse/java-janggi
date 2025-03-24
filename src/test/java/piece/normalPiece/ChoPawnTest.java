@@ -1,4 +1,4 @@
-package piece;
+package piece.normalPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static piece.Team.CHO;
@@ -11,53 +11,54 @@ import static position.PositionFixtures.F1;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import piece.Piece;
 import position.Board;
 import route.Routes;
 
-public class HanPawnTest {
+public class ChoPawnTest {
     @Test
     @DisplayName("장기 말의 종류에는 병이 있다.")
     void createPalaceTest() {
-        Piece pawn = new HanPawn(E6);
+        Piece pawn = new ChoPawn(E6);
     }
 
     /*
-    0 ＿ * ＿
+    0 ＿ ＿ ＿
     1 * 병 *
-    2 ＿ ＿ ＿
+    2 ＿ * ＿
     3 d e f
     */
     @Test
     @DisplayName("병의 이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest_1() {
         // given
-        Piece hanPawn = new HanPawn(E1);
-        Board board = new Board(HAN, Set.of(hanPawn));
+        Piece choPawn = new ChoPawn(E1);
+        Board board = new Board(CHO, Set.of(choPawn));
 
         // when
-        Routes hanPawnRoutes = hanPawn.possibleRoutes(board);
+        Routes choPawnRoutes = choPawn.possibleRoutes(board);
 
         // then
-        assertThat(hanPawnRoutes.routes().size()).isEqualTo(3);
+        assertThat(choPawnRoutes.routes().size()).isEqualTo(3);
     }
 
     /*
-    0 ＿ * ＿
+    0 ＿ ＿ ＿
     1 마 병 마
-    2 ＿ ＿ ＿
+    2 ＿ * ＿
     3 d e f
     */
     @Test
     @DisplayName("병의 이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest_2() {
         // given
-        Piece hanPawn = new HanPawn(E1);
+        Piece choPawn = new ChoPawn(E1);
         Piece horse1 = new Horse(HAN, D1);
         Piece horse2 = new Horse(CHO, F1);
-        Board board = new Board(HAN, Set.of(hanPawn, horse1, horse2));
+        Board board = new Board(CHO, Set.of(choPawn, horse1, horse2));
 
         // when
-        Routes hanPawnRoutes = hanPawn.possibleRoutes(board);
+        Routes hanPawnRoutes = choPawn.possibleRoutes(board);
 
         // then
         assertThat(hanPawnRoutes.routes().size()).isEqualTo(2);

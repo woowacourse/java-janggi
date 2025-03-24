@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Palace;
+import piece.normalPiece.Palace;
 import piece.Piece;
 import position.Board;
 import route.Route;

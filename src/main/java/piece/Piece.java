@@ -5,9 +5,9 @@ import position.Position;
 import route.Routes;
 
 public abstract class Piece {
-    private final Team team;
-    private final Position position;
-    private final Routes routes;
+    protected final Team team;
+    protected final Position position;
+    protected final Routes routes;
 
     protected Piece(Team team, Position position, Routes routes) {
         this.team = team;
@@ -15,12 +15,14 @@ public abstract class Piece {
         this.routes = routes;
     }
 
-    public Routes possibleRoutes(Board board) {
-        validateTeamOfPiece(board);
-        return routes.possibleRoutes(position, board);
-    }
+    public abstract Routes possibleRoutes(Board board);
 
-    private void validateTeamOfPiece(Board board) {
+//    public Routes possibleRoutes(Board board) {
+//        validateTeamOfPiece(board);
+//        return routes.possibleRoutes(position, board);
+//    }
+
+    protected void validateTeamOfPiece(Board board) {
         board.validateTeam(team);
     }
 

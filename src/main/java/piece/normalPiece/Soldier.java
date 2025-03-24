@@ -1,9 +1,11 @@
-package piece;
+package piece.normalPiece;
 
+import piece.PieceType;
+import piece.Team;
 import position.Position;
 import route.Routes;
 
-public class Soldier extends Piece{
+public class Soldier extends NormalPiece{
 
     public Soldier(Team team, Position position) {
         super(team, position, Routes.ofSoldier());

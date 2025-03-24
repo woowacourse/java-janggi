@@ -9,7 +9,7 @@ import static position.PositionFixtures.E1;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Palace;
+import piece.normalPiece.Palace;
 import piece.Piece;
 
 public class BoardTest {
