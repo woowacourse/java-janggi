@@ -1,11 +1,9 @@
-package piece_initiaizer;
+package piece;
 
 import game.Country;
 import game.StartingPosition;
 import java.util.HashMap;
 import java.util.Map;
-import piece.Piece;
-import piece.PieceType;
 import position.Position;
 import position.PositionFile;
 import position.PositionRank;

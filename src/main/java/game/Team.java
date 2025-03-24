@@ -3,7 +3,7 @@ package game;
 import java.util.Collections;
 import java.util.Map;
 import piece.Piece;
-import piece_initiaizer.PieceInitializer;
+import piece.PieceInitializer;
 import position.Position;
 
 public final class Team {

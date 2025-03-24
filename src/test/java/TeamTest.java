@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import piece.Piece;
 import piece.PieceType;
-import piece_initiaizer.StaticPieceInitializer;
+import piece.StaticPieceInitializer;
 import position.Position;
 import position.PositionFile;
 import testUtil.TestConstant;

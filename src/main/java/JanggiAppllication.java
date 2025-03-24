@@ -3,7 +3,7 @@ import game.Country;
 import game.StartingPosition;
 import game.Team;
 import java.util.List;
-import piece_initiaizer.StaticPieceInitializer;
+import piece.StaticPieceInitializer;
 import position.Position;
 import view.InputView;
 import view.OutputView;

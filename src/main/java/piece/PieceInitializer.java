@@ -1,10 +1,9 @@
-package piece_initiaizer;
+package piece;
 
 
 import game.Country;
 import game.StartingPosition;
 import java.util.Map;
-import piece.Piece;
 import position.Position;
 
 public interface PieceInitializer {
