@@ -1,11 +1,11 @@
 package position;
 
 public final class Position {
-    private final Row row;
     private final Column column;
+    private final Row row;
 
-    public Position(Row row, Column column) {
-        this.row = row;
+    public Position(Column column, Row row) {
         this.column = column;
+        this.row = row;
     }
 }
