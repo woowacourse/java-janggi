@@ -1,6 +1,5 @@
-package domain;
+package game.domain.board;
 
-import domain.piece.Direction;
 import java.util.Objects;
 
 public record BoardLocation(

@@ -1,7 +1,6 @@
-package domain.piece;
+package game.domain.piece;
 
-import domain.BoardLocation;
-import domain.Team;
+import game.domain.board.BoardLocation;
 import java.util.List;
 
 public class DefaultPiece extends Piece{

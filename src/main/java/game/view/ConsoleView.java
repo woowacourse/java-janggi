@@ -1,8 +1,8 @@
-package view;
+package game.view;
 
-import domain.BoardLocation;
-import domain.Team;
-import domain.piece.Piece;
+import game.domain.board.BoardLocation;
+import game.domain.piece.Team;
+import game.domain.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,11 +1,11 @@
-package domain;
+package game.domain.board;
 
-import static domain.Team.CHO;
-import static domain.Team.HAN;
+import static game.domain.piece.Team.CHO;
+import static game.domain.piece.Team.HAN;
 
-import domain.piece.Elephant;
-import domain.piece.Horse;
-import domain.piece.Piece;
+import game.domain.piece.Elephant;
+import game.domain.piece.Horse;
+import game.domain.piece.Piece;
 import java.util.Map;
 
 public enum PlacementSelection {

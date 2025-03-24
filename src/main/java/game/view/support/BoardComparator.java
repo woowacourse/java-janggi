@@ -1,6 +1,6 @@
-package view.support;
+package game.view.support;
 
-import domain.BoardLocation;
+import game.domain.board.BoardLocation;
 import java.util.Comparator;
 
 public class BoardComparator implements Comparator<BoardLocation> {

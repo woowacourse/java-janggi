@@ -1,17 +1,17 @@
-package view.support;
+package game.view.support;
 
-import static domain.piece.PieceType.CANNON;
-import static domain.piece.PieceType.CHARIOT;
-import static domain.piece.PieceType.ELEPHANT;
-import static domain.piece.PieceType.HORSE;
-import static domain.piece.PieceType.KING;
-import static domain.piece.PieceType.PAWN;
-import static domain.piece.PieceType.SCHOLAR;
+import static game.domain.piece.PieceType.CANNON;
+import static game.domain.piece.PieceType.CHARIOT;
+import static game.domain.piece.PieceType.ELEPHANT;
+import static game.domain.piece.PieceType.HORSE;
+import static game.domain.piece.PieceType.KING;
+import static game.domain.piece.PieceType.PAWN;
+import static game.domain.piece.PieceType.SCHOLAR;
 
-import domain.BoardLocation;
-import domain.Team;
-import domain.piece.Piece;
-import domain.piece.PieceType;
+import game.domain.board.BoardLocation;
+import game.domain.piece.Team;
+import game.domain.piece.Piece;
+import game.domain.piece.PieceType;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;

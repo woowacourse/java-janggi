@@ -1,8 +1,7 @@
-package domain.piece;
+package game.domain.piece;
 
-import domain.BoardLocation;
-import domain.BoardVector;
-import domain.Team;
+import game.domain.board.BoardLocation;
+import game.domain.board.BoardVector;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -61,21 +60,14 @@ public class Cannon extends Piece {
 
     @Override
     public void validateArrival(List<Piece> pathPiece) {
-        if (pathPiece.size() != 1){
+        if (pathPiece.size() != 1 || isSameType(pathPiece.getFirst())){
             throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
         }
-        if (this.isNotSameType(pathPiece.getFirst())){
-            return;
-        }
-        throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
     }
 
     @Override
     public void validateKillable(Piece destinationPiece) {
-        if (this.isEqualTeam(destinationPiece)){
-            throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
-        }
-        if (!this.isNotSameType(destinationPiece)){
+        if (this.isEqualTeam(destinationPiece) || isSameType(destinationPiece)){
             throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
         }
     }

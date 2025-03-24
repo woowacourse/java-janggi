@@ -1,13 +1,13 @@
-package view;
+package game.view;
 
-import domain.BoardLocation;
-import domain.Team;
-import domain.piece.Piece;
+import game.domain.board.BoardLocation;
+import game.domain.piece.Team;
+import game.domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import view.support.BoardComparator;
-import view.support.OutputSupporter;
+import game.view.support.BoardComparator;
+import game.view.support.OutputSupporter;
 
 public class OutputView {
 

@@ -1,15 +1,17 @@
 package domain;
 
-import static domain.Team.CHO;
-import static domain.Team.DEFAULT;
-import static domain.Team.HAN;
+import static game.domain.piece.Team.CHO;
+import static game.domain.piece.Team.DEFAULT;
+import static game.domain.piece.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.piece.Elephant;
-import domain.piece.Pawn;
-import domain.piece.Piece;
+import game.domain.board.BoardLocation;
+import game.domain.piece.Elephant;
+import game.domain.piece.Pawn;
+import game.domain.piece.Piece;
+import game.domain.piece.Team;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

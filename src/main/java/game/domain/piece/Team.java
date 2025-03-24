@@ -1,4 +1,4 @@
-package domain;
+package game.domain.piece;
 
 public enum Team {
     HAN,

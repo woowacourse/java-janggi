@@ -1,4 +1,4 @@
-package domain.piece;
+package game.util;
 
 public enum NumberState {
     POSITIVE,

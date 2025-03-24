@@ -1,12 +1,11 @@
-package domain.piece;
+package game.domain.piece;
 
-import domain.BoardLocation;
-import domain.Team;
+import game.domain.board.BoardLocation;
 import java.util.List;
 
-public class King extends Piece {
+public class Scholar extends Piece {
 
-    public King(Team team) {
+    public Scholar(Team team) {
         super(team);
     }
 
@@ -32,7 +31,7 @@ public class King extends Piece {
 
     @Override
     public PieceType getType() {
-        return PieceType.KING;
+        return PieceType.SCHOLAR;
     }
 
     @Override

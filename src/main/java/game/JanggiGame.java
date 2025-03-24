@@ -1,10 +1,12 @@
-import domain.BoardLocation;
-import domain.Team;
-import domain.Board;
-import domain.piece.Piece;
+package game;
+
+import game.domain.board.BoardLocation;
+import game.domain.piece.Team;
+import game.domain.board.Board;
+import game.domain.piece.Piece;
 import java.util.List;
 import java.util.Map;
-import view.ConsoleView;
+import game.view.ConsoleView;
 
 public class JanggiGame {
 

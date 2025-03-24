@@ -1,11 +1,11 @@
-package domain.piece;
+package game.domain.board;
 
-import static domain.piece.NumberState.NEGATIVE;
-import static domain.piece.NumberState.POSITIVE;
-import static domain.piece.NumberState.ZERO;
-import static domain.piece.NumberState.findNumberState;
+import static game.util.NumberState.NEGATIVE;
+import static game.util.NumberState.POSITIVE;
+import static game.util.NumberState.ZERO;
+import static game.util.NumberState.findNumberState;
 
-import domain.BoardLocation;
+import game.util.NumberState;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +14,7 @@ public enum Axis {
 
     POSITIVE_X(POSITIVE, ZERO) {
         @Override
-        List<BoardLocation> createAllPath(BoardLocation current, int dx, int dy) {
+        public List<BoardLocation> createAllPath(BoardLocation current, int dx, int dy) {
             List<BoardLocation> path = new ArrayList<>();
             for (int i = 1; i < dx; i++) {
                 path.add(current.moveX(i));
@@ -24,7 +24,7 @@ public enum Axis {
     },
     POSITIVE_Y(ZERO, POSITIVE) {
         @Override
-        List<BoardLocation> createAllPath(BoardLocation current, int dx, int dy) {
+        public List<BoardLocation> createAllPath(BoardLocation current, int dx, int dy) {
             List<BoardLocation> path = new ArrayList<>();
             for (int i = 1; i < dy; i++) {
                 path.add(current.moveY(i));
@@ -34,7 +34,7 @@ public enum Axis {
     },
     NEGATIVE_X(NEGATIVE, ZERO) {
         @Override
-        List<BoardLocation> createAllPath(BoardLocation current, int dx, int dy) {
+        public List<BoardLocation> createAllPath(BoardLocation current, int dx, int dy) {
             List<BoardLocation> path = new ArrayList<>();
             for (int i = -1; i > dx; i--) {
                 path.add(current.moveX(i));
@@ -44,7 +44,7 @@ public enum Axis {
     },
     NEGATIVE_Y(ZERO, NEGATIVE) {
         @Override
-        List<BoardLocation> createAllPath(BoardLocation current, int dx, int dy) {
+        public List<BoardLocation> createAllPath(BoardLocation current, int dx, int dy) {
             List<BoardLocation> path = new ArrayList<>();
             for (int i = -1; i > dy; i--) {
                 path.add(current.moveY(i));
@@ -70,5 +70,5 @@ public enum Axis {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 좌표 축을 찾지 못했습니다."));
     }
 
-    abstract List<BoardLocation> createAllPath(BoardLocation current, int dx, int dy);
+    abstract public List<BoardLocation> createAllPath(BoardLocation current, int dx, int dy);
 }

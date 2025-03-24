@@ -1,7 +1,8 @@
-import view.ConsoleView;
-import view.InputView;
-import view.OutputView;
-import view.support.OutputSupporter;
+import game.JanggiGame;
+import game.view.ConsoleView;
+import game.view.InputView;
+import game.view.OutputView;
+import game.view.support.OutputSupporter;
 
 public class Application {
 

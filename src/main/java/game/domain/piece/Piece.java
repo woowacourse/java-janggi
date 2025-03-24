@@ -1,7 +1,6 @@
-package domain.piece;
+package game.domain.piece;
 
-import domain.BoardLocation;
-import domain.Team;
+import game.domain.board.BoardLocation;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,7 +23,7 @@ public abstract class Piece {
 
     public abstract PieceType getType();
 
-    public void validateEqualTeam(Team team){
+    public final void validateEqualTeam(Team team){
         if (this.isEqualTeam(team)) {
             return;
         }
@@ -32,15 +31,15 @@ public abstract class Piece {
     };
 
 
-    public void validateOccupiable(Piece destinationPiece) {
+    public final void validateOccupiable(Piece destinationPiece) {
         if (destinationPiece.isNull()) {
             return;
         }
         validateKillable(destinationPiece);
     }
 
-    public final boolean isNotSameType(Piece piece) {
-        return !Objects.equals(this.getType(), piece.getType());
+    public final boolean isSameType(Piece piece) {
+        return Objects.equals(this.getType(), piece.getType());
     }
 
     public final boolean isEqualTeam(Team team) {

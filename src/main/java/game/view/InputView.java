@@ -1,10 +1,10 @@
-package view;
+package game.view;
 
-import static domain.PlacementSelection.*;
+import static game.domain.board.PlacementSelection.*;
 
-import domain.BoardLocation;
-import domain.PlacementSelection;
-import domain.piece.Piece;
+import game.domain.board.BoardLocation;
+import game.domain.board.PlacementSelection;
+import game.domain.piece.Piece;
 import java.util.Map;
 import java.util.Scanner;
 

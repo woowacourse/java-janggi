@@ -1,4 +1,4 @@
-package domain.piece;
+package game.domain.piece;
 
 public enum PieceType {
     CHARIOT,

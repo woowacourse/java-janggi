@@ -1,4 +1,4 @@
-package domain;
+package game.domain.board;
 
 import java.util.Objects;
 

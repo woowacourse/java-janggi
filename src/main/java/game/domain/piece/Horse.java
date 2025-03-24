@@ -1,10 +1,10 @@
-package domain.piece;
+package game.domain.piece;
 
-import static domain.piece.Direction.*;
+import static game.domain.board.Direction.*;
 
-import domain.BoardLocation;
-import domain.BoardVector;
-import domain.Team;
+import game.domain.board.BoardLocation;
+import game.domain.board.BoardVector;
+import game.domain.board.Direction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -52,10 +52,9 @@ public class Horse extends Piece {
 
     @Override
     public void validateArrival(List<Piece> pathPiece) {
-        if (pathPiece.isEmpty()) {
-            return;
+        if (!pathPiece.isEmpty()) {
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
         }
-        throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
     }
 
     @Override

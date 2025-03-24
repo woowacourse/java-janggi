@@ -1,9 +1,8 @@
-package domain.piece;
+package game.domain.piece;
 
-import domain.BoardLocation;
-import domain.BoardVector;
-import domain.Team;
-import java.util.ArrayList;
+import game.domain.board.Axis;
+import game.domain.board.BoardLocation;
+import game.domain.board.BoardVector;
 import java.util.List;
 
 public class Chariot extends Piece {
@@ -23,7 +22,6 @@ public class Chariot extends Piece {
 
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
-        List<BoardLocation> path = new ArrayList<>();
         BoardVector boardVector = BoardVector.between(current, destination);
 
         int dy = boardVector.dy();
@@ -35,10 +33,9 @@ public class Chariot extends Piece {
 
     @Override
     public void validateArrival(List<Piece> pathPiece) {
-        if (pathPiece.isEmpty()) {
-            return;
+        if (!pathPiece.isEmpty()) {
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
         }
-        throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
     }
 
     @Override
