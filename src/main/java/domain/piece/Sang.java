@@ -2,16 +2,19 @@ package domain.piece;
 
 import domain.*;
 
+import java.util.function.Predicate;
+
 public class Sang extends Piece implements DistanceMove {
 
     private static final int SANG_REACHABLE_DISTANCE = 13;
+    private static final Predicate<Integer> isReachAble = (dist) -> dist == SANG_REACHABLE_DISTANCE;
 
     public Sang(Country country) {
         super(country, PieceType.SANG);
     }
 
     private void validateSangMoveStrategy(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateReachableDistanceCoordinate(from, to, SANG_REACHABLE_DISTANCE);
+        validateReachableDistanceCoordinate(from, to, isReachAble);
         validateDoesNotHasObstacle(board, from, to);
     }
 
