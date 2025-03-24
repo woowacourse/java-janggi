@@ -17,9 +17,7 @@ public class InputView {
         System.out.println("ex) move 일사 십구 => (1, 4) -> (10, 9)");
         final String input = sc.nextLine();
 
-        if (!input.startsWith("move ")) {
-            throw new IllegalArgumentException("잘못된 형식의 입력입니다.");
-        }
+        validateCommand(input);
 
         final String parsedInput = input.substring(POSITION_START_INDEX);
         final String[] positionTexts = parsedInput.split(" ");
@@ -30,5 +28,11 @@ public class InputView {
             positions.add(new Position(x, y));
         }
         return positions;
+    }
+
+    private static void validateCommand(final String input) {
+        if (!input.startsWith("move ")) {
+            throw new IllegalArgumentException("잘못된 형식의 입력입니다.");
+        }
     }
 }
