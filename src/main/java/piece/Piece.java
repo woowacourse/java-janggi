@@ -13,10 +13,6 @@ public abstract class Piece {
         this.routes = routes;
     }
 
-    public boolean canMove(Position destination) {
-        return false;
-    }
-
     public Routes possibleRoutes(Board board) {
         return routes.possibleRoutes(position, board);
     }
