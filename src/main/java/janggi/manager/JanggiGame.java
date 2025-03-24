@@ -34,12 +34,42 @@ public class JanggiGame {
         }
     }
 
-    private void playTurn(JanggiBoard janggiBoard, CampType campType) {
+    private void playTurn(final JanggiBoard janggiBoard, final CampType campType) {
         outputView.writeTurn(campType);
-        JanggiPosition movedPieceJanggiPosition = inputView.readMovedPiecePosition();
-        JanggiPosition destination = inputView.readDestinationPosition();
-        janggiBoard.movePiece(campType, movedPieceJanggiPosition, destination);
-        outputView.writeJanggiBoard(janggiBoard.getChoPieces(), janggiBoard.getHanPieces());
+
+        while (true) {
+            try {
+                JanggiPosition movedPieceJanggiPosition = findMovedPieceJanggiPosition();
+                JanggiPosition destination = findDestinationJanggiPosition();
+
+                janggiBoard.movePiece(campType, movedPieceJanggiPosition, destination);
+
+                outputView.writeJanggiBoard(janggiBoard.getChoPieces(), janggiBoard.getHanPieces());
+                break;
+            } catch (IllegalArgumentException illegalArgumentException) {
+                outputView.writeErrorMessage(illegalArgumentException.getMessage());
+            }
+        }
+    }
+
+    private JanggiPosition findMovedPieceJanggiPosition() {
+        while (true) {
+            try {
+                return inputView.readMovedPiecePosition();
+            } catch (IllegalArgumentException illegalArgumentException) {
+                outputView.writeErrorMessage(illegalArgumentException.getMessage());
+            }
+        }
+    }
+
+    private JanggiPosition findDestinationJanggiPosition() {
+        while (true) {
+            try {
+                return inputView.readDestinationPosition();
+            } catch (IllegalArgumentException illegalArgumentException) {
+                outputView.writeErrorMessage(illegalArgumentException.getMessage());
+            }
+        }
     }
 
 }

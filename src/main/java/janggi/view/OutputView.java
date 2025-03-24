@@ -71,4 +71,7 @@ public class OutputView {
         System.out.println();
     }
 
+    public void writeErrorMessage(String message) {
+        System.out.println(message);
+    }
 }
