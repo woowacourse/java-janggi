@@ -3,6 +3,7 @@ package view;
 import domain.Country;
 import domain.JanggiBoard;
 import domain.JanggiCoordinate;
+import domain.piece.Piece;
 
 public class OutputView {
     public static final String RESET = "\u001B[0m";  // 색상 초기화
@@ -22,11 +23,13 @@ public class OutputView {
             for (int col = JanggiCoordinate.BOUNDARY_START; col <= JanggiCoordinate.COL_SIZE; col++) {
                 JanggiCoordinate coordinate = new JanggiCoordinate(row, col);
                 if (board.isOccupied(coordinate) && isCho(board, coordinate)) {
-                    System.out.print(GREEN + board.findPieceByCoordinate(coordinate).getPieceType().getName() + RESET);
+                    Piece piece = board.findPieceByCoordinate(coordinate);
+                    System.out.print(GREEN + piece.getPieceType().getName() + RESET);
                     continue;
                 }
                 if (board.isOccupied(coordinate) && !isCho(board, coordinate)) {
-                    System.out.print(RED + board.findPieceByCoordinate(coordinate).getPieceType().getName() + RESET);
+                    Piece piece = board.findPieceByCoordinate(coordinate);
+                    System.out.print(RED + piece.getPieceType().getName() + RESET);
                     continue;
                 }
                 System.out.print("＿");
