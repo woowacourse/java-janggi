@@ -5,8 +5,8 @@ import domain.JanggiBoard;
 import domain.JanggiCoordinate;
 import domain.PieceType;
 
-public class Gung extends Piece {
-    private static final int GUNG_REACHABLE_RADIUS = 2;
+public class Gung extends Piece implements DistanceMove {
+    private static final int GUNG_REACHABLE_DISTANCE = 2;
 
     public Gung(Country country) {
         super(country, PieceType.GUNG);
@@ -18,15 +18,9 @@ public class Gung extends Piece {
         }
     }
 
-    private void validateReachableCoordinate(JanggiCoordinate from, JanggiCoordinate to) {
-        if (from.distanceTo(to) > GUNG_REACHABLE_RADIUS) {
-            throw new IllegalArgumentException("[ERROR] 궁이 해당 위치로 이동할 수 없습니다.");
-        }
-    }
-
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateReachableCoordinate(from, to);
+        validateReachableCoordinate(from, to, GUNG_REACHABLE_DISTANCE);
         validateTarget(board, to);
     }
 }

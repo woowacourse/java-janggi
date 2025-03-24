@@ -2,15 +2,15 @@ package domain.piece;
 
 import domain.*;
 
-public class Ma extends Piece {
-    private static final int MA_REACHABLE_RADIUS = 5;
+public class Ma extends Piece implements DistanceMove {
+    private static final int MA_REACHABLE_DISTANCE = 5;
 
     public Ma(Country country) {
         super(country, PieceType.MA);
     }
 
     private void validateMaMoveStrategy(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateReachableCoordinate(from, to);
+        validateReachableCoordinate(from, to, MA_REACHABLE_DISTANCE);
         validateDoesNotHasObstacle(board, from, to);
     }
 
@@ -34,12 +34,6 @@ public class Ma extends Piece {
     private void validateTarget(JanggiBoard board, JanggiCoordinate to) {
         if (board.isOccupied(to) && isSameCountry(board.findPieceByCoordinate(to))) {
             throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
-        }
-    }
-
-    private void validateReachableCoordinate(JanggiCoordinate from, JanggiCoordinate to) {
-        if (from.distanceTo(to) != MA_REACHABLE_RADIUS) {
-            throw new IllegalArgumentException("[ERROR] 마가 해당 위치로 이동할 수 없습니다.");
         }
     }
 

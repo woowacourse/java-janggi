@@ -2,16 +2,16 @@ package domain.piece;
 
 import domain.*;
 
-public class Sang extends Piece {
+public class Sang extends Piece implements DistanceMove {
 
-    private static final int SANG_REACHABLE_RADIUS = 13;
+    private static final int SANG_REACHABLE_DISTANCE = 13;
 
     public Sang(Country country) {
         super(country, PieceType.SANG);
     }
 
     private void validateSangMoveStrategy(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateReachableCoordinate(from, to);
+        validateReachableCoordinate(from, to, SANG_REACHABLE_DISTANCE);
         validateDoesNotHasObstacle(board, from, to);
     }
 
@@ -21,12 +21,6 @@ public class Sang extends Piece {
 
         if (board.isOccupied(next)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 있어 해당 위치로 이동할 수 없습니다.");
-        }
-    }
-
-    private void validateReachableCoordinate(JanggiCoordinate from, JanggiCoordinate to) {
-        if (from.distanceTo(to) != SANG_REACHABLE_RADIUS) {
-            throw new IllegalArgumentException("[ERROR] 상이 해당 위치로 이동할 수 없습니다.");
         }
     }
 
