@@ -5,6 +5,8 @@ import board.Position;
 
 public class Soldier extends Piece {
 
+    public static final int SOLDIER_DISTANCE = 1;
+
     public Soldier(final TeamType teamType) {
         super(teamType);
     }
@@ -19,7 +21,7 @@ public class Soldier extends Piece {
 
     @Override
     protected boolean withInRangeByMovement(double distanceByPositions) {
-        return distanceByPositions == 1;
+        return distanceByPositions == SOLDIER_DISTANCE;
     }
 
     @Override

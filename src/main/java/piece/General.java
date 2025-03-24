@@ -5,6 +5,8 @@ import board.Position;
 
 public class General extends Piece{
 
+    public static final int GENERAL_DISTANCE = 1;
+
     public General(final TeamType teamType) {
         super(teamType);
     }
@@ -21,7 +23,7 @@ public class General extends Piece{
 
     @Override
     protected boolean withInRangeByMovement(double distanceByPositions) {
-        return distanceByPositions == 1;
+        return distanceByPositions == GENERAL_DISTANCE;
     }
 
     @Override

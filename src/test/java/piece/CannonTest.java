@@ -1,12 +1,13 @@
 package piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import board.Board;
 import board.Position;
-import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class CannonTest {
 
@@ -24,8 +25,8 @@ class CannonTest {
         final Board board = new Board(map);
 
         // when
-        final boolean actual1 = cannonPiece.isAbleToMove(now, ableDest, board);
-        final boolean actual2 = cannonPiece.isAbleToMove(now, notAbleDest, board);
+        final boolean actual1 = cannonPiece.withInDirection(now, ableDest);
+        final boolean actual2 = cannonPiece.withInDirection(now, notAbleDest);
 
         // then
         org.junit.jupiter.api.Assertions.assertAll(
@@ -48,8 +49,8 @@ class CannonTest {
         final Board board = new Board(map);
 
         // when
-        final boolean actual1 = cannonPiece.isAbleToMove(now, ableDest, board);
-        final boolean actual2 = cannonPiece.isAbleToMove(now, notAbleDest, board);
+        final boolean actual1 = cannonPiece.passFilter(now, ableDest, board);
+        final boolean actual2 = cannonPiece.passFilter(now, notAbleDest, board);
 
         // then
         org.junit.jupiter.api.Assertions.assertAll(

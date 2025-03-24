@@ -5,6 +5,8 @@ import board.Position;
 
 public class Horse extends Piece {
 
+    public static final double HORSE_DISTANCE = Math.sqrt(5);
+
     public Horse(final TeamType teamType) {
         super(teamType);
     }
@@ -16,7 +18,7 @@ public class Horse extends Piece {
 
     @Override
     protected boolean withInRangeByMovement(double distanceByPositions) {
-        return distanceByPositions == Math.sqrt(5);
+        return distanceByPositions == HORSE_DISTANCE;
     }
 
     @Override
