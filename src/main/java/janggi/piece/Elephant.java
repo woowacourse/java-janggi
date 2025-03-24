@@ -11,11 +11,11 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public boolean canMove(final Position start,final Position end,final Map<Position, Piece> board) {
+    public boolean canMove(final Position start, final Position end, final Map<Position, Piece> board) {
         return isEmptyOnPath(board, findPath(start, end)) && isValidMovingRule(start, end);
     }
 
-    private boolean isEmptyOnPath(final Map<Position, Piece> board,final List<Position> path) {
+    private boolean isEmptyOnPath(final Map<Position, Piece> board, final List<Position> path) {
         return path.stream()
                 .noneMatch(board::containsKey);
     }
@@ -35,14 +35,14 @@ public class Elephant extends Piece {
     }
 
     private Position calculateFirstDirection(final Position start, final int deltaX, final int deltaY) {
-        return start.offset(reduceByAmount(deltaX, 2), reduceByAmount(deltaY, 2));
+        return start.offset(stepTowardZeroByAmount(deltaX, 2), stepTowardZeroByAmount(deltaY, 2));
     }
 
     private Position calculateSecondDirection(final Position start, final int deltaX, final int deltaY) {
-        return start.offset(reduceByAmount(deltaX, 1), reduceByAmount(deltaY, 1));
+        return start.offset(stepTowardZeroByAmount(deltaX, 1), stepTowardZeroByAmount(deltaY, 1));
     }
 
-    private int reduceByAmount(final int value, final int amount) {
+    private int stepTowardZeroByAmount(final int value, final int amount) {
         boolean isNegative = value < 0;
         int absValue = Math.abs(value) - amount;
         if (isNegative) {

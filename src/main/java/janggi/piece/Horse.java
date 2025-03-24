@@ -33,10 +33,10 @@ public class Horse extends Piece {
     private Position findDirection(final Position start, final Position end) {
         int deltaX = start.deltaX(end);
         int deltaY = start.deltaY(end);
-        return start.offset(reduceOne(deltaX), reduceOne(deltaY));
+        return start.offset(stepTowardZero(deltaX), stepTowardZero(deltaY));
     }
 
-    private int reduceOne(final int value) {
+    private int stepTowardZero(final int value) {
         boolean isNegative = value < 0;
         int absValue = Math.abs(value) - 1;
         if (isNegative) {
