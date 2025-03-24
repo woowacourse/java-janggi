@@ -1,5 +1,6 @@
-package janggi.domain;
+package janggi.domain.player;
 
+import janggi.domain.Dynasty;
 import java.util.List;
 
 public class Players {
