@@ -77,32 +77,7 @@ class PieceTest {
     }
 
     @Test
-    void 왕인지_판단한다() {
-        // given
-        final Piece king = new General(1, 2, new Directions(List.of()));
-        final Piece advisor = new Guard(1, 2, new Directions(List.of()));
-        final Piece cannon = new Cannon(1, 2, new Directions(List.of()));
-        final Piece elephant = new Elephant(1, 2, new Directions(List.of()));
-        final Piece horse = new Horse(1, 2, new Directions(List.of()));
-        final Piece pawn = new Soldier(1, 2, new Directions(List.of()));
-        final Piece rook = new Chariot(1, 2, new Directions(List.of()));
-        final Piece piece = new TestPiece(1, 2, new Directions(List.of()));
-
-        // when & then
-        assertAll(
-                () -> assertThat(king.isKing()).isTrue(),
-                () -> assertThat(advisor.isKing()).isFalse(),
-                () -> assertThat(cannon.isKing()).isFalse(),
-                () -> assertThat(elephant.isKing()).isFalse(),
-                () -> assertThat(horse.isKing()).isFalse(),
-                () -> assertThat(pawn.isKing()).isFalse(),
-                () -> assertThat(rook.isKing()).isFalse(),
-                () -> assertThat(piece.isKing()).isFalse()
-        );
-    }
-
-    @Test
-    void 포인지_판단한다() {
+    void 입력받은_타입의_기물인지_판단한다() {
         // given
         final Piece cannon = new Cannon(1, 2, new Directions(List.of()));
         final Piece king = new General(1, 2, new Directions(List.of()));
@@ -115,14 +90,14 @@ class PieceTest {
 
         // when & then
         assertAll(
-                () -> assertThat(cannon.isCannon()).isTrue(),
-                () -> assertThat(king.isCannon()).isFalse(),
-                () -> assertThat(advisor.isCannon()).isFalse(),
-                () -> assertThat(elephant.isCannon()).isFalse(),
-                () -> assertThat(horse.isCannon()).isFalse(),
-                () -> assertThat(pawn.isCannon()).isFalse(),
-                () -> assertThat(rook.isCannon()).isFalse(),
-                () -> assertThat(piece.isCannon()).isFalse()
+                () -> assertThat(cannon.isEqualType(PieceType.CANNON)).isTrue(),
+                () -> assertThat(king.isEqualType(PieceType.CANNON)).isFalse(),
+                () -> assertThat(advisor.isEqualType(PieceType.CANNON)).isFalse(),
+                () -> assertThat(elephant.isEqualType(PieceType.CANNON)).isFalse(),
+                () -> assertThat(horse.isEqualType(PieceType.CANNON)).isFalse(),
+                () -> assertThat(pawn.isEqualType(PieceType.CANNON)).isFalse(),
+                () -> assertThat(rook.isEqualType(PieceType.CANNON)).isFalse(),
+                () -> assertThat(piece.isEqualType(PieceType.CANNON)).isFalse()
         );
     }
 
@@ -141,13 +116,8 @@ class PieceTest {
         }
 
         @Override
-        public boolean isKing() {
-            return false;
-        }
-
-        @Override
-        public boolean isCannon() {
-            return false;
+        public boolean isEqualType(final PieceType type) {
+            return PieceType.GENERAL == type;
         }
 
         @Override

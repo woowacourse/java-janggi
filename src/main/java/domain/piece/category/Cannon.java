@@ -2,12 +2,12 @@ package domain.piece.category;
 
 import domain.direction.Directions;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Position;
 
 public class Cannon extends Piece {
 
-    private static final String NAME = "c";
-    private String type = "CANNON";
+    private static final PieceType type = PieceType.CANNON;
 
     public Cannon(final int row, final int column, final Directions directions) {
         super(row, column, directions);
@@ -23,16 +23,12 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public boolean isKing() {
-        return false;
+    public boolean isEqualType(final PieceType type) {
+        return Cannon.type == type;
     }
 
     @Override
-    public boolean isCannon() {
-        return true;
-    }
-
     public String getName() {
-        return NAME;
+        return type.getName();
     }
 }

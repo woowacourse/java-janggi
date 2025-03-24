@@ -1,6 +1,7 @@
 package domain;
 
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Pieces;
 import domain.piece.Position;
 import java.util.List;
@@ -23,7 +24,7 @@ public record Board(
 
     public boolean isFinish() {
         long kingCount = board.values().stream()
-                .filter(Pieces::existKing)
+                .filter(Pieces::existGeneral)
                 .count();
 
         return kingCount != 2;
@@ -31,7 +32,7 @@ public record Board(
 
     public Player getWinner() {
         return board.keySet().stream()
-                .filter(player -> board.get(player).existKing())
+                .filter(player -> board.get(player).existGeneral())
                 .findAny()
                 .orElseThrow(RuntimeException::new);
     }
@@ -44,7 +45,7 @@ public record Board(
 
     private void validatePieceMovingPath(final Player player, final Position targetPosition, final Piece piece) {
         List<Position> path = piece.getPath(targetPosition);
-        if (piece.isCannon()) {
+        if (piece.isEqualType(PieceType.CANNON)) {
             validateCannonMoving(player, targetPosition, path);
             return;
         }

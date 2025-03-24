@@ -120,8 +120,8 @@ class PiecesTest {
         Pieces piecesInKing = new Pieces(List.of(new General(5, 2, PieceDirection.KING.get())));
 
         // when & then
-        assertThat(pieces.existKing()).isFalse();
-        assertThat(piecesInKing.existKing()).isTrue();
+        assertThat(pieces.existGeneral()).isFalse();
+        assertThat(piecesInKing.existGeneral()).isTrue();
     }
 
     @Test

@@ -2,11 +2,12 @@ package domain.piece.category;
 
 import domain.direction.Directions;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Position;
 
 public class Elephant extends Piece {
 
-    private static final String NAME = "e";
+    private static final PieceType type = PieceType.ELEPHANT;
 
     public Elephant(final int row, final int column, final Directions directions) {
         super(row, column, directions);
@@ -22,16 +23,12 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public boolean isKing() {
-        return false;
+    public boolean isEqualType(final PieceType type) {
+        return Elephant.type == type;
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
-    }
-
     public String getName() {
-        return NAME;
+        return type.getName();
     }
 }

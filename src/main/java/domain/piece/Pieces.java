@@ -32,14 +32,14 @@ public record Pieces(List<Piece> pieces) {
         pieces.remove(findByPosition(position));
     }
 
-    public boolean existKing() {
+    public boolean existGeneral() {
         return pieces.stream()
-                .anyMatch(Piece::isKing);
+                .anyMatch(piece -> piece.isEqualType(PieceType.GENERAL));
     }
 
     public boolean isCannonByPosition(final Position position) {
         return pieces.stream()
                 .filter(piece -> piece.isSamePosition(position))
-                .anyMatch(Piece::isCannon);
+                .anyMatch(piece -> piece.isEqualType(PieceType.CANNON));
     }
 }

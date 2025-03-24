@@ -21,11 +21,9 @@ public abstract class Piece {
 
     public abstract Piece updatePosition(final Position position);
 
-    public abstract boolean isKing();
-
-    public abstract boolean isCannon();
-
     public abstract String getName();
+
+    public abstract boolean isEqualType(final PieceType type);
 
     public List<Position> getPath(final Position targetPosition) {
         return directions.getPath(position, targetPosition);
