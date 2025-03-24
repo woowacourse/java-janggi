@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Side;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -62,6 +63,21 @@ public class Pieces {
 
     public boolean isEmpty() {
         return values.isEmpty();
+    }
+
+    public int countByPieceType(PieceType pieceType) {
+        return Math.toIntExact(
+            values.values().stream()
+                .filter(piece -> piece.getPieceType().equals(pieceType))
+                .count()
+        );
+    }
+
+    public List<Side> findAllByPieceType(PieceType pieceType) {
+        return values.values().stream()
+            .filter(piece -> piece.getPieceType().equals(pieceType))
+            .map(Piece::getSide)
+            .toList();
     }
 
     public boolean containsPieceType(PieceType pieceType) {

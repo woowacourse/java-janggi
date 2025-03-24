@@ -50,15 +50,14 @@ public class JanggiBoard {
     }
 
     public boolean isEnd() {
-        return placedPieces.getValues().values().stream()
-            .filter(value -> value.getPieceType() == PieceType.KING)
-            .count() != 2;
+        return placedPieces.countByPieceType(PieceType.KING) != 2;
     }
 
     public Side getWinner() {
-        return placedPieces.getValues().values().stream()
-            .filter(value -> value.getPieceType() == PieceType.KING)
-            .map(Piece::getSide)
+        if (!isEnd()) {
+            throw new IllegalStateException("게임이 종료되지 않았습니다.");
+        }
+        return placedPieces.findAllByPieceType(PieceType.KING).stream()
             .findFirst()
             .orElseThrow(() -> new IllegalStateException("게임이 종료되지 않았습니다."));
     }
