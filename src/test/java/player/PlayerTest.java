@@ -191,4 +191,26 @@ class PlayerTest {
         assertThat(player.isPoAt(new Position(4, 3))).isTrue();
     }
 
+    @Test
+    @DisplayName("경로에 포 존재 확인 테스트")
+    void isExistPoInRoute() {
+        //given
+        Jol jol = new Jol(new Position(5, 5));
+        Janggun janggun = new Janggun(new Position(6, 5));
+        Po po = new Po(new Position(4, 3));
+        Pieces pieces = new Pieces(List.of(jol, janggun, po));
+        Player player = new Player(pieces, HAN);
+        Positions route1 = new Positions(
+                List.of(new Position(4, 3))
+        );
+
+        Positions route2 = new Positions(
+                List.of(new Position(0, 0))
+        );
+
+        //when-then
+        assertThat(player.isExistPoInRoute(route1)).isTrue();
+        assertThat(player.isExistPoInRoute(route2)).isFalse();
+    }
+
 }
