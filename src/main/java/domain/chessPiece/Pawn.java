@@ -47,7 +47,7 @@ public class Pawn extends LimitedMoveChessPiece {
     }
 
     @Override
-    protected HurdlePolicy getHurdlePolicy() {
+    public HurdlePolicy getHurdlePolicy() {
         return hurdlePolicy;
     }
 

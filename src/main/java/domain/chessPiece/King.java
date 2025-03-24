@@ -37,7 +37,7 @@ public class King extends LimitedMoveChessPiece {
     }
 
     @Override
-    protected HurdlePolicy getHurdlePolicy() {
+    public HurdlePolicy getHurdlePolicy() {
         return hurdlePolicy;
     }
 

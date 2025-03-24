@@ -1,5 +1,7 @@
 package domain.chessPiece;
 
+import domain.hurdlePolicy.HurdlePolicy;
+import domain.path.Path;
 import domain.position.ChessPiecePositions;
 import domain.score.Score;
 import domain.type.ChessPieceType;
@@ -13,4 +15,6 @@ public interface ChessPiece {
     ChessPieceType getChessPieceType();
     ChessTeam getTeam();
     Score getScore();
+    List<Path> getCoordinatePaths(final ChessPosition startPosition);
+    HurdlePolicy getHurdlePolicy();
 }

@@ -38,7 +38,7 @@ public class Elephant extends LimitedMoveChessPiece {
     }
 
     @Override
-    protected HurdlePolicy getHurdlePolicy() {
+    public HurdlePolicy getHurdlePolicy() {
         return hurdlePolicy;
     }
 
