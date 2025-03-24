@@ -1,6 +1,6 @@
 package domain.position;
 
-import domain.Pattern;
+import domain.MovingPattern;
 import java.util.Arrays;
 
 public enum File {
@@ -28,7 +28,7 @@ public enum File {
                 .orElseThrow(() -> new IllegalStateException("올바르지 않은 열입니다."));
     }
 
-    public File moveFile(Pattern pattern) {
+    public File moveFile(MovingPattern pattern) {
         if (pattern.getY() == 1) {
             return moveRight();
         }
@@ -38,15 +38,15 @@ public enum File {
         return this;
     }
 
-    public boolean canMoveFile(Pattern pattern) {
+    public boolean canMoveFile(MovingPattern pattern) {
         return canMoveRight(pattern) && canMoveLeft(pattern);
     }
 
-    private boolean canMoveRight(Pattern pattern) {
+    private boolean canMoveRight(MovingPattern pattern) {
         return !(pattern.getY() == 1 && this == rightMost());
     }
 
-    private boolean canMoveLeft(Pattern pattern) {
+    private boolean canMoveLeft(MovingPattern pattern) {
         return !(pattern.getY() == -1 && this == leftMost());
     }
 

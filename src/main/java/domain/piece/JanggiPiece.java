@@ -1,7 +1,7 @@
 package domain.piece;
 
 import domain.position.JanggiPosition;
-import domain.Pattern;
+import domain.MovingPattern;
 import java.util.List;
 
 public class JanggiPiece {
@@ -24,7 +24,7 @@ public class JanggiPiece {
         type.validateCanMove(this.side, hurdlePiece, hurdleCount, targetPiece);
     }
 
-    public List<Pattern> getRoute(JanggiPosition origin, JanggiPosition destination) {
+    public List<MovingPattern> getRoute(JanggiPosition origin, JanggiPosition destination) {
         return type.getRoute(origin, destination);
     }
 

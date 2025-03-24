@@ -1,6 +1,6 @@
 package domain.position;
 
-import domain.Pattern;
+import domain.MovingPattern;
 import java.util.List;
 
 public record JanggiPosition(Rank rank, File file) {
@@ -9,17 +9,17 @@ public record JanggiPosition(Rank rank, File file) {
         this(Rank.findByNumber(rank), File.findByNumber(file));
     }
 
-    public JanggiPosition move(final List<Pattern> patterns) {
+    public JanggiPosition move(final List<MovingPattern> patterns) {
         JanggiPosition newPosition = this;
-        for (Pattern pattern : patterns) {
+        for (MovingPattern pattern : patterns) {
             newPosition = newPosition.moveOnePosition(pattern);
         }
         return newPosition;
     }
 
-    public boolean canMove(final List<Pattern> patterns) {
+    public boolean canMove(final List<MovingPattern> patterns) {
         JanggiPosition newPosition = this;
-        for (Pattern pattern : patterns) {
+        for (MovingPattern pattern : patterns) {
             if (!newPosition.canMoveOnePosition(pattern)) {
                 return false;
             }
@@ -28,14 +28,14 @@ public record JanggiPosition(Rank rank, File file) {
         return true;
     }
 
-    public JanggiPosition moveOnePosition(final Pattern pattern) {
+    public JanggiPosition moveOnePosition(final MovingPattern pattern) {
         Rank newRank = rank.moveRank(pattern);
         File newFile = file.moveFile(pattern);
 
         return new JanggiPosition(newRank, newFile);
     }
 
-    public boolean canMoveOnePosition(final Pattern pattern) {
+    public boolean canMoveOnePosition(final MovingPattern pattern) {
         return rank.canMoveRank(pattern) && file.canMoveFile(pattern);
     }
 

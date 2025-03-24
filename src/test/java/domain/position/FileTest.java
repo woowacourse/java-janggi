@@ -1,6 +1,6 @@
 package domain.position;
 
-import domain.Pattern;
+import domain.MovingPattern;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,7 +11,7 @@ class FileTest {
 
     @ParameterizedTest
     @MethodSource("provideFileValues")
-    void 열을_기준으로_이동할_수_있다(File originalFile, Pattern movePattern, File expectedFile) {
+    void 열을_기준으로_이동할_수_있다(File originalFile, MovingPattern movePattern, File expectedFile) {
         // when & then
         Assertions.assertThat(originalFile.moveFile(movePattern))
                 .isEqualTo(expectedFile);
@@ -19,16 +19,16 @@ class FileTest {
 
     private static Stream<Arguments> provideFileValues() {
         return Stream.of(
-                Arguments.of(File.FIVE, Pattern.MOVE_LEFT, File.FOUR),
-                Arguments.of(File.NINE, Pattern.MOVE_LEFT, File.EIGHT),
-                Arguments.of(File.EIGHT, Pattern.MOVE_RIGHT, File.NINE),
-                Arguments.of(File.FIVE, Pattern.MOVE_DIAGONAL_UP_LEFT, File.FOUR)
+                Arguments.of(File.FIVE, MovingPattern.MOVE_LEFT, File.FOUR),
+                Arguments.of(File.NINE, MovingPattern.MOVE_LEFT, File.EIGHT),
+                Arguments.of(File.EIGHT, MovingPattern.MOVE_RIGHT, File.NINE),
+                Arguments.of(File.FIVE, MovingPattern.MOVE_DIAGONAL_UP_LEFT, File.FOUR)
         );
     }
 
     @ParameterizedTest
     @MethodSource("provideFileValuesAndMovable")
-    void 움직일_수_있는지_확인할_수_있다(File originalFile, Pattern movePattern, boolean expected) {
+    void 움직일_수_있는지_확인할_수_있다(File originalFile, MovingPattern movePattern, boolean expected) {
         // when & then
         Assertions.assertThat(originalFile.canMoveFile(movePattern))
                 .isEqualTo(expected);
@@ -36,9 +36,9 @@ class FileTest {
 
     private static Stream<Arguments> provideFileValuesAndMovable() {
         return Stream.of(
-                Arguments.of(File.FIVE, Pattern.MOVE_LEFT, true),
-                Arguments.of(File.NINE, Pattern.MOVE_RIGHT, false),
-                Arguments.of(File.ONE, Pattern.MOVE_LEFT, false)
+                Arguments.of(File.FIVE, MovingPattern.MOVE_LEFT, true),
+                Arguments.of(File.NINE, MovingPattern.MOVE_RIGHT, false),
+                Arguments.of(File.ONE, MovingPattern.MOVE_LEFT, false)
         );
     }
 

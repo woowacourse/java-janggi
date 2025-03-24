@@ -1,7 +1,7 @@
 package domain.janggiboard;
 
 import domain.position.JanggiPosition;
-import domain.Pattern;
+import domain.MovingPattern;
 import domain.piece.JanggiPiece;
 import domain.piece.JanggiPieceType;
 import domain.piece.JanggiSide;
@@ -58,9 +58,9 @@ public final class JanggiBoard {
 
     private JanggiPiece getFirstHurdlePieceOnRoute(JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
         JanggiPiece hurdlePiece = new JanggiPiece(JanggiSide.NONE, JanggiPieceType.EMPTY);
-        List<Pattern> patterns = piece.getRoute(origin, destination);
+        List<MovingPattern> patterns = piece.getRoute(origin, destination);
         JanggiPosition newPosition = origin;
-        for (Pattern pattern : patterns) {
+        for (MovingPattern pattern : patterns) {
             newPosition = newPosition.moveOnePosition(pattern);
             if (checkExistPiece(newPosition)) {
                 hurdlePiece = getPieceOfPosition(newPosition);
@@ -70,11 +70,11 @@ public final class JanggiBoard {
     }
 
     private int getHurdleCountOnRoute(final JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
-        List<Pattern> path = piece.getRoute(origin, destination);
-        List<Pattern> patterns = path.subList(0, path.size() - 1);
+        List<MovingPattern> path = piece.getRoute(origin, destination);
+        List<MovingPattern> patterns = path.subList(0, path.size() - 1);
         int count = 0;
         JanggiPosition newPosition = origin;
-        for (Pattern pattern : patterns) {
+        for (MovingPattern pattern : patterns) {
             newPosition = newPosition.moveOnePosition(pattern);
             if (checkExistPiece(newPosition)) {
                 count++;

@@ -1,6 +1,6 @@
 package domain.position;
 
-import domain.Pattern;
+import domain.MovingPattern;
 import java.util.Arrays;
 
 public enum Rank {
@@ -32,7 +32,7 @@ public enum Rank {
                 .orElseThrow(() -> new IllegalStateException("올바르지 않은 행입니다."));
     }
 
-    public Rank moveRank(Pattern pattern) {
+    public Rank moveRank(MovingPattern pattern) {
         if (pattern.getX() == 1) {
             return moveDown();
         }
@@ -42,15 +42,15 @@ public enum Rank {
         return this;
     }
 
-    public boolean canMoveRank(Pattern pattern) {
+    public boolean canMoveRank(MovingPattern pattern) {
         return canMoveUp(pattern) && canMoveDown(pattern);
     }
 
-    private boolean canMoveUp(Pattern pattern) {
+    private boolean canMoveUp(MovingPattern pattern) {
         return !(pattern.getX() == -1 && this == top());
     }
 
-    private boolean canMoveDown(Pattern pattern) {
+    private boolean canMoveDown(MovingPattern pattern) {
         return !(pattern.getX() == 1 && this == bottom());
     }
 

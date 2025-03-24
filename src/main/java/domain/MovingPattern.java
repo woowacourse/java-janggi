@@ -1,6 +1,6 @@
 package domain;
 
-public enum Pattern {
+public enum MovingPattern {
     MOVE_RIGHT(0, 1),
     MOVE_DOWN(1, 0),
     MOVE_LEFT(0, -1),
@@ -14,7 +14,7 @@ public enum Pattern {
     private int x;
     private int y;
 
-    Pattern(int x, int y) {
+    MovingPattern(int x, int y) {
         this.x = x;
         this.y = y;
     }

@@ -1,6 +1,6 @@
 package domain.piece.routestrategy;
 
-import domain.Pattern;
+import domain.MovingPattern;
 import domain.position.JanggiPosition;
 import java.util.Collections;
 import java.util.List;
@@ -8,9 +8,9 @@ import java.util.List;
 public class LinearRouteStrategy implements JanggiPieceRouteStrategy {
 
     @Override
-    public List<Pattern> getRoute(final List<List<Pattern>> routes, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
-        for (List<Pattern> route : routes) {
-            Pattern direction = route.getFirst();
+    public List<MovingPattern> getRoute(final List<List<MovingPattern>> routes, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
+        for (List<MovingPattern> route : routes) {
+            MovingPattern direction = route.getFirst();
             if (isValidDirection(beforePosition, afterPosition, direction)) {
                 return createPattern(direction, getMoveCount(beforePosition, afterPosition, direction));
             }
@@ -21,7 +21,7 @@ public class LinearRouteStrategy implements JanggiPieceRouteStrategy {
     private boolean isValidDirection(
             final JanggiPosition beforePosition,
             final JanggiPosition afterPosition,
-            final Pattern direction
+            final MovingPattern direction
     ) {
         JanggiPosition newPosition = beforePosition;
         while (newPosition.canMoveOnePosition(direction)) {
@@ -36,7 +36,7 @@ public class LinearRouteStrategy implements JanggiPieceRouteStrategy {
     private int getMoveCount(
             final JanggiPosition beforePosition,
             final JanggiPosition afterPosition,
-            final Pattern direction
+            final MovingPattern direction
     ) {
         int moveCount = 0;
         JanggiPosition newPosition = beforePosition;
@@ -50,7 +50,7 @@ public class LinearRouteStrategy implements JanggiPieceRouteStrategy {
         return moveCount;
     }
 
-    private List<Pattern> createPattern(final Pattern direction, int additionalSize) {
+    private List<MovingPattern> createPattern(final MovingPattern direction, int additionalSize) {
         return Collections.nCopies(additionalSize, direction);
     }
 }

@@ -2,7 +2,7 @@ package domain.position;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Pattern;
+import domain.MovingPattern;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ public class JanggiPositionTest {
         JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
 
         // when
-        JanggiPosition newPosition = beforePosition.moveOnePosition(Pattern.MOVE_UP);
+        JanggiPosition newPosition = beforePosition.moveOnePosition(MovingPattern.MOVE_UP);
 
         // then
         Assertions.assertThat(newPosition).isEqualTo(afterPosition);
@@ -49,7 +49,7 @@ public class JanggiPositionTest {
 
         // when
         JanggiPosition newPosition = beforePosition.move(
-                List.of(Pattern.MOVE_UP, Pattern.MOVE_DIAGONAL_UP_RIGHT, Pattern.MOVE_DIAGONAL_UP_RIGHT));
+                List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT));
 
         // then
         Assertions.assertThat(newPosition).isEqualTo(afterPosition);

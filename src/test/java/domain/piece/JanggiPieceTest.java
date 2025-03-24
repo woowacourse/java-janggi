@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import domain.Pattern;
+import domain.MovingPattern;
 import domain.position.JanggiPosition;
 import java.util.List;
 import java.util.stream.Stream;
@@ -70,14 +70,14 @@ public class JanggiPieceTest {
 
         @ParameterizedTest
         @MethodSource("provide궁Route")
-        void 궁의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPostion, List<Pattern> expected) {
+        void 궁의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPostion, List<MovingPattern> expected) {
             // given
             int beforeRow = 9;
             int beforeColumn = 5;
             JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
 
             // when
-            List<Pattern> route = CHO_궁.getRoute(beforePosition, afterPostion);
+            List<MovingPattern> route = CHO_궁.getRoute(beforePosition, afterPostion);
 
             // when & then
             Assertions.assertThat(route)
@@ -86,10 +86,10 @@ public class JanggiPieceTest {
 
         static Stream<Arguments> provide궁Route() {
             return Stream.of(
-                    Arguments.of(new JanggiPosition(8, 5), List.of(Pattern.MOVE_UP)),
-                    Arguments.of(new JanggiPosition(9, 4), List.of(Pattern.MOVE_LEFT)),
-                    Arguments.of(new JanggiPosition(9, 6), List.of(Pattern.MOVE_RIGHT)),
-                    Arguments.of(new JanggiPosition(0, 5), List.of(Pattern.MOVE_DOWN)));
+                    Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.MOVE_UP)),
+                    Arguments.of(new JanggiPosition(9, 4), List.of(MovingPattern.MOVE_LEFT)),
+                    Arguments.of(new JanggiPosition(9, 6), List.of(MovingPattern.MOVE_RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 5), List.of(MovingPattern.MOVE_DOWN)));
         }
 
         @Test
@@ -140,12 +140,12 @@ public class JanggiPieceTest {
 
         @ParameterizedTest
         @MethodSource("provide마Path")
-        void 마의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> expected) {
+        void 마의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<MovingPattern> expected) {
             // given
             JanggiPosition beforePosition = new JanggiPosition(6, 4);
 
             // when
-            List<Pattern> route = CHO_마.getRoute(beforePosition, afterPosition);
+            List<MovingPattern> route = CHO_마.getRoute(beforePosition, afterPosition);
 
             // when & then
             Assertions.assertThat(route)
@@ -154,14 +154,14 @@ public class JanggiPieceTest {
 
         static Stream<Arguments> provide마Path() {
             return Stream.of(
-                    Arguments.of(new JanggiPosition(5, 2), List.of(Pattern.MOVE_LEFT, Pattern.MOVE_DIAGONAL_UP_LEFT)),
-                    Arguments.of(new JanggiPosition(5, 6), List.of(Pattern.MOVE_RIGHT, Pattern.MOVE_DIAGONAL_UP_RIGHT)),
-                    Arguments.of(new JanggiPosition(4, 5), List.of(Pattern.MOVE_UP, Pattern.MOVE_DIAGONAL_UP_RIGHT)),
-                    Arguments.of(new JanggiPosition(4, 3), List.of(Pattern.MOVE_UP, Pattern.MOVE_DIAGONAL_UP_LEFT)),
-                    Arguments.of(new JanggiPosition(7, 2), List.of(Pattern.MOVE_LEFT, Pattern.MOVE_DIAGONAL_DOWN_LEFT)),
-                    Arguments.of(new JanggiPosition(8, 3), List.of(Pattern.MOVE_DOWN, Pattern.MOVE_DIAGONAL_DOWN_LEFT)),
-                    Arguments.of(new JanggiPosition(8, 5), List.of(Pattern.MOVE_DOWN, Pattern.MOVE_DIAGONAL_DOWN_RIGHT)),
-                    Arguments.of(new JanggiPosition(7, 6), List.of(Pattern.MOVE_RIGHT, Pattern.MOVE_DIAGONAL_DOWN_RIGHT))
+                    Arguments.of(new JanggiPosition(5, 2), List.of(MovingPattern.MOVE_LEFT, MovingPattern.MOVE_DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(5, 6), List.of(MovingPattern.MOVE_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT)),
+                    Arguments.of(new JanggiPosition(4, 5), List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_RIGHT)),
+                    Arguments.of(new JanggiPosition(4, 3), List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(7, 2), List.of(MovingPattern.MOVE_LEFT, MovingPattern.MOVE_DIAGONAL_DOWN_LEFT)),
+                    Arguments.of(new JanggiPosition(8, 3), List.of(MovingPattern.MOVE_DOWN, MovingPattern.MOVE_DIAGONAL_DOWN_LEFT)),
+                    Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.MOVE_DOWN, MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT)),
+                    Arguments.of(new JanggiPosition(7, 6), List.of(MovingPattern.MOVE_RIGHT, MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT))
             );
         }
 
@@ -220,12 +220,12 @@ public class JanggiPieceTest {
 
         @ParameterizedTest
         @MethodSource("provide병Route")
-        void 병의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> expected) {
+        void 병의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<MovingPattern> expected) {
             // given
             JanggiPosition beforePosition = new JanggiPosition(7, 5);
 
             // when
-            List<Pattern> 병path = HAN_병.getRoute(beforePosition, afterPosition);
+            List<MovingPattern> 병path = HAN_병.getRoute(beforePosition, afterPosition);
 
             // when & then
             Assertions.assertThat(병path)
@@ -234,9 +234,9 @@ public class JanggiPieceTest {
 
         static Stream<Arguments> provide병Route() {
             return Stream.of(
-                    Arguments.of(new JanggiPosition(8, 5), List.of(Pattern.MOVE_DOWN)),
-                    Arguments.of(new JanggiPosition(7, 4), List.of(Pattern.MOVE_LEFT)),
-                    Arguments.of(new JanggiPosition(7, 6), List.of(Pattern.MOVE_RIGHT))
+                    Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.MOVE_DOWN)),
+                    Arguments.of(new JanggiPosition(7, 4), List.of(MovingPattern.MOVE_LEFT)),
+                    Arguments.of(new JanggiPosition(7, 6), List.of(MovingPattern.MOVE_RIGHT))
             );
         }
 
@@ -282,14 +282,14 @@ public class JanggiPieceTest {
 
         @ParameterizedTest
         @MethodSource("provide사Route")
-        void 사의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> expected) {
+        void 사의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<MovingPattern> expected) {
             // given
             int beforeRow = 9;
             int beforeColumn = 5;
             JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
 
             // when
-            List<Pattern> route = CHO_사.getRoute(beforePosition, afterPosition);
+            List<MovingPattern> route = CHO_사.getRoute(beforePosition, afterPosition);
 
             // when & then
             Assertions.assertThat(route)
@@ -298,10 +298,10 @@ public class JanggiPieceTest {
 
         static Stream<Arguments> provide사Route() {
             return Stream.of(
-                    Arguments.of(new JanggiPosition(8, 5), List.of(Pattern.MOVE_UP)),
-                    Arguments.of(new JanggiPosition(9, 4), List.of(Pattern.MOVE_LEFT)),
-                    Arguments.of(new JanggiPosition(9, 6), List.of(Pattern.MOVE_RIGHT)),
-                    Arguments.of(new JanggiPosition(0, 5), List.of(Pattern.MOVE_DOWN)));
+                    Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.MOVE_UP)),
+                    Arguments.of(new JanggiPosition(9, 4), List.of(MovingPattern.MOVE_LEFT)),
+                    Arguments.of(new JanggiPosition(9, 6), List.of(MovingPattern.MOVE_RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 5), List.of(MovingPattern.MOVE_DOWN)));
         }
 
         @Test
@@ -351,14 +351,14 @@ public class JanggiPieceTest {
 
         @ParameterizedTest
         @MethodSource("provide상Route")
-        void 상의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> expected) {
+        void 상의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<MovingPattern> expected) {
             // given
             int beforeRow = 6;
             int beforeColumn = 5;
             JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
 
             // when
-            List<Pattern> 상route = CHO_상.getRoute(beforePosition, afterPosition);
+            List<MovingPattern> 상route = CHO_상.getRoute(beforePosition, afterPosition);
 
             // when & then
             Assertions.assertThat(상route)
@@ -367,14 +367,14 @@ public class JanggiPieceTest {
 
         static Stream<Arguments> provide상Route() {
             return Stream.of(
-                    Arguments.of(new JanggiPosition(4, 8), List.of(Pattern.MOVE_RIGHT, Pattern.MOVE_DIAGONAL_UP_RIGHT, Pattern.MOVE_DIAGONAL_UP_RIGHT)),
-                    Arguments.of(new JanggiPosition(8, 8), List.of(Pattern.MOVE_RIGHT, Pattern.MOVE_DIAGONAL_DOWN_RIGHT, Pattern.MOVE_DIAGONAL_DOWN_RIGHT)),
-                    Arguments.of(new JanggiPosition(9, 7), List.of(Pattern.MOVE_DOWN, Pattern.MOVE_DIAGONAL_DOWN_RIGHT, Pattern.MOVE_DIAGONAL_DOWN_RIGHT)),
-                    Arguments.of(new JanggiPosition(9, 3), List.of(Pattern.MOVE_DOWN, Pattern.MOVE_DIAGONAL_DOWN_LEFT, Pattern.MOVE_DIAGONAL_DOWN_LEFT)),
-                    Arguments.of(new JanggiPosition(8, 2), List.of(Pattern.MOVE_LEFT, Pattern.MOVE_DIAGONAL_DOWN_LEFT, Pattern.MOVE_DIAGONAL_DOWN_LEFT)),
-                    Arguments.of(new JanggiPosition(4, 2), List.of(Pattern.MOVE_LEFT, Pattern.MOVE_DIAGONAL_UP_LEFT, Pattern.MOVE_DIAGONAL_UP_LEFT)),
-                    Arguments.of(new JanggiPosition(3, 3), List.of(Pattern.MOVE_UP, Pattern.MOVE_DIAGONAL_UP_LEFT, Pattern.MOVE_DIAGONAL_UP_LEFT)),
-                    Arguments.of(new JanggiPosition(3, 7), List.of(Pattern.MOVE_UP, Pattern.MOVE_DIAGONAL_UP_RIGHT, Pattern.MOVE_DIAGONAL_UP_RIGHT))
+                    Arguments.of(new JanggiPosition(4, 8), List.of(MovingPattern.MOVE_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT)),
+                    Arguments.of(new JanggiPosition(8, 8), List.of(MovingPattern.MOVE_RIGHT, MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT, MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT)),
+                    Arguments.of(new JanggiPosition(9, 7), List.of(MovingPattern.MOVE_DOWN, MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT, MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT)),
+                    Arguments.of(new JanggiPosition(9, 3), List.of(MovingPattern.MOVE_DOWN, MovingPattern.MOVE_DIAGONAL_DOWN_LEFT, MovingPattern.MOVE_DIAGONAL_DOWN_LEFT)),
+                    Arguments.of(new JanggiPosition(8, 2), List.of(MovingPattern.MOVE_LEFT, MovingPattern.MOVE_DIAGONAL_DOWN_LEFT, MovingPattern.MOVE_DIAGONAL_DOWN_LEFT)),
+                    Arguments.of(new JanggiPosition(4, 2), List.of(MovingPattern.MOVE_LEFT, MovingPattern.MOVE_DIAGONAL_UP_LEFT, MovingPattern.MOVE_DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(3, 3), List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_LEFT, MovingPattern.MOVE_DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(3, 7), List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT))
             );
         }
 
@@ -438,14 +438,14 @@ public class JanggiPieceTest {
 
         @ParameterizedTest
         @MethodSource("provide졸Route")
-        void 졸의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> expected) {
+        void 졸의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<MovingPattern> expected) {
             // given
             int beforeRow = 7;
             int beforeColumn = 5;
             JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
 
             // when
-            List<Pattern> route = CHO_졸.getRoute(beforePosition, afterPosition);
+            List<MovingPattern> route = CHO_졸.getRoute(beforePosition, afterPosition);
 
             // when & then
             Assertions.assertThat(route)
@@ -454,9 +454,9 @@ public class JanggiPieceTest {
 
         static Stream<Arguments> provide졸Route() {
             return Stream.of(
-                    Arguments.of(new JanggiPosition(6, 5), List.of(Pattern.MOVE_UP)),
-                    Arguments.of(new JanggiPosition(7, 4), List.of(Pattern.MOVE_LEFT)),
-                    Arguments.of(new JanggiPosition(7, 6), List.of(Pattern.MOVE_RIGHT))
+                    Arguments.of(new JanggiPosition(6, 5), List.of(MovingPattern.MOVE_UP)),
+                    Arguments.of(new JanggiPosition(7, 4), List.of(MovingPattern.MOVE_LEFT)),
+                    Arguments.of(new JanggiPosition(7, 6), List.of(MovingPattern.MOVE_RIGHT))
             );
         }
 
@@ -507,14 +507,14 @@ public class JanggiPieceTest {
 
         @ParameterizedTest
         @MethodSource("provide차Route")
-        void 차의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> expected) {
+        void 차의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<MovingPattern> expected) {
             // given
             int beforeRow = 0;
             int beforeColumn = 1;
             JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
 
             // when
-            List<Pattern> route = CHO_차.getRoute(beforePosition, afterPosition);
+            List<MovingPattern> route = CHO_차.getRoute(beforePosition, afterPosition);
 
             // when & then
             Assertions.assertThat(route).containsAll(expected);
@@ -524,22 +524,22 @@ public class JanggiPieceTest {
             return Stream.of(
                     Arguments.of(new JanggiPosition(5, 1),
                             List.of(
-                                    Pattern.MOVE_UP,
-                                    Pattern.MOVE_UP,
-                                    Pattern.MOVE_UP,
-                                    Pattern.MOVE_UP,
-                                    Pattern.MOVE_UP
+                                    MovingPattern.MOVE_UP,
+                                    MovingPattern.MOVE_UP,
+                                    MovingPattern.MOVE_UP,
+                                    MovingPattern.MOVE_UP,
+                                    MovingPattern.MOVE_UP
                             )),
                     Arguments.of(new JanggiPosition(0, 9),
                             List.of(
-                                    Pattern.MOVE_RIGHT,
-                                    Pattern.MOVE_RIGHT,
-                                    Pattern.MOVE_RIGHT,
-                                    Pattern.MOVE_RIGHT,
-                                    Pattern.MOVE_RIGHT,
-                                    Pattern.MOVE_RIGHT,
-                                    Pattern.MOVE_RIGHT,
-                                    Pattern.MOVE_RIGHT
+                                    MovingPattern.MOVE_RIGHT,
+                                    MovingPattern.MOVE_RIGHT,
+                                    MovingPattern.MOVE_RIGHT,
+                                    MovingPattern.MOVE_RIGHT,
+                                    MovingPattern.MOVE_RIGHT,
+                                    MovingPattern.MOVE_RIGHT,
+                                    MovingPattern.MOVE_RIGHT,
+                                    MovingPattern.MOVE_RIGHT
                             )));
         }
 
@@ -673,14 +673,14 @@ public class JanggiPieceTest {
 
         @ParameterizedTest
         @MethodSource("provide포Route")
-        void 포의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> expected) {
+        void 포의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<MovingPattern> expected) {
             // given
             int beforeRow = 0;
             int beforeColumn = 1;
             JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
 
             // when
-            List<Pattern> route = CHO_포.getRoute(beforePosition, afterPosition);
+            List<MovingPattern> route = CHO_포.getRoute(beforePosition, afterPosition);
 
             // when & then
             Assertions.assertThat(route).containsAll(expected);
@@ -690,23 +690,23 @@ public class JanggiPieceTest {
             return Stream.of(
                     Arguments.of(new JanggiPosition(5, 1),
                             List.of(
-                                    Pattern.MOVE_UP,
-                                    Pattern.MOVE_UP,
-                                    Pattern.MOVE_UP,
-                                    Pattern.MOVE_UP,
-                                    Pattern.MOVE_UP
+                                    MovingPattern.MOVE_UP,
+                                    MovingPattern.MOVE_UP,
+                                    MovingPattern.MOVE_UP,
+                                    MovingPattern.MOVE_UP,
+                                    MovingPattern.MOVE_UP
                             )
                     ),
                     Arguments.of(new JanggiPosition(0, 9),
                             List.of(
-                                    Pattern.MOVE_RIGHT,
-                                    Pattern.MOVE_RIGHT,
-                                    Pattern.MOVE_RIGHT,
-                                    Pattern.MOVE_RIGHT,
-                                    Pattern.MOVE_RIGHT,
-                                    Pattern.MOVE_RIGHT,
-                                    Pattern.MOVE_RIGHT,
-                                    Pattern.MOVE_RIGHT
+                                    MovingPattern.MOVE_RIGHT,
+                                    MovingPattern.MOVE_RIGHT,
+                                    MovingPattern.MOVE_RIGHT,
+                                    MovingPattern.MOVE_RIGHT,
+                                    MovingPattern.MOVE_RIGHT,
+                                    MovingPattern.MOVE_RIGHT,
+                                    MovingPattern.MOVE_RIGHT,
+                                    MovingPattern.MOVE_RIGHT
                             )
                     ));
         }
