@@ -22,13 +22,6 @@ public class Janggun extends Piece {
         }
     }
 
-    private boolean isInvalidJanggunMove(Position destination) {
-        return !Movement.calculateUpMovement(position).equals(destination)
-                && !Movement.calculateRightMovement(position).equals(destination)
-                && !Movement.calculateLeftMovement(position).equals(destination)
-                && !Movement.calculateDownMovement(position).equals(destination);
-    }
-
     @Override
     public Positions makeRoute(final Position position) {
         return new Positions(List.of());
@@ -52,6 +45,13 @@ public class Janggun extends Piece {
     @Override
     public PieceType getPieceType() {
         return JANGGUN;
+    }
+
+    private boolean isInvalidJanggunMove(Position destination) {
+        return !Movement.calculateUpMovement(position).equals(destination)
+                && !Movement.calculateRightMovement(position).equals(destination)
+                && !Movement.calculateLeftMovement(position).equals(destination)
+                && !Movement.calculateDownMovement(position).equals(destination);
     }
 
 }

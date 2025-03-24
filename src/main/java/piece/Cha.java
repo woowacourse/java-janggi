@@ -22,10 +22,6 @@ public class Cha extends Piece {
         }
     }
 
-    private boolean isInvalidChaMove(Position destination) {
-        return !position.isSameRow(destination) && !position.isSameCol(destination);
-    }
-
     @Override
     public Positions makeRoute(final Position position) {
         Positions route = new Positions(List.of());
@@ -79,6 +75,10 @@ public class Cha extends Piece {
     @Override
     public PieceType getPieceType() {
         return CHA;
+    }
+
+    private boolean isInvalidChaMove(Position destination) {
+        return !position.isSameRow(destination) && !position.isSameCol(destination);
     }
 
 }

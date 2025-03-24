@@ -22,17 +22,6 @@ public class Ma extends Piece {
         }
     }
 
-    private boolean isInvalidMaMove(Position destination) {
-        return !Movement.calculateUpRightUPMovement(position).equals(destination)
-                && !Movement.calculateUpLeftUpMovement(position).equals(destination)
-                && !Movement.calculateDownRightDownMovement(position).equals(destination)
-                && !Movement.calculateDownLeftDownMovement(position).equals(destination)
-                && !Movement.calculateRightRightUpMovement(position).equals(destination)
-                && !Movement.calculateRightRightDownMovement(position).equals(destination)
-                && !Movement.calculateLeftLeftUpMovement(position).equals(destination)
-                && !Movement.calculateLeftLeftDownMovement(position).equals(destination);
-    }
-
     @Override
     public Positions makeRoute(final Position destination) {
         Positions route = new Positions(List.of());
@@ -88,6 +77,17 @@ public class Ma extends Piece {
     @Override
     public PieceType getPieceType() {
         return MA;
+    }
+
+    private boolean isInvalidMaMove(Position destination) {
+        return !Movement.calculateUpRightUPMovement(position).equals(destination)
+                && !Movement.calculateUpLeftUpMovement(position).equals(destination)
+                && !Movement.calculateDownRightDownMovement(position).equals(destination)
+                && !Movement.calculateDownLeftDownMovement(position).equals(destination)
+                && !Movement.calculateRightRightUpMovement(position).equals(destination)
+                && !Movement.calculateRightRightDownMovement(position).equals(destination)
+                && !Movement.calculateLeftLeftUpMovement(position).equals(destination)
+                && !Movement.calculateLeftLeftDownMovement(position).equals(destination);
     }
 
 }

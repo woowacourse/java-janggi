@@ -22,12 +22,6 @@ public class Byeong extends Piece {
         }
     }
 
-    private boolean isInvalidByeongMove(Position destination) {
-        return !Movement.calculateDownMovement(position).equals(destination)
-                && !Movement.calculateLeftMovement(position).equals(destination)
-                && !Movement.calculateRightMovement(position).equals(destination);
-    }
-
     @Override
     public Positions makeRoute(final Position position) {
         return new Positions(List.of());
@@ -46,6 +40,12 @@ public class Byeong extends Piece {
     @Override
     public PieceType getPieceType() {
         return BYEONG;
+    }
+
+    private boolean isInvalidByeongMove(Position destination) {
+        return !Movement.calculateDownMovement(position).equals(destination)
+                && !Movement.calculateLeftMovement(position).equals(destination)
+                && !Movement.calculateRightMovement(position).equals(destination);
     }
 
 }

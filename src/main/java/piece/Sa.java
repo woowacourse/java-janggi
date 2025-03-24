@@ -22,13 +22,6 @@ public class Sa extends Piece {
         }
     }
 
-    private boolean isInvalidSaMove(Position destination) {
-        return !Movement.calculateDownMovement(position).equals(destination)
-                && !Movement.calculateUpMovement(position).equals(destination)
-                && !Movement.calculateLeftMovement(position).equals(destination)
-                && !Movement.calculateRightMovement(position).equals(destination);
-    }
-
     @Override
     public Positions makeRoute(final Position position) {
         return new Positions(List.of());
@@ -47,6 +40,13 @@ public class Sa extends Piece {
     @Override
     public PieceType getPieceType() {
         return SA;
+    }
+
+    private boolean isInvalidSaMove(Position destination) {
+        return !Movement.calculateDownMovement(position).equals(destination)
+                && !Movement.calculateUpMovement(position).equals(destination)
+                && !Movement.calculateLeftMovement(position).equals(destination)
+                && !Movement.calculateRightMovement(position).equals(destination);
     }
 
 }

@@ -58,10 +58,6 @@ public class Po extends Piece {
         }
     }
 
-    private boolean isInvalidPoMove(Position destination) {
-        return !position.isSameCol(destination) && !position.isSameRow(destination);
-    }
-
     @Override
     public boolean isKing() {
         return false;
@@ -76,4 +72,9 @@ public class Po extends Piece {
     public PieceType getPieceType() {
         return PO;
     }
+
+    private boolean isInvalidPoMove(Position destination) {
+        return !position.isSameCol(destination) && !position.isSameRow(destination);
+    }
+
 }

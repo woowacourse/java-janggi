@@ -22,12 +22,6 @@ public class Jol extends Piece {
         }
     }
 
-    private boolean isInvalidJolMove(Position destination) {
-        return !Movement.calculateUpMovement(position).equals(destination)
-                && !Movement.calculateLeftMovement(position).equals(destination)
-                && !Movement.calculateRightMovement(position).equals(destination);
-    }
-
     @Override
     public Positions makeRoute(final Position position) {
         return new Positions(List.of());
@@ -46,6 +40,12 @@ public class Jol extends Piece {
     @Override
     public PieceType getPieceType() {
         return JOL;
+    }
+
+    private boolean isInvalidJolMove(Position destination) {
+        return !Movement.calculateUpMovement(position).equals(destination)
+                && !Movement.calculateLeftMovement(position).equals(destination)
+                && !Movement.calculateRightMovement(position).equals(destination);
     }
 
 }

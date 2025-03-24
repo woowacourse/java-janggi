@@ -22,17 +22,6 @@ public class Sang extends Piece {
         }
     }
 
-    private boolean isInvalidSangMove(Position destination) {
-        return !Movement.calculateUpRightUpRightUpMovement(position).equals(destination)
-                && !Movement.calculateUpLeftUpLeftUpMovement(position).equals(destination)
-                && !Movement.calculateRightRightUpRightUpMovement(position).equals(destination)
-                && !Movement.calculateRightRightDownRightDownMovement(position).equals(destination)
-                && !Movement.calculateDownRightDownRightDownMovement(position).equals(destination)
-                && !Movement.calculateDownLeftDownLeftDownMovement(position).equals(destination)
-                && !Movement.calculateLeftLeftUpLeftUpMovement(position).equals(destination)
-                && !Movement.calculateLeftLeftDownLeftDownMovement(position).isSameRow(destination);
-    }
-
     @Override
     public Positions makeRoute(final Position destination) {
         Positions route = new Positions(List.of());
@@ -96,5 +85,16 @@ public class Sang extends Piece {
     @Override
     public PieceType getPieceType() {
         return SANG;
+    }
+
+    private boolean isInvalidSangMove(Position destination) {
+        return !Movement.calculateUpRightUpRightUpMovement(position).equals(destination)
+                && !Movement.calculateUpLeftUpLeftUpMovement(position).equals(destination)
+                && !Movement.calculateRightRightUpRightUpMovement(position).equals(destination)
+                && !Movement.calculateRightRightDownRightDownMovement(position).equals(destination)
+                && !Movement.calculateDownRightDownRightDownMovement(position).equals(destination)
+                && !Movement.calculateDownLeftDownLeftDownMovement(position).equals(destination)
+                && !Movement.calculateLeftLeftUpLeftUpMovement(position).equals(destination)
+                && !Movement.calculateLeftLeftDownLeftDownMovement(position).isSameRow(destination);
     }
 }
