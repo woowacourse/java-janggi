@@ -10,7 +10,7 @@ public class Elephant extends Piece {
     public static final int ELEPHANT_SIDE_MOVE = 2;
 
     public Elephant(PieceColor color) {
-        super(color);
+        super(PieceType.ELEPHANT, color);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class Elephant extends Piece {
         if (Math.abs(rowDifference) == ELEPHANT_STRAIGHT_MOVE && Math.abs(columnDifference) == ELEPHANT_SIDE_MOVE) {
             return true;
         }
-        if (Math.abs(rowDifference) == 2 && Math.abs(columnDifference) == 3) {
+        if (Math.abs(rowDifference) == ELEPHANT_SIDE_MOVE && Math.abs(columnDifference) == ELEPHANT_STRAIGHT_MOVE) {
             return true;
         }
         return false;

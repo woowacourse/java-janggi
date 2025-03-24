@@ -9,7 +9,7 @@ public class Horse extends Piece {
     public static final int HORSE_SIDE_MOVE = 1;
 
     public Horse(PieceColor color) {
-        super(color);
+        super(PieceType.HORSE, color);
     }
 
     @Override

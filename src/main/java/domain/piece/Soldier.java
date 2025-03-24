@@ -9,7 +9,7 @@ public class Soldier extends Piece {
     public static final int BACKWARD_MOVE = -1;
 
     public Soldier(PieceColor color) {
-        super(color);
+        super(PieceType.SOLDIER, color);
     }
 
     @Override

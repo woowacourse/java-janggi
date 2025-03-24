@@ -8,7 +8,7 @@ public class Empty extends Piece {
     private static final Empty INSTANCE = new Empty();
 
     public Empty() {
-        super(PieceColor.NONE);
+        super(PieceType.EMPTY, PieceColor.NONE);
     }
 
     public static Empty getInstance() {

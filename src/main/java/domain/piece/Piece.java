@@ -9,9 +9,11 @@ public abstract class Piece {
     public static final int NO_PIECE = 0;
     public static final int ONE_PIECE = 1;
 
+    final PieceType type;
     final PieceColor color;
 
-    Piece(PieceColor color) {
+    protected Piece(PieceType type, PieceColor color) {
+        this.type = type;
         this.color = color;
     }
 
@@ -22,11 +24,11 @@ public abstract class Piece {
     }
 
     public boolean isSamePiece(Piece other) {
-        return this.getClass() == other.getClass();
+        return type.equals(other.type);
     }
 
     public boolean isOtherTeam(Piece other) {
-        return this.color != other.color;
+        return !color.equals(other.color);
     }
 
     public PieceColor getColor() {

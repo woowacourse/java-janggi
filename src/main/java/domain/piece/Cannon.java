@@ -6,7 +6,7 @@ import java.util.List;
 public class Cannon extends Piece {
 
     public Cannon(PieceColor color) {
-        super(color);
+        super(PieceType.CANNON, color);
     }
 
     @Override

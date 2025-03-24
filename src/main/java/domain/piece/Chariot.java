@@ -4,8 +4,9 @@ import domain.board.Position;
 import java.util.List;
 
 public class Chariot extends Piece {
+
     public Chariot(PieceColor color) {
-        super(color);
+        super(PieceType.CHARIOT, color);
     }
 
     @Override
