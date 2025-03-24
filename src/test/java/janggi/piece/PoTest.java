@@ -55,24 +55,78 @@ class PoTest {
         assertThat(actual).isTrue();
     }
 
+    @Nested
     @DisplayName("포는 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
-    @Test
-    void makeRoute() {
-        //given
-        final Po po = new Po(new PieceProfile("포", Nation.HAN), new Position(0, 0));
-        final Position futurePosition = new Position(5, 0);
+    class makeRoute {
 
-        //when
-        final List<Position> actual = po.makeRoute(futurePosition);
+        @DisplayName("수직으로 아래로 이동할 때 경로를 계산한다.")
+        @Test
+        void makeRouteVerticalDown() {
+            final Po po = new Po(new PieceProfile("포", Nation.HAN), new Position(0, 0));
+            final Position futurePosition = new Position(5, 0);
 
-        //then
-        assertThat(actual).containsExactly(
-                new Position(1, 0),
-                new Position(2, 0),
-                new Position(3, 0),
-                new Position(4, 0),
-                new Position(5, 0)
-        );
+            final List<Position> actual = po.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(1, 0),
+                    new Position(2, 0),
+                    new Position(3, 0),
+                    new Position(4, 0),
+                    new Position(5, 0)
+            );
+        }
+
+        @DisplayName("수직으로 위로 이동할 때 경로를 계산한다.")
+        @Test
+        void makeRouteVerticalUp() {
+            final Po po = new Po(new PieceProfile("포", Nation.HAN), new Position(5, 0));
+            final Position futurePosition = new Position(0, 0);
+
+            final List<Position> actual = po.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(4, 0),
+                    new Position(3, 0),
+                    new Position(2, 0),
+                    new Position(1, 0),
+                    new Position(0, 0)
+            );
+        }
+
+        @DisplayName("수평으로 오른쪽으로 이동할 때 경로를 계산한다.")
+        @Test
+        void makeRouteHorizontalRight() {
+            final Po po = new Po(new PieceProfile("포", Nation.HAN), new Position(0, 0));
+            final Position futurePosition = new Position(0, 5);
+
+            final List<Position> actual = po.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(0, 1),
+                    new Position(0, 2),
+                    new Position(0, 3),
+                    new Position(0, 4),
+                    new Position(0, 5)
+            );
+        }
+
+        @DisplayName("수평으로 왼쪽으로 이동할 때 경로를 계산한다.")
+        @Test
+        void makeRouteHorizontalLeft() {
+            final Po po = new Po(new PieceProfile("포", Nation.HAN), new Position(0, 5));
+            final Position futurePosition = new Position(0, 0);
+
+            final List<Position> actual = po.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(0, 4),
+                    new Position(0, 3),
+                    new Position(0, 2),
+                    new Position(0, 1),
+                    new Position(0, 0)
+            );
+        }
+
     }
 
     @Nested
@@ -120,7 +174,7 @@ class PoTest {
             board.pieceMove(presentPosition, futurePosition);
 
             //then
-            Piece actual = board.getJanggiBoard().get(futurePosition);
+            final Piece actual = board.getJanggiBoard().get(futurePosition);
             assertThat(actual).isEqualTo(new Po(new PieceProfile("포", Nation.HAN),
                     new Position(5, 2)));
         }
