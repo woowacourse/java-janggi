@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -37,6 +38,22 @@ class PositionTest {
         assertThatThrownBy(() -> new Position(x, y))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("보드를 벗어났습니다.");
+    }
+
+    @DisplayName("해당 위치로 이동 가능하다면 true를 반환한다.")
+    @Test
+    void canMoveTest() {
+
+        // given
+        Position position = new Position(0, 0);
+
+        // when
+        boolean result = position.canMove(Direction.RIGHT_UP);
+
+        // then
+        assertThat(result).isTrue();
+
+
     }
 
 }

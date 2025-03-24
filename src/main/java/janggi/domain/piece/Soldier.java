@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 public class Soldier extends Piece {
 
     private static final List<List<Direction>> RED_GUARD_MOVES = List.of(
-            List.of(UP),
+            List.of(DOWN),
             List.of(LEFT),
             List.of(RIGHT)
     );
 
     private static final List<List<Direction>> BLUE_GUARD_MOVES = List.of(
-            List.of(DOWN),
+            List.of(UP),
             List.of(LEFT),
             List.of(RIGHT)
     );
