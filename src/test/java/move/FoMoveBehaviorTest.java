@@ -19,7 +19,7 @@ class FoMoveBehaviorTest {
         List<Position> route = moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE);
         org.assertj.core.api.Assertions.assertThatCode(() -> {
             org.junit.jupiter.api.Assertions.assertAll(
-                    () -> Assertions.assertThat(route.size()).isEqualTo(5),
+                    () -> Assertions.assertThat(route).hasSize(5),
                     () -> Assertions.assertThat(route.getLast()).isEqualTo(endPosition)
             );
         }).doesNotThrowAnyException();

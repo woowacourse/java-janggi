@@ -20,7 +20,7 @@ class JolMoveBehaviorTest {
 
         org.assertj.core.api.Assertions.assertThatCode(() -> {
             org.junit.jupiter.api.Assertions.assertAll(
-                    () -> Assertions.assertThat(route.size()).isEqualTo(1),
+                    () -> Assertions.assertThat(route).hasSize(1),
                     () -> Assertions.assertThat(route.getLast()).isEqualTo(endPosition)
             );
         }).doesNotThrowAnyException();
@@ -36,7 +36,7 @@ class JolMoveBehaviorTest {
 
         org.assertj.core.api.Assertions.assertThatCode(() -> {
             org.junit.jupiter.api.Assertions.assertAll(
-                    () -> Assertions.assertThat(route.size()).isEqualTo(1),
+                    () -> Assertions.assertThat(route).hasSize(1),
                     () -> Assertions.assertThat(route.getLast()).isEqualTo(endPosition)
             );
         }).doesNotThrowAnyException();

@@ -22,7 +22,7 @@ class SangMoveBehaviorTest {
 
         org.assertj.core.api.Assertions.assertThatCode(() -> {
             org.junit.jupiter.api.Assertions.assertAll(
-                    () -> Assertions.assertThat(route.size()).isEqualTo(2),
+                    () -> Assertions.assertThat(route).hasSize(2),
                     () -> Assertions.assertThatIterable(route).containsExactlyElementsOf(expectPositions)
             );
         }).doesNotThrowAnyException();
