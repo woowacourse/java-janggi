@@ -65,4 +65,13 @@ public class OutputView {
 
     }
 
+    public void printResult(Boolean isChoKingDie) {
+        if (isChoKingDie) {
+            System.out.println("한나라 승리!");
+            return;
+        }
+
+        System.out.println("초나라 승리!");
+    }
+
 }
