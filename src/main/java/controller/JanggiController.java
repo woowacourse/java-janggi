@@ -54,6 +54,7 @@ public class JanggiController {
         while (true) {
             try {
                 runnable.run();
+                return;
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e);
             }
