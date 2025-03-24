@@ -8,6 +8,10 @@ public record Position(Row row, Column column) {
         return new Position(row.move(rowMovement), column.move(columnMovement));
     }
 
+    public boolean isOutOfBoards() {
+        return false;
+    }
+
     public int getRow() {
         return row.value();
     }
@@ -26,5 +30,10 @@ public record Position(Row row, Column column) {
     @Override
     public int hashCode() {
         return Objects.hash(row, column);
+    }
+
+    @Override
+    public String toString() {
+        return "[" + row + "," + column + "]";
     }
 }

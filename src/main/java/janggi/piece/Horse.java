@@ -26,4 +26,10 @@ public class Horse implements Piece {
     public int hashCode() {
         return Objects.hash(team, position);
     }
+
+    @Override
+    public String toString() {
+        return "[" + team +
+                ": " + position;
+    }
 }
