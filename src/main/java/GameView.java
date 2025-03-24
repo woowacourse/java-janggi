@@ -14,7 +14,9 @@ public class GameView {
     private static final String BLUE_COLOR_FORMAT = "\u001B[34m%s\u001B[0m";
     private static final String GRID_HELPER = "  영일이삼사오육칠팔\n\n";
     private static final String WINNER_FORMAT = "%s 이 승리하였습니다.";
-    private static final Map<Integer, TableSetting> TABLE_SETTING_MAPPER = Map.of(0,
+    private static final String TABLE_SETTING_FORMATTER = "%s 팀 의 상차림을 선택해주세요 0:마상마상 1:마상상마, 2:상마마상 3:상마상마";
+
+    private final Map<Integer, TableSetting> tableSettingMapper = Map.of(0,
             TableSetting.MA_SANG_MA_SANG,
             1, TableSetting.MA_SANG_SANG_MA, 2, TableSetting.SANG_MA_MA_SANG,
             3, TableSetting.SANG_MA_SANG_MA);
@@ -88,22 +90,22 @@ public class GameView {
         }
     }
 
+    public TableSetting inputTableSetting(Team team) {
+        System.out.printf(TABLE_SETTING_FORMATTER, team.getType());
+        String input = scanner.nextLine();
+        try {
+            int selectTableSetting = Integer.parseInt(input);
+            return tableSettingMapper.get(selectTableSetting);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(NOT_NUMBER);
+        }
+    }
+
     public void printError(String message) {
         System.out.printf("[ERROR] %s\n", message);
     }
 
     public void printWinner(Team winner) {
         System.out.printf(WINNER_FORMAT, winner.getType());
-    }
-
-    public TableSetting inputTableSetting(Team team) {
-        System.out.printf("%s 팀 의 상차림을 선택해주세요 0:마상마상 1:마상상마, 2:상마마상 3:상마상마", team.getType());
-        String input = scanner.nextLine();
-        try {
-            int selectTableSetting = Integer.parseInt(input);
-            return TABLE_SETTING_MAPPER.get(selectTableSetting);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(NOT_NUMBER);
-        }
     }
 }

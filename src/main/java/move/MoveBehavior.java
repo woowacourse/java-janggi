@@ -9,22 +9,15 @@ import piece.Position;
 import piece.Route;
 import piece.Team;
 
-public interface MoveBehavior {
+public abstract class MoveBehavior {
 
-    @FunctionalInterface
-    interface MoveBehaviorThrowingPredicate {
-        boolean test();
-    }
-
-    default void throwInvalidMoveBehaviorByCondition(MoveBehaviorThrowingPredicate throwCondition) {
+    void throwInvalidMoveBehaviorByCondition(MoveBehaviorThrowingPredicate throwCondition) {
         if (throwCondition.test()) {
             throw new InvalidMovePosition();
         }
     }
 
-    Route getLegalRoute(Position startPosition, Position endPosition, Team team);
-
-    default Route getLegalRoute(Position startPosition, Position endPosition, List<Directions> canMoveDirections) {
+    Route getLegalRoute(Position startPosition, Position endPosition, List<Directions> canMoveDirections) {
         for (Directions canMoveDirection : canMoveDirections) {
             Position currentPosition = startPosition;
             List<Position> movePositions = new ArrayList<>();
@@ -37,7 +30,7 @@ public interface MoveBehavior {
     }
 
 
-    default Position move(Position destination, Pieces onRoutePieces, Team moveTeam) {
+    public Position move(Position destination, Pieces onRoutePieces, Team moveTeam) {
         for (Piece piece : onRoutePieces.getPieces()) {
             throwInvalidMoveBehaviorByCondition(() -> !piece.isSamePosition(destination));
             throwInvalidMoveBehaviorByCondition(() -> piece.isSameTeam(moveTeam));
@@ -53,4 +46,6 @@ public interface MoveBehavior {
         }
         return currentPosition;
     }
+
+    abstract public Route getLegalRoute(Position startPosition, Position endPosition, Team team);
 }

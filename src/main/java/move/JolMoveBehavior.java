@@ -6,7 +6,7 @@ import piece.Position;
 import piece.Route;
 import piece.Team;
 
-public class JolMoveBehavior implements MoveBehavior {
+public class JolMoveBehavior extends MoveBehavior {
 
     private static final Map<Team, List<Directions>> teamCanMoveDirection;
 

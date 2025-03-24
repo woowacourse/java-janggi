@@ -10,7 +10,7 @@ import piece.Position;
 import piece.Route;
 import piece.Team;
 
-public class FoMoveBehavior implements MoveBehavior {
+public class FoMoveBehavior extends MoveBehavior {
 
 
     @Override

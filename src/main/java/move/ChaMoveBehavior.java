@@ -7,7 +7,7 @@ import piece.Position;
 import piece.Route;
 import piece.Team;
 
-public class ChaMoveBehavior implements MoveBehavior {
+public class ChaMoveBehavior extends MoveBehavior {
 
     @Override
     public Route getLegalRoute(Position startPosition, Position endPosition, Team team) {

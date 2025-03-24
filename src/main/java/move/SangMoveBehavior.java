@@ -5,7 +5,7 @@ import piece.Position;
 import piece.Route;
 import piece.Team;
 
-public class SangMoveBehavior implements MoveBehavior {
+public class SangMoveBehavior extends MoveBehavior {
 
     private static final List<Directions> canMoveDirections = List.of(
             new Directions(List.of(Direction.UP, Direction.UP_LEFT, Direction.UP_LEFT)),

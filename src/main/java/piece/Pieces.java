@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Pieces {
 
-    private static final String INVALID_PIECE_POSITION = "규칙에 맞지않은 입력입니다";
+    private static final String PIECE_DOESNT_EXIST = "규칙에 맞지않은 입력입니다";
 
     private final List<Piece> pieces;
 
@@ -73,7 +73,7 @@ public class Pieces {
                 return piece;
             }
         }
-        throw new IllegalArgumentException(INVALID_PIECE_POSITION);
+        throw new IllegalArgumentException(PIECE_DOESNT_EXIST);
     }
 
     public int size() {

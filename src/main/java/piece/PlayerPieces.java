@@ -45,9 +45,6 @@ public class PlayerPieces {
 
     private Pieces otherTeamPieces(Team team) {
         Team opposite = team.opposite();
-        if (team == Team.BLUE) {
-            return teamBoard.get(Team.RED);
-        }
-        return teamBoard.get(Team.BLUE);
+        return teamBoard.get(opposite);
     }
 }
