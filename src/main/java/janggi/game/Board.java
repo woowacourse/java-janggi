@@ -27,15 +27,15 @@ public class Board {
 
     public static Board init() {
         List<Movable> pieces = new ArrayList<>();
-
-        pieces.addAll(Gung.values());
-        pieces.addAll(Sa.values());
-        pieces.addAll(Ma.values());
-        pieces.addAll(Sang.values());
-        pieces.addAll(Cha.values());
-        pieces.addAll(Po.values());
-        pieces.addAll(Byeong.values());
-
+        for (Team team : Team.values()) {
+            pieces.addAll(Gung.init(team));
+            pieces.addAll(Sa.init(team));
+            pieces.addAll(Ma.init(team));
+            pieces.addAll(Sang.init(team));
+            pieces.addAll(Cha.init(team));
+            pieces.addAll(Po.init(team));
+            pieces.addAll(Byeong.init(team));
+        }
         return new Board(pieces);
     }
 

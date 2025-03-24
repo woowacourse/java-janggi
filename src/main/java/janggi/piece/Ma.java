@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.movement.direction.Direction;
 import janggi.movement.route.Hurdles;
-import janggi.point.InitialPoint;
 import janggi.point.Point;
 import janggi.game.Team;
 import janggi.movement.distance.PointDistance;
@@ -13,7 +12,6 @@ import java.util.List;
 public class Ma implements Movable {
 
     private static final String NAME = "마";
-    private static final List<Ma> mas;
 
     private final Team team;
     private final Point point;
@@ -23,19 +21,18 @@ public class Ma implements Movable {
         this.point = point;
     }
 
-    static {
-        List<Ma> createdPieces = new ArrayList<>();
-        for (Point point : InitialPoint.MA.getRedPoints()) {
-            createdPieces.add(new Ma(Team.HAN, point));
+    public static List<Ma> init(Team team) {
+        List<Ma> mas = new ArrayList<>();
+        if (team.isCho()) {
+            for (int column = 2; column < 9; column += 4) {
+                mas.add(new Ma(team, new Point(team.calculateRowForwarding(0), column)));
+            }
+            return mas;
         }
-        for (Point point : InitialPoint.MA.getBluePoints()) {
-            createdPieces.add(new Ma(Team.CHO, point));
+        for (int column = 1; column < 9; column += 6) {
+            mas.add(new Ma(team, new Point(team.calculateRowForwarding(0), column)));
         }
-        mas = createdPieces;
-    }
-
-    public static List<Ma> values() {
-        return new ArrayList<>(mas);
+        return mas;
     }
 
     @Override

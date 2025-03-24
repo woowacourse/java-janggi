@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.movement.direction.Direction;
 import janggi.movement.route.Hurdles;
-import janggi.point.InitialPoint;
 import janggi.point.Point;
 import janggi.game.Team;
 import janggi.movement.distance.PointDistance;
@@ -13,29 +12,21 @@ import java.util.List;
 public class Byeong implements Movable {
 
     private static final String NAME = "병";
-    private static final List<Byeong> byeongs;
 
     private final Team team;
     private final Point point;
 
+    public static List<Byeong> init(Team team) {
+        List<Byeong> byeongs = new ArrayList<>();
+        for (int column = 0; column < 9; column += 2) {
+            byeongs.add(new Byeong(team, new Point(team.calculateRowForwarding(3), column)));
+        }
+        return byeongs;
+    }
+
     public Byeong(Team team, Point point) {
         this.team = team;
         this.point = point;
-    }
-
-    static {
-        List<Byeong> createdPieces = new ArrayList<>();
-        for (Point point : InitialPoint.BYEONG.getRedPoints()) {
-            createdPieces.add(new Byeong(Team.HAN, point));
-        }
-        for (Point point : InitialPoint.BYEONG.getBluePoints()) {
-            createdPieces.add(new Byeong(Team.CHO, point));
-        }
-        byeongs = createdPieces;
-    }
-
-    public static List<Byeong> values() {
-        return new ArrayList<>(byeongs);
     }
 
     @Override

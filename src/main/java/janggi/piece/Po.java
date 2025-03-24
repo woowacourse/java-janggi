@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.movement.direction.Direction;
 import janggi.movement.route.Hurdles;
-import janggi.point.InitialPoint;
 import janggi.point.Point;
 import janggi.game.Team;
 import janggi.movement.route.Route;
@@ -12,7 +11,6 @@ import java.util.List;
 public class Po implements Movable {
 
     private static final String NAME = "포";
-    private static final List<Po> pos;
 
     private final Team team;
     private final Point point;
@@ -22,21 +20,13 @@ public class Po implements Movable {
         this.point = point;
     }
 
-    static {
-        List<Po> createdPieces = new ArrayList<>();
-        for (Point point : InitialPoint.PO.getRedPoints()) {
-            createdPieces.add(new Po(Team.HAN, point));
+    public static List<Po> init(Team team) {
+        List<Po> pos = new ArrayList<>();
+        for (int column = 1; column < 9; column += 6) {
+            pos.add(new Po(team, new Point(team.calculateRowForwarding(2), column)));
         }
-        for (Point point : InitialPoint.PO.getBluePoints()) {
-            createdPieces.add(new Po(Team.CHO, point));
-        }
-        pos = createdPieces;
+        return pos;
     }
-
-    public static List<Po> values() {
-        return new ArrayList<>(pos);
-    }
-
 
     @Override
     public boolean canMove(Point targetPoint, Hurdles hurdles) {

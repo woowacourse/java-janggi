@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.movement.direction.Direction;
 import janggi.movement.route.Hurdles;
-import janggi.point.InitialPoint;
 import janggi.point.Point;
 import janggi.game.Team;
 import janggi.movement.distance.PointDistance;
@@ -13,7 +12,6 @@ import java.util.List;
 public class Sang implements Movable {
 
     private static final String NAME = "상";
-    private static final List<Sang> sangs;
 
     private final Team team;
     private final Point point;
@@ -23,19 +21,18 @@ public class Sang implements Movable {
         this.point = point;
     }
 
-    static {
-        List<Sang> createdPieces = new ArrayList<>();
-        for (Point point : InitialPoint.SANG.getRedPoints()) {
-            createdPieces.add(new Sang(Team.HAN, point));
+    public static List<Sang> init(Team team) {
+        List<Sang> sangs = new ArrayList<>();
+        if (team.isCho()) {
+            for (int column = 1; column < 9; column += 6) {
+                sangs.add(new Sang(team, new Point(team.calculateRowForwarding(0), column)));
+            }
+            return sangs;
         }
-        for (Point point : InitialPoint.SANG.getBluePoints()) {
-            createdPieces.add(new Sang(Team.CHO, point));
+        for (int column = 2; column < 9; column += 4) {
+            sangs.add(new Sang(team, new Point(team.calculateRowForwarding(0), column)));
         }
-        sangs = createdPieces;
-    }
-
-    public static List<Sang> values() {
-        return new ArrayList<>(sangs);
+        return sangs;
     }
 
     @Override
