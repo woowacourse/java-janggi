@@ -2,10 +2,10 @@ package janggi;
 
 import janggi.coordinate.Position;
 import janggi.piece.Piece;
+import janggi.piece.Pieces;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -16,10 +16,11 @@ public class Board {
         this.positionToPiece = positionToPiece;
     }
 
-    public static Board from(final List<Piece> pieces) {
+    public static Board from(final Pieces pieces) {
         HashMap<Position, Piece> positionToPiece = new HashMap<>();
 
-        pieces.forEach(piece -> positionToPiece.put(piece.getPosition(), piece));
+        pieces.getPieces().forEach(piece ->
+                positionToPiece.put(piece.getPosition(), piece));
 
         return new Board(positionToPiece);
     }
@@ -32,19 +33,26 @@ public class Board {
         return isExists(position) && getPiece(position).isAlly(team);
     }
 
-    public Piece getPiece(final Position departure) {
-        if (isExists(departure)) {
-            return positionToPiece.get(departure);
+    public Piece getPiece(final Position position) {
+        if (isExists(position)) {
+            return positionToPiece.get(position);
         }
         throw new IllegalArgumentException("장기말이 존재하지 않는 지점입니다.");
     }
 
-    public void movePiece(final Position departure, final Position destination) {
+    public void movePiece(final Player player, final Position departure, final Position destination) {
         Piece allyPiece = getPiece(departure);
         Piece movedPiece = allyPiece.move(this, destination);
 
-        Score score = positionToPiece.remove(destination).die();
+        updateScore(player, destination);
         updateBoard(departure, destination, movedPiece);
+    }
+
+    private void updateScore(final Player player, final Position destination) {
+        if (isExists(destination)) {
+            Score score = positionToPiece.remove(destination).die();
+            player.addScore(score);
+        }
     }
 
     private void updateBoard(final Position departure, final Position destination, final Piece movedPiece) {
