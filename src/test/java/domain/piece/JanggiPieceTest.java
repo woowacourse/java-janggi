@@ -93,18 +93,24 @@ public class JanggiPieceTest {
                     Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.MOVE_UP)),
                     Arguments.of(new JanggiPosition(9, 4), List.of(MovingPattern.MOVE_LEFT)),
                     Arguments.of(new JanggiPosition(9, 6), List.of(MovingPattern.MOVE_RIGHT)),
-                    Arguments.of(new JanggiPosition(0, 5), List.of(MovingPattern.MOVE_DOWN)));
+                    Arguments.of(new JanggiPosition(0, 5), List.of(MovingPattern.MOVE_DOWN)),
+                    Arguments.of(new JanggiPosition(8, 4), List.of(MovingPattern.MOVE_DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(8, 6), List.of(MovingPattern.MOVE_DIAGONAL_UP_RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 6), List.of(MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 4), List.of(MovingPattern.MOVE_DIAGONAL_DOWN_LEFT))
+
+            );
         }
 
         @Test
         void 궁이_이동할_수_없는_경로면_예외를_발생시킨다() {
             // given
-            int beforeRow = 9;
-            int beforeColumn = 5;
+            int beforeRow = 0;
+            int beforeColumn = 4;
             JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
 
             int afterRow = 8;
-            int afterColumn = 4;
+            int afterColumn = 6;
             JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
 
             // when & then
@@ -136,6 +142,23 @@ public class JanggiPieceTest {
 
             // when & then
             assertDoesNotThrow(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece));
+        }
+
+        @Test
+        void 궁성_밖을_벗어날_수_없다() {
+            // given
+            int beforeRow = 9;
+            int beforeColumn = 4;
+            JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
+
+            int afterRow = 9;
+            int afterColumn = 3;
+            JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
+
+            // when & then
+            assertThatThrownBy(
+                    () -> CHO_궁.getRoute(beforePosition, afterPosition))
+                    .isInstanceOf(IllegalStateException.class);
         }
     }
 
@@ -305,18 +328,23 @@ public class JanggiPieceTest {
                     Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.MOVE_UP)),
                     Arguments.of(new JanggiPosition(9, 4), List.of(MovingPattern.MOVE_LEFT)),
                     Arguments.of(new JanggiPosition(9, 6), List.of(MovingPattern.MOVE_RIGHT)),
-                    Arguments.of(new JanggiPosition(0, 5), List.of(MovingPattern.MOVE_DOWN)));
+                    Arguments.of(new JanggiPosition(0, 5), List.of(MovingPattern.MOVE_DOWN)),
+                    Arguments.of(new JanggiPosition(8, 4), List.of(MovingPattern.MOVE_DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(8, 6), List.of(MovingPattern.MOVE_DIAGONAL_UP_RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 6), List.of(MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 4), List.of(MovingPattern.MOVE_DIAGONAL_DOWN_LEFT))
+            );
         }
 
         @Test
         void 사가_이동할_수_없는_경로면_예외를_발생시킨다() {
             // given
-            int beforeRow = 9;
-            int beforeColumn = 5;
+            int beforeRow = 0;
+            int beforeColumn = 4;
             JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
 
             int afterRow = 8;
-            int afterColumn = 4;
+            int afterColumn = 6;
             JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
 
             // when & then
@@ -347,6 +375,22 @@ public class JanggiPieceTest {
 
             // when & then
             assertDoesNotThrow(() -> piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece));
+        }
+
+        @Test
+        void 궁성_밖을_벗어날_수_없다() {
+            // given
+            int beforeRow = 8;
+            int beforeColumn = 6;
+            JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
+
+            int afterRow = 7;
+            int afterColumn = 7;
+            JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
+
+            // when & then
+            Assertions.assertThatThrownBy(() -> CHO_사.getRoute(beforePosition, afterPosition))
+                    .isInstanceOf(IllegalStateException.class);
         }
     }
 
