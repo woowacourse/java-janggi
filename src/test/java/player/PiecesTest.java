@@ -128,7 +128,22 @@ class PiecesTest {
 
         //then
         assertThat(actual).isEqualTo(3);
+    }
 
+    @Test
+    @DisplayName("기물 이동 테스트")
+    void movePieceTest() {
+        //given
+        Jol jol = new Jol(new Position(5, 5));
+        Janggun janggun = new Janggun(new Position(6, 5));
+        Po po = new Po(new Position(4, 3));
+        Pieces pieces = new Pieces(List.of(jol, janggun, po));
+
+        //when
+        pieces.movePiece(new Position(6, 5), new Position(6, 6));
+
+        //then
+        assertThat(janggun.isSamePosition(new Position(6, 6))).isTrue();
     }
 
 }
