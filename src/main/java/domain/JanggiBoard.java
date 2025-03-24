@@ -53,7 +53,6 @@ public class JanggiBoard {
     }
 
     public Piece getPieceFrom(JanggiPosition beforePosition) {
-        beforePosition.validateBound();
         return janggiBoard.get(beforePosition);
     }
 
@@ -67,6 +66,7 @@ public class JanggiBoard {
 
     private void changePosition(JanggiPosition beforePosition, JanggiPosition afterPosition) {
         Piece piece = getPieceFrom(beforePosition);
+        afterPosition.validateBound();
 
         janggiBoard.put(beforePosition, new Empty());
         janggiBoard.put(afterPosition, piece);
