@@ -41,6 +41,7 @@ public class Janggi {
         }
         units.remove(pick);
         units.put(destination, pickedUnit);
+        switchTurn();
     }
 
     private boolean canMove(Position pick, Position destination) {
@@ -48,6 +49,10 @@ public class Janggi {
         return movableRoutes.stream()
                 .map(route -> route.searchDestination(pick))
                 .anyMatch(position -> position.equals(destination));
+    }
+
+    private void switchTurn() {
+        turn = turn.getOpposite();
     }
 
     public List<Route> findMovableRoutesFrom(Position pick) {
@@ -139,8 +144,14 @@ public class Janggi {
         return !units.containsKey(position);
     }
 
-    public void switchTurn() {
-        turn = turn.getOpposite();
+    public boolean isOneOfTeamNonExist() {
+        long hanUnitCount = units.values().stream().
+                filter(unit -> unit.getTeam() == Team.HAN)
+                .count();
+        long choUnitCount = units.values().stream().
+                filter(unit -> unit.getTeam() == Team.CHO)
+                .count();
+        return (hanUnitCount == 0 || choUnitCount == 0);
     }
 
     public Team getTurn() {

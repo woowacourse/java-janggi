@@ -7,8 +7,13 @@ public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public String readPosition(Team team) {
-        System.out.println(teamToName(team) + " 이동할 장기의 위치를 선택해 주세요.");
+    public String readUnitPosition(Team team) {
+        System.out.println(teamToName(team) + ":: 이동할 장기의 위치를 선택해 주세요.");
+        return scanner.nextLine();
+    }
+
+    public String readDestinationPosition(Team team) {
+        System.out.println("도착할 위치를 선택해 주세요.");
         return scanner.nextLine();
     }
 

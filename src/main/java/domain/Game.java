@@ -38,20 +38,32 @@ public class Game {
         return units;
     }
 
-    public void helloWorld() {
-        // TODO: 장기말 출력
-        String rawPosition = inputView.readPosition(janggi.getTurn());
-        List<Integer> positionValue = Arrays.stream(rawPosition.split(","))
+    public void doTurn() {
+        outputView.printJanggiUnits(janggi.getUnits());
+        Position pick = parsePosition(inputView.readUnitPosition(janggi.getTurn()));
+
+        List<Route> routes = janggi.findMovableRoutesFrom(pick);
+        outputView.printAvailableRoute(pick, routes);
+
+        Position destination = parsePosition(inputView.readDestinationPosition(janggi.getTurn()));
+
+        janggi.doTurn(pick, destination);
+        outputView.printJanggiUnits(janggi.getUnits());
+    }
+
+    public boolean isEnd() {
+        return janggi.isOneOfTeamNonExist();
+    }
+
+    private List<Integer> parseInteger(String rawPosition) {
+        return Arrays.stream(rawPosition.split(","))
                 .map(String::trim)
                 .map(Integer::parseInt)
                 .toList();
-        Position position = Position.of(positionValue.get(0), positionValue.get(1));
+    }
 
-        List<Route> routes = janggi.findMovableRoutesFrom(position);
-        outputView.printAvailableRoute(position, routes);
-
-        // TODO: 장기 움직임 호출
-
-        janggi.switchTurn();
+    private Position parsePosition(String rawPosition) {
+        List<Integer> positionValue = parseInteger(rawPosition);
+        return Position.of(positionValue.get(0), positionValue.get(1));
     }
 }
