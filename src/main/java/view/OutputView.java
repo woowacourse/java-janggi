@@ -13,7 +13,16 @@ public class OutputView {
         StringBuilder builder = new StringBuilder();
 
         for (int row = 1; row <= MAX_ROW; row++) {
+            if (row == 1) {
+                for (int col = 1; col <= MAX_COL; col++) {
+                    builder.append(" ").append(col);
+                }
+                builder.append('\n');
+            }
             for (int col = 1; col <= MAX_COL; col++) {
+                if (col == 1) {
+                    builder.append(row);
+                }
                 Coordinate coordinate = new Coordinate(row, col);
                 if (board.isBlankCoordinate(coordinate)) {
                     builder.append("＿");
