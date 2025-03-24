@@ -14,16 +14,11 @@ public class Horse extends Piece {
 
     @Override
     public boolean isValidDestination(Position source, Position destination) {
-        int rowDifference = source.rowDifference(destination);
-        int columnDifference = source.columnDifference(destination);
+        int rowAbsDifference = Math.abs(source.rowDifference(destination));
+        int columnAbsDifference = Math.abs(source.columnDifference(destination));
 
-        if (Math.abs(rowDifference) == HORSE_STRAIGHT_MOVE && Math.abs(columnDifference) == HORSE_SIDE_MOVE) {
-            return true;
-        }
-        if (Math.abs(rowDifference) == HORSE_SIDE_MOVE && Math.abs(columnDifference) == HORSE_STRAIGHT_MOVE) {
-            return true;
-        }
-        return false;
+        return (rowAbsDifference == HORSE_STRAIGHT_MOVE && columnAbsDifference == HORSE_SIDE_MOVE)
+                || (rowAbsDifference == HORSE_SIDE_MOVE && columnAbsDifference == HORSE_STRAIGHT_MOVE);
     }
 
     @Override

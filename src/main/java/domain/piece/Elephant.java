@@ -15,16 +15,11 @@ public class Elephant extends Piece {
 
     @Override
     public boolean isValidDestination(Position source, Position destination) {
-        int rowDifference = source.rowDifference(destination);
-        int columnDifference = source.columnDifference(destination);
+        int rowAbsDifference = Math.abs(source.rowDifference(destination));
+        int columnAbsDifference = Math.abs(source.columnDifference(destination));
 
-        if (Math.abs(rowDifference) == ELEPHANT_STRAIGHT_MOVE && Math.abs(columnDifference) == ELEPHANT_SIDE_MOVE) {
-            return true;
-        }
-        if (Math.abs(rowDifference) == ELEPHANT_SIDE_MOVE && Math.abs(columnDifference) == ELEPHANT_STRAIGHT_MOVE) {
-            return true;
-        }
-        return false;
+        return (rowAbsDifference == ELEPHANT_STRAIGHT_MOVE && columnAbsDifference == ELEPHANT_SIDE_MOVE)
+                || (rowAbsDifference == ELEPHANT_SIDE_MOVE && columnAbsDifference == ELEPHANT_STRAIGHT_MOVE);
     }
 
     @Override
