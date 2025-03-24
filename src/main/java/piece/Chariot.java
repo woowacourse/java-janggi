@@ -11,11 +11,18 @@ public class Chariot extends Piece{
     }
 
     @Override
-    public boolean canMove(final Position now, final Position destination, final Board board) {
-        if (!now.isSameLine(destination)) {
-            return false;
-        }
-        final List<Position> positions = now.calculateBetweenPositions(destination);
+    protected boolean withInDirection(Position src, Position destination) {
+        return src.isSameLine(destination);
+    }
+
+    @Override
+    protected boolean withInRangeByMovement(double distanceByPositions) {
+        return true;
+    }
+
+    @Override
+    protected boolean passFilter(Position src, Position destination, Board board) {
+        final List<Position> positions = src.calculateBetweenPositions(destination);
         for (final Position position : positions) {
             if (board.existPieceByPosition(position)) {
                 return false;

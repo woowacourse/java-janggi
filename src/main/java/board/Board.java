@@ -63,4 +63,8 @@ public class Board {
     public Map<Position, Piece> getPositionDatas() {
         return new HashMap<>(positionDatas);
     }
+
+    public Piece getPieceByPosition(Position position) {
+        return positionDatas.get(position);
+    }
 }

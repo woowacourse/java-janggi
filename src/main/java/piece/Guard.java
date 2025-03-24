@@ -3,15 +3,25 @@ package piece;
 import board.Board;
 import board.Position;
 
-public class Guard extends Piece{
+public class Guard extends Piece {
 
     public Guard(final TeamType teamType) {
         super(teamType);
     }
 
     @Override
-    public boolean canMove(final Position now, final Position destination, final Board board) {
-        return now.calculateDistance(destination) == 1;
+    protected boolean withInDirection(Position src, Position destination) {
+        return true;
+    }
+
+    @Override
+    protected boolean withInRangeByMovement(double distanceByPositions) {
+        return distanceByPositions == 1;
+    }
+
+    @Override
+    protected boolean passFilter(Position src, Position destination, Board board) {
+        return true;
     }
 
     @Override

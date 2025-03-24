@@ -18,7 +18,26 @@ public abstract class Piece {
         return canMove(now, destination, board);
     };
 
-    public abstract boolean canMove(final Position now, final Position destination, final Board board);
+    public boolean canMove(Position src, Position dest, Board board) {
+        double distanceByPositions = src.calculateDistance(dest);
+
+        if (!withInDirection(src, dest)) {
+            return false;
+        }
+        if (!withInRangeByMovement(distanceByPositions)) {
+            return false;
+        }
+        if (!passFilter(src, dest, board)) {
+            return false;
+        }
+        return true;
+    }
+
+    protected abstract boolean withInDirection(Position src, Position destination);
+
+    protected abstract boolean withInRangeByMovement(double distanceByPositions);
+
+    protected abstract boolean passFilter(Position src, Position destination, Board board);
 
     public abstract boolean equalsType(final Piece piece);
 

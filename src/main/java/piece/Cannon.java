@@ -2,6 +2,7 @@ package piece;
 
 import board.Board;
 import board.Position;
+
 import java.util.List;
 
 public class Cannon extends Piece {
@@ -11,27 +12,36 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public boolean canMove(final Position now, final Position destination, final Board board) {
-        if (!now.isSameLine(destination) || board.equalsTypeByPositionAndPiece(destination, this)) {
-            return false;
-        }
+    protected boolean withInDirection(Position src, Position destination) {
+        return src.isSameLine(destination);
+    }
 
+    @Override
+    protected boolean withInRangeByMovement(double distanceByPositions) {
+        return true;
+    }
+
+    @Override
+    protected boolean passFilter(Position src, Position destination, Board board) {
         int count = 0;
-        final List<Position> positions = now.calculateBetweenPositions(destination);
+        final List<Position> positions = src.calculateBetweenPositions(destination);
         for (final Position position : positions) {
             if (board.existPieceByPosition(position)) {
                 count++;
-
-                if (board.equalsTypeByPositionAndPiece(position, this)) {
-                    return false;
-                }
+            }
+            if (isSamePieceType(board, position)) {
+                return false;
             }
         }
+        return count == 1;
+    }
 
-        if (count != 1) {
-            return false;
+    private boolean isSamePieceType(Board board, Position position) {
+        Piece piece = board.getPieceByPosition(position);
+        if (equalsType(piece)) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override

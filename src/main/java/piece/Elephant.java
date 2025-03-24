@@ -11,12 +11,18 @@ public class Elephant extends Piece{
     }
 
     @Override
-    public boolean canMove(final Position now, final Position destination, final Board board) {
-        if (now.calculateDistance(destination) != Math.sqrt(13)) {
-            return false;
-        }
+    protected boolean withInDirection(Position src, Position destination) {
+        return true;
+    }
 
-        final List<Position> positions = now.calculateElephantMiddlePositions(destination);
+    @Override
+    protected boolean withInRangeByMovement(double distanceByPositions) {
+        return distanceByPositions == Math.sqrt(13);
+    }
+
+    @Override
+    protected boolean passFilter(Position src, Position destination, Board board) {
+        final List<Position> positions = src.calculateElephantMiddlePositions(destination);
         for (final Position position : positions) {
             if (board.existPieceByPosition(position)) {
                 return false;

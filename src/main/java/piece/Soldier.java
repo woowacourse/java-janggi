@@ -10,11 +10,21 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public boolean canMove(final Position now, final Position destination, final Board board) {
+    protected boolean withInDirection(Position src, Position destination) {
         if (teamType == TeamType.RED) {
-            return now.calculateDistance(destination) == 1 && now.isXLessThan(destination);
+            return src.isXLessThan(destination);
         }
-        return now.calculateDistance(destination) == 1 && now.isXGreaterThan(destination);
+        return src.isXGreaterThan(destination);
+    }
+
+    @Override
+    protected boolean withInRangeByMovement(double distanceByPositions) {
+        return distanceByPositions == 1;
+    }
+
+    @Override
+    protected boolean passFilter(Position src, Position destination, Board board) {
+        return true;
     }
 
     @Override

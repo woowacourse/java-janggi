@@ -10,8 +10,23 @@ public class General extends Piece{
     }
 
     @Override
-    public boolean canMove(final Position now, final Position destination, final Board board) {
-        return now.calculateDistance(destination) == 1;
+    public boolean canMove(final Position src, final Position destination, final Board board) {
+        return src.calculateDistance(destination) == 1;
+    }
+
+    @Override
+    protected boolean withInDirection(Position src, Position destination) {
+        return true;
+    }
+
+    @Override
+    protected boolean withInRangeByMovement(double distanceByPositions) {
+        return distanceByPositions == 1;
+    }
+
+    @Override
+    protected boolean passFilter(Position src, Position destination, Board board) {
+        return true;
     }
 
     @Override

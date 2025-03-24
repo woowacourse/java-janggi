@@ -10,11 +10,18 @@ public class Horse extends Piece {
     }
 
     @Override
-    public boolean canMove(final Position now, final Position destination, final Board board) {
-        if (now.calculateDistance(destination) != Math.sqrt(5)) {
-            return false;
-        }
-        final Position position = now.calculateHorseMiddlePosition(destination);
+    protected boolean withInDirection(Position src, Position destination) {
+        return true;
+    }
+
+    @Override
+    protected boolean withInRangeByMovement(double distanceByPositions) {
+        return distanceByPositions == Math.sqrt(5);
+    }
+
+    @Override
+    protected boolean passFilter(Position src, Position destination, Board board) {
+        final Position position = src.calculateHorseMiddlePosition(destination);
         if (board.existPieceByPosition(position)) {
             return false;
         }
