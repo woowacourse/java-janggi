@@ -26,45 +26,45 @@ public class Sang extends Piece {
     public Positions makeRoute(final Position destination) {
         Positions route = new Positions(List.of());
 
-        int dx = getBoardPosition().getRow() - destination.getRow();
-        int dy = getBoardPosition().getCol() - destination.getCol();
+        int dRow = position.calculateDRow(destination);
+        int dCol = position.calculateDCol(destination);
 
-        if (dx == 3 && dy == 2) {
+        if (dRow == 3 && dCol == 2) {
             route.addPosition(Movement.calculateUpMovement(position));
             route.addPosition(Movement.calculateUpLeftUpMovement(position));
         }
 
-        if (dx == 3 && dy == -2) {
+        if (dRow == 3 && dCol == -2) {
             route.addPosition(Movement.calculateUpMovement(position));
             route.addPosition(Movement.calculateUpRightUPMovement(position));
         }
 
-        if (dx == 2 && dy == -3) {
+        if (dRow == 2 && dCol == -3) {
             route.addPosition(Movement.calculateRightMovement(position));
             route.addPosition(Movement.calculateRightRightUpMovement(position));
         }
 
-        if (dx == -2 && dy == -3) {
+        if (dRow == -2 && dCol == -3) {
             route.addPosition(Movement.calculateRightMovement(position));
             route.addPosition(Movement.calculateRightRightDownMovement(position));
         }
 
-        if (dx == -3 && dy == 2) {
+        if (dRow == -3 && dCol == 2) {
             route.addPosition(Movement.calculateDownMovement(position));
             route.addPosition(Movement.calculateDownLeftDownMovement(position));
         }
 
-        if (dx == -3 && dy == -2) {
+        if (dRow == -3 && dCol == -2) {
             route.addPosition(Movement.calculateDownMovement(position));
             route.addPosition(Movement.calculateDownRightDownMovement(position));
         }
 
-        if (dx == 2 && dy == 3) {
+        if (dRow == 2 && dCol == 3) {
             route.addPosition(Movement.calculateLeftMovement(position));
             route.addPosition(Movement.calculateLeftLeftUpMovement(position));
         }
 
-        if (dx == -2 && dy == 3) {
+        if (dRow == -2 && dCol == 3) {
             route.addPosition(Movement.calculateLeftMovement(position));
             route.addPosition(Movement.calculateLeftLeftDownMovement(position));
         }

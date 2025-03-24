@@ -23,33 +23,33 @@ public class Cha extends Piece {
     }
 
     @Override
-    public Positions makeRoute(final Position position) {
+    public Positions makeRoute(final Position destination) {
         Positions route = new Positions(List.of());
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
+        int dRow = position.calculateDRow(destination);
+        int dCol = position.calculateDCol(destination);
         int presentCol = getBoardPosition().getCol();
         int presentRow = getBoardPosition().getRow();
 
-        if (dx == 0 && dy > 0) {
-            for (int i = 1; i < dy; i++) {
+        if (dRow == 0 && dCol > 0) {
+            for (int i = 1; i < dCol; i++) {
                 route.addPosition(new Position(presentRow, presentCol - i));
             }
         }
 
-        if (dx == 0 && dy < 0) {
-            for (int i = 1; i < Math.abs(dy); i++) {
+        if (dRow == 0 && dCol < 0) {
+            for (int i = 1; i < Math.abs(dCol); i++) {
                 route.addPosition(new Position(presentRow, presentCol + i));
             }
         }
 
-        if (dx > 0 && dy == 0) {
-            for (int i = 1; i < dx; i++) {
+        if (dRow > 0 && dCol == 0) {
+            for (int i = 1; i < dRow; i++) {
                 route.addPosition(new Position(presentRow - i, presentCol));
             }
         }
 
-        if (dx < 0 && dy == 0) {
-            for (int i = 1; i < Math.abs(dx); i++) {
+        if (dRow < 0 && dCol == 0) {
+            for (int i = 1; i < Math.abs(dRow); i++) {
                 route.addPosition(new Position(presentRow + i, presentCol));
             }
         }

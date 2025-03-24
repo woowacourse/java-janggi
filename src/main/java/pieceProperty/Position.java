@@ -23,7 +23,15 @@ public class Position {
     }
 
     public Boolean isSameCol(Position destination) {
-        return col == destination.getCol();
+        return col == destination.col;
+    }
+
+    public int calculateDRow(Position destination) {
+        return row - destination.row;
+    }
+
+    public int calculateDCol(Position destination) {
+        return col - destination.col;
     }
 
     public int getRow() {

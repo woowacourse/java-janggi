@@ -26,38 +26,38 @@ public class Ma extends Piece {
     public Positions makeRoute(final Position destination) {
         Positions route = new Positions(List.of());
 
-        int dx = getBoardPosition().getRow() - destination.getRow();
-        int dy = getBoardPosition().getCol() - destination.getCol();
+        int dRow = position.calculateDRow(destination);
+        int dCol = position.calculateDCol(destination);
 
-        if (dx == 2 && dy == 1) {
+        if (dRow == 2 && dCol == 1) {
             route.addPosition(Movement.calculateUpMovement(position));
         }
 
-        if (dx == 2 && dy == -1) {
+        if (dRow == 2 && dCol == -1) {
             route.addPosition(Movement.calculateUpMovement(position));
         }
 
-        if (dx == 1 && dy == -2) {
+        if (dRow == 1 && dCol == -2) {
             route.addPosition(Movement.calculateRightMovement(position));
         }
 
-        if (dx == -1 && dy == -2) {
+        if (dRow == -1 && dCol == -2) {
             route.addPosition(Movement.calculateRightMovement(position));
         }
 
-        if (dx == -2 && dy == -1) {
+        if (dRow == -2 && dCol == -1) {
             route.addPosition(Movement.calculateDownMovement(position));
         }
 
-        if (dx == -2 && dy == 1) {
+        if (dRow == -2 && dCol == 1) {
             route.addPosition(Movement.calculateDownMovement(position));
         }
 
-        if (dx == 1 && dy == 2) {
+        if (dRow == 1 && dCol == 2) {
             route.addPosition(Movement.calculateLeftMovement(position));
         }
 
-        if (dx == -1 && dy == 2) {
+        if (dRow == -1 && dCol == 2) {
             route.addPosition(Movement.calculateLeftMovement(position));
         }
 
