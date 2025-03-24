@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static piece.Team.CHO;
 import static piece.Team.HAN;
 import static position.PositionFixtures.B2;
-import static position.PositionFixtures.B9;
 import static position.PositionFixtures.D3;
 import static position.PositionFixtures.E5;
 
@@ -16,11 +15,6 @@ import position.Board;
 import route.Routes;
 
 public class ElephantTest {
-    @Test
-    @DisplayName("장기 말의 종류에는 상이 있다.")
-    void createHorseTest() {
-        Piece elephant = new Elephant(HAN, B9);
-    }
 
     /*
     0 ＿ * ＿ ＿ ＿ * ＿

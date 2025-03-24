@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static piece.Team.CHO;
 import static piece.Team.HAN;
 import static position.PositionFixtures.B5;
-import static position.PositionFixtures.E1;
 import static position.PositionFixtures.E5;
 import static position.PositionFixtures.E7;
 import static position.PositionFixtures.I9;
@@ -19,11 +18,6 @@ import position.Board;
 import route.Routes;
 
 public class ChariotTest {
-    @Test
-    @DisplayName("장기 말의 종류에는 차이 있다.")
-    void createPalaceTest() {
-        Piece chariot = new Chariot(HAN, E1);
-    }
 
     /*
     0  ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿ *

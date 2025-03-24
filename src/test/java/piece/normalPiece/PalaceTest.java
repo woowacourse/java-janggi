@@ -17,12 +17,6 @@ import route.Routes;
 
 public class PalaceTest {
 
-    @Test
-    @DisplayName("장기 말의 종류에는 궁이 있다.")
-    void createPalaceTest() {
-        Piece palace = new Palace(HAN, E1);
-    }
-
     /*
     0 ＿ * ＿
     1 * 궁 *

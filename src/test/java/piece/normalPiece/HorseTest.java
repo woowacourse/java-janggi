@@ -5,7 +5,6 @@ import static piece.Team.CHO;
 import static piece.Team.HAN;
 import static position.PositionFixtures.B0;
 import static position.PositionFixtures.B2;
-import static position.PositionFixtures.B9;
 import static position.PositionFixtures.C2;
 
 import java.util.Set;
@@ -16,11 +15,6 @@ import position.Board;
 import route.Routes;
 
 public class HorseTest {
-    @Test
-    @DisplayName("장기 말의 종류에는 마가 있다.")
-    void createHorseTest() {
-        Piece horse = new Horse(HAN, B9);
-    }
 
     /*
     0 ＿ * ＿ * ＿

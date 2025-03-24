@@ -5,7 +5,6 @@ import static piece.Team.CHO;
 import static piece.Team.HAN;
 import static position.PositionFixtures.D1;
 import static position.PositionFixtures.E1;
-import static position.PositionFixtures.E6;
 import static position.PositionFixtures.F1;
 
 import java.util.Set;
@@ -16,14 +15,9 @@ import position.Board;
 import route.Routes;
 
 public class HanPawnTest {
-    @Test
-    @DisplayName("장기 말의 종류에는 병이 있다.")
-    void createPalaceTest() {
-        Piece pawn = new HanPawn(E6);
-    }
 
     /*
-    0 ＿ * ＿
+    7 ＿ * ＿
     1 * 병 *
     2 ＿ ＿ ＿
     3 d e f

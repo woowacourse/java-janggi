@@ -5,7 +5,6 @@ import static piece.Team.CHO;
 import static piece.Team.HAN;
 import static position.PositionFixtures.D1;
 import static position.PositionFixtures.E1;
-import static position.PositionFixtures.E6;
 import static position.PositionFixtures.F1;
 
 import java.util.Set;
@@ -16,11 +15,6 @@ import position.Board;
 import route.Routes;
 
 public class ChoPawnTest {
-    @Test
-    @DisplayName("장기 말의 종류에는 병이 있다.")
-    void createPalaceTest() {
-        Piece pawn = new ChoPawn(E6);
-    }
 
     /*
     0 ＿ ＿ ＿

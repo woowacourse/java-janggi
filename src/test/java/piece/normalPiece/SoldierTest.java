@@ -2,7 +2,6 @@ package piece.normalPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static piece.Team.HAN;
-import static position.PositionFixtures.D0;
 import static position.PositionFixtures.D1;
 import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
@@ -17,11 +16,6 @@ import position.Board;
 import route.Routes;
 
 public class SoldierTest {
-    @Test
-    @DisplayName("장기 말의 종류에는 사가 있다.")
-    void createPalaceTest() {
-        Piece soldier = new Soldier(HAN, D0);
-    }
 
     /*
     0 ＿ * ＿
