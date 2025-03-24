@@ -29,42 +29,42 @@ public class Sang extends Piece {
         int dRow = position.calculateDRow(destination);
         int dCol = position.calculateDCol(destination);
 
-        if (dRow == 3 && dCol == 2) {
+        if (Movement.isUpLeftUpLeftUp(dRow, dCol)) {
             route.addPosition(Movement.calculateUpMovement(position));
             route.addPosition(Movement.calculateUpLeftUpMovement(position));
         }
 
-        if (dRow == 3 && dCol == -2) {
+        if (Movement.isUpRightUpRightUp(dRow, dCol)) {
             route.addPosition(Movement.calculateUpMovement(position));
             route.addPosition(Movement.calculateUpRightUPMovement(position));
         }
 
-        if (dRow == 2 && dCol == -3) {
+        if (Movement.isRightUpRightUpRight(dRow, dCol)) {
             route.addPosition(Movement.calculateRightMovement(position));
             route.addPosition(Movement.calculateRightRightUpMovement(position));
         }
 
-        if (dRow == -2 && dCol == -3) {
+        if (Movement.isRightRightDownRightDown(dRow, dCol)) {
             route.addPosition(Movement.calculateRightMovement(position));
             route.addPosition(Movement.calculateRightRightDownMovement(position));
         }
 
-        if (dRow == -3 && dCol == 2) {
+        if (Movement.isDownLeftDownLeftDown(dRow, dCol)) {
             route.addPosition(Movement.calculateDownMovement(position));
             route.addPosition(Movement.calculateDownLeftDownMovement(position));
         }
 
-        if (dRow == -3 && dCol == -2) {
+        if (Movement.isDownRightDownRightDown(dRow, dCol)) {
             route.addPosition(Movement.calculateDownMovement(position));
             route.addPosition(Movement.calculateDownRightDownMovement(position));
         }
 
-        if (dRow == 2 && dCol == 3) {
+        if (Movement.isLeftLeftUpLeftUp(dRow, dCol)) {
             route.addPosition(Movement.calculateLeftMovement(position));
             route.addPosition(Movement.calculateLeftLeftUpMovement(position));
         }
 
-        if (dRow == -2 && dCol == 3) {
+        if (Movement.isLeftLeftDownLeftDown(dRow, dCol)) {
             route.addPosition(Movement.calculateLeftMovement(position));
             route.addPosition(Movement.calculateLeftLeftDownMovement(position));
         }
