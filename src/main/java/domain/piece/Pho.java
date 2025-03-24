@@ -17,20 +17,6 @@ public class Pho extends Piece implements LinearMove {
         }
     }
 
-    private void validateRowCol(JanggiCoordinate from, JanggiCoordinate to) {
-        if (!isSameRow(from, to) && !isSameCol(from, to)) {
-            throw new IllegalArgumentException("[ERROR] 해당 위치로 이동할 수 없습니다.");
-        }
-    }
-
-    private boolean isSameRow(JanggiCoordinate from, JanggiCoordinate to) {
-        return from.row() == to.row();
-    }
-
-    private boolean isSameCol(JanggiCoordinate from, JanggiCoordinate to) {
-        return from.col() == to.col();
-    }
-
     private void validateReachAble(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
         Direction direction = getDirection(from, to);
         JanggiCoordinate curr = from.move(direction);
@@ -54,27 +40,6 @@ public class Pho extends Piece implements LinearMove {
             curr = curr.move(direction);
         }
         return curr;
-    }
-
-    private Direction getDirection(JanggiCoordinate from, JanggiCoordinate to) {
-        if (isSameRow(from, to)) {
-            return getHorizontalDirection(from, to);
-        }
-        return getVerticalDirection(from, to);
-    }
-
-    private Direction getVerticalDirection(JanggiCoordinate from, JanggiCoordinate to) {
-        if (from.row() > to.row()) {
-            return Direction.UP;
-        }
-        return Direction.DOWN;
-    }
-
-    private Direction getHorizontalDirection(JanggiCoordinate from, JanggiCoordinate to) {
-        if (from.col() > to.col()) {
-            return Direction.LEFT;
-        }
-        return Direction.RIGHT;
     }
 
     @Override

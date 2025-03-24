@@ -9,12 +9,6 @@ public class Ma extends Piece {
         super(country, PieceType.MA);
     }
 
-    @Override
-    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateMaMoveStrategy(board, from, to);
-        validateTarget(board, to);
-    }
-
     private void validateMaMoveStrategy(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         validateReachableCoordinate(from, to);
         validateDoesNotHasObstacle(board, from, to);
@@ -37,19 +31,6 @@ public class Ma extends Piece {
         throw new IllegalArgumentException("[ERROR] 경로에 기물이 있어 해당 위치로 이동할 수 없습니다.");
     }
 
-    private Direction getDirection(JanggiCoordinate from, JanggiCoordinate to) {
-        if (from.moveUp().moveRightUp().equals(to) || from.moveUp().moveLeftUp().equals(to)) {
-            return Direction.UP;
-        }
-        if (from.moveRight().moveRightUp().equals(to) || from.moveRight().moveRightDown().equals(to)) {
-            return Direction.RIGHT;
-        }
-        if (from.moveDown().moveRightDown().equals(to) || from.moveDown().moveLeftDown().equals(to)) {
-            return Direction.DOWN;
-        }
-        return Direction.LEFT;
-    }
-
     private void validateTarget(JanggiBoard board, JanggiCoordinate to) {
         if (board.isOccupied(to) && isSameCountry(board.findPieceByCoordinate(to))) {
             throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
@@ -63,6 +44,25 @@ public class Ma extends Piece {
         if (square(rowDst) + square(colDst) != MA_REACHABLE_RADIUS) {
             throw new IllegalArgumentException("[ERROR] 마가 해당 위치로 이동할 수 없습니다.");
         }
+    }
+
+    @Override
+    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+        validateMaMoveStrategy(board, from, to);
+        validateTarget(board, to);
+    }
+
+    private Direction getDirection(JanggiCoordinate from, JanggiCoordinate to) {
+        if (from.moveUp().moveRightUp().equals(to) || from.moveUp().moveLeftUp().equals(to)) {
+            return Direction.UP;
+        }
+        if (from.moveRight().moveRightUp().equals(to) || from.moveRight().moveRightDown().equals(to)) {
+            return Direction.RIGHT;
+        }
+        if (from.moveDown().moveRightDown().equals(to) || from.moveDown().moveLeftDown().equals(to)) {
+            return Direction.DOWN;
+        }
+        return Direction.LEFT;
     }
 
     private int square(int n) {

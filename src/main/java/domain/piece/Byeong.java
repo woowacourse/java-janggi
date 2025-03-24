@@ -10,18 +10,24 @@ public class Byeong extends Piece {
         super(country, PieceType.BYEONG);
     }
 
-    @Override
-    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateByeongMove(from, to);
-        validateTarget(board, to);
-    }
-
     private void validateByeongMove(JanggiCoordinate from, JanggiCoordinate to) {
         if (super.getCountry() == Country.HAN) {
             validateHanMove(from, to);
             return;
         }
         validateChoMove(from, to);
+    }
+
+    private void validateTarget(JanggiBoard board, JanggiCoordinate to) {
+        if (board.isOccupied(to) && isSameCountry(board.findPieceByCoordinate(to))) {
+            throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
+        }
+    }
+
+    @Override
+    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+        validateByeongMove(from, to);
+        validateTarget(board, to);
     }
 
     private void validateHanMove(JanggiCoordinate from, JanggiCoordinate to) {
@@ -36,11 +42,5 @@ public class Byeong extends Piece {
             return;
         }
         throw new IllegalArgumentException("[ERROR] 해당 위치로 기물을 이동할 수 없습니다.");
-    }
-
-    private void validateTarget(JanggiBoard board, JanggiCoordinate to) {
-        if (board.isOccupied(to) && isSameCountry(board.findPieceByCoordinate(to))) {
-            throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
-        }
     }
 }

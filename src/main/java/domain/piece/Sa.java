@@ -14,12 +14,8 @@ public class Sa extends Piece {
 
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateMaMoveStrategy(from, to);
-        validateTarget(board, to);
-    }
-
-    private void validateMaMoveStrategy(JanggiCoordinate from, JanggiCoordinate to) {
         validateReachableCoordinate(from, to);
+        validateTarget(board, to);
     }
 
     private void validateTarget(JanggiBoard board, JanggiCoordinate to) {

@@ -10,13 +10,7 @@ public class Sang extends Piece {
         super(country, PieceType.SANG);
     }
 
-    @Override
-    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateMaMoveStrategy(board, from, to);
-        validateTarget(board, to);
-    }
-
-    private void validateMaMoveStrategy(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+    private void validateSangMoveStrategy(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         validateReachableCoordinate(from, to);
         validateDoesNotHasObstacle(board, from, to);
     }
@@ -28,19 +22,6 @@ public class Sang extends Piece {
         if (board.isOccupied(next)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 있어 해당 위치로 이동할 수 없습니다.");
         }
-    }
-
-    private Direction getDirection(JanggiCoordinate from, JanggiCoordinate to) {
-        if (from.moveRightUp().moveRightUp().moveUp().equals(to) || from.moveRightUp().moveRightUp().moveRight().equals(to)) {
-            return Direction.RIGHT_UP;
-        }
-        if (from.moveRightDown().moveRightDown().moveRight().equals(to) || from.moveRightDown().moveRightDown().moveDown().equals(to)) {
-            return Direction.RIGHT_DOWN;
-        }
-        if (from.moveLeftUp().moveLeftUp().moveUp().equals(to) || from.moveLeftUp().moveLeftUp().moveLeft().equals(to)) {
-            return Direction.LEFT_UP;
-        }
-        return Direction.LEFT_DOWN;
     }
 
     private void validateTarget(JanggiBoard board, JanggiCoordinate to) {
@@ -56,6 +37,25 @@ public class Sang extends Piece {
         if (square(rowDst) + square(colDst) != SANG_REACHABLE_RADIUS) {
             throw new IllegalArgumentException("[ERROR] 상이 해당 위치로 이동할 수 없습니다.");
         }
+    }
+
+    @Override
+    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+        validateSangMoveStrategy(board, from, to);
+        validateTarget(board, to);
+    }
+
+    private Direction getDirection(JanggiCoordinate from, JanggiCoordinate to) {
+        if (from.moveRightUp().moveRightUp().moveUp().equals(to) || from.moveRightUp().moveRightUp().moveRight().equals(to)) {
+            return Direction.RIGHT_UP;
+        }
+        if (from.moveRightDown().moveRightDown().moveRight().equals(to) || from.moveRightDown().moveRightDown().moveDown().equals(to)) {
+            return Direction.RIGHT_DOWN;
+        }
+        if (from.moveLeftUp().moveLeftUp().moveUp().equals(to) || from.moveLeftUp().moveLeftUp().moveLeft().equals(to)) {
+            return Direction.LEFT_UP;
+        }
+        return Direction.LEFT_DOWN;
     }
 
     private int square(int n) {
