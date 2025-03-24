@@ -3,7 +3,7 @@ package piece;
 public enum PieceType {
     PALACE,
     CHARIOT,
-    PAO,
+    CANNON,
     HORSE,
     ELEPHANT,
     SOLDIER,

@@ -17,11 +17,6 @@ public abstract class Piece {
 
     public abstract Routes possibleRoutes(Board board);
 
-//    public Routes possibleRoutes(Board board) {
-//        validateTeamOfPiece(board);
-//        return routes.possibleRoutes(position, board);
-//    }
-
     protected void validateTeamOfPiece(Board board) {
         board.validateTeam(team);
     }

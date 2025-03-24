@@ -40,10 +40,10 @@ public class ChariotTest {
         Board board = new Board(HAN, Set.of(chariot));
 
         // when
-        Routes palaceRoutes = chariot.possibleRoutes(board);
+        Routes chariotRoutes = chariot.possibleRoutes(board);
 
         // then
-        assertThat(palaceRoutes.routes().size()).isEqualTo(17);
+        assertThat(chariotRoutes.routes().size()).isEqualTo(17);
     }
 
     /*
@@ -69,9 +69,9 @@ public class ChariotTest {
         Board board = new Board(HAN, Set.of(chariot, hanPawn, horse));
 
         // when
-        Routes palaceRoutes = chariot.possibleRoutes(board);
+        Routes chariotRoutes = chariot.possibleRoutes(board);
 
         // then
-        assertThat(palaceRoutes.routes().size()).isEqualTo(13);
+        assertThat(chariotRoutes.routes().size()).isEqualTo(13);
     }
 }

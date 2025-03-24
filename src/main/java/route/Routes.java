@@ -105,6 +105,15 @@ public final class Routes {
         ));
     }
 
+    public static Routes ofCannon() {
+        return new Routes(Set.of(
+                new Route(List.of(EAST)),
+                new Route(List.of(WEST)),
+                new Route(List.of(SOUTH)),
+                new Route(List.of(NORTH))
+        ));
+    }
+
 
     public Set<Route> routes() {
         return routes;
