@@ -20,12 +20,8 @@ public class Position {
     }
 
     public boolean isInValidPosition() {
-        int nextRow = this.getRow();
-        int nextColumn = this.getColumn();
-        return (
-                nextRow < MIN_ROW || nextRow > MAX_ROW ||
-                        nextColumn < MIN_COLUMN || nextColumn > MAX_COLUMN
-        );
+        return (row < MIN_ROW || row > MAX_ROW) ||
+                (column < MIN_COLUMN || column > MAX_COLUMN);
     }
 
     public Position moveByDirection(final Direction direction) {
@@ -33,14 +29,6 @@ public class Position {
                 row + direction.getRow(),
                 column + direction.getColumn()
         );
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getColumn() {
-        return column;
     }
 
     @Override
@@ -51,12 +39,12 @@ public class Position {
         if (!(o instanceof Position position)) {
             return false;
         }
-        return getRow() == position.getRow() && getColumn() == position.getColumn();
+        return row == position.row && column == position.column;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getRow(), getColumn());
+        return Objects.hash(row, column);
     }
 
     @Override
