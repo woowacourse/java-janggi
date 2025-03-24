@@ -82,14 +82,11 @@ public class Elephant extends Piece {
     public void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
         validateSameDynasty(destinationPiece);
 
-        routesWithPiece.values()
-                .stream()
-                .filter(Objects::nonNull)
-                .findAny()
-                .ifPresent(piece -> {
-                    throw new UnsupportedOperationException("[ERROR] 상은 경로에 말이 존재하면 이동할 수 없습니다.");
-                });
+        boolean isBlocked = routesWithPiece.values().stream().anyMatch(Objects::nonNull);
 
+        if(isBlocked) {
+            throw new UnsupportedOperationException("[ERROR] 상은 경로에 말이 존재하면 이동할 수 없습니다.");
+        }
     }
 
     @Override
