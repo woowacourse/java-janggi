@@ -32,7 +32,7 @@ public class Guard extends Piece {
 
     @Override
     public Score die() {
-        return Score.Guard();
+        return Score.guard();
     }
 
     @Override
@@ -46,7 +46,7 @@ public class Guard extends Piece {
     }
 
     @Override
-    protected PieceType getType() {
+    public PieceType getType() {
         return PieceType.GUARD;
     }
 }

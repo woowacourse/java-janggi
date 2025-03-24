@@ -29,7 +29,7 @@ public class General extends Piece {
     @Override
     public Score die() {
         // 점수 많이 주고 게임 끝내기 가능
-        return Score.General();
+        return Score.general();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class General extends Piece {
     }
 
     @Override
-    protected PieceType getType() {
+    public PieceType getType() {
         return PieceType.GENERAL;
     }
 }

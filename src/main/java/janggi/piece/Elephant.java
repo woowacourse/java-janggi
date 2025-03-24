@@ -35,7 +35,7 @@ public class Elephant extends Piece {
 
     @Override
     public Score die() {
-        return Score.Elephant();
+        return Score.elephant();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    protected PieceType getType() {
+    public PieceType getType() {
         return PieceType.ELEPHANT;
     }
 }

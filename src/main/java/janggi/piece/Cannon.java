@@ -42,7 +42,7 @@ public class Cannon extends Piece {
 
     @Override
     public Score die() {
-        return Score.Cannon();
+        return Score.cannon();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    protected PieceType getType() {
+    public PieceType getType() {
         return PieceType.CANNON;
     }
 }

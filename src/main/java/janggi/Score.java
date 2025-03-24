@@ -2,31 +2,31 @@ package janggi;
 
 public record Score(int value) {
 
-    public static Score Soldier() {
+    public static Score soldier() {
         return new Score(2);
     }
 
-    public static Score Guard() {
+    public static Score guard() {
         return new Score(3);
     }
 
-    public static Score Elephant() {
+    public static Score elephant() {
         return new Score(3);
     }
 
-    public static Score Horse() {
+    public static Score horse() {
         return new Score(5);
     }
 
-    public static Score Cannon() {
+    public static Score cannon() {
         return new Score(7);
     }
 
-    public static Score Chariot() {
+    public static Score chariot() {
         return new Score(13);
     }
 
-    public static Score General() {
+    public static Score general() {
         return new Score(19980608);
     }
 

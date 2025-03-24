@@ -32,7 +32,7 @@ public class Chariot extends Piece {
 
     @Override
     public Score die() {
-        return Score.Chariot();
+        return Score.chariot();
     }
 
     @Override
@@ -46,7 +46,7 @@ public class Chariot extends Piece {
     }
 
     @Override
-    protected PieceType getType() {
+    public PieceType getType() {
         return PieceType.CHARIOT;
     }
 }

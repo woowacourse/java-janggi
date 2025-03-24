@@ -33,7 +33,7 @@ public class Soldier extends Piece {
 
     @Override
     public Score die() {
-        return Score.Soldier();
+        return Score.soldier();
     }
 
     @Override
@@ -45,17 +45,17 @@ public class Soldier extends Piece {
     protected void validateSpecialRule(final Board board, final Position destination) {
         Vector vector = Vector.of(position, destination);
 
-        if (team.isRed() && vector.deltaRow() < 0) {
+        if (team.isHan() && vector.deltaRow() < 0) {
             throw new IllegalArgumentException("병은 본진을 향할 수 없습니다.");
         }
 
-        if (team.isGreen() && vector.deltaRow() > 0) {
+        if (team.isCho() && vector.deltaRow() > 0) {
             throw new IllegalArgumentException("졸은 본진을 향할 수 없습니다.");
         }
     }
 
     @Override
-    protected PieceType getType() {
+    public PieceType getType() {
         return PieceType.SOLDIER;
     }
 }

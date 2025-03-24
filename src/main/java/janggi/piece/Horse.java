@@ -35,7 +35,7 @@ public class Horse extends Piece {
 
     @Override
     public Score die() {
-        return Score.Horse();
+        return Score.horse();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    protected PieceType getType() {
+    public PieceType getType() {
         return PieceType.HORSE;
     }
 }
