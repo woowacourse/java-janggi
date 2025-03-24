@@ -18,7 +18,7 @@ public class JanggiGame {
         Map<BoardLocation, Piece> placements = consoleView.requestPlacements();
 
         TeamBoard teamBoard = TeamBoard.createWithPieces(placements);
-        Board board = new Board(teamBoard);
+        Board board = new Board(teamBoard); // TODO : Board와 TeamBoard 합치기
 
         Team team = Team.getStartingTeam();
         consoleView.showBoard(teamBoard.getPieces());

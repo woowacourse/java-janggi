@@ -12,7 +12,6 @@ import domain.piece.Scholar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class TeamBoard {
 
@@ -33,35 +32,6 @@ public class TeamBoard {
         return pieces.containsKey(destination);
     }
 
-    public void validateAllyMove(List<BoardLocation> allPath, BoardLocation destination) {
-        Set<BoardLocation> located = pieces.keySet();
-        if (located.contains(destination)) {
-            throw new IllegalArgumentException("[ERROR] 현재 목적지에 아군이 위치해있습니다");
-        }
-
-        for (BoardLocation boardLocation : allPath) {
-            if (located.contains(boardLocation)) {
-                throw new IllegalArgumentException("[ERROR] 현재 이동 경로에 아군이 위치해있습니다");
-            }
-        }
-    }
-
-    public void validatePaths(List<BoardLocation> allPath) {
-        Set<BoardLocation> located = pieces.keySet();
-        for (BoardLocation boardLocation : allPath) {
-            if (located.contains(boardLocation)) {
-                throw new IllegalArgumentException("[ERROR] 현재 이동 경로에 기물이 위치해있습니다");
-            }
-        }
-    }
-
-    public void validateDestinationAlly(Piece piece, BoardLocation destination) {
-        Piece destinationPiece = pieces.get(destination);
-        if (piece.isEqualTeam(destinationPiece)) {
-            throw new IllegalArgumentException("[ERROR] 목표 위치에 아군 기물이 위치해있습니다");
-        }
-    }
-
     public void removeIfHas(BoardLocation destination) {
         pieces.remove(destination);
     }
@@ -71,15 +41,15 @@ public class TeamBoard {
         pieces.put(destination, piece);
     }
 
-    public Map<BoardLocation, Piece> getPieces() {
-        return pieces;
-    }
-
     public List<Piece> extractPathPiece(List<BoardLocation> allPath) {
         return allPath.stream()
                 .filter(pieces::containsKey)
                 .map(pieces::get)
                 .toList();
+    }
+
+    public Map<BoardLocation, Piece> getPieces() {
+        return pieces;
     }
 
     public static TeamBoard createWithPieces(Map<BoardLocation, Piece> placements) {

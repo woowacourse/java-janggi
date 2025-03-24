@@ -11,10 +11,14 @@ public class Board {
         this.teamBoard = teamBoard;
     }
 
+    // TODO : movePiece 메소드 분리
+    // 1. 현재 위치에 있는 기물 가져오기
+    // 2.
     public void movePiece(Team team, BoardLocation current, BoardLocation destination) {
         Piece piece = teamBoard.findByLocation(current);
         validateTeam(piece, team);
 
+        // TODO : validate 메소드로 분리하기
         if (!piece.isMovable(current, destination)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
         }
