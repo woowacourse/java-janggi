@@ -28,6 +28,17 @@ public class Board {
             final BoardPosition destinationBoardPosition,
             final Team currentTeam
     ) {
+        validateMove(selectBoardPosition, destinationBoardPosition, currentTeam);
+
+        removeDestinationEnemyPiece(destinationBoardPosition, currentTeam);
+        changeSelectPieceBoardPosition(selectBoardPosition, destinationBoardPosition);
+    }
+
+    public void validateMove(
+            final BoardPosition selectBoardPosition,
+            final BoardPosition destinationBoardPosition,
+            final Team currentTeam
+    ) {
         validateSelectBoardPosition(selectBoardPosition);
 
         final Piece selectedPiece = pieces.get(selectBoardPosition);
@@ -40,9 +51,6 @@ public class Board {
         validateMovementRule(movementRule, selectBoardPosition, destinationBoardPosition, selectedPiece);
 
         validateCatchable(selectedPiece, destinationPiece, currentTeam);
-
-        removeDestinationEnemyPiece(destinationBoardPosition, currentTeam);
-        changeSelectPieceBoardPosition(selectBoardPosition, destinationBoardPosition);
     }
 
     public List<Piece> findAliveGenerals() {
