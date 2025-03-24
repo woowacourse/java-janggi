@@ -1,19 +1,29 @@
 package janggi.piece;
 
+import static janggi.piece.direction.Direction.DOWN;
+import static janggi.piece.direction.Direction.DOWN_LEFT;
+import static janggi.piece.direction.Direction.DOWN_RIGHT;
+import static janggi.piece.direction.Direction.LEFT;
+import static janggi.piece.direction.Direction.RIGHT;
+import static janggi.piece.direction.Direction.UP;
+import static janggi.piece.direction.Direction.UP_LEFT;
+import static janggi.piece.direction.Direction.UP_RIGHT;
+
+import janggi.piece.direction.Movement;
 import janggi.position.Path;
 import janggi.position.Position;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class Horse extends Piece {
 
     private static final int HORSE_UNIT_DISTANCE = 2;
-    private static final Set<List<Integer>> AVAILABLE_DIFFERENCE = Set.of(
-            List.of(HORSE_UNIT_DISTANCE, 1), List.of(
-                    HORSE_UNIT_DISTANCE, -1), List.of(-HORSE_UNIT_DISTANCE, 1), List.of(-HORSE_UNIT_DISTANCE, -1),
-            List.of(1, HORSE_UNIT_DISTANCE), List.of(1, -HORSE_UNIT_DISTANCE), List.of(-1,
-                    HORSE_UNIT_DISTANCE), List.of(-1, -HORSE_UNIT_DISTANCE));
+    private static final List<Movement> MOVEMENTS = List.of(
+            new Movement(DOWN, DOWN_RIGHT), new Movement(DOWN, DOWN_LEFT),
+            new Movement(UP, UP_RIGHT), new Movement(UP, UP_LEFT),
+            new Movement(RIGHT, DOWN_RIGHT), new Movement(LEFT, DOWN_LEFT),
+            new Movement(RIGHT, UP_RIGHT), new Movement(LEFT, UP_LEFT)
+    );
 
     public Horse(Team team) {
         super(PieceType.HORSE, team);
@@ -21,7 +31,7 @@ public class Horse extends Piece {
 
     @Override
     protected void validateMove(int differenceForY, int differenceForX) {
-        if (doesNotMoveInRange(differenceForY, differenceForX)) {
+        if (isInValidMovement(MOVEMENTS, differenceForY, differenceForX)) {
             throw new IllegalArgumentException("[ERROR] 말은 직선 1칸 이동 후 대각선 1칸으로만 이동할 수 있습니다.");
         }
     }
@@ -57,10 +67,6 @@ public class Horse extends Piece {
         if (hasPieceInMiddle(path, pieces)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
         }
-    }
-
-    private boolean doesNotMoveInRange(int differenceForY, int differenceForX) {
-        return !AVAILABLE_DIFFERENCE.contains(List.of(differenceForY, differenceForX));
     }
 
     private boolean isNotStartDirection(final int difference) {

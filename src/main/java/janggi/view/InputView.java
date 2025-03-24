@@ -19,8 +19,7 @@ public class InputView {
         System.out.println(LINE + """
                 이동을 희망하는 기물의 현재 위치와 해당 기물이 이동할 위치를 입력해주세요.
                 (세로를 10의 자리, 가로를 1의 자리로 보아 좌표를 입력해주세요. 예를 들어 초기 초나라의 왕의 좌표는 95입니다.)
-                ex) 71 72
-                """);
+                ex) 71 72""");
         List<String> tokens = split(readLine());
         return parseInt(tokens);
     }

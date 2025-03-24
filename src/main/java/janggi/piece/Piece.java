@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.piece.direction.Movement;
 import janggi.position.Path;
 import janggi.position.Position;
 import java.util.ArrayList;
@@ -47,6 +48,10 @@ public abstract class Piece {
         positions.removeLast();
         return positions.stream()
                 .anyMatch(pieces::containsKey);
+    }
+
+    protected boolean isInValidMovement(final List<Movement> movements, final int dy, final int dx) {
+        return movements.stream().noneMatch(movement -> movement.isSameMovement(dy, dx));
     }
 
     protected abstract void validateMove(int differenceForY, int differenceForX);
