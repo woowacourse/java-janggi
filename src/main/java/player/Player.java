@@ -27,6 +27,10 @@ public class Player {
         pieces.canPieceMoveTo(presentPosition, destination);
     }
 
+    public int countObstacle(Positions route) {
+        return pieces.countObstacle(route);
+    }
+
     public Positions makeRoute(Position presentPosition, Position destination) {
         return pieces.makeRoute(presentPosition, destination);
     }

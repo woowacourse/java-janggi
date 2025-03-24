@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Janggun;
 import piece.Jol;
+import piece.Po;
 import pieceProperty.Position;
 import pieceProperty.Positions;
 
@@ -153,6 +154,26 @@ class PlayerTest {
 
         //then
         assertThat(actual.getPositions().contains(position)).isTrue();
+    }
+
+    @Test
+    @DisplayName("경로 상에 같은 위치 기물 개수 확인")
+    void countObstacleTest() {
+        //given
+        Jol jol = new Jol(new Position(5, 5));
+        Janggun janggun = new Janggun(new Position(6, 5));
+        Po po = new Po(new Position(4, 3));
+        Pieces pieces = new Pieces(List.of(jol, janggun, po));
+        Positions positions = new Positions(List.of(
+                new Position(2, 5), new Position(7, 5), new Position(1,  3)
+        ));
+        Player player = new Player(pieces, HAN);
+
+        //when
+        int actual = player.countObstacle(positions);
+
+        //then
+        assertThat(actual).isEqualTo(0);
     }
 
 }
