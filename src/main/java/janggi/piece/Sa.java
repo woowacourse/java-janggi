@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.point.crash.Crashes;
 import janggi.point.Direction;
 import janggi.point.Hurdles;
 import janggi.point.InitialPoint;
@@ -45,7 +44,6 @@ public class Sa implements Movable {
             return false;
         }
         Direction direction = Direction.cardinalOrDiagonalFrom(this.point, targetPoint);
-
         return isRouteHaveNoHurdle(targetPoint, hurdles, direction);
     }
 
@@ -59,11 +57,7 @@ public class Sa implements Movable {
 
     private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
         Route route = Route.repeat(direction, this.point, targetPoint);
-        if (route.isCrashExists(hurdles)) {
-            Crashes crashes = route.findCrashes(hurdles, this);
-            return crashes.hasNoCrashes(this.team, targetPoint, hurdles);
-        }
-        return true;
+        return route.hasNoHurdle(this, targetPoint, hurdles);
     }
 
     @Override

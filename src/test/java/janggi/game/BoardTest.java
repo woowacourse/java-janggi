@@ -6,12 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import janggi.piece.Byeong;
-import janggi.piece.Cha;
 import janggi.piece.Gung;
 import janggi.piece.Movable;
-import janggi.piece.Po;
 import janggi.point.Point;
-import janggi.point.Route;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

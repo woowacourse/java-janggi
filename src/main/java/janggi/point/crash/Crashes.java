@@ -1,6 +1,8 @@
 package janggi.point.crash;
 
 import janggi.game.Team;
+import janggi.piece.Movable;
+import janggi.piece.Po;
 import janggi.point.Hurdles;
 import janggi.point.Point;
 import java.util.List;
@@ -10,6 +12,13 @@ public abstract class Crashes {
 
     public Crashes(List<Point> crashes) {
         this.crashes = crashes;
+    }
+
+    public static Crashes fromPieceType(Movable movable, List<Point> crashPoints) {
+        if (movable instanceof Po) {
+            return new CrashOrBridgeAndPrey(crashPoints);
+        }
+        return new CrashOrPrey(crashPoints);
     }
 
     public abstract boolean hasNoCrashes(Team movingTeam, Point targetPoint, Hurdles hurdles);

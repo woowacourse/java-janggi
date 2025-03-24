@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.point.crash.Crashes;
 import janggi.point.Direction;
 import janggi.point.Hurdles;
 import janggi.point.InitialPoint;
@@ -42,17 +41,12 @@ public class Po implements Movable {
     @Override
     public boolean canMove(Point targetPoint, Hurdles hurdles) {
         Direction direction = Direction.cardinalFrom(this.point, targetPoint);
-
         return isRouteHaveNoHurdle(targetPoint, hurdles, direction);
     }
 
     private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
         Route route = Route.repeat(direction, this.point, targetPoint);
-        if (route.isCrashExists(hurdles)) {
-            Crashes crashes = route.findCrashes(hurdles, this);
-            return crashes.hasNoCrashes(this.team, targetPoint, hurdles);
-        }
-        return false;
+        return route.hasNoHurdle(this, targetPoint, hurdles);
     }
 
     @Override

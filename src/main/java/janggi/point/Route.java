@@ -1,13 +1,9 @@
 package janggi.point;
 
 import janggi.piece.Movable;
-import janggi.piece.Po;
-import janggi.point.crash.CrashOrBridgeAndPrey;
-import janggi.point.crash.CrashOrPrey;
 import janggi.point.crash.Crashes;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Route {
     private final List<Point> route;
@@ -16,7 +12,6 @@ public class Route {
         this.route = route;
     }
 
-    //TODO 이동가능한 루트가 아예 없다면? (가능한가?)
     public static Route repeat(Direction direction, Point startPoint, Point targetPoint) {
         List<Point> route = new ArrayList<>();
         Point pointer = startPoint;
@@ -43,17 +38,22 @@ public class Route {
         return new Route(route);
     }
 
-    public Crashes findCrashes(Hurdles hurdles, Movable movable) {
+    public boolean hasNoHurdle(Movable movingPiece, Point targetPoint, Hurdles hurdles) {
+        if (isCrashExists(hurdles)) {
+            Crashes crashes = findCrashes(hurdles, movingPiece);
+            return crashes.hasNoCrashes(movingPiece.getTeam(), targetPoint, hurdles);
+        }
+        return true;
+    }
+
+    private Crashes findCrashes(Hurdles hurdles, Movable movable) {
         List<Point> crashPoints = route.stream()
                 .filter(hurdles::containsPoint)
                 .toList();
-        if (movable instanceof Po) {
-            return new CrashOrBridgeAndPrey(crashPoints);
-        }
-        return new CrashOrPrey(crashPoints);
+        return Crashes.fromPieceType(movable, crashPoints);
     }
 
-    public boolean isCrashExists(Hurdles hurdles) {
+    private boolean isCrashExists(Hurdles hurdles) {
         return route.stream().anyMatch(hurdles::containsPoint);
     }
 
@@ -72,6 +72,6 @@ public class Route {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(route);
+        return 0;
     }
 }
