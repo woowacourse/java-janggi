@@ -19,7 +19,7 @@ public class GeneralMovementTest {
         int x = 0;
         int y = 0;
         Point from = new Point(x, y);
-        Point to = new Point(x, y-1);
+        Point to = new Point(x, y - 1);
         GeneralMovement generalMovement = new GeneralMovement();
 
         //when
@@ -36,7 +36,7 @@ public class GeneralMovementTest {
         int x = 0;
         int y = 0;
         Point from = new Point(x, y);
-        Point to = new Point(x, y-2);
+        Point to = new Point(x, y - 2);
         GeneralMovement generalMovement = new GeneralMovement();
 
         //when
@@ -53,7 +53,7 @@ public class GeneralMovementTest {
         int x = 0;
         int y = 1;
         Point from = new Point(x, y);
-        Point to = new Point(x, y+1);
+        Point to = new Point(x, y + 1);
         GeneralMovement generalMovement = new GeneralMovement();
 
         //when
@@ -70,7 +70,7 @@ public class GeneralMovementTest {
         int x = 0;
         int y = 0;
         Point from = new Point(x, y);
-        Point to = new Point(x, y+2);
+        Point to = new Point(x, y + 2);
         GeneralMovement generalMovement = new GeneralMovement();
 
         //when
@@ -87,7 +87,7 @@ public class GeneralMovementTest {
         int x = 1;
         int y = 0;
         Point from = new Point(x, y);
-        Point to = new Point(x-1, y);
+        Point to = new Point(x - 1, y);
         GeneralMovement generalMovement = new GeneralMovement();
 
         //when
@@ -104,7 +104,7 @@ public class GeneralMovementTest {
         int x = 0;
         int y = 0;
         Point from = new Point(x, y);
-        Point to = new Point(x-2, y);
+        Point to = new Point(x - 2, y);
         GeneralMovement generalMovement = new GeneralMovement();
 
         //when
@@ -121,7 +121,7 @@ public class GeneralMovementTest {
         int x = 0;
         int y = 0;
         Point from = new Point(x, y);
-        Point to = new Point(x+1, y);
+        Point to = new Point(x + 1, y);
         GeneralMovement generalMovement = new GeneralMovement();
 
         //when
@@ -138,7 +138,7 @@ public class GeneralMovementTest {
         int x = 0;
         int y = 0;
         Point from = new Point(x, y);
-        Point to = new Point(x+2, y);
+        Point to = new Point(x + 2, y);
         GeneralMovement generalMovement = new GeneralMovement();
 
         //when

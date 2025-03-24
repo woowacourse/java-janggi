@@ -4,8 +4,11 @@ import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import direction.Point;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import piece.Piece;
+import piece.Pieces;
 import team.Team;
 
 class ElephantMovementTest {
@@ -142,6 +145,24 @@ class ElephantMovementTest {
 
         //then
         assertThatThrownBy(() -> elephantMovement.validateDestination(from, to))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("경로에 기물이 있을 시 이동할 수 없다.")
+    void test13() {
+        //given
+        Point from = new Point(2, 2);
+        Point to = new Point(5, 4);
+        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Pieces pieces = new Pieces(List.of(
+                new Piece("e", new Point(2, 2), elephantMovement),
+                new Piece("n", new Point(3, 2), new GuardMovement())
+        ));
+
+        //when
+        //then
+        assertThatThrownBy(() -> elephantMovement.checkPaths(pieces, from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

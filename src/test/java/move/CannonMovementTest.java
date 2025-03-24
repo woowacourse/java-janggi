@@ -3,8 +3,11 @@ package move;
 import static org.assertj.core.api.Assertions.*;
 
 import direction.Point;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import piece.Piece;
+import piece.Pieces;
 
 class CannonMovementTest {
 
@@ -63,6 +66,61 @@ class CannonMovementTest {
         //when
         //then
         assertThatThrownBy(() -> cannonMovement.validateDestination(from, to))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("기물 하나를 넘으면 이동할 수 있다.")
+    void test11() {
+        //given
+        Point from = new Point(2, 2);
+        Point to = new Point(2, 8);
+        CannonMovement cannonMovement = new CannonMovement();
+        Pieces pieces = new Pieces(List.of(
+                new Piece("n", new Point(2, 2), cannonMovement),
+                new Piece("r", new Point(2, 4), new GuardMovement())
+        ));
+
+        //when
+        //then
+        assertThatCode(() -> cannonMovement.checkPaths(pieces, from, to))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("기물을 두 개 이상 넘을 수 없다.")
+    void test12() {
+        //given
+        Point from = new Point(2, 2);
+        Point to = new Point(2, 8);
+        CannonMovement cannonMovement = new CannonMovement();
+        Pieces pieces = new Pieces(List.of(
+                new Piece("n", new Point(2, 2), cannonMovement),
+                new Piece("r", new Point(2, 4), new GuardMovement()),
+                new Piece("r", new Point(2, 5), new GuardMovement())
+        ));
+
+        //when
+        //then
+        assertThatThrownBy(() -> cannonMovement.checkPaths(pieces, from, to))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("포를 뛰어넘을 수 없다.")
+    void test13() {
+        //given
+        Point from = new Point(2, 2);
+        Point to = new Point(2, 8);
+        CannonMovement cannonMovement = new CannonMovement();
+        Pieces pieces = new Pieces(List.of(
+                new Piece("n", new Point(2, 2), cannonMovement),
+                new Piece("n", new Point(2, 4), cannonMovement)
+        ));
+
+        //when
+        //then
+        assertThatThrownBy(() -> cannonMovement.checkPaths(pieces, from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

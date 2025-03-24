@@ -4,8 +4,11 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import direction.Point;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import piece.Piece;
+import piece.Pieces;
 import team.Team;
 
 class HorseMovementTest {
@@ -142,6 +145,24 @@ class HorseMovementTest {
 
         //then
         assertThatThrownBy(() -> horseMovement.validateDestination(from, to))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("경로에 기물이 있을 시 이동할 수 없다.")
+    void test13() {
+        //given
+        Point from = new Point(2, 2);
+        Point to = new Point(4, 3);
+        HorseMovement horseMovement = new HorseMovement(Team.GREEN.direction());
+        Pieces pieces = new Pieces(List.of(
+                new Piece("e", new Point(2, 2), horseMovement),
+                new Piece("n", new Point(3, 2), new GuardMovement())
+        ));
+
+        //when
+        //then
+        assertThatThrownBy(() -> horseMovement.checkPaths(pieces, from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }
