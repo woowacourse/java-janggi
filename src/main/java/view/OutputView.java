@@ -74,7 +74,7 @@ public class OutputView {
             int column = position.column() - 1;
 
             ArrayList<String> rows = defaultBoard.get(column);
-            rows.set(row, color + piece.getName() + COLOR_RESET);
+            rows.set(row, color + PieceView.findNameByClass(piece) + COLOR_RESET);
             defaultBoard.set(column, rows);
         }
     }
