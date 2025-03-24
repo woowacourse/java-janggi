@@ -45,10 +45,10 @@ public record Position(int x, int y) {
             return Collections.emptyList();
         }
         final List<Position> betweenPositions = new ArrayList<>();
-        final int minX = Math.min(x, destPosition.x);
-        final int minY = Math.min(y, destPosition.y);
-        final int maxX = Math.max(x, destPosition.x);
-        final int maxY = Math.max(y, destPosition.y);
+        final int minX = max(x, destPosition.x);
+        final int minY = max(y, destPosition.y);
+        final int maxX = max(x, destPosition.x);
+        final int maxY = max(y, destPosition.y);
 
         for (int i = minX; i <= maxX; i++) {
             for (int j = minY; j <= maxY; j++) {
@@ -81,7 +81,7 @@ public record Position(int x, int y) {
 
         if (xDistance == 3) { // x 3 y 2
             int[] newXs = new int[2];
-            for (int xx = Math.min(x, destPosition.x) + 1, i = 0; xx < Math.max(x, destPosition.x); xx++, i++) {
+            for (int xx = Math.min(x, destPosition.x) + 1, i = 0; xx < max(x, destPosition.x); xx++, i++) {
                 newXs[i] = xx;
             }
             int[] newYs = new int[2];
@@ -101,7 +101,7 @@ public record Position(int x, int y) {
         }
 
         int[] newYs = new int[2];
-        for (int yy = Math.min(y, destPosition.y) + 1, i = 0; yy < Math.max(y, destPosition.y); yy++, i++) {
+        for (int yy = Math.min(y, destPosition.y) + 1, i = 0; yy < max(y, destPosition.y); yy++, i++) {
             newYs[i] = yy;
         }
         int[] newXs = new int[2];
@@ -118,5 +118,9 @@ public record Position(int x, int y) {
                 new Position(newXs[0], newYs[0]),
                 new Position(newXs[1], newYs[1])
         );
+    }
+
+    public int max(int v1, int v2) {
+        return Math.max(v1, v2);
     }
 }
