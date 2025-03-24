@@ -40,6 +40,11 @@ public class OutputView {
     private static final String FULL_WIDTH_BAR = "＿";
     private static final String FULL_WIDTH_SPACE = "　";
 
+    public void printException(Exception e) {
+        System.err.println("[ERROR] " + e.getMessage());
+        System.err.println();
+    }
+
     public void printBoard(Map<Coordinate, Piece> pieces) {
         System.out.println("   １　２　３　４　５　６　７　８　９");
 

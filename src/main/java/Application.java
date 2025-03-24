@@ -34,13 +34,19 @@ public class Application {
     }
 
     private static void processGame(final Board board, final InputView inputView, final OutputView outputView) {
+        int index = 0;
         while (true) {
-            for (Team team : Team.values()) {
+            Team team = Team.values()[index % 2];
+            try {
                 CoordinatesPair coordinatesPair = inputView.readMoveCoordinate(team);
                 checkDepartureIsMyPiece(team, board, coordinatesPair.departure());
 
                 board.move(coordinatesPair.departure(), coordinatesPair.arrival());
                 outputView.printBoard(board.getPieces());
+
+                index += 1;
+            } catch (IllegalArgumentException e) {
+                outputView.printException(e);
             }
         }
     }
