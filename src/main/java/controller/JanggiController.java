@@ -2,12 +2,13 @@ package controller;
 
 import domain.BoardPosition;
 import domain.Janggi;
-import java.util.Arrays;
-import java.util.List;
 import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
+
+    private static final int COORDINATE_PARTS_COUNT = 2;
+    private static final String POSITION_DELIMITER = ",";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -36,28 +37,33 @@ public class JanggiController {
     }
 
     public BoardPosition createBoardPosition(final String inputPosition) {
-        final List<Integer> positions = parseBoardPosition(inputPosition);
-        validateSize(positions);
-        final int x = positions.getFirst();
-        final int y = positions.getLast();
-
-        return new BoardPosition(x, y);
+        final int[] coordinates = validateAndParse(validateAndSplit(inputPosition));
+        return new BoardPosition(coordinates[0], coordinates[1]);
     }
 
-    private List<Integer> parseBoardPosition(final String inputPosition) {
+    private String[] validateAndSplit(final String input) {
+        final String[] coordinates;
         try {
-            return Arrays.stream(inputPosition.split(",", -1))
-                .map(String::trim)
-                .map(Integer::parseInt)
-                .toList();
+            coordinates = input.split(POSITION_DELIMITER, -1);
         } catch (Exception e) {
-            throw new IllegalArgumentException("좌표 입력 형식이 잘못되었습니다.");
+            throw new IllegalArgumentException("좌표는 'x,y' 형식으로 입력해야 합니다.");
         }
+
+        if (coordinates.length != COORDINATE_PARTS_COUNT) {
+            throw new IllegalArgumentException("좌표는 'x,y' 형식으로 입력해야 합니다.");
+        }
+
+        return coordinates;
     }
 
-    private void validateSize(final List<Integer> positions) {
-        if (positions.size() != 2) {
-            throw new IllegalArgumentException("좌표 입력 형식이 잘못되었습니다.");
+    private int[] validateAndParse(final String[] parts) {
+        try {
+            final int x = Integer.parseInt(parts[0].trim());
+            final int y = Integer.parseInt(parts[1].trim());
+
+            return new int[]{x, y};
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("좌표는 숫자로 입력해야 합니다.");
         }
     }
 }
