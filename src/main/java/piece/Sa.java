@@ -23,10 +23,10 @@ public class Sa extends Piece {
     }
 
     private boolean isInvalidSaMove(Position destination) {
-        return !Movement.downMovement(position).equals(destination)
-                && !Movement.upMovement(position).equals(destination)
-                && !Movement.leftMovement(position).equals(destination)
-                && !Movement.rightMovement(position).equals(destination);
+        return !Movement.calculateDownMovement(position).equals(destination)
+                && !Movement.calculateUpMovement(position).equals(destination)
+                && !Movement.calculateLeftMovement(position).equals(destination)
+                && !Movement.calculateRightMovement(position).equals(destination);
     }
 
     @Override

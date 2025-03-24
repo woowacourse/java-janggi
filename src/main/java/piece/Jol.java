@@ -23,9 +23,9 @@ public class Jol extends Piece {
     }
 
     private boolean isInvalidJolMove(Position destination) {
-        return !Movement.upMovement(position).equals(destination)
-                && !Movement.leftMovement(position).equals(destination)
-                && !Movement.rightMovement(position).equals(destination);
+        return !Movement.calculateUpMovement(position).equals(destination)
+                && !Movement.calculateLeftMovement(position).equals(destination)
+                && !Movement.calculateRightMovement(position).equals(destination);
     }
 
     @Override

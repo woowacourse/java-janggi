@@ -9,12 +9,12 @@ class MovementTest {
 
     @Test
     @DisplayName("위 움직임 계산 테스트")
-    void upMovementTest() {
+    void calculateUpMovementTest() {
         // given
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.upMovement(present);
+        Position future = Movement.calculateUpMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(4, 5));
@@ -22,12 +22,12 @@ class MovementTest {
 
     @Test
     @DisplayName("아래 움직임 계산 테스트")
-    void downMovementTest() {
+    void calculateDownMovementTest() {
         // given
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.downMovement(present);
+        Position future = Movement.calculateDownMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(6, 5));
@@ -35,12 +35,12 @@ class MovementTest {
 
     @Test
     @DisplayName("왼쪽 움직임 계산 테스트")
-    void leftMovementTest() {
+    void calculateLeftMovementTest() {
         // given
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.leftMovement(present);
+        Position future = Movement.calculateLeftMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(5, 4));
@@ -48,12 +48,12 @@ class MovementTest {
 
     @Test
     @DisplayName("오른쪽 움직임 계산 테스트")
-    void rightMovementTest() {
+    void calculateRightMovementTest() {
         // given
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.rightMovement(present);
+        Position future = Movement.calculateRightMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(5, 6));
@@ -61,12 +61,12 @@ class MovementTest {
 
     @Test
     @DisplayName("오른쪽 위 대각선 움직임 계산 테스트")
-    void upRightMovementTest() {
+    void upCalculateRightMovementTest() {
         // given
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.rightUpMovement(present);
+        Position future = Movement.calculateRightUpMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(4, 6));
@@ -74,12 +74,12 @@ class MovementTest {
 
     @Test
     @DisplayName("왼쪽 위 대각선 움직임 계산 테스트")
-    void upLeftMovementTest() {
+    void upCalculateLeftMovementTest() {
         // given
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.leftUpMovement(present);
+        Position future = Movement.calculateLeftUpMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(4, 4));
@@ -87,12 +87,12 @@ class MovementTest {
 
     @Test
     @DisplayName("오른쪽 아래 대각선 움직임 계산 테스트")
-    void downRightMovementTest() {
+    void downCalculateRightMovementTest() {
         // given
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.rightDownMovement(present);
+        Position future = Movement.calculateRightDownMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(6, 6));
@@ -100,12 +100,12 @@ class MovementTest {
 
     @Test
     @DisplayName("왼쪽 아래 대각선 움직임 계산 테스트")
-    void downLeftMovementTest() {
+    void downCalculateLeftMovementTest() {
         // given
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.leftDownMovement(present);
+        Position future = Movement.calculateLeftDownMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(6, 4));
@@ -118,7 +118,7 @@ class MovementTest {
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.upRightUPMovement(present);
+        Position future = Movement.calculateUpRightUPMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(3, 6));
@@ -131,7 +131,7 @@ class MovementTest {
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.upLeftUpMovement(present);
+        Position future = Movement.calculateUpLeftUpMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(3, 4));
@@ -144,7 +144,7 @@ class MovementTest {
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.rightRightUpMovement(present);
+        Position future = Movement.calculateRightRightUpMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(4, 7));
@@ -157,7 +157,7 @@ class MovementTest {
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.rightRightDownMovement(present);
+        Position future = Movement.calculateRightRightDownMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(6, 7));
@@ -170,7 +170,7 @@ class MovementTest {
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.downRightDownMovement(present);
+        Position future = Movement.calculateDownRightDownMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(7, 6));
@@ -183,7 +183,7 @@ class MovementTest {
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.downLeftDownMovement(present);
+        Position future = Movement.calculateDownLeftDownMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(7, 4));
@@ -196,7 +196,7 @@ class MovementTest {
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.leftLeftUpMovement(present);
+        Position future = Movement.calculateLeftLeftUpMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(4, 3));
@@ -209,7 +209,7 @@ class MovementTest {
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.leftLeftDownMovement(present);
+        Position future = Movement.calculateLeftLeftDownMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(6, 3));
@@ -222,7 +222,7 @@ class MovementTest {
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.upRightUpRightUpMovement(present);
+        Position future = Movement.calculateUpRightUpRightUpMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(2, 7));
@@ -235,7 +235,7 @@ class MovementTest {
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.upLeftUpLeftUpMovement(present);
+        Position future = Movement.calculateUpLeftUpLeftUpMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(2, 3));
@@ -248,7 +248,7 @@ class MovementTest {
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.rightRightUpRightUpMovement(present);
+        Position future = Movement.calculateRightRightUpRightUpMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(3, 8));
@@ -261,7 +261,7 @@ class MovementTest {
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.rightRightDownRightDownMovement(present);
+        Position future = Movement.calculateRightRightDownRightDownMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(7, 8));
@@ -274,7 +274,7 @@ class MovementTest {
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.downRightDownRightDownMovement(present);
+        Position future = Movement.calculateDownRightDownRightDownMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(8, 7));
@@ -287,7 +287,7 @@ class MovementTest {
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.downLeftDownLeftDownMovement(present);
+        Position future = Movement.calculateDownLeftDownLeftDownMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(8, 3));
@@ -300,7 +300,7 @@ class MovementTest {
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.leftLeftUpLeftUpMovement(present);
+        Position future = Movement.calculateLeftLeftUpLeftUpMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(3, 2));
@@ -313,7 +313,7 @@ class MovementTest {
         Position present = new Position(5, 5);
 
         //when
-        Position future = Movement.leftLeftDownLeftDownMovement(present);
+        Position future = Movement.calculateLeftLeftDownLeftDownMovement(present);
 
         //then
         assertThat(future).isEqualTo(new Position(7, 2));

@@ -2,7 +2,6 @@ package piece;
 
 import static pieceProperty.PieceType.MA;
 
-import java.util.ArrayList;
 import java.util.List;
 import pieceProperty.Movement;
 import pieceProperty.PieceType;
@@ -24,55 +23,53 @@ public class Ma extends Piece {
     }
 
     private boolean isInvalidMaMove(Position destination) {
-        return !Movement.upRightUPMovement(position).equals(destination)
-                && !Movement.upLeftUpMovement(position).equals(destination)
-                && !Movement.downRightDownMovement(position).equals(destination)
-                && !Movement.downLeftDownMovement(position).equals(destination)
-                && !Movement.rightRightUpMovement(position).equals(destination)
-                && !Movement.rightRightDownMovement(position).equals(destination)
-                && !Movement.leftLeftUpMovement(position).equals(destination)
-                && !Movement.leftLeftDownMovement(position).equals(destination);
+        return !Movement.calculateUpRightUPMovement(position).equals(destination)
+                && !Movement.calculateUpLeftUpMovement(position).equals(destination)
+                && !Movement.calculateDownRightDownMovement(position).equals(destination)
+                && !Movement.calculateDownLeftDownMovement(position).equals(destination)
+                && !Movement.calculateRightRightUpMovement(position).equals(destination)
+                && !Movement.calculateRightRightDownMovement(position).equals(destination)
+                && !Movement.calculateLeftLeftUpMovement(position).equals(destination)
+                && !Movement.calculateLeftLeftDownMovement(position).equals(destination);
     }
 
     @Override
-    public Positions makeRoute(final Position position) {
+    public Positions makeRoute(final Position destination) {
         Positions route = new Positions(List.of());
 
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
-        int presentCol = getBoardPosition().getCol();
-        int presentRow = getBoardPosition().getRow();
+        int dx = getBoardPosition().getRow() - destination.getRow();
+        int dy = getBoardPosition().getCol() - destination.getCol();
 
         if (dx == 2 && dy == 1) {
-            route.addPosition(new Position(presentRow - 1, presentCol));
+            route.addPosition(Movement.calculateUpMovement(position));
         }
 
         if (dx == 2 && dy == -1) {
-            route.addPosition(new Position(presentRow - 1, presentCol));
+            route.addPosition(Movement.calculateUpMovement(position));
         }
 
         if (dx == 1 && dy == -2) {
-            route.addPosition(new Position(presentRow, presentCol + 1));
+            route.addPosition(Movement.calculateRightMovement(position));
         }
 
         if (dx == -1 && dy == -2) {
-            route.addPosition(new Position(presentRow, presentCol + 1));
+            route.addPosition(Movement.calculateRightMovement(position));
         }
 
         if (dx == -2 && dy == -1) {
-            route.addPosition(new Position(presentRow + 1, presentCol));
+            route.addPosition(Movement.calculateDownMovement(position));
         }
 
         if (dx == -2 && dy == 1) {
-            route.addPosition(new Position(presentRow + 1, presentCol));
+            route.addPosition(Movement.calculateDownMovement(position));
         }
 
         if (dx == 1 && dy == 2) {
-            route.addPosition(new Position(presentRow, presentCol - 1));
+            route.addPosition(Movement.calculateLeftMovement(position));
         }
 
         if (dx == -1 && dy == 2) {
-            route.addPosition(new Position(presentRow, presentCol - 1));
+            route.addPosition(Movement.calculateLeftMovement(position));
         }
 
         return route;

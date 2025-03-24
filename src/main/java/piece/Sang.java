@@ -23,63 +23,61 @@ public class Sang extends Piece {
     }
 
     private boolean isInvalidSangMove(Position destination) {
-        return !Movement.upRightUpRightUpMovement(position).equals(destination)
-                && !Movement.upLeftUpLeftUpMovement(position).equals(destination)
-                && !Movement.rightRightUpRightUpMovement(position).equals(destination)
-                && !Movement.rightRightDownRightDownMovement(position).equals(destination)
-                && !Movement.downRightDownRightDownMovement(position).equals(destination)
-                && !Movement.downLeftDownLeftDownMovement(position).equals(destination)
-                && !Movement.leftLeftUpLeftUpMovement(position).equals(destination)
-                && !Movement.leftLeftDownLeftDownMovement(position).isSameRow(destination);
+        return !Movement.calculateUpRightUpRightUpMovement(position).equals(destination)
+                && !Movement.calculateUpLeftUpLeftUpMovement(position).equals(destination)
+                && !Movement.calculateRightRightUpRightUpMovement(position).equals(destination)
+                && !Movement.calculateRightRightDownRightDownMovement(position).equals(destination)
+                && !Movement.calculateDownRightDownRightDownMovement(position).equals(destination)
+                && !Movement.calculateDownLeftDownLeftDownMovement(position).equals(destination)
+                && !Movement.calculateLeftLeftUpLeftUpMovement(position).equals(destination)
+                && !Movement.calculateLeftLeftDownLeftDownMovement(position).isSameRow(destination);
     }
 
     @Override
-    public Positions makeRoute(final Position position) {
+    public Positions makeRoute(final Position destination) {
         Positions route = new Positions(List.of());
 
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
-        int presentRow = getBoardPosition().getRow();
-        int presentCol = getBoardPosition().getCol();
+        int dx = getBoardPosition().getRow() - destination.getRow();
+        int dy = getBoardPosition().getCol() - destination.getCol();
 
         if (dx == 3 && dy == 2) {
-            route.addPosition(new Position(presentRow - 1, presentCol));
-            route.addPosition(new Position(presentRow - 2, presentCol - 1));
+            route.addPosition(Movement.calculateUpMovement(position));
+            route.addPosition(Movement.calculateUpLeftUpMovement(position));
         }
 
         if (dx == 3 && dy == -2) {
-            route.addPosition(new Position(presentRow - 1, presentCol));
-            route.addPosition(new Position(presentRow - 2, presentCol + 1));
+            route.addPosition(Movement.calculateUpMovement(position));
+            route.addPosition(Movement.calculateUpRightUPMovement(position));
         }
 
         if (dx == 2 && dy == -3) {
-            route.addPosition(new Position(presentRow, presentCol + 1));
-            route.addPosition(new Position(presentRow - 1, presentCol + 2));
+            route.addPosition(Movement.calculateRightMovement(position));
+            route.addPosition(Movement.calculateRightRightUpMovement(position));
         }
 
         if (dx == -2 && dy == -3) {
-            route.addPosition(new Position(presentRow, presentCol + 1));
-            route.addPosition(new Position(presentRow + 1, presentCol + 2));
+            route.addPosition(Movement.calculateRightMovement(position));
+            route.addPosition(Movement.calculateRightRightDownMovement(position));
         }
 
         if (dx == -3 && dy == 2) {
-            route.addPosition(new Position(presentRow + 1, presentCol));
-            route.addPosition(new Position(presentRow + 2, presentCol - 1));
+            route.addPosition(Movement.calculateDownMovement(position));
+            route.addPosition(Movement.calculateDownLeftDownMovement(position));
         }
 
         if (dx == -3 && dy == -2) {
-            route.addPosition(new Position(presentRow + 1, presentCol));
-            route.addPosition(new Position(presentRow + 2, presentCol + 1));
+            route.addPosition(Movement.calculateDownMovement(position));
+            route.addPosition(Movement.calculateDownRightDownMovement(position));
         }
 
         if (dx == 2 && dy == 3) {
-            route.addPosition(new Position(presentRow, presentCol - 1));
-            route.addPosition(new Position(presentRow - 1, presentCol - 2));
+            route.addPosition(Movement.calculateLeftMovement(position));
+            route.addPosition(Movement.calculateLeftLeftUpMovement(position));
         }
 
         if (dx == -2 && dy == 3) {
-            route.addPosition(new Position(presentRow, presentCol - 1));
-            route.addPosition(new Position(presentRow + 1, presentCol - 2));
+            route.addPosition(Movement.calculateLeftMovement(position));
+            route.addPosition(Movement.calculateLeftLeftDownMovement(position));
         }
 
         return route;
