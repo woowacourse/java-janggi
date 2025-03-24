@@ -2,9 +2,9 @@ package domain.gameState;
 
 import domain.board.Board;
 import domain.board.Position;
-import domain.piece.General;
 import domain.piece.Piece;
 import domain.piece.PieceColor;
+import domain.piece.PieceType;
 
 public class BlueTurn implements State {
 
@@ -22,7 +22,7 @@ public class BlueTurn implements State {
 
         Piece destinationPiece = board.getPieceBy(destination);
         board.move(piece, source, destination);
-        boolean isGeneral = destinationPiece.isSamePiece(new General(pieceColor));
+        boolean isGeneral = destinationPiece.isSamePiece(PieceType.GENERAL);
 
         if (isGeneral) {
             return new Finished(pieceColor);

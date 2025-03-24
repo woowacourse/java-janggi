@@ -27,6 +27,10 @@ public abstract class Piece {
         return this.type == other.type;
     }
 
+    public boolean isSamePiece(PieceType type) {
+        return this.type == type;
+    }
+
     public boolean isOtherTeam(Piece other) {
         return this.color != other.color;
     }
