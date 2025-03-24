@@ -2,7 +2,6 @@ package controller;
 
 import domain.Janggi;
 import domain.board.BoardPosition;
-import domain.board.SelectedPositions;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
@@ -31,7 +30,7 @@ public class JanggiController {
                 final BoardPosition selectBoardPosition = createSelectBoardPosition();
                 final BoardPosition destinationBoardPosition = createDestinationBoardPosition();
 
-                janggi.processTurn(new SelectedPositions(selectBoardPosition, destinationBoardPosition));
+                janggi.processTurn(selectBoardPosition, destinationBoardPosition);
             } catch (IllegalArgumentException e) {
                 outputView.printInputExceptionMessage(e);
             }

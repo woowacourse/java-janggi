@@ -33,6 +33,7 @@ public class Board {
             final BoardPosition destinationBoardPosition,
             final Team currentTeam
     ) {
+        validateDifferentPositions(selectBoardPosition, destinationBoardPosition);
         validateSelectBoardPosition(selectBoardPosition);
 
         final Piece selectedPiece = pieces.get(selectBoardPosition);
@@ -51,6 +52,15 @@ public class Board {
         return pieces.values().stream()
                 .filter(Piece::isGeneral)
                 .toList();
+    }
+
+    private void validateDifferentPositions(
+            final BoardPosition selectBoardPosition,
+            final BoardPosition destinationBoardPosition
+    ) {
+        if (selectBoardPosition.equals(destinationBoardPosition)) {
+            throw new IllegalArgumentException("기물을 같은 위치로 이동시킬 수 없습니다.");
+        }
     }
 
     private void validateSelectBoardPosition(final BoardPosition selectBoardPosition) {

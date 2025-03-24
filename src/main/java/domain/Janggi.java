@@ -2,7 +2,6 @@ package domain;
 
 import domain.board.Board;
 import domain.board.BoardPosition;
-import domain.board.SelectedPositions;
 import domain.piece.Piece;
 import java.util.Map;
 
@@ -26,10 +25,13 @@ public class Janggi {
         return new Janggi(board, turn);
     }
 
-    public void processTurn(final SelectedPositions selectedPositions) {
+    public void processTurn(
+            final BoardPosition selectPosition,
+            final BoardPosition destinationPosition
+    ) {
         board.movePiece(
-                selectedPositions.selectPosition(),
-                selectedPositions.destinationPosition(),
+                selectPosition,
+                destinationPosition,
                 turn.currentTeam()
         );
 

@@ -97,6 +97,22 @@ class BoardTest {
 @Nested
 class InvalidCases {
 
+    @DisplayName("이동하는 기물의 위치와 이동시키려는 위치가 동일하면 예외가 발생한다.")
+    @Test
+    void validateDifferentPositions() {
+        // given
+        Board board = new Board(Map.of(
+                new BoardPosition(0, 0), new Zzu(Team.GREEN)
+        ));
+
+        // when & then
+        assertThatThrownBy(() -> board.movePiece(
+                new BoardPosition(0, 0),
+                new BoardPosition(0, 0), Team.GREEN))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("기물을 같은 위치로 이동시킬 수 없습니다.");
+    }
+
     @DisplayName("이동하려는 위치에 기물이 존재하지 않으면 예외가 발생한다.")
     @Test
     void validateSelectBoardPosition() {

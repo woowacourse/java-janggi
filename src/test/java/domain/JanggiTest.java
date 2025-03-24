@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import domain.board.Board;
 import domain.board.BoardPosition;
 import domain.board.InitialBoardFixture;
-import domain.board.SelectedPositions;
 import domain.piece.General;
 import domain.piece.Zzu;
 import java.util.Map;
@@ -45,11 +44,9 @@ class JanggiTest {
                     new BoardPosition(0, 0), new Zzu(Team.GREEN)
             ));
             Janggi janggi = new Janggi(board, new Turn(Team.GREEN));
-            SelectedPositions selectedPositions = new SelectedPositions(new BoardPosition(0, 0),
-                    new BoardPosition(0, 1));
 
             // when
-            janggi.processTurn(selectedPositions);
+            janggi.processTurn(new BoardPosition(0, 0), new BoardPosition(0, 1));
 
             // then
             assertThat(janggi.getCurrentTeam()).isEqualTo(Team.RED);
