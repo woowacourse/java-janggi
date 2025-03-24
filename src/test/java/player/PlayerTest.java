@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import piece.Janggun;
 import piece.Jol;
 import pieceProperty.Position;
+import pieceProperty.Positions;
 
 class PlayerTest {
     @Test
@@ -136,6 +137,22 @@ class PlayerTest {
                 .hasMessage("[ERROR] 졸이 움직일 수 없는 위치입니다.");
 
         assertDoesNotThrow(() -> player.canPieceMoveTo(new Position(5, 5), new Position(5, 6)));
+    }
+
+    @Test
+    @DisplayName("기물 이동 경로 작성 테스트")
+    void makeRouteTest() {
+        //given
+        Jol jol = new Jol(new Position(5, 5));
+        Pieces pieces = new Pieces(List.of(jol));
+        Position position = new Position(5, 6);
+        Player player = new Player(pieces, HAN);
+
+        //when
+        Positions actual = player.makeRoute(new Position(5, 5), position);
+
+        //then
+        assertThat(actual.getPositions().contains(position)).isTrue();
     }
 
 }
