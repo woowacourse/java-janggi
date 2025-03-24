@@ -25,22 +25,14 @@ public class Chariot extends UnLimitMovable {
         List<Position> reachableDestinations = new ArrayList<>();
         for (Position position : positions) {
             Piece targetPiece = board.get(position);
-            if (isBoundPosition(position, reachableDestinations, targetPiece)) {
+            if (position.isOutOfRange() || isAlly(targetPiece)) {
                 break;
             }
             reachableDestinations.add(position);
+            if (targetPiece.isOccupied() && !isAlly(targetPiece)) {
+                break;
+            }
         }
         return reachableDestinations;
-    }
-
-    private boolean isBoundPosition(final Position position, final List<Position> reachableDestinations, final Piece targetPiece) {
-        if (position.isOutOfRange() || isAlly(targetPiece)) {
-            return true;
-        }
-        if (targetPiece.isOccupied() && !isAlly(targetPiece)) {
-            reachableDestinations.add(position);
-            return true;
-        }
-        return false;
     }
 }
