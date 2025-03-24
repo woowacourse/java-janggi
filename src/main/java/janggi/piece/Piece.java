@@ -1,7 +1,6 @@
 package janggi.piece;
 
 import janggi.value.JanggiPosition;
-import java.util.List;
 
 public abstract class Piece {
 
@@ -19,10 +18,6 @@ public abstract class Piece {
 
     public PieceType getPieceType() {
         return pieceType;
-    }
-
-    public boolean checkPieceType(PieceType pieceType) {
-        return this.pieceType == pieceType;
     }
 
     public JanggiPosition getPosition() {

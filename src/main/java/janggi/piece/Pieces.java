@@ -15,12 +15,14 @@ public class Pieces {
         this.pieces = new ArrayList<>(pieces);
     }
 
+    //targetPieceJanggiPosition은 찾았는데, 이동할 좌표를 이상하게 입력한 경우에 발생하는 문제임
+    //
     public void movePiece(final Pieces enemyPieces, final JanggiPosition targetPieceJanggiPosition,
             final JanggiPosition destination) {
         Piece target = findTargetPiece(targetPieceJanggiPosition);
 
-        pieces.remove(target);
         Piece movedTarget = target.move(destination, enemyPieces, this);
+        pieces.remove(target);
         pieces.add(movedTarget);
     }
 
@@ -51,29 +53,7 @@ public class Pieces {
                 .anyMatch(piece -> sangDirection.isRoute(position, piece.getPosition()));
     }
 
-    public boolean isPieceInPathEmpty(List<JanggiPosition> path, List<Piece> enemy) {
-        List<Piece> alliesInPath = searchPiecesInPath(pieces, path);
-        List<Piece> enemyInPath = searchPiecesInPath(enemy, path);
-
-        return !alliesInPath.isEmpty() || !enemyInPath.isEmpty();
-    }
-
-    public boolean isPoInPath(List<JanggiPosition> path, List<Piece> enemy) {
-        List<Piece> alliesInPath = searchPiecesInPath(pieces, path);
-        List<Piece> enemyInPath = searchPiecesInPath(enemy, path);
-
-        return alliesInPath.stream().anyMatch(piece -> piece.checkPieceType(PieceType.PO)) ||
-                enemyInPath.stream().anyMatch(piece -> piece.checkPieceType(PieceType.PO));
-    }
-
-    public boolean isOnlyOnePieceInPath(List<JanggiPosition> path, List<Piece> enemy, List<Piece> allies) {
-        List<Piece> alliesInPath = searchPiecesInPath(allies, path);
-        List<Piece> enemyInPath = searchPiecesInPath(enemy, path);
-
-        return alliesInPath.size() + enemyInPath.size() == 1;
-    }
-
-    private List<Piece> searchPiecesInPath(List<Piece> pieces, List<JanggiPosition> pathPositions) {
+    public List<Piece> searchPiecesInPath(List<JanggiPosition> pathPositions) {
         return pieces.stream()
                 .filter(piece -> pathPositions.contains(piece.getPosition()))
                 .toList();
