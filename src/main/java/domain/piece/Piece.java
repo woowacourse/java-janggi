@@ -9,8 +9,8 @@ import java.util.Objects;
 public abstract class Piece {
 
     protected final PieceType pieceType;
-
     protected final Team team;
+
     public Piece(final PieceType pieceType, final Team team) {
         this.pieceType = pieceType;
         this.team = team;

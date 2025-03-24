@@ -26,7 +26,7 @@ public class OutputView {
                     System.out.print(" . ");
                 } else {
                     final String color = createColorCode(piece.getTeam());
-                    System.out.print(" " + color + piece + RESET + " ");
+                    System.out.print(" " + color + piece.getPieceType().getTitle() + RESET + " ");
                 }
             }
             System.out.println();
