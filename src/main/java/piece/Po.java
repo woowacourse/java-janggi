@@ -2,7 +2,6 @@ package piece;
 
 import static pieceProperty.PieceType.PO;
 
-import java.util.ArrayList;
 import java.util.List;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
@@ -25,27 +24,16 @@ public class Po extends Piece {
         int presentRow = getBoardPosition().getRow();
 
         if (dRow == 0 && dCol > 0) {
-            for (int i = 1; i < dCol; i++) {
-                route.addPosition(new Position(presentRow, presentCol - i));
-            }
+            addLeftwardRoute(dCol, route, presentRow, presentCol);
         }
-
         if (dRow == 0 && dCol < 0) {
-            for (int i = 1; i < Math.abs(dCol); i++) {
-                route.addPosition(new Position(presentRow, presentCol + i));
-            }
+            addRightwardRoute(dCol, route, presentRow, presentCol);
         }
-
         if (dRow > 0 && dCol == 0) {
-            for (int i = 1; i < dRow; i++) {
-                route.addPosition(new Position(presentRow - i, presentCol));
-            }
+            addUpwardRoute(dRow, route, presentRow, presentCol);
         }
-
         if (dRow < 0 && dCol == 0) {
-            for (int i = 1; i < Math.abs(dRow); i++) {
-                route.addPosition(new Position(presentRow + i, presentCol));
-            }
+            addDownwardRoute(dRow, route, presentRow, presentCol);
         }
 
         return route;
@@ -76,6 +64,30 @@ public class Po extends Piece {
 
     private boolean isInvalidPoMove(Position destination) {
         return !position.isSameCol(destination) && !position.isSameRow(destination);
+    }
+
+    private void addDownwardRoute(int dRow, Positions route, int presentRow, int presentCol) {
+        for (int i = 1; i < Math.abs(dRow); i++) {
+            route.addPosition(new Position(presentRow + i, presentCol));
+        }
+    }
+
+    private void addUpwardRoute(int dRow, Positions route, int presentRow, int presentCol) {
+        for (int i = 1; i < dRow; i++) {
+            route.addPosition(new Position(presentRow - i, presentCol));
+        }
+    }
+
+    private void addRightwardRoute(int dCol, Positions route, int presentRow, int presentCol) {
+        for (int i = 1; i < Math.abs(dCol); i++) {
+            route.addPosition(new Position(presentRow, presentCol + i));
+        }
+    }
+
+    private void addLeftwardRoute(int dCol, Positions route, int presentRow, int presentCol) {
+        for (int i = 1; i < dCol; i++) {
+            route.addPosition(new Position(presentRow, presentCol - i));
+        }
     }
 
 }
