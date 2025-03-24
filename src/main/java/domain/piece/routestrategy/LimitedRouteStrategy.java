@@ -1,11 +1,8 @@
 package domain.piece.routestrategy;
 
-import domain.Direction;
 import domain.Pattern;
 import domain.position.JanggiPosition;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class LimitedRouteStrategy implements JanggiPieceRouteStrategy {
 
