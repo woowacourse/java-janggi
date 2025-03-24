@@ -1,12 +1,12 @@
 package move;
 
 
-import static direction.Direction.DOWN;
-import static direction.Direction.LEFT;
-import static direction.Direction.RIGHT;
-import static direction.Direction.UP;
+import static direction.Movement.DOWN;
+import static direction.Movement.LEFT;
+import static direction.Movement.RIGHT;
+import static direction.Movement.UP;
 
-import direction.Direction;
+import direction.Movement;
 import direction.Point;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ import piece.Pieces;
 
 public class HorseMovement implements MovementRule {
 
-    private static final Map<Point, List<Direction>> paths = Map.of(
+    private static final Map<Point, List<Movement>> paths = Map.of(
             new Point(-1, -2), List.of(UP),
             new Point(1, -2), List.of(UP),
             new Point(-2, -1), List.of(LEFT),
@@ -33,29 +33,29 @@ public class HorseMovement implements MovementRule {
 
     @Override
     public Point move(Pieces pieces, Point from, Point to) {
-        List<Direction> directions = paths.getOrDefault(to.minus(from), List.of());
-        validateInvalidDestination(directions);
+        List<Movement> movements = paths.getOrDefault(to.minus(from), List.of());
+        validateInvalidDestination(movements);
 
         Point checkPoint = new Point(from.column(), from.row());
-        validateExistPieceInPath(pieces, directions, checkPoint);
+        validateExistPieceInPath(pieces, movements, checkPoint);
 
         return to;
     }
 
-    private void validateInvalidDestination(List<Direction> directions) {
-        if (directions.isEmpty()) {
+    private void validateInvalidDestination(List<Movement> movements) {
+        if (movements.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
         }
     }
 
-    private void validateExistPieceInPath(Pieces pieces, List<Direction> directions, Point checkPoint) {
-        if (checkExistPieceInPoint(pieces, directions, checkPoint)) {
+    private void validateExistPieceInPath(Pieces pieces, List<Movement> movements, Point checkPoint) {
+        if (checkExistPieceInPoint(pieces, movements, checkPoint)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
         }
     }
 
-    private boolean checkExistPieceInPoint(Pieces pieces, List<Direction> directions, Point checkPoint) {
-        return directions.stream()
-                .anyMatch(direction -> pieces.isExistPieceIn(checkPoint.plus(direction.multiply(this.direction))));
+    private boolean checkExistPieceInPoint(Pieces pieces, List<Movement> movements, Point checkPoint) {
+        return movements.stream()
+                .anyMatch(movement -> pieces.isExistPieceIn(checkPoint.plus(movement.multiply(this.direction))));
     }
 }

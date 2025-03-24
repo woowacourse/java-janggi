@@ -1,17 +1,17 @@
 package move;
 
-import static direction.Direction.LEFT;
-import static direction.Direction.RIGHT;
-import static direction.Direction.UP;
+import static direction.Movement.LEFT;
+import static direction.Movement.RIGHT;
+import static direction.Movement.UP;
 
-import direction.Direction;
+import direction.Movement;
 import direction.Point;
 import java.util.List;
 import piece.Pieces;
 
 public class SoldierMovement implements MovementRule {
 
-    private static final List<Direction> directions = List.of(LEFT, RIGHT, UP);
+    private static final List<Movement> MOVEMENTS = List.of(LEFT, RIGHT, UP);
 
     private final int direction;
 
@@ -21,8 +21,8 @@ public class SoldierMovement implements MovementRule {
 
     @Override
     public Point move(Pieces pieces, Point from, Point to) {
-        return directions.stream()
-                .map(direction -> direction.multiply(this.direction))
+        return MOVEMENTS.stream()
+                .map(movement -> movement.multiply(this.direction))
                 .map(from::plus)
                 .filter(nextPoint -> nextPoint.equals(to))
                 .findAny()

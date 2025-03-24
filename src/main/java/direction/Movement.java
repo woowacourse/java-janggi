@@ -1,6 +1,6 @@
 package direction;
 
-public enum Direction {
+public enum Movement {
     LEFT(new Point(-1, 0)),
     RIGHT(new Point(1, 0)),
     UP(new Point(0, -1)),
@@ -12,7 +12,7 @@ public enum Direction {
 
     private final Point direction;
 
-    Direction(Point direction) {
+    Movement(Point direction) {
         this.direction = direction;
     }
 

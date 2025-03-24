@@ -48,12 +48,12 @@ public class CannonMovement implements MovementRule {
     }
 
     private List<Point> findPaths(Point from, Point to) {
-        List<Point> paths = new ArrayList<>();
         int minX = Math.min(from.column(), to.column());
         int maxX = Math.max(from.column(), to.column());
         int minY = Math.min(from.row(), to.row());
         int maxY = Math.max(from.row(), to.row());
 
+        List<Point> paths = new ArrayList<>();
         for (int y = minY; y <= maxY; y++) {
             for (int x = minX; x <= maxX; x++) {
                 if (from.equals(new Point(x, y))) {
