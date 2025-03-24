@@ -3,8 +3,8 @@ package janggi.piece;
 import janggi.position.Position;
 
 public enum Movement {
-    UP(1,0),
-    DOWN(-1,0),
+    UP(-1,0),
+    DOWN(1,0),
     RIGHT(0,1),
     LEFT(0,-1),
     RIGHT_UP(RIGHT.row + UP.row, RIGHT.column + UP.column),
@@ -19,6 +19,8 @@ public enum Movement {
     LEFT_LEFT_DOWN(LEFT.row + LEFT_DOWN.row, LEFT.column + LEFT_DOWN.column),
     RIGHT_RIGHT_UP(RIGHT.row + RIGHT_UP.row, RIGHT.column + RIGHT_UP.column),
     RIGHT_RIGHT_DOWN(RIGHT.row + RIGHT_DOWN.row , RIGHT.column + RIGHT_DOWN.column);
+
+
 
     private final int row;
     private final int column;

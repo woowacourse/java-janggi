@@ -10,7 +10,7 @@ public class King implements Piece {
 
     private final Team team;
     private final Position position;
-    private final List<Movement> movements= List.of(
+    private final List<Movement> movements = List.of(
             Movement.UP,
             Movement.DOWN,
             Movement.RIGHT,
@@ -26,8 +26,19 @@ public class King implements Piece {
         this.position = position;
     }
 
-    public void calculatePossibleMovement() {
+    @Override
+    public void move(Position arrivedPosition, List<Piece> positioningPiece) {
 
+    }
+
+    @Override
+    public boolean isSameTeam(Team team) {
+        return false;
+    }
+
+    @Override
+    public boolean matchesPosition(Position position) {
+        return false;
     }
 
     @Override
