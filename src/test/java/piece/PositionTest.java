@@ -56,4 +56,14 @@ class PositionTest {
         assertThat(future).isEqualTo(new Position(4, 5));
     }
 
+    @Test
+    @DisplayName("행, 열 변화율 계산 테스트")
+    void calculateDRowDColTest() {
+        Position position = new Position(5, 5);
+        Position position1 = new Position(4, 3);
+
+        assertThat(position.calculateDRow(position1)).isEqualTo(1);
+        assertThat(position.calculateDCol(position1)).isEqualTo(2);
+    }
+
 }
