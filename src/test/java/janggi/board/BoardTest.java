@@ -34,6 +34,19 @@ public class BoardTest {
             assertThat(board.getJanggiBoard()).isNotNull();
         }
 
+        @DisplayName("보드 사이즈가 올바르게 생성된다.")
+        @Test
+        void boardFactory() {
+            // given
+            final int expected = 32;
+
+            // when
+            final Board board = Board.createInitializedJanggiBoard();
+
+            // then
+            Assertions.assertThat(board.getJanggiBoard()).hasSize(expected);
+        }
+
     }
 
     @Nested
