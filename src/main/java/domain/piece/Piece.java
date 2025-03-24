@@ -25,10 +25,6 @@ public abstract class Piece {
 
     public abstract List<Position> calculatePath(Position startPosition, Position targetPosition);
 
-    public abstract boolean isPo();
-
-    public abstract boolean isGung();
-
     public Team getTeam() {
         return team;
     }

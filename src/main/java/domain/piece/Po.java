@@ -39,15 +39,4 @@ public class Po extends Piece {
         }
         return new ArrayList<>(Collections.nCopies(columnDiff, Move.LEFT));
     }
-
-    @Override
-    public boolean isPo() {
-        return true;
-    }
-
-    @Override
-    public boolean isGung() {
-        return false;
-    }
-
 }

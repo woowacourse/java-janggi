@@ -31,16 +31,6 @@ public class Sang extends Piece {
         return convertToPath(possibleMoves, startPosition);
     }
 
-    @Override
-    public boolean isPo() {
-        return false;
-    }
-
-    @Override
-    public boolean isGung() {
-        return false;
-    }
-
     private boolean isPossibleToArrive(Position startPosition, Position targetPosition, List<Move> moveList) {
         for (Move move : moveList) {
             startPosition = startPosition.movePosition(move);

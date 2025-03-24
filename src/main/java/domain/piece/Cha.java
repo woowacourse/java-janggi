@@ -39,14 +39,4 @@ public class Cha extends Piece {
         }
         return new ArrayList<>(Collections.nCopies(columnDiff, Move.LEFT));
     }
-
-    @Override
-    public boolean isPo() {
-        return false;
-    }
-
-    @Override
-    public boolean isGung() {
-        return false;
-    }
 }

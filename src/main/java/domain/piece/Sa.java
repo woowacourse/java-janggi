@@ -21,14 +21,4 @@ public class Sa extends Piece {
                 .map(position -> List.<Position>of())
                 .orElseThrow(() -> new IllegalArgumentException("이 위치로 이동할 수 없습니다."));
     }
-
-    @Override
-    public boolean isPo() {
-        return false;
-    }
-
-    @Override
-    public boolean isGung() {
-        return false;
-    }
 }

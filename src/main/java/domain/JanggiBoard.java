@@ -1,7 +1,9 @@
 package domain;
 
 import domain.boardgenerator.BoardGenerator;
+import domain.piece.Gung;
 import domain.piece.Piece;
+import domain.piece.Po;
 import java.util.List;
 import java.util.Map;
 
@@ -24,14 +26,14 @@ public class JanggiBoard {
     }
 
     public boolean existGung(Team team) {
-        return board.values().stream().anyMatch(piece -> piece.isGung() && piece.compareTeam(team));
+        return board.values().stream().anyMatch(piece -> piece instanceof Gung && piece.compareTeam(team));
     }
 
     private void validateMovePiece(Piece startPiece, List<Position> path, Piece targetPositionPiece) {
-        if (startPiece.isPo()) {
+        if (startPiece instanceof Po) {
             validateCanonMove(path, targetPositionPiece);
         }
-        if (!startPiece.isPo()) {
+        if (!(startPiece instanceof Po)) {
             validateNonCanonMove(path);
         }
         validateSameTeamAttack(startPiece, targetPositionPiece);

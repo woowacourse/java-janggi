@@ -41,21 +41,22 @@ public class JanggiController {
     }
 
     private <T> T retry(Supplier<T> supplier) {
-        try {
-            return supplier.get();
-        } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(e);
-            retry(supplier);
+        while (true) {
+            try {
+                return supplier.get();
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e);
+            }
         }
-        return null;
     }
 
     private void retry(Runnable runnable) {
-        try {
-            runnable.run();
-        } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(e);
-            retry(runnable);
+        while (true) {
+            try {
+                runnable.run();
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e);
+            }
         }
     }
 }
