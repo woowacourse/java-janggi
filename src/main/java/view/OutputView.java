@@ -17,8 +17,8 @@ public final class OutputView {
     public void displayBoard(Board board) {
         System.out.println();
 
-        Team team1 = board.getCho();  // CHO
-        Team team2 = board.getHan();  // HAN
+        Team team1 = board.getCho();
+        Team team2 = board.getHan();
         Map<Position, Piece> team1Pieces = team1.getPieces();
         Map<Position, Piece> team2Pieces = team2.getPieces();
 

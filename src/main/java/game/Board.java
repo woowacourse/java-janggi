@@ -1,9 +1,5 @@
 package game;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import piece.Piece;
 import position.Position;
 
 public final class Board {
@@ -37,13 +33,6 @@ public final class Board {
         if (team1.getCountry().equals(team2.getCountry())) {
             throw new IllegalArgumentException("두 개의 장기판의 나라는 서로 달라야 합니다.");
         }
-    }
-
-    public Map<Position, Piece> getBoard() {
-        final Map<Position, Piece> status = new HashMap<>();
-        status.putAll(cho.getPieces());
-        status.putAll(han.getPieces());
-        return Collections.unmodifiableMap(status);
     }
 
     public void move(Position fromPosition, Position tagetPosition) {

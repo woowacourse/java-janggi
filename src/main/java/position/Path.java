@@ -1,23 +1,14 @@
 package position;
 
-import piece.MoveDirection;
-import piece.Piece;
-
 import java.util.ArrayList;
 import java.util.List;
+import piece.MoveDirection;
+import piece.Piece;
 
 public record Path(
         Position finalPosition,
         List<Position> pathPositions
 ) {
-    public static Path start(final Position startPosition) {
-        final List<Position> paths = new ArrayList<>();
-        paths.add(startPosition);
-        return new Path(
-                startPosition,
-                paths
-        );
-    }
 
     public static List<Path> getMoveablePaths(final Position startPosition, final List<MoveDirection> moveDirections) {
         List<Path> paths = new ArrayList<>();
@@ -28,11 +19,19 @@ public record Path(
                 paths = path.nextPath(nextPositions);
             }
         }
-
         return paths;
     }
 
-    public List<Path> nextPath(final List<Position> nextPositions) {
+    private static Path start(final Position startPosition) {
+        final List<Position> paths = new ArrayList<>();
+        paths.add(startPosition);
+        return new Path(
+                startPosition,
+                paths
+        );
+    }
+
+    private List<Path> nextPath(final List<Position> nextPositions) {
         List<Path> paths = new ArrayList<>();
 
         for (Position nextPosition : nextPositions) {
