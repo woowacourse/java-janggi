@@ -16,7 +16,7 @@ import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.piece.PieceColor;
 import domain.piece.Soldier;
-import java.util.List;
+import dto.MoveCommandDTO;
 import view.InputView;
 import view.OutputView;
 
@@ -48,13 +48,13 @@ public class JanggiController {
 
     private void playTurn(JanggiGame janggiGame, Board board) {
         outputView.printTurnNotice(janggiGame.getTurnColor());
-        List<String> commands = inputView.readMoveCommand();
+        MoveCommandDTO commands = inputView.readMoveCommand();
 
-        Position source = createPosition(commands.get(0));
-        Position destination = createPosition(commands.get(2));
+        Position source = new Position(Row.from(commands.sourceRow()), Column.from(commands.sourceColumn()));
+        Position destination = new Position(Row.from(commands.destinationRow()),
+                Column.from(commands.destinationColumn()));
 
-        String pieceInput = commands.get(1);
-        Piece piece = createPieceFromTypeAndColor(pieceInput, janggiGame.getTurnColor());
+        Piece piece = createPieceFromTypeAndColor(commands.pieceName(), janggiGame.getTurnColor());
         janggiGame.move(piece, source, destination);
         outputView.printBorad(board);
     }
@@ -82,20 +82,5 @@ public class JanggiController {
             return new Soldier(color);
         }
         throw new IllegalArgumentException("해당하는 기물이 없습니다.");
-    }
-
-    private static Position createPosition(String input) {
-        char rowInput = input.charAt(0);
-        int rowInt = Integer.parseInt(String.valueOf(rowInput));
-        if (rowInt == 0) {
-            rowInt = 10;
-        }
-        Row row = Row.from(rowInt);
-
-        char colInput = input.charAt(1);
-        int colInt = Integer.parseInt(String.valueOf(colInput));
-        Column column = Column.from(colInt);
-
-        return new Position(row, column);
     }
 }
