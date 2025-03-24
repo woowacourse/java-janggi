@@ -34,7 +34,7 @@ public class Soldier extends Piece {
         super(position, team);
     }
 
-    public Set<Route> calculateRoutes() {
+    public Set<Route> calculateIndependentRoutes() {
         return getMovesByTeam().stream()
                 .map(this::calculateRoute)
                 .filter(Optional::isPresent)

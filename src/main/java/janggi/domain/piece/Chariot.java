@@ -16,7 +16,7 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public Set<Route> calculateRoutes() {
+    public Set<Route> calculateIndependentRoutes() {
         final Set<Route> rawRoutes = new HashSet<>();
 
         for (final Direction direction : Direction.getStraightDirections()) {

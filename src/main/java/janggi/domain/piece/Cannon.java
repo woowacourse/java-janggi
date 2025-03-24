@@ -19,7 +19,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public Set<Route> calculateRoutes() {
+    public Set<Route> calculateIndependentRoutes() {
         final Set<Route> validRoutes = new HashSet<>();
 
         for (final Direction direction : Direction.getStraightDirections()) {

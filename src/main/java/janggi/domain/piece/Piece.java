@@ -12,10 +12,10 @@ public abstract class Piece {
     protected Position position;
     protected final Team team;
 
-    public abstract Set<Route> calculateRoutes();
+    public abstract Set<Route> calculateIndependentRoutes();
 
     public Set<Route> getPossibleRoutes(final List<Piece> otherPieces) {
-        return calculateRoutes().stream()
+        return calculateIndependentRoutes().stream()
                 .filter(route -> isValidRoute(route, otherPieces))
                 .collect(Collectors.toSet());
     }

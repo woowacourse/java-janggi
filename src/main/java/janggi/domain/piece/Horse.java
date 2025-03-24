@@ -39,7 +39,7 @@ public class Horse extends Piece {
         super(position, team);
     }
 
-    public Set<Route> calculateRoutes() {
+    public Set<Route> calculateIndependentRoutes() {
         return HORSE_MOVES.stream()
                 .map(this::calculateRoute)
                 .filter(Optional::isPresent)

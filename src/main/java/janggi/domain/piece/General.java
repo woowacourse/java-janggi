@@ -28,7 +28,7 @@ public class General extends Piece {
         super(position, team);
     }
 
-    public Set<Route> calculateRoutes() {
+    public Set<Route> calculateIndependentRoutes() {
         return GENERAL_MOVES.stream()
                 .map(this::calculateRoute)
                 .filter(Optional::isPresent)

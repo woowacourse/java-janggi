@@ -1,10 +1,11 @@
 package janggi.domain.piece;
 
+import static janggi.domain.Team.BLUE;
 import static janggi.domain.Team.RED;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.piece.direction.Route;
 import janggi.domain.piece.direction.Position;
+import janggi.domain.piece.direction.Route;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -15,16 +16,16 @@ class GeneralTest {
 
     @DisplayName("왕 기물이 올바른 루트를 계산하는지 확인한다.")
     @Test
-    void calculateRoutesTest() {
+    void calculateIndependentRoutesTest() {
 
         // given
         final Piece general = new General(new Position(1, 1), RED);
-        final Set<Route> soliderRoutes = general.calculateRoutes();
+        final Set<Route> soliderRoutes = general.calculateIndependentRoutes();
 
-        final Route route1 = new Route(new ArrayList<>(List.of(new Position(0, 1))));
-        final Route route2 = new Route(new ArrayList<>(List.of(new Position(2, 1))));
-        final Route route3 = new Route(new ArrayList<>(List.of(new Position(1, 0))));
-        final Route route4 = new Route(new ArrayList<>(List.of(new Position(1, 2))));
+        final Route route1 = new Route(List.of(new Position(0, 1)));
+        final Route route2 = new Route(List.of(new Position(2, 1)));
+        final Route route3 = new Route(List.of(new Position(1, 0)));
+        final Route route4 = new Route(List.of(new Position(1, 2)));
 
         // when
         final Set<Route> expected = Set.of(route2, route1, route3, route4);
@@ -33,4 +34,22 @@ class GeneralTest {
         assertThat(soliderRoutes).isEqualTo(expected);
     }
 
+    @DisplayName("다른 기물을 통해 왕 기물이 이동 가능한 경로를 얻는다.")
+    @Test
+    void isValidRouteTest() {
+
+        // given
+        final Piece general = new General(new Position(4, 4), RED);
+        final List<Piece> otherPieces = new ArrayList<>();
+        otherPieces.add(new Soldier(new Position(4, 5), RED));
+        otherPieces.add(new Soldier(new Position(3, 4), RED));
+        otherPieces.add(new Soldier(new Position(4, 3), BLUE));
+        otherPieces.add(new Soldier(new Position(5, 4), BLUE));
+
+        // when
+        final Set<Route> generaleRoutes = general.getPossibleRoutes(otherPieces);
+
+        // then
+        assertThat(generaleRoutes.size()).isEqualTo(2);
+    }
 }

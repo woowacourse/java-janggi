@@ -28,7 +28,7 @@ public class Guard extends Piece {
         super(position, team);
     }
 
-    public Set<Route> calculateRoutes() {
+    public Set<Route> calculateIndependentRoutes() {
         return GUARD_MOVES.stream()
                 .map(this::calculateRoute)
                 .filter(Optional::isPresent)
