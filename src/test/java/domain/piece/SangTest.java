@@ -6,9 +6,13 @@ import domain.JanggiCoordinate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -18,52 +22,90 @@ class SangTest {
     @Nested
     class MaCoordinateTest {
 
-        @DisplayName("내 상은 내 기물을 잡으려고 할 수 없다.")
+        @DisplayName("기물은 아군 기물을 잡을 수 없다.")
         @Test
-        void validateTarget() {
-            Piece sang = new Sang(Country.HAN);
-            Piece maEnemy = new Ma(Country.CHO);
+        void validateTeamTarget() {
+            Piece piece = new Sang(Country.HAN);
             Piece maOurTeam = new Ma(Country.HAN);
             Map<JanggiCoordinate, Piece> map = new HashMap<>();
 
-            JanggiCoordinate mySang = new JanggiCoordinate(5, 5);
-            JanggiCoordinate enemyMa = new JanggiCoordinate(2, 7);
+            JanggiCoordinate myMa = new JanggiCoordinate(5, 5);
             JanggiCoordinate ourMa = new JanggiCoordinate(3, 8);
 
-            map.put(mySang, sang);
-            map.put(enemyMa, maEnemy);
+            map.put(myMa, piece);
             map.put(ourMa, maOurTeam);
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertAll(
-                    () -> assertDoesNotThrow(() -> sang.validateMove(board, mySang, enemyMa)),
-                    () -> assertThatThrownBy(() -> sang.validateMove(board, mySang, ourMa))
-                            .isInstanceOf(IllegalArgumentException.class)
-            );
+            assertThatThrownBy(() -> piece.validateMove(board, myMa, ourMa))
+                    .isInstanceOf(IllegalArgumentException.class);
         }
 
-        @DisplayName("상이 현재 위치에서 도달 가능한 위치를 검사한다")
+        @DisplayName("기물은 적군 기물만 잡을 수 있다.")
         @Test
-        void validateMoveToCoordinate() {
-            Piece sang = new Sang(Country.HAN);
+        void validateEnemyTarget() {
+            Piece piece = new Sang(Country.HAN);
+            Piece maEnemy = new Ma(Country.CHO);
             Map<JanggiCoordinate, Piece> map = new HashMap<>();
 
-            JanggiCoordinate sangCoordinate = new JanggiCoordinate(5, 5);
-            JanggiCoordinate reachable = new JanggiCoordinate(2, 7);
-            JanggiCoordinate unReachable1 = new JanggiCoordinate(3, 5);
-            JanggiCoordinate unReachable2 = new JanggiCoordinate(8, 1);
-            JanggiCoordinate unReachable3 = new JanggiCoordinate(10, 2);
+            JanggiCoordinate myPiece = new JanggiCoordinate(5, 5);
+            JanggiCoordinate enemyMa = new JanggiCoordinate(3, 8);
 
-            map.put(sangCoordinate, sang);
+            map.put(myPiece, piece);
+            map.put(enemyMa, maEnemy);
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertAll(
-                    () -> assertDoesNotThrow(() -> sang.validateMove(board, sangCoordinate, reachable)),
-                    () -> assertThatThrownBy(() -> sang.validateMove(board, sangCoordinate, unReachable1)).isInstanceOf(IllegalArgumentException.class),
-                    () -> assertThatThrownBy(() -> sang.validateMove(board, sangCoordinate, unReachable2)).isInstanceOf(IllegalArgumentException.class),
-                    () -> assertThatThrownBy(() -> sang.validateMove(board, sangCoordinate, unReachable3)).isInstanceOf(IllegalArgumentException.class)
+            assertDoesNotThrow(() -> piece.validateMove(board, myPiece, enemyMa));
+        }
+
+        @DisplayName("기물이 현재 위치에서 도달 가능한 위치를 검사한다")
+        @ParameterizedTest
+        @MethodSource("reachableArguments")
+        void validateReachableCoordinate(JanggiCoordinate coordinate) {
+            Piece piece = new Sang(Country.HAN);
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+            JanggiCoordinate pieceCoordinate = new JanggiCoordinate(5, 5);
+            map.put(pieceCoordinate, piece);
+
+            JanggiBoard board = new JanggiBoard(map);
+
+            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, coordinate));
+        }
+
+        private static Stream<Arguments> reachableArguments() {
+            return Stream.of(
+                    Arguments.arguments(new JanggiCoordinate(3, 8)),
+                    Arguments.arguments(new JanggiCoordinate(7, 8)),
+                    Arguments.arguments(new JanggiCoordinate(2, 7)),
+                    Arguments.arguments(new JanggiCoordinate(2, 3)),
+                    Arguments.arguments(new JanggiCoordinate(3, 2)),
+                    Arguments.arguments(new JanggiCoordinate(7, 2)),
+                    Arguments.arguments(new JanggiCoordinate(8, 3)),
+                    Arguments.arguments(new JanggiCoordinate(8, 7))
+            );
+        }
+
+        @DisplayName("기물이 현재 위치에서 도달 불가능한 위치를 검사한다")
+        @ParameterizedTest
+        @MethodSource("unreachableArguments")
+        void validateUnreachableCoordinate(JanggiCoordinate coordinate) {
+            Piece piece = new Sang(Country.HAN);
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+            JanggiCoordinate pieceCoordinate = new JanggiCoordinate(5, 5);
+            map.put(pieceCoordinate, piece);
+
+            JanggiBoard board = new JanggiBoard(map);
+
+            assertThatThrownBy(() -> piece.validateMove(board, pieceCoordinate, coordinate))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        private static Stream<Arguments> unreachableArguments() {
+            return Stream.of(
+                    Arguments.arguments(new JanggiCoordinate(3, 5)),
+                    Arguments.arguments(new JanggiCoordinate(8, 1)),
+                    Arguments.arguments(new JanggiCoordinate(10, 2))
             );
         }
 
@@ -113,7 +155,7 @@ class SangTest {
             JanggiBoard board = new JanggiBoard(map);
 
             assertDoesNotThrow(() -> sang.validateMove(board, sangCoordinate, moveCoordinate1));
-            assertDoesNotThrow(() -> sang.validateMove(board, sangCoordinate, moveCoordinate1));
+            assertDoesNotThrow(() -> sang.validateMove(board, sangCoordinate, moveCoordinate2));
         }
     }
 }
