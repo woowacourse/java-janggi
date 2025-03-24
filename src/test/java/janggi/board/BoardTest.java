@@ -96,7 +96,7 @@ class BoardTest {
         // when & then
         assertThatCode(() -> board.movePiece(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 위치에서 기물을 찾을 수 없습니다.");
+                .hasMessage("해당 위치에 기물이 없습니다. 위치: (0, 3)");
     }
 
     @DisplayName("같은 진영의 기물을 잡는 경우 예외가 발생한다.")

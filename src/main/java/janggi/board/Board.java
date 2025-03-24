@@ -1,7 +1,6 @@
 package janggi.board;
 
 import janggi.board.point.Point;
-import janggi.piece.EmptySpace;
 import janggi.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,21 +15,7 @@ public final class Board {
     private final Map<Point, Piece> placedPieces;
 
     public Board() {
-        placedPieces = initializeBoard();
-    }
-
-    private Map<Point, Piece> initializeBoard() {
-        Map<Point, Piece> pieces = new HashMap<>();
-        for (int i = 0; i < ROW; i++) {
-            initializeRow(pieces, i);
-        }
-        return pieces;
-    }
-
-    private void initializeRow(Map<Point, Piece> pieces, int i) {
-        for (int j = 0; j < COLUMN; j++) {
-            pieces.put(new Point(i, j), new EmptySpace(this));
-        }
+        placedPieces = new HashMap<>();
     }
 
     public void placePiece(Point point, Piece piece) {
@@ -38,20 +23,20 @@ public final class Board {
         placedPieces.put(point, piece);
     }
 
-    public void movePiece(Point from, Point to) {
-        validateMoveRequest(from, to);
-        Piece fromPiece = getPiece(from);
-        fromPiece.validateMove(from, to);
-        validateCaptureEligibility(fromPiece, to);
-        movePieceOnBoard(from, to, fromPiece);
+    public void movePiece(Point fromPoint, Point toPoint) {
+        validateMoveRequest(fromPoint, toPoint);
+        Piece fromPiece = getPiece(fromPoint);
+        fromPiece.validateMove(fromPoint, toPoint);
+        validateCaptureEligibility(fromPiece, toPoint);
+        movePieceOnBoard(fromPoint, toPoint, fromPiece);
     }
 
-    private void validateMoveRequest(Point from, Point to) {
-        if (from.equals(to)) {
+    private void validateMoveRequest(Point fromPoint, Point toPoint) {
+        if (fromPoint.equals(toPoint)) {
             throw new IllegalArgumentException("같은 위치로 이동할 수 없습니다.");
         }
-        validatePointWithinBounds(from);
-        validatePointWithinBounds(to);
+        validatePointWithinBounds(fromPoint);
+        validatePointWithinBounds(toPoint);
     }
 
     private void validatePointWithinBounds(Point point) {
@@ -61,23 +46,29 @@ public final class Board {
         }
     }
 
-    private void validateCaptureEligibility(Piece fromPiece, Point to) {
-        fromPiece.validateCatch(placedPieces.get(to));
+    private void validateCaptureEligibility(Piece fromPiece, Point toPoint) {
+        if (!placedPieces.containsKey(toPoint)) {
+            return;
+        }
+        fromPiece.validateCatch(placedPieces.get(toPoint));
     }
 
-    private void movePieceOnBoard(Point from, Point to, Piece fromPiece) {
-        placedPieces.put(from, new EmptySpace(this));
-        placedPieces.put(to, fromPiece);
+    private void movePieceOnBoard(Point fromPoint, Point toPoint, Piece fromPiece) {
+        placedPieces.remove(fromPoint);
+        placedPieces.put(toPoint, fromPiece);
     }
 
     public Set<Piece> getPiecesByPoint(Set<Point> route) {
         return route.stream()
+                .filter(placedPieces::containsKey)
                 .map(placedPieces::get)
-                .filter(Piece::exists)
                 .collect(Collectors.toUnmodifiableSet());
     }
 
     public Piece getPiece(Point point) {
+        if (!placedPieces.containsKey(point)) {
+            throw new IllegalArgumentException("해당 위치에 기물이 없습니다. 위치: (%s, %s)".formatted(point.x(), point.y()));
+        }
         return placedPieces.get(point);
     }
 

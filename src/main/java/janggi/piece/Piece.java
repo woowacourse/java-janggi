@@ -29,10 +29,6 @@ public abstract class Piece {
         }
     }
 
-    public boolean exists() {
-        return true;
-    }
-
     public boolean isPlacedAtBottom() {
         return isBottom();
     }

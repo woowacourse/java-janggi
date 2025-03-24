@@ -10,5 +10,4 @@ public enum PieceSymbol {
     HORSE,
     SOLDIER_JOL,
     SOLDIER_BYEONG,
-    EMPTY_SPACE,
 }

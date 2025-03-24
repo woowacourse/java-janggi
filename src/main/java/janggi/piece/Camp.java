@@ -14,12 +14,6 @@ public enum Camp {
             return HAN;
         }
     },
-    NEUTRAL {
-        @Override
-        public Camp reverse() {
-            return NEUTRAL;
-        }
-    },
     ;
 
     public abstract Camp reverse();

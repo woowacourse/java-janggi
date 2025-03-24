@@ -12,8 +12,7 @@ class CampTest {
     @ParameterizedTest
     @CsvSource({
             "CHU, HAN",
-            "HAN, CHU",
-            "NEUTRAL, NEUTRAL"
+            "HAN, CHU"
     })
     void reverseTest(Camp camp, Camp expected) {
         // when

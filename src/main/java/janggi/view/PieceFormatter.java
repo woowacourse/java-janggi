@@ -18,8 +18,7 @@ public final class PieceFormatter {
             PieceSymbol.GUARD, "사",
             PieceSymbol.HORSE, "마",
             PieceSymbol.SOLDIER_JOL, "졸",
-            PieceSymbol.SOLDIER_BYEONG, "병",
-            PieceSymbol.EMPTY_SPACE, "ㅤ"
+            PieceSymbol.SOLDIER_BYEONG, "병"
     );
 
     private PieceFormatter() {

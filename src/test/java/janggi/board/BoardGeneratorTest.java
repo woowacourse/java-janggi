@@ -84,9 +84,7 @@ class BoardGeneratorTest {
         // when
         Board board = BoardGenerator.generate();
         Map<Point, Piece> placedPieces = board.getPlacedPieces();
-        int count = (int) placedPieces.values().stream()
-                .filter(Piece::exists)
-                .count();
+        int count = placedPieces.size();
 
         // then
         assertThat(count)

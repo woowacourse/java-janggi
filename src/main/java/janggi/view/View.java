@@ -81,7 +81,7 @@ public final class View {
     }
 
     private void displayPiece(Map<Point, Piece> placedPieces, int i, int j) {
-        if (placedPieces.get(new Point(j, i)) == null) {
+        if (!placedPieces.containsKey(new Point(j, i))) {
             System.out.print(BOARD_DELIMITER_LINE + EMPTY_SPACE);
             return;
         }
