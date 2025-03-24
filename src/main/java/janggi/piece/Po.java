@@ -17,7 +17,7 @@ public class Po extends Piece {
     }
 
     @Override
-    public void validateMove(List<Piece> pieces, boolean hasPieceInArrivalPosition) {
+    public void validateExistPieceInPath(List<Piece> pieces, boolean hasPieceInArrivalPosition) {
         if (isConsecutiveWithOutLast(pieces, hasPieceInArrivalPosition)) {
             throw new IllegalArgumentException("[ERROR] 오직 하나의 기물만 뛰어넘을 수 있습니다.");
         }

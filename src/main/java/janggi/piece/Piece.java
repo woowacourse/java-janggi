@@ -33,7 +33,7 @@ public abstract class Piece {
 
     abstract void validateDistanceAndDirection(int differenceForY, int differenceForX);
 
-    public void validateMove(List<Piece> pieces, boolean hasPieceInArrivalPosition) {
+    public void validateExistPieceInPath(List<Piece> pieces, boolean hasPieceInArrivalPosition) {
         if ((hasPieceInArrivalPosition && pieces.size() > 1) || (!hasPieceInArrivalPosition && !pieces.isEmpty())) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
         }

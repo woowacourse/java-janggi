@@ -25,7 +25,7 @@ public class Board {
         Piece piece = findOwnPiece(currentTeam, currentPosition);
         Path path = piece.makePath(currentPosition, arrivalPosition);
 
-        piece.validateMove(getPiecesByPath(path), hasPiece(arrivalPosition));
+        piece.validateExistPieceInPath(getPiecesByPath(path), hasPiece(arrivalPosition));
         movePiece(piece, currentPosition, arrivalPosition, path);
     }
 
@@ -87,7 +87,6 @@ public class Board {
             return;
         }
         updatePosition(currentPosition, arrivalPosition, piece);
-
     }
 
     private void updatePosition(Position currentPosition, Position arrivalPosition, Piece piece) {
