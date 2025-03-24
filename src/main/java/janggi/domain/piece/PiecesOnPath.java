@@ -25,10 +25,9 @@ public class PiecesOnPath {
                 .allMatch(Piece::isEmptyPiece);
     }
 
-    public int countSamePiece(Piece piece) {
-        return Math.toIntExact(pieces.stream()
-                .filter(each -> each.isSamePiece(piece))
-                .count());
+    public boolean isExistSamePiece(Piece piece) {
+        return pieces.stream()
+                .anyMatch(each -> each.isSamePiece(piece));
     }
 
     public int countNotSamePieceWithoutDestination(Piece piece) {

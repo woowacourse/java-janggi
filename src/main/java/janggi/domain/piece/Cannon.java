@@ -17,7 +17,7 @@ public class Cannon extends Piece {
         if (piecesOnPath.isDestinationOfDynasty(dynasty)) {
             return false;
         }
-        if (piecesOnPath.countSamePiece(this) > 0) {
+        if (piecesOnPath.isExistSamePiece(this)) {
             return false;
         }
 

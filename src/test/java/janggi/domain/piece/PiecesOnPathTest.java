@@ -40,17 +40,17 @@ class PiecesOnPathTest {
         assertThat(actual).isTrue();
     }
 
-    @DisplayName("같은 피스의 개수를 알 수 있다.")
+    @DisplayName("같은 피스가 존재하는지 알 수 있다.")
     @Test
-    void countSamePiece() {
+    void isExistSamePiece() {
         //given
         PiecesOnPath piecesOnPath = new PiecesOnPath(new HanSoldier(), new EmptyPiece(), new HanSoldier());
 
         //when
-        int count = piecesOnPath.countSamePiece(new HanSoldier());
+        boolean result = piecesOnPath.isExistSamePiece(new HanSoldier());
 
         //then
-        assertThat(count).isEqualTo(2);
+        assertThat(result).isTrue();
     }
 
     @DisplayName("목적지를 제외하고 같지 않은 피스의 개수를 알 수 있다")
