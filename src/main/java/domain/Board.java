@@ -1,6 +1,7 @@
 package domain;
 
 import domain.piece.Piece;
+import domain.piece.PieceRemover;
 import domain.piece.Pieces;
 import domain.spatial.Position;
 import java.util.List;
@@ -18,7 +19,7 @@ public record Board(
         validatePieceMovingPath(player, targetPosition, piece);
 
         pieces.updatePosition(piece, targetPosition);
-        catchOppositePieceIfExistsTargetPosition(player, targetPosition);
+        new PieceRemover().removePieceIfExists(getOppositePieces(player), targetPosition);
     }
 
     public boolean isFinish() {
@@ -32,7 +33,7 @@ public record Board(
     public Player getWinner() {
         return board.keySet().stream()
                 .filter(player -> board.get(player).existKing())
-                .findAny()
+                .findFirst()
                 .orElseThrow(RuntimeException::new);
     }
 
@@ -70,13 +71,6 @@ public record Board(
     private boolean existsCannon(final Position position) {
         return board.values().stream()
                 .anyMatch(pieces -> pieces.isCannonByPosition(position));
-    }
-
-    private void catchOppositePieceIfExistsTargetPosition(final Player player, final Position targetPosition) {
-        Pieces oppositePieces = getOppositePieces(player);
-        if (oppositePieces.existByPosition(targetPosition)) {
-            oppositePieces.deleteByPosition(targetPosition);
-        }
     }
 
     private Pieces getOppositePieces(final Player player) {
