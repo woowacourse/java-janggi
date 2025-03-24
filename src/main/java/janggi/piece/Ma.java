@@ -12,14 +12,14 @@ public class Ma extends Piece {
     }
 
     @Override
-    public void updatePiecePositionBy(Position position) {
+    public void updatePiecePositionBy(final Position position) {
         this.position = position;
     }
 
     @Override
     public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
-        List<Position> moveRoute = makeRoute(futurePosition);
-        for (Position position : moveRoute) {
+        final List<Position> moveRoute = makeRoute(futurePosition);
+        for (final Position position : moveRoute) {
             validateObstacle(janggiBoard, position);
         }
     }
@@ -32,7 +32,7 @@ public class Ma extends Piece {
 
     @Override
     public List<Position> makeRoute(final Position position) {
-        List<Position> route = new ArrayList<>();
+        final List<Position> route = new ArrayList<>();
 
         final int dx = getBoardPosition().getRow() - position.getRow();
         final int dy = getBoardPosition().getCol() - position.getCol();
