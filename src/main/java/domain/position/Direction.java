@@ -34,6 +34,4 @@ public enum Direction {
     public boolean canMoveFrom(Position from){
         return from.canMovePosition(this.deltaRow, this.deltaColumn);
     }
-
-
 }
