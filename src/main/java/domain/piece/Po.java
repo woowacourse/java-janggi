@@ -50,7 +50,6 @@ public class Po implements Piece {
                                 final Direction direction, final Board board,
                                 final List<Node> candidates) {
         while (true) {
-            candidates.add(currentNode);
             if (!currentNode.hasEdgeByDirection(direction)) {
                 break;
             }
@@ -63,6 +62,7 @@ public class Po implements Piece {
                 candidates.add(nextNode);
                 break;
             }
+            candidates.add(currentNode);
             currentNode = nextNode;
         }
     }

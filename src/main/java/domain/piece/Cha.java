@@ -34,8 +34,11 @@ public class Cha implements Piece {
     private void findCandidates(Node currentNode,
                                 final Board board, final Direction direction,
                                 final List<Node> candidates) {
-        while (true) {
+        if (!board.hasPieceTeamByNode(currentNode, this.team)) {
             candidates.add(currentNode);
+        }
+
+        while (true) {
             if (!currentNode.hasEdgeByDirection(direction)) {
                 break;
             }
@@ -43,6 +46,7 @@ public class Cha implements Piece {
             if (board.hasPieceTeamByNode(nextNode, this.team)) {
                 break;
             }
+            candidates.add(nextNode);
             currentNode = nextNode;
         }
     }
