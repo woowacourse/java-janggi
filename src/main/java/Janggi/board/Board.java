@@ -37,6 +37,13 @@ public class Board {
         return false;
     }
 
+    public boolean containsCannonByPositions(final List<Position> positions){
+        return positions.stream()
+                .filter(janggiBoard::containsKey)
+                .map(janggiBoard::get)
+                .anyMatch(Piece::isCannon);
+    }
+
     public boolean equalsTeamTypeByPosition(final Position position, final Country country) {
         if (janggiBoard.containsKey(position)) {
             final Piece piece = janggiBoard.get(position);

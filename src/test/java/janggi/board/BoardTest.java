@@ -92,6 +92,26 @@ public class BoardTest {
             assertThat(actualCannon).isTrue();
         }
 
+        @DisplayName("Positions 내부에 포가 존재한다면 true를 반환한다.")
+        @Test
+        void containsCannonByPositions() {
+            // given
+            final Map<Position, Piece> map = Map.of(
+                    new Position(1, 1), new Cannon(Country.HAN),
+                    new Position(1, 2), new Soldier(Country.HAN)
+            );
+            final Board board = new Board(map);
+            final List<Position> positions = List.of(
+                    new Position(1, 1), new Position(1, 2)
+            );
+
+            // when
+            final boolean actual = board.containsCannonByPositions(positions);
+
+            // then
+            assertThat(actual).isTrue();
+        }
+
         @Test
         @DisplayName("보드의 특정 위치의 기물이 주어진 팀과 같다면 true를 반환한다.")
         void equalsTeamTypeByPosition() {
