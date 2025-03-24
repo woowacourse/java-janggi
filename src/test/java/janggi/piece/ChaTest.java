@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import janggi.value.Position;
 import java.util.List;
 import java.util.stream.Stream;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -100,7 +99,7 @@ class ChaTest {
         Cha enemyPiece = new Cha(DESTINATION_POSITION);
 
         Cha movedCha = cha.move(DESTINATION_POSITION, List.of(enemyPiece), List.of());
-        Assertions.assertThat(movedCha.getPosition()).isEqualTo(DESTINATION_POSITION);
+        assertThat(movedCha.getPosition()).isEqualTo(DESTINATION_POSITION);
     }
 
     @DisplayName("상대 장기말이 장애물일 경우 장애물 위치를 제외하고 너머로 이동이 불가능하다.")
