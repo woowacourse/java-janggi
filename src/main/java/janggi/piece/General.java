@@ -48,11 +48,6 @@ public class General extends Piece {
     }
 
     @Override
-    public boolean isSameType(Piece other) {
-        return other instanceof General;
-    }
-
-    @Override
     protected List<Movements> getPossibleMovements() {
         return unmodifiableList(possibleMovements);
     }

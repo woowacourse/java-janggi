@@ -48,16 +48,6 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public boolean isGeneral() {
-        return false;
-    }
-
-    @Override
-    public boolean isSameType(Piece other) {
-        return other instanceof Soldier;
-    }
-
-    @Override
     protected List<Movements> getPossibleMovements() {
         if (team == Team.RED) {
             return unmodifiableList(redTeamPossibleMovements);

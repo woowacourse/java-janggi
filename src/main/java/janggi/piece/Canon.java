@@ -54,7 +54,7 @@ public class Canon extends Piece {
             if (isPieceNotExists) {
                 continue;
             }
-            boolean isCanon = board.isSameTypePieceExists(position, this);
+            boolean isCanon = board.isCanonExists(position);
             if (isCanon) {
                 throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
             }
@@ -68,20 +68,15 @@ public class Canon extends Piece {
     @Override
     protected void validatePieceOnGoal(Board board, Position goal) {
         validateSameTeamOnGoal(board, goal);
-        boolean isCanonOnGoal = board.isSameTypePieceExists(goal, this);
+        boolean isCanonOnGoal = board.isCanonExists(goal);
         if (isCanonOnGoal) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
         }
     }
 
     @Override
-    public boolean isGeneral() {
-        return false;
-    }
-
-    @Override
-    public boolean isSameType(Piece other) {
-        return other instanceof Canon;
+    public boolean isCanon() {
+        return true;
     }
 
     @Override

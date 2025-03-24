@@ -49,16 +49,6 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public boolean isGeneral() {
-        return false;
-    }
-
-    @Override
-    public boolean isSameType(Piece other) {
-        return other instanceof Elephant;
-    }
-
-    @Override
     protected List<Movements> getPossibleMovements() {
         return unmodifiableList(allMovements);
     }

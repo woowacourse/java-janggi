@@ -61,10 +61,16 @@ public abstract class Piece {
         }
     }
 
+    public boolean isGeneral() {
+        return false;
+    }
+
+    public boolean isCanon() {
+        return false;
+    }
+
     protected abstract void validatePath(Board board, Path path);
     protected abstract void validatePieceOnGoal(Board board, Position goal);
     protected abstract List<Movements> getPossibleMovements();
-    public abstract boolean isSameType(Piece other);
-    public abstract boolean isGeneral();
     public abstract String getName();
 }

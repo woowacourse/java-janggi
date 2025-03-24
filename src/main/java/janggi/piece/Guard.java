@@ -43,16 +43,6 @@ public class Guard extends Piece {
     }
 
     @Override
-    public boolean isGeneral() {
-        return false;
-    }
-
-    @Override
-    public boolean isSameType(Piece other) {
-        return other instanceof Guard;
-    }
-
-    @Override
     protected List<Movements> getPossibleMovements() {
         return unmodifiableList(possibleMovements);
     }
