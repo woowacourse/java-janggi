@@ -6,14 +6,14 @@ import java.util.Map;
 
 public enum JanggiPieceTypeDisplay {
 
-    궁("궁", JanggiPieceType.궁),
-    마("마", JanggiPieceType.마),
-    사("사", JanggiPieceType.사),
-    상("상", JanggiPieceType.상),
-    졸("졸", JanggiPieceType.졸),
-    병("병", JanggiPieceType.병),
-    차("차", JanggiPieceType.차),
-    포("포", JanggiPieceType.포),
+    KING("궁", JanggiPieceType.KING),
+    HORSE("마", JanggiPieceType.HORSE),
+    ADVISOR("사", JanggiPieceType.ADVISOR),
+    ELEPHANT("상", JanggiPieceType.ELEPHANT),
+    SOLDIER_OF_CHO("졸", JanggiPieceType.SOLDIER_OF_CHO),
+    SOLDIER_OF_HAN("병", JanggiPieceType.SOLDIER_OF_HAN),
+    CHARIOT("차", JanggiPieceType.CHARIOT),
+    CANNON("포", JanggiPieceType.CANNON),
     EMPTY("ㅡ", JanggiPieceType.EMPTY);
 
     private static final Map<JanggiPieceType, String> JANGGI_PIECE_TYPE_DISPLAY;

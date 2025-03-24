@@ -28,7 +28,7 @@ public class JanggiController {
         while (true) {
             processMovePiece(board, nowTurn);
             outputView.printBoard(board.getBoard());
-            if (board.isOpposite궁Captured(nowTurn)) {
+            if (board.isOppositeKingCaptured(nowTurn)) {
                 break;
             }
             nowTurn = nowTurn.getOppositeSide();
@@ -38,8 +38,8 @@ public class JanggiController {
     }
 
     private JanggiBoard initializeJanggiBoard() {
-        BoardArrangementStrategy strategyOfCho = InputProcessor.repeatUntilNormalInput(() -> inputView.get상차림Input(JanggiSide.CHO), OutputView::printErrorMessage);
-        BoardArrangementStrategy strategyOfHan = InputProcessor.repeatUntilNormalInput(() -> inputView.get상차림Input(JanggiSide.HAN), OutputView::printErrorMessage);
+        BoardArrangementStrategy strategyOfCho = InputProcessor.repeatUntilNormalInput(() -> inputView.getBoardArrangementInput(JanggiSide.CHO), OutputView::printErrorMessage);
+        BoardArrangementStrategy strategyOfHan = InputProcessor.repeatUntilNormalInput(() -> inputView.getBoardArrangementInput(JanggiSide.HAN), OutputView::printErrorMessage);
         outputView.printInitBoardMessage();
 
         return new JanggiBoard(new JanggiBoardBasicInitializer(strategyOfCho, strategyOfHan));

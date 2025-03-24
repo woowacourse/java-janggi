@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import domain.MovingPattern;
 import domain.position.JanggiPosition;
 import janggiexception.BlockedByFriendlyPieceException;
-import janggiexception.CannotCapture포Exception;
-import janggiexception.CannotJump포Exception;
+import janggiexception.CannotCaptureCannonException;
+import janggiexception.CannotJumpCannonException;
 import janggiexception.HurdleExistException;
 import janggiexception.InvalidPathException;
 import janggiexception.NotExistOnlyOneHurdleException;
@@ -27,7 +27,7 @@ public class JanggiPieceTest {
     @Test
     void 기물을_잡으면_잡힌_기물의_상태가_바뀐다() {
         // given
-        JanggiPiece piece = new JanggiPiece(JanggiSide.CHO, JanggiPieceType.마);
+        JanggiPiece piece = new JanggiPiece(JanggiSide.CHO, JanggiPieceType.HORSE);
 
         // when
         piece.capture();
@@ -615,7 +615,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> 포.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(CannotJump포Exception.class);
+                    .isInstanceOf(CannotJumpCannonException.class);
         }
 
         @Test
@@ -628,7 +628,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> 포.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
-                    .isInstanceOf(CannotCapture포Exception.class);
+                    .isInstanceOf(CannotCaptureCannonException.class);
         }
 
         @Test

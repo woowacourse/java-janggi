@@ -37,18 +37,18 @@ public final class JanggiBoardBasicInitializer implements JanggiBoardInitializer
     }
 
     private void initChoJanggiBoard(final Map<JanggiPosition, JanggiPiece> janggiBoard) {
-        janggiBoard.put(new JanggiPosition(9, 5), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.궁));
-        janggiBoard.put(new JanggiPosition(0, 1), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.차));
-        janggiBoard.put(new JanggiPosition(0, 9), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.차));
-        janggiBoard.put(new JanggiPosition(8, 2), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.포));
-        janggiBoard.put(new JanggiPosition(8, 8), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.포));
-        janggiBoard.put(new JanggiPosition(7, 1), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.졸));
-        janggiBoard.put(new JanggiPosition(7, 3), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.졸));
-        janggiBoard.put(new JanggiPosition(7, 5), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.졸));
-        janggiBoard.put(new JanggiPosition(7, 7), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.졸));
-        janggiBoard.put(new JanggiPosition(7, 9), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.졸));
-        janggiBoard.put(new JanggiPosition(0, 4), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.사));
-        janggiBoard.put(new JanggiPosition(0, 6), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.사));
+        janggiBoard.put(new JanggiPosition(9, 5), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.KING));
+        janggiBoard.put(new JanggiPosition(0, 1), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.CHARIOT));
+        janggiBoard.put(new JanggiPosition(0, 9), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.CHARIOT));
+        janggiBoard.put(new JanggiPosition(8, 2), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.CANNON));
+        janggiBoard.put(new JanggiPosition(8, 8), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.CANNON));
+        janggiBoard.put(new JanggiPosition(7, 1), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER_OF_CHO));
+        janggiBoard.put(new JanggiPosition(7, 3), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER_OF_CHO));
+        janggiBoard.put(new JanggiPosition(7, 5), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER_OF_CHO));
+        janggiBoard.put(new JanggiPosition(7, 7), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER_OF_CHO));
+        janggiBoard.put(new JanggiPosition(7, 9), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER_OF_CHO));
+        janggiBoard.put(new JanggiPosition(0, 4), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.ADVISOR));
+        janggiBoard.put(new JanggiPosition(0, 6), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.ADVISOR));
 
         Map<JanggiPosition, JanggiPiece> army = strategyOfCho.setUp();
         army.keySet()
@@ -56,18 +56,18 @@ public final class JanggiBoardBasicInitializer implements JanggiBoardInitializer
     }
 
     private void initHanJanggiBoard(final Map<JanggiPosition, JanggiPiece> janggiBoard) {
-        janggiBoard.put(new JanggiPosition(2, 5), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.궁));
-        janggiBoard.put(new JanggiPosition(1, 1), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.차));
-        janggiBoard.put(new JanggiPosition(1, 9), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.차));
-        janggiBoard.put(new JanggiPosition(3, 2), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.포));
-        janggiBoard.put(new JanggiPosition(3, 8), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.포));
-        janggiBoard.put(new JanggiPosition(4, 1), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.병));
-        janggiBoard.put(new JanggiPosition(4, 3), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.병));
-        janggiBoard.put(new JanggiPosition(4, 5), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.병));
-        janggiBoard.put(new JanggiPosition(4, 7), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.병));
-        janggiBoard.put(new JanggiPosition(4, 9), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.병));
-        janggiBoard.put(new JanggiPosition(1, 4), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.사));
-        janggiBoard.put(new JanggiPosition(1, 6), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.사));
+        janggiBoard.put(new JanggiPosition(2, 5), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.KING));
+        janggiBoard.put(new JanggiPosition(1, 1), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.CHARIOT));
+        janggiBoard.put(new JanggiPosition(1, 9), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.CHARIOT));
+        janggiBoard.put(new JanggiPosition(3, 2), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.CANNON));
+        janggiBoard.put(new JanggiPosition(3, 8), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.CANNON));
+        janggiBoard.put(new JanggiPosition(4, 1), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.SOLDIER_OF_HAN));
+        janggiBoard.put(new JanggiPosition(4, 3), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.SOLDIER_OF_HAN));
+        janggiBoard.put(new JanggiPosition(4, 5), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.SOLDIER_OF_HAN));
+        janggiBoard.put(new JanggiPosition(4, 7), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.SOLDIER_OF_HAN));
+        janggiBoard.put(new JanggiPosition(4, 9), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.SOLDIER_OF_HAN));
+        janggiBoard.put(new JanggiPosition(1, 4), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.ADVISOR));
+        janggiBoard.put(new JanggiPosition(1, 6), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.ADVISOR));
 
         Map<JanggiPosition, JanggiPiece> army = strategyOfHan.setUp();
         army.keySet()

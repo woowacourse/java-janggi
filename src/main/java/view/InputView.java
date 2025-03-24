@@ -38,7 +38,7 @@ public class InputView {
         }
     }
 
-    public BoardArrangementStrategy get상차림Input(JanggiSide janggiSide) {
+    public BoardArrangementStrategy getBoardArrangementInput(JanggiSide janggiSide) {
         System.out.println(LINE_SEPARATOR +
                 getMessageWithColorOfSide(janggiSide, JanggiSideDisplay.getJanggiSideDisplay(janggiSide)) + "의 상차림을 선택해주세요."
         );

@@ -31,10 +31,10 @@ public final class JanggiBoard {
         return getPieceOfPosition(position).isTeamOf(janggiSide);
     }
 
-    public boolean isOpposite궁Captured(JanggiSide nowTurn) {
+    public boolean isOppositeKingCaptured(JanggiSide nowTurn) {
         return janggiBoard.keySet().stream()
                 .map(this::getPieceOfPosition)
-                .noneMatch(piece -> piece.isTypeOf(JanggiPieceType.궁) && piece.isTeamOf(nowTurn.getOppositeSide()));
+                .noneMatch(piece -> piece.isTypeOf(JanggiPieceType.KING) && piece.isTeamOf(nowTurn.getOppositeSide()));
     }
 
     public Map<JanggiPosition, JanggiPiece> getBoard() {

@@ -3,7 +3,7 @@ package domain.piece;
 import domain.MovingPattern;
 import domain.piece.movingstrategy.MovingNormalStrategy;
 import domain.piece.movingstrategy.JanggiPieceMovingStrategy;
-import domain.piece.movingstrategy.Moving포Strategy;
+import domain.piece.movingstrategy.MovingCannonStrategy;
 import domain.piece.movingstrategy.NoneMovingStrategy;
 import domain.piece.routestrategy.JanggiPieceRouteStrategy;
 import domain.piece.routestrategy.LimitedRouteStrategy;
@@ -14,13 +14,13 @@ import java.util.List;
 
 public enum JanggiPieceType {
 
-    궁(0, List.of(
+    KING(0, List.of(
             List.of(MovingPattern.MOVE_RIGHT),
             List.of(MovingPattern.MOVE_DOWN),
             List.of(MovingPattern.MOVE_LEFT),
             List.of(MovingPattern.MOVE_UP)
     ), new LimitedRouteStrategy(), new MovingNormalStrategy()),
-    마(5, List.of(
+    HORSE(5, List.of(
             List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_RIGHT),
             List.of(MovingPattern.MOVE_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT),
             List.of(MovingPattern.MOVE_RIGHT, MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT),
@@ -30,13 +30,13 @@ public enum JanggiPieceType {
             List.of(MovingPattern.MOVE_LEFT, MovingPattern.MOVE_DIAGONAL_UP_LEFT),
             List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_LEFT)
     ), new LimitedRouteStrategy(), new MovingNormalStrategy()),
-    사(3, List.of(
+    ADVISOR(3, List.of(
             List.of(MovingPattern.MOVE_RIGHT),
             List.of(MovingPattern.MOVE_DOWN),
             List.of(MovingPattern.MOVE_LEFT),
             List.of(MovingPattern.MOVE_UP)
     ), new LimitedRouteStrategy(), new MovingNormalStrategy()),
-    상(3, List.of(
+    ELEPHANT(3, List.of(
             List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT),
             List.of(MovingPattern.MOVE_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT),
             List.of(MovingPattern.MOVE_RIGHT, MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT, MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT),
@@ -46,28 +46,28 @@ public enum JanggiPieceType {
             List.of(MovingPattern.MOVE_LEFT, MovingPattern.MOVE_DIAGONAL_UP_LEFT, MovingPattern.MOVE_DIAGONAL_UP_LEFT),
             List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_LEFT, MovingPattern.MOVE_DIAGONAL_UP_LEFT)
     ), new LimitedRouteStrategy(), new MovingNormalStrategy()),
-    졸(2, List.of(
+    SOLDIER_OF_CHO(2, List.of(
             List.of(MovingPattern.MOVE_RIGHT),
             List.of(MovingPattern.MOVE_LEFT),
             List.of(MovingPattern.MOVE_UP)
     ), new LimitedRouteStrategy(), new MovingNormalStrategy()),
-    병(2, List.of(
+    SOLDIER_OF_HAN(2, List.of(
             List.of(MovingPattern.MOVE_RIGHT),
             List.of(MovingPattern.MOVE_DOWN),
             List.of(MovingPattern.MOVE_LEFT)
     ), new LimitedRouteStrategy(), new MovingNormalStrategy()),
-    차(13, List.of(
+    CHARIOT(13, List.of(
             List.of(MovingPattern.MOVE_RIGHT),
             List.of(MovingPattern.MOVE_DOWN),
             List.of(MovingPattern.MOVE_LEFT),
             List.of(MovingPattern.MOVE_UP)
     ), new LinearRouteStrategy(), new MovingNormalStrategy()),
-    포(7, List.of(
+    CANNON(7, List.of(
             List.of(MovingPattern.MOVE_RIGHT),
             List.of(MovingPattern.MOVE_DOWN),
             List.of(MovingPattern.MOVE_LEFT),
             List.of(MovingPattern.MOVE_UP)
-    ), new LinearRouteStrategy(), new Moving포Strategy()),
+    ), new LinearRouteStrategy(), new MovingCannonStrategy()),
     EMPTY(0, List.of(), new NoneRouteStrategy(), new NoneMovingStrategy());
 
     private final int score;

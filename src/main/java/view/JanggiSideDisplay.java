@@ -1,6 +1,5 @@
 package view;
 
-import domain.piece.JanggiPieceType;
 import domain.piece.JanggiSide;
 import java.util.HashMap;
 import java.util.Map;
