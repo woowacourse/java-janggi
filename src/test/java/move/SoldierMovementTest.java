@@ -30,8 +30,7 @@ class SoldierMovementTest {
         Point result = soldierMovement.move(pieces, from, to);
 
         // then
-        assertThat(result)
-                .isEqualTo(to);
+        assertThat(result).isEqualTo(to);
     }
 
     @Test
@@ -80,8 +79,7 @@ class SoldierMovementTest {
         Point result = soldierMovement.move(pieces, from, to);
 
         // then
-        assertThat(result)
-                .isEqualTo(to);
+        assertThat(result).isEqualTo(to);
     }
 
     @Test
@@ -114,8 +112,7 @@ class SoldierMovementTest {
         Point result = soldierMovement.move(pieces, from, to);
 
         // then
-        assertThat(result)
-                .isEqualTo(to);
+        assertThat(result).isEqualTo(to);
     }
 
     @Test

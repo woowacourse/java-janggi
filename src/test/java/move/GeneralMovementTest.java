@@ -29,8 +29,7 @@ public class GeneralMovementTest {
         Point result = generalMovement.move(pieces, from, to);
 
         // then
-        assertThat(result)
-                .isEqualTo(to);
+        assertThat(result).isEqualTo(to);
     }
 
     @Test
@@ -63,8 +62,7 @@ public class GeneralMovementTest {
         Point result = generalMovement.move(pieces, from, to);
 
         // then
-        assertThat(result)
-                .isEqualTo(to);
+        assertThat(result).isEqualTo(to);
     }
 
     @Test
@@ -97,8 +95,7 @@ public class GeneralMovementTest {
         Point result = generalMovement.move(pieces, from, to);
 
         // then
-        assertThat(result)
-                .isEqualTo(to);
+        assertThat(result).isEqualTo(to);
     }
 
     @Test
@@ -131,8 +128,7 @@ public class GeneralMovementTest {
         Point result = generalMovement.move(pieces, from, to);
 
         // then
-        assertThat(result)
-                .isEqualTo(to);
+        assertThat(result).isEqualTo(to);
     }
 
     @Test
