@@ -17,19 +17,7 @@ public class Sa implements Piece {
     }
 
     @Override
-    public boolean canMove(Node source, Node destination, Board board) {
-        return isDifferentNode(source, destination) && containsInCandidates(source, destination, board);
-    }
-
-    private boolean isDifferentNode(Node source, Node destination) {
-        return !destination.isSameNode(source);
-    }
-
-    private boolean containsInCandidates(Node source, Node destination, Board board) {
-        return findMovableNodes(source, board).contains(destination);
-    }
-
-    private List<Node> findMovableNodes(Node currentNode, Board board) {
+    public List<Node> findMovableNodes(Node currentNode, Board board) {
         return SA_MOVABLE_DIRECTIONS.stream()
                 .filter(currentNode::hasEdgeByDirection)
                 .map(currentNode::findNextNodeByDirection)

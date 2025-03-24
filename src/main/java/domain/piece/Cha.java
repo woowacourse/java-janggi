@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Cha implements Piece {
 
-    private static final List<Direction> CHA_MOVABLE_DIRECTIONS = List.of(UP, RIGHT, DOWN, LEFT);
+    private static final List<Direction> CHA_MOVABLE_DIRECTIONS = java.util.List.of(UP, RIGHT, DOWN, LEFT);
 
     private final Team team;
 
@@ -22,19 +22,7 @@ public class Cha implements Piece {
     }
 
     @Override
-    public boolean canMove(Node source, Node destination, Board board) {
-        return isDifferentNode(source, destination) && containsInCandidates(source, destination, board);
-    }
-
-    private boolean isDifferentNode(Node source, Node destination) {
-        return !destination.isSameNode(source);
-    }
-
-    private boolean containsInCandidates(Node source, Node destination, Board board) {
-        return findMovableNodes(source, board).contains(destination);
-    }
-
-    private List<Node> findMovableNodes(Node sourceNode, Board board) {
+    public List<Node> findMovableNodes(Node sourceNode, Board board) {
         List<Node> candidates = new ArrayList<>(List.of(sourceNode));
         CHA_MOVABLE_DIRECTIONS.stream()
                 .filter(sourceNode::hasEdgeByDirection)
