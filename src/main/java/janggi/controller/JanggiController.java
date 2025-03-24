@@ -1,10 +1,11 @@
 package janggi.controller;
 
 import janggi.domain.Board;
+import janggi.domain.InitialElephantSetting;
+import janggi.domain.PiecesInitializer;
 import janggi.domain.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
-import janggi.domain.position.Route;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.UserContinueResponse;
@@ -22,7 +23,7 @@ public class JanggiController {
     }
 
     public void run() {
-        Board board = new Board();
+        Board board = new Board(PiecesInitializer.initializePieces(InitialElephantSetting.INNER_ELEPHANT));
         List<Piece> pieces = board.getPieces();
         outputView.printBoard(pieces);
 
@@ -35,14 +36,14 @@ public class JanggiController {
                 break;
             }
             Piece selectedPiece = UserExceptionHandler.retryUntilSuccess(() -> selectPiece(board));
-            Set<Route> possibleRoutes = board.findPossibleRoutes(selectedPiece);
+            Set<Position> possibleDestinations = board.findDestinations(selectedPiece);
 
-            if (possibleRoutes.isEmpty()) {
+            if (possibleDestinations.isEmpty()) {
                 outputView.printCannotMove();
             }
-            if (!possibleRoutes.isEmpty()) {
-                outputView.printPossibleRoutes(possibleRoutes);
-                UserExceptionHandler.retryUntilSuccess(() -> movePiece(board, selectedPiece, possibleRoutes));
+            if (!possibleDestinations.isEmpty()) {
+                outputView.printPossibleRoutes(possibleDestinations);
+                UserExceptionHandler.retryUntilSuccess(() -> movePiece(board, selectedPiece, possibleDestinations));
             }
 
             outputView.printBoard(pieces);
@@ -55,8 +56,8 @@ public class JanggiController {
         return board.selectPiece(position);
     }
 
-    private void movePiece(Board board, Piece selectedPiece, Set<Route> possibleRoutes) {
+    private void movePiece(Board board, Piece selectedPiece, Set<Position> possibleDestinations) {
         Position destination = inputView.inputDestination();
-        board.movePiece(destination, selectedPiece, possibleRoutes);
+        board.movePiece(destination, selectedPiece, possibleDestinations);
     }
 }

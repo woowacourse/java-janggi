@@ -1,10 +1,10 @@
 package janggi.domain;
 
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Chariot;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.domain.position.Route;
+import janggi.domain.position.Routes;
 import java.util.List;
 import java.util.Set;
 
@@ -17,8 +17,8 @@ public class Board {
     private final Pieces pieces;
     private final Turn turn;
 
-    public Board() {
-        this.pieces = new Pieces(PiecesInitializer.initializePieces());
+    public Board(Pieces pieces) {
+        this.pieces = pieces;
         this.turn = Turn.initialize();
     }
 
@@ -27,25 +27,24 @@ public class Board {
         return pieces.findPieceByPositionAndTeam(position, team);
     }
 
-    public Set<Route> findPossibleRoutes(Piece piece) {
-        if (piece.getClass() == Cannon.class) {
-            return pieces.getPossibleRoutesForCannon(piece);
+    public Set<Position> findDestinations(Piece piece) {
+        Set<Route> routes;
+        if (piece.isSameType(PieceType.CANNON)) {
+            routes = pieces.getPossibleRoutesForCannon(piece);
+            return new Routes(routes).getDestinations();
         }
-        if (piece.getClass() == Chariot.class) {
-            return pieces.getPossibleRoutesForChariot(piece);
+        if (piece.isSameType(PieceType.CHARIOT)) {
+            routes = pieces.getPossibleRoutesForChariot(piece);
+            return new Routes(routes).getDestinations();
         }
-        return pieces.getPossibleRoutes(piece);
+        routes = pieces.getPossibleRoutes(piece);
+        return new Routes(routes).getDestinations();
     }
 
-    public void movePiece(final Position position, Piece piece, final Set<Route> possibleRoutes) {
-        List<Position> possibleDestinations = possibleRoutes.stream()
-                .map(Route::getDestination)
-                .toList();
-
+    public void movePiece(final Position position, Piece piece, final Set<Position> possibleDestinations) {
         if (!possibleDestinations.contains(position)) {
             throw new IllegalArgumentException("움직일 수 없는 위치입니다.");
         }
-
         pieces.move(position, piece);
     }
 

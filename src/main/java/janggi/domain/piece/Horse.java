@@ -67,4 +67,6 @@ public class Horse extends Piece {
         return List.of(new RawPosition(position.x() - 1, position.y()),
                 new RawPosition(position.x() - 2, position.y() + 1));
     }
+
+
 }

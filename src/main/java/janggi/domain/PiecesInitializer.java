@@ -17,8 +17,10 @@ import java.util.List;
 
 public class PiecesInitializer {
 
+    private static final int INITIAL_PIECES_SIZE = 32;
+
     //TODO: 추후에 사용자 입력에 따라 상차림을 달리 할 수 있게 해야함.
-    public static List<Piece> initializePieces() {
+    public static Pieces initializePieces(InitialElephantSetting initialElephantSetting) {
         List<Piece> defaultPieces = new ArrayList<>();
 
         Piece redSoldier1 = new Soldier(new Position(0, 6), RED);
@@ -81,10 +83,24 @@ public class PiecesInitializer {
         defaultPieces.add(blueGuard1);
         defaultPieces.add(blueGuard2);
 
-        defaultPieces.addAll(innerElephantFormationForRed());
-        defaultPieces.addAll(innerElephantFormationForBlue());
-
-        return defaultPieces;
+        if (initialElephantSetting == InitialElephantSetting.INNER_ELEPHANT) {
+            defaultPieces.addAll(innerElephantFormationForRed());
+            defaultPieces.addAll(innerElephantFormationForBlue());
+        }
+        if (initialElephantSetting == InitialElephantSetting.OUTER_ELEPHANT) {
+            defaultPieces.addAll(outerElephantFormationForRed());
+            defaultPieces.addAll(outerElephantFormationForBlue());
+        }
+        if (initialElephantSetting == InitialElephantSetting.LEFT_ELEPHANT) {
+            defaultPieces.addAll(leftElephantFormationForRed());
+            defaultPieces.addAll(leftElephantFormationForBlue());
+        }
+        if (initialElephantSetting == InitialElephantSetting.RIGHT_ELEPHANT) {
+            defaultPieces.addAll(rightElephantFormationForRed());
+            defaultPieces.addAll(rightElephantFormationForBlue());
+        }
+        validateInitialize(defaultPieces);
+        return new Pieces(defaultPieces);
     }
 
     private static List<Piece> innerElephantFormationForRed() {
@@ -141,7 +157,7 @@ public class PiecesInitializer {
         return new ArrayList<>(List.of(blueElephant1, blueElephant2, blueHorse1, blueHorse2));
     }
 
-    private static List<Piece> rightElephantFormationForRed(Team team) {
+    private static List<Piece> rightElephantFormationForRed() {
         Piece redElephant1 = new Elephant(new Position(2, 9), RED);
         Piece redElephant2 = new Elephant(new Position(7, 9), RED);
         Piece redHorse1 = new Horse(new Position(1, 9), RED);
@@ -157,5 +173,15 @@ public class PiecesInitializer {
         Piece blueHorse2 = new Horse(new Position(6, 0), BLUE);
 
         return new ArrayList<>(List.of(blueElephant1, blueElephant2, blueHorse1, blueHorse2));
+    }
+
+    private static void validateInitialize(List<Piece> pieces) {
+        if (isNotInitialize(pieces)) {
+            throw new IllegalArgumentException("장기 보드가 초기화되지 않았습니다.");
+        }
+    }
+
+    private static boolean isNotInitialize(List<Piece> pieces) {
+        return pieces.size() != INITIAL_PIECES_SIZE;
     }
 }
