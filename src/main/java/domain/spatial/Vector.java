@@ -1,6 +1,9 @@
 package domain.spatial;
 
-public record Vector(int moveRow, int moveColumn) {
+public record Vector(
+        int moveRow,
+        int moveColumn
+) {
 
     private static final int MAX_MOVE_ROW = 1;
     private static final int MIN_MOVE_ROW = -1;
@@ -9,10 +12,6 @@ public record Vector(int moveRow, int moveColumn) {
 
     public Vector {
         validateRange(moveRow, moveColumn);
-    }
-
-    public Position applyTo(final Position position) {
-        return new Position(position.row() + moveRow, position.column() + moveColumn);
     }
 
     private void validateRange(final int moveRow, final int moveColumn) {
