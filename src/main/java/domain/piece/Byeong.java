@@ -10,6 +10,12 @@ public class Byeong extends Piece {
         super(country, PieceType.BYEONG);
     }
 
+    @Override
+    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+        validateByeongMove(from, to);
+        validateTarget(board, to);
+    }
+
     private void validateByeongMove(JanggiCoordinate from, JanggiCoordinate to) {
         if (super.getCountry() == Country.HAN) {
             validateHanMove(from, to);
@@ -36,11 +42,5 @@ public class Byeong extends Piece {
         if (board.isOccupied(to) && isSameCountry(board.findPieceByCoordinate(to))) {
             throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
         }
-    }
-
-    @Override
-    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateByeongMove(from, to);
-        validateTarget(board, to);
     }
 }

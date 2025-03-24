@@ -28,6 +28,18 @@ public class Cha extends Piece implements LinearMove {
         return from.col() == to.col();
     }
 
+    @Override
+    public void validateLinearMove(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
+        validateRowCol(from, to);
+        validateReachAble(janggiBoard, from, to);
+    }
+
+    @Override
+    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+        validateLinearMove(board, from, to);
+        validateTarget(board, to);
+    }
+
     private void validateReachAble(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
         Direction direction = getDirection(from, to);
         JanggiCoordinate curr = from.move(direction);
@@ -59,17 +71,5 @@ public class Cha extends Piece implements LinearMove {
             return Direction.LEFT;
         }
         return Direction.RIGHT;
-    }
-
-    @Override
-    public void validateLinearMove(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
-        validateRowCol(from, to);
-        validateReachAble(janggiBoard, from, to);
-    }
-
-    @Override
-    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateLinearMove(board, from, to);
-        validateTarget(board, to);
     }
 }

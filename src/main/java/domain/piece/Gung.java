@@ -14,11 +14,11 @@ public class Gung extends Piece {
 
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateMaMoveStrategy(from, to);
+        validateGungMoveStrategy(from, to);
         validateTarget(board, to);
     }
 
-    private void validateMaMoveStrategy(JanggiCoordinate from, JanggiCoordinate to) {
+    private void validateGungMoveStrategy(JanggiCoordinate from, JanggiCoordinate to) {
         validateReachableCoordinate(from, to);
     }
 

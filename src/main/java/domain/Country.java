@@ -5,7 +5,7 @@ public enum Country {
     CHO("초나라"),
     ;
 
-    private String name;
+    private final String name;
 
     Country(String name) {
         this.name = name;

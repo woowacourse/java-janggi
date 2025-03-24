@@ -40,7 +40,7 @@ public class Sang extends Piece {
         if (from.moveLeftUp().moveLeftUp().moveUp().equals(to) || from.moveLeftUp().moveLeftUp().moveLeft().equals(to)) {
             return Direction.LEFT_UP;
         }
-        return Direction.LEFT_DONW;
+        return Direction.LEFT_DOWN;
     }
 
     private void validateTarget(JanggiBoard board, JanggiCoordinate to) {
