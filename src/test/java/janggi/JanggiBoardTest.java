@@ -1,11 +1,14 @@
 package janggi;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.board.JanggiBoard;
 import janggi.fixture.ChoPiecePositionFixture;
+import janggi.fixture.HanPiecePositionFixture;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
+import janggi.setting.CampType;
 import janggi.setting.PieceAssignType;
 import janggi.value.Position;
 import java.util.List;
@@ -18,141 +21,92 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class JanggiBoardTest {
 
-    @DisplayName("초의 마 초기배치를 할 수 있다.")
     @ParameterizedTest
+    @DisplayName("초의 초기배치를 할 수 있다.")
     @MethodSource()
-    void test1(PieceAssignType pieceAssignType, List<Position> maPositions) {
-        //given
-        JanggiBoard janggiBoard = new JanggiBoard(pieceAssignType, PieceAssignType.LEFT_SANG);
+    void canAssignChoPiece(PieceType pieceType, List<Position> expectedPositions) {
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
 
-        //when
-        List<Piece> choWorldPieces = janggiBoard.getChoPieces();
+        List<Piece> allPiecesInCho = janggiBoard.getChoPieces();
+        List<Piece> piecesByType = allPiecesInCho.stream().filter(piece -> piece.checkPieceType(pieceType)).toList();
 
-        List<Position> maPiecePositions = choWorldPieces.stream()
-                .filter(piece -> piece.getPieceType() == PieceType.MA)
-                .map(Piece::getPosition)
-                .toList();
-
-        //then
-        assertThat(maPiecePositions).containsExactlyInAnyOrderElementsOf(maPositions);
+        assertThat(piecesByType).extracting(Piece::getPosition)
+                .containsExactlyInAnyOrderElementsOf(expectedPositions);
     }
 
-    private static Stream<Arguments> test1() {
+    static Stream<Arguments> canAssignChoPiece() {
         return Stream.of(
-                Arguments.of(PieceAssignType.IN_SANG, List.of(new Position(1, 9), new Position(7, 9))),
-                Arguments.of(PieceAssignType.LEFT_SANG, List.of(new Position(2, 9), new Position(7, 9))),
-                Arguments.of(PieceAssignType.OUT_SANG, List.of(new Position(2, 9), new Position(6, 9))),
-                Arguments.of(PieceAssignType.RIGHT_SANG, List.of(new Position(1, 9), new Position(6, 9)))
+                Arguments.of(PieceType.GUNG, ChoPiecePositionFixture.GUNG_POSITIONS),
+                Arguments.of(PieceType.CHA, ChoPiecePositionFixture.CHA_POSITIONS),
+                Arguments.of(PieceType.SA, ChoPiecePositionFixture.SA_POSITIONS),
+                Arguments.of(PieceType.PO, ChoPiecePositionFixture.PO_POSITIONS),
+                Arguments.of(PieceType.MA, ChoPiecePositionFixture.MA_POSITIONS_WITH_LEFT_SANG),
+                Arguments.of(PieceType.SANG, ChoPiecePositionFixture.SANG_POSITIONS_WITH_LEFT_SANG),
+                Arguments.of(PieceType.JOL, ChoPiecePositionFixture.JOL_POSITIONS)
         );
     }
 
-    @DisplayName("초의 상 초기배치를 할 수 있다.")
     @ParameterizedTest
+    @DisplayName("한의 초기배치를 할 수 있다.")
     @MethodSource()
-    void test2(PieceAssignType pieceAssignType, List<Position> sangPositions) {
-        //given
-        JanggiBoard janggiBoard = new JanggiBoard(pieceAssignType, PieceAssignType.LEFT_SANG);
+    void canAssignHanPiece(PieceType pieceType, List<Position> expectedPositions) {
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
 
-        //when
-        List<Piece> choWorldPieces = janggiBoard.getChoPieces();
+        List<Piece> allPiecesInHan = janggiBoard.getHanPieces();
+        List<Piece> piecesByType = allPiecesInHan.stream().filter(piece -> piece.checkPieceType(pieceType)).toList();
 
-        List<Position> sangPiecePositions = choWorldPieces.stream()
-                .filter(piece -> piece.getPieceType() == PieceType.SANG)
-                .map(Piece::getPosition)
-                .toList();
-
-        //then
-        assertThat(sangPiecePositions).containsExactlyInAnyOrderElementsOf(sangPositions);
+        assertThat(piecesByType).extracting(Piece::getPosition)
+                .containsExactlyInAnyOrderElementsOf(expectedPositions);
     }
 
-    private static Stream<Arguments> test2() {
+    static Stream<Arguments> canAssignHanPiece() {
         return Stream.of(
-                Arguments.of(PieceAssignType.IN_SANG, List.of(new Position(2, 9), new Position(6, 9))),
-                Arguments.of(PieceAssignType.LEFT_SANG, List.of(new Position(1, 9), new Position(6, 9))),
-                Arguments.of(PieceAssignType.OUT_SANG, List.of(new Position(1, 9), new Position(7, 9))),
-                Arguments.of(PieceAssignType.RIGHT_SANG, List.of(new Position(2, 9), new Position(7, 9)))
+                Arguments.of(PieceType.GUNG, HanPiecePositionFixture.GUNG_POSITIONS),
+                Arguments.of(PieceType.CHA, HanPiecePositionFixture.CHA_POSITIONS),
+                Arguments.of(PieceType.SA, HanPiecePositionFixture.SA_POSITIONS),
+                Arguments.of(PieceType.PO, HanPiecePositionFixture.PO_POSITIONS),
+                Arguments.of(PieceType.MA, HanPiecePositionFixture.MA_POSITIONS_WITH_LEFT_SANG),
+                Arguments.of(PieceType.SANG, HanPiecePositionFixture.SANG_POSITIONS_WITH_LEFT_SANG),
+                Arguments.of(PieceType.JOL, HanPiecePositionFixture.JOL_POSITIONS)
         );
     }
 
-    @DisplayName("한의 마 초기배치를 할 수 있다.")
-    @ParameterizedTest
-    @MethodSource()
-    void test3(PieceAssignType pieceAssignType, List<Position> maPositions) {
-        //given
-        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.RIGHT_SANG, pieceAssignType);
-
-        //when
-        List<Piece> hanWorldPieces = janggiBoard.getHanPieces();
-
-        List<Position> maPiecePositions = hanWorldPieces.stream()
-                .filter(piece -> piece.getPieceType() == PieceType.MA)
-                .map(Piece::getPosition)
-                .toList();
-
-        //then
-        assertThat(maPiecePositions).containsExactlyInAnyOrderElementsOf(maPositions);
-    }
-
-    private static Stream<Arguments> test3() {
-        return Stream.of(
-                Arguments.of(PieceAssignType.IN_SANG, List.of(new Position(1, 0), new Position(7, 0))),
-                Arguments.of(PieceAssignType.LEFT_SANG, List.of(new Position(2, 0), new Position(7, 0))),
-                Arguments.of(PieceAssignType.OUT_SANG, List.of(new Position(2, 0), new Position(6, 0))),
-                Arguments.of(PieceAssignType.RIGHT_SANG, List.of(new Position(1, 0), new Position(6, 0)))
-        );
-    }
-
-    @DisplayName("한의 상 초기배치를 할 수 있다.")
-    @ParameterizedTest
-    @MethodSource()
-    void test4(PieceAssignType pieceAssignType, List<Position> sangPositions) {
-        //given
-        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.RIGHT_SANG, pieceAssignType);
-
-        //when
-        List<Piece> hanWorldPieces = janggiBoard.getHanPieces();
-
-        List<Position> sangPiecePositions = hanWorldPieces.stream()
-                .filter(piece -> piece.getPieceType() == PieceType.SANG)
-                .map(Piece::getPosition)
-                .toList();
-
-        //then
-        assertThat(sangPiecePositions).containsExactlyInAnyOrderElementsOf(sangPositions);
-    }
-
-    private static Stream<Arguments> test4() {
-        return Stream.of(
-                Arguments.of(PieceAssignType.IN_SANG, List.of(new Position(2, 0), new Position(6, 0))),
-                Arguments.of(PieceAssignType.LEFT_SANG, List.of(new Position(1, 0), new Position(6, 0))),
-                Arguments.of(PieceAssignType.OUT_SANG, List.of(new Position(1, 0), new Position(7, 0))),
-                Arguments.of(PieceAssignType.RIGHT_SANG, List.of(new Position(2, 0), new Position(7, 0)))
-        );
-    }
-
-    @DisplayName("초의 나머지 말을 초기배치를 할 수 있다.")
     @Test
-    void test5() {
-        //given
-        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.RIGHT_SANG, PieceAssignType.RIGHT_SANG);
+    @DisplayName("장기말을 움직일 수 있다.")
+    void canMovePiece() {
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
+        Position targetPosition = ChoPiecePositionFixture.CHA_POSITIONS.getFirst();
+        Position destination = targetPosition.calculateSum(new Position(0, -1));
 
-        //when
-        List<Piece> choWorldPieces = janggiBoard.getChoPieces();
+        janggiBoard.movePiece(CampType.CHO, targetPosition, destination);
 
-        getPositions(PieceType.CHA, ChoPiecePositionFixture.CHA_POSITIONS, choWorldPieces);
-        getPositions(PieceType.GUNG, ChoPiecePositionFixture.GUNG_POSITIONS, choWorldPieces);
-        getPositions(PieceType.SA, ChoPiecePositionFixture.SA_POSITIONS, choWorldPieces);
-        getPositions(PieceType.JOL, ChoPiecePositionFixture.JOL_POSITIONS, choWorldPieces);
-        getPositions(PieceType.PO, ChoPiecePositionFixture.PO_POSITIONS, choWorldPieces);
-    }
-
-    private void getPositions(PieceType pieceType, List<Position> positions, List<Piece> pieces) {
-        List<Position> maPiecePositions = pieces.stream()
-                .filter(piece -> piece.getPieceType() == pieceType)
+        List<Piece> choPieces = janggiBoard.getChoPieces();
+        assertThat(choPieces)
+                .filteredOn(piece -> piece.checkPieceType(PieceType.CHA))
                 .map(Piece::getPosition)
-                .toList();
-        assertThat(maPiecePositions)
-                .containsExactlyInAnyOrderElementsOf(positions);
+                .contains(destination);
     }
 
+    @Test
+    @DisplayName("움직일 대상이 없으면 장기말을 움직일 수 없다.")
+    void canNotMoveWithInvalidTargetPosition() {
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
+        Position targetPosition = new Position(4, 4);
+
+        assertThatThrownBy(() -> janggiBoard.movePiece(CampType.CHO, targetPosition, new Position(5, 4)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 해당 위치에 이동할 말이 존재하지 않습니다.");
+    }
+
+    @Test
+    @DisplayName("목적지가 유효하지 않은 경우 장기말을 움직일 수 없다.")
+    void canNotMoveWithInvalidDestination() {
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
+        Position targetPosition = ChoPiecePositionFixture.CHA_POSITIONS.getFirst();
+        Position destination = new Position(4, 4);
+
+        assertThatThrownBy(() -> janggiBoard.movePiece(CampType.CHO, targetPosition, destination))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 이동이 불가능합니다.");
+    }
 }
