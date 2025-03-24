@@ -55,4 +55,9 @@ public class Player {
     public Boolean isPoAt( Position presentPosition) {
         return pieces.isPoAt(presentPosition);
     }
+
+    public Boolean isExistPoInRoute(Positions route) {
+        return pieces.isExistPoInRoute(route);
+    }
+
 }
