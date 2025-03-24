@@ -4,7 +4,7 @@ import janggi.Movements;
 import janggi.Path;
 import janggi.Team;
 import janggi.board.Board;
-import janggi.board.Position;
+import janggi.board.position.Position;
 
 import janggi.board.PositionOutOfBoardBoundsException;
 import java.util.List;

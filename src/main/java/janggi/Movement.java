@@ -1,6 +1,6 @@
 package janggi;
 
-import janggi.board.Position;
+import janggi.board.position.Position;
 import java.util.function.Function;
 
 public enum Movement {

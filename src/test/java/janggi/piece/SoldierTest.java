@@ -2,7 +2,7 @@ package janggi.piece;
 
 import janggi.Team;
 import janggi.board.Board;
-import janggi.board.Position;
+import janggi.board.position.Position;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -45,7 +45,7 @@ class SoldierTest {
     void 졸병의_정상적인_움직임을_테스트한다(Team team, int column, int row) {
         // given
         Map<Position, Piece> initialBoard = new HashMap<>();
-        Position start = new Position(4, 4);
+        Position start = createPosition(4, 4);
         Position goal = createPosition(column, row);
         Soldier piece = new Soldier(team);
 

@@ -2,7 +2,7 @@ package janggi.piece;
 
 import janggi.Team;
 import janggi.board.Board;
-import janggi.board.Position;
+import janggi.board.position.Position;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +20,7 @@ class CanonTest {
     void 포가_포를_넘어갈_경우_예외를_발생한다() {
         // given
         Map<Position, Piece> initialBoard = new HashMap<>();
-        Position start = new Position(4, 3);
+        Position start = createPosition(4, 3);
         Position goal = createPosition(4, 5);
         Canon piece = new Canon(Team.GREEN);
 
@@ -39,7 +39,7 @@ class CanonTest {
     void 포가_기물_두_개_이상을_뛰어_넘을경우_예외를_발생한다() {
         // given
         Map<Position, Piece> initialBoard = new HashMap<>();
-        Position start = new Position(4, 3);
+        Position start = createPosition(4, 3);
         Position goal = createPosition(4, 6);
         Canon piece = new Canon(Team.GREEN);
 
@@ -59,7 +59,7 @@ class CanonTest {
     void 포가_아무_기물도_뛰어_넘지_않을경우_예외가_발생한다() {
         // given
         Map<Position, Piece> initialBoard = new HashMap<>();
-        Position start = new Position(4, 3);
+        Position start = createPosition(4, 3);
         Position goal = createPosition(4, 6);
         Canon piece = new Canon(Team.GREEN);
 
@@ -77,7 +77,7 @@ class CanonTest {
     void 포가_포를_공격할_경우_예외를_발생한다() {
         // given
         Map<Position, Piece> initialBoard = new HashMap<>();
-        Position start = new Position(4, 3);
+        Position start = createPosition(4, 3);
         Position goal = createPosition(4, 6);
         Canon piece = new Canon(Team.GREEN);
 
@@ -98,15 +98,15 @@ class CanonTest {
     void 포의_정상적인_움직임을_테스트한다(int column, int row) {
         // given
         Map<Position, Piece> initialBoard = new HashMap<>();
-        Position start = new Position(4, 4);
+        Position start = createPosition(4, 4);
         Position goal = createPosition(column, row);
         Canon piece = new Canon(Team.GREEN);
 
         initialBoard.put(start, piece);
-        initialBoard.put(new Position(4,5), new Soldier(Team.GREEN));
-        initialBoard.put(new Position(4,3), new Soldier(Team.GREEN));
-        initialBoard.put(new Position(3,4), new Soldier(Team.GREEN));
-        initialBoard.put(new Position(5,4), new Soldier(Team.GREEN));
+        initialBoard.put(createPosition(4,5), new Soldier(Team.GREEN));
+        initialBoard.put(createPosition(4,3), new Soldier(Team.GREEN));
+        initialBoard.put(createPosition(3,4), new Soldier(Team.GREEN));
+        initialBoard.put(createPosition(5,4), new Soldier(Team.GREEN));
         Board board = new Board(initialBoard);
 
         // when

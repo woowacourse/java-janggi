@@ -1,6 +1,7 @@
 package janggi.board;
 
 import janggi.Team;
+import janggi.board.position.Position;
 import janggi.fixture.BoardFixture;
 import janggi.piece.Chariot;
 import janggi.piece.General;
@@ -18,8 +19,8 @@ class BoardTest {
     void 출발_지점에_기물이_존재하지_않으면_예외를_발생한다() {
         // given
         Board board = BoardFixture.createBasicBoard();
-        Position start = new Position(0, 1);
-        Position goal = new Position(0, 2);
+        Position start = createPosition(0, 1);
+        Position goal = createPosition(0, 2);
 
         // when
         // then
@@ -32,8 +33,8 @@ class BoardTest {
     void 출발_지점에_기물이_존재하면_예외가_발생하지_않는다() {
         // given
         Board board = BoardFixture.createBasicBoard();
-        Position start = new Position(0, 0);
-        Position goal = new Position(0, 2);
+        Position start = createPosition(0, 0);
+        Position goal = createPosition(0, 2);
 
         // when
         // then
@@ -45,8 +46,8 @@ class BoardTest {
     void 목적지에_같은_진영의_기물이_있는_경우_예외가_발생한다() {
         // given
         Board board = BoardFixture.createBasicBoard();
-        Position start = new Position(2, 0);
-        Position goal = new Position(1, 2);
+        Position start = createPosition(2, 0);
+        Position goal = createPosition(1, 2);
 
         // when
         // then
@@ -59,8 +60,8 @@ class BoardTest {
     void 목적지에_같은_진영의_기물이_없는_경우_정상_작동한다() {
         // given
         Board board = BoardFixture.createBasicBoard();
-        Position start = new Position(2, 0);
-        Position goal = new Position(3, 2);
+        Position start = createPosition(2, 0);
+        Position goal = createPosition(3, 2);
 
         // when
         // then
@@ -72,8 +73,8 @@ class BoardTest {
     void 다른_진영의_기물을_움직일_경우_예외를_발생한다() {
         // given
         Board board = BoardFixture.createBasicBoard();
-        Position start = new Position(0, 0);
-        Position goal = new Position(0, 1);
+        Position start = createPosition(0, 0);
+        Position goal = createPosition(0, 1);
 
         // when
         // then

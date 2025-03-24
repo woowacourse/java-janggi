@@ -14,7 +14,7 @@ import janggi.Movements;
 import janggi.Path;
 import janggi.Team;
 import janggi.board.Board;
-import janggi.board.Position;
+import janggi.board.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 

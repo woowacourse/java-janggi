@@ -2,7 +2,9 @@ package janggi.view;
 
 import janggi.Team;
 import janggi.board.Board;
-import janggi.board.Position;
+import janggi.board.position.Column;
+import janggi.board.position.Position;
+import janggi.board.position.Row;
 import janggi.piece.Piece;
 
 import java.util.Map;
@@ -25,9 +27,9 @@ public class OutputView {
     public void printBoard(Board currentBoard) {
         Map<Position, Piece> board = currentBoard.getBoard();
         System.out.println();
-        for (int row = Board.ROW_SIZE - 1; row > -1 ; row--) {
-            System.out.print(row + " ");
-            for (int column = 0; column < Board.COLUMN_SIZE; column++) {
+        for (Row row : Row.values()) {
+            System.out.print(row.getValue() + " ");
+            for (Column column : Column.values()) {
                 printRowPieces(column, row, board);
             }
             System.out.println();
@@ -35,7 +37,7 @@ public class OutputView {
         System.out.println("  0");
     }
 
-    private void printRowPieces(int column, int row, Map<Position, Piece> board) {
+    private void printRowPieces(Column column, Row row, Map<Position, Piece> board) {
         Position position = new Position(column, row);
         Piece piece = board.get(position);
         printPiece(piece);

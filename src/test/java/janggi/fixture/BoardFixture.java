@@ -2,7 +2,7 @@ package janggi.fixture;
 
 import janggi.Team;
 import janggi.board.Board;
-import janggi.board.Position;
+import janggi.board.position.Position;
 import janggi.piece.Canon;
 import janggi.piece.Chariot;
 import janggi.piece.Elephant;

@@ -14,7 +14,7 @@ import janggi.Movements;
 import janggi.Path;
 import janggi.Team;
 import janggi.board.Board;
-import janggi.board.Position;
+import janggi.board.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,12 +24,12 @@ public class Horse extends Piece {
 
     static {
         List<Movements> allMovements = new ArrayList<>();
+        allMovements.add(new Movements(DOWN, LEFT_DOWN));
         allMovements.add(new Movements(UP, LEFT_UP));
         allMovements.add(new Movements(UP, RIGHT_UP));
         allMovements.add(new Movements(RIGHT, RIGHT_UP));
         allMovements.add(new Movements(RIGHT, RIGHT_DOWN));
         allMovements.add(new Movements(DOWN, RIGHT_DOWN));
-        allMovements.add(new Movements(DOWN, LEFT_DOWN));
         allMovements.add(new Movements(LEFT, LEFT_UP));
         allMovements.add(new Movements(LEFT, LEFT_DOWN));
         possibleMovements = allMovements;

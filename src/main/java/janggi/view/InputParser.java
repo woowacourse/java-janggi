@@ -1,6 +1,8 @@
 package janggi.view;
 
-import janggi.board.Position;
+import janggi.board.position.Column;
+import janggi.board.position.Position;
+import janggi.board.position.Row;
 
 public class InputParser {
     private static final String START_GOAL_DELIMITER = " ";
@@ -38,7 +40,7 @@ public class InputParser {
         try {
             int column = Integer.parseInt(position[INDEX_AS_COLUMN]);
             int row = Integer.parseInt(position[INDEX_AS_ROW]);
-            return new Position(column, row);
+            return new Position(Column.getColumn(column), Row.getRow(row));
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("[ERROR] 숫자 좌표만 입력 가능합니다.");
         }

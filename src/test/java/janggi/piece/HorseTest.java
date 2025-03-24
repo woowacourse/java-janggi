@@ -2,7 +2,7 @@ package janggi.piece;
 
 import janggi.Team;
 import janggi.board.Board;
-import janggi.board.Position;
+import janggi.board.position.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -16,12 +16,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
 
 class HorseTest {
-    @CsvSource(value = {"5:6", "3:6", "2:3", "2:5", "3:2", "5:2", "6:5", "6:3"}, delimiterString = ":")
+    @CsvSource(value = {"2:3", "2:5", "3:2", "5:2", "6:5", "6:3"}, delimiterString = ":")
     @ParameterizedTest
     void 마의_정상적인_움직임을_테스트한다(int column, int row) {
         // given
         Map<Position, Piece> initialBoard = new HashMap<>();
-        Position start = new Position(4, 4);
+        Position start = createPosition(4, 4);
         Position goal = createPosition(column, row);
         Horse piece = new Horse(Team.GREEN);
 

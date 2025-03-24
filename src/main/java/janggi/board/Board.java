@@ -1,6 +1,7 @@
 package janggi.board;
 
 import janggi.Team;
+import janggi.board.position.Position;
 import janggi.piece.Piece;
 
 import java.util.Collections;
@@ -8,9 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
-    public static final int ROW_SIZE = 10;
-    public static final int COLUMN_SIZE = 9;
-
     private final Map<Position, Piece> board;
 
     public Board(Map<Position, Piece> board) {
