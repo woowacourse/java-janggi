@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 public final class Board {
 
-    static final int COLUMN = 9;
-    static final int ROW = 10;
+    private static final int COLUMN = 9;
+    private static final int ROW = 10;
 
     private final Map<Point, Piece> placedPieces;
 
