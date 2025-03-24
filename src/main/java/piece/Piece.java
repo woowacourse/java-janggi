@@ -1,6 +1,5 @@
 package piece;
 
-import java.util.List;
 import java.util.Objects;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
