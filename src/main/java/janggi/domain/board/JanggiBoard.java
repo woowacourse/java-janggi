@@ -50,7 +50,7 @@ public class JanggiBoard {
     }
 
     public boolean isEnd() {
-        return placedPieces.countByPieceType(PieceType.KING) != 2;
+        return placedPieces.countByPieceType(PieceType.KING) != Side.values().length;
     }
 
     public Side getWinner() {
