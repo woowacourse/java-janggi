@@ -19,11 +19,11 @@ class BoardTest {
     @Test
     void board() {
         //given
-        PieceInitializer pieceInitializer = new PieceInitializer();
-        List<Piece> pieces = pieceInitializer.generate();
+        final PieceInitializer pieceInitializer = new PieceInitializer();
+        final List<Piece> pieces = pieceInitializer.generate();
 
         //when
-        Board board = new Board(pieces);
+        final Board board = new Board(pieces);
 
         //then
         assertThat(board.getJanggiBoard()).hasSize(32);
@@ -33,15 +33,15 @@ class BoardTest {
     @Test
     void exceptionObstacle() {
         //given
-        List<Piece> pieces = List.of(
+        final List<Piece> pieces = List.of(
                 new Cha(new PieceProfile("차", Nation.HAN), new Position(4, 2)),
                 new Byeong(new PieceProfile("병", Nation.HAN), new Position(7, 2))
         );
 
-        Position presentPosition = new Position(4, 2);
-        Position futurePosition = new Position(8, 2);
+        final Position presentPosition = new Position(4, 2);
+        final Position futurePosition = new Position(8, 2);
 
-        Board board = new Board(pieces);
+        final Board board = new Board(pieces);
 
         //when //then
         assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))
@@ -53,20 +53,20 @@ class BoardTest {
     @Test
     void pieceMove() {
         //given
-        List<Piece> pieces = List.of(
+        final List<Piece> pieces = List.of(
                 new Byeong(new PieceProfile("병", Nation.HAN), new Position(3, 2))
         );
 
-        Board board = new Board(pieces);
+        final Board board = new Board(pieces);
 
-        Position presentPosition = new Position(3, 2);
-        Position futurePosition = new Position(4, 2);
+        final Position presentPosition = new Position(3, 2);
+        final Position futurePosition = new Position(4, 2);
 
         //when
         board.pieceMove(presentPosition, futurePosition);
 
         //then
-        Piece actual = board.getJanggiBoard().get(futurePosition);
+        final Piece actual = board.getJanggiBoard().get(futurePosition);
         assertThat(actual).isEqualTo(new Byeong(new PieceProfile("병", Nation.HAN),
                 new Position(4, 2)));
     }

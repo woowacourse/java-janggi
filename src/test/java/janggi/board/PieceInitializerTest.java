@@ -13,10 +13,10 @@ class PieceInitializerTest {
     @Test
     void generate() {
         //given
-        PieceInitializer pieceInitializer = new PieceInitializer();
+        final PieceInitializer pieceInitializer = new PieceInitializer();
 
         //when
-        List<Piece> actual = pieceInitializer.generate();
+        final List<Piece> actual = pieceInitializer.generate();
 
         //then
         assertThat(actual).hasSize(32);
