@@ -48,20 +48,21 @@ public class JanggiGame {
         return this.turn;
     }
 
+    // TODO : 이 녀석 어떻게좀 해보기...
     public String showCurrentPositionOfPieces() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder currentPosition = new StringBuilder();
         for (Column column : Column.values()) {
-            sb.append(column.getValue()+ " ");
+            currentPosition.append(column.getValue()+ " ");
             for (Row row : Row.values()) {
                 Optional<Piece> piece = pieces.findPieceOfNullable(new Position(column, row));
                 if (piece.isEmpty()) {
-                    sb.append("－");
+                    currentPosition.append("－");
                 } else {
-                    sb.append(piece.get());
+                    currentPosition.append(piece.get());
                 }
             }
-            sb.append("\n");
+            currentPosition.append("\n");
         }
-        return sb.toString();
+        return currentPosition.toString();
     }
 }

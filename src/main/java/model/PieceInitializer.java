@@ -59,4 +59,3 @@ public class PieceInitializer {
         return tmpPieces;
     }
 }
-

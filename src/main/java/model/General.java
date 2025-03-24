@@ -27,11 +27,16 @@ public class General extends Piece {
 
     private void calculatePositionOfMovement(Position departure, List<Position> temporaryPosition) {
         for (Movement movement : movements) {
-            if (!departure.canMove(movement)) {
-                continue;
-            }
-            temporaryPosition.add(departure.move(movement));
+            addMoveByDeparture(departure, temporaryPosition, movement);
         }
+    }
+
+    private void addMoveByDeparture(Position departure, List<Position> temporaryPosition,
+        Movement movement) {
+        if (!departure.canMove(movement)) {
+            return;
+        }
+        temporaryPosition.add(departure.move(movement));
     }
 
     private List<Position> findArrivalDirection(Position arrival,

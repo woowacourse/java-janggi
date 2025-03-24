@@ -23,6 +23,7 @@ public class Cannon extends Piece {
         return calculatePositionOfMovement(departure, arrival);
     }
 
+    //TODO : Depth 분리
     private List<Position> calculatePositionOfMovement(Position departure, Position arrival) {
         for (Movement movement : movements) {
             List<Position> temporaryPosition = new ArrayList<>();
@@ -46,8 +47,3 @@ public class Cannon extends Piece {
         return "포";
     }
 }
-
-
-
-
-

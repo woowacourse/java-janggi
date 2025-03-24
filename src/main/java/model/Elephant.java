@@ -35,15 +35,23 @@ public class Elephant extends Piece {
 
     private void calculatePositionOfMovement(Position departure, List<List<Position>> temporaryPosition) {
         for (List<Movement> moves : movements) {
-            List<Position> temporaryMoves = new ArrayList<>();
-            for (Movement movement : moves) {
-                if (!departure.canMove(movement)) {
-                    continue;
-                }
-                temporaryMoves.add(departure.move(movement));
-            }
-            temporaryPosition.add(temporaryMoves);
+            calculateMoves(departure, temporaryPosition, moves);
         }
+    }
+
+    private void calculateMoves(Position departure, List<List<Position>> temporaryPosition, List<Movement> moves) {
+        List<Position> temporaryMoves = new ArrayList<>();
+        for (Movement movement : moves) {
+            addMoveByDeparture(departure, movement, temporaryMoves);
+        }
+        temporaryPosition.add(temporaryMoves);
+    }
+
+    private static void addMoveByDeparture(Position departure, Movement movement, List<Position> temporaryMoves) {
+        if (!departure.canMove(movement)) {
+            return;
+        }
+        temporaryMoves.add(departure.move(movement));
     }
 
     private List<Position> findArrivalDirection(Position arrival, List<List<Position>> temporaryPosition) {
@@ -61,5 +69,3 @@ public class Elephant extends Piece {
         return "상";
     }
 }
-
-
