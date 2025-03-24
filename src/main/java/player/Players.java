@@ -71,4 +71,10 @@ public class Players {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 경로가 존재하지 않습니다."));
     }
 
+    public void removePiece(Nation defenseNation, Position destination) {
+        players.stream()
+                .filter(player -> player.isSameNation(defenseNation))
+                .findFirst()
+                .ifPresent(player -> player.removePiece(destination));
+    }
 }
