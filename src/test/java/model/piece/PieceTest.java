@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import model.Team;
 import model.board.Board;
-import model.piece.iterable.Chariot;
-import model.piece.iterable.Pao;
 import model.piece.normal.Elephant;
 import model.piece.normal.Horse;
 import model.piece.normal.Palace;

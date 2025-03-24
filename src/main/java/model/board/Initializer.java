@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Team;
+import model.piece.Chariot;
+import model.piece.Pao;
 import model.piece.Piece;
-import model.piece.iterable.Chariot;
-import model.piece.iterable.Pao;
 import model.piece.normal.Elephant;
 import model.piece.normal.Horse;
 import model.piece.normal.Palace;
