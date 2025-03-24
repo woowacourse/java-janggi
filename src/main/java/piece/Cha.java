@@ -2,7 +2,6 @@ package piece;
 
 import static pieceProperty.PieceType.CHA;
 
-import java.util.ArrayList;
 import java.util.List;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
@@ -66,6 +65,11 @@ public class Cha extends Piece {
 
     @Override
     public boolean isKing() {
+        return false;
+    }
+
+    @Override
+    public boolean isPo() {
         return false;
     }
 

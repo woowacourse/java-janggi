@@ -30,6 +30,8 @@ public abstract class Piece {
 
     public abstract boolean isKing();
 
+    public abstract boolean isPo();
+
     public abstract PieceType getPieceType();
 
     @Override

@@ -69,6 +69,11 @@ public class Po extends Piece {
     }
 
     @Override
+    public boolean isPo() {
+        return true;
+    }
+
+    @Override
     public PieceType getPieceType() {
         return PO;
     }
