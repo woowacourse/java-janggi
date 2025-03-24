@@ -42,11 +42,11 @@ public class BoardFactory {
         positions.put(new Cannon(Team.CHO), new Position(8, 2));
         positions.put(new Cannon(Team.CHO), new Position(8, 8));
 
-        positions.put(new Soldier(Team.HAN), new Position(7, 1));
-        positions.put(new Soldier(Team.HAN), new Position(7, 3));
-        positions.put(new Soldier(Team.HAN), new Position(7, 5));
-        positions.put(new Soldier(Team.HAN), new Position(7, 7));
-        positions.put(new Soldier(Team.HAN), new Position(7, 9));
+        positions.put(new Soldier(Team.CHO), new Position(7, 1));
+        positions.put(new Soldier(Team.CHO), new Position(7, 3));
+        positions.put(new Soldier(Team.CHO), new Position(7, 5));
+        positions.put(new Soldier(Team.CHO), new Position(7, 7));
+        positions.put(new Soldier(Team.CHO), new Position(7, 9));
     }
 
     private static void makeHanPieces(Map<Piece, Position> positions) {
