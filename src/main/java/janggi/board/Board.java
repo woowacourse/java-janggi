@@ -1,6 +1,7 @@
 package janggi.board;
 
 import janggi.exception.ErrorException;
+import janggi.piece.Camp;
 import janggi.piece.Empty;
 import janggi.piece.Piece;
 import janggi.position.Position;
@@ -82,5 +83,10 @@ public class Board {
 
     public Map<Position, Piece> getPlacedPieces() {
         return placedPieces;
+    }
+
+    public void validateSelectedPiece(Position position, Camp baseCamp) {
+        Piece piece = placedPieces.get(position);
+        piece.validateSelect(baseCamp);
     }
 }

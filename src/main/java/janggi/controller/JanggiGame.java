@@ -67,8 +67,7 @@ public class JanggiGame {
     }
 
     private void validateSelectedPiece(Board board, Position from, Camp baseCamp) {
-        Piece piece = board.peek(from);
-        piece.validateSelect(baseCamp);
+        board.validateSelectedPiece(from, baseCamp);
     }
 
     private void repeatUntilSuccess(Runnable runner) {
