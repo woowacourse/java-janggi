@@ -61,7 +61,7 @@ public enum SangSetting {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 1~4까지의 값만 입력할 수 있습니다."));
     }
 
-    public Map<Position, Piece> getElephantSetting(Team team, int y) {
+    public Map<Position, Piece> getSangSetting(Team team, int y) {
         return biFunction.apply(team, y);
     }
 }

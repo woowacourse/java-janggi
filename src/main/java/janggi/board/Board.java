@@ -50,8 +50,8 @@ public class Board {
         }
     }
 
-    private Piece findOwnPiece(Team currentTeam, Position currentPosition) {
-        Piece piece = findPieceByPosition(currentPosition);
+    private Piece findOwnPiece(final Team currentTeam, final Position currentPosition) {
+        final Piece piece = findPieceByPosition(currentPosition);
         validateOwnPiece(currentTeam, piece);
         return piece;
     }
@@ -63,7 +63,7 @@ public class Board {
         throw new IllegalArgumentException("[ERROR] 해당 좌표에 기물이 존재하지 않습니다.");
     }
 
-    private void validateOwnPiece(Team currentTeam, Piece piece) {
+    private void validateOwnPiece(final Team currentTeam, final Piece piece) {
         if (currentTeam != piece.getTeam()) {
             throw new IllegalArgumentException("[ERROR] 자신의 팀 기물만 움직일 수 있습니다.");
         }
