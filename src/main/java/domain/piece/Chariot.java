@@ -23,15 +23,15 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public boolean canMove(Position expectedPosition, List<Piece> pieces) {
+    public boolean canMove(Position expectedPosition, List<Piece> alivePieces) {
         Direction direction = findDirectionToReachAt(expectedPosition);
         if (direction == null) {
             return false;
         }
-        if (hasPieceAtIntermediatePositions(expectedPosition, pieces, direction)) {
+        if (hasPieceAtIntermediatePositions(expectedPosition, alivePieces, direction)) {
             return false;
         }
-        return hasNotTeamAtPosition(expectedPosition, pieces, (piece -> false));
+        return hasNotTeamAtPosition(expectedPosition, alivePieces, (piece -> false));
     }
 
     private boolean hasPieceAtIntermediatePositions(Position expectedPosition, List<Piece> pieces,

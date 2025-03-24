@@ -45,12 +45,12 @@ public class OutputView {
                 .findAny();
     }
 
-    private void printPositionState(Piece findPiece) {
-        if (findPiece == null) {
+    private void printPositionState(Piece piece) {
+        if (piece == null) {
             System.out.print("- ");
             return;
         }
-        System.out.print(getDescription(findPiece) + " ");
+        System.out.print(getDescription(piece) + " ");
     }
 
     private void printColumnsInfo() {

@@ -63,8 +63,8 @@ public class JanggiRunner {
         return factory.createAllPieces(firstPlayerStrategy, secondPlayerStrategy);
     }
 
-    private HorseElephantSetupStrategy chooseStrategy(String players) {
-        String firstPlayerOption = inputView.getSetupNumber(players);
+    private HorseElephantSetupStrategy chooseStrategy(String playerName) {
+        String firstPlayerOption = inputView.getSetupNumber(playerName);
         return SetupOption.findSetupStrategy(firstPlayerOption);
     }
 

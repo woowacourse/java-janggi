@@ -46,12 +46,12 @@ public abstract class Piece {
                         piece)));
         return !hasTeamAtPosition;
     }
-
-    public abstract boolean canMove(Position expectedPosition, List<Piece> pieces);
-
+    
     public Position getPosition() {
         return position;
     }
+
+    public abstract boolean canMove(Position expectedPosition, List<Piece> alivePieces);
 
     public abstract PieceType getType();
 

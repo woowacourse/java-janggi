@@ -13,7 +13,6 @@ public class Cannon extends Piece {
         directions = List.of(Direction.DOWN, Direction.UP, Direction.LEFT, Direction.RIGHT);
     }
 
-
     public Cannon(Position position, TeamType teamType) {
         super(position, teamType);
     }
@@ -23,18 +22,18 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public boolean canMove(Position expectedPosition, List<Piece> pieces) {
+    public boolean canMove(Position expectedPosition, List<Piece> alivePieces) {
         Direction direction = findDirectionToReachAt(expectedPosition);
         if (direction == null) {
             return false;
         }
-        if (hasCannonPieceAtIntermediatePositions(expectedPosition, pieces, direction)) {
+        if (hasCannonPieceAtIntermediatePositions(expectedPosition, alivePieces, direction)) {
             return false;
         }
-        if (hasOnlyOnePieceAtIntermediatePositions(expectedPosition, pieces, direction)) {
+        if (hasOnlyOnePieceAtIntermediatePositions(expectedPosition, alivePieces, direction)) {
             return false;
         }
-        return hasNotTeamAtPosition(expectedPosition, pieces, (piece -> piece.isSameType(PieceType.CANNON)));
+        return hasNotTeamAtPosition(expectedPosition, alivePieces, (piece -> piece.isSameType(PieceType.CANNON)));
     }
 
     private boolean hasCannonPieceAtIntermediatePositions(Position expectedPosition, List<Piece> pieces,
@@ -64,10 +63,10 @@ public class Cannon extends Piece {
                 .anyMatch(piece -> piece.hasSamePosition(position));
     }
 
-    private boolean hasOnlyOnePieceAtIntermediatePositions(Position expectedPosition, List<Piece> pieces,
+    private boolean hasOnlyOnePieceAtIntermediatePositions(Position expectedPosition, List<Piece> alivePieces,
                                                            Direction direction) {
         List<Position> intermediatePositions = findIntermediatePositions(direction, this.position, expectedPosition);
-        return countBlockedPiece(intermediatePositions, pieces) != 1;
+        return countBlockedPiece(intermediatePositions, alivePieces) != 1;
     }
 
     private Direction findDirectionToReachAt(Position expectedPosition) {
