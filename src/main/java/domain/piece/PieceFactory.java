@@ -16,12 +16,4 @@ public final class PieceFactory {
     public static <T extends Piece> T createRedTeam(final BiFunction<Team, Score, T> creator, final Score score) {
         return creator.apply(Team.RED, score);
     }
-
-    public static Cannon createCannon() {
-        return new Cannon(Team.RED, Score.CANNON);
-    }
-
-    public static General createGeneral() {
-        return new General(Team.RED, Score.GENERAL);
-    }
 }

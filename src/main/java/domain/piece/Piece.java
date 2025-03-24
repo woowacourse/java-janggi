@@ -1,6 +1,5 @@
 package domain.piece;
 
-import domain.Score;
 import domain.position.Distance;
 import domain.position.Point;
 import java.util.List;
@@ -12,11 +11,5 @@ public interface Piece {
 
     List<Point> calculatePossiblePoint(final Point prev, final Point newPoint);
 
-    Score getScore();
-
     PieceType type();
-
-    boolean equals(final Object other);
-
-    int hashCode();
 }

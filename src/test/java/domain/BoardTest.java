@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.General;
 import domain.piece.PieceFactory;
@@ -136,7 +135,6 @@ class BoardTest {
         // given
         final Board board = BoardFactory.create();
         final Point expectedPoint = Point.of(1, 6);
-        final Cannon cannon = PieceFactory.createCannon();
 
         // when
         final Position position1 = board.findPositionBy(Point.of(2, 3));
@@ -156,7 +154,7 @@ class BoardTest {
         // then
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(board.hasPieceAt(expectedPoint)).isTrue();
-            softly.assertThat(position.isSamePiece(cannon)).isTrue();
+            softly.assertThat(position.isSamePieceType(PieceType.CANNON)).isTrue();
         });
     }
 
@@ -165,7 +163,6 @@ class BoardTest {
         // given
         final Board board = BoardFactory.create();
         final Point expectedPoint = Point.of(1, 7);
-        final Cannon cannon = PieceFactory.createCannon();
 
         // when
         final Position position2 = board.findPositionBy(Point.of(0, 3));
@@ -183,7 +180,7 @@ class BoardTest {
         // then
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(board.hasPieceAt(expectedPoint)).isTrue();
-            softly.assertThat(position.isSamePiece(cannon)).isTrue();
+            softly.assertThat(position.isSamePieceType(PieceType.CANNON)).isTrue();
         });
 
     }
@@ -251,7 +248,8 @@ class BoardTest {
     void 보드판에_궁이_1개다() {
 
         // given
-        final Board board = new Board(List.of(new Position(Point.of(4, 1), PieceFactory.createGeneral())));
+        final Board board = new Board(
+                List.of(new Position(Point.of(4, 1), PieceFactory.createGreenTeam(General::new, Score.GENERAL))));
 
         // when
         // then
