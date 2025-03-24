@@ -40,7 +40,7 @@ public class OutputView {
         System.out.println("현재 턴은 다음의 팀입니다. : " + teamType);
 
         final StringBuilder sb = new StringBuilder("ㅁ 일 이 삼 사 오 육 칠 팔 구\n");
-        final Map<Position, Piece> map = board.getMap();
+        final Map<Position, Piece> map = board.getPositionDatas();
         for (int i = 1; i <= 10; i++) {
 
             sb.append(NumberFormat.findNumberName(i) + " ");

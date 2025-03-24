@@ -29,7 +29,7 @@ public class BoardTest {
             final var board = new Board(new HashMap<>());
 
             // then
-            assertThat(board.getMap()).isNotNull();
+            assertThat(board.getPositionDatas()).isNotNull();
         }
 
     }
@@ -120,7 +120,7 @@ public class BoardTest {
             board.updatePosition(src, dest, teamType);
 
             // then
-            Assertions.assertThat(board.getMap())
+            Assertions.assertThat(board.getPositionDatas())
                     .containsKey(dest)
                     .doesNotContainKey(src);
 
