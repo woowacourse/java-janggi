@@ -17,21 +17,39 @@ public class OutputView {
     ) {
         System.out.println("현재 턴: " + team.getTitle());
         for (int i = 9; i >= 0; i--) {
+            printRowHeader(i);
             for (int j = 0; j < 9; j++) {
                 final BoardPosition boardPosition = new BoardPosition(j, i);
                 final Piece piece = pieces.get(boardPosition);
-
-                if (piece == null) {
-                    System.out.print(" . ");
-                } else {
-                    final String pieceSymbol = piece.getPieceType()
-                        .getTitle();
-                    final String color = createColorCode(piece.getTeam());
-                    System.out.print(" " + color + pieceSymbol + RESET + " ");
-                }
+                printPiece(piece);
             }
             System.out.println();
         }
+        printColumnHeader();
+    }
+
+    private void printRowHeader(final int i) {
+        System.out.print(i + " ");
+    }
+
+    private void printPiece(final Piece piece) {
+        if (piece == null) {
+            System.out.print(" . ");
+            return;
+        }
+        
+        final String pieceTitle = piece.getPieceType()
+            .getTitle();
+        final String color = createColorCode(piece.getTeam());
+        System.out.print(" " + color + pieceTitle + RESET + " ");
+    }
+
+    private void printColumnHeader() {
+        System.out.print("  ");
+        for (int j = 0; j < 9; j++) {
+            System.out.print(" " + j + " ");
+        }
+        System.out.println();
     }
 
     private String createColorCode(final Team team) {
