@@ -11,11 +11,13 @@ public final class Route {
         this.directions = directions;
     }
 
-    public boolean isPossibleRoute(Position source, Board board) {
+    public boolean isPossibleRoute(final Position source, Board board) {
+        Position target = source;
         for (Direction direction : directions) {
-            if(!source.canMove(direction, board)){
+            if(!target.canMove(direction, board)){
                 return false;
             };
+            target = target.move(direction);
         }
         return true;
     }

@@ -19,6 +19,10 @@ public final class Position {
         return false;
     }
 
+    public Position move(Direction direction) {
+        return new Position(column.move(direction.column()), row.move(direction.row()));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -31,5 +35,13 @@ public final class Position {
     @Override
     public int hashCode() {
         return Objects.hash(column, row);
+    }
+
+    public Column getColumn() {
+        return column;
+    }
+
+    public Row getRow() {
+        return row;
     }
 }
