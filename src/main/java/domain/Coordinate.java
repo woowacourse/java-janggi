@@ -1,20 +1,11 @@
 package domain;
 
 import domain.piece.movement.Movement;
-import java.util.Objects;
 
-public final class Coordinate {
+public record Coordinate(int row, int col) {
 
     public static final int MAX_ROW = 10;
     public static final int MAX_COL = 9;
-
-    private final int row;
-    private final int col;
-
-    public Coordinate(int row, int col) {
-        this.row = row;
-        this.col = col;
-    }
 
     public boolean isOutOfBoundary() {
         if (this.row < 1 || this.row > MAX_ROW) {
@@ -28,29 +19,7 @@ public final class Coordinate {
     }
 
     public Coordinate move(Movement movement) {
-        return move(movement.getDirection().getRow(), movement.getDirection().getCol());
+        return move(movement.getDirection().row(), movement.getDirection().col());
     }
 
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Coordinate that = (Coordinate) o;
-        return row == that.row && col == that.col;
-    }
-
-    public int hashCode() {
-        return Objects.hash(row, col);
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getCol() {
-        return col;
-    }
 }

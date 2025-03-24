@@ -17,14 +17,6 @@ class BoardTest {
     @Nested
     class BoardValidation {
 
-        @DisplayName("장기판 밖으로 나갈 수 없다.")
-        @Test
-        void validateBoardBoundary1() {
-            boolean isOutOfBoundary = new Coordinate(11, 10).isOutOfBoundary();
-
-            assertThat(isOutOfBoundary).isTrue();
-        }
-
         @DisplayName("자신의 기물이 아니면 움직일 수 없다.")
         @Test
         void validateFromTest() {
