@@ -6,7 +6,7 @@ public record Column(int value) {
     }
 
     public boolean isOutOfBounds() {
-        return false;
+        return value < 1 || value > 9;
     }
 
     @Override

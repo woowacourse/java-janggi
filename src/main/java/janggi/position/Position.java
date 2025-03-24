@@ -9,7 +9,7 @@ public record Position(Row row, Column column) {
     }
 
     public boolean isOutOfBoards() {
-        return false;
+        return row().isOutOfBounds() || column().isOutOfBounds();
     }
 
     public int getRow() {

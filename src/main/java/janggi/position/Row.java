@@ -6,7 +6,7 @@ public record Row(int value) {
     }
 
     public boolean isOutOfBounds() {
-        return false;
+        return value < 1 || value > 10;
     }
 
     @Override
