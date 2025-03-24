@@ -3,12 +3,10 @@ package janggi;
 import janggi.board.Board;
 import janggi.board.BoardFactory;
 import janggi.piece.Team;
+import janggi.turn.Turn;
 import janggi.utils.ExceptionHandler;
 import janggi.view.InputView;
 import janggi.view.ResultView;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.List;
 
 public class JanggiConsole {
 
@@ -24,14 +22,14 @@ public class JanggiConsole {
         final BoardFactory boardFactory = new BoardFactory();
         final Board board = boardFactory.makeBoard();
         resultView.printBoard(board.getPieces());
-        final Deque<Team> orders = new ArrayDeque<>(List.of(Team.CHO, Team.HAN));
+        Turn turn = Turn.initialize();
 
         while (board.canContinue()) {
-            final Team currentTeam = orders.poll();
+            Team currentTeam = turn.getTeam();
             resultView.printOrder(currentTeam);
             ExceptionHandler.retry(() -> board.move(inputView.readMovingPosition(), currentTeam));
             resultView.printBoard(board.getPieces());
-            orders.offer(currentTeam);
+            turn = turn.moveNextTurn();
         }
 
         resultView.printJanggiResult(board.findWinningTeam());
