@@ -12,6 +12,7 @@ import Janggi.piece.Horse;
 import Janggi.piece.Piece;
 import Janggi.piece.Soldier;
 import Janggi.piece.Country;
+import java.util.stream.Collectors;
 
 public enum PieceInitialPosition {
 
@@ -63,12 +64,11 @@ public enum PieceInitialPosition {
         this.construct = construct;
     }
 
-    public List<Position> getInitPositions(final Country country) {
-        return initPositions.get(country);
-    }
-
-    public Piece createPiece(final Country country) {
-        return this.construct.apply(country);
+    public Map<Position, Piece> makeInitPieces(final Country country) {
+        return initPositions.get(country).stream()
+                .collect(Collectors.toMap(
+                        Function.identity(), position -> construct.apply(country)
+                ));
     }
 
 }

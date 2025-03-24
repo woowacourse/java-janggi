@@ -1,12 +1,11 @@
 package Janggi;
 
 import Janggi.board.Board;
-import Janggi.board.BoardFactory;
 import Janggi.board.Position;
-import java.util.List;
-import Janggi.view.InputView;
 import Janggi.piece.Country;
+import Janggi.view.InputView;
 import Janggi.view.OutputView;
+import java.util.List;
 
 public class JanggiApplication {
     private static final int MOVE_SOURCE = 0;
@@ -14,8 +13,7 @@ public class JanggiApplication {
 
     public static void main(String[] args) {
         OutputView.printIntroduce();
-        final BoardFactory boardFactory = new BoardFactory();
-        final Board board = boardFactory.generateBoard();
+        final Board board = Board.createInitializedJanggiBoard();
         startJanggi(board);
     }
 

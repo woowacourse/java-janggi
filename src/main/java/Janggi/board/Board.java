@@ -13,12 +13,23 @@ public class Board {
         this.janggiBoard = new HashMap<>(janggiBoard);
     }
 
+    public static Board createInitializedJanggiBoard() {
+        final Map<Position, Piece> initMap = new HashMap<>();
+
+        for (final PieceInitialPosition pieceType : PieceInitialPosition.values()) {
+            initMap.putAll(pieceType.makeInitPieces(Country.CHO));
+            initMap.putAll(pieceType.makeInitPieces(Country.HAN));
+        }
+
+        return new Board(initMap);
+    }
+
     public boolean existPieceByPosition(final Position existPosition) {
         return janggiBoard.containsKey(existPosition);
     }
 
-    public boolean isCannonByPosition(final Position position){
-        if (janggiBoard.containsKey(position)){
+    public boolean isCannonByPosition(final Position position) {
+        if (janggiBoard.containsKey(position)) {
             final Piece piece = janggiBoard.get(position);
             return piece.isCannon();
         }
