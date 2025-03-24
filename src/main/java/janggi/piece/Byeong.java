@@ -9,12 +9,7 @@ import janggi.movement.route.Route;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Byeong implements Movable {
-
-    private static final String NAME = "병";
-
-    private final Team team;
-    private final Point point;
+public class Byeong extends Movable {
 
     public static List<Byeong> init(Team team) {
         List<Byeong> byeongs = new ArrayList<>();
@@ -25,8 +20,7 @@ public class Byeong implements Movable {
     }
 
     public Byeong(Team team, Point point) {
-        this.team = team;
-        this.point = point;
+        super(team, point);
     }
 
     @Override
@@ -34,7 +28,7 @@ public class Byeong implements Movable {
         if (isDistanceOverFlow(targetPoint)) {
             return false;
         }
-        Direction direction = Direction.cardinalFrom(this.point, targetPoint);
+        Direction direction = Direction.cardinalFrom(point, targetPoint);
         if (movesDown(direction)) {
             return false;
         }
@@ -62,16 +56,6 @@ public class Byeong implements Movable {
 
     @Override
     public String getName() {
-        return NAME;
-    }
-
-    @Override
-    public Team getTeam() {
-        return this.team;
-    }
-
-    @Override
-    public Point getPoint() {
-        return point;
+        return "병";
     }
 }

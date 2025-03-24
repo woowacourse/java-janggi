@@ -9,16 +9,10 @@ import janggi.movement.route.Route;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Gung implements Movable {
-
-    private static final String NAME = "궁";
-
-    private final Team team;
-    private final Point point;
+public class Gung extends Movable {
 
     public Gung(Team team, Point point) {
-        this.team = team;
-        this.point = point;
+        super(team, point);
     }
 
     public static List<Gung> init(Team team) {
@@ -32,7 +26,7 @@ public class Gung implements Movable {
         if (isDistanceOverFlow(targetPoint)) {
             return false;
         }
-        Direction direction = Direction.cardinalOrDiagonalFrom(this.point, targetPoint);
+        Direction direction = Direction.cardinalOrDiagonalFrom(point, targetPoint);
         return isRouteHaveNoHurdle(targetPoint, hurdles, direction);
     }
 
@@ -42,7 +36,7 @@ public class Gung implements Movable {
     }
 
     private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
-        Route route = Route.repeat(direction, this.point, targetPoint);
+        Route route = Route.repeat(direction, point, targetPoint);
         return route.hasNoHurdle(this, targetPoint, hurdles);
     }
 
@@ -53,16 +47,6 @@ public class Gung implements Movable {
 
     @Override
     public String getName() {
-        return NAME;
-    }
-
-    @Override
-    public Point getPoint() {
-        return point;
-    }
-
-    @Override
-    public Team getTeam() {
-        return this.team;
+        return "궁";
     }
 }

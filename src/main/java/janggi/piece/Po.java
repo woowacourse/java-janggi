@@ -8,16 +8,10 @@ import janggi.movement.route.Route;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Po implements Movable {
-
-    private static final String NAME = "포";
-
-    private final Team team;
-    private final Point point;
+public class Po extends Movable {
 
     public Po(Team team, Point point) {
-        this.team = team;
-        this.point = point;
+        super(team, point);
     }
 
     public static List<Po> init(Team team) {
@@ -30,12 +24,12 @@ public class Po implements Movable {
 
     @Override
     public boolean canMove(Point targetPoint, Hurdles hurdles) {
-        Direction direction = Direction.cardinalFrom(this.point, targetPoint);
+        Direction direction = Direction.cardinalFrom(point, targetPoint);
         return isRouteHaveNoHurdle(targetPoint, hurdles, direction);
     }
 
     private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
-        Route route = Route.repeat(direction, this.point, targetPoint);
+        Route route = Route.repeat(direction, point, targetPoint);
         return route.hasNoHurdle(this, targetPoint, hurdles);
     }
 
@@ -46,16 +40,11 @@ public class Po implements Movable {
 
     @Override
     public String getName() {
-        return NAME;
+        return "포";
     }
 
     @Override
-    public Point getPoint() {
-        return point;
-    }
-
-    @Override
-    public Team getTeam() {
-        return this.team;
+    public boolean isPo() {
+        return true;
     }
 }

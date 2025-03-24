@@ -9,16 +9,10 @@ import janggi.movement.route.Route;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ma implements Movable {
-
-    private static final String NAME = "마";
-
-    private final Team team;
-    private final Point point;
+public class Ma extends Movable {
 
     public Ma(Team team, Point point) {
-        this.team = team;
-        this.point = point;
+        super(team, point);
     }
 
     public static List<Ma> init(Team team) {
@@ -41,7 +35,7 @@ public class Ma implements Movable {
             return false;
         }
         List<Direction> directions = Direction.oneCardinalAndRepeatingDiagonalFrom(
-                this.point, targetPoint, 1
+                point, targetPoint, 1
         );
         return isRouteHaveNoHurdle(targetPoint, hurdles, directions);
     }
@@ -52,7 +46,7 @@ public class Ma implements Movable {
     }
 
     private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, List<Direction> directions) {
-        Route route = Route.follow(directions, this.point);
+        Route route = Route.follow(directions, point);
         return route.hasNoHurdle(this, targetPoint, hurdles);
     }
 
@@ -63,16 +57,6 @@ public class Ma implements Movable {
 
     @Override
     public String getName() {
-        return NAME;
-    }
-
-    @Override
-    public Point getPoint() {
-        return point;
-    }
-
-    @Override
-    public Team getTeam() {
-        return this.team;
+        return "마";
     }
 }
