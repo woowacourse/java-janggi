@@ -3,9 +3,9 @@ package janggi.domain.piece.gererator;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.ReplaceUnderBar;
-import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import janggi.domain.piece.Side;
 import janggi.domain.piece.movement.dynamic.CannonMovementStrategy;
 import janggi.domain.piece.movement.dynamic.PawnMovementStrategy;
 import janggi.domain.piece.movement.dynamic.RookMovementStrategy;

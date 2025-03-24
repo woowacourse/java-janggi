@@ -3,11 +3,11 @@ package janggi.domain.piece.movement.dynamic;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.ReplaceUnderBar;
-import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Pieces;
 import janggi.domain.piece.Position;
+import janggi.domain.piece.Side;
 import java.util.Arrays;
 import java.util.function.Function;
 import java.util.stream.Collectors;

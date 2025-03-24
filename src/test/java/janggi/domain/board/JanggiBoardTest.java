@@ -3,10 +3,10 @@ package janggi.domain.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Position;
+import janggi.domain.piece.Side;
 import janggi.domain.piece.gererator.ChoPieceGenerator;
 import janggi.domain.piece.gererator.DefaultChoPieceGenerator;
 import janggi.domain.piece.gererator.DefaultHanPieceGenerator;

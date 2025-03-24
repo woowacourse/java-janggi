@@ -1,21 +1,22 @@
 package janggi.view;
 
-import janggi.domain.Side;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Position;
+import janggi.domain.piece.Side;
 import java.util.Map;
 
 public class OutputView {
 
-    public static final String BLACK = "\u001B[30m";
-    public static final String RED = "\u001B[31m";
-    public static final String BLUE = "\u001B[34m";
-    public static final String EXIT = "\u001B[0m";
+    private static final String RED = "\u001B[31m";
+    private static final String BLUE = "\u001B[34m";
+    private static final String GRAY = "\u001B[37m";
+    private static final String EXIT = "\u001B[0m";
 
     public void printJanggiBoard(JanggiBoard janggiBoard) {
         Map<Position, Piece> pieceMap = janggiBoard.getPlacedPieces();
         for (int y = 9; y >= 0; y--) {
+            System.out.print(y + " ");
             for (int x = 0; x < 9; x++) {
                 Position position = new Position(x, y);
                 Piece piece = pieceMap.get(position);
@@ -23,37 +24,25 @@ public class OutputView {
             }
             System.out.println();
         }
+        System.out.println("  0ㅤ1ㅤ2ㅤ3  4ㅤ5ㅤ6ㅤ7ㅤ8");
     }
 
     private String getSymbol(Piece piece) {
         if (piece == null) {
-            return String.format(BLACK + "ㅁ" + EXIT);
+            return String.format(GRAY + "ㅁ" + EXIT);
         }
 
         String color = piece.getSide() == Side.CHO ? RED : BLUE;
-//
-//        if (piece.getClass() == Cannon.class) {
-//            return String.format(color + "포" + EXIT);
-//        }
-//        if (piece.getClass() == Elephant.class) {
-//            return String.format(color + "상" + EXIT);
-//        }
-//        if (piece.getClass() == Guard.class) {
-//            return String.format(color + "사" + EXIT);
-//        }
-//        if (piece.getClass() == King.class) {
-//            return String.format(color + "왕" + EXIT);
-//        }
-//        if (piece.getClass() == Knight.class) {
-//            return String.format(color + "마" + EXIT);
-//        }
-//        if (piece.getClass() == Pawn.class) {
-//            return String.format(color + "졸" + EXIT);
-//        }
-//        if (piece.getClass() == Rook.class) {
-//            return String.format(color + "차" + EXIT);
-//        }
-        throw new IllegalArgumentException("잘못된 기물입니다.");
+
+        return switch (piece.getPieceType()) {
+            case CANNON -> String.format(color + "포" + EXIT);
+            case ELEPHANT -> String.format(color + "상" + EXIT);
+            case GUARD -> String.format(color + "사" + EXIT);
+            case KING -> String.format(color + "왕" + EXIT);
+            case KNIGHT -> String.format(color + "마" + EXIT);
+            case PAWN -> String.format(color + "졸" + EXIT);
+            case ROOK -> String.format(color + "차" + EXIT);
+        };
     }
 
     public void printWinner(Side winner) {

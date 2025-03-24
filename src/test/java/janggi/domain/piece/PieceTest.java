@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import janggi.domain.ReplaceUnderBar;
-import janggi.domain.Side;
 import janggi.domain.piece.movement.MovementStrategy;
 import java.util.Map;
 import org.junit.jupiter.api.Test;

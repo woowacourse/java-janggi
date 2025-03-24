@@ -1,9 +1,9 @@
 package janggi.domain.piece.movement.dynamic;
 
-import janggi.domain.Side;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Pieces;
 import janggi.domain.piece.Position;
+import janggi.domain.piece.Side;
 import java.util.stream.IntStream;
 
 public class CannonMovementStrategy implements DynamicMovementStrategy {

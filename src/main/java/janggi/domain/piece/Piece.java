@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Side;
 import janggi.domain.piece.movement.MovementStrategy;
 import java.util.Objects;
 

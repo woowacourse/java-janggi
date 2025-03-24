@@ -2,9 +2,9 @@ package janggi.domain.piece.gererator;
 
 import static janggi.domain.piece.gererator.KnightElephantSetting.KNIGHT_ELEPHANT_KNIGHT_ELEPHANT;
 
-import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import janggi.domain.piece.Side;
 import janggi.domain.piece.movement.dynamic.CannonMovementStrategy;
 import janggi.domain.piece.movement.dynamic.PawnMovementStrategy;
 import janggi.domain.piece.movement.dynamic.RookMovementStrategy;
