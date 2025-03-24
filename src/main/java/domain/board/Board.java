@@ -8,10 +8,10 @@ import java.util.Map;
 
 public class Board {
 
-    public static int START_ROW_INDEX = 1;
-    public static int END_ROW_INDEX = 10;
-    public static int START_COLUMN_INDEX = 1;
-    public static int END_COLUMN_INDEX = 9;
+    public static final int START_ROW_INDEX = 1;
+    public static final int END_ROW_INDEX = 10;
+    public static final int START_COLUMN_INDEX = 1;
+    public static final int END_COLUMN_INDEX = 9;
 
     private final Map<Node, Piece> board;
     private final Map<Point, Node> nodeByPoint;
@@ -68,7 +68,7 @@ public class Board {
         board.remove(node, piece);
     }
 
-    public boolean isOpponentWangDead(Team team) {
+    public boolean isOpponentWangDead(final Team team) {
         return board.keySet().stream()
                 .filter(node -> hasPieceTeamByNode(node, team.inverse()))
                 .noneMatch(node -> hasPieceTypeByNode(node, PieceType.WANG));
