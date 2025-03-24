@@ -1,32 +1,46 @@
 package janggi.board;
 
-import janggi.position.Position;
-import janggi.team.Team;
-
+import janggi.team.TeamName;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    private final BoardCho boardCho;
-    private final BoardHan boardHan;
+    private static final String INVALID_TURN = "턴이 올바르지 않습니다";
+    private static final String INVALID_RANGE = "해당 좌표가 장기 판 범위를 벗어납니다";
 
-    public Board(BoardCho boardCho, BoardHan boardHan) {
-        this.boardCho = boardCho;
-        this.boardHan = boardHan;
-    }
-
-    public boolean isAvailablePiece(Team team, String pieceName, Position position) {
-        if (team.equals(Team.CHO)){
-            return boardCho.containPiece(pieceName, position);
+    public void validateTeamTurn(TeamName oldTeamNameName, TeamName newTeamNameName) {
+        if (oldTeamNameName.equals(newTeamNameName)) {
+            throw new IllegalArgumentException(INVALID_TURN);
         }
-        return boardHan.containPiece(pieceName, position);
     }
 
-    public boolean checkLegalMove(List<Position> positionsOnPath) {
-       return boardHan.isLegalMove(positionsOnPath) || boardCho.isLegalMove(positionsOnPath);
+    public boolean validatePieceRange(Position destination) {
+        boolean isValidRange =
+                destination.x() >= 0 && destination.x() <= 8 && destination.y() >= 0 && destination.y() <= 9;
+        if (!isValidRange) {
+            throw new IllegalArgumentException(INVALID_RANGE);
+        }
+        return true;
     }
 
-    // 포의 경우, 자기 자신과 같은 종류인 경우, 건너뛰기 불가
-    public void checkLegalMoveForCannon() {
+    public List<Position> findPositionsOnPath(Position start, Position end) {
+        List<Position> positionsOnPath = new ArrayList<>();
 
+        int startX = start.x();
+        int startY = start.y();
+        int endX = end.x();
+        int endY = end.y();
+
+        int offsetX = endX - startX;
+        int offsetY = endY - startY;
+
+        int step = Math.max(Math.abs(offsetX), Math.abs(offsetY));
+
+        for (int i = 1; i < step; i++) {
+            int x = startX + i * offsetX / step;
+            int y = startY + i * offsetY / step;
+            positionsOnPath.add(new Position(x, y));
+        }
+        return positionsOnPath;
     }
 }
