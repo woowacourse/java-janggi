@@ -16,7 +16,7 @@ public class Application {
             String currentPosition = janggiGame.showCurrentPositionOfPieces();
             outputView.printCurrentPosition(currentPosition);
             String choiceDeparture = inputView.choiceDeparture();
-            Position departure = janggiGame.createPositionFrom(choiceDeparture);
+            Position departure = janggiGame.createPositionAndCheckTurn(choiceDeparture);
             Piece pieceOfDeparture = janggiGame.findPieceBy(departure);
             String choiceArrival = inputView.choiceArrivalOf(pieceOfDeparture);
             Position arrival = janggiGame.createPositionFrom(choiceArrival);
