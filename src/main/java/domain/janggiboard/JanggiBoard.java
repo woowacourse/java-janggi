@@ -17,20 +17,43 @@ public final class JanggiBoard {
     }
 
     public void movePiece(final JanggiPosition origin, final JanggiPosition destination) {
-        JanggiPiece piece = getPieceOfPosition(origin);
+        JanggiPiece movingPiece = getPieceOfPosition(origin);
 
         JanggiPiece targetPiece = janggiBoard.get(destination);
-        JanggiPiece hurdlePiece = getFirstHurdlePieceOnRoute(piece, origin, destination);
-        int hurdleCount = getHurdleCountOnRoute(piece, origin, destination);
-        piece.validateCanMove(hurdlePiece, hurdleCount, targetPiece);
+        JanggiPiece hurdlePiece = getFirstHurdlePieceOnRoute(movingPiece, origin, destination);
+        int hurdleCount = getHurdleCountOnRoute(movingPiece, origin, destination);
+        movingPiece.validateCanMove(hurdlePiece, hurdleCount, targetPiece);
 
-        janggiBoard.put(origin, new JanggiPiece(JanggiSide.NONE, JanggiPieceType.EMPTY));
-        targetPiece.capture();
-        janggiBoard.put(destination, piece);
+        moveAndCapture(movingPiece, origin, destination, targetPiece);
     }
 
-    public JanggiPiece getPieceOfPosition(final JanggiPosition position) {
+    public boolean isSameTeam(JanggiPosition position, JanggiSide janggiSide) {
+        return getPieceOfPosition(position).isTeamOf(janggiSide);
+    }
+
+    public boolean isOpposite궁Captured(JanggiSide nowTurn) {
+        return janggiBoard.keySet().stream()
+                .map(this::getPieceOfPosition)
+                .noneMatch(piece -> piece.isTypeOf(JanggiPieceType.궁) && piece.isTeamOf(nowTurn.getOppositeSide()));
+    }
+
+    public Map<JanggiPosition, JanggiPiece> getBoard() {
+        return janggiBoard;
+    }
+
+    private JanggiPiece getPieceOfPosition(final JanggiPosition position) {
         return janggiBoard.get(position);
+    }
+
+    private void moveAndCapture(
+            JanggiPiece movingPiece,
+            JanggiPosition origin,
+            JanggiPosition destination,
+            JanggiPiece targetPiece
+    ) {
+        janggiBoard.put(origin, new JanggiPiece(JanggiSide.NONE, JanggiPieceType.EMPTY));
+        targetPiece.capture();
+        janggiBoard.put(destination, movingPiece);
     }
 
     private JanggiPiece getFirstHurdlePieceOnRoute(JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
@@ -39,7 +62,7 @@ public final class JanggiBoard {
         JanggiPosition newPosition = origin;
         for (Pattern pattern : patterns) {
             newPosition = newPosition.moveOnePosition(pattern);
-            if (existPiece(newPosition)) {
+            if (checkExistPiece(newPosition)) {
                 hurdlePiece = getPieceOfPosition(newPosition);
             }
         }
@@ -53,28 +76,14 @@ public final class JanggiBoard {
         JanggiPosition newPosition = origin;
         for (Pattern pattern : patterns) {
             newPosition = newPosition.moveOnePosition(pattern);
-            if (existPiece(newPosition)) {
+            if (checkExistPiece(newPosition)) {
                 count++;
             }
         }
         return count;
     }
 
-    private boolean existPiece(final JanggiPosition newPosition) {
+    private boolean checkExistPiece(final JanggiPosition newPosition) {
         return !getPieceOfPosition(newPosition).isEmpty();
-    }
-
-    public Map<JanggiPosition, JanggiPiece> getBoard() {
-        return janggiBoard;
-    }
-
-    public boolean isSameTeam(JanggiPosition position, JanggiSide janggiSide) {
-        return getPieceOfPosition(position).isTeamOf(janggiSide);
-    }
-
-    public boolean isOpposite궁Captured(JanggiSide nowTurn) {
-        return janggiBoard.keySet().stream()
-                .map(this::getPieceOfPosition)
-                .noneMatch(piece -> piece.isTypeOf(JanggiPieceType.궁) && piece.isTeamOf(nowTurn.getOppositeSide()));
     }
 }

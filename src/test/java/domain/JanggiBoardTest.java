@@ -35,7 +35,7 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard(initializer);
 
         // when & then
-        assertThat(janggiBoard.getPieceOfPosition(position)).isInstanceOf(CHO_궁.getClass());
+        assertThat(janggiBoard.getBoard().get(position)).isInstanceOf(CHO_궁.getClass());
     }
 
     @Test
@@ -73,7 +73,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(afterPosition).isTypeOf(JanggiPieceType.궁)).isTrue();
+            assertThat(janggiBoard.getBoard().get(afterPosition).isTypeOf(JanggiPieceType.궁)).isTrue();
         }
 
         @ParameterizedTest
@@ -91,7 +91,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(afterPosition).isTypeOf(JanggiPieceType.마)).isTrue();
+            assertThat(janggiBoard.getBoard().get(afterPosition).isTypeOf(JanggiPieceType.마)).isTrue();
         }
 
         @ParameterizedTest
@@ -109,7 +109,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(afterPosition).isTypeOf(JanggiPieceType.사)).isTrue();
+            assertThat(janggiBoard.getBoard().get(afterPosition).isTypeOf(JanggiPieceType.사)).isTrue();
         }
 
         @ParameterizedTest
@@ -127,7 +127,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(afterPosition).isTypeOf(JanggiPieceType.상)).isTrue();
+            assertThat(janggiBoard.getBoard().get(afterPosition).isTypeOf(JanggiPieceType.상)).isTrue();
         }
 
         @ParameterizedTest
@@ -145,7 +145,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(afterPosition).isTypeOf(JanggiPieceType.졸)).isTrue();
+            assertThat(janggiBoard.getBoard().get(afterPosition).isTypeOf(JanggiPieceType.졸)).isTrue();
         }
 
         @ParameterizedTest
@@ -163,7 +163,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(afterPosition).isTypeOf(JanggiPieceType.병)).isTrue();
+            assertThat(janggiBoard.getBoard().get(afterPosition).isTypeOf(JanggiPieceType.병)).isTrue();
         }
 
         @ParameterizedTest
@@ -182,7 +182,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(afterPosition).isTypeOf(JanggiPieceType.차)).isTrue();
+            assertThat(janggiBoard.getBoard().get(afterPosition).isTypeOf(JanggiPieceType.차)).isTrue();
         }
 
         @Test
@@ -201,7 +201,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(포beforePosition, 포afterPosition);
 
             // then
-            assertThat(janggiBoard.getPieceOfPosition(포afterPosition).isTypeOf(JanggiPieceType.포)).isTrue();
+            assertThat(janggiBoard.getBoard().get(포afterPosition).isTypeOf(JanggiPieceType.포)).isTrue();
         }
     }
 
