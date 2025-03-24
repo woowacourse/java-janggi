@@ -4,15 +4,17 @@ import position.Position;
 import route.Routes;
 
 public abstract class Piece {
-    private final Position position;
+    private final Routes routes;
 
-    public Piece(Position position) {
-        this.position = position;
+    protected Piece(Routes routes) {
+        this.routes = routes;
     }
 
     public boolean canMove(Position destination) {
         return false;
     }
 
-    public abstract Routes routes();
+    public Routes possibleRoutes() {
+        return routes.possibleRoutes();
+    }
 }
