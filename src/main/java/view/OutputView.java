@@ -8,9 +8,10 @@ import domain.piece.Piece;
 import domain.piece.PieceColor;
 
 public class OutputView {
-
     public void printBorad(Board board) {
+        System.out.println("  일 이 삼 사 오 육 칠 팔 구");
         for (Row row : Row.values()) {
+            System.out.print(row.getValue() % 10 + " ");
             for (Column column : Column.values()) {
                 Position position = new Position(row, column);
                 Piece piece = board.getPieceBy(position);

@@ -15,6 +15,8 @@ public enum Row {
     ZERO(10),
     ;
 
+    private final int value;
+
     Row(int value) {
         this.value = value;
     }
@@ -25,8 +27,6 @@ public enum Row {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 숫자에 맞는 Row가 없습니다."));
     }
-
-    private final int value;
 
     public int getValue() {
         return value;
