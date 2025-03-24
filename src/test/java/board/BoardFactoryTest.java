@@ -22,7 +22,7 @@ public class BoardFactoryTest {
             final Board board = factory.generateBoard();
 
             // then
-            Assertions.assertThat(board.getMap()).hasSize(expected);
+            Assertions.assertThat(board.getJanggiBoard()).hasSize(expected);
         }
     }
 }
