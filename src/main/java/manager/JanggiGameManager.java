@@ -25,7 +25,6 @@ public class JanggiGameManager {
         Board board = createBoard(new BoardGenerator());
 
         while (!board.isEnd()) {
-            OutputView.printBoard(board);
             processTurn(board, turn);
         }
 
@@ -34,6 +33,7 @@ public class JanggiGameManager {
 
     private void processTurn(Board board, Turn turn) {
         ErrorHandler.retryUntilSuccess(() -> {
+            OutputView.printBoard(board);
             MoveCommand moveCommand = InputView.inputMoveCommand(turn.team());
             Point source = moveCommand.source();
             Point destination = moveCommand.destination();
@@ -48,7 +48,6 @@ public class JanggiGameManager {
             }
 
             board.movePiece(source, destination);
-            OutputView.printBoard(board);
             turn.changeTurn();
         });
     }
