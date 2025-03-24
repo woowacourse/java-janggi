@@ -70,8 +70,7 @@ class PoTest {
                 new Position(1, 0),
                 new Position(2, 0),
                 new Position(3, 0),
-                new Position(4, 0),
-                new Position(5, 0)
+                new Position(4, 0)
         );
     }
 

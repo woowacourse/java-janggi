@@ -49,42 +49,34 @@ public class Ma extends Piece {
 
         if (dx == 2 && dy == 1) {
             route.addPosition(new Position(presentRow - 1, presentCol));
-            route.addPosition(new Position(presentRow - 2, presentCol - 1));
         }
 
         if (dx == 2 && dy == -1) {
             route.addPosition(new Position(presentRow - 1, presentCol));
-            route.addPosition(new Position(presentRow - 2, presentCol + 1));
         }
 
         if (dx == 1 && dy == -2) {
             route.addPosition(new Position(presentRow, presentCol + 1));
-            route.addPosition(new Position(presentRow - 1, presentCol + 2));
         }
 
         if (dx == -1 && dy == -2) {
             route.addPosition(new Position(presentRow, presentCol + 1));
-            route.addPosition(new Position(presentRow + 1, presentCol + 2));
         }
 
         if (dx == -2 && dy == -1) {
             route.addPosition(new Position(presentRow + 1, presentCol));
-            route.addPosition(new Position(presentRow + 2, presentCol + 1));
         }
 
         if (dx == -2 && dy == 1) {
             route.addPosition(new Position(presentRow + 1, presentCol));
-            route.addPosition(new Position(presentRow + 2, presentCol - 1));
         }
 
         if (dx == 1 && dy == 2) {
             route.addPosition(new Position(presentRow, presentCol - 1));
-            route.addPosition(new Position(presentRow - 1, presentCol - 2));
         }
 
         if (dx == -1 && dy == 2) {
             route.addPosition(new Position(presentRow, presentCol - 1));
-            route.addPosition(new Position(presentRow + 1, presentCol - 2));
         }
 
         return route;

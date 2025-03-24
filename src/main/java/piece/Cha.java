@@ -32,25 +32,25 @@ public class Cha extends Piece {
         int presentRow = getBoardPosition().getRow();
 
         if (dx == 0 && dy > 0) {
-            for (int i = 1; i <= dy; i++) {
+            for (int i = 1; i < dy; i++) {
                 route.addPosition(new Position(presentRow, presentCol - i));
             }
         }
 
         if (dx == 0 && dy < 0) {
-            for (int i = 1; i <= Math.abs(dy); i++) {
+            for (int i = 1; i < Math.abs(dy); i++) {
                 route.addPosition(new Position(presentRow, presentCol + i));
             }
         }
 
         if (dx > 0 && dy == 0) {
-            for (int i = 1; i <= dx; i++) {
+            for (int i = 1; i < dx; i++) {
                 route.addPosition(new Position(presentRow - i, presentCol));
             }
         }
 
         if (dx < 0 && dy == 0) {
-            for (int i = 1; i <= Math.abs(dx); i++) {
+            for (int i = 1; i < Math.abs(dx); i++) {
                 route.addPosition(new Position(presentRow + i, presentCol));
             }
         }

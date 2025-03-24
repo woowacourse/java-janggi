@@ -67,7 +67,7 @@ class MaTest {
         Positions actual = ma.makeRoute(futurePosition);
 
         //then
-        assertThat(actual.getPositions()).containsExactly(new Position(4, 5), new Position(3, 6));
+        assertThat(actual.getPositions()).containsExactly(new Position(4, 5));
     }
 
     private static Stream<Arguments> maNonCanMoveToPositionProvider() {

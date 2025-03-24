@@ -69,8 +69,7 @@ class ChaTest {
                 new Position(4, 5),
                 new Position(3, 5),
                 new Position(2, 5),
-                new Position(1, 5),
-                new Position(0, 5)
+                new Position(1, 5)
         );
     }
 

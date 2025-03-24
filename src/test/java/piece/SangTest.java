@@ -70,8 +70,7 @@ class SangTest {
         //then
         assertThat(actual.getPositions()).containsExactly(
                 new Position(5, 4),
-                new Position(4, 3),
-                new Position(3, 2)
+                new Position(4, 3)
         );
     }
 
