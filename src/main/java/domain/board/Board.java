@@ -42,12 +42,12 @@ public class Board {
         return board.containsKey(node);
     }
 
-    public boolean existsPoByNode(Node node) {
+    public boolean existsPieceTypeByNode(Node node, PieceType pieceType) {
         if (!existsPieceByNode(node)) {
             return false;
         }
         Piece piece = board.get(node);
-        return piece.type() == PieceType.PO;
+        return piece.type() == pieceType;
     }
 
     public void removePieceByNode(Node node) {
@@ -72,5 +72,15 @@ public class Board {
         }
         Piece piece = board.get(node);
         return piece.type() == pieceType;
+    }
+
+    public void movePiece(Node sourceNode, Node destinationNode, Board board) {
+        Piece sourcePiece = findPieceByNode(sourceNode);
+        if (!sourcePiece.canMove(sourceNode, destinationNode, board)) {
+            throw new IllegalArgumentException(sourceNode + " -> " + destinationNode + " [ERROR] 이동할 수 없는 경로입니다.");
+        }
+
+        putPiece(destinationNode, sourcePiece);
+        removePieceByNode(sourceNode);
     }
 }

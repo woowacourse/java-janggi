@@ -15,6 +15,10 @@ public class Node {
         this.edges = new ArrayList<>();
     }
 
+    public boolean isSameNode(Node destination) {
+        return this == destination;
+    }
+
     public boolean hasEdgeByDirection(Direction direction) {
         return edges.stream()
                 .anyMatch(edge -> edge.isSameDirection(direction));
@@ -69,5 +73,10 @@ public class Node {
     @Override
     public int hashCode() {
         return Objects.hash(point);
+    }
+
+    @Override
+    public String toString() {
+        return point.toString();
     }
 }

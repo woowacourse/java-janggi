@@ -21,6 +21,14 @@ public class Po implements Piece {
 
     @Override
     public boolean canMove(Node source, Node destination, Board board) {
+        return isDifferentNode(source, destination) && containsInCandidates(source, destination, board);
+    }
+
+    private boolean isDifferentNode(Node source, Node destination) {
+        return !destination.isSameNode(source);
+    }
+
+    private boolean containsInCandidates(Node source, Node destination, Board board) {
         return findMovableNodes(source, board).contains(destination);
     }
 
@@ -39,7 +47,7 @@ public class Po implements Piece {
             return;
         }
         Node nextNode = currentNode.findNextNodeByDirection(direction);
-        if (board.existsPoByNode(nextNode)) {
+        if (board.existsPieceTypeByNode(nextNode, type())) {
             return;
         }
         if (board.existsPieceByNode(nextNode)) {
@@ -56,7 +64,7 @@ public class Po implements Piece {
             return;
         }
         Node nextNode = currentNode.findNextNodeByDirection(direction);
-        if (board.existsPoByNode(nextNode)
+        if (board.existsPieceTypeByNode(nextNode, type())
                 || (board.existsPieceByNode(nextNode) && board.hasPieceTeamByNode(nextNode, this.team))) {
             return;
         }

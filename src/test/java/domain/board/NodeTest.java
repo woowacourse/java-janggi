@@ -21,6 +21,20 @@ class NodeTest {
     class Success {
 
         @Test
+        void 특정_위치가_현재_위치와_동일하면_true를_반환한다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+            Point point = Point.of(10, 1);
+            Node node = board.findNodeByPoint(point);
+
+            // when
+            final boolean actual = node.isSameNode(node);
+
+            // then
+            assertThat(actual).isTrue();
+        }
+
+        @Test
         void 특정_위치에서_특정_방향으로_가는_경로가_있으면_true를_반환한다() {
             // given
             Board board = BoardFixture.createEmptyBoard();

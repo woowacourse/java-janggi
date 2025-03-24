@@ -154,5 +154,23 @@ class BoardTest {
             assertThatThrownBy(() -> board.findPieceByNode(node))
                     .isInstanceOf(IllegalArgumentException.class);
         }
+
+        @Test
+        void 같은_위치로_이동하면_예외가_발생한다() {
+            // given
+            Team team = Team.CHO;
+            Point point = Point.of(10, 1);
+            Node sourceNode = new Node(point);
+            Board board = BoardFixture.createEmptyBoard();
+
+            board.putPiece(sourceNode, new Byeong(team));
+
+            // when
+            Node destinationNode = new Node(point);
+
+            // then
+            assertThatThrownBy(() -> board.movePiece(sourceNode, destinationNode, board))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
     }
 }
