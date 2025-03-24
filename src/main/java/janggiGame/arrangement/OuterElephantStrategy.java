@@ -14,9 +14,9 @@ import janggiGame.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OuterElephantStrategy implements ArrangementStrategy {
+public class OuterElephantStrategy extends ArrangementStrategy {
     @Override
-    public Map<Dot, Piece> arrange(Dynasty dynasty) {
+    public Map<Dot, Piece> arrangeCho(Dynasty dynasty) {
         Map<Dot, Piece> result = new HashMap<>();
 
         result.put(Board.findBy(0, 0), new Chariot(dynasty));

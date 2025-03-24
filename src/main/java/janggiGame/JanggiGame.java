@@ -1,7 +1,6 @@
 package janggiGame;
 
 import janggiGame.arrangement.ArrangementStrategy;
-import janggiGame.board.Board;
 import janggiGame.board.Dot;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
@@ -10,21 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 public class JanggiGame {
-    private Map<Dot, Piece> pieces = new HashMap<>();
+    private final Map<Dot, Piece> pieces = new HashMap<>();
 
     public void arrangeHanPieces(ArrangementStrategy strategy) {
-        Map<Dot, Piece> pieces = strategy.arrange(Dynasty.HAN);
-        Map<Dot, Piece> reversePieces = new HashMap<>();
-        pieces.keySet()
-                .forEach(dot -> reversePieces.put(Board.getReverse(dot), pieces.get(dot))
-                );
-
-        this.pieces.putAll(reversePieces);
-
+        pieces.putAll(strategy.arrangeHan(Dynasty.HAN));
     }
 
     public void arrangeChoPieces(ArrangementStrategy strategy) {
-        pieces.putAll(strategy.arrange(Dynasty.CHO));
+        pieces.putAll(strategy.arrangeCho(Dynasty.CHO));
     }
 
     public Map<Dot, Piece> getPieces() {
