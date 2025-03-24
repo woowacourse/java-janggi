@@ -15,13 +15,13 @@ public record Path(
 
     public Path nextPath(Movement movement) {
         List<Position> positions = new ArrayList<>(pathPositions);
-        final List<Position> result = movement.getPositionsWith(pathPositions.getLast());
+        final List<Position> result = movement.getPositionsWith(finalPosition());
         positions.addAll(result);
         return new Path(positions);
     }
 
     public Path nextPath(Position position) {
-        final List<Position> positions = pathPositions.getLast().createPositionsUntil(position);
+        final List<Position> positions = finalPosition().createPositionsUntil(position);
         positions.addAll(pathPositions);
         return new Path(positions);
     }
@@ -31,11 +31,30 @@ public record Path(
                 .anyMatch(blockedPositions::contains);
     }
 
-    public boolean isEndedWith(final List<Position> blockedPositions) {
-        return blockedPositions.contains(pathPositions.getLast());
+    public boolean isEndWith(final List<Position> positions) {
+        return positions.contains(finalPosition());
+    }
+
+    public boolean isStartWith(final Position position) {
+        return pathPositions.getFirst().equals(position);
     }
 
     public boolean isSuperPathOf(final Path path) {
         return new HashSet<>(this.pathPositions).containsAll(path.pathPositions);
+    }
+
+    public Position finalPosition() {
+        return pathPositions.getLast();
+    }
+
+    public List<Path> subPaths() {
+        final List<Path> subPaths = new ArrayList<>();
+        for (int size = 2; size < pathPositions.size(); size++) {
+            for (int start = 0; start + size < pathPositions.size(); size++) {
+                subPaths.add(new Path(pathPositions.subList(start, start + size)));
+                subPaths.add(new Path(pathPositions.subList(start, start + size).reversed()));
+            }
+        }
+        return subPaths;
     }
 }

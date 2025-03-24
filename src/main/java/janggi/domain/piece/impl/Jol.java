@@ -26,7 +26,7 @@ public class Jol extends Piece {
 
         for (Movement availableMovement : availableMovements) {
             final Path path = Path.start(position).nextPath(availableMovement);
-            if (!path.isBlockedWith(getPositionsOf(List.of(allyPieces, enemyPieces))) && !path.isEndedWith(getPositionsOf(List.of(allyPieces)))) {
+            if (!path.isBlockedWith(getPositionsOf(List.of(allyPieces, enemyPieces))) && !path.isEndWith(getPositionsOf(List.of(allyPieces)))) {
                 availablePaths.add(path);
             }
         }

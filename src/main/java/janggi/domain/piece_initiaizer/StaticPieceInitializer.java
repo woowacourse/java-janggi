@@ -37,13 +37,13 @@ public final class StaticPieceInitializer implements PieceInitializer {
         }
 
         insertIntoMap(board,
-                new Jol(new Position(PositionFile.FILE_1, PositionRank.of(1, country))),
+                new Cha(new Position(PositionFile.FILE_1, PositionRank.of(1, country)), new Gung()),
                 new Sa(new Position(PositionFile.FILE_4, PositionRank.of(1, country)), new Gung()),
                 new Sa(new Position(PositionFile.FILE_6, PositionRank.of(1, country)), new Gung()),
-                new Cha(new Position(PositionFile.FILE_9, PositionRank.of(1, country))),
+                new Cha(new Position(PositionFile.FILE_9, PositionRank.of(1, country)), new Gung()),
                 new Jang(new Position(PositionFile.FILE_5, PositionRank.of(2, country)), new Gung()),
-                new Po(new Position(PositionFile.FILE_2, PositionRank.of(3, country))),
-                new Po(new Position(PositionFile.FILE_8, PositionRank.of(3, country)))
+                new Po(new Position(PositionFile.FILE_2, PositionRank.of(3, country)), new Gung()),
+                new Po(new Position(PositionFile.FILE_8, PositionRank.of(3, country)), new Gung())
         );
 
         switch (startingPosition) {
