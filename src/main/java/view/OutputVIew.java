@@ -49,6 +49,32 @@ public class OutputVIew {
             System.out.println(
                     java.lang.String.join(BACKGROUND_YELLOW + FONT_BLACK + "ㅡㅡㅡ" + RESET, horizontalNameLine));
             if (i != 0) {
+                if (i == janggiBoardList.size() - 1 || i == janggiBoardList.size() - 8) {
+                    String verticalLineFormat = BACKGROUND_YELLOW + FONT_BLACK + "ㅣ" + RESET;
+                    List<String> verticalLines = Collections.nCopies(4, verticalLineFormat);
+                    System.out.print(
+                            BACKGROUND_YELLOW + FONT_YELLOW + "ㅡㅡ" + RESET + java.lang.String.join(
+                                    BACKGROUND_YELLOW + FONT_YELLOW + "ㅡㅡㅡ" + RESET, verticalLines));
+                    System.out.print(
+                            BACKGROUND_YELLOW + FONT_YELLOW + "ㅡ" + FONT_BLACK + "＼" + FONT_YELLOW + "ㅡ" + FONT_BLACK
+                                    + "ㅣ" + FONT_YELLOW + "ㅡ" + FONT_BLACK + "／" + FONT_YELLOW + "ㅡ" + RESET);
+                    System.out.println(java.lang.String.join(
+                            BACKGROUND_YELLOW + FONT_YELLOW + "ㅡㅡㅡ" + RESET, verticalLines));
+                    continue;
+                }
+                if (i == janggiBoardList.size() - 2 || i == janggiBoardList.size() - 9) {
+                    String verticalLineFormat = BACKGROUND_YELLOW + FONT_BLACK + "ㅣ" + RESET;
+                    List<String> verticalLines = Collections.nCopies(4, verticalLineFormat);
+                    System.out.print(
+                            BACKGROUND_YELLOW + FONT_YELLOW + "ㅡㅡ" + RESET + java.lang.String.join(
+                                    BACKGROUND_YELLOW + FONT_YELLOW + "ㅡㅡㅡ" + RESET, verticalLines));
+                    System.out.print(
+                            BACKGROUND_YELLOW + FONT_YELLOW + "ㅡ" + FONT_BLACK + "／" + FONT_YELLOW + "ㅡ" + FONT_BLACK
+                                    + "ㅣ" + FONT_YELLOW + "ㅡ" + FONT_BLACK + "＼" + FONT_YELLOW + "ㅡ" + RESET);
+                    System.out.println(java.lang.String.join(
+                            BACKGROUND_YELLOW + FONT_YELLOW + "ㅡㅡㅡ" + RESET, verticalLines));
+                    continue;
+                }
                 String verticalLineFormat = BACKGROUND_YELLOW + FONT_BLACK + "ㅣ" + RESET;
                 List<String> verticalLines = Collections.nCopies(9, verticalLineFormat);
                 System.out.println(
