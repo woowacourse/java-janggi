@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Byeong extends Piece {
 
-    private final List<Movement> MOVEMENTS = List.of(
+    private static final List<Movement> MOVEMENTS = List.of(
             Movement.UP, Movement.DOWN, Movement.RIGHT, Movement.LEFT);
 
     public Byeong(Country country) {

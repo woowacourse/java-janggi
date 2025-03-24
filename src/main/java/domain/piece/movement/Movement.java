@@ -30,8 +30,7 @@ public enum Movement {
     DOWN_DOWN_LEFT_LEFT_LEFT(new Coordinate(2, -3)),
     UP_UP_LEFT_LEFT_LEFT(new Coordinate(-2, -3)),
     UP_UP_UP_LEFT_LEFT(new Coordinate(-3, -2));
-
-
+    
     private final Coordinate direction;
 
     Movement(Coordinate direction) {

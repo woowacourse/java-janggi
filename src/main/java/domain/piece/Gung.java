@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Gung extends Piece {
 
-    private final List<Movement> MOVEMENTS = List.of(
+    private static final List<Movement> MOVEMENTS = List.of(
             Movement.UP, Movement.UP_RIGHT, Movement.RIGHT, Movement.DOWN_RIGHT,
             Movement.DOWN, Movement.DOWN_LEFT, Movement.LEFT, Movement.UP_LEFT);
 
