@@ -1,10 +1,10 @@
 package domain.board.maSangStrategy;
 
-import domain.Coordinate;
 import domain.Team;
 import domain.piece.Piece;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface MaSangStrategy {
 
@@ -18,5 +18,5 @@ public interface MaSangStrategy {
         Team.CHO, 10
     );
 
-    Map<Coordinate, Piece> createMaAndSang(Team team);
+    Set<Piece> createMaAndSang(Team team);
 }

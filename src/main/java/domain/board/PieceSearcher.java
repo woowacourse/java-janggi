@@ -5,7 +5,7 @@ import domain.piece.Piece;
 import java.util.List;
 import java.util.Optional;
 
-public interface PieceFinder {
+public interface PieceSearcher {
 
     boolean nonePiecesIn(List<Coordinate> coordinates);
 

@@ -3,7 +3,7 @@ package domain.piece.noPathPiece;
 import domain.Coordinate;
 import domain.Movement;
 import domain.Team;
-import domain.board.PieceFinder;
+import domain.board.PieceSearcher;
 import domain.piece.Piece;
 import java.util.Set;
 
@@ -14,7 +14,7 @@ public abstract class NoPathPiece extends Piece {
     }
 
     @Override
-    public final boolean canMove(final Coordinate arrival, final PieceFinder pieceFinder) {
+    public final boolean canMove(final Coordinate arrival, final PieceSearcher pieceSearcher) {
         return movements().stream()
             .filter(coordinate::canMove)
             .map(coordinate::move)

@@ -3,7 +3,7 @@ package domain.piece.pathPiece;
 import domain.Coordinate;
 import domain.Movement;
 import domain.Team;
-import domain.board.PieceFinder;
+import domain.board.PieceSearcher;
 import domain.piece.Piece;
 import java.util.Set;
 
@@ -20,12 +20,12 @@ public abstract class PathPiece extends Piece {
     @Override
     public boolean canMove(
         final Coordinate arrival,
-        final PieceFinder pieceFinder
+        final PieceSearcher pieceSearcher
     ) {
         final var path = findPath(arrival);
         final var coordinates = path.coordinates();
 
-        return path.isReachable() && pieceFinder.nonePiecesIn(coordinates);
+        return path.isReachable() && pieceSearcher.nonePiecesIn(coordinates);
     }
 
     protected abstract Path findPath(Coordinate arrival);

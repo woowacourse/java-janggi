@@ -3,8 +3,9 @@ package domain.piece;
 import domain.Coordinate;
 import domain.Movement;
 import domain.Team;
-import domain.board.PieceFinder;
+import domain.board.PieceSearcher;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public abstract class Piece {
@@ -30,7 +31,7 @@ public abstract class Piece {
         return movements;
     }
 
-    public abstract boolean canMove(Coordinate arrival, PieceFinder pieceFinder);
+    public abstract boolean canMove(Coordinate arrival, PieceSearcher pieceSearcher);
 
     public abstract Piece moveTo(Coordinate arrival);
 
@@ -42,15 +43,37 @@ public abstract class Piece {
         return this.team.equals(team);
     }
 
+    public final boolean isAt(Coordinate coordinate) {
+        return this.coordinate.equals(coordinate);
+    }
+
     public final Team getTeam() {
         return team;
     }
 
-    public Coordinate getCoordinate() {
+    public final Coordinate getCoordinate() {
         return coordinate;
     }
 
     public boolean isPo() {
         return false;
+    }
+
+    @Override
+    public final boolean equals(final Object o) {
+        if (!(o instanceof final Piece piece)) {
+            return false;
+        }
+
+        return team == piece.team && Objects.equals(coordinate, piece.coordinate)
+            && Objects.equals(movements, piece.movements);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(team);
+        result = 31 * result + Objects.hashCode(coordinate);
+        result = 31 * result + Objects.hashCode(movements);
+        return result;
     }
 }

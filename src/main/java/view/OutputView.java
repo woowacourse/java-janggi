@@ -13,6 +13,7 @@ import domain.piece.noPathPiece.Sa;
 import domain.piece.pathPiece.Sang;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public class OutputView {
 
@@ -39,7 +40,7 @@ public class OutputView {
     private static final String FULL_WIDTH_BAR = "＿";
     private static final String FULL_WIDTH_SPACE = "　";
 
-    public void printBoard(Map<Coordinate, Piece> board) {
+    public void printBoard(Map<Coordinate, Piece> pieces) {
         System.out.println("   １　２　３　４　５　６　７　８　９");
 
         for (int height = 1; height <= 10; height++) {
@@ -47,7 +48,7 @@ public class OutputView {
 
             for (int width = 1; width <= 9; width++) {
                 Coordinate coordinate = new Coordinate(width, height);
-                Piece piece = board.get(coordinate);
+                Piece piece = pieces.get(coordinate);
                 printPiece(piece);
             }
             System.out.println();

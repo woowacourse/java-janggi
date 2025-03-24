@@ -1,39 +1,39 @@
 package domain.board;
 
+import static java.util.function.Function.identity;
+
 import domain.Coordinate;
 import domain.piece.Piece;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-public class Board implements PieceFinder {
+public class Board implements PieceSearcher {
 
-    private final Map<Coordinate, Piece> pieces;
+    private final Set<Piece> pieces;
 
-    public Board(Map<Coordinate, Piece> pieces) {
+    public Board(Set<Piece> pieces) {
         this.pieces = pieces;
     }
 
     public void move(Coordinate departure, Coordinate arrival) {
-        checkDeparturePieceExisting(departure);
-        final Piece selectedPiece = pieces.get(departure);
+        final Piece selectedPiece = findAt(departure)
+            .orElseThrow(() -> new IllegalArgumentException("해당 좌표에는 기물이 없습니다."));
 
-        checkArrivalIsMovable(arrival, selectedPiece);
+        checkPieceCanMoveToArrival(selectedPiece, arrival);
         checkArrivalIsNotSameTeam(arrival, selectedPiece);
 
-        doMovePiece(departure, arrival, selectedPiece);
+        doMovePiece(selectedPiece, arrival);
     }
 
-    private void doMovePiece(Coordinate departure, Coordinate arrival, Piece piece) {
-        pieces.remove(departure);
-        pieces.merge(arrival, piece.moveTo(arrival), (existing, selected) -> selected);
-    }
+    private void doMovePiece(Piece selectedPiece, Coordinate arrival) {
+        pieces.remove(selectedPiece);
+        findAt(arrival).ifPresent(pieces::remove);
 
-    private void checkDeparturePieceExisting(final Coordinate departure) {
-        if (!pieces.containsKey(departure)) {
-            throw new IllegalArgumentException("해당 좌표에는 기물이 없습니다.");
-        }
+        pieces.add(selectedPiece.moveTo(arrival));
     }
 
     private void checkArrivalIsNotSameTeam(final Coordinate arrival, final Piece selectedPiece) {
@@ -46,9 +46,9 @@ public class Board implements PieceFinder {
         }
     }
 
-    private void checkArrivalIsMovable(
-        final Coordinate arrival,
-        final Piece selectedPiece
+    private void checkPieceCanMoveToArrival(
+        final Piece selectedPiece,
+        final Coordinate arrival
     ) {
         final boolean cannotMoveToArrival = !selectedPiece.canMove(arrival, this);
         if (cannotMoveToArrival) {
@@ -58,22 +58,31 @@ public class Board implements PieceFinder {
 
     @Override
     public boolean nonePiecesIn(final List<Coordinate> coordinates) {
-        return coordinates.stream().noneMatch(pieces::containsKey);
+        return coordinates.stream().noneMatch(this::existsAt);
     }
 
     @Override
     public List<Piece> findPiecesIn(final List<Coordinate> coordinates) {
         return coordinates.stream()
-            .filter(pieces::containsKey)
-            .map(pieces::get)
+            .map(this::findAt)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
             .toList();
     }
 
     public Optional<Piece> findAt(Coordinate coordinate) {
-        return Optional.ofNullable(pieces.get(coordinate));
+        return pieces.stream()
+            .filter(piece -> piece.isAt(coordinate))
+            .findAny();
+    }
+
+    private boolean existsAt(final Coordinate coordinate) {
+        return findAt(coordinate).isPresent();
     }
 
     public Map<Coordinate, Piece> getPieces() {
-        return Collections.unmodifiableMap(pieces);
+        final var coordinatePieceMap = pieces.stream()
+            .collect(Collectors.toMap(Piece::getCoordinate, identity()));
+        return Collections.unmodifiableMap(coordinatePieceMap);
     }
 }

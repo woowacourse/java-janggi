@@ -3,7 +3,7 @@ package domain.piece.pathPiece;
 import domain.Coordinate;
 import domain.Movement;
 import domain.Team;
-import domain.board.PieceFinder;
+import domain.board.PieceSearcher;
 import domain.piece.Piece;
 
 public class Po extends UnlimitedPathPiece {
@@ -19,11 +19,11 @@ public class Po extends UnlimitedPathPiece {
     @Override
     public boolean canMove(
         final Coordinate arrival,
-        final PieceFinder pieceFinder
+        final PieceSearcher pieceSearcher
     ) {
         final var path = findPath(arrival);
 
-        final var piecesInPath = pieceFinder.findPiecesIn(path.coordinates());
+        final var piecesInPath = pieceSearcher.findPiecesIn(path.coordinates());
         if (piecesInPath.size() != 1) {
             return false;
         }
@@ -33,7 +33,7 @@ public class Po extends UnlimitedPathPiece {
             return false;
         }
 
-        final var isArrivalPo = pieceFinder.findAt(arrival)
+        final var isArrivalPo = pieceSearcher.findAt(arrival)
             .map(Piece::isPo)
             .orElse(false);
         return !isArrivalPo;

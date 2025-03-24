@@ -5,9 +5,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.board.Board;
+import domain.board.PieceSearcher;
 import domain.piece.pathPiece.Cha;
 import domain.piece.pathPiece.Ma;
 import domain.piece.Piece;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -63,9 +65,10 @@ public class BoardTest {
             board.move(departure, arrival);
 
             // then
+            Cha movedCha = new Cha(Team.HAN, new Coordinate(5, 6));
             assertAll(
                 () -> assertThat(board.findAt(departure)).isEmpty(),
-                () -> assertThat(board.findAt(arrival)).hasValue(cha)
+                () -> assertThat(board.findAt(arrival)).hasValue(movedCha)
             );
         }
 
@@ -84,9 +87,10 @@ public class BoardTest {
             board.move(departure, arrival);
 
             // then
+            Cha movedCha = new Cha(Team.HAN, new Coordinate(5, 6));
             assertAll(
                 () -> assertThat(board.findAt(departure)).isEmpty(),
-                () -> assertThat(board.findAt(arrival)).hasValue(cha)
+                () -> assertThat(board.findAt(arrival)).hasValue(movedCha)
             );
         }
     }
@@ -121,6 +125,44 @@ public class BoardTest {
 
             // then
             assertThat(piece).isPresent();
+        }
+    }
+
+    @Nested
+    @DisplayName("경로를 조회하는 테스트")
+    class SearchPathTest {
+
+        @Test
+        @DisplayName("좌표 리스트를 받아 해당 좌표들에 기물들이 하나도 없는 지 알 수 있다.")
+        void test1() {
+            //given
+            PieceSearcher searcher = new BoardFixture()
+                .anyPiece(3, 1)
+                .build();
+
+            final var path = List.of(
+                new Coordinate(2, 1), new Coordinate(3, 1), new Coordinate(4, 1)
+            );
+
+            //when & then
+            assertThat(searcher.nonePiecesIn(path)).isFalse();
+        }
+
+        @Test
+        @DisplayName("좌표 리스트를 받아 해당 좌표들에 존재하는 기물들을 반환한다.")
+        void test2() {
+            //given
+            PieceSearcher searcher = new BoardFixture()
+                .anyPiece(3, 1)
+                .anyPiece(4, 1)
+                .build();
+
+            final var path = List.of(
+                new Coordinate(2, 1), new Coordinate(3, 1), new Coordinate(4, 1)
+            );
+
+            //when & then
+            assertThat(searcher.findPiecesIn(path)).hasSize(2);
         }
     }
 }
