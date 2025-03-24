@@ -17,8 +17,8 @@ class TeamTest {
         // when
         // then
         assertAll(() -> {
-            assertThat(Team.decideRow(originalRow, Team.RED)).isEqualTo(originalRow);
-            assertThat(Team.decideRow(originalRow, Team.GREEN)).isEqualTo(11 - originalRow);
+            assertThat(Team.decideRow(originalRow, Team.HAN)).isEqualTo(originalRow);
+            assertThat(Team.decideRow(originalRow, Team.CHO)).isEqualTo(11 - originalRow);
         });
     }
 }
