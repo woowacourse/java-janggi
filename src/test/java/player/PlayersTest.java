@@ -230,9 +230,8 @@ class PlayersTest {
     void isPoExistInRoute() {
         //given
         Po po = new Po(new Position(5, 5));
-        Jol jol = new Jol(new Position(6, 5));
 
-        Pieces pieces = new Pieces(List.of(po, jol));
+        Pieces pieces = new Pieces(List.of(po));
 
         Player player = new Player(pieces, CHO);
         Player player1 = new Player(new Pieces(List.of(new Po(new Position(8, 5)))), HAN);
