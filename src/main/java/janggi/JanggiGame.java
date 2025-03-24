@@ -24,7 +24,7 @@ public class JanggiGame {
     public void start() {
         try {
             play();
-        } catch (RuntimeException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println("[ERROR] " + e.getMessage());
         }
     }
