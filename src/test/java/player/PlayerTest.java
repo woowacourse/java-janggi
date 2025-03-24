@@ -177,4 +177,18 @@ class PlayerTest {
         assertThat(janggun.isSamePosition(new Position(6, 6))).isTrue();
     }
 
+    @Test
+    @DisplayName("포 존재 확인 테스트")
+    void isPoAtTest() {
+        //given
+        Jol jol = new Jol(new Position(5, 5));
+        Janggun janggun = new Janggun(new Position(6, 5));
+        Po po = new Po(new Position(4, 3));
+        Pieces pieces = new Pieces(List.of(jol, janggun, po));
+        Player player = new Player(pieces, HAN);
+
+        //when-then
+        assertThat(player.isPoAt(new Position(4, 3))).isTrue();
+    }
+
 }
