@@ -56,6 +56,22 @@ public final class Routes {
         ));
     }
 
+    public static Routes ofElephant(){
+        return new Routes(Set.of(
+                new Route(List.of(EAST, EAST_NORTH, EAST_NORTH)),
+                new Route(List.of(EAST, EAST_SOUTH, EAST_SOUTH)),
+
+                new Route(List.of(WEST, WEST_NORTH, WEST_NORTH)),
+                new Route(List.of(WEST, WEST_SOUTH, WEST_SOUTH)),
+
+                new Route(List.of(SOUTH, SOUTH_EAST, SOUTH_EAST)),
+                new Route(List.of(SOUTH, SOUTH_WEST, SOUTH_WEST)),
+
+                new Route(List.of(NORTH, NORTH_EAST, NORTH_EAST)),
+                new Route(List.of(NORTH, NORTH_WEST, NORTH_WEST))
+        ));
+    }
+
     public static Routes ofBlank(){
         return new Routes(Set.of());
     }
