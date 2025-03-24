@@ -60,4 +60,53 @@ class BoardTest {
                 .hasMessage("장기말이 존재하지 않는 지점입니다.");
     }
 
+    @Test
+    @DisplayName("올바른 위치로 기물을 움직일 수 있다")
+    void canMovePiece() {
+        // given
+        Board board = Board.from(Pieces.empty().addAll(
+                List.of(PieceFixture.createPiece(1, 1, PieceType.SOLDIER, Team.CHO))));
+
+        Position departure = Position.of(1, 1);
+        Position destination = Position.of(1, 2);
+
+        boolean isExistsInDepartureBeforeMove = board.isExists(departure);
+        boolean isExistsInDestinationBeforeMove = board.isExists(destination);
+
+        // when
+        board.movePiece(Player.from(Team.CHO), Position.of(1, 1), destination);
+
+        // then
+        boolean isExistsInDepartureAfterMove = board.isExists(departure);
+        boolean isExistsInDestinationAfterMove = board.isExists(destination);
+
+        assertThat(isExistsInDepartureBeforeMove).isTrue();
+        assertThat(isExistsInDepartureAfterMove).isFalse();
+
+        assertThat(isExistsInDestinationBeforeMove).isFalse();
+        assertThat(isExistsInDestinationAfterMove).isTrue();
+    }
+
+    @Test
+    @DisplayName("올바른 위치로 기물을 움직여서 상대의 기물을 잡는다면, 점수가 올라간다")
+    void canAddScoreWhenCatchEnemy() {
+        // given
+        Board board = Board.from(Pieces.empty().addAll(
+                List.of(PieceFixture.createPiece(1, 1, PieceType.SOLDIER, Team.CHO),
+                        PieceFixture.createPiece(1, 2, PieceType.SOLDIER, Team.HAN))));
+
+        Position enemyPosition = Position.of(1, 2);
+
+        // when
+        Player me = Player.from(Team.CHO);
+        Score scoreBeforeCatch = me.getScore();
+        board.movePiece(me, Position.of(1, 1), enemyPosition);
+
+        // then
+        Score scoreAfterCatch = me.getScore();
+
+        assertThat(scoreBeforeCatch).isEqualTo(new Score(0));
+        assertThat(scoreAfterCatch).isEqualTo(Score.soldier());
+    }
 }
+
