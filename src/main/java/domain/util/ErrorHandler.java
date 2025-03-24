@@ -4,6 +4,17 @@ import java.util.function.Supplier;
 
 public class ErrorHandler {
 
+    public static void retryUntilSuccess(Runnable runnable) {
+        while (true) {
+            try {
+                runnable.run();
+                return;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     public static <T> T retryUntilSuccess(Supplier<T> supplier) {
         while (true) {
             try {

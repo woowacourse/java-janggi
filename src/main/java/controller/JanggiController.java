@@ -15,46 +15,42 @@ public class JanggiController {
 
     public void startGame() {
         OutputView.printStart();
-
         Board board = createJanggiBoard();
-        OutputView.printBoard(board);
 
         Turn turn = new Turn();
-        boolean isRunning = true;
-        while (isRunning) {
-            isRunning = movePieceByTurn(board, turn);
-        }
+        do {
+            OutputView.printBoard(board);
+            moveByTurn(turn, board);
+            if (board.isOpponentWangDead(turn.team())) {
+                OutputView.printBoard(board);
+                OutputView.printMatchResult(turn.team());
+                break;
+            }
+            turn.changeTurn();
+        } while (true);
     }
 
-    private boolean movePieceByTurn(Board board, Turn turn) {
-        return ErrorHandler.retryUntilSuccess(() -> {
+    private void moveByTurn(Turn turn, Board board) {
+        ErrorHandler.retryUntilSuccess(() -> {
             MoveCommand moveCommand = InputView.inputMoveCommand(turn.team());
             Node sourceNode = board.findNodeByPoint(moveCommand.source());
             Node destinationNode = board.findNodeByPoint(moveCommand.destination());
 
             if (!board.hasPieceTeamByNode(sourceNode, turn.team())) {
                 OutputView.printTurn(turn.team());
-                return true;
             }
-
             board.movePiece(sourceNode, destinationNode, board);
-            OutputView.printBoard(board);
-
-            if (board.isOpponentWangDead(turn.team())) {
-                OutputView.printMatchResult(turn.team());
-                return false;
-            }
-            turn.changeTurn();
-            return true;
         });
     }
 
     private Board createJanggiBoard() {
-        return ErrorHandler.retryUntilSuccess(() -> {
-            BoardGenerator boardGenerator = new BoardGenerator();
-            SangMaOrderCommand hanSangMaOrderCommand = InputView.inputSangMaOrder(Team.HAN);
-            SangMaOrderCommand choSangMaOrderCommand = InputView.inputSangMaOrder(Team.CHO);
-            return boardGenerator.generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
-        });
+        BoardGenerator boardGenerator = new BoardGenerator();
+        SangMaOrderCommand hanSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.HAN);
+        SangMaOrderCommand choSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.CHO);
+        return boardGenerator.generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
+    }
+
+    private SangMaOrderCommand createSangMaOrderCommandByTeam(Team team) {
+        return ErrorHandler.retryUntilSuccess(() -> InputView.inputSangMaOrder(team));
     }
 }
