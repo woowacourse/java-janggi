@@ -35,6 +35,20 @@ public abstract class Piece {
         return path;
     }
 
+    protected int calculateUnit(int difference) {
+        if (difference == 0) {
+            return difference;
+        }
+        return difference / Math.abs(difference);
+    }
+
+    protected boolean hasPieceInMiddle(final Path path, final Map<Position, Piece> pieces) {
+        List<Position> positions = new ArrayList<>(path.getPositions());
+        positions.removeLast();
+        return positions.stream()
+                .anyMatch(pieces::containsKey);
+    }
+
     protected abstract void validateMove(int differenceForY, int differenceForX);
 
     protected abstract int moveY(Position arrivalPosition, int differenceForY, final int differenceForX, int currentY,

@@ -13,9 +13,9 @@ public class Chariot extends Piece {
     }
 
     @Override
-    protected void validateMove(int differenceForY, int differenceForX) {
-        if (canNotMove(differenceForY, differenceForX)) {
-            throw new IllegalArgumentException("[ERROR] 차는 한 방향으로만 이동할 수 있습니다.");
+    protected void validatePath(final Map<Position, Piece> pieces, final Path path) {
+        if (hasPieceInMiddle(path, pieces)) {
+            throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
         }
     }
 
@@ -44,24 +44,10 @@ public class Chariot extends Piece {
     }
 
     @Override
-    protected void validatePath(final Map<Position, Piece> pieces, final Path path) {
-        if (hasPieceInMiddle(path, pieces)) {
-            throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
+    protected void validateMove(int differenceForY, int differenceForX) {
+        if (canNotMove(differenceForY, differenceForX)) {
+            throw new IllegalArgumentException("[ERROR] 차는 한 방향으로만 이동할 수 있습니다.");
         }
-    }
-
-    private boolean hasPieceInMiddle(final Path path, final Map<Position, Piece> pieces) {
-        List<Position> positions = new ArrayList<>(path.getPositions());
-        positions.removeLast();
-        return positions.stream()
-                .anyMatch(pieces::containsKey);
-    }
-
-    private int calculateUnit(int difference) {
-        if (difference == 0) {
-            return difference;
-        }
-        return difference / Math.abs(difference);
     }
 
     private boolean canNotMove(int differenceForY, int differenceForX) {

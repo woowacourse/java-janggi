@@ -67,13 +67,6 @@ public class Cannon extends Piece {
                 .anyMatch(piece -> piece.matchPieceType(PieceType.CANNON));
     }
 
-    private int calculateUnit(int difference) {
-        if (difference == 0) {
-            return difference;
-        }
-        return difference / Math.abs(difference);
-    }
-
     private boolean canNotMove(int differenceForY, int differenceForX) {
         return !((Math.abs(differenceForY) > 0 && Math.abs(differenceForX) == 0) ||
                 (Math.abs(differenceForY) == 0 && Math.abs(differenceForX) > 0));
