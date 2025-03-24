@@ -12,9 +12,13 @@ public abstract class Piece{
 
     public abstract List<Position> calculateAllDirection(Position departure, Position arrival);
 
+    public abstract boolean isCannon();
+
+    public boolean isSameTeam(Piece piece) {
+        return this.team == piece.getTeam();
+    }
+
     public Team getTeam() {
         return team;
     }
-
-    public abstract boolean isCannon();
 }

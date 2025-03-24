@@ -68,7 +68,7 @@ public class Pieces {
     private void validateSameTeamExistOfArrival(Position departure, Position arrival) {
         Piece departurePositionPiece = pieces.get(departure);
         Piece currentArrivalPositionPiece = pieces.get(arrival);
-        if (departurePositionPiece.getTeam() == currentArrivalPositionPiece.getTeam()) {
+        if (departurePositionPiece.isSameTeam(currentArrivalPositionPiece)) {
             throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
         }
     }
