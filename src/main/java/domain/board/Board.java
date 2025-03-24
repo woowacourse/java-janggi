@@ -3,6 +3,7 @@ package domain.board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
+
 import java.util.Map;
 
 public class Board {
@@ -82,5 +83,11 @@ public class Board {
 
         putPiece(destinationNode, sourcePiece);
         removePieceByNode(sourceNode);
+    }
+
+    public boolean isOpponentWangDead(Team team) {
+        return board.keySet().stream()
+                .filter(node -> hasPieceTeamByNode(node, team.inverse()))
+                .noneMatch(node -> hasPieceTypeByNode(node, PieceType.WANG));
     }
 }

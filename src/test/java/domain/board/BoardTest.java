@@ -4,6 +4,7 @@ import domain.piece.Byeong;
 import domain.piece.PieceType;
 import domain.piece.Po;
 import domain.piece.Team;
+import domain.piece.Wang;
 import fixture.BoardFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -133,6 +134,40 @@ class BoardTest {
 
             // when
             final boolean actual = board.hasPieceTypeByNode(node, pieceType);
+
+            // then
+            assertThat(actual).isFalse();
+        }
+
+        @Test
+        void 보드에_상대팀의_왕이_없다면_true를_반환한다() {
+            // given
+            Team team = Team.CHO;
+            Point point = Point.of(2, 5);
+            Node node = new Node(point);
+            Board board = BoardFixture.createEmptyBoard();
+
+            board.putPiece(node, new Byeong(team.inverse()));
+
+            // when
+            final boolean actual = board.isOpponentWangDead(team);
+
+            // then
+            assertThat(actual).isTrue();
+        }
+
+        @Test
+        void 보드에_상대팀의_왕이_있다면_false를_반환한다() {
+            // given
+            Team team = Team.CHO;
+            Point point = Point.of(2, 5);
+            Node node = new Node(point);
+            Board board = BoardFixture.createEmptyBoard();
+
+            board.putPiece(node, new Wang(team.inverse()));
+
+            // when
+            final boolean actual = board.isOpponentWangDead(team);
 
             // then
             assertThat(actual).isFalse();
