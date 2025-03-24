@@ -57,10 +57,30 @@ public class Players {
                 .mapToInt(player -> player.countObstacle(route))
                 .sum();
 
+        if (isPoAt(attackNation, presentPosition)) {
+            if (count >= 2 || isExistPoInRoute(route)) {
+                throw new IllegalArgumentException("[ERROR] 포가 가는 경로에 장애물이 2개 이상 존재하거나 포가 존재하여 이동할 수 없습니다.");
+            }
+            return;
+        }
+
         if (count >= 1) {
             throw new IllegalArgumentException("[ERROR] 장애물이 존재하여 이동할 수 없습니다.");
         }
 
+    }
+
+    private Boolean isPoAt(Nation attackNation, Position presentPosition) {
+        return players.stream()
+                .filter(player -> player.isSameNation(attackNation))
+                .findFirst()
+                .map(player -> player.isPoAt(presentPosition))
+                .orElseThrow();
+    }
+
+    private Boolean isExistPoInRoute(Positions route) {
+        return players.stream()
+                .anyMatch(player -> player.isExistPoInRoute(route));
     }
 
     private Positions makeRoute(Nation attackNation, Position presentPosition, Position destination) {
