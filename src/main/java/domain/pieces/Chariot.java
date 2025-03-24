@@ -3,10 +3,10 @@ package domain.pieces;
 import static domain.pieces.PieceNames.CHARIOT;
 
 import domain.Team;
-import domain.board.PieceOnRoute;
+import domain.board.PiecesOnRoute;
 import domain.board.Point;
-import domain.movements.EndlessMovement;
 import domain.movements.PieceMovement;
+import domain.movements.StraightLineMovement;
 import java.util.List;
 
 public final class Chariot implements Piece {
@@ -16,7 +16,7 @@ public final class Chariot implements Piece {
 
     public Chariot(final Team team) {
         this.team = team;
-        this.movement = new EndlessMovement();
+        this.movement = new StraightLineMovement();
     }
 
     @Override
@@ -25,17 +25,17 @@ public final class Chariot implements Piece {
     }
 
     @Override
-    public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
-        final List<Point> arrivalPoints = movement.calculateTotalArrivalPoints(startPoint);
-        return arrivalPoints.contains(arrivalPoint);
+    public boolean isAbleToArrive(final Point start, final Point arrival) {
+        final List<Point> arrivalPoints = movement.calculateTotalArrivalPoints(start);
+        return arrivalPoints.contains(arrival);
     }
 
     @Override
-    public boolean isMovable(final PieceOnRoute pieceOnRoute) {
-        if (pieceOnRoute.hasArrivalPointInMyTeam(team)) {
+    public boolean isMovable(final PiecesOnRoute pieces) {
+        if (pieces.hasSameTeamInArrivalPoint(team)) {
             return false;
         }
-        return pieceOnRoute.hasNotPieceOnRoute();
+        return pieces.hasNotPieceOnRoute();
     }
 
     @Override
@@ -44,8 +44,8 @@ public final class Chariot implements Piece {
     }
 
     @Override
-    public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
-        return movement.calculateRoutePoints(startPoint, arrivalPoint);
+    public List<Point> getRoutePoints(final Point start, final Point arrival) {
+        return movement.calculatePointsOnRoute(start, arrival);
     }
 
     @Override

@@ -3,7 +3,7 @@ package domain.pieces;
 import static domain.pieces.PieceNames.EMPTY;
 
 import domain.Team;
-import domain.board.PieceOnRoute;
+import domain.board.PiecesOnRoute;
 import domain.board.Point;
 import execptions.JanggiArgumentException;
 import execptions.JanggiGameRuleWarningException;
@@ -29,12 +29,12 @@ public final class Empty implements Piece {
     }
 
     @Override
-    public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
-        throw new JanggiGameRuleWarningException("이동시킬 기물이 없습니다: " + startPoint);
+    public boolean isAbleToArrive(final Point start, final Point arrival) {
+        throw new JanggiGameRuleWarningException("이동시킬 기물이 없습니다: " + start);
     }
 
     @Override
-    public boolean isMovable(final PieceOnRoute pieceOnRoute) {
+    public boolean isMovable(final PiecesOnRoute pieces) {
         throw new JanggiArgumentException("잘못된 요청입니다: " + this.getClass());
     }
 
@@ -44,8 +44,8 @@ public final class Empty implements Piece {
     }
 
     @Override
-    public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
-        throw new JanggiGameRuleWarningException("이동시킬 기물이 없습니다: " + startPoint);
+    public List<Point> getRoutePoints(final Point start, final Point arrival) {
+        throw new JanggiGameRuleWarningException("이동시킬 기물이 없습니다: " + start);
     }
 
     @Override

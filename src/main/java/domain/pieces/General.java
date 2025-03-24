@@ -3,7 +3,7 @@ package domain.pieces;
 import static domain.pieces.PieceNames.GENERAL;
 
 import domain.Team;
-import domain.board.PieceOnRoute;
+import domain.board.PiecesOnRoute;
 import domain.board.Point;
 import execptions.JanggiGameRuleWarningException;
 import java.util.List;
@@ -22,12 +22,12 @@ public final class General implements Piece {
     }
 
     @Override
-    public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
+    public boolean isAbleToArrive(final Point start, final Point arrival) {
         throw new JanggiGameRuleWarningException("장군은 이동할 수 없습니다.");
     }
 
     @Override
-    public boolean isMovable(final PieceOnRoute pieceOnRoute) {
+    public boolean isMovable(final PiecesOnRoute pieces) {
         throw new JanggiGameRuleWarningException("장군은 이동할 수 없습니다.");
     }
 
@@ -37,7 +37,7 @@ public final class General implements Piece {
     }
 
     @Override
-    public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
+    public List<Point> getRoutePoints(final Point start, final Point arrival) {
         throw new JanggiGameRuleWarningException("장군은 이동할 수 없습니다.");
     }
 

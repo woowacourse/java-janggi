@@ -6,29 +6,29 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public final class EndlessMovement implements PieceMovement {
+public final class StraightLineMovement implements PieceMovement {
 
     private static final int MAX_DIRECTION_COUNT = 10;
     private final List<Route> routes;
 
-    public EndlessMovement() {
+    public StraightLineMovement() {
         this.routes = getDefaultRoutes();
     }
 
     @Override
-    public List<Point> calculateTotalArrivalPoints(final Point startPoint) {
+    public List<Point> calculateTotalArrivalPoints(final Point start) {
         return routes.stream()
-                .map(route -> route.getAllPointsOnRoute(startPoint))
+                .map(route -> route.getAllPointsOnRoute(start))
                 .flatMap(Collection::stream)
                 .toList();
     }
 
     @Override
-    public List<Point> calculateRoutePoints(final Point startPoint, final Point arrivalPoint) {
+    public List<Point> calculatePointsOnRoute(final Point start, final Point arrival) {
         return routes.stream()
-                .map(route -> route.getAllPointsOnRoute(startPoint))
-                .filter(points -> points.contains(arrivalPoint))
-                .map(points -> points.subList(0, points.indexOf(arrivalPoint) + 1))
+                .map(route -> route.getAllPointsOnRoute(start))
+                .filter(points -> points.contains(arrival))
+                .map(points -> points.subList(0, points.indexOf(arrival) + 1))
                 .findFirst()
                 .orElseThrow(() -> new JanggiGameRuleWarningException("해당 위치로 이동할 수 없습니다."));
     }

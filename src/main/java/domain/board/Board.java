@@ -55,9 +55,9 @@ public final class Board {
         checkOutOfRoute(startPoint, arrivalPoint, pieceAtStartPoint);
 
         final List<Point> routePoints = pieceAtStartPoint.getRoutePoints(startPoint, arrivalPoint);
-        final PieceOnRoute pieceOnRoute = getAllPieceOnRoute(routePoints);
+        final PiecesOnRoute piecesOnRoute = getAllPieceOnRoute(routePoints);
 
-        checkPieceOnRoute(pieceAtStartPoint, pieceOnRoute);
+        checkPieceOnRoute(pieceAtStartPoint, piecesOnRoute);
 
         locations.put(arrivalPoint, pieceAtStartPoint);
         locations.put(startPoint, Empty.getInstance());
@@ -72,8 +72,8 @@ public final class Board {
         }
     }
 
-    private void checkPieceOnRoute(final Piece pieceAtStartPoint, final PieceOnRoute pieceOnRoute) {
-        if (!pieceAtStartPoint.isMovable(pieceOnRoute)) {
+    private void checkPieceOnRoute(final Piece pieceAtStartPoint, final PiecesOnRoute piecesOnRoute) {
+        if (!pieceAtStartPoint.isMovable(piecesOnRoute)) {
             throw new JanggiGameRuleWarningException("해당 경로로 이동할 수 없습니다.");
         }
     }
@@ -88,8 +88,8 @@ public final class Board {
         }
     }
 
-    private PieceOnRoute getAllPieceOnRoute(final List<Point> routePoints) {
-        return new PieceOnRoute(routePoints.stream()
+    private PiecesOnRoute getAllPieceOnRoute(final List<Point> routePoints) {
+        return new PiecesOnRoute(routePoints.stream()
                 .map(locations::get)
                 .toList());
     }

@@ -3,7 +3,7 @@ package domain.pieces;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.Team;
-import domain.board.PieceOnRoute;
+import domain.board.PiecesOnRoute;
 import domain.board.Point;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -51,10 +51,10 @@ class ElephantTest {
         //given
         Elephant elephant = new Elephant(Team.CHO);
         Piece empty = Empty.getInstance();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(elephant, empty, empty));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(elephant, empty, empty));
 
         //when&then
-        assertThat(elephant.isMovable(pieceOnRoute)).isFalse();
+        assertThat(elephant.isMovable(piecesOnRoute)).isFalse();
     }
 
     @Test
@@ -63,10 +63,10 @@ class ElephantTest {
         //given
         Elephant elephant = new Elephant(Team.CHO);
         Piece empty = Empty.getInstance();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, empty));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(empty, empty, empty));
 
         //when&then
-        assertThat(elephant.isMovable(pieceOnRoute)).isTrue();
+        assertThat(elephant.isMovable(piecesOnRoute)).isTrue();
     }
 
     @Test
@@ -75,10 +75,10 @@ class ElephantTest {
         //given
         Elephant elephant = new Elephant(Team.CHO);
         Piece empty = Empty.getInstance();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, elephant));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(empty, empty, elephant));
 
         //when&then
-        assertThat(elephant.isMovable(pieceOnRoute)).isFalse();
+        assertThat(elephant.isMovable(piecesOnRoute)).isFalse();
     }
 
     @Test
@@ -88,9 +88,9 @@ class ElephantTest {
         Elephant elephantHan = new Elephant(Team.HAN);
         Elephant elephantCho = new Elephant(Team.CHO);
         Piece empty = Empty.getInstance();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, elephantCho));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(empty, empty, elephantCho));
 
         //when&then
-        assertThat(elephantHan.isMovable(pieceOnRoute)).isTrue();
+        assertThat(elephantHan.isMovable(piecesOnRoute)).isTrue();
     }
 }

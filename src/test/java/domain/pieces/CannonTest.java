@@ -3,7 +3,7 @@ package domain.pieces;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.Team;
-import domain.board.PieceOnRoute;
+import domain.board.PiecesOnRoute;
 import domain.board.Point;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -68,10 +68,10 @@ class CannonTest {
         Cannon cannon = new Cannon(Team.CHO);
         Chariot chariot = new Chariot(Team.CHO);
         Piece empty = Empty.getInstance();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(chariot, empty, empty));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(chariot, empty, empty));
 
         //when&then
-        assertThat(cannon.isMovable(pieceOnRoute)).isTrue();
+        assertThat(cannon.isMovable(piecesOnRoute)).isTrue();
     }
 
     @Test
@@ -80,10 +80,10 @@ class CannonTest {
         //given
         Cannon cannon = new Cannon(Team.CHO);
         Piece empty = Empty.getInstance();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(cannon, empty, empty));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(cannon, empty, empty));
 
         //when&then
-        assertThat(cannon.isMovable(pieceOnRoute)).isFalse();
+        assertThat(cannon.isMovable(piecesOnRoute)).isFalse();
     }
 
     @Test
@@ -92,10 +92,10 @@ class CannonTest {
         //given
         Cannon Cannon = new Cannon(Team.CHO);
         Piece empty = Empty.getInstance();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, empty));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(empty, empty, empty));
 
         //when&then
-        assertThat(Cannon.isMovable(pieceOnRoute)).isFalse();
+        assertThat(Cannon.isMovable(piecesOnRoute)).isFalse();
     }
 
     @Test
@@ -106,10 +106,10 @@ class CannonTest {
         Chariot chariot = new Chariot(Team.CHO);
 
         Piece empty = Empty.getInstance();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(chariot, chariot, empty));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(chariot, chariot, empty));
 
         //when&then
-        assertThat(Cannon.isMovable(pieceOnRoute)).isFalse();
+        assertThat(Cannon.isMovable(piecesOnRoute)).isFalse();
     }
 
     @Test
@@ -119,9 +119,9 @@ class CannonTest {
         Cannon cannon = new Cannon(Team.HAN);
         Chariot chariot = new Chariot(Team.HAN);
         Piece empty = Empty.getInstance();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(chariot, empty, chariot));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(chariot, empty, chariot));
 
         //when&then
-        assertThat(cannon.isMovable(pieceOnRoute)).isFalse();
+        assertThat(cannon.isMovable(piecesOnRoute)).isFalse();
     }
 }

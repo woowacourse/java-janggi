@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface PieceMovement {
 
-    List<Point> calculateTotalArrivalPoints(Point startPoint);
+    List<Point> calculateTotalArrivalPoints(Point start);
 
-    List<Point> calculateRoutePoints(Point startPoint, Point arrivalPoint);
+    List<Point> calculatePointsOnRoute(Point start, Point arrival);
 }

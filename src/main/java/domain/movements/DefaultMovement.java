@@ -13,18 +13,18 @@ public final class DefaultMovement implements PieceMovement {
     }
 
     @Override
-    public List<Point> calculateTotalArrivalPoints(final Point startPoint) {
+    public List<Point> calculateTotalArrivalPoints(final Point start) {
         return routes.stream()
-                .map(route -> route.navigateArrivalPoint(startPoint))
+                .map(route -> route.navigateArrivalPoint(start))
                 .toList();
     }
 
     @Override
-    public List<Point> calculateRoutePoints(final Point startPoint, final Point arrivalPoint) {
+    public List<Point> calculatePointsOnRoute(final Point start, final Point arrival) {
         return routes.stream()
-                .filter(route -> route.canArrive(startPoint, arrivalPoint))
+                .filter(route -> route.canArrive(start, arrival))
                 .findFirst()
                 .orElseThrow(() -> new JanggiGameRuleWarningException("해당 도착점으로 도착할 수 없는 기물입니다."))
-                .getAllPointsOnRoute(startPoint);
+                .getAllPointsOnRoute(start);
     }
 }

@@ -3,7 +3,7 @@ package domain.pieces;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.Team;
-import domain.board.PieceOnRoute;
+import domain.board.PiecesOnRoute;
 import domain.board.Point;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -50,10 +50,10 @@ class HorseTest {
         //given
         Horse horse = new Horse(Team.CHO);
         Piece empty = Empty.getInstance();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(horse, empty));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(horse, empty));
 
         //when&then
-        assertThat(horse.isMovable(pieceOnRoute)).isFalse();
+        assertThat(horse.isMovable(piecesOnRoute)).isFalse();
     }
 
     @Test
@@ -62,10 +62,10 @@ class HorseTest {
         //given
         Horse horse = new Horse(Team.CHO);
         Piece empty = Empty.getInstance();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(empty, empty));
 
         //when&then
-        assertThat(horse.isMovable(pieceOnRoute)).isTrue();
+        assertThat(horse.isMovable(piecesOnRoute)).isTrue();
     }
 
     @Test
@@ -74,10 +74,10 @@ class HorseTest {
         //given
         Horse horse = new Horse(Team.CHO);
         Piece empty = Empty.getInstance();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, horse));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(empty, horse));
 
         //when&then
-        assertThat(horse.isMovable(pieceOnRoute)).isFalse();
+        assertThat(horse.isMovable(piecesOnRoute)).isFalse();
     }
 
     @Test
@@ -87,9 +87,9 @@ class HorseTest {
         Horse horseHan = new Horse(Team.HAN);
         Horse horseCho = new Horse(Team.CHO);
         Piece empty = Empty.getInstance();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, horseCho));
+        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(List.of(empty, horseCho));
 
         //when&then
-        assertThat(horseHan.isMovable(pieceOnRoute)).isTrue();
+        assertThat(horseHan.isMovable(piecesOnRoute)).isTrue();
     }
 }

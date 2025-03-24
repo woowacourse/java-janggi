@@ -3,7 +3,7 @@ package domain.pieces;
 import static domain.pieces.PieceNames.SOLDIER;
 
 import domain.Team;
-import domain.board.PieceOnRoute;
+import domain.board.PiecesOnRoute;
 import domain.board.Point;
 import domain.movements.DefaultMovement;
 import domain.movements.Direction;
@@ -27,13 +27,13 @@ public final class Soldier implements Piece {
     }
 
     @Override
-    public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
-        return movement.calculateTotalArrivalPoints(startPoint).contains(arrivalPoint);
+    public boolean isAbleToArrive(final Point start, final Point arrival) {
+        return movement.calculateTotalArrivalPoints(start).contains(arrival);
     }
 
     @Override
-    public boolean isMovable(final PieceOnRoute pieceOnRoute) {
-        return !pieceOnRoute.hasArrivalPointInMyTeam(team);
+    public boolean isMovable(final PiecesOnRoute pieces) {
+        return !pieces.hasSameTeamInArrivalPoint(team);
     }
 
     @Override
@@ -42,8 +42,8 @@ public final class Soldier implements Piece {
     }
 
     @Override
-    public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
-        return movement.calculateRoutePoints(startPoint, arrivalPoint);
+    public List<Point> getRoutePoints(final Point start, final Point arrival) {
+        return movement.calculatePointsOnRoute(start, arrival);
     }
 
     @Override

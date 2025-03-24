@@ -45,7 +45,7 @@ public final class BoardFactory {
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
     }
 
-    private static Map<Point, Piece> setupBoardOnPieces(EnumMap<Team, Integer> setupsByTeam) {
+    private static Map<Point, Piece> setupBoardOnPieces(final EnumMap<Team, Integer> setupsByTeam) {
         final Map<Point, Piece> locations = new HashMap<>();
         for (final Entry<Team, Integer> setup : setupsByTeam.entrySet()) {
             final Team team = setup.getKey();

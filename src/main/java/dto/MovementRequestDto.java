@@ -12,7 +12,7 @@ public class MovementRequestDto {
         this.arrivalPoint = arrivalPoint;
     }
 
-    public Point getOriginPoint() {
+    public Point getStartPoint() {
         return new Point(startPoint.getFirst(),
                 startPoint.getLast());
     }

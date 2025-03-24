@@ -39,10 +39,10 @@ public class JanggiController {
     }
 
     private void processMove(final JanggiGame game) {
-        final Team currentPlayerTeam = game.getCurrentPlayerTeam();
+        final Team currentPlayerTeam = game.getPlayerTeamOnCurrentTurn();
         try {
             final MovementRequestDto movementRequest = inputView.readMovementRequest(currentPlayerTeam.getName());
-            final Point originPoint = movementRequest.getOriginPoint();
+            final Point originPoint = movementRequest.getStartPoint();
             final Point arrivalPoint = movementRequest.getArrivalPoint();
             game.move(originPoint, arrivalPoint);
             outputView.printBoard(game.getBoard());

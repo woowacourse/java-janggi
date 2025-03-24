@@ -3,10 +3,10 @@ package domain.pieces;
 import static domain.pieces.PieceNames.CANNON;
 
 import domain.Team;
-import domain.board.PieceOnRoute;
+import domain.board.PiecesOnRoute;
 import domain.board.Point;
-import domain.movements.EndlessMovement;
 import domain.movements.PieceMovement;
+import domain.movements.StraightLineMovement;
 import java.util.List;
 
 public final class Cannon implements Piece {
@@ -18,7 +18,7 @@ public final class Cannon implements Piece {
 
     public Cannon(final Team team) {
         this.team = team;
-        this.movement = new EndlessMovement();
+        this.movement = new StraightLineMovement();
     }
 
     @Override
@@ -27,21 +27,21 @@ public final class Cannon implements Piece {
     }
 
     @Override
-    public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
-        final List<Point> arrivalPoints = movement.calculateTotalArrivalPoints(startPoint);
-        return arrivalPoints.contains(arrivalPoint);
+    public boolean isAbleToArrive(final Point start, final Point arrival) {
+        final List<Point> arrivalPoints = movement.calculateTotalArrivalPoints(start);
+        return arrivalPoints.contains(arrival);
     }
 
 
     @Override
-    public boolean isMovable(final PieceOnRoute pieceOnRoute) {
-        if (pieceOnRoute.countPieceOnRoute() != VALID_BETWEEN_PIECE_COUNT) {
+    public boolean isMovable(final PiecesOnRoute pieces) {
+        if (pieces.count() != VALID_BETWEEN_PIECE_COUNT) {
             return false;
         }
-        if (pieceOnRoute.canNotJumpOverFirstPiece()) {
+        if (pieces.canNotJumpOverFirstPiece()) {
             return false;
         }
-        return !pieceOnRoute.hasArrivalPointInMyTeam(team);
+        return !pieces.hasSameTeamInArrivalPoint(team);
     }
 
     @Override
@@ -50,8 +50,8 @@ public final class Cannon implements Piece {
     }
 
     @Override
-    public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
-        return movement.calculateRoutePoints(startPoint, arrivalPoint);
+    public List<Point> getRoutePoints(final Point start, final Point arrival) {
+        return movement.calculatePointsOnRoute(start, arrival);
     }
 
     @Override

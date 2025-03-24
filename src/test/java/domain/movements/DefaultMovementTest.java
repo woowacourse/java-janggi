@@ -45,7 +45,7 @@ class DefaultMovementTest {
             Point arrivalPoint = new Point(3, -2);
 
             // when
-            List<Point> arrivalPoints = defaultMovement.calculateRoutePoints(startPoint, arrivalPoint);
+            List<Point> arrivalPoints = defaultMovement.calculatePointsOnRoute(startPoint, arrivalPoint);
 
             // then
             assertThat(arrivalPoints).contains(new Point(1, 0), new Point(2, -1), new Point(3, -2));

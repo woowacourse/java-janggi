@@ -19,9 +19,9 @@ public final class Route {
         return point;
     }
 
-    public boolean canArrive(final Point startPoint, final Point arrivalPoint) {
-        final Point point = navigateArrivalPoint(startPoint);
-        return point.equals(arrivalPoint);
+    public boolean canArrive(final Point start, final Point arrival) {
+        final Point point = navigateArrivalPoint(start);
+        return point.equals(arrival);
     }
 
     public List<Point> getAllPointsOnRoute(Point point) {
