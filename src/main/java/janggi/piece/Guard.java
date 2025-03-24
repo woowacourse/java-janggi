@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Guard implements Piece {
 
     private final Team team;
-    private final Position position;
+    private Position position;
     private final List<Movement> movements = List.of(
             Movement.UP,
             Movement.DOWN,
@@ -28,18 +28,40 @@ public class Guard implements Piece {
 
     @Override
     public void move(Position arrivedPosition, List<Piece> positioningPiece) {
+        Movement availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
+        checkAlreadyOccupiedPosition(arrivedPosition, positioningPiece);
+        position = step(availableMovement);
+    }
 
+    private Movement findAvailableMovementByArrivedPosition(Position arrivedPosition) {
+        return movements.stream()
+                .filter(movement -> !arrivedPosition.isOutOfBoards() && step(movement).equals(arrivedPosition))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
+    }
+
+    private void checkAlreadyOccupiedPosition( Position arrivedPosition, List<Piece> positioningPiece) {
+        for (Piece piece : positioningPiece) {
+            if(piece.matchesPosition(arrivedPosition) && piece.isSameTeam(this.team)) {
+                throw new IllegalArgumentException("도착 위치에 아군 기물이 존재합니다");
+            }
+        }
+    }
+
+    private Position step(Movement movement) {
+        return movement.move(position);
     }
 
     @Override
     public boolean isSameTeam(Team team) {
-        return false;
+        return this.team == team;
     }
 
     @Override
     public boolean matchesPosition(Position position) {
-        return false;
+        return this.position.equals(position);
     }
+
 
     @Override
     public boolean equals(Object o) {
