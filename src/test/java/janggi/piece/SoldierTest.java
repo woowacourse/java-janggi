@@ -90,11 +90,23 @@ public class SoldierTest {
 
     @Test
     @DisplayName("졸/병 전진 위치에 아군 존재시 이동 불가 예외 발생 테스트")
-    void choSoldierStepExceptionTest() {
+    void soldierStepExceptionTest() {
         //given
         Soldier soldier = new Soldier(Team.CHO, new Position(new Row(7), new Column(3)));
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(7), new Column(2))));
         Position arrivedPosition = new Position(new Row(7), new Column(2));
+        //when
+        //then
+        assertThatThrownBy(() -> soldier.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("졸/병 전진 위치에 아군 존재시 이동 불가 예외 발생 테스트")
+    void outOfBoardTest() {
+        //given
+        Soldier soldier = new Soldier(Team.CHO, new Position(new Row(10), new Column(3)));
+        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(7), new Column(2))));
+        Position arrivedPosition = new Position(new Row(11), new Column(3));
         //when
         //then
         assertThatThrownBy(() -> soldier.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
