@@ -8,31 +8,21 @@ import static janggi.Movement.RIGHT;
 import static janggi.Movement.RIGHT_DOWN;
 import static janggi.Movement.RIGHT_UP;
 import static janggi.Movement.UP;
-import static java.util.Collections.unmodifiableList;
 
 import janggi.Movements;
 import janggi.Path;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Position;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Elephant extends Piece {
     private static final String NAME = "상";
-    private static final List<Movements> allMovements;
-
-    static {
-        allMovements = new ArrayList<>();
-        allMovements.add(new Movements(UP, LEFT_UP, LEFT_UP));
-        allMovements.add(new Movements(UP, RIGHT_UP, RIGHT_UP));
-        allMovements.add(new Movements(RIGHT, RIGHT_UP, RIGHT_UP));
-        allMovements.add(new Movements(RIGHT, RIGHT_DOWN, RIGHT_DOWN));
-        allMovements.add(new Movements(DOWN, RIGHT_DOWN, RIGHT_DOWN));
-        allMovements.add(new Movements(DOWN, LEFT_DOWN, LEFT_DOWN));
-        allMovements.add(new Movements(LEFT, LEFT_UP, LEFT_UP));
-        allMovements.add(new Movements(LEFT, LEFT_DOWN, LEFT_DOWN));
-    }
+    private static final List<Movements> possibleMovements = List.of(new Movements(UP, LEFT_UP, LEFT_UP),
+            new Movements(UP, RIGHT_UP, RIGHT_UP), new Movements(RIGHT, RIGHT_UP, RIGHT_UP),
+            new Movements(RIGHT, RIGHT_DOWN, RIGHT_DOWN), new Movements(DOWN, RIGHT_DOWN, RIGHT_DOWN),
+            new Movements(DOWN, LEFT_DOWN, LEFT_DOWN), new Movements(LEFT, LEFT_UP, LEFT_UP),
+            new Movements(LEFT, LEFT_DOWN, LEFT_DOWN));
 
     public Elephant(Team team) {
         super(team);
@@ -50,7 +40,7 @@ public class Elephant extends Piece {
 
     @Override
     protected List<Movements> getPossibleMovements() {
-        return unmodifiableList(allMovements);
+        return possibleMovements;
     }
 
     @Override

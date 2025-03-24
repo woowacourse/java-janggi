@@ -40,7 +40,7 @@ public class Chariot extends Piece {
                 allMovements.add(new Movements(tempMoves));
             }
         }
-        possibleMovements = allMovements;
+        possibleMovements = unmodifiableList(allMovements);
     }
 
     public Chariot(Team team) {
@@ -59,7 +59,7 @@ public class Chariot extends Piece {
 
     @Override
     protected List<Movements> getPossibleMovements() {
-        return unmodifiableList(possibleMovements);
+        return possibleMovements;
     }
 
     @Override

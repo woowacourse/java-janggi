@@ -4,34 +4,18 @@ import static janggi.Movement.DOWN;
 import static janggi.Movement.LEFT;
 import static janggi.Movement.RIGHT;
 import static janggi.Movement.UP;
-import static java.util.Collections.unmodifiableList;
 
 import janggi.Movements;
 import janggi.Path;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Position;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Soldier extends Piece {
     private static final String NAME = "졸";
-    private static final List<Movements> greenTeamPossibleMovements;
-    private static final List<Movements> redTeamPossibleMovements;
-
-    static {
-        greenTeamPossibleMovements = new ArrayList<>();
-        greenTeamPossibleMovements.add(new Movements(UP));
-        greenTeamPossibleMovements.add(new Movements(LEFT));
-        greenTeamPossibleMovements.add(new Movements(RIGHT));
-        greenTeamPossibleMovements.add(new Movements(DOWN));
-
-        redTeamPossibleMovements = new ArrayList<>();
-        redTeamPossibleMovements.add(new Movements(UP));
-        redTeamPossibleMovements.add(new Movements(LEFT));
-        redTeamPossibleMovements.add(new Movements(RIGHT));
-        redTeamPossibleMovements.add(new Movements(DOWN));
-    }
+    private static final List<Movements> possibleMovements = List.of(new Movements(UP), new Movements(LEFT),
+            new Movements(RIGHT), new Movements(DOWN));
 
     public Soldier(Team team) {
         super(team);
@@ -49,10 +33,7 @@ public class Soldier extends Piece {
 
     @Override
     protected List<Movements> getPossibleMovements() {
-        if (team == Team.RED) {
-            return unmodifiableList(redTeamPossibleMovements);
-        }
-        return unmodifiableList(greenTeamPossibleMovements);
+        return possibleMovements;
     }
 
     @Override

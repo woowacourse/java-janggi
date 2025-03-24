@@ -39,7 +39,7 @@ public class Canon extends Piece {
                 allMovements.add(new Movements(tempMoves));
             }
         }
-        possibleMovements = allMovements;
+        possibleMovements = unmodifiableList(allMovements);
     }
 
     public Canon(Team team) {
@@ -81,7 +81,7 @@ public class Canon extends Piece {
 
     @Override
     protected List<Movements> getPossibleMovements() {
-        return unmodifiableList(possibleMovements);
+        return possibleMovements;
     }
 
     @Override

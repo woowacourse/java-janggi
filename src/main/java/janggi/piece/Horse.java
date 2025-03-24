@@ -8,32 +8,20 @@ import static janggi.Movement.RIGHT;
 import static janggi.Movement.RIGHT_DOWN;
 import static janggi.Movement.RIGHT_UP;
 import static janggi.Movement.UP;
-import static java.util.Collections.unmodifiableList;
 
 import janggi.Movements;
 import janggi.Path;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Position;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Horse extends Piece {
     private static final String NAME = "마";
-    private static final List<Movements> possibleMovements;
-
-    static {
-        List<Movements> allMovements = new ArrayList<>();
-        allMovements.add(new Movements(DOWN, LEFT_DOWN));
-        allMovements.add(new Movements(UP, LEFT_UP));
-        allMovements.add(new Movements(UP, RIGHT_UP));
-        allMovements.add(new Movements(RIGHT, RIGHT_UP));
-        allMovements.add(new Movements(RIGHT, RIGHT_DOWN));
-        allMovements.add(new Movements(DOWN, RIGHT_DOWN));
-        allMovements.add(new Movements(LEFT, LEFT_UP));
-        allMovements.add(new Movements(LEFT, LEFT_DOWN));
-        possibleMovements = allMovements;
-    }
+    private static final List<Movements> possibleMovements = List.of(new Movements(DOWN, LEFT_DOWN),
+            new Movements(UP, LEFT_UP), new Movements(UP, RIGHT_UP), new Movements(RIGHT, RIGHT_UP),
+            new Movements(RIGHT, RIGHT_DOWN), new Movements(DOWN, RIGHT_DOWN), new Movements(LEFT, LEFT_UP),
+            new Movements(LEFT, LEFT_DOWN));
 
     public Horse(Team team) {
         super(team);
@@ -51,7 +39,7 @@ public class Horse extends Piece {
 
     @Override
     protected List<Movements> getPossibleMovements() {
-        return unmodifiableList(possibleMovements);
+        return possibleMovements;
     }
 
     @Override
