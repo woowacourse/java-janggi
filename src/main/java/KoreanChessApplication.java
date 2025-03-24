@@ -8,7 +8,7 @@ import piece.PlayerPieces;
 import piece.Team;
 import piece.initiate.InitiateJanggiTeamPieces;
 import piece.initiate.TableSetting;
-import piece.location.Position;
+import piece.position.Position;
 
 public class KoreanChessApplication {
 

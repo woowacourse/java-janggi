@@ -6,30 +6,25 @@ import org.junit.jupiter.api.Test;
 import piece.Piece;
 import piece.Pieces;
 import piece.Team;
-import piece.location.Position;
-import piece.location.Route;
+import piece.position.Position;
 
 public class SangMoveBehaviorTest {
 
     @Test
     void 자신의_경로를_반환한다() {
-        // given
         Position startPosition = new Position(0, 0);
         Position endPosition = new Position(2, 3);
         MoveBehavior moveBehavior = new SangMoveBehavior();
 
-        // when
-        Route route = moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE);
+        List<Position> route = moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE);
 
-        // then
         List<Position> expectPositions = List.of(new Position(0, 1), new Position(1, 2), new Position(2, 3));
-        Assertions.assertThat(route.positions().size()).isEqualTo(3);
-        Assertions.assertThatIterable(route.positions()).containsExactlyElementsOf(expectPositions);
+        Assertions.assertThat(route.size()).isEqualTo(3);
+        Assertions.assertThatIterable(route).containsExactlyElementsOf(expectPositions);
     }
 
     @Test
     void 상은_가는길에_장애물이_있으면_갈수없다() {
-        // given
         MoveBehavior moveBehavior = new SangMoveBehavior();
         Position destination = new Position(2, 2);
         Pieces onRoutePieces = new Pieces(List.of(
@@ -43,7 +38,6 @@ public class SangMoveBehaviorTest {
 
     @Test
     void 상은_가는길에_장애물이_없으면_갈수있다() {
-        // given
         MoveBehavior moveBehavior = new SangMoveBehavior();
         Position destination = new Position(2, 3);
         Pieces onRoutePieces = new Pieces(List.of());

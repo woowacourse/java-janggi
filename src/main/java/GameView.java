@@ -3,7 +3,7 @@ import java.util.Scanner;
 import piece.Piece;
 import piece.Team;
 import piece.initiate.TableSetting;
-import piece.location.Position;
+import piece.position.Position;
 
 public class GameView {
 

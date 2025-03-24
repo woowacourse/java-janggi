@@ -1,6 +1,7 @@
 package move;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import move.direction.Direction;
 import move.direction.Directions;
@@ -8,8 +9,7 @@ import piece.Piece;
 import piece.PieceType;
 import piece.Pieces;
 import piece.Team;
-import piece.location.Position;
-import piece.location.Route;
+import piece.position.Position;
 
 public abstract class MoveBehavior {
 
@@ -19,13 +19,14 @@ public abstract class MoveBehavior {
         }
     }
 
-    Route calculateLegalRoute(Position startPosition, Position endPosition, List<Directions> canMoveDirections) {
+    List<Position> calculateLegalRoute(Position startPosition, Position endPosition,
+                                       List<Directions> canMoveDirections) {
         for (Directions canMoveDirection : canMoveDirections) {
             Position currentPosition = startPosition;
             List<Position> movePositions = new ArrayList<>();
             currentPosition = movePosition(canMoveDirection, currentPosition, movePositions);
             if (currentPosition.equals(endPosition)) {
-                return new Route(movePositions);
+                return Collections.unmodifiableList(movePositions);
             }
         }
         throw new InvalidMovePosition();
@@ -51,7 +52,7 @@ public abstract class MoveBehavior {
 
     abstract public PieceType getPieceType();
 
-    abstract public Route calculateLegalRoute(Position startPosition, Position endPosition, Team team);
+    abstract public List<Position> calculateLegalRoute(Position startPosition, Position endPosition, Team team);
 
     public boolean isSameType(PieceType pieceType) {
         return getPieceType().isSameType(pieceType);

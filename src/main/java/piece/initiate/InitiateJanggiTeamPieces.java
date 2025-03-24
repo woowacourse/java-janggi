@@ -12,7 +12,7 @@ import move.SaMoveBehavior;
 import piece.Piece;
 import piece.Pieces;
 import piece.Team;
-import piece.location.Position;
+import piece.position.Position;
 
 public class InitiateJanggiTeamPieces {
 

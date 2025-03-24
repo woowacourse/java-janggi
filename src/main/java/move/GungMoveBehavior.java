@@ -1,17 +1,17 @@
 package move;
 
+import java.util.List;
 import piece.PieceType;
 import piece.Pieces;
 import piece.Team;
-import piece.location.Position;
-import piece.location.Route;
+import piece.position.Position;
 
 public class GungMoveBehavior extends MoveBehavior {
 
     private static final String NOT_IMPLEMENTED_FEATURE = "아직 구현되지 않은 기능입니다.";
 
     @Override
-    public Route calculateLegalRoute(Position startPosition, Position endPosition, Team team) {
+    public List<Position> calculateLegalRoute(Position startPosition, Position endPosition, Team team) {
         throw new IllegalStateException(NOT_IMPLEMENTED_FEATURE);
     }
 

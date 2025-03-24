@@ -1,9 +1,9 @@
 package piece;
 
+import java.util.List;
 import java.util.Objects;
 import move.MoveBehavior;
-import piece.location.Position;
-import piece.location.Route;
+import piece.position.Position;
 
 public class Piece {
 
@@ -53,7 +53,7 @@ public class Piece {
         return moveBehavior.getPieceType();
     }
 
-    public Route getRoute(Position selectPiecePosition, Position movePosition) {
+    public List<Position> getRoute(Position selectPiecePosition, Position movePosition) {
         return moveBehavior.calculateLegalRoute(selectPiecePosition, movePosition, team);
     }
 

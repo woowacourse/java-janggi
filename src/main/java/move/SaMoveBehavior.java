@@ -1,10 +1,10 @@
 package move;
 
+import java.util.List;
 import piece.PieceType;
 import piece.Pieces;
 import piece.Team;
-import piece.location.Position;
-import piece.location.Route;
+import piece.position.Position;
 
 public class SaMoveBehavior extends MoveBehavior {
 
@@ -16,7 +16,7 @@ public class SaMoveBehavior extends MoveBehavior {
     }
 
     @Override
-    public Route calculateLegalRoute(Position startPosition, Position endPosition, Team team) {
+    public List<Position> calculateLegalRoute(Position startPosition, Position endPosition, Team team) {
         throw new IllegalStateException(NOT_IMPLEMENTED_FEATURE);
     }
 

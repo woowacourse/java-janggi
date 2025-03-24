@@ -5,8 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import piece.location.Position;
-import piece.location.Route;
+import piece.position.Position;
 
 public class Pieces {
 
@@ -37,13 +36,13 @@ public class Pieces {
 
     public Piece move(Position selectPiecePosition, Position movePosition, Pieces boardAllPieces) {
         Piece piece = findPiece(selectPiecePosition);
-        Route route = piece.getRoute(selectPiecePosition, movePosition);
+        List<Position> route = piece.getRoute(selectPiecePosition, movePosition);
         Pieces piecesOnRoute = findPiecesOnRouteIncludeOtherTeam(route, piece, boardAllPieces);
         piece.move(piecesOnRoute, movePosition);
         return piece;
     }
 
-    private Pieces findPiecesOnRouteIncludeOtherTeam(Route route, Piece movePiece, Pieces boardAllPieces) {
+    private Pieces findPiecesOnRouteIncludeOtherTeam(List<Position> route, Piece movePiece, Pieces boardAllPieces) {
         List<Piece> allPieces = boardAllPieces.getPieces();
         Map<Position, Piece> positionPieces = new HashMap<>();
         for (Piece piece : allPieces) {
@@ -54,7 +53,7 @@ public class Pieces {
             positionPieces.put(position, piece);
         }
 
-        return findPiecesOnRouteIncludeOtherTeam(positionPieces, route.positions());
+        return findPiecesOnRouteIncludeOtherTeam(positionPieces, route);
     }
 
     private Pieces findPiecesOnRouteIncludeOtherTeam(Map<Position, Piece> positionPieces,

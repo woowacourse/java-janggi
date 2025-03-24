@@ -1,4 +1,4 @@
-package piece.location;
+package piece.position;
 
 import java.util.Objects;
 import move.direction.Direction;

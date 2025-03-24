@@ -5,12 +5,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import piece.Pieces;
 import piece.Team;
-import piece.location.Position;
+import piece.position.Position;
 
 public class SaMoveBehaviorTest {
     @Test
     void 아직_구현되지않음() {
-        // given
         Position startPosition = new Position(0, 0);
         Position endPosition = new Position(1, 0);
         MoveBehavior moveBehavior = new SaMoveBehavior();

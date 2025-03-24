@@ -7,7 +7,7 @@ import move.MaMoveBehavior;
 import move.SangMoveBehavior;
 import piece.Piece;
 import piece.Team;
-import piece.location.Position;
+import piece.position.Position;
 
 public enum TableSetting {
 

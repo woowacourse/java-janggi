@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import piece.Piece;
 import piece.Pieces;
 import piece.Team;
-import piece.location.Position;
+import piece.position.Position;
 
 public class InitiateJanggiPlayerPiecesTest {
 
@@ -78,10 +78,8 @@ public class InitiateJanggiPlayerPiecesTest {
 
     @Test
     void 장기는_총_32피스가_있고_팀별로_16개씩_나눠가진다() {
-        // when
         Map<Team, Pieces> piecesMap = new InitiateJanggiTeamPieces().janggiInitiatePieces();
 
-        // then
         Assertions.assertThat(piecesMap.get(Team.BLUE).size()).isEqualTo(16);
         Assertions.assertThat(piecesMap.get(Team.RED).size()).isEqualTo(16);
         Assertions.assertThat(piecesMap.get(Team.RED).size() + piecesMap.get(Team.BLUE).size()).isEqualTo(32);
@@ -89,7 +87,6 @@ public class InitiateJanggiPlayerPiecesTest {
 
     @Test
     void 상차림을_옵션으로_받을수_있다() {
-        // given
         Map<Team, TableSetting> teamTableSetting = Map.of(Team.BLUE, TableSetting.SANG_MA_MA_SANG, Team.RED,
                 TableSetting.SANG_MA_SANG_MA);
 
@@ -104,13 +101,11 @@ public class InitiateJanggiPlayerPiecesTest {
                 new Piece(new Position(0, 7), new MaMoveBehavior(), Team.RED)
         );
 
-        // when
         Map<Team, Pieces> piecesMap = new InitiateJanggiTeamPieces(teamTableSetting).janggiInitiatePieces();
         List<Piece> createdPieces = new ArrayList<>();
         for (Pieces pieces : piecesMap.values()) {
             createdPieces.addAll(pieces.getPieces());
         }
-        // then
         Assertions.assertThat(createdPieces).containsAll(expectedMaSangs);
     }
 }
