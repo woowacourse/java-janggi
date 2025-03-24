@@ -13,6 +13,7 @@ public class Player {
     }
 
     public void movePiece(Position presentPosition, Position destination) {
+        pieces.movePiece(presentPosition, destination);
     }
 
     public void validateAllyPieceAtStart(Position presentPosition) {
