@@ -7,7 +7,7 @@ import piece.Pieces;
 import piece.Team;
 import piece.position.Position;
 
-public class GungMoveBehaviorTest {
+class GungMoveBehaviorTest {
     @Test
     void 아직_구현되지않음() {
         Position startPosition = new Position(0, 0);

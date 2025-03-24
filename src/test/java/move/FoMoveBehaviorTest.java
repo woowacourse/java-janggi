@@ -8,7 +8,7 @@ import piece.Pieces;
 import piece.Team;
 import piece.position.Position;
 
-public class FoMoveBehaviorTest {
+class FoMoveBehaviorTest {
 
     @Test
     void 포는_가능한_경로를_반환한다() {

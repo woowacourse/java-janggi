@@ -8,7 +8,7 @@ import piece.Pieces;
 import piece.Team;
 import piece.position.Position;
 
-public class MaMoveBehaviorTest {
+class MaMoveBehaviorTest {
     @Test
     void 자신의_경로를_반환한다() {
         Position startPosition = new Position(0, 0);

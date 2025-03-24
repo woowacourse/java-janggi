@@ -8,7 +8,7 @@ import piece.Pieces;
 import piece.Team;
 import piece.position.Position;
 
-public class SangMoveBehaviorTest {
+class SangMoveBehaviorTest {
 
     @Test
     void 자신의_경로를_반환한다() {

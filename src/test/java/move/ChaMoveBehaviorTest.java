@@ -9,7 +9,7 @@ import piece.Pieces;
 import piece.Team;
 import piece.position.Position;
 
-public class ChaMoveBehaviorTest {
+class ChaMoveBehaviorTest {
     @Test
     void 차는_가능한_경로를_반환한다() {
         Position startPosition = new Position(0, 0);
