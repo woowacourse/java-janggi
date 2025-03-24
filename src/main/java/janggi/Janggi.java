@@ -19,7 +19,7 @@ public class Janggi {
     public void play() {
         Players players = Players.create();
 
-        Turn turn = Turn.create();
+        Turn turn = Turn.create(1);
         Board board = Board.from(players.getBothPieces());
 
         while (true) {
@@ -27,10 +27,11 @@ public class Janggi {
             outputView.displayScore(players);
 
             try {
-                MoveCommand moveCommand = inputView.inputMoveCommand();
+                Player player = players.getPlayer(turn.getCurrentTeam());
+                MoveCommand moveCommand = inputView.inputMoveCommand(player);
 
                 board.movePiece(
-                        players.getPlayer(turn.next()),
+                        player,
                         moveCommand.getDeparturePosition(),
                         moveCommand.getDestinationPosition());
 
@@ -40,9 +41,13 @@ public class Janggi {
                 return;
             } catch (IllegalArgumentException e) {
                 outputView.displayError(e.getMessage());
+                continue;
             } catch (RuntimeException e) {
                 outputView.displayError();
+                continue;
             }
+
+            turn.next();
         }
     }
 

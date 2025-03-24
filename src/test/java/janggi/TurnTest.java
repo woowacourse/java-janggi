@@ -9,15 +9,21 @@ class TurnTest {
 
     @Test
     @DisplayName("짝수 턴은 초나라의 차례, 홀수 턴은 한나라의 차례다")
-    void canProcessNextTurn() {
+    void canProcessgetCurrentTeamTurn() {
         // given
-        Turn turn = Turn.create(); // 0
+        Turn turn = Turn.create(1);
 
         // when
-        Team oddTurn1 = turn.next(); // 1
-        Team evenTurn1 = turn.next(); // 2
-        Team oddTurn2 = turn.next(); // 3
-        Team evenTurn2 = turn.next(); // 4
+        Team oddTurn1 = turn.getCurrentTeam(); // 1
+        turn.next();
+
+        Team evenTurn1 = turn.getCurrentTeam(); // 2
+        turn.next();
+
+        Team oddTurn2 = turn.getCurrentTeam(); // 3
+        turn.next();
+
+        Team evenTurn2 = turn.getCurrentTeam(); // 4
 
         // then
         assertThat(oddTurn1).isEqualTo(Team.HAN);
