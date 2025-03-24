@@ -1,11 +1,10 @@
 package janggi.turn;
 
-import janggi.board.Board;
 import janggi.piece.Team;
 
 public abstract class Turn {
 
-    public abstract Turn changeTurn(Board board);
+    public abstract Turn nextTurn();
 
     public abstract String getTurnName();
 

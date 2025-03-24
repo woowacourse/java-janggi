@@ -1,6 +1,5 @@
 package janggi.turn;
 
-import janggi.board.Board;
 import janggi.piece.Team;
 
 public class HanTurn extends Turn {
@@ -8,7 +7,7 @@ public class HanTurn extends Turn {
     private static final String HAN_NAME = "한";
 
     @Override
-    public Turn changeTurn(Board board) {
+    public Turn nextTurn() {
         return new ChoTurn();
     }
 

@@ -27,7 +27,7 @@ public final class Board {
         board.remove(end);
         board.remove(start);
         board.put(end, piece);
-        turn = turn.changeTurn(this);
+        turn = turn.nextTurn();
     }
 
     public boolean isPresentSameTeam(final Team team, final Position position) {
