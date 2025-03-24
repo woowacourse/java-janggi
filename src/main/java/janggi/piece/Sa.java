@@ -25,7 +25,7 @@ public class Sa extends Piece {
 
     private void validateExistObstacle(final Map<Position, Piece> janggiBoard, final Position position) {
         if (janggiBoard.containsKey(position)) {
-            throw new IllegalArgumentException("[ERROR] 차를 이동할 수 없습니다. 이동하려는 경로에 장애물이 존재합니다.");
+            throw new IllegalArgumentException("[ERROR] 사를 이동할 수 없습니다. 이동하려는 경로에 장애물이 존재합니다.");
         }
     }
 
