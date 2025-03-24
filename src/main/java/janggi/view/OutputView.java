@@ -14,17 +14,23 @@ public class OutputView {
     private static final String CELL_SPACE = CELL_UNIT + CELL_UNIT + CELL_UNIT + CELL_UNIT;
     private static final String EMPTY_PIECE = "ㅤ";
     private static final String BOARD_LINE = CELL_UNIT + "|" + CELL_UNIT;
+    private static final String DISPLAY_POINT = " * ";
+    private static final String DISPLAY_LINE = "===================================";
 
     public void displayErrorMessage(String message) {
-        System.out.println(message);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(System.lineSeparator())
+                .append(message);
+        System.out.println(stringBuilder);
     }
 
-    public void displayStartBanner() {
-        System.out.println("""
-                ===================================
-                    Welcome to the Janggi Game!
-                ===================================
-                """);
+    public void displayGameBanner() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(DISPLAY_LINE).append(System.lineSeparator())
+                .append(DISPLAY_POINT)
+                .append("Welcome to the Janggi Game!").append(System.lineSeparator())
+                .append(DISPLAY_LINE);
+        System.out.println(stringBuilder);
     }
 
     public void displayBoard(Map<Position, Piece> placedPieces) {

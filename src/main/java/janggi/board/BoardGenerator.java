@@ -1,7 +1,6 @@
 package janggi.board;
 
 import janggi.piece.Camp;
-import janggi.position.Position;
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
 import janggi.piece.Elephant;
@@ -9,6 +8,7 @@ import janggi.piece.General;
 import janggi.piece.Guard;
 import janggi.piece.Horse;
 import janggi.piece.Soldier;
+import janggi.position.Position;
 
 public class BoardGenerator {
 

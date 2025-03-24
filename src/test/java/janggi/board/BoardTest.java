@@ -3,12 +3,12 @@ package janggi.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggi.piece.Camp;
-import janggi.position.Position;
 import janggi.exception.ErrorException;
+import janggi.piece.Camp;
 import janggi.piece.Elephant;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
+import janggi.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

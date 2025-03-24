@@ -1,7 +1,7 @@
 package janggi.piece;
 
-import janggi.position.Position;
 import janggi.exception.ErrorException;
+import janggi.position.Position;
 
 public abstract class Piece {
 

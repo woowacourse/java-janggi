@@ -1,7 +1,6 @@
 package janggi.board;
 
 import janggi.exception.ErrorException;
-import janggi.piece.Camp;
 import janggi.piece.Empty;
 import janggi.piece.Piece;
 import janggi.position.Position;

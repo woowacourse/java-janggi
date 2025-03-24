@@ -1,8 +1,8 @@
 package janggi.piece;
 
-import janggi.position.Position;
 import janggi.board.Board;
 import janggi.exception.ErrorException;
+import janggi.position.Position;
 
 public final class Soldier extends Piece {
 

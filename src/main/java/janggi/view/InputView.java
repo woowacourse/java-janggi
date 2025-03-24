@@ -8,21 +8,33 @@ import java.util.Scanner;
 
 public class InputView {
 
+    private static final String MOVEMENT_DELIMITER = ",";
+    private static final int MOVEMENT_LENGTH = 2;
+
     private final Scanner scanner = new Scanner(System.in);
 
-    public boolean readStartGame() {
-        String response = prompt("게임을 시작하시겠습니까? (y/n)");
-        return parseYesOrNo(response);
+    public Command askStartCommand() {
+        String response = prompt(formatCommands());
+        Command command = Command.findCommandByCode(response);
+        validateStartCommand(command);
+        return command;
     }
 
-    private boolean parseYesOrNo(String response) {
-        if (response.equalsIgnoreCase("y")) {
-            return true;
+    public Command askPlayCommand() {
+        String response = prompt(formatCommands());
+        Command command = Command.findCommandByCode(response);
+        validatePlayCommand(command);
+        return command;
+    }
+
+    private String formatCommands() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(System.lineSeparator())
+                .append("장기 게임 명령어를 입력하시오. 예) START");
+        for (Command command : Command.values()) {
+            stringBuilder.append(System.lineSeparator()).append(command.toString());
         }
-        if (response.equalsIgnoreCase("n")) {
-            return false;
-        }
-        throw new ErrorException("y 또는 n을 입력해야 합니다.");
+        return stringBuilder.toString();
     }
 
     public List<String> readMovement(Camp camp) {
@@ -35,9 +47,21 @@ public class InputView {
         return parseMovement(response);
     }
 
+    private void validateStartCommand(Command command) {
+        if (command != Command.START) {
+            throw new ErrorException("게임을 시작하려면 START를 입력해야 합니다.");
+        }
+    }
+
+    private void validatePlayCommand(Command command) {
+        if (command == Command.START) {
+            throw new ErrorException("시작한 게임을 START 외 다른 명령어를 입력해야 합니다.");
+        }
+    }
+
     private List<String> parseMovement(String response) {
-        String[] split = response.split(",", -1);
-        if (split.length != 2) {
+        String[] split = response.split(MOVEMENT_DELIMITER, -1);
+        if (split.length != MOVEMENT_LENGTH) {
             throw new ErrorException("출발 좌표와 도착 좌표, 2개의 좌표를 입력해야 합니다.");
         }
         return Arrays.stream(split)

@@ -1,7 +1,7 @@
 package janggi.piece;
 
-import janggi.position.Position;
 import janggi.board.Board;
+import janggi.position.Position;
 
 public final class Guard extends Piece {
 

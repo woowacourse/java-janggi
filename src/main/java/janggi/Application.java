@@ -1,13 +1,13 @@
 package janggi;
 
-import janggi.controller.GameController;
+import janggi.controller.JanggiGame;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
 public class Application {
 
     public static void main(String[] args) {
-        GameController gameController = new GameController(new InputView(), new OutputView());
-        gameController.runGame();
+        JanggiGame janggiGame = new JanggiGame(new InputView(), new OutputView());
+        janggiGame.runGame();
     }
 }
