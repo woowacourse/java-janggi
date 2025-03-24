@@ -17,12 +17,13 @@ public class BlueTurn implements State {
     }
 
     @Override
-    public State movePiece(Piece piece, Position source, Position destination) {
-        validateIsMyPiece(piece);
-
+    public State movePiece(PieceType pieceType, Position source, Position destination) {
+        Piece sourcePiece = board.getPieceBy(source);
         Piece destinationPiece = board.getPieceBy(destination);
-        board.move(piece, source, destination);
-        boolean isGeneral = destinationPiece.isSamePiece(PieceType.GENERAL);
+        validateIsMyPieceColor(sourcePiece);
+
+        board.move(pieceType, source, destination);
+        boolean isGeneral = destinationPiece.isSamePieceType(PieceType.GENERAL);
 
         if (isGeneral) {
             return new Finished(pieceColor);
@@ -40,8 +41,8 @@ public class BlueTurn implements State {
         return false;
     }
 
-    private void validateIsMyPiece(Piece piece) {
-        if (piece.isOtherTeam(pieceColor)) {
+    private void validateIsMyPieceColor(Piece sourcePiece) {
+        if (sourcePiece.isOtherTeam(PieceColor.BLUE)) {
             throw new IllegalArgumentException("움직이려는 기물이 파란색이 아닙니다.");
         }
     }

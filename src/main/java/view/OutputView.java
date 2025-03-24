@@ -15,7 +15,7 @@ public class OutputView {
             for (Column column : Column.values()) {
                 Position position = new Position(row, column);
                 Piece piece = board.getPieceBy(position);
-                String pieceName = PieceName.getNameFromPiece(piece);
+                String pieceName = PieceName.getNameFromPieceType(piece);
 
                 System.out.print(pieceName + " ");
             }

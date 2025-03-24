@@ -23,11 +23,11 @@ public abstract class Piece {
                 .count();
     }
 
-    public boolean isSamePiece(Piece other) {
+    public boolean isSamePieceType(Piece other) {
         return this.type == other.type;
     }
 
-    public boolean isSamePiece(PieceType type) {
+    public boolean isSamePieceType(PieceType type) {
         return this.type == type;
     }
 

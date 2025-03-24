@@ -9,7 +9,7 @@ import domain.piece.Empty;
 import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.piece.PieceColor;
-import domain.piece.Soldier;
+import domain.piece.PieceType;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -26,13 +26,13 @@ class BoardTest {
         Position destination = new Position(Row.THREE, Column.THREE);
         Piece horse = new Horse(PieceColor.RED);
 
-        board.move(horse, source, destination);
+        board.move(PieceType.HORSE, source, destination);
 
         Piece movedPiece = board.getPieceBy(destination);
         Piece afterPositionPiece = board.getPieceBy(source);
 
         assertThat(afterPositionPiece).isInstanceOf(Empty.class);
-        assertThat(movedPiece.isSamePiece(horse)).isTrue();
+        assertThat(movedPiece.isSamePieceType(horse)).isTrue();
     }
 
     @Test
@@ -42,9 +42,8 @@ class BoardTest {
 
         Position source = new Position(Row.ONE, Column.TWO);
         Position destination = new Position(Row.THREE, Column.TWO);
-        Piece horse = new Horse(PieceColor.RED);
 
-        assertThatThrownBy(() -> board.move(horse, source, destination))
+        assertThatThrownBy(() -> board.move(PieceType.HORSE, source, destination))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -55,11 +54,10 @@ class BoardTest {
 
         Position source = new Position(Row.ONE, Column.TWO);
         Position destination = new Position(Row.TWO, Column.FOUR);
-        Piece horse = new Horse(PieceColor.RED);
 
         System.out.println(board.getPieceBy(new Position(Row.ONE, Column.THREE)));
 
-        assertThatThrownBy(() -> board.move(horse, source, destination))
+        assertThatThrownBy(() -> board.move(PieceType.HORSE, source, destination))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -69,9 +67,8 @@ class BoardTest {
         Board board = boardFactory.createBoard();
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.TWO, Column.ONE);
-        Piece soldier = new Soldier(PieceColor.RED);
 
-        assertThatThrownBy(() -> board.move(soldier, source, destination))
+        assertThatThrownBy(() -> board.move(PieceType.SOLDIER, source, destination))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -83,7 +80,7 @@ class BoardTest {
         Position destination = new Position(Row.TWO, Column.ONE);
         Piece Chariot = new Chariot(PieceColor.RED);
 
-        assertThatCode(() -> board.move(Chariot, source, destination))
+        assertThatCode(() -> board.move(PieceType.CHARIOT, source, destination))
                 .doesNotThrowAnyException();
     }
 }

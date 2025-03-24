@@ -30,12 +30,12 @@ public class Cannon extends Piece {
         }
 
         boolean hasSamePiece = piecesInRoute.stream()
-                .anyMatch(this::isSamePiece);
+                .anyMatch(this::isSamePieceType);
         if (hasSamePiece) {
             return false;
         }
 
-        boolean isDestinationSamePiece = this.isSamePiece(destination);
+        boolean isDestinationSamePiece = this.isSamePieceType(destination);
         if (isDestinationSamePiece) {
             return false;
         }
