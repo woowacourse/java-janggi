@@ -2,6 +2,7 @@ package controller;
 
 import domain.janggiboard.JanggiBoard;
 import domain.janggiboard.JanggiBoardBasicInitializer;
+import domain.janggiboard.customstrategy.BoardArrangementStrategy;
 import domain.position.JanggiPosition;
 import domain.piece.JanggiSide;
 import java.util.List;
@@ -20,8 +21,7 @@ public class JanggiController {
     }
 
     public void run() {
-        outputView.printInitBoardMessage();
-        JanggiBoard board = new JanggiBoard(new JanggiBoardBasicInitializer());
+        JanggiBoard board = initializeJanggiBoard();
         outputView.printBoard(board.getBoard());
         JanggiSide nowTurn = JANGGI_GAME_STARTING_SIDE;
 
@@ -35,6 +35,14 @@ public class JanggiController {
         }
 
         outputView.printWinningMessage(nowTurn);
+    }
+
+    private JanggiBoard initializeJanggiBoard() {
+        BoardArrangementStrategy strategyOfCho = InputProcessor.repeatUntilNormalInput(() -> inputView.get상차림Input(JanggiSide.CHO), OutputView::printErrorMessage);
+        BoardArrangementStrategy strategyOfHan = InputProcessor.repeatUntilNormalInput(() -> inputView.get상차림Input(JanggiSide.HAN), OutputView::printErrorMessage);
+        outputView.printInitBoardMessage();
+
+        return new JanggiBoard(new JanggiBoardBasicInitializer(strategyOfCho, strategyOfHan));
     }
 
     private void processMovePiece(JanggiBoard board, JanggiSide side) {

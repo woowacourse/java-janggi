@@ -19,7 +19,7 @@ public class OutputView {
     private static final String COLOR_SUFFIX = "\u001B[0m";
 
     public void printInitBoardMessage() {
-        System.out.println("장기판을 초기화합니다." + LINE_SEPARATOR);
+        System.out.println("장기판을 초기화합니다.");
     }
 
     public void printBoard(Map<JanggiPosition, JanggiPiece> board) {

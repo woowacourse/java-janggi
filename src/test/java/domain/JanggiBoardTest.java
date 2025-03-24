@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import domain.janggiboard.JanggiBoard;
 import domain.janggiboard.JanggiBoardBasicInitializer;
+import domain.janggiboard.customstrategy.InnerBoardArrangementStrategy;
 import domain.piece.JanggiPiece;
 import domain.piece.JanggiPieceType;
 import domain.piece.JanggiSide;
@@ -26,7 +27,10 @@ public class JanggiBoardTest {
     @Test
     void 마상상마_장기판을_생성할_수_있다() {
         // when & then
-        assertDoesNotThrow(() -> new JanggiBoard(new JanggiBoardBasicInitializer()));
+        assertDoesNotThrow(() -> new JanggiBoard(new JanggiBoardBasicInitializer(
+                new InnerBoardArrangementStrategy(JanggiSide.CHO),
+                new InnerBoardArrangementStrategy(JanggiSide.HAN))
+        ));
     }
 
     @Test
