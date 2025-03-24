@@ -11,7 +11,26 @@ public enum Movement {
     UP_RIGHT(new Coordinate(-1, 1)),
     DOWN_RIGHT(new Coordinate(1, 1)),
     DOWN_LEFT(new Coordinate(1, -1)),
-    UP_LEFT(new Coordinate(-1, -1));
+    UP_LEFT(new Coordinate(-1, -1)),
+
+    UP_UP_RIGHT(new Coordinate(-2, 1)),
+    UP_RIGHT_RIGHT(new Coordinate(-1, 2)),
+    DOWN_RIGHT_RIGHT(new Coordinate(1, 2)),
+    DOWN_DOWN_RIGHT(new Coordinate(2, 1)),
+    DOWN_DOWN_LEFT(new Coordinate(2, -1)),
+    DOWN_LEFT_LEFT(new Coordinate(1, -2)),
+    UP_LEFT_LEFT(new Coordinate(-1, -2)),
+    UP_UP_LEFT(new Coordinate(-2, -1)),
+
+    UP_UP_UP_RIGHT_RIGHT(new Coordinate(-3, 2)),
+    UP_UP_RIGHT_RIGHT_RIGHT(new Coordinate(-2, 3)),
+    DOWN_DOWN_RIGHT_RIGHT_RIGHT(new Coordinate(2, 3)),
+    DOWN_DOWN_DOWN_RIGHT_RIGHT(new Coordinate(3, 2)),
+    DOWN_DOWN_DOWN_LEFT_LEFT(new Coordinate(3, -2)),
+    DOWN_DOWN_LEFT_LEFT_LEFT(new Coordinate(2, -3)),
+    UP_UP_LEFT_LEFT_LEFT(new Coordinate(-2, -3)),
+    UP_UP_UP_LEFT_LEFT(new Coordinate(-3, -2));
+
 
     private final Coordinate direction;
 

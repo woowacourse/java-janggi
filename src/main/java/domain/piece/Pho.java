@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Pho extends Piece {
 
-    private final List<Movement> movements = List.of(
+    private final List<Movement> MOVEMENTS = List.of(
             Movement.UP, Movement.DOWN, Movement.RIGHT, Movement.LEFT);
 
     public Pho(Country country) {
@@ -18,8 +18,8 @@ public class Pho extends Piece {
     @Override
     public List<Coordinate> availableMovePositions(Coordinate from, Board board) {
         List<Coordinate> availablePositions = new ArrayList<>();
-        for (Movement movement : movements) {
-            Coordinate next = movePosition(from, movement.getDirection());
+        for (Movement movement : MOVEMENTS) {
+            Coordinate next = from.move(movement);
             boolean hasObstacle = false;
             while (true) {
                 if (invalidPhoCoordinate(board, next, hasObstacle)) {
@@ -35,7 +35,7 @@ public class Pho extends Piece {
                 if (isObstacle(board, next, hasObstacle)) {
                     hasObstacle = true;
                 }
-                next = movePosition(next, movement.getDirection());
+                next = next.move(movement);
             }
         }
         return availablePositions;
@@ -65,11 +65,6 @@ public class Pho extends Piece {
         return next.isOutOfBoundary() ||
                 (board.hasPiece(next) && board.isPho(next)) ||
                 board.hasPiece(next) && hasObstacle && board.isMyTeam(country, next);
-    }
-
-    public Coordinate movePosition(Coordinate currCoordinate,
-                                   Coordinate moveOffset) {
-        return currCoordinate.move(moveOffset.getRow(), moveOffset.getCol());
     }
 
     @Override
