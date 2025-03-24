@@ -47,22 +47,6 @@ class PlayerTest {
     }
 
     @Test
-    @DisplayName("플레이어 기물 이동 테스트")
-    void movePieceTest() {
-        //given
-        Pieces pieces = new Pieces(List.of(new Janggun(new Position(5, 5))));
-        Player player = new Player(pieces, HAN);
-        Position presentPosition = new Position(5, 5);
-        Position destination = new Position(5, 6);
-
-        //when
-        player.movePiece(presentPosition, destination);
-
-        //then
-        assertThat(player.isKingDie()).isFalse();
-    }
-
-    @Test
     @DisplayName("플레이어 기물 삭제 테스트")
     void removePiece() {
         //given
@@ -174,6 +158,23 @@ class PlayerTest {
 
         //then
         assertThat(actual).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("기물 이동 테스트")
+    void movePieceTest() {
+        //given
+        Jol jol = new Jol(new Position(5, 5));
+        Janggun janggun = new Janggun(new Position(6, 5));
+        Po po = new Po(new Position(4, 3));
+        Pieces pieces = new Pieces(List.of(jol, janggun, po));
+        Player player = new Player(pieces, HAN);
+
+        //when
+        player.movePiece(new Position(6, 5), new Position(6, 6));
+
+        //then
+        assertThat(janggun.isSamePosition(new Position(6, 6))).isTrue();
     }
 
 }
