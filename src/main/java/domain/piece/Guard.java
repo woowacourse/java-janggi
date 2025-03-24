@@ -15,7 +15,6 @@ public class Guard extends Piece {
         return List.of(offset);
     }
 
-    // TODO : 추후) 사는 궁성 밖으로 나갈 수 없다.
     @Override
     protected void validateOffset(final Offset offset) {
         if (!offset.hasOneMovement()) {

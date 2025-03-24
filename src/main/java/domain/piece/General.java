@@ -10,7 +10,6 @@ public class General extends Piece {
         super(team);
     }
 
-    // TODO : 추후) 왕은 궁성 밖으로 나갈 수 없다.
     @Override
     protected void validateOffset(final Offset offset) {
         if (!offset.hasOneMovement()) {
