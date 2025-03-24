@@ -14,15 +14,16 @@ class PathTest {
     void getIntermediatePath() {
         // given
         Position startPosition = createPosition(1, 2);
-        Position intermediatePosition = createPosition(1, 2);
+        Position intermediatePosition1 = createPosition(1, 2);
+        Position intermediatePosition2 = createPosition(1, 2);
         Position goalPosition = createPosition(2, 4);
-        Path path = new Path(List.of(startPosition, intermediatePosition, goalPosition));
+        Path path = new Path(List.of(startPosition, intermediatePosition1, intermediatePosition2, goalPosition));
 
         // when
         List<Position> result = path.getIntermediatePath();
 
         // then
-        assertThat(result).containsExactly(intermediatePosition);
+        assertThat(result).containsExactly(intermediatePosition1, intermediatePosition2);
     }
 
     @DisplayName("경로의_끝_Position이_주어진_Position과_일치하는_지_여부를_반환한다")
