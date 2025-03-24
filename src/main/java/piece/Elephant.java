@@ -5,8 +5,8 @@ import route.Routes;
 
 public class Elephant extends Piece{
 
-    protected Elephant(Position position) {
-        super(position, Routes.ofElephant());
+    protected Elephant(Team team, Position position) {
+        super(team, position, Routes.ofElephant());
     }
 
     @Override

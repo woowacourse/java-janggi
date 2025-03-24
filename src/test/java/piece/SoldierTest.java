@@ -1,6 +1,7 @@
 package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static piece.Team.HAN;
 import static position.PositionFixtures.D0;
 import static position.PositionFixtures.D1;
 import static position.PositionFixtures.E0;
@@ -18,7 +19,7 @@ public class SoldierTest {
     @Test
     @DisplayName("장기 말의 종류에는 사가 있다.")
     void createPalaceTest() {
-        Piece soldier = new Soldier(D0);
+        Piece soldier = new Soldier(HAN, D0);
     }
 
     /*
@@ -31,7 +32,7 @@ public class SoldierTest {
     @DisplayName("사가 이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest_1() {
         // given
-        Piece soldier = new Soldier(E1);
+        Piece soldier = new Soldier(HAN, E1);
         Board board = new Board(Set.of(soldier));
 
         // when
@@ -51,7 +52,7 @@ public class SoldierTest {
     @DisplayName("사가 이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest_2() {
         // given
-        Piece soldier = new Soldier(E0);
+        Piece soldier = new Soldier(HAN, E0);
         Board board = new Board(Set.of(soldier));
 
         // when
@@ -71,7 +72,7 @@ public class SoldierTest {
     @DisplayName("사가 이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest_3() {
         // given
-        Piece soldier = new Soldier(I0);
+        Piece soldier = new Soldier(HAN, I0);
         Board board = new Board(Set.of(soldier));
 
         // when
@@ -91,9 +92,9 @@ public class SoldierTest {
     @DisplayName("사가 이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest_4() {
         // given
-        Piece soldier = new Soldier(E1);
-        Piece horse1 = new Horse(D1);
-        Piece horse2 = new Horse(E2);
+        Piece soldier = new Soldier(HAN, E1);
+        Piece horse1 = new Horse(HAN, D1);
+        Piece horse2 = new Horse(HAN, E2);
         Board board = new Board(Set.of(soldier, horse1, horse2));
 
         // when

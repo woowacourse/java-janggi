@@ -1,6 +1,7 @@
 package routes;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static piece.Team.HAN;
 import static position.PositionFixtures.E1;
 import static route.Direction.NORTH;
 
@@ -25,7 +26,7 @@ public class RouteTest {
     @DisplayName("해당 경로로 이동하는 것이 가능한지 검사할 수 있다.")
     void isPossibleRouteTest_1() {
         // given
-        Piece palace = new Palace(E1);
+        Piece palace = new Palace(HAN, E1);
         Board board = new Board(Set.of(palace));
         Route route = new Route(List.of(NORTH));
 

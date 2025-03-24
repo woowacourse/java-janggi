@@ -1,6 +1,7 @@
 package routes;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static piece.Team.HAN;
 import static position.PositionFixtures.E1;
 
 import java.util.Set;
@@ -35,7 +36,7 @@ public class RoutesTest {
     @DisplayName("이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest() {
         // given
-        Piece palace = new Palace(E1);
+        Piece palace = new Palace(HAN, E1);
         Board board = new Board(Set.of(palace));
         Routes routes = Routes.ofPalace();
 

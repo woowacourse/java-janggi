@@ -5,8 +5,8 @@ import route.Routes;
 
 public class Soldier extends Piece{
 
-    public Soldier(Position position) {
-        super(position, Routes.ofSoldier());
+    public Soldier(Team team, Position position) {
+        super(team, position, Routes.ofSoldier());
     }
 
     @Override

@@ -5,10 +5,12 @@ import position.Position;
 import route.Routes;
 
 public abstract class Piece {
+    private final Team team;
     private final Position position;
     private final Routes routes;
 
-    protected Piece(Position position, Routes routes) {
+    protected Piece(Team team, Position position, Routes routes) {
+        this.team = team;
         this.position = position;
         this.routes = routes;
     }

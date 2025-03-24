@@ -5,8 +5,8 @@ import route.Routes;
 
 public class Horse extends Piece{
 
-    protected Horse(Position position) {
-        super(position, Routes.ofHorse());
+    protected Horse(Team team, Position position) {
+        super(team, position, Routes.ofHorse());
     }
 
     @Override

@@ -1,9 +1,9 @@
 package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static piece.Team.HAN;
 import static position.PositionFixtures.B2;
 import static position.PositionFixtures.B9;
-import static position.PositionFixtures.C2;
 import static position.PositionFixtures.D3;
 import static position.PositionFixtures.E5;
 
@@ -17,7 +17,7 @@ public class ElephantTest {
     @Test
     @DisplayName("장기 말의 종류에는 상이 있다.")
     void createHorseTest() {
-        Piece elephant = new Elephant(B9);
+        Piece elephant = new Elephant(HAN, B9);
     }
 
     /*
@@ -34,7 +34,7 @@ public class ElephantTest {
     @DisplayName("상이 이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest_1() {
         // given
-        Piece elephant = new Elephant(D3);
+        Piece elephant = new Elephant(HAN, D3);
         Board board = new Board(Set.of(elephant));
 
         // when
@@ -58,9 +58,9 @@ public class ElephantTest {
     @DisplayName("상이 이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest_2() {
         // given
-        Piece elephant = new Elephant(D3);
-        Piece horse1 = new Horse(E5);
-        Piece horse2 = new Horse(B2);
+        Piece elephant = new Elephant(HAN, D3);
+        Piece horse1 = new Horse(HAN, E5);
+        Piece horse2 = new Horse(HAN, B2);
         Board board = new Board(Set.of(elephant, horse1, horse2));
 
         // when

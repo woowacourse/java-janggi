@@ -6,7 +6,7 @@ import route.Routes;
 public class Blank extends Piece{
 
     public Blank(Position position) {
-        super(position, Routes.ofBlank());
+        super(Team.BLANK, position, Routes.ofBlank());
     }
 
     @Override

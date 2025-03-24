@@ -5,8 +5,8 @@ import route.Routes;
 
 public class Palace extends Piece {
 
-    public Palace(Position position) {
-        super(position, Routes.ofPalace());
+    public Palace(Team team, Position position) {
+        super(team, position, Routes.ofPalace());
     }
 
     @Override

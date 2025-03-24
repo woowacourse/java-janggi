@@ -1,6 +1,7 @@
 package position;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static piece.Team.HAN;
 import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
 
@@ -18,7 +19,7 @@ public class BoardTest {
     @DisplayName("위치에 기물이 존재하는지 확인할 수 있다.")
     void isBlankTest_1() {
         // given
-        Piece palace = new Palace(E1);
+        Piece palace = new Palace(HAN, E1);
         Board board = new Board(Set.of(palace));
 
         // when - then
@@ -29,7 +30,7 @@ public class BoardTest {
     @DisplayName("위치에 기물이 존재하는지 확인할 수 있다.")
     void isBlankTest_2() {
         // given
-        Piece palace = new Palace(E1);
+        Piece palace = new Palace(HAN, E1);
         Board board = new Board(Set.of(palace));
 
         // when - then

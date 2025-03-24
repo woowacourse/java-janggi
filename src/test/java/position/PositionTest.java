@@ -1,11 +1,8 @@
 package position;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static position.Column.A;
-import static position.Column.B;
 import static position.Column.I;
 import static position.PositionFixtures.A0;
-import static position.PositionFixtures.A1;
 import static position.PositionFixtures.B0;
 import static position.PositionFixtures.E1;
 import static position.Row.ZERO;
@@ -35,7 +32,7 @@ public class PositionTest {
 
     @Test
     @DisplayName("좌표를 이동시킬 수 있다.")
-    void moveTest(){
+    void moveTest() {
         assertThat(A0.move(Direction.EAST)).isEqualTo(B0);
     }
 

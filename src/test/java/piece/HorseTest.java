@@ -1,6 +1,7 @@
 package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static piece.Team.HAN;
 import static position.PositionFixtures.B0;
 import static position.PositionFixtures.B2;
 import static position.PositionFixtures.B9;
@@ -16,7 +17,7 @@ public class HorseTest {
     @Test
     @DisplayName("장기 말의 종류에는 마가 있다.")
     void createHorseTest() {
-        Piece horse = new Horse(B9);
+        Piece horse = new Horse(HAN, B9);
     }
 
     /*
@@ -31,7 +32,7 @@ public class HorseTest {
     @DisplayName("마가 이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest_1() {
         // given
-        Piece horse = new Horse(C2);
+        Piece horse = new Horse(HAN, C2);
         Board board = new Board(Set.of(horse));
 
         // when
@@ -53,8 +54,8 @@ public class HorseTest {
     @DisplayName("마가 이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest_2() {
         // given
-        Piece horse = new Horse(C2);
-        Piece palace = new Palace(B2);
+        Piece horse = new Horse(HAN, C2);
+        Piece palace = new Palace(HAN, B2);
         Board board = new Board(Set.of(palace, horse));
 
         // when
@@ -76,8 +77,8 @@ public class HorseTest {
     @DisplayName("마가 이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest_3() {
         // given
-        Piece horse = new Horse(C2);
-        Piece palace = new Palace(B0);
+        Piece horse = new Horse(HAN, C2);
+        Piece palace = new Palace(HAN, B0);
         Board board = new Board(Set.of(palace, horse));
 
         // when
