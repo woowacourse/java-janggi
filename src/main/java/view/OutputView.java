@@ -45,6 +45,12 @@ public class OutputView {
         System.err.println();
     }
 
+    public void printContinueGame() {
+        System.out.println("------------------------------");
+        System.out.println("진행중인 게임이 있어 이어서 진행합니다.");
+        System.out.println("------------------------------");
+    }
+
     public void printBoard(Map<Coordinate, Piece> pieces) {
         System.out.println("   １　２　３　４　５　６　７　８　９");
 

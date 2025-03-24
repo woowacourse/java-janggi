@@ -23,6 +23,18 @@ public class InputView {
 
     private static final Scanner scanner = new Scanner(System.in);
 
+    public boolean readRenewGame() {
+        System.out.println("진행중인 게임이 존재합니다. 이어서 할까요? (Y / N)");
+        String input = scanner.nextLine();
+        if ("Y".equalsIgnoreCase(input)) {
+            return true;
+        }
+        if ("N".equalsIgnoreCase(input)) {
+            return false;
+        }
+        throw new IllegalArgumentException("잘못 입력하셨습니다.");
+    }
+
     public int readTableSetting(Team team) {
         System.out.printf("%s 나라의 상차림을 선택해 주세요.", applyColor(TEAM_NAMES.get(team), team));
         System.out.println();
@@ -33,7 +45,6 @@ public class InputView {
         String rawTableSetting = scanner.nextLine();
         System.out.println();
 
-        validateInteger(rawTableSetting);
         int tableSetting = parseInteger(rawTableSetting);
         validateOption(tableSetting);
         return tableSetting;
@@ -53,16 +64,12 @@ public class InputView {
         return TEAM_COLORS.get(team) + text + RESET;
     }
 
-    private void validateInteger(String input) {
+    private int parseInteger(String input) {
         try {
-            Integer.parseInt(input);
+            return Integer.parseInt(input);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("숫자만 입력해 주세요.");
         }
-    }
-
-    private int parseInteger(String input) {
-        return Integer.parseInt(input);
     }
 
     private void validateOption(int input) {

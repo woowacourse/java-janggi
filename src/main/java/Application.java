@@ -1,3 +1,4 @@
+import dao.PieceDao;
 import domain.Coordinate;
 import domain.Team;
 import domain.board.Board;
@@ -7,7 +8,9 @@ import domain.board.maSangStrategy.MaSangSangMa;
 import domain.board.maSangStrategy.MaSangStrategy;
 import domain.board.maSangStrategy.SangMaMaSang;
 import domain.board.maSangStrategy.SangMaSangMa;
+import domain.piece.Piece;
 import java.util.Map;
+import java.util.Set;
 import view.InputView;
 import view.InputView.CoordinatesPair;
 import view.OutputView;
@@ -21,47 +24,32 @@ public class Application {
         4, new SangMaMaSang()
     );
 
-    public static void main(String[] args) {
-        InputView inputView = new InputView();
-        OutputView outputView = new OutputView();
+    private static final InputView inputView = new InputView();
+    private static final OutputView outputView = new OutputView();
+    private static final PieceDao pieceDao = new PieceDao();
 
-        int hanTableSetting = inputView.readTableSetting(Team.HAN);
-        int choTableSetting = inputView.readTableSetting(Team.CHO);
-        Board board = createBoard(hanTableSetting, choTableSetting);
+    public static void main(String[] args) {
+        Board board = loadBoard();
         outputView.printBoard(board.getPieces());
 
-        processGame(board, inputView, outputView);
+        processGame(board);
     }
 
-    private static void processGame(final Board board, final InputView inputView, final OutputView outputView) {
-        int index = 0;
-        while (true) {
-            Team team = Team.values()[index % 2];
-            try {
-                CoordinatesPair coordinatesPair = inputView.readMoveCoordinate(team);
-                checkDepartureIsMyPiece(team, board, coordinatesPair.departure());
+    private static Board loadBoard() {
+        Set<Piece> existingPieces = pieceDao.findAll();
+        if (existingPieces.isEmpty() || !inputView.readRenewGame()) {
+            pieceDao.clear();
+            pieceDao.setTurn(Team.HAN);
+            int hanTableSetting = inputView.readTableSetting(Team.HAN);
+            int choTableSetting = inputView.readTableSetting(Team.CHO);
 
-                board.move(coordinatesPair.departure(), coordinatesPair.arrival());
-                outputView.printBoard(board.getPieces());
-
-                index += 1;
-            } catch (IllegalArgumentException e) {
-                outputView.printException(e);
-            }
+            Board board = createBoard(hanTableSetting, choTableSetting);
+            board.getPieces().values().forEach(pieceDao::save);
+            return board;
         }
-    }
 
-    private static void checkDepartureIsMyPiece(Team team, final Board board, final Coordinate departure) {
-        boolean selectsMyTeam = isSelectedPieceMyTeam(team, board, departure);
-        if (!selectsMyTeam) {
-            throw new IllegalArgumentException("같은 팀 기물만 선택할 수 있습니다.");
-        }
-    }
-
-    private static Boolean isSelectedPieceMyTeam(Team team, final Board board, final Coordinate departure) {
-        return board.findAt(departure)
-            .map(p -> p.isTeam(team))
-            .orElse(true);
+        outputView.printContinueGame();
+        return new Board(existingPieces);
     }
 
     private static Board createBoard(final int hanTableSetting, final int choTableSetting) {
@@ -72,5 +60,48 @@ public class Application {
             .initTeam(Team.HAN, hanBoardStrategy)
             .initTeam(Team.CHO, choBoardStrategy)
             .build();
+    }
+
+    private static void processGame(final Board board) {
+        while (true) {
+            Team team = pieceDao.getTurn();
+            try {
+                CoordinatesPair coordinatesPair = inputView.readMoveCoordinate(team);
+                checkDepartureIsMyPiece(team, board, coordinatesPair.departure());
+
+                movePiece(board, coordinatesPair);
+
+                outputView.printBoard(board.getPieces());
+                passTurn(team);
+            } catch (IllegalArgumentException e) {
+                outputView.printException(e);
+            }
+        }
+    }
+
+    private static void movePiece(final Board board, final CoordinatesPair coordinatesPair) {
+        final var departure = coordinatesPair.departure();
+        final var arrival = coordinatesPair.arrival();
+
+        board.move(departure, arrival);
+        pieceDao.deleteByCoordinate(arrival);
+        pieceDao.update(departure, arrival);
+    }
+
+    private static void passTurn(final Team team) {
+        if (team == Team.HAN) {
+            pieceDao.setTurn(Team.CHO);
+            return;
+        }
+        pieceDao.setTurn(Team.HAN);
+    }
+
+    private static void checkDepartureIsMyPiece(Team team, final Board board, final Coordinate departure) {
+        boolean selectsMyTeam = board.findAt(departure)
+            .map(p -> p.isTeam(team))
+            .orElse(true);
+        if (!selectsMyTeam) {
+            throw new IllegalArgumentException("같은 팀 기물만 선택할 수 있습니다.");
+        }
     }
 }
