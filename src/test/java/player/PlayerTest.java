@@ -104,4 +104,21 @@ class PlayerTest {
         assertDoesNotThrow(() -> pieces.canPieceMoveTo(new Position(5, 5), new Position(5, 6)));
     }
 
+    @Test
+    @DisplayName("도착 지점 아군 판별 테스트")
+    void validateAllyPieceAtDestination() {
+        //given
+        Jol jol = new Jol(new Position(5, 5));
+        Janggun janggun = new Janggun(new Position(6, 4));
+        Pieces pieces = new Pieces(List.of(jol, janggun));
+        Player player = new Player(pieces, HAN);
+
+        //when - then
+        assertThatThrownBy(() -> player.validateAllyPieceAtDestination(new Position(5, 5)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 도착지에 아군 기물이 존재합니다.");
+
+        assertDoesNotThrow(() -> pieces.validateAllyPieceAtDestination(new Position(5, 7)));
+    }
+
 }
