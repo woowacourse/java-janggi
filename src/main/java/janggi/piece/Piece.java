@@ -33,11 +33,32 @@ public abstract class Piece {
 
     abstract void validateMove(int differenceForY, int differenceForX);
 
-    abstract int calculatePathY(final Position arrivalPosition, final int differenceForY, final int differenceForX,
-                                final List<Position> positions, int currentY, int currentX);
+    int calculatePathY(Position arrivalPosition, int differenceForY, int differenceForX,
+                       List<Position> positions, int currentY, int currentX) {
+        int differenceUnitY = calculateUnit(differenceForY);
+        while (currentY != arrivalPosition.getY()) {
+            currentY += differenceUnitY;
+            positions.add(Position.valueOf(currentY, currentX));
+        }
+        return currentY;
+    }
 
-    abstract int calculatePathX(final Position arrivalPosition, final int differenceForY, final int differenceForX,
-                                final List<Position> positions, int currentY, int currentX);
+    int calculatePathX(Position arrivalPosition, int differenceForY, int differenceForX,
+                       List<Position> positions, int currentY, int currentX) {
+        int differenceUnitX = calculateUnit(differenceForX);
+        while (currentX != arrivalPosition.getX()) {
+            currentX += differenceUnitX;
+            positions.add(Position.valueOf(currentY, currentX));
+        }
+        return currentX;
+    }
+
+    int calculateUnit(int difference) {
+        if (difference == 0) {
+            return difference;
+        }
+        return difference / Math.abs(difference);
+    }
 
     public boolean matchPieceType(final PieceType pieceType) {
         return this.pieceType == pieceType;

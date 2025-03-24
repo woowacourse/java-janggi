@@ -71,14 +71,7 @@ public class Sang extends Piece {
             throw new IllegalArgumentException("[ERROR] 상은 직선 1칸 이동 후 대각선 2칸으로만 이동할 수 있습니다.");
         }
     }
-
-    private int calculateUnit(final int difference) {
-        if (difference == 0) {
-            return difference;
-        }
-        return difference / Math.abs(difference);
-    }
-
+    
     private boolean canNotMove(int differenceForY, int differenceForX) {
         return !AVAILABLE_DIFFERENCE.contains(List.of(differenceForY, differenceForX));
     }
