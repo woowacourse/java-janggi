@@ -8,16 +8,17 @@ import utils.InputParser;
 public class JanggiGame {
 
     private final Pieces pieces;
-    private boolean turnOfRedTeam = false;
+    private Team turn;
 
     public JanggiGame() {
         Map<Position, Piece> pieces = PieceInitializer.generate();
         this.pieces = new Pieces(pieces);
+        turn = Team.GREEN;
     }
 
     public Position createPositionAndCheckTurn(String choiceDeparture) {
         Position position = createPositionFrom(choiceDeparture);
-        validateTurn(position);
+        validateTurnAndChange(position);
         return position;
     }
 
@@ -31,20 +32,16 @@ public class JanggiGame {
     }
 
     public void move(Position departure, Position arrival) {
-        validateTurn(departure);
         pieces.move(departure, arrival);
     }
 
-    private void validateTurn(Position departure) {
+    private void validateTurnAndChange(Position departure) {
         Piece piece = pieces.findPieceBy(departure);
         Team team = piece.getTeam();
-        if (team == Team.RED && !turnOfRedTeam) {
-            throw new IllegalArgumentException("레드 팀 턴이 아닙니다.");
+        if (team.isMyTurn(turn)) {
+            throw new IllegalArgumentException("본인 팀의 턴이 아닙니다.");
         }
-        if (team == Team.GREEN && turnOfRedTeam) {
-            throw new IllegalArgumentException("그린 팀 턴이 아닙니다.");
-        }
-        turnOfRedTeam = !turnOfRedTeam;
+        turn = turn.change();
     }
 
     public String showCurrentPositionOfPieces() {
