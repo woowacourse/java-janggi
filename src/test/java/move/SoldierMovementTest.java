@@ -23,7 +23,7 @@ class SoldierMovementTest {
         int x = 0;
         int y = 0;
         Point from = new Point(x, y);
-        Point to = new Point(x, y-1);
+        Point to = new Point(x, y - 1);
         SoldierMovement soldierMovement = new SoldierMovement(Team.GREEN.direction());
 
         // when
@@ -41,7 +41,7 @@ class SoldierMovementTest {
         int x = 0;
         int y = 0;
         Point from = new Point(x, y);
-        Point to = new Point(x, y-2);
+        Point to = new Point(x, y - 2);
         SoldierMovement soldierMovement = new SoldierMovement(Team.GREEN.direction());
 
         // when
@@ -57,7 +57,7 @@ class SoldierMovementTest {
         int x = 0;
         int y = 0;
         Point from = new Point(x, y);
-        Point to = new Point(x, y+1);
+        Point to = new Point(x, y + 1);
         SoldierMovement soldierMovement = new SoldierMovement(Team.GREEN.direction());
 
         // when
@@ -73,7 +73,7 @@ class SoldierMovementTest {
         int x = 1;
         int y = 0;
         Point from = new Point(x, y);
-        Point to = new Point(x-1, y);
+        Point to = new Point(x - 1, y);
         SoldierMovement soldierMovement = new SoldierMovement(Team.GREEN.direction());
 
         // when
@@ -91,7 +91,7 @@ class SoldierMovementTest {
         int x = 0;
         int y = 0;
         Point from = new Point(x, y);
-        Point to = new Point(x-2, y);
+        Point to = new Point(x - 2, y);
         SoldierMovement soldierMovement = new SoldierMovement(Team.GREEN.direction());
 
         // when
@@ -107,7 +107,7 @@ class SoldierMovementTest {
         int x = 0;
         int y = 0;
         Point from = new Point(x, y);
-        Point to = new Point(x+1, y);
+        Point to = new Point(x + 1, y);
         SoldierMovement soldierMovement = new SoldierMovement(Team.GREEN.direction());
 
         // when
@@ -125,7 +125,7 @@ class SoldierMovementTest {
         int x = 0;
         int y = 0;
         Point from = new Point(x, y);
-        Point to = new Point(x+2, y);
+        Point to = new Point(x + 2, y);
         SoldierMovement soldierMovement = new SoldierMovement(Team.GREEN.direction());
 
         // when

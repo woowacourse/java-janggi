@@ -41,13 +41,13 @@ public class ChariotMovement implements MovementRule {
     }
 
     private void validateStraightDestination(Point from, Point to) {
-        if(from.column() != to.column() && from.row() != to.row()) {
+        if (from.column() != to.column() && from.row() != to.row()) {
             throw new IllegalArgumentException();
         }
     }
 
     private void validateStartSameDestination(Point from, Point to) {
-        if(from.equals(to)) {
+        if (from.equals(to)) {
             throw new IllegalArgumentException();
         }
     }

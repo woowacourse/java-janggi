@@ -47,7 +47,7 @@ public class ElephantMovement implements MovementRule {
     }
 
     private void validateInvalidDestination(List<Direction> directions) {
-        if(directions.isEmpty()) {
+        if (directions.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
         }
     }
