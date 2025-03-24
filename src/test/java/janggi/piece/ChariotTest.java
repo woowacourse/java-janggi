@@ -70,7 +70,6 @@ class ChariotTest {
         final Map<Position, Piece> map = Map.of(new Position(1, 4),
                 new Elephant(Country.CHO));
         final Board board = new Board(map);
-        final Country country = Country.HAN;
 
         // when
         final boolean actual1 = chariotPiece.isAbleToMove(now, ableDest, board);

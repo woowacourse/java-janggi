@@ -6,6 +6,8 @@ import java.util.List;
 
 public class Chariot extends Piece{
 
+    private static final int CAN_JUMP_PIECE_COUNT = 0;
+
     public Chariot(final Country country) {
         super(country);
     }
@@ -16,12 +18,9 @@ public class Chariot extends Piece{
             return false;
         }
         final List<Position> positions = now.calculateBetweenPositions(destination);
-        for (final Position position : positions) {
-            if (board.existPieceByPosition(position)) {
-                return false;
-            }
-        }
-        return true;
+        final int pieceCountInPath = board.calculatePieceCountByPositions(positions);
+
+        return pieceCountInPath == CAN_JUMP_PIECE_COUNT;
     }
 
     @Override
