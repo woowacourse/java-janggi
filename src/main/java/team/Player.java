@@ -28,6 +28,10 @@ public class Player {
         }
     }
 
+    public boolean isContainPiece(Point point) {
+        return pieces.isExistPieceIn(point);
+    }
+
     public boolean isTeam(Team team) {
         return this.team.equals(team);
     }

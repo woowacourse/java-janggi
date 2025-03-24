@@ -10,7 +10,6 @@ public class ChariotMovement implements MovementRule {
     @Override
     public Point move(Pieces pieces, Point from, Point to) {
         validateStraightDestination(from, to);
-        validateStartSameDestination(from, to);
 
         List<Point> paths = findPaths(from, to);
 
@@ -42,13 +41,7 @@ public class ChariotMovement implements MovementRule {
 
     private void validateStraightDestination(Point from, Point to) {
         if (from.isDifferentColumn(to) && from.isDifferentRow(to)) {
-            throw new IllegalArgumentException("[ERROR] 차가 움직일 수 없는 경로입니다.");
-        }
-    }
-
-    private void validateStartSameDestination(Point from, Point to) {
-        if (from.equals(to)) {
-            throw new IllegalArgumentException("[ERROR] 원래 위치를 선택할 수 없습니다.");
+            throw new IllegalArgumentException("[ERROR] 움직일 수 없는 경로입니다.");
         }
     }
 

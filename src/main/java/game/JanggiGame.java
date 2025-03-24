@@ -27,14 +27,19 @@ public class JanggiGame {
     public void run() {
         for (Team team : Team.values()) {
             Player player = gameBoard.findPlayer(team);
-
             Point start = requestMoveStartPosition(player);
-
             Point end = InputView.requestMoveEndPosition();
             validateBoardRange(end);
+            validateStartSameDestination(start, end);
 
             player.move(gameBoard.findAllPieces(), start, end);
             OutputView.printBoard(gameBoard);
+        }
+    }
+
+    private void validateStartSameDestination(Point start, Point end) {
+        if (start.equals(end)) {
+            throw new IllegalArgumentException("[ERROR] 원래 위치를 선택할 수 없습니다.");
         }
     }
 
