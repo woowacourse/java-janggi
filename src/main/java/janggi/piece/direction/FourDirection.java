@@ -1,0 +1,51 @@
+package janggi.piece.direction;
+
+import janggi.value.JanggiPosition;
+import janggi.value.RelativePosition;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public enum FourDirection {
+    LEFT(new RelativePosition(-1, 0)),
+    RIGHT(new RelativePosition(1, 0)),
+    UP(new RelativePosition(0, 1)),
+    DOWN(new RelativePosition(0, -1)),
+    ;
+
+    private final RelativePosition relativePosition;
+
+    FourDirection(final RelativePosition relativePosition) {
+        this.relativePosition = relativePosition;
+    }
+
+    public static List<JanggiPosition> from(JanggiPosition destination, JanggiPosition position) {
+        int dx = Integer.compare(destination.getX(), position.getX());
+        int dy = Integer.compare(destination.getY(), position.getY());
+        FourDirection fourDirection = findDirection(dx, dy);
+        //그 방향에 대한 리스트만 만들어서 반환
+        return generatePositions(position, destination, fourDirection.relativePosition);
+    }
+
+    //방향이 정해지고
+    private static FourDirection findDirection(int dx, int dy) {
+        return Arrays.stream(values())
+                .filter(direction -> direction.relativePosition.getX() == dx && direction.relativePosition.getY() == dy)
+                .findFirst()
+                .orElseThrow();
+    }
+
+    private static List<JanggiPosition> generatePositions(JanggiPosition start, JanggiPosition end, RelativePosition step) {
+        List<JanggiPosition> positions = new ArrayList<>();
+        int x = start.getX();
+        int y = start.getY();
+
+        while (x != end.getX() || y != end.getY()) {
+            x += step.getX();
+            y += step.getY();
+            positions.add(new JanggiPosition(x, y));
+        }
+        return positions;
+    }
+}
+

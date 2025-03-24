@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.piece.direction.MaDirection;
 import janggi.setting.CampType;
 import janggi.value.JanggiPosition;
 import java.util.List;
@@ -36,11 +37,11 @@ public class Ma extends Piece {
         if (maDirection == MaDirection.NONE) {
             return false;
         }
-        if (enemy.isPieceExistInRoute(maDirection, getPosition()) ||
-                allies.isPieceExistInRoute(maDirection, getPosition())) {
+        if (enemy.isPieceExistInRouteMa(maDirection, getPosition()) ||
+                allies.isPieceExistInRouteMa(maDirection, getPosition())) {
             return false;
         }
-        return allies.isNotBlockedByAlly(destination);
+        return allies.isNotBlockedBy(destination);
     }
 
 }

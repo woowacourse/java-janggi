@@ -1,5 +1,7 @@
 package janggi.piece;
 
+import janggi.piece.direction.MaDirection;
+import janggi.piece.direction.SangDirection;
 import janggi.value.JanggiPosition;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,32 +30,18 @@ public class Pieces {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 이동할 말이 존재하지 않습니다."));
     }
 
-    // 목적지에 적이 있는지 확인
-    public boolean isPositionOccupiedByEnemy(JanggiPosition position) {
-        return pieces.stream()
-                .anyMatch(piece -> piece.getPosition().equals(position));
-    }
-
-    // 경로 상에 아군 말이 있는지 확인
-    public boolean isPathBlockedByAlly(List<JanggiPosition> pathPositions) {
-        return pathPositions.stream()
-                .noneMatch(position -> pieces.stream()
-                        .anyMatch(piece -> piece.getPosition().equals(position)));
-    }
-
-    // 경로 상에 적군 말이 있는지 확인
-    public boolean isPathBlockedByEnemy(List<JanggiPosition> pathPositions) {
-        return pathPositions.stream()
-                .noneMatch(position -> pieces.stream()
-                        .anyMatch(piece -> piece.getPosition().equals(position)));
-    }
-
-    public boolean isNotBlockedByAlly(JanggiPosition destination) {
+    public boolean isNotBlockedBy(JanggiPosition destination) {
         return pieces.stream()
                 .noneMatch(piece -> piece.getPosition().equals(destination));
     }
 
-    public boolean isPieceExistInRoute(MaDirection maDirection, JanggiPosition position) {
+    public boolean isPathBlockedBy(List<JanggiPosition> pathPositions) {
+        return pathPositions.stream()
+                .noneMatch(position -> pieces.stream()
+                        .anyMatch(piece -> piece.getPosition().equals(position)));
+    }
+
+    public boolean isPieceExistInRouteMa(MaDirection maDirection, JanggiPosition position) {
         return pieces.stream()
                 .anyMatch(piece -> maDirection.isDirectRoute(position, piece.getPosition()));
     }
@@ -67,7 +55,6 @@ public class Pieces {
         List<Piece> alliesInPath = searchPiecesInPath(pieces, path);
         List<Piece> enemyInPath = searchPiecesInPath(enemy, path);
 
-        // 경로 상에 아군이나 적군이 없으면 이동 불가
         return !alliesInPath.isEmpty() || !enemyInPath.isEmpty();
     }
 
@@ -75,7 +62,6 @@ public class Pieces {
         List<Piece> alliesInPath = searchPiecesInPath(pieces, path);
         List<Piece> enemyInPath = searchPiecesInPath(enemy, path);
 
-        // 경로 상에 포가 있는지 확인
         return alliesInPath.stream().anyMatch(piece -> piece.checkPieceType(PieceType.PO)) ||
                 enemyInPath.stream().anyMatch(piece -> piece.checkPieceType(PieceType.PO));
     }

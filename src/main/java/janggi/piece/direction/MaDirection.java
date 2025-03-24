@@ -1,4 +1,4 @@
-package janggi.piece;
+package janggi.piece.direction;
 
 import janggi.value.JanggiPosition;
 import janggi.value.RelativePosition;

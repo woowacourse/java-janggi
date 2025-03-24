@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.piece.direction.SangDirection;
 import janggi.setting.CampType;
 import janggi.value.JanggiPosition;
 import java.util.List;
@@ -40,7 +41,7 @@ public class Sang extends Piece {
                 allies.isPieceExistInRouteSang(sangDirection, getPosition())) {
             return false;
         }
-        return allies.isNotBlockedByAlly(destination);
+        return allies.isNotBlockedBy(destination);
     }
 
 }

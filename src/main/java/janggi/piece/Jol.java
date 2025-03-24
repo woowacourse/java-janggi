@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.piece.direction.FourDirection;
 import janggi.setting.CampType;
 import janggi.value.JanggiPosition;
 import java.util.List;
@@ -35,18 +36,19 @@ public class Jol extends Piece {
 
     @Override
     protected boolean ableToMove(JanggiPosition destination, Pieces enemyPieces, Pieces allyPieces) {
-        return isValidMove(destination) && allyPieces.isNotBlockedByAlly(destination);
+        List<JanggiPosition> pathPositions = FourDirection.from(destination, getPosition());
+        return isValidMove(pathPositions) && allyPieces.isNotBlockedBy(destination);
     }
 
-    private boolean isValidMove(JanggiPosition destination) {
+    private boolean isValidMove(List<JanggiPosition> pathPositions) {
         int currentX = getPosition().getX();
         int currentY = getPosition().getY();
-        int destX = destination.getX();
-        int destY = destination.getY();
+        int destX = pathPositions.getLast().getX();
+        int destY = pathPositions.getLast().getY();
 
         if (campType == CampType.CHO) {
-            return (destX == currentX && destY == currentY - 1)
-                    || (destY == currentY && Math.abs(destX - currentX) == 1);
+            return (destX == currentX && destY == currentY - 1) ||
+                    (destY == currentY && Math.abs(destX - currentX) == 1);
         }
         return (destX == currentX && destY == currentY + 1)
                 || (destY == currentY && Math.abs(destX - currentX) == 1);
