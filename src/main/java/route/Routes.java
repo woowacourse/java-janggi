@@ -72,6 +72,22 @@ public final class Routes {
         ));
     }
 
+    public static Routes ofHanPawn() {
+        return new Routes(Set.of(
+                new Route(List.of(EAST)),
+                new Route(List.of(WEST)),
+                new Route(List.of(NORTH))
+        ));
+    }
+
+    public static Routes ofChoPawn() {
+        return new Routes(Set.of(
+                new Route(List.of(EAST)),
+                new Route(List.of(WEST)),
+                new Route(List.of(SOUTH))
+        ));
+    }
+
     public static Routes ofBlank(){
         return new Routes(Set.of());
     }
@@ -79,6 +95,7 @@ public final class Routes {
     private Routes(Set<Route> routes) {
         this.routes = routes;
     }
+
 
     public Set<Route> routes() {
         return routes;
