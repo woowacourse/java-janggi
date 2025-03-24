@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class NoneRouteStrategy implements JanggiPieceRouteStrategy {
 
-
     @Override
     public List<Pattern> getRoute(Map<Direction, List<Pattern>> routes, JanggiPosition origin,
                                   JanggiPosition destination) {
