@@ -37,15 +37,23 @@ public class Board {
         if (isExists(position)) {
             return positionToPiece.get(position);
         }
-        throw new IllegalArgumentException("장기말이 존재하지 않는 지점입니다.");
+        throw new IllegalArgumentException("기물이 존재하지 않는 지점입니다.");
     }
 
     public void movePiece(final Player player, final Position departure, final Position destination) {
         Piece allyPiece = getPiece(departure);
+        validatePieceOwner(allyPiece, player);
         Piece movedPiece = allyPiece.move(this, destination);
 
         updateScore(player, destination);
         updateBoard(departure, destination, movedPiece);
+    }
+
+    private void validatePieceOwner(final Piece piece, final Player currentTurnPlayer) {
+        if (currentTurnPlayer.getTeam() == piece.getTeam()) {
+            return;
+        }
+        throw new IllegalArgumentException("자신의 기물만을 움직일 수 있습니다.");
     }
 
     private void updateScore(final Player player, final Position destination) {
