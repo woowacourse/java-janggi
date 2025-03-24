@@ -59,7 +59,7 @@ class MaTest {
             Ma ma = new Ma(Team.CHO, new Coordinate(5, 5));
             Board board = new BoardFixture()
                 .addPiece(5, 5, ma)
-                .anyPiece(5, 4) // 상 -> 상좌 방향 이동 경로 = 상 (5, 4)
+                .anyPieceNotPo(5, 4) // 상 -> 상좌 방향 이동 경로 = 상 (5, 4)
                 .build();
 
             // when

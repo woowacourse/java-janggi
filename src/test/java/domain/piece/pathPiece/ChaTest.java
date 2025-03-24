@@ -100,8 +100,7 @@ public class ChaTest {
             // given
             Cha cha = new Cha(Team.HAN, new Coordinate(5, 5));
             Board board = new BoardFixture()
-                .addPiece(cha)
-                .anyPiece(6, 5)
+                .anyPieceNotPo(6, 5)
                 .build();
 
             // when

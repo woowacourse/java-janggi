@@ -27,11 +27,11 @@ class PoTest {
             // given
             Po po = new Po(Team.HAN, new Coordinate(5, 5));
             Board board = new BoardFixture()
-                .addPiece(po)
-                .anyPiece(5, 4)
-                .anyPiece(5, 6)
-                .anyPiece(4, 5)
-                .anyPiece(6, 5)
+                .addPiece(5, 5, po)
+                .anyPieceNotPo(5, 4) // <- 위 방향 포다리
+                .anyPieceNotPo(5, 6) // <- 아래 방향 포다리
+                .anyPieceNotPo(4, 5) // <- 좌측 방향 포다리
+                .anyPieceNotPo(6, 5) // <- 우측 방향 포다리
                 .build();
 
             // when
@@ -52,8 +52,8 @@ class PoTest {
                 // given
                 Po po = new Po(Team.HAN, from);
                 Board board = new BoardFixture()
-                    .anyPiece(5, 2)
-                    .addPiece(po)
+                    .addPiece(4, 1, po)
+                    .anyPieceNotPo(5, 2) // <- 포다리
                     .build();
 
                 // when
@@ -73,13 +73,13 @@ class PoTest {
             }
 
             @Test
-            @DisplayName("차가 대각선을 따라 움직일 때 궁성을 벗어날 수 없다.")
+            @DisplayName("포가 대각선을 따라 움직일 때 궁성을 벗어날 수 없다.")
             void test2() {
                 //given
                 Po po = new Po(Team.HAN, new Coordinate(4, 1));
                 Board board = new BoardFixture()
-                    .anyPiece(5, 2)
-                    .addPiece(po)
+                    .addPiece(4, 1, po)
+                    .anyPieceNotPo(5, 2) // <- 포다리
                     .build();
 
                 //when
@@ -133,8 +133,8 @@ class PoTest {
             Po po = new Po(Team.HAN, new Coordinate(5, 5));
             Board board = new BoardFixture()
                 .addPiece(5, 5, po)
-                .anyPiece(6, 5)
-                .anyPiece(7, 5)
+                .anyPieceNotPo(6, 5)
+                .anyPieceNotPo(7, 5)
                 .build();
 
             // when
@@ -151,7 +151,7 @@ class PoTest {
             Po po = new Po(Team.HAN, new Coordinate(5, 5));
             Board board = new BoardFixture()
                 .addPiece(5, 5, po)
-                .addPiece(6, 5, new Po(Team.HAN, new Coordinate(6, 5)))
+                .addPiece(6, 5, Po.class, Team.CHO) // <- 포다리 [불가능]
                 .build();
 
             // when
@@ -168,8 +168,8 @@ class PoTest {
             Po po = new Po(Team.HAN, new Coordinate(5, 5));
             Board board = new BoardFixture()
                 .addPiece(5, 5, po)
-                .anyPiece(6, 5) // <- 포다리
-                .addPiece(8, 5, new Po(Team.CHO, new Coordinate(8, 5)))
+                .anyPieceNotPo(6, 5) // <- 포다리
+                .addPiece(8, 5, Po.class, Team.CHO) // <- 목적지
                 .build();
 
             // when
@@ -186,8 +186,8 @@ class PoTest {
             Po po = new Po(Team.HAN, new Coordinate(5, 5));
             Board board = new BoardFixture()
                 .addPiece(5, 5, po)
-                .anyPiece(6, 5) // <- 포댜리
-                .addPiece(8, 5, new Sang(Team.CHO, new Coordinate(8, 5)))
+                .anyPieceNotPo(6, 5) // <- 포댜리
+                .anyPieceNotPo(8, 5) // <- 목적지
                 .build();
 
             // when
@@ -198,13 +198,13 @@ class PoTest {
         }
 
         @Test
-        @DisplayName("포가 (5,5) -> (8,5) 으로 이동할 때 장애물이 하나이면서 그 장애물이 포가 아니면서 도착 좌표에 피스가 없을 경우 true를 반환한다.")
+        @DisplayName("포가 이동할 때 포다리가 하나이면서 포다리가 포가 아니면서 도착 좌표에 피스가 없을 경우 이동할 수 있다.")
         void test6() {
             // given
             Po po = new Po(Team.HAN, new Coordinate(5, 5));
             Board board = new BoardFixture()
                 .addPiece(5, 5, po)
-                .anyPiece(6, 5) // <- 포다리
+                .anyPieceNotPo(6, 5) // <- 포다리
                 .build();
 
             // when

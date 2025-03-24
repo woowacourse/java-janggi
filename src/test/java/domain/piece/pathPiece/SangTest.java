@@ -59,7 +59,7 @@ class SangTest {
             Sang sang = new Sang(Team.CHO, new Coordinate(5, 5));
             Board board = new BoardFixture()
                 .addPiece(5, 5, sang)
-                .anyPiece(5, 4) // 상 -> 상좌 방향 이동 경로 = 상 (5, 4)
+                .anyPieceNotPo(5, 4) // 상 -> 상좌 방향 이동 경로 = 상 (5, 4)
                 .build();
 
             // when
@@ -76,7 +76,7 @@ class SangTest {
             Sang sang = new Sang(Team.CHO, new Coordinate(5, 5));
             Board board = new BoardFixture()
                 .addPiece(5, 5, sang)
-                .anyPiece(4, 3) // 상 -> 상좌 -> 상좌 방향 이동 경로 = 상 -> 상좌 (4, 3)
+                .anyPieceNotPo(4, 3) // 상 -> 상좌 -> 상좌 방향 이동 경로 = 상 -> 상좌 (4, 3)
                 .build();
 
             // when
