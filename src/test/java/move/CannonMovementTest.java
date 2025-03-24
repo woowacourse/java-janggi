@@ -44,7 +44,7 @@ class CannonMovementTest {
 
     @Test
     @DisplayName("수평, 수직이 아닌 경우 이동할 수 없다.")
-    void test9() {
+    void dont_move_diagonal() {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(6, 3);
@@ -58,7 +58,7 @@ class CannonMovementTest {
 
     @Test
     @DisplayName("자신이 있는 위치로 이동할 수 없다.")
-    void test10() {
+    void dont_move_to_now_point() {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(2, 2);

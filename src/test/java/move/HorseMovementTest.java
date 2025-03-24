@@ -18,7 +18,7 @@ class HorseMovementTest {
 
     @Test
     @DisplayName("위쪽 1칸, 왼쪽 대각선 1칸으로 이동할 수 있다.")
-    void test1() {
+    void can_move_up_up_left() {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(1, 0);
@@ -33,7 +33,7 @@ class HorseMovementTest {
 
     @Test
     @DisplayName("위쪽 1칸, 오른쪽 대각선 1칸으로 이동할 수 있다.")
-    void test2() {
+    void can_move_up_up_right() {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(3, 0);
@@ -48,7 +48,7 @@ class HorseMovementTest {
 
     @Test
     @DisplayName("왼쪽 1칸, 위쪽 대각선 1칸으로 이동할 수 있다.")
-    void test3() {
+    void can_move_left_left_up() {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(0, 1);
@@ -63,7 +63,7 @@ class HorseMovementTest {
 
     @Test
     @DisplayName("왼쪽 1칸, 아래쪽 대각선 1칸으로 이동할 수 있다.")
-    void test4() {
+    void can_move_left_left_down() {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(0, 3);
@@ -78,7 +78,7 @@ class HorseMovementTest {
 
     @Test
     @DisplayName("아래쪽 1칸, 왼쪽 대각선 1칸으로 이동할 수 있다.")
-    void test5() {
+    void can_move_down_down_left() {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(1, 4);
@@ -93,7 +93,7 @@ class HorseMovementTest {
 
     @Test
     @DisplayName("아래쪽 1칸, 오른쪽 대각선 1칸으로 이동할 수 있다.")
-    void test6() {
+    void can_move_down_down_right() {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(3, 4);
@@ -108,7 +108,7 @@ class HorseMovementTest {
 
     @Test
     @DisplayName("오른쪽 1칸, 위쪽 대각선 1칸으로 이동할 수 있다.")
-    void test7() {
+    void can_move_right_right_up() {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(4, 1);
@@ -123,7 +123,7 @@ class HorseMovementTest {
 
     @Test
     @DisplayName("오른쪽 1칸, 아래쪽 대각선 1칸으로 이동할 수 있다.")
-    void test8() {
+    void can_move_right_right_down() {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(4, 3);
@@ -138,7 +138,7 @@ class HorseMovementTest {
 
     @Test
     @DisplayName("직선 1칸, 대각선 1칸을 제외하고 움직일 수 없다.")
-    void test9() {
+    void only_move_one_straight_and_one_diagonal() {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(6, 3);

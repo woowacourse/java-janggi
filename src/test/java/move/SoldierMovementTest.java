@@ -18,7 +18,7 @@ class SoldierMovementTest {
 
     @Test
     @DisplayName("졸은 위로 한 칸 이동할 수 있다.")
-    void test1() {
+    void can_move_up() {
         // given
         int x = 0;
         int y = 0;
@@ -36,7 +36,7 @@ class SoldierMovementTest {
 
     @Test
     @DisplayName("졸은 위로 두 칸 이상 이동할 수 없다.")
-    void test2() {
+    void only_move_up_once() {
         // given
         int x = 0;
         int y = 0;
@@ -52,7 +52,7 @@ class SoldierMovementTest {
 
     @Test
     @DisplayName("졸은 아래로 한 칸 이상 이동할 수 없다.")
-    void test4() {
+    void dont_move_down() {
         // given
         int x = 0;
         int y = 0;
@@ -68,7 +68,7 @@ class SoldierMovementTest {
 
     @Test
     @DisplayName("졸은 왼쪽으로 한 칸 이동할 수 있다.")
-    void test5() {
+    void can_move_left() {
         // given
         int x = 1;
         int y = 0;
@@ -86,7 +86,7 @@ class SoldierMovementTest {
 
     @Test
     @DisplayName("졸은 왼쪽으로 두 칸 이상 이동할 수 없다.")
-    void test6() {
+    void only_move_left_once() {
         // given
         int x = 0;
         int y = 0;
@@ -102,7 +102,7 @@ class SoldierMovementTest {
 
     @Test
     @DisplayName("졸은 오른쪽으로 한 칸 이동할 수 있다.")
-    void test7() {
+    void can_move_right() {
         // given
         int x = 0;
         int y = 0;
@@ -120,7 +120,7 @@ class SoldierMovementTest {
 
     @Test
     @DisplayName("졸은 오른쪽으로 두 칸 이상 이동할 수 없다.")
-    void test8() {
+    void only_move_right_once() {
         // given
         int x = 0;
         int y = 0;

@@ -16,8 +16,8 @@ public class GeneralMovementTest {
     Pieces pieces = new Pieces(GreenPieceFixture.pieces);
 
     @Test
-    @DisplayName("궁성 내 기물은 위로 한 칸 이동할 수 있다.")
-    void test1() {
+    @DisplayName("궁은 위로 한 칸 이동할 수 있다.")
+    void can_move_up() {
         // given
         int x = 0;
         int y = 0;
@@ -34,8 +34,8 @@ public class GeneralMovementTest {
     }
 
     @Test
-    @DisplayName("궁성 내 기물은 위로 두 칸 이상 이동할 수 없다.")
-    void test2() {
+    @DisplayName("궁은 위로 두 칸 이상 이동할 수 없다.")
+    void only_move_up_once() {
         // given
         int x = 0;
         int y = 0;
@@ -50,8 +50,8 @@ public class GeneralMovementTest {
     }
 
     @Test
-    @DisplayName("궁성 내 기물은 아래로 한 칸 이동할 수 있다.")
-    void test3() {
+    @DisplayName("궁은 아래로 한 칸 이동할 수 있다.")
+    void can_move_down() {
         // given
         int x = 0;
         int y = 1;
@@ -68,8 +68,8 @@ public class GeneralMovementTest {
     }
 
     @Test
-    @DisplayName("궁성 내 기물은 아래로 두 칸 이상 이동할 수 없다.")
-    void test4() {
+    @DisplayName("궁은 아래로 두 칸 이상 이동할 수 없다.")
+    void only_move_down_once() {
         // given
         int x = 0;
         int y = 0;
@@ -84,8 +84,8 @@ public class GeneralMovementTest {
     }
 
     @Test
-    @DisplayName("궁성 내 기물은 왼쪽으로 한 칸 이동할 수 있다.")
-    void test5() {
+    @DisplayName("궁은 왼쪽으로 한 칸 이동할 수 있다.")
+    void can_move_left() {
         // given
         int x = 1;
         int y = 0;
@@ -102,8 +102,8 @@ public class GeneralMovementTest {
     }
 
     @Test
-    @DisplayName("궁성 내 기물은 왼쪽으로 두 칸 이상 이동할 수 없다.")
-    void test6() {
+    @DisplayName("궁은 왼쪽으로 두 칸 이상 이동할 수 없다.")
+    void only_move_left_once() {
         // given
         int x = 0;
         int y = 0;
@@ -118,8 +118,8 @@ public class GeneralMovementTest {
     }
 
     @Test
-    @DisplayName("궁성 내 기물은 오른쪽으로 한 칸 이동할 수 있다.")
-    void test7() {
+    @DisplayName("궁은 오른쪽으로 한 칸 이동할 수 있다.")
+    void can_move_right() {
         // given
         int x = 0;
         int y = 0;
@@ -136,8 +136,8 @@ public class GeneralMovementTest {
     }
 
     @Test
-    @DisplayName("궁성 내 기물은 오른쪽으로 두 칸 이상 이동할 수 없다.")
-    void test8() {
+    @DisplayName("궁은 오른쪽으로 두 칸 이상 이동할 수 없다.")
+    void only_move_right_once() {
         // given
         int x = 0;
         int y = 0;
