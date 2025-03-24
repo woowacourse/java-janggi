@@ -3,10 +3,11 @@ package piece;
 import java.util.ArrayList;
 import java.util.List;
 import pieceProperty.Position;
+import player.Pieces;
 
 public class JanggiPieceInitializer {
 
-    public List<Piece> hanInit() {
+    public Pieces hanInit() {
         List<Piece> pieces = new ArrayList<>();
 
         pieces.add(new Cha(new Position(0, 0)));
@@ -32,10 +33,10 @@ public class JanggiPieceInitializer {
         pieces.add(new Byeong(new Position(3, 6)));
         pieces.add(new Byeong(new Position(3, 8)));
 
-        return pieces;
+        return new Pieces(pieces);
     }
 
-    public List<Piece> choInit() {
+    public Pieces choInit() {
         List<Piece> pieces = new ArrayList<>();
 
         pieces.add(new Cha(new Position(9, 0)));
@@ -61,6 +62,6 @@ public class JanggiPieceInitializer {
         pieces.add(new Jol(new Position(6, 6)));
         pieces.add(new Jol(new Position(6, 8)));
 
-        return pieces;
+        return new Pieces(pieces);
     }
 }
