@@ -67,11 +67,6 @@ public class Pieces {
                 .ifPresent(piece -> piece.updateChessPiecePositionBy(destination));
     }
 
-
-    public List<Piece> getPieces() {
-        return pieces;
-    }
-
     public Boolean isPoAt(final Position presentPosition) {
         return pieces.stream()
                 .filter(piece -> piece.isSamePosition(presentPosition))
@@ -83,6 +78,10 @@ public class Pieces {
     public Boolean isExistPoInRoute(final Positions route) {
         return pieces.stream()
                 .anyMatch(piece -> route.containsPosition(piece) && piece.isPo());
+    }
+
+    public List<Piece> getPieces() {
+        return pieces;
     }
 
 }
