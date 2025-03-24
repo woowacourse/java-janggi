@@ -21,8 +21,8 @@ class UnitTest {
         Unit unit = Unit.of(Team.CHO, new ElephantUnitRule());
 
         // when
-        List<Route> routesOfCenter = unit.calculateRoutes(new Position(4, 5));
-        List<Route> routesOfCorner = unit.calculateRoutes(new Position(0, 0));
+        List<Route> routesOfCenter = unit.calculateRoutes(Position.of(4, 5));
+        List<Route> routesOfCorner = unit.calculateRoutes(Position.of(0, 0));
 
         // then
         assertThat(routesOfCenter).hasSize(8);
@@ -36,8 +36,8 @@ class UnitTest {
         Unit unit = Unit.of(Team.CHO, new HorseUnitRule());
 
         // when
-        List<Route> routesOfCenter = unit.calculateRoutes(new Position(4, 5));
-        List<Route> routesOfCorner = unit.calculateRoutes(new Position(0, 0));
+        List<Route> routesOfCenter = unit.calculateRoutes(Position.of(4, 5));
+        List<Route> routesOfCorner = unit.calculateRoutes(Position.of(0, 0));
 
         // then
         assertThat(routesOfCenter).hasSize(8);
@@ -51,8 +51,8 @@ class UnitTest {
         Unit unit = Unit.of(Team.CHO, new ChariotUnitRule());
 
         // when
-        List<Route> routesOfCenter = unit.calculateRoutes(new Position(4, 5));
-        List<Route> routesOfCorner = unit.calculateRoutes(new Position(0, 0));
+        List<Route> routesOfCenter = unit.calculateRoutes(Position.of(4, 5));
+        List<Route> routesOfCorner = unit.calculateRoutes(Position.of(0, 0));
 
         // then
         assertThat(routesOfCenter).hasSize(17);
@@ -66,8 +66,8 @@ class UnitTest {
         Unit unit = Unit.of(Team.CHO, new CannonUnitRule());
 
         // when
-        List<Route> routesOfCenter = unit.calculateRoutes(new Position(4, 5));
-        List<Route> routesOfCorner = unit.calculateRoutes(new Position(0, 0));
+        List<Route> routesOfCenter = unit.calculateRoutes(Position.of(4, 5));
+        List<Route> routesOfCorner = unit.calculateRoutes(Position.of(0, 0));
 
         // then
         assertThat(routesOfCenter).hasSize(13);
@@ -81,8 +81,8 @@ class UnitTest {
         Unit unit = Unit.of(Team.CHO, new SoldierUnitRule());
 
         // when
-        List<Route> routesOfCenter = unit.calculateRoutes(new Position(4, 5));
-        List<Route> routesOfCorner = unit.calculateRoutes(new Position(0, 0));
+        List<Route> routesOfCenter = unit.calculateRoutes(Position.of(4, 5));
+        List<Route> routesOfCorner = unit.calculateRoutes(Position.of(0, 0));
 
         // then
         assertThat(routesOfCenter).hasSize(4);

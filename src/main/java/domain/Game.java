@@ -44,7 +44,7 @@ public class Game {
                 .map(String::trim)
                 .map(Integer::parseInt)
                 .toList();
-        Position position = new Position(positionValue.get(0), positionValue.get(1));
+        Position position = Position.of(positionValue.get(0), positionValue.get(1));
 
         List<Route> routes = janggi.findMovableRoutesFrom(position);
         outputView.printAvailableRoute(position, routes);

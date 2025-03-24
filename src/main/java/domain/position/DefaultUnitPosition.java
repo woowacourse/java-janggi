@@ -40,12 +40,12 @@ public enum DefaultUnitPosition {
     public static Map<Position, Unit> createDefaultUnits(DefaultUnitPosition position, Team team) {
         if (team == Team.CHO) {
             return position.xPositions.stream()
-                    .map(x -> new Position(x, position.choY))
+                    .map(x -> Position.of(x, position.choY))
                     .collect(Collectors.toMap(pos -> pos, pos -> Unit.of(team, position.rule.get())
                     ));
         }
         return position.xPositions.stream()
-                .map(x -> new Position(x, position.hanY))
+                .map(x -> Position.of(x, position.hanY))
                 .collect(Collectors.toMap(pos -> pos, pos -> Unit.of(team, position.rule.get())));
     }
 }

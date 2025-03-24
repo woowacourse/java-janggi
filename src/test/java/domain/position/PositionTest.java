@@ -21,7 +21,7 @@ class PositionTest {
         int y = Integer.parseInt(split[1]);
 
         // when & then
-        assertThatThrownBy(() -> new Position(x, y))
+        assertThatThrownBy(() -> Position.of(x, y))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(INVALID_POSITION_EXCEPTION);
     }
@@ -30,10 +30,10 @@ class PositionTest {
     @DisplayName("두 위치 사이의 거리를 반환한다")
     void test2() {
         // given
-        Position current = new Position(0, 0);
+        Position current = Position.of(0, 0);
 
         // when
-        double distance = current.calculateDistance(new Position(3, 4));
+        double distance = current.calculateDistance(Position.of(3, 4));
 
         // then
         assertThat(distance).isEqualTo(5);
@@ -47,9 +47,9 @@ class PositionTest {
         String[] split = str.split(",");
         int x = Integer.parseInt(split[0]);
         int y = Integer.parseInt(split[1]);
-        Position position = new Position(x, y);
+        Position position = Position.of(x, y);
 
-        Position opposite = new Position(2, 2);
+        Position opposite = Position.of(2, 2);
 
         // when
         boolean b = position.isHorizontalOrVertical(opposite);
@@ -66,9 +66,9 @@ class PositionTest {
         String[] split = str.split(",");
         int x = Integer.parseInt(split[0]);
         int y = Integer.parseInt(split[1]);
-        Position position = new Position(x, y);
+        Position position = Position.of(x, y);
 
-        Position opposite = new Position(2, 2);
+        Position opposite = Position.of(2, 2);
 
         // when
         boolean b = position.isHorizontalOrVertical(opposite);

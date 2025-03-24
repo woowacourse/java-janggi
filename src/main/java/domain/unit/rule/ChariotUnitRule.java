@@ -29,11 +29,11 @@ public class ChariotUnitRule implements UnitRule {
         int y = start.getY();
         List<Position> xPositions = IntStream.range(0, Position.X_MAX + 1)
                 .filter(element -> element != x)
-                .mapToObj(element -> new Position(element, y))
+                .mapToObj(element -> Position.of(element, y))
                 .toList();
         List<Position> yPositions = IntStream.range(0, Position.Y_MAX + 1)
                 .filter(element -> element != y)
-                .mapToObj(element -> new Position(x, element))
+                .mapToObj(element -> Position.of(x, element))
                 .toList();
         return Stream.concat(xPositions.stream(), yPositions.stream())
                 .toList();
@@ -51,14 +51,14 @@ public class ChariotUnitRule implements UnitRule {
             int minY = Integer.min(startY, endY);
             return Route.of(IntStream.range(minY, maxY + 1)
                     .filter(y -> startY != y)
-                    .mapToObj(y -> new Position(startX, y))
+                    .mapToObj(y -> Position.of(startX, y))
                     .toList());
         }
         int maxX = Integer.max(startX, endX);
         int minX = Integer.min(startX, endX);
         return Route.of(IntStream.range(minX, maxX + 1)
                 .filter(x -> startX != x)
-                .mapToObj(x -> new Position(x, startY))
+                .mapToObj(x -> Position.of(x, startY))
                 .toList());
     }
 }

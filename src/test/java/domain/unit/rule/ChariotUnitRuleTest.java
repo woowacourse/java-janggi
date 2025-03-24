@@ -13,7 +13,7 @@ class ChariotUnitRuleTest {
     @DisplayName("차가 갈 수 있는 엔드포인트를 모두 반환한다")
     void test1() {
         // given
-        Position p = new Position(0, 0);
+        Position p = Position.of(0, 0);
         ChariotUnitRule rule = new ChariotUnitRule();
 
         // when
@@ -28,8 +28,8 @@ class ChariotUnitRuleTest {
     @DisplayName("시작점과 끝점의 경로를 반환한다")
     void test2() {
         // given
-        Position start = new Position(0, 0);
-        Position end = new Position(0, 5);
+        Position start = Position.of(0, 0);
+        Position end = Position.of(0, 5);
         ChariotUnitRule rule = new ChariotUnitRule();
 
         // when

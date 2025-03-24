@@ -12,38 +12,40 @@ class RouteTest {
     @DisplayName("경로의 도착지를 반환한다.")
     void test1() {
         // given
-        List<Position> positions = List.of(new Position(0, 0),
-                new Position(0, 1),
-                new Position(0, 2),
-                new Position(0, 3));
+        List<Position> positions = List.of(
+                Position.of(0, 0),
+                Position.of(0, 1),
+                Position.of(0, 2),
+                Position.of(0, 3));
         Route route = Route.of(positions);
 
         // when
-        Position destination = route.searchDestination(new Position(0, 4));
+        Position destination = route.searchDestination(Position.of(0, 4));
 
         // then
-        assertThat(destination).isEqualTo(new Position(0, 0));
+        assertThat(destination).isEqualTo(Position.of(0, 0));
     }
 
     @Test
     @DisplayName("경로의 도착지를 제외한 위치들을 반환한다.")
     void test2() {
         // given
-        List<Position> positions = List.of(new Position(0, 0),
-                new Position(0, 1),
-                new Position(0, 2),
-                new Position(0, 3));
+        List<Position> positions = List.of(
+                Position.of(0, 0),
+                Position.of(0, 1),
+                Position.of(0, 2),
+                Position.of(0, 3));
         Route route = Route.of(positions);
 
         // when
-        List<Position> exceptDestination = route.getPositionsExceptDestination(new Position(0, 4));
+        List<Position> exceptDestination = route.getPositionsExceptDestination(Position.of(0, 4));
 
         // then
         assertThat(exceptDestination).hasSize(3)
                 .contains(
-                        new Position(0, 1),
-                        new Position(0, 2),
-                        new Position(0, 3)
+                        Position.of(0, 1),
+                        Position.of(0, 2),
+                        Position.of(0, 3)
                 );
     }
 }

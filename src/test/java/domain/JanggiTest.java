@@ -22,10 +22,10 @@ class JanggiTest {
     void test1() {
         // given
         Unit target = Unit.of(Team.CHO, new ElephantUnitRule());
-        Position targetPosition = new Position(4, 5);
+        Position targetPosition = Position.of(4, 5);
         Map<Position, Unit> units = Map.of(
                 targetPosition, target,
-                new Position(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
+                Position.of(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
         );
         Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
 
@@ -41,10 +41,10 @@ class JanggiTest {
     void test2() {
         // given
         Unit target = Unit.of(Team.CHO, new HorseUnitRule());
-        Position targetPosition = new Position(4, 5);
+        Position targetPosition = Position.of(4, 5);
         Map<Position, Unit> units = Map.of(
                 targetPosition, target,
-                new Position(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
+                Position.of(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
         );
         Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
 
@@ -60,10 +60,10 @@ class JanggiTest {
     void test3() {
         // given
         Unit target = Unit.of(Team.CHO, new ChariotUnitRule());
-        Position targetPosition = new Position(4, 5);
+        Position targetPosition = Position.of(4, 5);
         Map<Position, Unit> units = Map.of(
                 targetPosition, target,
-                new Position(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
+                Position.of(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
         );
         Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
 
@@ -79,10 +79,10 @@ class JanggiTest {
     void test4() {
         // given
         Unit target = Unit.of(Team.CHO, new CannonUnitRule());
-        Position targetPosition = new Position(4, 5);
+        Position targetPosition = Position.of(4, 5);
         Map<Position, Unit> units = Map.of(
                 targetPosition, target,
-                new Position(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
+                Position.of(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
         );
         Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
 
@@ -98,10 +98,10 @@ class JanggiTest {
     void test5() {
         // given
         Unit target = Unit.of(Team.CHO, new SoldierUnitRule());
-        Position targetPosition = new Position(4, 5);
+        Position targetPosition = Position.of(4, 5);
         Map<Position, Unit> units = Map.of(
                 targetPosition, target,
-                new Position(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
+                Position.of(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
         );
         Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
 
