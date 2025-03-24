@@ -1,4 +1,4 @@
-package Controller;
+package controller;
 
 import game.Board;
 import game.Country;
