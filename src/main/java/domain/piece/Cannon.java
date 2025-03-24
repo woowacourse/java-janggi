@@ -14,9 +14,8 @@ public class Cannon extends Piece {
 
     @Override
     public void validateMovable(BoardLocation current, BoardLocation destination) {
-        int differenceX = current.distanceX(destination);
-        int differenceY = current.distanceY(destination);
-        if (differenceX == 0 || differenceY == 0){
+        BoardVector boardVector = BoardVector.between(current, destination);
+        if (boardVector.dx() == 0 || boardVector.dy() == 0){
             return;
         }
         throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");

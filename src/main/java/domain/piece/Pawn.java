@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.BoardLocation;
+import domain.BoardVector;
 import domain.Team;
 import java.util.List;
 
@@ -12,25 +13,21 @@ public class Pawn extends Piece {
 
     @Override
     public void validateMovable(BoardLocation current, BoardLocation destination) {
-        if (this.team == Team.HAN) {
-            int differenceX = current.distanceX(destination);
-            int differenceY = current.distanceY(destination);
-            boolean isOrthogonalMove = differenceX == 0 || differenceY == 0;
-            boolean isOneStepMove = differenceX == 1 || differenceY == 1;
-            boolean isMovingUp = destination.isUp(current);
-            if (isOrthogonalMove && isOneStepMove && !isMovingUp){
-                return;
-            }
+        BoardVector boardVector = BoardVector.between(current, destination);
+        boolean isOrthogonalMove = boardVector.dx() == 0 || boardVector.dy() == 0;
+        boolean isOneStepMove = boardVector.dx() == 1 || boardVector.dy() == 1;
+
+        if (!isOrthogonalMove || !isOneStepMove) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
         }
-        int differenceX = current.distanceX(destination);
-        int differenceY = current.distanceY(destination);
-        boolean isOrthogonalMove = differenceX == 0 || differenceY == 0;
-        boolean isOneStepMove = differenceX == 1 || differenceY == 1;
-        boolean isMovingDown = destination.isDown(current);
-        if (isOrthogonalMove && isOneStepMove && !isMovingDown){
-         return;
+
+        if ((this.team == Team.HAN) && !destination.isUp(current)) {
+            return;
         }
+        if ((this.team == Team.CHO) && !destination.isDown(current)) {
+            return;
+        }
+
         throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
     }
 

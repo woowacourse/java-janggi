@@ -41,14 +41,6 @@ public record BoardLocation(
         return new BoardLocation(this.x + x, this.y + y);
     }
 
-    public int distanceX(BoardLocation target) {
-        return Math.abs(x - target.x);
-    }
-
-    public int distanceY(BoardLocation target) {
-        return Math.abs(y - target.y);
-    }
-
     public BoardLocation moveY(int dy) {
         return new BoardLocation(x, y + dy);
     }

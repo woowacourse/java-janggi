@@ -14,11 +14,10 @@ public class Elephant extends Piece {
 
     @Override
     public void validateMovable(BoardLocation current, BoardLocation destination) {
-        int differenceX = current.distanceX(destination);
-        int differenceY = current.distanceY(destination);
-         if ((differenceX == 2 && differenceY == 3) || (differenceX == 3 && differenceY == 2)){
-          return;
-         }
+        BoardVector boardVector = BoardVector.between(current, destination);
+        if ((boardVector.dx() == 2 && boardVector.dy() == 3) || (boardVector.dx() == 3 && boardVector.dy() == 2)) {
+            return;
+        }
         throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
     }
 
@@ -28,9 +27,11 @@ public class Elephant extends Piece {
         List<BoardLocation> path = new ArrayList<>();
         for (Direction direction : Direction.values()) {
             for (Diagonal diagonal : Diagonal.values()) {
-                if (boardVector.equals(new BoardVector(direction.x() + diagonal.x() + diagonal.x(), direction.y() + diagonal.y() + diagonal.y()))) {
+                if (boardVector.equals(new BoardVector(direction.x() + diagonal.x() + diagonal.x(),
+                        direction.y() + diagonal.y() + diagonal.y()))) {
                     BoardLocation next = current.move(direction.x(), direction.y());
-                    BoardLocation nextDiagonal = current.move(direction.x() + diagonal.x(), direction.y() + diagonal.y());
+                    BoardLocation nextDiagonal = current.move(direction.x() + diagonal.x(),
+                            direction.y() + diagonal.y());
                     path.add(next);
                     path.add(nextDiagonal);
                 }
@@ -41,7 +42,7 @@ public class Elephant extends Piece {
 
     @Override
     public void validateArrival(List<Piece> pathPiece) {
-        if (pathPiece.isEmpty()){
+        if (pathPiece.isEmpty()) {
             return;
         }
         throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
@@ -49,7 +50,7 @@ public class Elephant extends Piece {
 
     @Override
     public void validateKillable(Piece destinationPiece) {
-        if (this.isEqualTeam(destinationPiece)){
+        if (this.isEqualTeam(destinationPiece)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 목적지로 이동할 수 없습니다.");
         }
     }
