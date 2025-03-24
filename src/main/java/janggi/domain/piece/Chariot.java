@@ -1,10 +1,5 @@
 package janggi.domain.piece;
 
-import static janggi.domain.piece.direction.BoardSize.MAX_X;
-import static janggi.domain.piece.direction.BoardSize.MAX_Y;
-import static janggi.domain.piece.direction.BoardSize.MIN_X;
-import static janggi.domain.piece.direction.BoardSize.MIN_Y;
-
 import janggi.domain.Team;
 import janggi.domain.piece.direction.Direction;
 import janggi.domain.piece.direction.Position;
@@ -32,35 +27,15 @@ public class Chariot extends Piece {
 
     private Set<Route> generateRoutesInDirection(final Direction direction) {
         final Set<Route> directionalRoutes = new HashSet<>();
-        final int maxSteps = calculateMaxSteps(direction);
 
-        for (int steps = 1; steps <= maxSteps; steps++) {
-            final List<Position> positions = new ArrayList<>(generatePositions(direction, steps, position));
-            directionalRoutes.add(new Route(positions));
+        Position currentPosition = position;
+        final List<Position> positions = new ArrayList<>();
+        while (currentPosition.canMove(direction)) {
+            final Position nextPosition = currentPosition.move(direction);
+            positions.add(nextPosition);
+            directionalRoutes.add(new Route(new ArrayList<>(positions)));
+            currentPosition = nextPosition;
         }
         return directionalRoutes;
-    }
-
-    private List<Position> generatePositions(final Direction direction, final int steps,
-                                             final Position position) {
-        final List<Position> rawPositions = new ArrayList<>();
-
-        for (int step = 1; step <= steps; step++) {
-            final int newX = position.x() + (direction.dx() * step);
-            final int newY = position.y() + (direction.dy() * step);
-            rawPositions.add(new Position(newX, newY));
-        }
-        return rawPositions;
-    }
-
-    private int calculateMaxSteps(final Direction direction) {
-        if (direction.dx() > 0) {
-            return MAX_X.getSize() - position.x();
-        } else if (direction.dx() < 0) {
-            return position.x() - MIN_X.getSize();
-        } else if (direction.dy() > 0) {
-            return MAX_Y.getSize() - position.y();
-        }
-        return position.y() - MIN_Y.getSize();
     }
 }

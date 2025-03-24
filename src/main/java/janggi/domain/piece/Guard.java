@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import static janggi.domain.piece.direction.BoardSize.isInBoard;
 import static janggi.domain.piece.direction.Direction.DOWN;
 import static janggi.domain.piece.direction.Direction.LEFT;
 import static janggi.domain.piece.direction.Direction.RIGHT;
@@ -38,17 +37,17 @@ public class Guard extends Piece {
     }
 
     private Optional<Route> calculateRoute(final List<Direction> move) {
-        int x = position.x();
-        int y = position.y();
         final List<Position> positions = new ArrayList<>();
 
+        Position currentPosition = position;
         for (final Direction direction : move) {
-            x += direction.dx();
-            y += direction.dy();
-            if (!isInBoard(x, y)) {
-                return Optional.empty();
+            if (currentPosition.canMove(direction)) {
+                final Position nextPosition = currentPosition.move(direction);
+                positions.add(nextPosition);
+                currentPosition = nextPosition;
+                continue;
             }
-            positions.add(new Position(x, y));
+            return Optional.empty();
         }
         return Optional.of(new Route(positions));
     }
