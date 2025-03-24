@@ -12,14 +12,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class HorseTest {
+class HanSoldierTest {
 
-    @DisplayName("말이 목적지까지 가는데 거치는 포인트를 알 수 있다")
+    @DisplayName("한나라 졸이 목적지까지 가는데 거치는 포인트를 알 수 있다")
     @ParameterizedTest
     @MethodSource("provideMovablePosition")
     void movePath(Point from, Point to, List<Point> expected) {
         //given
-        Horse horse = new Horse(Dynasty.CHU);
+        HanSoldier horse = new HanSoldier();
 
         //when
         List<Point> points = horse.movePath(from, to);
@@ -33,7 +33,7 @@ class HorseTest {
     @MethodSource("providePiecesOnPath")
     void canMove(PiecesOnPath piecesOnPath, boolean expected) {
         //given
-        Horse horse = new Horse(Dynasty.CHU);
+        HanSoldier horse = new HanSoldier();
 
         //when
         boolean actual = horse.canMove(piecesOnPath);
@@ -44,20 +44,18 @@ class HorseTest {
 
     private static Stream<Arguments> provideMovablePosition() {
         return Stream.of(
-                Arguments.of(Fixtures.SIX_FIVE, Fixtures.FOUR_FOUR, List.of(Fixtures.FIVE_FIVE, Fixtures.FOUR_FOUR)),
-                Arguments.of(Fixtures.SIX_FIVE, Fixtures.FOUR_SIX, List.of(Fixtures.FIVE_FIVE, Fixtures.FOUR_SIX)),
-                Arguments.of(Fixtures.SIX_FIVE, Fixtures.EIGHT_FOUR, List.of(Fixtures.SEVEN_FIVE, Fixtures.EIGHT_FOUR)),
-                Arguments.of(Fixtures.SIX_FIVE, Fixtures.EIGHT_SIX, List.of(Fixtures.SEVEN_FIVE, Fixtures.EIGHT_SIX))
+                Arguments.of(Fixtures.SIX_FIVE, Fixtures.SIX_FOUR, List.of(Fixtures.SIX_FOUR)),
+                Arguments.of(Fixtures.SIX_FIVE, Fixtures.SIX_SIX, List.of(Fixtures.SIX_SIX)),
+                Arguments.of(Fixtures.SIX_FIVE, Fixtures.SEVEN_FIVE, List.of(Fixtures.SEVEN_FIVE))
         );
     }
 
     private static Stream<Arguments> providePiecesOnPath() {
         return Stream.of(
                 Arguments.of(new PiecesOnPath(), true),
-                Arguments.of(new PiecesOnPath(new EmptyPiece(), new EmptyPiece()), true),
-                Arguments.of(new PiecesOnPath(new EmptyPiece(), new Horse(Dynasty.HAN)), true),
-                Arguments.of(new PiecesOnPath(new EmptyPiece(), new Horse(Dynasty.CHU)), false),
-                Arguments.of(new PiecesOnPath(new HanSoldier(), new EmptyPiece()), false)
+                Arguments.of(new PiecesOnPath(new EmptyPiece()), true),
+                Arguments.of(new PiecesOnPath(new Horse(Dynasty.CHU)), true),
+                Arguments.of(new PiecesOnPath(new Horse(Dynasty.HAN)), false)
         );
     }
 }
