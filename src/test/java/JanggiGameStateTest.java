@@ -74,10 +74,13 @@ class JanggiGameStateTest {
     void movePieceTest() {
         //given
         Janggun janggun = new Janggun(new Position(1, 7));
+
+        Ma ma = new Ma(new Position(1, 6));
+
         Pieces pieces1 = new Pieces(List.of(
                 new Ma(new Position(4, 5)),
                 new Janggun(new Position(5, 5)), new Jol(new Position(6, 5))
-                , new Byeong(new Position(4, 3))
+                , new Byeong(new Position(4, 3)), ma
         ));
 
         Pieces pieces2 = new Pieces(List.of(
@@ -97,6 +100,7 @@ class JanggiGameStateTest {
         //then
         assertThat(janggiGameState.getAttackNation().equals(HAN)).isTrue();
         assertThat(janggun.isSamePosition(new Position(1, 6))).isTrue();
+        assertThat(pieces2.getPieces().contains(ma)).isFalse();
     }
 
 }
