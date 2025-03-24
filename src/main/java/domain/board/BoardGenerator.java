@@ -59,7 +59,7 @@ public class BoardGenerator {
         board.put(Point.of(1, 4), new Sa(Team.HAN));
         board.put(Point.of(1, 6), new Sa(Team.HAN));
         board.put(Point.of(1, 9), new Cha(Team.HAN));
-        Deque<Piece> sangMaOrder = createSangMaOrder(sangMaOrderCommand, Team.HAN);
+        Deque<Piece> sangMaOrder = createSangMaByCommand(sangMaOrderCommand, Team.HAN);
         for (Point point : sangMaPoints) {
             board.put(point, sangMaOrder.removeFirst());
         }
@@ -83,14 +83,14 @@ public class BoardGenerator {
         board.put(Point.of(10, 4), new Sa(Team.CHO));
         board.put(Point.of(10, 6), new Sa(Team.CHO));
         board.put(Point.of(10, 9), new Cha(Team.CHO));
-        Deque<Piece> sangMaOrder = createSangMaOrder(sangMaOrderCommand, Team.CHO);
+        Deque<Piece> sangMaOrder = createSangMaByCommand(sangMaOrderCommand, Team.CHO);
         for (Point point : sangMaPoints) {
             board.put(point, sangMaOrder.removeFirst());
         }
     }
 
-    private Deque<Piece> createSangMaOrder(final SangMaOrderCommand sangMaOrderCommand,
-                                           final Team team) {
+    private Deque<Piece> createSangMaByCommand(final SangMaOrderCommand sangMaOrderCommand,
+                                               final Team team) {
         List<PieceType> pieceTypes = sangMaOrderCommand.getPieceTypes();
         Deque<Piece> pieces = new ArrayDeque<>();
         for (PieceType pieceType : pieceTypes) {
