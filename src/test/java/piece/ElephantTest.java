@@ -1,6 +1,7 @@
 package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static piece.Team.CHO;
 import static piece.Team.HAN;
 import static position.PositionFixtures.B2;
 import static position.PositionFixtures.B9;
@@ -59,7 +60,7 @@ public class ElephantTest {
     void possibleRoutesTest_2() {
         // given
         Piece elephant = new Elephant(HAN, D3);
-        Piece horse1 = new Horse(HAN, E5);
+        Piece horse1 = new Horse(CHO, E5);
         Piece horse2 = new Horse(HAN, B2);
         Board board = new Board(HAN, Set.of(elephant, horse1, horse2));
 

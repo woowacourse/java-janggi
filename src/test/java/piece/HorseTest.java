@@ -111,4 +111,27 @@ public class HorseTest {
         // then
         assertThat(horseRoutes.routes().size()).isEqualTo(8);
     }
+
+    /*
+    0 ＿ 궁 ＿ * ＿
+    1 * ＿ ＿ ＿ *
+    2 ＿ ＿ 마 ＿ ＿
+    3 * ＿ ＿ ＿ *
+    4 ＿ * ＿ * ＿
+      a b  c d  e
+    */
+    @Test
+    @DisplayName("마가 이동 가능한 경로를 모두 표시할 수 있다.")
+    void possibleRoutesTest_5() {
+        // given
+        Piece horse = new Horse(HAN, C2);
+        Piece palace = new Palace(HAN, B0);
+        Board board = new Board(HAN, Set.of(palace, horse));
+
+        // when
+        Routes horseRoutes = horse.possibleRoutes(board);
+
+        // then
+        assertThat(horseRoutes.routes().size()).isEqualTo(7);
+    }
 }
