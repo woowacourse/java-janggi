@@ -45,8 +45,8 @@ public record Position(int x, int y) {
             return Collections.emptyList();
         }
         final List<Position> betweenPositions = new ArrayList<>();
-        final int minX = max(x, destPosition.x);
-        final int minY = max(y, destPosition.y);
+        final int minX = min(x, destPosition.x);
+        final int minY = min(y, destPosition.y);
         final int maxX = max(x, destPosition.x);
         final int maxY = max(y, destPosition.y);
 
@@ -124,5 +124,9 @@ public record Position(int x, int y) {
 
     public int max(int v1, int v2) {
         return Math.max(v1, v2);
+    }
+
+    public int min(int v1, int v2) {
+        return Math.min(v1, v2);
     }
 }
