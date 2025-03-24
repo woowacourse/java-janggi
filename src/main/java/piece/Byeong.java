@@ -3,6 +3,7 @@ package piece;
 import static pieceProperty.PieceType.BYEONG;
 
 import java.util.List;
+import pieceProperty.Movement;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
@@ -15,15 +16,12 @@ public class Byeong extends Piece {
     }
 
     @Override
-    public boolean canMoveTo(final Position position) {
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
+    public void canMoveTo(final Position destination) {
 
-        if (dx == 0 && Math.abs(dy) == 1 || dx == -1 && dy == 0) {
-            return true;
+        if (!Movement.downMovement(position).equals(destination) &&
+        !Movement.leftMovement(position).equals(destination) && !Movement.rightMovement(position).equals(destination)) {
+            throw new IllegalArgumentException(ErrorMessage.formatMessage("병이 움직일 수 없는 위치 입니다."));
         }
-
-        throw new IllegalArgumentException(ErrorMessage.formatMessage("병이 움직일 수 없는 위치 입니다."));
     }
 
     @Override

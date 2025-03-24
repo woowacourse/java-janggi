@@ -15,13 +15,11 @@ public class Cha extends Piece {
     }
 
     @Override
-    public boolean canMoveTo(Position position) {
-        if ((super.getBoardPosition().getRow() == position.getRow())
-                || (super.getBoardPosition().getCol() == position.getCol())) {
-            return true;
-        }
+    public void canMoveTo(Position destination) {
+        if (!position.isSameRow(destination) && !position.isSameCol(destination)) {
+            throw new IllegalArgumentException(ErrorMessage.formatMessage("차가 움직일 수 없는 위치 입니다."));
 
-        throw new IllegalArgumentException(ErrorMessage.formatMessage("차가 움직일 수 없는 위치 입니다."));
+        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package piece;
 import static pieceProperty.PieceType.SA;
 
 import java.util.List;
+import pieceProperty.Movement;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
@@ -15,15 +16,11 @@ public class Sa extends Piece {
     }
 
     @Override
-    public boolean canMoveTo(final Position position) {
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
-
-        if ((Math.abs(dx) == 1 && dy == 0) || (Math.abs(dy) == 1 && dx == 0)) {
-            return true;
+    public void canMoveTo(final Position destination) {
+        if (!Movement.downMovement(position).equals(destination) && !Movement.upMovement(position).equals(destination)
+        && !Movement.leftMovement(position).equals(destination) && !Movement.rightMovement(position).equals(destination)) {
+            throw new IllegalArgumentException(ErrorMessage.formatMessage("사가 움직일 수 없는 위치 입니다."));
         }
-
-        throw new IllegalArgumentException(ErrorMessage.formatMessage("사가 움직일 수 없는 위치 입니다."));
     }
 
     @Override

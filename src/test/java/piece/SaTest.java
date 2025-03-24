@@ -42,20 +42,6 @@ class SaTest {
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("사는 상하좌우 한칸을 움직일 수 있다면 true를 반환한다.")
-    @ParameterizedTest
-    @MethodSource("saCanMoveToPositionProvider")
-    void canMoveTo(Position position) {
-        //given
-        Sa sa = new Sa(new Position(5, 5));
-
-        //when
-        boolean actual = sa.canMoveTo(position);
-
-        //then
-        assertThat(actual).isTrue();
-    }
-
     @DisplayName("사는 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
     @Test
     void makeRoute() {
@@ -80,15 +66,6 @@ class SaTest {
                 Arguments.of(new Position(4, 6)),
                 Arguments.of(new Position(6, 4)),
                 Arguments.of(new Position(4, 4))
-        );
-    }
-
-    private static Stream<Arguments> saCanMoveToPositionProvider() {
-        return Stream.of(
-                Arguments.of(new Position(6, 5)),
-                Arguments.of(new Position(5, 6)),
-                Arguments.of(new Position(5, 4)),
-                Arguments.of(new Position(4, 5))
         );
     }
 

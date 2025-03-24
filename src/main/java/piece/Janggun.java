@@ -3,6 +3,7 @@ package piece;
 import static pieceProperty.PieceType.JANGGUN;
 
 import java.util.List;
+import pieceProperty.Movement;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
@@ -15,15 +16,12 @@ public class Janggun extends Piece {
     }
 
     @Override
-    public boolean canMoveTo(final Position position) {
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
+    public void canMoveTo(final Position destination) {
+        if (!Movement.upMovement(position).equals(destination) && !Movement.rightMovement(position).equals(destination)
+        && !Movement.leftMovement(position).equals(destination) && !Movement.downMovement(position).equals(destination)) {
+            throw new IllegalArgumentException(ErrorMessage.formatMessage("왕이 움직일 수 없는 위치 입니다."));
 
-        if (Math.abs(dx) == 1 && dy == 0 || Math.abs(dy) == 1 && dx == 0) {
-            return true;
         }
-
-        throw new IllegalArgumentException(ErrorMessage.formatMessage("왕이 움직일 수 없는 위치 입니다."));
     }
 
     @Override

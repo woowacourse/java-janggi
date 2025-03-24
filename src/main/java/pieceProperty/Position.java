@@ -18,6 +18,14 @@ public class Position {
         return new Position(row + dRow, col + dCol);
     }
 
+    public Boolean isSameRow(Position destination) {
+        return row == destination.getRow();
+    }
+
+    public Boolean isSameCol(Position destination) {
+        return col == destination.getCol();
+    }
+
     public int getRow() {
         return row;
     }

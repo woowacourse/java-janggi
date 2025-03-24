@@ -42,21 +42,6 @@ class SangTest {
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("상은 자신의 위치를 기준으로 직선으로 한칸 대각선으로 두칸 이동할 수 있다.")
-    @ParameterizedTest
-    @MethodSource("sangCanMoveToPositionProvider")
-    void canMoveTo(Position position) {
-        //given
-        Sang sang = new Sang(new Position(5, 5));
-
-        //when
-        boolean actual = sang.canMoveTo(position);
-
-        //then
-        assertThat(actual).isTrue();
-    }
-
-
     @DisplayName("상은 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
     @Test
     void makeRoute() {
@@ -71,19 +56,6 @@ class SangTest {
         assertThat(actual.getPositions()).containsExactly(
                 new Position(5, 4),
                 new Position(4, 3)
-        );
-    }
-
-    private static Stream<Arguments> sangCanMoveToPositionProvider() {
-        return Stream.of(
-                Arguments.of(new Position(2, 3)),
-                Arguments.of(new Position(2, 7)),
-                Arguments.of(new Position(7, 8)),
-                Arguments.of(new Position(3, 8)),
-                Arguments.of(new Position(8, 3)),
-                Arguments.of(new Position(8, 7)),
-                Arguments.of(new Position(3, 2)),
-                Arguments.of(new Position(7, 2))
         );
     }
 

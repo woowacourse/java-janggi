@@ -3,6 +3,7 @@ package piece;
 import static pieceProperty.PieceType.SANG;
 
 import java.util.List;
+import pieceProperty.Movement;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
@@ -15,27 +16,14 @@ public class Sang extends Piece {
     }
 
     @Override
-    public boolean canMoveTo(final Position position) {
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
-
-        if (dx == 3 && Math.abs(dy) == 2) {
-            return true;
+    public void canMoveTo(final Position destination) {
+        if (!Movement.upRightUpRightUpMovement(position).equals(destination)
+        && !Movement.upLeftUpLeftUpMovement(position).equals(destination) && !Movement.rightRightUpRightUpMovement(position).equals(destination)
+        && !Movement.rightRightDownRightDownMovement(position).equals(destination) && !Movement.downRightDownRightDownMovement(position).equals(destination)
+        && !Movement.downLeftDownLeftDownMovement(position).equals(destination) && !Movement.leftLeftUpLeftUpMovement(position).equals(destination)
+        && !Movement.leftLeftDownLeftDownMovement(position).isSameRow(destination)) {
+            throw new IllegalArgumentException(ErrorMessage.formatMessage("상이 움직일 수 없는 위치입니다."));
         }
-
-        if (dy == 3 && Math.abs(dx) == 2) {
-            return true;
-        }
-
-        if (dx == -3 && Math.abs(dy) == 2) {
-            return true;
-        }
-
-        if (dy == -3 && Math.abs(dx) == 2) {
-            return true;
-        }
-
-        throw new IllegalArgumentException(ErrorMessage.formatMessage("상이 움직일 수 없는 위치입니다."));
     }
 
     @Override

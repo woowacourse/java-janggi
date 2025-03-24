@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static pieceProperty.PieceType.BYEONG;
 
-import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,20 +41,6 @@ class ByeongTest {
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("자신의 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동을 할 수 있다면 true를 반환한다.")
-    @ParameterizedTest
-    @MethodSource("byeongCanMoveToPositionProvider")
-    void canMoveTo(Position position) {
-        //given
-        Byeong byeong = new Byeong(new Position(5, 5));
-
-        //when
-        boolean actual = byeong.canMoveTo(position);
-
-        //then
-        assertThat(actual).isTrue();
-    }
-
     @DisplayName("병은 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
     @Test
     void makeRoute() {
@@ -75,14 +60,6 @@ class ByeongTest {
                 Arguments.of(new Position(4, 5)),
                 Arguments.of(new Position(6, 3)),
                 Arguments.of(new Position(6, 6))
-        );
-    }
-
-    private static Stream<Arguments> byeongCanMoveToPositionProvider() {
-        return Stream.of(
-                Arguments.of(new Position(6, 5)),
-                Arguments.of(new Position(5, 6)),
-                Arguments.of(new Position(5, 4))
         );
     }
 

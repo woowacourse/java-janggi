@@ -4,6 +4,7 @@ import static pieceProperty.PieceType.MA;
 
 import java.util.ArrayList;
 import java.util.List;
+import pieceProperty.Movement;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
@@ -16,27 +17,15 @@ public class Ma extends Piece {
     }
 
     @Override
-    public boolean canMoveTo(final Position position) {
-        int dx = getBoardPosition().getRow() - position.getRow();
-        int dy = getBoardPosition().getCol() - position.getCol();
-
-        if (dx == 2 && Math.abs(dy) == 1) {
-            return true;
+    public void canMoveTo(final Position destination) {
+        if (!Movement.upRightUPMovement(position).equals(destination) &&
+                !Movement.upLeftUpMovement(position).equals(destination) &&
+                !Movement.downRightDownMovement(position).equals(destination) &&
+                !Movement.downLeftDownMovement(position).equals(destination) &&
+        !Movement.rightRightUpMovement(position).equals(destination) && !Movement.rightRightDownMovement(position).equals(destination)
+        && !Movement.leftLeftUpMovement(position).equals(destination) && !Movement.leftLeftDownMovement(position).equals(destination)) {
+            throw new IllegalArgumentException(ErrorMessage.formatMessage("마가 움직일 수 없는 위치입니다."));
         }
-
-        if (dy == 2 && Math.abs(dx) == 1) {
-            return true;
-        }
-
-        if (dx == -2 && Math.abs(dy) == 1) {
-            return true;
-        }
-
-        if (dy == -2 && Math.abs(dx) == 1) {
-            return true;
-        }
-
-        throw new IllegalArgumentException(ErrorMessage.formatMessage("마가 움직일 수 없는 위치입니다."));
     }
 
     @Override

@@ -42,7 +42,8 @@ public class Pieces {
     public void canPieceMoveTo(Position presentPosition, Position destination) {
         pieces.stream()
                 .filter(piece -> piece.isSamePosition(presentPosition))
-                .anyMatch(piece -> piece.canMoveTo(destination));
+                .findFirst()
+                .ifPresent(piece -> piece.canMoveTo(destination));
     }
 
     public Positions makeRoute(Position presentPosition, Position destination) {

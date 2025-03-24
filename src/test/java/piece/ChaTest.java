@@ -40,20 +40,6 @@ class ChaTest {
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("차는 움직임을 자신의 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 true를 반환한다.")
-    @ParameterizedTest
-    @MethodSource("chaCanMoveToPositionProvider")
-    void canMoveTo(Position position) {
-        //given
-        Cha cha = new Cha(new Position(0, 0));
-
-        //when
-        boolean actual = cha.canMoveTo(position);
-
-        //then
-        assertThat(actual).isTrue();
-    }
-
     @DisplayName("차는 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
     @Test
     void makeRoute() {
@@ -71,12 +57,6 @@ class ChaTest {
                 new Position(2, 5),
                 new Position(1, 5)
         );
-    }
-
-    private static Stream<Arguments> chaCanMoveToPositionProvider() {
-        return Stream.of(
-                Arguments.of(new Position(0, 1)),
-                Arguments.of(new Position(1, 0)));
     }
 
     @Test

@@ -51,12 +51,11 @@ public class Po extends Piece {
     }
 
     @Override
-    public boolean canMoveTo(final Position position) {
-        if (super.getBoardPosition().getRow() == position.getRow()
-                || super.getBoardPosition().getCol() == position.getCol()) {
-            return true;
+    public void canMoveTo(final Position destination) {
+        if (!position.isSameCol(destination) && !position.isSameRow(destination)) {
+            throw new IllegalArgumentException(ErrorMessage.formatMessage("포가 움직일 수 없는 위치입니다."));
+
         }
-        throw new IllegalArgumentException(ErrorMessage.formatMessage("포가 움직일 수 없는 위치입니다."));
     }
 
     @Override

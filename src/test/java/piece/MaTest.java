@@ -41,21 +41,6 @@ class MaTest {
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("자신의 위치를 기준으로 직선으로 한칸 + 대각선으로 한칸 이동할 수 있다면 true를 반환한다.")
-    @ParameterizedTest
-    @MethodSource("maCanMoveToPositionProvider")
-    void canMoveTo(Position position) {
-        //given
-        Ma ma = new Ma(new Position(5, 5));
-
-        //when
-        boolean actual = ma.canMoveTo(position);
-
-        //then
-        assertThat(actual).isTrue();
-
-    }
-
     @DisplayName("마은 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
     @Test
     void makeRoute() {
@@ -76,13 +61,6 @@ class MaTest {
                 Arguments.of(new Position(3, 7)), Arguments.of(new Position(7, 7)),
                 Arguments.of(new Position(7, 5)), Arguments.of(new Position(7, 3)),
                 Arguments.of(new Position(5, 3)));
-    }
-
-    private static Stream<Arguments> maCanMoveToPositionProvider() {
-        return Stream.of(Arguments.of(new Position(3, 4)), Arguments.of(new Position(3, 6)),
-                Arguments.of(new Position(4, 7)), Arguments.of(new Position(6, 7)),
-                Arguments.of(new Position(7, 6)), Arguments.of(new Position(7, 4)),
-                Arguments.of(new Position(6, 3)), Arguments.of(new Position(4, 3)));
     }
 
     @Test
