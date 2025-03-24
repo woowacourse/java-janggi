@@ -12,6 +12,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.domain.position.Position;
 import janggi.domain.position.Route;
+import janggi.domain.position.Routes;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +20,7 @@ import org.junit.jupiter.api.Test;
 
 class PiecesTest {
 
-    @DisplayName("차와 포가 아닌 기물의 가능한 경로를 계산한다.")
+    @DisplayName("마 기물의 이동 가능한 목적지를 계산한다.")
     @Test
     void getPossibleRoutesTest() {
 
@@ -33,9 +34,17 @@ class PiecesTest {
 
         // when
         Set<Route> possibleRoutes = pieces.getPossibleRoutes(horse);
+        Routes routes = new Routes(possibleRoutes);
 
+        Set<Position> answers = Set.of(
+                new Position(2, 3),
+                new Position(2, 5),
+                new Position(3, 2),
+                new Position(5, 2),
+                new Position(5, 6)
+        );
         // then
-        assertThat(possibleRoutes.size()).isEqualTo(5);
+        assertThat(routes.getDestinations()).isEqualTo(answers);
     }
 
     @DisplayName("차 기물의 가능한 경로를 계산한다.")

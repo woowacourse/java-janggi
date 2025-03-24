@@ -4,7 +4,6 @@ import janggi.domain.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
-import janggi.domain.position.Route;
 import java.util.List;
 import java.util.Set;
 
@@ -57,11 +56,10 @@ public class OutputView {
         System.out.println("해당 기물은 움직일 수 없습니다.");
     }
 
-    public void printPossibleRoutes(Set<Route> possibleRoutes) {
+    public void printPossibleRoutes(Set<Position> possibleDestinations) {
         System.out.println("이 기물은 ");
-        for (Route possibleRoute : possibleRoutes) {
-            Position destination = possibleRoute.getDestination();
-            System.out.printf("%d %d%n", destination.x(), destination.y());
+        for (Position possibleDestination : possibleDestinations) {
+            System.out.printf("%d %d%n", possibleDestination.x(), possibleDestination.y());
         }
         System.out.println("로 이동할 수 있습니다.");
     }
