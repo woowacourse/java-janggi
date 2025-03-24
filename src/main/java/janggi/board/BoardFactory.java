@@ -1,38 +1,38 @@
 package janggi.board;
 
-import janggi.piece.Byeong;
-import janggi.piece.Cannon;
-import janggi.piece.Chariot;
-import janggi.piece.Guard;
-import janggi.piece.Jol;
-import janggi.piece.King;
-import janggi.piece.Piece;
 import janggi.Team.Team;
+import janggi.piece.Byeong;
+import janggi.piece.Cha;
+import janggi.piece.Gung;
+import janggi.piece.Jol;
+import janggi.piece.Piece;
+import janggi.piece.Po;
+import janggi.piece.Sa;
 import janggi.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 
 public class BoardFactory {
 
-    public Board makeBoard(ElephantSetting choElephantSetting, ElephantSetting hanElephantSetting) {
+    public Board makeBoard(SangSetting choSangSetting, SangSetting hanSangSetting) {
         Map<Position, Piece> pieces = new HashMap<>();
-        makeHanPieces(pieces, hanElephantSetting);
-        makeChoPieces(pieces, choElephantSetting);
+        makeHanPieces(pieces, hanSangSetting);
+        makeChoPieces(pieces, choSangSetting);
         return new Board(pieces);
     }
 
-    private static void makeChoPieces(Map<Position, Piece> pieces, ElephantSetting elephantSetting) {
+    private static void makeChoPieces(Map<Position, Piece> pieces, SangSetting sangSetting) {
         final Team targetTeam = Team.CHO;
-        pieces.putAll(getElephantSetting(targetTeam, elephantSetting));
+        pieces.putAll(getSangSetting(targetTeam, sangSetting));
 
-        pieces.put(new Position(10, 1), new Chariot(targetTeam));
-        pieces.put(new Position(10, 4), new Guard(targetTeam));
-        pieces.put(new Position(10, 6), new Guard(targetTeam));
-        pieces.put(new Position(10, 9), new Chariot(targetTeam));
+        pieces.put(new Position(10, 1), new Cha(targetTeam));
+        pieces.put(new Position(10, 4), new Sa(targetTeam));
+        pieces.put(new Position(10, 6), new Sa(targetTeam));
+        pieces.put(new Position(10, 9), new Cha(targetTeam));
 
-        pieces.put(new Position(9, 5), new King(targetTeam));
-        pieces.put(new Position(8, 2), new Cannon(targetTeam));
-        pieces.put(new Position(8, 8), new Cannon(targetTeam));
+        pieces.put(new Position(9, 5), new Gung(targetTeam));
+        pieces.put(new Position(8, 2), new Po(targetTeam));
+        pieces.put(new Position(8, 8), new Po(targetTeam));
 
         pieces.put(new Position(7, 1), new Jol());
         pieces.put(new Position(7, 3), new Jol());
@@ -41,18 +41,18 @@ public class BoardFactory {
         pieces.put(new Position(7, 9), new Jol());
     }
 
-    private static void makeHanPieces(Map<Position, Piece> pieces, ElephantSetting elephantSetting) {
+    private static void makeHanPieces(Map<Position, Piece> pieces, SangSetting sangSetting) {
         final Team targetTeam = Team.HAN;
-        pieces.putAll(getElephantSetting(targetTeam, elephantSetting));
+        pieces.putAll(getSangSetting(targetTeam, sangSetting));
 
-        pieces.put(new Position(1, 1), new Chariot(targetTeam));
-        pieces.put(new Position(1, 4), new Guard(targetTeam));
-        pieces.put(new Position(1, 6), new Guard(targetTeam));
-        pieces.put(new Position(1, 9), new Chariot(targetTeam));
+        pieces.put(new Position(1, 1), new Cha(targetTeam));
+        pieces.put(new Position(1, 4), new Sa(targetTeam));
+        pieces.put(new Position(1, 6), new Sa(targetTeam));
+        pieces.put(new Position(1, 9), new Cha(targetTeam));
 
-        pieces.put(new Position(2, 5), new King(targetTeam));
-        pieces.put(new Position(3, 2), new Cannon(targetTeam));
-        pieces.put(new Position(3, 8), new Cannon(targetTeam));
+        pieces.put(new Position(2, 5), new Gung(targetTeam));
+        pieces.put(new Position(3, 2), new Po(targetTeam));
+        pieces.put(new Position(3, 8), new Po(targetTeam));
 
         pieces.put(new Position(4, 1), new Byeong());
         pieces.put(new Position(4, 3), new Byeong());
@@ -61,10 +61,10 @@ public class BoardFactory {
         pieces.put(new Position(4, 9), new Byeong());
     }
 
-    private static Map<Position, Piece> getElephantSetting(Team team, ElephantSetting elephantSetting) {
+    private static Map<Position, Piece> getSangSetting(Team team, SangSetting sangSetting) {
         if (team == Team.HAN) {
-            return elephantSetting.getElephantSetting(team, 1);
+            return sangSetting.getElephantSetting(team, 1);
         }
-        return elephantSetting.getElephantSetting(team, 10);
+        return sangSetting.getElephantSetting(team, 10);
     }
 }

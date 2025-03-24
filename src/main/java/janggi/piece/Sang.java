@@ -7,15 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class Horse extends Piece {
+public class Sang extends Piece {
 
     private static final Set<List<Integer>> AVAILABLE_DIFFERENCE = Set.of(
-            List.of(2, 1), List.of(2, -1), List.of(-2, 1), List.of(-2, -1),
-            List.of(1, 2), List.of(1, -2), List.of(-1, 2), List.of(-1, -2)
-    );
+            List.of(3, 2), List.of(3, -2), List.of(-3, 2), List.of(-3, -2),
+            List.of(2, 3), List.of(2, -3), List.of(-2, 3), List.of(-2, -3));
 
-    public Horse(Team team) {
-        super(PieceType.HORSE, team);
+    public Sang(Team team) {
+        super(PieceType.SANG, team);
     }
 
     @Override
@@ -29,42 +28,54 @@ public class Horse extends Piece {
         int currentY = currentPosition.getY();
         int currentX = currentPosition.getX();
 
-        currentY = calculatePathY(arrivalPosition, positions, differenceForY, currentY, currentX);
-        calculatePathX(arrivalPosition, positions, differenceForX, currentY, currentX);
+        currentY = moveY(arrivalPosition, differenceForY, differenceForX, currentY, positions, currentX);
+        moveX(arrivalPosition, differenceForY, differenceForX, currentY, positions, currentX);
         return new Path(positions);
     }
 
-    private int calculatePathY(Position arrivalPosition, List<Position> positions, int differenceForY,
-                               int currentY, int currentX) {
+    private int moveY(final Position arrivalPosition, final int differenceForY, final int differenceForX,
+                      int currentY, final List<Position> positions, int currentX) {
         if (isNotStartDirection(differenceForY)) {
             return currentY;
         }
         int differenceUnitY = calculateUnit(differenceForY);
         currentY += differenceUnitY;
         positions.add(Position.valueOf(currentY, currentX));
+
+        int differenceUnitX = calculateUnit(differenceForX);
+        currentY += differenceUnitY;
+        currentX += differenceUnitX;
+        positions.add(Position.valueOf(currentY, currentX));
+
         positions.add(arrivalPosition);
         return currentY;
     }
 
-    private int calculatePathX(Position arrivalPosition, List<Position> positions, int differenceForX,
-                               int currentY, int currentX) {
+    private int moveX(final Position arrivalPosition, final int differenceForY, final int differenceForX,
+                      int currentY, final List<Position> positions, int currentX) {
         if (isNotStartDirection(differenceForX)) {
             return currentX;
         }
         int differenceUnitX = calculateUnit(differenceForX);
         currentX += differenceUnitX;
         positions.add(Position.valueOf(currentY, currentX));
+
+        int differenceUnitY = calculateUnit(differenceForY);
+        currentY += differenceUnitY;
+        currentX += differenceUnitX;
+        positions.add(Position.valueOf(currentY, currentX));
+
         positions.add(arrivalPosition);
         return currentX;
     }
 
-    private void validateMove(int differenceForY, int differenceForX) {
+    private void validateMove(final int differenceForY, final int differenceForX) {
         if (canNotMove(differenceForY, differenceForX)) {
-            throw new IllegalArgumentException("[ERROR] 말은 직선 1칸 이동 후 대각선 1칸으로만 이동할 수 있습니다.");
+            throw new IllegalArgumentException("[ERROR] 상은 직선 1칸 이동 후 대각선 2칸으로만 이동할 수 있습니다.");
         }
     }
 
-    private int calculateUnit(int difference) {
+    private int calculateUnit(final int difference) {
         if (difference == 0) {
             return difference;
         }
@@ -76,6 +87,6 @@ public class Horse extends Piece {
     }
 
     private boolean isNotStartDirection(final int difference) {
-        return Math.abs(difference) != 2;
+        return Math.abs(difference) != 3;
     }
 }

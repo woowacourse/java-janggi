@@ -14,31 +14,31 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class CannonTest {
+class ChaTest {
 
-    private Cannon cannon;
+    private Cha cha;
 
     @BeforeEach
     void setUp() {
-        cannon = new Cannon(Team.CHO);
+        cha = new Cha(Team.CHO);
     }
 
     @ParameterizedTest
     @MethodSource
-    void 포는_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX,
+    void 차는_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX,
                  final List<Position> expected) {
         // Given
         Position currentPosition = new Position(currentY, currentX);
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = cannon.makePath(currentPosition, arrivalPosition);
+        Path path = cha.makePath(currentPosition, arrivalPosition);
 
         // Then
         assertThat(path).isEqualTo(new Path(expected));
     }
 
-    private static Stream<Arguments> 포는_움직인다() {
+    private static Stream<Arguments> 차는_움직인다() {
         return Stream.of(
                 Arguments.of(1, 1, 10, 1, List.of(
                         new Position(2, 1), new Position(3, 1), new Position(4, 1),
@@ -59,7 +59,7 @@ class CannonTest {
     }
 
     @Test
-    void 포는_한_번에_여러_방향으로_움직일_수_없다() {
+    void 차는_한_번에_여러_방향으로_움직일_수_없다() {
         // Given
         final int currentY = 3;
         final int currentX = 3;
@@ -70,8 +70,8 @@ class CannonTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
-        assertThatThrownBy(() -> cannon.makePath(currentPosition, arrivalPosition))
+        assertThatThrownBy(() -> cha.makePath(currentPosition, arrivalPosition))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 포는 한 방향으로만 이동할 수 있습니다.");
+                .hasMessageContaining("[ERROR] 차는 한 방향으로만 이동할 수 있습니다.");
     }
 }

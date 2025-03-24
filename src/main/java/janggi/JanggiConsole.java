@@ -4,7 +4,7 @@ import janggi.Team.Team;
 import janggi.Team.Turn;
 import janggi.board.Board;
 import janggi.board.BoardFactory;
-import janggi.board.ElephantSetting;
+import janggi.board.SangSetting;
 import janggi.utils.ExceptionHandler;
 import janggi.view.InputView;
 import janggi.view.ResultView;
@@ -24,11 +24,11 @@ public class JanggiConsole {
         final Turn turn = new Turn();
 
         resultView.printSetting();
-        ElephantSetting choElephantSetting = ExceptionHandler.repeat(() -> ElephantSetting.selectSetting((
+        SangSetting choSangSetting = ExceptionHandler.repeat(() -> SangSetting.selectSetting((
                 inputView.readElephantSetting(turn.getAndTurnOver()))));
-        ElephantSetting hanElephantSetting = ExceptionHandler.repeat(() -> ElephantSetting.selectSetting((
+        SangSetting hanSangSetting = ExceptionHandler.repeat(() -> SangSetting.selectSetting((
                 inputView.readElephantSetting(turn.getAndTurnOver()))));
-        final Board board = boardFactory.makeBoard(choElephantSetting, hanElephantSetting);
+        final Board board = boardFactory.makeBoard(choSangSetting, hanSangSetting);
 
         resultView.printBoard(board.getPieces());
 

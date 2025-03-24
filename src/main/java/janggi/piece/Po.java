@@ -6,10 +6,10 @@ import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cannon extends Piece {
+public class Po extends Piece {
 
-    public Cannon(Team team) {
-        super(PieceType.CANNON, team);
+    public Po(Team team) {
+        super(PieceType.PO, team);
     }
 
     @Override

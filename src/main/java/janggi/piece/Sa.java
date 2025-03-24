@@ -6,10 +6,10 @@ import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chariot extends Piece {
+public class Sa extends Piece {
 
-    public Chariot(Team team) {
-        super(PieceType.CHARIOT, team);
+    public Sa(Team team) {
+        super(PieceType.SA, team);
     }
 
     @Override
@@ -48,8 +48,8 @@ public class Chariot extends Piece {
     }
 
     private void validateMove(int differenceForY, int differenceForX) {
-        if (canNotMove(differenceForY, differenceForX)) {
-            throw new IllegalArgumentException("[ERROR] 차는 한 방향으로만 이동할 수 있습니다.");
+        if (Math.abs(differenceForY) + Math.abs(differenceForX) != 1) {
+            throw new IllegalArgumentException("[ERROR] 사는 한 방향으로 한 칸만 이동할 수 있습니다.");
         }
     }
 
@@ -58,10 +58,5 @@ public class Chariot extends Piece {
             return difference;
         }
         return difference / Math.abs(difference);
-    }
-
-    private boolean canNotMove(int differenceForY, int differenceForX) {
-        return !((Math.abs(differenceForY) > 0 && Math.abs(differenceForX) == 0) ||
-                (Math.abs(differenceForY) == 0 && Math.abs(differenceForX) > 0));
     }
 }

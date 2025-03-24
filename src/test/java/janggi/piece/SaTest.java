@@ -12,14 +12,14 @@ import org.junit.jupiter.params.provider.CsvSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class GuardTest {
+class SaTest {
 
 
-    private Guard guard;
+    private Sa sa;
 
     @BeforeEach
     void setUp() {
-        guard = new Guard(Team.CHO);
+        sa = new Sa(Team.CHO);
     }
 
     @ParameterizedTest
@@ -35,7 +35,7 @@ class GuardTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = guard.makePath(currentPosition, arrivalPosition);
+        Path path = sa.makePath(currentPosition, arrivalPosition);
 
         // Then
         assertThat(path).isEqualTo(new Path(List.of(arrivalPosition)));
@@ -53,7 +53,7 @@ class GuardTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
-        assertThatThrownBy(() -> guard.makePath(currentPosition, arrivalPosition))
+        assertThatThrownBy(() -> sa.makePath(currentPosition, arrivalPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 사는 한 방향으로 한 칸만 이동할 수 있습니다.");
     }

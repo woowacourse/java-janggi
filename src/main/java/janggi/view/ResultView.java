@@ -1,7 +1,7 @@
 package janggi.view;
 
-import janggi.piece.Piece;
 import janggi.Team.Team;
+import janggi.piece.Piece;
 import janggi.position.Position;
 import java.util.Map;
 
@@ -11,6 +11,9 @@ public class ResultView {
     private static final String BLANK = "ㅤ";
     private static final String HEADER = "   1    2    3    4    5    6    7    8   9%n";
     private static final String BOARD_LINE = "   |    |    |    |    |    |    |    |   |%n";
+    private static final String BLUE_CODE = "\u001B[34m";
+    private static final String RED_CODE = "\u001B[31m";
+    private static final String EXIT_CODE = "\u001B[0m";
 
     public void printSetting() {
         System.out.println("""
@@ -37,7 +40,8 @@ public class ResultView {
                     continue;
                 }
                 Piece piece = pieces.get(currentPosition);
-                sb.append(piece.getPieceType().getValue(piece.getTeam()));
+                Team team = piece.getTeam();
+                sb.append(convertColor(team, piece.getPieceType().getTitle(team)));
             }
             System.out.println(sb);
             if (y != 10) {
@@ -46,13 +50,20 @@ public class ResultView {
         }
     }
 
+    private String convertColor(Team team, String input) {
+        if (team == Team.HAN) {
+            return RED_CODE + input + EXIT_CODE;
+        }
+        return BLUE_CODE + input + EXIT_CODE;
+    }
+
     public void printOrder(final Team team) {
         System.out.printf(LINE + "%s나라의 순서입니다." + LINE, team.getTitle());
     }
 
     public void printJanggiResult(final Team team) {
         System.out.printf(LINE + """
-                왕이 잡혔습니다.
+                궁이 잡혔습니다.
                 %s나라의 승리입니다!""", team.getTitle());
     }
 }

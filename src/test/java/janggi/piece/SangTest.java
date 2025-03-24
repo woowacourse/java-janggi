@@ -14,13 +14,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class ElephantTest {
+class SangTest {
 
-    private Elephant elephant;
+    private Sang sang;
 
     @BeforeEach
     void setUp() {
-        elephant = new Elephant(Team.CHO);
+        sang = new Sang(Team.CHO);
     }
 
     @ParameterizedTest
@@ -32,7 +32,7 @@ class ElephantTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = elephant.makePath(currentPosition, arrivalPosition);
+        Path path = sang.makePath(currentPosition, arrivalPosition);
 
         // Then
         assertThat(path).isEqualTo(new Path(expected));
@@ -79,7 +79,7 @@ class ElephantTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
-        assertThatThrownBy(() -> elephant.makePath(currentPosition, arrivalPosition))
+        assertThatThrownBy(() -> sang.makePath(currentPosition, arrivalPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 상은 직선 1칸 이동 후 대각선 2칸으로만 이동할 수 있습니다.");
     }

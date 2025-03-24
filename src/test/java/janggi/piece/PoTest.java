@@ -14,31 +14,31 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class ChariotTest {
+class PoTest {
 
-    private Chariot chariot;
+    private Po po;
 
     @BeforeEach
     void setUp() {
-        chariot = new Chariot(Team.CHO);
+        po = new Po(Team.CHO);
     }
 
     @ParameterizedTest
     @MethodSource
-    void 차는_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX,
+    void 포는_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX,
                  final List<Position> expected) {
         // Given
         Position currentPosition = new Position(currentY, currentX);
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = chariot.makePath(currentPosition, arrivalPosition);
+        Path path = po.makePath(currentPosition, arrivalPosition);
 
         // Then
         assertThat(path).isEqualTo(new Path(expected));
     }
 
-    private static Stream<Arguments> 차는_움직인다() {
+    private static Stream<Arguments> 포는_움직인다() {
         return Stream.of(
                 Arguments.of(1, 1, 10, 1, List.of(
                         new Position(2, 1), new Position(3, 1), new Position(4, 1),
@@ -59,7 +59,7 @@ class ChariotTest {
     }
 
     @Test
-    void 차는_한_번에_여러_방향으로_움직일_수_없다() {
+    void 포는_한_번에_여러_방향으로_움직일_수_없다() {
         // Given
         final int currentY = 3;
         final int currentX = 3;
@@ -70,8 +70,8 @@ class ChariotTest {
         Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
-        assertThatThrownBy(() -> chariot.makePath(currentPosition, arrivalPosition))
+        assertThatThrownBy(() -> po.makePath(currentPosition, arrivalPosition))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 차는 한 방향으로만 이동할 수 있습니다.");
+                .hasMessageContaining("[ERROR] 포는 한 방향으로만 이동할 수 있습니다.");
     }
 }
