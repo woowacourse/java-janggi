@@ -96,4 +96,12 @@ class ChaTest {
         assertThat(cha.isKing()).isFalse();
     }
 
+    @Test
+    @DisplayName("포 판별 테스트")
+    void isPoTest() {
+        Cha cha = new Cha(new Position(5, 5));
+
+        assertThat(cha.isPo()).isFalse();
+    }
+
 }

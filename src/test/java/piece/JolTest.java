@@ -100,4 +100,12 @@ class JolTest {
 
         assertThat(jol.isKing()).isFalse();
     }
+
+    @Test
+    @DisplayName("포 판별 테스트")
+    void isPoTest() {
+        Jol jol = new Jol(new Position(5, 5));
+
+        assertThat(jol.isPo()).isFalse();
+    }
 }

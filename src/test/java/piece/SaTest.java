@@ -107,4 +107,12 @@ class SaTest {
 
         assertThat(sa.isKing()).isFalse();
     }
+
+    @Test
+    @DisplayName("포 판별 테스트")
+    void isPoTest() {
+        Sa sa = new Sa(new Position(5, 5));
+
+        assertThat(sa.isPo()).isFalse();
+    }
 }

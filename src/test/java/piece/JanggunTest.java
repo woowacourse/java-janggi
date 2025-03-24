@@ -107,4 +107,12 @@ class JanggunTest {
 
         assertThat(janggun.isKing()).isTrue();
     }
+
+    @Test
+    @DisplayName("포 판별 테스트")
+    void isPoTest() {
+        Janggun janggun = new Janggun(new Position(5, 5));
+
+        assertThat(janggun.isPo()).isFalse();
+    }
 }

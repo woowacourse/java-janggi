@@ -101,4 +101,12 @@ class MaTest {
         assertThat(ma.isKing()).isFalse();
     }
 
+    @Test
+    @DisplayName("포 판별 테스트")
+    void isPoTest() {
+        Ma ma = new Ma(new Position(5, 5));
+
+        assertThat(ma.isPo()).isFalse();
+    }
+
 }

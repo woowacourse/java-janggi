@@ -121,5 +121,13 @@ class SangTest {
         assertThat(sang.isKing()).isFalse();
     }
 
+    @Test
+    @DisplayName("포 판별 테스트")
+    void isPoTest() {
+        Sang sang = new Sang(new Position(5, 5));
+
+        assertThat(sang.isPo()).isFalse();
+    }
+
 }
 

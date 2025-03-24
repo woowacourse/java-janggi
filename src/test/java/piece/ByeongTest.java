@@ -101,4 +101,12 @@ class ByeongTest {
 
         assertThat(byeong.isKing()).isFalse();
     }
+
+    @Test
+    @DisplayName("포 판별 테스트")
+    void isPoTest() {
+        Byeong byeong = new Byeong(new Position(5, 5));
+
+        assertThat(byeong.isPo()).isFalse();
+    }
 }

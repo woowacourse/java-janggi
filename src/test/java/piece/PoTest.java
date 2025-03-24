@@ -98,4 +98,12 @@ class PoTest {
         assertThat(po.isKing()).isFalse();
     }
 
+    @Test
+    @DisplayName("포 판별 테스트")
+    void isPoTest() {
+        Po po = new Po(new Position(5, 5));
+
+        assertThat(po.isPo()).isTrue();
+    }
+
 }
