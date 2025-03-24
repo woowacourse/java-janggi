@@ -1,9 +1,9 @@
 package view;
 
 import domain.Board;
-import domain.Score;
 import domain.Team;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.position.Point;
 import domain.position.Position;
 import java.util.ResourceBundle;
@@ -34,13 +34,13 @@ public final class OutputView {
                 try {
                     target = board.findPositionBy(Point.of(j, i));
                     final Piece piece = target.getPiece();
-                    final Score score = piece.getScore();
+                    final PieceType pieceType = piece.type();
                     if (piece.isGreenTeam()) {
                         System.out.printf("%-1s\t",
-                                GREEN + SCORE_RB.getString(score.name()) + "(" + j + "," + i + ")" + RESET);
+                                GREEN + SCORE_RB.getString(pieceType.name()) + "(" + j + "," + i + ")" + RESET);
                     } else {
                         System.out.printf("%-1s\t",
-                                RED + SCORE_RB.getString(score.name()) + "(" + j + "," + i + ")" + RESET);
+                                RED + SCORE_RB.getString(pieceType.name()) + "(" + j + "," + i + ")" + RESET);
                     }
 
                 } catch (final IllegalArgumentException e) {
