@@ -1,10 +1,12 @@
 package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.position.Position;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,6 +55,12 @@ class ChaTest {
         assertThat(actual).isTrue();
     }
 
+    private static Stream<Arguments> chaIsMovePositionProvider() {
+        return Stream.of(
+                Arguments.of(new Position(0, 1)),
+                Arguments.of(new Position(1, 0)));
+    }
+
     @DisplayName("차는 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
     @Test
     void makeRoute() {
@@ -73,9 +81,39 @@ class ChaTest {
         );
     }
 
-    private static Stream<Arguments> chaIsMovePositionProvider() {
-        return Stream.of(
-                Arguments.of(new Position(0, 1)),
-                Arguments.of(new Position(1, 0)));
+    @DisplayName("차의 이동 경로에 장애물이 있다면 예외를 던진다.")
+    @Test
+    void hasObstacle() {
+        //given
+        Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(5, 5));
+
+        Map<Position, Piece> board = Map.of(
+                new Position(6, 5), new Byeong(new PieceProfile("병", Nation.HAN), new Position(6, 5))
+        );
+
+        Position futurePosition = new Position(7, 5);
+
+        //when //then
+        assertThatThrownBy(() -> cha.checkObstacle(futurePosition, board))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageStartingWith("[ERROR]");
     }
+
+    @DisplayName("차의 이동 경로에 장애물이 없다면 예외를 던지지 않는다.")
+    @Test
+    void nonObstacle() {
+        //given
+        Cha cha = new Cha(new PieceProfile("차", Nation.HAN), new Position(5, 5));
+
+        Map<Position, Piece> board = Map.of(
+                new Position(7, 5), new Byeong(new PieceProfile("병", Nation.HAN), new Position(7, 5))
+        );
+
+        Position futurePosition = new Position(6, 5);
+
+        //when //then
+        assertThatCode(() -> cha.checkObstacle(futurePosition, board))
+                .doesNotThrowAnyException();
+    }
+
 }
