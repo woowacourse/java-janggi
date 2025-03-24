@@ -36,7 +36,7 @@ public class Board {
 
     public void updatePosition(final Position source, final Position destination, final TeamType teamType) {
         validatePositionAndTeam(source, teamType);
-        validatePieceCanMove(source, destination, teamType);
+        validatePieceCanMove(source, destination);
 
         movePieceToDestination(source, destination);
     }
@@ -47,7 +47,7 @@ public class Board {
         }
     }
 
-    private void validatePieceCanMove(final Position source, final Position destination, final TeamType teamType) {
+    private void validatePieceCanMove(final Position source, final Position destination) {
         final Piece piece = positionDatas.get(source);
 
         if (!piece.isAbleToMove(source, destination, this)) {
