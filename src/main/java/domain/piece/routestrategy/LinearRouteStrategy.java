@@ -13,7 +13,7 @@ public class LinearRouteStrategy implements JanggiPieceRouteStrategy {
         for (List<MovingPattern> route : routes) {
             MovingPattern direction = route.getFirst();
             if (isValidDirection(beforePosition, afterPosition, direction)) {
-                return createPattern(direction, getMoveCount(beforePosition, afterPosition, direction));
+                return createRouteOfDirection(direction, getMoveCount(beforePosition, afterPosition, direction));
             }
         }
         throw new InvalidPathException();
@@ -51,7 +51,7 @@ public class LinearRouteStrategy implements JanggiPieceRouteStrategy {
         return moveCount;
     }
 
-    private List<MovingPattern> createPattern(final MovingPattern direction, int additionalSize) {
+    private List<MovingPattern> createRouteOfDirection(final MovingPattern direction, int additionalSize) {
         return Collections.nCopies(additionalSize, direction);
     }
 }
