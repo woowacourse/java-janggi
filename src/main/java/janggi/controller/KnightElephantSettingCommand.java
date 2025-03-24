@@ -22,9 +22,9 @@ public enum KnightElephantSettingCommand {
 
     public static KnightElephantSettingCommand fromCommand(String command) {
         return Arrays.stream(values())
-                .filter(knightElephantSettingCommand -> knightElephantSettingCommand.command.equals(command))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 세팅입니다."));
+            .filter(knightElephantSettingCommand -> knightElephantSettingCommand.command.equals(command))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 세팅입니다."));
     }
 
     public String getCommand() {

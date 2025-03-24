@@ -22,9 +22,9 @@ public class InputView {
 
     private KnightElephantSettingCommand inputKnightElephantSetting() {
         Arrays.stream(KnightElephantSettingCommand.values())
-                .forEach(knightElephantSettingCommand -> System.out.println(
-                        knightElephantSettingCommand.getCommand() + ". "
-                                + knightElephantSettingCommand.getDescription()));
+            .forEach(knightElephantSettingCommand -> System.out.println(
+                knightElephantSettingCommand.getCommand() + ". "
+                    + knightElephantSettingCommand.getDescription()));
         return KnightElephantSettingCommand.fromCommand(SCANNER.nextLine());
     }
 

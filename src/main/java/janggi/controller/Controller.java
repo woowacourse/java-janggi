@@ -16,10 +16,10 @@ public class Controller {
     private final ChoPieceGenerator choPieceGenerator;
 
     public Controller(
-            InputView inputView,
-            OutputView outputView,
-            HanPieceGenerator hanPieceGenerator,
-            ChoPieceGenerator choPieceGenerator
+        InputView inputView,
+        OutputView outputView,
+        HanPieceGenerator hanPieceGenerator,
+        ChoPieceGenerator choPieceGenerator
     ) {
 
         this.inputView = inputView;
@@ -40,10 +40,10 @@ public class Controller {
         KnightElephantSettingCommand choKnightElephantSettingCommand = inputView.inputChoKnightElephantSetting();
 
         return new JanggiBoard(
-                hanPieceGenerator,
-                choPieceGenerator,
-                hanKnightElephantSettingCommand.getKnightElephantSetting(),
-                choKnightElephantSettingCommand.getKnightElephantSetting()
+            hanPieceGenerator,
+            choPieceGenerator,
+            hanKnightElephantSettingCommand.getKnightElephantSetting(),
+            choKnightElephantSettingCommand.getKnightElephantSetting()
         );
     }
 
