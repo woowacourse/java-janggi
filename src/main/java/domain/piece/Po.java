@@ -31,37 +31,40 @@ public class Po implements Piece {
     private void findHurdle(Node currentNode,
                             final Direction direction, final Board board,
                             final List<Node> candidates) {
-        if (!currentNode.hasEdgeByDirection(direction)) {
-            return;
+        while (true) {
+            if (!currentNode.hasEdgeByDirection(direction)) {
+                break;
+            }
+            Node nextNode = currentNode.findNextNodeByDirection(direction);
+            if (board.existsPieceTypeByNode(nextNode, type())) {
+                break;
+            }
+            if (board.existsPieceByNode(nextNode)) {
+                findCandidates(nextNode, direction, board, candidates);
+            }
+            currentNode = nextNode;
         }
-        Node nextNode = currentNode.findNextNodeByDirection(direction);
-        if (board.existsPieceTypeByNode(nextNode, type())) {
-            return;
-        }
-        if (board.existsPieceByNode(nextNode)) {
-            findCandidates(nextNode, direction, board, candidates);
-            return;
-        }
-        findHurdle(nextNode, direction, board, candidates);
     }
 
     private void findCandidates(Node currentNode,
                                 final Direction direction, final Board board,
                                 final List<Node> candidates) {
-        if (!currentNode.hasEdgeByDirection(direction)) {
-            return;
+        while (true) {
+            candidates.add(currentNode);
+            if (!currentNode.hasEdgeByDirection(direction)) {
+                break;
+            }
+            Node nextNode = currentNode.findNextNodeByDirection(direction);
+            if (board.existsPieceTypeByNode(nextNode, type())
+                    || (board.existsPieceByNode(nextNode) && board.hasPieceTeamByNode(nextNode, this.team))) {
+                break;
+            }
+            if (board.existsPieceByNode(nextNode) && board.hasPieceTeamByNode(nextNode, this.team.inverse())) {
+                candidates.add(nextNode);
+                break;
+            }
+            currentNode = nextNode;
         }
-        Node nextNode = currentNode.findNextNodeByDirection(direction);
-        if (board.existsPieceTypeByNode(nextNode, type())
-                || (board.existsPieceByNode(nextNode) && board.hasPieceTeamByNode(nextNode, this.team))) {
-            return;
-        }
-        if (board.existsPieceByNode(nextNode) && board.hasPieceTeamByNode(nextNode, this.team.inverse())) {
-            candidates.add(nextNode);
-            return;
-        }
-        candidates.add(nextNode);
-        findCandidates(nextNode, direction, board, candidates);
     }
 
     @Override

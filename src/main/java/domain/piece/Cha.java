@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Cha implements Piece {
 
-    private static final List<Direction> CHA_MOVABLE_DIRECTIONS = java.util.List.of(UP, RIGHT, DOWN, LEFT);
+    private static final List<Direction> CHA_MOVABLE_DIRECTIONS = List.of(UP, RIGHT, DOWN, LEFT);
 
     private final Team team;
 
@@ -22,29 +22,29 @@ public class Cha implements Piece {
     }
 
     @Override
-    public List<Node> findMovableNodes(Node sourceNode, Board board) {
-        List<Node> candidates = new ArrayList<>(List.of(sourceNode));
+    public List<Node> findMovableNodes(Node sourceNode, final Board board) {
+        List<Node> candidates = new ArrayList<>();
         CHA_MOVABLE_DIRECTIONS.stream()
                 .filter(sourceNode::hasEdgeByDirection)
                 .forEach(direction ->
                         findCandidates(sourceNode.findNextNodeByDirection(direction), board, direction, candidates));
-
         return candidates;
     }
 
     private void findCandidates(Node currentNode,
                                 final Board board, final Direction direction,
                                 final List<Node> candidates) {
-        candidates.add(currentNode);
-        if (!currentNode.hasEdgeByDirection(direction)) {
-            return;
+        while (true) {
+            candidates.add(currentNode);
+            if (!currentNode.hasEdgeByDirection(direction)) {
+                break;
+            }
+            Node nextNode = currentNode.findNextNodeByDirection(direction);
+            if (board.hasPieceTeamByNode(nextNode, this.team)) {
+                break;
+            }
+            currentNode = nextNode;
         }
-
-        Node nextNode = currentNode.findNextNodeByDirection(direction);
-        if (board.hasPieceTeamByNode(nextNode, this.team)) {
-            return;
-        }
-        findCandidates(nextNode, board, direction, candidates);
     }
 
     @Override
