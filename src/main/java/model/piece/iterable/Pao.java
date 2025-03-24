@@ -29,16 +29,13 @@ public class Pao extends IterablePiece {
     }
 
     private Route movableRoute(Board board, Position target) {
-        for (var route : routes) {
-            Route route1 = validateRoute(board, target, route);
-            if (route1 != null) {
-                return route1;
-            }
-        }
-        throw new IllegalArgumentException("[ERROR] 도달할 수 없는 위치입니다.");
+        return routes.stream()
+            .filter(route -> validateRoute(board, target, route))
+            .findAny()
+            .orElseThrow(() -> new IllegalArgumentException("[ERROR] 도달할 수 없는 위치입니다."));
     }
 
-    private Route validateRoute(Board board, Position target, Route route) {
+    private boolean validateRoute(Board board, Position target, Route route) {
         boolean isOvered = false;
         Position nextPos = nextPositionOnRoute(position, route);
         while (board.isInBoard(nextPos)) {
@@ -46,11 +43,11 @@ public class Pao extends IterablePiece {
                 isOvered = true;
             }
             if (nextPos.equals(target) && isOvered) {
-                return route;
+                return true;
             }
             nextPos = nextPositionOnRoute(nextPos, route);
         }
-        return null;
+        return false;
     }
 
     private boolean isTargetPao(Board board, Position target) {
