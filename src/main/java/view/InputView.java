@@ -1,35 +1,50 @@
 package view;
 
+import static player.Nation.CHO;
+
 import pieceProperty.Position;
 import java.util.Scanner;
+import player.Nation;
 
 public class InputView {
 
+    private static final String IS_CHO_TURN = "초나라 턴 입니다. 움직이고 싶은 말의 위치를 입력해주세요.";
+    private static final String IS_HAN_TURN = "한나라 턴 입니다. 움직이고 싶은 말의 위치를 입력해주세요.";
+    private static final String DESTINATION_PROMPT = "해당 말을 이동시킬 위치를 입려해 주세요.";
+
     private final Scanner scanner = new Scanner(System.in);
 
-    public Position readPresentPick() {
-        System.out.println("초나라 턴 입니다. 움직이고 싶은 말의 위치를 입력해주세요.");
+    public Position getPresentPosition(Nation attatckNation) {
+        if (attatckNation.equals(CHO)) {
+            System.out.println(IS_CHO_TURN);
+            return getUserPositionUntilValidate();
+        }
 
-        String inputPosition = readLine().trim();
-
-        String[] split = inputPosition.split(",");
-        return new Position(parseInt(split[0]), parseInt(split[1]));
+        System.out.println(IS_HAN_TURN);
+        return getUserPositionUntilValidate();
     }
 
-    public Position readFuturePick() {
-        System.out.println("해당 말을 이동시킬 위치를 입려해 주세요.");
-
-        String inputPosition = readLine().trim();
-
-        String[] split = inputPosition.split(",");
-        return new Position(parseInt(split[0]), parseInt(split[1]));
+    public Position getDestination() {
+        System.out.println(DESTINATION_PROMPT);
+        return getUserPositionUntilValidate();
     }
 
-    private int parseInt(final String s) {
+    private int parseInt(final String input) {
         try {
-            return Integer.parseInt(s);
+            return Integer.parseInt(input);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("[ERROR] 좌표는 숫자만 입력 할 수 있습니다.");
+        }
+    }
+
+    private Position getUserPositionUntilValidate() {
+        try {
+            String inputPosition = readLine().trim();
+            String[] split = inputPosition.split(",");
+            return new Position(parseInt(split[0]), parseInt(split[1]));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return getUserPositionUntilValidate();
         }
     }
 
