@@ -16,32 +16,34 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class SangTest {
 
-    static final Position STANDARD = new Position(4, 4);
+    static final Position START_POSITION = new Position(4, 4);
+    static final Position DIRECT_PATH_POSITION = new Position(5, 4);
+    static final Position FIRST_DIAGONAL_PATH_POSITION = new Position(6, 3);
+    static final Position SECOND_DIAGONAL_PATH_POSITION = new Position(6, 5);
+    static final Position FIRST_DESTINATION = new Position(7, 2);
+    static final Position SECOND_DESTINATION = new Position(7, 6);
 
     @DisplayName("장기말을 이동시킬 수 있다.")
     @ParameterizedTest
     @MethodSource()
-    void test1(Position destination) {
-        //given
-        Sang sang = new Sang(STANDARD);
+    void canMove(Position destination) {
+        Sang sang = new Sang(START_POSITION);
 
-        //when
         Sang movedSang = sang.move(destination, List.of(), List.of());
 
-        //then
         assertThat(movedSang.getPosition()).isEqualTo(destination);
     }
 
-    static Stream<Arguments> test1() {
+    static Stream<Arguments> canMove() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.x() - 3, STANDARD.y() - 2)),
-                Arguments.of(new Position(STANDARD.x() - 3, STANDARD.y() + 2)),
-                Arguments.of(new Position(STANDARD.x() + 3, STANDARD.y() - 2)),
-                Arguments.of(new Position(STANDARD.x() + 3, STANDARD.y() + 2)),
-                Arguments.of(new Position(STANDARD.x() - 2, STANDARD.y() - 3)),
-                Arguments.of(new Position(STANDARD.x() + 2, STANDARD.y() - 3)),
-                Arguments.of(new Position(STANDARD.x() - 2, STANDARD.y() + 3)),
-                Arguments.of(new Position(STANDARD.x() + 2, STANDARD.y() + 3))
+                Arguments.of(new Position(START_POSITION.x() - 3, START_POSITION.y() - 2)),
+                Arguments.of(new Position(START_POSITION.x() - 3, START_POSITION.y() + 2)),
+                Arguments.of(new Position(START_POSITION.x() + 3, START_POSITION.y() - 2)),
+                Arguments.of(new Position(START_POSITION.x() + 3, START_POSITION.y() + 2)),
+                Arguments.of(new Position(START_POSITION.x() - 2, START_POSITION.y() - 3)),
+                Arguments.of(new Position(START_POSITION.x() + 2, START_POSITION.y() - 3)),
+                Arguments.of(new Position(START_POSITION.x() - 2, START_POSITION.y() + 3)),
+                Arguments.of(new Position(START_POSITION.x() + 2, START_POSITION.y() + 3))
         );
     }
 
@@ -49,62 +51,58 @@ class SangTest {
     @DisplayName("장기말의 이동 규칙에 어긋난 경우 이동이 불가능합니다.")
     @ParameterizedTest
     @MethodSource()
-    void test2(Position destination) {
-        //given
-        Sang sang = new Sang(STANDARD);
+    void canNotMoveBecauseRuleOfMove(Position destination) {
+        Sang sang = new Sang(START_POSITION);
 
-        //when & then
         assertThatThrownBy(() -> sang.move(destination, List.of(), List.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
 
-    static Stream<Arguments> test2() {
+    static Stream<Arguments> canNotMoveBecauseRuleOfMove() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y() + 1)),
-                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y() - 1)),
-                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y() + 1)),
-                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y() - 1))
+                Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() + 1)),
+                Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() - 1)),
+                Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y() + 1)),
+                Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y() - 1))
         );
     }
 
     @DisplayName("아군 장기말이 경로안에 장애물로 있을 경우 이동이 불가능하다.")
     @ParameterizedTest
     @MethodSource()
-    void test4(Position hurdlePosition, Position destination) {
-        //given
-        Sang sang = new Sang(STANDARD);
-        Sang hurdle = new Sang(hurdlePosition);
+    void canNotMoveBecauseAlliesInPath(Position pathPosition, Position destination) {
+        Sang sang = new Sang(START_POSITION);
+        Sang alliesPiece = new Sang(pathPosition);
 
-        //when & then
         assertAll(
-                () -> assertThatThrownBy(() -> sang.move(destination, List.of(), List.of(hurdle)))
+                () -> assertThatThrownBy(() -> sang.move(destination, List.of(), List.of(alliesPiece)))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다."),
-                () -> assertThatThrownBy(() -> sang.move(destination, List.of(), List.of(hurdle)))
+                () -> assertThatThrownBy(() -> sang.move(destination, List.of(), List.of(alliesPiece)))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다.")
         );
     }
 
-    static Stream<Arguments> test4() {
+    static Stream<Arguments> canNotMoveBecauseAlliesInPath() {
         return Stream.of(
-                Arguments.of(new Position(5, 4), new Position(7, 2)),
-                Arguments.of(new Position(5, 4), new Position(7, 6)),
-                Arguments.of(new Position(6, 3), new Position(7, 2)),
-                Arguments.of(new Position(6, 5), new Position(7, 6))
+                Arguments.of(DIRECT_PATH_POSITION, FIRST_DESTINATION),
+                Arguments.of(DIRECT_PATH_POSITION, SECOND_DESTINATION),
+                Arguments.of(FIRST_DIAGONAL_PATH_POSITION, FIRST_DESTINATION),
+                Arguments.of(FIRST_DIAGONAL_PATH_POSITION, SECOND_DESTINATION),
+                Arguments.of(SECOND_DIAGONAL_PATH_POSITION, FIRST_DESTINATION),
+                Arguments.of(SECOND_DIAGONAL_PATH_POSITION, SECOND_DESTINATION)
         );
     }
 
     @DisplayName("아군 장기말이 목적지에 장애물로 있을 경우 이동이 불가능하다.")
     @Test
-    void test5() {
-        //given
-        Sang sang = new Sang(STANDARD);
-        Position hurdle = new Position(7, 2);
+    void canNotMoveBecauseAlliesInDestination() {
+        Sang sang = new Sang(START_POSITION);
+        Sang alliesPiece = new Sang(FIRST_DESTINATION);
 
-        //when & then
-        assertThatThrownBy(() -> sang.move(hurdle, List.of(), List.of(new Ma(hurdle))))
+        assertThatThrownBy(() -> sang.move(FIRST_DESTINATION, List.of(), List.of(alliesPiece)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -112,42 +110,39 @@ class SangTest {
     @DisplayName("상대 장기말이 경로안에 장애물로 있을 경우 이동이 불가능하다.")
     @ParameterizedTest
     @MethodSource()
-    void test6(Position hurdlePosition, Position destination) {
-        //given
-        Sang sang = new Sang(STANDARD);
-        Sang hurdle = new Sang(hurdlePosition);
+    void canNotMoveBecauseEnemyInPath(Position pathPosition, Position destination) {
+        Sang sang = new Sang(START_POSITION);
+        Sang enemyPiece = new Sang(pathPosition);
 
-        //when & then
         assertAll(
-                () -> assertThatThrownBy(() -> sang.move(destination, List.of(hurdle), List.of()))
+                () -> assertThatThrownBy(() -> sang.move(destination, List.of(enemyPiece), List.of()))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다."),
-                () -> assertThatThrownBy(() -> sang.move(destination, List.of(hurdle), List.of()))
+                () -> assertThatThrownBy(() -> sang.move(destination, List.of(enemyPiece), List.of()))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다.")
         );
     }
 
-    static Stream<Arguments> test6() {
+    static Stream<Arguments> canNotMoveBecauseEnemyInPath() {
         return Stream.of(
-                Arguments.of(new Position(5, 4), new Position(7, 2)),
-                Arguments.of(new Position(5, 4), new Position(7, 6)),
-                Arguments.of(new Position(6, 3), new Position(7, 2)),
-                Arguments.of(new Position(6, 5), new Position(7, 6))
+                Arguments.of(DIRECT_PATH_POSITION, FIRST_DESTINATION),
+                Arguments.of(DIRECT_PATH_POSITION, SECOND_DESTINATION),
+                Arguments.of(FIRST_DIAGONAL_PATH_POSITION, FIRST_DESTINATION),
+                Arguments.of(FIRST_DIAGONAL_PATH_POSITION, SECOND_DESTINATION),
+                Arguments.of(SECOND_DIAGONAL_PATH_POSITION, FIRST_DESTINATION),
+                Arguments.of(SECOND_DIAGONAL_PATH_POSITION, SECOND_DESTINATION)
         );
     }
 
     @DisplayName("상대 장기말이 목적지에 있을 경우 이동이 가능하다.")
     @Test
-    void test7() {
-        //given
-        Sang sang = new Sang(STANDARD);
-        Position hurdle = new Position(7, 2);
+    void canMoveWithEnemyInDestination() {
+        Sang sang = new Sang(START_POSITION);
+        Sang enemyPiece = new Sang(FIRST_DESTINATION);
 
-        //when
-        Sang movedSang = sang.move(hurdle, List.of(new Sang(hurdle)), List.of());
+        Sang movedSang = sang.move(FIRST_DESTINATION, List.of(enemyPiece), List.of());
 
-        //then
-        Assertions.assertThat(movedSang.getPosition()).isEqualTo(hurdle);
+        Assertions.assertThat(movedSang.getPosition()).isEqualTo(FIRST_DESTINATION);
     }
 }
