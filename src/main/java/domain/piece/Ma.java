@@ -32,6 +32,9 @@ public class Ma extends Piece {
 
     private boolean isPossibleToArrive(Position startPosition, Position targetPosition, List<Move> moveList) {
         for (Move move : moveList) {
+            if (!startPosition.canMovePosition(move)) {
+                return false;
+            }
             startPosition = startPosition.movePosition(move);
         }
         return startPosition.equals(targetPosition);

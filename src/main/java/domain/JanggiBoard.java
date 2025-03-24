@@ -47,9 +47,7 @@ public class JanggiBoard {
 
     private void validateCanonMove(List<Position> path, Piece targetPositionPiece) {
         validateJumpOtherPiece(path);
-        for (Position position : path) {
-            validateJumpCanon(position);
-        }
+        path.forEach(this::validateJumpCanon);
         validateAttackCanon(targetPositionPiece);
     }
 
@@ -72,9 +70,7 @@ public class JanggiBoard {
     }
 
     private void validateNonCanonMove(List<Position> path) {
-        for (Position position : path) {
-            validateIsEmptyPath(position);
-        }
+        path.forEach(this::validateIsEmptyPath);
     }
 
     private void validateIsEmptyPath(Position position) {

@@ -15,6 +15,7 @@ public class Sa extends Piece {
     @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
         return moves.stream()
+                .filter(startPosition::canMovePosition)
                 .map(startPosition::movePosition)
                 .filter(newPosition -> newPosition.equals(targetPosition))
                 .findFirst()

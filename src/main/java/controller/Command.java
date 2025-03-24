@@ -5,8 +5,7 @@ import java.util.Arrays;
 public enum Command {
 
     YES("y"),
-    NO("n")
-    ;
+    NO("n");
 
     private final String value;
 
@@ -15,7 +14,9 @@ public enum Command {
     }
 
     public static Command find(String input) {
-        return Arrays.stream(values()).filter(command -> command.value.equals(input)).findAny()
+        return Arrays.stream(values())
+                .filter(command -> command.value.equals(input))
+                .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 명령입니다."));
     }
 }
