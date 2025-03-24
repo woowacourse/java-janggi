@@ -1,6 +1,7 @@
 package janggi.point;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public enum Direction {
@@ -136,6 +137,15 @@ public enum Direction {
             directions.add(repeatingDirection);
         }
         return directions;
+    }
+
+    public Direction reverse() {
+        return Arrays.stream(Direction.values())
+                .filter(direction ->
+                        direction.rowOffset == -this.rowOffset
+                        && direction.columnOffset == -this.columnOffset)
+                .findAny()
+                .orElseThrow(IllegalStateException::new);
     }
 
     public int getRowOffset() {

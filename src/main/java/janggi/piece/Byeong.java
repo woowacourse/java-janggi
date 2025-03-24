@@ -59,13 +59,7 @@ public class Byeong implements Movable {
     }
 
     private boolean movesDown(Direction direction) {
-        if (team == Team.CHO && direction == Direction.SOUTH) {
-            return true;
-        }
-        if (team == Team.HAN && direction == Direction.NORTH) {
-            return true;
-        }
-        return false;
+        return team.headsBack(direction);
     }
 
     private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
