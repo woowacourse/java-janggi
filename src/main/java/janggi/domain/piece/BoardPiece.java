@@ -2,7 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.Position;
+import janggi.domain.board.Point;
 import java.util.Objects;
 
 public class BoardPiece {
@@ -15,28 +15,19 @@ public class BoardPiece {
         this.dynasty = dynasty;
     }
 
-    public void move(JanggiBoard janggiBoard, Position start, Position end) {
-        validateExistSameDynastyPiece(janggiBoard, end);
+    public boolean canMove(JanggiBoard janggiBoard, Point start, Point end) {
         if (!piece.isMovable(janggiBoard, dynasty, start, end)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
+        return true;
     }
 
     public boolean isSameDynasty(Dynasty dynasty) {
         return this.dynasty == dynasty;
     }
 
-    public boolean isEqualPiece(Piece piece) {
-        return this.piece.equals(piece);
-    }
-
-    private void validateExistSameDynastyPiece(JanggiBoard janggiBoard, Position endPoint) {
-        janggiBoard.findPointPiece(endPoint)
-                .ifPresent((pointPiece -> {
-                    if (pointPiece.isSameDynasty(dynasty)) {
-                        throw new IllegalArgumentException("이미 놓여져 있는 기물이 존재합니다.");
-                    }
-                }));
+    public boolean isEqualPieceType(Piece piece) {
+        return this.piece.getClass().equals(piece.getClass());
     }
 
     @Override
