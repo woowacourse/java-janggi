@@ -140,4 +140,8 @@ public final class Routes {
         }
         return new Routes(possibleRoutes);
     }
+
+    public Routes possibleJumpingRoutes(Position position, Board board) {
+        return null;
+    }
 }

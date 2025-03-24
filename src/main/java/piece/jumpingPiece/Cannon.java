@@ -7,15 +7,10 @@ import position.Board;
 import position.Position;
 import route.Routes;
 
-public class Cannon extends Piece {
+public class Cannon extends JumpingPiece {
 
     protected Cannon(Team team, Position position) {
         super(team, position, Routes.ofCannon());
-    }
-
-    @Override
-    public Routes possibleRoutes(Board board) {
-        return null;
     }
 
     @Override
