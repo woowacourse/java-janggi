@@ -157,5 +157,18 @@ public class PositionTest {
             // then
             assertThat(middlePositions).containsAll(actual);
         }
+
+        @DisplayName("Position에 대한 덧셈 연산")
+        @Test
+        void plusPosition() {
+            // given
+            final Position position = new Position(1, 1);
+
+            // when
+            final Position actual = position.plusPosition(3, 2);
+
+            // then
+            assertThat(actual).isEqualTo(new Position(4, 3));
+        }
     }
 }
