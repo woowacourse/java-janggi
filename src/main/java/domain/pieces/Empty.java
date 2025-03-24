@@ -5,11 +5,12 @@ import static domain.pieces.PieceNames.EMPTY;
 import domain.Team;
 import domain.board.PieceOnRoute;
 import domain.board.Point;
+import execptions.JanggiArgumentException;
 import execptions.JanggiGameRuleWarningException;
 import java.util.List;
 
 public final class Empty implements Piece {
-
+    private static final Team team = Team.NONE;
     private static Empty empty = null;
 
     private Empty() {
@@ -23,18 +24,18 @@ public final class Empty implements Piece {
     }
 
     @Override
-    public boolean hasEqualTeam(final Team team) {
-        throw new JanggiGameRuleWarningException("기물이 없습니다.");
+    public boolean hasEqualTeam(final Team other) {
+        return team == other;
     }
 
     @Override
     public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
-        throw new JanggiGameRuleWarningException("기물이 없습니다.");
+        throw new JanggiGameRuleWarningException("이동시킬 기물이 없습니다: " + startPoint);
     }
 
     @Override
     public boolean isMovable(final PieceOnRoute pieceOnRoute) {
-        throw new JanggiGameRuleWarningException("기물이 없습니다.");
+        throw new JanggiArgumentException("잘못된 요청입니다: " + this.getClass());
     }
 
     @Override
@@ -44,12 +45,12 @@ public final class Empty implements Piece {
 
     @Override
     public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
-        throw new JanggiGameRuleWarningException("기물이 없습니다.");
+        throw new JanggiGameRuleWarningException("이동시킬 기물이 없습니다: " + startPoint);
     }
 
     @Override
     public String getName() {
-        return EMPTY.getNameForTeam(Team.NONE);
+        return EMPTY.getNameForTeam(team);
     }
 
     @Override

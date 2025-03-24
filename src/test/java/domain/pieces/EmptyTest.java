@@ -1,7 +1,6 @@
 package domain.pieces;
 
 import domain.Team;
-import execptions.JanggiGameRuleWarningException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -19,9 +18,8 @@ class EmptyTest {
             //given
             final Piece empty = Empty.getInstance();
             //when&then
-            Assertions.assertThatThrownBy(() -> empty.hasEqualTeam(Team.HAN))
-                    .isInstanceOf(JanggiGameRuleWarningException.class)
-                    .hasMessageContaining("기물이 없습니다.");
+            Assertions.assertThat(empty.hasEqualTeam(Team.HAN)).isFalse();
+            Assertions.assertThat(empty.hasEqualTeam(Team.CHO)).isFalse();
         }
     }
 }

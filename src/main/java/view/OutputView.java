@@ -2,12 +2,14 @@ package view;
 
 import domain.board.Point;
 import domain.pieces.Piece;
+import java.util.List;
 import java.util.Map;
 
 public final class OutputView {
 
     private static final int MAX_COLUMN = 9;
     private static final int MAX_ROW = 10;
+    private static final List<Integer> BOARD_LINE_FEED_COLUMNS = List.of(2, 5);
 
     public void printError(String message) {
         System.out.println(message);
@@ -55,10 +57,13 @@ public final class OutputView {
             final Piece piece = locations.get(point);
             builder.append(piece.getName());
             builder.append(" ");
-            if (column == 2 || column == 5) {
-                builder.append(" ");
-            }
+            addBoardLinefeed(builder, column);
         }
     }
 
+    private void addBoardLinefeed(final StringBuilder builder, final int column) {
+        if (BOARD_LINE_FEED_COLUMNS.contains(column)) {
+            builder.append(" ");
+        }
+    }
 }

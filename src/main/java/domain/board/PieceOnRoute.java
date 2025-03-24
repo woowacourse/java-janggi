@@ -8,39 +8,26 @@ import java.util.List;
 
 public record PieceOnRoute(List<Piece> pieces) {
 
-    private static final Piece emptyPiece = Empty.getInstance();
-
-    public boolean hasNotPieceOnRoute() {
-        for (int i = 0; i < pieces.size() - 1; i++) {
-            if (!pieces.get(i).equals(emptyPiece)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public boolean hasArrivalPointInMyTeam(final Team team) {
-        Piece last = pieces.getLast();
-        if (!last.equals(emptyPiece)) {
-            return last.hasEqualTeam(team);
-        }
-        return false;
+        final Piece last = pieces.getLast();
+        return last.hasEqualTeam(team);
     }
 
     public int countPieceOnRoute() {
-        int count = 0;
-        for (int i = 0; i < pieces.size() - 1; i++) {
-            if (!pieces.get(i).equals(emptyPiece)) {
-                count++;
-            }
-        }
-        return count;
+        return (int) pieces.stream()
+                .limit(pieces.size() - 1)
+                .filter(piece -> !piece.equals(Empty.getInstance()))
+                .count();
+    }
+
+    public boolean hasNotPieceOnRoute() {
+        return countPieceOnRoute() == 0;
     }
 
     public boolean canNotJumpOverFirstPiece() {
-        return pieces.stream().filter(piece -> !piece.equals(emptyPiece))
+        return pieces.stream()
                 .findFirst()
-                .orElseThrow(() -> new JanggiGameRuleWarningException("기물이 없습니다."))
+                .orElseThrow(() -> new JanggiGameRuleWarningException("잘못된 위치입니다."))
                 .canNotJumpOver();
     }
 }

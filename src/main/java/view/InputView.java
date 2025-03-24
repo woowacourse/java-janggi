@@ -1,26 +1,26 @@
 package view;
 
-import domain.Team;
 import dto.MovementRequestDto;
 import execptions.JanggiGameRuleWarningException;
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Scanner;
 
 public final class InputView {
-
     private static final Scanner scanner = new Scanner(System.in);
     private static final int START_POINT_INDEX = 0;
     private static final int ARRIVAL_POINT_INDEX = 1;
 
-    public EnumMap<Team, Integer> readChoicesForSetup() {
-        final EnumMap<Team, Integer> elephantLocatorByTeam = new EnumMap<>(Team.class);
-        for (final Team team : Team.getActualTeams()) {
-            final int choice = readChoiceForElephantLocation(team.getName());
-            elephantLocatorByTeam.put(team, choice);
-        }
-        return elephantLocatorByTeam;
+    public int readChoiceForElephantLocation(String team) {
+        System.out.println(team + "의 입력 차례입니다.");
+        System.out.println("""
+                마와 상의 배치를 선택해주세요.
+                1. 바깥상 차림(상마마상)
+                2. 안상 차림(마상상마)
+                3. 왼상 차림(상마상마)
+                4. 오른상 차림(마상마상)
+                """);
+        return parseToInt(scanner.nextLine());
     }
 
     public MovementRequestDto readMovementRequest(String team) {
@@ -53,17 +53,5 @@ public final class InputView {
     private int parseRowToInt(final String split) {
         final char c = split.charAt(0);
         return 'J' - c;
-    }
-
-    private int readChoiceForElephantLocation(String team) {
-        System.out.println(team + "의 입력 차례입니다.");
-        System.out.println("""
-                마와 상의 배치를 선택해주세요.
-                1. 바깥상 차림(상마마상)
-                2. 안상 차림(마상상마)
-                3. 왼상 차림(상마상마)
-                4. 오른상 차림(마상마상)
-                """);
-        return parseToInt(scanner.nextLine());
     }
 }

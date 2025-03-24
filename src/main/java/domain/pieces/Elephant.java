@@ -21,11 +21,6 @@ public final class Elephant implements Piece {
         this.movement = getDefaultMovementForElephant();
     }
 
-    public Elephant(final Team team, final PieceMovement movement) {
-        this.team = team;
-        this.movement = movement;
-    }
-
     @Override
     public boolean hasEqualTeam(final Team team) {
         return this.team.equals(team);

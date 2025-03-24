@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.Team;
 import domain.board.PieceOnRoute;
 import domain.board.Point;
-import domain.movements.EndlessMovement;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ class ChariotTest {
     @DisplayName("도착할 수 있는지 확인한다.")
     void test_IsAbleToArrive() {
         // given
-        Chariot chariot = new Chariot(Team.CHO, new EndlessMovement());
+        Chariot chariot = new Chariot(Team.CHO);
         Point startPoint = new Point(0, 0);
         Point arrivalPoint = new Point(0, 9);
 
@@ -31,7 +30,7 @@ class ChariotTest {
     @DisplayName("도착할 수 없는지 확인한다.")
     void test_IsNotAbleToArrive() {
         // given
-        Chariot chariot = new Chariot(Team.CHO, new EndlessMovement());
+        Chariot chariot = new Chariot(Team.CHO);
         Point startPoint = new Point(0, 0);
         Point arrivalPoint = new Point(3, 3);
 
@@ -47,7 +46,7 @@ class ChariotTest {
     @DisplayName("도착 위치까지의 경로를 모두 반환한다.")
     void test_getRoutePoints() {
         // given
-        Chariot chariot = new Chariot(Team.CHO, new EndlessMovement());
+        Chariot chariot = new Chariot(Team.CHO);
         Point startPoint = new Point(0, 0);
         Point arrivalPoint = new Point(0, 3);
 
@@ -66,7 +65,7 @@ class ChariotTest {
     @DisplayName("경로 상 기물이 있으면 이동할 수 없다.")
     void test_isMovableWhenPieceOnRoute() {
         //given
-        Chariot chariot = new Chariot(Team.CHO, new EndlessMovement());
+        Chariot chariot = new Chariot(Team.CHO);
         Piece empty = Empty.getInstance();
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(chariot, empty, empty));
 
@@ -78,7 +77,7 @@ class ChariotTest {
     @DisplayName("경로 상 기물이 없으면 이동할 수 있다.")
     void test_isMovable() {
         //given
-        Chariot chariot = new Chariot(Team.CHO, new EndlessMovement());
+        Chariot chariot = new Chariot(Team.CHO);
         Piece empty = Empty.getInstance();
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, empty));
 
@@ -90,7 +89,7 @@ class ChariotTest {
     @DisplayName("도착점에 아군 기물이 있으면 이동할 수 없다.")
     void test_isMovableWhenPieceIsInMyTeam() {
         //given
-        Chariot chariot = new Chariot(Team.CHO, new EndlessMovement());
+        Chariot chariot = new Chariot(Team.CHO);
         Piece empty = Empty.getInstance();
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, chariot));
 
@@ -102,8 +101,8 @@ class ChariotTest {
     @DisplayName("도착점에 아군 기물이 없으면 이동할 수 있다.")
     void test_isMovableWhenPieceIsInOtherTeam() {
         //given
-        Chariot chariotHan = new Chariot(Team.HAN, new EndlessMovement());
-        Chariot chariotCho = new Chariot(Team.CHO, new EndlessMovement());
+        Chariot chariotHan = new Chariot(Team.HAN);
+        Chariot chariotCho = new Chariot(Team.CHO);
         Piece empty = Empty.getInstance();
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty, chariotCho));
 

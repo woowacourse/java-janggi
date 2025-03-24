@@ -20,6 +20,8 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public final class BoardFactory {
 
@@ -30,22 +32,28 @@ public final class BoardFactory {
 
     public static Board generateBoard(final EnumMap<Team, Integer> setupsByTeam) {
         final Map<Point, Piece> locations = generateEmptyBoard();
-        for (final Entry<Team, Integer> setup : setupsByTeam.entrySet()) {
-            final Team team = setup.getKey();
-            final ElephantLocator locator = createFromChoice(setup.getValue(), team);
-            locations.putAll(setupLocationsOnBoard(team));
-            locations.putAll(locator.setupHorse(team));
-            locations.putAll(locator.setupElephant(team));
-        }
+        locations.putAll(setupBoardOnPieces(setupsByTeam));
         return new Board(locations);
     }
 
     private static Map<Point, Piece> generateEmptyBoard() {
+        return IntStream.range(0, BOARD_ROW_MAX)
+                .boxed()
+                .flatMap(row -> IntStream.range(0, BOARD_COLUMN_MAX)
+                        .boxed()
+                        .map(col -> Map.entry(new Point(row, col), Empty.getInstance())))
+                .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+    }
+
+    private static Map<Point, Piece> setupBoardOnPieces(EnumMap<Team, Integer> setupsByTeam) {
         final Map<Point, Piece> locations = new HashMap<>();
-        for (int row = 0; row < BOARD_ROW_MAX; row++) {
-            for (int column = 0; column < BOARD_COLUMN_MAX; column++) {
-                locations.put(new Point(row, column), Empty.getInstance());
-            }
+        for (final Entry<Team, Integer> setup : setupsByTeam.entrySet()) {
+            final Team team = setup.getKey();
+            final ElephantLocator locator = createFromChoice(setup.getValue(), team);
+            locations.putAll(setupSoldiersOnLocations(team));
+            locations.putAll(setupDefaultLocationsOnBoard(team));
+            locations.putAll(locator.setupHorse(team));
+            locations.putAll(locator.setupElephant(team));
         }
         return locations;
     }
@@ -60,28 +68,24 @@ public final class BoardFactory {
         };
     }
 
-    private static Map<Point, Piece> setupLocationsOnBoard(final Team team) {
+    private static Map<Point, Piece> setupDefaultLocationsOnBoard(final Team team) {
         final Map<Point, Piece> locations = new HashMap<>();
-        putSoldiersOnLocations(team, locations);
-
         locations.put(new Point(team.calculateRowForPiece(0), 0), new Chariot(team));
         locations.put(new Point(team.calculateRowForPiece(0), 8), new Chariot(team));
-
         locations.put(new Point(team.calculateRowForPiece(2), 1), new Cannon(team));
         locations.put(new Point(team.calculateRowForPiece(2), 7), new Cannon(team));
-
         locations.put(new Point(team.calculateRowForPiece(0), 3), new Guard(team));
         locations.put(new Point(team.calculateRowForPiece(0), 5), new Guard(team));
-
         locations.put(new Point(team.calculateRowForPiece(1), 4), new General(team));
-
         return locations;
     }
 
-    private static void putSoldiersOnLocations(final Team team, final Map<Point, Piece> locations) {
-        for (int column = 0; column < MAX_SOLDIER_COUNT; column++) {
-            final int row = team.calculateRowForPiece(3);
-            locations.put(new Point(row, column * 2), new Soldier(team));
-        }
+    private static Map<Point, Piece> setupSoldiersOnLocations(final Team team) {
+        return IntStream.range(0, MAX_SOLDIER_COUNT)
+                .boxed()
+                .collect(Collectors.toMap(
+                        column -> new Point(team.calculateRowForPiece(3), column * 2),
+                        column -> new Soldier(team)
+                ));
     }
 }
