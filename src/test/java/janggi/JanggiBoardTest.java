@@ -3,7 +3,7 @@ package janggi;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.board.JanggiBoard;
-import janggi.fixture.PiecePositionFixture;
+import janggi.fixture.ChoPiecePositionFixture;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.setting.PieceAssignType;
@@ -139,11 +139,11 @@ public class JanggiBoardTest {
         //when
         List<Piece> choWorldPieces = janggiBoard.getChoPieces();
 
-        getPositions(PieceType.CHA, PiecePositionFixture.CHA_POSITIONS, choWorldPieces);
-        getPositions(PieceType.GUNG, PiecePositionFixture.GUNG_POSITIONS, choWorldPieces);
-        getPositions(PieceType.SA, PiecePositionFixture.SA_POSITIONS, choWorldPieces);
-        getPositions(PieceType.JOL, PiecePositionFixture.JOL_POSITIONS, choWorldPieces);
-        getPositions(PieceType.PO, PiecePositionFixture.PO_POSITIONS, choWorldPieces);
+        getPositions(PieceType.CHA, ChoPiecePositionFixture.CHA_POSITIONS, choWorldPieces);
+        getPositions(PieceType.GUNG, ChoPiecePositionFixture.GUNG_POSITIONS, choWorldPieces);
+        getPositions(PieceType.SA, ChoPiecePositionFixture.SA_POSITIONS, choWorldPieces);
+        getPositions(PieceType.JOL, ChoPiecePositionFixture.JOL_POSITIONS, choWorldPieces);
+        getPositions(PieceType.PO, ChoPiecePositionFixture.PO_POSITIONS, choWorldPieces);
     }
 
     private void getPositions(PieceType pieceType, List<Position> positions, List<Piece> pieces) {
