@@ -15,33 +15,33 @@ public class InitiateJanggiTeamPieces {
     private static final Map<Team, List<Piece>> initiatePiecesWithoutMaSang = Map.of(
             Team.RED,
             List.of(
-                    new Piece(new Position(0, 0), new ChaMoveBehavior(), PieceType.CHA, Team.RED),
-                    new Piece(new Position(0, 3), new SaMoveBehavior(), PieceType.SA, Team.RED),
-                    new Piece(new Position(0, 5), new SaMoveBehavior(), PieceType.SA, Team.RED),
-                    new Piece(new Position(0, 8), new ChaMoveBehavior(), PieceType.CHA, Team.RED),
-                    new Piece(new Position(1, 4), new GungMoveBehavior(), PieceType.GUNG, Team.RED),
-                    new Piece(new Position(2, 1), new FoMoveBehavior(), PieceType.FO, Team.RED),
-                    new Piece(new Position(2, 7), new FoMoveBehavior(), PieceType.FO, Team.RED),
-                    new Piece(new Position(3, 0), new JolMoveBehavior(), PieceType.JOL, Team.RED),
-                    new Piece(new Position(3, 2), new JolMoveBehavior(), PieceType.JOL, Team.RED),
-                    new Piece(new Position(3, 4), new JolMoveBehavior(), PieceType.JOL, Team.RED),
-                    new Piece(new Position(3, 6), new JolMoveBehavior(), PieceType.JOL, Team.RED),
-                    new Piece(new Position(3, 8), new JolMoveBehavior(), PieceType.JOL, Team.RED)
+                    new Piece(new Position(0, 0), new ChaMoveBehavior(), Team.RED),
+                    new Piece(new Position(0, 3), new SaMoveBehavior(), Team.RED),
+                    new Piece(new Position(0, 5), new SaMoveBehavior(), Team.RED),
+                    new Piece(new Position(0, 8), new ChaMoveBehavior(), Team.RED),
+                    new Piece(new Position(1, 4), new GungMoveBehavior(), Team.RED),
+                    new Piece(new Position(2, 1), new FoMoveBehavior(), Team.RED),
+                    new Piece(new Position(2, 7), new FoMoveBehavior(), Team.RED),
+                    new Piece(new Position(3, 0), new JolMoveBehavior(), Team.RED),
+                    new Piece(new Position(3, 2), new JolMoveBehavior(), Team.RED),
+                    new Piece(new Position(3, 4), new JolMoveBehavior(), Team.RED),
+                    new Piece(new Position(3, 6), new JolMoveBehavior(), Team.RED),
+                    new Piece(new Position(3, 8), new JolMoveBehavior(), Team.RED)
             ),
             Team.BLUE,
             List.of(
-                    new Piece(new Position(6, 0), new JolMoveBehavior(), PieceType.JOL, Team.BLUE),
-                    new Piece(new Position(6, 2), new JolMoveBehavior(), PieceType.JOL, Team.BLUE),
-                    new Piece(new Position(6, 4), new JolMoveBehavior(), PieceType.JOL, Team.BLUE),
-                    new Piece(new Position(6, 6), new JolMoveBehavior(), PieceType.JOL, Team.BLUE),
-                    new Piece(new Position(6, 8), new JolMoveBehavior(), PieceType.JOL, Team.BLUE),
-                    new Piece(new Position(7, 1), new FoMoveBehavior(), PieceType.FO, Team.BLUE),
-                    new Piece(new Position(7, 7), new FoMoveBehavior(), PieceType.FO, Team.BLUE),
-                    new Piece(new Position(8, 4), new GungMoveBehavior(), PieceType.GUNG, Team.BLUE),
-                    new Piece(new Position(9, 0), new ChaMoveBehavior(), PieceType.CHA, Team.BLUE),
-                    new Piece(new Position(9, 3), new SaMoveBehavior(), PieceType.SA, Team.BLUE),
-                    new Piece(new Position(9, 5), new SaMoveBehavior(), PieceType.SA, Team.BLUE),
-                    new Piece(new Position(9, 8), new ChaMoveBehavior(), PieceType.CHA, Team.BLUE)
+                    new Piece(new Position(6, 0), new JolMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(6, 2), new JolMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(6, 4), new JolMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(6, 6), new JolMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(6, 8), new JolMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(7, 1), new FoMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(7, 7), new FoMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(8, 4), new GungMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(9, 0), new ChaMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(9, 3), new SaMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(9, 5), new SaMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(9, 8), new ChaMoveBehavior(), Team.BLUE)
             )
     );
 

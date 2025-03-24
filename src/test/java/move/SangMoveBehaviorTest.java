@@ -4,7 +4,6 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
-import piece.PieceType;
 import piece.Pieces;
 import piece.Position;
 import piece.Route;
@@ -20,7 +19,7 @@ public class SangMoveBehaviorTest {
         MoveBehavior moveBehavior = new SangMoveBehavior();
 
         // when
-        Route route = moveBehavior.getLegalRoute(startPosition, endPosition, Team.BLUE);
+        Route route = moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE);
 
         // then
         List<Position> expectPositions = List.of(new Position(0, 1), new Position(1, 2), new Position(2, 3));
@@ -34,12 +33,7 @@ public class SangMoveBehaviorTest {
         MoveBehavior moveBehavior = new SangMoveBehavior();
         Position destination = new Position(2, 2);
         Pieces onRoutePieces = new Pieces(List.of(
-                new Piece(
-                        new Position(1, 1),
-                        new JolMoveBehavior(),
-                        PieceType.JOL,
-                        Team.BLUE
-                )
+                new Piece(new Position(1, 1), new JolMoveBehavior(), Team.BLUE)
         ));
 
         // when, then

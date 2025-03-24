@@ -1,6 +1,7 @@
 package move;
 
 import java.util.List;
+import piece.PieceType;
 import piece.Position;
 import piece.Route;
 import piece.Team;
@@ -20,7 +21,12 @@ public class MaMoveBehavior extends MoveBehavior {
     );
 
     @Override
-    public Route getLegalRoute(Position startPosition, Position endPosition, Team team) {
-        return getLegalRoute(startPosition, endPosition, canMoveDirections);
+    public Route calculateLegalRoute(Position startPosition, Position endPosition, Team team) {
+        return calculateLegalRoute(startPosition, endPosition, canMoveDirections);
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.MA;
     }
 }

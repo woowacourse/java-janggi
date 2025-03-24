@@ -4,7 +4,6 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
-import piece.PieceType;
 import piece.Pieces;
 import piece.Position;
 import piece.Route;
@@ -20,7 +19,7 @@ public class FoMoveBehaviorTest {
         MoveBehavior moveBehavior = new FoMoveBehavior();
 
         // when
-        Route route = moveBehavior.getLegalRoute(startPosition, endPosition, Team.BLUE);
+        Route route = moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE);
 
         // then
         List<Position> positions = route.positions();
@@ -35,8 +34,8 @@ public class FoMoveBehaviorTest {
         Position otherPiecePosition = new Position(0, 4);
         Position destinationPiecePosition = new Position(0, 5);
         Pieces onRoutePieces = new Pieces(
-                List.of(new Piece(otherPiecePosition, new JolMoveBehavior(), PieceType.JOL, Team.BLUE),
-                        new Piece(destinationPiecePosition, new JolMoveBehavior(), PieceType.JOL, Team.RED))
+                List.of(new Piece(otherPiecePosition, new JolMoveBehavior(), Team.BLUE),
+                        new Piece(destinationPiecePosition, new JolMoveBehavior(), Team.RED))
         );
         // when
         Position move = moveBehavior.move(new Position(0, 5), onRoutePieces, Team.BLUE);
@@ -51,8 +50,8 @@ public class FoMoveBehaviorTest {
         Position otherPiecePosition = new Position(0, 4);
         Position destinationPiecePosition = new Position(0, 5);
         Pieces onRoutePieces = new Pieces(
-                List.of(new Piece(otherPiecePosition, new JolMoveBehavior(), PieceType.JOL, Team.BLUE),
-                        new Piece(destinationPiecePosition, new JolMoveBehavior(), PieceType.JOL, Team.BLUE))
+                List.of(new Piece(otherPiecePosition, new JolMoveBehavior(), Team.BLUE),
+                        new Piece(destinationPiecePosition, new JolMoveBehavior(), Team.BLUE))
         );
         // when
         // then
@@ -67,8 +66,8 @@ public class FoMoveBehaviorTest {
         Position otherPiecePosition = new Position(0, 4);
         Position destinationPiecePosition = new Position(0, 5);
         Pieces onRoutePieces = new Pieces(
-                List.of(new Piece(otherPiecePosition, new JolMoveBehavior(), PieceType.JOL, Team.BLUE),
-                        new Piece(destinationPiecePosition, new JolMoveBehavior(), PieceType.JOL, Team.RED))
+                List.of(new Piece(otherPiecePosition, new JolMoveBehavior(), Team.BLUE),
+                        new Piece(destinationPiecePosition, new JolMoveBehavior(), Team.RED))
         );
         // when
 

@@ -9,56 +9,52 @@ import move.MaMoveBehavior;
 import move.SaMoveBehavior;
 import move.SangMoveBehavior;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import piece.InitiateJanggiTeamPieces;
 import piece.Piece;
-import piece.PieceType;
 import piece.Pieces;
 import piece.Position;
 import piece.TableSetting;
 import piece.Team;
 
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class InitiateJanggiPlayerPiecesTest {
 
     final List<Piece> redTeamInitiatePieces = List.of(
-            new Piece(new Position(0, 0), new ChaMoveBehavior(), PieceType.CHA, Team.RED),
-            new Piece(new Position(0, 1), new SangMoveBehavior(), PieceType.SANG, Team.RED),
-            new Piece(new Position(0, 2), new MaMoveBehavior(), PieceType.MA, Team.RED),
-            new Piece(new Position(0, 3), new SaMoveBehavior(), PieceType.SA, Team.RED),
-            new Piece(new Position(0, 5), new SaMoveBehavior(), PieceType.SA, Team.RED),
-            new Piece(new Position(0, 6), new SangMoveBehavior(), PieceType.SANG, Team.RED),
-            new Piece(new Position(0, 7), new MaMoveBehavior(), PieceType.MA, Team.RED),
-            new Piece(new Position(0, 8), new ChaMoveBehavior(), PieceType.CHA, Team.RED),
-            new Piece(new Position(1, 4), new GungMoveBehavior(), PieceType.GUNG, Team.RED),
-            new Piece(new Position(2, 1), new FoMoveBehavior(), PieceType.FO, Team.RED),
-            new Piece(new Position(2, 7), new FoMoveBehavior(), PieceType.FO, Team.RED),
-            new Piece(new Position(3, 0), new JolMoveBehavior(), PieceType.JOL, Team.RED),
-            new Piece(new Position(3, 2), new JolMoveBehavior(), PieceType.JOL, Team.RED),
-            new Piece(new Position(3, 4), new JolMoveBehavior(), PieceType.JOL, Team.RED),
-            new Piece(new Position(3, 6), new JolMoveBehavior(), PieceType.JOL, Team.RED),
-            new Piece(new Position(3, 8), new JolMoveBehavior(), PieceType.JOL, Team.RED)
+            new Piece(new Position(0, 0), new ChaMoveBehavior(), Team.RED),
+            new Piece(new Position(0, 1), new SangMoveBehavior(), Team.RED),
+            new Piece(new Position(0, 2), new MaMoveBehavior(), Team.RED),
+            new Piece(new Position(0, 3), new SaMoveBehavior(), Team.RED),
+            new Piece(new Position(0, 5), new SaMoveBehavior(), Team.RED),
+            new Piece(new Position(0, 6), new SangMoveBehavior(), Team.RED),
+            new Piece(new Position(0, 7), new MaMoveBehavior(), Team.RED),
+            new Piece(new Position(0, 8), new ChaMoveBehavior(), Team.RED),
+            new Piece(new Position(1, 4), new GungMoveBehavior(), Team.RED),
+            new Piece(new Position(2, 1), new FoMoveBehavior(), Team.RED),
+            new Piece(new Position(2, 7), new FoMoveBehavior(), Team.RED),
+            new Piece(new Position(3, 0), new JolMoveBehavior(), Team.RED),
+            new Piece(new Position(3, 2), new JolMoveBehavior(), Team.RED),
+            new Piece(new Position(3, 4), new JolMoveBehavior(), Team.RED),
+            new Piece(new Position(3, 6), new JolMoveBehavior(), Team.RED),
+            new Piece(new Position(3, 8), new JolMoveBehavior(), Team.RED)
     );
 
     final List<Piece> blueTeamInitiatePieces = List.of(
-            new Piece(new Position(6, 0), new JolMoveBehavior(), PieceType.JOL, Team.BLUE),
-            new Piece(new Position(6, 2), new JolMoveBehavior(), PieceType.JOL, Team.BLUE),
-            new Piece(new Position(6, 4), new JolMoveBehavior(), PieceType.JOL, Team.BLUE),
-            new Piece(new Position(6, 6), new JolMoveBehavior(), PieceType.JOL, Team.BLUE),
-            new Piece(new Position(6, 8), new JolMoveBehavior(), PieceType.JOL, Team.BLUE),
-            new Piece(new Position(7, 1), new FoMoveBehavior(), PieceType.FO, Team.BLUE),
-            new Piece(new Position(7, 7), new FoMoveBehavior(), PieceType.FO, Team.BLUE),
-            new Piece(new Position(8, 4), new GungMoveBehavior(), PieceType.GUNG, Team.BLUE),
-            new Piece(new Position(9, 0), new ChaMoveBehavior(), PieceType.CHA, Team.BLUE),
-            new Piece(new Position(9, 1), new SangMoveBehavior(), PieceType.SANG, Team.BLUE),
-            new Piece(new Position(9, 2), new MaMoveBehavior(), PieceType.MA, Team.BLUE),
-            new Piece(new Position(9, 3), new SaMoveBehavior(), PieceType.SA, Team.BLUE),
-            new Piece(new Position(9, 5), new SaMoveBehavior(), PieceType.SA, Team.BLUE),
-            new Piece(new Position(9, 6), new SangMoveBehavior(), PieceType.SANG, Team.BLUE),
-            new Piece(new Position(9, 7), new MaMoveBehavior(), PieceType.MA, Team.BLUE),
-            new Piece(new Position(9, 8), new ChaMoveBehavior(), PieceType.CHA, Team.BLUE)
+            new Piece(new Position(6, 0), new JolMoveBehavior(), Team.BLUE),
+            new Piece(new Position(6, 2), new JolMoveBehavior(), Team.BLUE),
+            new Piece(new Position(6, 4), new JolMoveBehavior(), Team.BLUE),
+            new Piece(new Position(6, 6), new JolMoveBehavior(), Team.BLUE),
+            new Piece(new Position(6, 8), new JolMoveBehavior(), Team.BLUE),
+            new Piece(new Position(7, 1), new FoMoveBehavior(), Team.BLUE),
+            new Piece(new Position(7, 7), new FoMoveBehavior(), Team.BLUE),
+            new Piece(new Position(8, 4), new GungMoveBehavior(), Team.BLUE),
+            new Piece(new Position(9, 0), new ChaMoveBehavior(), Team.BLUE),
+            new Piece(new Position(9, 1), new SangMoveBehavior(), Team.BLUE),
+            new Piece(new Position(9, 2), new MaMoveBehavior(), Team.BLUE),
+            new Piece(new Position(9, 3), new SaMoveBehavior(), Team.BLUE),
+            new Piece(new Position(9, 5), new SaMoveBehavior(), Team.BLUE),
+            new Piece(new Position(9, 6), new SangMoveBehavior(), Team.BLUE),
+            new Piece(new Position(9, 7), new MaMoveBehavior(), Team.BLUE),
+            new Piece(new Position(9, 8), new ChaMoveBehavior(), Team.BLUE)
     );
 
     @Test
@@ -66,7 +62,9 @@ public class InitiateJanggiPlayerPiecesTest {
         Map<Team, Pieces> piecesMap = new InitiateJanggiTeamPieces().janggiInitiatePieces();
         Pieces redTeamPieces = piecesMap.get(Team.RED);
         List<Piece> pieces = redTeamPieces.getPieces();
-        System.out.println(pieces.size() + "," + redTeamPieces.size());
+        for (Piece piece : pieces) {
+            System.out.println(piece.toString());
+        }
         Assertions.assertThatIterable(pieces).containsExactlyInAnyOrderElementsOf(redTeamInitiatePieces);
     }
 
@@ -96,14 +94,14 @@ public class InitiateJanggiPlayerPiecesTest {
                 TableSetting.SANG_MA_SANG_MA);
 
         List<Piece> expectedMaSangs = List.of(
-                new Piece(new Position(9, 1), new SangMoveBehavior(), PieceType.SANG, Team.BLUE),
-                new Piece(new Position(9, 2), new MaMoveBehavior(), PieceType.MA, Team.BLUE),
-                new Piece(new Position(9, 6), new MaMoveBehavior(), PieceType.MA, Team.BLUE),
-                new Piece(new Position(9, 7), new SangMoveBehavior(), PieceType.SANG, Team.BLUE),
-                new Piece(new Position(0, 1), new SangMoveBehavior(), PieceType.SANG, Team.RED),
-                new Piece(new Position(0, 2), new MaMoveBehavior(), PieceType.MA, Team.RED),
-                new Piece(new Position(0, 6), new SangMoveBehavior(), PieceType.SANG, Team.RED),
-                new Piece(new Position(0, 7), new MaMoveBehavior(), PieceType.MA, Team.RED)
+                new Piece(new Position(9, 1), new SangMoveBehavior(), Team.BLUE),
+                new Piece(new Position(9, 2), new MaMoveBehavior(), Team.BLUE),
+                new Piece(new Position(9, 6), new MaMoveBehavior(), Team.BLUE),
+                new Piece(new Position(9, 7), new SangMoveBehavior(), Team.BLUE),
+                new Piece(new Position(0, 1), new SangMoveBehavior(), Team.RED),
+                new Piece(new Position(0, 2), new MaMoveBehavior(), Team.RED),
+                new Piece(new Position(0, 6), new SangMoveBehavior(), Team.RED),
+                new Piece(new Position(0, 7), new MaMoveBehavior(), Team.RED)
         );
 
         // when

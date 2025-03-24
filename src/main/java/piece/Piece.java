@@ -5,18 +5,18 @@ import move.MoveBehavior;
 
 public class Piece {
 
-    private final MoveRule moveRule;
     private final Team team;
+    private final MoveBehavior moveBehavior;
     private Position position;
 
-    public Piece(Position position, MoveBehavior moveBehavior, PieceType pieceType, Team team) {
+    public Piece(Position position, MoveBehavior moveBehavior, Team team) {
         this.position = position;
-        this.moveRule = new MoveRule(moveBehavior, pieceType);
+        this.moveBehavior = moveBehavior;
         this.team = team;
     }
 
     public void move(Pieces onRoutePieces, Position movePosition) {
-        this.position = moveRule.move(movePosition, onRoutePieces, team);
+        this.position = moveBehavior.move(movePosition, onRoutePieces, team);
     }
 
     public boolean isSamePosition(Position destination) {
@@ -28,7 +28,7 @@ public class Piece {
     }
 
     public boolean isSameType(PieceType pieceType) {
-        return moveRule.isSameType(pieceType);
+        return moveBehavior.isSameType(pieceType);
     }
 
     public boolean isSameTeam(Team moveTeam) {
@@ -47,12 +47,12 @@ public class Piece {
         return position;
     }
 
-    public String getType() {
-        return moveRule.getType();
+    public PieceType getType() {
+        return moveBehavior.getPieceType();
     }
 
     public Route getRoute(Position selectPiecePosition, Position movePosition) {
-        return moveRule.getRoute(selectPiecePosition, movePosition, team);
+        return moveBehavior.calculateLegalRoute(selectPiecePosition, movePosition, team);
     }
 
     @Override
@@ -64,12 +64,21 @@ public class Piece {
             return false;
         }
         Piece piece = (Piece) o;
-        return Objects.equals(moveRule, piece.moveRule) && team == piece.team && Objects.equals(
+        return team == piece.team && Objects.equals(moveBehavior, piece.moveBehavior) && Objects.equals(
                 position, piece.position);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(moveRule, team, position);
+        return Objects.hash(team, moveBehavior, position);
+    }
+
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "team=" + team +
+                ", moveBehavior=" + moveBehavior +
+                ", position=" + position +
+                '}';
     }
 }

@@ -14,7 +14,7 @@ public class SaMoveBehaviorTest {
         Position startPosition = new Position(0, 0);
         Position endPosition = new Position(1, 0);
         MoveBehavior moveBehavior = new SaMoveBehavior();
-        Assertions.assertThatThrownBy(() -> moveBehavior.getLegalRoute(startPosition, endPosition, Team.BLUE))
+        Assertions.assertThatThrownBy(() -> moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE))
                 .isInstanceOf(IllegalStateException.class);
         Assertions.assertThatThrownBy(
                         () -> moveBehavior.move(new Position(0, 5), new Pieces(new ArrayList<>()), Team.BLUE))

@@ -18,4 +18,8 @@ public enum PieceType {
     public String getType() {
         return type;
     }
+
+    public boolean isSameType(PieceType pieceType) {
+        return type.equals(pieceType.type);
+    }
 }

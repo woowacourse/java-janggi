@@ -11,14 +11,15 @@ import piece.Team;
 
 public class FoMoveBehavior extends MoveBehavior {
 
-
     @Override
-    public Route getLegalRoute(Position startPosition, Position endPosition, Team team) {
-        Position smallerPosition = startPosition.getSmallerPosition(endPosition);
-        Position biggerPosition = startPosition.getBiggerPosition(endPosition);
+    public Position move(Position destination, Pieces onRoutePieces, Team moveTeam) {
+        validatePiecesEmpty(onRoutePieces);
+        Piece onRouteFirstPiece = onRoutePieces.getFirstPiece();
+        Piece onRoutelastPiece = onRoutePieces.getLastPiece();
+        var onRoutePiecesSize = onRoutePieces.size();
 
-        List<Position> positions = new ArrayList<>();
-        return calculateLegalRoute(startPosition, endPosition, smallerPosition, biggerPosition, positions);
+        validateFoMove(destination, moveTeam, onRoutePiecesSize, onRouteFirstPiece, onRoutelastPiece);
+        return destination;
     }
 
     private Route calculateLegalRoute(Position startPosition, Position endPosition, Position minPosition,
@@ -41,20 +42,9 @@ public class FoMoveBehavior extends MoveBehavior {
         return new Route(positions);
     }
 
-    @Override
-    public Position move(Position destination, Pieces onRoutePieces, Team moveTeam) {
-        validatePiecesEmpty(onRoutePieces);
-        Piece firstPiece = onRoutePieces.getFirstPiece();
-        Piece lastPiece = onRoutePieces.getLastPiece();
-        var onRoutePiecesSize = onRoutePieces.size();
-
-        validateIsFo(firstPiece, lastPiece);
-        validateFoMove(destination, moveTeam, onRoutePiecesSize, firstPiece, lastPiece);
-        return destination;
-    }
-
     private void validateFoMove(Position destination, Team moveTeam, int onRoutePiecesSize, Piece firstPiece,
                                 Piece lastPiece) {
+        throwInvalidMoveBehaviorByCondition(() -> isFo(firstPiece) || isFo(lastPiece));
         throwInvalidMoveBehaviorByCondition(() -> !(onRoutePiecesSize == 1 || onRoutePiecesSize == 2));
         throwInvalidMoveBehaviorByCondition(() -> onRoutePiecesSize == 1 && firstPiece.isSamePosition(destination));
         throwInvalidMoveBehaviorByCondition(() -> onRoutePiecesSize == 2 && !lastPiece.isSamePosition(destination));
@@ -68,11 +58,21 @@ public class FoMoveBehavior extends MoveBehavior {
         }
     }
 
-    private void validateIsFo(Piece firstPiece, Piece lastPiece) {
-        throwInvalidMoveBehaviorByCondition(() -> isFo(firstPiece) || isFo(lastPiece));
+    private boolean isFo(Piece piece) {
+        return piece.isSameType(getPieceType());
     }
 
-    private boolean isFo(Piece piece) {
-        return piece.isSameType(PieceType.FO);
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.FO;
+    }
+
+    @Override
+    public Route calculateLegalRoute(Position startPosition, Position endPosition, Team team) {
+        Position smallerPosition = startPosition.getSmallerPosition(endPosition);
+        Position biggerPosition = startPosition.getBiggerPosition(endPosition);
+
+        List<Position> positions = new ArrayList<>();
+        return calculateLegalRoute(startPosition, endPosition, smallerPosition, biggerPosition, positions);
     }
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
-import piece.PieceType;
 import piece.Pieces;
 import piece.Position;
 import piece.Route;
@@ -20,7 +19,7 @@ public class ChaMoveBehaviorTest {
         MoveBehavior moveBehavior = new ChaMoveBehavior();
 
         // when
-        Route route = moveBehavior.getLegalRoute(startPosition, endPosition, Team.BLUE);
+        Route route = moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE);
 
         // then
         List<Position> positions = route.positions();
@@ -42,14 +41,9 @@ public class ChaMoveBehaviorTest {
     void 차는_같은팀이_목적지에_있으면_이동할_수_없다() {
         // given
         MoveBehavior moveBehavior = new ChaMoveBehavior();
-        Pieces onRoutePieces = new Pieces(List.of(
-                new Piece(
-                        new Position(0, 0),
-                        new ChaMoveBehavior(),
-                        PieceType.CHA,
-                        Team.BLUE
-                )
-        ));
+        Pieces onRoutePieces = new Pieces(
+                List.of(new Piece(new Position(0, 0), new ChaMoveBehavior(), Team.BLUE))
+        );
 
         Position destination = new Position(0, 1);
 

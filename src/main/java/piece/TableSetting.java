@@ -7,60 +7,61 @@ import move.MaMoveBehavior;
 import move.SangMoveBehavior;
 
 public enum TableSetting {
+    
     MA_SANG_MA_SANG("마상_마상",
             List.of(
-                    new Piece(new Position(9, 1), new MaMoveBehavior(), PieceType.MA, Team.BLUE),
-                    new Piece(new Position(9, 2), new SangMoveBehavior(), PieceType.SANG, Team.BLUE),
-                    new Piece(new Position(9, 6), new MaMoveBehavior(), PieceType.MA, Team.BLUE),
-                    new Piece(new Position(9, 7), new SangMoveBehavior(), PieceType.SANG, Team.BLUE)
+                    new Piece(new Position(9, 1), new MaMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(9, 2), new SangMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(9, 6), new MaMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(9, 7), new SangMoveBehavior(), Team.BLUE)
             ),
             List.of(
-                    new Piece(new Position(0, 1), new MaMoveBehavior(), PieceType.MA, Team.RED),
-                    new Piece(new Position(0, 2), new SangMoveBehavior(), PieceType.SANG, Team.RED),
-                    new Piece(new Position(0, 6), new MaMoveBehavior(), PieceType.MA, Team.RED),
-                    new Piece(new Position(0, 7), new SangMoveBehavior(), PieceType.SANG, Team.RED)
+                    new Piece(new Position(0, 1), new MaMoveBehavior(), Team.RED),
+                    new Piece(new Position(0, 2), new SangMoveBehavior(), Team.RED),
+                    new Piece(new Position(0, 6), new MaMoveBehavior(), Team.RED),
+                    new Piece(new Position(0, 7), new SangMoveBehavior(), Team.RED)
             )
     ),
     MA_SANG_SANG_MA("마상_상마",
             List.of(
-                    new Piece(new Position(9, 1), new MaMoveBehavior(), PieceType.MA, Team.BLUE),
-                    new Piece(new Position(9, 2), new SangMoveBehavior(), PieceType.SANG, Team.BLUE),
-                    new Piece(new Position(9, 6), new SangMoveBehavior(), PieceType.SANG, Team.BLUE),
-                    new Piece(new Position(9, 7), new MaMoveBehavior(), PieceType.MA, Team.BLUE)
+                    new Piece(new Position(9, 1), new MaMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(9, 2), new SangMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(9, 6), new SangMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(9, 7), new MaMoveBehavior(), Team.BLUE)
             ),
             List.of(
-                    new Piece(new Position(0, 1), new MaMoveBehavior(), PieceType.MA, Team.RED),
-                    new Piece(new Position(0, 2), new SangMoveBehavior(), PieceType.SANG, Team.RED),
-                    new Piece(new Position(0, 6), new SangMoveBehavior(), PieceType.SANG, Team.RED),
-                    new Piece(new Position(0, 7), new MaMoveBehavior(), PieceType.MA, Team.RED)
+                    new Piece(new Position(0, 1), new MaMoveBehavior(), Team.RED),
+                    new Piece(new Position(0, 2), new SangMoveBehavior(), Team.RED),
+                    new Piece(new Position(0, 6), new SangMoveBehavior(), Team.RED),
+                    new Piece(new Position(0, 7), new MaMoveBehavior(), Team.RED)
             )
     ),
     SANG_MA_MA_SANG("상마_마상",
             List.of(
-                    new Piece(new Position(9, 1), new SangMoveBehavior(), PieceType.SANG, Team.BLUE),
-                    new Piece(new Position(9, 2), new MaMoveBehavior(), PieceType.MA, Team.BLUE),
-                    new Piece(new Position(9, 6), new MaMoveBehavior(), PieceType.MA, Team.BLUE),
-                    new Piece(new Position(9, 7), new SangMoveBehavior(), PieceType.SANG, Team.BLUE)
+                    new Piece(new Position(9, 1), new SangMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(9, 2), new MaMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(9, 6), new MaMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(9, 7), new SangMoveBehavior(), Team.BLUE)
             ),
             List.of(
-                    new Piece(new Position(0, 1), new SangMoveBehavior(), PieceType.SANG, Team.RED),
-                    new Piece(new Position(0, 2), new MaMoveBehavior(), PieceType.MA, Team.RED),
-                    new Piece(new Position(0, 6), new MaMoveBehavior(), PieceType.MA, Team.RED),
-                    new Piece(new Position(0, 7), new SangMoveBehavior(), PieceType.SANG, Team.RED)
+                    new Piece(new Position(0, 1), new SangMoveBehavior(), Team.RED),
+                    new Piece(new Position(0, 2), new MaMoveBehavior(), Team.RED),
+                    new Piece(new Position(0, 6), new MaMoveBehavior(), Team.RED),
+                    new Piece(new Position(0, 7), new SangMoveBehavior(), Team.RED)
             )
     ),
     SANG_MA_SANG_MA("상마_상마",
             List.of(
-                    new Piece(new Position(9, 1), new SangMoveBehavior(), PieceType.SANG, Team.BLUE),
-                    new Piece(new Position(9, 2), new MaMoveBehavior(), PieceType.MA, Team.BLUE),
-                    new Piece(new Position(9, 6), new SangMoveBehavior(), PieceType.SANG, Team.BLUE),
-                    new Piece(new Position(9, 7), new MaMoveBehavior(), PieceType.MA, Team.BLUE)
+                    new Piece(new Position(9, 1), new SangMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(9, 2), new MaMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(9, 6), new SangMoveBehavior(), Team.BLUE),
+                    new Piece(new Position(9, 7), new MaMoveBehavior(), Team.BLUE)
             ),
             List.of(
-                    new Piece(new Position(0, 1), new SangMoveBehavior(), PieceType.SANG, Team.RED),
-                    new Piece(new Position(0, 2), new MaMoveBehavior(), PieceType.MA, Team.RED),
-                    new Piece(new Position(0, 6), new SangMoveBehavior(), PieceType.SANG, Team.RED),
-                    new Piece(new Position(0, 7), new MaMoveBehavior(), PieceType.MA, Team.RED)
+                    new Piece(new Position(0, 1), new SangMoveBehavior(), Team.RED),
+                    new Piece(new Position(0, 2), new MaMoveBehavior(), Team.RED),
+                    new Piece(new Position(0, 6), new SangMoveBehavior(), Team.RED),
+                    new Piece(new Position(0, 7), new MaMoveBehavior(), Team.RED)
             )
     );
 

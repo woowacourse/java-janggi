@@ -40,17 +40,22 @@ public class KoreanChessApplication {
         int turn = 0;
         Optional<Team> loseTeam = playerPieces.kingDeadTeam();
         while (loseTeam.isEmpty()) {
-            try {
-                playTurn(playerPieces, gameView, turn);
-                turn = (turn + 1) % PLAYER_SIZE;
-                loseTeam = playerPieces.kingDeadTeam();
-            } catch (IllegalArgumentException e) {
-                gameView.printError(e.getMessage());
-            }
+            TurnResult turnResult = playKoreanChess(playerPieces, gameView, turn);
+            turn = turnResult.nextTurn();
         }
         playTurn(playerPieces, gameView, turn);
         Team team = loseTeam.get();
         gameView.printWinner(team.opposite());
+    }
+
+    private static TurnResult playKoreanChess(PlayerPieces playerPieces, GameView gameView, int turn) {
+        try {
+            playTurn(playerPieces, gameView, turn);
+            return new TurnResult(turn + 1 % 2, playerPieces.kingDeadTeam());
+        } catch (IllegalArgumentException e) {
+            gameView.printError(e.getMessage());
+        }
+        return new TurnResult(turn, Optional.empty());
     }
 
     private static void playTurn(PlayerPieces playerPieces, GameView gameView, int turn) {

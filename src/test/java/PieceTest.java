@@ -4,7 +4,6 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
-import piece.PieceType;
 import piece.Position;
 import piece.Team;
 
@@ -19,7 +18,6 @@ public class PieceTest {
         Position position = new Position(1, 1);
 
         // then
-        Assertions.assertThatNoException().isThrownBy(() -> new Piece(position, new SangMoveBehavior(), PieceType.CHA,
-                Team.BLUE));
+        Assertions.assertThatNoException().isThrownBy(() -> new Piece(position, new SangMoveBehavior(), Team.BLUE));
     }
 }

@@ -2,6 +2,7 @@ package move;
 
 import java.util.ArrayList;
 import java.util.List;
+import piece.PieceType;
 import piece.Position;
 import piece.Route;
 import piece.Team;
@@ -9,7 +10,7 @@ import piece.Team;
 public class ChaMoveBehavior extends MoveBehavior {
 
     @Override
-    public Route getLegalRoute(Position startPosition, Position endPosition, Team team) {
+    public Route calculateLegalRoute(Position startPosition, Position endPosition, Team team) {
         Position smallerPosition = startPosition.getSmallerPosition(endPosition);
         Position biggerPosition = startPosition.getBiggerPosition(endPosition);
 
@@ -35,5 +36,10 @@ public class ChaMoveBehavior extends MoveBehavior {
             positions.add(minPosition);
         }
         return new Route(positions);
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.CHA;
     }
 }

@@ -16,8 +16,8 @@ public class PiecesTest {
     @Test
     void 피스들을_관리한다() {
         // given
-        var piece = new Piece(new Position(0, 1), new ChaMoveBehavior(), PieceType.CHA, Team.BLUE);
-        var piece2 = new Piece(new Position(0, 2), new FoMoveBehavior(), PieceType.FO, Team.RED);
+        var piece = new Piece(new Position(0, 1), new ChaMoveBehavior(), Team.BLUE);
+        var piece2 = new Piece(new Position(0, 2), new FoMoveBehavior(), Team.RED);
 
         // when
         Pieces pieces = new Pieces(List.of(piece, piece2));
@@ -29,8 +29,8 @@ public class PiecesTest {
     @Test
     void 같은_위치에_있는_적팀_기물을_잡을_수_있다() {
         // given
-        var piece1 = new Piece(new Position(0, 1), new JolMoveBehavior(), PieceType.JOL, Team.BLUE);
-        var piece2 = new Piece(new Position(0, 1), new JolMoveBehavior(), PieceType.JOL, Team.RED);
+        var piece1 = new Piece(new Position(0, 1), new JolMoveBehavior(), Team.BLUE);
+        var piece2 = new Piece(new Position(0, 1), new JolMoveBehavior(), Team.RED);
         Pieces pieces = new Pieces(new ArrayList<>(List.of(piece1)));
         Pieces otherPieces = new Pieces(new ArrayList<>(List.of(piece2)));
 
@@ -45,8 +45,8 @@ public class PiecesTest {
     @Test
     void 같은_위치에_있는_아군은_잡지_않는다() {
         // given
-        var piece1 = new Piece(new Position(0, 1), new JolMoveBehavior(), PieceType.JOL, Team.BLUE);
-        var piece2 = new Piece(new Position(0, 1), new JolMoveBehavior(), PieceType.JOL, Team.BLUE);
+        var piece1 = new Piece(new Position(0, 1), new JolMoveBehavior(), Team.BLUE);
+        var piece2 = new Piece(new Position(0, 1), new JolMoveBehavior(), Team.BLUE);
         Pieces pieces = new Pieces(new ArrayList<>(List.of(piece1, piece2)));
 
         // when
@@ -59,8 +59,8 @@ public class PiecesTest {
     @Test
     void 다른_위치의_적군은_잡을_수_없다() {
         // given
-        var piece1 = new Piece(new Position(0, 1), new JolMoveBehavior(), PieceType.JOL, Team.BLUE);
-        var piece2 = new Piece(new Position(0, 2), new JolMoveBehavior(), PieceType.JOL, Team.RED);
+        var piece1 = new Piece(new Position(0, 1), new JolMoveBehavior(), Team.BLUE);
+        var piece2 = new Piece(new Position(0, 2), new JolMoveBehavior(), Team.RED);
         Pieces pieces = new Pieces(new ArrayList<>(List.of(piece1, piece2)));
 
         // when

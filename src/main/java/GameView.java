@@ -50,7 +50,7 @@ public class GameView {
             return EMPTY_PIECE;
         }
         Piece piece = positionPieceMap.get(position);
-        String type = piece.getType();
+        String type = piece.getType().getType();
         if (piece.isSameTeam(Team.BLUE)) {
             return String.format(BLUE_COLOR_FORMAT, type);
         }

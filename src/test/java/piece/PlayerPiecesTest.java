@@ -17,8 +17,8 @@ public class PlayerPiecesTest {
     @Test
     void 장기판의_모든_피스들을_가지고올_수_있다() {
         // given
-        var bluePiece = new Piece(new Position(0, 1), new ChaMoveBehavior(), PieceType.CHA, Team.BLUE);
-        var redPiece = new Piece(new Position(0, 2), new FoMoveBehavior(), PieceType.FO, Team.RED);
+        var bluePiece = new Piece(new Position(0, 1), new ChaMoveBehavior(), Team.BLUE);
+        var redPiece = new Piece(new Position(0, 2), new FoMoveBehavior(), Team.RED);
         Pieces bluePieces = new Pieces(List.of(bluePiece));
         Pieces redPieces = new Pieces(List.of(redPiece));
         Map<Team, Pieces> teamPieces = Map.of(Team.BLUE, bluePieces, Team.RED, redPieces);
@@ -33,8 +33,8 @@ public class PlayerPiecesTest {
     @Test
     void 기물을_움직일_수_있다() {
         // given
-        var bluePiece = new Piece(new Position(0, 1), new ChaMoveBehavior(), PieceType.CHA, Team.BLUE);
-        var redPiece = new Piece(new Position(0, 3), new FoMoveBehavior(), PieceType.FO, Team.RED);
+        var bluePiece = new Piece(new Position(0, 1), new ChaMoveBehavior(), Team.BLUE);
+        var redPiece = new Piece(new Position(0, 3), new FoMoveBehavior(), Team.RED);
         Pieces bluePieces = new Pieces(List.of(bluePiece));
         Pieces redPieces = new Pieces(List.of(redPiece));
         Map<Team, Pieces> teamPieces = Map.of(Team.BLUE, bluePieces, Team.RED, redPieces);
@@ -42,7 +42,7 @@ public class PlayerPiecesTest {
         playerPieces.move(Team.BLUE, new Position(0, 1), new Position(1, 1));
         Pieces allPieces = playerPieces.allPieces();
 
-        var expectedBluePiece = new Piece(new Position(1, 1), new ChaMoveBehavior(), PieceType.CHA, Team.BLUE);
+        var expectedBluePiece = new Piece(new Position(1, 1), new ChaMoveBehavior(), Team.BLUE);
         // then
         Assertions.assertThat(allPieces.getPieces())
                 .contains(expectedBluePiece);
@@ -52,8 +52,8 @@ public class PlayerPiecesTest {
     @Test
     void 기물을_움직이고_중복된_기물은_제거된다() {
         // given
-        var bluePiece = new Piece(new Position(0, 1), new ChaMoveBehavior(), PieceType.CHA, Team.BLUE);
-        var redPiece = new Piece(new Position(1, 1), new FoMoveBehavior(), PieceType.FO, Team.RED);
+        var bluePiece = new Piece(new Position(0, 1), new ChaMoveBehavior(), Team.BLUE);
+        var redPiece = new Piece(new Position(1, 1), new FoMoveBehavior(), Team.RED);
         Pieces bluePieces = new Pieces(List.of(bluePiece));
         Pieces redPieces = new Pieces(List.of(redPiece));
         Map<Team, Pieces> teamPieces = Map.of(Team.BLUE, bluePieces, Team.RED, redPieces);
@@ -67,8 +67,8 @@ public class PlayerPiecesTest {
 
     @Test
     void 궁이_없는_팀을_반환한다() {
-        var bluePiece = new Piece(new Position(0, 1), new GungMoveBehavior(), PieceType.GUNG, Team.BLUE);
-        var redPiece = new Piece(new Position(1, 1), new FoMoveBehavior(), PieceType.FO, Team.RED);
+        var bluePiece = new Piece(new Position(0, 1), new GungMoveBehavior(), Team.BLUE);
+        var redPiece = new Piece(new Position(1, 1), new FoMoveBehavior(), Team.RED);
         Pieces bluePieces = new Pieces(List.of(bluePiece));
         Pieces redPieces = new Pieces(List.of(redPiece));
         Map<Team, Pieces> teamPieces = Map.of(Team.BLUE, bluePieces, Team.RED, redPieces);
@@ -79,8 +79,8 @@ public class PlayerPiecesTest {
 
     @Test
     void 모두_궁이_있으면_아무것도_반환하지않는다() {
-        var bluePiece = new Piece(new Position(0, 1), new GungMoveBehavior(), PieceType.GUNG, Team.BLUE);
-        var redPiece = new Piece(new Position(1, 1), new GungMoveBehavior(), PieceType.GUNG, Team.RED);
+        var bluePiece = new Piece(new Position(0, 1), new GungMoveBehavior(), Team.BLUE);
+        var redPiece = new Piece(new Position(1, 1), new GungMoveBehavior(), Team.RED);
         Pieces bluePieces = new Pieces(List.of(bluePiece));
         Pieces redPieces = new Pieces(List.of(redPiece));
         Map<Team, Pieces> teamPieces = Map.of(Team.BLUE, bluePieces, Team.RED, redPieces);
