@@ -54,6 +54,12 @@ public class Board {
                 .toList();
     }
 
+    private void validateNotNull(final Map<BoardPosition, Piece> pieces) {
+        if (pieces == null) {
+            throw new IllegalArgumentException("보드는 기물들을 가져야합니다.");
+        }
+    }
+
     private void validateDifferentPositions(
             final BoardPosition selectBoardPosition,
             final BoardPosition destinationBoardPosition
@@ -170,12 +176,6 @@ public class Board {
         for (final InitialPiecesPositions value : InitialPiecesPositions.values()) {
             value.getBoardPosition(team)
                     .forEach(position -> pieces.put(position, value.generatePiece(team)));
-        }
-    }
-
-    private void validateNotNull(final Map<BoardPosition, Piece> pieces) {
-        if (pieces == null) {
-            throw new IllegalArgumentException("보드는 기물들을 가져야합니다.");
         }
     }
 

@@ -19,12 +19,6 @@ public class Janggi {
         this.turn = turn;
     }
 
-    public static Janggi initialize() {
-        final Board board = Board.initialize();
-        final Turn turn = new Turn(Team.GREEN);
-        return new Janggi(board, turn);
-    }
-
     public void processTurn(
             final BoardPosition selectPosition,
             final BoardPosition destinationPosition
@@ -58,6 +52,12 @@ public class Janggi {
         if (board == null || turn == null) {
             throw new IllegalArgumentException("보드는 보드와 현재 턴을 가져야합니다.");
         }
+    }
+
+    public static Janggi initialize() {
+        final Board board = Board.initialize();
+        final Turn turn = new Turn(Team.GREEN);
+        return new Janggi(board, turn);
     }
 
     public Map<BoardPosition, Piece> getPieces() {
