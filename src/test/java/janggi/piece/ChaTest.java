@@ -16,32 +16,33 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class ChaTest {
 
-    static final Position STANDARD = new Position(4, 4);
+    static final Position START_POSITION = new Position(4, 4);
+    static final Position MIDDLE_POSITION = new Position(5, 4);
+    static final Position DESTINATION_POSITION = new Position(6, 4);
+    static final Position OVER_POSITION = new Position(7, 4);
+
 
     @DisplayName("장기말을 이동시킬 수 있다.")
     @ParameterizedTest
     @MethodSource()
     void test1(Position destination) {
-        //given
-        Cha cha = new Cha(STANDARD);
+        Cha cha = new Cha(START_POSITION);
 
-        //when
         Cha movedCha = cha.move(destination, List.of(), List.of());
 
-        //then
         assertThat(movedCha.getPosition()).isEqualTo(destination);
     }
 
     static Stream<Arguments> test1() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x(), STANDARD.y() + 1)),
-                Arguments.of(new Position(STANDARD.x(), STANDARD.y() - 1)),
-                Arguments.of(new Position(8, STANDARD.y())),
-                Arguments.of(new Position(0, STANDARD.y())),
-                Arguments.of(new Position(STANDARD.x(), 0)),
-                Arguments.of(new Position(STANDARD.x(), 9))
+                Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() + 1)),
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() - 1)),
+                Arguments.of(new Position(8, START_POSITION.y())),
+                Arguments.of(new Position(0, START_POSITION.y())),
+                Arguments.of(new Position(START_POSITION.x(), 0)),
+                Arguments.of(new Position(START_POSITION.x(), 9))
         );
     }
 
@@ -50,10 +51,8 @@ class ChaTest {
     @ParameterizedTest
     @MethodSource()
     void test2(Position destination) {
-        //given
-        Cha cha = new Cha(STANDARD);
+        Cha cha = new Cha(START_POSITION);
 
-        //when & then
         assertThatThrownBy(() -> cha.move(destination, List.of(), List.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
@@ -61,41 +60,34 @@ class ChaTest {
 
     static Stream<Arguments> test2() {
         return Stream.of(
-                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y() + 1)),
-                Arguments.of(new Position(STANDARD.x() + 1, STANDARD.y() - 1)),
-                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y() + 1)),
-                Arguments.of(new Position(STANDARD.x() - 1, STANDARD.y() - 1))
+                Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() + 1)),
+                Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() - 1)),
+                Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y() + 1)),
+                Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y() - 1))
         );
     }
 
     @DisplayName("아군 장기말이 장애물일 경우 장애물 이전 위치까지 이동이 가능하다.")
     @Test
     void test4() {
-        //given
-        Cha cha = new Cha(STANDARD);
-        Position positionBeforeHurdle = new Position(5, 4);
-        Position destination = new Position(6, 4);
-        Cha otherPiece = new Cha(destination);
+        Cha cha = new Cha(START_POSITION);
+        Cha alliesPiece = new Cha(DESTINATION_POSITION);
 
-        //when & then
-        Cha movedCha = cha.move(positionBeforeHurdle, List.of(), List.of(otherPiece));
-        assertThat(movedCha.getPosition()).isEqualTo(positionBeforeHurdle);
+        Cha movedCha = cha.move(MIDDLE_POSITION, List.of(), List.of(alliesPiece));
+        assertThat(movedCha.getPosition()).isEqualTo(MIDDLE_POSITION);
     }
 
     @DisplayName("아군 장기말이 장애물일 경우 장애물 위치를 포함해 너머로 이동이 불가능하다.")
     @Test
     void test5() {
-        //given
-        Cha cha = new Cha(STANDARD);
-        Position destination = new Position(6, 4);
-        Cha otherPiece = new Cha(destination);
+        Cha cha = new Cha(START_POSITION);
+        Cha alliesPiece = new Cha(DESTINATION_POSITION);
 
-        //when & then
         assertAll(
-                () -> assertThatThrownBy(() -> cha.move(new Position(6, 4), List.of(), List.of(otherPiece)))
+                () -> assertThatThrownBy(() -> cha.move(DESTINATION_POSITION, List.of(), List.of(alliesPiece)))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다."),
-                () -> assertThatThrownBy(() -> cha.move(new Position(7, 4), List.of(), List.of(otherPiece)))
+                () -> assertThatThrownBy(() -> cha.move(OVER_POSITION, List.of(), List.of(alliesPiece)))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 이동이 불가능합니다.")
         );
@@ -104,28 +96,20 @@ class ChaTest {
     @DisplayName("상대 장기말이 장애물일 경우 장애물 위치까지 이동이 가능하다.")
     @Test
     void test7() {
-        //given
-        Cha cha = new Cha(STANDARD);
-        Position positionBeforeHurdle = new Position(5, 4);
-        Position destination = new Position(6, 4);
-        Cha otherPiece = new Cha(destination);
+        Cha cha = new Cha(START_POSITION);
+        Cha enemyPiece = new Cha(DESTINATION_POSITION);
 
-        //when & then
-        Cha movedCha = cha.move(destination, List.of(otherPiece), List.of());
-        Assertions.assertThat(movedCha.getPosition()).isEqualTo(destination);
+        Cha movedCha = cha.move(DESTINATION_POSITION, List.of(enemyPiece), List.of());
+        Assertions.assertThat(movedCha.getPosition()).isEqualTo(DESTINATION_POSITION);
     }
 
     @DisplayName("상대 장기말이 장애물일 경우 장애물 위치를 제외하고 너머로 이동이 불가능하다.")
     @Test
     void test6() {
-        //given
-        Cha cha = new Cha(STANDARD);
-        Position destination = new Position(6, 4);
-        Position hurdlePosition = new Position(5, 4);
-        Cha otherPiece = new Cha(hurdlePosition);
+        Cha cha = new Cha(START_POSITION);
+        Cha enemyPiece = new Cha(DESTINATION_POSITION);
 
-        //when & then
-        assertThatThrownBy(() -> cha.move(destination, List.of(otherPiece), List.of()))
+        assertThatThrownBy(() -> cha.move(OVER_POSITION, List.of(enemyPiece), List.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
