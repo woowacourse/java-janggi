@@ -1,14 +1,13 @@
-package janggiGame.piece;
+package janggiGame.piece.oneMovePiece;
 
 import janggiGame.board.Dot;
-
+import janggiGame.piece.Dynasty;
+import janggiGame.piece.Piece;
 import java.util.List;
 import java.util.Map;
 
-public class Advisor extends Piece {
-    public static final String NAME = "사";
-
-    public Advisor(Dynasty dynasty) {
+public abstract class OneMovePiece extends Piece {
+    public OneMovePiece(Dynasty dynasty) {
         super(dynasty);
     }
 
@@ -25,7 +24,7 @@ public class Advisor extends Piece {
     @Override
     public void validateRoute(int dx, int dy) {
         if (Math.abs(dx) + Math.abs(dy) != 1) {
-            throw new UnsupportedOperationException("[ERROR] 사가 이동할 수 있는 목적지가 아닙니다.");
+            throw new UnsupportedOperationException("[ERROR] 장이 이동할 수 있는 목적지가 아닙니다.");
         }
     }
 
@@ -34,8 +33,4 @@ public class Advisor extends Piece {
         validateSameDynasty(destinationPiece);
     }
 
-    @Override
-    public String getName() {
-        return NAME;
-    }
 }

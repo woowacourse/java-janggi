@@ -2,6 +2,7 @@ package janggiGame.piece;
 
 import janggiGame.board.Board;
 import janggiGame.board.Dot;
+import janggiGame.piece.straightMovePiece.Chariot;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

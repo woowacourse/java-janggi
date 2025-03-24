@@ -1,17 +1,14 @@
-package janggiGame.piece;
+package janggiGame.piece.straightMovePiece;
 
 import janggiGame.board.Dot;
-
+import janggiGame.piece.Dynasty;
+import janggiGame.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 
-public class Chariot extends Piece {
-    private static final String NAME = "차";
-
-    public Chariot(Dynasty dynasty) {
+public abstract class StraightMovePiece extends Piece {
+    public StraightMovePiece(Dynasty dynasty) {
         super(dynasty);
     }
 
@@ -66,27 +63,11 @@ public class Chariot extends Piece {
     @Override
     public void validateRoute(int dx, int dy) {
         if (dx != 0 && dy != 0) {
-            throw new UnsupportedOperationException("[ERROR] 차가 이동할 수 있는 목적지가 아닙니다.");
+            throw new UnsupportedOperationException("[ERROR] 포가 이동할 수 있는 목적지가 아닙니다.");
         }
 
         if (dx == 0 && dy == 0) {
             throw new IllegalArgumentException("[ERROR] 같은 위치로 이동할 수 없습니다.");
         }
-    }
-
-    @Override
-    public void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
-        validateSameDynasty(destinationPiece);
-
-        boolean isBlocked = routesWithPiece.values().stream().anyMatch(Objects::nonNull);
-
-        if(isBlocked) {
-            throw new UnsupportedOperationException("[ERROR] 차는 경로에 말이 존재하면 이동할 수 없습니다.");
-        }
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
     }
 }

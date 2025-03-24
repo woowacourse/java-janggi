@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggiGame.board.Board;
 import janggiGame.board.Dot;
+import janggiGame.piece.oneMovePiece.Pawn;
+import janggiGame.piece.straightMovePiece.Chariot;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

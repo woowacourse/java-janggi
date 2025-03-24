@@ -1,26 +1,13 @@
-package janggiGame.piece;
+package janggiGame.piece.oneMovePiece;
 
-import janggiGame.board.Dot;
+import janggiGame.piece.Dynasty;
 
-import java.util.List;
-import java.util.Map;
-
-public class Pawn extends Piece {
+public class Pawn extends OneMovePiece {
 
     public static final String NAME = "병";
 
     public Pawn(Dynasty dynasty) {
         super(dynasty);
-    }
-
-    @Override
-    public List<Dot> getRoute(Dot origin, Dot destination) {
-        int dx = origin.getDx(destination);
-        int dy = origin.getDy(destination);
-
-        validateRoute(dx, dy);
-
-        return List.of();
     }
 
     @Override
@@ -36,11 +23,6 @@ public class Pawn extends Piece {
         if (dynasty == Dynasty.CHO && dy < 0) {
             throw new UnsupportedOperationException("[ERROR] 병은 뒤로 이동할 수 없습니다.");
         }
-    }
-
-    @Override
-    public void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
-        validateSameDynasty(destinationPiece);
     }
 
     @Override
