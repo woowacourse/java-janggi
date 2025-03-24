@@ -27,7 +27,7 @@ public class Janggun extends Piece {
 
     @Override
     public Positions makeRoute(final Position position) {
-        return new Positions(List.of(position));
+        return new Positions(List.of());
     }
 
     @Override

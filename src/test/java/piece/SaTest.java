@@ -67,7 +67,7 @@ class SaTest {
         Positions actual = sa.makeRoute(futurePosition);
 
         //then
-        assertThat(actual.getPositions().contains(futurePosition)).isTrue();
+        assertThat(actual.getPositions().contains(futurePosition)).isFalse();
     }
 
     private static Stream<Arguments> saNonCanMoveToPositionProvider() {

@@ -67,7 +67,7 @@ class JanggunTest {
         Positions actual = janggun.makeRoute(futurePosition);
 
         //then
-        assertThat(actual.getPositions().contains(futurePosition)).isTrue();
+        assertThat(actual.getPositions().contains(futurePosition)).isFalse();
     }
 
     private static Stream<Arguments> JanggunNonCanMoveToPositionProvider() {

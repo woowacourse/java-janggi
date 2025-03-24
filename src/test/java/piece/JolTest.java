@@ -68,7 +68,7 @@ class JolTest {
         Positions actual = jol.makeRoute(futurePosition);
 
         //then
-        assertThat(actual.getPositions().contains(futurePosition)).isTrue();
+        assertThat(actual.getPositions().contains(futurePosition)).isFalse();
     }
 
     private static Stream<Arguments> jolNonCanMoveToPositionProvider() {

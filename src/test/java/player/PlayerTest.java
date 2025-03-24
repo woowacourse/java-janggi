@@ -137,7 +137,7 @@ class PlayerTest {
         Positions actual = player.makeRoute(new Position(5, 5), position);
 
         //then
-        assertThat(actual.getPositions().contains(position)).isTrue();
+        assertThat(actual.getPositions().contains(position)).isFalse();
     }
 
     @Test
