@@ -1,52 +1,42 @@
 package view;
 
-import domain.piece.Cannon;
-import domain.piece.Chariot;
-import domain.piece.Elephant;
-import domain.piece.Empty;
-import domain.piece.General;
-import domain.piece.Guard;
-import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.piece.PieceColor;
-import domain.piece.Soldier;
+import domain.piece.PieceType;
+import java.util.Arrays;
 
 public enum PieceName {
-    CANNON(Cannon.class, "포"),
-    CHARIOT(Chariot.class, "차"),
-    ELEPHANT(Elephant.class, "상"),
-    GENERAL(General.class, "궁"),
-    GUARD(Guard.class, "사"),
-    HORSE(Horse.class, "마"),
-    SOLDIER(Soldier.class, "졸"),
-    EMPTY(Empty.class, "ㅁ");
+    CANNON(PieceType.CANNON, "포"),
+    CHARIOT(PieceType.CHARIOT, "차"),
+    ELEPHANT(PieceType.ELEPHANT, "상"),
+    GENERAL(PieceType.GENERAL, "궁"),
+    GUARD(PieceType.GUARD, "사"),
+    HORSE(PieceType.HORSE, "마"),
+    SOLDIER(PieceType.SOLDIER, "졸"),
+    EMPTY(PieceType.EMPTY, "ㅁ");
 
-    private final Class<? extends Piece> pieceType;
+    private final PieceType pieceType;
     private final String name;
 
-    PieceName(Class<? extends Piece> pieceType, String name) {
+    PieceName(PieceType pieceType, String name) {
         this.pieceType = pieceType;
         this.name = name;
     }
 
-    public static String getNameFromPiece(Piece piece) {
-        for (PieceName pieceName : PieceName.values()) {
-            if (pieceName.pieceType.equals(piece.getClass())) {
-                String colorString = pieceName.getColorString(piece);
-                return colorString + pieceName.name;
-            }
-        }
-
-        return "";
+    public static String getNameFromPieceType(Piece piece) {
+        return Arrays.stream(PieceName.values())
+                .filter(pieceName -> piece.isSamePieceType(pieceName.pieceType))
+                .map(pieceName -> pieceName.name)
+                .findAny()
+                .orElse("");
     }
 
-    public static Class<? extends Piece> pieceTypeFromName(String name) {
-        for (PieceName pieceName : PieceName.values()) {
-            if (pieceName.name.equals(name)) {
-                return pieceName.pieceType;
-            }
-        }
-        return Empty.class;
+    public static PieceType getPieceTypeFromName(String name) {
+        return Arrays.stream(PieceName.values())
+                .filter(pieceName -> pieceName.name.equals(name))
+                .map(pieceName -> pieceName.pieceType)
+                .findAny()
+                .orElse(PieceType.EMPTY);
     }
 
     private String getColorString(Piece piece) {
