@@ -2,40 +2,28 @@ package team;
 
 import direction.Point;
 import java.util.List;
-import java.util.Optional;
 import piece.Piece;
 import piece.Pieces;
 
 public class Player {
 
-    private final List<Piece> pieces;
+    private final Pieces pieces;
     private final Team team;
 
     public Player(List<Piece> pieces, Team team) {
-        this.pieces = pieces;
+        this.pieces = new Pieces(pieces);
         this.team = team;
-    }
-
-    public boolean isContainPiece(Point point) {
-        return pieces.stream()
-                .anyMatch(piece -> piece.isSamePoint(point));
-    }
-
-    public Optional<Piece> findPieceBy(Point point) {
-        return pieces.stream()
-                .filter(piece -> piece.isSamePoint(point))
-                .findFirst();
     }
 
     public void move(Pieces allPieces, Point start, Point end) {
         validateExistMyPieceOnDestination(end);
 
-        Piece piece = findPieceBy(start).get();
+        Piece piece = pieces.findByPoint(start);
         piece.move(allPieces, end);
     }
 
     private void validateExistMyPieceOnDestination(Point end) {
-        if (findPieceBy(end).isPresent()) {
+        if (pieces.isExistPieceIn(end)) {
             throw new IllegalArgumentException("[ERROR] 목적지에 본인의 기물이 존재합니다.");
         }
     }
@@ -45,6 +33,6 @@ public class Player {
     }
 
     public List<Piece> getPieces() {
-        return pieces;
+        return pieces.getPieces();
     }
 }
