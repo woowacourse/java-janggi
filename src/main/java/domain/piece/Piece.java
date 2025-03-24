@@ -24,11 +24,15 @@ public abstract class Piece {
     }
 
     public boolean isSamePiece(Piece other) {
-        return type.equals(other.type);
+        return this.type == other.type;
     }
 
     public boolean isOtherTeam(Piece other) {
-        return !color.equals(other.color);
+        return this.color != other.color;
+    }
+
+    public boolean isOtherTeam(PieceColor color) {
+        return this.color != color;
     }
 
     public PieceColor getColor() {

@@ -41,7 +41,7 @@ public class BlueTurn implements State {
     }
 
     private void validateIsMyPiece(Piece piece) {
-        if (piece.getColor() != PieceColor.BLUE) {
+        if (piece.isOtherTeam(pieceColor)) {
             throw new IllegalArgumentException("움직이려는 기물이 파란색이 아닙니다.");
         }
     }
