@@ -1,5 +1,12 @@
 package domain.pattern;
 
+import static domain.Fixtures._EIGHT_FIVE;
+import static domain.Fixtures._EIGHT_FOUR;
+import static domain.Fixtures._NINE_FIVE;
+import static domain.Fixtures._NINE_FOUR;
+import static domain.Fixtures._NINE_SIX;
+import static domain.Fixtures._ZERO_FIVE;
+
 import domain.JanggiPosition;
 import domain.piece.Piece;
 import domain.piece.Side;
@@ -18,13 +25,8 @@ public class 사PathTest {
     @ParameterizedTest
     @MethodSource("provide사Path")
     void 사의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
-        // given
-        int beforeRow = 9;
-        int beforeColumn = 5;
-        JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-
         // when
-        List<Pattern> 사path = piece.findMovablePath(beforePosition, afterPosition);
+        List<Pattern> 사path = piece.findMovablePath(_NINE_FIVE, afterPosition);
 
         // when & then
         Assertions.assertThat(사path)
@@ -34,25 +36,16 @@ public class 사PathTest {
     static Stream<Arguments> provide사Path() {
         Path pathOf사 = new 사Path();
         return Stream.of(
-                Arguments.of(new JanggiPosition(8, 5), pathOf사.getPatterns(Direction.UP)),
-                Arguments.of(new JanggiPosition(9, 4), pathOf사.getPatterns(Direction.LEFT)),
-                Arguments.of(new JanggiPosition(9, 6), pathOf사.getPatterns(Direction.RIGHT)),
-                Arguments.of(new JanggiPosition(0, 5), pathOf사.getPatterns(Direction.DOWN)));
+                Arguments.of(_EIGHT_FIVE, pathOf사.getPatterns(Direction.UP)),
+                Arguments.of(_NINE_FOUR, pathOf사.getPatterns(Direction.LEFT)),
+                Arguments.of(_NINE_SIX, pathOf사.getPatterns(Direction.RIGHT)),
+                Arguments.of(_ZERO_FIVE, pathOf사.getPatterns(Direction.DOWN)));
     }
 
     @Test
     void 사의_이동_전_후_위치가_알맞지_않으면_예외를_발생시킨다() {
-        // given
-        int beforeRow = 9;
-        int beforeColumn = 5;
-        JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-
-        int afterRow = 8;
-        int afterColumn = 4;
-        JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
-
         // when & then
-        Assertions.assertThatThrownBy(() -> piece.findMovablePath(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> piece.findMovablePath(_NINE_FIVE, _EIGHT_FOUR))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

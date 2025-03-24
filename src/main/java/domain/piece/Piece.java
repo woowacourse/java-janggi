@@ -4,6 +4,7 @@ import domain.JanggiPosition;
 import domain.pattern.Path;
 import domain.pattern.Pattern;
 import domain.piece.state.PieceState;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Piece {
@@ -52,5 +53,23 @@ public abstract class Piece {
 
     public PieceState getState() {
         return state;
+    }
+
+    public List<JanggiPosition> getPositionsFromPatterns(JanggiPosition beforePosition, JanggiPosition afterPosition) {
+        List<Pattern> patterns = findMovablePath(beforePosition, afterPosition);
+        List<Pattern> patternsWithoutDestination = patterns.subList(0, patterns.size() - 1);
+
+        List<JanggiPosition> positions = new ArrayList<>();
+
+        JanggiPosition newPosition = beforePosition;
+        for (Pattern pattern : patternsWithoutDestination) {
+            newPosition = newPosition.moveOnePosition(pattern);
+            positions.add(newPosition);
+        }
+        return positions;
+    }
+
+    public void validateMove(List<Piece> hurdlePieces) {
+        state.validateMove(hurdlePieces);
     }
 }

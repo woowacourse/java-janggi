@@ -1,5 +1,11 @@
 package domain.pattern;
 
+import static domain.Fixtures._EIGHT_FIVE;
+import static domain.Fixtures._SEVEN_FIVE;
+import static domain.Fixtures._SEVEN_FOUR;
+import static domain.Fixtures._SEVEN_SIX;
+import static domain.Fixtures._SIX_FIVE;
+
 import domain.JanggiPosition;
 import domain.piece.Piece;
 import domain.piece.Side;
@@ -18,13 +24,8 @@ public class 졸PathTest {
     @ParameterizedTest
     @MethodSource("provide졸Path")
     void 졸의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
-        // given
-        int beforeRow = 7;
-        int beforeColumn = 5;
-        JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-
         // when
-        List<Pattern> 졸path = piece.findMovablePath(beforePosition, afterPosition);
+        List<Pattern> 졸path = piece.findMovablePath(_SEVEN_FIVE, afterPosition);
 
         // when & then
         Assertions.assertThat(졸path)
@@ -34,25 +35,16 @@ public class 졸PathTest {
     static Stream<Arguments> provide졸Path() {
         Path pathOf졸 = new 졸Path();
         return Stream.of(
-                Arguments.of(new JanggiPosition(6, 5), pathOf졸.getPatterns(Direction.UP)),
-                Arguments.of(new JanggiPosition(7, 4), pathOf졸.getPatterns(Direction.LEFT)),
-                Arguments.of(new JanggiPosition(7, 6), pathOf졸.getPatterns(Direction.RIGHT))
+                Arguments.of(_SIX_FIVE, pathOf졸.getPatterns(Direction.UP)),
+                Arguments.of(_SEVEN_FOUR, pathOf졸.getPatterns(Direction.LEFT)),
+                Arguments.of(_SEVEN_SIX, pathOf졸.getPatterns(Direction.RIGHT))
         );
     }
 
     @Test
     void 졸의_이동_전_후_위치가_알맞지_않으면_예외를_발생시킨다() {
-        // given
-        int beforeRow = 7;
-        int beforeColumn = 5;
-        JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-
-        int afterRow = 8;
-        int afterColumn = 5;
-        JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
-
         // when & then
-        Assertions.assertThatThrownBy(() -> piece.findMovablePath(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> piece.findMovablePath(_SEVEN_FIVE, _EIGHT_FIVE))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

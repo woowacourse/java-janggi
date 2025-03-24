@@ -1,5 +1,16 @@
 package domain.pattern;
 
+import static domain.Fixtures._EIGHT_EIGHT;
+import static domain.Fixtures._EIGHT_TWO;
+import static domain.Fixtures._FOUR_EIGHT;
+import static domain.Fixtures._FOUR_SIX;
+import static domain.Fixtures._FOUR_TWO;
+import static domain.Fixtures._NINE_SEVEN;
+import static domain.Fixtures._NINE_THREE;
+import static domain.Fixtures._SIX_FIVE;
+import static domain.Fixtures._THREE_SEVEN;
+import static domain.Fixtures._THREE_THREE;
+
 import domain.JanggiPosition;
 import domain.piece.Piece;
 import domain.piece.Side;
@@ -18,13 +29,8 @@ public class 상PathTest {
     @ParameterizedTest
     @MethodSource("provide상Path")
     void 상의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
-        // given
-        int beforeRow = 6;
-        int beforeColumn = 5;
-        JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-
         // when
-        List<Pattern> 상path = piece.findMovablePath(beforePosition, afterPosition);
+        List<Pattern> 상path = piece.findMovablePath(_SIX_FIVE, afterPosition);
 
         // when & then
         Assertions.assertThat(상path)
@@ -34,30 +40,21 @@ public class 상PathTest {
     static Stream<Arguments> provide상Path() {
         Path pathOf상 = new 상Path();
         return Stream.of(
-                Arguments.of(new JanggiPosition(4, 8), pathOf상.getPatterns(Direction.RIGHT_UP)),
-                Arguments.of(new JanggiPosition(8, 8), pathOf상.getPatterns(Direction.RIGHT_DOWN)),
-                Arguments.of(new JanggiPosition(9, 7), pathOf상.getPatterns(Direction.DOWN_RIGHT)),
-                Arguments.of(new JanggiPosition(9, 3), pathOf상.getPatterns(Direction.DOWN_LEFT)),
-                Arguments.of(new JanggiPosition(8, 2), pathOf상.getPatterns(Direction.LEFT_DOWN)),
-                Arguments.of(new JanggiPosition(4, 2), pathOf상.getPatterns(Direction.LEFT_UP)),
-                Arguments.of(new JanggiPosition(3, 3), pathOf상.getPatterns(Direction.UP_LEFT)),
-                Arguments.of(new JanggiPosition(3, 7), pathOf상.getPatterns(Direction.UP_RIGHT))
+                Arguments.of(_FOUR_EIGHT, pathOf상.getPatterns(Direction.RIGHT_UP)),
+                Arguments.of(_EIGHT_EIGHT, pathOf상.getPatterns(Direction.RIGHT_DOWN)),
+                Arguments.of(_NINE_SEVEN, pathOf상.getPatterns(Direction.DOWN_RIGHT)),
+                Arguments.of(_NINE_THREE, pathOf상.getPatterns(Direction.DOWN_LEFT)),
+                Arguments.of(_EIGHT_TWO, pathOf상.getPatterns(Direction.LEFT_DOWN)),
+                Arguments.of(_FOUR_TWO, pathOf상.getPatterns(Direction.LEFT_UP)),
+                Arguments.of(_THREE_THREE, pathOf상.getPatterns(Direction.UP_LEFT)),
+                Arguments.of(_THREE_SEVEN, pathOf상.getPatterns(Direction.UP_RIGHT))
         );
     }
 
     @Test
     void 상의_이동_전_후_위치가_알맞지_않으면_예외를_발생시킨다() {
-        // given
-        int beforeRow = 6;
-        int beforeColumn = 5;
-        JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-
-        int afterRow = 4;
-        int afterColumn = 6;
-        JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
-
         // when & then
-        Assertions.assertThatThrownBy(() -> piece.findMovablePath(beforePosition, afterPosition))
+        Assertions.assertThatThrownBy(() -> piece.findMovablePath(_SIX_FIVE, _FOUR_SIX))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

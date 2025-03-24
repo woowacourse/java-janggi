@@ -1,5 +1,39 @@
 package domain;
 
+import static domain.Fixtures._EIGHT_EIGHT;
+import static domain.Fixtures._EIGHT_FIVE;
+import static domain.Fixtures._EIGHT_THREE;
+import static domain.Fixtures._EIGHT_TWO;
+import static domain.Fixtures._FIVE_NINE;
+import static domain.Fixtures._FIVE_ONE;
+import static domain.Fixtures._FIVE_SEVEN;
+import static domain.Fixtures._FIVE_TWO;
+import static domain.Fixtures._FOUR_FOUR;
+import static domain.Fixtures._FOUR_ONE;
+import static domain.Fixtures._FOUR_SEVEN;
+import static domain.Fixtures._FOUR_THREE;
+import static domain.Fixtures._FOUR_TWO;
+import static domain.Fixtures._NINE_FIVE;
+import static domain.Fixtures._NINE_FOUR;
+import static domain.Fixtures._ONE_TWO;
+import static domain.Fixtures._SEVEN_EIGHT;
+import static domain.Fixtures._SEVEN_FIVE;
+import static domain.Fixtures._SEVEN_NINE;
+import static domain.Fixtures._SEVEN_ONE;
+import static domain.Fixtures._SEVEN_SEVEN;
+import static domain.Fixtures._SEVEN_THREE;
+import static domain.Fixtures._SEVEN_TWO;
+import static domain.Fixtures._SIX_FIVE;
+import static domain.Fixtures._SIX_ONE;
+import static domain.Fixtures._SIX_SEVEN;
+import static domain.Fixtures._THREE_THREE;
+import static domain.Fixtures._THREE_TWO;
+import static domain.Fixtures._TWO_EIGHT;
+import static domain.Fixtures._ZERO_FOUR;
+import static domain.Fixtures._ZERO_NINE;
+import static domain.Fixtures._ZERO_ONE;
+import static domain.Fixtures._ZERO_THREE;
+import static domain.Fixtures._ZERO_TWO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -85,7 +119,7 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard();
 
         // when & then
-        assertThatThrownBy(() -> janggiBoard.move(new JanggiPosition(0, 1), new JanggiPosition(6, 1)))
+        assertThatThrownBy(() -> janggiBoard.move(_ZERO_ONE, _SIX_ONE))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -97,10 +131,10 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard();
 
             // when
-            janggiBoard.move(new JanggiPosition(9, 5), new JanggiPosition(8, 5));
+            janggiBoard.move(_NINE_FIVE, _EIGHT_FIVE);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(new JanggiPosition(8, 5))).isInstanceOf(궁.class);
+            assertThat(janggiBoard.getPieceFrom(_EIGHT_FIVE)).isInstanceOf(궁.class);
         }
 
         @Test
@@ -109,10 +143,10 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard();
 
             // when
-            janggiBoard.move(new JanggiPosition(0, 2), new JanggiPosition(8, 3));
+            janggiBoard.move(_ZERO_TWO, _EIGHT_THREE);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(new JanggiPosition(8, 3))).isInstanceOf(마.class);
+            assertThat(janggiBoard.getPieceFrom(_EIGHT_THREE)).isInstanceOf(마.class);
         }
 
         @Test
@@ -121,10 +155,10 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard();
 
             // when
-            janggiBoard.move(new JanggiPosition(0, 4), new JanggiPosition(9, 4));
+            janggiBoard.move(_ZERO_FOUR, _NINE_FOUR);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(new JanggiPosition(9, 4))).isInstanceOf(사.class);
+            assertThat(janggiBoard.getPieceFrom(_NINE_FOUR)).isInstanceOf(사.class);
         }
 
         @Test
@@ -133,11 +167,11 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard();
 
             // when
-            janggiBoard.move(new JanggiPosition(7, 5), new JanggiPosition(6, 5));
-            janggiBoard.move(new JanggiPosition(0, 3), new JanggiPosition(7, 5));
+            janggiBoard.move(_SEVEN_FIVE, _SIX_FIVE);
+            janggiBoard.move(_ZERO_THREE, _SEVEN_FIVE);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(new JanggiPosition(7, 5))).isInstanceOf(상.class);
+            assertThat(janggiBoard.getPieceFrom(_SEVEN_FIVE)).isInstanceOf(상.class);
         }
 
         @Test
@@ -146,10 +180,10 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard();
 
             // when
-            janggiBoard.move(new JanggiPosition(7, 1), new JanggiPosition(6, 1));
+            janggiBoard.move(_SEVEN_ONE, _SIX_ONE);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(new JanggiPosition(6, 1))).isInstanceOf(졸병.class);
+            assertThat(janggiBoard.getPieceFrom(_SIX_ONE)).isInstanceOf(졸병.class);
         }
 
         @Test
@@ -158,10 +192,10 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard();
 
             // when
-            janggiBoard.move(new JanggiPosition(4, 1), new JanggiPosition(5, 1));
+            janggiBoard.move(_FOUR_ONE, _FIVE_ONE);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(new JanggiPosition(5, 1))).isInstanceOf(졸병.class);
+            assertThat(janggiBoard.getPieceFrom(_FIVE_ONE)).isInstanceOf(졸병.class);
         }
 
         @Test
@@ -170,11 +204,11 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard();
 
             // when
-            janggiBoard.move(new JanggiPosition(7, 9), new JanggiPosition(7, 8));
-            janggiBoard.move(new JanggiPosition(0, 9), new JanggiPosition(5, 9));
+            janggiBoard.move(_SEVEN_NINE, _SEVEN_EIGHT);
+            janggiBoard.move(_ZERO_NINE, _FIVE_NINE);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(new JanggiPosition(5, 9))).isInstanceOf(차.class);
+            assertThat(janggiBoard.getPieceFrom(_FIVE_NINE)).isInstanceOf(차.class);
         }
 
         @Test
@@ -182,13 +216,13 @@ public class JanggiBoardTest {
             // given
 
             JanggiBoard janggiBoard = new JanggiBoard();
-            janggiBoard.move(new JanggiPosition(0, 2), new JanggiPosition(8, 3));
+            janggiBoard.move(_ZERO_TWO, _EIGHT_THREE);
 
             // when
-            janggiBoard.move(new JanggiPosition(0, 1), new JanggiPosition(0, 2));
+            janggiBoard.move(_ZERO_ONE, _ZERO_TWO);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(new JanggiPosition(0, 2))).isInstanceOf(차.class);
+            assertThat(janggiBoard.getPieceFrom(_ZERO_TWO)).isInstanceOf(차.class);
         }
 
         @Test
@@ -197,14 +231,14 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard();
 
             // when
-            janggiBoard.move(new JanggiPosition(4, 3), new JanggiPosition(4, 4));
-            janggiBoard.move(new JanggiPosition(1, 2), new JanggiPosition(3, 3));
-            janggiBoard.move(new JanggiPosition(3, 3), new JanggiPosition(5, 2));
+            janggiBoard.move(_FOUR_THREE, _FOUR_FOUR);
+            janggiBoard.move(_ONE_TWO, _THREE_THREE);
+            janggiBoard.move(_THREE_THREE, _FIVE_TWO);
 
-            janggiBoard.move(new JanggiPosition(8, 2), new JanggiPosition(4, 2));
+            janggiBoard.move(_EIGHT_TWO, _FOUR_TWO);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(new JanggiPosition(4, 2))).isInstanceOf(포.class);
+            assertThat(janggiBoard.getPieceFrom(_FOUR_TWO)).isInstanceOf(포.class);
         }
     }
 
@@ -214,7 +248,7 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard();
 
         // when & then
-        assertThatThrownBy(() -> janggiBoard.move(new JanggiPosition(8, 8), new JanggiPosition(2, 8)))
+        assertThatThrownBy(() -> janggiBoard.move(_EIGHT_EIGHT, _TWO_EIGHT))
                 .isInstanceOf(IllegalStateException.class);
     }
 
@@ -224,11 +258,11 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard();
 
         // when
-        janggiBoard.move(new JanggiPosition(9, 5), new JanggiPosition(8, 5));
-        janggiBoard.move(new JanggiPosition(8, 8), new JanggiPosition(8, 3));
+        janggiBoard.move(_NINE_FIVE, _EIGHT_FIVE);
+        janggiBoard.move(_EIGHT_EIGHT, _EIGHT_THREE);
 
         // then
-        assertThatThrownBy(() -> janggiBoard.move(new JanggiPosition(8, 3), new JanggiPosition(3, 3)))
+        assertThatThrownBy(() -> janggiBoard.move(_EIGHT_THREE, _THREE_THREE))
                 .isInstanceOf(IllegalStateException.class);
     }
 
@@ -238,11 +272,11 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard();
 
         // when
-        janggiBoard.move(new JanggiPosition(7, 7), new JanggiPosition(6, 7));
-        janggiBoard.move(new JanggiPosition(6, 7), new JanggiPosition(5, 7));
+        janggiBoard.move(_SEVEN_SEVEN, _SIX_SEVEN);
+        janggiBoard.move(_SIX_SEVEN, _FIVE_SEVEN);
 
-        Piece pieceInDanger = janggiBoard.getPieceFrom(new JanggiPosition(4, 7));
-        janggiBoard.move(new JanggiPosition(5, 7), new JanggiPosition(4, 7));
+        Piece pieceInDanger = janggiBoard.getPieceFrom(_FOUR_SEVEN);
+        janggiBoard.move(_FIVE_SEVEN, _FOUR_SEVEN);
 
         // then
         assertThat(pieceInDanger.getState()).isInstanceOf(Captured.class);
@@ -254,10 +288,10 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard();
 
         // when
-        janggiBoard.move(new JanggiPosition(7, 3), new JanggiPosition(7, 2));
+        janggiBoard.move(_SEVEN_THREE, _SEVEN_TWO);
 
         // then
-        assertThatThrownBy(() -> janggiBoard.move(new JanggiPosition(8, 2), new JanggiPosition(3, 2)))
+        assertThatThrownBy(() -> janggiBoard.move(_EIGHT_TWO, _THREE_TWO))
                 .isInstanceOf(IllegalStateException.class);
     }
 }
