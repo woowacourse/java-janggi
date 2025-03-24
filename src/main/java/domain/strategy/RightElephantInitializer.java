@@ -16,7 +16,7 @@ import domain.spatial.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RightElephantStrategy implements SettingUpStrategy {
+public class RightElephantInitializer implements SettingUpInitializer {
 
     @Override
     public Pieces initPieces(final Player player) {

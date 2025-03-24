@@ -1,17 +1,16 @@
 package domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
 import domain.direction.PieceDirection;
 import domain.piece.Piece;
 import domain.piece.Pieces;
 import domain.piece.category.Soldier;
 import domain.spatial.Position;
-import domain.strategy.InnerElephantStrategy;
+import domain.strategy.InnerElephantInitializer;
 import java.util.HashMap;
 import java.util.Map;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
@@ -229,7 +228,7 @@ class BoardTest {
     }
 
     private Pieces createPiecesByPlayer(final Player player) {
-        InnerElephantStrategy strategy = new InnerElephantStrategy();
+        InnerElephantInitializer strategy = new InnerElephantInitializer();
         return strategy.initPieces(player);
     }
 }

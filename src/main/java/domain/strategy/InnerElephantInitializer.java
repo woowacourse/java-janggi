@@ -16,7 +16,7 @@ import domain.spatial.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeftElephantStrategy implements SettingUpStrategy {
+public class InnerElephantInitializer implements SettingUpInitializer {
 
     @Override
     public Pieces initPieces(final Player player) {
@@ -36,10 +36,10 @@ public class LeftElephantStrategy implements SettingUpStrategy {
         hanPieces.add(new Cannon(new Position(2, 3), PieceDirection.CANNON.get()));
         hanPieces.add(new Cannon(new Position(8, 3), PieceDirection.CANNON.get()));
 
-        hanPieces.add(new Horse(new Position(3, 1), PieceDirection.HORSE.get()));
+        hanPieces.add(new Horse(new Position(2, 1), PieceDirection.HORSE.get()));
         hanPieces.add(new Horse(new Position(8, 1), PieceDirection.HORSE.get()));
 
-        hanPieces.add(new Elephant(new Position(2, 1), PieceDirection.ELEPHANT.get()));
+        hanPieces.add(new Elephant(new Position(3, 1), PieceDirection.ELEPHANT.get()));
         hanPieces.add(new Elephant(new Position(7, 1), PieceDirection.ELEPHANT.get()));
 
         hanPieces.add(new Guard(new Position(4, 1), PieceDirection.GUARD.get()));
@@ -63,10 +63,10 @@ public class LeftElephantStrategy implements SettingUpStrategy {
         choPieces.add(new Cannon(new Position(2, 8), PieceDirection.CANNON.get()));
         choPieces.add(new Cannon(new Position(8, 8), PieceDirection.CANNON.get()));
 
-        choPieces.add(new Horse(new Position(3, 10), PieceDirection.HORSE.get()));
+        choPieces.add(new Horse(new Position(2, 10), PieceDirection.HORSE.get()));
         choPieces.add(new Horse(new Position(8, 10), PieceDirection.HORSE.get()));
 
-        choPieces.add(new Elephant(new Position(2, 10), PieceDirection.ELEPHANT.get()));
+        choPieces.add(new Elephant(new Position(3, 10), PieceDirection.ELEPHANT.get()));
         choPieces.add(new Elephant(new Position(7, 10), PieceDirection.ELEPHANT.get()));
 
         choPieces.add(new Guard(new Position(4, 10), PieceDirection.GUARD.get()));

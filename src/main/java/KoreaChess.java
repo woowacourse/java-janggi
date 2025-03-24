@@ -4,7 +4,7 @@ import domain.Team;
 import domain.piece.Pieces;
 import domain.spatial.Position;
 import domain.strategy.SettingUp;
-import domain.strategy.SettingUpStrategy;
+import domain.strategy.SettingUpInitializer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +54,7 @@ public class KoreaChess {
 
     private Pieces createPiecesByPlayer(final Player player) {
         int command = inputView.readSettingUpStrategyCommand(player);
-        SettingUpStrategy strategy = SettingUp.findStrategyByCommand(command);
+        SettingUpInitializer strategy = SettingUp.findStrategyByCommand(command);
         return strategy.initPieces(player);
     }
 
