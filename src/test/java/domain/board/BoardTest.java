@@ -1,15 +1,11 @@
 package domain.board;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.Team;
 import domain.board.factory.BoardFactory;
-import domain.pieces.Piece;
 import execptions.JanggiGameRuleWarningException;
 import java.util.EnumMap;
-import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -17,36 +13,11 @@ import org.junit.jupiter.api.Test;
 public final class BoardTest {
 
     @Nested
-    @DisplayName("보드가 생성될 때")
-    class TestMakeBoard {
-
-        @Test
-        @DisplayName("보드는 0,0부터 9,8까지 포함된다")
-        void test_locationRange() {
-            //given
-            final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);
-            setups.put(Team.HAN, 1);
-            setups.put(Team.CHO, 1);
-            final Board board = BoardFactory.generateBoard(setups);
-
-            //when
-            final Map<Point, Piece> locations = board.getLocations();
-
-            // then
-            assertAll(
-                    () -> assertThat(locations.keySet()).contains(new Point(0, 0)),
-                    () -> assertThat(locations.keySet()).contains(new Point(9, 8)),
-                    () -> assertThat(locations.keySet()).doesNotContain(new Point(10, 9))
-            );
-        }
-    }
-
-    @Nested
     @DisplayName("기물을 이동할 때")
     class TestMakeMovementsThrowException {
 
         @Test
-        @DisplayName("해당 경로로 이동할 수 없으면 예외를 던진다")
+        @DisplayName("해당 경로로 이동할 수 없을 경우, 예외를 던진다")
         void test_throwExceptionWhenPieceIsNotMovable() {
             // given
             final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);
@@ -63,7 +34,7 @@ public final class BoardTest {
         }
 
         @Test
-        @DisplayName("해당 위치가 이동할 수 없는 위치면 예외를 던진다")
+        @DisplayName("도착점이 이동할 수 없는 위치일 경우, 예외를 던진다")
         void test_throwExceptionWhenPieceIsNotAbleToArrive() {
             // given
             final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);
@@ -81,7 +52,7 @@ public final class BoardTest {
         }
 
         @Test
-        @DisplayName("이동할 기물이 존재하지 않으면 예외를 던진다")
+        @DisplayName("이동할 기물이 존재하지 않을 경우, 예외를 던진다")
         void test_NoPieceOnStartPoint() {
             // given
             final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);

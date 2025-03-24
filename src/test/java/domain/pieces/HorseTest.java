@@ -13,6 +13,17 @@ import org.junit.jupiter.api.Test;
 class HorseTest {
 
     @Test
+    @DisplayName("같은 팀인지 확인한다.")
+    void test_hasEqualTeam() {
+        //given
+        Piece piece = new Horse(Team.CHO);
+
+        //when&then
+        assertThat(piece.hasEqualTeam(Team.CHO)).isTrue();
+        assertThat(piece.hasEqualTeam(Team.HAN)).isFalse();
+    }
+
+    @Test
     @DisplayName("피스가 이동할 수 있는 지점들을 전부 반환한다")
     void test_isAbleToArrive() {
         // given
@@ -79,7 +90,7 @@ class HorseTest {
     }
 
     @Test
-    @DisplayName("도착점에 아군 기물이 없으면 이동할 수 있다.")
+    @DisplayName("도착점에 적군 기물이 있을 경우, 이동할 수 있다.")
     void test_isMovableWhenPieceIsInOtherTeam() {
         //given
         Horse horseHan = new Horse(Team.HAN);
@@ -88,5 +99,17 @@ class HorseTest {
 
         //when&then
         assertThat(horseHan.isMovable(piecesOnRoute)).isTrue();
+    }
+
+    @Test
+    @DisplayName("마는 팀에 따라 다르게 이름을 반환한다.")
+    void test_toString() {
+        //given
+        Piece pieceForCho = new Horse(Team.CHO);
+        Piece pieceForHan = new Horse(Team.HAN);
+
+        //when&then
+        assertThat(pieceForCho.getName()).isEqualTo("마");
+        assertThat(pieceForHan.getName()).isEqualTo("馬");
     }
 }

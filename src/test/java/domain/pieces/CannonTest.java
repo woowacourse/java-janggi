@@ -13,6 +13,17 @@ import org.junit.jupiter.api.Test;
 class CannonTest {
 
     @Test
+    @DisplayName("같은 팀인지 확인한다.")
+    void test_hasEqualTeam() {
+        //given
+        Piece cannon = new Cannon(Team.CHO);
+
+        //when&then
+        assertThat(cannon.hasEqualTeam(Team.CHO)).isTrue();
+        assertThat(cannon.hasEqualTeam(Team.HAN)).isFalse();
+    }
+
+    @Test
     @DisplayName("도착할 수 있는지 확인한다.")
     void test_IsAbleToArrive() {
         // given
@@ -119,5 +130,17 @@ class CannonTest {
 
         //when&then
         assertThat(cannon.isMovable(piecesOnRoute)).isFalse();
+    }
+
+    @Test
+    @DisplayName("포는 팀에 따라 다르게 이름을 반환한다.")
+    void test_toString() {
+        //given
+        Piece pieceForCho = new Cannon(Team.CHO);
+        Piece pieceForHan = new Cannon(Team.HAN);
+
+        //when&then
+        assertThat(pieceForCho.getName()).isEqualTo("포");
+        assertThat(pieceForHan.getName()).isEqualTo("包");
     }
 }

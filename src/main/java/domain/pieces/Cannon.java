@@ -41,7 +41,7 @@ public final class Cannon implements Piece {
         if (pieces.canNotJumpOverFirstPiece()) {
             return false;
         }
-        return !pieces.hasSameTeamInArrivalPoint(team);
+        return !pieces.hasSameTeamOnArrivalPoint(team);
     }
 
     @Override

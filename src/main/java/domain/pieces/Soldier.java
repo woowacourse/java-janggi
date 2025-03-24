@@ -33,7 +33,7 @@ public final class Soldier implements Piece {
 
     @Override
     public boolean isMovable(final PiecesOnRoute pieces) {
-        return !pieces.hasSameTeamInArrivalPoint(team);
+        return !pieces.hasSameTeamOnArrivalPoint(team);
     }
 
     @Override

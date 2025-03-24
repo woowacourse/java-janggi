@@ -23,12 +23,12 @@ public final class General implements Piece {
 
     @Override
     public boolean isAbleToArrive(final Point start, final Point arrival) {
-        throw new JanggiGameRuleWarningException("장군은 이동할 수 없습니다.");
+        throw new JanggiGameRuleWarningException("궁은 이동할 수 없습니다.");
     }
 
     @Override
     public boolean isMovable(final PiecesOnRoute pieces) {
-        throw new JanggiGameRuleWarningException("장군은 이동할 수 없습니다.");
+        throw new JanggiGameRuleWarningException("궁은 이동할 수 없습니다.");
     }
 
     @Override
@@ -38,7 +38,7 @@ public final class General implements Piece {
 
     @Override
     public List<Point> getRoutePoints(final Point start, final Point arrival) {
-        throw new JanggiGameRuleWarningException("장군은 이동할 수 없습니다.");
+        throw new JanggiGameRuleWarningException("궁은 이동할 수 없습니다.");
     }
 
     @Override

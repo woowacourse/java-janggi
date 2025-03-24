@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public record PiecesOnRoute(List<Piece> pieces) {
 
-    public boolean hasSameTeamInArrivalPoint(final Team team) {
+    public boolean hasSameTeamOnArrivalPoint(final Team team) {
         return Optional.ofNullable(pieces.getLast())
                 .map(lastPiece -> lastPiece.hasEqualTeam(team))
                 .orElse(false);
@@ -16,8 +16,8 @@ public record PiecesOnRoute(List<Piece> pieces) {
 
     public int count() {
         return (int) pieces.stream()
-                .filter(Objects::nonNull)
                 .limit(pieces.size() - 1)
+                .filter(Objects::nonNull)
                 .count();
     }
 

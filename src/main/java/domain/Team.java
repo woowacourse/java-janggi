@@ -1,6 +1,5 @@
 package domain;
 
-import execptions.JanggiArgumentException;
 import java.util.EnumSet;
 
 public enum Team {
@@ -25,7 +24,7 @@ public enum Team {
         if (this.equals(CHO)) {
             return getInitialRow() + row;
         }
-        throw new JanggiArgumentException("팀 정보가 없습니다.");
+        throw new IllegalArgumentException("팀 정보가 없습니다.");
     }
 
     public boolean isFirst() {

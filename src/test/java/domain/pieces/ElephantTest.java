@@ -13,6 +13,17 @@ import org.junit.jupiter.api.Test;
 class ElephantTest {
 
     @Test
+    @DisplayName("같은 팀인지 확인한다.")
+    void test_hasEqualTeam() {
+        //given
+        Piece piece = new Elephant(Team.CHO);
+
+        //when&then
+        assertThat(piece.hasEqualTeam(Team.CHO)).isTrue();
+        assertThat(piece.hasEqualTeam(Team.HAN)).isFalse();
+    }
+
+    @Test
     @DisplayName("피스가 이동할 수 있는 지점들을 전부 반환한다")
     void test_isAbleToArrive() {
         // given
@@ -89,5 +100,17 @@ class ElephantTest {
 
         //when&then
         assertThat(elephantHan.isMovable(piecesOnRoute)).isTrue();
+    }
+
+    @Test
+    @DisplayName("상은 팀에 따라 다르게 이름을 반환한다.")
+    void test_toString() {
+        //given
+        Piece pieceForCho = new Elephant(Team.CHO);
+        Piece pieceForHan = new Elephant(Team.HAN);
+
+        //when&then
+        assertThat(pieceForCho.getName()).isEqualTo("상");
+        assertThat(pieceForHan.getName()).isEqualTo("象");
     }
 }

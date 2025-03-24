@@ -13,6 +13,17 @@ import org.junit.jupiter.api.Test;
 
 class SoldierTest {
 
+    @Test
+    @DisplayName("같은 팀인지 확인한다.")
+    void test_hasEqualTeam() {
+        //given
+        Piece piece = new Soldier(Team.CHO);
+
+        //when&then
+        assertThat(piece.hasEqualTeam(Team.CHO)).isTrue();
+        assertThat(piece.hasEqualTeam(Team.HAN)).isFalse();
+    }
+
     @Nested
     @DisplayName("피스가 이동할 수 있는 지점들을 반환할 때")
     class TestAbleToArrive {
@@ -86,5 +97,17 @@ class SoldierTest {
 
         //when&then
         assertThat(soldierHan.isMovable(piecesOnRoute)).isTrue();
+    }
+
+    @Test
+    @DisplayName("졸은 팀에 따라 다르게 이름을 반환한다.")
+    void test_toString() {
+        //given
+        Piece pieceForCho = new Soldier(Team.CHO);
+        Piece pieceForHan = new Soldier(Team.HAN);
+
+        //when&then
+        assertThat(pieceForCho.getName()).isEqualTo("졸");
+        assertThat(pieceForHan.getName()).isEqualTo("兵");
     }
 }

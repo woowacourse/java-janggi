@@ -33,7 +33,7 @@ public final class Elephant implements Piece {
 
     @Override
     public boolean isMovable(final PiecesOnRoute pieces) {
-        if (pieces.hasSameTeamInArrivalPoint(team)) {
+        if (pieces.hasSameTeamOnArrivalPoint(team)) {
             return false;
         }
         return pieces.hasNotPieceOnRoute();

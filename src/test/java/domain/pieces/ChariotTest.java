@@ -13,6 +13,17 @@ import org.junit.jupiter.api.Test;
 class ChariotTest {
 
     @Test
+    @DisplayName("같은 팀인지 확인한다.")
+    void test_hasEqualTeam() {
+        //given
+        Piece piece = new Chariot(Team.CHO);
+
+        //when&then
+        assertThat(piece.hasEqualTeam(Team.CHO)).isTrue();
+        assertThat(piece.hasEqualTeam(Team.HAN)).isFalse();
+    }
+
+    @Test
     @DisplayName("도착할 수 있는지 확인한다.")
     void test_IsAbleToArrive() {
         // given
@@ -105,5 +116,17 @@ class ChariotTest {
 
         //when&then
         assertThat(chariotHan.isMovable(piecesOnRoute)).isTrue();
+    }
+
+    @Test
+    @DisplayName("차는 팀에 따라 다르게 이름을 반환한다.")
+    void test_toString() {
+        //given
+        Piece pieceForCho = new Chariot(Team.CHO);
+        Piece pieceForHan = new Chariot(Team.HAN);
+
+        //when&then
+        assertThat(pieceForCho.getName()).isEqualTo("차");
+        assertThat(pieceForHan.getName()).isEqualTo("車");
     }
 }
