@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.piece;
 
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -50,9 +50,9 @@ public final class Position {
     @Override
     public String toString() {
         return "Position{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+            "x=" + x +
+            ", y=" + y +
+            '}';
     }
 
     @Override

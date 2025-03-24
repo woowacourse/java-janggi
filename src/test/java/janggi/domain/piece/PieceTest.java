@@ -3,7 +3,6 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import janggi.domain.Position;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.Side;
 import janggi.domain.piece.movement.MovementStrategy;
@@ -33,16 +32,6 @@ class PieceTest {
         Piece piece = new Piece(PIECE_TYPE, MOVEMENT_STRATEGY, ALLY_SIDE, DEFAULT_POSITION.getX(),
             DEFAULT_POSITION.getY());
         assertThat(piece.getPosition()).isEqualTo(new Position(1, 2));
-    }
-
-    @Test
-    void 현재_위치로_움직일_수_없다() {
-        Piece piece = new Piece(PIECE_TYPE, MOVEMENT_STRATEGY, ALLY_SIDE, DEFAULT_POSITION.getX(),
-            DEFAULT_POSITION.getY());
-
-        assertThatIllegalArgumentException()
-            .isThrownBy(() -> piece.move(new Pieces(Map.of()), DEFAULT_POSITION.getX(), DEFAULT_POSITION.getY()))
-            .withMessage("현재 위치로 이동할 수 없습니다.");
     }
 
     @Test

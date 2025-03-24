@@ -1,10 +1,10 @@
 package janggi.domain.board;
 
-import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Pieces;
+import janggi.domain.piece.Position;
 import janggi.domain.piece.gererator.ChoPieceGenerator;
 import janggi.domain.piece.gererator.HanPieceGenerator;
 import janggi.domain.piece.gererator.KnightElephantSetting;
@@ -26,23 +26,23 @@ public class JanggiBoard {
         List<Piece> hanPieces = hanPieceGenerator.generate(hanKnightElephantSetting);
         List<Piece> choPieces = choPieceGenerator.generate(choKnightElephantSetting);
 
-        placedPieces = new Pieces(Stream.concat(
-            hanPieces.stream(),
-            choPieces.stream()
-        ).collect(Collectors.toMap(Piece::getPosition, piece -> piece))
-        );
+        placedPieces = Pieces.from(Stream.concat(hanPieces.stream(), choPieces.stream()).collect(Collectors.toList()));
     }
 
     public void move(int x, int y, int destinationX, int destinationY) {
-        Position source = new Position(x, y);
-        Position destination = new Position(destinationX, destinationY);
-        Piece sourcePiece = placedPieces.findExistingByPosition(source);
-        Pieces map = new Pieces(placedPieces);
-        map.removeByPosition(source);
+        validateSamePosition(x, y, destinationX, destinationY);
+        Piece sourcePiece = placedPieces.findExistingByPosition(x, y);
+        Pieces map = placedPieces.getMapWithoutPosition(x, y);
 
         sourcePiece.move(map, destinationX, destinationY);
-        placedPieces.removeByPosition(source);
-        placedPieces.put(destination, sourcePiece);
+        placedPieces.removeByPosition(x, y);
+        placedPieces.put(sourcePiece);
+    }
+
+    private void validateSamePosition(int x, int y, int destinationX, int destinationY) {
+        if (x == destinationX && y == destinationY) {
+            throw new IllegalArgumentException("현재 위치로 이동할 수 없습니다.");
+        }
     }
 
     public Map<Position, Piece> getPlacedPieces() {

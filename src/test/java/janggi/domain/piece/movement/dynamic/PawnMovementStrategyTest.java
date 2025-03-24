@@ -2,9 +2,9 @@ package janggi.domain.piece.movement.dynamic;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.Position;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.Side;
+import janggi.domain.piece.Position;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

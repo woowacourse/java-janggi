@@ -1,9 +1,9 @@
 package janggi.view;
 
-import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.Position;
 import java.util.Map;
 
 public class OutputView {

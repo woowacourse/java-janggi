@@ -1,7 +1,7 @@
 package janggi.domain.piece.movement.fixed;
 
-import janggi.domain.Position;
 import janggi.domain.piece.Pieces;
+import janggi.domain.piece.Position;
 import java.util.Map;
 
 public class KingMovementStrategy implements FixedMovementStrategy {

@@ -3,6 +3,7 @@ package janggi.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
+import janggi.domain.piece.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -22,7 +23,7 @@ public class PositionTest {
     void 초기화_시_좌표를_검증한다(int x, int y) {
 
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> new Position(x, y));
+            .isThrownBy(() -> new Position(x, y));
     }
 
     @ParameterizedTest

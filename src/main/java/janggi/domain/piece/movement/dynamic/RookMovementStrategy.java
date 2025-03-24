@@ -1,8 +1,8 @@
 package janggi.domain.piece.movement.dynamic;
 
-import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Pieces;
+import janggi.domain.piece.Position;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;

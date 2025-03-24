@@ -1,6 +1,6 @@
 package janggi.domain.piece.movement.fixed;
 
-import janggi.domain.Position;
+import janggi.domain.piece.Position;
 
 record Vector(int x, int y) {
 

@@ -1,7 +1,7 @@
 package janggi.domain.piece.movement.fixed;
 
-import janggi.domain.Position;
 import janggi.domain.piece.Pieces;
+import janggi.domain.piece.Position;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -9,13 +9,13 @@ import java.util.stream.Collectors;
 public class KnightMovementStrategy implements FixedMovementStrategy {
 
     private static final List<Vector> VERTICAL_MOVEMENT_VECTORS = List.of(
-            new Vector(0, 1),
-            new Vector(1, 2)
+        new Vector(0, 1),
+        new Vector(1, 2)
     );
 
     private static final List<Vector> HORIZONTAL_MOVEMENT_VECTORS = List.of(
-            new Vector(1, 0),
-            new Vector(2, 1)
+        new Vector(1, 0),
+        new Vector(2, 1)
     );
 
     @Override
@@ -36,14 +36,14 @@ public class KnightMovementStrategy implements FixedMovementStrategy {
     }
 
     private Set<Position> findAllMovablePositions(
-            Position origin,
-            Position destination,
-            List<Vector> movePatterns
+        Position origin,
+        Position destination,
+        List<Vector> movePatterns
     ) {
 
         return movePatterns.stream()
-                .map(pattern -> pattern.apply(origin, destination))
-                .collect(Collectors.toSet());
+            .map(pattern -> pattern.apply(origin, destination))
+            .collect(Collectors.toSet());
     }
 
     private boolean isVerticalMove(Position origin, Position destination) {

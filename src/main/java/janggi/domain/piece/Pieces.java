@@ -1,10 +1,10 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
 import janggi.domain.Side;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -16,7 +16,7 @@ public class Pieces {
         this.values = values;
     }
 
-    public Pieces(Pieces pieces) {
+    private Pieces(Pieces pieces) {
         this.values = new HashMap<>(pieces.values);
     }
 
@@ -38,42 +38,46 @@ public class Pieces {
         );
     }
 
-    public void put(Position position, Piece piece) {
-        values.put(position, piece);
+    public Pieces getMapWithoutPosition(int x, int y) {
+        Pieces map = new Pieces(this);
+        map.removeByPosition(x, y);
+        return map;
     }
 
-    public boolean hasPieceOnPosition(Position position) {
-        return values.containsKey(position);
+    public void put(Piece piece) {
+        values.put(piece.getPosition(), piece);
     }
 
-    public void removeByPosition(Position position) {
-        values.remove(position);
+    public void removeByPosition(int x, int y) {
+        values.remove(new Position(x, y));
     }
 
-    public Piece findByPosition(Position position) {
-        return values.get(position);
+    public Optional<Piece> findByPosition(Position position) {
+        return Optional.ofNullable(values.get(position));
     }
 
     public int size() {
         return values.size();
     }
 
-    public PieceType getPieceTypeOnPosition(Position position) {
-        return values.get(position).getPieceType();
-    }
-
     public boolean isEmpty() {
         return values.isEmpty();
     }
 
-    public Map<Position, Piece> getValues() {
-        return values;
+    public boolean containsPieceType(PieceType pieceType) {
+        return values.values().stream()
+            .anyMatch(piece -> piece.getPieceType().equals(pieceType));
     }
 
-    public Piece findExistingByPosition(Position source) {
-        if (!values.containsKey(source)) {
+    public Piece findExistingByPosition(int x, int y) {
+        Position position = new Position(x, y);
+        if (!values.containsKey(position)) {
             throw new IllegalArgumentException("해당 위치엔 기물이 존재하지 않습니다.");
         }
-        return values.get(source);
+        return values.get(position);
+    }
+
+    public Map<Position, Piece> getValues() {
+        return values;
     }
 }

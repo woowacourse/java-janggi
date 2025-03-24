@@ -1,8 +1,8 @@
 package janggi.domain.piece.movement.fixed;
 
-import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Pieces;
+import janggi.domain.piece.Position;
 import janggi.domain.piece.movement.MovementStrategy;
 
 public interface FixedMovementStrategy extends MovementStrategy {

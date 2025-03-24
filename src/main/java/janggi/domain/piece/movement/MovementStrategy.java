@@ -1,8 +1,8 @@
 package janggi.domain.piece.movement;
 
-import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Pieces;
+import janggi.domain.piece.Position;
 
 public interface MovementStrategy {
 

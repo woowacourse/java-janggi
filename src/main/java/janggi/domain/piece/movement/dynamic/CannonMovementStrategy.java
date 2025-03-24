@@ -1,10 +1,9 @@
 package janggi.domain.piece.movement.dynamic;
 
-import janggi.domain.Position;
 import janggi.domain.Side;
-import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Pieces;
+import janggi.domain.piece.Position;
 import java.util.stream.IntStream;
 
 public class CannonMovementStrategy implements DynamicMovementStrategy {
@@ -19,30 +18,11 @@ public class CannonMovementStrategy implements DynamicMovementStrategy {
 
     @Override
     public boolean isLegalPath(Pieces existingPieces, Side side, Position origin, Position destination) {
-        if (hasNoObstacle(existingPieces, origin, destination)) {
-            return existingPieces.getValues().values().stream()
-                .filter(piece -> piece.isSamePosition(destination))
-                .map(piece -> piece.getSide() != side && !piece.getPieceType().equals(PieceType.CANNON))
-                .findAny()
-                .orElse(true);
-        }
-        return false;
-    }
-
-    private Piece findByPosition(Pieces existingPieces, Position position) {
-        return existingPieces.getValues().values().stream()
-            .filter(existingPiece -> existingPiece.isSamePosition(position))
-            .findAny()
-            .orElse(null);
-    }
-
-    private boolean hasNoObstacle(Pieces existingPieces, Position origin, Position destination) {
         Pieces piecesOnPath = getPiecesOnPath(existingPieces, origin, destination);
         if (piecesOnPath.size() != 1) {
             return false;
         }
-        return piecesOnPath.getValues().values().stream()
-            .noneMatch(piece -> piece.getPieceType().equals(PieceType.CANNON));
+        return !piecesOnPath.containsPieceType(PieceType.CANNON);
     }
 
     private Pieces getPiecesOnPath(Pieces existingPieces, Position origin, Position destination) {
@@ -53,24 +33,26 @@ public class CannonMovementStrategy implements DynamicMovementStrategy {
     }
 
     private Pieces getPiecesOnHorizontalPath(Pieces existingPieces, Position origin, Position destination) {
-        int originX = origin.getX();
-        int originY = origin.getY();
+        int startX = Math.min(origin.getX(), destination.getX()) + 1;
+        int endX = Math.max(origin.getX(), destination.getX());
 
         return Pieces.from(
-            IntStream.range(Math.min(originX, destination.getX()) + 1, Math.max(originX, destination.getX()))
-                .filter(x -> existingPieces.hasPieceOnPosition(new Position(x, originY)))
-                .mapToObj(x -> findByPosition(existingPieces, new Position(x, originY)))
-                .toList());
+            IntStream.range(startX, endX)
+                .mapToObj(x -> new Position(x, origin.getY()))
+                .flatMap(position -> existingPieces.findByPosition(position).stream())
+                .toList()
+        );
     }
 
     private Pieces getPiecesOnVerticalPath(Pieces existingPieces, Position origin, Position destination) {
-        int originX = origin.getX();
-        int originY = origin.getY();
+        int startY = Math.min(origin.getY(), destination.getY()) + 1;
+        int endY = Math.max(origin.getY(), destination.getY());
 
         return Pieces.from(
-            IntStream.range(Math.min(originY, destination.getY()) + 1, Math.max(originY, destination.getY()))
-                .filter(y -> existingPieces.hasPieceOnPosition(new Position(originX, y)))
-                .mapToObj(y -> findByPosition(existingPieces, new Position(originX, y)))
-                .toList());
+            IntStream.range(startY, endY)
+                .mapToObj(y -> new Position(origin.getX(), y))
+                .flatMap(position -> existingPieces.findByPosition(position).stream())
+                .toList()
+        );
     }
 }

@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.movement.MovementStrategy;
 import java.util.Objects;
@@ -38,15 +37,8 @@ public class Piece {
     }
 
     private void validateMovable(Pieces map, Position destination) {
-        validateSamePosition(destination);
         if (!movementStrategy.isMoveable(map, position, side, destination)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
-        }
-    }
-
-    private void validateSamePosition(Position destination) {
-        if (position.equals(destination)) {
-            throw new IllegalArgumentException("현재 위치로 이동할 수 없습니다.");
         }
     }
 

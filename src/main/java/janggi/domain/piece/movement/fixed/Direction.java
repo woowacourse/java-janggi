@@ -1,6 +1,6 @@
 package janggi.domain.piece.movement.fixed;
 
-import janggi.domain.Position;
+import janggi.domain.piece.Position;
 
 enum Direction {
 
