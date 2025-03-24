@@ -1,9 +1,17 @@
 package route;
 
 import static route.Direction.EAST;
+import static route.Direction.EAST_NORTH;
+import static route.Direction.EAST_SOUTH;
 import static route.Direction.NORTH;
+import static route.Direction.NORTH_EAST;
+import static route.Direction.NORTH_WEST;
 import static route.Direction.SOUTH;
+import static route.Direction.SOUTH_EAST;
+import static route.Direction.SOUTH_WEST;
 import static route.Direction.WEST;
+import static route.Direction.WEST_NORTH;
+import static route.Direction.WEST_SOUTH;
 
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +37,22 @@ public final class Routes {
                 new Route(List.of(WEST)),
                 new Route(List.of(SOUTH)),
                 new Route(List.of(NORTH))
+        ));
+    }
+
+    public static Routes ofHorse() {
+        return new Routes(Set.of(
+                new Route(List.of(EAST, EAST_NORTH)),
+                new Route(List.of(EAST, EAST_SOUTH)),
+
+                new Route(List.of(WEST, WEST_NORTH)),
+                new Route(List.of(WEST, WEST_SOUTH)),
+
+                new Route(List.of(SOUTH, SOUTH_EAST)),
+                new Route(List.of(SOUTH, SOUTH_WEST)),
+
+                new Route(List.of(NORTH, NORTH_EAST)),
+                new Route(List.of(NORTH, NORTH_WEST))
         ));
     }
 
