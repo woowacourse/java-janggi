@@ -3,16 +3,15 @@ package team;
 public enum Team {
 
     RED(-1),
-    GREEN(1),
-    ;
+    GREEN(1);
 
-    private final int dir;
+    private final int direction;
 
-    Team(int dir) {
-        this.dir = dir;
+    Team(int direction) {
+        this.direction = direction;
     }
 
     public int direction() {
-        return dir;
+        return direction;
     }
 }
