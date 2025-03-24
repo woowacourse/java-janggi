@@ -19,6 +19,10 @@ public record BoardVector(
         return Math.abs(dx);
     }
 
+    public static BoardVector between(BoardLocation current, BoardLocation destination) {
+        return new BoardVector(destination.x() - current.x(), destination.y() - current.y());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

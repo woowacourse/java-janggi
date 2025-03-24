@@ -21,7 +21,7 @@ public class Elephant extends Piece {
 
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
-        BoardVector boardVector = destination.minus(current);
+        BoardVector boardVector = BoardVector.between(current, destination);
         List<BoardLocation> path = new ArrayList<>();
         for (Direction direction : Direction.values()) {
             for (Diagonal diagonal : Diagonal.values()) {

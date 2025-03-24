@@ -22,7 +22,7 @@ public class Cannon extends Piece {
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
         List<BoardLocation> path = new ArrayList<>();
-        BoardVector boardVector = destination.minus(current);
+        BoardVector boardVector = BoardVector.between(current, destination);
 
         if (boardVector.isDxZero()) {
             int dy = boardVector.dy();

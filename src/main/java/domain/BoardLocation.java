@@ -49,10 +49,6 @@ public record BoardLocation(
         return Math.abs(y - target.y);
     }
 
-    public BoardVector minus(BoardLocation current) {
-        return new BoardVector(x - current.x, y - current.y);
-    }
-
     public BoardLocation moveY(int dy) {
         return new BoardLocation(x, y + dy);
     }
