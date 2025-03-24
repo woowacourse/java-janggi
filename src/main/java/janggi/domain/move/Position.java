@@ -92,7 +92,7 @@ public class Position {
             throw new IllegalArgumentException("이미 한나라의 영역입니다.");
         }
 
-        return Position.of(LAST_ROW - this.row + 1, LAST_COLUMN - column + 1);
+        return Position.of(LAST_ROW - this.row + 1, column);
     }
 
     @Override
