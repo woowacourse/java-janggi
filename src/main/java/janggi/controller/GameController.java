@@ -44,7 +44,7 @@ public class GameController {
         while (true) {
             outputView.displayBoard(board.getPlacedPieces());
             requestPlayGameUntilSuccess(currentTurnCamp, board);
-            currentTurnCamp = currentTurnCamp.opposite();
+            currentTurnCamp = currentTurnCamp.switchTurn();
         }
     }
 
@@ -69,11 +69,11 @@ public class GameController {
     private void repeatUntilSuccess(Runnable runner) {
         boolean success = false;
         while (!success) {
-            success = run(runner);
+            success = tryRunOnceWithErrorHandling(runner);
         }
     }
 
-    private boolean run(Runnable runner) {
+    private boolean tryRunOnceWithErrorHandling(Runnable runner) {
         try {
             runner.run();
             return true;

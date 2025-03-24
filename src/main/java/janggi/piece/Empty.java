@@ -4,8 +4,10 @@ import janggi.position.Position;
 
 public class Empty extends Piece {
 
-    public Empty(Camp camp) {
-        super(camp);
+    public static final Empty INSTANCE = new Empty();
+
+    public Empty() {
+        super(Camp.NONE);
     }
 
     @Override

@@ -17,7 +17,7 @@ public enum Camp {
         return this == CHO;
     }
 
-    public Camp opposite() {
+    public Camp switchTurn() {
         if (this == HAN) {
             return CHO;
         }

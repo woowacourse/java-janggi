@@ -25,7 +25,7 @@ public class Board {
         Map<Position, Piece> board = new HashMap<>();
         for (int i = 0; i < COLUMN; i++) {
             for (int j = 0; j < ROW; j++) {
-                board.put(new Position(i, j), new Empty(Camp.NONE));
+                board.put(new Position(i, j), Empty.INSTANCE);
             }
         }
         return board;
@@ -58,7 +58,7 @@ public class Board {
         if (!toPiece.isEmpty()) {
             fromPiece.validateCatch(toPiece);
         }
-        placedPieces.put(from, new Empty(Camp.NONE));
+        placedPieces.put(from, Empty.INSTANCE);
         placedPieces.put(to, fromPiece);
     }
 
