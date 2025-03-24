@@ -77,4 +77,10 @@ public class Pieces {
                 .map(Piece::isPo)
                 .orElseThrow();
     }
+
+    public Boolean isExistPoInRoute(Positions route) {
+        return pieces.stream()
+                .anyMatch(piece -> route.containsPosition(piece) && piece.isPo());
+    }
+
 }
