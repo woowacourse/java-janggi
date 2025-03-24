@@ -38,4 +38,5 @@ public record BoardVector(
     public int hashCode() {
         return Objects.hash(dx, dy);
     }
+
 }

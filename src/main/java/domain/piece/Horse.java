@@ -1,12 +1,26 @@
 package domain.piece;
 
+import static domain.piece.Direction.*;
+
 import domain.BoardLocation;
 import domain.BoardVector;
 import domain.Team;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Horse extends Piece {
+
+    private static final Map<BoardVector, List<Direction>> DIRECTIONS = Map.of(
+            new BoardVector(1, 2), List.of(DOWN, DOWN_RIGHT),
+            new BoardVector(1, -2), List.of(UP, UP_LEFT),
+            new BoardVector(-1, 2), List.of(DOWN, UP_RIGHT),
+            new BoardVector(-1, -2), List.of(UP, UP_LEFT),
+            new BoardVector(2, 1), List.of(RIGHT, DOWN_RIGHT),
+            new BoardVector(2, -1), List.of(RIGHT, DOWN_LEFT),
+            new BoardVector(-2, 1), List.of(LEFT, UP_RIGHT),
+            new BoardVector(-2, -1), List.of(LEFT, UP_LEFT)
+    );
 
     public Horse(Team team) {
         super(team);
@@ -15,7 +29,7 @@ public class Horse extends Piece {
     @Override
     public void validateMovable(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
-        if ((boardVector.dx() == 1 && boardVector.dy() == 2) || (boardVector.dx() == 2 && boardVector.dy() == 1)){
+        if ((boardVector.dx() == 1 && boardVector.dy() == 2) || (boardVector.dx() == 2 && boardVector.dy() == 1)) {
             return;
         }
         throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
@@ -24,21 +38,21 @@ public class Horse extends Piece {
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
-        List<BoardLocation> path = new ArrayList<>();
-        for(Direction direction : Direction.values()) {
-            for (Diagonal diagonal : Diagonal.values()) {
-                if (boardVector.equals(new BoardVector(direction.x() + diagonal.x(), direction.y() + diagonal.y()))) {
-                    BoardLocation next = current.move(direction.x(), direction.y());
-                    path.add(next);
-                }
-            }
+
+        List<Direction> directions = DIRECTIONS.get(boardVector);
+        List<BoardLocation> paths = new ArrayList<>();
+
+        for (Direction direction : directions) {
+            current = current.moveDirection(direction);
+            paths.add(current);
         }
-        return path;
+
+        return paths;
     }
 
     @Override
     public void validateArrival(List<Piece> pathPiece) {
-        if (pathPiece.isEmpty()){
+        if (pathPiece.isEmpty()) {
             return;
         }
         throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
@@ -46,7 +60,7 @@ public class Horse extends Piece {
 
     @Override
     public void validateKillable(Piece destinationPiece) {
-        if (this.isEqualTeam(destinationPiece)){
+        if (this.isEqualTeam(destinationPiece)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 목적지로 이동할 수 없습니다.");
         }
     }

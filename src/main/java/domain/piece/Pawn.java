@@ -15,16 +15,12 @@ public class Pawn extends Piece {
     public void validateMovable(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
         boolean isOrthogonalMove = boardVector.dx() == 0 || boardVector.dy() == 0;
-        boolean isOneStepMove = boardVector.dx() == 1 || boardVector.dy() == 1;
+        boolean isOneStepMove = boardVector.getAbsDx() == 1 || boardVector.getAbsDy() == 1;
 
-        if (!isOrthogonalMove || !isOneStepMove) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
-        }
-
-        if ((this.team == Team.HAN) && !destination.isUp(current)) {
+        if ((this.team == Team.HAN) && isOrthogonalMove && isOneStepMove && !destination.isUp(current)) {
             return;
         }
-        if ((this.team == Team.CHO) && !destination.isDown(current)) {
+        if ((this.team == Team.CHO) && isOrthogonalMove && isOneStepMove && !destination.isDown(current)) {
             return;
         }
 

@@ -1,5 +1,6 @@
 package domain;
 
+import domain.piece.Direction;
 import java.util.Objects;
 
 public record BoardLocation(
@@ -47,6 +48,10 @@ public record BoardLocation(
 
     public BoardLocation moveX(int dx) {
         return new BoardLocation(x + dx, y);
+    }
+
+    public BoardLocation moveDirection(Direction direction) {
+        return this.move(direction.x(), direction.y());
     }
 
     @Override

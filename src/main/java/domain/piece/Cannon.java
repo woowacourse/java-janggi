@@ -4,6 +4,7 @@ import domain.BoardLocation;
 import domain.BoardVector;
 import domain.Team;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Cannon extends Piece {
@@ -26,36 +27,36 @@ public class Cannon extends Piece {
         List<BoardLocation> path = new ArrayList<>();
         BoardVector boardVector = BoardVector.between(current, destination);
 
-        if (boardVector.isDxZero()) {
-            int dy = boardVector.dy();
-            if (dy > 0) {
-                for (int i = 1; i < dy; i++) {
-                    path.add(current.moveY(i));
-                }
+        int dy = boardVector.dy();
+        int dx = boardVector.dx();
+        if (dx == 0 && dy > 0) {
+            for (int i = 1; i < dy; i++) {
+                path.add(current.moveY(i));
             }
-
-            if (dy < 0) {
-                for (int i = -1; i > dy; i--) {
-                    path.add(current.moveY(i));
-                }
-            }
-
             return path;
         }
 
-        int dx = boardVector.getAbsDx();
-        if (dx > 0) {
+        if (dx == 0 && dy < 0) {
+            for (int i = -1; i > dy; i--) {
+                path.add(current.moveY(i));
+            }
+            return path;
+        }
+
+        if (dx > 0 && dy == 0) {
             for (int i = 1; i < dx; i++) {
                 path.add(current.moveX(i));
             }
+            return path;
         }
 
-        if (dx < 0) {
+        if (dx < 0 && dy == 0) {
             for (int i = -1; i > dx; i--) {
                 path.add(current.moveX(i));
             }
+            return path;
         }
-        return path;
+        return Collections.emptyList();
     }
 
     @Override

@@ -23,14 +23,14 @@ public class Board {
         this.pieces = pieces;
     }
 
-    public Piece findByLocation(BoardLocation current) {
+    public Piece getByLocationOrThrow(BoardLocation current) {
         if (pieces.containsKey(current)) {
             return pieces.get(current);
         }
         throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 없습니다.");
     }
 
-    public Piece getByLocation(BoardLocation current) {
+    public Piece getByLocationOrDefault(BoardLocation current) {
         if (pieces.containsKey(current)) {
             return pieces.get(current);
         }

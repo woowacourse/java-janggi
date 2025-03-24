@@ -25,8 +25,8 @@ public class Elephant extends Piece {
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
         List<BoardLocation> path = new ArrayList<>();
-        for (Direction direction : Direction.values()) {
-            for (Diagonal diagonal : Diagonal.values()) {
+        for (Direction direction : Direction.getAllOrthogonal()) {
+            for (Direction diagonal : Direction.getAllDiagonal()) {
                 if (boardVector.equals(new BoardVector(direction.x() + diagonal.x() + diagonal.x(),
                         direction.y() + diagonal.y() + diagonal.y()))) {
                     BoardLocation next = current.move(direction.x(), direction.y());

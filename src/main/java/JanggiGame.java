@@ -21,7 +21,8 @@ public class JanggiGame {
 
         Team team = Team.getStartingTeam();
         consoleView.showBoard(board.getPieces());
-        while (true) {
+
+        while (true) { // TODO : 2단계 궁성 구현에서 종료 로직 구현
             try {
                 consoleView.printTurn(team);
 
@@ -39,7 +40,7 @@ public class JanggiGame {
         BoardLocation current = consoleView.requestCurrent();
         BoardLocation destination = consoleView.requestDestination();
 
-        Piece piece = board.findByLocation(current);
+        Piece piece = board.getByLocationOrThrow(current);
 
         piece.validateEqualTeam(team);
         piece.validateMovable(current, destination);
@@ -48,7 +49,7 @@ public class JanggiGame {
         List<Piece> pathPiece = board.extractPathPiece(allPath);
         piece.validateArrival(pathPiece);
 
-        Piece destinationPiece = board.getByLocation(destination);
+        Piece destinationPiece = board.getByLocationOrDefault(destination);
         piece.validateOccupiable(destinationPiece);
 
         board.removeIfHas(destination);

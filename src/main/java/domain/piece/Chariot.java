@@ -15,7 +15,7 @@ public class Chariot extends Piece {
     @Override
     public void validateMovable(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
-        if (boardVector.dx() == 0 || boardVector.dy() == 0){
+        if (boardVector.dx() == 0 || boardVector.dy() == 0) {
             return;
         }
         throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
@@ -26,41 +26,16 @@ public class Chariot extends Piece {
         List<BoardLocation> path = new ArrayList<>();
         BoardVector boardVector = BoardVector.between(current, destination);
 
-        if (boardVector.isDxZero()) {
-            int dy = boardVector.dy();
-            if (dy > 0) {
-                for (int i = 1; i < dy; i++) {
-                    path.add(current.moveY(i));
-                }
-            }
+        int dy = boardVector.dy();
+        int dx = boardVector.dx();
 
-            if (dy < 0) {
-                for (int i = -1; i > dy; i--) {
-                    path.add(current.moveY(i));
-                }
-            }
-
-            return path;
-        }
-
-        int dx = boardVector.getAbsDx();
-        if (dx > 0) {
-            for (int i = 1; i < dx; i++) {
-                path.add(current.moveX(i));
-            }
-        }
-
-        if (dx < 0) {
-            for (int i = -1; i > dx; i--) {
-                path.add(current.moveX(i));
-            }
-        }
-        return path;
+        Axis quadrant = Axis.findQuadrant(dx, dy);
+        return quadrant.createAllPath(current, dx, dy);
     }
 
     @Override
     public void validateArrival(List<Piece> pathPiece) {
-        if (pathPiece.isEmpty()){
+        if (pathPiece.isEmpty()) {
             return;
         }
         throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
@@ -68,7 +43,7 @@ public class Chariot extends Piece {
 
     @Override
     public void validateKillable(Piece destinationPiece) {
-        if (this.isEqualTeam(destinationPiece)){
+        if (this.isEqualTeam(destinationPiece)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 목적지로 이동할 수 없습니다.");
         }
     }

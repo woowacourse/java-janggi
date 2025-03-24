@@ -53,7 +53,7 @@ class BoardTest {
         BoardLocation boardLocation = new BoardLocation(1, 1);
 
         //when
-        Piece piece = board.findByLocation(boardLocation);
+        Piece piece = board.getByLocationOrThrow(boardLocation);
 
         //then
         assertThat(piece).isEqualTo(new Chariot(Team.HAN));
