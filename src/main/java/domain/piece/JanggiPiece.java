@@ -16,10 +16,6 @@ public class JanggiPiece {
         this.type = type;
     }
 
-    public List<Pattern> getRoute(JanggiPosition origin, JanggiPosition destination) {
-        return type.getRoute(origin, destination);
-    }
-
     public boolean isEmpty() {
         return type == JanggiPieceType.EMPTY;
     }
@@ -28,24 +24,24 @@ public class JanggiPiece {
         type.validateCanMove(this.side, hurdlePiece, hurdleCount, targetPiece);
     }
 
-    public void capture() {
-        this.isCaptured = true;
+    public List<Pattern> getRoute(JanggiPosition origin, JanggiPosition destination) {
+        return type.getRoute(origin, destination);
     }
 
     public boolean isTypeOf(JanggiPieceType expectedType) {
         return type == expectedType;
     }
 
-    public boolean isMyTeam(JanggiPiece other) {
-        return side == other.side;
+    public boolean isTeamOf(JanggiSide expectedTeam) {
+        return side == expectedTeam;
+    }
+
+    public void capture() {
+        this.isCaptured = true;
     }
 
     public boolean isCaptured() {
         return isCaptured;
-    }
-
-    public boolean isTeam(JanggiSide other) {
-        return side == other;
     }
 
     public JanggiPieceType getType() {

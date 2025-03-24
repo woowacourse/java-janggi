@@ -69,12 +69,12 @@ public final class JanggiBoard {
     }
 
     public boolean isSameTeam(JanggiPosition position, JanggiSide janggiSide) {
-        return getPieceOfPosition(position).isTeam(janggiSide);
+        return getPieceOfPosition(position).isTeamOf(janggiSide);
     }
 
     public boolean isOpposite궁Captured(JanggiSide nowTurn) {
         return janggiBoard.keySet().stream()
                 .map(this::getPieceOfPosition)
-                .noneMatch(piece -> piece.isTypeOf(JanggiPieceType.궁) && piece.isTeam(nowTurn.getOppositeSide()));
+                .noneMatch(piece -> piece.isTypeOf(JanggiPieceType.궁) && piece.isTeamOf(nowTurn.getOppositeSide()));
     }
 }

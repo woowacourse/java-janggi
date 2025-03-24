@@ -60,9 +60,9 @@ public class JanggiPieceTest {
     }
 
     @Test
-    void 특정_기물이_같은_팀인지_확인할_수_있다() {
+    void 특정_기물의_팀을_확인할_수_있다() {
         // when & then
-        assertThat(CHO_마.isMyTeam(CHO_궁)).isTrue();
+        assertThat(CHO_마.isTeamOf(JanggiSide.CHO)).isTrue();
     }
 
     @Nested

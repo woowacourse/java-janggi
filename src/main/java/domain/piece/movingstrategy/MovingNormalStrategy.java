@@ -7,7 +7,7 @@ public class MovingNormalStrategy implements JanggiPieceMovingStrategy {
 
     @Override
     public void checkPieceCanMove(JanggiSide mySide, JanggiPiece hurdlePiece, int hurdleCount, JanggiPiece targetPiece) {
-        if (targetPiece.isTeam(mySide)) {
+        if (targetPiece.isTeamOf(mySide)) {
             throw new IllegalStateException("같은 팀의 기물은 잡을 수 없습니다.");
         }
         if (hurdleCount != 0) {

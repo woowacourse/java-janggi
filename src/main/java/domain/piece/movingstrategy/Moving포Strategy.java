@@ -14,7 +14,7 @@ public class Moving포Strategy implements JanggiPieceMovingStrategy {
         if (hurdlePiece.isTypeOf(JanggiPieceType.포)) {
             throw new IllegalStateException("포는 포를 넘을 수 없습니다.");
         }
-        if (targetPiece.isTeam(mySide)) {
+        if (targetPiece.isTeamOf(mySide)) {
             throw new IllegalStateException("같은 팀의 기물은 잡을 수 없습니다.");
         }
         if (targetPiece.isTypeOf(JanggiPieceType.포)) {
