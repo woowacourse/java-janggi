@@ -33,12 +33,9 @@ public class PiecesOnPath {
 
     public int countNotSamePieceWithoutDestination(Piece piece) {
         return Math.toIntExact(withoutDestination().stream()
+                .filter(each -> !each.isEmptyPiece())
                 .filter(each -> !each.isSamePiece(piece))
                 .count());
-    }
-
-    public boolean isNotSameDestination(Piece piece) {
-        return !destination().isSamePiece(piece);
     }
 
     private Piece destination() {

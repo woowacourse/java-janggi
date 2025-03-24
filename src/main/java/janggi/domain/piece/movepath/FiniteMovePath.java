@@ -30,7 +30,6 @@ public class FiniteMovePath implements MovePath {
         if (!canMove(from, to)) {
             throw new IllegalArgumentException("이동할 수 없습니다.");
         }
-
         return createMovePoints(from);
     }
 
