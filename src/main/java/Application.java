@@ -1,12 +1,15 @@
 import board.Board;
 import board.BoardFactory;
 import board.Position;
-import java.util.List;
-import view.InputView;
 import piece.TeamType;
+import view.InputView;
 import view.OutputView;
 
+import java.util.List;
+
 public class Application {
+
+    private static final int MAX_TRY_COUNT = 150;
 
     public static void main(String[] args) {
         OutputView.printIntroduce();
@@ -14,7 +17,8 @@ public class Application {
         final Board board = boardFactory.generateBoard();
         TeamType type = TeamType.getDefaultTeam();
 
-        while (true) {
+        int count = 0;
+        while (++count < MAX_TRY_COUNT) {
             type = type.toggleTeam();
             OutputView.printBoard(board, type);
             final List<Position> positions = InputView.readPositions();
