@@ -44,11 +44,10 @@ public class Sang implements Movable {
         if (isDistanceOverFlow(targetPoint)) {
             return false;
         }
-        List<Direction> directions = Direction.oneCardinalAndDiagonalFrom(
-                this.point, targetPoint, 3, 2
+        List<Direction> directions = Direction.oneCardinalAndRepeatingDiagonalFrom(
+                this.point, targetPoint, 2
         );
 
-        //장애물 체크
         return isRouteHaveNoHurdle(targetPoint, hurdles, directions);
     }
 

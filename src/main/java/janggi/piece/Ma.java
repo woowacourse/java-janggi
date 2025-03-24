@@ -44,8 +44,8 @@ public class Ma implements Movable {
         if (isDistanceOverflow(targetPoint)) {
             return false;
         }
-        List<Direction> directions = Direction.oneCardinalAndDiagonalFrom(
-                this.point, targetPoint, 2, 1
+        List<Direction> directions = Direction.oneCardinalAndRepeatingDiagonalFrom(
+                this.point, targetPoint, 1
         );
 
         return isRouteHaveNoHurdle(targetPoint, hurdles, directions);

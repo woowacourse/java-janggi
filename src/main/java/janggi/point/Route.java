@@ -16,6 +16,7 @@ public class Route {
         this.route = route;
     }
 
+    //TODO 이동가능한 루트가 아예 없다면? (가능한가?)
     public static Route repeat(Direction direction, Point startPoint, Point targetPoint) {
         List<Point> route = new ArrayList<>();
         Point pointer = startPoint;

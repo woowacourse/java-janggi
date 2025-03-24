@@ -36,7 +36,6 @@ public class JanggiApplication {
                 board.reverseTurn();
             }
         }
-
     }
 
     private void handleMoveException(Runnable action) {
