@@ -1,75 +1,63 @@
 package domain.direction;
 
-import domain.piece.Position;
+import domain.Vector;
 import java.util.List;
 
 public enum PieceDirection {
 
-    KING(new Directions(List.of(
-            new Direction(List.of(Position.ofDirection(0, 1)), false),
-            new Direction(List.of(Position.ofDirection(0, -1)), false),
-            new Direction(List.of(Position.ofDirection(1, 0)), false),
-            new Direction(List.of(Position.ofDirection(-1, 0)), false)
+    GENERAL(new Directions(List.of(
+            new Direction(List.of(Vector.UP), false),
+            new Direction(List.of(Vector.DOWN), false),
+            new Direction(List.of(Vector.RIGHT), false),
+            new Direction(List.of(Vector.LEFT), false)
     ))),
-    ROOK(new Directions(List.of(
-            new Direction(List.of(Position.ofDirection(0, 1)), true),
-            new Direction(List.of(Position.ofDirection(0, -1)), true),
-            new Direction(List.of(Position.ofDirection(1, 0)), true),
-            new Direction(List.of(Position.ofDirection(-1, 0)), true)
+    CHARIOT(new Directions(List.of(
+            new Direction(List.of(Vector.UP), true),
+            new Direction(List.of(Vector.DOWN), true),
+            new Direction(List.of(Vector.RIGHT), true),
+            new Direction(List.of(Vector.LEFT), true)
     ))),
     CANNON(new Directions(List.of(
-            new Direction(List.of(Position.ofDirection(0, 1)), true),
-            new Direction(List.of(Position.ofDirection(0, -1)), true),
-            new Direction(List.of(Position.ofDirection(1, 0)), true),
-            new Direction(List.of(Position.ofDirection(-1, 0)), true)
+            new Direction(List.of(Vector.UP), true),
+            new Direction(List.of(Vector.DOWN), true),
+            new Direction(List.of(Vector.RIGHT), true),
+            new Direction(List.of(Vector.LEFT), true)
     ))),
     HORSE(new Directions(List.of(
-            new Direction(List.of(Position.ofDirection(0, 1), Position.ofDirection(1, 1)), false),
-            new Direction(List.of(Position.ofDirection(0, 1), Position.ofDirection(-1, 1)), false),
-            new Direction(List.of(Position.ofDirection(0, -1), Position.ofDirection(1, -1)), false),
-            new Direction(List.of(Position.ofDirection(0, -1), Position.ofDirection(-1, -1)), false),
-            new Direction(List.of(Position.ofDirection(1, 0), Position.ofDirection(1, -1)), false),
-            new Direction(List.of(Position.ofDirection(1, 0), Position.ofDirection(1, 1)), false),
-            new Direction(List.of(Position.ofDirection(-1, 0), Position.ofDirection(-1, -1)), false),
-            new Direction(List.of(Position.ofDirection(-1, 0), Position.ofDirection(-1, 1)), false)
+            new Direction(List.of(Vector.UP, Vector.UP_RIGHT), false),
+            new Direction(List.of(Vector.UP, Vector.UP_LEFT), false),
+            new Direction(List.of(Vector.DOWN, Vector.DOWN_RIGHT), false),
+            new Direction(List.of(Vector.DOWN, Vector.DOWN_LEFT), false),
+            new Direction(List.of(Vector.RIGHT, Vector.UP_RIGHT), false),
+            new Direction(List.of(Vector.RIGHT, Vector.DOWN_RIGHT), false),
+            new Direction(List.of(Vector.LEFT, Vector.UP_LEFT), false),
+            new Direction(List.of(Vector.LEFT, Vector.DOWN_LEFT), false)
     ))),
     ELEPHANT(new Directions(List.of(
-            new Direction(List.of(Position.ofDirection(0, 1), Position.ofDirection(1, 1), Position.ofDirection(1, 1)),
-                    false),
-            new Direction(List.of(Position.ofDirection(0, 1), Position.ofDirection(-1, 1), Position.ofDirection(-1, 1)),
-                    false),
-            new Direction(
-                    List.of(Position.ofDirection(0, -1), Position.ofDirection(1, -1), Position.ofDirection(1, -1)),
-                    false),
-            new Direction(
-                    List.of(Position.ofDirection(0, -1), Position.ofDirection(-1, -1), Position.ofDirection(-1, -1)),
-                    false),
-            new Direction(List.of(Position.ofDirection(1, 0), Position.ofDirection(1, -1), Position.ofDirection(1, -1)),
-                    false),
-            new Direction(List.of(Position.ofDirection(1, 0), Position.ofDirection(1, 1), Position.ofDirection(1, 1)),
-                    false),
-            new Direction(
-                    List.of(Position.ofDirection(-1, 0), Position.ofDirection(-1, -1), Position.ofDirection(-1, -1)),
-                    false),
-            new Direction(
-                    List.of(Position.ofDirection(-1, 0), Position.ofDirection(-1, 1), Position.ofDirection(-1, 1)),
-                    false)
+            new Direction(List.of(Vector.UP, Vector.UP_RIGHT, Vector.UP_RIGHT), false),
+            new Direction(List.of(Vector.UP, Vector.UP_LEFT, Vector.UP_LEFT), false),
+            new Direction(List.of(Vector.DOWN, Vector.DOWN_RIGHT, Vector.DOWN_RIGHT), false),
+            new Direction(List.of(Vector.DOWN, Vector.DOWN_LEFT, Vector.DOWN_LEFT), false),
+            new Direction(List.of(Vector.RIGHT, Vector.UP_RIGHT, Vector.UP_RIGHT), false),
+            new Direction(List.of(Vector.RIGHT, Vector.DOWN_RIGHT, Vector.DOWN_RIGHT), false),
+            new Direction(List.of(Vector.LEFT, Vector.UP_LEFT, Vector.UP_LEFT), false),
+            new Direction(List.of(Vector.LEFT, Vector.DOWN_LEFT, Vector.DOWN_LEFT), false)
     ))),
-    ADVISOR(new Directions(List.of(
-            new Direction(List.of(Position.ofDirection(0, 1)), false),
-            new Direction(List.of(Position.ofDirection(0, -1)), false),
-            new Direction(List.of(Position.ofDirection(1, 0)), false),
-            new Direction(List.of(Position.ofDirection(-1, 0)), false)
+    GUARD(new Directions(List.of(
+            new Direction(List.of(Vector.UP), false),
+            new Direction(List.of(Vector.DOWN), false),
+            new Direction(List.of(Vector.RIGHT), false),
+            new Direction(List.of(Vector.LEFT), false)
     ))),
-    HAN_PAWN(new Directions(List.of(
-            new Direction(List.of(Position.ofDirection(0, 1)), false),
-            new Direction(List.of(Position.ofDirection(1, 0)), false),
-            new Direction(List.of(Position.ofDirection(-1, 0)), false)
+    HAN_SOLDIER(new Directions(List.of(
+            new Direction(List.of(Vector.DOWN), false),
+            new Direction(List.of(Vector.RIGHT), false),
+            new Direction(List.of(Vector.LEFT), false)
     ))),
-    CHO_PAWN(new Directions(List.of(
-            new Direction(List.of(Position.ofDirection(1, 0)), false),
-            new Direction(List.of(Position.ofDirection(-1, 0)), false),
-            new Direction(List.of(Position.ofDirection(0, -1)), false)
+    CHO_SOLDIER(new Directions(List.of(
+            new Direction(List.of(Vector.UP), false),
+            new Direction(List.of(Vector.RIGHT), false),
+            new Direction(List.of(Vector.LEFT), false)
     ))),
     ;
 

@@ -2,6 +2,7 @@ package domain.direction;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.Vector;
 import domain.piece.Position;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -17,8 +18,8 @@ class DirectionTest {
         Position target = Position.of(6, 3);
         List<Position> expected = List.of(Position.of(5, 4));
 
-        List<Position> positions = List.of(Position.ofDirection(0, -1), Position.ofDirection(1, -1));
-        Direction direction = new Direction(positions, false);
+        List<Vector> vectors = List.of(Vector.UP, Vector.UP_RIGHT);
+        Direction direction = new Direction(vectors, false);
 
         // when
         List<Position> result = direction.createPath(start, target);
@@ -34,8 +35,8 @@ class DirectionTest {
         Position target = Position.of(5, 9);
         List<Position> expected = List.of(Position.of(5, 6), Position.of(5, 7), Position.of(5, 8));
 
-        List<Position> positions = List.of(Position.ofDirection(0, 1));
-        Direction direction = new Direction(positions, true);
+        List<Vector> vectors = List.of(Vector.DOWN);
+        Direction direction = new Direction(vectors, true);
 
         // when
         List<Position> result = direction.createPath(start, target);
@@ -54,8 +55,8 @@ class DirectionTest {
         Position start = Position.of(5, 5);
         Position target = Position.of(row, column);
 
-        List<Position> positions = List.of(Position.ofDirection(0, -1), Position.ofDirection(1, -1));
-        Direction direction = new Direction(positions, false);
+        List<Vector> vectors = List.of(Vector.UP, Vector.UP_RIGHT);
+        Direction direction = new Direction(vectors, false);
 
         // when
         boolean result = direction.canReach(start, target);
@@ -74,8 +75,8 @@ class DirectionTest {
         Position start = Position.of(5, 5);
         Position target = Position.of(row, column);
 
-        List<Position> positions = List.of(Position.ofDirection(0, 1));
-        Direction direction = new Direction(positions, true);
+        List<Vector> vectors = List.of(Vector.DOWN);
+        Direction direction = new Direction(vectors, true);
 
         // when
         boolean result = direction.canReach(start, target);

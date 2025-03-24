@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Vector;
 import java.util.Objects;
 
 public class Position {
@@ -12,7 +13,7 @@ public class Position {
     private final int row;
     private final int column;
 
-    private Position(final int row, final int column) {
+    public Position(final int row, final int column) {
         this.row = row;
         this.column = column;
     }
@@ -22,18 +23,14 @@ public class Position {
         return new Position(row, column);
     }
 
-    public static Position ofDirection(final int row, final int column) {
-        return new Position(row, column);
-    }
-
     private static void validateRange(final int row, final int column) {
         if (row < MIN_ROW || column < MIN_COLUMN || row > MAX_ROW || column > MAX_COLUMN) {
             throw new IllegalArgumentException("[ERROR] 좌표 입력은 9X10 보드 이내만 가능합니다.");
         }
     }
 
-    public Position merge(final Position other) {
-        return new Position(this.row + other.row, this.column + other.column);
+    public Position merge(final Vector other) {
+        return new Position(this.row + other.row(), this.column + other.column());
     }
 
     public boolean isValid() {

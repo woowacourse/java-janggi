@@ -1,15 +1,16 @@
 package domain.direction;
 
+import domain.Vector;
 import domain.piece.Position;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Direction {
 
-    private final List<Position> direction;
+    private final List<Vector> direction;
     private final boolean repeatable;
 
-    public Direction(final List<Position> direction, final boolean repeatable) {
+    public Direction(final List<Vector> direction, final boolean repeatable) {
         this.direction = direction;
         this.repeatable = repeatable;
     }
@@ -38,8 +39,8 @@ public class Direction {
 
     private boolean canReachWithoutRepeat(final Position start, final Position target) {
         Position result = start;
-        for (Position dir : direction) {
-            result = result.merge(dir);
+        for (Vector vector : direction) {
+            result = result.merge(vector);
         }
         return result.equals(target);
     }
@@ -59,9 +60,9 @@ public class Direction {
         List<Position> paths = new ArrayList<>();
 
         Position path = start;
-        for (Position dir : direction) {
+        for (Vector vector : direction) {
             paths.add(path);
-            path = path.merge(dir);
+            path = path.merge(vector);
         }
         return paths.subList(1, paths.size());
     }

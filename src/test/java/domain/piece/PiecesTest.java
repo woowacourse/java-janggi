@@ -117,7 +117,7 @@ class PiecesTest {
     void 왕이_존재하는지_판단하다() {
         // given
         Pieces pieces = new Pieces(new ArrayList<>());
-        Pieces piecesInKing = new Pieces(List.of(new General(5, 2, PieceDirection.KING.get())));
+        Pieces piecesInKing = new Pieces(List.of(new General(5, 2, PieceDirection.GENERAL.get())));
 
         // when & then
         assertThat(pieces.existGeneral()).isFalse();

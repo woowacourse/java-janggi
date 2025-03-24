@@ -3,6 +3,7 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import domain.Vector;
 import domain.direction.Direction;
 import domain.direction.Directions;
 import domain.piece.category.Cannon;
@@ -36,8 +37,8 @@ class PieceTest {
 
         List<Position> expected = List.of(Position.of(4, 6));
 
-        List<Position> positions = List.of(Position.ofDirection(0, -1), Position.ofDirection(1, -1));
-        List<Direction> directionElements = List.of(new Direction(positions, false));
+        List<Vector> vectors = List.of(Vector.UP, Vector.UP_RIGHT);
+        List<Direction> directionElements = List.of(new Direction(vectors, false));
         Directions directions = new Directions(directionElements);
 
         Piece piece = new TestPiece(4, 7, directions);

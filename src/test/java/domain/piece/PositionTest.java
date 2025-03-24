@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
+import domain.Vector;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -33,13 +34,13 @@ class PositionTest {
     void 좌표를_병합해_반환한다() {
         // given
         Position position = Position.of(5, 6);
-        Position otherPosition = Position.of(1, 2);
+        Vector vector = Vector.UP_LEFT;
 
         // when
-        Position result = position.merge(otherPosition);
+        Position result = position.merge(vector);
 
         // then
-        assertThat(result).isEqualTo(Position.of(6, 8));
+        assertThat(result).isEqualTo(Position.of(4, 5));
     }
 
     @ParameterizedTest
@@ -49,7 +50,7 @@ class PositionTest {
     })
     void 좌표가_유효한지_판단한다(int row, int column, boolean expectedResult) {
         // given
-        Position position = Position.ofDirection(row, column);
+        Position position = new Position(row, column);
 
         // when
         boolean result = position.isValid();
