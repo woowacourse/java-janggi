@@ -35,23 +35,29 @@ public enum BoardSetUp {
             new Horse()
     ));
 
+    private static final List<Integer> Y_POINTS = List.of(2, 3, 7, 8);
+
     private final List<Piece> pieceSetUpOrder;
 
     BoardSetUp(List<Piece> pieceSetUpOrder) {
         this.pieceSetUpOrder = pieceSetUpOrder;
     }
 
-    public Map<Position, BoardPiece> getDynastySetUp(Dynasty dynasty, BoardSetUp boardSetUp) {
+    public Map<Point, BoardPiece> getDynastySetUp(Dynasty dynasty) {
+        int xPoint = getXPointByDynasty(dynasty);
+        Map<Point, BoardPiece> setup = new HashMap<>();
+        for (int i = 0; i < 4; i++) {
+            Piece piece = this.pieceSetUpOrder.get(i);
+            setup.put(new Point(xPoint, Y_POINTS.get(i)), new BoardPiece(piece, dynasty));
+        }
+        return setup;
+    }
+
+    private static int getXPointByDynasty(Dynasty dynasty) {
         int xPoint = 10;
-        List<Integer> yPoints = List.of(2, 3, 7, 8);
         if (dynasty == Dynasty.HAN) {
             xPoint = 1;
         }
-        Map<Position, BoardPiece> setup = new HashMap<>();
-        for (int i = 0; i < 4; i++) {
-            Piece piece = boardSetUp.pieceSetUpOrder.get(i);
-            setup.put(new Position(xPoint, yPoints.get(i)), new BoardPiece(piece, dynasty));
-        }
-        return setup;
+        return xPoint;
     }
 }
