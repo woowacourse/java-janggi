@@ -1,8 +1,6 @@
 package janggi.piece;
 
-import janggi.Camp;
-import janggi.PieceSymbol;
-import janggi.Point;
+import janggi.position.Position;
 import janggi.board.Board;
 import janggi.exception.ErrorException;
 
@@ -16,34 +14,34 @@ public final class Soldier extends Piece {
     }
 
     @Override
-    public void validateMove(Point fromPoint, Point toPoint) {
+    public void validateMove(Position fromPosition, Position toPosition) {
         if (isStart()) {
-            validateJolMove(fromPoint, toPoint);
+            validateJolMove(fromPosition, toPosition);
             return;
         }
-        validateByeongMove(fromPoint, toPoint);
+        validateByeongMove(fromPosition, toPosition);
     }
 
-    private void validateJolMove(Point fromPoint, Point toPoint) {
-        if (toPoint.getY() < fromPoint.getY()) {
+    private void validateJolMove(Position fromPosition, Position toPosition) {
+        if (toPosition.getY() < fromPosition.getY()) {
             throw new ErrorException("졸은 뒤로 갈 수 없습니다.");
         }
-        if (Math.abs(toPoint.getY() - fromPoint.getY() + fromPoint.getX() - toPoint.getX()) != 1) {
+        if (Math.abs(toPosition.getY() - fromPosition.getY() + fromPosition.getX() - toPosition.getX()) != 1) {
             throw new ErrorException("졸은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
         }
     }
 
-    private void validateByeongMove(Point fromPoint, Point toPoint) {
-        if (fromPoint.getY() < toPoint.getY()) {
+    private void validateByeongMove(Position fromPosition, Position toPosition) {
+        if (fromPosition.getY() < toPosition.getY()) {
             throw new ErrorException("병은 뒤로 갈 수 없습니다.");
         }
-        if (Math.abs(toPoint.getY() - fromPoint.getY() + fromPoint.getX() - toPoint.getX()) != 1) {
+        if (Math.abs(toPosition.getY() - fromPosition.getY() + fromPosition.getX() - toPosition.getX()) != 1) {
             throw new ErrorException("병은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
         }
     }
 
     @Override
-    public PieceSymbol getPieceSymbol() {
-        return PieceSymbol.SOLDIER;
+    public Type getPieceSymbol() {
+        return Type.SOLDIER;
     }
 }

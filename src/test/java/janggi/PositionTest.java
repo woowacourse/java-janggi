@@ -3,10 +3,11 @@ package janggi;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import janggi.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class PointTest {
+class PositionTest {
 
     @DisplayName("X좌표와 Y좌표를 생성한다.")
     @Test
@@ -16,7 +17,7 @@ class PointTest {
         int y = 2;
 
         // when & then
-        assertThatCode(() -> new Point(x, y))
+        assertThatCode(() -> new Position(x, y))
                 .doesNotThrowAnyException();
     }
 
@@ -24,11 +25,11 @@ class PointTest {
     @Test
     void horizontalTest() {
         // given
-        Point point = new Point(0, 0);
-        Point otherPoint = new Point(2, 0);
+        Position position = new Position(0, 0);
+        Position otherPosition = new Position(2, 0);
 
         // when & then
-        assertThat(point.isHorizontal(otherPoint))
+        assertThat(position.isHorizontal(otherPosition))
                 .isTrue();
     }
 
@@ -36,11 +37,11 @@ class PointTest {
     @Test
     void verticalTest() {
         // given
-        Point point = new Point(0, 0);
-        Point otherPoint = new Point(0, 2);
+        Position position = new Position(0, 0);
+        Position otherPosition = new Position(0, 2);
 
         // when & then
-        assertThat(point.isVertical(otherPoint))
+        assertThat(position.isVertical(otherPosition))
                 .isTrue();
     }
 
@@ -48,11 +49,11 @@ class PointTest {
     @Test
     void equalsTest() {
         // given
-        Point point = new Point(0, 0);
-        Point otherPoint = new Point(0, 0);
+        Position position = new Position(0, 0);
+        Position otherPosition = new Position(0, 0);
 
         // when & then
-        assertThat(point.equals(otherPoint))
+        assertThat(position.equals(otherPosition))
                 .isTrue();
     }
 }

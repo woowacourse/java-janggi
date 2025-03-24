@@ -1,28 +1,30 @@
 package janggi.controller;
 
-import janggi.Camp;
-import janggi.Point;
 import janggi.board.Board;
 import janggi.board.BoardGenerator;
 import janggi.exception.ErrorException;
+import janggi.piece.Camp;
 import janggi.piece.Piece;
-import janggi.view.View;
+import janggi.position.Position;
+import janggi.view.InputView;
+import janggi.view.OutputView;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GameController {
 
-    private static final Camp FIRST_TURN_CAMP = Camp.CHU;
-    private static final int FROM_POINT_INDEX = 0;
-    private static final int TO_POINT_INDEX = 1;
+    private static final Camp FIRST_TURN_CAMP = Camp.CHO;
 
-    private final View view;
+    private final InputView inputView;
+    private final OutputView outputView;
 
-    public GameController(View view) {
-        this.view = view;
+    public GameController(InputView inputView, OutputView outputView) {
+        this.inputView = inputView;
+        this.outputView = outputView;
     }
 
     public void runGame() {
-        view.displayStartBanner();
+        outputView.displayStartBanner();
         if (startGame()) {
             playGame();
         }
@@ -31,7 +33,7 @@ public class GameController {
     private boolean startGame() {
         AtomicBoolean startGame = new AtomicBoolean(false);
         repeatUntilSuccess(() -> {
-            startGame.set(view.readStartGame());
+            startGame.set(inputView.readStartGame());
         });
         return startGame.get();
     }
@@ -40,7 +42,7 @@ public class GameController {
         Board board = BoardGenerator.generate();
         Camp currentTurnCamp = FIRST_TURN_CAMP;
         while (true) {
-            view.displayBoard(board.getPlacedPieces());
+            outputView.displayBoard(board.getPlacedPieces());
             requestPlayGameUntilSuccess(currentTurnCamp, board);
             currentTurnCamp = currentTurnCamp.opposite();
         }
@@ -48,23 +50,23 @@ public class GameController {
 
     private void requestPlayGameUntilSuccess(Camp currentTurnCamp, Board board) {
         repeatUntilSuccess(() -> {
-            playTurn(view.readMove(currentTurnCamp), currentTurnCamp, board);
+            playTurn(inputView.readMovement(currentTurnCamp), currentTurnCamp, board);
         });
     }
 
-    private void playTurn(String[] input, Camp baseCamp, Board board) {
-        Point from = new Point(input[FROM_POINT_INDEX]);
-        Point to = new Point(input[TO_POINT_INDEX]);
+    private void playTurn(List<String> input, Camp baseCamp, Board board) {
+        Position from = new Position(input.getFirst());
+        Position to = new Position(input.getLast());
         validateSelectedPiece(board, from, baseCamp);
         board.move(from, to);
     }
 
-    private void validateSelectedPiece(Board board, Point from, Camp baseCamp) {
+    private void validateSelectedPiece(Board board, Position from, Camp baseCamp) {
         Piece piece = board.peek(from);
         piece.validateSelect(baseCamp);
     }
 
-    public void repeatUntilSuccess(Runnable runner) {
+    private void repeatUntilSuccess(Runnable runner) {
         boolean success = false;
         while (!success) {
             success = run(runner);
@@ -76,7 +78,7 @@ public class GameController {
             runner.run();
             return true;
         } catch (ErrorException e) {
-            view.displayErrorMessage(e.getMessage());
+            outputView.displayErrorMessage(e.getMessage());
             return false;
         }
     }

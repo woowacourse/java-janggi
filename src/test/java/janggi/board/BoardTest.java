@@ -3,11 +3,10 @@ package janggi.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggi.Camp;
-import janggi.Point;
+import janggi.piece.Camp;
+import janggi.position.Position;
 import janggi.exception.ErrorException;
 import janggi.piece.Elephant;
-import janggi.piece.Empty;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
 import org.junit.jupiter.api.DisplayName;
@@ -22,11 +21,11 @@ class BoardTest {
     void placePieceTest() {
         // given
         Board board = new Board();
-        Point point = new Point(1, 1);
+        Position position = new Position(1, 1);
         Piece piece = new Elephant(Camp.HAN, board);
 
         // when & then
-        assertThatCode(() -> board.placePiece(point, piece))
+        assertThatCode(() -> board.placePiece(position, piece))
                 .doesNotThrowAnyException();
     }
 
@@ -41,11 +40,11 @@ class BoardTest {
     void shouldThrowException_WhenInvalidPoint(int x, int y) {
         // given
         Board board = new Board();
-        Point point = new Point(x, y);
+        Position position = new Position(x, y);
         Piece piece = new Elephant(Camp.HAN, board);
 
         // when & then
-        assertThatCode(() -> board.placePiece(point, piece))
+        assertThatCode(() -> board.placePiece(position, piece))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("기물의 위치는 9 x 10 영역을 벗어날 수 없습니다.");
     }
@@ -55,10 +54,10 @@ class BoardTest {
     void moveTest() {
         // given
         Board board = new Board();
-        Point from = new Point(0, 3);
-        Piece piece = new Soldier(Camp.CHU, board);
+        Position from = new Position(0, 3);
+        Piece piece = new Soldier(Camp.CHO, board);
         board.placePiece(from, piece);
-        Point to = new Point(0, 4);
+        Position to = new Position(0, 4);
 
         // when
         board.move(from, to);
@@ -73,10 +72,10 @@ class BoardTest {
     void shouldThrowException_WhenInvalidMove() {
         // given
         Board board = new Board();
-        Point from = new Point(0, 3);
-        Piece piece = new Soldier(Camp.CHU, board);
+        Position from = new Position(0, 3);
+        Piece piece = new Soldier(Camp.CHO, board);
         board.placePiece(from, piece);
-        Point to = new Point(0, 15);
+        Position to = new Position(0, 15);
 
         // when & then
         assertThatCode(() -> board.move(from, to))
@@ -89,8 +88,8 @@ class BoardTest {
     void shouldThrowException_WhenNotFoundPiece() {
         // given
         Board board = new Board();
-        Point from = new Point(0, 3);
-        Point to = new Point(0, 4);
+        Position from = new Position(0, 3);
+        Position to = new Position(0, 4);
 
         // when & then
         assertThatCode(() -> board.move(from, to))
@@ -103,10 +102,10 @@ class BoardTest {
     void shouldThrowException_WhenCatchSameCampPiece() {
         // given
         Board board = new Board();
-        Point from = new Point(0, 3);
-        Point to = new Point(0, 4);
-        Piece fromPiece = new Soldier(Camp.CHU, board);
-        Piece toPiece = new Soldier(Camp.CHU, board);
+        Position from = new Position(0, 3);
+        Position to = new Position(0, 4);
+        Piece fromPiece = new Soldier(Camp.CHO, board);
+        Piece toPiece = new Soldier(Camp.CHO, board);
         board.placePiece(from, fromPiece);
         board.placePiece(to, toPiece);
 
@@ -121,9 +120,9 @@ class BoardTest {
     void moveCatchTest() {
         // given
         Board board = new Board();
-        Point from = new Point(0, 3);
-        Point to = new Point(0, 4);
-        Piece fromPiece = new Soldier(Camp.CHU, board);
+        Position from = new Position(0, 3);
+        Position to = new Position(0, 4);
+        Piece fromPiece = new Soldier(Camp.CHO, board);
         Piece toPiece = new Soldier(Camp.HAN, board);
         board.placePiece(from, fromPiece);
         board.placePiece(to, toPiece);
@@ -145,12 +144,12 @@ class BoardTest {
     void shouldThrowException_WhenMoveSamePoint() {
         // given
         Board board = new Board();
-        Point fromPoint = new Point(1, 1);
-        Point toPoint = new Point(1, 1);
-        board.placePiece(fromPoint, new Soldier(Camp.CHU, board));
+        Position fromPosition = new Position(1, 1);
+        Position toPosition = new Position(1, 1);
+        board.placePiece(fromPosition, new Soldier(Camp.CHO, board));
 
         // when & then
-        assertThatCode(() -> board.move(fromPoint, toPoint))
+        assertThatCode(() -> board.move(fromPosition, toPosition))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("같은 위치로 이동할 수 없습니다.");
     }

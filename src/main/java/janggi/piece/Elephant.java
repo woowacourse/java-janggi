@@ -1,8 +1,6 @@
 package janggi.piece;
 
-import janggi.Camp;
-import janggi.PieceSymbol;
-import janggi.Point;
+import janggi.position.Position;
 import janggi.board.Board;
 import janggi.exception.ErrorException;
 import java.util.HashSet;
@@ -18,13 +16,13 @@ public final class Elephant extends Piece {
     }
 
     @Override
-    public void validateMove(Point fromPoint, Point toPoint) {
-        validateElephantMove(fromPoint, toPoint);
-        validateObstacleOnRoute(fromPoint, toPoint);
+    public void validateMove(Position fromPosition, Position toPosition) {
+        validateElephantMove(fromPosition, toPosition);
+        validateObstacleOnRoute(fromPosition, toPosition);
     }
 
-    private void validateElephantMove(Point fromPoint, Point toPoint) {
-        if (!isElephantMove(fromPoint.calculateXDistance(toPoint), fromPoint.calculateYDistance(toPoint))) {
+    private void validateElephantMove(Position fromPosition, Position toPosition) {
+        if (!isElephantMove(fromPosition.calculateXDistance(toPosition), fromPosition.calculateYDistance(toPosition))) {
             throw new ErrorException("상은 직선으로 한 칸, 대각선으로 두 칸 움직여야 합니다.");
         }
     }
@@ -33,60 +31,60 @@ public final class Elephant extends Piece {
         return (xDistance == 2 && yDistance == 3) || (xDistance == 3 && yDistance == 2);
     }
 
-    private void validateObstacleOnRoute(Point fromPoint, Point toPoint) {
-        Set<Piece> pieces = board.getPiecesByPoint(findRoute(fromPoint, toPoint));
+    private void validateObstacleOnRoute(Position fromPosition, Position toPosition) {
+        Set<Piece> pieces = board.getPiecesByPoint(findRoute(fromPosition, toPosition));
         if (!pieces.isEmpty()) {
             throw new ErrorException("상은 기물을 넘어서 이동할 수 없습니다.");
         }
     }
 
-    private Set<Point> findRoute(Point fromPoint, Point toPoint) {
-        Set<Point> route = new HashSet<>();
-        if (isNextPointOnHorizontal(fromPoint, toPoint)) {
-            return findHorizontalRoute(fromPoint, toPoint, route);
+    private Set<Position> findRoute(Position fromPosition, Position toPosition) {
+        Set<Position> route = new HashSet<>();
+        if (isNextPointOnHorizontal(fromPosition, toPosition)) {
+            return findHorizontalRoute(fromPosition, toPosition, route);
         }
-        return findVerticalRoute(fromPoint, toPoint, route);
+        return findVerticalRoute(fromPosition, toPosition, route);
     }
 
-    private boolean isNextPointOnHorizontal(Point fromPoint, Point toPoint) {
-        return fromPoint.calculateXDistance(toPoint) == 3;
+    private boolean isNextPointOnHorizontal(Position fromPosition, Position toPosition) {
+        return fromPosition.calculateXDistance(toPosition) == 3;
     }
 
-    private Set<Point> findHorizontalRoute(Point fromPoint, Point toPoint, Set<Point> route) {
-        Point firstPoint = getNextHorizontalPoint(fromPoint, toPoint);
-        route.add(firstPoint);
-        route.add(findSecondPoint(toPoint, firstPoint));
+    private Set<Position> findHorizontalRoute(Position fromPosition, Position toPosition, Set<Position> route) {
+        Position firstPosition = getNextHorizontalPoint(fromPosition, toPosition);
+        route.add(firstPosition);
+        route.add(findSecondPoint(toPosition, firstPosition));
         return route;
     }
 
-    private Set<Point> findVerticalRoute(Point fromPoint, Point toPoint, Set<Point> route) {
-        Point firstPoint = getNextVerticalPoint(fromPoint, toPoint);
-        route.add(firstPoint);
-        route.add(findSecondPoint(toPoint, firstPoint));
+    private Set<Position> findVerticalRoute(Position fromPosition, Position toPosition, Set<Position> route) {
+        Position firstPosition = getNextVerticalPoint(fromPosition, toPosition);
+        route.add(firstPosition);
+        route.add(findSecondPoint(toPosition, firstPosition));
         return route;
     }
 
-    private Point getNextHorizontalPoint(Point fromPoint, Point toPoint) {
-        if (fromPoint.getX() < toPoint.getX()) {
-            return new Point(fromPoint.getX() + 1, fromPoint.getY());
+    private Position getNextHorizontalPoint(Position fromPosition, Position toPosition) {
+        if (fromPosition.getX() < toPosition.getX()) {
+            return new Position(fromPosition.getX() + 1, fromPosition.getY());
         }
-        return new Point(fromPoint.getX() - 1, fromPoint.getY());
+        return new Position(fromPosition.getX() - 1, fromPosition.getY());
     }
 
-    private Point getNextVerticalPoint(Point fromPoint, Point toPoint) {
-        if (fromPoint.getY() < toPoint.getY()) {
-            return new Point(fromPoint.getX(), fromPoint.getY() + 1);
+    private Position getNextVerticalPoint(Position fromPosition, Position toPosition) {
+        if (fromPosition.getY() < toPosition.getY()) {
+            return new Position(fromPosition.getX(), fromPosition.getY() + 1);
         }
-        return new Point(fromPoint.getX(), fromPoint.getY() - 1);
+        return new Position(fromPosition.getX(), fromPosition.getY() - 1);
     }
 
-    private Point findSecondPoint(Point toPoint, Point firstPoint) {
-        return new Point((firstPoint.getX() + toPoint.getX()) / 2,
-                (firstPoint.getY() + toPoint.getY()) / 2);
+    private Position findSecondPoint(Position toPosition, Position firstPosition) {
+        return new Position((firstPosition.getX() + toPosition.getX()) / 2,
+                (firstPosition.getY() + toPosition.getY()) / 2);
     }
 
     @Override
-    public PieceSymbol getPieceSymbol() {
-        return PieceSymbol.ELEPHANT;
+    public Type getPieceSymbol() {
+        return Type.ELEPHANT;
     }
 }

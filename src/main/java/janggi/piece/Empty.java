@@ -1,8 +1,6 @@
 package janggi.piece;
 
-import janggi.Camp;
-import janggi.PieceSymbol;
-import janggi.Point;
+import janggi.position.Position;
 
 public class Empty extends Piece {
 
@@ -11,11 +9,11 @@ public class Empty extends Piece {
     }
 
     @Override
-    public void validateMove(Point fromPoint, Point toPoint) {
+    public void validateMove(Position fromPosition, Position toPosition) {
     }
 
     @Override
-    public PieceSymbol getPieceSymbol() {
-        return PieceSymbol.EMPTY;
+    public Type getPieceSymbol() {
+        return Type.EMPTY;
     }
 }

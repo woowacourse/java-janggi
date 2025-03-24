@@ -1,8 +1,6 @@
 package janggi.piece;
 
-import janggi.Camp;
-import janggi.PieceSymbol;
-import janggi.Point;
+import janggi.position.Position;
 import janggi.board.Board;
 
 public final class Guard extends Piece {
@@ -15,11 +13,11 @@ public final class Guard extends Piece {
     }
 
     @Override
-    public void validateMove(Point fromPoint, Point toPoint) {
+    public void validateMove(Position fromPosition, Position toPosition) {
     }
 
     @Override
-    public PieceSymbol getPieceSymbol() {
-        return PieceSymbol.GUARD;
+    public Type getPieceSymbol() {
+        return Type.GUARD;
     }
 }

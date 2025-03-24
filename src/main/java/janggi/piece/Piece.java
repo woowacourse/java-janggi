@@ -1,8 +1,6 @@
 package janggi.piece;
 
-import janggi.Camp;
-import janggi.PieceSymbol;
-import janggi.Point;
+import janggi.position.Position;
 import janggi.exception.ErrorException;
 
 public abstract class Piece {
@@ -13,9 +11,9 @@ public abstract class Piece {
         this.camp = camp;
     }
 
-    public abstract void validateMove(Point fromPoint, Point toPoint);
+    public abstract void validateMove(Position fromPosition, Position toPosition);
 
-    public abstract PieceSymbol getPieceSymbol();
+    public abstract Type getPieceSymbol();
 
     protected boolean isStart() {
         return camp.isBottom();
@@ -34,7 +32,7 @@ public abstract class Piece {
     }
 
     public boolean isEmpty() {
-        return getPieceSymbol() == PieceSymbol.EMPTY;
+        return getPieceSymbol() == Type.EMPTY;
     }
 
     public Camp getCamp() {

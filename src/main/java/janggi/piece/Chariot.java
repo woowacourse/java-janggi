@@ -1,8 +1,6 @@
 package janggi.piece;
 
-import janggi.Camp;
-import janggi.PieceSymbol;
-import janggi.Point;
+import janggi.position.Position;
 import janggi.board.Board;
 import janggi.exception.ErrorException;
 import java.util.HashSet;
@@ -18,54 +16,54 @@ public final class Chariot extends Piece {
     }
 
     @Override
-    public void validateMove(Point fromPoint, Point toPoint) {
-        validateLinearMove(fromPoint, toPoint);
-        validateObstacleOnRoute(fromPoint, toPoint);
+    public void validateMove(Position fromPosition, Position toPosition) {
+        validateLinearMove(fromPosition, toPosition);
+        validateObstacleOnRoute(fromPosition, toPosition);
     }
 
-    private void validateLinearMove(Point fromPoint, Point toPoint) {
-        if (!fromPoint.isHorizontal(toPoint) && !fromPoint.isVertical(toPoint)) {
+    private void validateLinearMove(Position fromPosition, Position toPosition) {
+        if (!fromPosition.isHorizontal(toPosition) && !fromPosition.isVertical(toPosition)) {
             throw new ErrorException("차는 수평 혹은 수직으로만 움직여야 합니다.");
         }
     }
 
-    private void validateObstacleOnRoute(Point fromPoint, Point toPoint) {
-        Set<Piece> pieces = board.getPiecesByPoint(findRoute(fromPoint, toPoint));
+    private void validateObstacleOnRoute(Position fromPosition, Position toPosition) {
+        Set<Piece> pieces = board.getPiecesByPoint(findRoute(fromPosition, toPosition));
         if (!pieces.isEmpty()) {
             throw new ErrorException("차는 기물을 넘어 이동할 수 없습니다.");
         }
     }
 
-    private Set<Point> findRoute(Point fromPoint, Point toPoint) {
-        boolean isHorizontal = fromPoint.isHorizontal(toPoint);
+    private Set<Position> findRoute(Position fromPosition, Position toPosition) {
+        boolean isHorizontal = fromPosition.isHorizontal(toPosition);
         if (isHorizontal) {
-            return findHorizontalRoute(fromPoint.getY(), fromPoint.getX(), toPoint.getX());
+            return findHorizontalRoute(fromPosition.getY(), fromPosition.getX(), toPosition.getX());
         }
-        return findVerticalRoute(fromPoint.getX(), fromPoint.getY(), toPoint.getY());
+        return findVerticalRoute(fromPosition.getX(), fromPosition.getY(), toPosition.getY());
     }
 
-    private Set<Point> findHorizontalRoute(int fixedY, int fromX, int toX) {
-        Set<Point> route = new HashSet<>();
+    private Set<Position> findHorizontalRoute(int fixedY, int fromX, int toX) {
+        Set<Position> route = new HashSet<>();
         int start = Math.min(fromX, toX) + 1;
         int end = Math.max(fromX, toX);
         for (int i = start; i < end; i++) {
-            route.add(new Point(i, fixedY));
+            route.add(new Position(i, fixedY));
         }
         return route;
     }
 
-    private Set<Point> findVerticalRoute(int fixedX, int fromY, int toY) {
-        Set<Point> route = new HashSet<>();
+    private Set<Position> findVerticalRoute(int fixedX, int fromY, int toY) {
+        Set<Position> route = new HashSet<>();
         int start = Math.min(fromY, toY) + 1;
         int end = Math.max(fromY, toY);
         for (int i = start; i < end; i++) {
-            route.add(new Point(fixedX, i));
+            route.add(new Position(fixedX, i));
         }
         return route;
     }
 
     @Override
-    public PieceSymbol getPieceSymbol() {
-        return PieceSymbol.CHARIOT;
+    public Type getPieceSymbol() {
+        return Type.CHARIOT;
     }
 }

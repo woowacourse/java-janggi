@@ -2,8 +2,7 @@ package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggi.Camp;
-import janggi.Point;
+import janggi.position.Position;
 import janggi.board.Board;
 import janggi.exception.ErrorException;
 import org.junit.jupiter.api.DisplayName;
@@ -17,17 +16,17 @@ class SoldierTest {
     @ParameterizedTest
     @CsvSource({
             "HAN, 2",
-            "CHU, 0"
+            "CHO, 0"
     })
     void shouldThrowException_WhenMoveBackward(Camp camp, int toY) {
         // given
         Board board = new Board();
         Soldier soldier = new Soldier(camp, board);
-        Point fromPoint = new Point(0, 1);
-        Point toPoint = new Point(0, toY);
+        Position fromPosition = new Position(0, 1);
+        Position toPosition = new Position(0, toY);
 
         // when & then
-        assertThatCode(() -> soldier.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> soldier.validateMove(fromPosition, toPosition))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("뒤로 갈 수 없습니다.");
     }
@@ -38,19 +37,19 @@ class SoldierTest {
             "HAN, 0, 1",
             "HAN, 2, 1",
             "HAN, 1, 0",
-            "CHU, 0, 1",
-            "CHU, 2, 1",
-            "CHU, 1, 2",
+            "CHO, 0, 1",
+            "CHO, 2, 1",
+            "CHO, 1, 2",
     })
     void validMoveTest(Camp camp, int toX, int toY) {
         // given
         Board board = new Board();
         Soldier soldier = new Soldier(camp, board);
-        Point fromPoint = new Point(1, 1);
-        Point toPoint = new Point(toX, toY);
+        Position fromPosition = new Position(1, 1);
+        Position toPosition = new Position(toX, toY);
 
         // when & then
-        assertThatCode(() -> soldier.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> soldier.validateMove(fromPosition, toPosition))
                 .doesNotThrowAnyException();
     }
 
@@ -58,17 +57,17 @@ class SoldierTest {
     @ParameterizedTest
     @CsvSource({
             "HAN, 3, 1",
-            "CHU, 0, 3"
+            "CHO, 0, 3"
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int toX, int toY) {
         // given
         Board board = new Board();
         Soldier soldier = new Soldier(camp, board);
-        Point fromPoint = new Point(1, 1);
-        Point toPoint = new Point(toX, toY);
+        Position fromPosition = new Position(1, 1);
+        Position toPosition = new Position(toX, toY);
 
         // when & then
-        assertThatCode(() -> soldier.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> soldier.validateMove(fromPosition, toPosition))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
     }

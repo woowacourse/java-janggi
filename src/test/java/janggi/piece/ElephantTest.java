@@ -2,8 +2,7 @@ package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggi.Camp;
-import janggi.Point;
+import janggi.position.Position;
 import janggi.board.Board;
 import janggi.exception.ErrorException;
 import org.junit.jupiter.api.DisplayName;
@@ -26,11 +25,11 @@ class ElephantTest {
         // given
         Board board = new Board();
         Elephant elephant = new Elephant(camp, board);
-        Point fromPoint = new Point(5, 5);
-        Point toPoint = new Point(toX, toY);
+        Position fromPosition = new Position(5, 5);
+        Position toPosition = new Position(toX, toY);
 
         // when & then
-        assertThatCode(() -> elephant.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> elephant.validateMove(fromPosition, toPosition))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("상은 직선으로 한 칸, 대각선으로 두 칸 움직여야 합니다.");
     }
@@ -51,11 +50,11 @@ class ElephantTest {
         // given
         Board board = new Board();
         Elephant elephant = new Elephant(camp, board);
-        Point fromPoint = new Point(5, 5);
-        Point toPoint = new Point(toX, toY);
+        Position fromPosition = new Position(5, 5);
+        Position toPosition = new Position(toX, toY);
 
         // when & then
-        assertThatCode(() -> elephant.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> elephant.validateMove(fromPosition, toPosition))
                 .doesNotThrowAnyException();
     }
 
@@ -71,15 +70,15 @@ class ElephantTest {
         // given
         Board board = new Board();
         Elephant elephant = new Elephant(camp, board);
-        Point fromPoint = new Point(5, 5);
-        Point toPoint = new Point(toX, toY);
-        board.placePiece(new Point(5, 6), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(6, 5), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(5, 4), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(4, 5), new Soldier(Camp.CHU, board));
+        Position fromPosition = new Position(5, 5);
+        Position toPosition = new Position(toX, toY);
+        board.placePiece(new Position(5, 6), new Soldier(Camp.CHO, board));
+        board.placePiece(new Position(6, 5), new Soldier(Camp.CHO, board));
+        board.placePiece(new Position(5, 4), new Soldier(Camp.CHO, board));
+        board.placePiece(new Position(4, 5), new Soldier(Camp.CHO, board));
 
         // when & then
-        assertThatCode(() -> elephant.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> elephant.validateMove(fromPosition, toPosition))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("상은 기물을 넘어서 이동할 수 없습니다.");
     }
@@ -96,19 +95,19 @@ class ElephantTest {
         // given
         Board board = new Board();
         Elephant elephant = new Elephant(camp, board);
-        Point fromPoint = new Point(5, 5);
-        Point toPoint = new Point(toX, toY);
-        board.placePiece(new Point(6, 7), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(7, 6), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(6, 3), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(3, 6), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(4, 3), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(3, 4), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(7, 4), new Soldier(Camp.CHU, board));
-        board.placePiece(new Point(4, 7), new Soldier(Camp.CHU, board));
+        Position fromPosition = new Position(5, 5);
+        Position toPosition = new Position(toX, toY);
+        board.placePiece(new Position(6, 7), new Soldier(Camp.CHO, board));
+        board.placePiece(new Position(7, 6), new Soldier(Camp.CHO, board));
+        board.placePiece(new Position(6, 3), new Soldier(Camp.CHO, board));
+        board.placePiece(new Position(3, 6), new Soldier(Camp.CHO, board));
+        board.placePiece(new Position(4, 3), new Soldier(Camp.CHO, board));
+        board.placePiece(new Position(3, 4), new Soldier(Camp.CHO, board));
+        board.placePiece(new Position(7, 4), new Soldier(Camp.CHO, board));
+        board.placePiece(new Position(4, 7), new Soldier(Camp.CHO, board));
 
         // when & then
-        assertThatCode(() -> elephant.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> elephant.validateMove(fromPosition, toPosition))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("상은 기물을 넘어서 이동할 수 없습니다.");
     }
