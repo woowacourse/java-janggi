@@ -24,12 +24,6 @@ public class Byeong extends Piece {
         }
     }
 
-    @Override
-    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateByeongMove(from, to);
-        validateTarget(board, to);
-    }
-
     private void validateHanMove(JanggiCoordinate from, JanggiCoordinate to) {
         if (from.moveDown().equals(to) || from.moveRight().equals(to) || from.moveLeft().equals(to)) {
             return;
@@ -42,5 +36,11 @@ public class Byeong extends Piece {
             return;
         }
         throw new IllegalArgumentException("[ERROR] 해당 위치로 기물을 이동할 수 없습니다.");
+    }
+
+    @Override
+    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+        validateByeongMove(from, to);
+        validateTarget(board, to);
     }
 }
