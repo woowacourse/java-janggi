@@ -55,4 +55,10 @@ public class Pieces {
                 .map(piece -> piece.makeRoute(destination))
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 시작 위치에 아군 기물이 존재하지 않습니다."));
     }
+
+    public int countObstacle(Positions route) {
+        return (int) pieces.stream()
+                .filter(route::containsPosition)
+                .count();
+    }
 }
