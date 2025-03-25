@@ -18,7 +18,7 @@ public class Guard extends Piece {
 
     @Override
     protected void validateMovement(final Movement movement) {
-        if (!movement.isOneLineMovement()) {
+        if (!movement.isOneLineMovement() || !movement.isMoveInPalaceArea()) {
             throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");
         }
     }
