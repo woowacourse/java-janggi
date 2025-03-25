@@ -59,7 +59,7 @@ public class OutputView {
 
     private void updateDefaultBoard(final Map<Player, Pieces> board, final List<ArrayList<String>> defaultBoard) {
         for (Player player : board.keySet()) {
-            PieceColor color = player.color();
+            PieceColor color = player.team().getColor();
 
             List<Piece> pieces = board.get(player).pieces();
             updatePiecesToDefaultBoard(defaultBoard, pieces, color);
