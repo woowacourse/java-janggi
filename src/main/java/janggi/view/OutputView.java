@@ -1,7 +1,7 @@
 package janggi.view;
 
 import janggi.board.Board;
-import janggi.board.Position;
+import janggi.coordinate.Position;
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
 import janggi.piece.Country;

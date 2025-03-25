@@ -1,8 +1,10 @@
-package janggi.piece;
+package janggi.coordinate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.board.Position;
+import janggi.coordinate.Path;
+import janggi.coordinate.Position;
+import janggi.coordinate.RelativePosition;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

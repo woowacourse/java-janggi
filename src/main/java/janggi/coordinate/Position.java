@@ -1,4 +1,4 @@
-package janggi.board;
+package janggi.coordinate;
 
 
 import java.util.ArrayList;

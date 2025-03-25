@@ -1,7 +1,7 @@
 package janggi.piece;
 
 import janggi.board.Board;
-import janggi.board.Position;
+import janggi.coordinate.Position;
 
 public class Soldier extends Piece {
 

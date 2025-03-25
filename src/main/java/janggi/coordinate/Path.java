@@ -1,6 +1,5 @@
-package janggi.piece;
+package janggi.coordinate;
 
-import janggi.board.Position;
 import java.util.ArrayList;
 import java.util.List;
 

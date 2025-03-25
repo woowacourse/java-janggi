@@ -2,6 +2,7 @@ package janggi.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.coordinate.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
