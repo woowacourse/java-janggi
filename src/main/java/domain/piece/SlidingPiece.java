@@ -24,23 +24,16 @@ public abstract class SlidingPiece extends Piece {
     private List<Point> findCandidatesByDirection(final Point point, final Direction direction,
                                                   final Board board) {
         List<Point> candidates = new ArrayList<>();
-
         Point currentPoint = point;
-        int stepLeft = step();
-        while (stepLeft > 0) {
-            if (!board.existsNextPoint(currentPoint, direction)) {
-                break;
-            }
-
+        for (int stepLeft = step(); stepLeft > 0 && board.existsNextPoint(currentPoint, direction); stepLeft--) {
             currentPoint = board.getNextPoint(currentPoint, direction);
-            if (board.existsPiece(currentPoint) && board.matchTeam(currentPoint, team())) {
+            if (board.matchTeam(currentPoint, team())) {
                 break;
             }
             candidates.add(currentPoint);
-            if (board.existsPiece(currentPoint) && board.matchTeam(currentPoint, team().inverse())) {
+            if (board.matchTeam(currentPoint, team().inverse())) {
                 break;
             }
-            stepLeft--;
         }
         return candidates;
     }
