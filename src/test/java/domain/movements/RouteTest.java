@@ -3,7 +3,8 @@ package domain.movements;
 import domain.board.Point;
 import java.util.ArrayList;
 import java.util.List;
-import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,8 +27,74 @@ public final class RouteTest {
             final Point actual = route.navigateArrivalPoint(startPoint);
 
             //then
-            Assertions.assertThat(actual).isEqualTo(expectedPoint);
+            assertThat(actual).isEqualTo(expectedPoint);
         }
     }
 
+    @Nested
+    @DisplayName("도착 가능 여부를 확인할 때")
+    class TestCanArrive {
+        @Test
+        @DisplayName("도착할 수 있는 지점에 대해 true 를 반환한다")
+        void test_canArriveReturnTrue() {
+            // given
+            Route route = new Route(List.of(Direction.NORTH, Direction.NORTHEAST));
+            Point startPoint = new Point(0, 0);
+            Point arrivalPoint = new Point(2, 1);
+
+            // when
+            boolean actual = route.canArrive(startPoint, arrivalPoint);
+
+            // then
+            assertThat(actual).isTrue();
+        }
+
+        @Test
+        @DisplayName("도착할 수 없는 지점에 대해 false 를 반환한다")
+        void test_canArriveReturnFalse() {
+            // given
+            Route route = new Route(List.of(Direction.NORTH, Direction.NORTHEAST));
+            Point startPoint = new Point(0, 0);
+            Point arrivalPoint = new Point(2, 2);
+
+            // when
+            boolean actual = route.canArrive(startPoint, arrivalPoint);
+
+            // then
+            assertThat(actual).isFalse();
+        }
+    }
+
+    @Nested
+    @DisplayName("경로를 반환할 때")
+    class TestGetAllPointsOnRoute {
+        @Test
+        void test_returnValidPointsOnRoute() {
+            // given
+            Route route = new Route(List.of(Direction.NORTH, Direction.NORTHEAST, Direction.NORTHEAST));
+            Point startPoint = new Point(0, 0);
+
+            // when
+            List<Point> actual = route.getAllPointsOnRoute(startPoint);
+
+            // then
+            assertAll(
+                    () -> assertThat(actual).hasSize(3),
+                    () -> assertThat(actual).containsExactlyInAnyOrder(
+                            new Point(1, 0),
+                            new Point(2, 1),
+                            new Point(3, 2))
+            );
+        }
+
+        @Test
+        void test_doesNotContainStartPoint() {
+            // given
+            Route route = new Route(List.of(Direction.NORTH, Direction.NORTHEAST));
+            Point startPoint = new Point(0, 0);
+
+            // when & then
+            assertThat(route.getAllPointsOnRoute(startPoint)).doesNotContain(startPoint);
+        }
+    }
 }
