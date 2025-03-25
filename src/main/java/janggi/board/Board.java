@@ -23,7 +23,7 @@ public class Board {
     }
 
     private void validatePoint(Point point) {
-        if (!point.isXInRange(0, COLUMN) || !point.isYInRange(0, ROW)) {
+        if (!point.isXWithin(0, COLUMN) || !point.isYWithin(0, ROW)) {
             throw new IllegalArgumentException(String.format("기물의 위치는 %d x %d 영역을 벗어날 수 없습니다.", COLUMN, ROW));
         }
     }

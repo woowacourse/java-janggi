@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class Elephant extends Piece {
+
     private static final int STRAIGHT_STEP = 1;
     private static final int DIAGONAL_STEP = 2;
     private static final int ELEPHANT_MOVE_DISTANCE = STRAIGHT_STEP + DIAGONAL_STEP;
@@ -21,12 +22,14 @@ public final class Elephant extends Piece {
     }
 
     private void validateElephantMove(Point fromPoint, Point toPoint) {
-        if (!isElephantMove(fromPoint.calculateXDistance(toPoint), fromPoint.calculateYDistance(toPoint))) {
+        if (!isElephantMove(fromPoint, toPoint)) {
             throw new IllegalArgumentException("상은 직선으로 한 칸, 대각선으로 두 칸 움직여야 합니다.");
         }
     }
 
-    private boolean isElephantMove(int xDistance, int yDistance) {
+    private boolean isElephantMove(Point fromPoint, Point toPoint) {
+        int xDistance = fromPoint.getXDistanceFrom(toPoint);
+        int yDistance = fromPoint.getYDistanceFrom(toPoint);
         return (xDistance == DIAGONAL_STEP && yDistance == ELEPHANT_MOVE_DISTANCE)
                 || (xDistance == ELEPHANT_MOVE_DISTANCE && yDistance == DIAGONAL_STEP);
     }
@@ -39,49 +42,32 @@ public final class Elephant extends Piece {
     }
 
     @Override
-    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
+    public Set<Point> findRoute(Point from, Point to) {
+        Point firstStepPoint = getFirstStepPoint(from, to);
+        Point secondStepPoint = getSecondStepPoint(firstStepPoint, to);
+        return buildRoute(firstStepPoint, secondStepPoint);
+    }
+
+    private Point getFirstStepPoint(Point from, Point to) {
+        if (isElephantMovingHorizontally(from, to)) {
+            return from.getNextHorizontalPointToward(to);
+        }
+        return from.getNextVerticalPointToward(to);
+    }
+
+    private Point getSecondStepPoint(Point firstStep, Point destination) {
+        return firstStep.getCenterPointWith(destination);
+    }
+
+    private boolean isElephantMovingHorizontally(Point from, Point to) {
+        return from.getXDistanceFrom(to) == ELEPHANT_MOVE_DISTANCE;
+    }
+
+    private Set<Point> buildRoute(Point firstStep, Point secondStep) {
         Set<Point> route = new HashSet<>();
-        if (isNextPointOnHorizontal(fromPoint, toPoint)) {
-            return findHorizontalRoute(fromPoint, toPoint, route);
-        }
-        return findVerticalRoute(fromPoint, toPoint, route);
-    }
-
-    private boolean isNextPointOnHorizontal(Point fromPoint, Point toPoint) {
-        return fromPoint.calculateXDistance(toPoint) == ELEPHANT_MOVE_DISTANCE;
-    }
-
-    private Set<Point> findHorizontalRoute(Point fromPoint, Point toPoint, Set<Point> route) {
-        Point firstPoint = getNextHorizontalPoint(fromPoint, toPoint);
-        route.add(firstPoint);
-        route.add(findSecondPoint(toPoint, firstPoint));
+        route.add(firstStep);
+        route.add(secondStep);
         return route;
-    }
-
-    private Set<Point> findVerticalRoute(Point fromPoint, Point toPoint, Set<Point> route) {
-        Point firstPoint = getNextVerticalPoint(fromPoint, toPoint);
-        route.add(firstPoint);
-        route.add(findSecondPoint(toPoint, firstPoint));
-        return route;
-    }
-
-    private Point getNextHorizontalPoint(Point fromPoint, Point toPoint) {
-        if (fromPoint.getX() < toPoint.getX()) {
-            return new Point(fromPoint.getX() + 1, fromPoint.getY());
-        }
-        return new Point(fromPoint.getX() - 1, fromPoint.getY());
-    }
-
-    private Point getNextVerticalPoint(Point fromPoint, Point toPoint) {
-        if (fromPoint.getY() < toPoint.getY()) {
-            return new Point(fromPoint.getX(), fromPoint.getY() + 1);
-        }
-        return new Point(fromPoint.getX(), fromPoint.getY() - 1);
-    }
-
-    private Point findSecondPoint(Point toPoint, Point firstPoint) {
-        return new Point((firstPoint.getX() + toPoint.getX()) / 2,
-                (firstPoint.getY() + toPoint.getY()) / 2);
     }
 
     @Override
