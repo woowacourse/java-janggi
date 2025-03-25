@@ -21,8 +21,8 @@ public class JanggiController {
 
         while (true) {
             try {
-                outputView.printCurrTurn(game.getCurrTurn());
                 outputView.printCurrBoard(game.getBoard());
+                outputView.printCurrTurn(game.getCurrTurn());
                 JanggiCoordinate from = inputView.readMovePiece();
                 JanggiCoordinate to = inputView.readMoveDestination();
                 game.movePlayerPiece(from, to);
