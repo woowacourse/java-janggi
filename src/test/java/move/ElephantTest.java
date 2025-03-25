@@ -7,11 +7,14 @@ import direction.Point;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import piece.Elephant;
+import piece.Guard;
 import piece.Piece;
+import piece.PieceType;
 import piece.Pieces;
 import team.Team;
 
-class ElephantMovementTest {
+class ElephantTest {
 
     @Test
     @DisplayName("위쪽 1칸, 왼쪽 대각선 2칸으로 이동할 수 있다.")
@@ -19,12 +22,12 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(0, -1);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
 
         //when
 
         //then
-        assertThatCode(() -> elephantMovement.validateDestination(from, to))
+        assertThatCode(() -> elephant.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -34,12 +37,12 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(4, -1);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
 
         //when
 
         //then
-        assertThatCode(() -> elephantMovement.validateDestination(from, to))
+        assertThatCode(() -> elephant.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -49,12 +52,12 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(-1, 0);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
 
         //when
 
         //then
-        assertThatCode(() -> elephantMovement.validateDestination(from, to))
+        assertThatCode(() -> elephant.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -64,12 +67,12 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(-1, 4);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
 
         //when
 
         //then
-        assertThatCode(() -> elephantMovement.validateDestination(from, to))
+        assertThatCode(() -> elephant.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -79,12 +82,12 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(0, 5);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
 
         //when
 
         //then
-        assertThatCode(() -> elephantMovement.validateDestination(from, to))
+        assertThatCode(() -> elephant.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -94,12 +97,12 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(4, 5);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
 
         //when
 
         //then
-        assertThatCode(() -> elephantMovement.validateDestination(from, to))
+        assertThatCode(() -> elephant.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -109,12 +112,12 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(5, 0);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
 
         //when
 
         //then
-        assertThatCode(() -> elephantMovement.validateDestination(from, to))
+        assertThatCode(() -> elephant.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -124,12 +127,12 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(5, 4);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
 
         //when
 
         //then
-        assertThatCode(() -> elephantMovement.validateDestination(from, to))
+        assertThatCode(() -> elephant.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -139,12 +142,12 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(8, 3);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
 
         //when
 
         //then
-        assertThatThrownBy(() -> elephantMovement.validateDestination(from, to))
+        assertThatThrownBy(() -> elephant.validateDestination(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -154,15 +157,14 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(5, 4);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
         Pieces pieces = new Pieces(List.of(
-                new Piece("e", new Point(2, 2), elephantMovement),
-                new Piece("n", new Point(3, 2), new GuardMovement())
-        ));
+                elephant,
+                new Guard(PieceType.GREEN_GUARD, new Point(3, 2))));
 
         //when
         //then
-        assertThatThrownBy(() -> elephantMovement.checkPaths(pieces, from, to))
+        assertThatThrownBy(() -> elephant.checkPaths(pieces, from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

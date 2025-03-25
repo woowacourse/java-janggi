@@ -14,7 +14,7 @@ public class Pieces {
 
     public Optional<Piece> findByPoint(Point point) {
         return pieces.stream()
-                .filter(piece -> piece.getPosition().equals(point))
+                .filter(piece -> piece.isEqualPositionWith(point))
                 .findAny();
     }
 

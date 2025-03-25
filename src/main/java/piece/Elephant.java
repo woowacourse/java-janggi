@@ -1,34 +1,34 @@
-package move;
-
+package piece;
 
 import static direction.Direction.DOWN;
+import static direction.Direction.DOWN_LEFT_DIAGONAL;
+import static direction.Direction.DOWN_RIGHT_DIAGONAL;
 import static direction.Direction.LEFT;
 import static direction.Direction.RIGHT;
 import static direction.Direction.UP;
+import static direction.Direction.UP_LEFT_DIAGONAL;
+import static direction.Direction.UP_RIGHT_DIAGONAL;
 
 import direction.Direction;
 import direction.Point;
 import java.util.List;
 import java.util.Map;
-import piece.Pieces;
 
-public class HorseMovement implements MovementRule {
+public class Elephant extends Piece {
 
     private static final Map<Point, List<Direction>> paths = Map.of(
-            new Point(-1, -2), List.of(UP),
-            new Point(1, -2), List.of(UP),
-            new Point(-2, -1), List.of(LEFT),
-            new Point(-2, 1), List.of(LEFT),
-            new Point(-1, 2), List.of(DOWN),
-            new Point(1, 2), List.of(DOWN),
-            new Point(2, -1), List.of(RIGHT),
-            new Point(2, 1), List.of(RIGHT)
+            new Point(-2, -3), List.of(UP, UP_LEFT_DIAGONAL),
+            new Point(2, -3), List.of(UP, UP_RIGHT_DIAGONAL),
+            new Point(-3, -2), List.of(LEFT, UP_LEFT_DIAGONAL),
+            new Point(-3, 2), List.of(LEFT, DOWN_LEFT_DIAGONAL),
+            new Point(-2, 3), List.of(DOWN, DOWN_LEFT_DIAGONAL),
+            new Point(2, 3), List.of(DOWN, DOWN_RIGHT_DIAGONAL),
+            new Point(3, -2), List.of(RIGHT, UP_RIGHT_DIAGONAL),
+            new Point(3, 2), List.of(RIGHT, DOWN_RIGHT_DIAGONAL)
     );
 
-    private final int side;
-
-    public HorseMovement(int side) {
-        this.side = side;
+    public Elephant(PieceType pieceType, Point point) {
+        super(pieceType, point);
     }
 
     @Override
@@ -60,6 +60,6 @@ public class HorseMovement implements MovementRule {
 
     private boolean isExistedPieceAtPoint(Pieces pieces, List<Direction> paths, Point checkPoint) {
         return paths.stream()
-                .anyMatch(direction -> pieces.isContainPiece(checkPoint.apply(direction, side)));
+                .anyMatch(direction -> pieces.isContainPiece(checkPoint.apply(direction, getSide())));
     }
 }

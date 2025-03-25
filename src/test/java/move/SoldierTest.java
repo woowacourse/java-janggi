@@ -4,14 +4,13 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import direction.Point;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Piece;
-import piece.Pieces;
+import piece.PieceType;
+import piece.Soldier;
 import team.Team;
 
-class SoldierMovementTest {
+class SoldierTest {
 
     @Test
     @DisplayName("졸은 위로 한 칸 이동할 수 있다.")
@@ -21,12 +20,12 @@ class SoldierMovementTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x, y - 1);
-        SoldierMovement soldierMovement = new SoldierMovement(Team.GREEN.direction());
+        Soldier soldier = new Soldier(PieceType.GREEN_SOLDIER, from);
 
         //when
 
         //then
-        assertThatCode(() -> soldierMovement.validateDestination(from, to))
+        assertThatCode(() -> soldier.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -38,12 +37,12 @@ class SoldierMovementTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x, y - 2);
-        SoldierMovement soldierMovement = new SoldierMovement(Team.GREEN.direction());
+        Soldier soldier = new Soldier(PieceType.GREEN_SOLDIER, from);
 
         //when
 
         //then
-        assertThatThrownBy(() -> soldierMovement.validateDestination(from, to))
+        assertThatThrownBy(() -> soldier.validateDestination(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -55,12 +54,12 @@ class SoldierMovementTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x, y + 1);
-        SoldierMovement soldierMovement = new SoldierMovement(Team.GREEN.direction());
+        Soldier soldier = new Soldier(PieceType.GREEN_SOLDIER, from);
 
         //when
 
         //then
-        assertThatThrownBy(() -> soldierMovement.validateDestination(from, to))
+        assertThatThrownBy(() -> soldier.validateDestination(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -72,12 +71,12 @@ class SoldierMovementTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x - 1, y);
-        SoldierMovement soldierMovement = new SoldierMovement(Team.GREEN.direction());
+        Soldier soldier = new Soldier(PieceType.GREEN_SOLDIER, from);
 
         //when
 
         //then
-        assertThatCode(() -> soldierMovement.validateDestination(from, to))
+        assertThatCode(() -> soldier.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -89,12 +88,12 @@ class SoldierMovementTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x - 2, y);
-        SoldierMovement soldierMovement = new SoldierMovement(Team.GREEN.direction());
+        Soldier soldier = new Soldier(PieceType.GREEN_SOLDIER, from);
 
         //when
 
         //then
-        assertThatThrownBy(() -> soldierMovement.validateDestination(from, to))
+        assertThatThrownBy(() -> soldier.validateDestination(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -106,12 +105,12 @@ class SoldierMovementTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x + 1, y);
-        SoldierMovement soldierMovement = new SoldierMovement(Team.GREEN.direction());
+        Soldier soldier = new Soldier(PieceType.GREEN_SOLDIER, from);
 
         //when
 
         //then
-        assertThatCode(() -> soldierMovement.validateDestination(from, to))
+        assertThatCode(() -> soldier.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -123,12 +122,12 @@ class SoldierMovementTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x + 2, y);
-        SoldierMovement soldierMovement = new SoldierMovement(Team.GREEN.direction());
+        Soldier soldier = new Soldier(PieceType.GREEN_SOLDIER, from);
 
         //when
 
         //then
-        assertThatThrownBy(() -> soldierMovement.validateDestination(from, to))
+        assertThatThrownBy(() -> soldier.validateDestination(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

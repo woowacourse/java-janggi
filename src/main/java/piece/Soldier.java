@@ -1,4 +1,4 @@
-package move;
+package piece;
 
 import static direction.Direction.LEFT;
 import static direction.Direction.RIGHT;
@@ -7,16 +7,13 @@ import static direction.Direction.UP;
 import direction.Direction;
 import direction.Point;
 import java.util.List;
-import piece.Pieces;
 
-public class SoldierMovement implements MovementRule {
+public class Soldier extends Piece {
 
     private static final List<Direction> paths = List.of(LEFT, RIGHT, UP);
 
-    private final int side;
-
-    public SoldierMovement(int side) {
-        this.side = side;
+    public Soldier(PieceType pieceType, Point point) {
+        super(pieceType, point);
     }
 
     @Override
@@ -33,7 +30,7 @@ public class SoldierMovement implements MovementRule {
     }
 
     private boolean isValidDestination(Point from, Point to, Direction path) {
-        Point direction = path.apply(side);
-        return from.plus(direction).equals(to);
+        Point direction = path.apply(getSide());
+        return from.isDestinationDirection(to, direction);
     }
 }

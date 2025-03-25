@@ -22,4 +22,8 @@ public record Point(int x, int y) {
         Point result = new Point(x, y);
         return result.plus(direction.apply(side));
     }
+
+    public boolean isDestinationDirection(Point destination, Point point) {
+        return plus(point).equals(destination);
+    }
 }

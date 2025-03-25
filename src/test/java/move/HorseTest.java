@@ -7,11 +7,14 @@ import direction.Point;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import piece.Guard;
+import piece.Horse;
 import piece.Piece;
+import piece.PieceType;
 import piece.Pieces;
 import team.Team;
 
-class HorseMovementTest {
+class HorseTest {
 
     @Test
     @DisplayName("위쪽 1칸, 왼쪽 대각선 1칸으로 이동할 수 있다.")
@@ -19,12 +22,12 @@ class HorseMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(1, 0);
-        HorseMovement horseMovement = new HorseMovement(Team.GREEN.direction());
+        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
 
         //when
 
         //then
-        assertThatCode(() -> horseMovement.validateDestination(from, to))
+        assertThatCode(() -> horse.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -34,12 +37,12 @@ class HorseMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(3, 0);
-        HorseMovement horseMovement = new HorseMovement(Team.GREEN.direction());
+        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
 
         //when
 
         //then
-        assertThatCode(() -> horseMovement.validateDestination(from, to))
+        assertThatCode(() -> horse.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -49,12 +52,12 @@ class HorseMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(0, 1);
-        HorseMovement horseMovement = new HorseMovement(Team.GREEN.direction());
+        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
 
         //when
 
         //then
-        assertThatCode(() -> horseMovement.validateDestination(from, to))
+        assertThatCode(() -> horse.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -64,12 +67,12 @@ class HorseMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(0, 3);
-        HorseMovement horseMovement = new HorseMovement(Team.GREEN.direction());
+        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
 
         //when
 
         //then
-        assertThatCode(() -> horseMovement.validateDestination(from, to))
+        assertThatCode(() -> horse.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -79,12 +82,12 @@ class HorseMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(1, 4);
-        HorseMovement horseMovement = new HorseMovement(Team.GREEN.direction());
+        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
 
         //when
 
         //then
-        assertThatCode(() -> horseMovement.validateDestination(from, to))
+        assertThatCode(() -> horse.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -94,12 +97,12 @@ class HorseMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(3, 4);
-        HorseMovement horseMovement = new HorseMovement(Team.GREEN.direction());
+        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
 
         //when
 
         //then
-        assertThatCode(() -> horseMovement.validateDestination(from, to))
+        assertThatCode(() -> horse.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -109,12 +112,12 @@ class HorseMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(4, 1);
-        HorseMovement horseMovement = new HorseMovement(Team.GREEN.direction());
+        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
 
         //when
 
         //then
-        assertThatCode(() -> horseMovement.validateDestination(from, to))
+        assertThatCode(() -> horse.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -124,12 +127,12 @@ class HorseMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(4, 3);
-        HorseMovement horseMovement = new HorseMovement(Team.GREEN.direction());
+        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
 
         //when
 
         //then
-        assertThatCode(() -> horseMovement.validateDestination(from, to))
+        assertThatCode(() -> horse.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -139,12 +142,12 @@ class HorseMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(6, 3);
-        HorseMovement horseMovement = new HorseMovement(Team.GREEN.direction());
+        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
 
         //when
 
         //then
-        assertThatThrownBy(() -> horseMovement.validateDestination(from, to))
+        assertThatThrownBy(() -> horse.validateDestination(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -154,15 +157,14 @@ class HorseMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(4, 3);
-        HorseMovement horseMovement = new HorseMovement(Team.GREEN.direction());
+        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
         Pieces pieces = new Pieces(List.of(
-                new Piece("e", new Point(2, 2), horseMovement),
-                new Piece("n", new Point(3, 2), new GuardMovement())
-        ));
+                horse,
+                new Guard(PieceType.GREEN_GUARD, new Point(3, 2))));
 
         //when
         //then
-        assertThatThrownBy(() -> horseMovement.checkPaths(pieces, from, to))
+        assertThatThrownBy(() -> horse.checkPaths(pieces, from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

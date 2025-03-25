@@ -6,10 +6,14 @@ import direction.Point;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import piece.Cannon;
+import piece.Guard;
 import piece.Piece;
+import piece.PieceType;
 import piece.Pieces;
+import piece.Soldier;
 
-class CannonMovementTest {
+class CannonTest {
 
     @Test
     @DisplayName("수평 방향으로 이동할 수 있다.")
@@ -17,12 +21,12 @@ class CannonMovementTest {
         //given
         Point from = new Point(2, 3);
         Point to = new Point(3, 3);
-        CannonMovement cannonMovement = new CannonMovement();
+        Cannon cannon = new Cannon(PieceType.GREEN_CANNON, from);
 
         //when
 
         //then
-        assertThatCode(() -> cannonMovement.validateDestination(from, to))
+        assertThatCode(() -> cannon.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -32,12 +36,12 @@ class CannonMovementTest {
         //given
         Point from = new Point(2, 3);
         Point to = new Point(2, 10);
-        CannonMovement cannonMovement = new CannonMovement();
+        Cannon cannon = new Cannon(PieceType.GREEN_CANNON, from);
 
         //when
 
         //then
-        assertThatCode(() -> cannonMovement.validateDestination(from, to))
+        assertThatCode(() -> cannon.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -47,11 +51,11 @@ class CannonMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(6, 3);
-        CannonMovement cannonMovement = new CannonMovement();
+        Cannon cannon = new Cannon(PieceType.GREEN_CANNON, from);
 
         //when
         //then
-        assertThatThrownBy(() -> cannonMovement.validateDestination(from, to))
+        assertThatThrownBy(() -> cannon.validateDestination(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -61,11 +65,11 @@ class CannonMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(2, 2);
-        CannonMovement cannonMovement = new CannonMovement();
+        Cannon cannon = new Cannon(PieceType.GREEN_CANNON, from);
 
         //when
         //then
-        assertThatThrownBy(() -> cannonMovement.validateDestination(from, to))
+        assertThatThrownBy(() -> cannon.validateDestination(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -75,15 +79,14 @@ class CannonMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(2, 8);
-        CannonMovement cannonMovement = new CannonMovement();
+        Cannon cannon = new Cannon(PieceType.GREEN_CANNON, from);
         Pieces pieces = new Pieces(List.of(
-                new Piece("n", new Point(2, 2), cannonMovement),
-                new Piece("r", new Point(2, 4), new GuardMovement())
-        ));
+                cannon,
+                new Guard(PieceType.GREEN_GUARD, new Point(2, 4))));
 
         //when
         //then
-        assertThatCode(() -> cannonMovement.checkPaths(pieces, from, to))
+        assertThatCode(() -> cannon.checkPaths(pieces, from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -93,16 +96,15 @@ class CannonMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(2, 8);
-        CannonMovement cannonMovement = new CannonMovement();
+        Cannon cannon = new Cannon(PieceType.GREEN_CANNON, from);
         Pieces pieces = new Pieces(List.of(
-                new Piece("n", new Point(2, 2), cannonMovement),
-                new Piece("r", new Point(2, 4), new GuardMovement()),
-                new Piece("r", new Point(2, 5), new GuardMovement())
-        ));
+                cannon,
+                new Guard(PieceType.GREEN_GUARD, new Point(2, 4)),
+                new Guard(PieceType.GREEN_GUARD, new Point(2, 5))));
 
         //when
         //then
-        assertThatThrownBy(() -> cannonMovement.checkPaths(pieces, from, to))
+        assertThatThrownBy(() -> cannon.checkPaths(pieces, from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -112,15 +114,14 @@ class CannonMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(2, 8);
-        CannonMovement cannonMovement = new CannonMovement();
+        Cannon cannon = new Cannon(PieceType.GREEN_CANNON, from);
         Pieces pieces = new Pieces(List.of(
-                new Piece("n", new Point(2, 2), cannonMovement),
-                new Piece("n", new Point(2, 4), cannonMovement)
-        ));
+                cannon,
+                new Cannon(PieceType.GREEN_CANNON, new Point(2, 4))));
 
         //when
         //then
-        assertThatThrownBy(() -> cannonMovement.checkPaths(pieces, from, to))
+        assertThatThrownBy(() -> cannon.checkPaths(pieces, from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

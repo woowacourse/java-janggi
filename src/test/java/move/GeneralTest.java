@@ -3,14 +3,12 @@ package move;
 import static org.assertj.core.api.Assertions.*;
 
 import direction.Point;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Piece;
-import piece.Pieces;
-import team.Team;
+import piece.General;
+import piece.PieceType;
 
-public class GeneralMovementTest {
+public class GeneralTest {
 
     @Test
     @DisplayName("궁성 내 기물은 위로 한 칸 이동할 수 있다.")
@@ -20,12 +18,12 @@ public class GeneralMovementTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x, y - 1);
-        GeneralMovement generalMovement = new GeneralMovement();
+        General general = new General(PieceType.GREEN_GENERAL, from);
 
         //when
 
         //then
-        assertThatCode(() -> generalMovement.validateDestination(from, to))
+        assertThatCode(() -> general.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -37,12 +35,12 @@ public class GeneralMovementTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x, y - 2);
-        GeneralMovement generalMovement = new GeneralMovement();
+        General general = new General(PieceType.GREEN_GENERAL, from);
 
         //when
 
         //then
-        assertThatThrownBy(() -> generalMovement.validateDestination(from, to))
+        assertThatThrownBy(() -> general.validateDestination(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -54,12 +52,12 @@ public class GeneralMovementTest {
         int y = 1;
         Point from = new Point(x, y);
         Point to = new Point(x, y + 1);
-        GeneralMovement generalMovement = new GeneralMovement();
+        General general = new General(PieceType.GREEN_GENERAL, from);
 
         //when
 
         //then
-        assertThatCode(() -> generalMovement.validateDestination(from, to))
+        assertThatCode(() -> general.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -71,12 +69,12 @@ public class GeneralMovementTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x, y + 2);
-        GeneralMovement generalMovement = new GeneralMovement();
+        General general = new General(PieceType.GREEN_GENERAL, from);
 
         //when
 
         //then
-        assertThatThrownBy(() -> generalMovement.validateDestination(from, to))
+        assertThatThrownBy(() -> general.validateDestination(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -88,12 +86,12 @@ public class GeneralMovementTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x - 1, y);
-        GeneralMovement generalMovement = new GeneralMovement();
+        General general = new General(PieceType.GREEN_GENERAL, from);
 
         //when
 
         //then
-        assertThatCode(() -> generalMovement.validateDestination(from, to))
+        assertThatCode(() -> general.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -105,12 +103,12 @@ public class GeneralMovementTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x - 2, y);
-        GeneralMovement generalMovement = new GeneralMovement();
+        General general = new General(PieceType.GREEN_GENERAL, from);
 
         //when
 
         //then
-        assertThatThrownBy(() -> generalMovement.validateDestination(from, to))
+        assertThatThrownBy(() -> general.validateDestination(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -122,12 +120,12 @@ public class GeneralMovementTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x + 1, y);
-        GeneralMovement generalMovement = new GeneralMovement();
+        General general = new General(PieceType.GREEN_GENERAL, from);
 
         //when
 
         //then
-        assertThatCode(() -> generalMovement.validateDestination(from, to))
+        assertThatCode(() -> general.validateDestination(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -139,12 +137,12 @@ public class GeneralMovementTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x + 2, y);
-        GeneralMovement generalMovement = new GeneralMovement();
+        General general = new General(PieceType.GREEN_GENERAL, from);
 
         //when
 
         //then
-        assertThatThrownBy(() -> generalMovement.validateDestination(from, to))
+        assertThatThrownBy(() -> general.validateDestination(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -1,9 +1,12 @@
-package move;
+package piece;
 
 import direction.Point;
-import piece.Pieces;
 
-public class GuardMovement implements MovementRule {
+public class General extends Piece {
+
+    public General(PieceType pieceType, Point point) {
+        super(pieceType, point);
+    }
 
     @Override
     public void validateDestination(Point from, Point to) {

@@ -1,39 +1,68 @@
 package piece;
 
+import direction.Direction;
 import direction.Point;
-import move.MovementRule;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Piece {
+public abstract class Piece {
 
-    private final String nickname;
-    private final MovementRule movementRule;
+    private final PieceType pieceType;
     private Point currentPosition;
 
-    public Piece(String nickname, Point currentPosition, MovementRule movementRule) {
-        this.nickname = nickname;
-        this.movementRule = movementRule;
+    public Piece(PieceType pieceType, Point currentPosition) {
+        this.pieceType = pieceType;
         this.currentPosition = currentPosition;
     }
 
-    public String getNickName() {
-        return nickname;
+    protected Piece(PieceType pieceType) {
+        this.pieceType = pieceType;
     }
 
-    public Point getPosition() {
-        return currentPosition;
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
+    public int getSide() {
+        return pieceType.getSide();
+    }
+
+    public String getName() {
+        return pieceType.getExpression();
     }
 
     public boolean isEqualPositionWith(Point targetPoint) {
         return currentPosition.equals(targetPoint);
     }
 
-    public void move(Pieces allPieces, Point to) {
-        movementRule.validateDestination(currentPosition, to);
-        movementRule.checkPaths(allPieces, currentPosition, to);
+    public abstract void validateDestination(Point from, Point to);
+    public abstract void checkPaths(Pieces allPieces, Point from, Point to);
+
+    public void move(Point to) {
         currentPosition = to;
     }
 
-    public boolean isSameType(String targetNickname) {
-        return nickname.equalsIgnoreCase(targetNickname);
+    protected List<Point> findStraightPaths(Point from, Point to) {
+        Direction direction = Direction.find(from, to);
+        List<Point> paths = new ArrayList<>();
+        Point current = new Point(from.x(), from.y());
+        current = current.apply(direction);
+        while(!current.equals(to)) {
+            paths.add(current);
+            current = current.apply(direction);
+        }
+        return paths;
+    }
+
+    protected void validateStraightDestination(Point from, Point to) {
+        if(from.x() != to.x() && from.y() != to.y()) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    protected void validateNotSamePosition(Point from, Point to) {
+        if (from.equals(to)) {
+            throw new IllegalArgumentException();
+        }
     }
 }
