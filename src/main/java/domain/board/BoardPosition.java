@@ -34,6 +34,10 @@ public record BoardPosition(
         }
     }
 
+    public boolean isPalaceArea() {
+        return PALACE_POSITIONS.contains(this);
+    }
+
     public BoardPosition plus(final Offset offset) {
         return new BoardPosition(this.x + offset.x(), this.y + offset.y());
     }
