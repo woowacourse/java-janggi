@@ -16,7 +16,6 @@ public abstract class Piece {
 
     public abstract List<BoardLocation> createAllPath(BoardLocation current, BoardLocation target);
 
-
     public abstract void validateArrival(List<Piece> pathPiece);
 
     protected abstract void validateKillable(Piece destinationPiece);
@@ -29,7 +28,6 @@ public abstract class Piece {
         }
         throw new IllegalArgumentException("[ERROR] 자신의 팀 기물만 움직일 수 있습니다");
     };
-
 
     public final void validateOccupiable(Piece destinationPiece) {
         if (destinationPiece.isNull()) {
