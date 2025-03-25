@@ -16,8 +16,22 @@ public class JanggiController {
         process(() -> {
             service.startGame();
             outputView.startGame();
+        });
+    }
+
+    public void setTableSetting() {
+        process(() -> {
+            teamTableSetting();
+            service.nextTurn();
+            teamTableSetting();
+            service.nextTurn();
             outputView.board(service.getBoard());
         });
+    }
+
+    private void teamTableSetting() {
+        var response = inputView.tableSetting(service.currentTurn());
+        service.tableSettingForCurrentTurn(response.tableSetting());
     }
 
     public void playTurn() {

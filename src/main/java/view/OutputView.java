@@ -16,6 +16,7 @@ public class OutputView {
     }
 
     public void board(BoardDto dto) {
+        System.out.println();
         Map<PositionDto, String> pieces = dto.pieces();
 
         for (int y = 0; y < Board.HEIGHT_SIZE; y++) {

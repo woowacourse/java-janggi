@@ -5,15 +5,20 @@ import dto.TeamDto;
 import model.Position;
 import model.Team;
 import model.board.Board;
+import model.board.TableSetting;
 
 public class JanggiService {
 
-    private Team currentTurn;
     private Board board;
+    private Team currentTurn;
 
     public void startGame() {
-        board = Board.generate();
+        board = new Board();
         currentTurn = Team.CHO;
+    }
+
+    public void tableSettingForCurrentTurn(TableSetting tableSetting) {
+        board.addTeamPieces(currentTurn, tableSetting);
     }
 
     public BoardDto getBoard() {
@@ -26,7 +31,6 @@ public class JanggiService {
 
     public void move(Position source, Position destination) {
         board.movePiece(source, destination, currentTurn);
-        // piece.move(board, currentTurn, destination.x() - source.x(), destination.y() - source.y());
     }
 
     public boolean isPlaying() {
