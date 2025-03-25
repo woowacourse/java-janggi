@@ -1,9 +1,20 @@
 package domain.board;
 
+import java.util.Set;
+
 public record BoardPosition(
         int x,
         int y
 ) {
+
+    private static final Set<BoardPosition> PALACE_POSITIONS = Set.of(
+            new BoardPosition(3, 0), new BoardPosition(4, 0), new BoardPosition(5, 0),
+            new BoardPosition(3, 1), new BoardPosition(4, 1), new BoardPosition(5, 1),
+            new BoardPosition(3, 2), new BoardPosition(4, 2), new BoardPosition(5, 2),
+            new BoardPosition(3, 7), new BoardPosition(4, 7), new BoardPosition(5, 7),
+            new BoardPosition(3, 8), new BoardPosition(4, 8), new BoardPosition(5, 8),
+            new BoardPosition(3, 9), new BoardPosition(4, 9), new BoardPosition(5, 9)
+    );
 
     private static final int MINIMUM_COLUMN = 0;
     private static final int MAXIMUM_COLUMN = 8;
