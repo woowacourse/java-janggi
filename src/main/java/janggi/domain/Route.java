@@ -70,7 +70,7 @@ public class Route {
                 .count();
     }
 
-    public boolean isExistSameTypePiece(final Placement placement, final PieceType pieceType) {
+    public boolean hasSameTypePiece(final Placement placement, final PieceType pieceType) {
         return positions.stream()
                 .filter(placement::exists)
                 .anyMatch(position -> placement.getPiece(position).isSameType(pieceType));

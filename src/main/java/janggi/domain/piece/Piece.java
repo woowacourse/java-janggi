@@ -24,9 +24,9 @@ public abstract class Piece {
     protected void validateMove(final Placement placement,
                                 final Position departure,
                                 final Position destination,
-                                Movement movement) {
-        moveRule.validateMove(departure, destination, movement);
-        moveRule.validateBlock(placement, Route.of(departure, destination));
+                                final Movement movement) {
+        moveRule.validateMoveIsAllowed(departure, destination, movement);
+        moveRule.validateRouteIsNotBlocked(placement, Route.of(departure, destination));
     }
 
     public boolean isAlly(final Team team) {

@@ -38,7 +38,7 @@ public class Cannon extends Piece {
     }
 
     private void checkIsOverCannon(final Placement placement, final Route route) {
-        if (route.isExistSameTypePiece(placement, this.pieceType)) {
+        if (route.hasSameTypePiece(placement, this.pieceType)) {
             throw new IllegalArgumentException("포는 포를 넘을 수 없습니다.");
         }
     }
