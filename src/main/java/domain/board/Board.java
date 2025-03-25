@@ -37,23 +37,16 @@ public class Board {
         return Team.HAN;
     }
 
-    private Set<Team> findTeamsOfWang() {
-        return pieceByPoint.values().stream()
-                .filter(piece -> piece.type() == PieceType.WANG)
-                .map(Piece::team)
-                .collect(Collectors.toSet());
-    }
-
     public boolean canMove(final Point source, final Point destination) {
         if (!existsPiece(source)) {
             return false;
         }
-        Piece piece = getPieceByPoint(source);
+        Piece piece = getPiece(source);
         return piece.canMove(source, destination, this);
     }
 
     public void movePiece(final Point source, final Point destination) {
-        Piece sourcePiece = getPieceByPoint(source);
+        Piece sourcePiece = getPiece(source);
         if (!sourcePiece.canMove(source, destination, this)) {
             throw new IllegalArgumentException(source + " -> " + destination + " [ERROR] 이동할 수 없는 경로입니다.");
         }
@@ -69,15 +62,11 @@ public class Board {
         return pieceByPoint.containsKey(point);
     }
 
-    private boolean existsPoint(final Point point) {
-        return pointNodeMapper.existsPoint(point);
-    }
-
     public boolean existsPo(final Point point) {
         if (!existsPiece(point)) {
             return false;
         }
-        Piece piece = getPieceByPoint(point);
+        Piece piece = getPiece(point);
         return piece.type() == PieceType.PO;
     }
 
@@ -85,7 +74,7 @@ public class Board {
         if (!existsPiece(point)) {
             return;
         }
-        Piece piece = getPieceByPoint(point);
+        Piece piece = getPiece(point);
         pieceByPoint.remove(point, piece);
     }
 
@@ -93,7 +82,7 @@ public class Board {
         if (!existsPiece(point)) {
             return false;
         }
-        Piece piece = getPieceByPoint(point);
+        Piece piece = getPiece(point);
         return piece.team() == team;
     }
 
@@ -101,15 +90,8 @@ public class Board {
         if (!existsPiece(point)) {
             return false;
         }
-        Piece piece = getPieceByPoint(point);
+        Piece piece = getPiece(point);
         return piece.type() == pieceType;
-    }
-
-    private Piece getPieceByPoint(final Point point) {
-        if (!existsPiece(point)) {
-            throw new IllegalArgumentException(point + ": [ERROR] 해당 좌표에 기물이 존재하지 않습니다.");
-        }
-        return pieceByPoint.get(point);
     }
 
     public boolean existsNextPoint(final Point point, final Direction direction) {
@@ -121,7 +103,7 @@ public class Board {
     }
 
     public Point getNextPoint(final Point point, final Direction direction) {
-        validateExistPoint(point);
+        validatePoint(point);
         Node node = pointNodeMapper.getNodeByPoint(point);
         Node nextNode = node.getNextNodeByDirection(direction);
         return pointNodeMapper.getPointByNode(nextNode);
@@ -136,18 +118,36 @@ public class Board {
     }
 
     public Point getPointMovedByPath(final Point point, final Path path) {
-        validateExistPoint(point);
+        validatePoint(point);
         Node node = pointNodeMapper.getNodeByPoint(point);
         return pointNodeMapper.getPointByNode(node.moveByPath(path));
     }
 
-    private void validateExistPoint(final Point point) {
+    private void validatePoint(final Point point) {
         if (!existsPoint(point)) {
             throw new IllegalArgumentException(point.row() + ", " + point.column() + ": 존재하지 않는 좌표입니다.");
         }
     }
 
-    public Map<Point, Piece> getPieceByPoint() {
+    private Set<Team> findTeamsOfWang() {
+        return pieceByPoint.values().stream()
+                .filter(piece -> piece.type() == PieceType.WANG)
+                .map(Piece::team)
+                .collect(Collectors.toSet());
+    }
+
+    private boolean existsPoint(final Point point) {
+        return pointNodeMapper.existsPoint(point);
+    }
+
+    private Piece getPiece(final Point point) {
+        if (!existsPiece(point)) {
+            throw new IllegalArgumentException(point + ": [ERROR] 해당 좌표에 기물이 존재하지 않습니다.");
+        }
+        return pieceByPoint.get(point);
+    }
+
+    public Map<Point, Piece> getPiece() {
         return pieceByPoint;
     }
 }

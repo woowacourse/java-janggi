@@ -20,7 +20,7 @@ public class OutputView {
     }
 
     public static void printBoard(Board board) {
-        Map<Point, Piece> pieceByPoint = board.getPieceByPoint();
+        Map<Point, Piece> pieceByPoint = board.getPiece();
 
         List<List<String>> boardString = new ArrayList<>();
         for (int row = MIN_ROW_INDEX; row <= MAX_ROW_INDEX; row++) {
