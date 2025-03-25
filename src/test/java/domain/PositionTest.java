@@ -4,14 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class PositionTest {
 
-    @DisplayName("장기판 범위를 벗어난 위치인 경우 예외를 발생시킨다")
     @ParameterizedTest
     @CsvSource({
             "0, 1",
@@ -21,27 +19,116 @@ class PositionTest {
             "11, 9",
             "11, 10"
     })
-    void test1(int row, int column) {
+    void 장기판_범위를_벗어난_위치인_경우_예외를_발생시킨다(int row, int column) {
         assertThatThrownBy(() -> new Position(row, column))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("장기판을 넘은 이동은 불가능 합니다.");
     }
 
-    @DisplayName("위치를 이동할 수 있다")
     @Test
-    void test2() {
+    void 위치를_오른쪽으로_이동할_수_있다() {
         // given
-        Position position = new Position(1, 1);
+        Position position = new Position(4, 4);
 
         // when
         Position movedPosition = position.movePosition(Move.RIGHT);
 
         // then
-        Position expected = new Position(1, 2);
+        Position expected = new Position(4, 5);
         Assertions.assertThat(movedPosition).isEqualTo(expected);
     }
 
-    @DisplayName("해당 위치로 움직일 수 있는지 확인한다")
+    @Test
+    void 위치를_뒤로_이동할_수_있다() {
+        // given
+        Position position = new Position(4, 4);
+
+        // when
+        Position movedPosition = position.movePosition(Move.BACK);
+
+        // then
+        Position expected = new Position(5, 4);
+        Assertions.assertThat(movedPosition).isEqualTo(expected);
+    }
+
+    @Test
+    void 위치를_왼쪽으로_이동할_수_있다() {
+        // given
+        Position position = new Position(4, 4);
+
+        // when
+        Position movedPosition = position.movePosition(Move.LEFT);
+
+        // then
+        Position expected = new Position(4, 3);
+        Assertions.assertThat(movedPosition).isEqualTo(expected);
+    }
+
+    @Test
+    void 위치를_앞으로_이동할_수_있다() {
+        // given
+        Position position = new Position(4, 4);
+
+        // when
+        Position movedPosition = position.movePosition(Move.FRONT);
+
+        // then
+        Position expected = new Position(3, 4);
+        Assertions.assertThat(movedPosition).isEqualTo(expected);
+    }
+
+    @Test
+    void 위치를_왼쪽앞으로_이동할_수_있다() {
+        // given
+        Position position = new Position(4, 4);
+
+        // when
+        Position movedPosition = position.movePosition(Move.FRONT_LEFT);
+
+        // then
+        Position expected = new Position(3, 3);
+        Assertions.assertThat(movedPosition).isEqualTo(expected);
+    }
+
+    @Test
+    void 위치를_오른쪽앞으로_이동할_수_있다() {
+        // given
+        Position position = new Position(4, 4);
+
+        // when
+        Position movedPosition = position.movePosition(Move.FRONT_RIGHT);
+
+        // then
+        Position expected = new Position(3, 5);
+        Assertions.assertThat(movedPosition).isEqualTo(expected);
+    }
+
+    @Test
+    void 위치를_오른쪽뒤로_이동할_수_있다() {
+        // given
+        Position position = new Position(4, 4);
+
+        // when
+        Position movedPosition = position.movePosition(Move.BACK_RIGHT);
+
+        // then
+        Position expected = new Position(5, 5);
+        Assertions.assertThat(movedPosition).isEqualTo(expected);
+    }
+
+    @Test
+    void 위치를_왼쪽뒤로_이동할_수_있다() {
+        // given
+        Position position = new Position(4, 4);
+
+        // when
+        Position movedPosition = position.movePosition(Move.BACK_LEFT);
+
+        // then
+        Position expected = new Position(5, 3);
+        Assertions.assertThat(movedPosition).isEqualTo(expected);
+    }
+
     @ParameterizedTest
     @CsvSource({
             "5,5,FRONT,true",
@@ -51,7 +138,7 @@ class PositionTest {
             "1,9,RIGHT,false",
 
     })
-    void test3(int row, int column, Move move, boolean expected) {
+    void 해당_위치로_움직일_수_있는지_확인한다(int row, int column, Move move, boolean expected) {
         //given
         Position position = new Position(row, column);
 
@@ -61,7 +148,6 @@ class PositionTest {
         Assertions.assertThat(canMove).isEqualTo(expected);
     }
 
-    @DisplayName("컬럼을 비교한다")
     @ParameterizedTest
     @CsvSource({
             "1,1,0",
@@ -69,7 +155,7 @@ class PositionTest {
             "1,9,-8",
             "10,3,-2",
     })
-    void test4(int row, int column, int expected) {
+    void 컬럼값의_차이를_계산한다(int row, int column, int expected) {
         // given
         Position position = new Position(row, column);
         Position comparedPosition = new Position(1, 1);
@@ -81,7 +167,6 @@ class PositionTest {
         assertThat(comparedValue).isEqualTo(expected);
     }
 
-    @DisplayName("로우를 비교한다")
     @ParameterizedTest
     @CsvSource({
             "1,1,0",
@@ -89,7 +174,7 @@ class PositionTest {
             "2,9,-1",
             "10,3,-9",
     })
-    void test5(int row, int column, int expected) {
+    void 행값을_차이를_비교한다(int row, int column, int expected) {
         // given
         Position position = new Position(row, column);
         Position comparedPosition = new Position(1, 1);
@@ -99,5 +184,45 @@ class PositionTest {
 
         // then
         assertThat(comparedValue).isEqualTo(expected);
+    }
+
+    @Test
+    void 왼쪽_끝에서는_왼쪽으로_갈_수_없다() {
+        // given
+        Position position = new Position(4, 1);
+        // when
+        boolean actual = position.canApplyMove(Move.LEFT);
+        // then
+        assertThat(actual).isFalse();
+    }
+
+    @Test
+    void 오른쪽_끝에서는_오른쪽으로_갈_수_없다() {
+        // given
+        Position position = new Position(4, 9);
+        // when
+        boolean actual = position.canApplyMove(Move.RIGHT);
+        // then
+        assertThat(actual).isFalse();
+    }
+
+    @Test
+    void 위쪽_끝에서는_위로_갈_수_없다() {
+        // given
+        Position position = new Position(1, 5);
+        // when
+        boolean actual = position.canApplyMove(Move.FRONT);
+        // then
+        assertThat(actual).isFalse();
+    }
+
+    @Test
+    void 아래쪽_끝에서는_아래로_갈_수_없다() {
+        // given
+        Position position = new Position(10, 5);
+        // when
+        boolean actual = position.canApplyMove(Move.BACK);
+        // then
+        assertThat(actual).isFalse();
     }
 }
