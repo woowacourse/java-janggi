@@ -1,10 +1,10 @@
 package janggi;
 
-import janggi.game.GameManager;
+import janggi.game.Manager;
 
 public class Application {
     public static void main(String[] args) {
-        GameManager gameManager = new GameManager();
-        gameManager.run();
+        Manager manager = new Manager();
+        manager.run();
     }
 }
