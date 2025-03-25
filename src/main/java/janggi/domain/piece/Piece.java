@@ -54,8 +54,8 @@ public abstract class Piece {
         return position;
     }
 
-    public String getName() {
-        return pieceType.getName(this);
+    public PieceType getPieceType() {
+        return pieceType;
     }
 
     public Team getTeam() {

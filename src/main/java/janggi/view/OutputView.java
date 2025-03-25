@@ -23,18 +23,18 @@ public class OutputView {
         Position position = Position.of(row, column);
         if (board.containsKey(position)) {
             Piece piece = board.get(position);
-            System.out.print(piece.getName());
+            System.out.print(PieceName.getPieceName(piece));
             return;
         }
         System.out.print("＿");
     }
 
     public void printCurrentTurn(Player player) {
-        System.out.println(player.getName() + "(" + player.getTeam().getCountry() + ") 팀의 턴입니다!");
+        System.out.println(player.getName() + "(" + TeamName.getCountryName(player.getTeam()) + ") 팀의 턴입니다!");
     }
 
     public void printGameWinMessage(GameStatus gameStatus) {
-        System.out.println(gameStatus.getText());
+        System.out.println(GameStatusText.getText(gameStatus));
     }
 
     public void printEndMessage() {
