@@ -49,12 +49,13 @@ public class Unit {
         if (object == null || getClass() != object.getClass()) {
             return false;
         }
-        Unit carUnit = (Unit) object;
-        return Objects.equals(position, carUnit.position);
+        Unit unit = (Unit) object;
+        return team == unit.team && Objects.equals(unitRule, unit.unitRule) && Objects.equals(position,
+                unit.position);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(position);
+        return Objects.hash(team, unitRule, position);
     }
 }
