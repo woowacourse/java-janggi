@@ -1,6 +1,5 @@
-package domain;
+package domain.game;
 
-import domain.game.Janggi;
 import domain.position.Position;
 import domain.position.Route;
 import java.util.List;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class JanggiTest {
-
     @Test
     @DisplayName("졸의 이동경로를 구한다.")
     void test1() {
