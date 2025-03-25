@@ -13,13 +13,17 @@ public class BombUnitRule implements UnitRule {
         List<Route> routes = new ArrayList<>();
         List<Position> positions = calculateEndPoints(start);
         for (Position end : positions) {
-            Route route = calculateRoute(start, end);
-            if (route.getPoints().size() == 1) {
-                continue;
-            }
-            routes.add(route);
+            addValidRoute(start, end, routes);
         }
         return routes;
+    }
+
+    private void addValidRoute(Position start, Position end, List<Route> routes) {
+        Route route = calculateRoute(start, end);
+        if (route.getPoints().size() == 1) {
+            return;
+        }
+        routes.add(route);
     }
 
     public List<Position> calculateEndPoints(Position start) {
