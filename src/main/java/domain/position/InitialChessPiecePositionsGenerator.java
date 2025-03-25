@@ -12,9 +12,7 @@ public class InitialChessPiecePositionsGenerator implements ChessPiecePositionsG
         chessPieces.putAll(Cannon.initPieces());
         chessPieces.putAll(Chariot.initPieces());
         chessPieces.putAll(Elephant.initPieces());
-        chessPieces.putAll(Guard.initPieces());
         chessPieces.putAll(Horse.initPieces());
-        chessPieces.putAll(King.initPieces());
         chessPieces.putAll(Pawn.initPieces());
         return chessPieces;
     }

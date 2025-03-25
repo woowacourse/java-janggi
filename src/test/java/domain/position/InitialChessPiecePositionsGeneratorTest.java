@@ -31,9 +31,7 @@ class InitialChessPiecePositionsGeneratorTest {
                 Arguments.of("RED Horse", new ChessPosition(0,1), ChessPieceType.HORSE),
                 Arguments.of("RED Elephant", new ChessPosition(0,2), ChessPieceType.ELEPHANT),
                 Arguments.of("RED Cannon", new ChessPosition(2,1), ChessPieceType.CANNON),
-                Arguments.of("RED Guard", new ChessPosition(0, 3), ChessPieceType.GUARD),
-                Arguments.of("RED Pawn", new ChessPosition(3,0), ChessPieceType.PAWN),
-                Arguments.of("RED King", new ChessPosition(1,4), ChessPieceType.KING)
+                Arguments.of("RED Pawn", new ChessPosition(3,0), ChessPieceType.PAWN)
         );
     }
 }
