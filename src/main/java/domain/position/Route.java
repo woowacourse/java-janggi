@@ -1,12 +1,15 @@
 package domain.position;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Route {
     private final List<Position> positions;
 
     private Route(List<Position> positions) {
+        if (positions.isEmpty()) {
+            throw new IllegalArgumentException("빈 경로는 존재할 수 없습니다.");
+        }
         this.positions = positions;
     }
 
@@ -16,7 +19,7 @@ public class Route {
 
     public Position searchEndPoint(Position startPoint) {
         int distance = 0;
-        Position endPoint = positions.getFirst();
+        Position endPoint = positions.get(0);
 
         for (Position position : positions) {
             int distanceX = Math.abs(position.getX() - startPoint.getX());
@@ -31,7 +34,7 @@ public class Route {
     }
 
     public List<Position> getPoints() {
-        return Collections.unmodifiableList(positions);
+        return new ArrayList<>(positions);
     }
 
     public List<Position> getPointsExceptEndPoint() {
