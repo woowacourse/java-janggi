@@ -12,16 +12,38 @@ import board.Position;
 
 class ChariotTest {
 
+    /**
+     * . . . . . . . . .
+     * . . . 차(같은팀) . . . . .
+     * . . . . . . . . .
+     * . . . 차 . . 차(다른팀) . .
+     * . . . 차(같은팀) . . . . .
+     * . . . . . . . . .
+     * . . . . . . . . .
+     * . . . . . . . . .
+     * . . . . . . . . .
+     * . . . . . . . . .
+     */
     @Test
     void 차가_갈수있는_위치를_계산한다() {
         Board board = new Board(List.of());
-        Piece chariot = new Chariot(new Position(1, 1), Team.BLUE);
+        Piece chariot = new Chariot(new Position(4, 4), Team.BLUE);
 
-        board.putPiece(new Chariot(new Position(2, 1), Team.BLUE));
-        board.putPiece(new Chariot(new Position(1, 10), Team.BLUE));
+        board.putPiece(new Chariot(new Position(2, 4), Team.BLUE));
+        board.putPiece(new Chariot(new Position(5, 4), Team.BLUE));
+        board.putPiece(new Chariot(new Position(4, 7), Team.RED));
 
         Set<Position> position = chariot.getMovablePositions(board);
-        assertThat(position).hasSize(8);
+        assertThat(position).containsExactlyInAnyOrder(
+                new Position(3,4),
+                new Position(4,3),
+                new Position(4,2),
+                new Position(4,1),
+                new Position(4,5),
+                new Position(4,6),
+                new Position(4,7)
+        );
+
     }
 
 }

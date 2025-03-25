@@ -14,36 +14,33 @@ public class Chariot extends Piece {
 
     @Override
     public Set<Position> getMovablePositions(final Board board) {
-        Set<Position> positions = new HashSet<>();
-        Direction.getStraightDirection().forEach(direction -> goOneSide(
-                position.moveByDirection(direction),
-                direction,
-                positions,
-                board
-        ));
-        return positions;
+        Set<Position> movablePositions = new HashSet<>();
+        Direction.getStraightDirection()
+                .forEach(direction ->
+                        addMovablePositionsInDirection(direction, board, movablePositions)
+                );
+        return movablePositions;
+    }
+
+    private void addMovablePositionsInDirection(final Direction direction, final Board board,
+                                                final Set<Position> movablePositions
+    ) {
+        Position movePosition = this.position;
+        while (true) {
+            movePosition = movePosition.moveByDirection(direction);
+            if (movePosition.isInValidPosition() || board.isSameTeamPosition(team, movePosition)) {
+                break;
+            }
+            movablePositions.add(movePosition);
+            if (board.isExists(movePosition)) {
+                break;
+            }
+        }
     }
 
     @Override
     public String getDisplayName() {
         return "차";
-    }
-
-    private void goOneSide(Position position, Direction direction, Set<Position> positions, final Board board) {
-        if (exitCondition(position, board)) {
-            return;
-        }
-        if (!board.isExists(position)) {
-            goOneSide(position.moveByDirection(direction), direction, positions, board);
-        }
-        positions.add(position);
-    }
-
-    private boolean exitCondition(Position position, final Board board) {
-        return (
-                position.isInValidPosition() ||
-                        (board.isExists(position) && board.isSameTeamPosition(this.team, position))
-        );
     }
 
 }
