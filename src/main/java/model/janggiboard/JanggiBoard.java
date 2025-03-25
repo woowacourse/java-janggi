@@ -63,7 +63,7 @@ public class JanggiBoard {
 
     private Piece getPieceFromDot(Point targetPoint) {
         return getDot(targetPoint).findPiece()
-                .orElseThrow(() -> new IllegalArgumentException("해당 점에는 장기말이 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 점에는 장기말이 없습니다."));
     }
 
     public boolean movePiece(Point beforePoint, Point targetPoint) {
@@ -77,18 +77,18 @@ public class JanggiBoard {
             getDot(beforePoint).clear();
             return true;
         }
-        throw new IllegalArgumentException("이동할 수 없습니다.");
+        throw new IllegalArgumentException("[ERROR] 이동할 수 없는 지점입니다.");
     }
 
     private void validateAfterPoint(Point beforePoint, Point targetPoint, Piece piece) {
         if (!piece.isValidPoint(beforePoint, targetPoint)) {
-            throw new IllegalArgumentException("이동할 수 없는 지점입니다.");
+            throw new IllegalArgumentException("[ERROR] 이동할 수 없는 지점입니다.");
         }
     }
 
     private Dot getDot(Point point) {
         if (point.x() < 0 || point.y() < 0 || point.x() > HORIZONTAL_SIZE - 1 || point.y() > VERTICAL_SIZE - 1) {
-            throw new IllegalArgumentException("장기판을 벗어난 좌표입니다.");
+            throw new IllegalArgumentException("[ERROR] 장기판을 벗어난 좌표입니다.");
         }
         return janggiBoard.get(point.y()).get(point.x());
     }
@@ -119,7 +119,7 @@ public class JanggiBoard {
 
     public boolean isNotMyTeamPoint(Point beforePoint, Team team) {
         return getDot(beforePoint).findPiece()
-                .orElseThrow(() -> new IllegalArgumentException("해당 점에는 장기말이 없습니다."))
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 점에는 장기말이 없습니다."))
                 .getTeam() != team;
     }
 }

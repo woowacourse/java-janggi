@@ -37,7 +37,7 @@ public class OutputVIew {
                 if (dot.isPlaced()) {
                     String teamFormat = BACKGROUND_BLUE + FONT_BLACK;
                     Piece piece = dot.findPiece()
-                            .orElseThrow(() -> new IllegalArgumentException("해당 점에는 장기말이 없습니다."));
+                            .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 점에는 장기말이 없습니다."));
                     if (piece.getTeam() == Team.RED) {
                         teamFormat = BACKGROUND_RED + FONT_BLACK;
                     }
