@@ -1,13 +1,12 @@
 package janggiGame.piece.oneMovePiece;
 
 import janggiGame.piece.Dynasty;
+import janggiGame.piece.Type;
 
 public class Pawn extends OneMovePiece {
 
-    public static final String NAME = "병";
-
     public Pawn(Dynasty dynasty) {
-        super(dynasty);
+        super(dynasty, Type.PAWN);
     }
 
     @Override
@@ -23,10 +22,5 @@ public class Pawn extends OneMovePiece {
         if (dynasty == Dynasty.CHO && dy < 0) {
             throw new UnsupportedOperationException("[ERROR] 병은 뒤로 이동할 수 없습니다.");
         }
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
     }
 }

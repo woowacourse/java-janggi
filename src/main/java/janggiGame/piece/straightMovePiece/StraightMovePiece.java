@@ -3,13 +3,14 @@ package janggiGame.piece.straightMovePiece;
 import janggiGame.board.Dot;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
+import janggiGame.piece.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 public abstract class StraightMovePiece extends Piece {
-    public StraightMovePiece(Dynasty dynasty) {
-        super(dynasty);
+    public StraightMovePiece(Dynasty dynasty, Type type) {
+        super(dynasty, type);
     }
 
     @Override

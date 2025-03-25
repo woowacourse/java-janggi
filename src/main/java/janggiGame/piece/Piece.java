@@ -6,9 +6,11 @@ import java.util.Map;
 
 public abstract class Piece {
     protected final Dynasty dynasty;
+    protected final Type type;
 
-    public Piece(Dynasty dynasty) {
+    public Piece(Dynasty dynasty, Type type) {
         this.dynasty = dynasty;
+        this.type = type;
     }
 
     public void validateSameDynasty(Piece piece) {
@@ -21,11 +23,14 @@ public abstract class Piece {
         return dynasty;
     }
 
+    public Type getType() {
+        return type;
+    }
+
     public abstract List<Dot> getRoute(Dot origin, Dot destination);
 
     public abstract void validateRoute(int dx, int dy);
 
     public abstract void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece);
 
-    public abstract String getName();
 }

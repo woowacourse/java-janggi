@@ -3,15 +3,16 @@ package janggiGame.piece.curveMovePiece;
 import janggiGame.board.Dot;
 
 import janggiGame.piece.Dynasty;
+import janggiGame.piece.Type;
 import java.util.List;
 import java.util.function.Function;
 
 public class Elephant extends CurveMovePiece {
-    private static final String NAME = "상";
 
     public Elephant(Dynasty dynasty) {
-        super(dynasty);
+        super(dynasty, Type.ELEPHANT);
     }
+
 
     @Override
     protected List<Function<Dot, Dot>> getMoveSteps(int dx, int dy) {
@@ -36,10 +37,5 @@ public class Elephant extends CurveMovePiece {
     @Override
     protected boolean isFirstMoveHorizontal(int dx, int dy) {
         return Math.abs(dx) == 3 && Math.abs(dy) == 2;
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
     }
 }

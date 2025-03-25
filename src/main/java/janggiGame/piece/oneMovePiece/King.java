@@ -1,16 +1,11 @@
 package janggiGame.piece.oneMovePiece;
 
 import janggiGame.piece.Dynasty;
+import janggiGame.piece.Type;
 
 public class King extends OneMovePiece {
-    public static final String NAME = "장";
 
     public King(Dynasty dynasty) {
-        super(dynasty);
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
+        super(dynasty, Type.KING);
     }
 }

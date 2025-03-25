@@ -3,12 +3,13 @@ package janggiGame.piece.oneMovePiece;
 import janggiGame.board.Dot;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
+import janggiGame.piece.Type;
 import java.util.List;
 import java.util.Map;
 
 public abstract class OneMovePiece extends Piece {
-    public OneMovePiece(Dynasty dynasty) {
-        super(dynasty);
+    public OneMovePiece(Dynasty dynasty, Type type) {
+        super(dynasty, type);
     }
 
     @Override

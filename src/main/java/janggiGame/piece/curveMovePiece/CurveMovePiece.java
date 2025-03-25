@@ -4,13 +4,14 @@ import janggiGame.board.Dot;
 
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
+import janggiGame.piece.Type;
 import java.util.*;
 import java.util.function.Function;
 
 public abstract class CurveMovePiece extends Piece {
 
-    public CurveMovePiece(Dynasty dynasty) {
-        super(dynasty);
+    public CurveMovePiece(Dynasty dynasty, Type type) {
+        super(dynasty, type);
     }
 
     @Override
