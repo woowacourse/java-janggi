@@ -30,25 +30,32 @@ public final class OutputView {
     public static void printBoard(final Board board) {
         for (int i = 9; i >= 0; i--) {
             for (int j = 0; j <= 8; j++) {
-                final Position target;
-                try {
-                    target = board.findPositionBy(Point.newInstance(j, i));
-                    final Piece piece = target.getPiece();
-                    final PieceType pieceType = piece.type();
-                    if (piece.isGreenTeam()) {
-                        System.out.printf("%-1s\t",
-                                GREEN + SCORE_RB.getString(pieceType.name()) + "(" + j + "," + i + ")" + RESET);
-                    } else {
-                        System.out.printf("%-1s\t",
-                                RED + SCORE_RB.getString(pieceType.name()) + "(" + j + "," + i + ")" + RESET);
-                    }
-
-                } catch (final IllegalArgumentException e) {
-                    System.out.printf("%-1s\t", "X" + "(" + j + "," + i + ")");
-                }
+                printPoint(board, j, i);
             }
             System.out.println();
         }
+    }
+
+    private static void printPoint(final Board board, final int j, final int i) {
+        final Position target;
+        try {
+            target = board.findPositionBy(Point.newInstance(j, i));
+            printPiecePoint(j, i, target);
+        } catch (final IllegalArgumentException e) {
+            System.out.printf("%-1s\t", "X" + "(" + j + "," + i + ")");
+        }
+    }
+
+    private static void printPiecePoint(final int j, final int i, final Position target) {
+        final Piece piece = target.getPiece();
+        final PieceType pieceType = piece.type();
+        if (piece.isGreenTeam()) {
+            System.out.printf("%-1s\t",
+                    GREEN + SCORE_RB.getString(pieceType.name()) + "(" + j + "," + i + ")" + RESET);
+            return;
+        }
+        System.out.printf("%-1s\t",
+                RED + SCORE_RB.getString(pieceType.name()) + "(" + j + "," + i + ")" + RESET);
     }
 
     public static void printWinnerTeam(final Team team) {
