@@ -37,7 +37,6 @@ public class Soldier extends Piece {
     }
 
     public Soldier move(final Map<Position, Piece> pieces, final Position positionToMove) {
-        validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
         validateIsPositionMovable(positionToMove);
         return new Soldier(positionToMove, team);
     }

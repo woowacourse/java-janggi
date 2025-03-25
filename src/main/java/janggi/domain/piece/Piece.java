@@ -26,10 +26,4 @@ public abstract class Piece {
     }
 
     public abstract Piece move(final Map<Position, Piece> pieces, final Position positionToMove);
-
-    protected void validateIsSameTeamNotInPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
-        if (pieces.get(positionToMove).getTeam().equals(team)) {
-            throw new IllegalArgumentException("불가능한 이동입니다.");
-        }
-    }
 }

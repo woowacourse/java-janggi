@@ -31,7 +31,6 @@ public class Cannon extends Piece {
 
     public Cannon move(final Map<Position, Piece> pieces, final Position positionToMove) {
         validateIsPositionMovable(positionToMove);
-        validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
         validateNotCannonInPositionToMove(pieces, positionToMove);
         validateOneNotCannonBetweenPositionToMove(pieces, positionToMove);
         return new Cannon(positionToMove, team);

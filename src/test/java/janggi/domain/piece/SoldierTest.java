@@ -56,15 +56,4 @@ class SoldierTest {
                 soldier.move(pieces, positionToMove))
                 .isInstanceOf(IllegalArgumentException.class);
     }
-
-    @DisplayName("졸의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
-    @Test
-    void move4() {
-        Soldier soldier = new Soldier(new Position(5, 5), Team.BLUE);
-        Soldier otherSoldier = new Soldier(new Position(4, 5), Team.BLUE);
-        pieces.put(otherSoldier.getPosition(), otherSoldier);
-        assertThatThrownBy(() ->
-                soldier.move(pieces, otherSoldier.getPosition()))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
 }

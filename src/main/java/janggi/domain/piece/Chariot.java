@@ -31,7 +31,6 @@ public class Chariot extends Piece {
 
     public Chariot move(final Map<Position, Piece> pieces, final Position positionToMove) {
         validateIsPositionMovable(positionToMove);
-        validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
         validateNothingBetweenPositionToMove(pieces, positionToMove);
         return new Chariot(positionToMove, team);
     }

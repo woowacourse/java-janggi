@@ -58,7 +58,6 @@ public class Horse extends Piece {
     }
 
     public Horse move(final Map<Position, Piece> pieces, final Position positionToMove) {
-        validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
         validateNothingBetweenPositionToMove(pieces, positionToMove);
         return new Horse(positionToMove, team);
     }

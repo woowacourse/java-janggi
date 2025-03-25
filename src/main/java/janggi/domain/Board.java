@@ -23,11 +23,20 @@ public class Board {
 
     public void movePiece(Position beforePosition, Position afterPosition) {
         Piece piece = pieces.get(beforePosition);
-        if (None.checkIsNone(piece)) {
-            throw new IllegalArgumentException("위치에 이동시킬 기물이 존재하지 않습니다.");
-        }
+        validateMove(beforePosition, afterPosition);
         pieces.put(beforePosition, new None());
         Piece movedPiece = piece.move(getPieces(), afterPosition);
         pieces.put(afterPosition, movedPiece);
+    }
+
+    private void validateMove(Position beforePosition, Position afterPosition) {
+        Piece piece = pieces.get(beforePosition);
+        if (None.checkIsNone(piece)) {
+            throw new IllegalArgumentException("위치에 이동시킬 기물이 존재하지 않습니다.");
+        }
+        Piece other = pieces.get(afterPosition);
+        if (piece.getTeam().equals(other.getTeam())) {
+            throw new IllegalArgumentException("불가능한 이동입니다.");
+        }
     }
 }

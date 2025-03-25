@@ -58,7 +58,6 @@ public class Elephant extends Piece {
     }
 
     public Elephant move(final Map<Position, Piece> pieces, final Position positionToMove) {
-        validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
         validateNothingBetweenPositionToMove(pieces, positionToMove);
         return new Elephant(positionToMove, team);
     }

@@ -20,7 +20,6 @@ public class General extends Piece {
 
     public General move(final Map<Position, Piece> pieces, final Position positionToMove) {
         validateIsPositionMovable(positionToMove);
-        validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
         return new General(positionToMove, team);
     }
 

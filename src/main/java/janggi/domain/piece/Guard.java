@@ -26,7 +26,6 @@ public class Guard extends Piece {
 
     public Guard move(final Map<Position, Piece> pieces, final Position positionToMove) {
         validateIsPositionMovable(positionToMove);
-        validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
         return new Guard(positionToMove, team);
     }
 
