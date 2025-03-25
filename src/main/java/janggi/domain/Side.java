@@ -10,7 +10,7 @@ public enum Side {
     private static final String HAN_COLOR_FORMAT = "\u001B[31m%s\u001B[0m";
 
     public Side reverse() {
-        if (this == HAN) {
+        if (isSameSide(Side.HAN)) {
             return CHO;
         }
         return HAN;
@@ -21,9 +21,13 @@ public enum Side {
     }
 
     public String toColorString(String message) {
-        if (this == Side.CHO) {
+        if (isSameSide(Side.CHO)) {
             return String.format(CHO_COLOR_FORMAT, message);
         }
         return String.format(HAN_COLOR_FORMAT, message);
+    }
+
+    public boolean isSameSide(Side side) {
+        return this == side;
     }
 }

@@ -9,7 +9,7 @@ public final class Formatter {
 
     public static String formatSide(Side side) {
         String sideName = side.toColorString("초나라");
-        if (side == Side.HAN) {
+        if (side.isSameSide(Side.HAN)) {
             sideName = side.toColorString("한나라");
         }
         return sideName;

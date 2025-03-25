@@ -16,12 +16,12 @@ public class Piece {
         this.pieceBehavior = pieceBehavior;
     }
 
-    public boolean isSameSide(Side side) {
-        return this.side == side;
+    public boolean isSameSide(Side compareSide) {
+        return side.isSameSide(compareSide);
     }
 
-    public boolean isGeneral(Side side) {
-        return this.side == side && pieceBehavior.isGeneral();
+    public boolean isGeneral(Side compareSide) {
+        return side.isSameSide(compareSide) && pieceBehavior.isGeneral();
     }
 
     public boolean isCannon() {
@@ -29,7 +29,7 @@ public class Piece {
     }
 
     public Set<Position> getAvailableMovePositions(Board board, Position currentPosition) {
-        return pieceBehavior.generateAvailableMovePositions(board, this.side, currentPosition);
+        return pieceBehavior.generateAvailableMovePositions(board, side, currentPosition);
     }
 
     public String toName() {

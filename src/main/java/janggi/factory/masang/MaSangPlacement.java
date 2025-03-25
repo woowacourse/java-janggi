@@ -35,7 +35,7 @@ public abstract class MaSangPlacement {
     }
 
     private Set<Position> parsePositionsBySide(Set<Position> positions, Side side) {
-        if (side == Side.CHO) {
+        if (side.isSameSide(Side.CHO)) {
             return positions;
         }
 
