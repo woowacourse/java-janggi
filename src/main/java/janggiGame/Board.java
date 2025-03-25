@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Board {
-    private Map<Dot, Piece> survivedPieces = new HashMap<>();
+    private final Map<Dot, Piece> survivedPieces = new HashMap<>();
 
     public void arrangeHanPieces(ArrangementStrategy strategy) {
         Map<Dot, Piece> pieces = strategy.arrange(Dynasty.HAN);
