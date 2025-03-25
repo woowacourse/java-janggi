@@ -22,6 +22,10 @@ public abstract class Movement {
 
     public abstract boolean isOneLineMovement();
 
+    public boolean isMoveInPalaceArea() {
+        return before.isPalaceArea() && after.isPalaceArea();
+    }
+
     public Offset calcaulteOffset() {
         return after.calculateOffset(before);
     }
