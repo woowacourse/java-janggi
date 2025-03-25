@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
+import janggi.domain.Placement;
 import janggi.domain.Position;
 import janggi.domain.Route;
 import janggi.domain.Team;
@@ -19,24 +19,26 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public void checkCanMove(final Board board, final Position departure, final Position destination) {
-        validateMove(board, departure, destination, MOVEMENT);
-        validateCannonRestrict(board, departure, destination);
+    public void checkCanMove(final Placement placement, final Position departure, final Position destination) {
+        validateMove(placement, departure, destination, MOVEMENT);
+        validateCannonRestrict(placement, departure, destination);
     }
 
-    private void validateCannonRestrict(final Board board, final Position departure, final Position destination) {
-        checkExistCannonInDestination(board, destination);
-        checkIsOverCannon(board, Route.of(departure, destination));
+    private void validateCannonRestrict(final Placement placement,
+                                        final Position departure,
+                                        final Position destination) {
+        checkExistCannonInDestination(placement, destination);
+        checkIsOverCannon(placement, Route.of(departure, destination));
     }
 
-    private void checkExistCannonInDestination(final Board board, final Position destination) {
-        if (board.exists(destination) && board.isSameType(destination, this.pieceType)) {
+    private void checkExistCannonInDestination(final Placement placement, final Position destination) {
+        if (placement.exists(destination) && placement.getPiece(destination).isSameType(this.pieceType)) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
     }
 
-    private void checkIsOverCannon(final Board board, final Route route) {
-        if (route.isExistSameTypePiece(board, this.pieceType)) {
+    private void checkIsOverCannon(final Placement placement, final Route route) {
+        if (route.isExistSameTypePiece(placement, this.pieceType)) {
             throw new IllegalArgumentException("포는 포를 넘을 수 없습니다.");
         }
     }

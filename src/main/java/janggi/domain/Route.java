@@ -64,16 +64,16 @@ public class Route {
         }
     }
 
-    public boolean isExistSameTypePiece(final Board board, final PieceType pieceType) {
-        return positions.stream()
-                .filter(board::exists)
-                .anyMatch(position -> board.isSameType(position, pieceType));
+    public int countPieceInRoute(final Placement placement) {
+        return (int) positions.stream()
+                .filter(placement::exists)
+                .count();
     }
 
-    public int countPieceInRoute(final Board board) {
-        return (int) positions.stream()
-                .filter(board::exists)
-                .count();
+    public boolean isExistSameTypePiece(final Placement placement, final PieceType pieceType) {
+        return positions.stream()
+                .filter(placement::exists)
+                .anyMatch(position -> placement.getPiece(position).isSameType(pieceType));
     }
 
     List<Position> getPositions() {

@@ -24,7 +24,8 @@ public class Board {
         Piece targetPiece = getPiece(departure);
         validateDepartureIsAlly(player, targetPiece);
         validateDestinationIsEnemy(destination, targetPiece.getTeam());
-        targetPiece.checkCanMove(this, departure, destination);
+        Placement placement = new Placement(this, departure, destination);
+        targetPiece.checkCanMove(placement, departure, destination);
         positionToPiece.remove(departure);
         updateBoard(destination, targetPiece);
     }

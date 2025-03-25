@@ -1,6 +1,6 @@
 package janggi.domain.rule;
 
-import janggi.domain.Board;
+import janggi.domain.Placement;
 import janggi.domain.Position;
 import janggi.domain.Route;
 import janggi.domain.rule.block.BlockStrategy;
@@ -20,7 +20,7 @@ public class MoveRule {
         moveStrategy.validateCorrectRule(departure, destination, movement);
     }
 
-    public void validateBlock(final Board board, final Route route) {
-        blockStrategy.validateIsBlock(board, route);
+    public void validateBlock(final Placement placement, final Route route) {
+        blockStrategy.validateIsBlock(placement, route);
     }
 }

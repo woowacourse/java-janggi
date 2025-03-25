@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Board;
+import janggi.domain.Placement;
 import janggi.domain.Position;
 import janggi.domain.Team;
 import java.util.Map;
@@ -23,10 +24,11 @@ class GuardTest {
         Board board = new Board(Map.of(position, guard));
 
         Position movedPosition = position.adjust(-1, 0);
+        Placement placement = new Placement(board, position, movedPosition);
 
         // when
         // then
-        assertDoesNotThrow(() -> guard.checkCanMove(board, position, movedPosition));
+        assertDoesNotThrow(() -> guard.checkCanMove(placement, position, movedPosition));
     }
 
     @ParameterizedTest
@@ -39,10 +41,11 @@ class GuardTest {
         Board board = new Board(Map.of(position, guard));
 
         Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Placement placement = new Placement(board, position, movedPosition);
 
         // when
         // then
-        assertThatThrownBy(() -> guard.checkCanMove(board, position, movedPosition))
+        assertThatThrownBy(() -> guard.checkCanMove(placement, position, movedPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("이동할 수 없는 지점입니다.");
     }

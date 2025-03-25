@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
+import janggi.domain.Placement;
 import janggi.domain.Position;
 import janggi.domain.Team;
 import janggi.domain.rule.MoveRule;
@@ -18,7 +18,7 @@ public class General extends Piece {
     }
 
     @Override
-    public void checkCanMove(final Board board, final Position departure, final Position destination) {
-        validateMove(board, departure, destination, MOVEMENT);
+    public void checkCanMove(final Placement placement, final Position departure, final Position destination) {
+        validateMove(placement, departure, destination, MOVEMENT);
     }
 }

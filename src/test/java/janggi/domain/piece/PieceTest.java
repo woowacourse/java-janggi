@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Board;
+import janggi.domain.Placement;
 import janggi.domain.Position;
 import janggi.domain.Team;
 import java.util.Map;
@@ -40,10 +41,11 @@ class PieceTest {
                 position.adjust(1, 0), otherPiece4));
 
         Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Placement placement = new Placement(board, position, movedPosition);
 
         // when
         // then
-        assertThatThrownBy(() -> piece.checkCanMove(board, position, movedPosition))
+        assertThatThrownBy(() -> piece.checkCanMove(placement, position, movedPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("이동 경로에 기물이 존재합니다.");
     }

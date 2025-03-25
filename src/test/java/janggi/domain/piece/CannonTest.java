@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Board;
+import janggi.domain.Placement;
 import janggi.domain.Position;
 import janggi.domain.Team;
 import java.util.Map;
@@ -33,10 +34,11 @@ class CannonTest {
         );
 
         Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Placement placement = new Placement(board, position, movedPosition);
 
         // when
         // then
-        assertDoesNotThrow(() -> cannon.checkCanMove(board, position, movedPosition));
+        assertDoesNotThrow(() -> cannon.checkCanMove(placement, position, movedPosition));
     }
 
     @ParameterizedTest
@@ -49,10 +51,11 @@ class CannonTest {
         Board board = new Board(Map.of(position, cannon));
 
         Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Placement placement = new Placement(board, position, movedPosition);
 
         // when
         // then
-        assertThatThrownBy(() -> cannon.checkCanMove(board, position, movedPosition))
+        assertThatThrownBy(() -> cannon.checkCanMove(placement, position, movedPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("이동할 수 없는 지점입니다.");
     }
@@ -66,10 +69,11 @@ class CannonTest {
         Board board = new Board(Map.of(position, cannon));
 
         Position movedPosition = position.adjust(3, 0);
+        Placement placement = new Placement(board, position, movedPosition);
 
         // when
         // then
-        assertThatThrownBy(() -> cannon.checkCanMove(board, position, movedPosition))
+        assertThatThrownBy(() -> cannon.checkCanMove(placement, position, movedPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("이동 경로에 기물이 1개 존재해야 합니다.");
     }
@@ -92,10 +96,11 @@ class CannonTest {
                 position.adjust(0, -1), otherEnemyCannon2));
 
         Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Placement placement = new Placement(board, position, movedPosition);
 
         // when
         // then
-        assertThatThrownBy(() -> cannon.checkCanMove(board, position, movedPosition))
+        assertThatThrownBy(() -> cannon.checkCanMove(placement, position, movedPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("포는 포를 넘을 수 없습니다.");
     }
@@ -126,10 +131,11 @@ class CannonTest {
                 position.adjust(0, -2), soldier8));
 
         Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Placement placement = new Placement(board, position, movedPosition);
 
         // when
         // then
-        assertThatThrownBy(() -> cannon.checkCanMove(board, position, movedPosition))
+        assertThatThrownBy(() -> cannon.checkCanMove(placement, position, movedPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("이동 경로에 기물이 1개 존재해야 합니다.");
     }
@@ -162,10 +168,11 @@ class CannonTest {
                 position.adjust(0, -2), cannon4));
 
         Position movedPosition = position.adjust(rowDirection, columnDirection);
+        Placement placement = new Placement(board, position, movedPosition);
 
         // when
         // then
-        assertThatThrownBy(() -> cannon.checkCanMove(board, position, movedPosition))
+        assertThatThrownBy(() -> cannon.checkCanMove(placement, position, movedPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("포는 포를 잡을 수 없습니다.");
     }
