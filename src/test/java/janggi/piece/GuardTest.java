@@ -23,7 +23,6 @@ class GuardTest {
         final Position ableDest = new Position(1, 2);
         final Position notAbleDest = new Position(1, 3);
         final Board board = new Board(new HashMap<>());
-        final Country country = Country.HAN;
 
         // when
         final boolean actual1 = generalPiece.isAbleToMove(now, ableDest, board);
@@ -45,7 +44,6 @@ class GuardTest {
         final Position ableDest = new Position(1, 2);
         final Position notAbleDest = new Position(1, 3);
         final Board board = new Board(new HashMap<>());
-        final Country country = Country.HAN;
 
         // when
         final boolean actual1 = guardPiece.isAbleToMove(now, ableDest, board);

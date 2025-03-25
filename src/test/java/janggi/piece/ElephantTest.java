@@ -24,7 +24,6 @@ class ElephantTest {
         final Position ableDest = new Position(4, 3);
         final Position notAbleDest = new Position(1, 2);
         final Board board = new Board(new HashMap<>());
-        final Country country = Country.HAN;
 
         // when
         final boolean actual1 = elephantPiece.isAbleToMove(now, ableDest, board);
@@ -51,7 +50,6 @@ class ElephantTest {
                 new Position(2, 3), new Cannon(Country.HAN),
                 new Position(4, 3), new Cannon(Country.HAN)
         ));
-        final Country country = Country.HAN;
 
         // when
         final boolean actual1 = elephantPiece.isAbleToMove(now, dest1, board);
