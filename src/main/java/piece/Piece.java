@@ -13,31 +13,31 @@ public abstract class Piece {
         this.position = position;
     }
 
-    public Position getBoardPosition() {
-        return position;
-    }
-
     public boolean isSamePosition(final Position position) {
         return position.equals(this.position);
     }
-
-    public abstract void canMoveTo(final Position position);
-
-    public abstract Positions makeRoute(final Position position);
 
     public void updateChessPiecePositionBy(final Position position) {
         this.position = position;
     }
 
-    public abstract boolean isKing();
-
-    public abstract boolean isPo();
-
-    public abstract PieceType getPieceType();
+    public Position getBoardPosition() {
+        return position;
+    }
 
     public Position getPosition() {
         return position;
     }
+
+    public abstract PieceType getPieceType();
+
+    public abstract void canMoveTo(final Position position);
+
+    public abstract Positions makeRoute(final Position position);
+
+    public abstract boolean isKing();
+
+    public abstract boolean isPo();
 
     @Override
     public boolean equals(Object o) {
