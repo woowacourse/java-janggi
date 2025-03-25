@@ -70,17 +70,23 @@ public class Janggi {
     }
 
     private boolean canBombJump(Route route) {
-        int count = 0;
-        for (Position position : route.getPointsExceptEndPoint()) {
-            if (isExistUnit(position)) {
-                Unit unit = findUnitByPoint(position);
-                if (unit.getType() == UnitType.BOMB) {
-                    return false;
-                }
-                count++;
-            }
+        if (isExistBombInRoute(route)) {
+            return false;
         }
-        return (count == 1);
+        long count = route.getPointsExceptEndPoint().stream()
+                .filter(this::isExistUnit)
+                .map(this::findUnitByPoint)
+                .filter(unit -> unit.getType() != UnitType.BOMB)
+                .count();
+
+        return count == 1;
+    }
+
+    private boolean isExistBombInRoute(Route route) {
+        return route.getPointsExceptEndPoint().stream()
+                .filter(this::isExistUnit)
+                .map(this::findUnitByPoint)
+                .anyMatch(unit -> unit.getType() == UnitType.BOMB);
     }
 
     private Unit findUnitByPoint(Position pick) {
