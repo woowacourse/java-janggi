@@ -1,6 +1,6 @@
 package piece;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import position.Path;
 import position.Position;
@@ -64,12 +64,11 @@ public enum PieceType {
     }
 
     public List<Path> getMovablePaths(final Position currentPosition) {
-        List<Path> paths = new ArrayList<>();
-        for (List<MoveDirection> moveDirections : moveOptions) {
-            paths.addAll(Path.getMovablePaths(currentPosition, moveDirections));
-        }
-        return paths;
+        return Arrays.stream(moveOptions)
+                .flatMap(directions -> Path.getMovablePaths(currentPosition, directions).stream())
+                .toList();
     }
+
 
     public String getDisplayName() {
         return displayName;

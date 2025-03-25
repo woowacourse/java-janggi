@@ -32,17 +32,17 @@ public record Path(
     }
 
     private List<Path> nextPath(final List<Position> nextPositions) {
-        List<Path> paths = new ArrayList<>();
+        return nextPositions.stream()
+                .map(this::createNextPath)
+                .toList();
+    }
 
-        for (Position nextPosition : nextPositions) {
-            List<Position> newPathPositions = new ArrayList<>();
-            insertPositionsInMiddle(newPathPositions, nextPosition);
-            newPathPositions.addAll(pathPositions);
-            newPathPositions.add(nextPosition);
-            paths.add(new Path(nextPosition, newPathPositions));
-        }
-
-        return paths;
+    private Path createNextPath(final Position nextPosition) {
+        List<Position> newPathPositions = new ArrayList<>();
+        insertPositionsInMiddle(newPathPositions, nextPosition);
+        newPathPositions.addAll(pathPositions);
+        newPathPositions.add(nextPosition);
+        return new Path(nextPosition, newPathPositions);
     }
 
     private void insertPositionsInMiddle(final List<Position> newPathPositions, final Position nextPosition) {
