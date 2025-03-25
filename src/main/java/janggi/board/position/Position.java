@@ -48,6 +48,38 @@ public class Position {
         return new Position(column.up(), row.down());
     }
 
+    public boolean canUp() {
+        return row.canUp();
+    }
+
+    public boolean canDown() {
+        return row.canDown();
+    }
+
+    public boolean canLeft() {
+        return column.canDown();
+    }
+
+    public boolean canRight() {
+        return column.canUp();
+    }
+
+    public boolean canLeftUp() {
+        return column.canDown() && row.canUp();
+    }
+
+    public boolean canRightUp() {
+        return column.canUp() && row.canUp();
+    }
+
+    public boolean canLeftDown() {
+        return column.canDown() && row.canDown();
+    }
+
+    public boolean canRightDown() {
+        return column.canUp() && row.canDown();
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object == null || getClass() != object.getClass()) {

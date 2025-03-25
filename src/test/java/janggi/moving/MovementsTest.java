@@ -1,13 +1,16 @@
-package janggi;
+package janggi.moving;
 
-import static janggi.Movement.RIGHT;
-import static janggi.Movement.UP;
+import static janggi.moving.Movement.RIGHT;
+import static janggi.moving.Movement.UP;
 import static janggi.fixture.PositionFixture.createPosition;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 
 import janggi.board.position.Position;
+import janggi.moving.Movement;
+import janggi.moving.Movements;
+import janggi.moving.Path;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

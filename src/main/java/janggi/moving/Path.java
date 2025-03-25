@@ -1,4 +1,4 @@
-package janggi;
+package janggi.moving;
 
 import janggi.board.position.Position;
 import java.util.ArrayList;

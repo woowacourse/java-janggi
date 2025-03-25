@@ -1,13 +1,9 @@
 package janggi.piece;
 
-import janggi.Movements;
-import janggi.Path;
+import janggi.moving.Path;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Position;
-
-import janggi.board.PositionOutOfBoardBoundsException;
-import java.util.List;
 
 public abstract class Piece {
     protected final Team team;
@@ -25,24 +21,9 @@ public abstract class Piece {
     }
 
     public void validateMovable(Board board, Position start, Position goal) {
-        Path path = makePath(start, goal);
+        Path path = calculatePath(start, goal);
         validatePath(board, path);
         validatePieceOnGoal(board, goal);
-    }
-
-    private Path makePath(Position start, Position goal) {
-        List<Movements> possibleMovements = getPossibleMovements();
-        for (Movements movements : possibleMovements) {
-            try {
-                Path path = movements.makePath(start);
-                if (path.lastEquals(goal)) {
-                    return path;
-                }
-            } catch (PositionOutOfBoardBoundsException e) {
-                continue;
-            }
-        }
-        throw new IllegalArgumentException("[ERROR] %s은/는 해당 목적지로 이동할 수 없습니다.".formatted(getName()));
     }
 
     protected void validateNonPieceOnPath(Board board, Path path) {
@@ -69,8 +50,9 @@ public abstract class Piece {
         return false;
     }
 
+
+    protected abstract Path calculatePath(Position start, Position goal);
     protected abstract void validatePath(Board board, Path path);
     protected abstract void validatePieceOnGoal(Board board, Position goal);
-    protected abstract List<Movements> getPossibleMovements();
     public abstract String getName();
 }
