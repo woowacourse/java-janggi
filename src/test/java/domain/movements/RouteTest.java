@@ -88,6 +88,7 @@ public final class RouteTest {
         }
 
         @Test
+        @DisplayName("시작점은 포함하지 않는다")
         void test_doesNotContainStartPoint() {
             // given
             Route route = new Route(List.of(Direction.NORTH, Direction.NORTHEAST));
@@ -95,6 +96,18 @@ public final class RouteTest {
 
             // when & then
             assertThat(route.getAllPointsOnRoute(startPoint)).doesNotContain(startPoint);
+        }
+
+        @Test
+        @DisplayName("경로가 아닌 지점은 포함하지 않는다")
+        void test_doesNotContainInvalidPoint() {
+            // given
+            Route route = new Route(List.of(Direction.NORTH, Direction.NORTHEAST));
+            Point startPoint = new Point(0, 0);
+            Point pointToSouth = new Point(-1, 0);
+
+            // when & then
+            assertThat(route.getAllPointsOnRoute(startPoint)).doesNotContain(pointToSouth);
         }
     }
 }
