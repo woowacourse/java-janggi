@@ -4,6 +4,7 @@ import janggi.domain.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import java.util.Arrays;
+import java.util.Objects;
 
 public enum PieceName {
     GENERAL(PieceType.GENERAL, "한", "초"),
@@ -26,10 +27,11 @@ public enum PieceName {
     }
 
     public static String getPieceName(Piece piece) {
+        Objects.requireNonNull(piece, "기물은 null일 수 없습니다");
         return Arrays.stream(PieceName.values())
                 .filter(pieceName -> pieceName.pieceType == piece.getPieceType())
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("기물 이름 탐색 실패"))
+                .orElseThrow(() -> new IllegalArgumentException("기물 이름 탐색 실패" + piece.getPieceType()))
                 .decideTeamName(piece.getTeam());
     }
 
