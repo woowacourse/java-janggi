@@ -2,7 +2,7 @@ package janggi;
 
 import janggi.controller.JanggiController;
 import janggi.infra.connector.MySQLConnector;
-import janggi.infra.repository.JdbcPieceRepository;
+import janggi.infra.repository.piece_repository.JdbcPieceRepository;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 

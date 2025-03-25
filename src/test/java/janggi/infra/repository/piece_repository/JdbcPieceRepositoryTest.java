@@ -1,4 +1,4 @@
-package janggi.infra.repository;
+package janggi.infra.repository.piece_repository;
 
 import janggi.domain.Country;
 import janggi.domain.piece.Gung;
@@ -17,10 +17,10 @@ import static org.assertj.core.api.Assertions.*;
 class JdbcPieceRepositoryTest {
 
     private void runWithPieceRepository(Consumer<PieceRepository> testCode) {
-        final JdbcPieceRepository jdbcPieceRepository = new JdbcPieceRepository(new InMemoryConnector());
-        jdbcPieceRepository.createTable();
-        testCode.accept(jdbcPieceRepository);
-        jdbcPieceRepository.deleteTable();
+        final PieceRepository repository = new JdbcPieceRepository(new InMemoryConnector());
+        repository.createTable();
+        testCode.accept(repository);
+        repository.deleteTable();
     }
 
     @Test

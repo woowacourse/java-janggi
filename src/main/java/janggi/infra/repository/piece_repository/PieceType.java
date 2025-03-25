@@ -1,4 +1,4 @@
-package janggi.infra.repository;
+package janggi.infra.repository.piece_repository;
 
 import java.util.Arrays;
 

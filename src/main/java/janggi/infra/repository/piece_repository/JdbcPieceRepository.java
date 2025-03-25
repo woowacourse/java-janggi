@@ -1,4 +1,4 @@
-package janggi.infra.repository;
+package janggi.infra.repository.piece_repository;
 
 import janggi.domain.Country;
 import janggi.domain.piece.Gung;
@@ -27,10 +27,10 @@ public class JdbcPieceRepository implements PieceRepository {
         final var query = """
                 CREATE TABLE piece (
                      number INT NOT NULL,
-                     type VARCHAR(50) NOT NULL,
+                     type VARCHAR(10) NOT NULL,
                      rank INT NOT NULL,
                      file INT NOT NULL,
-                     country VARCHAR(50) NOT NULL
+                     country VARCHAR(10) NOT NULL
                 );
                 """;
         try (final var connection = connector.getConnection();

@@ -6,7 +6,7 @@ import janggi.domain.StartingPosition;
 import janggi.domain.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece_initiaizer.StaticPieceInitializer;
-import janggi.infra.repository.PieceRepository;
+import janggi.infra.repository.piece_repository.PieceRepository;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
