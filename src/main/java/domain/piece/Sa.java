@@ -6,7 +6,12 @@ import java.util.List;
 
 public class Sa extends Piece {
 
-    private static final List<Move> moves = List.of(Move.FRONT, Move.BACK, Move.RIGHT, Move.LEFT);
+    private static final List<Moves> moves = List.of(
+            Moves.create(Move.FRONT),
+            Moves.create(Move.BACK),
+            Moves.create(Move.RIGHT),
+            Moves.create(Move.LEFT)
+    );
 
     public Sa(Team team) {
         super(team);
@@ -14,12 +19,11 @@ public class Sa extends Piece {
 
     @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
-        return moves.stream()
-                .filter(startPosition::canMovePosition)
-                .map(startPosition::movePosition)
-                .filter(newPosition -> newPosition.equals(targetPosition))
+        Moves possibleMoves = moves.stream()
+                .filter(moves -> moves.isPossibleToArrive(startPosition, targetPosition))
                 .findFirst()
-                .map(position -> List.<Position>of())
                 .orElseThrow(() -> new IllegalArgumentException("이 위치로 이동할 수 없습니다."));
+
+        return possibleMoves.convertToPath(startPosition);
     }
 }
