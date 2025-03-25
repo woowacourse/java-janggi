@@ -12,6 +12,9 @@ import view.OutputView;
 public class Game {
     public static final int QUIT = 0;
     public static final int PLAY = 1;
+    public static final int POSITION_INPUT_SIZE = 2;
+    public static final int COLUMN = 0;
+    public static final int ROW = 1;
 
     private final Janggi janggi;
     private final InputView inputView;
@@ -66,7 +69,10 @@ public class Game {
     private Position getPosition() {
         List<Integer> positionValue = handleInputException(() ->
                 inputView.readPosition(janggi.getTurn()), Game::getPosition);
-        return new Position(positionValue.get(0), positionValue.get(1));
+        if (positionValue.size() != POSITION_INPUT_SIZE) {
+            throw new IllegalArgumentException("column, row 형태로 입력해주세요.");
+        }
+        return new Position(positionValue.get(COLUMN), positionValue.get(ROW));
     }
 
     private static List<Integer> getPosition(String rawPosition) {
