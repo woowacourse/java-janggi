@@ -23,7 +23,7 @@ public class Position {
         return new Position(row + move.getDy(), column + move.getDx());
     }
 
-    public boolean canMovePosition(Move move) {
+    public boolean canApplyMove(Move move) {
         int movedRow = row + move.getDy();
         int movedColumn = column + move.getDx();
         if (movedRow < 1 || movedColumn < 1 || movedRow > 10 || movedColumn > 9) {
