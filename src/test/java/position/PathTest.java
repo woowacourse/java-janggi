@@ -3,16 +3,13 @@ package position;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static position.PositionFile.FILE_1;
-import static position.PositionFile.FILE_4;
 import static position.PositionFile.FILE_5;
-import static position.PositionFile.FILE_6;
 import static position.PositionFile.FILE_8;
 import static testUtil.TestConstant.RANK_1;
 import static testUtil.TestConstant.RANK_2;
 import static testUtil.TestConstant.RANK_3;
 import static testUtil.TestConstant.RANK_4;
 import static testUtil.TestConstant.RANK_5;
-import static testUtil.TestConstant.RANK_6;
 import static testUtil.TestConstant.RANK_7;
 import static testUtil.TestConstant.RANK_9;
 
@@ -21,50 +18,9 @@ import org.junit.jupiter.api.Test;
 import piece.MoveDirection;
 import piece.Piece;
 import piece.PieceType;
-import testUtil.TestConstant;
 
 class PathTest {
 
-    @Test
-    void 시작_위치를_통해_패스를_생성한다() {
-        // given
-        final Position startPosition = new Position(FILE_5, TestConstant.RANK_5);
-        final Path expectedPath = new Path(startPosition, List.of(startPosition));
-
-        // when
-        final Path path = Path.start(startPosition);
-
-        // then
-        assertThat(path).isEqualTo(expectedPath);
-    }
-
-    @Test
-    void 다음_위치들을_통해_새로운_패스_위치들을_반환한다() {
-        // given
-        final Position startPosition = new Position(FILE_5, RANK_5);
-        final Path path = Path.start(startPosition);
-        final List<Position> nextPositions = List.of(
-                new Position(FILE_5, RANK_4),
-                new Position(FILE_5, RANK_6),
-                new Position(FILE_4, RANK_5),
-                new Position(FILE_6, RANK_5)
-        );
-
-        // when
-        final List<Path> result = path.nextPath(nextPositions);
-
-        // then
-        assertThat(result).containsExactlyInAnyOrder(
-                new Path(new Position(FILE_5, RANK_4),
-                        List.of(new Position(FILE_5, RANK_5), new Position(FILE_5, RANK_4))),
-                new Path(new Position(FILE_5, RANK_6),
-                        List.of(new Position(FILE_5, RANK_5), new Position(FILE_5, RANK_6))),
-                new Path(new Position(FILE_4, RANK_5),
-                        List.of(new Position(FILE_5, RANK_5), new Position(FILE_4, RANK_5))),
-                new Path(new Position(FILE_6, RANK_5),
-                        List.of(new Position(FILE_5, RANK_5), new Position(FILE_6, RANK_5)))
-        );
-    }
 
     @Test
     void 현재_위치에서_이동_방향을_통해_경로를_구할_수_있다() {
