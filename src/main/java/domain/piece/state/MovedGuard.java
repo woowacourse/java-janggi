@@ -1,19 +1,15 @@
 package domain.piece.state;
 
-import domain.JanggiPosition;
-import domain.pattern.Path;
-import domain.pattern.Pattern;
-import java.util.List;
+import domain.piece.Side;
 
-public class MovedGuard extends NonContinuousPiece {
-    @Override
-    public List<Pattern> findMovablePath(Path path, JanggiPosition beforePosition, JanggiPosition afterPosition) {
-        return super.findMovablePath(path, beforePosition, afterPosition);
+public class MovedGuard extends MovedInPalace {
+    public MovedGuard(Side side) {
+        super(side, new Palace());
     }
 
     @Override
     public PieceState updateState() {
-        return new MovedGuard() {
+        return new MovedGuard(side) {
         };
     }
 }

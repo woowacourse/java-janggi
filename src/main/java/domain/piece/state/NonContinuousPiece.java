@@ -14,7 +14,6 @@ public abstract class NonContinuousPiece extends Moved {
                 .findFirst()
                 .map(Entry::getValue)
                 .orElseThrow(() -> new IllegalArgumentException("해당 말은 해당 경로로 이동할 수 없습니다."));
-
     }
 
     private static boolean isCorrectPosition(JanggiPosition beforePosition, JanggiPosition afterPosition,
