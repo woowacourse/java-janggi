@@ -32,7 +32,7 @@ class GeneralTest {
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"1, 1", "2, 0"})
+    @CsvSource(value = {"1, 1", "2, 0", "0, 2", "2, 2", "3, 0", "0, 3"})
     @DisplayName("궁은 2칸 이상 움직일 수 없다")
     void cannotCheckCanMoveToInvalidCount(int rowDirection, int columnDirection) {
         // given

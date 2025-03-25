@@ -49,7 +49,7 @@ class SoldierTest {
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"2, 0", "3, 0"})
+    @CsvSource(value = {"2, 0", "3, 0", "1, 1", "2, 2"})
     @DisplayName("졸/병은 2칸 이상 움직일 수 없다")
     void cannotCheckCanMoveToInvalidCount(int rowDirection, int columnDirection) {
         // given

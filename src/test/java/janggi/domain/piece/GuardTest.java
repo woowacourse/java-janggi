@@ -6,7 +6,6 @@ import janggi.domain.Position;
 import janggi.domain.Team;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -15,15 +14,16 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class GuardTest {
 
-    @Test
+    @ParameterizedTest
+    @CsvSource(value = {"1, 0", "0, 1", "0,-1", "0, -1"})
     @DisplayName("사는 수직/수평으로 1칸 이동할 수 있다")
-    void checkCanMove() {
+    void checkCanMove(int rowDirection, int columnDirection) {
         // given
         Position position = Position.of(5, 5);
         Piece guard = new Guard(Team.RED);
         Board board = new Board(Map.of(position, guard));
 
-        Position movedPosition = position.adjust(-1, 0);
+        Position movedPosition = position.adjust(rowDirection, columnDirection);
         Placement placement = new Placement(board, position, movedPosition);
 
         // when
