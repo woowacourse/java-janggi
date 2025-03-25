@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Position;
 import janggi.domain.Side;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +12,7 @@ public class Pieces {
     private final List<Piece> pieces;
 
     public Pieces(List<Piece> pieces) {
-        this.pieces = List.copyOf(pieces);
+        this.pieces = new ArrayList<>(pieces);
     }
 
     public Piece findPieceByPosition(Position position) {
