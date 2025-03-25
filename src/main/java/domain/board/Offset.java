@@ -41,6 +41,10 @@ public record Offset(
         return x == 0 || y == 0;
     }
 
+    public boolean isDiagonalMovement() {
+        return Math.abs(x) == Math.abs(y);
+    }
+
     public Offset getUnitDirectionOffset() {
         return new Offset(Integer.compare(this.x, 0), Integer.compare(this.y, 0));
     }
