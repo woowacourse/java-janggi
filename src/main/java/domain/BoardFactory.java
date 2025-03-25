@@ -32,21 +32,21 @@ public final class BoardFactory {
     }
 
     private static <T extends Piece> List<Position> generate(
-            final Function<Team, T> creator,
+            final Function<Team, T> pieceCreator,
             final List<Point> greenPoints,
             final List<Point> redPoints
     ) {
         final List<Position> positions = new ArrayList<>();
-        positions.addAll(createPositions(PieceFactory.createGreenTeam(creator), greenPoints));
-        positions.addAll(createPositions(PieceFactory.createRedTeam(creator), redPoints));
+        positions.addAll(createPositions(PieceFactory.createGreenTeam(pieceCreator), greenPoints));
+        positions.addAll(createPositions(PieceFactory.createRedTeam(pieceCreator), redPoints));
         return positions;
     }
 
-    private static List<Position> createPositions(final Piece piece, final List<Point> startPoints) {
+    private static List<Position> createPositions(final Piece piece, final List<Point> initialPoints) {
         final List<Position> positions = new ArrayList<>();
 
-        for (final Point startPoint : startPoints) {
-            final Position position = new Position(startPoint, piece);
+        for (final Point initialPoint : initialPoints) {
+            final Position position = new Position(initialPoint, piece);
             positions.add(position);
         }
         return positions;
