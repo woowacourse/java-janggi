@@ -63,8 +63,8 @@ public class Input {
         System.out.println("움직일 기물 이름과 출발 좌표를 입력해주세요.");
         System.out.println(" 선택 옵션 > " + SAMPLE_GREEN + "K: 왕 | G: 사 | E: 상 | H: 마 | P: 포 | C: 차 | S: 졸병" + RESET);
         System.out.println(" ex) E-[1, 0]");
-        String startingPieceInfo = repeatInput(() -> validatePatternStartPoint(scanner.nextLine()));
-        return Arrays.asList(startingPieceInfo.split(DELIMITER));
+        String pieceStartPointInfo = repeatInput(() -> validatePatternStartPoint(scanner.nextLine()));
+        return Arrays.asList(pieceStartPointInfo.split(DELIMITER));
     }
 
     private String validatePatternStartPoint(String pattern) {

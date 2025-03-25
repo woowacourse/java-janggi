@@ -119,6 +119,7 @@ public class Manager {
 
     private Position parsePosition(String coordinates) {
         List<Integer> pieceCoordinates = Arrays.stream(coordinates.replaceAll(REGEX_PATTERN, "").split(DELIMITER_COMMA))
+                .map(String::trim)
                 .map(Integer::parseInt)
                 .toList();
         return new Position(pieceCoordinates.getFirst(), pieceCoordinates.getLast());
