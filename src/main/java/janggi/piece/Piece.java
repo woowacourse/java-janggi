@@ -20,7 +20,7 @@ public abstract class Piece {
     protected Position position;
     protected PieceStatus pieceStatus;
 
-    public abstract boolean validateMovement(Position currentPosition, Position destination, PalaceArea palaceArea);
+    public abstract void validateMovement(Position currentPosition, Position destination, PalaceArea palaceArea);
 
     public abstract void updateStatusIfCaught(Position opponentPosition);
 

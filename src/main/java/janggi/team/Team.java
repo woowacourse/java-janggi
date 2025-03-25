@@ -33,14 +33,14 @@ public abstract class Team {
 
     protected abstract List<Piece> initBoard(BoardSetup boardSetup);
 
-    public boolean validatePieceMovement(String pieceName, Position currentPosition, Position destination) {
-        PalaceArea palaceArea = IsInPalaceArea(currentPosition);
+    public void validatePieceMovement(String pieceName, Position currentPosition, Position destination) {
+        PalaceArea palaceArea = isInPalaceArea(currentPosition);
         Piece piece = findPieceByName(pieceName, currentPosition);
 
-        return piece.validateMovement(currentPosition, destination, palaceArea);
+        piece.validateMovement(currentPosition, destination, palaceArea);
     }
 
-    protected PalaceArea IsInPalaceArea(Position position) {
+    protected PalaceArea isInPalaceArea(Position position) {
         return PalaceArea.from(palace.isPieceInsidePalace(position));
     }
 
@@ -53,7 +53,7 @@ public abstract class Team {
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_PIECE_NAME));
     }
 
-    public boolean containsPiece(String pieceName, Position position) {
+    public void validatePiece(String pieceName, Position position) {
         boolean exists = pieces.stream()
                 .anyMatch(piece -> piece.matchName(pieceName)
                         && piece.matchPosition(position)
@@ -62,10 +62,9 @@ public abstract class Team {
         if (!exists) {
             throw new IllegalArgumentException(PIECE_NOT_FOUND);
         }
-        return true;
     }
 
-    public boolean isKingOrGuardStillInPalace(String pieceName, Position destination) {
+    public void validateKingGuardDestinationIsInPalace(String pieceName, Position destination) {
         boolean isStillInPalace = pieces.stream()
                 .anyMatch(piece -> piece.getName().equalsIgnoreCase(pieceName)
                         && palace.isPieceInsidePalace(destination));
@@ -73,21 +72,19 @@ public abstract class Team {
                 pieceName))) {
             throw new IllegalArgumentException(PIECE_NOT_IN_PALACE);
         }
-        return true;
     }
 
-    public boolean isOccupiedByOurTeamPiece(Position movedPosition) {
+    public void validateDestinationIsNotOccupiedBySameTeam(Position movedPosition) {
         boolean isOccupied = pieces.stream()
                 .anyMatch(piece -> piece.isOccupiedByMe(movedPosition));
         if (isOccupied) {
             throw new IllegalArgumentException(PIECE_OCCUPIED);
         }
-        return false;
     }
 
-    public boolean isLegalMove(String pieceName, List<Position> positionsOnPath) {
+    public void validateLegalMove(String pieceName, List<Position> positionsOnPath) {
         if (PIECE_NAME_CANNON.equalsIgnoreCase(pieceName)) {
-            return isLegalMoveForCannon(positionsOnPath);
+            validateLegalMoveForCannon(positionsOnPath);
         }
         boolean isNotLegalMove = pieces.stream()
                 .anyMatch(piece -> positionsOnPath.contains(piece.getPosition()));
@@ -95,10 +92,9 @@ public abstract class Team {
         if (isNotLegalMove) {
             throw new IllegalArgumentException(PIECE_MOVE_NOT_ALLOWED);
         }
-        return false;
     }
 
-    protected boolean isLegalMoveForCannon(List<Position> positionsOnPath) {
+    protected void validateLegalMoveForCannon(List<Position> positionsOnPath) {
         int obstacleCount = VALUE_ZERO;
         for (Piece piece : pieces) {
             if (positionsOnPath.contains(piece.getPosition())) {
@@ -113,7 +109,6 @@ public abstract class Team {
         if (!isLegalMove) {
             throw new IllegalArgumentException(PIECE_MOVE_NOT_ALLOWED);
         }
-        return true;
     }
 
     public void move(String pieceName, Position startPosition, Position endPosition) {

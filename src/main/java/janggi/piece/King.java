@@ -14,7 +14,7 @@ public class King extends Piece {
     }
 
     @Override
-    public boolean validateMovement(Position currentPosition, Position destination, PalaceArea palaceArea) {
+    public void validateMovement(Position currentPosition, Position destination, PalaceArea palaceArea) {
         int offsetX = Math.abs(currentPosition.x() - destination.x());
         int offsetY = Math.abs(currentPosition.y() - destination.y());
 
@@ -31,7 +31,6 @@ public class King extends Piece {
         if (!isValidMove) {
             throw new IllegalArgumentException(INVALID_MOVEMENT);
         }
-        return true;
     }
 
     @Override

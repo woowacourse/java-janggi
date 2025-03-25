@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.board.Position;
 import janggi.palace.PalaceArea;
@@ -35,9 +36,8 @@ public class PieceTest {
     void validateMovement() {
         Piece horse = new Horse(TeamName.CHO, new Position(2, 0));
 
-        boolean isValidMovement = horse.validateMovement(new Position(2, 0), new Position(3, 2), PalaceArea.OUTSIDE);
-
-        assertThat(isValidMovement).isTrue();
+        assertThatCode(() -> horse.validateMovement(new Position(2, 0), new Position(3, 2),
+                PalaceArea.OUTSIDE)).doesNotThrowAnyException();
     }
 
     @DisplayName("정상: 기물의 이동 규칙이 올바른지 확인 (궁 안에 있는 경우)")
@@ -45,9 +45,8 @@ public class PieceTest {
     void validateMovementInPalace() {
         Piece king = new King(TeamName.CHO, new Position(4, 1));
 
-        boolean isValidMovement = king.validateMovement(new Position(4, 1), new Position(4, 2), PalaceArea.INSIDE);
-
-        assertThat(isValidMovement).isTrue();
+        assertThatCode(() -> king.validateMovement(new Position(4, 1), new Position(4, 2),
+                PalaceArea.INSIDE)).doesNotThrowAnyException();
     }
 
     @DisplayName("정상: 기물이 잡힌 경우 상태 갱신 확인")

@@ -3,6 +3,7 @@ package janggi.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.team.TeamCho;
 import janggi.team.TeamName;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,8 +22,9 @@ public class BoardTest {
     @Test
     void validateTeamTurn() {
         Board board = new Board();
+        TeamCho teamCho = new TeamCho(BoardSetup.of(TeamName.CHO, "HEHE"));
 
-        assertThatThrownBy(() -> board.validateTeamTurn(TeamName.CHO, TeamName.CHO))
+        assertThatThrownBy(() -> board.validateTeamTurn(teamCho, teamCho))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -34,5 +36,4 @@ public class BoardTest {
         assertThat(board.findPositionsOnPath(new Position(1, 1), new Position(3, 3)))
                 .containsExactly(new Position(2, 2));
     }
-
 }
