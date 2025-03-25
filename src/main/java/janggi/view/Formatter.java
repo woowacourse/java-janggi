@@ -8,9 +8,9 @@ public final class Formatter {
     }
 
     public static String formatSide(Side side) {
-        String sideName = "\u001B[32m초나라\u001B[0m";
+        String sideName = side.toColorString("초나라");
         if (side == Side.HAN) {
-            sideName = "\u001B[31m한나라\u001B[0m";
+            sideName = side.toColorString("한나라");
         }
         return sideName;
     }

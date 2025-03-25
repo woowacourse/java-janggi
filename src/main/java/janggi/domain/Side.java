@@ -6,6 +6,9 @@ public enum Side {
     HAN,
     CHO;
 
+    private static final String CHO_COLOR_FORMAT = "\u001B[32m%s\u001B[0m";
+    private static final String HAN_COLOR_FORMAT = "\u001B[31m%s\u001B[0m";
+
     public Side reverse() {
         if (this == HAN) {
             return CHO;
@@ -14,9 +17,13 @@ public enum Side {
     }
 
     public String toName(PieceBehavior pieceBehavior) {
+        return toColorString(pieceBehavior.toName());
+    }
+
+    public String toColorString(String message) {
         if (this == Side.CHO) {
-            return "\u001B[32m" + pieceBehavior.toName() + "\u001B[0m";
+            return String.format(CHO_COLOR_FORMAT, message);
         }
-        return "\u001B[31m" + pieceBehavior.toName() + "\u001B[0m";
+        return String.format(HAN_COLOR_FORMAT, message);
     }
 }
