@@ -21,13 +21,13 @@ public class OutputView {
         System.out.print("""
                  장기 게임을 시작합니다.
 
-                 - K : 왕
-                 - h : 마
-                 - r : 차
-                 - e : 상
-                 - a : 사
-                 - c : 포
-                 - p : 졸
+                 - G : 왕
+                 - H : 마
+                 - c : 차
+                 - E : 상
+                 - g : 사
+                 - C : 포
+                 - s : 졸
                 """);
     }
 
