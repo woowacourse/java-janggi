@@ -19,18 +19,15 @@ public class JanggiController {
 
     public void run() {
         JanggiGame game = initGame();
-        while (true) {
+        while (!game.isEnd()) {
             Command command = retry(() -> Command.find(inputView.readCommand(game.getThisTurnPlayer())));
             if (command == Command.NO) {
                 break;
             }
             retry(() -> game.move(inputView.readMovePiecePosition(), inputView.readTargetPosition()));
             outputView.printJanggiBoard(game);
-            if (game.isEnd()) {
-                outputView.printGameEnd();
-                break;
-            }
         }
+        outputView.printGameEnd();
     }
 
     private JanggiGame initGame() {
