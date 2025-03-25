@@ -62,4 +62,8 @@ public enum Row {
     public int getValue() {
         return value;
     }
+
+    public int subtract(Row other) {
+        return value - other.value;
+    }
 }

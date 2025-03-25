@@ -66,4 +66,12 @@ public class Position {
     public String toString() {
         return "" + column + row;
     }
+
+    public int subtractColumn(Position other) {
+        return column.subtract(other.column);
+    }
+
+    public int subtractRow(Position other) {
+        return row.subtract(other.row);
+    }
 }
