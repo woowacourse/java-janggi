@@ -152,7 +152,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getBoard().get(afterPosition).isTypeOf(JanggiPieceType.SOLDIER_OF_CHO)).isTrue();
+            assertThat(janggiBoard.getBoard().get(afterPosition).isTypeOf(JanggiPieceType.SOLDIER)).isTrue();
         }
 
         @ParameterizedTest
@@ -170,7 +170,7 @@ public class JanggiBoardTest {
             janggiBoard.movePiece(beforePosition, afterPosition);
 
             // then
-            assertThat(janggiBoard.getBoard().get(afterPosition).isTypeOf(JanggiPieceType.SOLDIER_OF_HAN)).isTrue();
+            assertThat(janggiBoard.getBoard().get(afterPosition).isTypeOf(JanggiPieceType.SOLDIER)).isTrue();
         }
 
         @ParameterizedTest
@@ -287,7 +287,7 @@ public class JanggiBoardTest {
         // given
         JanggiPosition 마beforePosition = new JanggiPosition(8, 2);
         JanggiPosition 졸Position = new JanggiPosition(6, 3);
-        JanggiPiece targetPiece = new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER_OF_CHO);
+        JanggiPiece targetPiece = new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER);
 
         JanggiBoardInitializerStub initializer = new JanggiBoardInitializerStub(Map.of(
                 마beforePosition, HAN_마,

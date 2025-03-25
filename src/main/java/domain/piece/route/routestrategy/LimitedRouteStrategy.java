@@ -1,17 +1,15 @@
-package domain.piece.routestrategy;
+package domain.piece.route.routestrategy;
 
 import domain.MovingPattern;
+import domain.piece.JanggiSide;
 import domain.position.JanggiPosition;
 import janggiexception.InvalidPathException;
 import java.util.List;
 
-public class PalaceRouteStrategy implements JanggiPieceRouteStrategy {
+public class LimitedRouteStrategy implements JanggiPieceRouteStrategy {
 
     @Override
-    public List<MovingPattern> getRoute(final List<List<MovingPattern>> routes, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
-        if (!afterPosition.isPalace()) {
-            throw new IllegalStateException("해당 기물은 궁성 밖을 벗어날 수 없습니다.");
-        }
+    public List<MovingPattern> getRoute(final JanggiSide side, final List<List<MovingPattern>> routes, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
         return routes.stream()
                 .filter(route -> {
                     if (beforePosition.canMove(route)) {

@@ -42,11 +42,11 @@ public final class JanggiBoardBasicInitializer implements JanggiBoardInitializer
         janggiBoard.put(new JanggiPosition(0, 9), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.CHARIOT));
         janggiBoard.put(new JanggiPosition(8, 2), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.CANNON));
         janggiBoard.put(new JanggiPosition(8, 8), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.CANNON));
-        janggiBoard.put(new JanggiPosition(7, 1), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER_OF_CHO));
-        janggiBoard.put(new JanggiPosition(7, 3), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER_OF_CHO));
-        janggiBoard.put(new JanggiPosition(7, 5), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER_OF_CHO));
-        janggiBoard.put(new JanggiPosition(7, 7), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER_OF_CHO));
-        janggiBoard.put(new JanggiPosition(7, 9), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER_OF_CHO));
+        janggiBoard.put(new JanggiPosition(7, 1), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER));
+        janggiBoard.put(new JanggiPosition(7, 3), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER));
+        janggiBoard.put(new JanggiPosition(7, 5), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER));
+        janggiBoard.put(new JanggiPosition(7, 7), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER));
+        janggiBoard.put(new JanggiPosition(7, 9), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.SOLDIER));
         janggiBoard.put(new JanggiPosition(0, 4), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.ADVISOR));
         janggiBoard.put(new JanggiPosition(0, 6), new JanggiPiece(JanggiSide.CHO, JanggiPieceType.ADVISOR));
 
@@ -61,11 +61,11 @@ public final class JanggiBoardBasicInitializer implements JanggiBoardInitializer
         janggiBoard.put(new JanggiPosition(1, 9), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.CHARIOT));
         janggiBoard.put(new JanggiPosition(3, 2), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.CANNON));
         janggiBoard.put(new JanggiPosition(3, 8), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.CANNON));
-        janggiBoard.put(new JanggiPosition(4, 1), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.SOLDIER_OF_HAN));
-        janggiBoard.put(new JanggiPosition(4, 3), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.SOLDIER_OF_HAN));
-        janggiBoard.put(new JanggiPosition(4, 5), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.SOLDIER_OF_HAN));
-        janggiBoard.put(new JanggiPosition(4, 7), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.SOLDIER_OF_HAN));
-        janggiBoard.put(new JanggiPosition(4, 9), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.SOLDIER_OF_HAN));
+        janggiBoard.put(new JanggiPosition(4, 1), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.SOLDIER));
+        janggiBoard.put(new JanggiPosition(4, 3), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.SOLDIER));
+        janggiBoard.put(new JanggiPosition(4, 5), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.SOLDIER));
+        janggiBoard.put(new JanggiPosition(4, 7), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.SOLDIER));
+        janggiBoard.put(new JanggiPosition(4, 9), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.SOLDIER));
         janggiBoard.put(new JanggiPosition(1, 4), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.ADVISOR));
         janggiBoard.put(new JanggiPosition(1, 6), new JanggiPiece(JanggiSide.HAN, JanggiPieceType.ADVISOR));
 

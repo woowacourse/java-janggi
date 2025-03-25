@@ -65,7 +65,7 @@ public class OutputView {
                     System.out.print(getMessageWithColorOfPalace(JanggiSide.HAN, "ㅁ "));
                     continue;
                 }
-                System.out.print(getMessageWithColorOfSide(piece.getSide(), getJanggiTypeDisplay(piece.getType())) + " ");
+                System.out.print(getMessageWithColorOfSide(piece.getSide(), getJanggiTypeDisplay(piece.getType(), piece.getSide())) + " ");
             }
             System.out.print(LINE_SEPARATOR);
         }

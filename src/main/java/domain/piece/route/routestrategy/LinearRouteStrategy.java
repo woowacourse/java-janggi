@@ -1,6 +1,7 @@
-package domain.piece.routestrategy;
+package domain.piece.route.routestrategy;
 
 import domain.MovingPattern;
+import domain.piece.JanggiSide;
 import domain.position.JanggiPosition;
 import janggiexception.InvalidPathException;
 import java.util.Collections;
@@ -9,7 +10,7 @@ import java.util.List;
 public class LinearRouteStrategy implements JanggiPieceRouteStrategy {
 
     @Override
-    public List<MovingPattern> getRoute(final List<List<MovingPattern>> routes, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
+    public List<MovingPattern> getRoute(final JanggiSide side, final List<List<MovingPattern>> routes, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
         for (List<MovingPattern> route : routes) {
             MovingPattern direction = route.getFirst();
             if (isValidDirection(beforePosition, afterPosition, direction)) {

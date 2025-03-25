@@ -1,6 +1,7 @@
-package domain.piece.routestrategy;
+package domain.piece.route.routestrategy;
 
 import domain.MovingPattern;
+import domain.piece.JanggiSide;
 import domain.position.JanggiPosition;
 import janggiexception.PieceNotExistException;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public class NoneRouteStrategy implements JanggiPieceRouteStrategy {
 
     @Override
-    public List<MovingPattern> getRoute(List<List<MovingPattern>> routes, JanggiPosition origin,
+    public List<MovingPattern> getRoute(final JanggiSide side, List<List<MovingPattern>> routes, JanggiPosition origin,
                                         JanggiPosition destination) {
         throw new PieceNotExistException();
     }

@@ -25,7 +25,7 @@ public class JanggiPiece {
     }
 
     public List<MovingPattern> getRoute(JanggiPosition origin, JanggiPosition destination) {
-        return type.getRoute(origin, destination);
+        return type.getRoute(side, origin, destination);
     }
 
     public boolean isTypeOf(JanggiPieceType expectedType) {
