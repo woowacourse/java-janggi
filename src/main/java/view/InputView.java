@@ -1,9 +1,9 @@
 package view;
 
-import domain.Player;
-import domain.SetUp;
-import domain.Team;
+import domain.game.SetUp;
 import domain.piece.Position;
+import domain.player.Player;
+import domain.player.Team;
 import java.util.List;
 import java.util.Scanner;
 

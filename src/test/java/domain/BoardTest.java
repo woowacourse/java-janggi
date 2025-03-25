@@ -5,11 +5,15 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.direction.PieceDirection;
+import domain.game.Board;
+import domain.game.SetUp;
 import domain.piece.Piece;
 import domain.piece.PieceInitializer;
 import domain.piece.Pieces;
 import domain.piece.Position;
 import domain.piece.category.Soldier;
+import domain.player.Player;
+import domain.player.Team;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

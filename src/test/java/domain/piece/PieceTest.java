@@ -3,9 +3,9 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import domain.Vector;
 import domain.direction.Direction;
 import domain.direction.Directions;
+import domain.direction.Vector;
 import domain.piece.category.Cannon;
 import domain.piece.category.Chariot;
 import domain.piece.category.Elephant;

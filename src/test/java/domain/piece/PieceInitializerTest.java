@@ -3,8 +3,7 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import domain.SetUp;
-import domain.Team;
+import domain.game.SetUp;
 import domain.piece.category.Cannon;
 import domain.piece.category.Chariot;
 import domain.piece.category.Elephant;
@@ -12,6 +11,7 @@ import domain.piece.category.General;
 import domain.piece.category.Guard;
 import domain.piece.category.Horse;
 import domain.piece.category.Soldier;
+import domain.player.Team;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 

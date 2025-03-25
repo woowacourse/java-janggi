@@ -1,13 +1,13 @@
 package domain.piece;
 
-import domain.SetUp;
-import domain.Team;
 import domain.direction.PieceDirection;
+import domain.game.SetUp;
 import domain.piece.category.Cannon;
 import domain.piece.category.Chariot;
 import domain.piece.category.General;
 import domain.piece.category.Guard;
 import domain.piece.category.Soldier;
+import domain.player.Team;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;

@@ -1,10 +1,10 @@
-import domain.Board;
-import domain.Player;
-import domain.SetUp;
-import domain.Team;
+import domain.game.Board;
+import domain.game.SetUp;
 import domain.piece.PieceInitializer;
 import domain.piece.Pieces;
 import domain.piece.Position;
+import domain.player.Player;
+import domain.player.Team;
 import java.util.HashMap;
 import java.util.Map;
 import view.InputView;

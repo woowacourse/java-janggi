@@ -1,11 +1,11 @@
 package view;
 
-import domain.Board;
-import domain.Player;
+import domain.game.Board;
 import domain.piece.Piece;
-import domain.piece.PieceColor;
 import domain.piece.Pieces;
 import domain.piece.Position;
+import domain.player.Player;
+import domain.player.TeamColor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +59,7 @@ public class OutputView {
 
     private void updateDefaultBoard(final Map<Player, Pieces> board, final List<ArrayList<String>> defaultBoard) {
         for (Player player : board.keySet()) {
-            PieceColor color = player.team().getColor();
+            TeamColor color = player.team().getColor();
 
             List<Piece> pieces = board.get(player).pieces();
             updatePiecesToDefaultBoard(defaultBoard, pieces, color);
@@ -67,7 +67,7 @@ public class OutputView {
     }
 
     private void updatePiecesToDefaultBoard(final List<ArrayList<String>> defaultBoard, final List<Piece> pieces,
-                                            final PieceColor color) {
+                                            final TeamColor color) {
         for (Piece piece : pieces) {
             Position position = piece.getPosition();
 

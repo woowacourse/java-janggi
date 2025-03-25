@@ -1,6 +1,5 @@
 package domain.direction;
 
-import domain.Vector;
 import domain.piece.Position;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,10 @@
-package domain;
+package domain.game;
 
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Pieces;
 import domain.piece.Position;
+import domain.player.Player;
 import java.util.List;
 import java.util.Map;
 

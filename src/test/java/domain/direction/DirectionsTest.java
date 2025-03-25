@@ -2,7 +2,6 @@ package domain.direction;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Vector;
 import domain.piece.Position;
 import java.util.List;
 import org.junit.jupiter.api.Test;

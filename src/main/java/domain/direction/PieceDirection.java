@@ -1,6 +1,5 @@
 package domain.direction;
 
-import domain.Vector;
 import java.util.List;
 
 public enum PieceDirection {
