@@ -1,4 +1,4 @@
-package janggi.infra;
+package janggi.infra.repository;
 
 import janggi.domain.Country;
 import janggi.domain.piece.Gung;
@@ -7,14 +7,19 @@ import janggi.domain.piece.impl.*;
 import janggi.domain.position.Position;
 import janggi.domain.position.PositionFile;
 import janggi.domain.position.PositionRank;
+import janggi.infra.connector.DatabaseConnector;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-import static janggi.infra.PieceDao.getConnection;
-
 public class JdbcPieceRepository implements PieceRepository {
+
+    private final DatabaseConnector connector;
+
+    public JdbcPieceRepository(final DatabaseConnector connector) {
+        this.connector = connector;
+    }
 
     @Override
     public Map<Country, List<Piece>> findAllPieces(final int number) {
@@ -24,7 +29,7 @@ public class JdbcPieceRepository implements PieceRepository {
 
         final var query = "SELECT * FROM piece WHERE piece.number = ?";
 
-        try (final var connection = getConnection();
+        try (final var connection = connector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)
         ) {
             preparedStatement.setInt(1, number);
@@ -69,7 +74,7 @@ public class JdbcPieceRepository implements PieceRepository {
         for (Piece piece : pieces) {
             final var query = "INSERT INTO piece VALUES(?, ?, ?, ?, ?)";
 
-            try (final var connection = getConnection();
+            try (final var connection = connector.getConnection();
                  final var preparedStatement = connection.prepareStatement(query)
             ) {
                 preparedStatement.setInt(1, number);

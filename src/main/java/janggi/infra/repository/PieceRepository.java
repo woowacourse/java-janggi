@@ -1,4 +1,4 @@
-package janggi.infra;
+package janggi.infra.repository;
 
 import janggi.domain.Country;
 import janggi.domain.piece.Piece;
