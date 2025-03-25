@@ -1,7 +1,6 @@
 import static player.Nation.CHO;
 import static player.Nation.HAN;
 
-import java.util.List;
 import java.util.Map;
 import pieceProperty.Position;
 import pieceProperty.JanggiPieceInitializer;
