@@ -5,6 +5,7 @@ import janggi.domain.board.BoardSetup;
 import janggi.domain.board.InitialBoard;
 import janggi.domain.board.PlayingBoard;
 import janggi.domain.piece.TeamColor;
+import janggi.service.JanggiDBService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.function.Supplier;
@@ -13,12 +14,15 @@ public class Application {
     public static void main(String[] args) {
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
+        JanggiDBService janggiDBService = new JanggiDBService();
 
         InitialBoard initialBoard = getWithRetry(() -> setupBoard(inputView));
+        janggiDBService.saveInitialBoard(initialBoard.getInitialBoard());
+
         PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
         outputView.printBoard(playingBoard);
 
-        JanggiController controller = new JanggiController(inputView, outputView, playingBoard);
+        JanggiController controller = new JanggiController(inputView, outputView, janggiDBService, playingBoard);
         controller.run();
     }
 

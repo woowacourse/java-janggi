@@ -9,6 +9,7 @@ import janggi.domain.gameState.BlueTurn;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.TeamColor;
 import janggi.dto.MoveCommandDto;
+import janggi.service.JanggiDBService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.PieceTypeName;
@@ -17,11 +18,13 @@ import java.util.Map;
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiDBService janggiDBService;
     private final PlayingBoard playingBoard;
 
-    public JanggiController(InputView inputView, OutputView outputView, PlayingBoard playingBoard) {
+    public JanggiController(InputView inputView, OutputView outputView, JanggiDBService janggiDBService, PlayingBoard playingBoard) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiDBService = janggiDBService;
         this.playingBoard = playingBoard;
     }
 
@@ -49,11 +52,13 @@ public class JanggiController {
     }
 
     private void playTurn(MoveCommandDto commandDto, JanggiGame janggiGame) {
+        TeamColor turnColor = janggiGame.getTurnColor();
         Position source = createPosition(commandDto.sourceRow(), commandDto.sourceCol());
         Position destination = createPosition(commandDto.destinationRow(), commandDto.destinationCol());
         PieceType pieceType = PieceTypeName.getTypeFrom(commandDto.pieceName());
 
         janggiGame.move(pieceType, source, destination);
+        janggiDBService.updateMoveResult(source, destination, pieceType, turnColor);
 
         outputView.printBoard(playingBoard);
     }
