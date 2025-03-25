@@ -130,7 +130,7 @@ class BoardTest {
 
         // then
         assertThat(board.getPlacedPieces())
-                .containsEntry(from, null);
+                .doesNotContainKey(from);
         assertThat(board.getPlacedPieces())
                 .containsEntry(to, fromPiece);
         assertThat(board.getPlacedPieces())

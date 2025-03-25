@@ -14,17 +14,7 @@ public class Board {
     private final Map<Point, Piece> placedPieces;
 
     public Board() {
-        this.placedPieces = initializeBoard();
-    }
-
-    private Map<Point, Piece> initializeBoard() {
-        Map<Point, Piece> board = new HashMap<>();
-        for (int i = 1; i <= COLUMN; i++) {
-            for (int j = 0; j < ROW; j++) {
-                board.put(new Point(i, j), null);
-            }
-        }
-        return board;
+        this.placedPieces = new HashMap<>();
     }
 
     public void placePiece(Point point, Piece piece) {
@@ -56,11 +46,10 @@ public class Board {
     }
 
     public Piece peek(Point point) {
-        Piece piece = placedPieces.get(point);
-        if (piece == null) {
+        if (!placedPieces.containsKey(point)) {
             throw new IllegalArgumentException("해당 위치에서 기물을 찾을 수 없습니다.");
         }
-        return piece;
+        return placedPieces.get(point);
     }
 
     private void validateMovable(Point from, Point to, Piece fromPiece) {
@@ -74,24 +63,22 @@ public class Board {
     }
 
     private void validateCatchable(Point to, Piece fromPiece) {
-        Piece toPiece = placedPieces.get(to);
-        if (toPiece != null) {
+        if (placedPieces.containsKey(to)) {
+            Piece toPiece = peek(to);
             fromPiece.validateCatch(toPiece);
         }
     }
 
     private void executeMove(Point from, Point to, Piece fromPiece) {
-        placedPieces.put(from, null);
+        placedPieces.remove(from);
         placedPieces.put(to, fromPiece);
     }
 
     private Set<Piece> getPiecesByPoint(Set<Point> route) {
         Set<Piece> pieces = new HashSet<>();
         for (Point point : route) {
-            Piece piece = placedPieces.get(point);
-            if (piece != null) {
-                pieces.add(piece);
-            }
+            Piece piece = peek(point);
+            pieces.add(piece);
         }
         return pieces;
     }
