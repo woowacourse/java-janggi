@@ -7,6 +7,10 @@ import java.util.Set;
 
 public final class Horse extends Piece {
 
+    private static final int STRAIGHT_STEP = 1;
+    private static final int DIAGONAL_STEP = 1;
+    private static final int HORSE_MOVE_DISTANCE = STRAIGHT_STEP + DIAGONAL_STEP;
+
     public Horse(Camp camp) {
         super(camp);
     }
@@ -23,7 +27,8 @@ public final class Horse extends Piece {
     }
 
     private boolean isHorseMove(int xDistance, int yDistance) {
-        return (xDistance == 2 && yDistance == 1) || (xDistance == 1 && yDistance == 2);
+        return (xDistance == HORSE_MOVE_DISTANCE && yDistance == DIAGONAL_STEP)
+                || (xDistance == DIAGONAL_STEP && yDistance == HORSE_MOVE_DISTANCE);
     }
 
     @Override
@@ -42,7 +47,7 @@ public final class Horse extends Piece {
     }
 
     private boolean isNextPointOnHorizontal(Point fromPoint, Point toPoint) {
-        return fromPoint.calculateXDistance(toPoint) == 2;
+        return fromPoint.calculateXDistance(toPoint) == HORSE_MOVE_DISTANCE;
     }
 
     private Point getNextHorizontalPoint(Point fromPoint, Point toPoint) {

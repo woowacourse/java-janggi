@@ -7,6 +7,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class Elephant extends Piece {
+    private static final int STRAIGHT_STEP = 1;
+    private static final int DIAGONAL_STEP = 2;
+    private static final int ELEPHANT_MOVE_DISTANCE = STRAIGHT_STEP + DIAGONAL_STEP;
 
     public Elephant(Camp camp) {
         super(camp);
@@ -24,7 +27,8 @@ public final class Elephant extends Piece {
     }
 
     private boolean isElephantMove(int xDistance, int yDistance) {
-        return (xDistance == 2 && yDistance == 3) || (xDistance == 3 && yDistance == 2);
+        return (xDistance == DIAGONAL_STEP && yDistance == ELEPHANT_MOVE_DISTANCE)
+                || (xDistance == ELEPHANT_MOVE_DISTANCE && yDistance == DIAGONAL_STEP);
     }
 
     @Override
@@ -44,7 +48,7 @@ public final class Elephant extends Piece {
     }
 
     private boolean isNextPointOnHorizontal(Point fromPoint, Point toPoint) {
-        return fromPoint.calculateXDistance(toPoint) == 3;
+        return fromPoint.calculateXDistance(toPoint) == ELEPHANT_MOVE_DISTANCE;
     }
 
     private Set<Point> findHorizontalRoute(Point fromPoint, Point toPoint, Set<Point> route) {
