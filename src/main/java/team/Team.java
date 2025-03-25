@@ -2,17 +2,15 @@ package team;
 
 public enum Team {
 
-    RED(-1),
-    GREEN(1),
+    HAN,
+    CHO,
     ;
 
-    private final int dir;
+    public Team oppsite() {
+        if (this.equals(HAN)) {
+            return CHO;
+        }
 
-    Team(int dir) {
-        this.dir = dir;
-    }
-
-    public int direction() {
-        return dir;
+        return HAN;
     }
 }
