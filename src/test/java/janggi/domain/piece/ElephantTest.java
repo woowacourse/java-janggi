@@ -9,6 +9,7 @@ import janggi.domain.board.Row;
 import java.util.ArrayList;
 import java.util.List;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ElephantTest {
@@ -96,5 +97,21 @@ class ElephantTest {
 
         boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
         assertThat(canMove).isTrue();
+    }
+
+    @DisplayName("상 이동경로의 좌표들을 찾을 수 있다")
+    @Test
+    void Elephant_findAllRoute_toDestination() {
+        // given
+        Elephant elephant = new Elephant(PieceColor.RED);
+        PiecePath path = new PiecePath(Position.of(1, 1), Position.of(4, 3));
+
+        // when
+        List<Position> allRoute = elephant.findAllRoute(path);
+
+        // then
+        assertThat(allRoute).hasSize(2);
+        assertThat(allRoute.get(0)).isEqualTo(Position.of(2, 1));
+        assertThat(allRoute.get(1)).isEqualTo(Position.of(3, 2));
     }
 }

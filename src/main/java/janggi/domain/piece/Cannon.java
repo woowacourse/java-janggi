@@ -13,6 +13,9 @@ public class Cannon extends Piece {
 
     @Override
     public boolean isValidMovement(PiecePath path) {
+        if(path.isInPalacePath() && path.isDiagonal()) {
+            return true;
+        }
         return path.isStraight();
     }
 

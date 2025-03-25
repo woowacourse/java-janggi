@@ -16,8 +16,12 @@ public class PiecePath {
         return rowDifference() == 0 || columnDifference() == 0;
     }
 
+    public boolean isDiagonal() {
+        return Math.abs(rowDifference()) == Math.abs(columnDifference());
+    }
+
     public boolean isInPalacePath() {
-        return source.isInPalace() && destination.isInPalace();
+        return source.isPalacePosition() && destination.isPalacePosition();
     }
 
     public int rowDifference() {

@@ -9,9 +9,12 @@ import janggi.domain.board.Row;
 import java.util.ArrayList;
 import java.util.List;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class ChariotTest {
@@ -112,5 +115,24 @@ class ChariotTest {
 
         boolean canMove = chariot.canMove(chariot, elephant, piecesOnRoute);
         assertThat(canMove).isTrue();
+    }
+
+    @DisplayName("차는 궁성 안에서 대각선으로 움직일 수 있다.")
+    @ParameterizedTest
+    @CsvSource({
+            "8,4,0,6",
+            "8,6,0,4",
+            "0,4,8,6",
+            "0,6,8,4"
+    })
+    void Chariot_canMoveDiagonal_inPalace(int srcRow, int srcCol, int dstRow, int dstCol) {
+        // given
+        Chariot chariot = new Chariot(PieceColor.RED);
+        PiecePath path = new PiecePath(Position.of(srcRow, srcCol), Position.of(dstRow, dstCol));
+        // when
+        boolean validMovement = chariot.isValidMovement(path);
+
+        // then
+        assertThat(validMovement).isTrue();
     }
 }

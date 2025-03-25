@@ -28,7 +28,7 @@ public class Position {
         return new Position(row, col);
     }
 
-    public boolean isInPalace() {
+    public boolean isPalacePosition() {
         return Palace.isInPalace(this);
     }
 
