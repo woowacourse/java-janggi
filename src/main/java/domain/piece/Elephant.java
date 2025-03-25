@@ -18,30 +18,41 @@ public class Elephant extends AbstractPiece {
     public List<Point> calculatePossiblePoint(final Point fromPoint, final Point toPoint) {
         final int x = fromPoint.calculateSubtractionX(toPoint);
         final int y = fromPoint.calculateSubtractionY(toPoint);
-        if (x > 0 && y > 0) {
+        if (isFirstQuadrant(x, y)) {
             if (QuadrantMovement.FIRST_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
                 return searchPossiblePoint(fromPoint, Point::up, Point::rightUp);
             }
             return searchPossiblePoint(fromPoint, Point::right, Point::rightUp);
         }
-        if (x < 0 && y > 0) {
+        if (isSecondQuadrant(x, y)) {
             if (QuadrantMovement.SECOND_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
                 return searchPossiblePoint(fromPoint, Point::up, Point::leftUp);
             }
             return searchPossiblePoint(fromPoint, Point::left, Point::leftUp);
 
         }
-        if (x < 0 && y < 0) {
+        if (isThirdQuadrant(x, y)) {
             if (QuadrantMovement.THIRD_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
                 return searchPossiblePoint(fromPoint, Point::left, Point::leftDown);
             }
             return searchPossiblePoint(fromPoint, Point::down, Point::leftDown);
         }
-
         if (QuadrantMovement.THIRD_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
             return searchPossiblePoint(fromPoint, Point::down, Point::rightDown);
         }
         return searchPossiblePoint(fromPoint, Point::right, Point::rightDown);
+    }
+
+    private boolean isFirstQuadrant(final int x, final int y) {
+        return x > 0 && y > 0;
+    }
+
+    private boolean isSecondQuadrant(final int x, final int y) {
+        return x < 0 && y > 0;
+    }
+
+    private boolean isThirdQuadrant(final int x, final int y) {
+        return x < 0 && y < 0;
     }
 
     private enum QuadrantMovement {

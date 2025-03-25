@@ -17,19 +17,19 @@ public class Horse extends AbstractPiece {
     public List<Point> calculatePossiblePoint(final Point fromPoint, final Point toPoint) {
         final int x = fromPoint.calculateSubtractionX(toPoint);
         final int y = fromPoint.calculateSubtractionY(toPoint);
-        if (x > 0 && y > 0) {
+        if (isFirstQuadrant(x, y)) {
             if (QuadrantMovement.FIRST_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
                 return List.of(fromPoint.up());
             }
             return List.of(fromPoint.right());
         }
-        if (x < 0 && y > 0) {
+        if (isSecondQuadrant(x, y)) {
             if (QuadrantMovement.SECOND_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
                 return List.of(fromPoint.up());
             }
             return List.of(fromPoint.left());
         }
-        if (x < 0 && y < 0) {
+        if (isThirdQuadrant(x, y)) {
             if (QuadrantMovement.THIRD_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
                 return List.of(fromPoint.left());
             }
@@ -39,6 +39,18 @@ public class Horse extends AbstractPiece {
             return List.of(fromPoint.down());
         }
         return List.of(fromPoint.right());
+    }
+
+    private boolean isFirstQuadrant(final int x, final int y) {
+        return x > 0 && y > 0;
+    }
+
+    private boolean isSecondQuadrant(final int x, final int y) {
+        return x < 0 && y > 0;
+    }
+
+    private boolean isThirdQuadrant(final int x, final int y) {
+        return x < 0 && y < 0;
     }
 
     private enum QuadrantMovement {
