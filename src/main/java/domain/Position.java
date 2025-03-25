@@ -25,10 +25,7 @@ public class Position {
     public boolean canApplyMove(Move move) {
         int movedRow = row + move.getDy();
         int movedColumn = column + move.getDx();
-        if (movedRow < 1 || movedColumn < 1 || movedRow > 10 || movedColumn > 9) {
-            return false;
-        }
-        return true;
+        return movedRow >= 1 && movedRow <= 10 && movedColumn >= 1 && movedColumn <= 9;
     }
 
     public int compareRow(Position position) {
