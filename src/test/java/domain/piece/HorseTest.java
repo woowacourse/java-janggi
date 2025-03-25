@@ -45,12 +45,12 @@ class HorseTest {
         Horse horse = PieceFactory.createGreenTeam(Horse::new);
 
         // when
-        List<Point> possiblePoint = horse.calculatePossiblePoint(Point.of(2, 0), Point.of(3, 2));
+        List<Point> possiblePoint = horse.calculatePossiblePoint(Point.newInstance(2, 0), Point.newInstance(3, 2));
 
         // then
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(possiblePoint.size()).isEqualTo(1);
-            softly.assertThat(possiblePoint.getFirst()).isEqualTo(Point.of(2, 1));
+            softly.assertThat(possiblePoint.getFirst()).isEqualTo(Point.newInstance(2, 1));
         });
     }
 }

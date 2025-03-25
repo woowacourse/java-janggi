@@ -32,7 +32,7 @@ public final class OutputView {
             for (int j = 0; j <= 8; j++) {
                 final Position target;
                 try {
-                    target = board.findPositionBy(Point.of(j, i));
+                    target = board.findPositionBy(Point.newInstance(j, i));
                     final Piece piece = target.getPiece();
                     final PieceType pieceType = piece.type();
                     if (piece.isGreenTeam()) {

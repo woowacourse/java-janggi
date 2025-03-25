@@ -35,12 +35,13 @@ class ChariotTest {
         Chariot chariot = PieceFactory.createGreenTeam(Chariot::new);
 
         // when
-        List<Point> possiblePoint = chariot.calculatePossiblePoint(Point.of(0, 0), Point.of(0, 9));
+        List<Point> possiblePoint = chariot.calculatePossiblePoint(Point.newInstance(0, 0), Point.newInstance(0, 9));
 
         // then
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(possiblePoint.size()).isEqualTo(8);
-            softly.assertThat(possiblePoint).contains(Point.of(0, 1), Point.of(0, 5), Point.of(0, 8));
+            softly.assertThat(possiblePoint)
+                    .contains(Point.newInstance(0, 1), Point.newInstance(0, 5), Point.newInstance(0, 8));
         });
     }
 }

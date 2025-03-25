@@ -53,14 +53,21 @@ public final class BoardFactory {
     }
 
     private enum InitialPoint {
-        GENERAL(List.of(Point.of(4, 1)), List.of(Point.of(4, 8))),
-        SOLDIER(List.of(Point.of(0, 3), Point.of(2, 3), Point.of(4, 3), Point.of(6, 3), Point.of(8, 3)),
-                List.of(Point.of(0, 6), Point.of(2, 6), Point.of(4, 6), Point.of(6, 6), Point.of(8, 6))),
-        GUARD(List.of(Point.of(3, 0), Point.of(5, 0)), List.of(Point.of(3, 9), Point.of(5, 9))),
-        ELEPHANT(List.of(Point.of(1, 0), Point.of(6, 0)), List.of(Point.of(1, 9), Point.of(6, 9))),
-        HORSE(List.of(Point.of(2, 0), Point.of(7, 0)), List.of(Point.of(2, 9), Point.of(7, 9))),
-        CANNON(List.of(Point.of(1, 2), Point.of(7, 2)), List.of(Point.of(1, 7), Point.of(7, 7))),
-        CHARIOT(List.of(Point.of(0, 0), Point.of(8, 0)), List.of(Point.of(0, 9), Point.of(8, 9)));
+        GENERAL(List.of(Point.newInstance(4, 1)), List.of(Point.newInstance(4, 8))),
+        SOLDIER(List.of(Point.newInstance(0, 3), Point.newInstance(2, 3), Point.newInstance(4, 3),
+                Point.newInstance(6, 3), Point.newInstance(8, 3)),
+                List.of(Point.newInstance(0, 6), Point.newInstance(2, 6), Point.newInstance(4, 6),
+                        Point.newInstance(6, 6), Point.newInstance(8, 6))),
+        GUARD(List.of(Point.newInstance(3, 0), Point.newInstance(5, 0)),
+                List.of(Point.newInstance(3, 9), Point.newInstance(5, 9))),
+        ELEPHANT(List.of(Point.newInstance(1, 0), Point.newInstance(6, 0)),
+                List.of(Point.newInstance(1, 9), Point.newInstance(6, 9))),
+        HORSE(List.of(Point.newInstance(2, 0), Point.newInstance(7, 0)),
+                List.of(Point.newInstance(2, 9), Point.newInstance(7, 9))),
+        CANNON(List.of(Point.newInstance(1, 2), Point.newInstance(7, 2)),
+                List.of(Point.newInstance(1, 7), Point.newInstance(7, 7))),
+        CHARIOT(List.of(Point.newInstance(0, 0), Point.newInstance(8, 0)),
+                List.of(Point.newInstance(0, 9), Point.newInstance(8, 9)));
 
         private final List<Point> greenPoints;
         private final List<Point> redPoints;

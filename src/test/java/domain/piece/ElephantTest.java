@@ -45,13 +45,14 @@ class ElephantTest {
         final Elephant elephant = PieceFactory.createGreenTeam(Elephant::new);
 
         // when
-        final List<Point> possiblePoint = elephant.calculatePossiblePoint(Point.of(1, 0), Point.of(3, 3));
+        final List<Point> possiblePoint = elephant.calculatePossiblePoint(Point.newInstance(1, 0),
+                Point.newInstance(3, 3));
 
         // then
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(possiblePoint.size()).isEqualTo(2);
-            softly.assertThat(possiblePoint.getFirst()).isEqualTo(Point.of(1, 1));
-            softly.assertThat(possiblePoint.getLast()).isEqualTo(Point.of(2, 2));
+            softly.assertThat(possiblePoint.getFirst()).isEqualTo(Point.newInstance(1, 1));
+            softly.assertThat(possiblePoint.getLast()).isEqualTo(Point.newInstance(2, 2));
         });
     }
 }

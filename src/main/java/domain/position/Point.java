@@ -21,7 +21,7 @@ public class Point {
         return new Point(parsedX, parsedY);
     }
 
-    public static Point of(final int x, final int y) {
+    public static Point newInstance(final int x, final int y) {
         return new Point(x, y);
     }
 

@@ -44,7 +44,7 @@ class BoardTest {
 
         // given
         final Board board = BoardFactory.create();
-        final Point point = Point.of(0, 0);
+        final Point point = Point.newInstance(0, 0);
         final Position expectedPosition = new Position(point,
                 PieceFactory.createGreenTeam(Chariot::new));
 
@@ -62,13 +62,13 @@ class BoardTest {
         final Board board = BoardFactory.create();
 
         // when
-        final Position treuPosition = board.findPositionBy(Point.of(1, 0));
-        final Position falsePosition = board.findPositionBy(Point.of(6, 0));
+        final Position treuPosition = board.findPositionBy(Point.newInstance(1, 0));
+        final Position falsePosition = board.findPositionBy(Point.newInstance(6, 0));
 
         // then
         SoftAssertions.assertSoftly(softly -> {
-            assertThat(board.canMoveOnPath(treuPosition, Point.of(3, 3))).isTrue();
-            assertThat(board.canMoveOnPath(falsePosition, Point.of(8, 3))).isFalse();
+            assertThat(board.canMoveOnPath(treuPosition, Point.newInstance(3, 3))).isTrue();
+            assertThat(board.canMoveOnPath(falsePosition, Point.newInstance(8, 3))).isFalse();
         });
     }
 
@@ -81,8 +81,8 @@ class BoardTest {
         // when
         // then
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(board.hasPieceAt(Point.of(0, 0))).isTrue();
-            softly.assertThat(board.hasPieceAt(Point.of(0, 1))).isFalse();
+            softly.assertThat(board.hasPieceAt(Point.newInstance(0, 0))).isTrue();
+            softly.assertThat(board.hasPieceAt(Point.newInstance(0, 1))).isFalse();
         });
     }
 
@@ -93,8 +93,8 @@ class BoardTest {
         final Board board = BoardFactory.create();
 
         // when
-        final Position position = board.findPositionBy(Point.of(2, 0));
-        final Point point = Point.of(1, 2);
+        final Position position = board.findPositionBy(Point.newInstance(2, 0));
+        final Point point = Point.newInstance(1, 2);
 
         // then
         assertThatThrownBy(() -> board.move(position, point, OutputView::printCaptureMessage)).isInstanceOf(
@@ -108,8 +108,8 @@ class BoardTest {
         final Board board = BoardFactory.create();
 
         // when
-        final Position position = board.findPositionBy(Point.of(2, 0));
-        final Point point = Point.of(3, 2);
+        final Position position = board.findPositionBy(Point.newInstance(2, 0));
+        final Point point = Point.newInstance(3, 2);
 
         // then
         assertThatCode(
@@ -122,8 +122,8 @@ class BoardTest {
         final Board board = BoardFactory.create();
 
         // when
-        final Position position = board.findPositionBy(Point.of(2, 0));
-        final Point point = Point.of(3, 2);
+        final Position position = board.findPositionBy(Point.newInstance(2, 0));
+        final Point point = Point.newInstance(3, 2);
         board.move(position, point, OutputView::printCaptureMessage);
 
         // then
@@ -134,19 +134,19 @@ class BoardTest {
     void 말이_상대_말을_잡을_수_있다() {
         // given
         final Board board = BoardFactory.create();
-        final Point expectedPoint = Point.of(1, 6);
+        final Point expectedPoint = Point.newInstance(1, 6);
 
         // when
-        final Position position1 = board.findPositionBy(Point.of(2, 3));
-        final Point toPoint1 = Point.of(1, 3);
+        final Position position1 = board.findPositionBy(Point.newInstance(2, 3));
+        final Point toPoint1 = Point.newInstance(1, 3);
         board.move(position1, toPoint1, OutputView::printCaptureMessage);
 
-        final Position position2 = board.findPositionBy(Point.of(2, 6));
-        final Point toPoint2 = Point.of(1, 6);
+        final Position position2 = board.findPositionBy(Point.newInstance(2, 6));
+        final Point toPoint2 = Point.newInstance(1, 6);
         board.move(position2, toPoint2, OutputView::printCaptureMessage);
 
-        final Position position3 = board.findPositionBy(Point.of(1, 2));
-        final Point toPoint3 = Point.of(1, 6);
+        final Position position3 = board.findPositionBy(Point.newInstance(1, 2));
+        final Point toPoint3 = Point.newInstance(1, 6);
         board.move(position3, toPoint3, OutputView::printCaptureMessage);
 
         final Position position = board.findPositionBy(expectedPoint);
@@ -162,15 +162,15 @@ class BoardTest {
     void 포가_포를_잡지_못한다() {
         // given
         final Board board = BoardFactory.create();
-        final Point expectedPoint = Point.of(1, 7);
+        final Point expectedPoint = Point.newInstance(1, 7);
 
         // when
-        final Position position2 = board.findPositionBy(Point.of(0, 3));
-        final Point toPoint2 = Point.of(1, 3);
+        final Position position2 = board.findPositionBy(Point.newInstance(0, 3));
+        final Point toPoint2 = Point.newInstance(1, 3);
         board.move(position2, toPoint2, OutputView::printCaptureMessage);
 
-        final Position position3 = board.findPositionBy(Point.of(1, 7));
-        final Point toPoint3 = Point.of(1, 2);
+        final Position position3 = board.findPositionBy(Point.newInstance(1, 7));
+        final Point toPoint3 = Point.newInstance(1, 2);
         if (board.canMoveOnPath(position3, toPoint3)) {
             board.move(position3, toPoint3, OutputView::printCaptureMessage);
         }
@@ -191,8 +191,8 @@ class BoardTest {
         final Board board = BoardFactory.create();
 
         // when
-        final Position position = board.findPositionBy(Point.of(1, 2));
-        final Point toPoint = Point.of(1, 8);
+        final Position position = board.findPositionBy(Point.newInstance(1, 2));
+        final Point toPoint = Point.newInstance(1, 8);
         if (board.canMoveOnPath(position, toPoint)) {
             board.move(position, toPoint, OutputView::printCaptureMessage);
         }
@@ -210,22 +210,22 @@ class BoardTest {
         final Board board = BoardFactory.create();
 
         // when
-        final Position notCannonPosition = board.findPositionBy(Point.of(2, 3));
-        final Point toPoint1 = Point.of(1, 3);
+        final Position notCannonPosition = board.findPositionBy(Point.newInstance(2, 3));
+        final Point toPoint1 = Point.newInstance(1, 3);
         board.move(notCannonPosition, toPoint1, OutputView::printCaptureMessage);
 
-        final Position position2 = board.findPositionBy(Point.of(2, 6));
-        final Point toPoint2 = Point.of(1, 6);
+        final Position position2 = board.findPositionBy(Point.newInstance(2, 6));
+        final Point toPoint2 = Point.newInstance(1, 6);
         board.move(position2, toPoint2, OutputView::printCaptureMessage);
 
-        final Position cannonPosition = board.findPositionBy(Point.of(1, 2));
-        final Point toPoint3 = Point.of(1, 6);
+        final Position cannonPosition = board.findPositionBy(Point.newInstance(1, 2));
+        final Point toPoint3 = Point.newInstance(1, 6);
         if (board.canMoveOnPath(cannonPosition, toPoint3)) {
             board.move(cannonPosition, toPoint3, OutputView::printCaptureMessage);
         }
 
         // then
-        final Position movedCannonPosition = board.findPositionBy(Point.of(1, 6));
+        final Position movedCannonPosition = board.findPositionBy(Point.newInstance(1, 6));
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(cannonPosition.isSamePieceType(PieceType.CANNON)).isTrue();
             softly.assertThat(notCannonPosition.isSamePieceType(PieceType.CANNON)).isFalse();
@@ -249,7 +249,7 @@ class BoardTest {
 
         // given
         final Board board = new Board(
-                List.of(new Position(Point.of(4, 1), PieceFactory.createGreenTeam(General::new))));
+                List.of(new Position(Point.newInstance(4, 1), PieceFactory.createGreenTeam(General::new))));
 
         // when
         // then
@@ -261,7 +261,7 @@ class BoardTest {
 
         // given
         final Board board = new Board(
-                List.of(new Position(Point.of(4, 1), PieceFactory.createGreenTeam(General::new))));
+                List.of(new Position(Point.newInstance(4, 1), PieceFactory.createGreenTeam(General::new))));
 
         // when
         final Team winTeam = board.determineWinTeam();
@@ -275,7 +275,7 @@ class BoardTest {
 
         // given
         final Board board = new Board(
-                List.of(new Position(Point.of(4, 1), PieceFactory.createRedTeam(General::new))));
+                List.of(new Position(Point.newInstance(4, 1), PieceFactory.createRedTeam(General::new))));
 
         // when
         final Team winTeam = board.determineWinTeam();

@@ -45,12 +45,13 @@ class CannonTest {
         Cannon cannon = PieceFactory.createGreenTeam(Cannon::new);
 
         // when
-        List<Point> possiblePoint = cannon.calculatePossiblePoint(Point.of(1, 2), Point.of(1, 9));
+        List<Point> possiblePoint = cannon.calculatePossiblePoint(Point.newInstance(1, 2), Point.newInstance(1, 9));
 
         // then
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(possiblePoint.size()).isEqualTo(6);
-            softly.assertThat(possiblePoint).contains(Point.of(1, 3), Point.of(1, 5), Point.of(1, 8));
+            softly.assertThat(possiblePoint)
+                    .contains(Point.newInstance(1, 3), Point.newInstance(1, 5), Point.newInstance(1, 8));
         });
     }
 }
