@@ -6,6 +6,11 @@ public enum Direction {
     SOUTH(0, -1),
     NORTH(0, 1),
 
+    EAST_JUMP(2, 0),
+    WEST_JUMP(-2, 0),
+    SOUTH_JUMP(0, -2),
+    NORTH_JUMP(0, 2),
+
     NORTH_EAST(1, 1),
     SOUTH_EAST(1, -1),
     SOUTH_WEST(-1, -1),
@@ -31,4 +36,5 @@ public enum Direction {
     public int column() {
         return column;
     }
+
 }

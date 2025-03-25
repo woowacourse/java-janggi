@@ -3,16 +3,6 @@ package piece.jumpingPiece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static piece.Team.CHO;
 import static piece.Team.HAN;
-import static position.PositionFixtures.C5;
-import static position.PositionFixtures.D5;
-import static position.PositionFixtures.E0;
-import static position.PositionFixtures.E1;
-import static position.PositionFixtures.E2;
-import static position.PositionFixtures.E3;
-import static position.PositionFixtures.E4;
-import static position.PositionFixtures.E6;
-import static position.PositionFixtures.F5;
-import static position.PositionFixtures.G5;
 import static position.PositionFixtures.H0;
 import static position.PositionFixtures.H2;
 import static position.PositionFixtures.H3;
@@ -22,7 +12,6 @@ import static position.PositionFixtures.H6;
 import static position.PositionFixtures.H7;
 import static position.PositionFixtures.H8;
 import static position.PositionFixtures.H9;
-import static position.PositionFixtures.I5;
 
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +20,6 @@ import piece.Piece;
 import piece.normalPiece.Horse;
 import position.Board;
 import position.Position;
-import route.Routes;
 
 public class CannonTest {
 

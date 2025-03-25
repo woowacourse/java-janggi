@@ -47,4 +47,8 @@ public final class Board {
         System.out.println("get(target).type() = " + get(target).type());
         return get(target).type() == PieceType.CANNON;
     }
+
+    public boolean hasPiece(Position target) {
+        return get(target).type() != PieceType.BLANK;
+    }
 }

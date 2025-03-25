@@ -27,6 +27,16 @@ public final class Position {
         return false;
     }
 
+    public boolean canMove(Route route, Board board) {
+        for (Direction direction : route.route()) {
+            if(!canMove(direction, board)){
+                return false;
+            }
+            move(direction);
+        }
+        return true;
+    }
+
     public Position move(Direction direction) {
         return new Position(column.move(direction.column()), row.move(direction.row()));
     }
@@ -59,4 +69,5 @@ public final class Position {
         System.out.print("    column = " + column);
         System.out.println();
     }
+
 }
