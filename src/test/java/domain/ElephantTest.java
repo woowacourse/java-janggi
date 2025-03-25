@@ -5,6 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.piece.Elephant;
 import domain.piece.PieceFactory;
 import domain.position.Distance;
+import domain.position.Point;
+import java.util.List;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -27,12 +31,29 @@ class ElephantTest {
     void 말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, final boolean expected) {
 
         // given
-        Elephant elephant = PieceFactory.createRedTeam(Elephant::new);
+        final Elephant elephant = PieceFactory.createRedTeam(Elephant::new);
 
         // when
-        Distance distance = new Distance(x, y);
+        final Distance distance = new Distance(x, y);
 
         // then
         assertThat(elephant.isMovable(distance)).isEqualTo(expected);
+    }
+
+    @Test
+    void 말의_이동_가능_경로_모두_반환() {
+
+        // given
+        final Elephant elephant = PieceFactory.createGreenTeam(Elephant::new);
+
+        // when
+        final List<Point> possiblePoint = elephant.calculatePossiblePoint(Point.of(1, 0), Point.of(3, 3));
+
+        // then
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(possiblePoint.size()).isEqualTo(2);
+            softly.assertThat(possiblePoint.getFirst()).isEqualTo(Point.of(1, 1));
+            softly.assertThat(possiblePoint.getLast()).isEqualTo(Point.of(2, 2));
+        });
     }
 }
