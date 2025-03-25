@@ -34,9 +34,7 @@ public class JanggiController {
             nowTurn = nowTurn.getOppositeSide();
         }
 
-        outputView.printWinningMessage(nowTurn);
-        outputView.printScore(JanggiSide.CHO, board.getRemainingPiecesTotalScore(JanggiSide.CHO));
-        outputView.printScore(JanggiSide.HAN, board.getRemainingPiecesTotalScore(JanggiSide.HAN));
+        printResult(nowTurn, board);
     }
 
     private JanggiBoard initializeJanggiBoard() {
@@ -58,5 +56,11 @@ public class JanggiController {
             }
             board.movePiece(origin, destination);
         } , OutputView::printErrorMessage);
+    }
+
+    private void printResult(JanggiSide nowTurn, JanggiBoard board) {
+        outputView.printWinningMessage(nowTurn);
+        outputView.printScore(JanggiSide.CHO, board.getRemainingPiecesTotalScore(JanggiSide.CHO));
+        outputView.printScore(JanggiSide.HAN, board.getRemainingPiecesTotalScore(JanggiSide.HAN));
     }
 }
