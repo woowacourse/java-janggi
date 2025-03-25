@@ -23,16 +23,15 @@ public enum FourDirection {
         int dx = Integer.compare(destination.x(), position.x());
         int dy = Integer.compare(destination.y(), position.y());
         FourDirection fourDirection = findDirection(dx, dy);
-        //그 방향에 대한 리스트만 만들어서 반환
+
         return generatePositions(position, destination, fourDirection.relativePosition);
     }
 
-    //방향이 정해지고
     private static FourDirection findDirection(int dx, int dy) {
         return Arrays.stream(values())
                 .filter(direction -> direction.relativePosition.x() == dx && direction.relativePosition.y() == dy)
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 이동 가능한 방향이 없습니다."));
     }
 
     private static List<JanggiPosition> generatePositions(JanggiPosition start, JanggiPosition end, RelativePosition step) {

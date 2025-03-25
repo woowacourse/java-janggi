@@ -167,7 +167,7 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard(AssignType.IN_SANG, AssignType.IN_SANG);
         List<Piece> choPieces = janggiBoard.getChoPieces();
         //when
-        janggiBoard.startChoTurn(targetJanggiPosition, destination);
+        janggiBoard.startTurn(targetJanggiPosition, destination, CampType.CHO);
         List<Piece> pieces = choPieces.stream().filter(piece -> piece.getPieceType() == PieceType.GUNG).toList();
         Piece gung = pieces.getFirst();
 
@@ -185,7 +185,7 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard(AssignType.IN_SANG, AssignType.IN_SANG);
         List<Piece> hanPieces = janggiBoard.getHanPieces();
         //when
-        janggiBoard.startHanTurn(targetJanggiPosition, destination);
+        janggiBoard.startTurn(targetJanggiPosition, destination, CampType.HAN);
         List<Piece> pieces = hanPieces.stream().filter(piece -> piece.getPieceType() == PieceType.GUNG).toList();
         Piece gung = pieces.getFirst();
 

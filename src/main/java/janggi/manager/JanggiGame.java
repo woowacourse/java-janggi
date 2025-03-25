@@ -29,65 +29,34 @@ public class JanggiGame {
 
         // TODO: 현재 단계에서는 종료조건 없음, 2단계에서 승패 구현할때 구현 예정
         for (int i = 0; i < 10; i++) {
-            playCho(janggiBoard);
-            playHan(janggiBoard);
+            playTurn(janggiBoard, CampType.CHO);
+            playTurn(janggiBoard, CampType.HAN);
         }
     }
 
-    private void playCho(final JanggiBoard janggiBoard) {
-        outputView.writeTurn(CampType.CHO);
+    private void playTurn(final JanggiBoard janggiBoard, final CampType campType) {
+        outputView.writeTurn(campType);
 
-        while (true) {
-            try {
-                JanggiPosition movedPieceJanggiPosition = findMovedPieceJanggiPosition();
-                JanggiPosition destination = findDestinationJanggiPosition();
-
-                janggiBoard.startChoTurn(movedPieceJanggiPosition, destination);
-
-                outputView.writeJanggiBoard(janggiBoard.getChoPieces(), janggiBoard.getHanPieces());
-                break;
-            } catch (IllegalArgumentException illegalArgumentException) {
-                outputView.writeErrorMessage(illegalArgumentException.getMessage());
-            }
+        boolean isValid = false;
+        while (!isValid) {
+            isValid = handleMoveException(() -> {
+                JanggiPosition movedPieceJanggiPosition = inputView.readMovedPiecePosition();
+                JanggiPosition destination = inputView.readDestinationPosition();
+                janggiBoard.startTurn(movedPieceJanggiPosition, destination, campType);
+            });
         }
+
+        outputView.writeJanggiBoard(janggiBoard.getChoPieces(), janggiBoard.getHanPieces());
     }
 
-    private void playHan(final JanggiBoard janggiBoard) {
-        outputView.writeTurn(CampType.HAN);
-
-        while (true) {
-            try {
-                JanggiPosition movedPieceJanggiPosition = findMovedPieceJanggiPosition();
-                JanggiPosition destination = findDestinationJanggiPosition();
-
-                janggiBoard.startHanTurn(movedPieceJanggiPosition, destination);
-
-                outputView.writeJanggiBoard(janggiBoard.getChoPieces(), janggiBoard.getHanPieces());
-                break;
-            } catch (IllegalArgumentException illegalArgumentException) {
-                outputView.writeErrorMessage(illegalArgumentException.getMessage());
-            }
+    private boolean handleMoveException(Runnable action) {
+        try {
+            action.run();
+            return true;
+        } catch (IllegalArgumentException e) {
+            outputView.writeErrorMessage(e.getMessage());
+            return false;
         }
     }
-
-    private JanggiPosition findMovedPieceJanggiPosition() {
-        while (true) {
-            try {
-                return inputView.readMovedPiecePosition();
-            } catch (IllegalArgumentException illegalArgumentException) {
-                outputView.writeErrorMessage(illegalArgumentException.getMessage());
-            }
-        }
-    }
-
-    private JanggiPosition findDestinationJanggiPosition() {
-        while (true) {
-            try {
-                return inputView.readDestinationPosition();
-            } catch (IllegalArgumentException illegalArgumentException) {
-                outputView.writeErrorMessage(illegalArgumentException.getMessage());
-            }
-        }
-    }
-
 }
+

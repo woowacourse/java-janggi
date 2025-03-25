@@ -17,11 +17,11 @@ public class JanggiBoard {
         this.hanPieces = new Pieces(hanAssignType.makeAssign(CampType.HAN));
     }
 
-    public void startChoTurn(final JanggiPosition targetJanggiPosition, final JanggiPosition destination) {
-        choPieces.movePiece(hanPieces, targetJanggiPosition, destination);
-    }
-
-    public void startHanTurn(final JanggiPosition targetJanggiPosition, final JanggiPosition destination) {
+    public void startTurn(final JanggiPosition targetJanggiPosition, final JanggiPosition destination, final CampType campType) {
+        if (campType == CampType.CHO) {
+            choPieces.movePiece(hanPieces, targetJanggiPosition, destination);
+            return;
+        }
         hanPieces.movePiece(choPieces, targetJanggiPosition, destination);
     }
 
@@ -33,3 +33,4 @@ public class JanggiBoard {
         return hanPieces.getPieces();
     }
 }
+
