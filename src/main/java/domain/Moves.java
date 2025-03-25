@@ -1,6 +1,5 @@
-package domain.piece;
+package domain;
 
-import domain.Position;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

@@ -1,6 +1,5 @@
 package domain;
 
-import domain.piece.Move;
 import java.util.Objects;
 
 public class Position {

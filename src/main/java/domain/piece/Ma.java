@@ -1,5 +1,7 @@
 package domain.piece;
 
+import domain.Move;
+import domain.Moves;
 import domain.Position;
 import domain.Team;
 import java.util.List;
