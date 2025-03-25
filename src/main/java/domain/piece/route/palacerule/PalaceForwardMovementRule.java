@@ -2,6 +2,7 @@ package domain.piece.route.palacerule;
 
 import domain.MovingPattern;
 import domain.position.JanggiPosition;
+import janggiexception.InvalidPathException;
 import java.util.List;
 
 public class PalaceForwardMovementRule implements PalaceMovementRule {
@@ -16,7 +17,7 @@ public class PalaceForwardMovementRule implements PalaceMovementRule {
 
     private void checkDiagonalMovable(JanggiPosition beforePosition, JanggiPosition afterPosition) {
         if (!(beforePosition.isDiagonalMovablePalace() && afterPosition.isDiagonalMovablePalace())) {
-            throw new IllegalStateException("해당 위치에서는 대각선으로 이동할 수 없습니다.");
+            throw new InvalidPathException();
         }
     }
 }

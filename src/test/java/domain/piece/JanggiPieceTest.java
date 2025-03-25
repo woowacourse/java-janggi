@@ -267,15 +267,21 @@ public class JanggiPieceTest {
             );
         }
 
-        @Test
-        void 병이_이동할_수_없는_경로면_예외를_발생시킨다() {
-            // given
-            JanggiPosition beforePosition = new JanggiPosition(7, 5);
-            JanggiPosition afterPosition = new JanggiPosition(6, 5);
-
+        @ParameterizedTest
+        @MethodSource("provideInvalid병Path")
+        void 병이_이동할_수_없는_경로면_예외를_발생시킨다(JanggiPosition origin, JanggiPosition destination) {
             // when & then
-            assertThatThrownBy(() -> HAN_병.getRoute(beforePosition, afterPosition))
+            assertThatThrownBy(() -> HAN_병.getRoute(origin, destination))
                     .isInstanceOf(InvalidPathException.class);
+        }
+
+        private static Stream<Arguments> provideInvalid병Path() {
+            return Stream.of(
+                    Arguments.of(new JanggiPosition(7, 5), new JanggiPosition(6, 5)),
+                    Arguments.of(new JanggiPosition(8, 5), new JanggiPosition(9, 6)),
+                    Arguments.of(new JanggiPosition(4, 5), new JanggiPosition(5, 6)),
+                    Arguments.of(new JanggiPosition(9, 5), new JanggiPosition(8, 5))
+            );
         }
 
         @Test
@@ -539,20 +545,21 @@ public class JanggiPieceTest {
             );
         }
 
-        @Test
-        void 졸이_이동할_수_없는_경로면_예외를_발생시킨다() {
-            // given
-            int beforeRow = 7;
-            int beforeColumn = 5;
-            JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-
-            int afterRow = 8;
-            int afterColumn = 5;
-            JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
-
+        @ParameterizedTest
+        @MethodSource("provideInvalid졸Path")
+        void 졸이_이동할_수_없는_경로면_예외를_발생시킨다(JanggiPosition origin, JanggiPosition destination) {
             // when & then
-            assertThatThrownBy(() -> CHO_졸.getRoute(beforePosition, afterPosition))
+            assertThatThrownBy(() -> CHO_졸.getRoute(origin, destination))
                     .isInstanceOf(InvalidPathException.class);
+        }
+
+        private static Stream<Arguments> provideInvalid졸Path() {
+            return Stream.of(
+                    Arguments.of(new JanggiPosition(3, 5), new JanggiPosition(4, 5)),
+                    Arguments.of(new JanggiPosition(3, 5), new JanggiPosition(2, 6)),
+                    Arguments.of(new JanggiPosition(2, 5), new JanggiPosition(3, 4)),
+                    Arguments.of(new JanggiPosition(7, 5), new JanggiPosition(6, 4))
+            );
         }
 
         @Test
@@ -581,7 +588,7 @@ public class JanggiPieceTest {
         }
 
         @Test
-        void 궁성_내부에서는_대각선으로_이동할_수_있다() {
+        void 궁성_내부에서는_대각선으로_전진할_수_있다() {
             // given
             JanggiPosition beforePosition = new JanggiPosition(3, 6);
             JanggiPosition afterPosition = new JanggiPosition(2, 5);
@@ -637,20 +644,20 @@ public class JanggiPieceTest {
                             )));
         }
 
-        @Test
-        void 차가_이동할_수_없는_경로면_예외를_발생시킨다() {
-            // given
-            int beforeRow = 0;
-            int beforeColumn = 1;
-            JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-
-            int afterRow = 9;
-            int afterColumn = 2;
-            JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
-
+        @ParameterizedTest
+        @MethodSource("provideInvalid차Path")
+        void 차가_이동할_수_없는_경로면_예외를_발생시킨다(JanggiPosition origin, JanggiPosition destination) {
             // when & then
-            assertThatThrownBy(() -> CHO_차.getRoute(beforePosition, afterPosition))
+            assertThatThrownBy(() -> CHO_차.getRoute(origin, destination))
                     .isInstanceOf(InvalidPathException.class);
+        }
+
+        private static Stream<Arguments> provideInvalid차Path() {
+            return Stream.of(
+                    Arguments.of(new JanggiPosition(0, 1), new JanggiPosition(9, 2)),
+                    Arguments.of(new JanggiPosition(9, 4), new JanggiPosition(0, 5)),
+                    Arguments.of(new JanggiPosition(0, 1), new JanggiPosition(8, 2))
+            );
         }
 
         @Test
@@ -826,20 +833,20 @@ public class JanggiPieceTest {
                     ));
         }
 
-        @Test
-        void 포가_이동할_수_없는_경로면_예외를_발생시킨다() {
-            // given
-            int beforeRow = 0;
-            int beforeColumn = 1;
-            JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-
-            int afterRow = 9;
-            int afterColumn = 2;
-            JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
-
+        @ParameterizedTest
+        @MethodSource("provideInvalid포Path")
+        void 포가_이동할_수_없는_경로면_예외를_발생시킨다(JanggiPosition origin, JanggiPosition destination) {
             // when & then
-            assertThatThrownBy(() -> CHO_포.getRoute(beforePosition, afterPosition))
+            assertThatThrownBy(() -> CHO_포.getRoute(origin, destination))
                     .isInstanceOf(InvalidPathException.class);
+        }
+
+        private static Stream<Arguments> provideInvalid포Path() {
+            return Stream.of(
+                    Arguments.of(new JanggiPosition(0, 1), new JanggiPosition(8, 3)),
+                    Arguments.of(new JanggiPosition(7, 3), new JanggiPosition(5, 4)),
+                    Arguments.of(new JanggiPosition(9, 4), new JanggiPosition(0, 5))
+            );
         }
 
         @Test
