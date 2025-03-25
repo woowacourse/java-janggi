@@ -69,7 +69,7 @@ public class Cannon extends Piece {
         }
     }
 
-    private static void isCannonOnMovement(final Map<Position, Piece> pieces, final Position position) {
+    private void isCannonOnMovement(final Map<Position, Piece> pieces, final Position position) {
         if (pieces.get(position) instanceof Cannon) {
             throw new IllegalArgumentException("불가능한 이동입니다");
         }
