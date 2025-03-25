@@ -47,17 +47,20 @@ public class JanggiController {
     }
 
     private void playTurn(JanggiGame janggiGame, PlayingBoard playingBoard) {
-        outputView.printTurnNotice(janggiGame.getTurnColor());
+        MoveCommandDto command = readMoveCommand(janggiGame.getTurnColor());
 
-        MoveCommandDto command = inputView.readMoveCommand();
         Position source = createPosition(command.sourceRow(), command.sourceCol());
         Position destination = createPosition(command.destinationRow(), command.destinationCol());
-        String pieceNameInput = command.pieceName();
-        PieceType pieceType = PieceTypeName.getTypeFrom(pieceNameInput);
+        PieceType pieceType = PieceTypeName.getTypeFrom(command.pieceName());
 
         janggiGame.move(pieceType, source, destination);
 
         outputView.printBoard(playingBoard);
+    }
+
+    private MoveCommandDto readMoveCommand(PieceColor turnColor) {
+        outputView.printTurnNotice(turnColor);
+        return inputView.readMoveCommand();
     }
 
     private static Position createPosition(char rowInput, char colInput) {
