@@ -36,7 +36,7 @@ class PositionTest {
         Position opposite = new Position(2, 2);
 
         // when
-        boolean b = position.isHorizontal(opposite);
+        boolean b = position.isStraightLine(opposite);
 
         // then
         Assertions.assertThat(b).isTrue();
@@ -55,7 +55,7 @@ class PositionTest {
         Position opposite = new Position(2, 2);
 
         // when
-        boolean b = position.isHorizontal(opposite);
+        boolean b = position.isStraightLine(opposite);
 
         // then
         Assertions.assertThat(b).isFalse();

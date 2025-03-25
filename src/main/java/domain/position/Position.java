@@ -35,7 +35,7 @@ public class Position {
         }
     }
 
-    public boolean isHorizontal(Position opposite) {
+    public boolean isStraightLine(Position opposite) {
         return (this.x == opposite.x || this.y == opposite.y);
     }
 
