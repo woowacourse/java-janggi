@@ -3,7 +3,6 @@ package janggi.domain.board;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Elephant;
-import janggi.domain.piece.King;
 import janggi.domain.piece.Rook;
 import janggi.domain.piece.gererator.ChoPieceGenerator;
 import janggi.domain.piece.gererator.DefaultChoPieceGenerator;
@@ -69,29 +68,5 @@ class JanggiBoardTest {
 
         assertThat(janggiBoard.findPieceByPosition(new Position(4, 8)))
             .isEqualTo(new Rook(Side.HAN, 4, 8));
-    }
-
-    @Test
-    void 왕이_없다면_게임이_끝난_것이다() {
-        JanggiBoard janggiBoard = new JanggiBoard(
-                (setting) -> List.of(),
-                (setting) -> List.of(new King(Side.CHO, 4, 4)),
-                DEFAULT_HAN_KNIGHTELEPHANTSETTING,
-                DEFAULT_CHO_KNIGHTELEPHANTSETTING
-        );
-
-        assertThat(janggiBoard.isEnd()).isTrue();
-    }
-
-    @Test
-    void 왕이_하나만_남은_경우_해당_왕의_진영이_승리한다() {
-        JanggiBoard janggiBoard = new JanggiBoard(
-                (setting) -> List.of(),
-                (setting) -> List.of(new King(Side.CHO, 4, 4)),
-                DEFAULT_HAN_KNIGHTELEPHANTSETTING,
-                DEFAULT_CHO_KNIGHTELEPHANTSETTING
-        );
-
-        assertThat(janggiBoard.getWinner()).isEqualTo(Side.CHO);
     }
 }

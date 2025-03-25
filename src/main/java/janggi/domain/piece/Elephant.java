@@ -17,29 +17,21 @@ public class Elephant extends Piece {
     private static final int HORIZONTAL_BASE_Y_MOVEABLE_DISTANCE = 2;
 
     private static final List<Offset> UP_RIGHT_PATH = List.of(
-        new Offset(0, 1), new Offset(1, 2), new Offset(2, 3)
-    );
+        new Offset(0, 1), new Offset(1, 2), new Offset(2, 3));
     private static final List<Offset> UP_LEFT_PATH = List.of(
-        new Offset(0, 1), new Offset(-1, 2), new Offset(-2, 3)
-    );
+        new Offset(0, 1), new Offset(-1, 2), new Offset(-2, 3));
     private static final List<Offset> DOWN_RIGHT_PATH = List.of(
-        new Offset(0, -1), new Offset(1, -2), new Offset(2, -3)
-    );
+        new Offset(0, -1), new Offset(1, -2), new Offset(2, -3));
     private static final List<Offset> DOWN_LEFT_PATH = List.of(
-        new Offset(0, -1), new Offset(-1, -2), new Offset(-2, -3)
-    );
+        new Offset(0, -1), new Offset(-1, -2), new Offset(-2, -3));
     private static final List<Offset> RIGHT_UP_PATH = List.of(
-        new Offset(1, 0), new Offset(2, 1), new Offset(3, 2)
-    );
+        new Offset(1, 0), new Offset(2, 1), new Offset(3, 2));
     private static final List<Offset> RIGHT_DOWN_PATH = List.of(
-        new Offset(1, 0), new Offset(2, -1), new Offset(3, -2)
-    );
+        new Offset(1, 0), new Offset(2, -1), new Offset(3, -2));
     private static final List<Offset> LEFT_UP_PATH = List.of(
-        new Offset(-1, 0), new Offset(-2, 1), new Offset(-3, 2)
-    );
+        new Offset(-1, 0), new Offset(-2, 1), new Offset(-3, 2));
     private static final List<Offset> LEFT_DOWN_PATH = List.of(
-        new Offset(-1, 0), new Offset(-2, -1), new Offset(-3, -2)
-    );
+        new Offset(-1, 0), new Offset(-2, -1), new Offset(-3, -2));
 
     public Elephant(Side side, int x, int y) {
         super(side, x, y);
