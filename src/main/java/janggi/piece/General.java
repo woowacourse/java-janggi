@@ -1,7 +1,7 @@
 package janggi.piece;
 
-import janggi.board.point.Point;
 import janggi.board.Board;
+import janggi.board.point.Point;
 
 public final class General extends Piece {
 

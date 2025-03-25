@@ -1,7 +1,7 @@
 package janggi.piece;
 
-import janggi.board.point.Point;
 import janggi.board.Board;
+import janggi.board.point.Point;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiFunction;

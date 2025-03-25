@@ -1,7 +1,7 @@
 package janggi.view;
 
-import janggi.piece.Camp;
 import janggi.board.point.Point;
+import janggi.piece.Camp;
 import janggi.piece.Piece;
 import janggi.piece.PieceSymbol;
 import java.util.Map;
