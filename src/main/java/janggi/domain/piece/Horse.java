@@ -69,7 +69,7 @@ public class Horse extends Piece {
         );
         Position routePosition = getPosition().plus(horseMovement.getRouteDistance().x(),
                 horseMovement.getRouteDistance().y());
-        if (None.isNotNone(pieces.get(routePosition))) {
+        if (pieces.get(routePosition).isNotNone()) {
             throw new IllegalArgumentException("불가능한 이동입니다.");
         }
     }

@@ -49,7 +49,7 @@ public class Chariot extends Piece {
 
         for (Position position = getPosition().plus(movement.x(), movement.y()); !position.equals(positionToMove); position = position.plus(
                 movement.x(), movement.y())) {
-            if (None.isNotNone(pieces.get(position))) {
+            if (pieces.get(position).isNotNone()) {
                 throw new IllegalArgumentException("불가능한 이동입니다");
             }
         }

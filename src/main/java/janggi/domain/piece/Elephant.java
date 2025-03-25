@@ -70,7 +70,7 @@ public class Elephant extends Piece {
 
         boolean hasPieceOnRoutes = elephantMovement.getRouteDistances().stream()
                 .map(routeDistance -> getPosition().plus(routeDistance.x(), routeDistance.y()))
-                .anyMatch(position -> None.isNotNone(pieces.get(position)));
+                .anyMatch(position -> pieces.get(position).isNotNone());
 
         if (hasPieceOnRoutes) {
             throw new IllegalArgumentException("불가능한 이동입니다.");

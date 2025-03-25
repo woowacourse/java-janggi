@@ -59,7 +59,7 @@ public class Cannon extends Piece {
              position = position.plus(movement.x(), movement.y())
         ) {
             isCannonOnMovement(pieces, position);
-            if (None.isNotNone(pieces.get(position))) {
+            if (pieces.get(position).isNotNone()) {
                 count++;
             }
         }

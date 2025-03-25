@@ -25,5 +25,13 @@ public abstract class Piece {
         return team;
     }
 
+    public boolean isNone() {
+        return false;
+    }
+
+    public boolean isNotNone() {
+        return !isNone();
+    }
+
     public abstract Piece move(final Map<Position, Piece> pieces, final Position positionToMove);
 }

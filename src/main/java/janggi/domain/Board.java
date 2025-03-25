@@ -31,7 +31,7 @@ public class Board {
 
     private void validateMove(Position beforePosition, Position afterPosition) {
         Piece piece = pieces.get(beforePosition);
-        if (None.checkIsNone(piece)) {
+        if (piece.isNone()) {
             throw new IllegalArgumentException("위치에 이동시킬 기물이 존재하지 않습니다.");
         }
         Piece other = pieces.get(afterPosition);
