@@ -1,6 +1,5 @@
 package domain.unit.rule;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.position.Position;
@@ -9,18 +8,18 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class HorseUnitRuleTest {
+class ElephantUnitRuleTest {
 
     @Test
-    @DisplayName("말")
-    void test1() {
+    @DisplayName("코끼리가 이동 가능한 루트를 계산한다.")
+    void test2() {
         // given
-        HorseUnitRule horseUnitRule = new HorseUnitRule();
+        ElephantUnitRule elephantUnitRule = new ElephantUnitRule();
 
         // when
-        List<Route> routes = horseUnitRule.calculateAllRoute(Position.of(2, 9));
+        List<Route> routes = elephantUnitRule.calculateAllRoute(Position.of(1, 9));
 
         // then
-        assertThat(routes).hasSize(4);
+        assertThat(routes).hasSize(2);
     }
 }

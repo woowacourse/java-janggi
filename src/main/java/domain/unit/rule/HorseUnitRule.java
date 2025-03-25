@@ -17,7 +17,7 @@ public class HorseUnitRule implements UnitRule {
         return routes;
     }
 
-    public void dfs(int depth, Direction before, List<Point> route, Point prevPoint, List<Route> routes) {
+    private void dfs(int depth, Direction before, List<Point> route, Point prevPoint, List<Route> routes) {
         if (depth == 2) {
             if (route.stream().allMatch(Position::isCanBePosition)) {
                 routes.add(Route.of(route.stream().map(Position::from).toList()));
