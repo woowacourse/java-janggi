@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.board.Direction;
+import janggi.board.JanggiBoard;
 import janggi.board.Position;
 import janggi.board.Route;
 import java.util.List;
@@ -16,6 +17,8 @@ public abstract class Piece {
     }
 
     public abstract List<Route> computeCandidatePositions(final Position position);
+
+    public abstract List<Position> filterReachableDestinations(final List<Route> candidateRoutes, final JanggiBoard board);
 
     public abstract String getSymbol();
 

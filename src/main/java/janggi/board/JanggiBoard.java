@@ -1,8 +1,9 @@
 package janggi.board;
 
-import janggi.piece.*;
-
-import java.util.ArrayList;
+import janggi.piece.Cannon;
+import janggi.piece.Empty;
+import janggi.piece.King;
+import janggi.piece.Piece;
 import java.util.List;
 import java.util.Map;
 
@@ -27,13 +28,14 @@ public class JanggiBoard {
         validatePositionHasPiece(piece);
 
         List<Route> candidatesRoutes = piece.computeCandidatePositions(position);
-        List<Position> reachableDestinations = filterReachableDestinations(piece, candidatesRoutes);
+        List<Position> reachableDestinations = piece.filterReachableDestinations(candidatesRoutes, this);
 
         validateReachableDestinations(reachableDestinations);
         return reachableDestinations;
     }
 
-    public Piece moveOrCatchPiece(final Position selectedPiecePosition, final Position destination, final List<Position> reachableDestinations) {
+    public Piece moveOrCatchPiece(final Position selectedPiecePosition, final Position destination,
+                                  final List<Position> reachableDestinations) {
         validateExistSelectedDestination(destination, reachableDestinations);
         Piece seletedPiece = board.get(selectedPiecePosition);
         board.put(selectedPiecePosition, new Empty());
@@ -48,115 +50,25 @@ public class JanggiBoard {
         return catchedPiece instanceof King;
     }
 
-    private List<Position> filterReachableDestinations(final Piece piece, final List<Route> candidatesRoutes) {
-        if (piece instanceof Chariot) {
-            return filterReachableDestinationsChariot(candidatesRoutes, piece);
-        }
-        if (piece instanceof Cannon) {
-            return filterReachableDestinationsCannon(candidatesRoutes, piece);
-        }
-        return filterReachableDestinationsNormal(candidatesRoutes, piece);
+    public boolean isPositionCannon(final Position position) {
+        return findPieceBy(position) instanceof Cannon;
     }
 
-    private List<Position> filterReachableDestinationsChariot(final List<Route> routes, final Piece piece) {
-        List<Position> reachablePositions = new ArrayList<>();
-        for (Route route : routes) {
-            List<Position> positions = route.getPositions();
-            addValidDestination(piece, positions, reachablePositions);
-        }
-        return reachablePositions;
+    public boolean isOutOfRange(final Position position) {
+        return position.isOutOfRange(X_LIMIT, Y_LIMIT);
     }
 
-    private List<Position> filterReachableDestinationsCannon(final List<Route> routes, final Piece piece) {
-        List<Position> reachablePositions = new ArrayList<>();
-        for (Route route : routes) {
-            List<Position> positions = route.getPositions();
-            addValidDestinationForCannon(piece, positions, reachablePositions);
-        }
-        return reachablePositions;
+    public boolean isPositionHasPiece(final Position position) {
+        return !isPositionEmpty(position);
     }
 
-    private List<Position> filterReachableDestinationsNormal(final List<Route> routes, final Piece piece) {
-        List<Position> reachablePositions = new ArrayList<>();
-        for (Route route : routes) {
-            Position destination = route.getDestination();
-            if (isInvalidRoute(piece, route, destination)) continue;
-            reachablePositions.add(destination);
-        }
-        return reachablePositions;
-    }
-
-    private boolean isInvalidRoute(final Piece piece, final Route route, final Position destination) {
-        if (destination.isOutOfRange(X_LIMIT, Y_LIMIT)) {
-            return true;
-        }
-        if (checkInvalidIntermediatePositions(route)) {
-            return true;
-        }
-        return piece.isAllyWith(board.get(destination));
-    }
-
-    private boolean checkInvalidIntermediatePositions(final Route route) {
+    public boolean checkInvalidIntermediatePositions(final Route route) {
         return route.getIntermediatePositions().stream()
                 .anyMatch(this::isPositionHasPiece);
     }
 
-    private void addValidDestination(final Piece piece, final List<Position> positions, final List<Position> reachablePositions) {
-        for (Position position : positions) {
-            if (isBoundPosition(piece, position, reachablePositions)) break;
-            reachablePositions.add(position);
-        }
-    }
-
-    private boolean isBoundPosition(final Piece piece, final Position position, final List<Position> reachablePositions) {
-        if (position.isOutOfRange(X_LIMIT, Y_LIMIT) || piece.isAllyWith(board.get(position))) {
-            return true;
-        }
-        if (isPositionHasPiece(position) && piece.isEnemyWith(board.get(position))) {
-            reachablePositions.add(position);
-            return true;
-        }
-        return false;
-    }
-
-    private void addValidDestinationForCannon(final Piece piece, final List<Position> positions, final List<Position> reachablePositions) {
-        boolean hasJumped = false;
-        for (Position position : positions) {
-            if (position.isOutOfRange(X_LIMIT, Y_LIMIT) || isPositionCannon(position)) break;
-            if (!hasJumped && updateJumpState(position)) {
-                hasJumped = true;
-                continue;
-            }
-
-            if (hasJumped && processJumpedPosition(piece, reachablePositions, position)) break;
-        }
-    }
-
-    private boolean updateJumpState(final Position position) {
-        return isPositionHasPiece(position);
-    }
-
-    private boolean processJumpedPosition(final Piece piece, final List<Position> reachablePositions, final Position position) {
-        if (isPositionHasPiece(position)) {
-            addValidDestinationIfEnemy(piece, reachablePositions, position);
-            return true;
-        }
-        reachablePositions.add(position);
-        return false;
-    }
-
-    private void addValidDestinationIfEnemy(final Piece piece, final List<Position> reachablePositions, final Position position) {
-        if (piece.isEnemyWith(board.get(position))) {
-            reachablePositions.add(position);
-        }
-    }
-
-    private boolean isPositionHasPiece(final Position position) {
-        return !isPositionEmpty(position);
-    }
-
-    private boolean isPositionCannon(final Position position) {
-        return board.get(position) instanceof Cannon;
+    public Piece findPieceBy(final Position position) {
+        return board.get(position);
     }
 
     private boolean isPositionEmpty(final Position position) {
@@ -175,7 +87,8 @@ public class JanggiBoard {
         }
     }
 
-    private void validateExistSelectedDestination(final Position destination, final List<Position> reachableDestinations) {
+    private void validateExistSelectedDestination(final Position destination,
+                                                  final List<Position> reachableDestinations) {
         if (!reachableDestinations.contains(destination)) {
             throw new IllegalArgumentException("[ERROR] 선택한 목적지로 이동할 수 없습니다.");
         }

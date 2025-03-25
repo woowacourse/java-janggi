@@ -1,8 +1,10 @@
 package janggi.piece;
 
 import janggi.board.Direction;
+import janggi.board.JanggiBoard;
 import janggi.board.Position;
 import janggi.board.Route;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Soldier extends Piece {
@@ -19,6 +21,25 @@ public class Soldier extends Piece {
             return computeAndExcludeInvalidRoute(position, Direction.DOWN);
         }
         return computeAndExcludeInvalidRoute(position, Direction.UP);
+    }
+
+    @Override
+    public List<Position> filterReachableDestinations(final List<Route> candidateRoutes, final JanggiBoard board) {
+        List<Position> reachablePositions = new ArrayList<>();
+        for (Route route : candidateRoutes) {
+            Position destination = route.getDestination();
+            if (board.isOutOfRange(destination)) {
+                continue;
+            }
+            if (board.checkInvalidIntermediatePositions(route)) {
+                continue;
+            }
+            if (isAllyWith(board.findPieceBy(destination))) {
+                continue;
+            }
+            reachablePositions.add(destination);
+        }
+        return reachablePositions;
     }
 
     @Override
