@@ -21,7 +21,7 @@ public class HorseUnitRule implements UnitRule {
             }
             return;
         }
-        for (Direction direction : before.getNext()) {
+        for (Direction direction : before.getNextWithDiagonal()) {
             Point next = Point.of(prevPoint.getX() + direction.getX(), prevPoint.getY() + direction.getY());
             route.add(next);
             dfs(depth + 1, direction, route, next, routes);

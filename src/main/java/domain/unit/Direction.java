@@ -30,7 +30,7 @@ public enum Direction {
         return List.of(UPPER_RIGHT, UNDER_RIGHT, UNDER_LEFT, UPPER_LEFT);
     }
 
-    public List<Direction> getNext() {
+    public List<Direction> getNextWithDiagonal() {
         if (this == NONE) {
             return List.of(UPPER, UNDER, LEFT, RIGHT);
         }
