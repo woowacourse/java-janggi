@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.common.ErrorMessage;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.behavior.General;
+import janggi.domain.piece.behavior.palace.General;
 import janggi.domain.piece.behavior.Soldier;
 import janggi.factory.PieceInitFactory;
 import janggi.factory.masang.MaSangFactory;

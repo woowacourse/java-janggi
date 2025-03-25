@@ -40,7 +40,7 @@ public abstract class MaSangPlacement {
         }
 
         return positions.stream()
-                .map(Position::changeToHan)
+                .map(Position::changeToReverseSide)
                 .collect(Collectors.toUnmodifiableSet());
     }
 

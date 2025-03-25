@@ -1,5 +1,9 @@
 package janggi.domain.move;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public enum Movement {
     UP(new Vector(-1, 0)),
     DOWN(new Vector(1, 0)),
@@ -15,6 +19,16 @@ public enum Movement {
 
     Movement(Vector vector) {
         this.vector = vector;
+    }
+
+    public static Set<Movement> getAvailableMovements(Position position, Set<Movement> standardMovement,
+                                                      Set<Movement> crossMovement) {
+        if (position.canCrossMove()) {
+            return Stream.concat(standardMovement.stream(), crossMovement.stream())
+                    .collect(Collectors.toUnmodifiableSet());
+        }
+
+        return standardMovement;
     }
 
     public Vector getVector() {

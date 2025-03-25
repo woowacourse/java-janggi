@@ -3,6 +3,7 @@ package janggi.domain.move;
 import janggi.common.ErrorMessage;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 public class Position {
 
@@ -11,9 +12,8 @@ public class Position {
     private static final int START_ROW = 1;
     private static final int LAST_ROW = 10;
 
-    private static final int HAN_BOUNDARY = 4;
-
     private static final Position[][] CACHED = new Position[LAST_ROW + 1][LAST_COLUMN + 1];
+    private static final Set<Position> AVAILABLE_CROSS_MOVE_POSITION = initializeCrossMovePosition();
 
     static {
         for (int row = START_ROW; row <= LAST_ROW; row++) {
@@ -35,6 +35,16 @@ public class Position {
     public static Position of(int row, int column) {
         validate(row, column);
         return CACHED[row][column];
+    }
+
+    private static Set<Position> initializeCrossMovePosition() {
+        return Set.of(
+                new Position(1, 4), new Position(1, 6),
+                new Position(2, 5), new Position(3, 4),
+                new Position(3, 6), new Position(8, 4),
+                new Position(8, 6), new Position(9, 5),
+                new Position(10, 4), new Position(10, 6)
+        );
     }
 
     private static void validate(int row, int column) {
@@ -73,11 +83,8 @@ public class Position {
         return Optional.empty();
     }
 
-    public boolean canNotMove(Vector vector) {
-        int newRow = this.row + vector.y();
-        int newColumn = this.column + vector.x();
-
-        return !isValid(newRow, newColumn);
+    public Position changeToReverseSide() {
+        return Position.of(LAST_ROW - this.row + 1, column);
     }
 
     public Position moveToNextPosition(Vector vector) {
@@ -87,12 +94,27 @@ public class Position {
         return Position.of(newRow, newColumn);
     }
 
-    public Position changeToHan() {
-        if (this.row <= HAN_BOUNDARY) {
-            throw new IllegalArgumentException("이미 한나라의 영역입니다.");
-        }
+    public boolean canNotMove(Vector vector) {
+        int newRow = this.row + vector.y();
+        int newColumn = this.column + vector.x();
 
-        return Position.of(LAST_ROW - this.row + 1, column);
+        return !isValid(newRow, newColumn);
+    }
+
+    public boolean canCrossMove() {
+        return AVAILABLE_CROSS_MOVE_POSITION.contains(this);
+    }
+
+    public boolean isPalace() {
+        return isPalaceColumn(column) && isPalaceRow(row);
+    }
+
+    private boolean isPalaceRow(int row) {
+        return (1 <= row && row <= 3) || (8 <= row && row <= 10);
+    }
+
+    private boolean isPalaceColumn(int column) {
+        return 4 <= column && column <= 6;
     }
 
     @Override
