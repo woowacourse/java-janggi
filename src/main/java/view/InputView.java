@@ -2,6 +2,7 @@ package view;
 
 import domain.Player;
 import domain.SetUp;
+import domain.Team;
 import domain.piece.Position;
 import java.util.List;
 import java.util.Scanner;
@@ -31,6 +32,11 @@ public class InputView {
         System.out.println("3. 오른상 차림");
         System.out.println("4. 왼상 차림");
         return SetUp.getValue(console.nextLine());
+    }
+
+    public String getName(final Team team) {
+        System.out.printf("팀 %s 플레이어의 이름을 입력해 주세요.\n", team.getName());
+        return console.nextLine();
     }
 
     private Position parseToPosition(final String input) {

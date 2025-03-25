@@ -21,10 +21,10 @@ public class KoreaChess {
     }
 
     public void run() {
-        SetUp setUp = inputView.readSetUp();
+        Player han = new Player(inputView.getName(Team.HAN), Team.HAN);
+        Player cho = new Player(inputView.getName(Team.CHO), Team.CHO);
 
-        Player han = new Player("한", Team.HAN);
-        Player cho = new Player("초", Team.CHO);
+        SetUp setUp = inputView.readSetUp();
         Board board = createBoard(han, cho, setUp);
 
         outputView.printGameStart();
@@ -43,9 +43,9 @@ public class KoreaChess {
     }
 
     private void processTurn(final Player player, final Board board) {
-        Position movingHanPosition = inputView.readMovingPiecePosition(player);
-        Position targetHanPosition = inputView.readTargetPiecePosition();
-        board.move(player, movingHanPosition, targetHanPosition);
+        Position movingPosition = inputView.readMovingPiecePosition(player);
+        Position targetPosition = inputView.readTargetPiecePosition();
+        board.move(player, movingPosition, targetPosition);
         outputView.printBoard(board);
     }
 

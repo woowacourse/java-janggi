@@ -18,4 +18,8 @@ public enum Team {
     public PieceColor getColor() {
         return color;
     }
+
+    public String getName() {
+        return name;
+    }
 }
