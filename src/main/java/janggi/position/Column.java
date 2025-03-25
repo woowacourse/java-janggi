@@ -27,4 +27,8 @@ public enum Column {
                 .findAny()
                 .orElseThrow(() -> new IllegalStateException("[ERROR] 보드를 벗어난 값입니다."));
     }
+
+    public int getValue() {
+        return this.ordinal();
+    }
 }
