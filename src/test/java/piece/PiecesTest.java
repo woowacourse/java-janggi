@@ -15,6 +15,19 @@ import piece.position.JanggiPosition;
 public class PiecesTest {
 
     @Test
+    void 피스를_움직일_수_있다() {
+        var piece = new Piece(new JanggiPosition(0, 1), new ChaMoveBehavior(), Team.BLUE);
+
+        Pieces pieces = new Pieces(List.of(piece));
+        pieces.move(new JanggiPosition(0, 1), new JanggiPosition(3, 1), pieces);
+        var currentPieces = pieces.getPieces();
+
+        var expecetedPiece = new Piece(new JanggiPosition(3, 1), new ChaMoveBehavior(), Team.BLUE);
+
+        Assertions.assertThatIterable(currentPieces).containsExactlyInAnyOrderElementsOf(List.of(expecetedPiece));
+    }
+
+    @Test
     void 피스들을_관리한다() {
         var piece = new Piece(new JanggiPosition(0, 1), new ChaMoveBehavior(), Team.BLUE);
         var piece2 = new Piece(new JanggiPosition(0, 2), new FoMoveBehavior(), Team.RED);
