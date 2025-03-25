@@ -26,4 +26,11 @@ public enum MovingPattern {
     public int getY() {
         return y;
     }
+
+    public boolean isDiagonalPattern() {
+        return this == MOVE_DIAGONAL_DOWN_LEFT ||
+                this == MOVE_DIAGONAL_UP_LEFT ||
+                this == MOVE_DIAGONAL_DOWN_RIGHT ||
+                this == MOVE_DIAGONAL_UP_RIGHT;
+    }
 }
