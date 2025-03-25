@@ -6,6 +6,7 @@ import domain.position.Distance;
 import domain.position.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 public class Cannon extends AbstractPiece {
 
@@ -14,50 +15,36 @@ public class Cannon extends AbstractPiece {
     }
 
     @Override
-    public List<Point> calculatePossiblePoint(final Point prev, final Point newPoint) {
-        final List<Point> possiblePoint = new ArrayList<>();
-
-        final int x = prev.calculateSubtractionX(newPoint);
-        final int y = prev.calculateSubtractionY(newPoint);
+    public List<Point> calculatePossiblePoint(final Point fromPoint, final Point toPoint) {
+        final int x = fromPoint.calculateSubtractionX(toPoint);
+        final int y = fromPoint.calculateSubtractionY(toPoint);
         if (x > 0) {
-            Point target = prev;
-            for (int i = 0; i < prev.distanceToMaxX(); i++) {
-                target = target.right();
-                if (target.equals(newPoint)) {
-                    break;
-                }
-                possiblePoint.add(target);
-            }
+            return searchPossiblePoint(fromPoint, fromPoint.distanceToMaxX(), toPoint, Point::right);
         }
         if (x < 0) {
-            Point target = prev;
-            for (int i = 0; i < prev.distanceToMinX(); i++) {
-                target = target.left();
-                if (target.equals(newPoint)) {
-                    break;
-                }
-                possiblePoint.add(target);
-            }
+            return searchPossiblePoint(fromPoint, fromPoint.distanceToMinX(), toPoint, Point::left);
         }
         if (y > 0) {
-            Point target = prev;
-            for (int i = 0; i < prev.distanceToMaxY(); i++) {
-                target = target.up();
-                if (target.equals(newPoint)) {
-                    break;
-                }
-                possiblePoint.add(target);
-            }
+            return searchPossiblePoint(fromPoint, fromPoint.distanceToMaxY(), toPoint, Point::up);
         }
-        if (y < 0) {
-            Point target = prev;
-            for (int i = 0; i < prev.distanceToMinY(); i++) {
-                target = target.down();
-                if (target.equals(newPoint)) {
-                    break;
-                }
-                possiblePoint.add(target);
+        return searchPossiblePoint(fromPoint, fromPoint.distanceToMinY(), toPoint, Point::down);
+    }
+
+    private List<Point> searchPossiblePoint(
+            final Point fromPoint,
+            final int bordEdge,
+            final Point toPoint,
+            final UnaryOperator<Point> unaryOperator
+
+    ) {
+        final List<Point> possiblePoint = new ArrayList<>();
+        Point target = fromPoint;
+        for (int i = 0; i < bordEdge; i++) {
+            target = unaryOperator.apply(target);
+            if (target.equals(toPoint)) {
+                break;
             }
+            possiblePoint.add(target);
         }
         return possiblePoint;
     }
