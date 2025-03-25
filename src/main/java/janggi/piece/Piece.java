@@ -2,10 +2,11 @@ package janggi.piece;
 
 import janggi.board.Position;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Piece {
-
     protected final Team team;
 
     public Piece(Team team) {
@@ -17,51 +18,75 @@ public abstract class Piece {
     }
 
     public void validateMovable(Map<Position, Piece> board, Position start, Position goal) {
-        int pathIndex = calculatePathIndex(start, goal);
-        validatePath(board, start, pathIndex);
-        validatePieceOnGoal(board, goal);
-
+        Piece attacker = board.get(start);
+        validatePath(board, start, goal);
+        validateNonOurArmyAtGoal(board, goal, attacker.getTeam());
     }
 
-    private int calculatePathIndex(Position start, Position goal) {
-        int[][] dRows = getAllPathRows();
-        int[][] dColumns = getAllPathColumns();
-        for (int i = 0; i < dRows.length; i++) {
-            int[] dRow = dRows[i];
-            int[] dColumn = dColumns[i];
-            Position position = start;
-            for (int j = 0; j < dRow.length; j++) {
-                position = position.plus(dColumn[j], dRow[j]);
-            }
-            if (position.equals(goal)) {
-                return i;
-            }
-        }
-        throw new IllegalArgumentException("[ERROR] %s은/는 해당 목적지로 이동할 수 없습니다.".formatted(getName()));
+    public Team getTeam() {
+        return team;
     }
 
-    protected void validateNonPieceOnPath(Map<Position, Piece> board, Position start, int pathIndex) {
-        int[] rows = getPathRows(pathIndex);
-        int[] columns = getPathColumns(pathIndex);
-        Position position = start;
-        for (int j = 0; j < rows.length - 1; j++) {
-            position = position.plus(columns[j], rows[j]); // 길목의 좌표
-            boolean existsPiece = board.containsKey(position);
-            if (existsPiece) {
-                throw new IllegalArgumentException("[ERROR] 해당 경로에 다른 기물이 있어 이동할 수 없습니다.");
-            }
+    protected void validatePath(Map<Position, Piece> board, Position start, Position goal) {
+        Piece attacker = board.get(start);
+        List<Position> positionsOnPath = attacker.findPositionsInPath(start, goal);
+
+        for (Position position : positionsOnPath) {
+            validateNonPieceInPosition(board, position);
         }
     }
 
-    protected void validateSameTeamOnGoal(Map<Position, Piece> board, Position goal) {
-        Piece other = board.get(goal);
-        if (other == null) {
-            return;
+    private void validateNonPieceInPosition(Map<Position, Piece> board, Position position) {
+        if (board.containsKey(position)) {
+            throw new IllegalArgumentException("[ERROR] 이동 경로 중 특정 위치에 다른 기물이 있어 해당 기물을 목적지로 이동할 수 없습니다.");
         }
+    }
 
-        if (other.isSameTeam(team)) {
+    private void validateNonOurArmyAtGoal(Map<Position, Piece> board, Position goal, Team attackerTeam) {
+        // 목적지에 아군이 존재하면 예외 발생
+        Piece target = board.get(goal);
+        if (target != null && target.isSameTeam(attackerTeam)) {
             throw new IllegalArgumentException("[ERROR] 목적지에 같은 진영의 기물이 있어 이동할 수 없습니다.");
         }
+    }
+
+    protected List<Position> findPositionsInPath(Position start, Position goal) {
+        // 경로 안에 모든 좌표 탐색
+        List<Position> innerPositions = new ArrayList<>();
+        Position current = start;
+
+        while (!current.equals(goal)) {
+            current = determianNextPosition(goal, current);
+            innerPositions.add(current);
+        }
+
+        removeGoalInPath(innerPositions);
+        return innerPositions;
+    }
+
+    private Position determianNextPosition(Position goal, Position current) {
+        int columnDifference = current.calculatesColumnDifference(goal);
+        int rowDifference = current.calculatesRowDifference(goal);
+
+        int columnStep = (int) Math.signum(columnDifference);
+        int rowStep = (int) Math.signum(rowDifference);
+
+        if (Math.abs(columnDifference) > Math.abs(rowDifference)) {
+            current = current.modify(columnStep, 0);
+        }
+        if (Math.abs(columnDifference) < Math.abs(rowDifference)) {
+            current = current.modify(0, rowStep);
+        }
+
+        if (Math.abs(columnDifference) == Math.abs(rowDifference)) {
+            current = current.modify(columnStep, rowStep);
+        }
+
+        return current;
+    }
+
+    private void removeGoalInPath(List<Position> innerPositions) {
+        innerPositions.removeLast();
     }
 
     @Override
@@ -69,21 +94,7 @@ public abstract class Piece {
         return getName();
     }
 
-    protected abstract void validatePath(Map<Position, Piece> board, Position start, int pathIndex);
-
-    protected abstract int[] getPathRows(int pathIndex);
-
-    protected abstract int[] getPathColumns(int pathIndex);
-
-    protected abstract int[][] getAllPathRows();
-
-    protected abstract int[][] getAllPathColumns();
-
     protected abstract String getName();
 
-    protected abstract boolean isSameType(Piece other);
-
-    protected abstract void validatePieceOnGoal(Map<Position, Piece> board, Position goal);
-
-    public abstract boolean isGeneral();
+    public abstract boolean isSameType(PieceType pieceType);
 }
