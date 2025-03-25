@@ -20,7 +20,7 @@ public class Start implements GameState {
 
     @Override
     public GameState end() {
-        return null;
+        return new End();
     }
 
     @Override

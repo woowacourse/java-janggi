@@ -3,6 +3,7 @@ package domain.game;
 import domain.JanggiBoard;
 import domain.JanggiPosition;
 import domain.piece.Piece;
+import domain.piece.state.PieceState;
 import java.util.Map;
 
 public class Run extends Start {
@@ -17,12 +18,12 @@ public class Run extends Start {
     @Override
     public GameState move(JanggiPosition beforePosition, JanggiPosition afterPosition) {
         validatePlayerTurn(beforePosition);
-        Piece targetPiece = janggiBoard.getPieceFrom(afterPosition);
+        PieceState state = janggiBoard.getPieceFrom(afterPosition).getState();
 
         janggiBoard.move(beforePosition, afterPosition);
         player.change();
 
-        if (janggiBoard.isKingDead(targetPiece)) {
+        if (janggiBoard.isGeneralDead(state)) {
             return new End();
         }
 

@@ -16,4 +16,9 @@ public class MovedGeneral extends NonContinuousPiece {
         return new MovedGeneral() {
         };
     }
+
+    @Override
+    public boolean isGeneral() {
+        return true;
+    }
 }

@@ -14,4 +14,6 @@ public interface PieceState {
     PieceState captured();
 
     PieceState updateState();
+
+    boolean isGeneral();
 }

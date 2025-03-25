@@ -2,7 +2,7 @@ package domain;
 
 import domain.piece.Empty;
 import domain.piece.Piece;
-import domain.piece.state.MovedGeneral;
+import domain.piece.state.PieceState;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -84,7 +84,10 @@ public class JanggiBoard {
         janggiBoard.put(afterPosition, piece);
     }
 
-    public boolean isKingDead(Piece targetPiece) {
-        return targetPiece.getState() instanceof MovedGeneral;
+    public boolean isGeneralDead(PieceState targetPiece) {
+        if (targetPiece == null) {
+            return false;
+        }
+        return targetPiece.isGeneral();
     }
 }
