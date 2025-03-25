@@ -18,8 +18,10 @@ public class ElephantUnitRule implements UnitRule {
     }
 
     public void dfs(int depth, Direction before, List<Point> route, Point prevPoint, List<Route> routes) {
-        if (depth == 3 && route.stream().allMatch(Position::isCanBePosition)) {
-            routes.add(Route.of(route.stream().map(Position::from).toList()));
+        if (depth == 3) {
+            if (route.stream().allMatch(Position::isCanBePosition)) {
+                routes.add(Route.of(route.stream().map(Position::from).toList()));
+            }
             return;
         }
         for (Direction direction : before.getNext()) {
