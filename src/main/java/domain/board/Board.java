@@ -10,7 +10,10 @@ import java.util.stream.Collectors;
 
 public class Board {
 
+    private static final double HAN_HANDICAP_SCORE = 1.5;
+
     private final Map<Point, Piece> pieceByPoint;
+
     private final PointNodeMapper pointNodeMapper;
 
     public Board(final Map<Point, Piece> pieceByPoint, final PointNodeMapper pointNodeMapper) {
@@ -28,13 +31,33 @@ public class Board {
 
     public Team findWinTeam() {
         if (isPlaying()) {
-            throw new IllegalStateException("아직 게임이 끝나지 않았습니다.");
+            return determineWinTeamByScore();
         }
         Set<Team> foundTeam = findTeamsOfWang();
         if (foundTeam.contains(Team.CHO)) {
             return Team.CHO;
         }
         return Team.HAN;
+    }
+
+    private Team determineWinTeamByScore() {
+        double hanScore = calculateScore(Team.HAN);
+        double choScore = calculateScore(Team.CHO);
+        if (hanScore > choScore) {
+            return Team.HAN;
+        }
+        return Team.CHO;
+    }
+
+    public double calculateScore(Team team) {
+        double sum = 0;
+        if (team == Team.HAN) {
+            sum += HAN_HANDICAP_SCORE;
+        }
+        return sum + pieceByPoint.values().stream()
+                .filter(piece -> piece.team() == team)
+                .mapToInt(Piece::score)
+                .sum();
     }
 
     public boolean canMove(final Point source, final Point destination) {
