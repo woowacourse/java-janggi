@@ -26,11 +26,16 @@ public class Game {
     public void play() {
         int gameState = PLAY;
         while (gameState == PLAY) {
-            try {
-                gameState = controlGame();
-            } catch (IllegalArgumentException exception) {
-                outputView.printError(exception.getMessage());
-            }
+            gameState = handleGameState(this::controlGame);
+        }
+    }
+
+    private int handleGameState(Supplier<Integer> game) {
+        try {
+            return game.get();
+        } catch (IllegalArgumentException exception) {
+            outputView.printError(exception.getMessage());
+            return PLAY;
         }
     }
 
@@ -52,14 +57,14 @@ public class Game {
     }
 
     private void moveAndCaptureIfEnemyExists(List<Route> routes, Position startPoint) {
-        int selectedRouteNumber = handleException(inputView::readRoute, Integer::parseInt) - 1;
+        int selectedRouteNumber = handleInputException(inputView::readRoute, Integer::parseInt) - 1;
         Route route = routes.get(selectedRouteNumber);
         janggi.moveAndCaptureIfEnemyExists(route, startPoint);
     }
 
     private Position getPosition() {
-        List<Integer> positionValue = handleException(() -> inputView.readPosition(janggi.getTurn()),
-                Game::getPosition);
+        List<Integer> positionValue = handleInputException(() ->
+                inputView.readPosition(janggi.getTurn()), Game::getPosition);
         return new Position(positionValue.get(0), positionValue.get(1));
     }
 
@@ -70,7 +75,7 @@ public class Game {
                 .toList();
     }
 
-    private <T> T handleException(Supplier<String> input, Function<String, T> converter) {
+    private <T> T handleInputException(Supplier<String> input, Function<String, T> converter) {
         while (true) {
             try {
                 String inputValue = input.get();
