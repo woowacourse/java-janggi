@@ -9,10 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class OutputView {
-    public static final String HAN_COLOR = "\u001B[31m";
-    public static final String CHO_COLOR = "\u001B[34m";
-    public static final String RESET_COLOR = "\u001B[0m";
-
     private static final int MAX_ROW = 10;
     private static final int MAX_COLUM = 9;
 
@@ -49,8 +45,8 @@ public class OutputView {
                 String cell = board[i][j];
                 String team = teamInfo[i][j];
                 if (!cell.equals(".")) {
-                    String color = (team.equals("한나라")) ? HAN_COLOR : CHO_COLOR;
-                    System.out.print(color + cell + RESET_COLOR + " ");
+                    String color = (team.equals("한나라")) ? ConsoleColors.HAN_COLOR : ConsoleColors.CHO_COLOR;
+                    System.out.print(color + cell + ConsoleColors.RESET_COLOR + " ");
                 } else {
                     System.out.print(cell + " ");
                 }

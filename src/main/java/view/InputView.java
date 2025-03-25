@@ -8,15 +8,15 @@ public class InputView {
 
     public String readPosition(Team team) {
         System.out.println("현재 차례: " + teamToName(team));
-        System.out.println(OutputView.RESET_COLOR + "이동할 장기의 위치를 column, row 형태로 선택해 주세요. (ex. 8, 0)");
+        System.out.println(ConsoleColors.RESET_COLOR + "이동할 장기의 위치를 column, row 형태로 선택해 주세요. (ex. 8, 0)");
         return scanner.nextLine();
     }
 
     private String teamToName(Team team) {
         if (team == Team.HAN) {
-            return OutputView.HAN_COLOR + "한나라";
+            return ConsoleColors.HAN_COLOR + "한나라";
         }
-        return OutputView.CHO_COLOR + "초나라";
+        return ConsoleColors.CHO_COLOR + "초나라";
     }
 
     public String readRoute() {
