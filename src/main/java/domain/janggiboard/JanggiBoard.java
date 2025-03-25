@@ -24,7 +24,8 @@ public final class JanggiBoard {
         int hurdleCount = getHurdleCountOnRoute(movingPiece, origin, destination);
         movingPiece.validateCanMove(hurdlePiece, hurdleCount, targetPiece);
 
-        moveAndCapture(movingPiece, origin, destination, targetPiece);
+        movePieceFromOriginToDestination(movingPiece, origin, destination);
+        captureIfNotEmpty(targetPiece);
     }
 
     public boolean isSameTeam(JanggiPosition position, JanggiSide janggiSide) {
@@ -45,15 +46,19 @@ public final class JanggiBoard {
         return janggiBoard.get(position);
     }
 
-    private void moveAndCapture(
+    private void movePieceFromOriginToDestination(
             JanggiPiece movingPiece,
             JanggiPosition origin,
-            JanggiPosition destination,
-            JanggiPiece targetPiece
+            JanggiPosition destination
     ) {
-        janggiBoard.put(origin, new JanggiPiece(JanggiSide.NONE, JanggiPieceType.EMPTY));
-        targetPiece.capture();
         janggiBoard.put(destination, movingPiece);
+        janggiBoard.put(origin, new JanggiPiece(JanggiSide.NONE, JanggiPieceType.EMPTY));
+    }
+
+    private void captureIfNotEmpty(JanggiPiece targetPiece) {
+        if (!targetPiece.isEmpty()) {
+            targetPiece.capture();
+        }
     }
 
     private JanggiPiece getFirstHurdlePieceOnRoute(JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
