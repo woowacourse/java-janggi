@@ -6,7 +6,7 @@ import janggi.domain.rule.Movement;
 public class CurveMoveStrategy implements MoveStrategy {
 
     @Override
-    public void validateCorrectRule(final Position departure, final Position destination, Movement movement) {
+    public void validateCorrectRule(final Position departure, final Position destination, final Movement movement) {
         int diffRow = destination.subtractRow(departure);
         int diffColumn = destination.subtractColumn(departure);
 

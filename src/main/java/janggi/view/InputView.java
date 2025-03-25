@@ -57,14 +57,14 @@ public class InputView {
         }
     }
 
-    public Player readPlayer(Team team) {
+    public Player readPlayer(final Team team) {
         System.out.println(TeamName.getCountryName(team) + " 팀에 참가할 플레이어 이름을 입력해주세요.");
         String input = scanner.nextLine();
         validateEmptyInput(input);
         return new Player(input, team);
     }
 
-    public SetupType readSetupType(Team team) {
+    public SetupType readSetupType(final Team team) {
         try {
             System.out.println(TeamName.getCountryName(team) + " 팀의 사용하실 상차림 옵션을 선택하세요");
             System.out.println("""

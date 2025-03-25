@@ -33,7 +33,9 @@ public class Route {
         return decideDirection(current, differenceOfRow, differenceOfColumn);
     }
 
-    private static Position decideDirection(final Position current, int differenceOfRow, int differenceOfColumn) {
+    private static Position decideDirection(final Position current,
+                                            final int differenceOfRow,
+                                            final int differenceOfColumn) {
         int rowDirection = calculateDirection(differenceOfRow);
         int columnDirection = calculateDirection(differenceOfColumn);
         if (Math.abs(differenceOfRow) > Math.abs(differenceOfColumn)) {
@@ -49,7 +51,7 @@ public class Route {
         return (int) Math.signum(targetDirection);
     }
 
-    private static Route excludeDepartureAndDestination(List<Position> positions) {
+    private static Route excludeDepartureAndDestination(final List<Position> positions) {
         validatePositionSize(positions);
         positions.removeFirst();
         positions.removeLast();
@@ -62,10 +64,10 @@ public class Route {
         }
     }
 
-    public boolean isExistSameTypePiece(Board board, PieceType pieceType) {
+    public boolean isExistSameTypePiece(final Board board, final PieceType pieceType) {
         return positions.stream()
                 .filter(board::exists)
-                .anyMatch(position -> board.getPiece(position).isSameType(pieceType));
+                .anyMatch(position -> board.isSameType(position, pieceType));
     }
 
     public int countPieceInRoute(final Board board) {

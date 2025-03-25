@@ -16,11 +16,11 @@ public class MoveRule {
         this.blockStrategy = blockStrategy;
     }
 
-    public void validateMove(Position departure, Position destination, Movement movement) {
+    public void validateMove(final Position departure, final Position destination, final Movement movement) {
         moveStrategy.validateCorrectRule(departure, destination, movement);
     }
 
-    public void validateBlock(Board board, Route route) {
+    public void validateBlock(final Board board, final Route route) {
         blockStrategy.validateIsBlock(board, route);
     }
 }

@@ -13,19 +13,18 @@ public class Soldier extends Piece {
 
     private static final Movement MOVEMENT = new Movement(List.of(0, 1));
 
-    public Soldier(final Position position, final Team team) {
-        super(position, team, PieceType.SOLDIER, new MoveRule(new OneStepMoveStrategy(), new BasicBlockStrategy()));
+    public Soldier(final Team team) {
+        super(team, PieceType.SOLDIER, new MoveRule(new OneStepMoveStrategy(), new BasicBlockStrategy()));
     }
 
     @Override
-    public Piece move(final Board board, final Position destination) {
-        validateMove(board, destination, MOVEMENT);
-        validateSoldierRestrict(destination);
-        return new Soldier(destination, team);
+    public void checkCanMove(final Board board, final Position departure, final Position destination) {
+        validateMove(board, departure, destination, MOVEMENT);
+        validateSoldierRestrict(departure, destination);
     }
 
-    private void validateSoldierRestrict(Position destination) {
-        int diffRow = destination.subtractRow(this.position);
+    private void validateSoldierRestrict(final Position departure, Position destination) {
+        int diffRow = destination.subtractRow(departure);
 
         if (this.team.isRed() && diffRow == -1) {
             throw new IllegalArgumentException("병은 본진을 향할 수 없습니다.");

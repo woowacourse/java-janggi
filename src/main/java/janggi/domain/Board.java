@@ -3,22 +3,16 @@ package janggi.domain;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Board {
 
     private final Map<Position, Piece> positionToPiece;
 
-    private Board(final Map<Position, Piece> positionToPiece) {
-        this.positionToPiece = positionToPiece;
-    }
-
-    public static Board initialize(final List<Piece> pieces) {
-        Map<Position, Piece> positionToPiece = pieces.stream()
-                .collect(Collectors.toMap(Piece::getPosition, piece -> piece));
-        return new Board(positionToPiece);
+    public Board(final Map<Position, Piece> positionToPiece) {
+        this.positionToPiece = new HashMap<>(positionToPiece);
     }
 
     public boolean exists(final Position position) {
@@ -26,25 +20,35 @@ public class Board {
     }
 
     public void movePiece(final Player player, final Position departure, final Position destination) {
-        Piece allyPiece = getPiece(departure);
-        checkAllyPiece(player, allyPiece);
-        Piece movedPiece = allyPiece.move(this, destination);
+        validateSamePosition(departure, destination);
+        Piece targetPiece = getPiece(departure);
+        validateDepartureIsAlly(player, targetPiece);
+        validateDestinationIsEnemy(destination, targetPiece.getTeam());
+        targetPiece.checkCanMove(this, departure, destination);
         positionToPiece.remove(departure);
-        updateBoard(destination, movedPiece);
+        updateBoard(destination, targetPiece);
     }
 
-    private void checkAllyPiece(final Player player, final Piece allyPiece) {
+    private void validateSamePosition(final Position departure, final Position destination) {
+        if (departure.equals(destination)) {
+            throw new IllegalArgumentException("현재 위치와 이동할 위치와 같은 위치입니다");
+        }
+    }
+
+    private void validateDepartureIsAlly(final Player player, final Piece allyPiece) {
         if (allyPiece.isEnemy(player.getTeam())) {
             throw new IllegalArgumentException("적의 기물을 선택할 수 없습니다.");
         }
     }
 
-    private void updateBoard(final Position destination, final Piece movedPiece) {
-        positionToPiece.put(destination, movedPiece);
+    private void validateDestinationIsEnemy(final Position destination, final Team team) {
+        if ((positionToPiece.containsKey(destination) && getPiece(destination).isAlly(team))) {
+            throw new IllegalArgumentException("목적지에 아군이 존재합니다.");
+        }
     }
 
-    public boolean isAlly(final Position position, final Team team) {
-        return getPiece(position).isAlly(team);
+    private void updateBoard(final Position destination, final Piece movedPiece) {
+        positionToPiece.put(destination, movedPiece);
     }
 
     public GameStatus checkGeneralDied() {
@@ -87,5 +91,9 @@ public class Board {
 
     public Map<Position, Piece> getPositionToPiece() {
         return Collections.unmodifiableMap(positionToPiece);
+    }
+
+    public boolean isSameType(final Position position, final PieceType pieceType) {
+        return getPiece(position).isSameType(pieceType);
     }
 }

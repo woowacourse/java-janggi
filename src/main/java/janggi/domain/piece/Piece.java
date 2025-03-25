@@ -9,37 +9,24 @@ import janggi.domain.rule.Movement;
 
 public abstract class Piece {
 
-    protected final Position position;
     protected final Team team;
     protected final PieceType pieceType;
     protected final MoveRule moveRule;
 
-    public Piece(final Position position, final Team team, final PieceType pieceType, final MoveRule moveRule) {
-        this.position = position;
+    public Piece(final Team team, final PieceType pieceType, final MoveRule moveRule) {
         this.team = team;
         this.pieceType = pieceType;
         this.moveRule = moveRule;
     }
 
-    public abstract Piece move(final Board board, final Position destination);
+    public abstract void checkCanMove(final Board board, final Position departure, final Position destination);
 
-    protected void validateMove(final Board board, final Position destination, Movement movement) {
-        validateSamePosition(destination);
-        moveRule.validateMove(this.position, destination, movement);
-        moveRule.validateBlock(board, Route.of(position, destination));
-        validateIsAlly(board, destination, this.team);
-    }
-
-    private void validateSamePosition(final Position destination) {
-        if (position.equals(destination)) {
-            throw new IllegalArgumentException("현재 위치와 이동할 위치와 같은 위치입니다");
-        }
-    }
-
-    private void validateIsAlly(final Board board, final Position destination, final Team team) {
-        if ((board.exists(destination) && board.isAlly(destination, team))) {
-            throw new IllegalArgumentException("목적지에 아군이 존재합니다.");
-        }
+    protected void validateMove(final Board board,
+                                final Position departure,
+                                final Position destination,
+                                Movement movement) {
+        moveRule.validateMove(departure, destination, movement);
+        moveRule.validateBlock(board, Route.of(departure, destination));
     }
 
     public boolean isAlly(final Team team) {
@@ -50,20 +37,12 @@ public abstract class Piece {
         return !isAlly(team);
     }
 
-    public Position getPosition() {
-        return position;
-    }
-
     public PieceType getPieceType() {
         return pieceType;
     }
 
     public Team getTeam() {
         return team;
-    }
-
-    protected boolean isSameType(Piece piece) {
-        return isSameType(piece.pieceType);
     }
 
     public boolean isSameType(PieceType pieceType) {

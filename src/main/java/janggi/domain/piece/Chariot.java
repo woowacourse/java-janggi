@@ -13,13 +13,12 @@ public class Chariot extends Piece {
 
     private static final Movement MOVEMENT = new Movement(List.of(0, 1));
 
-    public Chariot(final Position position, final Team team) {
-        super(position, team, PieceType.CHARIOT, new MoveRule(new StraightMoveStrategy(), new BasicBlockStrategy()));
+    public Chariot(final Team team) {
+        super(team, PieceType.CHARIOT, new MoveRule(new StraightMoveStrategy(), new BasicBlockStrategy()));
     }
 
     @Override
-    public Piece move(final Board board, final Position destination) {
-        validateMove(board, destination, MOVEMENT);
-        return new Chariot(destination, team);
+    public void checkCanMove(final Board board, final Position departure, final Position destination) {
+        validateMove(board, departure, destination, MOVEMENT);
     }
 }

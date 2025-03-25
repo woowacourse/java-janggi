@@ -4,5 +4,5 @@ import janggi.domain.Position;
 import janggi.domain.rule.Movement;
 
 public interface MoveStrategy {
-    void validateCorrectRule(Position departure, Position destination, Movement movement);
+    void validateCorrectRule(final Position departure, final Position destination, final Movement movement);
 }

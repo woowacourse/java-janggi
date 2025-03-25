@@ -29,7 +29,7 @@ public class OutputView {
         System.out.print("＿");
     }
 
-    public void printCurrentTurn(Player player) {
+    public void printCurrentTurn(final Player player) {
         System.out.println(player.getName() + "(" + TeamName.getCountryName(player.getTeam()) + ") 팀의 턴입니다!");
     }
 

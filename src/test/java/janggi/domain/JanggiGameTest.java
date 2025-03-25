@@ -2,7 +2,8 @@ package janggi.domain;
 
 import janggi.domain.piece.General;
 import janggi.domain.piece.Soldier;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,10 +22,9 @@ class JanggiGameTest {
         //given
         Player redPlayer = new Player("flint", Team.RED);
         Player greenPlayer = new Player("abc", Team.GREEN);
-        Board board = Board.initialize(
-                List.of(new General(Position.of(1, 1), Team.GREEN),
-                        new General(Position.of(2, 2), Team.RED),
-                        new Soldier(Position.of(3, 3), Team.RED)));
+        Board board = new Board(new HashMap<>(Map.of(Position.of(1, 1), new General(Team.GREEN),
+                Position.of(2, 2), new General(Team.RED),
+                Position.of(3, 3), new Soldier(Team.RED))));
         JanggiGame janggiGame = new JanggiGame(board, redPlayer, greenPlayer);
 
         //when
@@ -51,10 +51,10 @@ class JanggiGameTest {
         //given
         Player redPlayer = new Player("flint", Team.RED);
         Player greenPlayer = new Player("abc", Team.GREEN);
-        Board board = Board.initialize(
-                List.of(new General(Position.of(1, 1), Team.GREEN),
-                        new General(Position.of(2, 2), Team.RED),
-                        new Soldier(Position.of(2, 3), Team.RED)));
+        Board board = new Board(
+                Map.of(Position.of(1, 1), new General(Team.GREEN),
+                        Position.of(2, 2), new General(Team.RED),
+                        Position.of(2, 3), new Soldier(Team.RED)));
         JanggiGame janggiGame = new JanggiGame(board, redPlayer, greenPlayer);
 
         //when
@@ -71,7 +71,7 @@ class JanggiGameTest {
         //given
         Player redPlayer = new Player("flint", Team.RED);
         Player greenPlayer = new Player("abc", Team.GREEN);
-        Board board = Board.initialize(List.of(new General(Position.of(1, 1), team)));
+        Board board = new Board(Map.of(Position.of(1, 1), new General(team)));
         JanggiGame janggiGame = new JanggiGame(board, redPlayer, greenPlayer);
 
         //when
@@ -87,10 +87,9 @@ class JanggiGameTest {
         //given
         Player redPlayer = new Player("flint", Team.RED);
         Player greenPlayer = new Player("abc", Team.GREEN);
-        Board board = Board.initialize(
-                List.of(new General(Position.of(1, 1), Team.RED),
-                        new General(Position.of(1, 2), Team.GREEN),
-                        new Soldier(Position.of(2, 2), Team.RED)));
+        Board board = new Board(Map.of(Position.of(1, 1), new General(Team.RED),
+                Position.of(1, 2), new General(Team.GREEN),
+                Position.of(2, 2), new Soldier(Team.RED)));
         JanggiGame janggiGame = new JanggiGame(board, redPlayer, greenPlayer);
 
         //when
@@ -106,9 +105,9 @@ class JanggiGameTest {
         //given
         Player redPlayer = new Player("flint", Team.RED);
         Player greenPlayer = new Player("abc", Team.GREEN);
-        Board board = Board.initialize(
-                List.of(new General(Position.of(1, 1), Team.RED),
-                        new General(Position.of(1, 2), Team.GREEN)));
+        Board board = new Board(
+                Map.of(Position.of(1, 1), new General(Team.RED),
+                        Position.of(1, 2), new General(Team.GREEN)));
         JanggiGame janggiGame = new JanggiGame(board, redPlayer, greenPlayer);
 
         //when
@@ -124,10 +123,9 @@ class JanggiGameTest {
         //given
         Player redPlayer = new Player("flint", Team.RED);
         Player greenPlayer = new Player("abc", Team.GREEN);
-        Board board = Board.initialize(
-                List.of(new General(Position.of(1, 1), Team.RED),
-                        new General(Position.of(1, 2), Team.GREEN),
-                        new Soldier(Position.of(2, 2), Team.GREEN)));
+        Board board = new Board(Map.of(Position.of(1, 1), new General(Team.RED),
+                Position.of(1, 2), new General(Team.GREEN),
+                Position.of(2, 2), new Soldier(Team.GREEN)));
         JanggiGame janggiGame = new JanggiGame(board, redPlayer, greenPlayer);
 
         //when

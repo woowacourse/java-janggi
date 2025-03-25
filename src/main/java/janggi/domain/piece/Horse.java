@@ -13,13 +13,12 @@ public class Horse extends Piece {
 
     private static final Movement MOVEMENT = new Movement(List.of(1, 2));
 
-    public Horse(final Position position, final Team team) {
-        super(position, team, PieceType.HORSE, new MoveRule(new CurveMoveStrategy(), new BasicBlockStrategy()));
+    public Horse(final Team team) {
+        super(team, PieceType.HORSE, new MoveRule(new CurveMoveStrategy(), new BasicBlockStrategy()));
     }
 
     @Override
-    public Piece move(final Board board, final Position destination) {
-        validateMove(board, destination, MOVEMENT);
-        return new Horse(destination, team);
+    public void checkCanMove(final Board board, final Position departure, final Position destination) {
+        validateMove(board, departure, destination, MOVEMENT);
     }
 }

@@ -13,13 +13,12 @@ public class Elephant extends Piece {
 
     private static final Movement MOVEMENT = new Movement(List.of(2, 3));
 
-    public Elephant(final Position position, final Team team) {
-        super(position, team, PieceType.ELEPHANT, new MoveRule(new CurveMoveStrategy(), new BasicBlockStrategy()));
+    public Elephant(final Team team) {
+        super(team, PieceType.ELEPHANT, new MoveRule(new CurveMoveStrategy(), new BasicBlockStrategy()));
     }
 
     @Override
-    public Piece move(final Board board, final Position destination) {
-        validateMove(board, destination, MOVEMENT);
-        return new Elephant(destination, team);
+    public void checkCanMove(final Board board, final Position departure, final Position destination) {
+        validateMove(board, departure, destination, MOVEMENT);
     }
 }

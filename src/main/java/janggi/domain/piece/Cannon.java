@@ -14,24 +14,23 @@ public class Cannon extends Piece {
 
     private static final Movement MOVEMENT = new Movement(List.of(0, 1));
 
-    public Cannon(final Position position, final Team team) {
-        super(position, team, PieceType.CANNON, new MoveRule(new StraightMoveStrategy(), new BlockOnlyOnceStrategy()));
+    public Cannon(final Team team) {
+        super(team, PieceType.CANNON, new MoveRule(new StraightMoveStrategy(), new BlockOnlyOnceStrategy()));
     }
 
     @Override
-    public Piece move(final Board board, final Position destination) {
-        validateMove(board, destination, MOVEMENT);
-        validateCannonRestrict(board, destination);
-        return new Cannon(destination, team);
+    public void checkCanMove(final Board board, final Position departure, final Position destination) {
+        validateMove(board, departure, destination, MOVEMENT);
+        validateCannonRestrict(board, departure, destination);
     }
 
-    private void validateCannonRestrict(final Board board, final Position destination) {
+    private void validateCannonRestrict(final Board board, final Position departure, final Position destination) {
         checkExistCannonInDestination(board, destination);
-        checkIsOverCannon(board, Route.of(position, destination));
+        checkIsOverCannon(board, Route.of(departure, destination));
     }
 
     private void checkExistCannonInDestination(final Board board, final Position destination) {
-        if (board.exists(destination) && board.getPiece(destination).isSameType(this)) {
+        if (board.exists(destination) && board.isSameType(destination, this.pieceType)) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
     }

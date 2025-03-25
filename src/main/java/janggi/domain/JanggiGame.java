@@ -19,7 +19,7 @@ public class JanggiGame {
         this.gameStatus = GameStatus.CONTINUE;
     }
 
-    public void moveByPlayer(Position departure, Position destination) {
+    public void moveByPlayer(final Position departure, final Position destination) {
         if (turn.isRed()) {
             board.movePiece(redPlayer, departure, destination);
         }
@@ -30,7 +30,7 @@ public class JanggiGame {
         changeTurn(this.turn);
     }
 
-    private void changeTurn(Team currentTurn) {
+    private void changeTurn(final Team currentTurn) {
         if (gameStatus == GameStatus.CONTINUE) {
             turn = currentTurn.getEnemy();
         }

@@ -26,7 +26,7 @@ public class Position {
     private final int row;
     private final int column;
 
-    private Position(int row, int column) {
+    private Position(final int row, final int column) {
         this.row = row;
         this.column = column;
     }

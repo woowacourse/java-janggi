@@ -49,7 +49,7 @@ public class JanggiController {
         SetupType redSetupType = inputView.readSetupType(Team.RED);
         SetupType greenSetupType = inputView.readSetupType(Team.GREEN);
         Pieces pieces = Pieces.createPieces(redSetupType, greenSetupType);
-        return Board.initialize(pieces.getPieces());
+        return new Board(pieces.getPieces());
     }
 
     private Player createPlayer(Team team) {

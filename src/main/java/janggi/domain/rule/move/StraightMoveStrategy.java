@@ -5,7 +5,7 @@ import janggi.domain.rule.Movement;
 
 public class StraightMoveStrategy implements MoveStrategy {
 
-    public void validateCorrectRule(Position departure, Position destination, Movement movement) {
+    public void validateCorrectRule(final Position departure, final Position destination, final Movement movement) {
         int diffRow = destination.subtractRow(departure);
         int diffColumn = destination.subtractColumn(departure);
 
