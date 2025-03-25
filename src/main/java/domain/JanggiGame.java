@@ -2,7 +2,6 @@ package domain;
 
 import domain.boardgenerator.BoardGenerator;
 import domain.piece.Piece;
-import java.util.List;
 import java.util.Map;
 
 public class JanggiGame {
@@ -11,11 +10,11 @@ public class JanggiGame {
     public static final int SEQUENCE_ONE = 1;
 
     private final JanggiBoard janggiBoard;
-    private final List<Player> players;
+    private final Players players;
     private int sequence = SEQUENCE_ZERO;
 
 
-    public JanggiGame(BoardGenerator boardGenerator, List<Player> players) {
+    public JanggiGame(BoardGenerator boardGenerator, Players players) {
         this.janggiBoard = new JanggiBoard(boardGenerator);
         this.players = players;
     }
@@ -34,7 +33,7 @@ public class JanggiGame {
         if (janggiBoard.findPiece(startPosition) == null) {
             throw new IllegalArgumentException("해당 자리에는 말이 없습니다.");
         }
-        if (!players.get(sequence).isTeam(janggiBoard.findPiece(startPosition))) {
+        if (!players.getThisTurnPlayer(sequence).isTeam(janggiBoard.findPiece(startPosition))) {
             throw new IllegalArgumentException("자신의 말만 움직일 수 있습니다.");
         }
         if (startPosition.equals(targetPosition)) {
@@ -43,7 +42,7 @@ public class JanggiGame {
     }
 
     public Player getThisTurnPlayer() {
-        return players.get(sequence);
+        return players.getThisTurnPlayer(sequence);
     }
 
     public Map<Position, Piece> getBoardState() {
