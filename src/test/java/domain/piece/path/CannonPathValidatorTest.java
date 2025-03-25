@@ -6,7 +6,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import domain.Board;
 import domain.TeamType;
 import domain.piece.Cannon;
+import domain.piece.Elephant;
 import domain.piece.Horse;
+import domain.piece.Piece;
 import domain.piece.Soldier;
 import domain.position.Position;
 import java.util.List;
@@ -26,7 +28,8 @@ class CannonPathValidatorTest {
                         Position.of(3, 4), new Cannon(TeamType.HAN),
                         Position.of(5, 2), new Horse(TeamType.CHO),
                         Position.of(3, 1), new Soldier(TeamType.CHO),
-                        Position.of(7, 2), new Cannon(TeamType.CHO)
+                        Position.of(7, 2), new Cannon(TeamType.CHO),
+                        Position.of(8, 1), new Elephant(TeamType.HAN)
                 )
         );
     }
@@ -37,10 +40,11 @@ class CannonPathValidatorTest {
         // given
         CannonPathValidator cannonPathValidator = new CannonPathValidator();
         List<Position> positions = List.of(Position.of(3, 3), Position.of(3, 4), Position.of(3, 5));
-        Cannon cannon = new Cannon(TeamType.HAN);
+        Position endPosition = Position.of(3, 6);
+        Piece cannon = new Cannon(TeamType.HAN);
 
         // when & then
-        assertThatThrownBy(() -> cannonPathValidator.validateMovePath(positions, board))
+        assertThatThrownBy(() -> cannonPathValidator.validatePath(positions, endPosition, board, cannon))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 포를 뛰어넘을 수 없습니다.");
     }
@@ -51,10 +55,11 @@ class CannonPathValidatorTest {
         // given
         CannonPathValidator cannonPathValidator = new CannonPathValidator();
         List<Position> positions = List.of(Position.of(4, 2));
-        Cannon cannon = new Cannon(TeamType.HAN);
+        Position endPosition = Position.of(6, 2);
+        Piece cannon = new Cannon(TeamType.HAN);
 
         // when & then
-        assertThatThrownBy(() -> cannonPathValidator.validateMovePath(positions, board))
+        assertThatThrownBy(() -> cannonPathValidator.validatePath(positions, endPosition, board, cannon))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 하나의 기물을 뛰어넘어야 합니다.");
     }
@@ -64,11 +69,12 @@ class CannonPathValidatorTest {
     void validateMovePathJumpPiece() {
         // given
         CannonPathValidator cannonPathValidator = new CannonPathValidator();
-        List<Position> positions = List.of(Position.of(4, 2), Position.of(5, 2), Position.of(6, 2));
-        Cannon cannon = new Cannon(TeamType.HAN);
+        List<Position> positions = List.of(Position.of(4, 2), Position.of(5, 2));
+        Position endPosition = Position.of(6, 2);
+        Piece cannon = new Cannon(TeamType.HAN);
 
         // when & then
-        assertThatCode(() -> cannonPathValidator.validateMovePath(positions, board))
+        assertThatCode(() -> cannonPathValidator.validatePath(positions, endPosition, board, cannon))
                 .doesNotThrowAnyException();
     }
 
@@ -77,11 +83,14 @@ class CannonPathValidatorTest {
     void validateDestinationSameTeam() {
         // given
         CannonPathValidator cannonPathValidator = new CannonPathValidator();
-        Position destination = Position.of(7, 2);
+        Position destination = Position.of(3, 1);
+        List<Position> positions = List.of(Position.of(8, 1), Position.of(7, 1),
+                Position.of(6, 1), Position.of(5, 1), Position.of(4, 1));
+
         Cannon cannon = new Cannon(TeamType.CHO);
 
         // when & then
-        assertThatThrownBy(() -> cannonPathValidator.validateDestination(destination, board, cannon))
+        assertThatThrownBy(() -> cannonPathValidator.validatePath(positions, destination, board, cannon))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이동하려는 위치에 같은 팀의 기물이 존재합니다.");
     }
@@ -91,11 +100,12 @@ class CannonPathValidatorTest {
     void validateDestinationCannon() {
         // given
         CannonPathValidator cannonPathValidator = new CannonPathValidator();
-        Position destination = Position.of(3, 4);
-        Cannon cannon = new Cannon(TeamType.CHO);
+        Position destination = Position.of(7, 2);
+        List<Position> positions = List.of(Position.of(5, 2), Position.of(6, 2));
+        Cannon cannon = new Cannon(TeamType.HAN);
 
         // when & then
-        assertThatThrownBy(() -> cannonPathValidator.validateDestination(destination, board, cannon))
+        assertThatThrownBy(() -> cannonPathValidator.validatePath(positions, destination, board, cannon))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 포를 잡을 수 없습니다.");
     }
