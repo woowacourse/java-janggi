@@ -23,7 +23,6 @@ class InnerElephantStrategyTest {
 
         // then
         Position elephantPosition = Position.of(0, 2);
-        assertThat(choElephant.get(elephantPosition).isSameType(PieceType.ELEPHANT));
+        assertThat(choElephant.get(elephantPosition).isSameType(PieceType.ELEPHANT)).isTrue();
     }
-
 }

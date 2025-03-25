@@ -23,6 +23,6 @@ class LeftElephantStrategyTest {
 
         // then
         Position elephantPosition = Position.of(0, 1);
-        assertThat(choElephant.get(elephantPosition).isSameType(PieceType.ELEPHANT));
+        assertThat(choElephant.get(elephantPosition).isSameType(PieceType.ELEPHANT)).isTrue();
     }
 }
