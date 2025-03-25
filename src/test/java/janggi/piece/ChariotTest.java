@@ -27,6 +27,19 @@ public class ChariotTest {
     }
 
     @Test
+    @DisplayName("차 전진2 테스트")
+    void chariotUp2Test() {
+        //given
+        Chariot chariot = new Chariot(Team.CHO, new Position(new Row(10), new Column(1)));
+        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(new Row(2), new Column(5))));
+        Position arrivedPosition = new Position(new Row(7), new Column(1));
+        //when
+        chariot.move(arrivedPosition, positioningPiece);
+        //then
+        assertThat(chariot.matchesPosition(new Position(new Row(7), new Column(1)))).isTrue();
+    }
+
+    @Test
     @DisplayName("차 후진 테스트")
     void chariotDownTest() {
         //given

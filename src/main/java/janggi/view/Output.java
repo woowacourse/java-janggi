@@ -1,46 +1,57 @@
 package janggi.view;
 
-import janggi.piece.Piece;
+import janggi.piece.*;
 import janggi.team.Team;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Output {
 
     private static final String RESET = "\u001B[0m";
     private static final String HAN_RED = "\u001B[31m";
     private static final String CHO_BLUE = "\u001B[34m";
-/*
-    public void printBoard(Board board) {
-        List<Piece> allPieces = board.getBoard();
 
-        allPieces.sort(Comparator.comparingInt((Piece p) -> p.getPosition().getColumn())
-                .thenComparingInt(p -> p.getPosition().getRow()));
+    public void printBoard(List<Piece> positioningPieces) {
 
-        String[][] locatedPieces = new String[9][10];
+        Map<String, Class<? extends Piece>> pieceView = Map.of(
+                "K", King.class,
+                "H", Horse.class,
+                "E", Elephant.class,
+                "G", Guard.class,
+                "S", Soldier.class,
+                "C", Chariot.class,
+                "P", Cannon.class
+        );
 
-        for (int x = 0; x <= 8; x++) {
-            for (int y = 0; y <= 9; y++) {
+   /*     positioningPieces.sort(Comparator.comparingInt((Piece p) -> p.getPosition().getColumn())
+                .thenComparingInt(p -> p.getPosition().getRow()));*/
+
+        String[][] locatedPieces = new String[10][9];
+
+        for (int x = 0; x <= 9; x++) {
+            for (int y = 0; y <= 8; y++) {
                 locatedPieces[x][y] = "_";
             }
         }
 
-        for (Piece piece : allPieces) {
-            int x = piece.getPosition().getRow();
-            int y = piece.getPosition().getColumn();
+        for (Piece piece : positioningPieces) {
+            int row = piece.getPosition().getRow();
+            int column = piece.getPosition().getColumn();
             String color = piece.getTeam().equals(Team.CHO) ? CHO_BLUE : HAN_RED;
-            locatedPieces[x][y] = color + piece.getName() + RESET;
+            Map.Entry<String, Class<? extends Piece>> findEntry = pieceView.entrySet().stream()
+                    .filter(entry -> entry.getValue().equals(piece.getClass()))
+                    .findFirst()
+                    .orElseThrow();
+            locatedPieces[row-1][column-1] = color + findEntry.getKey() + RESET;
         }
 
-        for (int y = 9; y >= 0; y--) {
+        for (int i = 0; i <= 9; i++) {
             System.out.println();
-            for (int x = 0; x <= 8; x++) {
-                System.out.print(locatedPieces[x][y]);
+            for (int j = 0; j <= 8 ; j++) {
+                System.out.print(locatedPieces[i][j]);
             }
         }
 
         System.out.println();
-    }*/
+    }
 }

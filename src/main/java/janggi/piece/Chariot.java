@@ -43,7 +43,14 @@ public class Chariot implements Piece {
 
     private List<Position> extractPathPositions(List<Movement> availableMovements, Position arrivedPosition) {
         List<Position> pathPositions = new ArrayList<>();
-        for (int i = 0; i < availableMovements.size(); i++) {
+        int arrivedValue = 0;
+        if(position.isHorizontalFromPosition(arrivedPosition)) {
+            arrivedValue = Math.abs(position.getColumn() - arrivedPosition.getColumn());
+        }
+        if(position.isVerticalFromPosition(arrivedPosition)) {
+            arrivedValue = Math.abs(position.getRow() - arrivedPosition.getRow()) ;
+        }
+        for (int i = 0; i < arrivedValue; i++) {
             Position pathPosition = position;
             for (int j = 0; j <= i; j++) {
                 Movement movement = availableMovements.get(j);
@@ -120,6 +127,11 @@ public class Chariot implements Piece {
     }
 
     @Override
+    public Position getPosition() {
+        return position;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Chariot chariot = (Chariot) o;
@@ -129,5 +141,10 @@ public class Chariot implements Piece {
     @Override
     public int hashCode() {
         return Objects.hash(team, position);
+    }
+
+    @Override
+    public Team getTeam() {
+        return team;
     }
 }

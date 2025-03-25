@@ -81,6 +81,11 @@ public class Soldier implements Piece {
     }
 
     @Override
+    public Position getPosition() {
+        return position;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Soldier soldier = (Soldier) o;
@@ -90,5 +95,10 @@ public class Soldier implements Piece {
     @Override
     public int hashCode() {
         return Objects.hash(team, position);
+    }
+
+    @Override
+    public Team getTeam() {
+        return team;
     }
 }

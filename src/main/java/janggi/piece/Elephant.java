@@ -104,6 +104,11 @@ public class Elephant implements Piece {
     }
 
     @Override
+    public Position getPosition() {
+        return position;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Elephant elephant = (Elephant) o;
@@ -119,5 +124,10 @@ public class Elephant implements Piece {
     public String toString() {
         return "[" + team +
                 ": " + position;
+    }
+
+    @Override
+    public Team getTeam() {
+        return team;
     }
 }

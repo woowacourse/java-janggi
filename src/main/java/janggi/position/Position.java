@@ -16,7 +16,6 @@ public record Position(Row row, Column column) {
         return position.column.equals(column);
     }
 
-
     public boolean isOutOfBoards() {
         return row().isOutOfBounds() || column().isOutOfBounds();
     }
@@ -28,8 +27,6 @@ public record Position(Row row, Column column) {
     public boolean isHorizontalFromPosition(Position position) {
         return isSameRow(position);
     }
-
-
 
     public int getRow() {
         return row.value();

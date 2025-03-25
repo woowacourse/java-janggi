@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class King implements Piece {
-
     private final Team team;
     private Position position;
     private final List<Movement> movements = List.of(
@@ -74,6 +73,11 @@ public class King implements Piece {
     }
 
     @Override
+    public Position getPosition() {
+        return position;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         King king = (King) o;
@@ -83,5 +87,10 @@ public class King implements Piece {
     @Override
     public int hashCode() {
         return Objects.hash(team, position);
+    }
+
+    @Override
+    public Team getTeam() {
+        return team;
     }
 }

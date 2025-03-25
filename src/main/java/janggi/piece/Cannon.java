@@ -48,7 +48,14 @@ public class Cannon implements Piece {
 
     private List<Position> extractPathPositions(List<Movement> availableMovements, Position arrivedPosition) {
         List<Position> pathPositions = new ArrayList<>();
-        for (int i = 0; i < availableMovements.size(); i++) {
+        int arrivedValue = 0;
+        if(position.isHorizontalFromPosition(arrivedPosition)) {
+            arrivedValue = Math.abs(position.getColumn() - arrivedPosition.getColumn());
+        }
+        if(position.isVerticalFromPosition(arrivedPosition)) {
+            arrivedValue = Math.abs(position.getRow() - arrivedPosition.getRow()) ;
+        }
+        for (int i = 0; i < arrivedValue; i++) {
             Position pathPosition = position;
             for (int j = 0; j <= i; j++) {
                 Movement movement = availableMovements.get(j);
@@ -123,6 +130,16 @@ public class Cannon implements Piece {
     @Override
     public boolean canNotJumpOver() {
         return true;
+    }
+
+    @Override
+    public Position getPosition() {
+        return position;
+    }
+
+    @Override
+    public Team getTeam() {
+        return team;
     }
 
     @Override

@@ -1,7 +1,11 @@
 package janggi.view;
 
+import janggi.position.Column;
+import janggi.position.Position;
+import janggi.position.Row;
 import janggi.team.Team;
 
+import java.util.Map;
 import java.util.Scanner;
 
 public class Input {
@@ -13,16 +17,19 @@ public class Input {
         return scanner.nextLine();
     }
 
-    // 이후 팀 턴, 말의 생사 구현 필요
-    public String readPieceTeamName() {
-        System.out.println("움직임 팀 이름을 입력해주세요.");
-        System.out.println("ex) 초");
-        return scanner.nextLine();
+    public Map.Entry<Position, Position> readMoveablePiece() {
+        System.out.println("움직일 기물의 출발 위치 및 도착 위치를 입력해주세요.");
+        System.out.println("ex) 1,1 1,2"); //출발 좌표가 해당 기물의 종류가 맞는지 검증 필요
+        String[] splitInput = scanner.nextLine().split(" ");
+        Position startPosition = convertToPosition(splitInput[0].split(","));
+        Position arrivedPosition = convertToPosition(splitInput[1].split(","));
+
+        return Map.entry(startPosition, arrivedPosition);
     }
 
-    public String readPieceStartPoint() {
-        System.out.println("움직일 기물 이름과 출발 좌표를 입력해주세요.");
-        System.out.println("ex) E-[1, 0]"); //출발 좌표가 해당 기물의 종류가 맞는지 검증 필요
-        return scanner.nextLine();
+    private Position convertToPosition(String[] splitInputPosition) {
+        int row = Integer.parseInt(splitInputPosition[0]);
+        int column = Integer.parseInt(splitInputPosition[1]);
+        return new Position(new Row(row), new Column(column));
     }
 }

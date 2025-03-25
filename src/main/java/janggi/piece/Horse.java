@@ -55,7 +55,6 @@ public class Horse implements Piece {
         return false;
     }
 
-
     private List<Position> extractPathPositions(List<Movement> availableMovements, Position arrivedPosition) {
         List<Position> pathPositions = new ArrayList<>();
         for (int i = 0; i < availableMovements.size(); i++) {
@@ -105,6 +104,11 @@ public class Horse implements Piece {
     }
 
     @Override
+    public Position getPosition() {
+        return position;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Horse horse = (Horse) o;
@@ -120,5 +124,10 @@ public class Horse implements Piece {
     public String toString() {
         return "[" + team +
                 ": " + position;
+    }
+
+    @Override
+    public Team getTeam() {
+        return team;
     }
 }

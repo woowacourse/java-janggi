@@ -1,18 +1,12 @@
 package janggi.board;
 
 import janggi.piece.Piece;
-import janggi.piece.PieceGenerator;
 import janggi.position.Position;
 import janggi.team.Team;
-import janggi.view.Input;
-import janggi.view.Output;
 
 import java.util.List;
 
 public class Board {
-
-    private Input inputView;
-    private Output outputView;
 
     private final List<Piece> positionedPieces;
 
@@ -20,22 +14,19 @@ public class Board {
         this.positionedPieces = positionedPieces;
     }
 
-    // TODO 상차림에 따른 보드 초기화
     // TODO 기물 출발 위치 및 도착 위치를 받아 기물 이동
     // TODO 턴을 넘겨주며 게임 진행
-
-    public void play() {
-        List<Piece> pieces = generateInitialPieces();
+    public void attack(Team turn, Position startPosition, Position arrivedPosition) {
+        Piece selectedPiece = findByPosition(startPosition);
+        checkTurn(turn, selectedPiece);
+        selectedPiece.move(arrivedPosition,positionedPieces);
     }
 
-    public List<Piece> generateInitialPieces() {
-        String choTableOptionInput = inputView.readTableOption(Team.CHO);
-        TableOption choTable = TableOption.from(choTableOptionInput);
-
-        String hanTableOptionInput = inputView.readTableOption(Team.HAN);
-        TableOption hanTable = TableOption.from(hanTableOptionInput);
-
-        return new PieceGenerator().generateInitialPieces(hanTable, choTable);
+    public void checkTurn(Team turn, Piece piece) {
+        if (piece.isSameTeam(turn)) {
+            return;
+        };
+        throw new IllegalArgumentException("순서를 확인하세요");
     }
 
     public Piece findByPosition(Position startPosition) {
@@ -44,4 +35,10 @@ public class Board {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다"));
     }
+
+    public List<Piece> getPositionedPieces() {
+        return positionedPieces;
+    }
+
+    // TODO 살아있는 왕이 하나만 존재하면 게임 종료
 }
