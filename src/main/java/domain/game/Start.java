@@ -4,7 +4,7 @@ import domain.JanggiBoard;
 import domain.JanggiPosition;
 
 public class Start implements GameState {
-    private final JanggiBoard janggiBoard = new JanggiBoard();
+    JanggiBoard janggiBoard = new JanggiBoard();
 
     @Override
     public GameState start() {
@@ -19,5 +19,10 @@ public class Start implements GameState {
     @Override
     public GameState end() {
         return null;
+    }
+
+    @Override
+    public Boolean isEnd() {
+        return false;
     }
 }

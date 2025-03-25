@@ -17,4 +17,9 @@ public class End implements GameState {
     public GameState end() {
         throw new UnsupportedOperationException("게임이 종료되었습니다.");
     }
+
+    @Override
+    public Boolean isEnd() {
+        return true;
+    }
 }

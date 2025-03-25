@@ -8,4 +8,6 @@ public interface GameState {
     GameState move(JanggiPosition beforePosition, JanggiPosition afterPosition);
 
     GameState end();
+
+    Boolean isEnd();
 }
