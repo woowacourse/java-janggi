@@ -141,7 +141,15 @@ public final class Routes {
         return new Routes(possibleRoutes);
     }
 
-    public Routes possibleJumpingRoutes(Position position, Board board) {
-        return null;
+    public Routes possibleJumpingRoutes(Position source, Board board) {
+        Set<Route> possibleRoutes = new HashSet<>();
+        for (Route route : routes) {
+            Route straight = route;
+            while(straight.isPossibleJumpingRoute(source, board)){
+                possibleRoutes.add(straight);
+                straight = straight.add(route);
+            }
+        }
+        return new Routes(possibleRoutes);
     }
 }

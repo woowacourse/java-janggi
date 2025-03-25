@@ -28,4 +28,18 @@ public final class Route {
         return new Route(Stream.concat(directions.stream(), route.directions.stream()).toList());
     }
 
+    public boolean isPossibleJumpingRoute(Position source, Board board) {
+        Position target = source;
+        for (int directionCount = 0; directionCount < directions.size() - 1; directionCount++) {
+            while (board.isBlank(target) && target.canMove(directions.get(directionCount), board)){
+                target = target.move(directions.get(directionCount));
+            }
+            if (!target.canMove(directions.get(directionCount), board)) {
+                return false;
+            }
+            target = target.move(directions.get(directionCount));
+        }
+
+        return target.canMoveLast(directions.getLast(), board);
+    }
 }
