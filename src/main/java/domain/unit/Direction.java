@@ -22,17 +22,12 @@ public enum Direction {
         this.y = y;
     }
 
-    public List<Direction> getCross() {
-        if (this == UPPER) {
-            return List.of(UPPER_LEFT, UPPER_RIGHT);
-        }
-        if (this == UNDER) {
-            return List.of(UNDER_LEFT, UNDER_RIGHT);
-        }
-        if (this == LEFT) {
-            return List.of(UPPER_LEFT, UNDER_LEFT);
-        }
-        return List.of(UPPER_RIGHT, UNDER_RIGHT);
+    public static List<Direction> getStraight() {
+        return List.of(Direction.UPPER, Direction.UNDER, Direction.LEFT, Direction.RIGHT);
+    }
+
+    public static List<Direction> getDiagonal() {
+        return List.of(UPPER_RIGHT, UNDER_RIGHT, UNDER_LEFT, UPPER_LEFT);
     }
 
     public List<Direction> getNext() {

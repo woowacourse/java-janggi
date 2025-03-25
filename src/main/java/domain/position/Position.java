@@ -19,6 +19,13 @@ public class Position {
         return new Position(point.getX(), point.getY());
     }
 
+    public static boolean isCanBePosition(int x, int y) {
+        if (x < 0 || x > X_MAX) {
+            return false;
+        }
+        return !(y < 0 || y > Y_MAX);
+    }
+
     private void validate(int x, int y) {
         if (x < 0 || x > X_MAX) {
             throw new IllegalArgumentException("");
@@ -26,13 +33,6 @@ public class Position {
         if (y < 0 || y > Y_MAX) {
             throw new IllegalArgumentException("");
         }
-    }
-
-    public static boolean isCanBePosition(Point point) {
-        if (point.getX() < 0 || point.getX() > X_MAX) {
-            return false;
-        }
-        return !(point.getY() < 0 || point.getY() > Y_MAX);
     }
 
     public boolean isHorizontal(Position opposite) {

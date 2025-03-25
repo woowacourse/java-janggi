@@ -10,21 +10,20 @@ public class JolUnitRule implements UnitRule {
     public List<Route> calculateAllRoute(Position start) {
         List<Route> routes = new ArrayList<>();
 
-        List<Integer> dx = List.of(0, 1, 0, -1);
-        List<Integer> dy = List.of(1, 0, -1, 0);
-
         int x = start.getX();
         int y = start.getY();
-        for (int i = 0; i < dx.size(); i++) {
-            try {
-                routes.add(Route.of(
-                        List.of(new Position(x + dx.get(i), y + dy.get(i))))
-                );
-            } catch (IllegalArgumentException exception) {
-                continue;
-            }
+        for (Direction direction : Direction.getStraight()) {
+            addRouteIfCanBePosition(direction, x, y, routes);
         }
         return routes;
+    }
+
+    private static void addRouteIfCanBePosition(Direction direction, int x, int y, List<Route> routes) {
+        int newX = x + direction.getX();
+        int newY = y + direction.getY();
+        if (Position.isCanBePosition(newX, newY)) {
+            routes.add(Route.of(List.of(new Position(newX, newY))));
+        }
     }
 
     @Override
