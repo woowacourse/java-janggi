@@ -24,7 +24,7 @@ public enum Camp {
 
     public abstract Camp reverse();
 
-    public boolean isBottom() {
+    public boolean isChu() {
         return this == CHU;
     }
 
