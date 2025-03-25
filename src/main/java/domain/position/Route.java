@@ -1,6 +1,7 @@
 package domain.position;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Route {
@@ -18,19 +19,15 @@ public class Route {
     }
 
     public Position searchEndPoint(Position startPoint) {
-        int distance = 0;
-        Position endPoint = positions.get(0);
+        return positions.stream()
+                .max(Comparator.comparingInt(position ->
+                        calculateDistance(startPoint, position)))
+                .orElse(positions.get(0));
+    }
 
-        for (Position position : positions) {
-            int distanceX = Math.abs(position.getX() - startPoint.getX());
-            int distanceY = Math.abs(position.getY() - startPoint.getY());
-
-            if (distance < distanceX + distanceY) {
-                distance = distanceX + distanceY;
-                endPoint = position;
-            }
-        }
-        return endPoint;
+    private int calculateDistance(Position startPoint, Position now) {
+        return Math.abs(now.getX() - startPoint.getX())
+                + Math.abs(now.getY() - startPoint.getY());
     }
 
     public List<Position> getPoints() {
