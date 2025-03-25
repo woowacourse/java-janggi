@@ -4,7 +4,7 @@ import domain.board.Board;
 import domain.board.BoardGenerator;
 import domain.board.Point;
 import domain.piece.Team;
-import util.ErrorHandler;
+import view.Command;
 import view.InputView;
 import view.MoveCommand;
 import view.OutputView;
@@ -20,45 +20,61 @@ public class JanggiGameManager {
         this.turn = new Turn(START_TEAM);
     }
 
+    private Board createBoard(BoardGenerator boardGenerator) {
+        SangMaOrderCommand hanSangMaOrderCommand = InputView.inputSangMaOrder(Team.HAN);
+        SangMaOrderCommand choSangMaOrderCommand = InputView.inputSangMaOrder(Team.CHO);
+
+        return boardGenerator.generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
+    }
+
     public void startGame() {
+
         OutputView.printStart();
         Board board = createBoard(new BoardGenerator());
 
         while (board.isPlaying()) {
-            processTurn(board);
+            Command command = InputView.inputCommand();
+
+            if (command.isEnd()) {
+                OutputView.printStatus(board.calculateScore(Team.HAN), board.calculateScore(Team.CHO));
+                OutputView.printMatchResult(board.findWinTeam());
+                return;
+            }
+
+            if (command.isMove()) {
+                move(board);
+                continue;
+            }
+
+            if (command.isStatus()) {
+                OutputView.printStatus(board.calculateScore(Team.HAN), board.calculateScore(Team.CHO));
+            }
         }
 
         OutputView.printMatchResult(board.findWinTeam());
     }
 
-    private void processTurn(Board board) {
-        ErrorHandler.retryUntilSuccess(() -> {
-            OutputView.printBoard(board);
-            MoveCommand moveCommand = InputView.inputMoveCommand(turn.team());
-            Point source = moveCommand.source();
-            Point destination = moveCommand.destination();
+    private void move(Board board) {
+        OutputView.printBoard(board);
+        MoveCommand moveCommand = InputView.inputMoveCommand(turn.team);
+        Point source = moveCommand.source();
+        Point destination = moveCommand.destination();
 
-            if (!board.matchTeam(source, turn.team())) {
-                OutputView.printTurn(turn.team());
-                return;
-            }
-            if (!board.canMove(source, destination)) {
-                OutputView.printCannotMove(source, destination);
-                return;
-            }
+        if (!board.existsPiece(source)) {
+            OutputView.printEmpty(source);
+        }
 
-            board.movePiece(source, destination);
-            turn.changeTurn();
-        });
-    }
+        if (!board.matchTeam(source, turn.team())) {
+            OutputView.printTurn(turn.team());
+            return;
+        }
+        if (!board.canMove(source, destination)) {
+            OutputView.printCannotMove(source, destination);
+            return;
+        }
 
-    private Board createBoard(BoardGenerator boardGenerator) {
-        return ErrorHandler.retryUntilSuccessWithReturn(() -> {
-            SangMaOrderCommand hanSangMaOrderCommand = InputView.inputSangMaOrder(Team.HAN);
-            SangMaOrderCommand choSangMaOrderCommand = InputView.inputSangMaOrder(Team.CHO);
-
-            return boardGenerator.generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
-        });
+        board.movePiece(source, destination);
+        turn.changeTurn();
     }
 
     private static class Turn {

@@ -5,6 +5,7 @@ import domain.piece.Team;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import util.ErrorHandler;
 
 public class InputView {
 
@@ -12,30 +13,43 @@ public class InputView {
     private static final String MOVE_COMMAND_INPUT = "move";
 
     public static SangMaOrderCommand inputSangMaOrder(Team team) {
-        System.out.printf("""
-                %n%s나라 상마 순서를 입력해주세요. (예: 3)
-                1. 상마상마
-                2. 상마마상
-                3. 마상상마
-                4. 마상마상
-                """, team.title());
-        String input = scanner.nextLine();
-        return SangMaOrderCommand.from(input);
+        return ErrorHandler.retryUntilSuccessWithReturn(() -> {
+            System.out.printf("""
+                    %n%s나라 상마 순서를 입력해주세요. (예: 3)
+                    1. 상마상마
+                    2. 상마마상
+                    3. 마상상마
+                    4. 마상마상
+                    """, team.title());
+            String input = scanner.nextLine();
+            return SangMaOrderCommand.from(input);
+        });
+    }
+
+    public static Command inputCommand() {
+        return ErrorHandler.retryUntilSuccessWithReturn(() -> {
+            System.out.printf("""
+                    %n원하는 기능을 선택해주세요. (예: move)
+                    > move: 기물 이동
+                    > status: 현재 점수 출력
+                    > end: 게임 종료
+                    """);
+            String input = scanner.nextLine();
+            return Command.from(input.strip());
+        });
     }
 
     public static MoveCommand inputMoveCommand(Team team) {
         System.out.printf("""
-                %n현재 턴 : %s나라
-                이동할 기물의 현재 위치와 이동할 위치를 입력해주세요. (예: move 7,1 7,2)
+                %n현재 턴: %s나라
+                이동할 기물의 현재 위치와 이동할 위치를 입력해주세요. (예: 7,1 7,2)
                 """, team.title());
         String input = scanner.nextLine();
 
         List<String> parsed = Arrays.stream(input.split(" ", -1)).toList();
-        String command = parsed.get(0);
-        validateCommand(command);
 
-        List<String> source = Arrays.stream(parsed.get(1).split(",", -1)).toList();
-        List<String> destination = Arrays.stream(parsed.get(2).split(",", -1)).toList();
+        List<String> source = Arrays.stream(parsed.get(0).split(",", -1)).toList();
+        List<String> destination = Arrays.stream(parsed.get(1).split(",", -1)).toList();
         validateSize(source);
         validateSize(destination);
 

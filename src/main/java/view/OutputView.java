@@ -27,7 +27,6 @@ public class OutputView {
 
         List<List<String>> boardString = new ArrayList<>();
         for (int row = MIN_ROW_INDEX; row <= MAX_ROW_INDEX; row++) {
-
             List<String> rowString = new ArrayList<>();
             boardString.add(rowString);
 
@@ -40,11 +39,7 @@ public class OutputView {
                     continue;
                 }
                 Piece piece = pieceByPoint.get(point);
-                if (board.matchTeam(point, Team.CHO)) {
-                    rowString.add(Painter.paintGreen(piece.type().title()));
-                    continue;
-                }
-                rowString.add(Painter.paintRed(piece.type().title()));
+                rowString.add(paintByTeam(piece.team(), piece.type().title()));
             }
         }
 
@@ -59,6 +54,13 @@ public class OutputView {
         IntStream.range(MIN_COLUMN_INDEX, MAX_COLUMN_INDEX + 1)
                 .forEach(column -> lastRowString.add(String.format("%02d", column)));
         System.out.println(String.join(TAB, lastRowString));
+    }
+
+    private static String paintByTeam(Team team, String pieceName) {
+        if (team == Team.CHO) {
+            return Painter.paintGreen(pieceName);
+        }
+        return Painter.paintRed(pieceName);
     }
 
     public static void printTurn(Team team) {
@@ -81,5 +83,9 @@ public class OutputView {
 
     public static void printMatchResult(Team winTeam) {
         System.out.printf("%n%s나라의 승리입니다.", winTeam.title());
+    }
+
+    public static void printEmpty(Point point) {
+        System.out.printf("%n(%d,%d)에 기물이 없습니다.", point.row(), point.column());
     }
 }
