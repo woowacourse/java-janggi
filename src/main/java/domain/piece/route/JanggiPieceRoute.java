@@ -2,12 +2,12 @@ package domain.piece.route;
 
 import domain.MovingPattern;
 import domain.piece.JanggiSide;
-import domain.piece.route.routestrategy.JanggiPieceRouteSelector;
-import domain.piece.route.routestrategy.LimitedRouteSelector;
-import domain.piece.route.routestrategy.LinearRouteSelector;
-import domain.piece.route.routestrategy.NoneRouteSelector;
-import domain.piece.route.routestrategy.PalaceRouteSelector;
-import domain.piece.route.routestrategy.SoldierRouteSelector;
+import domain.piece.route.routeselector.JanggiPieceRouteSelector;
+import domain.piece.route.routeselector.LimitedRouteSelector;
+import domain.piece.route.routeselector.LinearRouteSelector;
+import domain.piece.route.routeselector.NoneRouteSelector;
+import domain.piece.route.routeselector.PalaceRouteSelector;
+import domain.piece.route.routeselector.SoldierRouteSelector;
 import domain.position.JanggiPosition;
 import java.util.List;
 

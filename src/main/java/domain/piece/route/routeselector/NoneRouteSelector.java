@@ -1,4 +1,4 @@
-package domain.piece.route.routestrategy;
+package domain.piece.route.routeselector;
 
 import domain.MovingPattern;
 import domain.piece.JanggiSide;
