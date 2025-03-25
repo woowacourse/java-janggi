@@ -22,7 +22,6 @@ class SoliderTest {
                 new Solider(new Position(4,4), Color.BLUE, board),
                 new Solider(new Position(3,3), Color.RED, board)
         ));
-
         assertThat(piece.getMovablePositions()).hasSize(2);
     }
 }

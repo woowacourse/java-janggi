@@ -47,7 +47,7 @@ public abstract class Piece {
         return board;
     }
 
-    protected abstract Set<Position> getMovablePositions();
+    public abstract Set<Position> getMovablePositions();
 
     public abstract String getDisplayName();
 }

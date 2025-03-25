@@ -16,7 +16,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    protected Set<Position> getMovablePositions() {
+    public Set<Position> getMovablePositions() {
         return generatePath().stream()
                 .filter(path -> !board.anyMatchSameTeam(this, position.moveByPath(path)))
                 .filter(path -> !containsCornerPiece(path.cornerPositions()))

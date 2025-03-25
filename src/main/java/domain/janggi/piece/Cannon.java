@@ -15,7 +15,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    protected Set<Position> getMovablePositions() {
+    public Set<Position> getMovablePositions() {
         return Direction.getStraightDirection()
                 .stream()
                 .flatMap(direction -> computePositions(position, direction, 0).stream())

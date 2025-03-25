@@ -14,7 +14,7 @@ public class Solider extends Piece {
     }
 
     @Override
-    protected Set<Position> getMovablePositions() {
+    public Set<Position> getMovablePositions() {
         return Direction.getStraightDirection().stream()
                 .filter(direction -> getUnmovableDirection() != direction)
                 .filter(direction -> position.canMove(direction))

@@ -14,7 +14,7 @@ public class King extends Piece {
     }
 
     @Override
-    protected Set<Position> getMovablePositions() {
+    public Set<Position> getMovablePositions() {
         return Direction.getStraightDirection().stream()
                 .map(direction -> position.moveByDirection(direction))
                 .filter(this::isMovable)
