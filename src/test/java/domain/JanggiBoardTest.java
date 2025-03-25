@@ -1,6 +1,7 @@
 package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Byeong;
 import domain.piece.Cha;
@@ -269,4 +270,13 @@ public class JanggiBoardTest {
         assertThat(actual).isEqualTo(expected);
     }
 
+    @Test
+    void 시작_위치에_기물이_존재하지_않는_경우_예외를_발생시킨다() {
+        Map<Position, Piece> board = new HashMap<>();
+        JanggiBoard janggiBoard = new JanggiBoard(new FakeBoardGenerator(board));
+
+        assertThatThrownBy(() -> janggiBoard.move(new Position(1, 1), new Position(1, 2)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("기물이 존재하지 않는 위치입니다.");
+    }
 }

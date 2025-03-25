@@ -16,7 +16,9 @@ public class JanggiBoard {
     }
 
     public void move(Position startPosition, Position targetPosition) {
+        validateEmptyStartPosition(startPosition);
         Piece startPiece = findPiece(startPosition);
+
         Piece targetPositionPiece = findPiece(targetPosition);
         List<Position> path = startPiece.calculatePath(startPosition, targetPosition);
         validateMovePiece(startPiece, path, targetPositionPiece);
@@ -25,8 +27,10 @@ public class JanggiBoard {
         board.put(targetPosition, startPiece);
     }
 
-    public boolean existGung(Team team) {
-        return board.values().stream().anyMatch(piece -> piece instanceof Gung && piece.compareTeam(team));
+    private void validateEmptyStartPosition(Position startPosition) {
+        if (isPositionEmpty(startPosition)) {
+            throw new IllegalArgumentException("기물이 존재하지 않는 위치입니다.");
+        }
     }
 
     private void validateMovePiece(Piece startPiece, List<Position> path, Piece targetPositionPiece) {
@@ -81,6 +85,10 @@ public class JanggiBoard {
 
     private int countPieceInPath(List<Position> path) {
         return (int) path.stream().filter(pos -> !isPositionEmpty(pos)).count();
+    }
+
+    public boolean existGung(Team team) {
+        return board.values().stream().anyMatch(piece -> piece instanceof Gung && piece.compareTeam(team));
     }
 
     public boolean isPositionEmpty(Position position) {
