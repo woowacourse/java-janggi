@@ -9,11 +9,11 @@ public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public List<Player> readPlayerNames() {
+    public List<String> readPlayerNames() {
         System.out.println("플레이어 두 명의 이름을 입력하시오. (플레이어1, 플레이어2)");
         String input = scanner.nextLine();
-        return List.of(new Player(input.split(",")[0].trim(), Team.BLUE),
-                new Player(input.split(",")[1].trim(), Team.RED));
+        String[] playerNames = input.split(",");
+        return List.of(playerNames[0].trim(), playerNames[1].trim());
     }
 
     public List<Integer> readMovePiecePosition(Player player) {

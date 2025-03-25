@@ -2,11 +2,13 @@ package controller;
 
 import domain.JanggiGame;
 import domain.Player;
+import domain.Players;
 import domain.Position;
 import domain.boardgenerator.JanggiBoardGenerator;
 import java.util.List;
 import view.InputView;
 import view.OutputView;
+import view.Parser;
 
 public class JanggiController {
 
@@ -19,9 +21,11 @@ public class JanggiController {
     }
 
     public void run() {
-        List<Player> playerNames = inputView.readPlayerNames();
-        JanggiGame janggiGame = new JanggiGame(new JanggiBoardGenerator(), playerNames);
-        outputView.displayPlayerInfo(playerNames);
+        List<String> playerNames = inputView.readPlayerNames();
+        Players players = Parser.parseListToPlayers(playerNames);
+        JanggiGame janggiGame = new JanggiGame(new JanggiBoardGenerator(), players);
+
+        outputView.displayPlayerInfo(players);
         outputView.displayJanggiBoard(janggiGame.getBoardState());
         while (true) {
             Player thisTurnPlayer = janggiGame.getThisTurnPlayer();
