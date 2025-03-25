@@ -29,7 +29,7 @@ public class Ma extends Piece {
 
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        MaDirection maDirection = MaDirection.of(getPosition(), destination);
+        MaDirection maDirection = MaDirection.parse(getPosition(), destination);
         boolean followRuleOfMove = checkRuleOfMove(maDirection);
         boolean existHurdleInPath = existHurdleInPath(maDirection, enemy, allies);
         boolean existAllieInDestination = existPieceInDestination(destination, allies);

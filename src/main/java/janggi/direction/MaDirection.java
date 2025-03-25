@@ -18,7 +18,7 @@ public enum MaDirection {
         this.destinationPositions = destinationPositions;
     }
 
-    public static MaDirection of(final Position current, final Position destination) {
+    public static MaDirection parse(final Position current, final Position destination) {
         Position relativePosition = destination.calculateDifference(current);
         List<MaDirection> allDirections = List.of(MaDirection.values());
         return allDirections.stream()
