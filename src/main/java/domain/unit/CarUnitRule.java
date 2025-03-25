@@ -3,6 +3,7 @@ package domain.unit;
 import domain.position.Position;
 import domain.position.Route;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -45,18 +46,38 @@ public class CarUnitRule implements UnitRule {
         int endY = end.getY();
 
         if (startX == endX) {
-            int maxY = Integer.max(startY, endY);
-            int minY = Integer.min(startY, endY);
-            return Route.of(IntStream.range(minY, maxY + 1)
+            return calculateYRoute(startY, endY, startX);
+        }
+        return calculateXRoute(startX, endX, startY);
+    }
+
+    private static Route calculateYRoute(int startY, int endY, int startX) {
+        if (startY < endY) {
+            return Route.of(IntStream.range(startY, endY + 1)
                     .filter(y -> startY != y)
                     .mapToObj(y -> new Position(startX, y))
                     .toList());
         }
-        int maxX = Integer.max(startX, endX);
-        int minX = Integer.min(startX, endX);
-        return Route.of(IntStream.range(minX, maxX + 1)
+        return Route.of(IntStream.range(endY, startY + 1)
+                .boxed()
+                .sorted(Comparator.reverseOrder())
+                .filter(y -> startY != y)
+                .map(y -> new Position(startX, y))
+                .toList());
+    }
+
+    private static Route calculateXRoute(int startX, int endX, int startY) {
+        if (startX < endX) {
+            return Route.of(IntStream.range(startX, endX + 1)
+                    .filter(x -> startX != x)
+                    .mapToObj(x -> new Position(x, startY))
+                    .toList());
+        }
+        return Route.of(IntStream.range(endX, startX + 1)
+                .boxed()
+                .sorted(Comparator.reverseOrder())
                 .filter(x -> startX != x)
-                .mapToObj(x -> new Position(x, startY))
+                .map(x -> new Position(x, startY))
                 .toList());
     }
 }
