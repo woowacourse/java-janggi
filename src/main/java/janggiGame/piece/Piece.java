@@ -12,11 +12,9 @@ public abstract class Piece {
         this.dynasty = Objects.requireNonNull(dynasty);
     }
 
-    public final Dynasty getDynasty() {
-        return dynasty;
-    }
-
     public abstract List<Position> getIntermediatePoints(Position origin, Position destination);
+
+    public abstract PieceType getType();
 
     public void validateMove(Map<Position, Piece> IntermediatePointsWithPiece, Piece destinationPiece) {
         if (destinationPiece != null && destinationPiece.dynasty == this.dynasty) {
@@ -24,5 +22,7 @@ public abstract class Piece {
         }
     }
 
-    public abstract PieceType getType();
+    public final Dynasty getDynasty() {
+        return dynasty;
+    }
 }
