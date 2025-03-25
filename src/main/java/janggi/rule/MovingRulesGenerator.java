@@ -1,5 +1,7 @@
 package janggi.rule;
 
+import janggi.position.Column;
+import janggi.position.Row;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +15,8 @@ public final class MovingRulesGenerator {
     private static final MoveVector RIGHT_DOWN = new MoveVector(1, 1);
     private static final MoveVector LEFT_DOWN = new MoveVector(1, -1);
     private static final MoveVector LEFT_UP = new MoveVector(-1, -1);
-    private static final int HORIZONTAL_RANGE = 9;
-    private static final int VERTICAL_RANGE = 10;
+    private static final int HORIZONTAL_RANGE = Column.values().length;
+    private static final int VERTICAL_RANGE = Row.values().length;
 
     public static MovingRules generalOrGuard() {
         return new MovingRules(
