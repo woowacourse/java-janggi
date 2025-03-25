@@ -58,4 +58,40 @@ class PositionTest {
         // then
         assertThat(result).isEqualTo(expectedResult);
     }
+
+    @Test
+    void 좌표를_좌우_대칭_시킨다() {
+        // given
+        Position position = new Position(2, 6);
+
+        // when
+        Position result = position.flipLeftRight();
+
+        // then
+        assertThat(result).isEqualTo(new Position(8, 6));
+    }
+
+    @Test
+    void 좌표를_상하_대칭_시킨다() {
+        // given
+        Position position = new Position(2, 7);
+
+        // when
+        Position result = position.flipUpDown();
+
+        // then
+        assertThat(result).isEqualTo(new Position(2, 4));
+    }
+
+    @Test
+    void 좌표의_열을_움직인다() {
+        // given
+        Position position = new Position(1, 5);
+
+        // when
+        Position result = position.moveRow(4);
+
+        // then
+        assertThat(result).isEqualTo(new Position(5, 5));
+    }
 }

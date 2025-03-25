@@ -37,6 +37,18 @@ public class Position {
         return !(row < MIN_ROW || column < MIN_COLUMN || row > MAX_ROW || column > MAX_COLUMN);
     }
 
+    public Position flipLeftRight() {
+        return new Position(9 - this.row + 1, this.column);
+    }
+
+    public Position flipUpDown() {
+        return new Position(this.row, 10 - this.column + 1);
+    }
+
+    public Position moveRow(final int step) {
+        return new Position(this.row + step, this.column);
+    }
+
     @Override
     public boolean equals(final Object object) {
         if (object == null || getClass() != object.getClass()) {
