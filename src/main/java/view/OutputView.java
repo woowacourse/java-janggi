@@ -12,11 +12,14 @@ import domain.piece.Team;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class OutputView {
 
+    private static final String TAB = "\t";
+
     public static void printStart() {
-        System.out.println("장기 게임에 오신 것을 환영합니다.");
+        System.out.println("%n장기 게임에 오신 것을 환영합니다.");
     }
 
     public static void printBoard(Board board) {
@@ -27,6 +30,9 @@ public class OutputView {
 
             List<String> rowString = new ArrayList<>();
             boardString.add(rowString);
+
+            rowString.add(String.format("%02d", row));
+            rowString.add("|");
             for (int column = MIN_COLUMN_INDEX; column <= MAX_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
                 if (!board.existsPiece(point)) {
@@ -44,24 +50,36 @@ public class OutputView {
 
         System.out.println();
         for (List<String> rowString : boardString) {
-            System.out.println(String.join(" ", rowString));
+            System.out.println(String.join(TAB, rowString));
         }
 
-        Painter.clean();
-    }
-
-    public static void printMatchResult(Team winTeam) {
-        System.out.printf("%s나라의 승리입니다.%n", winTeam.title());
+        List<String> lastRowString = new ArrayList<>();
+        lastRowString.add("");
+        lastRowString.add("|");
+        IntStream.range(MIN_COLUMN_INDEX, MAX_COLUMN_INDEX + 1)
+                .forEach(column -> lastRowString.add(String.format("%02d", column)));
+        System.out.println(String.join(TAB, lastRowString));
     }
 
     public static void printTurn(Team team) {
-        System.out.printf("이번 턴은 %s나라입니다.%n", team.title());
+        System.out.printf("%n이번 턴은 %s나라입니다.", team.title());
     }
 
     public static void printCannotMove(Point source, Point destination) {
-        System.out.printf("%d,%d에서 %d,%d로 이동할 수 없습니다.%n",
+        System.out.printf("%n%d,%d에서 %d,%d로 이동할 수 없습니다.%n",
                 source.row(), source.column(),
                 destination.row(), destination.column()
         );
+    }
+
+    public static void printStatus(double choScore, double hanScore) {
+        System.out.printf("""
+                %n초나라: %.1f점
+                한나라: %.1f점
+                """, choScore, hanScore);
+    }
+
+    public static void printMatchResult(Team winTeam) {
+        System.out.printf("%n%s나라의 승리입니다.", winTeam.title());
     }
 }
