@@ -6,11 +6,11 @@ import java.sql.SQLException;
 
 public class PieceDao {
 
-    private static final String SERVER = "localhost:13306";
+    private static final String SERVER = "localhost:23306";
     private static final String DATABASE = "k-chess";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+    private static final String PASSWORD = "1234";
 
     public static Connection getConnection() {
         try {
