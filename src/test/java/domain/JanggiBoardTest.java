@@ -11,16 +11,14 @@ import domain.piece.Po;
 import java.util.HashMap;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class JanggiBoardTest {
 
-    @DisplayName("장기말은 이동시 목표 좌표로 위치가 바뀐다.")
     @Test
-    void test3() {
+    void 장기말은_이동시_목표_좌표로_위치가_바뀐다() {
         Pawn pawn = new Pawn(Team.HAN);
         // given
         Map<Position, Piece> beforeBoard = new HashMap<>();
@@ -41,9 +39,8 @@ public class JanggiBoardTest {
         assertThat(beforeBoard).isEqualTo(afterBoard);
     }
 
-    @DisplayName("최종 좌표에 상대 말이 있으면 상대말을 없애고 해당 위치로 이동한다.")
     @Test
-    void test4() {
+    void 최종_좌표에_상대_말이_있으면_상대말을_없애고_해당_위치로_이동한다() {
         //given
         Cha choCha = new Cha(Team.CHO);
         Cha hanCha = new Cha(Team.HAN);
@@ -68,9 +65,8 @@ public class JanggiBoardTest {
         assertThat(beforeBoard).isEqualTo(afterBoard);
     }
 
-    @DisplayName("최종 좌표에 아군 말이 있으면  위치로 이동하지 못한다.")
     @Test
-    void test5() {
+    void 최종_좌표에_아군_말이_있으면_위치로_이동하지_못한다() {
         //given
         Cha choCha1 = new Cha(Team.CHO);
         Cha choCha2 = new Cha(Team.CHO);
@@ -91,9 +87,8 @@ public class JanggiBoardTest {
                 .hasMessage("해당 위치는 아군의 말이 있으므로 이동 불가능 합니다.");
     }
 
-    @DisplayName("포가 건너뛸 말이 없으면 예외를 발생시킨다.")
     @Test
-    void test6() {
+    void 포가_건너뛸_말이_없으면_예외를_발생시킨다() {
         //given
         Po choPo = new Po(Team.CHO);
 
@@ -112,9 +107,8 @@ public class JanggiBoardTest {
                 .hasMessage("포는 다른 말 하나를 뛰어넘어야 합니다.");
     }
 
-    @DisplayName("장기말 이동중 다른 장기말을 만나면 예외를 발생한다.")
     @Test
-    void test7() {
+    void 장기말_이동중_다른_장기말을_만나면_예외를_발생한다() {
         //given
         Cha choCha = new Cha(Team.CHO);
         Pawn choPawn = new Pawn(Team.CHO);
@@ -135,9 +129,8 @@ public class JanggiBoardTest {
                 .hasMessage("다른 말이 존재해서 해당 좌표로 갈 수가 없습니다.");
     }
 
-    @DisplayName("뛰어넘을 장기말이 포라면 예외를 발생한다.")
     @Test
-    void test8() {
+    void 뛰어넘을_장기말이_포라면_예외를_발생한다() {
         //given
         Po choPo1 = new Po(Team.CHO);
         Po choPo2 = new Po(Team.CHO);
@@ -158,9 +151,8 @@ public class JanggiBoardTest {
                 .hasMessage("포는 포끼리 건너뛸 수 없습니다.");
     }
 
-    @DisplayName("목표 좌표의 장기말이 포라면 예외를 발생한다.")
     @Test
-    void test9() {
+    void 목표_좌표의_장기말이_포라면_예외를_발생한다() {
         //given
         Po choPo1 = new Po(Team.CHO);
         Po choPo2 = new Po(Team.HAN);
@@ -183,9 +175,8 @@ public class JanggiBoardTest {
                 .hasMessage("포는 포끼리 잡을 수 없습니다");
     }
 
-    @DisplayName("포는 장기말을 뛰어넘어 이동한다.")
     @Test
-    void test10() {
+    void 포는_장기말을_뛰어넘어_이동한다() {
         //given
         Po choPo = new Po(Team.CHO);
         Gung choGung = new Gung(Team.CHO);
@@ -209,7 +200,6 @@ public class JanggiBoardTest {
         assertThat(beforeBoard).isEqualTo(afterBoard);
     }
 
-    @DisplayName("특정 팀의 궁이 생존했는지 알 수 있다")
     @ParameterizedTest
     @CsvSource({
             "HAN, HAN, true",
@@ -217,7 +207,7 @@ public class JanggiBoardTest {
             "CHO, HAN, false",
             "HAN, CHO, false",
     })
-    void test10(Team gungTeam, Team team, boolean expected) {
+    void 특정_팀의_궁이_생존했는지_알_수_있다(Team gungTeam, Team team, boolean expected) {
         //given
         Map<Position, Piece> board = new HashMap<>();
         board.put(new Position(1, 1), new Gung(gungTeam));
@@ -236,6 +226,28 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard(new FakeBoardGenerator(board));
 
         assertThatThrownBy(() -> janggiBoard.move(new Position(1, 1), new Position(1, 2)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("기물이 존재하지 않는 위치입니다.");
+    }
+
+    @Test
+    void 시작_위치에_있는_기물을_찾는다() {
+        Map<Position, Piece> board = new HashMap<>();
+        Pawn pawn = new Pawn(Team.CHO);
+        board.put(new Position(1, 1), pawn);
+        JanggiBoard janggiBoard = new JanggiBoard(new FakeBoardGenerator(board));
+
+        Piece selectedPiece = janggiBoard.findSelectedPiece(new Position(1, 1));
+
+        assertThat(selectedPiece).isEqualTo(pawn);
+    }
+
+    @Test
+    void 시작_위치가_기물이_없는_위치라면_예외를_발생시킨다() {
+        Map<Position, Piece> board = new HashMap<>();
+        JanggiBoard janggiBoard = new JanggiBoard(new FakeBoardGenerator(board));
+
+        assertThatThrownBy(() -> janggiBoard.findSelectedPiece(new Position(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("기물이 존재하지 않는 위치입니다.");
     }
