@@ -22,7 +22,11 @@ public abstract class Piece {
 
     public abstract void validateMovement(Position currentPosition, Position destination, PalaceArea palaceArea);
 
-    public abstract void updateStatusIfCaught(Position opponentPosition);
+    public void updateStatusIfCaught(Position opponentPosition) {
+        if (this.position.equals(opponentPosition)) {
+            this.pieceStatus = PieceStatus.CAUGHT;
+        }
+    }
 
     public boolean isOccupiedByMe(Position position) {
         return position.equals(this.position);

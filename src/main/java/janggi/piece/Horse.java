@@ -24,11 +24,4 @@ public class Horse extends Piece {
             throw new IllegalArgumentException(INVALID_MOVEMENT);
         }
     }
-
-    @Override
-    public void updateStatusIfCaught(Position opponentPosition) {
-        if (this.position.equals(opponentPosition)) {
-            this.pieceStatus = PieceStatus.CAUGHT;
-        }
-    }
 }
