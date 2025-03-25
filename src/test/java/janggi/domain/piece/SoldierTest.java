@@ -8,6 +8,7 @@ import janggi.domain.board.Position;
 import janggi.domain.board.Row;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -109,6 +110,74 @@ class SoldierTest {
 
         boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
         assertThat(canMove).isTrue();
+    }
+
+    @DisplayName("파란 졸병이 궁성 안에 있을 때 궁성 대각선으로도 움직일 수 있다")
+    @Test
+    void BlueSolider_canMoveDiagonal_inPalace() {
+        // given
+        Soldier soldier = new Soldier(TeamColor.BLUE);
+
+        Position source = new Position(Row.THREE, Column.FOUR);
+        Position destination = new Position(Row.TWO, Column.FIVE);
+        PiecePath path = new PiecePath(source, destination);
+
+        // when
+        boolean canMove = soldier.isValidMovement(path);
+
+        // then
+        assertThat(canMove).isTrue();
+    }
+
+    @DisplayName("파란 졸병이 궁성 안에 있을 때도 뒤로는 움직일 수 없다.")
+    @Test
+    void BlueSolider_cannotMoveBack_inPalace() {
+        // given
+        Soldier soldier = new Soldier(TeamColor.BLUE);
+
+        Position source = new Position(Row.TWO, Column.FIVE);
+        Position destination = new Position(Row.THREE, Column.FOUR);
+        PiecePath path = new PiecePath(source, destination);
+
+        // when
+        boolean canMove = soldier.isValidMovement(path);
+
+        // then
+        assertThat(canMove).isFalse();
+    }
+
+    @DisplayName("빨간 졸병이 궁성 안에 있을 때 궁성 대각선으로도 움직일 수 있다")
+    @Test
+    void RedSolider_canMoveDiagonal_inPalace() {
+        // given
+        Soldier soldier = new Soldier(TeamColor.RED);
+
+        Position source = new Position(Row.EIGHT, Column.FOUR);
+        Position destination = new Position(Row.NINE, Column.FIVE);
+        PiecePath path = new PiecePath(source, destination);
+
+        // when
+        boolean canMove = soldier.isValidMovement(path);
+
+        // then
+        assertThat(canMove).isTrue();
+    }
+
+    @DisplayName("빨간 졸병이 궁성 안에 있을 때도 뒤로는 움직일 수 없다.")
+    @Test
+    void RedSolider_cannotMoveBack_inPalace() {
+        // given
+        Soldier soldier = new Soldier(TeamColor.RED);
+
+        Position source = new Position(Row.NINE, Column.FIVE);
+        Position destination = new Position(Row.EIGHT, Column.FOUR);
+        PiecePath path = new PiecePath(source, destination);
+
+        // when
+        boolean canMove = soldier.isValidMovement(path);
+
+        // then
+        assertThat(canMove).isFalse();
     }
 
 }
