@@ -24,16 +24,16 @@ public class Node {
                 .anyMatch(edge -> edge.isSameDirection(direction));
     }
 
+    public Node findNextNodeByDirection(final Direction direction) {
+        Edge edge = findEdgeByDirection(direction);
+        return edge.nextNode();
+    }
+
     private Edge findEdgeByDirection(final Direction direction) {
         return edges.stream()
                 .filter(edge -> edge.isSameDirection(direction))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 방향의 엣지가 존재하지 않습니다."));
-    }
-
-    public Node findNextNodeByDirection(final Direction direction) {
-        Edge edge = findEdgeByDirection(direction);
-        return edge.nextNode();
     }
 
     public boolean canMoveByPath(final Directions directions) {
