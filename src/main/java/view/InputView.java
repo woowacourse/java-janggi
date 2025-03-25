@@ -42,15 +42,8 @@ public class InputView {
         return List.of(origin, destination);
     }
 
-    public int readHanArrangement() {
-        System.out.println("한나라는 배치 전략을 선택하세요.");
-        System.out.println(ARRANGE_PROMPT);
-        System.out.println();
-        return Integer.parseInt(scanner.nextLine());
-    }
-
-    public int readChoArrangement() {
-        System.out.println("초나라는 배치 전략을 선택하세요");
+    public int readArrangementStrategyByDynasty(Dynasty dynasty) {
+        System.out.printf("%s는 배치 전략을 선택하세요.", dynastyBundle.getString(dynasty.name()));
         System.out.println(ARRANGE_PROMPT);
         return Integer.parseInt(scanner.nextLine());
     }

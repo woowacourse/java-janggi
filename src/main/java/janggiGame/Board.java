@@ -6,9 +6,15 @@ import janggiGame.piece.Piece;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Board {
     private final Map<Position, Piece> survivedPieces = new HashMap<>();
+
+    public Board(ArrangementStrategy hanStrategy, ArrangementStrategy choStrategy) {
+        arrangeHanPieces(Objects.requireNonNull(hanStrategy));
+        arrangeChoPieces(Objects.requireNonNull(choStrategy));
+    }
 
     public void arrangeHanPieces(ArrangementStrategy strategy) {
         Map<Position, Piece> pieces = strategy.arrange(Dynasty.HAN);

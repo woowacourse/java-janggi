@@ -21,7 +21,7 @@ public enum ArrangementOption {
         return Arrays.stream(values())
                 .filter(instance -> instance.option.equals(optionNum))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하는 배치 옵션이 아닙니다."));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재 하는 않는 배치 옵션 입니다."));
     }
 
     public ArrangementStrategy getArrangementStrategy() {
