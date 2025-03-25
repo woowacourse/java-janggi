@@ -21,7 +21,7 @@ public class OccupiedPositions {
         return positions.get(position);
     }
 
-    public boolean arePositionsEmpty (List<Position> positions) {
+    public boolean isCornerEmpty(List<Position> positions) {
         for (Position position : positions) {
             if (this.positions.containsKey(position)) {
                 return false;

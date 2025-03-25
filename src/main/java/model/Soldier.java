@@ -1,7 +1,7 @@
 package model;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Soldier extends Piece {
 
@@ -11,20 +11,19 @@ public class Soldier extends Piece {
 
     @Override
     public Set<Position> calculateMovablePositions(Position startPosition, OccupiedPositions occupiedPositions) {
-        Set<Position> movablePositions = new HashSet<>();
-        Direction backDirection = Direction.calculateBackDirection(identity().getColor());
-        for (Direction direction : Direction.getStraightDirection()) {
-            if (direction == backDirection) {
-                continue;
-            }
-            if (!startPosition.canMove(direction)) {
-                continue;
-            }
-            Position nextPosition = startPosition.move(direction);
-            if (!occupiedPositions.existSameColor(nextPosition, identity().getColor())) {
-                movablePositions.add(nextPosition);
-            }
-        }
-        return movablePositions;
+        return Direction.getStraightDirection().stream()
+                .filter(this::isNotBack)
+                .filter(startPosition::canMove)
+                .map(startPosition::move)
+                .filter(destination -> destinationIsNotSameColor(occupiedPositions, destination))
+                .collect(Collectors.toSet());
+    }
+
+    private boolean isNotBack(Direction direction) {
+        return direction != Direction.calculateBackDirection(identity().getColor());
+    }
+
+    private boolean destinationIsNotSameColor(OccupiedPositions occupiedPositions, Position destination) {
+        return !occupiedPositions.existSameColor(destination, identity().getColor());
     }
 }

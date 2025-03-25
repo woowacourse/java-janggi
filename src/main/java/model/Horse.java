@@ -1,8 +1,8 @@
 package model;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Horse extends Piece {
 
@@ -12,23 +12,23 @@ public class Horse extends Piece {
 
     @Override
     public Set<Position> calculateMovablePositions(Position startPosition, OccupiedPositions occupiedPositions) {
-        Set<Position> movablePositions = new HashSet<>();
-        for (Direction direction : Direction.getStraightDirection()) {
-            for (Direction crossDirection : direction.nextCrossDirection()) {
-                List<Direction> directions = List.of(direction, crossDirection);
-                if (!startPosition.canMove(directions)) {
-                    continue;
-                }
-                Path path = new Path(startPosition, directions);
-                if (!occupiedPositions.arePositionsEmpty(path.getCornerPositions())) {
-                    continue;
-                }
-                if (!occupiedPositions.existSameColor(path.getDestinationPosition(), identity().getColor())) {
-                    movablePositions.add(path.getDestinationPosition());
-                }
+        return horseDirections().stream()
+                .filter(startPosition::canMove)
+                .map(directions -> new Path(startPosition, directions))
+                .filter(path -> occupiedPositions.isCornerEmpty(path.getCornerPositions()))
+                .map(Path::getDestinationPosition)
+                .filter(destination -> !destinationIsSameColor(destination, occupiedPositions))
+                .collect(Collectors.toSet());
+    }
 
-            }
-        }
-        return movablePositions;
+    private static List<List<Direction>> horseDirections() {
+        return Direction.getStraightDirection().stream()
+                .flatMap(straightDirection -> straightDirection.nextCrossDirection().stream()
+                        .map(crossDirection -> List.of(straightDirection, crossDirection))
+                ).toList();
+    }
+
+    private boolean destinationIsSameColor(Position destination, OccupiedPositions occupiedPositions) {
+        return occupiedPositions.existSameColor(destination, identity().getColor());
     }
 }
