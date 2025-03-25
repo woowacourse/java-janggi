@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.Direction;
 import janggi.domain.board.PiecePath;
 import janggi.domain.board.Position;
 
@@ -28,8 +29,8 @@ public class Horse extends Piece {
 
     @Override
     public List<Position> findAllRoute(PiecePath path) {
-        Position route = path.getFractionalPosition(2);
-        return List.of(route);
+        Direction direction = Direction.from(path.rowDifference() / 2, path.columnDifference() / 2);
+        return path.tracePositionsByDirection(List.of(direction));
     }
 
     @Override

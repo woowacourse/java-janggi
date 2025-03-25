@@ -1,9 +1,9 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.Direction;
 import janggi.domain.board.PiecePath;
 import janggi.domain.board.Position;
 import janggi.domain.moveRule.DefaultMoveRule;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Elephant extends Piece {
@@ -28,14 +28,16 @@ public class Elephant extends Piece {
 
     @Override
     public List<Position> findAllRoute(PiecePath path) {
-        List<Position> positions = new ArrayList<>();
+        int rowDifference = path.rowDifference();
+        int columnDifference = path.columnDifference();
 
-        Position firstPosition = path.getFractionalPosition(3);
-        Position secondPosition = path.getFactionalPositionToTarget(firstPosition, 2);
+        Direction firstDirection = Direction.from(rowDifference / 3, columnDifference / 3);
+        Direction secondDirection = Direction.from(
+                rowDifference / Math.abs(rowDifference),
+                columnDifference / Math.abs(columnDifference)
+        );
 
-        positions.add(firstPosition);
-        positions.add(secondPosition);
-        return positions;
+        return path.tracePositionsByDirection(List.of(firstDirection, secondDirection));
     }
 
     @Override
