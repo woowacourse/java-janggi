@@ -37,11 +37,14 @@ public class Application {
     }
 
     private static void playTurnUntilSuccess(View view, Camp currentTurnCamp, Board board) {
-        try {
-            playTurn(view.readMove(currentTurnCamp), currentTurnCamp, board);
-        } catch (IllegalArgumentException e) {
-            System.out.printf(ERROR_MESSAGE_FORMAT, e.getMessage());
-            playTurn(view.readMove(currentTurnCamp), currentTurnCamp, board);
+        while (true) {
+            try {
+                List<List<Integer>> moveInput = view.readMove(currentTurnCamp);
+                playTurn(moveInput, currentTurnCamp, board);
+                return;
+            } catch (IllegalArgumentException e) {
+                System.out.printf(ERROR_MESSAGE_FORMAT, e.getMessage());
+            }
         }
     }
 
