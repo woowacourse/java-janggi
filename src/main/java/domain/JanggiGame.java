@@ -16,7 +16,6 @@ public class JanggiGame {
     }
 
     public void start() {
-
         while (true) {
             OutputView.printBoard(board);
             printTurn();
@@ -63,11 +62,7 @@ public class JanggiGame {
     }
 
     private void changeTurn() {
-        if (turn == Team.GREEN) {
-            turn = Team.RED;
-            return;
-        }
-        turn = Team.GREEN;
+        turn = Team.opposite(turn);
     }
 
     private Point readEndPoint() {
@@ -80,10 +75,10 @@ public class JanggiGame {
     }
 
     private boolean isGreenTurn() {
-        return turn == Team.GREEN;
+        return Team.isGreenTeam(turn);
     }
 
     private boolean isRedTurn() {
-        return turn == Team.RED;
+        return Team.isRedTeam(turn);
     }
 }
