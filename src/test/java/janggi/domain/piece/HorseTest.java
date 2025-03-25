@@ -1,5 +1,9 @@
 package janggi.domain.piece;
 
+import static janggi.domain.TestFixture.BLUE_ELEPHANT;
+import static janggi.domain.TestFixture.RED_ELEPHANT;
+import static janggi.domain.TestFixture.RED_HORSE;
+import static janggi.domain.TestFixture.RED_SOLDIER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Column;
@@ -16,7 +20,7 @@ class HorseTest {
     @Test
     void 말은_선이동_한칸_대각선이동_한칸_이동가능() {
         // given
-        Horse horse = new Horse(TeamColor.RED);
+        Piece horse = RED_HORSE;
 
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.THREE, Column.TWO);
@@ -32,7 +36,7 @@ class HorseTest {
     @Test
     void 말은_대각선_이동_불가() {
         // given
-        Horse horse = new Horse(TeamColor.RED);
+        Piece horse = RED_HORSE;
 
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.TWO, Column.TWO);
@@ -48,7 +52,7 @@ class HorseTest {
     @Test
     void 목적지까지의_이동경로에_포함되는_좌표를_반환() {
         // given
-        Piece horse = new Horse(TeamColor.RED);
+        Piece horse = RED_HORSE;
 
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.THREE, Column.TWO);
@@ -68,34 +72,34 @@ class HorseTest {
 
     @Test
     void 말의_목적지에_같은팀이_있으면_이동불가() {
-        Piece horse = new Horse(TeamColor.RED);
-        Piece elephant = new Elephant(TeamColor.RED);
+        Piece horse = RED_HORSE;
+        Piece destinationPiece = RED_ELEPHANT;
 
         List<Piece> piecesOnRoute = new ArrayList<>();
 
-        boolean canMove = horse.canMove(horse, elephant, piecesOnRoute);
+        boolean canMove = horse.canMove(horse, destinationPiece, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
     @Test
     void 말의_이동경로에_기물이_있으면_이동불가() {
-        Piece horse = new Horse(TeamColor.RED);
-        Piece elephant = new Elephant(TeamColor.BLUE);
+        Piece horse = RED_HORSE;
+        Piece destinationPiece = BLUE_ELEPHANT;
 
-        List<Piece> piecesOnRoute = List.of(elephant);
+        List<Piece> piecesOnRoute = List.of(RED_SOLDIER);
 
-        boolean canMove = horse.canMove(horse, elephant, piecesOnRoute);
+        boolean canMove = horse.canMove(horse, destinationPiece, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
     @Test
     void 말의_이동경로에_기물이_없고_목적지가_같은팀이_아니면_이동가능() {
-        Piece horse = new Horse(TeamColor.RED);
-        Piece elephant = new Elephant(TeamColor.BLUE);
+        Piece horse = RED_HORSE;
+        Piece destinationPiece = BLUE_ELEPHANT;
 
         List<Piece> piecesOnRoute = new ArrayList<>();
 
-        boolean canMove = horse.canMove(horse, elephant, piecesOnRoute);
+        boolean canMove = horse.canMove(horse, destinationPiece, piecesOnRoute);
         assertThat(canMove).isTrue();
     }
 }

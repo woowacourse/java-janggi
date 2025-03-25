@@ -1,8 +1,7 @@
 package janggi.domain.board;
 
-import janggi.domain.piece.Empty;
+import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
-
 import janggi.domain.piece.PieceType;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,7 @@ public class PlayingBoard {
     }
 
     public Piece getPieceBy(Position position) {
-        return board.getOrDefault(position, new Empty());
+        return board.getOrDefault(position, EmptyPiece.INSTANCE);
     }
 
     public void move(PieceType pieceType, Position source, Position destination) {
@@ -44,7 +43,6 @@ public class PlayingBoard {
         List<Piece> piecesOnRoute = getPiecesOnRoute(allRoute);
 
         boolean canMove = sourcePiece.canMove(sourcePiece, destinationPiece, piecesOnRoute);
-
         if (!canMove) {
             throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
         }

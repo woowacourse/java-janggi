@@ -1,19 +1,22 @@
-package janggi.domain.piece;
+package janggi.domain.moveRule.moveStrategy;
 
 import janggi.domain.board.Direction;
 import janggi.domain.board.PiecePath;
 import janggi.domain.board.Position;
-import janggi.domain.moveRule.DefaultMoveRule;
+import janggi.domain.piece.TeamColor;
 import java.util.List;
 
-public class Elephant extends Piece {
+public class ElephantMoveStrategy implements MoveStrategy {
+    private final static MoveStrategy INSTANCE = new ElephantMoveStrategy();
 
-    public Elephant(TeamColor color) {
-        super(color, PieceType.ELEPHANT, DefaultMoveRule.getRule());
+    private ElephantMoveStrategy() {}
+
+    public static MoveStrategy getInstance() {
+        return INSTANCE;
     }
 
     @Override
-    public boolean isValidMovement(PiecePath path) {
+    public boolean isValidMovement(PiecePath path, TeamColor teamColor) {
         int rowDifference = path.rowDifference();
         int columnDifference = path.columnDifference();
 
@@ -36,12 +39,6 @@ public class Elephant extends Piece {
                 rowDifference / Math.abs(rowDifference),
                 columnDifference / Math.abs(columnDifference)
         );
-
         return path.tracePositionsByDirection(List.of(firstDirection, secondDirection));
-    }
-
-    @Override
-    public boolean isNotEmptyPiece() {
-        return true;
     }
 }

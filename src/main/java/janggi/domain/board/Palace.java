@@ -23,4 +23,8 @@ public enum Palace {
         return Arrays.stream(Palace.values())
                 .anyMatch(palace -> palace.position.equals(position));
     }
+
+    public Position getPosition() {
+        return position;
+    }
 }

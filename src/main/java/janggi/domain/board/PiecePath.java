@@ -76,4 +76,15 @@ public class PiecePath {
         }
         return 0;
     }
+
+    public boolean hasPalaceCenter() {
+        List<Position> allPathPosition = new ArrayList<>(getBetweenPositions());
+        allPathPosition.add(source);
+        allPathPosition.add(destination);
+
+        List<Position> centerPositions = List.of(Palace.CENTER_RED.getPosition(), Palace.CENTER_BLUE.getPosition());
+
+        return allPathPosition.stream()
+                .anyMatch(centerPositions::contains);
+    }
 }

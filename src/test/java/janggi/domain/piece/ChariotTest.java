@@ -1,5 +1,9 @@
 package janggi.domain.piece;
 
+import static janggi.domain.TestFixture.BLUE_ELEPHANT;
+import static janggi.domain.TestFixture.RED_CHARIOT;
+import static janggi.domain.TestFixture.RED_ELEPHANT;
+import static janggi.domain.TestFixture.RED_HORSE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Column;
@@ -21,7 +25,7 @@ class ChariotTest {
     @Test
     void 차는_가로로_움직일_수_있다() {
         // given
-        Chariot chariot = new Chariot(TeamColor.RED);
+        Piece chariot = RED_CHARIOT;
 
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.ZERO, Column.ONE);
@@ -37,7 +41,8 @@ class ChariotTest {
     @Test
     void 차는_세로로_움직일_수_있다() {
         // given
-        Chariot chariot = new Chariot(TeamColor.RED);
+        Piece chariot = RED_CHARIOT;
+
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.FOUR, Column.THREE);
         PiecePath path = new PiecePath(source, destination);
@@ -52,7 +57,8 @@ class ChariotTest {
     @Test
     void 차는_가로_세로가_아닌_위치로_움직일_수_없다() {
         // given
-        Chariot chariot = new Chariot(TeamColor.RED);
+        Piece chariot = RED_CHARIOT;
+
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.ZERO, Column.TWO);
         PiecePath path = new PiecePath(source, destination);
@@ -67,7 +73,7 @@ class ChariotTest {
     @Test
     void 차의_목적지까지의_이동경로에_포함되는_좌표를_반환() {
         // given
-        Chariot chariot = new Chariot(TeamColor.RED);
+        Piece chariot = RED_CHARIOT;
 
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.ONE, Column.FIVE);
@@ -89,8 +95,8 @@ class ChariotTest {
 
     @Test
     void 차의_목적지에_같은팀이_있으면_이동불가() {
-        Piece chariot = new Chariot(TeamColor.RED);
-        Piece elephant = new Elephant(TeamColor.RED);
+        Piece chariot = RED_CHARIOT;
+        Piece elephant = RED_ELEPHANT;
         List<Piece> piecesOnRoute = new ArrayList<>();
 
         boolean canMove = chariot.canMove(chariot, elephant, piecesOnRoute);
@@ -99,9 +105,9 @@ class ChariotTest {
 
     @Test
     void 차의_이동경로에_기물이_있으면_이동불가() {
-        Piece chariot = new Chariot(TeamColor.RED);
-        Piece elephant = new Elephant(TeamColor.BLUE);
-        List<Piece> piecesOnRoute = List.of(chariot);
+        Piece chariot = RED_CHARIOT;
+        Piece elephant = RED_ELEPHANT;
+        List<Piece> piecesOnRoute = List.of(RED_HORSE);
 
         boolean canMove = chariot.canMove(chariot, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
@@ -109,9 +115,9 @@ class ChariotTest {
 
     @Test
     void 차의_이동경로에_기물이_없고_목적지가_같은팀이_아니면_이동가능() {
-        Piece chariot = new Chariot(TeamColor.RED);
-        Piece elephant = new Elephant(TeamColor.BLUE);
-        List<Piece> piecesOnRoute = new ArrayList<>();
+        Piece chariot = RED_CHARIOT;
+        Piece elephant = BLUE_ELEPHANT;
+        List<Piece> piecesOnRoute = List.of();
 
         boolean canMove = chariot.canMove(chariot, elephant, piecesOnRoute);
         assertThat(canMove).isTrue();
@@ -127,12 +133,27 @@ class ChariotTest {
     })
     void Chariot_canMoveDiagonal_inPalace(int srcRow, int srcCol, int dstRow, int dstCol) {
         // given
-        Chariot chariot = new Chariot(TeamColor.RED);
+        Piece chariot = RED_CHARIOT;
         PiecePath path = new PiecePath(Position.of(srcRow, srcCol), Position.of(dstRow, dstCol));
+
         // when
         boolean validMovement = chariot.isValidMovement(path);
 
         // then
         assertThat(validMovement).isTrue();
+    }
+
+    @DisplayName("차는 궁성 안에서 선이 없는 대각선 경로로는 움직일 수 없다.")
+    @Test
+    void cannotMove_notPalaceLine() {
+        // given
+        Piece chariot = RED_CHARIOT;
+        PiecePath path = new PiecePath(Position.of(8, 5), Position.of(9,6));
+
+        // when
+        boolean validMovement = chariot.isValidMovement(path);
+
+        // then
+        assertThat(validMovement).isFalse();
     }
 }

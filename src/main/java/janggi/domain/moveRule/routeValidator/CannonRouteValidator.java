@@ -1,21 +1,19 @@
-package janggi.domain.moveRule;
+package janggi.domain.moveRule.routeValidator;
 
 import janggi.domain.piece.Piece;
 import java.util.List;
 
-public class CannonMoveRule implements MoveRule {
-    private static final CannonMoveRule CANNON_MOVE_RULE = new CannonMoveRule();
+public class CannonRouteValidator implements RouteValidator {
+    private static final CannonRouteValidator INSTANCE = new CannonRouteValidator();
 
-    private CannonMoveRule() {
+    private CannonRouteValidator() {}
 
-    }
-
-    public static CannonMoveRule getRule() {
-        return CANNON_MOVE_RULE;
+    public static CannonRouteValidator getInstance() {
+        return INSTANCE;
     }
 
     @Override
-    public boolean canMove(Piece piece, Piece destination, List<Piece> piecesInRoute) {
+    public boolean canMoveAlongRoute(Piece piece, Piece destination, List<Piece> piecesInRoute) {
         int pieceCount = piece.countPieceInRoute(piecesInRoute);
         boolean noSamePieceOnRoute = piecesInRoute.stream().noneMatch(piece::isSamePieceType);
         boolean notTakeSamePiece = !piece.isSamePieceType(destination);

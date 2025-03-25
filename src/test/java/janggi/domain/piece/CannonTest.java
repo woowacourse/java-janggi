@@ -1,5 +1,12 @@
 package janggi.domain.piece;
 
+import static janggi.domain.TestFixture.BLUE_CANNON;
+import static janggi.domain.TestFixture.BLUE_ELEPHANT;
+import static janggi.domain.TestFixture.BLUE_HORSE;
+import static janggi.domain.TestFixture.RED_CANNON;
+import static janggi.domain.TestFixture.RED_ELEPHANT;
+import static janggi.domain.TestFixture.RED_HORSE;
+import static janggi.domain.TestFixture.RED_SOLDIER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -15,7 +22,7 @@ class CannonTest {
     @Test
     void 포의_목적지까지의_이동경로에_포함되는_좌표를_반환() {
         // given
-        Cannon cannon = new Cannon(TeamColor.RED);
+        Piece cannon = RED_CANNON;
 
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.ONE, Column.FIVE);
@@ -35,64 +42,66 @@ class CannonTest {
 
     @Test
     void 포의_목적지에_같은팀이_있으면_이동불가() {
-        Piece piece = new Cannon(TeamColor.RED);
-        Piece elephant = new Elephant(TeamColor.RED);
+        Piece cannon = RED_CANNON;
+        Piece destination = RED_ELEPHANT;
 
         List<Piece> piecesOnRoute = new ArrayList<>();
 
-        boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
+        boolean canMove = cannon.canMove(cannon, destination, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
     @Test
     void 포의_이동경로에_기물이_없으면_이동불가() {
-        Piece piece = new Cannon(TeamColor.RED);
-        Piece elephant = new Elephant(TeamColor.BLUE);
+        Piece cannon = RED_CANNON;
+        Piece elephant = BLUE_ELEPHANT;
 
         List<Piece> piecesOnRoute = List.of();
 
-        boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
+        boolean canMove = cannon.canMove(cannon, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
     @Test
     void 포의_이동경로에_기물이_두개면_이동불가() {
-        Piece piece = new Cannon(TeamColor.RED);
-        Piece elephant = new Elephant(TeamColor.BLUE);
+        Piece cannon = RED_CANNON;
+        Piece elephant = BLUE_ELEPHANT;
 
-        List<Piece> piecesOnRoute = List.of(new Elephant(TeamColor.BLUE), new Elephant(TeamColor.RED));
+        List<Piece> piecesOnRoute = List.of(RED_HORSE, RED_SOLDIER);
 
-        boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
+        boolean canMove = cannon.canMove(cannon, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
     @Test
     void 포의_이동경로에_기물이_하나고_목적지가_같은팀이_아니면_이동가능() {
-        Piece piece = new Cannon(TeamColor.RED);
-        Piece elephant = new Elephant(TeamColor.BLUE);
-        List<Piece> piecesOnRoute = List.of(new Elephant(TeamColor.BLUE));
+        Piece cannon = RED_CANNON;
+        Piece elephant = BLUE_ELEPHANT;
 
-        boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
+        List<Piece> piecesOnRoute = List.of(BLUE_HORSE);
+
+        boolean canMove = cannon.canMove(cannon, elephant, piecesOnRoute);
         assertThat(canMove).isTrue();
     }
 
     @Test
     void 포의_이동경로에_포가_있으면_기물이_하나여도_이동불가() {
-        Piece piece = new Cannon(TeamColor.RED);
-        Piece elephant = new Elephant(TeamColor.BLUE);
-        List<Piece> piecesOnRoute = List.of(new Cannon(TeamColor.BLUE));
+        Piece cannon = RED_CANNON;
+        Piece elephant = BLUE_ELEPHANT;
 
-        boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
+        List<Piece> piecesOnRoute = List.of(BLUE_CANNON);
+        boolean canMove = cannon.canMove(cannon, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 
     @Test
     void 포의_목적지가_포라면_이동불가() {
-        Piece piece = new Cannon(TeamColor.RED);
-        Piece cannon = new Cannon(TeamColor.BLUE);
-        List<Piece> piecesOnRoute = List.of(new Elephant(TeamColor.BLUE));
+        Piece cannon = RED_CANNON;
+        Piece elephant = BLUE_CANNON;
 
-        boolean canMove = piece.canMove(piece, cannon, piecesOnRoute);
+        List<Piece> piecesOnRoute = List.of(RED_SOLDIER);
+
+        boolean canMove = cannon.canMove(cannon, elephant, piecesOnRoute);
         assertThat(canMove).isFalse();
     }
 }

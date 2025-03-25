@@ -1,14 +1,15 @@
 package janggi.domain.board;
 
+import static janggi.domain.TestFixture.RED_HORSE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.piece.Empty;
-import janggi.domain.piece.Horse;
+import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.TeamColor;
 import janggi.domain.piece.PieceType;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -18,20 +19,21 @@ class PlayingBoardTest {
 
     @Test
     void 출발지에_있는_피스가_목적지까지_이동() {
-        InitialBoard initialBoard = InitialBoard.createBoard(BoardSetup.INNER_ELEPHANT, BoardSetup.INNER_ELEPHANT);
-        PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
+        Map<Position, Piece> initialBoard = new HashMap<>();
+        Piece horse = RED_HORSE;
+        initialBoard.put(Position.of(1, 1), horse);
+        PlayingBoard playingBoard = new PlayingBoard(initialBoard);
 
-        Position source = new Position(Row.ONE, Column.TWO);
-        Position destination = new Position(Row.THREE, Column.THREE);
-        Piece horse = new Horse(TeamColor.RED);
+        Position source = Position.of(1, 1);
+        Position destination = Position.of(2, 3);
 
         playingBoard.move(PieceType.HORSE, source, destination);
 
         Piece movedPiece = playingBoard.getPieceBy(destination);
         Piece afterPositionPiece = playingBoard.getPieceBy(source);
 
-        assertThat(afterPositionPiece).isInstanceOf(Empty.class);
-        assertThat(movedPiece.isSamePieceType(horse)).isTrue();
+        assertThat(afterPositionPiece).isInstanceOf(EmptyPiece.class);
+        assertThat(movedPiece.equals(horse)).isTrue();
     }
 
     @Test

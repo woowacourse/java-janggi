@@ -1,10 +1,12 @@
 package janggi.domain.piece;
 
+import static janggi.domain.TestFixture.BLUE_GENERAL;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.PiecePath;
 import janggi.domain.board.Position;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -24,7 +26,7 @@ class GeneralTest {
     })
     void General_canMove_inPalace(int destinationRow, int destinationCol) {
         // given
-        General general = new General(TeamColor.BLUE);
+        Piece general = BLUE_GENERAL;
 
         Position source = Position.of(9, 5);
         Position destination = Position.of(destinationRow, destinationCol);
@@ -46,7 +48,7 @@ class GeneralTest {
     })
     void General_canMove_inPalace2(int destinationRow, int destinationCol) {
         // given
-        General general = new General(TeamColor.BLUE);
+        Piece general = BLUE_GENERAL;
 
         Position source = Position.of(8, 4);
         Position destination = Position.of(destinationRow, destinationCol);
@@ -68,7 +70,7 @@ class GeneralTest {
     })
     void General_canMove_inPalace3(int destinationRow, int destinationCol) {
         // given
-        General general = new General(TeamColor.BLUE);
+        Piece general = BLUE_GENERAL;
 
         Position source = Position.of(8, 6);
         Position destination = Position.of(destinationRow, destinationCol);
@@ -90,7 +92,7 @@ class GeneralTest {
     })
     void General_canMove_inPalace4(int destinationRow, int destinationCol) {
         // given
-        General general = new General(TeamColor.BLUE);
+        Piece general = BLUE_GENERAL;
 
         Position source = Position.of(0, 4);
         Position destination = Position.of(destinationRow, destinationCol);
@@ -112,7 +114,7 @@ class GeneralTest {
     })
     void General_canMove_inPalace5(int destinationRow, int destinationCol) {
         // given
-        General general = new General(TeamColor.BLUE);
+        Piece general = BLUE_GENERAL;
 
         Position source = Position.of(0, 6);
         Position destination = Position.of(destinationRow, destinationCol);
@@ -123,5 +125,22 @@ class GeneralTest {
 
         // then
         assertThat(validMovement).isTrue();
+    }
+
+    @DisplayName("선이 없는 대각선으로는 이동 불가능")
+    @Test
+    void cannotMove_notLine() {
+        // given
+        Piece general = BLUE_GENERAL;
+
+        Position source = Position.of(8, 5);
+        Position destination = Position.of(9, 6);
+        PiecePath path = new PiecePath(source, destination);
+
+        // when
+        boolean validMovement = general.isValidMovement(path);
+
+        // then
+        assertThat(validMovement).isFalse();
     }
 }

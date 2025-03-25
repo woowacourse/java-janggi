@@ -1,17 +1,21 @@
 package janggi.domain.piece;
 
-import org.junit.jupiter.api.Test;
+import static janggi.domain.TestFixture.BLUE_ELEPHANT;
+import static janggi.domain.TestFixture.BLUE_HORSE;
+import static janggi.domain.TestFixture.BLUE_SOLDIER;
+import static janggi.domain.TestFixture.RED_ELEPHANT;
+import static janggi.domain.TestFixture.RED_SOLDIER;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 class PieceTest {
 
     @Test
     void 같은_기물임을_확인() {
-        Piece soldier = new Soldier(TeamColor.BLUE);
-        Piece otherSoldier = new Soldier(TeamColor.RED);
+        Piece soldier = RED_SOLDIER;
+        Piece otherSoldier = BLUE_SOLDIER;
 
         boolean samePiece = soldier.isSamePieceType(otherSoldier);
 
@@ -20,8 +24,8 @@ class PieceTest {
 
     @Test
     void 다른기물일때_같은기물이아님을_확인() {
-        Piece soldier = new Soldier(TeamColor.BLUE);
-        Piece otherSoldier = new Elephant(TeamColor.BLUE);
+        Piece soldier = BLUE_SOLDIER;
+        Piece otherSoldier = BLUE_ELEPHANT;
 
         boolean samePiece = soldier.isSamePieceType(otherSoldier);
 
@@ -31,11 +35,11 @@ class PieceTest {
     @Test
     void 이동경로에_몇개의_기물이_있는지_확인() {
         ArrayList<Piece> piecesInRoute = new ArrayList<>();
-        piecesInRoute.add(new Soldier(TeamColor.BLUE));
-        piecesInRoute.add(new Soldier(TeamColor.BLUE));
-        piecesInRoute.add(new Empty());
+        piecesInRoute.add(BLUE_HORSE);
+        piecesInRoute.add(RED_ELEPHANT);
+        piecesInRoute.add(EmptyPiece.INSTANCE);
 
-        Piece piece = new Soldier(TeamColor.BLUE);
+        Piece piece = RED_SOLDIER;
         int pieceCountInRoute = piece.countPieceInRoute(piecesInRoute);
 
         assertThat(pieceCountInRoute).isEqualTo(2);

@@ -1,28 +1,31 @@
-package janggi.domain.piece;
+package janggi.domain.moveRule.moveStrategy;
 
 import janggi.domain.board.Direction;
 import janggi.domain.board.PiecePath;
 import janggi.domain.board.Position;
-
-import janggi.domain.moveRule.DefaultMoveRule;
+import janggi.domain.piece.TeamColor;
 import java.util.List;
 
-public class Soldier extends Piece {
+public class SoldierMoveStrategy implements MoveStrategy {
+    private static final MoveStrategy INSTANCE = new SoldierMoveStrategy();
+
+    private SoldierMoveStrategy() {}
+
+    public static MoveStrategy getInstance() {
+        return INSTANCE;
+    }
+
     private final static List<Direction> SOLDIER_DIRECTION =
             List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT);
     private final static List<Direction> IN_PALACE_DIRECTION =
             List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT,
                     Direction.DOWN_LEFT, Direction.DOWN_RIGHT, Direction.UP_LEFT, Direction.UP_RIGHT);
 
-    public Soldier(TeamColor color) {
-        super(color, PieceType.SOLDIER, DefaultMoveRule.getRule());
-    }
-
     @Override
-    public boolean isValidMovement(PiecePath path) {
+    public boolean isValidMovement(PiecePath path, TeamColor teamColor) {
         Direction direction = path.calculateDirection();
 
-        if(isBackMovement(direction, this.color)) {
+        if(isBackMovement(direction, teamColor)) {
             return false;
         }
         if(path.isInPalacePath() && IN_PALACE_DIRECTION.contains(direction)) {
@@ -44,10 +47,5 @@ public class Soldier extends Piece {
     @Override
     public List<Position> findAllRoute(PiecePath path) {
         return List.of();
-    }
-
-    @Override
-    public boolean isNotEmptyPiece() {
-        return true;
     }
 }
