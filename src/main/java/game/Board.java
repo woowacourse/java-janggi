@@ -39,12 +39,11 @@ public final class Board {
         if (isChoTurn) {
             cho.move(fromPosition, tagetPosition, han.getPieces());
             han.removeIfExist(tagetPosition);
-            nextTurn();
         } else {
             han.move(fromPosition, tagetPosition, cho.getPieces());
             cho.removeIfExist(tagetPosition);
-            nextTurn();
         }
+        nextTurn();
     }
 
     private void nextTurn() {
