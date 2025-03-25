@@ -52,6 +52,7 @@ class SoldierTest {
     void move3(int x, int y) {
         Soldier soldier = new Soldier(Team.RED);
         Position afterPosition = new Position(x, y);
+
         assertThatThrownBy(() -> soldier.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }

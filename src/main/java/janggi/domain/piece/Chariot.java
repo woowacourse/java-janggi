@@ -18,9 +18,10 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition, final Position afterPosition) {
+    public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition,
+                                                              final Position afterPosition) {
         return board -> {
-            validateIsSameTeamNotInPositionToMove(board, afterPosition);
+            validateNoSameTeamPieceAt(board, afterPosition);
             validateStraightMovement(beforePosition, afterPosition);
             validateNoObstaclesOnPath(board, beforePosition, afterPosition);
         };
@@ -36,18 +37,21 @@ public class Chariot extends Piece {
         return beforePosition.x() == afterPosition.x() || beforePosition.y() == afterPosition.y();
     }
 
-    private void validateNoObstaclesOnPath(Map<Position, Piece> board, Position beforePosition, Position afterPosition) {
+    private void validateNoObstaclesOnPath(
+            Map<Position, Piece> board,
+            Position beforePosition,
+            Position afterPosition) {
         Movement movement = Movement.findByRelativePosition(
                 afterPosition.x() - beforePosition.x(),
                 afterPosition.y() - beforePosition.y()
         );
 
-        for (Position position = beforePosition.plus(movement.x(), movement.y());
-             !position.equals(afterPosition);
-             position = position.plus(movement.x(), movement.y())) {
-            if (!board.get(position).isNone()) {
+        Position currentPosition = beforePosition.plus(movement.x(), movement.y());
+        while (!currentPosition.equals(afterPosition)) {
+            if (!board.get(currentPosition).isNone()) {
                 throw new IllegalArgumentException("불가능한 이동입니다");
             }
+            currentPosition = currentPosition.plus(movement.x(), movement.y());
         }
     }
 }

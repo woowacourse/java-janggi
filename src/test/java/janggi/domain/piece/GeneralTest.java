@@ -30,6 +30,7 @@ class GeneralTest {
     void move() {
         General general = new General(Team.BLUE);
         Position afterPosition = new Position(5, 6);
+
         assertThatCode(() ->
                 general.getMovableValidator(beforePosition, afterPosition).accept(board)).doesNotThrowAnyException();
     }
@@ -40,6 +41,7 @@ class GeneralTest {
     void move2(int x, int y) {
         General general = new General(Team.BLUE);
         Position afterPosition = new Position(x, y);
+
         assertThatThrownBy(() ->general.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
@@ -51,6 +53,7 @@ class GeneralTest {
         Soldier otherSoldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(5, 6);
         board.put(afterPosition, otherSoldier);
+
         assertThatThrownBy(() ->general.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }

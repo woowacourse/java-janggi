@@ -25,10 +25,11 @@ public abstract class Piece {
             final Position afterPosition
     );
 
-    protected void validateIsSameTeamNotInPositionToMove(
+    protected void validateNoSameTeamPieceAt(
             final Map<Position, Piece> board,
-            final Position positionToMove) {
-        if (board.get(positionToMove).getTeam().equals(team)) {
+            final Position afterPosition) {
+        Piece existingPiece = board.get(afterPosition);
+        if (existingPiece.getTeam().equals(team)) {
             throw new IllegalArgumentException("같은 팀 기물이 있는 위치로는 이동할 수 없습니다.");
         }
     }

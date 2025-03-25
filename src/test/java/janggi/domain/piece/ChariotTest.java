@@ -32,6 +32,7 @@ class ChariotTest {
         Position afterPosition = new Position(5, 9);
         Soldier soldier = new Soldier(Team.BLUE);
         board.put(new Position(5, 5), soldier);
+
         assertThatCode(() ->
                 chariot.getMovableValidator(beforePosition, afterPosition).accept(board)).doesNotThrowAnyException();
     }
@@ -42,6 +43,7 @@ class ChariotTest {
     void move2(int x, int y) {
         Chariot chariot = new Chariot(Team.BLUE);
         Position afterPosition = new Position(x, y);
+
         assertThatThrownBy(() -> chariot.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
@@ -53,6 +55,7 @@ class ChariotTest {
         Soldier otherSoldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(2, 5);
         board.put(new Position(3, 5), otherSoldier);
+
         assertThatThrownBy(() -> chariot.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
@@ -61,8 +64,8 @@ class ChariotTest {
     @Test
     void move33() {
         Chariot chariot = new Chariot(Team.BLUE);
-        Position afterPosition = new Position(2, 5);
-        assertThatThrownBy(() -> chariot.getMovableValidator(afterPosition, afterPosition).accept(board))
+
+        assertThatThrownBy(() -> chariot.getMovableValidator(beforePosition, beforePosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -73,6 +76,7 @@ class ChariotTest {
         Soldier otherSoldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(2, 5);
         board.put(afterPosition, otherSoldier);
+
         assertThatThrownBy(() -> chariot.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }

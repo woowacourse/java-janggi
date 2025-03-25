@@ -32,6 +32,7 @@ class CannonTest {
         Position betweenPosition = new Position(3, 5);
         board.put(betweenPosition, new Soldier(Team.RED));
         Position afterPosition = new Position(2, 5);
+
         assertThatCode(() ->
                 cannon.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .doesNotThrowAnyException();
@@ -43,6 +44,7 @@ class CannonTest {
     void move2(int x, int y) {
         Cannon cannon = new Cannon(Team.BLUE);
         Position afterPosition = new Position(x, y);
+
         assertThatThrownBy(() ->
                 cannon.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -54,8 +56,8 @@ class CannonTest {
         Cannon cannon = new Cannon(Team.BLUE);
         Position afterPosition = new Position(2, 5);
         Position betweenPosition = new Position(3, 5);
-
         board.put(betweenPosition, new Cannon(Team.BLUE));
+
         assertThatThrownBy(() ->
                 cannon.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -66,8 +68,8 @@ class CannonTest {
     void move4() {
         Cannon cannon = new Cannon(Team.BLUE);
         Position afterPosition = new Position(2, 3);
-
         board.put(afterPosition, new Soldier(Team.BLUE));
+
         assertThatThrownBy(() ->
                 cannon.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -78,8 +80,8 @@ class CannonTest {
     void move5() {
         Cannon cannon = new Cannon(Team.BLUE);
         Position afterPosition = new Position(3, 5);
-
         board.put(afterPosition, new Cannon(Team.RED));
+
         assertThatThrownBy(() ->
                 cannon.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -89,11 +91,9 @@ class CannonTest {
     @Test
     void move55() {
         Cannon cannon = new Cannon(Team.BLUE);
-        Position afterPosition = new Position(5, 5);
 
-        board.put(afterPosition, new Cannon(Team.RED));
         assertThatThrownBy(() ->
-                cannon.getMovableValidator(beforePosition, afterPosition).accept(board))
+                cannon.getMovableValidator(beforePosition, beforePosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

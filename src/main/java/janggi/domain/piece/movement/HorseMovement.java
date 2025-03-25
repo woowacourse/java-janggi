@@ -56,7 +56,7 @@ public enum HorseMovement {
                 .orElseThrow(() -> new IllegalArgumentException("불가능한 이동입니다."));
     }
 
-    public Movement getRouteDistance() {
+    public Movement getPathMovement() {
         return pathMovement;
     }
 }

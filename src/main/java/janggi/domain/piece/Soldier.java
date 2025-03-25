@@ -29,7 +29,7 @@ public class Soldier extends Piece {
             final Position beforePosition,
             final Position afterPosition) {
         return board -> {
-            validateIsSameTeamNotInPositionToMove(board, afterPosition);
+            validateNoSameTeamPieceAt(board, afterPosition);
             validateMovementDirection(beforePosition, afterPosition);
             validateValidPositionMovement(beforePosition, afterPosition);
         };

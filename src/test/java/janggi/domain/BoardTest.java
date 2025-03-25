@@ -2,9 +2,9 @@ package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.piece.HorseSide;
 import janggi.domain.piece.None;
 import janggi.domain.piece.Position;
-import janggi.domain.piece.HorseSide;
 import janggi.domain.piece.Soldier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,9 +16,9 @@ class BoardTest {
     void movePiece() {
         Board board = BoardFactory.getInitializedBoard(HorseSide.LEFT, HorseSide.LEFT,
                 HorseSide.LEFT, HorseSide.LEFT);
-
         Position beforePosition = new Position(7, 1);
         Position afterPosition = new Position(6, 1);
+
         board.movePiece(beforePosition, afterPosition);
 
         assertThat(board.getPieceByPosition(beforePosition)).isInstanceOf(None.class);

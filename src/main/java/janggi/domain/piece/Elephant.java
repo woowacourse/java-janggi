@@ -48,7 +48,7 @@ public class Elephant extends Piece {
     @Override
     public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition, final Position afterPosition) {
         return board -> {
-            validateIsSameTeamNotInPositionToMove(board, afterPosition);
+            validateNoSameTeamPieceAt(board, afterPosition);
             validateNoObstaclesOnPath(board, beforePosition, afterPosition);
         };
     }

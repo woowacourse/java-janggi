@@ -15,7 +15,7 @@ public class General extends Piece {
     @Override
     public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition, final Position afterPosition) {
         return board -> {
-            validateIsSameTeamNotInPositionToMove(board, afterPosition);
+            validateNoSameTeamPieceAt(board, afterPosition);
             validateSingleStepMovement(beforePosition, afterPosition);
         };
     }

@@ -5,10 +5,6 @@ public record Position(int x, int y) {
         validatePosition(x, y);
     }
 
-    public Position plus(Position other) {
-        return new Position(other.x() + x, other.y() + y);
-    }
-
     public Position plus(int x, int y) {
         return new Position(this.x + x, this.y + y);
     }

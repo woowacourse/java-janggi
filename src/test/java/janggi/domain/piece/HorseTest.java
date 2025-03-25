@@ -30,6 +30,7 @@ class HorseTest {
     void move() {
         Horse horse = new Horse(Team.BLUE);
         Position afterPosition = new Position(3, 4);
+
         assertThatCode(() ->
                 horse.getMovableValidator(beforePosition, afterPosition).accept(board)).doesNotThrowAnyException();
     }
@@ -40,6 +41,7 @@ class HorseTest {
     void move2(int x, int y) {
         Horse horse = new Horse(Team.BLUE);
         Position afterPosition = new Position(x, y);
+
         assertThatThrownBy(() -> horse.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
@@ -51,8 +53,8 @@ class HorseTest {
         Soldier otherSoldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(3, 4);
         Position betweenPosition = new Position(4, 5);
-
         board.put(betweenPosition, otherSoldier);
+
         assertThatThrownBy(() -> horse.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
@@ -63,8 +65,8 @@ class HorseTest {
         Horse horse = new Horse(Team.BLUE);
         Soldier otherSoldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(3, 4);
-
         board.put(afterPosition, otherSoldier);
+
         assertThatThrownBy(() -> horse.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
@@ -84,6 +86,7 @@ class HorseTest {
     void move6(int x, int y) {
         Horse horse = new Horse(Team.BLUE);
         Position afterPosition = new Position(x, y);
+
         assertThatCode(() ->
                 horse.getMovableValidator(beforePosition, afterPosition).accept(board)).doesNotThrowAnyException();
     }

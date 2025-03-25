@@ -18,9 +18,10 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition, final Position afterPosition) {
+    public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition,
+                                                              final Position afterPosition) {
         return board -> {
-            validateIsSameTeamNotInPositionToMove(board, afterPosition);
+            validateNoSameTeamPieceAt(board, afterPosition);
             validateStraightMovement(beforePosition, afterPosition);
             validateDestinationNotCannon(board, afterPosition);
             validateSingleJumpOverPiece(board, beforePosition, afterPosition);
@@ -48,23 +49,29 @@ public class Cannon extends Piece {
                 afterPosition.x() - beforePosition.x(),
                 afterPosition.y() - beforePosition.y()
         );
-        int count = 0;
-        for (Position position = beforePosition.plus(movement.x(), movement.y());
-             !position.equals(afterPosition);
-             position = position.plus(movement.x(), movement.y())
-        ) {
-            validateNoCannonOnPath(board, position);
-            if (!board.get(position).isNone()) {
-                count++;
+
+        int obstaclesCount = 0;
+
+        Position currentPosition = beforePosition.plus(movement.x(), movement.y());
+        while (!currentPosition.equals(afterPosition)) {
+            validateNoCannonOnPath(board, currentPosition);
+            if (!board.get(currentPosition).isNone()) {
+                obstaclesCount++;
             }
+
+            if (obstaclesCount > 1) {
+                throw new IllegalArgumentException("불가능한 이동입니다");
+            }
+
+            currentPosition = currentPosition.plus(movement.x(), movement.y());
         }
 
-        if (count != 1) {
+        if (obstaclesCount != 1) {
             throw new IllegalArgumentException("불가능한 이동입니다");
         }
     }
 
-    private static void validateNoCannonOnPath(final Map<Position, Piece> pieces, final Position position) {
+    private void validateNoCannonOnPath(final Map<Position, Piece> pieces, final Position position) {
         if (pieces.get(position).isCannon()) {
             throw new IllegalArgumentException("불가능한 이동입니다");
         }

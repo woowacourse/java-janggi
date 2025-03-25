@@ -30,6 +30,7 @@ class ElephantTest {
     void move() {
         Elephant elephant = new Elephant(Team.BLUE);
         Position afterPosition = new Position(2, 3);
+
         assertThatCode(() ->
                 elephant.getMovableValidator(beforePosition, afterPosition).accept(board)).doesNotThrowAnyException();
     }
@@ -40,6 +41,7 @@ class ElephantTest {
     void move2(int x, int y) {
         Elephant elephant = new Elephant(Team.BLUE);
         Position afterPosition = new Position(x, y);
+
         assertThatThrownBy(() -> elephant.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
@@ -51,8 +53,8 @@ class ElephantTest {
         Soldier otherSoldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(2, 3);
         Position betweenPosition = new Position(4, 5);
-
         board.put(betweenPosition, otherSoldier);
+
         assertThatThrownBy(() -> elephant.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
@@ -63,8 +65,8 @@ class ElephantTest {
         Elephant elephant = new Elephant(Team.BLUE);
         Soldier otherSoldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(2, 3);
-
         board.put(afterPosition, otherSoldier);
+
         assertThatThrownBy(() -> elephant.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
@@ -84,6 +86,7 @@ class ElephantTest {
     void move6(int x, int y) {
         Elephant elephant = new Elephant(Team.BLUE);
         Position afterPosition = new Position(x, y);
+
         assertThatCode(() ->
                 elephant.getMovableValidator(beforePosition, afterPosition).accept(board)).doesNotThrowAnyException();
     }
