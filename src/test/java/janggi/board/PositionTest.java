@@ -138,26 +138,6 @@ public class PositionTest {
             assertThat(betweenPositions).hasSize(3);
         }
 
-        @Test
-        @DisplayName("코끼리의 중간 Position들을 계산하여 반환할 수 있다.")
-        void calculateElephantMiddlePositions() {
-            // given
-            final Position srcPosition = new Position(2, 2);
-            final Position destPosition = new Position(4, 5);
-
-            final Position actualPosition1 = new Position(2, 3);
-            final Position actualPosition2 = new Position(3, 4);
-            final List<Position> actual = List.of(
-                    actualPosition1, actualPosition2
-            );
-
-            // when
-            final List<Position> middlePositions = srcPosition.calculateElephantMiddlePositions(destPosition);
-
-            // then
-            assertThat(middlePositions).containsAll(actual);
-        }
-
         @DisplayName("Position에 대한 덧셈 연산")
         @Test
         void plusPosition() {

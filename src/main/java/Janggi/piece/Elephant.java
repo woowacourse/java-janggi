@@ -4,9 +4,27 @@ import Janggi.board.Board;
 import Janggi.board.Position;
 import java.util.List;
 
-public class Elephant extends Piece{
+public class Elephant extends Piece {
 
     private static final double ELEPHANT_DISTANCE = Math.sqrt(13);
+    private static final List<Path> RELATIVE_POSITIONS = List.of(
+            new Path(List.of(RelativePosition.TOP, RelativePosition.TOP_LEFT_DIAGONAL,
+                    RelativePosition.TOP_LEFT_DIAGONAL)),
+            new Path(List.of(RelativePosition.TOP, RelativePosition.TOP_RIGHT_DIAGONAL,
+                    RelativePosition.TOP_RIGHT_DIAGONAL)),
+            new Path(List.of(RelativePosition.BOTTOM, RelativePosition.BOTTOM_LEFT_DIAGONAL,
+                    RelativePosition.BOTTOM_LEFT_DIAGONAL)),
+            new Path(List.of(RelativePosition.BOTTOM, RelativePosition.BOTTOM_RIGHT_DIAGONAL,
+                    RelativePosition.BOTTOM_RIGHT_DIAGONAL)),
+            new Path(List.of(RelativePosition.LEFT, RelativePosition.TOP_LEFT_DIAGONAL,
+                    RelativePosition.TOP_LEFT_DIAGONAL)),
+            new Path(List.of(RelativePosition.LEFT, RelativePosition.BOTTOM_LEFT_DIAGONAL,
+                    RelativePosition.BOTTOM_LEFT_DIAGONAL)),
+            new Path(List.of(RelativePosition.RIGHT, RelativePosition.TOP_RIGHT_DIAGONAL,
+                    RelativePosition.TOP_RIGHT_DIAGONAL)),
+            new Path(List.of(RelativePosition.RIGHT, RelativePosition.BOTTOM_RIGHT_DIAGONAL,
+                    RelativePosition.BOTTOM_RIGHT_DIAGONAL))
+    );
 
     public Elephant(final Country country) {
         super(country);
@@ -18,13 +36,21 @@ public class Elephant extends Piece{
             return false;
         }
 
-        final List<Position> positions = now.calculateElephantMiddlePositions(destination);
-        for (final Position position : positions) {
-            if (board.existPieceByPosition(position)) {
-                return false;
-            }
-        }
-        return true;
+        final List<Position> absolutePath = findPathByDestination(now, destination);
+        absolutePath.removeLast();
+
+        return absolutePath.stream()
+                .filter(position -> board.existPieceByPosition(position))
+                .findAny()
+                .isEmpty();
+    }
+
+    private List<Position> findPathByDestination(final Position now, final Position destination) {
+        return RELATIVE_POSITIONS.stream()
+                .filter(path -> path.equalsDestination(now, destination))
+                .findFirst()
+                .orElseThrow(IllegalAccessError::new)
+                .calculateAbsolutePath(now);
     }
 
     @Override

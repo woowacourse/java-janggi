@@ -2,10 +2,21 @@ package Janggi.piece;
 
 import Janggi.board.Board;
 import Janggi.board.Position;
+import java.util.List;
 
 public class Horse extends Piece {
 
     private static final double HORSE_DISTANCE = Math.sqrt(5);
+    private static final List<Path> RELATIVE_POSITIONS = List.of(
+            new Path(List.of(RelativePosition.TOP, RelativePosition.TOP_LEFT_DIAGONAL)),
+            new Path(List.of(RelativePosition.TOP, RelativePosition.TOP_RIGHT_DIAGONAL)),
+            new Path(List.of(RelativePosition.BOTTOM, RelativePosition.BOTTOM_LEFT_DIAGONAL)),
+            new Path(List.of(RelativePosition.BOTTOM, RelativePosition.BOTTOM_RIGHT_DIAGONAL)),
+            new Path(List.of(RelativePosition.LEFT, RelativePosition.TOP_LEFT_DIAGONAL)),
+            new Path(List.of(RelativePosition.LEFT, RelativePosition.BOTTOM_LEFT_DIAGONAL)),
+            new Path(List.of(RelativePosition.RIGHT, RelativePosition.TOP_RIGHT_DIAGONAL)),
+            new Path(List.of(RelativePosition.RIGHT, RelativePosition.BOTTOM_RIGHT_DIAGONAL))
+    );
 
     public Horse(final Country country) {
         super(country);
@@ -16,11 +27,19 @@ public class Horse extends Piece {
         if (now.calculateDistance(destination) != HORSE_DISTANCE) {
             return false;
         }
-        final Position position = now.calculateHorseMiddlePosition(destination);
-        if (board.existPieceByPosition(position)) {
-            return false;
-        }
-        return true;
+
+        final List<Position> absolutePath = findPathByDestination(now, destination);
+        final Position passPosition = absolutePath.getFirst();
+
+        return !board.existPieceByPosition(passPosition);
+    }
+
+    private List<Position> findPathByDestination(final Position now, final Position destination){
+        return RELATIVE_POSITIONS.stream()
+                .filter(path -> path.equalsDestination(now, destination))
+                .findFirst()
+                .orElseThrow(IllegalAccessError::new)
+                .calculateAbsolutePath(now);
     }
 
     @Override
