@@ -49,6 +49,14 @@ public record Offset(
         return Math.abs(x) == Math.abs(y);
     }
 
+    public boolean isUpDirectionMove() {
+        return y > 0;
+    }
+
+    public boolean isDownDirectionMove() {
+        return y < 0;
+    }
+
     public Offset getUnitDirectionOffset() {
         return new Offset(Integer.compare(this.x, 0), Integer.compare(this.y, 0));
     }

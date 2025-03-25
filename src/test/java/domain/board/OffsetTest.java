@@ -81,6 +81,28 @@ class OffsetTest {
             );
         }
 
+        @DisplayName("위쪽 방향 이동인지 확인한다.")
+        @Test
+        void isUpDirectionMove() {
+            assertAll(
+                    () -> assertThat(new Offset(0, 1).isUpDirectionMove()).isTrue(),
+                    () -> assertThat(new Offset(1, -1).isUpDirectionMove()).isFalse(),
+                    () -> assertThat(new Offset(-1, 0).isUpDirectionMove()).isFalse(),
+                    () -> assertThat(new Offset(2, 5).isUpDirectionMove()).isTrue()
+            );
+        }
+
+        @DisplayName("아래쪽 방향 이동인지 확인한다.")
+        @Test
+        void isDownDirectionMove() {
+            assertAll(
+                    () -> assertThat(new Offset(0, 1).isDownDirectionMove()).isFalse(),
+                    () -> assertThat(new Offset(1, -1).isDownDirectionMove()).isTrue(),
+                    () -> assertThat(new Offset(-1, 0).isDownDirectionMove()).isFalse(),
+                    () -> assertThat(new Offset(2, 5).isDownDirectionMove()).isFalse()
+            );
+        }
+
         @DisplayName("해당 오프셋의 단위 방향 오프셋을 반환한다.")
         @ParameterizedTest
         @MethodSource("provideOffsetWithDirectionOffset")
