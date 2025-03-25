@@ -24,9 +24,11 @@ public abstract class JanggiChessPiece implements ChessPiece {
         return hurdlePolicy.pickDestinations(team, coordinates, positions);
     }
 
-    abstract protected List<Path> getCoordinatePaths(ChessPosition startPosition);
+    @Override
+    abstract public List<Path> getCoordinatePaths(ChessPosition startPosition);
 
-    abstract protected HurdlePolicy getHurdlePolicy();
+    @Override
+    abstract public HurdlePolicy getHurdlePolicy();
 
     @Override
     public final ChessTeam getTeam() {

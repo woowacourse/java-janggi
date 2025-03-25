@@ -1,6 +1,8 @@
 package domain;
 
 import domain.chessPiece.ChessPiece;
+import domain.hurdlePolicy.HurdlePolicy;
+import domain.path.Path;
 import domain.position.ChessPiecePositions;
 import domain.position.ChessPosition;
 import domain.score.Score;
@@ -38,7 +40,9 @@ public class Board {
 
     public List<ChessPosition> getAvailableDestination(final ChessPosition position) {
         ChessPiece chessPiece = chessPiecePositions.getChessPieceByPosition(position);
-        return chessPiece.getDestinations(position, chessPiecePositions);
+        List<Path> coordinatePaths = chessPiece.getCoordinatePaths(position);
+        HurdlePolicy hurdlePolicy = chessPiece.getHurdlePolicy();
+        return hurdlePolicy.pickDestinations(chessPiece.getTeam(), coordinatePaths, chessPiecePositions);
     }
 
     public void validateTeam(final ChessTeam currentTeam, final ChessPosition from) {

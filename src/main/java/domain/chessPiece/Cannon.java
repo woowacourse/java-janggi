@@ -33,7 +33,7 @@ public class Cannon extends UnlimitedMoveChessPiece {
     }
 
     @Override
-    protected HurdlePolicy getHurdlePolicy() {
+    public HurdlePolicy getHurdlePolicy() {
         return hurdlePolicy;
     }
 
