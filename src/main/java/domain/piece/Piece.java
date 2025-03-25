@@ -3,6 +3,7 @@ package domain.piece;
 import domain.Team;
 import domain.board.BoardPosition;
 import domain.board.Offset;
+import domain.board.movement.Movement;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,13 +21,13 @@ public abstract class Piece {
             final BoardPosition before,
             final BoardPosition after
     ) {
-        final Offset offset = after.calculateOffset(before);
-        validateOffset(offset);
+        final Movement movement = Movement.of(before, after);
+        validateMovement(movement);
 
-        return createMovementRule(offset);
+        return createMovementRule(movement.calcaulteOffset());
     }
 
-    protected abstract void validateOffset(final Offset offset);
+    protected abstract void validateMovement(final Movement movement);
 
     protected abstract List<Offset> createMovementRule(final Offset offset);
 
