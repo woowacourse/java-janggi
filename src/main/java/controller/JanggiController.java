@@ -27,7 +27,9 @@ public class JanggiController {
             retry(() -> game.move(inputView.readMovePiecePosition(), inputView.readTargetPosition()));
             outputView.printJanggiBoard(game);
         }
-        outputView.printGameEnd();
+        if (game.isEnd()) {
+            outputView.printGameEnd();
+        }
     }
 
     private JanggiGame initGame() {
