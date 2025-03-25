@@ -16,12 +16,24 @@ public class PiecePath {
         return rowDifference() == 0 || columnDifference() == 0;
     }
 
+    public boolean isInPalacePath() {
+        return source.isInPalace() && destination.isInPalace();
+    }
+
     public int rowDifference() {
         return destination.rowValue() - source.rowValue();
     }
 
     public int columnDifference() {
         return destination.columnValue() - source.columnValue();
+    }
+
+    public boolean canReachToDestination(Direction direction) {
+        if(!source.canMove(direction)) {
+            return false;
+        }
+        Position moved = source.move(direction);
+        return moved.equals(destination);
     }
 
     public Position getFractionalPosition(int divisor) {
@@ -52,7 +64,7 @@ public class PiecePath {
         return positions;
     }
 
-    public int getDirection(int difference) {
+    private int getDirection(int difference) {
         if(difference != 0) {
             return difference / Math.abs(difference);
         }

@@ -15,10 +15,21 @@ public class Position {
         return new Position(Row.from(row), Column.from(col));
     }
 
+    public boolean canMove(Direction direction) {
+        boolean rowValid = Row.isValid(this.rowValue() + direction.getX());
+        boolean colValid = Column.isValid(this.columnValue() + direction.getY());
+
+        return rowValid && colValid;
+    }
+
     public Position move(Direction direction) {
         Row row = Row.from(this.rowValue() + direction.getX());
         Column col = Column.from(this.columnValue() + direction.getY());
         return new Position(row, col);
+    }
+
+    public boolean isInPalace() {
+        return Palace.isInPalace(this);
     }
 
     public int rowValue() {
@@ -26,12 +37,12 @@ public class Position {
     }
 
     public int columnValue() {
-        return column.getValue();
+        return column.intValue();
     }
 
     @Override
     public String toString() {
-        return row.intValue() + ", " + column.getValue();
+        return row.intValue() + ", " + column.intValue();
     }
 
     @Override

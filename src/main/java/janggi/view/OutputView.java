@@ -17,7 +17,7 @@ public class OutputView {
 
         sb.append(getBoardHeader());
         for(Row row : Row.values()) {
-            sb.append(String.format(getDefaultColor() + "%d | ", row.getValue()));
+            sb.append(String.format(getDefaultColor() + "%d | ", row.intValue() % 10));
             for (Column column : Column.values()) {
                 Position position = new Position(row, column);
                 Piece piece = playingBoard.getPieceBy(position);

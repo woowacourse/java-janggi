@@ -12,30 +12,31 @@ public enum Row {
     SEVEN(7),
     EIGHT(8),
     NINE(9),
-    ZERO(0),
+    ZERO(10),
     ;
+
+    private final int value;
 
     Row(int value) {
         this.value = value;
     }
 
     public static Row from(int value) {
+        if(value == 0) {
+            return ZERO;
+        }
         return Arrays.stream(Row.values())
                 .filter(row -> row.value == value)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 숫자에 맞는 Row가 없습니다."));
     }
 
-    private final int value;
-
-    public int intValue() {
-        if(this == Row.ZERO) {
-            return 10;
-        }
-        return value;
+    public static boolean isValid(int rowValue) {
+        return Arrays.stream(Row.values())
+                .anyMatch(row -> row.intValue() == rowValue);
     }
 
-    public int getValue() {
+    public int intValue() {
         return value;
     }
 }

@@ -27,8 +27,12 @@ public enum Column {
                 .orElseThrow(() -> new IllegalArgumentException("해당 숫자에 맞는 Column 이 없습니다."));
     }
 
+    public static boolean isValid(int colValue) {
+        return Arrays.stream(Column.values())
+                .anyMatch(column -> column.intValue() == colValue);
+    }
 
-    public int getValue() {
+    public int intValue() {
         return value;
     }
 }
