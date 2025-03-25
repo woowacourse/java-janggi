@@ -14,6 +14,6 @@ public abstract class AbstractPiece implements Piece {
     }
 
     public final boolean isGreenTeam() {
-        return Team.GREEN == team;
+        return Team.isGreenTeam(team);
     }
 }
