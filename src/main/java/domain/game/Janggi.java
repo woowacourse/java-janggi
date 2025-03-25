@@ -31,15 +31,14 @@ public class Janggi {
     }
 
     public void judgeUnitTurn(Position position) {
-        Optional<Unit> unit = findUnitByPoint(position);
-        if (unit.isEmpty() || unit.get().getTeam() != this.turn) {
-            throw new IllegalArgumentException("기물이 없거나 현재 차례가 아닙니다.");
+        Unit unit = findUnitByPoint(position);
+        if (unit.getTeam() != this.turn) {
+            throw new IllegalArgumentException("현재 차례가 아닙니다.");
         }
     }
 
     public List<Route> searchAvailableRoutes(Position pick) {
-        Unit pickedUnit = findUnitByPoint(pick)
-                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 없습니다."));
+        Unit pickedUnit = findUnitByPoint(pick);
         List<Route> totalRoutes = pickedUnit.calculateRoutes();
         return applyUnitProperty(pickedUnit, pick, totalRoutes);
     }
@@ -70,21 +69,20 @@ public class Janggi {
     private boolean canBombJump(Route route) {
         int count = 0;
         for (Position position : route.getPointsExceptEndPoint()) {
-            Optional<Unit> unit = findUnitByPoint(position);
-            if (unit.isPresent() && unit.get().getType() == UnitType.BOMB) {
+            Unit unit = findUnitByPoint(position);
+            if (unit.getType() == UnitType.BOMB) {
                 return false;
             }
-            if (unit.isPresent()) {
-                count++;
-            }
+            count++;
         }
         return (count == 1);
     }
 
-    private Optional<Unit> findUnitByPoint(Position pick) {
+    private Unit findUnitByPoint(Position pick) {
         return units.stream()
                 .filter(unit -> unit.isSamePoint(pick))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 없습니다."));
     }
 
     private List<Route> findAvailableRoute(List<Route> routes) {
@@ -101,8 +99,8 @@ public class Janggi {
 
     public boolean isAvailableEndPoint(Route route) {
         Position endPosition = route.searchEndPoint();
-        Optional<Unit> endPointUnit = findUnitByPoint(endPosition);
-        return endPointUnit.isEmpty() || endPointUnit.get().getTeam() != this.turn;
+        Unit endPointUnit = findUnitByPoint(endPosition);
+        return endPointUnit.getTeam() != this.turn;
     }
 
     public boolean isEmptyPoint(Position position) {
@@ -127,6 +125,18 @@ public class Janggi {
     }
 
     public void moveAndCaptureIfEnemyExists(Route route) {
+        Position startPoint = route.searchStartPoint();
+        Position endPoint = route.searchEndPoint();
+        Unit unit = findUnitByPoint(startPoint);
 
+        if (isExistUnit(endPoint)) {
+            units.remove(findUnitByPoint(endPoint));
+        }
+        unit.move(route.searchEndPoint());
+    }
+
+    private boolean isExistUnit(Position position) {
+        return units.stream()
+                .anyMatch(unit -> unit.isSamePoint(position));
     }
 }

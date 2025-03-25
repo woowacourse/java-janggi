@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class Unit {
-    private final Position position;
     private final Team team;
     private final UnitRule unitRule;
+    private Position position;
 
     public Unit(Position position, Team team, UnitRule unitRule) {
         this.position = position;
@@ -38,6 +38,10 @@ public class Unit {
 
     public Position getPosition() {
         return this.position;
+    }
+
+    public void move(Position position) {
+        this.position = position;
     }
 
     @Override
