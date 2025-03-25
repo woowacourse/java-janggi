@@ -23,7 +23,7 @@ public class CarUnitRule implements UnitRule {
         return routes;
     }
 
-    public List<Position> calculateEndPoints(Position start) {
+    private List<Position> calculateEndPoints(Position start) {
         int x = start.getX();
         int y = start.getY();
         List<Position> xPositions = IntStream.range(0, Position.X_MAX + 1)
@@ -38,7 +38,7 @@ public class CarUnitRule implements UnitRule {
                 .toList();
     }
 
-    public Route calculateRoute(Position start, Position end) {
+    private Route calculateRoute(Position start, Position end) {
         int startX = start.getX();
         int startY = start.getY();
 

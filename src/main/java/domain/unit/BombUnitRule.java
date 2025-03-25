@@ -26,7 +26,7 @@ public class BombUnitRule implements UnitRule {
         routes.add(route);
     }
 
-    public List<Position> calculateEndPoints(Position start) {
+    private List<Position> calculateEndPoints(Position start) {
         int x = start.getX();
         int y = start.getY();
         List<Position> xPositions = IntStream.range(0, Position.X_MAX + 1)
