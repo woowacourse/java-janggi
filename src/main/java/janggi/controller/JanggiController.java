@@ -5,7 +5,6 @@ import janggi.domain.board.Column;
 import janggi.domain.board.PlayingBoard;
 import janggi.domain.board.Position;
 import janggi.domain.board.Row;
-import janggi.domain.gameState.BlueTurn;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.TeamColor;
 import janggi.dto.MoveCommandDto;
@@ -20,16 +19,19 @@ public class JanggiController {
     private final OutputView outputView;
     private final JanggiDBService janggiDBService;
     private final PlayingBoard playingBoard;
+    private final JanggiGame janggiGame;
 
-    public JanggiController(InputView inputView, OutputView outputView, JanggiDBService janggiDBService, PlayingBoard playingBoard) {
+    public JanggiController(InputView inputView, OutputView outputView, JanggiDBService janggiDBService, PlayingBoard playingBoard,
+                            JanggiGame janggiGame) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.janggiDBService = janggiDBService;
         this.playingBoard = playingBoard;
+        this.janggiGame = janggiGame;
     }
 
     public void run() {
-        JanggiGame janggiGame = new JanggiGame(new BlueTurn(playingBoard));
+        outputView.printBoard(playingBoard);
         janggiDBService.saveStartSate(janggiGame.getTurnColor());
 
         while (!janggiGame.isFinished()) {
@@ -60,6 +62,7 @@ public class JanggiController {
         PieceType pieceType = PieceTypeName.getTypeFrom(commandDto.pieceName());
 
         janggiGame.move(pieceType, source, destination);
+
         outputView.printBoard(playingBoard);
 
         janggiDBService.updateMoveResult(source, destination, pieceType, turnColor);

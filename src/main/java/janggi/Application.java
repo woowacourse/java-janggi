@@ -1,13 +1,17 @@
 package janggi;
 
 import janggi.controller.JanggiController;
+import janggi.domain.JanggiGame;
 import janggi.domain.board.BoardSetup;
 import janggi.domain.board.InitialBoard;
 import janggi.domain.board.PlayingBoard;
+import janggi.domain.gameState.BlueTurn;
 import janggi.domain.piece.TeamColor;
 import janggi.service.JanggiDBService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class Application {
@@ -20,9 +24,12 @@ public class Application {
         janggiDBService.saveInitialBoard(initialBoard.getInitialBoard());
 
         PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
-        outputView.printBoard(playingBoard);
 
-        JanggiController controller = new JanggiController(inputView, outputView, janggiDBService, playingBoard);
+        Map<TeamColor, Integer> teamScore = new HashMap<>();
+        JanggiGame janggiGame = new JanggiGame(new BlueTurn(playingBoard), teamScore);
+
+        JanggiController controller = new JanggiController(inputView, outputView, janggiDBService, playingBoard,
+                janggiGame);
         controller.run();
     }
 
