@@ -24,7 +24,6 @@ public final class Board {
         final Piece piece = board.get(start);
         validateTurn(piece);
         validateRoute(start, end, piece);
-        board.remove(end);
         board.remove(start);
         board.put(end, piece);
         turn = turn.nextTurn();
