@@ -1,30 +1,15 @@
-package domain.piece.noPathPiece;
+package domain.piece.noPathMovement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.BoardFixture;
 import domain.Coordinate;
-import domain.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class ByeongTest {
-
-    @DisplayName("병은 HAN 팀이다.")
-    @Test
-    void byeongisChoTeam() {
-        //given
-        Byeong byeong = new Byeong(new Coordinate(1, 4));
-
-        //when
-        Team team = byeong.getTeam();
-
-        //then
-        assertThat(team).isEqualTo(Team.HAN);
-    }
+public class ByeongMovementTest {
 
     @Nested
     @DisplayName("이동 가능 여부 반환하는 테스트")
@@ -35,11 +20,12 @@ public class ByeongTest {
         @CsvSource({"3,5", "2,4", "4,4"})
         void test1(int x, int y) {
             // given
-            Byeong byeong = new Byeong(new Coordinate(3, 4));
+            final var movement = new ByeongMovement();
+            final var departure = new Coordinate(3, 4);
+            final var arrival = new Coordinate(x, y);
 
             // when
-            final var arrival = new Coordinate(x, y);
-            final var canMove = byeong.canMove(arrival, BoardFixture.emptyBoard());
+            final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
             // then
             assertThat(canMove).isTrue();
@@ -55,10 +41,12 @@ public class ByeongTest {
         @CsvSource({"4,10", "6,10"})
         void test1(int x, int y) {
             // given
-            final var byeong = new Byeong(new Coordinate(5, 9));
+            final var movement = new ByeongMovement();
+            final var departure = new Coordinate(5, 9);
+            final var arrival = new Coordinate(x, y);
 
             // when
-            final var canMove = byeong.canMove(new Coordinate(x, y), BoardFixture.emptyBoard());
+            final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
             // then
             assertThat(canMove).isTrue();
@@ -69,10 +57,12 @@ public class ByeongTest {
         @CsvSource({"4,8", "6,8"})
         void test2(int x, int y) {
             //given
-            final var byeong = new Byeong(new Coordinate(5, 9));
+            final var movement = new ByeongMovement();
+            final var departure = new Coordinate(5, 9);
+            final var arrival = new Coordinate(x, y);
 
             //when
-            final var canMove = byeong.canMove(new Coordinate(x, y), BoardFixture.emptyBoard());
+            final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
             //then
             assertThat(canMove).isFalse();

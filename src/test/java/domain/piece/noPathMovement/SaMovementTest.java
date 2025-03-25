@@ -1,4 +1,4 @@
-package domain.piece.noPathPiece;
+package domain.piece.noPathMovement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,43 +13,44 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class GoongTest {
+class SaMovementTest {
 
     @Nested
     @DisplayName("이동 가능 여부 반환하는 테스트")
     class CanMoveTest {
 
         @ParameterizedTest
-        @DisplayName("궁은 기본적으로 상하좌우 한 칸을 이동할 수 있다.")
+        @DisplayName("사는 기본적으로 상하좌우 한 칸을 이동할 수 있다.")
         @CsvSource({"5,1", "5,3", "4,2", "6,2"})
         void test1(int x, int y) {
             // given
-            Goong goong = new Goong(Team.HAN, new Coordinate(5, 2));
+            final var movement = new SaMovement();
+            final var departure = new Coordinate(5, 2);
+            final var arrival = new Coordinate(x, y);
 
             // when
-            final var arrival = new Coordinate(x, y);
-            final var canMove = goong.canMove(arrival, BoardFixture.emptyBoard());
+            final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
             // then
             assertThat(canMove).isTrue();
         }
 
         @ParameterizedTest
-        @DisplayName("궁은 궁성을 벗어날 수 없다.")
+        @DisplayName("사는 궁성을 벗어날 수 없다.")
         @MethodSource("provideCoordinatesOutCastle")
-        void test3(Coordinate from, Coordinate to) {
+        void test3(Coordinate departure, Coordinate arrival) {
             //given
-            Goong goong = new Goong(Team.CHO, from);
+            final var movement = new SaMovement();
 
             //when
-            final var canMove = goong.canMove(to, BoardFixture.emptyBoard());
+            final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
             //then
             assertThat(canMove).isFalse();
         }
 
         @Nested
-        @DisplayName("궁은 궁성 내에서 대각선을 따라 움직일 수 있다.")
+        @DisplayName("사는 궁성 내에서 대각선을 따라 움직일 수 있다.")
         class InCastleMoveTest {
 
             @ParameterizedTest
@@ -57,10 +58,12 @@ class GoongTest {
             @CsvSource({"4,1", "4,3", "6,1", "6,3"})
             void test1(int x, int y) {
                 // given
-                Goong goong = new Goong(Team.HAN, new Coordinate(5, 2));
+                final var movement = new SaMovement();
+                final var departure = new Coordinate(5, 2);
+                final var arrival = new Coordinate(x, y);
 
                 // when
-                final var canMove = goong.canMove(new Coordinate(x, y), BoardFixture.emptyBoard());
+                final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
                 // then
                 assertThat(canMove).isTrue();
@@ -71,10 +74,12 @@ class GoongTest {
             @CsvSource({"4,1", "4,3", "6,1", "6,3"})
             void test2(int x, int y) {
                 // given
-                Goong goong = new Goong(Team.HAN, new Coordinate(x, y));
+                final var movement = new SaMovement();
+                final var departure = new Coordinate(x, y);
+                final var arrival = new Coordinate(5, 2);
 
                 // when
-                final var canMove = goong.canMove(new Coordinate(5, 2), BoardFixture.emptyBoard());
+                final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
                 // then
                 assertThat(canMove).isTrue();

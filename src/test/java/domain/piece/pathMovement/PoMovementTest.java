@@ -1,4 +1,4 @@
-package domain.piece.pathPiece;
+package domain.piece.pathMovement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -6,6 +6,7 @@ import domain.BoardFixture;
 import domain.Coordinate;
 import domain.Team;
 import domain.board.Board;
+import domain.piece.PieceType;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -14,7 +15,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class PoTest {
+class PoMovementTest {
 
     @Nested
     @DisplayName("이동 가능 여부 반환하는 테스트")
@@ -25,9 +26,10 @@ class PoTest {
         @MethodSource("provideCrossCoordinates")
         void test1(Coordinate arrival) {
             // given
-            Po po = new Po(Team.HAN, new Coordinate(5, 5));
+            final var movement = new PoMovement();
+            final var departure = new Coordinate(5, 5);
+
             Board board = new BoardFixture()
-                .addPiece(5, 5, po)
                 .anyPieceNotPo(5, 4) // <- 위 방향 포다리
                 .anyPieceNotPo(5, 6) // <- 아래 방향 포다리
                 .anyPieceNotPo(4, 5) // <- 좌측 방향 포다리
@@ -35,7 +37,7 @@ class PoTest {
                 .build();
 
             // when
-            final var canMove = po.canMove(arrival, board);
+            final var canMove = movement.canMove(departure, arrival, board);
 
             // then
             assertThat(canMove).isTrue();
@@ -48,16 +50,16 @@ class PoTest {
             @ParameterizedTest
             @DisplayName("포가 궁성 내에 있을 때 대각선을 따라 움직일 수 있다.")
             @MethodSource("provideFromTo")
-            void test1(Coordinate from, Coordinate to) {
+            void test1(Coordinate departure, Coordinate arrival) {
                 // given
-                Po po = new Po(Team.HAN, from);
+                final var movement = new PoMovement();
+
                 Board board = new BoardFixture()
-                    .addPiece(4, 1, po)
                     .anyPieceNotPo(5, 2) // <- 포다리
                     .build();
 
                 // when
-                final var canMove = po.canMove(to, board);
+                final var canMove = movement.canMove(departure, arrival, board);
 
                 // then
                 assertThat(canMove).isTrue();
@@ -76,14 +78,16 @@ class PoTest {
             @DisplayName("포가 대각선을 따라 움직일 때 궁성을 벗어날 수 없다.")
             void test2() {
                 //given
-                Po po = new Po(Team.HAN, new Coordinate(4, 1));
+                final var movement = new PoMovement();
+                final var departure = new Coordinate(4, 1);
+                final var arrival = new Coordinate(7, 4);
+
                 Board board = new BoardFixture()
-                    .addPiece(4, 1, po)
                     .anyPieceNotPo(5, 2) // <- 포다리
                     .build();
 
                 //when
-                final var canMove = po.canMove(new Coordinate(7, 4), board);
+                final var canMove = movement.canMove(departure, arrival, board);
 
                 //then
                 assertThat(canMove).isFalse();
@@ -117,10 +121,12 @@ class PoTest {
         @DisplayName("포가 이동할 때 포다리가 없을 경우 이동할 수 없다.")
         void test1() {
             // given
-            Po po = new Po(Team.HAN, new Coordinate(5, 5));
+            final var movement = new PoMovement();
+            final var departure = new Coordinate(5, 5);
+            final var arrival = new Coordinate(8, 5);
 
             // when
-            final var canMove = po.canMove(new Coordinate(8, 5), BoardFixture.emptyBoard());
+            final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
             // then
             assertThat(canMove).isFalse();
@@ -130,15 +136,17 @@ class PoTest {
         @DisplayName("포가 이동할 때 뛰어넘을 기물이 하나가 아닐 경우 이동할 수 없다.")
         void test2() {
             // given
-            Po po = new Po(Team.HAN, new Coordinate(5, 5));
+            final var movement = new PoMovement();
+            final var departure = new Coordinate(5, 5);
+            final var arrival = new Coordinate(8, 5);
+
             Board board = new BoardFixture()
-                .addPiece(5, 5, po)
                 .anyPieceNotPo(6, 5)
                 .anyPieceNotPo(7, 5)
                 .build();
 
             // when
-            final var canMove = po.canMove(new Coordinate(8, 5), board);
+            final var canMove = movement.canMove(departure, arrival, board);
 
             // then
             assertThat(canMove).isFalse();
@@ -148,14 +156,17 @@ class PoTest {
         @DisplayName("포는 포를 뛰어넘을 수 없다.")
         void test3() {
             // given
-            Po po = new Po(Team.HAN, new Coordinate(5, 5));
+            final var movement = new PoMovement();
+            final var departure = new Coordinate(5, 5);
+            final var arrival = new Coordinate(8, 5);
+
             Board board = new BoardFixture()
-                .addPiece(5, 5, po)
-                .addPiece(6, 5, Po.class, Team.CHO) // <- 포다리 [불가능]
+//                .addPiece(5, 5, po)
+                .addPiece(6, 5, PieceType.PO, Team.CHO) // <- 포다리 [불가능]
                 .build();
 
             // when
-            final var canMove = po.canMove(new Coordinate(8, 5), board);
+            final var canMove = movement.canMove(departure, arrival, board);
 
             // then
             assertThat(canMove).isFalse();
@@ -165,15 +176,18 @@ class PoTest {
         @DisplayName("포의 도착지에 포가 있으면 이동할 수 없다.")
         void test4() {
             // given
-            Po po = new Po(Team.HAN, new Coordinate(5, 5));
+            final var movement = new PoMovement();
+            final var departure = new Coordinate(5, 5);
+            final var arrival = new Coordinate(8, 5);
+
             Board board = new BoardFixture()
-                .addPiece(5, 5, po)
+//                .addPiece(5, 5, po)
                 .anyPieceNotPo(6, 5) // <- 포다리
-                .addPiece(8, 5, Po.class, Team.CHO) // <- 목적지
+                .addPiece(8, 5, PieceType.PO, Team.CHO) // <- 목적지
                 .build();
 
             // when
-            final var canMove = po.canMove(new Coordinate(8, 5), board);
+            final var canMove = movement.canMove(departure, arrival, board);
 
             // then
             assertThat(canMove).isFalse();
@@ -183,15 +197,18 @@ class PoTest {
         @DisplayName("포다리가 포가 아니면서 도착지에 포가 아닌 기물이 있으면 이동할 수 있다.")
         void test5() {
             // given
-            Po po = new Po(Team.HAN, new Coordinate(5, 5));
+            final var movement = new PoMovement();
+            final var departure = new Coordinate(5, 5);
+            final var arrival = new Coordinate(8, 5);
+
             Board board = new BoardFixture()
-                .addPiece(5, 5, po)
+//                .addPiece(5, 5, po)
                 .anyPieceNotPo(6, 5) // <- 포댜리
                 .anyPieceNotPo(8, 5) // <- 목적지
                 .build();
 
             // when
-            final var canMove = po.canMove(new Coordinate(8, 5), board);
+            final var canMove = movement.canMove(departure, arrival, board);
 
             // then
             assertThat(canMove).isTrue();
@@ -201,14 +218,17 @@ class PoTest {
         @DisplayName("포가 이동할 때 포다리가 하나이면서 포다리가 포가 아니면서 도착 좌표에 피스가 없을 경우 이동할 수 있다.")
         void test6() {
             // given
-            Po po = new Po(Team.HAN, new Coordinate(5, 5));
+            final var movement = new PoMovement();
+            final var departure = new Coordinate(5, 5);
+            final var arrival = new Coordinate(8, 5);
+
             Board board = new BoardFixture()
-                .addPiece(5, 5, po)
+//                .addPiece(5, 5, po)
                 .anyPieceNotPo(6, 5) // <- 포다리
                 .build();
 
             // when
-            final var canMove = po.canMove(new Coordinate(8, 5), board);
+            final var canMove = movement.canMove(departure, arrival, board);
 
             // then
             assertThat(canMove).isTrue();

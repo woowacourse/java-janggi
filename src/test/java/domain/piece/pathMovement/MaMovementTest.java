@@ -1,4 +1,4 @@
-package domain.piece.pathPiece;
+package domain.piece.pathMovement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,7 +14,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class MaTest {
+class MaMovementTest {
 
     @Nested
     @DisplayName("이동 가능 여부 반환하는 테스트")
@@ -25,10 +25,11 @@ class MaTest {
         @MethodSource("provideMaArrivals")
         void test1(Coordinate arrival) {
             // given
-            Ma ma = new Ma(Team.HAN, new Coordinate(5, 5));
+            final var movement = new MaMovement();
+            final var departure = new Coordinate(5, 5);
 
             // when
-            final var canMove = ma.canMove(arrival, BoardFixture.emptyBoard());
+            final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
             // then
             assertThat(canMove).isTrue();
@@ -56,14 +57,16 @@ class MaTest {
         @DisplayName("마의 이동 경로에 장애물이 있으면 이동할 수 없다.")
         void test1() {
             // given
-            Ma ma = new Ma(Team.CHO, new Coordinate(5, 5));
+            final var movement = new MaMovement();
+            final var departure = new Coordinate(5, 5);
+            final var arrival = new Coordinate(4, 3);
+
             Board board = new BoardFixture()
-                .addPiece(5, 5, ma)
                 .anyPieceNotPo(5, 4) // 상 -> 상좌 방향 이동 경로 = 상 (5, 4)
                 .build();
 
             // when
-            final var canMove = ma.canMove(new Coordinate(4, 3), board);
+            final var canMove = movement.canMove(departure, arrival, board);
 
             // then
             assertThat(canMove).isFalse();
@@ -73,10 +76,12 @@ class MaTest {
         @DisplayName("마가 이동할 때 장애물이 없으면 이동할 수 있다.")
         void test2() {
             // given
-            Ma ma = new Ma(Team.CHO, new Coordinate(5, 5));
+            final var movement = new MaMovement();
+            final var departure = new Coordinate(5, 5);
+            final var arrival = new Coordinate(4, 3);
 
             // when
-            final var canMove = ma.canMove(new Coordinate(4, 3), BoardFixture.emptyBoard());
+            final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
             // then
             assertThat(canMove).isTrue();

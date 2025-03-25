@@ -21,6 +21,8 @@ public abstract class PathMovement extends Movement {
         final var path = findPath(departure, arrival);
         final var coordinates = path.coordinates();
 
+        System.out.println("path.coordinates() = " + path.coordinates());
+
         return path.isReachable() && pieceSearcher.nonePiecesIn(coordinates);
     }
 

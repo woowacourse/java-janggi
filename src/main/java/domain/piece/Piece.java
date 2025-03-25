@@ -3,6 +3,7 @@ package domain.piece;
 import domain.Coordinate;
 import domain.Team;
 import domain.board.PieceSearcher;
+import java.util.Objects;
 
 public class Piece {
 
@@ -49,6 +50,24 @@ public class Piece {
     }
 
     public final boolean isPo() {
-        return false;
+        return pieceType == PieceType.PO;
+    }
+
+    @Override
+    public final boolean equals(final Object o) {
+        if (!(o instanceof final Piece piece)) {
+            return false;
+        }
+
+        return team == piece.team && Objects.equals(coordinate, piece.coordinate)
+            && pieceType == piece.pieceType;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(team);
+        result = 31 * result + Objects.hashCode(coordinate);
+        result = 31 * result + Objects.hashCode(pieceType);
+        return result;
     }
 }

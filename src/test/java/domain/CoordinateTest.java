@@ -77,7 +77,7 @@ public class CoordinateTest {
         Coordinate coordinate = new Coordinate(5, 5);
 
         // when
-        boolean canMove = coordinate.canMove(Movement.LEFT);
+        boolean canMove = coordinate.canMove(MoveVector.LEFT);
 
         // then
         assertThat(canMove).isTrue();
@@ -90,7 +90,7 @@ public class CoordinateTest {
         Coordinate coordinate = new Coordinate(5, 5);
 
         // when
-        Coordinate moved = coordinate.move(Movement.LEFT_UP);
+        Coordinate moved = coordinate.move(MoveVector.LEFT_UP);
 
         // then
         assertThat(moved).isEqualTo(new Coordinate(4, 4));
@@ -103,7 +103,7 @@ public class CoordinateTest {
         Coordinate coordinate = new Coordinate(1, 1);
 
         // when
-        assertThatThrownBy(() -> coordinate.move(Movement.UP))
+        assertThatThrownBy(() -> coordinate.move(MoveVector.UP))
             .isInstanceOf(IllegalArgumentException.class);
     }
 

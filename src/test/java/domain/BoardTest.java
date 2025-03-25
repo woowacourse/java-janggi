@@ -6,9 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.board.Board;
 import domain.board.PieceSearcher;
-import domain.piece.pathPiece.Cha;
-import domain.piece.pathPiece.Ma;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -39,8 +38,8 @@ public class BoardTest {
         void test2() {
             // given
             Board board = new BoardFixture()
-                .addPiece(5, 5, Cha.class, Team.HAN)
-                .addPiece(5, 6, Ma.class, Team.HAN)
+                .addPiece(5, 5, PieceType.CHA, Team.HAN)
+                .addPiece(5, 6, PieceType.MA, Team.HAN)
                 .build();
 
             // when & then
@@ -53,7 +52,7 @@ public class BoardTest {
         @DisplayName("도착 좌표에 다른 팀 기물이 있고 정상적으로 이동됐을 경우, 출발 좌표는 비어있고 도착 좌표의 기물을 대체한다.")
         void test3() {
             // given
-            Cha cha = new Cha(Team.HAN, new Coordinate(5, 5));
+            Piece cha = new Piece(Team.HAN, new Coordinate(5, 5), PieceType.CHA);
             Board board = new BoardFixture()
                 .addPiece(5, 5, cha)
                 .anyPieceNotPo(5, 6, Team.CHO)
@@ -66,7 +65,7 @@ public class BoardTest {
             board.move(departure, arrival);
 
             // then
-            Cha movedCha = new Cha(Team.HAN, new Coordinate(5, 6));
+            final var movedCha = new Piece(Team.HAN, new Coordinate(5, 6), PieceType.CHA);
             assertAll(
                 () -> assertThat(board.findAt(departure)).isEmpty(),
                 () -> assertThat(board.findAt(arrival)).hasValue(movedCha)
@@ -78,7 +77,7 @@ public class BoardTest {
         void test4() {
             // given
             Board board = new BoardFixture()
-                .addPiece(5, 5, Cha.class, Team.HAN)
+                .addPiece(5, 5, PieceType.CHA, Team.HAN)
                 .build();
             Coordinate departure = new Coordinate(5, 5);
             Coordinate arrival = new Coordinate(5, 6);
@@ -87,7 +86,7 @@ public class BoardTest {
             board.move(departure, arrival);
 
             // then
-            Cha movedCha = new Cha(Team.HAN, new Coordinate(5, 6));
+            final var movedCha = new Piece(Team.HAN, new Coordinate(5, 6), PieceType.CHA);
             assertAll(
                 () -> assertThat(board.findAt(departure)).isEmpty(),
                 () -> assertThat(board.findAt(arrival)).hasValue(movedCha)
@@ -117,7 +116,7 @@ public class BoardTest {
         void test2() {
             // given
             Board board = new BoardFixture()
-                .addPiece(5, 5, Ma.class, Team.HAN)
+                .addPiece(5, 5, PieceType.MA, Team.HAN)
                 .build();
 
             // when

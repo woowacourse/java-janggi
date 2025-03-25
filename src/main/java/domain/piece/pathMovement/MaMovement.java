@@ -34,7 +34,7 @@ public class MaMovement extends PathMovement {
         int dy = arrival.y() - departure.y();
 
         final var movement = computeMovement(dx, dy);
-        return new Path(List.of(arrival.move(movement)));
+        return new Path(List.of(departure.move(movement)));
     }
 
     private MoveVector computeMovement(final int dx, final int dy) {

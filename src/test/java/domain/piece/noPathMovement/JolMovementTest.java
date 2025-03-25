@@ -1,30 +1,15 @@
-package domain.piece.noPathPiece;
+package domain.piece.noPathMovement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.BoardFixture;
 import domain.Coordinate;
-import domain.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class JolTest {
-
-    @DisplayName("졸은 CHO 팀이다.")
-    @Test
-    void jolisChoTeam() {
-        //given
-        Jol jol = new Jol(new Coordinate(1, 7));
-
-        //when
-        Team team = jol.getTeam();
-
-        //then
-        assertThat(team).isEqualTo(Team.CHO);
-    }
+public class JolMovementTest {
 
     @Nested
     @DisplayName("이동 가능 여부 반환하는 테스트")
@@ -35,11 +20,12 @@ public class JolTest {
         @CsvSource({"3,6", "2,7", "4,7"})
         void test1(int x, int y) {
             // given
-            Jol jol = new Jol(new Coordinate(3, 7));
+            final var movement = new JolMovement();
+            final var departure = new Coordinate(3, 7);
+            final var arrival = new Coordinate(x, y);
 
             // when
-            final var arrival = new Coordinate(x, y);
-            final var canMove = jol.canMove(arrival, BoardFixture.emptyBoard());
+            final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
             // then
             assertThat(canMove).isTrue();
@@ -55,10 +41,12 @@ public class JolTest {
         @CsvSource({"4,1", "6,1"})
         void test1(int x, int y) {
             // given
-            final var jol = new Jol(new Coordinate(5, 2));
+            final var movement = new JolMovement();
+            final var departure = new Coordinate(5, 2);
+            final var arrival = new Coordinate(x, y);
 
             // when
-            final var canMove = jol.canMove(new Coordinate(x, y), BoardFixture.emptyBoard());
+            final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
             // then
             assertThat(canMove).isTrue();
@@ -69,10 +57,12 @@ public class JolTest {
         @CsvSource({"4,3", "6,3"})
         void test2(int x, int y) {
             //given
-            final var jol = new Jol(new Coordinate(5, 2));
+            final var movement = new JolMovement();
+            final var departure = new Coordinate(5, 2);
+            final var arrival = new Coordinate(x, y);
 
             //when
-            final var canMove = jol.canMove(new Coordinate(x, y), BoardFixture.emptyBoard());
+            final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
             //then
             assertThat(canMove).isFalse();

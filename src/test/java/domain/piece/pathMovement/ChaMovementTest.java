@@ -1,10 +1,9 @@
-package domain.piece.pathPiece;
+package domain.piece.pathMovement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.BoardFixture;
 import domain.Coordinate;
-import domain.Team;
 import domain.board.Board;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +14,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class ChaTest {
+public class ChaMovementTest {
 
     @Nested
     @DisplayName("이동 가능 여부 반환하는 테스트")
@@ -26,10 +25,11 @@ public class ChaTest {
         @MethodSource("provideCrossCoordinates")
         void test1(Coordinate arrival) {
             // given
-            Cha cha = new Cha(Team.HAN, new Coordinate(5, 5));
+            final var movement = new ChaMovement();
+            final var departure = new Coordinate(5, 5);
 
             // when
-            final var canMove = cha.canMove(arrival, BoardFixture.emptyBoard());
+            final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
             // then
             assertThat(canMove).isTrue();
@@ -44,23 +44,33 @@ public class ChaTest {
             @CsvSource({"4,1", "4,3", "6,1", "6,3"})
             void test1(int x, int y) {
                 // given
-                Cha cha = new Cha(Team.HAN, new Coordinate(5, 2));
+                final var movement = new ChaMovement();
+                final var departure = new Coordinate(5, 2);
+                final var arrival = new Coordinate(x, y);
 
                 // when
-                final var canMove = cha.canMove(new Coordinate(x, y), BoardFixture.emptyBoard());
+                final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
                 // then
                 assertThat(canMove).isTrue();
             }
 
+            /*
+            x...
+            ....
+            .... <- 궁성 최하단
+            ...! <- 궁성 바깥
+             */
             @Test
             @DisplayName("차가 대각선을 따라 움직일 때 궁성을 벗어날 수 없다.")
             void test2() {
                 //given
-                Cha cha = new Cha(Team.HAN, new Coordinate(4, 1));
+                final var movement = new ChaMovement();
+                final var departure = new Coordinate(4, 1);
+                final var arrival = new Coordinate(7, 4);
 
                 //when
-                final var canMove = cha.canMove(new Coordinate(7, 4), BoardFixture.emptyBoard());
+                final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
                 //then
                 assertThat(canMove).isFalse();
@@ -98,13 +108,16 @@ public class ChaTest {
         @DisplayName("차가 이동할 때 장애물이 하나라도 있을 경우 이동할 수 없다.")
         void test1() {
             // given
-            Cha cha = new Cha(Team.HAN, new Coordinate(5, 5));
+            final var movement = new ChaMovement();
+            final var departure = new Coordinate(5, 5);
+            final var arrival = new Coordinate(8, 5);
+
             Board board = new BoardFixture()
                 .anyPieceNotPo(6, 5)
                 .build();
 
             // when
-            final var canMove = cha.canMove(new Coordinate(8, 5), board);
+            final var canMove = movement.canMove(departure, arrival, board);
 
             // then
             assertThat(canMove).isFalse();
@@ -114,13 +127,15 @@ public class ChaTest {
         @DisplayName("차가 이동할 때 장애물이 하나도 없을 경우 이동할 수 있다.")
         void test2() {
             // given
-            Cha cha = new Cha(Team.HAN, new Coordinate(5, 5));
+            final var movement = new ChaMovement();
+            final var departure = new Coordinate(5, 5);
+            final var arrival = new Coordinate(8, 5);
 
             // when
-            boolean result = cha.canMove(new Coordinate(8, 5), BoardFixture.emptyBoard());
+            final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
 
             // then
-            assertThat(result).isTrue();
+            assertThat(canMove).isTrue();
         }
     }
 }
