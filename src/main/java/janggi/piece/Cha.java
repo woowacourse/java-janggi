@@ -30,7 +30,10 @@ public class Cha extends Movable {
 
     private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
         Route route = Route.repeat(direction, point, targetPoint);
-        return route.hasNoHurdle(this, targetPoint, hurdles);
+        if (route.hasNoCrash(hurdles)) {
+            return true;
+        }
+        return route.hasOnlyPassables(this, targetPoint, hurdles);
     }
 
     @Override

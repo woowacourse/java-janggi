@@ -47,7 +47,10 @@ public class Ma extends Movable {
 
     private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, List<Direction> directions) {
         Route route = Route.follow(directions, point);
-        return route.hasNoHurdle(this, targetPoint, hurdles);
+        if (route.hasNoCrash(hurdles)) {
+            return true;
+        }
+        return route.hasOnlyPassables(this, targetPoint, hurdles);
     }
 
     @Override

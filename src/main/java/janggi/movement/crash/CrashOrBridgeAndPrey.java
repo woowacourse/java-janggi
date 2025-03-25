@@ -15,7 +15,7 @@ public final class CrashOrBridgeAndPrey extends Crashes {
     }
 
     @Override
-    public boolean hasNoCrashes(Team movingTeam, Point targetPoint, Hurdles hurdles) {
+    public boolean hasOnlyPassables(Team movingTeam, Point targetPoint, Hurdles hurdles) {
         return isBridgeOnly(targetPoint, hurdles)
                 || isBridgeAndPreyOnly(movingTeam, targetPoint, hurdles);
     }

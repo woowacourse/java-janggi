@@ -41,23 +41,21 @@ public class Route {
         return pointer;
     }
 
-    public boolean hasNoHurdle(Movable movingPiece, Point targetPoint, Hurdles hurdles) {
-        if (isCrashExists(hurdles)) {
-            Crashes crashes = findCrashes(hurdles, movingPiece);
-            return crashes.hasNoCrashes(movingPiece.getTeam(), targetPoint, hurdles);
-        }
-        return true;
+    public boolean hasNoCrash(Hurdles hurdles) {
+        return route.stream().anyMatch(hurdles::containsPoint);
     }
 
-    private Crashes findCrashes(Hurdles hurdles, Movable movable) {
+    public boolean hasOnlyPassables(Movable movingPiece, Point targetPoint, Hurdles hurdles) {
+        // TODO route 중 중간경로와, 최종 목적지에 대한 고려사항이 다름
+        Crashes crashes = findCrashes(hurdles, movingPiece);
+        return crashes.hasOnlyPassables(movingPiece.getTeam(), targetPoint, hurdles);
+    }
+
+    private Crashes findCrashes(Hurdles hurdles, Movable movingPiece) {
         List<Point> crashPoints = route.stream()
                 .filter(hurdles::containsPoint)
                 .toList();
-        return Crashes.fromPieceType(movable, crashPoints);
-    }
-
-    private boolean isCrashExists(Hurdles hurdles) {
-        return route.stream().anyMatch(hurdles::containsPoint);
+        return Crashes.fromPieceType(movingPiece, crashPoints);
     }
 
     @Override

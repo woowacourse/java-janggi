@@ -122,11 +122,10 @@ public class PoTest {
         @Test
         @DisplayName("상으로 이동 시 장애물이 아예 없으면 이동가능 여부는 false이다.")
         void checkUpWithNoBridge() {
-            Po po = new Po(Team.CHO, new Point(5, 4));
-            Point targetPoint = new Point(1, 4);
+            Po po = new Po(Team.CHO, new Point(7, 1));
+            Point targetPoint = new Point(5, 1);
             Board board = new Board(List.of(
-                    po,
-                    new Byeong(Team.HAN, targetPoint)
+                    po
             ));
 
             assertThat(po.canMove(targetPoint, board.findHurdles())).isFalse();

@@ -20,7 +20,7 @@ public abstract class Crashes {
         return new CrashOrPrey(crashPoints);
     }
 
-    public abstract boolean hasNoCrashes(Team movingTeam, Point targetPoint, Hurdles hurdles);
+    public abstract boolean hasOnlyPassables(Team movingTeam, Point targetPoint, Hurdles hurdles);
 
     protected boolean isPreyOtherTeam(Team movingTeam, Movable preyPiece) {
         return movingTeam != preyPiece.getTeam();
@@ -28,5 +28,9 @@ public abstract class Crashes {
 
     protected boolean isPreyInTargetPoint(Point targetPoint, Point preyPoint) {
         return preyPoint.equals(targetPoint);
+    }
+
+    public int count() {
+        return crashes.size();
     }
 }
