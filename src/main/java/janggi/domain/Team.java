@@ -9,7 +9,6 @@ public enum Team {
 
     public int decideRow(final int row) {
         if (isGreen()) {
-
             return FLIP_ROW_BASE - row;
         }
         return row;

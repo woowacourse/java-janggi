@@ -18,7 +18,7 @@ public enum PieceName {
     private final PieceType pieceType;
     private final String redName;
     private final String greenName;
-    
+
     PieceName(final PieceType pieceType, final String redName, final String greenName) {
         this.pieceType = pieceType;
         this.redName = redName;

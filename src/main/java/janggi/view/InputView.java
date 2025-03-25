@@ -58,7 +58,7 @@ public class InputView {
     }
 
     public Player readPlayer(Team team) {
-        System.out.println(team.getCountry() + " 팀에 참가할 플레이어 이름을 입력해주세요.");
+        System.out.println(TeamName.getCountryName(team) + " 팀에 참가할 플레이어 이름을 입력해주세요.");
         String input = scanner.nextLine();
         validateEmptyInput(input);
         return new Player(input, team);
@@ -66,7 +66,7 @@ public class InputView {
 
     public SetupType readSetupType(Team team) {
         try {
-            System.out.println(team.getCountry() + " 팀의 사용하실 상차림 옵션을 선택하세요");
+            System.out.println(TeamName.getCountryName(team) + " 팀의 사용하실 상차림 옵션을 선택하세요");
             System.out.println("""
                     1. 왼상차림(차 상 마 사 궁 사 상 마 차): 두 상이 모두 마의 왼쪽(대국자 기준)에 배치된다.
                     2. 오른상차림(차 마 상 사 궁 사 마 상 차): 두 상이 모두 마의 오른쪽에 배치된다.
