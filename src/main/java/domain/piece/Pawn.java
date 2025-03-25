@@ -2,25 +2,24 @@ package domain.piece;
 
 import domain.Move;
 import domain.Moves;
-import domain.Position;
 import domain.Team;
 import java.util.List;
 
-public class Pawn extends Piece {
+public class Pawn extends FixedMovePiece {
 
-    private final List<Moves> moves;
+    private final List<Moves> movesOptions;
 
     public Pawn(Team team) {
         super(team);
         if (team == Team.CHO) {
-            this.moves = List.of(
+            this.movesOptions = List.of(
                     Moves.create(Move.FRONT),
                     Moves.create(Move.RIGHT),
                     Moves.create(Move.LEFT)
             );
             return;
         }
-        this.moves = List.of(
+        this.movesOptions = List.of(
                 Moves.create(Move.BACK),
                 Moves.create(Move.RIGHT),
                 Moves.create(Move.LEFT)
@@ -28,12 +27,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public List<Position> calculatePath(Position startPosition, Position targetPosition) {
-        Moves possibleMoves = moves.stream()
-                .filter(moves -> moves.isPossibleToArrive(startPosition, targetPosition))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("이 위치로 이동할 수 없습니다."));
-
-        return possibleMoves.convertToPath(startPosition);
+    protected List<Moves> getMovesOptions() {
+        return movesOptions;
     }
 }

@@ -2,13 +2,12 @@ package domain.piece;
 
 import domain.Move;
 import domain.Moves;
-import domain.Position;
 import domain.Team;
 import java.util.List;
 
-public class Sa extends Piece {
+public class Sa extends FixedMovePiece {
 
-    private static final List<Moves> moves = List.of(
+    private static final List<Moves> movesOptions = List.of(
             Moves.create(Move.FRONT),
             Moves.create(Move.BACK),
             Moves.create(Move.RIGHT),
@@ -20,12 +19,7 @@ public class Sa extends Piece {
     }
 
     @Override
-    public List<Position> calculatePath(Position startPosition, Position targetPosition) {
-        Moves possibleMoves = moves.stream()
-                .filter(moves -> moves.isPossibleToArrive(startPosition, targetPosition))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("이 위치로 이동할 수 없습니다."));
-
-        return possibleMoves.convertToPath(startPosition);
+    public List<Moves> getMovesOptions() {
+        return movesOptions;
     }
 }
