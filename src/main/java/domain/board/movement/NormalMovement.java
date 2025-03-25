@@ -16,13 +16,13 @@ public class NormalMovement extends Movement {
     @Override
     public boolean isMoveOnLine() {
         final Offset offset = after.calculateOffset(before);
-        return offset.isStraightMovement();
+        return offset.isStraightMove();
     }
 
     @Override
     public boolean isOneLineMovement() {
         final Offset offset = after.calculateOffset(before);
-        return offset.hasOneMovement();
+        return offset.hasOneMove();
     }
 
     private void validateIsNotPlaceMovement(

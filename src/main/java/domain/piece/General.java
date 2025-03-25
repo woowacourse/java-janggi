@@ -12,7 +12,7 @@ public class General extends Piece {
 
     @Override
     protected void validateOffset(final Offset offset) {
-        if (!offset.hasOneMovement()) {
+        if (!offset.hasOneMove()) {
             throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");
         }
     }

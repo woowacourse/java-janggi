@@ -26,46 +26,46 @@ class OffsetTest {
     @Nested
     class ValidCases {
 
-        @DisplayName("움직임이 없는 오프셋인지 확인한다.")
+        @DisplayName("이동이 없는 오프셋인지 확인한다.")
         @Test
-        void hasNoMovement() {
+        void hasNoMove() {
             assertAll(
-                    () -> assertThat(new Offset(0, 0).hasNoMovement()).isTrue(),
-                    () -> assertThat(new Offset(1, 0).hasNoMovement()).isFalse()
+                    () -> assertThat(new Offset(0, 0).hasNoMove()).isTrue(),
+                    () -> assertThat(new Offset(1, 0).hasNoMove()).isFalse()
             );
         }
 
-        @DisplayName("움직임이 1인 오프셋인지 확인한다.")
+        @DisplayName("이동이 1인 오프셋인지 확인한다.")
         @Test
-        void hasOneMovement() {
+        void hasOneMove() {
             assertAll(
-                    () -> assertThat(new Offset(0, 1).hasOneMovement()).isTrue(),
-                    () -> assertThat(new Offset(1, 0).hasOneMovement()).isTrue(),
-                    () -> assertThat(new Offset(-1, 0).hasOneMovement()).isTrue(),
-                    () -> assertThat(new Offset(0, -1).hasOneMovement()).isTrue(),
-                    () -> assertThat(new Offset(1, 1).hasOneMovement()).isFalse()
+                    () -> assertThat(new Offset(0, 1).hasOneMove()).isTrue(),
+                    () -> assertThat(new Offset(1, 0).hasOneMove()).isTrue(),
+                    () -> assertThat(new Offset(-1, 0).hasOneMove()).isTrue(),
+                    () -> assertThat(new Offset(0, -1).hasOneMove()).isTrue(),
+                    () -> assertThat(new Offset(1, 1).hasOneMove()).isFalse()
             );
         }
 
-        @DisplayName("직선 움직임인지 확인한다.")
+        @DisplayName("직선 이동인지 확인한다.")
         @Test
-        void isStraightMovement() {
+        void isStraightMove() {
             assertAll(
-                    () -> assertThat(new Offset(1, 1).isStraightMovement()).isFalse(),
-                    () -> assertThat(new Offset(1, -1).isStraightMovement()).isFalse(),
-                    () -> assertThat(new Offset(-1, 0).isStraightMovement()).isTrue(),
-                    () -> assertThat(new Offset(0, 1).isStraightMovement()).isTrue()
+                    () -> assertThat(new Offset(1, 1).isStraightMove()).isFalse(),
+                    () -> assertThat(new Offset(1, -1).isStraightMove()).isFalse(),
+                    () -> assertThat(new Offset(-1, 0).isStraightMove()).isTrue(),
+                    () -> assertThat(new Offset(0, 1).isStraightMove()).isTrue()
             );
         }
 
-        @DisplayName("대각선 움직임인지 확인한다.")
+        @DisplayName("대각선 이동인지 확인한다.")
         @Test
-        void isDiagonalMovement() {
+        void isDiagonalMove() {
             assertAll(
-                    () -> assertThat(new Offset(1, 1).isDiagonalMovement()).isTrue(),
-                    () -> assertThat(new Offset(1, -1).isDiagonalMovement()).isTrue(),
-                    () -> assertThat(new Offset(-1, 0).isDiagonalMovement()).isFalse(),
-                    () -> assertThat(new Offset(0, 1).isDiagonalMovement()).isFalse()
+                    () -> assertThat(new Offset(1, 1).isDiagonalMove()).isTrue(),
+                    () -> assertThat(new Offset(1, -1).isDiagonalMove()).isTrue(),
+                    () -> assertThat(new Offset(-1, 0).isDiagonalMove()).isFalse(),
+                    () -> assertThat(new Offset(0, 1).isDiagonalMove()).isFalse()
             );
         }
 

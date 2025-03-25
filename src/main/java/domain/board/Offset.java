@@ -29,19 +29,19 @@ public record Offset(
         }
     }
 
-    public boolean hasNoMovement() {
+    public boolean hasNoMove() {
         return x == 0 && y == 0;
     }
 
-    public boolean hasOneMovement() {
+    public boolean hasOneMove() {
         return (x == 0 && Math.abs(y) == 1) || (Math.abs(x) == 1 && y == 0);
     }
 
-    public boolean isStraightMovement() {
+    public boolean isStraightMove() {
         return x == 0 || y == 0;
     }
 
-    public boolean isDiagonalMovement() {
+    public boolean isDiagonalMove() {
         return Math.abs(x) == Math.abs(y);
     }
 
