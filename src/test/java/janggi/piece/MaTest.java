@@ -56,7 +56,7 @@ public class MaTest {
         //when & then
         assertThatThrownBy(() -> ma.move(destination, new Pieces(List.of()), new Pieces(List.of())))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 이동이 불가능합니다.");
+                .hasMessage("[ERROR] 해당하는 대각선 경로가 없습니다.");
     }
 
     static Stream<Arguments> test2() {

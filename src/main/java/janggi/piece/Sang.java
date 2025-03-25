@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.piece.direction.SangDirection;
+import janggi.piece.direction.DiagonalDirection;
 import janggi.setting.CampType;
 import janggi.value.JanggiPosition;
 import java.util.List;
@@ -33,12 +33,10 @@ public class Sang extends Piece {
 
     @Override
     protected boolean ableToMove(JanggiPosition destination, Pieces enemy, Pieces allies) {
-        SangDirection sangDirection = SangDirection.of(getPosition(), destination);
-        if (sangDirection == SangDirection.NONE) {
-            return false;
-        }
-        if (enemy.isPieceExistInRouteSang(sangDirection, getPosition()) ||
-                allies.isPieceExistInRouteSang(sangDirection, getPosition())) {
+        DiagonalDirection diagonalDirection = DiagonalDirection.of(getPosition(), destination);
+
+        if (enemy.isPieceExistInRoute(diagonalDirection, getPosition()) ||
+                allies.isPieceExistInRoute(diagonalDirection, getPosition())) {
             return false;
         }
         return allies.isNotBlockedBy(destination);

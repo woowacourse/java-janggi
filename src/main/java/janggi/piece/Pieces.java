@@ -1,7 +1,6 @@
 package janggi.piece;
 
-import janggi.piece.direction.MaDirection;
-import janggi.piece.direction.SangDirection;
+import janggi.piece.direction.DiagonalDirection;
 import janggi.value.JanggiPosition;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,8 +14,6 @@ public class Pieces {
         this.pieces = new ArrayList<>(pieces);
     }
 
-    //targetPieceJanggiPosition은 찾았는데, 이동할 좌표를 이상하게 입력한 경우에 발생하는 문제임
-    //
     public void movePiece(final Pieces enemyPieces, final JanggiPosition targetPieceJanggiPosition,
             final JanggiPosition destination) {
         Piece target = findTargetPiece(targetPieceJanggiPosition);
@@ -43,14 +40,9 @@ public class Pieces {
                         .anyMatch(piece -> piece.getPosition().equals(position)));
     }
 
-    public boolean isPieceExistInRouteMa(MaDirection maDirection, JanggiPosition position) {
+    public boolean isPieceExistInRoute(DiagonalDirection diagonalDirection, JanggiPosition position) {
         return pieces.stream()
-                .anyMatch(piece -> maDirection.isDirectRoute(position, piece.getPosition()));
-    }
-
-    public boolean isPieceExistInRouteSang(SangDirection sangDirection, JanggiPosition position) {
-        return pieces.stream()
-                .anyMatch(piece -> sangDirection.isRoute(position, piece.getPosition()));
+                .anyMatch(piece -> diagonalDirection.isRoute(position, piece.getPosition()));
     }
 
     public List<Piece> searchPiecesInPath(List<JanggiPosition> pathPositions) {

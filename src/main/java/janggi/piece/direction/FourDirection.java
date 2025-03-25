@@ -30,7 +30,7 @@ public enum FourDirection {
     //방향이 정해지고
     private static FourDirection findDirection(int dx, int dy) {
         return Arrays.stream(values())
-                .filter(direction -> direction.relativePosition.getX() == dx && direction.relativePosition.getY() == dy)
+                .filter(direction -> direction.relativePosition.x() == dx && direction.relativePosition.y() == dy)
                 .findFirst()
                 .orElseThrow();
     }
@@ -41,8 +41,8 @@ public enum FourDirection {
         int y = start.y();
 
         while (x != end.x() || y != end.y()) {
-            x += step.getX();
-            y += step.getY();
+            x += step.x();
+            y += step.y();
             positions.add(new JanggiPosition(x, y));
         }
         return positions;

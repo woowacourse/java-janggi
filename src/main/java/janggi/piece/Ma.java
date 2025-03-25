@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.piece.direction.MaDirection;
+import janggi.piece.direction.DiagonalDirection;
 import janggi.setting.CampType;
 import janggi.value.JanggiPosition;
 import java.util.List;
@@ -33,12 +33,10 @@ public class Ma extends Piece {
 
     @Override
     protected boolean ableToMove(JanggiPosition destination, Pieces enemy, Pieces allies) {
-        MaDirection maDirection = MaDirection.of(getPosition(), destination);
-        if (maDirection == MaDirection.NONE) {
-            return false;
-        }
-        if (enemy.isPieceExistInRouteMa(maDirection, getPosition()) ||
-                allies.isPieceExistInRouteMa(maDirection, getPosition())) {
+        DiagonalDirection diagonalDirection = DiagonalDirection.of(getPosition(), destination);
+
+        if (enemy.isPieceExistInRoute(diagonalDirection, getPosition()) ||
+                allies.isPieceExistInRoute(diagonalDirection, getPosition())) {
             return false;
         }
         return allies.isNotBlockedBy(destination);
