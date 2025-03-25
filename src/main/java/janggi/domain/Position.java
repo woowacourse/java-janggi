@@ -6,10 +6,10 @@ import java.util.Objects;
 
 public class Position {
 
-    private static final int MIN_ROW = 1;
-    private static final int MIN_COLUMN = 1;
-    private static final int MAX_ROW = 10;
-    private static final int MAX_COLUMN = 9;
+    public static final int MIN_ROW = 1;
+    public static final int MIN_COLUMN = 1;
+    public static final int MAX_ROW = 10;
+    public static final int MAX_COLUMN = 9;
 
     private static final Map<Integer, Map<Integer, Position>> CACHE;
 

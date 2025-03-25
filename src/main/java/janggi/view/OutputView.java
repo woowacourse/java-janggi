@@ -8,10 +8,12 @@ import java.util.Map;
 
 public class OutputView {
 
+    public static final String EMPTY_POSITION = "＿";
+
     public void printBoard(final Map<Position, Piece> board) {
-        for (int row = 1; row <= 10; row++) {
+        for (int row = Position.MIN_ROW; row <= Position.MAX_ROW; row++) {
             System.out.printf("%-2d", row);
-            for (int column = 1; column <= 9; column++) {
+            for (int column = Position.MIN_COLUMN; column <= Position.MAX_COLUMN; column++) {
                 printPieceInBoard(board, row, column);
             }
             System.out.println();
@@ -26,7 +28,7 @@ public class OutputView {
             System.out.print(PieceName.getPieceName(piece));
             return;
         }
-        System.out.print("＿");
+        System.out.print(EMPTY_POSITION);
     }
 
     public void printCurrentTurn(final Player player) {
