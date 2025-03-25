@@ -1,10 +1,11 @@
 package janggi.board;
 
+import java.util.Collections;
 import java.util.List;
 
 public enum InitialPositions {
 
-    CHO_SOLDIER_POSITION(List.of(
+    CHO_SOLDIER_POSITIONS(List.of(
             new Position(0, 6),
             new Position(2, 6),
             new Position(4, 6),
@@ -72,6 +73,6 @@ public enum InitialPositions {
     }
 
     public List<Position> getPositions() {
-        return positions;
+        return Collections.unmodifiableList(positions);
     }
 }

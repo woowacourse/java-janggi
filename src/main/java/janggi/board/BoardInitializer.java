@@ -6,7 +6,7 @@ import static janggi.board.InitialPositions.CHO_ELEPHANT_POSITIONS;
 import static janggi.board.InitialPositions.CHO_GUARD_POSITIONS;
 import static janggi.board.InitialPositions.CHO_HORSE_POSITIONS;
 import static janggi.board.InitialPositions.CHO_KING_POSITIONS;
-import static janggi.board.InitialPositions.CHO_SOLDIER_POSITION;
+import static janggi.board.InitialPositions.CHO_SOLDIER_POSITIONS;
 import static janggi.board.InitialPositions.HAN_CANNON_POSITIONS;
 import static janggi.board.InitialPositions.HAN_CHARIOT_POSITIONS;
 import static janggi.board.InitialPositions.HAN_ELEPHANT_POSITIONS;
@@ -49,7 +49,7 @@ public class BoardInitializer {
     }
 
     private static void initializeSoldier(final Map<Position, Piece> board) {
-        for (Position choSoldierPosition : CHO_SOLDIER_POSITION.getPositions()) {
+        for (Position choSoldierPosition : CHO_SOLDIER_POSITIONS.getPositions()) {
             board.put(choSoldierPosition, new Soldier(Side.CHO));
         }
         for (Position hanSoldierPosition : HAN_SOLDIER_POSITIONS.getPositions()) {

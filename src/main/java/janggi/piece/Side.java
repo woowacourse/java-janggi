@@ -8,7 +8,7 @@ public enum Side {
     HAN("한나라"),
     NONE("");
 
-    final String name;
+    private final String name;
 
     Side(final String name) {
         this.name = name;

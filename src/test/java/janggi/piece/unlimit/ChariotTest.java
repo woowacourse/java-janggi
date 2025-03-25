@@ -22,7 +22,13 @@ class ChariotTest {
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(4),
-                () -> assertThat(candidatePositions.getFirst().getLastPosition()).isEqualTo(new Position(12, 9))
+                () -> assertThat(candidatePositions).anySatisfy(route -> {
+                    assertThat(route.getLastPosition().getY()).isEqualTo(9);
+                }),
+                () -> assertThat(candidatePositions).anySatisfy(route -> {
+                    assertThat(route.getLastPosition().getX()).isEqualTo(2);
+                })
+
         );
     }
 

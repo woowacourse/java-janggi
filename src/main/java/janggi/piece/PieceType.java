@@ -10,7 +10,7 @@ public enum PieceType {
     SOLDIER("J"),
     EMPTY("·");
 
-    final String symbol;
+    private final String symbol;
 
     PieceType(final String symbol) {
         this.symbol = symbol;
