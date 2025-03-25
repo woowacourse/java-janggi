@@ -5,6 +5,7 @@ import janggi.setting.CampType;
 import janggi.value.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 
 public class Po extends Piece {
 
@@ -31,7 +32,7 @@ public class Po extends Piece {
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
         BeelineDirection direction = BeelineDirection.parse(getPosition(), destination);
-        List<Position> positionsInPath = direction.calculatePositionsInPath(getPosition(), destination);
+        List<Position> positionsInPath = calculatePositionsInPath(direction, destination);
         List<Piece> piecesInPath = searchPieceInPath(enemy, allies, positionsInPath);
 
         boolean followRuleOfMove = checkRuleOfMove(direction);
@@ -39,6 +40,11 @@ public class Po extends Piece {
         boolean existPoInPath = existPoInPath(piecesInPath);
         boolean existAlliesInDestination = existPieceInPosition(destination, allies);
         return followRuleOfMove && existOnlyOnePieceInPath && !existPoInPath && !existAlliesInDestination;
+    }
+
+    private List<Position> calculatePositionsInPath(BeelineDirection direction, Position destination) {
+        BiFunction<Position, Position, List<Position>> calculationMethod = direction.getCalculatePositionsInPath();
+        return calculationMethod.apply(getPosition(), destination);
     }
 
     private List<Piece> searchPieceInPath(List<Piece> enemy, List<Piece> allies, List<Position> positionsInPath) {

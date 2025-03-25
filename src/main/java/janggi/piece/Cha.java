@@ -4,6 +4,7 @@ import janggi.direction.BeelineDirection;
 import janggi.setting.CampType;
 import janggi.value.Position;
 import java.util.List;
+import java.util.function.BiFunction;
 
 public class Cha extends Piece {
 
@@ -31,12 +32,17 @@ public class Cha extends Piece {
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
         BeelineDirection direction = BeelineDirection.parse(getPosition(), destination);
-        List<Position> positionsInPath = direction.calculatePositionsInPath(getPosition(), destination);
+        List<Position> positionsInPath = calculatePositionsInPath(direction, destination);
 
         boolean followRuleOfMove = checkRuleOfMove(direction);
         boolean existHurdleInPath = existHurdleInPath(positionsInPath, enemy, allies);
         boolean existAlliesInDestination = existPieceInPosition(destination, allies);
         return followRuleOfMove && !existHurdleInPath && !existAlliesInDestination;
+    }
+
+    private List<Position> calculatePositionsInPath(BeelineDirection direction, Position destination) {
+        BiFunction<Position, Position, List<Position>> calculationMethod = direction.getCalculatePositionsInPath();
+        return calculationMethod.apply(getPosition(), destination);
     }
 
     private boolean checkRuleOfMove(BeelineDirection direction) {

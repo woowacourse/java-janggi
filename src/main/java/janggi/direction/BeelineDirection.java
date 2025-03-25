@@ -2,13 +2,20 @@ package janggi.direction;
 
 import janggi.value.Position;
 import java.util.List;
+import java.util.function.BiFunction;
 
 public enum BeelineDirection {
-    LEFT,
-    RIGHT,
-    UP,
-    DOWN,
-    NONE;
+    LEFT((current, destination) -> Position.makePositionInXLine(destination.x() + 1, current.x() - 1, current.y())),
+    RIGHT((current, destination) -> Position.makePositionInXLine(current.x() + 1, destination.x() - 1, current.y())),
+    UP((current, destination) -> Position.makePositionInYLine(destination.y() + 1, current.y() - 1, current.x())),
+    DOWN((current, destination) -> Position.makePositionInYLine(current.y() + 1, destination.y() - 1, current.x())),
+    NONE((current, destination) -> List.of());
+
+    private final BiFunction<Position, Position, List<Position>> calculatePositionsInPath;
+
+    BeelineDirection(BiFunction<Position, Position, List<Position>> calculatePositionsInPath) {
+        this.calculatePositionsInPath = calculatePositionsInPath;
+    }
 
     public static BeelineDirection parse(Position current, Position destination) {
         if (current.isEqualsXPosition(destination.x())) {
@@ -18,22 +25,6 @@ public enum BeelineDirection {
             return parseWithXAxis(current.x(), destination.x());
         }
         return NONE;
-    }
-
-    public List<Position> calculatePositionsInPath(Position current, Position destination) {
-        if (this == LEFT) {
-            return Position.makePositionInXLine(destination.x() + 1, current.x() - 1, current.y());
-        }
-        if (this == RIGHT) {
-            return Position.makePositionInXLine(current.x() + 1, destination.x() - 1, current.y());
-        }
-        if (this == UP) {
-            return Position.makePositionInYLine(destination.y() + 1, current.y() - 1, current.x());
-        }
-        if (this == DOWN) {
-            return Position.makePositionInYLine(current.y() + 1, destination.y() - 1, current.x());
-        }
-        return List.of();
     }
 
     private static BeelineDirection parseWithYAxis(int currentY, int destinationY) {
@@ -54,5 +45,9 @@ public enum BeelineDirection {
             return LEFT;
         }
         return NONE;
+    }
+
+    public BiFunction<Position, Position, List<Position>> getCalculatePositionsInPath() {
+        return calculatePositionsInPath;
     }
 }

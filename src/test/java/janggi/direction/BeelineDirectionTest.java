@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.value.Position;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -47,7 +48,8 @@ class BeelineDirectionTest {
             Position destination,
             List<Position> positionsInPath
     ) {
-        List<Position> actualPositions = direction.calculatePositionsInPath(START_POSITION, destination);
+        BiFunction<Position, Position, List<Position>> pathCalculationMethod = direction.getCalculatePositionsInPath();
+        List<Position> actualPositions = pathCalculationMethod.apply(START_POSITION, destination);
         assertThat(actualPositions).containsExactlyInAnyOrderElementsOf(positionsInPath);
     }
 
