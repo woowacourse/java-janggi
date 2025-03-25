@@ -1,16 +1,18 @@
 package position;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static position.Column.I;
+import static janggi.position.Column.I;
 import static position.PositionFixtures.A0;
 import static position.PositionFixtures.B0;
 import static position.PositionFixtures.E1;
-import static position.Row.ZERO;
+import static janggi.position.Row.ZERO;
 
+import janggi.position.Board;
+import janggi.position.Position;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import route.Direction;
+import janggi.route.Direction;
 
 public class PositionTest {
 

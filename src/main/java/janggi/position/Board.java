@@ -1,0 +1,80 @@
+package janggi.position;
+
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import janggi.piece.normalPiece.Blank;
+import janggi.piece.Piece;
+import janggi.piece.PieceType;
+import janggi.piece.Team;
+
+public final class Board {
+    private final Team currentTeam;
+    private final Map<Position, Piece> pieceOfPosition;
+
+    public Board(Team team, Set<Piece> pieces) {
+        currentTeam = team;
+        pieceOfPosition = pieces.stream().collect(toMap(Piece::position, identity()));
+    }
+
+    public Board(Set<Piece> pieces) {
+        currentTeam = Team.CHO;
+        pieceOfPosition = pieces.stream().collect(toMap(Piece::position, identity()));
+    }
+
+    public Board(Set<Piece> pieces, Team team) {
+        currentTeam = team;
+        pieceOfPosition = pieces.stream().collect(toMap(Piece::position, identity()));
+    }
+
+    public static Board generate() {
+        return new Board(new Initializer().generate());
+    }
+
+    public Piece get(final Position position) {
+        return pieceOfPosition.getOrDefault(position, new Blank(position));
+    }
+
+    public boolean isBlank(Position position) {
+        return get(position).type() == PieceType.BLANK;
+    }
+
+    public boolean canMoveLast(Position position) {
+        Piece piece = get(position);
+        return (piece.type() == PieceType.BLANK) || piece.isDifferentTeam(currentTeam);
+    }
+
+    public void validateTeam(Team team) {
+        if(team != currentTeam){
+            throw new IllegalArgumentException("[ERROR] 같은 팀 기물만 움직일 수 있습니다.");
+        }
+    }
+
+    public boolean isCannon(Position target) {
+        System.out.println("get(target).type() = " + get(target).type());
+        return get(target).type() == PieceType.CANNON;
+    }
+
+    public boolean hasPiece(Position target) {
+        return get(target).type() != PieceType.BLANK;
+    }
+
+    public Map<Position, Piece> pieceOfPosition() {
+        return pieceOfPosition;
+    }
+
+    public Team currentTeam() {
+        return currentTeam;
+    }
+
+    public Set<Piece> toSet(){
+        return new HashSet<>(pieceOfPosition.values());
+    }
+
+    public Team nextTurn() {
+        return Team.next(currentTeam);
+    }
+}

@@ -1,18 +1,18 @@
 package routes;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static piece.Team.HAN;
+import static janggi.piece.Team.HAN;
 import static position.PositionFixtures.E1;
-import static route.Direction.NORTH;
+import static janggi.route.Direction.NORTH;
 
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.normalPiece.Palace;
-import piece.Piece;
-import position.Board;
-import route.Route;
+import janggi.piece.normalPiece.Palace;
+import janggi.piece.Piece;
+import janggi.position.Board;
+import janggi.route.Route;
 
 public class RouteTest {
 

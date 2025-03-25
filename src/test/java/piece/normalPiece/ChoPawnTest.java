@@ -1,20 +1,20 @@
 package piece.normalPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static piece.Team.CHO;
-import static piece.Team.HAN;
+import static janggi.piece.Team.CHO;
 import static position.PositionFixtures.D1;
-import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
 import static position.PositionFixtures.E2;
 import static position.PositionFixtures.F1;
 
+import janggi.piece.normalPiece.ChoPawn;
+import janggi.piece.normalPiece.Horse;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Piece;
-import position.Board;
-import position.Position;
+import janggi.piece.Piece;
+import janggi.position.Board;
+import janggi.position.Position;
 
 public class ChoPawnTest {
 

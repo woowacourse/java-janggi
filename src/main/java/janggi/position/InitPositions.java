@@ -1,4 +1,4 @@
-package position;
+package janggi.position;
 
 import static janggi.position.Column.A;
 import static janggi.position.Column.B;
@@ -20,9 +20,7 @@ import static janggi.position.Row.THREE;
 import static janggi.position.Row.TWO;
 import static janggi.position.Row.ZERO;
 
-import janggi.position.Position;
-
-public final class PositionFixtures {
+public class InitPositions {
     public static final Position A0 = new Position(A, ZERO);
     public static final Position A1 = new Position(A, ONE);
     public static final Position A2 = new Position(A, TWO);
@@ -122,5 +120,4 @@ public final class PositionFixtures {
     public static final Position I8 = new Position(I, EIGHT);
     public static final Position I9 = new Position(I, NINE);
     ;
-
 }

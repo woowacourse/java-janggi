@@ -1,8 +1,8 @@
 package routes;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static position.Column.A;
-import static position.Column.I;
+import static janggi.position.Column.A;
+import static janggi.position.Column.I;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

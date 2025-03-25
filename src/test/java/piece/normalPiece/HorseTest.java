@@ -1,8 +1,8 @@
 package piece.normalPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static piece.Team.CHO;
-import static piece.Team.HAN;
+import static janggi.piece.Team.CHO;
+import static janggi.piece.Team.HAN;
 import static position.PositionFixtures.A1;
 import static position.PositionFixtures.A3;
 import static position.PositionFixtures.B0;
@@ -10,21 +10,18 @@ import static position.PositionFixtures.B2;
 import static position.PositionFixtures.B4;
 import static position.PositionFixtures.C2;
 import static position.PositionFixtures.D0;
-import static position.PositionFixtures.D1;
-import static position.PositionFixtures.D3;
 import static position.PositionFixtures.D4;
-import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
 import static position.PositionFixtures.E3;
-import static position.PositionFixtures.F1;
 
+import janggi.piece.normalPiece.Horse;
+import janggi.piece.normalPiece.Palace;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Piece;
-import position.Board;
-import position.Position;
-import route.Routes;
+import janggi.piece.Piece;
+import janggi.position.Board;
+import janggi.position.Position;
 
 public class HorseTest {
 
@@ -45,10 +42,6 @@ public class HorseTest {
 
         // when
         Set<Position> positions = horse.possibleRoutes(board);
-
-        for (Position position : positions) {
-            position.print();
-        }
 
         // then
         assertThat(positions).containsOnly(B4, A3, A1, B0, D0, E1, E3, D4);

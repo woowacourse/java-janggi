@@ -2,15 +2,16 @@ package position;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static piece.Team.HAN;
+import static janggi.piece.Team.HAN;
 import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
 
+import janggi.position.Board;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.normalPiece.Palace;
-import piece.Piece;
+import janggi.piece.normalPiece.Palace;
+import janggi.piece.Piece;
 
 public class BoardTest {
 
