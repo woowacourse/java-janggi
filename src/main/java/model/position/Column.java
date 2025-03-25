@@ -27,7 +27,7 @@ public enum Column {
         return Arrays.stream(Column.values())
             .filter(result -> result.value == inputValue)
             .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Row입니다."));
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Column입니다."));
     }
 
     public Column up() {
