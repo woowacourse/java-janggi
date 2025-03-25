@@ -67,16 +67,20 @@ public class Game {
         janggi.moveAndCaptureIfEnemyExists(route, startPoint);
     }
 
-    private int parseSelectNumber(String s, int selectBoxMaxSize) {
+    private int parseSelectNumber(String input, int selectBoxMaxSize) {
         try {
-            int selectedNumber = Integer.parseInt(s);
-            if (selectedNumber < 1 || selectedNumber > selectBoxMaxSize) {
-                throw new IllegalArgumentException("범위 내의 번호를 입력해주세요.");
-            }
-            return selectedNumber;
+            return parseAndValidateNumber(input, selectBoxMaxSize);
         } catch (NumberFormatException exception) {
             throw new IllegalArgumentException("올바른 번호를 입력해주세요.");
         }
+    }
+
+    private int parseAndValidateNumber(String input, int selectBoxMaxSize) {
+        int selectedNumber = Integer.parseInt(input);
+        if (selectedNumber < 1 || selectedNumber > selectBoxMaxSize) {
+            throw new IllegalArgumentException("범위 내의 번호를 입력해주세요.");
+        }
+        return selectedNumber;
     }
 
     private Position getPosition() {
@@ -96,13 +100,12 @@ public class Game {
     }
 
     private <T> T handleInputException(Supplier<String> input, Function<String, T> converter) {
-        while (true) {
-            try {
-                String inputValue = input.get();
-                return converter.apply(inputValue);
-            } catch (IllegalArgumentException exception) {
-                outputView.printError(exception.getMessage());
-            }
+        try {
+            String inputValue = input.get();
+            return converter.apply(inputValue);
+        } catch (IllegalArgumentException exception) {
+            outputView.printError(exception.getMessage());
+            return handleInputException(input, converter);
         }
     }
 }
