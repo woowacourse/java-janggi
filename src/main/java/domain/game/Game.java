@@ -37,7 +37,7 @@ public class Game {
         janggi.judgeUnitTurn(position);
 
         List<Route> routes = janggi.searchAvailableRoutes(position);
-        outputView.printAvailableRoute(routes);
+        outputView.printAvailableRoute(routes, position);
 
         moveAndCaptureIfEnemyExists(routes, position);
         janggi.changeTurn();

@@ -46,12 +46,12 @@ public class Janggi {
         UnitType type = pickedUnit.getType();
         if (type == UnitType.BOMB) {
             totalRoutes = totalRoutes.stream().filter(this::canBombJump).toList();
-            return totalRoutes.stream().filter(this::isAvailableEndPoint).toList();
+            return totalRoutes.stream().filter(route -> isAvailableEndPoint(route, pick)).toList();
         }
         if (type == UnitType.JOL) {
             return searchJolRoutes(pick, pickedUnit, totalRoutes);
         }
-        return findAvailableRoute(totalRoutes);
+        return findAvailableRoute(totalRoutes, pick);
     }
 
     private List<Route> searchJolRoutes(Position pick, Unit pickedUnit, List<Route> totalRoutes) {
@@ -84,10 +84,10 @@ public class Janggi {
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 없습니다."));
     }
 
-    private List<Route> findAvailableRoute(List<Route> routes) {
+    private List<Route> findAvailableRoute(List<Route> routes, Position startPoint) {
         return routes.stream()
                 .filter(this::isAvailableRoute)
-                .filter(this::isAvailableEndPoint)
+                .filter(route -> isAvailableEndPoint(route, startPoint))
                 .toList();
     }
 
@@ -96,8 +96,8 @@ public class Janggi {
                 .allMatch(this::isEmptyPoint);
     }
 
-    public boolean isAvailableEndPoint(Route route) {
-        Position endPosition = route.searchEndPoint();
+    public boolean isAvailableEndPoint(Route route, Position startPoint) {
+        Position endPosition = route.searchEndPoint(startPoint);
         if (isExistUnit(endPosition)) {
             Unit endPointUnit = findUnitByPoint(endPosition);
             return endPointUnit.getTeam() != this.turn;
@@ -127,13 +127,13 @@ public class Janggi {
     }
 
     public void moveAndCaptureIfEnemyExists(Route route, Position startPoint) {
-        Position endPoint = route.searchEndPoint();
+        Position endPoint = route.searchEndPoint(startPoint);
         Unit unit = findUnitByPoint(startPoint);
 
         if (isExistUnit(endPoint)) {
             units.remove(findUnitByPoint(endPoint));
         }
-        unit.move(route.searchEndPoint());
+        unit.move(route.searchEndPoint(startPoint));
     }
 
     private boolean isExistUnit(Position position) {
