@@ -27,7 +27,4 @@ public abstract class LimitedMoveChessPiece extends JanggiChessPiece {
         }
         return result;
     }
-
-    @Override
-    abstract public ChessPieceType getChessPieceType();
 }
