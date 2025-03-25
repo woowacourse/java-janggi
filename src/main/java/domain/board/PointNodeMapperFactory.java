@@ -6,11 +6,15 @@ import static domain.board.Point.MIN_COLUMN_INDEX;
 import static domain.board.Point.MIN_ROW_INDEX;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class PointNodeMapperFactory {
+
+    private static final Point HAN_WANG_POINT = Point.of(2, 5);
+    private static final Point CHO_WANG_POINT = Point.of(9, 5);
 
     public PointNodeMapper createDefaultPointNodeMapper() {
         Map<Point, Node> nodeByPoint = new HashMap<>();
@@ -44,8 +48,8 @@ public class PointNodeMapperFactory {
     private List<Edge> createEdgesByPoint(final Point point,
                                           final Map<Point, Node> nodeByPoint) {
         List<Edge> edges = new ArrayList<>();
-
-        for (Direction direction : Direction.VERTICALS) {
+        List<Direction> directions = getDirectionsByPoint(point);
+        for (Direction direction : directions) {
             int nextRow = point.row() + direction.deltaRow();
             int nextColumn = point.column() + direction.deltaColumn();
             if (!isInRange(nextRow, nextColumn)) {
@@ -55,6 +59,13 @@ public class PointNodeMapperFactory {
             edges.add(new Edge(nextNode, direction));
         }
         return edges;
+    }
+
+    private List<Direction> getDirectionsByPoint(Point point) {
+        if (point.equals(HAN_WANG_POINT) || point.equals(CHO_WANG_POINT)) {
+            return Arrays.stream(Direction.values()).toList();
+        }
+        return Direction.VERTICALS;
     }
 
     private boolean isInRange(final int row, final int column) {
