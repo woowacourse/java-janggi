@@ -4,19 +4,19 @@ import java.util.List;
 import piece.PieceType;
 import piece.Pieces;
 import piece.Team;
-import piece.position.Position;
+import piece.position.JanggiPosition;
 
 public class SaMoveBehavior extends MoveBehavior {
 
     private static final String NOT_IMPLEMENTED_FEATURE = "아직 구현되지 않은 기능입니다.";
 
     @Override
-    public Position move(Position destination, Pieces onRoutePieces, Team moveTeam) {
+    public JanggiPosition move(JanggiPosition destination, Pieces onRoutePieces, Team moveTeam) {
         throw new IllegalStateException(NOT_IMPLEMENTED_FEATURE);
     }
 
     @Override
-    public List<Position> calculateLegalRoute(Position startPosition, Position endPosition, Team team) {
+    public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition, Team team) {
         throw new IllegalStateException(NOT_IMPLEMENTED_FEATURE);
     }
 

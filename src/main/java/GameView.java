@@ -3,7 +3,7 @@ import java.util.Scanner;
 import piece.Piece;
 import piece.Team;
 import piece.initiate.TableSetting;
-import piece.position.Position;
+import piece.position.JanggiPosition;
 
 public class GameView {
 
@@ -31,7 +31,7 @@ public class GameView {
         System.out.printf("%s 차례입니다.%n", team.getType());
     }
 
-    public void printJanggiBoard(Map<Position, Piece> positionPieceMap) {
+    public void printJanggiBoard(Map<JanggiPosition, Piece> positionPieceMap) {
         StringBuilder stringBuilder = new StringBuilder(GRID_HELPER);
         for (int i = 9; i >= 0; i--) {
             stringBuilder.append(i).append(" ");
@@ -44,8 +44,8 @@ public class GameView {
         System.out.println(stringBuilder.toString());
     }
 
-    private static String pieceType(Map<Position, Piece> positionPieceMap, int i, int j) {
-        Position position = new Position(i, j);
+    private static String pieceType(Map<JanggiPosition, Piece> positionPieceMap, int i, int j) {
+        JanggiPosition position = new JanggiPosition(i, j);
         if (positionPieceMap.get(position) == null) {
             return EMPTY_PIECE;
         }
@@ -60,19 +60,19 @@ public class GameView {
         return type;
     }
 
-    public Position inputSelectPiece() {
+    public JanggiPosition inputSelectPiece() {
         System.out.printf("이동할 기물 위치를 입력해주세요 (r,c) %n");
         String input = scanner.nextLine();
         return inputPosition(input);
     }
 
-    public Position inputPiecePosition() {
+    public JanggiPosition inputPiecePosition() {
         System.out.printf("이동시킬 위치를 입력해주세요 (r,c) %n");
         String input = scanner.nextLine();
         return inputPosition(input);
     }
 
-    private Position inputPosition(String s) {
+    private JanggiPosition inputPosition(String s) {
         String[] position = s.split(",");
         if (position.length != 2) {
             throw new IllegalArgumentException(INVALID_POSITION_INPUT);
@@ -80,11 +80,11 @@ public class GameView {
         return inputPosition(position);
     }
 
-    private static Position inputPosition(String[] position) {
+    private static JanggiPosition inputPosition(String[] position) {
         try {
             int r = Integer.parseInt(position[0]);
             int c = Integer.parseInt(position[1]);
-            return new Position(r, c);
+            return new JanggiPosition(r, c);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(NOT_NUMBER);
         }

@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import piece.position.Position;
+import piece.position.JanggiPosition;
 
 public class Pieces {
 
@@ -29,26 +29,26 @@ public class Pieces {
         return new Pieces(resultPieces);
     }
 
-    public Piece move(Position selectPiecePosition, Position movePosition, Pieces boardAllPieces) {
+    public Piece move(JanggiPosition selectPiecePosition, JanggiPosition movePosition, Pieces boardAllPieces) {
         Piece piece = findPiece(selectPiecePosition);
-        List<Position> route = piece.calculateLegalRoute(selectPiecePosition, movePosition);
+        List<JanggiPosition> route = piece.calculateLegalRoute(selectPiecePosition, movePosition);
         Pieces piecesOnRoute = findPiecesOnRouteIncludeOtherTeam(route, piece, boardAllPieces);
         piece.move(piecesOnRoute, movePosition);
         return piece;
     }
 
-    private Pieces findPiecesOnRouteIncludeOtherTeam(List<Position> route, Piece movePiece, Pieces boardAllPieces) {
+    private Pieces findPiecesOnRouteIncludeOtherTeam(List<JanggiPosition> route, Piece movePiece, Pieces boardAllPieces) {
         List<Piece> allPieces = boardAllPieces.getPieces();
 
-        Map<Position, Piece> positionPieces = allPieces.stream()
+        Map<JanggiPosition, Piece> positionPieces = allPieces.stream()
                 .filter(piece -> !piece.equals(movePiece))
                 .collect(Collectors.toMap(Piece::getPosition, piece -> piece));
 
         return findPiecesOnRouteIncludeOtherTeam(positionPieces, route);
     }
 
-    private Pieces findPiecesOnRouteIncludeOtherTeam(Map<Position, Piece> positionPieces,
-                                                     List<Position> onRoutePositions) {
+    private Pieces findPiecesOnRouteIncludeOtherTeam(Map<JanggiPosition, Piece> positionPieces,
+                                                     List<JanggiPosition> onRoutePositions) {
         List<Piece> onRoutePieces = onRoutePositions.stream()
                 .filter(positionPieces::containsKey)
                 .map(positionPieces::get)
@@ -57,7 +57,7 @@ public class Pieces {
         return new Pieces(onRoutePieces);
     }
 
-    private Piece findPiece(Position selectPiecePosition) {
+    private Piece findPiece(JanggiPosition selectPiecePosition) {
         return pieces.stream()
                 .filter(piece -> piece.isSamePosition(selectPiecePosition))
                 .findFirst()

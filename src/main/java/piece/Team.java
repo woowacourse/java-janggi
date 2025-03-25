@@ -1,5 +1,7 @@
 package piece;
 
+import java.util.List;
+
 public enum Team {
 
     RED("홍"),
@@ -14,6 +16,10 @@ public enum Team {
     }
 
     private final String type;
+
+    public static List<Team> playableTeams() {
+        return List.of(Team.BLUE, Team.RED);
+    }
 
     public String getType() {
         return type;

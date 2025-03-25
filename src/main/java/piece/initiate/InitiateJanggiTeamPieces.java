@@ -12,40 +12,40 @@ import move.SaMoveBehavior;
 import piece.Piece;
 import piece.Pieces;
 import piece.Team;
-import piece.position.Position;
+import piece.position.JanggiPosition;
 
 public class InitiateJanggiTeamPieces {
 
     private static final Map<Team, List<Piece>> initiatePiecesWithoutMaSang = Map.of(
             Team.RED,
             List.of(
-                    new Piece(new Position(0, 0), new ChaMoveBehavior(), Team.RED),
-                    new Piece(new Position(0, 3), new SaMoveBehavior(), Team.RED),
-                    new Piece(new Position(0, 5), new SaMoveBehavior(), Team.RED),
-                    new Piece(new Position(0, 8), new ChaMoveBehavior(), Team.RED),
-                    new Piece(new Position(1, 4), new GungMoveBehavior(), Team.RED),
-                    new Piece(new Position(2, 1), new FoMoveBehavior(), Team.RED),
-                    new Piece(new Position(2, 7), new FoMoveBehavior(), Team.RED),
-                    new Piece(new Position(3, 0), new JolMoveBehavior(), Team.RED),
-                    new Piece(new Position(3, 2), new JolMoveBehavior(), Team.RED),
-                    new Piece(new Position(3, 4), new JolMoveBehavior(), Team.RED),
-                    new Piece(new Position(3, 6), new JolMoveBehavior(), Team.RED),
-                    new Piece(new Position(3, 8), new JolMoveBehavior(), Team.RED)
+                    new Piece(new JanggiPosition(0, 0), new ChaMoveBehavior(), Team.RED),
+                    new Piece(new JanggiPosition(0, 3), new SaMoveBehavior(), Team.RED),
+                    new Piece(new JanggiPosition(0, 5), new SaMoveBehavior(), Team.RED),
+                    new Piece(new JanggiPosition(0, 8), new ChaMoveBehavior(), Team.RED),
+                    new Piece(new JanggiPosition(1, 4), new GungMoveBehavior(), Team.RED),
+                    new Piece(new JanggiPosition(2, 1), new FoMoveBehavior(), Team.RED),
+                    new Piece(new JanggiPosition(2, 7), new FoMoveBehavior(), Team.RED),
+                    new Piece(new JanggiPosition(3, 0), new JolMoveBehavior(), Team.RED),
+                    new Piece(new JanggiPosition(3, 2), new JolMoveBehavior(), Team.RED),
+                    new Piece(new JanggiPosition(3, 4), new JolMoveBehavior(), Team.RED),
+                    new Piece(new JanggiPosition(3, 6), new JolMoveBehavior(), Team.RED),
+                    new Piece(new JanggiPosition(3, 8), new JolMoveBehavior(), Team.RED)
             ),
             Team.BLUE,
             List.of(
-                    new Piece(new Position(6, 0), new JolMoveBehavior(), Team.BLUE),
-                    new Piece(new Position(6, 2), new JolMoveBehavior(), Team.BLUE),
-                    new Piece(new Position(6, 4), new JolMoveBehavior(), Team.BLUE),
-                    new Piece(new Position(6, 6), new JolMoveBehavior(), Team.BLUE),
-                    new Piece(new Position(6, 8), new JolMoveBehavior(), Team.BLUE),
-                    new Piece(new Position(7, 1), new FoMoveBehavior(), Team.BLUE),
-                    new Piece(new Position(7, 7), new FoMoveBehavior(), Team.BLUE),
-                    new Piece(new Position(8, 4), new GungMoveBehavior(), Team.BLUE),
-                    new Piece(new Position(9, 0), new ChaMoveBehavior(), Team.BLUE),
-                    new Piece(new Position(9, 3), new SaMoveBehavior(), Team.BLUE),
-                    new Piece(new Position(9, 5), new SaMoveBehavior(), Team.BLUE),
-                    new Piece(new Position(9, 8), new ChaMoveBehavior(), Team.BLUE)
+                    new Piece(new JanggiPosition(6, 0), new JolMoveBehavior(), Team.BLUE),
+                    new Piece(new JanggiPosition(6, 2), new JolMoveBehavior(), Team.BLUE),
+                    new Piece(new JanggiPosition(6, 4), new JolMoveBehavior(), Team.BLUE),
+                    new Piece(new JanggiPosition(6, 6), new JolMoveBehavior(), Team.BLUE),
+                    new Piece(new JanggiPosition(6, 8), new JolMoveBehavior(), Team.BLUE),
+                    new Piece(new JanggiPosition(7, 1), new FoMoveBehavior(), Team.BLUE),
+                    new Piece(new JanggiPosition(7, 7), new FoMoveBehavior(), Team.BLUE),
+                    new Piece(new JanggiPosition(8, 4), new GungMoveBehavior(), Team.BLUE),
+                    new Piece(new JanggiPosition(9, 0), new ChaMoveBehavior(), Team.BLUE),
+                    new Piece(new JanggiPosition(9, 3), new SaMoveBehavior(), Team.BLUE),
+                    new Piece(new JanggiPosition(9, 5), new SaMoveBehavior(), Team.BLUE),
+                    new Piece(new JanggiPosition(9, 8), new ChaMoveBehavior(), Team.BLUE)
             )
     );
 

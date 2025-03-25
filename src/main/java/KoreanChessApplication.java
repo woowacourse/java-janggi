@@ -7,7 +7,7 @@ import piece.PlayerPieces;
 import piece.Team;
 import piece.initiate.InitiateJanggiTeamPieces;
 import piece.initiate.TableSetting;
-import piece.position.Position;
+import piece.position.JanggiPosition;
 
 public class KoreanChessApplication {
 
@@ -28,7 +28,7 @@ public class KoreanChessApplication {
 
     private static Map<Team, TableSetting> inputTableSetting(GameView gameView) {
         Map<Team, TableSetting> tableSetting = new HashMap<>();
-        for (Team team : Team.values()) {
+        for (Team team : Team.playableTeams()) {
             TableSetting selectTableSetting = gameView.inputTableSetting(team);
             tableSetting.put(team, selectTableSetting);
         }
@@ -65,18 +65,18 @@ public class KoreanChessApplication {
 
     private static void playTurn(PlayerPieces playerPieces, GameView gameView, int turn) {
         Pieces allPieces = playerPieces.allPieces();
-        Map<Position, Piece> positionPieces = positionPieces(allPieces);
+        Map<JanggiPosition, Piece> positionPieces = positionPieces(allPieces);
         gameView.printJanggiBoard(positionPieces);
         Team team = turnTable.get(turn);
         gameView.printTurn(team);
-        Position selectPiecePosition = gameView.inputSelectPiece();
-        Position selectPosition = gameView.inputPiecePosition();
+        JanggiPosition selectPiecePosition = gameView.inputSelectPiece();
+        JanggiPosition selectPosition = gameView.inputPiecePosition();
         playerPieces.placePhase(team, selectPiecePosition, selectPosition);
     }
 
-    public static Map<Position, Piece> positionPieces(Pieces pieces) {
+    public static Map<JanggiPosition, Piece> positionPieces(Pieces pieces) {
         List<Piece> allPieces = pieces.getPieces();
-        Map<Position, Piece> playerBoard = new HashMap<>();
+        Map<JanggiPosition, Piece> playerBoard = new HashMap<>();
         for (Piece piece : allPieces) {
             playerBoard.put(piece.getPosition(), piece);
         }

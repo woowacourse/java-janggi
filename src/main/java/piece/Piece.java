@@ -3,29 +3,29 @@ package piece;
 import java.util.List;
 import java.util.Objects;
 import move.MoveBehavior;
-import piece.position.Position;
+import piece.position.JanggiPosition;
 
 public class Piece {
 
     private final Team team;
     private final MoveBehavior moveBehavior;
-    private Position position;
+    private JanggiPosition position;
 
-    public Piece(Position position, MoveBehavior moveBehavior, Team team) {
+    public Piece(JanggiPosition position, MoveBehavior moveBehavior, Team team) {
         this.position = position;
         this.moveBehavior = moveBehavior;
         this.team = team;
     }
 
-    public void move(Pieces onRoutePieces, Position movePosition) {
+    public void move(Pieces onRoutePieces, JanggiPosition movePosition) {
         this.position = moveBehavior.move(movePosition, onRoutePieces, team);
     }
 
-    public List<Position> calculateLegalRoute(Position selectPiecePosition, Position movePosition) {
+    public List<JanggiPosition> calculateLegalRoute(JanggiPosition selectPiecePosition, JanggiPosition movePosition) {
         return moveBehavior.calculateLegalRoute(selectPiecePosition, movePosition, team);
     }
 
-    public boolean isSamePosition(Position destination) {
+    public boolean isSamePosition(JanggiPosition destination) {
         return position.equals(destination);
     }
 
@@ -49,7 +49,7 @@ public class Piece {
         return team;
     }
 
-    public Position getPosition() {
+    public JanggiPosition getPosition() {
         return position;
     }
 

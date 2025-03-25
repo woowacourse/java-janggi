@@ -5,7 +5,7 @@ import move.direction.Direction;
 import move.direction.Directions;
 import piece.PieceType;
 import piece.Team;
-import piece.position.Position;
+import piece.position.JanggiPosition;
 
 public class SangMoveBehavior extends MoveBehavior {
 
@@ -21,7 +21,7 @@ public class SangMoveBehavior extends MoveBehavior {
     );
 
     @Override
-    public List<Position> calculateLegalRoute(Position startPosition, Position endPosition, Team team) {
+    public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition, Team team) {
         return calculateLegalRoute(startPosition, endPosition, canMoveDirections);
     }
 

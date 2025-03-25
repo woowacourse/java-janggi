@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import piece.position.Position;
+import piece.position.JanggiPosition;
 
 public class PlayerPieces {
 
@@ -38,7 +38,7 @@ public class PlayerPieces {
         return Team.EMPTY;
     }
 
-    public void placePhase(Team team, Position selectPiecePosition, Position wantedMovePosition) {
+    public void placePhase(Team team, JanggiPosition selectPiecePosition, JanggiPosition wantedMovePosition) {
         Pieces moveTeamPieces = moveTeamPieces(team);
         Piece movePiece = move(moveTeamPieces, selectPiecePosition, wantedMovePosition);
 
@@ -46,7 +46,7 @@ public class PlayerPieces {
         moveTeamPieces.killPieceFrom(movePiece, otherPieces);
     }
 
-    public Piece move(Pieces movePieces, Position selectPiecePosition, Position wantedMovePosition) {
+    public Piece move(Pieces movePieces, JanggiPosition selectPiecePosition, JanggiPosition wantedMovePosition) {
         Pieces allPieces = allPieces();
         return movePieces.move(selectPiecePosition, wantedMovePosition, allPieces);
     }

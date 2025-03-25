@@ -9,15 +9,15 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-import piece.position.Position;
+import piece.position.JanggiPosition;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class PiecesTest {
 
     @Test
     void 피스들을_관리한다() {
-        var piece = new Piece(new Position(0, 1), new ChaMoveBehavior(), Team.BLUE);
-        var piece2 = new Piece(new Position(0, 2), new FoMoveBehavior(), Team.RED);
+        var piece = new Piece(new JanggiPosition(0, 1), new ChaMoveBehavior(), Team.BLUE);
+        var piece2 = new Piece(new JanggiPosition(0, 2), new FoMoveBehavior(), Team.RED);
 
         Pieces pieces = new Pieces(List.of(piece, piece2));
         var currentPieces = pieces.getPieces();
@@ -26,8 +26,8 @@ public class PiecesTest {
 
     @Test
     void 같은_위치에_있는_적팀_기물을_잡을_수_있다() {
-        var piece1 = new Piece(new Position(0, 1), new JolMoveBehavior(), Team.BLUE);
-        var piece2 = new Piece(new Position(0, 1), new JolMoveBehavior(), Team.RED);
+        var piece1 = new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.BLUE);
+        var piece2 = new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.RED);
         Pieces pieces = new Pieces(new ArrayList<>(List.of(piece1)));
         Pieces otherPieces = new Pieces(new ArrayList<>(List.of(piece2)));
 
@@ -43,8 +43,8 @@ public class PiecesTest {
 
     @Test
     void 같은_위치에_있는_아군은_잡지_않는다() {
-        var piece1 = new Piece(new Position(0, 1), new JolMoveBehavior(), Team.BLUE);
-        var piece2 = new Piece(new Position(0, 1), new JolMoveBehavior(), Team.BLUE);
+        var piece1 = new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.BLUE);
+        var piece2 = new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.BLUE);
         Pieces pieces = new Pieces(new ArrayList<>(List.of(piece1, piece2)));
 
         pieces.killPieceFrom(piece1, new Pieces(new ArrayList<>(pieces.getPieces())));
@@ -54,8 +54,8 @@ public class PiecesTest {
 
     @Test
     void 다른_위치의_적군은_잡을_수_없다() {
-        var piece1 = new Piece(new Position(0, 1), new JolMoveBehavior(), Team.BLUE);
-        var piece2 = new Piece(new Position(0, 2), new JolMoveBehavior(), Team.RED);
+        var piece1 = new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.BLUE);
+        var piece2 = new Piece(new JanggiPosition(0, 2), new JolMoveBehavior(), Team.RED);
         Pieces pieces = new Pieces(new ArrayList<>(List.of(piece1, piece2)));
 
         pieces.killPieceFrom(piece1, new Pieces(new ArrayList<>(pieces.getPieces())));

@@ -6,21 +6,21 @@ import java.util.List;
 import move.direction.Direction;
 import piece.PieceType;
 import piece.Team;
-import piece.position.Position;
+import piece.position.JanggiPosition;
 
 public class ChaMoveBehavior extends MoveBehavior {
 
     @Override
-    public List<Position> calculateLegalRoute(Position startPosition, Position endPosition, Team team) {
-        Position smallerPosition = startPosition.getSmallerPosition(endPosition);
-        Position biggerPosition = startPosition.getBiggerPosition(endPosition);
+    public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition, Team team) {
+        JanggiPosition smallerPosition = startPosition.getSmallerPosition(endPosition);
+        JanggiPosition biggerPosition = startPosition.getBiggerPosition(endPosition);
 
-        List<Position> positions = new ArrayList<>();
+        List<JanggiPosition> positions = new ArrayList<>();
         return calculateSameLineRoute(startPosition, endPosition, smallerPosition, biggerPosition, positions);
     }
 
-    private List<Position> calculateSameLineRoute(Position startPosition, Position endPosition, Position minPosition,
-                                                  Position maxPosition, List<Position> positions) {
+    private List<JanggiPosition> calculateSameLineRoute(JanggiPosition startPosition, JanggiPosition endPosition, JanggiPosition minPosition,
+                                                        JanggiPosition maxPosition, List<JanggiPosition> positions) {
         if (startPosition.isSameColumn(endPosition)) {
             return calculateLegalRoute(minPosition, maxPosition, positions, Direction.UP);
         }
@@ -30,8 +30,8 @@ public class ChaMoveBehavior extends MoveBehavior {
         throw new InvalidMovePosition();
     }
 
-    private List<Position> calculateLegalRoute(Position minPosition, Position maxPosition, List<Position> positions,
-                                               Direction direction) {
+    private List<JanggiPosition> calculateLegalRoute(JanggiPosition minPosition, JanggiPosition maxPosition, List<JanggiPosition> positions,
+                                                     Direction direction) {
         while (!minPosition.equals(maxPosition)) {
             minPosition = minPosition.add(direction);
             positions.add(minPosition);

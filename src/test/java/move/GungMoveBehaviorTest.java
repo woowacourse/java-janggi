@@ -5,7 +5,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import piece.Pieces;
 import piece.Team;
-import piece.position.Position;
+import piece.position.JanggiPosition;
 
 class GungMoveBehaviorTest {
     @Test
@@ -13,7 +13,7 @@ class GungMoveBehaviorTest {
         MoveBehavior moveBehavior = new GungMoveBehavior();
 
         Assertions.assertThatThrownBy(
-                        () -> moveBehavior.move(new Position(0, 5), new Pieces(new ArrayList<>()), Team.BLUE))
+                        () -> moveBehavior.move(new JanggiPosition(0, 5), new Pieces(new ArrayList<>()), Team.BLUE))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

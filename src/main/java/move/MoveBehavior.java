@@ -9,7 +9,7 @@ import piece.Piece;
 import piece.PieceType;
 import piece.Pieces;
 import piece.Team;
-import piece.position.Position;
+import piece.position.JanggiPosition;
 
 public abstract class MoveBehavior {
 
@@ -19,11 +19,11 @@ public abstract class MoveBehavior {
         }
     }
 
-    List<Position> calculateLegalRoute(Position startPosition, Position endPosition,
-                                       List<Directions> canMoveDirections) {
+    List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition,
+                                             List<Directions> canMoveDirections) {
         for (Directions canMoveDirection : canMoveDirections) {
-            Position currentPosition = startPosition;
-            List<Position> movePositions = new ArrayList<>();
+            JanggiPosition currentPosition = startPosition;
+            List<JanggiPosition> movePositions = new ArrayList<>();
             currentPosition = movePosition(canMoveDirection, currentPosition, movePositions);
             if (currentPosition.equals(endPosition)) {
                 return Collections.unmodifiableList(movePositions);
@@ -33,7 +33,7 @@ public abstract class MoveBehavior {
     }
 
 
-    public Position move(Position destination, Pieces onRoutePieces, Team moveTeam) {
+    public JanggiPosition move(JanggiPosition destination, Pieces onRoutePieces, Team moveTeam) {
         for (Piece piece : onRoutePieces.getPieces()) {
             throwInvalidMoveBehaviorByCondition(() -> !piece.isSamePosition(destination));
             throwInvalidMoveBehaviorByCondition(() -> piece.isSameTeam(moveTeam));
@@ -42,7 +42,8 @@ public abstract class MoveBehavior {
         return destination;
     }
 
-    private Position movePosition(Directions directions, Position currentPosition, List<Position> moveRoute) {
+    private JanggiPosition movePosition(Directions directions, JanggiPosition currentPosition,
+                                        List<JanggiPosition> moveRoute) {
         for (Direction direction : directions.getDirections()) {
             currentPosition = currentPosition.add(direction);
             moveRoute.add(currentPosition);
@@ -52,7 +53,8 @@ public abstract class MoveBehavior {
 
     abstract public PieceType getPieceType();
 
-    abstract public List<Position> calculateLegalRoute(Position startPosition, Position endPosition, Team team);
+    abstract public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition,
+                                                             Team team);
 
     public boolean isSameType(PieceType pieceType) {
         return getPieceType().isSameType(pieceType);

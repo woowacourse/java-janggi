@@ -6,7 +6,7 @@ import move.direction.Direction;
 import move.direction.Directions;
 import piece.PieceType;
 import piece.Team;
-import piece.position.Position;
+import piece.position.JanggiPosition;
 
 public class JolMoveBehavior extends MoveBehavior {
 
@@ -33,7 +33,7 @@ public class JolMoveBehavior extends MoveBehavior {
     }
 
     @Override
-    public List<Position> calculateLegalRoute(Position startPosition, Position endPosition, Team team) {
+    public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition, Team team) {
         return calculateLegalRoute(startPosition, endPosition, teamCanMoveDirection.get(team));
     }
 }
