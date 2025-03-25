@@ -18,5 +18,4 @@ class ColumnTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("좌표가 장기판의 범위를 벗어났습니다.");
     }
-
 }

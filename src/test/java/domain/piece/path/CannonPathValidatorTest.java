@@ -99,6 +99,4 @@ class CannonPathValidatorTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 포를 잡을 수 없습니다.");
     }
-
-
 }

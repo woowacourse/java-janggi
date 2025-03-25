@@ -87,5 +87,4 @@ class PlayersTest {
         // then
         assertThat(actual).isEqualTo(expected);
     }
-
 }

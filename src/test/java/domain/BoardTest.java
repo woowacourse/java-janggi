@@ -76,7 +76,7 @@ class BoardTest {
 
         // then
         Map<Position, Piece> alivePieces = board.getAlivePieces();
-        assertThat(alivePieces.containsKey(endPosition)).isTrue();
+        assertThat(alivePieces).containsKey(endPosition);
         Piece findPiece = alivePieces.get(endPosition);
         PieceType type = findPiece.getType();
         assertThat(type).isEqualTo(PieceType.SOLDIER);
@@ -93,7 +93,7 @@ class BoardTest {
 
         Map<Position, Piece> alivePieces = board.getAlivePieces();
         assertThat(alivePieces).hasSize(5);
-        assertThat(alivePieces.containsKey(endPosition)).isTrue();
+        assertThat(alivePieces).containsKey(endPosition);
         Piece findPiece = alivePieces.get(endPosition);
         PieceType type = findPiece.getType();
         assertThat(type).isEqualTo(PieceType.SOLDIER);
