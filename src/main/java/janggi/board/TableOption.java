@@ -33,7 +33,7 @@ public enum TableOption {
         this.leftHorseColumn = leftHorseColumn;
     }
 
-    public static TableOption of(String option) {
+    public static TableOption from(String option) {
         return Arrays.stream(TableOption.values())
                 .filter(value -> value.option.equals(option))
                 .findFirst()

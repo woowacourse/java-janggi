@@ -5,9 +5,10 @@ import janggi.team.Team;
 import java.util.Scanner;
 
 public class Input {
+
     private final Scanner scanner = new Scanner(System.in);
 
-    public String readPositionOption(Team team) {
+    public String readTableOption(Team team) {
         System.out.printf("%s의 상차림을 선택해주세요. [입력 예시 : 상마상마, 마상마상, 마상상마, 상마마상]%n", team.getValue());
         return scanner.nextLine();
     }
@@ -22,12 +23,6 @@ public class Input {
     public String readPieceStartPoint() {
         System.out.println("움직일 기물 이름과 출발 좌표를 입력해주세요.");
         System.out.println("ex) E-[1, 0]"); //출발 좌표가 해당 기물의 종류가 맞는지 검증 필요
-        return scanner.nextLine();
-    }
-
-    public String readPieceDestination() {
-        System.out.println("움직일 기물의 도착 좌표를 입력해주세요.");
-        System.out.println("ex) [3, 3]"); //도착 좌표가 도달할 수 있는 곳인지 검증 필요
         return scanner.nextLine();
     }
 }
