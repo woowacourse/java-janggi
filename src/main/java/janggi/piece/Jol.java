@@ -43,7 +43,6 @@ public class Jol extends Piece {
         int destX = pathPositions.getLast().x();
         int destY = pathPositions.getLast().y();
 
-        return (destX == currentX && destY == currentY - 1) ||
-                (destY == currentY && Math.abs(destX - currentX) == 1);
+        return (destX == currentX && destY == currentY - 1) || (destY == currentY && Math.abs(destX - currentX) == 1);
     }
 }
