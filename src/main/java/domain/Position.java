@@ -13,9 +13,13 @@ public class Position {
     }
 
     private void validatePosition(int row, int column) {
-        if (row < 1 || column < 1 || row > 10 || column > 9) {
+        if (!isValidPosition(row, column)) {
             throw new IllegalArgumentException("장기판을 넘은 이동은 불가능 합니다.");
         }
+    }
+
+    private boolean isValidPosition(int row, int column) {
+        return row >= 1 && row <= 10 && column >= 1 && column <= 9;
     }
 
     public Position movePosition(Move move) {
@@ -25,7 +29,7 @@ public class Position {
     public boolean canApplyMove(Move move) {
         int movedRow = row + move.getDy();
         int movedColumn = column + move.getDx();
-        return movedRow >= 1 && movedRow <= 10 && movedColumn >= 1 && movedColumn <= 9;
+        return isValidPosition(movedRow, movedColumn);
     }
 
     public int compareRow(Position position) {
