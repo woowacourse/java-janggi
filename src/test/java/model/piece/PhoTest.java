@@ -31,16 +31,30 @@ public class PhoTest {
     class PhoMovableTest {
         @Test
         @DisplayName("포 이동 가능 여부 판별 테스트")
-        public void test2() {
-            Pho Pho = new Pho(Team.RED);
-            assertThat(Pho.isValidPoint(Point.of(0, 0), Point.of(100, 0))).isTrue();
+        public void test1() {
+            Pho pho = new Pho(Team.RED);
+            assertThat(pho.isValidPoint(Point.of(0, 0), Point.of(100, 0))).isTrue();
         }
 
         @Test
         @DisplayName("포 이동 불가능 여부 판별 테스트")
+        public void test2() {
+            Pho pho = new Pho(Team.RED);
+            assertThat(pho.isValidPoint(Point.of(0, 0), Point.of(10, 10))).isFalse();
+        }
+
+        @Test
+        @DisplayName("궁성 대각 이동 가능")
         public void test3() {
-            Pho Pho = new Pho(Team.RED);
-            assertThat(Pho.isValidPoint(Point.of(0, 0), Point.of(10, 10))).isFalse();
+            Pho pho = new Pho(Team.RED);
+            assertThat(pho.isValidPoint(Point.of(3, 0), Point.of(5, 2))).isTrue();
+        }
+
+        @Test
+        @DisplayName("궁성 대각 이동 불가능")
+        public void test4() {
+            Pho pho = new Pho(Team.RED);
+            assertThat(pho.isValidPoint(Point.of(3, 1), Point.of(4, 2))).isFalse();
         }
     }
 
