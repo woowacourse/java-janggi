@@ -1,9 +1,9 @@
 package domain.movements;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.board.Point;
 import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -36,5 +36,20 @@ public class EndlessMovementTest {
                 new Point(3, 5),
                 new Point(3, 6)
         );
+    }
+
+    @Test
+    @DisplayName("이동할 수 없는 위치로 경로를 반환할 것을 요청하는 경우 예외를 던진다")
+    void test_calculateRoutePointsThrowsException() {
+        // given
+        EndlessMovement endlessMovement = new EndlessMovement();
+
+        Point startPoint = new Point(0, 0);
+        Point invalidArrivalPoint = new Point(1, 1);
+
+        // when & then
+        assertThatThrownBy(() -> endlessMovement.calculateRoutePoints(startPoint, invalidArrivalPoint))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("해당 위치로 이동할 수 없습니다.");
     }
 }
