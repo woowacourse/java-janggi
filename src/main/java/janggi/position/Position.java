@@ -42,11 +42,11 @@ public final class Position {
     }
 
     public Position move(Route route) {
-        Position destination = this;
+        Position source = this;
         for (Direction direction : route.route()) {
-            destination = destination.move(direction);
+            source = source.move(direction);
         }
-        return destination;
+        return source;
     }
 
 
@@ -63,11 +63,4 @@ public final class Position {
     public int hashCode() {
         return Objects.hash(column, row);
     }
-
-    public void print() {
-        System.out.print("row = " + row);
-        System.out.print("    column = " + column);
-        System.out.println();
-    }
-
 }
