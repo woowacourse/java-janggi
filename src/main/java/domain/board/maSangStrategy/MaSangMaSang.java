@@ -3,8 +3,7 @@ package domain.board.maSangStrategy;
 import domain.Coordinate;
 import domain.Team;
 import domain.piece.Piece;
-import domain.piece.pathPiece.Ma;
-import domain.piece.pathPiece.Sang;
+import domain.piece.PieceType;
 import java.util.List;
 import java.util.Set;
 
@@ -16,10 +15,10 @@ public class MaSangMaSang implements MaSangStrategy {
         int y = TEAM_Y_COORDINATE.get(team);
 
         return Set.of(
-            new Ma(team, new Coordinate(x.get(0), y)),
-            new Sang(team, new Coordinate(x.get(1), y)),
-            new Ma(team, new Coordinate(x.get(2), y)),
-            new Sang(team, new Coordinate(x.get(3), y))
+            new Piece(team, new Coordinate(x.get(0), y), PieceType.MA),
+            new Piece(team, new Coordinate(x.get(1), y), PieceType.SANG),
+            new Piece(team, new Coordinate(x.get(2), y), PieceType.MA),
+            new Piece(team, new Coordinate(x.get(3), y), PieceType.SANG)
         );
     }
 }

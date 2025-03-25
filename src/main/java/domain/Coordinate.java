@@ -28,15 +28,15 @@ public record Coordinate(int x, int y) {
         validateYCoordinate(y);
     }
 
-    public boolean canMove(Movement movement) {
-        int newX = this.x + movement.deltaX();
-        int newY = this.y + movement.deltaY();
+    public boolean canMove(MoveVector moveVector) {
+        int newX = this.x + moveVector.deltaX();
+        int newY = this.y + moveVector.deltaY();
         return !isInvalidX(newX) && !isInvalidY(newY);
     }
 
-    public Coordinate move(Movement movement) {
-        int newX = this.x + movement.deltaX();
-        int newY = this.y + movement.deltaY();
+    public Coordinate move(MoveVector moveVector) {
+        int newX = this.x + moveVector.deltaX();
+        int newY = this.y + moveVector.deltaY();
 
         return new Coordinate(newX, newY);
     }
@@ -50,8 +50,8 @@ public record Coordinate(int x, int y) {
         return CASTLE_DIAGONAL_CONNECTIONS.getOrDefault(this, Collections.emptySet());
     }
 
-    public Movement computeMovementTo(Coordinate destination) {
-        return new Movement(destination.x - this.x, destination.y - this.y);
+    public MoveVector computeMovementTo(Coordinate destination) {
+        return new MoveVector(destination.x - this.x, destination.y - this.y);
     }
 
     private boolean isInvalidX(int x) {

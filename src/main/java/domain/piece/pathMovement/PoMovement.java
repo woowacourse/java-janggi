@@ -1,27 +1,23 @@
-package domain.piece.pathPiece;
+package domain.piece.pathMovement;
 
 import domain.Coordinate;
-import domain.Movement;
-import domain.Team;
+import domain.MoveVector;
 import domain.board.PieceSearcher;
 import domain.piece.Piece;
 
-public class Po extends UnlimitedPathPiece {
+public class PoMovement extends UnlimitedPathMovement {
 
-    public Po(Team team, Coordinate coordinate) {
-        super(
-            team,
-            coordinate,
-            Movement.CROSS_MOVEMENTS
-        );
+    public PoMovement() {
+        super(MoveVector.CROSS_MOVE_VECTORS);
     }
 
     @Override
     public boolean canMove(
+        final Coordinate departure,
         final Coordinate arrival,
         final PieceSearcher pieceSearcher
     ) {
-        final var path = findPath(arrival);
+        final var path = findPath(departure, arrival);
 
         final var piecesInPath = pieceSearcher.findPiecesIn(path.coordinates());
         if (piecesInPath.size() != 1) {
@@ -37,15 +33,5 @@ public class Po extends UnlimitedPathPiece {
             .map(Piece::isPo)
             .orElse(false);
         return !isArrivalPo;
-    }
-
-    @Override
-    public Piece moveTo(final Coordinate arrival) {
-        return new Po(team, arrival);
-    }
-
-    @Override
-    public boolean isPo() {
-        return true;
     }
 }

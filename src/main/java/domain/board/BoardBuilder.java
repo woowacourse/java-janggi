@@ -1,15 +1,16 @@
 package domain.board;
 
+import static domain.piece.PieceType.BYEONG;
+import static domain.piece.PieceType.CHA;
+import static domain.piece.PieceType.GOONG;
+import static domain.piece.PieceType.JOL;
+import static domain.piece.PieceType.PO;
+import static domain.piece.PieceType.SA;
+
 import domain.Coordinate;
 import domain.Team;
 import domain.board.maSangStrategy.MaSangStrategy;
-import domain.piece.noPathPiece.Byeong;
-import domain.piece.pathPiece.Cha;
-import domain.piece.noPathPiece.Goong;
-import domain.piece.noPathPiece.Jol;
 import domain.piece.Piece;
-import domain.piece.pathPiece.Po;
-import domain.piece.noPathPiece.Sa;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,35 +40,35 @@ public class BoardBuilder {
 
     private static Set<Piece> createHanDefaultBoard() {
         return Set.of(
-            new Cha(Team.HAN, new Coordinate(1, 1)),
-            new Sa(Team.HAN, new Coordinate(4, 1)),
-            new Sa(Team.HAN, new Coordinate(6, 1)),
-            new Cha(Team.HAN, new Coordinate(9, 1)),
-            new Goong(Team.HAN, new Coordinate(5, 2)),
-            new Po(Team.HAN, new Coordinate(2, 3)),
-            new Po(Team.HAN, new Coordinate(8, 3)),
-            new Byeong(new Coordinate(1, 4)),
-            new Byeong(new Coordinate(3, 4)),
-            new Byeong(new Coordinate(5, 4)),
-            new Byeong(new Coordinate(7, 4)),
-            new Byeong(new Coordinate(9, 4))
+            new Piece(Team.HAN, new Coordinate(1, 1), CHA),
+            new Piece(Team.HAN, new Coordinate(4, 1), SA),
+            new Piece(Team.HAN, new Coordinate(6, 1), SA),
+            new Piece(Team.HAN, new Coordinate(9, 1), CHA),
+            new Piece(Team.HAN, new Coordinate(5, 2), GOONG),
+            new Piece(Team.HAN, new Coordinate(2, 3), PO),
+            new Piece(Team.HAN, new Coordinate(8, 3), PO),
+            new Piece(Team.HAN, new Coordinate(1, 4), BYEONG),
+            new Piece(Team.HAN, new Coordinate(3, 4), BYEONG),
+            new Piece(Team.HAN, new Coordinate(5, 4), BYEONG),
+            new Piece(Team.HAN, new Coordinate(7, 4), BYEONG),
+            new Piece(Team.HAN, new Coordinate(9, 4), BYEONG)
         );
     }
 
     private static Set<Piece> createChoDefaultBoard() {
         return Set.of(
-            new Cha(Team.CHO, new Coordinate(1, 10)),
-            new Sa(Team.CHO, new Coordinate(4, 10)),
-            new Sa(Team.CHO, new Coordinate(6, 10)),
-            new Cha(Team.CHO, new Coordinate(9, 10)),
-            new Goong(Team.CHO, new Coordinate(5, 9)),
-            new Po(Team.CHO, new Coordinate(2, 8)),
-            new Po(Team.CHO, new Coordinate(8, 8)),
-            new Jol(new Coordinate(1, 7)),
-            new Jol(new Coordinate(3, 7)),
-            new Jol(new Coordinate(5, 7)),
-            new Jol(new Coordinate(7, 7)),
-            new Jol(new Coordinate(9, 7))
+            new Piece(Team.CHO, new Coordinate(1, 10), CHA),
+            new Piece(Team.CHO, new Coordinate(4, 10), SA),
+            new Piece(Team.CHO, new Coordinate(6, 10), SA),
+            new Piece(Team.CHO, new Coordinate(9, 10), CHA),
+            new Piece(Team.CHO, new Coordinate(5, 9), GOONG),
+            new Piece(Team.CHO, new Coordinate(2, 8), PO),
+            new Piece(Team.CHO, new Coordinate(8, 8), PO),
+            new Piece(Team.CHO, new Coordinate(1, 7), JOL),
+            new Piece(Team.CHO, new Coordinate(3, 7), JOL),
+            new Piece(Team.CHO, new Coordinate(5, 7), JOL),
+            new Piece(Team.CHO, new Coordinate(7, 7), JOL),
+            new Piece(Team.CHO, new Coordinate(9, 7), JOL)
         );
     }
 }

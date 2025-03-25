@@ -1,6 +1,7 @@
 package domain.board;
 
 import domain.Coordinate;
+import domain.piece.Movement;
 import domain.piece.Piece;
 import java.util.List;
 import java.util.Optional;

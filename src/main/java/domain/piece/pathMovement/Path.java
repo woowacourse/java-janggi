@@ -1,4 +1,4 @@
-package domain.piece.pathPiece;
+package domain.piece.pathMovement;
 
 import domain.Coordinate;
 import java.util.Collections;

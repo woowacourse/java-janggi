@@ -2,31 +2,19 @@ package view;
 
 import domain.Coordinate;
 import domain.Team;
-import domain.piece.noPathPiece.Byeong;
-import domain.piece.pathPiece.Cha;
-import domain.piece.noPathPiece.Goong;
-import domain.piece.noPathPiece.Jol;
-import domain.piece.pathPiece.Ma;
+import domain.piece.noPathMovement.ByeongMovement;
+import domain.piece.pathMovement.ChaMovement;
+import domain.piece.noPathMovement.GoongMovement;
+import domain.piece.noPathMovement.JolMovement;
+import domain.piece.pathMovement.MaMovement;
 import domain.piece.Piece;
-import domain.piece.pathPiece.Po;
-import domain.piece.noPathPiece.Sa;
-import domain.piece.pathPiece.Sang;
+import domain.piece.pathMovement.PoMovement;
+import domain.piece.noPathMovement.SaMovement;
+import domain.piece.pathMovement.SangMovement;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 public class OutputView {
-
-    private static final Map<Class<? extends Piece>, String> PIECE_NAMES = Map.of(
-        Cha.class, "차",
-        Ma.class, "마",
-        Sang.class, "상",
-        Sa.class, "사",
-        Goong.class, "궁",
-        Po.class, "포",
-        Jol.class, "졸",
-        Byeong.class, "병"
-    );
 
     private static final String RED = "\u001B[31m";
     private static final String BLUE = "\u001B[34m";
@@ -76,6 +64,6 @@ public class OutputView {
 
     private String applyColor(Piece piece) {
         Team team = piece.getTeam();
-        return TEAM_COLORS.get(team) + PIECE_NAMES.get(piece.getClass()) + RESET;
+        return TEAM_COLORS.get(team) + piece.getName() + RESET;
     }
 }

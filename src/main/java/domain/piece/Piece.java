@@ -1,44 +1,31 @@
 package domain.piece;
 
 import domain.Coordinate;
-import domain.Movement;
 import domain.Team;
 import domain.board.PieceSearcher;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
 
-public abstract class Piece {
+public class Piece {
 
-    protected final Team team;
-    protected final Coordinate coordinate;
+    private final Team team;
+    private final Coordinate coordinate;
+    private final PieceType pieceType;
 
-    private final Set<Movement> movements;
-
-    public Piece(Team team, Coordinate coordinate, Set<Movement> movements) {
+    public Piece(final Team team, final Coordinate coordinate, final PieceType pieceType) {
         this.team = team;
         this.coordinate = coordinate;
-        this.movements = movements;
+        this.pieceType = pieceType;
     }
 
-    public final Set<Movement> movements() {
-        Set<Movement> movements = new HashSet<>(this.movements);
-        if (coordinate.isInCastle()) {
-            Set<Coordinate> connections = coordinate.findCastleConnections();
-            connections.stream()
-                .map(coordinate::computeMovementTo)
-                .forEach(movements::add);
-        }
-
-        return movements;
+    public boolean canMove(final Coordinate arrival, final PieceSearcher pieceSearcher) {
+        return pieceType.canMove(coordinate, arrival, pieceSearcher);
     }
 
-    public abstract boolean canMove(Coordinate arrival, PieceSearcher pieceSearcher);
-
-    public abstract Piece moveTo(Coordinate arrival);
+    public Piece moveTo(Coordinate arrival) {
+        return new Piece(team, arrival, pieceType);
+    }
 
     public final boolean isSameTeam(Piece piece) {
-        return piece.team.equals(this.team);
+        return team.equals(piece.team);
     }
 
     public final boolean isTeam(Team team) {
@@ -49,6 +36,10 @@ public abstract class Piece {
         return this.coordinate.equals(coordinate);
     }
 
+    public final String getName() {
+        return pieceType.getName();
+    }
+
     public final Team getTeam() {
         return team;
     }
@@ -57,25 +48,7 @@ public abstract class Piece {
         return coordinate;
     }
 
-    public boolean isPo() {
+    public final boolean isPo() {
         return false;
-    }
-
-    @Override
-    public final boolean equals(final Object o) {
-        if (!(o instanceof final Piece piece)) {
-            return false;
-        }
-
-        return team == piece.team && Objects.equals(coordinate, piece.coordinate)
-            && Objects.equals(movements, piece.movements);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hashCode(team);
-        result = 31 * result + Objects.hashCode(coordinate);
-        result = 31 * result + Objects.hashCode(movements);
-        return result;
     }
 }
