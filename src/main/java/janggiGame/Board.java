@@ -36,9 +36,9 @@ public class Board {
 
         Piece originPiece = survivedPieces.get(origin);
 
-        List<Position> route = originPiece.getIntermediatePoints(origin, destination);
+        List<Position> intermediatePoints = originPiece.getIntermediatePoints(origin, destination);
 
-        Map<Position, Piece> intermediatePointsWithPiece = getPiecesOn(route);
+        Map<Position, Piece> intermediatePointsWithPiece = getPiecesOn(intermediatePoints);
 
         originPiece.validateMove(intermediatePointsWithPiece,
                 survivedPieces.getOrDefault(destination, new EmptyPiece()));
@@ -63,11 +63,11 @@ public class Board {
         }
     }
 
-    private Map<Position, Piece> getPiecesOn(List<Position> route) {
+    private Map<Position, Piece> getPiecesOn(List<Position> intermediatePoints) {
         Map<Position, Piece> intermediatePointsWithPiece = new HashMap<>();
 
-        for (Position position : route) {
-            intermediatePointsWithPiece.put(position, survivedPieces.getOrDefault(position, null));
+        for (Position position : intermediatePoints) {
+            intermediatePointsWithPiece.put(position, survivedPieces.getOrDefault(position, new EmptyPiece()));
         }
         return intermediatePointsWithPiece;
     }
