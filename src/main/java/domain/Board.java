@@ -11,7 +11,8 @@ public record Board(
         Map<Player, Pieces> board
 ) {
 
-    public void move(final Player player, final Position startPosition, final Position targetPosition) {
+    public void moveAndCaptureByTargetPosition(final Player player, final Position startPosition,
+                                               final Position targetPosition) {
         Pieces pieces = board.get(player);
         Piece piece = pieces.findByPosition(startPosition);
 

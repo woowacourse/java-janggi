@@ -36,7 +36,7 @@ class BoardTest {
         Board board = new Board(boardElements);
 
         // when
-        board.move(han, startPosition, targetPosition);
+        board.moveAndCaptureByTargetPosition(han, startPosition, targetPosition);
 
         // then
         assertThat(hanPieces.pieces()).contains(expected);
@@ -62,7 +62,7 @@ class BoardTest {
 
         // when & then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> board.move(han, startPosition, targetPosition))
+                .isThrownBy(() -> board.moveAndCaptureByTargetPosition(han, startPosition, targetPosition))
                 .withMessage("[ERROR] 도착 위치에 아군의 기물이 존재해 이동할 수 없습니다.");
     }
 
@@ -91,10 +91,10 @@ class BoardTest {
         // when & then
         assertAll(
                 () -> assertThatIllegalArgumentException()
-                        .isThrownBy(() -> board.move(han, startPosition, targetPosition1))
+                        .isThrownBy(() -> board.moveAndCaptureByTargetPosition(han, startPosition, targetPosition1))
                         .withMessage("[ERROR] 포는 중간에 기물이 1개여야 합니다."),
                 () -> assertThatIllegalArgumentException()
-                        .isThrownBy(() -> board.move(han, startPosition, targetPosition2))
+                        .isThrownBy(() -> board.moveAndCaptureByTargetPosition(han, startPosition, targetPosition2))
                         .withMessage("[ERROR] 포는 중간에 기물이 1개여야 합니다.")
         );
     }
@@ -120,7 +120,7 @@ class BoardTest {
 
         // when & then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> board.move(han, startPosition, targetPosition))
+                .isThrownBy(() -> board.moveAndCaptureByTargetPosition(han, startPosition, targetPosition))
                 .withMessage("[ERROR] 포는 상대 포를 잡을 수 없습니다.");
     }
 
@@ -144,7 +144,7 @@ class BoardTest {
 
         // when & then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> board.move(han, startPosition, targetPosition))
+                .isThrownBy(() -> board.moveAndCaptureByTargetPosition(han, startPosition, targetPosition))
                 .withMessage("[ERROR] 포는 다른 포를 지나칠 수 없습니다.");
     }
 
@@ -166,10 +166,10 @@ class BoardTest {
 
         Board board = new Board(boardElements);
 
-        board.move(han, new Position(1, 4), new Position(2, 4));
+        board.moveAndCaptureByTargetPosition(han, new Position(1, 4), new Position(2, 4));
 
         // when
-        board.move(han, startPosition, targetPosition);
+        board.moveAndCaptureByTargetPosition(han, startPosition, targetPosition);
 
         // then
         assertAll(() -> {
