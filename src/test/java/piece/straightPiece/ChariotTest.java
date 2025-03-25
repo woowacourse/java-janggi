@@ -3,17 +3,11 @@ package piece.straightPiece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static piece.Team.CHO;
 import static piece.Team.HAN;
-import static position.PositionFixtures.A1;
-import static position.PositionFixtures.A3;
 import static position.PositionFixtures.A9;
-import static position.PositionFixtures.B0;
-import static position.PositionFixtures.B4;
 import static position.PositionFixtures.B5;
 import static position.PositionFixtures.B9;
 import static position.PositionFixtures.C5;
 import static position.PositionFixtures.C9;
-import static position.PositionFixtures.D0;
-import static position.PositionFixtures.D4;
 import static position.PositionFixtures.D5;
 import static position.PositionFixtures.D9;
 import static position.PositionFixtures.E0;
@@ -50,7 +44,6 @@ import piece.normalPiece.HanPawn;
 import piece.normalPiece.Horse;
 import position.Board;
 import position.Position;
-import route.Routes;
 
 public class ChariotTest {
 
@@ -107,6 +100,6 @@ public class ChariotTest {
         Set<Position> positions = chariot.possibleRoutes(board);
 
         // then
-        assertThat(positions).containsOnly(E0, E1, E2, E3, E4, D5, C5, E6, F5, G5, H5, I5);
+        assertThat(positions).containsOnly(E0, E1, E2, E3, E4, D5, C5, B5, E6, F5, G5, H5, I5);
     }
 }
