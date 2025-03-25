@@ -12,7 +12,7 @@ public class GameView {
     private static final String NOT_NUMBER = "입력된 값이 숫자가 아닙니다.";
     private static final String RED_COLOR_FORMAT = "\u001B[31m%s\u001B[0m";
     private static final String BLUE_COLOR_FORMAT = "\u001B[34m%s\u001B[0m";
-    private static final String GRID_HELPER = "  영일이삼사오육칠팔\n\n";
+    private static final String GRID_HELPER = "  ０１２３４５６７８ \n";
     private static final String WINNER_FORMAT = "%s 이 승리하였습니다.";
     private static final String TABLE_SETTING_FORMATTER = "%s 팀 의 상차림을 선택해주세요 0:마상마상 1:마상상마, 2:상마마상 3:상마상마";
 

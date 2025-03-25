@@ -1,7 +1,6 @@
 package piece;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import piece.position.JanggiPosition;
@@ -28,7 +27,6 @@ public class PlayerPieces {
     }
 
     public Team kingDeadTeam() {
-        Map<Team, Boolean> kingExist = new HashMap<>();
         if (!blueTeamPieces.isPieceExist(PieceType.GUNG)) {
             return Team.BLUE;
         }

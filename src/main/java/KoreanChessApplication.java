@@ -43,7 +43,6 @@ public class KoreanChessApplication {
             loseTeam = turnResult.loseTeam();
             turn = turnResult.nextTurn() % PLAYER_SIZE;
         }
-        playTurn(playerPieces, gameView, turn);
         Team team = loseTeam;
         gameView.printWinner(team.opposite());
     }
@@ -51,16 +50,12 @@ public class KoreanChessApplication {
     private static TurnResult playKoreanChess(PlayerPieces playerPieces, GameView gameView, int turn) {
         try {
             playTurn(playerPieces, gameView, turn);
-            Team kingDeadTeam = currentKingDeadTeam(playerPieces);
-            return new TurnResult(turn + 1 % 2, playerPieces.kingDeadTeam());
+            Team kingDeadTeam = playerPieces.kingDeadTeam();
+            return new TurnResult(turn + 1 % PLAYER_SIZE, kingDeadTeam);
         } catch (IllegalArgumentException e) {
             gameView.printError(e.getMessage());
         }
         return new TurnResult(turn, Team.EMPTY);
-    }
-
-    private static Team currentKingDeadTeam(PlayerPieces playerPieces) {
-        return playerPieces.kingDeadTeam();
     }
 
     private static void playTurn(PlayerPieces playerPieces, GameView gameView, int turn) {

@@ -37,7 +37,8 @@ public class Pieces {
         return piece;
     }
 
-    private Pieces findPiecesOnRouteIncludeOtherTeam(List<JanggiPosition> route, Piece movePiece, Pieces boardAllPieces) {
+    private Pieces findPiecesOnRouteIncludeOtherTeam(List<JanggiPosition> route, Piece movePiece,
+                                                     Pieces boardAllPieces) {
         List<Piece> allPieces = boardAllPieces.getPieces();
 
         Map<JanggiPosition, Piece> positionPieces = allPieces.stream()
@@ -82,8 +83,6 @@ public class Pieces {
 
     public boolean isPieceExist(PieceType pieceType) {
         return pieces.stream()
-                .findFirst()
-                .filter((piece) -> piece.isSameType(pieceType))
-                .isPresent();
+                .anyMatch((piece) -> piece.isSameType(pieceType));
     }
 }
