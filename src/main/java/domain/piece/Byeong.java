@@ -1,48 +1,28 @@
 package domain.piece;
 
-import static domain.board.Direction.DOWN;
-import static domain.board.Direction.DOWN_LEFT;
-import static domain.board.Direction.DOWN_RIGHT;
-import static domain.board.Direction.LEFT;
-import static domain.board.Direction.RIGHT;
-import static domain.board.Direction.UP;
-import static domain.board.Direction.UP_LEFT;
-import static domain.board.Direction.UP_RIGHT;
+import static domain.point.Direction.DOWN;
+import static domain.point.Direction.DOWN_LEFT;
+import static domain.point.Direction.DOWN_RIGHT;
+import static domain.point.Direction.LEFT;
+import static domain.point.Direction.RIGHT;
+import static domain.point.Direction.UP;
+import static domain.point.Direction.UP_LEFT;
+import static domain.point.Direction.UP_RIGHT;
 
-import domain.board.Board;
-import domain.board.Direction;
-import domain.board.Point;
+import domain.piece.character.PieceType;
+import domain.piece.character.Team;
+import domain.point.Direction;
 import java.util.List;
-import java.util.Map;
 
-public class Byeong implements Piece {
-
-    private static final List<Direction> CHO_BYEONG_MOVABLE_DIRECTIONS
-            = List.of(LEFT, UP_LEFT, UP, UP_RIGHT, RIGHT);
-    private static final List<Direction> HAN_BYEONG_MOVABLE_DIRECTIONS
-            = List.of(LEFT, DOWN_LEFT, DOWN, DOWN_RIGHT, RIGHT);
-    private static final Map<Team, List<Direction>> DIRECTIONS_BY_TEAM = Map.ofEntries(
-            Map.entry(Team.CHO, CHO_BYEONG_MOVABLE_DIRECTIONS),
-            Map.entry(Team.HAN, HAN_BYEONG_MOVABLE_DIRECTIONS)
-    );
-
-    private final Team team;
+public class Byeong extends SlidingPiece {
 
     public Byeong(Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
-    public boolean canMove(final Point source, final Point destination, final Board board) {
-        return findMovablePoints(source, board).contains(destination);
-    }
-
-    private List<Point> findMovablePoints(final Point point, final Board board) {
-        return DIRECTIONS_BY_TEAM.get(this.team).stream()
-                .filter(direction -> board.existsNextPoint(point, direction))
-                .map(direction -> board.getNextPoint(point, direction))
-                .filter(nextPoint -> !(board.existsPiece(nextPoint) && board.matchTeam(nextPoint, this.team)))
-                .toList();
+    public boolean isOnlyMovableInPalace() {
+        return false;
     }
 
     @Override
@@ -51,7 +31,20 @@ public class Byeong implements Piece {
     }
 
     @Override
-    public Team team() {
-        return this.team;
+    public int score() {
+        return 0;
+    }
+
+    @Override
+    public List<Direction> movableDirections() {
+        return switch (team()) {
+            case CHO -> List.of(LEFT, UP_LEFT, UP, UP_RIGHT, RIGHT);
+            case HAN -> List.of(LEFT, DOWN_LEFT, DOWN, DOWN_RIGHT, RIGHT);
+        };
+    }
+
+    @Override
+    public int maxStep() {
+        return 1;
     }
 }

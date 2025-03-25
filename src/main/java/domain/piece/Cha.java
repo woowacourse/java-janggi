@@ -1,47 +1,30 @@
 package domain.piece;
 
-import domain.board.Board;
-import domain.board.Direction;
-import domain.board.Point;
-import java.util.ArrayList;
+import domain.piece.character.PieceType;
+import domain.piece.character.Team;
+import domain.point.Direction;
+import java.util.Arrays;
 import java.util.List;
 
-public class Cha implements Piece {
-
-    private final Team team;
+public class Cha extends SlidingPiece {
 
     public Cha(Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
-    public boolean canMove(final Point source, final Point destination, final Board board) {
-        return findMovablePoints(source, board).contains(destination);
+    public List<Direction> movableDirections() {
+        return Arrays.stream(Direction.values()).toList();
     }
 
-    private List<Point> findMovablePoints(final Point source, final Board board) {
-        List<Point> candidates = new ArrayList<>(List.of(source));
-        Direction.VERTICALS.stream()
-                .filter(direction -> board.existsNextPoint(source, direction))
-                .forEach(direction -> findCandidates(
-                        board.getNextPoint(source, direction), board, direction,
-                        candidates)
-                );
-        return candidates;
+    @Override
+    public boolean isOnlyMovableInPalace() {
+        return false;
     }
 
-    private void findCandidates(final Point currentPoint, final Board board, final Direction direction,
-                                final List<Point> candidates) {
-        candidates.add(currentPoint);
-        if (!board.existsNextPoint(currentPoint, direction)) {
-            return;
-        }
-
-        Point nextPoint = board.getNextPoint(currentPoint, direction);
-        if (board.matchTeam(nextPoint, this.team)) {
-            return;
-        }
-        findCandidates(nextPoint, board, direction, candidates);
+    @Override
+    public int maxStep() {
+        return 10;
     }
 
     @Override
@@ -50,7 +33,7 @@ public class Cha implements Piece {
     }
 
     @Override
-    public Team team() {
-        return this.team;
+    public int score() {
+        return 13;
     }
 }

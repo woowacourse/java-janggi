@@ -1,6 +1,6 @@
 package view;
 
-import domain.piece.PieceType;
+import domain.piece.character.PieceType;
 import java.util.Arrays;
 import java.util.List;
 

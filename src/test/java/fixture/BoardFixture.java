@@ -1,23 +1,21 @@
 package fixture;
 
 import domain.board.Board;
-import domain.board.BoardGenerator;
-import domain.board.Point;
-import domain.board.PointNodeMapper;
-import domain.board.PointNodeMapperFactory;
+import domain.board.pathfinder.DefaultPathFinderFactory;
+import domain.board.pathfinder.PathFinder;
 import domain.piece.Piece;
+import domain.point.Point;
 import java.util.Map;
 
 public class BoardFixture {
 
-    private static final BoardGenerator BOARD_GENERATOR = new BoardGenerator();
-    private static final PointNodeMapperFactory pointNodeMapperFactory = new PointNodeMapperFactory();
+    private static final DefaultPathFinderFactory DEFAULT_PATH_FINDER_FACTORY = DefaultPathFinderFactory.getInstance();
 
-    public static PointNodeMapper createDefaultPointNodeMapper() {
-        return pointNodeMapperFactory.createDefaultPointNodeMapper();
+    public static PathFinder createDefaultPathFinder() {
+        return DEFAULT_PATH_FINDER_FACTORY.createPathFinder();
     }
 
     public static Board createTestBoard(Map<Point, Piece> pieceByPoint) {
-        return new Board(pieceByPoint, createDefaultPointNodeMapper());
+        return new Board(pieceByPoint, createDefaultPathFinder());
     }
 }

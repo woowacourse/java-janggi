@@ -1,15 +1,18 @@
 package domain.board;
 
+import domain.board.pathfinder.PathFinder;
+import domain.board.pathfinder.PathFinderFactory;
 import domain.piece.Byeong;
 import domain.piece.Cha;
 import domain.piece.Ma;
 import domain.piece.Piece;
-import domain.piece.PieceType;
 import domain.piece.Po;
 import domain.piece.Sa;
 import domain.piece.Sang;
-import domain.piece.Team;
 import domain.piece.Wang;
+import domain.piece.character.PieceType;
+import domain.piece.character.Team;
+import domain.point.Point;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -17,26 +20,40 @@ import java.util.List;
 import java.util.Map;
 import view.SangMaOrderCommand;
 
-public class BoardGenerator {
+public class DefaultBoardFactory implements BoardFactory {
 
-    public Board generateBoard(final SangMaOrderCommand hanSangMaOrderCommand,
-                               final SangMaOrderCommand choSangMaOrderCommand) {
-        PointNodeMapperFactory pointNodeMapperFactory = new PointNodeMapperFactory();
-        PointNodeMapper pointNodeMapper = pointNodeMapperFactory.createDefaultPointNodeMapper();
-        Map<Point, Piece> pieceByPoint = createPieces(hanSangMaOrderCommand, choSangMaOrderCommand);
+    private static DefaultBoardFactory INSTANCE;
 
-        return new Board(pieceByPoint, pointNodeMapper);
+    private DefaultBoardFactory() {
+    }
+
+    public static DefaultBoardFactory getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new DefaultBoardFactory();
+            return INSTANCE;
+        }
+        return INSTANCE;
+    }
+
+    @Override
+    public Board createBoard(final PathFinderFactory pathFinderFactory,
+                             final SangMaOrderCommand choSangMaOrderCommand,
+                             final SangMaOrderCommand hanSangMaOrderCommand) {
+        PathFinder pathFinder = pathFinderFactory.createPathFinder();
+        Map<Point, Piece> pieceByPoint = createPieces(choSangMaOrderCommand, hanSangMaOrderCommand);
+
+        return new Board(pieceByPoint, pathFinder);
     }
 
     private Map<Point, Piece> createPieces(
-            final SangMaOrderCommand hanSangMaOrderCommand,
-            final SangMaOrderCommand choSangMaOrderCommand) {
+            final SangMaOrderCommand choSangMaOrderCommand,
+            final SangMaOrderCommand hanSangMaOrderCommand) {
         Map<Point, Piece> pieceByPoint = new HashMap<>();
-        List<Point> hanSangMaPoints = List.of(Point.of(1, 2), Point.of(1, 3), Point.of(1, 7), Point.of(1, 8));
-        initializeHanPieces(hanSangMaPoints, hanSangMaOrderCommand, pieceByPoint);
-
         List<Point> choSangMaPoints = List.of(Point.of(10, 2), Point.of(10, 3), Point.of(10, 7), Point.of(10, 8));
         initializeChoPieces(choSangMaPoints, choSangMaOrderCommand, pieceByPoint);
+
+        List<Point> hanSangMaPoints = List.of(Point.of(1, 2), Point.of(1, 3), Point.of(1, 7), Point.of(1, 8));
+        initializeHanPieces(hanSangMaPoints, hanSangMaOrderCommand, pieceByPoint);
 
         return pieceByPoint;
     }
@@ -94,12 +111,12 @@ public class BoardGenerator {
         List<PieceType> pieceTypes = sangMaOrderCommand.getPieceTypes();
         Deque<Piece> pieces = new ArrayDeque<>();
         for (PieceType pieceType : pieceTypes) {
-            pieces.addLast(createPiece(pieceType, team));
+            pieces.addLast(createPieceByTypeAndTeam(pieceType, team));
         }
         return pieces;
     }
 
-    private Piece createPiece(final PieceType pieceType, final Team team) {
+    private Piece createPieceByTypeAndTeam(final PieceType pieceType, final Team team) {
         return switch (pieceType) {
             case SANG -> new Sang(team);
             case MA -> new Ma(team);

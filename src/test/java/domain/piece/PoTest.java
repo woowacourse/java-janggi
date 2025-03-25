@@ -1,7 +1,9 @@
 package domain.piece;
 
 import domain.board.Board;
-import domain.board.Point;
+import domain.piece.character.PieceType;
+import domain.piece.character.Team;
+import domain.point.Point;
 import fixture.BoardFixture;
 import java.util.HashMap;
 import java.util.Map;
@@ -71,7 +73,7 @@ class PoTest {
 
         Map<Point, Piece> pieceByNode = new HashMap<>();
         pieceByNode.put(poPoint, po);
-        pieceByNode.put(hurdlePoint, new Byeong(poTeam));
+        pieceByNode.put(hurdlePoint, new Cha(poTeam));
         pieceByNode.put(destinationPoint, new Po(poTeam));
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
@@ -93,7 +95,7 @@ class PoTest {
 
         Map<Point, Piece> pieceByNode = new HashMap<>();
         pieceByNode.put(poPoint, po);
-        pieceByNode.put(hurdlePoint, new Byeong(poTeam));
+        pieceByNode.put(hurdlePoint, new Cha(poTeam));
         pieceByNode.put(destinationPoint, new Po(poTeam.inverse()));
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
@@ -116,9 +118,9 @@ class PoTest {
 
         Map<Point, Piece> pieceByNode = new HashMap<>();
         pieceByNode.put(poPoint, po);
-        pieceByNode.put(hurdlePoint, new Byeong(poTeam));
-        pieceByNode.put(hurdlePoint2, new Byeong(poTeam));
-        pieceByNode.put(destinationPoint, new Byeong(poTeam.inverse()));
+        pieceByNode.put(hurdlePoint, new Cha(poTeam));
+        pieceByNode.put(hurdlePoint2, new Cha(poTeam));
+        pieceByNode.put(destinationPoint, new Cha(poTeam.inverse()));
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
@@ -139,7 +141,7 @@ class PoTest {
 
         Map<Point, Piece> pieceByNode = new HashMap<>();
         pieceByNode.put(poPoint, po);
-        pieceByNode.put(hurdlePoint, new Byeong(poTeam));
+        pieceByNode.put(hurdlePoint, new Cha(poTeam));
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
@@ -160,8 +162,8 @@ class PoTest {
 
         Map<Point, Piece> pieceByNode = new HashMap<>();
         pieceByNode.put(poPoint, po);
-        pieceByNode.put(hurdlePoint, new Byeong(poTeam));
-        pieceByNode.put(destinationPoint, new Byeong(poTeam.inverse()));
+        pieceByNode.put(hurdlePoint, new Cha(poTeam));
+        pieceByNode.put(destinationPoint, new Cha(poTeam.inverse()));
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when

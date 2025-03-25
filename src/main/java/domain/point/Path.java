@@ -1,9 +1,9 @@
-package domain.board;
+package domain.point;
 
-import static domain.board.Direction.DOWN;
-import static domain.board.Direction.LEFT;
-import static domain.board.Direction.RIGHT;
-import static domain.board.Direction.UP;
+import static domain.point.Direction.DOWN;
+import static domain.point.Direction.LEFT;
+import static domain.point.Direction.RIGHT;
+import static domain.point.Direction.UP;
 
 import java.util.List;
 

@@ -24,4 +24,12 @@ public class ErrorHandler {
             }
         }
     }
+    
+    public static void catchException(Runnable runnable) {
+        try {
+            runnable.run();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

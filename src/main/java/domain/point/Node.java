@@ -1,8 +1,7 @@
-package domain.board;
+package domain.point;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Node {
 
@@ -40,7 +39,7 @@ public class Node {
         return true;
     }
 
-    public Node moveByPath(Path path) {
+    public Node getNodeMovedByPath(Path path) {
         Node currentNode = this;
         for (Direction direction : path.directions()) {
             currentNode = currentNode.getNextNodeByDirection(direction);

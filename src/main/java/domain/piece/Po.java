@@ -1,72 +1,76 @@
 package domain.piece;
 
-import domain.board.Board;
-import domain.board.Direction;
-import domain.board.Point;
+import domain.board.PieceVisibleBoard;
+import domain.piece.character.PieceType;
+import domain.piece.character.Team;
+import domain.point.Direction;
+import domain.point.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class Po implements Piece {
-
-    private final Team team;
+public class Po extends Piece {
 
     public Po(Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
-    public boolean canMove(final Point source, final Point destination, final Board board) {
-        return findMovablePoints(source, board).contains(destination);
+    protected List<Point> findMovablePoints(final Point source, final PieceVisibleBoard board) {
+        return movableDirections().stream()
+                .filter(direction -> existsHurdle(source, direction, board))
+                .flatMap(direction -> {
+                    Point hurdle = findHurdle(source, direction, board);
+                    return findCandidates(hurdle, direction, board).stream();
+                })
+                .toList();
     }
 
-    private List<Point> findMovablePoints(final Point source, final Board board) {
+    private boolean existsHurdle(final Point point, final Direction direction, final PieceVisibleBoard board) {
+        Point currentPoint = point;
+        while (board.existsNextPoint(currentPoint, direction)) {
+            currentPoint = board.getNextPoint(currentPoint, direction);
+            if (board.existsPiece(currentPoint) && !board.existsPo(currentPoint)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Point findHurdle(final Point point, final Direction direction, final PieceVisibleBoard board) {
+        Point currentPoint = point;
+        while (board.existsNextPoint(currentPoint, direction)) {
+            currentPoint = board.getNextPoint(currentPoint, direction);
+            if (board.existsPiece(currentPoint) && !board.existsPo(currentPoint)) {
+                return currentPoint;
+            }
+        }
+        throw new IllegalStateException("[ERROR] 뛰어넘을 기물(허들)을 찾을 수 없습니다.");
+    }
+
+    private List<Point> findCandidates(final Point point, final Direction direction, final PieceVisibleBoard board) {
         List<Point> candidates = new ArrayList<>();
-        Direction.VERTICALS.stream()
-                .filter(direction -> existsHurdle(source, direction, board))
-                .forEach(direction -> {
-                    Point hurdle = findHurdle(source, direction, board);
-                    findCandidates(hurdle, direction, board, candidates);
-                });
+        Point currentPoint = point;
+        while (board.existsNextPoint(currentPoint, direction)) {
+            currentPoint = board.getNextPoint(currentPoint, direction);
+            if (board.existsPo(currentPoint) || board.matchTeam(currentPoint, team())) {
+                break;
+            }
+            candidates.add(currentPoint);
+            if (board.matchTeam(currentPoint, team().inverse())) {
+                break;
+            }
+        }
         return candidates;
     }
 
-    private boolean existsHurdle(final Point currentPoint, final Direction direction, final Board board) {
-        if (!board.existsNextPoint(currentPoint, direction)) {
-            return false;
-        }
-        Point nextPoint = board.getNextPoint(currentPoint, direction);
-        if (board.existsPiece(nextPoint) && !board.existsPo(nextPoint)) {
-            return true;
-        }
-        return existsHurdle(nextPoint, direction, board);
+    public List<Direction> movableDirections() {
+        return Arrays.stream(Direction.values()).toList();
     }
 
-    private Point findHurdle(final Point currentPoint, final Direction direction, final Board board) {
-        if (!board.existsNextPoint(currentPoint, direction)) {
-            throw new IllegalArgumentException("이동할 경로가 없습니다.");
-        }
-        Point nextPoint = board.getNextPoint(currentPoint, direction);
-        if (board.existsPiece(nextPoint) && !board.existsPo(nextPoint)) {
-            return nextPoint;
-        }
-        return findHurdle(nextPoint, direction, board);
-    }
-
-    private void findCandidates(final Point currentPoint, final Direction direction, final Board board,
-                                final List<Point> candidates) {
-        if (!board.existsNextPoint(currentPoint, direction)) {
-            return;
-        }
-        Point nextPoint = board.getNextPoint(currentPoint, direction);
-        if (board.existsPo(nextPoint) || board.matchTeam(nextPoint, this.team)) {
-            return;
-        }
-        if (board.matchTeam(nextPoint, this.team.inverse())) {
-            candidates.add(nextPoint);
-            return;
-        }
-        candidates.add(nextPoint);
-        findCandidates(nextPoint, direction, board, candidates);
+    @Override
+    public boolean isOnlyMovableInPalace() {
+        return false;
     }
 
     @Override
@@ -75,7 +79,7 @@ public class Po implements Piece {
     }
 
     @Override
-    public Team team() {
-        return this.team;
+    public int score() {
+        return 7;
     }
 }

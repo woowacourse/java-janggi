@@ -1,4 +1,4 @@
-package domain.board;
+package domain.point;
 
 public record Point(int row, int column) {
 
@@ -23,5 +23,15 @@ public record Point(int row, int column) {
         if (column < MIN_COLUMN_INDEX || column > MAX_COLUMN_INDEX) {
             throw new IllegalArgumentException(column + " : [ERROR] 열의 범위를 벗어난 값입니다.");
         }
+    }
+
+    public boolean isInPalace() {
+        return ((1 <= row && row <= 3) || (8 <= row && row <= 10))
+                && (4 <= column && column <= 6);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + row + "," + column + ")";
     }
 }

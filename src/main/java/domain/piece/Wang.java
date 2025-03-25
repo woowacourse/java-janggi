@@ -1,32 +1,30 @@
 package domain.piece;
 
-import domain.board.Board;
-import domain.board.Direction;
-import domain.board.Point;
+import domain.piece.character.PieceType;
+import domain.piece.character.Team;
+import domain.point.Direction;
 import java.util.Arrays;
 import java.util.List;
 
-public class Wang implements Piece {
-
-    private static final List<Direction> WANG_MOVABLE_DIRECTIONS = Arrays.stream(Direction.values()).toList();
-
-    private final Team team;
+public class Wang extends SlidingPiece {
 
     public Wang(Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
-    public boolean canMove(final Point source, final Point destination, final Board board) {
-        return findMovablePoints(source, board).contains(destination);
+    public List<Direction> movableDirections() {
+        return Arrays.stream(Direction.values()).toList();
     }
 
-    private List<Point> findMovablePoints(final Point point, final Board board) {
-        return WANG_MOVABLE_DIRECTIONS.stream()
-                .filter(direction -> board.existsNextPoint(point, direction))
-                .map(direction -> board.getNextPoint(point, direction))
-                .filter(nextPoint -> !(board.existsPiece(nextPoint) && board.matchTeam(nextPoint, this.team)))
-                .toList();
+    @Override
+    public boolean isOnlyMovableInPalace() {
+        return true;
+    }
+
+    @Override
+    public int maxStep() {
+        return 1;
     }
 
     @Override
@@ -35,7 +33,7 @@ public class Wang implements Piece {
     }
 
     @Override
-    public Team team() {
-        return this.team;
+    public int score() {
+        return 0;
     }
 }
