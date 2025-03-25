@@ -36,4 +36,6 @@ public abstract class PalaceBehavior implements PieceBehavior {
                 .filter(Position::isPalace)
                 .collect(Collectors.toUnmodifiableSet());
     }
+
+
 }
