@@ -28,7 +28,6 @@ class PhoTest {
         @Test
         void validateTarget() {
             Piece piece = new Pho(Country.HAN);
-            Piece maEnemy = new Ma(Country.CHO);
             Piece maOurTeam = new Ma(Country.HAN);
             Map<JanggiCoordinate, Piece> map = new HashMap<>();
 
@@ -37,7 +36,6 @@ class PhoTest {
             JanggiCoordinate ourMa = new JanggiCoordinate(5, 8);
 
             map.put(myPiece, piece);
-            map.put(enemyMa, maEnemy);
             map.put(ourMa, maOurTeam);
 
             JanggiBoard board = new JanggiBoard(map);
@@ -135,7 +133,7 @@ class PhoTest {
 
         @DisplayName("포는 포를 잡을 수 없다")
         @Test
-        void validateMoveNoObstacle() {
+        void validateCannotCapturePho() {
             Piece piece = new Pho(Country.HAN);
             Piece obstaclePiece = new Ma(Country.HAN);
             Piece oppositePho = new Pho(Country.CHO);

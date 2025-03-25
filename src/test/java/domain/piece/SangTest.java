@@ -29,15 +29,15 @@ class SangTest {
             Piece maOurTeam = new Ma(Country.HAN);
             Map<JanggiCoordinate, Piece> map = new HashMap<>();
 
-            JanggiCoordinate myMa = new JanggiCoordinate(5, 5);
+            JanggiCoordinate myPiece = new JanggiCoordinate(5, 5);
             JanggiCoordinate ourMa = new JanggiCoordinate(3, 8);
 
-            map.put(myMa, piece);
+            map.put(myPiece, piece);
             map.put(ourMa, maOurTeam);
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertThatThrownBy(() -> piece.validateMove(board, myMa, ourMa))
+            assertThatThrownBy(() -> piece.validateMove(board, myPiece, ourMa))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 

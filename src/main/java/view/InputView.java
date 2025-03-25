@@ -16,7 +16,7 @@ public class InputView {
         String coordinate = scanner.nextLine();
         validateInput(coordinate);
         String[] parsedCoordinate = coordinate.split("");
-        return convertToJanggiCoorinate(parsedCoordinate[ROW_IDX], parsedCoordinate[COL_IDX]);
+        return convertToJanggiCoordinate(parsedCoordinate[ROW_IDX], parsedCoordinate[COL_IDX]);
     }
 
     public JanggiCoordinate readMoveDestination() {
@@ -24,10 +24,10 @@ public class InputView {
         String coordinate = scanner.nextLine();
         validateInput(coordinate);
         String[] parsedCoordinate = coordinate.split("");
-        return convertToJanggiCoorinate(parsedCoordinate[ROW_IDX], parsedCoordinate[COL_IDX]);
+        return convertToJanggiCoordinate(parsedCoordinate[ROW_IDX], parsedCoordinate[COL_IDX]);
     }
 
-    private JanggiCoordinate convertToJanggiCoorinate(String row, String col) {
+    private JanggiCoordinate convertToJanggiCoordinate(String row, String col) {
         int rowNum = Integer.parseInt(row);
         int colNum = Integer.parseInt(col);
 
