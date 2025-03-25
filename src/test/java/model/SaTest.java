@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import model.piece.Cha;
 import model.piece.Piece;
-import model.piece.Sa;
+import model.piece.PiecesInGoongsung.Sa;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -29,16 +29,17 @@ public class SaTest {
         @DisplayName("사 이동 가능 테스트")
         public void test2() {
             Sa sa = new Sa(Team.RED);
-            assertThat(sa.isValidPoint(Point.of(0,0), Point.of(1,0))).isTrue();
+            assertThat(sa.isValidPoint(Point.of(0, 0), Point.of(1, 0))).isTrue();
         }
 
         @Test
         @DisplayName("사 이동 불가능 테스트")
         public void test3() {
             Sa sa = new Sa(Team.RED);
-            assertThat(sa.isValidPoint(Point.of(0,0), Point.of(2,0))).isFalse();
+            assertThat(sa.isValidPoint(Point.of(0, 0), Point.of(2, 0))).isFalse();
         }
     }
+
     @Nested
     @DisplayName("사 이동 경로 계산 테스트")
     class SaCalculatePathTest {
@@ -46,18 +47,18 @@ public class SaTest {
         @DisplayName("수직")
         public void test1() {
             Sa sa = new Sa(Team.RED);
-            Point point =new Point(0,1);
+            Point point = new Point(0, 1);
 
-            assertThat(sa.calculatePath(Point.of(0,0),Point.of(0,1)).contains(point)).isTrue();
+            assertThat(sa.calculatePath(Point.of(0, 0), Point.of(0, 1)).contains(point)).isTrue();
         }
 
         @Test
         @DisplayName("수평")
         public void test2() {
             Sa sa = new Sa(Team.RED);
-            Point point =new Point(1,0);
+            Point point = new Point(1, 0);
 
-            assertThat(sa.calculatePath(Point.of(0,0),Point.of(1,0)).contains(point)).isTrue();
+            assertThat(sa.calculatePath(Point.of(0, 0), Point.of(1, 0)).contains(point)).isTrue();
         }
     }
 
@@ -69,8 +70,9 @@ public class SaTest {
         @DisplayName("아군")
         public void test3() {
             Sa sa = new Sa(Team.RED);
-            Map<Piece,Boolean> pieces = new HashMap<>();
-            pieces.put(new Cha(Team.RED),true);;
+            Map<Piece, Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.RED), true);
+            ;
 
             assertThat(sa.canMove(pieces)).isFalse();
         }
@@ -79,8 +81,8 @@ public class SaTest {
         @DisplayName("적군")
         public void test4() {
             Sa sa = new Sa(Team.RED);
-            Map<Piece,Boolean> pieces = new HashMap<>();
-            pieces.put(new Cha(Team.BLUE),true);
+            Map<Piece, Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.BLUE), true);
 
             assertThat(sa.canMove(pieces)).isTrue();
         }

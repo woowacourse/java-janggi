@@ -7,11 +7,11 @@ import java.util.Map;
 import model.Point;
 import model.piece.Byeong;
 import model.piece.Cha;
-import model.piece.Jang;
 import model.piece.Ma;
 import model.piece.Pho;
 import model.piece.Piece;
-import model.piece.Sa;
+import model.piece.PiecesInGoongsung.Jang;
+import model.piece.PiecesInGoongsung.Sa;
 import model.piece.Sang;
 
 public enum JanggiBoardSetUp {

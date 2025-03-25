@@ -1,4 +1,4 @@
-package model.piece;
+package model.piece.PiecesInGoongsung;
 
 import java.util.List;
 import java.util.Map;
@@ -6,16 +6,34 @@ import java.util.stream.IntStream;
 import model.Path;
 import model.Point;
 import model.Team;
+import model.janggiboard.JangSaGoongsungRule;
+import model.piece.Piece;
 
-public class Sa extends Piece {
+class PiecesInGoongsung extends Piece {
 
-    public Sa(Team team) {
+    private JangSaGoongsungRule jangSaGoongsungRule;
+
+    public PiecesInGoongsung(Team team) {
         super(team);
-        pieceName = PieceName.SA;
+        initMyGoongsungCenterPoint(team);
+    }
+
+    private void initMyGoongsungCenterPoint(Team team) {
+        if (team == Team.BLUE) {
+            jangSaGoongsungRule = new JangSaGoongsungRule(Point.of(4, 1));
+        }
+        if (team == Team.RED) {
+            jangSaGoongsungRule = new JangSaGoongsungRule(Point.of(4, 8));
+        }
     }
 
     @Override
     public boolean isValidPoint(Point beforePoint, Point targetPoint) {
+        jangSaGoongsungRule.validateOutOfGoongsung(targetPoint);
+        if (jangSaGoongsungRule.containsCenterPoint(beforePoint, targetPoint)) {
+            return true;
+        }
+
         List<Integer> horizontal = List.of(0, 0, -1, 1);
         List<Integer> vertical = List.of(1, -1, 0, 0);
 

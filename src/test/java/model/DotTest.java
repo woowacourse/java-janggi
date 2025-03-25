@@ -3,8 +3,8 @@ package model;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import model.janggiboard.Dot;
-import model.piece.Jang;
 import model.piece.Piece;
+import model.piece.PiecesInGoongsung.Jang;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

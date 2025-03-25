@@ -6,8 +6,8 @@ import model.Point;
 import model.Team;
 
 public abstract class Piece implements Hierarchy {
-    Team team;
-    PieceName pieceName;
+    protected Team team;
+    protected PieceName pieceName;
 
     public Piece(Team team) {
         this.team = team;
