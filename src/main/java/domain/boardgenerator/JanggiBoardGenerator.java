@@ -2,15 +2,15 @@ package domain.boardgenerator;
 
 import domain.Position;
 import domain.Team;
-import domain.piece.Jol;
-import domain.piece.Po;
-import domain.piece.Cha;
-import domain.piece.Sang;
-import domain.piece.Sa;
-import domain.piece.Ma;
-import domain.piece.Gung;
 import domain.piece.Byeong;
+import domain.piece.Cha;
+import domain.piece.Gung;
+import domain.piece.Jol;
+import domain.piece.Ma;
 import domain.piece.Piece;
+import domain.piece.Po;
+import domain.piece.Sa;
+import domain.piece.Sang;
 import java.util.HashMap;
 import java.util.Map;
 
