@@ -23,4 +23,8 @@ public class InputView {
         System.out.println("이동하고 싶은 경로의 번호를 선택해 주세요.");
         return scanner.nextLine();
     }
+
+    public void close() {
+        scanner.close();
+    }
 }

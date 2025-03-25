@@ -28,6 +28,7 @@ public class Game {
         while (gameState == PLAY) {
             gameState = handleGameState(this::controlGame);
         }
+        inputView.close();
     }
 
     private int handleGameState(Supplier<Integer> game) {
