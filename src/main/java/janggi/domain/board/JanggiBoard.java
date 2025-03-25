@@ -31,14 +31,12 @@ public class JanggiBoard {
         turn = Side.getFirstTurn();
     }
 
-    public void move(int x, int y, int destinationX, int destinationY) {
-        Position source = new Position(x, y);
-        Piece sourcePiece = findPieceByPosition(source);
+    public void move(Position start, Position destination) {
+        Piece sourcePiece = findPieceByPosition(start);
         List<Piece> existingPieces = getAllPiecesExceptSourcePiece(sourcePiece);
-        Position destination = new Position(destinationX, destinationY);
-        killEnemyPieceIfPresent(destination);
 
         sourcePiece.move(existingPieces, destination, turn);
+        killEnemyPieceIfPresent(destination);
         turn = Side.opposite(turn);
     }
 

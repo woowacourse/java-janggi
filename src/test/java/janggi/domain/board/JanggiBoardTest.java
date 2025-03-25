@@ -39,7 +39,7 @@ class JanggiBoardTest {
         );
 
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> janggiBoard.move(x, y, destinationX, destinationY));
+                .isThrownBy(() -> janggiBoard.move(new Position(x, y), new Position(destinationX, destinationY)));
     }
 
     @Test
@@ -51,7 +51,7 @@ class JanggiBoardTest {
                 DEFAULT_CHO_KNIGHTELEPHANTSETTING
         );
 
-        janggiBoard.move(1, 0, 3, 3);
+        janggiBoard.move(new Position(1, 0), new Position(3, 3));
         assertThat(janggiBoard.findPieceByPosition(new Position(3,3)))
             .isEqualTo(new Elephant(Side.HAN, 3, 3));
     }
@@ -65,7 +65,7 @@ class JanggiBoardTest {
             DEFAULT_CHO_KNIGHTELEPHANTSETTING
         );
 
-        janggiBoard.move(4, 7, 4, 8);
+        janggiBoard.move(new Position(4, 7) , new Position(4, 8));
 
         assertThat(janggiBoard.findPieceByPosition(new Position(4, 8)))
             .isEqualTo(new Rook(Side.HAN, 4, 8));
