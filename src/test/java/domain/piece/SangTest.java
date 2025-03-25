@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class SangTest {
     @Nested
-    class MaCoordinateTest {
+    class SangCoordinateTest {
 
         @DisplayName("기물은 아군 기물을 잡을 수 없다.")
         @Test
