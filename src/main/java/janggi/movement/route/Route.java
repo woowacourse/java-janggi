@@ -17,8 +17,15 @@ public class Route {
     public static Route repeat(Direction direction, Point startPoint, Point targetPoint) {
         List<Point> route = new ArrayList<>();
         Point pointer = startPoint;
-        while (!pointer.equals(targetPoint)) {
-            pointer = addPointInRangeToRoute(direction, pointer, route);
+        while (true) {
+            try {
+                pointer = pointer.move(direction.getRowOffset(), direction.getColumnOffset());
+                if (pointer.equals(targetPoint)) {
+                    break;
+                }
+                route.add(pointer);
+            } catch (IllegalArgumentException ignore) {
+            }
         }
         return new Route(route);
     }
@@ -26,36 +33,33 @@ public class Route {
     public static Route follow(List<Direction> directions, Point startPoint) {
         List<Point> route = new ArrayList<>();
         Point pointer = startPoint;
-        for (Direction direction : directions) {
-            pointer = addPointInRangeToRoute(direction, pointer, route);
+        for (int i = 0; i < directions.size() - 1; i++) {
+            try {
+                Direction direction = directions.get(i);
+                pointer = pointer.move(direction.getRowOffset(), direction.getColumnOffset());
+                route.add(pointer);
+            } catch (IllegalArgumentException ignore) {
+            }
         }
         return new Route(route);
     }
 
-    private static Point addPointInRangeToRoute(Direction direction, Point pointer, List<Point> route) {
-        try {
-            pointer = pointer.move(direction.getRowOffset(), direction.getColumnOffset());
-            route.add(pointer);
-        } catch (IllegalArgumentException ignore) {
-        }
-        return pointer;
-    }
-
-    public boolean hasNoCrash(Hurdles hurdles) {
+    public boolean hasCrash(Hurdles hurdles) {
         return route.stream().anyMatch(hurdles::containsPoint);
     }
 
-    public boolean hasOnlyPassables(Movable movingPiece, Point targetPoint, Hurdles hurdles) {
-        // TODO route 중 중간경로와, 최종 목적지에 대한 고려사항이 다름
-        Crashes crashes = findCrashes(hurdles, movingPiece);
-        return crashes.hasOnlyPassables(movingPiece.getTeam(), targetPoint, hurdles);
+    public Movable findFirstCrash(Hurdles hurdles) {
+        return route.stream()
+                .filter(hurdles::containsPoint)
+                .map(hurdles::findByPoint)
+                .findFirst()
+                .orElseThrow(IllegalStateException::new);
     }
 
-    private Crashes findCrashes(Hurdles hurdles, Movable movingPiece) {
-        List<Point> crashPoints = route.stream()
-                .filter(hurdles::containsPoint)
-                .toList();
-        return Crashes.fromPieceType(movingPiece, crashPoints);
+    public int countCrashes(Hurdles hurdles) {
+        return (int) route.stream().
+                filter(hurdles::containsPoint)
+                .count();
     }
 
     @Override

@@ -2,6 +2,7 @@ package janggi.piece;
 
 import janggi.movement.direction.Direction;
 import janggi.movement.route.Hurdles;
+import janggi.movement.passable.Prey;
 import janggi.point.Point;
 import janggi.game.Team;
 import janggi.movement.route.Route;
@@ -30,10 +31,11 @@ public class Cha extends Movable {
 
     private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
         Route route = Route.repeat(direction, point, targetPoint);
-        if (route.hasNoCrash(hurdles)) {
-            return true;
+        if (route.hasCrash(hurdles)) {
+            return false;
         }
-        return route.hasOnlyPassables(this, targetPoint, hurdles);
+        Prey prey = Prey.from(targetPoint, hurdles, this);
+        return prey.canAttack();
     }
 
     @Override

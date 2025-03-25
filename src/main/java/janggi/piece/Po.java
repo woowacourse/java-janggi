@@ -1,7 +1,9 @@
 package janggi.piece;
 
 import janggi.movement.direction.Direction;
+import janggi.movement.passable.Bridge;
 import janggi.movement.route.Hurdles;
+import janggi.movement.passable.Prey;
 import janggi.point.Point;
 import janggi.game.Team;
 import janggi.movement.route.Route;
@@ -30,10 +32,18 @@ public class Po extends Movable {
 
     private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
         Route route = Route.repeat(direction, point, targetPoint);
-        if (route.hasNoCrash(hurdles)) {
+        if (!route.hasCrash(hurdles)) {
             return false;
         }
-        return route.hasOnlyPassables(this, targetPoint, hurdles);
+        if (route.countCrashes(hurdles) > 1) {
+            return false;
+        }
+        Bridge bridge = Bridge.from(route, hurdles, this);
+        if (bridge.cannotPass()) {
+            return false;
+        }
+        Prey prey = Prey.from(targetPoint, hurdles, this);
+        return prey.canAttack();
     }
 
     @Override
