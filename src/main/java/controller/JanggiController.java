@@ -35,6 +35,8 @@ public class JanggiController {
         }
 
         outputView.printWinningMessage(nowTurn);
+        outputView.printScore(JanggiSide.CHO, board.getRemainingPiecesTotalScore(JanggiSide.CHO));
+        outputView.printScore(JanggiSide.HAN, board.getRemainingPiecesTotalScore(JanggiSide.HAN));
     }
 
     private JanggiBoard initializeJanggiBoard() {

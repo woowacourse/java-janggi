@@ -38,6 +38,14 @@ public final class JanggiBoard {
                 .noneMatch(piece -> piece.isTypeOf(JanggiPieceType.KING) && piece.isTeamOf(nowTurn.getOppositeSide()));
     }
 
+    public int getRemainingPiecesTotalScore(JanggiSide side) {
+        return janggiBoard.keySet().stream()
+                .map(this::getPieceOfPosition)
+                .filter(piece -> piece.isTeamOf(side))
+                .mapToInt(JanggiPiece::getScore)
+                .sum();
+    }
+
     public Map<JanggiPosition, JanggiPiece> getBoard() {
         return janggiBoard;
     }

@@ -54,4 +54,8 @@ public enum JanggiPieceType {
     public void validateCanMove(JanggiSide side, JanggiPiece hurdlePiece, int hurdleCount, JanggiPiece targetPiece) {
         movementRule.checkPieceCanMove(side, hurdlePiece, hurdleCount, targetPiece);
     }
+
+    public int getScore() {
+        return score;
+    }
 }

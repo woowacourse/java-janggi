@@ -51,4 +51,8 @@ public class JanggiPiece {
     public JanggiSide getSide() {
         return side;
     }
+
+    public int getScore() {
+        return type.getScore();
+    }
 }

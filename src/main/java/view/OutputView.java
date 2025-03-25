@@ -81,16 +81,6 @@ public class OutputView {
         return message;
     }
 
-    public String getMessageWithColorOfSide(JanggiSide side, String message) {
-        if (side == JanggiSide.CHO) {
-            return CHO_COLOR_PREFIX + message + COLOR_SUFFIX;
-        }
-        if (side == JanggiSide.HAN) {
-            return HAN_COLOR_PREFIX + message + COLOR_SUFFIX;
-        }
-        return message;
-    }
-
     public void printTurnMessage(JanggiSide janggiSide) {
         System.out.println(LINE_SEPARATOR
                 + getMessageWithColorOfSide(janggiSide, JanggiSideDisplay.getJanggiSideDisplay(janggiSide))
@@ -102,6 +92,20 @@ public class OutputView {
     }
 
     public void printWinningMessage(JanggiSide nowTurn) {
-        System.out.println(LINE_SEPARATOR + getMessageWithColorOfSide(nowTurn, JanggiSideDisplay.getJanggiSideDisplay(nowTurn)) + "의 승리입니다!");
+        System.out.println(LINE_SEPARATOR + getMessageWithColorOfSide(nowTurn, JanggiSideDisplay.getJanggiSideDisplay(nowTurn)) + "의 승리입니다!" + LINE_SEPARATOR);
+    }
+
+    public void printScore(JanggiSide side, int remainingPiecesTotalScore) {
+        System.out.println(getMessageWithColorOfSide(side, side.name()) + ": %d점".formatted(remainingPiecesTotalScore));
+    }
+
+    private String getMessageWithColorOfSide(JanggiSide side, String message) {
+        if (side == JanggiSide.CHO) {
+            return CHO_COLOR_PREFIX + message + COLOR_SUFFIX;
+        }
+        if (side == JanggiSide.HAN) {
+            return HAN_COLOR_PREFIX + message + COLOR_SUFFIX;
+        }
+        return message;
     }
 }
