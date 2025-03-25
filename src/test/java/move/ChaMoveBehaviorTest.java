@@ -45,4 +45,30 @@ class ChaMoveBehaviorTest {
         Assertions.assertThatIllegalArgumentException().isThrownBy(() -> moveBehavior.move(destination, onRoutePieces,
                 Team.BLUE));
     }
+
+    @Test
+    void 차는_대각선이동_가능한_궁성에서_대각선으로_이동할_수_있다() {
+        MoveBehavior moveBehavior = new ChaMoveBehavior();
+
+        JanggiPosition startPosition = new JanggiPosition(0, 3);
+        JanggiPosition endPosition = new JanggiPosition(2, 5);
+
+        List<JanggiPosition> expectedPositions = List.of(new JanggiPosition(1, 4), endPosition);
+
+        Assertions.assertThatIterable(moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE))
+                .containsExactlyInAnyOrderElementsOf(expectedPositions);
+    }
+
+    @Test
+    void 차는_대각선이동_가능한_궁성에서_수직으로도_이동할_수_있다() {
+        MoveBehavior moveBehavior = new ChaMoveBehavior();
+
+        JanggiPosition startPosition = new JanggiPosition(0, 3);
+        JanggiPosition endPosition = new JanggiPosition(1, 3);
+
+        List<JanggiPosition> expectedPositions = List.of(new JanggiPosition(1, 3));
+
+        Assertions.assertThatIterable(moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE))
+                .containsExactlyInAnyOrderElementsOf(expectedPositions);
+    }
 }

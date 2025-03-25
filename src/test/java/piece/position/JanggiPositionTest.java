@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class JanggiPositionTest {
-    
+
     @Test
     void 포지션은_숫자를_가진다() {
         Assertions.assertThatNoException().isThrownBy(() -> new JanggiPosition(0, 0));
@@ -50,5 +50,17 @@ class JanggiPositionTest {
     void 포지션은_대각선이동_가능한_궁위치가_아니면_false를_반환한다() {
         JanggiPosition nonGungDiagonalPosition = new JanggiPosition(0, 0);
         Assertions.assertThat(nonGungDiagonalPosition.isPositionDiagonalGungPosition()).isFalse();
+    }
+
+    @Test
+    void 포지션은_대각선을_판정할_수_있다() {
+        JanggiPosition positionA = new JanggiPosition(0, 0);
+        JanggiPosition positionB = new JanggiPosition(1, 1);
+        JanggiPosition positionC = new JanggiPosition(1, 2);
+        org.junit.jupiter.api.Assertions.assertAll(
+                () -> Assertions.assertThat(positionA.isSameDiagonal(positionB)).isTrue(),
+                () -> Assertions.assertThat(positionA.isSameDiagonal(positionC)).isFalse(),
+                () -> Assertions.assertThat(positionB.isSameDiagonal(positionC)).isFalse()
+        );
     }
 }

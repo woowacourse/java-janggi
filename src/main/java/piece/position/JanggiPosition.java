@@ -36,6 +36,10 @@ public class JanggiPosition {
         return (this.row + this.column) - (position.row + position.column) > 0;
     }
 
+    public boolean isSameDiagonal(JanggiPosition position) {
+        return (row - position.row) == (column - position.column);
+    }
+
     public JanggiPosition getBiggerPosition(JanggiPosition otherPosition) {
         if (this.isAbsoluteBigger(otherPosition)) {
             return this;

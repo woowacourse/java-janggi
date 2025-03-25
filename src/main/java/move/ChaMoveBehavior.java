@@ -11,30 +11,45 @@ import piece.position.JanggiPosition;
 public class ChaMoveBehavior extends MoveBehavior {
 
     @Override
-    public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition, Team team) {
+    public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition,
+                                                    Team team) {
         JanggiPosition smallerPosition = startPosition.getSmallerPosition(endPosition);
         JanggiPosition biggerPosition = startPosition.getBiggerPosition(endPosition);
 
         List<JanggiPosition> positions = new ArrayList<>();
-        return calculateSameLineRoute(startPosition, endPosition, smallerPosition, biggerPosition, positions);
+        return calculateSameLineRoute(smallerPosition, biggerPosition, positions);
     }
 
-    private List<JanggiPosition> calculateSameLineRoute(JanggiPosition startPosition, JanggiPosition endPosition, JanggiPosition minPosition,
+    private List<JanggiPosition> calculateSameLineRoute(JanggiPosition minPosition,
                                                         JanggiPosition maxPosition, List<JanggiPosition> positions) {
-        if (startPosition.isSameColumn(endPosition)) {
+        if (minPosition.isSameColumn(maxPosition)) {
             return calculateLegalRoute(minPosition, maxPosition, positions, Direction.UP);
         }
-        if (startPosition.isSameRow(endPosition)) {
+        if (minPosition.isSameRow(maxPosition)) {
             return calculateLegalRoute(minPosition, maxPosition, positions, Direction.RIGHT);
+        }
+        if (isDiagonalGungCase(minPosition, maxPosition)) {
+            return calculateLegalRoute(minPosition, maxPosition, positions, Direction.UP_RIGHT);
         }
         throw new InvalidMovePosition();
     }
 
-    private List<JanggiPosition> calculateLegalRoute(JanggiPosition minPosition, JanggiPosition maxPosition, List<JanggiPosition> positions,
+    private static boolean isDiagonalGungCase(JanggiPosition startPosition, JanggiPosition endPosition) {
+        if (!startPosition.isPositionDiagonalGungPosition() || !endPosition.isPositionDiagonalGungPosition()) {
+            return false;
+        }
+        return startPosition.isSameDiagonal(endPosition);
+    }
+
+    private List<JanggiPosition> calculateLegalRoute(JanggiPosition minPosition, JanggiPosition maxPosition,
+                                                     List<JanggiPosition> positions,
                                                      Direction direction) {
-        while (!minPosition.equals(maxPosition)) {
+        while (!minPosition.equals(maxPosition) && minPosition.getSmallerPosition(maxPosition) == minPosition) {
             minPosition = minPosition.add(direction);
             positions.add(minPosition);
+        }
+        if (!minPosition.equals(maxPosition)) {
+            throw new InvalidMovePosition();
         }
         return Collections.unmodifiableList(positions);
     }
