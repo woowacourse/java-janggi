@@ -23,6 +23,15 @@ public enum Movement {
     LEFT_LEFT_BOTTOM(List.of(LEFT, LEFT_BOTTOM)),
     RIGHT_RIGHT_TOP(List.of(RIGHT, RIGHT_TOP)),
     RIGHT_RIGHT_BOTTOM(List.of(RIGHT, RIGHT_BOTTOM)),
+
+    TOP_LEFT_TOP_LEFT_TOP(List.of(TOP, LEFT_TOP, LEFT_TOP)),
+    TOP_RIGHT_TOP_RIGHT_TOP(List.of(TOP, RIGHT_TOP, RIGHT_TOP)),
+    BOTTOM_LEFT_BOTTOM_LEFT_BOTTOM(List.of(BOTTOM, LEFT_BOTTOM, LEFT_BOTTOM)),
+    BOTTOM_RIGHT_BOTTOM_RIGHT_BOTTOM(List.of(BOTTOM, RIGHT_BOTTOM, RIGHT_BOTTOM)),
+    LEFT_LEFT_TOP_LEFT_TOP(List.of(LEFT, LEFT_TOP, LEFT_TOP)),
+    LEFT_LEFT_BOTTOM_LEFT_BOTTOM(List.of(LEFT, LEFT_BOTTOM, LEFT_BOTTOM)),
+    RIGHT_RIGHT_TOP_RIGHT_TOP(List.of(RIGHT, RIGHT_TOP, RIGHT_TOP)),
+    RIGHT_RIGHT_BOTTOM_RIGHT_BOTTOM(List.of(RIGHT, RIGHT_BOTTOM, RIGHT_BOTTOM)),
     ;
 
     private final List<Direction> directions;
@@ -37,7 +46,7 @@ public enum Movement {
 
     public Position applyMovementStep(final int step, final Position position) {
         if (isOverStep(step)) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("움직임의 최대 크기를 초과합니다.");
         }
         Direction stepDirection = this.directions.get(step - 1);
         return position.moveByDirection(stepDirection);

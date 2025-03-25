@@ -12,20 +12,38 @@ import board.Position;
 
 class ElephantTest {
 
-    private final Position initPosition = new Position(3, 1);
+    private final Position initPosition = new Position(4, 4);
 
+    /**
+     * .  차(다른팀)  .  O  .  .  .  .  .
+     * O  .  .  .  .  .  O  .  .
+     * .  .  .  .  .  .  .  .  .
+     * .  .  .  상  .  .  .  .  .
+     * .  .  .  .  .  .  .  .  .
+     * O  .  차  .  .  .  O  .
+     * .  X  .  .  .  O  .  .  .
+     * .  .  .  .  .  .  .  .  .
+     * .  .  .  .  .  .  .  .  .
+     * .  .  .  .  .  .  .  .  .
+     */
     @Test
-    void 마가_움직일_수_있는_위치들을_계산한다() {
+    void 상이_움직일_수_있는_위치들을_계산한다() {
         Board board = new Board(List.of());
         Piece piece = new Elephant(initPosition, Team.BLUE);
-        board.putPiece(new Chariot(new Position(2, 3), Team.BLUE));
-        board.putPiece(new Chariot(new Position(1, 4), Team.BLUE));
-        board.putPiece(new Chariot(new Position(5, 4), Team.BLUE));
+        board.putPiece(new Chariot(new Position(1, 2), Team.RED));
         board.putPiece(new Chariot(new Position(6, 3), Team.RED));
 
         Set<Position> positions = piece.getMovablePositions(board);
 
-        assertThat(positions).hasSize(1);
+        assertThat(positions).containsExactlyInAnyOrder(
+                new Position(1, 2),
+                new Position(1, 6),
+                new Position(7, 6),
+                new Position(2, 1),
+                new Position(6, 1),
+                new Position(2, 7),
+                new Position(6, 7)
+        );
     }
 
 }

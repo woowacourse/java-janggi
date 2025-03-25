@@ -24,7 +24,7 @@ class BoardTest {
 
         board.putPiece(piece);
 
-        assertThat(board.getPieces()).hasSize(1);
+        assertThat(board.findPieceByPosition(position)).isEqualTo(new Chariot(position, Team.BLUE));
     }
 
     @Test
