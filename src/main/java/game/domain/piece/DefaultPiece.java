@@ -3,7 +3,7 @@ package game.domain.piece;
 import game.domain.board.BoardLocation;
 import java.util.List;
 
-public class DefaultPiece extends Piece{
+public class DefaultPiece extends Piece {
 
     public DefaultPiece(Team team) {
         super(team);
@@ -11,7 +11,6 @@ public class DefaultPiece extends Piece{
 
     @Override
     public void validateMovable(BoardLocation current, BoardLocation target) {
-        return;
     }
 
     @Override
@@ -21,12 +20,10 @@ public class DefaultPiece extends Piece{
 
     @Override
     public void validateArrival(List<Piece> pathPiece) {
-        return ;
     }
 
     @Override
     public void validateKillable(Piece destinationPiece) {
-        return;
     }
 
     @Override

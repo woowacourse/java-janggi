@@ -7,16 +7,20 @@ public record BoardVector(
         int dy
 ) {
 
-    public int getAbsDy() {
-        return Math.abs(dy);
-    }
-
-    public int getAbsDx() {
-        return Math.abs(dx);
-    }
-
     public static BoardVector between(BoardLocation current, BoardLocation destination) {
         return new BoardVector(destination.x() - current.x(), destination.y() - current.y());
+    }
+
+    public boolean isNotAxis() {
+        return dx != 0 && dy != 0;
+    }
+
+    public boolean isAxis() {
+        return dx == 0 || dy == 0;
+    }
+
+    public boolean isStepAxisMove(int step) {
+        return Math.abs(dx) == step || Math.abs(dy) == step;
     }
 
     @Override
@@ -33,9 +37,5 @@ public record BoardVector(
     @Override
     public int hashCode() {
         return Objects.hash(dx, dy);
-    }
-
-    public boolean isNotAxis() {
-        return dx != 0 && dy != 0;
     }
 }

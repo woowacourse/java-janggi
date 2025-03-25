@@ -29,14 +29,14 @@ public class Cannon extends Piece {
 
     @Override
     public void validateArrival(List<Piece> pathPiece) {
-        if (pathPiece.size() != 1 || isSameType(pathPiece.getFirst())){
+        if (pathPiece.size() != 1 || isSameType(pathPiece.getFirst())) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
         }
     }
 
     @Override
     public void validateKillable(Piece destinationPiece) {
-        if (this.isEqualTeam(destinationPiece) || isSameType(destinationPiece)){
+        if (this.isEqualTeam(destinationPiece) || isSameType(destinationPiece)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
         }
     }

@@ -1,11 +1,11 @@
 package game.domain.board;
 
-import static game.util.NumberState.NEGATIVE;
-import static game.util.NumberState.POSITIVE;
-import static game.util.NumberState.ZERO;
-import static game.util.NumberState.findNumberState;
+import static util.NumberState.NEGATIVE;
+import static util.NumberState.POSITIVE;
+import static util.NumberState.ZERO;
+import static util.NumberState.findNumberState;
 
-import game.util.NumberState;
+import util.NumberState;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

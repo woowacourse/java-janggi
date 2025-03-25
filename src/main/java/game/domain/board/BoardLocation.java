@@ -68,8 +68,4 @@ public record BoardLocation(
     public int hashCode() {
         return Objects.hash(x, y);
     }
-
-    public String toString() {
-        return "(" + x + ", " + y + ")";
-    }
 }

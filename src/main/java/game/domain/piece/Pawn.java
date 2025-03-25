@@ -6,6 +6,8 @@ import java.util.List;
 
 public class Pawn extends Piece {
 
+    private static final int PAWN_STEP = 1;
+
     public Pawn(Team team) {
         super(team);
     }
@@ -13,13 +15,13 @@ public class Pawn extends Piece {
     @Override
     public void validateMovable(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
-        boolean isOrthogonalMove = boardVector.dx() == 0 || boardVector.dy() == 0;
-        boolean isOneStepMove = boardVector.getAbsDx() == 1 || boardVector.getAbsDy() == 1;
+        boolean isAxis = boardVector.isAxis();
+        boolean isStepAxisMove = boardVector.isStepAxisMove(PAWN_STEP);
 
-        if ((this.team == Team.HAN) && isOrthogonalMove && isOneStepMove && !destination.isUp(current)) {
+        if ((this.team == Team.HAN) && isAxis && isStepAxisMove && !destination.isUp(current)) {
             return;
         }
-        if ((this.team == Team.CHO) && isOrthogonalMove && isOneStepMove && !destination.isDown(current)) {
+        if ((this.team == Team.CHO) && isAxis && isStepAxisMove && !destination.isDown(current)) {
             return;
         }
 
@@ -40,7 +42,7 @@ public class Pawn extends Piece {
 
     @Override
     public void validateKillable(Piece destinationPiece) {
-        if (this.isEqualTeam(destinationPiece)){
+        if (this.isEqualTeam(destinationPiece)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 목적지로 이동할 수 없습니다.");
         }
     }
