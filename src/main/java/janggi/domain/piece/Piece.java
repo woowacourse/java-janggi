@@ -12,6 +12,11 @@ public abstract class Piece {
     protected Position position;
     protected final Team team;
 
+    public Piece(final Position position, final Team team) {
+        this.position = position;
+        this.team = team;
+    }
+
     public abstract Set<Route> calculateIndependentRoutes();
 
     public Set<Route> getPossibleRoutes(final List<Piece> otherPieces) {
@@ -24,21 +29,19 @@ public abstract class Piece {
         final List<Piece> piecesInRoute = otherPieces.stream()
                 .filter(route::hasPosition)
                 .toList();
+        return checkPiecesInRoute(route, piecesInRoute);
+    }
+
+    private boolean checkPiecesInRoute(final Route route, final List<Piece> piecesInRoute) {
         if (piecesInRoute.isEmpty()) {
             return true;
         }
-
         if (piecesInRoute.size() == 1) {
             final Piece pieceInWay = piecesInRoute.getFirst();
             return route.isDestination(pieceInWay) && isEnemy(pieceInWay);
         }
         return piecesInRoute.stream()
                 .allMatch(piece -> route.isDestination(piece) && isEnemy(piece));
-    }
-
-    public Piece(final Position position, final Team team) {
-        this.position = position;
-        this.team = team;
     }
 
     public void move(final Position position) {

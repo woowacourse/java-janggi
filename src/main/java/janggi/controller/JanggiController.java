@@ -26,7 +26,6 @@ public class JanggiController {
 
     public void run() {
         final Board board = generateBoard();
-
         final List<Piece> pieces = board.getPieces();
         while (true) {
             try {

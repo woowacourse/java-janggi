@@ -52,15 +52,20 @@ public class Cannon extends Piece {
                 .filter(piece -> route.hasPosition(piece) && !piece.isSamePosition(position))
                 .toList();
 
-        if (piecesInRoute.stream().anyMatch(Piece::isCannon)) {
+        if (hasCannon(piecesInRoute)) {
             return false;
         }
+        return checkJumpPieceAndTargetPiece(route, piecesInRoute);
+    }
 
+    private boolean hasCannon(final List<Piece> piecesInRoute) {
+        return piecesInRoute.stream().anyMatch(Piece::isCannon);
+    }
+
+    private boolean checkJumpPieceAndTargetPiece(final Route route, final List<Piece> piecesInRoute) {
         final Position destination = route.getDestination();
-
-        final List<Piece> jumpPieces = new ArrayList<>();
         Piece targetPiece = null;
-
+        final List<Piece> jumpPieces = new ArrayList<>();
         for (final Piece piece : piecesInRoute) {
             if (piece.isSamePosition(destination)) {
                 targetPiece = piece;
@@ -68,12 +73,14 @@ public class Cannon extends Piece {
             }
             jumpPieces.add(piece);
         }
-
-        if (jumpPieces.size() != REQUIRED_JUMP_PIECES) {
+        if (isJumpOnePiece(jumpPieces)) {
             return false;
         }
-
         return targetPiece == null || !targetPiece.isSameTeam(team);
+    }
+
+    private static boolean isJumpOnePiece(final List<Piece> jumpPieces) {
+        return jumpPieces.size() != REQUIRED_JUMP_PIECES;
     }
 
     @Override
