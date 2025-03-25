@@ -72,11 +72,13 @@ public class Janggi {
     private boolean canBombJump(Route route) {
         int count = 0;
         for (Position position : route.getPointsExceptEndPoint()) {
-            Unit unit = findUnitByPoint(position);
-            if (unit.getType() == UnitType.BOMB) {
-                return false;
+            if (isExistUnit(position)) {
+                Unit unit = findUnitByPoint(position);
+                if (unit.getType() == UnitType.BOMB) {
+                    return false;
+                }
+                count++;
             }
-            count++;
         }
         return (count == 1);
     }

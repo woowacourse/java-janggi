@@ -24,7 +24,6 @@ class HorseUnitRuleTest {
 
         // then
 
-
     }
 
     @Test
@@ -41,7 +40,6 @@ class HorseUnitRuleTest {
         }
 
         // then
-
 
     }
 
