@@ -1,5 +1,6 @@
 package janggi.setting;
 
+import janggi.piece.Byeong;
 import janggi.piece.Cha;
 import janggi.piece.Gung;
 import janggi.piece.Jol;
@@ -34,7 +35,11 @@ public enum AssignType {
         allPieces.addAll(Sa.generateInitialSas(campType));
         allPieces.addAll(Cha.generateInitialChas(campType));
         allPieces.addAll(Po.generateInitialPos(campType));
-        allPieces.addAll(Jol.generateInitialJols(campType));
+        if (campType == CampType.CHO) {
+            allPieces.addAll(Jol.generateInitialJols(campType));
+            return allPieces;
+        }
+        allPieces.addAll(Byeong.generateInitialByeongs(campType));
         return allPieces;
     }
 

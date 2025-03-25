@@ -10,6 +10,7 @@ public enum PieceType {
     MA("마", 5, 0, List.of(1, 7)),
     SANG("상", 3, 0, List.of(2, 6)),
     JOL("졸", 2, 3, List.of(0, 2, 4, 6, 8)),
+    BYEONG("병", 2, 3, List.of(0,2,4,6,8)),
     ;
     private final String name;
     private final int score;

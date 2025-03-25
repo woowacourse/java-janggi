@@ -29,20 +29,38 @@ public class JanggiGame {
 
         // TODO: 현재 단계에서는 종료조건 없음, 2단계에서 승패 구현할때 구현 예정
         for (int i = 0; i < 10; i++) {
-            playTurn(janggiBoard, CampType.CHO);
-            playTurn(janggiBoard, CampType.HAN);
+            playCho(janggiBoard);
+            playHan(janggiBoard);
         }
     }
 
-    private void playTurn(final JanggiBoard janggiBoard, final CampType campType) {
-        outputView.writeTurn(campType);
+    private void playCho(final JanggiBoard janggiBoard) {
+        outputView.writeTurn(CampType.CHO);
 
         while (true) {
             try {
                 JanggiPosition movedPieceJanggiPosition = findMovedPieceJanggiPosition();
                 JanggiPosition destination = findDestinationJanggiPosition();
 
-                janggiBoard.movePiece(campType, movedPieceJanggiPosition, destination);
+                janggiBoard.startChoTurn(movedPieceJanggiPosition, destination);
+
+                outputView.writeJanggiBoard(janggiBoard.getChoPieces(), janggiBoard.getHanPieces());
+                break;
+            } catch (IllegalArgumentException illegalArgumentException) {
+                outputView.writeErrorMessage(illegalArgumentException.getMessage());
+            }
+        }
+    }
+
+    private void playHan(final JanggiBoard janggiBoard) {
+        outputView.writeTurn(CampType.HAN);
+
+        while (true) {
+            try {
+                JanggiPosition movedPieceJanggiPosition = findMovedPieceJanggiPosition();
+                JanggiPosition destination = findDestinationJanggiPosition();
+
+                janggiBoard.startHanTurn(movedPieceJanggiPosition, destination);
 
                 outputView.writeJanggiBoard(janggiBoard.getChoPieces(), janggiBoard.getHanPieces());
                 break;

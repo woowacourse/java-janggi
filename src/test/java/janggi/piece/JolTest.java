@@ -23,7 +23,7 @@ class JolTest {
     @MethodSource()
     void test1(JanggiPosition destination) {
         //given
-        Jol jol = Jol.from(STANDARD, CampType.CHO);
+        Jol jol = Jol.from(STANDARD);
 
         //when
         Jol movedJol = jol.move(destination, new Pieces(List.of()), new Pieces(List.of()));
@@ -34,31 +34,9 @@ class JolTest {
 
     static Stream<Arguments> test1() {
         return Stream.of(
-                Arguments.of(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY())),
-                Arguments.of(new JanggiPosition(STANDARD.getX() - 1, STANDARD.getY())),
-                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() - 1))
-        );
-    }
-
-    @DisplayName("한의 장기말을 이동시킬 수 있다.")
-    @ParameterizedTest
-    @MethodSource()
-    void test2(JanggiPosition destination) {
-        //given
-        Jol jol = Jol.from(STANDARD, CampType.HAN);
-
-        //when
-        Jol movedJol = jol.move(destination, new Pieces(List.of()), new Pieces(List.of()));
-
-        //then
-        assertThat(movedJol.getPosition()).isEqualTo(destination);
-    }
-
-    static Stream<Arguments> test2() {
-        return Stream.of(
-                Arguments.of(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY())),
-                Arguments.of(new JanggiPosition(STANDARD.getX() - 1, STANDARD.getY())),
-                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() + 1))
+                Arguments.of(new JanggiPosition(STANDARD.x() + 1, STANDARD.y())),
+                Arguments.of(new JanggiPosition(STANDARD.x() - 1, STANDARD.y())),
+                Arguments.of(new JanggiPosition(STANDARD.x(), STANDARD.y() - 1))
         );
     }
 
@@ -67,7 +45,7 @@ class JolTest {
     @MethodSource()
     void test3(JanggiPosition destination) {
         //given
-        Jol jol = Jol.from(STANDARD, CampType.CHO);
+        Jol jol = Jol.from(STANDARD);
 
         //when & then
         assertThatThrownBy(() -> jol.move(destination, new Pieces(List.of()), new Pieces(List.of())))
@@ -77,9 +55,9 @@ class JolTest {
 
     static Stream<Arguments> test3() {
         return Stream.of(
-                Arguments.of(new JanggiPosition(STANDARD.getX() + 2, STANDARD.getY())),
-                Arguments.of(new JanggiPosition(STANDARD.getX() - 2, STANDARD.getY())),
-                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() - 2))
+                Arguments.of(new JanggiPosition(STANDARD.x() + 2, STANDARD.y())),
+                Arguments.of(new JanggiPosition(STANDARD.x() - 2, STANDARD.y())),
+                Arguments.of(new JanggiPosition(STANDARD.x(), STANDARD.y() - 2))
         );
     }
 
@@ -87,9 +65,9 @@ class JolTest {
     @Test
     void test4() {
         //given
-        Jol jol = Jol.from(STANDARD, CampType.CHO);
+        Jol jol = Jol.from(STANDARD);
         JanggiPosition destination = new JanggiPosition(4, 3);
-        Jol otherPiece = Jol.from(destination, CampType.CHO);
+        Jol otherPiece = Jol.from(destination);
 
         //when & then
         assertThatThrownBy(() -> jol.move(destination, new Pieces(List.of()), new Pieces(List.of(otherPiece))))
@@ -101,9 +79,9 @@ class JolTest {
     @Test
     void test5() {
         //given
-        Jol jol = Jol.from(STANDARD, CampType.CHO);
+        Jol jol = Jol.from(STANDARD);
         JanggiPosition destination = new JanggiPosition(4, 3);
-        Jol otherPiece = Jol.from(destination, CampType.CHO);
+        Jol otherPiece = Jol.from(destination);
 
         //when
         Jol movedJol = jol.move(destination, new Pieces(List.of(otherPiece)), new Pieces(List.of()));

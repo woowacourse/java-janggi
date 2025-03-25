@@ -45,15 +45,14 @@ public class OutputView {
 
     private void writeOneLineInBoard(int i, List<Piece> allPieces) {
         List<Piece> pieces = allPieces.stream()
-                .filter(piece -> piece.getPosition().equals(new JanggiPosition(piece.getPosition().getX(), i)))
-                .sorted(Comparator.comparing(Piece::getPosition))
+                .filter(piece -> piece.getPosition().equals(new JanggiPosition(piece.getPosition().x(), i)))
                 .toList();
 
         System.out.print(unicodes.get(i));
         for (int x = 0; x < 9; x++) {
             int xPosition = x;
             pieces.stream()
-                    .filter(piece -> piece.getPosition().getX() == xPosition)
+                    .filter(piece -> piece.getPosition().x() == xPosition)
                     .findFirst()
                     .ifPresentOrElse(
                             piece -> System.out.print(piece.getPieceType().getName()),

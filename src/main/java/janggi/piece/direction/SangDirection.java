@@ -25,8 +25,8 @@ public enum SangDirection {
     }
 
     public static SangDirection of(final JanggiPosition current, final JanggiPosition destination) {
-        int xDistance = destination.getX() - current.getX();
-        int yDistance = destination.getY() - current.getY();
+        int xDistance = destination.x() - current.x();
+        int yDistance = destination.y() - current.y();
 
         for (SangDirection sangDirection : SangDirection.values()) {
             boolean isValidDirection = sangDirection.destinationJanggiPositions.stream()
@@ -41,8 +41,8 @@ public enum SangDirection {
 
     public boolean isRoute(JanggiPosition current, JanggiPosition janggiPosition) {
         for (RelativePosition relativePosition : routeJanggiPositions) {
-            JanggiPosition newJanggiPosition = new JanggiPosition(current.getX() + relativePosition.getX(),
-                    current.getY() + relativePosition.getY());
+            JanggiPosition newJanggiPosition = new JanggiPosition(current.x() + relativePosition.getX(),
+                    current.y() + relativePosition.getY());
             if (newJanggiPosition.equals(janggiPosition)) {
                 return true;
             }

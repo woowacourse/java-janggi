@@ -46,7 +46,7 @@ public class Cha extends Piece {
     }
 
     private boolean isValidMove(JanggiPosition destination) {
-        return getPosition().getX() == destination.getX() || getPosition().getY() == destination.getY();
+        return getPosition().x() == destination.x() || getPosition().y() == destination.y();
     }
 
 }

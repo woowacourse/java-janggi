@@ -20,8 +20,8 @@ public enum FourDirection {
     }
 
     public static List<JanggiPosition> from(JanggiPosition destination, JanggiPosition position) {
-        int dx = Integer.compare(destination.getX(), position.getX());
-        int dy = Integer.compare(destination.getY(), position.getY());
+        int dx = Integer.compare(destination.x(), position.x());
+        int dy = Integer.compare(destination.y(), position.y());
         FourDirection fourDirection = findDirection(dx, dy);
         //그 방향에 대한 리스트만 만들어서 반환
         return generatePositions(position, destination, fourDirection.relativePosition);
@@ -37,10 +37,10 @@ public enum FourDirection {
 
     private static List<JanggiPosition> generatePositions(JanggiPosition start, JanggiPosition end, RelativePosition step) {
         List<JanggiPosition> positions = new ArrayList<>();
-        int x = start.getX();
-        int y = start.getY();
+        int x = start.x();
+        int y = start.y();
 
-        while (x != end.getX() || y != end.getY()) {
+        while (x != end.x() || y != end.y()) {
             x += step.getX();
             y += step.getY();
             positions.add(new JanggiPosition(x, y));

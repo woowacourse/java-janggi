@@ -23,7 +23,7 @@ class PoTest {
     void test1(JanggiPosition jumpPadJanggiPosition, JanggiPosition destination) {
         //given
         Po po = Po.from(STANDARD);
-        Jol jumpPad = Jol.from(jumpPadJanggiPosition, CampType.CHO);
+        Jol jumpPad = Jol.from(jumpPadJanggiPosition);
 
         //when
         Po movedPo = po.move(destination, new Pieces(List.of()), new Pieces(List.of(jumpPad)));
@@ -34,10 +34,10 @@ class PoTest {
 
     static Stream<Arguments> test1() {
         return Stream.of(
-                Arguments.of(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY()), new JanggiPosition(8, STANDARD.getY())),
-                Arguments.of(new JanggiPosition(STANDARD.getX() - 1, STANDARD.getY()), new JanggiPosition(0, STANDARD.getY())),
-                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() + 1), new JanggiPosition(STANDARD.getX(), 9)),
-                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() - 1), new JanggiPosition(STANDARD.getX(), 0))
+                Arguments.of(new JanggiPosition(STANDARD.x() + 1, STANDARD.y()), new JanggiPosition(8, STANDARD.y())),
+                Arguments.of(new JanggiPosition(STANDARD.x() - 1, STANDARD.y()), new JanggiPosition(0, STANDARD.y())),
+                Arguments.of(new JanggiPosition(STANDARD.x(), STANDARD.y() + 1), new JanggiPosition(STANDARD.x(), 9)),
+                Arguments.of(new JanggiPosition(STANDARD.x(), STANDARD.y() - 1), new JanggiPosition(STANDARD.x(), 0))
         );
     }
 
@@ -57,10 +57,10 @@ class PoTest {
 
     static Stream<Arguments> test2() {
         return Stream.of(
-                Arguments.of(new JanggiPosition(8, STANDARD.getY())),
-                Arguments.of(new JanggiPosition(0, STANDARD.getY())),
-                Arguments.of(new JanggiPosition(STANDARD.getX(), 0)),
-                Arguments.of(new JanggiPosition(STANDARD.getX(), 9))
+                Arguments.of(new JanggiPosition(8, STANDARD.y())),
+                Arguments.of(new JanggiPosition(0, STANDARD.y())),
+                Arguments.of(new JanggiPosition(STANDARD.x(), 0)),
+                Arguments.of(new JanggiPosition(STANDARD.x(), 9))
         );
     }
 
@@ -80,10 +80,10 @@ class PoTest {
 
     static Stream<Arguments> test3() {
         return Stream.of(
-                Arguments.of(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY()), new JanggiPosition(8, STANDARD.getY())),
-                Arguments.of(new JanggiPosition(STANDARD.getX() - 1, STANDARD.getY()), new JanggiPosition(0, STANDARD.getY())),
-                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() + 1), new JanggiPosition(STANDARD.getX(), 0)),
-                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() - 1), new JanggiPosition(STANDARD.getX(), 9))
+                Arguments.of(new JanggiPosition(STANDARD.x() + 1, STANDARD.y()), new JanggiPosition(8, STANDARD.y())),
+                Arguments.of(new JanggiPosition(STANDARD.x() - 1, STANDARD.y()), new JanggiPosition(0, STANDARD.y())),
+                Arguments.of(new JanggiPosition(STANDARD.x(), STANDARD.y() + 1), new JanggiPosition(STANDARD.x(), 0)),
+                Arguments.of(new JanggiPosition(STANDARD.x(), STANDARD.y() - 1), new JanggiPosition(STANDARD.x(), 9))
         );
     }
 
@@ -103,10 +103,10 @@ class PoTest {
 
     static Stream<Arguments> test4() {
         return Stream.of(
-                Arguments.of(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY()), new JanggiPosition(8, STANDARD.getY())),
-                Arguments.of(new JanggiPosition(STANDARD.getX() - 1, STANDARD.getY()), new JanggiPosition(0, STANDARD.getY())),
-                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() + 1), new JanggiPosition(STANDARD.getX(), 0)),
-                Arguments.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() - 1), new JanggiPosition(STANDARD.getX(), 9))
+                Arguments.of(new JanggiPosition(STANDARD.x() + 1, STANDARD.y()), new JanggiPosition(8, STANDARD.y())),
+                Arguments.of(new JanggiPosition(STANDARD.x() - 1, STANDARD.y()), new JanggiPosition(0, STANDARD.y())),
+                Arguments.of(new JanggiPosition(STANDARD.x(), STANDARD.y() + 1), new JanggiPosition(STANDARD.x(), 0)),
+                Arguments.of(new JanggiPosition(STANDARD.x(), STANDARD.y() - 1), new JanggiPosition(STANDARD.x(), 9))
         );
     }
 
@@ -117,7 +117,7 @@ class PoTest {
         //given
         Po po = Po.from(STANDARD);
         List<Jol> jumpPads = jumpPadJanggiPositions.stream()
-                .map(position -> Jol.from(position, CampType.CHO))
+                .map(Jol::from)
                 .toList();
 
         //when & then
@@ -129,21 +129,21 @@ class PoTest {
     static Stream<Arguments> test5() {
         return Stream.of(
                 Arguments.of(
-                        List.of(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY()),
-                                new JanggiPosition(STANDARD.getX() + 2, STANDARD.getY())),
-                        new JanggiPosition(8, STANDARD.getY())),
+                        List.of(new JanggiPosition(STANDARD.x() + 1, STANDARD.y()),
+                                new JanggiPosition(STANDARD.x() + 2, STANDARD.y())),
+                        new JanggiPosition(8, STANDARD.y())),
                 Arguments.of(
-                        List.of(new JanggiPosition(STANDARD.getX() - 1, STANDARD.getY()),
-                                new JanggiPosition(STANDARD.getX() - 2, STANDARD.getY())),
-                        new JanggiPosition(0, STANDARD.getY())),
+                        List.of(new JanggiPosition(STANDARD.x() - 1, STANDARD.y()),
+                                new JanggiPosition(STANDARD.x() - 2, STANDARD.y())),
+                        new JanggiPosition(0, STANDARD.y())),
                 Arguments.of(
-                        List.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() + 1),
-                                new JanggiPosition(STANDARD.getX(), STANDARD.getY() + 2)),
-                        new JanggiPosition(STANDARD.getX(), 0)),
+                        List.of(new JanggiPosition(STANDARD.x(), STANDARD.y() + 1),
+                                new JanggiPosition(STANDARD.x(), STANDARD.y() + 2)),
+                        new JanggiPosition(STANDARD.x(), 0)),
                 Arguments.of(
-                        List.of(new JanggiPosition(STANDARD.getX(), STANDARD.getY() - 1),
-                                new JanggiPosition(STANDARD.getX(), STANDARD.getY() - 2)),
-                        new JanggiPosition(STANDARD.getX(), 9))
+                        List.of(new JanggiPosition(STANDARD.x(), STANDARD.y() - 1),
+                                new JanggiPosition(STANDARD.x(), STANDARD.y() - 2)),
+                        new JanggiPosition(STANDARD.x(), 9))
         );
     }
 
@@ -152,8 +152,8 @@ class PoTest {
     void test6() {
         //given
         Po po = Po.from(STANDARD);
-        JanggiPosition destination = new JanggiPosition(8, STANDARD.getY());
-        Jol jumpPad = Jol.from(destination, CampType.CHO);
+        JanggiPosition destination = new JanggiPosition(8, STANDARD.y());
+        Jol jumpPad = Jol.from(destination);
 
         //when & then
         assertThatThrownBy(() -> po.move(destination, new Pieces(List.of()), new Pieces(List.of(jumpPad))))
@@ -166,8 +166,8 @@ class PoTest {
     void test7() {
         //given
         Po po = Po.from(STANDARD);
-        Jol jumpPad = Jol.from(new JanggiPosition(STANDARD.getX() + 1, STANDARD.getY()), CampType.CHO);
-        JanggiPosition destination = new JanggiPosition(8, STANDARD.getY());
+        Jol jumpPad = Jol.from(new JanggiPosition(STANDARD.x() + 1, STANDARD.y()));
+        JanggiPosition destination = new JanggiPosition(8, STANDARD.y());
 
         //when
         Po movedPo = po.move(destination, new Pieces(List.of(jumpPad)), new Pieces(List.of()));

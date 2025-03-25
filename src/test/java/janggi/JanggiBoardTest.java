@@ -161,14 +161,13 @@ public class JanggiBoardTest {
     @Test
     void test6() {
         //given
-        CampType campType = CampType.CHO;
         JanggiPosition targetJanggiPosition = new JanggiPosition(4,8);
         JanggiPosition destination = new JanggiPosition(5,8);
 
         JanggiBoard janggiBoard = new JanggiBoard(AssignType.IN_SANG, AssignType.IN_SANG);
         List<Piece> choPieces = janggiBoard.getChoPieces();
         //when
-        janggiBoard.movePiece(campType, targetJanggiPosition, destination);
+        janggiBoard.startChoTurn(targetJanggiPosition, destination);
         List<Piece> pieces = choPieces.stream().filter(piece -> piece.getPieceType() == PieceType.GUNG).toList();
         Piece gung = pieces.getFirst();
 
@@ -180,14 +179,13 @@ public class JanggiBoardTest {
     @Test
     void test7() {
         //given
-        CampType campType = CampType.HAN;
         JanggiPosition targetJanggiPosition = new JanggiPosition(4,1);
         JanggiPosition destination = new JanggiPosition(5,1);
 
         JanggiBoard janggiBoard = new JanggiBoard(AssignType.IN_SANG, AssignType.IN_SANG);
         List<Piece> hanPieces = janggiBoard.getHanPieces();
         //when
-        janggiBoard.movePiece(campType, targetJanggiPosition, destination);
+        janggiBoard.startHanTurn(targetJanggiPosition, destination);
         List<Piece> pieces = hanPieces.stream().filter(piece -> piece.getPieceType() == PieceType.GUNG).toList();
         Piece gung = pieces.getFirst();
 

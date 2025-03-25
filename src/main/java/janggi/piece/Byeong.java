@@ -5,30 +5,30 @@ import janggi.setting.CampType;
 import janggi.value.JanggiPosition;
 import java.util.List;
 
-public class Jol extends Piece {
+public class Byeong extends Piece {
 
-    private Jol(final JanggiPosition janggiPosition) {
-        super(PieceType.JOL, janggiPosition);
+    private Byeong(final JanggiPosition janggiPosition) {
+        super(PieceType.BYEONG, janggiPosition);
     }
 
-    public static Jol from(final JanggiPosition janggiPosition) {
-        return new Jol(janggiPosition);
+    public static Byeong from(final JanggiPosition janggiPosition) {
+        return new Byeong(janggiPosition);
     }
 
-    public static List<Jol> generateInitialJols(final CampType campType) {
-        int yPosition = Math.abs(campType.getStartYPosition() - PieceType.JOL.getHeight());
-        return PieceType.JOL.getDefaultXPositions()
+    public static List<Byeong> generateInitialByeongs(final CampType campType) {
+        int yPosition = Math.abs(campType.getStartYPosition() - PieceType.BYEONG.getHeight());
+        return PieceType.BYEONG.getDefaultXPositions()
                 .stream()
-                .map(xPosition -> new Jol(new JanggiPosition(xPosition, yPosition)))
+                .map(xPosition -> new Byeong(new JanggiPosition(xPosition, yPosition)))
                 .toList();
     }
 
     @Override
-    public Jol move(final JanggiPosition destination, final Pieces enemyPieces, final Pieces allyPieces) {
+    public Byeong move(final JanggiPosition destination, final Pieces enemyPieces, final Pieces allyPieces) {
         if (!ableToMove(destination, enemyPieces, allyPieces)) {
             throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
         }
-        return new Jol(destination);
+        return new Byeong(destination);
     }
 
     @Override
@@ -43,8 +43,6 @@ public class Jol extends Piece {
         int destX = pathPositions.getLast().x();
         int destY = pathPositions.getLast().y();
 
-        return (destX == currentX && destY == currentY - 1) ||
-                (destY == currentY && Math.abs(destX - currentX) == 1);
+        return (destX == currentX && destY == currentY + 1) || (destY == currentY && Math.abs(destX - currentX) == 1);
     }
-
 }

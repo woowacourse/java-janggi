@@ -21,8 +21,8 @@ public enum MaDirection {
     }
 
     public static MaDirection of(final JanggiPosition current, final JanggiPosition destination) {
-        int xDistance = destination.getX() - current.getX();
-        int yDistance = destination.getY() - current.getY();
+        int xDistance = destination.x() - current.x();
+        int yDistance = destination.y() - current.y();
 
         for (MaDirection maDirection : MaDirection.values()) {
             boolean isValidDirection = maDirection.destinationJanggiPositions.stream()
@@ -36,7 +36,7 @@ public enum MaDirection {
     }
 
     public boolean isDirectRoute(JanggiPosition current, JanggiPosition janggiPosition) {
-        JanggiPosition newJanggiPosition = new JanggiPosition(current.getX() + route.getX(), current.getY() + route.getY());
+        JanggiPosition newJanggiPosition = new JanggiPosition(current.x() + route.getX(), current.y() + route.getY());
         return newJanggiPosition.equals(janggiPosition);
     }
 
