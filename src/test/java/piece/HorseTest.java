@@ -12,19 +12,37 @@ import board.Position;
 
 class HorseTest {
 
-    private final Position initPosition = new Position(2, 1);
+    private final Position initPosition = new Position(4, 4);
 
+    /**
+     * .  .  .  .  .  .  .  .  .
+     * .  .  X  .  X  .  .  .  .
+     * .  O  .  마  .  O  .  .  .
+     * .  .  .  마  .  .  .  .  .
+     * .  O  .  .  .  마(다른팀)  .  .  .
+     * .  .  마  .  O  .  .  .
+     * .  .  .  .  .  .  .  .  .
+     * .  .  .  .  .  .  .  .  .
+     * .  .  .  .  .  .  .  .  .
+     * .  .  .  .  .  .  .  .  .
+     */
     @Test
     void 마가_움직일_수_있는_위치들을_계산한다() {
         Board board = new Board(List.of());
         Piece piece = new Horse(initPosition, Team.BLUE);
-        board.putPiece(new Chariot(new Position(2, 2), Team.BLUE));
-        board.putPiece(new Chariot(new Position(1, 3), Team.BLUE));
-        board.putPiece(new Chariot(new Position(4, 2), Team.RED));
+        board.putPiece(new Chariot(new Position(3, 4), Team.BLUE));
+        board.putPiece(new Chariot(new Position(6, 3), Team.BLUE));
+        board.putPiece(new Chariot(new Position(5, 6), Team.RED));
 
         Set<Position> positions = piece.getMovablePositions(board);
 
-        assertThat(positions).hasSize(1);
+        assertThat(positions).containsExactlyInAnyOrder(
+                new Position(3, 2),
+                new Position(5, 2),
+                new Position(6, 5),
+                new Position(5, 6),
+                new Position(3, 6)
+        );
     }
 
 }
