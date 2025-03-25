@@ -1,8 +1,8 @@
 import domain.Board;
 import domain.Player;
-import domain.piece.Piece;
-import domain.piece.PieceColor;
-import domain.piece.PieceInit;
+import domain.SetUp;
+import domain.Team;
+import domain.piece.PieceInitializer;
 import domain.piece.Pieces;
 import domain.piece.Position;
 import java.util.HashMap;
@@ -22,9 +22,11 @@ public class KoreaChess {
     }
 
     public void run() {
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
-        Board board = createBoard(han, cho);
+        SetUp setUp = inputView.readSetUp();
+
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
+        Board board = createBoard(han, cho, setUp);
 
         outputView.printGameStart();
         outputView.printBoard(board);
@@ -56,13 +58,13 @@ public class KoreaChess {
         return Position.of(row, column);
     }
 
-    private Board createBoard(final Player han, final Player cho) {
-        List<Piece> hanPieces = PieceInit.initHanPieces();
-        List<Piece> choPieces = PieceInit.initChoPieces();
+    private Board createBoard(final Player han, final Player cho, final SetUp setUp) {
+        Pieces hanPieces = new Pieces(PieceInitializer.createTeamPieces(Team.HAN, setUp));
+        Pieces choPieces = new Pieces(PieceInitializer.createTeamPieces(Team.CHO, setUp));
 
         Map<Player, Pieces> board = new HashMap<>();
-        board.put(han, new Pieces(hanPieces));
-        board.put(cho, new Pieces(choPieces));
+        board.put(han, hanPieces);
+        board.put(cho, choPieces);
 
         return new Board(board);
     }

@@ -6,8 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.direction.PieceDirection;
 import domain.piece.Piece;
-import domain.piece.PieceColor;
-import domain.piece.PieceInit;
+import domain.piece.PieceInitializer;
 import domain.piece.Pieces;
 import domain.piece.Position;
 import domain.piece.category.Soldier;
@@ -26,11 +25,11 @@ class BoardTest {
 
         Piece expected = new Soldier(1, 5, PieceDirection.HAN_SOLDIER.get());
 
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
-        List<Piece> hanPieces = PieceInit.initHanPieces();
-        List<Piece> choPieces = PieceInit.initChoPieces();
+        List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
+        List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(hanPieces));
@@ -51,11 +50,11 @@ class BoardTest {
         Position startPosition = Position.of(1, 1);
         Position targetPosition = Position.of(1, 4);
 
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
-        List<Piece> hanPieces = PieceInit.initHanPieces();
-        List<Piece> choPieces = PieceInit.initChoPieces();
+        List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
+        List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(hanPieces));
@@ -76,11 +75,12 @@ class BoardTest {
         Position targetPosition1 = Position.of(4, 3);
         Position targetPosition2 = Position.of(7, 3);
 
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
-        List<Piece> hanPieces = PieceInit.initHanPieces();
-        List<Piece> choPieces = PieceInit.initChoPieces();
+        List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
+        List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
+
         hanPieces.add(new Soldier(5, 3, PieceDirection.HAN_SOLDIER.get()));
         hanPieces.add(new Soldier(6, 3, PieceDirection.HAN_SOLDIER.get()));
 
@@ -107,11 +107,12 @@ class BoardTest {
         Position startPosition = Position.of(2, 3);
         Position targetPosition = Position.of(2, 8);
 
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
-        List<Piece> hanPieces = PieceInit.initHanPieces();
-        List<Piece> choPieces = PieceInit.initChoPieces();
+        List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
+        List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT);
+
         hanPieces.add(new Soldier(2, 5, PieceDirection.HAN_SOLDIER.get()));
 
         Map<Player, Pieces> boardElements = new HashMap<>();
@@ -132,11 +133,11 @@ class BoardTest {
         Position startPosition = Position.of(2, 3);
         Position targetPosition = Position.of(2, 9);
 
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
-        List<Piece> hanPieces = PieceInit.initHanPieces();
-        List<Piece> choPieces = PieceInit.initChoPieces();
+        List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
+        List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT);
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(hanPieces));
@@ -156,11 +157,11 @@ class BoardTest {
         Position startPosition = Position.of(1, 1);
         Position targetPosition = Position.of(1, 7);
 
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
-        List<Piece> hanPieces = PieceInit.initHanPieces();
-        List<Piece> choPieces = PieceInit.initChoPieces();
+        List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
+        List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT);
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(hanPieces));
@@ -183,16 +184,16 @@ class BoardTest {
     @Test
     void 게임_종료_여부를_판단한다() {
         // given
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
         Position kingPosition = Position.of(5, 9);
 
-        Pieces choPieces = new Pieces(PieceInit.initChoPieces());
+        Pieces choPieces = new Pieces(PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT));
         choPieces.deleteByPosition(kingPosition);
 
         Map<Player, Pieces> boardElements = new HashMap<>();
-        boardElements.put(han, new Pieces(PieceInit.initHanPieces()));
+        boardElements.put(han, new Pieces(PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT)));
         boardElements.put(cho, choPieces);
 
         Board board = new Board(boardElements);
@@ -207,16 +208,16 @@ class BoardTest {
     @Test
     void 우승자를_반환한다() {
         // given
-        Player han = new Player("한", PieceColor.RED);
-        Player cho = new Player("초", PieceColor.BLUE);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
         Position kingPosition = Position.of(5, 9);
 
-        Pieces choPieces = new Pieces(PieceInit.initChoPieces());
+        Pieces choPieces = new Pieces(PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT));
         choPieces.deleteByPosition(kingPosition);
 
         Map<Player, Pieces> boardElements = new HashMap<>();
-        boardElements.put(han, new Pieces(PieceInit.initHanPieces()));
+        boardElements.put(han, new Pieces(PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT)));
         boardElements.put(cho, choPieces);
 
         Board board = new Board(boardElements);

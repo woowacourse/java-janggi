@@ -3,6 +3,8 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import domain.SetUp;
+import domain.Team;
 import domain.piece.category.Cannon;
 import domain.piece.category.Chariot;
 import domain.piece.category.Elephant;
@@ -13,12 +15,12 @@ import domain.piece.category.Soldier;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-class PieceInitTest {
+class PieceInitializerTest {
 
     @Test
     void 한_영역의_기물_리스트를_반환한다() {
         // when
-        List<Piece> pieces = PieceInit.initHanPieces();
+        List<Piece> pieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
 
         // then
         assertAll(() -> {
@@ -35,7 +37,7 @@ class PieceInitTest {
     @Test
     void 초_영역의_기물_리스트를_반환한다() {
         // when
-        List<Piece> pieces = PieceInit.initChoPieces();
+        List<Piece> pieces = PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT);
 
         // then
         assertAll(() -> {
