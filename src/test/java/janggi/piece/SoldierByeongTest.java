@@ -55,6 +55,38 @@ class SoldierByeongTest {
                 .doesNotThrowAnyException();
     }
 
+    @DisplayName("병은 같은 진영의 기물을 잡을 수 없다.")
+    @ParameterizedTest
+    @CsvSource({
+            "CHU, true",
+            "HAN, false"
+    })
+    void canCaptureTest(Camp camp, boolean expected) {
+        // given
+        Board board = new Board();
+        SoldierByeong soldierByeong = new SoldierByeong(board);
+
+        // when
+        boolean canCapture = soldierByeong.canCapture(new Horse(camp, board));
+
+        // then
+        assertThat(canCapture)
+                .isSameAs(expected);
+    }
+
+    @DisplayName("병은 같은 진영의 기물을 잡을 경우 예외가 발생한다.")
+    @Test
+    void shouldThrowException_WhenCatchSameCamp() {
+        // given
+        Board board = new Board();
+        SoldierByeong soldierByeong = new SoldierByeong(board);
+
+        // when & then
+        assertThatCode(() -> soldierByeong.validateCatch(new SoldierByeong(board)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 기물을 잡을 수 없습니다.");
+    }
+
     @DisplayName("병이 정상적으로 생성되는지 테스트한다.")
     @Test
     void createTest() {

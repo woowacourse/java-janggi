@@ -54,4 +54,9 @@ public final class Chariot extends Piece {
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.CHARIOT;
     }
+
+    @Override
+    protected boolean canCapture(Piece otherPiece) {
+        return getCamp() != otherPiece.getCamp();
+    }
 }

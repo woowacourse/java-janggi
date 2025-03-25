@@ -69,11 +69,9 @@ public final class Cannon extends Piece {
     }
 
     @Override
-    public void validateCatch(Piece otherPiece) {
-        super.validateCatch(otherPiece);
-        if (getPieceSymbol() == otherPiece.getPieceSymbol()) {
-            throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
-        }
+    protected boolean canCapture(Piece otherPiece) {
+        return getCamp() != otherPiece.getCamp()
+                && getPieceSymbol() != otherPiece.getPieceSymbol();
     }
 
     @Override

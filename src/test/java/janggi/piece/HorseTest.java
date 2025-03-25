@@ -84,6 +84,38 @@ class HorseTest {
                 .hasMessage("마는 기물을 넘어서 이동할 수 없습니다.");
     }
 
+    @DisplayName("마는 같은 진영의 기물을 잡을 수 없다.")
+    @ParameterizedTest
+    @CsvSource({
+            "CHU, false",
+            "HAN, true"
+    })
+    void canCaptureTest(Camp camp, boolean expected) {
+        // given
+        Board board = new Board();
+        Horse horse = new Horse(camp, board);
+
+        // when
+        boolean canCapture = horse.canCapture(new SoldierJol(board));
+
+        // then
+        assertThat(canCapture)
+                .isSameAs(expected);
+    }
+
+    @DisplayName("마는 같은 진영의 기물을 잡을 경우 예외가 발생한다.")
+    @Test
+    void shouldThrowException_WhenCatchSameCamp() {
+        // given
+        Board board = new Board();
+        Horse horse = new Horse(Camp.CHU, board);
+
+        // when & then
+        assertThatCode(() -> horse.validateCatch(new SoldierJol(board)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 기물을 잡을 수 없습니다.");
+    }
+
     @DisplayName("자신의 기물 형태를 반환한다.")
     @Test
     void getPieceSymbolTest() {

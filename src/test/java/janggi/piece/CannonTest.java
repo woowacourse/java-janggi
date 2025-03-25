@@ -61,18 +61,65 @@ class CannonTest {
                 .doesNotThrowAnyException();
     }
 
-    @DisplayName("포는 다른 포를 잡을 경우 예외가 발생한다.")
+    @DisplayName("포는 같은 진영의 기물을 잡을 수 없다.")
+    @ParameterizedTest
+    @CsvSource({
+            "CHU, false",
+            "HAN, true"
+    })
+    void canCaptureTest(Camp camp, boolean expected) {
+        // given
+        Board board = new Board();
+        Cannon cannon = new Cannon(camp, board);
+
+        // when
+        boolean canCapture = cannon.canCapture(new SoldierJol(board));
+
+        // then
+        assertThat(canCapture)
+                .isSameAs(expected);
+    }
+
+    @DisplayName("포는 다른 포를 잡을 수 없다.")
     @Test
-    void shouldThrowException_WhenCatchOtherCannon() {
+    void canCaptureTest_WhenSameCannonPiece() {
         // given
         Board board = new Board();
         Cannon chuCannon = new Cannon(Camp.CHU, board);
         Cannon hanCannon = new Cannon(Camp.HAN, board);
 
+        // when
+        boolean canCapture = chuCannon.canCapture(hanCannon);
+
+        // then
+        assertThat(canCapture)
+                .isFalse();
+    }
+
+    @DisplayName("포는 같은 진영의 기물을 잡을 경우 예외가 발생한다.")
+    @Test
+    void shouldThrowException_WhenCatchSameCamp() {
+        // given
+        Board board = new Board();
+        Cannon chuCannon = new Cannon(Camp.CHU, board);
+
         // when & then
-        assertThatCode(() -> chuCannon.validateCatch(hanCannon))
+        assertThatCode(() -> chuCannon.validateCatch(new SoldierJol(board)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("포는 포를 잡을 수 없습니다.");
+                .hasMessage("해당 기물을 잡을 수 없습니다.");
+    }
+
+    @DisplayName("포가 다른 포를 잡을 경우 예외가 발생한다.")
+    @Test
+    void shouldThrowException_WhenCaptureCannon() {
+        // given
+        Board board = new Board();
+        Cannon chuCannon = new Cannon(Camp.CHU, board);
+
+        // when & then
+        assertThatCode(() -> chuCannon.validateCatch(new SoldierJol(board)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 기물을 잡을 수 없습니다.");
     }
 
     @DisplayName("포는 포가 아닌 다른 진영의 기물을 잡을 수 있다.")

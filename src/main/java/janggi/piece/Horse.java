@@ -62,4 +62,9 @@ public final class Horse extends Piece {
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.HORSE;
     }
+
+    @Override
+    protected boolean canCapture(Piece otherPiece) {
+        return getCamp() != otherPiece.getCamp();
+    }
 }

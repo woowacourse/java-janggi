@@ -20,4 +20,9 @@ public final class SoldierByeong extends Piece {
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.SOLDIER_BYEONG;
     }
+
+    @Override
+    protected boolean canCapture(Piece otherPiece) {
+        return getCamp() != otherPiece.getCamp();
+    }
 }

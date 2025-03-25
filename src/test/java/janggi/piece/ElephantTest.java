@@ -113,6 +113,38 @@ class ElephantTest {
                 .hasMessage("상은 기물을 넘어서 이동할 수 없습니다.");
     }
 
+    @DisplayName("상은 같은 진영의 기물을 잡을 수 없다.")
+    @ParameterizedTest
+    @CsvSource({
+            "CHU, false",
+            "HAN, true"
+    })
+    void canCaptureTest(Camp camp, boolean expected) {
+        // given
+        Board board = new Board();
+        Elephant elephant = new Elephant(camp, board);
+
+        // when
+        boolean canCapture = elephant.canCapture(new SoldierJol(board));
+
+        // then
+        assertThat(canCapture)
+                .isSameAs(expected);
+    }
+
+    @DisplayName("상은 같은 진영의 기물을 잡을 경우 예외가 발생한다.")
+    @Test
+    void shouldThrowException_WhenCatchSameCamp() {
+        // given
+        Board board = new Board();
+        Elephant elephant = new Elephant(Camp.CHU, board);
+
+        // when & then
+        assertThatCode(() -> elephant.validateCatch(new SoldierJol(board)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 기물을 잡을 수 없습니다.");
+    }
+
     @DisplayName("자신의 기물 형태를 반환한다.")
     @Test
     void getPieceSymbolTest() {

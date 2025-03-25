@@ -17,4 +17,9 @@ public final class Guard extends Piece {
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.GUARD;
     }
+
+    @Override
+    protected boolean canCapture(Piece otherPiece) {
+        return getCamp() != otherPiece.getCamp();
+    }
 }

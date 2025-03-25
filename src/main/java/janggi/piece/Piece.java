@@ -15,25 +15,27 @@ public abstract class Piece {
 
     public abstract void validateMove(Point fromPoint, Point toPoint);
 
+    protected abstract boolean canCapture(Piece otherPiece);
+
     public abstract PieceSymbol getPieceSymbol();
 
-    public void validateCatch(Piece otherPiece) {
-        if (camp == otherPiece.getCamp()) {
-            throw new IllegalArgumentException("같은 진영의 기물을 잡을 수 없습니다.");
+    public final void validateCatch(Piece otherPiece) {
+        if (!canCapture(otherPiece)) {
+            throw new IllegalArgumentException("해당 기물을 잡을 수 없습니다.");
         }
     }
 
-    public void validateSelect(Camp baseCamp) {
+    public final void validateSelect(Camp baseCamp) {
         if (camp != baseCamp) {
             throw new IllegalArgumentException("다른 진영의 기물을 선택할 수 없습니다.");
         }
     }
 
-    public Camp getCamp() {
+    public final Camp getCamp() {
         return camp;
     }
 
-    public Board getBoard() {
+    public final Board getBoard() {
         return board;
     }
 }

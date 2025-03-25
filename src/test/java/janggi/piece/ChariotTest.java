@@ -70,6 +70,38 @@ class ChariotTest {
                 .hasMessage("차는 기물을 넘어 이동할 수 없습니다.");
     }
 
+    @DisplayName("차는 같은 진영의 기물을 잡을 수 없다.")
+    @ParameterizedTest
+    @CsvSource({
+            "CHU, false",
+            "HAN, true"
+    })
+    void canCaptureTest(Camp camp, boolean expected) {
+        // given
+        Board board = new Board();
+        Chariot chariot = new Chariot(camp, board);
+
+        // when
+        boolean canCapture = chariot.canCapture(new SoldierJol(board));
+
+        // then
+        assertThat(canCapture)
+                .isSameAs(expected);
+    }
+
+    @DisplayName("차는 같은 진영의 기물을 잡을 경우 예외가 발생한다.")
+    @Test
+    void shouldThrowException_WhenCatchSameCamp() {
+        // given
+        Board board = new Board();
+        Chariot chariot = new Chariot(Camp.CHU, board);
+
+        // when & then
+        assertThatCode(() -> chariot.validateCatch(new SoldierJol(board)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 기물을 잡을 수 없습니다.");
+    }
+
     @DisplayName("특정 진영이 선택할 수 없는 경우 예외가 발생한다.")
     @ParameterizedTest
     @CsvSource({

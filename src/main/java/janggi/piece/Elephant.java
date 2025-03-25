@@ -83,4 +83,9 @@ public final class Elephant extends Piece {
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.ELEPHANT;
     }
+
+    @Override
+    protected boolean canCapture(Piece otherPiece) {
+        return getCamp() != otherPiece.getCamp();
+    }
 }

@@ -115,7 +115,7 @@ class BoardTest {
         // when & then
         assertThatCode(() -> board.movePiece(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("같은 진영의 기물을 잡을 수 없습니다.");
+                .hasMessage("해당 기물을 잡을 수 없습니다.");
     }
 
     @DisplayName("다른 진영의 기물을 잡을 수 있다.")

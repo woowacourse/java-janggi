@@ -9,17 +9,17 @@ import org.junit.jupiter.api.Test;
 
 class PieceTest {
 
-    @DisplayName("기물은 같은 진영의 기물을 잡으려고 하는 경우 예외가 발생한다.")
+    @DisplayName("기물을 잡을 수 없는 경우 예외가 발생한다.")
     @Test
-    void shouldThrowException_WhenCatchSameCamp() {
+    void shouldThrowException_WhenValidateCatch() {
         // given
         Board board = new Board();
-        TestPiece testPiece = new TestPiece(Camp.CHU, board);
+        Piece neverCapturePiece = new NeverCaptureTestPiece(Camp.CHU, board);
 
         // when & then
-        assertThatCode(() -> testPiece.validateCatch(new TestPiece(Camp.CHU, board)))
+        assertThatCode(() -> neverCapturePiece.validateCatch(new NeverCaptureTestPiece(Camp.CHU, board)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("같은 진영의 기물을 잡을 수 없습니다.");
+                .hasMessage("해당 기물을 잡을 수 없습니다.");
     }
 
     @DisplayName("같은 진영의 기물만 선택할 수 있다.")
@@ -27,7 +27,7 @@ class PieceTest {
     void validateSelectTest() {
         // given
         Board board = new Board();
-        TestPiece testPiece = new TestPiece(Camp.CHU, board);
+        Piece testPiece = new AlwaysCaptureTestPiece(Camp.CHU, board);
 
         // when & then
         assertThatCode(() -> testPiece.validateSelect(Camp.CHU))
@@ -39,7 +39,7 @@ class PieceTest {
     void shouldThrowException_WhenSelectOtherCamp() {
         // given
         Board board = new Board();
-        TestPiece testPiece = new TestPiece(Camp.CHU, board);
+        Piece testPiece = new AlwaysCaptureTestPiece(Camp.CHU, board);
 
         // when & then
         assertThatCode(() -> testPiece.validateSelect(Camp.HAN))
@@ -47,14 +47,40 @@ class PieceTest {
                 .hasMessage("다른 진영의 기물을 선택할 수 없습니다.");
     }
 
-    static class TestPiece extends Piece {
+    static class AlwaysCaptureTestPiece extends Piece {
 
-        public TestPiece(Camp camp, Board board) {
+        public AlwaysCaptureTestPiece(Camp camp, Board board) {
             super(camp, board);
         }
 
         @Override
         public void validateMove(Point fromPoint, Point toPoint) {
+        }
+
+        @Override
+        protected boolean canCapture(Piece otherPiece) {
+            return true;
+        }
+
+        @Override
+        public PieceSymbol getPieceSymbol() {
+            return PieceSymbol.GENERAL;
+        }
+    }
+
+    static class NeverCaptureTestPiece extends Piece {
+
+        public NeverCaptureTestPiece(Camp camp, Board board) {
+            super(camp, board);
+        }
+
+        @Override
+        public void validateMove(Point fromPoint, Point toPoint) {
+        }
+
+        @Override
+        protected boolean canCapture(Piece otherPiece) {
+            return false;
         }
 
         @Override

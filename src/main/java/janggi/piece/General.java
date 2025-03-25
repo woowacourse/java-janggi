@@ -17,4 +17,9 @@ public final class General extends Piece {
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.GENERAL;
     }
+
+    @Override
+    protected boolean canCapture(Piece otherPiece) {
+        return getCamp() != otherPiece.getCamp();
+    }
 }

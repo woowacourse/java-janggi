@@ -20,4 +20,9 @@ public final class SoldierJol extends Piece {
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.SOLDIER_JOL;
     }
+
+    @Override
+    protected boolean canCapture(Piece otherPiece) {
+        return getCamp() != otherPiece.getCamp();
+    }
 }
