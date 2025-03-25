@@ -46,10 +46,6 @@ public class ElephantTest {
         // when
         Set<Position> positions = elephant.possibleRoutes(board);
 
-        for (Position position : positions) {
-            position.print();
-        }
-
         // then
         assertThat(positions).containsOnly(B6, A5, A1, B0, F0, G1, G5, F6);
     }
