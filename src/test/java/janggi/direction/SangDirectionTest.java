@@ -14,7 +14,7 @@ class SangDirectionTest {
     static final Position START_POSITION = new Position(4, 4);
 
     @ParameterizedTest
-    @DisplayName("시작점과 도착점을 통해 방향을 구할 수 있다.")
+    @DisplayName("시작점과 목적지을 통해 방향을 구할 수 있다.")
     @MethodSource
     void canParse(SangDirection expectedDirection, Position destination) {
         SangDirection actualDirection = SangDirection.parse(START_POSITION, destination);

@@ -14,7 +14,7 @@ class MaDirectionTest {
     static final Position START_POSITION = new Position(4, 4);
 
     @ParameterizedTest
-    @DisplayName("시작점과 도착점을 통해 방향을 구할 수 있다.")
+    @DisplayName("시작점과 목적지를 통해 방향을 구할 수 있다.")
     @MethodSource
     void canParse(MaDirection expectedDirection, Position destination) {
         MaDirection actualPosition = MaDirection.parse(START_POSITION, destination);
@@ -47,13 +47,14 @@ class MaDirectionTest {
     static Stream<Arguments> canCheckPositionInPath() {
         return Stream.of(
                 Arguments.of(MaDirection.RIGHT, new Position(START_POSITION.x() + 1, START_POSITION.y()), true),
-                Arguments.of(MaDirection.LEFT, new Position(START_POSITION.x() - 1, START_POSITION.y()), true),
-                Arguments.of(MaDirection.DOWN, new Position(START_POSITION.x(), START_POSITION.y() + 1), true),
-                Arguments.of(MaDirection.UP, new Position(START_POSITION.x(), START_POSITION.y() - 1), true),
                 Arguments.of(MaDirection.RIGHT, new Position(START_POSITION.x() + 2, START_POSITION.y()), false),
+                Arguments.of(MaDirection.LEFT, new Position(START_POSITION.x() - 1, START_POSITION.y()), true),
                 Arguments.of(MaDirection.LEFT, new Position(START_POSITION.x() - 2, START_POSITION.y()), false),
+                Arguments.of(MaDirection.DOWN, new Position(START_POSITION.x(), START_POSITION.y() + 1), true),
+                Arguments.of(MaDirection.DOWN, new Position(START_POSITION.x(), START_POSITION.y() - 2), false),
+                Arguments.of(MaDirection.UP, new Position(START_POSITION.x(), START_POSITION.y() - 1), true),
                 Arguments.of(MaDirection.UP, new Position(START_POSITION.x(), START_POSITION.y() + 2), false),
-                Arguments.of(MaDirection.DOWN, new Position(START_POSITION.x(), START_POSITION.y() - 2), false)
+                Arguments.of(MaDirection.NONE, new Position(START_POSITION.x() + 2, START_POSITION.y() + 2), false)
         );
     }
 }
