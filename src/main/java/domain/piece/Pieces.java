@@ -8,7 +8,7 @@ public record Pieces(List<Piece> pieces) {
         return pieces.stream()
                 .filter(element -> element.getPosition().equals(position))
                 .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
     }
 
     public int countPiecesInPositions(final List<Position> positions) {

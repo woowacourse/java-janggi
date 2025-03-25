@@ -1,7 +1,6 @@
 package domain.direction;
 
 import domain.piece.Position;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -17,14 +16,16 @@ public class Directions {
         Direction direction = directions.stream()
                 .filter(element -> element.canReach(start, target))
                 .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 이동할 수 없는 위치입니다."));
 
         return direction.createPath(start, target);
     }
 
     @Override
     public boolean equals(final Object object) {
-        if (object == null || getClass() != object.getClass()) return false;
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
         Directions that = (Directions) object;
         return Objects.equals(directions, that.directions);
     }
