@@ -11,6 +11,8 @@ import java.util.Map;
 public final class Board {
 
     private static final int VALID_SIZE = 90;
+    private static final int VALID_ROW_SIZE = 10;
+    private static final int VALID_COLUMN_SIZE = 9;
     private static final EmptyPiece EMPTY_PIECE = new EmptyPiece();
 
     private final Map<Point, Piece> locations;
@@ -21,6 +23,19 @@ public final class Board {
     }
 
     private void validate(final Map<Point, Piece> locations) {
+        validateSize(locations);
+        validateRange(locations);
+    }
+
+    private static void validateRange(Map<Point, Piece> locations) {
+        for (Point point : locations.keySet()) {
+            if (point.row() >= VALID_ROW_SIZE || point.column() >= VALID_COLUMN_SIZE) {
+                throw new JanggiArgumentException("보드의 크기 범위에 맞지 않습니다.");
+            }
+        }
+    }
+
+    private static void validateSize(Map<Point, Piece> locations) {
         if (locations.size() != VALID_SIZE) {
             throw new JanggiArgumentException("보드의 크기는 9x10 이어야 합니다.");
         }

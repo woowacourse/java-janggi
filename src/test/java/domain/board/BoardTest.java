@@ -25,7 +25,7 @@ public final class BoardTest {
     class TestMakeBoard {
         @Test
         @DisplayName("보드는 9x10 크기로 구성되어야 한다")
-        void test_generateBoard() {
+        void test_generateBoardValidateSize() {
             //given
             Map<Point, Piece> locations = new HashMap<>();
             PieceMovement soldierMovement = new DefaultMovement(List.of(
@@ -34,6 +34,40 @@ public final class BoardTest {
                     new Route(List.of(Direction.WEST))
             ));
             locations.put(new Point(3, 1), new Soldier(Team.CHO, soldierMovement));
+
+            // when & then
+            assertThatThrownBy(() -> new Board(locations))
+                    .isInstanceOf(JanggiArgumentException.class);
+        }
+
+        @Test
+        @DisplayName("보드의 row 가 10 보다 크거나 같으면 예외를 던진다.")
+        void test_generateBoardValidateRowRange() {
+            //given
+            Map<Point, Piece> locations = new HashMap<>();
+            PieceMovement soldierMovement = new DefaultMovement(List.of(
+                    new Route(List.of(Direction.SOUTH)),
+                    new Route(List.of(Direction.EAST)),
+                    new Route(List.of(Direction.WEST))
+            ));
+            locations.put(new Point(10, 0), new Soldier(Team.CHO, soldierMovement));
+
+            // when & then
+            assertThatThrownBy(() -> new Board(locations))
+                    .isInstanceOf(JanggiArgumentException.class);
+        }
+
+        @Test
+        @DisplayName("보드의 column 이 9 보다 크거나 같으면 예외를 던진다.")
+        void test_generateBoardValidateColumnRange() {
+            //given
+            Map<Point, Piece> locations = new HashMap<>();
+            PieceMovement soldierMovement = new DefaultMovement(List.of(
+                    new Route(List.of(Direction.SOUTH)),
+                    new Route(List.of(Direction.EAST)),
+                    new Route(List.of(Direction.WEST))
+            ));
+            locations.put(new Point(8, 9), new Soldier(Team.CHO, soldierMovement));
 
             // when & then
             assertThatThrownBy(() -> new Board(locations))
