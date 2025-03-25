@@ -14,10 +14,10 @@ class GoongsungConstrainedPiece extends Piece {
 
     public GoongsungConstrainedPiece(Team team) {
         super(team);
-        initMyGoongsungCenterPoint(team);
+        initJangSaGoongsungRule(team);
     }
 
-    private void initMyGoongsungCenterPoint(Team team) {
+    private void initJangSaGoongsungRule(Team team) {
         if (team == Team.BLUE) {
             jangSaGoongsungRule = new JangSaGoongsungRule(Point.of(4, 1));
         }
