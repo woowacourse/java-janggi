@@ -17,9 +17,9 @@ public abstract class Movement {
         this.after = after;
     }
 
-    abstract boolean isMoveOnLine();
+    public abstract boolean isMoveOnLine();
 
-    abstract boolean isOneLineMovement();
+    public abstract boolean isOneLineMovement();
 
     public static Movement of(
             final BoardPosition before,
