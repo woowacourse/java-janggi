@@ -18,10 +18,10 @@ public class JanggiBoard {
     public void move(Position startPosition, Position targetPosition) {
         validateEmptyStartPosition(startPosition);
         Piece startPiece = findPiece(startPosition);
+        Piece targetPiece = findPiece(targetPosition);
 
-        Piece targetPositionPiece = findPiece(targetPosition);
         List<Position> path = startPiece.calculatePath(startPosition, targetPosition);
-        validateMovePiece(startPiece, path, targetPositionPiece);
+        validatePath(path, startPiece, targetPiece);
 
         board.remove(startPosition);
         board.put(targetPosition, startPiece);
@@ -33,58 +33,53 @@ public class JanggiBoard {
         }
     }
 
-    private void validateMovePiece(Piece startPiece, List<Position> path, Piece targetPositionPiece) {
+    private void validatePath(List<Position> path, Piece startPiece, Piece targetPiece) {
         if (startPiece instanceof Po) {
-            validateCanonMove(path, targetPositionPiece);
+            validatePoRule(path, targetPiece);
         }
         if (!(startPiece instanceof Po)) {
-            validateNonCanonMove(path);
+            validateEmptyPath(path);
         }
-        validateSameTeamAttack(startPiece, targetPositionPiece);
+        validateSameTeamAttack(startPiece, targetPiece);
     }
 
-    private void validateSameTeamAttack(Piece startPiece, Piece targetPositionPiece) {
-        if (targetPositionPiece != null && startPiece.compareTeam(targetPositionPiece)) {
+    private void validateSameTeamAttack(Piece startPiece, Piece targetPiece) {
+        if (targetPiece != null && startPiece.compareTeam(targetPiece)) {
             throw new IllegalArgumentException("해당 위치는 아군의 말이 있으므로 이동 불가능 합니다.");
         }
     }
 
-    private void validateCanonMove(List<Position> path, Piece targetPositionPiece) {
-        validateJumpOtherPiece(path);
-        path.forEach(this::validateJumpCanon);
-        validateAttackCanon(targetPositionPiece);
+    private void validatePoRule(List<Position> path, Piece targetPiece) {
+        validateJumpOnePiece(path);
+        validateJumpPo(path);
+        validateAttackPo(targetPiece);
     }
 
-    private void validateAttackCanon(Piece targetPositionPiece) {
-        if (targetPositionPiece instanceof Po) {
-            throw new IllegalArgumentException("포는 포끼리 잡을 수 없습니다");
-        }
-    }
-
-    private void validateJumpCanon(Position position) {
-        if (findPiece(position) instanceof Po) {
-            throw new IllegalArgumentException("포는 포끼리 건너뛸 수 없습니다.");
-        }
-    }
-
-    private void validateJumpOtherPiece(List<Position> path) {
-        if (countPieceInPath(path) != 1) {
+    private void validateJumpOnePiece(List<Position> path) {
+        int pieceCountInPath = (int) path.stream().filter(pos -> !isPositionEmpty(pos)).count();
+        if (pieceCountInPath != 1) {
             throw new IllegalArgumentException("포는 다른 말 하나를 뛰어넘어야 합니다.");
         }
     }
 
-    private void validateNonCanonMove(List<Position> path) {
-        path.forEach(this::validateIsEmptyPath);
-    }
-
-    private void validateIsEmptyPath(Position position) {
-        if (!isPositionEmpty(position)) {
-            throw new IllegalArgumentException("다른 말이 존재해서 해당 좌표로 갈 수가 없습니다.");
+    private void validateJumpPo(List<Position> path) {
+        boolean jumpPo = path.stream().anyMatch(position -> findPiece(position) instanceof Po);
+        if (jumpPo) {
+            throw new IllegalArgumentException("포는 포끼리 건너뛸 수 없습니다.");
         }
     }
 
-    private int countPieceInPath(List<Position> path) {
-        return (int) path.stream().filter(pos -> !isPositionEmpty(pos)).count();
+    private void validateAttackPo(Piece targetPiece) {
+        if (targetPiece instanceof Po) {
+            throw new IllegalArgumentException("포는 포끼리 잡을 수 없습니다");
+        }
+    }
+
+    private void validateEmptyPath(List<Position> path) {
+        boolean isEmptyPath = path.stream().allMatch(this::isPositionEmpty);
+        if (!isEmptyPath) {
+            throw new IllegalArgumentException("다른 말이 존재해서 해당 좌표로 갈 수가 없습니다.");
+        }
     }
 
     public boolean existGung(Team team) {
