@@ -34,8 +34,10 @@ public class Board {
         if (matchCount != 1) {
             return false;
         }
+        return canPassOverPiece(fromPosition, toPoint, getMiddlePosition(pointOnPath));
+    }
 
-        final Position middlePosition = getMiddlePosition(pointOnPath);
+    private boolean canPassOverPiece(final Position fromPosition, final Point toPoint, final Position middlePosition) {
         if (hasPieceAt(toPoint)) {
             final Position toPosition = findPositionBy(toPoint);
             return fromPosition.canPassOverPiece(middlePosition, toPosition, PieceType.CANNON);
