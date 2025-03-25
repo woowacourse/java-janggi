@@ -65,4 +65,9 @@ public class Wang implements StraightMovable {
     public Team team() {
         return this.team;
     }
+
+    @Override
+    public int score() {
+        return 0;
+    }
 }

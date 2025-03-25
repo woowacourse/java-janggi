@@ -81,4 +81,9 @@ public class Byeong implements StraightMovable {
     public Team team() {
         return this.team;
     }
+
+    @Override
+    public int score() {
+        return 2;
+    }
 }

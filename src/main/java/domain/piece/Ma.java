@@ -83,4 +83,9 @@ public class Ma implements PatternMovable {
     public Team team() {
         return this.team;
     }
+
+    @Override
+    public int score() {
+        return 5;
+    }
 }

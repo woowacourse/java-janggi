@@ -63,4 +63,9 @@ public class Sa implements StraightMovable {
     public int step() {
         return 1;
     }
+
+    @Override
+    public int score() {
+        return 3;
+    }
 }
