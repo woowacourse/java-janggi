@@ -33,9 +33,7 @@ public class JanggiBoard {
         return reachableDestinations;
     }
 
-    public Piece moveOrCatchPiece(final Position selectedPiecePosition, final Position destination,
-                                  final List<Position> reachableDestinations) {
-        validateSelectedDestination(destination, reachableDestinations);
+    public Piece moveOrCatchPiece(final Position selectedPiecePosition, final Position destination) {
         Piece seletedPiece = board.get(selectedPiecePosition);
         board.put(selectedPiecePosition, new Empty());
 
@@ -74,12 +72,6 @@ public class JanggiBoard {
     private void validateReachableDestinations(final List<Position> reachableDestinations) {
         if (reachableDestinations.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 이동 가능한 목적지가 존재하지 않습니다.");
-        }
-    }
-
-    private void validateSelectedDestination(final Position destination, final List<Position> reachableDestinations) {
-        if (!reachableDestinations.contains(destination)) {
-            throw new IllegalArgumentException("[ERROR] 선택한 목적지로 이동할 수 없습니다.");
         }
     }
 

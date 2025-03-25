@@ -53,11 +53,18 @@ public class JanggiGame {
         return reachablePositions;
     }
 
-    private Piece processMove(final JanggiBoard board, final Position selectedPiecePosition, final List<Position> reachablePositions) {
-        Position destination = inputView.askMovableDestination();
-        Piece catchedPiece = board.moveOrCatchPiece(selectedPiecePosition, destination, reachablePositions);
+    private Piece processMove(final JanggiBoard board, final Position selectedPiecePosition, final List<Position> reachableDestinations) {
+        Position destination = inputView.askMoveDestination();
+        validateSelectedDestination(destination, reachableDestinations);
+
+        Piece catchedPiece = board.moveOrCatchPiece(selectedPiecePosition, destination);
         outputView.printMoveResult(catchedPiece);
         return catchedPiece;
     }
 
+    private void validateSelectedDestination(final Position destination, final List<Position> reachableDestinations) {
+        if (!reachableDestinations.contains(destination)) {
+            throw new IllegalArgumentException("[ERROR] 선택한 목적지로 이동할 수 없습니다.");
+        }
+    }
 }

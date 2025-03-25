@@ -17,7 +17,7 @@ public class King extends LimitMovable {
     public List<Route> computeCandidatePositions(final Position position) {
         return List.of(
                 createRoute(position, Direction.UP),
-                createRoute(position, Direction.RIGHT),
+                createRoute(position, Direction.DOWN),
                 createRoute(position, Direction.LEFT),
                 createRoute(position, Direction.RIGHT)
         );
