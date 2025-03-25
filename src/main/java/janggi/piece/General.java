@@ -17,7 +17,7 @@ public final class General extends Piece {
     public void validateMove(Position fromPosition, Position toPosition) {
         board.validateCampPalace(toPosition, getCamp());
         if (!isGeneralMove(toPosition.getX(), fromPosition.getY())) {
-            throw new ErrorException("왕은 상하좌우 또는 대각선으로 한 칸 움직여야 합니다.");
+            throw new ErrorException("궁은 상하좌우 또는 대각선으로 한 칸 움직여야 합니다.");
         }
     }
 

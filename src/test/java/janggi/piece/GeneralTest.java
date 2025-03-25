@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class GeneralTest {
 
-    @DisplayName("왕은 궁성 안에서 이동하지 않을 경우 예외가 발생한다.")
+    @DisplayName("궁은 궁성 안에서 이동하지 않을 경우 예외가 발생한다.")
     @ParameterizedTest
     @CsvSource({
             "CHO,3,0,2,0",
@@ -30,7 +30,7 @@ class GeneralTest {
                 .hasMessageContaining("궁성 안에서 이동해야 합니다.");
     }
 
-    @DisplayName("왕은 상하좌우 또는 대각선으로 한 칸 움직이지 않을 경우 예외가 발생한다.")
+    @DisplayName("궁은 상하좌우 또는 대각선으로 한 칸 움직이지 않을 경우 예외가 발생한다.")
     @ParameterizedTest
     @CsvSource({
             "CHO,3,0,5,2",
@@ -51,6 +51,6 @@ class GeneralTest {
         // when & then
         assertThatCode(() -> general.validateMove(fromPosition, toPosition))
                 .isInstanceOf(ErrorException.class)
-                .hasMessageContaining("왕은 상하좌우 또는 대각선으로 한 칸 움직여야 합니다.");
+                .hasMessageContaining("궁은 상하좌우 또는 대각선으로 한 칸 움직여야 합니다.");
     }
 }
