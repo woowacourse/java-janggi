@@ -1,13 +1,15 @@
 package janggi.board;
 
-import janggi.piece.Team;
+import janggi.exception.GameOverException;
 import janggi.fixture.BoardFixture;
 import janggi.piece.Chariot;
 import janggi.piece.General;
 import janggi.piece.Piece;
+import janggi.piece.Team;
+import org.junit.jupiter.api.Test;
+
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.jupiter.api.Test;
 
 import static janggi.fixture.PositionFixture.createPosition;
 import static org.assertj.core.api.Assertions.assertThatCode;

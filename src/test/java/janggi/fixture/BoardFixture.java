@@ -1,6 +1,5 @@
 package janggi.fixture;
 
-import janggi.piece.Team;
 import janggi.board.Board;
 import janggi.board.Position;
 import janggi.piece.Canon;
@@ -11,6 +10,7 @@ import janggi.piece.Guard;
 import janggi.piece.Horse;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
+import janggi.piece.Team;
 
 import java.util.HashMap;
 import java.util.Map;
