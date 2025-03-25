@@ -1,7 +1,6 @@
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import piece.Piece;
 import piece.Pieces;
 import piece.PlayerPieces;
@@ -38,24 +37,30 @@ public class KoreanChessApplication {
 
     private static void playKoreanChess(PlayerPieces playerPieces, GameView gameView) {
         int turn = 0;
-        Optional<Team> loseTeam = playerPieces.kingDeadTeam();
-        while (loseTeam.isEmpty()) {
+        Team loseTeam = Team.EMPTY;
+        while (loseTeam == Team.EMPTY) {
             TurnResult turnResult = playKoreanChess(playerPieces, gameView, turn);
+            loseTeam = turnResult.loseTeam();
             turn = turnResult.nextTurn() % PLAYER_SIZE;
         }
         playTurn(playerPieces, gameView, turn);
-        Team team = loseTeam.get();
+        Team team = loseTeam;
         gameView.printWinner(team.opposite());
     }
 
     private static TurnResult playKoreanChess(PlayerPieces playerPieces, GameView gameView, int turn) {
         try {
             playTurn(playerPieces, gameView, turn);
+            Team kingDeadTeam = currentKingDeadTeam(playerPieces);
             return new TurnResult(turn + 1 % 2, playerPieces.kingDeadTeam());
         } catch (IllegalArgumentException e) {
             gameView.printError(e.getMessage());
         }
-        return new TurnResult(turn, Optional.empty());
+        return new TurnResult(turn, Team.EMPTY);
+    }
+
+    private static Team currentKingDeadTeam(PlayerPieces playerPieces) {
+        return playerPieces.kingDeadTeam();
     }
 
     private static void playTurn(PlayerPieces playerPieces, GameView gameView, int turn) {
@@ -66,7 +71,7 @@ public class KoreanChessApplication {
         gameView.printTurn(team);
         Position selectPiecePosition = gameView.inputSelectPiece();
         Position selectPosition = gameView.inputPiecePosition();
-        playerPieces.move(team, selectPiecePosition, selectPosition);
+        playerPieces.placePhase(team, selectPiecePosition, selectPosition);
     }
 
     public static Map<Position, Piece> positionPieces(Pieces pieces) {

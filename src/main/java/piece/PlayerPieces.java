@@ -1,51 +1,65 @@
 package piece;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
 import piece.position.Position;
 
 public class PlayerPieces {
 
     private static final String INVALID_PLAYER_SIZE = "장기는 2명이서 할 수 있습니다";
-    private static final int PLAYER_SIZE = 2;
 
-    private final Map<Team, Pieces> teamBoard;
+    private final Pieces blueTeamPieces;
+    private final Pieces redTeamPieces;
 
     public PlayerPieces(Map<Team, Pieces> teamBoard) {
-        this.teamBoard = new HashMap<>(teamBoard);
-        if (teamBoard.size() != PLAYER_SIZE) {
+        if (teamBoard.get(Team.BLUE) == null || teamBoard.get(Team.RED) == null) {
             throw new IllegalArgumentException(INVALID_PLAYER_SIZE);
         }
+        blueTeamPieces = teamBoard.get(Team.BLUE);
+        redTeamPieces = teamBoard.get(Team.RED);
     }
 
     public Pieces allPieces() {
-        Pieces bluePieces = teamBoard.get(Team.BLUE);
-        Pieces redPieces = teamBoard.get(Team.RED);
-        return bluePieces.add(redPieces);
+        List<Piece> resultTeamPiecesPieces = new ArrayList<>(blueTeamPieces.getPieces());
+        resultTeamPiecesPieces.addAll(redTeamPieces.getPieces());
+        return new Pieces(resultTeamPiecesPieces);
     }
 
-    public Optional<Team> kingDeadTeam() {
-        for (Entry<Team, Pieces> teamPiecesEntry : teamBoard.entrySet()) {
-            Pieces pieces = teamPiecesEntry.getValue();
-            if (!pieces.isPieceExist(PieceType.GUNG)) {
-                return Optional.of(teamPiecesEntry.getKey());
-            }
+    public Team kingDeadTeam() {
+        Map<Team, Boolean> kingExist = new HashMap<>();
+        if (!blueTeamPieces.isPieceExist(PieceType.GUNG)) {
+            return Team.BLUE;
         }
-        return Optional.empty();
+        if (!redTeamPieces.isPieceExist(PieceType.GUNG)) {
+            return Team.RED;
+        }
+        return Team.EMPTY;
     }
 
-    public void move(Team team, Position selectPiecePosition, Position selectPosition) {
-        Pieces allPieces = allPieces();
-        Pieces moveTeamPieces = teamBoard.get(team);
+    public void placePhase(Team team, Position selectPiecePosition, Position wantedMovePosition) {
+        Pieces moveTeamPieces = moveTeamPieces(team);
+        Piece movePiece = move(moveTeamPieces, selectPiecePosition, wantedMovePosition);
+
         Pieces otherPieces = otherTeamPieces(team);
-        Piece piece = moveTeamPieces.move(selectPiecePosition, selectPosition, allPieces);
-        moveTeamPieces.killPieceFrom(piece, otherPieces);
+        moveTeamPieces.killPieceFrom(movePiece, otherPieces);
+    }
+
+    public Piece move(Pieces movePieces, Position selectPiecePosition, Position wantedMovePosition) {
+        Pieces allPieces = allPieces();
+        return movePieces.move(selectPiecePosition, wantedMovePosition, allPieces);
+    }
+
+    private Pieces moveTeamPieces(Team team) {
+        if (team == Team.BLUE) {
+            return blueTeamPieces;
+        }
+        return redTeamPieces;
     }
 
     private Pieces otherTeamPieces(Team team) {
         Team opposite = team.opposite();
-        return teamBoard.get(opposite);
+        return moveTeamPieces(opposite);
     }
 }

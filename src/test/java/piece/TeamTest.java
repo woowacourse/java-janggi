@@ -18,8 +18,7 @@ class TeamTest {
 
     @Test
     void 지원하지_않는_팀에_대해_exception을_던진다() {
-        Team unsupportedTeam = null;
-
+        Team unsupportedTeam = Team.EMPTY;
         assertThatThrownBy(() -> unsupportedTeam.opposite())
                 .isInstanceOf(IllegalStateException.class);
     }

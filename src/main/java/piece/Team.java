@@ -4,6 +4,7 @@ public enum Team {
 
     RED("홍"),
     BLUE("청"),
+    EMPTY(""),
     ;
 
     private static final String NOT_SUPPORTED_TEAM = "지원하지 않는 팀입니다.";

@@ -2,7 +2,6 @@ package piece;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import move.ChaMoveBehavior;
 import move.FoMoveBehavior;
 import move.GungMoveBehavior;
@@ -36,7 +35,7 @@ public class PlayerPiecesTest {
         Pieces redPieces = new Pieces(List.of(redPiece));
         Map<Team, Pieces> teamPieces = Map.of(Team.BLUE, bluePieces, Team.RED, redPieces);
         PlayerPieces playerPieces = new PlayerPieces(teamPieces);
-        playerPieces.move(Team.BLUE, new Position(0, 1), new Position(1, 1));
+        playerPieces.placePhase(Team.BLUE, new Position(0, 1), new Position(1, 1));
         Pieces allPieces = playerPieces.allPieces();
 
         var expectedBluePiece = new Piece(new Position(1, 1), new ChaMoveBehavior(), Team.BLUE);
@@ -53,7 +52,7 @@ public class PlayerPiecesTest {
         Pieces redPieces = new Pieces(List.of(redPiece));
         Map<Team, Pieces> teamPieces = Map.of(Team.BLUE, bluePieces, Team.RED, redPieces);
         PlayerPieces playerPieces = new PlayerPieces(teamPieces);
-        playerPieces.move(Team.BLUE, new Position(0, 1), new Position(1, 1));
+        playerPieces.placePhase(Team.BLUE, new Position(0, 1), new Position(1, 1));
 
         Assertions.assertThatIterable(playerPieces.allPieces().getPieces())
                 .containsExactlyInAnyOrderElementsOf(bluePieces.getPieces());
@@ -67,8 +66,8 @@ public class PlayerPiecesTest {
         Pieces redPieces = new Pieces(List.of(redPiece));
         Map<Team, Pieces> teamPieces = Map.of(Team.BLUE, bluePieces, Team.RED, redPieces);
         PlayerPieces playerPieces = new PlayerPieces(teamPieces);
-        Optional<Team> loseTeam = playerPieces.kingDeadTeam();
-        Assertions.assertThat(loseTeam.get()).isEqualTo(Team.RED);
+        Team loseTeam = playerPieces.kingDeadTeam();
+        Assertions.assertThat(loseTeam).isEqualTo(Team.RED);
     }
 
     @Test
@@ -79,7 +78,7 @@ public class PlayerPiecesTest {
         Pieces redPieces = new Pieces(List.of(redPiece));
         Map<Team, Pieces> teamPieces = Map.of(Team.BLUE, bluePieces, Team.RED, redPieces);
         PlayerPieces playerPieces = new PlayerPieces(teamPieces);
-        Optional<Team> loseTeam = playerPieces.kingDeadTeam();
-        Assertions.assertThat(loseTeam.isEmpty()).isTrue();
+        Team loseTeam = playerPieces.kingDeadTeam();
+        Assertions.assertThat(loseTeam).isEqualTo(Team.EMPTY);
     }
 }
