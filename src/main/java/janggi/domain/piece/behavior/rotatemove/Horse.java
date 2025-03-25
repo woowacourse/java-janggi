@@ -8,7 +8,7 @@ import janggi.domain.move.Vectors;
 import java.util.List;
 import java.util.Set;
 
-public final class Horse extends RotateMoveBehavior {
+public final class Horse extends OrthogonalRotateMoveBehavior {
 
     @Override
     protected List<Vectors> getVectorsList() {

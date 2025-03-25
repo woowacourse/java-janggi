@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class RotateMoveBehavior implements PieceBehavior {
+public abstract class OrthogonalRotateMoveBehavior implements PieceBehavior {
 
     @Override
     public final Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
