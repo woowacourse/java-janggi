@@ -1,9 +1,11 @@
-import manager.JanggiGameManager;
+import manager.GameManager;
 
 public class Application {
 
     public static void main(String[] args) {
-        JanggiGameManager janggiGameManager = new JanggiGameManager();
-        janggiGameManager.startGame();
+        GameManager gameManager = new GameManager();
+        gameManager.startGame();
     }
+
+
 }
