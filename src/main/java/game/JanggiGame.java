@@ -43,17 +43,15 @@ public class JanggiGame {
         BoardLocation destination = consoleView.requestDestination();
 
         Piece piece = board.getByLocationOrThrow(current);
+
         piece.validateEqualTeam(team);
         piece.validateMovable(current, destination);
-
         List<BoardLocation> allPath = piece.createAllPath(current, destination);
         List<Piece> pathPiece = board.extractPathPiece(allPath);
         piece.validateArrival(pathPiece);
 
         Piece destinationPiece = board.getByLocationOrDefault(destination);
         piece.validateOccupiable(destinationPiece);
-
-        board.removeIfHas(destination);
         board.occupy(current, destination);
     }
 }

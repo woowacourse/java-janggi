@@ -37,10 +37,6 @@ public class Board {
         return new DefaultPiece(DEFAULT);
     }
 
-    public void removeIfHas(BoardLocation destination) {
-        pieces.remove(destination);
-    }
-
     public void occupy(BoardLocation current, BoardLocation destination) {
         Piece piece = pieces.remove(current);
         pieces.put(destination, piece);
