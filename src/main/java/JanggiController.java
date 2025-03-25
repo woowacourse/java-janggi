@@ -22,14 +22,24 @@ public class JanggiController {
     }
 
     private void doJanggiGame(JanggiGame game) {
-        String[] positions = InputView.inputPositionsWithBlank();
-        JanggiPosition beforePosition = new JanggiPosition(Character.getNumericValue(positions[0].charAt(0)),
-                Character.getNumericValue(positions[0].charAt(1)));
-        JanggiPosition afterPosition = new JanggiPosition(Character.getNumericValue(positions[1].charAt(0)),
-                Character.getNumericValue(positions[1].charAt(1)));
+        boolean validInput = false;
+        while (!validInput) {
+            try {
+                OutputView.printPlayerTurn(game.getPlayer());
+                String[] positions = InputView.inputPositionsWithBlank();
+                JanggiPosition beforePosition = new JanggiPosition(Character.getNumericValue(positions[0].charAt(0)),
+                        Character.getNumericValue(positions[0].charAt(1)));
+                JanggiPosition afterPosition = new JanggiPosition(Character.getNumericValue(positions[1].charAt(0)),
+                        Character.getNumericValue(positions[1].charAt(1)));
 
-        Map<JanggiPosition, Piece> board = game.move(beforePosition, afterPosition);
+                Map<JanggiPosition, Piece> board = game.move(beforePosition, afterPosition);
 
-        OutputView.printJanggiBoard(board);
+                OutputView.printJanggiBoard(board);
+
+                validInput = true;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }

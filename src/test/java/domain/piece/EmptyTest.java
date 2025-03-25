@@ -19,6 +19,6 @@ public class EmptyTest {
     void 기물이_존재하지_않을_때_움직이려_하는_경우_예외를_발생시킨다() {
         // when & then
         assertThatThrownBy(() -> new Empty().findMovablePath(_NINE_ONE, _EIGHT_ONE))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -11,7 +11,7 @@ public class Cannon extends Piece {
     @Override
     public void captureIfNotMySide(Piece piece) {
         if (piece.getState() instanceof MovedCannon) {
-            throw new IllegalStateException("포는 포를 잡을 수 없습니다.");
+            throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
     }
 }

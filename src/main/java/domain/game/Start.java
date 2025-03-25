@@ -32,4 +32,9 @@ public class Start implements GameState {
     public Map<JanggiPosition, Piece> getBoard() {
         return janggiBoard.getJanggiBoard();
     }
+
+    @Override
+    public Player getCurrentPlayer() {
+        throw new UnsupportedOperationException("게임을 start 해야만 플레이어를 알 수 있습니다.");
+    }
 }

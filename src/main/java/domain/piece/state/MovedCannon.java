@@ -15,10 +15,10 @@ public class MovedCannon extends ContinuousPiece {
     @Override
     public void validateMove(List<Piece> hurdlePieces) {
         if (hurdlePieces.size() > 1) {
-            throw new IllegalStateException("경로에 장애물이 2개 이상 있어서 움직일 수 없습니다.");
+            throw new IllegalArgumentException("경로에 장애물이 2개 이상 있어서 움직일 수 없습니다.");
         }
         if (hurdlePieces.getFirst().getState() instanceof MovedCannon) {
-            throw new IllegalStateException("포는 포를 넘을 수 없습니다.");
+            throw new IllegalArgumentException("포는 포를 넘을 수 없습니다.");
         }
     }
 

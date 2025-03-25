@@ -45,7 +45,7 @@ public class SoldierByeongPathTest {
     void 병의_이동_전_후_위치가_알맞지_않으면_예외를_발생시킨다() {
         // when & then
         Assertions.assertThatThrownBy(() -> piece.findMovablePath(_SEVEN_FIVE, _SIX_FIVE))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
 }

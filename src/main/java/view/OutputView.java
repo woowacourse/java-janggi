@@ -1,7 +1,9 @@
 package view;
 
 import domain.JanggiPosition;
+import domain.game.Player;
 import domain.piece.Piece;
+import domain.piece.Side;
 import domain.piece.state.MovedCannon;
 import domain.piece.state.MovedChariot;
 import domain.piece.state.MovedElephant;
@@ -62,5 +64,16 @@ public class OutputView {
             return "j";
         }
         return " ";
+    }
+
+    public static void printPlayerTurn(Player player) {
+        System.out.println("이번 차례는 " + changePlayer(player) + "의 차례입니다.");
+    }
+
+    private static String changePlayer(Player player) {
+        if (player.getSide().equals(Side.CHO)) {
+            return "초나라";
+        }
+        return "한나라";
     }
 }

@@ -20,7 +20,7 @@ public abstract class ContinuousPiece extends Moved {
         if (afterPosition.rank() == beforePosition.rank()) {
             return setNewPathAndGetAdditionalSizeAboutUpOrDown(path, beforePosition, afterPosition);
         }
-        throw new IllegalStateException("해당 경로로 이동할 수 없습니다.");
+        throw new IllegalArgumentException("해당 경로로 이동할 수 없습니다.");
     }
 
     private List<Pattern> setNewPathAndGetAdditionalSizeAboutLeftOrRight(Path path, JanggiPosition beforePosition,

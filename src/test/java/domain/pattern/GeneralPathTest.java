@@ -47,6 +47,6 @@ public class GeneralPathTest {
         // when & then
         Assertions.assertThatThrownBy(
                         () -> piece.findMovablePath(_NINE_FIVE, _EIGHT_FOUR))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -13,7 +13,7 @@ public abstract class NonContinuousPiece extends Moved {
                 .filter(entry -> isCorrectPosition(beforePosition, afterPosition, entry))
                 .findFirst()
                 .map(Entry::getValue)
-                .orElseThrow(() -> new IllegalStateException("해당 말은 해당 경로로 이동할 수 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 말은 해당 경로로 이동할 수 없습니다."));
 
     }
 

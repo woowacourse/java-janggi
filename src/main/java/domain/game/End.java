@@ -29,4 +29,9 @@ public class End implements GameState {
     public Map<JanggiPosition, Piece> getBoard() {
         throw new UnsupportedOperationException("게임이 종료되었습니다.");
     }
+
+    @Override
+    public Player getCurrentPlayer() {
+        throw new UnsupportedOperationException("게임이 종료되었습니다.");
+    }
 }

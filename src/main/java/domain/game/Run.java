@@ -16,13 +16,26 @@ public class Run extends Start {
 
     @Override
     public GameState move(JanggiPosition beforePosition, JanggiPosition afterPosition) {
+        validatePlayerTurn(beforePosition);
         janggiBoard.move(beforePosition, afterPosition);
         player.change();
         return new Run(janggiBoard, player);
     }
 
+    private void validatePlayerTurn(JanggiPosition position) {
+        Piece piece = janggiBoard.getPieceFrom(position);
+        if (!player.isMyPiece(piece)) {
+            throw new IllegalArgumentException("자신의 기물만 움직일 수 있습니다.");
+        }
+    }
+
     @Override
     public Map<JanggiPosition, Piece> getBoard() {
         return janggiBoard.getJanggiBoard();
+    }
+
+    @Override
+    public Player getCurrentPlayer() {
+        return player;
     }
 }

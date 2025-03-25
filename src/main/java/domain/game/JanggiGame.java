@@ -24,4 +24,8 @@ public class JanggiGame {
     public boolean isEnd() {
         return state.isEnd();
     }
+
+    public Player getPlayer() {
+        return state.getCurrentPlayer();
+    }
 }

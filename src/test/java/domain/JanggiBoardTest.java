@@ -263,7 +263,7 @@ public class JanggiBoardTest {
 
         // when & then
         assertThatThrownBy(() -> janggiBoard.move(_EIGHT_EIGHT, _TWO_EIGHT))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -277,7 +277,7 @@ public class JanggiBoardTest {
 
         // then
         assertThatThrownBy(() -> janggiBoard.move(_EIGHT_THREE, _THREE_THREE))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -306,6 +306,6 @@ public class JanggiBoardTest {
 
         // then
         assertThatThrownBy(() -> janggiBoard.move(_EIGHT_TWO, _THREE_TWO))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

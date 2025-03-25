@@ -1,5 +1,6 @@
 package domain.game;
 
+import domain.piece.Piece;
 import domain.piece.Side;
 
 public class Player {
@@ -15,5 +16,9 @@ public class Player {
 
     public void change() {
         this.side = Side.HAN;
+    }
+
+    public boolean isMyPiece(Piece piece) {
+        return piece.isSameSide(this.side);
     }
 }
