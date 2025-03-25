@@ -11,7 +11,7 @@ class MovementTest {
     @Test
     void 같은_위치인지_확인한다() {
         // Given
-        Movement movement = new Movement(UP, UP_RIGHT);
+        final Movement movement = new Movement(UP, UP_RIGHT);
 
         // When & Then
         assertThat(movement.isSameMovement(-2, 1)).isTrue();

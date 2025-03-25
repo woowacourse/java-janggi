@@ -12,7 +12,7 @@ public class Path {
 
     private final List<Position> positions;
 
-    public Path(List<Position> positions) {
+    public Path(final List<Position> positions) {
         this.positions = positions;
     }
 
@@ -21,9 +21,9 @@ public class Path {
                             final Position startPosition,
                             final Position endPosition
     ) {
-        List<Position> path = new ArrayList<>();
+        final List<Position> path = new ArrayList<>();
         Position currentPosition = new Position(startPosition);
-        for (Direction direction : movement.getDirections()) {
+        for (final Direction direction : movement.getDirections()) {
             currentPosition = currentPosition.move(direction);
             path.add(currentPosition);
         }
@@ -37,8 +37,8 @@ public class Path {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Path path)) {
+    public boolean equals(final Object o) {
+        if (!(o instanceof final Path path)) {
             return false;
         }
         return Objects.equals(positions, path.positions);

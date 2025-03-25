@@ -7,7 +7,7 @@ public enum Team {
 
     private final String title;
 
-    Team(String title) {
+    Team(final String title) {
         this.title = title;
     }
 

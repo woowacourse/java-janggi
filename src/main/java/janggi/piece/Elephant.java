@@ -25,7 +25,7 @@ public class Elephant extends Piece {
 
     );
 
-    public Elephant(Team team) {
+    public Elephant(final Team team) {
         super(PieceType.ELEPHANT, team);
     }
 

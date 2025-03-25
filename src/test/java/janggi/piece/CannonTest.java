@@ -25,12 +25,12 @@ class CannonTest {
         final Soldier soldier = new Soldier(Team.CHO);
         final Cannon cannon = new Cannon(Team.CHO);
 
-        Position currentPosition = new Position(8, 1);
+        final Position currentPosition = new Position(8, 1);
         final Position middlePiecePosition = new Position(7, 1);
-        Position arrivalPosition = new Position(6, 1);
+        final Position arrivalPosition = new Position(6, 1);
 
         // When
-        Path path = cannon.makePath(currentPosition, arrivalPosition, Map.of(
+        final Path path = cannon.makePath(currentPosition, arrivalPosition, Map.of(
                 currentPosition, cannon,
                 middlePiecePosition, soldier
         ));
@@ -42,9 +42,9 @@ class CannonTest {
     @Test
     void 포는_한_번에_여러_방향으로_움직일_수_없다() {
         // Given
-        Position currentPosition = new Position(3, 3);
-        Position middlePosition = new Position(4, 3);
-        Position arrivalPosition = new Position(5, 4);
+        final Position currentPosition = new Position(3, 3);
+        final Position middlePosition = new Position(4, 3);
+        final Position arrivalPosition = new Position(5, 4);
 
         // When & Then
         assertThatThrownBy(() -> cannon.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, cannon,

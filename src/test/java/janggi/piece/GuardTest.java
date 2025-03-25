@@ -31,11 +31,11 @@ class GuardTest {
     })
     void 사는_한칸씩_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX) {
         // Given
-        Position currentPosition = new Position(currentY, currentX);
-        Position arrivalPosition = new Position(arrivalY, arrivalX);
+        final Position currentPosition = new Position(currentY, currentX);
+        final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = guard.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Guard(Team.CHO)));
+        final Path path = guard.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Guard(Team.CHO)));
 
         // Then
         assertThat(path).isEqualTo(new Path(List.of(arrivalPosition)));
@@ -49,8 +49,8 @@ class GuardTest {
         final int arrivalY = 5;
         final int arrivalX = 5;
 
-        Position currentPosition = new Position(currentY, currentX);
-        Position arrivalPosition = new Position(arrivalY, arrivalX);
+        final Position currentPosition = new Position(currentY, currentX);
+        final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
         assertThatThrownBy(() -> guard.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Guard(Team.CHO))))

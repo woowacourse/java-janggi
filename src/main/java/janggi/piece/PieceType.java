@@ -38,10 +38,6 @@ public enum PieceType {
         return BLUE_CODE + values.getLast() + EXIT_CODE;
     }
 
-    public boolean isChariot() {
-        return this == CHARIOT;
-    }
-
     public boolean isIterable() {
         return iITERABLE_PIECE.contains(this);
     }

@@ -30,11 +30,11 @@ class KingTest {
     })
     void 왕은_한칸씩_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX) {
         // Given
-        Position currentPosition = new Position(currentY, currentX);
-        Position arrivalPosition = new Position(arrivalY, arrivalX);
+        final Position currentPosition = new Position(currentY, currentX);
+        final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = king.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new King(Team.CHO)));
+        final Path path = king.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new King(Team.CHO)));
 
         // Then
         assertThat(path).isEqualTo(new Path(List.of(arrivalPosition)));
@@ -48,8 +48,8 @@ class KingTest {
         final int arrivalY = 5;
         final int arrivalX = 5;
 
-        Position currentPosition = new Position(currentY, currentX);
-        Position arrivalPosition = new Position(arrivalY, arrivalX);
+        final Position currentPosition = new Position(currentY, currentX);
+        final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
         assertThatThrownBy(() -> king.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new King(Team.CHO))))

@@ -26,17 +26,17 @@ class BoardTest {
                                                     final Map<Position, Piece> pieces,
                                                     final boolean expected) {
         // Given
-        Board board = new Board(positions, pieces);
+        final Board board = new Board(positions, pieces);
 
         // When & Then
         assertThat(board.canContinue()).isEqualTo(expected);
     }
 
     private static Stream<Arguments> 게임을_계속_진행하기_위해_두_나라의_왕이_모두_존재하면_true를_반환한다() {
-        King king1 = new King(Team.HAN);
-        King king2 = new King(Team.CHO);
-        Position position1 = new Position(1, 1);
-        Position position2 = new Position(1, 2);
+        final King king1 = new King(Team.HAN);
+        final King king2 = new King(Team.CHO);
+        final Position position1 = new Position(1, 1);
+        final Position position2 = new Position(1, 2);
         return Stream.of(
                 Arguments.of(
                         Map.of(
@@ -58,10 +58,10 @@ class BoardTest {
     @Test
     void 승리한_팀을_반환한다() {
         // Given
-        Team team = Team.HAN;
-        King king = new King(team);
-        Position position = new Position(1, 1);
-        Board board = new Board(Map.of(king, position), Map.of(position, king));
+        final Team team = Team.HAN;
+        final King king = new King(team);
+        final Position position = new Position(1, 1);
+        final Board board = new Board(Map.of(king, position), Map.of(position, king));
 
         // When & Then
         assertThat(board.findWinningTeam()).isEqualTo(team);
@@ -70,12 +70,12 @@ class BoardTest {
     @Test
     void 왕이_두_팀_모두_존재하면_승리팀을_판별할_수_없다() {
         // Given
-        Team team = Team.HAN;
-        King king1 = new King(team);
-        King king2 = new King(team);
-        Position position1 = new Position(1, 1);
-        Position position2 = new Position(1, 2);
-        Board board = new Board(Map.of(king1, position1, king2, position2), Map.of(position1, king1, position2, king2));
+        final Team team = Team.HAN;
+        final King king1 = new King(team);
+        final King king2 = new King(team);
+        final Position position1 = new Position(1, 1);
+        final Position position2 = new Position(1, 2);
+        final Board board = new Board(Map.of(king1, position1, king2, position2), Map.of(position1, king1, position2, king2));
 
         // When & Then
         assertThatThrownBy(board::findWinningTeam)
@@ -90,10 +90,10 @@ class BoardTest {
         final Soldier byeongSoldier = new Soldier(Team.HAN);
         final Position position1 = new Position(10, 1);
         final Position position2 = new Position(1, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 91;
+        final int currentPositionValue = 101;
+        final int arrivalPositionValue = 91;
 
-        Board board = new Board(Map.of(jolSoldier, position1, byeongSoldier, position2), Map.of(position1, jolSoldier, position2, byeongSoldier));
+        final Board board = new Board(Map.of(jolSoldier, position1, byeongSoldier, position2), Map.of(position1, jolSoldier, position2, byeongSoldier));
 
         // When
         board.move(List.of(currentPositionValue, arrivalPositionValue), jolSoldier.getTeam());
@@ -110,10 +110,10 @@ class BoardTest {
         final Soldier byeongSoldier = new Soldier(Team.HAN);
         final Position position1 = new Position(10, 1);
         final Position position2 = new Position(1, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 91;
+        final int currentPositionValue = 101;
+        final int arrivalPositionValue = 91;
 
-        Board board = new Board(Map.of(jolSoldier, position1, byeongSoldier, position2), Map.of(position1, jolSoldier, position2, byeongSoldier));
+        final Board board = new Board(Map.of(jolSoldier, position1, byeongSoldier, position2), Map.of(position1, jolSoldier, position2, byeongSoldier));
 
         // When & Then
         assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), byeongSoldier.getTeam()))
@@ -128,10 +128,10 @@ class BoardTest {
         final Soldier byeongSoldier = new Soldier(Team.HAN);
         final Position position1 = new Position(10, 1);
         final Position position2 = new Position(1, 1);
-        int currentPositionValue = 102;
-        int arrivalPositionValue = 91;
+        final int currentPositionValue = 102;
+        final int arrivalPositionValue = 91;
 
-        Board board = new Board(Map.of(jolSoldier, position1, byeongSoldier, position2), Map.of(position1, jolSoldier, position2, byeongSoldier));
+        final Board board = new Board(Map.of(jolSoldier, position1, byeongSoldier, position2), Map.of(position1, jolSoldier, position2, byeongSoldier));
 
         // When & Then
         assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), jolSoldier.getTeam()))
@@ -146,10 +146,10 @@ class BoardTest {
         final Soldier byeongSoldier = new Soldier(Team.HAN);
         final Position position1 = new Position(10, 1);
         final Position position2 = new Position(1, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 101;
+        final int currentPositionValue = 101;
+        final int arrivalPositionValue = 101;
 
-        Board board = new Board(Map.of(jolSoldier, position1, byeongSoldier, position2), Map.of(position1, jolSoldier, position2, byeongSoldier));
+        final Board board = new Board(Map.of(jolSoldier, position1, byeongSoldier, position2), Map.of(position1, jolSoldier, position2, byeongSoldier));
 
         // When & Then
         assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), jolSoldier.getTeam()))
@@ -164,10 +164,10 @@ class BoardTest {
         final Soldier byeongSoldier = new Soldier(Team.HAN);
         final Position position1 = new Position(10, 1);
         final Position position2 = new Position(9, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 91;
+        final int currentPositionValue = 101;
+        final int arrivalPositionValue = 91;
 
-        Board board = new Board(Map.of(jolSoldier, position1, byeongSoldier, position2), Map.of(position1, jolSoldier, position2, byeongSoldier));
+        final Board board = new Board(Map.of(jolSoldier, position1, byeongSoldier, position2), Map.of(position1, jolSoldier, position2, byeongSoldier));
 
         // When
         board.move(List.of(currentPositionValue, arrivalPositionValue), jolSoldier.getTeam());
@@ -186,10 +186,10 @@ class BoardTest {
         final Position position1 = new Position(7, 1);
         final Position position2 = new Position(5, 1);
         final Position position3 = new Position(10, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 61;
+        final int currentPositionValue = 101;
+        final int arrivalPositionValue = 61;
 
-        Board board = new Board(Map.of(
+        final Board board = new Board(Map.of(
                 jolSoldier, position1,
                 byeongSoldier, position2,
                 cannon, position3
@@ -216,10 +216,10 @@ class BoardTest {
         final Position position1 = new Position(7, 1);
         final Position position2 = new Position(5, 1);
         final Position position3 = new Position(10, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 51;
+        final int currentPositionValue = 101;
+        final int arrivalPositionValue = 51;
 
-        Board board = new Board(Map.of(
+        final Board board = new Board(Map.of(
                 jolSoldier, position1,
                 byeongSoldier, position2,
                 cannon, position3
@@ -248,10 +248,10 @@ class BoardTest {
         final Position position1 = new Position(7, 1);
         final Position position2 = new Position(5, 1);
         final Position position3 = new Position(10, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 51;
+        final int currentPositionValue = 101;
+        final int arrivalPositionValue = 51;
 
-        Board board = new Board(Map.of(
+        final Board board = new Board(Map.of(
                 soldier, position1,
                 targetCannon, position2,
                 cannon, position3
@@ -274,10 +274,10 @@ class BoardTest {
         final Cannon cannon = new Cannon(soldier.getTeam());
         final Position position1 = new Position(7, 1);
         final Position position3 = new Position(10, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 81;
+        final int currentPositionValue = 101;
+        final int arrivalPositionValue = 81;
 
-        Board board = new Board(Map.of(
+        final Board board = new Board(Map.of(
                 soldier, position1,
                 cannon, position3
         ), Map.of(
@@ -298,10 +298,10 @@ class BoardTest {
         final Chariot cannon = new Chariot(soldier.getTeam());
         final Position position1 = new Position(7, 1);
         final Position position3 = new Position(10, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 61;
+        final int currentPositionValue = 101;
+        final int arrivalPositionValue = 61;
 
-        Board board = new Board(Map.of(
+        final Board board = new Board(Map.of(
                 soldier, position1,
                 cannon, position3
         ), Map.of(
@@ -322,10 +322,10 @@ class BoardTest {
         final Chariot chariot = new Chariot(soldier.getTeam());
         final Position position1 = new Position(10, 1);
         final Position position2 = new Position(9, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 91;
+        final int currentPositionValue = 101;
+        final int arrivalPositionValue = 91;
 
-        Board board = new Board(Map.of(soldier, position1, chariot, position2), Map.of(position1, soldier, position2, chariot));
+        final Board board = new Board(Map.of(soldier, position1, chariot, position2), Map.of(position1, soldier, position2, chariot));
 
         // When & Then
         assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), soldier.getTeam()))

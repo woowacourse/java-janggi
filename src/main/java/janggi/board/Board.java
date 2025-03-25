@@ -16,18 +16,18 @@ public class Board {
     private final Map<Piece, Position> positions;
     private final Map<Position, Piece> pieces;
 
-    public Board(Map<Piece, Position> positions, Map<Position, Piece> pieces) {
+    public Board(final Map<Piece, Position> positions, final Map<Position, Piece> pieces) {
         this.positions = new HashMap<>(positions);
         this.pieces = new HashMap<>(pieces);
     }
 
     public void move(final List<Integer> positions, final Team currentTeam) {
-        Position currentPosition = Position.from(positions.getFirst());
-        Position arrivalPosition = Position.from(positions.getLast());
+        final Position currentPosition = Position.from(positions.getFirst());
+        final Position arrivalPosition = Position.from(positions.getLast());
         validateSamePosition(currentPosition, arrivalPosition);
 
-        Piece piece = findOwnPiece(currentTeam, currentPosition);
-        Path path = piece.makePath(currentPosition, arrivalPosition, pieces);
+        final Piece piece = findOwnPiece(currentTeam, currentPosition);
+        final Path path = piece.makePath(currentPosition, arrivalPosition, pieces);
         movePiece(piece, currentPosition, arrivalPosition, path);
     }
 
@@ -47,14 +47,14 @@ public class Board {
                 .orElseThrow(() -> new IllegalStateException("[ERROR] 왕이 존재하지 않을 수 없습니다."));
     }
 
-    private void validateSamePosition(Position currentPosition, Position arrivalPosition) {
+    private void validateSamePosition(final Position currentPosition, final Position arrivalPosition) {
         if (currentPosition.equals(arrivalPosition)) {
             throw new IllegalArgumentException("[ERROR] 같은 위치로는 이동할 수 없습니다.");
         }
     }
 
-    private Piece findOwnPiece(Team currentTeam, Position currentPosition) {
-        Piece piece = findPieceByPosition(currentPosition);
+    private Piece findOwnPiece(final Team currentTeam, final Position currentPosition) {
+        final Piece piece = findPieceByPosition(currentPosition);
         validateOwnPiece(currentTeam, piece);
         return piece;
     }
@@ -66,13 +66,13 @@ public class Board {
         throw new IllegalArgumentException("[ERROR] 해당 좌표에 기물이 존재하지 않습니다.");
     }
 
-    private void validateOwnPiece(Team currentTeam, Piece piece) {
+    private void validateOwnPiece(final Team currentTeam, final Piece piece) {
         if (!piece.isSameTeam(currentTeam)) {
             throw new IllegalArgumentException("[ERROR] 자신의 팀 기물만 움직일 수 있습니다.");
         }
     }
 
-    private void movePiece(Piece piece, Position currentPosition, Position arrivalPosition, Path path) {
+    private void movePiece(final Piece piece, final Position currentPosition, final Position arrivalPosition, final Path path) {
         if (hasPiece(arrivalPosition)) {
             catchPiece(currentPosition, arrivalPosition, piece);
         }
@@ -83,8 +83,8 @@ public class Board {
         return pieces.containsKey(position);
     }
 
-    private void catchPiece(Position currentPosition, Position arrivalPosition, Piece piece) {
-        Piece existPiece = findPieceByPosition(arrivalPosition);
+    private void catchPiece(final Position currentPosition, final Position arrivalPosition, final Piece piece) {
+        final Piece existPiece = findPieceByPosition(arrivalPosition);
         if (existPiece.isSameTeam(piece.getTeam())) {
             throw new IllegalArgumentException("[ERROR] 자신의 팀 기물은 잡을 수 없습니다.");
         }
@@ -92,7 +92,7 @@ public class Board {
         this.positions.remove(existPiece);
     }
 
-    private void updatePosition(Position currentPosition, Position arrivalPosition, Piece piece) {
+    private void updatePosition(final Position currentPosition, final Position arrivalPosition, final Piece piece) {
         this.positions.put(piece, arrivalPosition);
         this.pieces.remove(currentPosition);
         this.pieces.put(arrivalPosition, piece);

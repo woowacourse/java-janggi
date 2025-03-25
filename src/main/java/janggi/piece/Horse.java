@@ -24,7 +24,7 @@ public class Horse extends Piece {
             new Movement(RIGHT, UP_RIGHT), new Movement(LEFT, UP_LEFT)
     );
 
-    public Horse(Team team) {
+    public Horse(final Team team) {
         super(PieceType.HORSE, team);
     }
 

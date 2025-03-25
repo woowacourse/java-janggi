@@ -20,7 +20,7 @@ class TurnTest {
     @Test
     void Turn을_초나라_팀으로_초기화한다() {
         // Given
-        Turn turn = Turn.initialize();
+        final Turn turn = Turn.initialize();
 
         // When & Then
         assertThat(turn.getTeam()).isEqualTo(Team.CHO);
@@ -29,7 +29,7 @@ class TurnTest {
     @Test
     void 다음_턴으로_이동한다() {
         // Given
-        Turn turn = Turn.initialize();
+        final Turn turn = Turn.initialize();
 
         // When & Then
         assertThat(turn.moveNextTurn().getTeam()).isEqualTo(Team.HAN);

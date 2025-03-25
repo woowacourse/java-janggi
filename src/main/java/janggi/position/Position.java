@@ -16,7 +16,7 @@ public class Position {
     private final int y;
     private final int x;
 
-    public Position(int y, int x) {
+    public Position(final int y, final int x) {
         validate(y, x);
         this.y = y;
         this.x = x;
@@ -32,12 +32,12 @@ public class Position {
 
     public static Position from(final int value) {
         validate(value);
-        int y = value / Y_MAX_THRESHOLD;
-        int x = value % Y_MAX_THRESHOLD;
+        final int y = value / Y_MAX_THRESHOLD;
+        final int x = value % Y_MAX_THRESHOLD;
         return valueOf(y, x);
     }
 
-    private static void validate(int value) {
+    private static void validate(final int value) {
         if ((value <= Y_MAX_THRESHOLD || value >= (Y_MIN_THRESHOLD + Y_MAX_THRESHOLD) * Y_MAX_THRESHOLD)
                 || value % Y_MAX_THRESHOLD == 0) {
             throw new IllegalArgumentException("[ERROR] 좌표는 장기판에 지정된 값만 입력할 수 있습니다.");
@@ -45,7 +45,7 @@ public class Position {
     }
 
     private static List<Position> initialize() {
-        List<Position> positions = new ArrayList<>();
+        final List<Position> positions = new ArrayList<>();
         for (int i = Y_MIN_THRESHOLD; i <= Y_MAX_THRESHOLD; i++) {
             for (int j = X_MIN_THRESHOLD; j <= X_MAX_THRESHOLD; j++) {
                 positions.add(new Position(i, j));
@@ -54,17 +54,17 @@ public class Position {
         return positions;
     }
 
-    private static void validate(int y, int x) {
+    private static void validate(final int y, final int x) {
         if (y < Y_MIN_THRESHOLD || y > Y_MAX_THRESHOLD || x < X_MIN_THRESHOLD || x > X_MAX_THRESHOLD) {
             throw new IllegalArgumentException("[ERROR] y좌표는 1 이상 10이하, x좌표는 1이상 9이하여야 합니다.");
         }
     }
 
-    public int calculateDifferenceForX(Position position) {
+    public int calculateDifferenceForX(final Position position) {
         return this.x - position.x;
     }
 
-    public int calculateDifferenceForY(Position position) {
+    public int calculateDifferenceForY(final Position position) {
         return this.y - position.y;
     }
 
@@ -73,11 +73,11 @@ public class Position {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Position position = (Position) o;
+        final Position position = (Position) o;
         return y == position.y && x == position.x;
     }
 

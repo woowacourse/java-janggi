@@ -36,11 +36,11 @@ class SoldierTest {
         void 졸은_뒤로_갈_수_없고_앞과_양_옆으로만_이동한다(final int currentY, final int currentX, final int arrivalY,
                                          final int arrivalX) {
             // Given
-            Position currentPosition = new Position(currentY, currentX);
-            Position arrivalPosition = new Position(arrivalY, arrivalX);
+            final Position currentPosition = new Position(currentY, currentX);
+            final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
             // When
-            Path path = jolSoldier.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, jolSoldier));
+            final Path path = jolSoldier.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, jolSoldier));
 
             // Then
             assertThat(path).isEqualTo(new Path(List.of(arrivalPosition)));
@@ -54,8 +54,8 @@ class SoldierTest {
             final int arrivalY = 8;
             final int arrivalX = 1;
 
-            Position currentPosition = new Position(currentY, currentX);
-            Position arrivalPosition = new Position(arrivalY, arrivalX);
+            final Position currentPosition = new Position(currentY, currentX);
+            final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
             // When & Then
             assertThatThrownBy(
@@ -73,8 +73,8 @@ class SoldierTest {
             final int arrivalY = 5;
             final int arrivalX = 5;
 
-            Position currentPosition = new Position(currentY, currentX);
-            Position arrivalPosition = new Position(arrivalY, arrivalX);
+            final Position currentPosition = new Position(currentY, currentX);
+            final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
             // When & Then
             assertThatThrownBy(
@@ -97,11 +97,11 @@ class SoldierTest {
         void 병은_뒤로_갈_수_없고_앞과_양_옆으로만_이동한다(final int currentY, final int currentX, final int arrivalY,
                                          final int arrivalX) {
             // Given
-            Position currentPosition = new Position(currentY, currentX);
-            Position arrivalPosition = new Position(arrivalY, arrivalX);
+            final Position currentPosition = new Position(currentY, currentX);
+            final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
             // When
-            Path path = byeongSoldier.makePath(currentPosition, arrivalPosition,
+            final Path path = byeongSoldier.makePath(currentPosition, arrivalPosition,
                     Map.of(currentPosition, new Soldier(Team.CHO)));
             // Then
             assertThat(path).isEqualTo(new Path(List.of(arrivalPosition)));
@@ -115,8 +115,8 @@ class SoldierTest {
             final int arrivalY = 1;
             final int arrivalX = 1;
 
-            Position currentPosition = new Position(currentY, currentX);
-            Position arrivalPosition = new Position(arrivalY, arrivalX);
+            final Position currentPosition = new Position(currentY, currentX);
+            final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
             // When & Then
             assertThatThrownBy(() -> byeongSoldier.makePath(currentPosition, arrivalPosition,
@@ -132,8 +132,8 @@ class SoldierTest {
             final int arrivalY = 5;
             final int arrivalX = 5;
 
-            Position currentPosition = new Position(currentY, currentX);
-            Position arrivalPosition = new Position(arrivalY, arrivalX);
+            final Position currentPosition = new Position(currentY, currentX);
+            final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
             // When & Then
             assertThatThrownBy(() -> byeongSoldier.makePath(currentPosition, arrivalPosition,
@@ -145,11 +145,11 @@ class SoldierTest {
     @Test
     void 경로를_찾는다() {
         // Given
-        Position currentPosition = new Position(1, 2);
-        Position arrivalPosition = new Position(1, 1);
+        final Position currentPosition = new Position(1, 2);
+        final Position arrivalPosition = new Position(1, 1);
 
         // When
-        Path path = jolSoldier.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Soldier(Team.CHO)));
+        final Path path = jolSoldier.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Soldier(Team.CHO)));
 
         // Then
         assertThat(path.getPositions()).isEqualTo(List.of(arrivalPosition));

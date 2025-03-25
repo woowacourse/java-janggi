@@ -17,7 +17,7 @@ public class Guard extends Piece {
             new Movement(UP), new Movement(RIGHT), new Movement(LEFT), new Movement(DOWN)
     );
 
-    public Guard(Team team) {
+    public Guard(final Team team) {
         super(PieceType.GUARD, team);
     }
 

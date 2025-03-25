@@ -20,7 +20,7 @@ public class Soldier extends Piece {
             new Movement(DOWN), new Movement(RIGHT), new Movement(LEFT)
     );
 
-    public Soldier(Team team) {
+    public Soldier(final Team team) {
         super(PieceType.SOLDIER, team);
     }
 

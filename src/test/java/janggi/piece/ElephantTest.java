@@ -28,11 +28,11 @@ class ElephantTest {
     void 상은_직선_1칸_이동_후_대각선_2칸으로_이동한다(final int currentY, final int currentX, final int arrivalY, final int arrivalX,
                                      final List<Position> expected) {
         // Given
-        Position currentPosition = new Position(currentY, currentX);
-        Position arrivalPosition = new Position(arrivalY, arrivalX);
+        final Position currentPosition = new Position(currentY, currentX);
+        final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = elephant.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, elephant));
+        final Path path = elephant.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, elephant));
 
         // Then
         assertThat(path).isEqualTo(new Path(expected));
@@ -75,8 +75,8 @@ class ElephantTest {
         final int arrivalY = 4;
         final int arrivalX = 5;
 
-        Position currentPosition = new Position(currentY, currentX);
-        Position arrivalPosition = new Position(arrivalY, arrivalX);
+        final Position currentPosition = new Position(currentY, currentX);
+        final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
         assertThatThrownBy(() -> elephant.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, elephant)))

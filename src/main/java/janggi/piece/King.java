@@ -17,7 +17,7 @@ public class King extends Piece {
             new Movement(DOWN)
     );
 
-    public King(Team team) {
+    public King(final Team team) {
         super(PieceType.KING, team);
     }
 

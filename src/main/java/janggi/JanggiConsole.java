@@ -25,7 +25,7 @@ public class JanggiConsole {
         Turn turn = Turn.initialize();
 
         while (board.canContinue()) {
-            Team currentTeam = turn.getTeam();
+            final Team currentTeam = turn.getTeam();
             resultView.printOrder(currentTeam);
             ExceptionHandler.retry(() -> board.move(inputView.readMovingPosition(), currentTeam));
             resultView.printBoard(board.getPieces());

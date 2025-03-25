@@ -1,4 +1,4 @@
-package janggi;
+package janggi.piece.position;
 
 import janggi.position.Position;
 import org.junit.jupiter.api.Test;
@@ -40,8 +40,8 @@ class PositionTest {
     @Test
     void Y좌표끼리의_위치_차이를_구한다() {
         // Given
-        Position position1 = new Position(3, 3);
-        Position position2 = new Position(6, 3);
+        final Position position1 = new Position(3, 3);
+        final Position position2 = new Position(6, 3);
 
         // When & Then
         assertThat(position1.calculateDifferenceForY(position2)).isEqualTo(-3);
@@ -50,8 +50,8 @@ class PositionTest {
     @Test
     void x좌표끼리의_위치_차이를_구한다() {
         // Given
-        Position position1 = new Position(1, 6);
-        Position position2 = new Position(1, 3);
+        final Position position1 = new Position(1, 6);
+        final Position position2 = new Position(1, 3);
 
         // When & Then
         assertThat(position1.calculateDifferenceForX(position2)).isEqualTo(3);

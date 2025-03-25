@@ -18,8 +18,8 @@ public class Movement {
     }
 
     public boolean isSameMovement(final int dy, final int dx) {
-        int totalY = sumTotalY();
-        int totalX = sumTotalX();
+        final int totalY = sumTotalY();
+        final int totalX = sumTotalX();
         return dy == totalY && dx == totalX;
     }
 

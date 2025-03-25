@@ -18,7 +18,7 @@ public class Chariot extends Piece {
             new Movement(RIGHT), new Movement(LEFT)
     );
 
-    public Chariot(Team team) {
+    public Chariot(final Team team) {
         super(PieceType.CHARIOT, team);
     }
 

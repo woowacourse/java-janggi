@@ -28,11 +28,11 @@ class HorseTest {
     void 마는_직선_1칸_이동_후_대각선_1칸으로_이동한다(final int currentY, final int currentX, final int arrivalY, final int arrivalX,
                                      final List<Position> expected) {
         // Given
-        Position currentPosition = new Position(currentY, currentX);
-        Position arrivalPosition = new Position(arrivalY, arrivalX);
+        final Position currentPosition = new Position(currentY, currentX);
+        final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = horse.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Horse(Team.CHO)));
+        final Path path = horse.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Horse(Team.CHO)));
 
         // Then
         assertThat(path).isEqualTo(new Path(expected));
@@ -75,8 +75,8 @@ class HorseTest {
         final int arrivalY = 4;
         final int arrivalX = 6;
 
-        Position currentPosition = new Position(currentY, currentX);
-        Position arrivalPosition = new Position(arrivalY, arrivalX);
+        final Position currentPosition = new Position(currentY, currentX);
+        final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
         assertThatThrownBy(

@@ -18,7 +18,7 @@ public class Cannon extends Piece {
             new Movement(DOWN)
     );
 
-    public Cannon(Team team) {
+    public Cannon(final Team team) {
         super(PieceType.CANNON, team);
     }
 
@@ -38,7 +38,7 @@ public class Cannon extends Piece {
     }
 
     private int computeCountExistPieceExceptLast(final Path path, final Map<Position, Piece> pieces) {
-        List<Position> positions = new ArrayList<>(path.getPositions());
+        final List<Position> positions = new ArrayList<>(path.getPositions());
         positions.removeLast();
 
         return (int) positions.stream()

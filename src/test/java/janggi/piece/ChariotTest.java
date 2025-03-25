@@ -28,11 +28,11 @@ class ChariotTest {
     void 차는_수직이나_수평으로_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX,
                            final List<Position> expected) {
         // Given
-        Position currentPosition = new Position(currentY, currentX);
-        Position arrivalPosition = new Position(arrivalY, arrivalX);
+        final Position currentPosition = new Position(currentY, currentX);
+        final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When
-        Path path = chariot.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, chariot));
+        final Path path = chariot.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, chariot));
 
         // Then
         assertThat(path).isEqualTo(new Path(expected));
@@ -66,8 +66,8 @@ class ChariotTest {
         final int arrivalY = 5;
         final int arrivalX = 4;
 
-        Position currentPosition = new Position(currentY, currentX);
-        Position arrivalPosition = new Position(arrivalY, arrivalX);
+        final Position currentPosition = new Position(currentY, currentX);
+        final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
         assertThatThrownBy(() -> chariot.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, chariot)))
