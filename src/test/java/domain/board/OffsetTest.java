@@ -47,6 +47,18 @@ class OffsetTest {
             );
         }
 
+        @DisplayName("하나의 대각선 이동인 오프셋인지 확인한다.")
+        @Test
+        void hasOneDiagonalMove() {
+            assertAll(
+                    () -> assertThat(new Offset(0, 1).hasOneDiagonalMove()).isFalse(),
+                    () -> assertThat(new Offset(1, 0).hasOneDiagonalMove()).isFalse(),
+                    () -> assertThat(new Offset(-1, 0).hasOneDiagonalMove()).isFalse(),
+                    () -> assertThat(new Offset(1, 1).hasOneDiagonalMove()).isTrue(),
+                    () -> assertThat(new Offset(-1, 1).hasOneDiagonalMove()).isTrue()
+            );
+        }
+
         @DisplayName("직선 이동인지 확인한다.")
         @Test
         void isStraightMove() {
