@@ -65,23 +65,23 @@ public enum ElephantMovement {
                     RIGHT.plus(RIGHT).plus(UP)
             )
     );
-    private final Movement relativeMovementToMove;
-    private final List<Movement> routeMovements;
+    private final Movement relativeMovement;
+    private final List<Movement> pathMovements;
 
-    ElephantMovement(Movement relativeMovementToMove, List<Movement> routeMovements) {
-        this.relativeMovementToMove = relativeMovementToMove;
-        this.routeMovements = routeMovements;
+    ElephantMovement(Movement relativeMovement, List<Movement> pathMovements) {
+        this.relativeMovement = relativeMovement;
+        this.pathMovements = pathMovements;
     }
 
     public static ElephantMovement getDirection(int x, int y) {
         Movement relativeMovementToMove = new Movement(x, y);
         return Arrays.stream(ElephantMovement.values())
-                .filter(horseDirection -> horseDirection.relativeMovementToMove.equals(relativeMovementToMove))
+                .filter(horseDirection -> horseDirection.relativeMovement.equals(relativeMovementToMove))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("불가능한 이동입니다."));
     }
 
     public List<Movement> getRouteDistances() {
-        return routeMovements;
+        return pathMovements;
     }
 }

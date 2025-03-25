@@ -16,18 +16,17 @@ public class Guard extends Piece {
     public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition, final Position afterPosition) {
         return board -> {
             validateIsSameTeamNotInPositionToMove(board, afterPosition);
-            validateIsPositionMovable(beforePosition, afterPosition);
+            validateSingleStepMovement(beforePosition, afterPosition);
         };
     }
 
-    private void validateIsPositionMovable(final Position beforePosition, final Position afterPosition) {
-        if (checkDistanceIsOne(beforePosition, afterPosition)) {
+    private void validateSingleStepMovement(final Position beforePosition, final Position afterPosition) {
+        if (!isSingleStepMovement(beforePosition, afterPosition)) {
             throw new IllegalArgumentException("불가능한 이동입니다.");
         }
     }
 
-    private boolean checkDistanceIsOne(final Position beforePosition, final Position afterPosition) {
-        return Math.abs(afterPosition.x() - beforePosition.x()) + Math.abs(afterPosition.y() - beforePosition.y()) != 1;
+    private boolean isSingleStepMovement(final Position beforePosition, final Position afterPosition) {
+        return Math.abs(afterPosition.x() - beforePosition.x()) + Math.abs(afterPosition.y() - beforePosition.y()) == 1;
     }
-
 }

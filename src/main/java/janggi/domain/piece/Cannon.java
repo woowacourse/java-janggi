@@ -21,30 +21,30 @@ public class Cannon extends Piece {
     public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition, final Position afterPosition) {
         return board -> {
             validateIsSameTeamNotInPositionToMove(board, afterPosition);
-            validateIsPositionMovable(beforePosition, afterPosition);
-            validateNotCannonInPositionToMove(board, afterPosition);
-            validateOneNotCannonBetweenPositionToMove(board, beforePosition, afterPosition);
+            validateStraightMovement(beforePosition, afterPosition);
+            validateDestinationNotCannon(board, afterPosition);
+            validateSingleJumpOverPiece(board, beforePosition, afterPosition);
         };
     }
 
-    private void validateIsPositionMovable(final Position beforePosition, final Position afterPosition) {
-        if (checkIsPositionNotDiagonal(beforePosition, afterPosition)) {
+    private void validateStraightMovement(final Position beforePosition, final Position afterPosition) {
+        if (!isStraightMovement(beforePosition, afterPosition)) {
             throw new IllegalArgumentException("불가능한 이동입니다.");
         }
     }
 
-    private boolean checkIsPositionNotDiagonal(final Position beforePosition, final Position afterPosition) {
-        return Math.abs(afterPosition.x() - beforePosition.x()) != 0 && Math.abs(afterPosition.y() - beforePosition.y()) != 0;
+    private boolean isStraightMovement(final Position beforePosition, final Position afterPosition) {
+        return afterPosition.x() == beforePosition.x() || afterPosition.y() == beforePosition.y();
     }
 
-    private void validateNotCannonInPositionToMove(Map<Position, Piece> board, Position afterPosition) {
+    private void validateDestinationNotCannon(Map<Position, Piece> board, Position afterPosition) {
         if (board.get(afterPosition).isCannon()) {
             throw new IllegalArgumentException("불가능한 이동입니다.");
         }
     }
 
-    private void validateOneNotCannonBetweenPositionToMove(Map<Position, Piece> board, Position beforePosition, Position afterPosition) {
-        Movement movement = Movement.getDistance(
+    private void validateSingleJumpOverPiece(Map<Position, Piece> board, Position beforePosition, Position afterPosition) {
+        Movement movement = Movement.findByRelativePosition(
                 afterPosition.x() - beforePosition.x(),
                 afterPosition.y() - beforePosition.y()
         );
@@ -53,7 +53,7 @@ public class Cannon extends Piece {
              !position.equals(afterPosition);
              position = position.plus(movement.x(), movement.y())
         ) {
-            isCannonOnMovement(board, position);
+            validateNoCannonOnPath(board, position);
             if (!board.get(position).isNone()) {
                 count++;
             }
@@ -64,7 +64,7 @@ public class Cannon extends Piece {
         }
     }
 
-    private static void isCannonOnMovement(final Map<Position, Piece> pieces, final Position position) {
+    private static void validateNoCannonOnPath(final Map<Position, Piece> pieces, final Position position) {
         if (pieces.get(position).isCannon()) {
             throw new IllegalArgumentException("불가능한 이동입니다");
         }

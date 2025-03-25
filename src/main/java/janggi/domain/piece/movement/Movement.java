@@ -12,7 +12,7 @@ public record Movement(
         return new Movement(x + other.x, y + other.y());
     }
 
-    public static Movement getDistance(int relativeX, int relativeY) {
+    public static Movement findByRelativePosition(int relativeX, int relativeY) {
         if (relativeX < 0) {
             return UP;
         }

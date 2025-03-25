@@ -40,23 +40,23 @@ public enum HorseMovement {
             new Movement(-1, 2),
             UP
     );
-    private final Movement relativeMovementToMove;
-    private final Movement routeMovement;
+    private final Movement relativeMovement;
+    private final Movement pathMovement;
 
-    HorseMovement(Movement relativeMovementToMove, Movement routeMovement) {
-        this.relativeMovementToMove = relativeMovementToMove;
-        this.routeMovement = routeMovement;
+    HorseMovement(Movement relativeMovement, Movement pathMovement) {
+        this.relativeMovement = relativeMovement;
+        this.pathMovement = pathMovement;
     }
 
     public static HorseMovement getDirection(int x, int y) {
         Movement relativeMovementToMove = new Movement(x, y);
         return Arrays.stream(HorseMovement.values())
-                .filter(horseMovement -> horseMovement.relativeMovementToMove.equals(relativeMovementToMove))
+                .filter(horseMovement -> horseMovement.relativeMovement.equals(relativeMovementToMove))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("불가능한 이동입니다."));
     }
 
     public Movement getRouteDistance() {
-        return routeMovement;
+        return pathMovement;
     }
 }

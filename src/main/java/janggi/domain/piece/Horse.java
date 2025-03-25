@@ -56,16 +56,14 @@ public class Horse extends Piece {
     }
 
     @Override
-    public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition,
-                                                              final Position afterPosition) {
+    public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition, final Position afterPosition) {
         return board -> {
             validateIsSameTeamNotInPositionToMove(board, afterPosition);
-            validateNothingBetweenPositionToMove(board, beforePosition, afterPosition);
+            validateNoObstaclesOnPath(board, beforePosition, afterPosition);
         };
     }
 
-    private void validateNothingBetweenPositionToMove(final Map<Position, Piece> board, final Position beforePosition,
-                                                      final Position afterPosition) {
+    private void validateNoObstaclesOnPath(final Map<Position, Piece> board, final Position beforePosition, final Position afterPosition) {
         HorseMovement horseMovement = HorseMovement.getDirection(
                 afterPosition.x() - beforePosition.x(),
                 afterPosition.y() - beforePosition.y()

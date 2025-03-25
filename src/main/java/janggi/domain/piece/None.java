@@ -14,7 +14,9 @@ public class None extends Piece {
     }
 
     @Override
-    public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition, final Position afterPosition) {
+    public Consumer<Map<Position, Piece>> getMovableValidator(
+            final Position beforePosition,
+            final Position afterPosition) {
         throw new IllegalArgumentException("빈 칸은 이동할 수 없습니다.");
     }
 }

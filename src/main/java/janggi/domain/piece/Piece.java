@@ -20,11 +20,14 @@ public abstract class Piece {
         return team;
     }
 
-    public abstract Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition,
-                                                                       final Position afterPosition);
+    public abstract Consumer<Map<Position, Piece>> getMovableValidator(
+            final Position beforePosition,
+            final Position afterPosition
+    );
 
-    protected void validateIsSameTeamNotInPositionToMove(final Map<Position, Piece> board,
-                                                         final Position positionToMove) {
+    protected void validateIsSameTeamNotInPositionToMove(
+            final Map<Position, Piece> board,
+            final Position positionToMove) {
         if (board.get(positionToMove).getTeam().equals(team)) {
             throw new IllegalArgumentException("같은 팀 기물이 있는 위치로는 이동할 수 없습니다.");
         }

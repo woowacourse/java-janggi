@@ -18,39 +18,36 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition,
-                                                              final Position afterPosition) {
+    public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition, final Position afterPosition) {
         return board -> {
             validateIsSameTeamNotInPositionToMove(board, afterPosition);
-            validateIsPositionMovable(beforePosition, afterPosition);
-            validateNothingBetweenPositionToMove(board, beforePosition, afterPosition);
+            validateStraightMovement(beforePosition, afterPosition);
+            validateNoObstaclesOnPath(board, beforePosition, afterPosition);
         };
     }
 
-    private void validateIsPositionMovable(final Position beforePosition, final Position afterPosition) {
-        if (checkIsPositionNotDiagonal(beforePosition, afterPosition)) {
+    private void validateStraightMovement(final Position beforePosition, final Position afterPosition) {
+        if (!isStraightMovement(beforePosition, afterPosition)) {
             throw new IllegalArgumentException("불가능한 이동입니다.");
         }
     }
 
-    private void validateNothingBetweenPositionToMove(Map<Position, Piece> pieces, Position beforePosition,
-                                                      Position afterPosition) {
-        Movement movement = Movement.getDistance(
+    private boolean isStraightMovement(final Position beforePosition, final Position afterPosition) {
+        return beforePosition.x() == afterPosition.x() || beforePosition.y() == afterPosition.y();
+    }
+
+    private void validateNoObstaclesOnPath(Map<Position, Piece> board, Position beforePosition, Position afterPosition) {
+        Movement movement = Movement.findByRelativePosition(
                 afterPosition.x() - beforePosition.x(),
                 afterPosition.y() - beforePosition.y()
         );
 
-        for (Position position = beforePosition.plus(movement.x(), movement.y()); !position.equals(afterPosition);
-             position = position.plus(
-                     movement.x(), movement.y())) {
-            if (!pieces.get(position).isNone()) {
+        for (Position position = beforePosition.plus(movement.x(), movement.y());
+             !position.equals(afterPosition);
+             position = position.plus(movement.x(), movement.y())) {
+            if (!board.get(position).isNone()) {
                 throw new IllegalArgumentException("불가능한 이동입니다");
             }
         }
-    }
-
-    private boolean checkIsPositionNotDiagonal(final Position beforePosition, final Position afterPosition) {
-        return Math.abs(afterPosition.x() - beforePosition.x()) != 0
-                && Math.abs(afterPosition.y() - beforePosition.y()) != 0;
     }
 }
