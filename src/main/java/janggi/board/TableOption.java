@@ -13,10 +13,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum TableOption {
-    EHEH("상마상마", new Column(7),new Column(2),new Column(8),new Column(3)),
-    HEHE( "마상마상", new Column(8),new Column(3),new Column(7),new Column(2)),
-    HEEH( "마상상마", new Column(7),new Column(3),new Column(8),new Column(2)),
-    EHHE( "상마마상", new Column(8),new Column(2),new Column(7),new Column(3));
+    EHEH("상마상마", new Column(7), new Column(2), new Column(8), new Column(3)),
+    HEHE("마상마상", new Column(8), new Column(3), new Column(7), new Column(2)),
+    HEEH("마상상마", new Column(7), new Column(3), new Column(8), new Column(2)),
+    EHHE("상마마상", new Column(8), new Column(2), new Column(7), new Column(3));
 
 
     private final String option;
@@ -40,12 +40,12 @@ public enum TableOption {
                 .orElseThrow(() -> new IllegalArgumentException("선택한 옵션은 존재하지 않습니다."));
     }
 
-    public List<Piece> generateTableSetPieces(Team team,Row row) {
+    public List<Piece> generateTableSetPieces(Team team, Row row) {
         List<Piece> tableSettings = new ArrayList<>();
-        tableSettings.add(new Elephant(team,new Position(row,rightElephantColumn)));
-        tableSettings.add(new Elephant(team,new Position(row,leftElephantColumn)));
-        tableSettings.add(new Horse(team,new Position(row,rightHorseColumn)));
-        tableSettings.add(new Horse(team,new Position(row,leftHorseColumn)));
+        tableSettings.add(new Elephant(team, new Position(row, rightElephantColumn)));
+        tableSettings.add(new Elephant(team, new Position(row, leftElephantColumn)));
+        tableSettings.add(new Horse(team, new Position(row, rightHorseColumn)));
+        tableSettings.add(new Horse(team, new Position(row, leftHorseColumn)));
         return tableSettings;
     }
 }

@@ -24,7 +24,7 @@ public class JanggiGame {
         while (true) {
             try {
                 Map.Entry<Position, Position> moveableInfo = input.readMoveablePiece();
-                board.attack(turn,moveableInfo.getKey(), moveableInfo.getValue());
+                board.attack(turn, moveableInfo.getKey(), moveableInfo.getValue());
                 output.printBoard(board.getPositionedPieces());
                 turn = changeTurn(turn);
             } catch (Exception e) {
@@ -41,14 +41,11 @@ public class JanggiGame {
         return Team.CHO;
     }
 
-    // TODO 상차림에 따른 보드 초기화
     public static List<Piece> generateInitialPieces(Input input) {
         String choTableOptionInput = input.readTableOption(Team.CHO);
         TableOption choTable = TableOption.from(choTableOptionInput);
-
         String hanTableOptionInput = input.readTableOption(Team.HAN);
         TableOption hanTable = TableOption.from(hanTableOptionInput);
-
         return new PieceGenerator().generateInitialPieces(hanTable, choTable);
     }
 

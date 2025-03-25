@@ -23,9 +23,6 @@ public class Output {
                 "P", Cannon.class
         );
 
-   /*     positioningPieces.sort(Comparator.comparingInt((Piece p) -> p.getPosition().getColumn())
-                .thenComparingInt(p -> p.getPosition().getRow()));*/
-
         String[][] locatedPieces = new String[10][9];
 
         for (int x = 0; x <= 9; x++) {
@@ -42,12 +39,12 @@ public class Output {
                     .filter(entry -> entry.getValue().equals(piece.getClass()))
                     .findFirst()
                     .orElseThrow();
-            locatedPieces[row-1][column-1] = color + findEntry.getKey() + RESET;
+            locatedPieces[row - 1][column - 1] = color + findEntry.getKey() + RESET;
         }
 
         for (int i = 0; i <= 9; i++) {
             System.out.println();
-            for (int j = 0; j <= 8 ; j++) {
+            for (int j = 0; j <= 8; j++) {
                 System.out.print(locatedPieces[i][j]);
             }
         }

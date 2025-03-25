@@ -26,7 +26,7 @@ public class Soldier implements Piece {
                     Movement.LEFT
             );
         }
-        return  List.of(
+        return List.of(
                 Movement.DOWN,
                 Movement.RIGHT,
                 Movement.LEFT
@@ -47,9 +47,9 @@ public class Soldier implements Piece {
                 .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
     }
 
-    private void checkAlreadyOccupiedPosition( Position arrivedPosition, List<Piece> positioningPiece) {
+    private void checkAlreadyOccupiedPosition(Position arrivedPosition, List<Piece> positioningPiece) {
         for (Piece piece : positioningPiece) {
-            if(piece.matchesPosition(arrivedPosition) && piece.isSameTeam(this.team)) {
+            if (piece.matchesPosition(arrivedPosition) && piece.isSameTeam(this.team)) {
                 throw new IllegalArgumentException("도착 위치에 아군 기물이 존재합니다");
             }
         }
@@ -57,16 +57,6 @@ public class Soldier implements Piece {
 
     private Position step(Movement movement) {
         return movement.move(position);
-    }
-
-    @Override
-    public boolean isSameTeam(Team team) {
-        return this.team == team;
-    }
-
-    @Override
-    public boolean matchesPosition(Position position) {
-        return this.position.equals(position);
     }
 
     @Override
@@ -81,8 +71,23 @@ public class Soldier implements Piece {
     }
 
     @Override
+    public boolean isSameTeam(Team team) {
+        return this.team == team;
+    }
+
+    @Override
+    public boolean matchesPosition(Position position) {
+        return this.position.equals(position);
+    }
+
+    @Override
     public Position getPosition() {
         return position;
+    }
+
+    @Override
+    public Team getTeam() {
+        return team;
     }
 
     @Override
@@ -95,10 +100,5 @@ public class Soldier implements Piece {
     @Override
     public int hashCode() {
         return Objects.hash(team, position);
-    }
-
-    @Override
-    public Team getTeam() {
-        return team;
     }
 }

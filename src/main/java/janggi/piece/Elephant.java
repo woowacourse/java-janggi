@@ -36,23 +36,19 @@ public class Elephant implements Piece {
         position = step(availableMovement);
     }
 
-    private void checkObstacleOfPath(List<Position> pathPositions, List<Piece> positioningPiece) {
-        boolean isObstacle = positioningPiece.stream()
-                .anyMatch(piece -> piece.isObstacle(pathPositions));
-        if (isObstacle) {
-            throw new IllegalArgumentException("이동할 수 없는 경로입니다");
+    private List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
+        return movements.stream()
+                .filter(movements -> !arrivedPosition.isOutOfBoards() && step(movements).equals(arrivedPosition))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
+    }
+
+    private void checkAlreadyOccupiedPosition( Position arrivedPosition, List<Piece> positioningPiece) {
+        for (Piece piece : positioningPiece) {
+            if(piece.matchesPosition(arrivedPosition) && piece.isSameTeam(this.team)) {
+                throw new IllegalArgumentException("도착 위치에 아군 기물이 존재합니다");
+            }
         }
-    }
-
-    @Override
-    public boolean isObstacle(List<Position> pathPositions) {
-         return pathPositions.stream()
-                 .anyMatch(pathPosition -> pathPosition.equals(position));
-    }
-
-    @Override
-    public boolean canNotJumpOver() {
-        return false;
     }
 
     private List<Position> extractPathPositions(List<Movement> availableMovements, Position arrivedPosition) {
@@ -70,18 +66,11 @@ public class Elephant implements Piece {
                 .toList();
     }
 
-    private List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
-        return movements.stream()
-                .filter(movements -> !arrivedPosition.isOutOfBoards() && step(movements).equals(arrivedPosition))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
-    }
-
-    private void checkAlreadyOccupiedPosition( Position arrivedPosition, List<Piece> positioningPiece) {
-        for (Piece piece : positioningPiece) {
-            if(piece.matchesPosition(arrivedPosition) && piece.isSameTeam(this.team)) {
-                throw new IllegalArgumentException("도착 위치에 아군 기물이 존재합니다");
-            }
+    private void checkObstacleOfPath(List<Position> pathPositions, List<Piece> positioningPiece) {
+        boolean isObstacle = positioningPiece.stream()
+                .anyMatch(piece -> piece.isObstacle(pathPositions));
+        if (isObstacle) {
+            throw new IllegalArgumentException("이동할 수 없는 경로입니다");
         }
     }
 
@@ -104,8 +93,24 @@ public class Elephant implements Piece {
     }
 
     @Override
+    public boolean isObstacle(List<Position> pathPositions) {
+        return pathPositions.stream()
+                .anyMatch(pathPosition -> pathPosition.equals(position));
+    }
+
+    @Override
+    public boolean canNotJumpOver() {
+        return false;
+    }
+
+    @Override
     public Position getPosition() {
         return position;
+    }
+
+    @Override
+    public Team getTeam() {
+        return team;
     }
 
     @Override
@@ -120,14 +125,4 @@ public class Elephant implements Piece {
         return Objects.hash(team, position);
     }
 
-    @Override
-    public String toString() {
-        return "[" + team +
-                ": " + position;
-    }
-
-    @Override
-    public Team getTeam() {
-        return team;
-    }
 }

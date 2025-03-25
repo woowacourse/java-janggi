@@ -5,10 +5,10 @@ import janggi.position.Position;
 import java.util.List;
 
 public enum Movement {
-    UP(-1,0),
-    DOWN(1,0),
-    RIGHT(0,1),
-    LEFT(0,-1),
+    UP(-1, 0),
+    DOWN(1, 0),
+    RIGHT(0, 1),
+    LEFT(0, -1),
     RIGHT_UP(RIGHT.row + UP.row, RIGHT.column + UP.column),
     RIGHT_DOWN(RIGHT.row + DOWN.row, RIGHT.column + DOWN.column),
     LEFT_UP(LEFT.row + UP.row, LEFT.column + UP.column),

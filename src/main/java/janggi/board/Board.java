@@ -14,18 +14,16 @@ public class Board {
         this.positionedPieces = positionedPieces;
     }
 
-    // TODO 기물 출발 위치 및 도착 위치를 받아 기물 이동
-    // TODO 턴을 넘겨주며 게임 진행
     public void attack(Team turn, Position startPosition, Position arrivedPosition) {
         Piece selectedPiece = findByPosition(startPosition);
         checkTurn(turn, selectedPiece);
-        selectedPiece.move(arrivedPosition,positionedPieces);
+        selectedPiece.move(arrivedPosition, positionedPieces);
     }
 
     public void checkTurn(Team turn, Piece piece) {
         if (piece.isSameTeam(turn)) {
             return;
-        };
+        }
         throw new IllegalArgumentException("순서를 확인하세요");
     }
 
@@ -39,6 +37,4 @@ public class Board {
     public List<Piece> getPositionedPieces() {
         return positionedPieces;
     }
-
-    // TODO 살아있는 왕이 하나만 존재하면 게임 종료
 }

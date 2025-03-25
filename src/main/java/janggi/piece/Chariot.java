@@ -33,22 +33,29 @@ public class Chariot implements Piece {
         position = step(availableMovement, arrivedPosition);
     }
 
-    private void checkObstacleOfPath(List<Position> pathPositions, List<Piece> positioningPiece) {
-        boolean isObstacle = positioningPiece.stream()
-                .anyMatch(piece -> piece.isObstacle(pathPositions));
-        if (isObstacle) {
-            throw new IllegalArgumentException("이동할 수 없는 경로입니다");
+    private List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
+        return movements.stream()
+                .filter(movement -> !arrivedPosition.isOutOfBoards() && step(movement, arrivedPosition).equals(arrivedPosition))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
+    }
+
+    private void checkAlreadyOccupiedPosition(Position arrivedPosition, List<Piece> positioningPiece) {
+        for (Piece piece : positioningPiece) {
+            if (piece.matchesPosition(arrivedPosition) && piece.isSameTeam(this.team)) {
+                throw new IllegalArgumentException("도착 위치에 아군 기물이 존재합니다");
+            }
         }
     }
 
     private List<Position> extractPathPositions(List<Movement> availableMovements, Position arrivedPosition) {
         List<Position> pathPositions = new ArrayList<>();
         int arrivedValue = 0;
-        if(position.isHorizontalFromPosition(arrivedPosition)) {
+        if (position.isHorizontalFromPosition(arrivedPosition)) {
             arrivedValue = Math.abs(position.getColumn() - arrivedPosition.getColumn());
         }
-        if(position.isVerticalFromPosition(arrivedPosition)) {
-            arrivedValue = Math.abs(position.getRow() - arrivedPosition.getRow()) ;
+        if (position.isVerticalFromPosition(arrivedPosition)) {
+            arrivedValue = Math.abs(position.getRow() - arrivedPosition.getRow());
         }
         for (int i = 0; i < arrivedValue; i++) {
             Position pathPosition = position;
@@ -63,37 +70,30 @@ public class Chariot implements Piece {
                 .toList();
     }
 
-    private List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
-            return movements.stream()
-                    .filter(movement -> !arrivedPosition.isOutOfBoards() && step(movement, arrivedPosition).equals(arrivedPosition))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
-    }
-
-    private void checkAlreadyOccupiedPosition(Position arrivedPosition, List<Piece> positioningPiece) {
-        for (Piece piece : positioningPiece) {
-            if (piece.matchesPosition(arrivedPosition) && piece.isSameTeam(this.team)) {
-                throw new IllegalArgumentException("도착 위치에 아군 기물이 존재합니다");
-            }
+    private void checkObstacleOfPath(List<Position> pathPositions, List<Piece> positioningPiece) {
+        boolean isObstacle = positioningPiece.stream()
+                .anyMatch(piece -> piece.isObstacle(pathPositions));
+        if (isObstacle) {
+            throw new IllegalArgumentException("이동할 수 없는 경로입니다");
         }
     }
 
     private Position step(List<Movement> movements, Position arrivedPosition) {
         Position reachablePosition = position;
 
-        if(position.isHorizontalFromPosition(arrivedPosition)) {
+        if (position.isHorizontalFromPosition(arrivedPosition)) {
             for (Movement movement : movements) {
                 reachablePosition = movement.move(reachablePosition);
-                if(reachablePosition.isSameColumn(arrivedPosition)) {
+                if (reachablePosition.isSameColumn(arrivedPosition)) {
                     return reachablePosition;
                 }
             }
         }
 
-        if(position.isVerticalFromPosition(arrivedPosition)) {
+        if (position.isVerticalFromPosition(arrivedPosition)) {
             for (Movement movement : movements) {
                 reachablePosition = movement.move(reachablePosition);
-                if(reachablePosition.isSameRow(arrivedPosition)) {
+                if (reachablePosition.isSameRow(arrivedPosition)) {
                     return reachablePosition;
                 }
             }
@@ -132,6 +132,11 @@ public class Chariot implements Piece {
     }
 
     @Override
+    public Team getTeam() {
+        return team;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Chariot chariot = (Chariot) o;
@@ -141,10 +146,5 @@ public class Chariot implements Piece {
     @Override
     public int hashCode() {
         return Objects.hash(team, position);
-    }
-
-    @Override
-    public Team getTeam() {
-        return team;
     }
 }

@@ -16,7 +16,7 @@ public class PieceGenerator {
 
         List<Piece> hanTableSettings = Team.HAN.locatePiece(hanTableOption);
 
-        List<Piece> hanInitialBoardSetting  = List.of(
+        List<Piece> hanInitialBoardSetting = List.of(
                 new Chariot(Team.HAN, new Position(new Row(1), new Column(1))), new Chariot(Team.HAN, new Position(new Row(1), new Column(9))),
                 new Cannon(Team.HAN, new Position(new Row(3), new Column(2))), new Cannon(Team.HAN, new Position(new Row(3), new Column(8))),
                 new Soldier(Team.HAN, new Position(new Row(4), new Column(1))),
