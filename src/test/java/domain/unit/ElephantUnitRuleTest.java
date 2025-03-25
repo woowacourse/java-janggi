@@ -19,7 +19,7 @@ class ElephantUnitRuleTest {
 
         // then
         Assertions.assertThat(routes).isNotEmpty();
-        Assertions.assertThat(routes).contains(
+        Assertions.assertThat(routes).containsOnly(
                 Route.of(List.of(new Position(1, 0), new Position(2, 1), new Position(3, 2))),
                 Route.of(List.of(new Position(0, 1), new Position(1, 2), new Position(2, 3)))
         );
