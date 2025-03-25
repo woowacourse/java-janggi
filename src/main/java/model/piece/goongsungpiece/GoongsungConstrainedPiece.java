@@ -3,17 +3,16 @@ package model.piece.goongsungpiece;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
-import model.Path;
 import model.Point;
 import model.Team;
 import model.janggiboard.JangSaGoongsungRule;
 import model.piece.Piece;
 
-class GoongsungPiece extends Piece {
+class GoongsungConstrainedPiece extends Piece {
 
     private JangSaGoongsungRule jangSaGoongsungRule;
 
-    public GoongsungPiece(Team team) {
+    public GoongsungConstrainedPiece(Team team) {
         super(team);
         initMyGoongsungCenterPoint(team);
     }
@@ -40,13 +39,6 @@ class GoongsungPiece extends Piece {
         return IntStream.range(0, horizontal.size())
                 .anyMatch(i -> horizontal.get(i) + beforePoint.x() == targetPoint.x()
                         && vertical.get(i) + beforePoint.y() == targetPoint.y());
-    }
-
-    @Override
-    public Path calculatePath(Point beforePoint, Point targetPoint) {
-        Path path = new Path();
-        path.addPoint(new Point(targetPoint.x(), targetPoint.y()));
-        return path;
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.util.Map;
 import model.Path;
 import model.Point;
 import model.Team;
+import model.piece.goongsungpiece.Cha;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

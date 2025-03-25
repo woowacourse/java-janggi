@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import model.Point;
 import model.Team;
-import model.piece.Cha;
 import model.piece.Piece;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

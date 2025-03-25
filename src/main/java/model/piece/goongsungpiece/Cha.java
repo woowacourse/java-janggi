@@ -1,9 +1,10 @@
-package model.piece;
+package model.piece.goongsungpiece;
 
 import java.util.Map;
-import model.Path;
 import model.Point;
 import model.Team;
+import model.piece.Piece;
+import model.piece.PieceName;
 
 public class Cha extends Piece {
 
@@ -18,29 +19,6 @@ public class Cha extends Piece {
         boolean isSamePoint = beforePoint.equals(targetPoint);
 
         return isStraightMove && !isSamePoint;
-    }
-
-    @Override
-    public Path calculatePath(Point beforePoint, Point targetPoint) {
-        int vectorX = targetPoint.x() - beforePoint.x();
-        int vectorY = targetPoint.y() - beforePoint.y();
-
-        Path path = new Path();
-
-        if (vectorX == 0) {
-            int unitVectorY = vectorY / Math.abs(vectorY);
-            for (int i = 0; i < Math.abs(vectorY); i++) {
-                path.addPoint(new Point(targetPoint.x(), targetPoint.y() - unitVectorY * i));
-            }
-        }
-
-        if (vectorY == 0) {
-            int unitVectorX = vectorX / Math.abs(vectorX);
-            for (int i = 0; i < Math.abs(vectorX); i++) {
-                path.addPoint(new Point(targetPoint.x() - unitVectorX * i, targetPoint.y()));
-            }
-        }
-        return path;
     }
 
     @Override

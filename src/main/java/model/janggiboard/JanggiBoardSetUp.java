@@ -5,13 +5,13 @@ import static model.Team.RED;
 
 import java.util.Map;
 import model.Point;
-import model.piece.Byeong;
-import model.piece.Cha;
 import model.piece.Ma;
-import model.piece.Pho;
 import model.piece.Piece;
 import model.piece.Sang;
+import model.piece.goongsungpiece.Byeong;
+import model.piece.goongsungpiece.Cha;
 import model.piece.goongsungpiece.Jang;
+import model.piece.goongsungpiece.Pho;
 import model.piece.goongsungpiece.Sa;
 
 public enum JanggiBoardSetUp {

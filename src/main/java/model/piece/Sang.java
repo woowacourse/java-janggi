@@ -3,7 +3,6 @@ package model.piece;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
-import model.Path;
 import model.Point;
 import model.Team;
 
@@ -23,24 +22,6 @@ public class Sang extends Piece {
                         && vertical.get(i) + beforePoint.y() == targetPoint.y());
     }
 
-    @Override
-    public Path calculatePath(Point beforePoint, Point targetPoint) {
-        int vectorX = targetPoint.x() - beforePoint.x();
-        int vectorY = targetPoint.y() - beforePoint.y();
-
-        int unitVectorX = vectorX / Math.abs(vectorX);
-        int unitVectorY = vectorY / Math.abs(vectorY);
-
-        Point middlePoint1 = new Point(targetPoint.x() - unitVectorX, targetPoint.y() - unitVectorY);
-        Point middlePoint2 = new Point(targetPoint.x() - unitVectorX * 2, targetPoint.y() - unitVectorY * 2);
-        Point endPoint = new Point(targetPoint.x(), targetPoint.y());
-
-        Path path = new Path();
-        path.addPoint(middlePoint1);
-        path.addPoint(middlePoint2);
-        path.addPoint(endPoint);
-        return path;
-    }
 
     @Override
     public boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
