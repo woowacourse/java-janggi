@@ -22,6 +22,43 @@ public class JdbcPieceRepository implements PieceRepository {
     }
 
     @Override
+    @SuppressWarnings("SqlNoDataSourceInspection")
+    public void createTable() {
+        final var query = """
+                CREATE TABLE piece (
+                     number INT NOT NULL,
+                     type VARCHAR(50) NOT NULL,
+                     rank INT NOT NULL,
+                     file INT NOT NULL,
+                     country VARCHAR(50) NOT NULL
+                );
+                """;
+        try (final var connection = connector.getConnection();
+             final var preparedStatement = connection.prepareStatement(query)
+        ) {
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    @SuppressWarnings("SqlNoDataSourceInspection")
+    public void deleteTable() {
+        final var query = """
+                DROP TABLE piece;
+                """;
+        try (final var connection = connector.getConnection();
+             final var preparedStatement = connection.prepareStatement(query)
+        ) {
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    @SuppressWarnings("SqlNoDataSourceInspection")
     public Map<Country, List<Piece>> findAllPieces(final int number) {
         final Map<Country, List<Piece>> pieces = new HashMap<>();
         pieces.putIfAbsent(Country.CHO, new ArrayList<>());
@@ -70,6 +107,7 @@ public class JdbcPieceRepository implements PieceRepository {
     }
 
     @Override
+    @SuppressWarnings("SqlNoDataSourceInspection")
     public void saveAllPieces(final int number, final Country country, final List<Piece> pieces) {
         for (Piece piece : pieces) {
             final var query = "INSERT INTO piece VALUES(?, ?, ?, ?, ?)";
@@ -78,10 +116,10 @@ public class JdbcPieceRepository implements PieceRepository {
                  final var preparedStatement = connection.prepareStatement(query)
             ) {
                 preparedStatement.setInt(1, number);
-                preparedStatement.setString(2, country.name());
-                preparedStatement.setString(3, convertToType(piece).name());
-                preparedStatement.setInt(4, convertToFileValue(piece.getPosition().file()));
-                preparedStatement.setInt(5, convertToRankValue(piece.getPosition().rank()));
+                preparedStatement.setString(2, convertToType(piece).name());
+                preparedStatement.setInt(3, convertToFileValue(piece.getPosition().file()));
+                preparedStatement.setInt(4, convertToRankValue(piece.getPosition().rank()));
+                preparedStatement.setString(5, country.name());
 
                 preparedStatement.executeUpdate();
             } catch (final SQLException e) {
