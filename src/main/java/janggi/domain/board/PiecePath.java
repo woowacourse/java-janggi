@@ -21,7 +21,7 @@ public class PiecePath {
     }
 
     public boolean isInPalacePath() {
-        return source.isPalacePosition() && destination.isPalacePosition();
+        return source.inPalace() && destination.inPalace();
     }
 
     public int rowDifference() {

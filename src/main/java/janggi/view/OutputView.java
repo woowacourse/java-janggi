@@ -28,7 +28,7 @@ public class OutputView {
                 String color = getColorFrom(piece.getColor());
                 String pieceName = PieceTypeName.getNameFrom(piece);
 
-                if(piece.isPieceType(PieceType.NONE) && position.isPalacePosition()) {
+                if(piece.isPieceType(PieceType.NONE) && position.inPalace()) {
                     color = YELLOW_COLOR;
                 }
                 sb.append(color + pieceName + " ");
