@@ -39,7 +39,7 @@ public class Player {
     }
 
     public boolean isKingDie() {
-        return pieces.isKingDie();
+        return pieces.hasKing();
     }
 
     public Pieces getPieces() {

@@ -1,6 +1,7 @@
 package player;
 
 import java.util.ArrayList;
+import piece.Janggun;
 import piece.Piece;
 import java.util.List;
 import pieceProperty.Position;
@@ -21,7 +22,7 @@ public class Pieces {
                 .ifPresent(pieces::remove);
     }
 
-    public boolean isKingDie() {
+    public boolean hasKing() {
         return pieces.stream()
                 .noneMatch(Piece::isKing);
     }
