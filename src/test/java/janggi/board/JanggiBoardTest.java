@@ -1,13 +1,9 @@
 package janggi.board;
 
-import janggi.piece.Side;
-import janggi.piece.*;
-import janggi.piece.limit.Elephant;
 import janggi.piece.Empty;
-import janggi.piece.limit.Guard;
-import janggi.piece.limit.Horse;
-import janggi.piece.limit.King;
-import janggi.piece.limit.Soldier;
+import janggi.piece.Piece;
+import janggi.piece.Side;
+import janggi.piece.limit.*;
 import janggi.piece.unlimit.Cannon;
 import janggi.piece.unlimit.Chariot;
 import org.junit.jupiter.api.DisplayName;
@@ -108,7 +104,7 @@ class JanggiBoardTest {
         JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
 
         Position position = new Position(2, 6);
-        List<Position> positions = janggiBoard.computeReachableDestination(position);
+        List<Position> positions = janggiBoard.computeReachableDestination(Side.CHO, position);
 
         assertAll(
                 () -> assertThat(positions.size()).isEqualTo(3),
@@ -124,7 +120,7 @@ class JanggiBoardTest {
         JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
 
         Position position = new Position(8, 3);
-        List<Position> positions = janggiBoard.computeReachableDestination(position);
+        List<Position> positions = janggiBoard.computeReachableDestination(Side.HAN, position);
 
 
         assertAll(
@@ -141,7 +137,7 @@ class JanggiBoardTest {
 
         Position position = new Position(2, 9);
 
-        assertThatThrownBy(() -> janggiBoard.computeReachableDestination(position))
+        assertThatThrownBy(() -> janggiBoard.computeReachableDestination(Side.CHO, position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동 가능한 목적지가 존재하지 않습니다.");
     }
@@ -152,7 +148,7 @@ class JanggiBoardTest {
         JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
 
         Position position = new Position(1, 9);
-        List<Position> positions = janggiBoard.computeReachableDestination(position);
+        List<Position> positions = janggiBoard.computeReachableDestination(Side.CHO, position);
 
         assertAll(
                 () -> assertThat(positions.size()).isEqualTo(2),
@@ -167,7 +163,7 @@ class JanggiBoardTest {
         JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
 
         Position position = new Position(0, 9);
-        List<Position> positions = janggiBoard.computeReachableDestination(position);
+        List<Position> positions = janggiBoard.computeReachableDestination(Side.CHO, position);
 
         assertAll(
                 () -> assertThat(positions.size()).isEqualTo(2),
@@ -182,12 +178,13 @@ class JanggiBoardTest {
         JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
 
         Position position = new Position(5, 7);
-        Piece piece = new Chariot(Side.CHO);
+        Side side = Side.CHO;
+        Piece piece = new Chariot(side);
         Map<Position, Piece> newJanggiBoard = janggiBoard.getBoard();
         newJanggiBoard.put(position, piece);
         JanggiBoard modifiedJanggiBoard = new JanggiBoard(newJanggiBoard);
 
-        List<Position> positions = modifiedJanggiBoard.computeReachableDestination(position);
+        List<Position> positions = modifiedJanggiBoard.computeReachableDestination(side, position);
 
         assertAll(
                 () -> assertThat(positions.size()).isEqualTo(12),
@@ -212,7 +209,7 @@ class JanggiBoardTest {
         JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
         Position position = new Position(1, 7);
 
-        assertThatThrownBy(() -> janggiBoard.computeReachableDestination(position))
+        assertThatThrownBy(() -> janggiBoard.computeReachableDestination(Side.CHO, position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동 가능한 목적지가 존재하지 않습니다.");
     }
@@ -223,12 +220,13 @@ class JanggiBoardTest {
         JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
 
         Position position = new Position(4, 7);
-        Piece piece = new Cannon(Side.CHO);
+        Side side = Side.CHO;
+        Piece piece = new Cannon(side);
         Map<Position, Piece> newJanggiBoard = janggiBoard.getBoard();
         newJanggiBoard.put(position, piece);
         JanggiBoard modifiedBoard = new JanggiBoard(newJanggiBoard);
 
-        List<Position> positions = modifiedBoard.computeReachableDestination(position);
+        List<Position> positions = modifiedBoard.computeReachableDestination(side, position);
 
         assertAll(
                 () -> assertThat(positions.size()).isEqualTo(4),
@@ -251,9 +249,7 @@ class JanggiBoardTest {
         newJanggiBoard.put(position, piece);
         JanggiBoard modifiedBoard = new JanggiBoard(newJanggiBoard);
 
-        List<Position> reachableDestinations = modifiedBoard.computeReachableDestination(position);
-
-        Piece catchedPiece = janggiBoard.moveOrCatchPiece(position, destination, reachableDestinations);
+        Piece catchedPiece = modifiedBoard.moveOrCatchPiece(position, destination);
 
         assertThat(catchedPiece).isInstanceOf(Guard.class);
     }
@@ -271,25 +267,8 @@ class JanggiBoardTest {
         newJanggiBoard.put(position, piece);
         JanggiBoard modifiedBoard = new JanggiBoard(newJanggiBoard);
 
-        List<Position> reachableDestinations = modifiedBoard.computeReachableDestination(position);
-
-        Piece catchedPiece = janggiBoard.moveOrCatchPiece(position, destination, reachableDestinations);
+        Piece catchedPiece = modifiedBoard.moveOrCatchPiece(position, destination);
         assertThat(catchedPiece).isInstanceOf(Empty.class);
-    }
-
-    @Test
-    @DisplayName("이동 불가능한 목적지로 이동하려한 경우 예외를 던진다.")
-    void test20() {
-        JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
-
-        Position position = new Position(0, 9);
-        Position destination = new Position(1, 9);
-        List<Position> reachableDestination = janggiBoard.computeReachableDestination(position);
-
-
-        assertThatThrownBy(() -> janggiBoard.moveOrCatchPiece(position, destination, reachableDestination))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 선택한 목적지로 이동할 수 없습니다.");
     }
 
     @Test
@@ -304,9 +283,7 @@ class JanggiBoardTest {
         JanggiBoard modifiedBoard = new JanggiBoard(newJanggiBoard);
 
         Position destination = new Position(4, 1);
-        List<Position> reachableDestinations = modifiedBoard.computeReachableDestination(position);
-
-        Piece catchedPiece = janggiBoard.moveOrCatchPiece(position, destination, reachableDestinations);
+        Piece catchedPiece = modifiedBoard.moveOrCatchPiece(position, destination);
 
         assertThat(janggiBoard.checkGameIsOver(catchedPiece)).isTrue();
     }
@@ -318,7 +295,7 @@ class JanggiBoardTest {
 
         Position position = new Position(0, 8);
 
-        assertThatThrownBy(() -> janggiBoard.computeReachableDestination(position)).isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> janggiBoard.computeReachableDestination(Side.CHO, position)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 위치에 움직일 수 있는 기물이 없습니다.");
     }
 }
