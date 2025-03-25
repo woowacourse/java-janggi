@@ -30,12 +30,14 @@ public class JanggiController {
 
     public void run() {
         JanggiGame janggiGame = new JanggiGame(new BlueTurn(playingBoard));
+        janggiDBService.saveStartSate(janggiGame.getTurnColor());
 
         while (!janggiGame.isFinished()) {
             processWithRetry(() -> playSingleCommand(janggiGame));
         }
-
         displayGameResult(janggiGame);
+
+        janggiDBService.finishGame(janggiGame.getTurnColor());
     }
 
     private void playSingleCommand(JanggiGame janggiGame) {
@@ -58,9 +60,10 @@ public class JanggiController {
         PieceType pieceType = PieceTypeName.getTypeFrom(commandDto.pieceName());
 
         janggiGame.move(pieceType, source, destination);
-        janggiDBService.updateMoveResult(source, destination, pieceType, turnColor);
-
         outputView.printBoard(playingBoard);
+
+        janggiDBService.updateMoveResult(source, destination, pieceType, turnColor);
+        janggiDBService.updateGameState(janggiGame.getTurnColor());
     }
 
     private Position createPosition(char rowInput, char colInput) {

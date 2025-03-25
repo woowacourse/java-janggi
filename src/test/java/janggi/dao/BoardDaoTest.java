@@ -10,17 +10,18 @@ import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.TeamColor;
+import janggi.util.ConnectionUtil;
 import java.sql.SQLException;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BoardDaoTest {
-    private final BoardDao chessDao = new BoardDao();
+    private final BoardDao boardDao = new BoardDao();
 
     @Test
     public void connection() {
-        try (final var connection = chessDao.getConnection()) {
+        try (final var connection = ConnectionUtil.getConnection()) {
             assertThat(connection).isNotNull();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -35,7 +36,7 @@ class BoardDaoTest {
         Piece piece = RED_HORSE;
 
         // when
-        chessDao.savePiece(position, piece);
+        boardDao.savePiece(position, piece);
 
         // then
     }
@@ -48,7 +49,7 @@ class BoardDaoTest {
         Map<Position, Piece> initialBoard = board.getInitialBoard();
 
         // when
-        chessDao.saveBoard(initialBoard);
+        boardDao.saveBoard(initialBoard);
 
         // then
     }
@@ -60,10 +61,10 @@ class BoardDaoTest {
         Position source = Position.of(1, 1);
         Position destination = Position.of(3, 1);
 
-        chessDao.savePiece(destination, RED_SOLDIER);
+        boardDao.savePiece(destination, RED_SOLDIER);
 
         // when
-        chessDao.updatePiecePosition(source, destination, PieceType.CANNON, TeamColor.BLUE);
+        boardDao.updatePiecePosition(source, destination, PieceType.CANNON, TeamColor.BLUE);
 
         // then
     }
