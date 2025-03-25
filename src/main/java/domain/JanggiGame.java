@@ -33,7 +33,8 @@ public class JanggiGame {
     }
 
     private void validateSelectedPiece(Position startPosition, Position targetPosition) {
-        if (!players.isSameTeamThisTurnPlayerAndPiece(janggiBoard.findPiece(startPosition))) {
+        Piece selectedPiece = janggiBoard.findSelectedPiece(startPosition);
+        if (!players.isSameTeamThisTurnPlayerAndPiece(selectedPiece)) {
             throw new IllegalArgumentException("자신의 말만 움직일 수 있습니다.");
         }
         if (startPosition.equals(targetPosition)) {

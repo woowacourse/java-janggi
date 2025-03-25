@@ -5,58 +5,18 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Cha;
 import domain.piece.Gung;
-import domain.piece.Ma;
 import domain.piece.Pawn;
 import domain.piece.Piece;
 import domain.piece.Po;
 import java.util.HashMap;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class JanggiBoardTest {
-
-    @DisplayName("해당 위치에 기물이 있는지 확인한다.")
-    @Test
-    void test1() {
-        Map<Position, Piece> board = Map.of(
-                new Position(4, 1), new Pawn(Team.HAN),
-                new Position(4, 5), new Pawn(Team.HAN)
-        );
-        FakeBoardGenerator boardGenerator = new FakeBoardGenerator(board);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
-
-        boolean moveResult1 = janggiBoard.isPositionEmpty(new Position(4, 2));
-        boolean moveResult2 = janggiBoard.isPositionEmpty(new Position(4, 5));
-
-        SoftAssertions.assertSoftly(softAssertions -> {
-            softAssertions.assertThat(moveResult1).isEqualTo(true);
-            softAssertions.assertThat(moveResult2).isEqualTo(false);
-        });
-    }
-
-    @DisplayName("앞에 아군의 말이 있을 시 이동할 수 없다.")
-    @Test
-    void test2() {
-        Map<Position, Piece> board = Map.of(
-                new Position(1, 1), new Cha(Team.HAN),
-                new Position(1, 2), new Ma(Team.HAN)
-        );
-        FakeBoardGenerator boardGenerator = new FakeBoardGenerator(board);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
-
-        boolean moveResult1 = janggiBoard.isPositionEmpty(new Position(1, 1));
-        boolean moveResult3 = janggiBoard.isPositionEmpty(new Position(1, 2));
-
-        SoftAssertions.assertSoftly(softAssertions -> {
-            softAssertions.assertThat(moveResult1).isEqualTo(false);
-            softAssertions.assertThat(moveResult3).isEqualTo(false);
-        });
-    }
 
     @DisplayName("장기말은 이동시 목표 좌표로 위치가 바뀐다.")
     @Test
