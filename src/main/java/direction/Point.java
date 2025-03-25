@@ -22,4 +22,7 @@ public record Point(int column, int row) {
         return point.row != this.row;
     }
 
+    public Point move(Movement movement) {
+        return new Point(column + movement.getColumn(), row + movement.getRow());
+    }
 }

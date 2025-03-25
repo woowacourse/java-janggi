@@ -1,26 +1,33 @@
 package direction;
 
 public enum Movement {
-    LEFT(new Point(-1, 0)),
-    RIGHT(new Point(1, 0)),
-    UP(new Point(0, -1)),
-    DOWN(new Point(0, 1)),
-    UP_LEFT_DIAGONAL(new Point(-1, -1)),
-    DOWN_LEFT_DIAGONAL(new Point(-1, 1)),
-    UP_RIGHT_DIAGONAL(new Point(1, -1)),
-    DOWN_RIGHT_DIAGONAL(new Point(1, 1));
+    LEFT(-1, 0),
+    RIGHT(1, 0),
+    UP(0, -1),
+    DOWN(0, 1),
+    UP_UP_LEFT(-1, -2),
+    UP_UP_RIGHT(1, -2),
+    RIGHT_RIGHT_UP(2, -1),
+    RIGHT_RIGHT_DOWN(2, 1),
+    DOWN_DOWN_LEFT(-1, 2),
+    DOWN_DOWN_RIGHT(1, 2),
+    LEFT_LEFT_UP(-2, -1),
+    LEFT_LEFT_DOWN(-2, 1)
+    ;
 
-    private final Point direction;
+    private final int column;
+    private final int row;
 
-    Movement(Point direction) {
-        this.direction = direction;
+    Movement(int column, int row) {
+        this.column = column;
+        this.row = row;
     }
 
-    public Point multiply(int dir) {
-        return this.direction.multiply(dir);
+    public int getColumn() {
+        return column;
     }
 
-    public Point getDirection() {
-        return direction;
+    public int getRow() {
+        return row;
     }
 }
