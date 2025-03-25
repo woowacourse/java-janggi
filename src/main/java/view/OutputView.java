@@ -69,7 +69,7 @@ public class OutputView {
     }
 
     public static void printPlayerTurn(Player player) {
-        System.out.println("이번 차례는 " + changePlayer(player) + "의 차례입니다.");
+        System.out.println("이번 차례는 " + changePlayer(player) + "의 차례입니다. (예시 : 01 81)");
     }
 
     private static String changePlayer(Player player) {
@@ -77,5 +77,9 @@ public class OutputView {
             return "초나라";
         }
         return "한나라";
+    }
+
+    public static void printScore() {
+        System.out.println("점수계산");
     }
 }

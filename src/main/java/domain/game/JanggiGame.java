@@ -2,7 +2,6 @@ package domain.game;
 
 import domain.JanggiPosition;
 import domain.piece.Piece;
-import java.util.HashMap;
 import java.util.Map;
 
 public class JanggiGame {
@@ -18,10 +17,10 @@ public class JanggiGame {
         return state.getBoard();
     }
 
-    public Map<JanggiPosition, Piece> end() {
-        state = state.end();
-        return new HashMap<>();
-    }
+//    public Map<JanggiPosition, Piece> end() {
+//        state = state.end();
+//        return state.getBoard();
+//    }
 
     public boolean isEnd() {
         return state.isEnd();

@@ -19,6 +19,8 @@ public class JanggiController {
         while (!game.isEnd()) {
             doJanggiGame(game);
         }
+
+        OutputView.printScore();
     }
 
     private void doJanggiGame(JanggiGame game) {
@@ -34,7 +36,9 @@ public class JanggiController {
 
                 Map<JanggiPosition, Piece> board = game.move(beforePosition, afterPosition);
 
-                OutputView.printJanggiBoard(board);
+                if (!game.isEnd()) {
+                    OutputView.printJanggiBoard(board);
+                }
 
                 validInput = true;
             } catch (IllegalArgumentException e) {

@@ -2,6 +2,7 @@ package domain.game;
 
 import domain.JanggiPosition;
 import domain.piece.Piece;
+import java.util.HashMap;
 import java.util.Map;
 
 public class End implements GameState {
@@ -27,7 +28,7 @@ public class End implements GameState {
 
     @Override
     public Map<JanggiPosition, Piece> getBoard() {
-        throw new UnsupportedOperationException("게임이 종료되었습니다.");
+        return new HashMap<>();
     }
 
     @Override
