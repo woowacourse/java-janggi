@@ -71,4 +71,45 @@ class FoMoveBehaviorTest {
 
         Assertions.assertThatThrownBy(() -> moveBehavior.move(new JanggiPosition(0, 5), nonPieces, Team.BLUE));
     }
+
+    @Test
+    void 포는_대각선이동_가능한_궁성에서_대각선의_경로를_가질수_있다() {
+        MoveBehavior moveBehavior = new FoMoveBehavior();
+
+        JanggiPosition startPosition = new JanggiPosition(0, 3);
+        JanggiPosition endPosition = new JanggiPosition(2, 5);
+
+        List<JanggiPosition> expectedPositions = List.of(new JanggiPosition(1, 4), endPosition);
+
+        Assertions.assertThatIterable(moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE))
+                .containsExactlyInAnyOrderElementsOf(expectedPositions);
+    }
+
+    @Test
+    void 포는_대각선이동_가능한_궁성에서_수직의_경로를_가질_수_있다() {
+        MoveBehavior moveBehavior = new FoMoveBehavior();
+
+        JanggiPosition startPosition = new JanggiPosition(0, 3);
+        JanggiPosition endPosition = new JanggiPosition(1, 3);
+
+        List<JanggiPosition> expectedPositions = List.of(new JanggiPosition(1, 3));
+
+        Assertions.assertThatIterable(moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE))
+                .containsExactlyInAnyOrderElementsOf(expectedPositions);
+    }
+
+    @Test
+    void 포는_대각선이동_가능한_궁성에서_적팀이면_먹을수_있다() {
+        MoveBehavior moveBehavior = new FoMoveBehavior();
+        JanggiPosition otherPiecePosition = new JanggiPosition(1, 4);
+        JanggiPosition destinationPiecePosition = new JanggiPosition(2, 5);
+
+        Pieces onRoutePieces = new Pieces(
+                List.of(new Piece(otherPiecePosition, new JolMoveBehavior(), Team.BLUE),
+                        new Piece(destinationPiecePosition, new JolMoveBehavior(), Team.RED))
+        );
+
+        JanggiPosition move = moveBehavior.move(new JanggiPosition(2, 5), onRoutePieces, Team.BLUE);
+        Assertions.assertThat(move).isEqualTo(new JanggiPosition(2, 5));
+    }
 }

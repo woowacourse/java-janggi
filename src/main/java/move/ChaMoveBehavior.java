@@ -17,28 +17,7 @@ public class ChaMoveBehavior extends MoveBehavior {
         JanggiPosition biggerPosition = startPosition.getBiggerPosition(endPosition);
 
         List<JanggiPosition> positions = new ArrayList<>();
-        return calculateSameLineRoute(smallerPosition, biggerPosition, positions);
-    }
-
-    private List<JanggiPosition> calculateSameLineRoute(JanggiPosition minPosition,
-                                                        JanggiPosition maxPosition, List<JanggiPosition> positions) {
-        if (minPosition.isSameColumn(maxPosition)) {
-            return calculateLegalRoute(minPosition, maxPosition, positions, Direction.UP);
-        }
-        if (minPosition.isSameRow(maxPosition)) {
-            return calculateLegalRoute(minPosition, maxPosition, positions, Direction.RIGHT);
-        }
-        if (isDiagonalGungCase(minPosition, maxPosition)) {
-            return calculateLegalRoute(minPosition, maxPosition, positions, Direction.UP_RIGHT);
-        }
-        throw new InvalidMovePosition();
-    }
-
-    private static boolean isDiagonalGungCase(JanggiPosition startPosition, JanggiPosition endPosition) {
-        if (!startPosition.isPositionDiagonalGungPosition() || !endPosition.isPositionDiagonalGungPosition()) {
-            return false;
-        }
-        return startPosition.isSameDiagonal(endPosition);
+        return calculateCanMoveRoute(smallerPosition, biggerPosition, positions);
     }
 
     private List<JanggiPosition> calculateLegalRoute(JanggiPosition minPosition, JanggiPosition maxPosition,
@@ -52,6 +31,20 @@ public class ChaMoveBehavior extends MoveBehavior {
             throw new InvalidMovePosition();
         }
         return Collections.unmodifiableList(positions);
+    }
+
+    private List<JanggiPosition> calculateCanMoveRoute(JanggiPosition minPosition,
+                                                       JanggiPosition maxPosition, List<JanggiPosition> positions) {
+        if (minPosition.isSameColumn(maxPosition)) {
+            return calculateLegalRoute(minPosition, maxPosition, positions, Direction.UP);
+        }
+        if (minPosition.isSameRow(maxPosition)) {
+            return calculateLegalRoute(minPosition, maxPosition, positions, Direction.RIGHT);
+        }
+        if (isDiagonalGungCase(minPosition, maxPosition)) {
+            return calculateLegalRoute(minPosition, maxPosition, positions, Direction.UP_RIGHT);
+        }
+        throw new InvalidMovePosition();
     }
 
     @Override

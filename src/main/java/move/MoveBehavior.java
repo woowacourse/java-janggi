@@ -32,6 +32,12 @@ public abstract class MoveBehavior {
         throw new InvalidMovePosition();
     }
 
+    protected boolean isDiagonalGungCase(JanggiPosition startPosition, JanggiPosition endPosition) {
+        if (!startPosition.isPositionDiagonalGungPosition() || !endPosition.isPositionDiagonalGungPosition()) {
+            return false;
+        }
+        return startPosition.isSameDiagonal(endPosition);
+    }
 
     public JanggiPosition move(JanggiPosition destination, Pieces onRoutePieces, Team moveTeam) {
         for (Piece piece : onRoutePieces.getPieces()) {
