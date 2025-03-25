@@ -28,7 +28,7 @@ class PathTest {
         final Position startPosition = new Position(PositionFile.FILE_5, RANK_5);
 
         // when
-        final List<Path> result = Path.getMoveablePaths(startPosition,
+        final List<Path> result = Path.getMovablePaths(startPosition,
                 List.of(MoveDirection.DOWN, MoveDirection.DOWN_LEFT));
 
         // then

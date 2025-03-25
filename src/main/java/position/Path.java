@@ -10,7 +10,7 @@ public record Path(
         List<Position> pathPositions
 ) {
 
-    public static List<Path> getMoveablePaths(final Position startPosition, final List<MoveDirection> moveDirections) {
+    public static List<Path> getMovablePaths(final Position startPosition, final List<MoveDirection> moveDirections) {
         List<Path> paths = new ArrayList<>();
         paths.add(Path.start(startPosition));
         for (MoveDirection moveDirection : moveDirections) {

@@ -24,11 +24,11 @@ public final class Piece {
             final List<Piece> allyPieces,
             final List<Piece> enemyPieces
     ) {
-        List<Path> moveablePaths = type.getMoveablePaths(position);
-        moveablePaths = filterMiddleBlocked(moveablePaths, allyPieces, enemyPieces);
-        moveablePaths = filterFinalIsAlly(moveablePaths, allyPieces);
-        moveablePaths = filterFinalIsPoWhenTypeIsPo(moveablePaths, enemyPieces);
-        if (!isNewPositionExistInMoveablePath(newPosition, moveablePaths)) {
+        List<Path> movablePaths = type.getMovablePaths(position);
+        movablePaths = filterMiddleBlocked(movablePaths, allyPieces, enemyPieces);
+        movablePaths = filterFinalIsAlly(movablePaths, allyPieces);
+        movablePaths = filterFinalIsPoWhenTypeIsPo(movablePaths, enemyPieces);
+        if (!isNewPositionExistInMovablePath(newPosition, movablePaths)) {
             throw new IllegalArgumentException("움직일 수 없는 위치입니다.");
         }
 
@@ -54,17 +54,17 @@ public final class Piece {
             final List<Piece> allyPieces,
             final List<Piece> enemyPieces
     ) {
-        final List<Piece> hello = new ArrayList<>();
-        hello.addAll(allyPieces);
-        hello.addAll(enemyPieces);
+        final List<Piece> allPieces = new ArrayList<>();
+        allPieces.addAll(allyPieces);
+        allPieces.addAll(enemyPieces);
 
         return paths.stream()
                 .filter(path -> {
                     if (type == PieceType.CANNON) {
-                        List<Piece> piece = path.getEncounteredMiddlePieces(hello);
+                        List<Piece> piece = path.getEncounteredMiddlePieces(allPieces);
                         return piece.size() == 1 && piece.getFirst().type != PieceType.CANNON;
                     } else {
-                        return path.getEncounteredMiddlePieces(hello).isEmpty();
+                        return path.getEncounteredMiddlePieces(allPieces).isEmpty();
                     }
                 })
                 .toList();
@@ -76,7 +76,7 @@ public final class Piece {
                 .toList();
     }
 
-    private static boolean isNewPositionExistInMoveablePath(final Position newPosition, final List<Path> paths) {
+    private static boolean isNewPositionExistInMovablePath(final Position newPosition, final List<Path> paths) {
         return paths.stream()
                 .map(Path::finalPosition)
                 .toList()

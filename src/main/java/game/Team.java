@@ -50,7 +50,7 @@ public final class Team {
         return country;
     }
 
-    public void move(final Position fromPosition, final Position tagetPosition,
+    public void move(final Position fromPosition, final Position targetPosition,
                      final Map<Position, Piece> enemyPieces) {
         if (!isPieceExistInPosition(fromPosition)) {
             throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
@@ -59,7 +59,7 @@ public final class Team {
         final Piece movePiece = pieces.get(fromPosition);
         pieces.remove(fromPosition);
 
-        final Piece movedPiece = movePiece.movePiece(tagetPosition, pieces.values().stream().toList(),
+        final Piece movedPiece = movePiece.movePiece(targetPosition, pieces.values().stream().toList(),
                 enemyPieces.values().stream().toList());
 
         pieces.put(movedPiece.getPosition(), movedPiece);

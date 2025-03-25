@@ -10,14 +10,14 @@ import position.PositionRank;
 import view.InputView;
 import view.OutputView;
 
-public class JanggiAppllication {
+public class JanggiApplication {
 
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
 
     public static void main(String[] args) {
-        JanggiAppllication janggiAppllication = new JanggiAppllication();
-        janggiAppllication.run();
+        JanggiApplication janggiApplication = new JanggiApplication();
+        janggiApplication.run();
     }
 
     private void run() {

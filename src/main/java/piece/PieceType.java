@@ -63,10 +63,10 @@ public enum PieceType {
         this.moveOptions = moveOptions;
     }
 
-    public List<Path> getMoveablePaths(final Position currentPosition) {
+    public List<Path> getMovablePaths(final Position currentPosition) {
         List<Path> paths = new ArrayList<>();
         for (List<MoveDirection> moveDirections : moveOptions) {
-            paths.addAll(Path.getMoveablePaths(currentPosition, moveDirections));
+            paths.addAll(Path.getMovablePaths(currentPosition, moveDirections));
         }
         return paths;
     }
