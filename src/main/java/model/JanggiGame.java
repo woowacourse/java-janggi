@@ -2,7 +2,6 @@ package model;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import utils.InputParser;
 
 public class JanggiGame {
@@ -14,6 +13,10 @@ public class JanggiGame {
         Map<Position, Piece> pieces = PieceInitializer.generate();
         this.pieces = new Pieces(pieces);
         turn = Team.GREEN;
+    }
+
+    public Map<Position, Piece> getPieces() {
+        return pieces.getPieces();
     }
 
     public Position createPositionAndCheckTurn(String choiceDeparture) {
@@ -46,23 +49,5 @@ public class JanggiGame {
 
     public Team getCurrentTurn() {
         return this.turn;
-    }
-
-    // TODO : 이 녀석 어떻게좀 해보기...
-    public String showCurrentPositionOfPieces() {
-        StringBuilder currentPosition = new StringBuilder();
-        for (Column column : Column.values()) {
-            currentPosition.append(column.getValue()+ " ");
-            for (Row row : Row.values()) {
-                Optional<Piece> piece = pieces.findPieceOfNullable(new Position(column, row));
-                if (piece.isEmpty()) {
-                    currentPosition.append("－");
-                } else {
-                    currentPosition.append(piece.get());
-                }
-            }
-            currentPosition.append("\n");
-        }
-        return currentPosition.toString();
     }
 }

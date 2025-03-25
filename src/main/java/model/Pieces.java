@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,10 @@ public class Pieces {
 
     public Pieces(Map<Position, Piece> pieces) {
         this.pieces = new HashMap<>(pieces);
+    }
+
+    public Map<Position, Piece> getPieces() {
+        return Collections.unmodifiableMap(pieces);
     }
 
     public Optional<Piece> findPieceOfNullable(Position position) {

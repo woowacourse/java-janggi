@@ -15,10 +15,9 @@ public class Application {
     public static void main(String[] args) {
         outputView.printJanggiStart();
         while (true) {
-            String currentPosition = janggiGame.showCurrentPositionOfPieces();
+            outputView.showCurrentPositionOfPieces(janggiGame.getPieces());
             Team currentTurn = janggiGame.getCurrentTurn();
             outputView.printCurrentTurnOfTeam(currentTurn);
-            outputView.printCurrentPosition(currentPosition);
             Position departure = createDeparture();
             createArrivalAndMove(departure);
         }
