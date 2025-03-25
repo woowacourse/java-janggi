@@ -32,6 +32,11 @@ public final class Soldier implements PieceBehavior {
         return "병";
     }
 
+    @Override
+    public int toScore() {
+        return 2;
+    }
+
     private Set<Position> getAvailableStandardMovePositions(Board board, Position position, Side side) {
         return STANDARD_MOVEMENTS.stream()
                 .map(Movement::getVector)

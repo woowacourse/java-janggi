@@ -52,6 +52,7 @@ public class Viewer {
         }
 
         System.out.println(enterJoiner);
+        printScore(board);
     }
 
     private String formatFirstRowOfBoard() {
@@ -66,6 +67,15 @@ public class Viewer {
 
     public void printTurnInfo(Side side) {
         System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, Formatter.formatSide(side) + "의 차례입니다."));
+    }
+
+    public Option readChooseOption() {
+        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, "원하는 옵션을 선택해주세요!"));
+        System.out.println("1. 기물 선택");
+        System.out.println("2. 점수 확인");
+        System.out.println("3. 종료");
+
+        return Option.find(scanner.nextLine());
     }
 
     public PositionDto readPieceSelection() {
@@ -101,7 +111,28 @@ public class Viewer {
         return parsePosition(input);
     }
 
-    public void winner(Side side) {
+    public void printScore(Board board) {
+        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, "현재 점수입니다"));
+        System.out.println(Formatter.formatScoreBySide(Side.HAN, board.getScore(Side.HAN)));
+        System.out.println(Formatter.formatScoreBySide(Side.CHO, board.getScore(Side.CHO)));
+    }
+
+    public void result(Board board) {
+        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, "최종 점수입니다"));
+        double hanScore = board.getScore(Side.HAN);
+        double choScore = board.getScore(Side.CHO);
+        System.out.println(Formatter.formatScoreBySide(Side.HAN, hanScore));
+        System.out.println(Formatter.formatScoreBySide(Side.CHO, choScore));
+
+        if (hanScore > choScore) {
+            result(Side.HAN);
+            return;
+        }
+
+        result(Side.CHO);
+    }
+
+    public void result(Side side) {
         System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, Formatter.formatSide(side) + "가 이겼습니다!"));
     }
 }

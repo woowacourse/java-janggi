@@ -9,6 +9,7 @@ import janggi.factory.PieceInitFactory;
 import janggi.factory.masang.MaSangFactory;
 import janggi.util.RecoveryUtil;
 import janggi.view.MaSangPosition;
+import janggi.view.Option;
 import janggi.view.Viewer;
 import java.util.Map;
 
@@ -25,9 +26,9 @@ public class JanggiGame {
 
         Side turn = Side.CHO;
 
-        turn = repeatGameTurns(board, turn);
+        repeatGameTurns(board, turn);
 
-        viewer.winner(turn);
+        result(board);
     }
 
     private Board initializeBoard() {
@@ -39,23 +40,43 @@ public class JanggiGame {
     }
 
     private Map<Position, Piece> placeMaSangPiecesBySide(Side side) {
-        MaSangPosition maSangPosition = RecoveryUtil.executeWithRetry(() ->viewer.settingMaSangPlacement(side));
+        MaSangPosition maSangPosition = RecoveryUtil.executeWithRetry(() -> viewer.settingMaSangPlacement(side));
 
         return MaSangFactory.create(maSangPosition, side);
     }
 
-    private Side repeatGameTurns(Board board, Side turn) {
-        while (board.hasGeneral(turn.reverse())) {
+    private void repeatGameTurns(Board board, Side turn) {
+        boolean isNotClosed = true;
+        while (isNotClosed && board.hasGeneral(turn.reverse())) {
             viewer.printBoard(board);
             viewer.printTurnInfo(turn);
-
-            Side finalTurn = turn;
-            Position position = RecoveryUtil.executeWithRetry(() -> choosePiece(board, finalTurn));
-            RecoveryUtil.executeWithRetry(() -> movePiece(board, position));
+            isNotClosed = chooseOption(board, turn);
 
             turn = turn.reverse();
         }
-        return turn;
+    }
+
+    private boolean chooseOption(Board board, Side turn) {
+        Option option = RecoveryUtil.executeWithRetry(viewer::readChooseOption);
+
+        if (option == Option.SELECT_PIECE) {
+            Position position = RecoveryUtil.executeWithRetry(() -> choosePiece(board, turn));
+            RecoveryUtil.executeWithRetry(() -> movePiece(board, position));
+        }
+
+        if (option == Option.CHECK_SCORE) {
+            viewer.printScore(board);
+        }
+
+        if (option == Option.CLOSE) {
+            return false;
+        }
+
+        if (option != Option.SELECT_PIECE) {
+            return chooseOption(board, turn);
+        }
+
+        return true;
     }
 
     private Position choosePiece(Board board, Side turn) {
@@ -72,5 +93,19 @@ public class JanggiGame {
         Position targetPosition = Position.of(positionDto.row(), positionDto.column());
 
         board.movePiece(currentPosition, targetPosition);
+    }
+
+    private void result(Board board) {
+        if (board.hasGeneral(Side.CHO) && board.hasGeneral(Side.HAN)) {
+            viewer.result(board);
+            return;
+        }
+
+        if (board.hasGeneral(Side.CHO)) {
+            viewer.result(Side.CHO);
+            return;
+        }
+
+        viewer.result(Side.HAN);
     }
 }

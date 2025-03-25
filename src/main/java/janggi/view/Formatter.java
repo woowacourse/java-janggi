@@ -29,4 +29,8 @@ public final class Formatter {
 
         return builder.toString();
     }
+
+    public static String formatScoreBySide(Side side, double score) {
+        return Formatter.formatSide(side) + " : " + score + "점";
+    }
 }

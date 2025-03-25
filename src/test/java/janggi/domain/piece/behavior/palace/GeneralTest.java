@@ -1,6 +1,7 @@
 package janggi.domain.piece.behavior.palace;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Board;
@@ -36,7 +37,6 @@ class GeneralTest {
     @DisplayName("궁성 밖으로는 나갈 수 없다.")
     @Test
     void test2() {
-
         // given
         Position position = Position.of(1, 4);
         General general = new General();
@@ -53,5 +53,14 @@ class GeneralTest {
                         Position.of(2, 5),
                         Position.of(1, 5))
         );
+    }
+
+    @DisplayName("궁은 점수를 알 수 없다")
+    @Test
+    void test3() {
+        General general = new General();
+
+        assertThatThrownBy(general::toScore)
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 }

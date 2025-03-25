@@ -11,6 +11,8 @@ public interface PieceBehavior {
 
     String toName();
 
+    int toScore();
+
     default boolean isCannon() {
         return false;
     }

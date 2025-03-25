@@ -46,4 +46,9 @@ public final class Horse extends OrthogonalRotateMoveBehavior {
     public String toName() {
         return "마";
     }
+
+    @Override
+    public int toScore() {
+        return 5;
+    }
 }

@@ -7,10 +7,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.common.ErrorMessage;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.behavior.palace.General;
 import janggi.domain.piece.behavior.Soldier;
+import janggi.domain.piece.behavior.palace.General;
 import janggi.factory.PieceInitFactory;
 import janggi.factory.masang.MaSangFactory;
+import janggi.util.BoardFixture;
 import janggi.view.MaSangPosition;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -119,8 +120,10 @@ class BoardTest {
     @DisplayName("보드의 General이 있다면 true를 반환한다.")
     @Test
     void test7() {
+        // given
         Board board = new Board(PieceInitFactory.initialize());
 
+        // when & then
         assertThat(board.hasGeneral(Side.HAN)).isTrue();
     }
 
@@ -137,5 +140,27 @@ class BoardTest {
         Board board = new Board(Map.of(position, general, newPosition, soldier2));
 
         assertThat(board.hasGeneral(Side.HAN)).isFalse();
+    }
+
+    @DisplayName("초나라의 점수를 반환한다")
+    @Test
+    void test9() {
+        // given
+        Board board = BoardFixture.sangMaSangMa();
+
+        double result = board.getScore(Side.CHO);
+
+        assertThat(result).isEqualTo(72);
+    }
+
+    @DisplayName("한나라의 점수를 반환한다")
+    @Test
+    void test10() {
+        // given
+        Board board = BoardFixture.sangMaSangMa();
+
+        double result = board.getScore(Side.HAN);
+
+        assertThat(result).isEqualTo(73.5);
     }
 }

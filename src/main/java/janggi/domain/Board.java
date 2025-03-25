@@ -82,6 +82,20 @@ public class Board {
         return hasPiece(position) && getPiece(position).isCannon();
     }
 
+    public double getScore(Side side) {
+        int sum = pieceMap.values().stream()
+                .filter(piece -> piece.isSameSide(side))
+                .filter(piece -> !piece.isGeneral(side))
+                .mapToInt(Piece::toScore)
+                .sum();
+
+        if (side.isSameSide(Side.HAN)) {
+            return sum + 1.5;
+        }
+
+        return sum;
+    }
+
     public String getPieceName(int row, int column) {
         Position position = Position.of(row, column);
 

@@ -30,6 +30,11 @@ public final class Chariot extends StraightMoveBehavior {
         return "차";
     }
 
+    @Override
+    public int toScore() {
+        return 13;
+    }
+
     private void addPositionIfNotSameSide(Set<Position> result, Board board, Position currentPosition, Side side) {
         if (board.isSameSide(side, currentPosition)) {
             return;

@@ -14,6 +14,11 @@ public final class Cannon extends StraightMoveBehavior {
     }
 
     @Override
+    public int toScore() {
+        return 7;
+    }
+
+    @Override
     public boolean isCannon() {
         return true;
     }

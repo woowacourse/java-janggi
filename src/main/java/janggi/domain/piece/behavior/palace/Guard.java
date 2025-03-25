@@ -6,4 +6,9 @@ public final class Guard extends PalaceBehavior {
     public String toName() {
         return "사";
     }
+
+    @Override
+    public int toScore() {
+        return 3;
+    }
 }

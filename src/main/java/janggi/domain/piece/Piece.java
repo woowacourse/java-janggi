@@ -28,6 +28,10 @@ public class Piece {
         return pieceBehavior.isCannon();
     }
 
+    public int toScore() {
+        return pieceBehavior.toScore();
+    }
+
     public Set<Position> getAvailableMovePositions(Board board, Position currentPosition) {
         return pieceBehavior.generateAvailableMovePositions(board, side, currentPosition);
     }
