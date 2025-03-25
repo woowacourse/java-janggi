@@ -7,6 +7,8 @@ import static player.Nation.CHO;
 import static player.Nation.HAN;
 
 import java.util.List;
+import java.util.Map;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Byeong;
@@ -25,7 +27,7 @@ class PlayersTest {
         //given
         Player hanPlayer = new Player(new Pieces(List.of(new Janggun(new Position(5, 5)))), HAN);
         Player choPlayer = new Player(new Pieces(List.of()), CHO);
-        Players players = new Players(List.of(choPlayer, hanPlayer));
+        Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
 
         //when - then
         assertThat(players.isKingDie()).isTrue();
@@ -37,7 +39,7 @@ class PlayersTest {
         //given
         Player hanPlayer = new Player(new Pieces(List.of(new Janggun(new Position(5, 5)))), HAN);
         Player choPlayer = new Player(new Pieces(List.of(new Janggun(new Position(6, 5)))), CHO);
-        Players players = new Players(List.of(choPlayer, hanPlayer));
+        Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
 
         //when - then
         assertThat(players.isKingDie()).isFalse();
@@ -49,7 +51,7 @@ class PlayersTest {
         //given
         Player hanPlayer = new Player(new Pieces(List.of()), HAN);
         Player choPlayer = new Player(new Pieces(List.of(new Janggun(new Position(6, 5)))), CHO);
-        Players players = new Players(List.of(choPlayer, hanPlayer));
+        Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
 
         //when - then
         assertThat(players.isKingDie()).isTrue();
@@ -72,7 +74,7 @@ class PlayersTest {
         Player player1 = new Player(pieces1, HAN);
         Player player2 = new Player(pieces2, CHO);
 
-        Players players = new Players(List.of(player1, player2));
+        Players players = new Players(Map.of(HAN, player1, CHO, player2));
 
         //when-then
         assertThatThrownBy(() ->
@@ -98,7 +100,7 @@ class PlayersTest {
         Player player1 = new Player(pieces1, HAN);
         Player player2 = new Player(pieces2, CHO);
 
-        Players players = new Players(List.of(player1, player2));
+        Players players = new Players(Map.of(HAN, player1, CHO, player2));
 
         //when-then
         assertThatThrownBy(() ->
@@ -124,7 +126,7 @@ class PlayersTest {
         Player player1 = new Player(pieces1, HAN);
         Player player2 = new Player(pieces2, CHO);
 
-        Players players = new Players(List.of(player1, player2));
+        Players players = new Players(Map.of(HAN, player1, CHO, player2));
 
         //when-then
         assertThatThrownBy(() ->
@@ -157,7 +159,7 @@ class PlayersTest {
         Player player1 = new Player(pieces1, HAN);
         Player player2 = new Player(pieces2, CHO);
 
-        Players players = new Players(List.of(player1, player2));
+        Players players = new Players(Map.of(HAN, player1, CHO, player2));
 
         //when-then
         assertThatThrownBy(() ->
@@ -188,7 +190,7 @@ class PlayersTest {
         Player player1 = new Player(pieces1, HAN);
         Player player2 = new Player(pieces2, CHO);
 
-        Players players = new Players(List.of(player1, player2));
+        Players players = new Players(Map.of(HAN, player1, CHO, player2));
 
         //when
         players.movePiece(CHO, new Position(1, 7), new Position(1, 6));
@@ -216,7 +218,7 @@ class PlayersTest {
         Player player1 = new Player(pieces1, HAN);
         Player player2 = new Player(pieces2, CHO);
 
-        Players players = new Players(List.of(player1, player2));
+        Players players = new Players(Map.of(HAN, player1, CHO, player2));
 
         //when
         players.removePiece(HAN, new Position(1, 7));
@@ -236,14 +238,13 @@ class PlayersTest {
         Player player = new Player(pieces, CHO);
         Player player1 = new Player(new Pieces(List.of(new Po(new Position(8, 5)))), HAN);
 
-        Players players = new Players(List.of(player1, player));
+        Players players = new Players(Map.of(HAN, player1, CHO, player));
 
-        //when - then
         assertThatThrownBy(() ->
                 players.validateMovement(CHO, new Position(5, 5), new Position(9, 5)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포가 가는 경로에 장애물이 2개 이상 존재하거나 포가 존재하여 이동할 수 없습니다.");
-        }
+    }
 
     @Test
     @DisplayName("경로에 장애물 2개 이상 존재 확인 테스트")
@@ -257,7 +258,7 @@ class PlayersTest {
         Player player = new Player(pieces, CHO);
         Player player1 = new Player(new Pieces(List.of(new Jol(new Position(8, 5)))), HAN);
 
-        Players players = new Players(List.of(player1, player));
+        Players players = new Players(Map.of(HAN, player1, CHO, player));
 
         //when - then
         assertThatThrownBy(() ->
@@ -265,4 +266,5 @@ class PlayersTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포가 가는 경로에 장애물이 2개 이상 존재하거나 포가 존재하여 이동할 수 없습니다.");
     }
+
 }
