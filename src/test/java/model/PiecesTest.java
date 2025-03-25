@@ -4,9 +4,9 @@ package model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.util.List;
 import model.piece.Cannon;
 import model.piece.Chariot;
+import model.piece.Horse;
 import model.position.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -160,15 +160,75 @@ class PiecesTest {
                 //given
                 Position departure = new Position(1, 2);
                 Position arrival = new Position(3, 3);
+
+                //when
                 pieces.move(departure, arrival);
 
-                pieces.findPieceBy(arrival);
+                //then
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Horse.class);
             }
 
             @Test
             @DisplayName("Horse가 가고자 하는 경로 중간에 장애물이 있다면, 예외가 발생해야 한다.")
             void horse_direction_already_exist_other_piece_then_throw_exception() {
+                //given
+                Position departure1 = new Position(1, 2);
+                Position arrival1 = new Position(3, 3);
+                pieces.move(departure1, arrival1); // 이전 이동
 
+                Position departure2 = new Position(3, 3);
+                Position arrival2 = new Position(5, 4);
+
+                //when, then
+                assertThatThrownBy(() -> pieces.move(departure2, arrival2))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
+        }
+
+        @Nested
+        @DisplayName("Elephant의 움직임을 테스트 한다.")
+        class ElephantMove {
+
+            @Test
+            @DisplayName("Elephant의 도착 지점에 이동 경로에 다른 기물이 존재한다면, 예외가 발생해야 한다.")
+            void elephant_move_but_arrive_direction_exist_other_piece_then_throw_exception() {
+                //given
+                Position departure = new Position(1, 3);
+                Position arrival = new Position(4, 5);
+
+                //when, then
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
+
+            @Test
+            @DisplayName("Elephant의 이동 경로 중 첫 번째 이동 경로에 장재물이 존재한다면, 예외가 발생해야 한다.")
+            void elephant_move_but_first_direction_exist_other_piece_then_throw_exception() {
+                //given
+                Position departure1 = new Position(2, 5);
+                Position arrival1 = new Position(1, 5);
+                pieces.move(departure1, arrival1); // 이전 이동
+                Position departure = new Position(1, 3);
+                Position arrival = new Position(3, 6);
+
+                //when, then
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
+
+            @Test
+            @DisplayName("Elephant의 이동 경로 중 두 번째 이동 경로에 장재물이 존재한다면, 예외가 발생해야 한다.")
+            void elephant_move_but_second_direction_exist_other_piece_then_throw_exception() {
+                //given
+                Position departure1 = new Position(1, 4);
+                Position arrival1 = new Position(2, 4);
+                pieces.move(departure1, arrival1); // 이전 이동
+                Position departure = new Position(1, 3);
+                Position arrival = new Position(3, 6);
+
+                //when, then
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
             }
         }
     }

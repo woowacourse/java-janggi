@@ -59,6 +59,7 @@ public class Elephant extends Piece {
 
     private List<Position> findArrivalDirection(Position arrival, List<List<Position>> temporaryPosition) {
         return temporaryPosition.stream()
+            .filter(positions -> !positions.isEmpty())
             .filter(positions -> positions.getLast().equals(arrival))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."));
