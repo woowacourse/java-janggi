@@ -18,54 +18,28 @@ public final class Board {
         this.locations = new HashMap<>(locations);
     }
 
-    public Map<Point, Piece> getLocations() {
-        return new HashMap<>(locations);
-    }
-
     public void movePiece(
             final Point start,
             final Point arrival,
             final Team team
     ) {
-        boolean isInvalidStartPoint = start.isInRange(BOARD_ROW_MAX, BOARD_COLUMN_MAX);
-        boolean isInvalidArrivalPoint = arrival.isInRange(BOARD_ROW_MAX, BOARD_COLUMN_MAX);
-        if (isInvalidStartPoint && isInvalidArrivalPoint) {
-            processMovement(start, arrival, team);
-            return;
-        }
-        throw new JanggiGameRuleWarningException(
-                "보드의 범위 바깥입니다. 출발점 유효: " + isInvalidStartPoint + ", 도착점 유효: " + isInvalidArrivalPoint);
+        final Piece piece = getCheckedPieceCanMoveOnStartPoint(start, arrival, team);
+        checkPieceCanMoveOnRoute(start, arrival, piece);
+        movePieceLocation(start, arrival, piece);
     }
 
-    private void processMovement(
-            final Point start,
-            final Point arrival,
-            final Team team
-    ) {
+    private Piece getCheckedPieceCanMoveOnStartPoint(final Point start, final Point arrival, final Team team) {
+        checkInRangeOnBoard(start, arrival);
         final Piece piece = Optional.ofNullable(locations.get(start))
                 .orElseThrow(() -> new JanggiGameRuleWarningException("출발점에 이동할 기물이 없습니다."));
         checkEqualTeam(piece, team);
-
         checkOutOfRoute(start, arrival, piece);
-
-        final List<Point> routePoints = piece.getRoutePoints(start, arrival);
-        final PiecesOnRoute piecesOnRoute = getAllPiecesOnRoute(routePoints);
-
-        checkPieceOnRoute(piece, piecesOnRoute);
-
-        locations.put(arrival, piece);
-        locations.remove(start);
+        return piece;
     }
 
     private void checkEqualTeam(final Piece piece, final Team team) {
         if (!piece.hasEqualTeam(team)) {
             throw new JanggiGameRuleWarningException("아군 기물만 움직일 수 있습니다.");
-        }
-    }
-
-    private void checkPieceOnRoute(final Piece piece, final PiecesOnRoute piecesOnRoute) {
-        if (!piece.isMovableOnRoute(piecesOnRoute)) {
-            throw new JanggiGameRuleWarningException("해당 경로로 이동할 수 없습니다.");
         }
     }
 
@@ -79,9 +53,39 @@ public final class Board {
         }
     }
 
+    private void checkInRangeOnBoard(final Point start, final Point arrival) {
+        final boolean isInvalidStartPoint = start.isInRange(BOARD_ROW_MAX, BOARD_COLUMN_MAX);
+        final boolean isInvalidArrivalPoint = arrival.isInRange(BOARD_ROW_MAX, BOARD_COLUMN_MAX);
+        if (!(isInvalidStartPoint && isInvalidArrivalPoint)) {
+            throw new JanggiGameRuleWarningException(
+                    "보드의 범위 바깥입니다. 출발점 유효: " + isInvalidStartPoint + ", 도착점 유효: " + isInvalidArrivalPoint);
+        }
+    }
+
+    private void checkPieceCanMoveOnRoute(
+            final Point start,
+            final Point arrival,
+            final Piece piece
+    ) {
+        final List<Point> routePoints = piece.getRoutePoints(start, arrival);
+        final PiecesOnRoute piecesOnRoute = getAllPiecesOnRoute(routePoints);
+        if (!piece.isMovableOnRoute(piecesOnRoute)) {
+            throw new JanggiGameRuleWarningException("해당 경로로 이동할 수 없습니다.");
+        }
+    }
+
+    private void movePieceLocation(final Point start, final Point arrival, final Piece piece) {
+        locations.put(arrival, piece);
+        locations.remove(start);
+    }
+
     private PiecesOnRoute getAllPiecesOnRoute(final List<Point> pointsOnRoute) {
         return new PiecesOnRoute(pointsOnRoute.stream()
                 .map(point -> locations.getOrDefault(point, null))
                 .toList());
+    }
+
+    public Map<Point, Piece> getLocations() {
+        return new HashMap<>(locations);
     }
 }
