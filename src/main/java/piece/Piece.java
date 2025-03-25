@@ -2,6 +2,7 @@ package piece;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import position.Path;
 import position.Position;
 
@@ -59,15 +60,19 @@ public final class Piece {
         allPieces.addAll(enemyPieces);
 
         return paths.stream()
-                .filter(path -> {
-                    if (type == PieceType.CANNON) {
-                        List<Piece> piece = path.getEncounteredMiddlePieces(allPieces);
-                        return piece.size() == 1 && piece.getFirst().type != PieceType.CANNON;
-                    } else {
-                        return path.getEncounteredMiddlePieces(allPieces).isEmpty();
-                    }
-                })
+                .filter(middleBlockPathPredicate(allPieces))
                 .toList();
+    }
+
+    private Predicate<Path> middleBlockPathPredicate(List<Piece> allPieces) {
+        return path -> {
+            if (type == PieceType.CANNON) {
+                List<Piece> piece = path.getEncounteredMiddlePieces(allPieces);
+                return piece.size() == 1 && piece.getFirst().type != PieceType.CANNON;
+            } else {
+                return path.getEncounteredMiddlePieces(allPieces).isEmpty();
+            }
+        };
     }
 
     private List<Path> filterFinalIsAlly(final List<Path> paths, final List<Piece> allyPieces) {
