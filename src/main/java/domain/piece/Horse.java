@@ -4,8 +4,8 @@ import domain.Score;
 import domain.Team;
 import domain.position.Distance;
 import domain.position.Point;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 public class Horse extends AbstractPiece {
 
@@ -15,44 +15,48 @@ public class Horse extends AbstractPiece {
 
     @Override
     public List<Point> calculatePossiblePoint(final Point fromPoint, final Point toPoint) {
-        final List<Point> possiblePoint = new ArrayList<>();
-
         final int x = fromPoint.calculateSubtractionX(toPoint);
         final int y = fromPoint.calculateSubtractionY(toPoint);
         if (x > 0 && y > 0) {
-            final Point point = fromPoint.up().rightUp();
-
-            if (point.equals(toPoint)) {
-                possiblePoint.add(fromPoint.up());
-            } else {
-                possiblePoint.add(fromPoint.right());
+            if (QuadrantMovement.FIRST_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
+                return List.of(fromPoint.up());
             }
+            return List.of(fromPoint.right());
         }
         if (x < 0 && y > 0) {
-            final Point point = fromPoint.up().leftUp();
-            if (point.equals(toPoint)) {
-                possiblePoint.add(fromPoint.up());
-            } else {
-                possiblePoint.add(fromPoint.left());
+            if (QuadrantMovement.SECOND_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
+                return List.of(fromPoint.up());
             }
+            return List.of(fromPoint.left());
         }
         if (x < 0 && y < 0) {
-            final Point point = fromPoint.left().leftDown();
-            if (point.equals(toPoint)) {
-                possiblePoint.add(fromPoint.left());
-            } else {
-                possiblePoint.add(fromPoint.down());
+            if (QuadrantMovement.THIRD_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
+                return List.of(fromPoint.left());
             }
+            return List.of(fromPoint.down());
         }
-        if (x > 0 && y < 0) {
-            final Point point = fromPoint.down().rightDown();
-            if (point.equals(toPoint)) {
-                possiblePoint.add(fromPoint.down());
-            } else {
-                possiblePoint.add(fromPoint.right());
-            }
+        if (QuadrantMovement.FOURTH_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
+            return List.of(fromPoint.down());
         }
-        return possiblePoint;
+        return List.of(fromPoint.right());
+    }
+
+    private enum QuadrantMovement {
+        FIRST_QUADRANT(point -> point.up().rightUp()),
+        SECOND_QUADRANT(point -> point.up().leftUp()),
+        THIRD_QUADRANT(point -> point.left().leftDown()),
+        FOURTH_QUADRANT(point -> point.down().rightDown());
+
+        private final UnaryOperator<Point> movingOperator;
+
+        QuadrantMovement(final UnaryOperator<Point> movingOperator) {
+            this.movingOperator = movingOperator;
+        }
+
+        public boolean matchesExpectedPosition(final Point fromPoint, final Point toPoint) {
+            final Point point = this.movingOperator.apply(fromPoint);
+            return point.equals(toPoint);
+        }
     }
 
     @Override
