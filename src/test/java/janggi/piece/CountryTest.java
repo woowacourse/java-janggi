@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import Janggi.piece.Country;
 import java.util.Arrays;
 import java.util.List;
 import org.assertj.core.api.Assertions;

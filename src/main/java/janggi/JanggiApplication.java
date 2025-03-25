@@ -1,10 +1,10 @@
-package Janggi;
+package janggi;
 
-import Janggi.board.Board;
-import Janggi.board.Position;
-import Janggi.piece.Country;
-import Janggi.view.InputView;
-import Janggi.view.OutputView;
+import janggi.board.Board;
+import janggi.board.Position;
+import janggi.piece.Country;
+import janggi.view.InputView;
+import janggi.view.OutputView;
 import java.util.List;
 
 public class JanggiApplication {

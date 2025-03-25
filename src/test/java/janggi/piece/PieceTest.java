@@ -2,15 +2,6 @@ package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import Janggi.piece.Cannon;
-import Janggi.piece.Chariot;
-import Janggi.piece.Country;
-import Janggi.piece.Elephant;
-import Janggi.piece.General;
-import Janggi.piece.Guard;
-import Janggi.piece.Horse;
-import Janggi.piece.Piece;
-import Janggi.piece.Soldier;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

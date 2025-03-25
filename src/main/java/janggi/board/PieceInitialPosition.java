@@ -1,17 +1,17 @@
-package Janggi.board;
+package janggi.board;
 
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import Janggi.piece.Cannon;
-import Janggi.piece.Chariot;
-import Janggi.piece.Elephant;
-import Janggi.piece.General;
-import Janggi.piece.Guard;
-import Janggi.piece.Horse;
-import Janggi.piece.Piece;
-import Janggi.piece.Soldier;
-import Janggi.piece.Country;
+import janggi.piece.Cannon;
+import janggi.piece.Chariot;
+import janggi.piece.Elephant;
+import janggi.piece.General;
+import janggi.piece.Guard;
+import janggi.piece.Horse;
+import janggi.piece.Piece;
+import janggi.piece.Soldier;
+import janggi.piece.Country;
 import java.util.stream.Collectors;
 
 public enum PieceInitialPosition {

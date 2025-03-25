@@ -2,8 +2,6 @@ package janggi.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import Janggi.board.Board;
-import Janggi.board.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +9,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import Janggi.piece.Cannon;
-import Janggi.piece.Chariot;
-import Janggi.piece.General;
-import Janggi.piece.Piece;
-import Janggi.piece.Soldier;
-import Janggi.piece.Country;
+import janggi.piece.Cannon;
+import janggi.piece.Chariot;
+import janggi.piece.General;
+import janggi.piece.Piece;
+import janggi.piece.Soldier;
+import janggi.piece.Country;
 
 public class BoardTest {
 

@@ -2,11 +2,8 @@ package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import Janggi.board.Board;
-import Janggi.board.Position;
-import Janggi.piece.Country;
-import Janggi.piece.General;
-import Janggi.piece.Piece;
+import janggi.board.Board;
+import janggi.board.Position;
 import java.util.HashMap;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

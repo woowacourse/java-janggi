@@ -1,6 +1,6 @@
-package Janggi.piece;
+package janggi.piece;
 
-import Janggi.board.Position;
+import janggi.board.Position;
 
 public enum RelativePosition {
     TOP(-1, 0),

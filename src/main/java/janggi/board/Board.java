@@ -1,10 +1,10 @@
-package Janggi.board;
+package janggi.board;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import Janggi.piece.Piece;
-import Janggi.piece.Country;
+import janggi.piece.Piece;
+import janggi.piece.Country;
 
 public class Board {
 

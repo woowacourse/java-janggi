@@ -1,16 +1,16 @@
-package Janggi.view;
+package janggi.view;
 
-import Janggi.board.Board;
-import Janggi.board.Position;
-import Janggi.piece.Cannon;
-import Janggi.piece.Chariot;
-import Janggi.piece.Country;
-import Janggi.piece.Elephant;
-import Janggi.piece.General;
-import Janggi.piece.Guard;
-import Janggi.piece.Horse;
-import Janggi.piece.Piece;
-import Janggi.piece.Soldier;
+import janggi.board.Board;
+import janggi.board.Position;
+import janggi.piece.Cannon;
+import janggi.piece.Chariot;
+import janggi.piece.Country;
+import janggi.piece.Elephant;
+import janggi.piece.General;
+import janggi.piece.Guard;
+import janggi.piece.Horse;
+import janggi.piece.Piece;
+import janggi.piece.Soldier;
 import java.util.Map;
 
 public class OutputView {

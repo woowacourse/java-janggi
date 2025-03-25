@@ -1,4 +1,4 @@
-package Janggi.piece;
+package janggi.piece;
 
 public enum Country {
     HAN, CHO;

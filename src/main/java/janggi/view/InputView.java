@@ -1,6 +1,6 @@
-package Janggi.view;
+package janggi.view;
 
-import Janggi.board.Position;
+import janggi.board.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

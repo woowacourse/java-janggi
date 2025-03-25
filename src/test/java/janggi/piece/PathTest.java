@@ -2,9 +2,7 @@ package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import Janggi.board.Position;
-import Janggi.piece.Path;
-import Janggi.piece.RelativePosition;
+import janggi.board.Position;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
