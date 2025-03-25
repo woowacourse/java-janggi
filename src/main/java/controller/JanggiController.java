@@ -18,7 +18,7 @@ public class JanggiController {
         Board board = createJanggiBoard();
 
         Turn turn = new Turn();
-        do {
+        while (true) {
             OutputView.printBoard(board);
             moveByTurn(turn, board);
             if (board.isOpponentWangDead(turn.team())) {
@@ -27,7 +27,7 @@ public class JanggiController {
                 break;
             }
             turn.changeTurn();
-        } while (true);
+        }
     }
 
     private void moveByTurn(final Turn turn, final Board board) {
