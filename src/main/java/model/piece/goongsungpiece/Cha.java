@@ -1,24 +1,15 @@
 package model.piece.goongsungpiece;
 
 import java.util.Map;
-import model.Point;
 import model.Team;
 import model.piece.Piece;
 import model.piece.PieceName;
 
-public class Cha extends Piece {
+public class Cha extends GoongsungAdvantagePiece {
 
     public Cha(Team team) {
         super(team);
         pieceName = PieceName.CHA;
-    }
-
-    @Override
-    public boolean isValidPoint(Point beforePoint, Point targetPoint) {
-        boolean isStraightMove = beforePoint.x() == targetPoint.x() || beforePoint.y() == targetPoint.y();
-        boolean isSamePoint = beforePoint.equals(targetPoint);
-
-        return isStraightMove && !isSamePoint;
     }
 
     @Override

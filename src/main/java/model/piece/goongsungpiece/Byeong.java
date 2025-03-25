@@ -14,7 +14,7 @@ public class Byeong extends Piece {
         super(team);
         pieceName = PieceName.BYEONG;
     }
-
+    
     @Override
     public boolean isValidPoint(Point beforePoint, Point targetPoint) {
         int moveForward = 1;

@@ -2,26 +2,16 @@ package model.piece.goongsungpiece;
 
 import java.util.Map;
 import java.util.Map.Entry;
-import model.Point;
 import model.Team;
 import model.piece.Piece;
 import model.piece.PieceName;
 
-public class Pho extends Piece {
+public class Pho extends GoongsungAdvantagePiece {
 
     public Pho(Team team) {
         super(team);
         pieceName = PieceName.PHO;
     }
-
-    @Override
-    public boolean isValidPoint(Point beforePoint, Point targetPoint) {
-        boolean isStraightMove = beforePoint.x() == targetPoint.x() || beforePoint.y() == targetPoint.y();
-        boolean isSamePoint = beforePoint.equals(targetPoint);
-
-        return isStraightMove && !isSamePoint;
-    }
-
 
     @Override
     public boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
