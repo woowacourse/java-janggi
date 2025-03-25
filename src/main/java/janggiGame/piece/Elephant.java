@@ -1,6 +1,6 @@
 package janggiGame.piece;
 
-import janggiGame.Dot;
+import janggiGame.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,19 +17,19 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public List<Dot> getIntermediatePoints(Dot origin, Dot destination) {
-        List<Dot> route = new ArrayList<>();
+    public List<Position> getIntermediatePoints(Position origin, Position destination) {
+        List<Position> route = new ArrayList<>();
 
         int dx = origin.calculateRowChange(destination);
         int dy = origin.calculateColumnChange(destination);
 
         validateRoute(dx, dy);
 
-        Function<Dot, Dot> firstMove = getFirstMove(dx, dy);
+        Function<Position, Position> firstMove = getFirstMove(dx, dy);
         origin = firstMove.apply(origin);
         route.add(origin);
 
-        Function<Dot, Dot> diagonalMove = getDiagonalMove(dx, dy);
+        Function<Position, Position> diagonalMove = getDiagonalMove(dx, dy);
         route.add(diagonalMove.apply(origin));
 
         return route;
@@ -41,33 +41,33 @@ public class Elephant extends Piece {
         }
     }
 
-    private Function<Dot, Dot> getFirstMove(int dx, int dy) {
+    private Function<Position, Position> getFirstMove(int dx, int dy) {
         if (isFirstMoveVertical(dx, dy)) {
             if (dy > 0) {
-                return Dot::up;
+                return Position::up;
             }
-            return Dot::down;
+            return Position::down;
         }
         if (dx > 0) {
-            return Dot::right;
+            return Position::right;
         }
-        return Dot::left;
+        return Position::left;
     }
 
-    private Function<Dot, Dot> getDiagonalMove(int dx, int dy) {
+    private Function<Position, Position> getDiagonalMove(int dx, int dy) {
         if (dx > 0 && dy > 0) {
-            return Dot::upRight;
+            return Position::upRight;
         }
 
         if (dx > 0) {
-            return Dot::downRight;
+            return Position::downRight;
         }
 
         if (dy > 0) {
-            return Dot::upLeft;
+            return Position::upLeft;
         }
 
-        return Dot::downLeft;
+        return Position::downLeft;
     }
 
     private boolean isFirstMoveVertical(int dx, int dy) {
@@ -75,7 +75,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public void validateMove(Map<Dot, Piece> IntermediatePointsWithPiece, Piece destinationPiece) {
+    public void validateMove(Map<Position, Piece> IntermediatePointsWithPiece, Piece destinationPiece) {
         super.validateMove(IntermediatePointsWithPiece, destinationPiece);
 
         IntermediatePointsWithPiece.values()

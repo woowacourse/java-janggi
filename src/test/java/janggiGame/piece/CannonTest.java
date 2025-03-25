@@ -3,7 +3,7 @@ package janggiGame.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.Dot;
+import janggiGame.Position;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,14 +14,14 @@ class CannonTest {
     @DisplayName("포는 목적지로 가는 경로를 구할 수 있다.")
     @Test
     void cannonCanGetIntermediatePoints() {
-        Dot origin = Dot.of(1, 1);
-        Dot destination = Dot.of(1, 3);
+        Position origin = Position.of(1, 1);
+        Position destination = Position.of(1, 3);
         Cannon cannon = new Cannon(Dynasty.HAN);
 
         // when
-        List<Dot> actual = cannon.getIntermediatePoints(origin, destination);
+        List<Position> actual = cannon.getIntermediatePoints(origin, destination);
 
-        List<Dot> expected = List.of(Dot.of(1, 2));
+        List<Position> expected = List.of(Position.of(1, 2));
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -31,8 +31,8 @@ class CannonTest {
     @Test
     void cannonCannotGetIntermediatePoints() {
         // given
-        Dot origin = Dot.of(1, 1);
-        Dot destination = Dot.of(2, 3);
+        Position origin = Position.of(1, 1);
+        Position destination = Position.of(2, 3);
         Cannon cannon = new Cannon(Dynasty.HAN);
 
         // when // then
@@ -45,11 +45,11 @@ class CannonTest {
     @Test
     void cannonJudgeMovable1() {
         // given
-        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
         Cannon cannon = new Cannon(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(1, 2), null);
-        routesWithPiece.put(Dot.of(1, 3), new Chariot(Dynasty.HAN));
+        routesWithPiece.put(Position.of(1, 2), null);
+        routesWithPiece.put(Position.of(1, 3), new Chariot(Dynasty.HAN));
 
         // when // then
         assertThatCode(() -> cannon.validateMove(routesWithPiece, null))
@@ -60,11 +60,11 @@ class CannonTest {
     @Test
     void cannonJudgeMovable2() {
         // given
-        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
         Cannon cannon = new Cannon(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(1, 2), null);
-        routesWithPiece.put(Dot.of(1, 3), new Cannon(Dynasty.HAN));
+        routesWithPiece.put(Position.of(1, 2), null);
+        routesWithPiece.put(Position.of(1, 3), new Cannon(Dynasty.HAN));
 
         // when // then
         assertThatCode(() -> cannon.validateMove(routesWithPiece, null))
@@ -76,11 +76,11 @@ class CannonTest {
     @Test
     void cannonJudgeMovable3() {
         // given
-        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
         Cannon cannon = new Cannon(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(1, 2), null);
-        routesWithPiece.put(Dot.of(1, 3), new Chariot(Dynasty.HAN));
+        routesWithPiece.put(Position.of(1, 2), null);
+        routesWithPiece.put(Position.of(1, 3), new Chariot(Dynasty.HAN));
 
         // when // then
         assertThatCode(() -> cannon.validateMove(routesWithPiece, new Cannon(Dynasty.CHO))).isInstanceOf(

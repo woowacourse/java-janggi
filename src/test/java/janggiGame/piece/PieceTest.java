@@ -3,7 +3,7 @@ package janggiGame.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.Dot;
+import janggiGame.Position;
 import janggiGame.testhelper.FakePiece;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -37,8 +37,8 @@ public class PieceTest {
         FakePiece fakePiece = new FakePiece(Dynasty.HAN);
 
         // when // then
-        assertThat(fakePiece.getIntermediatePoints(Dot.of(0, 9), Dot.of(0, 7))
-                .contains(Dot.of(0, 8))).isTrue();
+        assertThat(fakePiece.getIntermediatePoints(Position.of(0, 9), Position.of(0, 7))
+                .contains(Position.of(0, 8))).isTrue();
     }
 
     @DisplayName("기물은 이동 조건을 판별할 수 있다.")
@@ -48,8 +48,8 @@ public class PieceTest {
         FakePiece fakePiece = new FakePiece(Dynasty.HAN);
 
         // when // then
-        Map<Dot, Piece> intermediatePointsWithPiece = Map.of(
-                Dot.of(0, 8), new Pawn(Dynasty.HAN)
+        Map<Position, Piece> intermediatePointsWithPiece = Map.of(
+                Position.of(0, 8), new Pawn(Dynasty.HAN)
         );
 
         Piece destinationPiece = new Pawn(Dynasty.HAN);

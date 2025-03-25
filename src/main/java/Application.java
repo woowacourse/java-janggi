@@ -1,5 +1,5 @@
 import janggiGame.Board;
-import janggiGame.Dot;
+import janggiGame.Position;
 import janggiGame.arrangement.ArrangementOption;
 import janggiGame.piece.Dynasty;
 import java.util.List;
@@ -27,7 +27,7 @@ public class Application {
             try {
                 Dynasty currentDynasty = dynasties[turn % 2];
 
-                List<Dot> movement = inputView.readPieceMovement(currentDynasty);
+                List<Position> movement = inputView.readPieceMovement(currentDynasty);
 
                 board.processTurn(currentDynasty, movement.getFirst(), movement.getLast());
 

@@ -1,6 +1,6 @@
 package janggiGame.piece;
 
-import janggiGame.Dot;
+import janggiGame.Position;
 import java.util.List;
 
 public class Pawn extends Piece {
@@ -9,7 +9,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public List<Dot> getIntermediatePoints(Dot origin, Dot destination) {
+    public List<Position> getIntermediatePoints(Position origin, Position destination) {
         int dx = origin.calculateRowChange(destination);
         int dy = origin.calculateColumnChange(destination);
 

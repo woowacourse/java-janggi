@@ -1,6 +1,6 @@
 package janggiGame.arrangement;
 
-import janggiGame.Dot;
+import janggiGame.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Elephant;
 import janggiGame.piece.Horse;
@@ -9,14 +9,14 @@ import java.util.Map;
 
 public class InnerElephantStrategy extends ArrangementExceptHorseAndElephant {
     @Override
-    public Map<Dot, Piece> arrange(Dynasty dynasty) {
-        Map<Dot, Piece> result = super.arrange(dynasty);
+    public Map<Position, Piece> arrange(Dynasty dynasty) {
+        Map<Position, Piece> result = super.arrange(dynasty);
 
-        result.put(Dot.of(1, 0), new Horse(dynasty));
-        result.put(Dot.of(2, 0), new Elephant(dynasty));
+        result.put(Position.of(1, 0), new Horse(dynasty));
+        result.put(Position.of(2, 0), new Elephant(dynasty));
 
-        result.put(Dot.of(6, 0), new Elephant(dynasty));
-        result.put(Dot.of(7, 0), new Horse(dynasty));
+        result.put(Position.of(6, 0), new Elephant(dynasty));
+        result.put(Position.of(7, 0), new Horse(dynasty));
 
         return result;
     }

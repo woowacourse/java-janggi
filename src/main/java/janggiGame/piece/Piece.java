@@ -1,6 +1,6 @@
 package janggiGame.piece;
 
-import janggiGame.Dot;
+import janggiGame.Position;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -16,9 +16,9 @@ public abstract class Piece {
         return dynasty;
     }
 
-    public abstract List<Dot> getIntermediatePoints(Dot origin, Dot destination);
+    public abstract List<Position> getIntermediatePoints(Position origin, Position destination);
 
-    public void validateMove(Map<Dot, Piece> IntermediatePointsWithPiece, Piece destinationPiece) {
+    public void validateMove(Map<Position, Piece> IntermediatePointsWithPiece, Piece destinationPiece) {
         if (destinationPiece != null && destinationPiece.dynasty == this.dynasty) {
             throw new UnsupportedOperationException("[ERROR] 같은 나라의 말은 공격할 수 없습니다.");
         }

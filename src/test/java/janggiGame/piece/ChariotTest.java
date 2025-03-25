@@ -3,7 +3,7 @@ package janggiGame.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.Dot;
+import janggiGame.Position;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,14 +15,14 @@ class ChariotTest {
     @Test
     void chariotCanGetIntermediatePoints() {
         // given
-        Dot origin = Dot.of(1, 1);
-        Dot destination = Dot.of(1, 3);
+        Position origin = Position.of(1, 1);
+        Position destination = Position.of(1, 3);
         Chariot chariot = new Chariot(Dynasty.HAN);
 
         // when
-        List<Dot> actual = chariot.getIntermediatePoints(origin, destination);
+        List<Position> actual = chariot.getIntermediatePoints(origin, destination);
 
-        List<Dot> expected = List.of(Dot.of(1, 2));
+        List<Position> expected = List.of(Position.of(1, 2));
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -32,8 +32,8 @@ class ChariotTest {
     @Test
     void chariotCannotGetIntermediatePoints() {
         // given
-        Dot origin = Dot.of(1, 1);
-        Dot destination = Dot.of(2, 3);
+        Position origin = Position.of(1, 1);
+        Position destination = Position.of(2, 3);
         Chariot chariot = new Chariot(Dynasty.HAN);
 
         // when // then
@@ -47,11 +47,11 @@ class ChariotTest {
     @Test
     void chariotJudgeMovable() {
         // given
-        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(1, 2), null);
-        routesWithPiece.put(Dot.of(1, 3), null);
+        routesWithPiece.put(Position.of(1, 2), null);
+        routesWithPiece.put(Position.of(1, 3), null);
 
         // when // then
         assertThatCode(() -> chariot.validateMove(routesWithPiece, null))
@@ -62,11 +62,11 @@ class ChariotTest {
     @Test
     void chariotJudgeMovable2() {
         // given
-        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(1, 2), null);
-        routesWithPiece.put(Dot.of(1, 3), new Chariot(Dynasty.HAN));
+        routesWithPiece.put(Position.of(1, 2), null);
+        routesWithPiece.put(Position.of(1, 3), new Chariot(Dynasty.HAN));
 
         // when // then
         assertThatCode(() -> chariot.validateMove(routesWithPiece, null))
@@ -78,11 +78,11 @@ class ChariotTest {
     @Test
     void chariotJudgeMovable3() {
         // given
-        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.of(1, 2), null);
-        routesWithPiece.put(Dot.of(1, 3), null);
+        routesWithPiece.put(Position.of(1, 2), null);
+        routesWithPiece.put(Position.of(1, 3), null);
 
         // when // then
         assertThatCode(() -> chariot.validateMove(routesWithPiece, new Chariot(Dynasty.HAN)))

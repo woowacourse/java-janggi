@@ -1,6 +1,6 @@
 package janggiGame.testhelper;
 
-import janggiGame.Dot;
+import janggiGame.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.piece.PieceType;
@@ -15,9 +15,9 @@ public class FakePiece extends Piece {
     }
 
     @Override
-    public List<Dot> getIntermediatePoints(Dot origin, Dot destination) {
-        List<Dot> intermediatePoints = new ArrayList<>();
-        intermediatePoints.add(Dot.of(0, 8));
+    public List<Position> getIntermediatePoints(Position origin, Position destination) {
+        List<Position> intermediatePoints = new ArrayList<>();
+        intermediatePoints.add(Position.of(0, 8));
         return intermediatePoints;
     }
 

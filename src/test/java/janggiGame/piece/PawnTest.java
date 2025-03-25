@@ -3,7 +3,7 @@ package janggiGame.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.Dot;
+import janggiGame.Position;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +17,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 class PawnTest {
     public static Stream<Arguments> providePawnAndOriginAndDestination() {
         return Stream.of(
-                Arguments.of(new Pawn(Dynasty.HAN), Dot.of(0, 5), Dot.of(0, 6)),
-                Arguments.of(new Pawn(Dynasty.CHO), Dot.of(0, 3), Dot.of(0, 2))
+                Arguments.of(new Pawn(Dynasty.HAN), Position.of(0, 5), Position.of(0, 6)),
+                Arguments.of(new Pawn(Dynasty.CHO), Position.of(0, 3), Position.of(0, 2))
         );
     }
 
@@ -26,12 +26,12 @@ class PawnTest {
     @Test
     void pawnCanGetIntermediatePoints() {
         // given
-        Dot origin = Dot.of(1, 1);
-        Dot destination = Dot.of(1, 0);
+        Position origin = Position.of(1, 1);
+        Position destination = Position.of(1, 0);
         Pawn pawn = new Pawn(Dynasty.HAN);
 
         // when
-        List<Dot> actual = pawn.getIntermediatePoints(origin, destination);
+        List<Position> actual = pawn.getIntermediatePoints(origin, destination);
 
         // then
         assertThat(actual).isEmpty();
@@ -40,7 +40,7 @@ class PawnTest {
     @DisplayName("병은 뒤로 이동할 수 없다.")
     @ParameterizedTest
     @MethodSource("providePawnAndOriginAndDestination")
-    void pawnCannotMoveBack(Pawn pawn, Dot origin, Dot destination) {
+    void pawnCannotMoveBack(Pawn pawn, Position origin, Position destination) {
         // when // then
         assertThatCode(() -> pawn.getIntermediatePoints(origin, destination))
                 .isInstanceOf(UnsupportedOperationException.class)
@@ -51,7 +51,7 @@ class PawnTest {
     @Test
     void pawnJudgeMovable3() {
         // given
-        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
         Pawn pawn = new Pawn(Dynasty.HAN);
 
         // when // then

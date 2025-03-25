@@ -3,7 +3,7 @@ package janggiGame.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.Dot;
+import janggiGame.Position;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,12 +15,12 @@ class KingTest {
     @Test
     void kingCanGetIntermediatePoints() {
         // given
-        Dot origin = Dot.of(1, 1);
-        Dot destination = Dot.of(1, 0);
+        Position origin = Position.of(1, 1);
+        Position destination = Position.of(1, 0);
         Advisor king = new Advisor(Dynasty.HAN);
 
         // when
-        List<Dot> actual = king.getIntermediatePoints(origin, destination);
+        List<Position> actual = king.getIntermediatePoints(origin, destination);
 
         // then
         assertThat(actual).isEmpty();
@@ -30,7 +30,7 @@ class KingTest {
     @Test
     void kingJudgeMovable3() {
         // given
-        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
         Advisor king = new Advisor(Dynasty.HAN);
 
         // when // then

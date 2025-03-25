@@ -1,6 +1,6 @@
 package janggiGame.piece;
 
-import janggiGame.Dot;
+import janggiGame.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,17 +13,17 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public List<Dot> getIntermediatePoints(Dot origin, Dot destination) {
+    public List<Position> getIntermediatePoints(Position origin, Position destination) {
         int dx = origin.calculateRowChange(destination);
         int dy = origin.calculateColumnChange(destination);
 
         validateRoute(dx, dy);
 
         if (dx == 0) {
-            return getDirectionalRoute(origin, dy, Dot::up, Dot::down);
+            return getDirectionalRoute(origin, dy, Position::up, Position::down);
         }
 
-        return getDirectionalRoute(origin, dx, Dot::right, Dot::left);
+        return getDirectionalRoute(origin, dx, Position::right, Position::left);
     }
 
     private void validateRoute(int dx, int dy) {
@@ -36,11 +36,11 @@ public class Cannon extends Piece {
         }
     }
 
-    private List<Dot> getDirectionalRoute(Dot origin, int delta,
-                                          Function<Dot, Dot> positiveMove,
-                                          Function<Dot, Dot> negativeMove) {
-        List<Dot> route = new ArrayList<>();
-        Function<Dot, Dot> moveFunction = getMoveFunction(delta, positiveMove, negativeMove);
+    private List<Position> getDirectionalRoute(Position origin, int delta,
+                                               Function<Position, Position> positiveMove,
+                                               Function<Position, Position> negativeMove) {
+        List<Position> route = new ArrayList<>();
+        Function<Position, Position> moveFunction = getMoveFunction(delta, positiveMove, negativeMove);
 
         while (Math.abs(delta) > 1) {
             origin = moveFunction.apply(origin);
@@ -51,9 +51,9 @@ public class Cannon extends Piece {
         return route;
     }
 
-    private Function<Dot, Dot> getMoveFunction(int delta,
-                                               Function<Dot, Dot> positiveMove,
-                                               Function<Dot, Dot> negativeMove) {
+    private Function<Position, Position> getMoveFunction(int delta,
+                                                         Function<Position, Position> positiveMove,
+                                                         Function<Position, Position> negativeMove) {
         if (delta > 0) {
             return positiveMove;
         }
@@ -64,7 +64,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public void validateMove(Map<Dot, Piece> IntermediatePointsWithPiece, Piece destinationPiece) {
+    public void validateMove(Map<Position, Piece> IntermediatePointsWithPiece, Piece destinationPiece) {
         super.validateMove(IntermediatePointsWithPiece, destinationPiece);
 
         if (destinationPiece != null && destinationPiece.getType().equals(PieceType.CANNON)) {

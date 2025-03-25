@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class DotTest {
+class PositionTest {
     public static Stream<Arguments> provideRowAndColumn() {
         return Stream.of(
                 Arguments.of(-1, 7),
@@ -28,7 +28,7 @@ class DotTest {
         int column = 2;
 
         // when // then
-        assertThatCode(() -> new Dot(row, column))
+        assertThatCode(() -> new Position(row, column))
                 .doesNotThrowAnyException();
 
     }
@@ -41,7 +41,7 @@ class DotTest {
         int column = 2;
 
         // when // then
-        assertThatCode(() -> Dot.of(row, column))
+        assertThatCode(() -> Position.of(row, column))
                 .doesNotThrowAnyException();
     }
 
@@ -53,7 +53,7 @@ class DotTest {
         int row = 2;
 
         // when // then
-        assertThatCode(() -> Dot.of(row, column))
+        assertThatCode(() -> Position.of(row, column))
                 .doesNotThrowAnyException();
     }
 
@@ -63,7 +63,7 @@ class DotTest {
     void validateDotRange(int row, int column) {
 
         // when // then
-        assertThatCode(() -> Dot.of(row, column))
+        assertThatCode(() -> Position.of(row, column))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -72,11 +72,11 @@ class DotTest {
     @Test
     void createDotsCache() {
         // given
-        Dot dotA = Dot.of(1, 1);
-        Dot dotB = Dot.of(1, 1);
+        Position positionA = Position.of(1, 1);
+        Position positionB = Position.of(1, 1);
 
         // when
-        boolean actual = dotA == dotB;
+        boolean actual = positionA == positionB;
 
         // then
         assertThat(actual).isTrue();
@@ -86,11 +86,11 @@ class DotTest {
     @Test
     void up_Test() {
         // given
-        Dot dot = Dot.of(1, 1);
+        Position position = Position.of(1, 1);
 
         // when
-        Dot actual = dot.up();
-        Dot expected = Dot.of(1, 2);
+        Position actual = position.up();
+        Position expected = Position.of(1, 2);
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -100,11 +100,11 @@ class DotTest {
     @Test
     void down_Test() {
         // given
-        Dot dot = Dot.of(1, 1);
+        Position position = Position.of(1, 1);
 
         // when
-        Dot actual = dot.down();
-        Dot expected = Dot.of(1, 0);
+        Position actual = position.down();
+        Position expected = Position.of(1, 0);
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -114,11 +114,11 @@ class DotTest {
     @Test
     void left_Test() {
         // given
-        Dot dot = Dot.of(1, 1);
+        Position position = Position.of(1, 1);
 
         // when
-        Dot actual = dot.left();
-        Dot expected = Dot.of(0, 1);
+        Position actual = position.left();
+        Position expected = Position.of(0, 1);
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -128,11 +128,11 @@ class DotTest {
     @Test
     void right_Test() {
         // given
-        Dot dot = Dot.of(1, 1);
+        Position position = Position.of(1, 1);
 
         // when
-        Dot actual = dot.right();
-        Dot expected = Dot.of(2, 1);
+        Position actual = position.right();
+        Position expected = Position.of(2, 1);
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -142,11 +142,11 @@ class DotTest {
     @Test
     void upLeft_Test() {
         // given
-        Dot dot = Dot.of(1, 1);
+        Position position = Position.of(1, 1);
 
         // when
-        Dot actual = dot.upLeft();
-        Dot expected = Dot.of(0, 2);
+        Position actual = position.upLeft();
+        Position expected = Position.of(0, 2);
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -156,11 +156,11 @@ class DotTest {
     @Test
     void downLeft_Test() {
         // given
-        Dot dot = Dot.of(1, 1);
+        Position position = Position.of(1, 1);
 
         // when
-        Dot actual = dot.downLeft();
-        Dot expected = Dot.of(0, 0);
+        Position actual = position.downLeft();
+        Position expected = Position.of(0, 0);
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -170,11 +170,11 @@ class DotTest {
     @Test
     void upRight_Test() {
         // given
-        Dot dot = Dot.of(1, 1);
+        Position position = Position.of(1, 1);
 
         // when
-        Dot actual = dot.upRight();
-        Dot expected = Dot.of(2, 2);
+        Position actual = position.upRight();
+        Position expected = Position.of(2, 2);
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -184,11 +184,11 @@ class DotTest {
     @Test
     void downRight_Test() {
         // given
-        Dot dot = Dot.of(1, 1);
+        Position position = Position.of(1, 1);
 
         // when
-        Dot actual = dot.downRight();
-        Dot expected = Dot.of(2, 0);
+        Position actual = position.downRight();
+        Position expected = Position.of(2, 0);
 
         // then
         assertThat(actual).isEqualTo(expected);
