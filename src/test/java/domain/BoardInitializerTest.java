@@ -1,9 +1,10 @@
 package domain;
 
-import domain.piece.Piece;
-import java.util.List;
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
+import static org.assertj.core.api.Assertions.assertThatCode;
+
+import domain.janggi.domain.Board;
+import domain.janggi.domain.BoardInitializer;
+import domain.janggi.domain.Position;
 import org.junit.jupiter.api.Test;
 
 class BoardInitializerTest {
@@ -13,8 +14,7 @@ class BoardInitializerTest {
         BoardInitializer boardInitializer = new BoardInitializer();
         Board board = boardInitializer.init();
 
-        SoftAssertions softly = new SoftAssertions();
-        Assertions.assertThatCode(() -> {
+        assertThatCode(() -> {
             board.findPiece(new Position(4, 1));
             board.findPiece(new Position(4, 3));
             board.findPiece(new Position(4, 5));

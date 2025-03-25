@@ -1,4 +1,4 @@
-package domain;
+package domain.janggi.domain;
 
 public class Player {
 

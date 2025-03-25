@@ -1,9 +1,9 @@
-package view;
+package domain.janggi.view;
 
-import domain.Board;
-import domain.Color;
-import domain.Position;
-import domain.piece.Piece;
+import domain.janggi.domain.Position;
+import domain.janggi.domain.Board;
+import domain.janggi.domain.Color;
+import domain.janggi.piece.Piece;
 import java.util.stream.IntStream;
 
 public class OutputView {

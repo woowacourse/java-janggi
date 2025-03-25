@@ -1,7 +1,6 @@
-package domain;
+package domain.janggi.domain;
 
-import domain.piece.Cannon;
-import domain.piece.Piece;
+import domain.janggi.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +17,7 @@ public class Board {
     }
 
     public void putPieces(final List<Piece> pieces) {
-        pieces.forEach(this::putPiece);
-    }
-
-    public void putPiece(final Piece piece) {
-        pieces.add(piece);
+        this.pieces.addAll(pieces);
     }
 
     public boolean isExists(final Position position) {
@@ -35,12 +30,6 @@ public class Board {
 
     public void remove(final Position position) {
         pieces.removeIf(piece -> piece.isSamePosition(position));
-    }
-
-    public boolean isCannonAt(final Position position) {
-        return pieces.stream()
-                .filter(piece -> piece.isSamePosition(position))
-                .anyMatch(Cannon.class::isInstance);
     }
 
     public Piece findPiece(final Position position) {

@@ -1,9 +1,9 @@
-package domain.piece;
+package domain.janggi.piece;
 
-import domain.Board;
-import domain.Color;
-import domain.Direction;
-import domain.Position;
+import domain.janggi.domain.Board;
+import domain.janggi.domain.Color;
+import domain.janggi.domain.Direction;
+import domain.janggi.domain.Position;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,8 +32,8 @@ public class Cannon extends Piece {
         if (!position.canMove(direction) || meetCount > 1) {
             return positions;
         }
-        Position nextPosition = position.move(direction);
-        if (board.isCannonAt(nextPosition)) {
+        Position nextPosition = position.moveByDirection(direction);
+        if (isCannonAt(nextPosition)) {
             return positions;
         }
         if (meetCount == 1 && !board.anyMatchSameTeam(this, nextPosition)) {
@@ -41,6 +41,13 @@ public class Cannon extends Piece {
         }
         positions.addAll(computePositions(nextPosition, direction, computeMeetCount(meetCount, nextPosition)));
         return positions;
+    }
+
+    private boolean isCannonAt(Position position) {
+        if (!board.isExists(position)) {
+            return false;
+        }
+        return board.findPiece(position) instanceof Cannon;
     }
 
     private int computeMeetCount(int currentMeetCount, Position nextPosition) {

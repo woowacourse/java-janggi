@@ -1,4 +1,4 @@
-package domain;
+package domain.janggi.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ public class Path {
         List<Position> pathPositions = new ArrayList<>();
         Position currPosition = position;
         for (Direction direction : directions) {
-            currPosition = currPosition.move(direction);
+            currPosition = currPosition.moveByDirection(direction);
             pathPositions.add(currPosition);
         }
         this.positions.addAll(pathPositions);

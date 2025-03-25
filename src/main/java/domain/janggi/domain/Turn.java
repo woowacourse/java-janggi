@@ -1,10 +1,10 @@
-package domain;
+package domain.janggi.domain;
 
 public class Turn {
 
     private int value = 1;
 
-    public Color getCurrnetTeam() {
+    public Color getCurrentTurn() {
         if (value % 2 == 0) {
             return Color.RED;
         }

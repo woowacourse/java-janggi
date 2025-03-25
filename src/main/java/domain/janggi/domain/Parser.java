@@ -1,6 +1,5 @@
-package view;
+package domain.janggi.domain;
 
-import domain.Position;
 import java.util.List;
 
 public class Parser {

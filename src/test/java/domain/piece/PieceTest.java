@@ -3,9 +3,11 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Board;
-import domain.Color;
-import domain.Position;
+import domain.janggi.domain.Board;
+import domain.janggi.domain.Color;
+import domain.janggi.domain.Position;
+import domain.janggi.piece.Chariot;
+import domain.janggi.piece.Piece;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -45,7 +47,7 @@ class PieceTest {
         Position position = new Position(1, 1);
         Board board = new Board(List.of());
         Piece piece = new Chariot(position, Color.BLUE, board);
-        board.putPiece(piece);
+        board.putPieces(List.of(piece));
 
         Position nextPosition = new Position(2, 1);
         piece.move(nextPosition);
@@ -61,8 +63,10 @@ class PieceTest {
         Position position = new Position(1, 1);
         Board board = new Board(List.of());
         Piece piece = new Chariot(position, Color.BLUE, board);
-        board.putPiece(piece);
-        board.putPiece(new Chariot(new Position(row, column), Color.RED, board));
+        board.putPieces(List.of(
+                piece,
+                new Chariot(new Position(row, column), Color.RED, board)
+        ));
 
         Position nextPosition = new Position(targetRow, targetColumn);
         piece.move(nextPosition);
@@ -81,7 +85,7 @@ class PieceTest {
         Board board = new Board(List.of());
         Piece piece = new Chariot(position, Color.BLUE, board);
         Position nextPosition = new Position(row, column);
-        board.putPiece(new Chariot(nextPosition, Color.BLUE, board));
+        board.putPieces(List.of(new Chariot(nextPosition, Color.BLUE, board)));
 
         assertThatThrownBy(() -> piece.move(new Position(targetRow, targetColumn)))
                 .isInstanceOf(IllegalArgumentException.class);

@@ -1,9 +1,9 @@
-package domain.piece;
+package domain.janggi.piece;
 
-import domain.Board;
-import domain.Color;
-import domain.Direction;
-import domain.Position;
+import domain.janggi.domain.Board;
+import domain.janggi.domain.Color;
+import domain.janggi.domain.Direction;
+import domain.janggi.domain.Position;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,7 +16,7 @@ public class Guard extends Piece {
     @Override
     protected Set<Position> getMovablePositions() {
         return Direction.getStraightDirection().stream()
-                .map(direction -> position.move(direction))
+                .map(direction -> position.moveByDirection(direction))
                 .filter(this::isMovable)
                 .collect(Collectors.toSet());
     }

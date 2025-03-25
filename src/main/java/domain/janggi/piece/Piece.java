@@ -1,8 +1,8 @@
-package domain.piece;
+package domain.janggi.piece;
 
-import domain.Board;
-import domain.Color;
-import domain.Position;
+import domain.janggi.domain.Board;
+import domain.janggi.domain.Color;
+import domain.janggi.domain.Position;
 import java.util.Set;
 
 public abstract class Piece {
@@ -19,7 +19,7 @@ public abstract class Piece {
 
     public void move(final Position position) {
         if (!getMovablePositions().contains(position)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
         if (!board.anyMatchSameTeam(this, position)) {
             board.remove(position);

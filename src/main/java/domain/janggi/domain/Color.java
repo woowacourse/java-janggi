@@ -1,4 +1,4 @@
-package domain;
+package domain.janggi.domain;
 
 public enum Color {
     RED(1),
@@ -14,10 +14,4 @@ public enum Color {
         return initRow;
     }
 
-    public int convertRowOffsetByTeam(int offset) {
-        if (this == Color.BLUE) {
-            return -offset;
-        }
-        return offset;
-    }
 }

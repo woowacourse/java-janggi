@@ -2,6 +2,8 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.janggi.domain.Color;
+import domain.janggi.domain.Player;
 import org.junit.jupiter.api.Test;
 
 class PlayerTest {

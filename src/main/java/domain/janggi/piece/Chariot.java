@@ -1,9 +1,9 @@
-package domain.piece;
+package domain.janggi.piece;
 
-import domain.Board;
-import domain.Color;
-import domain.Direction;
-import domain.Position;
+import domain.janggi.domain.Board;
+import domain.janggi.domain.Color;
+import domain.janggi.domain.Direction;
+import domain.janggi.domain.Position;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,7 +26,7 @@ public class Chariot extends Piece {
         if (!position.canMove(direction)) {
             return positions;
         }
-        Position nextPosition = position.move(direction);
+        Position nextPosition = position.moveByDirection(direction);
         if (!board.anyMatchSameTeam(this, nextPosition)) {
             positions.add(nextPosition);
         }

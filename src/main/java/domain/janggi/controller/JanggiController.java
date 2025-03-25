@@ -1,19 +1,25 @@
-import domain.Board;
-import domain.BoardInitializer;
-import domain.Position;
-import domain.Turn;
-import domain.piece.Piece;
+package domain.janggi.controller;
+
+import domain.janggi.domain.Board;
+import domain.janggi.domain.BoardInitializer;
+import domain.janggi.domain.Parser;
+import domain.janggi.domain.Position;
+import domain.janggi.domain.Turn;
+import domain.janggi.piece.Piece;
+import domain.janggi.view.InputView;
+import domain.janggi.view.OutputView;
 import java.util.List;
-import view.InputView;
-import view.OutputView;
-import view.Parser;
 
-public class JanggiApplication {
+public class JanggiController {
+    private final InputView inputView;
+    private final OutputView outputView;
 
-    private static final InputView inputView = new InputView();
-    private static final OutputView outputView = new OutputView();
+    public JanggiController(InputView inputView, OutputView outputView) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+    }
 
-    public static void main(String[] args) {
+    public void run() {
         BoardInitializer boardInitializer = new BoardInitializer();
         Board board = boardInitializer.init();
         Turn turn = new Turn();
@@ -21,8 +27,7 @@ public class JanggiApplication {
         retry(() -> playGame(board, turn));
     }
 
-    private static void playGame(final Board board, final Turn turn) {
-        outputView.printBoard(board);
+    private void playGame(final Board board, final Turn turn) {
         String command = inputView.inputMovePositions();
         if (command.equals("Q")) {
             return;
@@ -34,9 +39,10 @@ public class JanggiApplication {
         piece.move(endPosition);
         turn.increaseRound();
         outputView.printBoard(board);
+        playGame(board, turn);
     }
 
-    private static void retry(final Runnable runnable) {
+    private void retry(final Runnable runnable) {
         while (true) {
             try {
                 runnable.run();
@@ -48,5 +54,4 @@ public class JanggiApplication {
             }
         }
     }
-
 }

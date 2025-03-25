@@ -1,4 +1,4 @@
-package view;
+package domain.janggi.view;
 
 public class CustomStringBuilder {
 

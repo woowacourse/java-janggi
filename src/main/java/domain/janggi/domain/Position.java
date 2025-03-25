@@ -1,4 +1,4 @@
-package domain;
+package domain.janggi.domain;
 
 import java.util.List;
 
@@ -20,21 +20,16 @@ public record Position(int row, int column) {
     }
 
     public boolean canMove(final List<Direction> directions) {
-        Position currPosition = this;
-        for (Direction direction : directions) {
-            if (!currPosition.canMove(direction)) {
-                return false;
-            }
-            currPosition = currPosition.move(direction);
-        }
-        return true;
+        int deltaRow = directions.stream().mapToInt(Direction::deltaRow).sum();
+        int deltaColumn = directions.stream().mapToInt(Direction::deltaColumn).sum();
+        return !isInValidPosition(row + deltaRow, column + deltaColumn);
     }
 
-    public Position move(final Direction direction) {
+    public Position moveByDirection(final Direction direction) {
         return new Position(row + direction.deltaRow(), column + direction.deltaColumn());
     }
 
-    public Position move(final Path path) {
+    public Position moveByPath(final Path path) {
         return path.targetPosition();
     }
 
