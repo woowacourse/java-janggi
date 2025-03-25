@@ -27,11 +27,11 @@ public enum Direction {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 방향이 존재하지 않습니다."));
     }
 
-    public Point getDirection() {
-        return direction;
+    public int getX() {
+        return direction.x();
     }
 
-    public Point apply(int side) {
-        return direction.apply(side);
+    public int getY() {
+        return direction.y();
     }
 }

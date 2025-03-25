@@ -16,7 +16,7 @@ public abstract class Soldier extends Piece {
     @Override
     public void validateDestination(Point from, Point to) {
         getPaths().stream()
-                .filter(direction -> from.plus(direction.getDirection()).equals(to))
+                .filter(direction -> from.plus(direction).equals(to))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다."));
     }
