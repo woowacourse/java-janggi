@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class PositionTest {
 
-    @ValueSource(strings = {"0,-1", "-1,0", "9,0", "0,10"})
+    @ValueSource(strings = {"0,-1,row가 장기판 범위를 벗어났습니다: -1", "-1,0,column이 장기판 범위를 벗어났습니다: -1", "9,0,column이 장기판 범위를 벗어났습니다: 9", "0,10,row가 장기판 범위를 벗어났습니다: 10"})
     @ParameterizedTest
     @DisplayName("좌표 범위를 넘으면 예외를 발생시킨다")
     void test1(String str) {
@@ -16,11 +16,12 @@ class PositionTest {
         String[] split = str.split(",");
         int x = Integer.parseInt(split[0]);
         int y = Integer.parseInt(split[1]);
+        String exceptionMessage = split[2];
 
         // when & then
         Assertions.assertThatThrownBy(() -> new Position(x, y))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("");
+                .hasMessage(exceptionMessage);
     }
 
     @ValueSource(strings = {"0,2", "2,0", "2,9", "8,2"})
