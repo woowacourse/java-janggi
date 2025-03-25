@@ -119,11 +119,10 @@ public class ElephantTest {
         }
     }
 
-    @Disabled
     @DisplayName("elephant가 갈 수 없는 경로라면, 예외를 던져야 한다")
     @Test
     void cannot_go_position_then_throw_exception() {
-        Position arrival = new Position(Column.THREE, Row.FIVE);
+        Position arrival = new Position(Column.FIVE, Row.TWO);
         assertThatThrownBy(() -> elephant.calculateAllDirection(departure, arrival))
             .isInstanceOf(IllegalArgumentException.class);
     }

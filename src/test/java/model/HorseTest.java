@@ -8,7 +8,6 @@ import model.piece.Horse;
 import model.position.Column;
 import model.position.Position;
 import model.position.Row;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -111,7 +110,6 @@ public class HorseTest {
         }
     }
 
-    @Disabled
     @DisplayName("horse가 갈 수 없는 경로라면, 예외를 던져야 한다")
     @Test
     void cannot_go_position_then_throw_exception() {
