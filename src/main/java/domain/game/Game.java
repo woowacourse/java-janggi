@@ -61,9 +61,22 @@ public class Game {
     }
 
     private void moveAndCaptureIfEnemyExists(List<Route> routes, Position startPoint) {
-        int selectedRouteNumber = handleInputException(inputView::readRoute, Integer::parseInt) - 1;
-        Route route = routes.get(selectedRouteNumber);
+        int selectedRouteNumber = handleInputException(inputView::readRoute,
+                (inputValue) -> parseSelectNumber(inputValue, routes.size()));
+        Route route = routes.get(selectedRouteNumber - 1);
         janggi.moveAndCaptureIfEnemyExists(route, startPoint);
+    }
+
+    private int parseSelectNumber(String s, int selectBoxMaxSize) {
+        try {
+            int selectedNumber = Integer.parseInt(s);
+            if (selectedNumber < 1 || selectedNumber > selectBoxMaxSize) {
+                throw new IllegalArgumentException("범위 내의 번호를 입력해주세요.");
+            }
+            return selectedNumber;
+        } catch (NumberFormatException exception) {
+            throw new IllegalArgumentException("올바른 번호를 입력해주세요.");
+        }
     }
 
     private Position getPosition() {
