@@ -12,6 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class JanggiPositionTest {
+    
     @Test
     void 포지션은_숫자를_가진다() {
         Assertions.assertThatNoException().isThrownBy(() -> new JanggiPosition(0, 0));
