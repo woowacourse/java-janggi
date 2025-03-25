@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class ElephantTest {
-    public static Stream<Arguments> provideElephantOriginAndDestinationAndExpected() {
+    private static Stream<Arguments> provideElephantOriginAndDestinationAndExpected() {
         return Stream.of(
                 Arguments.of(Position.of(5, 6), Position.of(7, 9), List.of(Position.of(5, 7), Position.of(6, 8))),
                 Arguments.of(Position.of(5, 6), Position.of(3, 9), List.of(Position.of(5, 7), Position.of(4, 8))),
@@ -24,6 +24,20 @@ class ElephantTest {
                 Arguments.of(Position.of(5, 6), Position.of(3, 3), List.of(Position.of(5, 5), Position.of(4, 4)))
 
         );
+    }
+
+    @DisplayName("상이 목적지로 갈 수 없다면 예외를 발생 시킨다")
+    @Test
+    void elephantCanValidateDestination() {
+        // given
+        Position origin = Position.of(1, 1);
+        Position destination = Position.of(3, 3);
+        Elephant elephant = new Elephant(Dynasty.HAN);
+
+        // when // then
+        assertThatCode(() -> elephant.getIntermediatePoints(origin, destination))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("상은 목적지로 가는 경로를 구할 수 있다.")
@@ -40,49 +54,34 @@ class ElephantTest {
         assertThat(actual).isEqualTo(expected);
     }
 
-    @DisplayName("상이 목적지로 갈 수 없다면 예외를 발생시킨다")
+    @DisplayName("상은 이동 경로에 기물이 존재 한다면 이동할 수 없다")
     @Test
-    void elephantCannotGetIntermediatePoints() {
+    void elephantCanNotMoveIfIntermediatePointsHasPiece() {
         // given
-        Position origin = Position.of(1, 1);
-        Position destination = Position.of(3, 3);
+        Map<Position, Piece> intermediatePointsWithPiece = new LinkedHashMap<>();
         Elephant elephant = new Elephant(Dynasty.HAN);
 
+        intermediatePointsWithPiece.put(Position.of(5, 7), null);
+        intermediatePointsWithPiece.put(Position.of(6, 8), new Elephant(Dynasty.HAN));
+
         // when // then
-        assertThatCode(() -> elephant.getIntermediatePoints(origin, destination))
+        assertThatCode(() -> elephant.validateMove(intermediatePointsWithPiece, null))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-
-    @DisplayName("상은 이동 경로에 어떤 말도 없다면 이동 가능하다")
+    @DisplayName("상은 이동 경로에 어떤 말도 없다면 이동 가능 하다")
     @Test
-    void elephantJudgeMovable() {
+    void elephantCanMove() {
         // given
-        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> intermediatePointsWithPiece = new LinkedHashMap<>();
         Elephant elephant = new Elephant(Dynasty.HAN);
 
-        routesWithPiece.put(Position.of(5, 7), null);
-        routesWithPiece.put(Position.of(6, 8), null);
+        intermediatePointsWithPiece.put(Position.of(5, 7), null);
+        intermediatePointsWithPiece.put(Position.of(6, 8), null);
 
         // when // then
-        assertThatCode(() -> elephant.validateMove(routesWithPiece, null))
+        assertThatCode(() -> elephant.validateMove(intermediatePointsWithPiece, null))
                 .doesNotThrowAnyException();
-    }
-
-    @DisplayName("상은 이동 경로에 기물이 존재한다면 이동할 수 없다")
-    @Test
-    void elephantJudgeMovable2() {
-        // given
-        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
-        Elephant elephant = new Elephant(Dynasty.HAN);
-
-        routesWithPiece.put(Position.of(5, 7), null);
-        routesWithPiece.put(Position.of(6, 8), new Elephant(Dynasty.HAN));
-
-        // when // then
-        assertThatCode(() -> elephant.validateMove(routesWithPiece, null))
-                .isInstanceOf(UnsupportedOperationException.class)
-                .hasMessageStartingWith("[ERROR]");
     }
 }
