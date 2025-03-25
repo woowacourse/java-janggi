@@ -7,12 +7,6 @@ import domain.piece.Position;
 
 public class Horse extends Piece {
 
-    private static final PieceType type = PieceType.HORSE;
-
-    public Horse(final int row, final int column, final Directions directions) {
-        super(row, column, directions);
-    }
-
     public Horse(final Position position, final Directions directions) {
         super(position, directions);
     }
@@ -24,11 +18,11 @@ public class Horse extends Piece {
 
     @Override
     public boolean isEqualType(final PieceType type) {
-        return Horse.type == type;
+        return PieceType.HORSE == type;
     }
 
     @Override
     public String getName() {
-        return type.getName();
+        return PieceType.HORSE.getName();
     }
 }

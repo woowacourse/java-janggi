@@ -7,12 +7,6 @@ import domain.piece.Position;
 
 public class General extends Piece {
 
-    private static final PieceType type = PieceType.GENERAL;
-
-    public General(final int row, final int column, final Directions directions) {
-        super(row, column, directions);
-    }
-
     public General(final Position position, final Directions directions) {
         super(position, directions);
     }
@@ -24,11 +18,11 @@ public class General extends Piece {
 
     @Override
     public boolean isEqualType(final PieceType type) {
-        return General.type == type;
+        return PieceType.GENERAL == type;
     }
 
     @Override
     public String getName() {
-        return type.getName();
+        return PieceType.GENERAL.getName();
     }
 }

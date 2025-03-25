@@ -7,12 +7,6 @@ import domain.piece.Position;
 
 public class Chariot extends Piece {
 
-    private static final PieceType type = PieceType.CHARIOT;
-
-    public Chariot(final int row, final int column, final Directions directions) {
-        super(row, column, directions);
-    }
-
     public Chariot(final Position position, final Directions directions) {
         super(position, directions);
     }
@@ -24,11 +18,11 @@ public class Chariot extends Piece {
 
     @Override
     public boolean isEqualType(final PieceType type) {
-        return Chariot.type == type;
+        return PieceType.CHARIOT == type;
     }
 
     @Override
     public String getName() {
-        return type.getName();
+        return PieceType.CHARIOT.getName();
     }
 }

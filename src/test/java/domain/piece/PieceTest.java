@@ -80,14 +80,14 @@ class PieceTest {
     @Test
     void 입력받은_타입의_기물인지_판단한다() {
         // given
-        final Piece cannon = new Cannon(1, 2, new Directions(List.of()));
-        final Piece king = new General(1, 2, new Directions(List.of()));
-        final Piece advisor = new Guard(1, 2, new Directions(List.of()));
-        final Piece elephant = new Elephant(1, 2, new Directions(List.of()));
-        final Piece horse = new Horse(1, 2, new Directions(List.of()));
-        final Piece pawn = new Soldier(1, 2, new Directions(List.of()));
-        final Piece rook = new Chariot(1, 2, new Directions(List.of()));
-        final Piece piece = new TestPiece(1, 2, new Directions(List.of()));
+        final Piece cannon = new Cannon(Position.of(1, 2), new Directions(List.of()));
+        final Piece king = new General(Position.of(1, 2), new Directions(List.of()));
+        final Piece advisor = new Guard(Position.of(1, 2), new Directions(List.of()));
+        final Piece elephant = new Elephant(Position.of(1, 2), new Directions(List.of()));
+        final Piece horse = new Horse(Position.of(1, 2), new Directions(List.of()));
+        final Piece pawn = new Soldier(Position.of(1, 2), new Directions(List.of()));
+        final Piece rook = new Chariot(Position.of(1, 2), new Directions(List.of()));
+        final Piece piece = new TestPiece(Position.of(1, 2), new Directions(List.of()));
 
         // when & then
         assertAll(

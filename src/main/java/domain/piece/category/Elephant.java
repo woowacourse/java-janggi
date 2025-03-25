@@ -7,12 +7,6 @@ import domain.piece.Position;
 
 public class Elephant extends Piece {
 
-    private static final PieceType type = PieceType.ELEPHANT;
-
-    public Elephant(final int row, final int column, final Directions directions) {
-        super(row, column, directions);
-    }
-
     public Elephant(final Position position, final Directions directions) {
         super(position, directions);
     }
@@ -24,11 +18,11 @@ public class Elephant extends Piece {
 
     @Override
     public boolean isEqualType(final PieceType type) {
-        return Elephant.type == type;
+        return PieceType.ELEPHANT == type;
     }
 
     @Override
     public String getName() {
-        return type.getName();
+        return PieceType.ELEPHANT.getName();
     }
 }
