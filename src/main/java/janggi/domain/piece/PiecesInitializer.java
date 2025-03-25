@@ -68,7 +68,7 @@ public class PiecesInitializer {
                 case OUTER_ELEPHANT_SETUP -> outerElephantFormationForRed();
                 case LEFT_ELEPHANT_SETUP -> leftElephantFormationForRed();
                 case RIGHT_ELEPHANT_SETUP -> rightElephantFormationForRed();
-                default -> throw new IllegalArgumentException("Invalid board setup");
+                default -> throw new IllegalArgumentException("존재하지 않는 상차림입니다.");
             };
         } else {
             return switch (boardSetup) {
@@ -76,7 +76,7 @@ public class PiecesInitializer {
                 case OUTER_ELEPHANT_SETUP -> outerElephantFormationForBlue();
                 case LEFT_ELEPHANT_SETUP -> leftElephantFormationForBlue();
                 case RIGHT_ELEPHANT_SETUP -> rightElephantFormationForBlue();
-                default -> throw new IllegalArgumentException("Invalid board setup");
+                default -> throw new IllegalArgumentException("존재하지 않는 상차림입니다.");
             };
         }
     }

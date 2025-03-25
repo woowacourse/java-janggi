@@ -105,4 +105,8 @@ public class OutputView {
         return "졸";
 
     }
+
+    public void printErrorMessage(final String message) {
+        System.out.println(message);
+    }
 }

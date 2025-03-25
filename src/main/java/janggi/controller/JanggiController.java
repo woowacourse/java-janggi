@@ -25,27 +25,44 @@ public class JanggiController {
     }
 
     public void run() {
-        final BoardSetup redBoardSetup = inputView.inputBoardSetup(RED);
-        final BoardSetup blueBoardSetup = inputView.inputBoardSetup(BLUE);
-        final Board board = new Board(redBoardSetup, blueBoardSetup);
+        final Board board = generateBoard();
+
         final List<Piece> pieces = board.getPieces();
-        outputView.printBoard(pieces);
-
         while (true) {
-            final Team currentTurn = board.getTurn();
-            outputView.printTurn(currentTurn);
+            try {
+                startGame(board, pieces);
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
+    }
 
-            final Position position = inputView.inputPiecePosition();
-            final Piece selectPiece = board.selectPiece(position);
+    private void startGame(final Board board, final List<Piece> pieces) {
+        outputView.printBoard(pieces);
+        final Team currentTurn = board.getTurn();
+        outputView.printTurn(currentTurn);
 
-            final Set<Route> possibleRoutes = board.findPossibleRoutes(selectPiece);
-            outputView.printPossibleRoutes(possibleRoutes);
+        final Position position = inputView.inputPiecePosition();
+        final Piece selectPiece = board.selectPiece(position);
 
-            final Position destination = inputView.inputDestination();
+        final Set<Route> possibleRoutes = board.findPossibleRoutes(selectPiece);
+        outputView.printPossibleRoutes(possibleRoutes);
 
-            board.movePiece(destination, selectPiece);
-            outputView.printBoard(pieces);
-            board.changeTurn();
+        final Position destination = inputView.inputDestination();
+
+        board.movePiece(destination, selectPiece);
+        board.changeTurn();
+    }
+
+    private Board generateBoard() {
+        while (true) {
+            try {
+                final BoardSetup redBoardSetup = inputView.inputBoardSetup(RED);
+                final BoardSetup blueBoardSetup = inputView.inputBoardSetup(BLUE);
+                return new Board(redBoardSetup, blueBoardSetup);
+            } catch (final IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
         }
     }
 }

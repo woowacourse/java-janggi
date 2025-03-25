@@ -25,22 +25,14 @@ public class InputView {
         return getBoardSetup(scanner.nextLine());
     }
 
-    private BoardSetup getBoardSetup(String input) {
-        if (input.equals("오른상차림")) {
-            return RIGHT_ELEPHANT_SETUP;
-        }
-        if (input.equals("왼상차림")) {
-            return LEFT_ELEPHANT_SETUP;
-        }
-        if (input.equals("안상차림")) {
-            return INNER_ELEPHANT_SETUP;
-        }
-        if (input.equals("바깥상차림")) {
-            return OUTER_ELEPHANT_SETUP;
-        }
-
-        throw new IllegalArgumentException("존재하지 않는 상차림입니다.");
-
+    private BoardSetup getBoardSetup(final String input) {
+        return switch (input) {
+            case "오른상차림" -> RIGHT_ELEPHANT_SETUP;
+            case "왼상차림" -> LEFT_ELEPHANT_SETUP;
+            case "안상차림" -> INNER_ELEPHANT_SETUP;
+            case "바깥상차림" -> OUTER_ELEPHANT_SETUP;
+            default -> throw new IllegalArgumentException("존재하지 않는 상차림입니다.");
+        };
     }
 
     public Position inputPiecePosition() {
