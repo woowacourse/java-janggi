@@ -13,7 +13,7 @@ public abstract class Piece {
         this.type = type;
     }
 
-    public void validateSameDynasty(Piece piece) {
+    protected void validateSameDynasty(Piece piece) {
         if (piece != null && piece.dynasty == this.dynasty) {
             throw new UnsupportedOperationException("[ERROR] 같은 나라의 말은 공격할 수 없습니다.");
         }
@@ -29,8 +29,9 @@ public abstract class Piece {
 
     public abstract List<Dot> getRoute(Dot origin, Dot destination);
 
-    public abstract void validateRoute(int dx, int dy);
-
     public abstract void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece);
+
+    protected abstract void validateRoute(int dx, int dy);
+
 
 }

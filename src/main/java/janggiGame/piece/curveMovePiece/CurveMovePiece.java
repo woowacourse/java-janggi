@@ -25,13 +25,6 @@ public abstract class CurveMovePiece extends Piece {
     }
 
     @Override
-    public void validateRoute(int dx, int dy) {
-        if (!(isFirstMoveVertical(dx, dy) || isFirstMoveHorizontal(dx, dy))) {
-            throw new UnsupportedOperationException("[ERROR] 이동할 수 있는 목적지가 아닙니다.");
-        }
-    }
-
-    @Override
     public List<Dot> getRoute(Dot origin, Dot destination) {
         int dx = origin.getDx(destination);
         int dy = origin.getDy(destination);
@@ -39,13 +32,20 @@ public abstract class CurveMovePiece extends Piece {
         return getRouteBySteps(origin, getMoveSteps(dx, dy));
     }
 
-    protected List<Dot> getRouteBySteps(Dot origin, List<Function<Dot, Dot>> moveSteps) {
+    private List<Dot> getRouteBySteps(Dot origin, List<Function<Dot, Dot>> moveSteps) {
         List<Dot> route = new ArrayList<>();
         for (Function<Dot, Dot> move : moveSteps) {
             origin = move.apply(origin);
             route.add(origin);
         }
         return route;
+    }
+
+    @Override
+    protected void validateRoute(int dx, int dy) {
+        if (!(isFirstMoveVertical(dx, dy) || isFirstMoveHorizontal(dx, dy))) {
+            throw new UnsupportedOperationException("[ERROR] 이동할 수 있는 목적지가 아닙니다.");
+        }
     }
 
     protected Function<Dot, Dot> getFirstMove(int dx, int dy) {
@@ -61,5 +61,4 @@ public abstract class CurveMovePiece extends Piece {
     protected abstract boolean isFirstMoveHorizontal(int dx, int dy);
 
     protected abstract List<Function<Dot, Dot>> getMoveSteps(int dx, int dy);
-
 }

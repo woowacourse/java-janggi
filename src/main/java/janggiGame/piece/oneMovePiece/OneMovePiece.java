@@ -23,7 +23,7 @@ public abstract class OneMovePiece extends Piece {
     }
 
     @Override
-    public void validateRoute(int dx, int dy) {
+    protected void validateRoute(int dx, int dy) {
         if (Math.abs(dx) + Math.abs(dy) != 1) {
             throw new UnsupportedOperationException("[ERROR] 장이 이동할 수 있는 목적지가 아닙니다.");
         }
@@ -33,5 +33,4 @@ public abstract class OneMovePiece extends Piece {
     public void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
         validateSameDynasty(destinationPiece);
     }
-
 }

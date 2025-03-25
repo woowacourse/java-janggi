@@ -63,7 +63,7 @@ public abstract class StraightMovePiece extends Piece {
     }
 
     @Override
-    public void validateRoute(int dx, int dy) {
+    protected void validateRoute(int dx, int dy) {
         if (dx != 0 && dy != 0) {
             throw new UnsupportedOperationException("[ERROR] 포가 이동할 수 있는 목적지가 아닙니다.");
         }

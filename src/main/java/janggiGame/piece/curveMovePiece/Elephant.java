@@ -13,7 +13,6 @@ public class Elephant extends CurveMovePiece {
         super(dynasty, Type.ELEPHANT);
     }
 
-
     @Override
     protected List<Function<Dot, Dot>> getMoveSteps(int dx, int dy) {
         return List.of(
