@@ -8,6 +8,10 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 
 public class JanggiController {
+    public static final int FIRST_INPUT_START_INDEX = 0;
+    public static final int FIRST_INPUT_END_INDEX = 2;
+    public static final int SECOND_INPUT_START_INDEX = 2;
+    public static final int SECOND_INPUT_END_INDEX = 4;
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -30,10 +34,10 @@ public class JanggiController {
         String blueHorsePosition = inputView.getBlueHorsePosition();
         String redHorsePosition = inputView.getRedHorsePosition();
         return BoardFactory.getInitializedBoard(
-                getPositionSide(blueHorsePosition.substring(0, 2)),
-                getPositionSide(blueHorsePosition.substring(2, 4)),
-                getPositionSide(redHorsePosition.substring(0, 2)),
-                getPositionSide(redHorsePosition.substring(2, 4))
+                getPositionSide(blueHorsePosition.substring(FIRST_INPUT_START_INDEX, FIRST_INPUT_END_INDEX)),
+                getPositionSide(blueHorsePosition.substring(SECOND_INPUT_START_INDEX, SECOND_INPUT_END_INDEX)),
+                getPositionSide(redHorsePosition.substring(FIRST_INPUT_START_INDEX, FIRST_INPUT_END_INDEX)),
+                getPositionSide(redHorsePosition.substring(SECOND_INPUT_START_INDEX, SECOND_INPUT_END_INDEX))
         );
     }
 
