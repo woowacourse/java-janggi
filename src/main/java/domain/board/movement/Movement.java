@@ -1,19 +1,13 @@
 package domain.board.movement;
 
+import static domain.board.movement.PalaceMovement.PALACE_MOVEMENT_POSITIONS;
+
 import domain.board.BoardPosition;
-import java.util.Set;
 
 public abstract class Movement {
 
-    private static final Set<BoardPosition> PALACE_MOVEMENT_POSITIONS = Set.of(
-            new BoardPosition(3, 0), new BoardPosition(5, 0), new BoardPosition(4, 1),
-            new BoardPosition(3, 2), new BoardPosition(5, 2),
-            new BoardPosition(3, 9), new BoardPosition(5, 9), new BoardPosition(4, 8),
-            new BoardPosition(3, 7), new BoardPosition(5, 7)
-    );
-
-    private final BoardPosition before;
-    private final BoardPosition after;
+    protected final BoardPosition before;
+    protected final BoardPosition after;
 
     protected Movement(
             final BoardPosition before,
