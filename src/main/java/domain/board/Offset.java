@@ -37,8 +37,8 @@ public record Offset(
         return (x == 0 && Math.abs(y) == 1) || (Math.abs(x) == 1 && y == 0);
     }
 
-    public boolean isDiagonalMovement() {
-        return x != 0 && y != 0;
+    public boolean isStraightMovement() {
+        return x == 0 || y == 0;
     }
 
     public Offset getUnitDirectionOffset() {

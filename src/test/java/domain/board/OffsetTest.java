@@ -47,14 +47,14 @@ class OffsetTest {
             );
         }
 
-        @DisplayName("대각 움직임인지 확인한다.")
+        @DisplayName("직선 움직임인지 확인한다.")
         @Test
         void isDiagonalMovement() {
             assertAll(
-                    () -> assertThat(new Offset(1, 1).isDiagonalMovement()).isTrue(),
-                    () -> assertThat(new Offset(1, -1).isDiagonalMovement()).isTrue(),
-                    () -> assertThat(new Offset(-1, 0).isDiagonalMovement()).isFalse(),
-                    () -> assertThat(new Offset(0, 1).isDiagonalMovement()).isFalse()
+                    () -> assertThat(new Offset(1, 1).isStraightMovement()).isFalse(),
+                    () -> assertThat(new Offset(1, -1).isStraightMovement()).isFalse(),
+                    () -> assertThat(new Offset(-1, 0).isStraightMovement()).isTrue(),
+                    () -> assertThat(new Offset(0, 1).isStraightMovement()).isTrue()
             );
         }
 

@@ -13,7 +13,7 @@ public class Chariot extends Piece {
 
     @Override
     protected void validateOffset(final Offset offset) {
-        if (offset.isDiagonalMovement()) {
+        if (!offset.isStraightMovement() || offset.hasNoMovement()) {
             throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");
         }
     }

@@ -16,7 +16,7 @@ public class NormalMovement extends Movement {
     @Override
     public boolean isMoveOnLine() {
         final Offset offset = after.calculateOffset(before);
-        return !offset.isDiagonalMovement();
+        return offset.isStraightMovement();
     }
 
     @Override
