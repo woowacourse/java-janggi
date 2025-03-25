@@ -63,7 +63,7 @@ public class PiecePath {
         return positions;
     }
 
-    private Direction calculateDirection() {
+    public Direction calculateDirection() {
         int rowDir = getDirectionValue(rowDifference());
         int colDir = getDirectionValue(columnDifference());
 

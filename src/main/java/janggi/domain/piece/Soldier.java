@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.Direction;
 import janggi.domain.board.PiecePath;
 import janggi.domain.board.Position;
 
@@ -7,6 +8,7 @@ import janggi.domain.moveRule.DefaultMoveRule;
 import java.util.List;
 
 public class Soldier extends Piece {
+    private final static List<Direction> SOLDIER_DIRECTION = List.of(Direction.UP, Direction.DOWN, Direction.LEFT,Direction.RIGHT);
 
     public Soldier(PieceColor color) {
         super(color, PieceType.SOLDIER, DefaultMoveRule.getRule());
@@ -14,19 +16,16 @@ public class Soldier extends Piece {
 
     @Override
     public boolean isValidMovement(PiecePath path) {
-        int rowDifference = path.rowDifference();
-        int columnDifference = path.columnDifference();
+        Direction direction = path.calculateDirection();
 
-        if ((color == PieceColor.RED) && (rowDifference == 1 && columnDifference == 0)) {
-            return true;
+        if(this.color == PieceColor.RED && direction == Direction.UP) {
+            return false;
         }
-        if ((color == PieceColor.BLUE) && (rowDifference == -1 && columnDifference == 0)) {
-            return true;
+        if(this.color == PieceColor.BLUE && direction == Direction.DOWN) {
+            return false;
         }
-        if ((rowDifference == 0 && columnDifference == -1) || (rowDifference == 0 && columnDifference == 1)) {
-            return true;
-        }
-        return false;
+
+        return SOLDIER_DIRECTION.contains(direction);
     }
 
     @Override
