@@ -2,6 +2,7 @@ import static player.Nation.CHO;
 import static player.Nation.HAN;
 
 import java.util.List;
+import java.util.Map;
 import pieceProperty.Position;
 import pieceProperty.JanggiPieceInitializer;
 import player.Pieces;
@@ -18,7 +19,7 @@ public class Application {
         Pieces hanPieces = janggiPieceInitializer.hanInit();
         Player hanPlayer = new Player(hanPieces, HAN);
         Player choPlayer = new Player(choPieces, CHO);
-        Players players = new Players(List.of(choPlayer, hanPlayer));
+        Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
         JanggiGameState janggiGameState = new JanggiGameState(players);
 
         InputView inputView = new InputView();

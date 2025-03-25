@@ -4,6 +4,7 @@ import static player.Nation.CHO;
 import static player.Nation.HAN;
 
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Byeong;
@@ -23,7 +24,7 @@ class JanggiGameStateTest {
         //given
         Player hanPlayer = new Player(new Pieces(List.of()), HAN);
         Player choPlayer = new Player(new Pieces(List.of()), CHO);
-        Players players = new Players(List.of(choPlayer, hanPlayer));
+        Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
 
         //when - then
         assertDoesNotThrow(() -> new JanggiGameState(players));
@@ -35,8 +36,7 @@ class JanggiGameStateTest {
         //given
         Player hanPlayer = new Player(new Pieces(List.of(new Janggun(new Position(5, 5)))), HAN);
         Player choPlayer = new Player(new Pieces(List.of()), CHO);
-        Players players = new Players(List.of(choPlayer, hanPlayer));
-
+        Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
         JanggiGameState janggiGameState = new JanggiGameState(players);
 
         //when - then
@@ -49,7 +49,7 @@ class JanggiGameStateTest {
         //given
         Player hanPlayer = new Player(new Pieces(List.of(new Janggun(new Position(5, 5)))), HAN);
         Player choPlayer = new Player(new Pieces(List.of(new Janggun(new Position(6, 5)))), CHO);
-        Players players = new Players(List.of(choPlayer, hanPlayer));
+        Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
         JanggiGameState janggiGameState = new JanggiGameState(players);
 
         //when - then
@@ -62,7 +62,7 @@ class JanggiGameStateTest {
         //given
         Player hanPlayer = new Player(new Pieces(List.of()), HAN);
         Player choPlayer = new Player(new Pieces(List.of(new Janggun(new Position(6, 5)))), CHO);
-        Players players = new Players(List.of(choPlayer, hanPlayer));
+        Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
         JanggiGameState janggiGameState = new JanggiGameState(players);
 
         //when - then
@@ -91,7 +91,7 @@ class JanggiGameStateTest {
         Player player1 = new Player(pieces1, HAN);
         Player player2 = new Player(pieces2, CHO);
 
-        Players players = new Players(List.of(player1, player2));
+        Players players = new Players(Map.of(HAN, player1, CHO, player2));
         JanggiGameState janggiGameState = new JanggiGameState(players);
 
         //when
