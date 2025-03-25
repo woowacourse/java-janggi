@@ -26,7 +26,7 @@ public class Board {
         if (piece.isNone()) {
             throw new IllegalArgumentException("해당 위치에 이동시킬 기물이 존재하지 않습니다.");
         }
-        piece.getMovableValidator(beforePosition, afterPosition).accept(getBoard());
+        piece.getMovableValidator(beforePosition, afterPosition).accept(board);
         board.put(beforePosition, new None());
         board.put(afterPosition, piece);
     }

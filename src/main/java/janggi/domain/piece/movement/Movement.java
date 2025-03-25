@@ -12,17 +12,17 @@ public record Movement(
         return new Movement(x + other.x, y + other.y());
     }
 
-    public static Movement findByRelativePosition(int relativeX, int relativeY) {
-        if (relativeX < 0) {
+    public static Movement findUnitMovement(int x, int y) {
+        if (x < 0) {
             return UP;
         }
-        if (relativeX > 0) {
+        if (x > 0) {
             return DOWN;
         }
-        if (relativeY < 0) {
+        if (y < 0) {
             return LEFT;
         }
-        if (relativeY > 0) {
+        if (y > 0) {
             return RIGHT;
         }
         throw new IllegalArgumentException("원래 위치로 이동할 수 없습니다.");

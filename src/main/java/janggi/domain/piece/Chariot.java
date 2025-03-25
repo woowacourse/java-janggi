@@ -41,17 +41,17 @@ public class Chariot extends Piece {
             Map<Position, Piece> board,
             Position beforePosition,
             Position afterPosition) {
-        Movement movement = Movement.findByRelativePosition(
+        Movement nextMovement = Movement.findUnitMovement(
                 afterPosition.x() - beforePosition.x(),
                 afterPosition.y() - beforePosition.y()
         );
 
-        Position currentPosition = beforePosition.plus(movement.x(), movement.y());
+        Position currentPosition = beforePosition.plus(nextMovement.x(), nextMovement.y());
         while (!currentPosition.equals(afterPosition)) {
             if (!board.get(currentPosition).isNone()) {
                 throw new IllegalArgumentException("불가능한 이동입니다");
             }
-            currentPosition = currentPosition.plus(movement.x(), movement.y());
+            currentPosition = currentPosition.plus(nextMovement.x(), nextMovement.y());
         }
     }
 }

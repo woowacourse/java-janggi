@@ -45,14 +45,14 @@ public class Cannon extends Piece {
     }
 
     private void validateSingleJumpOverPiece(Map<Position, Piece> board, Position beforePosition, Position afterPosition) {
-        Movement movement = Movement.findByRelativePosition(
+        Movement nextMovement = Movement.findUnitMovement(
                 afterPosition.x() - beforePosition.x(),
                 afterPosition.y() - beforePosition.y()
         );
 
         int obstaclesCount = 0;
 
-        Position currentPosition = beforePosition.plus(movement.x(), movement.y());
+        Position currentPosition = beforePosition.plus(nextMovement.x(), nextMovement.y());
         while (!currentPosition.equals(afterPosition)) {
             validateNoCannonOnPath(board, currentPosition);
             if (!board.get(currentPosition).isNone()) {
@@ -63,7 +63,7 @@ public class Cannon extends Piece {
                 throw new IllegalArgumentException("불가능한 이동입니다");
             }
 
-            currentPosition = currentPosition.plus(movement.x(), movement.y());
+            currentPosition = currentPosition.plus(nextMovement.x(), nextMovement.y());
         }
 
         if (obstaclesCount != 1) {

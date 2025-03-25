@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.piece.movement.ElephantMovement;
+import janggi.domain.piece.movement.Movement;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -54,12 +55,12 @@ public class Elephant extends Piece {
     }
 
     private void validateNoObstaclesOnPath(Map<Position, Piece> board, Position beforePosition, Position afterPosition) {
-        ElephantMovement movement = ElephantMovement.getDirection(
+        List<Movement> pathMovements = ElephantMovement.findPathMovements(
                 afterPosition.x() - beforePosition.x(),
                 afterPosition.y() - beforePosition.y()
         );
 
-        boolean hasObstacle = movement.getRouteDistances().stream()
+        boolean hasObstacle = pathMovements.stream()
                 .map(routeDistance -> beforePosition.plus(routeDistance.x(), routeDistance.y()))
                 .anyMatch(position -> !board.get(position).isNone());
 
