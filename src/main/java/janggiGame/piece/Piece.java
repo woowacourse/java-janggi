@@ -17,7 +17,7 @@ public abstract class Piece {
     public abstract PieceType getType();
 
     public void validateMove(Map<Position, Piece> IntermediatePointsWithPiece, Piece destinationPiece) {
-        if (destinationPiece != null && destinationPiece.dynasty == this.dynasty) {
+        if (destinationPiece.dynasty == this.dynasty) {
             throw new UnsupportedOperationException("[ERROR] 같은 나라의 말은 공격할 수 없습니다.");
         }
     }

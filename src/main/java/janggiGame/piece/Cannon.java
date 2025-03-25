@@ -4,7 +4,6 @@ import janggiGame.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 
 public class Cannon extends Piece {
@@ -67,13 +66,13 @@ public class Cannon extends Piece {
     public void validateMove(Map<Position, Piece> IntermediatePointsWithPiece, Piece destinationPiece) {
         super.validateMove(IntermediatePointsWithPiece, destinationPiece);
 
-        if (destinationPiece != null && destinationPiece.getType().equals(PieceType.CANNON)) {
+        if (destinationPiece.getType() != PieceType.EMPTY && destinationPiece.getType().equals(PieceType.CANNON)) {
             throw new UnsupportedOperationException("[ERROR] 포는 포를 공격할 수 없습니다.");
         }
 
         List<Piece> pieces = IntermediatePointsWithPiece.values()
                 .stream()
-                .filter(Objects::nonNull)
+                .filter(piece -> piece.getType() != PieceType.EMPTY)
                 .toList();
 
         if (pieces.size() != 1) {

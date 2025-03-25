@@ -63,7 +63,7 @@ class HorseTest {
         intermediatePointsWithPiece.put(Position.of(6, 8), new Horse(Dynasty.HAN));
 
         // when // then
-        assertThatCode(() -> horse.validateMove(intermediatePointsWithPiece, null))
+        assertThatCode(() -> horse.validateMove(intermediatePointsWithPiece, new EmptyPiece()))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -75,10 +75,10 @@ class HorseTest {
         Map<Position, Piece> intermediatePointsWithPiece = new LinkedHashMap<>();
         Horse horse = new Horse(Dynasty.HAN);
 
-        intermediatePointsWithPiece.put(Position.of(5, 7), null);
+        intermediatePointsWithPiece.put(Position.of(5, 7), new EmptyPiece());
 
         // when // then
-        assertThatCode(() -> horse.validateMove(intermediatePointsWithPiece, null))
+        assertThatCode(() -> horse.validateMove(intermediatePointsWithPiece, new EmptyPiece()))
                 .doesNotThrowAnyException();
     }
 

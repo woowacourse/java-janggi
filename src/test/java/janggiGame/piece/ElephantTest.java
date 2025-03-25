@@ -61,11 +61,11 @@ class ElephantTest {
         Map<Position, Piece> intermediatePointsWithPiece = new LinkedHashMap<>();
         Elephant elephant = new Elephant(Dynasty.HAN);
 
-        intermediatePointsWithPiece.put(Position.of(5, 7), null);
+        intermediatePointsWithPiece.put(Position.of(5, 7), new EmptyPiece());
         intermediatePointsWithPiece.put(Position.of(6, 8), new Elephant(Dynasty.HAN));
 
         // when // then
-        assertThatCode(() -> elephant.validateMove(intermediatePointsWithPiece, null))
+        assertThatCode(() -> elephant.validateMove(intermediatePointsWithPiece, new EmptyPiece()))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -77,11 +77,11 @@ class ElephantTest {
         Map<Position, Piece> intermediatePointsWithPiece = new LinkedHashMap<>();
         Elephant elephant = new Elephant(Dynasty.HAN);
 
-        intermediatePointsWithPiece.put(Position.of(5, 7), null);
-        intermediatePointsWithPiece.put(Position.of(6, 8), null);
+        intermediatePointsWithPiece.put(Position.of(5, 7), new EmptyPiece());
+        intermediatePointsWithPiece.put(Position.of(6, 8), new EmptyPiece());
 
         // when // then
-        assertThatCode(() -> elephant.validateMove(intermediatePointsWithPiece, null))
+        assertThatCode(() -> elephant.validateMove(intermediatePointsWithPiece, new EmptyPiece()))
                 .doesNotThrowAnyException();
     }
 }

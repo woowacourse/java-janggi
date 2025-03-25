@@ -62,11 +62,11 @@ class CannonTest {
         Map<Position, Piece> intermediatePointsWithPiece = new LinkedHashMap<>();
         Cannon cannon = new Cannon(Dynasty.HAN);
 
-        intermediatePointsWithPiece.put(Position.of(1, 2), null);
+        intermediatePointsWithPiece.put(Position.of(1, 2), new EmptyPiece());
         intermediatePointsWithPiece.put(Position.of(1, 3), new Cannon(Dynasty.HAN));
 
         // when // then
-        assertThatCode(() -> cannon.validateMove(intermediatePointsWithPiece, null))
+        assertThatCode(() -> cannon.validateMove(intermediatePointsWithPiece, new EmptyPiece()))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR] ");
     }
@@ -78,7 +78,7 @@ class CannonTest {
         Map<Position, Piece> intermediatePointsWithPiece = new LinkedHashMap<>();
         Cannon cannon = new Cannon(Dynasty.HAN);
 
-        intermediatePointsWithPiece.put(Position.of(1, 2), null);
+        intermediatePointsWithPiece.put(Position.of(1, 2), new EmptyPiece());
         intermediatePointsWithPiece.put(Position.of(1, 3), new Chariot(Dynasty.HAN));
 
         // when // then
@@ -94,11 +94,11 @@ class CannonTest {
         Map<Position, Piece> intermediatePointsWithPiece = new LinkedHashMap<>();
         Cannon cannon = new Cannon(Dynasty.HAN);
 
-        intermediatePointsWithPiece.put(Position.of(1, 2), null);
+        intermediatePointsWithPiece.put(Position.of(1, 2), new EmptyPiece());
         intermediatePointsWithPiece.put(Position.of(1, 3), new Chariot(Dynasty.HAN));
 
         // when // then
-        assertThatCode(() -> cannon.validateMove(intermediatePointsWithPiece, null))
+        assertThatCode(() -> cannon.validateMove(intermediatePointsWithPiece, new EmptyPiece()))
                 .doesNotThrowAnyException();
     }
 }

@@ -2,6 +2,7 @@ package janggiGame;
 
 import janggiGame.arrangement.ArrangementStrategy;
 import janggiGame.piece.Dynasty;
+import janggiGame.piece.EmptyPiece;
 import janggiGame.piece.Piece;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +40,8 @@ public class Board {
 
         Map<Position, Piece> intermediatePointsWithPiece = getPiecesOn(route);
 
-        originPiece.validateMove(intermediatePointsWithPiece, survivedPieces.getOrDefault(destination, null));
+        originPiece.validateMove(intermediatePointsWithPiece,
+                survivedPieces.getOrDefault(destination, new EmptyPiece()));
 
         movePiece(origin, destination, originPiece);
     }

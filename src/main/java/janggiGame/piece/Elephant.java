@@ -4,7 +4,6 @@ import janggiGame.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 
 public class Elephant extends Piece {
@@ -80,7 +79,7 @@ public class Elephant extends Piece {
 
         IntermediatePointsWithPiece.values()
                 .stream()
-                .filter(Objects::nonNull)
+                .filter(piece -> piece.getType() != PieceType.EMPTY)
                 .findAny()
                 .ifPresent(piece -> {
                     throw new UnsupportedOperationException("[ERROR] 상은 경로에 말이 존재하면 이동할 수 없습니다.");

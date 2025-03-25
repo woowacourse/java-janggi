@@ -63,11 +63,11 @@ class ChariotTest {
         Map<Position, Piece> intermediatePointsWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
-        intermediatePointsWithPiece.put(Position.of(1, 2), null);
+        intermediatePointsWithPiece.put(Position.of(1, 2), new EmptyPiece());
         intermediatePointsWithPiece.put(Position.of(1, 3), new Chariot(Dynasty.HAN));
 
         // when // then
-        assertThatCode(() -> chariot.validateMove(intermediatePointsWithPiece, null))
+        assertThatCode(() -> chariot.validateMove(intermediatePointsWithPiece, new EmptyPiece()))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR] ");
     }
@@ -79,8 +79,8 @@ class ChariotTest {
         Map<Position, Piece> intermediatePointsWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
-        intermediatePointsWithPiece.put(Position.of(1, 2), null);
-        intermediatePointsWithPiece.put(Position.of(1, 3), null);
+        intermediatePointsWithPiece.put(Position.of(1, 2), new EmptyPiece());
+        intermediatePointsWithPiece.put(Position.of(1, 3), new EmptyPiece());
 
         // when // then
         assertThatCode(() -> chariot.validateMove(intermediatePointsWithPiece, new Chariot(Dynasty.HAN)))
@@ -95,11 +95,11 @@ class ChariotTest {
         Map<Position, Piece> intermediatePointsWithPiece = new LinkedHashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
-        intermediatePointsWithPiece.put(Position.of(1, 2), null);
-        intermediatePointsWithPiece.put(Position.of(1, 3), null);
+        intermediatePointsWithPiece.put(Position.of(1, 2), new EmptyPiece());
+        intermediatePointsWithPiece.put(Position.of(1, 3), new EmptyPiece());
 
         // when // then
-        assertThatCode(() -> chariot.validateMove(intermediatePointsWithPiece, null))
+        assertThatCode(() -> chariot.validateMove(intermediatePointsWithPiece, new EmptyPiece()))
                 .doesNotThrowAnyException();
     }
 }
