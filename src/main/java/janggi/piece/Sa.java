@@ -10,7 +10,6 @@ public class Sa extends Piece {
         super(pieceProfile, position);
     }
 
-
     @Override
     public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
         final List<Position> moveRoute = makeRoute(futurePosition);

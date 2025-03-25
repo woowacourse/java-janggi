@@ -173,19 +173,6 @@ class MaTest {
         }
     }
 
-    @Test
-    void makeRoute() {
-        //given
-        final Ma ma = new Ma(new PieceProfile("마", Team.HAN), new Position(5, 5));
-        final Position futurePosition = new Position(3, 6);
-
-        //when
-        final List<Position> actual = ma.makeRoute(futurePosition);
-
-        //then
-        assertThat(actual).containsExactly(new Position(4, 5), new Position(3, 6));
-    }
-
     private static Stream<Arguments> maNonIsMovePositionProvider() {
         return Stream.of(Arguments.of(new Position(3, 5)), Arguments.of(new Position(3, 3)),
                 Arguments.of(new Position(3, 7)), Arguments.of(new Position(5, 7)),

@@ -11,7 +11,6 @@ public class Po extends Piece {
         super(pieceProfile, position);
     }
 
-
     @Override
     public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
         final List<Position> route = makeRoute(futurePosition);
@@ -51,31 +50,60 @@ public class Po extends Piece {
         final int presentCol = getBoardPosition().getCol();
         final int presentRow = getBoardPosition().getRow();
 
-        if (dx == 0 && dy > 0) {
-            for (int i = 1; i <= dy; i++) {
-                route.add(new Position(presentRow, presentCol - i));
-            }
-        }
+        verticalRoute(dx, dy, route, presentRow, presentCol);
+        horizontalRoute(dy, dx, route, presentRow, presentCol);
+        return route;
+    }
 
-        if (dx == 0 && dy < 0) {
+    private void verticalRoute(final int dx, final int dy, final List<Position> route, final int presentRow,
+                               final int presentCol) {
+        if (dx == 0) {
+            verticalUpRoute(dy, route, presentRow, presentCol);
+            verticalDownRoute(dy, route, presentRow, presentCol);
+        }
+    }
+
+    private void verticalDownRoute(final int dy, final List<Position> route, final int presentRow,
+                                   final int presentCol) {
+        if (dy < 0) {
             for (int i = 1; i <= Math.abs(dy); i++) {
                 route.add(new Position(presentRow, presentCol + i));
             }
         }
+    }
 
-        if (dx > 0 && dy == 0) {
+    private void verticalUpRoute(final int dy, final List<Position> route, final int presentRow, final int presentCol) {
+        if (dy > 0) {
+            for (int i = 1; i <= dy; i++) {
+                route.add(new Position(presentRow, presentCol - i));
+            }
+        }
+    }
+
+    private void horizontalRoute(final int dy, final int dx, final List<Position> route, final int presentRow,
+                                 final int presentCol) {
+        if (dy == 0) {
+            horizontalRightRoute(dx, route, presentRow, presentCol);
+            horizontalLeftRoute(dx, route, presentRow, presentCol);
+        }
+    }
+
+    private void horizontalRightRoute(final int dx, final List<Position> route, final int presentRow,
+                                      final int presentCol) {
+        if (dx > 0) {
             for (int i = 1; i <= dx; i++) {
                 route.add(new Position(presentRow - i, presentCol));
             }
         }
+    }
 
-        if (dx < 0 && dy == 0) {
+    private void horizontalLeftRoute(final int dx, final List<Position> route, final int presentRow,
+                                     final int presentCol) {
+        if (dx < 0) {
             for (int i = 1; i <= Math.abs(dx); i++) {
                 route.add(new Position(presentRow + i, presentCol));
             }
         }
-
-        return route;
     }
 
     @Override

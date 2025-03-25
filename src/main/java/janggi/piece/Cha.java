@@ -27,43 +27,81 @@ public class Cha extends Piece {
 
     @Override
     public List<Position> makeRoute(final Position position) {
+        return makeRoute2(position);
+    }
+
+    public List<Position> makeRoute2(final Position position) {
         final List<Position> route = new ArrayList<>();
         final int dx = getBoardPosition().getRow() - position.getRow();
         final int dy = getBoardPosition().getCol() - position.getCol();
         final int presentCol = getBoardPosition().getCol();
         final int presentRow = getBoardPosition().getRow();
 
-        if (dx == 0 && dy > 0) {
-            for (int i = 1; i <= dy; i++) {
-                route.add(new Position(presentRow, presentCol - i));
-            }
-        }
-
-        if (dx == 0 && dy < 0) {
-            for (int i = 1; i <= Math.abs(dy); i++) {
-                route.add(new Position(presentRow, presentCol + i));
-            }
-        }
-
-        if (dx > 0 && dy == 0) {
-            for (int i = 1; i <= dx; i++) {
-                route.add(new Position(presentRow - i, presentCol));
-            }
-        }
-
-        if (dx < 0 && dy == 0) {
-            for (int i = 1; i <= Math.abs(dx); i++) {
-                route.add(new Position(presentRow + i, presentCol));
-            }
-        }
+        verticalRoute(dx, dy, route, presentRow, presentCol);
+        horizontalRoute(dy, dx, route, presentRow, presentCol);
 
         return route;
     }
 
+    private void verticalRoute(final int dx, final int dy, final List<Position> route, final int presentRow,
+                               final int presentCol) {
+        if (dx == 0) {
+            verticalUpRoute(dy, route, presentRow, presentCol);
+            verticalDownRoute(dy, route, presentRow, presentCol);
+        }
+    }
+
+    private void verticalUpRoute(final int dy, final List<Position> route, final int presentRow,
+                                 final int presentCol) {
+        if (dy > 0) {
+            for (int i = 1; i <= dy; i++) {
+                insertRoute(route, presentRow, presentCol - i);
+            }
+        }
+    }
+
+    private void verticalDownRoute(final int dy, final List<Position> route, final int presentRow,
+                                   final int presentCol) {
+        if (dy < 0) {
+            for (int i = 1; i <= Math.abs(dy); i++) {
+                insertRoute(route, presentRow, presentCol + i);
+            }
+        }
+    }
+
+    private void horizontalRoute(final int dy, final int dx, final List<Position> route, final int presentRow,
+                                 final int presentCol) {
+        if (dy == 0) {
+            horizontalRightRoute(dx, route, presentRow, presentCol);
+            horizontalLeftRoute(dx, route, presentRow, presentCol);
+        }
+    }
+
+    private void horizontalRightRoute(final int dx, final List<Position> route, final int presentRow,
+                                      final int presentCol) {
+        if (dx > 0) {
+            for (int i = 1; i <= dx; i++) {
+                insertRoute(route, presentRow - i, presentCol);
+            }
+        }
+    }
+
+    private void horizontalLeftRoute(final int dx, final List<Position> route, final int presentRow,
+                                     final int presentCol) {
+        if (dx < 0) {
+            for (int i = 1; i <= Math.abs(dx); i++) {
+                insertRoute(route, presentRow + i, presentCol);
+            }
+        }
+    }
+
+    private void insertRoute(final List<Position> route, final int presentRow, final int presentCol) {
+        route.add(new Position(presentRow, presentCol));
+    }
+
     @Override
     public boolean isMove(final Position position) {
-        if ((getBoardPosition().getRow() == position.getRow())
-                || (getBoardPosition().getCol() == position.getCol())) {
+        if ((getBoardPosition().getRow() == position.getRow()) || (getBoardPosition().getCol() == position.getCol())) {
             return true;
         }
 
