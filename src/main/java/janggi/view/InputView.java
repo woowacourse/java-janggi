@@ -56,7 +56,7 @@ public class InputView {
     }
 
     private void validatePositionCounts(List<String> positionInput) {
-        if (positionInput.size() > POSITION_COUNTS) {
+        if (positionInput.size() != POSITION_COUNTS) {
             throw new IllegalArgumentException("[ERROR] (x,y)를 입력하셔야 합니다.");
         }
     }
