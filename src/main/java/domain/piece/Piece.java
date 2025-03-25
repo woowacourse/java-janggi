@@ -21,6 +21,10 @@ public abstract class Piece {
 
     public abstract PieceType getType();
 
+    public double getScore() {
+        return getType().getScore();
+    }
+
     public boolean isSameTeam(Piece piece) {
         return this.teamType.equals(piece.teamType);
     }

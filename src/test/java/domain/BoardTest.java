@@ -3,6 +3,7 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.piece.Cannon;
 import domain.piece.Horse;
 import domain.piece.King;
 import domain.piece.Piece;
@@ -22,15 +23,12 @@ class BoardTest {
 
     private Map<Position, Piece> pieces;
 
-    @BeforeEach
-    void beforeEach() {
-        pieces = Map.of(
-                Position.of(1, 1), new Horse(TeamType.CHO),
-                Position.of(1, 2), new Soldier(TeamType.HAN),
-                Position.of(0, 1), new Soldier(TeamType.CHO),
-                Position.of(0, 2), new Horse(TeamType.HAN),
-                Position.of(4, 3), new King(TeamType.CHO),
-                Position.of(3, 2), new King(TeamType.HAN)
+    static Stream<Arguments> validateOwnPieceTest() {
+        return Stream.of(
+                Arguments.of(Position.of(1, 1), Position.of(2, 3), TeamType.HAN),
+                Arguments.of(Position.of(1, 2), Position.of(1, 3), TeamType.CHO),
+                Arguments.of(Position.of(0, 1), Position.of(1, 1), TeamType.HAN),
+                Arguments.of(Position.of(3, 2), Position.of(3, 1), TeamType.CHO)
         );
     }
 
@@ -133,12 +131,15 @@ class BoardTest {
         assertThat(board.findWinTeam()).isEqualTo(TeamType.CHO);
     }
 
-    static Stream validateOwnPieceTest() {
-        return Stream.of(
-                Arguments.of(Position.of(1, 1), Position.of(2, 3), TeamType.HAN),
-                Arguments.of(Position.of(1, 2), Position.of(1, 3), TeamType.CHO),
-                Arguments.of(Position.of(0, 1), Position.of(1, 1), TeamType.HAN),
-                Arguments.of(Position.of(3, 2), Position.of(3, 1), TeamType.CHO)
+    @BeforeEach
+    void beforeEach() {
+        pieces = Map.of(
+                Position.of(1, 1), new Horse(TeamType.CHO),
+                Position.of(1, 2), new Cannon(TeamType.HAN),
+                Position.of(0, 1), new Soldier(TeamType.CHO),
+                Position.of(0, 2), new Horse(TeamType.HAN),
+                Position.of(4, 3), new King(TeamType.CHO),
+                Position.of(3, 2), new King(TeamType.HAN)
         );
     }
 
@@ -153,5 +154,19 @@ class BoardTest {
         assertThatThrownBy(() -> board.movePiece(from, to, moveTeam))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("본인 말만 움직일 수 있습니다.");
+    }
+
+    @Test
+    @DisplayName("현재 각 팀의 점수를 반환한다")
+    void calculateTeamScoreTest() {
+        // given
+        Board board = new Board(pieces);
+
+        // when
+        Map<TeamType, Double> scores = board.calculateTeamScore();
+
+        // then
+        Map<TeamType, Double> expected = Map.of(TeamType.HAN, 12.0, TeamType.CHO, 7.0);
+        assertThat(scores).containsExactlyInAnyOrderEntriesOf(expected);
     }
 }

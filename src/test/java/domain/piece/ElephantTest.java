@@ -1,5 +1,6 @@
 package domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -120,5 +122,17 @@ class ElephantTest {
         // when & then
         assertThatCode(() -> elephant.validateMove(startPosition, endPosition, board))
                 .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("해당 점수를 반환한다")
+    void getScore() {
+        // given
+        Elephant elephant = new Elephant(TeamType.HAN);
+
+        // when & then
+        double actual = elephant.getScore();
+        double expected = 3.0;
+        assertThat(actual).isEqualTo(expected);
     }
 }

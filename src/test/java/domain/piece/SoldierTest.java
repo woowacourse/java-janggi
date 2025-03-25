@@ -1,5 +1,6 @@
 package domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -94,5 +95,17 @@ class SoldierTest {
         // when & then
         assertThatCode(() -> soldier.validateMove(position, movePosition, board))
                 .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("해당 점수를 반환한다")
+    void getScore() {
+        // given
+        Soldier soldier = new Soldier(TeamType.HAN);
+
+        // when & then
+        double actual = soldier.getScore();
+        double expected = 2.0;
+        assertThat(actual).isEqualTo(expected);
     }
 }

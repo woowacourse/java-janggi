@@ -1,5 +1,6 @@
 package domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -94,5 +95,17 @@ class KingTest {
         // when & then
         assertThatCode(() -> king.validateMove(position, movePosition, board))
                 .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("해당 점수를 반환한다")
+    void getScore() {
+        // given
+        King king = new King(TeamType.HAN);
+
+        // when & then
+        double actual = king.getScore();
+        double expected = 0;
+        assertThat(actual).isEqualTo(expected);
     }
 }

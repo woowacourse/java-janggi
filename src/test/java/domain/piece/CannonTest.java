@@ -1,5 +1,6 @@
 package domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -176,5 +177,17 @@ class CannonTest {
         assertThatThrownBy(() -> cannon.validateMove(startPosition, expectedPosition, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 하나의 기물을 뛰어넘어야 합니다.");
+    }
+
+    @Test
+    @DisplayName("해당 점수를 반환한다")
+    void getScore() {
+        // given
+        Cannon cannon = new Cannon(TeamType.HAN);
+
+        // when & then
+        double actual = cannon.getScore();
+        double expected = 7.0;
+        assertThat(actual).isEqualTo(expected);
     }
 }

@@ -1,5 +1,6 @@
 package domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
@@ -100,5 +101,17 @@ class GuardTest {
         // when & then
         assertThatCode(() -> guard.validateMove(position, movePosition, board))
                 .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("해당 점수를 반환한다")
+    void getScore() {
+        // given
+        Guard guard = new Guard(TeamType.HAN);
+
+        // when & then
+        double actual = guard.getScore();
+        double expected = 3.0;
+        assertThat(actual).isEqualTo(expected);
     }
 }

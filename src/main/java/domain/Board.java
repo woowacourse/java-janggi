@@ -4,6 +4,7 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.position.Position;
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +57,17 @@ public class Board {
         return !pieces.containsKey(position);
     }
 
+    public Map<TeamType, Double> calculateTeamScore() {
+        Map<TeamType, Double> teamScores = new EnumMap<>(TeamType.class);
+
+        for (TeamType team : TeamType.values()) {
+            double score = calculateScoreByTeam(team);
+            teamScores.put(team, score);
+        }
+
+        return teamScores;
+    }
+
     private void changePosition(Position from, Position to, Piece foundPiece) {
         pieces.remove(from);
         pieces.put(to, foundPiece);
@@ -80,5 +92,13 @@ public class Board {
 
     public Map<Position, Piece> getAlivePieces() {
         return new HashMap<>(pieces);
+    }
+
+    private double calculateScoreByTeam(TeamType team) {
+        return pieces.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .map(Piece::getScore)
+                .reduce(Double::sum)
+                .orElse(0.0);
     }
 }
