@@ -6,7 +6,7 @@ import domain.position.JanggiPosition;
 import janggiexception.InvalidPathException;
 import java.util.List;
 
-public class SoldierMovingStrategy implements JanggiPieceRouteStrategy {
+public class SoldierRouteSelector implements JanggiPieceRouteSelector {
 
     private static final List<MovingPattern> SOLDIER_OF_CHO_DIRECTIONS = List.of(
             MovingPattern.MOVE_RIGHT,

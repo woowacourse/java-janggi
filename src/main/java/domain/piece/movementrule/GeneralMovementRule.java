@@ -1,11 +1,11 @@
-package domain.piece.movingstrategy;
+package domain.piece.movementrule;
 
 import domain.piece.JanggiPiece;
 import domain.piece.JanggiSide;
 import janggiexception.BlockedByFriendlyPieceException;
 import janggiexception.HurdleExistException;
 
-public class MovingNormalStrategy implements JanggiPieceMovingStrategy {
+public class GeneralMovementRule implements JanggiPieceMovementRule {
 
     @Override
     public void checkPieceCanMove(JanggiSide mySide, JanggiPiece hurdlePiece, int hurdleCount, JanggiPiece targetPiece) {

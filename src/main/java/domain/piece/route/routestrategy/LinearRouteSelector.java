@@ -7,7 +7,7 @@ import janggiexception.InvalidPathException;
 import java.util.Collections;
 import java.util.List;
 
-public class LinearRouteStrategy implements JanggiPieceRouteStrategy {
+public class LinearRouteSelector implements JanggiPieceRouteSelector {
 
     @Override
     public List<MovingPattern> getRoute(final JanggiSide side, final List<List<MovingPattern>> routes, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {

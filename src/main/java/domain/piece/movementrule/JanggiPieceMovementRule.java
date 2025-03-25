@@ -1,9 +1,9 @@
-package domain.piece.movingstrategy;
+package domain.piece.movementrule;
 
 import domain.piece.JanggiPiece;
 import domain.piece.JanggiSide;
 
-public interface JanggiPieceMovingStrategy {
+public interface JanggiPieceMovementRule {
 
     void checkPieceCanMove(JanggiSide mySide, JanggiPiece hurdlePiece, int hurdleCount, JanggiPiece targetPiece);
 }

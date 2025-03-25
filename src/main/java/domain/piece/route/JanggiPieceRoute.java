@@ -2,12 +2,12 @@ package domain.piece.route;
 
 import domain.MovingPattern;
 import domain.piece.JanggiSide;
-import domain.piece.route.routestrategy.JanggiPieceRouteStrategy;
-import domain.piece.route.routestrategy.LimitedRouteStrategy;
-import domain.piece.route.routestrategy.LinearRouteStrategy;
-import domain.piece.route.routestrategy.NoneRouteStrategy;
-import domain.piece.route.routestrategy.PalaceRouteStrategy;
-import domain.piece.route.routestrategy.SoldierMovingStrategy;
+import domain.piece.route.routestrategy.JanggiPieceRouteSelector;
+import domain.piece.route.routestrategy.LimitedRouteSelector;
+import domain.piece.route.routestrategy.LinearRouteSelector;
+import domain.piece.route.routestrategy.NoneRouteSelector;
+import domain.piece.route.routestrategy.PalaceRouteSelector;
+import domain.piece.route.routestrategy.SoldierRouteSelector;
 import domain.position.JanggiPosition;
 import java.util.List;
 
@@ -22,7 +22,7 @@ public enum JanggiPieceRoute {
             List.of(MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT),
             List.of(MovingPattern.MOVE_DIAGONAL_UP_LEFT),
             List.of(MovingPattern.MOVE_DIAGONAL_UP_RIGHT)
-    ), new PalaceRouteStrategy()),
+    ), new PalaceRouteSelector()),
     HORSE_ROUTE(List.of(
             List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_RIGHT),
             List.of(MovingPattern.MOVE_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT),
@@ -32,7 +32,7 @@ public enum JanggiPieceRoute {
             List.of(MovingPattern.MOVE_LEFT, MovingPattern.MOVE_DIAGONAL_DOWN_LEFT),
             List.of(MovingPattern.MOVE_LEFT, MovingPattern.MOVE_DIAGONAL_UP_LEFT),
             List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_LEFT)
-    ), new LimitedRouteStrategy()),
+    ), new LimitedRouteSelector()),
     ADVISOR_ROUTE(List.of(
             List.of(MovingPattern.MOVE_RIGHT),
             List.of(MovingPattern.MOVE_DOWN),
@@ -42,7 +42,7 @@ public enum JanggiPieceRoute {
             List.of(MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT),
             List.of(MovingPattern.MOVE_DIAGONAL_UP_LEFT),
             List.of(MovingPattern.MOVE_DIAGONAL_UP_RIGHT)
-    ), new PalaceRouteStrategy()),
+    ), new PalaceRouteSelector()),
     ELEPHANT_ROUTE(List.of(
             List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT),
             List.of(MovingPattern.MOVE_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT),
@@ -52,7 +52,7 @@ public enum JanggiPieceRoute {
             List.of(MovingPattern.MOVE_LEFT, MovingPattern.MOVE_DIAGONAL_DOWN_LEFT, MovingPattern.MOVE_DIAGONAL_DOWN_LEFT),
             List.of(MovingPattern.MOVE_LEFT, MovingPattern.MOVE_DIAGONAL_UP_LEFT, MovingPattern.MOVE_DIAGONAL_UP_LEFT),
             List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_LEFT, MovingPattern.MOVE_DIAGONAL_UP_LEFT)
-    ), new LimitedRouteStrategy()),
+    ), new LimitedRouteSelector()),
     SOLDIER_ROUTE(List.of(
             List.of(MovingPattern.MOVE_RIGHT),
             List.of(MovingPattern.MOVE_LEFT),
@@ -62,7 +62,7 @@ public enum JanggiPieceRoute {
             List.of(MovingPattern.MOVE_DOWN),
             List.of(MovingPattern.MOVE_DIAGONAL_DOWN_LEFT),
             List.of(MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT)
-    ), new SoldierMovingStrategy()),
+    ), new SoldierRouteSelector()),
     CHARIOT_ROUTE(List.of(
             List.of(MovingPattern.MOVE_RIGHT),
             List.of(MovingPattern.MOVE_DOWN),
@@ -72,7 +72,7 @@ public enum JanggiPieceRoute {
             List.of(MovingPattern.MOVE_DIAGONAL_UP_LEFT),
             List.of(MovingPattern.MOVE_DIAGONAL_DOWN_LEFT),
             List.of(MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT)
-    ), new LinearRouteStrategy()),
+    ), new LinearRouteSelector()),
     CANNON_ROUTE(List.of(
             List.of(MovingPattern.MOVE_RIGHT),
             List.of(MovingPattern.MOVE_DOWN),
@@ -82,14 +82,14 @@ public enum JanggiPieceRoute {
             List.of(MovingPattern.MOVE_DIAGONAL_UP_LEFT),
             List.of(MovingPattern.MOVE_DIAGONAL_DOWN_LEFT),
             List.of(MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT)
-    ), new LinearRouteStrategy()),
-    EMPTY_ROUTE(List.of(), new NoneRouteStrategy())
+    ), new LinearRouteSelector()),
+    EMPTY_ROUTE(List.of(), new NoneRouteSelector())
     ;
 
     private final List<List<MovingPattern>> routes;
-    private final JanggiPieceRouteStrategy strategy;
+    private final JanggiPieceRouteSelector strategy;
 
-    JanggiPieceRoute(List<List<MovingPattern>> routes, JanggiPieceRouteStrategy strategy) {
+    JanggiPieceRoute(List<List<MovingPattern>> routes, JanggiPieceRouteSelector strategy) {
         this.routes = routes;
         this.strategy = strategy;
     }

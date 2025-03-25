@@ -1,4 +1,4 @@
-package domain.piece.movingstrategy;
+package domain.piece.movementrule;
 
 import domain.piece.JanggiPiece;
 import domain.piece.JanggiPieceType;
@@ -8,7 +8,7 @@ import janggiexception.CannotCaptureCannonException;
 import janggiexception.CannotJumpCannonException;
 import janggiexception.NotExistOnlyOneHurdleException;
 
-public class MovingCannonStrategy implements JanggiPieceMovingStrategy {
+public class CannonMovementRule implements JanggiPieceMovementRule {
 
     @Override
     public void checkPieceCanMove(JanggiSide mySide, JanggiPiece hurdlePiece, int hurdleCount, JanggiPiece targetPiece) {
