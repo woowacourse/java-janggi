@@ -4,7 +4,7 @@ import janggi.controller.JanggiController;
 import janggi.domain.board.BoardSetup;
 import janggi.domain.board.InitialBoard;
 import janggi.domain.board.PlayingBoard;
-import janggi.domain.piece.PieceColor;
+import janggi.domain.piece.TeamColor;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.function.Supplier;
@@ -23,12 +23,12 @@ public class Application {
     }
 
     private static InitialBoard setupBoard(InputView inputView) {
-        BoardSetup redSetup = getBoardSetup(inputView, PieceColor.RED);
-        BoardSetup blueSetup = getBoardSetup(inputView, PieceColor.BLUE);
+        BoardSetup redSetup = getBoardSetup(inputView, TeamColor.RED);
+        BoardSetup blueSetup = getBoardSetup(inputView, TeamColor.BLUE);
         return InitialBoard.createBoard(redSetup, blueSetup);
     }
 
-    private static BoardSetup getBoardSetup(InputView inputView, PieceColor teamColor) {
+    private static BoardSetup getBoardSetup(InputView inputView, TeamColor teamColor) {
         int setNumber = inputView.readBoardSetup(teamColor);
         return BoardSetup.from(setNumber);
     }

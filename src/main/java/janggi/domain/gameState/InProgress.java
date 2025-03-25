@@ -3,14 +3,14 @@ package janggi.domain.gameState;
 import janggi.domain.board.PlayingBoard;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceColor;
+import janggi.domain.piece.TeamColor;
 import janggi.domain.piece.PieceType;
 
 public abstract class InProgress implements State {
     final PlayingBoard playingBoard;
-    final PieceColor turnColor;
+    final TeamColor turnColor;
 
-    public InProgress(PlayingBoard playingBoard, PieceColor turnColor) {
+    public InProgress(PlayingBoard playingBoard, TeamColor turnColor) {
         this.playingBoard = playingBoard;
         this.turnColor = turnColor;
     }
@@ -38,7 +38,7 @@ public abstract class InProgress implements State {
     protected abstract State getNextTurn();
 
     @Override
-    public PieceColor getColor() {
+    public TeamColor getColor() {
         return turnColor;
     }
 

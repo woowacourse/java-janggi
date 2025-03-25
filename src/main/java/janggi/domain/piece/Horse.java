@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Horse extends Piece {
 
-    public Horse(PieceColor color) {
+    public Horse(TeamColor color) {
         super(color, PieceType.HORSE, DefaultMoveRule.getRule());
     }
 

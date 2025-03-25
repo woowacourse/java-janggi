@@ -1,22 +1,22 @@
 package janggi.view;
 
-import janggi.domain.piece.PieceColor;
+import janggi.domain.piece.TeamColor;
 import java.util.Arrays;
 
 public enum TeamColorName {
-    CHO(PieceColor.BLUE, "초나라"),
-    HAN(PieceColor.RED, "한나라"),
+    CHO(TeamColor.BLUE, "초나라"),
+    HAN(TeamColor.RED, "한나라"),
     ;
 
-    private final PieceColor teamColor;
+    private final TeamColor teamColor;
     private final String teamName;
 
-    TeamColorName(PieceColor teamColor, String teamName) {
+    TeamColorName(TeamColor teamColor, String teamName) {
         this.teamColor = teamColor;
         this.teamName = teamName;
     }
 
-    public static String getNameFrom(PieceColor teamColor) {
+    public static String getNameFrom(TeamColor teamColor) {
         return Arrays.stream(TeamColorName.values())
                 .filter(teamColorName -> teamColorName.teamColor == teamColor)
                 .findAny()

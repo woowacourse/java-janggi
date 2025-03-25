@@ -24,7 +24,7 @@ class GeneralTest {
     })
     void General_canMove_inPalace(int destinationRow, int destinationCol) {
         // given
-        General general = new General(PieceColor.BLUE);
+        General general = new General(TeamColor.BLUE);
 
         Position source = Position.of(9, 5);
         Position destination = Position.of(destinationRow, destinationCol);
@@ -46,7 +46,7 @@ class GeneralTest {
     })
     void General_canMove_inPalace2(int destinationRow, int destinationCol) {
         // given
-        General general = new General(PieceColor.BLUE);
+        General general = new General(TeamColor.BLUE);
 
         Position source = Position.of(8, 4);
         Position destination = Position.of(destinationRow, destinationCol);
@@ -68,7 +68,7 @@ class GeneralTest {
     })
     void General_canMove_inPalace3(int destinationRow, int destinationCol) {
         // given
-        General general = new General(PieceColor.BLUE);
+        General general = new General(TeamColor.BLUE);
 
         Position source = Position.of(8, 6);
         Position destination = Position.of(destinationRow, destinationCol);
@@ -90,7 +90,7 @@ class GeneralTest {
     })
     void General_canMove_inPalace4(int destinationRow, int destinationCol) {
         // given
-        General general = new General(PieceColor.BLUE);
+        General general = new General(TeamColor.BLUE);
 
         Position source = Position.of(0, 4);
         Position destination = Position.of(destinationRow, destinationCol);
@@ -112,7 +112,7 @@ class GeneralTest {
     })
     void General_canMove_inPalace5(int destinationRow, int destinationCol) {
         // given
-        General general = new General(PieceColor.BLUE);
+        General general = new General(TeamColor.BLUE);
 
         Position source = Position.of(0, 6);
         Position destination = Position.of(destinationRow, destinationCol);

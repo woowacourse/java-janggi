@@ -1,13 +1,13 @@
 package janggi.domain.gameState;
 
 import janggi.domain.board.Position;
-import janggi.domain.piece.PieceColor;
+import janggi.domain.piece.TeamColor;
 import janggi.domain.piece.PieceType;
 
 public class Finished implements State{
-    private final PieceColor turnColor;
+    private final TeamColor turnColor;
 
-    public Finished(PieceColor turnColor) {
+    public Finished(TeamColor turnColor) {
         this.turnColor = turnColor;
     }
 
@@ -17,7 +17,7 @@ public class Finished implements State{
     }
 
     @Override
-    public PieceColor getColor() {
+    public TeamColor getColor() {
         return turnColor;
     }
 

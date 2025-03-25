@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.domain.piece.PieceColor;
+import janggi.domain.piece.TeamColor;
 import janggi.dto.MoveCommandDto;
 import java.util.Arrays;
 import java.util.List;
@@ -35,9 +35,9 @@ public class InputView {
         }
     }
 
-    public int readBoardSetup(PieceColor pieceColor) {
+    public int readBoardSetup(TeamColor teamColor) {
         StringBuilder sb = new StringBuilder();
-        String teamName = TeamColorName.getNameFrom(pieceColor);
+        String teamName = TeamColorName.getNameFrom(teamColor);
 
         sb.append(teamName)
                 .append(" - 상차림 종류 번호를 입력해주세요. ex) 1\n ");

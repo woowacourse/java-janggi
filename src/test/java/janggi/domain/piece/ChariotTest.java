@@ -21,7 +21,7 @@ class ChariotTest {
     @Test
     void 차는_가로로_움직일_수_있다() {
         // given
-        Chariot chariot = new Chariot(PieceColor.RED);
+        Chariot chariot = new Chariot(TeamColor.RED);
 
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.ZERO, Column.ONE);
@@ -37,7 +37,7 @@ class ChariotTest {
     @Test
     void 차는_세로로_움직일_수_있다() {
         // given
-        Chariot chariot = new Chariot(PieceColor.RED);
+        Chariot chariot = new Chariot(TeamColor.RED);
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.FOUR, Column.THREE);
         PiecePath path = new PiecePath(source, destination);
@@ -52,7 +52,7 @@ class ChariotTest {
     @Test
     void 차는_가로_세로가_아닌_위치로_움직일_수_없다() {
         // given
-        Chariot chariot = new Chariot(PieceColor.RED);
+        Chariot chariot = new Chariot(TeamColor.RED);
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.ZERO, Column.TWO);
         PiecePath path = new PiecePath(source, destination);
@@ -67,7 +67,7 @@ class ChariotTest {
     @Test
     void 차의_목적지까지의_이동경로에_포함되는_좌표를_반환() {
         // given
-        Chariot chariot = new Chariot(PieceColor.RED);
+        Chariot chariot = new Chariot(TeamColor.RED);
 
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.ONE, Column.FIVE);
@@ -89,8 +89,8 @@ class ChariotTest {
 
     @Test
     void 차의_목적지에_같은팀이_있으면_이동불가() {
-        Piece chariot = new Chariot(PieceColor.RED);
-        Piece elephant = new Elephant(PieceColor.RED);
+        Piece chariot = new Chariot(TeamColor.RED);
+        Piece elephant = new Elephant(TeamColor.RED);
         List<Piece> piecesOnRoute = new ArrayList<>();
 
         boolean canMove = chariot.canMove(chariot, elephant, piecesOnRoute);
@@ -99,8 +99,8 @@ class ChariotTest {
 
     @Test
     void 차의_이동경로에_기물이_있으면_이동불가() {
-        Piece chariot = new Chariot(PieceColor.RED);
-        Piece elephant = new Elephant(PieceColor.BLUE);
+        Piece chariot = new Chariot(TeamColor.RED);
+        Piece elephant = new Elephant(TeamColor.BLUE);
         List<Piece> piecesOnRoute = List.of(chariot);
 
         boolean canMove = chariot.canMove(chariot, elephant, piecesOnRoute);
@@ -109,8 +109,8 @@ class ChariotTest {
 
     @Test
     void 차의_이동경로에_기물이_없고_목적지가_같은팀이_아니면_이동가능() {
-        Piece chariot = new Chariot(PieceColor.RED);
-        Piece elephant = new Elephant(PieceColor.BLUE);
+        Piece chariot = new Chariot(TeamColor.RED);
+        Piece elephant = new Elephant(TeamColor.BLUE);
         List<Piece> piecesOnRoute = new ArrayList<>();
 
         boolean canMove = chariot.canMove(chariot, elephant, piecesOnRoute);
@@ -127,7 +127,7 @@ class ChariotTest {
     })
     void Chariot_canMoveDiagonal_inPalace(int srcRow, int srcCol, int dstRow, int dstCol) {
         // given
-        Chariot chariot = new Chariot(PieceColor.RED);
+        Chariot chariot = new Chariot(TeamColor.RED);
         PiecePath path = new PiecePath(Position.of(srcRow, srcCol), Position.of(dstRow, dstCol));
         // when
         boolean validMovement = chariot.isValidMovement(path);

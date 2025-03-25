@@ -6,7 +6,7 @@ import janggi.domain.moveRule.DefaultMoveRule;
 import java.util.List;
 
 public class Chariot extends Piece {
-    public Chariot(PieceColor color) {
+    public Chariot(TeamColor color) {
         super(color, PieceType.CHARIOT, DefaultMoveRule.getRule());
     }
 

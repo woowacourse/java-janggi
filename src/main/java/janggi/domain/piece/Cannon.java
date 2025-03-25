@@ -7,7 +7,7 @@ import janggi.domain.moveRule.CannonMoveRule;
 import java.util.List;
 
 public class Cannon extends Piece {
-    public Cannon(PieceColor color) {
+    public Cannon(TeamColor color) {
         super(color, PieceType.CANNON, CannonMoveRule.getRule());
     }
 

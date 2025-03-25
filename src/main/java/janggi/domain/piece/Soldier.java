@@ -14,7 +14,7 @@ public class Soldier extends Piece {
             List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT,
                     Direction.DOWN_LEFT, Direction.DOWN_RIGHT, Direction.UP_LEFT, Direction.UP_RIGHT);
 
-    public Soldier(PieceColor color) {
+    public Soldier(TeamColor color) {
         super(color, PieceType.SOLDIER, DefaultMoveRule.getRule());
     }
 
@@ -31,11 +31,11 @@ public class Soldier extends Piece {
         return SOLDIER_DIRECTION.contains(direction);
     }
 
-    private boolean isBackMovement(Direction direction, PieceColor color) {
-        if(color == PieceColor.BLUE && direction.getX() > 0) {
+    private boolean isBackMovement(Direction direction, TeamColor color) {
+        if(color == TeamColor.BLUE && direction.getX() > 0) {
             return true;
         }
-        if(color == PieceColor.RED && direction.getX() < 0) {
+        if(color == TeamColor.RED && direction.getX() < 0) {
             return true;
         }
         return false;

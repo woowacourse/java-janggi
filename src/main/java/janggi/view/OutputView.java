@@ -5,7 +5,7 @@ import janggi.domain.board.Column;
 import janggi.domain.board.Position;
 import janggi.domain.board.Row;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceColor;
+import janggi.domain.piece.TeamColor;
 
 public class OutputView {
     public static final String WHITE_COLOR = "\u001B[0m";
@@ -37,12 +37,12 @@ public class OutputView {
                 + "--|----------------------\n";
     }
 
-    public void printTurnNotice(PieceColor turnColor) {
+    public void printTurnNotice(TeamColor turnColor) {
         String teamName = TeamColorName.getNameFrom(turnColor);
         System.out.printf(getDefaultColor() + "%s 차례입니다\n", teamName);
     }
 
-    public void printWinner(PieceColor turnColor) {
+    public void printWinner(TeamColor turnColor) {
         String teamName = TeamColorName.getNameFrom(turnColor);
         System.out.printf(getDefaultColor() + "%s 승리!\n", teamName);
     }
@@ -52,11 +52,11 @@ public class OutputView {
     }
 
     private String getColorFrom(Piece piece) {
-        PieceColor color = piece.getColor();
-        if (color == PieceColor.RED) {
+        TeamColor color = piece.getColor();
+        if (color == TeamColor.RED) {
             return RED_COLOR;
         }
-        if (color == PieceColor.BLUE) {
+        if (color == TeamColor.BLUE) {
             return BLUE_COLOR;
         }
         return WHITE_COLOR;

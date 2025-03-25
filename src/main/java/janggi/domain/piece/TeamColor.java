@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-public enum PieceColor {
+public enum TeamColor {
     RED,
     BLUE,
     NONE,

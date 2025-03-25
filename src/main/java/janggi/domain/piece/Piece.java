@@ -7,11 +7,11 @@ import janggi.domain.moveRule.MoveRule;
 import java.util.List;
 
 public abstract class Piece {
-    final PieceColor color;
+    final TeamColor color;
     final PieceType type;
     final MoveRule moveRule;
 
-    Piece(PieceColor color, PieceType type, MoveRule moveRule) {
+    Piece(TeamColor color, PieceType type, MoveRule moveRule) {
         this.color = color;
         this.type = type;
         this.moveRule = moveRule;
@@ -43,7 +43,7 @@ public abstract class Piece {
         return this.color != other.color;
     }
 
-    public PieceColor getColor() {
+    public TeamColor getColor() {
         return color;
     }
 

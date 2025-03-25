@@ -19,7 +19,7 @@ public class General extends Piece {
                     Direction.UP_RIGHT
             );
 
-    public General(PieceColor color) {
+    public General(TeamColor color) {
         super(color, PieceType.GENERAL, DefaultMoveRule.getRule());
     }
 

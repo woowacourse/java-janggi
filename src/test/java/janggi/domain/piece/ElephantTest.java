@@ -17,7 +17,7 @@ class ElephantTest {
     @Test
     void 상은_선이동_힌칸_대각선이동_두칸_이동가능() {
         // given
-        Elephant elephant = new Elephant(PieceColor.RED);
+        Elephant elephant = new Elephant(TeamColor.RED);
 
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.THREE, Column.FOUR);
@@ -33,7 +33,7 @@ class ElephantTest {
     @Test
     void 상은_대각선_이동_불가() {
         // given
-        Elephant elephant = new Elephant(PieceColor.RED);
+        Elephant elephant = new Elephant(TeamColor.RED);
 
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.TWO, Column.TWO);
@@ -48,7 +48,7 @@ class ElephantTest {
 
     @Test
     void 상의_목적지까지의_이동경로에_포함되는_좌표를_반환() {
-        Elephant elephant = new Elephant(PieceColor.RED);
+        Elephant elephant = new Elephant(TeamColor.RED);
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.FOUR, Column.THREE);
         PiecePath path = new PiecePath(source, destination);
@@ -69,8 +69,8 @@ class ElephantTest {
 
     @Test
     void 상의_목적지에_같은팀이_있으면_이동불가() {
-        Piece piece = new Elephant(PieceColor.RED);
-        Piece elephant = new Elephant(PieceColor.RED);
+        Piece piece = new Elephant(TeamColor.RED);
+        Piece elephant = new Elephant(TeamColor.RED);
 
         List<Piece> piecesOnRoute = new ArrayList<>();
 
@@ -80,8 +80,8 @@ class ElephantTest {
 
     @Test
     void 상의_이동경로에_기물이_있으면_이동불가() {
-        Piece piece = new Elephant(PieceColor.RED);
-        Piece elephant = new Elephant(PieceColor.BLUE);
+        Piece piece = new Elephant(TeamColor.RED);
+        Piece elephant = new Elephant(TeamColor.BLUE);
 
         List<Piece> piecesOnRoute = List.of(elephant);
 
@@ -91,8 +91,8 @@ class ElephantTest {
 
     @Test
     void 상의_이동경로에_기물이_없고_목적지가_같은팀이_아니면_이동가능() {
-        Piece piece = new Elephant(PieceColor.RED);
-        Piece elephant = new Elephant(PieceColor.BLUE);
+        Piece piece = new Elephant(TeamColor.RED);
+        Piece elephant = new Elephant(TeamColor.BLUE);
         List<Piece> piecesOnRoute = new ArrayList<>();
 
         boolean canMove = piece.canMove(piece, elephant, piecesOnRoute);
@@ -103,7 +103,7 @@ class ElephantTest {
     @Test
     void Elephant_findAllRoute_toDestination() {
         // given
-        Elephant elephant = new Elephant(PieceColor.RED);
+        Elephant elephant = new Elephant(TeamColor.RED);
         PiecePath path = new PiecePath(Position.of(1, 1), Position.of(4, 3));
 
         // when

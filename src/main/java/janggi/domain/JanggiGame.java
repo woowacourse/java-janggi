@@ -2,7 +2,7 @@ package janggi.domain;
 
 import janggi.domain.board.Position;
 import janggi.domain.gameState.State;
-import janggi.domain.piece.PieceColor;
+import janggi.domain.piece.TeamColor;
 import janggi.domain.piece.PieceType;
 
 public class JanggiGame {
@@ -16,7 +16,7 @@ public class JanggiGame {
         this.state = state.movePiece(pieceType, source, destination);
     }
 
-    public PieceColor getTurnColor() {
+    public TeamColor getTurnColor() {
         return this.state.getColor();
     }
 

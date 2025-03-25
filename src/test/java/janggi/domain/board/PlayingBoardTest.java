@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.domain.piece.Empty;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceColor;
+import janggi.domain.piece.TeamColor;
 import janggi.domain.piece.PieceType;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -23,7 +23,7 @@ class PlayingBoardTest {
 
         Position source = new Position(Row.ONE, Column.TWO);
         Position destination = new Position(Row.THREE, Column.THREE);
-        Piece horse = new Horse(PieceColor.RED);
+        Piece horse = new Horse(TeamColor.RED);
 
         playingBoard.move(PieceType.HORSE, source, destination);
 

@@ -17,7 +17,7 @@ class SoldierTest {
     @Test
     void 졸병이_앞으로_이동_가능() {
         // given
-        Soldier soldier = new Soldier(PieceColor.RED);
+        Soldier soldier = new Soldier(TeamColor.RED);
 
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.FIVE, Column.ONE);
@@ -33,7 +33,7 @@ class SoldierTest {
     @Test
     void 졸병이_옆으로_이동_가능() {
         // given
-        Soldier soldier = new Soldier(PieceColor.RED);
+        Soldier soldier = new Soldier(TeamColor.RED);
 
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.FOUR, Column.TWO);
@@ -49,7 +49,7 @@ class SoldierTest {
     @Test
     void 빨간_쫄병이_뒤로_이동_불가능() {
         // given
-        Soldier soldier = new Soldier(PieceColor.RED);
+        Soldier soldier = new Soldier(TeamColor.RED);
 
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.THREE, Column.ONE);
@@ -65,7 +65,7 @@ class SoldierTest {
     @Test
     void 파란_쫄병이_아래로_이동_불가능() {
         // given
-        Soldier soldier = new Soldier(PieceColor.BLUE);
+        Soldier soldier = new Soldier(TeamColor.BLUE);
 
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.FIVE, Column.ONE);
@@ -80,8 +80,8 @@ class SoldierTest {
 
     @Test
     void 졸병의_목적지에_같은팀이_있으면_이동불가() {
-        Piece piece = new Soldier(PieceColor.RED);
-        Piece elephant = new Elephant(PieceColor.RED);
+        Piece piece = new Soldier(TeamColor.RED);
+        Piece elephant = new Elephant(TeamColor.RED);
 
         List<Piece> piecesOnRoute = new ArrayList<>();
 
@@ -91,8 +91,8 @@ class SoldierTest {
 
     @Test
     void 졸병의_이동경로에_기물이_있으면_이동불가() {
-        Piece piece = new Soldier(PieceColor.RED);
-        Piece elephant = new Elephant(PieceColor.BLUE);
+        Piece piece = new Soldier(TeamColor.RED);
+        Piece elephant = new Elephant(TeamColor.BLUE);
 
         List<Piece> piecesOnRoute = List.of(elephant);
 
@@ -102,8 +102,8 @@ class SoldierTest {
 
     @Test
     void 졸병의_이동경로에_기물이_없고_목적지가_같은팀이_아니면_이동가능() {
-        Piece piece = new Soldier(PieceColor.RED);
-        Piece elephant = new Elephant(PieceColor.BLUE);
+        Piece piece = new Soldier(TeamColor.RED);
+        Piece elephant = new Elephant(TeamColor.BLUE);
 
         List<Piece> piecesOnRoute = new ArrayList<>();
 

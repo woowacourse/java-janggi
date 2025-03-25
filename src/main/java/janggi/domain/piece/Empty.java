@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Empty extends Piece {
     public Empty() {
-        super(PieceColor.NONE, PieceType.NONE, DefaultMoveRule.getRule());
+        super(TeamColor.NONE, PieceType.NONE, DefaultMoveRule.getRule());
     }
 
     @Override

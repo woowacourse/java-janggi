@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Elephant extends Piece {
 
-    public Elephant(PieceColor color) {
+    public Elephant(TeamColor color) {
         super(color, PieceType.ELEPHANT, DefaultMoveRule.getRule());
     }
 

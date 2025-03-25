@@ -19,7 +19,7 @@ public class Guard extends Piece {
                     Direction.UP_RIGHT
             );
 
-    public Guard(PieceColor color) {
+    public Guard(TeamColor color) {
         super(color, PieceType.GUARD, DefaultMoveRule.getRule());
     }
 
