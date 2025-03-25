@@ -1,7 +1,7 @@
 import java.util.function.Supplier;
 import model.JanggiGame;
-import model.Piece;
-import model.Position;
+import model.piece.Piece;
+import model.position.Position;
 import model.Team;
 import view.InputView;
 import view.OutputView;

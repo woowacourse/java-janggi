@@ -1,16 +1,19 @@
-package model;
+package model.piece;
 
 import static model.Movement.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.Movement;
+import model.Team;
+import model.position.Position;
 
-public class Byeong extends Piece {
+public class General extends Piece {
 
-    private final List<Movement> movements = List.of(DOWN, LEFT, RIGHT);
+    private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
 
-    public Byeong() {
-        super(Team.RED);
+    public General(Team team) {
+        super(team);
     }
 
     @Override
@@ -27,11 +30,12 @@ public class Byeong extends Piece {
 
     private void calculatePositionOfMovement(Position departure, List<Position> temporaryPosition) {
         for (Movement movement : movements) {
-            addMoveByDepartment(departure, temporaryPosition, movement);
+            addMoveByDeparture(departure, temporaryPosition, movement);
         }
     }
 
-    private void addMoveByDepartment(Position departure, List<Position> temporaryPosition, Movement movement) {
+    private void addMoveByDeparture(Position departure, List<Position> temporaryPosition,
+        Movement movement) {
         if (!departure.canMove(movement)) {
             return;
         }
@@ -49,6 +53,9 @@ public class Byeong extends Piece {
 
     @Override
     public String toString() {
-        return "兵";
+        if (getTeam() == Team.RED) {
+            return "漢";
+        }
+        return "초";
     }
 }

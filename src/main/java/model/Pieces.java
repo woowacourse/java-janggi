@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import model.piece.Piece;
+import model.position.Position;
 
 public class Pieces {
 

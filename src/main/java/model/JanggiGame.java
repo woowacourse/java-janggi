@@ -2,6 +2,8 @@ package model;
 
 import java.util.List;
 import java.util.Map;
+import model.piece.Piece;
+import model.position.Position;
 import utils.InputParser;
 
 public class JanggiGame {

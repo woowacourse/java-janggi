@@ -1,10 +1,10 @@
 package view;
 
 import java.util.Map;
-import model.Column;
-import model.Piece;
-import model.Position;
-import model.Row;
+import model.position.Column;
+import model.piece.Piece;
+import model.position.Position;
+import model.position.Row;
 import model.Team;
 
 public class OutputView {

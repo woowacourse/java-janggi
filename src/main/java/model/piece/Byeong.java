@@ -1,18 +1,19 @@
-package model;
+package model.piece;
 
-import static model.Movement.LEFT;
-import static model.Movement.RIGHT;
-import static model.Movement.UP;
+import static model.Movement.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.Movement;
+import model.Team;
+import model.position.Position;
 
-public class Jol extends Piece {
+public class Byeong extends Piece {
 
-    private final List<Movement> movements = List.of(UP, LEFT, RIGHT);
+    private final List<Movement> movements = List.of(DOWN, LEFT, RIGHT);
 
-    public Jol() {
-        super(Team.GREEN);
+    public Byeong() {
+        super(Team.RED);
     }
 
     @Override
@@ -29,12 +30,11 @@ public class Jol extends Piece {
 
     private void calculatePositionOfMovement(Position departure, List<Position> temporaryPosition) {
         for (Movement movement : movements) {
-            addMoveByDeparture(departure, temporaryPosition, movement);
+            addMoveByDepartment(departure, temporaryPosition, movement);
         }
     }
 
-    private void addMoveByDeparture(Position departure, List<Position> temporaryPosition,
-        Movement movement) {
+    private void addMoveByDepartment(Position departure, List<Position> temporaryPosition, Movement movement) {
         if (!departure.canMove(movement)) {
             return;
         }
@@ -52,6 +52,6 @@ public class Jol extends Piece {
 
     @Override
     public String toString() {
-        return "졸";
+        return "兵";
     }
 }

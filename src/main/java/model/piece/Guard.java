@@ -1,9 +1,12 @@
-package model;
+package model.piece;
 
 import static model.Movement.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.Movement;
+import model.Team;
+import model.position.Position;
 
 public class Guard extends Piece {
 

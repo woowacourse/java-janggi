@@ -2,6 +2,18 @@ package model;
 
 import java.util.HashMap;
 import java.util.Map;
+import model.piece.Byeong;
+import model.piece.Cannon;
+import model.piece.Chariot;
+import model.piece.Elephant;
+import model.piece.General;
+import model.piece.Guard;
+import model.piece.Horse;
+import model.piece.Jol;
+import model.piece.Piece;
+import model.position.Column;
+import model.position.Position;
+import model.position.Row;
 
 public class PieceInitializer {
 

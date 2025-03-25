@@ -1,6 +1,6 @@
 package view;
 
-import model.Piece;
+import model.piece.Piece;
 
 import java.util.Scanner;
 

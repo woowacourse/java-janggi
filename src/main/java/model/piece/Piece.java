@@ -1,6 +1,8 @@
-package model;
+package model.piece;
 
 import java.util.List;
+import model.Team;
+import model.position.Position;
 
 public abstract class Piece{
 

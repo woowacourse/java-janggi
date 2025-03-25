@@ -1,7 +1,8 @@
-package model;
+package model.position;
 
 import java.util.List;
 import java.util.Objects;
+import model.Movement;
 
 public class Position {
 

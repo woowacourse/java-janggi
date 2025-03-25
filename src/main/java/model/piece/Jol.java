@@ -1,16 +1,21 @@
-package model;
+package model.piece;
 
-import static model.Movement.*;
+import static model.Movement.LEFT;
+import static model.Movement.RIGHT;
+import static model.Movement.UP;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.Movement;
+import model.Team;
+import model.position.Position;
 
-public class General extends Piece {
+public class Jol extends Piece {
 
-    private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
+    private final List<Movement> movements = List.of(UP, LEFT, RIGHT);
 
-    public General(Team team) {
-        super(team);
+    public Jol() {
+        super(Team.GREEN);
     }
 
     @Override
@@ -50,9 +55,6 @@ public class General extends Piece {
 
     @Override
     public String toString() {
-        if (getTeam() == Team.RED) {
-            return "漢";
-        }
-        return "초";
+        return "졸";
     }
 }
