@@ -92,5 +92,19 @@ class GeneralTest {
                     Arguments.of(new BoardPosition(3, 3), new BoardPosition(4, 4))
             );
         }
+
+        @DisplayName("왕이 이동하는 위치가 궁성 밖이라면 예외를 발생시킨다.")
+        @Test
+        void validateMoveInPalaceArea() {
+            // given
+            General general = new General(Team.RED);
+            BoardPosition before = new BoardPosition(5, 2);
+            BoardPosition after = new BoardPosition(5, 3);
+
+            // when & then
+            assertThatThrownBy(() -> general.findMovementRule(before, after))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("해당 말은 해당 위치로 이동할 수 없습니다.");
+        }
     }
 }
