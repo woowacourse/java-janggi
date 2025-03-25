@@ -55,4 +55,43 @@ class GeneralTest {
         // then
         assertThat(general.canMove(start, end, board)).isTrue();
     }
+
+    @DisplayName("장은 궁 밖으로 움직일 수 없다.")
+    @Test
+    void testCannotEscapePalace() {
+        // given
+        final Board board = TestBoardGenerator.generateEmpty();
+        final Position start = new Position(Row.TWO, Column.THREE);
+        final Position end = new Position(Row.THREE, Column.THREE);
+        final General general = General.of(Team.CHO);
+        // when
+        // then
+        assertThat(general.canMove(start, end, board)).isFalse();
+    }
+
+    @DisplayName("장이 궁안에서 대각선으로 움직이기 위해서는 가운데를 지나가야한다.")
+    @Test
+    void testDiagonalMoveThroughCenter() {
+        // given
+        final Board board = TestBoardGenerator.generateEmpty();
+        final Position start = new Position(Row.ZERO, Column.THREE);
+        final Position end = new Position(Row.ONE, Column.FOUR);
+        final General general = General.of(Team.CHO);
+        // when
+        // then
+        assertThat(general.canMove(start, end, board)).isTrue();
+    }
+
+    @DisplayName("장이 궁안에서 대각선으로 움직일 때 가운데를 안지나치면 못움직인다.")
+    @Test
+    void testDiagonalMoveNotThroughCenter() {
+        // given
+        final Board board = TestBoardGenerator.generateEmpty();
+        final Position start = new Position(Row.ZERO, Column.FOUR);
+        final Position end = new Position(Row.ONE, Column.FIVE);
+        final General general = General.of(Team.CHO);
+        // when
+        // then
+        assertThat(general.canMove(start, end, board)).isFalse();
+    }
 }

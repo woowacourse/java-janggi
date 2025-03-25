@@ -24,4 +24,9 @@ public final class MovingRule {
         vectors.removeLast();
         return vectors;
     }
+
+    public boolean isDiagonal() {
+        final MoveVector moveVector = sumUnit();
+        return moveVector.dx() != 0 && moveVector.dy() != 0;
+    }
 }

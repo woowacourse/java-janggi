@@ -70,4 +70,31 @@ class ChariotTest {
         // then
         assertThat(chariot.canMove(start, end, board)).isFalse();
     }
+
+    @DisplayName("궁성 내부에서 차는 대각선으로 움직일 수 있다.")
+    @Test
+    void testMoveInPalace() {
+        // given
+        final Board board = TestBoardGenerator.generateEmpty();
+        // when
+        final Position start = new Position(Row.ZERO, Column.THREE);
+        final Position end = new Position(Row.TWO, Column.FIVE);
+        final Chariot chariot = Chariot.of(Team.CHO);
+        // then
+        assertThat(chariot.canMove(start, end, board)).isTrue();
+    }
+
+    @DisplayName("궁성 내부에서 외부로 나갈 때 차는 대각선으로 움직일 수 없다.")
+    @Test
+    void testMoveThroughPalace() {
+        // given
+        final Board board = TestBoardGenerator.generateEmpty();
+        // when
+        final Position start = new Position(Row.ZERO, Column.THREE);
+        final Position end = new Position(Row.THREE, Column.SIX);
+        final Chariot chariot = Chariot.of(Team.CHO);
+        // then
+        assertThat(chariot.canMove(start, end, board)).isFalse();
+    }
 }
+

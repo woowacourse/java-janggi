@@ -55,4 +55,43 @@ class SoldierTest {
         // then
         assertThat(soldier.canMove(start, end, board)).isTrue();
     }
+
+    @DisplayName("병이 궁안에서 대각선으로 움직이기 위해서는 가운데를 지나가야한다.")
+    @Test
+    void testDiagonalMoveThroughCenter() {
+        // given
+        final Board board = TestBoardGenerator.generateEmpty();
+        final Position start = new Position(Row.SEVEN, Column.FIVE);
+        final Position end = new Position(Row.EIGHT, Column.FOUR); // (0, 3) - (1, 4) = (-1, -1)
+        final Soldier soldier = Soldier.of(Team.HAN);
+        // when
+        // then
+        assertThat(soldier.canMove(start, end, board)).isTrue();
+    }
+
+    @DisplayName("병이 궁안에서 대각선으로 움직일 때 가운데를 안지나치면 못움직인다.")
+    @Test
+    void testDiagonalMoveNotThroughCenter() {
+        // given
+        final Board board = TestBoardGenerator.generateEmpty();
+        final Position start = new Position(Row.EIGHT, Column.FIVE);
+        final Position end = new Position(Row.NINE, Column.FOUR);
+        final Soldier soldier = Soldier.of(Team.HAN);
+        // when
+        // then
+        assertThat(soldier.canMove(start, end, board)).isFalse();
+    }
+
+    @DisplayName("병이 궁안에서 밖으로 나갈 때는 대각선으로 못 간다.")
+    @Test
+    void testDiagonalMoveWhenOutOfPalace() {
+        // given
+        final Board board = TestBoardGenerator.generateEmpty();
+        final Position start = new Position(Row.EIGHT, Column.FIVE);
+        final Position end = new Position(Row.NINE, Column.SIX);
+        final Soldier soldier = Soldier.of(Team.HAN);
+        // when
+        // then
+        assertThat(soldier.canMove(start, end, board)).isFalse();
+    }
 }

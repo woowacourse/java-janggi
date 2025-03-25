@@ -18,4 +18,14 @@ class MovingRuleTest {
         // then
         assertThat(actual).isEqualTo(new MoveVector(0, 0));
     }
+
+    @DisplayName("대각선인지 확인한다.")
+    @Test
+    void testIsDiagonal() {
+        // given
+        final MovingRule movingRule = new MovingRule(List.of(new MoveVector(1, -1)));
+        // when
+        // then
+        assertThat(movingRule.isDiagonal()).isTrue();
+    }
 }

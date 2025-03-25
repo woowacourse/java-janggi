@@ -32,4 +32,8 @@ public enum Row {
     public int getValue() {
         return this.ordinal();
     }
+
+    public boolean isPalace() {
+        return ordinal() <= 2 || ordinal() >= 7;
+    }
 }

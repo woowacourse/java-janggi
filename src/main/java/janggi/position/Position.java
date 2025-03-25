@@ -44,4 +44,12 @@ public final class Position {
     public int hashCode() {
         return Objects.hash(row, column);
     }
+
+    public boolean isPalace() {
+        return row.isPalace() && column.isPalace();
+    }
+
+    public boolean isCenterOfPalace() {
+        return column.getValue() == 4 && (row.getValue() == 1 || row.getValue() == 8);
+    }
 }

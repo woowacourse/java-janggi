@@ -2,6 +2,7 @@ package janggi.position;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -65,5 +66,19 @@ class ColumnTest {
         assertThatThrownBy(() -> Column.FIVE.add(7))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("[ERROR] 보드를 벗어난 값입니다.");
+    }
+
+    @DisplayName("궁성범위인지 판단한다.")
+    @Test
+    void testIsPalace() {
+        // given
+        // when
+        // then
+        assertAll(
+                () -> assertThat(Column.TWO.isPalace()).isFalse(),
+                () -> assertThat(Column.THREE.isPalace()).isTrue(),
+                () -> assertThat(Column.FIVE.isPalace()).isTrue(),
+                () -> assertThat(Column.SIX.isPalace()).isFalse()
+        );
     }
 }

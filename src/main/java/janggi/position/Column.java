@@ -31,4 +31,8 @@ public enum Column {
     public int getValue() {
         return this.ordinal();
     }
+
+    public boolean isPalace() {
+        return ordinal() >= 3 && ordinal() <= 5;
+    }
 }
