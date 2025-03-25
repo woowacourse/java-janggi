@@ -10,7 +10,7 @@ import piece.Team;
 import piece.position.JanggiPosition;
 
 class JolMoveBehaviorTest {
-    
+
     @Test
     void 졸은_가능한_경로를_반환한다() {
         JanggiPosition startPosition = new JanggiPosition(1, 0);
@@ -65,5 +65,15 @@ class JolMoveBehaviorTest {
         Assertions.assertThatIllegalArgumentException()
                 .isThrownBy(() -> moveBehavior.moveOnRoute(destination, onRoutePieces,
                         Team.BLUE));
+    }
+
+    @Test
+    void 졸은_궁에서_대각선으로_이동할_수_있다() {
+        JanggiPosition startPosition = new JanggiPosition(1, 4);
+        JanggiPosition endPosition = new JanggiPosition(2, 5);
+        Pieces pieces = new Pieces(List.of(new Piece(startPosition, new JolMoveBehavior(), Team.RED)));
+        Piece placePiece = pieces.move(startPosition, endPosition, pieces);
+        Piece expectedPiece = new Piece(endPosition, new JolMoveBehavior(), Team.RED);
+        Assertions.assertThat(placePiece).isEqualTo(expectedPiece);
     }
 }
