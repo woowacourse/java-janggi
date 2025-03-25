@@ -3,7 +3,9 @@ package domain.piece;
 import domain.spatial.Position;
 import java.util.List;
 
-public record Pieces(List<Piece> pieces) {
+public record Pieces(
+        List<Piece> pieces
+) {
 
     public Piece findByPosition(final Position position) {
         return pieces.stream()
@@ -22,6 +24,12 @@ public record Pieces(List<Piece> pieces) {
     public void updatePosition(final Piece piece, final Position position) {
         pieces.remove(piece);
         pieces.add(piece.updatePosition(position));
+    }
+
+    public void removePieceIfExists(final Position targetPosition) {
+        if (existByPosition(targetPosition)) {
+            deleteByPosition(targetPosition);
+        }
     }
 
     public boolean existByPosition(final Position position) {

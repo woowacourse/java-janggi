@@ -2,7 +2,6 @@ package domain;
 
 import domain.piece.Piece;
 import domain.piece.PieceMoveValidator;
-import domain.piece.PieceRemover;
 import domain.piece.Pieces;
 import domain.spatial.Position;
 import java.util.List;
@@ -28,7 +27,8 @@ public record Board(
         }
 
         pieces.updatePosition(piece, targetPosition);
-        new PieceRemover().removePieceIfExists(getOppositePieces(player), targetPosition);
+
+        getOppositePieces(player).removePieceIfExists(targetPosition);
     }
 
     public boolean isFinish() {
