@@ -33,7 +33,7 @@ class NormalMovementTest {
             );
         }
 
-        @DisplayName("일반 영역에서 보드 라인을 따라 이동한 이동인지 확인한다.")
+        @DisplayName("일반 영역에서 보드 라인을 따라 이동한 하나의 이동인지 확인한다.")
         @ParameterizedTest
         @MethodSource("provideNormalMovementsWithOneLineMovementFlag")
         void isOneLineMovement(NormalMovement normalMovement, boolean oneLineMovementFlag) {
