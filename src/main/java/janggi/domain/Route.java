@@ -64,13 +64,13 @@ public class Route {
 
     public boolean isExistSameTypePiece(Board board, PieceType pieceType) {
         return positions.stream()
-                .filter(board::isExists)
+                .filter(board::exists)
                 .anyMatch(position -> board.getPiece(position).isSameType(pieceType));
     }
 
     public int countPieceInRoute(final Board board) {
         return (int) positions.stream()
-                .filter(board::isExists)
+                .filter(board::exists)
                 .count();
     }
 

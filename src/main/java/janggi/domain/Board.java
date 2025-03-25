@@ -3,9 +3,9 @@ package janggi.domain;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Board {
 
@@ -16,14 +16,12 @@ public class Board {
     }
 
     public static Board initialize(final List<Piece> pieces) {
-        HashMap<Position, Piece> positionToPiece = new HashMap<>();
-
-        pieces.forEach(piece -> positionToPiece.put(piece.getPosition(), piece));
-
+        Map<Position, Piece> positionToPiece = pieces.stream()
+                .collect(Collectors.toMap(Piece::getPosition, piece -> piece));
         return new Board(positionToPiece);
     }
 
-    public boolean isExists(final Position position) {
+    public boolean exists(final Position position) {
         return positionToPiece.containsKey(position);
     }
 
@@ -54,12 +52,12 @@ public class Board {
                 .filter(position -> positionToPiece.get(position).isSameType(PieceType.GENERAL))
                 .map(positionToPiece::get)
                 .toList();
-        long red = findGeneral(general, Team.RED);
-        long green = findGeneral(general, Team.GREEN);
-        if (red == 1 && green == 0) {
+        boolean redGeneralAlive = isAliveGeneral(general, Team.RED);
+        boolean greenGeneralAlive = isAliveGeneral(general, Team.GREEN);
+        if (redGeneralAlive && !greenGeneralAlive) {
             return GameStatus.RED_WIN;
         }
-        if (red == 0 && green == 1) {
+        if (!redGeneralAlive && greenGeneralAlive) {
             return GameStatus.GREEN_WIN;
         }
         return GameStatus.CONTINUE;
@@ -75,14 +73,13 @@ public class Board {
         return GameStatus.CONTINUE;
     }
 
-    private static long findGeneral(final List<Piece> general, final Team team) {
+    private static boolean isAliveGeneral(final List<Piece> general, final Team team) {
         return general.stream()
-                .filter(piece -> piece.getTeam() == team)
-                .count();
+                .anyMatch(piece -> piece.isSameType(PieceType.GENERAL) && piece.getTeam() == team);
     }
 
     public Piece getPiece(final Position position) {
-        if (isExists(position)) {
+        if (exists(position)) {
             return positionToPiece.get(position);
         }
         throw new IllegalArgumentException("장기말이 존재하지 않는 지점입니다.");

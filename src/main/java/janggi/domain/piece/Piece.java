@@ -37,7 +37,7 @@ public abstract class Piece {
     }
 
     private void validateIsAlly(final Board board, final Position destination, final Team team) {
-        if ((board.isExists(destination) && board.isAlly(destination, team))) {
+        if ((board.exists(destination) && board.isAlly(destination, team))) {
             throw new IllegalArgumentException("목적지에 아군이 존재합니다.");
         }
     }

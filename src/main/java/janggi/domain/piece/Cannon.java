@@ -31,7 +31,7 @@ public class Cannon extends Piece {
     }
 
     private void checkExistCannonInDestination(final Board board, final Position destination) {
-        if (board.isExists(destination) && board.getPiece(destination).isSameType(this)) {
+        if (board.exists(destination) && board.getPiece(destination).isSameType(this)) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
     }
