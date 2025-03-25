@@ -6,7 +6,6 @@ import domain.piece.PieceInitializer;
 import domain.piece.Pieces;
 import domain.piece.Position;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import view.InputView;
 import view.OutputView;
@@ -44,18 +43,10 @@ public class KoreaChess {
     }
 
     private void processTurn(final Player player, final Board board) {
-        Position movingHanPosition = parseToPosition(inputView.readMovingPiecePosition(player));
-        Position targetHanPosition = parseToPosition(inputView.readTargetPiecePosition());
+        Position movingHanPosition = inputView.readMovingPiecePosition(player);
+        Position targetHanPosition = inputView.readTargetPiecePosition();
         board.move(player, movingHanPosition, targetHanPosition);
         outputView.printBoard(board);
-    }
-
-    private Position parseToPosition(final String input) {
-        List<String> positionElements = List.of(input.split(","));
-        int row = Integer.parseInt(positionElements.getFirst());
-        int column = Integer.parseInt(positionElements.getLast());
-
-        return Position.of(row, column);
     }
 
     private Board createBoard(final Player han, final Player cho, final SetUp setUp) {

@@ -2,6 +2,8 @@ package view;
 
 import domain.Player;
 import domain.SetUp;
+import domain.piece.Position;
+import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
@@ -12,14 +14,14 @@ public class InputView {
         this.console = console;
     }
 
-    public String readMovingPiecePosition(final Player player) {
+    public Position readMovingPiecePosition(final Player player) {
         System.out.println(player.name() + " 플레이어의 이동할 기물의 위치를 선택해주세요. (ex. 1,1)");
-        return console.nextLine();
+        return parseToPosition(console.nextLine());
     }
 
-    public String readTargetPiecePosition() {
+    public Position readTargetPiecePosition() {
         System.out.println("기물이 도착할 위치를 입력해주세요. (ex. 1,2)");
-        return console.nextLine();
+        return parseToPosition(console.nextLine());
     }
 
     public SetUp readSetUp() {
@@ -29,5 +31,13 @@ public class InputView {
         System.out.println("3. 오른상 차림");
         System.out.println("4. 왼상 차림");
         return SetUp.getValue(console.nextLine());
+    }
+
+    private Position parseToPosition(final String input) {
+        List<String> positionElements = List.of(input.split(","));
+        int row = Integer.parseInt(positionElements.getFirst());
+        int column = Integer.parseInt(positionElements.getLast());
+
+        return Position.of(row, column);
     }
 }
