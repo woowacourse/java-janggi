@@ -5,29 +5,6 @@ import java.util.List;
 
 public record JanggiPosition(Rank rank, File file) {
 
-    private static final List<JanggiPosition> DIAGONAL_MOVABLE_PALACE_POSITION = List.of(
-            new JanggiPosition(1, 4),
-            new JanggiPosition(1, 6),
-            new JanggiPosition(2, 5),
-            new JanggiPosition(3, 4),
-            new JanggiPosition(3, 6),
-            new JanggiPosition(8, 4),
-            new JanggiPosition(8, 6),
-            new JanggiPosition(9, 5),
-            new JanggiPosition(0, 4),
-            new JanggiPosition(0, 6)
-    );
-    private static final List<JanggiPosition> ORTHOGONAL_MOVABLE_PALACE_POSITION = List.of(
-            new JanggiPosition(1, 5),
-            new JanggiPosition(2, 4),
-            new JanggiPosition(2, 6),
-            new JanggiPosition(3, 5),
-            new JanggiPosition(8, 5),
-            new JanggiPosition(9, 4),
-            new JanggiPosition(9, 6),
-            new JanggiPosition(0, 5)
-    );
-
     public JanggiPosition(int rank, int file) {
         this(Rank.findByNumber(rank), File.findByNumber(file));
     }
@@ -52,12 +29,11 @@ public record JanggiPosition(Rank rank, File file) {
     }
 
     public boolean isPalace() {
-        return DIAGONAL_MOVABLE_PALACE_POSITION.contains(this)
-                || ORTHOGONAL_MOVABLE_PALACE_POSITION.contains(this);
+        return PalacePositions.isPalace(this);
     }
 
     public boolean isDiagonalMovablePalace() {
-        return DIAGONAL_MOVABLE_PALACE_POSITION.contains(this);
+        return PalacePositions.isDiagonalMovablePalacePosition(this);
     }
 
     public JanggiPosition moveOnePosition(final MovingPattern pattern) {
