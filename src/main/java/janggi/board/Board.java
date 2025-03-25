@@ -104,10 +104,6 @@ public class Board {
                 .count();
     }
 
-    public Map<Piece, Position> getPositions() {
-        return positions;
-    }
-
     public Map<Position, Piece> getPieces() {
         return pieces;
     }
