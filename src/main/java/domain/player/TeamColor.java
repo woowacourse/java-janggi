@@ -1,13 +1,13 @@
-package domain.piece;
+package domain.player;
 
-public enum PieceColor {
+public enum TeamColor {
 
     RED("\033[0;31m"),
     BLUE("\033[0;34m");
 
     private final String color;
 
-    PieceColor(final String color) {
+    TeamColor(final String color) {
         this.color = color;
     }
 
