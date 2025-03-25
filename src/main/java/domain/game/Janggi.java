@@ -124,14 +124,6 @@ public class Janggi {
         turn = Team.HAN;
     }
 
-    public Team getTurn() {
-        return turn;
-    }
-
-    public List<Unit> getUnits() {
-        return units;
-    }
-
     public void moveAndCaptureIfEnemyExists(Route route, Position startPoint) {
         Position endPoint = route.searchEndPoint(startPoint);
         Unit unit = findUnitByPoint(startPoint);
@@ -149,5 +141,13 @@ public class Janggi {
 
     public boolean isNoneEnemyUnit() {
         return units.stream().noneMatch(unit -> unit.getTeam() != turn);
+    }
+
+    public Team getTurn() {
+        return turn;
+    }
+
+    public List<Unit> getUnits() {
+        return new ArrayList<>(units);
     }
 }
