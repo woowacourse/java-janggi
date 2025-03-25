@@ -35,11 +35,12 @@ public class JangTest {
     @DisplayName("궁성 내부 이동 가능 위치 판별 테스트")
     class JangMovableTest {
         Jang jang = new Jang(Team.BLUE);
+        Point blueGoongsungCenterPoint = Point.of(4, 1);
 
         @Test
         @DisplayName("수평 이동 1칸 가능")
         void test1() {
-            assertThat(jang.isValidPoint(jang.getMyGoongsungCenterPoint(), Point.of(5, 1))).isTrue();
+            assertThat(jang.isValidPoint(blueGoongsungCenterPoint, Point.of(5, 1))).isTrue();
         }
 
         @Test
@@ -51,7 +52,7 @@ public class JangTest {
         @Test
         @DisplayName("수직 이동 1칸 가능")
         void test3() {
-            assertThat(jang.isValidPoint(jang.getMyGoongsungCenterPoint(), Point.of(4, 2))).isTrue();
+            assertThat(jang.isValidPoint(blueGoongsungCenterPoint, Point.of(4, 2))).isTrue();
         }
 
         @Test
@@ -74,25 +75,25 @@ public class JangTest {
             @Test
             @DisplayName("중점에서 대각 위")
             void test1() {
-                assertThat(jang.isValidPoint(jang.getMyGoongsungCenterPoint(), Point.of(5, 2))).isTrue();
+                assertThat(jang.isValidPoint(blueGoongsungCenterPoint, Point.of(5, 2))).isTrue();
             }
 
             @Test
             @DisplayName("중점에서 대각 아래")
             void test2() {
-                assertThat(jang.isValidPoint(jang.getMyGoongsungCenterPoint(), Point.of(5, 0))).isTrue();
+                assertThat(jang.isValidPoint(blueGoongsungCenterPoint, Point.of(5, 0))).isTrue();
             }
 
             @Test
             @DisplayName("대각 위로 중점")
             void test3() {
-                assertThat(jang.isValidPoint(Point.of(3, 0), jang.getMyGoongsungCenterPoint())).isTrue();
+                assertThat(jang.isValidPoint(Point.of(3, 0), blueGoongsungCenterPoint)).isTrue();
             }
 
             @Test
             @DisplayName("대각 아래로 중점")
             void test4() {
-                assertThat(jang.isValidPoint(Point.of(3, 2), jang.getMyGoongsungCenterPoint())).isTrue();
+                assertThat(jang.isValidPoint(Point.of(3, 2), blueGoongsungCenterPoint)).isTrue();
             }
 
             @Test

@@ -6,10 +6,11 @@ import java.util.stream.IntStream;
 import model.Path;
 import model.Point;
 import model.Team;
+import model.janggiboard.JangSaGoongsungRule;
 
 public class Jang extends Piece {
 
-    private Point myGoongsungCenterPoint;
+    private JangSaGoongsungRule jangSaGoongsungRule;
 
     public Jang(Team team) {
         super(team);
@@ -19,21 +20,18 @@ public class Jang extends Piece {
 
     private void initMyGoongsungCenterPoint(Team team) {
         if (team == Team.BLUE) {
-            this.myGoongsungCenterPoint = Point.of(4, 1);
+            jangSaGoongsungRule = new JangSaGoongsungRule(Point.of(4, 1));
         }
         if (team == Team.RED) {
-            this.myGoongsungCenterPoint = Point.of(4, 8);
+            jangSaGoongsungRule = new JangSaGoongsungRule(Point.of(4, 8));
         }
     }
 
 
     @Override
     public boolean isValidPoint(Point beforePoint, Point targetPoint) {
-        if (isOutOfGoongsung(targetPoint)) {
-            throw new IllegalArgumentException("[ERROR] 궁성을 벗어날 수 없습니다.");
-        }
-
-        if (beforePoint.equals(myGoongsungCenterPoint) || targetPoint.equals(myGoongsungCenterPoint)) {
+        jangSaGoongsungRule.validateOutOfGoongsung(targetPoint);
+        if (jangSaGoongsungRule.containsCenterPoint(beforePoint, targetPoint)) {
             return true;
         }
 
@@ -43,11 +41,6 @@ public class Jang extends Piece {
         return IntStream.range(0, horizontal.size())
                 .anyMatch(i -> horizontal.get(i) + beforePoint.x() == targetPoint.x()
                         && vertical.get(i) + beforePoint.y() == targetPoint.y());
-    }
-
-    private boolean isOutOfGoongsung(Point targetPoint) {
-        return Math.abs(targetPoint.x() - myGoongsungCenterPoint.x()) > 1
-                || Math.abs(targetPoint.y() - myGoongsungCenterPoint.y()) > 1;
     }
 
     @Override
@@ -74,7 +67,4 @@ public class Jang extends Piece {
         return true;
     }
 
-    public Point getMyGoongsungCenterPoint() {
-        return myGoongsungCenterPoint;
-    }
 }
