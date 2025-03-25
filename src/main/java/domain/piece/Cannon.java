@@ -15,7 +15,7 @@ public class Cannon extends Piece {
 
     @Override
     protected void validateOffset(final Offset offset) {
-        if (!offset.isStraightMove() || offset.hasNoMove() || offset.hasOneMove()) {
+        if (!offset.isStraightMove() || offset.hasNoMove() || offset.hasOneStraightMove()) {
             throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");
         }
     }

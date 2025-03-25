@@ -35,15 +35,15 @@ class OffsetTest {
             );
         }
 
-        @DisplayName("이동이 1인 오프셋인지 확인한다.")
+        @DisplayName("하나의 직선 이동인 오프셋인지 확인한다.")
         @Test
-        void hasOneMove() {
+        void hasOneStraightMove() {
             assertAll(
-                    () -> assertThat(new Offset(0, 1).hasOneMove()).isTrue(),
-                    () -> assertThat(new Offset(1, 0).hasOneMove()).isTrue(),
-                    () -> assertThat(new Offset(-1, 0).hasOneMove()).isTrue(),
-                    () -> assertThat(new Offset(0, -1).hasOneMove()).isTrue(),
-                    () -> assertThat(new Offset(1, 1).hasOneMove()).isFalse()
+                    () -> assertThat(new Offset(0, 1).hasOneStraightMove()).isTrue(),
+                    () -> assertThat(new Offset(1, 0).hasOneStraightMove()).isTrue(),
+                    () -> assertThat(new Offset(-1, 0).hasOneStraightMove()).isTrue(),
+                    () -> assertThat(new Offset(0, -1).hasOneStraightMove()).isTrue(),
+                    () -> assertThat(new Offset(1, 1).hasOneStraightMove()).isFalse()
             );
         }
 

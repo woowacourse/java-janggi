@@ -20,7 +20,7 @@ public class Zzu extends Piece {
 
     @Override
     protected void validateOffset(final Offset offset) {
-        if (!offset.hasOneMove() || isMovingBackward(offset)) {
+        if (!offset.hasOneStraightMove() || isMovingBackward(offset)) {
             throw new IllegalArgumentException("해당 말은 해당 위치로 이동할 수 없습니다.");
         }
     }

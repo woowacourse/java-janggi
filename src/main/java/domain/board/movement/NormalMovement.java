@@ -22,7 +22,7 @@ public class NormalMovement extends Movement {
     @Override
     public boolean isOneLineMovement() {
         final Offset offset = after.calculateOffset(before);
-        return offset.hasOneMove();
+        return offset.hasOneStraightMove();
     }
 
     private void validateIsNotPlaceMovement(
