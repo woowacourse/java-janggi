@@ -6,9 +6,9 @@ import static domain.Fixtures._ONE_NINE;
 import static domain.Fixtures._ZERO_ONE;
 
 import domain.JanggiPosition;
+import domain.piece.Cannon;
 import domain.piece.Piece;
 import domain.piece.Side;
-import domain.piece.포;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -17,8 +17,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class 포PathTest {
-    Piece piece = new 포(Side.CHO);
+public class CannonPathTest {
+    Piece piece = new Cannon(Side.CHO);
 
     @ParameterizedTest
     @MethodSource("provide포Path")
@@ -31,7 +31,7 @@ public class 포PathTest {
     }
 
     static Stream<Arguments> provide포Path() {
-        Path pathOf포 = new 포Path();
+        Path pathOf포 = new CannonPath();
         return Stream.of(
                 Arguments.of(_FIVE_ONE,
                         List.of(pathOf포.getPatterns(Direction.UP).getFirst(),

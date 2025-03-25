@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class 사Path extends Path {
+public class GeneralPath extends Path {
 
-    public 사Path() {
+    public GeneralPath() {
         super(List.of(RIGHT, DOWN, LEFT, UP), createPatternMap());
     }
 

@@ -26,6 +26,4 @@ public enum Pattern {
     public int getY() {
         return y;
     }
-
-
 }

@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class 차Path extends Path {
+public class GuardPath extends Path {
 
-    public 차Path() {
+    public GuardPath() {
         super(List.of(RIGHT, DOWN, LEFT, UP), createPatternMap());
     }
 

@@ -12,9 +12,9 @@ import static domain.Fixtures._THREE_SEVEN;
 import static domain.Fixtures._THREE_THREE;
 
 import domain.JanggiPosition;
+import domain.piece.Elephant;
 import domain.piece.Piece;
 import domain.piece.Side;
-import domain.piece.상;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -23,8 +23,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class 상PathTest {
-    Piece piece = new 상(Side.CHO);
+public class ElephantPathTest {
+    Piece piece = new Elephant(Side.CHO);
 
     @ParameterizedTest
     @MethodSource("provide상Path")
@@ -38,7 +38,7 @@ public class 상PathTest {
     }
 
     static Stream<Arguments> provide상Path() {
-        Path pathOf상 = new 상Path();
+        Path pathOf상 = new ElephantPath();
         return Stream.of(
                 Arguments.of(_FOUR_EIGHT, pathOf상.getPatterns(Direction.RIGHT_UP)),
                 Arguments.of(_EIGHT_EIGHT, pathOf상.getPatterns(Direction.RIGHT_DOWN)),

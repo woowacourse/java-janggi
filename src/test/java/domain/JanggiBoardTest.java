@@ -51,16 +51,16 @@ import static domain.Fixtures._ZERO_TWO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
+import domain.piece.General;
+import domain.piece.Guard;
+import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.piece.Side;
+import domain.piece.Soldier;
 import domain.piece.state.Captured;
-import domain.piece.궁;
-import domain.piece.마;
-import domain.piece.사;
-import domain.piece.상;
-import domain.piece.졸병;
-import domain.piece.차;
-import domain.piece.포;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -92,38 +92,38 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> providePlaceAndPiece() {
         return Stream.of(
-                Arguments.of(_NINE_FIVE, new 궁(Side.CHO)),
-                Arguments.of(_ZERO_ONE, new 차(Side.CHO)),
-                Arguments.of(_ZERO_NINE, new 차(Side.CHO)),
-                Arguments.of(_EIGHT_TWO, new 포(Side.CHO)),
-                Arguments.of(_EIGHT_EIGHT, new 포(Side.CHO)),
-                Arguments.of(_SEVEN_ONE, new 졸병(Side.CHO)),
-                Arguments.of(_SEVEN_THREE, new 졸병(Side.CHO)),
-                Arguments.of(_SEVEN_FIVE, new 졸병(Side.CHO)),
-                Arguments.of(_SEVEN_SEVEN, new 졸병(Side.CHO)),
-                Arguments.of(_SEVEN_NINE, new 졸병(Side.CHO)),
-                Arguments.of(_ZERO_FOUR, new 사(Side.CHO)),
-                Arguments.of(_ZERO_SIX, new 사(Side.CHO)),
-                Arguments.of(_ZERO_TWO, new 마(Side.CHO)),
-                Arguments.of(_ZERO_EIGHT, new 마(Side.CHO)),
-                Arguments.of(_ZERO_THREE, new 상(Side.CHO)),
-                Arguments.of(_ZERO_SEVEN, new 상(Side.CHO)),
-                Arguments.of(_TWO_FIVE, new 궁(Side.HAN)),
-                Arguments.of(_ONE_ONE, new 차(Side.HAN)),
-                Arguments.of(_ONE_NINE, new 차(Side.HAN)),
-                Arguments.of(_THREE_TWO, new 포(Side.HAN)),
-                Arguments.of(_THREE_EIGHT, new 포(Side.HAN)),
-                Arguments.of(_FOUR_ONE, new 졸병(Side.HAN)),
-                Arguments.of(_FOUR_THREE, new 졸병(Side.HAN)),
-                Arguments.of(_FOUR_FIVE, new 졸병(Side.HAN)),
-                Arguments.of(_FOUR_SEVEN, new 졸병(Side.HAN)),
-                Arguments.of(_FOUR_NINE, new 졸병(Side.HAN)),
-                Arguments.of(_ONE_FOUR, new 사(Side.HAN)),
-                Arguments.of(_ONE_SIX, new 사(Side.HAN)),
-                Arguments.of(_ONE_TWO, new 마(Side.HAN)),
-                Arguments.of(_ONE_EIGHT, new 마(Side.HAN)),
-                Arguments.of(_ONE_THREE, new 상(Side.HAN)),
-                Arguments.of(_ONE_SEVEN, new 상(Side.HAN))
+                Arguments.of(_NINE_FIVE, new General(Side.CHO)),
+                Arguments.of(_ZERO_ONE, new Chariot(Side.CHO)),
+                Arguments.of(_ZERO_NINE, new Chariot(Side.CHO)),
+                Arguments.of(_EIGHT_TWO, new Cannon(Side.CHO)),
+                Arguments.of(_EIGHT_EIGHT, new Cannon(Side.CHO)),
+                Arguments.of(_SEVEN_ONE, new Soldier(Side.CHO)),
+                Arguments.of(_SEVEN_THREE, new Soldier(Side.CHO)),
+                Arguments.of(_SEVEN_FIVE, new Soldier(Side.CHO)),
+                Arguments.of(_SEVEN_SEVEN, new Soldier(Side.CHO)),
+                Arguments.of(_SEVEN_NINE, new Soldier(Side.CHO)),
+                Arguments.of(_ZERO_FOUR, new Guard(Side.CHO)),
+                Arguments.of(_ZERO_SIX, new Guard(Side.CHO)),
+                Arguments.of(_ZERO_TWO, new Horse(Side.CHO)),
+                Arguments.of(_ZERO_EIGHT, new Horse(Side.CHO)),
+                Arguments.of(_ZERO_THREE, new Elephant(Side.CHO)),
+                Arguments.of(_ZERO_SEVEN, new Elephant(Side.CHO)),
+                Arguments.of(_TWO_FIVE, new General(Side.HAN)),
+                Arguments.of(_ONE_ONE, new Chariot(Side.HAN)),
+                Arguments.of(_ONE_NINE, new Chariot(Side.HAN)),
+                Arguments.of(_THREE_TWO, new Cannon(Side.HAN)),
+                Arguments.of(_THREE_EIGHT, new Cannon(Side.HAN)),
+                Arguments.of(_FOUR_ONE, new Soldier(Side.HAN)),
+                Arguments.of(_FOUR_THREE, new Soldier(Side.HAN)),
+                Arguments.of(_FOUR_FIVE, new Soldier(Side.HAN)),
+                Arguments.of(_FOUR_SEVEN, new Soldier(Side.HAN)),
+                Arguments.of(_FOUR_NINE, new Soldier(Side.HAN)),
+                Arguments.of(_ONE_FOUR, new Guard(Side.HAN)),
+                Arguments.of(_ONE_SIX, new Guard(Side.HAN)),
+                Arguments.of(_ONE_TWO, new Horse(Side.HAN)),
+                Arguments.of(_ONE_EIGHT, new Horse(Side.HAN)),
+                Arguments.of(_ONE_THREE, new Elephant(Side.HAN)),
+                Arguments.of(_ONE_SEVEN, new Elephant(Side.HAN))
         );
     }
 
@@ -140,7 +140,7 @@ public class JanggiBoardTest {
     @Nested
     class 기물을_이동시킬_수_있다 {
         @Test
-        void 궁을_이동시킬_수_있다() {
+        void General을_이동시킬_수_있다() {
             // given
             JanggiBoard janggiBoard = new JanggiBoard();
 
@@ -148,11 +148,11 @@ public class JanggiBoardTest {
             janggiBoard.move(_NINE_FIVE, _EIGHT_FIVE);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(_EIGHT_FIVE)).isInstanceOf(궁.class);
+            assertThat(janggiBoard.getPieceFrom(_EIGHT_FIVE)).isInstanceOf(General.class);
         }
 
         @Test
-        void 마를_이동시킬_수_있다() {
+        void Horse를_이동시킬_수_있다() {
             // given
             JanggiBoard janggiBoard = new JanggiBoard();
 
@@ -160,7 +160,7 @@ public class JanggiBoardTest {
             janggiBoard.move(_ZERO_TWO, _EIGHT_THREE);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(_EIGHT_THREE)).isInstanceOf(마.class);
+            assertThat(janggiBoard.getPieceFrom(_EIGHT_THREE)).isInstanceOf(Horse.class);
         }
 
         @Test
@@ -172,7 +172,7 @@ public class JanggiBoardTest {
             janggiBoard.move(_ZERO_FOUR, _NINE_FOUR);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(_NINE_FOUR)).isInstanceOf(사.class);
+            assertThat(janggiBoard.getPieceFrom(_NINE_FOUR)).isInstanceOf(Guard.class);
         }
 
         @Test
@@ -185,7 +185,7 @@ public class JanggiBoardTest {
             janggiBoard.move(_ZERO_THREE, _SEVEN_FIVE);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(_SEVEN_FIVE)).isInstanceOf(상.class);
+            assertThat(janggiBoard.getPieceFrom(_SEVEN_FIVE)).isInstanceOf(Elephant.class);
         }
 
         @Test
@@ -197,7 +197,7 @@ public class JanggiBoardTest {
             janggiBoard.move(_SEVEN_ONE, _SIX_ONE);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(_SIX_ONE)).isInstanceOf(졸병.class);
+            assertThat(janggiBoard.getPieceFrom(_SIX_ONE)).isInstanceOf(Soldier.class);
         }
 
         @Test
@@ -209,7 +209,7 @@ public class JanggiBoardTest {
             janggiBoard.move(_FOUR_ONE, _FIVE_ONE);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(_FIVE_ONE)).isInstanceOf(졸병.class);
+            assertThat(janggiBoard.getPieceFrom(_FIVE_ONE)).isInstanceOf(Soldier.class);
         }
 
         @Test
@@ -222,7 +222,7 @@ public class JanggiBoardTest {
             janggiBoard.move(_ZERO_NINE, _FIVE_NINE);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(_FIVE_NINE)).isInstanceOf(차.class);
+            assertThat(janggiBoard.getPieceFrom(_FIVE_NINE)).isInstanceOf(Chariot.class);
         }
 
         @Test
@@ -236,7 +236,7 @@ public class JanggiBoardTest {
             janggiBoard.move(_ZERO_ONE, _ZERO_TWO);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(_ZERO_TWO)).isInstanceOf(차.class);
+            assertThat(janggiBoard.getPieceFrom(_ZERO_TWO)).isInstanceOf(Chariot.class);
         }
 
         @Test
@@ -252,7 +252,7 @@ public class JanggiBoardTest {
             janggiBoard.move(_EIGHT_TWO, _FOUR_TWO);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(_FOUR_TWO)).isInstanceOf(포.class);
+            assertThat(janggiBoard.getPieceFrom(_FOUR_TWO)).isInstanceOf(Cannon.class);
         }
     }
 

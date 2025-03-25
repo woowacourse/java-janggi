@@ -6,9 +6,9 @@ import static domain.Fixtures._ZERO_NINE;
 import static domain.Fixtures._ZERO_ONE;
 
 import domain.JanggiPosition;
+import domain.piece.Chariot;
 import domain.piece.Piece;
 import domain.piece.Side;
-import domain.piece.차;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -17,8 +17,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class 차PathTest {
-    Piece piece = new 차(Side.CHO);
+public class ChariotPathTest {
+    Piece piece = new Chariot(Side.CHO);
 
     @ParameterizedTest
     @MethodSource("provide차Path")
@@ -31,7 +31,7 @@ public class 차PathTest {
     }
 
     static Stream<Arguments> provide차Path() {
-        Path pathOf차 = new 차Path();
+        Path pathOf차 = new ChariotPath();
         return Stream.of(
                 Arguments.of(_FIVE_ONE,
                         List.of(pathOf차.getPatterns(Direction.UP).getFirst(),

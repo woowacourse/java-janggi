@@ -8,9 +8,9 @@ import static domain.Fixtures._NINE_SIX;
 import static domain.Fixtures._ZERO_FIVE;
 
 import domain.JanggiPosition;
+import domain.piece.Guard;
 import domain.piece.Piece;
 import domain.piece.Side;
-import domain.piece.사;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -19,8 +19,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class 사PathTest {
-    Piece piece = new 사(Side.CHO);
+public class GuardPathTest {
+    Piece piece = new Guard(Side.CHO);
 
     @ParameterizedTest
     @MethodSource("provide사Path")
@@ -34,7 +34,7 @@ public class 사PathTest {
     }
 
     static Stream<Arguments> provide사Path() {
-        Path pathOf사 = new 사Path();
+        Path pathOf사 = new GuardPath();
         return Stream.of(
                 Arguments.of(_EIGHT_FIVE, pathOf사.getPatterns(Direction.UP)),
                 Arguments.of(_NINE_FOUR, pathOf사.getPatterns(Direction.LEFT)),

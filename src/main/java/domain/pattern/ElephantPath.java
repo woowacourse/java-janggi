@@ -14,9 +14,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class 상Path extends Path {
+public class ElephantPath extends Path {
 
-    public 상Path() {
+    public ElephantPath() {
         super(List.of(UP_RIGHT, RIGHT_UP, RIGHT_DOWN, DOWN_RIGHT, DOWN_LEFT, LEFT_DOWN, LEFT_UP, UP_LEFT),
                 createPatternMap());
     }

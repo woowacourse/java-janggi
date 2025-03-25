@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class 마Path extends Path {
-    public 마Path() {
+public class HorsePath extends Path {
+    public HorsePath() {
         super(List.of(UP_RIGHT, RIGHT_UP, RIGHT_DOWN, DOWN_RIGHT, DOWN_LEFT, LEFT_DOWN, LEFT_UP, UP_LEFT),
                 createPatternMap());
     }

@@ -9,7 +9,7 @@ import static domain.Fixtures._SIX_FIVE;
 import domain.JanggiPosition;
 import domain.piece.Piece;
 import domain.piece.Side;
-import domain.piece.졸병;
+import domain.piece.Soldier;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -18,8 +18,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class 병PathTest {
-    Piece piece = new 졸병(Side.HAN);
+public class SoldierByeongPathTest {
+    Piece piece = new Soldier(Side.HAN);
 
     @ParameterizedTest
     @MethodSource("provide병Path")
@@ -33,7 +33,7 @@ public class 병PathTest {
     }
 
     static Stream<Arguments> provide병Path() {
-        Path pathOf병 = new 병Path();
+        Path pathOf병 = new SoldierByeongPath();
         return Stream.of(
                 Arguments.of(_EIGHT_FIVE, pathOf병.getPatterns(Direction.DOWN)),
                 Arguments.of(_SEVEN_FOUR, pathOf병.getPatterns(Direction.LEFT)),

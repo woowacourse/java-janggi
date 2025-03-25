@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class 포Path extends Path {
+public class CannonPath extends Path {
 
-    public 포Path() {
+    public CannonPath() {
         super(List.of(RIGHT, DOWN, LEFT, UP), createPatternMap());
     }
 
