@@ -19,12 +19,13 @@ import java.util.function.Function;
 
 public class BoardFactory {
 
+    private static final Map<String, Piece> pieceCache = new HashMap<>();
+
     public static Board getInitializedBoard(
             HorseSide blueLeftHorsePosition,
             HorseSide blueRightHorsePosition,
             HorseSide redLeftHorsePosition,
             HorseSide redRightHorsePosition
-
     ) {
         Map<Position, Piece> pieces = new HashMap<>();
         initializeWithNones(pieces);
@@ -77,10 +78,15 @@ public class BoardFactory {
                                          List<Position> redPositions,
                                          Function<Team, Piece> pieceCreator) {
         for (Position position : bluePositions) {
-            pieces.put(position, pieceCreator.apply(Team.BLUE));
+            pieces.put(position, getOrCreatePiece(pieceCreator, Team.BLUE));
         }
         for (Position position : redPositions) {
-            pieces.put(position, pieceCreator.apply(Team.RED));
+            pieces.put(position, getOrCreatePiece(pieceCreator, Team.RED));
         }
+    }
+
+    private static Piece getOrCreatePiece(Function<Team, Piece> pieceCreator, Team team) {
+        String key = team.name() + pieceCreator.getClass().getSimpleName();
+        return pieceCache.computeIfAbsent(key, k -> pieceCreator.apply(team));
     }
 }

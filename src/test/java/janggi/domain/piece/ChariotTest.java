@@ -57,6 +57,15 @@ class ChariotTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @DisplayName("원래 위치로 이동하려 하는 경우 예외를 던진다.")
+    @Test
+    void move33() {
+        Chariot chariot = new Chariot(Team.BLUE);
+        Position afterPosition = new Position(2, 5);
+        assertThatThrownBy(() -> chariot.getMovableValidator(afterPosition, afterPosition).accept(board))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
     @DisplayName("차의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
     @Test
     void move4() {

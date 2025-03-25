@@ -25,6 +25,6 @@ public record Movement(
         if (relativeY > 0) {
             return RIGHT;
         }
-        throw new IllegalArgumentException("대각선으로는 이동할 수 없습니다");
+        throw new IllegalArgumentException("원래 위치로 이동할 수 없습니다.");
     }
 }

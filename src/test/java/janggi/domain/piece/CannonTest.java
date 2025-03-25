@@ -85,6 +85,18 @@ class CannonTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @DisplayName("원래 위치로 이동하려할 경우 예외를 던진다")
+    @Test
+    void move55() {
+        Cannon cannon = new Cannon(Team.BLUE);
+        Position afterPosition = new Position(5, 5);
+
+        board.put(afterPosition, new Cannon(Team.RED));
+        assertThatThrownBy(() ->
+                cannon.getMovableValidator(beforePosition, afterPosition).accept(board))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
     @DisplayName("포의 모든 이동 경로가 가능하다")
     @CsvSource(value = {
             "2,5",
