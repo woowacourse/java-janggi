@@ -2,8 +2,6 @@ package domain.piece;
 
 import domain.Position;
 import domain.Team;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Cha extends Piece {
@@ -15,8 +13,8 @@ public class Cha extends Piece {
     @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
         validateStraightMove(startPosition, targetPosition);
-        List<Move> moves = decideMove(startPosition, targetPosition);
-        return convertToPath(moves, startPosition);
+        Moves moves = decideMove(startPosition, targetPosition);
+        return moves.convertToPath(startPosition);
     }
 
     private void validateStraightMove(Position startPosition, Position targetPosition) {
@@ -25,18 +23,18 @@ public class Cha extends Piece {
         }
     }
 
-    private List<Move> decideMove(Position startPosition, Position targetPosition) {
+    private Moves decideMove(Position startPosition, Position targetPosition) {
         int rowDiff = startPosition.compareRow(targetPosition);
         int columnDiff = startPosition.compareColumn(targetPosition);
         if (rowDiff > 0) {
-            return new ArrayList<>(Collections.nCopies(rowDiff, Move.FRONT));
+            return Moves.createStraightMove(rowDiff, Move.FRONT);
         }
         if (rowDiff < 0) {
-            return new ArrayList<>(Collections.nCopies(Math.abs(rowDiff), Move.BACK));
+            return Moves.createStraightMove(Math.abs(rowDiff), Move.BACK);
         }
         if (columnDiff < 0) {
-            return new ArrayList<>(Collections.nCopies(Math.abs(columnDiff), Move.RIGHT));
+            return Moves.createStraightMove(Math.abs(columnDiff), Move.RIGHT);
         }
-        return new ArrayList<>(Collections.nCopies(columnDiff, Move.LEFT));
+        return Moves.createStraightMove(columnDiff, Move.LEFT);
     }
 }
