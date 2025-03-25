@@ -1,15 +1,14 @@
-package model;
+package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.HashMap;
 import java.util.Map;
-import model.piece.Cha;
-import model.piece.Ma;
-import model.piece.Pho;
-import model.piece.Piece;
-import model.piece.PiecesInGoongsung.Jang;
+import model.Path;
+import model.Point;
+import model.Team;
+import model.piece.goongsungpiece.Jang;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

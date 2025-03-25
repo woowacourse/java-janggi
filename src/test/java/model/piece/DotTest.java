@@ -1,10 +1,10 @@
-package model;
+package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import model.Team;
 import model.janggiboard.Dot;
-import model.piece.Piece;
-import model.piece.PiecesInGoongsung.Jang;
+import model.piece.goongsungpiece.Jang;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

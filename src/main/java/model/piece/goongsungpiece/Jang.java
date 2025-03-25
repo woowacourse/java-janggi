@@ -1,9 +1,9 @@
-package model.piece.PiecesInGoongsung;
+package model.piece.goongsungpiece;
 
 import model.Team;
 import model.piece.PieceName;
 
-public class Jang extends PiecesInGoongsung {
+public class Jang extends GoongsungPiece {
 
     public Jang(Team team) {
         super(team);

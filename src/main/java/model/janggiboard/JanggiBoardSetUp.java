@@ -10,9 +10,9 @@ import model.piece.Cha;
 import model.piece.Ma;
 import model.piece.Pho;
 import model.piece.Piece;
-import model.piece.PiecesInGoongsung.Jang;
-import model.piece.PiecesInGoongsung.Sa;
 import model.piece.Sang;
+import model.piece.goongsungpiece.Jang;
+import model.piece.goongsungpiece.Sa;
 
 public enum JanggiBoardSetUp {
 

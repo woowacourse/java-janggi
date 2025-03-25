@@ -1,4 +1,4 @@
-package model.piece.PiecesInGoongsung;
+package model.piece.goongsungpiece;
 
 import java.util.List;
 import java.util.Map;
@@ -9,11 +9,11 @@ import model.Team;
 import model.janggiboard.JangSaGoongsungRule;
 import model.piece.Piece;
 
-class PiecesInGoongsung extends Piece {
+class GoongsungPiece extends Piece {
 
     private JangSaGoongsungRule jangSaGoongsungRule;
 
-    public PiecesInGoongsung(Team team) {
+    public GoongsungPiece(Team team) {
         super(team);
         initMyGoongsungCenterPoint(team);
     }

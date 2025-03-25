@@ -1,13 +1,13 @@
-package model;
+package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.HashMap;
 import java.util.Map;
-import model.piece.Cha;
-import model.piece.Piece;
-import model.piece.Sang;
+import model.Path;
+import model.Point;
+import model.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -30,14 +30,14 @@ public class SangTest {
         @DisplayName("가능")
         public void test1() {
             Sang sang = new Sang(Team.RED);
-            assertThat(sang.isValidPoint(Point.of(0,0), Point.of(-2,-3))).isTrue();
+            assertThat(sang.isValidPoint(Point.of(0, 0), Point.of(-2, -3))).isTrue();
         }
 
         @Test
         @DisplayName("불가능")
         public void test2() {
             Sang sang = new Sang(Team.RED);
-            assertThat(sang.isValidPoint(Point.of(0,0), Point.of(-2,-2))).isFalse();
+            assertThat(sang.isValidPoint(Point.of(0, 0), Point.of(-2, -2))).isFalse();
         }
     }
 
@@ -53,8 +53,7 @@ public class SangTest {
             Point point2 = new Point(1, 2);
             Point point3 = new Point(2, 3);
 
-
-            Path path = sang.calculatePath(Point.of(0,0), Point.of(2,3));
+            Path path = sang.calculatePath(Point.of(0, 0), Point.of(2, 3));
             assertAll(
                     () -> assertThat(path.contains(point)).isTrue(),
                     () -> assertThat(path.contains(point2)).isTrue(),
@@ -69,7 +68,7 @@ public class SangTest {
             Point point = new Point(0, -1);
             Point point2 = new Point(-1, -2);
             Point point3 = new Point(-2, -3);
-            Path path = sang.calculatePath(Point.of(0,0), Point.of(-2,-3));
+            Path path = sang.calculatePath(Point.of(0, 0), Point.of(-2, -3));
             assertAll(
                     () -> assertThat(path.contains(point)).isTrue(),
                     () -> assertThat(path.contains(point2)).isTrue(),
@@ -86,8 +85,8 @@ public class SangTest {
         @DisplayName("중간 아군")
         public void test1() {
             Sang sang = new Sang(Team.RED);
-            Map<Piece,Boolean> pieces = new HashMap<>();
-            pieces.put(new Cha(Team.RED),false);
+            Map<Piece, Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.RED), false);
 
             assertThat(sang.canMove(pieces)).isFalse();
         }
@@ -96,9 +95,9 @@ public class SangTest {
         @DisplayName("중간 아군 2명")
         public void test5() {
             Sang sang = new Sang(Team.RED);
-            Map<Piece,Boolean> pieces = new HashMap<>();
-            pieces.put(new Cha(Team.RED),false);
-            pieces.put(new Cha(Team.RED),false);
+            Map<Piece, Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.RED), false);
+            pieces.put(new Cha(Team.RED), false);
 
             assertThat(sang.canMove(pieces)).isFalse();
         }
@@ -107,8 +106,8 @@ public class SangTest {
         @DisplayName("종점 아군")
         public void test2() {
             Sang sang = new Sang(Team.RED);
-            Map<Piece,Boolean> pieces = new HashMap<>();
-            pieces.put(new Cha(Team.RED),true);
+            Map<Piece, Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.RED), true);
 
             assertThat(sang.canMove(pieces)).isFalse();
         }
@@ -118,8 +117,8 @@ public class SangTest {
         @DisplayName("중간 적군")
         public void test3() {
             Sang sang = new Sang(Team.RED);
-            Map<Piece,Boolean> pieces = new HashMap<>();
-            pieces.put(new Cha(Team.BLUE),false);
+            Map<Piece, Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.BLUE), false);
 
             assertThat(sang.canMove(pieces)).isFalse();
         }
@@ -128,8 +127,8 @@ public class SangTest {
         @DisplayName("종점 적군")
         public void test4() {
             Sang sang = new Sang(Team.RED);
-            Map<Piece,Boolean> pieces = new HashMap<>();
-            pieces.put(new Cha(Team.BLUE),true);
+            Map<Piece, Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.BLUE), true);
 
             assertThat(sang.canMove(pieces)).isTrue();
         }

@@ -1,13 +1,12 @@
-package model;
+package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.HashMap;
 import java.util.Map;
-import model.piece.Byeong;
-import model.piece.Cha;
-import model.piece.Piece;
+import model.Point;
+import model.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

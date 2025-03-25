@@ -1,13 +1,13 @@
-package model;
+package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.HashMap;
 import java.util.Map;
-import model.piece.Cha;
-import model.piece.Ma;
-import model.piece.Piece;
+import model.Path;
+import model.Point;
+import model.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -30,14 +30,14 @@ public class MaTest {
         @DisplayName("가능")
         public void test1() {
             Ma ma = new Ma(Team.RED);
-            assertThat(ma.isValidPoint(Point.of(0,0), Point.of(2,1))).isTrue();
+            assertThat(ma.isValidPoint(Point.of(0, 0), Point.of(2, 1))).isTrue();
         }
 
         @Test
         @DisplayName("불가능")
         public void test2() {
             Ma ma = new Ma(Team.RED);
-            assertThat(ma.isValidPoint(Point.of(0,0), Point.of(2,2))).isFalse();
+            assertThat(ma.isValidPoint(Point.of(0, 0), Point.of(2, 2))).isFalse();
         }
     }
 
@@ -50,7 +50,7 @@ public class MaTest {
             Ma ma = new Ma(Team.RED);
             Point point1 = new Point(0, 1);
             Point point2 = new Point(1, 2);
-            Path path = ma.calculatePath(Point.of(0,0), Point.of(1,2));
+            Path path = ma.calculatePath(Point.of(0, 0), Point.of(1, 2));
 
             assertAll(
                     () -> assertThat(path.contains(point1)).isTrue(),
@@ -67,8 +67,8 @@ public class MaTest {
         @DisplayName("중간 아군")
         public void test1() {
             Ma ma = new Ma(Team.RED);
-            Map<Piece,Boolean> pieces = new HashMap<>();
-            pieces.put(new Cha(Team.RED),false);
+            Map<Piece, Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.RED), false);
 
             assertThat(ma.canMove(pieces)).isFalse();
         }
@@ -77,8 +77,8 @@ public class MaTest {
         @DisplayName("종점 아군")
         public void test2() {
             Ma ma = new Ma(Team.RED);
-            Map<Piece,Boolean> pieces = new HashMap<>();
-            pieces.put(new Cha(Team.RED),true);
+            Map<Piece, Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.RED), true);
 
             assertThat(ma.canMove(pieces)).isFalse();
         }
@@ -88,8 +88,8 @@ public class MaTest {
         @DisplayName("중간 적군")
         public void test3() {
             Ma ma = new Ma(Team.RED);
-            Map<Piece,Boolean> pieces = new HashMap<>();
-            pieces.put(new Cha(Team.BLUE),false);
+            Map<Piece, Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.BLUE), false);
 
             assertThat(ma.canMove(pieces)).isFalse();
         }
@@ -98,8 +98,8 @@ public class MaTest {
         @DisplayName("종점 적군")
         public void test4() {
             Ma ma = new Ma(Team.RED);
-            Map<Piece,Boolean> pieces = new HashMap<>();
-            pieces.put(new Cha(Team.BLUE),true);
+            Map<Piece, Boolean> pieces = new HashMap<>();
+            pieces.put(new Cha(Team.BLUE), true);
 
             assertThat(ma.canMove(pieces)).isTrue();
         }
