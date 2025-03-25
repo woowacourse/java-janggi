@@ -31,9 +31,4 @@ public class Zzu extends Piece {
 
         return offset.isDownDirectionMove();
     }
-
-    @Override
-    public String toString() {
-        return "쭈";
-    }
 }

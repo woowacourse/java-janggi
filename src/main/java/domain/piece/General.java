@@ -22,9 +22,4 @@ public class General extends Piece {
     protected List<Offset> createMovementRule(final Offset offset) {
         return List.of(offset);
     }
-
-    @Override
-    public String toString() {
-        return "왕";
-    }
 }

@@ -44,9 +44,4 @@ public class Horse extends Piece {
     protected List<Offset> createMovementRule(final Offset offset) {
         return MOVEMENT_RULES.get(offset);
     }
-
-    @Override
-    public String toString() {
-        return "마";
-    }
 }

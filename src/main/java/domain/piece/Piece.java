@@ -61,6 +61,11 @@ public abstract class Piece {
         return Objects.hashCode(team);
     }
 
+    @Override
+    public String toString() {
+        return "(" + pieceType.getTitle() + ", " + team.getTitle() + ")";
+    }
+
     public PieceType getPieceType() {
         return pieceType;
     }

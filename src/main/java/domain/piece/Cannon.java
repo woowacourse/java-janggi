@@ -51,9 +51,4 @@ public class Cannon extends Piece {
         }
         return distance;
     }
-
-    @Override
-    public String toString() {
-        return "포";
-    }
 }
