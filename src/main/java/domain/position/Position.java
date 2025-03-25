@@ -19,10 +19,6 @@ public class Position {
         return this.point.equals(other);
     }
 
-    public boolean isSamePiece(final Piece other) {
-        return this.piece.equals(other);
-    }
-
     public boolean isSamePieceType(final Position other) {
         return this.piece.type() == other.piece.type();
     }
