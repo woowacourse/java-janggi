@@ -22,26 +22,27 @@ public class PieceInitializer {
 
     public static List<Piece> createTeamPieces(final Team team, final SetUp setUp) {
         if (team == Team.HAN) {
-            return createHanPieces(setUp);
+            return createHanPieces(setUp, team);
         }
-        return createChoPieces(setUp);
+        return createChoPieces(setUp, team);
     }
 
-    private static List<Piece> createHanPieces(final SetUp setUp) {
-        return createPieces(position -> position, setUp);
+    private static List<Piece> createHanPieces(final SetUp setUp, final Team team) {
+        return createPieces(position -> position, setUp, team);
     }
 
-    private static List<Piece> createChoPieces(final SetUp setUp) {
-        return createPieces(Position::flipUpDown, setUp);
+    private static List<Piece> createChoPieces(final SetUp setUp, final Team team) {
+        return createPieces(Position::flipUpDown, setUp, team);
     }
 
-    private static List<Piece> createPieces(final Function<Position, Position> teamSide, final SetUp setUp) {
+    private static List<Piece> createPieces(final Function<Position, Position> teamSide, final SetUp setUp,
+                                            final Team team) {
         List<Piece> pieces = new ArrayList<>();
         addGeneral(teamSide, pieces);
         addChariots(teamSide, pieces);
         addCannons(teamSide, pieces);
         addGuards(teamSide, pieces);
-        addSoldiers(teamSide, pieces);
+        addSoldiers(teamSide, pieces, team);
         addSetUpPieces(teamSide, pieces, setUp);
         return pieces;
     }
@@ -70,11 +71,21 @@ public class PieceInitializer {
         pieces.add(new Guard(teamSide.apply(HAN_GUARD_POSITION.flipLeftRight()), PieceDirection.GUARD.get()));
     }
 
-    private static void addSoldiers(final Function<Position, Position> teamSide, final List<Piece> pieces) {
+    private static void addSoldiers(final Function<Position, Position> teamSide, final List<Piece> pieces,
+                                    final Team team) {
+        if (team == Team.HAN) {
+            createSoldiers(teamSide, pieces, PieceDirection.HAN_SOLDIER);
+            return;
+        }
+        createSoldiers(teamSide, pieces, PieceDirection.CHO_SOLDIER);
+    }
+
+    private static void createSoldiers(Function<Position, Position> teamSide, List<Piece> pieces,
+                                       PieceDirection directions) {
         for (int step = 0; step < 10; step += 2) {
             pieces.add(
                     new Soldier(teamSide.apply(HAN_SOLDIER_POSITION.moveRow(step)),
-                            PieceDirection.HAN_SOLDIER.get()));
+                            directions.get()));
         }
     }
 }
