@@ -1,6 +1,7 @@
 package model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Chariot extends Piece {
@@ -14,6 +15,9 @@ public class Chariot extends Piece {
             Position startPosition,
             OccupiedPositions occupiedPositions
     ) {
+        List<Direction> straightDirections = Direction.getStraightDirection();
+        Position currentPosition = startPosition;
+        while(!currentPosition.canMove())
         Set<Position> path = new HashSet<>();
         for (int column = startPosition.column() + 1; column < 10; ++column) {
             Position nextPosition = new Position(startPosition.row(), column);
