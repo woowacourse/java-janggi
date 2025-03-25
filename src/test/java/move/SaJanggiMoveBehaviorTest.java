@@ -12,7 +12,7 @@ class SaMoveBehaviorTest {
     void 아직_구현되지않음() {
         JanggiMoveBehavior moveBehavior = new SaMoveBehavior();
         Assertions.assertThatThrownBy(
-                        () -> moveBehavior.move(new JanggiPosition(0, 5), new Pieces(new ArrayList<>()), Team.BLUE))
+                        () -> moveBehavior.moveOnRoute(new JanggiPosition(0, 5), new Pieces(new ArrayList<>()), Team.BLUE))
                 .isInstanceOf(IllegalStateException.class);
     }
 }

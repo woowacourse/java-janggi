@@ -18,7 +18,7 @@ public class Piece {
     }
 
     public void move(Pieces onRoutePieces, JanggiPosition movePosition) {
-        this.position = moveBehavior.move(movePosition, onRoutePieces, team);
+        this.position = moveBehavior.moveOnRoute(movePosition, onRoutePieces, team);
     }
 
     public List<JanggiPosition> calculateLegalRoute(JanggiPosition selectPiecePosition, JanggiPosition movePosition) {

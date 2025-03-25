@@ -37,7 +37,7 @@ public class FoMoveBehavior extends JanggiMoveBehavior {
     }
 
     @Override
-    public JanggiPosition move(JanggiPosition destination, Pieces onRoutePieces, Team moveTeam) {
+    public JanggiPosition moveOnRoute(JanggiPosition destination, Pieces onRoutePieces, Team moveTeam) {
         validatePiecesEmpty(onRoutePieces);
         Piece onRouteFirstPiece = onRoutePieces.getFirstPiece();
         Piece onRoutelastPiece = onRoutePieces.getLastPiece();

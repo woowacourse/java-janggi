@@ -35,7 +35,7 @@ class MaMoveBehaviorTest {
         ));
 
         Assertions.assertThatIllegalArgumentException()
-                .isThrownBy(() -> moveBehavior.move(destination, onRoutePieces, Team.BLUE));
+                .isThrownBy(() -> moveBehavior.moveOnRoute(destination, onRoutePieces, Team.BLUE));
     }
 
     @Test
@@ -44,6 +44,6 @@ class MaMoveBehaviorTest {
         JanggiPosition destination = new JanggiPosition(1, 2);
         Pieces onRoutePieces = new Pieces(List.of());
 
-        Assertions.assertThat(moveBehavior.move(destination, onRoutePieces, Team.BLUE)).isEqualTo(destination);
+        Assertions.assertThat(moveBehavior.moveOnRoute(destination, onRoutePieces, Team.BLUE)).isEqualTo(destination);
     }
 }

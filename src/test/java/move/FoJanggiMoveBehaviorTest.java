@@ -34,7 +34,7 @@ class FoMoveBehaviorTest {
                 List.of(new Piece(otherPiecePosition, new JolMoveBehavior(), Team.BLUE),
                         new Piece(destinationPiecePosition, new JolMoveBehavior(), Team.RED))
         );
-        JanggiPosition move = moveBehavior.move(new JanggiPosition(0, 5), onRoutePieces, Team.BLUE);
+        JanggiPosition move = moveBehavior.moveOnRoute(new JanggiPosition(0, 5), onRoutePieces, Team.BLUE);
         Assertions.assertThat(move).isEqualTo(new JanggiPosition(0, 5));
     }
 
@@ -47,7 +47,8 @@ class FoMoveBehaviorTest {
                 List.of(new Piece(otherPiecePosition, new JolMoveBehavior(), Team.BLUE),
                         new Piece(destinationPiecePosition, new JolMoveBehavior(), Team.BLUE))
         );
-        Assertions.assertThatThrownBy(() -> moveBehavior.move(new JanggiPosition(0, 5), onRoutePieces, Team.BLUE))
+        Assertions.assertThatThrownBy(
+                        () -> moveBehavior.moveOnRoute(new JanggiPosition(0, 5), onRoutePieces, Team.BLUE))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -60,7 +61,7 @@ class FoMoveBehaviorTest {
                 List.of(new Piece(otherPiecePosition, new JolMoveBehavior(), Team.BLUE),
                         new Piece(destinationPiecePosition, new JolMoveBehavior(), Team.RED))
         );
-        JanggiPosition move = moveBehavior.move(new JanggiPosition(0, 5), onRoutePieces, Team.BLUE);
+        JanggiPosition move = moveBehavior.moveOnRoute(new JanggiPosition(0, 5), onRoutePieces, Team.BLUE);
         Assertions.assertThat(move).isEqualTo(new JanggiPosition(0, 5));
     }
 
@@ -69,7 +70,7 @@ class FoMoveBehaviorTest {
         JanggiMoveBehavior moveBehavior = new FoMoveBehavior();
         Pieces nonPieces = new Pieces(List.of());
 
-        Assertions.assertThatThrownBy(() -> moveBehavior.move(new JanggiPosition(0, 5), nonPieces, Team.BLUE));
+        Assertions.assertThatThrownBy(() -> moveBehavior.moveOnRoute(new JanggiPosition(0, 5), nonPieces, Team.BLUE));
     }
 
     @Test
@@ -109,7 +110,7 @@ class FoMoveBehaviorTest {
                         new Piece(destinationPiecePosition, new JolMoveBehavior(), Team.RED))
         );
 
-        JanggiPosition move = moveBehavior.move(new JanggiPosition(2, 5), onRoutePieces, Team.BLUE);
+        JanggiPosition move = moveBehavior.moveOnRoute(new JanggiPosition(2, 5), onRoutePieces, Team.BLUE);
         Assertions.assertThat(move).isEqualTo(new JanggiPosition(2, 5));
     }
 }

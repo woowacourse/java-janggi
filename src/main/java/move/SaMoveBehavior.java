@@ -11,7 +11,7 @@ public class SaMoveBehavior extends JanggiMoveBehavior {
     private static final String NOT_IMPLEMENTED_FEATURE = "아직 구현되지 않은 기능입니다.";
 
     @Override
-    public JanggiPosition move(JanggiPosition destination, Pieces onRoutePieces, Team moveTeam) {
+    public JanggiPosition moveOnRoute(JanggiPosition destination, Pieces onRoutePieces, Team moveTeam) {
         throw new IllegalStateException(NOT_IMPLEMENTED_FEATURE);
     }
 

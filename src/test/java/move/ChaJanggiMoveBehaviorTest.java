@@ -29,7 +29,7 @@ class ChaMoveBehaviorTest {
     @Test
     void 차는_가는길에_기물이_없어야_이동할_수_있다() {
         JanggiMoveBehavior moveBehavior = new ChaMoveBehavior();
-        JanggiPosition move = moveBehavior.move(new JanggiPosition(0, 5), new Pieces(new ArrayList<>()),
+        JanggiPosition move = moveBehavior.moveOnRoute(new JanggiPosition(0, 5), new Pieces(new ArrayList<>()),
                 Team.BLUE);
         Assertions.assertThat(move).isEqualTo(new JanggiPosition(0, 5));
     }
@@ -44,7 +44,7 @@ class ChaMoveBehaviorTest {
         JanggiPosition destination = new JanggiPosition(0, 1);
 
         Assertions.assertThatIllegalArgumentException()
-                .isThrownBy(() -> moveBehavior.move(destination, onRoutePieces,
+                .isThrownBy(() -> moveBehavior.moveOnRoute(destination, onRoutePieces,
                         Team.BLUE));
     }
 

@@ -46,7 +46,7 @@ class JolMoveBehaviorTest {
     @Test
     void 졸은_가는길에_기물이_없어야_이동할_수_있다() {
         JanggiMoveBehavior moveBehavior = new JolMoveBehavior();
-        JanggiPosition move = moveBehavior.move(new JanggiPosition(0, 1), new Pieces(new ArrayList<>()),
+        JanggiPosition move = moveBehavior.moveOnRoute(new JanggiPosition(0, 1), new Pieces(new ArrayList<>()),
                 Team.BLUE);
         Assertions.assertThat(move).isEqualTo(new JanggiPosition(0, 1));
 
@@ -62,7 +62,7 @@ class JolMoveBehaviorTest {
         JanggiPosition destination = new JanggiPosition(0, 1);
 
         Assertions.assertThatIllegalArgumentException()
-                .isThrownBy(() -> moveBehavior.move(destination, onRoutePieces,
+                .isThrownBy(() -> moveBehavior.moveOnRoute(destination, onRoutePieces,
                         Team.BLUE));
     }
 }

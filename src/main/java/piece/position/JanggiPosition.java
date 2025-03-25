@@ -13,10 +13,6 @@ public class JanggiPosition {
         this.column = column;
     }
 
-    public boolean isPositionDiagonalGungPosition() {
-        return GungsungPosition.isPositionDiagonalGungPosition(this);
-    }
-
     public JanggiPosition add(Direction direction) {
         int newRow = this.row + direction.y();
         int newColumn = this.column + direction.x();
@@ -54,6 +50,14 @@ public class JanggiPosition {
         return this;
     }
 
+    public boolean isInsideGungsung(JanggiPosition position) {
+        return GungsungPosition.isInsideGungsung(position);
+    }
+
+    public boolean isPositionDiagonalGungPosition() {
+        return GungsungPosition.isPositionDiagonalGungPosition(this);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -77,10 +81,6 @@ public class JanggiPosition {
                 "row=" + row +
                 ", column=" + column +
                 '}';
-    }
-
-    public boolean isInsideGungsung(JanggiPosition position) {
-        return position.isInsideGungsung(position);
     }
 }
 

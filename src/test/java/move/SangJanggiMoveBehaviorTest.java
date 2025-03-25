@@ -39,7 +39,7 @@ class SangMoveBehaviorTest {
 
         // when, then
         Assertions.assertThatIllegalArgumentException()
-                .isThrownBy(() -> moveBehavior.move(destination, onRoutePieces, Team.BLUE));
+                .isThrownBy(() -> moveBehavior.moveOnRoute(destination, onRoutePieces, Team.BLUE));
     }
 
     @Test
@@ -49,6 +49,6 @@ class SangMoveBehaviorTest {
         Pieces onRoutePieces = new Pieces(List.of());
 
         // when, then
-        Assertions.assertThat(moveBehavior.move(destination, onRoutePieces, Team.BLUE)).isEqualTo(destination);
+        Assertions.assertThat(moveBehavior.moveOnRoute(destination, onRoutePieces, Team.BLUE)).isEqualTo(destination);
     }
 }

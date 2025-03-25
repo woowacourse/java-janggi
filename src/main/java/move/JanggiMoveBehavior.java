@@ -11,7 +11,7 @@ import piece.Pieces;
 import piece.Team;
 import piece.position.JanggiPosition;
 
-public abstract class MoveBehavior {
+public abstract class JanggiMoveBehavior {
 
     void throwInvalidMoveBehaviorByCondition(MoveBehaviorThrowingPredicate throwCondition) {
         if (throwCondition.test()) {
@@ -32,14 +32,18 @@ public abstract class MoveBehavior {
         throw new InvalidMovePosition();
     }
 
-    protected boolean isDiagonalGungCase(JanggiPosition startPosition, JanggiPosition endPosition) {
+    protected boolean isDiagonalGungsungCase(JanggiPosition startPosition, JanggiPosition endPosition) {
         if (!startPosition.isPositionDiagonalGungPosition() || !endPosition.isPositionDiagonalGungPosition()) {
             return false;
         }
         return startPosition.isSameDiagonal(endPosition);
     }
 
-    public JanggiPosition move(JanggiPosition destination, Pieces onRoutePieces, Team moveTeam) {
+    protected boolean isInsideGungsungCase(JanggiPosition startPosition, JanggiPosition endPosition) {
+        return startPosition.isInsideGungsung(startPosition) && endPosition.isInsideGungsung(endPosition);
+    }
+
+    public JanggiPosition moveOnRoute(JanggiPosition destination, Pieces onRoutePieces, Team moveTeam) {
         for (Piece piece : onRoutePieces.getPieces()) {
             throwInvalidMoveBehaviorByCondition(() -> !piece.isSamePosition(destination));
             throwInvalidMoveBehaviorByCondition(() -> piece.isSameTeam(moveTeam));
@@ -68,8 +72,8 @@ public abstract class MoveBehavior {
 
     @Override
     public boolean equals(Object object) {
-        if (object instanceof MoveBehavior) {
-            return isSameType(((MoveBehavior) object).getPieceType());
+        if (object instanceof JanggiMoveBehavior) {
+            return isSameType(((JanggiMoveBehavior) object).getPieceType());
         }
         return false;
     }
