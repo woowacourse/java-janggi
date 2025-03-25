@@ -25,6 +25,20 @@ class HorseTest {
         );
     }
 
+    @DisplayName("마는 목적지로 갈 수 없다면 예외를 발생 시킨다")
+    @Test
+    void horseCanValidateDestination() {
+        // given
+        Position origin = Position.of(1, 1);
+        Position destination = Position.of(3, 3);
+        Horse horse = new Horse(Dynasty.HAN);
+
+        // when // then
+        assertThatCode(() -> horse.getIntermediatePoints(origin, destination))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageStartingWith("[ERROR]");
+    }
+
     @DisplayName("마는 목적지로 가는 경로를 구할 수 있다.")
     @ParameterizedTest
     @MethodSource("provideHorseOriginAndDestinationAndExpected")
@@ -39,47 +53,33 @@ class HorseTest {
         assertThat(actual).isEqualTo(expected);
     }
 
-    @DisplayName("마는 목적지로 갈 수 없다면 예외를 발생시킨다")
+    @DisplayName("마는 이동 경로에 기물이 존재 한다면 이동할 수 없다")
     @Test
-    void horseCannotGetIntermediatePoints() {
+    void horseCanNotMoveIfIntermediatePointsHasPiece() {
         // given
-        Position origin = Position.of(1, 1);
-        Position destination = Position.of(3, 3);
+        Map<Position, Piece> intermediatePointsWithPiece = new LinkedHashMap<>();
         Horse horse = new Horse(Dynasty.HAN);
 
+        intermediatePointsWithPiece.put(Position.of(6, 8), new Horse(Dynasty.HAN));
+
         // when // then
-        assertThatCode(() -> horse.getIntermediatePoints(origin, destination))
+        assertThatCode(() -> horse.validateMove(intermediatePointsWithPiece, null))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("마는 이동 경로에 어떤 말도 없다면 이동 가능하다")
+    @DisplayName("마는 이동 경로에 어떤 말도 없다면 이동 가능 하다")
     @Test
-    void horseJudgeMovable() {
+    void horseCanMove() {
         // given
-        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> intermediatePointsWithPiece = new LinkedHashMap<>();
         Horse horse = new Horse(Dynasty.HAN);
 
-        routesWithPiece.put(Position.of(5, 7), null);
+        intermediatePointsWithPiece.put(Position.of(5, 7), null);
 
         // when // then
-        assertThatCode(() -> horse.validateMove(routesWithPiece, null))
+        assertThatCode(() -> horse.validateMove(intermediatePointsWithPiece, null))
                 .doesNotThrowAnyException();
-    }
-
-    @DisplayName("마는 이동 경로에 기물이 존재한다면 이동할 수 없다")
-    @Test
-    void horseJudgeMovable2() {
-        // given
-        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
-        Horse horse = new Horse(Dynasty.HAN);
-
-        routesWithPiece.put(Position.of(6, 8), new Horse(Dynasty.HAN));
-
-        // when // then
-        assertThatCode(() -> horse.validateMove(routesWithPiece, null))
-                .isInstanceOf(UnsupportedOperationException.class)
-                .hasMessageStartingWith("[ERROR]");
     }
 
 }
