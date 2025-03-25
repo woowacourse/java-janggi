@@ -48,8 +48,4 @@ public record Position(Row row, Column column) {
         return Objects.hash(row, column);
     }
 
-    @Override
-    public String toString() {
-        return "[" + row + "," + column + "]";
-    }
 }
