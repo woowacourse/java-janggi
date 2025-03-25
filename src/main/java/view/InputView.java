@@ -25,8 +25,8 @@ public class InputView {
         return parseToPosition(console.nextLine());
     }
 
-    public SetUp readSetUp() {
-        System.out.println("기물 배치 전략을 선택해주세요.");
+    public SetUp readSetUp(final Team team) {
+        System.out.printf("팀 %s의 기물 차림을 선택해 주세요.\n", team.getName());
         System.out.println("1. 안상 차림");
         System.out.println("2. 바깥상 차림");
         System.out.println("3. 오른상 차림");

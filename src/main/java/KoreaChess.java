@@ -24,8 +24,10 @@ public class KoreaChess {
         Player han = new Player(inputView.getName(Team.HAN), Team.HAN);
         Player cho = new Player(inputView.getName(Team.CHO), Team.CHO);
 
-        SetUp setUp = inputView.readSetUp();
-        Board board = createBoard(han, cho, setUp);
+        SetUp hanSetUp = inputView.readSetUp(Team.HAN);
+        SetUp choSetUp = inputView.readSetUp(Team.CHO);
+
+        Board board = createBoard(han, cho, hanSetUp, choSetUp);
 
         outputView.printGameStart();
         outputView.printBoard(board);
@@ -49,9 +51,9 @@ public class KoreaChess {
         outputView.printBoard(board);
     }
 
-    private Board createBoard(final Player han, final Player cho, final SetUp setUp) {
-        Pieces hanPieces = new Pieces(PieceInitializer.createTeamPieces(Team.HAN, setUp));
-        Pieces choPieces = new Pieces(PieceInitializer.createTeamPieces(Team.CHO, setUp));
+    private Board createBoard(final Player han, final Player cho, final SetUp hanSetUp, final SetUp choSetUp) {
+        Pieces hanPieces = new Pieces(PieceInitializer.createTeamPieces(Team.HAN, hanSetUp));
+        Pieces choPieces = new Pieces(PieceInitializer.createTeamPieces(Team.CHO, choSetUp));
 
         Map<Player, Pieces> board = new HashMap<>();
         board.put(han, hanPieces);
