@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import domain.Vector;
+import domain.direction.Vector;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -50,7 +50,7 @@ class PositionTest {
     })
     void 좌표가_유효한지_판단한다(int row, int column, boolean expectedResult) {
         // given
-        Position position = new Position(row, column);
+        Position position = Position.ofUnverified(row, column);
 
         // when
         boolean result = position.isValid();
@@ -62,36 +62,36 @@ class PositionTest {
     @Test
     void 좌표를_좌우_대칭_시킨다() {
         // given
-        Position position = new Position(2, 6);
+        Position position = Position.of(2, 6);
 
         // when
         Position result = position.flipLeftRight();
 
         // then
-        assertThat(result).isEqualTo(new Position(8, 6));
+        assertThat(result).isEqualTo(Position.of(8, 6));
     }
 
     @Test
     void 좌표를_상하_대칭_시킨다() {
         // given
-        Position position = new Position(2, 7);
+        Position position = Position.of(2, 7);
 
         // when
         Position result = position.flipUpDown();
 
         // then
-        assertThat(result).isEqualTo(new Position(2, 4));
+        assertThat(result).isEqualTo(Position.of(2, 4));
     }
 
     @Test
     void 좌표의_열을_움직인다() {
         // given
-        Position position = new Position(1, 5);
+        Position position = Position.of(1, 5);
 
         // when
         Position result = position.moveRow(4);
 
         // then
-        assertThat(result).isEqualTo(new Position(5, 5));
+        assertThat(result).isEqualTo(Position.of(5, 5));
     }
 }

@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Vector;
+import domain.direction.Vector;
 import java.util.Objects;
 
 public class Position {
@@ -13,13 +13,17 @@ public class Position {
     private final int row;
     private final int column;
 
-    public Position(final int row, final int column) {
+    private Position(final int row, final int column) {
         this.row = row;
         this.column = column;
     }
 
     public static Position of(final int row, final int column) {
         validateRange(row, column);
+        return new Position(row, column);
+    }
+
+    public static Position ofUnverified(final int row, final int column) {
         return new Position(row, column);
     }
 
@@ -38,15 +42,15 @@ public class Position {
     }
 
     public Position flipLeftRight() {
-        return new Position(9 - this.row + 1, this.column);
+        return Position.of(MAX_ROW - this.row + MIN_ROW, this.column);
     }
 
     public Position flipUpDown() {
-        return new Position(this.row, 10 - this.column + 1);
+        return Position.of(this.row, MAX_COLUMN - this.column + MIN_COLUMN);
     }
 
     public Position moveRow(final int step) {
-        return new Position(this.row + step, this.column);
+        return Position.of(this.row + step, this.column);
     }
 
     @Override

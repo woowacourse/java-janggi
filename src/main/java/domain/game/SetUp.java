@@ -1,4 +1,4 @@
-package domain;
+package domain.game;
 
 import domain.direction.PieceDirection;
 import domain.piece.Piece;
@@ -13,20 +13,20 @@ import java.util.function.Function;
 public enum SetUp {
 
     INNER_ELEPHANT("1",
-            new Position(2, 1),
-            new Position(3, 1)
+            Position.of(2, 1),
+            Position.of(3, 1)
     ),
     OUTER_ELEPHANT("2",
-            new Position(3, 1),
-            new Position(2, 1)
+            Position.of(3, 1),
+            Position.of(2, 1)
     ),
     RIGHT_ELEPHANT("3",
-            new Position(2, 1),
-            new Position(3, 1)
+            Position.of(2, 1),
+            Position.of(3, 1)
     ),
     LEFT_ELEPHANT("4",
-            new Position(3, 1),
-            new Position(2, 1)
+            Position.of(3, 1),
+            Position.of(2, 1)
     ),
     ;
 
