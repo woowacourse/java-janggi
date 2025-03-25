@@ -24,31 +24,31 @@ public class CannonPathTest {
     @MethodSource("provide포Path")
     void 포의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // when
-        List<Pattern> 포path = piece.findMovablePath(_ZERO_ONE, afterPosition);
+        List<Pattern> cannonPath = piece.findMovablePath(_ZERO_ONE, afterPosition);
 
         // when & then
-        Assertions.assertThat(포path).containsAll(path);
+        Assertions.assertThat(cannonPath).containsAll(path);
     }
 
     static Stream<Arguments> provide포Path() {
-        Path pathOf포 = new CannonPath();
+        Path pathOfCannon = new CannonPath();
         return Stream.of(
                 Arguments.of(_FIVE_ONE,
-                        List.of(pathOf포.getPatterns(Direction.UP).getFirst(),
-                                pathOf포.getPatterns(Direction.UP).getFirst(),
-                                pathOf포.getPatterns(Direction.UP).getFirst(),
-                                pathOf포.getPatterns(Direction.UP).getFirst(),
-                                pathOf포.getPatterns(Direction.UP).getFirst()
+                        List.of(pathOfCannon.getPatterns(Direction.UP).getFirst(),
+                                pathOfCannon.getPatterns(Direction.UP).getFirst(),
+                                pathOfCannon.getPatterns(Direction.UP).getFirst(),
+                                pathOfCannon.getPatterns(Direction.UP).getFirst(),
+                                pathOfCannon.getPatterns(Direction.UP).getFirst()
                         ),
                         Arguments.of(_ONE_NINE,
-                                List.of(pathOf포.getPatterns(Direction.RIGHT).getFirst(),
-                                        pathOf포.getPatterns(Direction.RIGHT).getFirst(),
-                                        pathOf포.getPatterns(Direction.RIGHT).getFirst(),
-                                        pathOf포.getPatterns(Direction.RIGHT).getFirst(),
-                                        pathOf포.getPatterns(Direction.RIGHT).getFirst(),
-                                        pathOf포.getPatterns(Direction.RIGHT).getFirst(),
-                                        pathOf포.getPatterns(Direction.RIGHT).getFirst(),
-                                        pathOf포.getPatterns(Direction.RIGHT).getFirst()
+                                List.of(pathOfCannon.getPatterns(Direction.RIGHT).getFirst(),
+                                        pathOfCannon.getPatterns(Direction.RIGHT).getFirst(),
+                                        pathOfCannon.getPatterns(Direction.RIGHT).getFirst(),
+                                        pathOfCannon.getPatterns(Direction.RIGHT).getFirst(),
+                                        pathOfCannon.getPatterns(Direction.RIGHT).getFirst(),
+                                        pathOfCannon.getPatterns(Direction.RIGHT).getFirst(),
+                                        pathOfCannon.getPatterns(Direction.RIGHT).getFirst(),
+                                        pathOfCannon.getPatterns(Direction.RIGHT).getFirst()
                                 )
                         )
                 ));

@@ -17,8 +17,15 @@ public class Run extends Start {
     @Override
     public GameState move(JanggiPosition beforePosition, JanggiPosition afterPosition) {
         validatePlayerTurn(beforePosition);
+        Piece targetPiece = janggiBoard.getPieceFrom(afterPosition);
+
         janggiBoard.move(beforePosition, afterPosition);
         player.change();
+
+        if (janggiBoard.isKingDead(targetPiece)) {
+            return new End();
+        }
+
         return new Run(janggiBoard, player);
     }
 

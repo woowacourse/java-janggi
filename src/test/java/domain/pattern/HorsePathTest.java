@@ -30,10 +30,10 @@ public class HorsePathTest {
     @MethodSource("provideHorsePath")
     void Horse의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // when
-        List<Pattern> Horsepath = piece.findMovablePath(_SIX_FOUR, afterPosition);
+        List<Pattern> horsePath = piece.findMovablePath(_SIX_FOUR, afterPosition);
 
         // when & then
-        Assertions.assertThat(Horsepath)
+        Assertions.assertThat(horsePath)
                 .isEqualTo(path);
     }
 

@@ -30,24 +30,24 @@ public class ElephantPathTest {
     @MethodSource("provide상Path")
     void 상의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // when
-        List<Pattern> 상path = piece.findMovablePath(_SIX_FIVE, afterPosition);
+        List<Pattern> elephantPath = piece.findMovablePath(_SIX_FIVE, afterPosition);
 
         // when & then
-        Assertions.assertThat(상path)
+        Assertions.assertThat(elephantPath)
                 .isEqualTo(path);
     }
 
     static Stream<Arguments> provide상Path() {
-        Path pathOf상 = new ElephantPath();
+        Path pathOfElephant = new ElephantPath();
         return Stream.of(
-                Arguments.of(_FOUR_EIGHT, pathOf상.getPatterns(Direction.RIGHT_UP)),
-                Arguments.of(_EIGHT_EIGHT, pathOf상.getPatterns(Direction.RIGHT_DOWN)),
-                Arguments.of(_NINE_SEVEN, pathOf상.getPatterns(Direction.DOWN_RIGHT)),
-                Arguments.of(_NINE_THREE, pathOf상.getPatterns(Direction.DOWN_LEFT)),
-                Arguments.of(_EIGHT_TWO, pathOf상.getPatterns(Direction.LEFT_DOWN)),
-                Arguments.of(_FOUR_TWO, pathOf상.getPatterns(Direction.LEFT_UP)),
-                Arguments.of(_THREE_THREE, pathOf상.getPatterns(Direction.UP_LEFT)),
-                Arguments.of(_THREE_SEVEN, pathOf상.getPatterns(Direction.UP_RIGHT))
+                Arguments.of(_FOUR_EIGHT, pathOfElephant.getPatterns(Direction.RIGHT_UP)),
+                Arguments.of(_EIGHT_EIGHT, pathOfElephant.getPatterns(Direction.RIGHT_DOWN)),
+                Arguments.of(_NINE_SEVEN, pathOfElephant.getPatterns(Direction.DOWN_RIGHT)),
+                Arguments.of(_NINE_THREE, pathOfElephant.getPatterns(Direction.DOWN_LEFT)),
+                Arguments.of(_EIGHT_TWO, pathOfElephant.getPatterns(Direction.LEFT_DOWN)),
+                Arguments.of(_FOUR_TWO, pathOfElephant.getPatterns(Direction.LEFT_UP)),
+                Arguments.of(_THREE_THREE, pathOfElephant.getPatterns(Direction.UP_LEFT)),
+                Arguments.of(_THREE_SEVEN, pathOfElephant.getPatterns(Direction.UP_RIGHT))
         );
     }
 

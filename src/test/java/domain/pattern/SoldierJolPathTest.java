@@ -25,19 +25,19 @@ public class SoldierJolPathTest {
     @MethodSource("provide졸Path")
     void 졸의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // when
-        List<Pattern> 졸path = piece.findMovablePath(_SEVEN_FIVE, afterPosition);
+        List<Pattern> jolpath = piece.findMovablePath(_SEVEN_FIVE, afterPosition);
 
         // when & then
-        Assertions.assertThat(졸path)
+        Assertions.assertThat(jolpath)
                 .isEqualTo(path);
     }
 
     static Stream<Arguments> provide졸Path() {
-        Path pathOf졸 = new SoldierJolPath();
+        Path pathOfJol = new SoldierJolPath();
         return Stream.of(
-                Arguments.of(_SIX_FIVE, pathOf졸.getPatterns(Direction.UP)),
-                Arguments.of(_SEVEN_FOUR, pathOf졸.getPatterns(Direction.LEFT)),
-                Arguments.of(_SEVEN_SIX, pathOf졸.getPatterns(Direction.RIGHT))
+                Arguments.of(_SIX_FIVE, pathOfJol.getPatterns(Direction.UP)),
+                Arguments.of(_SEVEN_FOUR, pathOfJol.getPatterns(Direction.LEFT)),
+                Arguments.of(_SEVEN_SIX, pathOfJol.getPatterns(Direction.RIGHT))
         );
     }
 

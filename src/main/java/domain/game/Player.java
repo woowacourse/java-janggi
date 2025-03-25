@@ -15,7 +15,11 @@ public class Player {
     }
 
     public void change() {
-        this.side = Side.HAN;
+        if (this.side == Side.CHO) {
+            this.side = Side.HAN;
+            return;
+        }
+        this.side = Side.CHO;
     }
 
     public boolean isMyPiece(Piece piece) {

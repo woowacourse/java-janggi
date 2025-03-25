@@ -25,19 +25,19 @@ public class SoldierByeongPathTest {
     @MethodSource("provide병Path")
     void 병의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // when
-        List<Pattern> 병path = piece.findMovablePath(_SEVEN_FIVE, afterPosition);
+        List<Pattern> ByeongPath = piece.findMovablePath(_SEVEN_FIVE, afterPosition);
 
         // when & then
-        Assertions.assertThat(병path)
+        Assertions.assertThat(ByeongPath)
                 .isEqualTo(path);
     }
 
     static Stream<Arguments> provide병Path() {
-        Path pathOf병 = new SoldierByeongPath();
+        Path pathOfByeong = new SoldierByeongPath();
         return Stream.of(
-                Arguments.of(_EIGHT_FIVE, pathOf병.getPatterns(Direction.DOWN)),
-                Arguments.of(_SEVEN_FOUR, pathOf병.getPatterns(Direction.LEFT)),
-                Arguments.of(_SEVEN_SIX, pathOf병.getPatterns(Direction.RIGHT))
+                Arguments.of(_EIGHT_FIVE, pathOfByeong.getPatterns(Direction.DOWN)),
+                Arguments.of(_SEVEN_FOUR, pathOfByeong.getPatterns(Direction.LEFT)),
+                Arguments.of(_SEVEN_SIX, pathOfByeong.getPatterns(Direction.RIGHT))
         );
     }
 
