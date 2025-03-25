@@ -3,6 +3,7 @@ package domain.board.movement;
 import static domain.board.movement.PalaceMovement.PALACE_MOVEMENT_POSITIONS;
 
 import domain.board.BoardPosition;
+import domain.board.Offset;
 
 public abstract class Movement {
 
@@ -20,6 +21,10 @@ public abstract class Movement {
     public abstract boolean isMoveOnLine();
 
     public abstract boolean isOneLineMovement();
+
+    public Offset calcaulteOffset() {
+        return after.calculateOffset(before);
+    }
 
     public static Movement of(
             final BoardPosition before,

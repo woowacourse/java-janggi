@@ -21,9 +21,9 @@ class GuardTest {
     @Nested
     class ValidCases {
 
-        @DisplayName("사의 이동 위치를 통해 이동 경로를 찾는다.")
+        @DisplayName("사가 일반 영역에서 이동할 때 이동 경로를 찾는다.")
         @Test
-        void findMovementRule() {
+        void findMovementRuleInNormalMovement() {
             // given
             Guard guard = new Guard(Team.RED);
             BoardPosition before = new BoardPosition(0, 0);
@@ -35,6 +35,23 @@ class GuardTest {
             // then
             assertThat(route).containsExactly(
                     new Offset(1, 0)
+            );
+        }
+
+        @DisplayName("사가 궁성 영역에서 이동할 때 이동 경로를 찾는다.")
+        @Test
+        void findMovementRuleInPalaceMovement() {
+            // given
+            Guard guard = new Guard(Team.RED);
+            BoardPosition before = new BoardPosition(5, 0);
+            BoardPosition after = new BoardPosition(4, 1);
+
+            // when
+            List<Offset> route = guard.findMovementRule(before, after);
+
+            // then
+            assertThat(route).containsExactly(
+                    new Offset(-1, 1)
             );
         }
 
