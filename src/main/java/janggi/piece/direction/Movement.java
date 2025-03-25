@@ -35,7 +35,7 @@ public class Movement {
                 .sum();
     }
 
-    public Direction getFirstDirection(){
+    public Direction getFirstDirection() {
         return directions.getFirst();
     }
 
