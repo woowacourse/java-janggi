@@ -21,9 +21,9 @@ class ZzuTest {
     @Nested
     class ValidCases {
 
-        @DisplayName("쭈의 이동 위치를 통해 이동 경로를 찾는다.")
+        @DisplayName("쭈가 일반 영역에서 이동할 때 이동 경로를 찾는다.")
         @Test
-        void findMovementRule() {
+        void findMovementRuleInNormalMovement() {
             // given
             Zzu zzu = new Zzu(Team.GREEN);
             BoardPosition before = new BoardPosition(0, 0);
@@ -35,6 +35,23 @@ class ZzuTest {
             // then
             assertThat(route).containsExactly(
                     new Offset(1, 0)
+            );
+        }
+
+        @DisplayName("쭈가 궁성 영역에서 이동할 때 이동 경로를 찾는다.")
+        @Test
+        void findMovementRuleInPalaceMovement() {
+            // given
+            Zzu zzu = new Zzu(Team.GREEN);
+            BoardPosition before = new BoardPosition(4, 1);
+            BoardPosition after = new BoardPosition(3, 2);
+
+            // when
+            List<Offset> route = zzu.findMovementRule(before, after);
+
+            // then
+            assertThat(route).containsExactly(
+                    new Offset(-1, 1)
             );
         }
 
@@ -96,7 +113,9 @@ class ZzuTest {
         static Stream<Arguments> provideBackwardMovementPosition() {
             return Stream.of(
                     Arguments.of(Team.RED, new BoardPosition(0, 0), new BoardPosition(0, 1)),
-                    Arguments.of(Team.GREEN, new BoardPosition(5, 5), new BoardPosition(5, 4))
+                    Arguments.of(Team.RED, new BoardPosition(4, 8), new BoardPosition(3, 9)),
+                    Arguments.of(Team.GREEN, new BoardPosition(5, 5), new BoardPosition(5, 4)),
+                    Arguments.of(Team.GREEN, new BoardPosition(4, 1), new BoardPosition(5, 0))
             );
         }
     }
