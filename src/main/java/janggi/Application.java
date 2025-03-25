@@ -1,7 +1,7 @@
 package janggi;
 
 import janggi.board.Board;
-import janggi.board.GameOverException;
+import janggi.exception.GameOverException;
 import janggi.board.Position;
 import janggi.piece.Canon;
 import janggi.piece.Chariot;

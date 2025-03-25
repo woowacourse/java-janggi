@@ -1,7 +1,9 @@
 package janggi.board;
 
-import janggi.piece.Team;
+import janggi.exception.GameOverException;
 import janggi.piece.Piece;
+import janggi.piece.PieceType;
+import janggi.piece.Team;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,18 +21,26 @@ public class Board {
     }
 
     public void movePiece(Position start, Position goal, Team team) {
-        Piece piece = board.get(start);
-        if (piece == null) {
+        Piece attacker = board.get(start);
+        if (!isExists(start)) {
             throw new IllegalArgumentException("[ERROR] 출발 지점에 기물이 존재하지 않습니다.");
         }
-        if (!piece.isSameTeam(team)) {
+        if (!attacker.isSameTeam(team)) {
             throw new IllegalArgumentException("[ERROR] 같은 진영의 기물만 움직일 수 있습니다.");
         }
-        piece.validateMovable(board, start, goal);
-        Piece attacked = move(start, goal);
-        if (attacked != null && attacked.isGeneral()) {
+        attacker.validateMovable(board, start, goal);
+        validateGeneralTarget(start, goal);
+    }
+
+    private void validateGeneralTarget(Position start, Position goal) {
+        Piece target = move(start, goal);
+        if (target != null && target.isSameType(PieceType.GENERAL)) {
             throw new GameOverException();
         }
+    }
+
+    private boolean isExists(Position position) {
+        return board.containsKey(position);
     }
 
     private Piece move(Position start, Position goal) {
