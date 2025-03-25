@@ -10,13 +10,13 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class ChariotTest {
+public final class ChariotTest {
 
     @Test
     @DisplayName("같은 팀인지 확인한다.")
     void test_hasEqualTeam() {
         //given
-        Piece piece = new Chariot(Team.CHO);
+        final Piece piece = new Chariot(Team.CHO);
 
         //when&then
         assertThat(piece.hasEqualTeam(Team.CHO)).isTrue();
@@ -27,9 +27,9 @@ class ChariotTest {
     @DisplayName("도착할 수 있는지 확인한다.")
     void test_IsAbleToArrive() {
         // given
-        Chariot chariot = new Chariot(Team.CHO);
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(0, 9);
+        final Chariot chariot = new Chariot(Team.CHO);
+        final Point startPoint = new Point(0, 0);
+        final Point arrivalPoint = new Point(0, 9);
 
         // when
         boolean actual = chariot.isAbleToArrive(startPoint, arrivalPoint);
@@ -42,9 +42,9 @@ class ChariotTest {
     @DisplayName("도착할 수 없는지 확인한다.")
     void test_IsNotAbleToArrive() {
         // given
-        Chariot chariot = new Chariot(Team.CHO);
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(3, 3);
+        final Chariot chariot = new Chariot(Team.CHO);
+        final Point startPoint = new Point(0, 0);
+        final Point arrivalPoint = new Point(3, 3);
 
         // when
         boolean actual = chariot.isAbleToArrive(startPoint, arrivalPoint);
@@ -58,9 +58,9 @@ class ChariotTest {
     @DisplayName("도착 위치까지의 경로를 모두 반환한다.")
     void test_getRoutePoints() {
         // given
-        Chariot chariot = new Chariot(Team.CHO);
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(0, 3);
+        final Chariot chariot = new Chariot(Team.CHO);
+        final Point startPoint = new Point(0, 0);
+        final Point arrivalPoint = new Point(0, 3);
 
         // when
         List<Point> routePoints = chariot.getRoutePoints(startPoint, arrivalPoint);
@@ -75,55 +75,55 @@ class ChariotTest {
 
     @Test
     @DisplayName("경로 상 기물이 있으면 이동할 수 없다.")
-    void test_isMovableWhenPieceOnRoute() {
+    void test_isMovableOnRouteWhenPieceOnRoute() {
         //given
-        Chariot chariot = new Chariot(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(chariot, null, null));
+        final Chariot chariot = new Chariot(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(chariot, null, null));
 
         //when&then
-        assertThat(chariot.isMovable(piecesOnRoute)).isFalse();
+        assertThat(chariot.isMovableOnRoute(piecesOnRoute)).isFalse();
     }
 
     @Test
     @DisplayName("경로 상 기물이 없으면 이동할 수 있다.")
-    void test_isMovable() {
+    void test_isMovableOnRoute() {
         //given
-        Chariot chariot = new Chariot(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, null));
+        final Chariot chariot = new Chariot(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, null));
 
         //when&then
-        assertThat(chariot.isMovable(piecesOnRoute)).isTrue();
+        assertThat(chariot.isMovableOnRoute(piecesOnRoute)).isTrue();
     }
 
     @Test
     @DisplayName("도착점에 아군 기물이 있을 경우, 이동할 수 없다.")
-    void test_isMovableWhenPieceIsInMyTeam() {
+    void test_isMovableWhenPieceIsInMyTeamOnRoute() {
         //given
-        Chariot chariot = new Chariot(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, chariot));
+        final Chariot chariot = new Chariot(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, chariot));
 
         //when&then
-        assertThat(chariot.isMovable(piecesOnRoute)).isFalse();
+        assertThat(chariot.isMovableOnRoute(piecesOnRoute)).isFalse();
     }
 
     @Test
     @DisplayName("도착점에 적군 기물이 있을 경우, 이동할 수 있다.")
-    void test_isMovableWhenPieceIsInOtherTeam() {
+    void test_isMovableWhenPieceIsInOtherTeamOnRoute() {
         //given
-        Chariot chariotHan = new Chariot(Team.HAN);
-        Chariot chariotCho = new Chariot(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, chariotCho));
+        final Chariot chariotHan = new Chariot(Team.HAN);
+        final Chariot chariotCho = new Chariot(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, chariotCho));
 
         //when&then
-        assertThat(chariotHan.isMovable(piecesOnRoute)).isTrue();
+        assertThat(chariotHan.isMovableOnRoute(piecesOnRoute)).isTrue();
     }
 
     @Test
     @DisplayName("차는 팀에 따라 다르게 이름을 반환한다.")
     void test_toString() {
         //given
-        Piece pieceForCho = new Chariot(Team.CHO);
-        Piece pieceForHan = new Chariot(Team.HAN);
+        final Piece pieceForCho = new Chariot(Team.CHO);
+        final Piece pieceForHan = new Chariot(Team.HAN);
 
         //when&then
         assertThat(pieceForCho.getName()).isEqualTo("차");

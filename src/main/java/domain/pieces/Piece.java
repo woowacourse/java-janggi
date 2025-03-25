@@ -11,7 +11,7 @@ public interface Piece {
 
     boolean isAbleToArrive(Point start, Point arrival);
 
-    boolean isMovable(PiecesOnRoute pieces);
+    boolean isMovableOnRoute(PiecesOnRoute piecesOnRoute);
 
     boolean canNotJumpOver();
 

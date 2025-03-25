@@ -27,7 +27,7 @@ public final class General implements Piece {
     }
 
     @Override
-    public boolean isMovable(final PiecesOnRoute pieces) {
+    public boolean isMovableOnRoute(final PiecesOnRoute piecesOnRoute) {
         throw new JanggiGameRuleWarningException("궁은 이동할 수 없습니다.");
     }
 

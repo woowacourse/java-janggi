@@ -10,13 +10,13 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class HorseTest {
+public final class HorseTest {
 
     @Test
     @DisplayName("같은 팀인지 확인한다.")
     void test_hasEqualTeam() {
         //given
-        Piece piece = new Horse(Team.CHO);
+        final Piece piece = new Horse(Team.CHO);
 
         //when&then
         assertThat(piece.hasEqualTeam(Team.CHO)).isTrue();
@@ -27,9 +27,9 @@ class HorseTest {
     @DisplayName("피스가 이동할 수 있는 지점들을 전부 반환한다")
     void test_isAbleToArrive() {
         // given
-        Horse horse = new Horse(Team.CHO);
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(2, 1);
+        final Horse horse = new Horse(Team.CHO);
+        final Point startPoint = new Point(0, 0);
+        final Point arrivalPoint = new Point(2, 1);
 
         // when
         boolean actual = horse.isAbleToArrive(startPoint, arrivalPoint);
@@ -42,12 +42,12 @@ class HorseTest {
     @DisplayName("경로에 있는 모든 지점들을 반환한다")
     void test_getRoutePoints() {
         // given
-        Horse horse = new Horse(Team.CHO);
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(2, 1);
+        final Horse horse = new Horse(Team.CHO);
+        final Point startPoint = new Point(0, 0);
+        final Point arrivalPoint = new Point(2, 1);
 
         // when
-        List<Point> routePoints = horse.getRoutePoints(startPoint, arrivalPoint);
+        final List<Point> routePoints = horse.getRoutePoints(startPoint, arrivalPoint);
 
         // then
         assertThat(routePoints).containsExactlyInAnyOrder(
@@ -58,55 +58,55 @@ class HorseTest {
 
     @Test
     @DisplayName("경로 상 기물이 있으면 이동할 수 없다.")
-    void test_isMovableWhenPieceOnRoute() {
+    void test_isMovableOnRouteWhenPieceOnRoute() {
         //given
-        Horse horse = new Horse(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(horse, null));
+        final Horse horse = new Horse(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(horse, null));
 
         //when&then
-        assertThat(horse.isMovable(piecesOnRoute)).isFalse();
+        assertThat(horse.isMovableOnRoute(piecesOnRoute)).isFalse();
     }
 
     @Test
     @DisplayName("경로 상 기물이 없으면 이동할 수 없다.")
-    void test_isMovable() {
+    void test_isMovableOnRoute() {
         //given
-        Horse horse = new Horse(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null));
+        final Horse horse = new Horse(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null));
 
         //when&then
-        assertThat(horse.isMovable(piecesOnRoute)).isTrue();
+        assertThat(horse.isMovableOnRoute(piecesOnRoute)).isTrue();
     }
 
     @Test
     @DisplayName("도착점에 아군 기물이 있으면 이동할 수 없다.")
-    void test_isMovableWhenPieceIsInMyTeam() {
+    void test_isMovableWhenPieceIsInMyTeamOnRoute() {
         //given
-        Horse horse = new Horse(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, horse));
+        final Horse horse = new Horse(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, horse));
 
         //when&then
-        assertThat(horse.isMovable(piecesOnRoute)).isFalse();
+        assertThat(horse.isMovableOnRoute(piecesOnRoute)).isFalse();
     }
 
     @Test
     @DisplayName("도착점에 적군 기물이 있을 경우, 이동할 수 있다.")
-    void test_isMovableWhenPieceIsInOtherTeam() {
+    void test_isMovableWhenPieceIsInOtherTeamOnRoute() {
         //given
-        Horse horseHan = new Horse(Team.HAN);
-        Horse horseCho = new Horse(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, horseCho));
+        final Horse horseHan = new Horse(Team.HAN);
+        final Horse horseCho = new Horse(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, horseCho));
 
         //when&then
-        assertThat(horseHan.isMovable(piecesOnRoute)).isTrue();
+        assertThat(horseHan.isMovableOnRoute(piecesOnRoute)).isTrue();
     }
 
     @Test
     @DisplayName("마는 팀에 따라 다르게 이름을 반환한다.")
     void test_toString() {
         //given
-        Piece pieceForCho = new Horse(Team.CHO);
-        Piece pieceForHan = new Horse(Team.HAN);
+        final Piece pieceForCho = new Horse(Team.CHO);
+        final Piece pieceForHan = new Horse(Team.HAN);
 
         //when&then
         assertThat(pieceForCho.getName()).isEqualTo("마");

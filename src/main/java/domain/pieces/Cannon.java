@@ -34,14 +34,14 @@ public final class Cannon implements Piece {
 
 
     @Override
-    public boolean isMovable(final PiecesOnRoute pieces) {
-        if (pieces.count() != VALID_BETWEEN_PIECE_COUNT) {
+    public boolean isMovableOnRoute(final PiecesOnRoute piecesOnRoute) {
+        if (piecesOnRoute.count() != VALID_BETWEEN_PIECE_COUNT) {
             return false;
         }
-        if (pieces.canNotJumpOverFirstPiece()) {
+        if (piecesOnRoute.canNotJumpOverFirstPiece()) {
             return false;
         }
-        return !pieces.hasSameTeamOnArrivalPoint(team);
+        return !piecesOnRoute.hasSameTeamOnArrivalPoint(team);
     }
 
     @Override

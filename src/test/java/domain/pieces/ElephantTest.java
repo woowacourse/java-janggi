@@ -10,13 +10,13 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class ElephantTest {
+public final class ElephantTest {
 
     @Test
     @DisplayName("같은 팀인지 확인한다.")
     void test_hasEqualTeam() {
         //given
-        Piece piece = new Elephant(Team.CHO);
+        final Piece piece = new Elephant(Team.CHO);
 
         //when&then
         assertThat(piece.hasEqualTeam(Team.CHO)).isTrue();
@@ -27,12 +27,12 @@ class ElephantTest {
     @DisplayName("피스가 이동할 수 있는 지점들을 전부 반환한다")
     void test_isAbleToArrive() {
         // given
-        Elephant elephant = new Elephant(Team.CHO);
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(3, 2);
+        final Elephant elephant = new Elephant(Team.CHO);
+        final Point startPoint = new Point(0, 0);
+        final Point arrivalPoint = new Point(3, 2);
 
         // when
-        boolean actual = elephant.isAbleToArrive(startPoint, arrivalPoint);
+        final boolean actual = elephant.isAbleToArrive(startPoint, arrivalPoint);
 
         // then
         assertThat(actual).isTrue();
@@ -42,12 +42,12 @@ class ElephantTest {
     @DisplayName("경로에 있는 모든 지점들을 반환한다")
     void test_getRoutePoints() {
         // given
-        Elephant elephant = new Elephant(Team.CHO);
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(3, 2);
+        final Elephant elephant = new Elephant(Team.CHO);
+        final Point startPoint = new Point(0, 0);
+        final Point arrivalPoint = new Point(3, 2);
 
         // when
-        List<Point> routePoints = elephant.getRoutePoints(startPoint, arrivalPoint);
+        final List<Point> routePoints = elephant.getRoutePoints(startPoint, arrivalPoint);
 
         // then
         assertThat(routePoints).containsExactlyInAnyOrder(
@@ -59,55 +59,55 @@ class ElephantTest {
 
     @Test
     @DisplayName("경로 상 기물이 있으면 이동할 수 없다.")
-    void test_isMovableWhenPieceOnRoute() {
+    void test_isMovableOnRouteWhenPieceOnRoute() {
         //given
-        Elephant elephant = new Elephant(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(elephant, null, null));
+        final Elephant elephant = new Elephant(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(elephant, null, null));
 
         //when&then
-        assertThat(elephant.isMovable(piecesOnRoute)).isFalse();
+        assertThat(elephant.isMovableOnRoute(piecesOnRoute)).isFalse();
     }
 
     @Test
     @DisplayName("경로 상 기물이 없으면 이동할 수 없다.")
-    void test_isMovable() {
+    void test_isMovableOnRoute() {
         //given
-        Elephant elephant = new Elephant(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, null));
+        final Elephant elephant = new Elephant(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, null));
 
         //when&then
-        assertThat(elephant.isMovable(piecesOnRoute)).isTrue();
+        assertThat(elephant.isMovableOnRoute(piecesOnRoute)).isTrue();
     }
 
     @Test
     @DisplayName("도착점에 아군 기물이 있을 경우, 이동할 수 없다.")
-    void test_isMovableWhenPieceIsInMyTeam() {
+    void test_isMovableWhenPieceIsInMyTeamOnRoute() {
         //given
-        Elephant elephant = new Elephant(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, elephant));
+        final Elephant elephant = new Elephant(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, elephant));
 
         //when&then
-        assertThat(elephant.isMovable(piecesOnRoute)).isFalse();
+        assertThat(elephant.isMovableOnRoute(piecesOnRoute)).isFalse();
     }
 
     @Test
     @DisplayName("도착점에 적군 기물이 있을 경우, 이동할 수 있다.")
-    void test_isMovableWhenPieceIsInOtherTeam() {
+    void test_isMovableWhenPieceIsInOtherTeamOnRoute() {
         //given
-        Elephant elephantHan = new Elephant(Team.HAN);
-        Elephant elephantCho = new Elephant(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, elephantCho));
+        final Elephant elephantHan = new Elephant(Team.HAN);
+        final Elephant elephantCho = new Elephant(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, elephantCho));
 
         //when&then
-        assertThat(elephantHan.isMovable(piecesOnRoute)).isTrue();
+        assertThat(elephantHan.isMovableOnRoute(piecesOnRoute)).isTrue();
     }
 
     @Test
     @DisplayName("상은 팀에 따라 다르게 이름을 반환한다.")
     void test_toString() {
         //given
-        Piece pieceForCho = new Elephant(Team.CHO);
-        Piece pieceForHan = new Elephant(Team.HAN);
+        final Piece pieceForCho = new Elephant(Team.CHO);
+        final Piece pieceForHan = new Elephant(Team.HAN);
 
         //when&then
         assertThat(pieceForCho.getName()).isEqualTo("상");

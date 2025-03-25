@@ -10,8 +10,7 @@ import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
 
-public class JanggiController {
-
+public final class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -39,18 +38,17 @@ public class JanggiController {
     }
 
     private void processMove(final JanggiGame game) {
-        final Team currentPlayerTeam = game.getPlayerTeamOnCurrentTurn();
+        final Team currentTeam = game.getTeamOnCurrentTurn();
         try {
-            final MovementRequestDto movementRequest = inputView.readMovementRequest(currentPlayerTeam.getName());
-            final Point originPoint = movementRequest.getStartPoint();
-            final Point arrivalPoint = movementRequest.getArrivalPoint();
-            game.move(originPoint, arrivalPoint);
+            final MovementRequestDto movementRequest = inputView.readMovementRequest(currentTeam.getName());
+            final Point start = movementRequest.getStartPoint();
+            final Point arrival = movementRequest.getArrivalPoint();
+            game.move(start, arrival);
             outputView.printBoard(game.getBoard());
         } catch (JanggiGameRuleWarningException e) {
             outputView.printError(e.getMessage());
         }
     }
-
 
     private <T> T handleInput(Supplier<T> inputSupplier) {
         try {

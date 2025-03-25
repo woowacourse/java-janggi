@@ -10,13 +10,13 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class CannonTest {
+public final class CannonTest {
 
     @Test
     @DisplayName("같은 팀인지 확인한다.")
     void test_hasEqualTeam() {
         //given
-        Piece cannon = new Cannon(Team.CHO);
+        final Piece cannon = new Cannon(Team.CHO);
 
         //when&then
         assertThat(cannon.hasEqualTeam(Team.CHO)).isTrue();
@@ -27,9 +27,9 @@ class CannonTest {
     @DisplayName("도착할 수 있는지 확인한다.")
     void test_IsAbleToArrive() {
         // given
-        Cannon cannon = new Cannon(Team.CHO);
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(0, 9);
+        final Cannon cannon = new Cannon(Team.CHO);
+        final Point startPoint = new Point(0, 0);
+        final Point arrivalPoint = new Point(0, 9);
 
         // when
         boolean actual = cannon.isAbleToArrive(startPoint, arrivalPoint);
@@ -42,12 +42,12 @@ class CannonTest {
     @DisplayName("도착할 수 없는지 확인한다.")
     void test_IsNotAbleToArrive() {
         // given
-        Cannon cannon = new Cannon(Team.CHO);
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(3, 3);
+        final Cannon cannon = new Cannon(Team.CHO);
+        final Point startPoint = new Point(0, 0);
+        final Point arrivalPoint = new Point(3, 3);
 
         // when
-        boolean actual = cannon.isAbleToArrive(startPoint, arrivalPoint);
+        final boolean actual = cannon.isAbleToArrive(startPoint, arrivalPoint);
 
         // then
         assertThat(actual).isFalse();
@@ -58,12 +58,12 @@ class CannonTest {
     @DisplayName("도착점까지의 경로를 모두 반환한다.")
     void test_getRoutePoints() {
         // given
-        Cannon cannon = new Cannon(Team.CHO);
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(0, 3);
+        final Cannon cannon = new Cannon(Team.CHO);
+        final Point startPoint = new Point(0, 0);
+        final Point arrivalPoint = new Point(0, 3);
 
         // when
-        List<Point> routePoints = cannon.getRoutePoints(startPoint, arrivalPoint);
+        final List<Point> routePoints = cannon.getRoutePoints(startPoint, arrivalPoint);
 
         // then
         assertThat(routePoints).containsExactlyInAnyOrder(
@@ -75,69 +75,69 @@ class CannonTest {
 
     @Test
     @DisplayName("경로 상 기물이 하나 있어야 이동 할 수 있다.")
-    void test_isMovableWhenPieceOnRoute() {
+    void test_isMovableOnRouteWhenPieceOnRoute() {
         //given
-        Cannon cannon = new Cannon(Team.CHO);
-        Chariot chariot = new Chariot(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(chariot, null, null));
+        final Cannon cannon = new Cannon(Team.CHO);
+        final Chariot chariot = new Chariot(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(chariot, null, null));
 
         //when&then
-        assertThat(cannon.isMovable(piecesOnRoute)).isTrue();
+        assertThat(cannon.isMovableOnRoute(piecesOnRoute)).isTrue();
     }
 
     @Test
     @DisplayName("경로 상 포가 있으면 이동할 수 없다.")
-    void test_isMovableWhenCannonOnRoute() {
+    void test_isMovableOnRouteWhenCannonOnRoute() {
         //given
-        Cannon cannon = new Cannon(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(cannon, null, null));
+        final Cannon cannon = new Cannon(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(cannon, null, null));
 
         //when&then
-        assertThat(cannon.isMovable(piecesOnRoute)).isFalse();
+        assertThat(cannon.isMovableOnRoute(piecesOnRoute)).isFalse();
     }
 
     @Test
     @DisplayName("경로 상 기물이 없으면 이동할 수 없다.")
-    void test_isMovable() {
+    void test_isMovableOnRoute() {
         //given
-        Cannon Cannon = new Cannon(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, null));
+        final Cannon Cannon = new Cannon(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, null));
 
         //when&then
-        assertThat(Cannon.isMovable(piecesOnRoute)).isFalse();
+        assertThat(Cannon.isMovableOnRoute(piecesOnRoute)).isFalse();
     }
 
     @Test
     @DisplayName("경로 상 기물이 둘이면 이동할 수 없다.")
-    void test_isMovableWhenPiecesOnRoute() {
+    void test_isMovableOnRouteWhenPiecesOnRoute() {
         //given
-        Cannon Cannon = new Cannon(Team.CHO);
-        Chariot chariot = new Chariot(Team.CHO);
+        final Cannon Cannon = new Cannon(Team.CHO);
+        final Chariot chariot = new Chariot(Team.CHO);
 
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(chariot, chariot, null));
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(chariot, chariot, null));
 
         //when&then
-        assertThat(Cannon.isMovable(piecesOnRoute)).isFalse();
+        assertThat(Cannon.isMovableOnRoute(piecesOnRoute)).isFalse();
     }
 
     @Test
     @DisplayName("도착점에 아군 기물이 있으면 이동할 수 없다.")
-    void test_isMovableWhenPieceIsInOtherTeam() {
+    void test_isMovableWhenPieceIsInOtherTeamOnRoute() {
         //given
-        Cannon cannon = new Cannon(Team.HAN);
-        Chariot chariot = new Chariot(Team.HAN);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(chariot, null, chariot));
+        final Piece cannon = new Cannon(Team.HAN);
+        final Piece chariot = new Chariot(Team.HAN);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(chariot, null, chariot));
 
         //when&then
-        assertThat(cannon.isMovable(piecesOnRoute)).isFalse();
+        assertThat(cannon.isMovableOnRoute(piecesOnRoute)).isFalse();
     }
 
     @Test
     @DisplayName("포는 팀에 따라 다르게 이름을 반환한다.")
     void test_toString() {
         //given
-        Piece pieceForCho = new Cannon(Team.CHO);
-        Piece pieceForHan = new Cannon(Team.HAN);
+        final Piece pieceForCho = new Cannon(Team.CHO);
+        final Piece pieceForHan = new Cannon(Team.HAN);
 
         //when&then
         assertThat(pieceForCho.getName()).isEqualTo("포");

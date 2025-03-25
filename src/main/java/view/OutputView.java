@@ -14,7 +14,7 @@ public final class OutputView {
     private static final int MAX_ROW = 10;
     private static final List<Integer> BOARD_LINE_FEED_COLUMNS = List.of(2, 5);
 
-    public void printError(String message) {
+    public void printError(final String message) {
         System.out.println(message);
     }
 

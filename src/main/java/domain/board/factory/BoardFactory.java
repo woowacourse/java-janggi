@@ -23,17 +23,15 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public final class BoardFactory {
-
     private static final int MAX_SOLDIER_COUNT = 5;
 
-
-    public static Board generateBoard(final EnumMap<Team, Integer> setupsByTeam) {
+    public static Board generateBoard(final EnumMap<Team, Integer> setups) {
         final Map<Point, Piece> locations = new HashMap<>();
-        for (final Entry<Team, Integer> setup : setupsByTeam.entrySet()) {
+        for (final Entry<Team, Integer> setup : setups.entrySet()) {
             final Team team = setup.getKey();
             final ElephantLocator locator = createFromChoice(setup.getValue(), team);
-            locations.putAll(setupSoldiersOnLocations(team));
-            locations.putAll(setupDefaultLocationsOnBoard(team));
+            locations.putAll(setupSoldierLocations(team));
+            locations.putAll(setupDefaultLocations(team));
             locations.putAll(locator.setupHorse(team));
             locations.putAll(locator.setupElephant(team));
         }
@@ -50,7 +48,7 @@ public final class BoardFactory {
         };
     }
 
-    private static Map<Point, Piece> setupDefaultLocationsOnBoard(final Team team) {
+    private static Map<Point, Piece> setupDefaultLocations(final Team team) {
         final Map<Point, Piece> locations = new HashMap<>();
         locations.put(new Point(team.calculateRowForPiece(0), 0), new Chariot(team));
         locations.put(new Point(team.calculateRowForPiece(0), 8), new Chariot(team));
@@ -62,7 +60,7 @@ public final class BoardFactory {
         return locations;
     }
 
-    private static Map<Point, Piece> setupSoldiersOnLocations(final Team team) {
+    private static Map<Point, Piece> setupSoldierLocations(final Team team) {
         return IntStream.range(0, MAX_SOLDIER_COUNT)
                 .boxed()
                 .collect(Collectors.toMap(

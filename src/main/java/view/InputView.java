@@ -11,7 +11,7 @@ public final class InputView {
     private static final int START_POINT_INDEX = 0;
     private static final int ARRIVAL_POINT_INDEX = 1;
 
-    public int readChoiceForElephantLocation(String team) {
+    public int readChoiceForElephantLocation(final String team) {
         System.out.println(team + "의 입력 차례입니다.");
         System.out.println("""
                 마와 상의 배치를 선택해주세요.
@@ -23,7 +23,7 @@ public final class InputView {
         return parseToInt(scanner.nextLine());
     }
 
-    public MovementRequestDto readMovementRequest(String team) {
+    public MovementRequestDto readMovementRequest(final String team) {
         System.out.println(team + "의 입력 차례입니다.");
         System.out.println("출발점과 도착점의 위치를 입력해주세요 ex. (A,1) (B,2)");
         final String input = scanner.nextLine();

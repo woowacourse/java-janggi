@@ -31,11 +31,11 @@ public final class Chariot implements Piece {
     }
 
     @Override
-    public boolean isMovable(final PiecesOnRoute pieces) {
-        if (pieces.hasSameTeamOnArrivalPoint(team)) {
+    public boolean isMovableOnRoute(final PiecesOnRoute piecesOnRoute) {
+        if (piecesOnRoute.hasSameTeamOnArrivalPoint(team)) {
             return false;
         }
-        return pieces.hasNotPieceOnRoute();
+        return piecesOnRoute.hasNotPieceOnRoute();
     }
 
     @Override

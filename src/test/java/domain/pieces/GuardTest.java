@@ -11,13 +11,13 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class GuardTest {
+public final class GuardTest {
 
     @Test
     @DisplayName("같은 팀인지 확인한다.")
     void test_hasEqualTeam() {
         //given
-        Piece piece = new Guard(Team.CHO);
+        final Piece piece = new Guard(Team.CHO);
 
         //when&then
         assertThat(piece.hasEqualTeam(Team.CHO)).isTrue();
@@ -28,7 +28,7 @@ class GuardTest {
     @DisplayName("사의 도착점들를 확인 하고자할 경우, 예외가 발생한다")
     void test_isAbleToArrive() {
         // given
-        Guard guard = new Guard(Team.CHO);
+        final Guard guard = new Guard(Team.CHO);
 
         // when & then
         assertThatThrownBy(() -> guard.isAbleToArrive(new Point(3, 2), new Point(2, 3)))
@@ -37,14 +37,14 @@ class GuardTest {
 
     @Test
     @DisplayName("사의 이동 가능 여부를 확인할 경우 예외가 발생한다.")
-    void test_isMovable() {
+    void test_isMovableOnRoute() {
         // given
-        Piece guard = new Guard(Team.CHO);
-        Piece piece = new Soldier(Team.HAN);
-        PiecesOnRoute pieces = new PiecesOnRoute(List.of(piece));
+        final Piece guard = new Guard(Team.CHO);
+        final Piece piece = new Soldier(Team.HAN);
+        final PiecesOnRoute pieces = new PiecesOnRoute(List.of(piece));
 
         // when & then
-        assertThatThrownBy(() -> guard.isMovable(pieces))
+        assertThatThrownBy(() -> guard.isMovableOnRoute(pieces))
                 .isInstanceOf(JanggiGameRuleWarningException.class);
     }
 
@@ -52,7 +52,7 @@ class GuardTest {
     @DisplayName("사의 이동 경로상 좌표를 요청할 경우, 예외가 발생한다.")
     void test_getRoutePoints() {
         // given
-        Piece guard = new Guard(Team.CHO);
+        final Piece guard = new Guard(Team.CHO);
 
         // when & then
         assertThatThrownBy(() -> guard.getRoutePoints(new Point(3, 2), new Point(2, 3)))
@@ -63,8 +63,8 @@ class GuardTest {
     @DisplayName("사는 팀에 따라 다르게 이름을 반환한다.")
     void test_toString() {
         //given
-        Piece pieceForCho = new Guard(Team.CHO);
-        Piece pieceForHan = new Guard(Team.HAN);
+        final Piece pieceForCho = new Guard(Team.CHO);
+        final Piece pieceForHan = new Guard(Team.HAN);
 
         //when&then
         assertThat(pieceForCho.getName()).isEqualTo("사");

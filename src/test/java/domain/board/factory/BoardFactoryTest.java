@@ -16,7 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class BoardFactoryTest {
+public final class BoardFactoryTest {
 
     @Nested
     @DisplayName("보드를 생성할 때, 선택에 따라 로케이터를 변경한다")

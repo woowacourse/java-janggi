@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public final class Board {
-
     private static final int BOARD_ROW_MAX = 10;
     private static final int BOARD_COLUMN_MAX = 9;
 
@@ -43,29 +42,29 @@ public final class Board {
             final Point arrival,
             final Team team
     ) {
-        final Piece pieceAtStart = Optional.ofNullable(locations.get(start))
+        final Piece piece = Optional.ofNullable(locations.get(start))
                 .orElseThrow(() -> new JanggiGameRuleWarningException("출발점에 이동할 기물이 없습니다."));
-        checkStartPoint(pieceAtStart, team);
+        checkEqualTeam(piece, team);
 
-        checkOutOfRoute(start, arrival, pieceAtStart);
+        checkOutOfRoute(start, arrival, piece);
 
-        final List<Point> routePoints = pieceAtStart.getRoutePoints(start, arrival);
-        final PiecesOnRoute piecesOnRoute = getAllPieceOnRoute(routePoints);
+        final List<Point> routePoints = piece.getRoutePoints(start, arrival);
+        final PiecesOnRoute piecesOnRoute = getAllPiecesOnRoute(routePoints);
 
-        checkPieceOnRoute(pieceAtStart, piecesOnRoute);
+        checkPieceOnRoute(piece, piecesOnRoute);
 
-        locations.put(arrival, pieceAtStart);
+        locations.put(arrival, piece);
         locations.remove(start);
     }
 
-    private void checkStartPoint(final Piece pieceAtStart, final Team team) {
-        if (!pieceAtStart.hasEqualTeam(team)) {
+    private void checkEqualTeam(final Piece piece, final Team team) {
+        if (!piece.hasEqualTeam(team)) {
             throw new JanggiGameRuleWarningException("아군 기물만 움직일 수 있습니다.");
         }
     }
 
-    private void checkPieceOnRoute(final Piece pieceAtStart, final PiecesOnRoute piecesOnRoute) {
-        if (!pieceAtStart.isMovable(piecesOnRoute)) {
+    private void checkPieceOnRoute(final Piece piece, final PiecesOnRoute piecesOnRoute) {
+        if (!piece.isMovableOnRoute(piecesOnRoute)) {
             throw new JanggiGameRuleWarningException("해당 경로로 이동할 수 없습니다.");
         }
     }
@@ -80,8 +79,8 @@ public final class Board {
         }
     }
 
-    private PiecesOnRoute getAllPieceOnRoute(final List<Point> routePoints) {
-        return new PiecesOnRoute(routePoints.stream()
+    private PiecesOnRoute getAllPiecesOnRoute(final List<Point> pointsOnRoute) {
+        return new PiecesOnRoute(pointsOnRoute.stream()
                 .map(point -> locations.getOrDefault(point, null))
                 .toList());
     }

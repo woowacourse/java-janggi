@@ -11,13 +11,13 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class GeneralTest {
+public final class GeneralTest {
 
     @Test
     @DisplayName("같은 팀인지 확인한다.")
     void test_hasEqualTeam() {
         //given
-        Piece piece = new General(Team.CHO);
+        final Piece piece = new General(Team.CHO);
 
         //when&then
         assertThat(piece.hasEqualTeam(Team.CHO)).isTrue();
@@ -28,7 +28,7 @@ class GeneralTest {
     @DisplayName("궁의 도착점들을 확인하고자 할 경우, 예외를 던진다")
     void test_isAbleToArrive() {
         // given
-        General general = new General(Team.CHO);
+        final General general = new General(Team.CHO);
 
         // when & then
         assertThatThrownBy(() -> general.isAbleToArrive(new Point(3, 2), new Point(2, 3)))
@@ -37,14 +37,14 @@ class GeneralTest {
 
     @Test
     @DisplayName("궁을 이동 가능 여부를 확인할 경우, 예외가 발생한다.")
-    void test_isMovable() {
+    void test_isMovableOnRoute() {
         // given
-        General general = new General(Team.CHO);
-        Piece piece = new Soldier(Team.HAN);
-        PiecesOnRoute pieces = new PiecesOnRoute(List.of(piece));
+        final General general = new General(Team.CHO);
+        final Piece piece = new Soldier(Team.HAN);
+        final PiecesOnRoute pieces = new PiecesOnRoute(List.of(piece));
 
         // when & then
-        assertThatThrownBy(() -> general.isMovable(pieces))
+        assertThatThrownBy(() -> general.isMovableOnRoute(pieces))
                 .isInstanceOf(JanggiGameRuleWarningException.class);
     }
 
@@ -52,7 +52,7 @@ class GeneralTest {
     @DisplayName("궁의 이동 경로상 좌표를 요청할 경우, 예외가 발생한다.")
     void test_getRoutePoints() {
         // given
-        General general = new General(Team.CHO);
+        final General general = new General(Team.CHO);
 
         // when & then
         assertThatThrownBy(() -> general.getRoutePoints(new Point(3, 2), new Point(2, 3)))
@@ -64,8 +64,8 @@ class GeneralTest {
     @DisplayName("궁은 팀에 따라 다르게 이름을 반환한다.")
     void test_toString() {
         //given
-        Piece pieceForCho = new General(Team.CHO);
-        Piece pieceForHan = new General(Team.HAN);
+        final Piece pieceForCho = new General(Team.CHO);
+        final Piece pieceForHan = new General(Team.HAN);
 
         //when&then
         assertThat(pieceForCho.getName()).isEqualTo("궁");

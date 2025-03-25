@@ -11,13 +11,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class SoldierTest {
+public final class SoldierTest {
 
     @Test
     @DisplayName("같은 팀인지 확인한다.")
     void test_hasEqualTeam() {
         //given
-        Piece piece = new Soldier(Team.CHO);
+        final Piece piece = new Soldier(Team.CHO);
 
         //when&then
         assertThat(piece.hasEqualTeam(Team.CHO)).isTrue();
@@ -32,12 +32,12 @@ class SoldierTest {
         @DisplayName("한나라인 경우 북쪽으로 이동한 지점이 반환되지 않는다.")
         void test_isAbleToArriveByHan() {
             // given
-            Soldier soldier = new Soldier(Team.HAN);
-            Point startPoint = new Point(0, 0);
-            Point arrivalPoint = new Point(1, 0);
+            final Soldier soldier = new Soldier(Team.HAN);
+            final Point startPoint = new Point(0, 0);
+            final Point arrivalPoint = new Point(1, 0);
 
             // when
-            boolean actual = soldier.isAbleToArrive(startPoint, arrivalPoint);
+            final boolean actual = soldier.isAbleToArrive(startPoint, arrivalPoint);
 
             // then
             assertThat(actual).isFalse();
@@ -47,12 +47,12 @@ class SoldierTest {
         @DisplayName("초나라인 경우 남쪽으로 이동한 지점이 반환되지 않는다.")
         void test_isAbleToArriveByCho() {
             // given
-            Soldier soldier = new Soldier(Team.CHO);
-            Point startPoint = new Point(0, 0);
-            Point arrivalPoint = new Point(-1, 0);
+            final Soldier soldier = new Soldier(Team.CHO);
+            final Point startPoint = new Point(0, 0);
+            final Point arrivalPoint = new Point(-1, 0);
 
             // when
-            boolean actual = soldier.isAbleToArrive(startPoint, arrivalPoint);
+            final boolean actual = soldier.isAbleToArrive(startPoint, arrivalPoint);
 
             // then
             assertThat(actual).isFalse();
@@ -63,12 +63,12 @@ class SoldierTest {
     @DisplayName("경로에 있는 모든 지점들을 반환한다")
     void test_getRoutePoints() {
         // given
-        Soldier soldier = new Soldier(Team.CHO);
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(1, 0);
+        final Soldier soldier = new Soldier(Team.CHO);
+        final Point startPoint = new Point(0, 0);
+        final Point arrivalPoint = new Point(1, 0);
 
         // when
-        List<Point> routePoints = soldier.getRoutePoints(startPoint, arrivalPoint);
+        final List<Point> routePoints = soldier.getRoutePoints(startPoint, arrivalPoint);
 
         // then
         assertThat(routePoints).containsExactlyInAnyOrder(
@@ -78,33 +78,33 @@ class SoldierTest {
 
     @Test
     @DisplayName("도착점에 아군 기물이 있으면 이동할 수 없다.")
-    void test_isMovableWhenPieceIsInMyTeam() {
+    void test_isMovableWhenPieceIsInMyTeamOnRoute() {
         //given
-        Soldier soldier = new Soldier(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, soldier));
+        final Soldier soldier = new Soldier(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, soldier));
 
         //when&then
-        assertThat(soldier.isMovable(piecesOnRoute)).isFalse();
+        assertThat(soldier.isMovableOnRoute(piecesOnRoute)).isFalse();
     }
 
     @Test
     @DisplayName("도착점에 아군 기물이 없으면 이동할 수 있다.")
-    void test_isMovableWhenPieceIsInOtherTeam() {
+    void test_isMovableWhenPieceIsInOtherTeamOnRoute() {
         //given
-        Soldier soldierHan = new Soldier(Team.HAN);
-        Soldier soldierCho = new Soldier(Team.CHO);
-        PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, soldierCho));
+        final Soldier soldierHan = new Soldier(Team.HAN);
+        final Soldier soldierCho = new Soldier(Team.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, soldierCho));
 
         //when&then
-        assertThat(soldierHan.isMovable(piecesOnRoute)).isTrue();
+        assertThat(soldierHan.isMovableOnRoute(piecesOnRoute)).isTrue();
     }
 
     @Test
     @DisplayName("졸은 팀에 따라 다르게 이름을 반환한다.")
     void test_toString() {
         //given
-        Piece pieceForCho = new Soldier(Team.CHO);
-        Piece pieceForHan = new Soldier(Team.HAN);
+        final Piece pieceForCho = new Soldier(Team.CHO);
+        final Piece pieceForHan = new Soldier(Team.HAN);
 
         //when&then
         assertThat(pieceForCho.getName()).isEqualTo("졸");

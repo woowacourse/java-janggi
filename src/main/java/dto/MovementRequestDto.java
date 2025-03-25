@@ -3,7 +3,7 @@ package dto;
 import domain.board.Point;
 import java.util.List;
 
-public class MovementRequestDto {
+public final class MovementRequestDto {
     private final List<Integer> startPoint;
     private final List<Integer> arrivalPoint;
 

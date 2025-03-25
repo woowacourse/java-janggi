@@ -54,11 +54,11 @@ public final class JanggiGameTest {
         given.put(Team.HAN, 1);
         final JanggiGame janggiGame = JanggiGame.setup(given);
         final Map<Point, Piece> givenBoard = janggiGame.getBoard();
-        final Team startTurn = janggiGame.getPlayerTeamOnCurrentTurn();
+        final Team startTurn = janggiGame.getTeamOnCurrentTurn();
 
         //when
         janggiGame.move(new Point(0, 0), new Point(2, 0));
-        final Team nextTurn = janggiGame.getPlayerTeamOnCurrentTurn();
+        final Team nextTurn = janggiGame.getTeamOnCurrentTurn();
 
         //then
         assertThat(startTurn).isEqualTo(Team.CHO);
