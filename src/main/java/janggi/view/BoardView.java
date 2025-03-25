@@ -20,6 +20,10 @@ public final class BoardView {
             Type.GUARD, "사",
             Type.SOLDIER, "병"
     );
+    private static final Map<Team, String> TEAM_NOTATION_KOREAN = Map.of(
+            Team.CHO, "초 ",
+            Team.HAN, "한 "
+    );
     private static final String PLAY_TURN_FORMAT = "의 차례입니다.";
 
     public void displayGame(final Board board) {
@@ -57,10 +61,13 @@ public final class BoardView {
     }
 
     public void displayTurn(final Board board) {
-        if (board.getTurn().equals("한")) {
-            System.out.println(String.format("\u001B[31m" + "%s" + "\u001B[0m" + PLAY_TURN_FORMAT, board.getTurn()));
+        final Team team = board.getTurn();
+        if (TEAM_NOTATION_KOREAN.get(team).equals("한")) {
+            System.out.println(String.format("\u001B[31m" + "%s" + "\u001B[0m" + PLAY_TURN_FORMAT,
+                    TEAM_NOTATION_KOREAN.get(team)));
             return;
         }
-        System.out.println(String.format("\u001B[34m" + "%s" + "\u001B[0m" + PLAY_TURN_FORMAT, board.getTurn()));
+        System.out.println(
+                String.format("\u001B[34m" + "%s" + "\u001B[0m" + PLAY_TURN_FORMAT, TEAM_NOTATION_KOREAN.get(team)));
     }
 }

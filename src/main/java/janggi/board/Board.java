@@ -54,6 +54,10 @@ public final class Board {
         return board.get(position);
     }
 
+    public Team getTurn() {
+        return turn.getTeam();
+    }
+
     private void validateStartPosition(final Position start) {
         if (!board.containsKey(start)) {
             throw new IllegalArgumentException(
@@ -73,9 +77,5 @@ public final class Board {
             throw new IllegalArgumentException(
                     String.format("[ERROR] %d%d 위치로 이동할 수 없습니다.", end.getRowValue(), end.getColumnValue()));
         }
-    }
-
-    public String getTurn() {
-        return turn.getTurnName();
     }
 }

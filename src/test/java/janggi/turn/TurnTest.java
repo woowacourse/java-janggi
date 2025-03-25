@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.board.Board;
 import janggi.board.BoardGenerator;
+import janggi.piece.Team;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
@@ -21,7 +22,7 @@ class TurnTest {
         // when
 
         // then
-        assertThat(board.getTurn()).isEqualTo("초");
+        assertThat(board.getTurn()).isEqualTo(Team.CHO);
     }
 
     @DisplayName("기물 이동이 한 번 끝나면 턴이 바뀐다.")
@@ -35,6 +36,6 @@ class TurnTest {
                 new Position(Row.EIGHT, Column.ZERO)
         );
         // then
-        assertThat(board.getTurn()).isEqualTo("한");
+        assertThat(board.getTurn()).isEqualTo(Team.HAN);
     }
 }
