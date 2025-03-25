@@ -2,6 +2,7 @@ package janggi.piece.direction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Movement {
@@ -32,5 +33,13 @@ public class Movement {
         return directions.stream()
                 .mapToInt(Direction::getY)
                 .sum();
+    }
+
+    public Direction getFirstDirection(){
+        return directions.getFirst();
+    }
+
+    public List<Direction> getDirections() {
+        return Collections.unmodifiableList(directions);
     }
 }

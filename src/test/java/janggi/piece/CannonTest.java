@@ -50,6 +50,6 @@ class CannonTest {
         assertThatThrownBy(() -> cannon.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, cannon,
                 middlePosition, new Soldier(Team.CHO))))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 포는 한 방향으로만 이동할 수 있습니다.");
+                .hasMessageContaining("[ERROR] 적절한 움직임이 아닙니다.");
     }
 }

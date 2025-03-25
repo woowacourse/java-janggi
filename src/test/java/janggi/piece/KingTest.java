@@ -54,6 +54,6 @@ class KingTest {
         // When & Then
         assertThatThrownBy(() -> king.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new King(Team.CHO))))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 왕은 한 방향으로 한 칸만 이동할 수 있습니다.");
+                .hasMessageContaining("[ERROR] 적절한 움직임이 아닙니다.");
     }
 }

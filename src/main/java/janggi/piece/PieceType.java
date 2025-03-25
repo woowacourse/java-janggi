@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import java.util.List;
+import java.util.Set;
 
 public enum PieceType {
 
@@ -13,6 +14,8 @@ public enum PieceType {
     JOL("卒"),
     SOLDIER("卒"),
     BYEONG("兵");
+
+    private static final Set<PieceType> iITERABLE_PIECE = Set.of(CANNON, CHARIOT);
 
     private static final String BLUE_CODE = "\u001B[34m";
     private static final String RED_CODE = "\u001B[31m";
@@ -33,5 +36,13 @@ public enum PieceType {
             return RED_CODE + values.getFirst() + EXIT_CODE;
         }
         return BLUE_CODE + values.getLast() + EXIT_CODE;
+    }
+
+    public boolean isChariot() {
+        return this == CHARIOT;
+    }
+
+    public boolean isIterable() {
+        return iITERABLE_PIECE.contains(this);
     }
 }

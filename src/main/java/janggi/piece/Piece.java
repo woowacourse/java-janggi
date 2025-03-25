@@ -12,31 +12,23 @@ public abstract class Piece {
     private final PieceType pieceType;
     private final Team team;
 
-    public Piece(PieceType pieceType, Team team) {
+    public Piece(final PieceType pieceType, final Team team) {
         this.pieceType = pieceType;
         this.team = team;
     }
 
     public Path makePath(final Position currentPosition, final Position arrivalPosition,
                          final Map<Position, Piece> pieces) {
+        final int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
+        final int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
 
-        int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
-        int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
-
-        validateMove(differenceForY, differenceForX);
-
-        final List<Position> positions = new ArrayList<>();
-        int currentY = currentPosition.getY();
-        int currentX = currentPosition.getX();
-        currentY = moveY(arrivalPosition, differenceForY, differenceForX, currentY, positions, currentX);
-        moveX(arrivalPosition, differenceForY, differenceForX, currentX, positions, currentY);
-
-        Path path = new Path(positions);
+        final Movement movement = findMovement(pieceType, differenceForY, differenceForX);
+        final Path path = Path.from(pieceType, movement, currentPosition, arrivalPosition);
         validatePath(pieces, path);
         return path;
     }
 
-    protected int calculateUnit(int difference) {
+    protected int calculateUnit(final int difference) {
         if (difference == 0) {
             return difference;
         }
@@ -44,25 +36,28 @@ public abstract class Piece {
     }
 
     protected boolean hasPieceInMiddle(final Path path, final Map<Position, Piece> pieces) {
-        List<Position> positions = new ArrayList<>(path.getPositions());
+        final List<Position> positions = new ArrayList<>(path.getPositions());
         positions.removeLast();
         return positions.stream()
                 .anyMatch(pieces::containsKey);
     }
 
-    protected boolean isInValidMovement(final List<Movement> movements, final int dy, final int dx) {
-        return movements.stream().noneMatch(movement -> movement.isSameMovement(dy, dx));
+    protected Movement findMovement(final PieceType pieceType, int dy, int dx) {
+        if (pieceType.isIterable()) {
+            dy = calculateUnit(dy);
+            dx = calculateUnit(dx);
+        }
+        final int y = dy;
+        final int x = dx;
+        return getMovements().stream()
+                .filter(movement -> movement.isSameMovement(y, x))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 적절한 움직임이 아닙니다."));
     }
 
-    protected abstract void validateMove(int differenceForY, int differenceForX);
-
-    protected abstract int moveY(Position arrivalPosition, int differenceForY, final int differenceForX, int currentY,
-                                 List<Position> positions, int currentX);
-
-    protected abstract int moveX(Position arrivalPosition, final int differenceForY, int differenceForX, int currentX,
-                                 List<Position> positions, int currentY);
-
     protected abstract void validatePath(final Map<Position, Piece> pieces, final Path path);
+
+    protected abstract List<Movement> getMovements();
 
     public boolean matchPieceType(final PieceType pieceType) {
         return this.pieceType == pieceType;

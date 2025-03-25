@@ -81,6 +81,6 @@ class ElephantTest {
         // When & Then
         assertThatThrownBy(() -> elephant.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, elephant)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 상은 직선 1칸 이동 후 대각선 2칸으로만 이동할 수 있습니다.");
+                .hasMessageContaining("[ERROR] 적절한 움직임이 아닙니다.");
     }
 }

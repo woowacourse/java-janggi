@@ -82,6 +82,6 @@ class HorseTest {
         assertThatThrownBy(
                 () -> horse.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Horse(Team.CHO))))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 말은 직선 1칸 이동 후 대각선 1칸으로만 이동할 수 있습니다.");
+                .hasMessageContaining("[ERROR] 적절한 움직임이 아닙니다.");
     }
 }

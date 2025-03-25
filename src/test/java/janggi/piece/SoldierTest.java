@@ -62,7 +62,7 @@ class SoldierTest {
                     () -> jolSoldier.makePath(currentPosition, arrivalPosition,
                             Map.of(currentPosition, new Soldier(Team.CHO))))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("[ERROR] 졸은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
+                    .hasMessageContaining("[ERROR] 적절한 움직임이 아닙니다.");
         }
 
         @Test
@@ -81,7 +81,7 @@ class SoldierTest {
                     () -> jolSoldier.makePath(currentPosition, arrivalPosition,
                             Map.of(currentPosition, new Soldier(Team.CHO))))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("[ERROR] 졸은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
+                    .hasMessageContaining("[ERROR] 적절한 움직임이 아닙니다.");
         }
     }
 
@@ -103,7 +103,6 @@ class SoldierTest {
             // When
             Path path = byeongSoldier.makePath(currentPosition, arrivalPosition,
                     Map.of(currentPosition, new Soldier(Team.CHO)));
-
             // Then
             assertThat(path).isEqualTo(new Path(List.of(arrivalPosition)));
         }
@@ -122,8 +121,7 @@ class SoldierTest {
             // When & Then
             assertThatThrownBy(() -> byeongSoldier.makePath(currentPosition, arrivalPosition,
                     Map.of(currentPosition, new Soldier(Team.HAN))))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("[ERROR] 병은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
+                    .hasMessageContaining("[ERROR] 적절한 움직임이 아닙니다.");
         }
 
         @Test
@@ -140,8 +138,20 @@ class SoldierTest {
             // When & Then
             assertThatThrownBy(() -> byeongSoldier.makePath(currentPosition, arrivalPosition,
                     Map.of(currentPosition, new Soldier(Team.HAN))))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("[ERROR] 병은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
+                    .hasMessageContaining("[ERROR] 적절한 움직임이 아닙니다.");
         }
+    }
+
+    @Test
+    void 경로를_찾는다() {
+        // Given
+        Position currentPosition = new Position(1, 2);
+        Position arrivalPosition = new Position(1, 1);
+
+        // When
+        Path path = jolSoldier.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Soldier(Team.CHO)));
+
+        // Then
+        assertThat(path.getPositions()).isEqualTo(List.of(arrivalPosition));
     }
 }

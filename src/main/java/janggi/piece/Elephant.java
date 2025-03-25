@@ -37,51 +37,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    protected int moveY(final Position arrivalPosition, final int differenceForY, final int differenceForX,
-                        int currentY, final List<Position> positions, int currentX) {
-        if (isNotStartDirection(differenceForY)) {
-            return currentY;
-        }
-        int differenceUnitY = calculateUnit(differenceForY);
-        currentY += differenceUnitY;
-        positions.add(Position.valueOf(currentY, currentX));
-
-        int differenceUnitX = calculateUnit(differenceForX);
-        currentY += differenceUnitY;
-        currentX += differenceUnitX;
-        positions.add(Position.valueOf(currentY, currentX));
-
-        positions.add(arrivalPosition);
-        return currentY;
-    }
-
-    @Override
-    protected int moveX(final Position arrivalPosition, final int differenceForY, final int differenceForX,
-                        int currentX, final List<Position> positions, int currentY) {
-        if (isNotStartDirection(differenceForX)) {
-            return currentX;
-        }
-        int differenceUnitX = calculateUnit(differenceForX);
-        currentX += differenceUnitX;
-        positions.add(Position.valueOf(currentY, currentX));
-
-        int differenceUnitY = calculateUnit(differenceForY);
-        currentY += differenceUnitY;
-        currentX += differenceUnitX;
-        positions.add(Position.valueOf(currentY, currentX));
-
-        positions.add(arrivalPosition);
-        return currentX;
-    }
-
-    @Override
-    protected void validateMove(final int differenceForY, final int differenceForX) {
-        if (isInValidMovement(MOVEMENTS, differenceForY, differenceForX)) {
-            throw new IllegalArgumentException("[ERROR] 상은 직선 1칸 이동 후 대각선 2칸으로만 이동할 수 있습니다.");
-        }
-    }
-
-    private boolean isNotStartDirection(final int difference) {
-        return Math.abs(difference) != 3;
+    protected List<Movement> getMovements() {
+        return MOVEMENTS;
     }
 }

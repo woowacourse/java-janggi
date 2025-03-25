@@ -1,5 +1,6 @@
 package janggi.position;
 
+import janggi.piece.direction.Direction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,6 +20,10 @@ public class Position {
         validate(y, x);
         this.y = y;
         this.x = x;
+    }
+
+    public Position(final Position input) {
+        this(input.getY(), input.getX());
     }
 
     public static Position valueOf(final int y, final int x) {
@@ -61,6 +66,10 @@ public class Position {
 
     public int calculateDifferenceForY(Position position) {
         return this.y - position.y;
+    }
+
+    public Position move(final Direction direction) {
+        return new Position(y + direction.getY(), x + direction.getX());
     }
 
     @Override

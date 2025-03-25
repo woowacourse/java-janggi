@@ -55,6 +55,6 @@ class GuardTest {
         // When & Then
         assertThatThrownBy(() -> guard.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new Guard(Team.CHO))))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 사는 한 방향으로 한 칸만 이동할 수 있습니다.");
+                .hasMessageContaining("[ERROR] 적절한 움직임이 아닙니다.");
     }
 }
