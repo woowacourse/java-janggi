@@ -52,21 +52,27 @@ public final class Team {
 
     public void move(final Position fromPosition, final Position tagetPosition,
                      final Map<Position, Piece> enemyPieces) {
-        validateIsPieceExistInPosition(fromPosition);
+        if (!isPieceExistInPosition(fromPosition)) {
+            throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
+        }
 
         final Piece movePiece = pieces.get(fromPosition);
         pieces.remove(fromPosition);
+
         final Piece movedPiece = movePiece.movePiece(tagetPosition, pieces.values().stream().toList(),
                 enemyPieces.values().stream().toList());
-        if (pieces.containsValue(movedPiece.getPosition())) {
-            pieces.remove(movedPiece.getPosition());
-        }
+
         pieces.put(movedPiece.getPosition(), movedPiece);
     }
 
-    private void validateIsPieceExistInPosition(final Position fromPosition) {
-        if (pieces.get(fromPosition) == null) {
-            throw new IllegalArgumentException("해당 위치의 기물이 존재하지 않습니다.");
+    private boolean isPieceExistInPosition(final Position fromPosition) {
+        return pieces.containsKey(fromPosition);
+    }
+
+
+    public void removeIfExist(Position tagetPosition) {
+        if (isPieceExistInPosition(tagetPosition)) {
+            pieces.remove(tagetPosition);
         }
     }
 }

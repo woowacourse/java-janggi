@@ -38,9 +38,11 @@ public final class Board {
     public void move(Position fromPosition, Position tagetPosition) {
         if (isChoTurn) {
             cho.move(fromPosition, tagetPosition, han.getPieces());
+            han.removeIfExist(tagetPosition);
             nextTurn();
         } else {
             han.move(fromPosition, tagetPosition, cho.getPieces());
+            cho.removeIfExist(tagetPosition);
             nextTurn();
         }
     }
