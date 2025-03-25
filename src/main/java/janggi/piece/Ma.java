@@ -18,12 +18,12 @@ public class Ma extends Movable {
     public static List<Ma> init(Team team) {
         List<Ma> mas = new ArrayList<>();
         if (team.isCho()) {
-            for (int column = 2; column < 9; column += 4) {
+            for (int column = 2; column < MAX_COLUMN_LOCATION; column += 4) {
                 mas.add(new Ma(team, new Point(team.calculateRowForwarding(0), column)));
             }
             return mas;
         }
-        for (int column = 1; column < 9; column += 6) {
+        for (int column = 1; column < MAX_COLUMN_LOCATION; column += 6) {
             mas.add(new Ma(team, new Point(team.calculateRowForwarding(0), column)));
         }
         return mas;

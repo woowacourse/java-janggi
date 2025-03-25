@@ -16,7 +16,7 @@ public class Po extends Movable {
 
     public static List<Po> init(Team team) {
         List<Po> pos = new ArrayList<>();
-        for (int column = 1; column < 9; column += 6) {
+        for (int column = 1; column < MAX_COLUMN_LOCATION; column += 6) {
             pos.add(new Po(team, new Point(team.calculateRowForwarding(2), column)));
         }
         return pos;

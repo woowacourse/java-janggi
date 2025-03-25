@@ -7,6 +7,9 @@ import janggi.point.Point;
 import java.util.List;
 
 public final class CrashOrBridgeAndPrey extends Crashes {
+    private static final int ONLY_BRIDGE_COUNT = 1;
+    private static final int ONLY_BRIDGE_AND_PREY_COUNT = 2;
+
     public CrashOrBridgeAndPrey(List<Point> crashes) {
         super(crashes);
     }
@@ -18,14 +21,14 @@ public final class CrashOrBridgeAndPrey extends Crashes {
     }
 
     private boolean isBridgeOnly(Point targetPoint, Hurdles hurdles) {
-        if (crashes.size() == 1) {
+        if (crashes.size() == ONLY_BRIDGE_COUNT) {
             return isBridgeExists(targetPoint, hurdles);
         }
         return false;
     }
 
     private boolean isBridgeAndPreyOnly(Team movingTeam, Point targetPoint, Hurdles hurdles) {
-        if (crashes.size() == 2) {
+        if (crashes.size() == ONLY_BRIDGE_AND_PREY_COUNT) {
             return (isBridgeExists(targetPoint, hurdles)
                     && isPreyExists(movingTeam, targetPoint, hurdles));
         }
@@ -34,15 +37,9 @@ public final class CrashOrBridgeAndPrey extends Crashes {
 
     private boolean isBridgeExists(Point targetPoint, Hurdles hurdles) {
         Point bridgePoint = crashes.getFirst();
-        /**
-         * 유일한 장애물일 때
-         * 같은 포를 뛰어넘는 게 아니고,
-         * 먹이 위치에 있지 않다면 isBridgeExists = true
-         */
-        if (hurdles.findByPoint(bridgePoint).isPo()) {
-            return false;
-        }
-        if (bridgePoint.equals(targetPoint)) {
+        if (hurdles.findByPoint(bridgePoint).isPo()
+                || bridgePoint.equals(targetPoint)
+        ) {
             return false;
         }
         return true;

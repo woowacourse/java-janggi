@@ -6,6 +6,8 @@ import janggi.point.Point;
 
 public abstract class Movable {
 
+    protected static final int MAX_COLUMN_LOCATION = 9;
+
     protected final Team team;
     protected final Point point;
 

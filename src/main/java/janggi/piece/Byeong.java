@@ -13,7 +13,7 @@ public class Byeong extends Movable {
 
     public static List<Byeong> init(Team team) {
         List<Byeong> byeongs = new ArrayList<>();
-        for (int column = 0; column < 9; column += 2) {
+        for (int column = 0; column < MAX_COLUMN_LOCATION; column += 2) {
             byeongs.add(new Byeong(team, new Point(team.calculateRowForwarding(3), column)));
         }
         return byeongs;
