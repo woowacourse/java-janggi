@@ -1,7 +1,9 @@
 package piece.straightPiece;
 
+import java.util.Set;
 import piece.PieceType;
 import piece.Team;
+import position.Board;
 import position.Position;
 import route.Routes;
 

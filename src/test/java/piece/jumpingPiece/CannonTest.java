@@ -3,9 +3,26 @@ package piece.jumpingPiece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static piece.Team.CHO;
 import static piece.Team.HAN;
+import static position.PositionFixtures.C5;
+import static position.PositionFixtures.D5;
+import static position.PositionFixtures.E0;
+import static position.PositionFixtures.E1;
+import static position.PositionFixtures.E2;
+import static position.PositionFixtures.E3;
+import static position.PositionFixtures.E4;
+import static position.PositionFixtures.E6;
+import static position.PositionFixtures.F5;
+import static position.PositionFixtures.G5;
 import static position.PositionFixtures.H0;
 import static position.PositionFixtures.H2;
+import static position.PositionFixtures.H3;
 import static position.PositionFixtures.H4;
+import static position.PositionFixtures.H5;
+import static position.PositionFixtures.H6;
+import static position.PositionFixtures.H7;
+import static position.PositionFixtures.H8;
+import static position.PositionFixtures.H9;
+import static position.PositionFixtures.I5;
 
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import piece.Piece;
 import piece.normalPiece.Horse;
 import position.Board;
+import position.Position;
 import route.Routes;
 
 public class CannonTest {
@@ -39,10 +57,10 @@ public class CannonTest {
         Board board = new Board(HAN, Set.of(cannon, horse));
 
         // when
-        Routes cannonRoutes = cannon.possibleRoutes(board);
+        Set<Position> positions = cannon.possibleRoutes(board);
 
         // then
-        assertThat(cannonRoutes.routes().size()).isEqualTo(5);
+        assertThat(positions).containsOnly(H5, H6, H7, H8, H9);
     }
 
     /*
@@ -67,10 +85,10 @@ public class CannonTest {
         Board board = new Board(HAN, Set.of(cannon1, cannon2));
 
         // when
-        Routes cannonRoutes = cannon1.possibleRoutes(board);
+        Set<Position> positions = cannon1.possibleRoutes(board);
 
         // then
-        assertThat(cannonRoutes.routes()).isEmpty();
+        assertThat(positions).isEmpty();
     }
 
     /*
@@ -96,9 +114,9 @@ public class CannonTest {
         Board board = new Board(HAN, Set.of(cannon1, horse, cannon2));
 
         // when
-        Routes cannonRoutes = cannon1.possibleRoutes(board);
+        Set<Position> positions = cannon1.possibleRoutes(board);
 
         // then
-        assertThat(cannonRoutes.routes().size()).isEqualTo(1);
+        assertThat(positions).containsOnly(H3);
     }
 }

@@ -1,5 +1,6 @@
 package piece.jumpingPiece;
 
+import java.util.Set;
 import piece.Piece;
 import piece.Team;
 import position.Board;
@@ -12,7 +13,7 @@ public abstract class JumpingPiece extends Piece {
         super(team, position, routes);
     }
 
-    public Routes possibleRoutes(Board board) {
+    public Set<Position> possibleRoutes(Board board) {
         validateTeamOfPiece(board);
         return routes.possibleJumpingRoutes(position, board);
     }

@@ -42,4 +42,9 @@ public final class Board {
             throw new IllegalArgumentException("[ERROR] 같은 팀 기물만 움직일 수 있습니다.");
         }
     }
+
+    public boolean isCannon(Position target) {
+        System.out.println("get(target).type() = " + get(target).type());
+        return get(target).type() == PieceType.CANNON;
+    }
 }

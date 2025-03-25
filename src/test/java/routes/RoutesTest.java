@@ -2,7 +2,11 @@ package routes;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static piece.Team.HAN;
+import static position.PositionFixtures.D1;
+import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
+import static position.PositionFixtures.E2;
+import static position.PositionFixtures.F1;
 
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
@@ -10,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import piece.normalPiece.Palace;
 import piece.Piece;
 import position.Board;
+import position.Position;
 import route.Routes;
 
 public class RoutesTest {
@@ -41,9 +46,9 @@ public class RoutesTest {
         Routes routes = Routes.ofPalace();
 
         // when
-        Routes palaceRoutes = routes.possibleRoutes(E1, board);
+        Set<Position> positions = routes.possibleRoutes(E1, board);
 
         // then
-        assertThat(palaceRoutes.routes().size()).isEqualTo(4);
+        assertThat(positions).containsOnly(E0, E2, D1, F1);
     }
 }

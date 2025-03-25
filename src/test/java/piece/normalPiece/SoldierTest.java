@@ -2,17 +2,23 @@ package piece.normalPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static piece.Team.HAN;
+import static position.PositionFixtures.D0;
 import static position.PositionFixtures.D1;
 import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
 import static position.PositionFixtures.E2;
+import static position.PositionFixtures.F0;
+import static position.PositionFixtures.F1;
+import static position.PositionFixtures.H0;
 import static position.PositionFixtures.I0;
+import static position.PositionFixtures.I1;
 
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
 import position.Board;
+import position.Position;
 import route.Routes;
 
 public class SoldierTest {
@@ -31,10 +37,10 @@ public class SoldierTest {
         Board board = new Board(HAN, Set.of(soldier));
 
         // when
-        Routes soldierRoutes = soldier.possibleRoutes(board);
+        Set<Position> positions = soldier.possibleRoutes(board);
 
         // then
-        assertThat(soldierRoutes.routes().size()).isEqualTo(4);
+        assertThat(positions).containsOnly(E0, E2, D1, F1);
     }
 
     /*
@@ -51,10 +57,10 @@ public class SoldierTest {
         Board board = new Board(HAN, Set.of(soldier));
 
         // when
-        Routes soldierRoutes = soldier.possibleRoutes(board);
+        Set<Position> positions = soldier.possibleRoutes(board);
 
         // then
-        assertThat(soldierRoutes.routes().size()).isEqualTo(3);
+        assertThat(positions).containsOnly(E1, D0, F0);
     }
 
     /*
@@ -71,10 +77,10 @@ public class SoldierTest {
         Board board = new Board(HAN, Set.of(soldier));
 
         // when
-        Routes soldierRoutes = soldier.possibleRoutes(board);
+        Set<Position> positions = soldier.possibleRoutes(board);
 
         // then
-        assertThat(soldierRoutes.routes().size()).isEqualTo(2);
+        assertThat(positions).containsOnly(H0, I1);
     }
 
     /*
@@ -93,9 +99,9 @@ public class SoldierTest {
         Board board = new Board(HAN, Set.of(soldier, horse1, horse2));
 
         // when
-        Routes soldierRoutes = soldier.possibleRoutes(board);
+        Set<Position> positions = soldier.possibleRoutes(board);
 
         // then
-        assertThat(soldierRoutes.routes().size()).isEqualTo(2);
+        assertThat(positions).containsOnly(E0, F1);
     }
 }

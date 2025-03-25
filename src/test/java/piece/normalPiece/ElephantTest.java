@@ -3,15 +3,30 @@ package piece.normalPiece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static piece.Team.CHO;
 import static piece.Team.HAN;
+import static position.PositionFixtures.A1;
+import static position.PositionFixtures.A3;
+import static position.PositionFixtures.A5;
+import static position.PositionFixtures.B0;
 import static position.PositionFixtures.B2;
+import static position.PositionFixtures.B4;
+import static position.PositionFixtures.B6;
+import static position.PositionFixtures.D0;
 import static position.PositionFixtures.D3;
+import static position.PositionFixtures.D4;
+import static position.PositionFixtures.E1;
+import static position.PositionFixtures.E3;
 import static position.PositionFixtures.E5;
+import static position.PositionFixtures.F0;
+import static position.PositionFixtures.F6;
+import static position.PositionFixtures.G1;
+import static position.PositionFixtures.G5;
 
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
 import position.Board;
+import position.Position;
 import route.Routes;
 
 public class ElephantTest {
@@ -34,10 +49,14 @@ public class ElephantTest {
         Board board = new Board(HAN, Set.of(elephant));
 
         // when
-        Routes elephantRoutes = elephant.possibleRoutes(board);
+        Set<Position> positions = elephant.possibleRoutes(board);
+
+        for (Position position : positions) {
+            position.print();
+        }
 
         // then
-        assertThat(elephantRoutes.routes().size()).isEqualTo(8);
+        assertThat(positions).containsOnly(B6, A5, A1, B0, F0, G1, G5, F6);
     }
 
     /*
@@ -60,9 +79,9 @@ public class ElephantTest {
         Board board = new Board(HAN, Set.of(elephant, horse1, horse2));
 
         // when
-        Routes elephantRoutes = elephant.possibleRoutes(board);
+        Set<Position> positions = elephant.possibleRoutes(board);
 
         // then
-        assertThat(elephantRoutes.routes().size()).isEqualTo(6);
+        assertThat(positions).containsOnly(B6, A5, B0, F0, G1, G5);
     }
 }

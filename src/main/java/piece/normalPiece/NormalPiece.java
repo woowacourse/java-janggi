@@ -1,5 +1,6 @@
 package piece.normalPiece;
 
+import java.util.Set;
 import piece.Piece;
 import piece.Team;
 import position.Board;
@@ -12,9 +13,8 @@ public abstract class NormalPiece extends Piece {
         super(team, position, routes);
     }
 
-    public Routes possibleRoutes(Board board) {
+    public Set<Position> possibleRoutes(Board board) {
         validateTeamOfPiece(board);
         return routes.possibleRoutes(position, board);
     }
-
 }

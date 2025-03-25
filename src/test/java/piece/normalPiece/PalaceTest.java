@@ -2,18 +2,23 @@ package piece.normalPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static piece.Team.HAN;
+import static position.PositionFixtures.D0;
 import static position.PositionFixtures.D1;
 import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
 import static position.PositionFixtures.E2;
+import static position.PositionFixtures.F0;
+import static position.PositionFixtures.F1;
+import static position.PositionFixtures.H0;
 import static position.PositionFixtures.I0;
+import static position.PositionFixtures.I1;
 
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
 import position.Board;
-import route.Routes;
+import position.Position;
 
 public class PalaceTest {
 
@@ -31,10 +36,10 @@ public class PalaceTest {
         Board board = new Board(HAN, Set.of(palace));
 
         // when
-        Routes palaceRoutes = palace.possibleRoutes(board);
+        Set<Position> positions = palace.possibleRoutes(board);
 
         // then
-        assertThat(palaceRoutes.routes().size()).isEqualTo(4);
+        assertThat(positions).containsOnly(E0, E2, D1, F1);
     }
 
     /*
@@ -51,10 +56,10 @@ public class PalaceTest {
         Board board = new Board(HAN, Set.of(palace));
 
         // when
-        Routes palaceRoutes = palace.possibleRoutes(board);
+        Set<Position> positions = palace.possibleRoutes(board);
 
         // then
-        assertThat(palaceRoutes.routes().size()).isEqualTo(3);
+        assertThat(positions).containsOnly(D0, E1, F0);
     }
 
     /*
@@ -71,10 +76,10 @@ public class PalaceTest {
         Board board = new Board(HAN, Set.of(palace));
 
         // when
-        Routes palaceRoutes = palace.possibleRoutes(board);
+        Set<Position> positions = palace.possibleRoutes(board);
 
         // then
-        assertThat(palaceRoutes.routes().size()).isEqualTo(2);
+        assertThat(positions).containsOnly(H0, I1);
     }
 
     /*
@@ -93,10 +98,10 @@ public class PalaceTest {
         Board board = new Board(HAN, Set.of(palace, soldier1, soldier2));
 
         // when
-        Routes palaceRoutes = palace.possibleRoutes(board);
+        Set<Position> positions = palace.possibleRoutes(board);
 
         // then
-        assertThat(palaceRoutes.routes().size()).isEqualTo(2);
+        assertThat(positions).containsOnly(E0, F1);
     }
 
 }

@@ -2,6 +2,7 @@ package position;
 
 import java.util.Objects;
 import route.Direction;
+import route.Route;
 
 public final class Position {
     private final Column column;
@@ -30,6 +31,15 @@ public final class Position {
         return new Position(column.move(direction.column()), row.move(direction.row()));
     }
 
+    public Position move(Route route) {
+        Position destination = this;
+        for (Direction direction : route.route()) {
+            destination = destination.move(direction);
+        }
+        return destination;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -44,4 +54,9 @@ public final class Position {
         return Objects.hash(column, row);
     }
 
+    public void print() {
+        System.out.print("row = " + row);
+        System.out.print("    column = " + column);
+        System.out.println();
+    }
 }

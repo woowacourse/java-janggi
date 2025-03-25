@@ -76,7 +76,7 @@ public final class Routes {
         return new Routes(Set.of(
                 new Route(List.of(EAST)),
                 new Route(List.of(WEST)),
-                new Route(List.of(NORTH))
+                new Route(List.of(SOUTH))
         ));
     }
 
@@ -84,7 +84,7 @@ public final class Routes {
         return new Routes(Set.of(
                 new Route(List.of(EAST)),
                 new Route(List.of(WEST)),
-                new Route(List.of(SOUTH))
+                new Route(List.of(NORTH))
         ));
     }
 
@@ -114,42 +114,45 @@ public final class Routes {
         ));
     }
 
-
     public Set<Route> routes() {
         return routes;
     }
 
-    public Routes possibleRoutes(Position source, Board board) {
-        Set<Route> possibleRoutes = new HashSet<>();
+    public Set<Position> possibleRoutes(Position source, Board board) {
+        Set<Position> target = new HashSet<>();
         for (Route route : routes) {
             if(route.isPossibleRoute(source, board)){
-                possibleRoutes.add(route);
+                target.add(source.move(route));
             }
         }
-        return new Routes(possibleRoutes);
+        return target;
     }
 
-    public Routes possibleStraightRoutes(Position source, Board board) {
-        Set<Route> possibleRoutes = new HashSet<>();
-        for (Route route : routes) {
-            Route straight = route;
-            while(straight.isPossibleRoute(source, board)){
-                possibleRoutes.add(straight);
-                straight = straight.add(route);
-            }
-        }
-        return new Routes(possibleRoutes);
+    public Set<Position> possibleStraightRoutes(Position source, Board board) {
+//        Set<Route> possibleRoutes = new HashSet<>();
+//        for (Route route : routes) {
+//            Route straight = route;
+//            while(straight.isPossibleRoute(source, board)){
+//                possibleRoutes.add(straight);
+//                straight = straight.add(route);
+//            }
+//        }
+//        return new Routes(possibleRoutes);
+        return null;
     }
 
-    public Routes possibleJumpingRoutes(Position source, Board board) {
-        Set<Route> possibleRoutes = new HashSet<>();
-        for (Route route : routes) {
-            Route straight = route;
-            while(straight.isPossibleJumpingRoute(source, board)){
-                possibleRoutes.add(straight);
-                straight = straight.add(route);
-            }
-        }
-        return new Routes(possibleRoutes);
+    public Set<Position> possibleJumpingRoutes(Position source, Board board) {
+//        Set<Position> possiblePositions = new HashSet<>();
+//        for (Route route : routes) {
+//            Route straight = route;
+//            while(source.canMove(route)){
+//
+//            }
+//            while(straight.isPossibleJumpingRoute(source, board)){
+//                straight = straight.add(route);
+//            }
+//        }
+//        return new Routes(possibleRoutes);
+        return null;
     }
 }

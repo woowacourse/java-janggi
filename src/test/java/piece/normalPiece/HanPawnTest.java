@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static piece.Team.CHO;
 import static piece.Team.HAN;
 import static position.PositionFixtures.D1;
+import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
+import static position.PositionFixtures.E2;
 import static position.PositionFixtures.F1;
 
 import java.util.Set;
@@ -12,12 +14,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
 import position.Board;
-import route.Routes;
+import position.Position;
 
 public class HanPawnTest {
 
     /*
-    7 ＿ * ＿
+    0 ＿ * ＿
     1 * 병 *
     2 ＿ ＿ ＿
     3 d e f
@@ -30,10 +32,10 @@ public class HanPawnTest {
         Board board = new Board(HAN, Set.of(hanPawn));
 
         // when
-        Routes hanPawnRoutes = hanPawn.possibleRoutes(board);
+        Set<Position> positions = hanPawn.possibleRoutes(board);
 
         // then
-        assertThat(hanPawnRoutes.routes().size()).isEqualTo(3);
+        assertThat(positions).containsOnly(E0, D1, F1);
     }
 
     /*
@@ -52,9 +54,9 @@ public class HanPawnTest {
         Board board = new Board(HAN, Set.of(hanPawn, horse1, horse2));
 
         // when
-        Routes hanPawnRoutes = hanPawn.possibleRoutes(board);
+        Set<Position> positions = hanPawn.possibleRoutes(board);
 
         // then
-        assertThat(hanPawnRoutes.routes().size()).isEqualTo(2);
+        assertThat(positions).containsOnly(E0, F1);
     }
 }

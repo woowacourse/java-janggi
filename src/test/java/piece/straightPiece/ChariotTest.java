@@ -3,9 +3,43 @@ package piece.straightPiece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static piece.Team.CHO;
 import static piece.Team.HAN;
+import static position.PositionFixtures.A1;
+import static position.PositionFixtures.A3;
+import static position.PositionFixtures.A9;
+import static position.PositionFixtures.B0;
+import static position.PositionFixtures.B4;
 import static position.PositionFixtures.B5;
+import static position.PositionFixtures.B9;
+import static position.PositionFixtures.C5;
+import static position.PositionFixtures.C9;
+import static position.PositionFixtures.D0;
+import static position.PositionFixtures.D4;
+import static position.PositionFixtures.D5;
+import static position.PositionFixtures.D9;
+import static position.PositionFixtures.E0;
+import static position.PositionFixtures.E1;
+import static position.PositionFixtures.E2;
+import static position.PositionFixtures.E3;
+import static position.PositionFixtures.E4;
 import static position.PositionFixtures.E5;
+import static position.PositionFixtures.E6;
 import static position.PositionFixtures.E7;
+import static position.PositionFixtures.E9;
+import static position.PositionFixtures.F5;
+import static position.PositionFixtures.F9;
+import static position.PositionFixtures.G5;
+import static position.PositionFixtures.G9;
+import static position.PositionFixtures.H5;
+import static position.PositionFixtures.H9;
+import static position.PositionFixtures.I0;
+import static position.PositionFixtures.I1;
+import static position.PositionFixtures.I2;
+import static position.PositionFixtures.I3;
+import static position.PositionFixtures.I4;
+import static position.PositionFixtures.I5;
+import static position.PositionFixtures.I6;
+import static position.PositionFixtures.I7;
+import static position.PositionFixtures.I8;
 import static position.PositionFixtures.I9;
 
 import java.util.Set;
@@ -15,6 +49,7 @@ import piece.Piece;
 import piece.normalPiece.HanPawn;
 import piece.normalPiece.Horse;
 import position.Board;
+import position.Position;
 import route.Routes;
 
 public class ChariotTest {
@@ -33,17 +68,17 @@ public class ChariotTest {
        a  b c  d e f g h i
     */
     @Test
-    @DisplayName("궁의 이동 가능한 경로를 모두 표시할 수 있다.")
+    @DisplayName("차가 이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest_1() {
         // given
         Piece chariot = new Chariot(HAN, I9);
         Board board = new Board(HAN, Set.of(chariot));
 
         // when
-        Routes chariotRoutes = chariot.possibleRoutes(board);
+        Set<Position> positions = chariot.possibleRoutes(board);
 
         // then
-        assertThat(chariotRoutes.routes().size()).isEqualTo(17);
+        assertThat(positions).containsOnly(A9, B9, C9, D9, E9, F9, G9, H9, H9, I0, I1, I2, I3, I4, I5, I6, I7, I8);
     }
 
     /*
@@ -60,7 +95,7 @@ public class ChariotTest {
        a  b c  d e f g h i
     */
     @Test
-    @DisplayName("궁의 이동 가능한 경로를 모두 표시할 수 있다.")
+    @DisplayName("차가 이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest_2() {
         // given
         Piece chariot = new Chariot(HAN, E5);
@@ -69,9 +104,9 @@ public class ChariotTest {
         Board board = new Board(HAN, Set.of(chariot, hanPawn, horse));
 
         // when
-        Routes chariotRoutes = chariot.possibleRoutes(board);
+        Set<Position> positions = chariot.possibleRoutes(board);
 
         // then
-        assertThat(chariotRoutes.routes().size()).isEqualTo(13);
+        assertThat(positions).containsOnly(E0, E1, E2, E3, E4, D5, C5, E6, F5, G5, H5, I5);
     }
 }

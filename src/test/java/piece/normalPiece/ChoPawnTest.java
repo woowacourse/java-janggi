@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static piece.Team.CHO;
 import static piece.Team.HAN;
 import static position.PositionFixtures.D1;
+import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
+import static position.PositionFixtures.E2;
 import static position.PositionFixtures.F1;
 
 import java.util.Set;
@@ -12,7 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
 import position.Board;
-import route.Routes;
+import position.Position;
 
 public class ChoPawnTest {
 
@@ -30,15 +32,15 @@ public class ChoPawnTest {
         Board board = new Board(CHO, Set.of(choPawn));
 
         // when
-        Routes choPawnRoutes = choPawn.possibleRoutes(board);
+        Set<Position> positions = choPawn.possibleRoutes(board);
 
         // then
-        assertThat(choPawnRoutes.routes().size()).isEqualTo(3);
+        assertThat(positions).containsOnly(E2, D1, F1);
     }
 
     /*
     0 ＿ ＿ ＿
-    1 마 병 마
+    1 마 병 *
     2 ＿ * ＿
     3 d e f
     */
@@ -47,14 +49,13 @@ public class ChoPawnTest {
     void possibleRoutesTest_2() {
         // given
         Piece choPawn = new ChoPawn(E1);
-        Piece horse1 = new Horse(HAN, D1);
-        Piece horse2 = new Horse(CHO, F1);
-        Board board = new Board(CHO, Set.of(choPawn, horse1, horse2));
+        Piece horse = new Horse(CHO, D1);
+        Board board = new Board(CHO, Set.of(choPawn, horse));
 
         // when
-        Routes hanPawnRoutes = choPawn.possibleRoutes(board);
+        Set<Position> positions = choPawn.possibleRoutes(board);
 
         // then
-        assertThat(hanPawnRoutes.routes().size()).isEqualTo(2);
+        assertThat(positions).containsOnly(E2, F1);
     }
 }

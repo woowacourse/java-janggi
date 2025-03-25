@@ -1,9 +1,7 @@
 package piece.jumpingPiece;
 
-import piece.Piece;
 import piece.PieceType;
 import piece.Team;
-import position.Board;
 import position.Position;
 import route.Routes;
 

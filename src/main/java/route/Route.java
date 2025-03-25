@@ -30,10 +30,17 @@ public final class Route {
 
     public boolean isPossibleJumpingRoute(Position source, Board board) {
         Position target = source;
+//        if(!target.canMove(directions.getFirst(), board)){
+//            return false;
+//        }
         for (int directionCount = 0; directionCount < directions.size() - 1; directionCount++) {
             while (board.isBlank(target) && target.canMove(directions.get(directionCount), board)){
                 target = target.move(directions.get(directionCount));
             }
+
+//            if(board.isCannon(target)){
+//                return false;
+//            }
             if (!target.canMove(directions.get(directionCount), board)) {
                 return false;
             }
@@ -41,5 +48,9 @@ public final class Route {
         }
 
         return target.canMoveLast(directions.getLast(), board);
+    }
+
+    public List<Direction> route() {
+        return directions;
     }
 }

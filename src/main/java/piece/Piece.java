@@ -1,5 +1,6 @@
 package piece;
 
+import java.util.Set;
 import position.Board;
 import position.Position;
 import route.Routes;
@@ -15,7 +16,7 @@ public abstract class Piece {
         this.routes = routes;
     }
 
-    public abstract Routes possibleRoutes(Board board);
+    public abstract Set<Position> possibleRoutes(Board board);
 
     protected void validateTeamOfPiece(Board board) {
         board.validateTeam(team);
@@ -28,6 +29,6 @@ public abstract class Piece {
     }
 
     public boolean isDifferentTeam(Team currentTeam) {
-        return team!=currentTeam;
+        return team != currentTeam;
     }
 }

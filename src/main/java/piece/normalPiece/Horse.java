@@ -5,7 +5,7 @@ import piece.Team;
 import position.Position;
 import route.Routes;
 
-public class Horse extends NormalPiece{
+public class Horse extends NormalPiece {
 
     public Horse(Team team, Position position) {
         super(team, position, Routes.ofHorse());
