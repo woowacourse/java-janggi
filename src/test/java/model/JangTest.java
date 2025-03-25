@@ -1,6 +1,7 @@
 package model;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,21 +32,83 @@ public class JangTest {
     }
 
     @Nested
-    @DisplayName("장 이동 가능 여부 판별 테스트")
+    @DisplayName("궁성 내부 이동 가능 위치 판별 테스트")
     class JangMovableTest {
+        Jang jang = new Jang(Team.BLUE);
+
         @Test
-        @DisplayName("장 이동 가능 테스트")
+        @DisplayName("수평 이동 1칸 가능")
         void test1() {
-            Jang jang = new Jang(Team.RED);
-            assertThat(jang.isValidPoint(Point.of(0, 0), Point.of(1, 0))).isTrue();
+            assertThat(jang.isValidPoint(jang.getMyGoongsungCenterPoint(), Point.of(5, 1))).isTrue();
         }
 
         @Test
-        @DisplayName("장 이동 불가능 테스트")
+        @DisplayName("수평 이동 2칸 불가능")
         void test2() {
-            Jang jang = new Jang(Team.RED);
-            assertThat(jang.isValidPoint(Point.of(0, 0), Point.of(2, 0))).isFalse();
+            assertThat(jang.isValidPoint(Point.of(3, 1), Point.of(5, 1))).isFalse();
         }
+
+        @Test
+        @DisplayName("수직 이동 1칸 가능")
+        void test3() {
+            assertThat(jang.isValidPoint(jang.getMyGoongsungCenterPoint(), Point.of(4, 2))).isTrue();
+        }
+
+        @Test
+        @DisplayName("수직 이동 2칸 불가능")
+        void test4() {
+            assertThat(jang.isValidPoint(Point.of(4, 0), Point.of(4, 2))).isFalse();
+        }
+
+        @Test
+        @DisplayName("궁성 외부로 이동불가")
+        void test5() {
+            assertThatThrownBy(() -> jang.isValidPoint(Point.of(4, 2), Point.of(4, 3))).hasMessage(
+                    "[ERROR] 궁성을 벗어날 수 없습니다.");
+        }
+
+        @Nested
+        @DisplayName("대각선 이동")
+        class JangDiagonalMovableTest {
+            // 4 1
+            @Test
+            @DisplayName("중점에서 대각 위")
+            void test1() {
+                assertThat(jang.isValidPoint(jang.getMyGoongsungCenterPoint(), Point.of(5, 2))).isTrue();
+            }
+
+            @Test
+            @DisplayName("중점에서 대각 아래")
+            void test2() {
+                assertThat(jang.isValidPoint(jang.getMyGoongsungCenterPoint(), Point.of(5, 0))).isTrue();
+            }
+
+            @Test
+            @DisplayName("대각 위로 중점")
+            void test3() {
+                assertThat(jang.isValidPoint(Point.of(3, 0), jang.getMyGoongsungCenterPoint())).isTrue();
+            }
+
+            @Test
+            @DisplayName("대각 아래로 중점")
+            void test4() {
+                assertThat(jang.isValidPoint(Point.of(3, 2), jang.getMyGoongsungCenterPoint())).isTrue();
+            }
+
+            @Test
+            @DisplayName("중점을 경유하지 않는 대각선(간선 없음)")
+            void test5() {
+                assertThat(jang.isValidPoint(Point.of(3, 1), Point.of(4, 2))).isFalse();
+            }
+
+            @Test
+            @DisplayName("중점을 경유하지 않는 대각선(간선 없음) - 2")
+            void test6() {
+                assertThat(jang.isValidPoint(Point.of(4, 0), Point.of(5, 1))).isFalse();
+            }
+
+        }
+
     }
 
     @Nested
