@@ -1,3 +1,5 @@
+package janggi;
+
 import janggi.controller.JanggiController;
 import janggi.view.InputView;
 import janggi.view.OutputView;
