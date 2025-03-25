@@ -37,19 +37,9 @@ public class SoldierRouteSelector implements JanggiPieceRouteSelector {
                 .orElseThrow(InvalidPathException::new);
 
         checkValidRouteOfSide(side, patterns);
-
-        if (patterns.getFirst().isDiagonalPattern()) {
-            checkDiagonalMovable(beforePosition, afterPosition);
-        }
-
         return patterns;
     }
 
-    private void checkDiagonalMovable(JanggiPosition beforePosition, JanggiPosition afterPosition) {
-        if (!(beforePosition.isDiagonalMovablePalace() && afterPosition.isDiagonalMovablePalace())) {
-            throw new IllegalStateException("해당 위치에서는 대각선으로 이동할 수 없습니다.");
-        }
-    }
 
     private void checkValidRouteOfSide(final JanggiSide side, final List<MovingPattern> patterns) {
         if (side == JanggiSide.CHO && !SOLDIER_OF_CHO_DIRECTIONS.contains(patterns.getFirst())) {

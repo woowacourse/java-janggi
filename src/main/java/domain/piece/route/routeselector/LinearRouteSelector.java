@@ -29,9 +29,6 @@ public class LinearRouteSelector implements JanggiPieceRouteSelector {
         while (newPosition.canMoveOnePosition(direction)) {
             newPosition = newPosition.moveOnePosition(direction);
             if (newPosition.equals(afterPosition)) {
-                if (direction.isDiagonalPattern()) {
-                    return beforePosition.isDiagonalMovablePalace() && afterPosition.isDiagonalMovablePalace();
-                }
                 return true;
             }
         }

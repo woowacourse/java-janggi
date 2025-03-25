@@ -407,6 +407,22 @@ public class JanggiPieceTest {
             assertThatThrownBy(() -> CHO_사.getRoute(beforePosition, afterPosition))
                     .isInstanceOf(IllegalStateException.class);
         }
+
+        @Test
+        void 궁성_내부에서도_대각선_경로가_잘못된_경우_예외를_발생시킨다() {
+            // given
+            int beforeRow = 9;
+            int beforeColumn = 4;
+            JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
+
+            int afterRow = 0;
+            int afterColumn = 5;
+            JanggiPosition afterPosition = new JanggiPosition(afterRow, afterColumn);
+
+            // when & then
+            assertThatThrownBy(() -> CHO_사.getRoute(beforePosition, afterPosition))
+                    .isInstanceOf(InvalidPathException.class);
+        }
     }
 
     @Nested
