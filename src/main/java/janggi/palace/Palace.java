@@ -7,5 +7,7 @@ import java.util.List;
 public abstract class Palace {
     protected List<Position> positions = new ArrayList<>();
 
-    public abstract boolean isPieceInsidePalace(Position position);
+    public boolean isPieceInsidePalace(Position position) {
+        return positions.contains(position);
+    }
 }

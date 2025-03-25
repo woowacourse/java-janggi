@@ -18,9 +18,4 @@ public class PalaceCho extends Palace {
                 new Position(5, 2)
         );
     }
-
-    @Override
-    public boolean isPieceInsidePalace(Position position) {
-        return positions.contains(position);
-    }
 }

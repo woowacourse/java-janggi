@@ -4,7 +4,7 @@ public enum PalaceArea {
     INSIDE(true),
     OUTSIDE(false);
 
-    PalaceArea(boolean value) {
+    PalaceArea(boolean ignoredValue) {
     }
 
     public static PalaceArea from(boolean value) {
