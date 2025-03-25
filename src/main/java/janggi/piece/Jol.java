@@ -23,12 +23,8 @@ public class Jol extends Piece {
     }
 
     @Override
-    public Jol move(final Position destination, final List<Piece> enemy, final List<Piece> allies) {
-        boolean isAble = ableToMove(destination, enemy, allies);
-        if (!isAble) {
-            throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
-        }
-        return new Jol(destination, campType);
+    protected Jol makeMovedPiece(Position position) {
+        return new Jol(position, campType);
     }
 
     @Override

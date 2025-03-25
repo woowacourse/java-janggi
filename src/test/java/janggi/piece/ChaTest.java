@@ -27,7 +27,7 @@ class ChaTest {
     void canMove(Position destination) {
         Cha cha = new Cha(START_POSITION);
 
-        Cha movedCha = cha.move(destination, List.of(), List.of());
+        Piece movedCha = cha.move(destination, List.of(), List.of());
 
         assertThat(movedCha.getPosition()).isEqualTo(destination);
     }
@@ -72,7 +72,7 @@ class ChaTest {
         Cha cha = new Cha(START_POSITION);
         Cha alliesPiece = new Cha(DESTINATION_POSITION);
 
-        Cha movedCha = cha.move(MIDDLE_POSITION, List.of(), List.of(alliesPiece));
+        Piece movedCha = cha.move(MIDDLE_POSITION, List.of(), List.of(alliesPiece));
         assertThat(movedCha.getPosition()).isEqualTo(MIDDLE_POSITION);
     }
 
@@ -98,7 +98,7 @@ class ChaTest {
         Cha cha = new Cha(START_POSITION);
         Cha enemyPiece = new Cha(DESTINATION_POSITION);
 
-        Cha movedCha = cha.move(DESTINATION_POSITION, List.of(enemyPiece), List.of());
+        Piece movedCha = cha.move(DESTINATION_POSITION, List.of(enemyPiece), List.of());
         assertThat(movedCha.getPosition()).isEqualTo(DESTINATION_POSITION);
     }
 

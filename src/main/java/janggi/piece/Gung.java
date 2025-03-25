@@ -20,12 +20,8 @@ public class Gung extends Piece {
     }
 
     @Override
-    public Gung move(final Position destination, final List<Piece> enemy, final List<Piece> allies) {
-        boolean isAble = ableToMove(destination, enemy, allies);
-        if (!isAble) {
-            throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
-        }
-        return new Gung(destination);
+    protected Gung makeMovedPiece(Position position) {
+        return new Gung(position);
     }
 
     @Override

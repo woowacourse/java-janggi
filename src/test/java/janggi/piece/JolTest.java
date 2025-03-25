@@ -24,7 +24,7 @@ class JolTest {
     void canMoveWhenCho(Position destination) {
         Jol jol = new Jol(START_POSITION, CampType.CHO);
 
-        Jol movedJol = jol.move(destination, List.of(), List.of());
+        Piece movedJol = jol.move(destination, List.of(), List.of());
 
         assertThat(movedJol.getPosition()).isEqualTo(destination);
     }
@@ -43,7 +43,7 @@ class JolTest {
     void canMoveWhenHan(Position destination) {
         Jol jol = new Jol(START_POSITION, CampType.HAN);
 
-        Jol movedJol = jol.move(destination, List.of(), List.of());
+        Piece movedJol = jol.move(destination, List.of(), List.of());
 
         assertThat(movedJol.getPosition()).isEqualTo(destination);
     }
@@ -110,7 +110,7 @@ class JolTest {
         Jol jol = new Jol(START_POSITION, CampType.CHO);
         Jol enemyPiece = new Jol(DESTINATION_POSITION, CampType.CHO);
 
-        Jol movedJol = jol.move(DESTINATION_POSITION, List.of(enemyPiece), List.of());
+        Piece movedJol = jol.move(DESTINATION_POSITION, List.of(enemyPiece), List.of());
 
         assertThat(movedJol.getPosition()).isEqualTo(DESTINATION_POSITION);
     }

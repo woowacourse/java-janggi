@@ -13,19 +13,27 @@ public abstract class Piece {
         this.position = position;
     }
 
-    abstract public Piece move(final Position destination, List<Piece> enemy, List<Piece> allies);
+    public final Piece move(final Position destination, List<Piece> enemy, List<Piece> allies) {
+        boolean isAble = ableToMove(destination, enemy, allies);
+        if (!isAble) {
+            throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
+        }
+        return makeMovedPiece(destination);
+    }
 
     abstract public boolean ableToMove(final Position destination, List<Piece> enemy, List<Piece> allies);
 
-    public PieceType getPieceType() {
+    abstract protected Piece makeMovedPiece(Position position);
+
+    public final PieceType getPieceType() {
         return pieceType;
     }
 
-    public boolean checkPieceType(PieceType pieceType) {
+    public final boolean checkPieceType(PieceType pieceType) {
         return this.pieceType == pieceType;
     }
 
-    public Position getPosition() {
+    public final Position getPosition() {
         return position;
     }
 }

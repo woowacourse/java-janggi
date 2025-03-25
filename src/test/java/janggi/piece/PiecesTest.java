@@ -19,12 +19,9 @@ class PiecesTest {
     @DisplayName("장기말을 이동시킬 수 있다.")
     @Test
     void test1() {
-        //given
         Pieces pieces = new Pieces(List.of(new Gung(STANDARD)));
-
         Position destination = new Position(5, 8);
 
-        //when
         pieces.movePiece(List.of(), STANDARD, destination);
 
         Piece gung = pieces.getPieces().getFirst();
@@ -35,10 +32,8 @@ class PiecesTest {
     @ParameterizedTest
     @MethodSource()
     void test2(Position invalidPosition) {
-        //given
         Pieces pieces = new Pieces(List.of(new Gung(STANDARD)));
 
-        //when & then
         assertThatThrownBy(() -> pieces.movePiece(List.of(), invalidPosition, new Position(5, 8)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] x좌표는 0~8, y좌표는 0~9 사이로 입력해주세요.");
@@ -57,10 +52,8 @@ class PiecesTest {
     @ParameterizedTest
     @MethodSource()
     void test3(Position invalidPosition) {
-        //given
         Pieces pieces = new Pieces(List.of(new Gung(STANDARD)));
 
-        //when & then
         assertThatThrownBy(() -> pieces.movePiece(List.of(), STANDARD, invalidPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] x좌표는 0~8, y좌표는 0~9 사이로 입력해주세요.");
@@ -78,7 +71,6 @@ class PiecesTest {
     @DisplayName("이동시킬 좌표에 장기말이 존재하지 않는 경우 예외를 발생시킨다.")
     @Test
     void test4() {
-        //given
         Pieces pieces = new Pieces(List.of(new Gung(STANDARD)));
 
         Position invalidPosition = new Position(5, 8);

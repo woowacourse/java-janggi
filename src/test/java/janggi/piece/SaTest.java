@@ -24,7 +24,7 @@ class SaTest {
     void canMove(Position destination) {
         Sa sa = new Sa(START_POSITION);
 
-        Sa movedSa = sa.move(destination, List.of(), List.of());
+        Piece movedSa = sa.move(destination, List.of(), List.of());
 
         assertThat(movedSa.getPosition()).isEqualTo(destination);
     }

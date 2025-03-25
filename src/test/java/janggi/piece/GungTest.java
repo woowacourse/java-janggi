@@ -23,7 +23,7 @@ class GungTest {
     void canMove(Position destination) {
         Gung gung = new Gung(START_POSITION);
 
-        Gung movedGung = gung.move(destination, List.of(), List.of());
+        Piece movedGung = gung.move(destination, List.of(), List.of());
 
         assertThat(movedGung.getPosition()).isEqualTo(destination);
     }
@@ -75,7 +75,7 @@ class GungTest {
         Gung gung = new Gung(START_POSITION);
         Cha enemyPiece = new Cha(DESTINATION_POSITION);
 
-        Gung movedGung = gung.move(DESTINATION_POSITION, List.of(enemyPiece), List.of());
+        Piece movedGung = gung.move(DESTINATION_POSITION, List.of(enemyPiece), List.of());
         assertThat(movedGung.getPosition()).isEqualTo(DESTINATION_POSITION);
     }
 }

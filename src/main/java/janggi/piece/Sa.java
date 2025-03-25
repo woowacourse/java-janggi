@@ -20,12 +20,8 @@ public class Sa extends Piece {
     }
 
     @Override
-    public Sa move(final Position destination, final List<Piece> enemy, final List<Piece> allies) {
-        boolean isAble = ableToMove(destination, enemy, allies);
-        if (!isAble) {
-            throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
-        }
-        return new Sa(destination);
+    protected Sa makeMovedPiece(Position position) {
+        return new Sa(position);
     }
 
     @Override

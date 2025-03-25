@@ -27,7 +27,7 @@ public class MaTest {
     void canMove(Position destination) {
         Ma ma = new Ma(START_POSITION);
 
-        Ma movedMa = ma.move(destination, List.of(), List.of());
+        Piece movedMa = ma.move(destination, List.of(), List.of());
 
         assertThat(movedMa.getPosition()).isEqualTo(destination);
     }
@@ -114,7 +114,7 @@ public class MaTest {
         Ma ma = new Ma(START_POSITION);
         Ma enemyPiece = new Ma(FIRST_DESTINATION);
 
-        Ma movedMa = ma.move(FIRST_DESTINATION, List.of(enemyPiece), List.of());
+        Piece movedMa = ma.move(FIRST_DESTINATION, List.of(enemyPiece), List.of());
 
         assertThat(movedMa.getPosition()).isEqualTo(FIRST_DESTINATION);
     }

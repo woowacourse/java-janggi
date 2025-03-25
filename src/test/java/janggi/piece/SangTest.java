@@ -29,7 +29,7 @@ class SangTest {
     void canMove(Position destination) {
         Sang sang = new Sang(START_POSITION);
 
-        Sang movedSang = sang.move(destination, List.of(), List.of());
+        Piece movedSang = sang.move(destination, List.of(), List.of());
 
         assertThat(movedSang.getPosition()).isEqualTo(destination);
     }
@@ -141,7 +141,7 @@ class SangTest {
         Sang sang = new Sang(START_POSITION);
         Sang enemyPiece = new Sang(FIRST_DESTINATION);
 
-        Sang movedSang = sang.move(FIRST_DESTINATION, List.of(enemyPiece), List.of());
+        Piece movedSang = sang.move(FIRST_DESTINATION, List.of(enemyPiece), List.of());
 
         Assertions.assertThat(movedSang.getPosition()).isEqualTo(FIRST_DESTINATION);
     }

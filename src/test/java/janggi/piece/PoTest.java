@@ -24,7 +24,7 @@ class PoTest {
         Po po = new Po(START_POSITION);
         Jol jumpPad = new Jol(jumpPadPosition, CampType.CHO);
 
-        Po movedPo = po.move(destination, List.of(), List.of(jumpPad));
+        Piece movedPo = po.move(destination, List.of(), List.of(jumpPad));
 
         assertThat(movedPo.getPosition()).isEqualTo(destination);
     }
@@ -193,7 +193,7 @@ class PoTest {
         Jol jumpPad = new Jol(jumpPadPosition, CampType.CHO);
         Jol enemyInDestination = new Jol(destination, CampType.CHO);
 
-        Po movedPo = po.move(destination, List.of(enemyInDestination), List.of(jumpPad));
+        Piece movedPo = po.move(destination, List.of(enemyInDestination), List.of(jumpPad));
 
         assertThat(movedPo.getPosition()).isEqualTo(destination);
     }

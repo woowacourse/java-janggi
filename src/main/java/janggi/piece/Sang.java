@@ -19,12 +19,8 @@ public class Sang extends Piece {
     }
 
     @Override
-    public Sang move(Position destination, List<Piece> enemy, List<Piece> allies) {
-        boolean isAble = ableToMove(destination, enemy, allies);
-        if (!isAble) {
-            throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
-        }
-        return new Sang(destination);
+    protected Sang makeMovedPiece(Position position) {
+        return new Sang(position);
     }
 
     @Override
