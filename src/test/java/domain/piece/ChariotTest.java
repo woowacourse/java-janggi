@@ -21,9 +21,9 @@ public class ChariotTest {
     @Nested
     class ValidCases {
 
-        @DisplayName("차의 이동 위치를 통해 이동 경로를 찾는다.")
+        @DisplayName("차가 일반 영역에서 이동할 때 이동 경로를 찾는다.")
         @Test
-        void findMovementRule() {
+        void findMovementRuleInNormalMovement() {
             // given
             Chariot chariot = new Chariot(Team.RED);
             BoardPosition before = new BoardPosition(0, 0);
@@ -39,6 +39,24 @@ public class ChariotTest {
                     new Offset(0, 1),
                     new Offset(0, 1),
                     new Offset(0, 1)
+            );
+        }
+
+        @DisplayName("차가 궁성 영역에서 이동할 때 이동 경로를 찾는다.")
+        @Test
+        void findMovementRuleInPalaceMovement() {
+            // given
+            Chariot chariot = new Chariot(Team.RED);
+            BoardPosition before = new BoardPosition(5, 0);
+            BoardPosition after = new BoardPosition(3, 2);
+
+            // when
+            List<Offset> route = chariot.findMovementRule(before, after);
+
+            // then
+            assertThat(route).containsExactlyInAnyOrder(
+                    new Offset(-1, 1),
+                    new Offset(-1, 1)
             );
         }
 
