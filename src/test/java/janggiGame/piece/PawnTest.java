@@ -22,7 +22,17 @@ class PawnTest {
         );
     }
 
-    @DisplayName("병의 목적지로 가는 경로는 항상 비어있다.")
+    @DisplayName("병은 뒤로 이동할 수 없다.")
+    @ParameterizedTest
+    @MethodSource("providePawnAndOriginAndDestination")
+    void pawnCannotMoveBack(Pawn pawn, Position origin, Position destination) {
+        // when // then
+        assertThatCode(() -> pawn.getIntermediatePoints(origin, destination))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageStartingWith("[ERROR] ");
+    }
+
+    @DisplayName("병의 목적지로 가는 경로는 항상 비어 있다.")
     @Test
     void pawnCanGetIntermediatePoints() {
         // given
@@ -37,28 +47,28 @@ class PawnTest {
         assertThat(actual).isEmpty();
     }
 
-    @DisplayName("병은 뒤로 이동할 수 없다.")
-    @ParameterizedTest
-    @MethodSource("providePawnAndOriginAndDestination")
-    void pawnCannotMoveBack(Pawn pawn, Position origin, Position destination) {
-        // when // then
-        assertThatCode(() -> pawn.getIntermediatePoints(origin, destination))
-                .isInstanceOf(UnsupportedOperationException.class)
-                .hasMessageStartingWith("[ERROR]");
-    }
-
-    @DisplayName("병은 목적지에 같은 나라의 기물이 존재한다면 이동할 수 없다")
+    @DisplayName("병은 목적지에 같은 나라의 기물이 존재 한다면 이동할 수 없다.")
     @Test
-    void pawnJudgeMovable3() {
+    void pawnCanNotMoveToSameDynastyPiece() {
         // given
-        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> intermediatePointsWithPiece = new LinkedHashMap<>();
         Pawn pawn = new Pawn(Dynasty.HAN);
 
         // when // then
-        assertThatCode(() -> pawn.validateMove(routesWithPiece, new Chariot(Dynasty.HAN)))
+        assertThatCode(() -> pawn.validateMove(intermediatePointsWithPiece, new Chariot(Dynasty.HAN)))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR] ");
     }
 
+    @DisplayName("병은 목적지에 같은 나라의 기물이 존재하지 않는다면 이동할 수 있다.")
+    @Test
+    void pawnCanMove() {
+        // given
+        Map<Position, Piece> intermediatePointsWithPiece = new LinkedHashMap<>();
+        Pawn pawn = new Pawn(Dynasty.HAN);
 
+        // when // then
+        assertThatCode(() -> pawn.validateMove(intermediatePointsWithPiece, new Advisor(Dynasty.CHO)))
+                .doesNotThrowAnyException();
+    }
 }
