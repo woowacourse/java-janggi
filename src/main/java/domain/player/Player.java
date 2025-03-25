@@ -1,5 +1,6 @@
-package domain;
+package domain.player;
 
+import domain.Team;
 import domain.piece.Piece;
 import java.util.Objects;
 

@@ -2,6 +2,7 @@ package domain;
 
 import domain.boardgenerator.BoardGenerator;
 import domain.piece.Piece;
+import domain.player.Player;
 import domain.player.Players;
 import java.util.List;
 import java.util.Map;

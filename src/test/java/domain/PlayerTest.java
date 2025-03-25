@@ -2,6 +2,7 @@ package domain;
 
 import domain.piece.Ma;
 import domain.piece.Piece;
+import domain.player.Player;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
