@@ -22,11 +22,18 @@ public class JanggiBoard {
         Piece piece = getPieceFrom(beforePosition);
         Piece targetPiece = getPieceFrom(afterPosition);
 
+        validateEmptyPiece(piece);
         validateDestinationPiece(piece, targetPiece);
         validateMovePattern(piece, beforePosition, afterPosition);
 
         changeState(piece, targetPiece);
         changePosition(beforePosition, afterPosition);
+    }
+
+    private void validateEmptyPiece(Piece piece) {
+        if (piece.isEmpty()) {
+            throw new IllegalArgumentException("기물이 없어서 이동할 수 없습니다.");
+        }
     }
 
     private void validateDestinationPiece(Piece piece, Piece targetPiece) {
@@ -52,8 +59,12 @@ public class JanggiBoard {
         return pieces;
     }
 
-    public Piece getPieceFrom(JanggiPosition beforePosition) {
-        return janggiBoard.get(beforePosition);
+    public Piece getPieceFrom(JanggiPosition position) {
+        Piece piece = janggiBoard.get(position);
+        if (piece == null) {
+            return new Empty();
+        }
+        return piece;
     }
 
     private void changeState(Piece piece, Piece targetPiece) {

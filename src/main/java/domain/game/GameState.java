@@ -1,6 +1,8 @@
 package domain.game;
 
 import domain.JanggiPosition;
+import domain.piece.Piece;
+import java.util.Map;
 
 public interface GameState {
     GameState start();
@@ -10,4 +12,6 @@ public interface GameState {
     GameState end();
 
     Boolean isEnd();
+
+    Map<JanggiPosition, Piece> getBoard();
 }

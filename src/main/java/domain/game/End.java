@@ -1,6 +1,8 @@
 package domain.game;
 
 import domain.JanggiPosition;
+import domain.piece.Piece;
+import java.util.Map;
 
 public class End implements GameState {
     @Override
@@ -21,5 +23,10 @@ public class End implements GameState {
     @Override
     public Boolean isEnd() {
         return true;
+    }
+
+    @Override
+    public Map<JanggiPosition, Piece> getBoard() {
+        throw new UnsupportedOperationException("게임이 종료되었습니다.");
     }
 }

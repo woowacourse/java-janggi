@@ -2,6 +2,8 @@ package domain.game;
 
 import domain.JanggiBoard;
 import domain.JanggiPosition;
+import domain.piece.Piece;
+import java.util.Map;
 
 public class Run extends Start {
     private final JanggiBoard janggiBoard;
@@ -17,5 +19,10 @@ public class Run extends Start {
         janggiBoard.move(beforePosition, afterPosition);
         player.change();
         return new Run(janggiBoard, player);
+    }
+
+    @Override
+    public Map<JanggiPosition, Piece> getBoard() {
+        return janggiBoard.getJanggiBoard();
     }
 }
