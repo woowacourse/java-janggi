@@ -16,28 +16,26 @@ class SoldierTest {
     @Test
     @DisplayName("현재 위치를 받아와 움직일 수 있는 위치 후보군을 반환한다 - 초나라")
     void computeCandidatePositions() {
-
         Soldier soldier = new Soldier(Side.CHO);
         Position currentPosition = new Position(0, 6);
         List<Route> candidatePositions = soldier.computeCandidatePositions(currentPosition);
 
-        assertAll(
-                () -> assertThat(candidatePositions).hasSize(3),
-                () -> assertThat(candidatePositions.getLast().getLastPosition()).isEqualTo(new Position(1, 6))
-        );
+        assertThat(candidatePositions).extracting(Route::getLastPosition)
+                .contains(new Position(1, 6),
+                        new Position(-1, 6),
+                        new Position(0, 5));
     }
 
     @Test
     @DisplayName("현재 위치를 받아와 움직일 수 있는 위치 후보군을 반환한다 - 한나라")
     void computeCandidatePositions2() {
-
         Soldier soldier = new Soldier(Side.HAN);
         Position currentPosition = new Position(0, 3);
         List<Route> candidatePositions = soldier.computeCandidatePositions(currentPosition);
 
-        assertAll(
-                () -> assertThat(candidatePositions).hasSize(3),
-                () -> assertThat(candidatePositions.getLast().getLastPosition()).isEqualTo(new Position(1, 3))
-        );
+        assertThat(candidatePositions).extracting(Route::getLastPosition)
+                .contains(new Position(1, 3),
+                        new Position(-1, 3),
+                        new Position(0, 4));
     }
 }

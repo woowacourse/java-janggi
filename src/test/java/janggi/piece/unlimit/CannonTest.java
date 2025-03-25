@@ -22,7 +22,12 @@ class CannonTest {
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(4),
-                () -> assertThat(candidatePositions.getFirst().getLastPosition()).isEqualTo(new Position(11, 7))
+                () -> assertThat(candidatePositions).anySatisfy(route -> {
+                    assertThat(route.getLastPosition().getY()).isEqualTo(7);
+                }),
+                () -> assertThat(candidatePositions).anySatisfy(route -> {
+                    assertThat(route.getLastPosition().getX()).isEqualTo(1);
+                })
         );
     }
 

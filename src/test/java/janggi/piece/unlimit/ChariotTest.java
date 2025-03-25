@@ -28,7 +28,6 @@ class ChariotTest {
                 () -> assertThat(candidatePositions).anySatisfy(route -> {
                     assertThat(route.getLastPosition().getX()).isEqualTo(2);
                 })
-
         );
     }
 

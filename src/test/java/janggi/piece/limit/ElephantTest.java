@@ -20,10 +20,15 @@ class ElephantTest {
 
         List<Route> candidatePositions = elephant.computeCandidatePositions(new Position(2, 9));
 
-        assertAll(
-                () -> assertThat(candidatePositions).hasSize(8),
-                () -> assertThat(candidatePositions.getFirst().getLastPosition()).isEqualTo(new Position(0, 6))
-        );
+        assertThat(candidatePositions).extracting(Route::getLastPosition)
+                .contains(
+                        new Position(0, 6),
+                        new Position(4, 6),
+                        new Position(-1, 7),
+                        new Position(-1, 11),
+                        new Position(0, 12),
+                        new Position(4, 12),
+                        new Position(5, 7),
+                        new Position(5, 11));
     }
-
 }

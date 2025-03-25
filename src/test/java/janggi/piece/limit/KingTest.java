@@ -21,10 +21,11 @@ class KingTest {
         Position currentPosition = new Position(4, 8);
         List<Route> candidatePositions = king.computeCandidatePositions(currentPosition);
 
-        assertAll(
-                () -> assertThat(candidatePositions).hasSize(4),
-                () -> assertThat(candidatePositions.getLast().getLastPosition()).isEqualTo(new Position(5, 8))
-        );
+        assertThat(candidatePositions).extracting(Route::getLastPosition)
+                .contains(new Position(5, 8),
+                        new Position(3, 8),
+                        new Position(4, 9),
+                        new Position(4, 7));
     }
 
 }

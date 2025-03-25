@@ -21,10 +21,13 @@ class GuardTest {
         Position currentPosition = new Position(3, 9);
         List<Route> candidatePositions = guard.computeCandidatePositions(currentPosition);
 
-        assertAll(
-                () -> assertThat(candidatePositions).hasSize(4),
-                () -> assertThat(candidatePositions.getLast().getLastPosition()).isEqualTo(new Position(4, 9))
-        );
+        assertThat(candidatePositions).extracting(Route::getLastPosition)
+                        .contains(
+                                new Position(4, 9),
+                                new Position(3, 8),
+                                new Position(3, 10),
+                                new Position(2, 9)
+                        );
     }
 
 }
