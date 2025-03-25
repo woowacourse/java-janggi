@@ -16,6 +16,7 @@ public final class InputView {
         final String input = scanner.nextLine();
         final String[] splitInput = input.split(" ");
         validateInput(splitInput);
+
         final List<Integer> rawStartPoint = formatToIntegerList(splitInput, START_POINT_INDEX);
         final Point startPoint = new Point(rawStartPoint.getFirst(), rawStartPoint.getLast());
 
@@ -26,12 +27,19 @@ public final class InputView {
     }
 
     private void validateInput(final String[] input) {
-        if (input.length != 2) {
-            throw new JanggiArgumentException("2,1 3,1 와 같이 출발점과 도착점을 모두 명시해야 합니다.");
-        }
+        validateSize(input);
+        validateFormat(input);
+    }
 
+    private static void validateFormat(String[] input) {
         if (!input[0].contains(",") || !input[1].contains(",")) {
             throw new JanggiArgumentException("2,1 3,1 와 같이 쉼표(,) 를 통해 구분되어야 합니다.");
+        }
+    }
+
+    private static void validateSize(String[] input) {
+        if (input.length != 2) {
+            throw new JanggiArgumentException("2,1 3,1 와 같이 출발점과 도착점을 모두 명시해야 합니다.");
         }
     }
 
