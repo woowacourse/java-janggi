@@ -22,7 +22,7 @@ class PositionTest {
             Position moved = position.move(Direction.UP);
 
             // then
-            assertThat(moved).isEqualTo(new Position(Row.THREE, Column.TWO));
+            assertThat(moved).isEqualTo(new Position(Row.ONE, Column.TWO));
         }
 
         @DisplayName("아래로 움직일 수 있다.")
@@ -35,7 +35,7 @@ class PositionTest {
             Position moved = position.move(Direction.DOWN);
 
             // then
-            assertThat(moved).isEqualTo(new Position(Row.ONE, Column.TWO));
+            assertThat(moved).isEqualTo(new Position(Row.THREE, Column.TWO));
         }
 
         @DisplayName("왼쪽으로 움직일 수 있다.")
