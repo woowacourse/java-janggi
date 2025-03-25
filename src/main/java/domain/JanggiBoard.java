@@ -4,6 +4,7 @@ import domain.boardgenerator.BoardGenerator;
 import domain.piece.Gung;
 import domain.piece.Piece;
 import domain.piece.Po;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -95,6 +96,6 @@ public class JanggiBoard {
     }
 
     public Map<Position, Piece> getBoard() {
-        return board;
+        return Collections.unmodifiableMap(board);
     }
 }
