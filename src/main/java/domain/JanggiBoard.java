@@ -44,7 +44,7 @@ public class JanggiBoard {
     }
 
     private void validateSameTeamAttack(Piece selectedPiece, Piece targetPiece) {
-        if (targetPiece != null && selectedPiece.compareTeam(targetPiece)) {
+        if (targetPiece != null && selectedPiece.isTeam(targetPiece)) {
             throw new IllegalArgumentException("해당 위치는 아군의 말이 있으므로 이동 불가능 합니다.");
         }
     }
@@ -83,7 +83,7 @@ public class JanggiBoard {
     }
 
     public boolean existGung(Team team) {
-        return board.values().stream().anyMatch(piece -> piece instanceof Gung && piece.compareTeam(team));
+        return board.values().stream().anyMatch(piece -> piece instanceof Gung && piece.isTeam(team));
     }
 
     public boolean isPositionEmpty(Position position) {

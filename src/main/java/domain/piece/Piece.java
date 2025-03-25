@@ -18,11 +18,11 @@ public abstract class Piece {
         return team;
     }
 
-    public boolean compareTeam(Piece otherPiece) {
-        return compareTeam(otherPiece.team);
+    public boolean isTeam(Piece otherPiece) {
+        return isTeam(otherPiece.team);
     }
 
-    public boolean compareTeam(Team team) {
+    public boolean isTeam(Team team) {
         return this.team == team;
     }
 }

@@ -19,7 +19,7 @@ public class PieceTest {
         Piece piece2 = new Ma(team2);
 
         // when
-        boolean actual = piece1.compareTeam(piece2);
+        boolean actual = piece1.isTeam(piece2);
 
         // then
         Assertions.assertThat(actual).isEqualTo(expected);
