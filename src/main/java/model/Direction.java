@@ -5,13 +5,13 @@ import java.util.List;
 
 public enum Direction {
     LEFT(0, -1),
-    LEFT_TOP(1, -1),
-    LEFT_BOTTOM(-1, -1),
+    LEFT_TOP(-1, -1),
+    LEFT_BOTTOM(1, -1),
     RIGHT(0, 1),
-    RIGHT_TOP(1, 1),
-    RIGHT_BOTTOM(-1, 1),
-    TOP(1, 0),
-    BOTTOM(-1, 0),
+    RIGHT_TOP(-1, 1),
+    RIGHT_BOTTOM(1, 1),
+    TOP(-1, 0),
+    BOTTOM(1, 0),
     ;
 
     private final int deltaRow;
@@ -47,6 +47,13 @@ public enum Direction {
                 .stream()
                 .filter(this::isSameStraightDirection)
                 .toList();
+    }
+
+    public static Direction calculateBackDirection(Color color) {
+        if (color == Color.BLUE) {
+            return BOTTOM;
+        }
+        return TOP;
     }
 
     private boolean isSameStraightDirection(Direction direction) {

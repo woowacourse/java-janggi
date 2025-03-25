@@ -1,5 +1,6 @@
 package model;
 
+import java.util.List;
 import java.util.Map;
 
 public class OccupiedPositions {
@@ -11,6 +12,22 @@ public class OccupiedPositions {
 
     public boolean existPosition(Position position) {
         return positions.containsKey(position);
+    }
+
+    public PieceIdentity getPieceIdentity(Position position) {
+        if (!existPosition(position)) {
+            throw new IllegalArgumentException("기물이 존재하지 않는 위치입니다.");
+        }
+        return positions.get(position);
+    }
+
+    public boolean arePositionsEmpty (List<Position> positions) {
+        for (Position position : positions) {
+            if (this.positions.containsKey(position)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean existSameColor(Position position, Color color) {
