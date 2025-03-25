@@ -7,7 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class PositionTest {
-
     @ValueSource(strings = {"0,-1,row가 장기판 범위를 벗어났습니다: -1", "-1,0,column이 장기판 범위를 벗어났습니다: -1", "9,0,column이 장기판 범위를 벗어났습니다: 9", "0,10,row가 장기판 범위를 벗어났습니다: 10"})
     @ParameterizedTest
     @DisplayName("좌표 범위를 넘으면 예외를 발생시킨다")

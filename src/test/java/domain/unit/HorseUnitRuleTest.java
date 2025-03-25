@@ -1,46 +1,27 @@
 package domain.unit;
 
-
-import domain.position.Point;
+import domain.position.Position;
 import domain.position.Route;
-import java.util.ArrayList;
 import java.util.List;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class HorseUnitRuleTest {
     @Test
-    @DisplayName("말")
+    @DisplayName("말은 직선-대각선으로만 움직일 수 있다")
     void test1() {
         // given
         HorseUnitRule horseUnitRule = new HorseUnitRule();
 
         // when
-        List<Route> routes = new ArrayList<>();
-        horseUnitRule.dfs(0, Direction.NONE, new ArrayList<>(), Point.of(2, 9), routes);
-        for (Route route : routes) {
-            System.out.println(route);
-        }
+        List<Route> routes = horseUnitRule.calculateAllRoute(new Position(0, 0));
 
         // then
-
+        Assertions.assertThat(routes).isNotEmpty();
+        Assertions.assertThat(routes).contains(
+                Route.of(List.of(new Position(1, 0), new Position(2, 1))),
+                Route.of(List.of(new Position(0, 1), new Position(1, 2)))
+        );
     }
-
-    @Test
-    @DisplayName("코끼리")
-    void test2() {
-        // given
-        ElephantUnitRule elephantUnitRule = new ElephantUnitRule();
-
-        // when
-        List<Route> routes = new ArrayList<>();
-        elephantUnitRule.dfs(0, Direction.NONE, new ArrayList<>(), Point.of(1, 9), routes);
-        for (Route route : routes) {
-            System.out.println(route);
-        }
-
-        // then
-
-    }
-
 }

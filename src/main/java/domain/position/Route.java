@@ -3,6 +3,7 @@ package domain.position;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 public class Route {
     private final List<Position> positions;
@@ -36,5 +37,19 @@ public class Route {
 
     public List<Position> getPointsExceptEndPoint() {
         return positions.subList(0, positions.size() - 1);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        Route route = (Route) object;
+        return Objects.equals(positions, route.positions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(positions);
     }
 }
