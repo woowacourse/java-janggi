@@ -46,5 +46,4 @@ public class Jol extends Piece {
         return (destX == currentX && destY == currentY - 1) ||
                 (destY == currentY && Math.abs(destX - currentX) == 1);
     }
-
 }

@@ -23,5 +23,4 @@ public record JanggiPosition(int x, int y) {
                 ", y=" + y +
                 '}';
     }
-
 }

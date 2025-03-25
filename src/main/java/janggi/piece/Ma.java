@@ -41,5 +41,4 @@ public class Ma extends Piece {
         }
         return allies.isNotBlockedBy(destination);
     }
-
 }

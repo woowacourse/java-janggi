@@ -40,5 +40,4 @@ public class Sa extends Piece {
     private boolean isValidMove(List<JanggiPosition> pathPositions) {
         return pathPositions.size() == 1;
     }
-
 }

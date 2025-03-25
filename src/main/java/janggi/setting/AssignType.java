@@ -42,5 +42,4 @@ public enum AssignType {
         allPieces.addAll(Byeong.generateInitialByeongs(campType));
         return allPieces;
     }
-
 }

@@ -60,5 +60,4 @@ public class Po extends Piece {
     private boolean isPoInPath(List<Piece> pieces) {
         return pieces.stream().anyMatch(piece -> piece.getPieceType() == getPieceType());
     }
-
 }

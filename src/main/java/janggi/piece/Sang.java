@@ -41,5 +41,4 @@ public class Sang extends Piece {
         }
         return allies.isNotBlockedBy(destination);
     }
-
 }
