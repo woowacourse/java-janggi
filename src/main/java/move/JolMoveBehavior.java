@@ -35,6 +35,9 @@ public class JolMoveBehavior extends JanggiMoveBehavior {
     @Override
     public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition,
                                                     Team team) {
+        if (isDiagonalGungsungCase(startPosition, endPosition)) {
+            calculateLegalRoute(startPosition, endPosition, teamCanMoveDirection.get(team));
+        }
         return calculateLegalRoute(startPosition, endPosition, teamCanMoveDirection.get(team));
     }
 }
