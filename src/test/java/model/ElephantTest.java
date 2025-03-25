@@ -8,7 +8,6 @@ import model.piece.Elephant;
 import model.position.Column;
 import model.position.Position;
 import model.position.Row;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

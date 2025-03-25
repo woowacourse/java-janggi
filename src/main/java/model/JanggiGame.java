@@ -29,7 +29,9 @@ public class JanggiGame {
 
     public Position createPositionFrom(String choiceDeparture) {
         List<Integer> columnAndRowOfDeparture = InputParser.splitAndConvert(choiceDeparture);
-        return new Position(columnAndRowOfDeparture);
+        int column = columnAndRowOfDeparture.get(0);
+        int row = columnAndRowOfDeparture.get(1);
+        return new Position(column, row);
     }
 
     public Piece findPieceBy(Position departure) {

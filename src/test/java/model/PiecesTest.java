@@ -34,8 +34,8 @@ class PiecesTest {
             @DisplayName("기본 위치 1,1 에서 3,1로 이동할 수 있어야 한다.")
             void move_1_1_to_3_1() {
                 //given
-                Position departure = new Position(List.of(1, 1));
-                Position arrival = new Position(List.of(3, 1));
+                Position departure = new Position(1, 1);
+                Position arrival = new Position(3,1 );
 
                 //when
                 pieces.move(departure, arrival);
@@ -48,11 +48,11 @@ class PiecesTest {
             @Test
             @DisplayName("장애물을 치우고, 기본 위치 1,1 에서 7,1로 이동할 경우, 상대방 기물을 제거하고 움직일 수 있어야 한다.")
             void move_1_1_to_then_throw_exception() {
-                pieces.move(new Position(List.of(4, 1)), new Position(List.of(4, 2))); // 기존 말 이동
+                pieces.move(new Position(4, 1), new Position(4, 2)); // 기존 말 이동
 
                 //given
-                Position departure = new Position(List.of(1, 1));
-                Position arrival = new Position(List.of(7, 1));
+                Position departure = new Position(1, 1);
+                Position arrival = new Position(7, 1);
 
                 //when
                 pieces.move(departure, arrival);
@@ -65,8 +65,8 @@ class PiecesTest {
             @DisplayName("기본 위치 1,1 에서 4,1로 이동할 경우, 이미 다른 팀 피스가 있어 예외가 발생해야 한다.")
             void move_1_1_to_4_1_then_throw_exception() {
                 //given
-                Position departure = new Position(List.of(1, 1));
-                Position arrival = new Position(List.of(4, 1));
+                Position departure = new Position(1, 1);
+                Position arrival = new Position(4,1);
 
                 //when, then
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
@@ -77,12 +77,13 @@ class PiecesTest {
         @Nested
         @DisplayName("Cannon의 움직임을 테스트 한다.")
         class CannonMove {
+
             @Test
             @DisplayName("뛰어넘는 기물이 같은 Cannon 이라면, 예외를 발생시켜야 한다.")
             void move_3_2_to_9_2_then_throw_exception() {
                 //given
-                Position departure = new Position(List.of(3, 2));
-                Position arrival = new Position(List.of(3,9));
+                Position departure = new Position(3, 2);
+                Position arrival = new Position(3,9);
 
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
                     .isInstanceOf(IllegalArgumentException.class)
@@ -94,9 +95,9 @@ class PiecesTest {
             void jump_and_move_3_2_to_9_2_but_exist_cannon_then_throw_exception() {
                 //given
                 // 넘을 수 있는 장애물 생성하기
-                pieces.move(new Position(List.of(4,1)), new Position(List.of(4, 2)));
-                Position departure = new Position(List.of(3, 2));
-                Position arrival = new Position(List.of(8,2));
+                pieces.move(new Position(4, 1), new Position(4, 2));
+                Position departure = new Position(3, 2);
+                Position arrival = new Position(8, 2);
 
                 //when, then
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
@@ -109,11 +110,11 @@ class PiecesTest {
             void jump_and_move_3_2_to_7_2() {
                 //given
                 // 넘을 수 있는 장애물 생성하기
-                pieces.move(new Position(List.of(4,1)), new Position(List.of(4, 2)));
+                pieces.move(new Position(4, 1), new Position(4, 2));
                 // 잡을 수 있는 기물 옮기기
-                pieces.move(new Position(List.of(7,1)), new Position(List.of(7,2)));
-                Position departure = new Position(List.of(3, 2));
-                Position arrival = new Position(List.of(7,2));
+                pieces.move(new Position(7, 1), new Position(7, 2));
+                Position departure = new Position(3, 2);
+                Position arrival = new Position(7, 2);
 
                 //when, then
                 pieces.move(departure, arrival);
@@ -125,11 +126,11 @@ class PiecesTest {
             void jump_over_one_piece_then_throw_exception() {
                 //given
                 // 넘을 수 있는 장애물 생성하기
-                pieces.move(new Position(List.of(1,2)), new Position(List.of(3,3)));
-                pieces.move(new Position(List.of(2,5)), new Position(List.of(3,5)));
+                pieces.move(new Position(1, 2), new Position(3, 3));
+                pieces.move(new Position(2, 5), new Position(3, 5));
 
-                Position departure = new Position(List.of(3, 2));
-                Position arrival = new Position(List.of(3,6));
+                Position departure = new Position(3, 2);
+                Position arrival = new Position(3, 6);
 
                 //when, then
                 assertThatThrownBy(() -> pieces.move(departure, arrival));
@@ -139,10 +140,35 @@ class PiecesTest {
             @DisplayName("포가 뛰어넘을 기물이 없는데 움직이려고 할 경우, 예외가 발생해야 한다.")
             void when_cannon_move_but_not_other_piece_then_throw_exception() {
                 //given
-                Position departure = new Position(List.of(3, 2));
-                Position arrival = new Position(List.of(3,4));
+                Position departure = new Position(3, 2);
+                Position arrival = new Position(3, 4);
                 //when, then
                 assertThatThrownBy(() -> pieces.move(departure, arrival));
+            }
+        }
+
+        @Nested
+        @DisplayName("Horse의 움직임을 테스트 한다.")
+        class HorseMove {
+
+            /***
+             * 이 부분 부터 시작하기
+             */
+            @Test
+            @DisplayName("Horse가 가고자 하는 경로 중간 및 도착 경로에 아무것도 없다면, 이동해야 한다.")
+            void horse_move_and_not_other_piece_then_move() {
+                //given
+                Position departure = new Position(1, 2);
+                Position arrival = new Position(3, 3);
+                pieces.move(departure, arrival);
+
+                pieces.findPieceBy(arrival);
+            }
+
+            @Test
+            @DisplayName("Horse가 가고자 하는 경로 중간에 장애물이 있다면, 예외가 발생해야 한다.")
+            void horse_direction_already_exist_other_piece_then_throw_exception() {
+
             }
         }
     }

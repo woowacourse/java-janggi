@@ -84,6 +84,7 @@ public class ChariotTest {
     void cannot_go_position_then_throw_exception() {
         Position departure = new Position(Column.FIVE, Row.FIVE);
         Position arrival = new Position(Column.SIX, Row.SIX);
-        assertThatThrownBy(() -> chariot.calculateAllDirection(departure, arrival));
+        assertThatThrownBy(() -> chariot.calculateAllDirection(departure, arrival))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 }

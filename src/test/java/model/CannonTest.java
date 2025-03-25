@@ -84,7 +84,7 @@ public class CannonTest {
     void cannot_go_position_then_throw_exception() {
         Position departure = new Position(Column.FIVE, Row.FIVE);
         Position arrival = new Position(Column.SIX, Row.SIX);
-        assertThatThrownBy(() -> cannon.calculateAllDirection(departure, arrival));
+        assertThatThrownBy(() -> cannon.calculateAllDirection(departure, arrival))
+            .isInstanceOf(IllegalArgumentException.class);
     }
-
 }

@@ -1,6 +1,5 @@
 package model.position;
 
-import java.util.List;
 import java.util.Objects;
 import model.Movement;
 
@@ -14,9 +13,9 @@ public class Position {
         this.row = row;
     }
 
-    public Position(List<Integer> columnAndRow) {
-        this.column = Column.getColumnBy(columnAndRow.getFirst());
-        this.row = Row.getRowBy(columnAndRow.getLast());
+    public Position(int column, int row) {
+        this.column = Column.getColumnBy(column);
+        this.row = Row.getRowBy(row);
     }
 
     public boolean canMove(final Movement movement) {
