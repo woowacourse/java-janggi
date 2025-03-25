@@ -23,7 +23,9 @@ public final class Cannon extends StraightMoveBehavior {
 
     @Override
     protected List<Vector> getVectors() {
-        return Stream.of(Movement.DOWN, Movement.LEFT, Movement.RIGHT, Movement.UP).map(Movement::getVector).toList();
+        return Stream.of(Movement.DOWN, Movement.LEFT, Movement.RIGHT, Movement.UP)
+                .map(Movement::getVector)
+                .toList();
     }
 
     @Override
