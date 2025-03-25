@@ -25,18 +25,23 @@ public class Canon extends Piece {
 
     @Override
     protected void validatePath(Board board, Path path) {
-        int pieceCount = 0;
-        for (Position position : path.getIntermediatePath()) {
-            boolean isPieceNotExists = board.isPieceNotExists(position);
-            if (isPieceNotExists) {
-                continue;
-            }
-            boolean isCanon = board.isCanonExists(position);
-            if (isCanon) {
-                throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
-            }
-            pieceCount++;
+        List<Position> intermediatePath = path.getIntermediatePath();
+        validateCanonExists(board, intermediatePath);
+        validateIntermediatePieceCount(board, intermediatePath);
+    }
+
+    private void validateCanonExists(Board board, List<Position> intermediatePath) {
+        boolean isCanonExists = intermediatePath.stream()
+                .anyMatch(board::isCanonExists);
+        if (isCanonExists) {
+            throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
         }
+    }
+
+    private void validateIntermediatePieceCount(Board board, List<Position> intermediatePath) {
+        int pieceCount = (int) intermediatePath.stream()
+                .filter(board::isPieceExists)
+                .count();
         if (pieceCount != 1) {
             throw new IllegalArgumentException("[ERROR] 포는 다른 기물 1개를 넘어가야 합니다.");
         }
