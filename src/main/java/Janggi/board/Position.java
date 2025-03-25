@@ -48,7 +48,6 @@ public record Position(int x, int y) {
         return new Position(this.x + x, this.y + y);
     }
 
-
     public List<Position> calculateBetweenPositions(final Position destPosition) {
         if (!isSameLine(destPosition)) {
             return Collections.emptyList();

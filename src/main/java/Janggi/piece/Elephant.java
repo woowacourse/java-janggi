@@ -31,7 +31,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public boolean canMove(final Position now, final Position destination, final Board board) {
+    protected boolean canMove(final Position now, final Position destination, final Board board) {
         if (now.calculateDistance(destination) != ELEPHANT_DISTANCE) {
             return false;
         }

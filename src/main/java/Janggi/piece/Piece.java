@@ -18,7 +18,7 @@ public abstract class Piece {
         return canMove(now, destination, board);
     };
 
-    public abstract boolean canMove(final Position now, final Position destination, final Board board);
+    protected abstract boolean canMove(final Position now, final Position destination, final Board board);
 
     public abstract boolean isCannon();
 
