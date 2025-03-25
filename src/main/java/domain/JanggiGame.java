@@ -16,6 +16,7 @@ public class JanggiGame {
     }
 
     public void start() {
+
         while (true) {
             OutputView.printBoard(board);
             printTurn();

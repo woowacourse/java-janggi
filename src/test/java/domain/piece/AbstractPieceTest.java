@@ -1,8 +1,7 @@
-package domain;
+package domain.piece;
 
-import domain.piece.AbstractPiece;
-import domain.piece.PieceFactory;
-import domain.piece.PieceType;
+import domain.Score;
+import domain.Team;
 import domain.position.Distance;
 import domain.position.Point;
 import java.util.List;

@@ -1,9 +1,7 @@
-package domain;
+package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.piece.Elephant;
-import domain.piece.PieceFactory;
 import domain.position.Distance;
 import domain.position.Point;
 import java.util.List;
