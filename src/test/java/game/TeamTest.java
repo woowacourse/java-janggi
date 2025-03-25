@@ -177,6 +177,36 @@ public class TeamTest {
         );
     }
 
+    @Test
+    void move_메서드는_자신의_말을_다른_위치로_이동시킨다() {
+        // given
+        final Team cho = new Team(StartingPosition.RIGHT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.CHO);
+        Position from = new Position(PositionFile.FILE_5, TestConstant.RANK_4);
+        Position to = new Position(PositionFile.FILE_5, TestConstant.RANK_5);
+
+        // when
+        cho.move(from, to, Map.of());
+
+        // then
+        assertThat(cho.getPieces()).doesNotContainKey(from);
+        assertThat(cho.getPieces()).containsKey(to);
+        assertThat(cho.getPieces().get(to).getType()).isEqualTo(PieceType.CHO_SOLDIER);
+    }
+
+    @Test
+    void removeIfExist는_기물이_존재할_경우_제거한다() {
+        // given
+        final Team han = new Team(StartingPosition.RIGHT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.HAN);
+        Position target = new Position(PositionFile.FILE_5, TestConstant.RANK_7); // HAN_SOLDIER
+
+        // when
+        han.removeIfExist(target);
+
+        // then
+        assertThat(han.getPieces()).doesNotContainKey(target);
+    }
+
+
     @ParameterizedTest
     @MethodSource("provide한나라상마마상PositionAndPieceTypeOfAllPieces")
     void 한나라와_상마마상으로_장기판이_초기화됐을_때_말들이_올바른_위치에_배치된다(Position position, PieceType pieceType) {

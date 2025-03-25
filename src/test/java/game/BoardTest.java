@@ -1,10 +1,15 @@
 package game;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
+import piece.PieceType;
 import piece.StaticPieceInitializer;
+import position.Position;
+import position.PositionFile;
+import testUtil.TestConstant;
 
 public class BoardTest {
 
@@ -43,4 +48,23 @@ public class BoardTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("장기판은 필수값입니다.");
     }
+
+    @Test
+    void move_메서드는_현재_턴_플레이어의_말을_옮긴다() {
+        // given
+        final Team cho = new Team(StartingPosition.RIGHT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.CHO);
+        final Team han = new Team(StartingPosition.RIGHT_ELEPHANT_SETUP, new StaticPieceInitializer(), Country.HAN);
+        final Board board = new Board(cho, han);
+
+        Position from = new Position(PositionFile.FILE_5, TestConstant.RANK_4);
+        Position to = new Position(PositionFile.FILE_5, TestConstant.RANK_5);
+
+        // when
+        board.move(from, to);
+
+        // then
+        assertThat(cho.getPieces()).doesNotContainKey(from);
+        assertThat(cho.getPieces().get(to)).extracting("type").isEqualTo(PieceType.CHO_SOLDIER);
+    }
+
 }
