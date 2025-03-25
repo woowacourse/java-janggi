@@ -20,13 +20,6 @@ public class Jang extends Piece {
     }
 
     @Override
-    public Path calculatePath(Point beforePoint, Point targetPoint) {
-        Path path = new Path();
-        path.addPoint(new Point(targetPoint.x(), targetPoint.y()));
-        return path;
-    }
-
-    @Override
     public boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
         if (piecesOnPathWithTargetOrNot.size() == 1) {
             return piecesOnPathWithTargetOrNot.keySet()

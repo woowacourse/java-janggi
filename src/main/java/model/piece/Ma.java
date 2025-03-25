@@ -20,23 +20,6 @@ public class Ma extends Piece {
     }
 
     @Override
-    public Path calculatePath(Point beforePoint, Point targetPoint) {
-        int vectorX = getVectorX(beforePoint, targetPoint);
-        int vectorY = getVectorY(beforePoint, targetPoint);
-
-        int unitVectorX = getUnitVector(vectorX);
-        int unitVectorY = getUnitVector(vectorY);
-
-        Point middlePoint = new Point(targetPoint.x() - unitVectorX, targetPoint.y() - unitVectorY);
-        Point endPoint = new Point(targetPoint.x(), targetPoint.y());
-
-        Path path = new Path();
-        path.addPoint(middlePoint);
-        path.addPoint(endPoint);
-        return path;
-    }
-
-    @Override
     public boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
         if (piecesOnPathWithTargetOrNot.size() == 2) {
             return false;

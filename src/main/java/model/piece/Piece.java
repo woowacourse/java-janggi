@@ -20,8 +20,21 @@ public abstract class Piece {
 
     public abstract boolean isValidPoint(Point beforePoint, Point targetPoint);
 
-    public abstract Path calculatePath(Point beforePoint, Point targetPoint);
+    public Path calculatePath(Point beforePoint, Point targetPoint) {
+        int vectorX = getVectorX(beforePoint, targetPoint);
+        int vectorY = getVectorY(beforePoint, targetPoint);
 
+        int unitVectorX = getUnitVector(vectorX);
+        int unitVectorY = getUnitVector(vectorY);
+
+        Path path = new Path();
+
+        for (int i = 0; i < Math.max(Math.abs(vectorX), Math.abs(vectorY)); i++) {
+            path.addPoint(new Point(targetPoint.x() - unitVectorX * i, targetPoint.y() - unitVectorY * i));
+        }
+
+        return path;
+    }
     public abstract boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot);
 
     public PieceName getPieceName() {

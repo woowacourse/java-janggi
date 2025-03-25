@@ -19,25 +19,6 @@ public class Sang extends Piece {
     }
 
     @Override
-    public Path calculatePath(Point beforePoint, Point targetPoint) {
-        int vectorX = getVectorX(beforePoint, targetPoint);
-        int vectorY = getVectorY(beforePoint, targetPoint);
-
-        int unitVectorX = getUnitVector(vectorX);
-        int unitVectorY = getUnitVector(vectorY);
-
-        Point middlePoint1 = new Point(targetPoint.x() - unitVectorX, targetPoint.y() - unitVectorY);
-        Point middlePoint2 = new Point(targetPoint.x() - unitVectorX * 2, targetPoint.y() - unitVectorY * 2);
-        Point endPoint = new Point(targetPoint.x(), targetPoint.y());
-
-        Path path = new Path();
-        path.addPoint(middlePoint1);
-        path.addPoint(middlePoint2);
-        path.addPoint(endPoint);
-        return path;
-    }
-
-    @Override
     public boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
         if (piecesOnPathWithTargetOrNot.size() >= 2) {
             return false;

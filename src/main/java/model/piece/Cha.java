@@ -11,28 +11,11 @@ public class Cha extends Piece {
         super(team,PieceName.CHA);
     }
 
-    public boolean isValidPoint(Point beforePoint, Point targetPoint) {
-        boolean isStraightMove = beforePoint.x() == targetPoint.x()
-                || beforePoint.y() == targetPoint.y();
-        boolean isSamePoint = beforePoint.x() == targetPoint.x()
-                && beforePoint.y() == targetPoint.y();
-        return isStraightMove && !isSamePoint;
-    }
     @Override
-    public Path calculatePath(Point beforePoint, Point targetPoint) {
+    public boolean isValidPoint(Point beforePoint, Point targetPoint) {
         int vectorX = getVectorX(beforePoint, targetPoint);
         int vectorY = getVectorY(beforePoint, targetPoint);
-
-        int unitVectorX = getUnitVector(vectorX);
-        int unitVectorY = getUnitVector(vectorY);
-
-        Path path = new Path();
-
-        for (int i = 0; i < Math.max(vectorY, vectorX); i++) {
-            path.addPoint(new Point(targetPoint.x() - unitVectorX * i, targetPoint.y() - unitVectorY * i));
-            }
-
-        return path;
+        return (vectorX == 0) ^ (vectorY == 0);
     }
 
     @Override
