@@ -18,16 +18,10 @@ public class Movement {
     }
 
     public int getMinDistance() {
-        return distances.stream()
-                .mapToInt(x -> x)
-                .min()
-                .orElseThrow(IllegalStateException::new);
+        return Math.min(distances.get(0), distances.get(1));
     }
 
     public int getMaxDistance() {
-        return distances.stream()
-                .mapToInt(x -> x)
-                .max()
-                .orElseThrow(IllegalStateException::new);
+        return Math.max(distances.get(0), distances.get(1));
     }
 }
