@@ -1,26 +1,38 @@
 package model;
 
-import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Board {
-    private final Map<Point, String> pieces = new HashMap<>();
+    private final Map<Position, Piece> pieces = new HashMap<>();
 
-    public void move(Point targetPoint, Point destinationPoint) {
-        if (!pieces.containsKey(targetPoint)) {
+    public void move(Position selectedPosition, Position destinationPosition) {
+        if (!pieces.containsKey(selectedPosition)) {
             throw new IllegalArgumentException("기물이 존재하지 않는 위치입니다.");
         }
-        String pieceName = pieces.get(targetPoint);
-        pieces.put(destinationPoint, pieceName);
-        pieces.remove(targetPoint);
+        Piece piece = pieces.get(selectedPosition);
+        Set<Position> movablePositions = piece.calculateMovablePositions(selectedPosition, generateOccupiedPositions());
+        if (!movablePositions.contains(destinationPosition)) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
+        pieces.remove(selectedPosition);
+        pieces.put(destinationPosition, piece);
     }
 
-    public boolean isExist(Point point) {
-        return pieces.containsKey(point);
+    private OccupiedPositions generateOccupiedPositions() {
+        return new OccupiedPositions(pieces.entrySet().stream().collect(Collectors.toMap(
+                Map.Entry::getKey,
+                entry -> entry.getValue().identity()
+        )));
     }
 
-    public void putPiece(Point point, String pieceType) {
-        pieces.put(point, pieceType);
+    public boolean isExist(Position position) {
+        return pieces.containsKey(position);
+    }
+
+    public void putPiece(Position position, Piece piece) {
+        pieces.put(position, piece);
     }
 }
