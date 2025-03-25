@@ -20,9 +20,7 @@ public abstract class GungSpecialMovePiece extends Piece {
         final List<Path> paths = new ArrayList<>();
         paths.addAll(getMoveablePathsWithNoGung(allyPieces, enemyPieces));
         paths.addAll(getGungSpecialPaths(allyPieces, enemyPieces));
-        return paths.stream()
-                .filter(gung::isAvailablePathInGung)
-                .toList();
+        return paths;
     }
 
     protected abstract List<Path> getMoveablePathsWithNoGung(final List<Piece> allyPieces, final List<Piece> enemyPieces);

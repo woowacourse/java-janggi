@@ -30,6 +30,14 @@ public class Gung {
         paths.addAll(new Path(List.of(new Position(FILE_6, RANK_1), new Position(FILE_6, RANK_2), new Position(FILE_6, RANK_3))).subPaths());
         paths.addAll(new Path(List.of(new Position(FILE_4, RANK_1), new Position(FILE_5, RANK_2), new Position(FILE_6, RANK_3))).subPaths());
         paths.addAll(new Path(List.of(new Position(FILE_4, RANK_3), new Position(FILE_5, RANK_2), new Position(FILE_6, RANK_1))).subPaths());
+        paths.addAll(new Path(List.of(new Position(FILE_6, RANK_1), new Position(FILE_5, RANK_1), new Position(FILE_4, RANK_1))).subPaths());
+        paths.addAll(new Path(List.of(new Position(FILE_6, RANK_2), new Position(FILE_5, RANK_2), new Position(FILE_4, RANK_2))).subPaths());
+        paths.addAll(new Path(List.of(new Position(FILE_6, RANK_3), new Position(FILE_5, RANK_3), new Position(FILE_4, RANK_3))).subPaths());
+        paths.addAll(new Path(List.of(new Position(FILE_4, RANK_3), new Position(FILE_4, RANK_2), new Position(FILE_4, RANK_1))).subPaths());
+        paths.addAll(new Path(List.of(new Position(FILE_5, RANK_3), new Position(FILE_5, RANK_2), new Position(FILE_5, RANK_1))).subPaths());
+        paths.addAll(new Path(List.of(new Position(FILE_6, RANK_3), new Position(FILE_6, RANK_2), new Position(FILE_6, RANK_1))).subPaths());
+        paths.addAll(new Path(List.of(new Position(FILE_6, RANK_3), new Position(FILE_5, RANK_2), new Position(FILE_4, RANK_1))).subPaths());
+        paths.addAll(new Path(List.of(new Position(FILE_6, RANK_1), new Position(FILE_5, RANK_2), new Position(FILE_4, RANK_3))).subPaths());
 
         return paths;
     }

@@ -1,0 +1,32 @@
+package janggi.domain.piece;
+
+import janggi.domain.position.Path;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static janggi.test_util.TestConstant.*;
+import static org.assertj.core.api.Assertions.*;
+
+class GungTest {
+
+    @Test
+    void 궁은_해당_위치에서_시작하는_모든_일직선_Path를_반환할_수_있다() {
+        // given
+        final Gung gung = new Gung();
+
+        // when
+        final List<Path> result = gung.getAllPathsFrom(POSITION_6_1);
+
+        // then
+        assertThat(result).containsExactlyInAnyOrder(
+                new Path(List.of(POSITION_6_1, POSITION_6_2, POSITION_6_3)),
+                new Path(List.of(POSITION_6_1, POSITION_6_2)),
+                new Path(List.of(POSITION_6_1, POSITION_5_2, POSITION_4_3)),
+                new Path(List.of(POSITION_6_1, POSITION_5_2)),
+                new Path(List.of(POSITION_6_1, POSITION_5_1, POSITION_4_1)),
+                new Path(List.of(POSITION_6_1, POSITION_5_1))
+        );
+    }
+
+}

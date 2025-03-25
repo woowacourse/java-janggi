@@ -21,7 +21,7 @@ public enum Movement {
     RIGHT_UPRIGHT(List.of(Direction.RIGHT, Direction.UP_RIGHT)),
     RIGHT_DOWNRIGHT(List.of(Direction.RIGHT, Direction.DOWN_RIGHT)),
     DOWN_DOWNLEFT(List.of(Direction.DOWN, Direction.DOWN_LEFT)),
-    DOWN_DOWNRIGHT(List.of(Direction.DOWN_LEFT, Direction.DOWN_RIGHT)),
+    DOWN_DOWNRIGHT(List.of(Direction.DOWN, Direction.DOWN_RIGHT)),
     LEFT_DOWNLEFT(List.of(Direction.LEFT, Direction.DOWN_LEFT)),
     LEFT_UPLEFT(List.of(Direction.LEFT, Direction.UP_LEFT)),
 

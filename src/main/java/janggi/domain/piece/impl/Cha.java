@@ -22,7 +22,7 @@ public class Cha extends GungSpecialMovePiece {
         final List<Position> allCrossPositions = position.getAllCrossPositions();
 
         for (Position endPosition : allCrossPositions) {
-            final Path path = Path.start(endPosition).nextPath(endPosition);
+            final Path path = Path.start(position).nextPath(endPosition);
             if (!path.isBlockedWith(getPositionsOf(List.of(allyPieces, enemyPieces))) && !path.isEndWith(getPositionsOf(List.of(allyPieces)))) {
                 availablePaths.add(path);
             }
@@ -34,8 +34,8 @@ public class Cha extends GungSpecialMovePiece {
     @Override
     protected List<Path> getGungSpecialPaths(final List<Piece> allyPieces, final List<Piece> enemyPieces) {
         return gung.getAllPathsFrom(position).stream()
-                .filter(path -> path.isBlockedWith(getPositionsOf(List.of(allyPieces, enemyPieces))))
-                .filter(path -> path.isEndWith(getPositionsOf(List.of(allyPieces))))
+                .filter(path -> !path.isBlockedWith(getPositionsOf(List.of(allyPieces, enemyPieces))))
+                .filter(path -> !path.isEndWith(getPositionsOf(List.of(allyPieces))))
                 .toList();
     }
 }

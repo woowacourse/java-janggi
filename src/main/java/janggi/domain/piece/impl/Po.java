@@ -22,10 +22,10 @@ public class Po extends GungSpecialMovePiece {
         final List<Position> allCrossPositions = position.getAllCrossPositions();
 
         for (Position endPosition : allCrossPositions) {
-            final Path path = Path.start(endPosition).nextPath(endPosition);
+            final Path path = Path.start(position).nextPath(endPosition);
             if (isBlockedByOnePieceAndIsNotPo(path, allyPieces, enemyPieces)
-                    && isNotEndWithAllyPieces(path, allyPieces, enemyPieces)
-                    && isNotEndWithPo(path, enemyPieces)
+                    && isNotEndWithAllyPieces(path, allyPieces)
+                    && isNotEndWithPo(path, allyPieces, enemyPieces)
             ) {
                 availablePaths.add(path);
             }
@@ -38,17 +38,17 @@ public class Po extends GungSpecialMovePiece {
     protected List<Path> getGungSpecialPaths(final List<Piece> allyPieces, final List<Piece> enemyPieces) {
         return gung.getAllPathsFrom(position).stream()
                 .filter(path -> isBlockedByOnePieceAndIsNotPo(path, allyPieces, enemyPieces))
-                .filter(path -> isNotEndWithAllyPieces(path, allyPieces, enemyPieces))
-                .filter(path -> isNotEndWithPo(path, enemyPieces))
+                .filter(path -> isNotEndWithAllyPieces(path, allyPieces))
+                .filter(path -> isNotEndWithPo(path, allyPieces, enemyPieces))
                 .toList();
     }
 
-    private boolean isNotEndWithAllyPieces(final Path path, final List<Piece> allyPieces, final List<Piece> enemyPieces) {
-        return !path.isEndWith(getPositionsOf(List.of(allyPieces, poPieces(enemyPieces))));
+    private boolean isNotEndWithAllyPieces(final Path path, final List<Piece> allyPieces) {
+        return !path.isEndWith(getPositionsOf(List.of(allyPieces)));
     }
 
-    private boolean isNotEndWithPo(final Path path, final List<Piece> enemyPieces) {
-        return !path.isEndWith(getPositionsOf(List.of(poPieces(enemyPieces))));
+    private boolean isNotEndWithPo(final Path path, final List<Piece> allyPieces, final List<Piece> enemyPieces) {
+        return !path.isEndWith(getPositionsOf(List.of(poPieces(allyPieces), poPieces(enemyPieces))));
     }
 
     private boolean isBlockedByOnePieceAndIsNotPo(final Path path, final List<Piece> allyPieces, final List<Piece> enemyPieces) {
@@ -60,7 +60,7 @@ public class Po extends GungSpecialMovePiece {
                 .filter(piece -> path.isBlockedWith(List.of(piece.getPosition())))
                 .toList();
 
-        return blockingPieces.size() == 1 && blockingPieces.getFirst() instanceof Po;
+        return blockingPieces.size() == 1 && !(blockingPieces.getFirst() instanceof Po);
     }
 
     private List<Piece> poPieces(final List<Piece> pieces) {

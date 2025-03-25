@@ -1,0 +1,74 @@
+package janggi.test_util;
+
+import janggi.domain.position.Position;
+
+import static janggi.domain.position.PositionFile.*;
+import static janggi.domain.position.PositionRank.*;
+
+public class TestConstant {
+
+    public static Position POSITION_1_1 = new Position(FILE_1, RANK_1);
+    public static Position POSITION_1_2 = new Position(FILE_1, RANK_2);
+    public static Position POSITION_1_3 = new Position(FILE_1, RANK_3);
+    public static Position POSITION_1_4 = new Position(FILE_1, RANK_4);
+    public static Position POSITION_1_5 = new Position(FILE_1, RANK_5);
+    public static Position POSITION_1_6 = new Position(FILE_1, RANK_6);
+    public static Position POSITION_1_7 = new Position(FILE_1, RANK_7);
+    public static Position POSITION_1_8 = new Position(FILE_1, RANK_8);
+    public static Position POSITION_2_1 = new Position(FILE_2, RANK_1);
+    public static Position POSITION_2_2 = new Position(FILE_2, RANK_2);
+    public static Position POSITION_2_3 = new Position(FILE_2, RANK_3);
+    public static Position POSITION_2_4 = new Position(FILE_2, RANK_4);
+    public static Position POSITION_2_5 = new Position(FILE_2, RANK_5);
+    public static Position POSITION_2_6 = new Position(FILE_2, RANK_6);
+    public static Position POSITION_2_7 = new Position(FILE_2, RANK_7);
+    public static Position POSITION_2_8 = new Position(FILE_2, RANK_8);
+    public static Position POSITION_3_1 = new Position(FILE_3, RANK_1);
+    public static Position POSITION_3_2 = new Position(FILE_3, RANK_2);
+    public static Position POSITION_3_3 = new Position(FILE_3, RANK_3);
+    public static Position POSITION_3_4 = new Position(FILE_3, RANK_4);
+    public static Position POSITION_3_5 = new Position(FILE_3, RANK_5);
+    public static Position POSITION_3_6 = new Position(FILE_3, RANK_6);
+    public static Position POSITION_3_7 = new Position(FILE_3, RANK_7);
+    public static Position POSITION_3_8 = new Position(FILE_3, RANK_8);
+    public static Position POSITION_4_1 = new Position(FILE_4, RANK_1);
+    public static Position POSITION_4_2 = new Position(FILE_4, RANK_2);
+    public static Position POSITION_4_3 = new Position(FILE_4, RANK_3);
+    public static Position POSITION_4_4 = new Position(FILE_4, RANK_4);
+    public static Position POSITION_4_5 = new Position(FILE_4, RANK_5);
+    public static Position POSITION_4_6 = new Position(FILE_4, RANK_6);
+    public static Position POSITION_4_7 = new Position(FILE_4, RANK_7);
+    public static Position POSITION_4_8 = new Position(FILE_4, RANK_8);
+    public static Position POSITION_5_1 = new Position(FILE_5, RANK_1);
+    public static Position POSITION_5_2 = new Position(FILE_5, RANK_2);
+    public static Position POSITION_5_3 = new Position(FILE_5, RANK_3);
+    public static Position POSITION_5_4 = new Position(FILE_5, RANK_4);
+    public static Position POSITION_5_5 = new Position(FILE_5, RANK_5);
+    public static Position POSITION_5_6 = new Position(FILE_5, RANK_6);
+    public static Position POSITION_5_7 = new Position(FILE_5, RANK_7);
+    public static Position POSITION_5_8 = new Position(FILE_5, RANK_8);
+    public static Position POSITION_6_1 = new Position(FILE_6, RANK_1);
+    public static Position POSITION_6_2 = new Position(FILE_6, RANK_2);
+    public static Position POSITION_6_3 = new Position(FILE_6, RANK_3);
+    public static Position POSITION_6_4 = new Position(FILE_6, RANK_4);
+    public static Position POSITION_6_5 = new Position(FILE_6, RANK_5);
+    public static Position POSITION_6_6 = new Position(FILE_6, RANK_6);
+    public static Position POSITION_6_7 = new Position(FILE_6, RANK_7);
+    public static Position POSITION_6_8 = new Position(FILE_6, RANK_8);
+    public static Position POSITION_7_1 = new Position(FILE_7, RANK_1);
+    public static Position POSITION_7_2 = new Position(FILE_7, RANK_2);
+    public static Position POSITION_7_3 = new Position(FILE_7, RANK_3);
+    public static Position POSITION_7_4 = new Position(FILE_7, RANK_4);
+    public static Position POSITION_7_5 = new Position(FILE_7, RANK_5);
+    public static Position POSITION_7_6 = new Position(FILE_7, RANK_6);
+    public static Position POSITION_7_7 = new Position(FILE_7, RANK_7);
+    public static Position POSITION_7_8 = new Position(FILE_7, RANK_8);
+    public static Position POSITION_8_1 = new Position(FILE_8, RANK_1);
+    public static Position POSITION_8_2 = new Position(FILE_8, RANK_2);
+    public static Position POSITION_8_3 = new Position(FILE_8, RANK_3);
+    public static Position POSITION_8_4 = new Position(FILE_8, RANK_4);
+    public static Position POSITION_8_5 = new Position(FILE_8, RANK_5);
+    public static Position POSITION_8_6 = new Position(FILE_8, RANK_6);
+    public static Position POSITION_8_7 = new Position(FILE_8, RANK_7);
+    public static Position POSITION_8_8 = new Position(FILE_8, RANK_8);
+}

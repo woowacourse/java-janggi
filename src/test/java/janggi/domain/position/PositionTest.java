@@ -1,7 +1,7 @@
 package janggi.domain.position;
 
-import janggi.BaseTest;
 import janggi.domain.Country;
+import janggi.test_util.BaseTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

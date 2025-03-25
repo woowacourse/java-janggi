@@ -3,6 +3,7 @@ package janggi.domain.position;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 public record Path(
         List<Position> pathPositions
@@ -13,23 +14,29 @@ public record Path(
         return new Path(paths);
     }
 
-    public Path nextPath(Movement movement) {
-        return new Path(new ArrayList<>(movement.getPositionsWith(finalPosition())));
+    public Optional<Path> nextPath(Movement movement) {
+        final List<Position> result = movement.getPositionsWith(finalPosition());
+        if (result.isEmpty()) return Optional.empty();
+        return Optional.of(new Path(new ArrayList<>(result)));
     }
 
     public Path nextPath(Position position) {
-        final List<Position> positions = new ArrayList<>(finalPosition().createPositionsUntil(position));
+        final List<Position> positions = new ArrayList<>();
         positions.addAll(pathPositions);
-        positions.add(position);
+        positions.addAll(finalPosition().createPositionsUntil(position));
+        positions.addLast(position);
         return new Path(new ArrayList<>(positions));
     }
 
     public boolean isBlockedWith(final List<Position> blockedPositions) {
+        if (blockedPositions.isEmpty()) return false;
+
         return pathPositions.subList(0, pathPositions.size() - 1).stream()
                 .anyMatch(blockedPositions::contains);
     }
 
     public boolean isEndWith(final List<Position> positions) {
+        if (positions.isEmpty()) return false;
         return positions.contains(finalPosition());
     }
 
@@ -46,11 +53,12 @@ public record Path(
     }
 
     public List<Path> subPaths() {
-        final List<Path> subPaths = new ArrayList<>();
-        for (int size = 2; size < pathPositions.size(); size++) {
-            for (int start = 0; start + size < pathPositions.size(); size++) {
-                subPaths.add(new Path(pathPositions.subList(start, start + size)));
-                subPaths.add(new Path(pathPositions.subList(start, start + size).reversed()));
+        List<Path> subPaths = new ArrayList<>();
+        int size = pathPositions.size();
+
+        for (int start = 0; start < size - 1; start++) {
+            for (int end = start + 1; end < size; end++) {
+                subPaths.add(new Path(pathPositions.subList(start, end + 1)));
             }
         }
         return subPaths;

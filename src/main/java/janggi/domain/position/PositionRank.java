@@ -64,8 +64,12 @@ public enum PositionRank {
     }
 
     public List<PositionRank> getBetweenRanks(final PositionRank rank) {
+        if (this.ordinal() > rank.ordinal()) {
+            return rank.getBetweenRanks(this).reversed();
+        }
+
         List<PositionRank> betweenRanks = new ArrayList<>();
-        for (int newAmount = Math.min(amount, rank.amount) + 1; newAmount < Math.max(amount, rank.amount); newAmount++) {
+        for (int newAmount = amount + 1; newAmount < rank.amount; newAmount++) {
             betweenRanks.add(findByAmount(newAmount));
         }
         return betweenRanks;

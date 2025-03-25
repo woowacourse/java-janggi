@@ -1,6 +1,6 @@
 package janggi.domain.position;
 
-import janggi.BaseTest;
+import janggi.test_util.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -43,7 +43,7 @@ class PositionFileTest extends BaseTest {
         final PositionFile to = PositionFile.FILE_8;
 
         // when
-        final List<PositionFile> betweenFiles =  from.getBetweenFiles(to);
+        final List<PositionFile> betweenFiles = from.getBetweenFiles(to);
 
         // then
         assertThat(betweenFiles).containsExactlyInAnyOrder(

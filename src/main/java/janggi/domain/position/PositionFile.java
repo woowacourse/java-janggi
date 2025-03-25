@@ -37,10 +37,27 @@ public enum PositionFile {
         return Arrays.stream(PositionFile.values())
                 .anyMatch(p -> p.amount == this.amount + fileAmount);
     }
+    /*
+    public List<PositionRank> getBetweenRanks(final PositionRank rank) {
+        if (this.ordinal() > rank.ordinal()) {
+            return rank.getBetweenRanks(this).reversed();
+        }
+
+        List<PositionRank> betweenRanks = new ArrayList<>();
+        for (int newAmount = amount + 1; newAmount < rank.amount; newAmount++) {
+            betweenRanks.add(findByAmount(newAmount));
+        }
+        return betweenRanks;
+    }
+     */
 
     public List<PositionFile> getBetweenFiles(final PositionFile file) {
+        if (this.ordinal() > file.ordinal()) {
+            return file.getBetweenFiles(this).reversed();
+        }
+
         List<PositionFile> betweenFiles = new ArrayList<>();
-        for (int newValue = Math.min(amount, file.amount) + 1; newValue < Math.max(amount, file.amount); newValue++) {
+        for (int newValue = amount + 1; newValue < file.amount; newValue++) {
             betweenFiles.add(findByAmount(newValue));
         }
         return betweenFiles;

@@ -9,6 +9,7 @@ import janggi.domain.position.Position;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Sa extends InGungPiece {
 
@@ -32,7 +33,11 @@ public class Sa extends InGungPiece {
         final List<Path> availablePaths = new ArrayList<>();
 
         for (Movement availableMovement : availableMovements) {
-            final Path path = Path.start(position).nextPath(availableMovement);
+            final Optional<Path> result = Path.start(position).nextPath(availableMovement);
+            if (result.isEmpty()) {
+                continue;
+            }
+            final Path path = result.get();
             if (!path.isBlockedWith(getPositionsOf(List.of(allyPieces, enemyPieces))) && !path.isEndWith(getPositionsOf(List.of(allyPieces)))) {
                 availablePaths.add(path);
             }

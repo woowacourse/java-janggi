@@ -1,12 +1,18 @@
 package janggi.domain.position;
 
-import janggi.BaseTest;
+import janggi.test_util.BaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import static janggi.domain.position.PositionFile.*;
 import static janggi.domain.position.PositionRank.*;
+import static janggi.test_util.TestConstant.*;
 import static org.assertj.core.api.Assertions.*;
 
 class PathTest extends BaseTest {
@@ -24,19 +30,26 @@ class PathTest extends BaseTest {
         assertThat(path).isEqualTo(expectedPath);
     }
 
-    @Test
-    void 다음_위치를_통해_새로운_패스_위치를_반환한다() {
+    @ParameterizedTest
+    @MethodSource("provideNextPositionAndResult")
+    void 다음_위치를_통해_새로운_패스_위치를_반환한다(final Position nextPosition, final List<Position> expected) {
         // given
         final Position startPosition = new Position(FILE_5, RANK_5);
         final Path path = Path.start(startPosition);
-        final Position nextPosition = new Position(FILE_5, RANK_4);
 
         // when
         final Path result = path.nextPath(nextPosition);
 
         // then
-        assertThat(result).isEqualTo(
-                new Path(List.of(new Position(FILE_5, RANK_5), new Position(FILE_5, RANK_4)))
+        assertThat(result).isEqualTo(new Path(expected));
+    }
+
+    public static Stream<Arguments> provideNextPositionAndResult() {
+        return Stream.of(
+                Arguments.of(POSITION_5_3, List.of(POSITION_5_5, POSITION_5_4, POSITION_5_3)),
+                Arguments.of(POSITION_5_7, List.of(POSITION_5_5, POSITION_5_6, POSITION_5_7)),
+                Arguments.of(POSITION_3_5, List.of(POSITION_5_5, POSITION_4_5, POSITION_3_5)),
+                Arguments.of(POSITION_7_5, List.of(POSITION_5_5, POSITION_6_5, POSITION_7_5))
         );
     }
 
@@ -46,11 +59,13 @@ class PathTest extends BaseTest {
         final Position startPosition = new Position(PositionFile.FILE_5, RANK_5);
 
         // when
-        final Path result = Path.start(startPosition).nextPath(Movement.DOWN_DOWNLEFT);
+        final Optional<Path> result = Path.start(startPosition).nextPath(Movement.DOWN_DOWNLEFT);
 
         // then
-        assertThat(result).isEqualTo(
-                new Path(List.of(new Position(PositionFile.FILE_5, RANK_5), new Position(PositionFile.FILE_5, RANK_4), new Position(PositionFile.FILE_4, RANK_3))
+        assertThat(result.get()).isEqualTo(new Path(List.of(
+                new Position(PositionFile.FILE_5, RANK_5),
+                new Position(PositionFile.FILE_5, RANK_4),
+                new Position(PositionFile.FILE_4, RANK_3))
         ));
     }
 
@@ -119,5 +134,25 @@ class PathTest extends BaseTest {
 
         // then
         assertThat(result).isFalse();
+    }
+
+    @Test
+    void 하위_Path들을_반환한다() {
+        // given
+        final Path path = new Path(List.of(
+                new Position(FILE_5, RANK_1),
+                new Position(FILE_5, RANK_2),
+                new Position(FILE_5, RANK_3)
+        ));
+
+        // when
+        final List<Path> result = path.subPaths();
+
+        // then
+        assertThat(result).containsExactlyInAnyOrder(
+                new Path(List.of(new Position(FILE_5, RANK_1), new Position(FILE_5, RANK_2), new Position(FILE_5, RANK_3))),
+                new Path(List.of(new Position(FILE_5, RANK_1), new Position(FILE_5, RANK_2))),
+                new Path(List.of(new Position(FILE_5, RANK_2), new Position(FILE_5, RANK_3)))
+        );
     }
 }
