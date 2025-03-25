@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.board.Board;
+import janggi.board.VisibleBoard;
 import janggi.coordinate.Position;
 import java.util.List;
 
@@ -13,15 +13,15 @@ public class Cannon extends Piece {
     }
 
     @Override
-    protected boolean canMove(final Position now, final Position destination, final Board board) {
-        if (!now.isSameLine(destination) || board.isCannonByPosition(destination)) {
+    protected boolean canMove(final Position now, final Position destination, final VisibleBoard visibleBoard) {
+        if (!now.isSameLine(destination) || visibleBoard.isCannonByPosition(destination)) {
             return false;
         }
 
         final List<Position> positions = now.calculateBetweenPositions(destination);
-        final int pieceCountInPositions = board.calculatePieceCountByPositions(positions);
+        final int pieceCountInPositions = visibleBoard.calculatePieceCountByPositions(positions);
 
-        if (pieceCountInPositions != MUST_JUMP_PIECE_COUNT || board.containsCannonByPositions(positions)) {
+        if (pieceCountInPositions != MUST_JUMP_PIECE_COUNT || visibleBoard.containsCannonByPositions(positions)) {
             return false;
         }
 

@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.board.Board;
+import janggi.board.VisibleBoard;
 import janggi.coordinate.Position;
 
 public class General extends Piece{
@@ -12,7 +12,7 @@ public class General extends Piece{
     }
 
     @Override
-    protected boolean canMove(final Position now, final Position destination, final Board board) {
+    protected boolean canMove(final Position now, final Position destination, final VisibleBoard visibleBoard) {
         return now.calculateDistance(destination) == GENERAL_DISTANCE;
     }
 

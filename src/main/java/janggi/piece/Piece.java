@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.board.Board;
+import janggi.board.VisibleBoard;
 import janggi.coordinate.Position;
 
 public abstract class Piece {
@@ -11,14 +11,14 @@ public abstract class Piece {
         this.country = country;
     }
 
-    public boolean isAbleToMove(final Position now, final Position destination, final Board board){
-        if (board.existPieceByPosition(destination) && board.equalsTeamTypeByPosition(destination, country)) {
+    public boolean isAbleToMove(final Position now, final Position destination, final VisibleBoard visibleBoard){
+        if (visibleBoard.existPieceByPosition(destination) && visibleBoard.equalsTeamTypeByPosition(destination, country)) {
             return false;
         }
-        return canMove(now, destination, board);
+        return canMove(now, destination, visibleBoard);
     };
 
-    protected abstract boolean canMove(final Position now, final Position destination, final Board board);
+    protected abstract boolean canMove(final Position now, final Position destination, final VisibleBoard visibleBoard);
 
     public abstract boolean isCannon();
 

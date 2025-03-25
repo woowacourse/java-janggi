@@ -7,7 +7,7 @@ import java.util.Map;
 import janggi.piece.Piece;
 import janggi.piece.Country;
 
-public class Board {
+public class Board implements VisibleBoard{
 
     private final Map<Position, Piece> janggiBoard;
 
@@ -24,33 +24,6 @@ public class Board {
         }
 
         return new Board(initMap);
-    }
-
-    public boolean existPieceByPosition(final Position existPosition) {
-        return janggiBoard.containsKey(existPosition);
-    }
-
-    public boolean isCannonByPosition(final Position position) {
-        if (janggiBoard.containsKey(position)) {
-            final Piece piece = janggiBoard.get(position);
-            return piece.isCannon();
-        }
-        return false;
-    }
-
-    public boolean containsCannonByPositions(final List<Position> positions){
-        return positions.stream()
-                .filter(janggiBoard::containsKey)
-                .map(janggiBoard::get)
-                .anyMatch(Piece::isCannon);
-    }
-
-    public boolean equalsTeamTypeByPosition(final Position position, final Country country) {
-        if (janggiBoard.containsKey(position)) {
-            final Piece piece = janggiBoard.get(position);
-            return piece.equalsTeamType(country);
-        }
-        return false;
     }
 
     public void updatePosition(final Position source, final Position destination, final Country country) {
@@ -79,6 +52,38 @@ public class Board {
         janggiBoard.remove(source);
     }
 
+    @Override
+    public boolean existPieceByPosition(final Position position) {
+        return janggiBoard.containsKey(position);
+    }
+
+    @Override
+    public boolean isCannonByPosition(final Position position) {
+        if (janggiBoard.containsKey(position)) {
+            final Piece piece = janggiBoard.get(position);
+            return piece.isCannon();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean containsCannonByPositions(final List<Position> positions){
+        return positions.stream()
+                .filter(janggiBoard::containsKey)
+                .map(janggiBoard::get)
+                .anyMatch(Piece::isCannon);
+    }
+
+    @Override
+    public boolean equalsTeamTypeByPosition(final Position position, final Country country) {
+        if (janggiBoard.containsKey(position)) {
+            final Piece piece = janggiBoard.get(position);
+            return piece.equalsTeamType(country);
+        }
+        return false;
+    }
+
+    @Override
     public int calculatePieceCountByPositions(final List<Position> positions) {
         return (int) positions.stream()
                 .filter(janggiBoard::containsKey)

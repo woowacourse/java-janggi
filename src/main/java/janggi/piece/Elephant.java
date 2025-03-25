@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.board.Board;
+import janggi.board.VisibleBoard;
 import janggi.coordinate.Path;
 import janggi.coordinate.Position;
 import janggi.coordinate.RelativePosition;
@@ -33,7 +33,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    protected boolean canMove(final Position now, final Position destination, final Board board) {
+    protected boolean canMove(final Position now, final Position destination, final VisibleBoard visibleBoard) {
         if (now.calculateDistance(destination) != ELEPHANT_DISTANCE) {
             return false;
         }
@@ -42,7 +42,7 @@ public class Elephant extends Piece {
         absolutePath.removeLast();
 
         return absolutePath.stream()
-                .filter(position -> board.existPieceByPosition(position))
+                .filter(position -> visibleBoard.existPieceByPosition(position))
                 .findAny()
                 .isEmpty();
     }
