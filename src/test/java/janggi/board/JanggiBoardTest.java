@@ -43,7 +43,6 @@ class JanggiBoardTest {
     })
     @DisplayName("상 초기화 테스트")
     void test4(int x, int y) {
-
         JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
         assertThat(janggiBoard.getBoard().get(new Position(x, y))).isInstanceOf(Elephant.class);
     }
@@ -102,8 +101,8 @@ class JanggiBoardTest {
     @DisplayName("기본 이동 테스트 - 졸")
     void test10() {
         JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
-
         Position position = new Position(2, 6);
+
         List<Position> positions = janggiBoard.computeReachableDestination(Side.CHO, position);
 
         assertAll(
@@ -118,10 +117,9 @@ class JanggiBoardTest {
     @DisplayName("이동 테스트 - 경계의 졸")
     void test11() {
         JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
-
         Position position = new Position(8, 3);
-        List<Position> positions = janggiBoard.computeReachableDestination(Side.HAN, position);
 
+        List<Position> positions = janggiBoard.computeReachableDestination(Side.HAN, position);
 
         assertAll(
                 () -> assertThat(positions.size()).isEqualTo(2),
@@ -134,7 +132,6 @@ class JanggiBoardTest {
     @DisplayName("상 초기 배치에서 이동 가능 경우가 0개이므로 예외를 던진다.")
     void test12() {
         JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
-
         Position position = new Position(2, 9);
 
         assertThatThrownBy(() -> janggiBoard.computeReachableDestination(Side.CHO, position))
@@ -146,8 +143,8 @@ class JanggiBoardTest {
     @DisplayName("마 초기 배치 이동 테스트")
     void test13() {
         JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
-
         Position position = new Position(1, 9);
+
         List<Position> positions = janggiBoard.computeReachableDestination(Side.CHO, position);
 
         assertAll(
@@ -161,8 +158,8 @@ class JanggiBoardTest {
     @DisplayName("차 초기 배치 이동 테스트")
     void test14() {
         JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
-
         Position position = new Position(0, 9);
+
         List<Position> positions = janggiBoard.computeReachableDestination(Side.CHO, position);
 
         assertAll(
@@ -175,14 +172,10 @@ class JanggiBoardTest {
     @Test
     @DisplayName("차 이동 테스트 - 초기 배치에서 5,7에 차 배치")
     void test15() {
-        JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
-
         Position position = new Position(5, 7);
         Side side = Side.CHO;
         Piece piece = new Chariot(side);
-        Map<Position, Piece> newJanggiBoard = janggiBoard.getBoard();
-        newJanggiBoard.put(position, piece);
-        JanggiBoard modifiedJanggiBoard = new JanggiBoard(newJanggiBoard);
+        JanggiBoard modifiedJanggiBoard = JanggiBoardFixture.setUpTestBoard(position, piece);
 
         List<Position> positions = modifiedJanggiBoard.computeReachableDestination(side, position);
 
@@ -217,14 +210,10 @@ class JanggiBoardTest {
     @Test
     @DisplayName("포 이동 테스트 - 초기 배치에서 4,7에 포 배치")
     void test17() {
-        JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
-
         Position position = new Position(4, 7);
         Side side = Side.CHO;
         Piece piece = new Cannon(side);
-        Map<Position, Piece> newJanggiBoard = janggiBoard.getBoard();
-        newJanggiBoard.put(position, piece);
-        JanggiBoard modifiedBoard = new JanggiBoard(newJanggiBoard);
+        JanggiBoard modifiedBoard = JanggiBoardFixture.setUpTestBoard(position, piece);
 
         List<Position> positions = modifiedBoard.computeReachableDestination(side, position);
 
@@ -240,14 +229,10 @@ class JanggiBoardTest {
     @Test
     @DisplayName("이동 목적지에 상대편 말이 있으면 잡고 상대편 말을 반환한다.")
     void test18() {
-        JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
-
         Position position = new Position(5, 7);
-        Position destination = new Position(5, 0);
         Piece piece = new Chariot(Side.CHO);
-        Map<Position, Piece> newJanggiBoard = janggiBoard.getBoard();
-        newJanggiBoard.put(position, piece);
-        JanggiBoard modifiedBoard = new JanggiBoard(newJanggiBoard);
+        JanggiBoard modifiedBoard = JanggiBoardFixture.setUpTestBoard(position, piece);
+        Position destination = new Position(5, 0);
 
         Piece catchedPiece = modifiedBoard.moveOrCatchPiece(position, destination);
 
@@ -257,35 +242,27 @@ class JanggiBoardTest {
     @Test
     @DisplayName("이동 목적지에 상대편 말이 없으면 이동만 수행하여 Empty를 반환한다.")
     void test19() {
-        JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
-
         Position position = new Position(5, 7);
+        Piece piece = new Chariot(Side.CHO);
+        JanggiBoard modifiedBoard = JanggiBoardFixture.setUpTestBoard(position, piece);
         Position destination = new Position(5, 1);
 
-        Piece piece = new Chariot(Side.CHO);
-        Map<Position, Piece> newJanggiBoard = janggiBoard.getBoard();
-        newJanggiBoard.put(position, piece);
-        JanggiBoard modifiedBoard = new JanggiBoard(newJanggiBoard);
-
         Piece catchedPiece = modifiedBoard.moveOrCatchPiece(position, destination);
+
         assertThat(catchedPiece).isInstanceOf(Empty.class);
     }
 
     @Test
     @DisplayName("왕을 잡으면 게임 종료")
     void test21() {
-        JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
-
         Position position = new Position(5, 1);
         Piece piece = new Chariot(Side.CHO);
-        Map<Position, Piece> newJanggiBoard = janggiBoard.getBoard();
-        newJanggiBoard.put(position, piece);
-        JanggiBoard modifiedBoard = new JanggiBoard(newJanggiBoard);
-
+        JanggiBoard modifiedBoard = JanggiBoardFixture.setUpTestBoard(position, piece);
         Position destination = new Position(4, 1);
+
         Piece catchedPiece = modifiedBoard.moveOrCatchPiece(position, destination);
 
-        assertThat(janggiBoard.checkGameIsOver(catchedPiece)).isTrue();
+        assertThat(modifiedBoard.checkGameIsOver(catchedPiece)).isTrue();
     }
 
     @Test
