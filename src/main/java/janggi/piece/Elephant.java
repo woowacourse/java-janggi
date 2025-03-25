@@ -1,8 +1,7 @@
 package janggi.piece;
 
-import janggi.board.point.Point;
 import janggi.board.Board;
-import java.util.HashSet;
+import janggi.board.point.Point;
 import java.util.Set;
 
 public final class Elephant extends Piece {
@@ -35,48 +34,26 @@ public final class Elephant extends Piece {
     }
 
     private Set<Point> findRoute(Point fromPoint, Point toPoint) {
-        Set<Point> route = new HashSet<>();
         if (isNextPointOnHorizontal(fromPoint, toPoint)) {
-            return findHorizontalRoute(fromPoint, toPoint, route);
+            return findHorizontalRoute(fromPoint, toPoint);
         }
-        return findVerticalRoute(fromPoint, toPoint, route);
+        return findVerticalRoute(fromPoint, toPoint);
     }
 
     private boolean isNextPointOnHorizontal(Point fromPoint, Point toPoint) {
         return fromPoint.calculateXDistance(toPoint) == 3;
     }
 
-    private Set<Point> findHorizontalRoute(Point fromPoint, Point toPoint, Set<Point> route) {
-        Point firstPoint = getNextHorizontalPoint(fromPoint, toPoint);
-        route.add(firstPoint);
-        route.add(findSecondPoint(toPoint, firstPoint));
-        return route;
+    private Set<Point> findHorizontalRoute(Point fromPoint, Point toPoint) {
+        Point firstPoint = fromPoint.getNextHorizontalStep(toPoint);
+        Point secondPoint = firstPoint.middlePoint(toPoint);
+        return Set.of(firstPoint, secondPoint);
     }
 
-    private Set<Point> findVerticalRoute(Point fromPoint, Point toPoint, Set<Point> route) {
-        Point firstPoint = getNextVerticalPoint(fromPoint, toPoint);
-        route.add(firstPoint);
-        route.add(findSecondPoint(toPoint, firstPoint));
-        return route;
-    }
-
-    private Point getNextHorizontalPoint(Point fromPoint, Point toPoint) {
-        if (fromPoint.x() < toPoint.x()) {
-            return new Point(fromPoint.x() + 1, fromPoint.y());
-        }
-        return new Point(fromPoint.x() - 1, fromPoint.y());
-    }
-
-    private Point getNextVerticalPoint(Point fromPoint, Point toPoint) {
-        if (fromPoint.y() < toPoint.y()) {
-            return new Point(fromPoint.x(), fromPoint.y() + 1);
-        }
-        return new Point(fromPoint.x(), fromPoint.y() - 1);
-    }
-
-    private Point findSecondPoint(Point toPoint, Point firstPoint) {
-        return new Point((firstPoint.x() + toPoint.x()) / 2,
-                (firstPoint.y() + toPoint.y()) / 2);
+    private Set<Point> findVerticalRoute(Point fromPoint, Point toPoint) {
+        Point firstPoint = fromPoint.getNextVerticalStep(toPoint);
+        Point secondPoint = firstPoint.middlePoint(toPoint);
+        return Set.of(firstPoint, secondPoint);
     }
 
     @Override

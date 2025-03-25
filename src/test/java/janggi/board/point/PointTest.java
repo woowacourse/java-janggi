@@ -23,27 +23,39 @@ class PointTest {
     }
 
     @DisplayName("같은 수평선상에 있는지 확인한다.")
-    @Test
-    void horizontalTest() {
+    @ParameterizedTest
+    @CsvSource({
+            "4, 5, true",
+            "6, 5, true",
+            "5, 6, false",
+            "5, 4, false",
+    })
+    void horizontalTest(int otherX, int otherY, boolean expected) {
         // given
-        Point point = new Point(0, 0);
-        Point otherPoint = new Point(2, 0);
+        Point point = new Point(5, 5);
+        Point otherPoint = new Point(otherX, otherY);
 
         // when & then
         assertThat(point.isHorizontal(otherPoint))
-                .isTrue();
+                .isSameAs(expected);
     }
 
     @DisplayName("같은 수직선상에 있는지 확인한다.")
-    @Test
-    void verticalTest() {
+    @ParameterizedTest
+    @CsvSource({
+            "5, 4, true",
+            "5, 6, true",
+            "4, 5, false",
+            "6, 5, false",
+    })
+    void verticalTest(int otherX, int otherY, boolean expected) {
         // given
-        Point point = new Point(0, 0);
-        Point otherPoint = new Point(0, 2);
+        Point point = new Point(5, 5);
+        Point otherPoint = new Point(otherX, otherY);
 
         // when & then
         assertThat(point.isVertical(otherPoint))
-                .isTrue();
+                .isSameAs(expected);
     }
 
     @DisplayName("같은 좌표에 있는지 확인한다.")
@@ -88,6 +100,64 @@ class PointTest {
 
         // when & then
         assertThat(point.isOneStepAway(otherPoint))
+                .isEqualTo(expected);
+    }
+
+    @DisplayName("수평으로 한 칸 이동한 좌표를 반환한다.")
+    @ParameterizedTest
+    @CsvSource({
+            "0, 0, 1, 0",
+            "1, 0, 0, 0",
+    })
+    void getNextHorizontalStepTest(int fromX, int fromY, int toX, int toY) {
+        // given
+        Point point = new Point(fromX, fromY);
+        Point otherPoint = new Point(toX, toY);
+
+        // when
+        Point nextHorizontalStep = point.getNextHorizontalStep(otherPoint);
+
+        // then
+        assertThat(nextHorizontalStep)
+                .isEqualTo(otherPoint);
+    }
+
+    @DisplayName("수직으로 한 칸 이동한 좌표를 반환한다.")
+    @ParameterizedTest
+    @CsvSource({
+            "0, 0, 0, 1",
+            "0, 1, 0, 0",
+    })
+    void getNextVerticalStepTest(int fromX, int fromY, int toX, int toY) {
+        // given
+        Point point = new Point(fromX, fromY);
+        Point otherPoint = new Point(toX, toY);
+
+        // when
+        Point nextVerticalStep = point.getNextVerticalStep(otherPoint);
+
+        // then
+        assertThat(nextVerticalStep)
+                .isEqualTo(otherPoint);
+    }
+
+    @DisplayName("두 좌표의 중간 좌표를 반환한다.")
+    @ParameterizedTest
+    @CsvSource({
+            "0, 0, 2, 2, 1, 1",
+            "0, 0, 1, 1, 0, 0",
+    })
+    void middlePointTest(int fromX, int fromY, int toX, int toY, int middleX, int middleY) {
+        // given
+        Point point = new Point(fromX, fromY);
+        Point otherPoint = new Point(toX, toY);
+        Point expected = new Point(middleX, middleY);
+
+        // when
+        Point middlePoint = point.middlePoint(otherPoint);
+
+        // then
+        assertThat(middlePoint)
                 .isEqualTo(expected);
     }
 }
