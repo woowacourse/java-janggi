@@ -19,14 +19,47 @@ class CarUnitRuleTest {
 
         // then
         Assertions.assertThat(routes).isNotEmpty();
-        Assertions.assertThat(routes).contains(
+        Assertions.assertThat(routes).containsOnly(
                 Route.of(List.of(
                         new Position(1, 0), new Position(2, 0), new Position(3, 0), new Position(4, 0),
                         new Position(5, 0), new Position(6, 0), new Position(7, 0), new Position(8, 0))),
                 Route.of(List.of(
+                        new Position(1, 0), new Position(2, 0), new Position(3, 0), new Position(4, 0),
+                        new Position(5, 0), new Position(6, 0), new Position(7, 0))),
+                Route.of(List.of(
+                        new Position(1, 0), new Position(2, 0), new Position(3, 0), new Position(4, 0),
+                        new Position(5, 0), new Position(6, 0))),
+                Route.of(List.of(
+                        new Position(1, 0), new Position(2, 0), new Position(3, 0), new Position(4, 0),
+                        new Position(5, 0))),
+                Route.of(List.of(
+                        new Position(1, 0), new Position(2, 0), new Position(3, 0), new Position(4, 0))),
+                Route.of(List.of(
+                        new Position(1, 0), new Position(2, 0), new Position(3, 0))),
+                Route.of(List.of(new Position(1, 0), new Position(2, 0))),
+                Route.of(List.of(new Position(1, 0))),
+                Route.of(List.of(
                         new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4),
                         new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
-                        new Position(0, 9)))
-        );
+                        new Position(0, 9))),
+                Route.of(List.of(
+                        new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4),
+                        new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8))),
+                Route.of(List.of(
+                        new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4),
+                        new Position(0, 5), new Position(0, 6), new Position(0, 7))),
+                Route.of(List.of(
+                        new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4),
+                        new Position(0, 5), new Position(0, 6))),
+                Route.of(List.of(
+                        new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4),
+                        new Position(0, 5))),
+                Route.of(List.of(
+                        new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4))),
+                Route.of(List.of(
+                        new Position(0, 1), new Position(0, 2), new Position(0, 3))),
+                Route.of(List.of(
+                        new Position(0, 1), new Position(0, 2))),
+                Route.of(List.of(new Position(0, 1))));
     }
 }
