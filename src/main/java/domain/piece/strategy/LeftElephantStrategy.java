@@ -4,24 +4,20 @@ import domain.Position;
 import domain.TeamType;
 import domain.piece.Elephant;
 import domain.piece.Horse;
-import java.util.List;
+import java.util.Map;
 
 public class LeftElephantStrategy extends HorseElephantSetupStrategy {
 
     public LeftElephantStrategy() {
         super(
-            List.of(
-                new Horse(Position.of(9, 2), TeamType.HAN),
-                new Elephant(Position.of(9, 1), TeamType.HAN),
-                new Elephant(Position.of(9, 6), TeamType.HAN),
-                new Horse(Position.of(9, 7), TeamType.HAN)
-            ),
-            List.of(
-                new Horse(Position.of(0, 2), TeamType.CHO),
-                new Elephant(Position.of(0, 1), TeamType.CHO),
-                new Elephant(Position.of(0, 6), TeamType.CHO),
-                new Horse(Position.of(0, 7), TeamType.CHO)
-            )
+                Map.of(Position.of(9, 2), new Horse(TeamType.HAN),
+                        Position.of(9, 1), new Elephant(TeamType.HAN),
+                        Position.of(9, 6), new Elephant(TeamType.HAN),
+                        Position.of(9, 7), new Horse(TeamType.HAN)),
+                Map.of(Position.of(0, 2), new Horse(TeamType.CHO),
+                        Position.of(0, 1), new Elephant(TeamType.CHO),
+                        Position.of(0, 6), new Elephant(TeamType.CHO),
+                        Position.of(0, 7), new Horse(TeamType.CHO))
         );
     }
 }

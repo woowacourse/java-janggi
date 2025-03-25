@@ -2,29 +2,20 @@ package domain.piece;
 
 import domain.Position;
 import domain.TeamType;
+import domain.piece.path.PathFinder;
+import domain.piece.path.PathValidator;
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.Map;
 
 public abstract class Piece {
-    protected Position position;
     protected final TeamType teamType;
+    private final PathFinder pathFinder;
+    private final PathValidator pathValidator;
 
-    protected Piece(Position position, TeamType teamType) {
-        this.position = position;
+    protected Piece(TeamType teamType, PathFinder pathFinder, PathValidator pathValidator) {
         this.teamType = teamType;
-    }
-
-    protected Piece(Piece piece) {
-        this.position = piece.position;
-        this.teamType = piece.teamType;
-    }
-
-    public void moveTo(Position position) {
-        this.position = position;
-    }
-
-    public boolean hasSamePosition(Position position) {
-        return this.position.equals(position);
+        this.pathFinder = pathFinder;
+        this.pathValidator = pathValidator;
     }
 
     public boolean isSameTeam(Piece piece) {
@@ -39,21 +30,16 @@ public abstract class Piece {
         return this.getType().equals(pieceType);
     }
 
-    protected boolean hasNotTeamAtPosition(Position expectedPosition, List<Piece> alivePieces,
-                                        Predicate<Piece> predicate) {
-        boolean hasTeamAtPosition = alivePieces.stream()
-                .anyMatch(piece -> piece.hasSamePosition(expectedPosition) && (piece.isSameTeam(this) || predicate.test(
-                        piece)));
-        return !hasTeamAtPosition;
-    }
-    
-    public Position getPosition() {
-        return position;
+    public TeamType getTeamType() {
+        return teamType;
     }
 
-    public abstract boolean canMove(Position expectedPosition, List<Piece> alivePieces);
+    public void validateCanMove(Position from, Position to, Map<Position, Piece> alivePieces) {
+        List<Position> intermediatePositions = pathFinder.findIntermediatePositions(from, to);
+        pathValidator.validatePath(this, to, intermediatePositions, alivePieces);
+    }
+
+    ;
 
     public abstract PieceType getType();
-
-    public abstract Piece newInstance();
 }

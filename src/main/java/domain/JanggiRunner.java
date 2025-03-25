@@ -3,7 +3,7 @@ package domain;
 import domain.piece.Piece;
 import domain.piece.PieceFactory;
 import domain.piece.strategy.HorseElephantSetupStrategy;
-import java.util.List;
+import java.util.Map;
 import view.InputView;
 import view.OutputView;
 
@@ -23,8 +23,8 @@ public class JanggiRunner {
     }
 
     private void showInitializedBoardResult(JanggiGame janggiGame) {
-        List<Piece> alivePieces = janggiGame.getAlivePieces();
-        outputView.printBoard(alivePieces);
+        Map<Position, Piece> alivePiecesInfo = janggiGame.getAlivePiecesInfo();
+        outputView.printBoard(alivePiecesInfo);
     }
 
     private void startGame(JanggiGame janggiGame) {
@@ -39,7 +39,7 @@ public class JanggiRunner {
             Position startPosition = inputView.getStartPosition(nowPlayer);
             Position endPosition = inputView.getEndPosition(nowPlayer);
             janggiGame.movePiece(startPosition, endPosition, nowTurn);
-            outputView.printBoard(janggiGame.getAlivePieces());
+            outputView.printBoard(janggiGame.getAlivePiecesInfo());
             nowTurn = findNextTurn(nowTurn);
         }
     }
@@ -51,14 +51,14 @@ public class JanggiRunner {
 
     private JanggiGame initializeGame() {
         Players players = createPlayers();
-        HorseElephantSetupStrategy firstPlayerStrategy = chooseStrategy(players.getChoPlayerName());
-        HorseElephantSetupStrategy secondPlayerStrategy = chooseStrategy(players.getHanPlayerName());
-        List<Piece> allPieces = createAllPieces(firstPlayerStrategy, secondPlayerStrategy);
+        HorseElephantSetupStrategy choPlayerStrategy = chooseStrategy(players.getChoPlayerName());
+        HorseElephantSetupStrategy hanPlayerStrategy = chooseStrategy(players.getHanPlayerName());
+        Map<Position, Piece> allPieces = createAllPieces(choPlayerStrategy, hanPlayerStrategy);
         return new JanggiGame(players, allPieces);
     }
 
-    private List<Piece> createAllPieces(HorseElephantSetupStrategy firstPlayerStrategy,
-                                        HorseElephantSetupStrategy secondPlayerStrategy) {
+    private Map<Position, Piece> createAllPieces(HorseElephantSetupStrategy firstPlayerStrategy,
+                                                 HorseElephantSetupStrategy secondPlayerStrategy) {
         PieceFactory factory = new PieceFactory();
         return factory.createAllPieces(firstPlayerStrategy, secondPlayerStrategy);
     }

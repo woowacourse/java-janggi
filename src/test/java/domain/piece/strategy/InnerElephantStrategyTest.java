@@ -5,7 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.Position;
 import domain.TeamType;
 import domain.piece.Piece;
-import java.util.List;
+import domain.piece.PieceType;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,10 +17,10 @@ class InnerElephantStrategyTest {
     void testCreateElephantHorse() {
         InnerElephantStrategy innerElephantStrategy = new InnerElephantStrategy();
 
-        List<Piece> choElephant = innerElephantStrategy.createElephantHorse(TeamType.CHO);
-        Piece horse = choElephant.get(0);
+        Map<Position, Piece> elephantHorse = innerElephantStrategy.createElephantHorse(TeamType.CHO);
+        Piece piece = elephantHorse.get(Position.of(0, 1));
 
-        assertThat(horse.getPosition()).isEqualTo(Position.of(0, 1));
+        assertThat(piece.getType()).isEqualTo(PieceType.HORSE);
     }
 
 }

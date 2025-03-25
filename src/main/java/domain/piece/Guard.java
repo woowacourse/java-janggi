@@ -2,39 +2,24 @@ package domain.piece;
 
 import domain.Direction;
 import domain.Movement;
-import domain.Movements;
-import domain.Position;
 import domain.TeamType;
+import domain.piece.path.DefaultPathValidator;
+import domain.piece.path.FixedPatternPathFinder;
 import java.util.List;
 
 public class Guard extends Piece {
-    private static final Movements MOVEMENTS;
+    private static final List<Movement> MOVEMENTS;
 
     static {
-        MOVEMENTS = new Movements(
-                List.of(
-                        new Movement(List.of(Direction.UP)),
-                        new Movement(List.of(Direction.DOWN)),
-                        new Movement(List.of(Direction.RIGHT)),
-                        new Movement(List.of(Direction.LEFT))
-                )
-        );
+        MOVEMENTS = List.of(
+                new Movement(List.of(Direction.UP)),
+                new Movement(List.of(Direction.DOWN)),
+                new Movement(List.of(Direction.RIGHT)),
+                new Movement(List.of(Direction.LEFT)));
     }
 
-    public Guard(Position position, TeamType teamType) {
-        super(position, teamType);
-    }
-
-    private Guard(Guard guard) {
-        super(guard);
-    }
-
-    @Override
-    public boolean canMove(Position expectedPosition, List<Piece> alivePieces) {
-        if(!MOVEMENTS.canMovePieceToPosition(this, expectedPosition, alivePieces)){
-            return false;
-        };
-        return hasNotTeamAtPosition(expectedPosition, alivePieces,(piece -> false));
+    public Guard(TeamType teamType) {
+        super(teamType, new FixedPatternPathFinder(MOVEMENTS), new DefaultPathValidator());
     }
 
     @Override
@@ -42,8 +27,4 @@ public class Guard extends Piece {
         return PieceType.GUARD;
     }
 
-    @Override
-    public Piece newInstance() {
-        return new Guard(this);
-    }
 }
