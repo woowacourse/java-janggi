@@ -41,11 +41,6 @@ public class Position {
     }
 
     @Override
-    public String toString() {
-        return row.intValue() + ", " + column.intValue();
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (!(o instanceof Position position)) return false;
         return row == position.row && column == position.column;
