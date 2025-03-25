@@ -14,12 +14,20 @@ public class Route {
         return new Route(positions);
     }
 
-    public Position searchStartPoint() {
-        return positions.getFirst();
-    }
+    public Position searchEndPoint(Position startPoint) {
+        int distance = 0;
+        Position endPoint = positions.getFirst();
 
-    public Position searchEndPoint() {
-        return positions.getLast();
+        for (Position position : positions) {
+            int distanceX = Math.abs(position.getX() - startPoint.getX());
+            int distanceY = Math.abs(position.getY() - startPoint.getY());
+
+            if (distance < distanceX + distanceY) {
+                distance = distanceX + distanceY;
+                endPoint = position;
+            }
+        }
+        return endPoint;
     }
 
     public List<Position> getPoints() {

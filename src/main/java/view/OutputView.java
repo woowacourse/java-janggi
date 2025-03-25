@@ -16,10 +16,10 @@ public class OutputView {
     private static final int MAX_ROW = 10;
     private static final int MAX_COLUM = 9;
 
-    public void printAvailableRoute(List<Route> routes) {
+    public void printAvailableRoute(List<Route> routes, Position startPoint) {
         int index = 1;
         for (Route route : routes) {
-            Position endPoint = route.searchEndPoint();
+            Position endPoint = route.searchEndPoint(startPoint);
             System.out.printf("%d) x = %d, y = %d\n"
                     , index, endPoint.getX(), endPoint.getY());
             index++;
