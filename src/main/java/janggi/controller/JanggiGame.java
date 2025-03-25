@@ -4,7 +4,6 @@ import janggi.board.Board;
 import janggi.board.BoardGenerator;
 import janggi.exception.ErrorException;
 import janggi.piece.Camp;
-import janggi.piece.Piece;
 import janggi.position.Position;
 import janggi.view.Command;
 import janggi.view.InputView;
