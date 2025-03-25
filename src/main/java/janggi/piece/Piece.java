@@ -15,17 +15,23 @@ public abstract class Piece {
         this.position = position;
     }
 
+    public void moveTo(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
+        isMove(futurePosition);
+        validateTeam(janggiBoard.get(futurePosition));
+        checkObstacle(futurePosition, janggiBoard);
+    }
+
     public void updatePiecePositionBy(final Position position) {
         this.position = position;
     }
 
-    public abstract void checkObstacle(final Position futurePosition, Map<Position, Piece> janggiBoard);
+    protected abstract void checkObstacle(final Position futurePosition, Map<Position, Piece> janggiBoard);
 
     public abstract List<Position> makeRoute(final Position position);
 
-    public abstract boolean isMove(final Position position);
+    protected abstract boolean isMove(final Position position);
 
-    public void validateTeam(final Piece other) {
+    protected void validateTeam(final Piece other) {
         if (isSameTeam(other)) {
             throw new IllegalArgumentException("[ERROR] 같은 팀의 기물을 잡을 수 없습니다.");
         }
@@ -83,4 +89,5 @@ public abstract class Piece {
     public String getName() {
         return pieceProfile.getName();
     }
+
 }

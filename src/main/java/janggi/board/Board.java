@@ -21,9 +21,7 @@ public class Board {
 
     public void pieceMove(final Position presentPosition, final Position futurePosition) {
         final Piece piece = janggiBoard.get(presentPosition);
-        piece.isMove(futurePosition);
-        piece.validateTeam(janggiBoard.get(futurePosition));
-        piece.checkObstacle(futurePosition, janggiBoard);
+        piece.moveTo(futurePosition, janggiBoard);
         updatePiecePosition(presentPosition, futurePosition, piece);
     }
 
