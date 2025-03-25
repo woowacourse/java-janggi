@@ -130,29 +130,29 @@ public class CoordinateTest {
     }
 
     @ParameterizedTest
-    @DisplayName("현재 좌표가 궁성 내부로 대각선이 이어진 곳이라면 이어진 대각선 움직임들을 반환한다.")
-    @MethodSource("provideCoordinatesAndExpectedMovement")
-    void test11(Coordinate coordinate, Set<Movement> movements) {
+    @DisplayName("현재 좌표와 연결되어 있는 좌표들을 반환한다.")
+    @MethodSource("provideCoordinatesAndConnections")
+    void test11(Coordinate coordinate, Set<Coordinate> coordinates) {
         //when
-        Set<Movement> diagonalMovements = coordinate.getMovementsIfInCastle();
+        Set<Coordinate> connections = coordinate.findCastleConnections();
 
         //then
-        assertThat(diagonalMovements).containsExactlyElementsOf(movements);
+        assertThat(connections).containsExactlyElementsOf(coordinates);
     }
 
-    public static Stream<Arguments> provideCoordinatesAndExpectedMovement() {
+    public static Stream<Arguments> provideCoordinatesAndConnections() {
         return Stream.of(
-            Arguments.of(new Coordinate(4, 1), Set.of(Movement.RIGHT_DOWN)),
-            Arguments.of(new Coordinate(4, 3), Set.of(Movement.RIGHT_UP)),
-            Arguments.of(new Coordinate(6, 1), Set.of(Movement.LEFT_DOWN)),
-            Arguments.of(new Coordinate(6, 3), Set.of(Movement.LEFT_UP)),
-            Arguments.of(new Coordinate(5, 2), Set.of(Movement.LEFT_UP, Movement.LEFT_DOWN, Movement.RIGHT_UP, Movement.RIGHT_DOWN)),
+            Arguments.of(new Coordinate(4, 1), Set.of(new Coordinate(5, 2))),
+            Arguments.of(new Coordinate(4, 3), Set.of(new Coordinate(5, 2))),
+            Arguments.of(new Coordinate(6, 1), Set.of(new Coordinate(5, 2))),
+            Arguments.of(new Coordinate(6, 3), Set.of(new Coordinate(5, 2))),
+            Arguments.of(new Coordinate(5, 2), Set.of(new Coordinate(4,1), new Coordinate(4, 3), new Coordinate(6, 1), new Coordinate(6, 3))),
 
-            Arguments.of(new Coordinate(4, 8), Set.of(Movement.RIGHT_DOWN)),
-            Arguments.of(new Coordinate(4, 10), Set.of(Movement.RIGHT_UP)),
-            Arguments.of(new Coordinate(6, 8), Set.of(Movement.LEFT_DOWN)),
-            Arguments.of(new Coordinate(6, 10), Set.of(Movement.LEFT_UP)),
-            Arguments.of(new Coordinate(5, 9), Set.of(Movement.LEFT_UP, Movement.LEFT_DOWN, Movement.RIGHT_UP, Movement.RIGHT_DOWN)
-            ));
+            Arguments.of(new Coordinate(4, 8), Set.of(new Coordinate(5, 9))),
+            Arguments.of(new Coordinate(4, 10), Set.of(new Coordinate(5, 9))),
+            Arguments.of(new Coordinate(6, 8), Set.of(new Coordinate(5, 9))),
+            Arguments.of(new Coordinate(6, 10), Set.of(new Coordinate(5, 9))),
+            Arguments.of(new Coordinate(5, 9), Set.of(new Coordinate(4, 8), new Coordinate(4, 10), new Coordinate(6, 8), new Coordinate(6, 10))
+        ));
     }
 }

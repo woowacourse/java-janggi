@@ -1,24 +1,26 @@
 package domain;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
 public record Coordinate(int x, int y) {
 
-    private static final Map<Coordinate, Set<Movement>> CASTLE_DIAGONAL_CONNECTIONS = Map.of(
-        new Coordinate(4, 1), Set.of(Movement.RIGHT_DOWN),
-        new Coordinate(4, 3), Set.of(Movement.RIGHT_UP),
-        new Coordinate(6, 1), Set.of(Movement.LEFT_DOWN),
-        new Coordinate(6, 3), Set.of(Movement.LEFT_UP),
-        new Coordinate(5, 2),
-        Set.of(Movement.LEFT_UP, Movement.RIGHT_UP, Movement.LEFT_DOWN, Movement.RIGHT_DOWN),
+    public static final Set<Integer> CASTLE_X_COORDINATES = Set.of(4, 5, 6);
+    public static final Set<Integer> CASTLE_Y_COORDINATES = Set.of(1, 2, 3, 8, 9, 10);
 
-        new Coordinate(4, 8), Set.of(Movement.RIGHT_DOWN),
-        new Coordinate(4, 10), Set.of(Movement.RIGHT_UP),
-        new Coordinate(6, 8), Set.of(Movement.LEFT_DOWN),
-        new Coordinate(6, 10), Set.of(Movement.LEFT_UP),
-        new Coordinate(5, 9),
-        Set.of(Movement.LEFT_UP, Movement.RIGHT_UP, Movement.LEFT_DOWN, Movement.RIGHT_DOWN)
+    private static final Map<Coordinate, Set<Coordinate>> CASTLE_DIAGONAL_CONNECTIONS = Map.of(
+        new Coordinate(4, 1), Set.of(new Coordinate(5, 2)),
+        new Coordinate(4, 3), Set.of(new Coordinate(5, 2)),
+        new Coordinate(6, 1), Set.of(new Coordinate(5, 2)),
+        new Coordinate(6, 3), Set.of(new Coordinate(5, 2)),
+        new Coordinate(5, 2), Set.of(new Coordinate(4,1), new Coordinate(4, 3), new Coordinate(6, 1), new Coordinate(6, 3)),
+
+        new Coordinate(4, 8), Set.of(new Coordinate(5, 9)),
+        new Coordinate(4, 10), Set.of(new Coordinate(5, 9)),
+        new Coordinate(6, 8), Set.of(new Coordinate(5, 9)),
+        new Coordinate(6, 10), Set.of(new Coordinate(5, 9)),
+        new Coordinate(5, 9), Set.of(new Coordinate(4, 8), new Coordinate(4, 10), new Coordinate(6, 8), new Coordinate(6, 10))
     );
 
     public Coordinate {
@@ -40,15 +42,16 @@ public record Coordinate(int x, int y) {
     }
 
     public boolean isInCastle() {
-        Set<Integer> xCoordinates = Set.of(4, 5, 6);
-        Set<Integer> yCoordinates = Set.of(1, 2, 3, 8, 9, 10);
-
-        return xCoordinates.contains(this.x)
-            && yCoordinates.contains(this.y);
+        return CASTLE_X_COORDINATES.contains(this.x)
+            && CASTLE_Y_COORDINATES.contains(this.y);
     }
 
-    public Set<Movement> getMovementsIfInCastle() {
-        return CASTLE_DIAGONAL_CONNECTIONS.getOrDefault(this, Set.of());
+    public Set<Coordinate> findCastleConnections() {
+        return CASTLE_DIAGONAL_CONNECTIONS.getOrDefault(this, Collections.emptySet());
+    }
+
+    public Movement computeMovementTo(Coordinate destination) {
+        return new Movement(destination.x - this.x, destination.y - this.y);
     }
 
     private boolean isInvalidX(int x) {

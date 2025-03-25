@@ -24,8 +24,10 @@ public abstract class Piece {
     public final Set<Movement> movements() {
         Set<Movement> movements = new HashSet<>(this.movements);
         if (coordinate.isInCastle()) {
-            Set<Movement> diagonalMovements = coordinate.getMovementsIfInCastle();
-            movements.addAll(diagonalMovements);
+            Set<Coordinate> connections = coordinate.findCastleConnections();
+            connections.stream()
+                .map(coordinate::computeMovementTo)
+                .forEach(movements::add);
         }
 
         return movements;
