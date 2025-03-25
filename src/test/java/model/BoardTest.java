@@ -20,8 +20,10 @@ class BoardTest {
         board.putPiece(new Position(5, 4), new Chariot(Color.RED));
         board.move(position, new Position(4, 5));
 
-        assertThat(board.isExist(position)).isFalse();
-        assertThat(board.isExist(new Position(4, 5))).isTrue();
+        OccupiedPositions occupiedPositions = board.generateOccupiedPositions();
+
+        assertThat(occupiedPositions.existPosition(position)).isFalse();
+        assertThat(occupiedPositions.existPosition(new Position(4, 5))).isTrue();
     }
 
     @Test
