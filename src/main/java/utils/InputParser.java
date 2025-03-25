@@ -13,6 +13,6 @@ public class InputParser {
         List<String> splitResult = List.of(userInput.split(DELIMITER));
         return splitResult.stream()
             .map(Integer::parseInt)
-            .collect(Collectors.toList());
+            .toList();
     }
 }
