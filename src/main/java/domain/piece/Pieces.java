@@ -7,11 +7,9 @@ public record Pieces(
         List<Piece> pieces
 ) {
 
-    public Piece findByPosition(final Position position) {
-        return pieces.stream()
-                .filter(element -> element.getPosition().equals(position))
-                .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+    public List<Position> getPiecePaths(final Position startPosition, final Position targetPosition) {
+        Piece piece = findByPosition(startPosition);
+        return piece.getPath(targetPosition);
     }
 
     public int countPiecesInPositions(final List<Position> positions) {
@@ -21,9 +19,27 @@ public record Pieces(
                 .count();
     }
 
-    public void updatePosition(final Piece piece, final Position position) {
+    public boolean existByPosition(final Position position) {
+        return pieces.stream()
+                .anyMatch(piece -> piece.isSamePosition(position));
+    }
+
+    public void validateMovePath(final Position startPosition, final int pathPieceCount) {
+        Piece piece = findByPosition(startPosition);
+        piece.validateMoveByPathPieceCount(pathPieceCount);
+    }
+
+    public boolean isCannonByPosition(final Position position) {
+        return pieces.stream()
+                .filter(piece -> piece.isSamePosition(position))
+                .anyMatch(Piece::isCannon);
+    }
+
+    public void updatePosition(final Position startPosition, final Position updatePosition) {
+        Piece piece = findByPosition(startPosition);
+
         pieces.remove(piece);
-        pieces.add(piece.updatePosition(position));
+        pieces.add(piece.updatePosition(updatePosition));
     }
 
     public void removePieceIfExists(final Position targetPosition) {
@@ -32,23 +48,19 @@ public record Pieces(
         }
     }
 
-    public boolean existByPosition(final Position position) {
-        return pieces.stream()
-                .anyMatch(piece -> piece.isSamePosition(position));
-    }
-
-    public void deleteByPosition(final Position position) {
-        pieces.remove(findByPosition(position));
-    }
-
     public boolean existKing() {
         return pieces.stream()
                 .anyMatch(Piece::isKing);
     }
 
-    public boolean isCannonByPosition(final Position position) {
+    private void deleteByPosition(final Position position) {
+        pieces.remove(findByPosition(position));
+    }
+
+    private Piece findByPosition(final Position position) {
         return pieces.stream()
-                .filter(piece -> piece.isSamePosition(position))
-                .anyMatch(Piece::isCannon);
+                .filter(element -> element.getPosition().equals(position))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
     }
 }
