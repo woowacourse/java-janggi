@@ -13,7 +13,7 @@ public class Guard extends AbstractPiece {
     }
 
     @Override
-    public List<Point> calculatePossiblePoint(final Point prev, final Point newPoint) {
+    public List<Point> calculatePossiblePoint(final Point fromPoint, final Point toPoint) {
         return List.of();
     }
 

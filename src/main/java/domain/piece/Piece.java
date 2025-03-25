@@ -9,7 +9,7 @@ public interface Piece {
 
     boolean isGreenTeam();
 
-    List<Point> calculatePossiblePoint(final Point prev, final Point newPoint);
+    List<Point> calculatePossiblePoint(final Point fromPoint, final Point toPoint);
 
     PieceType type();
 }

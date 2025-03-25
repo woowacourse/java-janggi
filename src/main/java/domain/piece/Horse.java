@@ -14,42 +14,42 @@ public class Horse extends AbstractPiece {
     }
 
     @Override
-    public List<Point> calculatePossiblePoint(final Point prev, final Point newPoint) {
+    public List<Point> calculatePossiblePoint(final Point fromPoint, final Point toPoint) {
         final List<Point> possiblePoint = new ArrayList<>();
 
-        final int x = prev.calculateSubtractionX(newPoint);
-        final int y = prev.calculateSubtractionY(newPoint);
+        final int x = fromPoint.calculateSubtractionX(toPoint);
+        final int y = fromPoint.calculateSubtractionY(toPoint);
         if (x > 0 && y > 0) {
-            final Point point = prev.up().rightUp();
+            final Point point = fromPoint.up().rightUp();
 
-            if (point.equals(newPoint)) {
-                possiblePoint.add(prev.up());
+            if (point.equals(toPoint)) {
+                possiblePoint.add(fromPoint.up());
             } else {
-                possiblePoint.add(prev.right());
+                possiblePoint.add(fromPoint.right());
             }
         }
         if (x < 0 && y > 0) {
-            final Point point = prev.up().leftUp();
-            if (point.equals(newPoint)) {
-                possiblePoint.add(prev.up());
+            final Point point = fromPoint.up().leftUp();
+            if (point.equals(toPoint)) {
+                possiblePoint.add(fromPoint.up());
             } else {
-                possiblePoint.add(prev.left());
+                possiblePoint.add(fromPoint.left());
             }
         }
         if (x < 0 && y < 0) {
-            final Point point = prev.left().leftDown();
-            if (point.equals(newPoint)) {
-                possiblePoint.add(prev.left());
+            final Point point = fromPoint.left().leftDown();
+            if (point.equals(toPoint)) {
+                possiblePoint.add(fromPoint.left());
             } else {
-                possiblePoint.add(prev.down());
+                possiblePoint.add(fromPoint.down());
             }
         }
         if (x > 0 && y < 0) {
-            final Point point = prev.down().rightDown();
-            if (point.equals(newPoint)) {
-                possiblePoint.add(prev.down());
+            final Point point = fromPoint.down().rightDown();
+            if (point.equals(toPoint)) {
+                possiblePoint.add(fromPoint.down());
             } else {
-                possiblePoint.add(prev.right());
+                possiblePoint.add(fromPoint.right());
             }
         }
         return possiblePoint;
