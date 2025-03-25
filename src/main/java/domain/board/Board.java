@@ -14,7 +14,7 @@ public class Board {
         this.board = board;
     }
 
-    public void move(PieceType pieceType, Position source, Position destination) {
+    public void movePiece(PieceType pieceType, Position source, Position destination) {
         validateMove(source, destination);
         Piece piece = getPieceBy(source);
         validateIsMyPieceType(piece, pieceType);
@@ -30,7 +30,7 @@ public class Board {
     private void validateMove(Position source, Position destination) {
         Piece sourcePiece = getPieceBy(source);
         Piece destinationPiece = getPieceBy(destination);
-        boolean isValidDestination = sourcePiece.isValidDestination(source, destination);
+        boolean isValidDestination = sourcePiece.isValidMovement(source, destination);
 
         List<Position> route = sourcePiece.findAllRoute(source, destination);
         List<Piece> piecesOnRoute = getPiecesOnRoute(route);

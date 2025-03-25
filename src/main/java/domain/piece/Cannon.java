@@ -1,16 +1,17 @@
 package domain.piece;
 
 import domain.board.Position;
+import domain.rule.CannonMoveRule;
 import java.util.List;
 
 public class Cannon extends Piece {
 
     public Cannon(PieceColor color) {
-        super(PieceType.CANNON, color);
+        super(PieceType.CANNON, color, CannonMoveRule.getInstance());
     }
 
     @Override
-    public boolean isValidDestination(Position source, Position destination) {
+    public boolean isValidMovement(Position source, Position destination) {
         int rowDifference = source.rowDifference(destination);
         int columnDifference = source.columnDifference(destination);
 
@@ -20,26 +21,5 @@ public class Cannon extends Piece {
     @Override
     public List<Position> findAllRoute(Position source, Position destination) {
         return source.getBetweenPositions(destination);
-    }
-
-    @Override
-    public boolean canMove(Piece destination, List<Piece> piecesInRoute) {
-        int pieceCount = this.countPieceInRoute(piecesInRoute);
-        if (pieceCount != ONE_PIECE) {
-            return false;
-        }
-
-        boolean hasSamePiece = piecesInRoute.stream()
-                .anyMatch(this::isSamePieceType);
-        if (hasSamePiece) {
-            return false;
-        }
-
-        boolean isDestinationSamePiece = this.isSamePieceType(destination);
-        if (isDestinationSamePiece) {
-            return false;
-        }
-
-        return this.isOtherTeam(destination);
     }
 }

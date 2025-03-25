@@ -22,7 +22,7 @@ public class RedTurn implements State {
         Piece destinationPiece = board.getPieceBy(destination);
         validateIsMyPieceColor(sourcePiece);
 
-        board.move(pieceType, source, destination);
+        board.movePiece(pieceType, source, destination);
         boolean isGeneral = destinationPiece.isSamePieceType(PieceType.GENERAL);
         if (isGeneral) {
             return new Finished(pieceColor);

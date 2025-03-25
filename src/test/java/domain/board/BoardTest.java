@@ -26,7 +26,7 @@ class BoardTest {
         Position destination = new Position(Row.THREE, Column.THREE);
         Piece horse = new Horse(PieceColor.RED);
 
-        board.move(PieceType.HORSE, source, destination);
+        board.movePiece(PieceType.HORSE, source, destination);
 
         Piece movedPiece = board.getPieceBy(destination);
         Piece afterPositionPiece = board.getPieceBy(source);
@@ -43,7 +43,7 @@ class BoardTest {
         Position source = new Position(Row.ONE, Column.TWO);
         Position destination = new Position(Row.THREE, Column.TWO);
 
-        assertThatThrownBy(() -> board.move(PieceType.HORSE, source, destination))
+        assertThatThrownBy(() -> board.movePiece(PieceType.HORSE, source, destination))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -57,7 +57,7 @@ class BoardTest {
 
         System.out.println(board.getPieceBy(new Position(Row.ONE, Column.THREE)));
 
-        assertThatThrownBy(() -> board.move(PieceType.HORSE, source, destination))
+        assertThatThrownBy(() -> board.movePiece(PieceType.HORSE, source, destination))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -68,7 +68,7 @@ class BoardTest {
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.TWO, Column.ONE);
 
-        assertThatThrownBy(() -> board.move(PieceType.SOLDIER, source, destination))
+        assertThatThrownBy(() -> board.movePiece(PieceType.SOLDIER, source, destination))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -80,7 +80,7 @@ class BoardTest {
         Position destination = new Position(Row.TWO, Column.ONE);
         Piece Chariot = new Chariot(PieceColor.RED);
 
-        assertThatCode(() -> board.move(PieceType.CHARIOT, source, destination))
+        assertThatCode(() -> board.movePiece(PieceType.CHARIOT, source, destination))
                 .doesNotThrowAnyException();
     }
 }

@@ -35,7 +35,7 @@ class PieceTest {
         piecesInRoute.add(new Empty());
 
         Piece piece = new Soldier(PieceColor.BLUE);
-        int pieceCountInRoute = piece.countPieceInRoute(piecesInRoute);
+        int pieceCountInRoute = piece.countObstacles(piecesInRoute);
 
         assertThat(pieceCountInRoute).isEqualTo(2);
     }
