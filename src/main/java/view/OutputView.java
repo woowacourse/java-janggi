@@ -24,16 +24,24 @@ public class OutputView {
     public void showCurrentPositionOfPieces(Map<Position, Piece> pieces) {
         System.out.println("  １２３４５６７８９");
         for (Column column : Column.values()) {
-            System.out.print(column.getValue()+" ");
-            for (Row row : Row.values()) {
-                Piece piece = pieces.get(new Position(column, row));
-                if (piece == null) {
-                    System.out.print("－");
-                } else {
-                    System.out.print(piece);
-                }
-            }
-            System.out.println();
+            loopForRow(pieces, column);
         }
+    }
+
+    private void loopForRow(Map<Position, Piece> pieces, Column column) {
+        System.out.print(column.getValue() + " ");
+        for (Row row : Row.values()) {
+            printPieceByPosition(pieces, column, row);
+        }
+        System.out.println();
+    }
+
+    private void printPieceByPosition(Map<Position, Piece> pieces, Column column, Row row) {
+        Piece piece = pieces.get(new Position(column, row));
+        if (piece == null) {
+            System.out.print("－");
+            return;
+        }
+        System.out.print(piece);
     }
 }
