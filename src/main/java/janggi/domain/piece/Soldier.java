@@ -8,7 +8,11 @@ import janggi.domain.moveRule.DefaultMoveRule;
 import java.util.List;
 
 public class Soldier extends Piece {
-    private final static List<Direction> SOLDIER_DIRECTION = List.of(Direction.UP, Direction.DOWN, Direction.LEFT,Direction.RIGHT);
+    private final static List<Direction> SOLDIER_DIRECTION =
+            List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT);
+    private final static List<Direction> IN_PALACE_DIRECTION =
+            List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT,
+                    Direction.DOWN_LEFT, Direction.DOWN_RIGHT, Direction.UP_LEFT, Direction.UP_RIGHT);
 
     public Soldier(PieceColor color) {
         super(color, PieceType.SOLDIER, DefaultMoveRule.getRule());
@@ -18,14 +22,23 @@ public class Soldier extends Piece {
     public boolean isValidMovement(PiecePath path) {
         Direction direction = path.calculateDirection();
 
-        if(this.color == PieceColor.RED && direction == Direction.UP) {
+        if(isBackMovement(direction, this.color)) {
             return false;
         }
-        if(this.color == PieceColor.BLUE && direction == Direction.DOWN) {
-            return false;
+        if(path.isInPalacePath() && IN_PALACE_DIRECTION.contains(direction)) {
+            return true;
         }
-
         return SOLDIER_DIRECTION.contains(direction);
+    }
+
+    private boolean isBackMovement(Direction direction, PieceColor color) {
+        if(color == PieceColor.BLUE && direction.getX() > 0) {
+            return true;
+        }
+        if(color == PieceColor.RED && direction.getX() < 0) {
+            return true;
+        }
+        return false;
     }
 
     @Override
