@@ -5,6 +5,7 @@ import janggi.domain.board.PlayingBoard;
 import janggi.domain.board.Position;
 import janggi.domain.board.Row;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.TeamColor;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,6 +14,7 @@ public class OutputView {
     public static final String WHITE_COLOR = "\u001B[0m";
     public static final String RED_COLOR = "\u001B[31m";
     public static final String BLUE_COLOR = "\u001B[34m";
+    public static final String YELLOW_COLOR = "\u001B[33m";
 
     public void printBoard(PlayingBoard playingBoard) {
         StringBuilder sb = new StringBuilder();
@@ -26,6 +28,9 @@ public class OutputView {
                 String color = getColorFrom(piece.getColor());
                 String pieceName = PieceTypeName.getNameFrom(piece);
 
+                if(piece.isPieceType(PieceType.NONE) && position.isPalacePosition()) {
+                    color = YELLOW_COLOR;
+                }
                 sb.append(color + pieceName + " ");
             }
             sb.append(System.lineSeparator());
