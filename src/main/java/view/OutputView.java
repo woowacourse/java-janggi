@@ -45,7 +45,11 @@ public class OutputView {
     private String convertToString(String color, Piece piece) {
         String result = "";
         switch (piece.getClass().getSimpleName()) {
-            case "Byeong":
+            case "Pawn":
+                if (piece.getTeam() == Team.CHO) {
+                    result = "졸";
+                    break;
+                }
                 result = "병";
                 break;
             case "Jol":

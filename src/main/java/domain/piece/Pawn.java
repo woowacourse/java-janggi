@@ -6,16 +6,25 @@ import domain.Position;
 import domain.Team;
 import java.util.List;
 
-public class Byeong extends Piece {
+public class Pawn extends Piece {
 
-    private static final List<Moves> moves = List.of(
-            Moves.create(Move.BACK),
-            Moves.create(Move.RIGHT),
-            Moves.create(Move.LEFT)
-    );
+    private final List<Moves> moves;
 
-    public Byeong(Team team) {
+    public Pawn(Team team) {
         super(team);
+        if (team == Team.CHO) {
+            this.moves = List.of(
+                    Moves.create(Move.FRONT),
+                    Moves.create(Move.RIGHT),
+                    Moves.create(Move.LEFT)
+            );
+            return;
+        }
+        this.moves = List.of(
+                Moves.create(Move.BACK),
+                Moves.create(Move.RIGHT),
+                Moves.create(Move.LEFT)
+        );
     }
 
     @Override

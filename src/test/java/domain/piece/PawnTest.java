@@ -7,17 +7,17 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class ByeongTest {
+class PawnTest {
 
     @DisplayName("졸(병)은 오른쪽으로 이동할 수 있다.")
     @Test
     void test() {
 
         //given
-        Byeong byeong = new Byeong(Team.HAN);
+        Pawn pawn = new Pawn(Team.HAN);
 
         //when
-        List<Position> move = byeong.calculatePath(new Position(4, 1), new Position(4, 2));
+        List<Position> move = pawn.calculatePath(new Position(4, 1), new Position(4, 2));
 
         // then
         Assertions.assertThat(move).isEqualTo(List.of());
@@ -28,10 +28,10 @@ class ByeongTest {
     void test1() {
 
         //given
-        Byeong byeong = new Byeong(Team.HAN);
+        Pawn pawn = new Pawn(Team.HAN);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> byeong.calculatePath(new Position(4, 1), new Position(4, 3)))
+        Assertions.assertThatThrownBy(() -> pawn.calculatePath(new Position(4, 1), new Position(4, 3)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이 위치로 이동할 수 없습니다.");
     }

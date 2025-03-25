@@ -3,10 +3,10 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.piece.Byeong;
 import domain.piece.Cha;
 import domain.piece.Gung;
 import domain.piece.Ma;
+import domain.piece.Pawn;
 import domain.piece.Piece;
 import domain.piece.Po;
 import java.util.HashMap;
@@ -24,8 +24,8 @@ public class JanggiBoardTest {
     @Test
     void test1() {
         Map<Position, Piece> board = Map.of(
-                new Position(4, 1), new Byeong(Team.HAN),
-                new Position(4, 5), new Byeong(Team.HAN)
+                new Position(4, 1), new Pawn(Team.HAN),
+                new Position(4, 5), new Pawn(Team.HAN)
         );
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(board);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -61,12 +61,12 @@ public class JanggiBoardTest {
     @DisplayName("장기말은 이동시 목표 좌표로 위치가 바뀐다.")
     @Test
     void test3() {
-        Byeong byeong = new Byeong(Team.HAN);
+        Pawn pawn = new Pawn(Team.HAN);
         // given
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        beforeBoard.put(new Position(4, 1), byeong);
+        beforeBoard.put(new Position(4, 1), pawn);
         Map<Position, Piece> afterBoard = new HashMap<>();
-        afterBoard.put(new Position(5, 1), byeong);
+        afterBoard.put(new Position(5, 1), pawn);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -157,11 +157,11 @@ public class JanggiBoardTest {
     void test7() {
         //given
         Cha choCha = new Cha(Team.CHO);
-        Byeong choByeong = new Byeong(Team.CHO);
+        Pawn choPawn = new Pawn(Team.CHO);
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
         beforeBoard.put(new Position(1, 1), choCha);
-        beforeBoard.put(new Position(4, 1), choByeong);
+        beforeBoard.put(new Position(4, 1), choPawn);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);

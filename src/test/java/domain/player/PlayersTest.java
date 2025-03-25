@@ -1,7 +1,7 @@
 package domain.player;
 
 import domain.Team;
-import domain.piece.Jol;
+import domain.piece.Pawn;
 import domain.piece.Piece;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class PlayersTest {
     void 이번_턴의_플레이어와_특정_기물이_같은_팀인지_판단한다(Team team, boolean expected) {
         // given
         Players players1 = Players.ofNames("플레이어1", "플레이어2");
-        Piece piece1 = new Jol(team);
+        Piece piece1 = new Pawn(team);
 
         // when
         boolean actual = players1.isSameTeamThisTurnPlayerAndPiece(piece1);
