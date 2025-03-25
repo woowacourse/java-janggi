@@ -52,7 +52,12 @@ public abstract class ContinuousPiece extends Moved {
     }
 
     private List<Pattern> createPattern(Path path, Direction newPath, int additionalSize) {
-        return Collections.nCopies(additionalSize, path.getPaths().get(newPath).getFirst());
+        return Collections.nCopies(
+                additionalSize, path
+                        .getPaths()
+                        .get(newPath)
+                        .getFirst()
+        );
     }
 
 }
