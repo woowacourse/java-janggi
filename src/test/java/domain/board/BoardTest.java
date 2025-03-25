@@ -92,147 +92,147 @@ class BoardTest {
                     Map.entry(new BoardPosition(1, 2), selectPiece));
         }
     }
-}
-
-@Nested
-class InvalidCases {
-
-    @DisplayName("이동하는 기물의 위치와 이동시키려는 위치가 동일하면 예외가 발생한다.")
-    @Test
-    void validateDifferentPositions() {
-        // given
-        Board board = new Board(Map.of(
-                new BoardPosition(0, 0), new Zzu(Team.GREEN)
-        ));
-
-        // when & then
-        assertThatThrownBy(() -> board.movePiece(
-                new BoardPosition(0, 0),
-                new BoardPosition(0, 0), Team.GREEN))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("기물을 같은 위치로 이동시킬 수 없습니다.");
-    }
-
-    @DisplayName("이동하려는 위치에 기물이 존재하지 않으면 예외가 발생한다.")
-    @Test
-    void validateSelectBoardPosition() {
-        // given
-        Board board = new Board(Map.of(
-                new BoardPosition(1, 0), new Zzu(Team.GREEN)
-        ));
-
-        // when & then
-        assertThatThrownBy(() -> board.movePiece(
-                new BoardPosition(0, 0),
-                new BoardPosition(1, 1), Team.GREEN))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("이동하려는 기물이 없습니다.");
-    }
-
-    @DisplayName("이동하려는 기물의 팀이 자신의 팀이 아닌 경우 예외가 발생한다.")
-    @Test
-    void validateSelectPieceTeam() {
-        // given
-        Board board = new Board(Map.of(
-                new BoardPosition(0, 0), new Zzu(Team.GREEN)
-        ));
-
-        // when & then
-        assertThatThrownBy(() -> board.movePiece(
-                new BoardPosition(0, 0),
-                new BoardPosition(0, 1), Team.RED))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("다른 팀의 기물을 움직일 수 없습니다.");
-    }
-
-    @DisplayName("이동하려는 위치에 아군 기물이 존재하면 예외가 발생한다.")
-    @Test
-    void validateDestinationPieceTeam() {
-        // given
-        Board board = new Board(Map.of(
-                new BoardPosition(0, 0), new Zzu(Team.GREEN),
-                new BoardPosition(1, 0), new Zzu(Team.GREEN)
-        ));
-
-        // when & then
-        assertThatThrownBy(() -> board.movePiece(
-                new BoardPosition(0, 0),
-                new BoardPosition(1, 0), Team.GREEN))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("이동하려는 위치에 아군 기물이 존재합니다.");
-    }
-
-    @DisplayName("이동경로에 적합하지 않은 장애물이 존재하면 예외가 발생한다.")
-    @Test
-    void validateMovementRule() {
-        // given
-        Board board = new Board(Map.of(
-                new BoardPosition(0, 0), new Horse(Team.GREEN),
-                new BoardPosition(0, 1), new Zzu(Team.GREEN)
-        ));
-
-        // when & then
-        assertThatThrownBy(() -> board.movePiece(
-                new BoardPosition(0, 0),
-                new BoardPosition(1, 2), Team.GREEN))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("이동경로에 넘을 수 없는 기물이 있습니다.");
-    }
 
     @Nested
-    class CanonCases {
+    class InvalidCases {
 
-        @DisplayName("포는 이동하려는 경로 사이에 장애물이 2개이상 있으면 예외가 발생한다.")
+        @DisplayName("이동하는 기물의 위치와 이동시키려는 위치가 동일하면 예외가 발생한다.")
         @Test
-        void movePieceCannonCase1() {
+        void validateDifferentPositions() {
             // given
             Board board = new Board(Map.of(
-                    new BoardPosition(0, 0),
-                    new Cannon(Team.RED),
-                    new BoardPosition(0, 4), new Zzu(Team.RED),
-                    new BoardPosition(0, 5), new Zzu(Team.GREEN))
-            );
+                    new BoardPosition(0, 0), new Zzu(Team.GREEN)
+            ));
 
             // when & then
-            assertThatThrownBy(
-                    () -> board.movePiece(new BoardPosition(0, 0), new BoardPosition(0, 6), Team.RED))
+            assertThatThrownBy(() -> board.movePiece(
+                    new BoardPosition(0, 0),
+                    new BoardPosition(0, 0), Team.GREEN))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("기물을 같은 위치로 이동시킬 수 없습니다.");
+        }
+
+        @DisplayName("이동하려는 위치에 기물이 존재하지 않으면 예외가 발생한다.")
+        @Test
+        void validateSelectBoardPosition() {
+            // given
+            Board board = new Board(Map.of(
+                    new BoardPosition(1, 0), new Zzu(Team.GREEN)
+            ));
+
+            // when & then
+            assertThatThrownBy(() -> board.movePiece(
+                    new BoardPosition(0, 0),
+                    new BoardPosition(1, 1), Team.GREEN))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("이동하려는 기물이 없습니다.");
+        }
+
+        @DisplayName("이동하려는 기물의 팀이 자신의 팀이 아닌 경우 예외가 발생한다.")
+        @Test
+        void validateSelectPieceTeam() {
+            // given
+            Board board = new Board(Map.of(
+                    new BoardPosition(0, 0), new Zzu(Team.GREEN)
+            ));
+
+            // when & then
+            assertThatThrownBy(() -> board.movePiece(
+                    new BoardPosition(0, 0),
+                    new BoardPosition(0, 1), Team.RED))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("다른 팀의 기물을 움직일 수 없습니다.");
+        }
+
+        @DisplayName("이동하려는 위치에 아군 기물이 존재하면 예외가 발생한다.")
+        @Test
+        void validateDestinationPieceTeam() {
+            // given
+            Board board = new Board(Map.of(
+                    new BoardPosition(0, 0), new Zzu(Team.GREEN),
+                    new BoardPosition(1, 0), new Zzu(Team.GREEN)
+            ));
+
+            // when & then
+            assertThatThrownBy(() -> board.movePiece(
+                    new BoardPosition(0, 0),
+                    new BoardPosition(1, 0), Team.GREEN))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("이동하려는 위치에 아군 기물이 존재합니다.");
+        }
+
+        @DisplayName("이동경로에 적합하지 않은 장애물이 존재하면 예외가 발생한다.")
+        @Test
+        void validateMovementRule() {
+            // given
+            Board board = new Board(Map.of(
+                    new BoardPosition(0, 0), new Horse(Team.GREEN),
+                    new BoardPosition(0, 1), new Zzu(Team.GREEN)
+            ));
+
+            // when & then
+            assertThatThrownBy(() -> board.movePiece(
+                    new BoardPosition(0, 0),
+                    new BoardPosition(1, 2), Team.GREEN))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("이동경로에 넘을 수 없는 기물이 있습니다.");
         }
 
-        @DisplayName("포가 포를 넘으면 예외가 발생한다.")
-        @Test
-        void movePieceCannonCase2() {
-            // given
-            Board board = new Board(Map.of(
-                    new BoardPosition(0, 0),
-                    new Cannon(Team.RED),
-                    new BoardPosition(0, 4),
-                    new Cannon(Team.RED))
-            );
+        @Nested
+        class CanonCases {
 
-            // when & then
-            assertThatThrownBy(
-                    () -> board.movePiece(new BoardPosition(0, 0), new BoardPosition(0, 6), Team.RED))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("이동경로에 넘을 수 없는 기물이 있습니다.");
-        }
+            @DisplayName("포는 이동하려는 경로 사이에 장애물이 2개이상 있으면 예외가 발생한다.")
+            @Test
+            void movePieceCannonCase1() {
+                // given
+                Board board = new Board(Map.of(
+                        new BoardPosition(0, 0),
+                        new Cannon(Team.RED),
+                        new BoardPosition(0, 4), new Zzu(Team.RED),
+                        new BoardPosition(0, 5), new Zzu(Team.GREEN))
+                );
 
-        @DisplayName("포가 잡으려는 기물이 포라면 예외가 발생한다.")
-        @Test
-        void movePieceCannonCase3() {
-            // given
-            Board board = new Board(Map.of(
-                    new BoardPosition(0, 0), new Cannon(Team.RED),
-                    new BoardPosition(0, 4), new Zzu(Team.RED),
-                    new BoardPosition(0, 6), new Cannon(Team.GREEN))
-            );
+                // when & then
+                assertThatThrownBy(
+                        () -> board.movePiece(new BoardPosition(0, 0), new BoardPosition(0, 6), Team.RED))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("이동경로에 넘을 수 없는 기물이 있습니다.");
+            }
 
-            // when & then
-            assertThatThrownBy(
-                    () -> board.movePiece(new BoardPosition(0, 0), new BoardPosition(0, 6), Team.RED))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("도착 위치에 있는 기물은 잡을 수 없는 기물입니다.");
+            @DisplayName("포가 포를 넘으면 예외가 발생한다.")
+            @Test
+            void movePieceCannonCase2() {
+                // given
+                Board board = new Board(Map.of(
+                        new BoardPosition(0, 0),
+                        new Cannon(Team.RED),
+                        new BoardPosition(0, 4),
+                        new Cannon(Team.RED))
+                );
+
+                // when & then
+                assertThatThrownBy(
+                        () -> board.movePiece(new BoardPosition(0, 0), new BoardPosition(0, 6), Team.RED))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("이동경로에 넘을 수 없는 기물이 있습니다.");
+            }
+
+            @DisplayName("포가 잡으려는 기물이 포라면 예외가 발생한다.")
+            @Test
+            void movePieceCannonCase3() {
+                // given
+                Board board = new Board(Map.of(
+                        new BoardPosition(0, 0), new Cannon(Team.RED),
+                        new BoardPosition(0, 4), new Zzu(Team.RED),
+                        new BoardPosition(0, 6), new Cannon(Team.GREEN))
+                );
+
+                // when & then
+                assertThatThrownBy(
+                        () -> board.movePiece(new BoardPosition(0, 0), new BoardPosition(0, 6), Team.RED))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("도착 위치에 있는 기물은 잡을 수 없는 기물입니다.");
+            }
         }
     }
 }
