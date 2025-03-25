@@ -79,6 +79,7 @@ public class JanggiController {
     }
 
     private void end(JanggiGame janggiGame) {
+        inputView.close();
         outputView.printEndMessage();
     }
 }
