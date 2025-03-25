@@ -4,9 +4,10 @@ import domain.board.Board;
 import domain.board.Direction;
 import domain.board.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class Cha implements Piece {
+public class Cha implements StraightMovable {
 
     private final Team team;
 
@@ -42,6 +43,16 @@ public class Cha implements Piece {
             return;
         }
         findCandidates(nextPoint, board, direction, candidates);
+    }
+
+    @Override
+    public List<Direction> movableDirections() {
+        return Arrays.stream(Direction.values()).toList();
+    }
+
+    @Override
+    public int step() {
+        return 10;
     }
 
     @Override

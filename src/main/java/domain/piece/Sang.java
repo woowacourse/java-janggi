@@ -1,13 +1,33 @@
 package domain.piece;
 
+import static domain.board.Path.DOWN_DOWN_DOWN_LEFT_LEFT_PATH;
+import static domain.board.Path.DOWN_DOWN_DOWN_RIGHT_RIGHT_PATH;
+import static domain.board.Path.DOWN_DOWN_LEFT_PATH;
+import static domain.board.Path.DOWN_DOWN_RIGHT_PATH;
+import static domain.board.Path.DOWN_PATH;
+import static domain.board.Path.LEFT_LEFT_DOWN_PATH;
+import static domain.board.Path.LEFT_LEFT_LEFT_DOWN_DOWN_PATH;
+import static domain.board.Path.LEFT_LEFT_LEFT_UP_UP_PATH;
+import static domain.board.Path.LEFT_LEFT_UP_PATH;
+import static domain.board.Path.LEFT_PATH;
+import static domain.board.Path.RIGHT_PATH;
+import static domain.board.Path.RIGHT_RIGHT_DOWN_PATH;
+import static domain.board.Path.RIGHT_RIGHT_RIGHT_DOWN_DOWN_PATH;
+import static domain.board.Path.RIGHT_RIGHT_RIGHT_UP_UP_PATH;
+import static domain.board.Path.RIGHT_RIGHT_UP_PATH;
+import static domain.board.Path.UP_PATH;
+import static domain.board.Path.UP_UP_LEFT_PATH;
+import static domain.board.Path.UP_UP_RIGHT_PATH;
+import static domain.board.Path.UP_UP_UP_LEFT_LEFT_PATH;
+import static domain.board.Path.UP_UP_UP_RIGHT_RIGHT_PATH;
+
 import domain.board.Board;
-import domain.board.JumpingMovements;
 import domain.board.Movement;
 import domain.board.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sang implements Piece {
+public class Sang implements PatternMovable {
 
     private final Team team;
 
@@ -22,7 +42,7 @@ public class Sang implements Piece {
 
     private List<Point> findMovablePoints(final Point source, final Board board) {
         List<Point> candidates = new ArrayList<>();
-        for (Movement movement : JumpingMovements.SANG.movements()) {
+        for (Movement movement : movements()) {
             if (!canMove(source, movement, board)) {
                 continue;
             }
@@ -46,6 +66,20 @@ public class Sang implements Piece {
                 .map(path -> board.getPointMovedByPath(point, path))
                 .toList();
         return obstaclePoints.stream().noneMatch(board::existsPiece);
+    }
+
+    @Override
+    public List<Movement> movements() {
+        return List.of(
+                new Movement(List.of(UP_PATH, UP_UP_LEFT_PATH), UP_UP_UP_LEFT_LEFT_PATH),
+                new Movement(List.of(UP_PATH, UP_UP_RIGHT_PATH), UP_UP_UP_RIGHT_RIGHT_PATH),
+                new Movement(List.of(RIGHT_PATH, RIGHT_RIGHT_UP_PATH), RIGHT_RIGHT_RIGHT_UP_UP_PATH),
+                new Movement(List.of(RIGHT_PATH, RIGHT_RIGHT_DOWN_PATH), RIGHT_RIGHT_RIGHT_DOWN_DOWN_PATH),
+                new Movement(List.of(DOWN_PATH, DOWN_DOWN_RIGHT_PATH), DOWN_DOWN_DOWN_RIGHT_RIGHT_PATH),
+                new Movement(List.of(DOWN_PATH, DOWN_DOWN_LEFT_PATH), DOWN_DOWN_DOWN_LEFT_LEFT_PATH),
+                new Movement(List.of(LEFT_PATH, LEFT_LEFT_DOWN_PATH), LEFT_LEFT_LEFT_DOWN_DOWN_PATH),
+                new Movement(List.of(LEFT_PATH, LEFT_LEFT_UP_PATH), LEFT_LEFT_LEFT_UP_UP_PATH)
+        );
     }
 
     @Override

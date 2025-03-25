@@ -6,13 +6,8 @@ import static domain.board.Direction.RIGHT;
 import static domain.board.Direction.UP;
 import static domain.board.Direction.UP_RIGHT;
 
-import domain.piece.Byeong;
-import domain.piece.Piece;
-import domain.piece.Team;
 import fixture.BoardFixture;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
