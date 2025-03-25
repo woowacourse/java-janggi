@@ -17,8 +17,8 @@ public class Application {
         JanggiPieceInitializer janggiPieceInitializer = new JanggiPieceInitializer();
         Pieces choPieces = janggiPieceInitializer.choInit();
         Pieces hanPieces = janggiPieceInitializer.hanInit();
-        Player hanPlayer = new Player(hanPieces, HAN);
-        Player choPlayer = new Player(choPieces, CHO);
+        Player hanPlayer = new Player(hanPieces);
+        Player choPlayer = new Player(choPieces);
         Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
         JanggiGameState janggiGameState = new JanggiGameState(players);
 

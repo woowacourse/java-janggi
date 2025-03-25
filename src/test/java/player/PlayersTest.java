@@ -8,7 +8,6 @@ import static player.Nation.HAN;
 
 import java.util.List;
 import java.util.Map;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Byeong;
@@ -25,8 +24,8 @@ class PlayersTest {
     @DisplayName("게임 종료 판단 테스트")
     void isGameOverTest() {
         //given
-        Player hanPlayer = new Player(new Pieces(List.of(new Janggun(new Position(5, 5)))), HAN);
-        Player choPlayer = new Player(new Pieces(List.of()), CHO);
+        Player hanPlayer = new Player(new Pieces(List.of(new Janggun(new Position(5, 5)))));
+        Player choPlayer = new Player(new Pieces(List.of()));
         Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
 
         //when - then
@@ -37,8 +36,8 @@ class PlayersTest {
     @DisplayName("게임 종료 판단 테스트")
     void isNotGameOverTest() {
         //given
-        Player hanPlayer = new Player(new Pieces(List.of(new Janggun(new Position(5, 5)))), HAN);
-        Player choPlayer = new Player(new Pieces(List.of(new Janggun(new Position(6, 5)))), CHO);
+        Player hanPlayer = new Player(new Pieces(List.of(new Janggun(new Position(5, 5)))));
+        Player choPlayer = new Player(new Pieces(List.of(new Janggun(new Position(6, 5)))));
         Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
 
         //when - then
@@ -49,8 +48,8 @@ class PlayersTest {
     @DisplayName("게임 종료 판단 테스트")
     void isGameOverTest2() {
         //given
-        Player hanPlayer = new Player(new Pieces(List.of()), HAN);
-        Player choPlayer = new Player(new Pieces(List.of(new Janggun(new Position(6, 5)))), CHO);
+        Player hanPlayer = new Player(new Pieces(List.of()));
+        Player choPlayer = new Player(new Pieces(List.of(new Janggun(new Position(6, 5)))));
         Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
 
         //when - then
@@ -71,8 +70,8 @@ class PlayersTest {
                 , new Byeong(new Position(3, 3))
         ));
 
-        Player player1 = new Player(pieces1, HAN);
-        Player player2 = new Player(pieces2, CHO);
+        Player player1 = new Player(pieces1);
+        Player player2 = new Player(pieces2);
 
         Players players = new Players(Map.of(HAN, player1, CHO, player2));
 
@@ -97,8 +96,8 @@ class PlayersTest {
                 , new Byeong(new Position(3, 3))
         ));
 
-        Player player1 = new Player(pieces1, HAN);
-        Player player2 = new Player(pieces2, CHO);
+        Player player1 = new Player(pieces1);
+        Player player2 = new Player(pieces2);
 
         Players players = new Players(Map.of(HAN, player1, CHO, player2));
 
@@ -123,8 +122,8 @@ class PlayersTest {
                 , new Byeong(new Position(3, 3)), new Cha(new Position(0, 0))
         ));
 
-        Player player1 = new Player(pieces1, HAN);
-        Player player2 = new Player(pieces2, CHO);
+        Player player1 = new Player(pieces1);
+        Player player2 = new Player(pieces2);
 
         Players players = new Players(Map.of(HAN, player1, CHO, player2));
 
@@ -156,8 +155,8 @@ class PlayersTest {
                 , new Byeong(new Position(3, 3))
         ));
 
-        Player player1 = new Player(pieces1, HAN);
-        Player player2 = new Player(pieces2, CHO);
+        Player player1 = new Player(pieces1);
+        Player player2 = new Player(pieces2);
 
         Players players = new Players(Map.of(HAN, player1, CHO, player2));
 
@@ -187,8 +186,8 @@ class PlayersTest {
                 , new Byeong(new Position(3, 3))
         ));
 
-        Player player1 = new Player(pieces1, HAN);
-        Player player2 = new Player(pieces2, CHO);
+        Player player1 = new Player(pieces1);
+        Player player2 = new Player(pieces2);
 
         Players players = new Players(Map.of(HAN, player1, CHO, player2));
 
@@ -215,8 +214,8 @@ class PlayersTest {
                 , new Byeong(new Position(3, 3))
         ));
 
-        Player player1 = new Player(pieces1, HAN);
-        Player player2 = new Player(pieces2, CHO);
+        Player player1 = new Player(pieces1);
+        Player player2 = new Player(pieces2);
 
         Players players = new Players(Map.of(HAN, player1, CHO, player2));
 
@@ -235,8 +234,8 @@ class PlayersTest {
 
         Pieces pieces = new Pieces(List.of(po));
 
-        Player player = new Player(pieces, CHO);
-        Player player1 = new Player(new Pieces(List.of(new Po(new Position(8, 5)))), HAN);
+        Player player = new Player(pieces);
+        Player player1 = new Player(new Pieces(List.of(new Po(new Position(8, 5)))));
 
         Players players = new Players(Map.of(HAN, player1, CHO, player));
 
@@ -255,8 +254,8 @@ class PlayersTest {
 
         Pieces pieces = new Pieces(List.of(po, jol));
 
-        Player player = new Player(pieces, CHO);
-        Player player1 = new Player(new Pieces(List.of(new Jol(new Position(8, 5)))), HAN);
+        Player player = new Player(pieces);
+        Player player1 = new Player(new Pieces(List.of(new Jol(new Position(8, 5)))));
 
         Players players = new Players(Map.of(HAN, player1, CHO, player));
 

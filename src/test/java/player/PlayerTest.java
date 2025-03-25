@@ -21,7 +21,7 @@ class PlayerTest {
     void playerTest() {
         Pieces pieces = new Pieces(List.of());
 
-        assertDoesNotThrow(() -> new Player(pieces, CHO));
+        assertDoesNotThrow(() -> new Player(pieces));
     }
 
     @Test
@@ -29,7 +29,7 @@ class PlayerTest {
     void isKingDieTest() {
         //given
         Pieces pieces = new Pieces(List.of(new Jol(new Position(5, 5))));
-        Player player = new Player(pieces, HAN);
+        Player player = new Player(pieces);
 
         //when - then
         assertThat(player.isKingDie()).isTrue();
@@ -40,7 +40,7 @@ class PlayerTest {
     void isKingNotDieTest() {
         //given
         Pieces pieces = new Pieces(List.of(new Janggun(new Position(5, 5))));
-        Player player = new Player(pieces, HAN);
+        Player player = new Player(pieces);
 
         //when - then
         assertThat(player.isKingDie()).isFalse();
@@ -51,7 +51,7 @@ class PlayerTest {
     void removePiece() {
         //given
         Pieces pieces = new Pieces(List.of(new Janggun(new Position(5, 5))));
-        Player player = new Player(pieces, HAN);
+        Player player = new Player(pieces);
         Position destination = new Position(5, 5);
 
         //when
@@ -61,17 +61,6 @@ class PlayerTest {
         assertThat(player.getPieces().getPieces().contains(new Janggun(new Position(5, 5)))).isFalse();
     }
 
-    @DisplayName("같은 국가 판단 테스트")
-    @Test
-    void isSameNationTest() {
-        //given
-        Player player = new Player(new Pieces(List.of()), HAN);
-
-        //when-then
-        assertThat(player.isSameNation(HAN)).isTrue();
-        assertThat(player.isSameNation(CHO)).isFalse();
-    }
-
     @Test
     @DisplayName("출발 지점에 있는 기물이 도착 지점에 갈 수 있는지 테스트")
     void validateAllyPieceAtStartTest() {
@@ -79,7 +68,7 @@ class PlayerTest {
         Jol jol = new Jol(new Position(5, 5));
         Janggun janggun = new Janggun(new Position(6, 4));
         Pieces pieces = new Pieces(List.of(jol, janggun));
-        Player player = new Player(pieces, HAN);
+        Player player = new Player(pieces);
 
         //when - then
         assertThatThrownBy(() -> player.validateAllyPieceAtStart(new Position(5,6)))
@@ -97,7 +86,7 @@ class PlayerTest {
         Jol jol = new Jol(new Position(5, 5));
         Janggun janggun = new Janggun(new Position(6, 4));
         Pieces pieces = new Pieces(List.of(jol, janggun));
-        Player player = new Player(pieces, HAN);
+        Player player = new Player(pieces);
 
         //when - then
         assertThatThrownBy(() -> player.validateAllyPieceAtDestination(new Position(5, 5)))
@@ -114,7 +103,7 @@ class PlayerTest {
         Jol jol = new Jol(new Position(5, 5));
         Janggun janggun = new Janggun(new Position(6, 4));
         Pieces pieces = new Pieces(List.of(jol, janggun));
-        Player player = new Player(pieces, HAN);
+        Player player = new Player(pieces);
 
         //when - then
         assertThatThrownBy(() -> player.canPieceMoveTo(new Position(5,5), new Position(5, 7)))
@@ -131,7 +120,7 @@ class PlayerTest {
         Jol jol = new Jol(new Position(5, 5));
         Pieces pieces = new Pieces(List.of(jol));
         Position position = new Position(5, 6);
-        Player player = new Player(pieces, HAN);
+        Player player = new Player(pieces);
 
         //when
         Positions actual = player.makeRoute(new Position(5, 5), position);
@@ -151,7 +140,7 @@ class PlayerTest {
         Positions positions = new Positions(List.of(
                 new Position(2, 5), new Position(7, 5), new Position(1,  3)
         ));
-        Player player = new Player(pieces, HAN);
+        Player player = new Player(pieces);
 
         //when
         int actual = player.countObstacle(positions);
@@ -168,7 +157,7 @@ class PlayerTest {
         Janggun janggun = new Janggun(new Position(6, 5));
         Po po = new Po(new Position(4, 3));
         Pieces pieces = new Pieces(List.of(jol, janggun, po));
-        Player player = new Player(pieces, HAN);
+        Player player = new Player(pieces);
 
         //when
         player.movePiece(new Position(6, 5), new Position(6, 6));
@@ -185,7 +174,7 @@ class PlayerTest {
         Janggun janggun = new Janggun(new Position(6, 5));
         Po po = new Po(new Position(4, 3));
         Pieces pieces = new Pieces(List.of(jol, janggun, po));
-        Player player = new Player(pieces, HAN);
+        Player player = new Player(pieces);
 
         //when-then
         assertThat(player.isPoAt(new Position(4, 3))).isTrue();
@@ -199,7 +188,7 @@ class PlayerTest {
         Janggun janggun = new Janggun(new Position(6, 5));
         Po po = new Po(new Position(4, 3));
         Pieces pieces = new Pieces(List.of(jol, janggun, po));
-        Player player = new Player(pieces, HAN);
+        Player player = new Player(pieces);
         Positions route1 = new Positions(
                 List.of(new Position(4, 3))
         );

@@ -5,11 +5,9 @@ import pieceProperty.Positions;
 
 public class Player {
     private final Pieces pieces;
-    private final Nation nation;
 
-    public Player(final Pieces pieces, final Nation nation) {
+    public Player(final Pieces pieces) {
         this.pieces = pieces;
-        this.nation = nation;
     }
 
     public void movePiece(final Position presentPosition, final Position destination) {
@@ -38,10 +36,6 @@ public class Player {
 
     public void removePiece(final Position destination) {
         pieces.removePiece(destination);
-    }
-
-    public boolean isSameNation(final Nation nation) {
-        return this.nation.equals(nation);
     }
 
     public boolean isKingDie() {
