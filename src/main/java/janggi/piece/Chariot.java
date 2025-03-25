@@ -14,8 +14,10 @@ import java.util.Map;
 public class Chariot extends Piece {
 
     private static final List<Movement> MOVEMENTS = List.of(
-            new Movement(UP), new Movement(DOWN),
-            new Movement(RIGHT), new Movement(LEFT)
+            new Movement(UP),
+            new Movement(DOWN),
+            new Movement(RIGHT),
+            new Movement(LEFT)
     );
 
     public Chariot(final Team team) {

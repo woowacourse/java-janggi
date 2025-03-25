@@ -14,7 +14,9 @@ import java.util.Map;
 public class Soldier extends Piece {
 
     private static final List<Movement> CHO_MOVEMENTS = List.of(
-            new Movement(UP), new Movement(RIGHT), new Movement(LEFT)
+            new Movement(UP),
+            new Movement(RIGHT),
+            new Movement(LEFT)
     );
     private static final List<Movement> HAN_MOVEMENTS = List.of(
             new Movement(DOWN), new Movement(RIGHT), new Movement(LEFT)

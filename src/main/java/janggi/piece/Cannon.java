@@ -14,7 +14,10 @@ import java.util.Map;
 
 public class Cannon extends Piece {
 
-    private static final List<Movement> MOVEMENTS = List.of(new Movement(UP), new Movement(RIGHT), new Movement(LEFT),
+    private static final List<Movement> MOVEMENTS = List.of(
+            new Movement(UP),
+            new Movement(RIGHT),
+            new Movement(LEFT),
             new Movement(DOWN)
     );
 

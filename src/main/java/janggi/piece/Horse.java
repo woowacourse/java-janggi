@@ -18,10 +18,14 @@ import java.util.Map;
 public class Horse extends Piece {
 
     private static final List<Movement> MOVEMENTS = List.of(
-            new Movement(DOWN, DOWN_RIGHT), new Movement(DOWN, DOWN_LEFT),
-            new Movement(UP, UP_RIGHT), new Movement(UP, UP_LEFT),
-            new Movement(RIGHT, DOWN_RIGHT), new Movement(LEFT, DOWN_LEFT),
-            new Movement(RIGHT, UP_RIGHT), new Movement(LEFT, UP_LEFT)
+            new Movement(DOWN, DOWN_RIGHT),
+            new Movement(DOWN, DOWN_LEFT),
+            new Movement(UP, UP_RIGHT),
+            new Movement(UP, UP_LEFT),
+            new Movement(RIGHT, DOWN_RIGHT),
+            new Movement(LEFT, DOWN_LEFT),
+            new Movement(RIGHT, UP_RIGHT),
+            new Movement(LEFT, UP_LEFT)
     );
 
     public Horse(final Team team) {
