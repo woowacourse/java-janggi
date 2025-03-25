@@ -4,16 +4,24 @@ import janggi.domain.board.Position;
 import janggi.domain.gameState.State;
 import janggi.domain.piece.TeamColor;
 import janggi.domain.piece.PieceType;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JanggiGame {
     private State state;
+    private final Map<TeamColor, Integer> teamScore = new HashMap<>();
 
     public JanggiGame(State state) {
         this.state = state;
     }
 
     public void move(PieceType pieceType, Position source, Position destination) {
+        TeamColor turnColor = state.getColor();
+        int score = state.getDestinationPieceScore(destination);
+
         this.state = state.movePiece(pieceType, source, destination);
+
+        teamScore.put(turnColor, teamScore.getOrDefault(turnColor, 0) + score);
     }
 
     public TeamColor getTurnColor() {
@@ -22,5 +30,9 @@ public class JanggiGame {
 
     public boolean isFinished() {
         return state.isFinished();
+    }
+
+    public Map<TeamColor, Integer> getTeamScore() {
+        return teamScore;
     }
 }

@@ -29,6 +29,12 @@ public abstract class InProgress implements State {
         return getNextTurn();
     }
 
+    @Override
+    public final int getDestinationPieceScore(Position destination) {
+        Piece piece = playingBoard.getPieceBy(destination);
+        return piece.getScore();
+    }
+
     protected void validateIsMyPiece(Piece piece) {
         if (piece.getColor() != turnColor) {
             throw new IllegalArgumentException("움직이려는 기물이 " + turnColor + "색이 아닙니다.");

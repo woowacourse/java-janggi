@@ -21,6 +21,8 @@ public abstract class Piece {
 
     public abstract List<Position> findAllRoute(PiecePath path);
 
+    public abstract boolean isNotEmptyPiece();
+
     public boolean canMove(Piece sourcePiece, Piece destinationPiece, List<Piece> piecesInRoute) {
         return moveRule.canMove(sourcePiece, destinationPiece, piecesInRoute);
     }
@@ -51,5 +53,7 @@ public abstract class Piece {
         return type;
     }
 
-    public abstract boolean isNotEmptyPiece();
+    public int getScore() {
+        return type.getScore();
+    }
 }

@@ -40,7 +40,7 @@ public class InputView {
         String teamName = TeamColorName.getNameFrom(teamColor);
 
         sb.append(teamName)
-                .append(" - 상차림 종류 번호를 입력해주세요. ex) 1\n ");
+                .append(" - 상차림 종류 번호를 입력해주세요. ex) 1\n");
         sb.append(setupTypeNotice());
         System.out.println(sb);
 

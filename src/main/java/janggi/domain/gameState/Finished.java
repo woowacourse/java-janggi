@@ -22,6 +22,11 @@ public class Finished implements State{
     }
 
     @Override
+    public int getDestinationPieceScore(Position destination) {
+        throw new IllegalArgumentException("게임이 끝난 후에는 목적지 기물의 점수를 가져올 수 없습니다.");
+    }
+
+    @Override
     public boolean isFinished() {
         return true;
     }

@@ -9,5 +9,7 @@ public interface State {
 
     TeamColor getColor();
 
+    int getDestinationPieceScore(Position destination);
+
     boolean isFinished();
 }

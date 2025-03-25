@@ -7,6 +7,7 @@ import janggi.domain.board.Position;
 import janggi.domain.board.Row;
 import janggi.domain.gameState.BlueTurn;
 import janggi.domain.piece.PieceType;
+import janggi.domain.piece.TeamColor;
 import janggi.dto.MoveCommandDto;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -31,10 +32,11 @@ public class JanggiController {
             processWithRetry(() -> playSingleCommand(janggiGame));
         }
 
-        outputView.printWinner(janggiGame.getTurnColor());
+        displayGameResult(janggiGame);
     }
 
     private void playSingleCommand(JanggiGame janggiGame) {
+        outputView.printTurnNotice(janggiGame.getTurnColor());
         String input = inputView.readCommand();
         GameCommand command = GameCommand.from(input);
 
@@ -64,6 +66,13 @@ public class JanggiController {
         Column column = Column.from(colInt);
 
         return new Position(row, column);
+    }
+
+    private void displayGameResult(JanggiGame janggiGame) {
+        outputView.printWinner(janggiGame.getTurnColor());
+
+        Map<TeamColor, Integer> teamScore = janggiGame.getTeamScore();
+        outputView.printGameResult(teamScore);
     }
 
     private void gameQuit() {

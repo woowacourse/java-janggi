@@ -1,11 +1,13 @@
 package janggi.view;
 
-import janggi.domain.board.PlayingBoard;
 import janggi.domain.board.Column;
+import janggi.domain.board.PlayingBoard;
 import janggi.domain.board.Position;
 import janggi.domain.board.Row;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.TeamColor;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class OutputView {
     public static final String WHITE_COLOR = "\u001B[0m";
@@ -21,7 +23,7 @@ public class OutputView {
             for (Column column : Column.values()) {
                 Position position = new Position(row, column);
                 Piece piece = playingBoard.getPieceBy(position);
-                String color = getColorFrom(piece);
+                String color = getColorFrom(piece.getColor());
                 String pieceName = PieceTypeName.getNameFrom(piece);
 
                 sb.append(color + pieceName + " ");
@@ -38,21 +40,30 @@ public class OutputView {
     }
 
     public void printTurnNotice(TeamColor turnColor) {
+        StringBuilder sb = new StringBuilder();
+
         String teamName = TeamColorName.getNameFrom(turnColor);
-        System.out.printf(getDefaultColor() + "%s 차례입니다\n", teamName);
+        sb.append(getColorFrom(turnColor) + teamName);
+        sb.append(getDefaultColor() + " 차례입니다");
+
+        System.out.println(sb);
     }
 
     public void printWinner(TeamColor turnColor) {
+        StringBuilder sb = new StringBuilder();
+
         String teamName = TeamColorName.getNameFrom(turnColor);
-        System.out.printf(getDefaultColor() + "%s 승리!\n", teamName);
+        sb.append(getColorFrom(turnColor) + teamName);
+        sb.append(getDefaultColor() + " 승리!\n");
+
+        System.out.println(sb);
     }
 
     private String getDefaultColor() {
         return WHITE_COLOR;
     }
 
-    private String getColorFrom(Piece piece) {
-        TeamColor color = piece.getColor();
+    private String getColorFrom(TeamColor color) {
         if (color == TeamColor.RED) {
             return RED_COLOR;
         }
@@ -60,5 +71,14 @@ public class OutputView {
             return BLUE_COLOR;
         }
         return WHITE_COLOR;
+    }
+
+    public void printGameResult(Map<TeamColor, Integer> teamScore) {
+        System.out.println("-------게임 결과-------");
+        for (Entry<TeamColor, Integer> entry : teamScore.entrySet()) {
+            String teamName = TeamColorName.getNameFrom(entry.getKey());
+            int score = entry.getValue();
+            System.out.printf("%s 점수: %d\n", teamName, score);
+        }
     }
 }
