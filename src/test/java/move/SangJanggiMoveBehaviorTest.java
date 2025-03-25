@@ -14,7 +14,7 @@ class SangMoveBehaviorTest {
     void 자신의_경로를_반환한다() {
         JanggiPosition startPosition = new JanggiPosition(0, 0);
         JanggiPosition endPosition = new JanggiPosition(2, 3);
-        MoveBehavior moveBehavior = new SangMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new SangMoveBehavior();
 
         List<JanggiPosition> route = moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE);
 
@@ -31,7 +31,7 @@ class SangMoveBehaviorTest {
 
     @Test
     void 상은_가는길에_장애물이_있으면_갈수없다() {
-        MoveBehavior moveBehavior = new SangMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new SangMoveBehavior();
         JanggiPosition destination = new JanggiPosition(2, 2);
         Pieces onRoutePieces = new Pieces(List.of(
                 new Piece(new JanggiPosition(1, 1), new JolMoveBehavior(), Team.BLUE)
@@ -44,7 +44,7 @@ class SangMoveBehaviorTest {
 
     @Test
     void 상은_가는길에_장애물이_없으면_갈수있다() {
-        MoveBehavior moveBehavior = new SangMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new SangMoveBehavior();
         JanggiPosition destination = new JanggiPosition(2, 3);
         Pieces onRoutePieces = new Pieces(List.of());
 

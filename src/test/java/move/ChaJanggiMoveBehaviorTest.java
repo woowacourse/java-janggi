@@ -14,7 +14,7 @@ class ChaMoveBehaviorTest {
     void 차는_가능한_경로를_반환한다() {
         JanggiPosition startPosition = new JanggiPosition(0, 0);
         JanggiPosition endPosition = new JanggiPosition(5, 0);
-        MoveBehavior moveBehavior = new ChaMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new ChaMoveBehavior();
 
         List<JanggiPosition> route = moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE);
 
@@ -28,27 +28,29 @@ class ChaMoveBehaviorTest {
 
     @Test
     void 차는_가는길에_기물이_없어야_이동할_수_있다() {
-        MoveBehavior moveBehavior = new ChaMoveBehavior();
-        JanggiPosition move = moveBehavior.move(new JanggiPosition(0, 5), new Pieces(new ArrayList<>()), Team.BLUE);
+        JanggiMoveBehavior moveBehavior = new ChaMoveBehavior();
+        JanggiPosition move = moveBehavior.move(new JanggiPosition(0, 5), new Pieces(new ArrayList<>()),
+                Team.BLUE);
         Assertions.assertThat(move).isEqualTo(new JanggiPosition(0, 5));
     }
 
     @Test
     void 차는_같은팀이_목적지에_있으면_이동할_수_없다() {
-        MoveBehavior moveBehavior = new ChaMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new ChaMoveBehavior();
         Pieces onRoutePieces = new Pieces(
                 List.of(new Piece(new JanggiPosition(0, 0), new ChaMoveBehavior(), Team.BLUE))
         );
 
         JanggiPosition destination = new JanggiPosition(0, 1);
 
-        Assertions.assertThatIllegalArgumentException().isThrownBy(() -> moveBehavior.move(destination, onRoutePieces,
-                Team.BLUE));
+        Assertions.assertThatIllegalArgumentException()
+                .isThrownBy(() -> moveBehavior.move(destination, onRoutePieces,
+                        Team.BLUE));
     }
 
     @Test
     void 차는_대각선이동_가능한_궁성에서_대각선으로_이동할_수_있다() {
-        MoveBehavior moveBehavior = new ChaMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new ChaMoveBehavior();
 
         JanggiPosition startPosition = new JanggiPosition(0, 3);
         JanggiPosition endPosition = new JanggiPosition(2, 5);
@@ -61,7 +63,7 @@ class ChaMoveBehaviorTest {
 
     @Test
     void 차는_대각선이동_가능한_궁성에서_수직으로도_이동할_수_있다() {
-        MoveBehavior moveBehavior = new ChaMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new ChaMoveBehavior();
 
         JanggiPosition startPosition = new JanggiPosition(0, 3);
         JanggiPosition endPosition = new JanggiPosition(1, 3);

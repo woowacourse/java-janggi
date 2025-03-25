@@ -15,6 +15,7 @@ public class PieceTest {
 
         JanggiPosition position = new JanggiPosition(1, 1);
 
-        Assertions.assertThatNoException().isThrownBy(() -> new Piece(position, new SangMoveBehavior(), Team.BLUE));
+        Assertions.assertThatNoException()
+                .isThrownBy(() -> new Piece(position, new SangMoveBehavior(), Team.BLUE));
     }
 }

@@ -7,7 +7,7 @@ import piece.PieceType;
 import piece.Team;
 import piece.position.JanggiPosition;
 
-public class SangMoveBehavior extends MoveBehavior {
+public class SangMoveBehavior extends JanggiMoveBehavior {
 
     private static final List<Directions> canMoveDirections = List.of(
             new Directions(List.of(Direction.UP, Direction.UP_LEFT, Direction.UP_LEFT)),
@@ -21,7 +21,8 @@ public class SangMoveBehavior extends MoveBehavior {
     );
 
     @Override
-    public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition, Team team) {
+    public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition,
+                                                    Team team) {
         return calculateLegalRoute(startPosition, endPosition, canMoveDirections);
     }
 

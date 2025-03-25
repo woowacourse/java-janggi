@@ -8,7 +8,7 @@ import piece.PieceType;
 import piece.Team;
 import piece.position.JanggiPosition;
 
-public class ChaMoveBehavior extends MoveBehavior {
+public class ChaMoveBehavior extends JanggiMoveBehavior {
 
     @Override
     public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition,
@@ -41,7 +41,7 @@ public class ChaMoveBehavior extends MoveBehavior {
         if (minPosition.isSameRow(maxPosition)) {
             return calculateLegalRoute(minPosition, maxPosition, positions, Direction.RIGHT);
         }
-        if (isDiagonalGungCase(minPosition, maxPosition)) {
+        if (isDiagonalGungsungCase(minPosition, maxPosition)) {
             return calculateLegalRoute(minPosition, maxPosition, positions, Direction.UP_RIGHT);
         }
         throw new InvalidMovePosition();

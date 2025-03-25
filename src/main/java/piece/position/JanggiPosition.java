@@ -14,7 +14,7 @@ public class JanggiPosition {
     }
 
     public boolean isPositionDiagonalGungPosition() {
-        return DigonalGungPosition.isPositionDiagonalGungPosition(this);
+        return GungsungPosition.isPositionDiagonalGungPosition(this);
     }
 
     public JanggiPosition add(Direction direction) {
@@ -77,6 +77,10 @@ public class JanggiPosition {
                 "row=" + row +
                 ", column=" + column +
                 '}';
+    }
+
+    public boolean isInsideGungsung(JanggiPosition position) {
+        return position.isInsideGungsung(position);
     }
 }
 

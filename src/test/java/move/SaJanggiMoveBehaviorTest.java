@@ -10,7 +10,7 @@ import piece.position.JanggiPosition;
 class SaMoveBehaviorTest {
     @Test
     void 아직_구현되지않음() {
-        MoveBehavior moveBehavior = new SaMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new SaMoveBehavior();
         Assertions.assertThatThrownBy(
                         () -> moveBehavior.move(new JanggiPosition(0, 5), new Pieces(new ArrayList<>()), Team.BLUE))
                 .isInstanceOf(IllegalStateException.class);

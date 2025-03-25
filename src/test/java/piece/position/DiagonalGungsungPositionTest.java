@@ -7,7 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class DiagonalGungPositionTest {
+public class DiagonalGungsungPositionTest {
 
     private static Stream<Arguments> gungDiagonalPositions() {
         return Stream.of(
@@ -24,12 +24,12 @@ public class DiagonalGungPositionTest {
     @ParameterizedTest
     @MethodSource("gungDiagonalPositions")
     void 대각선이동_가능한_궁위치인지_확인할_수_있다(JanggiPosition gungDiagonalPosition) {
-        Assertions.assertThat(DigonalGungPosition.isPositionDiagonalGungPosition(gungDiagonalPosition)).isTrue();
+        Assertions.assertThat(GungsungPosition.isPositionDiagonalGungPosition(gungDiagonalPosition)).isTrue();
     }
 
     @Test
     void 대각선이동_가능한_궁위치가_아니면_false를_반환한다() {
         JanggiPosition nonGungDiagonalPosition = new JanggiPosition(0, 0);
-        Assertions.assertThat(DigonalGungPosition.isPositionDiagonalGungPosition(nonGungDiagonalPosition)).isFalse();
+        Assertions.assertThat(GungsungPosition.isPositionDiagonalGungPosition(nonGungDiagonalPosition)).isFalse();
     }
 }

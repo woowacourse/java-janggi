@@ -14,7 +14,7 @@ class FoMoveBehaviorTest {
     void 포는_가능한_경로를_반환한다() {
         JanggiPosition startPosition = new JanggiPosition(0, 0);
         JanggiPosition endPosition = new JanggiPosition(5, 0);
-        MoveBehavior moveBehavior = new FoMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new FoMoveBehavior();
 
         List<JanggiPosition> route = moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE);
         org.assertj.core.api.Assertions.assertThatCode(() -> {
@@ -27,7 +27,7 @@ class FoMoveBehaviorTest {
 
     @Test
     void 포는_가는길에_포를_제외한_기물_한개가_있어야_이동가능하다() {
-        MoveBehavior moveBehavior = new FoMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new FoMoveBehavior();
         JanggiPosition otherPiecePosition = new JanggiPosition(0, 4);
         JanggiPosition destinationPiecePosition = new JanggiPosition(0, 5);
         Pieces onRoutePieces = new Pieces(
@@ -40,7 +40,7 @@ class FoMoveBehaviorTest {
 
     @Test
     void 포는_같은_팀을_먹을수_없다() {
-        MoveBehavior moveBehavior = new FoMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new FoMoveBehavior();
         JanggiPosition otherPiecePosition = new JanggiPosition(0, 4);
         JanggiPosition destinationPiecePosition = new JanggiPosition(0, 5);
         Pieces onRoutePieces = new Pieces(
@@ -53,7 +53,7 @@ class FoMoveBehaviorTest {
 
     @Test
     void 포는_적팀이면_먹을수_있다() {
-        MoveBehavior moveBehavior = new FoMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new FoMoveBehavior();
         JanggiPosition otherPiecePosition = new JanggiPosition(0, 4);
         JanggiPosition destinationPiecePosition = new JanggiPosition(0, 5);
         Pieces onRoutePieces = new Pieces(
@@ -66,7 +66,7 @@ class FoMoveBehaviorTest {
 
     @Test
     void 포의_이동경로에는_기물이_존재해야한다() {
-        MoveBehavior moveBehavior = new FoMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new FoMoveBehavior();
         Pieces nonPieces = new Pieces(List.of());
 
         Assertions.assertThatThrownBy(() -> moveBehavior.move(new JanggiPosition(0, 5), nonPieces, Team.BLUE));
@@ -74,7 +74,7 @@ class FoMoveBehaviorTest {
 
     @Test
     void 포는_대각선이동_가능한_궁성에서_대각선의_경로를_가질수_있다() {
-        MoveBehavior moveBehavior = new FoMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new FoMoveBehavior();
 
         JanggiPosition startPosition = new JanggiPosition(0, 3);
         JanggiPosition endPosition = new JanggiPosition(2, 5);
@@ -87,7 +87,7 @@ class FoMoveBehaviorTest {
 
     @Test
     void 포는_대각선이동_가능한_궁성에서_수직의_경로를_가질_수_있다() {
-        MoveBehavior moveBehavior = new FoMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new FoMoveBehavior();
 
         JanggiPosition startPosition = new JanggiPosition(0, 3);
         JanggiPosition endPosition = new JanggiPosition(1, 3);
@@ -100,7 +100,7 @@ class FoMoveBehaviorTest {
 
     @Test
     void 포는_대각선이동_가능한_궁성에서_적팀이면_먹을수_있다() {
-        MoveBehavior moveBehavior = new FoMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new FoMoveBehavior();
         JanggiPosition otherPiecePosition = new JanggiPosition(1, 4);
         JanggiPosition destinationPiecePosition = new JanggiPosition(2, 5);
 

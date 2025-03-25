@@ -6,7 +6,7 @@ import piece.Pieces;
 import piece.Team;
 import piece.position.JanggiPosition;
 
-public class SaMoveBehavior extends MoveBehavior {
+public class SaMoveBehavior extends JanggiMoveBehavior {
 
     private static final String NOT_IMPLEMENTED_FEATURE = "아직 구현되지 않은 기능입니다.";
 
@@ -16,7 +16,8 @@ public class SaMoveBehavior extends MoveBehavior {
     }
 
     @Override
-    public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition, Team team) {
+    public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition,
+                                                    Team team) {
         throw new IllegalStateException(NOT_IMPLEMENTED_FEATURE);
     }
 

@@ -7,7 +7,7 @@ import piece.PieceType;
 import piece.Team;
 import piece.position.JanggiPosition;
 
-public class MaMoveBehavior extends MoveBehavior {
+public class MaMoveBehavior extends JanggiMoveBehavior {
 
     private static final List<Directions> canMoveDirections = List.of(
             new Directions(List.of(Direction.UP, Direction.UP_LEFT)),

@@ -14,7 +14,7 @@ class JolMoveBehaviorTest {
     void 졸은_가능한_경로를_반환한다() {
         JanggiPosition startPosition = new JanggiPosition(1, 0);
         JanggiPosition endPosition = new JanggiPosition(0, 0);
-        MoveBehavior moveBehavior = new JolMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new JolMoveBehavior();
 
         List<JanggiPosition> route = moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.BLUE);
 
@@ -30,7 +30,7 @@ class JolMoveBehaviorTest {
     void 홍팀_졸은_장기판기준_아래이동_경로를_반환한다() {
         JanggiPosition startPosition = new JanggiPosition(7, 0);
         JanggiPosition endPosition = new JanggiPosition(8, 0);
-        MoveBehavior moveBehavior = new JolMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new JolMoveBehavior();
 
         List<JanggiPosition> route = moveBehavior.calculateLegalRoute(startPosition, endPosition, Team.RED);
 
@@ -45,22 +45,24 @@ class JolMoveBehaviorTest {
 
     @Test
     void 졸은_가는길에_기물이_없어야_이동할_수_있다() {
-        MoveBehavior moveBehavior = new JolMoveBehavior();
-        JanggiPosition move = moveBehavior.move(new JanggiPosition(0, 1), new Pieces(new ArrayList<>()), Team.BLUE);
+        JanggiMoveBehavior moveBehavior = new JolMoveBehavior();
+        JanggiPosition move = moveBehavior.move(new JanggiPosition(0, 1), new Pieces(new ArrayList<>()),
+                Team.BLUE);
         Assertions.assertThat(move).isEqualTo(new JanggiPosition(0, 1));
 
     }
 
     @Test
     void 졸은_같은팀이_길을_막으면_이동할_수_없다() {
-        MoveBehavior moveBehavior = new JolMoveBehavior();
+        JanggiMoveBehavior moveBehavior = new JolMoveBehavior();
         Pieces onRoutePieces = new Pieces(List.of(
                 new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.BLUE)
         ));
 
         JanggiPosition destination = new JanggiPosition(0, 1);
 
-        Assertions.assertThatIllegalArgumentException().isThrownBy(() -> moveBehavior.move(destination, onRoutePieces,
-                Team.BLUE));
+        Assertions.assertThatIllegalArgumentException()
+                .isThrownBy(() -> moveBehavior.move(destination, onRoutePieces,
+                        Team.BLUE));
     }
 }

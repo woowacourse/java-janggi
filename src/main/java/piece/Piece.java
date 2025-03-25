@@ -2,16 +2,16 @@ package piece;
 
 import java.util.List;
 import java.util.Objects;
-import move.MoveBehavior;
+import move.JanggiMoveBehavior;
 import piece.position.JanggiPosition;
 
 public class Piece {
 
     private final Team team;
-    private final MoveBehavior moveBehavior;
+    private final JanggiMoveBehavior moveBehavior;
     private JanggiPosition position;
 
-    public Piece(JanggiPosition position, MoveBehavior moveBehavior, Team team) {
+    public Piece(JanggiPosition position, JanggiMoveBehavior moveBehavior, Team team) {
         this.position = position;
         this.moveBehavior = moveBehavior;
         this.team = team;

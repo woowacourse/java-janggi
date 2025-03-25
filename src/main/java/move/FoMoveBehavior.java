@@ -10,7 +10,7 @@ import piece.Pieces;
 import piece.Team;
 import piece.position.JanggiPosition;
 
-public class FoMoveBehavior extends MoveBehavior {
+public class FoMoveBehavior extends JanggiMoveBehavior {
 
     @Override
     public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition,
@@ -30,7 +30,7 @@ public class FoMoveBehavior extends MoveBehavior {
         if (minPosition.isSameRow(maxPosition)) {
             return calculateLegalRoute(minPosition, maxPosition, positions, Direction.RIGHT);
         }
-        if (isDiagonalGungCase(minPosition, maxPosition)) {
+        if (isDiagonalGungsungCase(minPosition, maxPosition)) {
             return calculateLegalRoute(minPosition, maxPosition, positions, Direction.UP_RIGHT);
         }
         throw new InvalidMovePosition();
