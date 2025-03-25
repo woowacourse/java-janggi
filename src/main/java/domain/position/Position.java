@@ -28,10 +28,10 @@ public class Position {
 
     private void validate(int x, int y) {
         if (x < 0 || x > X_MAX) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("column이 장기판 범위를 벗어났습니다: " + x);
         }
         if (y < 0 || y > Y_MAX) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("row가 장기판 범위를 벗어났습니다: " + y);
         }
     }
 
