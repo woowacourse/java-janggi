@@ -18,8 +18,7 @@ public class JanggiGameState {
 
     public void movePiece(final Position presentPosition, final Position destination) {
         players.validateMovement(attackNation, presentPosition, destination);
-        players.movePiece(attackNation, presentPosition, destination);
-        players.removePiece(attackNation.getDefenseNation(), destination);
+        players.capturePiece(attackNation, presentPosition, destination);
         attackNation = attackNation.getDefenseNation();
     }
 

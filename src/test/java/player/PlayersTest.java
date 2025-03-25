@@ -192,7 +192,7 @@ class PlayersTest {
         Players players = new Players(Map.of(HAN, player1, CHO, player2));
 
         //when
-        players.movePiece(CHO, new Position(1, 7), new Position(1, 6));
+        players.capturePiece(CHO, new Position(1, 7), new Position(1, 6));
 
         //then
         assertThat(janggun.isSamePosition(new Position(1, 6))).isTrue();
@@ -204,6 +204,7 @@ class PlayersTest {
         //given
         Janggun janggun = new Janggun(new Position(1, 7));
         Pieces pieces1 = new Pieces(List.of(
+                new Janggun(new Position(1, 6)),
                 new Ma(new Position(4, 5)),
                 new Janggun(new Position(5, 5)), new Jol(new Position(6, 5))
                 , new Byeong(new Position(4, 3))
@@ -220,7 +221,7 @@ class PlayersTest {
         Players players = new Players(Map.of(HAN, player1, CHO, player2));
 
         //when
-        players.removePiece(HAN, new Position(1, 7));
+        players.capturePiece(HAN, new Position(1, 6), new Position(1, 7));
 
         //then
         assertThat(pieces1.getPieces().contains(janggun)).isFalse();

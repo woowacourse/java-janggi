@@ -18,6 +18,11 @@ public class Players {
                 .anyMatch(Player::isKingDie);
     }
 
+    public void capturePiece(final Nation attackNation, final Position presentPosition, final Position destination) {
+        movePiece(attackNation, presentPosition, destination);
+        removePiece(attackNation, destination);
+    }
+
     public void validateMovement(final Nation attackNation, final Position presentPosition, final Position destination) {
         validateAllyPieceAtStart(attackNation, presentPosition);
         validateAllyPieceAtDestination(attackNation, destination);
@@ -25,11 +30,11 @@ public class Players {
         validateRoute(attackNation, presentPosition, destination);
     }
 
-    public void movePiece(final Nation attackNation, final Position presentPosition, final Position destination) {
+    private void movePiece(final Nation attackNation, final Position presentPosition, final Position destination) {
         players.get(attackNation).movePiece(presentPosition, destination);
     }
 
-    public void removePiece(final Nation defenseNation, final Position destination) {
+    private void removePiece(final Nation defenseNation, final Position destination) {
         players.get(defenseNation).removePiece(destination);
     }
 
