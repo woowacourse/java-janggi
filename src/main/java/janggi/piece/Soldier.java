@@ -15,7 +15,10 @@ public final class Soldier extends Piece {
         if (team == Team.HAN) {
             return new Soldier(Team.HAN, MovingRulesGenerator.hanSoldier());
         }
-        return new Soldier(Team.CHO, MovingRulesGenerator.choSoldier());
+        if (team == Team.CHO) {
+            return new Soldier(Team.CHO, MovingRulesGenerator.choSoldier());
+        }
+        throw new IllegalStateException("[ERROR] 병의 팀이 선택되지 않았습니다.");
     }
 
     @Override
