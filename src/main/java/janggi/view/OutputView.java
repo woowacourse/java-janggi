@@ -16,7 +16,7 @@ public class OutputView {
         StringBuilder sb = new StringBuilder();
 
         sb.append(getBoardHeader());
-        for(Row row : Row.values()) {
+        for (Row row : Row.values()) {
             sb.append(String.format(getDefaultColor() + "%d | ", row.intValue() % 10));
             for (Column column : Column.values()) {
                 Position position = new Position(row, column);
@@ -27,6 +27,7 @@ public class OutputView {
                 sb.append(color + pieceName + " ");
             }
             sb.append(System.lineSeparator());
+            sb.append(getDefaultColor());
         }
         System.out.println(sb);
     }
@@ -52,10 +53,10 @@ public class OutputView {
 
     private String getColorFrom(Piece piece) {
         PieceColor color = piece.getColor();
-        if(color == PieceColor.RED) {
+        if (color == PieceColor.RED) {
             return RED_COLOR;
         }
-        if(color == PieceColor.BLUE) {
+        if (color == PieceColor.BLUE) {
             return BLUE_COLOR;
         }
         return WHITE_COLOR;

@@ -22,6 +22,13 @@ public class InputView {
         return MoveCommandDto.from(commands.get(0), commands.get(1), commands.get(2));
     }
 
+    public String readCommand() {
+        System.out.println("시작위치, 움직일기물, 목적위치를 입력해주세요(예시: 12 마 33)");
+        System.out.println("(종료는 q)");
+
+        return scanner.nextLine();
+    }
+
     private void validateFormat(String input) {
         if (!input.matches("\\d{2} \\S \\d{2}")) {
             throw new IllegalArgumentException("잘못된 형식의 입력입니다.");

@@ -15,6 +15,7 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 
 import janggi.view.PieceTypeName;
+import java.util.Map;
 
 public class JanggiController {
     private final InputView inputView;
@@ -26,36 +27,57 @@ public class JanggiController {
     }
 
     public void run() {
-        BoardSetup redSetup = getBoardSetup(PieceColor.RED);
-        BoardSetup blueSetup = getBoardSetup(PieceColor.BLUE);
-        InitialBoard initialBoard = InitialBoard.createBoard(redSetup, blueSetup);
-
+        InitialBoard initialBoard = setupBoard();
         PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
         outputView.printBoard(playingBoard);
 
         JanggiGame janggiGame = new JanggiGame(new BlueTurn(playingBoard));
+
         while (!janggiGame.isFinished()) {
-            processWithRetry(() -> playTurn(janggiGame, playingBoard));
+            String input = inputView.readCommand();
+            GameCommand command = GameCommand.from(input);
+
+            Map<GameCommand, Runnable> commands = Map.of(
+                    GameCommand.MOVE, () -> playMove(MoveCommandDto.from(input), janggiGame, playingBoard),
+                    GameCommand.QUIT, this::gameQuit
+            );
+
+            Runnable action = commands.get(command);
+            action.run();
         }
 
         outputView.printWinner(janggiGame.getTurnColor());
     }
 
+    private void playMove(MoveCommandDto commandDto, JanggiGame janggiGame, PlayingBoard playingBoard) {
+        processWithRetry(() -> playTurn(janggiGame, commandDto));
+        outputView.printBoard(playingBoard);
+    }
+
+    private void playTurn(JanggiGame janggiGame, MoveCommandDto commandDto) {
+        //MoveCommandDto commandDto = readMoveCommand(janggiGame.getTurnColor());
+
+        Position source = createPosition(commandDto.sourceRow(), commandDto.sourceCol());
+        Position destination = createPosition(commandDto.destinationRow(), commandDto.destinationCol());
+        PieceType pieceType = PieceTypeName.getTypeFrom(commandDto.pieceName());
+
+        janggiGame.move(pieceType, source, destination);
+    }
+
+    private void gameQuit() {
+        System.out.println("게임 종료");
+        System.exit(0);
+    }
+
+    private InitialBoard setupBoard() {
+        BoardSetup redSetup = getBoardSetup(PieceColor.RED);
+        BoardSetup blueSetup = getBoardSetup(PieceColor.BLUE);
+        return InitialBoard.createBoard(redSetup, blueSetup);
+    }
+
     private BoardSetup getBoardSetup(PieceColor teamColor) {
         int setNumber = inputView.readBoardSetup(teamColor);
         return BoardSetup.from(setNumber);
-    }
-
-    private void playTurn(JanggiGame janggiGame, PlayingBoard playingBoard) {
-        MoveCommandDto command = readMoveCommand(janggiGame.getTurnColor());
-
-        Position source = createPosition(command.sourceRow(), command.sourceCol());
-        Position destination = createPosition(command.destinationRow(), command.destinationCol());
-        PieceType pieceType = PieceTypeName.getTypeFrom(command.pieceName());
-
-        janggiGame.move(pieceType, source, destination);
-
-        outputView.printBoard(playingBoard);
     }
 
     private MoveCommandDto readMoveCommand(PieceColor turnColor) {
