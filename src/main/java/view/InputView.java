@@ -40,29 +40,26 @@ public class InputView {
     }
 
     public static MoveCommand inputMoveCommand(Team team) {
-        System.out.printf("""
-                %n현재 턴: %s나라
-                이동할 기물의 현재 위치와 이동할 위치를 입력해주세요. (예: 7,1 7,2)
-                """, team.title());
-        String input = scanner.nextLine();
+        return ErrorHandler.retryUntilSuccessWithReturn(() -> {
+            System.out.printf("""
+                    %n현재 턴: %s나라
+                    이동할 기물의 현재 위치와 이동할 위치를 입력해주세요. (예: 7,1 7,2)
+                    """, team.title());
+            String input = scanner.nextLine();
 
-        List<String> parsed = Arrays.stream(input.split(" ", -1)).toList();
+            List<String> parsed = Arrays.stream(input.split(" ", -1)).toList();
 
-        List<String> source = Arrays.stream(parsed.get(0).split(",", -1)).toList();
-        List<String> destination = Arrays.stream(parsed.get(1).split(",", -1)).toList();
-        validateSize(source);
-        validateSize(destination);
+            List<String> source = Arrays.stream(parsed.get(0).split(",", -1)).toList();
+            List<String> destination = Arrays.stream(parsed.get(1).split(",", -1)).toList();
+            validateSize(source);
+            validateSize(destination);
 
-        Point sourcePoint = Point.of(convertToInteger(source.get(0)), convertToInteger(source.get(1)));
-        Point destinationPoint = Point.of(convertToInteger(destination.get(0)), convertToInteger(destination.get(1)));
+            Point sourcePoint = Point.of(convertToInteger(source.get(0)), convertToInteger(source.get(1)));
+            Point destinationPoint = Point.of(convertToInteger(destination.get(0)),
+                    convertToInteger(destination.get(1)));
 
-        return new MoveCommand(sourcePoint, destinationPoint);
-    }
-
-    private static void validateCommand(String command) {
-        if (!MOVE_COMMAND_INPUT.equals(command)) {
-            throw new IllegalArgumentException("[ERROR] 올바른 커맨드를 입력해주세요.");
-        }
+            return new MoveCommand(sourcePoint, destinationPoint);
+        });
     }
 
     private static void validateSize(List<String> point) {

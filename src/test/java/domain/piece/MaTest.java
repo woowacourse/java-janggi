@@ -29,7 +29,7 @@ class MaTest {
 
         Map<Point, Piece> pieceByNode = new HashMap<>();
         pieceByNode.put(maPoint, ma);
-        pieceByNode.put(obstaclePoint, new Byeong(maTeam));
+        pieceByNode.put(obstaclePoint, new ChoByeong(maTeam));
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
@@ -49,7 +49,7 @@ class MaTest {
 
         Map<Point, Piece> pieceByNode = new HashMap<>();
         pieceByNode.put(maPoint, ma);
-        pieceByNode.put(destinationPoint, new Byeong(maTeam));
+        pieceByNode.put(destinationPoint, new ChoByeong(maTeam));
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
@@ -88,7 +88,7 @@ class MaTest {
 
         Map<Point, Piece> pieceByNode = new HashMap<>();
         pieceByNode.put(maPoint, ma);
-        pieceByNode.put(destinationPoint, new Byeong(maTeam.inverse()));
+        pieceByNode.put(destinationPoint, new ChoByeong(maTeam.inverse()));
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when

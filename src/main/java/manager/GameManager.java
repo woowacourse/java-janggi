@@ -4,6 +4,7 @@ import domain.JanggiGame;
 import domain.board.Board;
 import domain.board.BoardGenerator;
 import domain.piece.Team;
+import util.ErrorHandler;
 import view.Command;
 import view.InputView;
 import view.MoveCommand;
@@ -14,6 +15,14 @@ public class GameManager {
 
     private static final Team START_TEAM = Team.CHO;
 
+    public final String gameId;
+    private final JanggiGame game;
+
+    public GameManager(String gameId) {
+        this.gameId = gameId;
+        this.game = new JanggiGame(createBoard(new BoardGenerator()), START_TEAM);
+    }
+
     private Board createBoard(BoardGenerator boardGenerator) {
         SangMaOrderCommand hanSangMaOrderCommand = InputView.inputSangMaOrder(Team.HAN);
         SangMaOrderCommand choSangMaOrderCommand = InputView.inputSangMaOrder(Team.CHO);
@@ -23,8 +32,11 @@ public class GameManager {
 
     public void startGame() {
         OutputView.printStart();
-        JanggiGame game = new JanggiGame(createBoard(new BoardGenerator()), START_TEAM);
+        ErrorHandler.retryUntilSuccess(this::play);
+        OutputView.printMatchResult(game.findWinTeam());
+    }
 
+    private void play() {
         while (game.isPlaying()) {
             Command command = InputView.inputCommand();
 
@@ -35,8 +47,10 @@ public class GameManager {
             }
 
             if (command.isMove()) {
+                OutputView.printBoard(game.board());
                 MoveCommand moveCommand = InputView.inputMoveCommand(game.currentTurn());
                 game.move(moveCommand.source(), moveCommand.destination());
+                OutputView.printBoard(game.board());
                 continue;
             }
 
@@ -44,7 +58,5 @@ public class GameManager {
                 OutputView.printStatus(game.calculateScore(Team.HAN), game.calculateScore(Team.CHO));
             }
         }
-
-        OutputView.printMatchResult(game.findWinTeam());
     }
 }

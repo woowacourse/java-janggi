@@ -2,14 +2,27 @@ package domain.piece;
 
 import domain.board.Board;
 import domain.board.Point;
+import java.util.List;
 
-public interface Piece {
+public abstract class Piece {
 
-    boolean canMove(Point source, Point destination, Board board);
+    private final Team team;
 
-    PieceType type();
+    public Piece(Team team) {
+        this.team = team;
+    }
 
-    Team team();
+    public boolean canMove(final Point source, final Point destination, final Board board) {
+        return findMovablePoints(source, board).contains(destination);
+    }
 
-    int score();
+    protected abstract List<Point> findMovablePoints(Point point, Board board);
+
+    public Team team() {
+        return team;
+    }
+
+    public abstract PieceType type();
+
+    public abstract int score();
 }

@@ -7,22 +7,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Po implements StraightMovable {
-
-    private final Team team;
+public class Po extends Piece {
 
     public Po(Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
-    public boolean canMove(final Point source, final Point destination, final Board board) {
-        return findMovablePoints(source, board).contains(destination);
-    }
-
-    private List<Point> findMovablePoints(final Point source, final Board board) {
+    public List<Point> findMovablePoints(final Point source, final Board board) {
         List<Point> candidates = new ArrayList<>();
-        Direction.VERTICALS.stream()
+        movableDirections().stream()
                 .filter(direction -> existsHurdle(source, direction, board))
                 .forEach(direction -> {
                     Point hurdle = findHurdle(source, direction, board);
@@ -59,10 +53,10 @@ public class Po implements StraightMovable {
             return;
         }
         Point nextPoint = board.getNextPoint(currentPoint, direction);
-        if (board.existsPo(nextPoint) || board.matchTeam(nextPoint, this.team)) {
+        if (board.existsPo(nextPoint) || board.matchTeam(nextPoint, team())) {
             return;
         }
-        if (board.matchTeam(nextPoint, this.team.inverse())) {
+        if (board.matchTeam(nextPoint, team().inverse())) {
             candidates.add(nextPoint);
             return;
         }
@@ -70,24 +64,13 @@ public class Po implements StraightMovable {
         findCandidates(nextPoint, direction, board, candidates);
     }
 
-    @Override
     public List<Direction> movableDirections() {
         return Arrays.stream(Direction.values()).toList();
     }
 
     @Override
-    public int step() {
-        return 10;
-    }
-
-    @Override
     public PieceType type() {
         return PieceType.PO;
-    }
-
-    @Override
-    public Team team() {
-        return this.team;
     }
 
     @Override

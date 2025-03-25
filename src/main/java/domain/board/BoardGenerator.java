@@ -1,7 +1,8 @@
 package domain.board;
 
-import domain.piece.Byeong;
 import domain.piece.Cha;
+import domain.piece.ChoByeong;
+import domain.piece.HanByeong;
 import domain.piece.Ma;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -44,11 +45,11 @@ public class BoardGenerator {
     private void initializeHanPieces(final List<Point> sangMaPoints,
                                      final SangMaOrderCommand sangMaOrderCommand,
                                      final Map<Point, Piece> pieceByPoint) {
-        pieceByPoint.put(Point.of(4, 1), new Byeong(Team.HAN));
-        pieceByPoint.put(Point.of(4, 3), new Byeong(Team.HAN));
-        pieceByPoint.put(Point.of(4, 5), new Byeong(Team.HAN));
-        pieceByPoint.put(Point.of(4, 7), new Byeong(Team.HAN));
-        pieceByPoint.put(Point.of(4, 9), new Byeong(Team.HAN));
+        pieceByPoint.put(Point.of(4, 1), new HanByeong(Team.HAN));
+        pieceByPoint.put(Point.of(4, 3), new HanByeong(Team.HAN));
+        pieceByPoint.put(Point.of(4, 5), new HanByeong(Team.HAN));
+        pieceByPoint.put(Point.of(4, 7), new HanByeong(Team.HAN));
+        pieceByPoint.put(Point.of(4, 9), new HanByeong(Team.HAN));
 
         pieceByPoint.put(Point.of(3, 2), new Po(Team.HAN));
         pieceByPoint.put(Point.of(3, 8), new Po(Team.HAN));
@@ -68,11 +69,11 @@ public class BoardGenerator {
     private void initializeChoPieces(final List<Point> sangMaPoints,
                                      final SangMaOrderCommand sangMaOrderCommand,
                                      final Map<Point, Piece> pieceByPoint) {
-        pieceByPoint.put(Point.of(7, 1), new Byeong(Team.CHO));
-        pieceByPoint.put(Point.of(7, 3), new Byeong(Team.CHO));
-        pieceByPoint.put(Point.of(7, 5), new Byeong(Team.CHO));
-        pieceByPoint.put(Point.of(7, 7), new Byeong(Team.CHO));
-        pieceByPoint.put(Point.of(7, 9), new Byeong(Team.CHO));
+        pieceByPoint.put(Point.of(7, 1), new ChoByeong(Team.CHO));
+        pieceByPoint.put(Point.of(7, 3), new ChoByeong(Team.CHO));
+        pieceByPoint.put(Point.of(7, 5), new ChoByeong(Team.CHO));
+        pieceByPoint.put(Point.of(7, 7), new ChoByeong(Team.CHO));
+        pieceByPoint.put(Point.of(7, 9), new ChoByeong(Team.CHO));
 
         pieceByPoint.put(Point.of(8, 2), new Po(Team.CHO));
         pieceByPoint.put(Point.of(8, 8), new Po(Team.CHO));
@@ -94,12 +95,12 @@ public class BoardGenerator {
         List<PieceType> pieceTypes = sangMaOrderCommand.getPieceTypes();
         Deque<Piece> pieces = new ArrayDeque<>();
         for (PieceType pieceType : pieceTypes) {
-            pieces.addLast(createPiece(pieceType, team));
+            pieces.addLast(createMovablePiece(pieceType, team));
         }
         return pieces;
     }
 
-    private Piece createPiece(final PieceType pieceType, final Team team) {
+    private Piece createMovablePiece(final PieceType pieceType, final Team team) {
         return switch (pieceType) {
             case SANG -> new Sang(team);
             case MA -> new Ma(team);

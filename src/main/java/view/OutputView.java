@@ -19,7 +19,7 @@ public class OutputView {
     private static final String TAB = "\t";
 
     public static void printStart() {
-        System.out.println("%n장기 게임에 오신 것을 환영합니다.");
+        System.out.printf("%n장기 게임에 오신 것을 환영합니다.");
     }
 
     public static void printBoard(Board board) {
