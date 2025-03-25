@@ -25,10 +25,14 @@ public final class BoardView {
             Team.HAN, "한 "
     );
     private static final String PLAY_TURN_FORMAT = "의 차례입니다.";
+    private static final String COLOR_YELLOW = "\u001B[33m";
+    private static final String COLOR_RED = "\u001B[31m";
+    private static final String COLOR_BLUE = "\u001B[34m";
+    private static final String COLOR_END = "\u001B[0m";
 
     public void displayGame(final Board board) {
         System.out.println();
-        System.out.println("  0＿1＿2＿3＿4＿5＿6＿7＿8");
+        System.out.println("  ０ １ ２ ３ ４ ５ ６ ７ ８");
         for (Row row : Row.values()) {
             displayRow(board, row);
         }
@@ -44,6 +48,10 @@ public final class BoardView {
     }
 
     private static void displayPosition(final Board board, final Position position) {
+        if (!board.isPresent(position) && position.isPalace()) {
+            System.out.print(COLOR_YELLOW + "＿ " + COLOR_END);
+            return;
+        }
         if (!board.isPresent(position)) {
             System.out.print("＿ ");
             return;
@@ -54,20 +62,20 @@ public final class BoardView {
     private static void displayPiece(final Piece piece) {
         final String notation = PIECE_NOTATION_KOREAN.get(piece.getType());
         if (piece.isSameTeam(Team.HAN)) {
-            System.out.print("\u001B[31m" + notation + " \u001B[0m");
+            System.out.print(COLOR_RED + notation + " " + COLOR_END);
             return;
         }
-        System.out.print("\u001B[34m" + notation + " \u001B[0m");
+        System.out.print(COLOR_BLUE + notation + " " + COLOR_END);
     }
 
     public void displayTurn(final Board board) {
         final Team team = board.getTurn();
         if (TEAM_NOTATION_KOREAN.get(team).equals("한")) {
-            System.out.println(String.format("\u001B[31m" + "%s" + "\u001B[0m" + PLAY_TURN_FORMAT,
+            System.out.println(String.format(COLOR_RED + "%s" + COLOR_END + PLAY_TURN_FORMAT,
                     TEAM_NOTATION_KOREAN.get(team)));
             return;
         }
         System.out.println(
-                String.format("\u001B[34m" + "%s" + "\u001B[0m" + PLAY_TURN_FORMAT, TEAM_NOTATION_KOREAN.get(team)));
+                String.format(COLOR_BLUE + "%s" + COLOR_END + PLAY_TURN_FORMAT, TEAM_NOTATION_KOREAN.get(team)));
     }
 }
