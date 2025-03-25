@@ -44,7 +44,7 @@ public class Game {
     }
 
     private void moveAndCaptureIfEnemyExists(List<Route> routes) {
-        Integer selectedRouteNumber = handleException(inputView::readRoute, Integer::parseInt) - 1;
+        int selectedRouteNumber = handleException(inputView::readRoute, Integer::parseInt) - 1;
         Route route = routes.get(selectedRouteNumber);
         janggi.moveAndCaptureIfEnemyExists(route);
     }
