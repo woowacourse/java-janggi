@@ -36,18 +36,18 @@ public class PointNodeMapperFactory {
             for (int column = MIN_COLUMN_INDEX; column <= MAX_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
                 Node currentNode = nodeByPoint.get(point);
-                currentNode.addAllEdges(createEdgesByPoint(row, column, nodeByPoint));
+                currentNode.addAllEdges(createEdgesByPoint(point, nodeByPoint));
             }
         }
     }
 
-    private List<Edge> createEdgesByPoint(final int row, final int column,
+    private List<Edge> createEdgesByPoint(final Point point,
                                           final Map<Point, Node> nodeByPoint) {
         List<Edge> edges = new ArrayList<>();
 
         for (Direction direction : Direction.VERTICALS) {
-            int nextRow = row + direction.deltaRow();
-            int nextColumn = column + direction.deltaColumn();
+            int nextRow = point.row() + direction.deltaRow();
+            int nextColumn = point.column() + direction.deltaColumn();
             if (!isInRange(nextRow, nextColumn)) {
                 continue;
             }

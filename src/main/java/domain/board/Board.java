@@ -18,16 +18,16 @@ public class Board {
         this.pointNodeMapper = pointNodeMapper;
     }
 
-    public boolean isEnd() {
-        return !isTwoWangsAlive();
+    public boolean isPlaying() {
+        return isWangsOfAllTeamsAlive();
     }
 
-    private boolean isTwoWangsAlive() {
+    private boolean isWangsOfAllTeamsAlive() {
         return findTeamsOfWang().containsAll(List.of(Team.CHO, Team.HAN));
     }
 
     public Team findWinTeam() {
-        if (!isEnd()) {
+        if (isPlaying()) {
             throw new IllegalStateException("아직 게임이 끝나지 않았습니다.");
         }
         Set<Team> foundTeam = findTeamsOfWang();

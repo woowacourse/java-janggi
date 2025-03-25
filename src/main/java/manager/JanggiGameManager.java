@@ -24,14 +24,14 @@ public class JanggiGameManager {
         OutputView.printStart();
         Board board = createBoard(new BoardGenerator());
 
-        while (!board.isEnd()) {
-            processTurn(board, turn);
+        while (board.isPlaying()) {
+            processTurn(board);
         }
 
         OutputView.printMatchResult(board.findWinTeam());
     }
 
-    private void processTurn(Board board, Turn turn) {
+    private void processTurn(Board board) {
         ErrorHandler.retryUntilSuccess(() -> {
             OutputView.printBoard(board);
             MoveCommand moveCommand = InputView.inputMoveCommand(turn.team());
