@@ -10,6 +10,9 @@ import view.InputView;
 import view.OutputView;
 
 public class Game {
+    public static final int QUIT = 0;
+    public static final int PLAY = 1;
+
     private final Janggi janggi;
     private final InputView inputView;
     private final OutputView outputView;
@@ -21,16 +24,17 @@ public class Game {
     }
 
     public void play() {
-        try {
-            while (true) {
-                controlGame();
+        int gameState = PLAY;
+        while (gameState == PLAY) {
+            try {
+                gameState = controlGame();
+            } catch (IllegalArgumentException exception) {
+                outputView.printError(exception.getMessage());
             }
-        } catch (IllegalArgumentException exception) {
-            outputView.printError(exception.getMessage());
         }
     }
 
-    private void controlGame() {
+    private int controlGame() {
         outputView.printUnits(janggi.getUnits());
 
         Position position = getPosition();
@@ -41,9 +45,10 @@ public class Game {
 
         moveAndCaptureIfEnemyExists(routes, position);
         if (janggi.isNoneEnemyUnit()) {
-            return;
+            return QUIT;
         }
         janggi.changeTurn();
+        return PLAY;
     }
 
     private void moveAndCaptureIfEnemyExists(List<Route> routes, Position startPoint) {
