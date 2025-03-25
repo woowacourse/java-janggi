@@ -4,7 +4,6 @@ import java.util.List;
 
 import model.Position;
 import model.Team;
-import model.board.Board;
 
 public class Pao extends Piece {
 
@@ -19,26 +18,26 @@ public class Pao extends Piece {
     }
 
     @Override
-    protected Route findMovableRoute(Board board, int dx, int dy) {
-        Position target = position.move(dx, dy);
-        if (isTargetPao(board, target)) {
+    protected Route findMovableRoute(BoardSearcher boardSearcher, Position difference) {
+        Position target = position.move(difference);
+        if (isTargetPao(boardSearcher, target)) {
             throw new IllegalArgumentException("[ERROR] 도달할 수 없는 위치입니다.");
         }
-        return movableRoute(board, target);
+        return movableRoute(boardSearcher, target);
     }
 
-    private Route movableRoute(Board board, Position target) {
+    private Route movableRoute(BoardSearcher boardSearcher, Position target) {
         return routes.stream()
-            .filter(route -> validateRoute(board, target, route))
+            .filter(route -> validateRoute(boardSearcher, target, route))
             .findAny()
             .orElseThrow(() -> new IllegalArgumentException("[ERROR] 도달할 수 없는 위치입니다."));
     }
 
-    private boolean validateRoute(Board board, Position target, Route route) {
+    private boolean validateRoute(BoardSearcher boardSearcher, Position target, Route route) {
         boolean isOvered = false;
         Position nextPos = nextPositionOnRoute(position, route);
-        while (board.isInBoard(nextPos)) {
-            if (overPiece(board, nextPos)) {
+        while (boardSearcher.isInBoard(nextPos)) {
+            if (overPiece(boardSearcher, nextPos)) {
                 isOvered = true;
             }
             if (nextPos.equals(target) && isOvered) {
@@ -49,21 +48,22 @@ public class Pao extends Piece {
         return false;
     }
 
-    private boolean isTargetPao(Board board, Position target) {
-        return board.hasPieceOn(target) && board.get(target).type() == PieceType.PAO;
+    private boolean isTargetPao(BoardSearcher boardSearcher, Position target) {
+        return boardSearcher.hasPieceOn(target) && boardSearcher.get(target).type() == PieceType.PAO;
     }
 
-    private boolean overPiece(Board board, Position nextPos) {
-        return board.hasPieceOn(nextPos);
+    private boolean overPiece(BoardSearcher boardSearcher, Position nextPos) {
+        return boardSearcher.hasPieceOn(nextPos);
     }
 
     @Override
-    protected void validateRoute(Board board, Route route, Position target) {
+    protected void validateRoute(BoardSearcher boardSearcher, Route route, Position difference) {
         boolean isOvered = false;
+        Position targetPosition = position.move(difference);
         Position validatePosition = nextPositionOnRoute(position, route);
-        while (!validatePosition.equals(target)) {
-            if (board.hasPieceOn(validatePosition)) {
-                validateOverPao(board, validatePosition);
+        while (!validatePosition.equals(targetPosition)) {
+            if (boardSearcher.hasPieceOn(validatePosition)) {
+                validateOverPao(boardSearcher, validatePosition);
                 validateIsOvered(isOvered);
                 isOvered = true;
             }
@@ -71,8 +71,8 @@ public class Pao extends Piece {
         }
     }
 
-    private void validateOverPao(Board board, Position validatePosition) {
-        if (board.get(validatePosition).type() == PieceType.PAO) {
+    private void validateOverPao(BoardSearcher boardSearcher, Position validatePosition) {
+        if (boardSearcher.get(validatePosition).type() == PieceType.PAO) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 넘을 수 없습니다.");
         }
     }

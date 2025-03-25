@@ -6,7 +6,6 @@ import java.util.function.ToIntFunction;
 
 import model.Position;
 import model.Team;
-import model.board.Board;
 
 public abstract class Piece {
     private final Team team;
@@ -19,20 +18,18 @@ public abstract class Piece {
         position = new Position(x, y);
     }
 
-    protected abstract Route findMovableRoute(Board board, int dx, int dy);
+    protected abstract Route findMovableRoute(BoardSearcher boardSearcher, Position difference);
 
-    protected abstract void validateRoute(Board board, Route route, Position target);
+    protected abstract void validateRoute(BoardSearcher boardSearcher, Route route, Position difference);
 
     public abstract PieceType type();
 
-    public void move(Board board, Team currentTurn, int dx, int dy) {
-        Position target = position.move(dx, dy);
-        validateInBoard(board, target);
+    public void move(BoardSearcher boardSearcher, Team currentTurn, Position difference) {
         validateTeam(currentTurn);
-        Route movableRoute = findMovableRoute(board, dx, dy);
-        validateRoute(board, movableRoute, target);
-        arrival(board, target);
-        position = target;
+        Route movableRoute = findMovableRoute(boardSearcher, difference);
+        validateRoute(boardSearcher, movableRoute, difference);
+        validateDestination(boardSearcher, difference);
+        position = position.move(difference);
     }
 
     private void validateTeam(Team currentTurn) {
@@ -41,22 +38,9 @@ public abstract class Piece {
         }
     }
 
-    private static void validateInBoard(Board board, Position target) {
-        if (!board.isInBoard(target)) {
-            throw new IllegalArgumentException("[ERROR] 장기판 내에서만 이동할 수 있습니다.");
-        }
-    }
-
-    private void arrival(Board board, Position target) {
-        if (board.hasPieceOn(target)) {
-            Piece targetPiece = board.get(target);
-            validateTeam(targetPiece);
-            board.take(targetPiece);
-        }
-    }
-
-    private void validateTeam(Piece targetPiece) {
-        if (targetPiece.team == team) {
+    private void validateDestination(BoardSearcher boardSearcher, Position difference) {
+        Piece target = boardSearcher.find(position.move(difference));
+        if (target != null && team == target.team) {
             throw new IllegalArgumentException("[ERROR] 도착 지점에 같은 팀의 기물이 존재합니다.");
         }
     }

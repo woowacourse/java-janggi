@@ -5,7 +5,6 @@ import dto.TeamDto;
 import model.Position;
 import model.Team;
 import model.board.Board;
-import model.piece.Piece;
 
 public class JanggiService {
 
@@ -26,8 +25,8 @@ public class JanggiService {
     }
 
     public void move(Position source, Position destination) {
-        Piece piece = board.get(source);
-        piece.move(board, currentTurn, destination.x() - source.x(), destination.y() - source.y());
+        board.movePiece(source, destination, currentTurn);
+        // piece.move(board, currentTurn, destination.x() - source.x(), destination.y() - source.y());
     }
 
     public boolean isPlaying() {

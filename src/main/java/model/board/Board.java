@@ -5,10 +5,11 @@ import java.util.List;
 
 import model.Position;
 import model.Team;
+import model.piece.BoardSearcher;
 import model.piece.Piece;
 import model.piece.PieceType;
 
-public class Board {
+public class Board implements BoardSearcher {
 
     public static final int WIDTH_SIZE = 9;
     public static final int HEIGHT_SIZE = 10;
@@ -23,24 +24,27 @@ public class Board {
         return new Initializer().generate();
     }
 
-    public boolean isInBoard(Position position) {
-        return position.x() < WIDTH_SIZE && position.x() >= 0
-            && position.y() < HEIGHT_SIZE && position.y() >= 0;
-    }
-
     public boolean hasPieceOn(Position position) {
         return pieces.stream()
             .anyMatch(piece -> piece.onPosition(position));
     }
 
     public Piece get(Position position) {
+        Piece piece = find(position);
+        if (piece == null) {
+            throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다.");
+        }
+        return piece;
+    }
+
+    public Piece find(Position position) {
         return pieces.stream()
             .filter(piece -> piece.onPosition(position))
             .findAny()
-            .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
+            .orElse(null);
     }
 
-    public void take(Piece target) {
+    private void take(Piece target) {
         pieces.remove(target);
     }
 
@@ -69,5 +73,29 @@ public class Board {
         return pieces.stream()
             .filter(piece -> piece.type() == PieceType.PALACE)
             .toList();
+    }
+
+    public void movePiece(Position source, Position destination, Team currentTurn) {
+        validateInBoard(destination);
+        Piece piece = get(source);
+        Piece target = find(destination);
+        piece.move(this, currentTurn, destination.difference(source));
+        takePieceIfExists(target);
+    }
+
+    private void takePieceIfExists(Piece target) {
+        if (target != null) {
+            take(target);
+        }
+    }
+
+    private void validateInBoard(Position position) {
+        if (!isInBoard(position)) {
+            throw new IllegalArgumentException("[ERROR] 장기판 내에서만 이동할 수 있습니다.");
+        }
+    }
+
+    public boolean isInBoard(Position position) {
+        return position.x() < WIDTH_SIZE && position.x() >= 0 && position.y() < HEIGHT_SIZE && position.y() >= 0;
     }
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import model.Position;
 import model.Team;
-import model.board.Board;
 
 public class Chariot extends Piece {
 
@@ -19,32 +18,33 @@ public class Chariot extends Piece {
     }
 
     @Override
-    protected Route findMovableRoute(Board board, int dx, int dy) {
-        Position target = position.move(dx, dy);
+    protected Route findMovableRoute(BoardSearcher boardSearcher, Position difference) {
+        Position target = position.move(difference);
         for (var route : routes) {
             Position dir = route.positions().getFirst();
-            Position nextPos = position.move(dir.x(), dir.y());
-            while (board.isInBoard(nextPos)) {
+            Position nextPos = position.move(dir);
+            while (boardSearcher.isInBoard(nextPos)) {
                 if (nextPos.equals(target)) {
                     return route;
                 }
-                nextPos = nextPos.move(dir.x(), dir.y());
+                nextPos = nextPos.move(dir);
             }
         }
         throw new IllegalArgumentException("[ERROR] 도달할 수 없는 위치입니다.");
     }
 
     @Override
-    protected void validateRoute(Board board, Route route, Position target) {
+    protected void validateRoute(BoardSearcher boardSearcher, Route route, Position difference) {
+        Position targetPosition = position.move(difference);
         Position validatePosition = nextPositionOnRoute(position, route);
-        while (!validatePosition.equals(target)) {
-            validateOtherPieceOnRoute(board, validatePosition);
+        while (!validatePosition.equals(targetPosition)) {
+            validateOtherPieceOnRoute(boardSearcher, validatePosition);
             validatePosition = validatePosition.move(route.positions().getFirst());
         }
     }
 
-    private static void validateOtherPieceOnRoute(Board board, Position validatePosition) {
-        if (board.hasPieceOn(validatePosition)) {
+    private static void validateOtherPieceOnRoute(BoardSearcher boardSearcher, Position validatePosition) {
+        if (boardSearcher.hasPieceOn(validatePosition)) {
             throw new IllegalArgumentException("[ERROR] 이동 경로에 다른 기물이 존재합니다.");
         }
     }
