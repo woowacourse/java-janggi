@@ -15,10 +15,10 @@ public abstract class Piece {
 
     protected List<Position> convertToPath(List<Move> moves, Position startPosition) {
         List<Position> path = new ArrayList<>();
-        Position newPosition = startPosition;
+        Position positionInPath = startPosition;
         for (int i = 0; i < moves.size() - 1; i++) {
-            newPosition = newPosition.movePosition(moves.get(i));
-            path.add(newPosition);
+            positionInPath = positionInPath.movePosition(moves.get(i));
+            path.add(positionInPath);
         }
 
         return path;

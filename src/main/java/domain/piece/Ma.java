@@ -31,13 +31,13 @@ public class Ma extends Piece {
     }
 
     private boolean isPossibleToArrive(Position startPosition, Position targetPosition, List<Move> moveList) {
-        Position newPosition = startPosition;
+        Position positionInPath = startPosition;
         for (Move move : moveList) {
-            if (!newPosition.canMovePosition(move)) {
+            if (!positionInPath.canMovePosition(move)) {
                 return false;
             }
-            newPosition = newPosition.movePosition(move);
+            positionInPath = positionInPath.movePosition(move);
         }
-        return newPosition.equals(targetPosition);
+        return positionInPath.equals(targetPosition);
     }
 }
