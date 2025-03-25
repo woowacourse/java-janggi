@@ -31,7 +31,7 @@ class CannonTest {
     void 말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, final boolean expected) {
 
         // given
-        final Cannon cannon = PieceFactory.createRedTeam(Cannon::new, Score.CANNON);
+        final Cannon cannon = PieceFactory.createRedTeam(Cannon::new);
 
         // when
         Distance distance = new Distance(x, y);
@@ -44,7 +44,7 @@ class CannonTest {
     void 포의_이동_가능_경로_모두_반환() {
 
         // given
-        Cannon cannon = PieceFactory.createGreenTeam(Cannon::new, Score.CANNON);
+        Cannon cannon = PieceFactory.createGreenTeam(Cannon::new);
 
         // when
         List<Point> possiblePoint = cannon.calculatePossiblePoint(Point.of(1, 2), Point.of(1, 9));

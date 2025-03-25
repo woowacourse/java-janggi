@@ -10,8 +10,8 @@ import java.util.function.UnaryOperator;
 
 public class Chariot extends AbstractPiece {
 
-    public Chariot(final Team team, final Score score) {
-        super(team, score);
+    public Chariot(final Team team) {
+        super(team, Score.CHARIOT);
     }
 
     @Override

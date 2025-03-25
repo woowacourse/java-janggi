@@ -9,8 +9,8 @@ import java.util.function.UnaryOperator;
 
 public class Horse extends AbstractPiece {
 
-    public Horse(final Team team, final Score score) {
-        super(team, score);
+    public Horse(final Team team) {
+        super(team, Score.HORSE);
     }
 
     @Override

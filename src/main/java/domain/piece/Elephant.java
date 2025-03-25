@@ -10,8 +10,8 @@ import java.util.function.UnaryOperator;
 
 public class Elephant extends AbstractPiece {
 
-    public Elephant(final Team team, final Score score) {
-        super(team, score);
+    public Elephant(final Team team) {
+        super(team, Score.ELEPHANT);
     }
 
     @Override

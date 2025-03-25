@@ -16,7 +16,7 @@ class PositionTest {
     void 포지션의_포인트_좌표가_같으면_true_다르면_false_반환() {
 
         // given
-        final Position position = new Position(Point.of(0, 0), PieceFactory.createGreenTeam(Cannon::new, Score.CANNON));
+        final Position position = new Position(Point.of(0, 0), PieceFactory.createGreenTeam(Cannon::new));
         final Point truePoint = Point.of(0, 0);
         final Point falsePoint = Point.of(0, 1);
 
@@ -33,9 +33,9 @@ class PositionTest {
 
         // given
         final Position greenPosition = new Position(Point.of(0, 0),
-                PieceFactory.createGreenTeam(Chariot::new, Score.CHARIOT));
+                PieceFactory.createGreenTeam(Chariot::new));
         final Position redPosition = new Position(Point.of(0, 9),
-                PieceFactory.createRedTeam(Chariot::new, Score.CHARIOT));
+                PieceFactory.createRedTeam(Chariot::new));
 
         // when
         // then

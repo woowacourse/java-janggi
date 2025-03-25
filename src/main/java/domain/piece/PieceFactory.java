@@ -1,19 +1,18 @@
 package domain.piece;
 
-import domain.Score;
 import domain.Team;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public final class PieceFactory {
 
     private PieceFactory() {
     }
 
-    public static <T extends Piece> T createGreenTeam(final BiFunction<Team, Score, T> creator, final Score score) {
-        return creator.apply(Team.GREEN, score);
+    public static <T extends Piece> T createGreenTeam(final Function<Team, T> creator) {
+        return creator.apply(Team.GREEN);
     }
 
-    public static <T extends Piece> T createRedTeam(final BiFunction<Team, Score, T> creator, final Score score) {
-        return creator.apply(Team.RED, score);
+    public static <T extends Piece> T createRedTeam(final Function<Team, T> creator) {
+        return creator.apply(Team.RED);
     }
 }

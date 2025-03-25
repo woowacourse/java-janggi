@@ -17,7 +17,7 @@ class SoldierTest {
     void 레드팀일_때_말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, final boolean expected) {
 
         // given
-        Soldier soldier = PieceFactory.createRedTeam(Soldier::new, Score.SOLDIER);
+        Soldier soldier = PieceFactory.createRedTeam(Soldier::new);
 
         // when
         Distance distance = new Distance(x, y);
@@ -33,7 +33,7 @@ class SoldierTest {
     void 그린팀일_때_말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, final boolean expected) {
 
         // given
-        Soldier soldier = PieceFactory.createGreenTeam(Soldier::new, Score.SOLDIER);
+        Soldier soldier = PieceFactory.createGreenTeam(Soldier::new);
 
         // when
         Distance distance = new Distance(x, y);

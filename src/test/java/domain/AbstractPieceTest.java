@@ -13,8 +13,8 @@ class AbstractPieceTest {
 
     class FakePiece extends AbstractPiece {
 
-        public FakePiece(final Team team, final Score score) {
-            super(team, score);
+        public FakePiece(final Team team) {
+            super(team, Score.CHARIOT);
         }
 
         @Override
@@ -38,8 +38,8 @@ class AbstractPieceTest {
     void 그린팀이면_true_아니면_false_반환() {
 
         // given
-        final FakePiece greenTeam = PieceFactory.createGreenTeam(FakePiece::new, Score.CHARIOT);
-        final FakePiece redTeam = PieceFactory.createRedTeam(FakePiece::new, Score.CHARIOT);
+        final FakePiece greenTeam = PieceFactory.createGreenTeam(FakePiece::new);
+        final FakePiece redTeam = PieceFactory.createRedTeam(FakePiece::new);
 
         // when
         // then

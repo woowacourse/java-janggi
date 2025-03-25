@@ -31,7 +31,7 @@ class HorseTest {
     void 말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, final boolean expected) {
 
         // given
-        Horse horse = PieceFactory.createRedTeam(Horse::new, Score.HORSE);
+        Horse horse = PieceFactory.createRedTeam(Horse::new);
 
         // when
         Distance distance = new Distance(x, y);
@@ -44,7 +44,7 @@ class HorseTest {
     void 말의_이동_가능_경로_모두_반환() {
 
         // given
-        Horse horse = PieceFactory.createGreenTeam(Horse::new, Score.HORSE);
+        Horse horse = PieceFactory.createGreenTeam(Horse::new);
 
         // when
         List<Point> possiblePoint = horse.calculatePossiblePoint(Point.of(2, 0), Point.of(3, 2));

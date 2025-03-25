@@ -10,8 +10,8 @@ import java.util.function.UnaryOperator;
 
 public class Cannon extends AbstractPiece {
 
-    public Cannon(final Team team, final Score score) {
-        super(team, score);
+    public Cannon(final Team team) {
+        super(team, Score.CANNON);
     }
 
     @Override

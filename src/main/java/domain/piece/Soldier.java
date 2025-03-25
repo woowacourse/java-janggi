@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Soldier extends AbstractPiece {
 
-    public Soldier(final Team team, final Score score) {
-        super(team, score);
+    public Soldier(final Team team) {
+        super(team, Score.SOLDIER);
     }
 
     @Override
