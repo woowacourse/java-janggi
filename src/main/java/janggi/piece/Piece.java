@@ -17,7 +17,7 @@ public abstract class Piece {
         this.team = team;
     }
 
-    public Path makePath(final Position currentPosition, final Position arrivalPosition,
+    public final Path makePath(final Position currentPosition, final Position arrivalPosition,
                          final Map<Position, Piece> pieces) {
         final int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
         final int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
@@ -28,21 +28,29 @@ public abstract class Piece {
         return path;
     }
 
-    protected int calculateUnit(final int difference) {
+    public final boolean matchPieceType(final PieceType pieceType) {
+        return this.pieceType == pieceType;
+    }
+
+    public final boolean isSameTeam(final Team givenTeam) {
+        return team.equals(givenTeam);
+    }
+
+    protected final int calculateUnit(final int difference) {
         if (difference == 0) {
             return difference;
         }
         return difference / Math.abs(difference);
     }
 
-    protected boolean hasPieceInMiddle(final Path path, final Map<Position, Piece> pieces) {
+    protected final boolean hasPieceInMiddle(final Path path, final Map<Position, Piece> pieces) {
         final List<Position> positions = new ArrayList<>(path.getPositions());
         positions.removeLast();
         return positions.stream()
                 .anyMatch(pieces::containsKey);
     }
 
-    protected Movement findMovement(final PieceType pieceType, int dy, int dx) {
+    protected final Movement findMovement(final PieceType pieceType, int dy, int dx) {
         if (pieceType.isIterable()) {
             dy = calculateUnit(dy);
             dx = calculateUnit(dx);
@@ -55,23 +63,15 @@ public abstract class Piece {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 적절한 움직임이 아닙니다."));
     }
 
-    protected abstract void validatePath(final Map<Position, Piece> pieces, final Path path);
+    protected abstract void validatePath(Map<Position, Piece> pieces, Path path);
 
     protected abstract List<Movement> getMovements();
 
-    public boolean matchPieceType(final PieceType pieceType) {
-        return this.pieceType == pieceType;
-    }
-
-    public boolean isSameTeam(final Team givenTeam) {
-        return team.equals(givenTeam);
-    }
-
-    public PieceType getPieceType() {
+    public final PieceType getPieceType() {
         return pieceType;
     }
 
-    public Team getTeam() {
+    public final Team getTeam() {
         return team;
     }
 }
