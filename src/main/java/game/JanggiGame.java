@@ -43,7 +43,6 @@ public class JanggiGame {
         BoardLocation destination = consoleView.requestDestination();
 
         Piece piece = board.getByLocationOrThrow(current);
-
         piece.validateEqualTeam(team);
         piece.validateMovable(current, destination);
 

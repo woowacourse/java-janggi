@@ -7,10 +7,6 @@ public record BoardVector(
         int dy
 ) {
 
-    public boolean isDxZero() {
-        return dx == 0;
-    }
-
     public int getAbsDy() {
         return Math.abs(dy);
     }
@@ -39,4 +35,7 @@ public record BoardVector(
         return Objects.hash(dx, dy);
     }
 
+    public boolean isNotAxis() {
+        return dx != 0 && dy != 0;
+    }
 }

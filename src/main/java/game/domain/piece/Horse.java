@@ -1,25 +1,27 @@
 package game.domain.piece;
 
-import static game.domain.board.Direction.*;
+import static game.domain.board.Direction.DOWN;
+import static game.domain.board.Direction.LEFT;
+import static game.domain.board.Direction.RIGHT;
+import static game.domain.board.Direction.UP;
 
 import game.domain.board.BoardLocation;
 import game.domain.board.BoardVector;
 import game.domain.board.Direction;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class Horse extends Piece {
 
-    private static final Map<BoardVector, List<Direction>> DIRECTIONS = Map.of(
-            new BoardVector(1, 2), List.of(DOWN, DOWN_RIGHT),
-            new BoardVector(1, -2), List.of(UP, UP_LEFT),
-            new BoardVector(-1, 2), List.of(DOWN, UP_RIGHT),
-            new BoardVector(-1, -2), List.of(UP, UP_LEFT),
-            new BoardVector(2, 1), List.of(RIGHT, DOWN_RIGHT),
-            new BoardVector(2, -1), List.of(RIGHT, DOWN_LEFT),
-            new BoardVector(-2, 1), List.of(LEFT, UP_RIGHT),
-            new BoardVector(-2, -1), List.of(LEFT, UP_LEFT)
+    private static final Map<BoardVector, Direction> DIRECTIONS = Map.of(
+            new BoardVector(1, 2), DOWN,
+            new BoardVector(1, -2), UP,
+            new BoardVector(-1, 2), DOWN,
+            new BoardVector(-1, -2), UP,
+            new BoardVector(2, 1), RIGHT,
+            new BoardVector(2, -1), RIGHT,
+            new BoardVector(-2, 1), LEFT,
+            new BoardVector(-2, -1), LEFT
     );
 
     public Horse(Team team) {
@@ -29,25 +31,19 @@ public class Horse extends Piece {
     @Override
     public void validateMovable(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
-        if ((boardVector.dx() == 1 && boardVector.dy() == 2) || (boardVector.dx() == 2 && boardVector.dy() == 1)) {
-            return;
+        if (!DIRECTIONS.containsKey(boardVector)) {
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
         }
-        throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
     }
 
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
 
-        List<Direction> directions = DIRECTIONS.get(boardVector);
-        List<BoardLocation> paths = new ArrayList<>();
+        Direction direction = DIRECTIONS.get(boardVector);
+        BoardLocation path = current.moveDirection(direction);
 
-        for (Direction direction : directions) {
-            current = current.moveDirection(direction);
-            paths.add(current);
-        }
-
-        return paths;
+        return List.of(path);
     }
 
     @Override

@@ -1,9 +1,8 @@
 package game.domain.piece;
 
+import game.domain.board.Axis;
 import game.domain.board.BoardLocation;
 import game.domain.board.BoardVector;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Cannon extends Piece {
@@ -15,47 +14,17 @@ public class Cannon extends Piece {
     @Override
     public void validateMovable(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
-        if (boardVector.dx() == 0 || boardVector.dy() == 0){
-            return;
+        if (boardVector.isNotAxis()) {
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
         }
-        throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
     }
 
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
-        List<BoardLocation> path = new ArrayList<>();
         BoardVector boardVector = BoardVector.between(current, destination);
 
-        int dy = boardVector.dy();
-        int dx = boardVector.dx();
-        if (dx == 0 && dy > 0) {
-            for (int i = 1; i < dy; i++) {
-                path.add(current.moveY(i));
-            }
-            return path;
-        }
-
-        if (dx == 0 && dy < 0) {
-            for (int i = -1; i > dy; i--) {
-                path.add(current.moveY(i));
-            }
-            return path;
-        }
-
-        if (dx > 0 && dy == 0) {
-            for (int i = 1; i < dx; i++) {
-                path.add(current.moveX(i));
-            }
-            return path;
-        }
-
-        if (dx < 0 && dy == 0) {
-            for (int i = -1; i > dx; i--) {
-                path.add(current.moveX(i));
-            }
-            return path;
-        }
-        return Collections.emptyList();
+        Axis quadrant = Axis.findQuadrant(boardVector);
+        return quadrant.createAllPath(current, boardVector);
     }
 
     @Override

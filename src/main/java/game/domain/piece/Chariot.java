@@ -14,21 +14,17 @@ public class Chariot extends Piece {
     @Override
     public void validateMovable(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
-        if (boardVector.dx() == 0 || boardVector.dy() == 0) {
-            return;
+        if (boardVector.isNotAxis()) {
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
         }
-        throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
     }
 
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
 
-        int dy = boardVector.dy();
-        int dx = boardVector.dx();
-
-        Axis quadrant = Axis.findQuadrant(dx, dy);
-        return quadrant.createAllPath(current, dx, dy);
+        Axis quadrant = Axis.findQuadrant(boardVector);
+        return quadrant.createAllPath(current, boardVector);
     }
 
     @Override
