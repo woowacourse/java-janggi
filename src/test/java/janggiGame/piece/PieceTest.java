@@ -17,7 +17,7 @@ public class PieceTest {
         FakePiece fakePiece = new FakePiece(Dynasty.HAN);
 
         // when // then
-        assertThat(fakePiece.getDynasty()).isEqualTo(Dynasty.HAN);
+        assertThat(fakePiece.hasDynasty(Dynasty.HAN)).isTrue();
     }
 
     @DisplayName("기물은 자신의 타입을 알릴 수 있다.")

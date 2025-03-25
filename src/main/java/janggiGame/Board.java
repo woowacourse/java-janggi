@@ -50,7 +50,7 @@ public class Board {
     }
 
     private void validatePieceDynasty(Dynasty dynasty, Position origin) {
-        if (survivedPieces.get(origin).getDynasty() != dynasty) {
+        if (!survivedPieces.get(origin).hasDynasty(dynasty)) {
             throw new IllegalArgumentException("[ERROR] 입력 받은 위치의 기물이 현 사용자 소유의 기물이 아닙니다.");
         }
     }

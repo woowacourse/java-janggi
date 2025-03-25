@@ -22,7 +22,7 @@ public abstract class Piece {
         }
     }
 
-    public final Dynasty getDynasty() {
-        return dynasty;
+    public final boolean hasDynasty(Dynasty dynasty) {
+        return dynasty == this.dynasty;
     }
 }

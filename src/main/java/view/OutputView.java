@@ -24,7 +24,7 @@ public class OutputView {
 
             Piece piece = pieces.get(position);
 
-            if (piece.getDynasty() == Dynasty.CHO) {
+            if (piece.hasDynasty(Dynasty.CHO)) {
                 System.out.print("\u001B[32m" + " " + pieceTypeBundle.getString(piece.getType().name()) + "\u001B[0m");
                 continue;
             }
