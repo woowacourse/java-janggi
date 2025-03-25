@@ -9,32 +9,24 @@ import org.junit.jupiter.api.Test;
 
 class CarUnitRuleTest {
     @Test
-    @DisplayName("차가 갈 수 있는 엔드포인트를 모두 반환한다")
+    @DisplayName("차는 수평/수직으로만 움직일 수 있다")
     void test1() {
         // given
-        Position p = new Position(0, 0);
-        CarUnitRule rule = new CarUnitRule();
+        CarUnitRule carUnitRule = new CarUnitRule();
 
         // when
-        List<Position> endPositions = rule.calculateEndPoints(p);
+        List<Route> routes = carUnitRule.calculateAllRoute(new Position(0, 0));
 
         // then
-        Assertions.assertThat(endPositions)
-                .hasSize(17);
-    }
-
-    @Test
-    @DisplayName("시작점과 끝점의 경로를 반환한다")
-    void test2() {
-        // given
-        Position start = new Position(0, 0);
-        Position end = new Position(0, 5);
-        CarUnitRule rule = new CarUnitRule();
-
-        // when
-        Route path = rule.calculateRoute(start, end);
-
-        // then
-        Assertions.assertThat(path.getPoints()).hasSize(5);
+        Assertions.assertThat(routes).isNotEmpty();
+        Assertions.assertThat(routes).contains(
+                Route.of(List.of(
+                        new Position(1, 0), new Position(2, 0), new Position(3, 0), new Position(4, 0),
+                        new Position(5, 0), new Position(6, 0), new Position(7, 0), new Position(8, 0))),
+                Route.of(List.of(
+                        new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4),
+                        new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
+                        new Position(0, 9)))
+        );
     }
 }
