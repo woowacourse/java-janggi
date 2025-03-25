@@ -32,6 +32,16 @@ class GungMoveBehaviorTest {
     }
 
     @Test
+    void 궁은_대각선_궁성에서_대각선으로_이동할_수_있다() {
+        JanggiPosition startPosition = new JanggiPosition(1, 4);
+        JanggiPosition endPosition = new JanggiPosition(2, 5);
+        Pieces pieces = new Pieces(List.of(new Piece(startPosition, new GungMoveBehavior(), Team.BLUE)));
+        Piece placePiece = pieces.move(startPosition, endPosition, pieces);
+        Piece expectedPiece = new Piece(endPosition, new GungMoveBehavior(), Team.BLUE);
+        Assertions.assertThat(placePiece).isEqualTo(expectedPiece);
+    }
+
+    @Test
     void 궁은_같은_팀을_먹을수_없다() {
         JanggiMoveBehavior moveBehavior = new GungMoveBehavior();
         JanggiPosition otherPiecePosition = new JanggiPosition(1, 4);

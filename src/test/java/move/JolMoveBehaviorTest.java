@@ -10,6 +10,7 @@ import piece.Team;
 import piece.position.JanggiPosition;
 
 class JolMoveBehaviorTest {
+    
     @Test
     void 졸은_가능한_경로를_반환한다() {
         JanggiPosition startPosition = new JanggiPosition(1, 0);
