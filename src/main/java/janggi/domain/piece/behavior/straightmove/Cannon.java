@@ -2,12 +2,9 @@ package janggi.domain.piece.behavior.straightmove;
 
 import janggi.domain.Board;
 import janggi.domain.Side;
-import janggi.domain.move.Movement;
 import janggi.domain.move.Position;
 import janggi.domain.move.Vector;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
 
 public final class Cannon extends StraightMoveBehavior {
 
@@ -22,13 +19,6 @@ public final class Cannon extends StraightMoveBehavior {
     }
 
     @Override
-    protected List<Vector> getVectors() {
-        return Stream.of(Movement.DOWN, Movement.LEFT, Movement.RIGHT, Movement.UP)
-                .map(Movement::getVector)
-                .toList();
-    }
-
-    @Override
     public void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, Vector vector,
                                      Side side) {
         searchAvailableMoves(result, board, currentPosition, vector, side, board.hasPiece(currentPosition));
@@ -36,7 +26,7 @@ public final class Cannon extends StraightMoveBehavior {
 
     public void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, Vector vector,
                                      Side side, boolean hasPassed) {
-        if (currentPosition.canNotMove(vector) || board.isCannon(currentPosition)){
+        if (currentPosition.canNotMove(vector) || board.isCannon(currentPosition)) {
             return;
         }
 

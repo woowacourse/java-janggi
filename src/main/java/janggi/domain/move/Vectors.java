@@ -30,11 +30,14 @@ public record Vectors(List<Vector> vectors) {
     public static List<Vectors> rotate(List<Vectors> vectorsList) {
         return vectorsList.stream()
                 .map(Vectors::vectors)
-                .map(vectorRoute -> vectorRoute.stream()
-                        .map(Vector::rotate)
-                        .toList()
-                )
+                .map(Vectors::rotateVectors)
                 .map(Vectors::new)
+                .toList();
+    }
+
+    private static List<Vector> rotateVectors(List<Vector> vectors) {
+        return vectors.stream()
+                .map(Vector::rotate)
                 .toList();
     }
 

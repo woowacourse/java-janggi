@@ -7,7 +7,6 @@ import janggi.domain.Side;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.behavior.Soldier;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +28,7 @@ class CannonTest {
         Map<Position, Piece> map = Map.of(position, cannonPiece, soldierPosition, soldierPiece);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(map);
         Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -58,7 +57,7 @@ class CannonTest {
                 soldierPosition2, soldierPiece2);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(map);
         Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -83,7 +82,7 @@ class CannonTest {
                 soldierPosition2, soldierPiece2);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(map);
         Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -104,7 +103,7 @@ class CannonTest {
         Map<Position, Piece> map = Map.of(position, piece, cannon2Position, cannon2Piece);
 
         // when
-        Board board = new Board(new HashMap<>(map));
+        Board board = new Board(map);
         Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.HAN, position);
 
         // then
@@ -129,12 +128,34 @@ class CannonTest {
 
         Map<Position, Piece> map = Map.of(position, piece, cannonPosition2, cannonPiece2,
                 soldierPosition, soldierPiece);
+        Board board = new Board(map);
 
         // when
-        Board board = new Board(new HashMap<>(map));
         Set<Position> actual = cannon.generateAvailableMovePositions(board, Side.CHO, position);
 
         // then
         assertThat(actual).hasSize(4);
+    }
+
+    @DisplayName("궁성 내에서는 대각선에 포가 아닌 기물이 존재하면 지나갈 수 있다.")
+    @Test
+    void test6() {
+        // given
+        Position position = Position.of(10, 6);
+        Cannon cannon = new Cannon();
+        Piece piece = new Piece(Side.CHO, cannon);
+
+        Position soldierPosition = Position.of(9, 5);
+        Soldier soldier = new Soldier();
+        Piece soldierPiece = new Piece(Side.HAN, soldier);
+
+        Map<Position, Piece> map = Map.of(position, piece, soldierPosition, soldierPiece);
+        Board board = new Board(map);
+
+        // when
+        Set<Position> positions = cannon.generateAvailableMovePositions(board, Side.CHO, position);
+
+        // then
+        assertThat(positions).containsExactlyInAnyOrder(Position.of(8, 4));
     }
 }

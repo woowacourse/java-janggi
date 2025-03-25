@@ -75,4 +75,19 @@ class ChariotTest {
         // then
         assertThat(actual).hasSize(9);
     }
+
+    @DisplayName("궁성 내에서의 대각선 움직임을 허용한다.")
+    @Test
+    void test6(){
+        Position position = Position.of(10, 6);
+        Chariot chariot = new Chariot();
+        Piece piece = new Piece(Side.CHO, chariot);
+
+        Board board = new Board(Map.of(position, piece));
+
+        Set<Position> actual = chariot.generateAvailableMovePositions(board, Side.CHO, position);
+
+        assertThat(actual).contains(Position.of(9,5), Position.of(8,4))
+                .hasSize(19);
+    }
 }
