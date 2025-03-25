@@ -21,12 +21,12 @@ public class Game {
     }
 
     public void play() {
-        while (true) {
-            try {
+        try {
+            while (true) {
                 controlGame();
-            } catch (IllegalArgumentException exception) {
-                outputView.printError(exception.getMessage());
             }
+        } catch (IllegalArgumentException exception) {
+            outputView.printError(exception.getMessage());
         }
     }
 
@@ -40,6 +40,9 @@ public class Game {
         outputView.printAvailableRoute(routes, position);
 
         moveAndCaptureIfEnemyExists(routes, position);
+        if (janggi.isNoneEnemyUnit()) {
+            return;
+        }
         janggi.changeTurn();
     }
 

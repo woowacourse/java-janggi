@@ -46,10 +46,14 @@ public class Janggi {
         UnitType type = pickedUnit.getType();
         if (type == UnitType.BOMB) {
             totalRoutes = totalRoutes.stream().filter(this::canBombJump).toList();
-            return totalRoutes.stream().filter(route -> isAvailableEndPoint(route, pick)).toList();
+            return totalRoutes.stream()
+                    .filter(route -> isAvailableEndPoint(route, pick))
+                    .toList();
         }
         if (type == UnitType.JOL) {
-            return searchJolRoutes(pick, pickedUnit, totalRoutes);
+            return searchJolRoutes(pick, pickedUnit, totalRoutes).stream()
+                    .filter(route -> isAvailableEndPoint(route, pick))
+                    .toList();
         }
         return findAvailableRoute(totalRoutes, pick);
     }
@@ -139,5 +143,9 @@ public class Janggi {
     private boolean isExistUnit(Position position) {
         return units.stream()
                 .anyMatch(unit -> unit.isSamePoint(position));
+    }
+
+    public boolean isNoneEnemyUnit() {
+        return units.stream().noneMatch(unit -> unit.getTeam() != turn);
     }
 }
