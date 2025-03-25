@@ -4,6 +4,7 @@ import janggi.domain.Board;
 import janggi.domain.BoardFactory;
 import janggi.domain.piece.HorseSide;
 import janggi.domain.piece.Position;
+import janggi.view.InputConverter;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -27,13 +28,13 @@ public class JanggiController {
     }
 
     private Board getInitializedBoardByInput() {
-        String blueHorsePosition = inputView.getBlueHorsePosition();
-        String redHorsePosition = inputView.getRedHorsePosition();
+        String blueHorseSide = inputView.getBlueHorsePosition();
+        String redHorseSide = inputView.getRedHorsePosition();
         return BoardFactory.getInitializedBoard(
-                getPositionSide(blueHorsePosition.substring(0, 2)),
-                getPositionSide(blueHorsePosition.substring(2, 4)),
-                getPositionSide(redHorsePosition.substring(0, 2)),
-                getPositionSide(redHorsePosition.substring(2, 4))
+                getPositionSide(InputConverter.extractLeftHorseSide(blueHorseSide)),
+                getPositionSide(InputConverter.extractRightHorseSide(blueHorseSide)),
+                getPositionSide(InputConverter.extractLeftHorseSide(redHorseSide)),
+                getPositionSide(InputConverter.extractRightHorseSide(redHorseSide))
         );
     }
 

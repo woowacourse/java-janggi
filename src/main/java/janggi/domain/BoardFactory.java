@@ -15,6 +15,7 @@ import janggi.domain.piece.Team;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public class BoardFactory {
 
@@ -26,17 +27,14 @@ public class BoardFactory {
 
     ) {
         Map<Position, Piece> pieces = new HashMap<>();
-
         initializeWithNones(pieces);
-        initializeGeneral(pieces);
-        initializeGuard(pieces);
-        initializeChariot(pieces);
-        initializeCannon(pieces);
-        initializeSoldier(pieces);
-        initializeHorse(pieces, blueLeftHorsePosition, blueRightHorsePosition, redLeftHorsePosition,
-                redRightHorsePosition);
-        initializeElephant(pieces, blueLeftHorsePosition, blueRightHorsePosition, redLeftHorsePosition,
-                redRightHorsePosition);
+        initializeBoard(
+                pieces,
+                blueLeftHorsePosition,
+                blueRightHorsePosition,
+                redLeftHorsePosition,
+                redRightHorsePosition
+        );
         return new Board(pieces);
     }
 
@@ -48,58 +46,41 @@ public class BoardFactory {
         }
     }
 
-    private static void initializeGeneral(final Map<Position, Piece> pieces) {
-        putInBoard(pieces, General.createWithInitialPositions(Team.BLUE));
-        putInBoard(pieces, General.createWithInitialPositions(Team.RED));
-    }
-
-    private static void initializeGuard(final Map<Position, Piece> pieces) {
-        putInBoard(pieces, Guard.createWithInitialPositions(Team.BLUE));
-        putInBoard(pieces, Guard.createWithInitialPositions(Team.RED));
-    }
-
-    private static void initializeChariot(final Map<Position, Piece> pieces) {
-        putInBoard(pieces, Chariot.createWithInitialPositions(Team.BLUE));
-        putInBoard(pieces, Chariot.createWithInitialPositions(Team.RED));
-    }
-
-    private static void initializeCannon(final Map<Position, Piece> pieces) {
-        putInBoard(pieces, Cannon.createWithInitialPositions(Team.BLUE));
-        putInBoard(pieces, Cannon.createWithInitialPositions(Team.RED));
-    }
-
-    private static void initializeSoldier(final Map<Position, Piece> pieces) {
-        putInBoard(pieces, Soldier.createWithInitialPositions(Team.BLUE));
-        putInBoard(pieces, Soldier.createWithInitialPositions(Team.RED));
-    }
-
-    private static void initializeHorse(
+    private static void initializeBoard(
             final Map<Position, Piece> pieces,
             HorseSide blueLeftHorsePosition,
             HorseSide blueRightHorsePosition,
             HorseSide redLeftHorsePosition,
             HorseSide redRightHorsePosition
     ) {
-        putInBoard(pieces,
-                Horse.createWithInitialPositions(Team.BLUE, blueLeftHorsePosition, blueRightHorsePosition));
-        putInBoard(pieces, Horse.createWithInitialPositions(Team.RED, redLeftHorsePosition, redRightHorsePosition));
+        initializePieces(pieces, General.INITIAL_POSITIONS_BLUE, General.INITIAL_POSITIONS_RED, General::new);
+        initializePieces(pieces, Guard.INITIAL_POSITIONS_BLUE, Guard.INITIAL_POSITIONS_RED, Guard::new);
+        initializePieces(pieces, Chariot.INITIAL_POSITIONS_BLUE, Chariot.INITIAL_POSITIONS_RED, Chariot::new);
+        initializePieces(pieces, Cannon.INITIAL_POSITIONS_BLUE, Cannon.INITIAL_POSITIONS_RED, Cannon::new);
+        initializePieces(pieces, Soldier.INITIAL_POSITIONS_BLUE, Soldier.INITIAL_POSITIONS_RED, Soldier::new);
+        initializePieces(
+                pieces,
+                Horse.getInitialPositions(Team.BLUE, blueLeftHorsePosition, blueRightHorsePosition),
+                Horse.getInitialPositions(Team.RED, redLeftHorsePosition, redRightHorsePosition),
+                Horse::new
+        );
+        initializePieces(
+                pieces,
+                Elephant.getInitialPositions(Team.BLUE, blueLeftHorsePosition, blueRightHorsePosition),
+                Elephant.getInitialPositions(Team.RED, redLeftHorsePosition, redRightHorsePosition),
+                Elephant::new
+        );
     }
 
-    private static void initializeElephant(
-            final Map<Position, Piece> pieces,
-            HorseSide blueLeftHorsePosition,
-            HorseSide blueRightHorsePosition,
-            HorseSide redLeftHorsePosition,
-            HorseSide redRightHorsePosition) {
-        putInBoard(pieces,
-                Elephant.createWithInitialPositions(Team.BLUE, blueLeftHorsePosition, blueRightHorsePosition));
-        putInBoard(pieces,
-                Elephant.createWithInitialPositions(Team.RED, redLeftHorsePosition, redRightHorsePosition));
-    }
-
-    private static void putInBoard(final Map<Position, Piece> board, List<Piece> pieces) {
-        for (Piece piece : pieces) {
-            board.put(piece.getPosition(), piece);
+    private static void initializePieces(final Map<Position, Piece> pieces,
+                                         List<Position> bluePositions,
+                                         List<Position> redPositions,
+                                         Function<Team, Piece> pieceCreator) {
+        for (Position position : bluePositions) {
+            pieces.put(position, pieceCreator.apply(Team.BLUE));
+        }
+        for (Position position : redPositions) {
+            pieces.put(position, pieceCreator.apply(Team.RED));
         }
     }
 }

@@ -1,20 +1,15 @@
 package janggi.domain.piece;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 public abstract class Piece {
     protected final Team team;
-    private final Position position;
     private final String name;
 
-    public Piece(final String name, final Position position, final Team team) {
+    public Piece(final String name, final Team team) {
         this.name = name;
-        this.position = position;
         this.team = team;
-    }
-
-    public Position getPosition() {
-        return position;
     }
 
     public String getName() {
@@ -25,11 +20,21 @@ public abstract class Piece {
         return team;
     }
 
-    public abstract Piece move(final Map<Position, Piece> pieces, final Position positionToMove);
+    public abstract Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition,
+                                                                       final Position afterPosition);
 
-    protected void validateIsSameTeamNotInPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
-        if (pieces.get(positionToMove).getTeam().equals(team)) {
-            throw new IllegalArgumentException("불가능한 이동입니다.");
+    protected void validateIsSameTeamNotInPositionToMove(final Map<Position, Piece> board,
+                                                         final Position positionToMove) {
+        if (board.get(positionToMove).getTeam().equals(team)) {
+            throw new IllegalArgumentException("같은 팀 기물이 있는 위치로는 이동할 수 없습니다.");
         }
+    }
+
+    public boolean isCannon() {
+        return false;
+    }
+
+    public boolean isNone() {
+        return false;
     }
 }

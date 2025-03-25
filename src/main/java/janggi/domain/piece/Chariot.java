@@ -1,63 +1,56 @@
 package janggi.domain.piece;
 
 import janggi.domain.piece.movement.Movement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class Chariot extends Piece {
-    private static final List<Position> INITIAL_POSITIONS_BLUE = List.of(
+    public static final List<Position> INITIAL_POSITIONS_BLUE = List.of(
             new Position(10, 1),
             new Position(10, 9));
-    private static final List<Position> INITIAL_POSITIONS_RED = List.of(
+    public static final List<Position> INITIAL_POSITIONS_RED = List.of(
             new Position(1, 1),
             new Position(1, 9));
 
-    public Chariot(final Position position, final Team team) {
-        super("차", position, team);
-    }
-
-    public static List<Piece> createWithInitialPositions(final Team team) {
-        List<Piece> chariots = new ArrayList<>();
-        if (team.equals(Team.BLUE)) {
-            INITIAL_POSITIONS_BLUE.forEach(position ->
-                    chariots.add(new Chariot(position, team)));
-            return chariots;
-        }
-        INITIAL_POSITIONS_RED.forEach(position ->
-                chariots.add(new Chariot(position, team)));
-        return chariots;
+    public Chariot(final Team team) {
+        super("차", team);
     }
 
     @Override
-    public Chariot move(final Map<Position, Piece> pieces, final Position positionToMove) {
-        validateIsPositionMovable(positionToMove);
-        validateIsSameTeamNotInPositionToMove(pieces, positionToMove);
-        validateNothingBetweenPositionToMove(pieces, positionToMove);
-        return new Chariot(positionToMove, team);
+    public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition,
+                                                              final Position afterPosition) {
+        return board -> {
+            validateIsSameTeamNotInPositionToMove(board, afterPosition);
+            validateIsPositionMovable(beforePosition, afterPosition);
+            validateNothingBetweenPositionToMove(board, beforePosition, afterPosition);
+        };
     }
 
-    private void validateIsPositionMovable(final Position value) {
-        if (checkIsPositionNotDiagonal(value)) {
+    private void validateIsPositionMovable(final Position beforePosition, final Position afterPosition) {
+        if (checkIsPositionNotDiagonal(beforePosition, afterPosition)) {
             throw new IllegalArgumentException("불가능한 이동입니다.");
         }
     }
 
-    private void validateNothingBetweenPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
+    private void validateNothingBetweenPositionToMove(Map<Position, Piece> pieces, Position beforePosition,
+                                                      Position afterPosition) {
         Movement movement = Movement.getDistance(
-                positionToMove.x() - getPosition().x(),
-                positionToMove.y() - getPosition().y()
+                afterPosition.x() - beforePosition.x(),
+                afterPosition.y() - beforePosition.y()
         );
 
-        for (Position position = getPosition().plus(movement.x(), movement.y()); !position.equals(positionToMove); position = position.plus(
-                movement.x(), movement.y())) {
-            if (None.isNotNone(pieces.get(position))) {
+        for (Position position = beforePosition.plus(movement.x(), movement.y()); !position.equals(afterPosition);
+             position = position.plus(
+                     movement.x(), movement.y())) {
+            if (!pieces.get(position).isNone()) {
                 throw new IllegalArgumentException("불가능한 이동입니다");
             }
         }
     }
 
-    private boolean checkIsPositionNotDiagonal(final Position value) {
-        return Math.abs(value.x() - getPosition().x()) != 0 && Math.abs(value.y() - getPosition().y()) != 0;
+    private boolean checkIsPositionNotDiagonal(final Position beforePosition, final Position afterPosition) {
+        return Math.abs(afterPosition.x() - beforePosition.x()) != 0
+                && Math.abs(afterPosition.y() - beforePosition.y()) != 0;
     }
 }

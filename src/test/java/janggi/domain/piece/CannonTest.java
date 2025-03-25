@@ -1,26 +1,26 @@
 package janggi.domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
+
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 class CannonTest {
-    Map<Position, Piece> pieces;
+    Map<Position, Piece> board;
+    Position beforePosition = new Position(5, 5);
 
     @BeforeEach
     void setUp() {
-        pieces = new HashMap<>();
+        board = new HashMap<>();
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 9; j++) {
-                pieces.put(new Position(i, j), new None());
+                board.put(new Position(i, j), new None());
             }
         }
     }
@@ -28,56 +28,60 @@ class CannonTest {
     @DisplayName("이동 위치 값을 입력 받아 이동한다.")
     @Test
     void move() {
-        Cannon cannon = new Cannon(new Position(5, 5), Team.BLUE);
-        Position positionToMove = new Position(2, 5);
-        Soldier otherSoldier1 = new Soldier(new Position(3, 5), Team.BLUE);
-        Soldier otherSoldier2 = new Soldier(new Position(1, 1), Team.BLUE);
-        pieces.put(otherSoldier1.getPosition(), otherSoldier1);
-        pieces.put(otherSoldier2.getPosition(), otherSoldier2);
-        Cannon movedHorse = cannon.move(pieces, positionToMove);
-        assertThat(movedHorse.getPosition()).isEqualTo(positionToMove);
+        Cannon cannon = new Cannon(Team.BLUE);
+        Position betweenPosition = new Position(3, 5);
+        board.put(betweenPosition, new Soldier(Team.RED));
+        Position afterPosition = new Position(2, 5);
+        assertThatCode(() ->
+                cannon.getMovableValidator(beforePosition, afterPosition).accept(board))
+                .doesNotThrowAnyException();
     }
 
     @DisplayName("포의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
     @CsvSource(value = {"7,7", "4,4", "6,5"})
     @ParameterizedTest
     void move2(int x, int y) {
-        Cannon cannon = new Cannon(new Position(5, 5), Team.BLUE);
-        Position positionToMove = new Position(x, y);
-        assertThatThrownBy(() -> cannon.move(pieces, positionToMove))
+        Cannon cannon = new Cannon(Team.BLUE);
+        Position afterPosition = new Position(x, y);
+        assertThatThrownBy(() ->
+                cannon.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("포의 초기 위치와 이동 위치 사이에 포가 존재하는 경우 예외를 던진다.")
     @Test
     void move3() {
-        Cannon cannon = new Cannon(new Position(5, 5), Team.BLUE);
-        Cannon otherCannon = new Cannon(new Position(3, 5), Team.BLUE);
-        pieces.put(otherCannon.getPosition(), otherCannon);
+        Cannon cannon = new Cannon(Team.BLUE);
+        Position afterPosition = new Position(2, 5);
+        Position betweenPosition = new Position(3, 5);
+
+        board.put(betweenPosition, new Cannon(Team.BLUE));
         assertThatThrownBy(() ->
-                cannon.move(pieces, new Position(2, 5)))
+                cannon.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("포의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
     @Test
     void move4() {
-        Cannon cannon = new Cannon(new Position(5, 5), Team.BLUE);
-        Soldier otherSoldier = new Soldier(new Position(3, 5), Team.BLUE);
-        pieces.put(otherSoldier.getPosition(), otherSoldier);
+        Cannon cannon = new Cannon(Team.BLUE);
+        Position afterPosition = new Position(2, 3);
+
+        board.put(afterPosition, new Soldier(Team.BLUE));
         assertThatThrownBy(() ->
-                cannon.move(pieces, otherSoldier.getPosition()))
+                cannon.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("포의 이동 위치에 상대편 포가 있으면 예외를 던진다")
     @Test
     void move5() {
-        Cannon cannon = new Cannon(new Position(5, 5), Team.BLUE);
-        Cannon otherCannon = new Cannon(new Position(3, 5), Team.RED);
-        pieces.put(otherCannon.getPosition(), otherCannon);
+        Cannon cannon = new Cannon(Team.BLUE);
+        Position afterPosition = new Position(3, 5);
+
+        board.put(afterPosition, new Cannon(Team.RED));
         assertThatThrownBy(() ->
-                cannon.move(pieces, otherCannon.getPosition()))
+                cannon.getMovableValidator(beforePosition, afterPosition).accept(board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -90,19 +94,19 @@ class CannonTest {
     })
     @ParameterizedTest
     void move6(int x, int y) {
-        Cannon cannon = new Cannon(new Position(5, 5), Team.BLUE);
-        Position positionToMove = new Position(x, y);
+        Cannon cannon = new Cannon(Team.BLUE);
+        Position afterPosition = new Position(x, y);
+        Position betweenPosition1 = new Position(3, 5);
+        Position betweenPosition2 = new Position(5, 3);
+        Position betweenPosition3 = new Position(6, 5);
+        Position betweenPosition4 = new Position(5, 6);
+        board.put(betweenPosition1, new Soldier(Team.RED));
+        board.put(betweenPosition2, new Soldier(Team.RED));
+        board.put(betweenPosition3, new Soldier(Team.RED));
+        board.put(betweenPosition4, new Soldier(Team.RED));
 
-        Soldier soldier1 = new Soldier(new Position(3, 5), Team.BLUE);
-        Soldier soldier2 = new Soldier(new Position(5, 3), Team.BLUE);
-        Soldier soldier3 = new Soldier(new Position(6, 5), Team.BLUE);
-        Soldier soldier4 = new Soldier(new Position(5, 6), Team.BLUE);
-        pieces.put(soldier1.getPosition(), soldier1);
-        pieces.put(soldier2.getPosition(), soldier2);
-        pieces.put(soldier3.getPosition(), soldier3);
-        pieces.put(soldier4.getPosition(), soldier4);
-
-        Cannon movedHorse = cannon.move(pieces, positionToMove);
-        assertThat(movedHorse.getPosition()).isEqualTo(positionToMove);
+        assertThatCode(() ->
+                cannon.getMovableValidator(beforePosition, afterPosition).accept(board))
+                .doesNotThrowAnyException();
     }
 }

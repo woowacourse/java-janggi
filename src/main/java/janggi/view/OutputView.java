@@ -18,7 +18,7 @@ public class OutputView {
             System.out.printf("%4s", j + "");
         }
         System.out.println();
-        Map<Position, Piece> pieces = board.getPieces();
+        Map<Position, Piece> pieces = board.getBoard();
         for (int i = 1; i <= 10; i++) {
             System.out.printf("%-3d", i);
             for (int j = 1; j <= 9; j++) {

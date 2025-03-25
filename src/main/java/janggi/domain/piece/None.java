@@ -1,22 +1,20 @@
 package janggi.domain.piece;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class None extends Piece {
     public None() {
-        super("ㅁ", null, Team.NONE);
-    }
-
-    public static boolean checkIsNone(Piece piece) {
-        return piece instanceof None;
-    }
-
-    public static boolean isNotNone(Piece piece) {
-        return !checkIsNone(piece);
+        super("ㅁ", Team.NONE);
     }
 
     @Override
-    public Piece move(final Map<Position, Piece> pieces, final Position positionToMove) {
-        throw new IllegalArgumentException("빈칸은 움직일 수 없습니다.");
+    public boolean isNone() {
+        return true;
+    }
+
+    @Override
+    public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition, final Position afterPosition) {
+        throw new IllegalArgumentException("빈 칸은 이동할 수 없습니다.");
     }
 }

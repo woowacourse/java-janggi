@@ -7,27 +7,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
-    private final Map<Position, Piece> pieces;
+    private final Map<Position, Piece> board;
 
-    public Board(Map<Position, Piece> pieces) {
-        this.pieces = new HashMap<>(pieces);
+    public Board(Map<Position, Piece> board) {
+        this.board = new HashMap<>(board);
     }
 
     public Piece getPieceByPosition(final Position position) {
-        return pieces.get(position);
+        return board.get(position);
     }
 
-    public Map<Position, Piece> getPieces() {
-        return new HashMap<>(pieces);
+    public Map<Position, Piece> getBoard() {
+        return new HashMap<>(board);
     }
 
     public void movePiece(Position beforePosition, Position afterPosition) {
-        Piece piece = pieces.get(beforePosition);
-        if (None.checkIsNone(piece)) {
-            throw new IllegalArgumentException("위치에 이동시킬 기물이 존재하지 않습니다.");
+        Piece piece = board.get(beforePosition);
+        if (piece.isNone()) {
+            throw new IllegalArgumentException("해당 위치에 이동시킬 기물이 존재하지 않습니다.");
         }
-        pieces.put(beforePosition, new None());
-        Piece movedPiece = piece.move(getPieces(), afterPosition);
-        pieces.put(afterPosition, movedPiece);
+        piece.getMovableValidator(beforePosition, afterPosition).accept(getBoard());
+        board.put(beforePosition, new None());
+        board.put(afterPosition, piece);
     }
 }
