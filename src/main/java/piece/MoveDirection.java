@@ -45,12 +45,4 @@ public enum MoveDirection {
         }
         return List.of(result.get());
     }
-
-    public int x() {
-        return x;
-    }
-
-    public int y() {
-        return y;
-    }
 }
