@@ -14,16 +14,14 @@ public record Path(
     }
 
     public Path nextPath(Movement movement) {
-        List<Position> positions = new ArrayList<>(pathPositions);
-        final List<Position> result = new ArrayList<>(movement.getPositionsWith(finalPosition()));
-        positions.addAll(result);
-        return new Path(positions);
+        return new Path(new ArrayList<>(movement.getPositionsWith(finalPosition())));
     }
 
     public Path nextPath(Position position) {
         final List<Position> positions = new ArrayList<>(finalPosition().createPositionsUntil(position));
         positions.addAll(pathPositions);
-        return new Path(positions);
+        positions.add(position);
+        return new Path(new ArrayList<>(positions));
     }
 
     public boolean isBlockedWith(final List<Position> blockedPositions) {

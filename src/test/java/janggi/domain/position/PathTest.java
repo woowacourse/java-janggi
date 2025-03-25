@@ -1,8 +1,6 @@
 package janggi.domain.position;
 
 import janggi.BaseTest;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -10,7 +8,6 @@ import java.util.List;
 import static janggi.domain.position.PositionFile.*;
 import static janggi.domain.position.PositionRank.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 class PathTest extends BaseTest {
 
@@ -18,7 +15,7 @@ class PathTest extends BaseTest {
     void 시작_위치를_통해_패스를_생성한다() {
         // given
         final Position startPosition = new Position(FILE_5, RANK_5);
-        final Path expectedPath = new Path(startPosition, List.of(startPosition));
+        final Path expectedPath = Path.start(startPosition);
 
         // when
         final Path path = Path.start(startPosition);
@@ -28,26 +25,18 @@ class PathTest extends BaseTest {
     }
 
     @Test
-    void 다음_위치들을_통해_새로운_패스_위치들을_반환한다() {
+    void 다음_위치를_통해_새로운_패스_위치를_반환한다() {
         // given
         final Position startPosition = new Position(FILE_5, RANK_5);
         final Path path = Path.start(startPosition);
-        final List<Position> nextPositions = List.of(
-                new Position(FILE_5, RANK_4),
-                new Position(FILE_5, RANK_6),
-                new Position(FILE_4, RANK_5),
-                new Position(FILE_6, RANK_5)
-        );
+        final Position nextPosition = new Position(FILE_5, RANK_4);
 
         // when
-        final List<Path> result = path.nextPath(nextPositions);
+        final Path result = path.nextPath(nextPosition);
 
         // then
-        assertThat(result).containsExactlyInAnyOrder(
-                new Path(new Position(FILE_5, RANK_4), List.of(new Position(FILE_5, RANK_5), new Position(FILE_5, RANK_4))),
-                new Path(new Position(FILE_5, RANK_6), List.of(new Position(FILE_5, RANK_5), new Position(FILE_5, RANK_6))),
-                new Path(new Position(FILE_4, RANK_5), List.of(new Position(FILE_5, RANK_5), new Position(FILE_4, RANK_5))),
-                new Path(new Position(FILE_6, RANK_5), List.of(new Position(FILE_5, RANK_5), new Position(FILE_6, RANK_5)))
+        assertThat(result).isEqualTo(
+                new Path(List.of(new Position(FILE_5, RANK_5), new Position(FILE_5, RANK_4)))
         );
     }
 
@@ -57,19 +46,18 @@ class PathTest extends BaseTest {
         final Position startPosition = new Position(PositionFile.FILE_5, RANK_5);
 
         // when
-        final List<Path> result = Path.getMoveablePaths(startPosition, List.of(Direction.DOWN, Direction.DOWN_LEFT));
+        final Path result = Path.start(startPosition).nextPath(Movement.DOWN_DOWNLEFT);
 
         // then
-        assertThat(result).containsExactlyInAnyOrder(new Path(
-                new Position(PositionFile.FILE_4, RANK_3),
-                List.of(new Position(PositionFile.FILE_5, RANK_5), new Position(PositionFile.FILE_5, RANK_4), new Position(PositionFile.FILE_4, RANK_3))
+        assertThat(result).isEqualTo(
+                new Path(List.of(new Position(PositionFile.FILE_5, RANK_5), new Position(PositionFile.FILE_5, RANK_4), new Position(PositionFile.FILE_4, RANK_3))
         ));
     }
 
     @Test
     void 중간에_마주치는_기물들을_반환할_수_있다() {
         // given
-        final Path path = new Path(new Position(FILE_5, RANK_5), List.of(
+        final Path path = new Path(List.of(
                 new Position(FILE_5, RANK_1),
                 new Position(FILE_5, RANK_2),
                 new Position(FILE_5, RANK_3),
@@ -78,24 +66,21 @@ class PathTest extends BaseTest {
         ));
 
         // when
-        final List<Piece> result = path.getEncounteredMiddlePieces(List.of(
-                new Piece(new Position(FILE_5, RANK_2), PieceType.마),
-                new Piece(new Position(FILE_5, RANK_3), PieceType.마),
-                new Piece(new Position(FILE_8, RANK_7), PieceType.졸),
-                new Piece(new Position(FILE_8, RANK_7), PieceType.졸)
+        final boolean result = path.isBlockedWith(List.of(
+                new Position(FILE_5, RANK_2),
+                new Position(FILE_5, RANK_3),
+                new Position(FILE_8, RANK_7),
+                new Position(FILE_8, RANK_7)
         ));
 
         // then
-        assertAll(
-                () -> assertThat(result.getFirst().getPosition()).isEqualTo(new Position(FILE_5, RANK_2)),
-                () -> assertThat(result.get(1).getPosition()).isEqualTo(new Position(FILE_5, RANK_3))
-        );
+        assertThat(result).isTrue();
     }
 
     @Test
     void 마지막에_기물을_마주치는지_반환할_수_있다() {
         // given
-        final Path path = new Path(new Position(FILE_5, RANK_5), List.of(
+        final Path path = new Path(List.of(
                 new Position(FILE_5, RANK_1),
                 new Position(FILE_5, RANK_2),
                 new Position(FILE_5, RANK_3),
@@ -104,10 +89,10 @@ class PathTest extends BaseTest {
         ));
 
         // when
-        final boolean result = path.isEncounteredLast(List.of(
-                new Piece(new Position(FILE_5, RANK_9), PieceType.장),
-                new Piece(new Position(FILE_8, RANK_7), PieceType.상),
-                new Piece(new Position(FILE_5, RANK_5), PieceType.졸)
+        final boolean result = path.isEndWith(List.of(
+                new Position(FILE_5, RANK_9),
+                new Position(FILE_8, RANK_7),
+                new Position(FILE_5, RANK_5)
         ));
 
         // then
@@ -117,7 +102,7 @@ class PathTest extends BaseTest {
     @Test
     void 마지막에_기물을_마주치지_않으면_false를_반환한다() {
         // given
-        final Path path = new Path(new Position(FILE_5, RANK_5), List.of(
+        final Path path = new Path(List.of(
                 new Position(FILE_5, RANK_1),
                 new Position(FILE_5, RANK_2),
                 new Position(FILE_5, RANK_3),
@@ -126,10 +111,10 @@ class PathTest extends BaseTest {
         ));
 
         // when
-        final boolean result = path.isEncounteredLast(List.of(
-                new Piece(new Position(FILE_1, RANK_9), PieceType.장),
-                new Piece(new Position(FILE_1, RANK_7), PieceType.상),
-                new Piece(new Position(FILE_1, RANK_5), PieceType.졸)
+        final boolean result = path.isEndWith(List.of(
+                new Position(FILE_1, RANK_9),
+                new Position(FILE_1, RANK_7),
+                new Position(FILE_1, RANK_5)
         ));
 
         // then

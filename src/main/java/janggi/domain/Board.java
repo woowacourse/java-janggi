@@ -17,7 +17,7 @@ public final class Board {
 
     public Board(final Team team1, final Team team2) {
         validateTeamIsNotNull(team1, team2);
-        validateCountryIsNotSame(team1,team2);
+        validateCountryIsNotSame(team1, team2);
         this.team1 = Team.getFirstTeam(team1, team2);
         this.team2 = Team.getSecondTeam(team1, team2);
     }
@@ -29,7 +29,7 @@ public final class Board {
     }
 
     private void validateCountryIsNotSame(final Team team1, final Team team2) {
-        if(team1.isSameCountry(team2)) {
+        if (team1.isSameCountry(team2)) {
             throw new IllegalArgumentException("두 개의 장기판의 나라는 서로 달라야 합니다.");
         }
     }

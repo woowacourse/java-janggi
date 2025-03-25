@@ -71,10 +71,6 @@ public enum PositionRank {
         return betweenRanks;
     }
 
-    public int distance(final PositionRank rank) {
-        return Math.abs(amount - rank.amount);
-    }
-
     public boolean isBetween(final PositionRank minRank, final PositionRank maxRank) {
         return minRank.ordinal() <= ordinal() && ordinal() <= maxRank.ordinal();
     }
