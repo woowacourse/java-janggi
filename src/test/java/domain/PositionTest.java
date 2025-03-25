@@ -56,7 +56,7 @@ class PositionTest {
         Position position = new Position(row, column);
 
         //when
-        boolean canMove = position.canMovePosition(move);
+        boolean canMove = position.canApplyMove(move);
         //then
         Assertions.assertThat(canMove).isEqualTo(expected);
     }
