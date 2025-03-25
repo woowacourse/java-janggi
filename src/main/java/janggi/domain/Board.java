@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece_initiaizer.StaticPieceInitializer;
 import janggi.domain.position.Position;
 
 import java.util.Collections;
@@ -15,11 +16,24 @@ public final class Board {
 
     private boolean isTeam1Turn = true;
 
-    public Board(final Team team1, final Team team2) {
+    private Board(final Team team1, final Team team2, final boolean isTeam1Turn) {
         validateTeamIsNotNull(team1, team2);
         validateCountryIsNotSame(team1, team2);
         this.team1 = Team.getFirstTeam(team1, team2);
         this.team2 = Team.getSecondTeam(team1, team2);
+        this.isTeam1Turn = isTeam1Turn;
+    }
+
+    public static Board start(final StartingPosition startingPosition1, final StartingPosition startingPosition2) {
+        final Team team1 = new Team(startingPosition1, new StaticPieceInitializer(), Country.CHO);
+        final Team team2 = new Team(startingPosition2, new StaticPieceInitializer(), Country.HAN);
+        return new Board(team1, team2, true);
+    }
+
+    public static Board continueWith(final Map<Country, List<Piece>> pieces, final Country turn) {
+        final Team team1 = new Team(pieces.get(Country.CHO), Country.CHO);
+        final Team team2 = new Team(pieces.get(Country.HAN), Country.HAN);
+        return new Board(team1, team2, turn == Country.CHO);
     }
 
     private void validateTeamIsNotNull(final Team team1, final Team team2) {
@@ -45,8 +59,7 @@ public final class Board {
         if (isTeam1Turn) {
             team1.move(fromPosition, tagetPosition, team2);
             nextTurn();
-        }
-        if (!isTeam1Turn) {
+        } else {
             team2.move(fromPosition, tagetPosition, team1);
             nextTurn();
         }
