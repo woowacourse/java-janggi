@@ -47,9 +47,9 @@ public class OutputView {
                 if (!cell.equals(".")) {
                     String color = (team.equals("한나라")) ? ConsoleColors.HAN_COLOR : ConsoleColors.CHO_COLOR;
                     System.out.print(color + cell + ConsoleColors.RESET_COLOR + " ");
-                } else {
-                    System.out.print(cell + " ");
+                    continue;
                 }
+                System.out.print(cell + " ");
             }
             System.out.println();
         }
