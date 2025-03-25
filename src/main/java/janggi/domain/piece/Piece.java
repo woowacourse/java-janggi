@@ -61,7 +61,7 @@ public abstract class Piece {
         return team != otherPiece.team;
     }
 
-    public boolean isCannon() {
+    protected boolean isCannon() {
         return false;
     }
 }
