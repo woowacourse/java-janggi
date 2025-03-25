@@ -5,11 +5,11 @@ import static model.Movement.LEFT;
 import static model.Movement.RIGHT;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import model.Movement;
 import model.Team;
 import model.position.Position;
-
 
 public class Chariot extends Piece {
 
@@ -26,23 +26,43 @@ public class Chariot extends Piece {
 
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        return calculatePositionOfMovement(departure, arrival);
+        List<List<Position>> allMovementPosition = calculatePositionOfMovement(departure, arrival);
+        return allMovementPosition.stream()
+            .filter(positions -> positions.contains(arrival))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."));
     }
 
-    // TODO: Depth 분리
-    private List<Position> calculatePositionOfMovement(Position departure, Position arrival) {
+    private List<List<Position>> calculatePositionOfMovement(Position departure, Position arrival) {
+        List<List<Position>> temporaryAllPositions = new ArrayList<>();
         for (Movement movement : movements) {
-            List<Position> temporaryPosition = new ArrayList<>();
-            Position movedPosition = departure.copyOf();
-            while (movedPosition.canMove(movement)) {
-                temporaryPosition.add(movedPosition.move(movement));
-                movedPosition = movedPosition.move(movement);
-                if (movedPosition.equals(arrival)) {
-                    return temporaryPosition;
-                }
-            }
+            addTemporaryPositions(departure, arrival, movement, temporaryAllPositions);
         }
-        throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
+        return temporaryAllPositions;
+    }
+
+    private void addTemporaryPositions(Position departure, Position arrival, Movement movement,
+        List<List<Position>> temporaryAllPositions) {
+        List<Position> temporaryPosition = new ArrayList<>();
+        Position movedPosition = departure.copyOf();
+        while (movedPosition.canMove(movement) && !isArrival(movedPosition, arrival)) {
+            temporaryPosition.add(movedPosition.move(movement));
+            movedPosition = movedPosition.move(movement);
+        }
+        addTemporaryPosition(arrival, temporaryPosition, temporaryAllPositions);
+    }
+
+    private void addTemporaryPosition(Position arrival, List<Position> temporaryPosition,
+        List<List<Position>> temporaryAllPositions) {
+        if (temporaryPosition.contains(arrival)) {
+            temporaryAllPositions.add(temporaryPosition);
+            return;
+        }
+        temporaryAllPositions.add(Collections.emptyList());
+    }
+
+    private boolean isArrival(Position movedPosition, Position arrival) {
+        return movedPosition.equals(arrival);
     }
 
     @Override
