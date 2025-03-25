@@ -93,10 +93,8 @@ public class JanggiBoard {
 
     private void addPiecesOnPathWithTargetOrNot(Point targetPoint, Point point,
                                                 Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
-        boolean isLastPoint = false;
-        if (point.equals(targetPoint)) {
-            isLastPoint = true;
-        }
+        boolean isLastPoint = point.equals(targetPoint);
+
         if (getDot(point).isPlaced()) {
             piecesOnPathWithTargetOrNot.put(getDot(point).getPiece(), isLastPoint);
         }
