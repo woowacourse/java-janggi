@@ -11,7 +11,7 @@ public class Pieces {
     private final List<Piece> pieces;
 
     public Pieces(List<Piece> pieces) {
-        this.pieces = pieces;
+        this.pieces = List.copyOf(pieces);
     }
 
     public Piece findPieceByPosition(Position position) {
