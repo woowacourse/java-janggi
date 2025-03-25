@@ -1,13 +1,14 @@
 package janggi.coordinate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Path {
     private final List<RelativePosition> relativePositions;
 
     public Path(final List<RelativePosition> relativePositions){
-        this.relativePositions = relativePositions;
+        this.relativePositions = Collections.unmodifiableList(relativePositions);
     }
 
     public List<Position> calculateAbsolutePath(final Position now) {
