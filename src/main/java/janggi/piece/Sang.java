@@ -59,7 +59,6 @@ public class Sang extends Piece {
         if (dy == 2) {
             insertRoute(route, presentRow - 1, presentCol);
             insertRoute(route, presentRow - 2, presentCol - 1);
-            insertRoute(route, presentRow - 3, presentCol - 2);
         }
     }
 
@@ -68,7 +67,6 @@ public class Sang extends Piece {
         if (dy == -2) {
             insertRoute(route, presentRow - 1, presentCol);
             insertRoute(route, presentRow - 2, presentCol + 1);
-            insertRoute(route, presentRow - 3, presentCol + 2);
         }
     }
 
@@ -85,7 +83,6 @@ public class Sang extends Piece {
         if (dy == -2) {
             insertRoute(route, presentRow + 1, presentCol);
             insertRoute(route, presentRow + 2, presentCol + 1);
-            insertRoute(route, presentRow + 3, presentCol + 2);
         }
     }
 
@@ -94,7 +91,6 @@ public class Sang extends Piece {
         if (dy == 2) {
             insertRoute(route, presentRow + 1, presentCol);
             insertRoute(route, presentRow + 2, presentCol - 1);
-            insertRoute(route, presentRow + 3, presentCol - 2);
         }
     }
 
@@ -117,7 +113,6 @@ public class Sang extends Piece {
         if (dx == 2) {
             insertRoute(route, presentRow, presentCol - 1);
             insertRoute(route, presentRow - 1, presentCol - 2);
-            insertRoute(route, presentRow - 2, presentCol - 3);
         }
     }
 
@@ -126,7 +121,6 @@ public class Sang extends Piece {
         if (dx == -2) {
             insertRoute(route, presentRow, presentCol - 1);
             insertRoute(route, presentRow + 1, presentCol - 2);
-            insertRoute(route, presentRow + 2, presentCol - 3);
         }
     }
 
@@ -143,7 +137,6 @@ public class Sang extends Piece {
         if (dx == -2) {
             insertRoute(route, presentRow, presentCol + 1);
             insertRoute(route, presentRow + 1, presentCol + 2);
-            insertRoute(route, presentRow + 2, presentCol + 3);
         }
     }
 
@@ -152,7 +145,6 @@ public class Sang extends Piece {
         if (dx == 2) {
             insertRoute(route, presentRow, presentCol + 1);
             insertRoute(route, presentRow - 1, presentCol + 2);
-            insertRoute(route, presentRow - 2, presentCol + 3);
         }
     }
 

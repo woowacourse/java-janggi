@@ -50,8 +50,8 @@ public class JanggiGame {
         }
     }
 
-    private void validateCurrentTeamBy(final Board board, final Position presentPosition,
-                                       final Team currentTurnTeam) {
+
+    private void validateCurrentTeamBy(final Board board, final Position presentPosition, final Team currentTurnTeam) {
         final Piece piece = board.getJanggiBoard().get(presentPosition);
         piece.validateTeam(currentTurnTeam);
     }

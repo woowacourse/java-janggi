@@ -26,7 +26,7 @@ public class Jol extends Piece {
 
     @Override
     public List<Position> makeRoute(final Position position) {
-        return List.of(position);
+        return List.of();
     }
 
     @Override

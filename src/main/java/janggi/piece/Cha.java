@@ -27,10 +27,6 @@ public class Cha extends Piece {
 
     @Override
     public List<Position> makeRoute(final Position position) {
-        return makeRoute2(position);
-    }
-
-    public List<Position> makeRoute2(final Position position) {
         final List<Position> route = new ArrayList<>();
         final int dx = getBoardPosition().getRow() - position.getRow();
         final int dy = getBoardPosition().getCol() - position.getCol();
@@ -54,7 +50,7 @@ public class Cha extends Piece {
     private void verticalUpRoute(final int dy, final List<Position> route, final int presentRow,
                                  final int presentCol) {
         if (dy > 0) {
-            for (int i = 1; i <= dy; i++) {
+            for (int i = 1; i < dy; i++) {
                 insertRoute(route, presentRow, presentCol - i);
             }
         }
@@ -63,7 +59,7 @@ public class Cha extends Piece {
     private void verticalDownRoute(final int dy, final List<Position> route, final int presentRow,
                                    final int presentCol) {
         if (dy < 0) {
-            for (int i = 1; i <= Math.abs(dy); i++) {
+            for (int i = 1; i < Math.abs(dy); i++) {
                 insertRoute(route, presentRow, presentCol + i);
             }
         }
@@ -80,7 +76,7 @@ public class Cha extends Piece {
     private void horizontalRightRoute(final int dx, final List<Position> route, final int presentRow,
                                       final int presentCol) {
         if (dx > 0) {
-            for (int i = 1; i <= dx; i++) {
+            for (int i = 1; i < dx; i++) {
                 insertRoute(route, presentRow - i, presentCol);
             }
         }
@@ -89,7 +85,7 @@ public class Cha extends Piece {
     private void horizontalLeftRoute(final int dx, final List<Position> route, final int presentRow,
                                      final int presentCol) {
         if (dx < 0) {
-            for (int i = 1; i <= Math.abs(dx); i++) {
+            for (int i = 1; i < Math.abs(dx); i++) {
                 insertRoute(route, presentRow + i, presentCol);
             }
         }

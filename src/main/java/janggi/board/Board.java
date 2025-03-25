@@ -22,13 +22,13 @@ public class Board {
     public void pieceMove(final Position presentPosition, final Position futurePosition) {
         final Piece piece = janggiBoard.get(presentPosition);
         piece.moveTo(futurePosition, janggiBoard);
-        updatePiecePosition(presentPosition, futurePosition, piece);
+        updatePiecePosition(presentPosition, futurePosition);
     }
 
-    private void updatePiecePosition(final Position presentPosition, final Position futurePosition, final Piece piece) {
-        janggiBoard.remove(presentPosition);
-        janggiBoard.put(futurePosition, piece);
-        piece.updatePiecePositionBy(futurePosition);
+    private void updatePiecePosition(final Position presentPosition, final Position futurePosition) {
+        final Piece removePiece = janggiBoard.remove(presentPosition);
+        janggiBoard.put(futurePosition, removePiece);
+        removePiece.updatePiecePositionBy(futurePosition);
     }
 
     public void validateEmptyPieceBy(final Position presentPosition) {

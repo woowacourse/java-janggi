@@ -1,12 +1,10 @@
 package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.position.Position;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -84,41 +82,7 @@ class ByeongTest {
         final List<Position> actual = byeong.makeRoute(futurePosition);
 
         //then
-        assertThat(actual.contains(futurePosition)).isTrue();
+        assertThat(actual.isEmpty()).isTrue();
     }
 
-    @DisplayName("병의 이동 경로에 장애물이 있다면 예외를 던진다.")
-    @Test
-    void hasObstacle() {
-        //given
-        final Byeong byeong = new Byeong(new PieceProfile("병", Team.HAN), new Position(5, 5));
-
-        final Map<Position, Piece> board = Map.of(
-                new Position(6, 5), new Cha(new PieceProfile("차", Team.HAN), new Position(6, 5))
-        );
-
-        final Position futurePosition = new Position(6, 5);
-
-        //when //then
-        assertThatThrownBy(() -> byeong.checkObstacle(futurePosition, board))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageStartingWith("[ERROR]");
-    }
-
-    @DisplayName("병의 이동 경로에 장애물이 없다면 예외를 던지지 않는다.")
-    @Test
-    void nonObstacle() {
-        //given
-        final Byeong byeong = new Byeong(new PieceProfile("병", Team.HAN), new Position(5, 5));
-
-        final Map<Position, Piece> board = Map.of(
-                new Position(7, 5), new Cha(new PieceProfile("차", Team.HAN), new Position(7, 5))
-        );
-
-        final Position futurePosition = new Position(6, 5);
-
-        //when //then
-        assertThatCode(() -> byeong.checkObstacle(futurePosition, board))
-                .doesNotThrowAnyException();
-    }
 }

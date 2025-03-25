@@ -6,6 +6,7 @@ public class Position {
 
     private static final int BOARD_ROW_SIZE = 9;
     private static final int BOARD_COL_SIZE = 8;
+
     private final int row;
     private final int col;
 

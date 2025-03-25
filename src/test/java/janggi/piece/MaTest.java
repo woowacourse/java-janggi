@@ -69,8 +69,7 @@ class MaTest {
             final List<Position> actual = ma.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
-                    new Position(4, 5),
-                    new Position(3, 4)
+                    new Position(4, 5)
             );
         }
 
@@ -83,8 +82,7 @@ class MaTest {
             final List<Position> actual = ma.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
-                    new Position(4, 5),
-                    new Position(3, 6)
+                    new Position(4, 5)
             );
         }
 
@@ -97,8 +95,7 @@ class MaTest {
             final List<Position> actual = ma.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
-                    new Position(5, 6),
-                    new Position(4, 7)
+                    new Position(5, 6)
             );
         }
 
@@ -111,8 +108,7 @@ class MaTest {
             final List<Position> actual = ma.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
-                    new Position(5, 6),
-                    new Position(6, 7)
+                    new Position(5, 6)
             );
         }
 
@@ -125,8 +121,7 @@ class MaTest {
             final List<Position> actual = ma.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
-                    new Position(6, 5),
-                    new Position(7, 6)
+                    new Position(6, 5)
             );
         }
 
@@ -139,8 +134,7 @@ class MaTest {
             final List<Position> actual = ma.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
-                    new Position(6, 5),
-                    new Position(7, 4)
+                    new Position(6, 5)
             );
         }
 
@@ -153,8 +147,7 @@ class MaTest {
             final List<Position> actual = ma.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
-                    new Position(5, 4),
-                    new Position(6, 3)
+                    new Position(5, 4)
             );
         }
 
@@ -167,8 +160,7 @@ class MaTest {
             final List<Position> actual = ma.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
-                    new Position(5, 4),
-                    new Position(4, 3)
+                    new Position(5, 4)
             );
         }
     }

@@ -65,7 +65,7 @@ class JanggunTest {
         final List<Position> actual = janggun.makeRoute(futurePosition);
 
         //then
-        assertThat(actual.contains(futurePosition)).isTrue();
+        assertThat(actual.isEmpty()).isTrue();
     }
 
     private static Stream<Arguments> JanggunNonIsMovePositionProvider() {

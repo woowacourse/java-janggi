@@ -101,8 +101,7 @@ class SangTest {
 
             assertThat(actual).containsExactly(
                     new Position(4, 5),
-                    new Position(3, 4),
-                    new Position(2, 3)
+                    new Position(3, 4)
             );
         }
 
@@ -116,8 +115,7 @@ class SangTest {
 
             assertThat(actual).containsExactly(
                     new Position(4, 5),
-                    new Position(3, 6),
-                    new Position(2, 7)
+                    new Position(3, 6)
             );
         }
 
@@ -131,8 +129,7 @@ class SangTest {
 
             assertThat(actual).containsExactly(
                     new Position(5, 6),
-                    new Position(4, 7),
-                    new Position(3, 8)
+                    new Position(4, 7)
             );
         }
 
@@ -146,8 +143,7 @@ class SangTest {
 
             assertThat(actual).containsExactly(
                     new Position(5, 6),
-                    new Position(6, 7),
-                    new Position(7, 8)
+                    new Position(6, 7)
             );
         }
 
@@ -161,8 +157,7 @@ class SangTest {
 
             assertThat(actual).containsExactly(
                     new Position(6, 5),
-                    new Position(7, 6),
-                    new Position(8, 7)
+                    new Position(7, 6)
             );
         }
 
@@ -176,8 +171,7 @@ class SangTest {
 
             assertThat(actual).containsExactly(
                     new Position(6, 5),
-                    new Position(7, 4),
-                    new Position(8, 3)
+                    new Position(7, 4)
             );
         }
 
@@ -191,8 +185,7 @@ class SangTest {
 
             assertThat(actual).containsExactly(
                     new Position(5, 4),
-                    new Position(6, 3),
-                    new Position(7, 2)
+                    new Position(6, 3)
             );
         }
 
@@ -206,8 +199,7 @@ class SangTest {
 
             assertThat(actual).containsExactly(
                     new Position(5, 4),
-                    new Position(4, 3),
-                    new Position(3, 2)
+                    new Position(4, 3)
             );
         }
     }

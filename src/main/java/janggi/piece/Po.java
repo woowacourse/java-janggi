@@ -63,19 +63,19 @@ public class Po extends Piece {
         }
     }
 
-    private void verticalDownRoute(final int dy, final List<Position> route, final int presentRow,
-                                   final int presentCol) {
-        if (dy < 0) {
-            for (int i = 1; i <= Math.abs(dy); i++) {
-                route.add(new Position(presentRow, presentCol + i));
+    private void verticalUpRoute(final int dy, final List<Position> route, final int presentRow, final int presentCol) {
+        if (dy > 0) {
+            for (int i = 1; i < dy; i++) {
+                insertRoute(route, presentRow, presentCol - i);
             }
         }
     }
 
-    private void verticalUpRoute(final int dy, final List<Position> route, final int presentRow, final int presentCol) {
-        if (dy > 0) {
-            for (int i = 1; i <= dy; i++) {
-                route.add(new Position(presentRow, presentCol - i));
+    private void verticalDownRoute(final int dy, final List<Position> route, final int presentRow,
+                                   final int presentCol) {
+        if (dy < 0) {
+            for (int i = 1; i < Math.abs(dy); i++) {
+                insertRoute(route, presentRow, presentCol + i);
             }
         }
     }
@@ -91,8 +91,8 @@ public class Po extends Piece {
     private void horizontalRightRoute(final int dx, final List<Position> route, final int presentRow,
                                       final int presentCol) {
         if (dx > 0) {
-            for (int i = 1; i <= dx; i++) {
-                route.add(new Position(presentRow - i, presentCol));
+            for (int i = 1; i < dx; i++) {
+                insertRoute(route, presentRow - i, presentCol);
             }
         }
     }
@@ -100,10 +100,14 @@ public class Po extends Piece {
     private void horizontalLeftRoute(final int dx, final List<Position> route, final int presentRow,
                                      final int presentCol) {
         if (dx < 0) {
-            for (int i = 1; i <= Math.abs(dx); i++) {
-                route.add(new Position(presentRow + i, presentCol));
+            for (int i = 1; i < Math.abs(dx); i++) {
+                insertRoute(route, presentRow + i, presentCol);
             }
         }
+    }
+
+    private void insertRoute(final List<Position> route, final int presentRow, final int presentCol) {
+        route.add(new Position(presentRow, presentCol));
     }
 
     @Override

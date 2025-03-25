@@ -71,8 +71,7 @@ class PoTest {
                     new Position(1, 0),
                     new Position(2, 0),
                     new Position(3, 0),
-                    new Position(4, 0),
-                    new Position(5, 0)
+                    new Position(4, 0)
             );
         }
 
@@ -88,8 +87,7 @@ class PoTest {
                     new Position(4, 0),
                     new Position(3, 0),
                     new Position(2, 0),
-                    new Position(1, 0),
-                    new Position(0, 0)
+                    new Position(1, 0)
             );
         }
 
@@ -105,8 +103,7 @@ class PoTest {
                     new Position(0, 1),
                     new Position(0, 2),
                     new Position(0, 3),
-                    new Position(0, 4),
-                    new Position(0, 5)
+                    new Position(0, 4)
             );
         }
 
@@ -122,8 +119,7 @@ class PoTest {
                     new Position(0, 4),
                     new Position(0, 3),
                     new Position(0, 2),
-                    new Position(0, 1),
-                    new Position(0, 0)
+                    new Position(0, 1)
             );
         }
 
