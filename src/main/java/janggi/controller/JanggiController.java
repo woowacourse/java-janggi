@@ -42,15 +42,7 @@ public class JanggiController {
     }
 
     private BoardSetup getBoardSetup(PieceColor teamColor) {
-        int setNumber = 0;
-
-        if (teamColor == PieceColor.RED) {
-            setNumber = inputView.readRedSetup();
-        }
-        if (teamColor == PieceColor.BLUE) {
-            setNumber = inputView.readBlueSetup();
-        }
-
+        int setNumber = inputView.readBoardSetup(teamColor);
         return BoardSetup.from(setNumber);
     }
 
