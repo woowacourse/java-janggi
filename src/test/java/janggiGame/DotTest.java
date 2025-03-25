@@ -1,9 +1,8 @@
-package janggiGame.board;
+package janggiGame;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.Dot;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
