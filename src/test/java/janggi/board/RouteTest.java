@@ -26,11 +26,10 @@ class RouteTest {
     @Test
     @DisplayName("중간 경로 반환 테스트")
     void getIntermediatePositions() {
-        Route route = new Route();
-        route.addRoute(new Position(1, 1));
-        route.addRoute(new Position(2, 2));
-        route.addRoute(new Position(3, 3));
-        route.addRoute(new Position(4, 4));
+        Route route = new Route(new Position(1, 1),
+                new Position(2, 2),
+                new Position(3, 3),
+                new Position(4, 4));
 
         List<Position> intermediatePositions = route.getIntermediatePositions();
         assertAll(

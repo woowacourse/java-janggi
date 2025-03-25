@@ -18,6 +18,13 @@ public class Route {
         addRoute(position);
     }
 
+    public Route(final Position... positions) {
+        this.positions = new ArrayList<>();
+        for (Position position : positions) {
+            addRoute(position);
+        }
+    }
+
     public void addRoute(final Position position) {
         positions.add(position);
     }
