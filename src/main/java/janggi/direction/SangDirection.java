@@ -22,7 +22,7 @@ public enum SangDirection {
         this.destinationPositions = destinationPositions;
     }
 
-    public static SangDirection of(final Position current, final Position destination) {
+    public static SangDirection parse(final Position current, final Position destination) {
         Position relativePosition = destination.calculateDifference(current);
         List<SangDirection> allDirections = List.of(SangDirection.values());
         return allDirections.stream()
@@ -31,9 +31,9 @@ public enum SangDirection {
                 .orElse(NONE);
     }
 
-    public boolean checkPositionInPath(Position current, Position target) {
+    public boolean checkPositionInPath(Position current, Position checkTarget) {
         return positionsInPath.stream()
                 .map(relativePosition -> current.calculateSum(relativePosition))
-                .anyMatch(absolutePosition -> absolutePosition.equals(target));
+                .anyMatch(absolutePosition -> absolutePosition.equals(checkTarget));
     }
 }

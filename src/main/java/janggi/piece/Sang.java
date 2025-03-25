@@ -29,7 +29,7 @@ public class Sang extends Piece {
 
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        SangDirection direction = SangDirection.of(getPosition(), destination);
+        SangDirection direction = SangDirection.parse(getPosition(), destination);
 
         boolean followRuleOfMove = checkRuleOfMove(direction);
         boolean existHurdleInPath = existHurdleInPath(direction, enemy, allies);

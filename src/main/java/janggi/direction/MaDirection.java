@@ -27,9 +27,9 @@ public enum MaDirection {
                 .orElse(NONE);
     }
 
-    public boolean checkPositionInPath(Position current, Position target) {
+    public boolean checkPositionInPath(Position current, Position checkTarget) {
         Position newPosition = new Position(current.x() + positionsInPath.x(),
                 current.y() + positionsInPath.y());
-        return newPosition.equals(target);
+        return newPosition.equals(checkTarget);
     }
 }
