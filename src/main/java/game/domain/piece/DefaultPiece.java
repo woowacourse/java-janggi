@@ -11,19 +11,22 @@ public class DefaultPiece extends Piece {
 
     @Override
     public void validateMovable(BoardLocation current, BoardLocation target) {
+        throw new IllegalStateException("[ERROR] 실행할 수 없습니다.");
     }
 
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation target) {
-        return List.of();
+        throw new IllegalStateException("[ERROR] 실행할 수 없습니다.");
     }
 
     @Override
     public void validateArrival(List<Piece> pathPiece) {
+        throw new IllegalStateException("[ERROR] 실행할 수 없습니다.");
     }
 
     @Override
     public void validateKillable(Piece destinationPiece) {
+        throw new IllegalStateException("[ERROR] 실행할 수 없습니다.");
     }
 
     @Override
