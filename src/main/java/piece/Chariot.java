@@ -2,9 +2,10 @@ package piece;
 
 import board.Board;
 import board.Position;
+
 import java.util.List;
 
-public class Chariot extends Piece{
+public class Chariot extends Piece {
 
     public Chariot(final TeamType teamType) {
         super(teamType);
