@@ -48,9 +48,17 @@ public class JanggiController {
         outputView.printPossibleRoutes(possibleRoutes);
 
         final Position destination = inputView.inputDestination();
+        if (canMove(possibleRoutes, destination)) {
+            board.movePiece(destination, selectPiece);
+            board.changeTurn();
+            return;
+        }
+        throw new IllegalArgumentException("해당 위치로 갈 수 없습니다.");
+    }
 
-        board.movePiece(destination, selectPiece);
-        board.changeTurn();
+    private boolean canMove(final Set<Route> possibleRoutes, final Position destination) {
+        return possibleRoutes.stream()
+                .anyMatch(route -> route.isDestination(destination));
     }
 
     private Board generateBoard() {

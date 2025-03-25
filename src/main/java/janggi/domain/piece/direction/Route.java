@@ -21,6 +21,10 @@ public class Route {
         return piece.isSamePosition(route.getLast());
     }
 
+    public boolean isDestination(final Position position) {
+        return position.equals(route.getLast());
+    }
+
     public Position getDestination() {
         return route.getLast();
     }
