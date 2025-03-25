@@ -19,7 +19,7 @@ public class InputView {
     );
 
     public int requestStartX() {
-        System.out.println("움직일 기물의 좌표를 입력해주세요 ex) 1,2");
+        System.out.println("움직일 기물의 X좌표를 입력해주세요");
         return Integer.parseInt(scanner.nextLine());
     }
 
