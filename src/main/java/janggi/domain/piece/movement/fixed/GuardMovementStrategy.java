@@ -4,7 +4,7 @@ import janggi.domain.piece.Pieces;
 import janggi.domain.piece.Position;
 import java.util.Map;
 
-public class GuardMovementStrategy implements FixedMovementStrategy {
+public class GuardMovementStrategy extends FixedMovementStrategy {
 
     @Override
     public boolean isLegalDestination(Position origin, Position destination) {

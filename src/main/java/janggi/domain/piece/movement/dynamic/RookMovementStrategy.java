@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class RookMovementStrategy implements DynamicMovementStrategy {
+public class RookMovementStrategy extends DynamicMovementStrategy {
 
     @Override
     public boolean isLegalDestination(Side side, Position origin, Position destination) {

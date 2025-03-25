@@ -6,7 +6,7 @@ import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
 import java.util.stream.IntStream;
 
-public class CannonMovementStrategy implements DynamicMovementStrategy {
+public class CannonMovementStrategy extends DynamicMovementStrategy {
 
     @Override
     public boolean isLegalDestination(Side side, Position origin, Position destination) {

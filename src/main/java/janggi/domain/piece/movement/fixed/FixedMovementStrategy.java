@@ -5,14 +5,14 @@ import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
 import janggi.domain.piece.movement.MovementStrategy;
 
-public interface FixedMovementStrategy extends MovementStrategy {
+public abstract class FixedMovementStrategy implements MovementStrategy {
 
     @Override
-    default boolean isMoveable(Pieces map, Position origin, Side side, Position destination) {
+    public final boolean isMoveable(Pieces map, Position origin, Side side, Position destination) {
         return isLegalDestination(origin, destination) && isPathClear(map, side, origin, destination);
     }
 
-    default boolean isPathClear(Pieces map, Side side, Position origin, Position destination) {
+    private boolean isPathClear(Pieces map, Side side, Position origin, Position destination) {
         Pieces onPathPieces = getAllPiecesOnPath(map, origin, destination);
 
         if (!onPathPieces.isEmpty()) {
@@ -21,7 +21,7 @@ public interface FixedMovementStrategy extends MovementStrategy {
         return true;
     }
 
-    boolean isLegalDestination(Position origin, Position destination);
+    protected abstract boolean isLegalDestination(Position origin, Position destination);
 
-    Pieces getAllPiecesOnPath(Pieces map, Position origin, Position destination);
+    protected abstract Pieces getAllPiecesOnPath(Pieces map, Position origin, Position destination);
 }

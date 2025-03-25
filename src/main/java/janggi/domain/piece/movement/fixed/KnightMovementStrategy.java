@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class KnightMovementStrategy implements FixedMovementStrategy {
+public class KnightMovementStrategy extends FixedMovementStrategy {
 
     private static final List<Vector> VERTICAL_MOVEMENT_VECTORS = List.of(
         new Vector(0, 1),

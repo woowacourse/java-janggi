@@ -5,7 +5,7 @@ import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
 import java.util.Set;
 
-public class PawnMovementStrategy implements DynamicMovementStrategy {
+public class PawnMovementStrategy extends DynamicMovementStrategy {
 
     private static final int MOVABLE_DISTANCE = 1;
 

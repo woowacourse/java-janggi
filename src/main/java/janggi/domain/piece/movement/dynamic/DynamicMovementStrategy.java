@@ -5,14 +5,14 @@ import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
 import janggi.domain.piece.movement.MovementStrategy;
 
-public interface DynamicMovementStrategy extends MovementStrategy {
+public abstract class DynamicMovementStrategy implements MovementStrategy {
 
     @Override
-    default boolean isMoveable(Pieces map, Position origin, Side side, Position destination) {
+    public final boolean isMoveable(Pieces map, Position origin, Side side, Position destination) {
         return isLegalDestination(side, origin, destination) && isLegalPath(map, side, origin, destination);
     }
 
-    boolean isLegalDestination(Side side, Position origin, Position destination);
+    protected abstract boolean isLegalDestination(Side side, Position origin, Position destination);
 
-    boolean isLegalPath(Pieces existingPieces, Side side, Position origin, Position destination);
+    protected abstract boolean isLegalPath(Pieces existingPieces, Side side, Position origin, Position destination);
 }

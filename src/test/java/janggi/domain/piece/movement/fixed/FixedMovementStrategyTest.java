@@ -29,35 +29,6 @@ class FixedMovementStrategyTest {
         return new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), side, x, y);
     }
 
-    private static Stream<Arguments> 목적지까지의_경로에_기물이_없는지_확인한다_테스트_케이스() {
-        return Stream.of(
-            Arguments.of(
-                createPieces(createElephant(ALLEY_SIDE, 5, 6)),
-                ALLEY_SIDE,
-                new Position(5, 5),
-                new Position(7, 8),
-                createPieces(createElephant(ALLEY_SIDE, 5, 6)),
-                false
-            ),
-            Arguments.of(
-                createPieces(createElephant(ALLEY_SIDE, 5, 6)),
-                ALLEY_SIDE,
-                new Position(5, 5),
-                new Position(8, 7),
-                createPieces(createElephant(ALLEY_SIDE, 5, 6)),
-                false
-            ),
-            Arguments.of(
-                createPieces(createElephant(ALLEY_SIDE, 5, 6)),
-                ALLEY_SIDE,
-                new Position(5, 5),
-                new Position(8, 7),
-                createPieces(createElephant(ALLEY_SIDE, 5, 6)),
-                false
-            )
-        );
-    }
-
     private static Stream<Arguments> 목적지에_아군이_있다면_움직일_수_없다_테스트_케이스() {
         return Stream.of(
             Arguments.of(
@@ -101,23 +72,6 @@ class FixedMovementStrategyTest {
     }
 
     @ParameterizedTest
-    @MethodSource("목적지까지의_경로에_기물이_없는지_확인한다_테스트_케이스")
-    void 목적지까지의_경로에_기물이_없는지_확인한다(
-        Pieces map,
-        Side side,
-        Position origin,
-        Position destination,
-        Pieces onPathPieces,
-        boolean expected
-    ) {
-
-        rawFixedMovementStrategy.setIsLegalDestination(true);
-        rawFixedMovementStrategy.setAllPiecesOnPath(onPathPieces);
-
-        assertThat(rawFixedMovementStrategy.isPathClear(map, side, origin, destination)).isEqualTo(expected);
-    }
-
-    @ParameterizedTest
     @MethodSource("목적지에_아군이_있다면_움직일_수_없다_테스트_케이스")
     void 목적지에_아군이_있다면_움직일_수_없다(
         Pieces map,
@@ -130,7 +84,7 @@ class FixedMovementStrategyTest {
         rawFixedMovementStrategy.setIsLegalDestination(true);
         rawFixedMovementStrategy.setAllPiecesOnPath(onPathPieces);
 
-        assertThat(rawFixedMovementStrategy.isPathClear(map, side, origin, destination)).isFalse();
+        assertThat(rawFixedMovementStrategy.isMoveable(map, origin, side, destination)).isFalse();
     }
 
     @ParameterizedTest
@@ -146,7 +100,7 @@ class FixedMovementStrategyTest {
         rawFixedMovementStrategy.setIsLegalDestination(true);
         rawFixedMovementStrategy.setAllPiecesOnPath(onPathPieces);
 
-        assertThat(rawFixedMovementStrategy.isPathClear(map, side, origin, destination)).isTrue();
+        assertThat(rawFixedMovementStrategy.isMoveable(map, origin, side, destination)).isTrue();
     }
 
     @Test
@@ -158,7 +112,7 @@ class FixedMovementStrategyTest {
             new Position(0, 0))).isTrue();
     }
 
-    private static final class RawFixedMovementStrategy implements FixedMovementStrategy {
+    private static final class RawFixedMovementStrategy extends FixedMovementStrategy {
 
         private boolean isLegalDestination = true;
         private Pieces allPiecesOnPath = new Pieces(Map.of());
