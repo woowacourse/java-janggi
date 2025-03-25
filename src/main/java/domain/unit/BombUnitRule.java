@@ -14,7 +14,7 @@ public class BombUnitRule implements UnitRule {
         List<Position> positions = calculateEndPoints(start);
         for (Position end : positions) {
             Route route = calculateRoute(start, end);
-            if (route.getPoints().size() == 2) {
+            if (route.getPoints().size() == 1) {
                 continue;
             }
             routes.add(route);

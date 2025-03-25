@@ -39,14 +39,14 @@ public class Game {
         List<Route> routes = janggi.searchAvailableRoutes(position);
         outputView.printAvailableRoute(routes);
 
-        moveAndCaptureIfEnemyExists(routes);
+        moveAndCaptureIfEnemyExists(routes, position);
         janggi.changeTurn();
     }
 
-    private void moveAndCaptureIfEnemyExists(List<Route> routes) {
+    private void moveAndCaptureIfEnemyExists(List<Route> routes, Position startPoint) {
         int selectedRouteNumber = handleException(inputView::readRoute, Integer::parseInt) - 1;
         Route route = routes.get(selectedRouteNumber);
-        janggi.moveAndCaptureIfEnemyExists(route);
+        janggi.moveAndCaptureIfEnemyExists(route, startPoint);
     }
 
     private Position getPosition() {

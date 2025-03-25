@@ -8,7 +8,6 @@ import domain.unit.Unit;
 import domain.unit.UnitType;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 public class Janggi {
@@ -99,8 +98,11 @@ public class Janggi {
 
     public boolean isAvailableEndPoint(Route route) {
         Position endPosition = route.searchEndPoint();
-        Unit endPointUnit = findUnitByPoint(endPosition);
-        return endPointUnit.getTeam() != this.turn;
+        if (isExistUnit(endPosition)) {
+            Unit endPointUnit = findUnitByPoint(endPosition);
+            return endPointUnit.getTeam() != this.turn;
+        }
+        return true;
     }
 
     public boolean isEmptyPoint(Position position) {
@@ -124,8 +126,7 @@ public class Janggi {
         return units;
     }
 
-    public void moveAndCaptureIfEnemyExists(Route route) {
-        Position startPoint = route.searchStartPoint();
+    public void moveAndCaptureIfEnemyExists(Route route, Position startPoint) {
         Position endPoint = route.searchEndPoint();
         Unit unit = findUnitByPoint(startPoint);
 
