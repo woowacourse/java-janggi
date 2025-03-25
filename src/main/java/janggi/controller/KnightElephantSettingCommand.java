@@ -1,6 +1,6 @@
 package janggi.controller;
 
-import janggi.domain.piece.gererator.KnightElephantSetting;
+import janggi.domain.piece.generator.KnightElephantSetting;
 import java.util.Arrays;
 
 public enum KnightElephantSettingCommand {

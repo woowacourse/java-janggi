@@ -1,4 +1,4 @@
-package janggi.domain.piece.gererator;
+package janggi.domain.piece.generator;
 
 public enum KnightElephantSetting {
 

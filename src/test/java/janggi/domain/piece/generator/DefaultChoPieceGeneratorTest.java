@@ -1,4 +1,4 @@
-package janggi.domain.piece.gererator;
+package janggi.domain.piece.generator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

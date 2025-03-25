@@ -1,4 +1,4 @@
-package janggi.domain.piece.gererator;
+package janggi.domain.piece.generator;
 
 import janggi.domain.Side;
 import janggi.domain.piece.Cannon;
@@ -13,7 +13,7 @@ import janggi.domain.piece.Rook;
 import java.util.ArrayList;
 import java.util.List;
 
-import static janggi.domain.piece.gererator.KnightElephantSetting.KNIGHT_ELEPHANT_KNIGHT_ELEPHANT;
+import static janggi.domain.piece.generator.KnightElephantSetting.KNIGHT_ELEPHANT_KNIGHT_ELEPHANT;
 
 public class DefaultChoPieceGenerator implements ChoPieceGenerator {
 

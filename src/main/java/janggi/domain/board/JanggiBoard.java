@@ -4,9 +4,9 @@ import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Pieces;
-import janggi.domain.piece.gererator.ChoPieceGenerator;
-import janggi.domain.piece.gererator.HanPieceGenerator;
-import janggi.domain.piece.gererator.KnightElephantSetting;
+import janggi.domain.piece.generator.ChoPieceGenerator;
+import janggi.domain.piece.generator.HanPieceGenerator;
+import janggi.domain.piece.generator.KnightElephantSetting;
 
 import java.util.ArrayList;
 import java.util.List;
