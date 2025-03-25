@@ -6,11 +6,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import direction.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.PieceType;
+import piece.GreenSoldier;
 import piece.Soldier;
-import team.Team;
 
 class SoldierTest {
+
+    String GREEN_SOLDIER_EXPRESSION = "s";
 
     @Test
     @DisplayName("졸은 위로 한 칸 이동할 수 있다.")
@@ -20,7 +21,7 @@ class SoldierTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x, y - 1);
-        Soldier soldier = new Soldier(PieceType.GREEN_SOLDIER, from);
+        Soldier soldier = new GreenSoldier(GREEN_SOLDIER_EXPRESSION, from);
 
         //when
 
@@ -37,7 +38,7 @@ class SoldierTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x, y - 2);
-        Soldier soldier = new Soldier(PieceType.GREEN_SOLDIER, from);
+        Soldier soldier = new GreenSoldier(GREEN_SOLDIER_EXPRESSION, from);
 
         //when
 
@@ -54,7 +55,7 @@ class SoldierTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x, y + 1);
-        Soldier soldier = new Soldier(PieceType.GREEN_SOLDIER, from);
+        Soldier soldier = new GreenSoldier(GREEN_SOLDIER_EXPRESSION, from);
 
         //when
 
@@ -71,7 +72,7 @@ class SoldierTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x - 1, y);
-        Soldier soldier = new Soldier(PieceType.GREEN_SOLDIER, from);
+        Soldier soldier = new GreenSoldier(GREEN_SOLDIER_EXPRESSION, from);
 
         //when
 
@@ -88,7 +89,7 @@ class SoldierTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x - 2, y);
-        Soldier soldier = new Soldier(PieceType.GREEN_SOLDIER, from);
+        Soldier soldier = new GreenSoldier(GREEN_SOLDIER_EXPRESSION, from);
 
         //when
 
@@ -105,7 +106,7 @@ class SoldierTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x + 1, y);
-        Soldier soldier = new Soldier(PieceType.GREEN_SOLDIER, from);
+        Soldier soldier = new GreenSoldier(GREEN_SOLDIER_EXPRESSION, from);
 
         //when
 
@@ -122,7 +123,7 @@ class SoldierTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x + 2, y);
-        Soldier soldier = new Soldier(PieceType.GREEN_SOLDIER, from);
+        Soldier soldier = new GreenSoldier(GREEN_SOLDIER_EXPRESSION, from);
 
         //when
 

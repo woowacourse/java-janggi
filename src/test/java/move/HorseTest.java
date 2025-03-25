@@ -9,12 +9,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Guard;
 import piece.Horse;
-import piece.Piece;
-import piece.PieceType;
 import piece.Pieces;
-import team.Team;
 
 class HorseTest {
+
+    String GREEN_HORSE_EXPRESSION = "h";
 
     @Test
     @DisplayName("위쪽 1칸, 왼쪽 대각선 1칸으로 이동할 수 있다.")
@@ -22,7 +21,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(1, 0);
-        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
+        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
 
         //when
 
@@ -37,7 +36,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(3, 0);
-        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
+        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
 
         //when
 
@@ -52,7 +51,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(0, 1);
-        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
+        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
 
         //when
 
@@ -67,7 +66,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(0, 3);
-        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
+        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
 
         //when
 
@@ -82,7 +81,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(1, 4);
-        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
+        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
 
         //when
 
@@ -97,7 +96,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(3, 4);
-        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
+        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
 
         //when
 
@@ -112,7 +111,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(4, 1);
-        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
+        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
 
         //when
 
@@ -127,7 +126,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(4, 3);
-        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
+        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
 
         //when
 
@@ -142,7 +141,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(6, 3);
-        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
+        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
 
         //when
 
@@ -157,10 +156,10 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(4, 3);
-        Horse horse = new Horse(PieceType.GREEN_HORSE, from);
+        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
         Pieces pieces = new Pieces(List.of(
                 horse,
-                new Guard(PieceType.GREEN_GUARD, new Point(3, 2))));
+                new Guard(GREEN_HORSE_EXPRESSION, new Point(3, 2))));
 
         //when
         //then

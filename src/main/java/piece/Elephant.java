@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class Elephant extends Piece {
 
-    private static final Map<Point, List<Direction>> paths = Map.of(
+    private static final Map<Point, List<Direction>> pathInfo = Map.of(
             new Point(-2, -3), List.of(UP, UP_LEFT_DIAGONAL),
             new Point(2, -3), List.of(UP, UP_RIGHT_DIAGONAL),
             new Point(-3, -2), List.of(LEFT, UP_LEFT_DIAGONAL),
@@ -27,8 +27,8 @@ public class Elephant extends Piece {
             new Point(3, 2), List.of(RIGHT, DOWN_RIGHT_DIAGONAL)
     );
 
-    public Elephant(PieceType pieceType, Point point) {
-        super(pieceType, point);
+    public Elephant(String name, Point point) {
+        super(name, point);
     }
 
     @Override
@@ -42,8 +42,9 @@ public class Elephant extends Piece {
         validateExistPieceInPath(allPieces, getPaths(from, to), checkPoint);
     }
 
-    private List<Direction> getPaths(Point from, Point to) {
-        return paths.getOrDefault(to.minus(from), List.of());
+    public List<Direction> getPaths(Point from, Point to) {
+        Point distance = to.minus(from);
+        return pathInfo.getOrDefault(distance, List.of());
     }
 
     private void validateAvailableDestination(Point from, Point to) {
@@ -60,6 +61,6 @@ public class Elephant extends Piece {
 
     private boolean isExistedPieceAtPoint(Pieces pieces, List<Direction> paths, Point checkPoint) {
         return paths.stream()
-                .anyMatch(direction -> pieces.isContainPiece(checkPoint.apply(direction, getSide())));
+                .anyMatch(direction -> pieces.isContainPiece(checkPoint.apply(direction)));
     }
 }

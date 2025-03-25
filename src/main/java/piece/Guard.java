@@ -4,8 +4,8 @@ import direction.Point;
 
 public class Guard extends Piece {
 
-    public Guard(PieceType pieceType, Point point) {
-        super(pieceType, point);
+    public Guard(String name, Point point) {
+        super(name, point);
     }
 
     @Override

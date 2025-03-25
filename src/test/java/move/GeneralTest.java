@@ -6,9 +6,10 @@ import direction.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.General;
-import piece.PieceType;
 
 public class GeneralTest {
+
+    String GREEN_GENERAL_EXPRESSION = "g";
 
     @Test
     @DisplayName("궁성 내 기물은 위로 한 칸 이동할 수 있다.")
@@ -18,7 +19,7 @@ public class GeneralTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x, y - 1);
-        General general = new General(PieceType.GREEN_GENERAL, from);
+        General general = new General(GREEN_GENERAL_EXPRESSION, from);
 
         //when
 
@@ -35,7 +36,7 @@ public class GeneralTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x, y - 2);
-        General general = new General(PieceType.GREEN_GENERAL, from);
+        General general = new General(GREEN_GENERAL_EXPRESSION, from);
 
         //when
 
@@ -52,7 +53,7 @@ public class GeneralTest {
         int y = 1;
         Point from = new Point(x, y);
         Point to = new Point(x, y + 1);
-        General general = new General(PieceType.GREEN_GENERAL, from);
+        General general = new General(GREEN_GENERAL_EXPRESSION, from);
 
         //when
 
@@ -69,7 +70,7 @@ public class GeneralTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x, y + 2);
-        General general = new General(PieceType.GREEN_GENERAL, from);
+        General general = new General(GREEN_GENERAL_EXPRESSION, from);
 
         //when
 
@@ -86,7 +87,7 @@ public class GeneralTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x - 1, y);
-        General general = new General(PieceType.GREEN_GENERAL, from);
+        General general = new General(GREEN_GENERAL_EXPRESSION, from);
 
         //when
 
@@ -103,7 +104,7 @@ public class GeneralTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x - 2, y);
-        General general = new General(PieceType.GREEN_GENERAL, from);
+        General general = new General(GREEN_GENERAL_EXPRESSION, from);
 
         //when
 
@@ -120,7 +121,7 @@ public class GeneralTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x + 1, y);
-        General general = new General(PieceType.GREEN_GENERAL, from);
+        General general = new General(GREEN_GENERAL_EXPRESSION, from);
 
         //when
 
@@ -137,7 +138,7 @@ public class GeneralTest {
         int y = 0;
         Point from = new Point(x, y);
         Point to = new Point(x + 2, y);
-        General general = new General(PieceType.GREEN_GENERAL, from);
+        General general = new General(GREEN_GENERAL_EXPRESSION, from);
 
         //when
 

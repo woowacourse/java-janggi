@@ -9,12 +9,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Elephant;
 import piece.Guard;
-import piece.Piece;
-import piece.PieceType;
 import piece.Pieces;
-import team.Team;
 
 class ElephantTest {
+
+    String GREEN_ELEPHANT_EXPRESSION = "e";
 
     @Test
     @DisplayName("위쪽 1칸, 왼쪽 대각선 2칸으로 이동할 수 있다.")
@@ -22,7 +21,7 @@ class ElephantTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(0, -1);
-        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
+        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
 
         //when
 
@@ -37,7 +36,7 @@ class ElephantTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(4, -1);
-        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
+        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
 
         //when
 
@@ -52,7 +51,7 @@ class ElephantTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(-1, 0);
-        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
+        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
 
         //when
 
@@ -67,7 +66,7 @@ class ElephantTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(-1, 4);
-        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
+        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
 
         //when
 
@@ -82,7 +81,7 @@ class ElephantTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(0, 5);
-        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
+        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
 
         //when
 
@@ -97,7 +96,7 @@ class ElephantTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(4, 5);
-        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
+        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
 
         //when
 
@@ -112,7 +111,7 @@ class ElephantTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(5, 0);
-        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
+        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
 
         //when
 
@@ -127,7 +126,7 @@ class ElephantTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(5, 4);
-        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
+        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
 
         //when
 
@@ -142,7 +141,7 @@ class ElephantTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(8, 3);
-        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
+        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
 
         //when
 
@@ -157,10 +156,10 @@ class ElephantTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(5, 4);
-        Elephant elephant = new Elephant(PieceType.GREEN_ELEPHANT, from);
+        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
         Pieces pieces = new Pieces(List.of(
                 elephant,
-                new Guard(PieceType.GREEN_GUARD, new Point(3, 2))));
+                new Guard("r", new Point(3, 2))));
 
         //when
         //then

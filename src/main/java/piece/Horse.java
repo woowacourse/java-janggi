@@ -1,6 +1,5 @@
 package piece;
 
-
 import static direction.Direction.DOWN;
 import static direction.Direction.LEFT;
 import static direction.Direction.RIGHT;
@@ -24,8 +23,8 @@ public class Horse extends Piece {
             new Point(2, 1), List.of(RIGHT)
     );
 
-    public Horse(PieceType pieceType, Point point) {
-        super(pieceType, point);
+    public Horse(String name, Point point) {
+        super(name, point);
     }
 
     @Override
@@ -57,6 +56,6 @@ public class Horse extends Piece {
 
     private boolean isExistedPieceAtPoint(Pieces pieces, List<Direction> paths, Point checkPoint) {
         return paths.stream()
-                .anyMatch(direction -> pieces.isContainPiece(checkPoint.apply(direction, getSide())));
+                .anyMatch(direction -> pieces.isContainPiece(checkPoint.apply(direction)));
     }
 }

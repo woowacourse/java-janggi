@@ -3,9 +3,10 @@ package piece;
 import direction.Point;
 
 public class Cannon extends Piece {
+    private static final String CANNON_EXPRESSION = "n";
 
-    public Cannon(PieceType pieceType, Point point) {
-        super(pieceType, point);
+    public Cannon(String name, Point point) {
+        super(name, point);
     }
 
     @Override
@@ -28,7 +29,7 @@ public class Cannon extends Piece {
         return (int) findStraightPaths(from, to).stream()
                 .filter(pieces::isContainPiece)
                 .map(pieces::getByPoint)
-                .filter(piece -> piece.getPieceType().isNotCannon())
+                .filter(piece -> !piece.isSameType(CANNON_EXPRESSION))
                 .count();
     }
 
@@ -36,7 +37,7 @@ public class Cannon extends Piece {
         return (int) findStraightPaths(from, to).stream()
                 .filter(pieces::isContainPiece)
                 .map(pieces::getByPoint)
-                .filter(piece -> piece.getPieceType().isCannon())
+                .filter(piece -> piece.isSameType(CANNON_EXPRESSION))
                 .count();
     }
 }

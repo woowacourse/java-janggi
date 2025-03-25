@@ -4,8 +4,8 @@ import direction.Point;
 
 public class Chariot extends Piece {
 
-    public Chariot(PieceType pieceType, Point point) {
-        super(pieceType, point);
+    public Chariot(String name, Point point) {
+        super(name, point);
     }
 
     @Override

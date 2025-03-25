@@ -8,12 +8,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Cannon;
 import piece.Guard;
-import piece.Piece;
-import piece.PieceType;
 import piece.Pieces;
-import piece.Soldier;
 
 class CannonTest {
+
+    String GREEN_CANNON_EXPRESSION = "n";
+    String GREEN_GUARD_EXPRESSION = "r";
 
     @Test
     @DisplayName("수평 방향으로 이동할 수 있다.")
@@ -21,7 +21,7 @@ class CannonTest {
         //given
         Point from = new Point(2, 3);
         Point to = new Point(3, 3);
-        Cannon cannon = new Cannon(PieceType.GREEN_CANNON, from);
+        Cannon cannon = new Cannon(GREEN_CANNON_EXPRESSION, from);
 
         //when
 
@@ -36,7 +36,7 @@ class CannonTest {
         //given
         Point from = new Point(2, 3);
         Point to = new Point(2, 10);
-        Cannon cannon = new Cannon(PieceType.GREEN_CANNON, from);
+        Cannon cannon = new Cannon(GREEN_CANNON_EXPRESSION, from);
 
         //when
 
@@ -51,7 +51,7 @@ class CannonTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(6, 3);
-        Cannon cannon = new Cannon(PieceType.GREEN_CANNON, from);
+        Cannon cannon = new Cannon(GREEN_CANNON_EXPRESSION, from);
 
         //when
         //then
@@ -65,7 +65,7 @@ class CannonTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(2, 2);
-        Cannon cannon = new Cannon(PieceType.GREEN_CANNON, from);
+        Cannon cannon = new Cannon(GREEN_CANNON_EXPRESSION, from);
 
         //when
         //then
@@ -79,10 +79,10 @@ class CannonTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(2, 8);
-        Cannon cannon = new Cannon(PieceType.GREEN_CANNON, from);
+        Cannon cannon = new Cannon(GREEN_CANNON_EXPRESSION, from);
         Pieces pieces = new Pieces(List.of(
                 cannon,
-                new Guard(PieceType.GREEN_GUARD, new Point(2, 4))));
+                new Guard(GREEN_GUARD_EXPRESSION, new Point(2, 4))));
 
         //when
         //then
@@ -96,11 +96,11 @@ class CannonTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(2, 8);
-        Cannon cannon = new Cannon(PieceType.GREEN_CANNON, from);
+        Cannon cannon = new Cannon(GREEN_CANNON_EXPRESSION, from);
         Pieces pieces = new Pieces(List.of(
                 cannon,
-                new Guard(PieceType.GREEN_GUARD, new Point(2, 4)),
-                new Guard(PieceType.GREEN_GUARD, new Point(2, 5))));
+                new Guard(GREEN_GUARD_EXPRESSION, new Point(2, 4)),
+                new Guard(GREEN_GUARD_EXPRESSION, new Point(2, 5))));
 
         //when
         //then
@@ -114,10 +114,10 @@ class CannonTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(2, 8);
-        Cannon cannon = new Cannon(PieceType.GREEN_CANNON, from);
+        Cannon cannon = new Cannon(GREEN_CANNON_EXPRESSION, from);
         Pieces pieces = new Pieces(List.of(
                 cannon,
-                new Cannon(PieceType.GREEN_CANNON, new Point(2, 4))));
+                new Cannon(GREEN_CANNON_EXPRESSION, new Point(2, 4))));
 
         //when
         //then

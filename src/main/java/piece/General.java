@@ -4,8 +4,8 @@ import direction.Point;
 
 public class General extends Piece {
 
-    public General(PieceType pieceType, Point point) {
-        super(pieceType, point);
+    public General(String name, Point point) {
+        super(name, point);
     }
 
     @Override

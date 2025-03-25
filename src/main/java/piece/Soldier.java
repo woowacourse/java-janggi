@@ -1,25 +1,22 @@
 package piece;
 
-import static direction.Direction.LEFT;
-import static direction.Direction.RIGHT;
-import static direction.Direction.UP;
+import java.util.List;
 
 import direction.Direction;
 import direction.Point;
-import java.util.List;
 
-public class Soldier extends Piece {
+public abstract class Soldier extends Piece {
 
-    private static final List<Direction> paths = List.of(LEFT, RIGHT, UP);
-
-    public Soldier(PieceType pieceType, Point point) {
-        super(pieceType, point);
+    public Soldier(String name, Point point) {
+        super(name, point);
     }
+
+    public abstract List<Direction> getPaths();
 
     @Override
     public void validateDestination(Point from, Point to) {
-        paths.stream()
-                .filter(path -> isValidDestination(from, to, path))
+        getPaths().stream()
+                .filter(direction -> from.plus(direction.getDirection()).equals(to))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다."));
     }
@@ -27,10 +24,5 @@ public class Soldier extends Piece {
     @Override
     public void checkPaths(Pieces allPieces, Point from, Point to) {
 
-    }
-
-    private boolean isValidDestination(Point from, Point to, Direction path) {
-        Point direction = path.apply(getSide());
-        return from.isDestinationDirection(to, direction);
     }
 }

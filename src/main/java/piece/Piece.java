@@ -6,29 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Piece {
-
-    private final PieceType pieceType;
+    private final String name; // enum -> outputFormatter
     private Point currentPosition;
 
-    public Piece(PieceType pieceType, Point currentPosition) {
-        this.pieceType = pieceType;
+    public Piece(String name, Point currentPosition) {
+        this.name = name;
         this.currentPosition = currentPosition;
     }
 
-    protected Piece(PieceType pieceType) {
-        this.pieceType = pieceType;
-    }
-
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
-    public int getSide() {
-        return pieceType.getSide();
+    protected Piece(String name) {
+        this.name = name;
     }
 
     public String getName() {
-        return pieceType.getExpression();
+        return name;
     }
 
     public boolean isEqualPositionWith(Point targetPoint) {
@@ -56,13 +47,17 @@ public abstract class Piece {
 
     protected void validateStraightDestination(Point from, Point to) {
         if(from.x() != to.x() && from.y() != to.y()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("[ERROR] 직선 이동만 가능합니다.");
         }
     }
 
     protected void validateNotSamePosition(Point from, Point to) {
         if (from.equals(to)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("[ERROR] 출발지와 목적지는 달라야 합니다.");
         }
+    }
+
+    protected boolean isSameType(String otherName) {
+        return name.equalsIgnoreCase(otherName);
     }
 }
