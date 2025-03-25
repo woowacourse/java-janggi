@@ -1,10 +1,8 @@
+package game;
+
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import game.Board;
-import game.Country;
-import game.StartingPosition;
-import game.Team;
 import org.junit.jupiter.api.Test;
 import piece.StaticPieceInitializer;
 

@@ -1,11 +1,10 @@
+package game;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static testUtil.TestConstant.RANK_5;
 
-import game.Country;
-import game.StartingPosition;
-import game.Team;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
