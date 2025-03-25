@@ -5,6 +5,7 @@ import janggi.domain.position.Position;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class Board {
@@ -33,25 +34,39 @@ public final class Board {
         }
     }
 
-    public Map<Position, Piece> getBoard() {
-        final Map<Position, Piece> status = new HashMap<>();
-        status.putAll(team1.getPieces());
-        status.putAll(team2.getPieces());
-        return Collections.unmodifiableMap(status);
+    public Map<Country, List<Piece>> getBoard() {
+        final Map<Country, List<Piece>> board = new HashMap<>();
+        board.put(team1.getCountry(), team1.getPieces());
+        board.put(team2.getCountry(), team2.getPieces());
+        return Collections.unmodifiableMap(board);
     }
 
     public void move(Position fromPosition, Position tagetPosition) {
         if (isTeam1Turn) {
-            team1.move(fromPosition, tagetPosition, team2.getPieces());
+            team1.move(fromPosition, tagetPosition, team2);
             nextTurn();
         }
         if (!isTeam1Turn) {
-            team2.move(fromPosition, tagetPosition, team1.getPieces());
+            team2.move(fromPosition, tagetPosition, team1);
             nextTurn();
         }
     }
 
     private void nextTurn() {
         isTeam1Turn = !isTeam1Turn;
+    }
+
+    public boolean isEnd() {
+        return team1.isEnd() || team2.isEnd();
+    }
+
+    public Country getWinner() {
+        if (team1.isEnd()) return Country.HAN;
+        return Country.CHO;
+    }
+
+    public Country getCurrentCountry() {
+        if (isTeam1Turn) return Country.CHO;
+        return Country.HAN;
     }
 }

@@ -1,5 +1,6 @@
 package janggi.infra;
 
+import janggi.domain.Country;
 import janggi.domain.piece.Gung;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.impl.*;
@@ -9,17 +10,17 @@ import janggi.domain.position.PositionRank;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static janggi.infra.PieceDao.getConnection;
 
 public class JdbcPieceRepository implements PieceRepository {
 
     @Override
-    public List<Piece> findAllPieces(final int number) {
-        final List<Piece> pieces = new ArrayList<>();
+    public Map<Country, List<Piece>> findAllPieces(final int number) {
+        final Map<Country, List<Piece>> pieces = new HashMap<>();
+        pieces.putIfAbsent(Country.CHO, new ArrayList<>());
+        pieces.putIfAbsent(Country.HAN, new ArrayList<>());
 
         final var query = "SELECT * FROM piece WHERE piece.number = ?";
 
@@ -33,19 +34,21 @@ public class JdbcPieceRepository implements PieceRepository {
                 final PieceType pieceType = PieceType.from(result.getString("type"));
                 final int rankString = result.getInt("rank");
                 final int fileString = result.getInt("file");
+                final String countryString = result.getString("country");
 
                 final PositionFile file = convertToFile(fileString);
                 final PositionRank rank = convertToRank(rankString);
+                final Country country = convertToCountry(countryString);
 
                 switch (pieceType) {
-                    case CHA -> pieces.add(new Cha(new Position(file, rank), new Gung()));
-                    case SANG -> pieces.add(new Sang(new Position(file, rank)));
-                    case MA -> pieces.add(new Ma(new Position(file, rank)));
-                    case SA -> pieces.add(new Sa(new Position(file, rank), new Gung()));
-                    case PO -> pieces.add(new Po(new Position(file, rank), new Gung()));
-                    case JANG -> pieces.add(new Jang(new Position(file, rank), new Gung()));
-                    case JOL -> pieces.add(new Jol(new Position(file, rank)));
-                    case BYEONG -> pieces.add(new Byeong(new Position(file, rank)));
+                    case CHA -> pieces.get(country).add(new Cha(new Position(file, rank), new Gung()));
+                    case SANG -> pieces.get(country).add(new Sang(new Position(file, rank)));
+                    case MA -> pieces.get(country).add(new Ma(new Position(file, rank)));
+                    case SA -> pieces.get(country).add(new Sa(new Position(file, rank), new Gung()));
+                    case PO -> pieces.get(country).add(new Po(new Position(file, rank), new Gung()));
+                    case JANG -> pieces.get(country).add(new Jang(new Position(file, rank), new Gung()));
+                    case JOL -> pieces.get(country).add(new Jol(new Position(file, rank)));
+                    case BYEONG -> pieces.get(country).add(new Byeong(new Position(file, rank)));
                 }
             }
         } catch (final SQLException e) {
@@ -55,18 +58,25 @@ public class JdbcPieceRepository implements PieceRepository {
         return pieces;
     }
 
+    private Country convertToCountry(final String countryString) {
+        if (countryString.equals("CHO")) return Country.CHO;
+        if (countryString.equals("HAN")) return Country.HAN;
+        throw new IllegalStateException();
+    }
+
     @Override
-    public void saveAllPieces(final int number, final List<Piece> pieces) {
+    public void saveAllPieces(final int number, final Country country, final List<Piece> pieces) {
         for (Piece piece : pieces) {
-            final var query = "INSERT INTO piece VALUES(?, ?, ?, ?)";
+            final var query = "INSERT INTO piece VALUES(?, ?, ?, ?, ?)";
 
             try (final var connection = getConnection();
                  final var preparedStatement = connection.prepareStatement(query)
             ) {
                 preparedStatement.setInt(1, number);
-                preparedStatement.setString(2, convertToType(piece).name());
-                preparedStatement.setInt(3, convertToFileValue(piece.getPosition().file()));
-                preparedStatement.setInt(1, convertToRankValue(piece.getPosition().rank()));
+                preparedStatement.setString(2, country.name());
+                preparedStatement.setString(3, convertToType(piece).name());
+                preparedStatement.setInt(4, convertToFileValue(piece.getPosition().file()));
+                preparedStatement.setInt(5, convertToRankValue(piece.getPosition().rank()));
 
                 preparedStatement.executeUpdate();
             } catch (final SQLException e) {

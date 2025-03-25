@@ -16,7 +16,7 @@ public enum PositionFile {
     FILE_9(9),
     ;
 
-    private final int amount;
+    public final int amount;
 
     PositionFile(final int amount) {
         this.amount = amount;
@@ -26,7 +26,7 @@ public enum PositionFile {
         return findByAmount(amount + i);
     }
 
-    private PositionFile findByAmount(final int i) {
+    public static PositionFile findByAmount(final int i) {
         return Arrays.stream(PositionFile.values())
                 .filter(file -> file.amount == i)
                 .findAny()

@@ -1,11 +1,13 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.impl.Jang;
 import janggi.domain.piece_initiaizer.PieceInitializer;
 import janggi.domain.position.Position;
 
-import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public final class Team {
 
@@ -19,6 +21,17 @@ public final class Team {
     ) {
         this.country = country;
         this.pieces = initializer.init(startingPosition, country);
+    }
+
+    public Team(
+            final List<Piece> pieces,
+            final Country country
+    ) {
+        this.country = country;
+        this.pieces = pieces.stream().collect(Collectors.toMap(
+                Piece::getPosition,
+                piece -> piece
+        ));
     }
 
     public static Team getFirstTeam(final Team team1, final Team team2) {
@@ -43,15 +56,19 @@ public final class Team {
         }
     }
 
-    public Map<Position, Piece> getPieces() {
-        return Collections.unmodifiableMap(pieces);
+    public List<Piece> getPieces() {
+        return pieces.values().stream().toList();
     }
 
-    public void move(final Position fromPosition, final Position tagetPosition, final Map<Position, Piece> enemyPieces) {
+    public Country getCountry() {
+        return country;
+    }
+
+    public void move(final Position fromPosition, final Position tagetPosition, final Team team) {
         validateIsPieceExistInPosition(fromPosition);
 
         final Piece targetPiece = pieces.get(fromPosition);
-        targetPiece.move(tagetPosition, pieces.values().stream().toList(), enemyPieces.values().stream().toList());
+        targetPiece.move(tagetPosition, pieces.values().stream().toList(), team.pieces.values().stream().toList());
         pieces.remove(fromPosition);
         pieces.put(tagetPosition, targetPiece);
     }
@@ -64,5 +81,10 @@ public final class Team {
 
     public boolean isSameCountry(final Team team2) {
         return country == team2.country;
+    }
+
+    public boolean isEnd() {
+        return pieces.values().stream()
+                .noneMatch(piece -> piece instanceof Jang);
     }
 }

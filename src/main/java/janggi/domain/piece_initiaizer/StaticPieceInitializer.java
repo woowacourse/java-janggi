@@ -20,19 +20,19 @@ public final class StaticPieceInitializer implements PieceInitializer {
 
         if (country == Country.CHO) {
             insertIntoMap(board,
-                    new Jol(new Position(PositionFile.FILE_1, PositionRank.of(1, country))),
-                    new Jol(new Position(PositionFile.FILE_3, PositionRank.of(1, country))),
-                    new Jol(new Position(PositionFile.FILE_5, PositionRank.of(1, country))),
-                    new Jol(new Position(PositionFile.FILE_7, PositionRank.of(1, country))),
-                    new Jol(new Position(PositionFile.FILE_9, PositionRank.of(1, country)))
+                    new Jol(new Position(PositionFile.FILE_1, PositionRank.of(4, country))),
+                    new Jol(new Position(PositionFile.FILE_3, PositionRank.of(4, country))),
+                    new Jol(new Position(PositionFile.FILE_5, PositionRank.of(4, country))),
+                    new Jol(new Position(PositionFile.FILE_7, PositionRank.of(4, country))),
+                    new Jol(new Position(PositionFile.FILE_9, PositionRank.of(4, country)))
             );
         } else {
             insertIntoMap(board,
-                    new Byeong(new Position(PositionFile.FILE_1, PositionRank.of(1, country))),
-                    new Byeong(new Position(PositionFile.FILE_3, PositionRank.of(1, country))),
-                    new Byeong(new Position(PositionFile.FILE_5, PositionRank.of(1, country))),
-                    new Byeong(new Position(PositionFile.FILE_7, PositionRank.of(1, country))),
-                    new Byeong(new Position(PositionFile.FILE_9, PositionRank.of(1, country)))
+                    new Byeong(new Position(PositionFile.FILE_1, PositionRank.of(4, country))),
+                    new Byeong(new Position(PositionFile.FILE_3, PositionRank.of(4, country))),
+                    new Byeong(new Position(PositionFile.FILE_5, PositionRank.of(4, country))),
+                    new Byeong(new Position(PositionFile.FILE_7, PositionRank.of(4, country))),
+                    new Byeong(new Position(PositionFile.FILE_9, PositionRank.of(4, country)))
             );
         }
 

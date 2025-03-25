@@ -15,13 +15,13 @@ public record Path(
 
     public Path nextPath(Movement movement) {
         List<Position> positions = new ArrayList<>(pathPositions);
-        final List<Position> result = movement.getPositionsWith(finalPosition());
+        final List<Position> result = new ArrayList<>(movement.getPositionsWith(finalPosition()));
         positions.addAll(result);
         return new Path(positions);
     }
 
     public Path nextPath(Position position) {
-        final List<Position> positions = finalPosition().createPositionsUntil(position);
+        final List<Position> positions = new ArrayList<>(finalPosition().createPositionsUntil(position));
         positions.addAll(pathPositions);
         return new Path(positions);
     }

@@ -19,7 +19,7 @@ public enum PositionRank {
     RANK_10(10),
     ;
 
-    private final int amount;
+    public final int amount;
 
     PositionRank(final int amount) {
         this.amount = amount;
@@ -37,7 +37,7 @@ public enum PositionRank {
         return 11 - value;
     }
 
-    private static PositionRank findByAmount(final int amount) {
+    public static PositionRank findByAmount(final int amount) {
         return Arrays.stream(PositionRank.values())
                 .filter(rank -> rank.amount == amount)
                 .findAny()
