@@ -58,7 +58,7 @@ public class JanggiGame {
     }
 
     private boolean isValidPiece(final Position prevPosition) {
-        return isGreenTurn() && !prevPosition.isGreenTeam() || isRedTurn() && prevPosition.isGreenTeam();
+        return (isGreenTurn() && !prevPosition.isGreenTeam()) || (isRedTurn() && prevPosition.isGreenTeam());
     }
 
     private void changeTurn() {
@@ -75,7 +75,7 @@ public class JanggiGame {
     }
 
     private boolean isInvalidEndPoint(final Position prevPosition, final Point nextPoint) {
-        return !prevPosition.isMovableTo(nextPoint) || !board.canMoveOnPath(prevPosition, nextPoint);
+        return !(prevPosition.isMovableTo(nextPoint) && board.canMoveOnPath(prevPosition, nextPoint));
     }
 
     private boolean isGreenTurn() {
