@@ -42,6 +42,7 @@ public class OutputView {
             }
         }
 
+        System.out.println();
         for (List<String> rowString : boardString) {
             System.out.println(String.join(" ", rowString));
         }
