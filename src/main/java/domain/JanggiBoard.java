@@ -17,14 +17,14 @@ public class JanggiBoard {
 
     public void move(Position startPosition, Position targetPosition) {
         validateEmptyStartPosition(startPosition);
-        Piece startPiece = findPiece(startPosition);
+        Piece selectedPiece = findPiece(startPosition);
         Piece targetPiece = findPiece(targetPosition);
 
-        List<Position> path = startPiece.calculatePath(startPosition, targetPosition);
-        validatePath(path, startPiece, targetPiece);
+        List<Position> path = selectedPiece.calculatePath(startPosition, targetPosition);
+        validatePath(path, selectedPiece, targetPiece);
 
         board.remove(startPosition);
-        board.put(targetPosition, startPiece);
+        board.put(targetPosition, selectedPiece);
     }
 
     private void validateEmptyStartPosition(Position startPosition) {
@@ -33,18 +33,18 @@ public class JanggiBoard {
         }
     }
 
-    private void validatePath(List<Position> path, Piece startPiece, Piece targetPiece) {
-        if (startPiece instanceof Po) {
+    private void validatePath(List<Position> path, Piece selectedPiece, Piece targetPiece) {
+        if (selectedPiece instanceof Po) {
             validatePoRule(path, targetPiece);
         }
-        if (!(startPiece instanceof Po)) {
+        if (!(selectedPiece instanceof Po)) {
             validateEmptyPath(path);
         }
-        validateSameTeamAttack(startPiece, targetPiece);
+        validateSameTeamAttack(selectedPiece, targetPiece);
     }
 
-    private void validateSameTeamAttack(Piece startPiece, Piece targetPiece) {
-        if (targetPiece != null && startPiece.compareTeam(targetPiece)) {
+    private void validateSameTeamAttack(Piece selectedPiece, Piece targetPiece) {
+        if (targetPiece != null && selectedPiece.compareTeam(targetPiece)) {
             throw new IllegalArgumentException("해당 위치는 아군의 말이 있으므로 이동 불가능 합니다.");
         }
     }

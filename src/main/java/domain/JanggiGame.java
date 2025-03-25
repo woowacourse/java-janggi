@@ -20,7 +20,7 @@ public class JanggiGame {
     public void move(List<Integer> startRowAndColumn, List<Integer> targetRowAndColumn) {
         Position startPosition = new Position(startRowAndColumn.getFirst(), startRowAndColumn.getLast());
         Position targetPosition = new Position(targetRowAndColumn.getFirst(), targetRowAndColumn.getLast());
-        validateMovePiece(startPosition, targetPosition);
+        validateSelectedPiece(startPosition, targetPosition);
         janggiBoard.move(startPosition, targetPosition);
         players.nextTurn();
     }
@@ -32,7 +32,7 @@ public class JanggiGame {
         return isChoGungDead || isHanGungDead;
     }
 
-    private void validateMovePiece(Position startPosition, Position targetPosition) {
+    private void validateSelectedPiece(Position startPosition, Position targetPosition) {
         if (!players.isSameTeamThisTurnPlayerAndPiece(janggiBoard.findPiece(startPosition))) {
             throw new IllegalArgumentException("자신의 말만 움직일 수 있습니다.");
         }
