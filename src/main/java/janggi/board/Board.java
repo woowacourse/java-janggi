@@ -33,8 +33,8 @@ public class Board {
     }
 
     private void validatePoint(Point point) {
-        if (point.getX() < 0 || COLUMN <= point.getX() || point.getY() < 0 || ROW <= point.getY()) {
-            throw new IllegalArgumentException("기물의 위치는 9 x 10 영역을 벗어날 수 없습니다.");
+        if (!point.isXInRange(0, COLUMN) || !point.isYInRange(0, ROW)) {
+            throw new IllegalArgumentException(String.format("기물의 위치는 %d x %d 영역을 벗어날 수 없습니다.", COLUMN, ROW));
         }
     }
 

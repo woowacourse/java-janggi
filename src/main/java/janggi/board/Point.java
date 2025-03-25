@@ -28,6 +28,18 @@ public final class Point {
         return Math.abs(this.y - otherPoint.y);
     }
 
+    public boolean isXInRange(int start, int end) {
+        return isWithinRange(this.x, start, end);
+    }
+
+    public boolean isYInRange(int start, int end) {
+        return isWithinRange(this.y, start, end);
+    }
+
+    private boolean isWithinRange(int coordinate, int start, int end) {
+        return start <= coordinate && coordinate < end;
+    }
+
     public int getX() {
         return x;
     }
