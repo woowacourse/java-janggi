@@ -115,6 +115,11 @@ public class Chariot implements Piece {
     }
 
     @Override
+    public boolean canNotJumpOver() {
+        return false;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Chariot chariot = (Chariot) o;

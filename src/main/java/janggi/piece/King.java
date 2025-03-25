@@ -69,6 +69,11 @@ public class King implements Piece {
     }
 
     @Override
+    public boolean canNotJumpOver() {
+        return false;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         King king = (King) o;

@@ -10,4 +10,5 @@ public interface Piece {
     boolean isSameTeam(Team team);
     boolean matchesPosition(Position position);
     boolean isObstacle(List<Position> pathPositions);
+    boolean canNotJumpOver();
 }

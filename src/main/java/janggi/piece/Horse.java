@@ -50,6 +50,11 @@ public class Horse implements Piece {
                 .anyMatch(pathPosition -> pathPosition.equals(position));
     }
 
+    @Override
+    public boolean canNotJumpOver() {
+        return false;
+    }
+
 
     private List<Position> extractPathPositions(List<Movement> availableMovements, Position arrivedPosition) {
         List<Position> pathPositions = new ArrayList<>();

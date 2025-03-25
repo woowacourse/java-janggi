@@ -68,6 +68,11 @@ public class Guard implements Piece {
                 .anyMatch(pathPosition -> pathPosition.equals(position));
     }
 
+    @Override
+    public boolean canNotJumpOver() {
+        return false;
+    }
+
 
     @Override
     public boolean equals(Object o) {

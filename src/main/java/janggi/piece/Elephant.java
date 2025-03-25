@@ -50,6 +50,11 @@ public class Elephant implements Piece {
                  .anyMatch(pathPosition -> pathPosition.equals(position));
     }
 
+    @Override
+    public boolean canNotJumpOver() {
+        return false;
+    }
+
     private List<Position> extractPathPositions(List<Movement> availableMovements, Position arrivedPosition) {
         List<Position> pathPositions = new ArrayList<>();
         for (int i = 0; i < availableMovements.size(); i++) {
