@@ -56,7 +56,7 @@ public abstract class Piece {
         Position current = start;
 
         while (!current.equals(goal)) {
-            current = determianNextPosition(goal, current);
+            current = determineNextPosition(goal, current);
             innerPositions.add(current);
         }
 
@@ -64,7 +64,7 @@ public abstract class Piece {
         return innerPositions;
     }
 
-    private Position determianNextPosition(Position goal, Position current) {
+    private Position determineNextPosition(Position goal, Position current) {
         int columnDifference = current.calculatesColumnDifference(goal);
         int rowDifference = current.calculatesRowDifference(goal);
 
