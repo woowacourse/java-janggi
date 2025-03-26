@@ -1,12 +1,13 @@
 package janggi.domain.piece;
 
 import java.util.Objects;
-import java.util.function.Predicate;
 
 public final class Position {
 
-    private static final Predicate<Integer> X_MOVEABLE = x -> x >= 0 && x < 9;
-    private static final Predicate<Integer> Y_MOVEABLE = y -> y >= 0 && y < 10;
+    private static final int X_MIN_VALUE = 0;
+    private static final int X_MAX_VALUE = 8;
+    private static final int Y_MIN_VALUE = 0;
+    private static final int Y_MAX_VALUE = 9;
 
     private final int x;
     private final int y;
@@ -18,8 +19,11 @@ public final class Position {
     }
 
     private void validate(int x, int y) {
-        if (!X_MOVEABLE.test(x) || !Y_MOVEABLE.test(y)) {
-            throw new IllegalArgumentException("이동할 수 없는 좌표입니다.");
+        if (x < X_MIN_VALUE || x >= X_MAX_VALUE) {
+            throw new IllegalArgumentException("x의 범위가 잘못되었습니다.");
+        }
+        if (y < Y_MIN_VALUE || y >= Y_MAX_VALUE) {
+            throw new IllegalArgumentException("y의 범위가 잘못되었습니다.");
         }
     }
 
