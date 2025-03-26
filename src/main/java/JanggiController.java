@@ -10,6 +10,7 @@ public class JanggiController {
     public void run() {
         JanggiGame game = new JanggiGame();
         startJanggiGame(game);
+        OutputView.printScore();
     }
 
     private void startJanggiGame(JanggiGame game) {
@@ -19,15 +20,13 @@ public class JanggiController {
         while (!game.isEnd()) {
             doJanggiGame(game);
         }
-
-        OutputView.printScore();
     }
 
     private void doJanggiGame(JanggiGame game) {
         boolean validInput = false;
         while (!validInput) {
             try {
-                OutputView.printPlayerTurn(game.getPlayer());
+                OutputView.printCurrentPlayerTurn(game.getPlayer());
                 String[] positions = InputView.inputPositionsWithBlank();
                 JanggiPosition beforePosition = new JanggiPosition(Character.getNumericValue(positions[0].charAt(0)),
                         Character.getNumericValue(positions[0].charAt(1)));

@@ -30,7 +30,7 @@ public class OutputView {
         return piece.getPieceSymbol().getSymbol();
     }
 
-    public static void printPlayerTurn(Player player) {
+    public static void printCurrentPlayerTurn(Player player) {
         System.out.println("이번 차례는 " + changePlayer(player) + "의 차례입니다. (예시 : 01 81)");
     }
 
