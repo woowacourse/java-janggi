@@ -1,20 +1,19 @@
 package domain;
 
-import domain.piece.Piece;
+import domain.piece.category.PieceCategory;
 import domain.spatial.Position;
-import java.util.Map;
-import java.util.Objects;
 
 public class MoveInfo {
 
-    private final Map<Position, Piece> pathPieces;
+    private final Position path;
+    private final PieceCategory pieceCategory;
 
-    public MoveInfo(final Map<Position, Piece> pathPieces) {
-        this.pathPieces = pathPieces;
+    public MoveInfo(final Position path, final PieceCategory pieceCategory) {
+        this.path = path;
+        this.pieceCategory = pieceCategory;
     }
 
-    public boolean isPathInPiece() {
-        return pathPieces.values().stream()
-                .anyMatch(Objects::isNull);
+    public boolean isPieceInPath() {
+        return pieceCategory != PieceCategory.NONE;
     }
 }
