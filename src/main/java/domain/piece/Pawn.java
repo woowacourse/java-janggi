@@ -1,37 +1,33 @@
 package domain.piece;
 
-import domain.Position;
 import domain.Team;
 import java.util.List;
 
-public class Pawn extends Piece {
+public class Pawn extends FixedMovePiece {
 
-    private final List<Move> blueTeamMoves = List.of(Move.FRONT, Move.RIGHT, Move.LEFT);
-    private final List<Move> redTeamMoves = List.of(Move.BACK, Move.RIGHT, Move.LEFT);
+    private final List<Moves> blueTeamMoves = List.of(
+            Moves.createMoves(Move.FRONT),
+            Moves.createMoves(Move.BACK),
+            Moves.createMoves(Move.RIGHT),
+            Moves.createMoves(Move.LEFT)
+    );
+    private final List<Moves> redTeamMoves = List.of(
+            Moves.createMoves(Move.FRONT),
+            Moves.createMoves(Move.BACK),
+            Moves.createMoves(Move.RIGHT),
+            Moves.createMoves(Move.LEFT)
+    );
 
     public Pawn(Team team) {
         super(team);
     }
 
     @Override
-    public List<Position> calculatePath(Position startPosition, Position targetPosition) {
+    public List<Moves> getMoveList() {
         if (this.team == Team.BLUE) {
-            return determinePath(startPosition, targetPosition, blueTeamMoves);
+            return blueTeamMoves;
         }
-        return determinePath(startPosition, targetPosition, redTeamMoves);
-    }
-
-    private List<Position> determinePath(Position startPosition, Position targetPosition, List<Move> moves) {
-        for (Move move : moves) {
-            if (!startPosition.canMovePosition(move)) {
-                continue;
-            }
-            Position newPosition = startPosition.movePosition(move);
-            if (newPosition.equals(targetPosition)) {
-                return List.of();
-            }
-        }
-        throw new IllegalArgumentException("이 위치로 이동할 수 없습니다.");
+        return redTeamMoves;
     }
 
     @Override

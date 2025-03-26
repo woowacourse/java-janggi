@@ -1,29 +1,24 @@
 package domain.piece;
 
-import domain.Position;
 import domain.Team;
 import java.util.List;
 
-public class King extends Piece {
+public class King extends FixedMovePiece {
 
-    private final List<Move> moves = List.of(Move.FRONT, Move.BACK, Move.RIGHT, Move.LEFT);
+    private final List<Moves> moves = List.of(
+            Moves.createMoves(Move.FRONT),
+            Moves.createMoves(Move.BACK),
+            Moves.createMoves(Move.RIGHT),
+            Moves.createMoves(Move.LEFT)
+    );
 
     public King(Team team) {
         super(team);
     }
 
     @Override
-    public List<Position> calculatePath(Position startPosition, Position targetPosition) {
-        for (Move move : moves) {
-            if (!startPosition.canMovePosition(move)) {
-                continue;
-            }
-            Position newPosition = startPosition.movePosition(move);
-            if (newPosition.equals(targetPosition)) {
-                return List.of();
-            }
-        }
-        throw new IllegalArgumentException("이 위치로 이동할 수 없습니다.");
+    public List<Moves> getMoveList() {
+        return moves;
     }
 
     @Override
