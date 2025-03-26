@@ -31,7 +31,7 @@ public final class JanggiController {
     private JanggiGame setupGame() {
         final EnumMap<Team, Integer> elephantLocatorByTeam = new EnumMap<>(Team.class);
         for (final Team team : Team.getActualTeams()) {
-            final int choice = inputView.readChoiceForElephantLocation(team.getName());
+            final int choice = inputView.readChoiceForElephantLocation(team.toString());
             elephantLocatorByTeam.put(team, choice);
         }
         return JanggiGame.setup(elephantLocatorByTeam);
@@ -40,7 +40,7 @@ public final class JanggiController {
     private void processMove(final JanggiGame game) {
         final Team currentTeam = game.getTeamOnCurrentTurn();
         try {
-            final MovementRequestDto movementRequest = inputView.readMovementRequest(currentTeam.getName());
+            final MovementRequestDto movementRequest = inputView.readMovementRequest(currentTeam.toString());
             final Point start = movementRequest.getStartPoint();
             final Point arrival = movementRequest.getArrivalPoint();
             game.move(start, arrival);

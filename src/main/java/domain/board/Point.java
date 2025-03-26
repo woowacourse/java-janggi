@@ -4,6 +4,11 @@ import domain.movements.Direction;
 
 public record Point(int row, int column) {
 
+    @Override
+    public String toString() {
+        return "(" + row + "," + column + ")";
+    }
+
     public Point move(final Direction direction) {
         return new Point(row + direction.getRow(), column + direction.getColumn());
     }
@@ -20,8 +25,5 @@ public record Point(int row, int column) {
         return column >= 0 && row <= maxColumn;
     }
 
-    @Override
-    public String toString() {
-        return "(" + row + "," + column + ")";
-    }
+
 }

@@ -28,6 +28,10 @@ public final class Board {
         movePieceLocation(start, arrival, piece);
     }
 
+    public Map<Point, Piece> getLocations() {
+        return new HashMap<>(locations);
+    }
+
     private Piece getCheckedPieceCanMoveOnStartPoint(final Point start, final Point arrival, final Team team) {
         checkInRangeOnBoard(start, arrival);
         final Piece piece = Optional.ofNullable(locations.get(start))
@@ -83,9 +87,5 @@ public final class Board {
         return new PiecesOnRoute(pointsOnRoute.stream()
                 .map(point -> locations.getOrDefault(point, null))
                 .toList());
-    }
-
-    public Map<Point, Piece> getLocations() {
-        return new HashMap<>(locations);
     }
 }
