@@ -25,26 +25,20 @@ public class JanggiGame {
     }
 
     public void run() {
-        for (Team team : Team.values()) {
-            Player player = gameBoard.findPlayer(team);
-            Point start = requestMoveStartPosition(player);
-            Point end = InputView.requestMoveEndPosition();
-            validateBoardRange(end);
-            validateStartSameDestination(start, end);
-
-            player.move(gameBoard.findAllPieces(), start, end);
+        Team currentTeam = Team.getFirstTurnTeam();
+        while (true) {
             OutputView.printBoard(gameBoard);
-        }
-    }
+            Player player = gameBoard.findPlayer(currentTeam);
+            try {
+                Point start = requestMoveStartPosition(player);
+                Point end = requestMoveEndPosition(start);
 
-    private void validateStartSameDestination(Point start, Point end) {
-        if (start.equals(end)) {
-            throw new IllegalArgumentException("[ERROR] 원래 위치를 선택할 수 없습니다.");
+                player.move(gameBoard.findAllPieces(), start, end);
+                currentTeam = currentTeam.oppsite();
+            } catch (IllegalArgumentException e) {
+                System.err.println(e.getMessage());
+            }
         }
-    }
-
-    public void showInitialBoard() {
-        OutputView.printBoard(gameBoard);
     }
 
     private Point requestMoveStartPosition(Player player) {
@@ -58,6 +52,20 @@ public class JanggiGame {
         }
 
         return start;
+    }
+
+    private Point requestMoveEndPosition(Point start) {
+        Point end = InputView.requestMoveEndPosition();
+        validateBoardRange(end);
+        validateStartSameDestination(start, end);
+
+        return end;
+    }
+
+    private void validateStartSameDestination(Point start, Point end) {
+        if (start.equals(end)) {
+            throw new IllegalArgumentException("[ERROR] 원래 위치를 선택할 수 없습니다.");
+        }
     }
 
     public void validateBoardRange(Point point) {
