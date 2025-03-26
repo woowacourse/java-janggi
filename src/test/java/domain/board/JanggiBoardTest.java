@@ -22,7 +22,7 @@ class JanggiBoardTest {
     @Nested
     class BoardCoordinateTest {
 
-        @DisplayName("보드에 존재하지 않는 기물을 조회하면 에러가 발생한다.")
+        @DisplayName("보드에 존재하지 않는 기물을 조회하면 에러가 발생하지 않는다.")
         @Test
         void findPieceTest() {
             Map<JanggiCoordinate, Piece> map = new HashMap<>();
