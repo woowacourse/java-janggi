@@ -59,17 +59,11 @@ public final class Board {
                 .orElseThrow();
     }
 
-    public void move(final Position prevPosition, final Point newPoint, final Runnable runner) {
-        if (!hasPieceAt(newPoint)) {
-            movePiece(prevPosition, newPoint);
-            return;
+    public void move(final Position prevPosition, final Point newPoint, final Runnable noticeRunner) {
+        if (hasPieceAt(newPoint)) {
+            moveAndCapture(newPoint, prevPosition, noticeRunner);
         }
-
-        if (isAnotherTeam(prevPosition, newPoint)) {
-            captureOtherTeamPiece(newPoint, prevPosition, runner);
-            return;
-        }
-        throw new IllegalArgumentException("해당 위치에 같은 팀 말이 있습니다.");
+        movePiece(prevPosition, newPoint);
     }
 
     public boolean hasPieceAt(final Point point) {
@@ -82,14 +76,18 @@ public final class Board {
         positions.add(prevPosition.getNextPosition(newPoint));
     }
 
-    private boolean isAnotherTeam(final Position prevPosition, final Point newPoint) {
+    private boolean isOtherTeam(final Position prevPosition, final Point newPoint) {
         return prevPosition.isGreenTeam() != findPositionBy(newPoint).isGreenTeam();
     }
 
-    private void captureOtherTeamPiece(final Point newPoint, final Position prevPosition, final Runnable runner) {
-        positions.remove(findPositionBy(newPoint));
-        movePiece(prevPosition, newPoint);
-        runner.run();
+    private void moveAndCapture(final Point newPoint, final Position prevPosition, final Runnable noticeRunner) {
+        if (isOtherTeam(prevPosition, newPoint)) {
+            positions.remove(findPositionBy(newPoint));
+            movePiece(prevPosition, newPoint);
+            noticeRunner.run();
+            return;
+        }
+        throw new IllegalArgumentException("해당 위치에 같은 팀 말이 있습니다.");
     }
 
     public boolean hasOnlyOneGeneral() {
