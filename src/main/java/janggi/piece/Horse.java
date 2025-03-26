@@ -11,32 +11,36 @@ public class Horse extends Piece {
 
     @Override
     public List<Position> calculatePath(final Position start, final Position end) {
-        int differenceX = end.x() - start.x();
-        int differenceY = end.y() - start.y();
-        validateMovingRule(differenceX, differenceY);
-        return List.of(calculateDirection(start, differenceX, differenceY));
+        validateMovingRule(start, end);
+        return findPath(start, end);
     }
 
-    private Position calculateDirection(final Position start, final int differenceX, final int differenceY) {
-        return start.offset(reduceOne(differenceX), reduceOne(differenceY));
+    private void validateMovingRule(final Position start, final Position end) {
+        int absDifferenceX = start.calculateAbsoluteDifferenceX(end);
+        int absDifferenceY = start.calculateAbsoluteDifferenceY(end);
+        if ((absDifferenceX == 2 && absDifferenceY == 1)
+                || (absDifferenceX == 1 && absDifferenceY == 2)) {
+            return;
+        }
+        throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
     }
 
-    private int reduceOne(final int value) {
+    private List<Position> findPath(final Position start, final Position end) {
+        return List.of(calculateFirstPathPosition(start, end));
+    }
+
+    private Position calculateFirstPathPosition(final Position start, final Position end) {
+        int differenceX = start.calculateDifferenceX(end);
+        int differenceY = start.calculateDifferenceY(end);
+        return start.offset(reduceOneTowardZero(differenceX), reduceOneTowardZero(differenceY));
+    }
+
+    private int reduceOneTowardZero(final int value) {
         boolean isNegative = value < 0;
         int absValue = Math.abs(value) - 1;
         if (isNegative) {
             return absValue * -1;
         }
         return absValue;
-    }
-
-    private void validateMovingRule(final int differenceX, final int differenceY) {
-        int absDifferenceX = Math.abs(differenceX);
-        int absDifferenceY = Math.abs(differenceY);
-        if ((absDifferenceX == 2 && absDifferenceY == 1)
-                || (absDifferenceX == 1 && absDifferenceY == 2)) {
-            return;
-        }
-        throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
     }
 }
