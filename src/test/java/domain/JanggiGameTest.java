@@ -8,6 +8,8 @@ import domain.piece.Chariot;
 import domain.piece.Horse;
 import domain.piece.King;
 import domain.piece.Piece;
+import domain.player.Player;
+import domain.player.Players;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

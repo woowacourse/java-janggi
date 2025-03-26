@@ -1,8 +1,8 @@
 package view;
 
-import domain.Player;
-import domain.Players;
 import domain.Team;
+import domain.player.Player;
+import domain.player.Players;
 import java.util.List;
 
 public class Parser {

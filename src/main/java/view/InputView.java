@@ -1,7 +1,6 @@
 package view;
 
-import domain.Player;
-import domain.Team;
+import domain.player.Player;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,13 +16,15 @@ public class InputView {
     }
 
     public List<Integer> readMovePiecePosition(Player player) {
-        System.out.printf("%s(%s)%s%s님이 움직일 말의 좌표를 입력하세요%n", specifyTeamColor(player), player.getTeam(), TextColor.exit,
+        System.out.printf("%s(%s)%s%s님이 움직일 말의 좌표를 입력하세요%n", TextColor.specifyTeamColor(player), player.getTeam(),
+                TextColor.exit,
                 player.getName());
         return readPosition();
     }
 
     public List<Integer> readTargetPosition(Player player) {
-        System.out.printf("%s(%s)%s%s님이 이동할 좌표를 입력하세요%n", specifyTeamColor(player), player.getTeam(), TextColor.exit,
+        System.out.printf("%s(%s)%s%s님이 이동할 좌표를 입력하세요%n", TextColor.specifyTeamColor(player), player.getTeam(),
+                TextColor.exit,
                 player.getName());
         return readPosition();
     }
@@ -34,12 +35,5 @@ public class InputView {
         int row = Integer.parseInt(positions[0].trim());
         int column = Integer.parseInt(positions[1].trim());
         return List.of(row, column);
-    }
-
-    private String specifyTeamColor(Player player) {
-        if (player.getTeam() == Team.BLUE) {
-            return TextColor.blue;
-        }
-        return TextColor.red;
     }
 }

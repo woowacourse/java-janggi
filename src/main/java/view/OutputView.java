@@ -1,10 +1,10 @@
 package view;
 
-import domain.Player;
-import domain.Players;
 import domain.Position;
 import domain.Team;
 import domain.piece.Piece;
+import domain.player.Player;
+import domain.player.Players;
 import java.util.Map;
 
 public class OutputView {
@@ -60,8 +60,9 @@ public class OutputView {
         String result =
                 """
                         왕이 죽었습니다. 게임을 종료합니다.
-                        (%s)팀의 플레이어인 %s님이 게임을 승리하셨습니다.
+                        %s(%s)%s팀의 플레이어인 %s님이 게임을 승리하셨습니다.
                         """;
-        System.out.printf(result, thisTurnPlayer.getTeam(), thisTurnPlayer.getName());
+        System.out.printf(result, TextColor.specifyTeamColor(thisTurnPlayer), thisTurnPlayer.getTeam(), TextColor.exit,
+                thisTurnPlayer.getName());
     }
 }

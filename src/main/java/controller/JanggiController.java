@@ -1,10 +1,10 @@
 package controller;
 
 import domain.JanggiGame;
-import domain.Player;
-import domain.Players;
 import domain.Position;
 import domain.boardgenerator.JanggiBoardGenerator;
+import domain.player.Player;
+import domain.player.Players;
 import java.util.List;
 import view.InputView;
 import view.OutputView;
