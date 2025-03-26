@@ -1,11 +1,13 @@
 package view;
 
+import domain.CommandOption;
 import domain.Player;
 import domain.position.Position;
 import java.util.Scanner;
 import util.PositionConvertor;
 
 public class InputView {
+
     private final Scanner scanner = new Scanner(System.in);
 
     public String getFirstPlayerName() {
@@ -31,6 +33,15 @@ public class InputView {
         System.out.println("4. Left Elephant Setup");
 
         return nextLine();
+    }
+
+    public CommandOption getOptionCommand(Player player) {
+        System.out.printf("%s의 턴입니다. 번호를 선택하세요.\n", player.getName());
+        for (CommandOption option : CommandOption.values()) {
+            System.out.printf("%s. %s\n", option.getCommand(), option.getDescription());
+        }
+
+        return CommandOption.of(nextLine());
     }
 
     public Position getStartPosition(Player player) {

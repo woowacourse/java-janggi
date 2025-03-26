@@ -35,30 +35,47 @@ public class JanggiRunner {
     }
 
     private void executeGame(JanggiGame janggiGame) {
-        TeamType nowTurn = TeamType.CHO;
         while (janggiGame.isInProgress()) {
-            nowTurn = playerTurn(janggiGame, nowTurn);
+            Player currentPlayer = janggiGame.getCurrentPlayer();
+            if (inputCommand(currentPlayer) == CommandOption.UNDO) {
+                janggiGame.undo();
+                continue;
+            }
+            playerTurn(janggiGame);
         }
     }
 
-    private TeamType playerTurn(JanggiGame janggiGame, TeamType nowTurn) {
+    private void playerTurn(JanggiGame janggiGame) {
         try {
-            Player nowPlayer = janggiGame.findPlayerByTeam(nowTurn);
+            Player nowPlayer = janggiGame.getCurrentPlayer();
             Position startPosition = inputView.getStartPosition(nowPlayer);
             Position endPosition = inputView.getEndPosition(nowPlayer);
-            janggiGame.movePiece(startPosition, endPosition, nowTurn);
+            janggiGame.movePiece(startPosition, endPosition);
             outputView.printBoard(janggiGame.getAlivePieces());
-            return findNextTurn(nowTurn);
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
-            return playerTurn(janggiGame, nowTurn);
+            playerTurn(janggiGame);
+        }
+    }
+
+    private CommandOption inputCommand(Player player) {
+        try {
+            return inputView.getOptionCommand(player);
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
+            return inputCommand(player);
         }
     }
 
 
     private void showWinner(JanggiGame janggiGame) {
         Player winner = janggiGame.findWinner();
-        outputView.printWinner(winner);
+        if (janggiGame.isFinishedByCheckmate()) {
+            outputView.printWinner(winner);
+            return;
+        }
+        Map<Player, Double> playerScore = janggiGame.calculatePlayerScore();
+        outputView.printScoreWinner(winner, playerScore);
     }
 
     private JanggiGame initializeGame() {
@@ -90,12 +107,5 @@ public class JanggiRunner {
         String firstPlayerName = inputView.getFirstPlayerName();
         String secondPlayerName = inputView.getSecondPlayerName();
         return new Usernames(firstPlayerName, secondPlayerName);
-    }
-
-    private TeamType findNextTurn(TeamType nowTurn) {
-        if (nowTurn == TeamType.CHO) {
-            return TeamType.HAN;
-        }
-        return TeamType.CHO;
     }
 }

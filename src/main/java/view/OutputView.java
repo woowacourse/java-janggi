@@ -24,6 +24,13 @@ public class OutputView {
         System.out.printf("%s가 승리했습니다!\n", player.getName());
     }
 
+    public void printScoreWinner(Player winner, Map<Player, Double> teamScore) {
+        printWinner(winner);
+        for (Player player : teamScore.keySet()) {
+            System.out.printf("%s: %.1f점\n", player.getName(), teamScore.get(player));
+        }
+    }
+
     private void printBoardInfo(Map<Position, Piece> pieces) {
         for (int row = Row.MAX_ROW; row >= Row.MIN_ROW; row--) {
             printRowInfo(row);

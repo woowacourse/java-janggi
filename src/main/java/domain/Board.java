@@ -70,6 +70,10 @@ public class Board {
         return teamScores;
     }
 
+    public Map<Position, Piece> getAlivePieces() {
+        return new HashMap<>(pieces);
+    }
+
     private static void addHanBonusScore(Map<TeamType, Double> teamScores) {
         teamScores.put(TeamType.HAN, teamScores.get(TeamType.HAN) + HAN_BONUS_SCORE);
     }
@@ -96,10 +100,6 @@ public class Board {
         return !piece.isSameTeam(team);
     }
 
-    public Map<Position, Piece> getAlivePieces() {
-        return new HashMap<>(pieces);
-    }
-
     private double calculateScoreByTeam(TeamType team) {
         return pieces.values().stream()
                 .filter(piece -> piece.isSameTeam(team))
@@ -107,6 +107,4 @@ public class Board {
                 .reduce(Double::sum)
                 .orElse(0.0);
     }
-
-
 }
