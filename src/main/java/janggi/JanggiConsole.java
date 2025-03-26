@@ -2,9 +2,11 @@ package janggi;
 
 import janggi.board.Board;
 import janggi.board.BoardFactory;
+import janggi.board.BoardOrder;
 import janggi.piece.Team;
 import janggi.turn.Turn;
 import janggi.utils.ExceptionHandler;
+import janggi.utils.StringParser;
 import janggi.view.InputView;
 import janggi.view.ResultView;
 
@@ -19,9 +21,7 @@ public class JanggiConsole {
     }
 
     public void start() {
-        final BoardFactory boardFactory = new BoardFactory();
-        final Board board = boardFactory.makeBoard();
-        resultView.printBoard(board.getPieces());
+        final Board board = makeBoard();
         Turn turn = Turn.initialize();
 
         while (board.canContinue()) {
@@ -33,5 +33,14 @@ public class JanggiConsole {
         }
 
         resultView.printJanggiResult(board.findWinningTeam());
+    }
+
+    private Board makeBoard() {
+        final BoardFactory boardFactory = new BoardFactory();
+        final int choOrder = StringParser.parseInt(inputView.readChoBoardOrder());
+        final int hanOrder = StringParser.parseInt(inputView.readHanBoardOrder());
+        final Board board = boardFactory.makeBoard(BoardOrder.from(choOrder), BoardOrder.from(hanOrder));
+        resultView.printBoard(board.getPieces());
+        return board;
     }
 }

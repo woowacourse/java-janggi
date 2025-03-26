@@ -1,13 +1,29 @@
 package janggi.view;
 
+import janggi.piece.Team;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class InputView {
 
     private static final String LINE = System.lineSeparator();
     private static final String BLANK = " ";
+    private static final String BOARD_ORDER_TITLE = """
+            장기 게임을 시작하겠습니다!  \s
+             \s
+            마와 상을 배치할 수 있는 경우의 수는 다음과 같습니다. \s
+            1. 상 마 상 마 \s
+            2. 마 상 마 상 \s
+            3. 상 마 마 상 \s
+            4. 마 상 상 마 \s
+            """;
+    private static final String ASK_BOARD_ORDER = "%s나라의 배치 순서를 선택해주세요.";
+    private static final Map<Team, String> TEAM_KOREAN = Map.of(
+            Team.CHO, "초",
+            Team.HAN, "한"
+    );
 
     private final Scanner scanner;
 
@@ -22,6 +38,20 @@ public class InputView {
                 ex) 71 72""");
         final List<String> tokens = split(readLine());
         return parseInt(tokens);
+    }
+
+    public String readChoBoardOrder() {
+        System.out.println(BOARD_ORDER_TITLE);
+        return readBoardOrder(Team.CHO);
+    }
+
+    public String readHanBoardOrder() {
+        return readBoardOrder(Team.HAN);
+    }
+
+    private String readBoardOrder(final Team team) {
+        System.out.printf(ASK_BOARD_ORDER + LINE, TEAM_KOREAN.get(team));
+        return readLine();
     }
 
     private List<String> split(final String input) {
