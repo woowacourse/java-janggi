@@ -17,11 +17,6 @@ public class JanggiGame {
         return state.getBoard();
     }
 
-//    public Map<JanggiPosition, Piece> end() {
-//        state = state.end();
-//        return state.getBoard();
-//    }
-
     public boolean isEnd() {
         return state.isEnd();
     }
