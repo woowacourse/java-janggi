@@ -79,10 +79,8 @@ public class Board {
     }
 
     public boolean existsPiece(final Point point) {
-        if (!existsPoint(point)) {
-            return false;
-        }
-        return pieceByPoint.containsKey(point);
+        return existsPoint(point)
+                && pieceByPoint.containsKey(point);
     }
 
     public boolean existsPo(final Point point) {

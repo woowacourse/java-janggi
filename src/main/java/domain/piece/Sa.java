@@ -16,7 +16,7 @@ public class Sa extends SlidingPiece {
     }
 
     @Override
-    public int step() {
+    public int maxStep() {
         return 1;
     }
 

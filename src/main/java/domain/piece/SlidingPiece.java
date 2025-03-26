@@ -25,7 +25,7 @@ public abstract class SlidingPiece extends Piece {
                                                   final Board board) {
         List<Point> candidates = new ArrayList<>();
         Point currentPoint = point;
-        for (int stepLeft = step(); stepLeft > 0 && board.existsNextPoint(currentPoint, direction); stepLeft--) {
+        for (int stepLeft = maxStep(); stepLeft > 0 && board.existsNextPoint(currentPoint, direction); stepLeft--) {
             currentPoint = board.getNextPoint(currentPoint, direction);
             if (board.matchTeam(currentPoint, team())) {
                 break;
@@ -40,5 +40,5 @@ public abstract class SlidingPiece extends Piece {
 
     abstract List<Direction> movableDirections();
 
-    abstract int step();
+    abstract int maxStep();
 }
