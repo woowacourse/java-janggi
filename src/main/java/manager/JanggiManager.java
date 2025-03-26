@@ -38,12 +38,13 @@ public class JanggiManager {
         final Map<BoardPosition, Piece> pieces = piecePositionDao.findAll();
         // TODO : JanggiGameDao에 튜플이 존재한다면으로 변경
         if (pieces.isEmpty()) {
+            // TODO : JanggiGameDao를 통해 장기 정보 저장
             return Janggi.initialize();
         }
 
-        // TODO : JanggiGameDao에서 현재 턴을 조회하여 장기 객체 생성하도록 변경
         return new Janggi(
                 new Board(pieces),
+                // TODO : JanggiGameDao에서 현재 턴을 조회하여 장기 객체 생성하도록 변경
                 new Turn(Team.GREEN)
         );
     }

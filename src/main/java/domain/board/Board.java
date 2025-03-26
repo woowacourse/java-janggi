@@ -31,7 +31,7 @@ public class Board {
         changeSelectPieceBoardPosition(selectBoardPosition, destinationBoardPosition);
     }
 
-    public void validateMove(
+    private void validateMove(
             final BoardPosition selectBoardPosition,
             final BoardPosition destinationBoardPosition,
             final Team currentTeam

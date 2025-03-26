@@ -42,5 +42,20 @@ class PiecePositionDaoTest {
             assertThat(piecePositionDao.findAll())
                     .containsExactlyInAnyOrderEntriesOf(pieces);
         }
+
+        @DisplayName("데이터베이스에 저장된 모든 기물 위치 정보를 찾는다.")
+        @Test
+        public void findAll() {
+            // given
+            Board board = Board.initialize();
+            Map<BoardPosition, Piece> pieces = board.getPieces();
+
+            // when
+            piecePositionDao.addAll(pieces);
+
+            // then
+            assertThat(piecePositionDao.findAll())
+                    .containsExactlyInAnyOrderEntriesOf(pieces);
+        }
     }
 }
