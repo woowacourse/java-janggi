@@ -2,6 +2,7 @@ package game.domain.piece;
 
 import game.domain.board.BoardLocation;
 import game.domain.board.BoardVector;
+import java.util.Collections;
 import java.util.List;
 
 public class Pawn extends Piece {
@@ -30,7 +31,7 @@ public class Pawn extends Piece {
 
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
-        return List.of();
+        return Collections.emptyList();
     }
 
     @Override

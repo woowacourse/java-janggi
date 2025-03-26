@@ -1,6 +1,7 @@
 package game.domain.piece;
 
 import game.domain.board.BoardLocation;
+import java.util.Collections;
 import java.util.List;
 
 public class Scholar extends Piece {
@@ -16,7 +17,7 @@ public class Scholar extends Piece {
 
     @Override
     public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
-        return List.of(); //TODO 2단계 궁성 단계에서 처리하도록 하기
+        return Collections.emptyList(); //TODO 2단계 궁성 단계에서 처리하도록 하기
     }
 
     @Override
