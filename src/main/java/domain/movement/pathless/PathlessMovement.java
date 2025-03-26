@@ -18,7 +18,7 @@ public abstract class PathlessMovement extends Movement {
         final Coordinate arrival,
         final PieceSearcher pieceSearcher
     ) {
-        return moveVectors().stream()
+        return moveVectorsAt(departure).stream()
             .map(MoveVector::first)
             .filter(departure::canMove)
             .map(departure::move)

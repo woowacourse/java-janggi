@@ -26,11 +26,11 @@ public abstract class PathMovement extends Movement {
     }
 
     protected final Path findPath(final Coordinate departure, final Coordinate arrival) {
-        for (final var vector : moveVectors()) {
+        for (final var moveVector : moveVectorsAt(departure)) {
             var current = departure;
             final var path = new ArrayList<Coordinate>();
 
-            for (final var moveUnit : vector) {
+            for (final var moveUnit : moveVector) {
                 if (current.canMove(moveUnit)) {
                     var next = current.move(moveUnit);
                     if (next.equals(arrival)) {

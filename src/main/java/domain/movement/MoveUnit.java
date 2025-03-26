@@ -1,5 +1,7 @@
 package domain.movement;
 
+import java.util.Arrays;
+
 public enum MoveUnit {
 
     LEFT(-1, 0),
@@ -20,11 +22,11 @@ public enum MoveUnit {
     }
 
     public boolean isUpDirection() {
-        return deltaY < 0;
+        return deltaY <= 0;
     }
 
     public boolean isDownDirection() {
-        return deltaY > 0;
+        return deltaY >= 0;
     }
 
     public int deltaX() {
@@ -33,5 +35,12 @@ public enum MoveUnit {
 
     public int deltaY() {
         return deltaY;
+    }
+
+    public static MoveUnit getMoveUnit(final int deltaX, final int deltaY) {
+        return Arrays.stream(values())
+            .filter(moveUnit -> moveUnit.deltaX == deltaX && moveUnit.deltaY == deltaY)
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Movement unit not found"));
     }
 }

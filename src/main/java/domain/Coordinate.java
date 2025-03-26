@@ -51,6 +51,13 @@ public record Coordinate(int x, int y) {
         return CASTLE_DIAGONAL_CONNECTIONS.getOrDefault(this, Collections.emptySet());
     }
 
+    public MoveUnit computeMoveUnitToArrival(Coordinate arrival) {
+        int deltaX = arrival.x - this.x;
+        int deltaY = arrival.y - this.y;
+
+        return MoveUnit.getMoveUnit(deltaX, deltaY);
+    }
+
     private boolean isInvalidX(int x) {
         return x < 1 || x > 9;
     }
