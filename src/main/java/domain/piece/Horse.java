@@ -42,6 +42,17 @@ public class Horse extends Piece {
         throw new IllegalArgumentException("이 위치로 이동할 수 없습니다.");
     }
 
+    private boolean comparePath(Position startPosition, Position targetPosition, List<Move> moveList) {
+        Position movedPosition = startPosition;
+        for (Move move : moveList) {
+            if (!movedPosition.canMovePosition(move)) {
+                continue;
+            }
+            movedPosition = movedPosition.movePosition(move);
+        }
+        return movedPosition.equals(targetPosition);
+    }
+
     private List<Position> convertToPath(List<Move> moves, Position startPosition) {
         List<Position> path = new ArrayList<>();
         for (int i = 0; i < moves.size() - 1; i++) {
@@ -49,16 +60,5 @@ public class Horse extends Piece {
             path.add(startPosition);
         }
         return path;
-    }
-
-    private boolean comparePath(Position startPosition, Position targetPosition, List<Move> moveList) {
-        Position movedPosition = startPosition;
-        for (Move move : moveList) {
-            if (!startPosition.canMovePosition(move)) {
-                continue;
-            }
-            movedPosition = movedPosition.movePosition(move);
-        }
-        return movedPosition.equals(targetPosition);
     }
 }
