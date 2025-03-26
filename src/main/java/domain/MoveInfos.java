@@ -21,4 +21,9 @@ public class MoveInfos {
         MoveInfo lastMove = moveInfos.getLast();
         return lastMove.isSamePieceCategory(startPiece);
     }
+
+    public boolean hasSamePieceCategoryInPath(final PieceCategory pieceCategory) {
+        return moveInfos.stream()
+                .anyMatch(moveInfo -> moveInfo.isSamePieceCategory(pieceCategory));
+    }
 }
