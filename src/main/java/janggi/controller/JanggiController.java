@@ -51,17 +51,17 @@ public class JanggiController {
         }
         if (!possibleDestinations.isEmpty()) {
             outputView.printPossibleRoutes(possibleDestinations);
-            UserExceptionHandler.retryUntilSuccess(() -> movePiece(board, selectedPiece, possibleDestinations));
+            UserExceptionHandler.retryUntilSuccess(() -> movePiece(board, selectedPiece));
         }
     }
-    
+
     private Piece selectPiece(Board board) {
         Position position = inputView.inputPiecePosition();
         return board.selectPiece(position);
     }
 
-    private void movePiece(Board board, Piece selectedPiece, Set<Position> possibleDestinations) {
+    private void movePiece(Board board, Piece selectedPiece) {
         Position destination = inputView.inputDestination();
-        board.movePiece(destination, selectedPiece, possibleDestinations);
+        board.movePiece(destination, selectedPiece);
     }
 }

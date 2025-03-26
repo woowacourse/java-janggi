@@ -33,7 +33,8 @@ public class Board {
         return new Routes(routes).getDestinations();
     }
 
-    public void movePiece(final Position position, Piece piece, final Set<Position> possibleDestinations) {
+    public void movePiece(final Position position, final Piece piece) {
+        Set<Position> possibleDestinations = findDestinations(piece);
         if (!possibleDestinations.contains(position)) {
             throw new IllegalArgumentException("움직일 수 없는 위치입니다.");
         }
