@@ -1,8 +1,8 @@
 package domain.board;
 
-import domain.piece.Piece;
 import domain.PieceType;
 import domain.Team;
+import domain.piece.Piece;
 import domain.point.Direction;
 import domain.point.Path;
 import domain.point.PathFinder;
@@ -167,7 +167,7 @@ public class Board implements PieceVisibleBoard {
         return pieceByPoint.get(point);
     }
 
-    public Map<Point, Piece> getPiece() {
+    public Map<Point, Piece> getPieces() {
         return pieceByPoint;
     }
 }
