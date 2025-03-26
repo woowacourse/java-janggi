@@ -14,6 +14,7 @@ import janggi.piece.Team;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import static janggi.fixture.PositionFixture.createPosition;
 
@@ -28,53 +29,33 @@ public class BoardFixture {
 
     private static void initializeRedTeam(Map<Position, Piece> board) {
         Team team = Team.RED;
-        board.put(createPosition(0, 6), new Soldier(team));
-        board.put(createPosition(2, 6), new Soldier(team));
-        board.put(createPosition(4, 6), new Soldier(team));
-        board.put(createPosition(6, 6), new Soldier(team));
-        board.put(createPosition(8, 6), new Soldier(team));
 
-        board.put(createPosition(1, 7), new Canon(team));
-        board.put(createPosition(7, 7), new Canon(team));
-
+        placePieces(board, team, Soldier::new, 6, 0, 2, 4, 6, 8);
+        placePieces(board, team, Canon::new, 7, 1, 7);
         board.put(createPosition(4, 8), new General(team));
-
-        board.put(createPosition(0, 9), new Chariot(team));
-        board.put(createPosition(8, 9), new Chariot(team));
-
-        board.put(createPosition(1, 9), new Elephant(team));
-        board.put(createPosition(6, 9), new Elephant(team));
-
-        board.put(createPosition(2, 9), new Horse(team));
-        board.put(createPosition(7, 9), new Horse(team));
-
-        board.put(createPosition(3, 9), new Guard(team));
-        board.put(createPosition(5, 9), new Guard(team));
+        placePieces(board, team, Chariot::new, 9, 0, 8);
+        placePieces(board, team, Elephant::new, 9, 1, 6);
+        placePieces(board, team, Horse::new, 9, 2, 7);
+        placePieces(board, team, Guard::new, 9, 3, 5);
     }
 
     private static void initializeGreenTeam(Map<Position, Piece> board) {
         Team team = Team.GREEN;
-        board.put(createPosition(0, 3), new Soldier(team));
-        board.put(createPosition(2, 3), new Soldier(team));
-        board.put(createPosition(4, 3), new Soldier(team));
-        board.put(createPosition(6, 3), new Soldier(team));
-        board.put(createPosition(8, 3), new Soldier(team));
 
-        board.put(createPosition(1, 2), new Canon(team));
-        board.put(createPosition(7, 2), new Canon(team));
-
+        placePieces(board, team, Soldier::new, 3, 0, 2, 4, 6, 8);
+        placePieces(board, team, Canon::new, 2, 1, 7);
         board.put(createPosition(4, 1), new General(team));
+        placePieces(board, team, Chariot::new, 0, 0, 8);
+        placePieces(board, team, Elephant::new, 0, 1, 6);
+        placePieces(board, team, Horse::new, 0, 2, 7);
+        placePieces(board, team, Guard::new, 0, 3, 5);
+    }
 
-        board.put(createPosition(0, 0), new Chariot(team));
-        board.put(createPosition(8, 0), new Chariot(team));
-
-        board.put(createPosition(1, 0), new Elephant(team));
-        board.put(createPosition(6, 0), new Elephant(team));
-
-        board.put(createPosition(2, 0), new Horse(team));
-        board.put(createPosition(7, 0), new Horse(team));
-
-        board.put(createPosition(3, 0), new Guard(team));
-        board.put(createPosition(5, 0), new Guard(team));
+    private static void placePieces(Map<Position, Piece> board, Team team,
+                                    Function<Team, Piece> pieceFactory,
+                                    int row, int... columns) {
+        for (int column : columns) {
+            board.put(createPosition(column, row), pieceFactory.apply(team));
+        }
     }
 }
