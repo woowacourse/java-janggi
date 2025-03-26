@@ -60,4 +60,8 @@ public class OutputView {
     public void printError(String message) {
         System.out.println(message);
     }
+
+    public void printWinner(Country winner) {
+        System.out.println("승자는 " + winner.getName() + " 입니다.");
+    }
 }

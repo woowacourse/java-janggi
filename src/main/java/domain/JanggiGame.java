@@ -20,6 +20,17 @@ public class JanggiGame {
         convertPlayerTurn();
     }
 
+    public boolean isGameOver() {
+        return !board.isChoGungAlive() || !board.isHanGungAlive();
+    }
+
+    public Country getWinner() {
+        if (board.isHanGungAlive()) {
+            return Country.HAN;
+        }
+        return Country.CHO;
+    }
+
     private void validatePieceMove(Piece piece, JanggiCoordinate from, JanggiCoordinate to) {
         validatePlayerTurnPiece(from, piece.getCountry());
         piece.validateDestination(board, from, to);

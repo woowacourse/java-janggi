@@ -19,7 +19,7 @@ public class JanggiController {
     public void startJanggiGame() {
         JanggiGame game = new JanggiGame(PieceInitializer.init());
 
-        while (true) {
+        while (!game.isGameOver()) {
             try {
                 outputView.printCurrBoard(game.getBoard());
                 outputView.printCurrTurn(game.getCurrTurn());
@@ -30,5 +30,7 @@ public class JanggiController {
                 outputView.printError(e.getMessage());
             }
         }
+
+        outputView.printWinner(game.getWinner());
     }
 }

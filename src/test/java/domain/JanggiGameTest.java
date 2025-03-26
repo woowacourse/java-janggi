@@ -146,4 +146,28 @@ class JanggiGameTest {
             );
         }
     }
+
+    @Nested
+    class PlayerWinnerTest {
+
+        @DisplayName("궁을 처치한 나라가 승리한다")
+        @Test
+        void janggiWinningTest() {
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+
+            Piece choPiece = new Gung(Country.CHO);
+            JanggiCoordinate choCoordinate = new JanggiCoordinate(3, 4);
+            map.put(choCoordinate, choPiece);
+
+            Piece hanPiece = new Gung(Country.HAN);
+            JanggiCoordinate hanCoordinate = new JanggiCoordinate(3, 3);
+            map.put(hanCoordinate, hanPiece);
+
+            JanggiGame janggiGame = new JanggiGame(map);
+
+            janggiGame.movePlayerPiece(choCoordinate, hanCoordinate);
+
+            assertThat(janggiGame.getWinner()).isEqualTo(Country.CHO);
+        }
+    }
 }
