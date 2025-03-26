@@ -38,7 +38,7 @@ public class Input {
 
     public Map.Entry<Position, Position> readMoveablePiece() {
         System.out.println("움직일 기물의 출발 위치 및 도착 위치를 입력해주세요.");
-        System.out.println("ex) 1,1 1,2"); //출발 좌표가 해당 기물의 종류가 맞는지 검증 필요
+        System.out.println("ex) 1,1 1,2"); // TODO 출발 좌표가 해당 기물의 종류가 맞는지 검증 필요
         String[] splitInput = scanner.nextLine().split(" ");
         Position startPosition = convertToPosition(splitInput[0].split(","));
         Position arrivedPosition = convertToPosition(splitInput[1].split(","));

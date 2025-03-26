@@ -10,14 +10,15 @@ import java.util.Objects;
 
 public class Cannon implements Piece {
 
-    private final Team team;
-    private Position position;
-    private final List<List<Movement>> movements = List.of(
+    private static final List<List<Movement>> movements = List.of(
             Collections.nCopies(10, Movement.UP),
             Collections.nCopies(10, Movement.DOWN),
             Collections.nCopies(10, Movement.RIGHT),
             Collections.nCopies(10, Movement.LEFT)
     );
+
+    private final Team team;
+    private Position position;
 
     public Cannon(Team team, Position position) {
         this.team = team;

@@ -12,7 +12,6 @@ public enum Movement {
     LEFT_UP(LEFT.row + UP.row, LEFT.column + UP.column),
     LEFT_DOWN(LEFT.row + DOWN.row, LEFT.column + DOWN.column);
 
-
     private final int row;
     private final int column;
 

@@ -8,9 +8,7 @@ import java.util.Objects;
 
 public class King implements Piece {
 
-    private final Team team;
-    private Position position;
-    private final List<Movement> movements = List.of(
+    private static final List<Movement> movements = List.of(
             Movement.UP,
             Movement.DOWN,
             Movement.RIGHT,
@@ -20,6 +18,9 @@ public class King implements Piece {
             Movement.LEFT_UP,
             Movement.LEFT_DOWN
     );
+
+    private final Team team;
+    private Position position;
 
     public King(Team team, Position position) {
         this.team = team;

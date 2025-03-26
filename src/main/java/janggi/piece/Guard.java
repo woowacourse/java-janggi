@@ -8,9 +8,7 @@ import java.util.Objects;
 
 public class Guard implements Piece {
 
-    private final Team team;
-    private Position position;
-    private final List<Movement> movements = List.of(
+    private static final List<Movement> movements = List.of(
             Movement.UP,
             Movement.DOWN,
             Movement.RIGHT,
@@ -20,6 +18,9 @@ public class Guard implements Piece {
             Movement.LEFT_UP,
             Movement.LEFT_DOWN
     );
+
+    private final Team team;
+    private Position position;
 
     public Guard(Team team, Position position) {
         this.team = team;

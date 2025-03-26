@@ -11,15 +11,15 @@ import java.util.Objects;
 public class Chariot implements Piece {
 
     private static final int POSSIBLE_MOVEMENT_COUNT = 10;
-
-    private final Team team;
-    private Position position;
-    private final List<List<Movement>> movements = List.of(
+    private static final List<List<Movement>> movements = List.of(
             Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.UP),
             Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.DOWN),
             Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.RIGHT),
             Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.LEFT)
     );
+
+    private final Team team;
+    private Position position;
 
     public Chariot(Team team, Position position) {
         this.team = team;

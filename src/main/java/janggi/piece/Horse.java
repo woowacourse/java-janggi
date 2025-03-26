@@ -9,9 +9,7 @@ import java.util.Objects;
 
 public class Horse implements Piece {
 
-    private final Team team;
-    private Position position;
-    private final List<List<Movement>> movements = List.of(
+    private static final List<List<Movement>> movements = List.of(
             List.of(Movement.UP, Movement.RIGHT_UP),
             List.of(Movement.UP, Movement.LEFT_UP),
             List.of(Movement.LEFT, Movement.LEFT_UP),
@@ -21,6 +19,9 @@ public class Horse implements Piece {
             List.of(Movement.DOWN, Movement.RIGHT_DOWN),
             List.of(Movement.DOWN, Movement.LEFT_DOWN)
     );
+
+    private final Team team;
+    private Position position;
 
     public Horse(Team team, Position position) {
         this.team = team;
