@@ -21,7 +21,7 @@ class PoTest {
         Po po = new Po(position);
 
         //then
-        assertThat(po.getBoardPosition()).isEqualTo(new Position(4, 5));
+        assertThat(po.getPosition()).isEqualTo(new Position(4, 5));
     }
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")

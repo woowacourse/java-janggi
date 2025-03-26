@@ -20,8 +20,8 @@ public class Po extends Piece {
         int dRow = getPosition().calculateDRow(destination);
         int dCol = getPosition().calculateDCol(destination);
 
-        int presentCol = getBoardPosition().getCol();
-        int presentRow = getBoardPosition().getRow();
+        int presentCol = getPosition().getCol();
+        int presentRow = getPosition().getRow();
 
         if (getPosition().isLeftward(dRow, dCol)) {
             addLeftwardRoute(dCol, route, presentRow, presentCol);

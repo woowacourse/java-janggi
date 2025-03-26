@@ -42,16 +42,16 @@ public class Player {
         return pieces.hasJanggun();
     }
 
-    public Pieces getPieces() {
-        return pieces;
-    }
-
     public Boolean isPoAt(final Position presentPosition) {
         return pieces.isPoAt(presentPosition);
     }
 
     public Boolean isExistPoInRoute(final Positions route) {
         return pieces.isExistPoInRoute(route);
+    }
+
+    public Pieces getPieces() {
+        return pieces;
     }
 
 }

@@ -21,10 +21,6 @@ public abstract class Piece {
         this.position = position;
     }
 
-    public Position getBoardPosition() {
-        return position;
-    }
-
     public Position getPosition() {
         return position;
     }
