@@ -39,14 +39,9 @@ public class OutputView {
                 }
 
                 JanggiCoordinate coordinate = new JanggiCoordinate(row, col);
-                if (board.isOccupied(coordinate) && isCho(board, coordinate)) {
+                if (board.isOccupied(coordinate)) {
                     Piece piece = board.findPieceByCoordinate(coordinate);
-                    System.out.print(GREEN + piece.getPieceType().getName() + " " + RESET);
-                    continue;
-                }
-                if (board.isOccupied(coordinate) && !isCho(board, coordinate)) {
-                    Piece piece = board.findPieceByCoordinate(coordinate);
-                    System.out.print(RED + piece.getPieceType().getName() + " " + RESET);
+                    System.out.print(getColorBy(piece) + " " + RESET);
                     continue;
                 }
                 System.out.print("＿ ");
@@ -55,8 +50,11 @@ public class OutputView {
         }
     }
 
-    private boolean isCho(JanggiBoard board, JanggiCoordinate coordinate) {
-        return board.findPieceByCoordinate(coordinate).getCountry() == Country.CHO;
+    private String getColorBy(Piece piece) {
+        if (piece.getCountry() == Country.CHO) {
+            return GREEN + piece.getPieceType().getName();
+        }
+        return RED + piece.getPieceType().getName();
     }
 
     public void printError(String message) {
