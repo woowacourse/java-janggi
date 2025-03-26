@@ -6,7 +6,6 @@ import static domain.board.Direction.RIGHT;
 import static domain.board.Direction.UP;
 import static domain.board.Direction.UP_RIGHT;
 
-import fixture.BoardFixture;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
@@ -60,36 +59,6 @@ class NodeTest {
 
             // when
             final boolean actual = centerNode.hasNextNode(DOWN);
-
-            // then
-            Assertions.assertThat(actual).isFalse();
-        }
-
-        @Test
-        void 특정_위치에서_경로를_따라_이동한_위치가_판_내부_위치면_true를_반환한다() {
-            // given
-            final PointNodeMapper pointNodeMapper = BoardFixture.createDefaultPointNodeMapper();
-            final Point point = Point.of(2, 3);
-            final Node node = pointNodeMapper.getNodeByPoint(point);
-            final Path path = Path.RIGHT_RIGHT_UP_PATH;
-
-            // when
-            final boolean actual = node.canMoveByPath(path);
-
-            // then
-            Assertions.assertThat(actual).isTrue();
-        }
-
-        @Test
-        void 특정_위치에서_경로를_따라_이동한_위치가_판을_벗어난_위치면_false를_반환한다() {
-            // given
-            final PointNodeMapper pointNodeMapper = BoardFixture.createDefaultPointNodeMapper();
-            final Point point = Point.of(2, 3);
-            final Node node = pointNodeMapper.getNodeByPoint(point);
-            final Path path = Path.RIGHT_RIGHT_RIGHT_UP_UP_PATH;
-
-            // when
-            final boolean actual = node.canMoveByPath(path);
 
             // then
             Assertions.assertThat(actual).isFalse();

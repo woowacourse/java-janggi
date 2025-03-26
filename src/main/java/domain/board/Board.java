@@ -14,11 +14,11 @@ public class Board {
 
     private final Map<Point, Piece> pieceByPoint;
 
-    private final PointNodeMapper pointNodeMapper;
+    private final PathFinder pathFinder;
 
-    public Board(final Map<Point, Piece> pieceByPoint, final PointNodeMapper pointNodeMapper) {
+    public Board(final Map<Point, Piece> pieceByPoint, final PathFinder pathFinder) {
         this.pieceByPoint = pieceByPoint;
-        this.pointNodeMapper = pointNodeMapper;
+        this.pathFinder = pathFinder;
     }
 
     public boolean isPlaying() {
@@ -119,29 +119,24 @@ public class Board {
         if (!existsPoint(point)) {
             return false;
         }
-        Node node = pointNodeMapper.getNodeByPoint(point);
-        return node.hasNextNode(direction);
+        return pathFinder.hasNextPoint(point, direction);
     }
 
     public Point getNextPoint(final Point point, final Direction direction) {
         validatePoint(point);
-        Node node = pointNodeMapper.getNodeByPoint(point);
-        Node nextNode = node.getNextNodeByDirection(direction);
-        return pointNodeMapper.getPointByNode(nextNode);
+        return pathFinder.getNextPoint(point, direction);
     }
 
     public boolean canMoveByPath(final Point point, final Path path) {
         if (!existsPoint(point)) {
             return false;
         }
-        Node node = pointNodeMapper.getNodeByPoint(point);
-        return node.canMoveByPath(path);
+        return pathFinder.canMoveByPath(point, path);
     }
 
     public Point getPointMovedByPath(final Point point, final Path path) {
         validatePoint(point);
-        Node node = pointNodeMapper.getNodeByPoint(point);
-        return pointNodeMapper.getPointByNode(node.getNodeMovedByPath(path));
+        return pathFinder.getPointMovedByPath(point, path);
     }
 
     private void validatePoint(final Point point) {
@@ -158,7 +153,7 @@ public class Board {
     }
 
     private boolean existsPoint(final Point point) {
-        return pointNodeMapper.existsPoint(point);
+        return pathFinder.existsPoint(point);
     }
 
     private Piece getPiece(final Point point) {

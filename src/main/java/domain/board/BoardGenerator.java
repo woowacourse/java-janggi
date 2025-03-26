@@ -22,11 +22,11 @@ public class BoardGenerator {
 
     public Board generateBoard(final SangMaOrderCommand hanSangMaOrderCommand,
                                final SangMaOrderCommand choSangMaOrderCommand) {
-        PointNodeMapperFactory pointNodeMapperFactory = new PointNodeMapperFactory();
-        PointNodeMapper pointNodeMapper = pointNodeMapperFactory.createDefaultPointNodeMapper();
+        PathFinderFactory pathFinderFactory = new PathFinderFactory();
+        PathFinder pathFinder = pathFinderFactory.createDefaultPathFinder();
         Map<Point, Piece> pieceByPoint = createPieces(hanSangMaOrderCommand, choSangMaOrderCommand);
 
-        return new Board(pieceByPoint, pointNodeMapper);
+        return new Board(pieceByPoint, pathFinder);
     }
 
     private Map<Point, Piece> createPieces(

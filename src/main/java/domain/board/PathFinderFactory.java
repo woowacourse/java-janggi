@@ -11,18 +11,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PointNodeMapperFactory {
+public class PathFinderFactory {
 
     private static final Point HAN_WANG_POINT = Point.of(2, 5);
     private static final Point CHO_WANG_POINT = Point.of(9, 5);
 
-    public PointNodeMapper createDefaultPointNodeMapper() {
+    public PathFinder createDefaultPathFinder() {
         Map<Point, Node> nodeByPoint = new HashMap<>();
 
         createAllNodes(nodeByPoint);
         createAllEdges(nodeByPoint);
 
-        return new PointNodeMapper(nodeByPoint);
+        return new PathFinder(nodeByPoint);
     }
 
     private void createAllNodes(Map<Point, Node> nodeByPoint) {
