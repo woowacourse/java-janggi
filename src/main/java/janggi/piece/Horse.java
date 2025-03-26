@@ -6,8 +6,10 @@ import java.util.Map;
 
 public class Horse extends Piece {
 
+    private static final int HORSE_SCORE = 5;
+
     public Horse(final Side side) {
-        super(side);
+        super(side, HORSE_SCORE);
     }
 
     @Override

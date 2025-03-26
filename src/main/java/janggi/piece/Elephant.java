@@ -6,8 +6,10 @@ import java.util.Map;
 
 public class Elephant extends Piece {
 
+    private static final int ELEPHANT_SCORE = 3;
+
     public Elephant(final Side side) {
-        super(side);
+        super(side, ELEPHANT_SCORE);
     }
 
     @Override

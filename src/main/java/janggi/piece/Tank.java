@@ -6,8 +6,10 @@ import java.util.Map;
 
 public class Tank extends Piece {
 
+    private static final int TANK_SCORE = 7;
+
     public Tank(final Side side) {
-        super(side);
+        super(side, TANK_SCORE);
     }
 
     @Override

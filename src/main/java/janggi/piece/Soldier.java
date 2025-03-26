@@ -5,8 +5,10 @@ import java.util.Map;
 
 public class Soldier extends Piece {
 
+    private static final int SOLDIER_SCORE = 2;
+
     public Soldier(final Side side) {
-        super(side);
+        super(side, SOLDIER_SCORE);
     }
 
     @Override

@@ -6,8 +6,10 @@ import java.util.Map;
 
 public class Cannon extends Piece {
 
+    private static final int CANNON_SCORE = 7;
+
     public Cannon(final Side side) {
-        super(side);
+        super(side, CANNON_SCORE);
     }
 
     @Override

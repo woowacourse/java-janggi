@@ -6,9 +6,11 @@ import java.util.Map;
 public abstract class Piece {
 
     protected final Side side;
+    protected final int score;
 
-    public Piece(final Side side) {
+    public Piece(final Side side, int score) {
         this.side = side;
+        this.score = score;
     }
 
     public boolean isSameSide(final Piece other) {
@@ -21,6 +23,10 @@ public abstract class Piece {
 
     public Side getSide() {
         return side;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public abstract boolean canMove(final Position start, final Position end, Map<Position, Piece> board);
