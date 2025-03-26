@@ -22,11 +22,18 @@ public class Guard extends Piece {
 
     @Override
     protected boolean isMoveablePosition(Position destination) {
-        return false;
+        if (!destination.isPalace()) return false;
+        int xDistance = position.getXDistance(destination);
+        int yDistance = position.getYDistance(destination);
+        return xDistance <= 1 && yDistance <= 1;
     }
 
     @Override
     protected boolean isMoveablePath(List<Piece> existingPieces, Position destination) {
-        return false;
+        if (!isMoveablePosition(destination)) return false;
+
+        return existingPieces.stream()
+            .filter(piece -> piece.isSamePosition(destination))
+            .noneMatch(piece -> piece.getSide() == side);
     }
 }
