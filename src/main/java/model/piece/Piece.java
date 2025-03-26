@@ -42,7 +42,12 @@ public abstract class Piece implements Hierarchy {
 
     public abstract boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot);
 
-    public PieceInfo getPieceName() {
-        return pieceInfo;
+    public String getPieceName() {
+        return pieceInfo.getName();
     }
+
+    public double getPieceScore() {
+        return pieceInfo.getScore();
+    }
+
 }

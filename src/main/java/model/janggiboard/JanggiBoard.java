@@ -55,19 +55,19 @@ public class JanggiBoard {
 
     public boolean isCriticalPoint(Point targetPoint, Team myTeam) {
         if (getDot(targetPoint).isPlaced()) {
-            Piece targetPiece = getPieceFromDot(targetPoint);
+            Piece targetPiece = getPieceFromPoint(targetPoint);
             return targetPiece.isCriticalPiece() && targetPiece.getTeam() != myTeam;
         }
         return false;
     }
 
-    private Piece getPieceFromDot(Point targetPoint) {
+    private Piece getPieceFromPoint(Point targetPoint) {
         return getDot(targetPoint).findPiece()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 점에는 장기말이 없습니다."));
     }
 
     public boolean movePiece(Point beforePoint, Point targetPoint) {
-        Piece beforePiece = getPieceFromDot(beforePoint);
+        Piece beforePiece = getPieceFromPoint(beforePoint);
         validateAfterPoint(beforePoint, targetPoint, beforePiece);
         Path path = beforePiece.calculatePath(beforePoint, targetPoint);
         Map<Piece, Boolean> piecesOnPathWithTargetOrNot = getPiecesOnPath(path, targetPoint);
@@ -86,11 +86,10 @@ public class JanggiBoard {
         }
     }
 
-    private Dot getDot(Point point) {
-        if (point.x() < 0 || point.y() < 0 || point.x() > HORIZONTAL_SIZE - 1 || point.y() > VERTICAL_SIZE - 1) {
-            throw new IllegalArgumentException("[ERROR] 장기판을 벗어난 좌표입니다.");
-        }
-        return janggiBoard.get(point.y()).get(point.x());
+    public boolean isNotMyTeamPoint(Point beforePoint, Team team) {
+        return getDot(beforePoint).findPiece()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 점에는 장기말이 없습니다."))
+                .getTeam() != team;
     }
 
     private Map<Piece, Boolean> getPiecesOnPath(Path path, Point targetPoint) {
@@ -104,7 +103,7 @@ public class JanggiBoard {
     private void addPiecesOnPathWithTargetOrNot(Point targetPoint, Point point,
                                                 Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
         if (getDot(point).isPlaced()) {
-            Piece piece = getPieceFromDot(point);
+            Piece piece = getPieceFromPoint(point);
             if (point.equals(targetPoint)) {
                 piecesOnPathWithTargetOrNot.put(piece, true);
                 return;
@@ -113,13 +112,31 @@ public class JanggiBoard {
         }
     }
 
-    public List<List<Dot>> getJanggiBoard() {
-        return janggiBoard;
+    private Dot getDot(Point point) {
+        if (point.x() < 0 || point.y() < 0 || point.x() > HORIZONTAL_SIZE - 1 || point.y() > VERTICAL_SIZE - 1) {
+            throw new IllegalArgumentException("[ERROR] 장기판을 벗어난 좌표입니다.");
+        }
+        return janggiBoard.get(point.y()).get(point.x());
     }
 
-    public boolean isNotMyTeamPoint(Point beforePoint, Team team) {
-        return getDot(beforePoint).findPiece()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 점에는 장기말이 없습니다."))
-                .getTeam() != team;
+    public double getTotalScore(Team team) {
+        double total = 0;
+        for (List<Dot> row : janggiBoard) {
+            total += row.stream().filter(dot -> dot.isPlaced() && getPieceFromDot(dot).getTeam() == team)
+                    .mapToDouble(dot -> getPieceFromDot(dot).getPieceScore()).sum();
+        }
+        if (team == Team.RED) {
+            total += 1.5;
+        }
+        return total;
+    }
+
+    private Piece getPieceFromDot(Dot dot) {
+        return dot.findPiece()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 점에는 장기말이 없습니다."));
+    }
+
+    public List<List<Dot>> getJanggiBoard() {
+        return janggiBoard;
     }
 }

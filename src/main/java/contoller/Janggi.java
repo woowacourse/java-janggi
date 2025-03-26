@@ -8,8 +8,9 @@ import static model.janggiboard.JanggiBoardSetUp.OUTER_ELEPHANT;
 import static model.janggiboard.JanggiBoardSetUp.RIGHT_ELEPHANT;
 import static view.InputView.choiceSetUp;
 import static view.InputView.movePointInput;
-import static view.OutputVIew.displayErrorMessage;
 import static view.OutputVIew.displayJanggiBoard;
+import static view.OutputVIew.displayTotalScore;
+import static view.OutputVIew.printErrorMessage;
 
 import java.util.List;
 import model.Point;
@@ -27,15 +28,15 @@ public class Janggi {
             case 4 -> new JanggiBoard(RIGHT_ELEPHANT);
             default -> throw new IllegalArgumentException("다시 입력하세요.");
         };
-
-        displayJanggiBoard(janggiBoard);
         playerTurn(janggiBoard);
     }
 
     private void playerTurn(JanggiBoard janggiBoard) {
         boolean isGameOver = false;
         boolean choTurn = true;
-        while (!isGameOver) {
+        do {
+            displayTotalScore(janggiBoard.getTotalScore(BLUE), janggiBoard.getTotalScore(RED));
+            displayJanggiBoard(janggiBoard);
             Team team = decideTeam(choTurn);
             try {
                 List<Point> movePoints = movePointInput(team);
@@ -49,11 +50,12 @@ public class Janggi {
                 }
                 choTurn = !choTurn;
             } catch (IllegalArgumentException e) {
-                displayErrorMessage(e.getMessage());
+                printErrorMessage(e.getMessage());
             }
-            displayJanggiBoard(janggiBoard);
-        }
+        } while (!isGameOver);
+
     }
+
 
     private Team decideTeam(boolean choTurn) {
         if (choTurn) {

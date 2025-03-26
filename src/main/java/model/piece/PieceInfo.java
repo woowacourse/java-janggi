@@ -10,9 +10,9 @@ public enum PieceInfo {
     BYEONG("兵", 2);
 
     private final String name;
-    private final int score;
+    private final double score;
 
-    PieceInfo(String name, int score) {
+    PieceInfo(String name, long score) {
         this.name = name;
         this.score = score;
     }
@@ -21,7 +21,7 @@ public enum PieceInfo {
         return name;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 }
