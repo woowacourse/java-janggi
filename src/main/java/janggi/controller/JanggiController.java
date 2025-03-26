@@ -5,6 +5,7 @@ import janggi.domain.Country;
 import janggi.domain.StartingPosition;
 import janggi.domain.piece.Piece;
 import janggi.dto.CommandType;
+import janggi.dto.GameStartType;
 import janggi.dto.MoveDto;
 import janggi.infra.repository.piece_repository.PieceRepository;
 import janggi.infra.repository.turn_repository.TurnRepository;
@@ -35,13 +36,15 @@ public class JanggiController {
             outputView.outputBoard(board.getBoard());
             outputView.outputScore(board.getCurrentCountry(), board.getCurrentTeamScore());
             final CommandType type = inputView.inputCommand(board.getCurrentCountry());
-            if (type == CommandType.MOVE) {
-                final MoveDto dto = inputView.inputMove();
-                board.move(dto.startPosition(), dto.endPosition());
-            }
-            if (type == CommandType.SAVE) {
-                saveGame(board);
-                return;
+            switch (type) {
+                case MOVE -> {
+                    final MoveDto dto = inputView.inputMove();
+                    board.move(dto.startPosition(), dto.endPosition());
+                }
+                case SAVE -> {
+                    saveGame(board);
+                    return;
+                }
             }
         }
 
@@ -50,19 +53,20 @@ public class JanggiController {
     }
 
     private Board initializeBoard() {
-        final CommandType type = inputView.getStartType();
-        if (type == CommandType.CONTINUE) {
-            final int number = inputView.getStartFileNumber();
-            final Map<Country, List<Piece>> allPieces = pieceRepository.findAllPieces(number);
-            final Country turn = turnRepository.findNextTurn(number);
-            return Board.continueWith(allPieces, turn);
-        }
-        if (type == CommandType.NEW_GAME) {
-            final StartingPosition choStartingPosition = inputView.getStartPositionOf(Country.CHO);
-            final StartingPosition hanStartingPosition = inputView.getStartPositionOf(Country.HAN);
-            return Board.start(choStartingPosition, hanStartingPosition);
-        }
-        throw new IllegalStateException();
+        final GameStartType type = inputView.getStartType();
+        return switch (type) {
+            case NEW_GAME -> {
+                final int number = inputView.getStartFileNumber();
+                final Map<Country, List<Piece>> allPieces = pieceRepository.findAllPieces(number);
+                final Country turn = turnRepository.findNextTurn(number);
+                yield Board.continueWith(allPieces, turn);
+            }
+            case CONTINUE -> {
+                final StartingPosition choStartingPosition = inputView.getStartPositionOf(Country.CHO);
+                final StartingPosition hanStartingPosition = inputView.getStartPositionOf(Country.HAN);
+                yield Board.start(choStartingPosition, hanStartingPosition);
+            }
+        };
     }
 
     private void saveGame(final Board board) {
