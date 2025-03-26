@@ -13,8 +13,26 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class CannonTest {
+
+    @Test
+    @DisplayName("2개의 포가 올바른 위치에 초기화 될 수 있다")
+    void defaultsOf() {
+        // given
+        // when
+        List<Cannon> ChoCannons = Cannon.defaultsOf(Team.CHO);
+        List<Cannon> HanCannons = Cannon.defaultsOf(Team.HAN);
+
+        // then
+        assertAll(() -> {
+            assertThat(ChoCannons.get(0).position).isEqualTo(Position.of(Team.decideRow(3, Team.CHO), 2));
+            assertThat(ChoCannons.get(1).position).isEqualTo(Position.of(Team.decideRow(3, Team.CHO), 8));
+            assertThat(HanCannons.get(0).position).isEqualTo(Position.of(Team.decideRow(3, Team.HAN), 2));
+            assertThat(HanCannons.get(1).position).isEqualTo(Position.of(Team.decideRow(3, Team.HAN), 8));
+        });
+    }
 
     @ParameterizedTest
     @CsvSource(value = {"2,0", "3,0", "4,0", "5,0", "0,2", "0,3", "0,4"})

@@ -15,6 +15,19 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class GeneralTest {
 
     @Test
+    @DisplayName("궁은 올바른 위치에 초기화 될 수 있다")
+    void defaultsOf() {
+        // given
+        // when
+        General choGeneral = General.defaultOf(Team.CHO);
+        General hanGeneral = General.defaultOf(Team.HAN);
+
+        // then
+        assertThat(choGeneral.position).isEqualTo(Position.of(Team.decideRow(2, Team.CHO), 5));
+        assertThat(hanGeneral.position).isEqualTo(Position.of(Team.decideRow(2, Team.HAN), 5));
+    }
+
+    @Test
     @DisplayName("궁은 수직/수평으로 1칸 이동할 수 있다")
     void move() {
         // given

@@ -5,6 +5,7 @@ import janggi.Team;
 import janggi.coordinate.Position;
 import janggi.coordinate.Vector;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -12,8 +13,32 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class SoldierTest {
+
+    @Test
+    @DisplayName("5개의 졸/병은 올바른 위치에 초기화 될 수 있다")
+    void defaultsOf() {
+        // given
+        // when
+        List<Soldier> ChoSoldiers = Soldier.defaultsOf(Team.CHO);
+        List<Soldier> HanSoldiers = Soldier.defaultsOf(Team.HAN);
+
+        // then
+        assertAll(() -> {
+            assertThat(ChoSoldiers.get(0).position).isEqualTo(Position.of(Team.decideRow(4, Team.CHO), 1));
+            assertThat(ChoSoldiers.get(1).position).isEqualTo(Position.of(Team.decideRow(4, Team.CHO), 3));
+            assertThat(ChoSoldiers.get(2).position).isEqualTo(Position.of(Team.decideRow(4, Team.CHO), 5));
+            assertThat(ChoSoldiers.get(3).position).isEqualTo(Position.of(Team.decideRow(4, Team.CHO), 7));
+            assertThat(ChoSoldiers.get(4).position).isEqualTo(Position.of(Team.decideRow(4, Team.CHO), 9));
+            assertThat(HanSoldiers.get(0).position).isEqualTo(Position.of(Team.decideRow(4, Team.HAN), 1));
+            assertThat(HanSoldiers.get(1).position).isEqualTo(Position.of(Team.decideRow(4, Team.HAN), 3));
+            assertThat(HanSoldiers.get(2).position).isEqualTo(Position.of(Team.decideRow(4, Team.HAN), 5));
+            assertThat(HanSoldiers.get(3).position).isEqualTo(Position.of(Team.decideRow(4, Team.HAN), 7));
+            assertThat(HanSoldiers.get(4).position).isEqualTo(Position.of(Team.decideRow(4, Team.HAN), 9));
+        });
+    }
 
     @ParameterizedTest
     @CsvSource(value = {"1, 0, HAN", "0, 1, HAN", "0,-1, HAN", "0, -1, CHO", "0, 1, CHO", "-1, 0, CHO"})

@@ -5,6 +5,7 @@ import janggi.Team;
 import janggi.coordinate.Position;
 import janggi.coordinate.Vector;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -12,8 +13,27 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ChariotTest {
+
+    @Test
+    @DisplayName("2개의 차가 올바른 위치에 초기화 될 수 있다")
+    void defaultsOf() {
+        // given
+        // when
+        List<Chariot> ChoChariots = Chariot.defaultsOf(Team.CHO);
+        List<Chariot> HanChariots = Chariot.defaultsOf(Team.HAN);
+
+        // then
+        assertAll(() -> {
+            assertThat(ChoChariots.get(0).position).isEqualTo(Position.of(Team.decideRow(1, Team.CHO), 1));
+            assertThat(ChoChariots.get(1).position).isEqualTo(Position.of(Team.decideRow(1, Team.CHO), 9));
+            assertThat(HanChariots.get(0).position).isEqualTo(Position.of(Team.decideRow(1, Team.HAN), 1));
+            assertThat(HanChariots.get(1).position).isEqualTo(Position.of(Team.decideRow(1, Team.HAN), 9));
+        });
+    }
+
 
     @ParameterizedTest
     @CsvSource(value = {"1,0", "2,0", "3,0", "4,0", "5,0", "0,1", "0,2", "0,3", "0,4"})
