@@ -25,4 +25,21 @@ public class MoveInfoTest {
         assertThat(result)
                 .isEqualTo(excepted);
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "CANNON, CANNON, true",
+            "NONE, CANNON, false"
+    })
+    void 같은_기물인지_판단한다(PieceCategory pieceCategory, PieceCategory otherPieceCategory, boolean excepted) {
+        // given
+        MoveInfo moveInfo = new MoveInfo(new Position(1, 2), pieceCategory);
+
+        // when
+        boolean result = moveInfo.isSameCategory(otherPieceCategory);
+
+        // then
+        assertThat(result)
+                .isEqualTo(excepted);
+    }
 }
