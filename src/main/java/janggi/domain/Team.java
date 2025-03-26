@@ -64,17 +64,25 @@ public final class Team {
         return country;
     }
 
-    public void move(final Position fromPosition, final Position tagetPosition, final Team otherTeam) {
+    public void move(final Position fromPosition, final Position targetPosition, final Team otherTeam) {
         validateIsPieceExistInPosition(fromPosition);
+        final Piece movingPiece = pieces.get(fromPosition);
 
-        final Piece targetPiece = pieces.get(fromPosition);
-        targetPiece.move(
-                tagetPosition,
-                getPiecesWithout(fromPosition),
-                otherTeam.pieces.values().stream().toList()
-        );
+        movingPiece.move(targetPosition, getPiecesWithout(fromPosition), otherTeam.pieces.values().stream().toList());
+
+        if (otherTeam.isPieceExistAt(targetPosition)) {
+            otherTeam.die(targetPosition);
+        }
         pieces.remove(fromPosition);
-        pieces.put(tagetPosition, targetPiece);
+        pieces.put(targetPosition, movingPiece);
+    }
+
+    private boolean isPieceExistAt(final Position position) {
+        return pieces.get(position) != null;
+    }
+
+    private void die(final Position position) {
+        pieces.remove(position);
     }
 
     private List<Piece> getPiecesWithout(final Position fromPosition) {
