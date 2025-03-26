@@ -42,4 +42,13 @@ public class OutputView {
         }
         System.out.println(builder);
     }
+
+    public void printEndGame(boolean isChoGungDead, boolean isHanGungDead) {
+        if (isChoGungDead) {
+            System.out.println("한나라가 승리하였습니다.");
+        }
+        if (isHanGungDead) {
+            System.out.println("조나라가 승리하였습니다.");
+        }
+    }
 }

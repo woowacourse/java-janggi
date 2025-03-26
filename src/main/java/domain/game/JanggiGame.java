@@ -14,12 +14,12 @@ public class JanggiGame {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
 
-    private Country currentCountry = Country.HAN;
+    private Country currentTurn = Country.HAN;
 
     public void start() {
         Board board = settingUp();
 
-        while (true) {
+        while (!isEndGame(board)) {
             takeTurn(board, this::movePiece);
             nextTurn();
         }
@@ -37,16 +37,25 @@ public class JanggiGame {
     private void movePiece(Board board) {
         outputView.printJanggiBoard(board);
 
-        Coordinate from = retryUntilValid(() -> inputView.readMoveFrom(currentCountry.getCountryName()));
-        board.validateIsMyPiece(from, currentCountry);
-
+        Coordinate from = retryUntilValid(() -> inputView.readMoveFrom(currentTurn.getCountryName()));
+        board.validateIsMyPiece(from, currentTurn);
         Coordinate to = retryUntilValid(inputView::readMoveTo);
 
         board.movePiece(from, to);
     }
 
+    private boolean isEndGame(Board board) {
+        boolean isChoGungDead = board.isChoGungDead();
+        boolean isHanGungDead = board.isHanGungDead();
+        if (isChoGungDead || isHanGungDead) {
+            outputView.printEndGame(isChoGungDead, isHanGungDead);
+            return true;
+        }
+        return false;
+    }
+
     private void nextTurn() {
-        currentCountry = currentCountry.convertTurn();
+        currentTurn = currentTurn.convertCountry();
     }
 
     private <T> void takeTurn(T value, Consumer<T> consumer) {

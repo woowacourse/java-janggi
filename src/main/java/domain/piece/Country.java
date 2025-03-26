@@ -11,7 +11,7 @@ public enum Country {
         this.countryName = countryName;
     }
 
-    public Country convertTurn() {
+    public Country convertCountry() {
         if (isHan()) {
             return Country.CHO;
         }

@@ -76,4 +76,14 @@ public final class Board {
             throw new IllegalArgumentException("[ERROR] 자신의 기물만 움직일 수 있습니다.");
         }
     }
+
+    public boolean isChoGungDead() {
+        return board.values().stream()
+                .noneMatch(piece -> piece.getType() == PieceType.GUNG && piece.getCountry() == Country.CHO);
+    }
+
+    public boolean isHanGungDead() {
+        return board.values().stream()
+                .noneMatch(piece -> piece.getType() == PieceType.GUNG && piece.getCountry() == Country.HAN);
+    }
 }

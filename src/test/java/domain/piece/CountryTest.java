@@ -12,7 +12,7 @@ public class CountryTest {
     void countryTest1() {
         Country country = Country.CHO;
 
-        Country convertedTurn = country.convertTurn();
+        Country convertedTurn = country.convertCountry();
 
         assertThat(convertedTurn).isEqualTo(Country.HAN);
     }

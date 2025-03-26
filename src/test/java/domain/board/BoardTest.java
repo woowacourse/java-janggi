@@ -18,149 +18,163 @@ import domain.piece.Sang;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
-    @Nested
-    class BoardValidation {
 
-        @DisplayName("자신의 기물이 아니면 움직일 수 없다.")
-        @Test
-        void validateFromTest() {
-            Map<Coordinate, Piece> pieces = new HashMap<>();
-            pieces.put(new Coordinate(1, 1), new Ma(Country.CHO));
-            Board board = new Board(pieces);
+    @DisplayName("자신의 기물이 아니면 움직일 수 없다.")
+    @Test
+    void validateFromTest() {
+        Map<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(new Coordinate(1, 1), new Ma(Country.CHO));
+        Board board = new Board(pieces);
 
-            Coordinate from = new Coordinate(1, 1);
+        Coordinate from = new Coordinate(1, 1);
 
-            assertThatThrownBy(() -> board.validateIsMyPiece(from, Country.HAN))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @DisplayName("자신의 기물이면 움직일 수 있다.")
-        @Test
-        void validateFromTest2() {
-            Map<Coordinate, Piece> pieces = new HashMap<>();
-            pieces.put(new Coordinate(1, 1), new Ma(Country.CHO));
-            Board board = new Board(pieces);
-
-            Coordinate from = new Coordinate(1, 1);
-
-            assertThatCode(() -> board.validateIsMyPiece(from, Country.CHO))
-                    .doesNotThrowAnyException();
-        }
+        assertThatThrownBy(() -> board.validateIsMyPiece(from, Country.HAN))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Nested
-    class BoardMoveTest {
+    @DisplayName("자신의 기물이면 움직일 수 있다.")
+    @Test
+    void validateFromTest2() {
+        Map<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(new Coordinate(1, 1), new Ma(Country.CHO));
+        Board board = new Board(pieces);
 
-        @DisplayName("마를 움직인다.")
-        @Test
-        void movePieceTest() {
-            Coordinate from = new Coordinate(1, 3);
+        Coordinate from = new Coordinate(1, 1);
 
-            HashMap<Coordinate, Piece> pieces = new HashMap<>();
-            pieces.put(from, new Ma(Country.HAN));
-            Board board = new Board(pieces);
+        assertThatCode(() -> board.validateIsMyPiece(from, Country.CHO))
+                .doesNotThrowAnyException();
+    }
 
-            Coordinate to = new Coordinate(3, 4);
-            board.movePiece(from, to);
 
-            assertThat(board.findPieceTypeByCoordinate(to)).isEqualTo(PieceType.MA);
-        }
+    @DisplayName("마를 움직인다.")
+    @Test
+    void movePieceTest() {
+        Coordinate from = new Coordinate(1, 3);
 
-        @DisplayName("병을 움직인다.")
-        @Test
-        void movePieceTest2() {
-            Coordinate from = new Coordinate(1, 1);
+        HashMap<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(from, new Ma(Country.HAN));
+        Board board = new Board(pieces);
 
-            HashMap<Coordinate, Piece> pieces = new HashMap<>();
-            pieces.put(from, new Byeong(Country.HAN));
-            Board board = new Board(pieces);
+        Coordinate to = new Coordinate(3, 4);
+        board.movePiece(from, to);
 
-            Coordinate to = new Coordinate(2, 1);
-            board.movePiece(from, to);
+        assertThat(board.findPieceTypeByCoordinate(to)).isEqualTo(PieceType.MA);
+    }
 
-            assertThat(board.findPieceTypeByCoordinate(to)).isEqualTo(PieceType.BYEONG);
-        }
+    @DisplayName("병을 움직인다.")
+    @Test
+    void movePieceTest2() {
+        Coordinate from = new Coordinate(1, 1);
 
-        @DisplayName("상을 움직인다.")
-        @Test
-        void movePieceTest3() {
-            Coordinate from = new Coordinate(1, 2);
+        HashMap<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(from, new Byeong(Country.HAN));
+        Board board = new Board(pieces);
 
-            HashMap<Coordinate, Piece> pieces = new HashMap<>();
-            pieces.put(from, new Sang(Country.HAN));
-            Board board = new Board(pieces);
+        Coordinate to = new Coordinate(2, 1);
+        board.movePiece(from, to);
 
-            Coordinate to = new Coordinate(4, 4);
-            board.movePiece(from, to);
+        assertThat(board.findPieceTypeByCoordinate(to)).isEqualTo(PieceType.BYEONG);
+    }
 
-            assertThat(board.findPieceTypeByCoordinate(to)).isEqualTo(PieceType.SANG);
-        }
+    @DisplayName("상을 움직인다.")
+    @Test
+    void movePieceTest3() {
+        Coordinate from = new Coordinate(1, 2);
 
-        @DisplayName("사를 움직인다")
-        @Test
-        void movePieceTest4() {
-            Coordinate from = new Coordinate(1, 4);
+        HashMap<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(from, new Sang(Country.HAN));
+        Board board = new Board(pieces);
 
-            HashMap<Coordinate, Piece> pieces = new HashMap<>();
-            pieces.put(from, new Sa(Country.HAN));
-            Board board = new Board(pieces);
+        Coordinate to = new Coordinate(4, 4);
+        board.movePiece(from, to);
 
-            Coordinate to = new Coordinate(2, 5);
-            board.movePiece(from, to);
+        assertThat(board.findPieceTypeByCoordinate(to)).isEqualTo(PieceType.SANG);
+    }
 
-            assertThat(board.findPieceTypeByCoordinate(to)).isEqualTo(PieceType.SA);
-        }
+    @DisplayName("사를 움직인다")
+    @Test
+    void movePieceTest4() {
+        Coordinate from = new Coordinate(1, 4);
 
-        @DisplayName("포를 움직인다")
-        @Test
-        void movePieceTest5() {
-            Coordinate from = new Coordinate(2, 2);
+        HashMap<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(from, new Sa(Country.HAN));
+        Board board = new Board(pieces);
 
-            HashMap<Coordinate, Piece> pieces = new HashMap<>();
-            pieces.put(from, new Pho(Country.HAN));
-            pieces.put(new Coordinate(2, 3), new Ma(Country.HAN));
-            Board board = new Board(pieces);
+        Coordinate to = new Coordinate(2, 5);
+        board.movePiece(from, to);
 
-            Coordinate to = new Coordinate(2, 4);
-            board.movePiece(from, to);
+        assertThat(board.findPieceTypeByCoordinate(to)).isEqualTo(PieceType.SA);
+    }
 
-            assertThat(board.findPieceTypeByCoordinate(to)).isEqualTo(PieceType.PHO);
-        }
+    @DisplayName("포를 움직인다")
+    @Test
+    void movePieceTest5() {
+        Coordinate from = new Coordinate(2, 2);
 
-        @DisplayName("차를 움직인다")
-        @Test
-        void movePieceTest6() {
-            Coordinate from = new Coordinate(1, 1);
+        HashMap<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(from, new Pho(Country.HAN));
+        pieces.put(new Coordinate(2, 3), new Ma(Country.HAN));
+        Board board = new Board(pieces);
 
-            HashMap<Coordinate, Piece> pieces = new HashMap<>();
-            pieces.put(from, new Cha(Country.HAN));
-            Board board = new Board(pieces);
+        Coordinate to = new Coordinate(2, 4);
+        board.movePiece(from, to);
 
-            Coordinate to = new Coordinate(5, 1);
-            board.movePiece(from, to);
+        assertThat(board.findPieceTypeByCoordinate(to)).isEqualTo(PieceType.PHO);
+    }
 
-            assertThat(board.findPieceTypeByCoordinate(to)).isEqualTo(PieceType.CHA);
-        }
+    @DisplayName("차를 움직인다")
+    @Test
+    void movePieceTest6() {
+        Coordinate from = new Coordinate(1, 1);
 
-        @DisplayName("궁을 움직인다")
-        @Test
-        void movePieceTest7() {
-            Coordinate from = new Coordinate(1, 5);
+        HashMap<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(from, new Cha(Country.HAN));
+        Board board = new Board(pieces);
 
-            HashMap<Coordinate, Piece> pieces = new HashMap<>();
-            pieces.put(from, new Gung(Country.HAN));
-            Board board = new Board(pieces);
+        Coordinate to = new Coordinate(5, 1);
+        board.movePiece(from, to);
 
-            Coordinate to = new Coordinate(2, 5);
-            board.movePiece(from, to);
+        assertThat(board.findPieceTypeByCoordinate(to)).isEqualTo(PieceType.CHA);
+    }
 
-            assertThat(board.findPieceTypeByCoordinate(to)).isEqualTo(PieceType.GUNG);
-        }
+    @DisplayName("궁을 움직인다")
+    @Test
+    void movePieceTest7() {
+        Coordinate from = new Coordinate(1, 5);
+
+        HashMap<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(from, new Gung(Country.HAN));
+        Board board = new Board(pieces);
+
+        Coordinate to = new Coordinate(2, 5);
+        board.movePiece(from, to);
+
+        assertThat(board.findPieceTypeByCoordinate(to)).isEqualTo(PieceType.GUNG);
+    }
+
+    @DisplayName("궁이 죽었는지 확인한다_죽은 경우")
+    @Test
+    void isChoGungDead() {
+        Board board = new Board(new HashMap<>());
+
+        assertThat(board.isChoGungDead()).isTrue();
+        assertThat(board.isHanGungDead()).isTrue();
+    }
+
+    @DisplayName("궁이 죽었는지 확인한다_살아있는 경우")
+    @Test
+    void isChoGungDead2() {
+        HashMap<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(new Coordinate(2, 5), new Gung(Country.HAN));
+        pieces.put(new Coordinate(9, 5), new Gung(Country.CHO));
+        Board board = new Board(pieces);
+
+        assertThat(board.isChoGungDead()).isFalse();
+        assertThat(board.isHanGungDead()).isFalse();
     }
 
 }
