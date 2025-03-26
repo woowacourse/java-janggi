@@ -42,11 +42,9 @@ public class JanggiGame {
     }
 
     public static List<Piece> generateInitialPieces(Input input) {
-        String choTableOptionInput = input.readTableOption(Team.CHO);
-        TableOption choTable = TableOption.from(choTableOptionInput);
-        String hanTableOptionInput = input.readTableOption(Team.HAN);
-        TableOption hanTable = TableOption.from(hanTableOptionInput);
-        return new PieceGenerator().generateInitialPieces(hanTable, choTable);
+        TableOption choTableOption = input.readTableOption(Team.CHO);
+        TableOption hanTableOption = input.readTableOption(Team.HAN);
+        return new PieceGenerator().generateInitialPieces(hanTableOption, choTableOption);
     }
 
 }

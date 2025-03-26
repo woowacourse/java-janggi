@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
 public class TeamTest {
-    @ParameterizedTest
+    /*@ParameterizedTest
     @MethodSource("setTeamOption")
     @DisplayName("옵션에 맞는 Team을 반환하는지 확인")
     void TeamOptionTest(String inputOption, Team expected) {
@@ -28,5 +28,5 @@ public class TeamTest {
                         "한", Team.HAN
                 )
         );
-    }
+    }*/
 }

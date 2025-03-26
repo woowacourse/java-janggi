@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.board.TableOption;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
@@ -8,13 +9,31 @@ import janggi.team.Team;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Input {
+import static janggi.board.TableOption.*;
 
+public class Input {
+    private static final Map<String,TableOption> tableOptions = Map.of(
+            "상마상마",EHEH,
+            "마상마상",HEHE,
+            "마상상마",HEEH,
+            "상마마상",EHHE
+    );
+    
+    private static final Map<Team, String> teams = Map.of(
+            Team.CHO,"초",
+            Team.HAN,"한"
+    );
+    
     private final Scanner scanner = new Scanner(System.in);
 
-    public String readTableOption(Team team) {
-        System.out.printf("%s의 상차림을 선택해주세요. [입력 예시 : 상마상마, 마상마상, 마상상마, 상마마상]%n", team.getValue());
-        return scanner.nextLine();
+    public TableOption readTableOption(Team team) {
+        TableOption tableOption;
+        do {
+            System.out.printf("%s의 상차림을 선택해주세요. [입력 예시 : 상마상마, 마상마상, 마상상마, 상마마상]%n", teams.get(team));
+            String inputTableOption = scanner.nextLine();
+            tableOption = tableOptions.get(inputTableOption);
+        } while(tableOption == null);
+        return tableOption;
     }
 
     public Map.Entry<Position, Position> readMoveablePiece() {
