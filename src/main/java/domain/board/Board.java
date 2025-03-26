@@ -4,6 +4,8 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -12,6 +14,13 @@ public class Board {
     public static final int END_ROW_INDEX = 10;
     public static final int START_COLUMN_INDEX = 1;
     public static final int END_COLUMN_INDEX = 9;
+
+    private static final int HAN_PALACE_START_ROW_INDEX = 1;
+    private static final int HAN_PALACE_END_ROW_INDEX = 3;
+    private static final int PALACE_START_COLUMN_INDEX = 4;
+    private static final int PALACE_END_COLUMN_INDEX = 6;
+    private static final int CHO_PALACE_START_ROW_INDEX = 8;
+    private static final int CHO_PALACE_END_ROW_INDEX = 10;
 
     private final Map<Node, Piece> board;
     private final Map<Point, Node> nodeByPoint;
@@ -78,5 +87,38 @@ public class Board {
         }
         Piece piece = board.get(node);
         return piece.type() == pieceType;
+    }
+
+    public boolean isPalaceArea(final Node destinationNode) {
+        List<Point> points = getPalacePoint();
+        List<Node> nodes = points.stream()
+                .map(this::findNodeByPoint)
+                .toList();
+
+        return nodes.stream()
+                .anyMatch(node -> node.isSameNode(destinationNode));
+    }
+
+    private List<Point> getPalacePoint() {
+        List<Point> points = new ArrayList<>();
+        addHanPalacePoints(points);
+        addChoPalacePoints(points);
+        return points;
+    }
+
+    private void addHanPalacePoints(List<Point> points) {
+        for (int i = HAN_PALACE_START_ROW_INDEX; i <= HAN_PALACE_END_ROW_INDEX; i++) {
+            for (int j = PALACE_START_COLUMN_INDEX; j <= PALACE_END_COLUMN_INDEX; j++) {
+                points.add(Point.of(i, j));
+            }
+        }
+    }
+
+    private void addChoPalacePoints(List<Point> points) {
+        for (int i = CHO_PALACE_START_ROW_INDEX; i <= CHO_PALACE_END_ROW_INDEX; i++) {
+            for (int j = PALACE_START_COLUMN_INDEX; j <= PALACE_END_COLUMN_INDEX; j++) {
+                points.add(Point.of(i, j));
+            }
+        }
     }
 }
