@@ -25,7 +25,13 @@ public class Rook extends Piece {
         if (position.hasSameX(destination)) {
             return !position.hasSameY(destination);
         }
-        return position.hasSameY(destination);
+        if (position.hasSameY(destination)) {
+            return position.hasSameY(destination);
+        }
+        if (position.isPalace() && destination.isPalace()) {
+            return position.getXDistance(destination) == position.getYDistance(destination);
+        }
+        return false;
     }
 
     @Override
@@ -42,20 +48,40 @@ public class Rook extends Piece {
     }
 
     private boolean hasPieceBetween(Piece other, Position destination) {
-        if (this.hasSameX(other)) {
-            return other.getYPosition() > getYPosition() &&  destination.getY() > other.getYPosition();
+        return isPieceBetweenInLine(other.getPosition(), destination) ||
+            isPieceBetweenInDiagonal(other.getPosition(), destination);
+    }
+
+    private boolean isPieceBetweenInLine(Position other, Position destination) {
+        if (hasSameX(other) && hasSameX(destination)) {
+            return isBetween(other.getY(), position.getY(), destination.getY());
         }
-        if (this.hasSameY(other)) {
-            return other.getXPosition() > getXPosition() && destination.getX() > other.getXPosition();
+        if (hasSameY(other) && hasSameY(destination)) {
+            return isBetween(other.getX(), position.getX(), destination.getX());
         }
         return false;
     }
 
-    private boolean hasSameX(Piece piece) {
-        return getXPosition() == piece.getXPosition();
+    private boolean isPieceBetweenInDiagonal(Position other, Position destination) {
+        if (position.isPalace() && destination.isPalace() &&
+            position.isDiagnose(destination) && position.isDiagnose(other)) {
+            return isBetween(other.getX(), position.getX(), destination.getX()) &&
+                isBetween(other.getY(), position.getY(), destination.getY());
+        }
+        return false;
     }
 
-    private boolean hasSameY(Piece piece) {
-        return getYPosition() == piece.getYPosition();
+    private boolean hasSameX(Position pos) {
+        return this.position.getX() == pos.getX();
+    }
+
+    private boolean hasSameY(Position pos) {
+        return this.position.getY() == pos.getY();
+    }
+
+    private boolean isBetween(int value, int start, int end) {
+        int min = Math.min(start, end);
+        int max = Math.max(start, end);
+        return value > min && value < max;
     }
 }

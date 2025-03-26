@@ -1,15 +1,16 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import janggi.domain.Position;
 import janggi.domain.Side;
-import java.util.List;
-import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.List;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class RookTest {
 
@@ -128,6 +129,43 @@ class RookTest {
         );
     }
 
+    public static Stream<Arguments> 궁성_안에서_대각_이동을_할_수_있다_테스트_케이스() {
+        return Stream.of(
+            Arguments.of(new Rook(ALLY_SIDE, 3,0), new Position(4,1), true),
+            Arguments.of(new Rook(ALLY_SIDE, 3,0), new Position(5,2), true),
+            Arguments.of(new Rook(ENEMY_SIDE, 3,9), new Position(4,8), true),
+            Arguments.of(new Rook(ENEMY_SIDE, 3,9), new Position(5,7), true),
+            Arguments.of(new Rook(ENEMY_SIDE, 4,8), new Position(3,7), true),
+            Arguments.of(new Rook(ENEMY_SIDE, 4,8), new Position(3,9), true),
+            Arguments.of(new Rook(ENEMY_SIDE, 4,8), new Position(5,9), true),
+            Arguments.of(new Rook(ENEMY_SIDE, 4,8), new Position(5,7), true),
+
+            Arguments.of(new Rook(ENEMY_SIDE, 3,9), new Position(6,6), false),
+            Arguments.of(new Rook(ALLY_SIDE, 3,0), new Position(6,3), false),
+            Arguments.of(new Rook(ALLY_SIDE, 3,7), new Position(5,2), false)
+        );
+    }
+
+    public static Stream<Arguments> 궁성_안에서_경로에_기물이_존재하지_않으면_대각_이동할_수_있다_테스트_케이스() {
+        return Stream.of(
+          Arguments.of(new Rook(ALLY_SIDE, 3,0), List.of(), new Position(4,1)),
+          Arguments.of(new Rook(ALLY_SIDE, 3,0), List.of(), new Position(5,2))
+        );
+    }
+
+    public static Stream<Arguments> 궁성_안에서_목적지에_기물의_진영에따라_이동가능_여부가_결정된다_테스트_케이스() {
+        return Stream.of(
+            Arguments.of(
+                new Rook(ALLY_SIDE, 3,0),
+                List.of(new Pawn(ENEMY_SIDE, 4,1)),
+                new Position(4,1), true),
+            Arguments.of(
+                new Rook(ALLY_SIDE, 3,0),
+                List.of(new Pawn(ALLY_SIDE, 4,1)),
+                new Position(5,2), false)
+        );
+    }
+
     @ParameterizedTest
     @CsvSource(value = {"1, 2, 3, 4", "1, 2, 4, 5"})
     void 이동하고자_하는_x_y좌표가_현재_x_y좌표와_모두_다르면_움직일_수_없다(int x, int y, int moveX, int moveY) {
@@ -166,5 +204,27 @@ class RookTest {
     @MethodSource("이동하고자_하는_위치에_아군_기물이_있으면_이동할_수_없다_테스트_케이스")
     void 이동하고자_하는_위치에_아군_기물이_있으면_이동할_수_없다(Rook rook, List<Piece> existingPieces, int x, int y) {
         assertThat(rook.isMoveablePath(existingPieces, new Position(x, y))).isFalse();
+    }
+
+    @ParameterizedTest
+    @MethodSource("궁성_안에서_대각_이동을_할_수_있다_테스트_케이스")
+    void 궁성_안에서_대각_이동을_할_수_있다(Rook rook, Position destination, boolean isMoveablePosition) {
+        assertThat(rook.isMoveablePosition(destination)).isEqualTo(isMoveablePosition);
+    }
+
+    @ParameterizedTest
+    @MethodSource("궁성_안에서_경로에_기물이_존재하지_않으면_대각_이동할_수_있다_테스트_케이스")
+    void 궁성_안에서_경로에_기물이_존재하지_않으면_대각_이동할_수_있다(Rook rook, List<Piece> existingPieces, Position destination) {
+        assertThat(rook.isMoveablePath(existingPieces, destination)).isTrue();
+    }
+
+    @ParameterizedTest
+    @MethodSource("궁성_안에서_목적지에_기물의_진영에따라_이동가능_여부가_결정된다_테스트_케이스")
+    void 궁성_안에서_목적지에_기물의_진영에따라_이동가능_여부가_결정된다(
+        Rook rook,
+        List<Piece> existingPieces,
+        Position destination,
+        boolean isMoveablePath) {
+        assertThat(rook.isMoveablePath(existingPieces, destination)).isEqualTo(isMoveablePath);
     }
 }
