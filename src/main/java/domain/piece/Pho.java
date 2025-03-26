@@ -24,7 +24,7 @@ public class Pho extends Piece implements LinearMove {
 
     @Override
     public void validateReachAble(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
-        Direction direction = getDirection(from, to);
+        Direction direction = Direction.getDirection(from, to);
         JanggiCoordinate curr = from.move(direction);
 
         curr = findFirstPieceCoordinate(janggiBoard, curr, to, direction);

@@ -20,8 +20,8 @@ public class Sang extends Piece implements DistanceMove {
     }
 
     private void validateDoesNotHasObstacle(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        Direction moveDirection = getDirection(from, to, SANG_DIRECTION_DISTANCE);
-        Direction moveDiagonalDirection = getDiagonalDirection(from, to);
+        Direction moveDirection = Direction.getDirection(from, to, SANG_DIRECTION_DISTANCE);
+        Direction moveDiagonalDirection = Direction.getDiagonalDirection(from, to);
 
         JanggiCoordinate firstRoute = from.move(moveDirection);
 

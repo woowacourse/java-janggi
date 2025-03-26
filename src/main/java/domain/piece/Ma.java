@@ -22,7 +22,7 @@ public class Ma extends Piece implements DistanceMove {
     }
 
     private void validateDoesNotHasObstacle(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        Direction moveDirection = getDirection(from, to, MA_DIRECTION_DISTANCE);
+        Direction moveDirection = Direction.getDirection(from, to, MA_DIRECTION_DISTANCE);
         JanggiCoordinate directionCoordinate = from.move(moveDirection);
 
         if (!board.isOccupied(directionCoordinate)) {
