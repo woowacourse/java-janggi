@@ -34,7 +34,8 @@ public class InputView {
             int rank = Character.getNumericValue(positionStr.charAt(1));
 
             if (file < 0 || file >= BOARD_HEIGHT || rank < 1 || rank >= BOARD_WIDTH) {
-                throw new IllegalArgumentException("좌표가 장기판 범위를 벗어났습니다.");
+                throw new IllegalArgumentException(
+                        String.format("좌표가 장기판 범위를 벗어났습니다. 세로는 0-9, 가로는 1-9여야 합니다. 입력된 좌표 : %d%d", file, rank));
             }
         }
     }
