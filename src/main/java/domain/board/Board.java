@@ -1,12 +1,15 @@
 package domain.board;
 
 import domain.InitialPiecesPositions;
+import domain.Score;
 import domain.Team;
 import domain.piece.Piece;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Board {
 
@@ -46,6 +49,19 @@ public class Board {
         validateMovementRule(movementRule, selectBoardPosition, destinationBoardPosition, selectedPiece);
 
         validateCatchable(selectedPiece, destinationPiece, currentTeam);
+    }
+
+    public EnumMap<Team, Score> calculateScore() {
+        final EnumMap<Team, Score> scores = pieces.values().stream()
+                .collect(Collectors.groupingBy(
+                        Piece::getTeam,
+                        () -> new EnumMap<>(Team.class),
+                        Collectors.reducing(new Score(0), Piece::getScore, Score::plus))
+                );
+
+        scores.computeIfPresent(Team.GREEN, (team, score) -> score.plus(new Score(0.5f)));
+
+        return scores;
     }
 
     public List<Piece> findAliveGenerals() {

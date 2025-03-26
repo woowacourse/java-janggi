@@ -4,12 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
+import domain.Score;
 import domain.Team;
 import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
 import domain.piece.General;
+import domain.piece.Guard;
 import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.piece.Zzu;
+import java.util.EnumMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -56,6 +61,31 @@ class BoardTest {
             assertThatCode(
                     () -> board.movePiece(new BoardPosition(0, 0), new BoardPosition(0, 6), Team.RED))
                     .doesNotThrowAnyException();
+        }
+
+        @DisplayName("현재 팀 별 점수를 계산한다.")
+        @Test
+        void calculateScore() {
+            // given
+            Board board = new Board(Map.of(
+                    new BoardPosition(0, 0), new General(Team.RED),
+                    new BoardPosition(0, 1), new Chariot(Team.RED),
+                    new BoardPosition(0, 2), new Horse(Team.RED),
+                    new BoardPosition(0, 3), new Zzu(Team.RED),
+                    new BoardPosition(1, 0), new General(Team.GREEN),
+                    new BoardPosition(1, 1), new Elephant(Team.GREEN),
+                    new BoardPosition(1, 2), new Guard(Team.GREEN),
+                    new BoardPosition(1, 3), new Cannon(Team.GREEN)
+            ));
+
+            // when
+            EnumMap<Team, Score> result = board.calculateScore();
+
+            // then
+            assertThat(result)
+                    .containsExactlyInAnyOrderEntriesOf(
+                            Map.of(Team.RED, new Score(20), Team.GREEN, new Score(13.5f))
+                    );
         }
 
         @DisplayName("살아있는 왕 기물들을 찾는다.")

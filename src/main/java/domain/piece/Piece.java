@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Score;
 import domain.Team;
 import domain.board.BoardPosition;
 import domain.board.Offset;
@@ -66,11 +67,15 @@ public abstract class Piece {
         return "(" + pieceType.getTitle() + ", " + team.getTitle() + ")";
     }
 
-    public PieceType getPieceType() {
-        return pieceType;
+    public Score getScore() {
+        return pieceType.getScore();
     }
 
     public Team getTeam() {
         return team;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
     }
 }
