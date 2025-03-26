@@ -22,21 +22,28 @@ public abstract class Piece {
 
         validateDistanceAndDirection(differenceForY, differenceForX);
 
+        List<Position> positions = calculateMovingPositions(currentPosition, arrivalPosition, differenceForY,
+                differenceForX);
+        return new Path(positions);
+    }
+
+    public void validateExistPieceInPath(List<Piece> pieces, boolean hasPieceInArrivalPosition) {
+        if ((hasPieceInArrivalPosition && pieces.size() > 1) || (!hasPieceInArrivalPosition && !pieces.isEmpty())) {
+            throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
+        }
+    }
+
+    abstract void validateDistanceAndDirection(int differenceForY, int differenceForX);
+
+    List<Position> calculateMovingPositions(Position currentPosition, Position arrivalPosition, int differenceForY,
+                                            int differenceForX) {
         final List<Position> positions = new ArrayList<>();
         int currentY = currentPosition.getY();
         int currentX = currentPosition.getX();
 
         currentY = calculatePathY(arrivalPosition, differenceForY, differenceForX, positions, currentY, currentX);
         calculatePathX(arrivalPosition, differenceForY, differenceForX, positions, currentY, currentX);
-        return new Path(positions);
-    }
-
-    abstract void validateDistanceAndDirection(int differenceForY, int differenceForX);
-
-    public void validateExistPieceInPath(List<Piece> pieces, boolean hasPieceInArrivalPosition) {
-        if ((hasPieceInArrivalPosition && pieces.size() > 1) || (!hasPieceInArrivalPosition && !pieces.isEmpty())) {
-            throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
-        }
+        return positions;
     }
 
     int calculatePathY(Position arrivalPosition, int differenceForY, int differenceForX,
