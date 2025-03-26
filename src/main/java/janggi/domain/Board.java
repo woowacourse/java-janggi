@@ -1,10 +1,10 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.domain.position.Route;
 import janggi.domain.position.Routes;
+import janggi.domain.routePolicy.RoutePolicy;
 import java.util.List;
 import java.util.Set;
 
@@ -24,20 +24,14 @@ public class Board {
 
     public Piece selectPiece(final Position position) {
         Team team = turn.getCurrentTurn();
+        
         return pieces.findPieceByPositionAndTeam(position, team);
     }
 
     public Set<Position> findDestinations(Piece piece) {
-        Set<Route> routes;
-        if (piece.isSameType(PieceType.CANNON)) {
-            routes = pieces.getPossibleRoutesForCannon(piece);
-            return new Routes(routes).getDestinations();
-        }
-        if (piece.isSameType(PieceType.CHARIOT)) {
-            routes = pieces.getPossibleRoutesForChariot(piece);
-            return new Routes(routes).getDestinations();
-        }
-        routes = pieces.getPossibleRoutes(piece);
+        RoutePolicy routePolicy = piece.getMovePolicy();
+        Set<Route> routes = routePolicy.getPossibleRoutes(piece, pieces.getPieces());
+
         return new Routes(routes).getDestinations();
     }
 
