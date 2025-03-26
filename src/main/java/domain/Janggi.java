@@ -28,8 +28,13 @@ public class Janggi {
     public static Janggi initialize() {
         final Board board = Board.initialize();
         final Team currentTeam = Team.GREEN;
-        
+
         return new Janggi(board, currentTeam);
+    }
+
+    public void validateSelectedPiece(final BoardPosition selectBoardPosition) {
+        board.findSelectedPiece(selectBoardPosition, currentTeam)
+            .orElseThrow(() -> new IllegalArgumentException("해당 위치에 말이 없거나 상대팀의 말입니다."));
     }
 
     public void processTurn(

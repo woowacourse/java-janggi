@@ -28,7 +28,8 @@ public class JanggiController {
 
             final String selectPosition = inputView.inputSelectPosition();
             final BoardPosition selectBoardPosition = createBoardPosition(selectPosition);
-
+            janggi.validateSelectedPiece(selectBoardPosition);
+            
             final String destinationPosition = inputView.inputDestinationPosition();
             final BoardPosition destinationBoardPosition = createBoardPosition(destinationPosition);
 

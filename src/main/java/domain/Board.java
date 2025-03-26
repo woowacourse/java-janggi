@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Board {
 
@@ -34,6 +35,14 @@ public class Board {
                     .forEach(position -> pieces.put(position, new Piece(type, team)))));
 
         return pieces;
+    }
+
+    public Optional<Piece> findSelectedPiece(
+        final BoardPosition selectBoardPosition,
+        final Team currentTeam
+    ) {
+        return Optional.ofNullable(pieces.get(selectBoardPosition))
+            .filter(piece -> piece.getTeam() == currentTeam);
     }
 
     public void movePiece(
