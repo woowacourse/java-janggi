@@ -36,4 +36,8 @@ public record Position(int x, int y) {
     public Position offset(int offsetX, int offsetY) {
         return new Position(x + offsetX, y + offsetY);
     }
+
+    public Position move(final Direction direction) {
+        return new Position(x + direction.x(), y + direction.y());
+    }
 }
