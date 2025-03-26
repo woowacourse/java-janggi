@@ -20,7 +20,8 @@ public class Players {
 
     public void capturePiece(final Nation attackNation, final Position presentPosition, final Position destination) {
         movePiece(attackNation, presentPosition, destination);
-        removePiece(attackNation, destination);
+        Nation defenseNation = attackNation.getDefenseNation();
+        removePiece(defenseNation, destination);
     }
 
     public void validateMovement(final Nation attackNation, final Position presentPosition, final Position destination) {

@@ -224,7 +224,7 @@ class PlayersTest {
         players.capturePiece(HAN, new Position(1, 6), new Position(1, 7));
 
         //then
-        assertThat(pieces1.getPieces().contains(janggun)).isFalse();
+        assertThat(pieces2.getPieces().contains(janggun)).isFalse();
     }
 
     @Test
