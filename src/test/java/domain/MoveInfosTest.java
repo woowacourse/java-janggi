@@ -49,4 +49,25 @@ class MoveInfosTest {
         // then
         assertThat(result).isEqualTo(excepted);
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "KING, KING, true",
+            "KING, SOLDIER, false"
+    })
+    void 이동_기물과_같은_기물이_경로에_있는지_판단한다(PieceCategory pathPiece, PieceCategory movePiece, boolean excepted) {
+        // given
+        List<MoveInfo> moveInfoElements = new ArrayList<>();
+        moveInfoElements.add(new MoveInfo(new Position(1, 2), PieceCategory.NONE));
+        moveInfoElements.add(new MoveInfo(new Position(2, 2), pathPiece));
+        moveInfoElements.add(new MoveInfo(new Position(3, 2), PieceCategory.NONE));
+
+        MoveInfos moveInfos = new MoveInfos(moveInfoElements);
+
+        // when
+        boolean result = moveInfos.hasSamePieceCategoryInPath(movePiece);
+
+        // then
+        assertThat(result).isEqualTo(excepted);
+    }
 }
