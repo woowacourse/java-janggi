@@ -16,12 +16,7 @@ public abstract class StraightMovingPiece extends Piece{
         return checkPieceCondition(pieces, positionToMove, direction);
     }
 
-    private Movement findDirection(Position positionToMove) {
-        return Movement.getDiagonal(
-                positionToMove.x() - getPosition().x(),
-                positionToMove.y() - getPosition().y()
-        );
-    }
+    protected abstract Movement findDirection(Position positionToMove);
 
     protected abstract boolean checkPieceCondition(Map<Position, Piece> pieces, Position positionToMove, Movement direction);
 }

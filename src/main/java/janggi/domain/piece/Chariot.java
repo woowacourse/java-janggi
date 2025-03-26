@@ -11,6 +11,11 @@ public class Chariot extends StraightMovingPiece {
     }
 
     @Override
+    protected Movement findDirection(Position positionToMove) {
+        return null;
+    }
+
+    @Override
     protected boolean checkPieceCondition(Map<Position, Piece> pieces, Position positionToMove, Movement direction) {
         Position currentPosition = getPosition();
         while (currentPosition.isNotEndPoint() || currentPosition.equals(positionToMove)) {

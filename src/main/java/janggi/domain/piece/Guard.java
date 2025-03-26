@@ -12,7 +12,7 @@ public class Guard extends PathMovingPiece {
 
     @Override
     protected List<Movement> findMovements(Position positionToMove) {
-        return List.of(Movement.getDiagonal(
+        return List.of(Movement.getOrthogonal(
                 positionToMove.x() - getPosition().x(),
                 positionToMove.y() - getPosition().y()
         ));

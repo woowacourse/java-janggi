@@ -12,7 +12,7 @@ public class Soldier extends PathMovingPiece {
 
     @Override
     protected List<Movement> findMovements(Position positionToMove) {
-        return List.of(Movement.getDiagonal(
+        return List.of(Movement.getOrthogonal(
                 positionToMove.x() - getPosition().x(),
                 positionToMove.y() - getPosition().y()
         ));
@@ -21,7 +21,7 @@ public class Soldier extends PathMovingPiece {
     @Override
     protected boolean checkPieceCondition(Piece pieceInPositionToMove, Position checkingPosition) {
         System.out.println(checkingPosition + " " + getPosition());
-        Movement movement = Movement.getDiagonal(
+        Movement movement = Movement.getOrthogonal(
                 checkingPosition.x() - getPosition().x(),
                 checkingPosition.y() - getPosition().y()
         );

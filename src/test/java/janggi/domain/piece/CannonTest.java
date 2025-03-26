@@ -107,4 +107,18 @@ class CannonTest {
         Piece movedHorse = cannon.move(pieces, positionToMove);
         assertThat(movedHorse.getPosition()).isEqualTo(positionToMove);
     }
+
+    @DisplayName("포가 궁성 안에 있는 경우 간선을 타고 이동할 수 있다")
+    @Test
+    void testPalace() {
+        Piece cannon = new Cannon(new Position(8, 4), Team.BLUE);
+        Piece soldier = new Soldier(new Position(9, 5), Team.BLUE);
+        pieces.put(cannon.getPosition(), cannon);
+        pieces.put(soldier.getPosition(), soldier);
+
+        Board board = new Board(pieces);
+        board.movePiece(cannon.getPosition(), new Position(10, 6));
+        assertThat(board.getPieceByPosition(new Position(10, 6))).isInstanceOf(Cannon.class);
+
+    }
 }

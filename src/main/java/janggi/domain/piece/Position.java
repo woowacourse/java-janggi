@@ -1,6 +1,25 @@
 package janggi.domain.piece;
 
+import java.util.List;
+import java.util.Set;
+
 public record Position(int x, int y) {
+
+    private static final List<Set<Position>> palaceDiagonals = List.of(
+            Set.of(
+                    new Position(8, 4), new Position(9, 5), new Position(10, 6)
+            ),
+            Set.of(
+                    new Position(8, 6), new Position(9, 5), new Position(10, 4)
+            ),
+            Set.of(
+                    new Position(1, 4), new Position(2, 5), new Position(3, 6)
+            ),
+            Set.of(
+                    new Position(1, 6), new Position(2, 5), new Position(3, 4)
+            )
+    );
+
     public Position {
         validatePosition(x, y);
     }
@@ -34,5 +53,17 @@ public record Position(int x, int y) {
 
     public boolean isNotEndPoint() {
         return !isEndPoint();
+    }
+
+    public boolean isInSameDiagonalInPalace(Position positionToMove) {
+        if (isNotPalace()) {
+            return false;
+        }
+        for(Set<Position> diagonal : palaceDiagonals) {
+            if(diagonal.contains(this) && diagonal.contains(positionToMove)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

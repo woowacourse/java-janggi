@@ -31,6 +31,22 @@ public enum Movement {
     }
 
     public static Movement getDiagonal(int x, int y) {
+        if(x > 0 && y < 0) {
+            return BOTTOM_LEFT;
+        }
+        if(x > 0 && y > 0) {
+            return BOTTOM_RIGHT;
+        }
+        if(x < 0 && y < 0) {
+            return TOP_LEFT;
+        }
+        if(x < 0 && y > 0) {
+            return TOP_RIGHT;
+        }
+        throw new IllegalArgumentException("대각선 이동이 아닙니다");
+    }
+
+    public static Movement getOrthogonal(int x, int y) {
         if(x == 0) {
             if(y > 0) {
                 return LEFT;
