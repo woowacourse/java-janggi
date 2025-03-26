@@ -3,13 +3,11 @@ package janggi.domain.board;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Pieces;
-import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
 import janggi.domain.piece.gererator.ChoPieceGenerator;
 import janggi.domain.piece.gererator.HanPieceGenerator;
 import janggi.domain.piece.gererator.KnightElephantSetting;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -45,8 +43,8 @@ public class JanggiBoard {
         }
     }
 
-    public Map<Position, Piece> getPlacedPieces() {
-        return placedPieces.getValues();
+    public Pieces getPlacedPieces() {
+        return placedPieces;
     }
 
     public boolean isEnd() {

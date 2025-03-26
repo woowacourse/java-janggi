@@ -54,7 +54,7 @@ class JanggiBoardTest {
         );
 
         janggiBoard.move(1, 0, 3, 3);
-        Map<Position, Piece> pieceMap = janggiBoard.getPlacedPieces();
+        Map<Position, Piece> pieceMap = janggiBoard.getPlacedPieces().getValues();
         assertThat(pieceMap.get(new Position(3, 3))).isEqualTo(
             new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), Side.HAN, 3, 3));
         assertThat(pieceMap.get(new Position(1, 0))).isNull();
@@ -71,7 +71,7 @@ class JanggiBoardTest {
 
         janggiBoard.move(4, 4, 4, 3);
 
-        Map<Position, Piece> pieceMap = janggiBoard.getPlacedPieces();
+        Map<Position, Piece> pieceMap = janggiBoard.getPlacedPieces().getValues();
         assertThat(pieceMap.get(new Position(4, 3))).isEqualTo(
             new Piece(PieceType.ROOK, new RookMovementStrategy(), Side.CHO, 4, 3));
         assertThat(pieceMap.get(new Position(4, 4))).isNull();

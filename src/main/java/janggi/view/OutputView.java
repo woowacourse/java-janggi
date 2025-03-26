@@ -14,7 +14,7 @@ public class OutputView {
     private static final String EXIT = "\u001B[0m";
 
     public void printJanggiBoard(JanggiBoard janggiBoard) {
-        Map<Position, Piece> pieceMap = janggiBoard.getPlacedPieces();
+        Map<Position, Piece> pieceMap = janggiBoard.getPlacedPieces().getValues();
         for (int y = 9; y >= 0; y--) {
             System.out.print(y + " ");
             for (int x = 0; x < 9; x++) {
