@@ -15,11 +15,11 @@ public class GameManager {
 
     private static final Team START_TEAM = Team.CHO;
 
-    public final String gameId;
+    public final String roomName;
     private final JanggiGame game;
 
-    public GameManager(String gameId) {
-        this.gameId = gameId;
+    public GameManager(String roomName) {
+        this.roomName = roomName;
         this.game = new JanggiGame(createBoard(new BoardGenerator()), START_TEAM);
     }
 
