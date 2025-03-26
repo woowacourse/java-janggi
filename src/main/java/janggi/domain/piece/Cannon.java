@@ -48,9 +48,7 @@ public class Cannon extends Piece {
     }
 
     private boolean isValidCannonRoute(final Route route, final List<Piece> otherPieces) {
-        final List<Piece> piecesInRoute = otherPieces.stream()
-                .filter(piece -> route.hasPosition(piece) && !piece.isSamePosition(position))
-                .toList();
+        final List<Piece> piecesInRoute = getPiecesInRoute(route, otherPieces);
 
         if (hasCannon(piecesInRoute)) {
             return false;
@@ -58,28 +56,35 @@ public class Cannon extends Piece {
         return checkJumpPieceAndTargetPiece(route, piecesInRoute);
     }
 
+    private List<Piece> getPiecesInRoute(final Route route, final List<Piece> pieces) {
+        return pieces.stream()
+                .filter(route::hasPosition)
+                .toList();
+    }
+
     private boolean hasCannon(final List<Piece> piecesInRoute) {
         return piecesInRoute.stream().anyMatch(Piece::isCannon);
     }
 
     private boolean checkJumpPieceAndTargetPiece(final Route route, final List<Piece> piecesInRoute) {
-        final Position destination = route.getDestination();
-        Piece targetPiece = null;
-        final List<Piece> jumpPieces = new ArrayList<>();
-        for (final Piece piece : piecesInRoute) {
-            if (piece.isSamePosition(destination)) {
-                targetPiece = piece;
-                continue;
-            }
-            jumpPieces.add(piece);
-        }
-        if (isJumpOnePiece(jumpPieces)) {
+        final Piece targetPiece = getDestinationPiece(route, piecesInRoute);
+        final List<Piece> filteredPieces = piecesInRoute.stream()
+                .filter(piece -> !route.isDestination(piece))
+                .toList();
+        if (isNotJumpOnePiece(filteredPieces)) {
             return false;
         }
         return targetPiece == null || !targetPiece.isSameTeam(team);
     }
 
-    private static boolean isJumpOnePiece(final List<Piece> jumpPieces) {
+    private Piece getDestinationPiece(final Route route, final List<Piece> piecesInRoute) {
+        return piecesInRoute.stream()
+                .filter(route::isDestination)
+                .findFirst()
+                .orElse(null);
+    }
+
+    private boolean isNotJumpOnePiece(final List<Piece> jumpPieces) {
         return jumpPieces.size() != REQUIRED_JUMP_PIECES;
     }
 
