@@ -10,8 +10,8 @@ public enum Direction {
     LEFT_DOWN(-1, 1),
     RIGHT_DOWN(1, 1);
 
-    final int deltaX;
-    final int deltaY;
+    private final int deltaX;
+    private final int deltaY;
 
     Direction(final int deltaX, final int deltaY) {
         this.deltaX = deltaX;

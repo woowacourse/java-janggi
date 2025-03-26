@@ -19,7 +19,6 @@ public class InputView {
         return PositionFormatter.formatStringToPosition(selectedPiece);
     }
 
-
     public Position askMoveDestination() {
         System.out.println("기물을 어느 위치로 이동시키겠습니까?");
         String selectedDestination = scanner.nextLine();

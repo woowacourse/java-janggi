@@ -26,8 +26,11 @@ class GuardTest {
                                 new Position(4, 9),
                                 new Position(3, 8),
                                 new Position(3, 10),
-                                new Position(2, 9)
+                                new Position(2, 9),
+                                new Position(4, 10),
+                                new Position(2, 8),
+                                new Position(2, 10),
+                                new Position(4, 8)
                         );
     }
-
 }

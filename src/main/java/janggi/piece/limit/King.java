@@ -19,14 +19,16 @@ public class King extends LimitMovable {
                 createRoute(position, Direction.UP),
                 createRoute(position, Direction.DOWN),
                 createRoute(position, Direction.LEFT),
-                createRoute(position, Direction.RIGHT)
+                createRoute(position, Direction.RIGHT),
+                createRoute(position, Direction.LEFT_UP),
+                createRoute(position, Direction.LEFT_DOWN),
+                createRoute(position, Direction.RIGHT_UP),
+                createRoute(position, Direction.RIGHT_DOWN)
         );
     }
 
     private Route createRoute(final Position position, final Direction direction) {
-        Route route = new Route();
-        route.addRoute(position.move(direction));
-        return route;
+        return new Route(position.move(direction));
     }
 
     @Override

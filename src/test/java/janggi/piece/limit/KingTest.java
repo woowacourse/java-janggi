@@ -14,18 +14,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class KingTest {
 
     @Test
-    @DisplayName("현재 위치를 받아와 움직일 수 있는 위치 후보군을 반환한다")
-    void computeCandidatePositions() {
-
+    @DisplayName("궁은 8개의 방향으로 이동 가능하다.")
+    void test2() {
         King king = new King(Side.CHO);
-        Position currentPosition = new Position(4, 8);
-        List<Route> candidatePositions = king.computeCandidatePositions(currentPosition);
+
+        List<Route> candidatePositions = king.computeCandidatePositions(new Position(4, 8));
 
         assertThat(candidatePositions).extracting(Route::getLastPosition)
                 .contains(new Position(5, 8),
                         new Position(3, 8),
                         new Position(4, 9),
-                        new Position(4, 7));
+                        new Position(4, 7),
+                        new Position(5, 9),
+                        new Position(3, 7),
+                        new Position(5, 7),
+                        new Position(3, 9));
     }
-
 }

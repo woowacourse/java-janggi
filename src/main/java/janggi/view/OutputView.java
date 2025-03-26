@@ -56,7 +56,7 @@ public class OutputView {
             return;
         }
         if (piece.isHan()) {
-            System.out.println(ANSI_RED + piece.getType().getSymbol() + ANSI_RESET + "를 잡았습니다. ");
+            System.out.println(ANSI_RED + piece.getType().getSymbol() + ANSI_RESET + "를 잡았습니다.");
         }
     }
 
