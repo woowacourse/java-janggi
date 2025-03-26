@@ -26,11 +26,11 @@ public class JdbcPieceRepository implements PieceRepository {
     public void createTable() {
         final var query = """
                 CREATE TABLE piece (
-                     number INT NOT NULL,
-                     type VARCHAR(10) NOT NULL,
-                     rank INT NOT NULL,
-                     file INT NOT NULL,
-                     country VARCHAR(10) NOT NULL
+                    game_number INT NOT NULL,
+                    piece_type VARCHAR(10) NOT NULL,
+                    position_rank INT NOT NULL,
+                    position_file INT NOT NULL,
+                    country VARCHAR(10) NOT NULL
                 );
                 """;
         try (final var connection = connector.getConnection();
@@ -64,7 +64,7 @@ public class JdbcPieceRepository implements PieceRepository {
         pieces.putIfAbsent(Country.CHO, new ArrayList<>());
         pieces.putIfAbsent(Country.HAN, new ArrayList<>());
 
-        final var query = "SELECT * FROM piece WHERE piece.number = ?";
+        final var query = "SELECT * FROM piece WHERE piece.game_number = ?";
 
         try (final var connection = connector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)
@@ -73,9 +73,9 @@ public class JdbcPieceRepository implements PieceRepository {
             final ResultSet result = preparedStatement.executeQuery();
 
             while (result.next()) {
-                final String pieceTypeString = result.getString("type");
-                final int rankString = result.getInt("rank");
-                final int fileString = result.getInt("file");
+                final String pieceTypeString = result.getString("piece_type");
+                final int rankString = result.getInt("position_rank");
+                final int fileString = result.getInt("position_file");
                 final String countryString = result.getString("country");
 
                 final PieceType type = convertToPieceType(pieceTypeString);

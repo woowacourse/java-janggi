@@ -19,8 +19,8 @@ public class JdbcTurnRepository implements TurnRepository {
     public void createTable() {
         final var query = """
                 CREATE TABLE turn (
-                     number INT NOT NULL,
-                     country VARCHAR(10) NOT NULL
+                    game_number INT NOT NULL,
+                    country VARCHAR(10) NOT NULL
                 );
                 """;
         try (final var connection = connector.getConnection();
@@ -50,7 +50,7 @@ public class JdbcTurnRepository implements TurnRepository {
     @Override
     @SuppressWarnings("SqlNoDataSourceInspection")
     public Country findNextTurn(final int number) {
-        final var query = "SELECT * FROM turn WHERE turn.number = ?";
+        final var query = "SELECT * FROM turn WHERE turn.game_number = ?";
 
         try (final var connection = connector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)

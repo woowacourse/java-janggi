@@ -7,9 +7,7 @@ services:
       - "23306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: k-chess
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: janggi
       TZ: Asia/Seoul
     volumes:
       - ./db/mysql/data:/var/lib/mysql
