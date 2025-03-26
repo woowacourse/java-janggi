@@ -89,4 +89,20 @@ class JolTest {
         //then
         Assertions.assertThat(movedJol.getPosition()).isEqualTo(destination);
     }
+
+    @DisplayName("적 장기말이 목적지에 있을 때, 잡아서 없애버린다.")
+    @Test
+    void test6() {
+        //given
+        Jol jol = Jol.from(STANDARD);
+        JanggiPosition destination = new JanggiPosition(4,3);
+        Jol enemyJol = Jol.from(destination);
+        Pieces enemyPieces = new Pieces(List.of(enemyJol));
+
+        //when
+        Jol movedJol = jol.move(destination, enemyPieces, new Pieces(List.of()));
+
+        //then
+        Assertions.assertThat(enemyPieces.isNotBlockedBy(destination)).isTrue();
+    }
 }
