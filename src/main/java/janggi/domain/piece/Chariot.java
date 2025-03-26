@@ -38,9 +38,9 @@ public class Chariot extends Piece {
     }
 
     private void validateNoObstaclesOnPath(
-            Map<Position, Piece> board,
-            Position beforePosition,
-            Position afterPosition) {
+            final Map<Position, Piece> board,
+            final Position beforePosition,
+            final Position afterPosition) {
         Movement nextMovement = Movement.findUnitMovement(
                 afterPosition.x() - beforePosition.x(),
                 afterPosition.y() - beforePosition.y()

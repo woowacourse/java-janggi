@@ -12,7 +12,7 @@ public class OutputView {
     private static final String COLOR_CODE_RED = "\u001B[31m";
     private static final String COLOR_CODE_YELLOW = "\u001B[33m";
 
-    public void printBoard(Board board) {
+    public void printBoard(final Board board) {
         System.out.print("   ");
         for (int j = 1; j <= 9; j++) {
             System.out.printf("%4s", j + "");
@@ -29,7 +29,7 @@ public class OutputView {
         }
     }
 
-    private String setPrintColorByTeam(Piece piece) {
+    private String setPrintColorByTeam(final Piece piece) {
         if (piece.getTeam().equals(Team.BLUE)) {
             return COLOR_CODE_BLUE;
         }

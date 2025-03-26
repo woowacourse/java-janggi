@@ -7,6 +7,7 @@ import janggi.domain.piece.HorseSide;
 import janggi.domain.piece.None;
 import janggi.domain.piece.Position;
 import janggi.domain.piece.Soldier;
+import janggi.domain.piece.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,7 @@ class BoardTest {
         Position beforePosition = new Position(7, 1);
         Position afterPosition = new Position(6, 1);
 
-        board.movePiece(beforePosition, afterPosition);
+        board.movePiece(Team.BLUE, beforePosition, afterPosition);
 
         assertThat(board.getPieceByPosition(beforePosition)).isInstanceOf(None.class);
         assertThat(board.getPieceByPosition(afterPosition)).isInstanceOf(Soldier.class);
@@ -34,6 +35,6 @@ class BoardTest {
         Position beforePosition = new Position(7, 1);
         Position afterPosition = new Position(5, 1);
 
-        assertThatThrownBy(() -> board.movePiece(beforePosition, afterPosition));
+        assertThatThrownBy(() -> board.movePiece(Team.RED, beforePosition, afterPosition));
     }
 }

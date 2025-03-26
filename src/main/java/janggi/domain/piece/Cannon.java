@@ -38,13 +38,16 @@ public class Cannon extends Piece {
         return afterPosition.x() == beforePosition.x() || afterPosition.y() == beforePosition.y();
     }
 
-    private void validateDestinationNotCannon(Map<Position, Piece> board, Position afterPosition) {
+    private void validateDestinationNotCannon(final Map<Position, Piece> board, final Position afterPosition) {
         if (board.get(afterPosition).isCannon()) {
             throw new IllegalArgumentException("불가능한 이동입니다.");
         }
     }
 
-    private void validateSingleJumpOverPiece(Map<Position, Piece> board, Position beforePosition, Position afterPosition) {
+    private void validateSingleJumpOverPiece(
+            final Map<Position, Piece> board,
+            final Position beforePosition,
+            final Position afterPosition) {
         Movement nextMovement = Movement.findUnitMovement(
                 afterPosition.x() - beforePosition.x(),
                 afterPosition.y() - beforePosition.y()

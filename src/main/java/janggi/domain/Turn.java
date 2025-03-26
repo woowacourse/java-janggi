@@ -9,7 +9,7 @@ public class Turn {
         this.turn = turn;
     }
 
-    public static Turn startWith(Team team) {
+    public static Turn startWith(final Team team) {
         return new Turn(team);
     }
 
@@ -18,7 +18,7 @@ public class Turn {
         return turn;
     }
 
-    private void switchTeam(Team currentTurn) {
+    private void switchTeam(final Team currentTurn) {
         if (currentTurn == Team.RED) {
             turn = Team.BLUE;
         }

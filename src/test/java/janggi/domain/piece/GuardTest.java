@@ -38,7 +38,7 @@ class GuardTest {
     @DisplayName("사의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
     @CsvSource(value = {"7,5", "5,7"})
     @ParameterizedTest
-    void move2(int x, int y) {
+    void move2(final int x, final int y) {
         Guard guard = new Guard(Team.BLUE);
         Position afterPosition = new Position(x, y);
 

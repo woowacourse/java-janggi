@@ -38,7 +38,7 @@ class SoldierTest {
     @DisplayName("청졸의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
     @CsvSource(value = {"6,5", "5,7"})
     @ParameterizedTest
-    void move2(int x, int y) {
+    void move2(final int x, final int y) {
         Soldier soldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(x, y);
 
@@ -49,7 +49,7 @@ class SoldierTest {
     @DisplayName("홍졸의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
     @CsvSource(value = {"4,5", "5,7"})
     @ParameterizedTest
-    void move3(int x, int y) {
+    void move3(final int x, final int y) {
         Soldier soldier = new Soldier(Team.RED);
         Position afterPosition = new Position(x, y);
 

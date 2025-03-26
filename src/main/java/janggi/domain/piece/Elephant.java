@@ -28,19 +28,19 @@ public class Elephant extends Piece {
         super("상", team);
     }
 
-    public static List<Position> getInitialPositions(Team team, HorseSide leftHorsePosition, HorseSide rightHorsePosition) {
+    public static List<Position> getInitialPositions(final Team team, final HorseSide leftHorsePosition, final HorseSide rightHorsePosition) {
         return team.equals(Team.BLUE)
                 ? getBlueInitialPositions(leftHorsePosition, rightHorsePosition)
                 : getRedInitialPositions(leftHorsePosition, rightHorsePosition);
     }
 
-    private static List<Position> getBlueInitialPositions(HorseSide leftHorsePosition, HorseSide rightHorsePosition) {
+    private static List<Position> getBlueInitialPositions(final HorseSide leftHorsePosition, final HorseSide rightHorsePosition) {
         return List.of(
                 INITIAL_POSITIONS_BLUE_LEFT.get(leftHorsePosition.value()),
                 INITIAL_POSITIONS_BLUE_RIGHT.get(rightHorsePosition.value()));
     }
 
-    private static List<Position> getRedInitialPositions(HorseSide leftHorsePosition, HorseSide rightHorsePosition) {
+    private static List<Position> getRedInitialPositions(final HorseSide leftHorsePosition, final HorseSide rightHorsePosition) {
         return List.of(
                 INITIAL_POSITIONS_RED_LEFT.get(leftHorsePosition.value()),
                 INITIAL_POSITIONS_RED_RIGHT.get(rightHorsePosition.value()));
@@ -54,7 +54,7 @@ public class Elephant extends Piece {
         };
     }
 
-    private void validateNoObstaclesOnPath(Map<Position, Piece> board, Position beforePosition, Position afterPosition) {
+    private void validateNoObstaclesOnPath(final Map<Position, Piece> board, final Position beforePosition, final Position afterPosition) {
         List<Movement> pathMovements = ElephantMovement.findPathMovements(
                 afterPosition.x() - beforePosition.x(),
                 afterPosition.y() - beforePosition.y()

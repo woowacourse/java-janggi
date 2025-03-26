@@ -2,8 +2,10 @@ package janggi.controller;
 
 import janggi.domain.Board;
 import janggi.domain.BoardFactory;
+import janggi.domain.Turn;
 import janggi.domain.piece.HorseSide;
 import janggi.domain.piece.Position;
+import janggi.domain.piece.Team;
 import janggi.view.InputConverter;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -11,19 +13,22 @@ import janggi.view.OutputView;
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final Turn turn;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(final InputView inputView, final OutputView outputView, final Turn turn) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.turn = turn;
     }
 
     public void startJanggi() {
         Board board = getInitializedBoardByInput();
 
         while (true) {
+            Team nowTeam = turn.next();
             outputView.printBoard(board);
-            String pieceMovement = inputView.getPieceMovement();
-            movePieceByPieceMovement(pieceMovement, board);
+            String pieceMovement = inputView.getPieceMovement(nowTeam);
+            movePieceByPieceMovement(nowTeam, pieceMovement, board);
         }
     }
 
@@ -48,18 +53,18 @@ public class JanggiController {
         throw new IllegalArgumentException("올바르지 않은 입력입니다.");
     }
 
-    private void movePieceByPieceMovement(final String pieceMovement, final Board board) {
+    private void movePieceByPieceMovement(final Team team, final String pieceMovement, final Board board) {
         Position beforePosition = getBeforePosition(pieceMovement);
         Position afterPosition = getAfterPosition(pieceMovement);
-        board.movePiece(beforePosition, afterPosition);
+        board.movePiece(team, beforePosition, afterPosition);
     }
 
-    private Position getBeforePosition(String pieceMovement) {
+    private Position getBeforePosition(final String pieceMovement) {
         int parsedInt = Integer.parseInt(pieceMovement.split(" ")[0]);
         return new Position(parsedInt / 10, parsedInt % 10);
     }
 
-    private Position getAfterPosition(String pieceMovement) {
+    private Position getAfterPosition(final String pieceMovement) {
         int parsedInt = Integer.parseInt(pieceMovement.split(" ")[1]);
         return new Position(parsedInt / 10, parsedInt % 10);
     }

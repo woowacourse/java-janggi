@@ -29,9 +29,9 @@ public class Horse extends Piece {
     }
 
     public static List<Position> getInitialPositions(
-            Team team,
-            HorseSide leftHorsePosition,
-            HorseSide rightHorsePosition) {
+            final Team team,
+            final HorseSide leftHorsePosition,
+            final HorseSide rightHorsePosition) {
         if (team.equals(Team.BLUE)) {
             return getBlueInitialPositions(leftHorsePosition, rightHorsePosition);
         }
@@ -39,8 +39,8 @@ public class Horse extends Piece {
     }
 
     private static List<Position> getBlueInitialPositions(
-            HorseSide leftHorsePosition,
-            HorseSide rightHorsePosition
+            final HorseSide leftHorsePosition,
+            final HorseSide rightHorsePosition
     ) {
         return List.of(
                 INITIAL_POSITIONS_BLUE_LEFT.get(leftHorsePosition.value()),
@@ -48,8 +48,8 @@ public class Horse extends Piece {
     }
 
     private static List<Position> getRedInitialPositions(
-            HorseSide leftHorsePosition,
-            HorseSide rightHorsePosition
+            final HorseSide leftHorsePosition,
+            final HorseSide rightHorsePosition
     ) {
         return List.of(
                 INITIAL_POSITIONS_RED_LEFT.get(leftHorsePosition.value()),

@@ -110,11 +110,11 @@ class JanggiTest {
     @MethodSource("getHorseElephant")
     @ParameterizedTest
     void initializeHorse(
-            HorseSide blueLeftHorsePosition,
-            HorseSide blueRightHorsePosition,
-            HorseSide redLeftHorsePosition,
-            HorseSide redRightHorsePosition,
-            List<Position> expectedPosition
+            final HorseSide blueLeftHorsePosition,
+            final HorseSide blueRightHorsePosition,
+            final HorseSide redLeftHorsePosition,
+            final HorseSide redRightHorsePosition,
+            final List<Position> expectedPosition
     ) {
         board = BoardFactory.getInitializedBoard(
                 blueLeftHorsePosition,

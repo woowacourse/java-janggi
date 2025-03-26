@@ -40,7 +40,7 @@ class ChariotTest {
     @DisplayName("차의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
     @CsvSource(value = {"7,7", "4,4"})
     @ParameterizedTest
-    void move2(int x, int y) {
+    void move2(final int x, final int y) {
         Chariot chariot = new Chariot(Team.BLUE);
         Position afterPosition = new Position(x, y);
 

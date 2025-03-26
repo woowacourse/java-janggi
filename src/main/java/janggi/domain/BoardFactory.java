@@ -22,10 +22,10 @@ public class BoardFactory {
     private static final Map<String, Piece> pieceCache = new HashMap<>();
 
     public static Board getInitializedBoard(
-            HorseSide blueLeftHorsePosition,
-            HorseSide blueRightHorsePosition,
-            HorseSide redLeftHorsePosition,
-            HorseSide redRightHorsePosition
+            final HorseSide blueLeftHorsePosition,
+            final HorseSide blueRightHorsePosition,
+            final HorseSide redLeftHorsePosition,
+            final HorseSide redRightHorsePosition
     ) {
         Map<Position, Piece> pieces = new HashMap<>();
         initializeWithNones(pieces);
@@ -49,10 +49,10 @@ public class BoardFactory {
 
     private static void initializeBoard(
             final Map<Position, Piece> pieces,
-            HorseSide blueLeftHorsePosition,
-            HorseSide blueRightHorsePosition,
-            HorseSide redLeftHorsePosition,
-            HorseSide redRightHorsePosition
+            final HorseSide blueLeftHorsePosition,
+            final HorseSide blueRightHorsePosition,
+            final HorseSide redLeftHorsePosition,
+            final HorseSide redRightHorsePosition
     ) {
         initializePieces(pieces, General.INITIAL_POSITIONS_BLUE, General.INITIAL_POSITIONS_RED, General::new);
         initializePieces(pieces, Guard.INITIAL_POSITIONS_BLUE, Guard.INITIAL_POSITIONS_RED, Guard::new);
@@ -74,9 +74,9 @@ public class BoardFactory {
     }
 
     private static void initializePieces(final Map<Position, Piece> pieces,
-                                         List<Position> bluePositions,
-                                         List<Position> redPositions,
-                                         Function<Team, Piece> pieceCreator) {
+                                         final List<Position> bluePositions,
+                                         final List<Position> redPositions,
+                                         final Function<Team, Piece> pieceCreator) {
         for (Position position : bluePositions) {
             pieces.put(position, getOrCreatePiece(pieceCreator, Team.BLUE));
         }
@@ -85,7 +85,7 @@ public class BoardFactory {
         }
     }
 
-    private static Piece getOrCreatePiece(Function<Team, Piece> pieceCreator, Team team) {
+    private static Piece getOrCreatePiece(final Function<Team, Piece> pieceCreator, final Team team) {
         String key = team.name() + pieceCreator.getClass().getSimpleName();
         return pieceCache.computeIfAbsent(key, k -> pieceCreator.apply(team));
     }

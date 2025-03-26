@@ -8,11 +8,11 @@ public record Movement(
     public static final Movement LEFT = new Movement(0, -1);
     public static final Movement RIGHT = new Movement(0, 1);
 
-    public Movement plus(Movement other) {
+    public Movement plus(final Movement other) {
         return new Movement(x + other.x, y + other.y());
     }
 
-    public static Movement findUnitMovement(int x, int y) {
+    public static Movement findUnitMovement(final int x, final int y) {
         if (x < 0) {
             return UP;
         }

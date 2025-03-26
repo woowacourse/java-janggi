@@ -38,7 +38,7 @@ class HorseTest {
     @DisplayName("마의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
     @CsvSource(value = {"7,7", "4,4", "6,5"})
     @ParameterizedTest
-    void move2(int x, int y) {
+    void move2(final int x, final int y) {
         Horse horse = new Horse(Team.BLUE);
         Position afterPosition = new Position(x, y);
 
@@ -83,7 +83,7 @@ class HorseTest {
             "7,6",
     })
     @ParameterizedTest
-    void move6(int x, int y) {
+    void move6(final int x, final int y) {
         Horse horse = new Horse(Team.BLUE);
         Position afterPosition = new Position(x, y);
 

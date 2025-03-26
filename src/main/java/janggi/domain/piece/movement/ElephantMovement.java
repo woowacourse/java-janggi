@@ -68,16 +68,16 @@ public enum ElephantMovement {
     private final Movement destinationMovement;
     private final List<Movement> pathMovements;
 
-    ElephantMovement(Movement destinationMovement, List<Movement> pathMovements) {
+    ElephantMovement(final Movement destinationMovement, final List<Movement> pathMovements) {
         this.destinationMovement = destinationMovement;
         this.pathMovements = pathMovements;
     }
 
-    public static List<Movement> findPathMovements(int x, int y) {
+    public static List<Movement> findPathMovements(final int x, final int y) {
         return find(x, y).getPathMovements();
     }
 
-    private static ElephantMovement find(int x, int y) {
+    private static ElephantMovement find(final int x, final int y) {
         Movement relativeMovementToMove = new Movement(x, y);
         return Arrays.stream(ElephantMovement.values())
                 .filter(horseDirection -> horseDirection.destinationMovement.equals(relativeMovementToMove))

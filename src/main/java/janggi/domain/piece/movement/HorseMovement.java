@@ -43,16 +43,16 @@ public enum HorseMovement {
     private final Movement destinationMovement;
     private final Movement pathMovement;
 
-    HorseMovement(Movement destinationMovement, Movement pathMovement) {
+    HorseMovement(final Movement destinationMovement, final Movement pathMovement) {
         this.destinationMovement = destinationMovement;
         this.pathMovement = pathMovement;
     }
 
-    public static Movement findPathMovement(int x, int y) {
+    public static Movement findPathMovement(final int x, final int y) {
         return find(x, y).getPathMovement();
     }
 
-    private static HorseMovement find(int x, int y) {
+    private static HorseMovement find(final int x, final int y) {
         Movement movement = new Movement(x, y);
         return Arrays.stream(HorseMovement.values())
                 .filter(horseMovement -> horseMovement.destinationMovement.equals(movement))
