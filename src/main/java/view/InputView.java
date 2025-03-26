@@ -15,12 +15,34 @@ public class InputView {
             4. 우상 배치""";
     private final Scanner scanner = new Scanner(System.in);
 
-    public List<Dot> readPieceMovement(Dynasty dynasty) {
-        System.out.printf("""
-                %n%s의 차례입니다. 말을 움직여주세요
-                ex) 기물의 x좌표, 기물의 y좌표 > 이동할 x좌표, 이동할 y좌표
-                """, dynasty.getName());
+    public int readHanArrangement() {
+        System.out.println("한나라는 배치 전략을 선택하세요.");
+        System.out.println(ARRANGE_PROMPT);
+        return Integer.parseInt(scanner.nextLine());
+    }
 
+    public int readChoArrangement() {
+        System.out.println("초나라는 배치 전략을 선택하세요");
+        System.out.println(ARRANGE_PROMPT);
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    public int getTurnOption(Dynasty currentDynasty) {
+        System.out.printf("""
+                %n%s의 차례입니다.
+                수행할 옵션을 입력해주세요
+                1. 기물 이동
+                2. 머무르기
+                3. 한 수 물러주기
+                4. 점수 확인
+                """, currentDynasty.getName());
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    public List<Dot> readPieceMovement() {
+        System.out.println("""
+                말을 움직여주세요
+                ex) 기물의 x좌표, 기물의 y좌표 > 이동할 x좌표, 이동할 y좌표""");
         String movementInput = scanner.nextLine();
 
         String[] originAndDestination = movementInput.split(">");
@@ -41,16 +63,4 @@ public class InputView {
         return List.of(origin, destination);
     }
 
-    public int readHanArrangement() {
-        System.out.println("한나라는 배치 전략을 선택하세요.");
-        System.out.println(ARRANGE_PROMPT);
-        System.out.println();
-        return Integer.parseInt(scanner.nextLine());
-    }
-
-    public int readChoArrangement() {
-        System.out.println("초나라는 배치 전략을 선택하세요");
-        System.out.println(ARRANGE_PROMPT);
-        return Integer.parseInt(scanner.nextLine());
-    }
 }

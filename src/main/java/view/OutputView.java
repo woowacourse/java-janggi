@@ -5,6 +5,8 @@ import janggiGame.board.Dot;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.piece.Type;
+import janggiGame.state.GameResult;
+import janggiGame.state.GameScore;
 import java.util.Map;
 
 public class OutputView {
@@ -61,6 +63,22 @@ public class OutputView {
             case ELEPHANT -> {
                 return "상";
             }
+            case null, default -> throw new RuntimeException();
+        }
+    }
+
+    public void printGameScore(GameScore gameScore) {
+        System.out.printf("한나라 점수: %.1f%n", gameScore.hanScore());
+        System.out.printf("초나라 점수: %d%n", (int) gameScore.choScore());
+
+    }
+
+    public void printGameResult(GameResult gameResult) {
+        System.out.print("\n게임 결과: ");
+        switch (gameResult) {
+            case CHO_WIN -> System.out.println("초나라 승리!!");
+            case HAN_WIN -> System.out.println("한나라 승리!!");
+            case DRAW -> System.out.println("무승부");
             case null, default -> throw new RuntimeException();
         }
     }
