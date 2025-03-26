@@ -18,12 +18,12 @@ public class JanggiGameDao {
         this.connector = connector;
     }
 
-    public void addGame(final int strategyOfCho, final int strategyOfHan) {
+    public void addGame(final BoardArrangementStrategy strategyOfCho, final BoardArrangementStrategy strategyOfHan) {
         final String query = "INSERT INTO janggi_game(cho_strategy, han_strategy) VALUES(?, ?)";
         try (final var connection = connector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, strategyOfCho);
-            preparedStatement.setInt(2, strategyOfHan);
+            preparedStatement.setInt(1, parseStrategy(strategyOfCho));
+            preparedStatement.setInt(2, parseStrategy(strategyOfHan));
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new IllegalStateException(e.getMessage());
@@ -41,7 +41,7 @@ public class JanggiGameDao {
         } catch (SQLException e) {
             throw new IllegalStateException("게임 탐색에 실패했습니다.");
         }
-        throw new IllegalStateException("게임이 존재하지 않습니다.");
+        return "-1";
     }
 
     public BoardArrangementStrategy findChoStrategyById(String gameId) {
@@ -74,7 +74,6 @@ public class JanggiGameDao {
         throw new IllegalStateException("게임이 존재하지 않습니다.");
     }
 
-
     private BoardArrangementStrategy parseStrategy(int option, JanggiSide side) {
         if (option == 1) {
             return new LeftBoardArrangementStrategy(side);
@@ -87,6 +86,22 @@ public class JanggiGameDao {
         }
         if (option == 4) {
             return new OuterBoardArrangementStrategy(side);
+        }
+        throw new IllegalArgumentException("상차림 입력이 올바르지 않습니다.");
+    }
+
+    private int parseStrategy(BoardArrangementStrategy strategy) {
+        if (strategy instanceof LeftBoardArrangementStrategy) {
+            return 1;
+        }
+        if (strategy instanceof RightBoardArrangementStrategy) {
+            return 2;
+        }
+        if (strategy instanceof InnerBoardArrangementStrategy) {
+            return 3;
+        }
+        if (strategy instanceof OuterBoardArrangementStrategy) {
+            return 4;
         }
         throw new IllegalArgumentException("상차림 입력이 올바르지 않습니다.");
     }

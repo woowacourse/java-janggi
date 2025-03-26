@@ -76,4 +76,10 @@ public class InputView {
         }
         throw new IllegalArgumentException("상차림 입력이 올바르지 않습니다.");
     }
+
+    public GameContinueOption getPreviousGameContinueSelectionInput() {
+        System.out.println("이전에 진행하던 게임을 이어서 하시겠습니까? (y/n)");
+        String optionInput = scanner.nextLine();
+        return GameContinueOption.parseToOption(optionInput);
+    }
 }
