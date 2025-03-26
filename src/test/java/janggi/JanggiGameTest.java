@@ -20,21 +20,21 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class BoardTest {
+public class JanggiGameTest {
 
     @Nested
     @DisplayName("보드 초기화 테스트")
-    class InitBoardTest {
+    class InitJanggiGameTest {
 
         @Test
         @DisplayName("보드가 초기화 되면 32개의 기물을 가지고 있다.")
         void create32PiecesWhenStart() {
             // when
-            Board board = new Board();
+            JanggiGame janggiGame = new JanggiGame();
 
             // then
             int expected = 32;
-            assertThat(board.getBoard()).hasSize(expected);
+            assertThat(janggiGame.getBoard()).hasSize(expected);
         }
 
         @ParameterizedTest
@@ -42,10 +42,10 @@ public class BoardTest {
         @CsvSource(value = {"RED", "BLUE"})
         void createEachSide16PiecesWhenStart(Color color) {
             // when
-            Board board = new Board();
+            JanggiGame janggiGame = new JanggiGame();
 
             // then
-            List<Piece> pieces = board.getBoard()
+            List<Piece> pieces = janggiGame.getBoard()
                     .values()
                     .stream()
                     .toList();
@@ -65,7 +65,7 @@ public class BoardTest {
         @DisplayName("현재 위치의 말과 목적지의 말이 같은 팀이라면 예외를 발생시킨다.")
         void sholudThrowExceptionWhenCurrentPieceAndDestinationPieceIsSameSide() {
             // given
-            Board board = new Board(
+            JanggiGame janggiGame = new JanggiGame(
                     new Pieces(Map.of(
                             new Position(1, 1), new Tank(Color.RED),
                             new Position(2, 1), new Soldier(Color.RED)
@@ -75,7 +75,7 @@ public class BoardTest {
             Position end = new Position(2, 1);
 
             // then
-            assertThatThrownBy(() -> board.move(start, end))
+            assertThatThrownBy(() -> janggiGame.move(start, end))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -84,7 +84,7 @@ public class BoardTest {
         void movePieceWithStartEndPosition() {
             // given
             Piece piece = new Tank(Color.RED);
-            Board board = new Board(
+            JanggiGame janggiGame = new JanggiGame(
                     new Pieces(Map.of(
                             new Position(1, 1), piece
                     ))
@@ -93,12 +93,12 @@ public class BoardTest {
             Position end = new Position(2, 1);
 
             // when
-            board.move(start, end);
+            janggiGame.move(start, end);
 
             // then
             assertAll(
-                    () -> assertThat(board.getBoard().get(end)).isEqualTo(piece),
-                    () -> assertThat(board.getBoard().get(start)).isNull()
+                    () -> assertThat(janggiGame.getBoard().get(end)).isEqualTo(piece),
+                    () -> assertThat(janggiGame.getBoard().get(start)).isNull()
             );
         }
 
@@ -107,7 +107,7 @@ public class BoardTest {
         void shouldThrowExceptionWhenUnfollowingRule() {
             // given
             Piece piece = new Tank(Color.RED);
-            Board board = new Board(
+            JanggiGame janggiGame = new JanggiGame(
                     new Pieces(Map.of(
                             new Position(1, 1), piece
                     ))
@@ -118,7 +118,7 @@ public class BoardTest {
             // when
 
             // then
-            assertThatThrownBy(() -> board.move(start, end))
+            assertThatThrownBy(() -> janggiGame.move(start, end))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -127,7 +127,7 @@ public class BoardTest {
         void shouldThrowExceptionWhenExistsPieceOnPath() {
             // given
             Piece piece = new Tank(Color.RED);
-            Board board = new Board(
+            JanggiGame janggiGame = new JanggiGame(
                     new Pieces(Map.of(
                             new Position(1, 1), piece,
                             new Position(3, 1), new Soldier(Color.RED)
@@ -139,7 +139,7 @@ public class BoardTest {
             // when
 
             // then
-            assertThatThrownBy(() -> board.move(start, end))
+            assertThatThrownBy(() -> janggiGame.move(start, end))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -148,7 +148,7 @@ public class BoardTest {
         void shouldThrowExceptionWhenExistsOverTwoPieceOnCannonPath() {
             // given
             Piece piece = new Cannon(Color.RED);
-            Board board = new Board(
+            JanggiGame janggiGame = new JanggiGame(
                     new Pieces(Map.of(
                             new Position(1, 1), piece,
                             new Position(3, 1), new Soldier(Color.RED),
@@ -161,7 +161,7 @@ public class BoardTest {
             // when
 
             // then
-            assertThatThrownBy(() -> board.move(start, end))
+            assertThatThrownBy(() -> janggiGame.move(start, end))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -170,7 +170,7 @@ public class BoardTest {
         void shouldThrowExceptionWhenExistsOnePieceOnCannonPath() {
             // given
             Piece piece = new Cannon(Color.RED);
-            Board board = new Board(
+            JanggiGame janggiGame = new JanggiGame(
                     new Pieces(Map.of(
                             new Position(1, 1), piece,
                             new Position(3, 1), new Soldier(Color.RED)
@@ -182,7 +182,7 @@ public class BoardTest {
             // when
 
             // then
-            assertThatCode(() -> board.move(start, end))
+            assertThatCode(() -> janggiGame.move(start, end))
                     .doesNotThrowAnyException();
         }
 
@@ -191,7 +191,7 @@ public class BoardTest {
         void shouldThrowExceptionWhenExistsCannonOnCannonPath() {
             // given
             Piece piece = new Cannon(Color.RED);
-            Board board = new Board(
+            JanggiGame janggiGame = new JanggiGame(
                     new Pieces(Map.of(
                             new Position(1, 1), piece,
                             new Position(3, 1), new Cannon(Color.RED)
@@ -203,7 +203,7 @@ public class BoardTest {
             // when
 
             // then
-            assertThatThrownBy(() -> board.move(start, end))
+            assertThatThrownBy(() -> janggiGame.move(start, end))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -212,7 +212,7 @@ public class BoardTest {
         void shouldThrowExceptionWhenEmptyOnCannonPath() {
             // given
             Piece piece = new Cannon(Color.RED);
-            Board board = new Board(
+            JanggiGame janggiGame = new JanggiGame(
                     new Pieces(Map.of(
                             new Position(1, 1), piece
                     ))
@@ -223,7 +223,7 @@ public class BoardTest {
             // when
 
             // then
-            assertThatThrownBy(() -> board.move(start, end))
+            assertThatThrownBy(() -> janggiGame.move(start, end))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -232,7 +232,7 @@ public class BoardTest {
         void shouldThrowExceptionWhenExistsCannonOnCannonEndPosition() {
             // given
             Piece piece = new Cannon(Color.RED);
-            Board board = new Board(
+            JanggiGame janggiGame = new JanggiGame(
                     new Pieces(Map.of(
                             new Position(1, 1), piece,
                             new Position(3, 1), new Soldier(Color.RED),
@@ -245,7 +245,7 @@ public class BoardTest {
             // when
 
             // then
-            assertThatThrownBy(() -> board.move(start, end))
+            assertThatThrownBy(() -> janggiGame.move(start, end))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

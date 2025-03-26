@@ -7,15 +7,15 @@ import janggi.position.Position;
 import java.util.List;
 import java.util.Map;
 
-public class Board {
+public class JanggiGame {
 
     private final Pieces pieces;
 
-    public Board(final Pieces pieces) {
+    public JanggiGame(final Pieces pieces) {
         this.pieces = pieces;
     }
 
-    public Board() {
+    public JanggiGame() {
         this.pieces = Pieces.init();
     }
 
