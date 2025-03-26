@@ -65,7 +65,7 @@ public class JanggiController {
         outputView.printBoard(playingBoard);
 
         janggiDBService.updateMoveResult(source, destination, pieceType, turnColor);
-        janggiDBService.updateGameState(janggiGame.getTurnColor());
+        janggiDBService.updateGameState(janggiGame.getTurnColor(), janggiGame.getTeamScore());
     }
 
     private Position createPosition(char rowInput, char colInput) {
@@ -95,7 +95,7 @@ public class JanggiController {
             try {
                 runnable.run();
                 return;
-            } catch (Exception e) {
+            } catch (IllegalArgumentException e) {
                 System.out.println("[Error] " + e.getMessage() + "\n");
             }
         }

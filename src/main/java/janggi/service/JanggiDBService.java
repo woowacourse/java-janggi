@@ -34,11 +34,14 @@ public class JanggiDBService {
         gameStateDao.saveStartGameState(teamColor);
     }
 
-    public void updateGameState(TeamColor teamColor) {
+    public void updateGameState(TeamColor teamColor, Map<TeamColor, Integer> teamScore) {
         int gameId = gameStateDao.findInProgressGameId()
                 .orElseThrow(() -> new IllegalStateException("진행 중인 게임이 없습니다."));
 
-        gameStateDao.updateGameState(gameId, teamColor);
+        int redScore = teamScore.getOrDefault(TeamColor.RED, 0);
+        int blueScore = teamScore.getOrDefault(TeamColor.BLUE, 0);
+
+        gameStateDao.updateGameState(gameId, teamColor, redScore, blueScore);
     }
 
     public void finishGame(TeamColor winnerColor) {
@@ -75,6 +78,11 @@ public class JanggiDBService {
         TeamColor teamColor = TeamColor.valueOf(TeamColor.class, gameStateDto.turnColor());
         PlayingBoard playingBoard = selectBoard(gameId);
 
-        return new JanggiGame(State.from(teamColor, playingBoard), new HashMap<>());
+        State gameState = State.from(teamColor, playingBoard);
+        Map<TeamColor, Integer> teamScore = new HashMap<>();
+        teamScore.put(TeamColor.RED, gameStateDto.redScore());
+        teamScore.put(TeamColor.BLUE, gameStateDto.blueScore());
+
+        return new JanggiGame(gameState, teamScore);
     }
 }

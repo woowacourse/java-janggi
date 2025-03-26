@@ -3,6 +3,8 @@ package janggi.dto;
 public record GameStateDto(
         String turnColor,
         String winner,
-        boolean isFinished
+        boolean isFinished,
+        int redScore,
+        int blueScore
 ) {
 }

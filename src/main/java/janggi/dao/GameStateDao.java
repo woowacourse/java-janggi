@@ -28,14 +28,16 @@ public class GameStateDao {
         }
     }
 
-    public void updateGameState(int gameId, TeamColor turnColor) {
-        String query = "UPDATE GameState SET turn_color = ?, last_updated = CURRENT_TIMESTAMP WHERE id = ?";
+    public void updateGameState(int gameId, TeamColor turnColor, int redScore, int blueScore) {
+        String query = "UPDATE GameState SET turn_color = ?, red_score = ?, blue_score = ?, last_updated = CURRENT_TIMESTAMP WHERE id = ?";
 
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setString(1, turnColor.name());
-            preparedStatement.setInt(2, gameId);
+            preparedStatement.setInt(2, redScore);
+            preparedStatement.setInt(3, blueScore);
+            preparedStatement.setInt(4, gameId);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -78,7 +80,7 @@ public class GameStateDao {
     }
 
     public Optional<GameStateDto> findGameStateFromId(int gameId) {
-        String query = "SELECT turn_color, winner, is_finished FROM GameState WHERE id = ?";
+        String query = "SELECT turn_color, winner, is_finished, red_score, blue_score FROM GameState WHERE id = ?";
 
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -90,8 +92,10 @@ public class GameStateDao {
                 String turnColor = resultSet.getString("turn_color");
                 String winner = resultSet.getString("winner");
                 boolean isFinished = resultSet.getBoolean("is_finished");
+                int redScore = resultSet.getInt("red_score");
+                int blueScore = resultSet.getInt("blue_score");
 
-                return Optional.of(new GameStateDto(turnColor, winner, isFinished));
+                return Optional.of(new GameStateDto(turnColor, winner, isFinished, redScore, blueScore));
             }
             return Optional.empty();
         } catch (SQLException e) {
