@@ -17,7 +17,7 @@ public class CurvedMoveStrategy implements MoveStrategy {
     }
 
     private void validateCurvedMovement(final int straightMovement, final int diagonalMovement) {
-        if (straightMovement == 0 && diagonalMovement == 0) {
+        if (straightMovement == 0 || diagonalMovement == 0) {
             throw new IllegalArgumentException("직선과 대각선으로 모두 움직여야합니다.");
         }
     }
