@@ -32,7 +32,7 @@ public class JanggiConsole {
 
         resultView.printBoard(board.getPieces());
 
-        while (board.canContinue()) {
+        while (board.hasEachKing()) {
             final Team currentTeam = turn.getCurrentTeam();
             resultView.printOrder(currentTeam);
             ExceptionHandler.retry(() -> board.move(inputView.readMovingPosition(), currentTeam));

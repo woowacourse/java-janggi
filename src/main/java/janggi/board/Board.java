@@ -29,7 +29,7 @@ public class Board {
         movePiece(piece, currentPosition, arrivalPosition, path);
     }
 
-    public boolean canContinue() {
+    public boolean hasEachKing() {
         return calculateExistKing() == 2;
     }
 

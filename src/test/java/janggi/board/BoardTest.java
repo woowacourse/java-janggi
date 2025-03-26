@@ -28,7 +28,7 @@ class BoardTest {
         Board board = new Board(pieces);
 
         // When & Then
-        assertThat(board.canContinue()).isEqualTo(expected);
+        assertThat(board.hasEachKing()).isEqualTo(expected);
     }
 
     private static Stream<Arguments> 게임을_계속_진행하기_위해_두_나라의_궁이_모두_존재하면_true를_반환한다() {
