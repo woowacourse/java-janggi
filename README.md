@@ -30,7 +30,7 @@
 ## 게임 시작 로직
 
 - [x] 상차림 번호를 입력받는다
-    - 안상(1), 바깥상(2), 왼상(3), 오른상(4)
+    - 이전기록(0), 안상(1), 바깥상(2), 왼상(3), 오른상(4)
 
 - [x] 메뉴에 없는 입력을 했을 경우, 재입력을 받는다.
     - `[ERROR] 1~4의 숫자만 입력할 수 있습니다.`
@@ -107,40 +107,20 @@
 ## DB 설계
 
 ```aiignore
-create table janggi.team (
-    id int primary key auto_increment,
-    name VARCHAR(255) not null
-);
-
-create table janggi.position (
-    id int primary key auto_increment,
-    `row` int not null,
-    `column` int not null
-);
-
-create table janggi.piece (
-    id int primary key auto_increment,
-    team_id int not null,
-    foreign key (team_id) references team(id)
-);
-
 create table janggi.game (
     id int primary key auto_increment,
     setup_option int not null,
-    winning_team int,
-    finished tinyint(1) default 0 not null,
-    foreign key (winning_team) references team(id)
+    finished tinyint(1) default 0 not null
 );
 
 create table janggi.moveHistory (
     id int primary key auto_increment,
     game_id int not null,
-    piece_id int not null,
     start_row int not null,
     start_column int not null,
     end_row int not null,
     end_column int not null,
-    foreign key (piece_id) references piece(id)
+    foreign key (game_id) references game(id)
 );
 
 ```
