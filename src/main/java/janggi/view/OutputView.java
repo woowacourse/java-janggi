@@ -14,6 +14,21 @@ import java.util.Map;
 public class OutputView {
 
     public void printBoard(Map<Position, Piece> board) {
+        String[][] boardData = new String[10][11];
+
+        for (int y = 1; y <= 10; ++y) {
+            for (int x = 1; x <= 9; ++x) {
+                Position position = new Position(x, y);
+                if (board.containsKey(position)) {
+                    Piece piece = board.get(position);
+                    String pieceOutput = PieceOutput.getPieceOutputByPieceAndSide(piece);
+                    boardData[x][y] = pieceOutput;
+                    continue;
+                }
+                boardData[x][y] = ".";
+            }
+        }
+
         String[][] boardOutput = new String[9][10];
         for (int i = 0; i < boardOutput.length; i++) {
             for (int j = 0; j < boardOutput[i].length; j++) {
@@ -27,11 +42,15 @@ public class OutputView {
                 boardOutput[i][j] = ".";
             }
         }
-        for (int i = 9; i >= 0; i--) {
-            for (int j = 0; j < boardOutput.length; j++) {
-                System.out.printf("%s\t", boardOutput[j][i]);
+        printBoard(boardData);
+    }
+
+    private void printBoard(String[][] boardDate) {
+        for (int y = 1; y <= 10; ++y) {
+            for (int x = 1; x <= 9; ++x) {
+                System.out.printf("%s\t", boardDate[x][y]);
             }
-            System.out.printf("\t%d%n", i + 1);
+            System.out.printf("\t%d%n", y);
         }
         System.out.println();
         System.out.println("1\t2\t3\t4\t5\t6\t7\t8\t9");
