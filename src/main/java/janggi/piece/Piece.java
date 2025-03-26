@@ -24,8 +24,7 @@ public abstract class Piece {
         final int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
         final int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
 
-        final PieceType pieceType = getPieceType();
-        final Movement movement = findMovement(pieceType, differenceForY, differenceForX);
+        final Movement movement = findMovement(differenceForY, differenceForX);
         final Path path = makePath(movement, currentPosition, arrivalPosition);
         validatePath(pieces, path);
     }
@@ -68,13 +67,7 @@ public abstract class Piece {
                 .anyMatch(pieces::hasPiece);
     }
 
-    protected final Movement findMovement(final PieceType pieceType, int dy, int dx) {
-        if (pieceType.isIterable()) {
-            dy = calculateUnit(dy);
-            dx = calculateUnit(dx);
-        }
-        final int y = dy;
-        final int x = dx;
+    protected Movement findMovement(final int y, final int x) {
         return getMovements().stream()
                 .filter(movement -> movement.isSameMovement(y, x))
                 .findAny()
@@ -91,8 +84,6 @@ public abstract class Piece {
         }
     }
 
-    public abstract PieceType getPieceType();
-
     public final boolean matchPieceType(final PieceType givenPieceType) {
         return getPieceType() == givenPieceType;
     }
@@ -100,4 +91,6 @@ public abstract class Piece {
     public final Team getTeam() {
         return team;
     }
+
+    public abstract PieceType getPieceType();
 }

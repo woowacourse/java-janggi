@@ -23,4 +23,11 @@ public abstract class IterablePiece extends Piece {
         }
         return new Path(path);
     }
+
+    @Override
+    protected Movement findMovement(final int dy, final int dx) {
+        final int y = calculateUnit(dy);
+        final int x = calculateUnit(dx);
+        return super.findMovement(y, x);
+    }
 }
