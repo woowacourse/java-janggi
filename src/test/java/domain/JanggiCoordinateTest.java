@@ -4,6 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -133,6 +138,34 @@ class JanggiCoordinateTest {
             assertAll(
                     () -> assertThat(row).isEqualTo(6),
                     () -> assertThat(col).isEqualTo(4)
+            );
+        }
+    }
+
+    @Nested
+    class CoordinateCalcTest {
+
+        @DisplayName("두 좌표간 거리를 계산한다")
+        @ParameterizedTest
+        @MethodSource("coordinates")
+        void calcCoordinateDistance(JanggiCoordinate from, JanggiCoordinate to, int distSqaure) {
+            int fromDst = from.distanceTo(to);
+            int toDst = to.distanceTo(from);
+
+            assertAll(
+                    () -> assertThat(fromDst).isEqualTo(toDst),
+                    () -> assertThat(fromDst).isEqualTo(distSqaure)
+            );
+        }
+
+        static Stream<Arguments> coordinates() {
+            return Stream.of(
+                    Arguments.arguments(new JanggiCoordinate(0, 0), new JanggiCoordinate(3, 4), 25),
+                    Arguments.arguments(new JanggiCoordinate(1, 1), new JanggiCoordinate(4, 5), 25),
+                    Arguments.arguments(new JanggiCoordinate(2, 3), new JanggiCoordinate(2, 3), 0),
+                    Arguments.arguments(new JanggiCoordinate(2, 4), new JanggiCoordinate(5, 6), 13),
+                    Arguments.arguments(new JanggiCoordinate(5, 6), new JanggiCoordinate(6, 6), 1),
+                    Arguments.arguments(new JanggiCoordinate(5, 4), new JanggiCoordinate(6, 5), 2)
             );
         }
     }
