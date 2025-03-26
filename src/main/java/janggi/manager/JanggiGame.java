@@ -1,6 +1,5 @@
 package janggi.manager;
 
-import janggi.common.ErrorMessage;
 import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.Side;
@@ -42,11 +41,7 @@ public class JanggiGame {
         Position selectedPosition = getSelectedPosition();
         Position targetPosition = getTargetPosition();
 
-        if (!board.canMovePiece(turn, selectedPosition, targetPosition)) {
-            throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_PIECE.getMessage());
-        }
-
-        board.movePiece(selectedPosition, targetPosition);
+        board.makeMove(turn, selectedPosition, targetPosition);
     }
 
     private Position getSelectedPosition() {

@@ -14,13 +14,12 @@ public class Board {
         this.pieces = new HashMap<>(pieces);
     }
 
-    public boolean canMovePiece(Side currentTurn, Position selectedPosition, Position targetPosition) {
+    public void makeMove(Side currentTurn, Position selectedPosition, Position targetPosition) {
         validatePositionExists(selectedPosition);
         validateCurrentTurn(selectedPosition, currentTurn);
         validateTargetPiece(selectedPosition, targetPosition);
 
-        Piece selectedPiece = getPiece(selectedPosition);
-        return selectedPiece.canMove(Collections.unmodifiableMap(pieces), selectedPosition, targetPosition);
+        movePiece(selectedPosition, targetPosition);
     }
 
     private void validatePositionExists(Position position) {
@@ -55,8 +54,13 @@ public class Board {
         return pieces.get(position);
     }
 
-    public void movePiece(Position selectedPosition, Position targetPosition) {
+    private void movePiece(Position selectedPosition, Position targetPosition) {
         Piece selectedPiece = getPiece(selectedPosition);
+
+        if (!selectedPiece.canMove(Collections.unmodifiableMap(pieces), selectedPosition, targetPosition)) {
+            throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_PIECE.getMessage());
+        }
+
         updatePosition(selectedPosition, targetPosition, selectedPiece);
     }
 

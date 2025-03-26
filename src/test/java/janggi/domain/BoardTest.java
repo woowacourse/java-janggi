@@ -24,11 +24,9 @@ class BoardTest {
         Position selectedPosition = Position.of(7, 1);
         Position targetPosition = Position.of(6, 1);
 
-        // when
-        boolean actual = board.canMovePiece(turn, selectedPosition, targetPosition);
-
         // when & then
-        assertThat(actual).isTrue();
+        assertThatCode(() -> board.makeMove(turn, selectedPosition, targetPosition))
+                .doesNotThrowAnyException();
     }
 
     @DisplayName("해당 포지션에 기물이 존재하지 않으면 예외를 반환한다.")
@@ -41,7 +39,7 @@ class BoardTest {
         Position targetPosition = Position.of(3, 1);
 
         // when & then
-        assertThatThrownBy(() -> board.canMovePiece(turn, selectedPosition, targetPosition))
+        assertThatThrownBy(() -> board.makeMove(turn, selectedPosition, targetPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.POSITION_DOES_NOT_EXIST.getMessage());
     }
@@ -56,7 +54,7 @@ class BoardTest {
         Position targetPosition = Position.of(6, 1);
 
         // when & then
-        assertThatThrownBy(() -> board.canMovePiece(turn, selectedPosition, targetPosition))
+        assertThatThrownBy(() -> board.makeMove(turn, selectedPosition, targetPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.IS_NOT_SAME_SIDE.getMessage());
     }
@@ -65,6 +63,7 @@ class BoardTest {
     @Test
     void test4() {
         // given
+        Side turn = Side.CHO;
         Position startingPosition = Position.of(5, 1);
         Piece startingPiece = new Soldier(Side.CHO);
         Position endPosition = Position.of(4, 1);
@@ -72,17 +71,21 @@ class BoardTest {
         Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
         Board board = new Board(startingPieces);
 
+        // when
+        board.makeMove(turn, startingPosition, endPosition);
+        Piece actual = board.getPiece(endPosition);
+        Piece expected = startingPiece;
+
         // when & then
-        assertThatCode(() -> board.movePiece(startingPosition, endPosition))
-                .doesNotThrowAnyException();
+        assertThat(actual).isEqualTo(expected);
     }
 
     @DisplayName("움직일 포지션에 우리 팀의 기물이 존재하면 예외를 발생한다.")
     @Test
     void test5() {
         // given
-        Position startingPosition = Position.of(5, 1);
         Side turn = Side.CHO;
+        Position startingPosition = Position.of(5, 1);
         Piece startingPiece = new Soldier(Side.CHO);
         Position endPosition = Position.of(4, 1);
         Piece endPiece = new Soldier(Side.CHO);
@@ -91,7 +94,7 @@ class BoardTest {
         Board board = new Board(startingPieces);
 
         // when & then
-        assertThatThrownBy(() -> board.canMovePiece(turn, startingPosition, endPosition))
+        assertThatThrownBy(() -> board.makeMove(turn, startingPosition, endPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.CANNOT_MOVE_TO_POSITION.getMessage());
     }
@@ -100,6 +103,7 @@ class BoardTest {
     @Test
     void test6() {
         // given
+        Side turn = Side.CHO;
         Position startingPosition = Position.of(5, 1);
         Piece startingPiece = new Soldier(Side.CHO);
         Position endPosition = Position.of(4, 1);
@@ -109,7 +113,7 @@ class BoardTest {
         Board board = new Board(startingPieces);
 
         // when & then
-        assertThatCode(() -> board.movePiece(startingPosition, endPosition))
+        assertThatCode(() -> board.makeMove(turn, startingPosition, endPosition))
                 .doesNotThrowAnyException();
     }
 
