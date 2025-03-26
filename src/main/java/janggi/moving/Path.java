@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Path {
     private final List<Position> path;
+    public static final int MIN_LENGTH = 2;
 
     public Path(List<Position> path) {
         this.path = new ArrayList<>(path);
@@ -13,7 +14,7 @@ public class Path {
 
     public List<Position> getIntermediatePath() {
         int pathSize = path.size();
-        if (pathSize > 2) {
+        if (pathSize > MIN_LENGTH) {
             return path.subList(1, pathSize - 1);
         }
         return new ArrayList<>();
