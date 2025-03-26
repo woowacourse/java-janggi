@@ -1,6 +1,7 @@
-package janggi.domain.path.path_provider;
+package janggi.domain.path.path_provider.movement_path_provider;
 
 import janggi.domain.path.Path;
+import janggi.domain.path.path_provider.PathProvider;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 

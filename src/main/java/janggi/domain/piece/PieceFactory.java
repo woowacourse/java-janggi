@@ -3,7 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Country;
 import janggi.domain.gung.Gung;
 import janggi.domain.path.path_filter.*;
-import janggi.domain.path.path_provider.CrossLinePathProvider;
+import janggi.domain.path.path_provider.CrossPathProvider;
 import janggi.domain.path.path_provider.GungOneStepPathProvider;
 import janggi.domain.path.path_provider.GungPathProvider;
 import janggi.domain.path.path_provider.movement_path_provider.*;
@@ -30,7 +30,7 @@ public class PieceFactory {
         return new Piece(
                 PieceType.상,
                 List.of(new StraightDiagonalDiagonalPathProvider()),
-                List.of(new NonMiddleBlockPathFilter(), new NonStopAtAllyPathFilter()),
+                List.of(new BlockPathFilter(), new LastPositionAllyPathFilter()),
                 position
         );
     }
@@ -39,7 +39,7 @@ public class PieceFactory {
         return new Piece(
                 PieceType.마,
                 List.of(new StraightDiagonalPathProvider()),
-                List.of(new NonMiddleBlockPathFilter(), new NonStopAtAllyPathFilter()),
+                List.of(new BlockPathFilter(), new LastPositionAllyPathFilter()),
                 position
         );
     }
@@ -48,8 +48,8 @@ public class PieceFactory {
         final Gung gung = Gung.of(country);
         return new Piece(
                 PieceType.장,
-                List.of(new CrossPathProvider(), new GungOneStepPathProvider(gung)),
-                List.of(new InGungPathFilter(gung), new NonMiddleBlockPathFilter(), new NonStopAtAllyPathFilter()),
+                List.of(new CrossOneStepPathProvider(), new GungOneStepPathProvider(gung)),
+                List.of(new InGungPathFilter(gung), new BlockPathFilter(), new LastPositionAllyPathFilter()),
                 position
         );
     }
@@ -58,8 +58,8 @@ public class PieceFactory {
         final Gung gung = Gung.of(country);
         return new Piece(
                 PieceType.사,
-                List.of(new CrossPathProvider(), new GungOneStepPathProvider(gung)),
-                List.of(new InGungPathFilter(gung), new NonMiddleBlockPathFilter(), new NonStopAtAllyPathFilter()),
+                List.of(new CrossOneStepPathProvider(), new GungOneStepPathProvider(gung)),
+                List.of(new InGungPathFilter(gung), new BlockPathFilter(), new LastPositionAllyPathFilter()),
                 position
         );
     }
@@ -68,8 +68,8 @@ public class PieceFactory {
         final Gung gung = Gung.of(country);
         return new Piece(
                 PieceType.차,
-                List.of(new CrossLinePathProvider(), new GungPathProvider(gung)),
-                List.of(new NonMiddleBlockPathFilter(), new NonStopAtAllyPathFilter()),
+                List.of(new CrossPathProvider(), new GungPathProvider(gung)),
+                List.of(new BlockPathFilter(), new LastPositionAllyPathFilter()),
                 position
         );
     }
@@ -78,8 +78,8 @@ public class PieceFactory {
         final Gung gung = Gung.of(country);
         return new Piece(
                 PieceType.포,
-                List.of(new CrossLinePathProvider(), new GungPathProvider(gung)),
-                List.of(new BlockSameTypePathFilter(), new JumpPathFilter(1), new NonStopAtAllyPathFilter(), new NonStopAtSameTypePathFilter()),
+                List.of(new CrossPathProvider(), new GungPathProvider(gung)),
+                List.of(new BlockSameTypePathFilter(), new JumpPathFilter(1), new LastPositionAllyPathFilter(), new LastPositionSameTypePathFilter()),
                 position
         );
     }
@@ -89,7 +89,7 @@ public class PieceFactory {
         return new Piece(
                 PieceType.졸,
                 List.of(new UpLeftRightPathProvider(), new GungOneStepPathProvider(gung)),
-                List.of(new NonStopAtAllyPathFilter()),
+                List.of(new LastPositionAllyPathFilter()),
                 position
         );
     }
@@ -99,7 +99,7 @@ public class PieceFactory {
         return new Piece(
                 PieceType.병,
                 List.of(new DownLeftRightPathProvider(), new GungOneStepPathProvider(gung)),
-                List.of(new NonStopAtAllyPathFilter()),
+                List.of(new LastPositionAllyPathFilter()),
                 position
         );
     }

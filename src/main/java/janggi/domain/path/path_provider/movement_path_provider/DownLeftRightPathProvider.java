@@ -1,6 +1,5 @@
 package janggi.domain.path.path_provider.movement_path_provider;
 
-import janggi.domain.path.path_provider.MovementPathProvider;
 import janggi.domain.position.Movement;
 
 import java.util.Set;
