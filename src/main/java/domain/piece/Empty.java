@@ -2,11 +2,12 @@ package domain.piece;
 
 import domain.JanggiPosition;
 import domain.pattern.Pattern;
+import domain.piece.state.EmptyState;
 import java.util.List;
 
 public class Empty extends Piece {
     public Empty() {
-        super(0, Side.EMPTY, null, null);
+        super(0, Side.EMPTY, null, new EmptyState());
     }
 
     @Override

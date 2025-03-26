@@ -19,6 +19,8 @@ public class JanggiBoard {
     }
 
     public void move(JanggiPosition beforePosition, JanggiPosition afterPosition) {
+        afterPosition.validateBound();
+
         Piece piece = getPieceFrom(beforePosition);
         Piece targetPiece = getPieceFrom(afterPosition);
 
@@ -50,11 +52,7 @@ public class JanggiBoard {
     }
 
     public Piece getPieceFrom(JanggiPosition position) {
-        Piece piece = janggiBoard.get(position);
-        if (piece == null) {
-            return new Empty();
-        }
-        return piece;
+        return janggiBoard.get(position);
     }
 
     private void changeState(Piece piece, Piece targetPiece) {
@@ -64,16 +62,12 @@ public class JanggiBoard {
 
     private void changePosition(JanggiPosition beforePosition, JanggiPosition afterPosition) {
         Piece piece = getPieceFrom(beforePosition);
-        afterPosition.validateBound();
 
         janggiBoard.put(beforePosition, new Empty());
         janggiBoard.put(afterPosition, piece);
     }
 
     public boolean isGeneralDead(PieceState targetPiece) {
-        if (targetPiece == null) {
-            return false;
-        }
         return targetPiece.isGeneral();
     }
 }

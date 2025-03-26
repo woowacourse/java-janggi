@@ -17,7 +17,7 @@ public class PieceTest {
         piece.capture(otherPiece);
 
         // then
-        assertThat(piece.getState())
+        assertThat(otherPiece.getState())
                 .isInstanceOf(Captured.class);
     }
 
