@@ -10,13 +10,13 @@ import board.Position;
 
 public class Cannon extends Piece {
 
-    public Cannon(final Position position, final Team team) {
-        super(position, team);
+    public Cannon(final Team team) {
+        super(team);
     }
 
     @Override
-    protected Set<Position> getMovablePositions(final Board board) {
-        Map<Direction, Position> hurdlePositions = findHurdlePositions(board);
+    protected Set<Position> getMovablePositions(final Position position, final Board board) {
+        Map<Direction, Position> hurdlePositions = findHurdlePositions(position, board);
         if (hurdlePositions.isEmpty()) {
             throw new IllegalArgumentException("움직일 수 없습니다.");
         }
@@ -28,15 +28,15 @@ public class Cannon extends Piece {
         return movablePositions;
     }
 
-    private Map<Direction, Position> findHurdlePositions(final Board board) {
+    private Map<Direction, Position> findHurdlePositions(final Position position, final Board board) {
         Map<Direction, Position> hurdlePositions = new EnumMap<>(Direction.class);
         for (Direction straightDirection : Direction.getStraightDirection()) {
-            addHurdlePosition(board, straightDirection, hurdlePositions);
+            addHurdlePosition(position, board, straightDirection, hurdlePositions);
         }
         return hurdlePositions;
     }
 
-    private void addHurdlePosition(final Board board, final Direction straightDirection,
+    private void addHurdlePosition(final Position position, final Board board, final Direction straightDirection,
                                    final Map<Direction, Position> hurdlePositions
     ) {
         Position movePosition = position;

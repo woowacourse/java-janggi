@@ -8,15 +8,15 @@ import board.Position;
 
 public class King extends Piece {
 
-    public King(final Position position, final Team team) {
-        super(position, team);
+    public King(final Team team) {
+        super(team);
     }
 
     @Override
-    protected Set<Position> getMovablePositions(final Board board) {
+    protected Set<Position> getMovablePositions(final Position position, final Board board) {
         return Direction.getStraightDirection().stream()
-                .map(direction -> position.moveByDirection(direction))
-                .filter(position -> isMovable(position, board))
+                .map(position::moveByDirection)
+                .filter(movePosition -> isMovable(movePosition, board))
                 .collect(Collectors.toSet());
     }
 

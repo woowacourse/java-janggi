@@ -2,7 +2,7 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
@@ -15,14 +15,14 @@ class KingTest {
 
     @Test
     void 궁의_이동할_수_있는_위치를_계산한다() {
-        Board board = new Board(List.of());
-        Piece piece = new King(initPosition, Team.RED);
-        board.putPieces(List.of(
-                new Soldier(new Position(5, 3), Team.BLUE),
-                new Soldier(new Position(4, 2), Team.RED)
+        Piece piece = new King(Team.RED);
+        Board board = new Board(Map.of(
+                initPosition, piece,
+                new Position(5, 3), new Soldier(Team.BLUE),
+                new Position(4, 2), new Soldier(Team.RED)
         ));
 
-        assertThat(piece.getMovablePositions(board)).containsExactlyInAnyOrder(
+        assertThat(piece.getMovablePositions(initPosition, board)).containsExactlyInAnyOrder(
                 new Position(5, 3),
                 new Position(5, 1),
                 new Position(6, 2)

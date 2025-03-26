@@ -24,14 +24,14 @@ public class Elephant extends Piece {
 
     private static final int MOVEMENT_TOTAL_STEP = 3;
 
-    public Elephant(final Position position, final Team team) {
-        super(position, team);
+    public Elephant(final Team team) {
+        super(team);
     }
 
     @Override
-    protected Set<Position> getMovablePositions(final Board board) {
+    protected Set<Position> getMovablePositions(final Position position, final Board board) {
         Set<Position> movablePositions = new HashSet<>();
-        Map<Movement, Position> beforeLastStepPositions = moveBeforeLastStep(board);
+        Map<Movement, Position> beforeLastStepPositions = moveBeforeLastStep(position, board);
         if (beforeLastStepPositions.isEmpty()) {
             throw new IllegalArgumentException("현재 해당 기물이 이동 가능한 곳이 없습니다.");
         }
@@ -39,15 +39,15 @@ public class Elephant extends Piece {
         return movablePositions;
     }
 
-    private Map<Movement, Position> moveBeforeLastStep(final Board board) {
+    private Map<Movement, Position> moveBeforeLastStep(final Position position, final Board board) {
         Map<Movement, Position> moveBeforeLastStepPositions = new EnumMap<>(Movement.class);
         for (Movement movement : MOVEMENTS) {
-            addBeforeLastStepPosition(board, movement, moveBeforeLastStepPositions);
+            addBeforeLastStepPosition(position, board, movement, moveBeforeLastStepPositions);
         }
         return moveBeforeLastStepPositions;
     }
 
-    private void addBeforeLastStepPosition(final Board board, final Movement movement,
+    private void addBeforeLastStepPosition(final Position position, final Board board, final Movement movement,
                                            final Map<Movement, Position> moveBeforeLastStepPositions
     ) {
         Position movePosition = position;

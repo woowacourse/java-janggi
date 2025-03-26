@@ -8,24 +8,24 @@ import board.Position;
 
 public class Chariot extends Piece {
 
-    public Chariot(final Position position, final Team team) {
-        super(position, team);
+    public Chariot(final Team team) {
+        super(team);
     }
 
     @Override
-    public Set<Position> getMovablePositions(final Board board) {
+    public Set<Position> getMovablePositions(final Position position, final Board board) {
         Set<Position> movablePositions = new HashSet<>();
         Direction.getStraightDirection()
                 .forEach(direction ->
-                        addMovablePositionsInDirection(direction, board, movablePositions)
+                        addMovablePositionsInDirection(position, direction, board, movablePositions)
                 );
         return movablePositions;
     }
 
-    private void addMovablePositionsInDirection(final Direction direction, final Board board,
+    private void addMovablePositionsInDirection(final Position position, final Direction direction, final Board board,
                                                 final Set<Position> movablePositions
     ) {
-        Position movePosition = this.position;
+        Position movePosition = position;
         while (true) {
             movePosition = movePosition.moveByDirection(direction);
             if (movePosition.isInValidPosition() || board.isSameTeamPosition(team, movePosition)) {

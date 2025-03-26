@@ -2,8 +2,7 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,16 +25,16 @@ class ChariotTest {
      */
     @Test
     void 차가_갈수있는_위치를_계산한다() {
-        Board board = new Board(List.of());
-        Piece chariot = new Chariot(new Position(4, 4), Team.BLUE);
-
-        board.putPieces(List.of(new Chariot(new Position(2, 4), Team.BLUE),
-                new Chariot(new Position(5, 4), Team.BLUE),
-                new Chariot(new Position(4, 7), Team.RED)
+        Piece chariot = new Chariot(Team.BLUE);
+        Position initPosition = new Position(4, 4);
+        Board board = new Board(Map.of(
+                initPosition, chariot,
+                new Position(2, 4), new Chariot(Team.BLUE),
+                new Position(5, 4), new Chariot(Team.BLUE),
+                new Position(4, 7), new Chariot(Team.RED)
         ));
 
-        Set<Position> position = chariot.getMovablePositions(board);
-        assertThat(position).containsExactlyInAnyOrder(
+        assertThat(chariot.getMovablePositions(initPosition, board)).containsExactlyInAnyOrder(
                 new Position(3, 4),
                 new Position(4, 3),
                 new Position(4, 2),
@@ -44,7 +43,6 @@ class ChariotTest {
                 new Position(4, 6),
                 new Position(4, 7)
         );
-
     }
 
 }

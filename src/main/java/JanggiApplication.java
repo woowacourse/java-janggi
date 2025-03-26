@@ -4,7 +4,6 @@ import board.Board;
 import board.BoardInitializer;
 import board.Position;
 import game.Turn;
-import piece.Piece;
 import view.InputView;
 import view.OutputView;
 
@@ -15,7 +14,7 @@ public class JanggiApplication {
 
     public static void main(String[] args) {
         BoardInitializer boardInitializer = new BoardInitializer();
-        Board board = boardInitializer.init();
+        Board board = new Board(boardInitializer.init());
         Turn turn = new Turn();
         outputView.printBoard(board);
         playGame(board, turn);

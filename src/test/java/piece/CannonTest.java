@@ -2,8 +2,7 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,21 +27,20 @@ class CannonTest {
      */
     @Test
     void 포가_움직일_수_있는_위치들을_계산한다() {
-        Board board = new Board(List.of());
-        Piece piece = new Cannon(initPosition, Team.BLUE);
-        board.putPieces(List.of(
-                new Soldier(new Position(1, 4), Team.BLUE),
-                new Soldier(new Position(3, 4), Team.BLUE),
-                new Soldier(new Position(5, 6), Team.BLUE),
-                new Cannon(new Position(5, 9), Team.RED),
-                new Cannon(new Position(7, 4), Team.RED),
-                new Soldier(new Position(5, 3), Team.BLUE),
-                new Soldier(new Position(5, 1), Team.RED)
+        Piece piece = new Cannon(Team.BLUE);
+        Board board = new Board(Map.of(
+                initPosition, piece,
+                new Position(1, 4), new Soldier(Team.BLUE),
+                new Position(3, 4), new Soldier(Team.BLUE),
+                new Position(5, 6), new Soldier(Team.BLUE),
+                new Position(5, 9), new Cannon(Team.RED),
+                new Position(7, 4), new Cannon(Team.RED),
+                new Position(5, 3), new Soldier(Team.BLUE),
+                new Position(5, 1), new Soldier(Team.RED)
+
         ));
 
-        Set<Position> positions = piece.getMovablePositions(board);
-
-        assertThat(positions).containsExactlyInAnyOrder(
+        assertThat(piece.getMovablePositions(initPosition, board)).containsExactlyInAnyOrder(
                 new Position(2, 4),
                 new Position(5, 1),
                 new Position(5, 2),

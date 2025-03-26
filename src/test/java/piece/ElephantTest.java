@@ -2,8 +2,7 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,16 +27,14 @@ class ElephantTest {
      */
     @Test
     void 상이_움직일_수_있는_위치들을_계산한다() {
-        Board board = new Board(List.of());
-        Piece piece = new Elephant(initPosition, Team.BLUE);
-        board.putPieces(List.of(
-                new Chariot(new Position(1, 2), Team.RED),
-                new Chariot(new Position(6, 3), Team.RED))
-        );
+        Piece piece = new Elephant(Team.BLUE);
+        Board board = new Board(Map.of(
+                initPosition, piece,
+                new Position(1, 2), new Chariot(Team.RED),
+                new Position(6, 3), new Chariot(Team.RED)
+        ));
 
-        Set<Position> positions = piece.getMovablePositions(board);
-
-        assertThat(positions).containsExactlyInAnyOrder(
+        assertThat(piece.getMovablePositions(initPosition, board)).containsExactlyInAnyOrder(
                 new Position(1, 2),
                 new Position(1, 6),
                 new Position(7, 6),
