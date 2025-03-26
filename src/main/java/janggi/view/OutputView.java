@@ -51,12 +51,14 @@ public class OutputView {
             }
         }
 
+        StringBuilder sb = new StringBuilder();
         for (int i = 10; i >= 0; i--) {
             for (int j = 0; j < 10; j++) {
-                System.out.print(output[i][j]);
+                sb.append(output[i][j]);
             }
-            System.out.println();
+            sb.append("\n");
         }
+        System.out.print(sb);
     }
 
     private static Optional<Piece> getPieceOf(final Map<Country, List<Piece>> board, final Position position) {

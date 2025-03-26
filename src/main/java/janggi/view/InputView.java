@@ -18,8 +18,8 @@ public class InputView {
     private static final BufferedReader READER = new BufferedReader(new InputStreamReader(System.in));
 
     private static final Map<Country, String> COUNTRY_NAMES = Map.of(
-            Country.CHO, "초",
-            Country.HAN, "한"
+            Country.CHO, "초나라",
+            Country.HAN, "한나라"
     );
 
     private static String readLine() {
@@ -33,7 +33,7 @@ public class InputView {
     public CommandType getStartType() {
         StringBuilder sb = new StringBuilder();
         sb.append("장기 게임을 시작합니다.").append("\n");
-        sb.append("새로운 게임 : 1 / 이어하기 : 2").append("\n");
+        sb.append("새로운 게임 : 1 / 이어하기 : 2");
         System.out.println(sb);
         final int input = Integer.parseInt(readLine());
         if (input == 1) return CommandType.NEW_GAME;
@@ -48,8 +48,8 @@ public class InputView {
 
     public StartingPosition getStartPositionOf(final Country country) {
         StringBuilder sb = new StringBuilder();
-        sb.append(COUNTRY_NAMES.get(country)).append("나라의 시작 형태를 골라주세요.").append("\n");
-        sb.append("마상마상 : 1 / 상마상마 : 2 / 마상상마 : 3 / 상마마상 : 4").append("\n");
+        sb.append(COUNTRY_NAMES.get(country)).append("의 시작 형태를 골라주세요.").append("\n");
+        sb.append("마상마상 : 1 / 상마상마 : 2 / 마상상마 : 3 / 상마마상 : 4");
         System.out.println(sb);
         final int input = Integer.parseInt(readLine());
         if (input == 1) return StartingPosition.마상마상;
@@ -61,8 +61,8 @@ public class InputView {
 
     public CommandType inputCommand(final Country currentCountry) {
         StringBuilder sb = new StringBuilder();
-        sb.append(COUNTRY_NAMES.get(currentCountry)).append("나라의 차례입니다.").append("\n");
-        sb.append("움직이기 : 1 / 저장하고 그만두기 : 2").append("\n");
+        sb.append(COUNTRY_NAMES.get(currentCountry)).append("의 차례입니다.").append("\n");
+        sb.append("움직이기 : 1 / 저장하고 그만두기 : 2");
         System.out.println(sb);
         final int input = Integer.parseInt(readLine());
         if (input == 1) return CommandType.MOVE;
@@ -78,7 +78,7 @@ public class InputView {
     public MoveDto inputMove() {
         StringBuilder sb = new StringBuilder();
         sb.append("움직일 기물의 위치와 움직일 위치를 입력해주세요.").append("\n");
-        sb.append("입력 방식 : [파일],[랭크]-[파일],[랭크] (예시: 1,1-3,2)").append("\n");
+        sb.append("입력 방식 : [파일],[랭크]-[파일],[랭크] (예시: 1,1-3,2)");
         System.out.println(sb);
         final String[] inputs = readLine().split("-");
         return new MoveDto(parseToPosition(inputs[0]), parseToPosition(inputs[1]));
