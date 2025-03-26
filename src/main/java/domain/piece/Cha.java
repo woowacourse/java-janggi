@@ -10,9 +10,7 @@ public class Cha extends Piece implements LinearMove {
 
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateCoordinate(to);
         validateLinearMove(board, from, to);
-        validateTarget(board, from, to);
     }
 
     @Override

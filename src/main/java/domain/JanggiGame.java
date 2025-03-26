@@ -16,6 +16,7 @@ public class JanggiGame {
     public void movePlayerPiece(JanggiCoordinate from, JanggiCoordinate to) {
         Piece piece = board.findPieceByCoordinate(from);
         validatePlayerTurnPiece(from, piece.getCountry());
+        piece.validateDestination(board, from, to);
         piece.validateMove(board, from, to);
         board.movePiece(from, to);
 

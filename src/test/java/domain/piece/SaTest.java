@@ -36,7 +36,7 @@ class SaTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertThatThrownBy(() -> piece.validateMove(board, myGung, ourMa))
+            assertThatThrownBy(() -> piece.validateDestination(board, myGung, ourMa))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 

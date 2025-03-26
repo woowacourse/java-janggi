@@ -18,7 +18,13 @@ public abstract class Piece {
 
     public abstract void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to);
 
-    protected void validateTarget(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+    public void validateDestination(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+        validateCoordinate(from);
+        validateCoordinate(to);
+        validateTarget(board, from, to);
+    }
+
+    private void validateTarget(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         if (!board.isOccupied(to)) {
             return;
         }
@@ -30,7 +36,7 @@ public abstract class Piece {
         }
     }
 
-    protected void validateCoordinate(JanggiCoordinate coordinate) {
+    private void validateCoordinate(JanggiCoordinate coordinate) {
         if (coordinate.row() < BOUNDARY_START || coordinate.row() > ROW_SIZE || coordinate.col() < BOUNDARY_START || coordinate.col() > COL_SIZE) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 좌표입니다.");
         }
