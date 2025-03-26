@@ -43,8 +43,8 @@ public abstract class Piece {
         validateSpecialRule(board, destination);
     }
 
-    protected abstract void validateSpecialRule(Board board, Position destination);
-
+    protected void validateSpecialRule(Board board, Position destination) {
+    }
 
     public boolean isAlly(final Team team) {
         return this.team == team;

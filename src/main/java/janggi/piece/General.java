@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.Board;
 import janggi.Score;
 import janggi.Team;
 import janggi.coordinate.Position;
@@ -35,11 +34,6 @@ public class General extends Piece {
     @Override
     protected Piece createPiece(final Position position) {
         return General.of(position, team);
-    }
-
-    @Override
-    protected void validateSpecialRule(final Board board, final Position destination) {
-        // 특수 규칙 없음
     }
 
     @Override
