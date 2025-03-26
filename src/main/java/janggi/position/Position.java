@@ -36,11 +36,12 @@ public final class Position {
     }
 
     public boolean canMove(Route route, Board board) {
+        Position target = this;
         for (Direction direction : route.route()) {
-            if(!canMove(direction, board)){
+            if(!target.canMove(direction, board)){
                 return false;
             }
-            move(direction);
+            target = target.move(direction);
         }
         return true;
     }
@@ -70,5 +71,10 @@ public final class Position {
     @Override
     public int hashCode() {
         return Objects.hash(column, row);
+    }
+
+    public void print() {
+        System.out.print("row = " + row);
+        System.out.println("    column = " + column);
     }
 }
