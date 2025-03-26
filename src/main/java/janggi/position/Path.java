@@ -19,7 +19,7 @@ public class Path {
     public static Path from(final PieceType pieceType,
                             final Movement movement,
                             final Position startPosition,
-                            final Position endPosition
+                            final Position arrivalPosition
     ) {
         final List<Position> path = new ArrayList<>();
         Position currentPosition = new Position(startPosition);
@@ -28,7 +28,7 @@ public class Path {
             path.add(currentPosition);
         }
         if (pieceType.isIterable()) {
-            while (!currentPosition.equals(endPosition)) {
+            while (!currentPosition.equals(arrivalPosition)) {
                 currentPosition = currentPosition.move(movement.getFirstDirection());
                 path.add(currentPosition);
             }

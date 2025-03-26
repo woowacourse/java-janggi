@@ -1,9 +1,9 @@
 package janggi.view;
 
 import janggi.piece.Piece;
+import janggi.piece.Pieces;
 import janggi.piece.Team;
 import janggi.position.Position;
-import java.util.Map;
 
 public class ResultView {
 
@@ -11,8 +11,12 @@ public class ResultView {
     private static final String BLANK = "ㅤ";
     private static final String HEADER = "   1    2    3    4    5    6    7    8   9%n";
     private static final String BOARD_LINE = "   |    |    |    |    |    |    |    |   |%n";
+    private static final String TITLE_RESULT = """
+            왕이 잡혔습니다.
+            %s나라의 승리입니다!""";
+    private static final String TITLE_ORDER = "%s나라의 순서입니다.";
 
-    public void printBoard(final Map<Position, Piece> pieces) {
+    public void printBoard(final Pieces pieces) {
         System.out.printf(HEADER);
         for (int y = 1; y <= 10; y++) {
             // TODO: 리스트로 스트링 넣고 팀에 따라 색깔 조합 + 한자 받아오기
@@ -22,11 +26,11 @@ public class ResultView {
                 if (x != 1) {
                     sb.append(" ㅡ ");
                 }
-                if (!pieces.containsKey(currentPosition)) {
+                if (!pieces.hasPiece(currentPosition)) {
                     sb.append(BLANK);
                     continue;
                 }
-                final Piece piece = pieces.get(currentPosition);
+                final Piece piece = pieces.findPieceByPosition(currentPosition);
                 sb.append(piece.getPieceType().getValue(piece.getTeam()));
             }
             System.out.println(sb);
@@ -37,12 +41,10 @@ public class ResultView {
     }
 
     public void printOrder(final Team team) {
-        System.out.printf(LINE + "%s나라의 순서입니다." + LINE, team.getTitle());
+        System.out.printf(LINE + TITLE_ORDER + LINE, team.getTitle());
     }
 
     public void printJanggiResult(final Team team) {
-        System.out.printf(LINE + """
-                왕이 잡혔습니다.
-                %s나라의 승리입니다!""", team.getTitle());
+        System.out.printf(LINE + TITLE_RESULT, team.getTitle());
     }
 }

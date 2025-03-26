@@ -1,14 +1,11 @@
 package janggi.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.position.Path;
 import janggi.position.Position;
-import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,54 +13,30 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class ElephantTest {
 
-    private Elephant elephant;
-
-    @BeforeEach
-    void setUp() {
-        elephant = new Elephant(Team.CHO);
-    }
-
     @ParameterizedTest
     @MethodSource
-    void 상은_직선_1칸_이동_후_대각선_2칸으로_이동한다(final int currentY, final int currentX, final int arrivalY, final int arrivalX,
-                                     final List<Position> expected) {
+    void 상은_직선_1칸_이동_후_대각선_2칸으로_이동한다(final int currentY, final int currentX, final int arrivalY, final int arrivalX) {
         // Given
         final Position currentPosition = new Position(currentY, currentX);
+        final Elephant elephant = new Elephant(Team.CHO, currentPosition);
         final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
-        // When
-        final Path path = elephant.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, elephant));
-
-        // Then
-        assertThat(path).isEqualTo(new Path(expected));
+        // When & Then
+        Assertions.assertThatCode(() ->
+                elephant.checkMovement(arrivalPosition, Team.CHO, new Pieces(Set.of(elephant)))
+        ).doesNotThrowAnyException();
     }
 
     private static Stream<Arguments> 상은_직선_1칸_이동_후_대각선_2칸으로_이동한다() {
         return Stream.of(
-                Arguments.of(3, 3, 6, 5, List.of(
-                        new Position(4, 3), new Position(5, 4), new Position(6, 5))
-                ),
-                Arguments.of(3, 3, 6, 1, List.of(
-                        new Position(4, 3), new Position(5, 2), new Position(6, 1))
-                ),
-                Arguments.of(4, 4, 1, 6, List.of(
-                        new Position(3, 4), new Position(2, 5), new Position(1, 6))
-                ),
-                Arguments.of(4, 4, 1, 2, List.of(
-                        new Position(3, 4), new Position(2, 3), new Position(1, 2))
-                ),
-                Arguments.of(3, 3, 5, 6, List.of(
-                        new Position(3, 4), new Position(4, 5), new Position(5, 6))
-                ),
-                Arguments.of(4, 4, 6, 1, List.of(
-                        new Position(4, 3), new Position(5, 2), new Position(6, 1))
-                ),
-                Arguments.of(3, 3, 1, 6, List.of(
-                        new Position(3, 4), new Position(2, 5), new Position(1, 6))
-                ),
-                Arguments.of(4, 4, 2, 1, List.of(
-                        new Position(4, 3), new Position(3, 2), new Position(2, 1))
-                )
+                Arguments.of(3, 3, 6, 5),
+                Arguments.of(3, 3, 6, 1),
+                Arguments.of(4, 4, 1, 6),
+                Arguments.of(4, 4, 1, 2),
+                Arguments.of(3, 3, 5, 6),
+                Arguments.of(4, 4, 6, 1),
+                Arguments.of(3, 3, 1, 6),
+                Arguments.of(4, 4, 2, 1)
         );
     }
 
@@ -76,10 +49,12 @@ class ElephantTest {
         final int arrivalX = 5;
 
         final Position currentPosition = new Position(currentY, currentX);
+        final Elephant elephant = new Elephant(Team.CHO, currentPosition);
         final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
-        assertThatThrownBy(() -> elephant.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, elephant)))
+        assertThatThrownBy(
+                () -> elephant.checkMovement(arrivalPosition, Team.CHO, new Pieces(Set.of(elephant))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 적절한 움직임이 아닙니다.");
     }

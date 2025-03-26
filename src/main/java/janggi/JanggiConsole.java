@@ -1,8 +1,8 @@
 package janggi;
 
-import janggi.board.Board;
-import janggi.board.BoardFactory;
+import janggi.piece.PiecesFactory;
 import janggi.board.BoardOrder;
+import janggi.piece.Pieces;
 import janggi.piece.Team;
 import janggi.turn.Turn;
 import janggi.utils.ExceptionHandler;
@@ -21,26 +21,26 @@ public class JanggiConsole {
     }
 
     public void start() {
-        final Board board = makeBoard();
+        final Pieces pieces = makePieces();
         Turn turn = Turn.initialize();
 
-        while (board.canContinue()) {
+        while (pieces.canContinue()) {
             final Team currentTeam = turn.getTeam();
             resultView.printOrder(currentTeam);
-            ExceptionHandler.retry(() -> board.move(inputView.readMovingPosition(), currentTeam));
-            resultView.printBoard(board.getPieces());
+            ExceptionHandler.retry(() -> pieces.move(inputView.readMovingPosition(), currentTeam));
+            resultView.printBoard(pieces);
             turn = turn.moveNextTurn();
         }
 
-        resultView.printJanggiResult(board.findWinningTeam());
+        resultView.printJanggiResult(pieces.findWinningTeam());
     }
 
-    private Board makeBoard() {
-        final BoardFactory boardFactory = new BoardFactory();
+    private Pieces makePieces() {
+        final PiecesFactory piecesFactory = new PiecesFactory();
         final int choOrder = StringParser.parseInt(inputView.readChoBoardOrder());
         final int hanOrder = StringParser.parseInt(inputView.readHanBoardOrder());
-        final Board board = boardFactory.makeBoard(BoardOrder.from(choOrder), BoardOrder.from(hanOrder));
-        resultView.printBoard(board.getPieces());
-        return board;
+        final Pieces pieces = piecesFactory.makePiecesByOrder(BoardOrder.from(choOrder), BoardOrder.from(hanOrder));
+        resultView.printBoard(pieces);
+        return pieces;
     }
 }

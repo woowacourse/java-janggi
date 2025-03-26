@@ -1,25 +1,15 @@
 package janggi.piece;
 
-import janggi.position.Path;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import janggi.position.Position;
-import java.util.List;
-import java.util.Map;
-import org.junit.jupiter.api.BeforeEach;
+import java.util.Set;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 class KingTest {
-
-    private King king;
-
-    @BeforeEach
-    void setUp() {
-        king = new King(Team.CHO);
-    }
 
     @ParameterizedTest
     @CsvSource({
@@ -31,13 +21,13 @@ class KingTest {
     void 왕은_한칸씩_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX) {
         // Given
         final Position currentPosition = new Position(currentY, currentX);
+        final King king = new King(Team.CHO, currentPosition);
         final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
-        // When
-        final Path path = king.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new King(Team.CHO)));
-
-        // Then
-        assertThat(path).isEqualTo(new Path(List.of(arrivalPosition)));
+        // When & Then
+        Assertions.assertThatCode(() ->
+                king.checkMovement(arrivalPosition, Team.CHO, new Pieces(Set.of(king)))
+        ).doesNotThrowAnyException();
     }
 
     @Test
@@ -49,10 +39,12 @@ class KingTest {
         final int arrivalX = 5;
 
         final Position currentPosition = new Position(currentY, currentX);
+        final King king = new King(Team.CHO, currentPosition);
         final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
-        assertThatThrownBy(() -> king.makePath(currentPosition, arrivalPosition, Map.of(currentPosition, new King(Team.CHO))))
+        assertThatThrownBy(
+                () -> king.checkMovement(arrivalPosition, Team.CHO, new Pieces(Set.of(king))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 적절한 움직임이 아닙니다.");
     }

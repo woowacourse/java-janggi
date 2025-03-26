@@ -9,7 +9,6 @@ import janggi.piece.direction.Movement;
 import janggi.position.Path;
 import janggi.position.Position;
 import java.util.List;
-import java.util.Map;
 
 public class King extends Piece {
 
@@ -20,12 +19,12 @@ public class King extends Piece {
             new Movement(DOWN)
     );
 
-    public King(final Team team) {
-        super(team);
+    public King(final Team team, final Position currentPosition) {
+        super(team, currentPosition);
     }
 
     @Override
-    protected void validatePath(final Map<Position, Piece> pieces, final Path path) {
+    protected void validatePath(final Pieces pieces, final Path path) {
         if (hasPieceInMiddle(path, pieces)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
         }

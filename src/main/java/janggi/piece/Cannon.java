@@ -10,7 +10,6 @@ import janggi.position.Path;
 import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Cannon extends Piece {
 
@@ -21,12 +20,12 @@ public class Cannon extends Piece {
             new Movement(DOWN)
     );
 
-    public Cannon(final Team team) {
-        super(team);
+    public Cannon(final Team team, final Position currentPosition) {
+        super(team, currentPosition);
     }
 
     @Override
-    protected void validatePath(final Map<Position, Piece> pieces, final Path path) {
+    protected void validatePath(final Pieces pieces, final Path path) {
         if (computeCountExistPieceExceptLast(path, pieces) != 1) {
             throw new IllegalArgumentException("[ERROR] 오직 하나의 기물만 뛰어넘을 수 있습니다.");
         }
@@ -40,24 +39,29 @@ public class Cannon extends Piece {
         return MOVEMENTS;
     }
 
-    @Override
-    public PieceType getPieceType() {
-        return PieceType.CANNON;
-    }
-
-    private int computeCountExistPieceExceptLast(final Path path, final Map<Position, Piece> pieces) {
+    private int computeCountExistPieceExceptLast(final Path path, final Pieces pieces) {
         final List<Position> positions = new ArrayList<>(path.getPositions());
         positions.removeLast();
 
         return (int) positions.stream()
-                .filter(pieces::containsKey)
+                .filter(pieces::hasPiece)
                 .count();
     }
 
-    private boolean hasCannon(final Path path, final Map<Position, Piece> pieces) {
+    private boolean hasCannon(final Path path, final Pieces pieces) {
         return path.getPositions().stream()
-                .filter(pieces::containsKey)
-                .map(pieces::get)
+                .filter(pieces::hasPiece)
+                .anyMatch(position -> findCannonPiece(pieces, position));
+    }
+
+    private boolean findCannonPiece(final Pieces pieces, final Position position) {
+        return pieces.getPieces().stream()
+                .filter(piece -> piece.isSamePosition(position))
                 .anyMatch(piece -> piece.matchPieceType(PieceType.CANNON));
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.CANNON;
     }
 }

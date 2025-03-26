@@ -15,7 +15,7 @@ public enum PieceType {
     SOLDIER("卒"),
     BYEONG("兵");
 
-    private static final Set<PieceType> iITERABLE_PIECE = Set.of(CANNON, CHARIOT);
+    private static final Set<PieceType> ITERABLE_PIECE = Set.of(CANNON, CHARIOT);
 
     private static final String BLUE_CODE = "\u001B[34m";
     private static final String RED_CODE = "\u001B[31m";
@@ -39,6 +39,6 @@ public enum PieceType {
     }
 
     public boolean isIterable() {
-        return iITERABLE_PIECE.contains(this);
+        return ITERABLE_PIECE.contains(this);
     }
 }
