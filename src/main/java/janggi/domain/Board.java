@@ -73,9 +73,11 @@ public class Board {
         pieces.put(targetPosition, selectedPiece);
     }
 
-    public boolean hasGeneral() {
-        return pieces.values()
+    public boolean hasBothGenerals() {
+        long generalCount = pieces.values()
                 .stream()
-                .anyMatch(Piece::isGeneral);
+                .filter(Piece::isGeneral)
+                .count();
+        return generalCount == 2;
     }
 }

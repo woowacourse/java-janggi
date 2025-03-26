@@ -19,11 +19,12 @@ public class JanggiGame {
     public void start() {
         repeatGameTurns();
 
+        viewer.printBoard(round.getCurrentPieces());
         viewer.winner(round.getCurrentTurn());
     }
 
     private void repeatGameTurns() {
-        while (round.hasGeneral()) {
+        while (round.hasBothGenerals()) {
             viewer.printBoard(round.getCurrentPieces());
             viewer.printTurnInfo(round.getCurrentTurn());
 

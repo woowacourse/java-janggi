@@ -14,7 +14,9 @@ public class Round {
 
     public void commence(Position selectedPosition, Position targetPosition) {
         board.makeMove(currentTurn, selectedPosition, targetPosition);
-        changeTurn();
+        if (board.hasBothGenerals()) {
+            changeTurn();
+        }
     }
 
     private void changeTurn() {
@@ -25,8 +27,8 @@ public class Round {
         return board.getPieces();
     }
 
-    public boolean hasGeneral() {
-        return board.hasGeneral();
+    public boolean hasBothGenerals() {
+        return board.hasBothGenerals();
     }
 
     public Side getCurrentTurn() {

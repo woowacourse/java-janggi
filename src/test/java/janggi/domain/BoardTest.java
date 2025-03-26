@@ -74,10 +74,9 @@ class BoardTest {
         // when
         board.makeMove(turn, startingPosition, endPosition);
         Piece actual = board.getPiece(endPosition);
-        Piece expected = startingPiece;
 
         // when & then
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isEqualTo(startingPiece);
     }
 
     @DisplayName("움직일 포지션에 우리 팀의 기물이 존재하면 예외를 발생한다.")
@@ -117,27 +116,27 @@ class BoardTest {
                 .doesNotThrowAnyException();
     }
 
-    @DisplayName("보드에 General이 있다면 true를 반환한다.")
+    @DisplayName("보드에 General이 둘 다 있다면 true를 반환한다.")
     @Test
     void test7() {
         // given
         Board board = new Board(PieceFactory.initialize());
 
         // when
-        boolean actual = board.hasGeneral();
+        boolean actual = board.hasBothGenerals();
 
         // then
         assertThat(actual).isTrue();
     }
 
-    @DisplayName("보드에 General이 없다면 false를 반환한다.")
+    @DisplayName("보드에 General이 둘 미만 있다면 false를 반환한다.")
     @Test
     void test8() {
         // given
         Board board = new Board(new HashMap<>());
 
         // when
-        boolean actual = board.hasGeneral();
+        boolean actual = board.hasBothGenerals();
 
         // then
         assertThat(actual).isFalse();
