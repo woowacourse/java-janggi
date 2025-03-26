@@ -14,9 +14,9 @@ class SoldierTest {
     @ParameterizedTest
     @DisplayName("BLUE 병사의 시작점과 끝점이 주어졌을 때, 이동 경로를 반환한다.")
     @CsvSource(value = {
-            "5, 6",
-            "4, 5",
-            "6, 5"
+            "5, 4", // 상
+            "4, 5", // 좌
+            "6, 5"  // 우
     })
     void shouldReturnPathWhenBlueSide(int destX, int destY) {
         // given
@@ -34,9 +34,9 @@ class SoldierTest {
     @ParameterizedTest
     @DisplayName("RED 병사의 시작점과 끝점이 주어졌을 때, 이동 경로를 반환한다.")
     @CsvSource(value = {
-            "5, 4",
-            "4, 5",
-            "6, 5"
+            "5, 6", // 하
+            "4, 5", // 좌
+            "6, 5"  // 우
     })
     void shouldReturnPathWhenRedSide(int destX, int destY) {
         // given
@@ -54,11 +54,11 @@ class SoldierTest {
     @ParameterizedTest
     @DisplayName("BLUE 병사의 이동 경로가 벗어나면 예외를 던진다.")
     @CsvSource(value = {
-            "5, 4",
-            "6, 6",
-            "4, 6",
-            "3, 5",
-            "7, 5"
+            "5, 6", // 하
+            "6, 6", // 우하
+            "4, 6", // 좌하
+            "3, 5", // 좌좌
+            "7, 5"  // 우우
     })
     void shouldThrowExceptionWhenBlueSide(int destX, int destY) {
         // given
@@ -74,11 +74,11 @@ class SoldierTest {
     @ParameterizedTest
     @DisplayName("RED 병사의 이동 경로가 벗어나면 예외를 던진다.")
     @CsvSource(value = {
-            "5, 6",
-            "6, 4",
-            "4, 4",
-            "3, 5",
-            "7, 5"
+            "5, 4", // 상
+            "6, 4", // 우상
+            "4, 4", // 좌상
+            "3, 5", // 좌좌
+            "7, 5"  // 우우
     })
     void shouldThrowExceptionWhenRedSide(int destX, int destY) {
         // given
