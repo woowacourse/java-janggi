@@ -3,16 +3,15 @@ package piece;
 import direction.Movement;
 import direction.Point;
 import java.util.List;
-import move.MovementRule;
 
-public class Guard implements Piece {
+public class General implements Piece  {
 
     private static final List<Movement> PATH = List.of(Movement.LEFT, Movement.RIGHT, Movement.UP, Movement.DOWN);
 
     private final String nickname;
     private Point current;
 
-    public Guard(String nickname, Point current) {
+    public General(String nickname, Point current) {
         this.nickname = nickname;
         this.current = current;
     }
