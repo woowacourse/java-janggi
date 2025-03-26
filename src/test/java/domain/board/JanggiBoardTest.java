@@ -86,5 +86,21 @@ class JanggiBoardTest {
                     Arguments.arguments(new Gung(Country.HAN), false)
             );
         }
+
+        @DisplayName("궁이 잡히면 보드에 궁이 존재하지 않는다")
+        @Test
+        void containsGungTest2() {
+            Piece gung = new Gung(Country.CHO);
+            Piece cha = new Cha(Country.HAN);
+
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+            map.put(new JanggiCoordinate(5, 5), gung);
+            map.put(new JanggiCoordinate(7, 5), cha);
+            JanggiBoard janggiBoard = new JanggiBoard(map);
+
+            janggiBoard.movePiece(new JanggiCoordinate(7, 5), new JanggiCoordinate(5, 5));
+
+            assertThat(janggiBoard.isChoGungAlive()).isFalse();
+        }
     }
 }
