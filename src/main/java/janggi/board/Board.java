@@ -16,10 +16,10 @@ public class Board {
     }
 
     public void movePiece(Position start, Position goal, Team team) {
-        Piece piece = board.get(start);
-        if (piece == null) {
+        if (isPieceNotExists(start)) {
             throw new IllegalArgumentException("[ERROR] 출발 지점에 기물이 존재하지 않습니다.");
         }
+        Piece piece = board.get(start);
         if (piece.isDifferentTeam(team)) {
             throw new IllegalArgumentException("[ERROR] 같은 진영의 기물만 움직일 수 있습니다.");
         }
@@ -39,20 +39,27 @@ public class Board {
         return Collections.unmodifiableMap(board);
     }
 
-    public boolean isPieceExists(Position position) {
-        return board.get(position) != null;
-    }
-
     public boolean isSameTeamExists(Position position, Team team) {
+        if (isPieceNotExists(position)) {
+            return false;
+        }
         Piece piece = board.get(position);
-        return piece != null && piece.isSameTeam(team);
+        return piece.isSameTeam(team);
     }
 
     public boolean isCanonExists(Position position) {
-        Piece piece = board.get(position);
-        if (piece != null) {
-            return piece.isCanon();
+        if (isPieceNotExists(position)) {
+            return false;
         }
-        return false;
+        Piece piece = board.get(position);
+        return piece.isCanon();
+    }
+
+    private boolean isPieceNotExists(Position position) {
+        return !isPieceExists(position);
+    }
+
+    public boolean isPieceExists(Position position) {
+        return board.containsKey(position);
     }
 }

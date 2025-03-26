@@ -16,6 +16,14 @@ public class Position {
         this.row = row;
     }
 
+    public int subtractColumn(Position other) {
+        return column.subtract(other.column);
+    }
+
+    public int subtractRow(Position other) {
+        return row.subtract(other.row);
+    }
+
     public Position up() {
         return new Position(column, row.up());
     }
@@ -97,13 +105,5 @@ public class Position {
     @Override
     public String toString() {
         return "" + column + row;
-    }
-
-    public int subtractColumn(Position other) {
-        return column.subtract(other.column);
-    }
-
-    public int subtractRow(Position other) {
-        return row.subtract(other.row);
     }
 }
