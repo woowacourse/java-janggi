@@ -44,6 +44,6 @@ public class Run extends Start {
 
     @Override
     public Player getCurrentPlayer() {
-        return player;
+        return new Player(player.getSide());
     }
 }

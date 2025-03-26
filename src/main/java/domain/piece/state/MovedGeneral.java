@@ -9,8 +9,7 @@ public class MovedGeneral extends MovedInPalace {
 
     @Override
     public PieceState updateState() {
-        return new MovedGeneral(side) {
-        };
+        return new MovedGeneral(side);
     }
 
     @Override

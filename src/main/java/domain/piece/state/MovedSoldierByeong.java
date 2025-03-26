@@ -13,7 +13,6 @@ public class MovedSoldierByeong extends NonContinuousPiece {
 
     @Override
     public PieceState updateState() {
-        return new MovedSoldierByeong() {
-        };
+        return new MovedSoldierByeong();
     }
 }

@@ -11,7 +11,7 @@ public class Empty extends Piece {
 
     @Override
     public List<Pattern> findMovablePath(JanggiPosition beforePosition, JanggiPosition afterPosition) {
-        throw new UnsupportedOperationException("움직일 말이 존재하지 않습니다.");
+        throw new UnsupportedOperationException("기물이 없어서 이동할 수 없습니다.");
     }
 
     @Override

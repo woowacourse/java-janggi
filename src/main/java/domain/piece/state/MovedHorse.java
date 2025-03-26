@@ -13,7 +13,6 @@ public class MovedHorse extends NonContinuousPiece {
 
     @Override
     public PieceState updateState() {
-        return new MovedHorse() {
-        };
+        return new MovedHorse();
     }
 }

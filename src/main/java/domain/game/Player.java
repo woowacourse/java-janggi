@@ -17,6 +17,7 @@ public class Player {
     public void change() {
         if (this.side == Side.CHO) {
             this.side = Side.HAN;
+            return;
         }
         if (this.side == Side.HAN) {
             this.side = Side.CHO;

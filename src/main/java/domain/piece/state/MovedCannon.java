@@ -28,7 +28,6 @@ public class MovedCannon extends ContinuousPiece {
 
     @Override
     public PieceState updateState() {
-        return new MovedCannon() {
-        };
+        return new MovedCannon();
     }
 }

@@ -13,7 +13,6 @@ public class MovedElephant extends NonContinuousPiece {
 
     @Override
     public PieceState updateState() {
-        return new MovedElephant() {
-        };
+        return new MovedElephant();
     }
 }

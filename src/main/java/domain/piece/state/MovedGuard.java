@@ -9,7 +9,6 @@ public class MovedGuard extends MovedInPalace {
 
     @Override
     public PieceState updateState() {
-        return new MovedGuard(side) {
-        };
+        return new MovedGuard(side);
     }
 }
