@@ -26,5 +26,7 @@ public class JanggiApplication {
             board.updatePosition(positions.get(MOVE_SOURCE), positions.get(MOVE_DESTINATION), type);
             type = type.toggleCountry();
         }
+
+        OutputView.printJanggiWinner(board);
     }
 }

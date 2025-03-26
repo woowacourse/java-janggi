@@ -60,7 +60,7 @@ public class OutputView {
     private static void appendPiece(final StringBuilder sb, final Map<Position, Piece> map, final Position now) {
         if (map.containsKey(now)) {
             final Piece piece = map.get(now);
-            sb.append(TEAM_FORMAT.get(piece.getTeamType()));
+            sb.append(TEAM_FORMAT.get(piece.getCountry()));
             sb.append(PIECE_FORMAT.get(piece.getClass()));
             sb.append(COLOR_RESET + " ");
             return;
@@ -76,5 +76,18 @@ public class OutputView {
             sb.append(values[i].name()).append(" ");
         }
         sb.append(System.lineSeparator());
+    }
+
+    public static void printJanggiWinner(final Board board){
+        final Country winner = board.getWinner().getCountry();
+        System.out.println("축하합니다.");
+        System.out.print("우승한 국가는 ");
+
+        if(winner.equals(Country.HAN)){
+            System.out.println("한나라 입니다!");
+            return;
+        }
+
+        System.out.println("초나라 입니다!");
     }
 }

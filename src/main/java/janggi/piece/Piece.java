@@ -32,7 +32,7 @@ public abstract class Piece {
         return this.country == country;
     }
 
-    public Country getTeamType() {
+    public Country getCountry() {
         return country;
     }
 }
