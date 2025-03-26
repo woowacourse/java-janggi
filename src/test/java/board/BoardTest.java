@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import piece.Chariot;
 import piece.Piece;
-import piece.Solider;
+import piece.Soldier;
 import piece.Team;
 
 class BoardTest {
@@ -31,20 +31,20 @@ class BoardTest {
     void 시작_위치와_목적지를_알려주면_기물을_움직인다() {
         Position start = new Position(4, 1);
         Position destination = new Position(5, 1);
-        Piece piece = new Solider(start, Team.RED);
+        Piece piece = new Soldier(start, Team.RED);
         Board board = new Board(List.of(piece));
 
         board.move(start, destination);
 
         assertThat(board.findPieceByPosition(destination))
-                .isEqualTo(new Solider(destination, Team.RED));
+                .isEqualTo(new Soldier(destination, Team.RED));
     }
 
     @Test
     void 갈_수_없는_목적지를_알려주면_기물을_움직일_수_없다() {
         Position start = new Position(4, 1);
         Position destination = new Position(3, 1);
-        Piece piece = new Solider(start, Team.RED);
+        Piece piece = new Soldier(start, Team.RED);
         Board board = new Board(List.of(piece));
 
         assertThatThrownBy(() -> board.move(start, destination))

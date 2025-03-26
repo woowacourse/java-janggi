@@ -1,11 +1,18 @@
 package board;
 
-import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-import piece.Piece;
+import piece.Cannon;
+import piece.Chariot;
+import piece.Elephant;
+import piece.Guard;
+import piece.Horse;
+import piece.King;
+import piece.Soldier;
+import piece.Team;
 
 class BoardInitializerTest {
 
@@ -14,50 +21,42 @@ class BoardInitializerTest {
         BoardInitializer boardInitializer = new BoardInitializer();
         Board board = boardInitializer.init();
 
-        List<Position> pieces = board.getPieces().stream().map(Piece::getPosition).toList();
+        assertAll(() -> {
+            assertThat(board.findPieceByPosition(new Position(4, 1)))
+                    .isEqualTo(new Soldier(new Position(4, 1), Team.RED));
+            assertThat(board.findPieceByPosition(new Position(7, 1)))
+                    .isEqualTo(new Soldier(new Position(7, 1), Team.BLUE));
 
-        SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(pieces).contains(
-                new Position(4, 1),
-                new Position(4, 3),
-                new Position(4, 5),
-                new Position(4, 7),
-                new Position(4, 9),
-                new Position(7, 1),
-                new Position(7, 3),
-                new Position(7, 5),
-                new Position(7, 7),
-                new Position(7, 9)
-        );
-        softly.assertThat(pieces).contains(
-                new Position(3, 2),
-                new Position(3, 8),
-                new Position(8, 2),
-                new Position(8, 8)
-        );
-        softly.assertThat(pieces).contains(
-                new Position(2, 5),
-                new Position(9, 5)
-        );
-        softly.assertThat(pieces).contains(
-                new Position(1, 4),
-                new Position(1, 6),
-                new Position(10, 4),
-                new Position(10, 6)
-        );
-        softly.assertThat(pieces).contains(
-                new Position(1, 2),
-                new Position(1, 7),
-                new Position(10, 2),
-                new Position(10, 7)
-        );
-        softly.assertThat(pieces).contains(
-                new Position(1, 3),
-                new Position(1, 8),
-                new Position(10, 3),
-                new Position(10, 8)
-        );
-        softly.assertAll();
+            assertThat(board.findPieceByPosition(new Position(3, 2)))
+                    .isEqualTo(new Cannon(new Position(3, 2), Team.RED));
+            assertThat(board.findPieceByPosition(new Position(8, 2)))
+                    .isEqualTo(new Cannon(new Position(8, 2), Team.BLUE));
+
+            assertThat(board.findPieceByPosition(new Position(2, 5)))
+                    .isEqualTo(new King(new Position(2, 5), Team.RED));
+            assertThat(board.findPieceByPosition(new Position(9, 5)))
+                    .isEqualTo(new King(new Position(9, 5), Team.BLUE));
+
+            assertThat(board.findPieceByPosition(new Position(1, 4)))
+                    .isEqualTo(new Guard(new Position(1, 4), Team.RED));
+            assertThat(board.findPieceByPosition(new Position(10, 4)))
+                    .isEqualTo(new Guard(new Position(10, 4), Team.BLUE));
+
+            assertThat(board.findPieceByPosition(new Position(1, 2)))
+                    .isEqualTo(new Elephant(new Position(1, 2), Team.RED));
+            assertThat(board.findPieceByPosition(new Position(10, 2)))
+                    .isEqualTo(new Elephant(new Position(10, 2), Team.BLUE));
+
+            assertThat(board.findPieceByPosition(new Position(1, 3)))
+                    .isEqualTo(new Horse(new Position(1, 3), Team.RED));
+            assertThat(board.findPieceByPosition(new Position(10, 3)))
+                    .isEqualTo(new Horse(new Position(10, 3), Team.BLUE));
+
+            assertThat(board.findPieceByPosition(new Position(1, 1)))
+                    .isEqualTo(new Chariot(new Position(1, 1), Team.RED));
+            assertThat(board.findPieceByPosition(new Position(10, 1)))
+                    .isEqualTo(new Chariot(new Position(10, 1), Team.BLUE));
+        });
     }
 
 }
