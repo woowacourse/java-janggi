@@ -12,6 +12,10 @@ public class Tank extends Piece {
 
     @Override
     public boolean canMove(final Position start, final Position end, final Map<Position, Piece> board) {
+        if (start.isMoveDiagonalInPalace(end)) {
+            return isEmptyOnPath(board, start.diagonalPath(end));
+        }
+
         return isEmptyOnPath(board, findPath(start, end)) && isValidMovingRule(start, end);
     }
 
