@@ -15,9 +15,9 @@ class ColumnTest {
     @CsvSource(value = {"0:ZERO", "1:ONE", "2:TWO", "3:THREE", "4:FOUR", "5:FIVE", "6:SIX", "7:SEVEN", "8:EIGHT"},
             delimiterString = ":")
     @ParameterizedTest
-    void valueOf(int value, Column expected) {
+    void from(int value, Column expected) {
         // when
-        Column result = Column.valueOf(value);
+        Column result = Column.from(value);
 
         // then
         assertThat(result).isEqualTo(expected);
@@ -28,7 +28,7 @@ class ColumnTest {
     void should_ThrowException_WhenValueIsInvalid(int value) {
         // when
         // then
-        assertThatThrownBy(() -> Column.valueOf(value))
+        assertThatThrownBy(() -> Column.from(value))
                 .isInstanceOf(PositionOutOfBoardBoundsException.class)
                 .hasMessage("[ERROR] 올바르지 않은 열입니다.");
     }

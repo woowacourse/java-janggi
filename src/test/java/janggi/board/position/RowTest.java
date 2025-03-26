@@ -15,9 +15,9 @@ class RowTest {
     @CsvSource(value = {"0:ZERO", "1:ONE", "2:TWO", "3:THREE", "4:FOUR", "5:FIVE", "6:SIX", "7:SEVEN", "8:EIGHT",
             "9:NINE"}, delimiterString = ":")
     @ParameterizedTest
-    void valueOf(int value, Row expected) {
+    void from(int value, Row expected) {
         // when
-        Row result = Row.valueOf(value);
+        Row result = Row.from(value);
 
         // then
         assertThat(result).isEqualTo(expected);
@@ -28,7 +28,7 @@ class RowTest {
     void should_ThrowException_WhenValueIsInvalid(int value) {
         // when
         // then
-        assertThatThrownBy(() -> Row.valueOf(value))
+        assertThatThrownBy(() -> Row.from(value))
                 .isInstanceOf(PositionOutOfBoardBoundsException.class)
                 .hasMessage("[ERROR] 올바르지 않은 행입니다.");
     }
