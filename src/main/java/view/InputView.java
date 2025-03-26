@@ -14,7 +14,7 @@ public class InputView {
     }
 
     public String choiceArrivalOf(Piece piece) {
-        System.out.println(piece +"를 선택했습니다. 이동할 위치를 선택해주세요.");
+        System.out.println(piece.getName() +"를 선택했습니다. 이동할 위치를 선택해주세요.");
         return scanner.nextLine();
     }
 }

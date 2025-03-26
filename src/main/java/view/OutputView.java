@@ -42,6 +42,6 @@ public class OutputView {
             System.out.print("－");
             return;
         }
-        System.out.print(piece);
+        System.out.print(piece.getName());
     }
 }

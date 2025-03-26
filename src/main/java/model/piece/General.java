@@ -22,6 +22,14 @@ public class General extends Piece {
     }
 
     @Override
+    public String getName() {
+        if (getTeam() == Team.RED) {
+            return "漢";
+        }
+        return "초";
+    }
+
+    @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
         List<Position> temporaryPosition = new ArrayList<>();
         calculatePositionOfMovement(departure, temporaryPosition);
@@ -49,13 +57,5 @@ public class General extends Piece {
             .findFirst()
             .map(List::of)
             .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."));
-    }
-
-    @Override
-    public String toString() {
-        if (getTeam() == Team.RED) {
-            return "漢";
-        }
-        return "초";
     }
 }

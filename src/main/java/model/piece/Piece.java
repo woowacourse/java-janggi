@@ -23,6 +23,8 @@ public abstract class Piece{
 
     public abstract boolean isCannon();
 
+    public abstract String getName();
+
     public boolean isSameTeam(Piece piece) {
         return this.team == piece.getTeam();
     }

@@ -22,6 +22,15 @@ public class Chariot extends Piece {
         return false;
     }
 
+
+    @Override
+    public String getName() {
+        if (getTeam() == Team.RED) {
+            return "車";
+        }
+        return "차";
+    }
+
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
         List<List<Position>> allMovementPosition = calculatePositionOfMovement(departure, arrival);
@@ -61,13 +70,5 @@ public class Chariot extends Piece {
 
     private boolean isArrival(Position movedPosition, Position arrival) {
         return movedPosition.equals(arrival);
-    }
-
-    @Override
-    public String toString() {
-        if (getTeam() == Team.RED) {
-            return "車";
-        }
-        return "차";
     }
 }

@@ -22,6 +22,14 @@ public class Cannon extends Piece {
     }
 
     @Override
+    public String getName() {
+        if (getTeam() == Team.RED) {
+            return "包";
+        }
+        return "포";
+    }
+
+    @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
         return calculatePositionOfMovement(departure, arrival);
     }
@@ -40,13 +48,5 @@ public class Cannon extends Piece {
             }
         }
         throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
-    }
-
-    @Override
-    public String toString() {
-        if (getTeam() == Team.RED) {
-            return "包";
-        }
-        return "포";
     }
 }

@@ -30,6 +30,14 @@ public class Elephant extends Piece {
     }
 
     @Override
+    public String getName() {
+        if (getTeam() == Team.RED) {
+            return "象";
+        }
+        return "상";
+    }
+
+    @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
         List<List<Position>> temporaryPosition = new ArrayList<>();
         calculatePositionOfMovement(departure, temporaryPosition);
@@ -63,13 +71,5 @@ public class Elephant extends Piece {
             .filter(positions -> positions.getLast().equals(arrival))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."));
-    }
-
-    @Override
-    public String toString() {
-        if (getTeam() == Team.RED) {
-            return "象";
-        }
-        return "상";
     }
 }
