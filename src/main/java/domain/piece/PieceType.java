@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.Score;
+import java.util.Arrays;
 
 public enum PieceType {
     CANNON("포", new Score(7)),
@@ -17,6 +18,13 @@ public enum PieceType {
     PieceType(final String title, final Score score) {
         this.title = title;
         this.score = score;
+    }
+
+    public static PieceType from(final String name) {
+        return Arrays.stream(values())
+                .filter(pieceType -> pieceType.name().equals(name.toUpperCase()))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 PieceType이 없습니다."));
     }
 
     public String getTitle() {
