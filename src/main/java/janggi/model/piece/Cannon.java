@@ -1,14 +1,14 @@
-package model.piece;
+package janggi.model.piece;
 
+import janggi.model.Color;
+import janggi.model.Direction;
+import janggi.model.OccupiedPositions;
+import janggi.model.PieceIdentity;
+import janggi.model.PieceType;
+import janggi.model.Position;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-import model.Color;
-import model.Direction;
-import model.OccupiedPositions;
-import model.PieceIdentity;
-import model.PieceType;
-import model.Position;
 
 public class Cannon extends Piece {
 

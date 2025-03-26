@@ -1,5 +1,8 @@
 package model;
 
+import janggi.model.Direction;
+import janggi.model.Path;
+import janggi.model.Position;
 import java.util.List;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;

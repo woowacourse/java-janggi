@@ -1,4 +1,4 @@
-package model;
+package janggi.model;
 
 public class PieceIdentity {
     private final Color color;

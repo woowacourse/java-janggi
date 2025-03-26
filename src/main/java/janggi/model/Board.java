@@ -1,20 +1,27 @@
-package model;
+package janggi.model;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import model.piece.Piece;
+import janggi.model.piece.Piece;
 
 public class Board {
     private final Map<Position, Piece> pieces = new HashMap<>();
 
-    public void move(Position departure, Position destination) {
+    public void move(Position departure, Position destination, Color currentTurn) {
         validateExistPiecePosition(departure);
         Piece piece = pieces.get(departure);
+        validateSameTeam(currentTurn, piece);
         validateMovablePosition(destination, piece.calculateMovablePositions(departure, generateOccupiedPositions()));
         pieces.remove(departure);
         pieces.put(destination, piece);
+    }
+
+    private static void validateSameTeam(Color currentTurn, Piece piece) {
+        if (piece.identity().getColor() != currentTurn) {
+            throw new IllegalArgumentException("움직일 수 없는 기물입니다.");
+        }
     }
 
     public void validateExistPiecePosition(Position departure) {
@@ -33,7 +40,7 @@ public class Board {
         return new OccupiedPositions(convertOccupiedMap());
     }
 
-    public void putPiece(Position position, Piece piece) {
+    public void  putPiece(Position position, Piece piece) {
         pieces.put(position, piece);
     }
 

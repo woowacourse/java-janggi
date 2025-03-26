@@ -1,9 +1,9 @@
-package model.piece;
+package janggi.model.piece;
 
+import janggi.model.OccupiedPositions;
+import janggi.model.PieceIdentity;
+import janggi.model.Position;
 import java.util.Set;
-import model.OccupiedPositions;
-import model.PieceIdentity;
-import model.Position;
 
 public abstract class Piece {
     private final PieceIdentity pieceIdentity;

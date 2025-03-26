@@ -1,15 +1,15 @@
-package model.piece;
+package janggi.model.piece;
 
+import janggi.model.Color;
+import janggi.model.Direction;
+import janggi.model.OccupiedPositions;
+import janggi.model.Path;
+import janggi.model.PieceIdentity;
+import janggi.model.PieceType;
+import janggi.model.Position;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import model.Color;
-import model.Direction;
-import model.OccupiedPositions;
-import model.Path;
-import model.PieceIdentity;
-import model.PieceType;
-import model.Position;
 
 public class Elephant extends Piece {
 

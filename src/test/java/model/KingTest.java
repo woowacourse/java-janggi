@@ -2,10 +2,16 @@ package model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.model.Board;
+import janggi.model.Color;
+import janggi.model.OccupiedPositions;
+import janggi.model.PieceIdentity;
+import janggi.model.PieceType;
+import janggi.model.Position;
 import java.util.Map;
 import java.util.Set;
-import model.piece.King;
-import model.piece.Piece;
+import janggi.model.piece.King;
+import janggi.model.piece.Piece;
 import org.junit.jupiter.api.Test;
 
 class KingTest {

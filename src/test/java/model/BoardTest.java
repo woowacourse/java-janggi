@@ -3,7 +3,11 @@ package model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import model.piece.Chariot;
+import janggi.model.Board;
+import janggi.model.Color;
+import janggi.model.OccupiedPositions;
+import janggi.model.Position;
+import janggi.model.piece.Chariot;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
@@ -17,7 +21,7 @@ class BoardTest {
 
         board.putPiece(position, chariot);
         board.putPiece(new Position(5, 4), new Chariot(Color.RED));
-        board.move(position, new Position(4, 5));
+        board.move(position, new Position(4, 5), turn.getCurrentTurn());
 
         OccupiedPositions occupiedPositions = board.generateOccupiedPositions();
 
@@ -29,7 +33,7 @@ class BoardTest {
     void 기물이_존재하지_않는_위치를_움직이려_하면_예외가_발생한다() {
         Board board = new Board();
 
-        assertThatThrownBy(() -> board.move(new Position(1, 1), new Position(1, 4)))
+        assertThatThrownBy(() -> board.move(new Position(1, 1), new Position(1, 4), turn.getCurrentTurn()))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -43,6 +47,6 @@ class BoardTest {
         board.putPiece(position, chariot);
         board.putPiece(new Position(5, 4), new Chariot(Color.RED));
 
-        assertThatThrownBy(() -> board.move(position, new Position(5, 4)));
+        assertThatThrownBy(() -> board.move(position, new Position(5, 4), turn.getCurrentTurn()));
     }
 }

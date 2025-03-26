@@ -2,10 +2,15 @@ package model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.model.Color;
+import janggi.model.OccupiedPositions;
+import janggi.model.PieceIdentity;
+import janggi.model.PieceType;
+import janggi.model.Position;
 import java.util.Map;
 import java.util.Set;
-import model.piece.Cannon;
-import model.piece.Piece;
+import janggi.model.piece.Cannon;
+import janggi.model.piece.Piece;
 import org.junit.jupiter.api.Test;
 
 class CannonTest {

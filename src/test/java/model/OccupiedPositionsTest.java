@@ -1,5 +1,10 @@
 package model;
 
+import janggi.model.Color;
+import janggi.model.OccupiedPositions;
+import janggi.model.PieceIdentity;
+import janggi.model.PieceType;
+import janggi.model.Position;
 import java.util.Map;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
