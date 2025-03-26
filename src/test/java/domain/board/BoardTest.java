@@ -84,7 +84,7 @@ class BoardTest {
             // then
             assertThat(result)
                     .containsExactlyInAnyOrderEntriesOf(
-                            Map.of(Team.RED, new Score(20), Team.GREEN, new Score(14.5f))
+                            Map.of(Team.RED, new Score(21.5f), Team.GREEN, new Score(13))
                     );
         }
 

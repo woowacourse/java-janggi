@@ -75,8 +75,8 @@ class JanggiTest {
 
             // when & then
             assertAll(
-                    () -> assertThat(janggi.findScore(Team.RED)).isEqualTo(new Score(20)),
-                    () -> assertThat(janggi.findScore(Team.GREEN)).isEqualTo(new Score(14.5f))
+                    () -> assertThat(janggi.findScore(Team.RED)).isEqualTo(new Score(21.5f)),
+                    () -> assertThat(janggi.findScore(Team.GREEN)).isEqualTo(new Score(13))
             );
         }
 
