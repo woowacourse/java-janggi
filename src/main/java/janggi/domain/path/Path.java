@@ -1,4 +1,8 @@
-package janggi.domain.position;
+package janggi.domain.path;
+
+import janggi.domain.piece.Piece;
+import janggi.domain.position.Movement;
+import janggi.domain.position.Position;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,6 +37,14 @@ public record Path(
 
         return pathPositions.subList(0, pathPositions.size() - 1).stream()
                 .anyMatch(blockedPositions::contains);
+    }
+
+    public List<Piece> getBlockedPiece(final List<Piece> pieces) {
+        if (pieces.isEmpty()) return List.of();
+
+        return pieces.stream()
+                .filter(piece -> pathPositions.subList(0, pathPositions.size() - 1).contains(piece.getPosition()))
+                .toList();
     }
 
     public boolean isEndWith(final List<Position> positions) {

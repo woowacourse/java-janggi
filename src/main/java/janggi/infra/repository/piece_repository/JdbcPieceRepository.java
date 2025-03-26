@@ -1,9 +1,8 @@
 package janggi.infra.repository.piece_repository;
 
 import janggi.domain.Country;
-import janggi.domain.piece.Gung;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.impl.*;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.domain.position.PositionFile;
 import janggi.domain.position.PositionRank;
@@ -73,31 +72,30 @@ public class JdbcPieceRepository implements PieceRepository {
             final ResultSet result = preparedStatement.executeQuery();
 
             while (result.next()) {
-                final PieceType pieceType = PieceType.from(result.getString("type"));
+                final String pieceTypeString = result.getString("type");
                 final int rankString = result.getInt("rank");
                 final int fileString = result.getInt("file");
                 final String countryString = result.getString("country");
 
+                final PieceType type = convertToPieceType(pieceTypeString);
                 final PositionFile file = convertToFile(fileString);
                 final PositionRank rank = convertToRank(rankString);
                 final Country country = convertToCountry(countryString);
 
-                switch (pieceType) {
-                    case CHA -> pieces.get(country).add(new Cha(new Position(file, rank), new Gung()));
-                    case SANG -> pieces.get(country).add(new Sang(new Position(file, rank)));
-                    case MA -> pieces.get(country).add(new Ma(new Position(file, rank)));
-                    case SA -> pieces.get(country).add(new Sa(new Position(file, rank), new Gung()));
-                    case PO -> pieces.get(country).add(new Po(new Position(file, rank), new Gung()));
-                    case JANG -> pieces.get(country).add(new Jang(new Position(file, rank), new Gung()));
-                    case JOL -> pieces.get(country).add(new Jol(new Position(file, rank)));
-                    case BYEONG -> pieces.get(country).add(new Byeong(new Position(file, rank)));
-                }
+                pieces.get(country).add(new Piece(type, new Position(file, rank)));
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
 
         return pieces;
+    }
+
+    private PieceType convertToPieceType(final String pieceTypeString) {
+        return Arrays.stream(PieceType.values())
+                .filter(pieceType -> pieceType.name().equals(pieceTypeString))
+                .findFirst()
+                .orElseThrow();
     }
 
     private Country convertToCountry(final String countryString) {
@@ -116,7 +114,7 @@ public class JdbcPieceRepository implements PieceRepository {
                  final var preparedStatement = connection.prepareStatement(query)
             ) {
                 preparedStatement.setInt(1, number);
-                preparedStatement.setString(2, convertToType(piece).name());
+                preparedStatement.setString(2, convertToTypeValue(piece).name());
                 preparedStatement.setInt(3, convertToFileValue(piece.getPosition().file()));
                 preparedStatement.setInt(4, convertToRankValue(piece.getPosition().rank()));
                 preparedStatement.setString(5, country.name());
@@ -136,32 +134,8 @@ public class JdbcPieceRepository implements PieceRepository {
         return rank.ordinal();
     }
 
-    private PieceType convertToType(final Piece piece) {
-        if (piece instanceof Cha) {
-            return PieceType.CHA;
-        }
-        if (piece instanceof Sang) {
-            return PieceType.SANG;
-        }
-        if (piece instanceof Ma) {
-            return PieceType.MA;
-        }
-        if (piece instanceof Sa) {
-            return PieceType.SA;
-        }
-        if (piece instanceof Po) {
-            return PieceType.PO;
-        }
-        if (piece instanceof Jang) {
-            return PieceType.JANG;
-        }
-        if (piece instanceof Jol) {
-            return PieceType.JOL;
-        }
-        if (piece instanceof Byeong) {
-            return PieceType.BYEONG;
-        }
-        throw new IllegalStateException();
+    private PieceType convertToTypeValue(final Piece piece) {
+        return piece.getPieceType();
     }
 
     private PositionRank convertToRank(final int rankValue) {

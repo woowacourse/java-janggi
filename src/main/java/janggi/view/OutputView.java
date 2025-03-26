@@ -2,7 +2,6 @@ package janggi.view;
 
 import janggi.domain.Country;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.impl.*;
 import janggi.domain.position.Position;
 import janggi.domain.position.PositionFile;
 import janggi.domain.position.PositionRank;
@@ -13,17 +12,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public class OutputView {
-
-    private static final Map<Class<? extends Piece>, String> PIECE_NAMES = Map.of(
-            Cha.class, "차",
-            Ma.class, "마",
-            Sang.class, "상",
-            Sa.class, "사",
-            Jang.class, "장",
-            Po.class, "포",
-            Jol.class, "졸",
-            Byeong.class, "병"
-    );
 
     private static final Map<Country, String> COUNTRY_NAMES = Map.of(
             Country.CHO, "차",
@@ -94,7 +82,7 @@ public class OutputView {
     }
 
     private String applyColor(Country country, Piece piece) {
-        return COUNTRY_COLORS.get(country) + PIECE_NAMES.get(piece.getClass()) + RESET;
+        return COUNTRY_COLORS.get(country) + piece.getPieceType().name() + RESET;
     }
 
     public void outputWinner(final Country winner) {

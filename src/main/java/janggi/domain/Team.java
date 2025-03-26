@@ -1,7 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.impl.Jang;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece_initiaizer.PieceInitializer;
 import janggi.domain.position.Position;
 
@@ -95,6 +95,6 @@ public final class Team {
 
     public boolean isEnd() {
         return pieces.values().stream()
-                .noneMatch(piece -> piece instanceof Jang);
+                .noneMatch(piece -> piece.getPieceType().equals(PieceType.장));
     }
 }

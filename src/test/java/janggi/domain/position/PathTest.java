@@ -1,5 +1,8 @@
 package janggi.domain.position;
 
+import janggi.domain.path.Path;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.test_util.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -71,6 +74,29 @@ class PathTest extends BaseTest {
 
     @Test
     void 중간에_마주치는_기물들을_반환할_수_있다() {
+        // given
+        final List<Piece> pieces = List.of(
+                new Piece(PieceType.사, POSITION_3_3),
+                new Piece(PieceType.사, POSITION_4_4),
+                new Piece(PieceType.사, POSITION_5_5),
+                new Piece(PieceType.사, POSITION_6_6),
+                new Piece(PieceType.사, POSITION_6_8),
+                new Piece(PieceType.사, POSITION_2_4),
+                new Piece(PieceType.사, POSITION_1_3)
+        );
+
+        final Path path = new Path(List.of(POSITION_3_3, POSITION_4_4, POSITION_5_5, POSITION_6_6));
+
+        // when
+        final List<Piece> result = path.getBlockedPiece(pieces);
+
+        // then
+        assertThat(result).extracting("position")
+                .containsExactlyInAnyOrder(POSITION_3_3, POSITION_4_4, POSITION_5_5);
+    }
+
+    @Test
+    void 중간에_마주치는_위치들을_반환할_수_있다() {
         // given
         final Path path = new Path(List.of(
                 new Position(FILE_5, RANK_1),

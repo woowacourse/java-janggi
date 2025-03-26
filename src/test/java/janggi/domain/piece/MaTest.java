@@ -1,4 +1,4 @@
-package janggi.domain.piece.impl;
+package janggi.domain.piece;
 
 import janggi.domain.position.Position;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,16 +11,16 @@ import java.util.stream.Stream;
 import static janggi.test_util.TestConstant.*;
 import static org.assertj.core.api.Assertions.*;
 
-class ByeongTest {
+class MaTest {
 
     @ParameterizedTest
     @MethodSource("provideValidPositions")
-    void 병은_전진_대각선으로_움직인다(final Position newPosition) {
+    void 마는_전진_대각선으로_움직인다(final Position newPosition) {
         // given
-        final Byeong byeong = new Byeong(POSITION_5_5);
+        final Piece piece = new Piece(PieceType.마, POSITION_5_5);
 
         // expected
-        assertThatCode(() -> byeong.move(newPosition, List.of(), List.of()))
+        assertThatCode(() -> piece.move(newPosition, List.of(), List.of()))
                 .doesNotThrowAnyException();
     }
 
@@ -28,10 +28,10 @@ class ByeongTest {
     @MethodSource("provideInvalidPositions")
     void 그_외의_위치로는_이동할_수_없다(final Position invalidPosition) {
         // given
-        final Byeong byeong = new Byeong(POSITION_5_5);
+        final Piece piece = new Piece(PieceType.마, POSITION_5_5);
 
         // expected
-        assertThatThrownBy(() -> byeong.move(invalidPosition, List.of(), List.of()))
+        assertThatThrownBy(() -> piece.move(invalidPosition, List.of(), List.of()))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -39,14 +39,14 @@ class ByeongTest {
     @MethodSource("provideValidPositions")
     void 중간에_기물로_가로막힌다(final Position newPosition) {
         // given
-        final Byeong byeong = new Byeong(POSITION_5_5);
+        final Piece piece = new Piece(PieceType.마, POSITION_5_5);
 
         // expected
-        assertThatThrownBy(() -> byeong.move(newPosition, List.of(
-                new Ma(POSITION_4_5),
-                new Ma(POSITION_6_5),
-                new Ma(POSITION_5_4),
-                new Ma(POSITION_5_6)
+        assertThatThrownBy(() -> piece.move(newPosition, List.of(
+                new Piece(PieceType.졸, POSITION_4_5),
+                new Piece(PieceType.졸, POSITION_6_5),
+                new Piece(PieceType.졸, POSITION_5_4),
+                new Piece(PieceType.졸, POSITION_5_6)
         ), List.of())).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -54,18 +54,23 @@ class ByeongTest {
     @MethodSource("provideValidPositions")
     void 마지막에_적_기물이_있으면_먹는다(final Position newPosition) {
         // given
-        final Byeong byeong = new Byeong(POSITION_5_5);
+        final Piece piece = new Piece(PieceType.마, POSITION_5_5);
 
         // expected
-        assertThatCode(() -> byeong.move(newPosition, List.of(), List.of(new Ma(newPosition))))
+        assertThatCode(() -> piece.move(newPosition, List.of(), List.of(new Piece(PieceType.졸, newPosition))))
                 .doesNotThrowAnyException();
     }
 
     public static Stream<Arguments> provideValidPositions() {
         return Stream.of(
-                Arguments.of(POSITION_6_5),
-                Arguments.of(POSITION_4_5),
-                Arguments.of(POSITION_5_4)
+                Arguments.of(POSITION_3_4),
+                Arguments.of(POSITION_3_6),
+                Arguments.of(POSITION_4_3),
+                Arguments.of(POSITION_4_7),
+                Arguments.of(POSITION_6_3),
+                Arguments.of(POSITION_6_7),
+                Arguments.of(POSITION_7_4),
+                Arguments.of(POSITION_7_6)
         );
     }
 
@@ -80,20 +85,23 @@ class ByeongTest {
                 Arguments.of(POSITION_4_1),
                 Arguments.of(POSITION_4_2),
                 Arguments.of(POSITION_4_4),
+                Arguments.of(POSITION_4_5),
                 Arguments.of(POSITION_4_6),
                 Arguments.of(POSITION_4_8),
                 Arguments.of(POSITION_5_1),
                 Arguments.of(POSITION_5_2),
                 Arguments.of(POSITION_5_3),
+                Arguments.of(POSITION_5_4),
                 Arguments.of(POSITION_5_5),
+                Arguments.of(POSITION_5_6),
                 Arguments.of(POSITION_5_7),
                 Arguments.of(POSITION_5_8),
                 Arguments.of(POSITION_6_1),
                 Arguments.of(POSITION_6_2),
                 Arguments.of(POSITION_6_4),
+                Arguments.of(POSITION_6_5),
                 Arguments.of(POSITION_6_6),
                 Arguments.of(POSITION_6_8)
         );
     }
-
 }

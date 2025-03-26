@@ -1,6 +1,5 @@
-package janggi.domain.piece.impl;
+package janggi.domain.piece;
 
-import janggi.domain.piece.Gung;
 import janggi.domain.position.Position;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -18,10 +17,10 @@ class JangTest {
     @MethodSource("provideValidPositions")
     void 장은_궁의_길을_따라_움직인다(final Position startPosition, final Position newPosition) {
         // given
-        final Jang jang = new Jang(startPosition, new Gung());
+        final Piece piece = new Piece(PieceType.장, startPosition);
 
         // expected
-        assertThatCode(() -> jang.move(newPosition, List.of(), List.of()))
+        assertThatCode(() -> piece.move(newPosition, List.of(), List.of()))
                 .doesNotThrowAnyException();
     }
 
@@ -29,10 +28,10 @@ class JangTest {
     @MethodSource("provideValidPositions")
     void 거꾸로도_갈_수_있다(final Position newPosition, final Position startPosition) {
         // given
-        final Jang jang = new Jang(startPosition, new Gung());
+        final Piece piece = new Piece(PieceType.장, startPosition);
 
         // expected
-        assertThatCode(() -> jang.move(newPosition, List.of(), List.of()))
+        assertThatCode(() -> piece.move(newPosition, List.of(), List.of()))
                 .doesNotThrowAnyException();
     }
 
@@ -40,10 +39,10 @@ class JangTest {
     @MethodSource("provideInvalidPositions")
     void 그_외의_길을_따라_움직일_수_없다(final Position startPosition, final Position newPosition) {
         // given
-        final Jang jang = new Jang(startPosition, new Gung());
+        final Piece piece = new Piece(PieceType.장, startPosition);
 
         // expected
-        assertThatThrownBy(() -> jang.move(newPosition, List.of(), List.of()))
+        assertThatThrownBy(() -> piece.move(newPosition, List.of(), List.of()))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

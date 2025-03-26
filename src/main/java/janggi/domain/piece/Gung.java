@@ -1,12 +1,14 @@
 package janggi.domain.piece;
 
-import janggi.domain.position.Path;
+import janggi.domain.path.Path;
 import janggi.domain.position.Position;
 import janggi.domain.position.PositionFile;
 import janggi.domain.position.PositionRank;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static janggi.domain.position.PositionFile.*;
 import static janggi.domain.position.PositionRank.*;
@@ -58,13 +60,13 @@ public class Gung {
                 .anyMatch(availablePath -> availablePath.isSuperPathOf(path));
     }
 
-    public List<Path> getAllPathsFrom(final Position position) {
+    public Set<Path> getAllPathsFrom(final Position position) {
         if (!isInGungPosition(position)) {
-            return List.of();
+            return Set.of();
         }
 
         return availablePaths.stream()
                 .filter(path -> path.isStartWith(position))
-                .toList();
+                .collect(Collectors.toSet());
     }
 }

@@ -1,4 +1,4 @@
-package janggi.domain.piece.impl;
+package janggi.domain.piece;
 
 import janggi.domain.position.Position;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,10 +17,10 @@ class JolTest {
     @MethodSource("provideValidPositions")
     void 졸은_전진_좌우로_움직인다(final Position newPosition) {
         // given
-        final Jol jol = new Jol(POSITION_5_5);
+        final Piece piece = new Piece(PieceType.졸, POSITION_5_5);
 
         // expected
-        assertThatCode(() -> jol.move(newPosition, List.of(), List.of()))
+        assertThatCode(() -> piece.move(newPosition, List.of(), List.of()))
                 .doesNotThrowAnyException();
     }
 
@@ -28,10 +28,10 @@ class JolTest {
     @MethodSource("provideInvalidPositions")
     void 그_외의_위치로는_이동할_수_없다(final Position invalidPosition) {
         // given
-        final Jol jol = new Jol(POSITION_5_5);
+        final Piece piece = new Piece(PieceType.졸, POSITION_5_5);
 
         // expected
-        assertThatThrownBy(() -> jol.move(invalidPosition, List.of(), List.of()))
+        assertThatThrownBy(() -> piece.move(invalidPosition, List.of(), List.of()))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -39,14 +39,14 @@ class JolTest {
     @MethodSource("provideValidPositions")
     void 중간에_기물로_가로막힌다(final Position newPosition) {
         // given
-        final Jol jol = new Jol(POSITION_5_5);
+        final Piece piece = new Piece(PieceType.졸, POSITION_5_5);
 
         // expected
-        assertThatThrownBy(() -> jol.move(newPosition, List.of(
-                new Ma(POSITION_4_5),
-                new Ma(POSITION_6_5),
-                new Ma(POSITION_5_4),
-                new Ma(POSITION_5_6)
+        assertThatThrownBy(() -> piece.move(newPosition, List.of(
+                new Piece(PieceType.졸, POSITION_4_5),
+                new Piece(PieceType.졸, POSITION_6_5),
+                new Piece(PieceType.졸, POSITION_5_4),
+                new Piece(PieceType.졸, POSITION_5_6)
         ), List.of())).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -54,10 +54,10 @@ class JolTest {
     @MethodSource("provideValidPositions")
     void 마지막에_적_기물이_있으면_먹는다(final Position newPosition) {
         // given
-        final Jol jol = new Jol(POSITION_5_5);
+        final Piece piece = new Piece(PieceType.졸, POSITION_5_5);
 
         // expected
-        assertThatCode(() -> jol.move(newPosition, List.of(), List.of(new Ma(newPosition))))
+        assertThatCode(() -> piece.move(newPosition, List.of(), List.of(new Piece(PieceType.졸, newPosition))))
                 .doesNotThrowAnyException();
     }
 

@@ -1,9 +1,10 @@
 package janggi.domain.piece;
 
-import janggi.domain.position.Path;
+import janggi.domain.path.Path;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Set;
 
 import static janggi.test_util.TestConstant.*;
 import static org.assertj.core.api.Assertions.*;
@@ -16,7 +17,7 @@ class GungTest {
         final Gung gung = new Gung();
 
         // when
-        final List<Path> result = gung.getAllPathsFrom(POSITION_6_1);
+        final Set<Path> result = gung.getAllPathsFrom(POSITION_6_1);
 
         // then
         assertThat(result).containsExactlyInAnyOrder(

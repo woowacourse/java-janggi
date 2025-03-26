@@ -1,4 +1,4 @@
-package janggi.domain.piece.impl;
+package janggi.domain.piece;
 
 import janggi.domain.position.Position;
 import janggi.test_util.BaseTest;
@@ -18,10 +18,10 @@ class SangTest extends BaseTest {
     @MethodSource("provideValidPositions")
     void 상은_전진_대각선_대각선으로_움직인다(final Position newPosition) {
         // given
-        final Sang sang = new Sang(POSITION_5_5);
+        final Piece piece = new Piece(PieceType.상, POSITION_5_5);
 
         // expected
-        assertThatCode(() -> sang.move(newPosition, List.of(), List.of()))
+        assertThatCode(() -> piece.move(newPosition, List.of(), List.of()))
                 .doesNotThrowAnyException();
     }
 
@@ -29,10 +29,10 @@ class SangTest extends BaseTest {
     @MethodSource("provideInvalidPositions")
     void 그_외의_위치로는_이동할_수_없다(final Position invalidPosition) {
         // given
-        final Sang sang = new Sang(POSITION_5_5);
+        final Piece piece = new Piece(PieceType.상, POSITION_5_5);
 
         // expected
-        assertThatThrownBy(() -> sang.move(invalidPosition, List.of(), List.of()))
+        assertThatThrownBy(() -> piece.move(invalidPosition, List.of(), List.of()))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -40,14 +40,14 @@ class SangTest extends BaseTest {
     @MethodSource("provideValidPositions")
     void 중간에_기물로_가로막힌다(final Position newPosition) {
         // given
-        final Sang sang = new Sang(POSITION_5_5);
+        final Piece piece = new Piece(PieceType.상, POSITION_5_5);
 
         // expected
-        assertThatThrownBy(() -> sang.move(newPosition, List.of(
-                new Ma(POSITION_4_5),
-                new Ma(POSITION_6_5),
-                new Ma(POSITION_5_4),
-                new Ma(POSITION_5_6)
+        assertThatThrownBy(() -> piece.move(newPosition, List.of(
+                new Piece(PieceType.마, POSITION_4_5),
+                new Piece(PieceType.마, POSITION_6_5),
+                new Piece(PieceType.마, POSITION_5_4),
+                new Piece(PieceType.마, POSITION_5_6)
         ), List.of())).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -55,10 +55,10 @@ class SangTest extends BaseTest {
     @MethodSource("provideValidPositions")
     void 마지막에_적_기물이_있으면_먹는다(final Position newPosition) {
         // given
-        final Sang sang = new Sang(POSITION_5_5);
+        final Piece piece = new Piece(PieceType.상, POSITION_5_5);
 
         // expected
-        assertThatCode(() -> sang.move(newPosition, List.of(), List.of(new Ma(newPosition))))
+        assertThatCode(() -> piece.move(newPosition, List.of(), List.of(new Piece(PieceType.마, newPosition))))
                 .doesNotThrowAnyException();
     }
 
