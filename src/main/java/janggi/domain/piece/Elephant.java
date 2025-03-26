@@ -2,10 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.piece.movement.Movement;
 
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Elephant extends PathMovingPiece {
     private static final List<List<Movement>> movements = List.of(

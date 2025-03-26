@@ -2,7 +2,6 @@ package janggi.domain.piece;
 
 import janggi.domain.piece.movement.Movement;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Horse extends PathMovingPiece {
