@@ -27,13 +27,6 @@ public class Sang extends Piece implements DistanceMove {
         }
     }
 
-    @Override
-    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateCoordinate(to);
-        validateSangMoveStrategy(board, from, to);
-        validateTarget(board, from, to);
-    }
-
     private Direction getDirection(JanggiCoordinate from, JanggiCoordinate to) {
         if (from.moveRightUp().moveRightUp().moveUp().equals(to) || from.moveRightUp().moveRightUp().moveRight().equals(to)) {
             return Direction.RIGHT_UP;
@@ -45,5 +38,12 @@ public class Sang extends Piece implements DistanceMove {
             return Direction.LEFT_UP;
         }
         return Direction.LEFT_DOWN;
+    }
+
+    @Override
+    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+        validateCoordinate(to);
+        validateSangMoveStrategy(board, from, to);
+        validateTarget(board, from, to);
     }
 }

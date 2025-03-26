@@ -12,6 +12,14 @@ public class Ma extends Piece implements DistanceMove {
         super(country, PieceType.MA);
     }
 
+    @Override
+    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+        validateCoordinate(to);
+        validateReachableDistanceCoordinate(from, to, isReachAble);
+        validateDoesNotHasObstacle(board, from, to);
+        validateTarget(board, from, to);
+    }
+
     private void validateDoesNotHasObstacle(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         Direction moveDirection = getDirection(from, to);
         if (moveDirection == Direction.UP && !board.isOccupied(from.moveUp())) {
@@ -27,14 +35,6 @@ public class Ma extends Piece implements DistanceMove {
             return;
         }
         throw new IllegalArgumentException("[ERROR] 경로에 기물이 있어 해당 위치로 이동할 수 없습니다.");
-    }
-
-    @Override
-    public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateCoordinate(to);
-        validateReachableDistanceCoordinate(from, to, isReachAble);
-        validateDoesNotHasObstacle(board, from, to);
-        validateTarget(board, from, to);
     }
 
     private Direction getDirection(JanggiCoordinate from, JanggiCoordinate to) {

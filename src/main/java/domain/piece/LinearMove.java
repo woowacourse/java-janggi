@@ -9,6 +9,13 @@ public interface LinearMove {
 
     void validateReachAble(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to);
 
+    default Direction getDirection(JanggiCoordinate from, JanggiCoordinate to) {
+        if (isSameRow(from, to)) {
+            return getHorizontalDirection(from, to);
+        }
+        return getVerticalDirection(from, to);
+    }
+
     default Direction getVerticalDirection(JanggiCoordinate from, JanggiCoordinate to) {
         if (from.row() > to.row()) {
             return Direction.UP;
@@ -21,13 +28,6 @@ public interface LinearMove {
             return Direction.LEFT;
         }
         return Direction.RIGHT;
-    }
-
-    default Direction getDirection(JanggiCoordinate from, JanggiCoordinate to) {
-        if (isSameRow(from, to)) {
-            return getHorizontalDirection(from, to);
-        }
-        return getVerticalDirection(from, to);
     }
 
     default void validateRowCol(JanggiCoordinate from, JanggiCoordinate to) {

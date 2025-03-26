@@ -8,24 +8,6 @@ public class Pho extends Piece implements LinearMove {
         super(country, PieceType.PHO);
     }
 
-    private JanggiCoordinate findFirstPieceCoordinate(JanggiBoard janggiBoard, JanggiCoordinate curr, JanggiCoordinate to, Direction direction) {
-        while (!janggiBoard.isOccupied(curr) && !curr.equals(to)) {
-            curr = curr.move(direction);
-        }
-        return curr;
-    }
-
-    private void validatePhoTarget(JanggiBoard board, JanggiCoordinate to) {
-        if (!board.isOccupied(to)) {
-            return;
-        }
-
-        Piece targetPiece = board.findPieceByCoordinate(to);
-        if (targetPiece.getPieceType() == PieceType.PHO) {
-            throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
-        }
-    }
-
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         validateCoordinate(to);
@@ -58,6 +40,24 @@ public class Pho extends Piece implements LinearMove {
         curr = findFirstPieceCoordinate(janggiBoard, curr.move(direction), to, direction);
         if (!curr.equals(to)) {
             throw new IllegalArgumentException("[ERROR] 포는 기물을 한번만 넘어 공격할 수 있습니다.");
+        }
+    }
+
+    private JanggiCoordinate findFirstPieceCoordinate(JanggiBoard janggiBoard, JanggiCoordinate curr, JanggiCoordinate to, Direction direction) {
+        while (!janggiBoard.isOccupied(curr) && !curr.equals(to)) {
+            curr = curr.move(direction);
+        }
+        return curr;
+    }
+
+    private void validatePhoTarget(JanggiBoard board, JanggiCoordinate to) {
+        if (!board.isOccupied(to)) {
+            return;
+        }
+
+        Piece targetPiece = board.findPieceByCoordinate(to);
+        if (targetPiece.getPieceType() == PieceType.PHO) {
+            throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
         }
     }
 }
