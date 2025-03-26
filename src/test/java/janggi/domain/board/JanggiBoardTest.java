@@ -103,7 +103,7 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard(Map.of());
 
         //when
-        assertThatThrownBy(() -> janggiBoard.move(Dynasty.HAN, new Point(1, 2), new Point(2,3 )))
+        assertThatThrownBy(() -> janggiBoard.move(Dynasty.HAN, new Point(1, 2), new Point(2, 3)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("시작 위치에 기물이 존재하지 않습니다.");
     }
@@ -117,7 +117,7 @@ public class JanggiBoardTest {
         ));
 
         //when
-        assertThatThrownBy(() -> janggiBoard.move(Dynasty.HAN, new Point(4, 3), new Point(2,3)))
+        assertThatThrownBy(() -> janggiBoard.move(Dynasty.HAN, new Point(4, 3), new Point(2, 3)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("자신의 나라 기물이 아닙니다.");
     }

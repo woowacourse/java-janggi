@@ -24,7 +24,7 @@ class BoardSetUpTest {
 
         // then
         assertThat(dynastySetUp)
-                .containsEntry(new Point(1, 2),  new BoardPiece(new Horse(), Dynasty.HAN))
+                .containsEntry(new Point(1, 2), new BoardPiece(new Horse(), Dynasty.HAN))
                 .containsEntry(new Point(1, 3), new BoardPiece(new Elephant(), Dynasty.HAN))
                 .containsEntry(new Point(1, 7), new BoardPiece(new Elephant(), Dynasty.HAN))
                 .containsEntry(new Point(1, 8), new BoardPiece(new Horse(), Dynasty.HAN));
@@ -92,7 +92,7 @@ class BoardSetUpTest {
 
         // then
         assertThat(dynastySetUp)
-                .containsEntry(new Point(10, 2),  new BoardPiece(new Horse(), Dynasty.CHU))
+                .containsEntry(new Point(10, 2), new BoardPiece(new Horse(), Dynasty.CHU))
                 .containsEntry(new Point(10, 3), new BoardPiece(new Elephant(), Dynasty.CHU))
                 .containsEntry(new Point(10, 7), new BoardPiece(new Elephant(), Dynasty.CHU))
                 .containsEntry(new Point(10, 8), new BoardPiece(new Horse(), Dynasty.CHU));

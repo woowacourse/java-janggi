@@ -27,7 +27,7 @@ class BoardPieceTest {
         ));
 
         // when
-        boolean canMove = boardPiece.canMove(janggiBoard, start, end);
+        boolean canMove = boardPiece.canMove(janggiBoard, Dynasty.HAN, start, end);
 
         // then
         assertThat(canMove)
@@ -46,7 +46,7 @@ class BoardPieceTest {
         ));
 
         // then
-        assertThatThrownBy(() -> boardPiece.canMove(janggiBoard, start, end))
+        assertThatThrownBy(() -> boardPiece.canMove(janggiBoard, Dynasty.HAN, start, end))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
     }

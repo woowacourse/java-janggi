@@ -60,13 +60,10 @@ public class JanggiBoard {
 
     public void move(Dynasty dynasty, Point start, Point end) {
         BoardPiece startPiece = getStartPiece(start);
-        if (!startPiece.isSameDynasty(dynasty)) {
-            throw new IllegalArgumentException("자신의 나라 기물이 아닙니다.");
-        }
         if (isPointSameDynasty(end, dynasty)) {
             throw new IllegalArgumentException("이미 놓여져 있는 기물이 존재합니다.");
         }
-        if (startPiece.canMove(this, start, end)) {
+        if (startPiece.canMove(this, dynasty, start, end)) {
             boardPieces.remove(start);
             boardPieces.put(end, startPiece);
         }
