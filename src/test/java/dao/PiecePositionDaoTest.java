@@ -6,8 +6,10 @@ import static dao.DatabaseConfig.SERVER;
 import static dao.DatabaseConfig.USERNAME;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.Team;
 import domain.board.Board;
 import domain.board.BoardPosition;
+import domain.piece.General;
 import domain.piece.Piece;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -42,7 +44,7 @@ class PiecePositionDaoTest {
 
         @DisplayName("보드의 모든 기물 위치 정보를 저장한다.")
         @Test
-        public void addAll() {
+        void addAll() {
             // given
             Board board = Board.initialize();
             Map<BoardPosition, Piece> pieces = board.getPieces();
@@ -57,7 +59,7 @@ class PiecePositionDaoTest {
 
         @DisplayName("데이터베이스에 저장된 모든 기물 위치 정보를 삭제한다.")
         @Test
-        public void deleteAll() {
+        void deleteAll() {
             // given
             Board board = Board.initialize();
             Map<BoardPosition, Piece> pieces = board.getPieces();
@@ -73,7 +75,7 @@ class PiecePositionDaoTest {
 
         @DisplayName("데이터베이스에 저장된 모든 기물 위치 정보를 찾는다.")
         @Test
-        public void findAll() {
+        void findAll() {
             // given
             Board board = Board.initialize();
             Map<BoardPosition, Piece> pieces = board.getPieces();
@@ -84,5 +86,49 @@ class PiecePositionDaoTest {
                     .containsExactlyInAnyOrderEntriesOf(pieces);
         }
 
+        @DisplayName("데이터베이스에 해당 위치를 삭제한다.")
+        @Test
+        void deleteByBoardPosition() {
+            // given
+            Map<BoardPosition, Piece> pieces = Map.of(
+                    new BoardPosition(4, 2), new General(Team.RED),
+                    new BoardPosition(3, 1), new General(Team.GREEN)
+            );
+            Board board = new Board(pieces);
+            piecePositionDao.addAll(connection, pieces);
+
+            // when
+            piecePositionDao.deleteByBoardPosition(connection, new BoardPosition(4, 2));
+
+            // then
+            assertThat(piecePositionDao.findAll(connection))
+                    .containsEntry(new BoardPosition(3, 1), new General(Team.GREEN));
+        }
+
+        @DisplayName("데이터베이스에 해당 위치를 다른 위치로 갱신한다.")
+        @Test
+        void updateByBoardPosition() {
+            // given
+            Map<BoardPosition, Piece> pieces = Map.of(
+                    new BoardPosition(4, 2), new General(Team.RED),
+                    new BoardPosition(3, 1), new General(Team.GREEN)
+            );
+            Board board = new Board(pieces);
+            piecePositionDao.addAll(connection, pieces);
+
+            // when
+            piecePositionDao.updateByBoardPosition(
+                    connection,
+                    new BoardPosition(4, 2),
+                    new BoardPosition(6, 7)
+            );
+
+            // then
+            assertThat(piecePositionDao.findAll(connection))
+                    .containsExactlyInAnyOrderEntriesOf(Map.of(
+                            new BoardPosition(6, 7), new General(Team.RED),
+                            new BoardPosition(3, 1), new General(Team.GREEN)
+                    ));
+        }
     }
 }
