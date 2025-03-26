@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.Position;
+import janggi.position.Position;
 import janggi.Side;
 import janggi.piece.Cannon;
 import janggi.piece.Elephant;

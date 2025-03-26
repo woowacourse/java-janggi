@@ -1,4 +1,4 @@
-package janggi;
+package janggi.position;
 
 public record Position(int x, int y) {
 

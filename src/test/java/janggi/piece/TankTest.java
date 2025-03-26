@@ -3,7 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.Position;
+import janggi.position.Position;
 import janggi.Side;
 import java.util.List;
 import java.util.stream.Stream;

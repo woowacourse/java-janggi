@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.Position;
+import janggi.position.Position;
 import janggi.Side;
 import java.util.List;
 

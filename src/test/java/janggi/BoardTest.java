@@ -9,6 +9,7 @@ import janggi.piece.Cannon;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
 import janggi.piece.Tank;
+import janggi.position.Position;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;

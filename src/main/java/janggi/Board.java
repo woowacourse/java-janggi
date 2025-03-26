@@ -8,6 +8,7 @@ import janggi.piece.King;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
 import janggi.piece.Tank;
+import janggi.position.Position;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
