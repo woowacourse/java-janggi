@@ -10,10 +10,39 @@ import piece.position.JanggiPosition;
 
 public class JanggiPieceDao {
 
+    private static final String CANNOT_CREATE_TABLE = "테이블을 생성하는데 실패하였습니다";
+    
     private final MySQLConnection connection;
 
     public JanggiPieceDao(MySQLConnection mySQLConnection) {
         this.connection = mySQLConnection;
+        initiateTable();
+    }
+
+    private void initiateTable() {
+        String createTableQuery = """
+                    CREATE TABLE IF NOT EXISTS piece (
+                        id INT NOT NULL AUTO_INCREMENT,
+                        janggi_turn_fk INT NOT NULL,
+                        `row` INT NOT NULL,
+                        `column` INT NOT NULL,
+                        type VARCHAR(30) NOT NULL,
+                        team VARCHAR(30) NOT NULL,
+                        PRIMARY KEY (id),
+                        KEY piece_janggi_turn_fk (janggi_turn_fk),
+                        CONSTRAINT piece_janggi_turn_fk FOREIGN KEY (janggi_turn_fk) 
+                            REFERENCES janggi_turn(id) 
+                            ON DELETE CASCADE 
+                            ON UPDATE CASCADE
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+                """;
+
+        try (final var connection = this.connection.getConnection();
+             final var statement = connection.createStatement()) {
+            statement.executeUpdate(createTableQuery);
+        } catch (SQLException e) {
+            throw new RuntimeException(CANNOT_CREATE_TABLE, e);
+        }
     }
 
     public void savePiece(Piece piece, int turn) {

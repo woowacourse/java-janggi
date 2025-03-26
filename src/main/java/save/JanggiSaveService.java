@@ -10,7 +10,6 @@ import piece.player.Team;
 
 public class JanggiSaveService {
 
-
     private final JanggiTurnDao janggiTurnDao;
     private final JanggiPieceDao janggiPieceDao;
 

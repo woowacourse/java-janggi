@@ -1,15 +1,39 @@
 package save;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Optional;
 import piece.player.Team;
 
 public class JanggiTurnDao {
 
+    private static final String CANNOT_CREATE_TABLE = "테이블을 생성하는데 실패하였습니다";
+
     private final MySQLConnection connection;
 
     public JanggiTurnDao(MySQLConnection mySQLConnection) {
         this.connection = mySQLConnection;
+        initiateTable();
+    }
+
+    private void initiateTable() {
+        final String createTableQuery = """
+                    CREATE TABLE IF NOT EXISTS janggi_turn (
+                        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                        team VARCHAR(30) NOT NULL,
+                        turn INT NOT NULL UNIQUE,
+                        score INT NOT NULL
+                    );
+                """;
+
+        try (Connection conn = this.connection.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(createTableQuery)) {
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(CANNOT_CREATE_TABLE, e);
+        }
     }
 
     public void addTurnScore(Team team, int turn, int score) {
@@ -23,24 +47,6 @@ public class JanggiTurnDao {
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public int findIdByTeamTurn(Team team, int turn) {
-        final var query = "SELECT * FROM janggi_turn WHERE team = ? and turn = ?";
-        try (final var connection = this.connection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, team.name());
-            preparedStatement.setInt(2, turn);
-
-            final var resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getInt("id");
-            }
-
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return 0;
     }
 
     public Optional<Integer> getLatestTurnId() {
@@ -80,18 +86,6 @@ public class JanggiTurnDao {
         final var query = "DELETE FROM janggi_turn";
         try (final var connection = this.connection.getConnection()) {
             final var preparedStatement = connection.prepareStatement(query);
-            final var resultSet = preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void deletePreviousTurnScore(Team team, int turn) {
-        final var query = "DELETE FROM janggi_turn WHERE team = ? AND turn = ?";
-        try (final var connection = this.connection.getConnection()) {
-            final var preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, team.name());
-            preparedStatement.setInt(2, turn);
             final var resultSet = preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
