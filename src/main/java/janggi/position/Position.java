@@ -28,10 +28,10 @@ public record Position(int x, int y) {
     public Direction calculateDirection(final Position end) {
         int differenceX = calculateDifferenceX(end);
         int differenceY = calculateDifferenceY(end);
-        if (differenceX < 0) {
+        if (differenceX > 0) {
             return Direction.RIGHT;
         }
-        if (differenceX > 0) {
+        if (differenceX < 0) {
             return Direction.LEFT;
         }
         if (differenceY < 0) {
