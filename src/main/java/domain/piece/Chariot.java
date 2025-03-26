@@ -34,13 +34,13 @@ public class Chariot extends AbstractPiece {
             final Point fromPoint,
             final int bordEdge,
             final Point toPoint,
-            final UnaryOperator<Point> unaryOperator
+            final UnaryOperator<Point> directionOperator
 
     ) {
         final List<Point> possiblePoint = new ArrayList<>();
         Point target = fromPoint;
         for (int i = 0; i < bordEdge; i++) {
-            target = unaryOperator.apply(target);
+            target = directionOperator.apply(target);
             if (target.equals(toPoint)) {
                 break;
             }
