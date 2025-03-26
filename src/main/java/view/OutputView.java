@@ -1,5 +1,6 @@
 package view;
 
+import domain.Score;
 import domain.Team;
 import domain.board.BoardPosition;
 import domain.piece.Piece;
@@ -11,12 +12,22 @@ public class OutputView {
     private static final String RED = "\u001B[31m";
     private static final String GREEN = "\u001B[32m";
 
-    public void printBoard(
-            final Map<BoardPosition, Piece> pieces,
-            final Team team
+    public void printScore(
+            final Score redScore,
+            final Score greenScore
     ) {
         System.out.println();
+        System.out.println("한나라 점수 : " + redScore.value());
+        System.out.println("초나라 점수 : " + greenScore.value());
+    }
+
+    public void printCurrentTurn(final Team team) {
         System.out.println("현재 턴: " + team.getTitle());
+    }
+
+    public void printBoard(
+            final Map<BoardPosition, Piece> pieces)
+    {
         for (int i = 9; i >= 0; i--) {
             for (int j = 0; j < 9; j++) {
                 final BoardPosition boardPosition = new BoardPosition(j, i);
