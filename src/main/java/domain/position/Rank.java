@@ -84,4 +84,8 @@ public enum Rank {
     private Rank bottom() {
         return ZERO;
     }
+
+    public int value() {
+        return rank;
+    }
 }

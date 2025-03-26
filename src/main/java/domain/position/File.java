@@ -80,4 +80,8 @@ public enum File {
         }
         return findByNumber(file - 1);
     }
+
+    public int value() {
+        return file;
+    }
 }

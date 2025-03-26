@@ -62,4 +62,12 @@ public record JanggiPosition(Rank rank, File file) {
     public int getFileGap(final JanggiPosition beforePosition) {
         return file.getGapBetween(beforePosition.file);
     }
+
+    public int getRank() {
+        return rank.value();
+    }
+
+    public int getFile() {
+        return file.value();
+    }
 }
