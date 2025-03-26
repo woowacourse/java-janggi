@@ -76,7 +76,6 @@ public final class Board {
         return generalCount == 1;
     }
 
-
     public Team findWinner() {
         if (isGeneralDead()) {
             return board.values().stream()

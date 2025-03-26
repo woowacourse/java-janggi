@@ -3,12 +3,22 @@ package janggi.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.fixture.TestBoardGenerator;
+import janggi.piece.Cannon;
+import janggi.piece.Chariot;
+import janggi.piece.Elephant;
+import janggi.piece.General;
+import janggi.piece.Horse;
 import janggi.piece.Piece;
+import janggi.piece.Soldier;
+import janggi.piece.Team;
 import janggi.piece.Type;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
+import janggi.score.ScoreBoard;
 import janggi.view.SetupOption;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -72,5 +82,67 @@ class BoardGeneratorTest {
                 () -> assertThat(piece1.getType()).isEqualTo(Type.ELEPHANT),
                 () -> assertThat(piece2.getType()).isEqualTo(Type.ELEPHANT)
         );
+    }
+
+    @DisplayName("점수판을 계산한다.")
+    @Test
+    void testCalculateScoreBoard() {
+        // given
+        final Board board = new Board(Map.of(
+                new Position(Row.ZERO, Column.ONE), Soldier.of(Team.CHO),
+                new Position(Row.ZERO, Column.TWO), Elephant.of(Team.CHO),
+                new Position(Row.ZERO, Column.THREE), Chariot.of(Team.CHO),
+                new Position(Row.ZERO, Column.FOUR), Cannon.of(Team.CHO),
+                new Position(Row.ZERO, Column.FIVE), Soldier.of(Team.HAN),
+                new Position(Row.ZERO, Column.SIX), Horse.of(Team.HAN),
+                new Position(Row.ZERO, Column.SEVEN), Chariot.of(Team.HAN)
+        ));
+        // when
+        final ScoreBoard scoreBoard = board.calculateScoreBoard();
+        // then
+        assertAll(
+                () -> assertThat(scoreBoard.getScore(Team.CHO)).isEqualTo(25),
+                () -> assertThat(scoreBoard.getScore(Team.HAN)).isEqualTo(21.5)
+        );
+    }
+
+    @DisplayName("장이 1개인지 확인한다.")
+    @Test
+    void testIsGeneralDead() {
+        // given
+        final Board board = TestBoardGenerator.generateBoardWithOnePiece(new Position(Row.ONE, Column.FOUR),
+                General.of(Team.CHO));
+        // when
+        // then
+        assertThat(board.isGeneralDead()).isTrue();
+    }
+
+    @DisplayName("두 장이 살아있을 때 승리팀을 계산한다.")
+    @Test
+    void testFindWinnerWhenTwoGeneralIsAlive() {
+        // given
+        final Board board = new Board(Map.of(
+                new Position(Row.ZERO, Column.TWO), Elephant.of(Team.CHO),
+                new Position(Row.ZERO, Column.FOUR), General.of(Team.CHO),
+                new Position(Row.ZERO, Column.FIVE), General.of(Team.HAN)
+        ));
+        // when
+        // then
+        assertThat(board.findWinner()).isEqualTo(Team.CHO);
+    }
+
+    @DisplayName("두 장이 살아있을 때 승리팀을 계산한다.")
+    @Test
+    void testFindWinnerWhenOneGeneralIsDead() {
+        // given
+        final Board board = new Board(Map.of(
+                new Position(Row.ZERO, Column.TWO), Elephant.of(Team.CHO),
+                new Position(Row.ZERO, Column.FOUR), General.of(Team.CHO),
+                new Position(Row.ZERO, Column.FIVE), Chariot.of(Team.HAN),
+                new Position(Row.ZERO, Column.SEVEN), Chariot.of(Team.HAN)
+        ));
+        // when
+        // then
+        assertThat(board.findWinner()).isEqualTo(Team.CHO);
     }
 }
