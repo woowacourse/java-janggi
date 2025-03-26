@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Position;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.Side;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @ReplaceUnderBar
 class CannonTest {
@@ -444,5 +446,18 @@ class CannonTest {
         Position destination,
         boolean isMoveablePath) {
         assertThat(cannon.isMoveablePath(existingPieces, destination)).isEqualTo(isMoveablePath);
+    }
+
+    @Test
+    void 궁성_안에서_포는_포를_넘거나_포를_잡을_수_없다() {
+        Cannon cannon = new Cannon(Side.HAN, 3, 9);
+        Cannon hanCannon = new Cannon(Side.HAN, 4, 8);
+        Pawn centerPawn = new Pawn(Side.HAN, 4, 8);
+        Cannon destinationCannon = new Cannon(Side.CHO, 5, 7);
+
+        assertAll(
+            () -> assertThat(cannon.isMoveablePath(List.of(hanCannon), new Position(5,7))).isFalse(),
+            () -> assertThat(cannon.isMoveablePath(List.of(centerPawn, destinationCannon), new Position(5,7))).isFalse()
+        );
     }
 }
