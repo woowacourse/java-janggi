@@ -4,9 +4,10 @@ import domain.pattern.GeneralPath;
 import domain.piece.state.MovedGeneral;
 
 public class General extends Piece {
+    private static final int NO_SCORE = 0;
 
     public General(Side side) {
-        super(0, side, new GeneralPath(), new MovedGeneral(side));
+        super(NO_SCORE, side, new GeneralPath(), new MovedGeneral(side));
     }
 
     @Override

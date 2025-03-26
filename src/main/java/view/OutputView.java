@@ -8,18 +8,18 @@ import java.util.Map;
 
 public class OutputView {
 
-    private static final String SEPERATOR = "|";
+    private static final String SEPARATOR = "|";
     private static final int[] FILE = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
     private static final int[] RANK = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
     public static void printJanggiBoard(Map<JanggiPosition, Piece> board) {
         System.out.println(" |1|2|3|4|5|6|7|8|9|");
         for (int file : FILE) {
-            System.out.print(file + SEPERATOR);
+            System.out.print(file + SEPARATOR);
             for (int rank : RANK) {
                 JanggiPosition position = new JanggiPosition(file, rank);
                 Piece piece = board.get(position);
-                System.out.print(changePiece(piece) + SEPERATOR);
+                System.out.print(changePiece(piece) + SEPARATOR);
             }
             System.out.println();
         }
