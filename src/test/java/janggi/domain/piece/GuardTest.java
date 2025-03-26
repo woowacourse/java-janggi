@@ -5,6 +5,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import janggi.domain.Board;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,5 +44,19 @@ class GuardTest {
         Position positionToMove = new Position(x, y);
         assertThatThrownBy(() -> guard.move(pieces, positionToMove))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("사는 궁성 내부에서만 이동이 가능하다")
+    @Test
+    void move3() {
+        Guard guard = new Guard(new Position(8, 4), Team.BLUE);
+        pieces.put(guard.getPosition(), guard);
+        Board board = new Board(pieces);
+        Assertions.assertAll(
+                () -> assertThatThrownBy(() -> board.movePiece(guard.getPosition(), new Position(7, 4)))
+                        .isInstanceOf(IllegalArgumentException.class),
+                () -> assertThatThrownBy(() -> board.movePiece(guard.getPosition(), new Position(8, 3)))
+                        .isInstanceOf(IllegalArgumentException.class)
+        );
     }
 }
