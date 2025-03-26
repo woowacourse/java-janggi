@@ -17,9 +17,9 @@ public class Board {
         this.pieces = new HashMap<>(pieces);
     }
 
-    public void move(final List<Integer> positions, final Team currentTeam) {
-        Position currentPosition = Position.from(positions.getFirst());
-        Position arrivalPosition = Position.from(positions.getLast());
+    public void move(final List<Position> positions, final Team currentTeam) {
+        Position currentPosition = positions.getFirst();
+        Position arrivalPosition = positions.getLast();
         validateSamePosition(currentPosition, arrivalPosition);
 
         Piece piece = findOwnPiece(currentTeam, currentPosition);

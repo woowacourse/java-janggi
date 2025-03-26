@@ -28,7 +28,6 @@ public class ResultView {
     public void printBoard(final Map<Position, Piece> pieces) {
         System.out.printf(HEADER);
         for (int y = 1; y <= 10; y++) {
-            // TODO: 리스트로 스트링 넣고 팀에 따라 색깔 조합 + 한자 받아오기
             StringBuilder sb = new StringBuilder(String.format("%2d ", y));
             for (int x = 1; x <= 9; x++) {
                 Position currentPosition = Position.valueOf(y, x);
@@ -50,13 +49,6 @@ public class ResultView {
         }
     }
 
-    private String convertColor(Team team, String input) {
-        if (team == Team.HAN) {
-            return RED_CODE + input + EXIT_CODE;
-        }
-        return BLUE_CODE + input + EXIT_CODE;
-    }
-
     public void printOrder(final Team team) {
         System.out.printf(LINE + "%s나라의 순서입니다." + LINE, team.getTitle());
     }
@@ -65,5 +57,12 @@ public class ResultView {
         System.out.printf(LINE + """
                 궁이 잡혔습니다.
                 %s나라의 승리입니다!""", team.getTitle());
+    }
+
+    private String convertColor(Team team, String input) {
+        if (team == Team.HAN) {
+            return RED_CODE + input + EXIT_CODE;
+        }
+        return BLUE_CODE + input + EXIT_CODE;
     }
 }

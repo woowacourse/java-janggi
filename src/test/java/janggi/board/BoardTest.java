@@ -34,17 +34,17 @@ class BoardTest {
     private static Stream<Arguments> 게임을_계속_진행하기_위해_두_나라의_궁이_모두_존재하면_true를_반환한다() {
         Gung gung1 = new Gung(Team.HAN);
         Gung gung2 = new Gung(Team.CHO);
-        Position position1 = new Position(1, 1);
-        Position position2 = new Position(1, 2);
+        Position currentPosition = new Position(1, 1);
+        Position position = new Position(1, 2);
         return Stream.of(
                 Arguments.of(
                         Map.of(
-                                position1, gung1,
-                                position2, gung2
+                                currentPosition, gung1,
+                                position, gung2
                         ), true),
                 Arguments.of(
                         Map.of(
-                                position1, gung1
+                                currentPosition, gung1
                         ), false)
         );
     }
@@ -85,21 +85,20 @@ class BoardTest {
         // Given
         final Jol jol = new Jol();
         final Byeong byeong = new Byeong();
-        final Position position1 = new Position(10, 1);
-        final Position position2 = new Position(1, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 91;
+        final Position currentPosition = new Position(10, 1);
+        final Position position = new Position(1, 1);
+        final Position arrivalPosition = new Position(9, 1);
 
         Board board = new Board(Map.of(
-                position1, jol,
-                position2, byeong
+                currentPosition, jol,
+                position, byeong
         ));
 
         // When
-        board.move(List.of(currentPositionValue, arrivalPositionValue), jol.getTeam());
+        board.move(List.of(currentPosition, arrivalPosition), jol.getTeam());
 
         // Then
-        assertThat(board.getPieces().get(Position.from(arrivalPositionValue)))
+        assertThat(board.getPieces().get(arrivalPosition))
                 .isEqualTo(jol);
     }
 
@@ -108,18 +107,17 @@ class BoardTest {
         // Given
         final Jol jol = new Jol();
         final Byeong byeong = new Byeong();
-        final Position position1 = new Position(10, 1);
-        final Position position2 = new Position(1, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 91;
+        final Position currentPosition = new Position(10, 1);
+        final Position position = new Position(1, 1);
+        final Position arrivalPosition = new Position(9, 1);
 
         Board board = new Board(Map.of(
-                position1, jol,
-                position2, byeong
+                currentPosition, jol,
+                position, byeong
         ));
 
         // When & Then
-        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), byeong.getTeam()))
+        assertThatThrownBy(() -> board.move(List.of(currentPosition, arrivalPosition), byeong.getTeam()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 자신의 팀 기물만 움직일 수 있습니다.");
     }
@@ -131,8 +129,8 @@ class BoardTest {
         final Byeong byeong = new Byeong();
         final Position position1 = new Position(10, 1);
         final Position position2 = new Position(1, 1);
-        int currentPositionValue = 102;
-        int arrivalPositionValue = 91;
+        final Position currentPosition = new Position(10, 2);
+        final Position arrivalPosition = new Position(9, 1);
 
         Board board = new Board(Map.of(
                 position1, jol,
@@ -140,7 +138,7 @@ class BoardTest {
         ));
 
         // When & Then
-        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), jol.getTeam()))
+        assertThatThrownBy(() -> board.move(List.of(currentPosition, arrivalPosition), jol.getTeam()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 해당 좌표에 기물이 존재하지 않습니다.");
     }
@@ -150,15 +148,14 @@ class BoardTest {
         // Given
         final Jol jol = new Jol();
         final Byeong byeong = new Byeong();
-        final Position position1 = new Position(10, 1);
-        final Position position2 = new Position(1, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 101;
+        final Position currentPosition = new Position(10, 1);
+        final Position position = new Position(1, 1);
+        final Position arrivalPosition = new Position(10, 1);
 
-        Board board = new Board(Map.of(position1, jol, position2, byeong));
+        Board board = new Board(Map.of(currentPosition, jol, position, byeong));
 
         // When & Then
-        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), jol.getTeam()))
+        assertThatThrownBy(() -> board.move(List.of(currentPosition, arrivalPosition), jol.getTeam()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 같은 위치로는 이동할 수 없습니다.");
     }
@@ -168,21 +165,19 @@ class BoardTest {
         // Given
         final Jol jol = new Jol();
         final Byeong byeong = new Byeong();
-        final Position position1 = new Position(10, 1);
-        final Position position2 = new Position(9, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 91;
+        final Position currentPosition = new Position(10, 1);
+        final Position arrivalPosition = new Position(9, 1);
 
         Board board = new Board(Map.of(
-                position1, jol,
-                position2, byeong
+                currentPosition, jol,
+                arrivalPosition, byeong
         ));
 
         // When
-        board.move(List.of(currentPositionValue, arrivalPositionValue), jol.getTeam());
+        board.move(List.of(currentPosition, arrivalPosition), jol.getTeam());
 
         // Then
-        assertThat(board.getPieces().get(Position.from(arrivalPositionValue)))
+        assertThat(board.getPieces().get(arrivalPosition))
                 .isEqualTo(jol);
     }
 
@@ -194,21 +189,20 @@ class BoardTest {
         final Po po = new Po(jol.getTeam());
         final Position position1 = new Position(7, 1);
         final Position position2 = new Position(5, 1);
-        final Position position3 = new Position(10, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 61;
+        final Position currentPosition = new Position(10, 1);
+        final Position arrivalPosition = new Position(6, 1);
 
         Board board = new Board(Map.of(
                 position1, jol,
                 position2, byeong,
-                position3, po
+                currentPosition, po
         ));
 
         // When
-        board.move(List.of(currentPositionValue, arrivalPositionValue), po.getTeam());
+        board.move(List.of(currentPosition, arrivalPosition), po.getTeam());
 
         // Then
-        assertThat(board.getPieces().get(Position.from(arrivalPositionValue)))
+        assertThat(board.getPieces().get(arrivalPosition))
                 .isEqualTo(po);
     }
 
@@ -218,25 +212,23 @@ class BoardTest {
         final Jol jol = new Jol();
         final Byeong byeong = new Byeong();
         final Po po = new Po(jol.getTeam());
-        final Position position1 = new Position(7, 1);
-        final Position position2 = new Position(5, 1);
-        final Position position3 = new Position(10, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 51;
+        final Position position = new Position(7, 1);
+        final Position arrivalPosition = new Position(5, 1);
+        final Position currentPosition = new Position(10, 1);
 
         Board board = new Board(Map.of(
-                position1, jol,
-                position2, byeong,
-                position3, po
+                position, jol,
+                arrivalPosition, byeong,
+                currentPosition, po
         ));
 
         // When
-        board.move(List.of(currentPositionValue, arrivalPositionValue), po.getTeam());
+        board.move(List.of(currentPosition, arrivalPosition), po.getTeam());
 
         // Then
         assertThat(board.getPieces()).isEqualTo(Map.of(
-                position1, jol,
-                position2, po
+                position, jol,
+                arrivalPosition, po
         ));
     }
 
@@ -246,20 +238,18 @@ class BoardTest {
         final Jol jol = new Jol();
         final Po targetPo = new Po(Team.HAN);
         final Po po = new Po(jol.getTeam());
-        final Position position1 = new Position(7, 1);
-        final Position position2 = new Position(5, 1);
-        final Position position3 = new Position(10, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 51;
+        final Position position = new Position(7, 1);
+        final Position arrivalPosition = new Position(5, 1);
+        final Position currentPosition = new Position(10, 1);
 
         Board board = new Board(Map.of(
-                position1, jol,
-                position2, targetPo,
-                position3, po
+                position, jol,
+                arrivalPosition, targetPo,
+                currentPosition, po
         ));
 
         // When & Then
-        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), po.getTeam()))
+        assertThatThrownBy(() -> board.move(List.of(currentPosition, arrivalPosition), po.getTeam()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 포는 포끼리 뛰어넘거나 잡을 수 없습니다.");
     }
@@ -269,18 +259,17 @@ class BoardTest {
         // Given
         final Jol jol = new Jol();
         final Po po = new Po(jol.getTeam());
-        final Position position1 = new Position(7, 1);
-        final Position position3 = new Position(10, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 81;
+        final Position position = new Position(7, 1);
+        final Position currentPosition = new Position(10, 1);
+        final Position arrivalPosition = new Position(8, 1);
 
         Board board = new Board(Map.of(
-                position1, jol,
-                position3, po
+                position, jol,
+                currentPosition, po
         ));
 
         // When & Then
-        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), po.getTeam()))
+        assertThatThrownBy(() -> board.move(List.of(currentPosition, arrivalPosition), po.getTeam()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 오직 하나의 기물만 뛰어넘을 수 있습니다.");
     }
@@ -290,18 +279,17 @@ class BoardTest {
         // Given
         final Jol jol = new Jol();
         final Cha cannon = new Cha(jol.getTeam());
-        final Position position1 = new Position(7, 1);
-        final Position position3 = new Position(10, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 61;
+        final Position position = new Position(7, 1);
+        final Position currentPosition = new Position(10, 1);
+        final Position arrivalPosition = new Position(6, 1);
 
         Board board = new Board(Map.of(
-                position1, jol,
-                position3, cannon
+                position, jol,
+                currentPosition, cannon
         ));
 
         // When & Then
-        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), cannon.getTeam()))
+        assertThatThrownBy(() -> board.move(List.of(currentPosition, arrivalPosition), cannon.getTeam()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
     }
@@ -311,18 +299,16 @@ class BoardTest {
         // Given
         final Jol jol = new Jol();
         final Cha cha = new Cha(jol.getTeam());
-        final Position position1 = new Position(10, 1);
-        final Position position2 = new Position(9, 1);
-        int currentPositionValue = 101;
-        int arrivalPositionValue = 91;
+        final Position currentPosition = new Position(10, 1);
+        final Position arrivalPosition = new Position(9, 1);
 
         Board board = new Board(Map.of(
-                position1, jol,
-                position2, cha
+                currentPosition, jol,
+                arrivalPosition, cha
         ));
 
         // When & Then
-        assertThatThrownBy(() -> board.move(List.of(currentPositionValue, arrivalPositionValue), jol.getTeam()))
+        assertThatThrownBy(() -> board.move(List.of(currentPosition, arrivalPosition), jol.getTeam()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 자신의 팀 기물은 잡을 수 없습니다.");
     }

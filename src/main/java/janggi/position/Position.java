@@ -22,15 +22,7 @@ public class Position {
     }
 
     public static Position valueOf(final int y, final int x) {
-        return POSITIONS.get((y - 1) * 9 + x - 1);
-    }
-
-    public static Position from(final int input) {
-        int y = input / 10;
-        int x = input % 10;
-        validate(y, x);
-
-        return POSITIONS.get((y - 1) * 9 + x - 1);
+        return POSITIONS.get((y - Y_MIN_THRESHOLD) * X_MAX_THRESHOLD + x - X_MIN_THRESHOLD);
     }
 
     private static List<Position> initialize() {

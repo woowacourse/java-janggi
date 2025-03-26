@@ -1,6 +1,7 @@
 package janggi.view;
 
 import janggi.Team.Team;
+import janggi.position.Position;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -21,14 +22,18 @@ public class InputView {
         return scanner.nextLine();
     }
 
-    public List<Integer> readMovingPosition() {
+    public List<Position> readMovingPosition() {
         System.out.println(LINE + """
                 이동을 희망하는 기물의 현재 위치와 해당 기물이 이동할 위치를 입력해주세요.
                 (세로를 10의 자리, 가로를 1의 자리로 보아 좌표를 입력해주세요. 예를 들어 초기 초나라의 궁의 좌표는 95입니다.)
                 ex) 71 72
                 """);
-        List<String> tokens = split(readLine());
-        return parseInt(tokens);
+
+        List<Integer> points = parseInt(split(readLine()));
+
+        return points.stream()
+                .map(input -> Position.valueOf(input / 10, input % 10))
+                .toList();
     }
 
     private List<String> split(final String input) {
