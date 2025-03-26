@@ -20,7 +20,11 @@ class GuardTest {
         board.putPiece(new Solider(new Position(4, 4), Team.BLUE));
         board.putPiece(new Solider(new Position(3, 3), Team.RED));
 
-        assertThat(piece.getMovablePositions(board)).hasSize(3);
+        assertThat(piece.getMovablePositions(board)).containsExactlyInAnyOrder(
+                new Position(4, 4),
+                new Position(5, 3),
+                new Position(4, 2)
+        );
     }
 
 }
