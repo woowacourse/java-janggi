@@ -1,8 +1,9 @@
 package domain.piece;
 
-import domain.board.Movement;
+import domain.Team;
 import domain.board.PieceVisibleBoard;
-import domain.board.Point;
+import domain.point.Movement;
+import domain.point.Point;
 import java.util.List;
 
 public abstract class ObstacleSensitivePiece extends Piece {

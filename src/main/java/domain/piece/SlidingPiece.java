@@ -1,8 +1,9 @@
 package domain.piece;
 
-import domain.board.Direction;
+import domain.Team;
 import domain.board.PieceVisibleBoard;
-import domain.board.Point;
+import domain.point.Direction;
+import domain.point.Point;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,6 +1,9 @@
 package domain.board;
 
-import domain.piece.Team;
+import domain.Team;
+import domain.point.Direction;
+import domain.point.Path;
+import domain.point.Point;
 
 public interface PieceVisibleBoard {
 

@@ -1,9 +1,9 @@
-package domain.board;
+package domain.point;
 
-import static domain.board.Point.MAX_COLUMN_INDEX;
-import static domain.board.Point.MAX_ROW_INDEX;
-import static domain.board.Point.MIN_COLUMN_INDEX;
-import static domain.board.Point.MIN_ROW_INDEX;
+import static domain.point.Point.MAX_COLUMN_INDEX;
+import static domain.point.Point.MAX_ROW_INDEX;
+import static domain.point.Point.MIN_COLUMN_INDEX;
+import static domain.point.Point.MIN_ROW_INDEX;
 
 import java.util.ArrayList;
 import java.util.HashMap;

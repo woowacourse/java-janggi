@@ -1,4 +1,4 @@
-package domain.board;
+package domain.point;
 
 public record Point(int row, int column) {
 

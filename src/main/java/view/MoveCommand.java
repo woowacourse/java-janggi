@@ -1,6 +1,6 @@
 package view;
 
-import domain.board.Point;
+import domain.point.Point;
 
 public record MoveCommand(Point source, Point destination) {
 }

@@ -1,11 +1,13 @@
 package domain.board;
 
-import static domain.board.Direction.DOWN;
-import static domain.board.Direction.LEFT;
-import static domain.board.Direction.RIGHT;
-import static domain.board.Direction.UP;
-import static domain.board.Direction.UP_RIGHT;
+import static domain.point.Direction.DOWN;
+import static domain.point.Direction.LEFT;
+import static domain.point.Direction.RIGHT;
+import static domain.point.Direction.UP;
+import static domain.point.Direction.UP_RIGHT;
 
+import domain.point.Edge;
+import domain.point.Node;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;

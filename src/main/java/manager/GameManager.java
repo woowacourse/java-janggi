@@ -3,7 +3,7 @@ package manager;
 import domain.JanggiGame;
 import domain.board.Board;
 import domain.board.BoardGenerator;
-import domain.piece.Team;
+import domain.Team;
 import util.ErrorHandler;
 import view.Command;
 import view.InputView;
@@ -15,28 +15,23 @@ public class GameManager {
 
     private static final Team START_TEAM = Team.CHO;
 
-    public final String roomName;
-    private final JanggiGame game;
-
-    public GameManager(String roomName) {
-        this.roomName = roomName;
-        this.game = new JanggiGame(createBoard(new BoardGenerator()), START_TEAM);
-    }
-
     private Board createBoard(BoardGenerator boardGenerator) {
         SangMaOrderCommand hanSangMaOrderCommand = InputView.inputSangMaOrder(Team.HAN);
         SangMaOrderCommand choSangMaOrderCommand = InputView.inputSangMaOrder(Team.CHO);
 
-        return boardGenerator.generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
+        return boardGenerator.generateInitialBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
     }
 
-    public void startGame() {
+    public void startGame(String roomName) {
+        // if(DB에 없는 방이름)
+        JanggiGame game = new JanggiGame(createBoard(new BoardGenerator()), START_TEAM);
+
         OutputView.printStart();
-        ErrorHandler.retryUntilSuccess(this::play);
+        ErrorHandler.retryUntilSuccess(() -> play(game));
         OutputView.printMatchResult(game.findWinTeam());
     }
 
-    private void play() {
+    private void play(JanggiGame game) {
         while (game.isPlaying()) {
             Command command = InputView.inputCommand();
 

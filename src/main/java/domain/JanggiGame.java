@@ -1,8 +1,7 @@
 package domain;
 
 import domain.board.Board;
-import domain.board.Point;
-import domain.piece.Team;
+import domain.point.Point;
 
 public class JanggiGame {
 

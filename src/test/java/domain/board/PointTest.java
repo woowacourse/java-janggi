@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.board.Point;
+import domain.point.Point;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

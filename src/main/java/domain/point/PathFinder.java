@@ -1,4 +1,4 @@
-package domain.board;
+package domain.point;
 
 import java.util.Map;
 import java.util.stream.Collectors;

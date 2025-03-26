@@ -1,14 +1,14 @@
 package view;
 
-import static domain.board.Point.MAX_COLUMN_INDEX;
-import static domain.board.Point.MAX_ROW_INDEX;
-import static domain.board.Point.MIN_COLUMN_INDEX;
-import static domain.board.Point.MIN_ROW_INDEX;
+import static domain.point.Point.MAX_COLUMN_INDEX;
+import static domain.point.Point.MAX_ROW_INDEX;
+import static domain.point.Point.MIN_COLUMN_INDEX;
+import static domain.point.Point.MIN_ROW_INDEX;
 
 import domain.board.Board;
-import domain.board.Point;
 import domain.piece.Piece;
-import domain.piece.Team;
+import domain.Team;
+import domain.point.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

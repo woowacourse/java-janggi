@@ -5,12 +5,15 @@ import domain.piece.ChoByeong;
 import domain.piece.HanByeong;
 import domain.piece.Ma;
 import domain.piece.Piece;
-import domain.piece.PieceType;
+import domain.PieceType;
 import domain.piece.Po;
 import domain.piece.Sa;
 import domain.piece.Sang;
-import domain.piece.Team;
+import domain.Team;
 import domain.piece.Wang;
+import domain.point.PathFinder;
+import domain.point.PathFinderFactory;
+import domain.point.Point;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -20,9 +23,10 @@ import view.SangMaOrderCommand;
 
 public class BoardGenerator {
 
-    public Board generateBoard(final SangMaOrderCommand hanSangMaOrderCommand,
-                               final SangMaOrderCommand choSangMaOrderCommand) {
-        PathFinderFactory pathFinderFactory = new PathFinderFactory();
+    private final PathFinderFactory pathFinderFactory = new PathFinderFactory();
+
+    public Board generateInitialBoard(final SangMaOrderCommand hanSangMaOrderCommand,
+                                      final SangMaOrderCommand choSangMaOrderCommand) {
         PathFinder pathFinder = pathFinderFactory.createDefaultPathFinder();
         Map<Point, Piece> pieceByPoint = createPieces(hanSangMaOrderCommand, choSangMaOrderCommand);
 

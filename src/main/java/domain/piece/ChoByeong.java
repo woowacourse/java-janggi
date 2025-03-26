@@ -1,12 +1,14 @@
 package domain.piece;
 
-import static domain.board.Direction.LEFT;
-import static domain.board.Direction.RIGHT;
-import static domain.board.Direction.UP;
-import static domain.board.Direction.UP_LEFT;
-import static domain.board.Direction.UP_RIGHT;
+import static domain.point.Direction.LEFT;
+import static domain.point.Direction.RIGHT;
+import static domain.point.Direction.UP;
+import static domain.point.Direction.UP_LEFT;
+import static domain.point.Direction.UP_RIGHT;
 
-import domain.board.Direction;
+import domain.PieceType;
+import domain.Team;
+import domain.point.Direction;
 import java.util.List;
 
 public class ChoByeong extends SlidingPiece {

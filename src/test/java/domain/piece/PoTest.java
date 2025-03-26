@@ -1,7 +1,9 @@
 package domain.piece;
 
+import domain.PieceType;
+import domain.Team;
 import domain.board.Board;
-import domain.board.Point;
+import domain.point.Point;
 import fixture.BoardFixture;
 import java.util.HashMap;
 import java.util.Map;

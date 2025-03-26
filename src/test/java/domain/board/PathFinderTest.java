@@ -1,5 +1,9 @@
 package domain.board;
 
+import domain.point.Direction;
+import domain.point.Path;
+import domain.point.PathFinder;
+import domain.point.Point;
 import fixture.BoardFixture;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;

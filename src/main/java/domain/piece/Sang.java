@@ -1,27 +1,29 @@
 package domain.piece;
 
-import static domain.board.Path.DOWN_DOWN_DOWN_LEFT_LEFT_PATH;
-import static domain.board.Path.DOWN_DOWN_DOWN_RIGHT_RIGHT_PATH;
-import static domain.board.Path.DOWN_DOWN_LEFT_PATH;
-import static domain.board.Path.DOWN_DOWN_RIGHT_PATH;
-import static domain.board.Path.DOWN_PATH;
-import static domain.board.Path.LEFT_LEFT_DOWN_PATH;
-import static domain.board.Path.LEFT_LEFT_LEFT_DOWN_DOWN_PATH;
-import static domain.board.Path.LEFT_LEFT_LEFT_UP_UP_PATH;
-import static domain.board.Path.LEFT_LEFT_UP_PATH;
-import static domain.board.Path.LEFT_PATH;
-import static domain.board.Path.RIGHT_PATH;
-import static domain.board.Path.RIGHT_RIGHT_DOWN_PATH;
-import static domain.board.Path.RIGHT_RIGHT_RIGHT_DOWN_DOWN_PATH;
-import static domain.board.Path.RIGHT_RIGHT_RIGHT_UP_UP_PATH;
-import static domain.board.Path.RIGHT_RIGHT_UP_PATH;
-import static domain.board.Path.UP_PATH;
-import static domain.board.Path.UP_UP_LEFT_PATH;
-import static domain.board.Path.UP_UP_RIGHT_PATH;
-import static domain.board.Path.UP_UP_UP_LEFT_LEFT_PATH;
-import static domain.board.Path.UP_UP_UP_RIGHT_RIGHT_PATH;
+import static domain.point.Path.DOWN_DOWN_DOWN_LEFT_LEFT_PATH;
+import static domain.point.Path.DOWN_DOWN_DOWN_RIGHT_RIGHT_PATH;
+import static domain.point.Path.DOWN_DOWN_LEFT_PATH;
+import static domain.point.Path.DOWN_DOWN_RIGHT_PATH;
+import static domain.point.Path.DOWN_PATH;
+import static domain.point.Path.LEFT_LEFT_DOWN_PATH;
+import static domain.point.Path.LEFT_LEFT_LEFT_DOWN_DOWN_PATH;
+import static domain.point.Path.LEFT_LEFT_LEFT_UP_UP_PATH;
+import static domain.point.Path.LEFT_LEFT_UP_PATH;
+import static domain.point.Path.LEFT_PATH;
+import static domain.point.Path.RIGHT_PATH;
+import static domain.point.Path.RIGHT_RIGHT_DOWN_PATH;
+import static domain.point.Path.RIGHT_RIGHT_RIGHT_DOWN_DOWN_PATH;
+import static domain.point.Path.RIGHT_RIGHT_RIGHT_UP_UP_PATH;
+import static domain.point.Path.RIGHT_RIGHT_UP_PATH;
+import static domain.point.Path.UP_PATH;
+import static domain.point.Path.UP_UP_LEFT_PATH;
+import static domain.point.Path.UP_UP_RIGHT_PATH;
+import static domain.point.Path.UP_UP_UP_LEFT_LEFT_PATH;
+import static domain.point.Path.UP_UP_UP_RIGHT_RIGHT_PATH;
 
-import domain.board.Movement;
+import domain.PieceType;
+import domain.Team;
+import domain.point.Movement;
 import java.util.List;
 
 public class Sang extends ObstacleSensitivePiece {
