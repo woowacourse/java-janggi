@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import janggi.domain.board.PlayingBoard;
 import janggi.domain.board.Position;
 import janggi.domain.gameState.State;
 import janggi.domain.piece.TeamColor;
@@ -34,5 +35,9 @@ public class JanggiGame {
 
     public Map<TeamColor, Integer> getTeamScore() {
         return teamScore;
+    }
+
+    public PlayingBoard getPlayingBoard() {
+        return state.getPlayingBoard();
     }
 }

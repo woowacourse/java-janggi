@@ -11,7 +11,7 @@ import janggi.service.JanggiDBService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class Application {
@@ -20,16 +20,9 @@ public class Application {
         OutputView outputView = new OutputView();
         JanggiDBService janggiDBService = new JanggiDBService();
 
-        InitialBoard initialBoard = getWithRetry(() -> setupBoard(inputView));
-        janggiDBService.saveInitialBoard(initialBoard.getInitialBoard());
+        JanggiGame janggiGame = getJanggiGame(inputView, janggiDBService);
 
-        PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
-
-        Map<TeamColor, Integer> teamScore = new HashMap<>();
-        JanggiGame janggiGame = new JanggiGame(new BlueTurn(playingBoard), teamScore);
-
-        JanggiController controller = new JanggiController(inputView, outputView, janggiDBService, playingBoard,
-                janggiGame);
+        JanggiController controller = new JanggiController(inputView, outputView, janggiDBService, janggiGame);
         controller.run();
     }
 
@@ -42,6 +35,22 @@ public class Application {
     private static BoardSetup getBoardSetup(InputView inputView, TeamColor teamColor) {
         int setNumber = inputView.readBoardSetup(teamColor);
         return BoardSetup.from(setNumber);
+    }
+
+    private static JanggiGame getJanggiGame(InputView inputView, JanggiDBService janggiDBService) {
+        Optional<Integer> gameId = janggiDBService.getInProgressGameId();
+        if (gameId.isPresent()) {
+            return janggiDBService.getInProgressGame(gameId.get());
+        }
+
+        InitialBoard initialBoard = getWithRetry(() -> setupBoard(inputView));
+        PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
+        JanggiGame janggiGame = new JanggiGame(new BlueTurn(playingBoard), new HashMap<>());
+
+        janggiDBService.saveInitialBoard(initialBoard.getInitialBoard());
+        janggiDBService.saveStartSate(janggiGame.getTurnColor());
+
+        return janggiGame;
     }
 
     public static <T> T getWithRetry(Supplier<T> task) {

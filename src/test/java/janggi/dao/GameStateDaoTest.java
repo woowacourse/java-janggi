@@ -17,7 +17,7 @@ class GameStateDaoTest {
         // given
 
         // when
-        Optional<Integer> gameId = gameStateDao.getInProgressGameId();
+        Optional<Integer> gameId = gameStateDao.findInProgressGameId();
 
         // then
         assertThat(gameId.get()).isEqualTo(1);

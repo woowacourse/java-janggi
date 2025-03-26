@@ -4,19 +4,57 @@ import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.TeamColor;
+import janggi.dto.PiecePositionDto;
 import janggi.util.ConnectionUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public final class BoardDao {
+
+    public void deleteBoard() {
+        String query = "TRUNCATE TABLE Board";
+
+        try (Connection connection = ConnectionUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("보드 테이블 삭제 실패", e);
+        }
+    }
 
     public void saveBoard(Map<Position, Piece> board) {
         for (Map.Entry<Position, Piece> entry : board.entrySet()) {
             Position position = entry.getKey();
             Piece piece = entry.getValue();
             savePiece(position, piece);
+        }
+    }
+
+    public List<PiecePositionDto> selectBoard(int gameId) {
+        final String query = "SELECT position_row, position_col, piece_type, piece_color FROM Board";
+        List<PiecePositionDto> piecePositionDtos = new ArrayList<>();
+
+        try (Connection connection = ConnectionUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                PiecePositionDto piece = new PiecePositionDto(
+                        resultSet.getInt("position_row"),
+                        resultSet.getInt("position_col"),
+                        resultSet.getString("piece_type"),
+                        resultSet.getString("piece_color")
+                );
+                piecePositionDtos.add(piece);
+            }
+            return piecePositionDtos;
+        } catch (SQLException e) {
+            throw new RuntimeException("Board 데이터 가져오기 실패", e);
         }
     }
 
@@ -33,7 +71,7 @@ public final class BoardDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error while saving piece to the database", e);
+            throw new RuntimeException("Piece 정보 저장 실패", e);
         }
     }
 
@@ -69,7 +107,7 @@ public final class BoardDao {
 
             connection.commit();  // 커밋
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to update piece positions", e);
+            throw new RuntimeException("Piece Position update 실패", e);
         }
     }
 }

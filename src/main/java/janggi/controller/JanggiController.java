@@ -18,21 +18,20 @@ public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
     private final JanggiDBService janggiDBService;
-    private final PlayingBoard playingBoard;
     private final JanggiGame janggiGame;
+    private final PlayingBoard playingBoard;
 
-    public JanggiController(InputView inputView, OutputView outputView, JanggiDBService janggiDBService, PlayingBoard playingBoard,
-                            JanggiGame janggiGame) {
+    public JanggiController(InputView inputView, OutputView outputView,
+                            JanggiDBService janggiDBService, JanggiGame janggiGame) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.janggiDBService = janggiDBService;
-        this.playingBoard = playingBoard;
         this.janggiGame = janggiGame;
+        this.playingBoard = janggiGame.getPlayingBoard();
     }
 
     public void run() {
         outputView.printBoard(playingBoard);
-        janggiDBService.saveStartSate(janggiGame.getTurnColor());
 
         while (!janggiGame.isFinished()) {
             processWithRetry(() -> playSingleCommand(janggiGame));

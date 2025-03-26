@@ -52,4 +52,9 @@ public abstract class InProgress implements State {
     public boolean isFinished() {
         return false;
     }
+
+    @Override
+    public PlayingBoard getPlayingBoard() {
+        return playingBoard;
+    }
 }

@@ -1,6 +1,7 @@
 package janggi.dao;
 
 import janggi.domain.piece.TeamColor;
+import janggi.dto.GameStateDto;
 import janggi.util.ConnectionUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,13 +19,12 @@ public class GameStateDao {
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             Timestamp startTime = new Timestamp(System.currentTimeMillis());
-            System.out.println(startTime);
             preparedStatement.setString(1, turnColor.name());
             preparedStatement.setTimestamp(2, startTime);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to save game state", e);
+            throw new RuntimeException("Game State 저장 실패", e);
         }
     }
 
@@ -39,7 +39,7 @@ public class GameStateDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to update game state", e);
+            throw new RuntimeException("Game State update 실패", e);
         }
     }
 
@@ -57,11 +57,11 @@ public class GameStateDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to finish game", e);
+            throw new RuntimeException("Game 종료 update 실패", e);
         }
     }
 
-    public Optional<Integer> getInProgressGameId() {
+    public Optional<Integer> findInProgressGameId() {
         String query = "SELECT id FROM GameState WHERE is_finished = FALSE ORDER BY start_time DESC LIMIT 1";
 
         try (Connection connection = ConnectionUtil.getConnection();
@@ -73,7 +73,29 @@ public class GameStateDao {
             }
             return Optional.empty();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to get ongoing game ID", e);
+            throw new RuntimeException("진행 중인 GameId 찾기 실패", e);
+        }
+    }
+
+    public Optional<GameStateDto> findGameStateFromId(int gameId) {
+        String query = "SELECT turn_color, winner, is_finished FROM GameState WHERE id = ?";
+
+        try (Connection connection = ConnectionUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, gameId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                String turnColor = resultSet.getString("turn_color");
+                String winner = resultSet.getString("winner");
+                boolean isFinished = resultSet.getBoolean("is_finished");
+
+                return Optional.of(new GameStateDto(turnColor, winner, isFinished));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException("진행 중인 게임 상태 찾기 실패", e);
         }
     }
 }
