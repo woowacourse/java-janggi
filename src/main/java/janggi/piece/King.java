@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class King implements Piece {
+
     private final Team team;
     private Position position;
     private final List<Movement> movements = List.of(
@@ -80,6 +81,11 @@ public class King implements Piece {
     @Override
     public Team getTeam() {
         return team;
+    }
+
+    @Override
+    public PieceType getpieceType() {
+        return PieceType.KING;
     }
 
     @Override

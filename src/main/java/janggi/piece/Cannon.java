@@ -142,6 +142,11 @@ public class Cannon implements Piece {
     }
 
     @Override
+    public PieceType getpieceType() {
+        return PieceType.CANNON;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Cannon cannon = (Cannon) o;

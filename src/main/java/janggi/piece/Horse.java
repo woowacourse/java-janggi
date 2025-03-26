@@ -114,6 +114,11 @@ public class Horse implements Piece {
     }
 
     @Override
+    public PieceType getpieceType() {
+        return PieceType.HORSE;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Horse horse = (Horse) o;

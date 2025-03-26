@@ -139,6 +139,11 @@ public class Chariot implements Piece {
     }
 
     @Override
+    public PieceType getpieceType() {
+        return PieceType.CHARIOT;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Chariot chariot = (Chariot) o;

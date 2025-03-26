@@ -114,6 +114,11 @@ public class Elephant implements Piece {
     }
 
     @Override
+    public PieceType getpieceType() {
+        return PieceType.ELEPHANT;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Elephant elephant = (Elephant) o;

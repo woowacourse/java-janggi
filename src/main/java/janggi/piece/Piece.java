@@ -19,4 +19,6 @@ public interface Piece {
     Position getPosition();
 
     Team getTeam();
+
+    PieceType getpieceType();
 }

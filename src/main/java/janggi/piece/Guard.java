@@ -84,6 +84,11 @@ public class Guard implements Piece {
     }
 
     @Override
+    public PieceType getpieceType() {
+        return PieceType.GUARD;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Guard guard = (Guard) o;

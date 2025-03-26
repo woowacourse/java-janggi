@@ -91,6 +91,11 @@ public class Soldier implements Piece {
     }
 
     @Override
+    public PieceType getpieceType() {
+        return PieceType.SOLDIER;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Soldier soldier = (Soldier) o;
