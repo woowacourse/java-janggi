@@ -1,16 +1,17 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import janggi.domain.Position;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.Side;
-import java.util.List;
-import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.List;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ReplaceUnderBar
 class CannonTest {
@@ -313,6 +314,39 @@ class CannonTest {
         );
     }
 
+    public static Stream<Arguments> 궁성_안에서_대각_이동을_할_수_있다_테스트_케이스() {
+        return Stream.of(
+            Arguments.of(new Cannon(Side.CHO, 3,0), new Position(5,2), true),
+            Arguments.of(new Cannon(Side.CHO, 5,0), new Position(3,2), true),
+            Arguments.of(new Cannon(Side.CHO, 5,2), new Position(3,0), true),
+            Arguments.of(new Cannon(Side.CHO, 3,2), new Position(5,0), true),
+
+            Arguments.of(new Cannon(Side.CHO, 3,7), new Position(5,9), true),
+            Arguments.of(new Cannon(Side.CHO, 5,7), new Position(3,9), true),
+            Arguments.of(new Cannon(Side.CHO, 5,9), new Position(3,7), true),
+            Arguments.of(new Cannon(Side.CHO, 3,9), new Position(5,7), true),
+
+            // 불가능한 목적지
+            Arguments.of(new Cannon(Side.CHO, 3,0), new Position(4,1), false),
+            Arguments.of(new Cannon(Side.CHO, 3,7), new Position(5,2), false)
+        );
+    }
+
+    public static Stream<Arguments> 궁성_안에서_포_아닌_기물이_궁성_중앙에_있는_경우_대각_이동_테스트_케이스() {
+        return Stream.of(
+            Arguments.of(
+                new Cannon(Side.CHO, 3,0), List.of(new King(Side.CHO, 4,1)), new Position(5,2), true),
+            Arguments.of(
+                new Cannon(Side.CHO, 3,2), List.of(new King(Side.CHO, 4,1)), new Position(5,0), true),
+            Arguments.of(
+                new Cannon(Side.CHO, 5,7), List.of(new King(Side.CHO, 4,8)), new Position(3,9), true),
+            Arguments.of(
+                new Cannon(Side.CHO, 5,7), List.of(), new Position(3,9), false),
+            Arguments.of(
+                new Cannon(Side.CHO, 5,7), List.of(new King(Side.CHO, 4,8), new Pawn(Side.HAN, 3,9)), new Position(3,9), true)
+        );
+    }
+
     @ParameterizedTest
     @CsvSource(value = {"1, 2, 3, 4", "1, 2, 4, 5"})
     void 이동하고자_하는_x_y좌표가_현재_x_y좌표와_모두_다르면_움직일_수_없다(int x, int y, int moveX, int moveY) {
@@ -394,5 +428,21 @@ class CannonTest {
             int y
     ) {
         assertThat(cannon.isMoveablePath(existingPieces, new Position(x, y))).isFalse();
+    }
+
+    @ParameterizedTest
+    @MethodSource("궁성_안에서_대각_이동을_할_수_있다_테스트_케이스")
+    void 궁성_안에서_대각_이동을_할_수_있다(Cannon cannon, Position destination, boolean isMoveablePoint) {
+        assertThat(cannon.isMoveablePosition(destination)).isEqualTo(isMoveablePoint);
+    }
+
+    @ParameterizedTest
+    @MethodSource("궁성_안에서_포_아닌_기물이_궁성_중앙에_있는_경우_대각_이동_테스트_케이스")
+    void 궁성_안에서_포_아닌_기물이_궁성_중앙에_있는_경우_대각_이동(
+        Cannon cannon,
+        List<Piece> existingPieces,
+        Position destination,
+        boolean isMoveablePath) {
+        assertThat(cannon.isMoveablePath(existingPieces, destination)).isEqualTo(isMoveablePath);
     }
 }

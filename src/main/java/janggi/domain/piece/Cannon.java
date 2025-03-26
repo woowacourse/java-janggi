@@ -26,7 +26,13 @@ public class Cannon extends Piece {
         if (position.hasSameX(destination)) {
             return !position.hasSameY(destination);
         }
-        return position.hasSameY(destination);
+        if (position.hasSameY(destination)) {
+            return position.hasSameY(destination);
+        }
+        if (position.isPalaceCorner() && destination.isPalaceCorner()) {
+            return position.getXDistance(destination) == position.getYDistance(destination);
+        }
+        return false;
     }
 
     @Override
@@ -70,7 +76,10 @@ public class Cannon extends Piece {
         if (position.hasSameX(destination)) {
             return getPiecesOnVerticalPath(existingPieces, destination.getY());
         }
-        return getPiecesOnHorizontalPath(existingPieces, destination.getX());
+        if (position.hasSameY(destination)) {
+            return getPiecesOnHorizontalPath(existingPieces, destination.getX());
+        }
+        return getPiecesOnPalaceCenter(existingPieces, destination);
     }
 
     private List<Piece> getPiecesOnHorizontalPath(List<Piece> existingPieces, int destinationX) {
@@ -85,5 +94,15 @@ public class Cannon extends Piece {
                 .filter(y -> hasPosition(existingPieces, new Position(getXPosition(), y)))
                 .mapToObj(y -> findByPosition(existingPieces, new Position(getXPosition(), y)))
                 .toList();
+    }
+
+    private List<Piece> getPiecesOnPalaceCenter(List<Piece> existingPieces, Position destination) {
+        int x = Math.max(destination.getX(), position.getX()) - 1;
+        int y = Math.max(destination.getY(), position.getY()) - 1;
+        Position palaceCenter = new Position(x, y);
+
+        return existingPieces.stream()
+            .filter(piece -> piece.isSamePosition(palaceCenter))
+            .toList();
     }
 }

@@ -7,8 +7,14 @@ public final class Position {
 
     private static final Predicate<Integer> X_MOVEABLE = x -> x >= 0 && x < 9;
     private static final Predicate<Integer> Y_MOVEABLE = y -> y >= 0 && y < 10;
-    private static final Predicate<Integer> IS_PALACE_X = x -> 3 <= x && x <= 5;
-    private static final Predicate<Integer> IS_PALACE_Y = y -> (0 <= y && y <= 2) || (7 <= y && y <= 9);
+    public static final int PALACE_X_START = 3;
+    public static final int PALACE_X_END= 5;
+    public static final int PALACE_BOTTOM_Y_START = 0;
+    public static final int PALACE_BOTTOM_Y_END = 2;
+    public static final int PALACE_TOP_Y_START = 7;
+    public static final int PALACE_TOP_Y_END = 9;
+    private static final Predicate<Integer> IS_PALACE_X = x -> PALACE_X_START <= x && x <= PALACE_X_END;
+    private static final Predicate<Integer> IS_PALACE_Y = y -> (PALACE_BOTTOM_Y_START <= y && y <= PALACE_BOTTOM_Y_END) || (PALACE_TOP_Y_START <= y && y <= PALACE_TOP_Y_END);
 
     private final int x;
     private final int y;
@@ -51,6 +57,11 @@ public final class Position {
 
     public boolean isPalace() {
         return IS_PALACE_X.test(x) && IS_PALACE_Y.test(y);
+    }
+
+    public boolean isPalaceCorner() {
+        return (x == PALACE_X_START|| x == PALACE_X_END)
+            && (y == PALACE_BOTTOM_Y_START || y == PALACE_BOTTOM_Y_END || y == PALACE_TOP_Y_START || y == PALACE_TOP_Y_END);
     }
 
     @Override
