@@ -2,6 +2,7 @@ package janggi;
 
 import fixture.PieceFixture;
 import janggi.coordinate.Position;
+import janggi.coordinate.Vector;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.piece.Pieces;
@@ -110,6 +111,26 @@ class BoardTest {
 
         assertThat(scoreBeforeCatch).isEqualTo(new Score(0));
         assertThat(scoreAfterCatch).isEqualTo(Score.soldier());
+    }
+
+    @Test
+    @DisplayName("상대방의 기물을 움직일 수 없다")
+    void cannotMoveEnemyPiece() {
+        // given
+        Board board = Board.from(Pieces.empty().addAll(
+                List.of(PieceFixture.createPiece(1, 1, PieceType.SOLDIER, Team.CHO),
+                        PieceFixture.createPiece(1, 2, PieceType.SOLDIER, Team.HAN))));
+
+        Position enemyPosition = Position.of(1, 2);
+
+        // when
+        Player cho = Player.from(Team.CHO);
+
+
+        // then
+        assertThatThrownBy(() -> board.movePiece(cho, enemyPosition, enemyPosition.add(new Vector(0, 1))))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("자신의 기물만을 움직일 수 있습니다.");
     }
 }
 
