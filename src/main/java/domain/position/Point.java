@@ -3,6 +3,7 @@ package domain.position;
 import java.util.Objects;
 
 public final class Point {
+    public static final Double DIAGONAL_UNIT = Math.sqrt(2);
     private static final int MAX_X = 8;
     private static final int MAX_Y = 9;
     private final int x;
@@ -39,6 +40,18 @@ public final class Point {
         }
     }
 
+    public boolean isPalace() {
+        return isGreenPalace() || isRedPalace();
+    }
+
+    public boolean isGreenPalace() {
+        return x >= 3 && x <= 5 && y >= 0 && y <= 2;
+    }
+
+    public boolean isRedPalace() {
+        return x >= 3 && x <= 5 && y >= 7 && y <= 9;
+    }
+
     public int distanceToMaxX() {
         return MAX_X - x;
     }
@@ -55,7 +68,7 @@ public final class Point {
         return y;
     }
 
-    public Distance calculateDistance(final Point other) {
+    public Distance generateDistance(final Point other) {
         final int pointX = calculateSubtractionX(other);
         final int pointY = calculateSubtractionY(other);
         return new Distance(pointX, pointY);
