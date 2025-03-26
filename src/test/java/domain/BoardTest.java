@@ -7,11 +7,13 @@ import domain.piece.category.Soldier;
 import domain.spatial.Position;
 import domain.strategy.InnerElephantInitializer;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
@@ -185,14 +187,9 @@ class BoardTest {
         Player han = new Player(Team.HAN);
         Player cho = new Player(Team.CHO);
 
-        Position kingPosition = new Position(5, 9);
-
-        Pieces choPieces = createPiecesByPlayer(cho);
-        choPieces.deleteByPosition(kingPosition);
-
         Map<Player, Pieces> boardElements = new HashMap<>();
-        boardElements.put(han, createPiecesByPlayer(han));
-        boardElements.put(cho, choPieces);
+        boardElements.put(han, new Pieces(List.of()));
+        boardElements.put(cho, createPiecesByPlayer(cho));
 
         Board board = new Board(boardElements);
 
@@ -209,14 +206,9 @@ class BoardTest {
         Player han = new Player(Team.HAN);
         Player cho = new Player(Team.CHO);
 
-        Position kingPosition = new Position(5, 9);
-
-        Pieces choPieces = createPiecesByPlayer(cho);
-        choPieces.deleteByPosition(kingPosition);
-
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, createPiecesByPlayer(han));
-        boardElements.put(cho, choPieces);
+        boardElements.put(cho, new Pieces(List.of()));
 
         Board board = new Board(boardElements);
 

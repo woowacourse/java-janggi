@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.MoveInfos;
 import domain.direction.Direction;
 import domain.direction.Directions;
 import domain.piece.category.Cannon;
@@ -8,13 +9,15 @@ import domain.piece.category.Elephant;
 import domain.piece.category.Guard;
 import domain.piece.category.Horse;
 import domain.piece.category.King;
+import domain.piece.category.PieceCategory;
 import domain.piece.category.Soldier;
 import domain.spatial.Position;
 import domain.spatial.Vector;
 import java.util.List;
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import org.junit.jupiter.api.Test;
 
 class PieceTest {
 
@@ -43,7 +46,7 @@ class PieceTest {
         Piece piece = new TestPiece(new Position(4, 7), directions);
 
         // when
-        List<Position> result = piece.getPath(targetPosition);
+        List<Position> result = piece.getPaths(targetPosition);
 
         // then
         assertThat(result).containsAll(expected);
@@ -69,7 +72,7 @@ class PieceTest {
         final Piece piece = new TestPiece(new Position(1, 2), new Directions(List.of()));
 
         // when
-        Piece result = piece.updatePosition(position);
+        Piece result = piece.move(position, new MoveInfos(List.of()));
 
         // then
         assertThat(result.getPosition())
@@ -101,59 +104,25 @@ class PieceTest {
         );
     }
 
-    @Test
-    void 포인지_판단한다() {
-        // given
-        final Piece cannon = new Cannon(new Position(1, 2), new Directions(List.of()));
-        final Piece king = new King(new Position(1, 2), new Directions(List.of()));
-        final Piece guard = new Guard(new Position(1, 2), new Directions(List.of()));
-        final Piece elephant = new Elephant(new Position(1, 2), new Directions(List.of()));
-        final Piece horse = new Horse(new Position(1, 2), new Directions(List.of()));
-        final Piece soldier = new Soldier(new Position(1, 2), new Directions(List.of()));
-        final Piece chariot = new Chariot(new Position(1, 2), new Directions(List.of()));
-        final Piece piece = new TestPiece(new Position(1, 2), new Directions(List.of()));
-
-        // when & then
-        assertAll(
-                () -> assertThat(cannon.isCannon()).isTrue(),
-                () -> assertThat(king.isCannon()).isFalse(),
-                () -> assertThat(guard.isCannon()).isFalse(),
-                () -> assertThat(elephant.isCannon()).isFalse(),
-                () -> assertThat(horse.isCannon()).isFalse(),
-                () -> assertThat(soldier.isCannon()).isFalse(),
-                () -> assertThat(chariot.isCannon()).isFalse(),
-                () -> assertThat(piece.isCannon()).isFalse()
-        );
-    }
-
     static class TestPiece extends Piece {
-
-        private static final int PIECES_TO_PASS = 0;
 
         public TestPiece(final Position position, final Directions directions) {
             super(position, directions);
         }
 
         @Override
-        public TestPiece updatePosition(final Position position) {
+        public PieceCategory getCategory() {
+            return PieceCategory.NONE;
+        }
+
+        @Override
+        public TestPiece move(final Position position, final MoveInfos moveInfos) {
             return new TestPiece(position, directions);
         }
 
         @Override
         public boolean isKing() {
             return false;
-        }
-
-        @Override
-        public boolean isCannon() {
-            return false;
-        }
-
-        @Override
-        public void validateMoveByPathPieceCount(final int pathPieceCount) {
-            if (pathPieceCount != PIECES_TO_PASS) {
-                throw new IllegalArgumentException("[ERROR] 테스트는 중간에 기물이 " + PIECES_TO_PASS + "개여야 합니다.");
-            }
         }
     }
 }
