@@ -6,10 +6,6 @@ public record Point(int x, int y) {
         return new Point(x - other.x, y - other.y);
     }
 
-    public Point plus(Point other) {
-        return new Point(x + other.x, y + other.y);
-    }
-
     public Point plus(Direction direction) {
         return new Point(x + direction.getX(), y + direction.getY());
     }
