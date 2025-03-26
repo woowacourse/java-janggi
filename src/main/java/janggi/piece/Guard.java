@@ -16,8 +16,4 @@ public class Guard extends Piece{
         return now.calculateDistance(destination) == GUARD_DISTANCE;
     }
 
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
 }

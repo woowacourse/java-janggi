@@ -55,8 +55,4 @@ public class Elephant extends Piece {
                 .calculateAbsolutePath(now);
     }
 
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
 }

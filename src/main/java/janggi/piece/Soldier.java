@@ -19,8 +19,4 @@ public class Soldier extends Piece {
         return now.calculateDistance(destination) == SOLDIER_DISTANCE && now.isXGreaterThan(destination);
     }
 
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
 }

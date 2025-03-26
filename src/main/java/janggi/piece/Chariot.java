@@ -23,8 +23,4 @@ public class Chariot extends Piece{
         return pieceCountInPath == CAN_JUMP_PIECE_COUNT;
     }
 
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
 }

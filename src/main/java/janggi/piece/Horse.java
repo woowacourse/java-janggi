@@ -44,8 +44,4 @@ public class Horse extends Piece {
                 .calculateAbsolutePath(now);
     }
 
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
 }

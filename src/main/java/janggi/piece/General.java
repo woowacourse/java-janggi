@@ -17,11 +17,6 @@ public class General extends Piece{
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
-    }
-
-    @Override
     public boolean isGeneral(){
         return true;
     }

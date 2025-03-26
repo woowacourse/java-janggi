@@ -20,7 +20,9 @@ public abstract class Piece {
 
     protected abstract boolean canMove(final Position now, final Position destination, final VisibleBoard visibleBoard);
 
-    public abstract boolean isCannon();
+    public boolean isCannon(){
+        return false;
+    };
 
     public boolean isGeneral(){
         return false;
