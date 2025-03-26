@@ -15,53 +15,51 @@ public class Po extends Piece {
 
     @Override
     public List<Point> findMovablePoints(final Point source, final PieceVisibleBoard board) {
-        List<Point> candidates = new ArrayList<>();
-        movableDirections().stream()
+        return movableDirections().stream()
                 .filter(direction -> existsHurdle(source, direction, board))
-                .forEach(direction -> {
+                .flatMap(direction -> {
                     Point hurdle = findHurdle(source, direction, board);
-                    findCandidates(hurdle, direction, board, candidates);
-                });
+                    return findCandidates(hurdle, direction, board).stream();
+                })
+                .toList();
+    }
+
+    private boolean existsHurdle(final Point point, final Direction direction, final PieceVisibleBoard board) {
+        Point currentPoint = point;
+        while (board.existsNextPoint(currentPoint, direction)) {
+            currentPoint = board.getNextPoint(currentPoint, direction);
+            if (board.existsPiece(currentPoint) && !board.existsPo(currentPoint)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Point findHurdle(final Point point, final Direction direction, final PieceVisibleBoard board) {
+        Point currentPoint = point;
+        while (board.existsNextPoint(currentPoint, direction)) {
+            currentPoint = board.getNextPoint(currentPoint, direction);
+            if (board.existsPiece(currentPoint) && !board.existsPo(currentPoint)) {
+                return currentPoint;
+            }
+        }
+        throw new IllegalStateException("허들을 찾을 수 없습니다.");
+    }
+
+    private List<Point> findCandidates(final Point point, final Direction direction, final PieceVisibleBoard board) {
+        List<Point> candidates = new ArrayList<>();
+        Point currentPoint = point;
+        while (board.existsNextPoint(currentPoint, direction)) {
+            currentPoint = board.getNextPoint(currentPoint, direction);
+            if (board.existsPo(currentPoint) || board.matchTeam(currentPoint, team())) {
+                break;
+            }
+            candidates.add(currentPoint);
+            if (board.matchTeam(currentPoint, team().inverse())) {
+                break;
+            }
+        }
         return candidates;
-    }
-
-    private boolean existsHurdle(final Point currentPoint, final Direction direction, final PieceVisibleBoard board) {
-        if (!board.existsNextPoint(currentPoint, direction)) {
-            return false;
-        }
-        Point nextPoint = board.getNextPoint(currentPoint, direction);
-        if (board.existsPiece(nextPoint) && !board.existsPo(nextPoint)) {
-            return true;
-        }
-        return existsHurdle(nextPoint, direction, board);
-    }
-
-    private Point findHurdle(final Point currentPoint, final Direction direction, final PieceVisibleBoard board) {
-        if (!board.existsNextPoint(currentPoint, direction)) {
-            throw new IllegalArgumentException("이동할 경로가 없습니다.");
-        }
-        Point nextPoint = board.getNextPoint(currentPoint, direction);
-        if (board.existsPiece(nextPoint) && !board.existsPo(nextPoint)) {
-            return nextPoint;
-        }
-        return findHurdle(nextPoint, direction, board);
-    }
-
-    private void findCandidates(final Point currentPoint, final Direction direction, final PieceVisibleBoard board,
-                                final List<Point> candidates) {
-        if (!board.existsNextPoint(currentPoint, direction)) {
-            return;
-        }
-        Point nextPoint = board.getNextPoint(currentPoint, direction);
-        if (board.existsPo(nextPoint) || board.matchTeam(nextPoint, team())) {
-            return;
-        }
-        if (board.matchTeam(nextPoint, team().inverse())) {
-            candidates.add(nextPoint);
-            return;
-        }
-        candidates.add(nextPoint);
-        findCandidates(nextPoint, direction, board, candidates);
     }
 
     public List<Direction> movableDirections() {
