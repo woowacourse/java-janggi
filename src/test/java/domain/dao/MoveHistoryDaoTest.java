@@ -2,6 +2,8 @@ package domain.dao;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import domain.janggiboard.customstrategy.InnerBoardArrangementStrategy;
+import domain.piece.JanggiSide;
 import domain.position.JanggiPosition;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -25,7 +27,7 @@ public class MoveHistoryDaoTest {
     @Test
     void 장기_기록_생성_테스트() {
         // given
-        gameDao.addGame(1, 2);
+        gameDao.addGame(new InnerBoardArrangementStrategy(JanggiSide.CHO), new InnerBoardArrangementStrategy(JanggiSide.HAN));
         String gameId = gameDao.getGame();
 
         JanggiPosition origin = new JanggiPosition(1, 2);
@@ -43,7 +45,7 @@ public class MoveHistoryDaoTest {
     @Test
     void 장기_기록_검색_테스트() {
         // given
-        gameDao.addGame(1, 2);
+        gameDao.addGame(new InnerBoardArrangementStrategy(JanggiSide.CHO), new InnerBoardArrangementStrategy(JanggiSide.HAN));
         String gameId = gameDao.getGame();
 
         JanggiPosition origin1 = new JanggiPosition(1, 2);

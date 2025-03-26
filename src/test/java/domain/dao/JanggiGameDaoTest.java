@@ -3,8 +3,11 @@ package domain.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import domain.janggiboard.customstrategy.InnerBoardArrangementStrategy;
 import domain.janggiboard.customstrategy.LeftBoardArrangementStrategy;
+import domain.janggiboard.customstrategy.OuterBoardArrangementStrategy;
 import domain.janggiboard.customstrategy.RightBoardArrangementStrategy;
+import domain.piece.JanggiSide;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,13 +26,13 @@ class JanggiGameDaoTest {
     void 장기_게임_생성_테스트() {
 
         // when & then
-        assertDoesNotThrow(() -> gameDao.addGame(1, 2));
+        assertDoesNotThrow(() -> gameDao.addGame(new InnerBoardArrangementStrategy(JanggiSide.CHO), new OuterBoardArrangementStrategy(JanggiSide.HAN)));
     }
 
     @Test
     void 장기_게임_탐색_테스트() {
         // given
-        gameDao.addGame(1, 2);
+        gameDao.addGame(new LeftBoardArrangementStrategy(JanggiSide.CHO), new RightBoardArrangementStrategy(JanggiSide.HAN));
         String gameId = gameDao.getGame();
 
         // when & then

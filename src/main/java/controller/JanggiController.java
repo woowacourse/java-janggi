@@ -1,7 +1,6 @@
 package controller;
 
 import domain.janggiboard.JanggiBoard;
-import domain.janggiboard.JanggiBoardBasicInitializer;
 import domain.janggiboard.customstrategy.BoardArrangementStrategy;
 import domain.position.JanggiPosition;
 import domain.piece.JanggiSide;
@@ -18,7 +17,11 @@ public class JanggiController {
     private final OutputView outputView;
     private final JanggiService janggiService;
 
-    public JanggiController(final InputView inputView, final OutputView outputView, final JanggiService janggiService) {
+    public JanggiController(
+            final InputView inputView,
+            final OutputView outputView,
+            final JanggiService janggiService
+    ) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.janggiService = janggiService;
@@ -26,14 +29,13 @@ public class JanggiController {
 
     public void run() {
         JanggiBoard board = setJanggiBoard();
-
         outputView.printBoard(board.getBoard());
         JanggiSide nowTurn = JANGGI_GAME_STARTING_SIDE;
 
         while (true) {
             processMovePiece(board, nowTurn);
             outputView.printBoard(board.getBoard());
-            if (board.isOppositeKingCaptured(nowTurn)) {
+            if (!janggiService.isGameEnd(board, nowTurn)) {
                 break;
             }
             nowTurn = nowTurn.getOppositeSide();
@@ -53,47 +55,23 @@ public class JanggiController {
     private JanggiBoard loadBoardWhenPreviousGameExist() {
         GameContinueOption continueSelection = inputView.getPreviousGameContinueSelectionInput();
         if (continueSelection == GameContinueOption.Y) {
-            return loadPreviousGameBoard();
+            return janggiService.loadPreviousGameBoard();
         }
-       return createNewBoard();
+        return createNewBoard();
     }
 
     private JanggiBoard createNewBoard() {
-        JanggiBoard board;
         BoardArrangementStrategy strategyOfCho = InputProcessor.repeatUntilNormalInput(() -> inputView.getBoardArrangementInput(JanggiSide.CHO), OutputView::printErrorMessage);
         BoardArrangementStrategy strategyOfHan = InputProcessor.repeatUntilNormalInput(() -> inputView.getBoardArrangementInput(JanggiSide.HAN), OutputView::printErrorMessage);
-        board = new JanggiBoard(new JanggiBoardBasicInitializer(strategyOfCho, strategyOfHan));
-        janggiService.startGame(strategyOfCho, strategyOfHan);
         outputView.printInitBoardMessage();
-        return board;
-    }
-
-    private JanggiBoard loadPreviousGameBoard() {
-        BoardArrangementStrategy strategyOfCho = janggiService.getChoStrategy();
-        BoardArrangementStrategy strategyOfHan = janggiService.getHanStrategy();
-        JanggiBoard board = new JanggiBoard(new JanggiBoardBasicInitializer(strategyOfCho, strategyOfHan));
-        outputView.printInitBoardMessage();
-
-        List<List<JanggiPosition>> histories = janggiService.getHistories();
-        for (List<JanggiPosition> history : histories) {
-            JanggiPosition origin = history.get(0);
-            JanggiPosition destination = history.get(1);
-            board.movePiece(origin, destination);
-        }
-        return board;
+        return janggiService.createJanggiBoard(strategyOfCho, strategyOfHan);
     }
 
     private void processMovePiece(JanggiBoard board, JanggiSide side) {
         InputProcessor.repeatUntilNormalInput(() -> {
             outputView.printTurnMessage(side);
             List<JanggiPosition> originAndDestination = inputView.getMovePieceInput();
-            JanggiPosition origin = originAndDestination.get(0);
-            JanggiPosition destination = originAndDestination.get(1);
-            if (!board.isSameTeam(origin, side)) {
-                throw new IllegalArgumentException("차례에 맞는 말을 선택하세요.");
-            }
-            board.movePiece(origin, destination);
-            janggiService.addHistory(origin, destination);
+            janggiService.movePiece(board, originAndDestination, side);
         } , OutputView::printErrorMessage);
     }
 
