@@ -9,7 +9,7 @@ public enum PieceSymbol {
     HORSE("H"),
     SOLDIER_JOL("J"),
     SOLDIER_BYEONG("B"),
-    EMPTY(" ");
+    EMPTY("_");
 
     private final String symbol;
 

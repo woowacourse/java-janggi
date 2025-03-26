@@ -3,15 +3,12 @@ package view;
 import domain.JanggiPosition;
 import domain.game.Player;
 import domain.piece.Piece;
-import domain.piece.PieceSymbol;
 import domain.piece.Side;
 import java.util.Map;
 
 public class OutputView {
 
-    private static final String NO_PIECE = "_";
     private static final String SEPERATOR = "|";
-
     private static final int[] FILE = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
     private static final int[] RANK = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
@@ -22,10 +19,6 @@ public class OutputView {
             for (int rank : RANK) {
                 JanggiPosition position = new JanggiPosition(file, rank);
                 Piece piece = board.get(position);
-                if (piece.isEmpty()) {
-                    System.out.print(NO_PIECE + SEPERATOR);
-                    continue;
-                }
                 System.out.print(changePiece(piece) + SEPERATOR);
             }
             System.out.println();
@@ -34,9 +27,6 @@ public class OutputView {
     }
 
     private static String changePiece(Piece piece) {
-        if (piece == null) {
-            return PieceSymbol.EMPTY.getSymbol();
-        }
         return piece.getPieceSymbol().getSymbol();
     }
 
