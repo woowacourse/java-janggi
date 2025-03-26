@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Dynasty;
 import janggi.domain.board.Direction;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.board.Point;
@@ -28,7 +27,7 @@ public class Horse implements Piece {
     private final MoveStrategy moveStrategy = new FixedRangeMoveStrategy();
 
     @Override
-    public boolean isMovable(JanggiBoard janggiBoard, Dynasty dynasty, Point start, Point end) {
+    public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
         return moveStrategy.isMovable(janggiBoard, start, end, PATHS);
     }
 

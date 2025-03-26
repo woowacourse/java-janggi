@@ -11,7 +11,7 @@ public class BoardPiece {
     private final Dynasty dynasty;
 
     public BoardPiece(Piece piece, Dynasty dynasty) {
-        if(piece instanceof Soldier) {
+        if (piece instanceof Soldier) {
             validateDynasty(piece, dynasty);
         }
         this.piece = piece;
@@ -19,16 +19,16 @@ public class BoardPiece {
     }
 
     private static void validateDynasty(Piece piece, Dynasty dynasty) {
-        if(piece.getClass().equals(HanSoldier.class) && dynasty != Dynasty.HAN) {
+        if (piece.getClass().equals(HanSoldier.class) && dynasty != Dynasty.HAN) {
             throw new IllegalStateException("나라와 피스가 불일치합니다.");
         }
-        if(piece.getClass().equals(ChuSoldier.class) && dynasty != Dynasty.CHU) {
+        if (piece.getClass().equals(ChuSoldier.class) && dynasty != Dynasty.CHU) {
             throw new IllegalStateException("나라와 피스가 불일치합니다.");
         }
     }
 
     public boolean canMove(JanggiBoard janggiBoard, Point start, Point end) {
-        if (!piece.isMovable(janggiBoard, dynasty, start, end)) {
+        if (!piece.isMovable(janggiBoard, start, end)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
         return true;

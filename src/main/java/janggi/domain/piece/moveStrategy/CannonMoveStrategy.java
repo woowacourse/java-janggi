@@ -9,6 +9,10 @@ import java.util.Set;
 
 public class CannonMoveStrategy implements MoveStrategy {
 
+    private static boolean isNotEnd(Point current, Point end) {
+        return !current.equals(end);
+    }
+
     public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end, Set<List<Direction>> directions) {
         return directions.stream()
                 .anyMatch(path -> canMoveEndPoint(janggiBoard, start, end, path.getFirst()));
@@ -26,10 +30,6 @@ public class CannonMoveStrategy implements MoveStrategy {
             }
         }
         return isJump && current.equals(end) && !janggiBoard.isExistCannon(end);
-    }
-
-    private static boolean isNotEnd(Point current, Point end) {
-        return !current.equals(end);
     }
 
     private boolean canNotJumpButPieceExit(JanggiBoard janggiBoard, Point current, boolean isJump) {

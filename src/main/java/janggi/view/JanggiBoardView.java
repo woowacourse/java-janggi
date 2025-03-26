@@ -135,6 +135,7 @@ public class JanggiBoardView {
         public boolean isEnd() {
             return this.command.equals("end");
         }
+
         public boolean isMove() {
             return this.command.equals("move");
         }

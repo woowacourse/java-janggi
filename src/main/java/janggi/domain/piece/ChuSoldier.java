@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Dynasty;
 import janggi.domain.board.Direction;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.board.Point;
@@ -16,7 +15,7 @@ public class ChuSoldier extends Soldier {
     );
 
     @Override
-    public boolean isMovable(JanggiBoard janggiBoard, Dynasty dynasty, Point start, Point end) {
+    public boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
         return moveStrategy.isMovable(janggiBoard, start, end, PATHS);
     }
 
@@ -35,4 +34,5 @@ public class ChuSoldier extends Soldier {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }
