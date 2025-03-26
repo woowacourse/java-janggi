@@ -1,7 +1,7 @@
 import java.util.Map;
 import java.util.Scanner;
 import piece.Piece;
-import piece.Team;
+import piece.player.Team;
 import piece.initiate.TableSetting;
 import piece.position.JanggiPosition;
 

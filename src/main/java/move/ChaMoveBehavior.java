@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import move.direction.Direction;
 import piece.PieceType;
-import piece.Team;
+import piece.player.Team;
 import piece.position.JanggiPosition;
 
 public class ChaMoveBehavior extends JanggiMoveBehavior {

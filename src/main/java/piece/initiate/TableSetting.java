@@ -6,7 +6,7 @@ import java.util.Map;
 import move.MaMoveBehavior;
 import move.SangMoveBehavior;
 import piece.Piece;
-import piece.Team;
+import piece.player.Team;
 import piece.position.JanggiPosition;
 
 public enum TableSetting {

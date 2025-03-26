@@ -6,9 +6,10 @@ import java.util.List;
 import move.direction.Direction;
 import move.direction.Directions;
 import piece.Piece;
+import piece.PieceScore;
 import piece.PieceType;
 import piece.Pieces;
-import piece.Team;
+import piece.player.Team;
 import piece.position.JanggiPosition;
 
 public abstract class JanggiMoveBehavior {
@@ -19,8 +20,17 @@ public abstract class JanggiMoveBehavior {
         }
     }
 
-    List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition,
-                                             List<Directions> canMoveDirections) {
+    private JanggiPosition movePosition(Directions directions, JanggiPosition currentPosition,
+                                        List<JanggiPosition> moveRoute) {
+        for (Direction direction : directions.getDirections()) {
+            currentPosition = currentPosition.add(direction);
+            moveRoute.add(currentPosition);
+        }
+        return currentPosition;
+    }
+
+    protected List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition,
+                                                       List<Directions> canMoveDirections) {
         for (Directions canMoveDirection : canMoveDirections) {
             JanggiPosition currentPosition = startPosition;
             List<JanggiPosition> movePositions = new ArrayList<>();
@@ -43,6 +53,10 @@ public abstract class JanggiMoveBehavior {
         return startPosition.isInsideGungsung(startPosition) && endPosition.isInsideGungsung(endPosition);
     }
 
+    public boolean isSameType(PieceType pieceType) {
+        return getPieceType().isSameType(pieceType);
+    }
+
     public JanggiPosition moveOnRoute(JanggiPosition destination, Pieces onRoutePieces, Team moveTeam) {
         for (Piece piece : onRoutePieces.getPieces()) {
             throwInvalidMoveBehaviorByCondition(() -> !piece.isSamePosition(destination));
@@ -52,22 +66,8 @@ public abstract class JanggiMoveBehavior {
         return destination;
     }
 
-    private JanggiPosition movePosition(Directions directions, JanggiPosition currentPosition,
-                                        List<JanggiPosition> moveRoute) {
-        for (Direction direction : directions.getDirections()) {
-            currentPosition = currentPosition.add(direction);
-            moveRoute.add(currentPosition);
-        }
-        return currentPosition;
-    }
-
-    abstract public PieceType getPieceType();
-
-    abstract public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition,
-                                                             Team team);
-
-    public boolean isSameType(PieceType pieceType) {
-        return getPieceType().isSameType(pieceType);
+    public PieceScore getPieceScore() {
+        return PieceScore.from(getPieceType());
     }
 
     @Override
@@ -77,4 +77,9 @@ public abstract class JanggiMoveBehavior {
         }
         return false;
     }
+
+    abstract public PieceType getPieceType();
+
+    abstract public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition,
+                                                             Team team);
 }

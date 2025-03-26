@@ -9,10 +9,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
+import piece.player.PlayerPieces;
+import piece.player.Team;
 import piece.position.JanggiPosition;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-public class PlayerPiecesTest {
+class PlayerPiecesTest {
 
     @Test
     void 장기판의_모든_피스들을_가지고올_수_있다() {

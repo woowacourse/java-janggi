@@ -14,10 +14,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
 import piece.Pieces;
-import piece.Team;
+import piece.player.Team;
 import piece.position.JanggiPosition;
 
-public class InitiateJanggiPlayerPiecesTest {
+class InitiateJanggiPlayerPiecesTest {
 
     final List<Piece> redTeamInitiatePieces = List.of(
             new Piece(new JanggiPosition(0, 0), new ChaMoveBehavior(), Team.RED),

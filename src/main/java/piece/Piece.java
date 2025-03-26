@@ -3,6 +3,7 @@ package piece;
 import java.util.List;
 import java.util.Objects;
 import move.JanggiMoveBehavior;
+import piece.player.Team;
 import piece.position.JanggiPosition;
 
 public class Piece {
@@ -55,6 +56,10 @@ public class Piece {
 
     public PieceType getType() {
         return moveBehavior.getPieceType();
+    }
+
+    public PieceScore getPieceScore() {
+        return moveBehavior.getPieceScore();
     }
 
     @Override

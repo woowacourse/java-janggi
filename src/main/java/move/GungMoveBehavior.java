@@ -3,8 +3,9 @@ package move;
 import java.util.List;
 import move.direction.Direction;
 import move.direction.Directions;
+import piece.PieceScore;
 import piece.PieceType;
-import piece.Team;
+import piece.player.Team;
 import piece.position.JanggiPosition;
 
 public class GungMoveBehavior extends JanggiMoveBehavior {
@@ -36,6 +37,11 @@ public class GungMoveBehavior extends JanggiMoveBehavior {
             return calculateLegalRoute(startPosition, endPosition, diagonalCanMoveDirections);
         }
         return calculateLegalRoute(startPosition, endPosition, canMoveDirections);
+    }
+
+    @Override
+    public PieceScore getPieceScore() {
+        return PieceScore.from(PieceType.GUNG);
     }
 
     @Override

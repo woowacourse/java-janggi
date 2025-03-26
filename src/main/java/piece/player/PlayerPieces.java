@@ -1,8 +1,11 @@
-package piece;
+package piece.player;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import piece.Piece;
+import piece.PieceType;
+import piece.Pieces;
 import piece.position.JanggiPosition;
 
 public class PlayerPieces {
@@ -12,12 +15,15 @@ public class PlayerPieces {
     private final Pieces blueTeamPieces;
     private final Pieces redTeamPieces;
 
+    private final PlayerScores playerScores;
+
     public PlayerPieces(Map<Team, Pieces> teamBoard) {
         if (teamBoard.get(Team.BLUE) == null || teamBoard.get(Team.RED) == null) {
             throw new IllegalArgumentException(INVALID_PLAYER_SIZE);
         }
         blueTeamPieces = teamBoard.get(Team.BLUE);
         redTeamPieces = teamBoard.get(Team.RED);
+        playerScores = new PlayerScores();
     }
 
     public Pieces allPieces() {

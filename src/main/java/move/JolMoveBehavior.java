@@ -5,7 +5,7 @@ import java.util.Map;
 import move.direction.Direction;
 import move.direction.Directions;
 import piece.PieceType;
-import piece.Team;
+import piece.player.Team;
 import piece.position.JanggiPosition;
 
 public class JolMoveBehavior extends JanggiMoveBehavior {

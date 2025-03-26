@@ -1,4 +1,4 @@
-package piece;
+package piece.player;
 
 import java.util.List;
 

@@ -3,8 +3,8 @@ import java.util.List;
 import java.util.Map;
 import piece.Piece;
 import piece.Pieces;
-import piece.PlayerPieces;
-import piece.Team;
+import piece.player.PlayerPieces;
+import piece.player.Team;
 import piece.initiate.InitiateJanggiTeamPieces;
 import piece.initiate.TableSetting;
 import piece.position.JanggiPosition;
@@ -45,6 +45,7 @@ public class KoreanChessApplication {
         }
         Team team = loseTeam;
         gameView.printWinner(team.opposite());
+
     }
 
     private static TurnResult playKoreanChess(PlayerPieces playerPieces, GameView gameView, int turn) {

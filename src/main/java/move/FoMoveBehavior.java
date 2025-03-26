@@ -7,7 +7,7 @@ import move.direction.Direction;
 import piece.Piece;
 import piece.PieceType;
 import piece.Pieces;
-import piece.Team;
+import piece.player.Team;
 import piece.position.JanggiPosition;
 
 public class FoMoveBehavior extends JanggiMoveBehavior {

@@ -5,7 +5,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
 import piece.Pieces;
-import piece.Team;
+import piece.player.Team;
 import piece.position.JanggiPosition;
 
 class MaMoveBehaviorTest {

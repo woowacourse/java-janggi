@@ -5,10 +5,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
+import piece.player.Team;
 import piece.position.JanggiPosition;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-public class PieceTest {
+class PieceTest {
 
     @Test
     void 피스는_좌표와_움직임_전략을_가진다() {

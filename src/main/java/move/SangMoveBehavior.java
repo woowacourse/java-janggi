@@ -4,7 +4,7 @@ import java.util.List;
 import move.direction.Direction;
 import move.direction.Directions;
 import piece.PieceType;
-import piece.Team;
+import piece.player.Team;
 import piece.position.JanggiPosition;
 
 public class SangMoveBehavior extends JanggiMoveBehavior {

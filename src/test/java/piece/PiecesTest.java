@@ -9,10 +9,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
+import piece.player.Team;
 import piece.position.JanggiPosition;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-public class PiecesTest {
+class PiecesTest {
 
     @Test
     void 피스를_움직일_수_있다() {

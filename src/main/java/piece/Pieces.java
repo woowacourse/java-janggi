@@ -21,6 +21,7 @@ public class Pieces {
         otherPieces.pieces.removeIf(otherPiece ->
                 killerPiece.isSamePosition(otherPiece) && !killerPiece.isSameTeam(otherPiece)
         );
+
     }
 
     public Pieces add(Pieces otherPieces) {
