@@ -3,9 +3,9 @@ package controller;
 import domain.JanggiGame;
 import domain.Team;
 import domain.board.Point;
-import dto.MovementRequestDto;
 import execptions.JanggiGameRuleWarningException;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
@@ -28,9 +28,9 @@ public final class JanggiController {
     private void playJanggi(final JanggiGame game) {
         while (true) {
             final Team currentTeam = game.getTeamOnCurrentTurn();
-            final MovementRequestDto moveRequest = inputView.readMovementRequest(currentTeam);
-            final Point start = moveRequest.getStart();
-            final Point arrival = moveRequest.getArrival();
+            final List<List<Integer>> moveRequest = inputView.readMovementRequest(currentTeam);
+            final Point start = Point.generateStartPoint(moveRequest);
+            final Point arrival = Point.generateArrivalPoint(moveRequest);
             if (!canProcessMove(start, arrival, game)) {
                 outputView.printWinner(currentTeam);
                 break;
