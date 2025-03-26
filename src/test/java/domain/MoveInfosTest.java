@@ -47,7 +47,7 @@ class MoveInfosTest {
         MoveInfos moveInfos = new MoveInfos(moveInfoElements);
 
         // when
-        boolean result = moveInfos.isSameTargetPiece(startPiece);
+        boolean result = moveInfos.isSameAsTargetPiece(startPiece);
 
         // then
         assertThat(result).isEqualTo(excepted);
