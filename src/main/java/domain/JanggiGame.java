@@ -38,10 +38,11 @@ public final class JanggiGame {
 
     public void move(final Point startPoint, final Point arrivalPoint, final boolean isFirstPlayerTurn) {
         Player currentPlayer = players.stream()
-                .filter(player -> player.isFirstAttack() == isFirstPlayerTurn)
+                .filter(Player::isTurn)
                 .findFirst()
                 .orElseThrow();
         board.movePiece(startPoint, arrivalPoint, currentPlayer.getTeam());
+        players.forEach(Player::switchTurn);
     }
 
     private Board generateBoard() {

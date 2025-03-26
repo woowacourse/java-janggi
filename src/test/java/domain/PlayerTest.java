@@ -2,7 +2,6 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -40,5 +39,18 @@ public final class PlayerTest {
             );
 
         }
+    }
+
+    @Test
+    @DisplayName("플레이어의 턴을 바꾼다")
+    void test_switchTurn() {
+        // given
+        Player player = new Player(Team.CHO);
+
+        // when
+        player.switchTurn();
+
+        // then
+        assertThat(player.isTurn()).isFalse();
     }
 }
