@@ -26,8 +26,8 @@ public class JanggiBoard {
     }
 
     public void move(Dynasty dynasty, Point from, Point to) {
-        Piece piece = findPiece(from);
-        if (piece.isEmptyPiece()) {
+        Piece piece = pieces.get(from);
+        if (piece == null) {
             throw new IllegalArgumentException("시작 위치에 기물이 존재하지 않습니다.");
         }
         if (!piece.isDynasty(dynasty)) {

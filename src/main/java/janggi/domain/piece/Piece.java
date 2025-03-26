@@ -15,6 +15,15 @@ public abstract class Piece {
         this.dynasty = dynasty;
     }
 
+    public final List<Point> movePath(Point from, Point to) {
+        MovePath movePath = paths().stream()
+                .filter(each -> each.canMove(from, to))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 목적지입니다."));
+
+        return movePath.movePoints(from, to);
+    }
+
     public final boolean isDynasty(Dynasty dynasty) {
         return this.dynasty == dynasty;
     }
@@ -32,15 +41,6 @@ public abstract class Piece {
     @Override
     public int hashCode() {
         return Objects.hashCode(dynasty);
-    }
-
-    public final List<Point> movePath(Point from, Point to) {
-        MovePath movePath = paths().stream()
-                .filter(each -> each.canMove(from, to))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 목적지입니다."));
-
-        return movePath.movePoints(from, to);
     }
 
     abstract public boolean canMove(PiecesOnPath piecesOnPath);
