@@ -31,11 +31,6 @@ public class End implements GameState {
     }
 
     @Override
-    public GameState end() {
-        return this;
-    }
-
-    @Override
     public boolean isEnd() {
         return true;
     }

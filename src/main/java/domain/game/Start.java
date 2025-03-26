@@ -22,11 +22,6 @@ public class Start implements GameState {
     }
 
     @Override
-    public GameState end() {
-        return new End();
-    }
-
-    @Override
     public boolean isEnd() {
         return false;
     }

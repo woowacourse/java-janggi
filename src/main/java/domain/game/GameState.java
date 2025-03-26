@@ -10,8 +10,6 @@ public interface GameState {
 
     GameState move(JanggiPosition beforePosition, JanggiPosition afterPosition);
 
-    GameState end();
-
     boolean isEnd();
 
     Map<JanggiPosition, Piece> getBoard();
