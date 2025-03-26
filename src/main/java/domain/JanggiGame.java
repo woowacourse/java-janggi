@@ -15,12 +15,15 @@ public class JanggiGame {
 
     public void movePlayerPiece(JanggiCoordinate from, JanggiCoordinate to) {
         Piece piece = board.findPieceByCoordinate(from);
+        validatePieceMove(piece, from, to);
+        board.movePiece(from, to);
+        convertPlayerTurn();
+    }
+
+    private void validatePieceMove(Piece piece, JanggiCoordinate from, JanggiCoordinate to) {
         validatePlayerTurnPiece(from, piece.getCountry());
         piece.validateDestination(board, from, to);
         piece.validateMove(board, from, to);
-        board.movePiece(from, to);
-
-        convertPlayerTurn();
     }
 
     private void validatePlayerTurnPiece(JanggiCoordinate from, Country pieceCountry) {
