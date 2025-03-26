@@ -16,14 +16,14 @@ public class JanggiApplication {
         BoardInitializer boardInitializer = new BoardInitializer();
         Board board = new Board(boardInitializer.init());
         Turn turn = new Turn();
-        outputView.printBoard(board);
+        outputView.printBoard(board.getPieces());
         playGame(board, turn);
     }
 
     private static void playGame(final Board board, final Turn turn) {
         Position startPosition = retry(() -> readStartPosition(board, turn));
         retry(() -> movePosition(board, startPosition));
-        outputView.printBoard(board);
+        outputView.printBoard(board.getPieces());
         turn.increaseRound();
         if (inputView.inputExitGame()) {
             return;

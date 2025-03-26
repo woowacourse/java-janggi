@@ -1,8 +1,8 @@
 package view;
 
+import java.util.Map;
 import java.util.stream.IntStream;
 
-import board.Board;
 import board.Position;
 import piece.Piece;
 import piece.Team;
@@ -14,29 +14,31 @@ public class OutputView {
     private static final String exit = "\u001B[0m";
     private static final String BLANK_CELL = "ㅁ";
 
-    public void printBoard(final Board board) {
+    public void printBoard(final Map<Position, Piece> pieces) {
         CustomStringBuilder stringBuilder = new CustomStringBuilder();
         appendHeader(stringBuilder);
-        IntStream.range(1, 11).forEach(rowIndex -> appendRow(board, stringBuilder, rowIndex));
+        IntStream.range(1, 11).forEach(rowIndex -> appendRow(pieces, stringBuilder, rowIndex));
         stringBuilder.print();
     }
 
-    private void appendRow(final Board board, final CustomStringBuilder stringBuilder, final int rowIndex) {
+    private void appendRow(final Map<Position, Piece> pieces, final CustomStringBuilder stringBuilder,
+                           final int rowIndex) {
         stringBuilder.append(String.valueOf(rowIndex % 10));
-        appendBoardByRow(board, stringBuilder, rowIndex);
+        appendBoardByRow(pieces, stringBuilder, rowIndex);
         stringBuilder.lineSplit();
     }
 
-    private void appendBoardByRow(final Board board, final CustomStringBuilder stringBuilder, final int rowIndex) {
+    private void appendBoardByRow(final Map<Position, Piece> pieces, final CustomStringBuilder stringBuilder,
+                                  final int rowIndex) {
         IntStream.range(1, 10).forEach(columnIndex -> stringBuilder.append(getCellContent(
-                board,
+                pieces,
                 new Position(rowIndex, columnIndex))
         ));
     }
 
-    private String getCellContent(final Board board, final Position position) {
-        if (board.isExists(position)) {
-            Piece piece = board.findPieceByPosition(position);
+    private String getCellContent(final Map<Position, Piece> pieces, final Position position) {
+        if (pieces.containsKey(position)) {
+            Piece piece = pieces.get(position);
             return convertContentColor(piece.getTeam(), piece.getType().getName());
         }
         return BLANK_CELL;
