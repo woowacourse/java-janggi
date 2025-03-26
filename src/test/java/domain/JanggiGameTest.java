@@ -170,4 +170,30 @@ class JanggiGameTest {
             assertThat(janggiGame.getWinner()).isEqualTo(Country.CHO);
         }
     }
+
+    @Nested
+    class PlayerPieceCalcTest {
+
+        @DisplayName("보드판에 있는 국가의 기물 점수를 계산한다")
+        @Test
+        void calcScore() {
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+
+            Piece choGungPiece = new Gung(Country.CHO);
+            Piece choChaPiece = new Cha(Country.CHO);
+            Piece choMaPiece = new Ma(Country.CHO);
+
+            JanggiCoordinate choGungCoordinate = new JanggiCoordinate(3, 4);
+            JanggiCoordinate choChaCoordinate = new JanggiCoordinate(3, 5);
+            JanggiCoordinate choMaCoordinate = new JanggiCoordinate(3, 6);
+
+            map.put(choGungCoordinate, choGungPiece);
+            map.put(choChaCoordinate, choChaPiece);
+            map.put(choMaCoordinate, choMaPiece);
+
+            JanggiGame janggiGame = new JanggiGame(map);
+
+            assertThat(janggiGame.getCountryScore(Country.CHO)).isEqualTo(18);
+        }
+    }
 }

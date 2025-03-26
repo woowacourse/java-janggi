@@ -31,6 +31,10 @@ public class JanggiGame {
         return Country.CHO;
     }
 
+    public int getCountryScore(Country country) {
+        return board.getScoreSum(country);
+    }
+
     private void validatePieceMove(Piece piece, JanggiCoordinate from, JanggiCoordinate to) {
         validatePlayerTurnPiece(from, piece.getCountry());
         piece.validateDestination(board, from, to);

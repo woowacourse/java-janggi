@@ -28,9 +28,10 @@ public class JanggiBoard {
     }
 
     public int getScoreSum(Country country) {
-        return board.entrySet().stream()
-                .filter(coodinateEntrySet -> coodinateEntrySet.getValue().getCountry() == country)
-                .map(coordinateEntry -> coordinateEntry.getValue().getScore()).reduce(0, (a, b) -> a + b);
+        return board.values().stream()
+                .filter(piece -> piece.getCountry() == country)
+                .mapToInt(Piece::getScore)
+                .sum();
     }
 
     public boolean isChoGungAlive() {

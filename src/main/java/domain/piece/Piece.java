@@ -5,6 +5,8 @@ import domain.JanggiBoard;
 import domain.JanggiCoordinate;
 import domain.PieceType;
 
+import java.util.Objects;
+
 import static domain.JanggiBoard.*;
 
 public abstract class Piece {
@@ -31,7 +33,7 @@ public abstract class Piece {
 
         Piece currPiece = board.findPieceByCoordinate(from);
         Piece targetPiece = board.findPieceByCoordinate(to);
-        if (Country.isSameContry(currPiece, targetPiece)) {
+        if (Country.isSameCountry(currPiece, targetPiece)) {
             throw new IllegalArgumentException("[ERROR] 나의 기물이 이미 해당 위치에 있습니다.");
         }
     }
@@ -42,11 +44,28 @@ public abstract class Piece {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+        return country == piece.country && pieceType == piece.pieceType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(country, pieceType);
+    }
+
     public Country getCountry() {
         return country;
     }
 
     public PieceType getPieceType() {
         return pieceType;
+    }
+
+    public int getScore() {
+        return this.pieceType.getScore();
     }
 }
