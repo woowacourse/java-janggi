@@ -3,17 +3,16 @@ package move;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import direction.Point;
-import fixture.GreenPieceFixture;
+import fixture.ChoPiecesFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Elephant;
 import piece.Pieces;
-import team.Team;
 
 class ElephantTest {
 
-    private final Pieces pieces = new Pieces(GreenPieceFixture.pieces);
+    private final Pieces pieces = new Pieces(ChoPiecesFixture.pieces);
 
     @Test
     @DisplayName("위쪽 1칸, 왼쪽 대각선 2칸으로 이동할 수 있다.")

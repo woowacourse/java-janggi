@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import direction.Point;
-import fixture.GreenPieceFixture;
+import fixture.ChoPiecesFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Pieces;
@@ -13,7 +13,7 @@ import team.Team;
 
 class SoldierTest {
 
-    Pieces pieces = new Pieces(GreenPieceFixture.pieces);
+    Pieces pieces = new Pieces(ChoPiecesFixture.pieces);
 
     @Test
     @DisplayName("졸은 위로 한 칸 이동할 수 있다.")

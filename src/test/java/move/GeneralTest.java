@@ -3,7 +3,7 @@ package move;
 import static org.assertj.core.api.Assertions.*;
 
 import direction.Point;
-import fixture.GreenPieceFixture;
+import fixture.ChoPiecesFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.General;
@@ -11,7 +11,7 @@ import piece.Pieces;
 
 public class GeneralTest {
 
-    Pieces pieces = new Pieces(GreenPieceFixture.pieces);
+    Pieces pieces = new Pieces(ChoPiecesFixture.pieces);
 
     @Test
     @DisplayName("궁은 위로 한 칸 이동할 수 있다.")
