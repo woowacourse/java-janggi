@@ -3,6 +3,7 @@ package domain.direction;
 import domain.piece.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Direction {
 
@@ -64,5 +65,22 @@ public class Direction {
             path = path.merge(vector);
         }
         return paths.subList(1, paths.size());
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        Direction direction1 = (Direction) object;
+        return repeatable == direction1.repeatable && Objects.equals(direction, direction1.direction);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(direction, repeatable);
     }
 }
