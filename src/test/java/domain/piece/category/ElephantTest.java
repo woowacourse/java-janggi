@@ -15,13 +15,14 @@ class ElephantTest {
     @Test
     void 상은_경로에_기물이_있는_경우_예외가_발생한다() {
         // given
-        MoveInfos moveInfos = new MoveInfos(List.of(new MoveInfo(PieceCategory.GUARD)));
+        MoveInfos moveInfos = new MoveInfos(
+                List.of(new MoveInfo(PieceCategory.GUARD), new MoveInfo(PieceCategory.GUARD)));
 
         Piece piece = new Elephant(new Position(1, 2), PieceDirection.ELEPHANT.get());
 
         // when & then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> piece.validateMove(moveInfos))
+                .isThrownBy(() -> piece.move(new Position(1, 3), moveInfos))
                 .withMessage("[ERROR] 상은 중간에 기물이 0개여야 합니다.");
     }
 }

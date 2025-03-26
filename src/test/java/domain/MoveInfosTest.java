@@ -19,6 +19,7 @@ class MoveInfosTest {
         // given
         List<MoveInfo> moveInfoElements = new ArrayList<>();
         moveInfoElements.add(new MoveInfo(pathPieceCategory));
+        moveInfoElements.add(new MoveInfo(PieceCategory.NONE));
 
         MoveInfos moveInfos = new MoveInfos(moveInfoElements);
 

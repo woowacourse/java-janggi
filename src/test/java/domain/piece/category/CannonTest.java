@@ -24,14 +24,14 @@ class CannonTest {
 
         // when & then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> piece.validateMove(moveInfos))
+                .isThrownBy(() -> piece.move(new Position(1, 3), moveInfos))
                 .withMessage("[ERROR] 포는 중간에 기물이 1개여야 합니다.");
     }
 
     private static Stream<Arguments> 포는_경로에_기물이_1개가_아닌_경우_예외가_발생한다() {
         return Stream.of(
                 Arguments.of(new MoveInfos(List.of(new MoveInfo(PieceCategory.NONE)))),
-                Arguments.of(new MoveInfos(List.of(new MoveInfo(PieceCategory.NONE), new MoveInfo(PieceCategory.HORSE),
+                Arguments.of(new MoveInfos(List.of(new MoveInfo(PieceCategory.HORSE), new MoveInfo(PieceCategory.HORSE),
                         new MoveInfo(PieceCategory.HORSE))))
         );
     }
@@ -39,13 +39,14 @@ class CannonTest {
     @Test
     void 포는_도착지에_상대_포가_있는_경우_예외가_발생한다() {
         // given
-        MoveInfos moveInfos = new MoveInfos(List.of(new MoveInfo(PieceCategory.CANNON)));
+        MoveInfos moveInfos = new MoveInfos(
+                List.of(new MoveInfo(PieceCategory.GUARD), new MoveInfo(PieceCategory.CANNON)));
 
         Piece piece = new Cannon(new Position(1, 2), PieceDirection.CANNON.get());
 
         // when & then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> piece.validateMove(moveInfos))
+                .isThrownBy(() -> piece.move(new Position(1, 3), moveInfos))
                 .withMessage("[ERROR] 포는 상대 포를 잡을 수 없습니다.");
     }
 
@@ -63,7 +64,7 @@ class CannonTest {
 
         // when & then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> piece.validateMove(moveInfos))
+                .isThrownBy(() -> piece.move(new Position(1, 3), moveInfos))
                 .withMessage("[ERROR] 포는 다른 포를 지나칠 수 없습니다.");
     }
 }
