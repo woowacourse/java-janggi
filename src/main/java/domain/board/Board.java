@@ -1,10 +1,13 @@
 package domain.board;
 
+import domain.score.Score;
+import domain.score.ScoreCalculator;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,12 +18,15 @@ public class Board {
     public static final int START_COLUMN_INDEX = 1;
     public static final int END_COLUMN_INDEX = 9;
 
+    public static final Score HAN_BONUS_SCORE = new Score(1.5);
+
     private static final int HAN_PALACE_START_ROW_INDEX = 1;
     private static final int HAN_PALACE_END_ROW_INDEX = 3;
     private static final int PALACE_START_COLUMN_INDEX = 4;
     private static final int PALACE_END_COLUMN_INDEX = 6;
     private static final int CHO_PALACE_START_ROW_INDEX = 8;
     private static final int CHO_PALACE_END_ROW_INDEX = 10;
+
 
     private final Map<Node, Piece> board;
     private final Map<Point, Node> nodeByPoint;
@@ -94,7 +100,6 @@ public class Board {
         List<Node> nodes = points.stream()
                 .map(this::findNodeByPoint)
                 .toList();
-
         return nodes.stream()
                 .anyMatch(node -> node.isSameNode(destinationNode));
     }
@@ -120,5 +125,37 @@ public class Board {
                 points.add(Point.of(i, j));
             }
         }
+    }
+
+    public Map<Team, Score> calculateTotalScoreOfPiecesByTeam(final ScoreCalculator scoreCalculator) {
+        List<Point> points = getPoints();
+        List<Piece> piecesOfCho = getPiecesByTeam(points, Team.CHO);
+        List<Piece> piecesOfHan = getPiecesByTeam(points, Team.HAN);
+        return calculateTotalScore(scoreCalculator, piecesOfCho, piecesOfHan);
+    }
+
+    private List<Point> getPoints() {
+        List<Point> points = new ArrayList<>();
+        for (int i = START_ROW_INDEX; i <= END_ROW_INDEX; i++) {
+            for (int j = START_COLUMN_INDEX; j <= END_COLUMN_INDEX; j++) {
+                points.add(Point.of(i, j));
+            }
+        }
+        return points;
+    }
+
+    private List<Piece> getPiecesByTeam(List<Point> points, Team team) {
+        return points.stream()
+                .map(this::findNodeByPoint)
+                .filter(node -> hasPieceTeamByNode(node, team))
+                .map(this::findPieceByNode)
+                .toList();
+    }
+
+    private Map<Team, Score> calculateTotalScore(ScoreCalculator scoreCalculator, List<Piece> piecesOfCho, List<Piece> piecesOfHan) {
+        Map<Team, Score> totalScoreByTeam = new HashMap<>();
+        totalScoreByTeam.put(Team.CHO, scoreCalculator.calculateTotalScoreOfPieces(piecesOfCho));
+        totalScoreByTeam.put(Team.HAN, scoreCalculator.calculateTotalScoreOfPieces(piecesOfHan).plus(HAN_BONUS_SCORE));
+        return totalScoreByTeam;
     }
 }

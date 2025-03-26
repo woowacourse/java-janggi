@@ -1,5 +1,6 @@
 package view;
 
+import domain.score.Score;
 import domain.board.Board;
 import domain.board.Node;
 import domain.board.Point;
@@ -7,6 +8,7 @@ import domain.piece.Piece;
 import domain.piece.Team;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class OutputView {
 
@@ -49,5 +51,11 @@ public class OutputView {
 
     public static void printTurn(final Team team) {
         System.out.printf("이번 턴은 %s나라입니다.%n", team.title());
+    }
+
+    public static void printScore(final Map<Team, Score> totalScoreByTeam) {
+        for (Team team : totalScoreByTeam.keySet()) {
+            System.out.printf("%s나라 : %.1f점%n", team.title(), totalScoreByTeam.get(team).score());
+        }
     }
 }

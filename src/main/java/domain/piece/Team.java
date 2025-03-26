@@ -2,8 +2,8 @@ package domain.piece;
 
 public enum Team {
 
-    CHO("초"),
     HAN("한"),
+    CHO("초"),
     ;
 
     private final String title;

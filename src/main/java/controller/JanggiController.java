@@ -1,5 +1,6 @@
 package controller;
 
+import domain.score.ScoreCalculator;
 import domain.Turn;
 import domain.board.Board;
 import domain.board.BoardGenerator;
@@ -18,8 +19,13 @@ public class JanggiController {
         Board board = createJanggiBoard();
 
         Turn turn = new Turn();
+        runGame(board, turn);
+    }
+
+    private void runGame(Board board, Turn turn) {
         while (true) {
             OutputView.printBoard(board);
+            OutputView.printScore(board.calculateTotalScoreOfPiecesByTeam(new ScoreCalculator()));
             moveByTurn(turn, board);
             if (board.isOpponentWangDead(turn.team())) {
                 OutputView.printBoard(board);
