@@ -11,6 +11,10 @@ public class Position {
     private static final int LAST_COLUMN = 9;
     private static final int START_ROW = 1;
     private static final int LAST_ROW = 10;
+    private static final int PALACE_ROW_MAX_HAN = 3;
+    private static final int PALACE_ROW_MIN_CHO = 8;
+    private static final int PALACE_COLUMN_START = 4;
+    private static final int PALACE_COLUMN_END = 6;
 
     private static final Position[][] CACHED = new Position[LAST_ROW + 1][LAST_COLUMN + 1];
     private static final Set<Position> AVAILABLE_CROSS_MOVE_POSITION = initializeCrossMovePosition();
@@ -110,11 +114,11 @@ public class Position {
     }
 
     private boolean isPalaceRow(int row) {
-        return (1 <= row && row <= 3) || (8 <= row && row <= 10);
+        return (START_ROW <= row && row <= PALACE_ROW_MAX_HAN) || (PALACE_ROW_MIN_CHO <= row && row <= LAST_ROW);
     }
 
     private boolean isPalaceColumn(int column) {
-        return 4 <= column && column <= 6;
+        return PALACE_COLUMN_START <= column && column <= PALACE_COLUMN_END;
     }
 
     @Override

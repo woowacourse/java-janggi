@@ -27,8 +27,7 @@ public abstract class PalaceBehavior implements PieceBehavior {
 
     @Override
     public final Set<Position> generateAvailableMovePositions(Board board, Side side, Position position) {
-        return Movement.getAvailableMovements(position, STANDARD_MOVEMENTS, CROSS_MOVEMENTS)
-                .stream()
+        return Movement.getAvailableMovements(position, STANDARD_MOVEMENTS, CROSS_MOVEMENTS).stream()
                 .map(Movement::getVector)
                 .map(vector -> position.getValidNextPosition(vector.side(side)))
                 .flatMap(Optional::stream)
@@ -36,6 +35,4 @@ public abstract class PalaceBehavior implements PieceBehavior {
                 .filter(Position::isPalace)
                 .collect(Collectors.toUnmodifiableSet());
     }
-
-
 }
