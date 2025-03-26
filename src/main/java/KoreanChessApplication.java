@@ -3,10 +3,10 @@ import java.util.List;
 import java.util.Map;
 import piece.Piece;
 import piece.Pieces;
-import piece.player.PlayerPieces;
-import piece.player.Team;
 import piece.initiate.InitiateJanggiTeamPieces;
 import piece.initiate.TableSetting;
+import piece.player.PlayerPieces;
+import piece.player.Team;
 import piece.position.JanggiPosition;
 
 public class KoreanChessApplication {
@@ -45,7 +45,7 @@ public class KoreanChessApplication {
         }
         Team team = loseTeam;
         gameView.printWinner(team.opposite());
-
+        printPlayersScore(playerPieces, gameView);
     }
 
     private static TurnResult playKoreanChess(PlayerPieces playerPieces, GameView gameView, int turn) {
@@ -77,5 +77,12 @@ public class KoreanChessApplication {
             playerBoard.put(piece.getPosition(), piece);
         }
         return playerBoard;
+    }
+
+    public static void printPlayersScore(PlayerPieces playerPieces, GameView gameView) {
+        Map<Team, Integer> playerScores = playerPieces.getPlayerScores();
+        for (Team team : playerScores.keySet()) {
+            gameView.printPlayerScore(team, playerScores.get(team));
+        }
     }
 }

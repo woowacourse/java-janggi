@@ -9,7 +9,7 @@ public class PlayerScores {
     private int blueScore = 0;
     private int redScore = 0;
 
-    public void add(Piece deadPiece) {
+    public void addScore(Piece deadPiece) {
         Team team = deadPiece.team();
         PieceScore deadPieceScore = deadPiece.getPieceScore();
         if (team == Team.BLUE) {

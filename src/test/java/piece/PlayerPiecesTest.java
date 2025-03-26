@@ -43,7 +43,6 @@ class PlayerPiecesTest {
         var expectedBluePiece = new Piece(new JanggiPosition(1, 1), new ChaMoveBehavior(), Team.BLUE);
         Assertions.assertThat(allPieces.getPieces())
                 .contains(expectedBluePiece);
-
     }
 
     @Test
@@ -82,5 +81,21 @@ class PlayerPiecesTest {
         PlayerPieces playerPieces = new PlayerPieces(teamPieces);
         Team loseTeam = playerPieces.kingDeadTeam();
         Assertions.assertThat(loseTeam).isEqualTo(Team.EMPTY);
+    }
+
+    @Test
+    void 잡힌_기물이_있으면_잡은_플레이어는_점수를_얻는다() {
+        var bluePiece = new Piece(new JanggiPosition(0, 1), new ChaMoveBehavior(), Team.BLUE);
+        var redPiece = new Piece(new JanggiPosition(0, 3), new FoMoveBehavior(), Team.RED);
+        Pieces bluePieces = new Pieces(List.of(bluePiece));
+        Pieces redPieces = new Pieces(List.of(redPiece));
+        Map<Team, Pieces> teamPieces = Map.of(Team.BLUE, bluePieces, Team.RED, redPieces);
+        PlayerPieces playerPieces = new PlayerPieces(teamPieces);
+        playerPieces.placePhase(Team.BLUE, new JanggiPosition(0, 1), new JanggiPosition(0, 3));
+        Map<Team, Integer> playerScores = playerPieces.getPlayerScores();
+        org.junit.jupiter.api.Assertions.assertAll(
+                () -> Assertions.assertThat(playerScores.get(Team.BLUE)).isEqualTo(7),
+                () -> Assertions.assertThat(playerScores.get(Team.RED)).isEqualTo(0)
+        );
     }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import piece.position.JanggiPosition;
 
@@ -17,11 +18,16 @@ public class Pieces {
         this.pieces = new ArrayList<>(pieces);
     }
 
-    public void killPieceFrom(Piece killerPiece, Pieces otherPieces) {
-        otherPieces.pieces.removeIf(otherPiece ->
-                killerPiece.isSamePosition(otherPiece) && !killerPiece.isSameTeam(otherPiece)
-        );
+    public Optional<Piece> killPieceFrom(Piece killerPiece, Pieces otherPieces) {
+        Optional<Piece> deadPiece = otherPieces.pieces.stream()
+                .filter((otherPiece) -> killerPiece.isSamePosition(otherPiece) && !killerPiece.isSameTeam(otherPiece))
+                .findFirst();
+        deadPiece.ifPresent(otherPieces::remove);
+        return deadPiece;
+    }
 
+    private void remove(Piece deadPiece) {
+        pieces.remove(deadPiece);
     }
 
     public Pieces add(Pieces otherPieces) {

@@ -1,8 +1,8 @@
 import java.util.Map;
 import java.util.Scanner;
 import piece.Piece;
-import piece.player.Team;
 import piece.initiate.TableSetting;
+import piece.player.Team;
 import piece.position.JanggiPosition;
 
 public class GameView {
@@ -12,9 +12,11 @@ public class GameView {
     private static final String NOT_NUMBER = "입력된 값이 숫자가 아닙니다.";
     private static final String RED_COLOR_FORMAT = "\u001B[31m%s\u001B[0m";
     private static final String BLUE_COLOR_FORMAT = "\u001B[34m%s\u001B[0m";
-    private static final String GRID_HELPER = "  ０１２３４５６７８ \n";
-    private static final String WINNER_FORMAT = "%s 이 승리하였습니다.";
+    private static final String GRID_HELPER = "  ０１２３４５６７８";
+    private static final String WINNER_FORMAT = "%s 이 승리하였습니다.%n";
     private static final String TABLE_SETTING_FORMATTER = "%s 팀 의 상차림을 선택해주세요 0:마상마상 1:마상상마, 2:상마마상 3:상마상마";
+    private static final String PLAYER_SCORE_FORMAT = "%s팀의 점수 %d";
+    private static final Map<Team, String> teamStringMapper = Map.of(Team.BLUE, "청", Team.RED, "홍");
 
     private final Map<Integer, TableSetting> tableSettingMapper = Map.of(0,
             TableSetting.MA_SANG_MA_SANG,
@@ -28,18 +30,18 @@ public class GameView {
     }
 
     public void printTurn(Team team) {
-        System.out.printf("%s 차례입니다.%n", team.getType());
+        System.out.printf("%s 차례입니다.%n", teamStringMapper.get(team));
     }
 
     public void printJanggiBoard(Map<JanggiPosition, Piece> positionPieceMap) {
-        StringBuilder stringBuilder = new StringBuilder(GRID_HELPER);
+        StringBuilder stringBuilder = new StringBuilder(GRID_HELPER).append(System.lineSeparator());
         for (int i = 9; i >= 0; i--) {
             stringBuilder.append(i).append(" ");
             for (int j = 0; j < 9; j++) {
                 String type = pieceType(positionPieceMap, i, j);
                 stringBuilder.append(type);
             }
-            stringBuilder.append("\n");
+            stringBuilder.append(System.lineSeparator());
         }
         System.out.println(stringBuilder.toString());
     }
@@ -91,7 +93,7 @@ public class GameView {
     }
 
     public TableSetting inputTableSetting(Team team) {
-        System.out.printf(TABLE_SETTING_FORMATTER, team.getType());
+        System.out.printf(TABLE_SETTING_FORMATTER, teamStringMapper.get(team));
         String input = scanner.nextLine();
         try {
             int selectTableSetting = Integer.parseInt(input);
@@ -102,10 +104,14 @@ public class GameView {
     }
 
     public void printError(String message) {
-        System.out.printf("[ERROR] %s\n", message);
+        System.out.printf("[ERROR] %s%n", message);
     }
 
     public void printWinner(Team winner) {
-        System.out.printf(WINNER_FORMAT, winner.getType());
+        System.out.printf(WINNER_FORMAT, teamStringMapper.get(winner));
+    }
+
+    public void printPlayerScore(Team team, int score) {
+        System.out.printf(PLAYER_SCORE_FORMAT, teamStringMapper.get(team), score);
     }
 }

@@ -3,6 +3,7 @@ package piece.player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import piece.Piece;
 import piece.PieceType;
 import piece.Pieces;
@@ -47,7 +48,8 @@ public class PlayerPieces {
         Piece movePiece = move(moveTeamPieces, selectPiecePosition, wantedMovePosition);
 
         Pieces otherPieces = otherTeamPieces(team);
-        moveTeamPieces.killPieceFrom(movePiece, otherPieces);
+        Optional<Piece> deadPiece = moveTeamPieces.killPieceFrom(movePiece, otherPieces);
+        deadPiece.ifPresent(playerScores::addScore);
     }
 
     public Piece move(Pieces movePieces, JanggiPosition selectPiecePosition, JanggiPosition wantedMovePosition) {
@@ -65,5 +67,9 @@ public class PlayerPieces {
     private Pieces otherTeamPieces(Team team) {
         Team opposite = team.opposite();
         return moveTeamPieces(opposite);
+    }
+
+    public Map<Team, Integer> getPlayerScores() {
+        return playerScores.getCurrentPlayersScores();
     }
 }
