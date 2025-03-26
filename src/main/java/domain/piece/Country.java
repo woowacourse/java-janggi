@@ -12,7 +12,7 @@ public enum Country {
     }
 
     public Country convertTurn() {
-        if (this == Country.HAN) {
+        if (isHan()) {
             return Country.CHO;
         }
         return Country.HAN;
