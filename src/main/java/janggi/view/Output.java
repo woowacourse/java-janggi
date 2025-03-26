@@ -25,10 +25,8 @@ public class Output {
 
         String[][] locatedPieces = new String[10][9];
 
-        for (int x = 0; x <= 9; x++) {
-            for (int y = 0; y <= 8; y++) {
-                locatedPieces[x][y] = "_";
-            }
+        for (String[] row : locatedPieces) {
+            Arrays.fill(row,"_");
         }
 
         for (Piece piece : positioningPieces) {
