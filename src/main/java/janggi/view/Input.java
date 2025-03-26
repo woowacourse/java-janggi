@@ -1,6 +1,7 @@
 package janggi.view;
 
 import janggi.board.Position;
+import janggi.team.Team;
 import janggi.team.TeamName;
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +24,7 @@ public class Input {
     private static final String DELIMITER_COMMA = ",";
 
     private static final String INVALID_PATTERN = "입력 패턴이 올바르지 않습니다.";
-    
+
     private final Scanner scanner = new Scanner(System.in);
 
     private <T> T repeatInput(Supplier<T> supplier) {
@@ -55,17 +56,11 @@ public class Input {
         return HAN_RED;
     }
 
-    public String readPieceTeamName() {
+    public Map<String, Position> readPieceStartPoint(Team currentTeam) {
         System.out.println();
-        System.out.println("움직임 팀 이름을 입력해주세요.");
-        System.out.println(" 선택 옵션 > " + SAMPLE_GREEN + "CHO: 초 | HAN: 한" + RESET);
-        System.out.println(" ex) " + CHO_BLUE + "CHO" + RESET);
-        return scanner.nextLine();
-    }
-
-    public Map<String, Position> readPieceStartPoint() {
-        System.out.println();
-        System.out.println("움직일 기물 이름과 출발 좌표를 입력해주세요.");
+        TeamName currentTeamName = currentTeam.getTeamName();
+        System.out.printf("%s 진영의 움직일 기물 이름과 출발 좌표를 입력해주세요.%n",
+                formatTeamColor(currentTeamName) + currentTeamName.getName() + RESET);
         System.out.println(" 선택 옵션 > " + SAMPLE_GREEN + "K: 왕 | G: 사 | E: 상 | H: 마 | P: 포 | C: 차 | S: 졸병" + RESET);
         System.out.println(" ex) E-[1, 0]");
         String pieceStartPointInfo = repeatInput(() -> validatePatternStartPoint(scanner.nextLine()));

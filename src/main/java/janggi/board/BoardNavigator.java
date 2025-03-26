@@ -1,18 +1,10 @@
 package janggi.board;
 
-import janggi.team.Team;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board {
-    private static final String INVALID_TURN = "턴이 올바르지 않습니다";
+public class BoardNavigator {
     private static final int NEXT_INDEX_FROM_CURRENT = 1;
-
-    public void validateTeamTurn(Team oldTeam, Team newTeam) {
-        if (oldTeam.equals(newTeam)) {
-            throw new IllegalArgumentException(INVALID_TURN);
-        }
-    }
 
     public List<Position> findPositionsOnPath(Position start, Position end) {
         List<Position> positionsOnPath = new ArrayList<>();

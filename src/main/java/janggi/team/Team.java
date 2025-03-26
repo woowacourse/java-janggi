@@ -21,13 +21,15 @@ public class Team {
     private static final int VALUE_ONE = 1;
     private static final int VALUE_ZERO = 0;
 
-    protected List<Piece> pieces;
-    protected Palace palace;
-    protected TeamScore teamScore;
+    private final List<Piece> pieces;
+    private final Palace palace;
+    private final TeamScore teamScore;
+    private final TeamName teamName;
 
-    Team(List<Piece> pieces, Palace palace) {
+    Team(List<Piece> pieces, Palace palace, TeamName teamName) {
         this.pieces = pieces;
         this.palace = palace;
+        this.teamName = teamName;
         this.teamScore = new TeamScore();
     }
 
@@ -38,11 +40,11 @@ public class Team {
         piece.validateMovement(currentPosition, destination, palaceArea);
     }
 
-    protected PalaceArea isInPalaceArea(Position position) {
+    public PalaceArea isInPalaceArea(Position position) {
         return PalaceArea.from(palace.isPieceInsidePalace(position));
     }
 
-    protected Piece findPieceByName(String pieceName, Position startPosition) {
+    public Piece findPieceByName(String pieceName, Position startPosition) {
         return pieces.stream()
                 .filter(piece ->
                         piece.matchName(pieceName) && piece.matchPosition(startPosition)
@@ -66,8 +68,9 @@ public class Team {
         boolean isStillInPalace = pieces.stream()
                 .anyMatch(piece -> piece.getName().equalsIgnoreCase(pieceName)
                         && palace.isPieceInsidePalace(destination));
-        if (!isStillInPalace && (PIECE_NAME_KING.equalsIgnoreCase(pieceName) || PIECE_NAME_GUARD.equalsIgnoreCase(
-                pieceName))) {
+
+        if (!isStillInPalace && (PIECE_NAME_KING.equalsIgnoreCase(pieceName)
+                || PIECE_NAME_GUARD.equalsIgnoreCase(pieceName))) {
             throw new IllegalArgumentException(PIECE_NOT_IN_PALACE);
         }
     }
@@ -92,7 +95,7 @@ public class Team {
         }
     }
 
-    protected void validateLegalMoveForCannon(List<Position> positionsOnPath) {
+    private void validateLegalMoveForCannon(List<Position> positionsOnPath) {
         int obstacleCount = VALUE_ZERO;
         for (Piece piece : pieces) {
             if (positionsOnPath.contains(piece.getPosition())) {
@@ -138,5 +141,9 @@ public class Team {
 
     public double getTeamScore() {
         return teamScore.getScore();
+    }
+
+    public TeamName getTeamName() {
+        return teamName;
     }
 }

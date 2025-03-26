@@ -17,9 +17,9 @@ public class TeamFactory {
     public static Team createTeam(BoardSetup boardSetup) {
         TeamName teamName = boardSetup.getTeamName();
         if (teamName.equals(TeamName.HAN)) {
-            return new Team(createDefaultHanPieces(boardSetup), new PalaceHan());
+            return new Team(createDefaultHanPieces(boardSetup), new PalaceHan(), TeamName.HAN);
         }
-        return new Team(createDefaultChoPieces(boardSetup), new PalaceCho());
+        return new Team(createDefaultChoPieces(boardSetup), new PalaceCho(), TeamName.CHO);
     }
 
     private static List<Piece> createDefaultHanPieces(BoardSetup boardSetup) {

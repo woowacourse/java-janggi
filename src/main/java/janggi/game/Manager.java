@@ -1,22 +1,19 @@
 package janggi.game;
 
-import janggi.board.Board;
+import janggi.board.BoardNavigator;
 import janggi.board.BoardSetup;
 import janggi.board.Position;
 import janggi.team.Team;
-import janggi.team.TeamCho;
-import janggi.team.TeamHan;
+import janggi.team.TeamFactory;
 import janggi.team.TeamName;
 import janggi.view.Input;
 import janggi.view.Output;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
 public class Manager {
-    private static final String REGEX_PATTERN = "[\\[\\]]";
-    private static final String DELIMITER_COMMA = ",";
+
     private static final String ANSWER_POSITIVE = "Y";
 
     private final Input input;
@@ -28,24 +25,24 @@ public class Manager {
     }
 
     public void run() {
-        TeamCho teamCho = repeatInput(
-                () -> new TeamCho(BoardSetup.of(TeamName.CHO, input.readPositionOption(TeamName.CHO))));
-        TeamHan teamHan = repeatInput(
-                () -> new TeamHan(BoardSetup.of(TeamName.HAN, input.readPositionOption(TeamName.HAN))));
+        Team teamCho = repeatInput(
+                () -> TeamFactory.createTeam(BoardSetup.of(input.readPositionOption(TeamName.CHO))));
+        Team teamHan = repeatInput(
+                () -> TeamFactory.createTeam(BoardSetup.of(input.readPositionOption(TeamName.HAN))));
 
-        Board board = new Board();
+        BoardNavigator boardNavigator = new BoardNavigator();
         Team oldTeam = teamHan;
         do {
             output.printBoard(teamHan, teamCho);
 
-            Team currentTeam = validateTurn(board, teamCho, teamHan, oldTeam);
+            Team currentTeam = oldTeam.equals(teamCho) ? teamHan : teamCho;
             oldTeam = currentTeam;
 
             Map<String, Position> startingPieceInfo = validateStartingPoint(currentTeam);
             String pieceName = startingPieceInfo.keySet().iterator().next();
             Position currentPosition = startingPieceInfo.get(pieceName);
 
-            Position destination = validateDestination(board, currentTeam, pieceName, currentPosition);
+            Position destination = validateDestination(boardNavigator, currentTeam, pieceName, currentPosition);
 
             currentTeam.move(pieceName, currentPosition, destination);
             Team opponentTeam = currentTeam.equals(teamCho) ? teamHan : teamCho;
@@ -67,47 +64,32 @@ public class Manager {
         }
     }
 
-    private Team validateTurn(Board board, TeamCho teamCho, TeamHan teamHan, Team oldTeam) {
-        while (true) {
-            try {
-                TeamName teamName = repeatInput(() -> TeamName.from(input.readPieceTeamName()));
-                Team currentTeam = teamName.equals(TeamName.CHO) ? teamCho : teamHan;
-
-                board.validateTeamTurn(oldTeam, currentTeam);
-                return currentTeam;
-            } catch (IllegalArgumentException e) {
-                input.displayError(e.getMessage());
-            }
-        }
-    }
-
     private Map<String, Position> validateStartingPoint(Team currentTeam) {
         while (true) {
             try {
-                List<String> startingPieceInfos = input.readPieceStartPoint();
-                String pieceName = startingPieceInfos.getFirst();
-                Position currentPosition = parsePosition(startingPieceInfos.getLast());
+                Map<String, Position> pieceStartingPoint = input.readPieceStartPoint(currentTeam);
+                String pieceName = pieceStartingPoint.keySet().iterator().next();
+                Position currentPosition = pieceStartingPoint.get(pieceName);
 
                 currentTeam.validatePiece(pieceName, currentPosition);
-                return Map.of(pieceName, currentPosition);
+                return pieceStartingPoint;
             } catch (IllegalArgumentException e) {
                 input.displayError(e.getMessage());
             }
         }
     }
 
-    private Position validateDestination(Board board, Team currentTeam, String pieceName, Position currentPosition) {
+    private Position validateDestination(BoardNavigator boardNavigator, Team currentTeam, String pieceName,
+                                         Position currentPosition) {
         while (true) {
             try {
-                String pieceMovedInfo = input.readPieceDestination();
-                Position destination = parsePosition(pieceMovedInfo);
+                Position destination = input.readPieceDestination();
 
-                board.validatePieceRange(destination);
                 currentTeam.validatePieceMovement(pieceName, currentPosition, destination);
                 currentTeam.validateKingGuardDestinationIsInPalace(pieceName, destination);
                 currentTeam.validateDestinationIsNotOccupiedBySameTeam(destination);
 
-                List<Position> positionsOnPath = board.findPositionsOnPath(currentPosition, destination);
+                List<Position> positionsOnPath = boardNavigator.findPositionsOnPath(currentPosition, destination);
                 currentTeam.validateLegalMove(pieceName, positionsOnPath);
 
                 return destination;
@@ -117,15 +99,7 @@ public class Manager {
         }
     }
 
-    private Position parsePosition(String coordinates) {
-        List<Integer> pieceCoordinates = Arrays.stream(coordinates.replaceAll(REGEX_PATTERN, "").split(DELIMITER_COMMA))
-                .map(String::trim)
-                .map(Integer::parseInt)
-                .toList();
-        return new Position(pieceCoordinates.getFirst(), pieceCoordinates.getLast());
-    }
-
-    private boolean checkContinue(TeamHan teamHan, TeamCho teamCho) {
+    private boolean checkContinue(Team teamHan, Team teamCho) {
         if (teamHan.isKingCaught() || teamCho.isKingCaught()) {
             return false;
         }
