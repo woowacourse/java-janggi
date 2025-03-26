@@ -40,7 +40,6 @@ import static domain.Fixtures.THREE_THREE;
 import static domain.Fixtures.THREE_TWO;
 import static domain.Fixtures.TWO_EIGHT;
 import static domain.Fixtures.TWO_FIVE;
-import static domain.Fixtures.ZERONINE;
 import static domain.Fixtures.ZERO_EIGHT;
 import static domain.Fixtures.ZERO_FOUR;
 import static domain.Fixtures.ZERO_NINE;
@@ -95,7 +94,7 @@ public class JanggiBoardTest {
         return Stream.of(
                 Arguments.of(NINE_FIVE, new General(Side.CHO)),
                 Arguments.of(ZERO_ONE, new Chariot(Side.CHO)),
-                Arguments.of(ZERONINE, new Chariot(Side.CHO)),
+                Arguments.of(ZERO_NINE, new Chariot(Side.CHO)),
                 Arguments.of(EIGHT_TWO, new Cannon(Side.CHO)),
                 Arguments.of(EIGHT_EIGHT, new Cannon(Side.CHO)),
                 Arguments.of(SEVEN_ONE, new Soldier(Side.CHO)),

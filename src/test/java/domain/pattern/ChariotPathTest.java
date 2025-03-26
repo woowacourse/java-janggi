@@ -2,7 +2,7 @@ package domain.pattern;
 
 import static domain.Fixtures.FIVE_ONE;
 import static domain.Fixtures.NINE_TWO;
-import static domain.Fixtures.ZERONINE;
+import static domain.Fixtures.ZERO_NINE;
 import static domain.Fixtures.ZERO_ONE;
 
 import domain.JanggiPosition;
@@ -39,7 +39,7 @@ public class ChariotPathTest {
                                 pathOfChariot.getPatterns(Direction.UP).getFirst(),
                                 pathOfChariot.getPatterns(Direction.UP).getFirst(),
                                 pathOfChariot.getPatterns(Direction.UP).getFirst())),
-                Arguments.of(ZERONINE,
+                Arguments.of(ZERO_NINE,
                         List.of(pathOfChariot.getPatterns(Direction.RIGHT).getFirst(),
                                 pathOfChariot.getPatterns(Direction.RIGHT).getFirst(),
                                 pathOfChariot.getPatterns(Direction.RIGHT).getFirst(),
