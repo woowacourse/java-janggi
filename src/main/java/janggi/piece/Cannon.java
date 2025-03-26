@@ -12,6 +12,13 @@ public class Cannon extends Piece {
 
     @Override
     public boolean canMove(final Position start, final Position end, final Map<Position, Piece> board) {
+        if (start.isMoveDiagonalInPalace(end)) {
+            List<Position> diagonalPathInPalace = start.diagonalPath(end);
+            return isOnePieceOnPath(board, diagonalPathInPalace)
+                    && notExistsCannonOnPath(board, diagonalPathInPalace)
+                    && isNotCannonTargetPiece(board, end);
+        }
+
         List<Position> path = findPath(start, end);
         return isOnePieceOnPath(board, path)
                 && notExistsCannonOnPath(board, path)
@@ -25,10 +32,7 @@ public class Cannon extends Piece {
     }
 
     private boolean isOnePieceOnPath(final Map<Position, Piece> board, final List<Position> path) {
-        long countPieceOnPath = path
-                .stream()
-                .filter(board::containsKey)
-                .count();
+        long countPieceOnPath = path.stream().filter(board::containsKey).count();
         return countPieceOnPath == 1;
     }
 
