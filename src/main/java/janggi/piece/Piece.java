@@ -81,8 +81,7 @@ public abstract class Piece {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 적절한 움직임이 아닙니다."));
     }
 
-    protected abstract Path makePath(Movement movement, Position startPosition,
-                                     Position arrivalPosition);
+    protected abstract Path makePath(Movement movement, Position startPosition, Position arrivalPosition);
 
     protected abstract List<Movement> getMovements();
 
