@@ -20,14 +20,14 @@ public class Board {
         selectedPiece.move(arrivedPosition, positionedPieces);
     }
 
-    public void checkTurn(Team turn, Piece piece) {
+    private void checkTurn(Team turn, Piece piece) {
         if (piece.isSameTeam(turn)) {
             return;
         }
         throw new IllegalArgumentException("순서를 확인하세요");
     }
 
-    public Piece findByPosition(Position startPosition) {
+    private Piece findByPosition(Position startPosition) {
         return positionedPieces.stream()
                 .filter(piece -> piece.matchesPosition(startPosition))
                 .findFirst()

@@ -2,8 +2,6 @@ package janggi.piece;
 
 import janggi.position.Position;
 
-import java.util.List;
-
 public enum Movement {
     UP(-1, 0),
     DOWN(1, 0),
