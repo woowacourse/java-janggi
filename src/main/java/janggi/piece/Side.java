@@ -21,4 +21,14 @@ public enum Side {
     public String getName() {
         return name;
     }
+
+    public Side getEnemySide() {
+        if (this == Side.HAN) {
+            return Side.CHO;
+        }
+        if (this == Side.CHO) {
+            return Side.HAN;
+        }
+        return Side.NONE;
+    }
 }

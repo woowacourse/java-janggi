@@ -32,7 +32,17 @@ public interface Piece {
         return getType() == PieceType.CANNON;
     }
 
-    default boolean isGameOver() {
+    default boolean isKing() {
         return getType() == PieceType.KING;
+    }
+
+    default boolean isSameSide(final Side side) {
+        if (side == Side.CHO) {
+            return isCho();
+        }
+        if (side == Side.HAN) {
+            return isHan();
+        }
+        return false;
     }
 }

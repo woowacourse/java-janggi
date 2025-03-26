@@ -61,7 +61,7 @@ public class OutputView {
     }
 
     public void printEndMessage(final Side side, final Piece piece) {
-        System.out.println(side.getName() + "이 상대의" + piece.getType().getSymbol() + "을 잡아 게임을 종료합니다." + side.getName() + "의 승리입니다.");
+        System.out.println(side.getName() + "가 " + side.getEnemySide().getName() + "의 " + piece.getType().getSymbol() + "을 잡아 게임을 종료합니다.\n" + side.getName() + "의 승리입니다.");
     }
 
     public void printExceptionMessage(final Exception e) {

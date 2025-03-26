@@ -43,8 +43,11 @@ public class JanggiBoard {
         return destinationPiece;
     }
 
-    public boolean checkGameIsOver(final Piece catchedPiece) {
-        return catchedPiece.isGameOver();
+    public boolean checkGameIsOver(final Side side) {
+        Side enemySide = side.getEnemySide();
+        return board.values().stream()
+                .filter(piece -> piece.isSameSide(enemySide))
+                .noneMatch(Piece::isKing);
     }
 
     private void validatePieceSelect(final Side side, final Position position) {

@@ -12,7 +12,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -256,13 +255,14 @@ class JanggiBoardTest {
     @DisplayName("왕을 잡으면 게임 종료")
     void test21() {
         Position position = new Position(5, 1);
-        Piece piece = new Chariot(Side.CHO);
+        Side side = Side.CHO;
+        Piece piece = new Chariot(side);
         JanggiBoard modifiedBoard = JanggiBoardFixture.setUpTestBoard(position, piece);
         Position destination = new Position(4, 1);
 
-        Piece catchedPiece = modifiedBoard.moveOrCatchPiece(position, destination);
+        modifiedBoard.moveOrCatchPiece(position, destination);
 
-        assertThat(modifiedBoard.checkGameIsOver(catchedPiece)).isTrue();
+        assertThat(modifiedBoard.checkGameIsOver(side)).isTrue();
     }
 
     @Test

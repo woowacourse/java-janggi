@@ -24,7 +24,7 @@ public class JanggiGame {
         while (true) {
             for (Side side : Side.getSides()) {
                 Piece catchedPiece = playTurn(side, board);
-                if (board.checkGameIsOver(catchedPiece)) {
+                if (board.checkGameIsOver(side)) {
                     outputView.printEndMessage(side, catchedPiece);
                     return;
                 }
