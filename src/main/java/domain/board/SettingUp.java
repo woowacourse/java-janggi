@@ -12,11 +12,11 @@ public enum SettingUp {
     MA_SANG_SANG_MA("마상상마", new MaSangSangMa()),
     MA_SANG_MA_SANG("마상마상", new MaSangMaSang());
 
-    private final String settingUp;
+    private final String settingUpName;
     private final BoardSettingUpStrategy strategy;
 
-    SettingUp(String settingUp, BoardSettingUpStrategy strategy) {
-        this.settingUp = settingUp;
+    SettingUp(String settingUpName, BoardSettingUpStrategy strategy) {
+        this.settingUpName = settingUpName;
         this.strategy = strategy;
     }
 
@@ -32,5 +32,9 @@ public enum SettingUp {
 
     public BoardSettingUpStrategy getStrategy() {
         return strategy;
+    }
+
+    public String getSettingUpName() {
+        return settingUpName;
     }
 }

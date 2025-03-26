@@ -25,9 +25,12 @@ public class InputView {
                 Integer.parseInt(coordinate.split(",")[1]));
     }
 
-    public SettingUp readSettingUp(Country country) {
-        System.out.println(country.getCountryName() + "의 상차림 전략을 선택해주세요.");
-        String settingUpInput = scanner.nextLine();
-        return SettingUp.of(settingUpInput);
+    public String readSettingUp(Country country) {
+        System.out.println(country.getCountryName() + "의 상차림 전략을 선택해주세요. " + "["
+                + SettingUp.SANG_MA_MA_SANG.getSettingUpName() + ", "
+                + SettingUp.MA_SANG_MA_SANG.getSettingUpName() + ", "
+                + SettingUp.MA_SANG_SANG_MA.getSettingUpName() + ", "
+                + SettingUp.SANG_MA_SANG_MA.getSettingUpName() + "]");
+        return scanner.nextLine();
     }
 }
