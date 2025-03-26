@@ -10,9 +10,11 @@ import model.position.Position;
 public class General extends Piece {
 
     private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
+    private final MovableNavigator movableNavigator;
 
     public General(Team team) {
         super(team);
+        movableNavigator = new LimitedCrossNavigator();
     }
 
     @Override
@@ -30,18 +32,6 @@ public class General extends Piece {
 
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        List<Position> arrivedDirection = findDirectionOfArrival(departure, arrival);
-        if (arrivedDirection.isEmpty()) {
-            throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
-        }
-        return arrivedDirection;
-    }
-
-    private List<Position> findDirectionOfArrival(Position departure, Position arrival){
-        return movements.stream()
-            .filter(departure::canMove)
-            .filter(movement -> departure.move(movement).equals(arrival))
-            .map(departure::move)
-            .toList();
+        return movableNavigator.find(departure, arrival, movements);
     }
 }

@@ -10,9 +10,12 @@ import model.position.Position;
 public class Byeong extends Piece {
 
     private final List<Movement> movements = List.of(DOWN, LEFT, RIGHT);
+    private final MovableNavigator movableNavigator;
 
     public Byeong() {
+
         super(Team.RED);
+        movableNavigator = new LimitedCrossNavigator();
     }
 
     @Override
@@ -27,18 +30,6 @@ public class Byeong extends Piece {
 
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        List<Position> arrivedDirection = findDirectionOfArrival(departure, arrival);
-        if (arrivedDirection.isEmpty()) {
-            throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
-        }
-        return arrivedDirection;
-    }
-
-    private List<Position> findDirectionOfArrival(Position departure, Position arrival){
-        return movements.stream()
-            .filter(departure::canMove)
-            .filter(movement -> departure.move(movement).equals(arrival))
-            .map(departure::move)
-            .toList();
+        return movableNavigator.find(departure, arrival, movements);
     }
 }
