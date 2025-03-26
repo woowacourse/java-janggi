@@ -114,6 +114,10 @@ public record Position(int x, int y) {
         return deltaX(other) < 0 && deltaY(other) < 0;
     }
 
+    public boolean isOneStep(final Position other) {
+        return absDeltaX(other) <= 1 && absDeltaY(other) <= 1;
+    }
+
     public int deltaX(final Position other) {
         return other.x - this.x;
     }

@@ -11,7 +11,7 @@ public class Guard extends Piece {
 
     @Override
     public boolean canMove(final Position start, final Position end, final Map<Position, Piece> board) {
-        return isValidMovingRule(start, end);
+        return isValidMovingRule(start, end) && start.isOneStep(end) && start.isMoveInPalace(end);
     }
 
     @Override
@@ -20,8 +20,6 @@ public class Guard extends Piece {
     }
 
     private boolean isValidMovingRule(final Position start, final Position end) {
-        int absDeltaX = start.absDeltaX(end);
-        int absDeltaY = start.absDeltaY(end);
-        return (absDeltaX == 1 && absDeltaY == 0) || (absDeltaX == 0 && absDeltaY == 1);
+        return start.isVerticalMove(end) || start.isHorizontalMove(end) || start.isMoveDiagonalInPalace(end);
     }
 }
