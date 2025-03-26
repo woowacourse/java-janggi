@@ -28,6 +28,7 @@ public class Sa extends Piece {
         if (!ableToMove(destination, enemyPieces, allyPieces)) {
             throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
         }
+        enemyPieces.beAttackedAt(destination);
         return new Sa(destination);
     }
 
