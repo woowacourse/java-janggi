@@ -12,18 +12,6 @@ class JanggiGameTest {
     @Nested
     @DisplayName("보드를 생성할 때")
     class TestGenerateBoard {
-        @Test
-        @DisplayName("90개의 포인트를 갖는다")
-        void test_contains90Points() {
-            // given
-            JanggiGame janggiGame = new JanggiGame();
-
-            // when
-            Map<Point, Piece> board = janggiGame.getBoard();
-
-            // then
-            assertThat(board).hasSize(90);
-        }
 
         @Test
         @DisplayName("row 는 최대 8, column 은 최대 9를 갖는다")

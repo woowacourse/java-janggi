@@ -1,7 +1,6 @@
 package domain.board;
 
 import domain.Team;
-import domain.pieces.EmptyPiece;
 import domain.pieces.Piece;
 import execptions.JanggiArgumentException;
 import java.util.HashMap;
@@ -13,7 +12,6 @@ public final class Board {
     private static final int VALID_SIZE = 90;
     private static final int VALID_ROW_SIZE = 10;
     private static final int VALID_COLUMN_SIZE = 9;
-    private static final EmptyPiece EMPTY_PIECE = new EmptyPiece();
 
     private final Map<Point, Piece> locations;
 
@@ -23,7 +21,6 @@ public final class Board {
     }
 
     private void validate(final Map<Point, Piece> locations) {
-        validateSize(locations);
         validateRange(locations);
     }
 
@@ -35,27 +32,17 @@ public final class Board {
         }
     }
 
-    private static void validateSize(Map<Point, Piece> locations) {
-        if (locations.size() != VALID_SIZE) {
-            throw new JanggiArgumentException("보드의 크기는 9x10 이어야 합니다.");
-        }
-    }
-
     public Map<Point, Piece> getLocations() {
         return new HashMap<>(locations);
     }
 
     public void movePiece(final Point startPoint, final Point arrivalPoint, final Team team) {
-        if (locations.containsKey(startPoint) && locations.containsKey(arrivalPoint)) {
-            processMovement(startPoint, arrivalPoint, team);
-            return;
-        }
-        throw new JanggiArgumentException("보드의 범위 바깥입니다.");
+        processMovement(startPoint, arrivalPoint, team);
     }
 
     private void processMovement(final Point startPoint, final Point arrivalPoint, final Team team) {
         final Piece pieceAtStartPoint = locations.get(startPoint);
-        checkStartPoint(pieceAtStartPoint, team);
+        checkStartPoint(startPoint, team);
 
         checkOutOfRoute(startPoint, arrivalPoint, pieceAtStartPoint);
 
@@ -65,13 +52,16 @@ public final class Board {
         checkPieceOnRoute(pieceAtStartPoint, pieceOnRoute);
 
         locations.put(arrivalPoint, pieceAtStartPoint);
-        locations.put(startPoint, EMPTY_PIECE);
+        locations.remove(startPoint);
     }
 
-    private void checkStartPoint(final Piece pieceAtStartPoint, final Team team) {
-        if (pieceAtStartPoint.equals(EMPTY_PIECE)) {
+    private void checkStartPoint(final Point startPoint, final Team team) {
+        if (!locations.containsKey(startPoint)) {
             throw new JanggiArgumentException("출발점에 이동할 기물이 없습니다.");
         }
+
+        Piece pieceAtStartPoint = locations.get(startPoint);
+
         if (!pieceAtStartPoint.hasEqualTeam(team)) {
             throw new JanggiArgumentException("아군 기물만 움직일 수 있습니다.");
         }
@@ -90,8 +80,13 @@ public final class Board {
     }
 
     private PieceOnRoute getAllPieceOnRoute(final List<Point> routePoints) {
-        return new PieceOnRoute(routePoints.stream()
+        Piece pieceAtArrivalPoint = locations.getOrDefault(routePoints.getLast(), null);
+
+        List<Piece> piecesOnRoute = routePoints.subList(0, routePoints.size() - 1).stream()
+                .filter(locations::containsKey)
                 .map(locations::get)
-                .toList());
+                .toList();
+
+        return new PieceOnRoute(piecesOnRoute, pieceAtArrivalPoint);
     }
 }

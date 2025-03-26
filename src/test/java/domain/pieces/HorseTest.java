@@ -1,11 +1,10 @@
 package domain.pieces;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.Team;
 import domain.board.PieceOnRoute;
 import domain.board.Point;
 import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -48,8 +47,7 @@ class HorseTest {
     void test_isMovableWhenPieceOnRoute() {
         //given
         Horse horse = new Horse(Team.CHO, BoardStub.generateHorseMovement());
-        Piece empty = new EmptyPiece();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(horse, empty));
+        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(horse), null);
 
         //when&then
         assertThat(horse.isMovable(pieceOnRoute)).isFalse();
@@ -60,8 +58,7 @@ class HorseTest {
     void test_isMovable() {
         //given
         Horse horse = new Horse(Team.CHO, BoardStub.generateHorseMovement());
-        Piece empty = new EmptyPiece();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, empty));
+        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(), null);
 
         //when&then
         assertThat(horse.isMovable(pieceOnRoute)).isTrue();
@@ -72,8 +69,7 @@ class HorseTest {
     void test_isMovableWhenPieceIsInMyTeam() {
         //given
         Horse horse = new Horse(Team.CHO, BoardStub.generateHorseMovement());
-        Piece empty = new EmptyPiece();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, horse));
+        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(), horse);
 
         //when&then
         assertThat(horse.isMovable(pieceOnRoute)).isFalse();
@@ -85,8 +81,7 @@ class HorseTest {
         //given
         Horse horseHan = new Horse(Team.HAN, BoardStub.generateHorseMovement());
         Horse horseCho = new Horse(Team.CHO, BoardStub.generateHorseMovement());
-        Piece empty = new EmptyPiece();
-        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(empty, horseCho));
+        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(), horseCho);
 
         //when&then
         assertThat(horseHan.isMovable(pieceOnRoute)).isTrue();

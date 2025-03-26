@@ -18,20 +18,10 @@ public class BoardStub {
     private static final int BOARD_COLUMN_MAX = 9;
 
     public static Board generateBoard() {
-        final Map<Point, Piece> locations = generateEmptyBoard();
+        final Map<Point, Piece> locations = new HashMap<>();
         locations.putAll(generateLocationsForHan());
         locations.putAll(generateLocationsForCho());
         return new Board(locations);
-    }
-
-    private static Map<Point, Piece> generateEmptyBoard() {
-        final Map<Point, Piece> locations = new HashMap<>();
-        for (int row = 0; row < BOARD_ROW_MAX; row++) {
-            for (int column = 0; column < BOARD_COLUMN_MAX; column++) {
-                locations.put(new Point(row, column), new EmptyPiece());
-            }
-        }
-        return locations;
     }
 
     private static Map<Point, Piece> generateLocationsForHan() {

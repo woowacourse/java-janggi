@@ -34,8 +34,13 @@ public final class OutputView {
                               StringBuilder result) {
         for (int column = 0; column < MAX_COLUMN; column++) {
             final Point point = new Point(row, column);
-            final Piece piece = locations.get(point);
-            result.append(piece.getName());
+            if (locations.containsKey(point)) {
+                final Piece piece = locations.get(point);
+                result.append(piece.getName());
+                result.append(" ");
+                continue;
+            }
+            result.append("-");
             result.append(" ");
         }
     }

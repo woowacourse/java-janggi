@@ -1,11 +1,10 @@
 package domain.pieces;
 
-import static domain.pieces.PieceNames.CANNON;
-
 import domain.Team;
 import domain.board.PieceOnRoute;
 import domain.board.Point;
 import domain.movements.PieceMovement;
+import static domain.pieces.PieceNames.CANNON;
 import java.util.List;
 
 public final class Cannon implements Piece {
