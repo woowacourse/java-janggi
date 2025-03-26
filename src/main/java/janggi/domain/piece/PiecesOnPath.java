@@ -27,13 +27,13 @@ public class PiecesOnPath {
 
     public boolean isExistSamePiece(Piece piece) {
         return pieces.stream()
-                .anyMatch(each -> each.isSamePiece(piece));
+                .anyMatch(each -> each.isSameType(piece));
     }
 
     public int countNotSamePieceWithoutDestination(Piece piece) {
         return Math.toIntExact(withoutDestination().stream()
                 .filter(each -> !each.isEmptyPiece())
-                .filter(each -> !each.isSamePiece(piece))
+                .filter(each -> !each.isSameType(piece))
                 .count());
     }
 

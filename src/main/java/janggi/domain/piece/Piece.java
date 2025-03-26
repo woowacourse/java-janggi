@@ -45,7 +45,7 @@ public abstract class Piece {
 
     abstract public boolean canMove(PiecesOnPath piecesOnPath);
 
-    abstract public boolean isSamePiece(Piece piece);
+    abstract public boolean isSameType(Piece piece);
 
     abstract public boolean isEmptyPiece();
 
