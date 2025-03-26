@@ -60,6 +60,13 @@ public final class Team {
         return pieces.values().stream().toList();
     }
 
+    public int getScore() {
+        return pieces.values().stream()
+                .map(Piece::getScore)
+                .reduce(Integer::sum)
+                .orElseThrow();
+    }
+
     public Country getCountry() {
         return country;
     }

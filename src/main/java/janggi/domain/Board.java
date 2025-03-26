@@ -74,12 +74,20 @@ public final class Board {
     }
 
     public Country getWinner() {
-        if (team1.isEnd()) return Country.HAN;
-        return Country.CHO;
+        if (team1.isEnd()) return team2.getCountry();
+        return team1.getCountry();
     }
 
     public Country getCurrentCountry() {
-        if (isTeam1Turn) return Country.CHO;
-        return Country.HAN;
+        return getCurrentTeam().getCountry();
+    }
+
+    public int getCurrentTeamScore() {
+        return getCurrentTeam().getScore();
+    }
+
+    private Team getCurrentTeam() {
+        if (isTeam1Turn) return team1;
+        return team2;
     }
 }

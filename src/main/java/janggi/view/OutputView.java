@@ -14,8 +14,8 @@ import java.util.Optional;
 public class OutputView {
 
     private static final Map<Country, String> COUNTRY_NAMES = Map.of(
-            Country.CHO, "차",
-            Country.HAN, "마"
+            Country.CHO, "초나라",
+            Country.HAN, "한나라"
     );
 
     private static final String RED = "\u001B[31m";
@@ -27,7 +27,7 @@ public class OutputView {
             Country.CHO, BLUE
     );
 
-    public void printBoard(Map<Country, List<Piece>> board) {
+    public void outputBoard(Map<Country, List<Piece>> board) {
         String[][] output = new String[11][10];
 
         for (int i = 0; i < 11; i++) {
@@ -87,5 +87,10 @@ public class OutputView {
 
     public void outputWinner(final Country winner) {
         System.out.println(winner.name() + "승리!!");
+    }
+
+    public void outputScore(final Country currentCountry, final int score) {
+        final String countryName = COUNTRY_NAMES.get(currentCountry);
+        System.out.printf("%s 점수 : %d\n", countryName, score);
     }
 }

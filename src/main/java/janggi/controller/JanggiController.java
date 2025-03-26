@@ -32,18 +32,16 @@ public class JanggiController {
         final Board board = initializeBoard();
 
         while (!board.isEnd()) {
-            outputView.printBoard(board.getBoard());
-            CommandType type = inputView.inputCommand(board.getCurrentCountry());
+            outputView.outputBoard(board.getBoard());
+            outputView.outputScore(board.getCurrentCountry(), board.getCurrentTeamScore());
+            final CommandType type = inputView.inputCommand(board.getCurrentCountry());
             if (type == CommandType.MOVE) {
                 final MoveDto dto = inputView.inputMove();
                 board.move(dto.startPosition(), dto.endPosition());
             }
             if (type == CommandType.SAVE) {
-                final int number = inputView.getSaveNumber();
-                final Map<Country, List<Piece>> result = board.getBoard();
-                pieceRepository.saveAllPieces(number, Country.CHO, result.get(Country.CHO));
-                pieceRepository.saveAllPieces(number, Country.HAN, result.get(Country.HAN));
-                turnRepository.saveTurn(number, board.getCurrentCountry());
+                saveGame(board);
+                break;
             }
         }
 
@@ -51,7 +49,7 @@ public class JanggiController {
         outputView.outputWinner(winner);
     }
 
-    public Board initializeBoard() {
+    private Board initializeBoard() {
         final CommandType type = inputView.getStartType();
         if (type == CommandType.CONTINUE) {
             final int number = inputView.getStartFileNumber();
@@ -65,5 +63,13 @@ public class JanggiController {
             return Board.start(choStartingPosition, hanStartingPosition);
         }
         throw new IllegalStateException();
+    }
+
+    private void saveGame(final Board board) {
+        final int number = inputView.getSaveNumber();
+        final Map<Country, List<Piece>> result = board.getBoard();
+        pieceRepository.saveAllPieces(number, Country.CHO, result.get(Country.CHO));
+        pieceRepository.saveAllPieces(number, Country.HAN, result.get(Country.HAN));
+        turnRepository.saveTurn(number, board.getCurrentCountry());
     }
 }

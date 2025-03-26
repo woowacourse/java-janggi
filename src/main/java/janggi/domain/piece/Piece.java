@@ -54,4 +54,8 @@ public class Piece {
     public PieceType getPieceType() {
         return pieceType;
     }
+
+    public int getScore() {
+        return pieceType.score;
+    }
 }
