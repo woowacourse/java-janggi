@@ -14,10 +14,10 @@ import java.util.List;
 
 public abstract class ContinuousPiece extends Moved {
     public List<Pattern> findMovablePath(Path path, JanggiPosition beforePosition, JanggiPosition afterPosition) {
-        if (afterPosition.file() == beforePosition.file()) {
+        if (afterPosition.isSameFileWith(beforePosition)) {
             return setNewPathAndGetAdditionalSizeAboutLeftOrRight(path, beforePosition, afterPosition);
         }
-        if (afterPosition.rank() == beforePosition.rank()) {
+        if (afterPosition.isSameRankWith(beforePosition)) {
             return setNewPathAndGetAdditionalSizeAboutUpOrDown(path, beforePosition, afterPosition);
         }
         throw new IllegalArgumentException("해당 경로로 이동할 수 없습니다.");

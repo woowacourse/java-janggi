@@ -75,4 +75,12 @@ public record JanggiPosition(int file, int rank) {
             throw new IllegalArgumentException("보드판을 넘어서 이동할 수 없습니다.");
         }
     }
+
+    public boolean isSameFileWith(JanggiPosition beforePosition) {
+        return this.file == beforePosition.file;
+    }
+
+    public boolean isSameRankWith(JanggiPosition beforePosition) {
+        return this.rank == beforePosition.rank;
+    }
 }
