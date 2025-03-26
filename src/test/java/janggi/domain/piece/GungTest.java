@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.gung.Gung;
 import janggi.domain.path.Path;
+import janggi.test_util.BaseTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Set;
 import static janggi.test_util.TestConstant.*;
 import static org.assertj.core.api.Assertions.*;
 
-class GungTest {
+class GungTest extends BaseTest {
 
     @Test
     void 궁은_해당_위치에서_시작하는_모든_일직선_Path를_반환할_수_있다() {

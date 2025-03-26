@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.position.Position;
+import janggi.test_util.BaseTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,7 +12,7 @@ import java.util.stream.Stream;
 import static janggi.test_util.TestConstant.*;
 import static org.assertj.core.api.Assertions.*;
 
-class JolTest {
+class JolTest extends BaseTest {
 
     @ParameterizedTest
     @MethodSource("provideValidPositions")
