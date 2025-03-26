@@ -12,10 +12,10 @@ public record Position(int x, int y) {
     }
 
     private void validate(int x, int y) {
-        if (x < X_MIN_VALUE || x >= X_MAX_VALUE) {
+        if (x < X_MIN_VALUE || x > X_MAX_VALUE) {
             throw new IllegalArgumentException("x의 범위가 잘못되었습니다.");
         }
-        if (y < Y_MIN_VALUE || y >= Y_MAX_VALUE) {
+        if (y < Y_MIN_VALUE || y > Y_MAX_VALUE) {
             throw new IllegalArgumentException("y의 범위가 잘못되었습니다.");
         }
     }
