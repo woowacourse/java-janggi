@@ -18,7 +18,7 @@ public class MoveInfos {
     }
 
     public boolean isSameAsTargetPiece(final PieceCategory startPiece) {
-        MoveInfo lastMove = moveInfos.getFirst();
+        MoveInfo lastMove = moveInfos.getLast();
         return lastMove.isSamePieceCategory(startPiece);
     }
 }
