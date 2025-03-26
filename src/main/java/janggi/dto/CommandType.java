@@ -1,4 +1,4 @@
-package janggi.controller;
+package janggi.dto;
 
 public enum CommandType {
     NEW_GAME,

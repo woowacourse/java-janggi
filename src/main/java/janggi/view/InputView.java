@@ -1,12 +1,12 @@
 package janggi.view;
 
-import janggi.controller.CommandType;
-import janggi.controller.MoveDto;
 import janggi.domain.Country;
 import janggi.domain.StartingPosition;
 import janggi.domain.position.Position;
 import janggi.domain.position.PositionFile;
 import janggi.domain.position.PositionRank;
+import janggi.dto.CommandType;
+import janggi.dto.MoveDto;
 
 import java.io.BufferedReader;
 import java.io.IOException;

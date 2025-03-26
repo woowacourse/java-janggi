@@ -1,4 +1,4 @@
-package janggi.controller;
+package janggi.dto;
 
 import janggi.domain.position.Position;
 

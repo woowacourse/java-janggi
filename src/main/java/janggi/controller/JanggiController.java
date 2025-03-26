@@ -4,6 +4,8 @@ import janggi.domain.Board;
 import janggi.domain.Country;
 import janggi.domain.StartingPosition;
 import janggi.domain.piece.Piece;
+import janggi.dto.CommandType;
+import janggi.dto.MoveDto;
 import janggi.infra.repository.piece_repository.PieceRepository;
 import janggi.infra.repository.turn_repository.TurnRepository;
 import janggi.view.InputView;
