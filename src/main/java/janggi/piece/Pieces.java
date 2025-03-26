@@ -23,32 +23,36 @@ public class Pieces {
         pieces.add(movedTarget);
     }
 
-    private Piece findTargetPiece(JanggiPosition targetPieceJanggiPosition) {
+    private Piece findTargetPiece(final JanggiPosition targetPieceJanggiPosition) {
         return pieces.stream().filter(piece -> piece.getPosition().equals(targetPieceJanggiPosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 이동할 말이 존재하지 않습니다."));
     }
 
-    public boolean isNotBlockedBy(JanggiPosition destination) {
+    public boolean isNotBlockedBy(final JanggiPosition destination) {
         return pieces.stream()
                 .noneMatch(piece -> piece.getPosition().equals(destination));
     }
 
-    public boolean isPathBlockedBy(List<JanggiPosition> pathPositions) {
+    public boolean isPathBlockedBy(final List<JanggiPosition> pathPositions) {
         return pathPositions.stream()
                 .noneMatch(position -> pieces.stream()
                         .anyMatch(piece -> piece.getPosition().equals(position)));
     }
 
-    public boolean isPieceExistInRoute(DiagonalDirection diagonalDirection, JanggiPosition position) {
+    public boolean isPieceExistInRoute(final DiagonalDirection diagonalDirection, final JanggiPosition position) {
         return pieces.stream()
                 .anyMatch(piece -> diagonalDirection.isRoute(position, piece.getPosition()));
     }
 
-    public List<Piece> searchPiecesInPath(List<JanggiPosition> pathPositions) {
+    public List<Piece> searchPiecesInPath(final List<JanggiPosition> pathPositions) {
         return pieces.stream()
                 .filter(piece -> pathPositions.contains(piece.getPosition()))
                 .toList();
+    }
+
+    public void beAttackedAt(final JanggiPosition destination) {
+        pieces.removeIf(piece -> piece.getPosition().equals(destination));
     }
 
     public List<Piece> getPieces() {

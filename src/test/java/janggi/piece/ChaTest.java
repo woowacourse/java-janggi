@@ -148,4 +148,20 @@ class ChaTest {
                         .hasMessage("[ERROR] 이동이 불가능합니다.")
         );
     }
+
+    @DisplayName("적 장기말이 목적지에 있을 때, 잡아서 없애버린다.")
+    @Test
+    void test9() {
+        //given
+        Cha cha = Cha.from(STANDARD);
+        JanggiPosition destination = new JanggiPosition(6,4);
+        Cha enemyCha = Cha.from(destination);
+        Pieces enemyPieces = new Pieces(List.of(enemyCha));
+
+        //when
+        Cha movedCha = cha.move(destination, enemyPieces, new Pieces(List.of()));
+
+        //then
+        Assertions.assertThat(enemyPieces.isNotBlockedBy(destination)).isTrue();
+    }
 }
