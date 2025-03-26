@@ -2,7 +2,6 @@ package model.piece;
 
 import static model.Movement.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import model.Movement;
 import model.Team;
@@ -39,36 +38,20 @@ public class Elephant extends Piece {
 
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        List<List<Position>> temporaryPosition = new ArrayList<>();
-        calculatePositionOfMovement(departure, temporaryPosition);
-        return findArrivalDirection(arrival, temporaryPosition);
+        List<Movement> canArriveMovements = findCanArriveMovements(departure, arrival);
+        return findDirectionOfArrival(departure, canArriveMovements);
     }
 
-    private void calculatePositionOfMovement(Position departure, List<List<Position>> temporaryPosition) {
-        for (List<Movement> moves : movements) {
-            calculateMoves(departure, temporaryPosition, moves);
-        }
+    private List<Position> findDirectionOfArrival(Position departure, List<Movement> canArriveMovements) {
+        return canArriveMovements.stream()
+            .map(departure::move)
+            .toList();
     }
 
-    private void calculateMoves(Position departure, List<List<Position>> temporaryPosition, List<Movement> moves) {
-        List<Position> temporaryMoves = new ArrayList<>();
-        for (Movement movement : moves) {
-            addMoveByDeparture(departure, movement, temporaryMoves);
-        }
-        temporaryPosition.add(temporaryMoves);
-    }
-
-    private static void addMoveByDeparture(Position departure, Movement movement, List<Position> temporaryMoves) {
-        if (!departure.canMove(movement)) {
-            return;
-        }
-        temporaryMoves.add(departure.move(movement));
-    }
-
-    private List<Position> findArrivalDirection(Position arrival, List<List<Position>> temporaryPosition) {
-        return temporaryPosition.stream()
-            .filter(positions -> !positions.isEmpty())
-            .filter(positions -> positions.getLast().equals(arrival))
+    private List<Movement> findCanArriveMovements(Position departure, Position arrival) {
+        return movements.stream()
+            .filter(movement -> departure.canMove(movement.getLast()))
+            .filter(movement -> departure.move(movement.getLast()).equals(arrival))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."));
     }
