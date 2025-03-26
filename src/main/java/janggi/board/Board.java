@@ -22,14 +22,26 @@ public class Board {
 
     public void movePiece(Position start, Position goal, Team team) {
         Piece attacker = board.get(start);
+        isExistPieceAtPosition(start);
+        validateAttackTurn(team, attacker);
+        attacker.validateMovable(board, start, goal);
+        validateGeneralTarget(start, goal);
+    }
+
+    private void isExistPieceAtPosition(Position start) {
         if (!isExists(start)) {
             throw new IllegalArgumentException("[ERROR] 출발 지점에 기물이 존재하지 않습니다.");
         }
+    }
+
+    private void validateAttackTurn(Team team, Piece attacker) {
         if (!attacker.isSameTeam(team)) {
             throw new IllegalArgumentException("[ERROR] 같은 진영의 기물만 움직일 수 있습니다.");
         }
-        attacker.validateMovable(board, start, goal);
-        validateGeneralTarget(start, goal);
+    }
+
+    private boolean isExists(Position position) {
+        return board.containsKey(position);
     }
 
     private void validateGeneralTarget(Position start, Position goal) {
@@ -37,10 +49,6 @@ public class Board {
         if (target != null && target.isSameType(PieceType.GENERAL)) {
             throw new GameOverException();
         }
-    }
-
-    private boolean isExists(Position position) {
-        return board.containsKey(position);
     }
 
     private Piece move(Position start, Position goal) {
